@@ -1,0 +1,10 @@
+node_modules/
+.next/
+.DS_Store
+*.tar.gz
+*.zip
+awsready_files.json
+.env.local
+**/.claude/settings.local.json
+
+*storybook.log
