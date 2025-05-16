@@ -1,0 +1,40 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --border: 214.3 31.8% 91.4%;
+    --primary: 222.2 47.4% 11.2%;
+    --secondary: 210 40% 96.1%;
+  }
+}
+
+@layer base {
+  /* Base elements */
+  body {
+    @apply bg-background;
+    font-feature-settings: "rlig" 1, "calt" 1;
+    padding-top: 64px; /* Space for fixed header */
+  }
+
+  /* Make sure images stay in bounds */
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+/* Specific styling overrides */
+@layer utilities {
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}

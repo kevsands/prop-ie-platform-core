@@ -1,0 +1,72 @@
+import jwt from 'jsonwebtoken';
+import { NextRequest } from 'next/server';
+
+// JWT secret - in production this should come from environment variable
+const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-here';
+
+export interface JWTPayload {
+  userId: string;
+  email: string;
+  roles: string[];
+  iat?: number;
+  exp?: number;
+}
+
+/**
+ * JWT Auth class specifically for middleware usage
+ * (since we can't use cookies() in middleware)
+ */
+export class JWTAuthMiddleware {
+  /**
+   * Get token from request
+   */
+  static getTokenFromRequest(request: NextRequest): string | null {
+    const token = request.cookies.get('auth-token');
+    return token?.value || null;
+  }
+
+  /**
+   * Verify a JWT token
+   */
+  static verifyToken(token: string): JWTPayload | null {
+    try {
+      return jwt.verify(token, JWT_SECRET) as JWTPayload;
+    } catch (error) {
+      console.error('JWT verification failed:', error);
+      return null;
+    }
+  }
+
+  /**
+   * Get current user from request
+   */
+  static getCurrentUser(request: NextRequest): JWTPayload | null {
+    const token = this.getTokenFromRequest(request);
+    if (!token) return null;
+    return this.verifyToken(token);
+  }
+
+  /**
+   * Check if request is authenticated
+   */
+  static isAuthenticated(request: NextRequest): boolean {
+    return this.getCurrentUser(request) !== null;
+  }
+
+  /**
+   * Check if user has a specific role
+   */
+  static hasRole(request: NextRequest, role: string): boolean {
+    const user = this.getCurrentUser(request);
+    return user?.roles?.includes(role) || false;
+  }
+
+  /**
+   * Check if user has any of the specified roles
+   */
+  static hasAnyRole(request: NextRequest, roles: string[]): boolean {
+    const user = this.getCurrentUser(request);
+    if (!user?.roles) return false;
+    return roles.some(role => user.roles.includes(role));
+  }
+}

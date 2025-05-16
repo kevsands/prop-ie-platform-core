@@ -1,0 +1,482 @@
+2025-05-16T19:55:05.716Z - 
+> prop-ie-aws-app@0.1.0 dev
+> next dev
+
+
+2025-05-16T19:55:06.855Z -    ▲ Next.js 15.3.1
+
+2025-05-16T19:55:06.855Z -    - Local:        http://localhost:3000
+   - Network:      http://192.168.0.41:3000
+   - Environments: .env.local, .env
+
+ ✓ Starting...
+
+2025-05-16T19:55:09.804Z -  ✓ Ready in 3.1s
+
+2025-05-16T19:55:09.922Z -  ✓ Compiled /middleware in 104ms (108 modules)
+
+2025-05-16T19:55:10.527Z -  ○ Compiling / ...
+
+2025-05-16T19:55:11.763Z -  ✓ Compiled / in 1744ms (2584 modules)
+
+2025-05-16T19:55:12.245Z -  GET / 200 in 2241ms
+
+2025-05-16T19:55:12.246Z -  GET / 200 in 2242ms
+
+2025-05-16T19:55:12.247Z -  GET / 200 in 1524ms
+
+2025-05-16T19:55:12.248Z -  GET / 200 in 2245ms
+
+2025-05-16T19:55:12.291Z -  GET / 200 in 540ms
+
+2025-05-16T19:55:16.260Z -  GET / 200 in 61ms
+
+2025-05-16T19:55:17.136Z -  ✓ Compiled /favicon.ico in 241ms (1363 modules)
+
+2025-05-16T19:55:17.341Z -  GET /favicon.ico 200 in 457ms
+
+2025-05-16T19:55:17.877Z -  ○ Compiling /api/health ...
+
+2025-05-16T19:55:20.275Z -  ✓ Compiled /api/health in 2.9s (2619 modules)
+
+2025-05-16T19:55:20.325Z -  GET /api/health 200 in 2982ms
+ GET /api/health 200 in 2982ms
+ GET /api/health 200 in 2981ms
+ GET /api/health 200 in 2977ms
+ GET /api/health 200 in 2983ms
+
+2025-05-16T19:55:20.392Z -  GET / 200 in 60ms
+
+2025-05-16T19:55:20.904Z -  ✓ Compiled /_not-found in 404ms (2609 modules)
+
+2025-05-16T19:55:21.133Z -  GET /icon-144x144.png 404 in 634ms
+
+2025-05-16T19:55:22.280Z -  GET /api/health 200 in 32ms
+
+2025-05-16T19:55:22.295Z -  GET /api/health 200 in 46ms
+ GET /api/health 200 in 46ms
+ GET /api/health 200 in 46ms
+
+2025-05-16T19:55:22.314Z -  GET /api/health 200 in 18ms
+
+2025-05-16T19:55:27.273Z -  GET /api/health 200 in 27ms
+
+2025-05-16T19:55:27.278Z -  GET /api/health 200 in 32ms
+ GET /api/health 200 in 32ms
+ GET /api/health 200 in 29ms
+
+2025-05-16T19:55:27.306Z -  GET /api/health 200 in 12ms
+
+2025-05-16T19:55:32.841Z -  ○ Compiling /_error ...
+
+2025-05-16T19:55:33.499Z -  ✓ Compiled /_error in 1220ms (2945 modules)
+
+2025-05-16T19:55:33.876Z -  GET /api/health 404 in 1515ms
+
+2025-05-16T19:55:33.896Z -  GET / 200 in 816ms
+
+2025-05-16T19:55:33.922Z -  GET / 200 in 20ms
+
+2025-05-16T19:55:33.987Z -  GET /api/health 404 in 1740ms
+
+2025-05-16T19:55:33.989Z -  GET /api/health 404 in 1742ms
+
+2025-05-16T19:55:33.992Z -  GET /api/health 404 in 1745ms
+
+2025-05-16T19:55:33.994Z -  GET /api/health 404 in 1747ms
+
+2025-05-16T19:55:33.996Z -  GET /_next/static/css/app/layout.css?v=1747425333917 404 in 55ms
+
+2025-05-16T19:55:34.104Z -  GET /_next/static/css/app/layout.css?v=1747425333917 404 in 41ms
+
+2025-05-16T19:55:34.155Z -  GET /icon-144x144.png 404 in 38ms
+
+2025-05-16T19:55:37.669Z -  GET /api/health 500 in 412ms
+
+2025-05-16T19:55:37.671Z -  GET /api/health 500 in 413ms
+
+2025-05-16T19:55:37.672Z -  GET /api/health 500 in 414ms
+
+2025-05-16T19:55:37.675Z -  GET /api/health 500 in 415ms
+
+2025-05-16T19:55:37.677Z -  GET /api/health 500 in 330ms
+
+2025-05-16T19:55:39.975Z -  GET / 200 in 78ms
+
+2025-05-16T19:55:40.041Z -  GET /_next/static/css/app/layout.css?v=1747425339914 404 in 38ms
+
+2025-05-16T19:55:40.306Z -  GET /_next/static/chunks/app/layout.js 404 in 180ms
+
+2025-05-16T19:55:40.306Z -  GET /_next/static/chunks/main-app.js?v=1747425339914 404 in 182ms
+
+2025-05-16T19:55:40.306Z -  GET /_next/static/chunks/app/page.js 404 in 181ms
+
+2025-05-16T19:55:40.307Z -  GET /_next/static/chunks/app-pages-internals.js 404 in 183ms
+
+2025-05-16T19:55:40.323Z -  GET /favicon.ico 500 in 197ms
+
+2025-05-16T19:55:40.350Z -  GET /favicon.ico 500 in 25ms
+
+2025-05-16T19:55:40.387Z -  GET /icon-16x16.png 404 in 31ms
+
+2025-05-16T19:55:40.423Z -  GET /icon-32x32.png 404 in 32ms
+
+2025-05-16T19:55:42.521Z -  GET /api/health 500 in 266ms
+
+2025-05-16T19:55:42.568Z -  GET /api/health 500 in 312ms
+
+2025-05-16T19:55:42.570Z -  GET /api/health 500 in 312ms
+
+2025-05-16T19:55:42.573Z -  GET /api/health 500 in 313ms
+
+2025-05-16T19:55:42.593Z -  GET /api/health 500 in 279ms
+
+2025-05-16T19:55:47.504Z -  GET /api/health 500 in 252ms
+
+2025-05-16T19:55:47.556Z -  GET /api/health 500 in 304ms
+
+2025-05-16T19:55:47.557Z -  GET /api/health 500 in 304ms
+
+2025-05-16T19:55:47.559Z -  GET /api/health 500 in 303ms
+
+2025-05-16T19:55:47.578Z -  GET /api/health 500 in 276ms
+
+2025-05-16T19:55:51.458Z -  GET / 200 in 58ms
+
+2025-05-16T19:55:51.513Z -  GET /_next/static/css/app/layout.css?v=1747425351414 404 in 34ms
+
+2025-05-16T19:55:51.660Z -  GET /_next/static/chunks/main-app.js?v=1747425351414 404 in 114ms
+
+2025-05-16T19:55:51.660Z -  GET /_next/static/chunks/app/layout.js 404 in 112ms
+
+2025-05-16T19:55:51.661Z -  GET /_next/static/chunks/app/page.js 404 in 111ms
+
+2025-05-16T19:55:51.661Z -  GET /_next/static/chunks/app-pages-internals.js 404 in 114ms
+
+2025-05-16T19:55:51.675Z -  GET /favicon.ico 500 in 126ms
+
+2025-05-16T19:55:51.702Z -  GET /favicon.ico 500 in 25ms
+
+2025-05-16T19:55:51.740Z -  GET /icon-16x16.png 404 in 24ms
+
+2025-05-16T19:55:51.772Z -  GET /icon-32x32.png 404 in 26ms
+
+2025-05-16T19:55:52.494Z -  GET /api/health 500 in 241ms
+
+2025-05-16T19:55:52.531Z -  GET /api/health 500 in 278ms
+
+2025-05-16T19:55:52.532Z -  GET /api/health 500 in 277ms
+
+2025-05-16T19:55:52.534Z -  GET /api/health 500 in 277ms
+
+2025-05-16T19:55:52.556Z -  GET /api/health 500 in 231ms
+
+2025-05-16T19:55:57.516Z -  GET /api/health 500 in 262ms
+
+2025-05-16T19:55:57.566Z -  GET /api/health 500 in 311ms
+
+2025-05-16T19:55:57.567Z -  GET /api/health 500 in 312ms
+
+2025-05-16T19:55:57.569Z -  GET /api/health 500 in 311ms
+
+2025-05-16T19:55:57.589Z -  GET /api/health 500 in 284ms
+
+2025-05-16T19:56:02.500Z -  GET /api/health 500 in 245ms
+
+2025-05-16T19:56:02.540Z -  GET /api/health 500 in 285ms
+
+2025-05-16T19:56:02.542Z -  GET /api/health 500 in 286ms
+
+2025-05-16T19:56:02.544Z -  GET /api/health 500 in 288ms
+
+2025-05-16T19:56:02.567Z -  GET /api/health 500 in 233ms
+
+2025-05-16T19:56:07.520Z -  GET /api/health 500 in 261ms
+
+2025-05-16T19:56:07.581Z -  GET /api/health 500 in 321ms
+
+2025-05-16T19:56:07.582Z -  GET /api/health 500 in 322ms
+
+2025-05-16T19:56:07.584Z -  GET /api/health 500 in 323ms
+
+2025-05-16T19:56:07.603Z -  GET /api/health 500 in 288ms
+
+2025-05-16T19:56:12.520Z -  GET /api/health 500 in 262ms
+
+2025-05-16T19:56:12.581Z -  GET /api/health 500 in 321ms
+
+2025-05-16T19:56:12.582Z -  GET /api/health 500 in 323ms
+
+2025-05-16T19:56:12.584Z -  GET /api/health 500 in 321ms
+
+2025-05-16T19:56:12.604Z -  GET /api/health 500 in 292ms
+
+2025-05-16T19:56:17.513Z -  GET /api/health 500 in 255ms
+
+2025-05-16T19:56:17.566Z -  GET /api/health 500 in 307ms
+
+2025-05-16T19:56:17.568Z -  GET /api/health 500 in 306ms
+
+2025-05-16T19:56:17.570Z -  GET /api/health 500 in 307ms
+
+2025-05-16T19:56:17.590Z -  GET /api/health 500 in 282ms
+
+2025-05-16T19:56:22.511Z -  GET /api/health 500 in 252ms
+
+2025-05-16T19:56:22.563Z -  GET /api/health 500 in 302ms
+
+2025-05-16T19:56:22.566Z -  GET /api/health 500 in 305ms
+
+2025-05-16T19:56:22.568Z -  GET /api/health 500 in 308ms
+
+2025-05-16T19:56:22.586Z -  GET /api/health 500 in 279ms
+
+2025-05-16T19:56:27.514Z -  GET /api/health 500 in 254ms
+
+2025-05-16T19:56:27.564Z -  GET /api/health 500 in 303ms
+
+2025-05-16T19:56:27.565Z -  GET /api/health 500 in 304ms
+
+2025-05-16T19:56:27.567Z -  GET /api/health 500 in 306ms
+
+2025-05-16T19:56:27.582Z -  GET /api/health 500 in 276ms
+
+2025-05-16T19:56:32.529Z -  GET /api/health 500 in 264ms
+
+2025-05-16T19:56:32.583Z -  GET /api/health 500 in 316ms
+
+2025-05-16T19:56:32.585Z -  GET /api/health 500 in 318ms
+
+2025-05-16T19:56:32.587Z -  GET /api/health 500 in 318ms
+
+2025-05-16T19:56:32.606Z -  GET /api/health 500 in 286ms
+
+2025-05-16T19:56:35.391Z -  GET / 200 in 47ms
+
+2025-05-16T19:56:37.517Z -  GET /api/health 500 in 255ms
+
+2025-05-16T19:56:37.565Z -  GET /api/health 500 in 302ms
+
+2025-05-16T19:56:37.567Z -  GET /api/health 500 in 303ms
+
+2025-05-16T19:56:37.569Z -  GET /api/health 500 in 305ms
+
+2025-05-16T19:56:37.590Z -  GET /api/health 500 in 281ms
+
+2025-05-16T19:56:40.492Z -  GET / 200 in 54ms
+
+2025-05-16T19:56:40.547Z -  GET /_next/static/css/app/layout.css?v=1747425400454 404 in 31ms
+
+2025-05-16T19:56:40.728Z -  GET /_next/static/chunks/app/layout.js 404 in 125ms
+
+2025-05-16T19:56:40.731Z -  GET /_next/static/chunks/app/page.js 404 in 126ms
+
+2025-05-16T19:56:40.732Z -  GET /_next/static/chunks/main-app.js?v=1747425400454 404 in 130ms
+
+2025-05-16T19:56:40.732Z -  GET /_next/static/chunks/app-pages-internals.js 404 in 130ms
+
+2025-05-16T19:56:40.750Z -  GET /favicon.ico 500 in 145ms
+
+2025-05-16T19:56:40.784Z -  GET /favicon.ico 500 in 27ms
+
+2025-05-16T19:56:40.815Z -  GET /icon-16x16.png 404 in 23ms
+
+2025-05-16T19:56:40.842Z -  GET /icon-32x32.png 404 in 23ms
+
+2025-05-16T19:56:41.641Z -  GET / 200 in 119ms
+
+2025-05-16T19:56:41.683Z -  GET /_next/static/css/app/layout.css?v=1747425401597 404 in 25ms
+
+2025-05-16T19:56:41.833Z -  GET /_next/static/chunks/app-pages-internals.js 404 in 113ms
+
+2025-05-16T19:56:41.833Z -  GET /_next/static/chunks/app/layout.js 404 in 113ms
+
+2025-05-16T19:56:41.833Z -  GET /_next/static/chunks/app/page.js 404 in 112ms
+
+2025-05-16T19:56:41.834Z -  GET /_next/static/chunks/main-app.js?v=1747425401597 404 in 114ms
+
+2025-05-16T19:56:41.853Z -  GET /favicon.ico 500 in 131ms
+
+2025-05-16T19:56:41.879Z -  GET /favicon.ico 500 in 24ms
+
+2025-05-16T19:56:41.916Z -  GET /icon-16x16.png 404 in 28ms
+
+2025-05-16T19:56:41.948Z -  GET /icon-32x32.png 404 in 27ms
+
+2025-05-16T19:56:42.618Z -  GET /api/health 500 in 343ms
+
+2025-05-16T19:56:42.692Z -  GET /api/health 500 in 416ms
+
+2025-05-16T19:56:42.693Z -  GET /api/health 500 in 416ms
+
+2025-05-16T19:56:42.694Z -  GET /api/health 500 in 415ms
+
+2025-05-16T19:56:42.714Z -  GET /api/health 500 in 307ms
+
+2025-05-16T19:56:44.764Z -  ○ Compiling /properties/[id] ...
+
+2025-05-16T19:56:44.911Z -  ✓ Compiled /properties/[id] in 652ms (2963 modules)
+
+2025-05-16T19:56:45.549Z -  GET /properties/houses 500 in 1302ms
+
+2025-05-16T19:56:47.510Z -  GET /api/health 500 in 241ms
+
+2025-05-16T19:56:47.550Z -  GET /api/health 500 in 280ms
+
+2025-05-16T19:56:47.552Z -  GET /api/health 500 in 283ms
+
+2025-05-16T19:56:47.554Z -  GET /api/health 500 in 283ms
+
+2025-05-16T19:56:47.574Z -  GET /api/health 500 in 231ms
+
+2025-05-16T19:56:52.531Z -  GET /api/health 500 in 248ms
+
+2025-05-16T19:56:52.571Z -  GET /api/health 500 in 287ms
+
+2025-05-16T19:56:52.573Z -  GET /api/health 500 in 287ms
+
+2025-05-16T19:56:52.574Z -  GET /api/health 500 in 287ms
+
+2025-05-16T19:56:52.590Z -  GET /api/health 500 in 264ms
+
+2025-05-16T19:56:57.526Z -  GET /api/health 500 in 250ms
+
+2025-05-16T19:56:57.566Z -  GET /api/health 500 in 289ms
+
+2025-05-16T19:56:57.567Z -  GET /api/health 500 in 290ms
+
+2025-05-16T19:56:57.569Z -  GET /api/health 500 in 288ms
+
+2025-05-16T19:56:57.593Z -  GET /api/health 500 in 230ms
+
+2025-05-16T19:56:58.950Z -  GET / 200 in 266ms
+
+2025-05-16T19:56:59.021Z -  GET /_next/static/css/app/layout.css?v=1747425418718 404 in 47ms
+
+2025-05-16T19:56:59.192Z -  GET /_next/static/chunks/main-app.js?v=1747425418718 404 in 124ms
+
+2025-05-16T19:56:59.192Z -  GET /_next/static/chunks/app-pages-internals.js 404 in 122ms
+
+2025-05-16T19:56:59.204Z -  GET /favicon.ico 500 in 134ms
+
+2025-05-16T19:56:59.207Z -  GET /_next/static/chunks/app/layout.js 404 in 137ms
+
+2025-05-16T19:56:59.208Z -  GET /_next/static/chunks/app/page.js 404 in 137ms
+
+2025-05-16T19:56:59.227Z -  GET /favicon.ico 500 in 21ms
+
+2025-05-16T19:56:59.258Z -  GET /icon-16x16.png 404 in 24ms
+
+2025-05-16T19:56:59.289Z -  GET /icon-32x32.png 404 in 25ms
+
+2025-05-16T19:57:01.061Z -  GET / 200 in 67ms
+
+2025-05-16T19:57:01.165Z -  GET /_next/static/css/app/layout.css?v=1747425421017 404 in 49ms
+
+2025-05-16T19:57:01.296Z -  GET /_next/static/chunks/app/page.js 404 in 122ms
+
+2025-05-16T19:57:01.297Z -  GET /_next/static/chunks/main-app.js?v=1747425421017 404 in 125ms
+
+2025-05-16T19:57:01.297Z -  GET /_next/static/chunks/app-pages-internals.js 404 in 124ms
+
+2025-05-16T19:57:01.297Z -  GET /_next/static/chunks/app/layout.js 404 in 123ms
+
+2025-05-16T19:57:01.321Z -  GET /favicon.ico 500 in 24ms
+
+2025-05-16T19:57:01.349Z -  GET /favicon.ico 500 in 26ms
+
+2025-05-16T19:57:01.381Z -  GET /icon-16x16.png 404 in 27ms
+
+2025-05-16T19:57:01.409Z -  GET /icon-32x32.png 404 in 24ms
+
+2025-05-16T19:57:02.535Z -  GET /api/health 500 in 255ms
+
+2025-05-16T19:57:02.585Z -  GET /api/health 500 in 306ms
+
+2025-05-16T19:57:02.587Z -  GET /api/health 500 in 305ms
+
+2025-05-16T19:57:02.588Z -  GET /api/health 500 in 304ms
+
+2025-05-16T19:57:02.605Z -  GET /api/health 500 in 277ms
+
+2025-05-16T19:57:07.538Z -  GET /api/health 500 in 263ms
+
+2025-05-16T19:57:07.586Z -  GET /api/health 500 in 307ms
+
+2025-05-16T19:57:07.588Z -  GET /api/health 500 in 307ms
+
+2025-05-16T19:57:07.589Z -  GET /api/health 500 in 309ms
+
+2025-05-16T19:57:07.606Z -  GET /api/health 500 in 274ms
+
+2025-05-16T19:57:12.545Z -  GET /api/health 500 in 266ms
+
+2025-05-16T19:57:12.597Z -  GET /api/health 500 in 316ms
+
+2025-05-16T19:57:12.599Z -  GET /api/health 500 in 317ms
+
+2025-05-16T19:57:12.602Z -  GET /api/health 500 in 317ms
+
+2025-05-16T19:57:12.621Z -  GET /api/health 500 in 282ms
+
+2025-05-16T19:57:17.540Z -  GET /api/health 500 in 261ms
+
+2025-05-16T19:57:17.596Z -  GET /api/health 500 in 316ms
+
+2025-05-16T19:57:17.598Z -  GET /api/health 500 in 316ms
+
+2025-05-16T19:57:17.600Z -  GET /api/health 500 in 315ms
+
+2025-05-16T19:57:17.620Z -  GET /api/health 500 in 286ms
+
+2025-05-16T19:57:22.537Z -  GET /api/health 500 in 257ms
+
+2025-05-16T19:57:22.591Z -  GET /api/health 500 in 311ms
+
+2025-05-16T19:57:22.594Z -  GET /api/health 500 in 313ms
+
+2025-05-16T19:57:22.597Z -  GET /api/health 500 in 313ms
+
+2025-05-16T19:57:22.610Z -  GET /api/health 500 in 279ms
+
+2025-05-16T19:57:27.525Z -  GET /api/health 500 in 246ms
+
+2025-05-16T19:57:27.565Z -  GET /api/health 500 in 284ms
+
+2025-05-16T19:57:27.567Z -  GET /api/health 500 in 287ms
+
+2025-05-16T19:57:27.569Z -  GET /api/health 500 in 289ms
+
+2025-05-16T19:57:27.587Z -  GET /api/health 500 in 227ms
+
+2025-05-16T19:57:32.596Z -  GET /api/health 500 in 313ms
+
+2025-05-16T19:57:32.674Z -  GET /api/health 500 in 389ms
+
+2025-05-16T19:57:32.675Z -  GET /api/health 500 in 389ms
+
+2025-05-16T19:57:32.677Z -  GET /api/health 500 in 389ms
+
+2025-05-16T19:57:32.697Z -  GET /api/health 500 in 359ms
+
+2025-05-16T19:57:37.536Z -  GET /api/health 500 in 249ms
+
+2025-05-16T19:57:37.578Z -  GET /api/health 500 in 291ms
+
+2025-05-16T19:57:37.581Z -  GET /api/health 500 in 294ms
+
+2025-05-16T19:57:37.583Z -  GET /api/health 500 in 296ms
+
+2025-05-16T19:57:37.597Z -  GET /api/health 500 in 266ms
+
+2025-05-16T19:57:47.384Z -  GET /api/health 500 in 5037ms
+
+2025-05-16T19:57:47.384Z -  GET /api/health 500 in 5090ms
+ GET /api/health 500 in 5091ms
+ GET /api/health 500 in 5092ms
+
+2025-05-16T19:57:47.384Z -  GET /api/health 500 in 5093ms
+
+2025-05-16T19:57:47.701Z - [?25h
+2025-05-16T19:57:47.701Z - 
+

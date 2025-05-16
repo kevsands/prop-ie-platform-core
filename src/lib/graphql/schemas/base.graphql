@@ -1,0 +1,58 @@
+"""
+Base types for the PropIE GraphQL API
+Includes common scalar types, directives, and top-level schema definition
+"""
+
+scalar DateTime
+scalar JSON
+
+directive @auth(
+  requires: [Role!] = []
+) on FIELD_DEFINITION
+
+directive @cacheControl(
+  maxAge: Int
+  scope: CacheControlScope
+) on FIELD_DEFINITION | OBJECT | INTERFACE
+
+enum CacheControlScope {
+  PUBLIC
+  PRIVATE
+}
+
+enum Role {
+  DEVELOPER
+  BUYER
+  INVESTOR
+  ARCHITECT
+  ENGINEER
+  QUANTITY_SURVEYOR
+  LEGAL
+  PROJECT_MANAGER
+  AGENT
+  SOLICITOR
+  CONTRACTOR
+  ADMIN
+}
+
+type Query {
+  """
+  Health check endpoint that requires no authentication
+  Used to verify the GraphQL API is operational
+  """
+  health: String!
+}
+
+type Mutation {
+  """
+  No-op mutation placeholder to avoid empty type error
+  """
+  _empty: String
+}
+
+type Subscription {
+  """
+  No-op subscription placeholder to avoid empty type error
+  """
+  _empty: String
+}

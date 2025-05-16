@@ -1,0 +1,55 @@
+import { NextRequest, NextResponse } from 'next/server';
+
+// Mock HTB claims API for testing
+export async function POST(request: NextRequest) {
+  try {
+    const body = await request.json();
+    
+    // Create a mock HTB claim
+    const mockClaim = {
+      id: `claim-${Date.now()}`,
+      buyerId: 'mock-buyer-id',
+      propertyId: body.propertyId,
+      propertyPrice: body.propertyPrice || 400000,
+      propertyAddress: body.propertyAddress,
+      status: 'INITIATED',
+      requestedAmount: body.requestedAmount,
+      approvedAmount: null,
+      accessCode: `HTB-${Date.now()}-MOCK`,
+      applicationDate: new Date().toISOString(),
+      lastUpdatedDate: new Date().toISOString(),
+      documents: [],
+      notes: [],
+      statusHistory: [
+        {
+          id: 'status-1',
+          claimId: `claim-${Date.now()}`,
+          previousStatus: null,
+          newStatus: 'INITIATED',
+          updatedBy: 'system',
+          updatedAt: new Date().toISOString(),
+          notes: 'Application initiated'
+        }
+      ],
+      // Additional fields for UI
+      firstName: body.firstName,
+      lastName: body.lastName,
+      email: body.email,
+      phone: body.phone,
+      ppsNumber: body.ppsNumber,
+      claimAmount: body.claimAmount
+    };
+
+    return NextResponse.json(mockClaim, { status: 201 });
+  } catch (error) {
+    return NextResponse.json(
+      { error: 'Failed to create HTB claim' },
+      { status: 500 }
+    );
+  }
+}
+
+export async function GET(request: NextRequest) {
+  // Return an empty list of claims
+  return NextResponse.json([]);
+}

@@ -1,0 +1,203 @@
+"""
+Dashboard schema for the PropIE GraphQL API
+Defines dashboard types and queries for various roles
+"""
+
+"""
+Dashboard statistics for developers
+"""
+type DeveloperDashboardStats {
+  # Development statistics
+  developmentCount: Int!
+  totalUnits: Int!
+  unitsAvailable: Int!
+  unitsSold: Int!
+  salesValue: Float!
+  
+  # Financial statistics
+  totalRevenue: Float!
+  projectedRevenue: Float!
+  costToDate: Float!
+  projectedProfit: Float!
+  profitMargin: Float!
+  
+  # Timeline statistics
+  inProgressDevelopments: Int!
+  completedDevelopments: Int!
+  upcomingMilestones: [ProjectMilestone!]!
+  
+  # Sales statistics
+  salesVelocity: Float!
+  reservationsThisMonth: Int!
+  completionsThisMonth: Int!
+  
+  # Document statistics
+  pendingDocuments: Int!
+  expiringDocuments: Int!
+}
+
+"""
+Dashboard statistics for buyers
+"""
+type BuyerDashboardStats {
+  # Purchase statistics
+  purchases: Int!
+  
+  # Timeline milestones
+  currentPurchaseStatus: SaleStatus
+  nextMilestone: String
+  nextMilestoneDate: DateTime
+  
+  # Financial statistics
+  totalInvestment: Float!
+  depositsPaid: Float!
+  financingStatus: String
+  
+  # Customization statistics
+  customizationStatus: CustomizationStatus
+  customizationDeadline: DateTime
+  customizationMeetingDate: DateTime
+  
+  # Document statistics
+  pendingDocuments: Int!
+  documentsRequiringSignature: Int!
+  
+  # Other statistics
+  keyCollectionDate: DateTime
+  warrantyExpiryDate: DateTime
+}
+
+"""
+Dashboard statistics for investors
+"""
+type InvestorDashboardStats {
+  # Investment statistics
+  totalInvestments: Int!
+  totalInvested: Float!
+  currentValue: Float!
+  
+  # Performance statistics
+  totalReturns: Float!
+  averageROI: Float!
+  
+  # Property statistics
+  propertiesOwned: Int!
+  countriesInvested: Int!
+  
+  # Development statistics
+  developmentsInvested: Int!
+  unitsInvested: Int!
+  
+  # Financial statistics
+  projectedAnnualReturn: Float!
+  lastDistribution: Float!
+  nextDistribution: Float!
+  nextDistributionDate: DateTime
+  
+  # Market statistics
+  marketTrends: JSON!
+}
+
+"""
+Dashboard statistics for agents
+"""
+type AgentDashboardStats {
+  # Sales statistics
+  activeSales: Int!
+  completedSales: Int!
+  salesValue: Float!
+  commission: Float!
+  
+  # Development statistics
+  developmentsCount: Int!
+  availableUnits: Int!
+  
+  # Lead statistics
+  activeLeads: Int!
+  leadConversionRate: Float!
+  viewingsScheduled: Int!
+  
+  # Timeline statistics
+  upcomingViewings: Int!
+  pendingContracts: Int!
+  
+  # Performance statistics
+  monthlySales: JSON!
+  yearlyComparison: JSON!
+}
+
+"""
+System-wide statistics for admins
+"""
+type AdminDashboardStats {
+  # User statistics
+  totalUsers: Int!
+  activeUsers: Int!
+  usersByRole: JSON!
+  
+  # Development statistics
+  totalDevelopments: Int!
+  developmentsByStatus: JSON!
+  
+  # Sales statistics
+  totalSales: Int!
+  salesByStatus: JSON!
+  salesValue: Float!
+  
+  # Document statistics
+  totalDocuments: Int!
+  documentsByStatus: JSON!
+  
+  # System statistics
+  apiRequests: Int!
+  averageResponseTime: Float!
+  errorRate: Float!
+  storageUsed: Float!
+}
+
+# Extend the root Query type with dashboard queries
+extend type Query {
+  """
+  Get developer dashboard statistics
+  """
+  developerDashboard: DeveloperDashboardStats @auth(requires: [DEVELOPER])
+  
+  """
+  Get buyer dashboard statistics
+  """
+  buyerDashboard: BuyerDashboardStats @auth(requires: [BUYER])
+  
+  """
+  Get investor dashboard statistics
+  """
+  investorDashboard: InvestorDashboardStats @auth(requires: [INVESTOR])
+  
+  """
+  Get agent dashboard statistics
+  """
+  agentDashboard: AgentDashboardStats @auth(requires: [AGENT])
+  
+  """
+  Get admin dashboard statistics
+  """
+  adminDashboard: AdminDashboardStats @auth(requires: [ADMIN])
+  
+  """
+  Get system-wide statistics
+  """
+  systemStatistics: JSON @auth(requires: [ADMIN])
+  
+  """
+  Get development statistics for a specific development
+  """
+  developmentDashboard(id: ID!): JSON @auth(requires: [DEVELOPER, ADMIN])
+  
+  """
+  Get sales statistics for a date range
+  """
+  salesStatistics(
+    startDate: DateTime!
+    endDate: DateTime!
+    developmentId: ID
+  ): JSON @auth(requires: [DEVELOPER, ADMIN, AGENT])
+}

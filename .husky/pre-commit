@@ -1,0 +1,26 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+echo "🔍 Running enhanced security checks..."
+
+# Verify package integrity
+echo "🔒 Verifying package lock integrity..."
+npm run verify-lockfile || { echo "❌ Package lock verification failed"; exit 1; }
+
+# Run security checks with security-focused ESLint rules
+echo "🔒 Running security linting checks..."
+npm run security-check || { echo "❌ Security checks failed"; exit 1; }
+
+# Check for suspicious packages
+echo "🔒 Checking for suspicious packages..."
+npm run postinstall || { echo "⚠️ Suspicious package check failed"; }
+
+# Generate and validate SBOM 
+echo "🔒 Generating and validating software bill of materials..."
+npm run generate-sbom && npm run validate-sbom || { echo "⚠️ SBOM validation failed"; }
+
+# Run standard lint-staged for other checks
+echo "🔍 Running lint-staged checks..."
+npx lint-staged || { echo "❌ Lint checks failed"; exit 1; }
+
+echo "✅ All pre-commit checks passed!"

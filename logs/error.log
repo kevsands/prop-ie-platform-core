@@ -1,0 +1,1211 @@
+2025-05-16T19:55:12.218Z -  ⚠ metadataBase property in metadata export is not set for resolving social open graph or twitter images, using "http://localhost:3000". See https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase
+
+2025-05-16T19:55:20.389Z -  ⚠ metadataBase property in metadata export is not set for resolving social open graph or twitter images, using "http://localhost:3000". See https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase
+
+2025-05-16T19:55:20.986Z -  ⚠ metadataBase property in metadata export is not set for resolving social open graph or twitter images, using "http://localhost:3000". See https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase
+
+2025-05-16T19:55:33.726Z -  ⚠ metadataBase property in metadata export is not set for resolving social open graph or twitter images, using "http://localhost:3000". See https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase
+
+2025-05-16T19:55:37.342Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:55:37.362Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:55:37.377Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:55:37.388Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:55:37.411Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:55:40.322Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/favicon.ico/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/favicon.ico/route.js',
+  page: '/favicon.ico'
+}
+
+2025-05-16T19:55:40.350Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/favicon.ico/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/favicon.ico/route.js',
+  page: '/favicon.ico'
+}
+
+2025-05-16T19:55:42.313Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:55:42.336Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:55:42.347Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:55:42.358Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:55:42.386Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:55:47.294Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:55:47.321Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:55:47.333Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:55:47.344Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:55:47.372Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:55:51.675Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/favicon.ico/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/favicon.ico/route.js',
+  page: '/favicon.ico'
+}
+
+2025-05-16T19:55:51.702Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/favicon.ico/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/favicon.ico/route.js',
+  page: '/favicon.ico'
+}
+
+2025-05-16T19:55:52.286Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:55:52.303Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:55:52.313Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:55:52.324Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:55:52.350Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:55:57.302Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:55:57.330Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:55:57.344Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:55:57.354Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:55:57.384Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:56:02.288Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:56:02.311Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:56:02.323Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:56:02.333Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:56:02.360Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:56:07.310Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:56:07.340Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:56:07.356Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:56:07.367Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:56:07.396Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:56:12.309Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:56:12.338Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:56:12.349Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:56:12.362Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:56:12.398Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:56:17.305Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:56:17.329Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:56:17.341Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:56:17.353Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:56:17.384Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:56:22.303Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:56:22.327Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:56:22.338Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:56:22.349Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:56:22.378Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:56:27.303Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:56:27.327Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:56:27.341Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:56:27.353Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:56:27.378Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:56:32.316Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:56:32.343Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:56:32.356Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:56:32.367Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:56:32.399Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:56:37.306Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:56:37.332Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:56:37.342Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:56:37.355Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:56:37.384Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:56:40.750Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/favicon.ico/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/favicon.ico/route.js',
+  page: '/favicon.ico'
+}
+
+2025-05-16T19:56:40.784Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/favicon.ico/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/favicon.ico/route.js',
+  page: '/favicon.ico'
+}
+
+2025-05-16T19:56:41.853Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/favicon.ico/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/favicon.ico/route.js',
+  page: '/favicon.ico'
+}
+
+2025-05-16T19:56:41.879Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/favicon.ico/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/favicon.ico/route.js',
+  page: '/favicon.ico'
+}
+
+2025-05-16T19:56:42.365Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:56:42.457Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:56:42.472Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:56:42.482Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:56:42.509Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:56:45.325Z -  ⨯ [Error: Cannot find module './vendor-chunks/@aws-amplify.js'
+Require stack:
+- /Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/webpack-runtime.js
+- /Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/properties/[id]/page.js
+- /Users/kevin/Downloads/awsready/prop-ie-aws-app/node_modules/next/dist/server/require.js
+- /Users/kevin/Downloads/awsready/prop-ie-aws-app/node_modules/next/dist/server/load-components.js
+- /Users/kevin/Downloads/awsready/prop-ie-aws-app/node_modules/next/dist/build/utils.js
+- /Users/kevin/Downloads/awsready/prop-ie-aws-app/node_modules/next/dist/server/dev/static-paths-worker.js
+- /Users/kevin/Downloads/awsready/prop-ie-aws-app/node_modules/next/dist/compiled/jest-worker/processChild.js] {
+  type: 'Error',
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array],
+  page: '/properties/houses'
+}
+
+2025-05-16T19:56:47.301Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:56:47.321Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:56:47.333Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:56:47.343Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:56:47.369Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:56:52.324Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:56:52.341Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:56:52.353Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:56:52.362Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:56:52.386Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:56:57.320Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:56:57.337Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:56:57.349Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:56:57.360Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:56:57.387Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:56:58.942Z -  ⚠ metadataBase property in metadata export is not set for resolving social open graph or twitter images, using "http://localhost:3000". See https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase
+
+2025-05-16T19:56:59.203Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/favicon.ico/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/favicon.ico/route.js',
+  page: '/favicon.ico'
+}
+
+2025-05-16T19:56:59.227Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/favicon.ico/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/favicon.ico/route.js',
+  page: '/favicon.ico'
+}
+
+2025-05-16T19:57:01.320Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/favicon.ico/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/favicon.ico/route.js',
+  page: '/favicon.ico'
+}
+
+2025-05-16T19:57:01.349Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/favicon.ico/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/favicon.ico/route.js',
+  page: '/favicon.ico'
+}
+
+2025-05-16T19:57:02.323Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:57:02.350Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:57:02.364Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:57:02.374Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:57:02.402Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:57:07.328Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:57:07.349Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:57:07.363Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:57:07.374Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:57:07.399Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:57:12.335Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:57:12.361Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:57:12.373Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:57:12.386Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:57:12.415Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:57:17.330Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:57:17.356Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:57:17.374Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:57:17.384Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:57:17.413Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:57:22.328Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:57:22.353Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:57:22.365Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:57:22.377Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:57:22.405Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:57:27.318Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:57:27.335Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:57:27.346Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:57:27.356Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:57:27.381Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:57:32.379Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:57:32.425Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:57:32.443Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:57:32.462Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:57:32.489Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:57:37.328Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:57:37.347Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:57:37.357Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:57:37.368Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:57:37.392Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/api/health/route.js',
+  page: '/api/health'
+}
+
+2025-05-16T19:57:42.345Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app-paths-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app-paths-manifest.json',
+  page: '/api/health'
+}
+
+2025-05-16T19:57:42.364Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/pages-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/pages-manifest.json'
+}
+
+2025-05-16T19:57:42.403Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app-paths-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app-paths-manifest.json',
+  page: '/api/health'
+}
+
+2025-05-16T19:57:42.413Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app-paths-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app-paths-manifest.json',
+  page: '/api/health'
+}
+
+2025-05-16T19:57:42.425Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app-paths-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app-paths-manifest.json',
+  page: '/api/health'
+}
+
+2025-05-16T19:57:42.439Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/pages-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/pages-manifest.json'
+}
+
+2025-05-16T19:57:42.450Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/pages-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/pages-manifest.json'
+}
+
+2025-05-16T19:57:42.460Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/pages-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/pages-manifest.json'
+}
+
+2025-05-16T19:57:42.506Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app-paths-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app-paths-manifest.json',
+  page: '/api/health'
+}
+
+2025-05-16T19:57:42.526Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/pages-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/pages-manifest.json'
+}
+
+2025-05-16T19:57:43.302Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app-paths-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app-paths-manifest.json',
+  page: '/'
+}
+
+2025-05-16T19:57:43.428Z -  ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/pages-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/pages-manifest.json'
+}
+

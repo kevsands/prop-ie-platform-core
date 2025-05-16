@@ -1,0 +1,92 @@
+// This is your Prisma schema file for authentication
+// Learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../node_modules/@prisma/auth-client"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id               String    @id @default(uuid())
+  email            String    @unique
+  passwordHash     String
+  firstName        String
+  lastName         String
+  roleId           String
+  isActive         Boolean   @default(true)
+  emailVerified    Boolean   @default(false)
+  mfaEnabled       Boolean   @default(false)
+  mfaSecret        String?
+  lastLoginAt      DateTime?
+  passwordChangedAt DateTime?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+  
+  role             Role      @relation(fields: [roleId], references: [id])
+  sessions         Session[]
+  audit            AuditLog[]
+}
+
+model Role {
+  id               String       @id @default(uuid())
+  name             String       @unique
+  description      String?
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
+  
+  users            User[]
+  permissions      Permission[] @relation("RolePermissions")
+}
+
+model Permission {
+  id               String    @id @default(uuid())
+  name             String    @unique
+  resource         String
+  action           String
+  description      String?
+  createdAt        DateTime  @default(now())
+  
+  roles            Role[]    @relation("RolePermissions")
+}
+
+model Session {
+  id               String    @id @default(uuid())
+  userId           String
+  token            String    @unique
+  refreshToken     String    @unique
+  expiresAt        DateTime
+  createdAt        DateTime  @default(now())
+  lastActivityAt   DateTime  @default(now())
+  ipAddress        String?
+  userAgent        String?
+  
+  user             User      @relation(fields: [userId], references: [id])
+}
+
+model AuditLog {
+  id               String    @id @default(uuid())
+  userId           String?
+  action           String
+  resource         String
+  resourceId       String?
+  details          Json?
+  ipAddress        String?
+  userAgent        String?
+  createdAt        DateTime  @default(now())
+  
+  user             User?     @relation(fields: [userId], references: [id])
+}
+
+model PasswordReset {
+  id               String    @id @default(uuid())
+  email            String
+  token            String    @unique
+  expiresAt        DateTime
+  usedAt           DateTime?
+  createdAt        DateTime  @default(now())
+}

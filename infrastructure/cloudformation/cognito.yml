@@ -1,0 +1,452 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'CloudFormation template for Prop-IE AWS Authentication Infrastructure'
+
+Parameters:
+  Environment:
+    Type: String
+    Default: dev
+    AllowedValues:
+      - dev
+      - test
+      - staging
+      - prod
+    Description: Deployment environment
+    
+  ApplicationName:
+    Type: String
+    Default: 'prop-ie'
+    Description: The name of the application
+    
+  MfaConfiguration:
+    Type: String
+    Default: 'OPTIONAL'
+    AllowedValues:
+      - 'OFF'
+      - 'OPTIONAL'
+      - 'REQUIRED'
+    Description: MFA configuration for the Cognito User Pool
+    
+  EnableAdvancedSecurity:
+    Type: String
+    Default: 'true'
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Description: Enable advanced security features for Cognito User Pool
+    
+  UserPoolCallbackURL:
+    Type: String
+    Default: 'https://prop-ie-app.com/auth/callback'
+    Description: Callback URL for the Cognito User Pool client
+    
+  UserPoolLogoutURL:
+    Type: String
+    Default: 'https://prop-ie-app.com/auth/logout'
+    Description: Logout URL for the Cognito User Pool client
+
+Resources:
+  # Cognito User Pool
+  UserPool:
+    Type: AWS::Cognito::UserPool
+    Properties:
+      UserPoolName: !Sub ${ApplicationName}-${Environment}-user-pool
+      AutoVerifiedAttributes:
+        - email
+      UsernameAttributes:
+        - email
+      MfaConfiguration: !Ref MfaConfiguration
+      AdminCreateUserConfig:
+        AllowAdminCreateUserOnly: false
+        InviteMessageTemplate:
+          EmailMessage: 'Your username is {username} and temporary password is {####}. Please login to change your password.'
+          EmailSubject: 'Your temporary password for Prop-IE property platform'
+          SMSMessage: 'Your username is {username} and temporary password is {####}'
+      UserPoolAddOns:
+        AdvancedSecurityMode: !If [EnableAdvSecurity, 'ENFORCED', 'OFF']
+      Schema:
+        - Name: email
+          AttributeDataType: String
+          Mutable: true
+          Required: true
+        - Name: given_name
+          AttributeDataType: String
+          Mutable: true
+          Required: true
+        - Name: family_name
+          AttributeDataType: String
+          Mutable: true
+          Required: true
+        - Name: phone_number
+          AttributeDataType: String
+          Mutable: true
+          Required: false
+        - Name: custom:role
+          AttributeDataType: String
+          Mutable: true
+          Required: false
+        - Name: custom:organization
+          AttributeDataType: String
+          Mutable: true
+          Required: false
+      EmailConfiguration:
+        EmailSendingAccount: COGNITO_DEFAULT
+      Policies:
+        PasswordPolicy:
+          MinimumLength: 8
+          RequireLowercase: true
+          RequireNumbers: true
+          RequireSymbols: true
+          RequireUppercase: true
+          TemporaryPasswordValidityDays: 7
+      LambdaConfig:
+        PreSignUp: !GetAtt PreSignUpLambdaFunction.Arn
+        CustomMessage: !GetAtt CustomMessageLambdaFunction.Arn
+      AccountRecoverySetting:
+        RecoveryMechanisms:
+          - Name: verified_email
+            Priority: 1
+      UserAttributeUpdateSettings:
+        AttributesRequireVerificationBeforeUpdate:
+          - email
+      # Enable advanced security features based on parameter
+      EnabledMfas:
+        - SOFTWARE_TOKEN_MFA
+      
+  # Conditions for advanced security
+  Conditions:
+    EnableAdvSecurity: !Equals [!Ref EnableAdvancedSecurity, 'true']
+    
+  # Cognito User Pool Client
+  UserPoolClient:
+    Type: AWS::Cognito::UserPoolClient
+    Properties:
+      ClientName: !Sub ${ApplicationName}-${Environment}-client
+      UserPoolId: !Ref UserPool
+      GenerateSecret: false
+      ExplicitAuthFlows:
+        - ALLOW_USER_SRP_AUTH
+        - ALLOW_REFRESH_TOKEN_AUTH
+        - ALLOW_USER_PASSWORD_AUTH
+      PreventUserExistenceErrors: ENABLED
+      SupportedIdentityProviders:
+        - COGNITO
+      CallbackURLs:
+        - !Ref UserPoolCallbackURL
+      LogoutURLs:
+        - !Ref UserPoolLogoutURL
+      AllowedOAuthFlows:
+        - code
+        - implicit
+      AllowedOAuthScopes:
+        - email
+        - openid
+        - profile
+      AllowedOAuthFlowsUserPoolClient: true
+      AccessTokenValidity: 1
+      IdTokenValidity: 1
+      RefreshTokenValidity: 30
+      TokenValidityUnits:
+        AccessToken: hours
+        IdToken: hours
+        RefreshToken: days
+      EnableTokenRevocation: true
+      PreventUserExistenceErrors: ENABLED
+        
+  # Cognito Identity Pool
+  IdentityPool:
+    Type: AWS::Cognito::IdentityPool
+    Properties:
+      IdentityPoolName: !Sub ${ApplicationName}-${Environment}-identity-pool
+      AllowUnauthenticatedIdentities: false
+      CognitoIdentityProviders:
+        - ClientId: !Ref UserPoolClient
+          ProviderName: !GetAtt UserPool.ProviderName
+          
+  # IAM Role for authenticated users
+  AuthenticatedRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Sub ${ApplicationName}-${Environment}-cognito-authenticated-role
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Federated: cognito-identity.amazonaws.com
+            Action: sts:AssumeRoleWithWebIdentity
+            Condition:
+              StringEquals:
+                'cognito-identity.amazonaws.com:aud': !Ref IdentityPool
+              ForAnyValue:StringLike:
+                'cognito-identity.amazonaws.com:amr': authenticated
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AmazonS3ReadOnlyAccess
+      Policies:
+        - PolicyName: CognitoAuthorizedPolicy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - 'mobileanalytics:PutEvents'
+                  - 'cognito-sync:*'
+                  - 'cognito-identity:*'
+                Resource: '*'
+              # Add S3 access for user-specific files
+              - Effect: Allow
+                Action:
+                  - 's3:GetObject'
+                  - 's3:PutObject'
+                  - 's3:DeleteObject'
+                Resource: !Sub 'arn:aws:s3:::${S3Bucket}/protected/${cognito-identity.amazonaws.com:sub}/*'
+              # Add specific AppSync permissions if needed
+              - Effect: Allow
+                Action:
+                  - 'appsync:GraphQL'
+                Resource: 
+                  - !Sub 'arn:aws:appsync:${AWS::Region}:${AWS::AccountId}:apis/${AppSyncApi}/*'
+                  
+  # IAM Role for users with admin privileges
+  AdminRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Sub ${ApplicationName}-${Environment}-cognito-admin-role
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Federated: cognito-identity.amazonaws.com
+            Action: sts:AssumeRoleWithWebIdentity
+            Condition:
+              StringEquals:
+                'cognito-identity.amazonaws.com:aud': !Ref IdentityPool
+              ForAnyValue:StringLike:
+                'cognito-identity.amazonaws.com:amr': authenticated
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AmazonS3ReadOnlyAccess
+      Policies:
+        - PolicyName: CognitoAdminPolicy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - 'mobileanalytics:PutEvents'
+                  - 'cognito-sync:*'
+                  - 'cognito-identity:*'
+                Resource: '*'
+              # Add elevated permissions for admin users
+              - Effect: Allow
+                Action:
+                  - 's3:*'
+                Resource: !Sub 'arn:aws:s3:::${S3Bucket}/*'
+              # Add full AppSync permissions
+              - Effect: Allow
+                Action:
+                  - 'appsync:GraphQL'
+                Resource: 
+                  - !Sub 'arn:aws:appsync:${AWS::Region}:${AWS::AccountId}:apis/${AppSyncApi}/*'
+                  
+  # Identity Pool Role Mapping
+  IdentityPoolRoleMapping:
+    Type: AWS::Cognito::IdentityPoolRoleAttachment
+    Properties:
+      IdentityPoolId: !Ref IdentityPool
+      Roles:
+        authenticated: !GetAtt AuthenticatedRole.Arn
+      RoleMappings:
+        userpool:
+          Type: Token
+          AmbiguousRoleResolution: AuthenticatedRole
+          IdentityProvider: !Sub 'cognito-idp.${AWS::Region}.amazonaws.com/${UserPool}:${UserPoolClient}'
+          
+  # S3 Bucket for user files
+  S3Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub ${ApplicationName}-${Environment}-storage
+      CorsConfiguration:
+        CorsRules:
+          - AllowedHeaders: ['*']
+            AllowedMethods: [GET, POST, PUT, DELETE, HEAD]
+            AllowedOrigins: ['*']
+            ExposedHeaders: [Date, ETag]
+            MaxAge: 3600
+      VersioningConfiguration:
+        Status: Enabled
+      LifecycleConfiguration:
+        Rules:
+          - Id: DeleteOldVersions
+            Status: Enabled
+            NoncurrentVersionExpirationInDays: 90
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+      OwnershipControls:
+        Rules:
+          - ObjectOwnership: BucketOwnerEnforced
+          
+  # Lambda function for pre-signup validation
+  PreSignUpLambdaFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: !Sub ${ApplicationName}-${Environment}-pre-signup
+      Runtime: nodejs18.x
+      Handler: index.handler
+      Role: !GetAtt LambdaExecutionRole.Arn
+      Code:
+        ZipFile: |
+          exports.handler = (event, context, callback) => {
+            // Auto-confirm users for development environments
+            const autoConfirm = process.env.ENVIRONMENT !== 'prod';
+            
+            // Allow or deny sign-up based on domain restrictions
+            const email = event.request.userAttributes.email;
+            const allowedDomains = (process.env.ALLOWED_DOMAINS || '').split(',');
+            
+            if (allowedDomains.length > 0 && !allowedDomains.some(domain => email.endsWith(domain))) {
+              callback(new Error(`Email domain not allowed. Allowed domains: ${allowedDomains.join(', ')}`));
+              return;
+            }
+            
+            // Auto confirm if enabled
+            if (autoConfirm) {
+              event.response.autoConfirmUser = true;
+              event.response.autoVerifyEmail = true;
+            }
+            
+            // Return to Amazon Cognito
+            callback(null, event);
+          };
+      Environment:
+        Variables:
+          ENVIRONMENT: !Ref Environment
+          ALLOWED_DOMAINS: ''
+      Timeout: 10
+      MemorySize: 128
+          
+  # Lambda function for custom email messages
+  CustomMessageLambdaFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: !Sub ${ApplicationName}-${Environment}-custom-message
+      Runtime: nodejs18.x
+      Handler: index.handler
+      Role: !GetAtt LambdaExecutionRole.Arn
+      Code:
+        ZipFile: |
+          exports.handler = (event, context, callback) => {
+            // Customize verification messages
+            if (event.triggerSource === 'CustomMessage_SignUp' || 
+                event.triggerSource === 'CustomMessage_ResendCode') {
+              
+              const verificationCode = event.request.codeParameter;
+              const name = event.request.userAttributes.given_name || 'valued customer';
+              const appUrl = process.env.APP_URL || 'https://prop-ie-app.com';
+              
+              event.response.emailSubject = 'Welcome to Prop-IE - Verify your email';
+              event.response.emailMessage = `
+                <html>
+                <head>
+                  <style>
+                    body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+                    .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+                    .header { background-color: #3b82f6; color: white; padding: 20px; text-align: center; }
+                    .content { padding: 20px; }
+                    .code { font-size: 24px; font-weight: bold; background-color: #f0f0f0; padding: 10px; text-align: center; margin: 20px 0; }
+                    .footer { font-size: 12px; color: #666; text-align: center; margin-top: 30px; }
+                  </style>
+                </head>
+                <body>
+                  <div class="container">
+                    <div class="header">
+                      <h1>Welcome to Prop-IE</h1>
+                    </div>
+                    <div class="content">
+                      <p>Hello ${name},</p>
+                      <p>Thank you for registering with Prop-IE. Please verify your email address by using the verification code below:</p>
+                      <div class="code">${verificationCode}</div>
+                      <p>Alternatively, you can click <a href="${appUrl}/verify?code=${verificationCode}">here</a> to verify your email.</p>
+                      <p>If you did not sign up for an account with us, please ignore this email.</p>
+                    </div>
+                    <div class="footer">
+                      &copy; ${new Date().getFullYear()} Prop-IE. All rights reserved.
+                    </div>
+                  </div>
+                </body>
+                </html>
+              `;
+            }
+            
+            // Return to Amazon Cognito
+            callback(null, event);
+          };
+      Environment:
+        Variables:
+          ENVIRONMENT: !Ref Environment
+          APP_URL: !If [IsProd, 'https://prop-ie-app.com', !Sub 'https://${Environment}.prop-ie-app.com']
+      Timeout: 10
+      MemorySize: 128
+          
+  # Lambda execution role
+  LambdaExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+    
+  # Permissions for Lambda to be invoked by Cognito
+  PreSignUpLambdaPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName: !Ref PreSignUpLambdaFunction
+      Principal: cognito-idp.amazonaws.com
+      SourceArn: !GetAtt UserPool.Arn
+      
+  CustomMessageLambdaPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName: !Ref CustomMessageLambdaFunction
+      Principal: cognito-idp.amazonaws.com
+      SourceArn: !GetAtt UserPool.Arn
+  
+  # Conditions for environment-specific settings
+  Conditions:
+    IsProd: !Equals [!Ref Environment, 'prod']
+          
+Outputs:
+  UserPoolId:
+    Description: ID of the Cognito User Pool
+    Value: !Ref UserPool
+    Export:
+      Name: !Sub ${ApplicationName}-${Environment}-user-pool-id
+      
+  UserPoolClientId:
+    Description: ID of the Cognito User Pool Client
+    Value: !Ref UserPoolClient
+    Export:
+      Name: !Sub ${ApplicationName}-${Environment}-user-pool-client-id
+      
+  IdentityPoolId:
+    Description: ID of the Cognito Identity Pool
+    Value: !Ref IdentityPool
+    Export:
+      Name: !Sub ${ApplicationName}-${Environment}-identity-pool-id
+      
+  S3BucketName:
+    Description: Name of the S3 bucket for user storage
+    Value: !Ref S3Bucket
+    Export:
+      Name: !Sub ${ApplicationName}-${Environment}-storage-bucket

@@ -1,0 +1,439 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'CloudFormation template for Prop-IE Monitoring and Observability Infrastructure'
+
+Parameters:
+  Environment:
+    Type: String
+    Default: dev
+    AllowedValues:
+      - dev
+      - test
+      - staging
+      - prod
+    Description: Deployment environment
+    
+  ApplicationName:
+    Type: String
+    Default: 'prop-ie'
+    Description: The name of the application
+    
+  GraphQLApiId:
+    Type: String
+    Description: AppSync GraphQL API ID
+    
+  AnomalyDetectionThreshold:
+    Type: Number
+    Default: 2
+    Description: Threshold for anomaly detection (standard deviations from baseline)
+    
+  EmailAlerts:
+    Type: String
+    Default: 'alerts@example.com'
+    Description: Email to send monitoring alerts to
+    
+  EnableXRay:
+    Type: String
+    Default: 'true'
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Description: Enable AWS X-Ray tracing
+    
+  EnableDashboards:
+    Type: String
+    Default: 'true'
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Description: Create CloudWatch dashboards
+    
+  RetentionDays:
+    Type: Number
+    Default: 14
+    Description: Retention days for CloudWatch Logs
+
+Conditions:
+  IsProd: !Equals [!Ref Environment, 'prod']
+  IsNotProd: !Not [!Equals [!Ref Environment, 'prod']]
+  EnableXRayTracing: !Equals [!Ref EnableXRay, 'true']
+  CreateDashboards: !Equals [!Ref EnableDashboards, 'true']
+
+Resources:
+  # CloudWatch Log Group for API Logging
+  ApiLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub /aws/appsync/apis/${GraphQLApiId}
+      RetentionInDays: !Ref RetentionDays
+      
+  # CloudWatch Log Group for Lambda Logging
+  LambdaLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub /aws/lambda/${ApplicationName}-${Environment}
+      RetentionInDays: !Ref RetentionDays
+      
+  # CloudWatch Log Group for Application Audit Logs
+  AuditLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub /app/${ApplicationName}-${Environment}/audit
+      RetentionInDays: !Ref RetentionDays
+      
+  # CloudWatch Log Group for Security Logs
+  SecurityLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub /app/${ApplicationName}-${Environment}/security
+      RetentionInDays: !Ref RetentionDays
+      
+  # CloudWatch Log Metric Filters
+  ErrorLogsMetricFilter:
+    Type: AWS::Logs::MetricFilter
+    Properties:
+      LogGroupName: !Ref ApiLogGroup
+      FilterPattern: '{ $.errors != null }'
+      MetricTransformations:
+        - MetricNamespace: !Sub "${ApplicationName}/${Environment}/API"
+          MetricName: GraphQLErrors
+          MetricValue: '1'
+          
+  UnauthorizedAccessMetricFilter:
+    Type: AWS::Logs::MetricFilter
+    Properties:
+      LogGroupName: !Ref SecurityLogGroup
+      FilterPattern: '{ $.category = "AUTHORIZATION" && $.status = "failure" }'
+      MetricTransformations:
+        - MetricNamespace: !Sub "${ApplicationName}/${Environment}/Security"
+          MetricName: UnauthorizedAccess
+          MetricValue: '1'
+          
+  AuthFailureMetricFilter:
+    Type: AWS::Logs::MetricFilter
+    Properties:
+      LogGroupName: !Ref SecurityLogGroup
+      FilterPattern: '{ $.category = "AUTHENTICATION" && $.status = "failure" }'
+      MetricTransformations:
+        - MetricNamespace: !Sub "${ApplicationName}/${Environment}/Security"
+          MetricName: AuthFailures
+          MetricValue: '1'
+          
+  # CloudWatch Alarms
+  ApiErrorsAlarm:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmName: !Sub ${ApplicationName}-${Environment}-api-errors
+      AlarmDescription: Alert when API errors exceed threshold
+      MetricName: GraphQLErrors
+      Namespace: !Sub "${ApplicationName}/${Environment}/API"
+      Statistic: Sum
+      Period: 60
+      EvaluationPeriods: 5
+      Threshold: !If [IsProd, 10, 50]
+      ComparisonOperator: GreaterThanThreshold
+      TreatMissingData: notBreaching
+      AlarmActions:
+        - !Ref AlertsTopic
+        
+  AuthFailuresAlarm:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmName: !Sub ${ApplicationName}-${Environment}-auth-failures
+      AlarmDescription: Alert when authentication failures exceed threshold
+      MetricName: AuthFailures
+      Namespace: !Sub "${ApplicationName}/${Environment}/Security"
+      Statistic: Sum
+      Period: 300
+      EvaluationPeriods: 3
+      Threshold: !If [IsProd, 5, 20]
+      ComparisonOperator: GreaterThanThreshold
+      TreatMissingData: notBreaching
+      AlarmActions:
+        - !Ref AlertsTopic
+        
+  UnauthorizedAccessAlarm:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmName: !Sub ${ApplicationName}-${Environment}-unauthorized-access
+      AlarmDescription: Alert when unauthorized access attempts exceed threshold
+      MetricName: UnauthorizedAccess
+      Namespace: !Sub "${ApplicationName}/${Environment}/Security"
+      Statistic: Sum
+      Period: 300
+      EvaluationPeriods: 3
+      Threshold: !If [IsProd, 5, 20]
+      ComparisonOperator: GreaterThanThreshold
+      TreatMissingData: notBreaching
+      AlarmActions:
+        - !Ref AlertsTopic
+        
+  # Anomaly Detection Alarms
+  ApiLatencyAnomalyAlarm:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmName: !Sub ${ApplicationName}-${Environment}-api-latency-anomaly
+      AlarmDescription: Alert when API latency shows anomalous behavior
+      MetricName: Latency
+      Namespace: AWS/AppSync
+      Statistic: Average
+      Period: 300
+      EvaluationPeriods: 3
+      Threshold: !Ref AnomalyDetectionThreshold
+      ComparisonOperator: GreaterThanUpperThreshold
+      TreatMissingData: notBreaching
+      ThresholdMetricId: ad1
+      Metrics:
+        - Id: m1
+          MetricStat:
+            Metric:
+              Namespace: AWS/AppSync
+              MetricName: Latency
+              Dimensions:
+                - Name: GraphQLAPIId
+                  Value: !Ref GraphQLApiId
+            Period: 300
+            Stat: Average
+        - Id: ad1
+          Expression: !Sub "ANOMALY_DETECTION_BAND(m1, ${AnomalyDetectionThreshold})"
+          Label: LatencyAnomalyDetection
+      AlarmActions:
+        - !Ref AlertsTopic
+        
+  # SNS Topic for Alerts
+  AlertsTopic:
+    Type: AWS::SNS::Topic
+    Properties:
+      TopicName: !Sub ${ApplicationName}-${Environment}-alerts
+      
+  # SNS Subscription (Email)
+  AlertsEmailSubscription:
+    Type: AWS::SNS::Subscription
+    Properties:
+      TopicArn: !Ref AlertsTopic
+      Protocol: email
+      Endpoint: !Ref EmailAlerts
+      
+  # X-Ray Resources (if enabled)
+  XRaySamplingRule:
+    Type: AWS::XRay::SamplingRule
+    Condition: EnableXRayTracing
+    Properties:
+      SamplingRule:
+        RuleName: !Sub ${ApplicationName}-${Environment}-xray-sampling
+        ResourceARN: '*'
+        Priority: 1000
+        FixedRate: 0.05
+        ReservoirSize: 1
+        ServiceName: !Sub ${ApplicationName}-${Environment}
+        ServiceType: '*'
+        Host: '*'
+        HTTPMethod: '*'
+        URLPath: '*'
+        Version: 1
+        
+  # CloudWatch Dashboard
+  MonitoringDashboard:
+    Type: AWS::CloudWatch::Dashboard
+    Condition: CreateDashboards
+    Properties:
+      DashboardName: !Sub ${ApplicationName}-${Environment}-monitoring
+      DashboardBody: !Sub |
+        {
+          "widgets": [
+            {
+              "type": "metric",
+              "x": 0,
+              "y": 0,
+              "width": 12,
+              "height": 6,
+              "properties": {
+                "metrics": [
+                  [ "AWS/AppSync", "Latency", "GraphQLAPIId", "${GraphQLApiId}" ],
+                  [ ".", "4XXError", ".", "." ],
+                  [ ".", "5XXError", ".", "." ]
+                ],
+                "view": "timeSeries",
+                "stacked": false,
+                "region": "${AWS::Region}",
+                "title": "AppSync API Metrics",
+                "period": 300
+              }
+            },
+            {
+              "type": "metric",
+              "x": 12,
+              "y": 0,
+              "width": 12,
+              "height": 6,
+              "properties": {
+                "metrics": [
+                  [ "${ApplicationName}/${Environment}/Security", "AuthFailures" ],
+                  [ ".", "UnauthorizedAccess" ]
+                ],
+                "view": "timeSeries",
+                "stacked": false,
+                "region": "${AWS::Region}",
+                "title": "Security Metrics",
+                "period": 300
+              }
+            },
+            {
+              "type": "metric",
+              "x": 0,
+              "y": 6,
+              "width": 12,
+              "height": 6,
+              "properties": {
+                "metrics": [
+                  [ "${ApplicationName}/${Environment}/API", "GraphQLErrors" ]
+                ],
+                "view": "timeSeries",
+                "stacked": false,
+                "region": "${AWS::Region}",
+                "title": "API Errors",
+                "period": 300
+              }
+            },
+            {
+              "type": "log",
+              "x": 12,
+              "y": 6,
+              "width": 12,
+              "height": 6,
+              "properties": {
+                "query": "SOURCE '/app/${ApplicationName}-${Environment}/security' | fields @timestamp, severity, action, description\n| filter severity in ['ERROR', 'CRITICAL']\n| sort @timestamp desc\n| limit 100",
+                "region": "${AWS::Region}",
+                "title": "Security Logs",
+                "view": "table"
+              }
+            }
+          ]
+        }
+
+  # Lambda function for audit log processing
+  AuditLogProcessor:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: !Sub ${ApplicationName}-${Environment}-audit-log-processor
+      Runtime: nodejs18.x
+      Handler: index.handler
+      Role: !GetAtt LogProcessorRole.Arn
+      Code:
+        ZipFile: |
+          exports.handler = async (event, context) => {
+            try {
+              console.log('Processing audit log events:', JSON.stringify(event));
+              
+              // Process audit log events
+              const records = event.Records || [];
+              
+              for (const record of records) {
+                if (record.eventName === 'INSERT') {
+                  const auditLog = record.dynamodb.NewImage;
+                  
+                  // Extract fields for analysis
+                  const severity = auditLog.severity?.S;
+                  const category = auditLog.category?.S;
+                  const action = auditLog.action?.S;
+                  const status = auditLog.status?.S;
+                  
+                  // Log to CloudWatch Logs
+                  console.log('Audit log entry:', JSON.stringify({
+                    severity,
+                    category,
+                    action,
+                    status,
+                    userId: auditLog.userId?.S,
+                    timestamp: auditLog.timestamp?.S,
+                    description: auditLog.description?.S
+                  }));
+                  
+                  // Alert on critical security events
+                  if (
+                    (severity === 'ERROR' || severity === 'CRITICAL') &&
+                    (category === 'AUTHENTICATION' || category === 'AUTHORIZATION' || category === 'SECURITY') &&
+                    status === 'failure'
+                  ) {
+                    // Implement alerting logic here
+                    console.log('SECURITY ALERT:', JSON.stringify(auditLog));
+                  }
+                }
+              }
+              
+              return { status: 'success', processed: records.length };
+            } catch (error) {
+              console.error('Error processing audit logs:', error);
+              return { status: 'error', message: error.message };
+            }
+          };
+      Environment:
+        Variables:
+          ENVIRONMENT: !Ref Environment
+      Timeout: 60
+      MemorySize: 256
+      
+  # IAM Role for Log Processor Lambda
+  LogProcessorRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+      Policies:
+        - PolicyName: LogProcessingPolicy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - logs:CreateLogStream
+                  - logs:PutLogEvents
+                Resource:
+                  - !Sub arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/app/${ApplicationName}-${Environment}/audit:*
+                  - !Sub arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/app/${ApplicationName}-${Environment}/security:*
+                  
+  # Lambda Permissions
+  AuditLogProcessorInvokePermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName: !Ref AuditLogProcessor
+      Principal: dynamodb.amazonaws.com
+      SourceArn: !Sub arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/AuditLogs/stream/*
+
+Outputs:
+  AlertsTopicArn:
+    Description: ARN of the SNS topic for alerts
+    Value: !Ref AlertsTopic
+    Export:
+      Name: !Sub ${ApplicationName}-${Environment}-alerts-topic
+      
+  ApiLogGroupName:
+    Description: Name of the API Log Group
+    Value: !Ref ApiLogGroup
+    Export:
+      Name: !Sub ${ApplicationName}-${Environment}-api-log-group
+      
+  SecurityLogGroupName:
+    Description: Name of the Security Log Group
+    Value: !Ref SecurityLogGroup
+    Export:
+      Name: !Sub ${ApplicationName}-${Environment}-security-log-group
+      
+  AuditLogGroupName:
+    Description: Name of the Audit Log Group
+    Value: !Ref AuditLogGroup
+    Export:
+      Name: !Sub ${ApplicationName}-${Environment}-audit-log-group
+      
+  AuditLogProcessorArn:
+    Description: ARN of the Audit Log Processor Lambda
+    Value: !GetAtt AuditLogProcessor.Arn
+    Export:
+      Name: !Sub ${ApplicationName}-${Environment}-audit-log-processor

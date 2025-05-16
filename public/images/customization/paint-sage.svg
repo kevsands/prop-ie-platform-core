@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="400" viewBox="0 0 600 400">
+  <!-- Background -->
+  <rect width="600" height="400" fill="#f5f5f4" />
+  
+  <!-- Paint Sample -->
+  <rect x="50" y="50" width="500" height="300" rx="5" fill="#84a98c" />
+  
+  <!-- Paint Roller Effect -->
+  <g opacity="0.6">
+    <rect x="50" y="50" width="500" height="20" fill="#a3b18a" rx="5" />
+    <rect x="50" y="90" width="500" height="20" fill="#a3b18a" />
+    <rect x="50" y="130" width="500" height="20" fill="#a3b18a" />
+    <rect x="50" y="170" width="500" height="20" fill="#a3b18a" />
+    <rect x="50" y="210" width="500" height="20" fill="#a3b18a" />
+    <rect x="50" y="250" width="500" height="20" fill="#a3b18a" />
+    <rect x="50" y="290" width="500" height="20" fill="#a3b18a" />
+    <rect x="50" y="330" width="500" height="20" fill="#a3b18a" rx="5" />
+  </g>
+  
+  <!-- Paint Drips -->
+  <path d="M100 50 L100 40 C100 35, 105 35, 105 40 L105 50" fill="#84a98c" />
+  <path d="M200 50 L200 35 C200 30, 205 30, 205 35 L205 50" fill="#84a98c" />
+  <path d="M400 50 L400 45 C400 40, 405 40, 405 45 L405 50" fill="#84a98c" />
+  
+  <!-- Color Code -->
+  <rect x="470" y="320" width="70" height="25" rx="3" fill="white" stroke="#cad2c5" stroke-width="1" />
+  <text x="505" y="338" font-family="Arial" font-size="12" text-anchor="middle" fill="#344e41">#84A98C</text>
+  
+  <!-- Label -->
+  <rect x="50" y="320" width="120" height="30" rx="5" fill="white" opacity="0.8" />
+  <text x="110" y="340" font-family="Arial" font-size="14" text-anchor="middle" fill="#344e41" font-weight="bold">Sage Green</text>
+</svg> 

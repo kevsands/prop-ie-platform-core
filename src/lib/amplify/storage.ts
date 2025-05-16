@@ -1,0 +1,291 @@
+/**
+ * AWS Amplify Storage Module
+ * 
+ * This module provides a standardized interface for S3 storage operations
+ * using AWS Amplify's Storage client.
+ * 
+ * IMPORTANT: This module should only be used in client components.
+ */
+
+import { 
+  uploadData, 
+  downloadData, 
+  getUrl, 
+  remove, 
+  list,
+  TransferProgressEvent 
+} from '@aws-amplify/storage';
+import { ensureAmplifyInitialized } from './index';
+
+// Use a type assertion for types that might not be directly available
+type StorageAccessLevel = 'private' | 'protected' | 'guest';
+
+/**
+ * Storage options for file operations
+ */
+export interface StorageOptions {
+  path?: string;
+  contentType?: string;
+  metadata?: Record<string, string>;
+  level?: 'public' | 'protected' | 'private';
+  onProgress?: (progress: { loaded: number; total: number }) => void;
+  expires?: number; // Expiration time in seconds for signed URLs
+}
+
+// Helper to convert our level to Amplify's supported levels
+function normalizeAccessLevel(level: 'public' | 'protected' | 'private'): StorageAccessLevel {
+  // If the level is 'public', convert it to 'guest' for Amplify v6
+  if (level === 'public') {
+    return 'guest';
+  }
+  return level as StorageAccessLevel;
+}
+
+// Helper to adapt our progress callback to Amplify's expected format
+function adaptProgressCallback(callback?: (progress: { loaded: number; total: number }) => void) {
+  if (!callback) return undefined;
+  
+  return (event: any) => {
+    // Extract loaded and total from whatever is available in the event
+    const loaded = event.loaded || 0;
+    const total = event.total || 0;
+    callback({ loaded, total });
+  };
+}
+
+/**
+ * Legacy interface for backward compatibility
+ * @deprecated Use StorageOptions instead
+ */
+export interface UploadOptions extends StorageOptions {}
+
+/**
+ * Storage service for handling S3 storage operations
+ */
+export class AmplifyStorage {
+  /**
+   * Upload a file to S3
+   */
+  static async upload(file: File, key: string, options: StorageOptions = {}) {
+    ensureAmplifyInitialized();
+    try {
+      const { path = '', level = 'public', contentType, metadata, onProgress } = options;
+      const fullKey = path ? `${path}/${key}` : key;
+      
+      const result = await uploadData({
+        key: fullKey,
+        data: file,
+        options: {
+          contentType: contentType || file.type,
+          metadata,
+          accessLevel: normalizeAccessLevel(level),
+          onProgress: adaptProgressCallback(onProgress),
+        },
+      }).result;
+      
+      return result;
+    } catch (error) {
+      console.error(`Error uploading file ${key}:`, error);
+      throw error;
+    }
+  }
+  
+  /**
+   * Download a file from S3
+   */
+  static async download(key: string, options: StorageOptions = {}) {
+    ensureAmplifyInitialized();
+    try {
+      const { path = '', level = 'public', onProgress } = options;
+      const fullKey = path ? `${path}/${key}` : key;
+      
+      const result = await downloadData({
+        key: fullKey,
+        options: {
+          accessLevel: normalizeAccessLevel(level),
+          onProgress: adaptProgressCallback(onProgress),
+        }
+      }).result;
+      
+      return result;
+    } catch (error) {
+      console.error(`Error downloading file ${key}:`, error);
+      throw error;
+    }
+  }
+
+  /**
+   * Get a signed URL for a file in S3
+   */
+  static async getUrl(key: string, options: StorageOptions = {}) {
+    ensureAmplifyInitialized();
+    try {
+      const { level = 'public', path = '', expires = 900 } = options;
+      const fullKey = path ? `${path}/${key}` : key;
+      
+      const result = await getUrl({
+        key: fullKey,
+        options: {
+          accessLevel: normalizeAccessLevel(level),
+          validateObjectExistence: true,
+          expiresIn: expires,
+        },
+      });
+      return result.url.toString();
+    } catch (error) {
+      console.error(`Error getting URL for ${key}:`, error);
+      throw error;
+    }
+  }
+
+  /**
+   * Remove a file from S3
+   */
+  static async remove(key: string, options: StorageOptions = {}) {
+    ensureAmplifyInitialized();
+    try {
+      const { level = 'public', path = '' } = options;
+      const fullKey = path ? `${path}/${key}` : key;
+      
+      await remove({
+        key: fullKey,
+        options: {
+          accessLevel: normalizeAccessLevel(level),
+        },
+      });
+      
+      return { success: true, key: fullKey };
+    } catch (error) {
+      console.error(`Error removing file ${key}:`, error);
+      throw error;
+    }
+  }
+
+  /**
+   * List files in an S3 path
+   */
+  static async list(path: string = '', options: StorageOptions = {}) {
+    ensureAmplifyInitialized();
+    try {
+      const { level = 'public' } = options;
+      
+      // Adapt to actual Amplify v6 API structure
+      const result = await list({
+        path: path,
+        options: {
+          accessLevel: normalizeAccessLevel(level),
+          listAll: true
+        }
+      });
+      
+      return result;
+    } catch (error) {
+      console.error(`Error listing files in ${path}:`, error);
+      throw error;
+    }
+  }
+  
+  /**
+   * Check if a file exists in S3
+   */
+  static async exists(key: string, options: StorageOptions = {}) {
+    try {
+      const { level = 'public', path = '' } = options;
+      const fullKey = path ? `${path}/${key}` : key;
+      
+      // Try to get the URL with validation - this will throw if the file doesn't exist
+      await getUrl({
+        key: fullKey,
+        options: {
+          accessLevel: normalizeAccessLevel(level),
+          validateObjectExistence: true,
+        },
+      });
+      
+      return true;
+    } catch (error) {
+      return false;
+    }
+  }
+}
+
+// Export default for convenience
+export default AmplifyStorage;
+
+export async function uploadFile(file: File, path: string) {
+  try {
+    const result = await uploadData({
+      key: path,
+      data: file,
+      options: {
+        accessLevel: 'private',
+        contentType: file.type
+      }
+    });
+    return result;
+  } catch (error) {
+    console.error('Error uploading file:', error);
+    throw error;
+  }
+}
+
+export async function downloadFile(path: string) {
+  try {
+    const result = await downloadData({
+      key: path,
+      options: {
+        accessLevel: 'private'
+      }
+    });
+    return result;
+  } catch (error) {
+    console.error('Error downloading file:', error);
+    throw error;
+  }
+}
+
+export async function getFileUrl(path: string) {
+  try {
+    const result = await getUrl({
+      key: path,
+      options: {
+        accessLevel: 'private',
+        expiresIn: 3600 // URL expires in 1 hour
+      }
+    });
+    return result.url;
+  } catch (error) {
+    console.error('Error getting file URL:', error);
+    throw error;
+  }
+}
+
+export async function deleteFile(path: string) {
+  try {
+    await remove({
+      key: path,
+      options: {
+        accessLevel: 'private'
+      }
+    });
+  } catch (error) {
+    console.error('Error deleting file:', error);
+    throw error;
+  }
+}
+
+export async function listFiles(prefix: string) {
+  try {
+    const result = await list({
+      path: prefix,
+      options: {
+        accessLevel: 'private',
+        listAll: true
+      }
+    });
+    return result.items;
+  } catch (error) {
+    console.error('Error listing files:', error);
+    throw error;
+  }
+}

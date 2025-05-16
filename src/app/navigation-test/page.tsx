@@ -1,0 +1,116 @@
+'use client';
+
+import React, { useState } from 'react';
+import { ChevronDown } from 'lucide-react';
+
+export default function NavigationTestPage() {
+  const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+  const [testLog, setTestLog] = useState<string[]>([]);
+
+  const addLog = (message: string) => {
+    setTestLog(prev => [...prev, `${new Date().toLocaleTimeString()}: ${message}`]);
+  };
+
+  const handleMouseEnter = (dropdown: string) => {
+    addLog(`Mouse entered: ${dropdown}`);
+    setActiveDropdown(dropdown);
+  };
+
+  const handleMouseLeave = () => {
+    addLog('Mouse left dropdown');
+    setTimeout(() => {
+      addLog('Closing dropdown after delay');
+      setActiveDropdown(null);
+    }, 200);
+  };
+
+  return (
+    <div className="p-8">
+      <h1 className="text-2xl font-bold mb-8">Navigation Dropdown Test</h1>
+      
+      <div className="bg-white shadow rounded p-4 mb-8">
+        <h2 className="font-semibold mb-4">Test Navigation</h2>
+        
+        <div className="flex gap-4">
+          {/* Test Dropdown 1 */}
+          <div 
+            className="relative"
+            onMouseEnter={() => handleMouseEnter('dropdown1')}
+            onMouseLeave={handleMouseLeave}
+          >
+            <button className="flex items-center px-4 py-2 bg-gray-100 rounded hover:bg-gray-200">
+              Dropdown 1
+              <ChevronDown className="ml-2" size={16} />
+            </button>
+            
+            <div
+              className={`absolute top-full left-0 mt-2 w-64 bg-white rounded shadow-lg transition-all duration-200 ${
+                activeDropdown === 'dropdown1'
+                  ? 'opacity-100 transform translate-y-0 pointer-events-auto'
+                  : 'opacity-0 transform -translate-y-2 pointer-events-none'
+              }`}
+              style={{ zIndex: 9999 }}
+            >
+              <div className="p-4">
+                <h3 className="font-semibold mb-2">Dropdown Content</h3>
+                <a href="#" className="block py-2 hover:text-blue-600">Item 1</a>
+                <a href="#" className="block py-2 hover:text-blue-600">Item 2</a>
+                <a href="#" className="block py-2 hover:text-blue-600">Item 3</a>
+              </div>
+            </div>
+          </div>
+
+          {/* Test Dropdown 2 */}
+          <div 
+            className="relative"
+            onMouseEnter={() => handleMouseEnter('dropdown2')}
+            onMouseLeave={handleMouseLeave}
+          >
+            <button className="flex items-center px-4 py-2 bg-gray-100 rounded hover:bg-gray-200">
+              Dropdown 2
+              <ChevronDown className="ml-2" size={16} />
+            </button>
+            
+            <div
+              className={`absolute top-full left-0 mt-2 w-64 bg-white rounded shadow-lg transition-all duration-200 ${
+                activeDropdown === 'dropdown2'
+                  ? 'opacity-100 transform translate-y-0 pointer-events-auto'
+                  : 'opacity-0 transform -translate-y-2 pointer-events-none'
+              }`}
+              style={{ zIndex: 9999 }}
+            >
+              <div className="p-4">
+                <h3 className="font-semibold mb-2">Dropdown Content</h3>
+                <a href="#" className="block py-2 hover:text-blue-600">Item A</a>
+                <a href="#" className="block py-2 hover:text-blue-600">Item B</a>
+                <a href="#" className="block py-2 hover:text-blue-600">Item C</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="bg-gray-100 rounded p-4">
+        <h2 className="font-semibold mb-4">Event Log</h2>
+        <div className="space-y-1 text-sm font-mono">
+          {testLog.map((log, index) => (
+            <div key={index} className="text-gray-700">{log}</div>
+          ))}
+        </div>
+      </div>
+
+      <div className="mt-8 bg-blue-50 rounded p-4">
+        <h2 className="font-semibold mb-2">Test Results</h2>
+        <p>Active dropdown: {activeDropdown || 'None'}</p>
+        <p className="mt-2 text-sm text-gray-600">
+          Hover over the dropdowns above. The dropdowns should:
+        </p>
+        <ul className="list-disc list-inside text-sm text-gray-600 mt-2">
+          <li>Open when you hover over the button</li>
+          <li>Stay open when you move to the dropdown content</li>
+          <li>Close after a delay when you move away</li>
+        </ul>
+      </div>
+    </div>
+  );
+}

@@ -1,0 +1,239 @@
+name: Enhanced Security Scan
+
+on:
+  push:
+    branches: [ main, master, production, staging, development ]
+  pull_request:
+    branches: [ main, master, production, staging ]
+  schedule:
+    # Run enhanced security scan every day at 1 AM
+    - cron: '0 1 * * *'
+  workflow_dispatch: # Allow manual triggering
+
+permissions:
+  contents: read
+  security-events: write
+  id-token: write # Needed for OIDC integration
+
+jobs:
+  static-analysis:
+    name: Static Security Analysis
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Full git history for better analysis
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+        env:
+          NODE_ENV: development
+
+      - name: Verify package-lock integrity
+        run: npm run verify-lockfile
+
+      # ESLint with security plugins
+      - name: Run security linting
+        run: npx eslint --config .eslintrc.security.js 'src/**/*.{js,jsx,ts,tsx}'
+        continue-on-error: true
+
+      # SonarCloud scan
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN || '' }}
+
+      # CodeQL Analysis with advanced security queries
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v2
+        with:
+          languages: javascript, typescript
+          queries: security-extended, security-and-quality
+          
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v2
+        with:
+          category: "/language:javascript,typescript"
+
+  dependency-scanning:
+    name: Dependency Security Scan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+        env:
+          NODE_ENV: development
+
+      # Generate Software Bill of Materials (SBOM)
+      - name: Generate SBOM with CycloneDX
+        run: npx @cyclonedx/cyclonedx-npm --output sbom.json
+
+      # Dependency scanning with Snyk
+      - name: Run Snyk to check for vulnerabilities
+        uses: snyk/actions/node@master
+        continue-on-error: true
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN || '' }}
+        with:
+          args: --severity-threshold=high --sarif-file-output=snyk.sarif
+
+      # Dependency scanning with OWASP Dependency-Check
+      - name: Run OWASP Dependency-Check
+        uses: dependency-check/Dependency-Check_Action@main
+        with:
+          project: 'prop-ie-aws-app'
+          path: '.'
+          format: 'SARIF'
+          out: 'reports'
+          args: --suppression ./dependency-check-suppressions.xml
+        continue-on-error: true
+        
+      - name: Upload Dependency Check results
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: 'reports/dependency-check-report.sarif'
+
+      - name: Upload Snyk results
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: 'snyk.sarif'
+
+  secret-scanning:
+    name: Secret Scanning
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # GitHub's native secret scanning alerts
+      - name: Enable GitHub Advanced Security
+        run: |
+          echo "GitHub Advanced Security features such as secret scanning are enabled for this repository"
+          echo "Check Security -> Code scanning -> Alerts in GitHub UI"
+      
+      # Run Gitleaks for additional secret scanning
+      - name: Run Gitleaks
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITLEAKS_LICENSE: ${{ secrets.GITLEAKS_LICENSE || '' }}
+        continue-on-error: true
+
+      # Run trufflehog for more comprehensive secrets scanning
+      - name: Run Trufflehog
+        uses: trufflesecurity/trufflehog@main
+        with:
+          path: ./
+          base: ${{ github.event.repository.default_branch }}
+          head: HEAD
+          extra_args: --debug --only-verified
+
+  infrastructure-scanning:
+    name: Infrastructure as Code Scanning
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Check CloudFormation templates
+      - name: Scan CloudFormation templates with cfn-lint
+        run: |
+          pip install cfn-lint
+          cfn-lint -t infrastructure/cloudformation/*.yml
+        continue-on-error: true
+
+      # Check Terraform configurations
+      - name: Run tfsec
+        uses: aquasecurity/tfsec-action@master
+        with:
+          soft_fail: true
+
+      # Run checkov for comprehensive IaC scanning
+      - name: Run Checkov
+        uses: bridgecrewio/checkov-action@master
+        with:
+          directory: infrastructure/
+          framework: terraform,cloudformation
+          output_format: sarif
+          output_file: checkov.sarif
+        continue-on-error: true
+
+      - name: Upload Checkov scan results
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: checkov.sarif
+          category: "IaC-Security"
+
+  container-scanning:
+    name: Container Scanning
+    runs-on: ubuntu-latest
+    if: hashFiles('Dockerfile') != ''
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Scan for vulnerabilities in container images
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'fs'
+          scan-ref: '.'
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+          severity: 'CRITICAL,HIGH'
+          timeout: '10m'
+
+      - name: Upload Trivy scan results
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: 'trivy-results.sarif'
+          category: "container-security"
+
+  security-summary:
+    name: Security Scan Summary
+    needs: [static-analysis, dependency-scanning, secret-scanning, infrastructure-scanning, container-scanning]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Generate Security Report
+        run: |
+          echo "# Security Scan Summary" > security-report.md
+          echo "" >> security-report.md
+          echo "## Scan Date" >> security-report.md
+          echo "$(date)" >> security-report.md
+          echo "" >> security-report.md
+          echo "## Scan Results" >> security-report.md
+          echo "This is an automated security scan summary. For detailed results, check the GitHub Security tab and workflow runs." >> security-report.md
+          echo "" >> security-report.md
+          echo "## Next Steps" >> security-report.md
+          echo "1. Review any security issues found in the GitHub Security tab" >> security-report.md
+          echo "2. Address critical and high severity issues as soon as possible" >> security-report.md
+          echo "3. Update dependencies to resolve known vulnerabilities" >> security-report.md
+          
+      - name: Upload Security Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: security-report
+          path: security-report.md
+          retention-days: 90

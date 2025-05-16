@@ -1,0 +1,325 @@
+
+> prop-ie-aws-app@0.1.0 dev
+> next dev
+
+   ▲ Next.js 15.3.1
+   - Local:        http://localhost:3000
+   - Network:      http://192.168.0.41:3000
+   - Environments: .env.local, .env
+
+ ✓ Starting...
+ ✓ Ready in 2.2s
+ ✓ Compiled /middleware in 211ms (108 modules)
+ ○ Compiling / ...
+ ✓ Compiled / in 4.7s (2596 modules)
+ ⨯ ReferenceError: Cannot access 'ShoppingCart' before initialization
+    at eval (src/components/navigation/CleanProfessionalNav.tsx:141:19)
+    at (ssr)/./src/components/navigation/CleanProfessionalNav.tsx (.next/server/app/page.js:250:1)
+    at __webpack_require__ (.next/server/webpack-runtime.js:33:42)
+    at eval (webpack-internal:///(ssr)/./src/app/ClientLayout.tsx:12:101)
+    at (ssr)/./src/app/ClientLayout.tsx (.next/server/app/page.js:195:1)
+    at Object.__webpack_require__ [as require] (.next/server/webpack-runtime.js:33:42)
+  139 |             href: '/solutions/buy-off-plan',
+  140 |             description: 'How it works: digital contracts, secure payments, instant reservation',
+> 141 |             icon: <ShoppingCart className="h-5 w-5" />
+      |                   ^
+  142 |           }
+  143 |         ]
+  144 |       }, {
+  digest: '703992493'
+}
+ ⨯ ReferenceError: Cannot access 'ShoppingCart' before initialization
+    at eval (src/components/navigation/CleanProfessionalNav.tsx:141:19)
+    at (ssr)/./src/components/navigation/CleanProfessionalNav.tsx (.next/server/app/page.js:250:1)
+    at __webpack_require__ (.next/server/webpack-runtime.js:33:42)
+    at eval (webpack-internal:///(ssr)/./src/app/ClientLayout.tsx:12:101)
+    at (ssr)/./src/app/ClientLayout.tsx (.next/server/app/page.js:195:1)
+    at Object.__webpack_require__ [as require] (.next/server/webpack-runtime.js:33:42)
+  139 |             href: '/solutions/buy-off-plan',
+  140 |             description: 'How it works: digital contracts, secure payments, instant reservation',
+> 141 |             icon: <ShoppingCart className="h-5 w-5" />
+      |                   ^
+  142 |           }
+  143 |         ]
+  144 |       }, {
+  digest: '703992493'
+}
+ ⚠ metadataBase property in metadata export is not set for resolving social open graph or twitter images, using "http://localhost:3000". See https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase
+ GET / 500 in 4162ms
+ ✓ Compiled /favicon.ico in 430ms (1362 modules)
+ GET /favicon.ico 200 in 625ms
+ ⨯ ReferenceError: Cannot access 'ShoppingCart' before initialization
+    at eval (src/components/navigation/CleanProfessionalNav.tsx:141:19)
+    at (ssr)/./src/components/navigation/CleanProfessionalNav.tsx (.next/server/app/page.js:250:1)
+    at __webpack_require__ (.next/server/webpack-runtime.js:33:42)
+    at eval (webpack-internal:///(ssr)/./src/app/ClientLayout.tsx:12:101)
+    at (ssr)/./src/app/ClientLayout.tsx (.next/server/app/page.js:195:1)
+    at Object.__webpack_require__ [as require] (.next/server/webpack-runtime.js:33:42)
+  139 |             href: '/solutions/buy-off-plan',
+  140 |             description: 'How it works: digital contracts, secure payments, instant reservation',
+> 141 |             icon: <ShoppingCart className="h-5 w-5" />
+      |                   ^
+  142 |           }
+  143 |         ]
+  144 |       }, {
+  digest: '703992493'
+}
+ ⚠ metadataBase property in metadata export is not set for resolving social open graph or twitter images, using "http://localhost:3000". See https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase
+ GET / 500 in 235ms
+ GET /favicon.ico 200 in 27ms
+ ⨯ ReferenceError: Cannot access 'ShoppingCart' before initialization
+    at eval (src/components/navigation/CleanProfessionalNav.tsx:141:19)
+    at (ssr)/./src/components/navigation/CleanProfessionalNav.tsx (.next/server/app/page.js:250:1)
+    at __webpack_require__ (.next/server/webpack-runtime.js:33:42)
+    at eval (webpack-internal:///(ssr)/./src/app/ClientLayout.tsx:12:101)
+    at (ssr)/./src/app/ClientLayout.tsx (.next/server/app/page.js:195:1)
+    at Object.__webpack_require__ [as require] (.next/server/webpack-runtime.js:33:42)
+  139 |             href: '/solutions/buy-off-plan',
+  140 |             description: 'How it works: digital contracts, secure payments, instant reservation',
+> 141 |             icon: <ShoppingCart className="h-5 w-5" />
+      |                   ^
+  142 |           }
+  143 |         ]
+  144 |       }, {
+  digest: '703992493'
+}
+ GET / 500 in 161ms
+ GET /favicon.ico 200 in 29ms
+ ⨯ ReferenceError: Cannot access 'ShoppingCart' before initialization
+    at eval (src/components/navigation/CleanProfessionalNav.tsx:141:19)
+    at (ssr)/./src/components/navigation/CleanProfessionalNav.tsx (.next/server/app/page.js:250:1)
+    at __webpack_require__ (.next/server/webpack-runtime.js:33:42)
+    at eval (webpack-internal:///(ssr)/./src/app/ClientLayout.tsx:12:101)
+    at (ssr)/./src/app/ClientLayout.tsx (.next/server/app/page.js:195:1)
+    at Object.__webpack_require__ [as require] (.next/server/webpack-runtime.js:33:42)
+  139 |             href: '/solutions/buy-off-plan',
+  140 |             description: 'How it works: digital contracts, secure payments, instant reservation',
+> 141 |             icon: <ShoppingCart className="h-5 w-5" />
+      |                   ^
+  142 |           }
+  143 |         ]
+  144 |       }, {
+  digest: '703992493'
+}
+ GET / 500 in 147ms
+ GET /favicon.ico 200 in 20ms
+ ⨯ ReferenceError: Cannot access 'ShoppingCart' before initialization
+    at eval (src/components/navigation/CleanProfessionalNav.tsx:141:19)
+    at (ssr)/./src/components/navigation/CleanProfessionalNav.tsx (.next/server/app/page.js:250:1)
+    at __webpack_require__ (.next/server/webpack-runtime.js:33:42)
+    at eval (webpack-internal:///(ssr)/./src/app/ClientLayout.tsx:12:101)
+    at (ssr)/./src/app/ClientLayout.tsx (.next/server/app/page.js:195:1)
+    at Object.__webpack_require__ [as require] (.next/server/webpack-runtime.js:33:42)
+  139 |             href: '/solutions/buy-off-plan',
+  140 |             description: 'How it works: digital contracts, secure payments, instant reservation',
+> 141 |             icon: <ShoppingCart className="h-5 w-5" />
+      |                   ^
+  142 |           }
+  143 |         ]
+  144 |       }, {
+  digest: '703992493'
+}
+ HEAD / 500 in 186ms
+ ⨯ ReferenceError: Cannot access 'ShoppingCart' before initialization
+    at eval (src/components/navigation/CleanProfessionalNav.tsx:141:19)
+    at (ssr)/./src/components/navigation/CleanProfessionalNav.tsx (.next/server/app/page.js:250:1)
+    at __webpack_require__ (.next/server/webpack-runtime.js:33:42)
+    at eval (webpack-internal:///(ssr)/./src/app/ClientLayout.tsx:12:101)
+    at (ssr)/./src/app/ClientLayout.tsx (.next/server/app/page.js:195:1)
+    at Object.__webpack_require__ [as require] (.next/server/webpack-runtime.js:33:42)
+  139 |             href: '/solutions/buy-off-plan',
+  140 |             description: 'How it works: digital contracts, secure payments, instant reservation',
+> 141 |             icon: <ShoppingCart className="h-5 w-5" />
+      |                   ^
+  142 |           }
+  143 |         ]
+  144 |       }, {
+  digest: '703992493'
+}
+ GET / 500 in 162ms
+ GET /favicon.ico 200 in 21ms
+ ○ Compiling /properties/[id] ...
+ ✓ Compiled /properties/[id] in 1091ms (2633 modules)
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ ⨯ ReferenceError: Cannot access 'ShoppingCart' before initialization
+    at eval (src/components/navigation/CleanProfessionalNav.tsx:141:19)
+    at (ssr)/./src/components/navigation/CleanProfessionalNav.tsx (.next/server/app/page.js:250:1)
+    at __webpack_require__ (.next/server/webpack-runtime.js:33:42)
+    at eval (webpack-internal:///(ssr)/./src/app/ClientLayout.tsx:12:101)
+    at (ssr)/./src/app/ClientLayout.tsx (.next/server/app/page.js:195:1)
+    at Object.__webpack_require__ [as require] (.next/server/webpack-runtime.js:33:42)
+  139 |             href: '/solutions/buy-off-plan',
+  140 |             description: 'How it works: digital contracts, secure payments, instant reservation',
+> 141 |             icon: <ShoppingCart className="h-5 w-5" />
+      |                   ^
+  142 |           }
+  143 |         ]
+  144 |       }, {
+  digest: '703992493'
+}
+ ⚠ metadataBase property in metadata export is not set for resolving social open graph or twitter images, using "http://localhost:3000". See https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase
+ GET / 500 in 280ms
+ ✓ Compiled /_not-found in 425ms (2623 modules)
+ ⚠ metadataBase property in metadata export is not set for resolving social open graph or twitter images, using "http://localhost:3000". See https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase
+ ⨯ ReferenceError: Cannot access 'ShoppingCart' before initialization
+    at eval (src/components/navigation/CleanProfessionalNav.tsx:141:19)
+    at (ssr)/./src/components/navigation/CleanProfessionalNav.tsx (.next/server/app/_not-found/page.js:174:1)
+    at __webpack_require__ (.next/server/webpack-runtime.js:33:42)
+    at eval (webpack-internal:///(ssr)/./src/app/ClientLayout.tsx:12:101)
+    at (ssr)/./src/app/ClientLayout.tsx (.next/server/app/_not-found/page.js:141:1)
+    at Object.__webpack_require__ [as require] (.next/server/webpack-runtime.js:33:42)
+  139 |             href: '/solutions/buy-off-plan',
+  140 |             description: 'How it works: digital contracts, secure payments, instant reservation',
+> 141 |             icon: <ShoppingCart className="h-5 w-5" />
+      |                   ^
+  142 |           }
+  143 |         ]
+  144 |       }, {
+  digest: '703992493'
+}
+ ⨯ ReferenceError: Cannot access 'ShoppingCart' before initialization
+    at eval (src/components/navigation/CleanProfessionalNav.tsx:141:19)
+    at (ssr)/./src/components/navigation/CleanProfessionalNav.tsx (.next/server/app/_not-found/page.js:174:1)
+    at __webpack_require__ (.next/server/webpack-runtime.js:33:42)
+    at eval (webpack-internal:///(ssr)/./src/app/ClientLayout.tsx:12:101)
+    at (ssr)/./src/app/ClientLayout.tsx (.next/server/app/_not-found/page.js:141:1)
+    at Object.__webpack_require__ [as require] (.next/server/webpack-runtime.js:33:42)
+  139 |             href: '/solutions/buy-off-plan',
+  140 |             description: 'How it works: digital contracts, secure payments, instant reservation',
+> 141 |             icon: <ShoppingCart className="h-5 w-5" />
+      |                   ^
+  142 |           }
+  143 |         ]
+  144 |       }, {
+  digest: '703992493'
+}
+ ⨯ ReferenceError: Cannot access 'ShoppingCart' before initialization
+    at eval (src/components/navigation/CleanProfessionalNav.tsx:141:19)
+    at (ssr)/./src/components/navigation/CleanProfessionalNav.tsx (.next/server/app/_not-found/page.js:174:1)
+    at __webpack_require__ (.next/server/webpack-runtime.js:33:42)
+    at eval (webpack-internal:///(ssr)/./src/app/ClientLayout.tsx:12:101)
+    at (ssr)/./src/app/ClientLayout.tsx (.next/server/app/_not-found/page.js:141:1)
+    at Object.__webpack_require__ [as require] (.next/server/webpack-runtime.js:33:42)
+  139 |             href: '/solutions/buy-off-plan',
+  140 |             description: 'How it works: digital contracts, secure payments, instant reservation',
+> 141 |             icon: <ShoppingCart className="h-5 w-5" />
+      |                   ^
+  142 |           }
+  143 |         ]
+  144 |       }, {
+  digest: '703992493'
+}
+ ⨯ [Error: Cannot find module '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/properties/[id]/page.js'
+Require stack:
+- /Users/kevin/Downloads/awsready/prop-ie-aws-app/node_modules/next/dist/server/require.js
+- /Users/kevin/Downloads/awsready/prop-ie-aws-app/node_modules/next/dist/server/load-components.js
+- /Users/kevin/Downloads/awsready/prop-ie-aws-app/node_modules/next/dist/build/utils.js
+- /Users/kevin/Downloads/awsready/prop-ie-aws-app/node_modules/next/dist/server/dev/static-paths-worker.js
+- /Users/kevin/Downloads/awsready/prop-ie-aws-app/node_modules/next/dist/compiled/jest-worker/processChild.js] {
+  type: 'Error',
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array],
+  page: '/properties/houses'
+}
+ GET /_next/static/css/app/layout.css?v=1747418880860 500 in 931ms
+ GET /_next/static/chunks/app-pages-internals.js 500 in 677ms
+ GET /_next/static/chunks/main-app.js 500 in 692ms
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/favicon.ico/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/favicon.ico/route.js',
+  page: '/favicon.ico'
+}
+ GET /favicon.ico 500 in 320ms
+ ○ Compiling /_error ...
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/favicon.ico/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/favicon.ico/route.js',
+  page: '/favicon.ico'
+}
+ GET /favicon.ico 500 in 223ms
+ ✓ Compiled /_error in 1379ms (2959 modules)
+ ⚠ metadataBase property in metadata export is not set for resolving social open graph or twitter images, using "http://localhost:3000". See https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase
+ ⨯ ReferenceError: Cannot access 'ShoppingCart' before initialization
+    at eval (src/components/navigation/CleanProfessionalNav.tsx:141:19)
+    at (ssr)/./src/components/navigation/CleanProfessionalNav.tsx (.next/server/app/_not-found/page.js:174:1)
+    at __webpack_require__ (.next/server/webpack-runtime.js:33:42)
+    at eval (webpack-internal:///(ssr)/./src/app/ClientLayout.tsx:12:101)
+    at (ssr)/./src/app/ClientLayout.tsx (.next/server/app/_not-found/page.js:141:1)
+    at Object.__webpack_require__ [as require] (.next/server/webpack-runtime.js:33:42)
+  139 |             href: '/solutions/buy-off-plan',
+  140 |             description: 'How it works: digital contracts, secure payments, instant reservation',
+> 141 |             icon: <ShoppingCart className="h-5 w-5" />
+      |                   ^
+  142 |           }
+  143 |         ]
+  144 |       }, {
+  digest: '703992493'
+}
+ GET /icon-16x16.png 500 in 953ms
+ ⨯ ReferenceError: Cannot access 'ShoppingCart' before initialization
+    at eval (src/components/navigation/CleanProfessionalNav.tsx:141:19)
+    at (ssr)/./src/components/navigation/CleanProfessionalNav.tsx (.next/server/app/_not-found/page.js:174:1)
+    at __webpack_require__ (.next/server/webpack-runtime.js:33:42)
+    at eval (webpack-internal:///(ssr)/./src/app/ClientLayout.tsx:12:101)
+    at (ssr)/./src/app/ClientLayout.tsx (.next/server/app/_not-found/page.js:141:1)
+    at Object.__webpack_require__ [as require] (.next/server/webpack-runtime.js:33:42)
+  139 |             href: '/solutions/buy-off-plan',
+  140 |             description: 'How it works: digital contracts, secure payments, instant reservation',
+> 141 |             icon: <ShoppingCart className="h-5 w-5" />
+      |                   ^
+  142 |           }
+  143 |         ]
+  144 |       }, {
+  digest: '703992493'
+}
+ GET /properties/houses 500 in 4381ms
+ GET /icon-32x32.png 500 in 199ms
+ ✓ Compiled in 588ms (2973 modules)
+ ✓ Compiled in 396ms (1505 modules)
+ ✓ Compiled in 604ms (1505 modules)
+ ✓ Compiled in 340ms (1505 modules)
+ ✓ Compiled in 1384ms (2959 modules)
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: ENOENT: no such file or directory, stat '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/cache/webpack/client-development/4.pack.gz'
+ ✓ Compiled in 552ms (2975 modules)
+[Error: ENOENT: no such file or directory, stat '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/cache/webpack/server-development/1.pack.gz'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'stat',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/cache/webpack/server-development/1.pack.gz'
+}
+ ⨯ unhandledRejection: [Error: ENOENT: no such file or directory, stat '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/cache/webpack/server-development/1.pack.gz'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'stat',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/cache/webpack/server-development/1.pack.gz'
+}
+ ⨯ unhandledRejection:  [Error: ENOENT: no such file or directory, stat '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/cache/webpack/server-development/1.pack.gz'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'stat',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/cache/webpack/server-development/1.pack.gz'
+}
+[Error: ENOENT: no such file or directory, stat '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/cache/webpack/server-development/29.pack.gz'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'stat',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/cache/webpack/server-development/29.pack.gz'
+}
+ ⨯ unhandledRejection: [Error: ENOENT: no such file or directory, stat '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/cache/webpack/server-development/29.pack.gz'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'stat',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/cache/webpack/server-development/29.pack.gz'
+}
+ ⨯ unhandledRejection:  [Error: ENOENT: no such file or directory, stat '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/cache/webpack/server-development/29.pack.gz'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'stat',
+  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/cache/webpack/server-development/29.pack.gz'
+}
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: ENOENT: no such file or directory, stat '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/cache/webpack/server-development/0.pack.gz'
+[?25h

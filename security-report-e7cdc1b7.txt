@@ -1,0 +1,454 @@
+Security Scan Report
+===================
+
+Summary:
+- Files scanned: 623
+- Issues found: 88
+
+By Severity:
+- CRITICAL: 75
+- HIGH: 4
+- MEDIUM: 9
+- LOW: 0
+
+Issues:
+
+[CRITICAL] Potential API key
+  File: /Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/buyer/customization/page.tsx:3
+  // src/app/buyer/customization/page.tsx
+
+
+[CRITICAL] Potential AWS access key
+  File: /Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/buyer/htb/page.tsx:3
+  import BuyerHtbPage from "@/components/pages/buyer/htb/BuyerHtbPage";
+
+
+[CRITICAL] Potential AWS access key
+  File: /Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/developer/page.tsx:3
+  import DeveloperDashboard from '@/components/developer/DeveloperDashboard';
+
+
+[CRITICAL] Potential AWS access key
+  File: /Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/user/security/setup/page.tsx:4
+  import SecuritySetupWizard from '../../../../components/security/SecuritySetupWizard';
+
+
+[CRITICAL] Potential API key
+  File: /Users/kevin/Downloads/awsready/prop-ie-aws-app/src/components/3d/RoomVisualizer.old.tsx:3
+  // src/components/3d/RoomVisualizer.tsx
+
+
+[CRITICAL] Potential API key
+  File: /Users/kevin/Downloads/awsready/prop-ie-aws-app/src/components/3d/RoomVisualizer.tsx:3
+  // src/components/3d/RoomVisualizer.tsx
+
+
+[CRITICAL] Potential API key
+  File: /Users/kevin/Downloads/awsready/prop-ie-aws-app/src/components/HomePage.tsx:95
+  image: '/images/testimonials/testimonial-1.jpg', // You'll need to add this image
+
+
+[CRITICAL] Potential API key
+  File: /Users/kevin/Downloads/awsready/prop-ie-aws-app/src/components/HomePage.tsx:104
+  image: '/images/testimonials/testimonial-2.jpg', // You'll need to add this image
+
+
+[CRITICAL] Potential API key
+  File: /Users/kevin/Downloads/awsready/prop-ie-aws-app/src/components/HomePage.tsx:113
+  image: '/images/testimonials/testimonial-3.jpg', // You'll need to add this image
+
+
+[CRITICAL] Potential API key
+  File: /Users/kevin/Downloads/awsready/prop-ie-aws-app/src/components/HomePage.tsx:122
+  image: '/images/testimonials/testimonial-4.jpg', // You'll need to add this image
+
+
+[CRITICAL] Potential AWS access key
+  File: /Users/kevin/Downloads/awsready/prop-ie-aws-app/src/components/analytics/DashboardMetricCard.tsx:1
+  // components/analytics/DashboardMetricCard.tsx
+
+
+[CRITICAL] Hardcoded password
+  File: /Users/kevin/Downloads/awsready/prop-ie-aws-app/src/components/auth/UserRegistration.tsx:86
+  newErrors.password = "Password is required";
+
+
+[CRITICAL] Hardcoded password
+  File: /Users/kevin/Downloads/awsready/prop-ie-aws-app/src/components/auth/UserRegistration.tsx:88
+  newErrors.password = "Password must be at least 8 characters";
+
+
+[CRITICAL] Potential AWS access key
+  File: /Users/kevin/Downloads/awsready/prop-ie-aws-app/src/components/dashboard/DeveloperDashboard.tsx:1
+  // components/dashboards/DeveloperDashboard.tsx
+
+
+[CRITICAL] Potential API key
+  File: /Users/kevin/Downloads/awsready/prop-ie-aws-app/src/components/dashboard/PropertyCustomizer.tsx:43
+  DataService.getAllActiveCustomizationOptions(),
+
+
+[CRITICAL] Potential AWS access key
+  File: /Users/kevin/Downloads/awsready/prop-ie-aws-app/src/components/developer/properties/page.tsx:1
+  import DeveloperPropertiesContent from '@/components/developer/DocumentGeneration';
+
+
+[MEDIUM] Unvalidated redirect
+  File: /Users/kevin/Downloads/awsready/prop-ie-aws-app/src/components/htb/HelpToBuyClaimUpload.tsx:746
+  onClick={() => window.location.href = '/dashboard'}
+
+
+[CRITICAL] Potential AWS access key
+  File: /Users/kevin/Downloads/awsready/prop-ie-aws-app/src/components/navigation/Navbar.tsx:6
+  import { useInvestorMode } from '@/components/investor/InvestorModeContext';
+
+
+[MEDIUM] Unvalidated redirect
+  File: /Users/kevin/Downloads/awsready/prop-ie-aws-app/src/components/property/PropertyReservation.tsx:556
+  onClick={() => window.location.href = '/properties'}
+
+
+[MEDIUM] Unvalidated redirect
+  File: /Users/kevin/Downloads/awsready/prop-ie-aws-app/src/components/security/ClientSecurityProvider.tsx:99
+  window.location.href = '/';
+
+
+[CRITICAL] Potential API key
+  File: /Users/kevin/Downloads/awsready/prop-ie-aws-app/src/components/security/SecurityAlerts.tsx:12
+  import { SessionFingerprint } from '@/lib/security/sessionFingerprint';
+
+
+[CRITICAL] Potential API key
+  File: /Users/kevin/Downloads/awsready/prop-ie-aws-app/src/components/security/SecurityMonitor.tsx:4
+  import useSecurityMonitor, { SecurityViolation } from '@/lib/security/useSecurityMonitor';
+
+
+[MEDIUM] Unvalidated redirect
+  File: /Users/kevin/Downloads/awsready/prop-ie-aws-app/src/components/security/SecurityMonitor.tsx:137
+  window.location.href = '/';
+
+
+[CRITICAL] Potential API key
+  File: /Users/kevin/Downloads/awsready/prop-ie-aws-app/src/components/security/SecurityMonitoringDashboard.tsx:18
+  import { SessionFingerprint } from '../../lib/security/sessionFingerprint';
+
+
+[CRITICAL] Potential API key
+  File: /Users/kevin/Downloads/awsready/prop-ie-aws-app/src/components/security/SecuritySetupWizard.tsx:16
+  import { SessionFingerprint } from '../../lib/security/sessionFingerprint';
+
+
+[CRITICAL] Potential API key
+  File: /Users/kevin/Downloads/awsready/prop-ie-aws-app/src/components/security/TrustedDevices.tsx:10
+  import { SessionFingerprint, DeviceProfile, GeoLocation } from '../../lib/security/sessionFingerprint';
+
+
+[MEDIUM] Unvalidated redirect
+  File: /Users/kevin/Downloads/awsready/prop-ie-aws-app/src/components/security/withCSRFProtection.tsx:196
+  window.location.href = redirectUrl;
+
+
+[MEDIUM] Unvalidated redirect
+  File: /Users/kevin/Downloads/awsready/prop-ie-aws-app/src/components/security/withCSRFProtection.tsx:217
+  onClick={() => window.location.href = redirectUrl}
+
+
+[CRITICAL] Potential API key
+  File: /Users/kevin/Downloads/awsready/prop-ie-aws-app/src/components/ui/LoadingSpinner.tsx:1
+  // src/components/ui/LoadingSpinner.tsx
+
+
+[HIGH] React dangerouslySetInnerHTML usage
+  File: /Users/kevin/Downloads/awsready/prop-ie-aws-app/src/components/ui/chart.tsx:81
+  dangerouslySetInnerHTML={{
+
+
+[MEDIUM] Cookie manipulation
+  File: /Users/kevin/Downloads/awsready/prop-ie-aws-app/src/components/ui/sidebar.tsx:87
+  document.cookie = `${SIDEBAR_COOKIE_NAME}=${openState}; path=/; max-age=${SIDEBAR_COOKIE_MAX_AGE}`;
+
+
+[CRITICAL] Potential API key
+  File: /Users/kevin/Downloads/awsready/prop-ie-aws-app/src/context/CustomizationContext.tsx:3
+  // src/context/CustomizationContext.tsx
+
+
+[CRITICAL] Potential API key
+  File: /Users/kevin/Downloads/awsready/prop-ie-aws-app/src/hooks/useSecuritySettings.ts:6
+  import { SessionFingerprintService } from '@/lib/security/sessionFingerprint';
+
+
+[CRITICAL] Potential API key
+  File: /Users/kevin/Downloads/awsready/prop-ie-aws-app/src/lib/ModelLoaderComponent.tsx:80
+  image: "/images/developments/placeholder-dev-2.jpg",
+
+
+[CRITICAL] Potential API key
+  File: /Users/kevin/Downloads/awsready/prop-ie-aws-app/src/lib/amplify/interceptors.ts:10
+  import { SessionFingerprint } from '@/lib/security/sessionFingerprint';
+
+
+[CRITICAL] Potential API key
+  File: /Users/kevin/Downloads/awsready/prop-ie-aws-app/src/lib/amplify-data.ts:19
+  ListCustomizationOptionsResponse,
+
+
+[CRITICAL] Potential API key
+  File: /Users/kevin/Downloads/awsready/prop-ie-aws-app/src/lib/amplify-data.ts:293
+  // Use the imported ListCustomizationOptionsResponse type
+
+
+[CRITICAL] Potential API key
+  File: /Users/kevin/Downloads/awsready/prop-ie-aws-app/src/lib/amplify-data.ts:319
+  async getAllActiveCustomizationOptions(limit: number = 500): Promise<CustomizationOption[]> {
+
+
+[CRITICAL] Potential API key
+  File: /Users/kevin/Downloads/awsready/prop-ie-aws-app/src/lib/amplify-data.ts:336
+  const responseData = await this._callGraphQL<ListCustomizationOptionsResponse>({ query, variables });
+
+
+[CRITICAL] Potential API key
+  File: /Users/kevin/Downloads/awsready/prop-ie-aws-app/src/lib/data-service.ts:23
+  ListCustomizationOptionsResponse,
+
+
+[CRITICAL] Potential API key
+  File: /Users/kevin/Downloads/awsready/prop-ie-aws-app/src/lib/data-service.ts:348
+  const result = await this._callGraphQL<ListCustomizationOptionsResponse>({
+
+
+[CRITICAL] Potential AWS access key
+  File: /Users/kevin/Downloads/awsready/prop-ie-aws-app/src/lib/security/lazySecurityFeatures.ts:261
+  () => import('@/components/security/SecuritySetupWizard'),
+
+
+[CRITICAL] Potential API key
+  File: /Users/kevin/Downloads/awsready/prop-ie-aws-app/src/lib/security/mfa/index.ts:35
+  import { SessionFingerprint } from '@/lib/security/sessionFingerprint';
+
+
+[MEDIUM] Unvalidated redirect
+  File: /Users/kevin/Downloads/awsready/prop-ie-aws-app/src/lib/security/urlSafetyCheck.ts:269
+  window.location.href = url;
+
+
+[CRITICAL] Potential eval() usage
+  File: /Users/kevin/Downloads/awsready/prop-ie-aws-app/src/lib/security/validation.ts:732
+  /eval\s*\(/i, // eval(
+
+
+[CRITICAL] Potential AWS access key
+  File: /Users/kevin/Downloads/awsready/prop-ie-aws-app/src/lib/three-types.ts:47
+  import { MeshStandardMaterial, MeshStandardMaterialParameters } from 'three/src/materials/MeshStandardMaterial';
+
+
+[CRITICAL] Potential API key
+  File: /Users/kevin/Downloads/awsready/prop-ie-aws-app/src/lib/three-types.ts:41
+  import { BoxGeometry } from 'three/src/geometries/BoxGeometry';
+
+
+[CRITICAL] Potential API key
+  File: /Users/kevin/Downloads/awsready/prop-ie-aws-app/src/lib/three-types.ts:58
+  import { LoadingManager } from 'three/src/loaders/LoadingManager';
+
+
+[CRITICAL] Potential AWS access key
+  File: /Users/kevin/Downloads/awsready/prop-ie-aws-app/src/pages/_app.tsx:4
+  import { InvestorModeProvider } from '@/components/investor/InvestorModeContext';
+
+
+[CRITICAL] Potential API key
+  File: /Users/kevin/Downloads/awsready/prop-ie-aws-app/src/pages/buyer/dashboard.tsx:3
+  import BuyerDashboard from "../../components/buyer/BuyerDashboard";
+
+
+[CRITICAL] Potential API key
+  File: /Users/kevin/Downloads/awsready/prop-ie-aws-app/src/services/data-service/mock.ts:113
+  image: '/images/developments/placeholder-dev-2.jpg',
+
+
+[CRITICAL] Potential API key
+  File: /Users/kevin/Downloads/awsready/prop-ie-aws-app/src/services/documentService.ts:467
+  query ListDocumentTemplates($filter: ModelDocumentTemplateFilterInput) {
+
+
+[CRITICAL] Potential API key
+  File: /Users/kevin/Downloads/awsready/prop-ie-aws-app/src/services/mockDataService.ts:57
+  image: '/images/developments/placeholder-dev-2.jpg',
+
+
+[CRITICAL] Potential API key
+  File: /Users/kevin/Downloads/awsready/prop-ie-aws-app/src/tests/security/amplifyV6SecurityIntegrationTest.ts:31
+  import { SessionFingerprint } from '../../lib/security/sessionFingerprint';
+
+
+[CRITICAL] Potential API key
+  File: /Users/kevin/Downloads/awsready/prop-ie-aws-app/src/tests/security/runTests.ts:20
+  import { SessionFingerprint } from '../../lib/security/sessionFingerprint';
+
+
+[CRITICAL] Potential API key
+  File: /Users/kevin/Downloads/awsready/prop-ie-aws-app/src/tests/security/testUtils.ts:11
+  import { SessionFingerprint } from '../../lib/security/sessionFingerprint';
+
+
+[MEDIUM] Cookie manipulation
+  File: /Users/kevin/Downloads/awsready/prop-ie-aws-app/src/tests/security/testUtils.ts:102
+  document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/;`;
+
+
+[CRITICAL] Potential API key
+  File: /Users/kevin/Downloads/awsready/prop-ie-aws-app/src/types/core/investor.ts:637
+  equityMultipleVarianceFromTarget: number;
+
+
+[CRITICAL] Potential API key
+  File: /Users/kevin/Downloads/awsready/prop-ie-aws-app/src/types/customization.ts:120
+  export interface ListCustomizationOptionsResponse {
+
+
+[CRITICAL] Potential API key
+  File: /Users/kevin/Downloads/awsready/prop-ie-aws-app/src/types/index.ts:210
+  export interface ListCustomizationOptionsResponse {
+
+
+[CRITICAL] Potential API key
+  File: /Users/kevin/Downloads/awsready/prop-ie-aws-app/src/types.d.ts:151
+  export interface ListCustomizationOptionsResponse {
+
+
+[CRITICAL] Potential API key
+  File: /Users/kevin/Downloads/awsready/prop-ie-aws-app/src/utils/finance/calculations.ts:254
+  export function calculateDiscountedPaybackPeriod(
+
+
+[CRITICAL] Potential eval() usage
+  File: /Users/kevin/Downloads/awsready/prop-ie-aws-app/src/utils/safeJsonParser.ts:4
+  * This utility provides safe alternatives to parse JSON without using eval().
+
+
+[CRITICAL] Potential API key
+  File: /Users/kevin/Downloads/awsready/prop-ie-aws-app/infrastructure/cloudformation/appsync.yml:389
+  - arn:aws:iam::aws:policy/service-role/AWSAppSyncServiceRolePolicy
+
+
+[CRITICAL] Potential API key
+  File: /Users/kevin/Downloads/awsready/prop-ie-aws-app/infrastructure/cloudformation/appsync.yml:546
+  - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+
+
+[CRITICAL] Potential API key
+  File: /Users/kevin/Downloads/awsready/prop-ie-aws-app/infrastructure/cloudformation/appsync.yml:605
+  PointInTimeRecoverySpecification:
+
+
+[CRITICAL] Potential API key
+  File: /Users/kevin/Downloads/awsready/prop-ie-aws-app/infrastructure/cloudformation/appsync.yml:649
+  - Name: AWS-AWSManagedRulesBotControlRuleSet
+
+
+[CRITICAL] Potential API key
+  File: /Users/kevin/Downloads/awsready/prop-ie-aws-app/infrastructure/cloudformation/appsync.yml:654
+  Name: AWSManagedRulesBotControlRuleSet
+
+
+[CRITICAL] Potential API key
+  File: /Users/kevin/Downloads/awsready/prop-ie-aws-app/infrastructure/cloudformation/appsync.yml:660
+  MetricName: AWS-AWSManagedRulesBotControlRuleSet
+
+
+[CRITICAL] Potential API key
+  File: /Users/kevin/Downloads/awsready/prop-ie-aws-app/infrastructure/cloudformation/cognito.yml:406
+  - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+
+
+[CRITICAL] Potential API key
+  File: /Users/kevin/Downloads/awsready/prop-ie-aws-app/infrastructure/cloudformation/monitoring.yml:387
+  - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+
+
+[CRITICAL] Potential API key
+  File: /Users/kevin/Downloads/awsready/prop-ie-aws-app/infrastructure/cloudformation/waf.yml:119
+  - Name: AWS-AWSManagedRulesBotControlRuleSet
+
+
+[CRITICAL] Potential API key
+  File: /Users/kevin/Downloads/awsready/prop-ie-aws-app/infrastructure/cloudformation/waf.yml:124
+  Name: AWSManagedRulesBotControlRuleSet
+
+
+[CRITICAL] Potential API key
+  File: /Users/kevin/Downloads/awsready/prop-ie-aws-app/infrastructure/cloudformation/waf.yml:491
+  - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+
+
+[CRITICAL] Potential API key
+  File: /Users/kevin/Downloads/awsready/prop-ie-aws-app/infrastructure/monitoring/dashboard.tf:400
+  ["...", "Rule", "AWS-AWSManagedRulesBotControlRuleSet"]
+
+
+[CRITICAL] Potential eval() usage
+  File: /Users/kevin/Downloads/awsready/prop-ie-aws-app/scripts/comprehensive-security-scan.js:45
+  { pattern: 'eval\\(', description: 'Potential eval() usage', severity: 'CRITICAL' },
+
+
+[HIGH] React dangerouslySetInnerHTML usage
+  File: /Users/kevin/Downloads/awsready/prop-ie-aws-app/scripts/comprehensive-security-scan.js:47
+  { pattern: 'dangerouslySetInnerHTML', description: 'React dangerouslySetInnerHTML usage', severity: 'HIGH' },
+
+
+[CRITICAL] AWS security token exposure
+  File: /Users/kevin/Downloads/awsready/prop-ie-aws-app/scripts/comprehensive-security-scan.js:64
+  { pattern: 'Security TokenType', description: 'AWS security token exposure', severity: 'CRITICAL' },
+
+
+[HIGH] AWS S3 bucket with public read access
+  File: /Users/kevin/Downloads/awsready/prop-ie-aws-app/scripts/comprehensive-security-scan.js:81
+  { pattern: '"PublicRead"', description: 'AWS S3 bucket with public read access', severity: 'HIGH' },
+
+
+[CRITICAL] AWS S3 bucket with public write access
+  File: /Users/kevin/Downloads/awsready/prop-ie-aws-app/scripts/comprehensive-security-scan.js:82
+  { pattern: '"PublicReadWrite"', description: 'AWS S3 bucket with public write access', severity: 'CRITICAL' },
+
+
+[CRITICAL] Potential eval() usage
+  File: /Users/kevin/Downloads/awsready/prop-ie-aws-app/scripts/security-scan.js:34
+  { pattern: 'eval\\(', description: 'Potential eval() usage', severity: 'HIGH' },
+
+
+[CRITICAL] Potential API key
+  File: /Users/kevin/Downloads/awsready/prop-ie-aws-app/scripts/suspicious-package-check.js:56
+  const result = checkStringForSuspiciousPatterns(script, `package.json scripts.${key}`);
+
+
+[CRITICAL] Potential API key
+  File: /Users/kevin/Downloads/awsready/prop-ie-aws-app/scripts/suspicious-package-check.js:75
+  const result = checkStringForSuspiciousPatterns(content, filePath);
+
+
+[CRITICAL] Potential API key
+  File: /Users/kevin/Downloads/awsready/prop-ie-aws-app/scripts/suspicious-package-check.js:124
+  const result = checkStringForSuspiciousPatterns(script, `${packageName} scripts.${key}`);
+
+
+[CRITICAL] Potential API key
+  File: /Users/kevin/Downloads/awsready/prop-ie-aws-app/scripts/suspicious-package-check.js:170
+  function checkStringForSuspiciousPatterns(content, location) {
+
+
+[HIGH] React dangerouslySetInnerHTML usage
+  File: /Users/kevin/Downloads/awsready/prop-ie-aws-app/scripts/suspicious-pattern-check.js:84
+  /dangerouslySetInnerHTML/i,
+
+
+[CRITICAL] Potential eval() usage
+  File: /Users/kevin/Downloads/awsready/prop-ie-aws-app/scripts/test-auth.js:120
+  await testTokenRetrieval();
+
+
+[CRITICAL] Potential eval() usage
+  File: /Users/kevin/Downloads/awsready/prop-ie-aws-app/scripts/test-auth.js:191
+  async function testTokenRetrieval() {
+

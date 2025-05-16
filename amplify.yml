@@ -1,0 +1,85 @@
+version: 1
+frontend:
+  phases:
+    preBuild:
+      commands:
+        - if [ "${AWS_BRANCH}" = "production" ]; then export NODE_ENV=production; elif [ "${AWS_BRANCH}" = "staging" ]; then export NODE_ENV=staging; else export NODE_ENV=development; fi
+        - echo "Building for environment: ${NODE_ENV}"
+        - npm ci
+        - npm run verify-lockfile
+        - npm run security-check
+    build:
+      commands:
+        - echo "Running build for branch: ${AWS_BRANCH}"
+        - echo "NEXT_PUBLIC_AWS_REGION=${AWS_REGION}" >> .env
+        - echo "NEXT_PUBLIC_COGNITO_USER_POOL_ID=${COGNITO_USER_POOL_ID}" >> .env
+        - echo "NEXT_PUBLIC_COGNITO_CLIENT_ID=${COGNITO_CLIENT_ID}" >> .env
+        - echo "NEXT_PUBLIC_GRAPHQL_ENDPOINT=${GRAPHQL_ENDPOINT}" >> .env
+        - echo "NEXT_PUBLIC_API_ENDPOINT=${API_ENDPOINT}" >> .env
+        - echo "NEXT_PUBLIC_S3_BUCKET=${S3_BUCKET}" >> .env
+        - if [ "${AWS_BRANCH}" = "production" ]; then npm run build:prod; elif [ "${AWS_BRANCH}" = "staging" ]; then npm run build:staging; else npm run build; fi
+  artifacts:
+    baseDirectory: .next
+    files:
+      - "**/*"
+  cache:
+    paths:
+      - node_modules/**/*
+      - .next/cache/**/*
+
+  customHeaders:
+    - pattern: '**/*.js'
+      headers:
+        - key: 'Cache-Control'
+          value: 'public, max-age=31536000, immutable'
+    - pattern: '**/*.css'
+      headers:
+        - key: 'Cache-Control'
+          value: 'public, max-age=31536000, immutable'
+    - pattern: '**/*.png'
+      headers:
+        - key: 'Cache-Control'
+          value: 'public, max-age=86400'
+    - pattern: '**/*.jpg'
+      headers:
+        - key: 'Cache-Control'
+          value: 'public, max-age=86400'
+    - pattern: '**/*.svg'
+      headers:
+        - key: 'Cache-Control'
+          value: 'public, max-age=86400'
+    - pattern: '**/*'
+      headers:
+        - key: 'Strict-Transport-Security'
+          value: 'max-age=31536000; includeSubDomains'
+        - key: 'X-Content-Type-Options'
+          value: 'nosniff'
+        - key: 'X-Frame-Options'
+          value: 'DENY'
+        - key: 'X-XSS-Protection'
+          value: '1; mode=block'
+        - key: 'Referrer-Policy'
+          value: 'strict-origin-when-cross-origin'
+        - key: 'Content-Security-Policy'
+          value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https:; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://*.amazonaws.com https://*.amplifyapp.com https://*.execute-api.*.amazonaws.com https://www.google-analytics.com; frame-src 'self'; object-src 'none';"
+
+  environmentVariables:
+    - name: NEXT_PUBLIC_APP_ENV
+      value: ${AWS_BRANCH}
+    - name: NEXT_PUBLIC_API_ENDPOINT
+      value: 
+        development: https://dev-api.prop-ie-app.com
+        staging: https://staging-api.prop-ie-app.com
+        production: https://api.prop-ie-app.com
+    - name: NEXT_PUBLIC_APP_URL
+      value:
+        development: https://dev.prop-ie-app.com
+        staging: https://staging.prop-ie-app.com
+        production: https://prop-ie-app.com
+    - name: AWS_REGION
+      value: us-east-1
+    - name: NEXT_TELEMETRY_DISABLED
+      value: 1
+
+  performance:
+    maxConcurrentUsers: 10
