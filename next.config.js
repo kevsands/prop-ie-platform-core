@@ -105,12 +105,7 @@ const nextConfig = {
   // Configure redirects for legacy routes
   redirects: async () => {
     return [
-      // Temporarily disable problematic API routes during build
-      {
-        source: '/api/auth/:path*',
-        destination: '/api/auth-disabled',
-        permanent: false,
-      },
+      // Add any redirects here when needed
     ];
   },
   

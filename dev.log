@@ -446,3 +446,16 @@
  GET /favicon.ico 200 in 101ms
  GET /icon-144x144.png 404 in 78ms
  GET /favicon.ico 200 in 80ms
+ ○ Compiling /api/users/me ...
+ ✓ Compiled /api/users/me in 743ms (3522 modules)
+ GET /api/users/me 200 in 812ms
+ POST /api/auth-disabled 200 in 106ms
+ GET /api/auth-disabled 200 in 11ms
+ ⚠ Found a change in next.config.js. Restarting the server to apply the changes...
+   ▲ Next.js 15.3.1
+   - Local:        http://localhost:3000
+   - Network:      http://192.168.0.41:3000
+   - Environments: .env.local, .env
+
+ ✓ Starting...
+[?25h
