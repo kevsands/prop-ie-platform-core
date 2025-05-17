@@ -1,113 +1,93 @@
-'use client';
+import { NextAuthOptions } from "next-auth";
+import CredentialsProvider from "next-auth/providers/credentials";
+import { PrismaAdapter } from "@auth/prisma-adapter";
+import { prisma } from "@/lib/prisma";
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 
-/**
- * Auth Service - Simplified Version for Build Testing
- */
+export const authOptions: NextAuthOptions = {
+  adapter: PrismaAdapter(prisma),
+  providers: [
+    CredentialsProvider({
+      name: "credentials",
+      credentials: {
+        email: { label: "Email", type: "email" },
+        password: { label: "Password", type: "password" }
+      },
+      async authorize(credentials) {
+        if (!credentials?.email || !credentials?.password) {
+          throw new Error("Invalid credentials");
+        }
 
-// Import from centralized types
-import { AuthUser, SignInParams, SignInResult } from "@/types/amplify/auth";
-import { GraphQLContext, AuthContext, AuthResolverFunction, ResolverFunction } from "@/types/graphql";
-import { GraphQLError } from 'graphql';
+        const user = await prisma.user.findUnique({
+          where: { email: credentials.email }
+        });
 
-/**
- * Authentication service - simplified for build testing
- */
-export class Auth {
-  /**
-   * Sign in a user
-   */
-  static async signIn({ username, password }: SignInParams): Promise<SignInResult> {
-    console.log('[MOCK] signIn:', { username });
+        if (!user || !user.password) {
+          throw new Error("User not found");
+        }
 
-    // Simulate MFA for specific test account
-    if (username === 'mfa@example.com') {
-      return {
-        isSignedIn: false,
-        nextStep: { signInStep: 'MFA' }
-      };
-    }
+        const isPasswordValid = await bcrypt.compare(
+          credentials.password,
+          user.password
+        );
 
-    // Normal sign in
-    return {
-      isSignedIn: true,
-      userId: 'mock-user-id'
-    };
-  }
+        if (!isPasswordValid) {
+          throw new Error("Invalid password");
+        }
 
-  /**
-   * Get current authenticated user
-   */
-  static async currentAuthenticatedUser(): Promise<AuthUser> {
-    return {
-      userId: 'mock-user-id',
-      username: 'mockuser',
-      email: 'user@example.com',
-      firstName: 'Mock',
-      lastName: 'User',
-      roles: ['USER'],
-    };
-  }
-
-  /**
-   * Get JWT token
-   */
-  static async getJwtToken(): Promise<string> {
-    return 'mock-jwt-token';
-  }
-
-  /**
-   * Check if user is authenticated
-   */
-  static async isAuthenticated(): Promise<boolean> {
-    return true;
-  }
-}
-
-export default Auth;
-
-/**
- * Check if user has required roles
- */
-export async function requireRoles(request: Request, requiredRoles: string[]): Promise<Response | null> {
-  // For development, allow all requests
-  if (process.env.NODE_ENV === 'development') {
-    return null;
-  }
-  
-  // In production, check roles - for now return null (allow)
-  return null;
-}
-
-/**
- * NextAuth configuration options for compatibility with Next.js App Router
- */
-export const authOptions = {
-  providers: [],
+        return {
+          id: user.id,
+          email: user.email,
+          name: user.name,
+          role: user.role,
+        };
+      },
+    }),
+  ],
   callbacks: {
-    async session({ session }: { session: { user?: any } }) {
+    async jwt({ token, user }) {
+      if (user) {
+        token.role = user.role;
+        token.id = user.id;
+      }
+      return token;
+    },
+    async session({ session, token }) {
+      if (session?.user) {
+        session.user.role = token.role;
+        session.user.id = token.id;
+      }
       return session;
     },
-    async jwt({ token }) {
-      return token;
-    }
   },
-  secret: process.env.NEXTAUTH_SECRET || 'development-secret'
+  session: {
+    strategy: "jwt",
+    maxAge: 30 * 24 * 60 * 60, // 30 days
+  },
+  pages: {
+    signIn: "/auth/login",
+    signOut: "/auth/logout",
+    error: "/auth/error",
+  },
+  secret: process.env.NEXTAUTH_SECRET,
 };
 
-/**
- * Higher-order function to wrap resolver functions with authentication
- * @param resolver The resolver function to wrap
- * @returns A new resolver function that checks authentication before executing
- */
-export function withAuth<TArgs, TResult>(
-  resolver: AuthResolverFunction<TArgs, TResult>
-): ResolverFunction<TArgs, TResult> {
-  return async (parent: unknown, args: TArgs, context: GraphQLContext): Promise<TResult> => {
-    if (!context.user?.id) {
-      throw new GraphQLError('Unauthorized', {
-        extensions: { code: 'UNAUTHORIZED' },
-      });
-    }
-    return resolver(parent, args, context as AuthContext);
-  };
+// Helper functions for auth
+export async function hashPassword(password: string): Promise<string> {
+  return bcrypt.hash(password, 12);
+}
+
+export async function verifyPassword(password: string, hashedPassword: string): Promise<boolean> {
+  return bcrypt.compare(password, hashedPassword);
+}
+
+export function generateToken(payload: any): string {
+  return jwt.sign(payload, process.env.JWT_SECRET!, {
+    expiresIn: '7d',
+  });
+}
+
+export function verifyToken(token: string): any {
+  return jwt.verify(token, process.env.JWT_SECRET!);
 }
