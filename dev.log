@@ -8,705 +8,441 @@
    - Environments: .env.local, .env
 
  ✓ Starting...
- ✓ Ready in 2.2s
- ✓ Compiled /middleware in 114ms (108 modules)
- ○ Compiling / ...
- ✓ Compiled / in 4.1s (2608 modules)
- ⚠ metadataBase property in metadata export is not set for resolving social open graph or twitter images, using "http://localhost:3000". See https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase
- GET / 200 in 4543ms
- GET / 200 in 130ms
- ○ Compiling /favicon.ico ...
- ✓ Compiled /favicon.ico in 854ms (2628 modules)
- ⚠ metadataBase property in metadata export is not set for resolving social open graph or twitter images, using "http://localhost:3000". See https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase
- GET /images/resources/q1-market-review.jpg 404 in 1511ms
- ⨯ The requested resource isn't a valid image for /images/resources/q1-market-review.jpg received text/html; charset=utf-8
- GET /images/solutions/developer-hub.jpg 404 in 1503ms
- ⨯ The requested resource isn't a valid image for /images/solutions/developer-hub.jpg received text/html; charset=utf-8
- GET /favicon.ico 200 in 1511ms
- ✓ Compiled /customisation/how-it-works in 460ms (2649 modules)
- ⚠ metadataBase property in metadata export is not set for resolving social open graph or twitter images, using "http://localhost:3000". See https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase
- GET /customisation/how-it-works 200 in 792ms
- GET /favicon.ico 200 in 29ms
- GET /images/resources/q1-market-review.jpg 404 in 185ms
- ⨯ The requested resource isn't a valid image for /images/resources/q1-market-review.jpg received text/html; charset=utf-8
- GET /images/solutions/developer-hub.jpg 404 in 186ms
- ⨯ The requested resource isn't a valid image for /images/solutions/developer-hub.jpg received text/html; charset=utf-8
- GET /customisation/how-it-works 200 in 150ms
- GET /images/solutions/developer-hub.jpg 404 in 75ms
- ⨯ The requested resource isn't a valid image for /images/solutions/developer-hub.jpg received text/html; charset=utf-8
- GET /images/resources/q1-market-review.jpg 404 in 79ms
- ⨯ The requested resource isn't a valid image for /images/resources/q1-market-review.jpg received text/html; charset=utf-8
+ ✓ Ready in 1715ms
+ ✓ Compiled /middleware in 160ms (108 modules)
+ ○ Compiling /customisation/how-it-works ...
+ ✓ Compiled /customisation/how-it-works in 2s (2600 modules)
+ GET /customisation/how-it-works 200 in 2617ms
+ ✓ Compiled /favicon.ico in 377ms (1371 modules)
+ GET /favicon.ico 200 in 552ms
+ ○ Compiling /solutions/property-professionals ...
+ ✓ Compiled /solutions/property-professionals in 961ms (3347 modules)
+ GET /solutions/property-professionals 200 in 1399ms
+ ○ Compiling /solutions/solicitors ...
+ ✓ Compiled /solutions/solicitors in 734ms (3012 modules)
+ GET /solutions/solicitors 200 in 1083ms
+ ✓ Compiled /favicon.ico in 167ms (1396 modules)
+ GET /favicon.ico 200 in 330ms
  GET /favicon.ico 200 in 15ms
- GET /customisation/how-it-works 200 in 37ms
- GET /icon-144x144.png 404 in 79ms
- GET /customisation/how-it-works 200 in 22ms
- GET /icon-144x144.png 404 in 69ms
- GET /resources/buy-off-plan 404 in 7ms
- GET /resources/buy-off-plan 404 in 220ms
- GET /images/solutions/developer-hub.jpg 404 in 196ms
- ⨯ The requested resource isn't a valid image for /images/solutions/developer-hub.jpg received text/html; charset=utf-8
- GET /images/resources/q1-market-review.jpg 404 in 198ms
- ⨯ The requested resource isn't a valid image for /images/resources/q1-market-review.jpg received text/html; charset=utf-8
- GET /favicon.ico 200 in 251ms
+ GET /solutions/solicitors 200 in 61ms
+ GET /favicon.ico 200 in 21ms
+ GET /favicon.ico 200 in 16ms
+ GET /favicon.ico 200 in 27ms
+ GET /favicon.ico 200 in 73ms
+ ✓ Compiled /_not-found in 225ms (3032 modules)
+ GET /favicon.ico 200 in 502ms
+ GET /icon-144x144.png 404 in 610ms
+ GET /solutions/solicitors 200 in 45ms
+ GET /favicon.ico 200 in 22ms
+ GET /favicon.ico 200 in 19ms
+ GET /icon-144x144.png 404 in 93ms
+ GET /favicon.ico 200 in 96ms
+ GET /favicon.ico 200 in 13ms
+ GET /favicon.ico 200 in 12ms
+ GET /favicon.ico 200 in 12ms
+ ✓ Compiled in 3.1s (3134 modules)
+ GET /solutions/solicitors 200 in 1419ms
+ GET /customisation/how-it-works 200 in 1435ms
+ GET /solutions/solicitors 200 in 26ms
+ GET /customisation/how-it-works 200 in 20ms
+ ✓ Compiled /_not-found in 262ms (3032 modules)
+ GET /favicon.ico 200 in 582ms
+ GET /icon-144x144.png 404 in 520ms
+ GET /favicon.ico 200 in 101ms
+ GET /icon-144x144.png 404 in 89ms
+ GET /favicon.ico 200 in 13ms
+ GET /favicon.ico 200 in 10ms
+ GET /favicon.ico 200 in 11ms
+ ○ Compiling /solicitor/dashboard ...
+ ✓ Compiled /solicitor/dashboard in 1057ms (3023 modules)
+ GET /solicitor/dashboard 200 in 1457ms
+ GET /solutions/solicitors 200 in 217ms
+ ✓ Compiled /favicon.ico in 316ms (1396 modules)
+ GET /favicon.ico 200 in 472ms
+ GET /solutions/solicitors 200 in 79ms
+ ✓ Compiled /_not-found in 274ms (3036 modules)
+ GET /icon-144x144.png 404 in 578ms
+ ✓ Compiled /solutions/architects in 386ms (3027 modules)
+ GET /solutions/architects 200 in 495ms
+ ○ Compiling /solutions/property-professionals ...
+ ✓ Compiled /solutions/property-professionals in 801ms (3397 modules)
+ GET /icon-144x144.png 404 in 965ms
+ GET /solutions/property-professionals 200 in 1065ms
+ GET /solutions/property-professionals 200 in 22ms
+ GET /icon-144x144.png 404 in 86ms
+ ○ Compiling /properties/search ...
+ ✓ Compiled /properties/search in 1007ms (3414 modules)
+ GET /properties/search 200 in 1107ms
+ ✓ Compiled /_not-found in 229ms (3418 modules)
+ GET /icon-144x144.png 404 in 482ms
+ ✓ Compiled /properties/buying-guide in 225ms (1769 modules)
+ ✓ Compiled /properties/[id] in 462ms (3432 modules)
+ GET /properties/buying-guide 200 in 2687ms
+ GET /properties/buying-guide 200 in 32ms
+ GET /icon-144x144.png 404 in 193ms
+ ○ Compiling /developments/[id] ...
+ ✓ Compiled /developments/[id] in 885ms (3469 modules)
+ GET /developments/fitzgerald-gardens 200 in 1371ms
+ GET /developments/fitzgerald-gardens 200 in 24ms
+ GET /icon-144x144.png 404 in 177ms
+ ✓ Compiled /solutions/first-time-buyers in 476ms (3482 modules)
+ GET /solutions/first-time-buyers 200 in 561ms
+ GET /icon-144x144.png 404 in 139ms
+ GET /customisation/how-it-works 200 in 44ms
+ GET /icon-144x144.png 404 in 89ms
+ ○ Compiling /solutions/professional-investors ...
+ ✓ Compiled /solutions/professional-investors in 645ms (3506 modules)
+ GET /solutions/professional-investors 200 in 748ms
+ GET /patterns/grid.svg 404 in 132ms
+ GET /icon-144x144.png 404 in 85ms
+ ○ Compiling /solutions/institutional ...
+ ✓ Compiled /solutions/institutional in 710ms (3502 modules)
+ GET /solutions/institutional 200 in 820ms
+ GET /icon-144x144.png 404 in 133ms
+ ✓ Compiled /solutions/developers in 387ms (3497 modules)
+ GET /solutions/developers 200 in 492ms
+ GET /icon-144x144.png 404 in 136ms
+ ○ Compiling /solutions/developers/sales ...
+ ✓ Compiled /solutions/developers/sales in 1037ms (3504 modules)
+ GET /solutions/developers/sales 200 in 1135ms
+ ✓ Compiled /_not-found in 263ms (3507 modules)
+ GET /icon-144x144.png 404 in 458ms
+ ○ Compiling /solutions/developers/analytics ...
+ ✓ Compiled /solutions/developers/analytics in 561ms (3519 modules)
+ GET /solutions/developers/analytics 200 in 655ms
+ GET /solutions/developers 200 in 200ms
+ ✓ Compiled /favicon.ico in 355ms (1821 modules)
+ GET /favicon.ico 200 in 520ms
+ GET /solutions/developers/sales 200 in 71ms
+ GET /icon-144x144.png 404 in 152ms
+ GET /icon-144x144.png 404 in 100ms
+ GET /solutions/developers/sales 200 in 36ms
+ GET /icon-144x144.png 404 in 95ms
+ GET /solutions/developers/analytics 200 in 34ms
+ GET /solutions/developers/sales 200 in 159ms
+ GET /favicon.ico 200 in 21ms
+ ○ Compiling /solutions/developers/marketing ...
+ ✓ Compiled /solutions/developers/marketing in 1070ms (3550 modules)
+ GET /solutions/developers/marketing 200 in 1158ms
+ GET /solutions/developers/marketing 200 in 30ms
+ GET /icon-144x144.png 404 in 167ms
+ GET /icon-144x144.png 404 in 85ms
+ ○ Compiling /solutions/estate-agents ...
+ ✓ Compiled /solutions/estate-agents in 745ms (3543 modules)
+ GET /solutions/estate-agents 200 in 856ms
+ GET /api/placeholder/600/400 404 in 154ms
+ GET /patterns/grid.svg 404 in 93ms
+ GET /icon-144x144.png 404 in 94ms
+ GET /solutions/solicitors 200 in 48ms
+ GET /icon-144x144.png 404 in 95ms
+ ✓ Compiled /solutions/architects in 440ms (1802 modules)
+ GET /solutions/architects 200 in 550ms
+ ○ Compiling /solutions/property-professionals ...
+ ✓ Compiled /solutions/property-professionals in 815ms (3540 modules)
+ GET /icon-144x144.png 404 in 944ms
+ GET /solutions/property-professionals 200 in 1073ms
+ GET /solutions/property-professionals 200 in 17ms
+ GET /icon-144x144.png 404 in 84ms
+ ○ Compiling /resources/calculators ...
+ ✓ Compiled /resources/calculators in 969ms (3512 modules)
+ GET /resources/calculators 200 in 1078ms
+ ✓ Compiled /_not-found in 320ms (3516 modules)
+ GET /icon-144x144.png 404 in 540ms
+ ✓ Compiled /resources/property-guides in 345ms (3523 modules)
+ GET /resources/property-guides 200 in 414ms
+ GET /images/resources/help-to-buy.jpg 404 in 420ms
+ ⨯ The requested resource isn't a valid image for /images/resources/help-to-buy.jpg received text/html; charset=utf-8
+ GET /images/resources/mortgage-approval.jpg 404 in 421ms
+ ⨯ The requested resource isn't a valid image for /images/resources/mortgage-approval.jpg received text/html; charset=utf-8
+ GET /images/resources/ber-ratings.jpg 404 in 420ms
+ ⨯ The requested resource isn't a valid image for /images/resources/ber-ratings.jpg received text/html; charset=utf-8
+ GET /images/resources/negotiation.jpg 404 in 420ms
+ ⨯ The requested resource isn't a valid image for /images/resources/negotiation.jpg received text/html; charset=utf-8
+ GET /images/resources/stamp-duty.jpg 404 in 65ms
+ ⨯ The requested resource isn't a valid image for /images/resources/stamp-duty.jpg received text/html; charset=utf-8
+ GET /icon-144x144.png 404 in 67ms
+ ✓ Compiled /resources/market-reports in 338ms (3530 modules)
+ GET /resources/market-reports 200 in 398ms
+ GET /images/resources/featured-report.jpg 404 in 133ms
+ ⨯ The requested resource isn't a valid image for /images/resources/featured-report.jpg received text/html; charset=utf-8
+ GET /images/resources/new-homes-survey.jpg 404 in 342ms
+ ⨯ The requested resource isn't a valid image for /images/resources/new-homes-survey.jpg received text/html; charset=utf-8
+ GET /images/resources/rental-market.jpg 404 in 342ms
+ ⨯ The requested resource isn't a valid image for /images/resources/rental-market.jpg received text/html; charset=utf-8
+ GET /images/resources/investment-outlook.jpg 404 in 344ms
+ ⨯ The requested resource isn't a valid image for /images/resources/investment-outlook.jpg received text/html; charset=utf-8
+ GET /images/resources/sustainable-housing.jpg 404 in 345ms
+ ⨯ The requested resource isn't a valid image for /images/resources/sustainable-housing.jpg received text/html; charset=utf-8
+ GET /images/resources/regional-barometer.jpg 404 in 346ms
+ ⨯ The requested resource isn't a valid image for /images/resources/regional-barometer.jpg received text/html; charset=utf-8
+ GET /images/resources/ftb-index.jpg 404 in 210ms
+ ⨯ The requested resource isn't a valid image for /images/resources/ftb-index.jpg received text/html; charset=utf-8
+ GET /images/resources/policy-impact.jpg 404 in 210ms
+ ⨯ The requested resource isn't a valid image for /images/resources/policy-impact.jpg received text/html; charset=utf-8
+ GET /icon-144x144.png 404 in 213ms
+ GET /images/resources/custom-research.jpg 404 in 97ms
+ ⨯ The requested resource isn't a valid image for /images/resources/custom-research.jpg received text/html; charset=utf-8
+ ○ Compiling /resources/property-guides/first-time-buyer-guide ...
+ ✓ Compiled /resources/property-guides/first-time-buyer-guide in 508ms (3537 modules)
+ GET /resources/property-guides/first-time-buyer-guide 200 in 577ms
+ GET /icon-144x144.png 404 in 128ms
+ ○ Compiling /resources/templates ...
+ ✓ Compiled /resources/templates in 615ms (3518 modules)
+ GET /resources/templates 200 in 697ms
+ GET /icon-144x144.png 404 in 128ms
+ ○ Compiling /solutions/developers ...
+ ✓ Compiled /solutions/developers in 637ms (1417 modules)
+ GET /solutions/developers 200 in 756ms
+ ✓ Compiled /_not-found in 427ms (3156 modules)
+ GET /icon-144x144.png 404 in 585ms
+ ○ Compiling / ...
+ ✓ Compiled / in 617ms (3187 modules)
+ GET / 200 in 710ms
+ GET /icon-144x144.png 404 in 111ms
+ ✓ Compiled in 557ms (1760 modules)
+ GET / 200 in 55ms
+ GET /customisation/how-it-works 200 in 56ms
+ GET /solutions/solicitors 200 in 73ms
+ ○ Compiling /_not-found ...
+ ✓ Compiled /_not-found in 753ms (3176 modules)
+ GET /favicon.ico 200 in 1033ms
+ GET /icon-144x144.png 404 in 1012ms
+ GET /favicon.ico 200 in 96ms
+ GET /icon-144x144.png 404 in 90ms
+ GET /favicon.ico 200 in 17ms
+ GET /favicon.ico 200 in 15ms
+ GET /icon-144x144.png 404 in 92ms
+ GET /favicon.ico 200 in 93ms
+ ✓ Compiled in 338ms (1763 modules)
+ ✓ Compiled in 391ms (1763 modules)
+ GET / 200 in 197ms
+ GET /solutions/solicitors 200 in 200ms
+ GET /customisation/how-it-works 200 in 200ms
+ GET / 200 in 72ms
+ GET /solutions/solicitors 200 in 73ms
+ GET /customisation/how-it-works 200 in 73ms
+ GET /favicon.ico 200 in 33ms
+ GET /favicon.ico 200 in 24ms
+ GET /icon-144x144.png 404 in 122ms
+ GET /favicon.ico 200 in 101ms
  GET /icon-144x144.png 404 in 81ms
- ✓ Compiled in 614ms (1272 modules)
- ⚠ Fast Refresh had to perform a full reload due to a runtime error.
- GET /customisation/how-it-works 200 in 67ms
- GET / 200 in 240ms
- ✓ Compiled /_not-found in 461ms (2633 modules)
- ⚠ metadataBase property in metadata export is not set for resolving social open graph or twitter images, using "http://localhost:3000". See https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase
- GET /images/solutions/developer-hub.jpg 404 in 656ms
- ⨯ The requested resource isn't a valid image for /images/solutions/developer-hub.jpg received text/html; charset=utf-8
- GET /resources/buy-off-plan 404 in 950ms
- GET /images/resources/q1-market-review.jpg 404 in 149ms
- ⨯ The requested resource isn't a valid image for /images/resources/q1-market-review.jpg received text/html; charset=utf-8
- GET /resources/buy-off-plan 404 in 154ms
- GET /icon-144x144.png 404 in 78ms
- ✓ Compiled /favicon.ico in 282ms (2649 modules)
- ⚠ metadataBase property in metadata export is not set for resolving social open graph or twitter images, using "http://localhost:3000". See https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase
- GET /images/solutions/developer-hub.jpg 404 in 612ms
- ⨯ The requested resource isn't a valid image for /images/solutions/developer-hub.jpg received text/html; charset=utf-8
- GET /favicon.ico 200 in 673ms
- GET /images/resources/q1-market-review.jpg 404 in 92ms
- ⨯ The requested resource isn't a valid image for /images/resources/q1-market-review.jpg received text/html; charset=utf-8
+ GET /favicon.ico 200 in 84ms
+ GET /icon-144x144.png 404 in 79ms
+ GET /favicon.ico 200 in 81ms
+ ✓ Compiled in 341ms (1746 modules)
+ ✓ Compiled in 410ms (1760 modules)
+ GET /customisation/how-it-works 200 in 54ms
+ GET / 200 in 54ms
+ GET /solutions/solicitors 200 in 63ms
+ GET /favicon.ico 200 in 44ms
+ GET /favicon.ico 200 in 18ms
+ GET /favicon.ico 200 in 31ms
+ GET /favicon.ico 200 in 72ms
+ ✓ Compiled /_not-found in 394ms (3176 modules)
+ ✓ Compiled in 424ms (3176 modules)
+ GET /favicon.ico 200 in 929ms
+ GET /icon-144x144.png 404 in 1037ms
+ GET /icon-144x144.png 404 in 94ms
+ GET /icon-144x144.png 404 in 70ms
+ ✓ Compiled in 362ms (1763 modules)
+ GET / 200 in 60ms
+ GET /customisation/how-it-works 200 in 76ms
+ GET /solutions/solicitors 200 in 80ms
+ GET /favicon.ico 200 in 22ms
+ GET /favicon.ico 200 in 17ms
+ GET /icon-144x144.png 404 in 83ms
+ GET /favicon.ico 200 in 85ms
+ GET /favicon.ico 200 in 12ms
+ GET /favicon.ico 200 in 87ms
+ GET /icon-144x144.png 404 in 81ms
+ GET /icon-144x144.png 404 in 89ms
+ ✓ Compiled in 658ms (1760 modules)
+ GET / 200 in 187ms
+ GET /solutions/solicitors 200 in 188ms
+ GET /customisation/how-it-works 200 in 188ms
+ GET /favicon.ico 200 in 38ms
+ GET /favicon.ico 200 in 26ms
+ GET /favicon.ico 200 in 32ms
+ GET /favicon.ico 200 in 92ms
+ ✓ Compiled /_not-found in 402ms (3176 modules)
+ ✓ Compiled in 413ms (3176 modules)
+ GET /favicon.ico 200 in 931ms
+ GET /icon-144x144.png 404 in 1067ms
+ GET /icon-144x144.png 404 in 76ms
+ GET /icon-144x144.png 404 in 66ms
+ ✓ Compiled in 1083ms (3264 modules)
+ GET / 200 in 728ms
+ GET /customisation/how-it-works 200 in 728ms
+ GET /solutions/solicitors 200 in 728ms
+ GET / 200 in 35ms
+ GET /customisation/how-it-works 200 in 50ms
+ GET /solutions/solicitors 200 in 51ms
+ GET / 200 in 22ms
+ GET /customisation/how-it-works 200 in 34ms
+ GET /solutions/solicitors 200 in 38ms
+ ✓ Compiled /favicon.ico in 258ms (3176 modules)
+ GET /favicon.ico 200 in 653ms
+ GET /icon-144x144.png 404 in 673ms
+ GET /favicon.ico 200 in 215ms
+ GET /icon-144x144.png 404 in 190ms
+ GET /favicon.ico 200 in 19ms
+ GET /favicon.ico 200 in 17ms
+ GET /icon-144x144.png 404 in 75ms
+ GET /favicon.ico 200 in 81ms
+ ✓ Compiled in 540ms (1763 modules)
+ GET / 200 in 178ms
+ GET /customisation/how-it-works 200 in 180ms
+ GET /solutions/solicitors 200 in 180ms
+ GET /favicon.ico 200 in 31ms
+ GET /favicon.ico 200 in 23ms
+ GET /icon-144x144.png 404 in 112ms
+ GET /favicon.ico 200 in 114ms
+ GET /icon-144x144.png 404 in 98ms
  GET /favicon.ico 200 in 100ms
  GET /icon-144x144.png 404 in 81ms
- GET / 200 in 149ms
- GET /customisation/how-it-works 200 in 156ms
- ○ Compiling /resources/buy-off-plan ...
- ✓ Compiled /resources/buy-off-plan in 1624ms (2744 modules)
- ⚠ metadataBase property in metadata export is not set for resolving social open graph or twitter images, using "http://localhost:3000". See https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase
- GET /resources/buy-off-plan 200 in 1023ms
- GET /resources/buy-off-plan 200 in 23ms
- ✓ Compiled /_not-found in 231ms (2640 modules)
- ⚠ metadataBase property in metadata export is not set for resolving social open graph or twitter images, using "http://localhost:3000". See https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase
- GET /images/resources/buy-off-plan.jpg 404 in 764ms
- ⨯ The requested resource isn't a valid image for /images/resources/buy-off-plan.jpg received text/html; charset=utf-8
- GET /images/app-store.png 404 in 754ms
- GET /images/google-play.png 404 in 755ms
- GET /icon-144x144.png 404 in 640ms
- ✓ Compiled in 449ms (1277 modules)
- GET /resources/buy-off-plan 200 in 63ms
- GET /icon-144x144.png 404 in 87ms
- ✓ Compiled in 479ms (1277 modules)
- GET /resources/buy-off-plan 200 in 42ms
- GET /icon-144x144.png 404 in 93ms
- ✓ Compiled in 445ms (1277 modules)
- GET /resources/buy-off-plan 200 in 30ms
- GET /icon-144x144.png 404 in 90ms
- ✓ Compiled in 434ms (1277 modules)
- GET /resources/buy-off-plan 200 in 33ms
- GET /icon-144x144.png 404 in 88ms
- ✓ Compiled in 566ms (1277 modules)
- GET /resources/buy-off-plan 200 in 46ms
- GET /icon-144x144.png 404 in 92ms
- ✓ Compiled in 2.3s (3376 modules)
- ⚠ metadataBase property in metadata export is not set for resolving social open graph or twitter images, using "http://localhost:3000". See https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase
- GET /resources/buy-off-plan 200 in 102ms
- ✓ Compiled /_not-found in 222ms (3366 modules)
- ⚠ metadataBase property in metadata export is not set for resolving social open graph or twitter images, using "http://localhost:3000". See https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase
- GET /images/resources/q1-market-review.jpg 404 in 601ms
- ⨯ The requested resource isn't a valid image for /images/resources/q1-market-review.jpg received text/html; charset=utf-8
- GET /images/solutions/developer-hub.jpg 404 in 596ms
- ⨯ The requested resource isn't a valid image for /images/solutions/developer-hub.jpg received text/html; charset=utf-8
- GET /icon-144x144.png 404 in 85ms
- GET /resources/buy-off-plan 200 in 251ms
- ✓ Compiled /_not-found in 1808ms (3360 modules)
- ⚠ metadataBase property in metadata export is not set for resolving social open graph or twitter images, using "http://localhost:3000". See https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase
- GET /images/solutions/developer-hub.jpg 404 in 907ms
- ⨯ The requested resource isn't a valid image for /images/solutions/developer-hub.jpg received text/html; charset=utf-8
- GET /images/resources/q1-market-review.jpg 404 in 900ms
- ⨯ The requested resource isn't a valid image for /images/resources/q1-market-review.jpg received text/html; charset=utf-8
- GET /resources/buy-off-plan 200 in 34ms
- GET /icon-144x144.png 404 in 76ms
- GET /solutions/professional-investors 404 in 24ms
- GET /solutions/professional-investors 404 in 109ms
- ○ Compiling /favicon.ico ...
- ✓ Compiled /favicon.ico in 1254ms (3376 modules)
- ⚠ metadataBase property in metadata export is not set for resolving social open graph or twitter images, using "http://localhost:3000". See https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase
- GET /images/solutions/developer-hub.jpg 404 in 1682ms
- ⨯ The requested resource isn't a valid image for /images/solutions/developer-hub.jpg received text/html; charset=utf-8
- GET /images/resources/q1-market-review.jpg 404 in 1682ms
- ⨯ The requested resource isn't a valid image for /images/resources/q1-market-review.jpg received text/html; charset=utf-8
- GET /favicon.ico 200 in 1794ms
- GET /icon-144x144.png 404 in 85ms
- ○ Compiling /resources/calculators ...
- ✓ Compiled /resources/calculators in 625ms (3391 modules)
- ⚠ metadataBase property in metadata export is not set for resolving social open graph or twitter images, using "http://localhost:3000". See https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase
- GET /resources/calculators 200 in 727ms
- GET /icon-144x144.png 404 in 281ms
- ✓ Compiled /resources/property-guides in 287ms (3398 modules)
- ⚠ metadataBase property in metadata export is not set for resolving social open graph or twitter images, using "http://localhost:3000". See https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase
- GET /resources/property-guides 200 in 378ms
- GET /images/resources/ber-ratings.jpg 404 in 199ms
- ⨯ The requested resource isn't a valid image for /images/resources/ber-ratings.jpg received text/html; charset=utf-8
- GET /images/resources/help-to-buy.jpg 404 in 171ms
- ⨯ The requested resource isn't a valid image for /images/resources/help-to-buy.jpg received text/html; charset=utf-8
- GET /images/resources/mortgage-approval.jpg 404 in 172ms
- ⨯ The requested resource isn't a valid image for /images/resources/mortgage-approval.jpg received text/html; charset=utf-8
- GET /images/resources/negotiation.jpg 404 in 109ms
- ⨯ The requested resource isn't a valid image for /images/resources/negotiation.jpg received text/html; charset=utf-8
- GET /images/resources/stamp-duty.jpg 404 in 175ms
- ⨯ The requested resource isn't a valid image for /images/resources/stamp-duty.jpg received text/html; charset=utf-8
- GET /icon-144x144.png 404 in 65ms
- ○ Compiling /resources/templates ...
- ✓ Compiled /resources/templates in 699ms (3405 modules)
- ⚠ metadataBase property in metadata export is not set for resolving social open graph or twitter images, using "http://localhost:3000". See https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase
- GET /resources/templates 200 in 802ms
- GET /icon-144x144.png 404 in 155ms
- ✓ Compiled /company/about in 340ms (3412 modules)
- ⚠ metadataBase property in metadata export is not set for resolving social open graph or twitter images, using "http://localhost:3000". See https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase
- GET /company/about 200 in 413ms
- GET /images/about/about-hero.jpg 404 in 158ms
- ⨯ The requested resource isn't a valid image for /images/about/about-hero.jpg received text/html; charset=utf-8
- GET /images/about/mission.jpg 404 in 84ms
- ⨯ The requested resource isn't a valid image for /images/about/mission.jpg received text/html; charset=utf-8
- GET /icon-144x144.png 404 in 71ms
- GET /images/team/head-development.jpg 404 in 240ms
- ⨯ The requested resource isn't a valid image for /images/team/head-development.jpg received text/html; charset=utf-8
- GET /images/team/cto.jpg 404 in 240ms
- ⨯ The requested resource isn't a valid image for /images/team/cto.jpg received text/html; charset=utf-8
- GET /images/team/ceo.jpg 404 in 242ms
- ⨯ The requested resource isn't a valid image for /images/team/ceo.jpg received text/html; charset=utf-8
- GET /images/team/head-ux.jpg 404 in 90ms
- ⨯ The requested resource isn't a valid image for /images/team/head-ux.jpg received text/html; charset=utf-8
- GET /images/team/head-legal.jpg 404 in 167ms
- ⨯ The requested resource isn't a valid image for /images/team/head-legal.jpg received text/html; charset=utf-8
- GET /images/team/cfo.jpg 404 in 167ms
- ⨯ The requested resource isn't a valid image for /images/team/cfo.jpg received text/html; charset=utf-8
- GET /images/about/join-team.jpg 404 in 90ms
- ⨯ The requested resource isn't a valid image for /images/about/join-team.jpg received text/html; charset=utf-8
- ○ Compiling /contact ...
- ✓ Compiled /contact in 1311ms (3462 modules)
- ⚠ metadataBase property in metadata export is not set for resolving social open graph or twitter images, using "http://localhost:3000". See https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase
- GET /contact 200 in 1461ms
- GET /icon-144x144.png 404 in 161ms
- GET /images/map-marker.svg 404 in 93ms
- GET /solutions/professional-investors 404 in 35ms
- GET /solutions/professional-investors 404 in 127ms
- ○ Compiling /favicon.ico ...
- ✓ Compiled /favicon.ico in 729ms (3451 modules)
- ⚠ metadataBase property in metadata export is not set for resolving social open graph or twitter images, using "http://localhost:3000". See https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase
- GET /images/solutions/developer-hub.jpg 404 in 958ms
- ⨯ The requested resource isn't a valid image for /images/solutions/developer-hub.jpg received text/html; charset=utf-8
- GET /images/resources/q1-market-review.jpg 404 in 960ms
- ⨯ The requested resource isn't a valid image for /images/resources/q1-market-review.jpg received text/html; charset=utf-8
- GET /favicon.ico 200 in 1073ms
- GET /icon-144x144.png 404 in 431ms
- ○ Compiling /solutions/professional-investors ...
- ⚠ ./src/app/solutions/professional-investors/page.tsx
-Attempted import error: 'ChartLine' is not exported from '__barrel_optimize__?names=Banknote,BarChart3,Building,Building2,ChartLine,Clock,Globe,Globe2,Heart,Home,Hotel,Map,PieChart,ShieldCheck,Store,TrendingDown,TrendingUp,Truck,Users!=!lucide-react' (imported as 'ChartLine').
-
-Import trace for requested module:
-./src/app/solutions/professional-investors/page.tsx
-
-./src/app/solutions/professional-investors/page.tsx
-Attempted import error: 'ChartLine' is not exported from '__barrel_optimize__?names=Banknote,BarChart3,Building,Building2,ChartLine,Clock,Globe,Globe2,Heart,Home,Hotel,Map,PieChart,ShieldCheck,Store,TrendingDown,TrendingUp,Truck,Users!=!lucide-react' (imported as 'ChartLine').
-
-Import trace for requested module:
-./src/app/solutions/professional-investors/page.tsx
- ⚠ metadataBase property in metadata export is not set for resolving social open graph or twitter images, using "http://localhost:3000". See https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase
- GET /solutions/professional-investors 200 in 1196ms
- GET /solutions/professional-investors 200 in 27ms
- GET /solutions/professional-investors 200 in 50ms
- GET /solutions/professional-investors 200 in 25ms
- GET /solutions/professional-investors 200 in 23ms
- GET /solutions/professional-investors 200 in 24ms
- GET /solutions/professional-investors 200 in 23ms
- GET /solutions/professional-investors 200 in 21ms
- GET /solutions/professional-investors 200 in 25ms
- GET /solutions/professional-investors 200 in 19ms
- GET /solutions/professional-investors 200 in 21ms
- GET /solutions/professional-investors 200 in 21ms
- GET /solutions/professional-investors 200 in 19ms
- ⨯ [Error: Element type is invalid: expected a string (for built-in components) or a class/function (for composite components) but got: undefined. You likely forgot to export your component from the file it's defined in, or you might have mixed up default and named imports.] {
-  digest: '1128657592'
-}
- GET /solutions/professional-investors 500 in 422ms
- GET /favicon.ico 200 in 44ms
- ⚠ Fast Refresh had to perform a full reload due to a runtime error.
- ⚠ Fast Refresh had to perform a full reload due to a runtime error.
- ✓ Compiled /solutions/professional-investors in 2.2s (3453 modules)
- ⨯ ReferenceError: CheckCircle is not defined
-    at eval (src/app/solutions/professional-investors/page.tsx:490:23)
-    at Array.map (<anonymous>)
-    at eval (src/app/solutions/professional-investors/page.tsx:488:36)
-    at Array.map (<anonymous>)
-    at ProfessionalInvestorsPage (src/app/solutions/professional-investors/page.tsx:478:14)
-  488 |                   {feature.features.map((item, idx) => (
-  489 |                     <li key={idx} className="flex items-center text-sm text-gray-600">
-> 490 |                       <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
-      |                       ^
-  491 |                       {item}
-  492 |                     </li>
-  493 |                   ))} {
-  digest: '1923560692'
-}
- ⨯ ReferenceError: CheckCircle is not defined
-    at eval (src/app/solutions/professional-investors/page.tsx:490:23)
-    at Array.map (<anonymous>)
-    at eval (src/app/solutions/professional-investors/page.tsx:488:36)
-    at Array.map (<anonymous>)
-    at ProfessionalInvestorsPage (src/app/solutions/professional-investors/page.tsx:478:14)
-  488 |                   {feature.features.map((item, idx) => (
-  489 |                     <li key={idx} className="flex items-center text-sm text-gray-600">
-> 490 |                       <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
-      |                       ^
-  491 |                       {item}
-  492 |                     </li>
-  493 |                   ))} {
-  digest: '1923560692'
-}
- ⚠ metadataBase property in metadata export is not set for resolving social open graph or twitter images, using "http://localhost:3000". See https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase
- GET /solutions/professional-investors 500 in 550ms
- ⨯ ReferenceError: CheckCircle is not defined
-    at eval (src/app/solutions/professional-investors/page.tsx:490:23)
-    at Array.map (<anonymous>)
-    at eval (src/app/solutions/professional-investors/page.tsx:488:36)
-    at Array.map (<anonymous>)
-    at ProfessionalInvestorsPage (src/app/solutions/professional-investors/page.tsx:478:14)
-  488 |                   {feature.features.map((item, idx) => (
-  489 |                     <li key={idx} className="flex items-center text-sm text-gray-600">
-> 490 |                       <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
-      |                       ^
-  491 |                       {item}
-  492 |                     </li>
-  493 |                   ))} {
-  digest: '1923560692'
-}
- GET /solutions/professional-investors 500 in 112ms
- ✓ Compiled /favicon.ico in 202ms (1787 modules)
- GET /favicon.ico 200 in 405ms
- GET /favicon.ico 200 in 30ms
- ⚠ Fast Refresh had to perform a full reload due to a runtime error.
- ⚠ Fast Refresh had to perform a full reload due to a runtime error.
- ✓ Compiled /_not-found in 326ms (3459 modules)
- ⚠ metadataBase property in metadata export is not set for resolving social open graph or twitter images, using "http://localhost:3000". See https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase
- GET /images/solutions/developer-hub.jpg 404 in 841ms
- ⨯ The requested resource isn't a valid image for /images/solutions/developer-hub.jpg received text/html; charset=utf-8
- GET /images/resources/q1-market-review.jpg 404 in 837ms
- ⨯ The requested resource isn't a valid image for /images/resources/q1-market-review.jpg received text/html; charset=utf-8
- ⨯ ReferenceError: CheckCircle is not defined
-    at eval (src/app/solutions/professional-investors/page.tsx:490:23)
-    at Array.map (<anonymous>)
-    at eval (src/app/solutions/professional-investors/page.tsx:488:36)
-    at Array.map (<anonymous>)
-    at ProfessionalInvestorsPage (src/app/solutions/professional-investors/page.tsx:478:14)
-  488 |                   {feature.features.map((item, idx) => (
-  489 |                     <li key={idx} className="flex items-center text-sm text-gray-600">
-> 490 |                       <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
-      |                       ^
-  491 |                       {item}
-  492 |                     </li>
-  493 |                   ))} {
-  digest: '1923560692'
-}
- GET /solutions/professional-investors 500 in 786ms
- ⨯ ReferenceError: CheckCircle is not defined
-    at eval (src/app/solutions/professional-investors/page.tsx:490:23)
-    at Array.map (<anonymous>)
-    at eval (src/app/solutions/professional-investors/page.tsx:488:36)
-    at Array.map (<anonymous>)
-    at ProfessionalInvestorsPage (src/app/solutions/professional-investors/page.tsx:478:14)
-  488 |                   {feature.features.map((item, idx) => (
-  489 |                     <li key={idx} className="flex items-center text-sm text-gray-600">
-> 490 |                       <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
-      |                       ^
-  491 |                       {item}
-  492 |                     </li>
-  493 |                   ))} {
-  digest: '1923560692'
-}
- GET /solutions/professional-investors 500 in 194ms
- GET /favicon.ico 200 in 65ms
- GET /favicon.ico 200 in 25ms
- GET /images/solutions/developer-hub.jpg 404 in 173ms
- ⨯ The requested resource isn't a valid image for /images/solutions/developer-hub.jpg received text/html; charset=utf-8
- GET /images/resources/q1-market-review.jpg 404 in 174ms
- ⨯ The requested resource isn't a valid image for /images/resources/q1-market-review.jpg received text/html; charset=utf-8
- ⚠ Fast Refresh had to perform a full reload due to a runtime error.
- ⚠ Fast Refresh had to perform a full reload due to a runtime error.
- ✓ Compiled in 1283ms (3473 modules)
- ⚠ metadataBase property in metadata export is not set for resolving social open graph or twitter images, using "http://localhost:3000". See https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase
- GET /solutions/professional-investors 200 in 515ms
- GET /patterns/grid.svg 404 in 411ms
- GET /images/solutions/developer-hub.jpg 404 in 401ms
- ⨯ The requested resource isn't a valid image for /images/solutions/developer-hub.jpg received text/html; charset=utf-8
- GET /solutions/professional-investors 200 in 823ms
- GET /images/solutions/developer-hub.jpg 404 in 99ms
- ⨯ The requested resource isn't a valid image for /images/solutions/developer-hub.jpg received text/html; charset=utf-8
- GET /favicon.ico 200 in 116ms
- GET /images/resources/q1-market-review.jpg 404 in 97ms
- ⨯ The requested resource isn't a valid image for /images/resources/q1-market-review.jpg received text/html; charset=utf-8
- GET /patterns/grid.svg 404 in 90ms
- GET /images/resources/q1-market-review.jpg 404 in 250ms
- ⨯ The requested resource isn't a valid image for /images/resources/q1-market-review.jpg received text/html; charset=utf-8
- GET /favicon.ico 200 in 32ms
- GET /register/investor 404 in 14ms
- GET /register/investor 404 in 107ms
- GET /images/solutions/developer-hub.jpg 404 in 92ms
- ⨯ The requested resource isn't a valid image for /images/solutions/developer-hub.jpg received text/html; charset=utf-8
- GET /images/resources/q1-market-review.jpg 404 in 159ms
- ⨯ The requested resource isn't a valid image for /images/resources/q1-market-review.jpg received text/html; charset=utf-8
- GET /favicon.ico 200 in 175ms
- GET /icon-144x144.png 404 in 97ms
- ✓ Compiled in 874ms (1685 modules)
- GET /register/investor 404 in 86ms
- GET /solutions/professional-investors 200 in 108ms
- GET /register/investor 404 in 78ms
- GET /patterns/grid.svg 404 in 105ms
+ GET /favicon.ico 200 in 81ms
+ ✓ Compiled in 365ms (1763 modules)
+ GET /customisation/how-it-works 200 in 54ms
+ GET / 200 in 56ms
+ GET /solutions/solicitors 200 in 65ms
+ GET /favicon.ico 200 in 33ms
  GET /favicon.ico 200 in 21ms
- GET /images/solutions/developer-hub.jpg 404 in 83ms
- ⨯ The requested resource isn't a valid image for /images/solutions/developer-hub.jpg received text/html; charset=utf-8
- GET /images/resources/q1-market-review.jpg 404 in 185ms
- ⨯ The requested resource isn't a valid image for /images/resources/q1-market-review.jpg received text/html; charset=utf-8
- GET /icon-144x144.png 404 in 189ms
- GET /icon-144x144.png 404 in 103ms
- ○ Compiling /register/investor ...
- ✓ Compiled /register/investor in 2.6s (3575 modules)
- ⚠ metadataBase property in metadata export is not set for resolving social open graph or twitter images, using "http://localhost:3000". See https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase
- GET /solutions/professional-investors 200 in 1941ms
- GET /register/investor 200 in 1956ms
- GET /solutions/professional-investors 200 in 42ms
- GET /register/investor 200 in 42ms
- ✓ Compiled /_not-found in 329ms (3471 modules)
- ⚠ metadataBase property in metadata export is not set for resolving social open graph or twitter images, using "http://localhost:3000". See https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase
- GET /patterns/grid.svg 404 in 668ms
- GET /icon-144x144.png 404 in 513ms
- GET /icon-144x144.png 404 in 79ms
- GET /solutions/professional-investors 200 in 263ms
- GET /patterns/grid.svg 404 in 119ms
- ✓ Compiled in 1445ms (3476 modules)
- ⚠ metadataBase property in metadata export is not set for resolving social open graph or twitter images, using "http://localhost:3000". See https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase
- GET /solutions/professional-investors 200 in 109ms
- GET /solutions/professional-investors 200 in 23ms
- ✓ Compiled /_not-found in 278ms (3466 modules)
- ⚠ metadataBase property in metadata export is not set for resolving social open graph or twitter images, using "http://localhost:3000". See https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase
- GET /patterns/grid.svg 404 in 545ms
- GET /icon-144x144.png 404 in 406ms
- GET /patterns/grid.svg 404 in 136ms
- GET /icon-144x144.png 404 in 137ms
- ✓ Compiled in 826ms (3480 modules)
- ⚠ metadataBase property in metadata export is not set for resolving social open graph or twitter images, using "http://localhost:3000". See https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase
- GET /solutions/professional-investors 200 in 70ms
- GET /solutions/professional-investors 200 in 37ms
- GET /patterns/grid.svg 404 in 248ms
- GET /patterns/grid.svg 404 in 108ms
- GET /icon-144x144.png 404 in 86ms
- GET /icon-144x144.png 404 in 79ms
- ✓ Compiled in 895ms (3480 modules)
- ⚠ metadataBase property in metadata export is not set for resolving social open graph or twitter images, using "http://localhost:3000". See https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase
- GET /solutions/professional-investors 200 in 94ms
- GET /solutions/professional-investors 200 in 18ms
- GET /patterns/grid.svg 404 in 168ms
- GET /patterns/grid.svg 404 in 157ms
- GET /icon-144x144.png 404 in 94ms
- GET /icon-144x144.png 404 in 78ms
- ✓ Compiled in 1547ms (3484 modules)
- ⚠ metadataBase property in metadata export is not set for resolving social open graph or twitter images, using "http://localhost:3000". See https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase
- GET /solutions/professional-investors 200 in 57ms
- GET /solutions/professional-investors 200 in 19ms
- ✓ Compiled /_not-found in 303ms (3474 modules)
- ⚠ metadataBase property in metadata export is not set for resolving social open graph or twitter images, using "http://localhost:3000". See https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase
- GET /images/resources/q1-market-review.jpg 404 in 700ms
- ⨯ The requested resource isn't a valid image for /images/resources/q1-market-review.jpg received text/html; charset=utf-8
- GET /images/solutions/developer-hub.jpg 404 in 697ms
- ⨯ The requested resource isn't a valid image for /images/solutions/developer-hub.jpg received text/html; charset=utf-8
- GET /patterns/grid.svg 404 in 572ms
- GET /icon-144x144.png 404 in 546ms
- GET /images/resources/q1-market-review.jpg 404 in 223ms
- ⨯ The requested resource isn't a valid image for /images/resources/q1-market-review.jpg received text/html; charset=utf-8
- GET /images/solutions/developer-hub.jpg 404 in 224ms
- ⨯ The requested resource isn't a valid image for /images/solutions/developer-hub.jpg received text/html; charset=utf-8
- GET /patterns/grid.svg 404 in 227ms
- GET /icon-144x144.png 404 in 76ms
- GET /register/investor 200 in 131ms
- GET /icon-144x144.png 404 in 120ms
- ✓ Compiled in 1072ms (1698 modules)
- GET /solutions/professional-investors 200 in 76ms
- GET /register/investor 200 in 104ms
- ✓ Compiled /_not-found in 461ms (3474 modules)
- ⚠ metadataBase property in metadata export is not set for resolving social open graph or twitter images, using "http://localhost:3000". See https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase
- GET /patterns/grid.svg 404 in 705ms
- GET /icon-144x144.png 404 in 516ms
- GET /icon-144x144.png 404 in 77ms
- GET / 200 in 199ms
- GET / 200 in 22ms
- GET / 200 in 30ms
- GET /icon-144x144.png 404 in 97ms
- GET / 200 in 25ms
- GET / 200 in 18ms
- GET / 200 in 20ms
- GET / 200 in 19ms
- GET / 200 in 22ms
- GET / 200 in 19ms
- GET / 200 in 18ms
- GET / 200 in 21ms
- GET / 200 in 19ms
- GET / 200 in 16ms
- GET / 200 in 17ms
- GET / 200 in 17ms
- GET / 200 in 17ms
- GET / 200 in 18ms
- GET / 200 in 17ms
- GET / 200 in 16ms
- GET / 200 in 17ms
- GET / 200 in 16ms
- ⚠ Fast Refresh had to perform a full reload due to a runtime error.
- ✓ Compiled in 1062ms (3488 modules)
- ✓ Compiled in 0ms (1787 modules)
- ✓ Compiled in 0ms (1787 modules)
- ✓ Compiled in 1ms (1787 modules)
- ⨯ ReferenceError: Timer is not defined
-    at ProfessionalInvestorsPage (src/app/solutions/professional-investors/page.tsx:554:17)
-  552 |               </div>
-  553 |               <div className="bg-white rounded-xl p-6 shadow-lg border border-purple-200">
-> 554 |                 <Timer className="h-8 w-8 text-purple-600 mx-auto mb-3" />
-      |                 ^
-  555 |                 <h3 className="font-bold text-gray-900 mb-2">Milestone Releases</h3>
-  556 |                 <p className="text-gray-600">Funds released based on verified construction progress</p>
-  557 |               </div> {
-  digest: '180996556'
-}
- ⚠ metadataBase property in metadata export is not set for resolving social open graph or twitter images, using "http://localhost:3000". See https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase
- GET /solutions/professional-investors 500 in 900ms
- ⚠ metadataBase property in metadata export is not set for resolving social open graph or twitter images, using "http://localhost:3000". See https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase
- GET /register/investor 200 in 923ms
- GET / 200 in 923ms
- GET /icon-144x144.png 404 in 158ms
- ○ Compiling /favicon.ico ...
- ✓ Compiled /favicon.ico in 802ms (3490 modules)
- ⚠ metadataBase property in metadata export is not set for resolving social open graph or twitter images, using "http://localhost:3000". See https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase
- GET /favicon.ico 200 in 1049ms
- GET /icon-144x144.png 404 in 977ms
- GET /images/solutions/developer-hub.jpg 404 in 183ms
- ⨯ The requested resource isn't a valid image for /images/solutions/developer-hub.jpg received text/html; charset=utf-8
- GET /images/resources/q1-market-review.jpg 404 in 184ms
- ⨯ The requested resource isn't a valid image for /images/resources/q1-market-review.jpg received text/html; charset=utf-8
- ⨯ ./src/app/solutions/professional-investors/page.tsx
-Module parse failed: Identifier 'Zap' has already been declared (5:272)
-| import React, { useState } from 'react';
-| import Link from 'next/link';
-> import { Building, Building2, TrendingUp, Shield, Banknote, Globe2, BarChart3, Users, Clock, Home, Store, Hotel, Truck, Target, Activity, ChevronRight, ArrowRight, Trophy, Zap, ShieldCheck, CheckCircle, Hammer, FileText, Camera, AlertCircle, CheckCircle2, Package, Timer, Zap } from "__barrel_optimize__?names=Activity,AlertCircle,ArrowRight,Banknote,BarChart3,Building,Building2,Camera,CheckCircle,CheckCircle2,ChevronRight,Clock,FileText,Globe2,Hammer,Home,Hotel,Package,Shield,ShieldCheck,Store,Target,Timer,TrendingUp,Trophy,Truck,Users,Zap!=!lucide-react";
-| import { motion, AnimatePresence } from 'framer-motion';
-| // Mock portfolio data
-
-Import trace for requested module:
-./src/app/solutions/professional-investors/page.tsx
- ✓ Compiled in 931ms (3505 modules)
- ⚠ Fast Refresh had to perform a full reload due to a runtime error.
- ⚠ metadataBase property in metadata export is not set for resolving social open graph or twitter images, using "http://localhost:3000". See https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase
- GET / 200 in 667ms
- GET /register/investor 200 in 679ms
- GET /solutions/professional-investors 200 in 697ms
- GET /images/solutions/developer-hub.jpg 404 in 105ms
- ⨯ The requested resource isn't a valid image for /images/solutions/developer-hub.jpg received text/html; charset=utf-8
- GET /icon-144x144.png 404 in 115ms
- GET /images/resources/q1-market-review.jpg 404 in 392ms
- ⨯ The requested resource isn't a valid image for /images/resources/q1-market-review.jpg received text/html; charset=utf-8
- GET /icon-144x144.png 404 in 400ms
- GET /patterns/grid.svg 404 in 103ms
- GET /favicon.ico 200 in 20ms
- GET /images/solutions/developer-hub.jpg 404 in 194ms
- ⨯ The requested resource isn't a valid image for /images/solutions/developer-hub.jpg received text/html; charset=utf-8
- GET /images/resources/q1-market-review.jpg 404 in 195ms
- ⨯ The requested resource isn't a valid image for /images/resources/q1-market-review.jpg received text/html; charset=utf-8
- GET /icon-144x144.png 404 in 93ms
- ✓ Compiled in 1807ms (3613 modules)
- ⚠ metadataBase property in metadata export is not set for resolving social open graph or twitter images, using "http://localhost:3000". See https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase
- GET / 200 in 1192ms
- GET /solutions/professional-investors 200 in 1192ms
- GET /register/investor 200 in 1194ms
- GET / 200 in 38ms
- GET /solutions/professional-investors 200 in 55ms
- GET /register/investor 200 in 35ms
- GET /patterns/grid.svg 404 in 710ms
- GET /icon-144x144.png 404 in 163ms
- GET /icon-144x144.png 404 in 107ms
+ GET /favicon.ico 200 in 85ms
  GET /icon-144x144.png 404 in 83ms
- GET /solutions/professional-investors 200 in 23ms
- GET /patterns/grid.svg 404 in 86ms
- GET /icon-144x144.png 404 in 90ms
- ✓ Compiled in 834ms (3505 modules)
- ⚠ metadataBase property in metadata export is not set for resolving social open graph or twitter images, using "http://localhost:3000". See https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase
- GET /solutions/professional-investors 200 in 95ms
- GET /register/investor 200 in 96ms
- GET /solutions/professional-investors 200 in 19ms
- GET /patterns/grid.svg 404 in 215ms
- GET /icon-144x144.png 404 in 218ms
- GET /patterns/grid.svg 404 in 76ms
- GET /icon-144x144.png 404 in 76ms
- GET /icon-144x144.png 404 in 75ms
- ✓ Compiled in 606ms (3505 modules)
- ⚠ metadataBase property in metadata export is not set for resolving social open graph or twitter images, using "http://localhost:3000". See https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase
- GET /register/investor 200 in 100ms
- GET /solutions/professional-investors 200 in 112ms
- GET /solutions/professional-investors 200 in 26ms
- GET /patterns/grid.svg 404 in 152ms
- GET /patterns/grid.svg 404 in 97ms
- GET /icon-144x144.png 404 in 109ms
- GET /icon-144x144.png 404 in 100ms
- GET /icon-144x144.png 404 in 98ms
- ✓ Compiled in 891ms (3489 modules)
- ⚠ metadataBase property in metadata export is not set for resolving social open graph or twitter images, using "http://localhost:3000". See https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase
- GET /register/investor 200 in 296ms
- GET /solutions/professional-investors 200 in 298ms
- GET /solutions/professional-investors 200 in 50ms
- GET /patterns/grid.svg 404 in 158ms
- GET /patterns/grid.svg 404 in 85ms
- GET /icon-144x144.png 404 in 70ms
- GET /icon-144x144.png 404 in 68ms
- GET /icon-144x144.png 404 in 68ms
- ✓ Compiled in 868ms (3489 modules)
- ⚠ metadataBase property in metadata export is not set for resolving social open graph or twitter images, using "http://localhost:3000". See https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase
- GET /solutions/professional-investors 200 in 74ms
- GET /register/investor 200 in 122ms
- GET /solutions/professional-investors 200 in 70ms
- GET /patterns/grid.svg 404 in 238ms
- GET /icon-144x144.png 404 in 239ms
- GET /patterns/grid.svg 404 in 80ms
- GET /icon-144x144.png 404 in 81ms
- GET /icon-144x144.png 404 in 78ms
- ✓ Compiled in 829ms (3489 modules)
- ⚠ metadataBase property in metadata export is not set for resolving social open graph or twitter images, using "http://localhost:3000". See https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase
- GET /register/investor 200 in 100ms
- GET /solutions/professional-investors 200 in 102ms
- GET /solutions/professional-investors 200 in 19ms
- GET /patterns/grid.svg 404 in 137ms
- GET /patterns/grid.svg 404 in 80ms
- GET /icon-144x144.png 404 in 80ms
- GET /icon-144x144.png 404 in 80ms
- GET /icon-144x144.png 404 in 90ms
- ✓ Compiled in 1038ms (3489 modules)
- ⚠ metadataBase property in metadata export is not set for resolving social open graph or twitter images, using "http://localhost:3000". See https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase
- GET /images/resources/q1-market-review.jpg 404 in 273ms
- ⨯ The requested resource isn't a valid image for /images/resources/q1-market-review.jpg received text/html; charset=utf-8
- GET /images/solutions/developer-hub.jpg 404 in 268ms
- ⨯ The requested resource isn't a valid image for /images/solutions/developer-hub.jpg received text/html; charset=utf-8
- GET /register/investor 200 in 305ms
- GET /solutions/professional-investors 200 in 326ms
- GET /solutions/professional-investors 200 in 31ms
- GET /patterns/grid.svg 404 in 90ms
- GET /icon-144x144.png 404 in 74ms
- GET /patterns/grid.svg 404 in 172ms
- GET /icon-144x144.png 404 in 173ms
- GET /icon-144x144.png 404 in 70ms
- ✓ Compiled in 850ms (3489 modules)
- ⚠ metadataBase property in metadata export is not set for resolving social open graph or twitter images, using "http://localhost:3000". See https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase
- GET /register/investor 200 in 96ms
- GET /solutions/professional-investors 200 in 101ms
- GET /solutions/professional-investors 200 in 25ms
- GET /patterns/grid.svg 404 in 130ms
- GET /patterns/grid.svg 404 in 80ms
- GET /icon-144x144.png 404 in 77ms
- GET /icon-144x144.png 404 in 76ms
- GET /icon-144x144.png 404 in 78ms
- ✓ Compiled in 1235ms (3489 modules)
- ⚠ metadataBase property in metadata export is not set for resolving social open graph or twitter images, using "http://localhost:3000". See https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase
- GET /solutions/professional-investors 200 in 103ms
- GET /register/investor 200 in 104ms
- GET /solutions/professional-investors 200 in 20ms
- GET /patterns/grid.svg 404 in 206ms
- GET /icon-144x144.png 404 in 207ms
- GET /patterns/grid.svg 404 in 78ms
- GET /icon-144x144.png 404 in 77ms
- GET /icon-144x144.png 404 in 78ms
- ✓ Compiled in 641ms (3489 modules)
- ⚠ metadataBase property in metadata export is not set for resolving social open graph or twitter images, using "http://localhost:3000". See https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase
- GET /register/investor 200 in 129ms
- GET /solutions/professional-investors 200 in 132ms
- GET /solutions/professional-investors 200 in 39ms
- GET /patterns/grid.svg 404 in 154ms
- GET /patterns/grid.svg 404 in 87ms
- GET /icon-144x144.png 404 in 71ms
- GET /icon-144x144.png 404 in 69ms
- GET /icon-144x144.png 404 in 72ms
- ✓ Compiled in 1279ms (3583 modules)
- ⚠ metadataBase property in metadata export is not set for resolving social open graph or twitter images, using "http://localhost:3000". See https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase
- GET /solutions/professional-investors 200 in 640ms
- GET /register/investor 200 in 656ms
- GET /solutions/professional-investors 200 in 39ms
- GET /register/investor 200 in 56ms
- GET /solutions/professional-investors 200 in 41ms
- GET /solutions/professional-investors 200 in 20ms
- GET /patterns/grid.svg 404 in 146ms
- GET /patterns/grid.svg 404 in 73ms
- GET /icon-144x144.png 404 in 84ms
- GET /icon-144x144.png 404 in 80ms
- GET /icon-144x144.png 404 in 81ms
- ✓ Compiled in 1138ms (3485 modules)
- ⚠ metadataBase property in metadata export is not set for resolving social open graph or twitter images, using "http://localhost:3000". See https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase
- ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/register/investor/page.js'] {
-  errno: -2,
-  code: 'ENOENT',
-  syscall: 'open',
-  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/register/investor/page.js',
-  page: '/register/investor'
+ GET /favicon.ico 200 in 16ms
+ GET /icon-144x144.png 404 in 79ms
+ GET /favicon.ico 200 in 82ms
+ GET /icon-144x144.png 404 in 85ms
+ ✓ Compiled in 332ms (1763 modules)
+ ⨯ SyntaxError: Unexpected end of JSON input
+    at JSON.parse (<anonymous>) {
+  page: '/customisation/how-it-works'
 }
- GET /solutions/professional-investors 200 in 111ms
- GET /solutions/professional-investors 200 in 136ms
- ○ Compiling /_not-found ...
- ✓ Compiled /_not-found in 1306ms (3806 modules)
- ⚠ metadataBase property in metadata export is not set for resolving social open graph or twitter images, using "http://localhost:3000". See https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase
- GET /_next/static/css/app/layout.css?v=1747470669666 404 in 1682ms
- GET /solutions/professional-investors 200 in 955ms
- GET /solutions/professional-investors 200 in 20ms
- GET /register/investor 500 in 2051ms
- GET /_next/static/css/app/layout.css?v=1747470671441 404 in 189ms
- GET /_next/static/css/app/layout.css?v=1747470671441 404 in 75ms
- GET /register/investor 200 in 30ms
- GET /icon-144x144.png 404 in 71ms
- GET /register/investor 200 in 19ms
- GET /register/investor 200 in 131ms
- GET /_next/static/css/app/layout.css?v=1747470671942 404 in 76ms
- GET /_next/static/chunks/main-app.js?v=1747470671942 404 in 310ms
- GET /_next/static/chunks/app/register/investor/page.js 404 in 310ms
- GET /_next/static/chunks/app-pages-internals.js 404 in 314ms
- ✓ Compiled /favicon.ico in 476ms (1891 modules)
- GET /favicon.ico 200 in 667ms
- ⚠ metadataBase property in metadata export is not set for resolving social open graph or twitter images, using "http://localhost:3000". See https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase
- GET /register/investor 200 in 270ms
- GET /_next/static/css/app/layout.css?v=1747470676437 404 in 94ms
- GET /_next/static/chunks/main-app.js?v=1747470676437 404 in 253ms
- GET /_next/static/chunks/app-pages-internals.js 404 in 252ms
- GET /_next/static/chunks/app/register/investor/page.js 404 in 252ms
- GET /favicon.ico 200 in 19ms
- GET /images/resources/q1-market-review.jpg 404 in 170ms
- ⨯ The requested resource isn't a valid image for /images/resources/q1-market-review.jpg received text/html; charset=utf-8
- GET /images/solutions/developer-hub.jpg 404 in 166ms
- ⨯ The requested resource isn't a valid image for /images/solutions/developer-hub.jpg received text/html; charset=utf-8
- GET /customisation/how-it-works 200 in 185ms
- GET /_next/static/css/app/layout.css?v=1747470687440 404 in 87ms
- GET /_next/static/chunks/main-app.js?v=1747470687440 404 in 279ms
- GET /_next/static/chunks/app-pages-internals.js 404 in 278ms
- GET /_next/static/chunks/app/customisation/how-it-works/page.js 404 in 281ms
- GET /favicon.ico 200 in 87ms
- GET /solutions/professional-investors 200 in 190ms
- GET /_next/static/css/app/layout.css?v=1747470690426 404 in 80ms
- GET /_next/static/chunks/app-pages-internals.js 404 in 212ms
- GET /_next/static/chunks/main-app.js?v=1747470690426 404 in 213ms
- GET /favicon.ico 200 in 210ms
- GET /solutions/professional-investors 200 in 347ms
- GET /_next/static/css/app/layout.css?v=1747470815661 404 in 1039ms
- GET /_next/static/chunks/webpack.js?v=1747470815661 404 in 1036ms
- GET /_next/static/chunks/app/layout.js 404 in 335ms
- GET /_next/static/chunks/app-pages-internals.js 404 in 335ms
- GET /_next/static/chunks/main-app.js?v=1747470815661 404 in 337ms
- GET /_next/static/chunks/app/solutions/professional-investors/page.js 404 in 336ms
- GET /favicon.ico 200 in 24ms
- GET /solutions/professional-investors 200 in 214ms
- GET /_next/static/css/app/layout.css?v=1747470822087 404 in 506ms
- GET /_next/static/chunks/webpack.js?v=1747470822087 404 in 508ms
- GET /_next/static/chunks/main-app.js?v=1747470822087 404 in 344ms
- GET /_next/static/chunks/app/layout.js 404 in 333ms
- GET /_next/static/chunks/app/solutions/professional-investors/page.js 404 in 332ms
- GET /_next/static/chunks/app-pages-internals.js 404 in 343ms
+ GET / 200 in 394ms
+ GET /solutions/solicitors 200 in 408ms
+ ○ Compiling /_error ...
+ ✓ Compiled /_error in 2.3s (3507 modules)
+ GET /favicon.ico 200 in 2102ms
+ GET /icon-144x144.png 404 in 829ms
+ GET / 200 in 813ms
+ GET /solutions/solicitors 200 in 816ms
+ GET /favicon.ico 200 in 31ms
+ GET /favicon.ico 200 in 22ms
+ GET /customisation/how-it-works 500 in 2823ms
+ GET / 200 in 126ms
+ GET /favicon.ico 200 in 114ms
+ GET /solutions/solicitors 200 in 212ms
+ GET /icon-144x144.png 404 in 102ms
+ GET /favicon.ico 200 in 102ms
+ GET / 200 in 51ms
+ GET /customisation/how-it-works 200 in 53ms
+ GET /solutions/solicitors 200 in 52ms
+ GET /customisation/how-it-works 200 in 18ms
+ GET /customisation/how-it-works 200 in 22ms
+ GET /customisation/how-it-works 200 in 281ms
+ GET /favicon.ico 200 in 142ms
+ GET /favicon.ico 200 in 50ms
+ GET /favicon.ico 200 in 221ms
+ GET /icon-144x144.png 404 in 224ms
+ GET /favicon.ico 200 in 28ms
+ GET /icon-144x144.png 404 in 96ms
+ GET /favicon.ico 200 in 96ms
+ GET /favicon.ico 200 in 15ms
+ ✓ Compiled in 535ms (2007 modules)
+ GET / 200 in 136ms
+ GET /solutions/solicitors 200 in 137ms
+ GET /customisation/how-it-works 200 in 137ms
  GET /favicon.ico 200 in 20ms
- GET /solutions/professional-investors 200 in 188ms
- GET /_next/static/css/app/layout.css?v=1747470961695 404 in 170ms
- GET /_next/static/chunks/webpack.js?v=1747470961695 404 in 466ms
- GET /_next/static/chunks/app-pages-internals.js 404 in 310ms
- GET /_next/static/chunks/main-app.js?v=1747470961695 404 in 310ms
- GET /_next/static/chunks/app/layout.js 404 in 309ms
- GET /_next/static/chunks/app/solutions/professional-investors/page.js 404 in 309ms
- GET /favicon.ico 200 in 13ms
+ GET /favicon.ico 200 in 16ms
+ GET /favicon.ico 200 in 20ms
+ GET /icon-144x144.png 404 in 89ms
+ GET /favicon.ico 200 in 90ms
+ GET /icon-144x144.png 404 in 88ms
+ GET /favicon.ico 200 in 89ms
+ GET /icon-144x144.png 404 in 79ms
+ ✓ Compiled in 384ms (2007 modules)
+ GET /solutions/solicitors 200 in 65ms
+ GET / 200 in 65ms
+ GET /customisation/how-it-works 200 in 65ms
+ GET /favicon.ico 200 in 39ms
+ GET /favicon.ico 200 in 24ms
+ GET /favicon.ico 200 in 96ms
+ GET /icon-144x144.png 404 in 97ms
+ GET /favicon.ico 200 in 104ms
+ GET /icon-144x144.png 404 in 100ms
+ GET /favicon.ico 200 in 102ms
+ GET /icon-144x144.png 404 in 93ms
+ ✓ Compiled in 487ms (207 modules)
+ ✓ Compiled in 569ms (2003 modules)
+ GET /solutions/solicitors 200 in 87ms
+ GET / 200 in 87ms
+ GET /customisation/how-it-works 200 in 87ms
+ GET /favicon.ico 200 in 54ms
+ GET /favicon.ico 200 in 50ms
+ GET /favicon.ico 200 in 94ms
+ ✓ Compiled /_not-found in 437ms (3464 modules)
+ ✓ Compiled in 581ms (3464 modules)
+ GET /favicon.ico 200 in 1138ms
+ GET /icon-144x144.png 404 in 1297ms
+ GET /favicon.ico 200 in 99ms
+ GET /icon-144x144.png 404 in 88ms
+ GET /icon-144x144.png 404 in 65ms
+ ✓ Compiled in 372ms (2006 modules)
+ GET /solutions/solicitors 200 in 91ms
+ GET / 200 in 91ms
+ GET /customisation/how-it-works 200 in 92ms
+ GET /favicon.ico 200 in 27ms
+ GET /favicon.ico 200 in 20ms
+ GET /icon-144x144.png 404 in 79ms
+ GET /favicon.ico 200 in 88ms
+ GET /icon-144x144.png 404 in 77ms
+ GET /favicon.ico 200 in 80ms
+ GET /icon-144x144.png 404 in 75ms
+ GET /favicon.ico 200 in 79ms
+ ✓ Compiled in 1144ms (3478 modules)
+ GET / 200 in 139ms
+ GET /solutions/solicitors 200 in 140ms
+ GET /customisation/how-it-works 200 in 139ms
+ GET /favicon.ico 200 in 72ms
+ GET /favicon.ico 200 in 16ms
+ GET /favicon.ico 200 in 158ms
+ GET /icon-144x144.png 404 in 159ms
+ GET /favicon.ico 200 in 98ms
+ GET /icon-144x144.png 404 in 95ms
+ GET /favicon.ico 200 in 95ms
+ GET /icon-144x144.png 404 in 88ms
+ ✓ Compiled in 672ms (3540 modules)
+ GET /solutions/solicitors 200 in 104ms
+ GET / 200 in 104ms
+ GET /customisation/how-it-works 200 in 104ms
+ GET /favicon.ico 200 in 238ms
+ GET /favicon.ico 200 in 150ms
+ ○ Compiling /api/auth-disabled ...
+ GET /favicon.ico 200 in 68ms
+ GET /favicon.ico 200 in 30ms
+ GET /favicon.ico 200 in 30ms
+ ✓ Compiled /api/auth-disabled in 881ms (2404 modules)
+ GET /api/auth-disabled 200 in 963ms
+ GET /api/auth-disabled 200 in 11ms
+ GET /api/auth-disabled 200 in 11ms
+ GET /icon-144x144.png 404 in 183ms
+ GET /icon-144x144.png 404 in 87ms
+ GET /api/auth-disabled 200 in 11ms
+ GET /icon-144x144.png 404 in 83ms
+ GET /api/auth-disabled 200 in 9ms
+ GET /api/auth-disabled 200 in 7ms
+ GET /api/auth-disabled 200 in 8ms
+ GET /api/auth-disabled 200 in 7ms
+   Reload env: .env.local
+ ✓ Compiled in 395ms (3907 modules)
+ GET /customisation/how-it-works 200 in 68ms
+ GET / 200 in 77ms
+ GET /solutions/solicitors 200 in 77ms
+ GET /favicon.ico 200 in 25ms
+ GET /favicon.ico 200 in 23ms
+ GET /icon-144x144.png 404 in 147ms
+ GET /favicon.ico 200 in 146ms
+ GET /icon-144x144.png 404 in 99ms
+ GET /favicon.ico 200 in 101ms
+ GET /icon-144x144.png 404 in 78ms
+ GET /favicon.ico 200 in 80ms

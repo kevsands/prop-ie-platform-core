@@ -4,6 +4,7 @@ import React from 'react';
 // Corrected import for @tanstack/react-query v5, common for Next.js App Router
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ToastProvider } from '@/components/ui/toast-context';
+import { SessionProvider } from 'next-auth/react';
 // For React Query Devtools (optional, ensure it's installed if used):
 // import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
@@ -32,12 +33,14 @@ export default function Providers({ children }: { children: React.ReactNode }) {
   );
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <ToastProvider>
-        {children}
-      </ToastProvider>
-      {/* Optional: React Query Devtools for easier debugging during development */}
-      {/* <ReactQueryDevtools initialIsOpen={false} /> */}
-    </QueryClientProvider>
+    <SessionProvider>
+      <QueryClientProvider client={queryClient}>
+        <ToastProvider>
+          {children}
+        </ToastProvider>
+        {/* Optional: React Query Devtools for easier debugging during development */}
+        {/* <ReactQueryDevtools initialIsOpen={false} /> */}
+      </QueryClientProvider>
+    </SessionProvider>
   );
 } 

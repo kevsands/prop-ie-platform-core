@@ -1,60 +1,68 @@
-// src/app/api/auth/register/route.ts
 import { NextRequest, NextResponse } from 'next/server';
+import { prisma } from '@/lib/prisma';
+import bcrypt from 'bcryptjs';
 
-/**
- * DEVELOPMENT VERSION - API route for user registration
- * 
- * This is a simplified version that accepts any valid registration data
- * for development and testing purposes only.
- * 
- * DO NOT USE IN PRODUCTION
- */
 export async function POST(request: NextRequest) {
   try {
-    const data = await request.json() as { 
-      username: string; 
-      password: string;
-      email: string;
-      firstName?: string;
-      lastName?: string;
-      phoneNumber?: string;
-    };
-    const { username, password, email, firstName, lastName, phoneNumber } = data;
+    const body = await request.json();
+    const { name, email, password, userType } = body;
 
-    // Validate required fields - keep basic validation for good practice
-    if (!username || !password || !email) {
+    // Validate input
+    if (!name || !email || !password || !userType) {
       return NextResponse.json(
-        { error: 'Username, password, and email are required' },
+        { error: 'Missing required fields' },
         { status: 400 }
       );
     }
 
-    // Basic password validation
-    if (password.length < 8) {
-      return NextResponse.json(
-        { error: 'Password must be at least 8 characters long' },
-        { status: 400 }
-      );
-    }
-
-    console.log(`[DEV] Registration attempt - Username: ${username}, Email: ${email}`);
-    
-    // In development, always succeed with registration
-    const userId = `dev-user-${Math.random().toString(36).substring(2, 9)}`;
-    
-    return NextResponse.json({
-      success: true,
-      isSignUpComplete: true,
-      userId: userId,
-      nextSteps: { signUpStep: 'CONFIRM_SIGN_UP' },
-      message: '[DEV MODE] User registered successfully. In production, you would need to check your email to confirm your account.'
+    // Check if user already exists
+    const existingUser = await prisma.user.findUnique({
+      where: { email }
     });
-  } catch (error: any) {
-    console.error('[DEV] Registration error:', error);
+
+    if (existingUser) {
+      return NextResponse.json(
+        { error: 'User already exists' },
+        { status: 400 }
+      );
+    }
+
+    // Hash password
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Create user with the existing schema structure
+    const nameParts = name.split(' ');
+    const firstName = nameParts[0];
+    const lastName = nameParts.slice(1).join(' ') || '';
     
-    // Return a generic error
+    const user = await prisma.user.create({
+      data: {
+        firstName,
+        lastName,
+        email,
+        password: hashedPassword,
+        roles: {
+          set: [userType.toUpperCase() as any]
+        },
+        status: 'ACTIVE'
+      }
+    });
+
     return NextResponse.json(
-      { error: error.message || 'Failed to register user' },
+      { 
+        message: 'User created successfully',
+        user: { 
+          id: user.id, 
+          email: user.email, 
+          name: `${user.firstName} ${user.lastName}`
+        }
+      },
+      { status: 201 }
+    );
+  } catch (error) {
+    console.error('Registration error:', error);
+    return NextResponse.json(
+      { error: 'Internal server error' },
       { status: 500 }
     );
   }
