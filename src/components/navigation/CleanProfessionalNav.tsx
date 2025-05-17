@@ -354,8 +354,11 @@ const DropdownMenu = ({ item, isOpen, onMouseEnter, onMouseLeave }: {
         )}
       </Link>
       
-      {item.sections && isOpen && (
-        <div className="absolute left-0 mt-2 w-[1000px] bg-white rounded-lg shadow-xl border border-gray-200 z-50">
+      {item.sections && (
+        <div 
+          className={`absolute left-0 mt-2 w-[1000px] bg-white rounded-lg shadow-xl border border-gray-200 z-50 transition-all duration-200 ${
+            isOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
+          }`}>
           <div className="flex">
             <div className="flex-1 p-6">
               <div className="grid grid-cols-4 gap-8">

@@ -3,7 +3,7 @@
 import React, { useEffect } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import CleanProfessionalNav from '@/components/navigation/CleanProfessionalNav';
+import MainNavigation from '@/components/navigation/MainNavigation';
 import { UserRoleProvider } from '@/context/UserRoleContext';
 import { EnterpriseNotificationProvider } from '@/context/EnterpriseNotificationContext';
 import { TransactionProvider } from '@/context/TransactionContext';
@@ -33,8 +33,8 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
     <TransactionProvider>
       <UserRoleProvider>
         <EnterpriseNotificationProvider>
-          {/* Use the CleanProfessionalNav component */}
-          <CleanProfessionalNav />
+          {/* Use the MainNavigation component */}
+          <MainNavigation />
           
           {/* Main content - preserve all child content */}
           <div className="pt-16"> {/* Add spacing for fixed navigation */}

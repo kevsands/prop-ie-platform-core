@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { 
-  Home, Shield, Palette, Zap, Building, Eye, Target, Key, Smartphone, Users, Calculator, ArrowRight, Star, CheckCircle, Sofa, BedDouble, LampDesk, Tv, Speaker, Award, MessageSquare, Video, Phone, HelpCircle, ChevronRight
+  Home, Shield, Palette, Zap, Building, Eye, Target, Key, Smartphone, Users, Calculator, ArrowRight, Star, CheckCircle, Sofa, BedDouble, LampDesk, Tv, Speaker, Award, MessageSquare, Video, Phone, HelpCircle, ChevronRight, KeyRound, TrendingUp, DollarSign, Baby, Maximize2, BedSingle, Brain, FileText, Lightbulb
 } from 'lucide-react';
 
 const roomPacks = [
@@ -30,6 +30,20 @@ const roomPacks = [
     title: 'Media Room Pack',
     description: 'Home cinema, surround sound, blackout blinds',
     features: ['4K projector', 'Surround sound', 'Blackout blinds', 'Acoustic panels']
+  },
+  {
+    icon: Baby,
+    title: 'Nursery Pack',
+    description: 'Complete nursery setup for your new arrival',
+    features: ['Convertible crib', 'Changing station', 'Baby monitor', 'Blackout curtains', 'Rocking chair'],
+    isNew: true
+  },
+  {
+    icon: KeyRound,
+    title: 'Ready to Rent',
+    description: 'Fully furnished for immediate rental income',
+    features: ['Premium furniture', 'Smart home ready', 'Investor package', 'High ROI setup'],
+    isSpecial: true
   }
 ];
 
@@ -179,24 +193,205 @@ export default function PropChoiceHowItWorksPage() {
           <p className="text-xl text-center text-gray-600 mb-12">
             Choose complete furniture solutions for every room
           </p>
-          <div className="grid md:grid-cols-4 gap-8">
+          <div className="grid md:grid-cols-3 lg:grid-cols-5 gap-8">
             {roomPacks.map((pack, idx) => (
-              <div key={idx} className="bg-gradient-to-br from-purple-100 to-blue-50 rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all">
-                <div className="w-14 h-14 rounded-xl bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center text-white mb-4">
+              <div 
+                key={idx} 
+                className={`relative ${
+                  pack.isSpecial 
+                    ? 'bg-gradient-to-br from-[#1e3347] to-[#2b5273] text-white lg:col-span-2'
+                    : pack.isNew
+                    ? 'bg-gradient-to-br from-pink-100 to-purple-100'
+                    : 'bg-gradient-to-br from-purple-100 to-blue-50'
+                } rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all ${
+                  pack.isSpecial ? 'border-2 border-yellow-400' : ''
+                } ${pack.isNew ? 'border-2 border-pink-400' : ''}`}
+              >
+                {pack.isNew && (
+                  <div className="absolute -top-2 -right-2 bg-pink-500 text-white px-3 py-1 rounded-full text-xs font-bold">
+                    NEW
+                  </div>
+                )}
+                <div className={`w-14 h-14 rounded-xl ${
+                  pack.isSpecial 
+                    ? 'bg-gradient-to-r from-yellow-400 to-orange-500'
+                    : pack.isNew
+                    ? 'bg-gradient-to-r from-pink-500 to-purple-500'
+                    : 'bg-gradient-to-r from-purple-500 to-pink-500'
+                } flex items-center justify-center text-white mb-4`}>
                   {React.createElement(pack.icon, { size: 28 })}
                 </div>
+                {pack.isSpecial && (
+                  <div className="inline-flex items-center gap-2 bg-yellow-400 text-black px-3 py-1 rounded-full text-sm font-bold mb-2">
+                    <TrendingUp size={16} />
+                    For Institutional Investors
+                  </div>
+                )}
                 <h3 className="text-xl font-semibold mb-2">{pack.title}</h3>
-                <p className="text-gray-600 mb-4">{pack.description}</p>
+                <p className={`${pack.isSpecial ? 'text-gray-200' : 'text-gray-600'} mb-4`}>
+                  {pack.description}
+                </p>
                 <ul className="space-y-2">
                   {pack.features.map((feature, bIdx) => (
                     <li key={bIdx} className="flex items-center gap-2 text-sm">
-                      <CheckCircle className="text-green-400" size={16} />
-                      <span className="text-gray-700">{feature}</span>
+                      <CheckCircle className={`${
+                        pack.isSpecial ? 'text-yellow-400' : 
+                        pack.isNew ? 'text-pink-500' : 
+                        'text-green-400'
+                      }`} size={16} />
+                      <span className={pack.isSpecial ? 'text-gray-100' : 'text-gray-700'}>
+                        {feature}
+                      </span>
                     </li>
                   ))}
                 </ul>
+                {pack.isSpecial && (
+                  <div className="mt-4 pt-4 border-t border-yellow-400/30">
+                    <p className="text-sm text-gray-200 mb-2">
+                      Perfect for institutional investors seeking rental-ready properties
+                    </p>
+                    <Link 
+                      href="/solutions/institutional"
+                      className="inline-flex items-center text-yellow-400 font-medium hover:text-yellow-300 transition"
+                    >
+                      Learn more
+                      <ArrowRight className="ml-1 w-4 h-4" />
+                    </Link>
+                  </div>
+                )}
+                {pack.isNew && (
+                  <div className="mt-4 pt-4 border-t border-pink-300">
+                    <p className="text-sm text-gray-700">
+                      Complete setup for your little one's arrival
+                    </p>
+                  </div>
+                )}
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Landlord Optimization Section */}
+      <section className="py-16 bg-gradient-to-br from-blue-900 to-purple-900 text-white">
+        <div className="max-w-6xl mx-auto px-4">
+          <div className="text-center mb-12">
+            <div className="inline-flex items-center gap-2 bg-yellow-400 text-black px-4 py-2 rounded-full text-sm font-bold mb-4">
+              <Lightbulb size={20} />
+              NEW: Landlord Revenue Maximization
+            </div>
+            <h2 className="text-4xl font-bold mb-4">Maximize Your Rental Income</h2>
+            <p className="text-xl text-gray-200 max-w-3xl mx-auto">
+              Our expert consultants help landlords optimize space to increase rental yield by up to 40%
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-8 mb-12">
+            {/* Space Optimization */}
+            <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20">
+              <div className="w-14 h-14 rounded-xl bg-gradient-to-r from-yellow-400 to-orange-500 flex items-center justify-center mb-6">
+                <Maximize2 size={28} className="text-white" />
+              </div>
+              <h3 className="text-2xl font-bold mb-4">Space Optimization</h3>
+              <p className="text-gray-200 mb-6">
+                Transform your property to maximize rental potential
+              </p>
+              <ul className="space-y-4">
+                <li className="flex items-start gap-3">
+                  <CheckCircle className="text-yellow-400 mt-0.5" size={20} />
+                  <div>
+                    <strong>3-Bed to 5-Bed Conversion</strong>
+                    <p className="text-gray-300 text-sm mt-1">
+                      Convert living areas to additional bedrooms, add mezzanines, or optimize layouts
+                    </p>
+                  </div>
+                </li>
+                <li className="flex items-start gap-3">
+                  <CheckCircle className="text-yellow-400 mt-0.5" size={20} />
+                  <div>
+                    <strong>En-suite Addition</strong>
+                    <p className="text-gray-300 text-sm mt-1">
+                      Add en-suites to maximize per-room rental rates
+                    </p>
+                  </div>
+                </li>
+                <li className="flex items-start gap-3">
+                  <CheckCircle className="text-yellow-400 mt-0.5" size={20} />
+                  <div>
+                    <strong>HMO Compliance</strong>
+                    <p className="text-gray-300 text-sm mt-1">
+                      Ensure all conversions meet local HMO regulations
+                    </p>
+                  </div>
+                </li>
+              </ul>
+            </div>
+
+            {/* Professional Management */}
+            <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20">
+              <div className="w-14 h-14 rounded-xl bg-gradient-to-r from-green-400 to-blue-500 flex items-center justify-center mb-6">
+                <Brain size={28} className="text-white" />
+              </div>
+              <h3 className="text-2xl font-bold mb-4">Smart Rental Strategies</h3>
+              <p className="text-gray-200 mb-6">
+                Data-driven approaches to maximize your returns
+              </p>
+              <ul className="space-y-4">
+                <li className="flex items-start gap-3">
+                  <CheckCircle className="text-green-400 mt-0.5" size={20} />
+                  <div>
+                    <strong>Market Analysis</strong>
+                    <p className="text-gray-300 text-sm mt-1">
+                      AI-powered rent optimization based on local demand
+                    </p>
+                  </div>
+                </li>
+                <li className="flex items-start gap-3">
+                  <CheckCircle className="text-green-400 mt-0.5" size={20} />
+                  <div>
+                    <strong>Tenant Profiling</strong>
+                    <p className="text-gray-300 text-sm mt-1">
+                      Target high-value tenants: professionals, families, corporate lets
+                    </p>
+                  </div>
+                </li>
+                <li className="flex items-start gap-3">
+                  <CheckCircle className="text-green-400 mt-0.5" size={20} />
+                  <div>
+                    <strong>Revenue Forecasting</strong>
+                    <p className="text-gray-300 text-sm mt-1">
+                      Predictive analytics for long-term income planning
+                    </p>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          {/* ROI Calculator */}
+          <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-8 text-center">
+            <h3 className="text-2xl font-bold mb-4">Rental Yield Calculator</h3>
+            <div className="grid md:grid-cols-3 gap-6 mb-8">
+              <div className="bg-white/10 rounded-xl p-4">
+                <p className="text-gray-300 mb-2">Current 3-Bed Rental</p>
+                <p className="text-3xl font-bold">€2,200/mo</p>
+                <p className="text-sm text-gray-400">Standard configuration</p>
+              </div>
+              <div className="bg-white/10 rounded-xl p-4">
+                <p className="text-gray-300 mb-2">Optimized 5-Bed Rental</p>
+                <p className="text-3xl font-bold text-green-400">€3,100/mo</p>
+                <p className="text-sm text-gray-400">With room conversions</p>
+              </div>
+              <div className="bg-white/10 rounded-xl p-4">
+                <p className="text-gray-300 mb-2">Yield Increase</p>
+                <p className="text-3xl font-bold text-yellow-400">+41%</p>
+                <p className="text-sm text-gray-400">Additional €900/month</p>
+              </div>
+            </div>
+            <Link href="/landlord-consultation" className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-yellow-400 to-orange-500 text-black rounded-xl font-bold shadow-lg hover:scale-105 transition-all">
+              <Calculator size={24} />
+              Get Free Consultation
+            </Link>
           </div>
         </div>
       </section>

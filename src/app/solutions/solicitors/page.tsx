@@ -1,0 +1,1059 @@
+'use client';
+
+import React, { useState } from 'react';
+import Link from 'next/link';
+import { 
+  FileText,
+  Shield,
+  Users,
+  Building,
+  Briefcase,
+  CheckCircle,
+  Clock,
+  AlertCircle,
+  Download,
+  Upload,
+  Search,
+  ChevronRight,
+  ArrowRight,
+  Calendar,
+  Settings,
+  Bell,
+  BarChart3,
+  Eye,
+  Edit,
+  Share2,
+  CreditCard,
+  Home,
+  MapPin,
+  Calculator,
+  Plus,
+  ChevronDown,
+  UserPlus,
+  FileCheck,
+  ClipboardCheck,
+  Circle,
+  CheckSquare,
+  Key,
+  Minus,
+  X
+} from 'lucide-react';
+
+// Mock data for demonstration
+const developmentsList = [
+  {
+    id: 1,
+    name: 'Fitzgerald Gardens',
+    developer: 'Prestige Developments',
+    units: 120,
+    status: 'Active',
+    slpProgress: 85,
+    bankApproval: true,
+    professionalTeam: {
+      architect: 'Murphy & Associates',
+      engineer: 'Kelly Engineering',
+      contractor: 'BuildCorp Ltd'
+    }
+  },
+  {
+    id: 2,
+    name: 'Ballymakenny View',
+    developer: 'Quality Homes Ireland',
+    units: 85,
+    status: 'In Progress',
+    slpProgress: 60,
+    bankApproval: false,
+    professionalTeam: {
+      architect: 'Design Studio',
+      engineer: 'Pending',
+      contractor: 'Pending'
+    }
+  }
+];
+
+const slpDocuments = [
+  { id: 1, name: 'Planning Permission', status: 'Approved', date: '2024-01-15' },
+  { id: 2, name: 'Fire Safety Certificate', status: 'Approved', date: '2024-02-01' },
+  { id: 3, name: 'Building Control Commencement Notice', status: 'Filed', date: '2024-02-10' },
+  { id: 4, name: 'Development Agreement', status: 'Executed', date: '2024-02-20' },
+  { id: 5, name: 'Title Documentation', status: 'Complete', date: '2024-03-01' },
+  { id: 6, name: 'Building Regulations Certificate', status: 'Pending', date: '-' }
+];
+
+const bankingRequirements = [
+  { id: 1, requirement: 'Development Finance Approval', status: 'Complete', bank: 'AIB' },
+  { id: 2, requirement: 'Stage Payment Schedule', status: 'Approved', bank: 'Bank of Ireland' },
+  { id: 3, requirement: 'Security Documentation', status: 'In Progress', bank: 'Ulster Bank' },
+  { id: 4, requirement: 'Insurance Requirements', status: 'Complete', bank: 'All Banks' }
+];
+
+const recentTransactions = [
+  {
+    id: 1,
+    unit: 'A-1204',
+    buyer: 'John Smith',
+    vendor: 'Prestige Developments',
+    status: 'Contracts Issued',
+    date: '2024-03-15',
+    stage: 'Exchange',
+    solicitor: 'Murphy & Co'
+  },
+  {
+    id: 2,
+    unit: 'B-0803',
+    buyer: 'Sarah Johnson',
+    vendor: 'Quality Homes',
+    status: 'Due Diligence',
+    date: '2024-03-14',
+    stage: 'Pre-Contract',
+    solicitor: 'Kelly Legal'
+  }
+];
+
+export default function SolicitorsPage() {
+  const [activeTab, setActiveTab] = useState('dashboard');
+  const [selectedDevelopment, setSelectedDevelopment] = useState(null);
+  const [filterStatus, setFilterStatus] = useState('all');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [showNewSLPModal, setShowNewSLPModal] = useState(false);
+  const [showProfessionalTeamModal, setShowProfessionalTeamModal] = useState(false);
+
+  const renderDashboard = () => (
+    <div className="space-y-6">
+      {/* Key Metrics */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+          <div className="flex items-center justify-between mb-4">
+            <div className="p-2 bg-blue-100 rounded-lg">
+              <FileText className="w-6 h-6 text-blue-600" />
+            </div>
+            <span className="text-sm font-medium text-green-600 flex items-center">
+              <ArrowRight className="w-4 h-4 mr-1" />
+              +12%
+            </span>
+          </div>
+          <h3 className="text-2xl font-bold text-gray-900">48</h3>
+          <p className="text-sm text-gray-600 mt-1">Active SLPs</p>
+        </div>
+
+        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+          <div className="flex items-center justify-between mb-4">
+            <div className="p-2 bg-green-100 rounded-lg">
+              <Building className="w-6 h-6 text-green-600" />
+            </div>
+          </div>
+          <h3 className="text-2xl font-bold text-gray-900">12</h3>
+          <p className="text-sm text-gray-600 mt-1">Developments</p>
+        </div>
+
+        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+          <div className="flex items-center justify-between mb-4">
+            <div className="p-2 bg-yellow-100 rounded-lg">
+              <Clock className="w-6 h-6 text-yellow-600" />
+            </div>
+          </div>
+          <h3 className="text-2xl font-bold text-gray-900">7.2</h3>
+          <p className="text-sm text-gray-600 mt-1">Avg Days to Complete</p>
+        </div>
+
+        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+          <div className="flex items-center justify-between mb-4">
+            <div className="p-2 bg-purple-100 rounded-lg">
+              <CheckCircle className="w-6 h-6 text-purple-600" />
+            </div>
+          </div>
+          <h3 className="text-2xl font-bold text-gray-900">94%</h3>
+          <p className="text-sm text-gray-600 mt-1">Compliance Rate</p>
+        </div>
+      </div>
+
+      {/* Active Developments Overview */}
+      <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+        <div className="flex items-center justify-between mb-6">
+          <h3 className="text-lg font-semibold text-gray-900">Active Developments</h3>
+          <button
+            onClick={() => setShowNewSLPModal(true)}
+            className="flex items-center space-x-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
+          >
+            <Plus className="w-4 h-4" />
+            <span>Create New SLP</span>
+          </button>
+        </div>
+
+        <div className="overflow-x-auto">
+          <table className="w-full">
+            <thead className="bg-gray-50">
+              <tr>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Development</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Developer</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Units</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">SLP Progress</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Bank Approval</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Professional Team</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+              </tr>
+            </thead>
+            <tbody className="bg-white divide-y divide-gray-200">
+              {developmentsList.map(development => (
+                <tr key={development.id} className="hover:bg-gray-50">
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <div className="text-sm font-medium text-gray-900">{development.name}</div>
+                    <div className="text-sm text-gray-500">{development.status}</div>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                    {development.developer}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                    {development.units}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <div className="flex items-center">
+                      <div className="w-full bg-gray-200 rounded-full h-2 mr-2">
+                        <div 
+                          className="bg-blue-500 h-2 rounded-full"
+                          style={{ width: `${development.slpProgress}%` }}
+                        ></div>
+                      </div>
+                      <span className="text-sm text-gray-600">{development.slpProgress}%</span>
+                    </div>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
+                      development.bankApproval 
+                        ? 'bg-green-100 text-green-800' 
+                        : 'bg-yellow-100 text-yellow-800'
+                    }`}>
+                      {development.bankApproval ? 'Approved' : 'Pending'}
+                    </span>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                    <div className="flex items-center">
+                      {development.professionalTeam.engineer === 'Pending' ? (
+                        <span className="text-yellow-600">Incomplete</span>
+                      ) : (
+                        <span className="text-green-600">Complete</span>
+                      )}
+                    </div>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                    <button className="text-blue-600 hover:text-blue-900 mr-3">
+                      <Eye className="w-4 h-4" />
+                    </button>
+                    <button className="text-gray-600 hover:text-gray-900 mr-3">
+                      <Edit className="w-4 h-4" />
+                    </button>
+                    <button className="text-gray-600 hover:text-gray-900">
+                      <Share2 className="w-4 h-4" />
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      {/* Recent Transactions */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">Recent Transactions</h3>
+          <div className="space-y-4">
+            {recentTransactions.slice(0, 3).map(transaction => (
+              <div key={transaction.id} className="flex items-center justify-between p-3 hover:bg-gray-50 rounded-lg">
+                <div className="flex items-center space-x-3">
+                  <div className="p-2 bg-blue-100 rounded-lg">
+                    <FileText className="w-4 h-4 text-blue-600" />
+                  </div>
+                  <div>
+                    <p className="font-medium text-gray-900">{transaction.unit}</p>
+                    <p className="text-sm text-gray-600">{transaction.buyer} / {transaction.vendor}</p>
+                  </div>
+                </div>
+                <div className="text-right">
+                  <p className="text-sm font-medium text-gray-900">{transaction.stage}</p>
+                  <p className="text-sm text-gray-600">{transaction.date}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+          <Link href="#" className="flex items-center justify-center mt-4 text-blue-600 hover:text-blue-700 font-medium">
+            View All Transactions
+            <ChevronRight className="w-4 h-4 ml-1" />
+          </Link>
+        </div>
+
+        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">Banking Requirements</h3>
+          <div className="space-y-4">
+            {bankingRequirements.map(req => (
+              <div key={req.id} className="flex items-center justify-between p-3 hover:bg-gray-50 rounded-lg">
+                <div className="flex items-center space-x-3">
+                  <div className={`p-2 rounded-lg ${
+                    req.status === 'Complete' ? 'bg-green-100' : 
+                    req.status === 'In Progress' ? 'bg-yellow-100' : 
+                    'bg-gray-100'
+                  }`}>
+                    <CreditCard className={`w-4 h-4 ${
+                      req.status === 'Complete' ? 'text-green-600' : 
+                      req.status === 'In Progress' ? 'text-yellow-600' : 
+                      'text-gray-600'
+                    }`} />
+                  </div>
+                  <div>
+                    <p className="font-medium text-gray-900">{req.requirement}</p>
+                    <p className="text-sm text-gray-600">{req.bank}</p>
+                  </div>
+                </div>
+                <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
+                  req.status === 'Complete' ? 'bg-green-100 text-green-800' : 
+                  req.status === 'In Progress' ? 'bg-yellow-100 text-yellow-800' : 
+                  'bg-gray-100 text-gray-800'
+                }`}>
+                  {req.status}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  const renderSLPManagement = () => (
+    <div className="space-y-6">
+      {/* SLP Creation Tools */}
+      <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+        <div className="flex items-center justify-between mb-6">
+          <h3 className="text-lg font-semibold text-gray-900">Standard Legal Pack Management</h3>
+          <div className="flex items-center space-x-4">
+            <button className="flex items-center space-x-2 bg-gray-100 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-200">
+              <Upload className="w-4 h-4" />
+              <span>Import Template</span>
+            </button>
+            <button className="flex items-center space-x-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
+              <Plus className="w-4 h-4" />
+              <span>Create New SLP</span>
+            </button>
+          </div>
+        </div>
+
+        {/* Document Checklist */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div>
+            <h4 className="font-medium text-gray-900 mb-4">Required Documents</h4>
+            <div className="space-y-3">
+              {slpDocuments.map(doc => (
+                <div key={doc.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                  <div className="flex items-center space-x-3">
+                    {doc.status === 'Approved' || doc.status === 'Complete' || doc.status === 'Executed' || doc.status === 'Filed' ? (
+                      <CheckCircle className="w-5 h-5 text-green-600" />
+                    ) : (
+                      <Circle className="w-5 h-5 text-gray-400" />
+                    )}
+                    <span className="text-sm font-medium text-gray-900">{doc.name}</span>
+                  </div>
+                  <div className="flex items-center space-x-3">
+                    <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
+                      doc.status === 'Approved' || doc.status === 'Complete' || doc.status === 'Executed' || doc.status === 'Filed'
+                        ? 'bg-green-100 text-green-800'
+                        : 'bg-yellow-100 text-yellow-800'
+                    }`}>
+                      {doc.status}
+                    </span>
+                    <span className="text-sm text-gray-600">{doc.date}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Quick Actions */}
+          <div>
+            <h4 className="font-medium text-gray-900 mb-4">Quick Actions</h4>
+            <div className="grid grid-cols-2 gap-4">
+              <button className="flex flex-col items-center p-4 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors">
+                <FileCheck className="w-8 h-8 text-blue-600 mb-2" />
+                <span className="text-sm font-medium text-gray-900">Verify Documents</span>
+              </button>
+              <button className="flex flex-col items-center p-4 bg-green-50 rounded-lg hover:bg-green-100 transition-colors">
+                <ClipboardCheck className="w-8 h-8 text-green-600 mb-2" />
+                <span className="text-sm font-medium text-gray-900">Run Compliance Check</span>
+              </button>
+              <button className="flex flex-col items-center p-4 bg-purple-50 rounded-lg hover:bg-purple-100 transition-colors">
+                <Users className="w-8 h-8 text-purple-600 mb-2" />
+                <span className="text-sm font-medium text-gray-900">Assign Team</span>
+              </button>
+              <button className="flex flex-col items-center p-4 bg-yellow-50 rounded-lg hover:bg-yellow-100 transition-colors">
+                <Download className="w-8 h-8 text-yellow-600 mb-2" />
+                <span className="text-sm font-medium text-gray-900">Export SLP</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Batch SLP Generation */}
+      <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+        <h3 className="text-lg font-semibold text-gray-900 mb-6">Batch SLP Generation</h3>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="col-span-2">
+            <label className="block text-sm font-medium text-gray-700 mb-2">Select Development</label>
+            <select className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+              <option>Fitzgerald Gardens - 120 Units</option>
+              <option>Ballymakenny View - 85 Units</option>
+              <option>Riverside Manor - 65 Units</option>
+            </select>
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Units Range</label>
+            <div className="flex items-center space-x-2">
+              <input
+                type="number"
+                placeholder="From"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+              <span>-</span>
+              <input
+                type="number"
+                placeholder="To"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+          </div>
+        </div>
+        <div className="mt-6 flex items-center justify-between">
+          <div className="flex items-center space-x-4">
+            <label className="flex items-center">
+              <input type="checkbox" className="mr-2" />
+              <span className="text-sm text-gray-700">Include all supporting documents</span>
+            </label>
+            <label className="flex items-center">
+              <input type="checkbox" className="mr-2" />
+              <span className="text-sm text-gray-700">Auto-generate contracts</span>
+            </label>
+          </div>
+          <button className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700">
+            Generate SLPs
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+
+  const renderProfessionalTeam = () => (
+    <div className="space-y-6">
+      {/* Team Assignment Overview */}
+      <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+        <div className="flex items-center justify-between mb-6">
+          <h3 className="text-lg font-semibold text-gray-900">Professional Team Management</h3>
+          <button
+            onClick={() => setShowProfessionalTeamModal(true)}
+            className="flex items-center space-x-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
+          >
+            <UserPlus className="w-4 h-4" />
+            <span>Add Professional</span>
+          </button>
+        </div>
+
+        {/* Active Developments Teams */}
+        <div className="space-y-6">
+          {developmentsList.map(development => (
+            <div key={development.id} className="border border-gray-200 rounded-lg p-6">
+              <div className="flex items-center justify-between mb-4">
+                <h4 className="font-semibold text-gray-900">{development.name}</h4>
+                <button className="text-blue-600 hover:text-blue-700">
+                  <Edit className="w-4 h-4" />
+                </button>
+              </div>
+              
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="p-4 bg-gray-50 rounded-lg">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-sm font-medium text-gray-700">Architect</span>
+                    {development.professionalTeam.architect ? (
+                      <CheckCircle className="w-4 h-4 text-green-600" />
+                    ) : (
+                      <X className="w-4 h-4 text-red-600" />
+                    )}
+                  </div>
+                  <p className="text-sm text-gray-900">{development.professionalTeam.architect || 'Not Assigned'}</p>
+                </div>
+
+                <div className="p-4 bg-gray-50 rounded-lg">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-sm font-medium text-gray-700">Engineer</span>
+                    {development.professionalTeam.engineer !== 'Pending' ? (
+                      <CheckCircle className="w-4 h-4 text-green-600" />
+                    ) : (
+                      <X className="w-4 h-4 text-red-600" />
+                    )}
+                  </div>
+                  <p className="text-sm text-gray-900">{development.professionalTeam.engineer}</p>
+                </div>
+
+                <div className="p-4 bg-gray-50 rounded-lg">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-sm font-medium text-gray-700">Contractor</span>
+                    {development.professionalTeam.contractor !== 'Pending' ? (
+                      <CheckCircle className="w-4 h-4 text-green-600" />
+                    ) : (
+                      <X className="w-4 h-4 text-red-600" />
+                    )}
+                  </div>
+                  <p className="text-sm text-gray-900">{development.professionalTeam.contractor}</p>
+                </div>
+              </div>
+
+              {/* Additional Team Members */}
+              <div className="mt-4 pt-4 border-t border-gray-200">
+                <h5 className="text-sm font-medium text-gray-700 mb-3">Additional Team Members</h5>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                  <div className="text-center p-3 bg-gray-50 rounded-lg">
+                    <Shield className="w-6 h-6 text-gray-600 mx-auto mb-1" />
+                    <span className="text-xs text-gray-700">Insurance Broker</span>
+                  </div>
+                  <div className="text-center p-3 bg-gray-50 rounded-lg">
+                    <Calculator className="w-6 h-6 text-gray-600 mx-auto mb-1" />
+                    <span className="text-xs text-gray-700">Quantity Surveyor</span>
+                  </div>
+                  <div className="text-center p-3 bg-gray-50 rounded-lg">
+                    <MapPin className="w-6 h-6 text-gray-600 mx-auto mb-1" />
+                    <span className="text-xs text-gray-700">Land Surveyor</span>
+                  </div>
+                  <div className="text-center p-3 bg-gray-50 rounded-lg">
+                    <Briefcase className="w-6 h-6 text-gray-600 mx-auto mb-1" />
+                    <span className="text-xs text-gray-700">Tax Advisor</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Professional Directory */}
+      <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+        <h3 className="text-lg font-semibold text-gray-900 mb-6">Professional Directory</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="border border-gray-200 rounded-lg p-4">
+            <div className="flex items-center justify-between mb-3">
+              <h4 className="font-medium text-gray-900">Architects</h4>
+              <span className="text-sm text-gray-600">12 Registered</span>
+            </div>
+            <div className="space-y-2">
+              <div className="text-sm text-gray-700">• Murphy & Associates</div>
+              <div className="text-sm text-gray-700">• Design Studio Ltd</div>
+              <div className="text-sm text-gray-700">• O'Brien Architecture</div>
+            </div>
+          </div>
+
+          <div className="border border-gray-200 rounded-lg p-4">
+            <div className="flex items-center justify-between mb-3">
+              <h4 className="font-medium text-gray-900">Engineers</h4>
+              <span className="text-sm text-gray-600">8 Registered</span>
+            </div>
+            <div className="space-y-2">
+              <div className="text-sm text-gray-700">• Kelly Engineering</div>
+              <div className="text-sm text-gray-700">• Structural Solutions</div>
+              <div className="text-sm text-gray-700">• BuildTech Engineers</div>
+            </div>
+          </div>
+
+          <div className="border border-gray-200 rounded-lg p-4">
+            <div className="flex items-center justify-between mb-3">
+              <h4 className="font-medium text-gray-900">Contractors</h4>
+              <span className="text-sm text-gray-600">15 Registered</span>
+            </div>
+            <div className="space-y-2">
+              <div className="text-sm text-gray-700">• BuildCorp Ltd</div>
+              <div className="text-sm text-gray-700">• Premier Construction</div>
+              <div className="text-sm text-gray-700">• McCarthy Builders</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  const renderBankingCompliance = () => (
+    <div className="space-y-6">
+      {/* Banking Requirements Dashboard */}
+      <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+        <h3 className="text-lg font-semibold text-gray-900 mb-6">Banking & Finance Compliance</h3>
+        
+        {/* Bank Panel Status */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+          <div className="text-center p-4 bg-green-50 rounded-lg">
+            <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-3">
+              <CheckCircle className="w-8 h-8 text-green-600" />
+            </div>
+            <h4 className="font-medium text-gray-900">AIB</h4>
+            <p className="text-sm text-gray-600">Panel Approved</p>
+          </div>
+          
+          <div className="text-center p-4 bg-green-50 rounded-lg">
+            <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-3">
+              <CheckCircle className="w-8 h-8 text-green-600" />
+            </div>
+            <h4 className="font-medium text-gray-900">Bank of Ireland</h4>
+            <p className="text-sm text-gray-600">Panel Approved</p>
+          </div>
+          
+          <div className="text-center p-4 bg-yellow-50 rounded-lg">
+            <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-3">
+              <Clock className="w-8 h-8 text-yellow-600" />
+            </div>
+            <h4 className="font-medium text-gray-900">Ulster Bank</h4>
+            <p className="text-sm text-gray-600">In Review</p>
+          </div>
+          
+          <div className="text-center p-4 bg-gray-50 rounded-lg">
+            <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-3">
+              <Plus className="w-8 h-8 text-gray-400" />
+            </div>
+            <h4 className="font-medium text-gray-900">PTSB</h4>
+            <p className="text-sm text-gray-600">Not Applied</p>
+          </div>
+        </div>
+
+        {/* Banking Requirements Checklist */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div>
+            <h4 className="font-medium text-gray-900 mb-4">Development Finance Requirements</h4>
+            <div className="space-y-3">
+              <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                <div className="flex items-center space-x-3">
+                  <CheckCircle className="w-5 h-5 text-green-600" />
+                  <span className="text-sm font-medium text-gray-900">Planning Permission</span>
+                </div>
+                <span className="text-sm text-gray-600">Complete</span>
+              </div>
+              <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                <div className="flex items-center space-x-3">
+                  <CheckCircle className="w-5 h-5 text-green-600" />
+                  <span className="text-sm font-medium text-gray-900">Title Documentation</span>
+                </div>
+                <span className="text-sm text-gray-600">Complete</span>
+              </div>
+              <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                <div className="flex items-center space-x-3">
+                  <Clock className="w-5 h-5 text-yellow-600" />
+                  <span className="text-sm font-medium text-gray-900">Insurance Policies</span>
+                </div>
+                <span className="text-sm text-gray-600">In Progress</span>
+              </div>
+              <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                <div className="flex items-center space-x-3">
+                  <Circle className="w-5 h-5 text-gray-400" />
+                  <span className="text-sm font-medium text-gray-900">Stage Payment Schedule</span>
+                </div>
+                <span className="text-sm text-gray-600">Pending</span>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <h4 className="font-medium text-gray-900 mb-4">Purchaser Mortgage Requirements</h4>
+            <div className="space-y-3">
+              <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                <div className="flex items-center space-x-3">
+                  <CheckCircle className="w-5 h-5 text-green-600" />
+                  <span className="text-sm font-medium text-gray-900">Property Valuation Reports</span>
+                </div>
+                <span className="text-sm text-gray-600">Template Ready</span>
+              </div>
+              <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                <div className="flex items-center space-x-3">
+                  <CheckCircle className="w-5 h-5 text-green-600" />
+                  <span className="text-sm font-medium text-gray-900">Snag List Procedures</span>
+                </div>
+                <span className="text-sm text-gray-600">Established</span>
+              </div>
+              <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                <div className="flex items-center space-x-3">
+                  <CheckCircle className="w-5 h-5 text-green-600" />
+                  <span className="text-sm font-medium text-gray-900">Certificate of Compliance</span>
+                </div>
+                <span className="text-sm text-gray-600">Template Ready</span>
+              </div>
+              <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                <div className="flex items-center space-x-3">
+                  <Clock className="w-5 h-5 text-yellow-600" />
+                  <span className="text-sm font-medium text-gray-900">Warranty Documentation</span>
+                </div>
+                <span className="text-sm text-gray-600">Under Review</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Stage Payment Tracking */}
+      <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+        <h3 className="text-lg font-semibold text-gray-900 mb-6">Stage Payment Tracking</h3>
+        <div className="overflow-x-auto">
+          <table className="w-full">
+            <thead className="bg-gray-50">
+              <tr>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Development</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Stage</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Progress</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Bank Approval</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Certification</th>
+              </tr>
+            </thead>
+            <tbody className="bg-white divide-y divide-gray-200">
+              <tr className="hover:bg-gray-50">
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Fitzgerald Gardens</td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Foundation</td>
+                <td className="px-6 py-4 whitespace-nowrap">
+                  <div className="flex items-center">
+                    <div className="w-24 bg-gray-200 rounded-full h-2 mr-2">
+                      <div className="bg-green-500 h-2 rounded-full" style={{ width: '100%' }}></div>
+                    </div>
+                    <span className="text-sm text-gray-600">100%</span>
+                  </div>
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">€2.5M</td>
+                <td className="px-6 py-4 whitespace-nowrap">
+                  <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                    Approved
+                  </span>
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap">
+                  <button className="text-blue-600 hover:text-blue-700">
+                    <FileCheck className="w-4 h-4" />
+                  </button>
+                </td>
+              </tr>
+              <tr className="hover:bg-gray-50">
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Fitzgerald Gardens</td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Structure</td>
+                <td className="px-6 py-4 whitespace-nowrap">
+                  <div className="flex items-center">
+                    <div className="w-24 bg-gray-200 rounded-full h-2 mr-2">
+                      <div className="bg-blue-500 h-2 rounded-full" style={{ width: '65%' }}></div>
+                    </div>
+                    <span className="text-sm text-gray-600">65%</span>
+                  </div>
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">€4.2M</td>
+                <td className="px-6 py-4 whitespace-nowrap">
+                  <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                    Pending
+                  </span>
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap">
+                  <button className="text-gray-600 hover:text-gray-700">
+                    <FileText className="w-4 h-4" />
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  );
+
+  const renderPropertyCompliance = () => (
+    <div className="space-y-6">
+      {/* Property Registration Overview */}
+      <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+        <h3 className="text-lg font-semibold text-gray-900 mb-6">Property Registration & Compliance</h3>
+        
+        {/* Compliance Status Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+          <div className="bg-blue-50 rounded-lg p-6">
+            <div className="flex items-center justify-between mb-4">
+              <Shield className="w-8 h-8 text-blue-600" />
+              <span className="text-2xl font-bold text-gray-900">98%</span>
+            </div>
+            <h4 className="font-medium text-gray-900">Overall Compliance</h4>
+            <p className="text-sm text-gray-600 mt-1">Across all developments</p>
+          </div>
+          
+          <div className="bg-green-50 rounded-lg p-6">
+            <div className="flex items-center justify-between mb-4">
+              <FileCheck className="w-8 h-8 text-green-600" />
+              <span className="text-2xl font-bold text-gray-900">342</span>
+            </div>
+            <h4 className="font-medium text-gray-900">Registered Units</h4>
+            <p className="text-sm text-gray-600 mt-1">Property Registration Authority</p>
+          </div>
+          
+          <div className="bg-purple-50 rounded-lg p-6">
+            <div className="flex items-center justify-between mb-4">
+              <Key className="w-8 h-8 text-purple-600" />
+              <span className="text-2xl font-bold text-gray-900">28</span>
+            </div>
+            <h4 className="font-medium text-gray-900">Pending Transfers</h4>
+            <p className="text-sm text-gray-600 mt-1">Awaiting completion</p>
+          </div>
+        </div>
+
+        {/* Registration Checklist */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div>
+            <h4 className="font-medium text-gray-900 mb-4">Property Registration Requirements</h4>
+            <div className="space-y-3">
+              <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                <div className="flex items-center space-x-3">
+                  <CheckCircle className="w-5 h-5 text-green-600" />
+                  <span className="text-sm font-medium text-gray-900">First Registration Application</span>
+                </div>
+                <button className="text-blue-600 hover:text-blue-700">
+                  <Eye className="w-4 h-4" />
+                </button>
+              </div>
+              <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                <div className="flex items-center space-x-3">
+                  <CheckCircle className="w-5 h-5 text-green-600" />
+                  <span className="text-sm font-medium text-gray-900">Folio Creation</span>
+                </div>
+                <button className="text-blue-600 hover:text-blue-700">
+                  <Eye className="w-4 h-4" />
+                </button>
+              </div>
+              <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                <div className="flex items-center space-x-3">
+                  <CheckCircle className="w-5 h-5 text-green-600" />
+                  <span className="text-sm font-medium text-gray-900">Burden Registration</span>
+                </div>
+                <button className="text-blue-600 hover:text-blue-700">
+                  <Eye className="w-4 h-4" />
+                </button>
+              </div>
+              <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                <div className="flex items-center space-x-3">
+                  <Clock className="w-5 h-5 text-yellow-600" />
+                  <span className="text-sm font-medium text-gray-900">Charge Registration</span>
+                </div>
+                <button className="text-blue-600 hover:text-blue-700">
+                  <Eye className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <h4 className="font-medium text-gray-900 mb-4">Regulatory Compliance</h4>
+            <div className="space-y-3">
+              <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                <div className="flex items-center space-x-3">
+                  <CheckCircle className="w-5 h-5 text-green-600" />
+                  <span className="text-sm font-medium text-gray-900">BER Certificates</span>
+                </div>
+                <span className="text-sm text-gray-600">All Units</span>
+              </div>
+              <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                <div className="flex items-center space-x-3">
+                  <CheckCircle className="w-5 h-5 text-green-600" />
+                  <span className="text-sm font-medium text-gray-900">NPPR Compliance</span>
+                </div>
+                <span className="text-sm text-gray-600">Up to Date</span>
+              </div>
+              <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                <div className="flex items-center space-x-3">
+                  <CheckCircle className="w-5 h-5 text-green-600" />
+                  <span className="text-sm font-medium text-gray-900">Local Authority Charges</span>
+                </div>
+                <span className="text-sm text-gray-600">Cleared</span>
+              </div>
+              <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                <div className="flex items-center space-x-3">
+                  <CheckCircle className="w-5 h-5 text-green-600" />
+                  <span className="text-sm font-medium text-gray-900">Management Company</span>
+                </div>
+                <span className="text-sm text-gray-600">Established</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Transfer Tracking */}
+      <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+        <h3 className="text-lg font-semibold text-gray-900 mb-6">Property Transfer Tracking</h3>
+        <div className="overflow-x-auto">
+          <table className="w-full">
+            <thead className="bg-gray-50">
+              <tr>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Unit</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Purchaser</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Contract Date</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Closing Date</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Registration Status</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+              </tr>
+            </thead>
+            <tbody className="bg-white divide-y divide-gray-200">
+              <tr className="hover:bg-gray-50">
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">A-1204</td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">John Smith</td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">2024-02-15</td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">2024-03-30</td>
+                <td className="px-6 py-4 whitespace-nowrap">
+                  <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                    In Progress
+                  </span>
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                  <button className="text-blue-600 hover:text-blue-900 mr-3">
+                    <FileText className="w-4 h-4" />
+                  </button>
+                  <button className="text-gray-600 hover:text-gray-900">
+                    <CheckSquare className="w-4 h-4" />
+                  </button>
+                </td>
+              </tr>
+              <tr className="hover:bg-gray-50">
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">B-0803</td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Sarah Johnson</td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">2024-02-20</td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">2024-04-05</td>
+                <td className="px-6 py-4 whitespace-nowrap">
+                  <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                    Registered
+                  </span>
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                  <button className="text-green-600 hover:text-green-900 mr-3">
+                    <Download className="w-4 h-4" />
+                  </button>
+                  <button className="text-gray-600 hover:text-gray-900">
+                    <Share2 className="w-4 h-4" />
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  );
+
+  return (
+    <div className="min-h-screen bg-gray-50">
+      {/* Header */}
+      <div className="bg-white shadow-sm border-b border-gray-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16">
+            <div className="flex items-center">
+              <Link href="/" className="text-2xl font-bold text-gray-900">
+                Prop
+              </Link>
+              <ChevronRight className="w-5 h-5 text-gray-400 mx-2" />
+              <span className="text-lg font-medium text-gray-700">Solicitor Solutions</span>
+            </div>
+            <div className="flex items-center space-x-4">
+              <button className="p-2 text-gray-600 hover:text-gray-900">
+                <Bell className="w-5 h-5" />
+              </button>
+              <button className="p-2 text-gray-600 hover:text-gray-900">
+                <Settings className="w-5 h-5" />
+              </button>
+              <button className="flex items-center space-x-2 text-gray-700 hover:text-gray-900">
+                <div className="w-8 h-8 bg-gray-300 rounded-full"></div>
+                <span className="font-medium">Sarah Murphy</span>
+                <ChevronDown className="w-4 h-4" />
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Navigation Tabs */}
+      <div className="bg-white border-b border-gray-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center space-x-8">
+            <button
+              onClick={() => setActiveTab('dashboard')}
+              className={`py-4 px-1 border-b-2 font-medium text-sm ${
+                activeTab === 'dashboard'
+                  ? 'border-blue-500 text-blue-600'
+                  : 'border-transparent text-gray-500 hover:text-gray-700'
+              }`}
+            >
+              <div className="flex items-center space-x-2">
+                <BarChart3 className="w-4 h-4" />
+                <span>Dashboard</span>
+              </div>
+            </button>
+            <button
+              onClick={() => setActiveTab('slp')}
+              className={`py-4 px-1 border-b-2 font-medium text-sm ${
+                activeTab === 'slp'
+                  ? 'border-blue-500 text-blue-600'
+                  : 'border-transparent text-gray-500 hover:text-gray-700'
+              }`}
+            >
+              <div className="flex items-center space-x-2">
+                <FileText className="w-4 h-4" />
+                <span>SLP Management</span>
+              </div>
+            </button>
+            <button
+              onClick={() => setActiveTab('team')}
+              className={`py-4 px-1 border-b-2 font-medium text-sm ${
+                activeTab === 'team'
+                  ? 'border-blue-500 text-blue-600'
+                  : 'border-transparent text-gray-500 hover:text-gray-700'
+              }`}
+            >
+              <div className="flex items-center space-x-2">
+                <Users className="w-4 h-4" />
+                <span>Professional Team</span>
+              </div>
+            </button>
+            <button
+              onClick={() => setActiveTab('banking')}
+              className={`py-4 px-1 border-b-2 font-medium text-sm ${
+                activeTab === 'banking'
+                  ? 'border-blue-500 text-blue-600'
+                  : 'border-transparent text-gray-500 hover:text-gray-700'
+              }`}
+            >
+              <div className="flex items-center space-x-2">
+                <CreditCard className="w-4 h-4" />
+                <span>Banking & Finance</span>
+              </div>
+            </button>
+            <button
+              onClick={() => setActiveTab('property')}
+              className={`py-4 px-1 border-b-2 font-medium text-sm ${
+                activeTab === 'property'
+                  ? 'border-blue-500 text-blue-600'
+                  : 'border-transparent text-gray-500 hover:text-gray-700'
+              }`}
+            >
+              <div className="flex items-center space-x-2">
+                <Home className="w-4 h-4" />
+                <span>Property Compliance</span>
+              </div>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Main Content */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {activeTab === 'dashboard' && renderDashboard()}
+        {activeTab === 'slp' && renderSLPManagement()}
+        {activeTab === 'team' && renderProfessionalTeam()}
+        {activeTab === 'banking' && renderBankingCompliance()}
+        {activeTab === 'property' && renderPropertyCompliance()}
+      </div>
+
+      {/* Quick Actions - Floating Action Button */}
+      <div className="fixed bottom-8 right-8">
+        <div className="relative">
+          <button className="bg-blue-600 text-white p-4 rounded-full shadow-lg hover:bg-blue-700">
+            <Plus className="w-6 h-6" />
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}

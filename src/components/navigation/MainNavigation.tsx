@@ -3,7 +3,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Search, ChevronDown, Menu, X, User, Home, HelpCircle, Compass, BookOpen, Calculator, FileText, BarChart2, Building, Users, Settings, ShoppingCart } from 'lucide-react';
+import { Search, ChevronDown, Menu, X, User, Home, HelpCircle, Compass, BookOpen, Calculator, FileText, BarChart2, Building, Users, Settings, ShoppingCart, Bell } from 'lucide-react';
 import ProfessionalBanner from './ProfessionalBanner';
 import { useUserRole } from '@/context/UserRoleContext';
 import NotificationCenter from '@/components/ui/NotificationCenter';
@@ -76,11 +76,11 @@ const MainNavigation: React.FC<MainNavigationProps> = ({
   
   // Function to handle mouse leave on a dropdown
   const handleDropdownLeave = () => {
-    // Set a small delay before closing to allow mouse movement between elements
+    // Set a larger delay before closing to allow mouse movement between elements
     timeoutRef.current = setTimeout(() => {
       console.log('Closing dropdown'); // Debug log
       setActiveDropdown(null);
-    }, 100);
+    }, 300); // Increased from 100ms to 300ms
   };
 
   // Handle scroll state change for transparent navigation
@@ -614,18 +614,18 @@ function DesktopDropdown({
       <button
         className={`flex items-center px-2 py-1 rounded-md text-sm font-medium ${textColor} hover:bg-black/5 transition-all duration-200 ${isActivePath ? 'bg-black/5' : ''}`}
         aria-expanded={isActive}
-        onMouseEnter={onMouseEnter}
-        onMouseLeave={onMouseLeave}
       >
         {title}
         <ChevronDown className={`ml-1 h-4 w-4 transition-transform duration-200 ${isActive ? 'rotate-180' : ''}`} />
       </button>
       
       <div 
-        className={`absolute mt-2 w-screen max-w-5xl rounded-xl shadow-xl bg-white ring-1 ring-black/5 overflow-hidden left-1/2 transform -translate-x-1/2 transition-all duration-200 ${
+        className={`absolute mt-1 w-screen max-w-5xl rounded-xl shadow-xl bg-white ring-1 ring-black/5 overflow-hidden left-1/2 transform -translate-x-1/2 transition-all duration-200 ${
           isActive ? 'opacity-100 translate-y-0 pointer-events-auto z-50' : 'opacity-0 translate-y-[-10px] pointer-events-none z-0'
         }`}
         style={{ zIndex: isActive ? 9999 : -1 }}
+        onMouseEnter={onMouseEnter}
+        onMouseLeave={onMouseLeave}
       >
         <div className="flex">
           <div className="flex-1 bg-white p-6">

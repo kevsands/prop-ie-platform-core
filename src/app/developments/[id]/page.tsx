@@ -234,7 +234,8 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const development = developmentsData[params.id as keyof typeof developmentsData];
+  const { id } = await params;
+  const development = developmentsData[id as keyof typeof developmentsData];
   
   if (!development) {
     return {
@@ -248,8 +249,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default function DevelopmentDetailPage({ params }: Props) {
-  const development = developmentsData[params.id as keyof typeof developmentsData];
+export default async function DevelopmentDetailPage({ params }: Props) {
+  const { id } = await params;
+  const development = developmentsData[id as keyof typeof developmentsData];
 
   if (!development) {
     notFound();

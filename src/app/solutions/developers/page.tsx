@@ -8,7 +8,9 @@ import {
   Shield, Cpu, ChevronRight, CheckCircle, TrendingUp, Clock,
   Target, DollarSign, Settings, MessageSquare, Calendar, Home,
   Palette, LineChart, PieChart, Lock, Database, Smartphone,
-  Layers, ArrowUpRight, Star, Award, MapPin, CreditCard
+  Layers, ArrowUpRight, Star, Award, MapPin, CreditCard,
+  HardHat, Hammer, Calculator, Brain, Eye, Scale, UserCheck,
+  Package, ClipboardCheck, TrendingDown, AlertTriangle, FileSearch
 } from 'lucide-react';
 
 export default function DeveloperPlatformPage() {
@@ -133,7 +135,7 @@ export default function DeveloperPlatformPage() {
 
           {/* Tab Navigation */}
           <div className="flex flex-wrap justify-center mb-8 border-b">
-            {['overview', 'project', 'sales', 'buyer', 'analytics'].map((tab) => (
+            {['overview', 'development', 'project', 'sales', 'buyer', 'analytics'].map((tab) => (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
@@ -151,6 +153,7 @@ export default function DeveloperPlatformPage() {
           {/* Tab Content */}
           <div className="mt-12">
             {activeTab === 'overview' && <OverviewTab />}
+            {activeTab === 'development' && <DevelopmentTab />}
             {activeTab === 'project' && <ProjectTab />}
             {activeTab === 'sales' && <SalesTab />}
             {activeTab === 'buyer' && <BuyerTab />}
@@ -409,6 +412,263 @@ function OverviewTab() {
       </div>
       <div className="bg-gray-100 rounded-xl h-96 flex items-center justify-center">
         <span className="text-gray-500">Platform Overview Graphic</span>
+      </div>
+    </div>
+  );
+}
+
+function DevelopmentTab() {
+  return (
+    <div className="space-y-12">
+      <div className="text-center">
+        <h3 className="text-3xl font-bold mb-4">Intelligent Development Management</h3>
+        <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+          Streamline contractor management, tender processes, and project forecasting with AI-powered tools
+        </p>
+      </div>
+      
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {/* Contractor Management */}
+        <div className="space-y-6">
+          <h4 className="text-xl font-semibold flex items-center gap-2">
+            <UserCheck className="h-6 w-6 text-blue-600" />
+            Contractor Management
+          </h4>
+          <FeatureCard 
+            icon={<HardHat />}
+            title="Sub-Contractor Directory"
+            description="Maintain a verified database of sub-contractors with ratings, certifications, and performance history."
+          />
+          <FeatureCard 
+            icon={<ClipboardCheck />}
+            title="Work Package Allocation"
+            description="Assign and track work packages with automated milestone releases and quality checkpoints."
+          />
+          <FeatureCard 
+            icon={<Shield />}
+            title="Compliance Tracking"
+            description="Monitor insurance, certifications, and safety compliance with automated alerts for renewals."
+          />
+        </div>
+
+        {/* Design Team Management */}
+        <div className="space-y-6">
+          <h4 className="text-xl font-semibold flex items-center gap-2">
+            <Users className="h-6 w-6 text-green-600" />
+            Design Team Coordination
+          </h4>
+          <FeatureCard 
+            icon={<Palette />}
+            title="Team Appointments"
+            description="Manage architects, engineers, and consultants with role-based access and collaboration tools."
+          />
+          <FeatureCard 
+            icon={<FileText />}
+            title="Document Management"
+            description="Version control for drawings, specifications, and reports with approval workflows."
+          />
+          <FeatureCard 
+            icon={<Clock />}
+            title="Design Schedule"
+            description="Track design milestones, submissions, and approvals with integrated timelines."
+          />
+        </div>
+
+        {/* Tender Management */}
+        <div className="space-y-6">
+          <h4 className="text-xl font-semibold flex items-center gap-2">
+            <Hammer className="h-6 w-6 text-purple-600" />
+            Smart Tender Process
+          </h4>
+          <FeatureCard 
+            icon={<Package />}
+            title="Package Creation"
+            description="Create tender packages with specifications, drawings, and requirements in standardized formats."
+          />
+          <FeatureCard 
+            icon={<Brain />}
+            title="AI Bid Analysis"
+            description="Compare tender submissions with AI-powered analysis highlighting key differences and risks."
+          />
+          <FeatureCard 
+            icon={<Scale />}
+            title="Automated Scoring"
+            description="Score bids based on custom criteria including price, experience, and compliance factors."
+          />
+        </div>
+      </div>
+
+      {/* AI Compare & Contrast Section */}
+      <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl p-8 mt-12">
+        <div className="grid md:grid-cols-2 gap-8 items-center">
+          <div>
+            <h4 className="text-2xl font-bold mb-4 flex items-center gap-3">
+              <Brain className="h-8 w-8 text-purple-600" />
+              AI-Powered Tender Analysis
+            </h4>
+            <p className="text-gray-700 mb-6">
+              Our advanced AI system analyzes tender submissions to provide comprehensive comparisons:
+            </p>
+            <ul className="space-y-3">
+              <li className="flex items-start gap-3">
+                <CheckCircle className="h-5 w-5 text-green-600 mt-0.5" />
+                <div>
+                  <strong>Price Intelligence:</strong> Identify outliers, missing items, and cost variations
+                </div>
+              </li>
+              <li className="flex items-start gap-3">
+                <CheckCircle className="h-5 w-5 text-green-600 mt-0.5" />
+                <div>
+                  <strong>Risk Assessment:</strong> Highlight potential risks in methodology, timeline, and terms
+                </div>
+              </li>
+              <li className="flex items-start gap-3">
+                <CheckCircle className="h-5 w-5 text-green-600 mt-0.5" />
+                <div>
+                  <strong>Experience Matching:</strong> Compare contractor experience with project requirements
+                </div>
+              </li>
+              <li className="flex items-start gap-3">
+                <CheckCircle className="h-5 w-5 text-green-600 mt-0.5" />
+                <div>
+                  <strong>Value Engineering:</strong> Identify opportunities for cost savings and improvements
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div className="bg-white rounded-xl shadow-lg p-6">
+            <h5 className="font-semibold mb-4">Sample AI Analysis Output</h5>
+            <div className="space-y-3 text-sm">
+              <div className="bg-green-50 p-3 rounded-lg">
+                <span className="font-medium text-green-800">Best Value:</span> Contractor A - €2.3M
+                <p className="text-green-700 mt-1">Strong track record, competitive pricing, shortest timeline</p>
+              </div>
+              <div className="bg-yellow-50 p-3 rounded-lg">
+                <span className="font-medium text-yellow-800">Risk Alert:</span> Contractor B
+                <p className="text-yellow-700 mt-1">Missing insurance documentation, unclear payment terms</p>
+              </div>
+              <div className="bg-blue-50 p-3 rounded-lg">
+                <span className="font-medium text-blue-800">Value Engineering:</span> Contractor C
+                <p className="text-blue-700 mt-1">Proposed alternative materials could save 12% on costs</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Development Appraisal Tool */}
+      <div className="mt-12">
+        <h4 className="text-2xl font-bold mb-8 text-center">
+          Development Appraisal & Forecasting
+        </h4>
+        
+        <div className="grid md:grid-cols-3 gap-6">
+          <div className="bg-white rounded-xl shadow-lg p-6">
+            <Calculator className="h-10 w-10 text-blue-600 mb-4" />
+            <h5 className="text-xl font-semibold mb-3">Financial Modeling</h5>
+            <p className="text-gray-600 mb-4">
+              Comprehensive development appraisals with sensitivity analysis and scenario planning
+            </p>
+            <ul className="space-y-2 text-sm text-gray-700">
+              <li>• Land value calculations</li>
+              <li>• Construction cost estimates</li>
+              <li>• Sales revenue projections</li>
+              <li>• IRR and profit analysis</li>
+              <li>• Cash flow forecasting</li>
+            </ul>
+          </div>
+
+          <div className="bg-white rounded-xl shadow-lg p-6">
+            <TrendingUp className="h-10 w-10 text-green-600 mb-4" />
+            <h5 className="text-xl font-semibold mb-3">Market Intelligence</h5>
+            <p className="text-gray-600 mb-4">
+              Real-time market data integration for accurate forecasting and decision making
+            </p>
+            <ul className="space-y-2 text-sm text-gray-700">
+              <li>• Comparable sales analysis</li>
+              <li>• Market trend tracking</li>
+              <li>• Demand forecasting</li>
+              <li>• Competition analysis</li>
+              <li>• Price optimization</li>
+            </ul>
+          </div>
+
+          <div className="bg-white rounded-xl shadow-lg p-6">
+            <AlertTriangle className="h-10 w-10 text-orange-600 mb-4" />
+            <h5 className="text-xl font-semibold mb-3">Risk Management</h5>
+            <p className="text-gray-600 mb-4">
+              Identify, assess, and mitigate project risks with advanced modeling tools
+            </p>
+            <ul className="space-y-2 text-sm text-gray-700">
+              <li>• Monte Carlo simulations</li>
+              <li>• Sensitivity analysis</li>
+              <li>• Market risk assessment</li>
+              <li>• Construction risk modeling</li>
+              <li>• Contingency planning</li>
+            </ul>
+          </div>
+        </div>
+
+        {/* Interactive Forecasting Tool Preview */}
+        <div className="mt-12 bg-gray-50 rounded-2xl p-8">
+          <div className="grid md:grid-cols-2 gap-8 items-center">
+            <div>
+              <h5 className="text-xl font-semibold mb-4">Interactive Project Forecasting</h5>
+              <p className="text-gray-700 mb-6">
+                Visualize project performance with real-time updates and predictive analytics:
+              </p>
+              <div className="space-y-4">
+                <div className="flex items-center justify-between p-4 bg-white rounded-lg">
+                  <div>
+                    <p className="font-medium">Projected ROI</p>
+                    <p className="text-2xl font-bold text-green-600">23.5%</p>
+                  </div>
+                  <TrendingUp className="h-8 w-8 text-green-600" />
+                </div>
+                <div className="flex items-center justify-between p-4 bg-white rounded-lg">
+                  <div>
+                    <p className="font-medium">Construction Progress</p>
+                    <p className="text-2xl font-bold text-blue-600">45%</p>
+                  </div>
+                  <div className="w-32 h-2 bg-gray-200 rounded-full">
+                    <div className="w-[45%] h-full bg-blue-600 rounded-full" />
+                  </div>
+                </div>
+                <div className="flex items-center justify-between p-4 bg-white rounded-lg">
+                  <div>
+                    <p className="font-medium">Budget vs Actual</p>
+                    <p className="text-2xl font-bold text-orange-600">-2.3%</p>
+                  </div>
+                  <TrendingDown className="h-8 w-8 text-orange-600" />
+                </div>
+              </div>
+            </div>
+            
+            <div className="bg-white rounded-xl p-6 shadow-lg">
+              <h6 className="font-semibold mb-4">AI-Powered Insights</h6>
+              <div className="space-y-3">
+                <div className="p-3 bg-blue-50 rounded-lg">
+                  <Eye className="h-5 w-5 text-blue-600 mb-2" />
+                  <p className="text-sm text-blue-800">
+                    <strong>Market Opportunity:</strong> Similar developments in area achieving 15% premium on asking prices
+                  </p>
+                </div>
+                <div className="p-3 bg-yellow-50 rounded-lg">
+                  <AlertTriangle className="h-5 w-5 text-yellow-600 mb-2" />
+                  <p className="text-sm text-yellow-800">
+                    <strong>Cost Alert:</strong> Material costs trending 5% above budget - consider fixed price contracts
+                  </p>
+                </div>
+                <div className="p-3 bg-green-50 rounded-lg">
+                  <TrendingUp className="h-5 w-5 text-green-600 mb-2" />
+                  <p className="text-sm text-green-800">
+                    <strong>Revenue Forecast:</strong> Strong pre-sales suggest 12% above target revenue achievable
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

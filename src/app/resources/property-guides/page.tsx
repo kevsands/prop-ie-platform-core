@@ -11,7 +11,8 @@ const GuideCard = ({
   excerpt, 
   image, 
   category,
-  readTime
+  readTime,
+  href
 }: { 
   slug: string; 
   title: string; 
@@ -19,6 +20,7 @@ const GuideCard = ({
   image: string;
   category: string;
   readTime: string;
+  href?: string;
 }) => (
   <div className="bg-white rounded-lg shadow-md overflow-hidden transition-all hover:shadow-lg">
     <div className="relative h-48 overflow-hidden">
@@ -38,7 +40,7 @@ const GuideCard = ({
       <p className="text-gray-600 mb-4 line-clamp-3">{excerpt}</p>
       <div className="flex justify-between items-center">
         <span className="text-xs text-gray-500">{readTime} read</span>
-        <Link href={`/resources/property-guides/${slug}`} className="text-[#2B5273] font-medium text-sm hover:underline">
+        <Link href={href || `/resources/property-guides/${slug}`} className="text-[#2B5273] font-medium text-sm hover:underline">
           Read more →
         </Link>
       </div>
@@ -66,6 +68,15 @@ export default function PropertyGuidesPage() {
   // Featured guides data
   const featuredGuides = [
     {
+      slug: 'buy-off-plan',
+      title: 'Buy Off-Plan Online: The Complete Digital Guide',
+      excerpt: 'Discover how to buy your new home off-plan entirely online with digital contracts, secure payments, and instant reservation.',
+      image: '/images/resources/buy-off-plan.jpg',
+      category: 'Buying',
+      readTime: '12 min',
+      href: '/resources/buy-off-plan'
+    },
+    {
       slug: 'first-time-buyer-guide',
       title: 'Complete Guide for First-Time Buyers in Ireland',
       excerpt: 'Everything you need to know about purchasing your first home in Ireland, from saving for a deposit to closing the deal.',
@@ -80,14 +91,6 @@ export default function PropertyGuidesPage() {
       image: '/images/resources/help-to-buy.jpg',
       category: 'Finance',
       readTime: '12 min'
-    },
-    {
-      slug: 'property-viewing-checklist',
-      title: 'Ultimate Property Viewing Checklist',
-      excerpt: 'A detailed checklist of what to look for when viewing a property to ensure you make an informed decision.',
-      image: '/images/resources/property-viewing.jpg',
-      category: 'Buying',
-      readTime: '10 min'
     }
   ];
 
@@ -211,6 +214,7 @@ export default function PropertyGuidesPage() {
               image={guide.image}
               category={guide.category}
               readTime={guide.readTime}
+              href={guide.href}
             />
           ))}
         </div>

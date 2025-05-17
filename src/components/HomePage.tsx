@@ -11,6 +11,7 @@ import {
 } from 'lucide-react';
 import { mockDevelopments } from '@/data/mockDevelopments';
 import SolutionsSection from '@/components/home/SolutionsSection';
+import EnhancedServicesSection from '@/components/home/EnhancedServicesSection';
 
 // Property Context
 interface PropertyContextType {
@@ -489,48 +490,8 @@ function HomePage() {
         </div>
       </section>
 
-      {/* Services Section */}
-      <section className="py-16 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900">Our Services</h2>
-            <p className="mt-4 text-xl text-gray-600">
-              End-to-end solutions for property development and sales
-            </p>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {[
-              {
-                icon: <Building className="h-12 w-12" />,
-                title: 'Development Marketing',
-                description: 'Premium marketing solutions for new developments with 3D tours and virtual staging'
-              },
-              {
-                icon: <Users className="h-12 w-12" />,
-                title: 'Lead Management',
-                description: 'Advanced CRM platform for tracking buyer interest and managing sales pipeline'
-              },
-              {
-                icon: <Calculator className="h-12 w-12" />,
-                title: 'Financial Tools',
-                description: 'Mortgage calculators, Help-to-Buy integration, and affordability assessments'
-              },
-              {
-                icon: <Shield className="h-12 w-12" />,
-                title: 'Secure Transactions',
-                description: 'Digital document exchange and secure payment processing for property transactions'
-              }
-            ].map((service, index) => (
-              <div key={index} className="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-all">
-                <div className="text-[#2B5273] mb-4">{service.icon}</div>
-                <h3 className="text-xl font-bold text-gray-900 mb-2">{service.title}</h3>
-                <p className="text-gray-600">{service.description}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* Enhanced Services Section */}
+      <EnhancedServicesSection />
 
       {/* Testimonials */}
       <section className="py-16 bg-white">

@@ -217,11 +217,12 @@ export default function FirstTimeBuyerWelcomePage() {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+    <div className="-mt-6">
+      <div className="">
         {/* Welcome Hero */}
-        <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl p-6 md:p-8 text-white mb-6">
-          <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
+        <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-8">
+            <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
             <div className="flex-1">
               <h1 className="text-2xl md:text-3xl font-bold mb-2">
                 {greeting()}, {userData.firstName}! 🎉
@@ -248,10 +249,11 @@ export default function FirstTimeBuyerWelcomePage() {
               </div>
             ))}
           </div>
+          </div>
         </div>
 
         {/* Special Offer Banner */}
-        <div className="bg-gradient-to-r from-green-600 to-blue-600 rounded-xl p-4 md:p-6 text-white mb-6">
+        <div className="bg-gradient-to-r from-green-600 to-blue-600 p-4 md:p-6 text-white mb-6 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-3">
               <Gift className="text-yellow-300" size={28} />
@@ -270,11 +272,11 @@ export default function FirstTimeBuyerWelcomePage() {
         </div>
 
         {/* Main Content Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-6">
           {/* Left Column - Next Steps & Journey Progress */}
           <div className="lg:col-span-2 space-y-6">
             {/* Next Steps */}
-            <div className="bg-white rounded-xl shadow-sm p-4 md:p-6">
+            <div className="bg-gray-50 rounded-xl shadow-sm p-4 md:p-6">
               <h2 className="text-lg md:text-xl font-bold mb-4">Your Next Steps</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
                 {nextSteps.map((step, index) => (
@@ -304,7 +306,7 @@ export default function FirstTimeBuyerWelcomePage() {
             </div>
 
             {/* Profile Summary */}
-            <div className="bg-white rounded-xl shadow-sm p-4 md:p-6">
+            <div className="bg-gray-50 rounded-xl shadow-sm p-4 md:p-6">
               <h2 className="text-lg md:text-xl font-bold mb-4">Your Profile Summary</h2>
               <div className="grid md:grid-cols-2 gap-4 md:gap-6">
                 <div>
@@ -389,7 +391,7 @@ export default function FirstTimeBuyerWelcomePage() {
           {/* Right Column - Journey & Resources */}
           <div className="space-y-6">
             {/* Journey Progress */}
-            <div className="bg-white rounded-xl shadow-sm p-4 md:p-6">
+            <div className="bg-gray-50 rounded-xl shadow-sm p-4 md:p-6">
               <h2 className="text-lg md:text-xl font-bold mb-4">Your Journey</h2>
               <div className="relative">
                 <div className="absolute left-0 top-0 bottom-0 w-0.5 bg-gray-200"></div>
@@ -431,7 +433,7 @@ export default function FirstTimeBuyerWelcomePage() {
             </div>
 
             {/* Essential Resources */}
-            <div className="bg-white rounded-xl shadow-sm p-4 md:p-6">
+            <div className="bg-gray-50 rounded-xl shadow-sm p-4 md:p-6">
               <h2 className="text-lg md:text-xl font-bold mb-4">Essential Resources</h2>
               <div className="space-y-3">
                 {resources.map((resource, index) => (
@@ -474,7 +476,8 @@ export default function FirstTimeBuyerWelcomePage() {
         </div>
 
         {/* Bottom CTA */}
-        <div className="mt-6 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl p-6 md:p-8 text-white text-center">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-6">
+          <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl p-6 md:p-8 text-white text-center">
           <h2 className="text-xl md:text-2xl font-bold mb-3">Ready to Find Your Dream Home?</h2>
           <p className="text-base md:text-lg mb-5">Start browsing properties that match your preferences</p>
           <button
@@ -483,6 +486,7 @@ export default function FirstTimeBuyerWelcomePage() {
           >
             Browse Properties
           </button>
+          </div>
         </div>
       </div>
     </div>
