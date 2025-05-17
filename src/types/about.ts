@@ -24,22 +24,60 @@ export interface TimelineItem {
   title: string;
   description: string;
   image?: string;
+  milestones?: string[];
 }
 
 export interface AboutPageData {
-  heroTitle: string;
-  heroSubtitle: string;
-  heroImage: string;
-  missionTitle: string;
-  missionStatement: string;
-  missionImage?: string;
-  team: TeamMember[];
+  hero: {
+    title: string;
+    subtitle: string;
+    backgroundImage: string;
+  };
+  mission: {
+    title: string;
+    content: string;
+    highlights: string[];
+  };
   values: CompanyValue[];
+  team: TeamMember[];
   timeline: TimelineItem[];
-  ctaTitle: string;
-  ctaText: string;
-  ctaButtonText: string;
-  ctaButtonLink: string;
+  statistics: {
+    metrics: {
+      homesBuilt: number;
+      happyFamilies: number;
+      sustainabilityRating: number;
+      employeeCount: number;
+    };
+    awards: Array<{
+      id: string;
+      title: string;
+      organization: string;
+    }>;
+  };
+  partnerships: Array<{
+    id: string;
+    name: string;
+    logo: string;
+  }>;
+  testimonials: Array<{
+    id: string;
+    name: string;
+    role: string;
+    content: string;
+    image: string;
+  }>;
+  cta: {
+    title: string;
+    description: string;
+    primaryButton: {
+      text: string;
+      link: string;
+    };
+    secondaryButton: {
+      text: string;
+      link: string;
+    };
+  };
 }
 
 export interface AboutComponentProps {

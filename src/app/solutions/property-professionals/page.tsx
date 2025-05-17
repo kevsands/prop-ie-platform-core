@@ -3,9 +3,9 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { 
-  Building, Calendar, Users, MessageSquare, FileText, 
+  Building, Building2, Calendar, Users, MessageSquare, FileText, 
   ClipboardCheck, TrendingUp, Shield, Zap, Award,
-  Compass, Ruler, HardDrive, Wrench, Palette,
+  Compass, Ruler, HardDrive, HardHat, Wrench, Palette,
   Calculator, Clock, CheckCircle, AlertCircle, Settings,
   BarChart3, PieChart, Activity, Users as Users2, Briefcase,
   Layers, Package, FileCheck, Phone, Mail,
@@ -144,7 +144,7 @@ const workflowSteps = [
     step: 2,
     title: 'Planning & Design',
     description: 'Concept development, technical design, approvals',
-    icon: DraftingCompass
+    icon: Compass
   },
   {
     step: 3,

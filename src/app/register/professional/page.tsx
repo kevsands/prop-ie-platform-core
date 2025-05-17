@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import { 
   Building2, ChevronLeft, ChevronRight, Check,
   Eye, EyeOff, Upload, Calendar, Phone, Mail,
-  DraftingCompass, Calculator, Ruler, HardHat, 
+  Compass, Calculator, Ruler, HardHat, 
   Palette, Briefcase, FileText, Shield, Users,
   Globe, Award, AlertCircle, X
 } from 'lucide-react';
@@ -14,7 +14,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 // Multi-step form stages
 const steps = [
-  { id: 1, name: 'Professional Type', icon: DraftingCompass },
+  { id: 1, name: 'Professional Type', icon: Compass },
   { id: 2, name: 'Personal Details', icon: Building2 },
   { id: 3, name: 'Practice Information', icon: Briefcase },
   { id: 4, name: 'Experience', icon: Award },
@@ -24,7 +24,7 @@ const steps = [
 
 // Professional types
 const professionalTypes = [
-  { id: 'architect', name: 'Architect', icon: DraftingCompass, description: 'Licensed architect or architectural firm' },
+  { id: 'architect', name: 'Architect', icon: Compass, description: 'Licensed architect or architectural firm' },
   { id: 'engineer', name: 'Engineer', icon: Calculator, description: 'Structural, MEP, or civil engineer' },
   { id: 'surveyor', name: 'Surveyor', icon: Ruler, description: 'Land or quantity surveyor' },
   { id: 'contractor', name: 'Contractor', icon: HardHat, description: 'General or specialist contractor' },
