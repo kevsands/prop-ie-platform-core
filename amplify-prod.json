@@ -1,0 +1,69 @@
+{
+  "version": 1,
+  "applications": [
+    {
+      "appId": "prop-ie-production",
+      "name": "Prop.ie Platform",
+      "autoBranchCreationConfig": {
+        "stage": "PRODUCTION",
+        "framework": "Next.js - SSR",
+        "enableAutoBuild": true,
+        "environmentVariables": {
+          "AMPLIFY_NEXTJS_EXPERIMENTAL_TRACE": "true",
+          "_LIVE_UPDATES": "[{\"pkg\":\"next\",\"type\":\"npm\",\"version\":\"latest\"}]"
+        },
+        "enablePullRequestPreview": true,
+        "pullRequestEnvironmentName": "pr"
+      },
+      "buildSpec": {
+        "version": 1,
+        "appRoot": "",
+        "frontend": {
+          "phases": {
+            "preBuild": {
+              "commands": [
+                "npm ci --production=false"
+              ]
+            },
+            "build": {
+              "commands": [
+                "npm run build"
+              ]
+            }
+          },
+          "artifacts": {
+            "baseDirectory": ".next",
+            "files": [
+              "**/*"
+            ]
+          },
+          "cache": {
+            "paths": [
+              "node_modules/**/*",
+              ".next/cache/**/*"
+            ]
+          }
+        }
+      },
+      "customRules": [
+        {
+          "source": "/<*>",
+          "target": "/index.html",
+          "status": "404"
+        },
+        {
+          "source": "</^[^.]+$|\\.(?!(css|gif|ico|jpg|js|png|txt|svg|woff|woff2|ttf|map|json)$)([^.]+$)/>",
+          "target": "/index.html", 
+          "status": "200"
+        }
+      ],
+      "environmentVariables": {
+        "NODE_ENV": "production",
+        "NEXT_PUBLIC_API_URL": "https://api.prop.ie",
+        "NEXT_PUBLIC_APP_URL": "https://prop.ie",
+        "AMPLIFY_DIFF_DEPLOY": "false",
+        "AMPLIFY_SKIP_BACKEND_BUILD": "true"
+      }
+    }
+  ]
+}
