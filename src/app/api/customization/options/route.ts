@@ -1,7 +1,7 @@
 // src/app/api/customization/options/route.ts
 import { NextRequest, NextResponse } from 'next/server';
 import { connectToDatabase } from '@/lib/mongodb-helper';
-import { Auth } from '@/lib/auth';
+// import { Auth } from '@/lib/auth';
 import { getSupplierStockLevels } from '@/lib/supplierApi';
 
 // Verify authentication helper function

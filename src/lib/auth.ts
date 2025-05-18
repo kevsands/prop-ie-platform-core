@@ -6,7 +6,9 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
 export const authOptions: NextAuthOptions = {
-  adapter: PrismaAdapter(prisma),
+  // Note: PrismaAdapter should not be used with credentials provider
+  // adapter: PrismaAdapter(prisma),
+  debug: true, // Enable debug mode for diagnostics
   providers: [
     CredentialsProvider({
       name: "credentials",
@@ -49,23 +51,45 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   callbacks: {
-    async jwt({ token, user }) {
+    async jwt({ token, user, account }) {
+      console.log('JWT Callback - User:', !!user, 'Account:', !!account, 'Token:', !!token);
+      
       if (user) {
         token.role = user.role;
         token.id = user.id;
+        token.email = user.email;
       }
       return token;
     },
     async session({ session, token }) {
+      console.log('Session Callback - Token:', !!token, 'Session:', !!session);
+      
       if (session?.user) {
-        session.user.role = token.role;
-        session.user.id = token.id;
+        session.user.role = token.role as string;
+        session.user.id = token.id as string;
+        session.user.email = token.email as string;
       }
       return session;
     },
   },
   session: {
     strategy: "jwt",
+    maxAge: 30 * 24 * 60 * 60, // 30 days
+  },
+  cookies: {
+    sessionToken: {
+      name: process.env.NODE_ENV === 'production' 
+        ? `__Secure-next-auth.session-token`
+        : `next-auth.session-token`,
+      options: {
+        httpOnly: true,
+        sameSite: 'lax',
+        path: '/',
+        secure: process.env.NODE_ENV === 'production'
+      }
+    },
+  },
+  jwt: {
     maxAge: 30 * 24 * 60 * 60, // 30 days
   },
   pages: {

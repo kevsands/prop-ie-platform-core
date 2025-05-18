@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { Auth } from "@/lib/auth";
+// import { Auth } from "@/lib/auth";
 
 // Interface for API metrics
 interface ApiMetric {
