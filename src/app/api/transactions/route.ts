@@ -1,11 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
-import { authOptions } from '../auth/[...nextauth]/auth.config';
+import { authOptions } from '@/lib/auth';
 import { z } from 'zod';
 import { transactionCoordinator } from '@/services/transactionCoordinator';
-import { PrismaClient } from '@prisma/slp-client';
+// import { PrismaClient } from '@prisma/slp-client';
+import { prisma } from '@/lib/prisma';
+// Use regular Prisma client for now
 
-const prisma = new PrismaClient();
+// const prisma = new PrismaClient(); // Already imported above
 
 // Schema for creating a new transaction
 const CreateTransactionSchema = z.object({

@@ -91,6 +91,7 @@
     "@aws-amplify/core": "^6.0.12",
     "@aws-amplify/storage": "^6.0.12",
     "@aws-amplify/ui-react": "^6.0.3",
+    "@aws-sdk/client-cloudwatch": "3.812.0",
     "@graphql-tools/load-files": "7.0.1",
     "@graphql-tools/merge": "9.0.24",
     "@graphql-tools/schema": "10.0.23",

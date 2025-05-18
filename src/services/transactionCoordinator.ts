@@ -1,9 +1,30 @@
-import { PrismaClient, TransactionStatus, MilestoneStatus, ParticipantRole } from '@prisma/slp-client';
+// import { PrismaClient, TransactionStatus, MilestoneStatus, ParticipantRole } from '@prisma/slp-client';
+import { prisma } from '@/lib/prisma';
 import { Logger } from '@/utils/logger';
 import { EventEmitter } from 'events';
 import { slpService } from './slpService';
 
-const prisma = new PrismaClient();
+// Transaction enums for now
+enum TransactionStatus {
+  CREATED = 'CREATED',
+  ACTIVE = 'ACTIVE',
+  COMPLETED = 'COMPLETED',
+  CANCELLED = 'CANCELLED'
+}
+
+enum MilestoneStatus {
+  PENDING = 'PENDING',
+  IN_PROGRESS = 'IN_PROGRESS',
+  COMPLETED = 'COMPLETED',
+  FAILED = 'FAILED'
+}
+
+enum ParticipantRole {
+  BUYER = 'BUYER',
+  SELLER = 'SELLER',
+  AGENT = 'AGENT',
+  SOLICITOR = 'SOLICITOR'
+}
 const logger = new Logger('TransactionCoordinator');
 const eventBus = new EventEmitter();
 

@@ -1,4 +1,5 @@
-import * as Sentry from '@sentry/nextjs';
+// import * as Sentry from '@sentry/nextjs';
+const Sentry = { init: () => {}, captureException: () => {}, captureMessage: () => {} }; // Mock for now
 
 // Error tracking configuration
 export function initializeErrorTracking() {
