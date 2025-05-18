@@ -1,0 +1,296 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'CloudWatch Dashboard and Alarms for Prop.ie Platform Monitoring'
+
+Parameters:
+  ApplicationName:
+    Type: String
+    Default: 'PropIE'
+    Description: 'Name of the application'
+  
+  Environment:
+    Type: String
+    Default: 'production'
+    AllowedValues:
+      - development
+      - staging
+      - production
+    Description: 'Environment name'
+  
+  SNSTopicArn:
+    Type: String
+    Description: 'SNS Topic ARN for alarm notifications'
+
+Resources:
+  # CloudWatch Dashboard
+  MonitoringDashboard:
+    Type: AWS::CloudWatch::Dashboard
+    Properties:
+      DashboardName: !Sub '${ApplicationName}-${Environment}-Monitoring'
+      DashboardBody: !Sub |
+        {
+          "widgets": [
+            {
+              "type": "metric",
+              "x": 0,
+              "y": 0,
+              "width": 12,
+              "height": 6,
+              "properties": {
+                "metrics": [
+                  [ "${ApplicationName}/API", "RequestCount", { "stat": "Sum", "period": 300 } ],
+                  [ ".", "ErrorCount", { "stat": "Sum", "period": 300, "yAxis": "right" } ]
+                ],
+                "view": "timeSeries",
+                "stacked": false,
+                "region": "${AWS::Region}",
+                "title": "API Request Volume",
+                "period": 300
+              }
+            },
+            {
+              "type": "metric",
+              "x": 12,
+              "y": 0,
+              "width": 12,
+              "height": 6,
+              "properties": {
+                "metrics": [
+                  [ "${ApplicationName}/API", "RequestDuration", { "stat": "Average" } ],
+                  [ "...", { "stat": "p50" } ],
+                  [ "...", { "stat": "p95" } ],
+                  [ "...", { "stat": "p99" } ]
+                ],
+                "view": "timeSeries",
+                "stacked": false,
+                "region": "${AWS::Region}",
+                "title": "API Response Time Percentiles",
+                "period": 300,
+                "yAxis": {
+                  "left": {
+                    "label": "Milliseconds",
+                    "showUnits": false
+                  }
+                }
+              }
+            },
+            {
+              "type": "metric",
+              "x": 0,
+              "y": 6,
+              "width": 8,
+              "height": 6,
+              "properties": {
+                "metrics": [
+                  [ "${ApplicationName}/Performance", "CPUUtilization", { "stat": "Average" } ],
+                  [ ".", "MemoryUtilization", { "stat": "Average" } ]
+                ],
+                "view": "timeSeries",
+                "stacked": false,
+                "region": "${AWS::Region}",
+                "title": "Resource Utilization",
+                "period": 300,
+                "yAxis": {
+                  "left": {
+                    "label": "Percentage",
+                    "showUnits": false
+                  }
+                }
+              }
+            },
+            {
+              "type": "metric",
+              "x": 8,
+              "y": 6,
+              "width": 8,
+              "height": 6,
+              "properties": {
+                "metrics": [
+                  [ "${ApplicationName}/Database", "QueryDuration", { "stat": "Average" } ],
+                  [ ".", "QueryCount", { "stat": "Sum", "yAxis": "right" } ]
+                ],
+                "view": "timeSeries",
+                "stacked": false,
+                "region": "${AWS::Region}",
+                "title": "Database Performance",
+                "period": 300
+              }
+            },
+            {
+              "type": "metric",
+              "x": 16,
+              "y": 6,
+              "width": 8,
+              "height": 6,
+              "properties": {
+                "metrics": [
+                  [ "${ApplicationName}/Cache", "CacheOperations", "Operation", "hit", { "stat": "Sum" } ],
+                  [ "...", "miss", { "stat": "Sum" } ]
+                ],
+                "view": "timeSeries",
+                "stacked": false,
+                "region": "${AWS::Region}",
+                "title": "Cache Hit/Miss Ratio",
+                "period": 300
+              }
+            },
+            {
+              "type": "metric",
+              "x": 0,
+              "y": 12,
+              "width": 24,
+              "height": 6,
+              "properties": {
+                "metrics": [
+                  [ "${ApplicationName}/Business", "BusinessEvents", "Event", "user-registration", { "stat": "Sum" } ],
+                  [ "...", "property-viewed", { "stat": "Sum" } ],
+                  [ "...", "transaction-completed", { "stat": "Sum" } ],
+                  [ "...", "document-generated", { "stat": "Sum" } ]
+                ],
+                "view": "timeSeries",
+                "stacked": false,
+                "region": "${AWS::Region}",
+                "title": "Business Events",
+                "period": 300
+              }
+            }
+          ]
+        }
+
+  # High Error Rate Alarm
+  HighErrorRateAlarm:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmName: !Sub '${ApplicationName}-${Environment}-HighErrorRate'
+      AlarmDescription: 'Triggers when API error rate exceeds 5%'
+      MetricName: ErrorCount
+      Namespace: !Sub '${ApplicationName}/API'
+      Statistic: Sum
+      Period: 300
+      EvaluationPeriods: 2
+      Threshold: 100
+      ComparisonOperator: GreaterThanThreshold
+      TreatMissingData: notBreaching
+      ActionsEnabled: true
+      AlarmActions:
+        - !Ref SNSTopicArn
+      Dimensions:
+        - Name: Environment
+          Value: !Ref Environment
+
+  # High Response Time Alarm
+  HighResponseTimeAlarm:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmName: !Sub '${ApplicationName}-${Environment}-HighResponseTime'
+      AlarmDescription: 'Triggers when average response time exceeds 1000ms'
+      MetricName: RequestDuration
+      Namespace: !Sub '${ApplicationName}/API'
+      Statistic: Average
+      Period: 300
+      EvaluationPeriods: 2
+      Threshold: 1000
+      ComparisonOperator: GreaterThanThreshold
+      TreatMissingData: notBreaching
+      ActionsEnabled: true
+      AlarmActions:
+        - !Ref SNSTopicArn
+      Dimensions:
+        - Name: Environment
+          Value: !Ref Environment
+
+  # High Memory Usage Alarm
+  HighMemoryUsageAlarm:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmName: !Sub '${ApplicationName}-${Environment}-HighMemoryUsage'
+      AlarmDescription: 'Triggers when memory usage exceeds 85%'
+      MetricName: MemoryUtilization
+      Namespace: !Sub '${ApplicationName}/Performance'
+      Statistic: Average
+      Period: 300
+      EvaluationPeriods: 3
+      Threshold: 85
+      ComparisonOperator: GreaterThanThreshold
+      TreatMissingData: notBreaching
+      ActionsEnabled: true
+      AlarmActions:
+        - !Ref SNSTopicArn
+      Dimensions:
+        - Name: Environment
+          Value: !Ref Environment
+
+  # High CPU Usage Alarm
+  HighCPUUsageAlarm:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmName: !Sub '${ApplicationName}-${Environment}-HighCPUUsage'
+      AlarmDescription: 'Triggers when CPU usage exceeds 80%'
+      MetricName: CPUUtilization
+      Namespace: !Sub '${ApplicationName}/Performance'
+      Statistic: Average
+      Period: 300
+      EvaluationPeriods: 3
+      Threshold: 80
+      ComparisonOperator: GreaterThanThreshold
+      TreatMissingData: notBreaching
+      ActionsEnabled: true
+      AlarmActions:
+        - !Ref SNSTopicArn
+      Dimensions:
+        - Name: Environment
+          Value: !Ref Environment
+
+  # Database Connection Pool Exhaustion Alarm
+  DatabaseConnectionAlarm:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmName: !Sub '${ApplicationName}-${Environment}-DatabaseConnections'
+      AlarmDescription: 'Triggers when database connections near limit'
+      MetricName: ActiveConnections
+      Namespace: !Sub '${ApplicationName}/Database'
+      Statistic: Maximum
+      Period: 300
+      EvaluationPeriods: 2
+      Threshold: 90
+      ComparisonOperator: GreaterThanThreshold
+      TreatMissingData: notBreaching
+      ActionsEnabled: true
+      AlarmActions:
+        - !Ref SNSTopicArn
+      Dimensions:
+        - Name: Environment
+          Value: !Ref Environment
+
+  # Low Cache Hit Rate Alarm
+  LowCacheHitRateAlarm:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmName: !Sub '${ApplicationName}-${Environment}-LowCacheHitRate'
+      AlarmDescription: 'Triggers when cache hit rate drops below 70%'
+      MetricName: CacheHitRate
+      Namespace: !Sub '${ApplicationName}/Cache'
+      Statistic: Average
+      Period: 300
+      EvaluationPeriods: 3
+      Threshold: 0.7
+      ComparisonOperator: LessThanThreshold
+      TreatMissingData: notBreaching
+      ActionsEnabled: true
+      AlarmActions:
+        - !Ref SNSTopicArn
+      Dimensions:
+        - Name: Environment
+          Value: !Ref Environment
+
+Outputs:
+  DashboardURL:
+    Description: 'CloudWatch Dashboard URL'
+    Value: !Sub 'https://console.aws.amazon.com/cloudwatch/home?region=${AWS::Region}#dashboards:name=${ApplicationName}-${Environment}-Monitoring'
+  
+  HighErrorRateAlarmName:
+    Description: 'High Error Rate Alarm Name'
+    Value: !Ref HighErrorRateAlarm
+  
+  HighResponseTimeAlarmName:
+    Description: 'High Response Time Alarm Name'
+    Value: !Ref HighResponseTimeAlarm
