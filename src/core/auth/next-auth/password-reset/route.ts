@@ -1,0 +1,88 @@
+// Password Reset API Routes
+import { NextRequest, NextResponse } from 'next/server';
+import authService from '@/services/authService';
+import { z } from 'zod';
+
+// Interfaces for request body types
+interface RequestResetBody {
+  email: string;
+  action?: 'request';
+}
+
+interface UpdatePasswordBody {
+  token: string;
+  newPassword: string;
+  action: 'update';
+}
+
+type PasswordResetBody = RequestResetBody | UpdatePasswordBody;
+
+// Validation schemas
+const requestResetSchema = z.object({
+  email: z.string().email()
+});
+
+const updatePasswordSchema = z.object({
+  token: z.string(),
+  newPassword: z.string().min(6)
+});
+
+// Type guard to check if body is of specific action type
+function isRequestResetBody(body: any): body is RequestResetBody {
+  return body.action === 'request' || !body.action;
+}
+
+function isUpdatePasswordBody(body: any): body is UpdatePasswordBody {
+  return body.action === 'update';
+}
+
+// POST /api/auth/password-reset - Request password reset
+export async function POST(request: NextRequest) {
+  try {
+    const body = await request.json() as PasswordResetBody;
+    const action = body.action || 'request';
+
+    if (action === 'request') {
+      // Validate request
+      const validatedData = requestResetSchema.parse(body);
+
+      // Request password reset
+      await authService.requestPasswordReset(validatedData);
+
+      // Always return success to avoid revealing if email exists
+      return NextResponse.json({ 
+        success: true, 
+        message: 'If an account exists with this email, you will receive password reset instructions.'
+      });
+    } else if (action === 'update') {
+      // Validate update request
+      const validatedData = updatePasswordSchema.parse(body);
+
+      // Update password
+      await authService.updatePasswordWithToken(validatedData);
+
+      return NextResponse.json({ 
+        success: true, 
+        message: 'Password updated successfully. Please log in with your new password.'
+      });
+    } else {
+      return NextResponse.json(
+        { success: false, error: 'Invalid action' },
+        { status: 400 }
+      );
+    }
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      return NextResponse.json(
+        { success: false, error: 'Validation error', details: error.errors },
+        { status: 400 }
+      );
+    }
+
+    const message = error instanceof Error ? error.message : 'Password reset failed';
+    return NextResponse.json(
+      { success: false, error: message },
+      { status: 500 }
+    );
+  }
+}
