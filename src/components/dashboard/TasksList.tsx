@@ -19,34 +19,34 @@ const TasksList: React.FC<TasksListProps> = ({
   updateTaskStatus,
   limit = 5
 }) => {
-  const [selectedStatus, setSelectedStatus] = useState<string>('all');
-  
+  const [selectedStatussetSelectedStatus] = useState<string>('all');
+
   // Filter tasks based on selected status
   const filteredTasks = selectedStatus === 'all'
     ? tasks
     : tasks.filter(task => task.status === selectedStatus);
 
   // Sort tasks by priority (high first) and then by due date (soonest first)
-  const sortedTasks = [...filteredTasks].sort((a, b) => {
+  const sortedTasks = [...filteredTasks].sort((ab: any) => {
     // First sort by priority
     const priorityOrder = { high: 0, medium: 1, low: 2 };
     const priorityDiff = priorityOrder[a.priority] - priorityOrder[b.priority];
-    
+
     if (priorityDiff !== 0) return priorityDiff;
-    
+
     // Then sort by due date
     return new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime();
   });
 
   // Limit the number of tasks shown
-  const displayedTasks = sortedTasks.slice(0, limit);
+  const displayedTasks = sortedTasks.slice(0limit);
 
   // Format the due date for display
   const formatDueDate = (dueDate: string) => {
     try {
       return format(parseISO(dueDate), 'MMM d, yyyy');
     } catch (error) {
-      console.error('Error formatting date:', error);
+
       return dueDate;
     }
   };
@@ -55,7 +55,7 @@ const TasksList: React.FC<TasksListProps> = ({
     <div className="bg-white rounded-lg shadow p-4">
       <div className="flex justify-between items-center mb-4">
         <h3 className="text-lg font-semibold text-gray-900">Tasks</h3>
-        
+
         <div className="flex space-x-1">
           <button
             onClick={() => setSelectedStatus('all')}
@@ -99,14 +99,14 @@ const TasksList: React.FC<TasksListProps> = ({
           </button>
         </div>
       </div>
-      
+
       {displayedTasks.length === 0 ? (
         <div className="text-center py-4">
           <p className="text-gray-500">No tasks found.</p>
         </div>
       ) : (
         <ul className="space-y-3">
-          {displayedTasks.map((task) => (
+          {displayedTasks.map((task: any) => (
             <li 
               key={task.id} 
               className={`border rounded-md p-3 ${
@@ -135,13 +135,13 @@ const TasksList: React.FC<TasksListProps> = ({
                       {task.title}
                     </h4>
                   </div>
-                  
+
                   {task.description && (
                     <p className={`mt-1 text-sm ${task.status === 'completed' ? 'text-gray-400' : 'text-gray-600'}`}>
                       {task.description}
                     </p>
                   )}
-                  
+
                   <div className={`mt-2 text-sm flex items-center ${
                     isOverdue(task.dueDate) && task.status !== 'completed' 
                       ? 'text-red-600' 
@@ -161,12 +161,12 @@ const TasksList: React.FC<TasksListProps> = ({
                     )}
                   </div>
                 </div>
-                
+
                 {updateTaskStatus && (
                   <div className="ml-4">
                     <select
                       value={task.status}
-                      onChange={(e) => updateTaskStatus(task.id, e.target.value as 'pending' | 'in_progress' | 'completed')}
+                      onChange={(e: any) => updateTaskStatus(task.id, e.target.value as 'pending' | 'in_progress' | 'completed')}
                       className="text-sm border border-gray-300 rounded px-2 py-1 bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                     >
                       <option value="pending">Pending</option>
@@ -180,8 +180,8 @@ const TasksList: React.FC<TasksListProps> = ({
           ))}
         </ul>
       )}
-      
-      {tasks.length > limit && (
+
+      {tasks.length> limit && (
         <div className="mt-4 text-center">
           <a href="#" className="text-sm text-blue-600 hover:text-blue-800">
             View all {tasks.length} tasks

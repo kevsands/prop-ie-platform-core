@@ -41,10 +41,10 @@ declare global {
       toContainValues(values: any[]): R;
       toContainAllValues(values: any[]): R;
       toContainAnyValues(values: any[]): R;
-      toContainEntry(entry: [string, any]): R;
-      toContainEntries(entries: [string, any][]): R;
-      toContainAllEntries(entries: [string, any][]): R;
-      toContainAnyEntries(entries: [string, any][]): R;
+      toContainEntry(entry: [stringany]): R;
+      toContainEntries(entries: [stringany][]): R;
+      toContainAllEntries(entries: [stringany][]): R;
+      toContainAnyEntries(entries: [stringany][]): R;
       toBeExtensible(): R;
       toBeFrozen(): R;
       toBeSealed(): R;

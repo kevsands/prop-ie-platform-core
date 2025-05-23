@@ -5,7 +5,7 @@ import EnhancedSecurityDashboard, { SecurityFeatures } from '../../../components
 
 export default function SecurityDashboardPage() {
   const handleFeaturesChange = (features: SecurityFeatures) => {
-    console.log('Security features updated:', features);
+
     // In a real app, this would save to the backend
   };
 
@@ -17,9 +17,9 @@ export default function SecurityDashboardPage() {
           Monitor and manage the security of your account. Enable additional security 
           features to enhance your protection.
         </p>
-        
+
         <EnhancedSecurityDashboard 
-          initialFeatures={{
+          initialFeatures={
             mfa: true,
             sessionFingerprinting: true,
             deviceTrust: true,
@@ -27,7 +27,7 @@ export default function SecurityDashboardPage() {
             securityAlerts: true,
             ipBlocking: false,
             enhancedLoginProtection: false
-          }}
+          }
           onFeaturesChange={handleFeaturesChange}
         />
       </div>

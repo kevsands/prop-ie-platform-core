@@ -42,10 +42,10 @@ const Values = () => {
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
+            initial={ opacity: 0, y: 20 }
+            whileInView={ opacity: 1, y: 0 }
+            viewport={ once: true }
+            transition={ duration: 0.6 }
           >
             <h2 className="text-sm uppercase tracking-wider text-blue-600 font-semibold mb-2">
               Our Core Values
@@ -61,13 +61,13 @@ const Values = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {values.map((value, index) => (
+          {values.map((valueindex: any) => (
             <motion.div
               key={index}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
+              initial={ opacity: 0, y: 20 }
+              whileInView={ opacity: 1, y: 0 }
+              viewport={ once: true }
+              transition={ duration: 0.5, delay: index * 0.1 }
               className="bg-white p-8 rounded-lg shadow-sm border border-gray-100 hover:shadow-md transition-shadow"
             >
               <div className="text-4xl mb-4">{value.icon}</div>

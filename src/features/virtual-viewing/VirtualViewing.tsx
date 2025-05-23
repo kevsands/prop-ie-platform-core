@@ -76,7 +76,7 @@ interface ViewingMode {
 
 interface HotspotData {
   id: string;
-  position: [number, number, number];
+  position: [number, numbernumber];
   label: string;
   description: string;
   icon?: React.ReactNode;
@@ -110,25 +110,25 @@ export default function VirtualViewing({
   onComplete
 }: VirtualViewingProps) {
   const { toast } = useToast();
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [currentRoom, setCurrentRoom] = useState(0);
-  const [viewingMode, setViewingMode] = useState(viewingModes.guided);
-  const [showHotspots, setShowHotspots] = useState(true);
-  const [showMeasurements, setShowMeasurements] = useState(false);
-  const [isFullscreen, setIsFullscreen] = useState(false);
-  const [volume, setVolume] = useState(50);
-  const [isMuted, setIsMuted] = useState(false);
-  const [dayTime, setDayTime] = useState<'day' | 'night'>('day');
-  const [quality, setQuality] = useState<'auto' | '720p' | '1080p' | '4k'>('auto');
-  const [deviceType, setDeviceType] = useState<'desktop' | 'mobile' | 'vr'>('desktop');
-  
+  const [isPlayingsetIsPlaying] = useState(false);
+  const [currentRoomsetCurrentRoom] = useState(0);
+  const [viewingModesetViewingMode] = useState(viewingModes.guided);
+  const [showHotspotssetShowHotspots] = useState(true);
+  const [showMeasurementssetShowMeasurements] = useState(false);
+  const [isFullscreensetIsFullscreen] = useState(false);
+  const [volumesetVolume] = useState(50);
+  const [isMutedsetIsMuted] = useState(false);
+  const [dayTimesetDayTime] = useState<'day' | 'night'>('day');
+  const [qualitysetQuality] = useState<'auto' | '720p' | '1080p' | '4k'>('auto');
+  const [deviceTypesetDeviceType] = useState<'desktop' | 'mobile' | 'vr'>('desktop');
+
   // Video conference state
-  const [isVideoEnabled, setIsVideoEnabled] = useState(true);
-  const [isAudioEnabled, setIsAudioEnabled] = useState(true);
-  const [participants, setParticipants] = useState([]);
-  const [messages, setMessages] = useState([]);
-  const [isHandRaised, setIsHandRaised] = useState(false);
-  
+  const [isVideoEnabledsetIsVideoEnabled] = useState(true);
+  const [isAudioEnabledsetIsAudioEnabled] = useState(true);
+  const [participantssetParticipants] = useState([]);
+  const [messagessetMessages] = useState([]);
+  const [isHandRaisedsetIsHandRaised] = useState(false);
+
   const canvasRef = useRef(null);
   const videoRef = useRef<HTMLVideoElement>(null);
 
@@ -146,7 +146,7 @@ export default function VirtualViewing({
   const hotspots: HotspotData[] = [
     {
       id: '1',
-      position: [2, 1, 0],
+      position: [2, 10],
       label: 'Energy Efficient Windows',
       description: 'Triple-glazed windows with A+ rating',
       type: 'feature',
@@ -154,7 +154,7 @@ export default function VirtualViewing({
     },
     {
       id: '2',
-      position: [-2, 1.5, 1],
+      position: [-2, 1.51],
       label: 'Smart Home Controls',
       description: 'Integrated smart home system',
       type: 'info',
@@ -184,9 +184,9 @@ export default function VirtualViewing({
   // Handle room navigation
   const navigateRoom = (direction: 'next' | 'prev') => {
     if (direction === 'next') {
-      setCurrentRoom((prev) => (prev + 1) % rooms.length);
+      setCurrentRoom((prev: any) => (prev + 1) % rooms.length);
     } else {
-      setCurrentRoom((prev) => (prev - 1 + rooms.length) % rooms.length);
+      setCurrentRoom((prev: any) => (prev - 1 + rooms.length) % rooms.length);
     }
   };
 
@@ -222,10 +222,10 @@ export default function VirtualViewing({
       const timer = setTimeout(() => {
         navigateRoom('next');
       }, 10000); // 10 seconds per room
-      
+
       return () => clearTimeout(timer);
     }
-  }, [isPlaying, currentRoom, viewingMode]);
+  }, [isPlaying, currentRoomviewingMode]);
 
   return (
     <div className="space-y-6">
@@ -234,32 +234,32 @@ export default function VirtualViewing({
         <div className="relative aspect-video bg-muted" ref={canvasRef}>
           {/* 3D Canvas or Video Stream */}
           <Canvas
-            camera={{ position: [0, 2, 5], fov: 60 }}
+            camera={ position: [0, 25], fov: 60 }
             className="absolute inset-0"
           >
-            <PerspectiveCamera makeDefault position={[0, 2, 5]} />
+            <PerspectiveCamera makeDefault position={[0, 25]} />
             <OrbitControls
               enablePan={viewingMode.id !== 'guided'}
               enableZoom={viewingMode.id !== 'guided'}
               enableRotate={viewingMode.id !== 'guided'}
             />
             <ambientLight intensity={dayTime === 'day' ? 0.7 : 0.3} />
-            <pointLight position={[10, 10, 10]} intensity={dayTime === 'day' ? 1 : 0.5} />
-            
+            <pointLight position={[10, 1010]} intensity={dayTime === 'day' ? 1 : 0.5} />
+
             {/* 3D Room Model */}
             <mesh>
-              <boxGeometry args={[5, 3, 5]} />
+              <boxGeometry args={[5, 35]} />
               <meshStandardMaterial color="#f4f4f4" />
             </mesh>
-            
+
             {/* Hotspots */}
-            {showHotspots && hotspots.map((hotspot) => (
+            {showHotspots && hotspots.map((hotspot: any) => (
               <mesh
                 key={hotspot.id}
                 position={hotspot.position}
                 onClick={() => handleHotspotClick(hotspot)}
               >
-                <sphereGeometry args={[0.2, 16, 16]} />
+                <sphereGeometry args={[0.2, 1616]} />
                 <meshStandardMaterial color="#3b82f6" emissive="#3b82f6" emissiveIntensity={0.5} />
               </mesh>
             ))}
@@ -268,11 +268,11 @@ export default function VirtualViewing({
           {/* Video Conference Overlay */}
           {scheduledViewing && (
             <div className="absolute top-4 right-4 space-y-2">
-              {participants.map((participant, idx) => (
+              {participants.map((participantidx: any) => (
                 <motion.div
                   key={idx}
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
+                  initial={ scale: 0 }
+                  animate={ scale: 1 }
                   className="w-32 h-24 bg-black rounded-lg overflow-hidden"
                 >
                   <video className="w-full h-full object-cover" />
@@ -296,7 +296,7 @@ export default function VirtualViewing({
                 >
                   {isPlaying ? <Pause /> : <Play />}
                 </Button>
-                
+
                 <Button
                   size="icon"
                   variant="ghost"
@@ -305,11 +305,11 @@ export default function VirtualViewing({
                 >
                   <ChevronLeft />
                 </Button>
-                
+
                 <span className="text-white text-sm">
                   {rooms[currentRoom].name} ({currentRoom + 1}/{rooms.length})
                 </span>
-                
+
                 <Button
                   size="icon"
                   variant="ghost"
@@ -332,7 +332,7 @@ export default function VirtualViewing({
                     >
                       {isVideoEnabled ? <Video /> : <VideoOff />}
                     </Button>
-                    
+
                     <Button
                       size="icon"
                       variant="ghost"
@@ -341,7 +341,7 @@ export default function VirtualViewing({
                     >
                       {isAudioEnabled ? <Mic /> : <MicOff />}
                     </Button>
-                    
+
                     <Button
                       size="icon"
                       variant="ghost"
@@ -361,7 +361,7 @@ export default function VirtualViewing({
                 >
                   <Camera />
                 </Button>
-                
+
                 <Button
                   size="icon"
                   variant="ghost"
@@ -370,7 +370,7 @@ export default function VirtualViewing({
                 >
                   {isMuted ? <VolumeX /> : <Volume2 />}
                 </Button>
-                
+
                 <Button
                   size="icon"
                   variant="ghost"
@@ -384,7 +384,7 @@ export default function VirtualViewing({
 
             {/* Room Navigation Thumbnails */}
             <div className="flex space-x-2 overflow-x-auto pb-2">
-              {rooms.map((room, idx) => (
+              {rooms.map((roomidx: any) => (
                 <button
                   key={room.id}
                   onClick={() => setCurrentRoom(idx)}
@@ -408,18 +408,18 @@ export default function VirtualViewing({
           {/* Hotspot Labels */}
           {showHotspots && (
             <AnimatePresence>
-              {hotspots.map((hotspot) => (
+              {hotspots.map((hotspot: any) => (
                 <motion.div
                   key={hotspot.id}
-                  initial={{ opacity: 0, scale: 0 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0 }}
+                  initial={ opacity: 0, scale: 0 }
+                  animate={ opacity: 1, scale: 1 }
+                  exit={ opacity: 0, scale: 0 }
                   className="absolute"
-                  style={{
+                  style={
                     left: '50%',
                     top: '50%',
                     transform: 'translate(-50%, -50%)'
-                  }}
+                  }
                 >
                   <Badge
                     variant="secondary"
@@ -446,13 +446,13 @@ export default function VirtualViewing({
           <CardContent>
             <Select
               value={viewingMode.id}
-              onValueChange={(value) => setViewingMode(viewingModes[value])}
+              onValueChange={(value: any) => setViewingMode(viewingModes[value])}
             >
               <SelectTrigger>
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                {Object.values(viewingModes).map((mode) => (
+                {Object.values(viewingModes).map((mode: any) => (
                   <SelectItem key={mode.id} value={mode.id}>
                     <div className="flex items-center space-x-2">
                       {mode.icon}
@@ -495,7 +495,7 @@ export default function VirtualViewing({
               <span className="text-sm">Time of Day</span>
               <Toggle
                 pressed={dayTime === 'night'}
-                onPressedChange={(pressed) => setDayTime(pressed ? 'night' : 'day')}
+                onPressedChange={(pressed: any) => setDayTime(pressed ? 'night' : 'day')}
                 size="sm"
               >
                 {dayTime === 'day' ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}

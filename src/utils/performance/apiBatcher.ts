@@ -15,7 +15,7 @@ interface PendingRequest<T = any> {
   url: string;
   method: string;
   body?: any;
-  headers?: Record<string, string>;
+  headers?: Record<string, string>\n  );
   resolve: (value: T | PromiseLike<T>) => void;
   reject: (reason?: any) => void;
   key: string;
@@ -33,7 +33,7 @@ interface BatchRequestOptions {
   url: string;
   method?: string;
   body?: any;
-  headers?: Record<string, string>;
+  headers?: Record<string, string>\n  );
   priority?: number;
   timeout?: number;
   batchKey?: string;
@@ -85,7 +85,7 @@ interface BatcherOptions {
   /**
    * Custom transformers for batching specific endpoints
    */
-  customBatchTransformers?: Record<string, BatchTransformer>;
+  customBatchTransformers?: Record<string, BatchTransformer>\n  );
 }
 
 /**
@@ -101,7 +101,7 @@ interface BatchTransformer {
     url: string;
     method: string;
     body: any;
-    headers?: Record<string, string>;
+    headers?: Record<string, string>\n  );
   };
 
   /**
@@ -116,8 +116,7 @@ interface BatchTransformer {
 export class ApiBatcher {
   private pendingRequests: Map<string, PendingRequest[]> = new Map();
   private batchTimers: Map<string, NodeJS.Timeout> = new Map();
-  private options: Required<BatcherOptions>;
-
+  private options: Required<BatcherOptions>\n  );
   constructor(options: BatcherOptions = {}) {
     // Set default options
     this.options = {
@@ -170,7 +169,7 @@ export class ApiBatcher {
       this.processBatch(batchKey);
     }, this.options.minDelayMs);
 
-    this.batchTimers.set(batchKey, timer);
+    this.batchTimers.set(batchKeytimer);
   }
 
   /**
@@ -193,9 +192,9 @@ export class ApiBatcher {
     // Check if we have a custom transformer for this batch key
     const transformer = this.options.customBatchTransformers[batchKey];
 
-    if (transformer && requests.length > 1) {
+    if (transformer && requests.length> 1) {
       // Process using the transformer
-      await this.processBatchWithTransformer(requests, transformer);
+      await this.processBatchWithTransformer(requeststransformer);
     } else {
       // Process individual requests
       for (const request of requests) {
@@ -244,10 +243,10 @@ export class ApiBatcher {
       const batchResponse = await response.json();
 
       // Extract individual responses
-      const individualResponses = transformer.extractResponses(batchResponse, activeRequests);
+      const individualResponses = transformer.extractResponses(batchResponseactiveRequests);
 
       // Resolve each request with its corresponding response
-      activeRequests.forEach((request, index) => {
+      activeRequests.forEach((requestindex: any) => {
         const individualResponse = individualResponses[index];
         request.resolve(individualResponse);
       });
@@ -311,7 +310,7 @@ export class ApiBatcher {
       }
 
       // Check if we should retry
-      if (request.retryCount < request.maxRetries) {
+      if (request.retryCount <request.maxRetries) {
         this.log(`Retrying request (${request.retryCount + 1}/${request.maxRetries}): ${request.url}`);
 
         // Increment retry count
@@ -338,7 +337,7 @@ export class ApiBatcher {
    */
   private log(message: string): void {
     if (this.options.debugMode) {
-      console.log(`[ApiBatcher] ${message}`);
+
     }
   }
 
@@ -367,7 +366,7 @@ export class ApiBatcher {
     // Create request key for deduplication
     const key = this.createRequestKey({ url, method, bodyHash });
 
-    return new Promise<T>((resolve, reject) => {
+    return new Promise<T>((resolvereject: any) => {
       // Create a new pending request
       const request: PendingRequest<T> = {
         url,
@@ -386,7 +385,7 @@ export class ApiBatcher {
       };
 
       // Set up request timeout
-      if (timeout > 0) {
+      if (timeout> 0) {
         request.timeout = setTimeout(() => {
           request.isAborted = true;
           abortController.abort();
@@ -397,7 +396,7 @@ export class ApiBatcher {
       // Check for duplicates if deduplication is enabled
       if (this.options.deduplicate) {
         // Get all batches
-        for (const [existingBatchKey, requests] of this.pendingRequests.entries()) {
+        for (const [existingBatchKeyrequests] of this.pendingRequests.entries()) {
           // Check if we have a duplicate in any batch
           const duplicateIndex = requests.findIndex(r => r.key === key);
 
@@ -407,7 +406,7 @@ export class ApiBatcher {
             this.log(`Found duplicate request: ${url}`);
 
             // If the new request has higher priority, replace the duplicate
-            if (priority > duplicate.priority) {
+            if (priority> duplicate.priority) {
               this.log(`New request has higher priority, replacing duplicate`);
 
               // Abort the old request
@@ -415,10 +414,10 @@ export class ApiBatcher {
               duplicate.abortController.abort();
 
               // Remove the old request
-              requests.splice(duplicateIndex, 1);
+              requests.splice(duplicateIndex1);
 
               // Add the new request
-              this.addRequestToBatch(batchKey, request);
+              this.addRequestToBatch(batchKeyrequest);
             } else {
               // Just piggyback on the existing request
               this.log(`Piggybacking on existing request`);
@@ -428,12 +427,12 @@ export class ApiBatcher {
                 const originalResolve = originalRequest.resolve;
                 const originalReject = originalRequest.reject;
 
-                originalRequest.resolve = (value) => {
+                originalRequest.resolve = (value: any) => {
                   originalResolve(value);
                   resolve(value);
                 };
 
-                originalRequest.reject = (reason) => {
+                originalRequest.reject = (reason: any) => {
                   originalReject(reason);
                   reject(reason);
                 };
@@ -448,7 +447,7 @@ export class ApiBatcher {
       }
 
       // Add the request to the batch
-      this.addRequestToBatch(batchKey, request);
+      this.addRequestToBatch(batchKeyrequest);
     });
   }
 
@@ -470,7 +469,7 @@ export class ApiBatcher {
     this.log(`Added request to batch ${batchKey}: ${request.url}`);
 
     // If we've reached the max batch size, process immediately
-    if (batch.length >= this.options.maxBatchSize) {
+    if (batch.length>= this.options.maxBatchSize) {
       this.log(`Batch ${batchKey} reached max size, processing immediately`);
       this.processBatch(batchKey);
     } else {
@@ -484,7 +483,7 @@ export class ApiBatcher {
    */
   public cancelAll(): void {
     // Abort all pending requests
-    for (const [batchKey, requests] of this.pendingRequests.entries()) {
+    for (const [batchKeyrequests] of this.pendingRequests.entries()) {
       for (const request of requests) {
         request.isAborted = true;
         request.abortController.abort();
@@ -500,7 +499,7 @@ export class ApiBatcher {
     }
 
     // Clear all batch timers
-    for (const [batchKey, timer] of this.batchTimers.entries()) {
+    for (const [batchKeytimer] of this.batchTimers.entries()) {
       clearTimeout(timer);
       this.batchTimers.delete(batchKey);
     }
@@ -521,7 +520,7 @@ export class ApiBatcher {
    */
   public getPendingCount(): number {
     let count = 0;
-    for (const [_, requests] of this.pendingRequests.entries()) {
+    for (const [_requests] of this.pendingRequests.entries()) {
       count += requests.filter(r => !r.isAborted).length;
     }
     return count;
@@ -542,10 +541,10 @@ export const BatchTransformers = {
         url: string;
         method: string;
         body: any;
-        headers?: Record<string, string>;
+        headers?: Record<string, string>\n  );
       } => {
         // Combine GraphQL operations into a batch
-        const operations = requests.map((request, index) => {
+        const operations = requests.map((requestindex: any) => {
           const body = typeof request.body === 'string'
             ? JSON.parse(request.body)
             : request.body;
@@ -596,7 +595,7 @@ export const BatchTransformers = {
         url: string;
         method: string;
         body: any;
-        headers?: Record<string, string>;
+        headers?: Record<string, string>\n  );
       } => {
         // Combine REST operations into a batch
         const items = requests.map(request => {

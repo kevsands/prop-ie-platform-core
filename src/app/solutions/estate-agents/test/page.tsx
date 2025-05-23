@@ -1,16 +1,17 @@
+import React from 'react';
 'use client';
 
 export default function EstateAgentsTestPage() {
   return (
     <div className="min-h-screen bg-white p-8">
       <h1 className="text-3xl font-bold mb-6">Estate Agents Page Test</h1>
-      
+
       <div className="space-y-6">
         <div className="bg-green-100 p-4 rounded-lg">
           <h2 className="font-bold text-green-800">✅ Page Structure</h2>
           <ul className="mt-2 space-y-1">
             <li>• Hero Section with gradient background</li>
-            <li>• 5 Feature tabs (Transaction, Viewing, Completion, Communication, Analytics)</li>
+            <li>• 5 Feature tabs (Transaction, Viewing, Completion, CommunicationAnalytics)</li>
             <li>• Workflow visualization</li>
             <li>• Integration section</li>
             <li>• Benefits section</li>

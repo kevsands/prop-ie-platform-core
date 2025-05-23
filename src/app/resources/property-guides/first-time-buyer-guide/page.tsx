@@ -15,14 +15,13 @@ const TableOfContents = ({ activeSection }: { activeSection: string }) => {
     { id: 'making-offer', title: 'Making an Offer' },
     { id: 'legal-process', title: 'Legal Process' },
     { id: 'closing', title: 'Closing & Moving In' },
-    { id: 'checklist', title: 'First-Time Buyer Checklist' },
-  ];
+    { id: 'checklist', title: 'First-Time Buyer Checklist' }];
 
   return (
     <div className="bg-gray-50 p-6 rounded-lg sticky top-24">
       <h3 className="text-lg font-semibold text-gray-900 mb-4">Contents</h3>
       <ul className="space-y-2">
-        {sections.map((section) => (
+        {sections.map((section: any) => (
           <li key={section.id}>
             <a
               href={`#${section.id}`}
@@ -61,21 +60,21 @@ const RelatedGuide = ({ title, href, category }: { title: string; href: string; 
 );
 
 export default function FirstTimeBuyerGuidePage() {
-  const [activeSection, setActiveSection] = useState('introduction');
-  
+  const [activeSectionsetActiveSection] = useState('introduction');
+
   // Update active section based on scroll position
   React.useEffect(() => {
     const handleScroll = () => {
       const sections = document.querySelectorAll('section[id]');
-      
-      sections.forEach((section) => {
+
+      sections.forEach((section: any) => {
         const rect = section.getBoundingClientRect();
-        if (rect.top <= 100 && rect.bottom >= 100) {
+        if (rect.top <= 100 && rect.bottom>= 100) {
           setActiveSection(section.id);
         }
       });
     };
-    
+
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
@@ -159,7 +158,7 @@ export default function FirstTimeBuyerGuidePage() {
             <p className="text-gray-700 mb-4">
               The first hurdle for most first-time buyers is saving for a deposit. In Ireland, you'll typically need a deposit of at least 10% of the property's value, though this can be lower for certain new builds under the Help-to-Buy scheme.
             </p>
-            
+
             <h3 className="text-xl font-semibold text-gray-900 mt-6 mb-3">How much deposit do you need?</h3>
             <div className="bg-blue-50 p-5 rounded-lg mb-6">
               <h4 className="font-semibold text-gray-900 mb-2">Deposit requirements in Ireland:</h4>
@@ -170,7 +169,7 @@ export default function FirstTimeBuyerGuidePage() {
                 <li><strong>Example:</strong> For a €300,000 property, you'll need at least €30,000 saved</li>
               </ul>
             </div>
-            
+
             <h3 className="text-xl font-semibold text-gray-900 mt-6 mb-3">Effective Saving Strategies</h3>
             <p className="text-gray-700 mb-4">
               Saving such a substantial amount requires discipline and strategy. Here are some effective approaches:
@@ -183,7 +182,7 @@ export default function FirstTimeBuyerGuidePage() {
               <li><strong>Consider moving temporarily</strong> - Moving back with family or sharing accommodation can accelerate savings</li>
               <li><strong>Look for additional income sources</strong> - Side jobs, overtime, or selling unused items</li>
             </ul>
-            
+
             <div className="bg-gray-100 p-5 rounded-lg mb-6">
               <h4 className="font-semibold text-gray-900 mb-2">Pro Tip: The 50/30/20 Budget Rule</h4>
               <p className="text-gray-700">
@@ -198,7 +197,7 @@ export default function FirstTimeBuyerGuidePage() {
             <p className="text-gray-700 mb-4">
               Before you start viewing properties, it's crucial to understand how much you can borrow. This means getting mortgage approval in principle, which gives you a clear budget for your house hunt.
             </p>
-            
+
             <h3 className="text-xl font-semibold text-gray-900 mt-6 mb-3">Mortgage Lending Rules in Ireland</h3>
             <p className="text-gray-700 mb-4">
               In Ireland, mortgage lending is regulated by the Central Bank, which imposes limits on how much you can borrow:
@@ -208,7 +207,7 @@ export default function FirstTimeBuyerGuidePage() {
               <li>Some exceptions may apply, but these are limited and at the lender's discretion</li>
               <li>Your ability to repay (affordability) is also assessed based on your current expenses</li>
             </ul>
-            
+
             <h3 className="text-xl font-semibold text-gray-900 mt-6 mb-3">Steps to Mortgage Approval</h3>
             <ol className="list-decimal list-inside space-y-3 text-gray-700 mb-6">
               <li><strong>Gather necessary documents</strong> - These typically include:
@@ -232,7 +231,7 @@ export default function FirstTimeBuyerGuidePage() {
                 </ul>
               </li>
             </ol>
-            
+
             <div className="bg-green-50 p-5 rounded-lg mb-6">
               <h4 className="font-semibold text-gray-900 mb-2">Example: Mortgage Calculation</h4>
               <p className="text-gray-700 mb-3">
@@ -245,7 +244,7 @@ export default function FirstTimeBuyerGuidePage() {
                 Note: This is a simplified example. Your actual borrowing power will depend on various factors including other financial commitments.
               </p>
             </div>
-            
+
             <Link href="/resources/calculators/mortgage-calculator" className="inline-flex items-center text-[#2B5273] font-medium hover:underline">
               Try our mortgage calculator
               <svg className="ml-1 w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -287,7 +286,7 @@ export default function FirstTimeBuyerGuidePage() {
         <div className="lg:w-1/3">
           <div className="lg:sticky lg:top-24">
             <TableOfContents activeSection={activeSection} />
-            
+
             <div className="mt-8 bg-gray-50 p-6 rounded-lg">
               <h3 className="text-lg font-semibold text-gray-900 mb-4">Related Guides</h3>
               <div className="space-y-3">
@@ -319,7 +318,7 @@ export default function FirstTimeBuyerGuidePage() {
                 </svg>
               </Link>
             </div>
-            
+
             <div className="mt-8 bg-white p-6 rounded-lg shadow-md">
               <h3 className="text-lg font-semibold text-gray-900 mb-4">Get Expert Help</h3>
               <p className="text-gray-700 mb-4">

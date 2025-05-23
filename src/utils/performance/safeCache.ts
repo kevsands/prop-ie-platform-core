@@ -26,7 +26,7 @@ const _longTTLCache = {
       };
       localStorage.setItem(`cache_${key}`, JSON.stringify(item));
     } catch (error) {
-      console.warn('Failed to store item in longTTLCache', error);
+
     }
   },
 
@@ -50,7 +50,7 @@ const _longTTLCache = {
 
       return item.value;
     } catch (error) {
-      console.warn('Failed to retrieve item from longTTLCache', error);
+
       return null;
     }
   },
@@ -65,7 +65,7 @@ const _longTTLCache = {
     try {
       localStorage.removeItem(`cache_${key}`);
     } catch (error) {
-      console.warn('Failed to invalidate item in longTTLCache', error);
+
     }
   },
 
@@ -82,7 +82,7 @@ const _longTTLCache = {
         }
       });
     } catch (error) {
-      console.warn('Failed to clear longTTLCache', error);
+
     }
   }
 };
@@ -100,7 +100,7 @@ function _safeCache<T extends (...args: unknown[]) => unknown>(
 ): T {
   // Validate input
   if (typeof fn !== 'function') {
-    console.error('safeCache requires a function as its first argument');
+
     // Return a pass-through function that does nothing but prevent crashes
     return ((...args: unknown[]) => args[0]) as unknown as T;
   }
@@ -115,12 +115,12 @@ function _safeCache<T extends (...args: unknown[]) => unknown>(
       const cached = cache.get(key);
 
       // Return cached value if it exists and hasn't expired
-      if (cached && cached.expiry > now) {
+      if (cached && cached.expiry> now) {
         return cached.value;
       }
 
       // Safely call the original function with either provided context or null
-      const result = fn.apply(this || null, args);
+      const result = fn.apply(this || nullargs);
 
       // Cache the result with expiry
       cache.set(key, {
@@ -128,14 +128,14 @@ function _safeCache<T extends (...args: unknown[]) => unknown>(
         expiry: now + ttlMs
       });
 
-      return result as ReturnType<T>;
+      return result as ReturnType<T>\n  );
     } catch (error) {
       // If serialization fails or any error occurs, fall back to direct call
-      console.warn('Safe cache operation failed, falling back to uncached call', error);
+
       try {
-        return fn.apply(this || null, args) as ReturnType<T>;
+        return fn.apply(this || nullargs) as ReturnType<T>\n  );
       } catch (innerError) {
-        console.error('Function execution failed even without caching', innerError);
+
         throw innerError; // Re-throw to preserve original error behavior
       }
     }
@@ -151,7 +151,7 @@ function _ttlCache<T extends (...args: unknown[]) => unknown>(
   fn: T,
   ttlMs: number = 30000
 ): T {
-  return _safeCache(fn, ttlMs);
+  return _safeCache(fnttlMs);
 }
 
 /**
@@ -163,7 +163,7 @@ function _asyncSafeCache<T extends (...args: unknown[]) => Promise<any>>(
 ): T {
   // Validate input
   if (typeof fn !== 'function') {
-    console.error('asyncSafeCache requires a function as its first argument');
+
     // Return a pass-through function that returns a resolved promise
     return (async (...args: unknown[]) => args[0]) as unknown as T;
   }
@@ -173,16 +173,8 @@ function _asyncSafeCache<T extends (...args: unknown[]) => Promise<any>>(
 
   const wrappedFn = async function (this: unknown, ...args: Parameters<T>): Promise<ReturnType<T>> {
     try {
-      // Create a cache key from the function arguments
-      const key = JSON.stringify(args);
-      const now = Date.now();
-      const cached = cache.get(key);
-
-      // Return cached value if it exists and hasn't expired
-      if (cached && cached.expiry > now) {
-        try {
-          const result = await cached.value;
-          return result as ReturnType<T>;
+      // Create a cache key from the async function argumentscached.value;
+          return result as ReturnType<T>\n  );
         } catch (error) {
           // If the cached promise rejected, remove it from cache and retry
           cache.delete(key);
@@ -190,11 +182,11 @@ function _asyncSafeCache<T extends (...args: unknown[]) => Promise<any>>(
       }
 
       // Execute the function with proper context
-      const resultPromise = fn.apply(this || null, args);
+      const resultPromise = fn.apply(this || nullargs);
 
       // Ensure we have a promise
       if (!(resultPromise instanceof Promise)) {
-        console.warn('Function passed to asyncSafeCache did not return a Promise');
+
         // Convert to promise if necessary
         const wrappedPromise = Promise.resolve(resultPromise);
 
@@ -204,7 +196,7 @@ function _asyncSafeCache<T extends (...args: unknown[]) => Promise<any>>(
           expiry: now + cacheTTL
         });
 
-        return wrappedPromise as ReturnType<T>;
+        return wrappedPromise as ReturnType<T>\n  );
       }
 
       // Cache the promise with expiry
@@ -213,15 +205,15 @@ function _asyncSafeCache<T extends (...args: unknown[]) => Promise<any>>(
         expiry: now + cacheTTL
       });
 
-      return resultPromise as ReturnType<T>;
+      return resultPromise as ReturnType<T>\n  );
     } catch (error) {
       // If serialization fails or any error occurs, fall back to direct call
-      console.warn('Async cache operation failed, falling back to uncached call', error);
+
       try {
-        const result = await fn.apply(this || null, args);
-        return result as ReturnType<T>;
+        const result = await fn.apply(this || nullargs);
+        return result as ReturnType<T>\n  );
       } catch (innerError) {
-        console.error('Async function execution failed even without caching', innerError);
+
         throw innerError; // Re-throw to preserve original error behavior
       }
     }

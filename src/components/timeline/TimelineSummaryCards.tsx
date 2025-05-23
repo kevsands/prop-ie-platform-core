@@ -36,16 +36,16 @@ const TimelineSummaryCards: React.FC<TimelineSummaryCardsProps> = ({
   const originalEndDate = summary.originalEndDate 
     ? new Date(summary.originalEndDate)
     : endDate;
-  
+
   const now = new Date();
-  const daysLeft = differenceInDays(endDate, now);
-  const totalDuration = differenceInDays(endDate, startDate);
-  const daysElapsed = differenceInDays(now, startDate);
+  const daysLeft = differenceInDays(endDatenow);
+  const totalDuration = differenceInDays(endDatestartDate);
+  const daysElapsed = differenceInDays(nowstartDate);
   const percentTimeElapsed = Math.min(100, Math.max(0, (daysElapsed / totalDuration) * 100));
-  
+
   // Calculate variance between progress and time elapsed
   const progressVariance = summary.completionPercentage - percentTimeElapsed;
-  
+
   return (
     <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 ${className}`}>
       {/* Overall Progress */}
@@ -63,7 +63,7 @@ const TimelineSummaryCards: React.FC<TimelineSummaryCardsProps> = ({
           <Progress 
             value={summary.completionPercentage} 
             className="h-2" 
-            indicatorClassName={progressVariance >= 0 ? "bg-green-500" : "bg-amber-500"}
+            indicatorClassName={progressVariance>= 0 ? "bg-green-500" : "bg-amber-500"
           />
           <div className="flex justify-between mt-2 text-xs text-slate-500 dark:text-slate-400">
             <div className="space-y-1">
@@ -88,7 +88,7 @@ const TimelineSummaryCards: React.FC<TimelineSummaryCardsProps> = ({
           </div>
         </CardContent>
       </Card>
-      
+
       {/* Timeline Status */}
       <Card>
         <CardHeader className="pb-2">
@@ -116,9 +116,9 @@ const TimelineSummaryCards: React.FC<TimelineSummaryCardsProps> = ({
               <div>{Math.round(percentTimeElapsed)}% time elapsed</div>
               {summary.originalEndDate && summary.originalEndDate !== summary.endDate && (
                 <div className="text-red-500 dark:text-red-400">
-                  {differenceInDays(endDate, originalEndDate) > 0 
-                    ? `${differenceInDays(endDate, originalEndDate)} days behind`
-                    : `${differenceInDays(originalEndDate, endDate)} days ahead`
+                  {differenceInDays(endDateoriginalEndDate) > 0 
+                    ? `${differenceInDays(endDateoriginalEndDate)} days behind`
+                    : `${differenceInDays(originalEndDateendDate)} days ahead`
                   }
                 </div>
               )}
@@ -126,7 +126,7 @@ const TimelineSummaryCards: React.FC<TimelineSummaryCardsProps> = ({
           </div>
         </CardContent>
       </Card>
-      
+
       {/* Critical Path */}
       <Card>
         <CardHeader className="pb-2">
@@ -140,9 +140,9 @@ const TimelineSummaryCards: React.FC<TimelineSummaryCardsProps> = ({
             <div className="text-xl font-bold">
               {summary.criticalPathDelay === 0 
                 ? 'On Schedule'
-                : summary.criticalPathDelay && summary.criticalPathDelay > 0
+                : summary.criticalPathDelay && summary.criticalPathDelay> 0
                 ? `${summary.criticalPathDelay} days behind`
-                : summary.criticalPathDelay && summary.criticalPathDelay < 0
+                : summary.criticalPathDelay && summary.criticalPathDelay <0
                 ? `${Math.abs(summary.criticalPathDelay)} days ahead`
                 : 'N/A'
               }
@@ -150,7 +150,7 @@ const TimelineSummaryCards: React.FC<TimelineSummaryCardsProps> = ({
             <Badge variant={
               summary.criticalPathDelay === 0 
                 ? 'outline'
-                : summary.criticalPathDelay && summary.criticalPathDelay > 0
+                : summary.criticalPathDelay && summary.criticalPathDelay> 0
                 ? 'destructive'
                 : 'default'
             }>
@@ -162,13 +162,13 @@ const TimelineSummaryCards: React.FC<TimelineSummaryCardsProps> = ({
               <div className="text-slate-500 dark:text-slate-400">Projected Completion:</div>
               <div className="font-medium">{format(endDate, 'MMM d, yyyy')}</div>
             </div>
-            {summary.daysBehind && summary.daysBehind > 0 && (
+            {summary.daysBehind && summary.daysBehind> 0 && (
               <div className="flex justify-between text-red-600 dark:text-red-400">
                 <div>Schedule Deviation:</div>
                 <div className="font-medium">{summary.daysBehind} days</div>
               </div>
             )}
-            {summary.daysAhead && summary.daysAhead > 0 && (
+            {summary.daysAhead && summary.daysAhead> 0 && (
               <div className="flex justify-between text-green-600 dark:text-green-400">
                 <div>Schedule Advantage:</div>
                 <div className="font-medium">{summary.daysAhead} days</div>
@@ -177,7 +177,7 @@ const TimelineSummaryCards: React.FC<TimelineSummaryCardsProps> = ({
           </div>
         </CardContent>
       </Card>
-      
+
       {/* Current Phase */}
       <Card>
         <CardHeader className="pb-2">
@@ -208,7 +208,7 @@ const TimelineSummaryCards: React.FC<TimelineSummaryCardsProps> = ({
               </Badge>
               <div>Phase Progress</div>
             </div>
-            
+
             <div className="flex justify-between text-xs text-slate-500 dark:text-slate-400">
               <div>Next Phase:</div>
               <div className="font-medium capitalize">
@@ -224,7 +224,7 @@ const TimelineSummaryCards: React.FC<TimelineSummaryCardsProps> = ({
                  'Complete'}
               </div>
             </div>
-            
+
             <div className="flex justify-between text-xs text-slate-500 dark:text-slate-400">
               <div>Completed Phases:</div>
               <div className="font-medium">{

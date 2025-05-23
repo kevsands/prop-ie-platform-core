@@ -5,14 +5,13 @@ import type { GraphQLResult } from 'aws-amplify/api';
 const apiClient = generateClient();
 
 // Define a type that works with both GraphQL result types
-export type SafeGraphQLResult<T> = GraphQLResult<T>;
-
+export type SafeGraphQLResult<T> = GraphQLResult<T>\n  );
 export async function safeGraphQLQuery<T>(query: string, variables?: any): Promise<T | null> {
   try {
     const result = await apiClient.graphql<T>({ query, variables });
     return result.data || null;
   } catch (error) {
-    console.error('GraphQL query failed:', error);
+
     return null;
   }
 }

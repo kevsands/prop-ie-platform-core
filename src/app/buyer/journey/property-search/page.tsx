@@ -12,7 +12,7 @@ export default function PropertySearchPage() {
       <p className="text-gray-600 mb-6">
         Find your dream home by searching through our available properties.
       </p>
-      
+
       <div className="mb-6">
         <div className="relative">
           <input
@@ -25,7 +25,7 @@ export default function PropertySearchPage() {
           </span>
         </div>
       </div>
-      
+
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Property Card 1 */}
         <div className="border rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
@@ -39,11 +39,11 @@ export default function PropertySearchPage() {
               BER: A2
             </div>
           </div>
-          
+
           <div className="p-4">
             <h3 className="font-semibold text-lg">Fitzgerald Gardens - Type A</h3>
             <p className="text-gray-500 text-sm mb-2">Fitzgerald Gardens, Dublin</p>
-            
+
             <div className="flex justify-between items-center mb-3">
               <div className="text-xl font-bold">€375,000</div>
               <div className="flex items-center gap-2 text-sm text-gray-600">
@@ -52,13 +52,13 @@ export default function PropertySearchPage() {
                 <span>110 m²</span>
               </div>
             </div>
-            
+
             <button className="w-full px-4 py-2 bg-blue-600 text-white rounded">
               View Details
             </button>
           </div>
         </div>
-        
+
         {/* Property Card 2 */}
         <div className="border rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
           <div className="h-48 bg-gray-200 relative">
@@ -71,11 +71,11 @@ export default function PropertySearchPage() {
               BER: A3
             </div>
           </div>
-          
+
           <div className="p-4">
             <h3 className="font-semibold text-lg">Fitzgerald Gardens - Type B</h3>
             <p className="text-gray-500 text-sm mb-2">Fitzgerald Gardens, Dublin</p>
-            
+
             <div className="flex justify-between items-center mb-3">
               <div className="text-xl font-bold">€325,000</div>
               <div className="flex items-center gap-2 text-sm text-gray-600">
@@ -84,13 +84,13 @@ export default function PropertySearchPage() {
                 <span>85 m²</span>
               </div>
             </div>
-            
+
             <button className="w-full px-4 py-2 bg-blue-600 text-white rounded">
               View Details
             </button>
           </div>
         </div>
-        
+
         {/* Property Card 3 */}
         <div className="border rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
           <div className="h-48 bg-gray-200 relative">
@@ -103,11 +103,11 @@ export default function PropertySearchPage() {
               BER: A2
             </div>
           </div>
-          
+
           <div className="p-4">
             <h3 className="font-semibold text-lg">Ballymakenny View - Type A</h3>
             <p className="text-gray-500 text-sm mb-2">Ballymakenny View, Louth</p>
-            
+
             <div className="flex justify-between items-center mb-3">
               <div className="text-xl font-bold">€395,000</div>
               <div className="flex items-center gap-2 text-sm text-gray-600">
@@ -116,7 +116,7 @@ export default function PropertySearchPage() {
                 <span>140 m²</span>
               </div>
             </div>
-            
+
             <button className="w-full px-4 py-2 bg-blue-600 text-white rounded">
               View Details
             </button>

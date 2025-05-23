@@ -1,3 +1,4 @@
+import React from 'react';
 'use client';
 
 import { useEffect } from 'react';
@@ -5,12 +6,12 @@ import { useRouter } from 'next/navigation';
 
 export default function InvestorPage() {
   const router = useRouter();
-  
+
   useEffect(() => {
     // Redirect to investor dashboard
     router.push('/investor/dashboard');
   }, [router]);
-  
+
   return (
     <div className="flex justify-center items-center h-[70vh]">
       <div className="text-center">

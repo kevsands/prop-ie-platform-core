@@ -14,25 +14,20 @@ interface TestData {
 const columns: ColumnDef<TestData>[] = [
   {
     accessorKey: 'name',
-    header: 'Name',
-  },
+    header: 'Name'},
   {
     accessorKey: 'email',
-    header: 'Email',
-  },
+    header: 'Email'},
   {
     accessorKey: 'status',
-    header: 'Status',
-  },
-];
+    header: 'Status'}];
 
 const testData = generateTestData<TestData>(
   {
     id: '1',
     name: 'John Doe',
     email: 'john@example.com',
-    status: 'Active',
-  },
+    status: 'Active'},
   10
 );
 

@@ -1,0 +1,66 @@
+'use client';
+
+import { useAuth } from '@/context/AuthContext';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
+
+export default function AuthWrapperPage() {
+  const { user, isAuthenticated, isLoading } = useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!isLoading && isAuthenticated && user) {
+      // Route based on user role
+      switch (user.role) {
+        case 'developer':
+          router.push('/developer');
+          break;
+        case 'buyer':
+          router.push('/buyer');
+          break;
+        case 'agent':
+          router.push('/agents');
+          break;
+        case 'solicitor':
+          router.push('/solicitor');
+          break;
+        case 'admin':
+          router.push('/admin');
+          break;
+        default:
+          router.push('/dashboard');
+      }
+    }
+  }, [isLoading, isAuthenticated, user, router]);
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+          <p className="mt-4 text-gray-600">Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <p className="mb-4">Not authenticated</p>
+          <a href="/login" className="text-blue-600 hover:underline">Go to Login</a>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen flex items-center justify-center">
+      <div className="text-center">
+        <p className="mb-2">Redirecting to your dashboard...</p>
+        <p className="text-sm text-gray-600">Role: {user?.role}</p>
+      </div>
+    </div>
+  );
+}

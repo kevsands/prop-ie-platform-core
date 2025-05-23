@@ -23,9 +23,9 @@ interface Purchase {
 
 const PurchaseList: React.FC = () => {
   const { user } = useAuth();
-  const [purchases, setPurchases] = useState<Purchase[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [purchasessetPurchases] = useState<Purchase[]>([]);
+  const [loadingsetLoading] = useState(true);
+  const [errorsetError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchPurchases = async () => {
@@ -41,21 +41,19 @@ const PurchaseList: React.FC = () => {
               id: purchase.property._id,
               name: purchase.property.name,
               price: purchase.property.price,
-              images: purchase.property.images || ["/placeholder-property.jpg"],
-            },
+              images: purchase.property.images || ["/placeholder-property.jpg"]},
             status: purchase.status,
             bookingDate: new Date(purchase.bookingDate).toLocaleDateString(),
             bookingDepositPaid: purchase.bookingDepositPaid,
             contractIssued: purchase.contractIssued,
             contractSigned: purchase.contractSigned,
-            complianceStatus: purchase.complianceStatus,
-          }));
+            complianceStatus: purchase.complianceStatus}));
 
           setPurchases(formattedPurchases);
         }
       } catch (err: any) {
         setError(err.message || "Failed to fetch purchases");
-        console.error("Error fetching purchases:", err);
+
       } finally {
         setLoading(false);
       }
@@ -168,7 +166,7 @@ const PurchaseList: React.FC = () => {
       </h2>
       <div className="bg-white shadow overflow-hidden sm:rounded-md">
         <ul className="divide-y divide-gray-200">
-          {purchases.map((purchase) => (
+          {purchases.map((purchase: any) => (
             <li key={purchase.id}>
               <Link href={`/buyer/purchase/${purchase.id}`}>
                 <div className="block hover:bg-gray-50">

@@ -17,8 +17,7 @@ export const mockUseQuery = jest.fn().mockImplementation(() => ({
   isError: false,
   error: null,
   refetch: jest.fn(),
-  status: 'success',
-}));
+  status: 'success'}));
 
 export const mockUseQueryLoading = jest.fn().mockImplementation(() => ({
   data: undefined,
@@ -27,8 +26,7 @@ export const mockUseQueryLoading = jest.fn().mockImplementation(() => ({
   error: null,
   status: 'loading',
   isFetching: true,
-  refetch: jest.fn(),
-}));
+  refetch: jest.fn()}));
 
 export const mockUseQueryError = jest.fn().mockImplementation(() => ({
   data: undefined,
@@ -37,8 +35,7 @@ export const mockUseQueryError = jest.fn().mockImplementation(() => ({
   error: new Error('Error fetching data'),
   status: 'error',
   isFetching: false,
-  refetch: jest.fn(),
-}));
+  refetch: jest.fn()}));
 
 export const mockUseMutation = jest.fn().mockImplementation(() => ({
   mutate: jest.fn(),
@@ -47,8 +44,7 @@ export const mockUseMutation = jest.fn().mockImplementation(() => ({
   isError: false,
   error: null,
   reset: jest.fn(),
-  status: 'idle',
-}));
+  status: 'idle'}));
 
 // Default mock data for common entities
 export const defaultMockData = {
@@ -107,21 +103,16 @@ export const defaultMockData = {
 };
 
 // Helper to create a fresh QueryClient for tests
-export const createTestQueryClient = () => new QueryClient({
-  defaultOptions: {
-    queries: {
+export const createTestQueryClient = () => new QueryClient({ defaultOptions: { queries: {
       retry: false,
       cacheTime: 0,
       staleTime: 0,
-      refetchOnWindowFocus: false,
-    },
-  },
+      refetchOnWindowFocus: false},
   logger: {
     log: console.log,
     warn: console.warn,
     error: () => {}, // Silent errors during tests
-  },
-});
+  });
 
 // Interface for the query testing options
 interface QueryTestingOptions extends RenderOptions {
@@ -158,8 +149,8 @@ export function renderWithQueryClient(
 
   // Mock for specific data if provided
   if (options.mockData) {
-    mockUseQuery.mockImplementation((queryKey) => {
-      const [entityType, params] = Array.isArray(queryKey) ? queryKey : [queryKey];
+    mockUseQuery.mockImplementation((queryKey: any) => {
+      const [entityTypeparams] = Array.isArray(queryKey) ? queryKey : [queryKey];
       
       if (entityType in options.mockData) {
         const data = options.mockData[entityType as keyof typeof options.mockData];
@@ -175,8 +166,7 @@ export function renderWithQueryClient(
             isError: false,
             error: null,
             status: 'success',
-            refetch: jest.fn(),
-          };
+            refetch: jest.fn()};
         }
         
         return {
@@ -185,8 +175,7 @@ export function renderWithQueryClient(
           isError: false,
           error: null,
           status: 'success',
-          refetch: jest.fn(),
-        };
+          refetch: jest.fn()};
       }
       
       return {
@@ -195,8 +184,7 @@ export function renderWithQueryClient(
         isError: false,
         error: null,
         status: 'success',
-        refetch: jest.fn(),
-      };
+        refetch: jest.fn()};
     });
   }
   

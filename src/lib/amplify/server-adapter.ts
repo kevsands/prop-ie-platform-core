@@ -23,7 +23,7 @@ export const isClient = !isServer;
  */
 export class ServerAdapterError extends Error {
   statusCode?: number;
-  
+
   constructor(message: string, statusCode?: number) {
     super(message);
     this.name = 'ServerAdapterError';
@@ -43,7 +43,7 @@ async function serverFetch<T = any>(
 ): Promise<T> {
   try {
     const { revalidate, tags, ...fetchOptions } = options;
-    
+
     const response = await fetch(url, {
       ...fetchOptions,
       // Add Next.js caching options
@@ -52,14 +52,14 @@ async function serverFetch<T = any>(
         tags: tags
       }
     });
-    
+
     if (!response.ok) {
       throw new ServerAdapterError(
         `Server fetch failed: ${response.status} ${response.statusText}`,
         response.status
       );
     }
-    
+
     const contentType = response.headers.get('content-type');
     if (contentType?.includes('application/json')) {
       return await response.json() as T;
@@ -84,22 +84,22 @@ function getServerAuthToken(): string | null {
     // Try to get token from cookies first
     const cookieStore = cookies();
     const authCookie = cookieStore.get('auth_access_token');
-    
+
     if (authCookie?.value) {
       return authCookie.value;
     }
-    
+
     // Fallback to authorization header
     const headersList = headers();
     const authHeader = headersList.get('authorization');
-    
+
     if (authHeader?.startsWith('Bearer ')) {
       return authHeader.substring(7);
     }
-    
+
     return null;
   } catch (error) {
-    console.warn('Failed to extract auth token in server component:', error);
+
     return null;
   }
 }
@@ -114,60 +114,60 @@ export const ServerAPI = {
   getApiEndpoint(apiName: string = 'PropAPI'): string {
     const endpoint = process.env.NEXT_PUBLIC_API_ENDPOINT || 
                      amplifyConfig.API?.REST?.[apiName]?.endpoint;
-                     
+
     if (!endpoint) {
       throw new ServerAdapterError(`API endpoint not configured for ${apiName}`);
     }
-    
+
     return endpoint;
   },
-  
+
   /**
    * Get GraphQL API endpoint from configuration
    */
   getGraphQLEndpoint(): string {
     const endpoint = process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT || 
                      amplifyConfig.API?.GraphQL?.endpoint;
-                     
+
     if (!endpoint) {
       throw new ServerAdapterError('GraphQL endpoint not configured');
     }
-    
+
     return endpoint;
   },
-  
+
   /**
    * Make a REST API GET request
    */
   async get<T = any>(
     path: string,
     options: {
-      queryParams?: Record<string, string | number | boolean>;
-      headers?: Record<string, string>;
+      queryParams?: Record<string, string | number | boolean>\n  );
+      headers?: Record<string, string>\n  );
       revalidate?: number | false;
       tags?: string[];
     } = {}
   ): Promise<T> {
     const { queryParams, headers = {}, revalidate, tags } = options;
-    
+
     // Build the URL
     let url = path.startsWith('http') ? path : `${this.getApiEndpoint()}${path.startsWith('/') ? path : `/${path}`}`;
-    
+
     // Add query parameters if provided
-    if (queryParams && Object.keys(queryParams).length > 0) {
+    if (queryParams && Object.keys(queryParams).length> 0) {
       const queryString = Object.entries(queryParams)
-        .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(String(value))}`)
+        .map(([keyvalue]) => `${encodeURIComponent(key)}=${encodeURIComponent(String(value))}`)
         .join('&');
       url += `?${queryString}`;
     }
-    
+
     // Get auth token
     const token = getServerAuthToken();
     const authHeaders: Record<string, string> = {};
     if (token) {
       authHeaders['Authorization'] = `Bearer ${token}`;
     }
-    
+
     // Make the request
     return serverFetch<T>(url, {
       method: 'GET',
@@ -180,7 +180,7 @@ export const ServerAPI = {
       tags
     });
   },
-  
+
   /**
    * Make a REST API POST request
    */
@@ -188,32 +188,32 @@ export const ServerAPI = {
     path: string,
     body: any,
     options: {
-      headers?: Record<string, string>;
-      queryParams?: Record<string, string | number | boolean>;
+      headers?: Record<string, string>\n  );
+      queryParams?: Record<string, string | number | boolean>\n  );
       revalidate?: number | false;
       tags?: string[];
     } = {}
   ): Promise<T> {
     const { headers = {}, queryParams, revalidate, tags } = options;
-    
+
     // Build the URL
     let url = path.startsWith('http') ? path : `${this.getApiEndpoint()}${path.startsWith('/') ? path : `/${path}`}`;
-    
+
     // Add query parameters if provided
-    if (queryParams && Object.keys(queryParams).length > 0) {
+    if (queryParams && Object.keys(queryParams).length> 0) {
       const queryString = Object.entries(queryParams)
-        .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(String(value))}`)
+        .map(([keyvalue]) => `${encodeURIComponent(key)}=${encodeURIComponent(String(value))}`)
         .join('&');
       url += `?${queryString}`;
     }
-    
+
     // Get auth token
     const token = getServerAuthToken();
     const authHeaders: Record<string, string> = {};
     if (token) {
       authHeaders['Authorization'] = `Bearer ${token}`;
     }
-    
+
     // Make the request
     return serverFetch<T>(url, {
       method: 'POST',
@@ -227,38 +227,38 @@ export const ServerAPI = {
       tags
     });
   },
-  
+
   /**
    * Execute a GraphQL operation on the server
    */
   async graphql<T = any>(
     options: {
       query: string;
-      variables?: Record<string, any>;
+      variables?: Record<string, any>\n  );
       operationName?: string;
       revalidate?: number | false;
       tags?: string[];
     }
   ): Promise<T> {
     const { query, variables = {}, operationName, revalidate, tags } = options;
-    
+
     // Get the GraphQL endpoint
     const url = this.getGraphQLEndpoint();
-    
+
     // Get auth token
     const token = getServerAuthToken();
     const authHeaders: Record<string, string> = {};
     if (token) {
       authHeaders['Authorization'] = `Bearer ${token}`;
     }
-    
+
     // Build the request body
     const body = {
       query,
       variables,
       operationName
     };
-    
+
     // Make the request
     const response = await serverFetch(url, {
       method: 'POST',
@@ -270,7 +270,7 @@ export const ServerAPI = {
       revalidate,
       tags
     });
-    
+
     // Check for GraphQL errors
     if (response.errors) {
       throw new ServerAdapterError(
@@ -278,7 +278,7 @@ export const ServerAPI = {
         response.errors[0]?.extensions?.statusCode
       );
     }
-    
+
     return response.data as T;
   }
 };

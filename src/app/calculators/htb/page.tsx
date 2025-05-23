@@ -1,3 +1,4 @@
+import React from 'react';
 'use client';
 
 import { useState } from 'react';
@@ -6,12 +7,12 @@ import { FiArrowLeft } from 'react-icons/fi';
 import Footer from '@/components/layout/Footer/Footer';
 
 export default function HTBCalculatorPage() {
-  const [housePrice, setHousePrice] = useState('');
-  const [deposit, setDeposit] = useState('');
-  const [helpToBuy, setHelpToBuy] = useState('');
-  const [location, setLocation] = useState('dublin');
-  const [firstTimeBuyer, setFirstTimeBuyer] = useState(true);
-  const [results, setResults] = useState<any>(null);
+  const [housePricesetHousePrice] = useState('');
+  const [depositsetDeposit] = useState('');
+  const [helpToBuysetHelpToBuy] = useState('');
+  const [locationsetLocation] = useState('dublin');
+  const [firstTimeBuyersetFirstTimeBuyer] = useState(true);
+  const [resultssetResults] = useState<any>(null);
 
   const htbLimits = {
     dublin: { firstTime: 30000, other: 20000 },
@@ -87,14 +88,14 @@ export default function HTBCalculatorPage() {
               <div className="grid md:grid-cols-2 gap-8">
                 <div>
                   <h2 className="text-2xl font-bold mb-6">Property Details</h2>
-                  
+
                   <div className="mb-6">
                     <label className="block text-sm font-medium mb-2">
                       I am a
                     </label>
                     <select
                       value={firstTimeBuyer ? 'first' : 'other'}
-                      onChange={(e) => setFirstTimeBuyer(e.target.value === 'first')}
+                      onChange={(e: any) => setFirstTimeBuyer(e.target.value === 'first')}
                       className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-teal-600"
                     >
                       <option value="first">First-Time Buyer</option>
@@ -108,7 +109,7 @@ export default function HTBCalculatorPage() {
                     </label>
                     <select
                       value={location}
-                      onChange={(e) => setLocation(e.target.value)}
+                      onChange={(e: any) => setLocation(e.target.value)}
                       className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-teal-600"
                     >
                       <option value="dublin">Dublin</option>
@@ -124,7 +125,7 @@ export default function HTBCalculatorPage() {
                     <input
                       type="number"
                       value={housePrice}
-                      onChange={(e) => setHousePrice(e.target.value)}
+                      onChange={(e: any) => setHousePrice(e.target.value)}
                       className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-teal-600"
                       placeholder="450000"
                     />
@@ -137,7 +138,7 @@ export default function HTBCalculatorPage() {
                     <input
                       type="number"
                       value={deposit}
-                      onChange={(e) => setDeposit(e.target.value)}
+                      onChange={(e: any) => setDeposit(e.target.value)}
                       className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-teal-600"
                       placeholder="45000"
                     />
@@ -150,7 +151,7 @@ export default function HTBCalculatorPage() {
                     <input
                       type="number"
                       value={helpToBuy}
-                      onChange={(e) => setHelpToBuy(e.target.value)}
+                      onChange={(e: any) => setHelpToBuy(e.target.value)}
                       className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-teal-600"
                       placeholder="30000"
                     />
@@ -171,14 +172,14 @@ export default function HTBCalculatorPage() {
                 {results && (
                   <div>
                     <h2 className="text-2xl font-bold mb-6">Your HTB Results</h2>
-                    
+
                     <div className={`p-4 rounded-lg mb-6 ${results.isEligible ? 'bg-green-50' : 'bg-red-50'}`}>
                       <p className={`font-bold ${results.isEligible ? 'text-green-800' : 'text-red-800'}`}>
                         {results.isEligible ? '✓ Eligible for HTB' : '✗ Not Eligible for HTB'}
                       </p>
                       {!results.isEligible && (
                         <p className="text-sm mt-2">
-                          {results.housePrice > results.maxPrice 
+                          {results.housePrice> results.maxPrice 
                             ? `Property price exceeds limit of €${results.maxPrice.toLocaleString()}`
                             : `HTB amount exceeds limit of €${results.maxHTB.toLocaleString()}`}
                         </p>
@@ -190,27 +191,27 @@ export default function HTBCalculatorPage() {
                         <span className="text-gray-600">House Price</span>
                         <span className="font-medium">€{results.housePrice.toLocaleString()}</span>
                       </div>
-                      
+
                       <div className="flex justify-between py-2 border-b">
                         <span className="text-gray-600">Your Deposit</span>
                         <span className="font-medium">€{results.deposit.toLocaleString()}</span>
                       </div>
-                      
+
                       <div className="flex justify-between py-2 border-b">
                         <span className="text-gray-600">HTB Eligible Amount</span>
                         <span className="font-medium text-teal-600">€{results.htbEligible.toLocaleString()}</span>
                       </div>
-                      
+
                       <div className="flex justify-between py-2 border-b">
                         <span className="text-gray-600">Total Deposit (incl. HTB)</span>
                         <span className="font-bold">€{results.totalDeposit.toLocaleString()}</span>
                       </div>
-                      
+
                       <div className="flex justify-between py-2 border-b">
                         <span className="text-gray-600">Mortgage Required</span>
                         <span className="font-medium">€{results.mortgageRequired.toLocaleString()}</span>
                       </div>
-                      
+
                       <div className="flex justify-between py-2 border-b">
                         <span className="text-gray-600">Loan-to-Value Ratio</span>
                         <span className="font-medium">{results.ltvRatio.toFixed(1)}%</span>

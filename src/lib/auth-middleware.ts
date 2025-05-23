@@ -20,7 +20,7 @@ export async function verifyToken(token: string): Promise<JWTPayload | null> {
       throw new Error('JWT_SECRET not configured');
     }
 
-    const payload = jwt.verify(token, secret) as JWTPayload;
+    const payload = jwt.verify(tokensecret) as JWTPayload;
     return payload;
   } catch (error) {
     logger.error('Token verification failed', { error });
@@ -55,12 +55,8 @@ export async function authenticateRequest(
   return await verifyToken(token);
 }
 
-export function requireAuth(
-  handler: (request: NextRequest, context: any) => Promise<NextResponse>
-) {
-  return async (request: NextRequest, context: any) => {
-    const user = await authenticateRequest(request);
-    
+export async function requireAuthauthenticateRequest(request);
+
     if (!user) {
       return NextResponse.json(
         { error: 'Authentication required' },
@@ -70,8 +66,8 @@ export function requireAuth(
 
     // Add user to request for handler to use
     (request as any).user = user;
-    
-    return handler(request, context);
+
+    return handler(requestcontext);
   };
 }
 
@@ -81,15 +77,15 @@ export function requireRole(
 ) {
   return requireAuth(async (request: NextRequest, context: any) => {
     const user = (request as any).user as JWTPayload;
-    
+
     if (user.role !== role && user.role !== 'admin') {
       return NextResponse.json(
         { error: 'Insufficient permissions' },
         { status: 403 }
       );
     }
-    
-    return handler(request, context);
+
+    return handler(requestcontext);
   });
 }
 
@@ -99,14 +95,14 @@ export function requirePermission(
 ) {
   return requireAuth(async (request: NextRequest, context: any) => {
     const user = (request as any).user as JWTPayload;
-    
+
     if (!user.permissions.includes(permission) && user.role !== 'admin') {
       return NextResponse.json(
         { error: 'Insufficient permissions' },
         { status: 403 }
       );
     }
-    
-    return handler(request, context);
+
+    return handler(requestcontext);
   });
 }

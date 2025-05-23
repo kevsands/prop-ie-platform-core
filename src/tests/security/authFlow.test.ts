@@ -13,8 +13,7 @@ describe('Authentication Flow', () => {
   // Mock user for tests
   const testUser = {
     username: 'test@example.com',
-    password: 'Test123456!',
-  };
+    password: 'Test123456!'};
   
   // Reset mocks before each test
   beforeEach(() => {
@@ -41,8 +40,7 @@ describe('Authentication Flow', () => {
       email: testUser.username,
       firstName: 'Test',
       lastName: 'User',
-      roles: ['BUYER'],
-    });
+      roles: ['BUYER']});
     
     // Mock Security methods
     jest.spyOn(Security, 'initialize').mockResolvedValue(true);
@@ -56,14 +54,12 @@ describe('Authentication Flow', () => {
       methods: [],
       phoneVerified: false,
       totpVerified: false,
-      recoveryCodesRemaining: 0,
-    });
+      recoveryCodesRemaining: 0});
     
     jest.spyOn(MFAService, 'setupTOTPMFA').mockResolvedValue({
       qrCode: 'data:image/png;base64,test-qr-code',
       secretKey: 'test-secret-key',
-      setupStatus: 'PENDING_VERIFICATION',
-    });
+      setupStatus: 'PENDING_VERIFICATION'});
     
     jest.spyOn(MFAService, 'verifyTOTPSetupWithCode').mockResolvedValue(true);
   });
@@ -87,8 +83,7 @@ describe('Authentication Flow', () => {
       methods: ['TOTP'],
       phoneVerified: false,
       totpVerified: true,
-      recoveryCodesRemaining: 8,
-    });
+      recoveryCodesRemaining: 8});
     
     // Mock security levels for this test
     jest.spyOn(Security, 'checkSecurityLevel').mockResolvedValue(true);
@@ -141,8 +136,7 @@ describe('Authentication Flow', () => {
       methods: ['TOTP'],
       phoneVerified: false,
       totpVerified: true,
-      recoveryCodesRemaining: 8,
-    });
+      recoveryCodesRemaining: 8});
     
     // Mock disable MFA
     jest.spyOn(MFAService, 'disableMFA').mockResolvedValue(true);
@@ -184,8 +178,7 @@ describe('Protected Routes Authorization', () => {
       username: 'test@example.com',
       role: 'BUYER',
       permissions: ['read:properties', 'read:own-data', 'write:own-data'],
-      mfaEnabled: false,
-    };
+      mfaEnabled: false};
     
     // Check for BUYER role
     const hasBasicAccess = await Security.checkSecurityLevel();
@@ -205,8 +198,7 @@ describe('Protected Routes Authorization', () => {
       username: 'test@example.com',
       role: 'BUYER',
       permissions: ['read:properties', 'read:own-data', 'write:own-data'],
-      mfaEnabled: false,
-    };
+      mfaEnabled: false};
     
     // Check for allowed permissions
     const canReadProperties = mockUser.permissions.includes('read:properties');

@@ -1,0 +1,85 @@
+{
+  "timestamp": "2025-01-19T12:00:00Z",
+  "status": "SECURE_WITH_ISSUES",
+  "authentication": {
+    "provider": "NextAuth.js",
+    "version": "4.x",
+    "configuration": {
+      "providers": ["credentials", "google", "azure-ad"],
+      "sessionStrategy": "jwt",
+      "sessionExpiry": "30 days",
+      "refreshTokenEnabled": true,
+      "mfaEnabled": true
+    },
+    "features": {
+      "rateLimiting": {
+        "enabled": true,
+        "loginAttempts": "5 per 15 minutes",
+        "apiRequests": "60 per minute"
+      },
+      "passwordPolicy": {
+        "minLength": 8,
+        "requireUppercase": true,
+        "requireNumber": true,
+        "requireSpecial": true
+      },
+      "sessionManagement": {
+        "secure": true,
+        "httpOnly": true,
+        "sameSite": "lax"
+      }
+    }
+  },
+  "authorization": {
+    "type": "role-based",
+    "roles": [
+      "ADMIN",
+      "DEVELOPER",
+      "SOLICITOR",
+      "BUYER",
+      "AGENT",
+      "ARCHITECT",
+      "CONTRACTOR",
+      "INVESTOR"
+    ],
+    "protectedRoutes": {
+      "configured": true,
+      "middleware": "src/middleware.ts",
+      "coverage": "95%"
+    }
+  },
+  "security": {
+    "headers": {
+      "contentSecurityPolicy": true,
+      "strictTransportSecurity": true,
+      "xFrameOptions": "DENY",
+      "xContentTypeOptions": "nosniff",
+      "referrerPolicy": "strict-origin-when-cross-origin"
+    },
+    "cors": {
+      "configured": true,
+      "allowedOrigins": ["https://prop.ie"],
+      "credentials": true
+    }
+  },
+  "issues": [
+    {
+      "severity": "HIGH",
+      "type": "WEAK_SECRETS",
+      "description": "Development secrets are weak and predictable",
+      "files": [".env"]
+    },
+    {
+      "severity": "MEDIUM",
+      "type": "SESSION_FIXATION",
+      "description": "Session rotation not implemented after privilege escalation"
+    }
+  ],
+  "recommendations": [
+    "Generate cryptographically strong secrets for all environments",
+    "Implement session rotation on login and privilege changes",
+    "Add IP-based session validation",
+    "Implement account lockout after failed attempts",
+    "Add security event logging to SIEM"
+  ]
+}

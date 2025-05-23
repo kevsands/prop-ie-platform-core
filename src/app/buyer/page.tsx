@@ -31,7 +31,9 @@ import {
   Info,
   Download,
   ChevronUp,
-  MessageSquare
+  ChevronRight,
+  MessageSquare,
+  Receipt
 } from 'lucide-react';
 
 interface Task {
@@ -41,7 +43,7 @@ interface Task {
   status: 'pending' | 'in-progress' | 'completed';
   priority: 'high' | 'medium' | 'low';
   dueDate?: string;
-  icon: React.ComponentType<any>;
+  icon: React.ComponentType<any>\n  );
   progress?: number;
 }
 
@@ -75,8 +77,8 @@ interface Notification {
 
 export default function BuyerOverviewPage() {
   const router = useRouter();
-  const [loading, setLoading] = useState(true);
-  const [userData, setUserData] = useState<any>(null);
+  const [loadingsetLoading] = useState(true);
+  const [userDatasetUserData] = useState<any>(null);
 
   useEffect(() => {
     // Simulate loading user data
@@ -383,9 +385,9 @@ export default function BuyerOverviewPage() {
                   Welcome back, {userData.name}!
                 </h1>
                 <p className="text-blue-100 mb-4">
-                  You&apos;re <span className="font-semibold text-white">{userData.journeyProgress}%</span> through your home buying journey
+                  You're <span className="font-semibold text-white">{userData.journeyProgress}%</span> through your home buying journey
                 </p>
-                
+
                 <div className="flex flex-wrap gap-3">
                   <button
                     onClick={() => router.push('/buyer/calculator')}
@@ -401,7 +403,7 @@ export default function BuyerOverviewPage() {
                   </button>
                 </div>
               </div>
-              
+
               {userData.nextAppointment && (
                 <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4">
                   <h3 className="font-semibold mb-2 flex items-center gap-2">
@@ -421,7 +423,7 @@ export default function BuyerOverviewPage() {
 
           {/* Key Metrics */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-            {metrics.map((metric) => (
+            {metrics.map((metric: any) => (
               <div key={metric.title} className="bg-white rounded-xl shadow-sm p-4 hover:shadow-md transition-shadow">
                 <div className="flex items-center justify-between mb-3">
                   <div className={`${metric.color} text-white rounded-lg p-2`}>
@@ -468,7 +470,7 @@ export default function BuyerOverviewPage() {
 
                 <div className="p-4 md:p-6">
                   <div className="space-y-3">
-                    {tasks.map((task) => (
+                    {tasks.map((task: any) => (
                       <div
                         key={task.id}
                         className={`border rounded-lg p-3 md:p-4 hover:shadow-md transition-all cursor-pointer group ${
@@ -481,7 +483,7 @@ export default function BuyerOverviewPage() {
                           } else {
                             router.push(`/buyer/tasks/${task.id}`);
                           }
-                        }}
+                        }
                       >
                         <div className="flex items-start justify-between">
                           <div className="flex items-start gap-3">
@@ -522,7 +524,7 @@ export default function BuyerOverviewPage() {
                                     <div className="flex-1 bg-gray-200 rounded-full h-1.5">
                                       <div 
                                         className="bg-blue-600 h-1.5 rounded-full"
-                                        style={{ width: `${task.progress}%` }}
+                                        style={ width: `${task.progress}%` }
                                       />
                                     </div>
                                     <span className="text-xs text-gray-600">
@@ -557,7 +559,7 @@ export default function BuyerOverviewPage() {
 
                 <div className="p-4 md:p-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {savedProperties.map((property) => (
+                    {savedProperties.map((property: any) => (
                       <div
                         key={property.id}
                         className="border rounded-lg overflow-hidden hover:shadow-lg transition-all cursor-pointer"
@@ -610,11 +612,11 @@ export default function BuyerOverviewPage() {
               {/* Journey Progress */}
               <div className="bg-white rounded-xl shadow-sm p-4 md:p-6">
                 <h2 className="text-lg md:text-xl font-bold text-gray-900 mb-4">Journey Progress</h2>
-                
+
                 <div className="space-y-4">
                   <div className="relative">
                     <div className="absolute left-4 top-6 bottom-0 w-0.5 bg-gray-200"></div>
-                    
+
                     <div className="space-y-6">
                       <div className="relative flex items-start">
                         <div className="absolute left-0 w-8 h-8 bg-green-600 rounded-full flex items-center justify-center">
@@ -687,7 +689,7 @@ export default function BuyerOverviewPage() {
                           strokeDasharray={`${2 * Math.PI * 20}`}
                           strokeDashoffset={`${2 * Math.PI * 20 * (1 - userData.journeyProgress / 100)}`}
                           className="transition-all duration-500"
-                          style={{ transform: 'rotate(-90deg)', transformOrigin: '50% 50%' }}
+                          style={ transform: 'rotate(-90deg)', transformOrigin: '50% 50%' }
                         />
                       </svg>
                       <div className="absolute inset-0 flex items-center justify-center">
@@ -712,9 +714,9 @@ export default function BuyerOverviewPage() {
                     {notifications.filter(n => !n.read).length} new
                   </span>
                 </div>
-                
+
                 <div className="space-y-3">
-                  {notifications.map((notification) => (
+                  {notifications.map((notification: any) => (
                     <div
                       key={notification.id}
                       className={`p-3 rounded-lg border ${
@@ -756,6 +758,77 @@ export default function BuyerOverviewPage() {
                 <button className="mt-3 w-full text-center py-2 text-sm text-blue-600 hover:underline">
                   View All Notifications
                 </button>
+              </div>
+
+              {/* Active Transactions */}
+              <div className="bg-white rounded-xl shadow-sm p-4 md:p-6 mt-6">
+                <div className="flex items-center justify-between mb-4">
+                  <h2 className="text-lg font-bold text-gray-900">Active Transactions</h2>
+                  <button 
+                    onClick={() => router.push('/buyer/transactions')}
+                    className="text-blue-600 hover:underline text-sm font-medium"
+                  >
+                    View All
+                  </button>
+                </div>
+
+                {/* Mock transaction data - replace with real data */}
+                <div className="space-y-3">
+                  <div 
+                    className="p-3 border rounded-lg hover:bg-gray-50 cursor-pointer"
+                    onClick={() => router.push('/buyer/transactions/mock-id-1')}
+                  >
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-3">
+                        <div className="bg-blue-100 rounded-full p-2">
+                          <Home className="w-4 h-4 text-blue-600" />
+                        </div>
+                        <div>
+                          <p className="font-medium text-sm text-gray-900">Unit 3A - Riverside Manor</p>
+                          <p className="text-xs text-gray-600">Contract Issued - Review Required</p>
+                        </div>
+                      </div>
+                      <ChevronRight className="w-4 h-4 text-gray-400" />
+                    </div>
+                    <div className="mt-2">
+                      <div className="bg-gray-200 rounded-full h-1.5">
+                        <div className="bg-blue-600 h-1.5 rounded-full" style={ width: '50%' }></div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div 
+                    className="p-3 border rounded-lg hover:bg-gray-50 cursor-pointer"
+                    onClick={() => router.push('/buyer/transactions/mock-id-2')}
+                  >
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-3">
+                        <div className="bg-yellow-100 rounded-full p-2">
+                          <Calendar className="w-4 h-4 text-yellow-600" />
+                        </div>
+                        <div>
+                          <p className="font-medium text-sm text-gray-900">Plot 15 - Fitzgerald Gardens</p>
+                          <p className="text-xs text-gray-600">Viewing Scheduled - Tomorrow 2PM</p>
+                        </div>
+                      </div>
+                      <ChevronRight className="w-4 h-4 text-gray-400" />
+                    </div>
+                    <div className="mt-2">
+                      <div className="bg-gray-200 rounded-full h-1.5">
+                        <div className="bg-yellow-600 h-1.5 rounded-full" style={ width: '20%' }></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="mt-4 text-center">
+                  <button
+                    onClick={() => router.push('/properties')}
+                    className="text-blue-600 hover:underline text-sm font-medium"
+                  >
+                    Start New Transaction →
+                  </button>
+                </div>
               </div>
 
               {/* Quick Actions */}

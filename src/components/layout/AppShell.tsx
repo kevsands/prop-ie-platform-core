@@ -1,3 +1,4 @@
+import React from 'react';
 "use client";
 
 import * as React from "react";
@@ -20,8 +21,7 @@ import {
   Settings, 
   Users, 
   X,
-  LucideIcon,
-} from "lucide-react";
+  LucideIcon} from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { 
@@ -82,24 +82,18 @@ const defaultMainNavItems: MainNavItemProps[] = [
   {
     title: "Home",
     href: "/",
-  },
   {
     title: "Properties",
     href: "/properties",
-  },
   {
     title: "Developments",
     href: "/developments",
-  },
   {
     title: "About",
     href: "/about",
-  },
   {
     title: "Contact",
-    href: "/contact",
-  },
-];
+    href: "/contact"];
 
 const defaultSidebarNavGroups: SidebarNavGroupProps[] = [
   {
@@ -108,76 +102,58 @@ const defaultSidebarNavGroups: SidebarNavGroupProps[] = [
       {
         title: "Dashboard",
         href: "/dashboard",
-        icon: LayoutDashboard,
-      },
+        icon: LayoutDashboard},
       {
         title: "Properties",
         href: "/properties",
-        icon: Building2,
-      },
+        icon: Building2},
       {
         title: "Projects",
         href: "/projects",
         icon: Layers,
         badge: "New",
-      },
       {
         title: "Calendar",
         href: "/calendar",
-        icon: Calendar,
-      },
-    ],
-  },
+        icon: Calendar}]},
   {
     title: "Management",
     items: [
       {
         title: "Team",
         href: "/team",
-        icon: Users,
-      },
+        icon: Users},
       {
         title: "Documents",
         href: "/documents",
-        icon: FileText,
-      },
+        icon: FileText},
       {
         title: "Tasks",
         href: "/tasks",
         icon: ClipboardList,
         badge: "5",
-      },
       {
         title: "Messages",
         href: "/messages",
         icon: MessageSquare,
         badge: "3",
-        badgeVariant: "destructive",
-      },
-    ],
-  },
+        badgeVariant: "destructive"]},
   {
     title: "Reporting",
     items: [
       {
         title: "Analytics",
         href: "/analytics",
-        icon: BarChart3,
-      },
+        icon: BarChart3},
       {
         title: "Settings",
         href: "/settings",
-        icon: Settings,
-      },
-    ],
-  },
-];
+        icon: Settings}]}];
 
 const defaultProfile: ProfileProps = {
   name: "John Doe",
   email: "john.doe@example.com",
-  role: "Administrator",
-};
+  role: "Administrator";
 
 // Main AppShell Component
 interface AppShellProps {
@@ -215,10 +191,9 @@ export function AppShell({
   headerContent,
   footerContent,
   profileActions,
-  logoContent,
-}: AppShellProps) {
-  const [collapsed, setCollapsed] = React.useState(defaultCollapsed);
-  const [mobileSidebarOpen, setMobileSidebarOpen] = React.useState(false);
+  logoContent}: AppShellProps) {
+  const [collapsedsetCollapsed] = React.useState(defaultCollapsed);
+  const [mobileSidebarOpensetMobileSidebarOpen] = React.useState(false);
   const pathname = usePathname();
 
   const adjustedSidebarWidth = collapsed ? collapsedSidebarWidth : sidebarWidth;
@@ -238,7 +213,7 @@ export function AppShell({
             "sticky top-0 z-40 flex h-16 items-center gap-4 border-b bg-background px-6",
             showSidebar && "pr-6"
           )}
-          style={{ height: mainNavHeight }}
+          style={ height: mainNavHeight }
         >
           <div className="flex items-center gap-2 md:gap-4">
             {showSidebar && (
@@ -271,7 +246,7 @@ export function AppShell({
           ) : (
             <>
               <nav className="hidden flex-1 items-center gap-6 md:flex">
-                {mainNavItems?.map((item, index) => (
+                {mainNavItems?.map((itemindex: any) => (
                   <MainNavItem key={index} item={item} />
                 ))}
               </nav>
@@ -293,13 +268,12 @@ export function AppShell({
                 "fixed hidden h-screen border-r bg-background md:block",
                 collapsed ? "overflow-x-hidden" : "overflow-y-auto"
               )}
-              style={{
+              style={
                 width: adjustedSidebarWidth,
                 top: showMainNav ? mainNavHeight : 0,
                 height: showMainNav 
                   ? `calc(100vh - ${mainNavHeight})` 
-                  : "100vh",
-              }}
+                  : "100vh"}
             >
               <div className="flex h-full flex-col gap-2 py-4">
                 <div className="px-3 py-2">
@@ -309,7 +283,7 @@ export function AppShell({
                     </div>
                   )}
                   <nav className="grid gap-1 px-2">
-                    {sidebarNavGroups.map((group, index) => (
+                    {sidebarNavGroups.map((groupindex: any) => (
                       <div key={index} className="mb-4">
                         {!collapsed && (
                           <h3 className="mb-1 px-4 text-xs font-semibold text-muted-foreground">
@@ -317,7 +291,7 @@ export function AppShell({
                           </h3>
                         )}
                         <div className="grid gap-1">
-                          {group.items.map((item, itemIndex) => (
+                          {group.items.map((itemitemIndex: any) => (
                             <SidebarNavItem 
                               key={itemIndex} 
                               item={item} 
@@ -339,7 +313,7 @@ export function AppShell({
                     >
                       {collapsed ? <ChevronsRight className="h-4 w-4" /> : <ChevronsLeft className="h-4 w-4" />}
                       <span className="sr-only">
-                        {collapsed ? "Expand sidebar" : "Collapse sidebar"}
+                        {collapsed ? "Expand sidebar" : "Collapse sidebar"
                       </span>
                     </Button>
                   </div>
@@ -371,13 +345,13 @@ export function AppShell({
                   </div>
                   <div className="flex-1 overflow-auto">
                     <nav className="grid gap-2 px-6">
-                      {sidebarNavGroups.map((group, index) => (
+                      {sidebarNavGroups.map((groupindex: any) => (
                         <div key={index} className="mb-4">
                           <h3 className="mb-1 px-4 text-xs font-semibold text-muted-foreground">
                             {group.title}
                           </h3>
                           <div className="grid gap-1">
-                            {group.items.map((item, itemIndex) => (
+                            {group.items.map((itemitemIndex: any) => (
                               <SidebarNavItem 
                                 key={itemIndex} 
                                 item={item} 
@@ -395,9 +369,9 @@ export function AppShell({
                       variant="outline" 
                       className="w-full justify-start gap-2"
                       onClick={() => {
-                        console.log("Log out clicked");
+
                         setMobileSidebarOpen(false);
-                      }}
+                      }
                     >
                       <LogOut className="h-4 w-4" />
                       <span>Log out</span>
@@ -415,20 +389,19 @@ export function AppShell({
             "flex flex-1 flex-col",
             showSidebar && "md:ml-auto"
           )}
-          style={{
+          style={
             width: showSidebar 
               ? `calc(100% - ${adjustedSidebarWidth})` 
               : "100%",
-            marginLeft: showSidebar ? adjustedSidebarWidth : 0,
-          }}
+            marginLeft: showSidebar ? adjustedSidebarWidth : 0}
         >
           <div className="flex-1">{children}</div>
-          
+
           {/* Footer Content */}
           {footerContent && (
             <footer 
               className="border-t bg-background"
-              style={{ height: footerHeight }}
+              style={ height: footerHeight }
             >
               <div className="container flex h-full items-center">
                 {footerContent}
@@ -485,8 +458,7 @@ function MainNavItem({ item }: { item: MainNavItemProps }) {
 function SidebarNavItem({ 
   item, 
   collapsed = false,
-  onClick,
-}: { 
+  onClick}: { 
   item: SidebarNavItemProps; 
   collapsed?: boolean;
   onClick?: () => void;
@@ -594,7 +566,7 @@ function UserInfo({ profile }: { profile: ProfileProps }) {
         <AvatarFallback>
           {profile.name
             .split(" ")
-            .map((n) => n[0])
+            .map((n: any) => n[0])
             .join("")
             .toUpperCase()}
         </AvatarFallback>
@@ -616,8 +588,7 @@ function UserInfo({ profile }: { profile: ProfileProps }) {
 
 function UserMenu({ 
   profile,
-  actions,
-}: { 
+  actions}: { 
   profile: ProfileProps;
   actions?: React.ReactNode;
 }) {
@@ -630,7 +601,7 @@ function UserMenu({
             <AvatarFallback>
               {profile.name
                 .split(" ")
-                .map((n) => n[0])
+                .map((n: any) => n[0])
                 .join("")
                 .toUpperCase()}
             </AvatarFallback>

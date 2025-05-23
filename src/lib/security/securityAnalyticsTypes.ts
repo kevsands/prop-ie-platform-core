@@ -15,8 +15,7 @@ export enum AnalyticsTimeframe {
   LAST_7_DAYS = 'last_7_days',
   LAST_30_DAYS = 'last_30_days',
   CUSTOM = 'custom',
-  LAST_24_HOURS = 'last_24_hours',
-}
+  LAST_24_HOURS = 'last_24_hours'}
 
 /**
  * Security metric data point
@@ -33,7 +32,7 @@ export interface SecurityMetric {
   trend?: 'up' | 'down' | 'stable';
   status?: 'normal' | 'warning' | 'critical';
   source?: string;
-  metadata?: Record<string, any>;
+  metadata?: Record<string, any>\n  );
 }
 
 /**
@@ -46,7 +45,7 @@ export interface SecurityEvent {
   severity: 'info' | 'low' | 'medium' | 'high' | 'critical';
   timestamp: Date;
   source: string;
-  details: Record<string, any>;
+  details: Record<string, any>\n  );
   relatedEntities?: string[];
   status: 'detected' | 'investigating' | 'mitigated' | 'resolved';
   actionTaken?: string;
@@ -79,7 +78,7 @@ export interface AnomalyDetection {
   affectedUser?: string;
   resolvedAt?: Date;
   resolvedBy?: string;
-  metadata?: Record<string, any>;
+  metadata?: Record<string, any>\n  );
 }
 
 /**
@@ -95,7 +94,7 @@ export interface ThreatIndicator {
   firstSeen: Date;
   lastSeen: Date;
   source: string;
-  context: Record<string, any>;
+  context: Record<string, any>\n  );
   relatedEvents?: string[];
   description?: string;
   indicators?: {
@@ -104,11 +103,11 @@ export interface ThreatIndicator {
     hash?: string[];
     userAgent?: string[];
     path?: string[];
-    other?: Record<string, string[]>;
+    other?: Record<string, string[]>\n  );
   };
   status?: 'active' | 'expired' | 'false_positive';
   relatedThreats?: string[];
-  metadata?: Record<string, any>;
+  metadata?: Record<string, any>\n  );
 }
 
 /**
@@ -213,7 +212,7 @@ export interface SecurityViolation {
   type: 'xss' | 'csrf' | 'csp' | 'redirect' | 'dom_tampering' | 'injection' | 'other';
   severity: 'low' | 'medium' | 'high' | 'critical';
   description: string;
-  details?: Record<string, any>;
+  details?: Record<string, any>\n  );
   url: string;
   userId?: string;
   sessionId?: string;

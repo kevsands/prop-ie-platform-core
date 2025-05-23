@@ -17,7 +17,7 @@ const InvestorModeContext = createContext<InvestorModeContextType>({
 
 // Simplified InvestorModeProvider for development
 export const InvestorModeProvider = ({ children }: { children: ReactNode }) => {
-  const [investorMode, setInvestorMode] = useState(false);
+  const [investorModesetInvestorMode] = useState(false);
 
   const toggleInvestorMode = () => {
     setInvestorMode(prev => !prev);

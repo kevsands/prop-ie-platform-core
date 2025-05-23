@@ -51,36 +51,36 @@ export async function GET(request: NextRequest) {
   const category = searchParams.get('category');
   const status = searchParams.get('status');
   const priority = searchParams.get('priority');
-  
+
   let filtered = [...complianceRequirements];
-  
+
   if (category) {
     filtered = filtered.filter(req => req.category === category);
   }
-  
+
   if (status) {
     filtered = filtered.filter(req => req.status === status);
   }
-  
+
   if (priority) {
     filtered = filtered.filter(req => req.priority === priority);
   }
-  
+
   return NextResponse.json(filtered);
 }
 
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json();
-    const newRequirement = {
+    const body: any = await request.json();
+    const newRequirement: any = {
       id: `req-${Date.now()}`,
-      ...body,
+      ...(body as Record<string, any>),
       lastAssessed: new Date(),
       nextAssessment: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000), // 90 days from now
     };
-    
+
     complianceRequirements.push(newRequirement);
-    
+
     return NextResponse.json(newRequirement, { status: 201 });
   } catch (error) {
     return NextResponse.json(

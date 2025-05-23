@@ -110,24 +110,23 @@ export const unitsService = {
    */
   incrementViewCount: (id: string) => 
     api.put<Unit>(`/units/${id}/view`, {}),
-  
+
   /**
    * Get available customization options for a unit
    */
   getUnitCustomizationOptions: (id: string) => 
     api.get<any[]>(`/units/${id}/customization-options`),
-  
+
   /**
    * Update unit status
    */
   updateUnitStatus: (id: string, status: UnitStatus) => 
     api.put<Unit>(`/units/${id}/status`, { status }),
-  
+
   /**
    * Search units by various criteria
    */
   searchUnits: (searchParams: UnitFilters) => 
     api.get<Unit[]>(`/units/search`, { 
       params: searchParams 
-    }),
-};
+    })};

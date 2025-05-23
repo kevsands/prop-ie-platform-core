@@ -10,7 +10,7 @@ class JourneyService {
   async getBuyerJourney(buyerId: string): Promise<BuyerJourney> {
     // This would make an API call in production
     // return fetch(`/api/buyer/${buyerId}/journey`).then(res => res.json());
-    
+
     // Mock data for demonstration
     return {
       id: 'journey-123',
@@ -45,7 +45,7 @@ class JourneyService {
       ]
     };
   }
-  
+
   // Update the buyer's current phase
   async updateBuyerPhase(journeyId: string, phase: BuyerPhase): Promise<BuyerJourney> {
     // This would make an API call in production
@@ -54,7 +54,7 @@ class JourneyService {
     //   headers: { 'Content-Type': 'application/json' },
     //   body: JSON.stringify({ phase })
     // }).then(res => res.json());
-    
+
     // Mock response
     return {
       id: journeyId,
@@ -65,28 +65,28 @@ class JourneyService {
       targetMoveInDate: new Date('2025-08-15').toISOString()
     };
   }
-  
+
   // Add an affordability check
   async addAffordabilityCheck(check: Omit<AffordabilityCheck, 'id' | 'created'>): Promise<AffordabilityCheck> {
     // Mock response
     return {
       ...check,
-      id: 'check-' + Math.random().toString(36).substr(2, 9),
+      id: 'check-' + Math.random().toString(36).substr(29),
       created: new Date().toISOString()
     };
   }
-  
+
   // Add a mortgage application
   async addMortgageApplication(application: Omit<MortgageApplication, 'id' | 'created' | 'updated'>): Promise<MortgageApplication> {
     // Mock response
     return {
       ...application,
-      id: 'mortgage-' + Math.random().toString(36).substr(2, 9),
+      id: 'mortgage-' + Math.random().toString(36).substr(29),
       created: new Date().toISOString(),
       updated: new Date().toISOString()
     };
   }
-  
+
   // Get completed tasks for a specific phase
   async getPhaseCompletedTasks(journeyId: string, phase: BuyerPhase): Promise<string[]> {
     // Mock data
@@ -100,10 +100,10 @@ class JourneyService {
       'COMPLETION': [],
       'POST_PURCHASE': []
     };
-    
+
     return mockTasksByPhase[phase] || [];
   }
-  
+
   // Get next steps for a specific phase
   async getPhaseNextSteps(journeyId: string, phase: BuyerPhase): Promise<string[]> {
     // Mock data
@@ -149,7 +149,7 @@ class JourneyService {
         'Register for local services'
       ]
     };
-    
+
     return mockNextStepsByPhase[phase] || [];
   }
 }

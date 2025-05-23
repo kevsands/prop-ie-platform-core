@@ -1,0 +1,181 @@
+{
+  "propertyCustomization": {
+    "overview": "Comprehensive property customization system with 3D visualization and real-time pricing",
+    "components": {
+      "PropertyCustomizer": {
+        "path": "/src/components/dashboard/PropertyCustomizer.tsx",
+        "description": "Main customization interface with room-based options"
+      },
+      "CustomizationContext": {
+        "path": "/src/context/CustomizationContext.tsx",
+        "description": "Central state management for all customizations"
+      },
+      "ModelViewer": {
+        "path": "/src/components/3d/ModelViewer.tsx",
+        "description": "Three.js-based 3D property visualization"
+      },
+      "CustomizationStudio": {
+        "path": "/src/components/customization/CustomizationStudio.tsx",
+        "description": "Advanced customization interface with lazy loading"
+      },
+      "PriceCalculator": {
+        "path": "/src/components/customization/PriceCalculator.tsx",
+        "description": "Real-time price calculation and breakdown display"
+      }
+    },
+    "priceCalculation": {
+      "basic": {
+        "method": "Sum of selected option prices",
+        "location": "CustomizationContext"
+      },
+      "advanced": {
+        "method": "Base price + options + discounts + VAT",
+        "location": "/api/customization/calculate/route.ts",
+        "features": [
+          "Variant pricing",
+          "Bulk discounts",
+          "13.5% VAT calculation",
+          "Dependency handling",
+          "Conflict resolution"
+        ]
+      }
+    },
+    "customizationOptions": {
+      "kitchen": {
+        "materials": ["Laminate", "Granite", "Quartz", "Marble"],
+        "priceRange": "€2,000 - €25,000"
+      },
+      "bathroom": {
+        "tiles": ["Basic", "Premium", "Luxury"],
+        "priceRange": "€100/m² - €500/m²"
+      },
+      "flooring": {
+        "options": ["Laminate", "Hardwood", "Tiles", "Carpet"],
+        "priceRange": "€30/m² - €150/m²"
+      },
+      "bedroom": {
+        "wardrobes": ["Basic", "Premium", "Walk-in"],
+        "priceRange": "€1,500 - €10,000"
+      }
+    },
+    "features": {
+      "implemented": [
+        "Room-based customization",
+        "Real-time 3D preview",
+        "Price calculation with VAT",
+        "Save/load configurations",
+        "Material swapping",
+        "Interactive room selection"
+      ],
+      "missing": [
+        "Exterior customization options",
+        "Garden/landscaping options",
+        "Smart home integration pricing",
+        "Energy efficiency upgrades",
+        "Accessibility modifications",
+        "Custom color palettes",
+        "Virtual reality preview"
+      ]
+    }
+  },
+  "userRoles": {
+    "buyer": {
+      "features": [
+        "Property search and filtering",
+        "Customization studio access",
+        "Transaction tracking",
+        "Document management",
+        "Payment processing",
+        "HTB application"
+      ]
+    },
+    "developer": {
+      "features": [
+        "Project management",
+        "Unit management",
+        "Sales tracking",
+        "Financial analytics",
+        "Document uploads",
+        "Buyer management",
+        "SLP generation"
+      ]
+    },
+    "solicitor": {
+      "features": [
+        "Case management",
+        "SLP review",
+        "Contract generation",
+        "Compliance tracking",
+        "Client communication",
+        "Document exchange"
+      ]
+    },
+    "agent": {
+      "features": [
+        "Listing management",
+        "Lead tracking",
+        "Viewing scheduling",
+        "Commission tracking",
+        "Transaction coordination"
+      ]
+    },
+    "architect": {
+      "features": [
+        "Project collaboration",
+        "Design upload",
+        "3D model management",
+        "Specification management"
+      ]
+    }
+  },
+  "integrations": {
+    "payment": {
+      "provider": "Stripe",
+      "methods": ["Card", "Bank Transfer", "Mortgage Drawdown"],
+      "features": ["Scheduled payments", "Refunds", "Split payments"]
+    },
+    "authentication": {
+      "provider": "NextAuth.js",
+      "methods": ["Email/Password", "OAuth"],
+      "features": ["JWT tokens", "Role-based access", "MFA support"]
+    },
+    "database": {
+      "provider": "PostgreSQL with Prisma",
+      "features": ["Type-safe queries", "Migrations", "Relations"]
+    },
+    "storage": {
+      "provider": "AWS S3",
+      "features": ["Document storage", "3D model hosting", "Image optimization"]
+    },
+    "analytics": {
+      "provider": "Google Analytics 4",
+      "features": ["Event tracking", "Conversion tracking", "User journey"]
+    }
+  },
+  "businessRules": {
+    "propertyReservation": {
+      "bookingDeposit": "€5,000 standard",
+      "reservationPeriod": "21 days",
+      "coolingOffPeriod": "Not applicable in Ireland"
+    },
+    "htbEligibility": {
+      "maxRelief": "€30,000",
+      "maxPropertyValue": "€500,000",
+      "reliefPercentage": "10% of purchase price",
+      "firstTimeBuyerRequired": true,
+      "newBuildRequired": true
+    },
+    "paymentSchedule": {
+      "booking": "€5,000 on reservation",
+      "contractDeposit": "10% on contract signing",
+      "stagePayments": "As per construction milestones",
+      "finalPayment": "On completion"
+    },
+    "documentRetention": {
+      "financial": "7 years",
+      "kyc": "5 years",
+      "general": "3 years",
+      "contracts": "7 years"
+    }
+  }
+}

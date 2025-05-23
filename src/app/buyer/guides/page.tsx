@@ -1,3 +1,4 @@
+import React from 'react';
 'use client';
 
 import { useState } from 'react';
@@ -24,11 +25,11 @@ interface Guide {
 }
 
 export default function GuidesPage() {
-  const [searchQuery, setSearchQuery] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState<string>('all');
-  const [selectedType, setSelectedType] = useState<string>('all');
-  const [selectedGuide, setSelectedGuide] = useState<Guide | null>(null);
-  
+  const [searchQuerysetSearchQuery] = useState('');
+  const [selectedCategorysetSelectedCategory] = useState<string>('all');
+  const [selectedTypesetSelectedType] = useState<string>('all');
+  const [selectedGuidesetSelectedGuide] = useState<Guide | null>(null);
+
   // Mock guides data
   const guides: Guide[] = [
     {
@@ -115,7 +116,7 @@ export default function GuidesPage() {
       views: 3892
     }
   ];
-  
+
   // Filter guides
   const filteredGuides = guides.filter(guide => {
     const matchesSearch = guide.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -125,16 +126,16 @@ export default function GuidesPage() {
     const matchesType = selectedType === 'all' || guide.type === selectedType;
     return matchesSearch && matchesCategory && matchesType;
   });
-  
+
   // Group guides by category
-  const guidesbyCategory = filteredGuides.reduce((acc, guide) => {
+  const guidesbyCategory = filteredGuides.reduce((accguide: any) => {
     if (!acc[guide.category]) {
       acc[guide.category] = [];
     }
     acc[guide.category].push(guide);
     return acc;
   }, {} as Record<string, Guide[]>);
-  
+
   const categoryNames = {
     'buying-process': 'Buying Process',
     'financing': 'Financing & Mortgages',
@@ -142,17 +143,17 @@ export default function GuidesPage() {
     'moving': 'Moving & Settling In',
     'maintenance': 'Home Maintenance'
   };
-  
+
   const getTypeIcon = (type: string) => {
     switch (type) {
-      case 'pdf': return <FileText className="h-5 w-5 text-red-600" />;
-      case 'video': return <Video className="h-5 w-5 text-blue-600" />;
-      case 'article': return <Book className="h-5 w-5 text-green-600" />;
-      case 'podcast': return <Headphones className="h-5 w-5 text-purple-600" />;
-      default: return <FileText className="h-5 w-5 text-gray-600" />;
+      case 'pdf': return <FileText className="h-5 w-5 text-red-600" />\n  );
+      case 'video': return <Video className="h-5 w-5 text-blue-600" />\n  );
+      case 'article': return <Book className="h-5 w-5 text-green-600" />\n  );
+      case 'podcast': return <Headphones className="h-5 w-5 text-purple-600" />\n  );
+      default: return <FileText className="h-5 w-5 text-gray-600" />\n  );
     }
   };
-  
+
   const getDifficultyColor = (difficulty: string) => {
     switch (difficulty) {
       case 'beginner': return 'text-green-600 bg-green-100';
@@ -161,7 +162,7 @@ export default function GuidesPage() {
       default: return 'text-gray-600 bg-gray-100';
     }
   };
-  
+
   return (
     <div className="flex-1 p-8">
       <div className="max-w-7xl mx-auto">
@@ -170,7 +171,7 @@ export default function GuidesPage() {
           <h1 className="text-3xl font-bold text-gray-900">Buyer\'s Guides & Resources</h1>
           <p className="text-gray-600 mt-1">Learn everything you need to know about buying property</p>
         </div>
-        
+
         {/* Search and Filters */}
         <div className="mb-6 space-y-4">
           <div className="relative">
@@ -178,19 +179,19 @@ export default function GuidesPage() {
             <input
               type="text"
               value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+              onChange={(e: any) => setSearchQuery(e.target.value)}
               placeholder="Search guides..."
               className="w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             />
           </div>
-          
+
           <div className="flex flex-wrap gap-4">
             <div className="flex items-center gap-2">
               <Filter className="h-5 w-5 text-gray-500" />
               <span className="text-sm font-medium text-gray-700">Category:</span>
               <select
                 value={selectedCategory}
-                onChange={(e) => setSelectedCategory(e.target.value)}
+                onChange={(e: any) => setSelectedCategory(e.target.value)}
                 className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               >
                 <option value="all">All Categories</option>
@@ -201,12 +202,12 @@ export default function GuidesPage() {
                 <option value="maintenance">Maintenance</option>
               </select>
             </div>
-            
+
             <div className="flex items-center gap-2">
               <span className="text-sm font-medium text-gray-700">Type:</span>
               <select
                 value={selectedType}
-                onChange={(e) => setSelectedType(e.target.value)}
+                onChange={(e: any) => setSelectedType(e.target.value)}
                 className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               >
                 <option value="all">All Types</option>
@@ -218,13 +219,13 @@ export default function GuidesPage() {
             </div>
           </div>
         </div>
-        
+
         {/* Featured Guides */}
-        {guides.filter(g => g.isFeatured).length > 0 && (
+        {guides.filter(g => g.isFeatured).length> 0 && (
           <div className="mb-8">
             <h2 className="text-xl font-semibold text-gray-900 mb-4">Featured Guides</h2>
             <div className="grid md:grid-cols-2 gap-6">
-              {guides.filter(g => g.isFeatured).map((guide) => (
+              {guides.filter(g => g.isFeatured).map((guide: any) => (
                 <div 
                   key={guide.id}
                   onClick={() => setSelectedGuide(guide)}
@@ -243,7 +244,7 @@ export default function GuidesPage() {
                       <span className="text-sm font-medium text-gray-700">{guide.rating}</span>
                     </div>
                   </div>
-                  
+
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-4 text-sm text-gray-500">
                       <div className="flex items-center gap-1">
@@ -264,15 +265,15 @@ export default function GuidesPage() {
             </div>
           </div>
         )}
-        
+
         {/* Guides by Category */}
-        {Object.entries(guidesbyCategory).map(([category, categoryGuides]) => (
+        {Object.entries(guidesbyCategory).map(([categorycategoryGuides]) => (
           <div key={category} className="mb-8">
             <h2 className="text-xl font-semibold text-gray-900 mb-4">
               {categoryNames[category as keyof typeof categoryNames]}
             </h2>
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {categoryGuides.map((guide) => (
+              {categoryGuides.map((guide: any) => (
                 <div 
                   key={guide.id}
                   onClick={() => setSelectedGuide(guide)}
@@ -285,7 +286,7 @@ export default function GuidesPage() {
                       <p className="text-sm text-gray-600 mt-1 line-clamp-2">{guide.description}</p>
                     </div>
                   </div>
-                  
+
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3 text-sm text-gray-500">
                       <div className="flex items-center gap-1">
@@ -303,7 +304,7 @@ export default function GuidesPage() {
             </div>
           </div>
         ))}
-        
+
         {/* Guide Detail Modal */}
         {selectedGuide && (
           <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
@@ -327,7 +328,7 @@ export default function GuidesPage() {
                   </button>
                 </div>
               </div>
-              
+
               <div className="p-6">
                 <div className="flex items-center justify-between mb-6">
                   <div className="flex items-center gap-6 text-sm text-gray-500">
@@ -348,7 +349,7 @@ export default function GuidesPage() {
                     {selectedGuide.difficulty}
                   </span>
                 </div>
-                
+
                 <div className="prose max-w-none mb-6">
                   <p className="text-gray-700">
                     This is where the full content of the guide would be displayed. 
@@ -356,7 +357,7 @@ export default function GuidesPage() {
                     video embed, or download link depending on the guide type.
                   </p>
                 </div>
-                
+
                 <div className="flex items-center gap-4">
                   {selectedGuide.downloadUrl && (
                     <button className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
@@ -371,7 +372,7 @@ export default function GuidesPage() {
                     </button>
                   )}
                 </div>
-                
+
                 <div className="mt-6 pt-6 border-t">
                   <p className="text-sm text-gray-500">
                     Last updated: {format(selectedGuide.lastUpdated, 'MMMM d, yyyy')}

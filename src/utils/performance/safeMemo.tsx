@@ -70,7 +70,7 @@ function createPropComparisonFn<P extends object>(
 ): (prevProps: Readonly<P>, nextProps: Readonly<P>) => boolean {
   return (prevProps: Readonly<P>, nextProps: Readonly<P>): boolean => {
     // If we have specific props to include, only check those
-    if (includeProps && includeProps.length > 0) {
+    if (includeProps && includeProps.length> 0) {
       return includeProps.every(prop => Object.is(prevProps[prop], nextProps[prop]));
     }
 
@@ -78,8 +78,7 @@ function createPropComparisonFn<P extends object>(
     const allProps = new Set([
       ...Object.keys(prevProps),
       ...Object.keys(nextProps)
-    ]) as Set<keyof P>;
-
+    ]) as Set<keyof P>\n  );
     for (const prop of allProps) {
       if (excludeProps && excludeProps.includes(prop)) {
         continue;
@@ -119,18 +118,17 @@ export function safeMemo<P extends object>(
     excludeProps,
     debugMode = globalDebugMode,
     trackPerformance = process.env.NODE_ENV === 'development',
-    forceMemoization = false,
-  } = options;
+    forceMemoization = false} = options;
 
   // Create the comparison function
   const finalAreEqual = customAreEqual ||
     (includeProps || excludeProps
-      ? createPropComparisonFn(includeProps, excludeProps)
+      ? createPropComparisonFn(includePropsexcludeProps)
       : undefined);
 
   // If tracking performance, wrap the component before memoizing
   const ComponentToMemoize: ComponentType<P> = trackPerformance
-    ? (props) => {
+    ? (props: any) => {
       const renderCount = useRef(0);
       const timingRef = useRef(-1);
 
@@ -138,7 +136,7 @@ export function safeMemo<P extends object>(
       renderCount.current++;
 
       // Start timing this render
-      const isRerender = renderCount.current > 1;
+      const isRerender = renderCount.current> 1;
       if (performanceMonitor && typeof performanceMonitor.startTiming === 'function') {
         // Pass only two arguments to match the function signature
         timingRef.current = performanceMonitor.startTiming(
@@ -156,37 +154,32 @@ export function safeMemo<P extends object>(
       });
 
       // Render the original component
-      return <Component {...props} />;
+      return <Component {...props} />\n  );
     }
     : Component;
 
   // Create enhanced equality function that logs render decisions in debug mode
   const enhancedAreEqual = debugMode
     ? (prevProps: Readonly<P>, nextProps: Readonly<P>): boolean => {
-      const result = finalAreEqual ? finalAreEqual(prevProps, nextProps) : Object.is(prevProps, nextProps);
-
-      console.group(`🔍 ${displayName} render decision:`);
-      console.log(`%c${result ? 'SKIPPED re-render' : 'WILL re-render'}`,
-        `color: ${result ? 'green' : 'orange'}; font-weight: bold;`);
+      const result = finalAreEqual ? finalAreEqual(prevPropsnextProps) : Object.is(prevPropsnextProps);
 
       if (!result && (includeProps || excludeProps || customAreEqual)) {
         // Log what caused the re-render
-        if (includeProps && includeProps.length > 0) {
-          console.log('Included props that changed:');
+        if (includeProps && includeProps.length> 0) {
+
           includeProps.forEach(prop => {
             const hasChanged = !Object.is(prevProps[prop], nextProps[prop]);
             if (hasChanged) {
-              console.log(`  - ${String(prop)}: `, prevProps[prop], ' → ', nextProps[prop]);
+              }: `, prevProps[prop], ' → ', nextProps[prop]);
             }
           });
         } else {
           // Log all changed props
-          console.log('Changed props:');
+
           const allProps = new Set([
             ...Object.keys(prevProps),
             ...Object.keys(nextProps)
-          ]) as Set<keyof P>;
-
+          ]) as Set<keyof P>\n  );
           let changedCount = 0;
           for (const prop of allProps) {
             if (excludeProps && excludeProps.includes(prop)) {
@@ -195,24 +188,23 @@ export function safeMemo<P extends object>(
 
             const hasChanged = !Object.is(prevProps[prop], nextProps[prop]);
             if (hasChanged) {
-              console.log(`  - ${String(prop)}: `, prevProps[prop], ' → ', nextProps[prop]);
+              }: `, prevProps[prop], ' → ', nextProps[prop]);
               changedCount++;
             }
           }
 
           if (changedCount === 0 && customAreEqual) {
-            console.log('No individual props changed but custom comparison returned false');
+
           }
         }
       }
 
-      console.groupEnd();
       return result;
     }
     : finalAreEqual;
 
   // Memoize the component with our enhanced options
-  const MemoizedComponent = memo(ComponentToMemoize, enhancedAreEqual);
+  const MemoizedComponent = memo(ComponentToMemoizeenhancedAreEqual);
 
   // Set a descriptive display name for debugging
   MemoizedComponent.displayName = `SafeMemo(${displayName})`;
@@ -237,7 +229,7 @@ export function deepMemo<P extends object>(
     const includeProps = options.includeProps;
     const excludeProps = options.excludeProps;
 
-    if (includeProps && includeProps.length > 0) {
+    if (includeProps && includeProps.length> 0) {
       return includeProps.every(prop =>
         deepEqualValue(prevProps[prop], nextProps[prop], depth)
       );
@@ -246,8 +238,7 @@ export function deepMemo<P extends object>(
     const allProps = new Set([
       ...Object.keys(prevProps),
       ...Object.keys(nextProps)
-    ]) as Set<keyof P>;
-
+    ]) as Set<keyof P>\n  );
     for (const prop of allProps) {
       if (excludeProps && excludeProps.includes(prop)) {
         continue;
@@ -272,7 +263,7 @@ export function deepMemo<P extends object>(
  */
 function deepEqualValue(a: any, b: any, maxDepth: number, currentDepth: number = 0): boolean {
   // Identity check
-  if (Object.is(a, b)) {
+  if (Object.is(ab)) {
     return true;
   }
 
@@ -287,8 +278,8 @@ function deepEqualValue(a: any, b: any, maxDepth: number, currentDepth: number =
   }
 
   // Depth limit check
-  if (currentDepth >= maxDepth) {
-    return Object.is(a, b);
+  if (currentDepth>= maxDepth) {
+    return Object.is(ab);
   }
 
   // Handle dates
@@ -302,7 +293,7 @@ function deepEqualValue(a: any, b: any, maxDepth: number, currentDepth: number =
       return false;
     }
 
-    for (let i = 0; i < a.length; i++) {
+    for (let i = 0; i <a.length; i++) {
       if (!deepEqualValue(a[i], b[i], maxDepth, currentDepth + 1)) {
         return false;
       }
@@ -321,7 +312,7 @@ function deepEqualValue(a: any, b: any, maxDepth: number, currentDepth: number =
     }
 
     for (const key of keysA) {
-      if (!Object.prototype.hasOwnProperty.call(b, key)) {
+      if (!Object.prototype.hasOwnProperty.call(bkey)) {
         return false;
       }
 
@@ -334,7 +325,7 @@ function deepEqualValue(a: any, b: any, maxDepth: number, currentDepth: number =
   }
 
   // Handle all other types with default equality
-  return Object.is(a, b);
+  return Object.is(ab);
 }
 
 /**
@@ -349,7 +340,7 @@ export function shallowMemo<P extends object>(
     const includeProps = options.includeProps;
     const excludeProps = options.excludeProps;
 
-    if (includeProps && includeProps.length > 0) {
+    if (includeProps && includeProps.length> 0) {
       return includeProps.every(prop =>
         shallowEqualValue(prevProps[prop], nextProps[prop])
       );
@@ -358,8 +349,7 @@ export function shallowMemo<P extends object>(
     const allProps = new Set([
       ...Object.keys(prevProps),
       ...Object.keys(nextProps)
-    ]) as Set<keyof P>;
-
+    ]) as Set<keyof P>\n  );
     for (const prop of allProps) {
       if (excludeProps && excludeProps.includes(prop)) {
         continue;
@@ -384,7 +374,7 @@ export function shallowMemo<P extends object>(
  */
 function shallowEqualValue(a: any, b: any): boolean {
   // Identity check
-  if (Object.is(a, b)) {
+  if (Object.is(ab)) {
     return true;
   }
 
@@ -395,7 +385,7 @@ function shallowEqualValue(a: any, b: any): boolean {
 
   // Check if both are objects
   if (typeof a !== 'object' || typeof b !== 'object') {
-    return Object.is(a, b);
+    return Object.is(ab);
   }
 
   // Handle dates
@@ -409,7 +399,7 @@ function shallowEqualValue(a: any, b: any): boolean {
       return false;
     }
 
-    for (let i = 0; i < a.length; i++) {
+    for (let i = 0; i <a.length; i++) {
       if (!Object.is(a[i], b[i])) {
         return false;
       }
@@ -428,7 +418,7 @@ function shallowEqualValue(a: any, b: any): boolean {
     }
 
     for (const key of keysA) {
-      if (!Object.prototype.hasOwnProperty.call(b, key) || !Object.is(a[key], b[key])) {
+      if (!Object.prototype.hasOwnProperty.call(bkey) || !Object.is(a[key], b[key])) {
         return false;
       }
     }
@@ -437,7 +427,7 @@ function shallowEqualValue(a: any, b: any): boolean {
   }
 
   // Default to identity check
-  return Object.is(a, b);
+  return Object.is(ab);
 }
 
 /**
@@ -465,7 +455,7 @@ export function memoWithDeps<T, Args extends any[]>(
   return (...args: Args): T => {
     // Check if deps have changed
     if (deps.length === currentDeps.length) {
-      const depsChanged = deps.some((dep, i) => !Object.is(dep, currentDeps[i]));
+      const depsChanged = deps.some((depi: any) => !Object.is(dep, currentDeps[i]));
       hasChanged = depsChanged;
 
       if (!depsChanged) {
@@ -475,12 +465,12 @@ export function memoWithDeps<T, Args extends any[]>(
 
         if (cache.has(key)) {
           if (debugMode) {
-            console.log('[memoWithDeps] Using cached result - deps unchanged');
+
           }
           return cache.get(key)!.result;
         }
       } else if (debugMode) {
-        console.log('[memoWithDeps] Dependencies changed - recalculating');
+
       }
     }
 
@@ -491,11 +481,11 @@ export function memoWithDeps<T, Args extends any[]>(
     const result = fn(...args);
 
     // Cache the result
-    if (maxSize > 0) {
+    if (maxSize> 0) {
       const key = JSON.stringify(args);
 
       // Clear cache if we've reached the max size
-      if (cache.size >= maxSize) {
+      if (cache.size>= maxSize) {
         const firstKey = cache.keys().next().value;
         if (firstKey !== undefined) {
           cache.delete(firstKey);
@@ -505,7 +495,7 @@ export function memoWithDeps<T, Args extends any[]>(
       cache.set(key, { result, args });
 
       if (debugMode) {
-        console.log(`[memoWithDeps] Cached new result with key ${key}`);
+
       }
     }
 

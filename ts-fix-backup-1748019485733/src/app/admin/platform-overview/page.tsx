@@ -1,0 +1,300 @@
+'use client';
+
+import React from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import {
+  HomeIcon,
+  BuildingOfficeIcon,
+  ScaleIcon,
+  BanknotesIcon,
+  DocumentTextIcon,
+  UserGroupIcon,
+  ArrowsRightLeftIcon,
+  BellIcon,
+  ShieldCheckIcon,
+  ChartBarIcon} from '@heroicons/react/24/outline';
+
+// Define stakeholder interactions
+const stakeholders = [
+  {
+    id: 'buyer',
+    name: 'Buyers',
+    icon: UserGroupIcon,
+    color: 'bg-blue-500',
+    description: 'First-time buyers & investors',
+    connections: ['developer', 'solicitor', 'bank', 'government']},
+  {
+    id: 'developer',
+    name: 'Developers',
+    icon: BuildingOfficeIcon,
+    color: 'bg-green-500',
+    description: 'Property developers & builders',
+    connections: ['buyer', 'solicitor', 'government']},
+  {
+    id: 'solicitor',
+    name: 'Solicitors',
+    icon: ScaleIcon,
+    color: 'bg-purple-500',
+    description: 'Legal representatives',
+    connections: ['buyer', 'developer', 'bank']},
+  {
+    id: 'bank',
+    name: 'Banks',
+    icon: BanknotesIcon,
+    color: 'bg-orange-500',
+    description: 'Mortgage providers',
+    connections: ['buyer', 'solicitor']},
+  {
+    id: 'government',
+    name: 'Government',
+    icon: ShieldCheckIcon,
+    color: 'bg-red-500',
+    description: 'HTB scheme provider',
+    connections: ['buyer', 'developer']}];
+
+// Define interaction flows
+const interactions = [
+  {
+    from: 'buyer',
+    to: 'developer',
+    label: 'Property Selection',
+    type: 'primary'},
+  {
+    from: 'buyer',
+    to: 'solicitor',
+    label: 'Legal Process',
+    type: 'primary'},
+  {
+    from: 'buyer',
+    to: 'bank',
+    label: 'Mortgage Application',
+    type: 'primary'},
+  {
+    from: 'buyer',
+    to: 'government',
+    label: 'HTB Application',
+    type: 'secondary'},
+  {
+    from: 'developer',
+    to: 'solicitor',
+    label: 'Contracts',
+    type: 'primary'},
+  {
+    from: 'bank',
+    to: 'solicitor',
+    label: 'Fund Transfer',
+    type: 'primary'},
+  {
+    from: 'government',
+    to: 'developer',
+    label: 'HTB Payment',
+    type: 'secondary'}];
+
+// Define key features
+const features = [
+  {
+    title: 'Real-time Sync',
+    description: 'All stakeholders see updates instantly',
+    icon: ArrowsRightLeftIcon,
+    color: 'text-blue-600'},
+  {
+    title: 'Document Hub',
+    description: 'Centralized document management',
+    icon: DocumentTextIcon,
+    color: 'text-green-600'},
+  {
+    title: 'Smart Notifications',
+    description: 'Automated alerts and reminders',
+    icon: BellIcon,
+    color: 'text-purple-600'},
+  {
+    title: 'Secure Transactions',
+    description: 'End-to-end encrypted data',
+    icon: ShieldCheckIcon,
+    color: 'text-orange-600'},
+  {
+    title: 'Analytics Dashboard',
+    description: 'Real-time business insights',
+    icon: ChartBarIcon,
+    color: 'text-red-600'},
+  {
+    title: 'Multi-party Workflow',
+    description: 'Coordinated process management',
+    icon: UserGroupIcon,
+    color: 'text-indigo-600'}];
+
+export default function PlatformOverviewPage() {
+  return (
+    <div className="container mx-auto px-4 py-8">
+      <div className="mb-8">
+        <h1 className="text-3xl font-bold text-gray-900">Platform Integration Overview</h1>
+        <p className="text-gray-600 mt-2">
+          Seamlessly connecting all stakeholders in the property buying journey
+        </p>
+      </div>
+
+      {/* Stakeholder Map */}
+      <Card className="mb-8">
+        <CardHeader>
+          <CardTitle>Stakeholder Ecosystem</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="relative h-[500px]">
+            {/* Center platform hub */}
+            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+              <div className="w-32 h-32 bg-gray-900 rounded-full flex items-center justify-center shadow-xl">
+                <HomeIcon className="w-16 h-16 text-white" />
+              </div>
+              <p className="text-center mt-2 font-bold">PROP.IE Platform</p>
+            </div>
+
+            {/* Stakeholder nodes */}
+            {stakeholders.map((stakeholderindex) => {
+              const angle = (index * 2 * Math.PI) / stakeholders.length;
+              const radius = 200;
+              const x = Math.cos(angle) * radius;
+              const y = Math.sin(angle) * radius;
+              const Icon = stakeholder.icon;
+
+              return (
+                <div
+                  key={stakeholder.id}
+                  className="absolute transform -translate-x-1/2 -translate-y-1/2"
+                  style={
+                    top: `50%`,
+                    left: `50%`,
+                    transform: `translate(${x}px, ${y}px) translate(-50%, -50%)`}
+                >
+                  <div className="text-center">
+                    <div
+                      className={`w-24 h-24 ${stakeholder.color} rounded-full flex items-center justify-center shadow-lg mb-2`}
+                    >
+                      <Icon className="w-12 h-12 text-white" />
+                    </div>
+                    <h3 className="font-semibold">{stakeholder.name}</h3>
+                    <p className="text-xs text-gray-600 max-w-[120px]">
+                      {stakeholder.description}
+                    </p>
+                  </div>
+                </div>
+              );
+            })}
+
+            {/* Connection lines */}
+            <svg
+              className="absolute inset-0 w-full h-full"
+              style={ zIndex: -1 }
+            >
+              {interactions.map((interactionindex) => {
+                const fromStakeholder = stakeholders.find(s => s.id === interaction.from);
+                const toStakeholder = stakeholders.find(s => s.id === interaction.to);
+
+                if (!fromStakeholder || !toStakeholder) return null;
+
+                const fromAngle = (stakeholders.indexOf(fromStakeholder) * 2 * Math.PI) / stakeholders.length;
+                const toAngle = (stakeholders.indexOf(toStakeholder) * 2 * Math.PI) / stakeholders.length;
+                const radius = 200;
+
+                const x1 = 250 + Math.cos(fromAngle) * radius;
+                const y1 = 250 + Math.sin(fromAngle) * radius;
+                const x2 = 250 + Math.cos(toAngle) * radius;
+                const y2 = 250 + Math.sin(toAngle) * radius;
+
+                return (
+                  <line
+                    key={index}
+                    x1={x1}
+                    y1={y1}
+                    x2={x2}
+                    y2={y2}
+                    stroke={interaction.type === 'primary' ? '#3B82F6' : '#9CA3AF'}
+                    strokeWidth={interaction.type === 'primary' ? 2 : 1}
+                    strokeDasharray={interaction.type === 'secondary' ? '5,5' : ''}
+                    opacity={0.6}
+                  />
+                );
+              })}
+            </svg>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Key Features Grid */}
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 mb-8">
+        {features.map((feature) => {
+          const Icon = feature.icon;
+          return (
+            <Card key={feature.title}>
+              <CardContent className="p-6">
+                <div className="flex items-start space-x-4">
+                  <div className={`p-3 rounded-lg bg-gray-100`}>
+                    <Icon className={`w-6 h-6 ${feature.color}`} />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold mb-1">{feature.title}</h3>
+                    <p className="text-sm text-gray-600">{feature.description}</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          );
+        })}
+      </div>
+
+      {/* Integration Status */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Integration Status</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-4">
+            <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+              <div className="flex items-center space-x-4">
+                <UserGroupIcon className="w-6 h-6 text-blue-600" />
+                <div>
+                  <p className="font-medium">Buyer Journey Integration</p>
+                  <p className="text-sm text-gray-600">End-to-end buyer flow connected</p>
+                </div>
+              </div>
+              <Badge variant="success">Active</Badge>
+            </div>
+
+            <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+              <div className="flex items-center space-x-4">
+                <BuildingOfficeIcon className="w-6 h-6 text-green-600" />
+                <div>
+                  <p className="font-medium">Developer Portal Sync</p>
+                  <p className="text-sm text-gray-600">Real-time inventory updates</p>
+                </div>
+              </div>
+              <Badge variant="success">Active</Badge>
+            </div>
+
+            <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+              <div className="flex items-center space-x-4">
+                <DocumentTextIcon className="w-6 h-6 text-purple-600" />
+                <div>
+                  <p className="font-medium">Legal Document Workflow</p>
+                  <p className="text-sm text-gray-600">Multi-party document signing</p>
+                </div>
+              </div>
+              <Badge variant="warning">In Progress</Badge>
+            </div>
+
+            <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+              <div className="flex items-center space-x-4">
+                <BanknotesIcon className="w-6 h-6 text-orange-600" />
+                <div>
+                  <p className="font-medium">Financial Integration</p>
+                  <p className="text-sm text-gray-600">HTB and mortgage connections</p>
+                </div>
+              </div>
+              <Badge variant="warning">In Progress</Badge>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  );
+}

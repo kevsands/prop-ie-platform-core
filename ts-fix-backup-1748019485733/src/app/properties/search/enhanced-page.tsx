@@ -1,0 +1,970 @@
+"use client";
+
+import React, { useState, useEffect } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Slider } from '@/components/ui/slider';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Badge } from '@/components/ui/badge';
+import { Separator } from '@/components/ui/separator';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { 
+  Search, 
+  Filter, 
+  MapPin, 
+  Home, 
+  Bed, 
+  Euro, 
+  Calendar,
+  Heart,
+  ChevronLeft,
+  ChevronRight,
+  Grid,
+  List,
+  Map,
+  Sparkles,
+  BedDouble,
+  Bath,
+  SquareArrowOut,
+  ArrowUpRight,
+  MoveRight
+} from 'lucide-react';
+import Link from 'next/link';
+import Image from 'next/image';
+import { developments } from '@/data/developments';
+import { Development, Property, PropertyStatus, PropertyType } from '@/types/developments';
+
+// Create properties from floor plans in developments
+const generatePropertiesFromDevelopments = (developments: Development[]): Property[] => {
+  const properties: Property[] = [];
+  let id = 1;
+
+  developments.forEach(development => {
+    // Create properties from floor plans
+    development.floorPlans?.forEach(floorPlan => {
+      // Generate multiple properties per floor plan for variety
+      const count = Math.floor(Math.random() * 3) + 1; // 1-3 properties per floor plan
+
+      for (let i = 0; i <count; i++) {
+        const price = floorPlan.price 
+          ? parseInt(floorPlan.price.replace(/[^0-9]/g, ''))
+          : Math.floor(Math.random() * (450000 - 250000)) + 250000;
+
+        const property: Property = {
+          id: `property-${id++}`,
+          name: `${floorPlan.name} - ${development.name}`,
+          slug: `${development.id}-${floorPlan.id}-${i}`,
+          projectId: development.id,
+          projectName: development.name,
+          projectSlug: development.id,
+          address: {
+            city: development.location.split(',')[0].trim(),
+            state: development.location.split(',')[1]?.trim() || 'Ireland',
+            country: 'Ireland'
+          },
+          unitNumber: `Unit ${100 + i}`,
+          price: price,
+          status: i === 0 ? PropertyStatus.Available : 
+                 i === 1 ? PropertyStatus.Reserved : 
+                 PropertyStatus.Available,
+          type: floorPlan.name.toLowerCase().includes('apartment') ? PropertyType.Apartment :
+                floorPlan.name.toLowerCase().includes('duplex') ? PropertyType.Duplex :
+                PropertyType.House,
+          bedrooms: floorPlan.bedrooms,
+          bathrooms: floorPlan.bathrooms,
+          parkingSpaces: 1,
+          floorArea: floorPlan.squareFeet,
+          features: development.features || [],
+          amenities: development.amenities || [],
+          images: [
+            floorPlan.image || development.image,
+            ...(development.galleryImages?.slice(03) || [])
+          ],
+          floorPlan: floorPlan.image || '',
+          description: `Beautiful ${floorPlan.bedrooms} bedroom ${
+            floorPlan.name.toLowerCase().includes('apartment') ? 'apartment' : 
+            floorPlan.name.toLowerCase().includes('duplex') ? 'duplex' : 'home'
+          } in the prestigious ${development.name} development. ${development.description}`,
+          isNew: Math.random() > 0.7,
+          isReduced: Math.random() > 0.9,
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        };
+
+        properties.push(property);
+      }
+    });
+  });
+
+  return properties;
+};
+
+// AI matching function that takes a natural language query and returns matching properties
+const matchPropertiesWithAI = (properties: Property[], query: string): Property[] => {
+  if (!query) return properties;
+
+  // Convert query to lowercase for case-insensitive matching
+  const lowerQuery = query.toLowerCase();
+
+  // Extract potential parameters from the query
+  const hasLocationMatch = (property: Property) => {
+    return property.address.city?.toLowerCase().includes(lowerQuery) || 
+           property.address.state?.toLowerCase().includes(lowerQuery) ||
+           property.projectName.toLowerCase().includes(lowerQuery);
+  };
+
+  const hasPriceMatch = (property: Property) => {
+    const priceMatches = lowerQuery.match(/(\d+)[k]?\s*(euro|€|eur)?/g);
+    if (!priceMatches) return false;
+
+    for (const match of priceMatches) {
+      const price = parseInt(match.replace(/[^0-9]/g, ''));
+      // Adjust for "k" notation
+      const adjustedPrice = match.includes('k') ? price * 1000 : price;
+
+      // Check if the query contains price range indicators
+      if (lowerQuery.includes('under') || lowerQuery.includes('less than') || lowerQuery.includes('below')) {
+        if (property.price <= adjustedPrice) return true;
+      } else if (lowerQuery.includes('over') || lowerQuery.includes('more than') || lowerQuery.includes('above')) {
+        if (property.price>= adjustedPrice) return true;
+      } else if (lowerQuery.includes('around') || lowerQuery.includes('about')) {
+        // Consider "around" to be within 10% of the specified price
+        const lowerBound = adjustedPrice * 0.9;
+        const upperBound = adjustedPrice * 1.1;
+        if (property.price>= lowerBound && property.price <= upperBound) return true;
+      } else {
+        // If no qualifier, look for properties within 15% of the mentioned price
+        const lowerBound = adjustedPrice * 0.85;
+        const upperBound = adjustedPrice * 1.15;
+        if (property.price>= lowerBound && property.price <= upperBound) return true;
+      }
+    }
+
+    return false;
+  };
+
+  const hasBedroomMatch = (property: Property) => {
+    const bedroomMatches = lowerQuery.match(/(\d+)\s*(bed|bedroom|bedrooms)/g);
+    if (!bedroomMatches) return false;
+
+    for (const match of bedroomMatches) {
+      const bedrooms = parseInt(match.match(/\d+/)?.[0] || '0');
+      if (property.bedrooms === bedrooms) return true;
+    }
+
+    return false;
+  };
+
+  const hasPropertyTypeMatch = (property: Property) => {
+    const typeMatches = [
+      { keywords: ['apartment', 'flat', 'condo'], type: PropertyType.Apartment },
+      { keywords: ['house', 'home', 'detached', 'semi-detached'], type: PropertyType.House },
+      { keywords: ['townhouse', 'town house'], type: PropertyType.Townhouse },
+      { keywords: ['duplex'], type: PropertyType.Duplex }
+    ];
+
+    for (const { keywords, type } of typeMatches) {
+      if (keywords.some(keyword => lowerQuery.includes(keyword)) && property.type === type) {
+        return true;
+      }
+    }
+
+    return false;
+  };
+
+  const hasFeatureMatch = (property: Property) => {
+    // Common features to look for in queries
+    const featureKeywords = [
+      'garden', 'balcony', 'parking', 'garage', 'modern', 'renovated', 
+      'new', 'spacious', 'bright', 'open plan', 'kitchen', 'bathroom',
+      'ensuite', 'en-suite', 'view', 'floor', 'heating', 'air conditioning',
+      'ac', 'appliances', 'furnished', 'unfurnished', 'storage'
+    ];
+
+    for (const feature of property.features) {
+      if (lowerQuery.includes(feature.toLowerCase())) {
+        return true;
+      }
+    }
+
+    for (const keyword of featureKeywords) {
+      if (lowerQuery.includes(keyword) && 
+          property.features.some(f => f.toLowerCase().includes(keyword)) || 
+          property.description.toLowerCase().includes(keyword)) {
+        return true;
+      }
+    }
+
+    return false;
+  };
+
+  // Compute a relevance score for each property
+  return properties
+    .map(property => {
+      let score = 0;
+
+      // Check for various match types and assign scores
+      if (hasLocationMatch(property)) score += 5;
+      if (hasPriceMatch(property)) score += 4;
+      if (hasBedroomMatch(property)) score += 3;
+      if (hasPropertyTypeMatch(property)) score += 2;
+      if (hasFeatureMatch(property)) score += 1;
+
+      // Add bonus points for exact matches in the name or description
+      if (property.name.toLowerCase().includes(lowerQuery)) score += 3;
+      if (property.description.toLowerCase().includes(lowerQuery)) score += 2;
+
+      // For properties that didn't match any specific criteria but might be partially relevant
+      // do a generic text search on all text fields
+      if (score === 0) {
+        const combinedText = `${property.name} ${property.projectName} ${property.description} ${property.type} ${property.address.city} ${property.address.state}`.toLowerCase();
+
+        // Split query into words and check if any word appears in the combined text
+        const queryWords = lowerQuery.split(/\s+/);
+        for (const word of queryWords) {
+          if (word.length> 3 && combinedText.includes(word)) {
+            score += 0.5;
+          }
+        }
+      }
+
+      return { property, score };
+    })
+    .filter(item => item.score> 0) // Only include properties with some relevance
+    .sort((ab) => b.score - a.score) // Sort by relevance score
+    .map(item => item.property); // Return just the property objects
+};
+
+export default function EnhancedPropertySearch() {
+  const [viewModesetViewMode] = useState<'grid' | 'list' | 'ai'>('ai');
+  const [filterssetFilters] = useState({
+    location: '',
+    priceMin: 250000,
+    priceMax: 500000,
+    bedrooms: 'any',
+    propertyType: 'any',
+    completionYear: 'any',
+    searchQuery: ''
+  });
+  const [showFilterssetShowFilters] = useState(true);
+  const [savedPropertiessetSavedProperties] = useState<string[]>([]);
+  const [aiQuerysetAiQuery] = useState('');
+  const [propertiessetProperties] = useState<Property[]>([]);
+  const [filteredPropertiessetFilteredProperties] = useState<Property[]>([]);
+  const [aiMatchedPropertiessetAiMatchedProperties] = useState<Property[]>([]);
+  const [isSearchingsetIsSearching] = useState(false);
+
+  // Generate properties on initial load
+  useEffect(() => {
+    const generatedProperties = generatePropertiesFromDevelopments(developments);
+    setProperties(generatedProperties);
+    setFilteredProperties(generatedProperties);
+
+    // Listen for AI search events from other components
+    const handleAISearch = (event: CustomEvent) => {
+      if (event.detail && event.detail.query) {
+        setAiQuery(event.detail.query);
+        setViewMode('ai');
+
+        setTimeout(() => {
+          const matched = matchPropertiesWithAI(generatedProperties, event.detail.query);
+          setAiMatchedProperties(matched);
+        }, 500);
+      }
+    };
+
+    window.addEventListener('ai-search', handleAISearch as EventListener);
+
+    return () => {
+      window.removeEventListener('ai-search', handleAISearch as EventListener);
+    };
+  }, []);
+
+  // Function to apply filters
+  const applyFilters = () => {
+    let result = [...properties];
+
+    // Apply location filter
+    if (filters.location && filters.location !== 'any') {
+      result = result.filter(property => 
+        property.address.city?.toLowerCase().includes(filters.location.toLowerCase()) || 
+        property.address.state?.toLowerCase().includes(filters.location.toLowerCase())
+      );
+    }
+
+    // Apply price range filter
+    result = result.filter(property => 
+      property.price>= filters.priceMin && property.price <= filters.priceMax
+    );
+
+    // Apply bedrooms filter
+    if (filters.bedrooms && filters.bedrooms !== 'any') {
+      const bedroomCount = parseInt(filters.bedrooms);
+      result = result.filter(property => 
+        filters.bedrooms === '4+' 
+          ? property.bedrooms>= 4 
+          : property.bedrooms === bedroomCount
+      );
+    }
+
+    // Apply property type filter
+    if (filters.propertyType && filters.propertyType !== 'any') {
+      result = result.filter(property => 
+        property.type.toLowerCase() === filters.propertyType.toLowerCase()
+      );
+    }
+
+    // Apply search query
+    if (filters.searchQuery) {
+      const query = filters.searchQuery.toLowerCase();
+      result = result.filter(property => 
+        property.name.toLowerCase().includes(query) ||
+        property.description.toLowerCase().includes(query) ||
+        property.projectName.toLowerCase().includes(query) ||
+        property.address.city?.toLowerCase().includes(query) ||
+        property.address.state?.toLowerCase().includes(query)
+      );
+    }
+
+    setFilteredProperties(result);
+  };
+
+  // Apply filters whenever they change
+  useEffect(() => {
+    applyFilters();
+  }, [filtersproperties]);
+
+  const handleAISearch = () => {
+    if (!aiQuery.trim()) return;
+
+    setIsSearching(true);
+
+    // Simulate AI processing time
+    setTimeout(() => {
+      const matched = matchPropertiesWithAI(propertiesaiQuery);
+      setAiMatchedProperties(matched);
+      setIsSearching(false);
+    }, 1000);
+  };
+
+  const toggleSaveProperty = (propertyId: string) => {
+    setSavedProperties(prev => 
+      prev.includes(propertyId) 
+        ? prev.filter(id => id !== propertyId)
+        : [...prevpropertyId]
+    );
+  };
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    applyFilters();
+  };
+
+  // Get a list of unique locations from properties
+  const locations = [...new Set(properties.map(p => p.address.city))].filter(Boolean);
+
+  return (
+    <div className="min-h-screen bg-gray-50">
+      {/* Header */}
+      <div className="bg-white border-b sticky top-0 z-10">
+        <div className="mx-auto max-w-7xl px-4 py-4">
+          <div className="flex items-center justify-between">
+            <h1 className="text-2xl font-bold">Find Your Dream Home</h1>
+            <div className="flex items-center gap-2">
+              <Button
+                variant={viewMode === 'ai' ? 'default' : 'outline'}
+                size="sm"
+                onClick={() => setViewMode('ai')}
+                className="flex items-center gap-1"
+              >
+                <Sparkles className="h-4 w-4" />
+                <span>AI Match</span>
+              </Button>
+              <Button
+                variant={viewMode === 'grid' ? 'default' : 'outline'}
+                size="sm"
+                onClick={() => setViewMode('grid')}
+              >
+                <Grid className="h-4 w-4" />
+              </Button>
+              <Button
+                variant={viewMode === 'list' ? 'default' : 'outline'}
+                size="sm"
+                onClick={() => setViewMode('list')}
+              >
+                <List className="h-4 w-4" />
+              </Button>
+            </div>
+          </div>
+
+          {/* Search Bar */}
+          {viewMode !== 'ai' && (
+            <form onSubmit={handleSearch} className="mt-4">
+              <div className="flex gap-2">
+                <div className="relative flex-1">
+                  <Search className="absolute left-3 top-1/2 h-4 w-4 text-gray-400 -translate-y-1/2" />
+                  <Input
+                    type="text"
+                    placeholder="Search by development name, location, or features..."
+                    value={filters.searchQuery}
+                    onChange={(e) => setFilters({...filters, searchQuery: e.target.value})}
+                    className="pl-10"
+                  />
+                </div>
+                <Button type="submit">Search</Button>
+              </div>
+            </form>
+          )}
+
+          {/* AI Search Bar */}
+          {viewMode === 'ai' && (
+            <div className="mt-4">
+              <div className="relative">
+                <Sparkles className="absolute left-3 top-1/2 h-4 w-4 text-blue-500 -translate-y-1/2" />
+                <Input
+                  type="text"
+                  placeholder="Describe your ideal home in natural language (e.g., '3 bedroom house in Drogheda under 400k with a garden')..."
+                  value={aiQuery}
+                  onChange={(e) => setAiQuery(e.target.value)}
+                  className="pl-10 pr-24 py-6 text-lg border-blue-200 focus:border-blue-400 shadow-sm"
+                  onKeyDown={(e) => e.key === 'Enter' && handleAISearch()}
+                />
+                <Button 
+                  className="absolute right-2 top-1/2 -translate-y-1/2 bg-blue-600 hover:bg-blue-700"
+                  onClick={handleAISearch}
+                  disabled={isSearching}
+                >
+                  {isSearching ? 'Searching...' : 'AI Match'}
+                </Button>
+              </div>
+
+              {/* AI Search Tips */}
+              <div className="mt-2 flex gap-2 flex-wrap">
+                <Badge variant="outline" className="text-xs bg-blue-50">Try: "3 bedroom house in Drogheda"</Badge>
+                <Badge variant="outline" className="text-xs bg-blue-50">Try: "Apartment under 300k"</Badge>
+                <Badge variant="outline" className="text-xs bg-blue-50">Try: "Modern home with garden"</Badge>
+                <Badge variant="outline" className="text-xs bg-blue-50">Try: "Family home in Celbridge near schools"</Badge>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+
+      <div className="mx-auto max-w-7xl px-4 py-6">
+        <div className="flex gap-6">
+          {/* Filters Sidebar */}
+          {showFilters && viewMode !== 'ai' && (
+            <div className="w-64 space-y-6">
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center justify-between">
+                    <span>Filters</span>
+                    <Filter className="h-4 w-4" />
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                  {/* Location */}
+                  <div>
+                    <Label>Location</Label>
+                    <Select value={filters.location} onValueChange={(value) => 
+                      setFilters({...filters, location: value})}>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Any location" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="any">Any location</SelectItem>
+                        {locations.map((loc) => (
+                          <SelectItem key={loc} value={loc}>
+                            {loc}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  {/* Price Range */}
+                  <div>
+                    <Label>Price Range</Label>
+                    <div className="mt-2">
+                      <div className="flex justify-between text-sm text-gray-600">
+                        <span>€{filters.priceMin.toLocaleString()}</span>
+                        <span>€{filters.priceMax.toLocaleString()}</span>
+                      </div>
+                      <Slider
+                        value={[filters.priceMin, filters.priceMax]}
+                        onValueChange={(values) => setFilters({
+                          ...filters,
+                          priceMin: values[0],
+                          priceMax: values[1]
+                        })}
+                        max={1000000}
+                        min={100000}
+                        step={10000}
+                        className="mt-2"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Bedrooms */}
+                  <div>
+                    <Label>Bedrooms</Label>
+                    <Select value={filters.bedrooms} onValueChange={(value) => 
+                      setFilters({...filters, bedrooms: value})}>
+                      <SelectTrigger>
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="any">Any</SelectItem>
+                        <SelectItem value="1">1</SelectItem>
+                        <SelectItem value="2">2</SelectItem>
+                        <SelectItem value="3">3</SelectItem>
+                        <SelectItem value="4+">4+</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  {/* Property Type */}
+                  <div>
+                    <Label>Property Type</Label>
+                    <Select value={filters.propertyType} onValueChange={(value) => 
+                      setFilters({...filters, propertyType: value})}>
+                      <SelectTrigger>
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="any">Any type</SelectItem>
+                        <SelectItem value="apartment">Apartment</SelectItem>
+                        <SelectItem value="house">House</SelectItem>
+                        <SelectItem value="townhouse">Townhouse</SelectItem>
+                        <SelectItem value="duplex">Duplex</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  <Separator />
+
+                  <Button variant="outline" className="w-full" onClick={() => 
+                    setFilters({
+                      location: '',
+                      priceMin: 250000,
+                      priceMax: 500000,
+                      bedrooms: 'any',
+                      propertyType: 'any',
+                      completionYear: 'any',
+                      searchQuery: ''
+                    })
+                  }>
+                    Clear All Filters
+                  </Button>
+                </CardContent>
+              </Card>
+
+              {/* Developments Shortcuts */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>Featured Developments</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-2">
+                    {developments.map(dev => (
+                      <Link 
+                        key={dev.id} 
+                        href={`/developments/${dev.id}`}
+                        className="block p-2 hover:bg-gray-50 rounded-md transition-colors"
+                      >
+                        <div className="flex items-center gap-2">
+                          <div className="relative w-10 h-10 rounded-md overflow-hidden">
+                            <Image 
+                              src={dev.image} 
+                              alt={dev.name}
+                              fill
+                              className="object-cover"
+                            />
+                          </div>
+                          <div>
+                            <p className="font-medium text-sm">{dev.name}</p>
+                            <p className="text-xs text-gray-500">{dev.location}</p>
+                          </div>
+                        </div>
+                      </Link>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          )}
+
+          {/* Results */}
+          <div className="flex-1">
+            <div className="flex items-center justify-between mb-4">
+              <p className="text-gray-600">
+                {viewMode === 'ai' 
+                  ? aiMatchedProperties.length> 0 
+                    ? `${aiMatchedProperties.length} AI matched properties` 
+                    : 'Use AI search to find your perfect match'
+                  : `${filteredProperties.length} properties found`
+                }
+              </p>
+              {viewMode !== 'ai' && (
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setShowFilters(!showFilters)}
+                >
+                  {showFilters ? 'Hide' : 'Show'} Filters
+                </Button>
+              )}
+            </div>
+
+            {/* AI View */}
+            {viewMode === 'ai' && (
+              <>
+                {/* AI Search Results */}
+                {aiMatchedProperties.length> 0 ? (
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {aiMatchedProperties.map((property) => (
+                      <PropertyCard 
+                        key={property.id} 
+                        property={property} 
+                        savedProperties={savedProperties}
+                        toggleSaveProperty={toggleSaveProperty}
+                      />
+                    ))}
+                  </div>
+                ) : (
+                  <div className="mt-8">
+                    {isSearching ? (
+                      <div className="text-center py-12">
+                        <div className="inline-block p-3 bg-blue-100 rounded-full mb-4">
+                          <Sparkles className="h-8 w-8 text-blue-600 animate-pulse" />
+                        </div>
+                        <h3 className="text-lg font-semibold">AI is matching properties...</h3>
+                        <p className="text-gray-500 mt-2">Finding your perfect home based on your preferences</p>
+                      </div>
+                    ) : aiQuery ? (
+                      <div className="text-center py-12">
+                        <div className="inline-block p-3 bg-gray-100 rounded-full mb-4">
+                          <Search className="h-8 w-8 text-gray-500" />
+                        </div>
+                        <h3 className="text-lg font-semibold">No properties match your criteria</h3>
+                        <p className="text-gray-500 mt-2">Try adjusting your search query</p>
+                      </div>
+                    ) : (
+                      <div className="text-center py-12">
+                        <div className="inline-block p-3 bg-blue-100 rounded-full mb-4">
+                          <Sparkles className="h-8 w-8 text-blue-600" />
+                        </div>
+                        <h3 className="text-lg font-semibold">AI Home Finder</h3>
+                        <p className="text-gray-500 mt-2">Describe your ideal home and let our AI find the perfect match</p>
+                        <div className="mt-6 max-w-md mx-auto">
+                          <p className="text-sm text-gray-600 mb-3">Try queries like:</p>
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                            <Button variant="outline" onClick={() => {
+                              setAiQuery("Modern 3 bedroom house in Drogheda under 400k");
+                              handleAISearch();
+                            }>
+                              Modern 3 bedroom house in Drogheda
+                            </Button>
+                            <Button variant="outline" onClick={() => {
+                              setAiQuery("Apartment with balcony under 350k");
+                              handleAISearch();
+                            }>
+                              Apartment with balcony under 350k
+                            </Button>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                {/* Developments Section */}
+                <div className="mt-12">
+                  <h2 className="text-xl font-bold mb-4">Browse Featured Developments</h2>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    {developments.map(development => (
+                      <DevelopmentCard 
+                        key={development.id} 
+                        development={development} 
+                      />
+                    ))}
+                  </div>
+                </div>
+              </>
+            )}
+
+            {/* Grid View */}
+            {viewMode === 'grid' && (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {filteredProperties.map((property) => (
+                  <PropertyCard 
+                    key={property.id} 
+                    property={property} 
+                    savedProperties={savedProperties}
+                    toggleSaveProperty={toggleSaveProperty}
+                  />
+                ))}
+              </div>
+            )}
+
+            {/* List View */}
+            {viewMode === 'list' && (
+              <div className="space-y-4">
+                {filteredProperties.map((property) => (
+                  <PropertyListItem 
+                    key={property.id} 
+                    property={property} 
+                    savedProperties={savedProperties}
+                    toggleSaveProperty={toggleSaveProperty}
+                  />
+                ))}
+              </div>
+            )}
+
+            {/* Pagination */}
+            {(viewMode !== 'ai' || aiMatchedProperties.length> 12) && (
+              <div className="mt-8 flex items-center justify-center gap-2">
+                <Button variant="outline" size="sm">
+                  <ChevronLeft className="h-4 w-4" />
+                  Previous
+                </Button>
+                <div className="flex gap-1">
+                  {[1, 2, 3, 45].map(page => (
+                    <Button
+                      key={page}
+                      variant={page === 1 ? 'default' : 'outline'}
+                      size="sm"
+                    >
+                      {page}
+                    </Button>
+                  ))}
+                </div>
+                <Button variant="outline" size="sm">
+                  Next
+                  <ChevronRight className="h-4 w-4" />
+                </Button>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Property Card Component (Grid View)
+function PropertyCard({ 
+  property, 
+  savedProperties,
+  toggleSaveProperty
+}: { 
+  property: Property;
+  savedProperties: string[];
+  toggleSaveProperty: (id: string) => void;
+}) {
+  return (
+    <Card className="overflow-hidden hover:shadow-lg transition-shadow">
+      <div className="relative h-48">
+        {property.images?.length> 0 && (
+          <Image
+            src={property.images[0]}
+            alt={property.name}
+            fill
+            className="object-cover"
+          />
+        )}
+        <Button
+          size="sm"
+          variant="secondary"
+          className="absolute top-2 right-2"
+          onClick={() => toggleSaveProperty(property.id)}
+        >
+          <Heart className={`h-4 w-4 ${savedProperties.includes(property.id) ? 'fill-red-500 text-red-500' : ''}`} />
+        </Button>
+        <Badge variant={property.status === PropertyStatus.Available ? "success" : "secondary" className="absolute top-2 left-2">
+          {property.status}
+        </Badge>
+        {property.isNew && (
+          <Badge variant="default" className="absolute bottom-2 left-2 bg-blue-600">
+            New
+          </Badge>
+        )}
+        {property.isReduced && (
+          <Badge variant="destructive" className="absolute bottom-2 right-2">
+            Reduced
+          </Badge>
+        )}
+      </div>
+      <CardContent className="p-4">
+        <div className="flex items-start justify-between">
+          <h3 className="font-semibold text-lg">{property.name}</h3>
+          <span className="text-xl font-bold">€{property.price.toLocaleString()}</span>
+        </div>
+        <p className="text-gray-600 text-sm mb-3 flex items-center gap-1">
+          <MapPin className="h-3 w-3" />
+          {property.address.city}{property.address.state ? `, ${property.address.state}` : ''}
+        </p>
+        <div className="grid grid-cols-3 gap-2 text-sm text-gray-600 mb-3">
+          <div className="flex items-center gap-1">
+            <BedDouble className="h-4 w-4" />
+            <span>{property.bedrooms} bed</span>
+          </div>
+          <div className="flex items-center gap-1">
+            <Bath className="h-4 w-4" />
+            <span>{property.bathrooms} bath</span>
+          </div>
+          <div className="flex items-center gap-1">
+            <SquareArrowOut className="h-4 w-4" />
+            <span>{property.floorArea} m²</span>
+          </div>
+        </div>
+        <Separator className="my-3" />
+        <div className="flex justify-between items-center">
+          <Badge variant="outline">{property.type}</Badge>
+          <Button asChild size="sm">
+            <Link href={`/developments/${property.projectId}`}>
+              View
+              <ArrowUpRight className="ml-1 h-3 w-3" />
+            </Link>
+          </Button>
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
+
+// Property List Item Component (List View)
+function PropertyListItem({ 
+  property, 
+  savedProperties,
+  toggleSaveProperty
+}: { 
+  property: Property;
+  savedProperties: string[];
+  toggleSaveProperty: (id: string) => void;
+}) {
+  return (
+    <Card>
+      <CardContent className="p-4">
+        <div className="flex gap-4">
+          <div className="relative w-48 h-36 flex-shrink-0">
+            {property.images?.length> 0 && (
+              <Image
+                src={property.images[0]}
+                alt={property.name}
+                fill
+                className="object-cover rounded"
+              />
+            )}
+            {property.isNew && (
+              <Badge variant="default" className="absolute top-2 left-2 bg-blue-600">
+                New
+              </Badge>
+            )}
+          </div>
+          <div className="flex-1">
+            <div className="flex items-start justify-between">
+              <div>
+                <h3 className="font-semibold text-lg">{property.name}</h3>
+                <p className="text-gray-600 mb-2">
+                  {property.address.city}{property.address.state ? `, ${property.address.state}` : ''}
+                </p>
+              </div>
+              <Button
+                size="sm"
+                variant="outline"
+                onClick={() => toggleSaveProperty(property.id)}
+              >
+                <Heart className={`h-4 w-4 ${savedProperties.includes(property.id) ? 'fill-red-500 text-red-500' : ''}`} />
+              </Button>
+            </div>
+            <div className="flex items-center gap-4 mb-2">
+              <span className="text-xl font-bold">€{property.price.toLocaleString()}</span>
+              <Badge variant={property.status === PropertyStatus.Available ? "success" : "secondary">
+                {property.status}
+              </Badge>
+            </div>
+            <div className="flex items-center gap-6 text-sm text-gray-600 mb-3">
+              <div className="flex items-center gap-1">
+                <BedDouble className="h-4 w-4" />
+                <span>{property.bedrooms} bed</span>
+              </div>
+              <div className="flex items-center gap-1">
+                <Bath className="h-4 w-4" />
+                <span>{property.bathrooms} bath</span>
+              </div>
+              <div className="flex items-center gap-1">
+                <SquareArrowOut className="h-4 w-4" />
+                <span>{property.floorArea} m²</span>
+              </div>
+              <Badge variant="outline">{property.type}</Badge>
+            </div>
+            <p className="text-sm text-gray-600 mb-3 line-clamp-2">
+              {property.description}
+            </p>
+            <Button asChild size="sm">
+              <Link href={`/developments/${property.projectId}`}>
+                View Development
+                <ArrowUpRight className="ml-1 h-3 w-3" />
+              </Link>
+            </Button>
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
+
+// Development Card Component
+function DevelopmentCard({ development }: { development: Development }) {
+  return (
+    <Card className="overflow-hidden hover:shadow-lg transition-shadow">
+      <div className="relative h-40">
+        <Image
+          src={development.image}
+          alt={development.name}
+          fill
+          className="object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+        <div className="absolute bottom-0 left-0 p-3">
+          <h3 className="text-white font-bold text-lg">{development.name}</h3>
+          <p className="text-white/80 text-sm">{development.location}</p>
+        </div>
+        <Badge 
+          className="absolute top-2 right-2"
+          variant={development.status === "Now Selling" ? "success" : "secondary"
+        >
+          {development.status}
+        </Badge>
+      </div>
+      <CardContent className="p-4">
+        <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center gap-2">
+            <span className="text-sm font-medium">{development.priceRange}</span>
+          </div>
+          <div className="flex items-center gap-1">
+            <BedDouble className="h-4 w-4 text-gray-500" />
+            <span className="text-sm text-gray-600">
+              {Array.isArray(development.bedrooms) 
+                ? `${Math.min(...development.bedrooms)}-${Math.max(...development.bedrooms)}` 
+                : development.bedrooms} bed
+            </span>
+          </div>
+        </div>
+        <p className="text-sm text-gray-600 line-clamp-2 mb-3">
+          {development.description}
+        </p>
+        <Button asChild className="w-full">
+          <Link href={`/developments/${development.id}`}>
+            View Development
+            <MoveRight className="ml-1 h-4 w-4" />
+          </Link>
+        </Button>
+      </CardContent>
+    </Card>
+  );
+}

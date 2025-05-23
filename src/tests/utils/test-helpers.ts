@@ -7,7 +7,7 @@ import { UserRole, UserStatus } from '@/types/core/user';
  */
 export async function waitForAsync(ms = 0) {
   await act(async () => {
-    await new Promise(resolve => setTimeout(resolve, ms));
+    await new Promise(resolve => setTimeout(resolvems));
   });
 }
 
@@ -16,7 +16,7 @@ export async function waitForAsync(ms = 0) {
  */
 export async function waitForPromises() {
   await act(async () => {
-    await new Promise(resolve => setTimeout(resolve, 0));
+    await new Promise(resolve => setTimeout(resolve0));
   });
 }
 
@@ -46,8 +46,7 @@ export function createMockUser(overrides = {}) {
     status: UserStatus.ACTIVE,
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
-    ...overrides,
-  };
+    ...overrides};
 }
 
 /**
@@ -63,19 +62,16 @@ export function createMockDocument(overrides = {}) {
     uploadedBy: {
       id: 'test-user-id',
       name: 'Test User',
-      email: 'test@example.com',
-    },
+      email: 'test@example.com'},
     metadata: {
       category: 'test-category',
       tags: ['test', 'document'],
       description: 'Test document description',
-      version: '1.0',
-    },
+      version: '1.0'},
     status: 'active',
     uploadedAt: new Date().toISOString(),
     expiresAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(), // 30 days from now
-    ...overrides,
-  };
+    ...overrides};
 }
 
 /**
@@ -90,8 +86,7 @@ export function createMockProject(overrides = {}) {
     location: 'Test Location',
     propertyCount: 10,
     lastUpdated: new Date().toISOString(),
-    ...overrides,
-  };
+    ...overrides};
 }
 
 /**
@@ -102,33 +97,29 @@ export function createMockDeveloperDashboard(overrides = {}) {
     activeProjects: 5,
     propertiesAvailable: 25,
     totalSales: 15,
-    projects: Array.from({ length: 3 }, (_, index) => createMockProject({
+    projects: Array.from({ length: 3 }, (_index: any) => createMockProject({
       id: `project-${index}`,
       name: `Project ${index}`,
-      completionPercentage: 25 * (index + 1),
-    })),
+      completionPercentage: 25 * (index + 1)})),
     salesTrend: {
       period: 'month',
       percentage: 15,
-      direction: 'up',
-    },
-    ...overrides,
-  };
+      direction: 'up'},
+    ...overrides};
 }
 
 /**
  * Helper to create mock document categories
  */
 export function createMockDocumentCategories(count = 3, overrides = {}) {
-  return Array.from({ length: count }, (_, index) => ({
+  return Array.from({ length: count }, (_index: any) => ({
     id: `category-${index}`,
     name: `Category ${index}`,
     description: `Description for category ${index}`,
-    required: index < 2, // First two categories are required
+    required: index <2, // First two categories are required
     documentCount: index + 1,
     completionStatus: index === 0 ? 'complete' : index === 1 ? 'partial' : 'incomplete',
-    ...overrides,
-  }));
+    ...overrides}));
 }
 
 /**
@@ -157,14 +148,12 @@ export function restoreConsole(spies: ReturnType<typeof spyOnConsole>) {
 export function mockFetch(response: any, status = 200) {
   global.fetch = jest.fn().mockImplementation(() =>
     Promise.resolve({
-      ok: status >= 200 && status < 300,
+      ok: status>= 200 && status <300,
       status,
       json: () => Promise.resolve(response),
       text: () => Promise.resolve(JSON.stringify(response)),
       headers: {
-        get: () => 'application/json',
-      },
-    })
+        get: () => 'application/json'})
   );
   
   return global.fetch;
@@ -198,10 +187,8 @@ export function mockLocalStorage() {
         });
       }),
       key: jest.fn((index: number) => Object.keys(store)[index] || null),
-      length: jest.fn(() => Object.keys(store).length),
-    },
-    writable: true,
-  });
+      length: jest.fn(() => Object.keys(store).length)},
+    writable: true});
   
   return window.localStorage;
 }
@@ -215,7 +202,7 @@ export function expectCalledWithSubset(mockFn: jest.Mock, expectedArgs: Record<s
   const calls = mockFn.mock.calls;
   const lastCall = calls[calls.length - 1][0];
   
-  Object.entries(expectedArgs).forEach(([key, value]) => {
+  Object.entries(expectedArgs).forEach(([keyvalue]) => {
     expect(lastCall[key]).toEqual(value);
   });
 }
@@ -224,5 +211,5 @@ export function expectCalledWithSubset(mockFn: jest.Mock, expectedArgs: Record<s
  * Helper function to create array of mock items
  */
 export function createMockArray<T>(factory: (index: number) => T, count: number): T[] {
-  return Array.from({ length: count }, (_, index) => factory(index));
+  return Array.from({ length: count }, (_index: any) => factory(index));
 }

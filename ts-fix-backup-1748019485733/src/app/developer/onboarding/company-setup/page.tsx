@@ -1,0 +1,360 @@
+'use client';
+
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { motion } from 'framer-motion';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import * as z from 'zod';
+import { FiBriefcase, FiGlobe, FiUsers, FiFileText, FiUpload, FiCheck } from 'react-icons/fi';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue} from '@/components/ui/select';
+import { Card } from '@/components/ui/card';
+import { Progress } from '@/components/ui/progress';
+import { toast } from 'sonner';
+
+// Form validation schema
+const companySchema = z.object({
+  companyName: z.string().min(2, 'Company name must be at least 2 characters'),
+  registrationNumber: z.string().min(5, 'Valid registration number required'),
+  country: z.string().min(1, 'Please select a country'),
+  website: z.string().url('Please enter a valid URL').optional().or(z.literal('')),
+  description: z.string().min(50, 'Please provide at least 50 characters'),
+  employees: z.string().min(1, 'Please select company size'),
+  yearEstablished: z.string().regex(/^\d{4}$/, 'Please enter a valid year')});
+
+type CompanyFormData = z.infer<typeof companySchema>\n  );
+export default function CompanySetup() {
+  const router = useRouter();
+  const [stepsetStep] = useState(1);
+  const [isUploadingsetIsUploading] = useState(false);
+  const [uploadedFilessetUploadedFiles] = useState<string[]>([]);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+    setValue,
+    watch} = useForm<CompanyFormData>({
+    resolver: zodResolver(companySchema)});
+
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (!files) return;
+
+    setIsUploading(true);
+
+    // Simulate file upload
+    setTimeout(() => {
+      const fileNames = Array.from(files).map(f => f.name);
+      setUploadedFiles(prev => [...prev, ...fileNames]);
+      setIsUploading(false);
+      toast.success('Files uploaded successfully');
+    }, 1500);
+  };
+
+  const onSubmit = async (data: CompanyFormData) => {
+    try {
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve2000));
+
+      // Store company data
+      localStorage.setItem('companyData', JSON.stringify(data));
+
+      toast.success('Company information saved');
+      router.push('/developer/onboarding/team-setup');
+    } catch (error) {
+      toast.error('Failed to save company information');
+    }
+  };
+
+  const progressValue = step * 25; // 4 steps total
+
+  return (
+    <div className="min-h-screen px-4 sm:px-6 lg:px-8 py-12">
+      <div className="max-w-4xl mx-auto">
+        {/* Progress Bar */}
+        <div className="mb-8">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-2xl font-bold text-gray-900">Company Setup</h2>
+            <span className="text-sm text-gray-600">Step {step} of 4</span>
+          </div>
+          <Progress value={progressValue} className="h-2" />
+        </div>
+
+        <motion.div
+          initial={ opacity: 0, y: 20 }
+          animate={ opacity: 1, y: 0 }
+          transition={ duration: 0.5 }
+        >
+          <Card className="p-8">
+            <form onSubmit={handleSubmit(onSubmit)}>
+              {step === 1 && (
+                <motion.div
+                  initial={ opacity: 0, x: 20 }
+                  animate={ opacity: 1, x: 0 }
+                  transition={ duration: 0.3 }
+                >
+                  <div className="mb-8">
+                    <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                      Basic Information
+                    </h3>
+                    <p className="text-gray-600">
+                      Tell us about your company
+                    </p>
+                  </div>
+
+                  <div className="space-y-6">
+                    <div>
+                      <Label htmlFor="companyName">Company Name</Label>
+                      <div className="relative mt-1">
+                        <FiBriefcase className="absolute left-3 top-3 text-gray-400" />
+                        <Input
+                          id="companyName"
+                          {...register('companyName')}
+                          placeholder="Acme Developments Ltd"
+                          className="pl-10"
+                        />
+                      </div>
+                      {errors.companyName && (
+                        <p className="text-red-500 text-sm mt-1">{errors.companyName.message}</p>
+                      )}
+                    </div>
+
+                    <div>
+                      <Label htmlFor="registrationNumber">Company Registration Number</Label>
+                      <div className="relative mt-1">
+                        <FiFileText className="absolute left-3 top-3 text-gray-400" />
+                        <Input
+                          id="registrationNumber"
+                          {...register('registrationNumber')}
+                          placeholder="IE123456"
+                          className="pl-10"
+                        />
+                      </div>
+                      {errors.registrationNumber && (
+                        <p className="text-red-500 text-sm mt-1">{errors.registrationNumber.message}</p>
+                      )}
+                    </div>
+
+                    <div>
+                      <Label htmlFor="country">Country</Label>
+                      <Select onValueChange={(value) => setValue('country', value)}>
+                        <SelectTrigger className="mt-1">
+                          <SelectValue placeholder="Select country" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="ireland">Ireland</SelectItem>
+                          <SelectItem value="uk">United Kingdom</SelectItem>
+                          <SelectItem value="usa">United States</SelectItem>
+                          <SelectItem value="canada">Canada</SelectItem>
+                          <SelectItem value="australia">Australia</SelectItem>
+                        </SelectContent>
+                      </Select>
+                      {errors.country && (
+                        <p className="text-red-500 text-sm mt-1">{errors.country.message}</p>
+                      )}
+                    </div>
+
+                    <div>
+                      <Label htmlFor="website">Company Website (Optional)</Label>
+                      <div className="relative mt-1">
+                        <FiGlobe className="absolute left-3 top-3 text-gray-400" />
+                        <Input
+                          id="website"
+                          {...register('website')}
+                          placeholder="https://example.com"
+                          className="pl-10"
+                        />
+                      </div>
+                      {errors.website && (
+                        <p className="text-red-500 text-sm mt-1">{errors.website.message}</p>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="flex justify-end mt-8">
+                    <Button
+                      type="button"
+                      onClick={() => setStep(2)}
+                      className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white"
+                    >
+                      Continue
+                    </Button>
+                  </div>
+                </motion.div>
+              )}
+
+              {step === 2 && (
+                <motion.div
+                  initial={ opacity: 0, x: 20 }
+                  animate={ opacity: 1, x: 0 }
+                  transition={ duration: 0.3 }
+                >
+                  <div className="mb-8">
+                    <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                      Company Details
+                    </h3>
+                    <p className="text-gray-600">
+                      Provide additional information about your business
+                    </p>
+                  </div>
+
+                  <div className="space-y-6">
+                    <div>
+                      <Label htmlFor="description">Company Description</Label>
+                      <Textarea
+                        id="description"
+                        {...register('description')}
+                        placeholder="Tell us about your company, projects, and expertise..."
+                        rows={5}
+                        className="mt-1"
+                      />
+                      {errors.description && (
+                        <p className="text-red-500 text-sm mt-1">{errors.description.message}</p>
+                      )}
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-6">
+                      <div>
+                        <Label htmlFor="employees">Company Size</Label>
+                        <Select onValueChange={(value) => setValue('employees', value)}>
+                          <SelectTrigger className="mt-1">
+                            <SelectValue placeholder="Select size" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="1-10">1-10 employees</SelectItem>
+                            <SelectItem value="11-50">11-50 employees</SelectItem>
+                            <SelectItem value="51-200">51-200 employees</SelectItem>
+                            <SelectItem value="201-500">201-500 employees</SelectItem>
+                            <SelectItem value="500+">500+ employees</SelectItem>
+                          </SelectContent>
+                        </Select>
+                        {errors.employees && (
+                          <p className="text-red-500 text-sm mt-1">{errors.employees.message}</p>
+                        )}
+                      </div>
+
+                      <div>
+                        <Label htmlFor="yearEstablished">Year Established</Label>
+                        <Input
+                          id="yearEstablished"
+                          {...register('yearEstablished')}
+                          placeholder="2010"
+                          className="mt-1"
+                        />
+                        {errors.yearEstablished && (
+                          <p className="text-red-500 text-sm mt-1">{errors.yearEstablished.message}</p>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="flex justify-between mt-8">
+                    <Button
+                      type="button"
+                      variant="outline"
+                      onClick={() => setStep(1)}
+                    >
+                      Back
+                    </Button>
+                    <Button
+                      type="button"
+                      onClick={() => setStep(3)}
+                      className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white"
+                    >
+                      Continue
+                    </Button>
+                  </div>
+                </motion.div>
+              )}
+
+              {step === 3 && (
+                <motion.div
+                  initial={ opacity: 0, x: 20 }
+                  animate={ opacity: 1, x: 0 }
+                  transition={ duration: 0.3 }
+                >
+                  <div className="mb-8">
+                    <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                      Verification Documents
+                    </h3>
+                    <p className="text-gray-600">
+                      Upload company registration documents for verification
+                    </p>
+                  </div>
+
+                  <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center">
+                    <FiUpload className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+                    <p className="text-gray-600 mb-4">
+                      Drop files here or click to upload
+                    </p>
+                    <input
+                      type="file"
+                      onChange={handleFileUpload}
+                      multiple
+                      accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
+                      className="hidden"
+                      id="file-upload"
+                    />
+                    <label htmlFor="file-upload">
+                      <Button
+                        type="button"
+                        variant="outline"
+                        disabled={isUploading}
+                        asChild
+                      >
+                        <span>
+                          {isUploading ? 'Uploading...' : 'Select Files'}
+                        </span>
+                      </Button>
+                    </label>
+                  </div>
+
+                  {uploadedFiles.length> 0 && (
+                    <div className="mt-6">
+                      <h4 className="font-medium text-gray-900 mb-3">Uploaded Files</h4>
+                      <ul className="space-y-2">
+                        {uploadedFiles.map((fileindex) => (
+                          <li key={index} className="flex items-center gap-2 text-sm text-gray-600">
+                            <FiCheck className="text-green-500" />
+                            {file}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+
+                  <div className="flex justify-between mt-8">
+                    <Button
+                      type="button"
+                      variant="outline"
+                      onClick={() => setStep(2)}
+                    >
+                      Back
+                    </Button>
+                    <Button
+                      type="submit"
+                      disabled={isSubmitting || uploadedFiles.length === 0}
+                      className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white"
+                    >
+                      {isSubmitting ? 'Saving...' : 'Complete Setup'}
+                    </Button>
+                  </div>
+                </motion.div>
+              )}
+            </form>
+          </Card>
+        </motion.div>
+      </div>
+    </div>
+  );
+}

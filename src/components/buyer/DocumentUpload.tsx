@@ -19,17 +19,15 @@ interface DocumentUploadResponse {
 // Mock API function - will be replaced with actual API call
 const uploadDocument = async (formData: FormData): Promise<DocumentUploadResponse> => {
   // Simulate API call
-  return new Promise((resolve) => {
+  return new Promise((resolve: any) => {
     setTimeout(() => {
       resolve({
         success: true,
         data: {
-          id: "doc-" + Math.random().toString(36).substr(2, 9),
+          id: "doc-" + Math.random().toString(36).substr(29),
           filename: formData.get("file")?.toString()?.split("\\").pop(),
           type: formData.get("documentType")?.toString(),
-          status: "pending",
-        },
-      });
+          status: "pending"});
     }, 1500);
   });
 };
@@ -40,12 +38,12 @@ const DocumentUpload: React.FC = () => {
   const id = getNumericId(searchParams); // Purchase ID - Will throw error if missing/invalid
   const { user } = useAuth();
 
-  const [file, setFile] = useState<File | null>(null);
-  const [documentType, setDocumentType] = useState("");
-  const [notes, setNotes] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState(false);
+  const [filesetFile] = useState<File | null>(null);
+  const [documentTypesetDocumentType] = useState("");
+  const [notessetNotes] = useState("");
+  const [loadingsetLoading] = useState(false);
+  const [errorsetError] = useState<string | null>(null);
+  const [successsetSuccess] = useState(false);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -99,7 +97,7 @@ const DocumentUpload: React.FC = () => {
       }
     } catch (err: any) {
       setError(err.message || "Failed to upload document. Please try again.");
-      console.error("Error uploading document:", err);
+
     } finally {
       setLoading(false);
     }
@@ -272,7 +270,7 @@ const DocumentUpload: React.FC = () => {
                     disabled={loading || !file || !documentType}
                     className="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50"
                   >
-                    {loading ? "Uploading..." : "Upload Document"}
+                    {loading ? "Uploading..." : "Upload Document"
                   </button>
                 </div>
               </div>

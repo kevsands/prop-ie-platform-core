@@ -1,3 +1,4 @@
+import React from 'react';
 'use client';
 
 import { useState } from 'react';
@@ -23,8 +24,7 @@ import {
   TableCell,
   TableHead,
   TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+  TableRow} from "@/components/ui/table";
 import { Property } from '@/types/property';
 import { cn } from "@/lib/utils";
 
@@ -39,7 +39,7 @@ export default function ComparePropertiesPanel({
   onRemove,
   onClear
 }: ComparePropertiesPanelProps) {
-  const [isExpanded, setIsExpanded] = useState(true);
+  const [isExpandedsetIsExpanded] = useState(true);
 
   const compareFeatures = [
     'Price',
@@ -114,9 +114,9 @@ export default function ComparePropertiesPanel({
 
   return (
     <motion.div
-      initial={{ y: 100 }}
-      animate={{ y: 0 }}
-      exit={{ y: 100 }}
+      initial={ y: 100 }
+      animate={ y: 0 }
+      exit={ y: 100 }
       className={cn(
         "fixed bottom-0 left-0 right-0 bg-white border-t shadow-2xl",
         "transition-all duration-300",
@@ -156,7 +156,7 @@ export default function ComparePropertiesPanel({
           <div className="p-4">
             {/* Property Cards Row */}
             <div className="grid grid-cols-4 gap-4 mb-6">
-              {properties.map((property) => (
+              {properties.map((property: any) => (
                 <div key={property.id} className="relative">
                   <Button
                     variant="ghost"
@@ -186,9 +186,9 @@ export default function ComparePropertiesPanel({
                   </div>
                 </div>
               ))}
-              
+
               {/* Empty slots */}
-              {[...Array(4 - properties.length)].map((_, i) => (
+              {[...Array(4 - properties.length)].map((_i: any) => (
                 <div key={`empty-${i}`} className="border-2 border-dashed rounded-lg">
                   <div className="aspect-video bg-gray-50 flex items-center justify-center">
                     <p className="text-gray-400 text-sm">Add property to compare</p>
@@ -203,7 +203,7 @@ export default function ComparePropertiesPanel({
                 <TableHeader>
                   <TableRow>
                     <TableHead className="w-40">Feature</TableHead>
-                    {properties.map((property) => (
+                    {properties.map((property: any) => (
                       <TableHead key={property.id} className="text-center">
                         {property.title}
                       </TableHead>
@@ -211,17 +211,17 @@ export default function ComparePropertiesPanel({
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {compareFeatures.map((feature) => (
+                  {compareFeatures.map((feature: any) => (
                     <TableRow key={feature}>
                       <TableCell className="font-medium">{feature}</TableCell>
-                      {properties.map((property) => {
-                        const value = getPropertyValue(property, feature);
+                      {properties.map((property: any) => {
+                        const value = getPropertyValue(propertyfeature);
                         return (
                           <TableCell 
                             key={property.id} 
                             className={cn(
                               "text-center",
-                              getValueStyle(feature, value)
+                              getValueStyle(featurevalue)
                             )}
                           >
                             {value}
@@ -259,11 +259,11 @@ export default function ComparePropertiesPanel({
               Comparing {properties.length} properties
             </span>
             <div className="flex -space-x-2">
-              {properties.map((property, index) => (
+              {properties.map((propertyindex: any) => (
                 <div
                   key={property.id}
                   className="w-12 h-12 rounded-full border-2 border-white overflow-hidden"
-                  style={{ zIndex: properties.length - index }}
+                  style={ zIndex: properties.length - index }
                 >
                   <Image
                     src={property.images?.[0] || '/images/properties/placeholder.jpg'}

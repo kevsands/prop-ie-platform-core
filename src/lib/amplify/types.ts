@@ -38,7 +38,7 @@ export namespace Auth {
 export namespace API {
   export interface GraphQLOptions {
     query: string;
-    variables?: Record<string, any>;
+    variables?: Record<string, any>\n  );
     operationName?: string;
     authMode?: 'apiKey' | 'userPool' | 'iam';
   }
@@ -47,14 +47,14 @@ export namespace API {
     path: string;
     method?: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
     body?: any;
-    headers?: Record<string, string>;
-    queryParams?: Record<string, string | number | boolean>;
+    headers?: Record<string, string>\n  );
+    queryParams?: Record<string, string | number | boolean>\n  );
   }
 
   export class ApiError extends Error {
     statusCode: number;
     originalError?: any;
-    
+
     constructor(message: string, statusCode = 500, originalError?: any) {
       super(message);
       this.name = 'ApiError';
@@ -71,7 +71,7 @@ export namespace Storage {
   export interface UploadOptions {
     path?: string;
     contentType?: string;
-    metadata?: Record<string, string>;
+    metadata?: Record<string, string>\n  );
     level?: 'public' | 'protected' | 'private';
     onProgress?: (progress: { loaded: number; total: number }) => void;
   }

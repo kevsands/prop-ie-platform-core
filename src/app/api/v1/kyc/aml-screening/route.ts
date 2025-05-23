@@ -1,0 +1,52 @@
+import { NextRequest, NextResponse } from 'next/server';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/lib/auth';
+
+export async function POST(request: NextRequest) {
+  try {
+    const session = await getServerSession(authOptions);
+
+    if (!session) {
+      return NextResponse.json(
+        { error: 'Authentication required' },
+        { status: 401 }
+      );
+    }
+
+    const body = await request.json();
+    const { verificationId } = body;
+
+    if (!verificationId) {
+      return NextResponse.json(
+        { error: 'Verification ID is required' },
+        { status: 400 }
+      );
+    }
+
+    // In a real app, this would perform actual AML screening
+    // For demo purposes, we're just returning mock results
+
+    return NextResponse.json({
+      success: true,
+      verificationId,
+      screeningDate: new Date().toISOString(),
+      pepCheck: {
+        isMatch: false,
+        score: 0.05,
+        details: "No matches found in PEP database"
+      },
+      sanctionsCheck: {
+        isMatch: false,
+        score: 0.02,
+        details: "No matches found in sanctions lists"
+      },
+      overallStatus: 'VERIFIED'
+    });
+  } catch (error) {
+
+    return NextResponse.json(
+      { error: 'Failed to perform AML screening' },
+      { status: 500 }
+    );
+  }
+}

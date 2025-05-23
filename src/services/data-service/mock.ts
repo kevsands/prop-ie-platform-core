@@ -20,7 +20,7 @@ const mockDevelopmentsData: Development[] = [
     statusColor: 'green',
     priceRange: 'From €385,000',
     availabilityStatus: 'Limited Availability',
-    bedrooms: [3, 4],
+    bedrooms: [34],
     bathrooms: 3, // Fixed from array type to single number
     buildingType: 'House',
     totalUnits: 50,
@@ -31,8 +31,7 @@ const mockDevelopmentsData: Development[] = [
     salesAgent: { name: 'Sarah Johnson', agency: 'Prop.ie Sales' },
     showingDates: ['Saturday, May 4th, 10am - 1pm', 'Sunday, May 5th, 2pm - 4pm'],
     createdAt: '2024-01-15T10:00:00Z',
-    updatedAt: '2025-04-28T12:00:00Z',
-  },
+    updatedAt: '2025-04-28T12:00:00Z'},
   {
     id: 'riverside-manor',
     name: 'Riverside Manor',
@@ -44,7 +43,7 @@ const mockDevelopmentsData: Development[] = [
     statusColor: 'blue',
     priceRange: 'From €295,000',
     availabilityStatus: 'Launching Soon',
-    bedrooms: [1, 2, 3],
+    bedrooms: [1, 23],
     bathrooms: 2, // Fixed from array type to single number
     buildingType: 'Apartment',
     totalUnits: 80,
@@ -55,8 +54,7 @@ const mockDevelopmentsData: Development[] = [
     salesAgent: { name: 'John Murphy', agency: 'Town & Country Estates' },
     showingDates: ['Saturday, May 11th, 11am - 2pm'],
     createdAt: '2024-03-10T10:00:00Z',
-    updatedAt: '2025-04-20T10:00:00Z',
-  },
+    updatedAt: '2025-04-20T10:00:00Z'},
   {
     id: 'meadow-heights',
     name: 'Meadow Heights',
@@ -68,7 +66,7 @@ const mockDevelopmentsData: Development[] = [
     statusColor: 'yellow',
     priceRange: 'From €350,000',
     availabilityStatus: 'Future Phase',
-    bedrooms: [3, 4],
+    bedrooms: [34],
     bathrooms: 3,
     buildingType: 'House',
     totalUnits: 60,
@@ -79,8 +77,7 @@ const mockDevelopmentsData: Development[] = [
     salesAgent: { name: '', agency: '' }, // Empty object instead of null
     showingDates: [],
     createdAt: '2024-06-01T10:00:00Z',
-    updatedAt: '2024-11-01T10:00:00Z',
-  },
+    updatedAt: '2024-11-01T10:00:00Z'},
   {
     id: 'harbour-view',
     name: 'Harbour View',
@@ -92,7 +89,7 @@ const mockDevelopmentsData: Development[] = [
     statusColor: 'gray',
     priceRange: 'Fully Sold',
     availabilityStatus: 'Fully Booked',
-    bedrooms: [3, 4],
+    bedrooms: [34],
     bathrooms: 3, // Fixed from array type to single number
     buildingType: 'Townhouse',
     totalUnits: 30,
@@ -103,8 +100,7 @@ const mockDevelopmentsData: Development[] = [
     salesAgent: { name: 'Lisa Kelly', agency: 'Coastal Properties' },
     showingDates: [],
     createdAt: '2023-01-20T10:00:00Z',
-    updatedAt: '2024-02-15T10:00:00Z',
-  },
+    updatedAt: '2024-02-15T10:00:00Z'},
   { // More developments for comprehensiveness
     id: 'bridgefield-park',
     name: 'Bridgefield Park',
@@ -116,7 +112,7 @@ const mockDevelopmentsData: Development[] = [
     statusColor: 'purple',
     priceRange: 'Price TBC',
     availabilityStatus: 'Future Phase',
-    bedrooms: [3, 4],
+    bedrooms: [34],
     bathrooms: 3,
     buildingType: 'House',
     totalUnits: 40,
@@ -127,9 +123,7 @@ const mockDevelopmentsData: Development[] = [
     salesAgent: { name: '', agency: '' }, // Empty object instead of null
     showingDates: [],
     createdAt: '2025-01-10T10:00:00Z',
-    updatedAt: '2025-01-10T10:00:00Z',
-  },
-];
+    updatedAt: '2025-01-10T10:00:00Z'}];
 
 // Define mock property data matching the Property type
 const mockPropertiesData: Property[] = [
@@ -155,14 +149,13 @@ const mockPropertiesData: Property[] = [
     parkingSpaces: 2,
     floorArea: 110, // sq meters
     features: ['Fitted Kitchen', 'Built-in Wardrobes', 'A2 BER'],
-    amenities: ['Private Garden'],
+    Amenity: ['Private Garden'],
     images: ['/images/properties/fg101_1.jpg', '/images/properties/fg101_2.jpg'],
     floorPlan: '/images/floorplans/fg101.jpg',
     description: 'Beautiful 3-bedroom semi-detached home in a prime location.',
     isNew: true,
     createdAt: '2025-04-25T10:00:00Z',
-    updatedAt: '2025-04-25T10:00:00Z',
-  },
+    updatedAt: '2025-04-25T10:00:00Z'},
   {
     id: 'prop-fg-105',
     name: 'Type B - 4 Bed Detached',
@@ -185,14 +178,13 @@ const mockPropertiesData: Property[] = [
     parkingSpaces: 2,
     floorArea: 140, // sq meters
     features: ['Spacious Living', 'Utility Room', 'Master Ensuite'],
-    amenities: ['Large Private Garden'],
+    Amenity: ['Large Private Garden'],
     images: ['/images/properties/fg105_1.jpg', '/images/properties/fg105_2.jpg'],
     floorPlan: '/images/floorplans/fg105.jpg',
     description: 'Spacious 4-bedroom detached home perfect for growing families.', // Added required field
     isNew: true,
     createdAt: '2025-04-20T10:00:00Z',
-    updatedAt: '2025-04-20T10:00:00Z',
-  },
+    updatedAt: '2025-04-20T10:00:00Z'},
   {
     id: 'prop-rm-203',
     name: 'Unit 203 - 2 Bed Apartment',
@@ -215,14 +207,13 @@ const mockPropertiesData: Property[] = [
     parkingSpaces: 1,
     floorArea: 85, // sq meters
     features: ['River View', 'Modern Appliances', 'Secure Access'],
-    amenities: ['Private Balcony'],
+    Amenity: ['Private Balcony'],
     images: ['/images/properties/rm203_1.jpg'],
     floorPlan: '/images/floorplans/rm203.jpg',
     description: 'Stylish 2-bedroom apartment with river views.', // Added required field
     isReduced: true,
     createdAt: '2025-03-01T10:00:00Z',
-    updatedAt: '2025-04-10T10:00:00Z',
-  },
+    updatedAt: '2025-04-10T10:00:00Z'},
   {
     id: 'prop-mh-301',
     name: 'Plot 1A - 3 Bed Terrace',
@@ -245,13 +236,12 @@ const mockPropertiesData: Property[] = [
     parkingSpaces: 2,
     floorArea: 100, // sq meters
     features: ['Large Kitchen/Dining', 'Efficient Heating'],
-    amenities: ['Good School Catchment'],
+    Amenity: ['Good School Catchment'],
     images: ['/images/properties/mh301_1.jpg'],
     floorPlan: '/images/floorplans/mh301.jpg',
     description: 'Attractive 3-bedroom terraced house in a family-friendly location.', // Added required field
     createdAt: '2025-04-01T10:00:00Z',
-    updatedAt: '2025-04-05T10:00:00Z',
-  },
+    updatedAt: '2025-04-05T10:00:00Z'},
   { // More properties for comprehensiveness
     id: 'prop-fg-110',
     name: 'Type A - 3 Bed Semi-Detached',
@@ -274,14 +264,13 @@ const mockPropertiesData: Property[] = [
     parkingSpaces: 2,
     floorArea: 110, // sq meters
     features: ['Fitted Kitchen', 'Built-in Wardrobes'],
-    amenities: ['Private Garden'],
+    Amenity: ['Private Garden'],
     images: ['/images/properties/fg101_1.jpg'], // Using same image for mock
     floorPlan: '/images/floorplans/fg101.jpg', // Using same floorplan for mock
     description: 'Well-appointed 3-bedroom semi-detached house in a popular development.', // Added required field
     isReduced: true,
     createdAt: '2025-03-20T10:00:00Z',
-    updatedAt: '2025-04-28T10:00:00Z',
-  },
+    updatedAt: '2025-04-28T10:00:00Z'},
   {
     id: 'prop-rm-208',
     name: 'Unit 208 - 2 Bed Apartment',
@@ -304,14 +293,13 @@ const mockPropertiesData: Property[] = [
     parkingSpaces: 1,
     floorArea: 85, // sq meters
     features: ['River View', 'Modern Appliances'],
-    amenities: ['Private Balcony'],
+    Amenity: ['Private Balcony'],
     images: ['/images/properties/rm203_1.jpg'], // Using same image for mock
     floorPlan: '/images/floorplans/rm203.jpg', // Using same floorplan for mock
     description: 'Contemporary 2-bedroom apartment with excellent amenities.', // Added required field
     isNew: true,
     createdAt: '2025-04-28T10:00:00Z',
-    updatedAt: '2025-04-28T10:00:00Z',
-  },
+    updatedAt: '2025-04-28T10:00:00Z'},
   {
     id: 'prop-mh-305',
     name: 'Plot 1B - 3 Bed Semi-Detached',
@@ -334,13 +322,12 @@ const mockPropertiesData: Property[] = [
     parkingSpaces: 2,
     floorArea: 105, // sq meters
     features: ['Large Kitchen/Dining'],
-    amenities: ['Good School Catchment'],
+    Amenity: ['Good School Catchment'],
     images: ['/images/properties/mh301_1.jpg'], // Using same image for mock
     floorPlan: '/images/floorplans/mh301.jpg', // Using same floorplan for mock
     description: 'Lovely 3-bedroom semi-detached home in a desirable location.', // Added required field
     createdAt: '2025-04-20T10:00:00Z',
-    updatedAt: '2025-04-20T10:00:00Z',
-  },
+    updatedAt: '2025-04-20T10:00:00Z'},
   {
     id: 'prop-hv-401',
     name: 'Unit 1 - 4 Bed Townhouse',
@@ -363,7 +350,7 @@ const mockPropertiesData: Property[] = [
     parkingSpaces: 1,
     floorArea: 125, // sq meters
     features: ['Coastal Views', 'Roof Terrace'],
-    amenities: ['Walk to Coast'],
+    Amenity: ['Walk to Coast'],
     images: ['/images/properties/hv401.jpg'],
     floorPlan: '/images/floorplans/hv401.jpg',
     description: 'Stunning 4-bedroom townhouse with coastal views.', // Added required field
@@ -392,13 +379,12 @@ const mockPropertiesData: Property[] = [
     parkingSpaces: 2,
     floorArea: 140, // sq meters
     features: ['Spacious Living', 'Utility Room'],
-    amenities: ['Large Private Garden'],
+    Amenity: ['Large Private Garden'],
     images: ['/images/properties/fg105_1.jpg'], // Using same image for mock
     floorPlan: '/images/floorplans/fg105.jpg', // Using same floorplan for mock
     description: 'Executive 4-bedroom detached home with spacious accommodation.', // Added required field
     createdAt: '2025-04-28T10:00:00Z',
-    updatedAt: '2025-04-28T10:00:00Z',
-  },
+    updatedAt: '2025-04-28T10:00:00Z'},
   { // Property for a 'Future' development
     id: 'prop-bp-101',
     name: 'Type C - 3 Bed Semi-Detached',
@@ -421,14 +407,12 @@ const mockPropertiesData: Property[] = [
     parkingSpaces: 2,
     floorArea: 105, // sq meters
     features: ['Modern Kitchen', 'Close to Transport'],
-    amenities: ['Communal Area'],
+    Amenity: ['Communal Area'],
     images: ['/images/properties/placeholder-prop-1.jpg'],
     floorPlan: '/images/floorplans/placeholder-floorplan-1.jpg',
     description: 'Well-designed 3-bedroom semi-detached house near transport links.', // Added required field
     createdAt: '2025-04-01T10:00:00Z',
-    updatedAt: '2025-04-01T10:00:00Z',
-  },
-];
+    updatedAt: '2025-04-01T10:00:00Z'}];
 
 // Extended filter interface for mock implementation without directly extending PropertyFilters
 // to avoid type conflicts with status and propertyType
@@ -452,7 +436,7 @@ interface ExtendedPropertyFilter {
 
 // Helper function to simulate API delay
 function delay(ms: number): Promise<void> {
-  return new Promise(resolve => setTimeout(resolve, ms));
+  return new Promise(resolve => setTimeout(resolvems));
 }
 
 /**
@@ -491,7 +475,7 @@ export class MockDataService implements DataService {
   async getFeaturedDevelopments(limit = 4): Promise<Development[]> {
     await delay(300); // Simulate network delay
     // Simple implementation: return the first 'limit' developments
-    return [...mockDevelopmentsData].slice(0, limit); // Return a copy
+    return [...mockDevelopmentsData].slice(0limit); // Return a copy
   }
 
   /**
@@ -508,7 +492,7 @@ export class MockDataService implements DataService {
     if (filters) {
       // Cast the filters to our extended interface
       const extendedFilters = filters as ExtendedPropertyFilter;
-      
+
       // Filter by Location (based on linked development's location)
       if (filters.location) {
         // Find developments matching the location filter
@@ -532,7 +516,7 @@ export class MockDataService implements DataService {
       // Filter by minimum price
       if (filters.minPrice !== undefined) {
         filteredProperties = filteredProperties.filter(
-          prop => prop.price >= filters.minPrice!
+          prop => prop.price>= filters.minPrice!
         );
       }
 
@@ -565,13 +549,13 @@ export class MockDataService implements DataService {
       }
 
       // Support for extended filters if present
-      if (extendedFilters.typeList && extendedFilters.typeList.length > 0) {
+      if (extendedFilters.typeList && extendedFilters.typeList.length> 0) {
         filteredProperties = filteredProperties.filter(
           prop => extendedFilters.typeList!.includes(prop.type)
         );
       }
 
-      if (extendedFilters.statusList && extendedFilters.statusList.length > 0) {
+      if (extendedFilters.statusList && extendedFilters.statusList.length> 0) {
         filteredProperties = filteredProperties.filter(
           prop => extendedFilters.statusList!.includes(prop.status)
         );
@@ -583,7 +567,7 @@ export class MockDataService implements DataService {
         );
       }
 
-      // Add other filtering logic as needed (e.g., features, amenities)
+      // Add other filtering logic as needed (e.g., featuresamenities)
     }
 
     return filteredProperties;
@@ -611,7 +595,7 @@ export class MockDataService implements DataService {
     const availableProperties = mockPropertiesData.filter(prop => 
       [PropertyStatus.Available, PropertyStatus.Reserved].includes(prop.status)
     );
-    return [...availableProperties].slice(0, limit); // Return a copy
+    return [...availableProperties].slice(0limit); // Return a copy
   }
 
   /**

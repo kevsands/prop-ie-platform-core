@@ -17,13 +17,12 @@ const mockDevelopmentsData = {
       city: "Drogheda", 
       county: "Co. Louth",
       address: "Dublin Road, Drogheda",
-    },
     mainImage: "/images/developments/fitzgerald-gardens.jpg",
     images: ["/images/developments/fitzgerald-gardens.jpg"],
     status: "Now Selling",
     statusColor: "green",
     priceRange: "€320,000 - €450,000",
-    bedrooms: [2, 3, 4],
+    bedrooms: [2, 34],
     bathrooms: 2,
     energyRating: "A2",
     availability: "Move in from Winter 2025",
@@ -48,7 +47,6 @@ const mockDevelopmentsData = {
       id: "dev1",
       fullName: "PropIE Developments",
       email: "info@propie.com",
-    },
     units: [
       {
         id: "unit1",
@@ -96,13 +94,12 @@ const mockDevelopmentsData = {
       city: "Drogheda", 
       county: "Co. Louth",
       address: "Ballymakenny Road, Drogheda",
-    },
     mainImage: "/images/developments/ballymakenny-view.jpg",
     images: ["/images/developments/ballymakenny-view.jpg"],
     status: "Coming Soon",
     statusColor: "blue",
     priceRange: "€350,000 - €425,000",
-    bedrooms: [3, 4],
+    bedrooms: [34],
     bathrooms: 2,
     energyRating: "A3",
     availability: "Launching Summer 2025",
@@ -127,7 +124,6 @@ const mockDevelopmentsData = {
       id: "dev1",
       fullName: "PropIE Developments",
       email: "info@propie.com",
-    },
     units: [
       {
         id: "b-unit1",
@@ -170,13 +166,12 @@ const mockDevelopmentsData = {
       city: "Drogheda", 
       county: "Co. Louth",
       address: "Riverfront, Drogheda",
-    },
     mainImage: "/images/developments/ellwood.jpg",
     images: ["/images/developments/ellwood.jpg"],
     status: "Register Interest",
     statusColor: "purple",
     priceRange: "€375,000 - €550,000",
-    bedrooms: [1, 2, 3],
+    bedrooms: [1, 23],
     bathrooms: 2,
     energyRating: "A1",
     availability: "Launching Autumn 2025",
@@ -203,7 +198,6 @@ const mockDevelopmentsData = {
       id: "dev1",
       fullName: "PropIE Developments",
       email: "info@propie.com",
-    },
     units: [
       {
         id: "r-unit1",
@@ -246,16 +240,16 @@ const mockDevelopmentsData = {
 export default function DevelopmentDetailConnected() {
   const params = useParams();
   const router = useRouter();
-  
+
   // Ensure id is treated as a string, as useParams can return string or string[]
   const developmentIdOrSlug = Array.isArray(params?.id) ? params.id[0] : params?.id as string | undefined;
-  
+
   // State for managing the active tab
-  const [activeTab, setActiveTab] = useState('overview');
-  
+  const [activeTabsetActiveTab] = useState('overview');
+
   // Determine if we have an ID or slug
   const isSlug = developmentIdOrSlug ? !developmentIdOrSlug.match(/^[0-9a-fA-F]{24}$/) : false;
-  
+
   // Fetch the development data based on ID or slug
   const { 
     data: developmentFromId, 
@@ -265,7 +259,7 @@ export default function DevelopmentDetailConnected() {
     !isSlug ? developmentIdOrSlug : undefined,
     { enabled: Boolean(!isSlug && developmentIdOrSlug) }
   );
-  
+
   const { 
     data: developmentFromSlug, 
     isLoading: isLoadingBySlug, 
@@ -274,16 +268,16 @@ export default function DevelopmentDetailConnected() {
     isSlug ? developmentIdOrSlug : undefined,
     { enabled: Boolean(isSlug && developmentIdOrSlug) }
   );
-  
+
   // Combine results
   const development = developmentFromId || developmentFromSlug;
   const isLoading = (isSlug ? isLoadingBySlug : isLoadingById);
   const error = (isSlug ? errorBySlug : errorById);
-  
+
   // Add fallback to local API if GraphQL authentication fails
-  const [localData, setLocalData] = useState<any>(null);
-  const [localLoading, setLocalLoading] = useState(false);
-  
+  const [localDatasetLocalData] = useState<any>(null);
+  const [localLoadingsetLocalLoading] = useState(false);
+
   useEffect(() => {
     // If GraphQL query fails with authentication error, try the local API
     if (error && (error.message === 'No current user' || error.message.includes('authentication'))) {
@@ -296,16 +290,16 @@ export default function DevelopmentDetailConnected() {
             setLocalData(data);
           }
         } catch (err) {
-          console.error('Failed to fetch from local API:', err);
+
         } finally {
           setLocalLoading(false);
         }
       };
-      
+
       fetchLocalData();
     }
-  }, [error, developmentIdOrSlug]);
-  
+  }, [errordevelopmentIdOrSlug]);
+
   // Add fallback to mock data if the development is one of our hardcoded ones
   useEffect(() => {
     // If the development ID matches one of our mock developments, use that data
@@ -313,24 +307,24 @@ export default function DevelopmentDetailConnected() {
       setLocalData(mockDevelopmentsData[developmentIdOrSlug as keyof typeof mockDevelopmentsData]);
     }
   }, [developmentIdOrSlug]);
-  
+
   // Use local data if available
   const finalDevelopment = development || localData;
   const finalIsLoading = (localData ? false : isLoading || localLoading);
   const finalError = (localData ? null : error);
-  
+
   // Prefetch similar developments and units
   useEffect(() => {
     if (finalDevelopment) {
       // In a real implementation, we would prefetch related developments
       // For now, we'll just prefetch the units pages
-      if (finalDevelopment.units && finalDevelopment.units.length > 0) {
-        finalDevelopment.units.slice(0, 5).forEach((unit: {id: string}) => {
+      if (finalDevelopment.units && finalDevelopment.units.length> 0) {
+        finalDevelopment.units.slice(05).forEach((unit: {id: string}) => {
           router.prefetch(`/developments/${finalDevelopment.id}/units/${unit.id}`);
         });
       }
     }
-  }, [finalDevelopment, router]);
+  }, [finalDevelopmentrouter]);
 
   // Loading state
   if (finalIsLoading) {
@@ -340,7 +334,7 @@ export default function DevelopmentDetailConnected() {
       </div>
     );
   }
-  
+
   // Error state
   if (finalError) {
     return (
@@ -387,7 +381,7 @@ export default function DevelopmentDetailConnected() {
     }
     return `${bedrooms} bed`;
   };
-  
+
   // Format location
   const formattedLocation = finalDevelopment.location ? 
     `${finalDevelopment.location.city}, ${finalDevelopment.location.county}` : 
@@ -402,7 +396,7 @@ export default function DevelopmentDetailConnected() {
           src={finalDevelopment.mainImage}
           alt={finalDevelopment.name}
           fill
-          style={{ objectFit: 'cover' }}
+          style={ objectFit: 'cover' }
           priority // Prioritize loading the hero image
         />
         {/* Overlay */}
@@ -454,7 +448,7 @@ export default function DevelopmentDetailConnected() {
               Features & Amenities
             </button>
             {/* Only show Floor Plans tab if data exists */}
-            {finalDevelopment.units && finalDevelopment.units.length > 0 && (
+            {finalDevelopment.units && finalDevelopment.units.length> 0 && (
                <button
                  onClick={() => setActiveTab('floorplans')}
                  className={`flex-shrink-0 px-4 py-2 font-medium text-sm sm:text-base whitespace-nowrap ${
@@ -516,7 +510,7 @@ export default function DevelopmentDetailConnected() {
                      <p className="mb-4">
                        {finalDevelopment.description}
                      </p>
-                      {finalDevelopment.features && finalDevelopment.features.length > 0 && (
+                      {finalDevelopment.features && finalDevelopment.features.length> 0 && (
                        <>
                           <h3 className="text-xl font-bold text-gray-900 mt-8 mb-4">Key Features</h3>
                            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4 list-none p-0">
@@ -578,7 +572,7 @@ export default function DevelopmentDetailConnected() {
                           <p className="font-semibold text-gray-900">{finalDevelopment.depositAmount}</p>
                         </div>
                       )}
-                       
+
                       {finalDevelopment.location && (
                         <div>
                           <h4 className="text-gray-500 mb-1">Location</h4>
@@ -627,7 +621,7 @@ export default function DevelopmentDetailConnected() {
                      {finalDevelopment.availability !== 'Fully Sold' && finalDevelopment.availability !== 'Future Phase' && (
                       <a
                          href="#contact"
-                         onClick={(e) => { e.preventDefault(); setActiveTab('contact'); }}
+                         onClick={(e: any) => { e.preventDefault(); setActiveTab('contact'); }
                          className="block w-full bg-[#2B5273] text-center text-white font-medium py-3 rounded-md hover:bg-[#1E3A52] transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#2B5273]"
                          >
                          Schedule a Viewing
@@ -673,7 +667,7 @@ export default function DevelopmentDetailConnected() {
                 <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-6">Features & Amenities</h2>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 mb-12">
-                  {finalDevelopment.features && finalDevelopment.features.length > 0 && (
+                  {finalDevelopment.features && finalDevelopment.features.length> 0 && (
                      <div>
                        <h3 className="text-xl font-bold text-gray-900 mb-4">Property Features Included</h3>
                        <div className="bg-white rounded-lg shadow-md p-6 h-full">
@@ -691,7 +685,7 @@ export default function DevelopmentDetailConnected() {
                      </div>
                   )}
 
-                  {finalDevelopment.amenities && finalDevelopment.amenities.length > 0 && (
+                  {finalDevelopment.amenities && finalDevelopment.amenities.length> 0 && (
                      <div>
                        <h3 className="text-xl font-bold text-gray-900 mb-4">Development & Area Amenities</h3>
                        <div className="bg-white rounded-lg shadow-md p-6 h-full">
@@ -872,7 +866,7 @@ export default function DevelopmentDetailConnected() {
                 <div className="bg-white rounded-lg shadow-md p-6 h-fit">
                   <h3 className="text-xl font-bold text-gray-900 mb-4">Schedule a Viewing</h3>
 
-                  {finalDevelopment.showingDates && finalDevelopment.showingDates.length > 0 && (
+                  {finalDevelopment.showingDates && finalDevelopment.showingDates.length> 0 && (
                     <div className="mb-6 border-b border-gray-200 pb-6">
                       <h4 className="font-semibold text-gray-900 mb-3">Upcoming Open House Dates</h4>
                       <div className="space-y-3">
@@ -1024,7 +1018,7 @@ export default function DevelopmentDetailConnected() {
                                   alt={finalDevelopment.developer.fullName} 
                                   width={48} 
                                   height={48} 
-                                  style={{ objectFit: "cover" }} 
+                                  style={ objectFit: "cover" } 
                                   className="object-cover w-full h-full"
                                 />
                               ) : (

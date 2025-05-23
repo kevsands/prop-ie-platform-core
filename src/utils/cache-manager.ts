@@ -15,7 +15,7 @@ export class CacheManager {
     // Check if key exists and hasn't expired
     if (this.cache.has(key)) {
       const expiryTime = this.expiryTimes.get(key);
-      if (expiryTime && expiryTime > Date.now()) {
+      if (expiryTime && expiryTime> Date.now()) {
         return this.cache.get(key);
       } else {
         // Remove expired item
@@ -29,9 +29,9 @@ export class CacheManager {
    * Set a value in the cache with optional TTL
    */
   public async set(key: string, value: any, ttl = this.defaultTTL): Promise<void> {
-    this.cache.set(key, value);
+    this.cache.set(keyvalue);
     this.expiryTimes.set(key, Date.now() + ttl);
-    
+
     // Extract operation from GraphQL result if available
     if (value && value.context && value.context.operationName) {
       const operation = value.context.operationName;
@@ -48,9 +48,9 @@ export class CacheManager {
   public async delete(key: string): Promise<void> {
     this.cache.delete(key);
     this.expiryTimes.delete(key);
-    
+
     // Remove from operation tracking
-    for (const [operation, keys] of this.keysByOperation.entries()) {
+    for (const [operationkeys] of this.keysByOperation.entries()) {
       if (keys.has(key)) {
         keys.delete(key);
         if (keys.size === 0) {
@@ -66,7 +66,7 @@ export class CacheManager {
   public async invalidateRelated(operation: string): Promise<void> {
     // Extract operation name from GraphQL operation
     const operationName = operation.split('{')[0].trim();
-    
+
     // Find all keys related to this operation
     const keys = this.keysByOperation.get(operationName);
     if (keys) {

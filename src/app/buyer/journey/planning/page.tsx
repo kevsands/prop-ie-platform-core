@@ -14,7 +14,7 @@ export default function PlanningPage() {
         This page helps you plan your property purchase by calculating your budget
         and exploring financing options.
       </p>
-      
+
       <div className="grid gap-6">
         <div className="bg-blue-50 p-6 rounded-lg border border-blue-100">
           <h2 className="text-xl font-semibold mb-3">Affordability Calculator</h2>
@@ -25,7 +25,7 @@ export default function PlanningPage() {
             Calculate Now
           </button>
         </div>
-        
+
         <div className="bg-green-50 p-6 rounded-lg border border-green-100">
           <h2 className="text-xl font-semibold mb-3">Planning Tasks</h2>
           <div className="space-y-2">

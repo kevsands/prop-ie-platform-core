@@ -1,0 +1,82 @@
+import { MetadataRoute } from 'next'
+import { prisma } from '@/lib/db'
+
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const baseUrl = 'https://prop.ie'
+
+  // Static pages
+  const staticPages = [
+    {
+      url: baseUrl,
+      lastModified: new Date(),
+      changeFrequency: 'daily' as const,
+      priority: 1},
+    {
+      url: `${baseUrl}/properties/search`,
+      lastModified: new Date(),
+      changeFrequency: 'daily' as const,
+      priority: 0.9},
+    {
+      url: `${baseUrl}/developments`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly' as const,
+      priority: 0.8},
+    {
+      url: `${baseUrl}/first-time-buyers`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly' as const,
+      priority: 0.8},
+    {
+      url: `${baseUrl}/solutions/developers`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly' as const,
+      priority: 0.7},
+    {
+      url: `${baseUrl}/about`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly' as const,
+      priority: 0.6},
+    {
+      url: `${baseUrl}/contact`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly' as const,
+      priority: 0.6}]
+
+  try {
+    // Dynamic pages - Properties
+    const properties = await prisma.property.findMany({
+      where: { status: 'AVAILABLE' },
+      select: {
+        id: true,
+        updatedAt: true},
+      take: 1000, // Limit for performance
+    })
+
+    const propertyPages = properties.map((property: any) => ({
+      url: `${baseUrl}/properties/${property.id}`,
+      lastModified: property.updatedAt,
+      changeFrequency: 'weekly' as const,
+      priority: 0.7}))
+
+    // Dynamic pages - Developments
+    const developments = await prisma.development.findMany({
+      where: { status: 'ACTIVE' },
+      select: {
+        id: true,
+        updatedAt: true},
+      take: 500})
+
+    const developmentPages = developments.map((development: any) => ({
+      url: `${baseUrl}/developments/${development.id}`,
+      lastModified: development.updatedAt,
+      changeFrequency: 'weekly' as const,
+      priority: 0.8}))
+
+    return [...staticPages, ...propertyPages, ...developmentPages]
+  } catch (error) {
+    return staticPages
+  }
+}
+
+export const dynamic = 'force-dynamic'
+export const revalidate = 3600 // Revalidate every hour

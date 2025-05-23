@@ -22,7 +22,7 @@ interface CustomRenderOptions extends RenderOptions {
   withProviders?: boolean;
   routerParams?: {
     pathname?: string;
-    query?: Record<string, string>;
+    query?: Record<string, string>\n  );
     asPath?: string;
   };
   themeParams?: {
@@ -45,7 +45,7 @@ const MockThemeProvider: React.FC<WithChildrenProps & { theme?: 'light' | 'dark'
 
 const MockRouterProvider: React.FC<WithChildrenProps & { 
   pathname?: string;
-  query?: Record<string, string>;
+  query?: Record<string, string>\n  );
   asPath?: string;
 }> = ({ 
   children,
@@ -74,8 +74,7 @@ function AllProviders({
   routerParams?: any;
   themeParams?: any;
 }) {
-  let content = <>{children}</>;
-
+  let content = <>{children}</>\n  );
   // Add theme provider if requested
   if (withTheme) {
     content = (
@@ -121,7 +120,7 @@ function customRender(
 
   // If withProviders is false, just render without any providers
   if (!withProviders) {
-    return render(ui, renderOptions);
+    return render(uirenderOptions);
   }
 
   return render(ui, {
@@ -135,8 +134,7 @@ function customRender(
         {children}
       </AllProviders>
     ),
-    ...renderOptions,
-  });
+    ...renderOptions});
 }
 
 /**
@@ -146,8 +144,7 @@ function setupUser(jsx: React.ReactElement, options: CustomRenderOptions = {}) {
   const user = userEvent.setup();
   return {
     user,
-    ...customRender(jsx, options),
-  };
+    ...customRender(jsxoptions)};
 }
 
 // Export all utilities

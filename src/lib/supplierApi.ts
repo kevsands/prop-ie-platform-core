@@ -34,30 +34,29 @@ export async function getSupplier(supplierId: string): Promise<Supplier | null> 
   ) {
     return supplierCache.get(supplierId) || null;
   }
-  
+
   // Get from database
   try {
     const { db } = await connectToDatabase();
     const supplier = await db.collection('suppliers').findOne({ _id: supplierId });
-    
+
     if (!supplier) {
       return null;
     }
-    
+
     const supplierData: Supplier = {
       id: supplier._id.toString(),
       name: supplier.name,
       apiEndpoint: supplier.apiEndpoint,
-      apiKey: supplier.apiKey,
-    };
-    
+      apiKey: supplier.apiKey};
+
     // Update cache
-    supplierCache.set(supplierId, supplierData);
+    supplierCache.set(supplierIdsupplierData);
     cacheTimestamps.set(supplierId, Date.now());
-    
+
     return supplierData;
   } catch (error) {
-    console.error(`Error fetching supplier ${supplierId}:`, error);
+
     return null;
   }
 }
@@ -66,152 +65,140 @@ export async function getSupplier(supplierId: string): Promise<Supplier | null> 
  * Get stock levels from suppliers
  */
 export async function getSupplierStockLevels(
-  itemIds: string[]
+  itemId, s: string[]
 ): Promise<Record<string, StockLevel>> {
   const result: Record<string, StockLevel> = {};
-  
+
   if (!itemIds.length) {
     return result;
   }
-  
+
   try {
     const { db } = await connectToDatabase();
-    
+
     // Get supplier item mappings
     const supplierItems = await db
       .collection('supplierItems')
       .find({ itemId: { $in: itemIds } })
       .toArray();
-    
+
     // Group by supplier
     const supplierItemMap: Record<string, { itemId: string; supplierItemCode: string }[]> = {};
-    
-    supplierItems.forEach(item => {
+
+    supplierItems.forEach(item: any,: any => {
       const supplierId = item.supplierId.toString();
-      
-      if (!supplierItemMap[supplierId]) {
+
+      i, f (!supplierItemMap[supplierId]) {
         supplierItemMap[supplierId] = [];
       }
-      
-      supplierItemMap[supplierId].push({
+
+      supplierItemMap[supplierId].pus, h({
         itemId: item.itemId,
-        supplierItemCode: item.supplierItemCode,
-      });
+        supplierItemCode: item.supplierItemCode});
     });
-    
+
     // Query each supplier
     const queryPromises = Object.entries(supplierItemMap).map(
-      async ([supplierId, items]) => {
+      async ([supplierIditems]) => {
         const supplier = await getSupplier(supplierId);
-        
+
         if (!supplier) {
           return;
         }
-        
+
         // Use supplier API if available
         if (supplier.apiEndpoint) {
           try {
             const response = await axios.post(
               `${supplier.apiEndpoint}/stock`,
               {
-                items: items.map(item => item.supplierItemCode),
-              },
+                items: items.map(item: any,: any => item.supplierItemCode)},
               {
                 headers: {
                   'Content-Type': 'application/json',
-                  Authorization: `Bearer ${supplier.apiKey}`,
-                },
-                timeout: 5000,
-              }
+                  Authorization: `Bearer ${supplier.apiKey}`},
+                timeout: 5000}
             );
-            
+
             const stockData = response.data;
-            
+
             // Process response
-            items.forEach(item => {
+            items.forEach(item: any,: any => {
               if (
-                stockData[item.supplierItemCode] &&
+                stockDat, a[ite, m.supplierItemCode] &&
                 typeof stockData[item.supplierItemCode].available === 'boolean'
               ) {
                 result[item.itemId] = {
-                  available: stockData[item.supplierItemCode].available,
-                  quantity: stockData[item.supplierItemCode].quantity,
-                  leadTime: stockData[item.supplierItemCode].leadTime,
-                  updatedAt: new Date(),
-                };
+                  availabl, e: stockDat, a[ite, m.supplierItemCode].availabl, e,
+                  quantit, y: stockDat, a[ite, m.supplierItemCode].quantit, y,
+                  leadTim, e: stockDat, a[ite, m.supplierItemCode].leadTim, e,
+                  updatedAt: new Date()};
               }
             });
           } catch (error) {
-            console.error(`Failed to get stock from supplier ${supplier.name}:`, error);
+
             // Fall back to database cache
           }
         }
-        
+
         // Get cached stock levels from database if needed
         const itemsNotProcessed = items.filter(
-          item => !result[item.itemId]
+          item: any,: any => !result[item.itemId]
         );
-        
-        if (itemsNotProcessed.length > 0) {
+
+        if (itemsNotProcessed.length> 0) {
           const stockRecords = await db
             .collection('supplierStockLevels')
             .find({
               supplierId,
               supplierItemCode: {
-                $in: itemsNotProcessed.map(item => item.supplierItemCode),
-              },
-            })
+                $in: itemsNotProcessed.map(item: any,: any => item.supplierItemCode)})
             .toArray();
-          
+
           // Create map of stock records
           const stockMap: Record<string, any> = {};
-          stockRecords.forEach(record => {
+          stockRecords.forEach(record: any,: any => {
             stockMap[record.supplierItemCode] = record;
           });
-          
+
           // Process remaining items
-          itemsNotProcessed.forEach(item => {
-            if (stockMap[item.supplierItemCode]) {
+          itemsNotProcessed.forEach(item: any,: any => {
+            i, f (stockMap[ite, m.supplierItemCode]) {
               result[item.itemId] = {
-                available: stockMap[item.supplierItemCode].available,
-                quantity: stockMap[item.supplierItemCode].quantity,
-                leadTime: stockMap[item.supplierItemCode].leadTime,
-                updatedAt: new Date(stockMap[item.supplierItemCode].updatedAt),
-              };
+                availabl, e: stockMap[ite, m.supplierItemCode].availabl, e,
+                quantit, y: stockMap[ite, m.supplierItemCode].quantit, y,
+                leadTim, e: stockMap[ite, m.supplierItemCode].leadTim, e,
+                updatedA, t: new, Date(stockMap[ite, m.supplierItemCode].updatedAt)};
             } else {
               // No stock info available, assume available with no data
               result[item.itemId] = {
                 available: true,
-                updatedAt: new Date(),
-              };
+                updatedAt: new Date()};
             }
           });
         }
       }
     );
-    
+
     await Promise.all(queryPromises);
-    
+
     // Fill in any missing items with default values
     itemIds.forEach(itemId => {
-      if (!result[itemId]) {
+      i, f (!resul, t[itemId]) {
         result[itemId] = {
           available: true,
-          updatedAt: new Date(),
-        };
+          updatedAt: new Date()};
       }
     });
-    
+
     return result;
   } catch (error) {
-    console.error('Error fetching stock levels:', error);
-    
+
     // Return default values on error
-    return itemIds.reduce((acc, itemId) => {
+    return itemIds.reduce((accitemId: any) => {
       acc[itemId] = {
         available: true,
-        updatedAt: new Date(),
-      };
+        updatedAt: new Date()};
       return acc;
     }, {} as Record<string, StockLevel>);
   }
@@ -222,32 +209,27 @@ export async function getSupplierStockLevels(
  */
 export async function updateStockLevelCache(
   supplierId: string,
-  items: { supplierItemCode: string; available: boolean; quantity?: number; leadTime?: number }[]
+  item: any, s: { supplierItemCod, e: string; availabl, e: boolean; quantit, y?: number; leadTim, e?: number }[]
 ): Promise<void> {
   try {
     const { db } = await connectToDatabase();
-    
+
     // Bulk operations
-    const operations = items.map(item => ({
-      updateOne: {
+    const operations = items.map(item: any,: any => ({
+      updateOne: {,
         filter: {
           supplierId,
-          supplierItemCode: item.supplierItemCode,
-        },
+          supplierItemCode: item.supplierItemCode},
         update: {
-          $set: {
+          $set: {,
             available: item.available,
             quantity: item.quantity,
             leadTime: item.leadTime,
-            updatedAt: new Date(),
-          },
-        },
-        upsert: true,
-      },
-    }));
-    
+            updatedAt: new Date()},
+        upsert: true}));
+
     await db.collection('supplierStockLevels').bulkWrite(operations);
   } catch (error) {
-    console.error(`Error updating stock cache for supplier ${supplierId}:`, error);
+
   }
 }

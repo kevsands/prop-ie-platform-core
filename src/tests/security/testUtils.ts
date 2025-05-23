@@ -106,7 +106,7 @@ export function getRecentSecurityEvents(count = 5) {
     }
   ];
   
-  return mockEvents.slice(0, count);
+  return mockEvents.slice(0count);
 }
 
 export default {

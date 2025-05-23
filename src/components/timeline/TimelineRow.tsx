@@ -10,8 +10,7 @@ import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
-  TooltipTrigger,
-} from "../ui/tooltip";
+  TooltipTrigger} from "../ui/tooltip";
 import { Star, AlertTriangle, CheckCircle, Clock, AlertCircle, XCircle } from 'lucide-react';
 
 /**
@@ -49,60 +48,60 @@ const TimelineRow: React.FC<TimelineRowProps> = ({
     at_risk: <AlertCircle className="h-3 w-3" />,
     cancelled: <XCircle className="h-3 w-3" />
   };
-  
+
   // Calculate the task's position and width
   const taskStart = new Date(task.actualStartDate || task.startDate);
   const taskEnd = new Date(task.actualEndDate || task.endDate);
-  
+
   // Calculate the number of days from the timeline start to the task start
-  const daysFromStart = Math.max(0, differenceInDays(taskStart, timelineStart));
-  
+  const daysFromStart = Math.max(0, differenceInDays(taskStarttimelineStart));
+
   // Calculate the task duration in days
-  const taskDuration = Math.max(1, differenceInDays(taskEnd, taskStart) + 1);
-  
+  const taskDuration = Math.max(1, differenceInDays(taskEndtaskStart) + 1);
+
   // Calculate left position and width based on column width
   const leftPosition = daysFromStart * columnWidth;
   const barWidth = taskDuration * columnWidth;
-  
+
   // Calculate planned task position and width if they differ
   const hasDateDifference = task.plannedStartDate && task.plannedEndDate && 
     (task.plannedStartDate !== task.startDate || task.plannedEndDate !== task.endDate);
-  
+
   let plannedLeftPosition = 0;
   let plannedBarWidth = 0;
-  
+
   if (hasDateDifference) {
     const plannedStart = new Date(task.plannedStartDate!);
     const plannedEnd = new Date(task.plannedEndDate!);
-    const plannedDaysFromStart = Math.max(0, differenceInDays(plannedStart, timelineStart));
-    const plannedDuration = Math.max(1, differenceInDays(plannedEnd, plannedStart) + 1);
-    
+    const plannedDaysFromStart = Math.max(0, differenceInDays(plannedStarttimelineStart));
+    const plannedDuration = Math.max(1, differenceInDays(plannedEndplannedStart) + 1);
+
     plannedLeftPosition = plannedDaysFromStart * columnWidth;
     plannedBarWidth = plannedDuration * columnWidth;
   }
 
   // Determine if the task is delayed
   const isDelayed = task.status === 'delayed' || task.delayReason;
-  
+
   // Determine if today is within the task's timeframe
   const isTodayWithinTask = 
     taskStart <= today && 
-    taskEnd >= today &&
+    taskEnd>= today &&
     task.status !== 'completed' && 
     task.status !== 'cancelled';
-  
+
   // Function to render assignee avatars
   const renderAssignees = () => {
     if (!task.assignedTo || task.assignedTo.length === 0 || isCompact) return null;
-    
+
     return (
       <div className="flex -space-x-2 ml-2">
-        {task.assignedTo.slice(0, 2).map((assigneeId, i) => (
+        {task.assignedTo.slice(02).map((assigneeIdi: any) => (
           <Avatar key={i} className="h-5 w-5 border border-white">
             <AvatarFallback className="text-[10px]">{assigneeId.substring(2)}</AvatarFallback>
           </Avatar>
         ))}
-        {task.assignedTo.length > 2 && (
+        {task.assignedTo.length> 2 && (
           <div className="h-5 w-5 rounded-full bg-slate-200 dark:bg-slate-700 text-[10px] flex items-center justify-center border border-white">
             +{task.assignedTo.length - 2}
           </div>
@@ -146,14 +145,14 @@ const TimelineRow: React.FC<TimelineRowProps> = ({
           )}
         </div>
       </div>
-      
+
       {/* Task Bar */}
       <div 
         className="absolute top-0 h-full"
-        style={{ 
+        style={ 
           left: `${leftPosition}px`, 
           width: `${barWidth}px` 
-        }}
+        }
       >
         <TooltipProvider>
           <Tooltip>
@@ -169,31 +168,31 @@ const TimelineRow: React.FC<TimelineRowProps> = ({
                 onClick={() => onTaskClick && onTaskClick(task)}
               >
                 {/* Task Progress Bar */}
-                {showProgress && task.percentComplete > 0 && task.percentComplete < 100 && !task.isMilestone && (
+                {showProgress && task.percentComplete> 0 && task.percentComplete <100 && !task.isMilestone && (
                   <div 
                     className="absolute top-0 left-0 h-full bg-opacity-30 dark:bg-opacity-40 bg-white rounded-md"
-                    style={{ width: `${task.percentComplete}%` }}
+                    style={ width: `${task.percentComplete}%` }
                   />
                 )}
-                
+
                 {/* Today Marker if within task duration */}
                 {isTodayWithinTask && !task.isMilestone && (
                   <div className="absolute top-0 bottom-0 w-0.5 bg-white dark:bg-slate-300 z-10"
-                    style={{ 
-                      left: `${Math.min(barWidth, Math.max(0, differenceInDays(today, taskStart) * columnWidth))}px` 
-                    }}
+                    style={ 
+                      left: `${Math.min(barWidth, Math.max(0, differenceInDays(todaytaskStart) * columnWidth))}px` 
+                    }
                   />
                 )}
-                
+
                 {/* Task date range if not compact */}
-                {!isCompact && !task.isMilestone && barWidth > 50 && (
+                {!isCompact && !task.isMilestone && barWidth> 50 && (
                   <div className="absolute inset-0 flex items-center justify-center">
                     <span className="text-xs text-white font-medium truncate px-2">
                       {format(taskStart, 'MMM d')} - {format(taskEnd, 'MMM d')}
                     </span>
                   </div>
                 )}
-                
+
                 {/* Milestone content if applicable */}
                 {task.isMilestone && (
                   <div className="absolute inset-0 flex items-center justify-center">
@@ -222,7 +221,7 @@ const TimelineRow: React.FC<TimelineRowProps> = ({
                     `}>
                       {task.status.replace('_', ' ')}
                     </Badge>
-                    {task.percentComplete > 0 && (
+                    {task.percentComplete> 0 && (
                       <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-900/20 dark:text-blue-400 dark:border-blue-800">
                         {task.percentComplete}% complete
                       </Badge>
@@ -242,15 +241,15 @@ const TimelineRow: React.FC<TimelineRowProps> = ({
           </Tooltip>
         </TooltipProvider>
       </div>
-      
+
       {/* Planned Date Bar (if different from actual) */}
       {hasDateDifference && !task.isMilestone && (
         <div 
           className="absolute top-0 h-full"
-          style={{ 
+          style={ 
             left: `${plannedLeftPosition}px`, 
             width: `${plannedBarWidth}px` 
-          }}
+          }
         >
           <div className={`
             h-2 mt-3 border-2 border-slate-400 dark:border-slate-600 border-dashed rounded-md bg-transparent

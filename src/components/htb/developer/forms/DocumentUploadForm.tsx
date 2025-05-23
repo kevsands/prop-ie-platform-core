@@ -12,20 +12,19 @@ interface DocumentUploadFormProps {
 export function DocumentUploadForm({ claimId, onSuccessAction, onErrorAction }: DocumentUploadFormProps) {
   const { uploadHTBDocument, isLoading } = useHTB();
   const fileInputRef = useRef<HTMLInputElement>(null);
-  
-  const [formData, setFormData] = useState({
+
+  const [formDatasetFormData] = useState({
     file: null as File | null,
     type: "revenue_correspondence",
-    name: "",
-  });
+    name: "");
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target;
-    
+
     if (type === 'file') {
       const fileInput = e.target as HTMLInputElement;
       const file = fileInput.files?.[0] || null;
-      
+
       setFormData(prev => ({
         ...prev,
         file,
@@ -42,12 +41,12 @@ export function DocumentUploadForm({ claimId, onSuccessAction, onErrorAction }: 
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!formData.file) {
       onErrorAction('Please select a file to upload');
       return;
     }
-    
+
     try {
       await uploadHTBDocument(claimId, formData.file, formData.type, formData.name);
       onSuccessAction();

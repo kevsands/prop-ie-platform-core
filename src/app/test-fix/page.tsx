@@ -3,16 +3,16 @@
 import React, { useState } from 'react';
 
 export default function TestFixPage() {
-  const [isHovered, setIsHovered] = useState(false);
-  const [dropdownState, setDropdownState] = useState<string | null>(null);
+  const [isHoveredsetIsHovered] = useState(false);
+  const [dropdownStatesetDropdownState] = useState<string | null>(null);
 
   return (
     <div className="min-h-screen bg-gray-50 p-8 pt-24">
       <h1 className="text-2xl font-bold mb-8">Navigation Fix Test Page</h1>
-      
+
       <div className="bg-white rounded-lg shadow p-6 mb-6">
         <h2 className="text-lg font-semibold mb-4">Test Basic Dropdown</h2>
-        
+
         {/* Simple test dropdown */}
         <div className="relative inline-block">
           <button
@@ -25,7 +25,7 @@ export default function TestFixPage() {
               <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
             </svg>
           </button>
-          
+
           <div className={`absolute mt-2 w-64 bg-white rounded-lg shadow-xl p-4 ${
             isHovered ? 'opacity-100 visible' : 'opacity-0 invisible'
           } transition-all duration-200`}>
@@ -41,7 +41,7 @@ export default function TestFixPage() {
       <div className="bg-white rounded-lg shadow p-6 mb-6">
         <h2 className="text-lg font-semibold mb-4">Multiple Dropdowns Test</h2>
         <div className="flex gap-4">
-          {['Properties', 'Solutions', 'Resources'].map((item) => (
+          {['Properties', 'Solutions', 'Resources'].map((item: any) => (
             <div key={item} className="relative">
               <button
                 className="flex items-center px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700"
@@ -53,7 +53,7 @@ export default function TestFixPage() {
                   <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
                 </svg>
               </button>
-              
+
               <div 
                 className={`absolute mt-2 w-64 bg-white rounded-lg shadow-xl p-4 z-50 ${
                   dropdownState === item ? 'opacity-100 visible' : 'opacity-0 invisible'
@@ -87,11 +87,11 @@ export default function TestFixPage() {
               Dropdown Layer (z-index: 9999)
             </div>
           </div>
-          
+
           <div className="mt-8">
             <h3 className="font-medium mb-2">Navigation State:</h3>
             <pre className="bg-gray-100 p-3 rounded text-sm">
-              {JSON.stringify({ isHovered, dropdownState }, null, 2)}
+              {JSON.stringify({ isHovered, dropdownState }, null2)}
             </pre>
           </div>
         </div>

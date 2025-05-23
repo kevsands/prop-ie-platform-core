@@ -50,8 +50,8 @@ interface ProjectMetrics {
 
 export function DeveloperProjectWorkflow({ projectId }: { projectId: string }) {
   const router = useRouter();
-  const [activePhase, setActivePhase] = useState<string>('planning');
-  const [projectMetrics, setProjectMetrics] = useState<ProjectMetrics>({
+  const [activePhasesetActivePhase] = useState<string>('planning');
+  const [projectMetricssetProjectMetrics] = useState<ProjectMetrics>({
     totalUnits: 100,
     soldUnits: 45,
     reservedUnits: 20,
@@ -173,7 +173,7 @@ export function DeveloperProjectWorkflow({ projectId }: { projectId: string }) {
     return colors[priority as keyof typeof colors] || 'outline';
   };
 
-  const overallProgress = phases.reduce((acc, phase) => acc + phase.progress, 0) / phases.length;
+  const overallProgress = phases.reduce((accphase: any) => acc + phase.progress0) / phases.length;
 
   return (
     <div className="max-w-7xl mx-auto p-6">
@@ -340,7 +340,7 @@ export function DeveloperProjectWorkflow({ projectId }: { projectId: string }) {
             </div>
           </div>
         </Card>
-        
+
         <Card className="p-4 hover:shadow-lg transition-shadow cursor-pointer">
           <div className="flex items-center gap-3">
             <DocumentTextIcon className="h-8 w-8 text-primary" />
@@ -350,7 +350,7 @@ export function DeveloperProjectWorkflow({ projectId }: { projectId: string }) {
             </div>
           </div>
         </Card>
-        
+
         <Card className="p-4 hover:shadow-lg transition-shadow cursor-pointer">
           <div className="flex items-center gap-3">
             <ChartBarIcon className="h-8 w-8 text-primary" />

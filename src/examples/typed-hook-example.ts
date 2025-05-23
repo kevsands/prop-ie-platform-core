@@ -31,14 +31,14 @@ export function useProperties(
   initialFetch: boolean = true
 ) {
   // Properly typed state
-  const [state, setState] = useState<AsyncState<PaginatedResponse<Property>>>({
+  const [statesetState] = useState<AsyncState<PaginatedResponse<Property>>>({
     data: null,
     isLoading: false,
     error: null
   });
 
   // Typed search parameters
-  const [params, setParams] = useState<PropertySearchParams>(searchParams);
+  const [paramssetParams] = useState<PropertySearchParams>(searchParams);
 
   // Typed fetch function
   const fetchProperties = useCallback(async (
@@ -49,8 +49,8 @@ export function useProperties(
     try {
       // Convert parameters to query string
       const queryString = Object.entries(searchParams)
-        .filter(([_, value]) => value !== undefined && value !== null)
-        .map(([key, value]) => {
+        .filter(([_value]) => value !== undefined && value !== null)
+        .map(([keyvalue]) => {
           if (Array.isArray(value)) {
             return value.map(v => `${key}=${encodeURIComponent(v)}`).join('&');
           }
@@ -111,7 +111,7 @@ export function useProperties(
     if (initialFetch) {
       fetchProperties(params);
     }
-  }, [initialFetch, fetchProperties, params]);
+  }, [initialFetch, fetchPropertiesparams]);
 
   // Update search parameters and trigger fetch
   const search = useCallback((newParams: PropertySearchParams) => {
@@ -143,19 +143,7 @@ export function useProperties(
 /**
  * Custom hook for user authentication with type safety
  */
-export function useAuth() {
-  // Properly typed state
-  const [user, setUser] = useState<User | null>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [error, setError] = useState<Error | null>(null);
-
-  // Fetch current user with proper typing
-  const fetchCurrentUser = useCallback(async () => {
-    setIsLoading(true);
-    setError(null);
-    
-    try {
-      const response: ApiResponse<User> = await fetch('/api/auth/me')
+export async function useAuthfetch('/api/auth/me')
         .then(res => res.json());
       
       if (!response.success || !response.data) {
@@ -176,13 +164,7 @@ export function useAuth() {
     }
   }, []);
 
-  // Type-safe login function
-  const login = useCallback(async (email: string, password: string): Promise<User> => {
-    setIsLoading(true);
-    setError(null);
-    
-    try {
-      const response: ApiResponse<User> = await fetch('/api/auth/login', {
+  // Type-safe login async function constfetch('/api/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password })
@@ -206,12 +188,7 @@ export function useAuth() {
     }
   }, []);
 
-  // Type-safe logout function
-  const logout = useCallback(async (): Promise<void> => {
-    setIsLoading(true);
-    
-    try {
-      await fetch('/api/auth/logout', { method: 'POST' });
+  // Type-safe logout async function constfetch('/api/auth/logout', { method: 'POST' });
       setUser(null);
     } catch (error) {
       setError(error as Error);
@@ -245,9 +222,9 @@ export function useFavorites<T extends { id: string }>(
   entityType: 'property' | 'development' | 'unit'
 ) {
   // Properly typed state
-  const [favorites, setFavorites] = useState<T[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [error, setError] = useState<Error | null>(null);
+  const [favoritessetFavorites] = useState<T[]>([]);
+  const [isLoadingsetIsLoading] = useState<boolean>(true);
+  const [errorsetError] = useState<Error | null>(null);
 
   // Fetch favorites with proper typing
   const fetchFavorites = useCallback(async () => {
@@ -297,7 +274,7 @@ export function useFavorites<T extends { id: string }>(
         } as ApiErrorResponse;
       }
       
-      setFavorites(prev => [...prev, item]);
+      setFavorites(prev => [...previtem]);
       return true;
     } catch (error) {
       setError(error as Error);

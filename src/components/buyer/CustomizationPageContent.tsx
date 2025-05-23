@@ -1,3 +1,4 @@
+import React from 'react';
 "use client";
 
 import { useCustomization } from "@/context/CustomizationContext";
@@ -5,8 +6,8 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 export default function CustomizationPageContent() {
-  const [activeRoom, setActiveRoom] = useState("livingRoom");
-  const [activeCategory, setActiveCategory] = useState("flooring");
+  const [activeRoomsetActiveRoom] = useState("livingRoom");
+  const [activeCategorysetActiveCategory] = useState("flooring");
   const { selectedOptions, selectOption, totalCost } = useCustomization();
   const router = useRouter();
 
@@ -16,16 +17,14 @@ export default function CustomizationPageContent() {
     { id: "masterBedroom", name: "Master Bedroom", icon: "🛏️" },
     { id: "bathroom", name: "Bathroom", icon: "🚿" },
     { id: "secondBedroom", name: "Second Bedroom", icon: "🛌" },
-    { id: "study", name: "Study/Office", icon: "💻" },
-  ];
+    { id: "study", name: "Study/Office", icon: "💻" }];
 
   const categories = [
     { id: "flooring", name: "Flooring" },
     { id: "paint", name: "Wall Paint" },
     { id: "fixtures", name: "Fixtures & Fittings" },
     { id: "appliances", name: "Appliances" },
-    { id: "furniture", name: "Furniture" },
-  ];
+    { id: "furniture", name: "Furniture" }];
 
   const options = {
     livingRoom: {
@@ -36,29 +35,24 @@ export default function CustomizationPageContent() {
           price: 65,
           unit: "per sqm",
           image: "/flooring-oak.jpg",
-        },
         {
           id: "lr-floor-2",
           name: "Walnut Hardwood",
           price: 85,
           unit: "per sqm",
           image: "/flooring-walnut.jpg",
-        },
         {
           id: "lr-floor-3",
           name: "Engineered Wood",
           price: 45,
           unit: "per sqm",
           image: "/flooring-engineered.jpg",
-        },
         {
           id: "lr-floor-4",
           name: "Luxury Vinyl Tile",
           price: 35,
           unit: "per sqm",
-          image: "/flooring-vinyl.jpg",
-        },
-      ],
+          image: "/flooring-vinyl.jpg"],
       paint: [
         {
           id: "lr-paint-1",
@@ -66,29 +60,24 @@ export default function CustomizationPageContent() {
           price: 12,
           unit: "per sqm",
           image: "/paint-white.jpg",
-        },
         {
           id: "lr-paint-2",
           name: "Warm Beige",
           price: 14,
           unit: "per sqm",
           image: "/paint-beige.jpg",
-        },
         {
           id: "lr-paint-3",
           name: "Sage Green",
           price: 16,
           unit: "per sqm",
           image: "/paint-sage.jpg",
-        },
         {
           id: "lr-paint-4",
           name: "Light Gray",
           price: 14,
           unit: "per sqm",
-          image: "/paint-gray.jpg",
-        },
-      ],
+          image: "/paint-gray.jpg"],
       fixtures: [
         {
           id: "lr-fix-1",
@@ -96,22 +85,18 @@ export default function CustomizationPageContent() {
           price: 450,
           unit: "package",
           image: "/fixtures-standard.jpg",
-        },
         {
           id: "lr-fix-2",
           name: "Premium Lighting Package",
           price: 850,
           unit: "package",
           image: "/fixtures-premium.jpg",
-        },
         {
           id: "lr-fix-3",
           name: "Smart Lighting System",
           price: 1200,
           unit: "package",
-          image: "/fixtures-smart.jpg",
-        },
-      ],
+          image: "/fixtures-smart.jpg"],
       furniture: [
         {
           id: "lr-furn-1",
@@ -119,23 +104,18 @@ export default function CustomizationPageContent() {
           price: 1800,
           unit: "package",
           image: "/furniture-essential.jpg",
-        },
         {
           id: "lr-furn-2",
           name: "Comfort Package",
           price: 3200,
           unit: "package",
           image: "/furniture-comfort.jpg",
-        },
         {
           id: "lr-furn-3",
           name: "Luxury Package",
           price: 5500,
           unit: "package",
-          image: "/furniture-luxury.jpg",
-        },
-      ],
-    },
+          image: "/furniture-luxury.jpg"]},
     kitchen: {
       flooring: [
         {
@@ -144,22 +124,18 @@ export default function CustomizationPageContent() {
           price: 45,
           unit: "per sqm",
           image: "/kitchen-tile.jpg",
-        },
         {
           id: "k-floor-2",
           name: "Porcelain Tile",
           price: 65,
           unit: "per sqm",
           image: "/kitchen-porcelain.jpg",
-        },
         {
           id: "k-floor-3",
           name: "Luxury Vinyl",
           price: 40,
           unit: "per sqm",
-          image: "/kitchen-vinyl.jpg",
-        },
-      ],
+          image: "/kitchen-vinyl.jpg"],
       appliances: [
         {
           id: "k-app-1",
@@ -167,22 +143,18 @@ export default function CustomizationPageContent() {
           price: 3500,
           unit: "package",
           image: "/appliances-standard.jpg",
-        },
         {
           id: "k-app-2",
           name: "Premium Appliance Package",
           price: 6500,
           unit: "package",
           image: "/appliances-premium.jpg",
-        },
         {
           id: "k-app-3",
           name: "Smart Home Appliance Package",
           price: 8500,
           unit: "package",
-          image: "/appliances-smart.jpg",
-        },
-      ],
+          image: "/appliances-smart.jpg"],
       fixtures: [
         {
           id: "k-fix-1",
@@ -190,17 +162,12 @@ export default function CustomizationPageContent() {
           price: 1200,
           unit: "package",
           image: "/kitchen-fixtures-standard.jpg",
-        },
         {
           id: "k-fix-2",
           name: "Premium Fixtures",
           price: 2400,
           unit: "package",
-          image: "/kitchen-fixtures-premium.jpg",
-        },
-      ],
-    },
-  };
+          image: "/kitchen-fixtures-premium.jpg"]};
 
   const handleSaveAndContinue = () => {
     // Save customization and navigate to next step
@@ -227,7 +194,7 @@ export default function CustomizationPageContent() {
         {/* Room Navigation */}
         <div className="mb-8 overflow-x-auto">
           <div className="flex space-x-4 pb-2">
-            {rooms.map((room) => (
+            {rooms.map((room: any) => (
               <button
                 key={room.id}
                 onClick={() => setActiveRoom(room.id)}
@@ -247,7 +214,7 @@ export default function CustomizationPageContent() {
         {/* Category Navigation */}
         <div className="mb-6">
           <div className="flex flex-wrap gap-2">
-            {categories.map((category) => (
+            {categories.map((category: any) => (
               <button
                 key={category.id}
                 onClick={() => setActiveCategory(category.id)}
@@ -266,9 +233,9 @@ export default function CustomizationPageContent() {
         {/* Options Display */}
         <div className="bg-white rounded-lg shadow-sm p-6 mb-8">
           <h2 className="text-xl font-semibold mb-4">
-            {activeRoom && rooms.find((r) => r.id === activeRoom)?.name} -{" "}
+            {activeRoom && rooms.find((r: any) => r.id === activeRoom)?.name} -{" "
             {activeCategory &&
-              categories.find((c) => c.id === activeCategory)?.name}
+              categories.find((c: any) => c.id === activeCategory)?.name}
           </h2>
 
           {options[activeRoom as keyof typeof options]?.[
@@ -277,7 +244,7 @@ export default function CustomizationPageContent() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {options[activeRoom as keyof typeof options][
                 activeCategory as keyof (typeof options)[keyof typeof options]
-              ]?.map((option) => (
+              ]?.map((option: any) => (
                 <div
                   key={option.id}
                   className={`border rounded-lg overflow-hidden ${
@@ -313,7 +280,7 @@ export default function CustomizationPageContent() {
                           : "bg-gray-100 text-gray-800 hover:bg-gray-200"
                       }`}
                     >
-                      {selectedOptions[option.id] ? "Selected" : "Select"}
+                      {selectedOptions[option.id] ? "Selected" : "Select"
                     </button>
                   </div>
                 </div>
@@ -333,7 +300,7 @@ export default function CustomizationPageContent() {
             <div>
               <h2 className="text-xl font-semibold">Your Selections</h2>
               <p className="text-gray-600">
-                Total additional cost:{" "}
+                Total additional cost:{" "
                 <span className="font-semibold text-blue-600">
                   €{totalCost.toLocaleString()}
                 </span>

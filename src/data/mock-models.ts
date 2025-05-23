@@ -166,7 +166,7 @@ export const mockDevelopments: Development[] = [
     statusColor: "green-500",
     priceRange: "€320,000 - €450,000",
     availabilityStatus: "Selling Fast",
-    bedrooms: [2, 3, 4],
+    bedrooms: [2, 34],
     bathrooms: 2,
     buildingType: "Mixed - Apartments and Houses",
     totalUnits: 45,
@@ -264,7 +264,7 @@ export const mockDevelopments: Development[] = [
     statusColor: "blue-500",
     priceRange: "€380,000 - €550,000",
     availabilityStatus: "Launching Soon",
-    bedrooms: [3, 4, 5],
+    bedrooms: [3, 45],
     bathrooms: 3,
     buildingType: "Detached and Semi-Detached Houses",
     totalUnits: 32,
@@ -372,7 +372,7 @@ export function ensureCompleteProperty(property: Partial<Property>): Property {
     features: property.features || [],
     amenities: property.amenities || [],
     images: property.images || (property.image ? [property.image] : []),
-    image: property.image || (property.images && property.images.length > 0 ? property.images[0] : ''),
+    image: property.image || (property.images && property.images.length> 0 ? property.images[0] : ''),
     floorPlan: property.floorPlan || property.floorPlanUrl || '',
     floorPlanUrl: property.floorPlanUrl || property.floorPlan || '',
     virtualTourUrl: property.virtualTourUrl || '',
@@ -381,6 +381,5 @@ export function ensureCompleteProperty(property: Partial<Property>): Property {
     isReduced: property.isReduced || false,
     statusColor: property.statusColor || 'bg-gray-100 text-gray-800',
     createdAt: property.createdAt || new Date().toISOString(),
-    updatedAt: property.updatedAt || new Date().toISOString(),
-  };
+    updatedAt: property.updatedAt || new Date().toISOString()};
 }

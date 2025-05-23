@@ -9,7 +9,7 @@ import Link from 'next/link';
 import type { IconBaseProps } from 'react-icons';
 
 export default function FitzgeraldGardensHub() {
-  const [projectStats, setProjectStats] = useState({
+  const [projectStatssetProjectStats] = useState({
     totalUnits: 97,
     available: 78,
     reserved: 12,
@@ -17,12 +17,11 @@ export default function FitzgeraldGardensHub() {
     snags: 3,
     totalDeposits: 475000, // €5k × 12 reserved + (higher amounts for those further along)
   });
-  
-  const [salesVelocity, setSalesVelocity] = useState({
+
+  const [salesVelocitysetSalesVelocity] = useState({
     lastWeek: 3,
     lastMonth: 8,
-    trend: 'up',
-  });
+    trend: 'up'});
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
@@ -56,7 +55,7 @@ export default function FitzgeraldGardensHub() {
             </div>
           </div>
         </div>
-        
+
         <div className="bg-white rounded-lg shadow-md p-6">
           <h2 className="text-lg font-semibold text-gray-700 mb-4">Sales Velocity</h2>
           <div className="grid grid-cols-2 gap-4">
@@ -76,7 +75,7 @@ export default function FitzgeraldGardensHub() {
             </span>
           </div>
         </div>
-        
+
         <div className="bg-white rounded-lg shadow-md p-6">
           <h2 className="text-lg font-semibold text-gray-700 mb-4">Financial Summary</h2>
           <div className="grid grid-cols-1 gap-4">
@@ -99,25 +98,25 @@ export default function FitzgeraldGardensHub() {
           <h3 className="font-medium">Units</h3>
           <p className="text-sm text-gray-500">Manage all 97 units</p>
         </Link>
-        
+
         <Link href="/developer/projects/fitzgerald-gardens/sales" className="bg-white rounded-lg shadow-md p-6 text-center hover:bg-gray-50 transition-colors">
           {FiUsers({ className: "text-gray-400" })}
           <h3 className="font-medium">Sales</h3>
           <p className="text-sm text-gray-500">Track reservations & deposits</p>
         </Link>
-        
+
         <Link href="/developer/projects/fitzgerald-gardens/documents" className="bg-white rounded-lg shadow-md p-6 text-center hover:bg-gray-50 transition-colors">
           {FiClipboard({ className: "text-gray-400" })}
           <h3 className="font-medium">Documents</h3>
           <p className="text-sm text-gray-500">Manage legal documents</p>
         </Link>
-        
+
         <Link href="/developer/projects/fitzgerald-gardens/construction" className="bg-white rounded-lg shadow-md p-6 text-center hover:bg-gray-50 transition-colors">
           {FiTool({ className: "text-gray-400" })}
           <h3 className="font-medium">Construction</h3>
           <p className="text-sm text-gray-500">BOQ & contractor management</p>
         </Link>
-        
+
         <Link href="/developer/projects/fitzgerald-gardens/analytics" className="bg-white rounded-lg shadow-md p-6 text-center hover:bg-gray-50 transition-colors">
           {FiBarChart2({ className: "text-gray-400" })}
           <h3 className="font-medium">Analytics</h3>

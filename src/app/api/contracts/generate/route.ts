@@ -1,0 +1,211 @@
+import { NextRequest, NextResponse } from 'next/server';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/lib/auth';
+import { z } from 'zod';
+
+const generateContractSchema = z.object({
+  reservationId: z.string()
+});
+
+export async function POST(request: NextRequest) {
+  try {
+    const session = await getServerSession(authOptions);
+    if (!session) {
+      return NextResponse.json(
+        { error: 'Authentication required' },
+        { status: 401 }
+      );
+    }
+
+    const body = await request.json();
+    const { reservationId } = generateContractSchema.parse(body);
+
+    // Get reservation details
+    const reservation = await getReservationDetails(reservationId);
+    if (!reservation) {
+      return NextResponse.json(
+        { error: 'Reservation not found' },
+        { status: 404 }
+      );
+    }
+
+    // Generate contract PDF using your document generation system
+    const contractData = await buildContractData(reservation);
+    const contractPDF = await generateContractPDF(contractData);
+    const contractUrl = await storeContract(reservationIdcontractPDF);
+
+    // Update reservation with contract details
+    await updateReservationContract(reservationId, {
+      contractUrl,
+      generatedAt: new Date(),
+      status: 'CONTRACT_READY'
+    });
+
+    // Notify all parties
+    await notifyContractGenerated(reservationcontractUrl);
+
+    // Update transaction stage
+    await updateTransactionStage(reservationId, 'CONTRACT');
+
+    return NextResponse.json({
+      success: true,
+      contractUrl,
+      contractData: {
+        purchasePrice: contractData.terms.purchasePrice,
+        deposits: {
+          booking: contractData.terms.bookingDeposit,
+          balance: contractData.terms.balanceDeposit
+        },
+        completionDate: contractData.terms.completionDate
+      }
+    });
+
+  } catch (error) {
+
+    if (error instanceof z.ZodError) {
+      return NextResponse.json(
+        { error: 'Invalid request data', details: error.errors },
+        { status: 400 }
+      );
+    }
+
+    return NextResponse.json(
+      { error: 'Failed to generate contract' },
+      { status: 500 }
+    );
+  }
+}
+
+async function getReservationDetails(reservationId: string) {
+  // Integration with your existing database
+  return {
+    id: reservationId,
+    unit: {
+      id: 'unit_123',
+      name: 'Unit 12, Fitzgerald Gardens',
+      address: 'Ashbourne, Co. Meath',
+      price: 350000,
+      bookingDeposit: 5000,
+      bedrooms: 3,
+      bathrooms: 2,
+      floorArea: 95,
+      type: 'APARTMENT'
+    },
+    buyer: {
+      id: 'buyer_123',
+      name: 'John Doe',
+      email: 'john.doe@example.com',
+      address: 'Dublin, Ireland',
+      ppsNumber: 'PPS123456A'
+    },
+    solicitor: {
+      firmName: 'Smith & Associates',
+      solicitorName: 'Mary Smith',
+      email: 'mary@smithlaw.ie',
+      phone: '+353 1 234 5678',
+      address: 'Dublin 2, Ireland',
+      lawSocRegistration: 'LS12345'
+    },
+    development: {
+      name: 'Fitzgerald Gardens',
+      developer: 'Prop.ie Limited',
+      planningRef: 'MH/2023/1234'
+    }
+  };
+}
+
+async function buildContractData(reservation: any) {
+  const completionDate = new Date();
+  completionDate.setMonth(completionDate.getMonth() + 18); // 18 months from now
+
+  return {
+    contractReference: `PROP_${reservation.id}_${Date.now()}`,
+    contractDate: new Date().toISOString().split('T')[0],
+    unit: reservation.unit,
+    buyer: reservation.buyer,
+    solicitor: reservation.solicitor,
+    developer: {
+      name: 'Prop.ie Limited',
+      address: 'Dublin, Ireland',
+      companyRegNumber: 'IE123456',
+      signatory: {
+        name: 'Development Director',
+        title: 'Director'
+      }
+    },
+    terms: {
+      purchasePrice: reservation.unit.price,
+      bookingDeposit: reservation.unit.bookingDeposit,
+      balanceDeposit: Math.round(reservation.unit.price * 0.1), // 10%
+      completionBalance: reservation.unit.price - reservation.unit.bookingDeposit - Math.round(reservation.unit.price * 0.1),
+      completionDate: completionDate.toISOString().split('T')[0]
+    },
+    development: reservation.development
+  };
+}
+
+async function generateContractPDF(contractData: any): Promise<Buffer> {
+  // Integration with your existing document generation system
+  // This would use your document template engine (e.g., PDFKit, Puppeteer, etc.)
+
+  // Mock PDF generation - in production this would generate actual PDF
+  const mockPDFBuffer = Buffer.from(`Contract for ${contractData.buyer.name} - ${contractData.unit.name}`);
+  return mockPDFBuffer;
+}
+
+async function storeContract(reservationId: string, contractPDF: Buffer): Promise<string> {
+  // Integration with your existing file storage (AWS S3, etc.)
+  const contractId = `contract_${reservationId}_${Date.now()}`;
+  const fileName = `${contractId}.pdf`;
+
+  // In production, this would upload to your storage service
+  // const s3Upload = await s3.upload({
+  //   Bucket: process.env.CONTRACTS_BUCKET,
+  //   Key: fileName,
+  //   Body: contractPDF,
+  //   ContentType: 'application/pdf',
+  //   ServerSideEncryption: 'AES256'
+  // }).promise();
+
+  // Return secure, signed URL
+  return `https://secure.prop.ie/contracts/${fileName}`;
+}
+
+async function updateReservationContract(reservationId: string, contractDetails: any) {
+  // Integration with your existing database
+
+  // await prisma.reservation.update({
+  //   where: { id: reservationId },
+  //   data: { contract: contractDetails }
+  // });
+}
+
+async function notifyContractGenerated(reservation: any, contractUrl: string) {
+  // Integration with your existing notification system
+  const notifications = [
+    {
+      to: reservation.buyer.email,
+      subject: 'Contract Ready for Review',
+      template: 'buyer-contract-ready',
+      data: { contractUrl, buyerName: reservation.buyer.name }
+    },
+    {
+      to: reservation.solicitor.email,
+      subject: 'Client Contract Generated',
+      template: 'solicitor-contract-ready',
+      data: { contractUrl, clientName: reservation.buyer.name }
+    }
+  ];
+
+  // await Promise.all(notifications.map(notification => emailService.send(notification)));
+
+}
+
+async function updateTransactionStage(reservationId: string, stage: string) {
+  // Integration with your existing transaction service
+
+  // await transactionService.updateTransaction(transactionId, {
+  //   stage: stage,
+  //   status: 'CONTRACT_READY'
+  // });
+}

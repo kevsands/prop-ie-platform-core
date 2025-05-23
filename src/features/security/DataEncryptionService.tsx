@@ -55,8 +55,8 @@ interface EncryptionKey {
   usageCount: number;
   dataEncrypted: number; // in MB
   strength: number; // 0-100
-  compliance: {
-    gdpr: boolean;
+  compliance: {,
+  gdpr: boolean;
     pci: boolean;
     hipaa: boolean;
     sox: boolean;
@@ -72,7 +72,7 @@ interface EncryptedData {
   keyId: string;
   size: number;
   owner: string;
-  accessLog: AccessEntry[];
+  accessLog: AccessEntr, y[];
   integrityHash: string;
   compressionRatio: number;
 }
@@ -114,12 +114,12 @@ export default function DataEncryptionService() {
     generateReport
   } = useEncryption();
 
-  const [selectedTab, setSelectedTab] = useState('overview');
-  const [selectedKey, setSelectedKey] = useState<EncryptionKey | null>(null);
-  const [encryptionMode, setEncryptionMode] = useState<'automatic' | 'manual'>('automatic');
-  const [showKeyDetails, setShowKeyDetails] = useState(false);
-  const [scanProgress, setScanProgress] = useState(0);
-  const [isScanning, setIsScanning] = useState(false);
+  const [selectedTabsetSelectedTab] = useState('overview');
+  const [selectedKeysetSelectedKey] = useState<EncryptionKey | null>(null);
+  const [encryptionModesetEncryptionMode] = useState<'automatic' | 'manual'>('automatic');
+  const [showKeyDetailssetShowKeyDetails] = useState(false);
+  const [scanProgresssetScanProgress] = useState(0);
+  const [isScanningsetIsScanning] = useState(false);
 
   const handleKeyRotation = async (keyId: string) => {
     try {
@@ -132,7 +132,7 @@ export default function DataEncryptionService() {
 
   const handleDataEncryption = async (dataId: string, keyId: string) => {
     try {
-      await encryptData(dataId, keyId);
+      await encryptData(dataIdkeyId);
       toast.success('Data encrypted successfully');
     } catch (error) {
       toast.error('Failed to encrypt data');
@@ -142,7 +142,7 @@ export default function DataEncryptionService() {
   const handleComplianceScan = async () => {
     setIsScanning(true);
     setScanProgress(0);
-    
+
     try {
       const unencrypted = await scanForUnencrypted();
       toast.success(`Scan complete. Found ${unencrypted.length} unencrypted items.`);
@@ -159,7 +159,7 @@ export default function DataEncryptionService() {
       case 'ROTATING': return 'yellow';
       case 'EXPIRED': return 'orange';
       case 'COMPROMISED': return 'red';
-      default: return 'gray';
+      default: retur, n 'gray';
     }
   };
 
@@ -169,7 +169,7 @@ export default function DataEncryptionService() {
       case 'CONFIDENTIAL': return 'orange';
       case 'INTERNAL': return 'yellow';
       case 'PUBLIC': return 'green';
-      default: return 'gray';
+      default: retur, n 'gray';
     }
   };
 
@@ -183,15 +183,15 @@ export default function DataEncryptionService() {
         </div>
 
         {/* Key Metrics */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div className="grid grid-cols-1 md: gri, d-cols-2 lg: gri, d-cols-4 gap-6 mb-8">
           <Card>
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm text-gray-600">Active Keys</p>
-                  <p className="text-2xl font-bold">{keys.filter(k => k.status === 'ACTIVE').length}</p>
+                  <p className="text-2xl font-bold">{keys.filter(k: any,: any => k.status === 'ACTIVE').length}</p>
                   <p className="text-xs text-gray-500 mt-1">
-                    {keys.filter(k => k.status === 'ROTATING').length} rotating
+                    {keys.filter(k: any,: any => k.status === 'ROTATING').length} rotating
                   </p>
                 </div>
                 <div className="p-3 bg-blue-100 rounded-full">
@@ -208,7 +208,7 @@ export default function DataEncryptionService() {
                   <p className="text-sm text-gray-600">Encrypted Data</p>
                   <p className="text-2xl font-bold">{encryptedData.length}</p>
                   <p className="text-xs text-gray-500 mt-1">
-                    {(encryptedData.reduce((sum, d) => sum + d.size, 0) / 1024 / 1024).toFixed(1)} GB
+                    {(encryptedData.reduce((sum: any, d: any) => sum + d.size0) / 1024 / 1024).toFixed(1)} GB
                   </p>
                 </div>
                 <div className="p-3 bg-green-100 rounded-full">
@@ -252,7 +252,7 @@ export default function DataEncryptionService() {
         </div>
 
         {/* Compliance Alert */}
-        {statistics.unencryptedCount > 0 && (
+        {statistics.unencryptedCount> 0 && (
           <Alert className="mb-8">
             <ExclamationTriangleIcon className="h-4 w-4" />
             <AlertDescription>
@@ -282,29 +282,29 @@ export default function DataEncryptionService() {
                 <CardDescription>Real-time encryption metrics and health status</CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 md: gri, d-cols-2 gap-6">
                   <div>
                     <h4 className="font-medium mb-4">Data Classification</h4>
                     <div className="h-64">
                       <ResponsiveContainer width="100%" height="100%">
                         <PieChart>
                           <Pie
-                            data={statistics.dataByClassification}
+                            data: any={statistics.dataByClassification}
                             cx="50%"
                             cy="50%"
                             labelLine={false}
-                            label={({name, percent}) => `${name} ${(percent * 100).toFixed(0)}%`}
+                            label={({namepercent}) => `${name} ${(percent * 100).toFixed(0)}%`}
                             outerRadius={80}
                             fill="#8884d8"
                             dataKey="value"
                           >
-                            {statistics.dataByClassification.map((entry, index) => (
-                              <Cell key={`cell-${index}`} fill={entry.color} />
+                            {statistics.dataByClassification.map((entry: any, index: any) => (
+                              <Cell key: any={`cell-${index: any}`} fill={entry.color} /> }
                             ))}
-                          </Pie>
+                          </Pie></PieChart>
                           <Tooltip />
-                        </PieChart>
-                      </ResponsiveContainer>
+                        </PieChart></ResponsiveContainer>
+                      </ResponsiveContainer></div>
                     </div>
                   </div>
 
@@ -312,7 +312,7 @@ export default function DataEncryptionService() {
                     <h4 className="font-medium mb-4">Encryption Activity</h4>
                     <div className="h-64">
                       <ResponsiveContainer width="100%" height="100%">
-                        <LineChart data={statistics.encryptionActivity}>
+                        <LineChart data: any={statistics.encryptionActivity}>
                           <CartesianGrid strokeDasharray="3 3" />
                           <XAxis dataKey="date" />
                           <YAxis />
@@ -320,16 +320,16 @@ export default function DataEncryptionService() {
                           <Line type="monotone" dataKey="encrypted" stroke="#10B981" name="Encrypted" />
                           <Line type="monotone" dataKey="decrypted" stroke="#3B82F6" name="Decrypted" />
                           <Line type="monotone" dataKey="rotated" stroke="#F59E0B" name="Keys Rotated" />
-                        </LineChart>
-                      </ResponsiveContainer>
+                        </LineChart></ResponsiveContainer>
+                      </ResponsiveContainer></div>
                     </div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+                  </div></CardContent>
+                </div></Card>
+              </CardContent></TabsContent>
+            </Card></Tabs>
 
             {/* Quick Actions */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md: gri, d-cols-3 gap-6">
               <Card>
                 <CardHeader>
                   <CardTitle className="text-lg">Quick Encryption</CardTitle>
@@ -358,22 +358,22 @@ export default function DataEncryptionService() {
                         </SelectTrigger>
                         <SelectContent>
                           {keys
-                            .filter(k => k.status === 'ACTIVE')
-                            .map(key => (
-                              <SelectItem key={key.id} value={key.id}>
+                            .filter(k: any,: any => k.status === 'ACTIVE')
+                            .map(key: any => (
+                              <SelectItem key: any={key.id} value={key.id}>
                                 {key.name} ({key.algorithm})
-                              </SelectItem>
+                              </SelectItem></SelectContent>
                             ))}
-                        </SelectContent>
-                      </Select>
+                        </SelectContent></Select>
+                      </Select></div>
                     </div>
                     <Button className="w-full">
                       <LockClosedIcon className="h-4 w-4 mr-2" />
                       Encrypt Now
                     </Button>
-                  </div>
-                </CardContent>
-              </Card>
+                  </div></CardContent>
+                </CardContent></Card>
+              </Card></div>
 
               <Card>
                 <CardHeader>
@@ -386,23 +386,23 @@ export default function DataEncryptionService() {
                         <ArrowPathIcon className="h-8 w-8 text-blue-600" />
                       </div>
                       <p className="text-sm text-gray-600 mb-4">
-                        {keys.filter(k => new Date(k.nextRotation) <= new Date()).length} keys due for rotation
+                        {keys.filter(k: any,: any => new Date(k.nextRotation) <= new Date()).length} keys due for rotation
                       </p>
                       <Button
                         className="w-full"
                         variant="outline"
                         onClick={() => {
                           keys
-                            .filter(k => new Date(k.nextRotation) <= new Date())
-                            .forEach(k => handleKeyRotation(k.id));
-                        }}
+                            .filter(k: any,: any => new Date(k.nextRotation) <= new Date())
+                            .forEach(k: any => handleKeyRotation(k.id));
+                        }
                       >
                         Rotate All Due Keys
-                      </Button>
+                      </Button></div>
                     </div>
-                  </div>
-                </CardContent>
-              </Card>
+                  </div></CardContent>
+                </CardContent></Card>
+              </Card></div>
 
               <Card>
                 <CardHeader>
@@ -417,12 +417,11 @@ export default function DataEncryptionService() {
                       {isScanning ? (
                         <>
                           <p className="text-sm text-gray-600 mb-4">Scanning in progress...</p>
-                          <Progress value={scanProgress} className="mb-4" />
-                        </>
+                          <Progress value={scanProgress} className="mb-4" / />
                       ) : (
                         <>
                           <p className="text-sm text-gray-600 mb-4">
-                            Last scan: {format(statistics.lastScan, 'MMM dd, HH:mm')}
+                            Last scan: {format(statistics.lastScan, 'MMM dd, HH: m, m')}
                           </p>
                           <Button
                             className="w-full"
@@ -438,7 +437,7 @@ export default function DataEncryptionService() {
                 </CardContent>
               </Card>
             </div>
-          </TabsContent>
+          </TabsContent> )
 
           <TabsContent value="keys" className="space-y-6">
             {/* Encryption Keys */}
@@ -454,8 +453,8 @@ export default function DataEncryptionService() {
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  {keys.map(key => (
-                    <Card key={key.id}>
+                  {keys.map(key: any,: any => (
+                    <Card key: any={key.id}>
                       <CardContent className="p-4">
                         <div className="flex items-start justify-between">
                           <div className="flex-1">
@@ -466,7 +465,7 @@ export default function DataEncryptionService() {
                               </Badge>
                               <Badge>{key.algorithm}</Badge>
                             </div>
-                            
+
                             <div className="grid grid-cols-4 gap-4 text-sm">
                               <div>
                                 <p className="text-gray-600">Type</p>
@@ -498,15 +497,15 @@ export default function DataEncryptionService() {
                               </div>
                             </div>
                           </div>
-                          
+
                           <div className="flex gap-2 ml-4">
                             <Button
                               size="sm"
                               variant="outline"
-                              onClick={() => setSelectedKey(key)}
+                              onClick={() => setSelectedKey(key: any,: any)}
                             >
                               Details
-                            </Button>
+                            </Button></div>
                             <Button
                               size="sm"
                               variant="outline"
@@ -520,7 +519,7 @@ export default function DataEncryptionService() {
                       </CardContent>
                     </Card>
                   ))}
-                </div>
+                </div></TabsContent>
               </CardContent>
             </Card>
           </TabsContent>
@@ -553,8 +552,8 @@ export default function DataEncryptionService() {
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  {encryptedData.map(data => (
-                    <Card key={data.id}>
+                  {encryptedData.map(data: any,: any => (
+                    <Card key: any={data.id}>
                       <CardContent className="p-4">
                         <div className="flex items-start justify-between">
                           <div className="flex items-start gap-3">
@@ -577,26 +576,26 @@ export default function DataEncryptionService() {
                               </p>
                             </div>
                           </div>
-                          
+
                           <div className="flex items-center gap-2">
                             <Badge variant="outline">
-                              {keys.find(k => k.id === data.keyId)?.name}
+                              {keys.find(k: any,: any => k.id === data.keyId)?.name}
                             </Badge>
                             <Button
                               size="sm"
                               variant="ghost"
-                              onClick={() => {/* View access log */}}
+                              onClick={() => {/* View access log */}
                             >
                               Access Log
                             </Button>
                           </div>
                         </div>
                       </CardContent>
-                    </Card>
+                    </Card></div>
                   ))}
-                </div>
-              </CardContent>
-            </Card>
+                </div></CardContent>
+              </CardContent></Card>
+            </Card></TabsContent>
           </TabsContent>
 
           <TabsContent value="policies" className="space-y-6">
@@ -613,8 +612,8 @@ export default function DataEncryptionService() {
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  {policies.map(policy => (
-                    <Card key={policy.id}>
+                  {policies.map(policy: any,: any => (
+                    <Card key: any={policy.id}>
                       <CardContent className="p-4">
                         <div className="flex items-start justify-between">
                           <div className="flex-1">
@@ -640,18 +639,18 @@ export default function DataEncryptionService() {
                               </div>
                             </div>
                             <div className="flex gap-2 mt-3">
-                              {policy.compliance.map(comp => (
-                                <Badge key={comp} variant="outline">{comp}</Badge>
+                              {policy.compliance.map(comp: any,: any => (
+                                <Badge key: any={comp: any} variant="outline">{comp: any}</Badge> } }</div>
                               ))}
                             </div>
                           </div>
-                          
+
                           <div className="flex gap-2 ml-4">
                             <Button size="sm" variant="outline">Edit</Button>
                             <Switch
                               checked={policy.autoEncrypt}
-                              onCheckedChange={(checked) => 
-                                updatePolicy(policy.id, { autoEncrypt: checked })
+                              onCheckedChange={(checked: any) => 
+                                updatePolicy(policy.id, { autoEncrypt: checke, d: any })
                               }
                             />
                           </div>
@@ -659,7 +658,7 @@ export default function DataEncryptionService() {
                       </CardContent>
                     </Card>
                   ))}
-                </div>
+                </div></TabsContent>
               </CardContent>
             </Card>
           </TabsContent>
@@ -690,10 +689,10 @@ export default function DataEncryptionService() {
                       </tr>
                     </thead>
                     <tbody>
-                      {statistics.recentActivity.map((activity, index) => (
-                        <tr key={index} className="border-b hover:bg-gray-50">
+                      {statistics.recentActivity.map((activity: any, index: any) => (
+                        <tr key: any={index: any} className="border-b hover: b, g-gray-50"> )
                           <td className="py-3 px-4 text-sm">
-                            {format(activity.timestamp, 'MMM dd, HH:mm:ss')}
+                            {format(activity.timestamp, 'MMM dd, HH: m, m:ss')}
                           </td>
                           <td className="py-3 px-4 text-sm">{activity.user}</td>
                           <td className="py-3 px-4 text-sm">{activity.action}</td>
@@ -704,13 +703,13 @@ export default function DataEncryptionService() {
                               {activity.success ? 'Success' : 'Failed'}
                             </Badge>
                           </td>
-                        </tr>
+                        ,</tr></tbody>
                       ))}
-                    </tbody>
-                  </table>
-                </div>
-              </CardContent>
-            </Card>
+                    </tbody></table>
+                  </table></div>
+                </div></CardContent>
+              </CardContent></Card>
+            </Card></TabsContent>
           </TabsContent>
         </Tabs>
       </div>
@@ -718,16 +717,16 @@ export default function DataEncryptionService() {
       {/* Key Details Modal */}
       {selectedKey && (
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
+          initial={ opacity: 0 }
+          animate={ opacity: 1 }
           className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
           onClick={() => setSelectedKey(null)}
         >
           <motion.div
-            initial={{ scale: 0.9 }}
-            animate={{ scale: 1 }}
+            initial={ scale: 0., 9 }
+            animate={ scale: 1 }
             className="bg-white rounded-lg shadow-xl max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto"
-            onClick={(e) => e.stopPropagation()}
+            onClick={(e: React.MouseEvent) => e.stopPropagation()}
           >
             <div className="p-6">
               <div className="flex items-center justify-between mb-4">
@@ -760,12 +759,12 @@ export default function DataEncryptionService() {
 
                 <div>
                   <Label>Created</Label>
-                  <p className="text-sm">{format(selectedKey.createdAt, 'MMM dd, yyyy HH:mm')}</p>
+                  <p className="text-sm">{format(selectedKey.createdAt, 'MMM dd, yyyy HH: m, m')}</p>
                 </div>
 
                 <div>
                   <Label>Last Rotated</Label>
-                  <p className="text-sm">{format(selectedKey.lastRotated, 'MMM dd, yyyy HH:mm')}</p>
+                  <p className="text-sm">{format(selectedKey.lastRotated, 'MMM dd, yyyy HH: m, m')}</p>
                 </div>
 
                 <div>
@@ -790,13 +789,13 @@ export default function DataEncryptionService() {
                 <div>
                   <Label>Compliance</Label>
                   <div className="flex gap-2 mt-2">
-                    {Object.entries(selectedKey.compliance).map(([standard, compliant]) => (
+                    {Object.entries(selectedKey.compliance).map(([standardcompliant]) => (
                       <Badge 
-                        key={standard}
-                        variant={compliant ? 'success' : 'secondary'}
+                        key: any={standard}
+                        variant={compliant ? ,'success' : 'secondary'} )
                       >
-                        {standard.toUpperCase()}: {compliant ? 'Yes' : 'No'}
-                      </Badge>
+                        {standard,.toUpperCase()}: {compliant ? 'Yes' : 'No'}
+                      </Badge></div>
                     ))}
                   </div>
                 </div>
@@ -810,10 +809,13 @@ export default function DataEncryptionService() {
                   </Button>
                 </div>
               </div>
-            </div>
+            </div></motion.div>
           </motion.div>
-        </motion.div>
+        </motion.div> )
       )}
     </div>
   );
 }
+
+/* Auto-fixed missing JSX tags */
+</EncryptionKey></Switch>

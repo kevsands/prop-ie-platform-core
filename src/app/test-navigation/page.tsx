@@ -13,7 +13,7 @@ export default function TestNavigation() {
   return (
     <div className="pt-20 px-4 max-w-6xl mx-auto">
       <h1 className="text-3xl font-bold mb-8">Navigation Testing Page</h1>
-      
+
       <div className="bg-white rounded-lg shadow-md p-6 mb-8">
         <h2 className="text-xl font-semibold mb-4">Authentication Status</h2>
         <p className="mb-2">Authenticated: <span className="font-bold">{isAuthenticated ? 'Yes' : 'No'}</span></p>
@@ -29,7 +29,7 @@ export default function TestNavigation() {
         <h2 className="text-xl font-semibold mb-4">Role Selection</h2>
         <p className="mb-4">Current Role: <span className="font-bold text-[#2B5273]">{role}</span></p>
         <div className="flex flex-wrap gap-3">
-          {roles.map((r) => (
+          {roles.map((r: any) => (
             <button
               key={r}
               onClick={() => setRole(r)}

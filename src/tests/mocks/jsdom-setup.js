@@ -17,8 +17,7 @@ if (typeof window !== 'undefined') {
     Object.defineProperty(window, 'performance', {
       value: {
         ...(window.performance || {}),
-        now: () => Date.now(),
-      },
+        now: () => Date.now()},
       writable: true,
       configurable: true
     });
@@ -87,7 +86,6 @@ if (typeof window !== 'undefined') {
       removeListener: () => {},
       addEventListener: () => {},
       removeEventListener: () => {},
-      dispatchEvent: () => false,
-    });
+      dispatchEvent: () => false});
   }
 }

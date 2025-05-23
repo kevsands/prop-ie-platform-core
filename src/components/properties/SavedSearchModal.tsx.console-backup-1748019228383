@@ -1,0 +1,245 @@
+'use client';
+
+import { useState } from 'react';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  Alert,
+  AlertDescription} from "@/components/ui/alert";
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger} from "@/components/ui/tabs";
+import { Badge } from "@/components/ui/badge";
+import { TrashIcon, BookmarkIcon, ClockIcon } from '@heroicons/react/24/outline';
+import { format } from 'date-fns';
+
+interface SavedSearch {
+  id: string;
+  name: string;
+  description?: string;
+  filters: any;
+  createdAt: Date;
+  lastUsed?: Date;
+  notificationEnabled: boolean;
+}
+
+interface SavedSearchModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  onSave: (name: string, description?: string, enableNotifications?: boolean) => void;
+  currentFilters: any;
+  savedSearches: SavedSearch[];
+  onDelete: (id: string) => void;
+}
+
+export default function SavedSearchModal({
+  isOpen,
+  onClose,
+  onSave,
+  currentFilters,
+  savedSearches,
+  onDelete
+}: SavedSearchModalProps) {
+  const [name, setName] = useState('');
+  const [description, setDescription] = useState('');
+  const [enableNotifications, setEnableNotifications] = useState(true);
+  const [activeTab, setActiveTab] = useState('save');
+  const [error, setError] = useState('');
+
+  const handleSave = () => {
+    if (!name.trim()) {
+      setError('Please enter a name for your search');
+      return;
+    }
+
+    onSave(name, description, enableNotifications);
+    setName('');
+    setDescription('');
+    setError('');
+    onClose();
+  };
+
+  const formatFilters = (filters: any) => {
+    const parts: string[] = [];
+    
+    if (filters.priceMin || filters.priceMax) {
+      parts.push(`€${filters.priceMin?.toLocaleString() || 0} - €${filters.priceMax?.toLocaleString() || '∞'}`);
+    }
+    
+    if (filters.bedroomsMin || filters.bedroomsMax) {
+      parts.push(`${filters.bedroomsMin || 0}-${filters.bedroomsMax || '5+'} beds`);
+    }
+    
+    if (filters.propertyTypes?.length > 0) {
+      parts.push(filters.propertyTypes.join(', '));
+    }
+    
+    if (filters.locations?.length > 0) {
+      parts.push(filters.locations.join(', '));
+    }
+    
+    return parts.join(' • ');
+  };
+
+  return (
+    <Dialog open={isOpen} onOpenChange={onClose}>
+      <DialogContent className="sm:max-w-[500px]">
+        <DialogHeader>
+          <DialogTitle>Saved Searches</DialogTitle>
+          <DialogDescription>
+            Save your current search criteria or manage existing saved searches
+          </DialogDescription>
+        </DialogHeader>
+
+        <Tabs value={activeTab} onValueChange={setActiveTab}>
+          <TabsList className="grid w-full grid-cols-2">
+            <TabsTrigger value="save">Save Current Search</TabsTrigger>
+            <TabsTrigger value="manage">Manage Searches</TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="save" className="space-y-4">
+            <div>
+              <Label htmlFor="name">Search Name</Label>
+              <Input
+                id="name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="e.g., Dublin 2-bed apartments under €400k"
+                className="mt-1"
+              />
+            </div>
+
+            <div>
+              <Label htmlFor="description">Description (optional)</Label>
+              <Textarea
+                id="description"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                placeholder="Add notes about what you're looking for..."
+                className="mt-1"
+                rows={3}
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label>Current Filters</Label>
+              <div className="p-3 bg-gray-50 rounded-lg">
+                <p className="text-sm text-gray-600">
+                  {formatFilters(currentFilters) || 'No filters applied'}
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-center space-x-2">
+              <input
+                type="checkbox"
+                id="notifications"
+                checked={enableNotifications}
+                onChange={(e) => setEnableNotifications(e.target.checked)}
+                className="h-4 w-4"
+              />
+              <Label 
+                htmlFor="notifications" 
+                className="text-sm font-normal cursor-pointer"
+              >
+                Send me email alerts when new properties match this search
+              </Label>
+            </div>
+
+            {error && (
+              <Alert variant="destructive">
+                <AlertDescription>{error}</AlertDescription>
+              </Alert>
+            )}
+          </TabsContent>
+
+          <TabsContent value="manage" className="space-y-4">
+            {savedSearches.length === 0 ? (
+              <div className="text-center py-8 text-gray-500">
+                <BookmarkIcon className="h-12 w-12 mx-auto mb-3 text-gray-300" />
+                <p>No saved searches yet</p>
+                <p className="text-sm">Save your first search to see it here</p>
+              </div>
+            ) : (
+              <div className="space-y-3 max-h-[400px] overflow-y-auto">
+                {savedSearches.map((search) => (
+                  <div
+                    key={search.id}
+                    className="p-4 border rounded-lg hover:bg-gray-50 transition-colors"
+                  >
+                    <div className="flex items-start justify-between">
+                      <div className="flex-1">
+                        <h3 className="font-medium">{search.name}</h3>
+                        {search.description && (
+                          <p className="text-sm text-gray-600 mt-1">
+                            {search.description}
+                          </p>
+                        )}
+                        <p className="text-sm text-gray-500 mt-2">
+                          {formatFilters(search.filters)}
+                        </p>
+                        <div className="flex items-center gap-4 mt-3">
+                          <span className="text-xs text-gray-500 flex items-center gap-1">
+                            <ClockIcon className="h-3 w-3" />
+                            Created {format(search.createdAt, 'MMM d')}
+                          </span>
+                          {search.lastUsed && (
+                            <span className="text-xs text-gray-500">
+                              Last used {format(search.lastUsed, 'MMM d')}
+                            </span>
+                          )}
+                          {search.notificationEnabled && (
+                            <Badge variant="secondary" className="text-xs">
+                              Alerts on
+                            </Badge>
+                          )}
+                        </div>
+                      </div>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => onDelete(search.id)}
+                        className="text-red-600 hover:text-red-700"
+                      >
+                        <TrashIcon className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </TabsContent>
+        </Tabs>
+
+        <DialogFooter>
+          {activeTab === 'save' && (
+            <>
+              <Button variant="outline" onClick={onClose}>
+                Cancel
+              </Button>
+              <Button onClick={handleSave}>
+                Save Search
+              </Button>
+            </>
+          )}
+          {activeTab === 'manage' && (
+            <Button onClick={onClose}>
+              Close
+            </Button>
+          )}
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+}

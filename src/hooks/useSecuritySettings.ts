@@ -7,7 +7,7 @@ import { useState } from 'react';
  */
 export function useSecuritySettings() {
   const [loading] = useState(false);
-  
+
   // Mock MFA status
   const mfaStatus = {
     enabled: true,
@@ -16,13 +16,13 @@ export function useSecuritySettings() {
     totpVerified: true,
     recoveryCodes: true
   };
-  
+
   // Mock feature flags
   const mfaEnabled = true;
   const sessionFingerprintingEnabled = true;
   const auditLoggingEnabled = true;
   const riskBasedAuthEnabled = false;
-  
+
   // Mock security metrics
   const securityScore = 85;
   const securityRecommendations = [
@@ -30,37 +30,37 @@ export function useSecuritySettings() {
     'Review recent account activity regularly'
   ];
   const trustedDevicesCount = 2;
-  
+
   /**
    * Mock function to clear all trusted devices
    */
   const clearAllTrustedDevices = async () => {
-    console.log('clearAllTrustedDevices called');
+
     return true;
   };
-  
+
   /**
    * Mock function to disable MFA
    */
   const disableMFA = async () => {
-    console.log('disableMFA called');
+
     return true;
   };
-  
+
   /**
    * Mock function to check if user can disable MFA
    */
   const canDisableMFA = (): boolean => {
     return true;
   };
-  
+
   /**
    * Mock function to calculate security score
    */
   const calculateSecurityScore = () => {
-    console.log('calculateSecurityScore called');
+
   };
-  
+
   return {
     loading,
     mfaStatus,

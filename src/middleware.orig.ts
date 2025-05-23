@@ -62,7 +62,5 @@ export const config = {
      */
     "/((?!_next/static|_next/image|favicon.ico|images|login|register|access-denied|$).*)",
     // Explicitly include API routes that need protection if not covered above
-    "/api/secure/:path*",
-  ],
-};
+    "/api/secure/:path*"]};
 

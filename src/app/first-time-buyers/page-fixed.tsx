@@ -23,8 +23,8 @@ import {
 } from 'lucide-react';
 
 export default function FirstTimeBuyersPageFixed() {
-  const [activeStep, setActiveStep] = useState<number | null>(null);
-  const [currentView, setCurrentView] = useState<'overview' | 'prop-difference' | 'htb' | 'mortgage' | 'properties' | 'documents' | 'progress'>('overview');
+  const [activeStepsetActiveStep] = useState<number | null>(null);
+  const [currentViewsetCurrentView] = useState<'overview' | 'prop-difference' | 'htb' | 'mortgage' | 'properties' | 'documents' | 'progress'>('overview');
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50">
@@ -66,8 +66,7 @@ export default function FirstTimeBuyersPageFixed() {
             { id: 'htb', label: 'HTB Calculator', icon: Calculator },
             { id: 'mortgage', label: 'Mortgage', icon: Building2 },
             { id: 'properties', label: 'Find Properties', icon: Home },
-            { id: 'documents', label: 'Documents', icon: FileText },
-          ].map(({ id, label, icon: Icon }) => (
+            { id: 'documents', label: 'Documents', icon: FileText }].map(({ id, label, icon: Icon }) => (
             <button
               key={id}
               onClick={() => setCurrentView(id as any)}

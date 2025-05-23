@@ -60,7 +60,7 @@ export interface UnitSpecification {
   privateOutdoorSpace?: boolean;
   outdoorSpaceArea?: number;
   ceilingHeight?: number;
-  customFeatures?: Record<string, any>;
+  customFeatures?: Record<string, any>\n  );
 }
 
 /**
@@ -76,7 +76,7 @@ export interface CustomizationOption {
   leadTime?: number;
   availableUntilStage?: string;
   imageUrl?: string;
-  metadata?: Record<string, any>;
+  metadata?: Record<string, any>\n  );
 }
 
 /**
@@ -89,7 +89,7 @@ export interface UnitCustomization {
     selected: boolean;
     selectedAt?: Date;
     selectedBy?: string;
-  }>;
+  }>\n  );
   totalCustomizationCost: number;
   lastUpdated: Date;
 }
@@ -122,7 +122,7 @@ export interface Unit {
   createdAt: Date;
   updatedAt: Date;
   isShowUnit: boolean;
-  metadata?: Record<string, any>;
+  metadata?: Record<string, any>\n  );
 }
 
 /**
@@ -170,7 +170,7 @@ export interface CreateUnitRequest {
   availableCustomizations?: CustomizationOption[];
   completionDate?: Date;
   isShowUnit?: boolean;
-  metadata?: Record<string, any>;
+  metadata?: Record<string, any>\n  );
 }
 
 /**
@@ -181,7 +181,7 @@ export interface UpdateUnitRequest {
   propertyId?: string;
   type?: UnitType;
   status?: PropertyStatus;
-  position?: Partial<UnitPosition>;
+  position?: Partial<UnitPosition>\n  );
   bedrooms?: number;
   bathrooms?: number;
   squareMeters?: number;
@@ -190,11 +190,11 @@ export interface UpdateUnitRequest {
   model3dUrl?: string;
   price?: number;
   currency?: string;
-  specification?: Partial<UnitSpecification>;
+  specification?: Partial<UnitSpecification>\n  );
   availableCustomizations?: CustomizationOption[];
   completionDate?: Date;
   isShowUnit?: boolean;
-  metadata?: Record<string, any>;
+  metadata?: Record<string, any>\n  );
 }
 
 /**
@@ -205,7 +205,7 @@ export interface UpdateUnitCustomizationRequest {
   options: Array<{
     optionId: string;
     selected: boolean;
-  }>;
+  }>\n  );
 }
 
 /**

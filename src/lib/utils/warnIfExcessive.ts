@@ -22,14 +22,13 @@ export function warnIfExcessive<T>(
   message: string = 'Value ${value} exceeds threshold ${threshold}',
   context: Record<string, any> = {}
 ): T {
-  if (typeof value === 'number' && value > threshold) {
+  if (typeof value === 'number' && value> threshold) {
     const formattedMessage = message
       .replace('${value}', value.toString())
       .replace('${threshold}', threshold.toString());
-    
-    console.warn(`[Performance Warning] ${formattedMessage}`, context);
+
   }
-  
+
   return value;
 }
 
@@ -75,7 +74,7 @@ export function warnIfExcessiveString(
     str.length,
     threshold,
     message,
-    { ...context, preview: str.substring(0, 50) + (str.length > 50 ? '...' : '') }
+    { ...context, preview: str.substring(050) + (str.length> 50 ? '...' : '') }
   ) ? str : str;
 }
 
@@ -95,12 +94,12 @@ export function warnIfExcessiveKeys<T extends object>(
   context: Record<string, any> = {}
 ): T {
   const keyCount = Object.keys(obj).length;
-  
+
   return warnIfExcessive(
     keyCount,
     threshold,
     message,
-    { ...context, keys: Object.keys(obj).slice(0, 5) }
+    { ...context, keys: Object.keys(obj).slice(05) }
   ) ? obj : obj;
 }
 

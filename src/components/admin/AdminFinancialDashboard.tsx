@@ -32,18 +32,18 @@ interface FinancialSummary {
 
 const AdminFinancialDashboard: React.FC = () => {
   const { user } = useAuth();
-  const [payments, setPayments] = useState<Payment[]>([]);
-  const [summary, setSummary] = useState<FinancialSummary | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [filter, setFilter] = useState("all");
-  const [dateRange, setDateRange] = useState("all");
-  const [selectedPayment, setSelectedPayment] = useState<Payment | null>(null);
+  const [paymentssetPayments] = useState<Payment[]>([]);
+  const [summarysetSummary] = useState<FinancialSummary | null>(null);
+  const [loadingsetLoading] = useState(true);
+  const [errorsetError] = useState<string | null>(null);
+  const [filtersetFilter] = useState("all");
+  const [dateRangesetDateRange] = useState("all");
+  const [selectedPaymentsetSelectedPayment] = useState<Payment | null>(null);
 
   // Mock API function - will be replaced with actual API call
   const fetchFinancialData = async (filter = "all", dateRange = "all") => {
     // Simulate API call
-    return new Promise<any>((resolve) => {
+    return new Promise<any>((resolve: any) => {
       setTimeout(() => {
         const mockPayments = [
           {
@@ -62,7 +62,6 @@ const AdminFinancialDashboard: React.FC = () => {
             ).toISOString(),
             reference: "DEP-10001",
             notes: "Initial booking deposit",
-          },
           {
             id: "payment-2",
             purchaseId: "purchase-1",
@@ -79,7 +78,6 @@ const AdminFinancialDashboard: React.FC = () => {
             ).toISOString(),
             reference: "INS-10002",
             notes: "First installment payment",
-          },
           {
             id: "payment-3",
             purchaseId: "purchase-1",
@@ -92,7 +90,6 @@ const AdminFinancialDashboard: React.FC = () => {
               Date.now() + 30 * 24 * 60 * 60 * 1000,
             ).toISOString(),
             notes: "Second installment payment",
-          },
           {
             id: "payment-4",
             purchaseId: "purchase-1",
@@ -105,7 +102,6 @@ const AdminFinancialDashboard: React.FC = () => {
               Date.now() + 90 * 24 * 60 * 60 * 1000,
             ).toISOString(),
             notes: "Final payment on completion",
-          },
           {
             id: "payment-5",
             purchaseId: "purchase-2",
@@ -122,7 +118,6 @@ const AdminFinancialDashboard: React.FC = () => {
             ).toISOString(),
             reference: "DEP-10003",
             notes: "Initial booking deposit",
-          },
           {
             id: "payment-6",
             purchaseId: "purchase-2",
@@ -135,7 +130,6 @@ const AdminFinancialDashboard: React.FC = () => {
               Date.now() + 15 * 24 * 60 * 60 * 1000,
             ).toISOString(),
             notes: "First installment payment",
-          },
           {
             id: "payment-7",
             purchaseId: "purchase-2",
@@ -148,7 +142,6 @@ const AdminFinancialDashboard: React.FC = () => {
               Date.now() + 120 * 24 * 60 * 60 * 1000,
             ).toISOString(),
             notes: "Final payment on completion",
-          },
           {
             id: "payment-8",
             purchaseId: "purchase-3",
@@ -164,16 +157,14 @@ const AdminFinancialDashboard: React.FC = () => {
               Date.now() - 19 * 24 * 60 * 60 * 1000,
             ).toISOString(),
             reference: "DEP-10004",
-            notes: "Initial booking deposit",
-          },
-        ];
+            notes: "Initial booking deposit"];
 
         // Filter payments based on filter and dateRange
         let filteredPayments = [...mockPayments];
 
         if (filter !== "all") {
           filteredPayments = filteredPayments.filter(
-            (payment) => payment.status === filter,
+            (payment: any) => payment.status === filter,
           );
         }
 
@@ -183,7 +174,7 @@ const AdminFinancialDashboard: React.FC = () => {
 
           switch (dateRange) {
             case "today":
-              startDate.setHours(0, 0, 0, 0);
+              startDate.setHours(0, 0, 00);
               break;
             case "week":
               startDate.setDate(now.getDate() - 7);
@@ -198,49 +189,49 @@ const AdminFinancialDashboard: React.FC = () => {
               break;
           }
 
-          filteredPayments = filteredPayments.filter((payment) => {
+          filteredPayments = filteredPayments.filter((payment: any) => {
             const paymentDate = payment.paidDate
               ? new Date(payment.paidDate)
               : new Date(payment.dueDate);
-            return paymentDate >= startDate && paymentDate <= now;
+            return paymentDate>= startDate && paymentDate <= now;
           });
         }
 
         // Calculate summary
         const totalProperties = new Set(
-          filteredPayments.map((p) => p.purchaseId),
+          filteredPayments.map((p: any) => p.purchaseId),
         ).size;
         const totalValue = filteredPayments.reduce(
-          (sum, p) => sum + p.amount,
+          (sump: any) => sum + p.amount,
           0,
         );
         const totalPaid = filteredPayments
-          .filter((p) => p.status === "completed")
-          .reduce((sum, p) => sum + p.amount, 0);
+          .filter((p: any) => p.status === "completed")
+          .reduce((sump: any) => sum + p.amount0);
         const totalPending = filteredPayments
-          .filter((p) => p.status === "pending")
-          .reduce((sum, p) => sum + p.amount, 0);
+          .filter((p: any) => p.status === "pending")
+          .reduce((sump: any) => sum + p.amount0);
 
         const depositsPaid = filteredPayments
-          .filter((p) => p.type === "deposit" && p.status === "completed")
-          .reduce((sum, p) => sum + p.amount, 0);
+          .filter((p: any) => p.type === "deposit" && p.status === "completed")
+          .reduce((sump: any) => sum + p.amount0);
         const depositsTotal = filteredPayments
-          .filter((p) => p.type === "deposit")
-          .reduce((sum, p) => sum + p.amount, 0);
+          .filter((p: any) => p.type === "deposit")
+          .reduce((sump: any) => sum + p.amount0);
 
         const installmentsPaid = filteredPayments
-          .filter((p) => p.type === "installment" && p.status === "completed")
-          .reduce((sum, p) => sum + p.amount, 0);
+          .filter((p: any) => p.type === "installment" && p.status === "completed")
+          .reduce((sump: any) => sum + p.amount0);
         const installmentsTotal = filteredPayments
-          .filter((p) => p.type === "installment")
-          .reduce((sum, p) => sum + p.amount, 0);
+          .filter((p: any) => p.type === "installment")
+          .reduce((sump: any) => sum + p.amount0);
 
         const finalPaymentsPaid = filteredPayments
-          .filter((p) => p.type === "final" && p.status === "completed")
-          .reduce((sum, p) => sum + p.amount, 0);
+          .filter((p: any) => p.type === "final" && p.status === "completed")
+          .reduce((sump: any) => sum + p.amount0);
         const finalPaymentsTotal = filteredPayments
-          .filter((p) => p.type === "final")
-          .reduce((sum, p) => sum + p.amount, 0);
+          .filter((p: any) => p.type === "final")
+          .reduce((sump: any) => sum + p.amount0);
 
         resolve({
           success: true,
@@ -256,10 +247,7 @@ const AdminFinancialDashboard: React.FC = () => {
               installmentsPaid,
               installmentsTotal,
               finalPaymentsPaid,
-              finalPaymentsTotal,
-            },
-          },
-        });
+              finalPaymentsTotal}});
       }, 1000);
     });
   };
@@ -271,7 +259,7 @@ const AdminFinancialDashboard: React.FC = () => {
     notes: string,
   ) => {
     // Simulate API call
-    return new Promise<any>((resolve) => {
+    return new Promise<any>((resolve: any) => {
       setTimeout(() => {
         resolve({
           success: true,
@@ -279,9 +267,7 @@ const AdminFinancialDashboard: React.FC = () => {
             id: paymentId,
             status,
             notes,
-            paidDate: new Date().toISOString(),
-          },
-        });
+            paidDate: new Date().toISOString()});
       }, 1500);
     });
   };
@@ -290,7 +276,7 @@ const AdminFinancialDashboard: React.FC = () => {
     const loadFinancialData = async () => {
       try {
         setLoading(true);
-        const response = await fetchFinancialData(filter, dateRange);
+        const response = await fetchFinancialData(filterdateRange);
 
         if (response.success) {
           setPayments(response.data.payments);
@@ -298,14 +284,14 @@ const AdminFinancialDashboard: React.FC = () => {
         }
       } catch (err: any) {
         setError(err.message || "Failed to fetch financial data");
-        console.error("Error fetching financial data:", err);
+
       } finally {
         setLoading(false);
       }
     };
 
     loadFinancialData();
-  }, [filter, dateRange]);
+  }, [filterdateRange]);
 
   const handleFilterChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setFilter(e.target.value);
@@ -333,8 +319,8 @@ const AdminFinancialDashboard: React.FC = () => {
 
       if (response.success) {
         // Update payment in list
-        setPayments((prevPayments) =>
-          prevPayments.map((payment) =>
+        setPayments((prevPayments: any) =>
+          prevPayments.map((payment: any) =>
             payment.id === selectedPayment.id
               ? { ...payment, status, paidDate: response.data.paidDate }
               : payment,
@@ -345,18 +331,17 @@ const AdminFinancialDashboard: React.FC = () => {
         setSelectedPayment({
           ...selectedPayment,
           status,
-          paidDate: response.data.paidDate,
-        });
+          paidDate: response.data.paidDate});
 
         // Refresh summary
-        const updatedResponse = await fetchFinancialData(filter, dateRange);
+        const updatedResponse = await fetchFinancialData(filterdateRange);
         if (updatedResponse.success) {
           setSummary(updatedResponse.data.summary);
         }
       }
     } catch (err: any) {
       setError(err.message || "Failed to process payment");
-      console.error("Error processing payment:", err);
+
     } finally {
       setLoading(false);
     }
@@ -393,16 +378,14 @@ const AdminFinancialDashboard: React.FC = () => {
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat("en-IE", {
       style: "currency",
-      currency: "EUR",
-    }).format(amount);
+      currency: "EUR").format(amount);
   };
 
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString("en-IE", {
       year: "numeric",
       month: "long",
-      day: "numeric",
-    });
+      day: "numeric");
   };
 
   if (loading && !summary) {
@@ -475,15 +458,14 @@ const AdminFinancialDashboard: React.FC = () => {
               <div className="bg-white p-4 rounded-lg shadow border border-gray-200">
                 <p className="text-sm text-gray-500">Deposits</p>
                 <p className="text-xl font-semibold text-gray-900">
-                  {formatCurrency(summary.depositsPaid)} /{" "}
+                  {formatCurrency(summary.depositsPaid)} /{" "
                   {formatCurrency(summary.depositsTotal)}
                 </p>
                 <div className="mt-2 relative pt-1">
                   <div className="overflow-hidden h-2 text-xs flex rounded bg-gray-200">
                     <div
-                      style={{
-                        width: `${summary.depositsTotal > 0 ? (summary.depositsPaid / summary.depositsTotal) * 100 : 0}%`,
-                      }}
+                      style={
+                        width: `${summary.depositsTotal> 0 ? (summary.depositsPaid / summary.depositsTotal) * 100 : 0}%`}
                       className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-green-500"
                     ></div>
                   </div>
@@ -492,15 +474,14 @@ const AdminFinancialDashboard: React.FC = () => {
               <div className="bg-white p-4 rounded-lg shadow border border-gray-200">
                 <p className="text-sm text-gray-500">Installments</p>
                 <p className="text-xl font-semibold text-gray-900">
-                  {formatCurrency(summary.installmentsPaid)} /{" "}
+                  {formatCurrency(summary.installmentsPaid)} /{" "
                   {formatCurrency(summary.installmentsTotal)}
                 </p>
                 <div className="mt-2 relative pt-1">
                   <div className="overflow-hidden h-2 text-xs flex rounded bg-gray-200">
                     <div
-                      style={{
-                        width: `${summary.installmentsTotal > 0 ? (summary.installmentsPaid / summary.installmentsTotal) * 100 : 0}%`,
-                      }}
+                      style={
+                        width: `${summary.installmentsTotal> 0 ? (summary.installmentsPaid / summary.installmentsTotal) * 100 : 0}%`}
                       className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-blue-500"
                     ></div>
                   </div>
@@ -509,15 +490,14 @@ const AdminFinancialDashboard: React.FC = () => {
               <div className="bg-white p-4 rounded-lg shadow border border-gray-200">
                 <p className="text-sm text-gray-500">Final Payments</p>
                 <p className="text-xl font-semibold text-gray-900">
-                  {formatCurrency(summary.finalPaymentsPaid)} /{" "}
+                  {formatCurrency(summary.finalPaymentsPaid)} /{" "
                   {formatCurrency(summary.finalPaymentsTotal)}
                 </p>
                 <div className="mt-2 relative pt-1">
                   <div className="overflow-hidden h-2 text-xs flex rounded bg-gray-200">
                     <div
-                      style={{
-                        width: `${summary.finalPaymentsTotal > 0 ? (summary.finalPaymentsPaid / summary.finalPaymentsTotal) * 100 : 0}%`,
-                      }}
+                      style={
+                        width: `${summary.finalPaymentsTotal> 0 ? (summary.finalPaymentsPaid / summary.finalPaymentsTotal) * 100 : 0}%`}
                       className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-purple-500"
                     ></div>
                   </div>
@@ -628,12 +608,12 @@ const AdminFinancialDashboard: React.FC = () => {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200 bg-white">
-                  {payments.length > 0 ? (
-                    payments.map((payment) => (
+                  {payments.length> 0 ? (
+                    payments.map((payment: any) => (
                       <tr
                         key={payment.id}
                         onClick={() => handlePaymentSelect(payment)}
-                        className={`cursor-pointer hover:bg-gray-50 ${selectedPayment?.id === payment.id ? "bg-blue-50" : ""}`}
+                        className={`cursor-pointer hover:bg-gray-50 ${selectedPayment?.id === payment.id ? "bg-blue-50" : ""`}
                       >
                         <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm sm:pl-6">
                           <div className="font-medium text-gray-900">

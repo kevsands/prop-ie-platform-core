@@ -329,7 +329,7 @@ const DropdownMenu = ({ item, isOpen, onMouseEnter, onMouseLeave }: {
 }) => {
   const pathname = usePathname();
   const isActive = pathname === item.href || pathname?.startsWith(item.href + '/');
-  
+
   return (
     <div 
       className="relative"
@@ -353,7 +353,7 @@ const DropdownMenu = ({ item, isOpen, onMouseEnter, onMouseLeave }: {
           />
         )}
       </Link>
-      
+
       {item.sections && (
         <div 
           className={`absolute left-0 mt-2 w-[1000px] bg-white rounded-lg shadow-xl border border-gray-200 z-50 transition-all duration-200 ${
@@ -362,13 +362,13 @@ const DropdownMenu = ({ item, isOpen, onMouseEnter, onMouseLeave }: {
           <div className="flex">
             <div className="flex-1 p-6">
               <div className="grid grid-cols-4 gap-8">
-                {item.sections.map((section, idx) => (
+                {item.sections.map((sectionidx: any) => (
                   <div key={idx}>
                     <h3 className="text-xs font-bold text-gray-700 uppercase mb-4">
                       {section.title}
                     </h3>
                     <ul className="space-y-3">
-                      {section.items.map((link, linkIdx) => (
+                      {section.items.map((linklinkIdx: any) => (
                         <li key={linkIdx}>
                           <Link
                             href={link.href}
@@ -395,7 +395,7 @@ const DropdownMenu = ({ item, isOpen, onMouseEnter, onMouseLeave }: {
                 ))}
               </div>
             </div>
-            
+
             {item.featuredContent && (
               <div className="w-80 bg-gray-50 p-6">
                 <h3 className="font-semibold text-gray-900 mb-4">
@@ -415,7 +415,7 @@ const DropdownMenu = ({ item, isOpen, onMouseEnter, onMouseLeave }: {
               </div>
             )}
           </div>
-          
+
           <div className="bg-gray-50 px-6 py-3 border-t border-gray-200">
             <p className="text-sm text-gray-500">
               Need help? <Link href="/contact" className="text-[#2B5273] hover:underline">Contact our team</Link>
@@ -429,20 +429,20 @@ const DropdownMenu = ({ item, isOpen, onMouseEnter, onMouseLeave }: {
 
 // Main navigation component
 export const CleanProfessionalNav = () => {
-  const [scrolled, setScrolled] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+  const [scrolledsetScrolled] = useState(false);
+  const [mobileMenuOpensetMobileMenuOpen] = useState(false);
+  const [activeDropdownsetActiveDropdown] = useState<string | null>(null);
   const { user, isAuthenticated } = useAuth();
   const { role } = useUserRole();
   const router = useRouter();
   const dropdownTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const navigationItems: NavigationItem[] = getNavigationItems();
-  
+
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
+      setScrolled(window.scrollY> 20);
     };
-    
+
     window.addEventListener('scroll', handleScroll);
     return () => {
       window.removeEventListener('scroll', handleScroll);
@@ -451,20 +451,20 @@ export const CleanProfessionalNav = () => {
       }
     };
   }, []);
-  
+
   const handleDropdownEnter = (label: string) => {
     if (dropdownTimeoutRef.current) {
       clearTimeout(dropdownTimeoutRef.current);
     }
     setActiveDropdown(label);
   };
-  
+
   const handleDropdownLeave = () => {
     dropdownTimeoutRef.current = setTimeout(() => {
       setActiveDropdown(null);
     }, 100);
   };
-  
+
   return (
     <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
       scrolled 
@@ -483,10 +483,10 @@ export const CleanProfessionalNav = () => {
               className="h-8 w-auto"
             />
           </Link>
-          
+
           {/* Navigation Links */}
           <div className="hidden lg:flex lg:items-center lg:space-x-8">
-            {navigationItems.map((item) => (
+            {navigationItems.map((item: any) => (
               <DropdownMenu
                 key={item.label}
                 item={item}
@@ -496,19 +496,19 @@ export const CleanProfessionalNav = () => {
               />
             ))}
           </div>
-          
+
           {/* Right side actions */}
           <div className="flex items-center space-x-4">
             {/* Search */}
             <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors">
               <Search className="h-5 w-5 text-gray-600" />
             </button>
-            
+
             {/* Notifications */}
             <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors">
               <Bell className="h-5 w-5 text-gray-600" />
             </button>
-            
+
             {/* User Menu / Auth */}
             {isAuthenticated ? (
               <div className="relative group">
@@ -518,7 +518,7 @@ export const CleanProfessionalNav = () => {
                   </span>
                   <ChevronDown className="h-4 w-4 text-gray-600" />
                 </button>
-                
+
                 <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
                   <Link
                     href="/dashboard"
@@ -557,7 +557,7 @@ export const CleanProfessionalNav = () => {
                 </Link>
               </>
             )}
-            
+
             {/* Mobile menu button */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -572,12 +572,12 @@ export const CleanProfessionalNav = () => {
           </div>
         </div>
       </div>
-      
+
       {/* Mobile menu */}
       {mobileMenuOpen && (
         <div className="lg:hidden bg-white border-t border-gray-200">
           <div className="px-4 py-4 space-y-2">
-            {navigationItems.map((item) => (
+            {navigationItems.map((item: any) => (
               <Link
                 key={item.label}
                 href={item.href}

@@ -1,10 +1,10 @@
+import React from 'react';
 'use client';
 
 import ProtectedRoute from '@/components/auth/ProtectedRoute';
 
 export default function ProjectManagementLayout({
-  children,
-}: {
+  children}: {
   children: React.ReactNode;
 }) {
   // Project management is typically for developers and admins

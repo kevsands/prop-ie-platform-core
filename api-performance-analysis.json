@@ -1,0 +1,3325 @@
+{
+  "timestamp": "2025-05-23T16:07:48.558Z",
+  "apiRoutes": [
+    {
+      "endpoint": "/apianalytics/activities",
+      "methods": [
+        "GET"
+      ],
+      "issues": [
+        "High number of database calls (17)",
+        "No caching for GET requests"
+      ],
+      "hasErrorHandling": true,
+      "hasValidation": false,
+      "hasAuthentication": true,
+      "hasRateLimit": false,
+      "hasCaching": false,
+      "databaseCalls": 17
+    },
+    {
+      "endpoint": "/apianalytics/developer",
+      "methods": [
+        "GET"
+      ],
+      "issues": [
+        "High number of database calls (19)"
+      ],
+      "hasErrorHandling": true,
+      "hasValidation": false,
+      "hasAuthentication": true,
+      "hasRateLimit": false,
+      "hasCaching": true,
+      "databaseCalls": 19
+    },
+    {
+      "endpoint": "/apianalytics/export",
+      "methods": [
+        "GET"
+      ],
+      "issues": [
+        "No caching for GET requests"
+      ],
+      "hasErrorHandling": true,
+      "hasValidation": true,
+      "hasAuthentication": true,
+      "hasRateLimit": false,
+      "hasCaching": false,
+      "databaseCalls": 0
+    },
+    {
+      "endpoint": "/apianalytics/property-performance",
+      "methods": [
+        "GET"
+      ],
+      "issues": [
+        "High number of database calls (11)",
+        "No caching for GET requests"
+      ],
+      "hasErrorHandling": true,
+      "hasValidation": false,
+      "hasAuthentication": true,
+      "hasRateLimit": false,
+      "hasCaching": false,
+      "databaseCalls": 11
+    },
+    {
+      "endpoint": "/apianalytics/sales-funnel",
+      "methods": [
+        "GET"
+      ],
+      "issues": [
+        "High number of database calls (7)",
+        "No caching for GET requests"
+      ],
+      "hasErrorHandling": true,
+      "hasValidation": false,
+      "hasAuthentication": true,
+      "hasRateLimit": false,
+      "hasCaching": false,
+      "databaseCalls": 7
+    },
+    {
+      "endpoint": "/apiauth/[...nextauth]",
+      "methods": [],
+      "issues": [
+        "Missing error handling"
+      ],
+      "hasErrorHandling": false,
+      "hasValidation": false,
+      "hasAuthentication": true,
+      "hasRateLimit": false,
+      "hasCaching": false,
+      "databaseCalls": 0
+    },
+    {
+      "endpoint": "/apiauth/check-user",
+      "methods": [
+        "POST"
+      ],
+      "issues": [
+        "Missing input validation for POST requests",
+        "High number of database calls (8)"
+      ],
+      "hasErrorHandling": true,
+      "hasValidation": false,
+      "hasAuthentication": true,
+      "hasRateLimit": false,
+      "hasCaching": false,
+      "databaseCalls": 8
+    },
+    {
+      "endpoint": "/apiauth/login",
+      "methods": [
+        "POST"
+      ],
+      "issues": [
+        "Missing input validation for POST requests"
+      ],
+      "hasErrorHandling": true,
+      "hasValidation": false,
+      "hasAuthentication": true,
+      "hasRateLimit": false,
+      "hasCaching": false,
+      "databaseCalls": 0
+    },
+    {
+      "endpoint": "/apiauth/password-reset",
+      "methods": [
+        "POST"
+      ],
+      "issues": [
+        "High number of database calls (8)"
+      ],
+      "hasErrorHandling": true,
+      "hasValidation": true,
+      "hasAuthentication": true,
+      "hasRateLimit": false,
+      "hasCaching": false,
+      "databaseCalls": 8
+    },
+    {
+      "endpoint": "/apiauth/permissions",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "issues": [
+        "High number of database calls (54)",
+        "No caching for GET requests"
+      ],
+      "hasErrorHandling": true,
+      "hasValidation": true,
+      "hasAuthentication": true,
+      "hasRateLimit": false,
+      "hasCaching": false,
+      "databaseCalls": 54
+    },
+    {
+      "endpoint": "/apiauth/register",
+      "methods": [
+        "POST"
+      ],
+      "issues": [
+        "High number of database calls (11)"
+      ],
+      "hasErrorHandling": true,
+      "hasValidation": true,
+      "hasAuthentication": true,
+      "hasRateLimit": false,
+      "hasCaching": false,
+      "databaseCalls": 11
+    },
+    {
+      "endpoint": "/apiauth",
+      "methods": [
+        "GET",
+        "POST",
+        "PATCH"
+      ],
+      "issues": [
+        "High number of database calls (7)",
+        "No caching for GET requests"
+      ],
+      "hasErrorHandling": true,
+      "hasValidation": true,
+      "hasAuthentication": true,
+      "hasRateLimit": false,
+      "hasCaching": false,
+      "databaseCalls": 7
+    },
+    {
+      "endpoint": "/apiauth/two-factor",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "issues": [
+        "No caching for GET requests"
+      ],
+      "hasErrorHandling": true,
+      "hasValidation": true,
+      "hasAuthentication": true,
+      "hasRateLimit": false,
+      "hasCaching": false,
+      "databaseCalls": 2
+    },
+    {
+      "endpoint": "/apiauth/verify-email",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "issues": [
+        "No caching for GET requests"
+      ],
+      "hasErrorHandling": true,
+      "hasValidation": true,
+      "hasAuthentication": true,
+      "hasRateLimit": false,
+      "hasCaching": false,
+      "databaseCalls": 0
+    },
+    {
+      "endpoint": "/apiauth-disabled",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "issues": [
+        "Missing error handling",
+        "Missing input validation for POST requests",
+        "No caching for GET requests"
+      ],
+      "hasErrorHandling": false,
+      "hasValidation": false,
+      "hasAuthentication": true,
+      "hasRateLimit": false,
+      "hasCaching": false,
+      "databaseCalls": 0
+    },
+    {
+      "endpoint": "/apiblockchain/dividends",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "issues": [
+        "No caching for GET requests"
+      ],
+      "hasErrorHandling": true,
+      "hasValidation": true,
+      "hasAuthentication": true,
+      "hasRateLimit": false,
+      "hasCaching": false,
+      "databaseCalls": 1
+    },
+    {
+      "endpoint": "/apiblockchain/purchase",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "issues": [
+        "No caching for GET requests"
+      ],
+      "hasErrorHandling": true,
+      "hasValidation": true,
+      "hasAuthentication": true,
+      "hasRateLimit": false,
+      "hasCaching": false,
+      "databaseCalls": 2
+    },
+    {
+      "endpoint": "/apiblockchain/tokenize",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "issues": [
+        "No caching for GET requests"
+      ],
+      "hasErrorHandling": true,
+      "hasValidation": true,
+      "hasAuthentication": true,
+      "hasRateLimit": false,
+      "hasCaching": false,
+      "databaseCalls": 1
+    },
+    {
+      "endpoint": "/apiblockchain/verify",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "issues": [
+        "High number of database calls (6)",
+        "No caching for GET requests"
+      ],
+      "hasErrorHandling": true,
+      "hasValidation": true,
+      "hasAuthentication": true,
+      "hasRateLimit": false,
+      "hasCaching": false,
+      "databaseCalls": 6
+    },
+    {
+      "endpoint": "/apibooking/initiate",
+      "methods": [
+        "POST"
+      ],
+      "issues": [
+        "High number of database calls (5)"
+      ],
+      "hasErrorHandling": true,
+      "hasValidation": true,
+      "hasAuthentication": true,
+      "hasRateLimit": false,
+      "hasCaching": false,
+      "databaseCalls": 5
+    },
+    {
+      "endpoint": "/apibuyer/solicitor",
+      "methods": [
+        "POST"
+      ],
+      "issues": [
+        "High number of database calls (14)"
+      ],
+      "hasErrorHandling": true,
+      "hasValidation": true,
+      "hasAuthentication": true,
+      "hasRateLimit": false,
+      "hasCaching": false,
+      "databaseCalls": 14
+    },
+    {
+      "endpoint": "/apicases",
+      "methods": [
+        "GET",
+        "POST",
+        "PUT",
+        "DELETE"
+      ],
+      "issues": [
+        "High number of database calls (61)",
+        "No caching for GET requests"
+      ],
+      "hasErrorHandling": true,
+      "hasValidation": true,
+      "hasAuthentication": true,
+      "hasRateLimit": false,
+      "hasCaching": false,
+      "databaseCalls": 61
+    },
+    {
+      "endpoint": "/apicompliance/audits",
+      "methods": [
+        "GET",
+        "POST",
+        "PUT"
+      ],
+      "issues": [
+        "Missing input validation for POST requests",
+        "High number of database calls (4)",
+        "No caching for GET requests"
+      ],
+      "hasErrorHandling": true,
+      "hasValidation": false,
+      "hasAuthentication": false,
+      "hasRateLimit": false,
+      "hasCaching": false,
+      "databaseCalls": 4
+    },
+    {
+      "endpoint": "/apicompliance/reports",
+      "methods": [
+        "GET",
+        "POST",
+        "PUT",
+        "DELETE"
+      ],
+      "issues": [
+        "Missing input validation for POST requests",
+        "High number of database calls (19)",
+        "No caching for GET requests"
+      ],
+      "hasErrorHandling": true,
+      "hasValidation": false,
+      "hasAuthentication": true,
+      "hasRateLimit": false,
+      "hasCaching": false,
+      "databaseCalls": 19
+    },
+    {
+      "endpoint": "/apicompliance/requirements",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "issues": [
+        "Missing input validation for POST requests",
+        "No caching for GET requests"
+      ],
+      "hasErrorHandling": true,
+      "hasValidation": false,
+      "hasAuthentication": false,
+      "hasRateLimit": false,
+      "hasCaching": false,
+      "databaseCalls": 1
+    },
+    {
+      "endpoint": "/apicompliance/violations",
+      "methods": [
+        "GET",
+        "POST",
+        "PUT"
+      ],
+      "issues": [
+        "Missing input validation for POST requests",
+        "High number of database calls (12)",
+        "No caching for GET requests"
+      ],
+      "hasErrorHandling": true,
+      "hasValidation": false,
+      "hasAuthentication": true,
+      "hasRateLimit": false,
+      "hasCaching": false,
+      "databaseCalls": 12
+    },
+    {
+      "endpoint": "/apicontractors",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "issues": [
+        "Missing input validation for POST requests",
+        "High number of database calls (12)",
+        "No caching for GET requests"
+      ],
+      "hasErrorHandling": true,
+      "hasValidation": false,
+      "hasAuthentication": false,
+      "hasRateLimit": false,
+      "hasCaching": false,
+      "databaseCalls": 12
+    },
+    {
+      "endpoint": "/apicontracts/finalize",
+      "methods": [
+        "POST"
+      ],
+      "issues": [
+        "High number of database calls (14)"
+      ],
+      "hasErrorHandling": true,
+      "hasValidation": true,
+      "hasAuthentication": true,
+      "hasRateLimit": false,
+      "hasCaching": false,
+      "databaseCalls": 14
+    },
+    {
+      "endpoint": "/apicontracts/generate",
+      "methods": [
+        "POST"
+      ],
+      "issues": [
+        "High number of database calls (7)"
+      ],
+      "hasErrorHandling": true,
+      "hasValidation": true,
+      "hasAuthentication": true,
+      "hasRateLimit": false,
+      "hasCaching": false,
+      "databaseCalls": 7
+    },
+    {
+      "endpoint": "/apicontracts/sign",
+      "methods": [
+        "POST"
+      ],
+      "issues": [
+        "High number of database calls (8)"
+      ],
+      "hasErrorHandling": true,
+      "hasValidation": true,
+      "hasAuthentication": true,
+      "hasRateLimit": false,
+      "hasCaching": false,
+      "databaseCalls": 8
+    },
+    {
+      "endpoint": "/apicreate-test-user",
+      "methods": [
+        "GET"
+      ],
+      "issues": [
+        "High number of database calls (8)",
+        "No caching for GET requests"
+      ],
+      "hasErrorHandling": true,
+      "hasValidation": false,
+      "hasAuthentication": false,
+      "hasRateLimit": false,
+      "hasCaching": false,
+      "databaseCalls": 8
+    },
+    {
+      "endpoint": "/apicustomization/calculate",
+      "methods": [
+        "POST"
+      ],
+      "issues": [
+        "High number of database calls (6)"
+      ],
+      "hasErrorHandling": true,
+      "hasValidation": true,
+      "hasAuthentication": false,
+      "hasRateLimit": false,
+      "hasCaching": false,
+      "databaseCalls": 6
+    },
+    {
+      "endpoint": "/apicustomization/options",
+      "methods": [
+        "GET"
+      ],
+      "issues": [
+        "High number of database calls (8)",
+        "No caching for GET requests"
+      ],
+      "hasErrorHandling": true,
+      "hasValidation": false,
+      "hasAuthentication": true,
+      "hasRateLimit": false,
+      "hasCaching": false,
+      "databaseCalls": 8
+    },
+    {
+      "endpoint": "/apicustomization/pdf",
+      "methods": [
+        "GET"
+      ],
+      "issues": [
+        "No caching for GET requests"
+      ],
+      "hasErrorHandling": true,
+      "hasValidation": false,
+      "hasAuthentication": true,
+      "hasRateLimit": false,
+      "hasCaching": false,
+      "databaseCalls": 0
+    },
+    {
+      "endpoint": "/apicustomization",
+      "methods": [
+        "GET",
+        "POST",
+        "PUT",
+        "PATCH"
+      ],
+      "issues": [
+        "High number of database calls (6)",
+        "No caching for GET requests"
+      ],
+      "hasErrorHandling": true,
+      "hasValidation": true,
+      "hasAuthentication": true,
+      "hasRateLimit": false,
+      "hasCaching": false,
+      "databaseCalls": 6
+    },
+    {
+      "endpoint": "/apicustomizations",
+      "methods": [
+        "GET",
+        "POST",
+        "PUT"
+      ],
+      "issues": [
+        "Missing input validation for POST requests",
+        "High number of database calls (49)",
+        "No caching for GET requests"
+      ],
+      "hasErrorHandling": true,
+      "hasValidation": false,
+      "hasAuthentication": true,
+      "hasRateLimit": false,
+      "hasCaching": false,
+      "databaseCalls": 49
+    },
+    {
+      "endpoint": "/apideployment-status",
+      "methods": [
+        "GET"
+      ],
+      "issues": [
+        "High number of database calls (6)"
+      ],
+      "hasErrorHandling": true,
+      "hasValidation": true,
+      "hasAuthentication": false,
+      "hasRateLimit": false,
+      "hasCaching": true,
+      "databaseCalls": 6
+    },
+    {
+      "endpoint": "/apideposit/confirm",
+      "methods": [
+        "POST"
+      ],
+      "issues": [
+        "High number of database calls (6)"
+      ],
+      "hasErrorHandling": true,
+      "hasValidation": true,
+      "hasAuthentication": true,
+      "hasRateLimit": false,
+      "hasCaching": false,
+      "databaseCalls": 6
+    },
+    {
+      "endpoint": "/apideveloper/developments/[id]",
+      "methods": [
+        "GET",
+        "PUT",
+        "DELETE"
+      ],
+      "issues": [
+        "High number of database calls (12)",
+        "No caching for GET requests"
+      ],
+      "hasErrorHandling": true,
+      "hasValidation": false,
+      "hasAuthentication": false,
+      "hasRateLimit": false,
+      "hasCaching": false,
+      "databaseCalls": 12
+    },
+    {
+      "endpoint": "/apideveloper/developments/[id]/units/[unitId]",
+      "methods": [
+        "GET",
+        "PUT"
+      ],
+      "issues": [
+        "High number of database calls (14)",
+        "No caching for GET requests"
+      ],
+      "hasErrorHandling": true,
+      "hasValidation": false,
+      "hasAuthentication": false,
+      "hasRateLimit": false,
+      "hasCaching": false,
+      "databaseCalls": 14
+    },
+    {
+      "endpoint": "/apideveloper/developments/[id]/units",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "issues": [
+        "Missing input validation for POST requests",
+        "High number of database calls (11)",
+        "No caching for GET requests"
+      ],
+      "hasErrorHandling": true,
+      "hasValidation": false,
+      "hasAuthentication": false,
+      "hasRateLimit": false,
+      "hasCaching": false,
+      "databaseCalls": 11
+    },
+    {
+      "endpoint": "/apideveloper/developments",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "issues": [
+        "Missing input validation for POST requests",
+        "High number of database calls (7)",
+        "No caching for GET requests"
+      ],
+      "hasErrorHandling": true,
+      "hasValidation": false,
+      "hasAuthentication": false,
+      "hasRateLimit": false,
+      "hasCaching": false,
+      "databaseCalls": 7
+    },
+    {
+      "endpoint": "/apidevelopments/[id]",
+      "methods": [
+        "GET"
+      ],
+      "issues": [
+        "No caching for GET requests"
+      ],
+      "hasErrorHandling": true,
+      "hasValidation": false,
+      "hasAuthentication": true,
+      "hasRateLimit": false,
+      "hasCaching": false,
+      "databaseCalls": 0
+    },
+    {
+      "endpoint": "/apidevelopments",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "issues": [
+        "Missing input validation for POST requests",
+        "High number of database calls (12)",
+        "No caching for GET requests"
+      ],
+      "hasErrorHandling": true,
+      "hasValidation": false,
+      "hasAuthentication": true,
+      "hasRateLimit": false,
+      "hasCaching": false,
+      "databaseCalls": 12
+    },
+    {
+      "endpoint": "/apidocuments",
+      "methods": [
+        "GET",
+        "POST",
+        "DELETE",
+        "PATCH"
+      ],
+      "issues": [
+        "High number of database calls (19)",
+        "No caching for GET requests"
+      ],
+      "hasErrorHandling": true,
+      "hasValidation": true,
+      "hasAuthentication": false,
+      "hasRateLimit": false,
+      "hasCaching": false,
+      "databaseCalls": 19
+    },
+    {
+      "endpoint": "/apidocuments/sign",
+      "methods": [
+        "POST"
+      ],
+      "issues": [
+        "High number of database calls (7)"
+      ],
+      "hasErrorHandling": true,
+      "hasValidation": true,
+      "hasAuthentication": true,
+      "hasRateLimit": false,
+      "hasCaching": false,
+      "databaseCalls": 7
+    },
+    {
+      "endpoint": "/apifinance/budget-vs-actual",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "issues": [
+        "Missing input validation for POST requests",
+        "High number of database calls (4)",
+        "No caching for GET requests"
+      ],
+      "hasErrorHandling": true,
+      "hasValidation": false,
+      "hasAuthentication": true,
+      "hasRateLimit": false,
+      "hasCaching": false,
+      "databaseCalls": 4
+    },
+    {
+      "endpoint": "/apifinance/projections",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "issues": [
+        "Missing input validation for POST requests",
+        "High number of database calls (5)",
+        "No caching for GET requests"
+      ],
+      "hasErrorHandling": true,
+      "hasValidation": false,
+      "hasAuthentication": true,
+      "hasRateLimit": false,
+      "hasCaching": false,
+      "databaseCalls": 5
+    },
+    {
+      "endpoint": "/apifinance",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "issues": [
+        "Missing input validation for POST requests",
+        "High number of database calls (4)",
+        "No caching for GET requests"
+      ],
+      "hasErrorHandling": true,
+      "hasValidation": false,
+      "hasAuthentication": true,
+      "hasRateLimit": false,
+      "hasCaching": false,
+      "databaseCalls": 4
+    },
+    {
+      "endpoint": "/apigraphql",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "issues": [
+        "Missing input validation for POST requests",
+        "High number of database calls (25)",
+        "No caching for GET requests"
+      ],
+      "hasErrorHandling": true,
+      "hasValidation": false,
+      "hasAuthentication": true,
+      "hasRateLimit": false,
+      "hasCaching": false,
+      "databaseCalls": 25
+    },
+    {
+      "endpoint": "/apihealth",
+      "methods": [
+        "GET"
+      ],
+      "issues": [
+        "High number of database calls (9)"
+      ],
+      "hasErrorHandling": true,
+      "hasValidation": true,
+      "hasAuthentication": false,
+      "hasRateLimit": false,
+      "hasCaching": true,
+      "databaseCalls": 9
+    },
+    {
+      "endpoint": "/apihealth/simple",
+      "methods": [
+        "GET"
+      ],
+      "issues": [
+        "Missing error handling",
+        "No caching for GET requests"
+      ],
+      "hasErrorHandling": false,
+      "hasValidation": false,
+      "hasAuthentication": false,
+      "hasRateLimit": false,
+      "hasCaching": false,
+      "databaseCalls": 0
+    },
+    {
+      "endpoint": "/apihtb/buyer/claims/[id]",
+      "methods": [
+        "GET"
+      ],
+      "issues": [
+        "Missing error handling",
+        "High number of database calls (4)",
+        "No caching for GET requests"
+      ],
+      "hasErrorHandling": false,
+      "hasValidation": false,
+      "hasAuthentication": false,
+      "hasRateLimit": false,
+      "hasCaching": false,
+      "databaseCalls": 4
+    },
+    {
+      "endpoint": "/apihtb/buyer/claims",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "issues": [
+        "Missing input validation for POST requests",
+        "No caching for GET requests"
+      ],
+      "hasErrorHandling": true,
+      "hasValidation": false,
+      "hasAuthentication": false,
+      "hasRateLimit": false,
+      "hasCaching": false,
+      "databaseCalls": 3
+    },
+    {
+      "endpoint": "/apihtb-claims",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "issues": [
+        "Missing input validation for POST requests",
+        "High number of database calls (6)",
+        "No caching for GET requests"
+      ],
+      "hasErrorHandling": true,
+      "hasValidation": false,
+      "hasAuthentication": false,
+      "hasRateLimit": false,
+      "hasCaching": false,
+      "databaseCalls": 6
+    },
+    {
+      "endpoint": "/apikyc/status",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "issues": [
+        "Missing input validation for POST requests",
+        "No caching for GET requests"
+      ],
+      "hasErrorHandling": true,
+      "hasValidation": false,
+      "hasAuthentication": true,
+      "hasRateLimit": false,
+      "hasCaching": false,
+      "databaseCalls": 3
+    },
+    {
+      "endpoint": "/apilegal/reservations/[id]",
+      "methods": [
+        "GET",
+        "PATCH"
+      ],
+      "issues": [
+        "High number of database calls (29)",
+        "No caching for GET requests"
+      ],
+      "hasErrorHandling": true,
+      "hasValidation": true,
+      "hasAuthentication": true,
+      "hasRateLimit": false,
+      "hasCaching": false,
+      "databaseCalls": 29
+    },
+    {
+      "endpoint": "/apimetrics",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "issues": [
+        "High number of database calls (8)"
+      ],
+      "hasErrorHandling": true,
+      "hasValidation": true,
+      "hasAuthentication": false,
+      "hasRateLimit": false,
+      "hasCaching": true,
+      "databaseCalls": 8
+    },
+    {
+      "endpoint": "/apimonitoring/api-metrics",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "issues": [
+        "Missing input validation for POST requests"
+      ],
+      "hasErrorHandling": true,
+      "hasValidation": false,
+      "hasAuthentication": true,
+      "hasRateLimit": false,
+      "hasCaching": true,
+      "databaseCalls": 0
+    },
+    {
+      "endpoint": "/apinotifications",
+      "methods": [
+        "GET",
+        "POST",
+        "DELETE",
+        "PATCH"
+      ],
+      "issues": [
+        "High number of database calls (27)",
+        "No caching for GET requests"
+      ],
+      "hasErrorHandling": true,
+      "hasValidation": true,
+      "hasAuthentication": true,
+      "hasRateLimit": false,
+      "hasCaching": false,
+      "databaseCalls": 27
+    },
+    {
+      "endpoint": "/apipayments/create-intent",
+      "methods": [
+        "POST"
+      ],
+      "issues": [
+        "High number of database calls (15)"
+      ],
+      "hasErrorHandling": true,
+      "hasValidation": true,
+      "hasAuthentication": true,
+      "hasRateLimit": false,
+      "hasCaching": false,
+      "databaseCalls": 15
+    },
+    {
+      "endpoint": "/apipayments",
+      "methods": [
+        "GET",
+        "POST",
+        "PATCH"
+      ],
+      "issues": [
+        "High number of database calls (11)",
+        "No caching for GET requests"
+      ],
+      "hasErrorHandling": true,
+      "hasValidation": true,
+      "hasAuthentication": false,
+      "hasRateLimit": false,
+      "hasCaching": false,
+      "databaseCalls": 11
+    },
+    {
+      "endpoint": "/apiping",
+      "methods": [
+        "GET"
+      ],
+      "issues": [
+        "Missing error handling",
+        "No caching for GET requests"
+      ],
+      "hasErrorHandling": false,
+      "hasValidation": false,
+      "hasAuthentication": false,
+      "hasRateLimit": false,
+      "hasCaching": false,
+      "databaseCalls": 0
+    },
+    {
+      "endpoint": "/apiprojects/[id]/activity",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "issues": [
+        "Missing input validation for POST requests",
+        "No caching for GET requests"
+      ],
+      "hasErrorHandling": true,
+      "hasValidation": false,
+      "hasAuthentication": true,
+      "hasRateLimit": false,
+      "hasCaching": false,
+      "databaseCalls": 0
+    },
+    {
+      "endpoint": "/apiprojects/[id]/alerts",
+      "methods": [
+        "GET",
+        "PATCH"
+      ],
+      "issues": [
+        "High number of database calls (4)",
+        "No caching for GET requests"
+      ],
+      "hasErrorHandling": true,
+      "hasValidation": false,
+      "hasAuthentication": true,
+      "hasRateLimit": false,
+      "hasCaching": false,
+      "databaseCalls": 4
+    },
+    {
+      "endpoint": "/apiprojects/[id]/media",
+      "methods": [
+        "GET",
+        "POST",
+        "PUT"
+      ],
+      "issues": [
+        "Missing input validation for POST requests",
+        "High number of database calls (4)",
+        "No caching for GET requests"
+      ],
+      "hasErrorHandling": true,
+      "hasValidation": false,
+      "hasAuthentication": false,
+      "hasRateLimit": false,
+      "hasCaching": false,
+      "databaseCalls": 4
+    },
+    {
+      "endpoint": "/apiprojects/[id]",
+      "methods": [
+        "GET",
+        "PATCH"
+      ],
+      "issues": [
+        "High number of database calls (8)",
+        "No caching for GET requests"
+      ],
+      "hasErrorHandling": true,
+      "hasValidation": false,
+      "hasAuthentication": true,
+      "hasRateLimit": false,
+      "hasCaching": false,
+      "databaseCalls": 8
+    },
+    {
+      "endpoint": "/apiprojects/[id]/sales",
+      "methods": [
+        "GET"
+      ],
+      "issues": [
+        "No caching for GET requests"
+      ],
+      "hasErrorHandling": true,
+      "hasValidation": false,
+      "hasAuthentication": true,
+      "hasRateLimit": false,
+      "hasCaching": false,
+      "databaseCalls": 0
+    },
+    {
+      "endpoint": "/apiprojects/[id]/timeline",
+      "methods": [
+        "GET",
+        "PATCH"
+      ],
+      "issues": [
+        "High number of database calls (4)",
+        "No caching for GET requests"
+      ],
+      "hasErrorHandling": true,
+      "hasValidation": false,
+      "hasAuthentication": true,
+      "hasRateLimit": false,
+      "hasCaching": false,
+      "databaseCalls": 4
+    },
+    {
+      "endpoint": "/apiprojects",
+      "methods": [
+        "GET",
+        "POST",
+        "PUT",
+        "DELETE"
+      ],
+      "issues": [
+        "High number of database calls (30)",
+        "No caching for GET requests"
+      ],
+      "hasErrorHandling": true,
+      "hasValidation": true,
+      "hasAuthentication": true,
+      "hasRateLimit": false,
+      "hasCaching": false,
+      "databaseCalls": 30
+    },
+    {
+      "endpoint": "/apiproperties/[id]",
+      "methods": [
+        "GET",
+        "PUT",
+        "DELETE"
+      ],
+      "issues": [
+        "High number of database calls (21)",
+        "No caching for GET requests"
+      ],
+      "hasErrorHandling": true,
+      "hasValidation": true,
+      "hasAuthentication": true,
+      "hasRateLimit": false,
+      "hasCaching": false,
+      "databaseCalls": 21
+    },
+    {
+      "endpoint": "/apiproperties",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "issues": [
+        "High number of database calls (24)"
+      ],
+      "hasErrorHandling": true,
+      "hasValidation": true,
+      "hasAuthentication": true,
+      "hasRateLimit": true,
+      "hasCaching": true,
+      "databaseCalls": 24
+    },
+    {
+      "endpoint": "/apiproperty-alerts",
+      "methods": [
+        "GET",
+        "POST",
+        "PUT",
+        "DELETE"
+      ],
+      "issues": [
+        "High number of database calls (20)",
+        "No caching for GET requests"
+      ],
+      "hasErrorHandling": true,
+      "hasValidation": true,
+      "hasAuthentication": true,
+      "hasRateLimit": false,
+      "hasCaching": false,
+      "databaseCalls": 20
+    },
+    {
+      "endpoint": "/apisales",
+      "methods": [
+        "GET",
+        "POST",
+        "PUT",
+        "DELETE"
+      ],
+      "issues": [
+        "High number of database calls (43)",
+        "No caching for GET requests"
+      ],
+      "hasErrorHandling": true,
+      "hasValidation": true,
+      "hasAuthentication": true,
+      "hasRateLimit": false,
+      "hasCaching": false,
+      "databaseCalls": 43
+    },
+    {
+      "endpoint": "/apisecurity/log",
+      "methods": [
+        "POST"
+      ],
+      "issues": [],
+      "hasErrorHandling": true,
+      "hasValidation": true,
+      "hasAuthentication": false,
+      "hasRateLimit": false,
+      "hasCaching": false,
+      "databaseCalls": 1
+    },
+    {
+      "endpoint": "/apisecurity/report",
+      "methods": [
+        "POST"
+      ],
+      "issues": [
+        "Missing input validation for POST requests"
+      ],
+      "hasErrorHandling": true,
+      "hasValidation": false,
+      "hasAuthentication": false,
+      "hasRateLimit": false,
+      "hasCaching": false,
+      "databaseCalls": 1
+    },
+    {
+      "endpoint": "/apislp/[projectId]",
+      "methods": [],
+      "issues": [
+        "High number of database calls (6)"
+      ],
+      "hasErrorHandling": true,
+      "hasValidation": false,
+      "hasAuthentication": true,
+      "hasRateLimit": false,
+      "hasCaching": false,
+      "databaseCalls": 6
+    },
+    {
+      "endpoint": "/apitest",
+      "methods": [
+        "GET"
+      ],
+      "issues": [
+        "Missing error handling",
+        "No caching for GET requests"
+      ],
+      "hasErrorHandling": false,
+      "hasValidation": false,
+      "hasAuthentication": false,
+      "hasRateLimit": false,
+      "hasCaching": false,
+      "databaseCalls": 0
+    },
+    {
+      "endpoint": "/apitransactions/[id]/documents",
+      "methods": [
+        "GET",
+        "POST",
+        "DELETE",
+        "PATCH"
+      ],
+      "issues": [
+        "High number of database calls (40)",
+        "No caching for GET requests"
+      ],
+      "hasErrorHandling": true,
+      "hasValidation": true,
+      "hasAuthentication": true,
+      "hasRateLimit": false,
+      "hasCaching": false,
+      "databaseCalls": 40
+    },
+    {
+      "endpoint": "/apitransactions/[id]/payment-process",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "issues": [
+        "High number of database calls (24)",
+        "No caching for GET requests"
+      ],
+      "hasErrorHandling": true,
+      "hasValidation": true,
+      "hasAuthentication": true,
+      "hasRateLimit": false,
+      "hasCaching": false,
+      "databaseCalls": 24
+    },
+    {
+      "endpoint": "/apitransactions/[id]/payments/[paymentId]",
+      "methods": [
+        "GET",
+        "PUT",
+        "DELETE"
+      ],
+      "issues": [
+        "High number of database calls (48)",
+        "No caching for GET requests"
+      ],
+      "hasErrorHandling": true,
+      "hasValidation": true,
+      "hasAuthentication": true,
+      "hasRateLimit": false,
+      "hasCaching": false,
+      "databaseCalls": 48
+    },
+    {
+      "endpoint": "/apitransactions/[id]/payments/receipt",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "issues": [
+        "High number of database calls (17)",
+        "No caching for GET requests"
+      ],
+      "hasErrorHandling": true,
+      "hasValidation": true,
+      "hasAuthentication": true,
+      "hasRateLimit": false,
+      "hasCaching": false,
+      "databaseCalls": 17
+    },
+    {
+      "endpoint": "/apitransactions/[id]/payments",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "issues": [
+        "No caching for GET requests"
+      ],
+      "hasErrorHandling": true,
+      "hasValidation": true,
+      "hasAuthentication": true,
+      "hasRateLimit": false,
+      "hasCaching": false,
+      "databaseCalls": 1
+    },
+    {
+      "endpoint": "/apitransactions/[id]",
+      "methods": [
+        "GET",
+        "PUT",
+        "DELETE",
+        "PATCH"
+      ],
+      "issues": [
+        "High number of database calls (15)",
+        "No caching for GET requests"
+      ],
+      "hasErrorHandling": true,
+      "hasValidation": false,
+      "hasAuthentication": true,
+      "hasRateLimit": false,
+      "hasCaching": false,
+      "databaseCalls": 15
+    },
+    {
+      "endpoint": "/apitransactions/reservation",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "issues": [
+        "High number of database calls (25)",
+        "No caching for GET requests"
+      ],
+      "hasErrorHandling": true,
+      "hasValidation": true,
+      "hasAuthentication": true,
+      "hasRateLimit": false,
+      "hasCaching": false,
+      "databaseCalls": 25
+    },
+    {
+      "endpoint": "/apitransactions",
+      "methods": [
+        "GET",
+        "POST",
+        "DELETE",
+        "PATCH"
+      ],
+      "issues": [
+        "High number of database calls (14)",
+        "No caching for GET requests"
+      ],
+      "hasErrorHandling": true,
+      "hasValidation": true,
+      "hasAuthentication": true,
+      "hasRateLimit": false,
+      "hasCaching": false,
+      "databaseCalls": 14
+    },
+    {
+      "endpoint": "/apiunits",
+      "methods": [],
+      "issues": [
+        "High number of database calls (50)"
+      ],
+      "hasErrorHandling": true,
+      "hasValidation": false,
+      "hasAuthentication": true,
+      "hasRateLimit": false,
+      "hasCaching": false,
+      "databaseCalls": 50
+    },
+    {
+      "endpoint": "/apiusers/me",
+      "methods": [
+        "GET"
+      ],
+      "issues": [
+        "Missing error handling",
+        "High number of database calls (5)",
+        "No caching for GET requests"
+      ],
+      "hasErrorHandling": false,
+      "hasValidation": false,
+      "hasAuthentication": false,
+      "hasRateLimit": false,
+      "hasCaching": false,
+      "databaseCalls": 5
+    },
+    {
+      "endpoint": "/apiusers",
+      "methods": [
+        "GET",
+        "POST",
+        "PUT",
+        "DELETE"
+      ],
+      "issues": [
+        "Missing input validation for POST requests",
+        "High number of database calls (18)",
+        "No caching for GET requests"
+      ],
+      "hasErrorHandling": true,
+      "hasValidation": false,
+      "hasAuthentication": true,
+      "hasRateLimit": false,
+      "hasCaching": false,
+      "databaseCalls": 18
+    },
+    {
+      "endpoint": "/apiv1/developer/projects",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "issues": [
+        "High number of database calls (14)",
+        "No caching for GET requests"
+      ],
+      "hasErrorHandling": true,
+      "hasValidation": true,
+      "hasAuthentication": true,
+      "hasRateLimit": false,
+      "hasCaching": false,
+      "databaseCalls": 14
+    },
+    {
+      "endpoint": "/apiv1/kyc/aml-screening",
+      "methods": [
+        "POST"
+      ],
+      "issues": [
+        "Missing input validation for POST requests"
+      ],
+      "hasErrorHandling": true,
+      "hasValidation": false,
+      "hasAuthentication": true,
+      "hasRateLimit": false,
+      "hasCaching": false,
+      "databaseCalls": 0
+    },
+    {
+      "endpoint": "/apiv1/kyc/complete",
+      "methods": [
+        "POST"
+      ],
+      "issues": [
+        "Missing input validation for POST requests"
+      ],
+      "hasErrorHandling": true,
+      "hasValidation": false,
+      "hasAuthentication": true,
+      "hasRateLimit": false,
+      "hasCaching": false,
+      "databaseCalls": 2
+    },
+    {
+      "endpoint": "/apiv1/kyc/start",
+      "methods": [
+        "POST"
+      ],
+      "issues": [
+        "Missing input validation for POST requests"
+      ],
+      "hasErrorHandling": true,
+      "hasValidation": false,
+      "hasAuthentication": true,
+      "hasRateLimit": false,
+      "hasCaching": false,
+      "databaseCalls": 2
+    },
+    {
+      "endpoint": "/apiv1/kyc/upload",
+      "methods": [
+        "POST"
+      ],
+      "issues": [
+        "Missing input validation for POST requests"
+      ],
+      "hasErrorHandling": true,
+      "hasValidation": false,
+      "hasAuthentication": true,
+      "hasRateLimit": false,
+      "hasCaching": false,
+      "databaseCalls": 0
+    },
+    {
+      "endpoint": "/apiv1/payments",
+      "methods": [
+        "GET",
+        "POST",
+        "PATCH"
+      ],
+      "issues": [
+        "No caching for GET requests"
+      ],
+      "hasErrorHandling": true,
+      "hasValidation": true,
+      "hasAuthentication": true,
+      "hasRateLimit": false,
+      "hasCaching": false,
+      "databaseCalls": 3
+    },
+    {
+      "endpoint": "/apiv1/payments/webhook",
+      "methods": [
+        "POST"
+      ],
+      "issues": [
+        "Missing input validation for POST requests"
+      ],
+      "hasErrorHandling": true,
+      "hasValidation": false,
+      "hasAuthentication": false,
+      "hasRateLimit": false,
+      "hasCaching": false,
+      "databaseCalls": 0
+    },
+    {
+      "endpoint": "/apiv1/transactions/[id]",
+      "methods": [
+        "GET",
+        "PUT"
+      ],
+      "issues": [
+        "High number of database calls (18)",
+        "No caching for GET requests"
+      ],
+      "hasErrorHandling": true,
+      "hasValidation": true,
+      "hasAuthentication": true,
+      "hasRateLimit": false,
+      "hasCaching": false,
+      "databaseCalls": 18
+    },
+    {
+      "endpoint": "/apiv1/transactions/[id]/transition",
+      "methods": [
+        "POST"
+      ],
+      "issues": [
+        "High number of database calls (9)"
+      ],
+      "hasErrorHandling": true,
+      "hasValidation": true,
+      "hasAuthentication": true,
+      "hasRateLimit": false,
+      "hasCaching": false,
+      "databaseCalls": 9
+    },
+    {
+      "endpoint": "/apiv1/transactions",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "issues": [
+        "High number of database calls (23)",
+        "No caching for GET requests"
+      ],
+      "hasErrorHandling": true,
+      "hasValidation": true,
+      "hasAuthentication": true,
+      "hasRateLimit": false,
+      "hasCaching": false,
+      "databaseCalls": 23
+    },
+    {
+      "endpoint": "/apiviewing-slots",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "issues": [
+        "High number of database calls (17)",
+        "No caching for GET requests"
+      ],
+      "hasErrorHandling": true,
+      "hasValidation": true,
+      "hasAuthentication": true,
+      "hasRateLimit": false,
+      "hasCaching": false,
+      "databaseCalls": 17
+    },
+    {
+      "endpoint": "/apiwebhooks/stripe",
+      "methods": [
+        "POST"
+      ],
+      "issues": [
+        "Missing input validation for POST requests",
+        "High number of database calls (36)"
+      ],
+      "hasErrorHandling": true,
+      "hasValidation": false,
+      "hasAuthentication": false,
+      "hasRateLimit": false,
+      "hasCaching": false,
+      "databaseCalls": 36
+    },
+    {
+      "endpoint": "/apiwebsocket/developer-analytics",
+      "methods": [
+        "GET"
+      ],
+      "issues": [
+        "Missing error handling",
+        "High number of database calls (7)",
+        "No caching for GET requests"
+      ],
+      "hasErrorHandling": false,
+      "hasValidation": true,
+      "hasAuthentication": true,
+      "hasRateLimit": false,
+      "hasCaching": false,
+      "databaseCalls": 7
+    },
+    {
+      "endpoint": "/apiwebsocket",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "issues": [
+        "Missing input validation for POST requests",
+        "No caching for GET requests"
+      ],
+      "hasErrorHandling": true,
+      "hasValidation": false,
+      "hasAuthentication": false,
+      "hasRateLimit": false,
+      "hasCaching": false,
+      "databaseCalls": 2
+    }
+  ],
+  "databaseQueries": [
+    {
+      "model": "User",
+      "indexes": 0,
+      "uniqueIndexes": 0,
+      "relations": 19,
+      "hasCreatedAt": false,
+      "hasUpdatedAt": true
+    },
+    {
+      "model": "Session",
+      "indexes": 1,
+      "uniqueIndexes": 0,
+      "relations": 1,
+      "hasCreatedAt": false,
+      "hasUpdatedAt": false
+    },
+    {
+      "model": "RefreshToken",
+      "indexes": 2,
+      "uniqueIndexes": 0,
+      "relations": 1,
+      "hasCreatedAt": true,
+      "hasUpdatedAt": false
+    },
+    {
+      "model": "AuthLog",
+      "indexes": 3,
+      "uniqueIndexes": 0,
+      "relations": 1,
+      "hasCreatedAt": false,
+      "hasUpdatedAt": false
+    },
+    {
+      "model": "MfaSettings",
+      "indexes": 0,
+      "uniqueIndexes": 0,
+      "relations": 1,
+      "hasCreatedAt": true,
+      "hasUpdatedAt": true
+    },
+    {
+      "model": "MfaToken",
+      "indexes": 3,
+      "uniqueIndexes": 0,
+      "relations": 1,
+      "hasCreatedAt": true,
+      "hasUpdatedAt": false
+    },
+    {
+      "model": "UserPermission",
+      "indexes": 0,
+      "uniqueIndexes": 0,
+      "relations": 1,
+      "hasCreatedAt": false,
+      "hasUpdatedAt": false
+    },
+    {
+      "model": "TeamMember",
+      "indexes": 0,
+      "uniqueIndexes": 1,
+      "relations": 2,
+      "hasCreatedAt": false,
+      "hasUpdatedAt": false
+    },
+    {
+      "model": "Team",
+      "indexes": 0,
+      "uniqueIndexes": 0,
+      "relations": 0,
+      "hasCreatedAt": false,
+      "hasUpdatedAt": true
+    },
+    {
+      "model": "BuyerProfile",
+      "indexes": 0,
+      "uniqueIndexes": 0,
+      "relations": 1,
+      "hasCreatedAt": true,
+      "hasUpdatedAt": true
+    },
+    {
+      "model": "Reservation",
+      "indexes": 0,
+      "uniqueIndexes": 0,
+      "relations": 2,
+      "hasCreatedAt": true,
+      "hasUpdatedAt": true
+    },
+    {
+      "model": "MortgageTracking",
+      "indexes": 0,
+      "uniqueIndexes": 0,
+      "relations": 2,
+      "hasCreatedAt": true,
+      "hasUpdatedAt": true
+    },
+    {
+      "model": "SnagList",
+      "indexes": 0,
+      "uniqueIndexes": 0,
+      "relations": 2,
+      "hasCreatedAt": true,
+      "hasUpdatedAt": true
+    },
+    {
+      "model": "SnagItem",
+      "indexes": 0,
+      "uniqueIndexes": 0,
+      "relations": 2,
+      "hasCreatedAt": true,
+      "hasUpdatedAt": true
+    },
+    {
+      "model": "HomePackItem",
+      "indexes": 0,
+      "uniqueIndexes": 0,
+      "relations": 1,
+      "hasCreatedAt": true,
+      "hasUpdatedAt": true
+    },
+    {
+      "model": "Location",
+      "indexes": 0,
+      "uniqueIndexes": 0,
+      "relations": 0,
+      "hasCreatedAt": false,
+      "hasUpdatedAt": false
+    },
+    {
+      "model": "Development",
+      "indexes": 0,
+      "uniqueIndexes": 0,
+      "relations": 3,
+      "hasCreatedAt": false,
+      "hasUpdatedAt": true
+    },
+    {
+      "model": "ProjectTimeline",
+      "indexes": 0,
+      "uniqueIndexes": 0,
+      "relations": 0,
+      "hasCreatedAt": false,
+      "hasUpdatedAt": false
+    },
+    {
+      "model": "ProjectMilestone",
+      "indexes": 0,
+      "uniqueIndexes": 0,
+      "relations": 3,
+      "hasCreatedAt": false,
+      "hasUpdatedAt": false
+    },
+    {
+      "model": "ProjectMilestoneDependency",
+      "indexes": 0,
+      "uniqueIndexes": 1,
+      "relations": 2,
+      "hasCreatedAt": false,
+      "hasUpdatedAt": false
+    },
+    {
+      "model": "Unit",
+      "indexes": 0,
+      "uniqueIndexes": 0,
+      "relations": 3,
+      "hasCreatedAt": false,
+      "hasUpdatedAt": true
+    },
+    {
+      "model": "UnitOutdoorSpace",
+      "indexes": 0,
+      "uniqueIndexes": 0,
+      "relations": 1,
+      "hasCreatedAt": false,
+      "hasUpdatedAt": false
+    },
+    {
+      "model": "UnitRoom",
+      "indexes": 0,
+      "uniqueIndexes": 0,
+      "relations": 1,
+      "hasCreatedAt": false,
+      "hasUpdatedAt": false
+    },
+    {
+      "model": "UnitCustomizationOption",
+      "indexes": 0,
+      "uniqueIndexes": 0,
+      "relations": 7,
+      "hasCreatedAt": false,
+      "hasUpdatedAt": false
+    },
+    {
+      "model": "UnitCustomizationOptionAlternative",
+      "indexes": 0,
+      "uniqueIndexes": 1,
+      "relations": 2,
+      "hasCreatedAt": false,
+      "hasUpdatedAt": false
+    },
+    {
+      "model": "UnitCustomizationOptionRequirement",
+      "indexes": 0,
+      "uniqueIndexes": 1,
+      "relations": 2,
+      "hasCreatedAt": false,
+      "hasUpdatedAt": false
+    },
+    {
+      "model": "UnitCustomizationOptionIncompatibility",
+      "indexes": 0,
+      "uniqueIndexes": 1,
+      "relations": 2,
+      "hasCreatedAt": false,
+      "hasUpdatedAt": false
+    },
+    {
+      "model": "CustomizationSelection",
+      "indexes": 0,
+      "uniqueIndexes": 0,
+      "relations": 2,
+      "hasCreatedAt": false,
+      "hasUpdatedAt": false
+    },
+    {
+      "model": "SelectedOption",
+      "indexes": 0,
+      "uniqueIndexes": 0,
+      "relations": 2,
+      "hasCreatedAt": false,
+      "hasUpdatedAt": false
+    },
+    {
+      "model": "Document",
+      "indexes": 0,
+      "uniqueIndexes": 0,
+      "relations": 8,
+      "hasCreatedAt": false,
+      "hasUpdatedAt": false
+    },
+    {
+      "model": "DocumentVersion",
+      "indexes": 0,
+      "uniqueIndexes": 0,
+      "relations": 2,
+      "hasCreatedAt": false,
+      "hasUpdatedAt": false
+    },
+    {
+      "model": "DocumentWorkflow",
+      "indexes": 0,
+      "uniqueIndexes": 0,
+      "relations": 0,
+      "hasCreatedAt": false,
+      "hasUpdatedAt": true
+    },
+    {
+      "model": "DocumentWorkflowStage",
+      "indexes": 0,
+      "uniqueIndexes": 0,
+      "relations": 1,
+      "hasCreatedAt": false,
+      "hasUpdatedAt": false
+    },
+    {
+      "model": "ApproverConfig",
+      "indexes": 0,
+      "uniqueIndexes": 0,
+      "relations": 1,
+      "hasCreatedAt": false,
+      "hasUpdatedAt": false
+    },
+    {
+      "model": "DocumentCustomField",
+      "indexes": 0,
+      "uniqueIndexes": 0,
+      "relations": 1,
+      "hasCreatedAt": false,
+      "hasUpdatedAt": false
+    },
+    {
+      "model": "DocumentWorkflowInstance",
+      "indexes": 0,
+      "uniqueIndexes": 0,
+      "relations": 2,
+      "hasCreatedAt": false,
+      "hasUpdatedAt": false
+    },
+    {
+      "model": "DocumentWorkflowHistory",
+      "indexes": 0,
+      "uniqueIndexes": 0,
+      "relations": 2,
+      "hasCreatedAt": false,
+      "hasUpdatedAt": false
+    },
+    {
+      "model": "DocumentApproval",
+      "indexes": 0,
+      "uniqueIndexes": 0,
+      "relations": 1,
+      "hasCreatedAt": false,
+      "hasUpdatedAt": false
+    },
+    {
+      "model": "DocumentSignature",
+      "indexes": 0,
+      "uniqueIndexes": 0,
+      "relations": 1,
+      "hasCreatedAt": false,
+      "hasUpdatedAt": false
+    },
+    {
+      "model": "Sale",
+      "indexes": 0,
+      "uniqueIndexes": 0,
+      "relations": 4,
+      "hasCreatedAt": true,
+      "hasUpdatedAt": true
+    },
+    {
+      "model": "SaleStatusHistory",
+      "indexes": 0,
+      "uniqueIndexes": 0,
+      "relations": 2,
+      "hasCreatedAt": false,
+      "hasUpdatedAt": false
+    },
+    {
+      "model": "SaleTimeline",
+      "indexes": 0,
+      "uniqueIndexes": 0,
+      "relations": 1,
+      "hasCreatedAt": false,
+      "hasUpdatedAt": false
+    },
+    {
+      "model": "Deposit",
+      "indexes": 0,
+      "uniqueIndexes": 0,
+      "relations": 1,
+      "hasCreatedAt": false,
+      "hasUpdatedAt": false
+    },
+    {
+      "model": "MortgageDetails",
+      "indexes": 0,
+      "uniqueIndexes": 0,
+      "relations": 1,
+      "hasCreatedAt": false,
+      "hasUpdatedAt": false
+    },
+    {
+      "model": "HTBDetails",
+      "indexes": 0,
+      "uniqueIndexes": 0,
+      "relations": 1,
+      "hasCreatedAt": false,
+      "hasUpdatedAt": false
+    },
+    {
+      "model": "SaleNote",
+      "indexes": 0,
+      "uniqueIndexes": 0,
+      "relations": 1,
+      "hasCreatedAt": false,
+      "hasUpdatedAt": false
+    },
+    {
+      "model": "SaleTask",
+      "indexes": 0,
+      "uniqueIndexes": 0,
+      "relations": 1,
+      "hasCreatedAt": true,
+      "hasUpdatedAt": true
+    },
+    {
+      "model": "Professional",
+      "indexes": 0,
+      "uniqueIndexes": 0,
+      "relations": 2,
+      "hasCreatedAt": false,
+      "hasUpdatedAt": true
+    },
+    {
+      "model": "Company",
+      "indexes": 0,
+      "uniqueIndexes": 0,
+      "relations": 0,
+      "hasCreatedAt": false,
+      "hasUpdatedAt": true
+    },
+    {
+      "model": "ServiceArea",
+      "indexes": 0,
+      "uniqueIndexes": 0,
+      "relations": 1,
+      "hasCreatedAt": false,
+      "hasUpdatedAt": false
+    },
+    {
+      "model": "Qualification",
+      "indexes": 0,
+      "uniqueIndexes": 0,
+      "relations": 1,
+      "hasCreatedAt": false,
+      "hasUpdatedAt": false
+    },
+    {
+      "model": "ProfessionalDocument",
+      "indexes": 0,
+      "uniqueIndexes": 0,
+      "relations": 1,
+      "hasCreatedAt": false,
+      "hasUpdatedAt": false
+    },
+    {
+      "model": "ProfessionalAppointment",
+      "indexes": 0,
+      "uniqueIndexes": 0,
+      "relations": 2,
+      "hasCreatedAt": false,
+      "hasUpdatedAt": true
+    },
+    {
+      "model": "ProfessionalAssignment",
+      "indexes": 0,
+      "uniqueIndexes": 0,
+      "relations": 1,
+      "hasCreatedAt": false,
+      "hasUpdatedAt": true
+    },
+    {
+      "model": "ProfessionalReview",
+      "indexes": 0,
+      "uniqueIndexes": 0,
+      "relations": 1,
+      "hasCreatedAt": false,
+      "hasUpdatedAt": false
+    },
+    {
+      "model": "Project",
+      "indexes": 0,
+      "uniqueIndexes": 0,
+      "relations": 2,
+      "hasCreatedAt": false,
+      "hasUpdatedAt": true
+    },
+    {
+      "model": "ProjectPhase",
+      "indexes": 0,
+      "uniqueIndexes": 0,
+      "relations": 3,
+      "hasCreatedAt": false,
+      "hasUpdatedAt": false
+    },
+    {
+      "model": "ProjectPhaseDependency",
+      "indexes": 0,
+      "uniqueIndexes": 1,
+      "relations": 2,
+      "hasCreatedAt": false,
+      "hasUpdatedAt": false
+    },
+    {
+      "model": "ProjectMilestone2",
+      "indexes": 0,
+      "uniqueIndexes": 0,
+      "relations": 4,
+      "hasCreatedAt": false,
+      "hasUpdatedAt": false
+    },
+    {
+      "model": "ProjectMilestoneDependency2",
+      "indexes": 0,
+      "uniqueIndexes": 1,
+      "relations": 2,
+      "hasCreatedAt": false,
+      "hasUpdatedAt": false
+    },
+    {
+      "model": "ProjectTask",
+      "indexes": 0,
+      "uniqueIndexes": 0,
+      "relations": 4,
+      "hasCreatedAt": false,
+      "hasUpdatedAt": false
+    },
+    {
+      "model": "ProjectTaskDependency",
+      "indexes": 0,
+      "uniqueIndexes": 1,
+      "relations": 2,
+      "hasCreatedAt": false,
+      "hasUpdatedAt": false
+    },
+    {
+      "model": "TaskComment",
+      "indexes": 0,
+      "uniqueIndexes": 0,
+      "relations": 2,
+      "hasCreatedAt": false,
+      "hasUpdatedAt": false
+    },
+    {
+      "model": "ProjectRisk",
+      "indexes": 0,
+      "uniqueIndexes": 0,
+      "relations": 1,
+      "hasCreatedAt": false,
+      "hasUpdatedAt": true
+    },
+    {
+      "model": "ProjectIssue",
+      "indexes": 0,
+      "uniqueIndexes": 0,
+      "relations": 1,
+      "hasCreatedAt": false,
+      "hasUpdatedAt": false
+    },
+    {
+      "model": "IssueComment",
+      "indexes": 0,
+      "uniqueIndexes": 0,
+      "relations": 1,
+      "hasCreatedAt": false,
+      "hasUpdatedAt": false
+    },
+    {
+      "model": "ConstructionLog",
+      "indexes": 0,
+      "uniqueIndexes": 0,
+      "relations": 1,
+      "hasCreatedAt": false,
+      "hasUpdatedAt": false
+    },
+    {
+      "model": "Inspection",
+      "indexes": 0,
+      "uniqueIndexes": 0,
+      "relations": 1,
+      "hasCreatedAt": false,
+      "hasUpdatedAt": true
+    },
+    {
+      "model": "InspectionFinding",
+      "indexes": 0,
+      "uniqueIndexes": 0,
+      "relations": 1,
+      "hasCreatedAt": false,
+      "hasUpdatedAt": false
+    },
+    {
+      "model": "ProjectUpdate",
+      "indexes": 0,
+      "uniqueIndexes": 0,
+      "relations": 1,
+      "hasCreatedAt": false,
+      "hasUpdatedAt": false
+    },
+    {
+      "model": "Meeting",
+      "indexes": 0,
+      "uniqueIndexes": 0,
+      "relations": 1,
+      "hasCreatedAt": false,
+      "hasUpdatedAt": true
+    },
+    {
+      "model": "MeetingAttendee",
+      "indexes": 0,
+      "uniqueIndexes": 0,
+      "relations": 1,
+      "hasCreatedAt": false,
+      "hasUpdatedAt": false
+    },
+    {
+      "model": "AgendaItem",
+      "indexes": 0,
+      "uniqueIndexes": 0,
+      "relations": 1,
+      "hasCreatedAt": false,
+      "hasUpdatedAt": false
+    },
+    {
+      "model": "MeetingMinutes",
+      "indexes": 0,
+      "uniqueIndexes": 0,
+      "relations": 1,
+      "hasCreatedAt": false,
+      "hasUpdatedAt": false
+    },
+    {
+      "model": "MeetingActionItem",
+      "indexes": 0,
+      "uniqueIndexes": 0,
+      "relations": 1,
+      "hasCreatedAt": false,
+      "hasUpdatedAt": false
+    },
+    {
+      "model": "HealthAndSafetyPlan",
+      "indexes": 0,
+      "uniqueIndexes": 0,
+      "relations": 1,
+      "hasCreatedAt": false,
+      "hasUpdatedAt": false
+    },
+    {
+      "model": "EmergencyContact",
+      "indexes": 0,
+      "uniqueIndexes": 0,
+      "relations": 1,
+      "hasCreatedAt": false,
+      "hasUpdatedAt": false
+    },
+    {
+      "model": "SafetyInspection",
+      "indexes": 0,
+      "uniqueIndexes": 0,
+      "relations": 1,
+      "hasCreatedAt": false,
+      "hasUpdatedAt": false
+    },
+    {
+      "model": "SafetyIncident",
+      "indexes": 0,
+      "uniqueIndexes": 0,
+      "relations": 1,
+      "hasCreatedAt": false,
+      "hasUpdatedAt": false
+    },
+    {
+      "model": "TrainingRecord",
+      "indexes": 0,
+      "uniqueIndexes": 0,
+      "relations": 1,
+      "hasCreatedAt": false,
+      "hasUpdatedAt": false
+    },
+    {
+      "model": "ToolboxTalk",
+      "indexes": 0,
+      "uniqueIndexes": 0,
+      "relations": 1,
+      "hasCreatedAt": false,
+      "hasUpdatedAt": false
+    },
+    {
+      "model": "Investment",
+      "indexes": 0,
+      "uniqueIndexes": 0,
+      "relations": 2,
+      "hasCreatedAt": false,
+      "hasUpdatedAt": true
+    },
+    {
+      "model": "Distribution",
+      "indexes": 0,
+      "uniqueIndexes": 0,
+      "relations": 1,
+      "hasCreatedAt": false,
+      "hasUpdatedAt": false
+    },
+    {
+      "model": "InvestmentUpdate",
+      "indexes": 0,
+      "uniqueIndexes": 0,
+      "relations": 1,
+      "hasCreatedAt": false,
+      "hasUpdatedAt": false
+    },
+    {
+      "model": "InvestmentOpportunity",
+      "indexes": 0,
+      "uniqueIndexes": 0,
+      "relations": 1,
+      "hasCreatedAt": false,
+      "hasUpdatedAt": true
+    },
+    {
+      "model": "InvestorWatchlistUnit",
+      "indexes": 0,
+      "uniqueIndexes": 1,
+      "relations": 1,
+      "hasCreatedAt": false,
+      "hasUpdatedAt": false
+    },
+    {
+      "model": "MarketingCampaign",
+      "indexes": 0,
+      "uniqueIndexes": 0,
+      "relations": 1,
+      "hasCreatedAt": false,
+      "hasUpdatedAt": true
+    },
+    {
+      "model": "MarketingChannel",
+      "indexes": 0,
+      "uniqueIndexes": 0,
+      "relations": 1,
+      "hasCreatedAt": false,
+      "hasUpdatedAt": false
+    },
+    {
+      "model": "MarketingActivity",
+      "indexes": 0,
+      "uniqueIndexes": 0,
+      "relations": 2,
+      "hasCreatedAt": false,
+      "hasUpdatedAt": true
+    },
+    {
+      "model": "CreativeAsset",
+      "indexes": 0,
+      "uniqueIndexes": 0,
+      "relations": 0,
+      "hasCreatedAt": false,
+      "hasUpdatedAt": false
+    },
+    {
+      "model": "Lead",
+      "indexes": 0,
+      "uniqueIndexes": 0,
+      "relations": 2,
+      "hasCreatedAt": false,
+      "hasUpdatedAt": true
+    },
+    {
+      "model": "LeadStatusHistory",
+      "indexes": 0,
+      "uniqueIndexes": 0,
+      "relations": 1,
+      "hasCreatedAt": false,
+      "hasUpdatedAt": false
+    },
+    {
+      "model": "LeadInteraction",
+      "indexes": 0,
+      "uniqueIndexes": 0,
+      "relations": 1,
+      "hasCreatedAt": false,
+      "hasUpdatedAt": false
+    },
+    {
+      "model": "Viewing",
+      "indexes": 0,
+      "uniqueIndexes": 0,
+      "relations": 2,
+      "hasCreatedAt": false,
+      "hasUpdatedAt": true
+    },
+    {
+      "model": "UserRoleMapping",
+      "indexes": 0,
+      "uniqueIndexes": 1,
+      "relations": 0,
+      "hasCreatedAt": false,
+      "hasUpdatedAt": false
+    },
+    {
+      "model": "Transaction",
+      "indexes": 6,
+      "uniqueIndexes": 0,
+      "relations": 5,
+      "hasCreatedAt": true,
+      "hasUpdatedAt": true
+    },
+    {
+      "model": "TransactionEvent",
+      "indexes": 3,
+      "uniqueIndexes": 0,
+      "relations": 1,
+      "hasCreatedAt": false,
+      "hasUpdatedAt": false
+    },
+    {
+      "model": "TransactionDocument",
+      "indexes": 3,
+      "uniqueIndexes": 0,
+      "relations": 1,
+      "hasCreatedAt": false,
+      "hasUpdatedAt": false
+    },
+    {
+      "model": "TransactionPayment",
+      "indexes": 3,
+      "uniqueIndexes": 0,
+      "relations": 1,
+      "hasCreatedAt": true,
+      "hasUpdatedAt": true
+    },
+    {
+      "model": "TransactionTask",
+      "indexes": 4,
+      "uniqueIndexes": 0,
+      "relations": 1,
+      "hasCreatedAt": true,
+      "hasUpdatedAt": true
+    },
+    {
+      "model": "TransactionMilestone",
+      "indexes": 3,
+      "uniqueIndexes": 0,
+      "relations": 1,
+      "hasCreatedAt": true,
+      "hasUpdatedAt": true
+    },
+    {
+      "model": "TransactionCommunication",
+      "indexes": 4,
+      "uniqueIndexes": 0,
+      "relations": 1,
+      "hasCreatedAt": true,
+      "hasUpdatedAt": false
+    },
+    {
+      "model": "TransactionNotification",
+      "indexes": 4,
+      "uniqueIndexes": 0,
+      "relations": 1,
+      "hasCreatedAt": true,
+      "hasUpdatedAt": false
+    },
+    {
+      "model": "TransactionIssue",
+      "indexes": 4,
+      "uniqueIndexes": 0,
+      "relations": 1,
+      "hasCreatedAt": true,
+      "hasUpdatedAt": true
+    },
+    {
+      "model": "TransactionTimeline",
+      "indexes": 0,
+      "uniqueIndexes": 0,
+      "relations": 1,
+      "hasCreatedAt": true,
+      "hasUpdatedAt": true
+    },
+    {
+      "model": "ConveyancingCase",
+      "indexes": 0,
+      "uniqueIndexes": 0,
+      "relations": 0,
+      "hasCreatedAt": true,
+      "hasUpdatedAt": true
+    },
+    {
+      "model": "ConveyancingTask",
+      "indexes": 0,
+      "uniqueIndexes": 0,
+      "relations": 1,
+      "hasCreatedAt": true,
+      "hasUpdatedAt": true
+    },
+    {
+      "model": "ConveyancingDocument",
+      "indexes": 0,
+      "uniqueIndexes": 0,
+      "relations": 2,
+      "hasCreatedAt": true,
+      "hasUpdatedAt": true
+    },
+    {
+      "model": "ConveyancingNote",
+      "indexes": 0,
+      "uniqueIndexes": 0,
+      "relations": 1,
+      "hasCreatedAt": true,
+      "hasUpdatedAt": true
+    },
+    {
+      "model": "AMLCheck",
+      "indexes": 0,
+      "uniqueIndexes": 0,
+      "relations": 1,
+      "hasCreatedAt": true,
+      "hasUpdatedAt": true
+    },
+    {
+      "model": "SourceOfFunds",
+      "indexes": 0,
+      "uniqueIndexes": 0,
+      "relations": 1,
+      "hasCreatedAt": true,
+      "hasUpdatedAt": true
+    },
+    {
+      "model": "LegalFee",
+      "indexes": 0,
+      "uniqueIndexes": 0,
+      "relations": 1,
+      "hasCreatedAt": true,
+      "hasUpdatedAt": true
+    },
+    {
+      "model": "ConveyancingInvoice",
+      "indexes": 0,
+      "uniqueIndexes": 0,
+      "relations": 1,
+      "hasCreatedAt": true,
+      "hasUpdatedAt": true
+    },
+    {
+      "model": "UnitType",
+      "indexes": 0,
+      "uniqueIndexes": 1,
+      "relations": 1,
+      "hasCreatedAt": true,
+      "hasUpdatedAt": true
+    },
+    {
+      "model": "ScheduleOfAccommodation",
+      "indexes": 0,
+      "uniqueIndexes": 1,
+      "relations": 1,
+      "hasCreatedAt": true,
+      "hasUpdatedAt": true
+    },
+    {
+      "model": "FloorPlan",
+      "indexes": 0,
+      "uniqueIndexes": 0,
+      "relations": 1,
+      "hasCreatedAt": true,
+      "hasUpdatedAt": true
+    },
+    {
+      "model": "DevelopmentMedia",
+      "indexes": 0,
+      "uniqueIndexes": 0,
+      "relations": 1,
+      "hasCreatedAt": true,
+      "hasUpdatedAt": true
+    },
+    {
+      "model": "DevelopmentDocument",
+      "indexes": 0,
+      "uniqueIndexes": 0,
+      "relations": 1,
+      "hasCreatedAt": true,
+      "hasUpdatedAt": true
+    },
+    {
+      "model": "Amenity",
+      "indexes": 0,
+      "uniqueIndexes": 0,
+      "relations": 1,
+      "hasCreatedAt": true,
+      "hasUpdatedAt": true
+    },
+    {
+      "model": "Customization",
+      "indexes": 0,
+      "uniqueIndexes": 0,
+      "relations": 1,
+      "hasCreatedAt": true,
+      "hasUpdatedAt": true
+    },
+    {
+      "model": "DevelopmentUnit",
+      "indexes": 0,
+      "uniqueIndexes": 1,
+      "relations": 2,
+      "hasCreatedAt": true,
+      "hasUpdatedAt": true
+    },
+    {
+      "model": "DevelopmentAmenity",
+      "indexes": 0,
+      "uniqueIndexes": 0,
+      "relations": 1,
+      "hasCreatedAt": true,
+      "hasUpdatedAt": true
+    },
+    {
+      "model": "DevelopmentViewing",
+      "indexes": 0,
+      "uniqueIndexes": 0,
+      "relations": 4,
+      "hasCreatedAt": true,
+      "hasUpdatedAt": true
+    },
+    {
+      "model": "DevelopmentReservation",
+      "indexes": 0,
+      "uniqueIndexes": 0,
+      "relations": 3,
+      "hasCreatedAt": true,
+      "hasUpdatedAt": true
+    },
+    {
+      "model": "DevelopmentSale",
+      "indexes": 0,
+      "uniqueIndexes": 0,
+      "relations": 3,
+      "hasCreatedAt": true,
+      "hasUpdatedAt": true
+    },
+    {
+      "model": "PropertyView",
+      "indexes": 2,
+      "uniqueIndexes": 0,
+      "relations": 1,
+      "hasCreatedAt": true,
+      "hasUpdatedAt": false
+    },
+    {
+      "model": "Inquiry",
+      "indexes": 2,
+      "uniqueIndexes": 0,
+      "relations": 2,
+      "hasCreatedAt": true,
+      "hasUpdatedAt": true
+    },
+    {
+      "model": "Payment",
+      "indexes": 2,
+      "uniqueIndexes": 0,
+      "relations": 1,
+      "hasCreatedAt": true,
+      "hasUpdatedAt": true
+    },
+    {
+      "model": "AnalyticsSchedule",
+      "indexes": 2,
+      "uniqueIndexes": 0,
+      "relations": 0,
+      "hasCreatedAt": true,
+      "hasUpdatedAt": true
+    }
+  ],
+  "performanceIssues": [
+    {
+      "type": "Missing Index",
+      "model": "User",
+      "issue": "Model has relations but no indexes"
+    },
+    {
+      "type": "Missing Index",
+      "model": "MfaSettings",
+      "issue": "Model has relations but no indexes"
+    },
+    {
+      "type": "Missing Index",
+      "model": "UserPermission",
+      "issue": "Model has relations but no indexes"
+    },
+    {
+      "type": "Missing Index",
+      "model": "TeamMember",
+      "issue": "Model has relations but no indexes"
+    },
+    {
+      "type": "Missing Index",
+      "model": "BuyerProfile",
+      "issue": "Model has relations but no indexes"
+    },
+    {
+      "type": "Missing Index",
+      "model": "Reservation",
+      "issue": "Model has relations but no indexes"
+    },
+    {
+      "type": "Missing Index",
+      "model": "MortgageTracking",
+      "issue": "Model has relations but no indexes"
+    },
+    {
+      "type": "Missing Index",
+      "model": "SnagList",
+      "issue": "Model has relations but no indexes"
+    },
+    {
+      "type": "Missing Index",
+      "model": "SnagItem",
+      "issue": "Model has relations but no indexes"
+    },
+    {
+      "type": "Missing Index",
+      "model": "HomePackItem",
+      "issue": "Model has relations but no indexes"
+    },
+    {
+      "type": "Missing Index",
+      "model": "Development",
+      "issue": "Model has relations but no indexes"
+    },
+    {
+      "type": "Missing Index",
+      "model": "ProjectMilestone",
+      "issue": "Model has relations but no indexes"
+    },
+    {
+      "type": "Missing Index",
+      "model": "ProjectMilestoneDependency",
+      "issue": "Model has relations but no indexes"
+    },
+    {
+      "type": "Missing Index",
+      "model": "Unit",
+      "issue": "Model has relations but no indexes"
+    },
+    {
+      "type": "Missing Index",
+      "model": "UnitOutdoorSpace",
+      "issue": "Model has relations but no indexes"
+    },
+    {
+      "type": "Missing Index",
+      "model": "UnitRoom",
+      "issue": "Model has relations but no indexes"
+    },
+    {
+      "type": "Missing Index",
+      "model": "UnitCustomizationOption",
+      "issue": "Model has relations but no indexes"
+    },
+    {
+      "type": "Missing Index",
+      "model": "UnitCustomizationOptionAlternative",
+      "issue": "Model has relations but no indexes"
+    },
+    {
+      "type": "Missing Index",
+      "model": "UnitCustomizationOptionRequirement",
+      "issue": "Model has relations but no indexes"
+    },
+    {
+      "type": "Missing Index",
+      "model": "UnitCustomizationOptionIncompatibility",
+      "issue": "Model has relations but no indexes"
+    },
+    {
+      "type": "Missing Index",
+      "model": "CustomizationSelection",
+      "issue": "Model has relations but no indexes"
+    },
+    {
+      "type": "Missing Index",
+      "model": "SelectedOption",
+      "issue": "Model has relations but no indexes"
+    },
+    {
+      "type": "Missing Index",
+      "model": "Document",
+      "issue": "Model has relations but no indexes"
+    },
+    {
+      "type": "Missing Index",
+      "model": "DocumentVersion",
+      "issue": "Model has relations but no indexes"
+    },
+    {
+      "type": "Missing Index",
+      "model": "DocumentWorkflowStage",
+      "issue": "Model has relations but no indexes"
+    },
+    {
+      "type": "Missing Index",
+      "model": "ApproverConfig",
+      "issue": "Model has relations but no indexes"
+    },
+    {
+      "type": "Missing Index",
+      "model": "DocumentCustomField",
+      "issue": "Model has relations but no indexes"
+    },
+    {
+      "type": "Missing Index",
+      "model": "DocumentWorkflowInstance",
+      "issue": "Model has relations but no indexes"
+    },
+    {
+      "type": "Missing Index",
+      "model": "DocumentWorkflowHistory",
+      "issue": "Model has relations but no indexes"
+    },
+    {
+      "type": "Missing Index",
+      "model": "DocumentApproval",
+      "issue": "Model has relations but no indexes"
+    },
+    {
+      "type": "Missing Index",
+      "model": "DocumentSignature",
+      "issue": "Model has relations but no indexes"
+    },
+    {
+      "type": "Missing Index",
+      "model": "Sale",
+      "issue": "Model has relations but no indexes"
+    },
+    {
+      "type": "Missing Index",
+      "model": "SaleStatusHistory",
+      "issue": "Model has relations but no indexes"
+    },
+    {
+      "type": "Missing Index",
+      "model": "SaleTimeline",
+      "issue": "Model has relations but no indexes"
+    },
+    {
+      "type": "Missing Index",
+      "model": "Deposit",
+      "issue": "Model has relations but no indexes"
+    },
+    {
+      "type": "Missing Index",
+      "model": "MortgageDetails",
+      "issue": "Model has relations but no indexes"
+    },
+    {
+      "type": "Missing Index",
+      "model": "HTBDetails",
+      "issue": "Model has relations but no indexes"
+    },
+    {
+      "type": "Missing Index",
+      "model": "SaleNote",
+      "issue": "Model has relations but no indexes"
+    },
+    {
+      "type": "Missing Index",
+      "model": "SaleTask",
+      "issue": "Model has relations but no indexes"
+    },
+    {
+      "type": "Missing Index",
+      "model": "Professional",
+      "issue": "Model has relations but no indexes"
+    },
+    {
+      "type": "Missing Index",
+      "model": "ServiceArea",
+      "issue": "Model has relations but no indexes"
+    },
+    {
+      "type": "Missing Index",
+      "model": "Qualification",
+      "issue": "Model has relations but no indexes"
+    },
+    {
+      "type": "Missing Index",
+      "model": "ProfessionalDocument",
+      "issue": "Model has relations but no indexes"
+    },
+    {
+      "type": "Missing Index",
+      "model": "ProfessionalAppointment",
+      "issue": "Model has relations but no indexes"
+    },
+    {
+      "type": "Missing Index",
+      "model": "ProfessionalAssignment",
+      "issue": "Model has relations but no indexes"
+    },
+    {
+      "type": "Missing Index",
+      "model": "ProfessionalReview",
+      "issue": "Model has relations but no indexes"
+    },
+    {
+      "type": "Missing Index",
+      "model": "Project",
+      "issue": "Model has relations but no indexes"
+    },
+    {
+      "type": "Missing Index",
+      "model": "ProjectPhase",
+      "issue": "Model has relations but no indexes"
+    },
+    {
+      "type": "Missing Index",
+      "model": "ProjectPhaseDependency",
+      "issue": "Model has relations but no indexes"
+    },
+    {
+      "type": "Missing Index",
+      "model": "ProjectMilestone2",
+      "issue": "Model has relations but no indexes"
+    },
+    {
+      "type": "Missing Index",
+      "model": "ProjectMilestoneDependency2",
+      "issue": "Model has relations but no indexes"
+    },
+    {
+      "type": "Missing Index",
+      "model": "ProjectTask",
+      "issue": "Model has relations but no indexes"
+    },
+    {
+      "type": "Missing Index",
+      "model": "ProjectTaskDependency",
+      "issue": "Model has relations but no indexes"
+    },
+    {
+      "type": "Missing Index",
+      "model": "TaskComment",
+      "issue": "Model has relations but no indexes"
+    },
+    {
+      "type": "Missing Index",
+      "model": "ProjectRisk",
+      "issue": "Model has relations but no indexes"
+    },
+    {
+      "type": "Missing Index",
+      "model": "ProjectIssue",
+      "issue": "Model has relations but no indexes"
+    },
+    {
+      "type": "Missing Index",
+      "model": "IssueComment",
+      "issue": "Model has relations but no indexes"
+    },
+    {
+      "type": "Missing Index",
+      "model": "ConstructionLog",
+      "issue": "Model has relations but no indexes"
+    },
+    {
+      "type": "Missing Index",
+      "model": "Inspection",
+      "issue": "Model has relations but no indexes"
+    },
+    {
+      "type": "Missing Index",
+      "model": "InspectionFinding",
+      "issue": "Model has relations but no indexes"
+    },
+    {
+      "type": "Missing Index",
+      "model": "ProjectUpdate",
+      "issue": "Model has relations but no indexes"
+    },
+    {
+      "type": "Missing Index",
+      "model": "Meeting",
+      "issue": "Model has relations but no indexes"
+    },
+    {
+      "type": "Missing Index",
+      "model": "MeetingAttendee",
+      "issue": "Model has relations but no indexes"
+    },
+    {
+      "type": "Missing Index",
+      "model": "AgendaItem",
+      "issue": "Model has relations but no indexes"
+    },
+    {
+      "type": "Missing Index",
+      "model": "MeetingMinutes",
+      "issue": "Model has relations but no indexes"
+    },
+    {
+      "type": "Missing Index",
+      "model": "MeetingActionItem",
+      "issue": "Model has relations but no indexes"
+    },
+    {
+      "type": "Missing Index",
+      "model": "HealthAndSafetyPlan",
+      "issue": "Model has relations but no indexes"
+    },
+    {
+      "type": "Missing Index",
+      "model": "EmergencyContact",
+      "issue": "Model has relations but no indexes"
+    },
+    {
+      "type": "Missing Index",
+      "model": "SafetyInspection",
+      "issue": "Model has relations but no indexes"
+    },
+    {
+      "type": "Missing Index",
+      "model": "SafetyIncident",
+      "issue": "Model has relations but no indexes"
+    },
+    {
+      "type": "Missing Index",
+      "model": "TrainingRecord",
+      "issue": "Model has relations but no indexes"
+    },
+    {
+      "type": "Missing Index",
+      "model": "ToolboxTalk",
+      "issue": "Model has relations but no indexes"
+    },
+    {
+      "type": "Missing Index",
+      "model": "Investment",
+      "issue": "Model has relations but no indexes"
+    },
+    {
+      "type": "Missing Index",
+      "model": "Distribution",
+      "issue": "Model has relations but no indexes"
+    },
+    {
+      "type": "Missing Index",
+      "model": "InvestmentUpdate",
+      "issue": "Model has relations but no indexes"
+    },
+    {
+      "type": "Missing Index",
+      "model": "InvestmentOpportunity",
+      "issue": "Model has relations but no indexes"
+    },
+    {
+      "type": "Missing Index",
+      "model": "InvestorWatchlistUnit",
+      "issue": "Model has relations but no indexes"
+    },
+    {
+      "type": "Missing Index",
+      "model": "MarketingCampaign",
+      "issue": "Model has relations but no indexes"
+    },
+    {
+      "type": "Missing Index",
+      "model": "MarketingChannel",
+      "issue": "Model has relations but no indexes"
+    },
+    {
+      "type": "Missing Index",
+      "model": "MarketingActivity",
+      "issue": "Model has relations but no indexes"
+    },
+    {
+      "type": "Missing Index",
+      "model": "Lead",
+      "issue": "Model has relations but no indexes"
+    },
+    {
+      "type": "Missing Index",
+      "model": "LeadStatusHistory",
+      "issue": "Model has relations but no indexes"
+    },
+    {
+      "type": "Missing Index",
+      "model": "LeadInteraction",
+      "issue": "Model has relations but no indexes"
+    },
+    {
+      "type": "Missing Index",
+      "model": "Viewing",
+      "issue": "Model has relations but no indexes"
+    },
+    {
+      "type": "Missing Index",
+      "model": "TransactionTimeline",
+      "issue": "Model has relations but no indexes"
+    },
+    {
+      "type": "Missing Index",
+      "model": "ConveyancingTask",
+      "issue": "Model has relations but no indexes"
+    },
+    {
+      "type": "Missing Index",
+      "model": "ConveyancingDocument",
+      "issue": "Model has relations but no indexes"
+    },
+    {
+      "type": "Missing Index",
+      "model": "ConveyancingNote",
+      "issue": "Model has relations but no indexes"
+    },
+    {
+      "type": "Missing Index",
+      "model": "AMLCheck",
+      "issue": "Model has relations but no indexes"
+    },
+    {
+      "type": "Missing Index",
+      "model": "SourceOfFunds",
+      "issue": "Model has relations but no indexes"
+    },
+    {
+      "type": "Missing Index",
+      "model": "LegalFee",
+      "issue": "Model has relations but no indexes"
+    },
+    {
+      "type": "Missing Index",
+      "model": "ConveyancingInvoice",
+      "issue": "Model has relations but no indexes"
+    },
+    {
+      "type": "Missing Index",
+      "model": "UnitType",
+      "issue": "Model has relations but no indexes"
+    },
+    {
+      "type": "Missing Index",
+      "model": "ScheduleOfAccommodation",
+      "issue": "Model has relations but no indexes"
+    },
+    {
+      "type": "Missing Index",
+      "model": "FloorPlan",
+      "issue": "Model has relations but no indexes"
+    },
+    {
+      "type": "Missing Index",
+      "model": "DevelopmentMedia",
+      "issue": "Model has relations but no indexes"
+    },
+    {
+      "type": "Missing Index",
+      "model": "DevelopmentDocument",
+      "issue": "Model has relations but no indexes"
+    },
+    {
+      "type": "Missing Index",
+      "model": "Amenity",
+      "issue": "Model has relations but no indexes"
+    },
+    {
+      "type": "Missing Index",
+      "model": "Customization",
+      "issue": "Model has relations but no indexes"
+    },
+    {
+      "type": "Missing Index",
+      "model": "DevelopmentUnit",
+      "issue": "Model has relations but no indexes"
+    },
+    {
+      "type": "Missing Index",
+      "model": "DevelopmentAmenity",
+      "issue": "Model has relations but no indexes"
+    },
+    {
+      "type": "Missing Index",
+      "model": "DevelopmentViewing",
+      "issue": "Model has relations but no indexes"
+    },
+    {
+      "type": "Missing Index",
+      "model": "DevelopmentReservation",
+      "issue": "Model has relations but no indexes"
+    },
+    {
+      "type": "Missing Index",
+      "model": "DevelopmentSale",
+      "issue": "Model has relations but no indexes"
+    },
+    {
+      "issue": "Missing include statements",
+      "recommendation": "Use include to fetch related data in single query"
+    }
+  ],
+  "optimizations": [
+    {
+      "category": "API Security",
+      "priority": "High",
+      "issue": "102 API routes have security/performance issues",
+      "action": "Add error handling, validation, and authentication to API routes"
+    },
+    {
+      "category": "Database Performance",
+      "priority": "High",
+      "issue": "104 models need indexes",
+      "action": "Add indexes to foreign key columns and frequently queried fields"
+    },
+    {
+      "category": "Caching",
+      "priority": "Medium",
+      "issue": "Configure CDN caching headers for static assets",
+      "action": "Implement caching to reduce database load"
+    },
+    {
+      "category": "Monitoring",
+      "priority": "Medium",
+      "issue": "API performance monitoring",
+      "action": "Implement APM (Application Performance Monitoring) for API routes"
+    },
+    {
+      "category": "Rate Limiting",
+      "priority": "High",
+      "issue": "API rate limiting",
+      "action": "Implement rate limiting to prevent abuse"
+    },
+    {
+      "category": "Database",
+      "priority": "Medium",
+      "issue": "Connection pooling",
+      "action": "Configure Prisma connection pool for optimal performance"
+    }
+  ],
+  "caching": {
+    "hasRedis": true,
+    "hasMemoryCache": false,
+    "hasCDN": false,
+    "hasAPICache": true,
+    "recommendations": [
+      "Configure CDN caching headers for static assets"
+    ]
+  }
+}

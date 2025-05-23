@@ -15,8 +15,7 @@ const developments = [
     imageUrl: "/images/fitzgerald-gardens/hero.jpg",
     description:
       "Luxurious living with modern comforts in the heart of Drogheda.",
-    propertyCount: 96,
-  },
+    propertyCount: 96},
   {
     id: "ballymakenny-view",
     name: "Ballymakenny View",
@@ -25,9 +24,7 @@ const developments = [
     imageUrl: "/images/ballymakenny-view/hero.jpg",
     description:
       "Modern family homes in a convenient location with excellent amenities.",
-    propertyCount: 72,
-  },
-];
+    propertyCount: 72}];
 
 // Mock data for properties across all developments
 const allProperties = [
@@ -43,7 +40,6 @@ const allProperties = [
     imageUrl: "/images/fitzgerald-gardens/type-c.jpg",
     status: "available",
     developmentId: "fitzgerald-gardens",
-  },
   {
     id: "fg-2",
     name: "Unit 2 - Type A",
@@ -55,7 +51,6 @@ const allProperties = [
     imageUrl: "/images/fitzgerald-gardens/type-a.jpg",
     status: "available",
     developmentId: "fitzgerald-gardens",
-  },
   {
     id: "fg-3",
     name: "Unit 3 - Type A",
@@ -67,7 +62,6 @@ const allProperties = [
     imageUrl: "/images/fitzgerald-gardens/type-a.jpg",
     status: "reserved",
     developmentId: "fitzgerald-gardens",
-  },
   {
     id: "fg-4",
     name: "Unit 4 - Type B",
@@ -79,7 +73,6 @@ const allProperties = [
     imageUrl: "/images/fitzgerald-gardens/type-b.jpg",
     status: "available",
     developmentId: "fitzgerald-gardens",
-  },
   // Ballymakenny View properties
   {
     id: "bmv-1",
@@ -92,7 +85,6 @@ const allProperties = [
     imageUrl: "/images/ballymakenny-view/type-d.jpg",
     status: "available",
     developmentId: "ballymakenny-view",
-  },
   {
     id: "bmv-2",
     name: "Unit 2 - Type E",
@@ -103,16 +95,14 @@ const allProperties = [
     area: 110,
     imageUrl: "/images/ballymakenny-view/type-e.jpg",
     status: "sold",
-    developmentId: "ballymakenny-view",
-  },
-];
+    developmentId: "ballymakenny-view"];
 
 export default function PropertiesPage() {
   const router = useRouter();
-  const [selectedDevelopment, setSelectedDevelopment] = useState<string>("all");
-  const [selectedBedrooms, setSelectedBedrooms] = useState<string>("all");
-  const [selectedStatus, setSelectedStatus] = useState<string>("all");
-  const [filteredProperties, setFilteredProperties] = useState(allProperties);
+  const [selectedDevelopmentsetSelectedDevelopment] = useState<string>("all");
+  const [selectedBedroomssetSelectedBedrooms] = useState<string>("all");
+  const [selectedStatussetSelectedStatus] = useState<string>("all");
+  const [filteredPropertiessetFilteredProperties] = useState(allProperties);
 
   // Filter properties based on selected filters
   useEffect(() => {
@@ -120,24 +110,24 @@ export default function PropertiesPage() {
 
     if (selectedDevelopment !== "all") {
       filtered = filtered.filter(
-        (property) => property.developmentId === selectedDevelopment,
+        (property: any) => property.developmentId === selectedDevelopment,
       );
     }
 
     if (selectedBedrooms !== "all") {
       filtered = filtered.filter(
-        (property) => property.bedrooms === parseInt(selectedBedrooms),
+        (property: any) => property.bedrooms === parseInt(selectedBedrooms),
       );
     }
 
     if (selectedStatus !== "all") {
       filtered = filtered.filter(
-        (property) => property.status === selectedStatus,
+        (property: any) => property.status === selectedStatus,
       );
     }
 
     setFilteredProperties(filtered);
-  }, [selectedDevelopment, selectedBedrooms, selectedStatus]);
+  }, [selectedDevelopment, selectedBedroomsselectedStatus]);
 
   return (
     <div className="bg-gray-50 min-h-screen">
@@ -146,7 +136,7 @@ export default function PropertiesPage() {
         <div className="absolute inset-0 bg-gradient-to-r from-[#1E3142]/80 to-[#1E3142]/60 z-10"></div>
         <div
           className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: "url('/images/properties-hero.jpg')" }}
+          style={ backgroundImage: "url('/images/properties-hero.jpg')" }
         ></div>
         <div className="relative z-20 container mx-auto px-4 h-full flex flex-col justify-center">
           <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
@@ -167,7 +157,7 @@ export default function PropertiesPage() {
             Our Developments
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {developments.map((development) => (
+            {developments.map((development: any) => (
               <Link
                 href={`/developments/${development.id}`}
                 key={development.id}
@@ -176,9 +166,8 @@ export default function PropertiesPage() {
                 <div className="h-48 w-full overflow-hidden">
                   <div
                     className="w-full h-full bg-cover bg-center"
-                    style={{
-                      backgroundImage: `url(${development.imageUrl || "/placeholder-development.jpg"})`,
-                    }}
+                    style={
+                      backgroundImage: `url(${development.imageUrl || "/placeholder-development.jpg")`}
                   ></div>
                 </div>
                 <div className="p-4">
@@ -222,10 +211,10 @@ export default function PropertiesPage() {
                 id="development"
                 className="w-full rounded-md border border-gray-300 py-2 px-3 focus:outline-none focus:ring-2 focus:ring-[#2B5273] focus:border-[#2B5273]"
                 value={selectedDevelopment}
-                onChange={(e) => setSelectedDevelopment(e.target.value)}
+                onChange={(e: any) => setSelectedDevelopment(e.target.value)}
               >
                 <option value="all">All Developments</option>
-                {developments.map((dev) => (
+                {developments.map((dev: any) => (
                   <option key={dev.id} value={dev.id}>
                     {dev.name}
                   </option>
@@ -243,7 +232,7 @@ export default function PropertiesPage() {
                 id="bedrooms"
                 className="w-full rounded-md border border-gray-300 py-2 px-3 focus:outline-none focus:ring-2 focus:ring-[#2B5273] focus:border-[#2B5273]"
                 value={selectedBedrooms}
-                onChange={(e) => setSelectedBedrooms(e.target.value)}
+                onChange={(e: any) => setSelectedBedrooms(e.target.value)}
               >
                 <option value="all">Any</option>
                 <option value="2">2 Bedrooms</option>
@@ -262,7 +251,7 @@ export default function PropertiesPage() {
                 id="status"
                 className="w-full rounded-md border border-gray-300 py-2 px-3 focus:outline-none focus:ring-2 focus:ring-[#2B5273] focus:border-[#2B5273]"
                 value={selectedStatus}
-                onChange={(e) => setSelectedStatus(e.target.value)}
+                onChange={(e: any) => setSelectedStatus(e.target.value)}
               >
                 <option value="all">All</option>
                 <option value="available">Available</option>
@@ -278,9 +267,9 @@ export default function PropertiesPage() {
           <h2 className="text-2xl font-bold text-[#2B5273] mb-6">
             Available Properties
           </h2>
-          {filteredProperties.length > 0 ? (
+          {filteredProperties.length> 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredProperties.map((property) => (
+              {filteredProperties.map((property: any) => (
                 <PropertyCard
                   key={property.id}
                   id={property.id}
@@ -291,7 +280,7 @@ export default function PropertiesPage() {
                   bathrooms={property.bathrooms}
                   area={property.area}
                   imageUrl={property.imageUrl}
-                  status={property.status as "available" | "reserved" | "sold"}
+                  status={property.status as "available" | "reserved" | "sold"
                 />
               ))}
             </div>
@@ -305,7 +294,7 @@ export default function PropertiesPage() {
                   setSelectedDevelopment("all");
                   setSelectedBedrooms("all");
                   setSelectedStatus("all");
-                }}
+                }
                 className="text-[#2B5273] font-medium hover:text-[#1E3142]"
               >
                 Reset Filters

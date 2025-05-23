@@ -29,7 +29,7 @@ interface PurchaseDetail {
     uploadDate: string;
     status: string;
     notes?: string;
-  }>;
+  }>\n  );
   contractIssued: boolean;
   contractIssuedDate?: string;
   contractSigned: boolean;
@@ -49,9 +49,9 @@ const PurchaseDetail: React.FC = () => {
   const searchParams = useSearchParams();
   const id = getNumericId(searchParams); // Will throw error if missing/invalid
 
-  const [purchase, setPurchase] = useState<PurchaseDetail | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [purchasesetPurchase] = useState<PurchaseDetail | null>(null);
+  const [loadingsetLoading] = useState(true);
+  const [errorsetError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchPurchaseDetails = async () => {
@@ -74,9 +74,7 @@ const PurchaseDetail: React.FC = () => {
               bathrooms: purchaseData.property.bathrooms,
               area: purchaseData.property.area,
               images: purchaseData.property.images || [
-                "/placeholder-property.jpg",
-              ],
-            },
+                "/placeholder-property.jpg"]},
             status: purchaseData.status,
             bookingDate: new Date(
               purchaseData.bookingDate,
@@ -93,8 +91,7 @@ const PurchaseDetail: React.FC = () => {
                   path: doc.path,
                   uploadDate: new Date(doc.uploadDate).toLocaleDateString(),
                   status: doc.status,
-                  notes: doc.notes,
-                }))
+                  notes: doc.notes}))
               : [],
             contractIssued: purchaseData.contractIssued,
             contractIssuedDate: purchaseData.contractIssuedDate
@@ -117,12 +114,11 @@ const PurchaseDetail: React.FC = () => {
               ? new Date(purchaseData.completionDate).toLocaleDateString()
               : undefined,
             totalPrice: purchaseData.totalPrice,
-            notes: purchaseData.notes,
-          });
+            notes: purchaseData.notes});
         }
       } catch (err: any) {
         setError(err.message || "Failed to fetch purchase details");
-        console.error("Error fetching purchase details:", err);
+
       } finally {
         setLoading(false);
       }
@@ -285,8 +281,8 @@ const PurchaseDetail: React.FC = () => {
                     {purchase.property.name}
                   </div>
                   <div className="text-sm text-gray-500">
-                    {purchase.property.bedrooms} bed •{" "}
-                    {purchase.property.bathrooms} bath •{" "}
+                    {purchase.property.bedrooms} bed •{" "
+                    {purchase.property.bathrooms} bath •{" "
                     {purchase.property.area} m²
                   </div>
                 </div>
@@ -371,7 +367,7 @@ const PurchaseDetail: React.FC = () => {
                   ? "Completed"
                   : purchase.complianceStatus === "in-progress"
                     ? "In Progress"
-                    : "Pending"}
+                    : "Pending"
               </span>
               {purchase.complianceNotes && (
                 <p className="mt-1 text-sm text-gray-500">
@@ -446,9 +442,9 @@ const PurchaseDetail: React.FC = () => {
               </Link>
             </div>
 
-            {purchase.documents.length > 0 ? (
+            {purchase.documents.length> 0 ? (
               <div className="mt-1 grid grid-cols-1 gap-4 sm:grid-cols-2">
-                {purchase.documents.map((document, index) => (
+                {purchase.documents.map((documentindex: any) => (
                   <div
                     key={index}
                     className="relative rounded-lg border border-gray-300 bg-white px-6 py-5 shadow-sm flex items-center space-x-3 hover:border-gray-400"

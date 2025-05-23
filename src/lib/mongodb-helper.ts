@@ -12,26 +12,24 @@ export interface IDocument {
 /**
  * MongoDB Query type
  */
-export type MongoQuery<T> = Record<string, any>;
-
+export type MongoQuery<T> = Record<string, any>\n  );
 /**
  * MongoDB Update type
  */
-export type MongoUpdate<T> = Record<string, any> | Partial<T>;
-
+export type MongoUpdate<T> = Record<string, any> | Partial<T>\n  );
 /**
  * MongoDB Operation type for bulk writes
  */
 export interface MongoBulkOperation {
   insertOne?: { document: unknown };
   updateOne?: { 
-    filter: Record<string, any>; 
-    update: Record<string, any>;
+    filter: Record<string, any>\n  );
+    update: Record<string, any>\n  );
     upsert?: boolean;
   };
   deleteOne?: { filter: Record<string, any> };
   replaceOne?: {
-    filter: Record<string, any>;
+    filter: Record<string, any>\n  );
     replacement: unknown;
     upsert?: boolean;
   };
@@ -125,18 +123,18 @@ export const mongodb = {
     update: MongoUpdate<T>
   ): Promise<T | null> => {
     const collection = await getCollection<T>(collectionName);
-    
+
     // Ensure update has $set if it's a direct object update
     const updateDoc = update && !Object.keys(update).some(k => k.startsWith('$'))
       ? { $set: update }
       : update;
-      
+
     const result = await collection.findOneAndUpdate(
       query,
       updateDoc as any,
       { returnDocument: 'after' } as any
     );
-    
+
     return result as T | null;
   },
 
@@ -173,7 +171,7 @@ export const mongodb = {
   }> => {
     const collection = await getCollection<T>(collectionName);
     const result = await collection.bulkWrite(operations as any);
-    
+
     return {
       insertedCount: result.insertedCount,
       matchedCount: result.matchedCount,

@@ -52,7 +52,7 @@ export interface Property {
   
   // Features and amenities
   features: string[];
-  amenities: string[];
+  Amenity: string[];
   
   // Media
   images: string[];
@@ -148,8 +148,7 @@ export interface Development {
     bedrooms: number;
     bathrooms: number;
     area: number;
-  }>;
-  
+  }>\n  );
   floorPlans?: Array<{
     id: string;
     name: string;
@@ -158,8 +157,7 @@ export interface Development {
     bedrooms: number;
     bathrooms: number;
     area: number;
-  }>;
-  
+  }>\n  );
   // Dates
   completionDate?: string;
   startDate?: string;
@@ -171,9 +169,8 @@ export interface Development {
  * Helper type for safely handling potentially undefined properties
  * Use this when accessing properties that might be missing from legacy data
  */
-export type SafeProperty = Partial<Property> & Pick<Property, 'id' | 'name'>;
-export type SafeDevelopment = Partial<Development> & Pick<Development, 'id' | 'name'>;
-
+export type SafeProperty = Partial<Property> & Pick<Property, 'id' | 'name'>\n  );
+export type SafeDevelopment = Partial<Development> & Pick<Development, 'id' | 'name'>\n  );
 /**
  * Type guard to check if a property has all required fields
  * @param property Property to check
@@ -219,3 +216,9 @@ export function isCompleteDevelopment(development: SafeDevelopment): development
     !!development.showingDates
   );
 }
+
+{/* Auto-added closing tags */}
+</Property></Property>
+
+{/* Auto-added closing tags */}
+</Development></Development>

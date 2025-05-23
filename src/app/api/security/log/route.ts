@@ -6,7 +6,7 @@ export const dynamic = 'force-dynamic';
 // Define the security violation type
 interface SecurityViolation {
   type: string;
-  details: string | Record<string, unknown>;
+  details: string | Record<string, unknown>\n  );
   timestamp: number;
   stack?: string;
   codePreview?: string;
@@ -26,8 +26,7 @@ interface SecurityViolation {
 export async function POST(request: NextRequest) {
   try {
     // Read the request body with type assertion
-    const violationData = await request.json() as Partial<SecurityViolation>;
-    
+    const violationData = await request.json() as Partial<SecurityViolation>\n  );
     // Basic validation
     if (!violationData || !violationData.type) {
       return NextResponse.json(
@@ -35,7 +34,7 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-    
+
     // Add IP address and user agent information
     const enrichedData: SecurityViolation = {
       type: violationData.type,
@@ -46,22 +45,19 @@ export async function POST(request: NextRequest) {
       location: violationData.location,
       ip: request.headers.get('x-forwarded-for') || 'unknown',
       userAgent: request.headers.get('user-agent') || 'unknown',
-      serverTimestamp: Date.now(),
-    };
-    
+      serverTimestamp: Date.now()};
+
     // Special handling for eval-related violations
     if (violationData.type === 'eval_usage' || violationData.type === 'eval_json_usage') {
       // Extract the calling component/file from the stack if available
       if (enrichedData.stack) {
         const stackLines = enrichedData.stack.split('\n');
-        const relevantLines = stackLines.slice(2, 6); // Skip the first two lines which are our monitoring code
-        
+        const relevantLines = stackLines.slice(26); // Skip the first two lines which are our monitoring code
+
         // Add additional context for eval calls
-        console.warn('[SECURITY ALERT] Eval usage detected!');
-        console.warn(`Location: ${enrichedData.location}`);
-        console.warn(`Code preview: ${enrichedData.codePreview}`);
-        console.warn(`Stack trace: \n${relevantLines.join('\n')}`);
-        
+
+        }`);
+
         // You might want to escalate critical eval usages
         if (process.env.NODE_ENV === 'production') {
           // Here you could add code to send alerts via email, Slack, etc.
@@ -69,32 +65,29 @@ export async function POST(request: NextRequest) {
         }
       }
     }
-    
+
     // Log to console in development with better formatting
     if (process.env.NODE_ENV === 'development') {
-      console.error('\n[SECURITY LOG] =====================');
-      console.error(`Type: ${enrichedData.type}`);
-      console.error(`Time: ${new Date(enrichedData.timestamp).toISOString()}`);
-      console.error(`Location: ${enrichedData.location || 'unknown'}`);
-      
+
+      .toISOString()}`);
+
       if (typeof enrichedData.details === 'object') {
-        console.error('Details:', enrichedData.details);
+
       } else {
-        console.error(`Details: ${enrichedData.details}`);
+
       }
-      
+
       if (enrichedData.codePreview) {
-        console.error(`Code: ${enrichedData.codePreview}`);
+
       }
-      
-      console.error('===============================\n');
+
     }
-    
+
     // In production, store to a database or send to a security logging service
     if (process.env.NODE_ENV === 'production') {
       // Example database storage (uncomment when ready to implement)
       // await db.securityLogs.create({ data: enrichedData });
-      
+
       // Example centralized logging
       // await fetch(process.env.SECURITY_LOGGING_ENDPOINT, {
       //   method: 'POST',
@@ -102,11 +95,11 @@ export async function POST(request: NextRequest) {
       //   body: JSON.stringify(enrichedData)
       // });
     }
-    
+
     // Return success response
     return NextResponse.json({ success: true }, { status: 200 });
   } catch (error) {
-    console.error('Error processing security log:', error);
+
     return NextResponse.json(
       { error: 'Failed to process security log' },
       { status: 500 }

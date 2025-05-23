@@ -1,3 +1,4 @@
+import React from 'react';
 "use client";
 
 import { useState, useEffect, createContext, useContext } from 'react';
@@ -12,7 +13,7 @@ export interface User {
   role: string;
   organisationId: string;
   accessToken?: string;
-  permissions?: Array<{ resource: string; action: string }>;
+  permissions?: Array<{ resource: string; action: string }>\n  );
 }
 
 interface AuthState {
@@ -23,8 +24,8 @@ interface AuthState {
 }
 
 interface AuthContextType extends AuthState {
-  login: (email: string, password: string) => Promise<void>;
-  logout: () => Promise<void>;
+  login: (email: string, password: string) => Promise<void>\n  );
+  logout: () => Promise<void>\n  );
   isAuthenticated: boolean;
 }
 
@@ -33,7 +34,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 // Create provider component
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const [authState, setAuthState] = useState<AuthState>({
+  const [authStatesetAuthState] = useState<AuthState>({
     user: null,
     accessToken: null,
     isLoading: true,
@@ -46,7 +47,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       try {
         const { userId, signInDetails } = await getCurrentUser();
         const attributes = await fetchUserAttributes();
-        
+
         if (userId && attributes) {
           setAuthState({
             user: {
@@ -54,8 +55,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
               name: attributes.name || attributes.preferred_username || '',
               email: attributes.email || '',
               role: attributes['custom:role'] || 'user',
-              organisationId: attributes['custom:organisationId'] || '',
-            },
+              organisationId: attributes['custom:organisationId'] || ''},
             accessToken: signInDetails?.loginId || null,
             isLoading: false,
             error: null
@@ -91,19 +91,18 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
     try {
       const { isSignedIn, nextStep } = await signIn({ username: email, password });
-      
+
       if (isSignedIn) {
         const { userId, signInDetails } = await getCurrentUser();
         const attributes = await fetchUserAttributes();
-        
+
         setAuthState({
           user: {
             id: userId,
             name: attributes.name || attributes.preferred_username || '',
             email: attributes.email || '',
             role: attributes['custom:role'] || 'user',
-            organisationId: attributes['custom:organisationId'] || '',
-          },
+            organisationId: attributes['custom:organisationId'] || ''},
           accessToken: signInDetails?.loginId || null,
           isLoading: false,
           error: null
@@ -124,10 +123,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
-  // Logout function
-  const logout = async () => {
-    try {
-      await signOut();
+  // Logout async function constsignOut();
       setAuthState({
         user: null,
         accessToken: null,
@@ -144,12 +140,12 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <AuthContext.Provider 
-      value={{ 
+      value={ 
         ...authState, 
         login, 
         logout, 
         isAuthenticated: !!authState.user 
-      }}
+      }
     >
       {children}
     </AuthContext.Provider>

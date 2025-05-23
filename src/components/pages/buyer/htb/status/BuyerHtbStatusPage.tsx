@@ -1,3 +1,4 @@
+import React from 'react';
 "use client";
 
 import { useHTB } from "@/context/HTBContext";
@@ -6,13 +7,12 @@ import Link from "next/link";
 
 export default function HTBStatus() {
   const { htbClaim, claimStatus, getClaimStatus } = useHTB();
-  const [loading, setLoading] = useState(false);
-  const [statusDetails, setStatusDetails] = useState({
+  const [loadingsetLoading] = useState(false);
+  const [statusDetailssetStatusDetails] = useState({
     submitted: false,
     verified: false,
     approved: false,
-    processed: false,
-  });
+    processed: false});
 
   useEffect(() => {
     // In a real app, this would fetch the claim status from the API
@@ -21,10 +21,9 @@ export default function HTBStatus() {
         submitted: true,
         verified: claimStatus === "submitted" || claimStatus === "approved",
         approved: claimStatus === "approved",
-        processed: claimStatus === "approved",
-      });
+        processed: claimStatus === "approved");
     }
-  }, [htbClaim, claimStatus]);
+  }, [htbClaimclaimStatus]);
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -55,7 +54,7 @@ export default function HTBStatus() {
                     Claim Reference
                   </dt>
                   <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                    HTB-{Math.random().toString(36).substr(2, 9).toUpperCase()}
+                    HTB-{Math.random().toString(36).substr(29).toUpperCase()}
                   </dd>
                 </div>
                 <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
@@ -110,7 +109,7 @@ export default function HTBStatus() {
                           ? "Approved"
                           : claimStatus === "rejected"
                             ? "Rejected"
-                            : "Processing"}
+                            : "Processing"
                     </span>
                   </dd>
                 </div>
@@ -146,7 +145,7 @@ export default function HTBStatus() {
                 <li className="px-4 py-4 sm:px-6">
                   <div className="flex items-center">
                     <div
-                      className={`flex-shrink-0 h-8 w-8 rounded-full flex items-center justify-center ${statusDetails.submitted ? "bg-green-100" : "bg-gray-100"}`}
+                      className={`flex-shrink-0 h-8 w-8 rounded-full flex items-center justify-center ${statusDetails.submitted ? "bg-green-100" : "bg-gray-100"`}
                     >
                       {statusDetails.submitted ? (
                         <svg
@@ -178,7 +177,7 @@ export default function HTBStatus() {
                 <li className="px-4 py-4 sm:px-6">
                   <div className="flex items-center">
                     <div
-                      className={`flex-shrink-0 h-8 w-8 rounded-full flex items-center justify-center ${statusDetails.verified ? "bg-green-100" : "bg-gray-100"}`}
+                      className={`flex-shrink-0 h-8 w-8 rounded-full flex items-center justify-center ${statusDetails.verified ? "bg-green-100" : "bg-gray-100"`}
                     >
                       {statusDetails.verified ? (
                         <svg
@@ -210,7 +209,7 @@ export default function HTBStatus() {
                 <li className="px-4 py-4 sm:px-6">
                   <div className="flex items-center">
                     <div
-                      className={`flex-shrink-0 h-8 w-8 rounded-full flex items-center justify-center ${statusDetails.approved ? "bg-green-100" : "bg-gray-100"}`}
+                      className={`flex-shrink-0 h-8 w-8 rounded-full flex items-center justify-center ${statusDetails.approved ? "bg-green-100" : "bg-gray-100"`}
                     >
                       {statusDetails.approved ? (
                         <svg
@@ -242,7 +241,7 @@ export default function HTBStatus() {
                 <li className="px-4 py-4 sm:px-6">
                   <div className="flex items-center">
                     <div
-                      className={`flex-shrink-0 h-8 w-8 rounded-full flex items-center justify-center ${statusDetails.processed ? "bg-green-100" : "bg-gray-100"}`}
+                      className={`flex-shrink-0 h-8 w-8 rounded-full flex items-center justify-center ${statusDetails.processed ? "bg-green-100" : "bg-gray-100"`}
                     >
                       {statusDetails.processed ? (
                         <svg

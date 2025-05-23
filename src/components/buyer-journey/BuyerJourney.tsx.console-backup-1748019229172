@@ -1,0 +1,477 @@
+'use client';
+
+import React, { useState, useEffect, useCallback } from 'react';
+import { useRouter } from 'next/navigation';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Progress } from '@/components/ui/progress';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { 
+  Home, 
+  User, 
+  FileCheck, 
+  CheckCircle, 
+  AlertCircle, 
+  ChevronRight,
+  Loader2,
+  CreditCard,
+  Lock,
+  ShieldCheck
+} from 'lucide-react';
+import { useAuth } from '@/context/AuthContext';
+import { KYCVerification } from '@/components/kyc/KYCVerification';
+import { useBuyerJourneyManager } from '@/hooks/useBuyerJourney';
+import { BuyerJourneyError, ErrorRecoveryManager } from '@/lib/errors/buyer-journey-errors';
+import Link from 'next/link';
+import { BuyerProgressTracker } from './BuyerProgressTracker';
+
+interface BuyerJourneyProps {
+  developmentId: string;
+  unit: {
+    key: string;
+    name: string;
+    price: string;
+    bedrooms: number;
+    bathrooms: number;
+    area: string;
+    features: string[];
+    available: number;
+  };
+  onComplete?: (transactionId: string) => void;
+}
+
+type JourneyStep = 'authentication' | 'kyc-verification' | 'unit-reservation' | 'payment' | 'complete';
+
+export function BuyerJourney({ developmentId, unit, onComplete }: BuyerJourneyProps) {
+  const { isAuthenticated, isLoading, user } = useAuth();
+  const router = useRouter();
+  
+  // State
+  const [currentStep, setCurrentStep] = useState<JourneyStep>('authentication');
+  const [isVerified, setIsVerified] = useState(false);
+  const [isReserving, setIsReserving] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [transactionId, setTransactionId] = useState<string | null>(null);
+  const [mockTransactionId, setMockTransactionId] = useState<string>('');
+  
+  // Error recovery
+  const errorRecoveryManager = new ErrorRecoveryManager();
+  
+  // React Query hooks from buyer journey manager
+  const {
+    useKYCStatus,
+    useStartKYCVerification,
+    useCreateReservation,
+    useProcessDeposit
+  } = useBuyerJourneyManager({
+    developmentId,
+    onError: async (error: BuyerJourneyError) => {
+      setError(error.userMessage);
+      
+      // Attempt to recover from error
+      const recovered = await errorRecoveryManager.attemptRecovery(error);
+      if (!recovered) {
+        // If recovery failed, we need to handle manually
+        if (error.code === 'AUTH_ERROR') {
+          setCurrentStep('authentication');
+        }
+      }
+    }
+  });
+  
+  // KYC status
+  const { data: kycStatus, isLoading: isLoadingKYC } = useKYCStatus(user?.id);
+  
+  // Mutations
+  const startKYCMutation = useStartKYCVerification();
+  const createReservationMutation = useCreateReservation();
+  const processDepositMutation = useProcessDeposit();
+  
+  // Journey steps for progress tracker
+  const journeySteps = [
+    { id: 'authentication', label: 'Authentication', status: currentStep === 'authentication' ? 'active' : (currentStep === 'kyc-verification' || currentStep === 'unit-reservation' || currentStep === 'payment' || currentStep === 'complete') ? 'completed' : 'pending' },
+    { id: 'kyc-verification', label: 'Identity Verification', status: currentStep === 'kyc-verification' ? 'active' : (currentStep === 'unit-reservation' || currentStep === 'payment' || currentStep === 'complete') ? 'completed' : 'pending' },
+    { id: 'unit-reservation', label: 'Reserve Unit', status: currentStep === 'unit-reservation' ? 'active' : (currentStep === 'payment' || currentStep === 'complete') ? 'completed' : 'pending' },
+    { id: 'payment', label: 'Deposit Payment', status: currentStep === 'payment' ? 'active' : (currentStep === 'complete') ? 'completed' : 'pending' }
+  ] as const;
+  
+  useEffect(() => {
+    // If user is authenticated, check KYC status and move to appropriate step
+    if (isAuthenticated && currentStep === 'authentication') {
+      // Generate a mock transaction ID for demo purposes
+      const newMockId = `txn-${Math.random().toString(36).substring(2, 10)}`;
+      setMockTransactionId(newMockId);
+      
+      // If KYC is already verified, skip straight to unit reservation
+      if (kycStatus?.verified) {
+        setIsVerified(true);
+        setCurrentStep('unit-reservation');
+      } else {
+        // Otherwise go to KYC verification step
+        setCurrentStep('kyc-verification');
+      }
+    }
+  }, [isAuthenticated, currentStep, kycStatus?.verified]);
+
+  const getProgress = () => {
+    const steps: JourneyStep[] = ['authentication', 'kyc-verification', 'unit-reservation', 'payment', 'complete'];
+    const currentIndex = steps.indexOf(currentStep);
+    return (currentIndex / (steps.length - 1)) * 100;
+  };
+
+  const handleLogin = () => {
+    router.push(`/login?redirect=/developments/fitzgerald-gardens`);
+  };
+
+  const handleRegister = () => {
+    router.push(`/register?redirect=/developments/fitzgerald-gardens`);
+  };
+
+  const handleKYCComplete = useCallback(async () => {
+    try {
+      // Start verification process
+      await startKYCMutation.mutateAsync({ transactionId: mockTransactionId });
+      
+      setIsVerified(true);
+      setCurrentStep('unit-reservation');
+    } catch (err) {
+      // Error is handled by the error handler in useBuyerJourneyManager
+    }
+  }, [mockTransactionId, startKYCMutation]);
+
+  const handleReserveUnit = useCallback(async () => {
+    setError(null);
+    
+    try {
+      // Create transaction/reservation
+      const result = await createReservationMutation.mutateAsync({
+        unitId: unit.key,
+        developmentId,
+        agreedPrice: parseFloat(unit.price.replace(/[^0-9.]/g, '')),
+        mortgageRequired: false,
+        helpToBuyUsed: false
+      });
+      
+      // Set the transaction ID from the result
+      const realTransactionId = result.id;
+      setTransactionId(realTransactionId);
+      setCurrentStep('payment');
+    } catch (err) {
+      // Error is handled by the error handler in useBuyerJourneyManager
+    }
+  }, [createReservationMutation, developmentId, unit]);
+
+  const handleMakePayment = useCallback(async () => {
+    setError(null);
+    
+    try {
+      const paymentData = {
+        transactionId: transactionId || mockTransactionId,
+        amount: 1000, // €1,000 deposit
+        paymentMethod: 'credit_card' as const,
+        billingDetails: {
+          name: user?.name || '',
+          email: user?.email || '',
+          addressLine1: '123 Main St',
+          city: 'Dublin',
+          postalCode: 'D01 ABC1',
+          country: 'Ireland'
+        }
+      };
+      
+      // Process payment
+      await processDepositMutation.mutateAsync(paymentData);
+      
+      setCurrentStep('complete');
+      onComplete?.(transactionId || mockTransactionId);
+    } catch (err) {
+      // Error is handled by the error handler in useBuyerJourneyManager
+    }
+  }, [processDepositMutation, transactionId, mockTransactionId, user]);
+
+  // Render the current step
+  const renderStep = () => {
+    switch (currentStep) {
+      case 'authentication':
+        return (
+          <div className="space-y-6">
+            <div className="flex items-center space-x-3">
+              <User className="h-8 w-8 text-[#2B5273]" />
+              <h3 className="text-lg font-semibold">Authentication Required</h3>
+            </div>
+            
+            <p className="text-gray-600">
+              To proceed with purchasing this property, please sign in or create an account.
+            </p>
+            
+            <div className="flex flex-col sm:flex-row gap-4">
+              <Button onClick={handleLogin} className="flex-1">
+                Sign In
+              </Button>
+              <Button onClick={handleRegister} variant="outline" className="flex-1">
+                Create Account
+              </Button>
+            </div>
+          </div>
+        );
+        
+      case 'kyc-verification':
+        return isVerified ? (
+          <div className="space-y-6">
+            <div className="flex items-center space-x-3">
+              <CheckCircle className="h-8 w-8 text-green-600" />
+              <h3 className="text-lg font-semibold">Identity Verified</h3>
+            </div>
+            
+            <p className="text-gray-600">
+              Your identity has been successfully verified. You can now proceed with reserving your unit.
+            </p>
+            
+            <Button onClick={() => setCurrentStep('unit-reservation')} className="w-full">
+              Continue to Reservation
+              <ChevronRight className="ml-2 h-4 w-4" />
+            </Button>
+          </div>
+        ) : (
+          <div className="space-y-6">
+            <div className="flex items-center space-x-3">
+              <FileCheck className="h-8 w-8 text-[#2B5273]" />
+              <h3 className="text-lg font-semibold">Identity Verification</h3>
+            </div>
+            
+            <p className="text-gray-600">
+              To purchase a property, we need to verify your identity to comply with regulations. 
+              This helps protect both buyers and sellers.
+            </p>
+            
+            <KYCVerification transactionId={mockTransactionId} onComplete={handleKYCComplete} />
+          </div>
+        );
+        
+      case 'unit-reservation':
+        return (
+          <div className="space-y-6">
+            <div className="flex items-center space-x-3">
+              <Home className="h-8 w-8 text-[#2B5273]" />
+              <h3 className="text-lg font-semibold">Reserve Your Unit</h3>
+            </div>
+            
+            <div className="bg-gray-50 p-4 rounded-lg">
+              <h4 className="font-semibold mb-2">Unit Details</h4>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <p className="text-sm text-gray-600">Type</p>
+                  <p className="font-medium">{unit.name}</p>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-600">Price</p>
+                  <p className="font-medium">{unit.price}</p>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-600">Size</p>
+                  <p className="font-medium">{unit.area}</p>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-600">Bedrooms</p>
+                  <p className="font-medium">{unit.bedrooms}</p>
+                </div>
+              </div>
+            </div>
+            
+            <Alert className="bg-blue-50">
+              <AlertDescription className="text-blue-800">
+                Reserving a unit requires a refundable deposit of €1,000 which will be applied toward your purchase.
+              </AlertDescription>
+            </Alert>
+            
+            <Button 
+              onClick={handleReserveUnit}
+              disabled={isReserving}
+              className="w-full"
+            >
+              {isReserving ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Processing...
+                </>
+              ) : (
+                <>
+                  Reserve This Unit
+                  <ChevronRight className="ml-2 h-4 w-4" />
+                </>
+              )}
+            </Button>
+          </div>
+        );
+        
+      case 'payment':
+        return (
+          <div className="space-y-6">
+            <div className="flex items-center space-x-3">
+              <CreditCard className="h-8 w-8 text-[#2B5273]" />
+              <h3 className="text-lg font-semibold">Deposit Payment</h3>
+            </div>
+            
+            <div className="bg-gray-50 p-4 rounded-lg">
+              <h4 className="font-semibold mb-2">Reservation Summary</h4>
+              <div className="space-y-2">
+                <div className="flex justify-between">
+                  <span className="text-gray-600">Transaction ID:</span>
+                  <span className="font-mono">{transactionId}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-600">Unit:</span>
+                  <span>{unit.name}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-600">Deposit Amount:</span>
+                  <span className="font-semibold">€1,000</span>
+                </div>
+              </div>
+            </div>
+            
+            <div className="border rounded-lg p-4">
+              <h4 className="font-semibold mb-3">Payment Method</h4>
+              <div className="space-y-3">
+                <div className="flex items-center space-x-2">
+                  <input type="radio" id="card" name="payment" checked className="h-4 w-4" />
+                  <label htmlFor="card">Credit/Debit Card</label>
+                </div>
+                <div className="border rounded p-3">
+                  <div className="space-y-3">
+                    <div>
+                      <label className="block text-sm font-medium mb-1">Card Number</label>
+                      <input type="text" placeholder="**** **** **** ****" className="w-full p-2 border rounded" />
+                    </div>
+                    <div className="grid grid-cols-2 gap-3">
+                      <div>
+                        <label className="block text-sm font-medium mb-1">Expiry Date</label>
+                        <input type="text" placeholder="MM/YY" className="w-full p-2 border rounded" />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium mb-1">CVC</label>
+                        <input type="text" placeholder="***" className="w-full p-2 border rounded" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div className="flex items-center space-x-2 text-sm">
+              <Lock className="h-4 w-4 text-gray-600" />
+              <span className="text-gray-600">Secured by Stripe. Your payment information is encrypted.</span>
+            </div>
+            
+            <Button 
+              onClick={handleMakePayment}
+              disabled={isReserving}
+              className="w-full"
+            >
+              {isReserving ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Processing Payment...
+                </>
+              ) : (
+                "Pay €1,000 Deposit"
+              )}
+            </Button>
+          </div>
+        );
+        
+      case 'complete':
+        return (
+          <div className="space-y-6 text-center">
+            <div className="flex justify-center">
+              <CheckCircle className="h-16 w-16 text-green-600" />
+            </div>
+            
+            <h3 className="text-xl font-semibold">Reservation Complete!</h3>
+            
+            <p className="text-gray-600">
+              Your unit has been successfully reserved. We've sent a confirmation email with further instructions.
+            </p>
+            
+            <div className="bg-gray-50 p-4 rounded-lg text-left">
+              <h4 className="font-semibold mb-2">Reservation Summary</h4>
+              <div className="space-y-2">
+                <div className="flex justify-between">
+                  <span className="text-gray-600">Transaction ID:</span>
+                  <span className="font-mono">{transactionId}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-600">Unit:</span>
+                  <span>{unit.name}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-600">Deposit Paid:</span>
+                  <span className="font-semibold">€1,000</span>
+                </div>
+              </div>
+            </div>
+            
+            <div className="flex flex-col gap-3">
+              <Link href={`/buyer/transactions`} legacyBehavior>
+                <Button className="w-full">
+                  View Your Transaction
+                </Button>
+              </Link>
+              
+              <Button variant="outline" onClick={() => window.location.reload()}>
+                Return to Development
+              </Button>
+            </div>
+          </div>
+        );
+    }
+  };
+
+  const isProcessing = isReserving || 
+    startKYCMutation.isPending || 
+    createReservationMutation.isPending || 
+    processDepositMutation.isPending ||
+    isLoadingKYC;
+
+  return (
+    <Card className="w-full">
+      <CardHeader>
+        <CardTitle>Buy It Now</CardTitle>
+        <CardDescription>Complete these steps to secure your new home</CardDescription>
+        
+        {/* Enhanced visual progress tracker */}
+        <div className="mt-6">
+          <BuyerProgressTracker 
+            steps={journeySteps}
+            currentStep={currentStep}
+          />
+        </div>
+      </CardHeader>
+      
+      <CardContent>
+        {error && (
+          <Alert variant="destructive" className="mb-6">
+            <AlertCircle className="h-4 w-4" />
+            <AlertDescription>{error}</AlertDescription>
+          </Alert>
+        )}
+        
+        {isProcessing && (
+          <div className="flex items-center justify-center py-4">
+            <Loader2 className="h-8 w-8 animate-spin text-primary" />
+            <span className="ml-2 text-sm text-muted-foreground">Processing your request...</span>
+          </div>
+        )}
+        
+        {!isProcessing && renderStep()}
+        
+        {isAuthenticated && currentStep !== 'authentication' && currentStep !== 'complete' && (
+          <div className="mt-6 flex items-center justify-center text-sm text-muted-foreground">
+            <ShieldCheck className="h-4 w-4 mr-2" />
+            Your data is secure and encrypted
+          </div>
+        )}
+      </CardContent>
+    </Card>
+  );
+}

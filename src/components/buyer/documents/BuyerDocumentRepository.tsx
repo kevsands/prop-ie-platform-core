@@ -80,7 +80,7 @@ const RequiredDocumentCard: React.FC<RequiredDocumentCardProps> = ({
                   if (uploadStatus.fileUrl) {
                     window.open(uploadStatus.fileUrl, '_blank');
                   }
-                }}
+                }
               >
                 <Download className="h-4 w-4 mr-1" /> View Document
               </Button>
@@ -114,17 +114,17 @@ interface DocumentUploadDialogProps {
 }
 
 const DocumentUploadDialog: React.FC<DocumentUploadDialogProps> = ({ document }) => {
-  const [uploading, setUploading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState(false);
-  
+  const [uploadingsetUploading] = useState(false);
+  const [errorsetError] = useState<string | null>(null);
+  const [successsetSuccess] = useState(false);
+
   const { uploadDocument, refreshDocuments } = useBuyerDocuments();
-  
+
   const handleUpload = async (file: File, metadata: any) => {
     setUploading(true);
     setError(null);
     setSuccess(false);
-    
+
     try {
       const result = await uploadDocument(file, {
         requiredDocumentId: document.id,
@@ -132,7 +132,7 @@ const DocumentUploadDialog: React.FC<DocumentUploadDialogProps> = ({ document })
         description: document.description,
         type: document.type
       });
-      
+
       if (result.success) {
         setSuccess(true);
         await refreshDocuments();
@@ -141,18 +141,18 @@ const DocumentUploadDialog: React.FC<DocumentUploadDialogProps> = ({ document })
       }
     } catch (err) {
       setError('An error occurred during upload');
-      console.error('Error in document upload:', err);
+
     } finally {
       setUploading(false);
     }
   };
-  
+
   return (
     <DialogContent className="max-w-2xl">
       <DialogHeader>
         <DialogTitle>Upload {document.name}</DialogTitle>
       </DialogHeader>
-      
+
       {success ? (
         <div className="py-6 text-center">
           <CheckCircle2 className="h-12 w-12 text-green-500 mx-auto mb-4" />
@@ -168,7 +168,7 @@ const DocumentUploadDialog: React.FC<DocumentUploadDialogProps> = ({ document })
               <span className="text-sm">{error}</span>
             </div>
           )}
-          
+
           <div className="mb-4">
             <h3 className="font-medium">Document Requirements:</h3>
             <ul className="text-sm text-gray-600 list-disc pl-5 mt-1 space-y-1">
@@ -178,12 +178,11 @@ const DocumentUploadDialog: React.FC<DocumentUploadDialogProps> = ({ document })
               {document.helpText && <li>{document.helpText}</li>}
             </ul>
           </div>
-          
+
           <DocumentUploader
             onUpload={handleUpload}
             loading={uploading}
-          />
-        </>
+          / />
       )}
     </DialogContent>
   );
@@ -208,21 +207,21 @@ const PhaseDocumentsTab: React.FC<PhaseDocumentsTabProps> = ({
     error,
     refreshDocuments
   } = useBuyerDocuments();
-  
+
   const { journey } = useBuyerJourney();
-  
+
   // Get documents for this phase or all documents
   const documents = phase === 'ALL' 
     ? getPhaseDocuments(journey?.currentPhase || BuyerPhase.PLANNING)
     : getPhaseDocuments(phase);
-  
+
   // Get required documents and their statuses for this phase
   const phaseRequiredDocs = phase === 'ALL'
     ? requiredDocuments
     : requiredDocuments.filter(doc => 
         doc.requiredByPhase === phase as unknown as BuyerDocumentCategory
       );
-  
+
   const handleDeleteDocument = async (id: string) => {
     // Document deletion logic
     await refreshDocuments();
@@ -237,31 +236,31 @@ const PhaseDocumentsTab: React.FC<PhaseDocumentsTabProps> = ({
         </div>
         <Progress value={progress} className="h-2" />
       </div>
-      
+
       <Separator />
-      
+
       <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
         {phaseRequiredDocs.map(doc => {
           const status = documentStatuses.find(
             status => status.requiredDocumentId === doc.id
           );
-          
+
           return (
             <RequiredDocumentCard
               key={doc.id}
               document={doc}
-              uploadStatus={{
+              uploadStatus={
                 uploaded: status?.uploaded || false,
                 approved: status?.approved || false,
                 documentId: status?.documentId,
                 fileUrl: status?.fileUrl
-              }}
-              onUpload={() => {}}
+              }
+              onUpload={() => {}
             />
           );
         })}
       </div>
-      
+
       <h3 className="text-lg font-medium mt-8">Uploaded Documents</h3>
       <DocumentList
         documents={documents}
@@ -283,10 +282,10 @@ const BuyerDocumentRepository: React.FC<BuyerDocumentRepositoryProps> = ({
 }) => {
   const { phaseProgress, overallProgress, loading } = useBuyerDocuments();
   const { journey } = useBuyerJourney();
-  
+
   const currentPhase = journey?.currentPhase || BuyerPhase.PLANNING;
-  const [activeTab, setActiveTab] = useState<string>(initialPhase || currentPhase);
-  
+  const [activeTabsetActiveTab] = useState<string>(initialPhase || currentPhase);
+
   if (loading) {
     return (
       <div className="flex justify-center items-center h-48">
@@ -294,7 +293,7 @@ const BuyerDocumentRepository: React.FC<BuyerDocumentRepositoryProps> = ({
       </div>
     );
   }
-  
+
   // Helper to get display name for phase
   const getPhaseDisplayName = (phase: BuyerPhase): string => {
     return phase.charAt(0) + phase.slice(1).toLowerCase().replace(/_/g, ' ');
@@ -329,7 +328,7 @@ const BuyerDocumentRepository: React.FC<BuyerDocumentRepositoryProps> = ({
           <TabsTrigger value={BuyerPhase.FINANCING}>Financing</TabsTrigger>
           <TabsTrigger value={BuyerPhase.LEGAL_PROCESS}>Legal</TabsTrigger>
         </TabsList>
-        
+
         <TabsContent value={currentPhase}>
           <PhaseDocumentsTab 
             phase="ALL"
@@ -337,7 +336,7 @@ const BuyerDocumentRepository: React.FC<BuyerDocumentRepositoryProps> = ({
             progress={phaseProgress[currentPhase]?.percentage || 0}
           />
         </TabsContent>
-        
+
         <TabsContent value={BuyerPhase.PLANNING}>
           <PhaseDocumentsTab 
             phase={BuyerPhase.PLANNING}
@@ -345,7 +344,7 @@ const BuyerDocumentRepository: React.FC<BuyerDocumentRepositoryProps> = ({
             progress={phaseProgress[BuyerPhase.PLANNING]?.percentage || 0}
           />
         </TabsContent>
-        
+
         <TabsContent value={BuyerPhase.FINANCING}>
           <PhaseDocumentsTab 
             phase={BuyerPhase.FINANCING}
@@ -353,7 +352,7 @@ const BuyerDocumentRepository: React.FC<BuyerDocumentRepositoryProps> = ({
             progress={phaseProgress[BuyerPhase.FINANCING]?.percentage || 0}
           />
         </TabsContent>
-        
+
         <TabsContent value={BuyerPhase.LEGAL_PROCESS}>
           <PhaseDocumentsTab 
             phase={BuyerPhase.LEGAL_PROCESS}

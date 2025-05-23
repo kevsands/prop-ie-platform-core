@@ -1,3 +1,4 @@
+import React from 'react';
 "use client";
 
 import { useAuth } from "../../../context/AuthContext";
@@ -6,10 +7,10 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 export default function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  const [emailsetEmail] = useState("");
+  const [passwordsetPassword] = useState("");
+  const [errorsetError] = useState("");
+  const [isLoadingsetIsLoading] = useState(false);
   const { signIn, user } = useAuth();
   const router = useRouter();
 
@@ -19,7 +20,7 @@ export default function Login() {
     setIsLoading(true);
 
     try {
-      const result = await signIn(email, password);
+      const result = await signIn(emailpassword);
       if (result.isSignedIn) {
         // Redirect based on user role
         if (user?.role?.toLowerCase() === "buyer") {
@@ -43,7 +44,7 @@ export default function Login() {
       }
     } catch (err) {
       setError("An error occurred during login");
-      console.error(err);
+
     } finally {
       setIsLoading(false);
     }
@@ -56,7 +57,7 @@ export default function Login() {
           Sign in to your account
         </h2>
         <p className="mt-2 text-center text-sm text-gray-600">
-          Or{" "}
+          Or{" "
           <Link
             href="/register"
             className="font-medium text-blue-600 hover:text-blue-500"
@@ -109,7 +110,7 @@ export default function Login() {
                   autoComplete="email"
                   required
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={(e: any) => setEmail(e.target.value)}
                   className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                 />
               </div>
@@ -130,7 +131,7 @@ export default function Login() {
                   autoComplete="current-password"
                   required
                   value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  onChange={(e: any) => setPassword(e.target.value)}
                   className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                 />
               </div>
@@ -166,9 +167,9 @@ export default function Login() {
               <button
                 type="submit"
                 disabled={isLoading}
-                className={`w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 ${isLoading ? "opacity-70 cursor-not-allowed" : ""}`}
+                className={`w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 ${isLoading ? "opacity-70 cursor-not-allowed" : ""`}
               >
-                {isLoading ? "Signing in..." : "Sign in"}
+                {isLoading ? "Signing in..." : "Sign in"
               </button>
             </div>
           </form>

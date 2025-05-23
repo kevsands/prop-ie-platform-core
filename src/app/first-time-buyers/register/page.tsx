@@ -38,7 +38,7 @@ interface RegistrationStep {
   id: number;
   title: string;
   description: string;
-  icon: React.ComponentType<any>;
+  icon: React.ComponentType<any>\n  );
 }
 
 const steps: RegistrationStep[] = [
@@ -97,23 +97,23 @@ const counties = [
 
 export default function RegisterPage() {
   const router = useRouter();
-  const [currentStep, setCurrentStep] = useState(1);
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [passwordStrength, setPasswordStrength] = useState(0);
-  
-  const [formData, setFormData] = useState({
+  const [currentStepsetCurrentStep] = useState(1);
+  const [showPasswordsetShowPassword] = useState(false);
+  const [showConfirmPasswordsetShowConfirmPassword] = useState(false);
+  const [loadingsetLoading] = useState(false);
+  const [passwordStrengthsetPasswordStrength] = useState(0);
+
+  const [formDatasetFormData] = useState({
     // Personal Info
     firstName: '',
     lastName: '',
     dateOfBirth: '',
-    
+
     // Contact Details
     email: '',
     phone: '',
     preferredContact: 'email',
-    
+
     // Financial Readiness
     currentStatus: '',
     budget: '',
@@ -122,13 +122,13 @@ export default function RegisterPage() {
     hasHTB: false,
     hasSolicitor: false,
     employmentStatus: '',
-    
+
     // Property Preferences
     propertyType: [],
     preferredCounties: [],
     bedrooms: '',
     moveInTimeframe: '',
-    
+
     // Account Setup
     password: '',
     confirmPassword: '',
@@ -137,13 +137,13 @@ export default function RegisterPage() {
     agreedDataProcessing: false
   });
 
-  const [errors, setErrors] = useState<any>({});
+  const [errorssetErrors] = useState<any>({});
 
   // Password strength calculator
   useEffect(() => {
     if (formData.password) {
       let strength = 0;
-      if (formData.password.length >= 8) strength++;
+      if (formData.password.length>= 8) strength++;
       if (/[A-Z]/.test(formData.password)) strength++;
       if (/[a-z]/.test(formData.password)) strength++;
       if (/[0-9]/.test(formData.password)) strength++;
@@ -164,11 +164,11 @@ export default function RegisterPage() {
         if (!formData.dateOfBirth) newErrors.dateOfBirth = 'Date of birth is required';
         else {
           const age = new Date().getFullYear() - new Date(formData.dateOfBirth).getFullYear();
-          if (age < 18) newErrors.dateOfBirth = 'You must be 18 or older';
-          if (age > 100) newErrors.dateOfBirth = 'Please enter a valid date of birth';
+          if (age <18) newErrors.dateOfBirth = 'You must be 18 or older';
+          if (age> 100) newErrors.dateOfBirth = 'Please enter a valid date of birth';
         }
         break;
-        
+
       case 2:
         if (!formData.email.trim()) newErrors.email = 'Email is required';
         else if (!/\S+@\S+\.\S+/.test(formData.email)) newErrors.email = 'Invalid email format';
@@ -177,32 +177,32 @@ export default function RegisterPage() {
           newErrors.phone = 'Invalid Irish phone number';
         }
         break;
-        
+
       case 3:
         if (!formData.currentStatus) newErrors.currentStatus = 'Please select your current status';
         if (!formData.budget) newErrors.budget = 'Please select your budget range';
         if (!formData.employmentStatus) newErrors.employmentStatus = 'Employment status is required';
         if (!formData.deposit) newErrors.deposit = 'Deposit amount is required';
-        else if (parseInt(formData.deposit) < 0) newErrors.deposit = 'Invalid deposit amount';
+        else if (parseInt(formData.deposit) <0) newErrors.deposit = 'Invalid deposit amount';
         break;
-        
+
       case 4:
         if (formData.propertyType.length === 0) newErrors.propertyType = 'Select at least one property type';
         if (formData.preferredCounties.length === 0) newErrors.preferredCounties = 'Select at least one county';
         if (!formData.bedrooms) newErrors.bedrooms = 'Number of bedrooms is required';
         if (!formData.moveInTimeframe) newErrors.moveInTimeframe = 'Move-in timeframe is required';
         break;
-        
+
       case 5:
         if (!formData.password) newErrors.password = 'Password is required';
-        else if (formData.password.length < 8) newErrors.password = 'Password must be at least 8 characters';
-        else if (passwordStrength < 3) newErrors.password = 'Password is too weak';
-        
+        else if (formData.password.length <8) newErrors.password = 'Password must be at least 8 characters';
+        else if (passwordStrength <3) newErrors.password = 'Password is too weak';
+
         if (!formData.confirmPassword) newErrors.confirmPassword = 'Please confirm your password';
         else if (formData.password !== formData.confirmPassword) {
           newErrors.confirmPassword = 'Passwords do not match';
         }
-        
+
         if (!formData.agreeTerms) newErrors.agreeTerms = 'You must agree to the terms';
         if (!formData.agreedDataProcessing) newErrors.agreedDataProcessing = 'You must agree to data processing';
         break;
@@ -214,9 +214,9 @@ export default function RegisterPage() {
 
   const handleNext = () => {
     if (validateStep(currentStep)) {
-      if (currentStep < steps.length) {
+      if (currentStep <steps.length) {
         setCurrentStep(currentStep + 1);
-        window.scrollTo(0, 0);
+        window.scrollTo(00);
       } else {
         handleSubmit();
       }
@@ -224,26 +224,26 @@ export default function RegisterPage() {
   };
 
   const handleBack = () => {
-    if (currentStep > 1) {
+    if (currentStep> 1) {
       setCurrentStep(currentStep - 1);
-      window.scrollTo(0, 0);
+      window.scrollTo(00);
     }
   };
 
   const handleSubmit = async () => {
     setLoading(true);
-    
+
     try {
       // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      
+      await new Promise(resolve => setTimeout(resolve2000));
+
       // Save to localStorage for demo
       localStorage.setItem('userRegistration', JSON.stringify(formData));
-      
+
       // Redirect to buyer dashboard welcome page
       router.push('/buyer/first-time-buyers/welcome');
     } catch (error) {
-      console.error('Registration error:', error);
+
       setErrors({ submit: 'Registration failed. Please try again.' });
     } finally {
       setLoading(false);
@@ -263,7 +263,7 @@ export default function RegisterPage() {
                 <input
                   type="text"
                   value={formData.firstName}
-                  onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
+                  onChange={(e: any) => setFormData({ ...formData, firstName: e.target.value })}
                   className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 ${
                     errors.firstName ? 'border-red-500' : 'border-gray-300'
                   }`}
@@ -273,7 +273,7 @@ export default function RegisterPage() {
                   <p className="text-red-500 text-sm mt-1">{errors.firstName}</p>
                 )}
               </div>
-              
+
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Last Name *
@@ -281,7 +281,7 @@ export default function RegisterPage() {
                 <input
                   type="text"
                   value={formData.lastName}
-                  onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
+                  onChange={(e: any) => setFormData({ ...formData, lastName: e.target.value })}
                   className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 ${
                     errors.lastName ? 'border-red-500' : 'border-gray-300'
                   }`}
@@ -292,7 +292,7 @@ export default function RegisterPage() {
                 )}
               </div>
             </div>
-            
+
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Date of Birth *
@@ -300,7 +300,7 @@ export default function RegisterPage() {
               <input
                 type="date"
                 value={formData.dateOfBirth}
-                onChange={(e) => setFormData({ ...formData, dateOfBirth: e.target.value })}
+                onChange={(e: any) => setFormData({ ...formData, dateOfBirth: e.target.value })}
                 className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 ${
                   errors.dateOfBirth ? 'border-red-500' : 'border-gray-300'
                 }`}
@@ -323,7 +323,7 @@ export default function RegisterPage() {
               <input
                 type="email"
                 value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                onChange={(e: any) => setFormData({ ...formData, email: e.target.value })}
                 className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 ${
                   errors.email ? 'border-red-500' : 'border-gray-300'
                 }`}
@@ -333,7 +333,7 @@ export default function RegisterPage() {
                 <p className="text-red-500 text-sm mt-1">{errors.email}</p>
               )}
             </div>
-            
+
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Phone Number *
@@ -341,7 +341,7 @@ export default function RegisterPage() {
               <input
                 type="tel"
                 value={formData.phone}
-                onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                onChange={(e: any) => setFormData({ ...formData, phone: e.target.value })}
                 className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 ${
                   errors.phone ? 'border-red-500' : 'border-gray-300'
                 }`}
@@ -352,7 +352,7 @@ export default function RegisterPage() {
               )}
               <p className="text-gray-500 text-sm mt-1">Irish mobile or landline number</p>
             </div>
-            
+
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Preferred Contact Method
@@ -363,7 +363,7 @@ export default function RegisterPage() {
                     type="radio"
                     value="email"
                     checked={formData.preferredContact === 'email'}
-                    onChange={(e) => setFormData({ ...formData, preferredContact: e.target.value })}
+                    onChange={(e: any) => setFormData({ ...formData, preferredContact: e.target.value })}
                     className="mr-3"
                   />
                   <Mail className="mr-2" size={20} />
@@ -374,7 +374,7 @@ export default function RegisterPage() {
                     type="radio"
                     value="phone"
                     checked={formData.preferredContact === 'phone'}
-                    onChange={(e) => setFormData({ ...formData, preferredContact: e.target.value })}
+                    onChange={(e: any) => setFormData({ ...formData, preferredContact: e.target.value })}
                     className="mr-3"
                   />
                   <Phone className="mr-2" size={20} />
@@ -394,7 +394,7 @@ export default function RegisterPage() {
               </label>
               <select
                 value={formData.currentStatus}
-                onChange={(e) => setFormData({ ...formData, currentStatus: e.target.value })}
+                onChange={(e: any) => setFormData({ ...formData, currentStatus: e.target.value })}
                 className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 ${
                   errors.currentStatus ? 'border-red-500' : 'border-gray-300'
                 }`}
@@ -418,7 +418,7 @@ export default function RegisterPage() {
                 </label>
                 <select
                   value={formData.budget}
-                  onChange={(e) => setFormData({ ...formData, budget: e.target.value })}
+                  onChange={(e: any) => setFormData({ ...formData, budget: e.target.value })}
                   className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 ${
                     errors.budget ? 'border-red-500' : 'border-gray-300'
                   }`}
@@ -432,7 +432,7 @@ export default function RegisterPage() {
                   <p className="text-red-500 text-sm mt-1">{errors.budget}</p>
                 )}
               </div>
-              
+
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Current Deposit Saved *
@@ -440,7 +440,7 @@ export default function RegisterPage() {
                 <input
                   type="number"
                   value={formData.deposit}
-                  onChange={(e) => setFormData({ ...formData, deposit: e.target.value })}
+                  onChange={(e: any) => setFormData({ ...formData, deposit: e.target.value })}
                   className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 ${
                     errors.deposit ? 'border-red-500' : 'border-gray-300'
                   }`}
@@ -458,7 +458,7 @@ export default function RegisterPage() {
               </label>
               <select
                 value={formData.employmentStatus}
-                onChange={(e) => setFormData({ ...formData, employmentStatus: e.target.value })}
+                onChange={(e: any) => setFormData({ ...formData, employmentStatus: e.target.value })}
                 className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 ${
                   errors.employmentStatus ? 'border-red-500' : 'border-gray-300'
                 }`}
@@ -483,7 +483,7 @@ export default function RegisterPage() {
                 <input
                   type="checkbox"
                   checked={formData.hasAIP}
-                  onChange={(e) => setFormData({ ...formData, hasAIP: e.target.checked })}
+                  onChange={(e: any) => setFormData({ ...formData, hasAIP: e.target.checked })}
                   className="mr-3 h-4 w-4 text-blue-600 rounded"
                 />
                 <Calculator className="mr-2 text-gray-600" size={20} />
@@ -492,12 +492,12 @@ export default function RegisterPage() {
                   <p className="text-sm text-gray-500">I have AIP from a lender</p>
                 </div>
               </label>
-              
+
               <label className="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-gray-50">
                 <input
                   type="checkbox"
                   checked={formData.hasHTB}
-                  onChange={(e) => setFormData({ ...formData, hasHTB: e.target.checked })}
+                  onChange={(e: any) => setFormData({ ...formData, hasHTB: e.target.checked })}
                   className="mr-3 h-4 w-4 text-blue-600 rounded"
                 />
                 <PiggyBank className="mr-2 text-gray-600" size={20} />
@@ -506,12 +506,12 @@ export default function RegisterPage() {
                   <p className="text-sm text-gray-500">Registered with Revenue for HTB</p>
                 </div>
               </label>
-              
+
               <label className="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-gray-50">
                 <input
                   type="checkbox"
                   checked={formData.hasSolicitor}
-                  onChange={(e) => setFormData({ ...formData, hasSolicitor: e.target.checked })}
+                  onChange={(e: any) => setFormData({ ...formData, hasSolicitor: e.target.checked })}
                   className="mr-3 h-4 w-4 text-blue-600 rounded"
                 />
                 <FileText className="mr-2 text-gray-600" size={20} />
@@ -538,16 +538,16 @@ export default function RegisterPage() {
                       type="checkbox"
                       value={type.value}
                       checked={formData.propertyType.includes(type.value)}
-                      onChange={(e) => {
+                      onChange={(e: any) => {
                         const types = [...formData.propertyType];
                         if (e.target.checked) {
                           types.push(type.value);
                         } else {
                           const index = types.indexOf(type.value);
-                          if (index > -1) types.splice(index, 1);
+                          if (index> -1) types.splice(index1);
                         }
                         setFormData({ ...formData, propertyType: types });
-                      }}
+                      }
                       className="mr-3 h-4 w-4 text-blue-600 rounded"
                     />
                     {React.createElement(type.icon, { className: 'mr-2 text-gray-600', size: 20 })}
@@ -571,17 +571,17 @@ export default function RegisterPage() {
                       type="checkbox"
                       value={county}
                       checked={formData.preferredCounties.includes(county)}
-                      onChange={(e) => {
+                      onChange={(e: any) => {
                         const counties = [...formData.preferredCounties];
-                        if (e.target.checked && counties.length < 3) {
+                        if (e.target.checked && counties.length <3) {
                           counties.push(county);
                         } else if (!e.target.checked) {
                           const index = counties.indexOf(county);
-                          if (index > -1) counties.splice(index, 1);
+                          if (index> -1) counties.splice(index1);
                         }
                         setFormData({ ...formData, preferredCounties: counties });
-                      }}
-                      disabled={!formData.preferredCounties.includes(county) && formData.preferredCounties.length >= 3}
+                      }
+                      disabled={!formData.preferredCounties.includes(county) && formData.preferredCounties.length>= 3}
                       className="mr-2 h-4 w-4 text-blue-600 rounded"
                     />
                     <span className="text-sm">{county}</span>
@@ -600,7 +600,7 @@ export default function RegisterPage() {
                 </label>
                 <select
                   value={formData.bedrooms}
-                  onChange={(e) => setFormData({ ...formData, bedrooms: e.target.value })}
+                  onChange={(e: any) => setFormData({ ...formData, bedrooms: e.target.value })}
                   className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 ${
                     errors.bedrooms ? 'border-red-500' : 'border-gray-300'
                   }`}
@@ -616,14 +616,14 @@ export default function RegisterPage() {
                   <p className="text-red-500 text-sm mt-1">{errors.bedrooms}</p>
                 )}
               </div>
-              
+
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   When do you plan to move? *
                 </label>
                 <select
                   value={formData.moveInTimeframe}
-                  onChange={(e) => setFormData({ ...formData, moveInTimeframe: e.target.value })}
+                  onChange={(e: any) => setFormData({ ...formData, moveInTimeframe: e.target.value })}
                   className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 ${
                     errors.moveInTimeframe ? 'border-red-500' : 'border-gray-300'
                   }`}
@@ -654,7 +654,7 @@ export default function RegisterPage() {
                 <input
                   type={showPassword ? 'text' : 'password'}
                   value={formData.password}
-                  onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                  onChange={(e: any) => setFormData({ ...formData, password: e.target.value })}
                   className={`w-full px-4 py-3 pr-12 border rounded-lg focus:ring-2 focus:ring-blue-500 ${
                     errors.password ? 'border-red-500' : 'border-gray-300'
                   }`}
@@ -671,23 +671,23 @@ export default function RegisterPage() {
               {errors.password && (
                 <p className="text-red-500 text-sm mt-1">{errors.password}</p>
               )}
-              
+
               {/* Password strength indicator */}
               {formData.password && (
                 <div className="mt-2">
                   <div className="flex items-center justify-between mb-1">
                     <span className="text-sm text-gray-600">Password strength</span>
                     <span className="text-sm font-medium">
-                      {passwordStrength < 2 ? 'Weak' : passwordStrength < 4 ? 'Medium' : 'Strong'}
+                      {passwordStrength <2 ? 'Weak' : passwordStrength <4 ? 'Medium' : 'Strong'}
                     </span>
                   </div>
                   <div className="w-full bg-gray-200 rounded-full h-2">
                     <div
                       className={`h-2 rounded-full transition-all ${
-                        passwordStrength < 2 ? 'bg-red-500' : 
-                        passwordStrength < 4 ? 'bg-yellow-500' : 'bg-green-500'
+                        passwordStrength <2 ? 'bg-red-500' : 
+                        passwordStrength <4 ? 'bg-yellow-500' : 'bg-green-500'
                       }`}
-                      style={{ width: `${(passwordStrength / 5) * 100}%` }}
+                      style={ width: `${(passwordStrength / 5) * 100}%` }
                     />
                   </div>
                   <p className="text-xs text-gray-500 mt-1">
@@ -705,7 +705,7 @@ export default function RegisterPage() {
                 <input
                   type={showConfirmPassword ? 'text' : 'password'}
                   value={formData.confirmPassword}
-                  onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
+                  onChange={(e: any) => setFormData({ ...formData, confirmPassword: e.target.value })}
                   className={`w-full px-4 py-3 pr-12 border rounded-lg focus:ring-2 focus:ring-blue-500 ${
                     errors.confirmPassword ? 'border-red-500' : 'border-gray-300'
                   }`}
@@ -729,7 +729,7 @@ export default function RegisterPage() {
                 <input
                   type="checkbox"
                   checked={formData.agreeTerms}
-                  onChange={(e) => setFormData({ ...formData, agreeTerms: e.target.checked })}
+                  onChange={(e: any) => setFormData({ ...formData, agreeTerms: e.target.checked })}
                   className="mr-3 h-4 w-4 text-blue-600 rounded mt-0.5"
                 />
                 <span className="text-sm">
@@ -745,7 +745,7 @@ export default function RegisterPage() {
                 <input
                   type="checkbox"
                   checked={formData.agreedDataProcessing}
-                  onChange={(e) => setFormData({ ...formData, agreedDataProcessing: e.target.checked })}
+                  onChange={(e: any) => setFormData({ ...formData, agreedDataProcessing: e.target.checked })}
                   className="mr-3 h-4 w-4 text-blue-600 rounded mt-0.5"
                 />
                 <span className="text-sm">
@@ -760,7 +760,7 @@ export default function RegisterPage() {
                 <input
                   type="checkbox"
                   checked={formData.agreeMarketing}
-                  onChange={(e) => setFormData({ ...formData, agreeMarketing: e.target.checked })}
+                  onChange={(e: any) => setFormData({ ...formData, agreeMarketing: e.target.checked })}
                   className="mr-3 h-4 w-4 text-blue-600 rounded mt-0.5"
                 />
                 <span className="text-sm">
@@ -823,23 +823,23 @@ export default function RegisterPage() {
         {/* Progress Bar */}
         <div className="mb-8">
           <div className="flex items-center justify-between mb-4">
-            {steps.map((step, index) => (
+            {steps.map((stepindex: any) => (
               <div key={step.id} className="flex items-center">
                 <div
                   className={`w-12 h-12 rounded-full flex items-center justify-center font-bold transition-all ${
-                    currentStep > step.id
+                    currentStep> step.id
                       ? 'bg-green-600 text-white'
                       : currentStep === step.id
                       ? 'bg-blue-600 text-white'
                       : 'bg-gray-200 text-gray-600'
                   }`}
                 >
-                  {currentStep > step.id ? <CheckCircle size={24} /> : step.id}
+                  {currentStep> step.id ? <CheckCircle size={24} /> : step.id}
                 </div>
-                {index < steps.length - 1 && (
+                {index <steps.length - 1 && (
                   <div
                     className={`w-full h-1 mx-2 transition-all ${
-                      currentStep > step.id ? 'bg-green-600' : 'bg-gray-200'
+                      currentStep> step.id ? 'bg-green-600' : 'bg-gray-200'
                     }`}
                   />
                 )}
@@ -880,7 +880,7 @@ export default function RegisterPage() {
               <ChevronLeft size={20} />
               Back
             </button>
-            
+
             <button
               onClick={handleNext}
               disabled={loading}
@@ -894,8 +894,7 @@ export default function RegisterPage() {
               ) : (
                 <>
                   {currentStep === steps.length ? 'Complete Registration' : 'Next'}
-                  <ArrowRight size={20} />
-                </>
+                  <ArrowRight size={20} / />
               )}
             </button>
           </div>
@@ -912,7 +911,7 @@ export default function RegisterPage() {
               Calculate your €30k benefit instantly
             </p>
           </div>
-          
+
           <div className="text-center">
             <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-3">
               <Sparkles className="text-green-600" size={28} />
@@ -922,7 +921,7 @@ export default function RegisterPage() {
               First access to new developments
             </p>
           </div>
-          
+
           <div className="text-center">
             <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-3">
               <HeartHandshake className="text-purple-600" size={28} />
@@ -932,7 +931,7 @@ export default function RegisterPage() {
               Dedicated first-time buyer specialists
             </p>
           </div>
-          
+
           <div className="text-center">
             <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-3">
               <Award className="text-orange-600" size={28} />

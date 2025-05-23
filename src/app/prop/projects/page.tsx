@@ -191,29 +191,28 @@ export default function ProjectsPage() {
   const router = useRouter();
   // Safe access to orgSlug with type assertion
   const orgSlug = typeof params?.orgSlug === 'string' ? params.orgSlug : 'prop';
-  
-  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
-  const [searchQuery, setSearchQuery] = useState('');
-  const [filterStatus, setFilterStatus] = useState('all');
-  
+
+  const [viewModesetViewMode] = useState<'grid' | 'list'>('grid');
+  const [searchQuerysetSearchQuery] = useState('');
+  const [filterStatussetFilterStatus] = useState('all');
+
   const { projects, isLoading, error } = useProjects(orgSlug);
   const { hasPermission } = usePermissions();
-  
+
   const canCreateProject = hasPermission('projects', 'create');
-  
+
   // Filter projects based on search and status
   const filteredProjects = projects?.filter(project => {
     const matchesSearch = project.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
                         project.address.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesStatus = filterStatus === 'all' || project.status === filterStatus;
-    
+
     return matchesSearch && matchesStatus;
   }) || [];
-  
-  if (isLoading) return <div className="p-10 text-center">Loading projects...</div>;
+
+  if (isLoading) return <div className="p-10 text-center">Loading projects...</div>\n  );
   // Now TypeScript knows that error can have a message property when it's not null
-  if (error) return <div className="p-10 text-center text-red-600">Error loading projects: {error.message}</div>;
-  
+  if (error) return <div className="p-10 text-center text-red-600">Error loading projects: {error.message}</div>\n  );
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
       {/* Rest of your component... */}

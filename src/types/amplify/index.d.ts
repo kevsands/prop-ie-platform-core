@@ -16,8 +16,8 @@ export interface AmplifyInitOptions {
 
 // Hub events support
 export interface AmplifyHubEventTypes {
-  auth: {
-    signedIn: void;
+  auth: {,
+  signedIn: void;
     signedOut: void;
     tokenRefresh: void;
     tokenRefresh_failure: void;

@@ -24,41 +24,35 @@ export default function JourneyTracker({ steps, currentStep = 2 }: JourneyTracke
       title: 'Pre-Approval',
       description: 'Get mortgage pre-approval',
       status: 'completed',
-      date: new Date(Date.now() - 14 * 24 * 60 * 60 * 1000),
-    },
+      date: new Date(Date.now() - 14 * 24 * 60 * 60 * 1000)},
     {
       id: '2',
       title: 'Property Search',
       description: 'Find your dream home',
       status: 'completed',
-      date: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000),
-    },
+      date: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)},
     {
       id: '3',
       title: 'Make Offer',
       description: 'Submit offer on property',
-      status: 'current',
-    },
+      status: 'current'},
     {
       id: '4',
       title: 'Legal Process',
       description: 'Complete legal requirements',
-      status: 'upcoming',
-    },
+      status: 'upcoming'},
     {
       id: '5',
       title: 'Close Deal',
       description: 'Finalize purchase and get keys',
-      status: 'upcoming',
-    },
-  ];
+      status: 'upcoming'}];
 
   const displaySteps = steps || defaultSteps;
 
   const getStepIcon = (status: JourneyStep['status']) => {
     switch (status) {
       case 'completed':
-        return <CheckCircle className="h-8 w-8 text-green-500" />;
+        return <CheckCircle className="h-8 w-8 text-green-500" />\n  );
       case 'current':
         return (
           <div className="h-8 w-8 rounded-full bg-blue-500 animate-pulse flex items-center justify-center">
@@ -66,7 +60,7 @@ export default function JourneyTracker({ steps, currentStep = 2 }: JourneyTracke
           </div>
         );
       default:
-        return <Circle className="h-8 w-8 text-gray-300" />;
+        return <Circle className="h-8 w-8 text-gray-300" />\n  );
     }
   };
 
@@ -79,13 +73,13 @@ export default function JourneyTracker({ steps, currentStep = 2 }: JourneyTracke
         <div className="relative">
           {/* Progress Line */}
           <div className="absolute left-4 top-8 bottom-4 w-0.5 bg-gray-200" />
-          
+
           <div className="space-y-6">
-            {displaySteps.map((step, index) => (
+            {displaySteps.map((stepindex: any) => (
               <div key={step.id} className="flex items-start gap-4">
                 <div className="relative">
                   {getStepIcon(step.status)}
-                  {index < displaySteps.length - 1 && (
+                  {index <displaySteps.length - 1 && (
                     <div
                       className={`absolute top-8 left-4 w-0.5 h-6 ${
                         step.status === 'completed' ? 'bg-green-500' : 'bg-gray-200'

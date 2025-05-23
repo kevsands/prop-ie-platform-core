@@ -25,26 +25,29 @@ import { PrismaClient, User as PrismaUser } from '@prisma/client';
  */
 export function mapUser(dbUser: any): User {
   if (!dbUser) return null;
-  
+
+  const metadata = dbUser.metadata || {};
+  const twoFactorEnabled = metadata.twoFactorEnabled || false;
+
   return {
     id: dbUser.id,
-    cognitoId: dbUser.cognito_id,
+    cognitoId: dbUser.cognito_id || dbUser.cognitoId,
     email: dbUser.email,
-    firstName: dbUser.first_name,
-    lastName: dbUser.last_name,
+    firstName: dbUser.first_name || dbUser.firstName,
+    lastName: dbUser.last_name || dbUser.lastName,
     phone: dbUser.phone,
-    profileImageUrl: dbUser.profile_image_url,
+    profileImageUrl: dbUser.profile_image_url || dbUser.profileImageUrl,
     role: dbUser.role,
     status: dbUser.status,
-    kycStatus: dbUser.kyc_status,
-    twoFactorEnabled: dbUser.two_factor_enabled,
-    lastLogin: dbUser.last_login,
+    kycStatus: dbUser.kyc_status || dbUser.kycStatus,
+    twoFactorEnabled: twoFactorEnabled,
+    lastLogin: dbUser.last_login || dbUser.lastLogin,
     metadata: dbUser.metadata,
-    termsAccepted: dbUser.terms_accepted,
-    termsAcceptedAt: dbUser.terms_accepted_at,
-    marketingConsent: dbUser.marketing_consent,
-    createdAt: dbUser.created_at,
-    updatedAt: dbUser.updated_at
+    termsAccepted: dbUser.terms_accepted || dbUser.termsAccepted,
+    termsAcceptedAt: dbUser.terms_accepted_at || dbUser.termsAcceptedAt,
+    marketingConsent: dbUser.marketing_consent || dbUser.marketingConsent,
+    createdAt: dbUser.created_at || dbUser.createdAt || dbUser.created,
+    updatedAt: dbUser.updated_at || dbUser.updatedAt || dbUser.lastActive
   };
 }
 
@@ -54,21 +57,23 @@ export function mapUser(dbUser: any): User {
  * @returns Database user object
  */
 export function mapUserToDb(user: User): any {
+  // Ensure two-factor settings are stored in metadata
+  const metadata = user.metadata || {};
+  if (user.twoFactorEnabled !== undefined) {
+    metadata.twoFactorEnabled = user.twoFactorEnabled;
+  }
+
+  // For Prisma, use camelCase field names
   return {
-    cognito_id: user.cognitoId,
     email: user.email,
-    first_name: user.firstName,
-    last_name: user.lastName,
+    firstName: user.firstName,
+    lastName: user.lastName,
     phone: user.phone,
-    profile_image_url: user.profileImageUrl,
-    role: user.role,
+    avatar: user.profileImageUrl,
+    roles: user.role ? [user.role] : [], // Prisma expects an array of roles
     status: user.status,
-    kyc_status: user.kycStatus,
-    two_factor_enabled: user.twoFactorEnabled,
-    metadata: user.metadata,
-    terms_accepted: user.termsAccepted,
-    terms_accepted_at: user.termsAcceptedAt,
-    marketing_consent: user.marketingConsent
+    kycStatus: user.kycStatus,
+    metadata: metadata
   };
 }
 
@@ -79,7 +84,7 @@ export function mapUserToDb(user: User): any {
  */
 export function mapDevelopment(dbDevelopment: any): Development {
   if (!dbDevelopment) return null;
-  
+
   // Extract location fields from joined query
   const location = dbDevelopment.address_line_1 ? {
     id: dbDevelopment.location_id,
@@ -94,7 +99,7 @@ export function mapDevelopment(dbDevelopment: any): Development {
     longitude: dbDevelopment.longitude,
     geocoded: dbDevelopment.geocoded
   } : null;
-  
+
   return {
     id: dbDevelopment.id,
     name: dbDevelopment.name,
@@ -118,7 +123,7 @@ export function mapDevelopment(dbDevelopment: any): Development {
     sitePlanUrl: dbDevelopment.site_plan_url,
     virtualTourUrl: dbDevelopment.virtual_tour_url,
     floorplans: dbDevelopment.floorplans,
-    amenities: dbDevelopment.amenities,
+    Amenity: dbDevelopment.Amenity,
     features: dbDevelopment.features,
     metadata: dbDevelopment.metadata,
     createdAt: dbDevelopment.created_at,
@@ -153,11 +158,11 @@ export function mapDevelopmentToDb(development: Development): any {
     site_plan_url: development.sitePlanUrl,
     virtual_tour_url: development.virtualTourUrl,
     floorplans: development.floorplans,
-    amenities: development.amenities,
+    Amenity: development.Amenity,
     features: development.features,
     metadata: development.metadata
   };
-  
+
   // Add location data if provided
   if (development.location) {
     dbDevelopment.location = {
@@ -170,7 +175,7 @@ export function mapDevelopmentToDb(development: Development): any {
       country: development.location.country
     };
   }
-  
+
   return dbDevelopment;
 }
 
@@ -181,7 +186,7 @@ export function mapDevelopmentToDb(development: Development): any {
  */
 export function mapUnit(dbUnit: any): Unit {
   if (!dbUnit) return null;
-  
+
   // Extract location fields from joined query
   const location = dbUnit.address_line_1 ? {
     id: dbUnit.location_id,
@@ -196,7 +201,7 @@ export function mapUnit(dbUnit: any): Unit {
     longitude: dbUnit.longitude,
     geocoded: dbUnit.geocoded
   } : null;
-  
+
   return {
     id: dbUnit.id,
     developmentId: dbUnit.development_id,
@@ -282,14 +287,14 @@ export function mapUnitToDb(unit: Unit): any {
  */
 export function mapSale(dbSale: any): Sale {
   if (!dbSale) return null;
-  
+
   // Map unit data if present in joined query
   const unit = dbSale.unit_id ? {
     id: dbSale.unit_id,
     name: dbSale.unit_name || dbSale.name,
     unitNumber: dbSale.unit_number
   } : null;
-  
+
   return {
     id: dbSale.id,
     unitId: dbSale.unit_id,
@@ -366,7 +371,7 @@ export function mapSaleToDb(sale: Sale): any {
  */
 export function mapDocument(dbDocument: any): Document {
   if (!dbDocument) return null;
-  
+
   return {
     id: dbDocument.id,
     name: dbDocument.name,
@@ -425,7 +430,7 @@ export function mapDocumentToDb(document: Document): any {
  */
 export function mapDevelopmentFinance(dbFinance: any): DevelopmentFinance {
   if (!dbFinance) return null;
-  
+
   return {
     id: dbFinance.id,
     developmentId: dbFinance.development_id,
@@ -476,7 +481,7 @@ export function mapDevelopmentFinanceToDb(finance: DevelopmentFinance): any {
  */
 export function mapBudget(dbBudget: any): Budget {
   if (!dbBudget) return null;
-  
+
   return {
     categories: dbBudget.map((category: any) => ({
       id: category.id,
@@ -511,7 +516,7 @@ export function mapBudget(dbBudget: any): Budget {
  */
 export function mapCashFlow(dbCashFlow: any): CashFlow {
   if (!dbCashFlow) return null;
-  
+
   return {
     projection: {
       id: dbCashFlow.projection.id,
@@ -566,7 +571,7 @@ export function mapCashFlow(dbCashFlow: any): CashFlow {
  */
 export function mapCustomizationOption(dbOption: any): CustomizationOption {
   if (!dbOption) return null;
-  
+
   return {
     id: dbOption.id,
     unitId: dbOption.unit_id,
@@ -594,7 +599,7 @@ export function mapCustomizationOption(dbOption: any): CustomizationOption {
  */
 export function mapCustomizationSelection(dbSelection: any): CustomizationSelection {
   if (!dbSelection) return null;
-  
+
   // Include option details if joined
   const option = dbSelection.name ? {
     id: dbSelection.customization_option_id,
@@ -602,7 +607,7 @@ export function mapCustomizationSelection(dbSelection: any): CustomizationSelect
     category: dbSelection.category,
     description: dbSelection.description
   } : null;
-  
+
   return {
     id: dbSelection.id,
     saleId: dbSelection.sale_id,
@@ -626,7 +631,7 @@ export function mapCustomizationSelection(dbSelection: any): CustomizationSelect
  */
 export function mapTransaction(dbTransaction: any): Transaction {
   if (!dbTransaction) return null;
-  
+
   return {
     id: dbTransaction.id,
     developmentFinanceId: dbTransaction.development_finance_id,
@@ -659,7 +664,7 @@ export function mapTransaction(dbTransaction: any): Transaction {
  */
 export function mapPrismaUserToUser(prismaUser: PrismaUser | any): User {
   if (!prismaUser) return null;
-  
+
   // Convert role strings to UserRole enum values
   let roles = [];
   if (Array.isArray(prismaUser.roles)) {
@@ -668,7 +673,7 @@ export function mapPrismaUserToUser(prismaUser: PrismaUser | any): User {
     // Handle case where role is a single string
     roles = [prismaUser.role];
   }
-  
+
   return {
     id: prismaUser.id,
     email: prismaUser.email,

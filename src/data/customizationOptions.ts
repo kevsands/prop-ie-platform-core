@@ -13,7 +13,7 @@ export const roomMaterials = {
 // Generate default model paths for each room in one go
 const roomList = ['kitchen', 'bathroom', 'bedroom', 'livingRoom'] as const;
 
-export const defaultRoomModels: Record<typeof roomList[number], string> = roomList.reduce((acc, room) => {
+export const defaultRoomModels: Record<typeof roomList[number], string> = roomList.reduce((accroom: any) => {
   acc[room] = `/models/rooms/${room}/default.glb`;
   return acc;
 }, {} as Record<typeof roomList[number], string>);

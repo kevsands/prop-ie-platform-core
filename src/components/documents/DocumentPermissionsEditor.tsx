@@ -34,23 +34,23 @@ const DocumentPermissionsEditor: React.FC<DocumentPermissionsEditorProps> = ({
   document,
   onSave
 }) => {
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState<string | null>(null);
-  
+  const [isLoadingsetIsLoading] = useState(false);
+  const [errorsetError] = useState<string | null>(null);
+  const [successsetSuccess] = useState<string | null>(null);
+
   // Initialize permissions from document
-  const [isPublic, setIsPublic] = useState(document.permissions?.isPublic || false);
-  const [sensitivity, setSensitivity] = useState(document.metadata?.sensitivity || 'standard');
-  const [canView, setCanView] = useState<string[]>(document.permissions?.canView || []);
-  const [canEdit, setCanEdit] = useState<string[]>(document.permissions?.canEdit || []);
-  const [canDelete, setCanDelete] = useState<string[]>(document.permissions?.canDelete || []);
-  const [canShare, setCanShare] = useState<string[]>(document.permissions?.canShare || []);
-  
+  const [isPublicsetIsPublic] = useState(document.permissions?.isPublic || false);
+  const [sensitivitysetSensitivity] = useState(document.metadata?.sensitivity || 'standard');
+  const [canViewsetCanView] = useState<string[]>(document.permissions?.canView || []);
+  const [canEditsetCanEdit] = useState<string[]>(document.permissions?.canEdit || []);
+  const [canDeletesetCanDelete] = useState<string[]>(document.permissions?.canDelete || []);
+  const [canSharesetCanShare] = useState<string[]>(document.permissions?.canShare || []);
+
   // Form state for adding users
-  const [newUserId, setNewUserId] = useState('');
-  const [newUserName, setNewUserName] = useState('');
-  const [newUserPermission, setNewUserPermission] = useState<'view' | 'edit' | 'delete' | 'share'>('view');
-  
+  const [newUserIdsetNewUserId] = useState('');
+  const [newUserNamesetNewUserName] = useState('');
+  const [newUserPermissionsetNewUserPermission] = useState<'view' | 'edit' | 'delete' | 'share'>('view');
+
   // Update form when document changes
   useEffect(() => {
     if (document?.permissions) {
@@ -62,14 +62,14 @@ const DocumentPermissionsEditor: React.FC<DocumentPermissionsEditorProps> = ({
       setCanShare(document.permissions.canShare || []);
     }
   }, [document]);
-  
+
   // Handle form submission
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
     setError(null);
     setSuccess(null);
-    
+
     try {
       // Update permissions
       const updatedPermissions: DocumentPermissions = {
@@ -80,9 +80,9 @@ const DocumentPermissionsEditor: React.FC<DocumentPermissionsEditorProps> = ({
         canShare,
         canSign: document.permissions?.canSign || []
       };
-      
-      const permissionsResult = await documentService.updatePermissions(document.id, updatedPermissions);
-      
+
+      const permissionsResult = await documentService.updatePermissions(document.idupdatedPermissions);
+
       if (!permissionsResult.success) {
         throw new Error(permissionsResult.message || 'Failed to update permissions');
       }
@@ -94,71 +94,71 @@ const DocumentPermissionsEditor: React.FC<DocumentPermissionsEditorProps> = ({
           sensitivity
         }
       });
-      
+
       setSuccess('Permissions updated successfully');
       setTimeout(() => {
         onSave();
       }, 1500);
     } catch (err) {
-      console.error('Error updating permissions:', err);
+
       setError(err instanceof Error ? err.message : 'An error occurred');
     } finally {
       setIsLoading(false);
     }
   };
-  
+
   // Handle adding a user
   const handleAddUser = (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!newUserId.trim()) {
       setError('User ID is required');
       return;
     }
-    
+
     // Add user to selected permission list
     switch (newUserPermission) {
       case 'view':
         if (!canView.includes(newUserId)) {
-          setCanView([...canView, newUserId]);
+          setCanView([...canViewnewUserId]);
         }
         break;
       case 'edit':
         if (!canEdit.includes(newUserId)) {
-          setCanEdit([...canEdit, newUserId]);
+          setCanEdit([...canEditnewUserId]);
           // Also add to view permissions if not already there
           if (!canView.includes(newUserId)) {
-            setCanView([...canView, newUserId]);
+            setCanView([...canViewnewUserId]);
           }
         }
         break;
       case 'delete':
         if (!canDelete.includes(newUserId)) {
-          setCanDelete([...canDelete, newUserId]);
+          setCanDelete([...canDeletenewUserId]);
           // Also add to view permissions if not already there
           if (!canView.includes(newUserId)) {
-            setCanView([...canView, newUserId]);
+            setCanView([...canViewnewUserId]);
           }
         }
         break;
       case 'share':
         if (!canShare.includes(newUserId)) {
-          setCanShare([...canShare, newUserId]);
+          setCanShare([...canSharenewUserId]);
           // Also add to view permissions if not already there
           if (!canView.includes(newUserId)) {
-            setCanView([...canView, newUserId]);
+            setCanView([...canViewnewUserId]);
           }
         }
         break;
     }
-    
+
     // Reset form
     setNewUserId('');
     setNewUserName('');
     setNewUserPermission('view');
     setError(null);
   };
-  
+
   // Handle removing a user from a permission
   const removeUserPermission = (userId: string, permissionType: 'view' | 'edit' | 'delete' | 'share') => {
     switch (permissionType) {
@@ -180,10 +180,10 @@ const DocumentPermissionsEditor: React.FC<DocumentPermissionsEditorProps> = ({
         break;
     }
   };
-  
+
   // Get all unique users
   const allUsers = Array.from(new Set([...canView, ...canEdit, ...canDelete, ...canShare]));
-  
+
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       {/* Visibility Section */}
@@ -204,9 +204,9 @@ const DocumentPermissionsEditor: React.FC<DocumentPermissionsEditorProps> = ({
                 onCheckedChange={setIsPublic}
               />
             </div>
-            
+
             <Separator />
-            
+
             <div>
               <Label className="text-base mb-2 block">Sensitivity Level</Label>
               <RadioGroup value={sensitivity} onValueChange={setSensitivity} className="space-y-2">
@@ -219,7 +219,7 @@ const DocumentPermissionsEditor: React.FC<DocumentPermissionsEditorProps> = ({
                     </p>
                   </div>
                 </div>
-                
+
                 <div className="flex items-start space-x-2">
                   <RadioGroupItem value="standard" id="sensitivity-standard" className="mt-1" />
                   <div>
@@ -229,7 +229,7 @@ const DocumentPermissionsEditor: React.FC<DocumentPermissionsEditorProps> = ({
                     </p>
                   </div>
                 </div>
-                
+
                 <div className="flex items-start space-x-2">
                   <RadioGroupItem value="confidential" id="sensitivity-confidential" className="mt-1" />
                   <div>
@@ -244,7 +244,7 @@ const DocumentPermissionsEditor: React.FC<DocumentPermissionsEditorProps> = ({
           </CardContent>
         </Card>
       </div>
-      
+
       {/* User Permissions Section */}
       <div>
         <h3 className="text-sm font-medium mb-3">User Permissions</h3>
@@ -259,7 +259,7 @@ const DocumentPermissionsEditor: React.FC<DocumentPermissionsEditorProps> = ({
                     id="new-user-id"
                     placeholder="Enter user ID or email"
                     value={newUserId}
-                    onChange={(e) => setNewUserId(e.target.value)}
+                    onChange={(e: any) => setNewUserId(e.target.value)}
                   />
                 </div>
                 <div className="w-full sm:w-48">
@@ -268,7 +268,7 @@ const DocumentPermissionsEditor: React.FC<DocumentPermissionsEditorProps> = ({
                     id="new-user-name"
                     placeholder="Display name (optional)"
                     value={newUserName}
-                    onChange={(e) => setNewUserName(e.target.value)}
+                    onChange={(e: any) => setNewUserName(e.target.value)}
                   />
                 </div>
                 <div className="w-full sm:w-40">
@@ -277,7 +277,7 @@ const DocumentPermissionsEditor: React.FC<DocumentPermissionsEditorProps> = ({
                     id="new-user-permission"
                     className="w-full px-3 py-2 border border-input rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-ring"
                     value={newUserPermission}
-                    onChange={(e) => setNewUserPermission(e.target.value as any)}
+                    onChange={(e: any) => setNewUserPermission(e.target.value as any)}
                   >
                     <option value="view">Can View</option>
                     <option value="edit">Can Edit</option>
@@ -295,7 +295,7 @@ const DocumentPermissionsEditor: React.FC<DocumentPermissionsEditorProps> = ({
                   Add User
                 </Button>
               </div>
-              
+
               {error && (
                 <p className="text-sm text-destructive mt-2">
                   <AlertCircle className="h-4 w-4 inline-block mr-1" />
@@ -303,9 +303,9 @@ const DocumentPermissionsEditor: React.FC<DocumentPermissionsEditorProps> = ({
                 </p>
               )}
             </div>
-            
+
             <Separator />
-            
+
             {/* User Permissions List */}
             {allUsers.length === 0 ? (
               <div className="text-center py-4">
@@ -329,7 +329,7 @@ const DocumentPermissionsEditor: React.FC<DocumentPermissionsEditorProps> = ({
                         <p className="text-sm font-medium">{userId}</p>
                       </div>
                     </div>
-                    
+
                     <div className="flex flex-wrap gap-2 mt-2 sm:mt-0">
                       {canView.includes(userId) && (
                         <Badge 
@@ -348,7 +348,7 @@ const DocumentPermissionsEditor: React.FC<DocumentPermissionsEditorProps> = ({
                           </Button>
                         </Badge>
                       )}
-                      
+
                       {canEdit.includes(userId) && (
                         <Badge 
                           variant="outline" 
@@ -366,7 +366,7 @@ const DocumentPermissionsEditor: React.FC<DocumentPermissionsEditorProps> = ({
                           </Button>
                         </Badge>
                       )}
-                      
+
                       {canShare.includes(userId) && (
                         <Badge 
                           variant="outline" 
@@ -384,7 +384,7 @@ const DocumentPermissionsEditor: React.FC<DocumentPermissionsEditorProps> = ({
                           </Button>
                         </Badge>
                       )}
-                      
+
                       {canDelete.includes(userId) && (
                         <Badge 
                           variant="outline" 
@@ -410,7 +410,7 @@ const DocumentPermissionsEditor: React.FC<DocumentPermissionsEditorProps> = ({
           </CardContent>
         </Card>
       </div>
-      
+
       <div className="flex justify-end gap-2">
         <Button 
           type="button" 
@@ -420,7 +420,7 @@ const DocumentPermissionsEditor: React.FC<DocumentPermissionsEditorProps> = ({
         >
           Cancel
         </Button>
-        
+
         <Button 
           type="submit"
           disabled={isLoading}
@@ -438,7 +438,7 @@ const DocumentPermissionsEditor: React.FC<DocumentPermissionsEditorProps> = ({
           )}
         </Button>
       </div>
-      
+
       {/* Success message */}
       {success && (
         <div className="bg-green-50 border border-green-200 text-green-800 rounded-md p-3 flex items-center">

@@ -103,13 +103,12 @@ const mockNearbyPlaces: NearbyPlace[] = [
     walkTime: '15 min',
     rating: 4.3,
     coordinates: { lat: 53.3498 - 0.008, lng: -6.2603 - 0.005 }
-  },
-];
+  }];
 
 export default function PropertyMap({ location, propertyName }: PropertyMapProps) {
-  const [selectedPlace, setSelectedPlace] = useState<NearbyPlace | null>(null);
-  const [selectedTab, setSelectedTab] = useState('overview');
-  const [showWalkingRadius, setShowWalkingRadius] = useState(false);
+  const [selectedPlacesetSelectedPlace] = useState<NearbyPlace | null>(null);
+  const [selectedTabsetSelectedTab] = useState('overview');
+  const [showWalkingRadiussetShowWalkingRadius] = useState(false);
   const mapRef = useRef<google.maps.Map | null>(null);
 
   const { isLoaded, loadError } = useJsApiLoader({
@@ -135,8 +134,7 @@ export default function PropertyMap({ location, propertyName }: PropertyMapProps
           fillColor: '#3B82F6',
           fillOpacity: 1,
           strokeColor: '#ffffff',
-          strokeWeight: 2,
-        };
+          strokeWeight: 2};
       case 'transport':
         return {
           path: google.maps.SymbolPath.CIRCLE,
@@ -144,8 +142,7 @@ export default function PropertyMap({ location, propertyName }: PropertyMapProps
           fillColor: '#10B981',
           fillOpacity: 1,
           strokeColor: '#ffffff',
-          strokeWeight: 2,
-        };
+          strokeWeight: 2};
       case 'shopping':
         return {
           path: google.maps.SymbolPath.CIRCLE,
@@ -153,8 +150,7 @@ export default function PropertyMap({ location, propertyName }: PropertyMapProps
           fillColor: '#8B5CF6',
           fillOpacity: 1,
           strokeColor: '#ffffff',
-          strokeWeight: 2,
-        };
+          strokeWeight: 2};
       case 'healthcare':
         return {
           path: google.maps.SymbolPath.CIRCLE,
@@ -162,8 +158,7 @@ export default function PropertyMap({ location, propertyName }: PropertyMapProps
           fillColor: '#EF4444',
           fillOpacity: 1,
           strokeColor: '#ffffff',
-          strokeWeight: 2,
-        };
+          strokeWeight: 2};
       default:
         return {
           path: google.maps.SymbolPath.CIRCLE,
@@ -171,8 +166,7 @@ export default function PropertyMap({ location, propertyName }: PropertyMapProps
           fillColor: '#6B7280',
           fillOpacity: 1,
           strokeColor: '#ffffff',
-          strokeWeight: 2,
-        };
+          strokeWeight: 2};
     }
   };
 
@@ -206,10 +200,10 @@ export default function PropertyMap({ location, propertyName }: PropertyMapProps
           <Marker
             position={center}
             title={propertyName}
-            icon={{
+            icon={
               url: 'https://maps.google.com/mapfiles/ms/icons/red-dot.png',
-              scaledSize: new google.maps.Size(48, 48)
-            }}
+              scaledSize: new google.maps.Size(4848)
+            }
           />
 
           {/* Walking radius circles */}
@@ -218,41 +212,37 @@ export default function PropertyMap({ location, propertyName }: PropertyMapProps
               <Circle
                 center={center}
                 radius={250} // 3 min walk
-                options={{
+                options={
                   fillColor: '#3B82F6',
                   fillOpacity: 0.1,
                   strokeColor: '#3B82F6',
                   strokeOpacity: 0.3,
-                  strokeWeight: 1,
-                }}
+                  strokeWeight: 1}
               />
               <Circle
                 center={center}
                 radius={500} // 6 min walk
-                options={{
+                options={
                   fillColor: '#3B82F6',
                   fillOpacity: 0.05,
                   strokeColor: '#3B82F6',
                   strokeOpacity: 0.2,
-                  strokeWeight: 1,
-                }}
+                  strokeWeight: 1}
               />
               <Circle
                 center={center}
                 radius={1000} // 12 min walk
-                options={{
+                options={
                   fillColor: '#3B82F6',
                   fillOpacity: 0.02,
                   strokeColor: '#3B82F6',
                   strokeOpacity: 0.1,
-                  strokeWeight: 1,
-                }}
-              />
-            </>
+                  strokeWeight: 1}
+              / />
           )}
 
           {/* Nearby Places Markers */}
-          {mockNearbyPlaces.map((place) => (
+          {mockNearbyPlaces.map((place: any) => (
             <Marker
               key={place.id}
               position={place.coordinates}
@@ -287,13 +277,13 @@ export default function PropertyMap({ location, propertyName }: PropertyMapProps
       {/* Map Controls */}
       <div className="absolute top-4 left-4 bg-white rounded-lg shadow-lg p-4">
         <h3 className="font-semibold mb-3">Neighborhood Overview</h3>
-        
+
         <div className="space-y-2 mb-4">
           <label className="flex items-center">
             <input
               type="checkbox"
               checked={showWalkingRadius}
-              onChange={(e) => setShowWalkingRadius(e.target.checked)}
+              onChange={(e: any) => setShowWalkingRadius(e.target.checked)}
               className="mr-2"
             />
             <span className="text-sm">Show walking distances</span>
@@ -377,7 +367,7 @@ export default function PropertyMap({ location, propertyName }: PropertyMapProps
           onClick={() => {
             const streetViewUrl = `https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=${location.coordinates.lat},${location.coordinates.lng}`;
             window.open(streetViewUrl, '_blank');
-          }}
+          }
           className="bg-white text-gray-900 hover:bg-gray-100"
         >
           <img 

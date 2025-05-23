@@ -36,24 +36,22 @@ interface ScreenReaderTextProps {
 export const ScreenReaderText: React.FC<ScreenReaderTextProps> = ({
   children,
   id,
-  as: Element = 'span',
-}) => {
+  as: Element = 'span'}) => {
   return (
     <Element
       id={id}
       className="sr-only"
       // Additional styles can be applied directly if needed for edge cases
-      style={{
+      style={
         position: 'absolute',
         width: '1px',
         height: '1px',
         padding: '0',
         margin: '-1px',
         overflow: 'hidden',
-        clip: 'rect(0, 0, 0, 0)',
+        clip: 'rect(0, 0, 00)',
         whiteSpace: 'nowrap',
-        borderWidth: '0',
-      }}
+        borderWidth: '0'}
     >
       {children}
     </Element>
@@ -95,8 +93,7 @@ export const LiveRegion: React.FC<LiveRegionProps> = ({
   children,
   politeness = 'polite',
   atomic = false,
-  className,
-}) => {
+  className}) => {
   return (
     <div
       className={`sr-only ${className || ''}`}

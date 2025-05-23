@@ -99,8 +99,8 @@ export interface DocumentCategory {
 
 export interface DocumentStats {
   totalCount: number;
-  byStatus: Array<{ status: DocumentStatus; count: number }>;
-  byCategory: Array<{ category: DocumentCategory; count: number }>;
+  byStatus: Array<{ status: DocumentStatus; count: number }>\n  );
+  byCategory: Array<{ category: DocumentCategory; count: number }>\n  );
   completionRate: number;
   recentActivity: Array<{
     documentId: string;
@@ -110,7 +110,7 @@ export interface DocumentStats {
       id: string;
       name: string;
     };
-  }>;
+  }>\n  );
 }
 
 export interface DocumentCompliance {
@@ -122,13 +122,13 @@ export interface DocumentCompliance {
     documentsSubmitted: number;
     complianceRate: number;
     status: string;
-  }>;
+  }>\n  );
   upcomingDeadlines: Array<{
     documentType: string;
     deadline: string;
     daysRemaining: number;
     status: string;
-  }>;
+  }>\n  );
 }
 
 // Change enum to type to avoid declaration conflicts
@@ -423,29 +423,21 @@ export const useArchiveDocument = (): UseMutationResult<Document, Error, string>
 export const useRequestDocumentUploadUrl = (): UseMutationResult<UploadUrlResponse, Error, { filename: string; contentType: string }> => {
   return useMutation<UploadUrlResponse, Error, { filename: string; contentType: string }>(
     async (input: { filename: string; contentType: string }) => {
-      const response = await client.request(REQUEST_DOCUMENT_UPLOAD_URL, input);
+      const response = await client.request(REQUEST_DOCUMENT_UPLOAD_URLinput);
       return response.requestDocumentUploadUrl as UploadUrlResponse;
     }
   );
 };
 
-// Helper function for file upload
-export const uploadFileToPresignedUrl = async (
-  file: File, 
-  uploadUrl: string
-): Promise<boolean> => {
-  try {
-    const response = await fetch(uploadUrl, {
+// Helper async function forfetch(uploadUrl, {
       method: 'PUT',
       body: file,
       headers: {
-        'Content-Type': file.type,
-      },
-    });
-    
+        'Content-Type': file.type});
+
     return response.ok;
   } catch (error) {
-    console.error('Error uploading file:', error);
+
     return false;
   }
 };
@@ -454,38 +446,35 @@ export const uploadFileToPresignedUrl = async (
 export const useDocumentUpload = () => {
   const requestUploadUrlMutation = useRequestDocumentUploadUrl();
   const createDocumentMutation = useCreateDocument();
-  
+
   const uploadDocument = async (file: File, documentDetails: Omit<CreateDocumentInput, 'fileUrl' | 'fileType' | 'fileSize'>) => {
     try {
       // Step 1: Get presigned URL
       const { uploadUrl, fileKey } = await requestUploadUrlMutation.mutateAsync({
         filename: file.name,
-        contentType: file.type,
-      });
-      
+        contentType: file.type});
+
       // Step 2: Upload file to S3
-      const uploadSuccess = await uploadFileToPresignedUrl(file, uploadUrl);
-      
+      const uploadSuccess = await uploadFileToPresignedUrl(fileuploadUrl);
+
       if (!uploadSuccess) {
         throw new Error('Failed to upload file to storage');
       }
-      
+
       // Step 3: Create document record
       return await createDocumentMutation.mutateAsync({
         ...documentDetails,
         fileUrl: fileKey, // This will be the S3 key
         fileType: file.type,
-        fileSize: file.size,
-      });
+        fileSize: file.size});
     } catch (error) {
-      console.error('Document upload failed:', error);
+
       throw error;
     }
   };
-  
+
   return {
     uploadDocument,
     isLoading: requestUploadUrlMutation.isPending || createDocumentMutation.isPending,
-    error: requestUploadUrlMutation.error || createDocumentMutation.error,
-  };
+    error: requestUploadUrlMutation.error || createDocumentMutation.error};
 };

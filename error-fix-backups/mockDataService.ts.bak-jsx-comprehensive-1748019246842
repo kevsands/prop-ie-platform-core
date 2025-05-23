@@ -1,0 +1,432 @@
+/**
+ * Mock Data Service Implementation
+ * 
+ * This service provides mock data for development purposes.
+ * It implements the DataService interface so it can be used
+ * interchangeably with the real API service.
+ */
+
+import { DataService } from './index';
+import { Development } from '../types/developments';
+import { Property } from '../types/properties';
+import { PropertyStatus, PropertyType, DevelopmentStatus } from '../types/enums';
+
+// Mock data
+const mockDevelopments: Development[] = [
+  { 
+    id: 'fitzgerald-gardens', 
+    name: 'Fitzgerald Gardens', 
+    description: 'Luxury homes in a prime location', 
+    location: 'North Drogheda', 
+    image: '/images/developments/fitzgerald-gardens/hero.jpg', 
+    status: DevelopmentStatus.SellingFast, 
+    statusColor: 'green-600' 
+  },
+  { 
+    id: 'ellwood', 
+    name: 'Ellwood', 
+    description: 'Waterfront apartments with stunning views', 
+    location: 'South Drogheda', 
+    image: '/images/developments/ellwood/hero.jpg', 
+    status: DevelopmentStatus.NewRelease, 
+    statusColor: 'blue-600' 
+  },
+  { 
+    id: 'meadow-heights', 
+    name: 'Meadow Heights', 
+    description: 'Spacious family houses near amenities', 
+    location: 'West Drogheda', 
+    image: '/images/developments/meadow-heights/hero.jpg', 
+    status: DevelopmentStatus.LaunchingSoon, 
+    statusColor: 'yellow-600' 
+  },
+  { 
+    id: 'harbour-view', 
+    name: 'Harbour View', 
+    description: 'Modern townhouses close to the coast', 
+    location: 'East Drogheda', 
+    image: '/images/developments/harbour-view/hero.jpg', 
+    status: DevelopmentStatus.Completed, 
+    statusColor: 'gray-600' 
+  },
+  { 
+    id: 'bayside-villas', 
+    name: 'Bayside Villas', 
+    description: 'Exclusive coastal properties', 
+    location: 'Coastal', 
+    image: '/images/developments/placeholder-dev-2.jpg', 
+    status: DevelopmentStatus.Future, 
+    statusColor: 'purple-600' 
+  }];
+
+const mockProperties: Property[] = [
+  { 
+    id: 'prop-fg-101', 
+    name: '3 Bed Semi-Detached',
+    slug: '3-bed-semi-detached-fg-101',
+    developmentId: 'fitzgerald-gardens',
+    developmentName: 'Fitzgerald Gardens', 
+    projectId: 'fitzgerald-gardens',
+    projectName: 'Fitzgerald Gardens',
+    projectSlug: 'fitzgerald-gardens',
+    title: '3 Bed Semi-Detached', 
+    price: 385000, 
+    bedrooms: 3, 
+    bathrooms: 3, 
+    area: 110, 
+    floorArea: 110,
+    unitNumber: '101',
+    status: PropertyStatus.Available,
+    type: PropertyType.SemiDetached,
+    parkingSpaces: 1,
+    features: ['Garden', 'En-suite'],
+    amenities: ['Close to schools', 'Park nearby'],
+    images: ['/images/properties/fg101.jpg'],
+    image: '/images/properties/fg101.jpg', 
+    floorPlan: '/images/properties/floorplans/fg101.jpg',
+    description: 'Beautiful 3 bedroom semi-detached home in Fitzgerald Gardens',
+    isNew: true, 
+    isReduced: false,
+    statusColor: 'green-600',
+    createdAt: '2024-01-01',
+    updatedAt: '2024-01-01'
+  },
+  { 
+    id: 'prop-fg-105', 
+    name: '4 Bed Detached',
+    slug: '4-bed-detached-fg-105',
+    developmentId: 'fitzgerald-gardens',
+    developmentName: 'Fitzgerald Gardens', 
+    projectId: 'fitzgerald-gardens',
+    projectName: 'Fitzgerald Gardens',
+    projectSlug: 'fitzgerald-gardens',
+    title: '4 Bed Detached', 
+    price: 450000, 
+    bedrooms: 4, 
+    bathrooms: 4, 
+    area: 140, 
+    floorArea: 140,
+    unitNumber: '105',
+    status: PropertyStatus.Available,
+    type: PropertyType.Detached,
+    parkingSpaces: 2,
+    features: ['Garden', 'En-suite', 'Garage'],
+    amenities: ['Close to schools', 'Park nearby'],
+    images: ['/images/properties/fg105.jpg'],
+    image: '/images/properties/fg105.jpg', 
+    floorPlan: '/images/properties/floorplans/fg105.jpg',
+    description: 'Spacious 4 bedroom detached home in Fitzgerald Gardens',
+    isNew: true, 
+    isReduced: false,
+    statusColor: 'green-600',
+    createdAt: '2024-01-01',
+    updatedAt: '2024-01-01'
+  },
+  { 
+    id: 'prop-rm-203', 
+    name: '2 Bed Apartment',
+    slug: '2-bed-apartment-rm-203',
+    developmentId: 'ellwood',
+    developmentName: 'Ellwood', 
+    projectId: 'ellwood',
+    projectName: 'Ellwood',
+    projectSlug: 'ellwood',
+    title: '2 Bed Apartment', 
+    price: 295000, 
+    bedrooms: 2, 
+    bathrooms: 2, 
+    area: 85, 
+    floorArea: 85,
+    unitNumber: '203',
+    status: PropertyStatus.Available,
+    type: PropertyType.Apartment,
+    parkingSpaces: 1,
+    features: ['Balcony', 'River View'],
+    amenities: ['Close to town', 'Public transport'],
+    images: ['/images/properties/rm203.jpg'],
+    image: '/images/properties/rm203.jpg', 
+    floorPlan: '/images/properties/floorplans/rm203.jpg',
+    description: 'Modern 2 bedroom apartment with river views',
+    isNew: false, 
+    isReduced: true,
+    statusColor: 'blue-600',
+    createdAt: '2024-01-01',
+    updatedAt: '2024-01-01'
+  },
+  { 
+    id: 'prop-mh-301', 
+    name: '3 Bed Terrace',
+    slug: '3-bed-terrace-mh-301',
+    developmentId: 'meadow-heights',
+    developmentName: 'Meadow Heights', 
+    projectId: 'meadow-heights',
+    projectName: 'Meadow Heights',
+    projectSlug: 'meadow-heights',
+    title: '3 Bed Terrace', 
+    price: 350000, 
+    bedrooms: 3, 
+    bathrooms: 2, 
+    area: 100, 
+    floorArea: 100,
+    unitNumber: '301',
+    status: PropertyStatus.Available,
+    type: PropertyType.Terrace,
+    parkingSpaces: 1,
+    features: ['Garden', 'Modern Kitchen'],
+    amenities: ['Close to schools', 'Shopping center'],
+    images: ['/images/properties/mh301.jpg'],
+    image: '/images/properties/mh301.jpg', 
+    floorPlan: '/images/properties/floorplans/mh301.jpg',
+    description: 'Comfortable 3 bedroom terrace in Meadow Heights',
+    isNew: false, 
+    isReduced: false,
+    statusColor: 'green-600',
+    createdAt: '2024-01-01',
+    updatedAt: '2024-01-01'
+  },
+  { 
+    id: 'prop-fg-110', 
+    name: '3 Bed Semi-Detached',
+    slug: '3-bed-semi-detached-fg-110',
+    developmentId: 'fitzgerald-gardens',
+    developmentName: 'Fitzgerald Gardens', 
+    projectId: 'fitzgerald-gardens',
+    projectName: 'Fitzgerald Gardens',
+    projectSlug: 'fitzgerald-gardens',
+    title: '3 Bed Semi-Detached', 
+    price: 380000, 
+    bedrooms: 3, 
+    bathrooms: 3, 
+    area: 110, 
+    floorArea: 110,
+    unitNumber: '110',
+    status: PropertyStatus.Available,
+    type: PropertyType.SemiDetached,
+    parkingSpaces: 1,
+    features: ['Garden', 'En-suite'],
+    amenities: ['Close to schools', 'Park nearby'],
+    images: ['/images/properties/fg101.jpg'],
+    image: '/images/properties/fg101.jpg', 
+    floorPlan: '/images/properties/floorplans/fg110.jpg',
+    description: 'Beautiful 3 bedroom semi-detached home in Fitzgerald Gardens',
+    isNew: false, 
+    isReduced: true,
+    statusColor: 'green-600',
+    createdAt: '2024-01-01',
+    updatedAt: '2024-01-01'
+  },
+  { 
+    id: 'prop-rm-208', 
+    name: '2 Bed Apartment',
+    slug: '2-bed-apartment-rm-208',
+    developmentId: 'ellwood',
+    developmentName: 'Ellwood', 
+    projectId: 'ellwood',
+    projectName: 'Ellwood',
+    projectSlug: 'ellwood',
+    title: '2 Bed Apartment', 
+    price: 300000, 
+    bedrooms: 2, 
+    bathrooms: 2, 
+    area: 85, 
+    floorArea: 85,
+    unitNumber: '208',
+    status: PropertyStatus.Available,
+    type: PropertyType.Apartment,
+    parkingSpaces: 1,
+    features: ['Balcony', 'River View'],
+    amenities: ['Close to town', 'Public transport'],
+    images: ['/images/properties/rm203.jpg'],
+    image: '/images/properties/rm203.jpg', 
+    floorPlan: '/images/properties/floorplans/rm208.jpg',
+    description: 'Stylish 2 bedroom apartment with river views',
+    isNew: true, 
+    isReduced: false,
+    statusColor: 'blue-600',
+    createdAt: '2024-01-01',
+    updatedAt: '2024-01-01'
+  },
+  { 
+    id: 'prop-mh-305', 
+    name: '3 Bed Semi-Detached',
+    slug: '3-bed-semi-detached-mh-305',
+    developmentId: 'meadow-heights',
+    developmentName: 'Meadow Heights', 
+    projectId: 'meadow-heights',
+    projectName: 'Meadow Heights',
+    projectSlug: 'meadow-heights',
+    title: '3 Bed Semi-Detached', 
+    price: 365000, 
+    bedrooms: 3, 
+    bathrooms: 2, 
+    area: 105, 
+    floorArea: 105,
+    unitNumber: '305',
+    status: PropertyStatus.Available,
+    type: PropertyType.SemiDetached,
+    parkingSpaces: 1,
+    features: ['Garden', 'Modern Kitchen'],
+    amenities: ['Close to schools', 'Shopping center'],
+    images: ['/images/properties/mh301.jpg'],
+    image: '/images/properties/mh301.jpg', 
+    floorPlan: '/images/properties/floorplans/mh305.jpg',
+    description: 'Comfortable 3 bedroom semi-detached in Meadow Heights',
+    isNew: false, 
+    isReduced: false,
+    statusColor: 'green-600',
+    createdAt: '2024-01-01',
+    updatedAt: '2024-01-01'
+  },
+  { 
+    id: 'prop-hv-401', 
+    name: '4 Bed Townhouse',
+    slug: '4-bed-townhouse-hv-401',
+    developmentId: 'harbour-view',
+    developmentName: 'Harbour View', 
+    projectId: 'harbour-view',
+    projectName: 'Harbour View',
+    projectSlug: 'harbour-view',
+    title: '4 Bed Townhouse', 
+    price: 410000, 
+    bedrooms: 4, 
+    bathrooms: 3, 
+    area: 125, 
+    floorArea: 125,
+    unitNumber: '401',
+    status: PropertyStatus.Available,
+    type: PropertyType.Townhouse,
+    parkingSpaces: 1,
+    features: ['Garden', 'Sea Views', 'En-suite'],
+    amenities: ['Close to beach', 'Restaurants nearby'],
+    images: ['/images/properties/hv401.jpg'],
+    image: '/images/properties/hv401.jpg', 
+    floorPlan: '/images/properties/floorplans/hv401.jpg',
+    description: 'Luxurious 4 bedroom townhouse with sea views',
+    isNew: true, 
+    isReduced: false,
+    statusColor: 'green-600',
+    createdAt: '2024-01-01',
+    updatedAt: '2024-01-01'
+  },
+  { 
+    id: 'prop-fg-115', 
+    name: '4 Bed Detached',
+    slug: '4-bed-detached-fg-115',
+    developmentId: 'fitzgerald-gardens',
+    developmentName: 'Fitzgerald Gardens', 
+    projectId: 'fitzgerald-gardens',
+    projectName: 'Fitzgerald Gardens',
+    projectSlug: 'fitzgerald-gardens',
+    title: '4 Bed Detached', 
+    price: 445000, 
+    bedrooms: 4, 
+    bathrooms: 4, 
+    area: 140, 
+    floorArea: 140,
+    unitNumber: '115',
+    status: PropertyStatus.Available,
+    type: PropertyType.Detached,
+    parkingSpaces: 2,
+    features: ['Garden', 'En-suite', 'Garage'],
+    amenities: ['Close to schools', 'Park nearby'],
+    images: ['/images/properties/fg105.jpg'],
+    image: '/images/properties/fg105.jpg', 
+    floorPlan: '/images/properties/floorplans/fg115.jpg',
+    description: 'Elegant 4 bedroom detached home in Fitzgerald Gardens',
+    isNew: false, 
+    isReduced: false,
+    statusColor: 'green-600',
+    createdAt: '2024-01-01',
+    updatedAt: '2024-01-01'
+  }];
+
+// Helper function to simulate API delay
+function delay(ms: number): Promise<void> {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+/**
+ * Mock implementation of the DataService interface
+ */
+export class MockDataService implements DataService {
+  // Developments
+  async getDevelopments(): Promise<Development[]> {
+    // Simulate network delay
+    await delay(300);
+    return [...mockDevelopments];
+  }
+
+  async getDevelopmentById(id: string): Promise<Development | null> {
+    await delay(200);
+    const development = mockDevelopments.find(dev => dev.id === id);
+    return development ? { ...development } : null;
+  }
+
+  async getFeaturedDevelopments(limit = 4): Promise<Development[]> {
+    await delay(300);
+    return [...mockDevelopments].slice(0, limit);
+  }
+
+  // Properties
+  async getProperties(filters?: any): Promise<Property[]> {
+    await delay(400);
+
+    let filteredProperties = [...mockProperties];
+
+    // Apply filters if provided
+    if (filters) {
+      if (filters.location) {
+        const location = filters.location;
+        const matchingDevelopments = mockDevelopments
+          .filter(dev => dev.location.includes(location))
+          .map(dev => dev.id);
+
+        filteredProperties = filteredProperties.filter(prop => 
+          matchingDevelopments.includes(prop.developmentId)
+        );
+      }
+
+      if (filters.minBedrooms) {
+        filteredProperties = filteredProperties.filter(
+          prop => prop.bedrooms >= filters.minBedrooms
+        );
+      }
+
+      if (filters.minPrice) {
+        filteredProperties = filteredProperties.filter(
+          prop => prop.price >= filters.minPrice
+        );
+      }
+
+      if (filters.maxPrice) {
+        filteredProperties = filteredProperties.filter(
+          prop => prop.price <= filters.maxPrice
+        );
+      }
+
+      if (filters.developmentId) {
+        filteredProperties = filteredProperties.filter(
+          prop => prop.developmentId === filters.developmentId
+        );
+      }
+    }
+
+    return filteredProperties;
+  }
+
+  async getPropertyById(id: string): Promise<Property | null> {
+    await delay(200);
+    const property = mockProperties.find(prop => prop.id === id);
+    return property ? { ...property } : null;
+  }
+
+  async getFeaturedProperties(limit = 6): Promise<Property[]> {
+    await delay(300);
+    return [...mockProperties].slice(0, limit);
+  }
+
+  async getPropertiesByDevelopment(developmentId: string): Promise<Property[]> {
+    await delay(300);
+    return mockProperties.filter(prop => prop.developmentId === developmentId);
+  }
+}

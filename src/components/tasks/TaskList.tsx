@@ -26,36 +26,32 @@ export default function TaskList({ tasks = [], onTaskClick }: TaskListProps) {
       description: 'Submit all required documents to bank',
       status: 'in-progress',
       priority: 'high',
-      dueDate: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
-    },
+      dueDate: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000)},
     {
       id: '2',
       title: 'Schedule property viewing',
       description: 'Fitzgerald Gardens - Unit 12',
       status: 'pending',
       priority: 'medium',
-      dueDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
-    },
+      dueDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)},
     {
       id: '3',
       title: 'Review purchase agreement',
       description: 'Review terms with solicitor',
       status: 'pending',
       priority: 'high',
-      dueDate: new Date(Date.now() + 10 * 24 * 60 * 60 * 1000),
-    },
-  ];
+      dueDate: new Date(Date.now() + 10 * 24 * 60 * 60 * 1000)}];
 
-  const displayTasks = tasks.length > 0 ? tasks : defaultTasks;
+  const displayTasks = tasks.length> 0 ? tasks : defaultTasks;
 
   const getStatusIcon = (status: Task['status']) => {
     switch (status) {
       case 'completed':
-        return <CheckCircle2 className="h-5 w-5 text-green-500" />;
+        return <CheckCircle2 className="h-5 w-5 text-green-500" />\n  );
       case 'in-progress':
-        return <Clock className="h-5 w-5 text-blue-500" />;
+        return <Clock className="h-5 w-5 text-blue-500" />\n  );
       default:
-        return <Circle className="h-5 w-5 text-gray-400" />;
+        return <Circle className="h-5 w-5 text-gray-400" />\n  );
     }
   };
 
@@ -77,7 +73,7 @@ export default function TaskList({ tasks = [], onTaskClick }: TaskListProps) {
       </CardHeader>
       <CardContent>
         <div className="space-y-3">
-          {displayTasks.map((task) => (
+          {displayTasks.map((task: any) => (
             <div
               key={task.id}
               className="flex items-start space-x-3 p-3 rounded-lg hover:bg-gray-50 cursor-pointer transition-colors"

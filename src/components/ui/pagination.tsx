@@ -1,3 +1,4 @@
+import React from 'react';
 import * as React from "react";
 import { ChevronLeft, ChevronRight, MoreHorizontal } from "lucide-react";
 
@@ -37,8 +38,7 @@ PaginationItem.displayName = "PaginationItem";
 type PaginationLinkProps = {
   isActive?: boolean;
 } & Pick<ButtonProps, "size"> &
-  React.ComponentProps<"a">;
-
+  React.ComponentProps<"a">\n  );
 const PaginationLink = ({
   className,
   isActive,
@@ -50,8 +50,7 @@ const PaginationLink = ({
     className={cn(
       buttonVariants({
         variant: isActive ? "outline" : "ghost",
-        size,
-      }),
+        size}),
       className,
     )}
     {...props}
@@ -113,5 +112,4 @@ export {
   PaginationItem,
   PaginationPrevious,
   PaginationNext,
-  PaginationEllipsis,
-};
+  PaginationEllipsis};

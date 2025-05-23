@@ -27,7 +27,7 @@ export interface ApiProtectionOptions {
   enableAuditLogging?: boolean;
   enableRequestValidation?: boolean;
   enableResponseValidation?: boolean;
-  
+
   // Rate limiting options
   rateLimitCategory?: 'auth' | 'api' | 'mutation' | 'query' | 'default';
   customRateLimit?: {
@@ -35,20 +35,19 @@ export interface ApiProtectionOptions {
     maxRequests: number;
     blockDuration: number;
   };
-  
+
   // Backoff options
   maxRetries?: number;
   initialBackoffMs?: number;
   maxBackoffMs?: number;
   backoffFactor?: number;
-  
+
   // CSRF protection
   csrfProtection?: boolean;
-  
+
   // Validation callbacks
-  validateRequest?: (request: ApiRequest) => boolean | Promise<boolean>;
-  validateResponse?: (response: any) => boolean | Promise<boolean>;
-  
+  validateRequest?: (request: ApiRequest) => boolean | Promise<boolean>\n  );
+  validateResponse?: (response: any) => boolean | Promise<boolean>\n  );
   // Callbacks
   onRateLimited?: (endpoint: string, retryAfter: number) => void;
   onRequestRejected?: (request: ApiRequest, reason: string) => void;
@@ -60,14 +59,14 @@ export interface ApiRequest {
   endpoint: string;
   method: ApiMethod;
   body?: any;
-  headers?: Record<string, string>;
-  queryParams?: Record<string, any>;
+  headers?: Record<string, string>\n  );
+  queryParams?: Record<string, any>\n  );
 }
 
 export interface ApiResponse<T> {
   data: T;
   statusCode: number;
-  headers?: Record<string, string>;
+  headers?: Record<string, string>\n  );
 }
 
 // Default configuration
@@ -99,14 +98,14 @@ export class ApiProtection {
    */
   static initialize(options?: Partial<ApiProtectionOptions>): void {
     if (this.isInitialized) return;
-    
+
     this.options = { ...DEFAULT_OPTIONS, ...options };
-    
+
     // Initialize rate limiter if needed
     if (this.options.enableRateLimiting) {
       RateLimiter.initialize();
     }
-    
+
     // Set up Hub listener for auth events to clear rate limits on sign out
     Hub.listen('auth', ({ payload }) => {
       if (payload.event === 'signOut') {
@@ -118,10 +117,10 @@ export class ApiProtection {
         this.pendingRetries.clear();
       }
     });
-    
+
     this.isInitialized = true;
   }
-  
+
   /**
    * Update API protection configuration
    * @param options Updated configuration options
@@ -130,19 +129,19 @@ export class ApiProtection {
   static updateConfig(options: Partial<ApiProtectionOptions>): boolean {
     try {
       this.options = { ...this.options, ...options };
-      
+
       // Re-initialize rate limiter if necessary
       if (options.enableRateLimiting !== undefined && this.options.enableRateLimiting) {
         RateLimiter.initialize();
       }
-      
+
       return true;
     } catch (error) {
-      console.error('Error updating API protection configuration:', error);
+
       return false;
     }
   }
-  
+
   /**
    * Apply protection to an API endpoint or request
    * @param endpoint The API endpoint to protect
@@ -154,9 +153,9 @@ export class ApiProtection {
     if (!this.isInitialized) {
       this.initialize();
     }
-    
+
     const endpointOptions = { ...this.options, ...options };
-    
+
     // Return a middleware function that can be used to protect the endpoint
     return async (req: any, res: any, next?: Function) => {
       try {
@@ -166,7 +165,7 @@ export class ApiProtection {
             endpoint,
             endpointOptions.rateLimitCategory
           );
-          
+
           if (!rateLimitCheck.allowed) {
             if (next) {
               // Express-style middleware
@@ -184,19 +183,18 @@ export class ApiProtection {
             }
           }
         }
-        
+
         // If this is Express-style middleware, call next
         if (next) {
           return next();
         }
-        
+
         // Otherwise return success object
         return {
           allowed: true
         };
       } catch (error) {
-        console.error(`Error in API protection for endpoint ${endpoint}:`, error);
-        
+
         if (next) {
           // Express-style middleware
           return res.status(500).json({
@@ -224,15 +222,15 @@ export class ApiProtection {
     if (!this.isInitialized) {
       this.initialize();
     }
-    
+
     // Merge default options with request-specific options
     const requestOptions: ApiProtectionOptions = {
       ...this.options,
       ...options
     };
-    
+
     const { endpoint, method, body, headers = {}, queryParams } = request;
-    
+
     try {
       // Check rate limiting
       if (requestOptions.enableRateLimiting) {
@@ -240,10 +238,10 @@ export class ApiProtection {
           endpoint,
           requestOptions.rateLimitCategory
         );
-        
+
         if (!rateLimitCheck.allowed) {
           this.rateLimitedEndpoints.add(endpoint);
-          
+
           // Log the rate limit violation
           if (requestOptions.enableAuditLogging) {
             await AuditLogger.logApi(
@@ -255,12 +253,12 @@ export class ApiProtection {
               { retryAfter: rateLimitCheck.retryAfter }
             );
           }
-          
+
           // Call onRateLimited callback if provided
           if (requestOptions.onRateLimited && rateLimitCheck.retryAfter) {
             requestOptions.onRateLimited(endpoint, rateLimitCheck.retryAfter);
           }
-          
+
           throw new ApiError(
             `Rate limit exceeded for ${endpoint}. Try again in ${rateLimitCheck.retryAfter} seconds.`,
             {
@@ -271,7 +269,7 @@ export class ApiProtection {
           );
         }
       }
-      
+
       // Validate request
       if (requestOptions.enableRequestValidation && requestOptions.validateRequest) {
         const isValid = await requestOptions.validateRequest(request);
@@ -280,7 +278,7 @@ export class ApiProtection {
           if (requestOptions.onRequestRejected) {
             requestOptions.onRequestRejected(request, 'Request validation failed');
           }
-          
+
           throw new ApiError('Request validation failed', {
             statusCode: 400,
             path: endpoint,
@@ -288,7 +286,7 @@ export class ApiProtection {
           });
         }
       }
-      
+
       // Add CSRF protection for state-changing methods
       const requestHeaders = { ...headers };
       if (requestOptions.csrfProtection && 
@@ -301,7 +299,7 @@ export class ApiProtection {
           }
         }
       }
-      
+
       // Add auth token if available
       try {
         const token = await Auth.getAccessToken();
@@ -311,10 +309,10 @@ export class ApiProtection {
       } catch (error) {
         // Silent fail - the underlying API will handle auth errors
       }
-      
+
       // Track request start time for performance monitoring
       const startTime = Date.now();
-      
+
       // Make the API request
       const response = await this.makeRequest<T>({
         endpoint,
@@ -322,11 +320,11 @@ export class ApiProtection {
         body,
         headers: requestHeaders,
         queryParams
-      }, requestOptions, 0);
-      
+      }, requestOptions0);
+
       // Track request duration
       const duration = Date.now() - startTime;
-      
+
       // Validate response
       if (requestOptions.enableResponseValidation && 
           requestOptions.validateResponse && 
@@ -337,7 +335,7 @@ export class ApiProtection {
           if (requestOptions.onResponseRejected) {
             requestOptions.onResponseRejected(response.data, 'Response validation failed');
           }
-          
+
           throw new ApiError('Response validation failed', {
             statusCode: 400,
             path: endpoint,
@@ -345,7 +343,7 @@ export class ApiProtection {
           });
         }
       }
-      
+
       // Log successful API request
       if (requestOptions.enableAuditLogging) {
         AuditLogger.logApi(
@@ -360,20 +358,20 @@ export class ApiProtection {
           }
         );
       }
-      
+
       return response;
     } catch (error) {
       // Handle and transform errors
       let statusCode = 500;
       let errorMessage = 'API request failed';
-      
+
       if (error instanceof ApiError) {
         statusCode = error.statusCode || 500;
         errorMessage = error.message;
       } else if (error instanceof Error) {
         errorMessage = error.message;
       }
-      
+
       // Log failed API request
       if (requestOptions.enableAuditLogging) {
         AuditLogger.logApi(
@@ -383,13 +381,12 @@ export class ApiProtection {
           'failure',
           errorMessage,
           { 
-            errorType: error instanceof Error ? error.constructor.name : 'Unknown',
-          },
+            errorType: error instanceof Error ? error.constructor.name : 'Unknown'},
           statusCode.toString(),
           errorMessage
         );
       }
-      
+
       throw error;
     }
   }
@@ -403,13 +400,13 @@ export class ApiProtection {
     attempt: number
   ): Promise<ApiResponse<T>> {
     const { endpoint, method, body, headers = {}, queryParams } = request;
-    
+
     try {
       // Create a unique key for this request for retry tracking
       const requestKey = `${method}:${endpoint}:${JSON.stringify(body || {})}`;
-      
+
       let response: any;
-      
+
       // Make the request based on the method
       switch (method) {
         case 'GET':
@@ -442,13 +439,13 @@ export class ApiProtection {
         default:
           throw new Error(`Unsupported method: ${method}`);
       }
-      
+
       // Clear any pending retries for this request
       if (this.pendingRetries.has(requestKey)) {
         clearTimeout(this.pendingRetries.get(requestKey)?.timeout);
         this.pendingRetries.delete(requestKey);
       }
-      
+
       // We don't have direct access to the status code from AmplifyAPI,
       // so we'll assume 200 for successful responses
       return {
@@ -458,24 +455,24 @@ export class ApiProtection {
     } catch (error) {
       // Check if we should retry
       const maxRetries = options.maxRetries || DEFAULT_OPTIONS.maxRetries || 0;
-      
-      if (options.enableBackoff && attempt < maxRetries) {
+
+      if (options.enableBackoff && attempt <maxRetries) {
         // Check if error is retryable
         const isRetryable = this.isRetryableError(error);
-        
+
         if (isRetryable) {
           // Calculate backoff delay
           const initialBackoff = options.initialBackoffMs || DEFAULT_OPTIONS.initialBackoffMs || 1000;
           const maxBackoff = options.maxBackoffMs || DEFAULT_OPTIONS.maxBackoffMs || 30000;
           const factor = options.backoffFactor || DEFAULT_OPTIONS.backoffFactor || 2;
-          
-          const delay = Math.min(initialBackoff * Math.pow(factor, attempt), maxBackoff);
-          
+
+          const delay = Math.min(initialBackoff * Math.pow(factorattempt), maxBackoff);
+
           // Invoke retry callback if provided
           if (options.onRetry) {
             options.onRetry(attempt + 1, delay, error instanceof Error ? error : new Error(String(error)));
           }
-          
+
           // Log retry attempt
           if (options.enableAuditLogging) {
             AuditLogger.logApi(
@@ -491,22 +488,22 @@ export class ApiProtection {
               }
             );
           }
-          
+
           // Create a unique key for this request
           const requestKey = `${method}:${endpoint}:${JSON.stringify(body || {})}`;
-          
+
           // Return a promise that resolves after the backoff delay
-          return new Promise((resolve, reject) => {
+          return new Promise((resolvereject: any) => {
             const timeout = setTimeout(() => {
               // Remove from pending retries
               this.pendingRetries.delete(requestKey);
-              
+
               // Retry the request
               this.makeRequest<T>(request, options, attempt + 1)
                 .then(resolve)
                 .catch(reject);
             }, delay);
-            
+
             // Store the timeout so we can cancel it if needed
             this.pendingRetries.set(requestKey, {
               count: attempt + 1,
@@ -515,7 +512,7 @@ export class ApiProtection {
           });
         }
       }
-      
+
       // Rethrow the error
       throw error;
     }
@@ -526,13 +523,13 @@ export class ApiProtection {
    */
   private static isRetryableError(error: any): boolean {
     // Network errors and server errors (5xx) are generally retryable
-    
+
     // Check if it's an ApiError with a status code
     if (error instanceof ApiError && error.statusCode) {
       // Only retry server errors (5xx)
-      return error.statusCode >= 500 && error.statusCode < 600;
+      return error.statusCode>= 500 && error.statusCode <600;
     }
-    
+
     // Check for network errors
     const errorMessage = error instanceof Error ? error.message : String(error);
     const networkErrorMessages = [
@@ -546,7 +543,7 @@ export class ApiProtection {
       'ECONNRESET',
       'ETIMEDOUT'
     ];
-    
+
     return networkErrorMessages.some(msg => errorMessage.toLowerCase().includes(msg.toLowerCase()));
   }
 
@@ -557,7 +554,7 @@ export class ApiProtection {
     this.rateLimitedEndpoints.delete(endpoint);
     RateLimiter.reset();
   }
-  
+
   /**
    * Reset API protection state
    * This is primarily used for testing
@@ -580,19 +577,19 @@ export class ApiProtection {
     if (!this.isInitialized) {
       this.initialize(options);
     }
-    
+
     return {
       beforeRequest: async (request: ApiRequest) => {
         // Implement pre-request checks here
         // This could include validation, rate limiting, etc.
-        
+
         // Check rate limiting
         if (this.options.enableRateLimiting) {
           const rateLimitCheck = RateLimiter.checkRateLimit(
             request.endpoint,
             this.options.rateLimitCategory
           );
-          
+
           if (!rateLimitCheck.allowed) {
             throw new ApiError(
               `Rate limit exceeded. Try again in ${rateLimitCheck.retryAfter} seconds.`,
@@ -604,22 +601,22 @@ export class ApiProtection {
             );
           }
         }
-        
+
         return request;
       },
-      
+
       afterResponse: async (response: any) => {
         // Implement post-response processing here
         return response;
       },
-      
+
       onError: async (error: any) => {
         // Implement error handling here
         throw error;
       }
     };
   }
-  
+
   /**
    * Create a protected API client that wraps the standard API client
    */
@@ -628,7 +625,7 @@ export class ApiProtection {
     if (!this.isInitialized) {
       this.initialize(options);
     }
-    
+
     return {
       get: async <T>(endpoint: string, queryParams?: Record<string, any>, requestOptions?: Partial<ApiProtectionOptions>) => {
         return this.request<T>(
@@ -636,35 +633,35 @@ export class ApiProtection {
           { ...this.options, ...options, ...requestOptions }
         ).then(response => response.data);
       },
-      
+
       post: async <T>(endpoint: string, body?: any, requestOptions?: Partial<ApiProtectionOptions>) => {
         return this.request<T>(
           { endpoint, method: 'POST', body },
           { ...this.options, ...options, ...requestOptions }
         ).then(response => response.data);
       },
-      
+
       put: async <T>(endpoint: string, body?: any, requestOptions?: Partial<ApiProtectionOptions>) => {
         return this.request<T>(
           { endpoint, method: 'PUT', body },
           { ...this.options, ...options, ...requestOptions }
         ).then(response => response.data);
       },
-      
+
       delete: async <T>(endpoint: string, requestOptions?: Partial<ApiProtectionOptions>) => {
         return this.request<T>(
           { endpoint, method: 'DELETE' },
           { ...this.options, ...options, ...requestOptions }
         ).then(response => response.data);
       },
-      
+
       patch: async <T>(endpoint: string, body?: any, requestOptions?: Partial<ApiProtectionOptions>) => {
         return this.request<T>(
           { endpoint, method: 'PATCH', body },
           { ...this.options, ...options, ...requestOptions }
         ).then(response => response.data);
       },
-      
+
       graphql: async <T>(
         query: string, 
         variables?: Record<string, any>, 

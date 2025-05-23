@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Browser Test</title>
+</head>
+<body>
+    <h1>Testing Application Load</h1>
+    <p>Click the button below to test the application:</p>
+    <button onclick="checkApp()">Check Application Status</button>
+    <div id="results"></div>
+    
+    <script>
+        async function checkApp() {
+            const results = document.getElementById('results');
+            results.innerHTML = '<p>Testing...</p>';
+            
+            try {
+                // Test homepage
+                const response = await fetch('http://localhost:3000/');
+                const text = await response.text();
+                const status = response.status;
+                
+                // Check for key elements
+                const hasNavigation = text.includes('PropIE') || text.includes('Properties');
+                const hasScripts = text.includes('/_next/static/chunks/');
+                const hasMainContent = text.includes('Fitzgerald Gardens') || text.includes('property');
+                
+                let report = `
+                    <h3>Test Results:</h3>
+                    <ul>
+                        <li>Status Code: ${status} ${status === 200 ? '✅' : '❌'}</li>
+                        <li>Navigation present: ${hasNavigation ? '✅' : '❌'}</li>
+                        <li>Scripts loading: ${hasScripts ? '✅' : '❌'}</li>
+                        <li>Main content present: ${hasMainContent ? '✅' : '❌'}</li>
+                        <li>Response size: ${text.length} characters</li>
+                    </ul>
+                `;
+                
+                // Test specific API endpoint
+                try {
+                    const apiResponse = await fetch('http://localhost:3000/api/v1/transactions');
+                    const apiStatus = apiResponse.status;
+                    report += `<li>API Status: ${apiStatus} ${apiStatus < 500 ? '✅' : '❌'}</li>`;
+                } catch (e) {
+                    report += `<li>API Error: ${e.message} ❌</li>`;
+                }
+                
+                report += '</ul>';
+                report += '<h4>Recommendations:</h4>';
+                
+                if (!hasScripts) {
+                    report += '<p>⚠️ JavaScript chunks may not be loading correctly.</p>';
+                }
+                if (!hasMainContent) {
+                    report += '<p>⚠️ Main content may not be rendering properly.</p>';
+                }
+                if (status !== 200) {
+                    report += '<p>⚠️ Server returned non-200 status code.</p>';
+                }
+                
+                results.innerHTML = report;
+                
+            } catch (error) {
+                results.innerHTML = `<p style="color: red;">Error: ${error.message}</p>`;
+            }
+        }
+    </script>
+</body>
+</html>

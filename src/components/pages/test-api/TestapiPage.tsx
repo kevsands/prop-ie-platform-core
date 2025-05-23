@@ -1,3 +1,4 @@
+import React from 'react';
 "use client";
 
 import { useEffect, useState } from "react";
@@ -19,8 +20,8 @@ interface Property {
 }
 
 export default function TestApiPage() {
-  const [properties, setProperties] = useState<Property[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [propertiessetProperties] = useState<Property[]>([]);
+  const [loadingsetLoading] = useState(true);
   const { user } = useAuth();
 
   useEffect(() => {
@@ -29,7 +30,7 @@ export default function TestApiPage() {
         const response = await api.get("/properties");
         const fetchedProperties = response.data;
 
-        if (fetchedProperties && fetchedProperties.length > 0) {
+        if (fetchedProperties && fetchedProperties.length> 0) {
           setProperties(fetchedProperties);
         } else {
           const mockProperties: Property[] = [
@@ -43,7 +44,6 @@ export default function TestApiPage() {
               size: 85,
               image: "/maple-heights.jpg",
               description: "Modern luxury apartments in the heart of Dublin with excellent amenities and transport links.",
-            },
             {
               id: 2,
               title: "Oak Residences - Family Homes",
@@ -54,7 +54,6 @@ export default function TestApiPage() {
               size: 120,
               image: "/oak-residences.jpg",
               description: "Spacious family homes in a peaceful neighborhood with schools and parks nearby.",
-            },
             {
               id: 3,
               title: "Riverside Apartments",
@@ -65,7 +64,6 @@ export default function TestApiPage() {
               size: 65,
               image: "/riverside.jpg",
               description: "Stylish apartments overlooking the river with modern finishes and city center convenience.",
-            },
             {
               id: 4,
               title: "Willow Park Townhouses",
@@ -75,15 +73,13 @@ export default function TestApiPage() {
               bathrooms: 2,
               size: 110,
               image: "/willow-park.jpg",
-              description: "Contemporary townhouses with private gardens in a well-established community.",
-            },
-          ];
+              description: "Contemporary townhouses with private gardens in a well-established community."];
           setProperties(mockProperties);
         }
 
         setLoading(false);
       } catch (error) {
-        console.error("Error loading properties from API:", error);
+
         const mockProperties: Property[] = [
           {
             id: 1,
@@ -95,7 +91,6 @@ export default function TestApiPage() {
             size: 85,
             image: "/maple-heights.jpg",
             description: "Modern luxury apartments in the heart of Dublin with excellent amenities and transport links.",
-          },
           {
             id: 2,
             title: "Oak Residences - Family Homes",
@@ -106,7 +101,6 @@ export default function TestApiPage() {
             size: 120,
             image: "/oak-residences.jpg",
             description: "Spacious family homes in a peaceful neighborhood with schools and parks nearby.",
-          },
           {
             id: 3,
             title: "Riverside Apartments",
@@ -117,7 +111,6 @@ export default function TestApiPage() {
             size: 65,
             image: "/riverside.jpg",
             description: "Stylish apartments overlooking the river with modern finishes and city center convenience.",
-          },
           {
             id: 4,
             title: "Willow Park Townhouses",
@@ -127,9 +120,7 @@ export default function TestApiPage() {
             bathrooms: 2,
             size: 110,
             image: "/willow-park.jpg",
-            description: "Contemporary townhouses with private gardens in a well-established community.",
-          },
-        ];
+            description: "Contemporary townhouses with private gardens in a well-established community."];
         setProperties(mockProperties);
         setLoading(false);
       }
@@ -201,7 +192,7 @@ export default function TestApiPage() {
             </div>
           ) : (
             <div className="mt-12 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-              {properties.map((property) => (
+              {properties.map((property: any) => (
                 <div
                   key={property.id}
                   className="bg-white overflow-hidden shadow rounded-lg"

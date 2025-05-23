@@ -33,44 +33,39 @@ export default function DocumentList({
       type: 'PDF',
       size: '2.3 MB',
       uploadDate: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000),
-      status: 'verified',
-    },
+      status: 'verified'},
     {
       id: '2',
       name: 'Proof of Income - Payslips',
       type: 'PDF',
       size: '1.8 MB',
       uploadDate: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000),
-      status: 'verified',
-    },
+      status: 'verified'},
     {
       id: '3',
       name: 'Bank Statements',
       type: 'PDF',
       size: '3.1 MB',
       uploadDate: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000),
-      status: 'pending',
-    },
+      status: 'pending'},
     {
       id: '4',
       name: 'Identity Verification',
       type: 'PDF',
       size: '1.2 MB',
       uploadDate: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000),
-      status: 'pending',
-    },
-  ];
+      status: 'pending'}];
 
-  const displayDocuments = documents.length > 0 ? documents : defaultDocuments;
+  const displayDocuments = documents.length> 0 ? documents : defaultDocuments;
 
   const getStatusIcon = (status: Document['status']) => {
     switch (status) {
       case 'verified':
-        return <CheckCircle className="h-5 w-5 text-green-500" />;
+        return <CheckCircle className="h-5 w-5 text-green-500" />\n  );
       case 'rejected':
-        return <AlertCircle className="h-5 w-5 text-red-500" />;
+        return <AlertCircle className="h-5 w-5 text-red-500" />\n  );
       default:
-        return <Clock className="h-5 w-5 text-yellow-500" />;
+        return <Clock className="h-5 w-5 text-yellow-500" />\n  );
     }
   };
 
@@ -95,7 +90,7 @@ export default function DocumentList({
       </CardHeader>
       <CardContent>
         <div className="space-y-3">
-          {displayDocuments.map((document) => (
+          {displayDocuments.map((document: any) => (
             <div
               key={document.id}
               className="flex items-center justify-between p-3 rounded-lg border border-gray-200 hover:bg-gray-50"
@@ -109,7 +104,7 @@ export default function DocumentList({
                   </div>
                 </div>
               </div>
-              
+
               <div className="flex items-center gap-3">
                 <div className="flex items-center gap-1">
                   {getStatusIcon(document.status)}
@@ -117,7 +112,7 @@ export default function DocumentList({
                     {getStatusText(document.status)}
                   </span>
                 </div>
-                
+
                 <div className="flex gap-1">
                   <Button
                     size="sm"
@@ -138,7 +133,7 @@ export default function DocumentList({
             </div>
           ))}
         </div>
-        
+
         <Button className="w-full mt-4" variant="outline">
           <FileText className="h-4 w-4 mr-2" />
           Upload New Document

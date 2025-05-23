@@ -7,4 +7,9 @@ awsready_files.json
 .env.local
 **/.claude/settings.local.json
 
+# Logs
 *storybook.log
+*.log
+
+# Backup files
+backup-files/*.txt

@@ -1,66 +1,99 @@
 {
-  "editor.formatOnSave": true,
-  "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": "true"
-  },
-  "editor.defaultFormatter": null,
-  "editor.tabSize": 2,
+  // Performance optimizations for TypeScript in VS Code
   "typescript.tsdk": "node_modules/typescript/lib",
   "typescript.enablePromptUseWorkspaceTsdk": true,
-  "css.validate": false,
-  "typescript.preferences.importModuleSpecifier": "non-relative",
-  "javascript.preferences.importModuleSpecifier": "non-relative",
-  "tailwindCSS.experimental.classRegex": [
-    ["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"]
-  ],
-  "tailwindCSS.includeLanguages": {
-    "typescript": "javascript",
-    "typescriptreact": "javascript"
+  
+  // Limit validation to focused directories
+  "typescript.tsserver.maxTsServerMemory": 8192,
+  "typescript.tsserver.watchOptions": {
+    "watchFile": "useFsEvents",
+    "watchDirectory": "useFsEvents",
+    "excludeDirectories": [
+      "**/node_modules",
+      "**/dist",
+      "**/.next",
+      "**/coverage",
+      "**/error-reports",
+      "**/error-history",
+      "**/error-fix-backups"
+    ]
   },
+  
+  // Improve performance by limiting diagnostic collection
+  "typescript.tsserver.experimental.enableProjectDiagnostics": false,
+  "typescript.reportStyleChecksAsWarnings": true,
+  "typescript.preferences.importModuleSpecifier": "relative",
+  
+  // Disable JS validation and focus on TS
+  "javascript.validate.enable": false,
+  "javascript.suggestionActions.enabled": false,
+  
+  // Editor performance optimizations
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": "never",
+    "source.fixAll.eslint": "explicit"
+  },
+  
+  // Faster file watching
+  "files.watcherExclude": {
+    "**/.git/objects/**": true,
+    "**/.git/subtree-cache/**": true,
+    "**/node_modules/**": true,
+    "**/.next/**": true,
+    "**/dist/**": true,
+    "**/coverage/**": true,
+    "**/error-reports/**": true,
+    "**/error-history/**": true,
+    "**/error-fix-backups/**": true
+  },
+  
+  // Disable automatic type acquisition
+  "typescript.disableAutomaticTypeAcquisition": true,
+  
+  // Optimize UI responsiveness
+  "workbench.editor.limit.enabled": true,
+  "workbench.editor.limit.value": 10,
+  "workbench.editor.closeOnFileDelete": true,
+  
+  // Focus on specific file types
   "files.associations": {
-    "*.css": "tailwindcss"
+    "*.js": "javascript",
+    "*.jsx": "javascriptreact",
+    "*.ts": "typescript",
+    "*.tsx": "typescriptreact"
   },
-  "search.exclude": {
-    "**/node_modules": true,
-    "**/dist": true,
-    "**/.next": true
-  },
+  
+  // Highlighting focused for performance
+  "editor.semanticHighlighting.enabled": false,
+  
+  // Efficiently show errors
+  "problems.showCurrentInStatus": true,
+  
+  // Workspace trust for better performance
+  "security.workspace.trust.enabled": true,
+  "security.workspace.trust.startupPrompt": "never",
+  "security.workspace.trust.banner": "never",
+  
+  // Enhanced extensions
+  "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact"],
+  "eslint.run": "onSave",
+  
+  // Hide ignored files for better performance
+  "explorer.excludeGitIgnore": true,
   "files.exclude": {
     "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/CVS": true,
     "**/.DS_Store": true,
-    "**/node_modules/.cache": true
-  },
-  "[typescript]": {
-    "editor.defaultFormatter": null
-  },
-  "[typescriptreact]": {
-    "editor.defaultFormatter": null
-  },
-  "[javascript]": {
-    "editor.defaultFormatter": null
-  },
-  "[javascriptreact]": {
-    "editor.defaultFormatter": null
-  },
-  "[json]": {
-    "editor.defaultFormatter": null
-  },
-  "[jsonc]": {
-    "editor.defaultFormatter": null
-  },
-  "[markdown]": {
-    "editor.defaultFormatter": null
-  },
-  "eslint.alwaysShowStatus": true,
-  "editor.inlineSuggest.enabled": true,
-  "editor.guides.bracketPairs": "active",
-  "typescript.tsserver.experimental.enableProjectDiagnostics": true,
-  "typescript.validate.enable": true,
-  "javascript.validate.enable": true,
-  "breadcrumbs.enabled": true,
-  "explorer.confirmDelete": false,
-  "explorer.confirmDragAndDrop": false,
-  "git.autofetch": true,
-  "problems.autoReveal": true,
-  "errorLens.enabled": true
+    "**/node_modules": false,
+    "**/.next": true,
+    "**/dist": true,
+    "**/coverage": true,
+    "**/error-reports": true,
+    "**/error-history": true,
+    "**/error-fix-backups": true,
+    "**/*.tsbuildinfo": true
+  }
 }

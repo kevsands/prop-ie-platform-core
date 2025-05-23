@@ -88,7 +88,7 @@ export default function PropertyCardTestPage() {
   return (
     <div className="p-4 space-y-8">
       <h1 className="text-2xl font-bold mb-4">Property Card Test Page</h1>
-      
+
       {/* Using individual props */}
       <div>
         <h2 className="text-xl font-semibold mb-2">Using Individual Props</h2>
@@ -106,7 +106,7 @@ export default function PropertyCardTestPage() {
             type={PropertyType.APARTMENT}
             images={['/images/property1.jpg']}
           />
-          
+
           <PropertyCard
             id="2"
             name="Modern House"
@@ -122,7 +122,7 @@ export default function PropertyCardTestPage() {
           />
         </div>
       </div>
-      
+
       {/* Using property object */}
       <div>
         <h2 className="text-xl font-semibold mb-2">Using Property Object</h2>

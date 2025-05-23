@@ -8,7 +8,7 @@ export interface CacheOptions {
 }
 
 class CacheManager {
-  private caches: Map<string, LRUCache<string, any>>;
+  private caches: Map<string, LRUCache<string, any>>\n  );
   private defaultOptions: CacheOptions;
 
   constructor() {
@@ -34,7 +34,7 @@ class CacheManager {
       }
     });
 
-    this.caches.set(name, cache);
+    this.caches.set(namecache);
     return cache;
   }
 
@@ -45,7 +45,7 @@ class CacheManager {
   async get<T>(cacheName: string, key: string): Promise<T | undefined> {
     const cache = this.getCache(cacheName);
     if (!cache) {
-      console.warn(`Cache ${cacheName} not found`);
+
       return undefined;
     }
     return cache.get(key);
@@ -54,16 +54,16 @@ class CacheManager {
   async set<T>(cacheName: string, key: string, value: T, options?: { ttl?: number }): Promise<void> {
     const cache = this.getCache(cacheName);
     if (!cache) {
-      console.warn(`Cache ${cacheName} not found`);
+
       return;
     }
-    cache.set(key, value, options);
+    cache.set(key, valueoptions);
   }
 
   async delete(cacheName: string, key: string): Promise<boolean> {
     const cache = this.getCache(cacheName);
     if (!cache) {
-      console.warn(`Cache ${cacheName} not found`);
+
       return false;
     }
     return cache.delete(key);
@@ -72,7 +72,7 @@ class CacheManager {
   async clear(cacheName: string): Promise<void> {
     const cache = this.getCache(cacheName);
     if (!cache) {
-      console.warn(`Cache ${cacheName} not found`);
+
       return;
     }
     cache.clear();
@@ -131,13 +131,13 @@ export const withCache = async <T>(
   fetchFn: () => Promise<T>,
   options?: CacheOptions
 ): Promise<T> => {
-  const cached = await cacheManager.get<T>(cacheName, key);
+  const cached = await cacheManager.get<T>(cacheNamekey);
   if (cached !== undefined) {
     return cached;
   }
 
   const value = await fetchFn();
-  await cacheManager.set(cacheName, key, value, options);
+  await cacheManager.set(cacheName, key, valueoptions);
   return value;
 };
 
@@ -147,7 +147,7 @@ export const queryCache = {
     return await cacheManager.get('queries', key);
   },
   set: async (key: string, value: any) => {
-    await cacheManager.set('queries', key, value);
+    await cacheManager.set('queries', keyvalue);
   },
   remove: async (key: string) => {
     await cacheManager.delete('queries', key);

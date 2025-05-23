@@ -19,16 +19,14 @@ export enum AuthEventType {
   INVALID_TOKEN = 'invalid_token',
   SESSION_EXPIRED = 'session_expired',
   PERMISSION_DENIED = 'permission_denied',
-  SUSPICIOUS_ACTIVITY = 'suspicious_activity',
-}
+  SUSPICIOUS_ACTIVITY = 'suspicious_activity'}
 
 export enum LogLevel {
   DEBUG = 'debug',
   INFO = 'info',
   WARN = 'warn',
   ERROR = 'error',
-  CRITICAL = 'critical',
-}
+  CRITICAL = 'critical'}
 
 export interface AuthLogEvent {
   type: AuthEventType;
@@ -39,7 +37,7 @@ export interface AuthLogEvent {
   username?: string;
   ipAddress?: string;
   userAgent?: string;
-  metadata?: Record<string, any>;
+  metadata?: Record<string, any>\n  );
 }
 
 /**
@@ -59,8 +57,7 @@ const defaultConfig: AuthLoggerConfig = {
   enableServerReporting: process.env.NODE_ENV === 'production',
   logLevel: process.env.NODE_ENV === 'production' ? LogLevel.WARN : LogLevel.DEBUG,
   reportEndpoint: '/api/security/log', 
-  includeUserInfo: true,
-};
+  includeUserInfo: true};
 
 // Current configuration
 let config: AuthLoggerConfig = { ...defaultConfig };
@@ -89,8 +86,7 @@ function shouldLog(level: LogLevel): boolean {
     [LogLevel.INFO]: 1,
     [LogLevel.WARN]: 2,
     [LogLevel.ERROR]: 3,
-    [LogLevel.CRITICAL]: 4,
-  };
+    [LogLevel.CRITICAL]: 4};
 
   return levels[level] >= levels[config.logLevel];
 }
@@ -112,13 +108,12 @@ async function reportToServer(event: AuthLogEvent): Promise<void> {
         ...event,
         source: 'client',
         application: 'prop-ie-app',
-        environment: process.env.NODE_ENV || 'development',
-      }
+        environment: process.env.NODE_ENV || 'development'}
     }, { requiresAuth: false });
   } catch (error) {
     // Silently fail server reporting to avoid cascading errors
     if (config.enableConsoleLogging) {
-      console.error('Failed to report auth event to server:', error);
+
     }
   }
 }
@@ -139,7 +134,7 @@ export async function logAuthEvent(
   }
 
   const { userAgent, ipAddress } = getEnvironmentInfo();
-  
+
   const event: AuthLogEvent = {
     type,
     level,
@@ -149,26 +144,25 @@ export async function logAuthEvent(
     username,
     userAgent,
     ipAddress,
-    metadata,
-  };
+    metadata};
 
   // Console logging
   if (config.enableConsoleLogging) {
     const formattedMessage = formatLogMessage(event);
-    
+
     switch (level) {
       case LogLevel.DEBUG:
-        console.debug(formattedMessage, { event });
+
         break;
       case LogLevel.INFO:
-        console.info(formattedMessage, { event });
+
         break;
       case LogLevel.WARN:
-        console.warn(formattedMessage, { event });
+
         break;
       case LogLevel.ERROR:
       case LogLevel.CRITICAL:
-        console.error(formattedMessage, { event });
+
         break;
     }
   }
@@ -300,5 +294,4 @@ export default {
   logTokenRefresh,
   logSuspiciousActivity,
   logPermissionDenied,
-  configureAuthLogger,
-};
+  configureAuthLogger};

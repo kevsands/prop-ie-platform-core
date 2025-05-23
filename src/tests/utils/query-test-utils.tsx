@@ -76,8 +76,7 @@ export const createQueryKeyFactory = (prefix: string) => {
     lists: () => [prefix, 'list'],
     list: (filters?: Record<string, any>) => [prefix, 'list', filters],
     details: () => [prefix, 'detail'],
-    detail: (id: string) => [prefix, 'detail', id],
-  };
+    detail: (id: string) => [prefix, 'detail', id]};
 };
 
 // Re-export everything from testing-library

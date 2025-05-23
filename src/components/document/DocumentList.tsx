@@ -1,276 +1,212 @@
 'use client';
 
-import React, { useState } from 'react';
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
+import React from 'react';
 import { 
   Table, 
-  TableHeader, 
   TableBody, 
+  TableCell, 
   TableHead, 
-  TableRow, 
-  TableCell 
+  TableHeader, 
+  TableRow 
 } from '@/components/ui/table';
-import { 
-  Download, 
-  Eye, 
-  FileText, 
-  Filter, 
-  MoreHorizontal, 
-  Pencil, 
-  Trash2 
-} from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Checkbox } from '@/components/ui/checkbox';
 import { 
   DropdownMenu, 
   DropdownMenuContent, 
   DropdownMenuItem, 
+  DropdownMenuLabel, 
+  DropdownMenuSeparator, 
   DropdownMenuTrigger 
 } from '@/components/ui/dropdown-menu';
-import { Skeleton } from '@/components/ui/skeleton';
-import { Input } from '@/components/ui/input';
-import { formatFileSize, formatDateRelative } from '@/utils/format-utils';
-import { LoadingSpinner } from '@/components/ui/LoadingSpinner';
-import { DocumentItem } from '@/hooks/useGraphQLQueries';
+import { 
+  FileText, 
+  Download, 
+  Eye, 
+  Share2, 
+  MoreVertical, 
+  Lock,
+  Shield,
+  AlertCircle
+} from 'lucide-react';
+import { DocumentSummary } from '@/hooks/useDocuments';
+import { format } from 'date-fns';
 
-export interface DocumentItemProps extends DocumentItem {}
-
-export interface DocumentListProps {
-  documents: DocumentItemProps[];
-  loading?: boolean;
-  error?: Error | null;
-  onViewDocument?: (document: DocumentItemProps) => void;
-  onEditDocument?: (document: DocumentItemProps) => void;
-  onDeleteDocument?: (document: DocumentItemProps) => void;
-  emptyMessage?: string;
-  showFilters?: boolean;
+interface DocumentListProps {
+  documents: DocumentSummary[];
+  totalCount: number;
+  selectedDocuments?: Set<string>\n  );
+  onDocumentSelect?: (documentId: string) => void;
+  onDocumentView?: (document: DocumentSummary) => void;
 }
 
-export function DocumentList({
-  documents = [],
-  loading = false,
-  error = null,
-  onViewDocument,
-  onEditDocument,
-  onDeleteDocument,
-  emptyMessage = "No documents found.",
-  showFilters = true
-}: DocumentListProps) {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [filteredStatus, setFilteredStatus] = useState<string | null>(null);
-  
-  // Apply filters
-  const filteredDocuments = documents.filter(doc => {
-    const matchesSearch = doc.name.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesStatus = filteredStatus ? doc.status === filteredStatus : true;
-    return matchesSearch && matchesStatus;
-  });
-  
-  // Get unique statuses for filter dropdown
-  const statuses = [...new Set(documents.map(doc => doc.status))];
+const DocumentList: React.FC<DocumentListProps> = ({
+  documents,
+  totalCount,
+  selectedDocuments = new Set(),
+  onDocumentSelect,
+  onDocumentView
+}) => {
+  const getStatusBadge = (status: string) => {
+    const statusConfig = {
+      DRAFT: { variant: 'secondary' as const, label: 'Draft' },
+      PENDING_REVIEW: { variant: 'outline' as const, label: 'Pending Review' },
+      APPROVED: { variant: 'default' as const, label: 'Approved' },
+      REJECTED: { variant: 'destructive' as const, label: 'Rejected' },
+      EXPIRED: { variant: 'destructive' as const, label: 'Expired' },
+      ARCHIVED: { variant: 'secondary' as const, label: 'Archived' };
 
-  // Render document status badge
-  const renderStatusBadge = (status: string) => {
-    const variantMap: Record<string, "default" | "outline" | "secondary" | "destructive"> = {
-      'DRAFT': 'outline',
-      'PENDING': 'secondary',
-      'APPROVED': 'default',
-      'REJECTED': 'destructive',
-      'EXPIRED': 'secondary'
+    const config = statusConfig[status as keyof typeof statusConfig] || { 
+      variant: 'secondary' as const, 
+      label: status 
     };
-    
-    return (
-      <Badge variant={variantMap[status] || 'default'}>
-        {status}
-      </Badge>
-    );
+
+    return <Badge variant={config.variant}>{config.label}</Badge>\n  );
   };
 
-  // Handle document action from dropdown
-  const handleAction = (action: 'view' | 'edit' | 'delete', document: DocumentItemProps) => {
-    switch (action) {
-      case 'view':
-        onViewDocument?.(document);
-        break;
-      case 'edit':
-        onEditDocument?.(document);
-        break;
-      case 'delete':
-        onDeleteDocument?.(document);
-        break;
+  const getCategoryIcon = (category: string) => {
+    if (category === 'CONFIDENTIAL' || category === 'LEGAL') {
+      return <Lock className="h-4 w-4 text-gray-500" />\n  );
     }
+    return <FileText className="h-4 w-4 text-gray-500" />\n  );
   };
 
-  // Get file icon based on type
-  const getFileIcon = (fileType: string) => {
-    if (fileType.includes('pdf')) return <FileText className="h-4 w-4 text-red-500" />;
-    if (fileType.includes('word') || fileType.includes('doc')) return <FileText className="h-4 w-4 text-blue-500" />;
-    if (fileType.includes('excel') || fileType.includes('sheet')) return <FileText className="h-4 w-4 text-green-500" />;
-    if (fileType.includes('image')) return <FileText className="h-4 w-4 text-purple-500" />;
-    return <FileText className="h-4 w-4 text-gray-500" />;
+  const formatFileSize = (bytes: number): string => {
+    if (bytes <1024) return `${bytes} B`;
+    if (bytes <1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+    return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
   };
-  
-  // Extract category from metadata
-  const getDocumentCategory = (document: DocumentItemProps): string => {
-    return document.metadata?.category || 'Uncategorized';
-  };
-  
-  // If there's an error
-  if (error) {
+
+  if (documents.length === 0) {
     return (
-      <Card className="w-full">
-        <CardContent className="py-10">
-          <div className="text-center text-red-500">
-            <p>Error loading documents: {error.message}</p>
-            <Button variant="outline" className="mt-4">Retry</Button>
-          </div>
-        </CardContent>
-      </Card>
+      <div className="text-center py-12">
+        <FileText className="mx-auto h-12 w-12 text-gray-400" />
+        <h3 className="mt-2 text-sm font-medium text-gray-900">No documents</h3>
+        <p className="mt-1 text-sm text-gray-500">
+          Get started by uploading a document.
+        </p>
+      </div>
     );
   }
 
   return (
-    <Card className="w-full">
-      <CardHeader className="pb-2">
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-          <CardTitle>Documents</CardTitle>
-          
-          {showFilters && (
-            <div className="flex flex-col md:flex-row gap-2">
-              <Input
-                placeholder="Search documents..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="max-w-xs"
-              />
-              
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="outline" size="sm" className="gap-1">
-                    <Filter className="h-4 w-4" />
-                    {filteredStatus ? filteredStatus : 'All Statuses'}
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end">
-                  <DropdownMenuItem
-                    onClick={() => setFilteredStatus(null)}
-                    className={!filteredStatus ? 'bg-accent' : ''}
-                  >
-                    All Statuses
-                  </DropdownMenuItem>
-                  {statuses.map(status => (
-                    <DropdownMenuItem
-                      key={status}
-                      onClick={() => setFilteredStatus(status)}
-                      className={filteredStatus === status ? 'bg-accent' : ''}
+    <div>
+      <Table>
+        <TableHeader>
+          <TableRow>
+            {onDocumentSelect && (
+              <TableHead className="w-12">
+                <Checkbox
+                  checked={documents.every(doc => selectedDocuments.has(doc.id))}
+                  onCheckedChange={(checked: any) => {
+                    documents.forEach(doc => {
+                      if (onDocumentSelect) {
+                        onDocumentSelect(doc.id);
+                      }
+                    });
+                  }
+                />
+              </TableHead>
+            )}
+            <TableHead>Document</TableHead>
+            <TableHead>Category</TableHead>
+            <TableHead>Status</TableHead>
+            <TableHead>Uploaded By</TableHead>
+            <TableHead>Upload Date</TableHead>
+            <TableHead>Version</TableHead>
+            <TableHead className="text-right">Actions</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {documents.map((document: any) => (
+            <TableRow key={document.id}>
+              {onDocumentSelect && (
+                <TableCell>
+                  <Checkbox
+                    checked={selectedDocuments.has(document.id)}
+                    onCheckedChange={() => onDocumentSelect(document.id)}
+                  />
+                </TableCell>
+              )}
+              <TableCell>
+                <div className="flex items-center space-x-3">
+                  {getCategoryIcon(document.category)}
+                  <div>
+                    <p className="font-medium">{document.name}</p>
+                    <p className="text-sm text-gray-500">
+                      {document.fileType} • {formatFileSize(document.fileSize || 0)}
+                    </p>
+                  </div>
+                  {document.signatureRequired && (
+                    <Badge variant="outline" className="text-xs">
+                      <Shield className="h-3 w-3 mr-1" />
+                      Signature Required
+                    </Badge>
+                  )}
+                </div>
+              </TableCell>
+              <TableCell>
+                <Badge variant="outline">{document.category}</Badge>
+              </TableCell>
+              <TableCell>{getStatusBadge(document.status)}</TableCell>
+              <TableCell>
+                <div>
+                  <p className="text-sm">{document.uploadedBy.name}</p>
+                  <p className="text-xs text-gray-500">{document.uploadedBy.email}</p>
+                </div>
+              </TableCell>
+              <TableCell>
+                <p className="text-sm">{format(new Date(document.uploadDate), 'MMM d, yyyy')}</p>
+                <p className="text-xs text-gray-500">{format(new Date(document.uploadDate), 'HH:mm')}</p>
+              </TableCell>
+              <TableCell>
+                <Badge variant="secondary">v{document.version}</Badge>
+              </TableCell>
+              <TableCell className="text-right">
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" className="h-8 w-8 p-0">
+                      <span className="sr-only">Open menu</span>
+                      <MoreVertical className="h-4 w-4" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end">
+                    <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem 
+                      onClick={() => onDocumentView && onDocumentView(document)}
                     >
-                      {status}
+                      <Eye className="mr-2 h-4 w-4" />
+                      View
                     </DropdownMenuItem>
-                  ))}
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </div>
-          )}
-        </div>
-      </CardHeader>
-      
-      <CardContent>
-        {loading ? (
-          <div className="space-y-3">
-            <Skeleton className="h-10 w-full" />
-            <Skeleton className="h-10 w-full" />
-            <Skeleton className="h-10 w-full" />
-            <Skeleton className="h-10 w-full" />
-            <Skeleton className="h-10 w-full" />
-          </div>
-        ) : filteredDocuments.length === 0 ? (
-          <div className="text-center py-10 text-muted-foreground">
-            {emptyMessage}
-          </div>
-        ) : (
-          <div className="overflow-x-auto">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Name</TableHead>
-                  <TableHead>Category</TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead>Uploaded</TableHead>
-                  <TableHead>Size</TableHead>
-                  <TableHead className="text-right">Actions</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {filteredDocuments.map((document) => (
-                  <TableRow key={document.id}>
-                    <TableCell className="flex items-center gap-2">
-                      {getFileIcon(document.fileType)}
-                      <span className="font-medium">{document.name}</span>
-                    </TableCell>
-                    <TableCell>
-                      {getDocumentCategory(document)}
-                    </TableCell>
-                    <TableCell>
-                      {renderStatusBadge(document.status)}
-                    </TableCell>
-                    <TableCell>
-                      <div className="flex flex-col">
-                        <span>{formatDateRelative(document.uploadedAt)}</span>
-                        {document.uploadedBy && (
-                          <span className="text-xs text-muted-foreground">
-                            by {document.uploadedBy.name}
-                          </span>
-                        )}
-                      </div>
-                    </TableCell>
-                    <TableCell>
-                      {formatFileSize(document.fileSize)}
-                    </TableCell>
-                    <TableCell className="text-right">
-                      <div className="flex justify-end">
-                        <Button 
-                          variant="ghost" 
-                          size="icon"
-                          asChild
-                        >
-                          <a href={document.downloadUrl} target="_blank" rel="noopener noreferrer">
-                            <Download className="h-4 w-4" />
-                          </a>
-                        </Button>
-                        
-                        <DropdownMenu>
-                          <DropdownMenuTrigger asChild>
-                            <Button variant="ghost" size="icon">
-                              <MoreHorizontal className="h-4 w-4" />
-                            </Button>
-                          </DropdownMenuTrigger>
-                          <DropdownMenuContent align="end">
-                            <DropdownMenuItem onClick={() => handleAction('view', document)}>
-                              <Eye className="mr-2 h-4 w-4" />
-                              View
-                            </DropdownMenuItem>
-                            <DropdownMenuItem onClick={() => handleAction('edit', document)}>
-                              <Pencil className="mr-2 h-4 w-4" />
-                              Edit
-                            </DropdownMenuItem>
-                            <DropdownMenuItem 
-                              onClick={() => handleAction('delete', document)}
-                              className="text-destructive focus:text-destructive"
-                            >
-                              <Trash2 className="mr-2 h-4 w-4" />
-                              Delete
-                            </DropdownMenuItem>
-                          </DropdownMenuContent>
-                        </DropdownMenu>
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </div>
-        )}
-      </CardContent>
-    </Card>
+                    <DropdownMenuItem>
+                      <Download className="mr-2 h-4 w-4" />
+                      Download
+                    </DropdownMenuItem>
+                    <DropdownMenuItem>
+                      <Share2 className="mr-2 h-4 w-4" />
+                      Share
+                    </DropdownMenuItem>
+                    {document.status === 'EXPIRED' && (
+                      <DropdownMenuItem className="text-red-600">
+                        <AlertCircle className="mr-2 h-4 w-4" />
+                        Renew Document
+                      </DropdownMenuItem>
+                    )}
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+
+      <div className="mt-4 text-sm text-gray-500 text-center">
+        Showing {documents.length} of {totalCount} documents
+      </div>
+    </div>
   );
-}
+};
+
+export default DocumentList;

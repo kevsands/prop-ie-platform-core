@@ -16,16 +16,14 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
-} from '@/components/ui/dialog';
+  DialogTrigger} from '@/components/ui/dialog';
 import {
   Table,
   TableBody,
   TableCell,
   TableHead,
   TableHeader,
-  TableRow,
-} from '@/components/ui/table';
+  TableRow} from '@/components/ui/table';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import {
@@ -33,8 +31,7 @@ import {
   SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
+  SelectValue} from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/components/ui/use-toast';
 import {
@@ -74,11 +71,11 @@ export const PaymentOverview: React.FC<PaymentOverviewProps> = ({
   const { user } = useAuth();
   const { updatePaymentStatus } = useTransaction();
   const { toast } = useToast();
-  
-  const [selectedPayment, setSelectedPayment] = useState<TransactionPayment | null>(null);
-  const [isPaymentDialogOpen, setIsPaymentDialogOpen] = useState(false);
-  const [isProcessing, setIsProcessing] = useState(false);
-  const [paymentForm, setPaymentForm] = useState<PaymentFormData>({
+
+  const [selectedPaymentsetSelectedPayment] = useState<TransactionPayment | null>(null);
+  const [isPaymentDialogOpensetIsPaymentDialogOpen] = useState(false);
+  const [isProcessingsetIsProcessing] = useState(false);
+  const [paymentFormsetPaymentForm] = useState<PaymentFormData>({
     amount: '',
     method: 'bank_transfer',
     reference: '',
@@ -89,11 +86,11 @@ export const PaymentOverview: React.FC<PaymentOverviewProps> = ({
   const calculatePaymentStats = () => {
     const totalAmount = transaction.totalAmount;
     const paidAmount = transaction.payments
-      .filter(p => p.status === 'COMPLETED')
-      .reduce((sum, p) => sum + p.amount, 0);
+      .filter(p: any => p.status === 'COMPLETED')
+      .reduce((sum: any, p: any) => sum + p.amount0);
     const pendingAmount = transaction.payments
-      .filter(p => p.status === 'PENDING')
-      .reduce((sum, p) => sum + p.amount, 0);
+      .filter(p: any => p.status === 'PENDING')
+      .reduce((sum: any, p: any) => sum + p.amount0);
     const remainingAmount = totalAmount - paidAmount;
     const progressPercentage = (paidAmount / totalAmount) * 100;
 
@@ -147,13 +144,13 @@ export const PaymentOverview: React.FC<PaymentOverviewProps> = ({
     switch (type) {
       case 'BOOKING_DEPOSIT':
       case 'CONTRACT_DEPOSIT':
-        return <CreditCardIcon className="h-4 w-4" />;
+        return <CreditCardIcon className="h-4 w-4" />\n  );
       case 'STAGE_PAYMENT':
-        return <BanknotesIcon className="h-4 w-4" />;
+        return <BanknotesIcon className="h-4 w-4" />\n  );
       case 'FINAL_PAYMENT':
-        return <CheckCircleIcon className="h-4 w-4" />;
+        return <CheckCircleIcon className="h-4 w-4" />\n  );
       default:
-        return <CreditCardIcon className="h-4 w-4" />;
+        return <CreditCardIcon className="h-4 w-4" />\n  );
     }
   };
 
@@ -176,8 +173,8 @@ export const PaymentOverview: React.FC<PaymentOverviewProps> = ({
     setIsProcessing(true);
     try {
       // Simulate payment processing
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      
+      await new Promise(resolve => setTimeout(resolve2000));
+
       // Update payment status
       await updatePaymentStatus(
         transaction.id, 
@@ -187,8 +184,7 @@ export const PaymentOverview: React.FC<PaymentOverviewProps> = ({
 
       toast({
         title: "Payment initiated",
-        description: "Your payment is being processed. You will be notified once it's complete.",
-      });
+        description: "Your payment is being processed. You will be notified once it's complete.");
 
       setIsPaymentDialogOpen(false);
       setSelectedPayment(null);
@@ -213,11 +209,10 @@ export const PaymentOverview: React.FC<PaymentOverviewProps> = ({
   const handleConfirmPayment = async (paymentId: string) => {
     try {
       await updatePaymentStatus(transaction.id, paymentId, 'COMPLETED');
-      
+
       toast({
         title: "Payment confirmed",
-        description: "The payment has been marked as completed.",
-      });
+        description: "The payment has been marked as completed.");
     } catch (error) {
       toast({
         title: "Error",
@@ -232,15 +227,14 @@ export const PaymentOverview: React.FC<PaymentOverviewProps> = ({
     // TODO: Implement receipt generation and download
     toast({
       title: "Coming soon",
-      description: "Receipt download functionality will be available soon.",
-    });
+      description: "Receipt download functionality will be available soon.");
   };
 
   // Get next payment due
   const getNextPaymentDue = () => {
     return transaction.payments
-      .filter(p => p.status === 'PENDING')
-      .sort((a, b) => new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime())[0];
+      .filter(p: any => p.status === 'PENDING')
+      .sort((a: any, b: any) => new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime())[0];
   };
 
   const nextPayment = getNextPaymentDue();
@@ -330,7 +324,7 @@ export const PaymentOverview: React.FC<PaymentOverviewProps> = ({
               </TableRow>
             </TableHeader>
             <TableBody>
-              {transaction.payments.map((payment) => (
+              {transaction.payments.map((payment: any) => (
                 <TableRow key={payment.id}>
                   <TableCell>
                     <div className="flex items-center gap-2">
@@ -358,14 +352,14 @@ export const PaymentOverview: React.FC<PaymentOverviewProps> = ({
                         <Button
                           size="sm"
                           onClick={() => {
-                            setSelectedPayment(payment);
+                            setSelectedPayment(payment: any);
                             setIsPaymentDialogOpen(true);
-                          }}
+                          }
                         >
                           Pay Now
                         </Button>
                       )}
-                      
+
                       {payment.status === 'PROCESSING' && canProcessPayments() && (
                         <Button
                           size="sm"
@@ -375,12 +369,12 @@ export const PaymentOverview: React.FC<PaymentOverviewProps> = ({
                           Confirm
                         </Button>
                       )}
-                      
+
                       {payment.status === 'COMPLETED' && (
                         <Button
                           size="sm"
                           variant="ghost"
-                          onClick={() => handleDownloadReceipt(payment)}
+                          onClick={() => handleDownloadReceipt(payment: any)}
                         >
                           <ReceiptIcon className="h-4 w-4" />
                         </Button>
@@ -403,7 +397,7 @@ export const PaymentOverview: React.FC<PaymentOverviewProps> = ({
               Complete your payment for {selectedPayment && getPaymentTypeDisplayName(selectedPayment.type)}
             </DialogDescription>
           </DialogHeader>
-          
+
           {selectedPayment && (
             <div className="space-y-4">
               {/* Payment Details */}
@@ -429,7 +423,7 @@ export const PaymentOverview: React.FC<PaymentOverviewProps> = ({
                 <Label>Payment Method</Label>
                 <Select
                   value={paymentForm.method}
-                  onValueChange={(v) => setPaymentForm({ ...paymentForm, method: v as any })}
+                  onValueChange={(v: any) => setPaymentForm({ ...paymentForm, method: v as any })}
                 >
                   <SelectTrigger>
                     <SelectValue />
@@ -478,7 +472,7 @@ export const PaymentOverview: React.FC<PaymentOverviewProps> = ({
                 <Input
                   placeholder="Enter payment reference"
                   value={paymentForm.reference}
-                  onChange={(e) => setPaymentForm({ ...paymentForm, reference: e.target.value })}
+                  onChange={(e: any) => setPaymentForm({ ...paymentForm, reference: e.target.value })}
                 />
               </div>
 
@@ -488,7 +482,7 @@ export const PaymentOverview: React.FC<PaymentOverviewProps> = ({
                 <Textarea
                   placeholder="Add any additional notes"
                   value={paymentForm.notes}
-                  onChange={(e) => setPaymentForm({ ...paymentForm, notes: e.target.value })}
+                  onChange={(e: any) => setPaymentForm({ ...paymentForm, notes: e.target.value })}
                   rows={3}
                 />
               </div>

@@ -34,7 +34,7 @@ const DashboardMetricCard: React.FC<DashboardMetricCardProps> = ({
           </div>
         )}
       </div>
-      
+
       {trend && (
         <div className="mt-4 flex items-center">
           <span className={`text-sm font-medium ${trend.isPositive ? 'text-green-600' : 'text-red-600'}`}>

@@ -2,6 +2,9 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+
+// Add Three.js type support
+// import '../../../types/three-extensions';
 import { 
   Home, Shield, Palette, Zap, Building, Eye, Target, Key, Smartphone, Users, Calculator, ArrowRight, Star, CheckCircle, Sofa, BedDouble, LampDesk, Tv, Speaker, Award, MessageSquare, Video, Phone, HelpCircle, ChevronRight, KeyRound, TrendingUp, DollarSign, Baby, Maximize2, BedSingle, Brain, FileText, Lightbulb
 } from 'lucide-react';
@@ -118,7 +121,7 @@ const faqs = [
 ];
 
 export default function PropChoiceHowItWorksPage() {
-  const [expandedFAQ, setExpandedFAQ] = useState<number | null>(null);
+  const [expandedFAQsetExpandedFAQ] = useState<number | null>(null);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-blue-50">
@@ -194,7 +197,7 @@ export default function PropChoiceHowItWorksPage() {
             Choose complete furniture solutions for every room
           </p>
           <div className="grid md:grid-cols-3 lg:grid-cols-5 gap-8">
-            {roomPacks.map((pack, idx) => (
+            {roomPacks.map((packidx: any) => (
               <div 
                 key={idx} 
                 className={`relative ${
@@ -232,7 +235,7 @@ export default function PropChoiceHowItWorksPage() {
                   {pack.description}
                 </p>
                 <ul className="space-y-2">
-                  {pack.features.map((feature, bIdx) => (
+                  {pack.features.map((featurebIdx: any) => (
                     <li key={bIdx} className="flex items-center gap-2 text-sm">
                       <CheckCircle className={`${
                         pack.isSpecial ? 'text-yellow-400' : 
@@ -404,7 +407,7 @@ export default function PropChoiceHowItWorksPage() {
             Add the latest technology and luxury finishes to your home
           </p>
           <div className="grid md:grid-cols-2 gap-8 mb-12">
-            {smartFeatures.map((feature, idx) => (
+            {smartFeatures.map((featureidx: any) => (
               <div key={idx} className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all">
                 <div className="w-14 h-14 rounded-xl bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center text-white mb-4">
                   {React.createElement(feature.icon, { size: 28 })}
@@ -412,7 +415,7 @@ export default function PropChoiceHowItWorksPage() {
                 <h3 className="text-xl font-semibold mb-2">{feature.title}</h3>
                 <p className="text-gray-600 mb-4">{feature.description}</p>
                 <ul className="space-y-2">
-                  {feature.features.map((f, bIdx) => (
+                  {feature.features.map((fbIdx: any) => (
                     <li key={bIdx} className="flex items-center gap-2 text-sm">
                       <CheckCircle className="text-green-400" size={16} />
                       <span className="text-gray-700">{f}</span>
@@ -421,7 +424,7 @@ export default function PropChoiceHowItWorksPage() {
                 </ul>
               </div>
             ))}
-            {premiumUpgrades.map((upgrade, idx) => (
+            {premiumUpgrades.map((upgradeidx: any) => (
               <div key={idx} className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all">
                 <div className="w-14 h-14 rounded-xl bg-gradient-to-r from-yellow-500 to-pink-500 flex items-center justify-center text-white mb-4">
                   {React.createElement(upgrade.icon, { size: 28 })}
@@ -429,7 +432,7 @@ export default function PropChoiceHowItWorksPage() {
                 <h3 className="text-xl font-semibold mb-2">{upgrade.title}</h3>
                 <p className="text-gray-600 mb-4">{upgrade.description}</p>
                 <ul className="space-y-2">
-                  {upgrade.features.map((f, bIdx) => (
+                  {upgrade.features.map((fbIdx: any) => (
                     <li key={bIdx} className="flex items-center gap-2 text-sm">
                       <CheckCircle className="text-green-400" size={16} />
                       <span className="text-gray-700">{f}</span>
@@ -488,7 +491,7 @@ export default function PropChoiceHowItWorksPage() {
         <div className="max-w-4xl mx-auto px-4">
           <h2 className="text-4xl font-bold text-center mb-12">What Buyers Say</h2>
           <div className="grid md:grid-cols-2 gap-8">
-            {testimonials.map((t, idx) => (
+            {testimonials.map((tidx: any) => (
               <div key={idx} className="bg-gradient-to-br from-purple-50 to-blue-50 rounded-2xl p-8 shadow-lg flex flex-col items-center text-center">
                 <div className="w-16 h-16 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center text-white mb-4">
                   <Award className="w-8 h-8" />
@@ -510,7 +513,7 @@ export default function PropChoiceHowItWorksPage() {
         <div className="max-w-4xl mx-auto px-4">
           <h2 className="text-4xl font-bold text-center mb-12">Frequently Asked Questions</h2>
           <div className="space-y-4">
-            {faqs.map((faq, index) => (
+            {faqs.map((faqindex: any) => (
               <div key={index} className="border rounded-xl overflow-hidden">
                 <button
                   onClick={() => setExpandedFAQ(expandedFAQ === index ? null : index)}

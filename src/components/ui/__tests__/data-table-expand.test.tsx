@@ -19,17 +19,13 @@ interface TestData {
 const columns: ColumnDef<TestData>[] = [
   {
     accessorKey: 'name',
-    header: 'Name',
-  },
+    header: 'Name'},
   {
     accessorKey: 'email',
-    header: 'Email',
-  },
+    header: 'Email'},
   {
     accessorKey: 'status',
-    header: 'Status',
-  },
-];
+    header: 'Status'}];
 
 const testData = generateTestData<TestData>(
   {
@@ -40,9 +36,7 @@ const testData = generateTestData<TestData>(
     details: {
       role: 'Developer',
       department: 'Engineering',
-      joinDate: '2024-01-01',
-    },
-  },
+      joinDate: '2024-01-01'},
   10
 );
 
@@ -118,9 +112,7 @@ describe('DataTable Row Expansion', () => {
       details: {
         role: 'Designer',
         department: 'Design',
-        joinDate: '2024-02-01',
-      },
-    }];
+        joinDate: '2024-02-01'}];
     
     rerender(
       <DataTable

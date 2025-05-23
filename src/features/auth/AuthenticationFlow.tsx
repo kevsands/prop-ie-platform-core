@@ -11,8 +11,7 @@ import {
   CardContent,
   CardDescription,
   CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+  CardTitle} from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -29,8 +28,7 @@ import {
   CheckCircleIcon,
   ArrowRightIcon,
   EyeIcon,
-  EyeSlashIcon,
-} from '@heroicons/react/24/outline';
+  EyeSlashIcon} from '@heroicons/react/24/outline';
 import { useAuth } from '@/context/AuthContext';
 
 interface AuthStep {
@@ -41,8 +39,7 @@ interface AuthStep {
 }
 
 const emailSchema = z.object({
-  email: z.string().email('Please enter a valid email address'),
-});
+  email: z.string().email('Please enter a valid email address')});
 
 const signUpSchema = z.object({
   email: z.string().email('Please enter a valid email address'),
@@ -57,71 +54,60 @@ const signUpSchema = z.object({
   lastName: z.string().min(1, 'Last name is required'),
   phoneNumber: z.string().regex(/^\+?[1-9]\d{1,14}$/, 'Please enter a valid phone number'),
   role: z.enum(['BUYER', 'SELLER', 'DEVELOPER', 'AGENT', 'SOLICITOR', 'INVESTOR']),
-  acceptTerms: z.boolean().refine((val) => val === true, 'You must accept the terms and conditions'),
-}).refine((data) => data.password === data.confirmPassword, {
+  acceptTerms: z.boolean().refine((val: any) => val === true, 'You must accept the terms and conditions')}).refine((data: any) => data.password === data.confirmPassword, {
   message: "Passwords don't match",
-  path: ["confirmPassword"],
-});
+  path: ["confirmPassword"]});
 
 export function AuthenticationFlow() {
   const router = useRouter();
   const { signIn, signUp, sendOTP, verifyOTP } = useAuth();
-  const [authMode, setAuthMode] = useState<'signin' | 'signup'>('signin');
-  const [currentStep, setCurrentStep] = useState(0);
-  const [showPassword, setShowPassword] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [verificationCode, setVerificationCode] = useState('');
-  const [sessionData, setSessionData] = useState<any>(null);
+  const [authModesetAuthMode] = useState<'signin' | 'signup'>('signin');
+  const [currentStepsetCurrentStep] = useState(0);
+  const [showPasswordsetShowPassword] = useState(false);
+  const [isLoadingsetIsLoading] = useState(false);
+  const [verificationCodesetVerificationCode] = useState('');
+  const [sessionDatasetSessionData] = useState<any>(null);
 
   const signInSteps: AuthStep[] = [
     {
       id: 'email',
       title: 'Enter your email',
       description: 'We\'ll check if you have an account',
-      icon: <EnvelopeIcon className="h-5 w-5" />,
-    },
+      icon: <EnvelopeIcon className="h-5 w-5" />},
     {
       id: 'authentication',
       title: 'Verify your identity',
       description: 'Choose your preferred authentication method',
-      icon: <ShieldCheckIcon className="h-5 w-5" />,
-    },
+      icon: <ShieldCheckIcon className="h-5 w-5" />},
     {
       id: 'verification',
       title: 'Complete verification',
       description: 'Enter the code we sent you',
-      icon: <DevicePhoneMobileIcon className="h-5 w-5" />,
-    },
-  ];
+      icon: <DevicePhoneMobileIcon className="h-5 w-5" />}];
 
   const signUpSteps: AuthStep[] = [
     {
       id: 'account',
       title: 'Create your account',
       description: 'Tell us about yourself',
-      icon: <UserIcon className="h-5 w-5" />,
-    },
+      icon: <UserIcon className="h-5 w-5" />},
     {
       id: 'security',
       title: 'Set up security',
       description: 'Protect your account',
-      icon: <LockClosedIcon className="h-5 w-5" />,
-    },
+      icon: <LockClosedIcon className="h-5 w-5" />},
     {
       id: 'verification',
       title: 'Verify your identity',
       description: 'Complete your registration',
-      icon: <CheckCircleIcon className="h-5 w-5" />,
-    },
-  ];
+      icon: <CheckCircleIcon className="h-5 w-5" />}];
 
   const currentSteps = authMode === 'signin' ? signInSteps : signUpSteps;
   const progress = ((currentStep + 1) / currentSteps.length) * 100;
 
   const emailForm = useForm({
     resolver: zodResolver(emailSchema),
-    defaultValues: { email: '' },
-  });
+    defaultValues: { email: '' });
 
   const signUpForm = useForm({
     resolver: zodResolver(signUpSchema),
@@ -133,9 +119,7 @@ export function AuthenticationFlow() {
       lastName: '',
       phoneNumber: '',
       role: 'BUYER' as const,
-      acceptTerms: false,
-    },
-  });
+      acceptTerms: false});
 
   const handleEmailSubmit = async (data: z.infer<typeof emailSchema>) => {
     setIsLoading(true);
@@ -144,11 +128,10 @@ export function AuthenticationFlow() {
       const response = await fetch('/api/auth/check-user', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: data.email }),
-      });
-      
+        body: JSON.stringify({ email: data.email })});
+
       const result = await response.json();
-      
+
       if (result.exists) {
         setSessionData({ email: data.email });
         setCurrentStep(1);
@@ -159,7 +142,7 @@ export function AuthenticationFlow() {
         setCurrentStep(0);
       }
     } catch (error) {
-      console.error('Error checking user:', error);
+
     } finally {
       setIsLoading(false);
     }
@@ -175,14 +158,12 @@ export function AuthenticationFlow() {
           given_name: data.firstName,
           family_name: data.lastName,
           phone_number: data.phoneNumber,
-          'custom:role': data.role,
-        },
-      });
-      
+          'custom:role': data.role});
+
       setSessionData(result);
       setCurrentStep(2);
     } catch (error) {
-      console.error('Error signing up:', error);
+
     } finally {
       setIsLoading(false);
     }
@@ -202,7 +183,7 @@ export function AuthenticationFlow() {
         }, 1500);
       }
     } catch (error) {
-      console.error('Error with authentication method:', error);
+
     } finally {
       setIsLoading(false);
     }
@@ -213,9 +194,8 @@ export function AuthenticationFlow() {
     try {
       const result = await verifyOTP({
         email: sessionData.email,
-        code: verificationCode,
-      });
-      
+        code: verificationCode});
+
       if (result.success) {
         // Animate success before redirect
         setTimeout(() => {
@@ -223,7 +203,7 @@ export function AuthenticationFlow() {
         }, 1000);
       }
     } catch (error) {
-      console.error('Error verifying code:', error);
+
     } finally {
       setIsLoading(false);
     }
@@ -232,8 +212,8 @@ export function AuthenticationFlow() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 flex items-center justify-center p-4">
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
+        initial={ opacity: 0, y: 20 }
+        animate={ opacity: 1, y: 0 }
         className="w-full max-w-2xl"
       >
         <Card className="border-0 shadow-2xl">
@@ -248,17 +228,17 @@ export function AuthenticationFlow() {
                 onClick={() => {
                   setAuthMode(authMode === 'signin' ? 'signup' : 'signin');
                   setCurrentStep(0);
-                }}
+                }
               >
                 {authMode === 'signin' ? 'Need an account?' : 'Already have an account?'}
               </Button>
             </div>
-            
+
             {/* Progress indicator */}
             <div className="space-y-2">
               <Progress value={progress} className="h-2" />
               <div className="flex justify-between text-sm text-muted-foreground">
-                {currentSteps.map((step, index) => (
+                {currentSteps.map((stepindex: any) => (
                   <div
                     key={step.id}
                     className={`flex items-center gap-1 ${
@@ -278,9 +258,9 @@ export function AuthenticationFlow() {
               {authMode === 'signin' && currentStep === 0 && (
                 <motion.div
                   key="email-step"
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -20 }}
+                  initial={ opacity: 0, x: 20 }
+                  animate={ opacity: 1, x: 0 }
+                  exit={ opacity: 0, x: -20 }
                 >
                   <form onSubmit={emailForm.handleSubmit(handleEmailSubmit)} className="space-y-4">
                     <div className="space-y-2">
@@ -296,7 +276,7 @@ export function AuthenticationFlow() {
                         <p className="text-sm text-red-500">{emailForm.formState.errors.email.message}</p>
                       )}
                     </div>
-                    
+
                     <Button type="submit" className="w-full h-12" disabled={isLoading}>
                       {isLoading ? (
                         <span className="flex items-center gap-2">
@@ -317,15 +297,15 @@ export function AuthenticationFlow() {
               {authMode === 'signin' && currentStep === 1 && (
                 <motion.div
                   key="auth-methods"
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -20 }}
+                  initial={ opacity: 0, x: 20 }
+                  animate={ opacity: 1, x: 0 }
+                  exit={ opacity: 0, x: -20 }
                   className="space-y-4"
                 >
                   <p className="text-center text-muted-foreground">
                     Choose how you'd like to sign in
                   </p>
-                  
+
                   <div className="grid gap-3">
                     <Button
                       variant="outline"
@@ -338,7 +318,7 @@ export function AuthenticationFlow() {
                         <div className="text-sm text-muted-foreground">Use Touch ID or Face ID</div>
                       </div>
                     </Button>
-                    
+
                     <Button
                       variant="outline"
                       className="h-14 justify-start"
@@ -350,7 +330,7 @@ export function AuthenticationFlow() {
                         <div className="text-sm text-muted-foreground">We'll send a code to your email</div>
                       </div>
                     </Button>
-                    
+
                     <Button
                       variant="outline"
                       className="h-14 justify-start"
@@ -369,9 +349,9 @@ export function AuthenticationFlow() {
               {authMode === 'signin' && currentStep === 2 && (
                 <motion.div
                   key="verification"
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -20 }}
+                  initial={ opacity: 0, x: 20 }
+                  animate={ opacity: 1, x: 0 }
+                  exit={ opacity: 0, x: -20 }
                   className="space-y-4"
                 >
                   <Alert>
@@ -379,7 +359,7 @@ export function AuthenticationFlow() {
                       We've sent a verification code to {sessionData?.email}
                     </AlertDescription>
                   </Alert>
-                  
+
                   <div className="space-y-2">
                     <Label htmlFor="code">Verification code</Label>
                     <Input
@@ -387,12 +367,12 @@ export function AuthenticationFlow() {
                       type="text"
                       placeholder="Enter 6-digit code"
                       value={verificationCode}
-                      onChange={(e) => setVerificationCode(e.target.value)}
+                      onChange={(e: any) => setVerificationCode(e.target.value)}
                       className="h-12 text-center text-lg tracking-widest"
                       maxLength={6}
                     />
                   </div>
-                  
+
                   <Button
                     className="w-full h-12"
                     onClick={handleVerification}
@@ -407,7 +387,7 @@ export function AuthenticationFlow() {
                       'Verify and sign in'
                     )}
                   </Button>
-                  
+
                   <div className="text-center">
                     <Button variant="link" size="sm">
                       Didn't receive a code? Resend
@@ -419,9 +399,9 @@ export function AuthenticationFlow() {
               {authMode === 'signup' && currentStep === 0 && (
                 <motion.div
                   key="signup-account"
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -20 }}
+                  initial={ opacity: 0, x: 20 }
+                  animate={ opacity: 1, x: 0 }
+                  exit={ opacity: 0, x: -20 }
                 >
                   <form onSubmit={signUpForm.handleSubmit(handleSignUpSubmit)} className="space-y-4">
                     <div className="grid grid-cols-2 gap-4">
@@ -448,7 +428,7 @@ export function AuthenticationFlow() {
                         )}
                       </div>
                     </div>
-                    
+
                     <div className="space-y-2">
                       <Label htmlFor="signupEmail">Email address</Label>
                       <Input
@@ -461,7 +441,7 @@ export function AuthenticationFlow() {
                         <p className="text-sm text-red-500">{signUpForm.formState.errors.email.message}</p>
                       )}
                     </div>
-                    
+
                     <div className="space-y-2">
                       <Label htmlFor="phoneNumber">Phone number</Label>
                       <Input
@@ -475,7 +455,7 @@ export function AuthenticationFlow() {
                         <p className="text-sm text-red-500">{signUpForm.formState.errors.phoneNumber.message}</p>
                       )}
                     </div>
-                    
+
                     <div className="space-y-2">
                       <Label htmlFor="role">I am a</Label>
                       <select
@@ -491,7 +471,7 @@ export function AuthenticationFlow() {
                         <option value="INVESTOR">Investor</option>
                       </select>
                     </div>
-                    
+
                     <Button
                       type="button"
                       className="w-full h-12"
@@ -506,9 +486,9 @@ export function AuthenticationFlow() {
               {authMode === 'signup' && currentStep === 1 && (
                 <motion.div
                   key="signup-security"
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -20 }}
+                  initial={ opacity: 0, x: 20 }
+                  animate={ opacity: 1, x: 0 }
+                  exit={ opacity: 0, x: -20 }
                   className="space-y-4"
                 >
                   <div className="space-y-2">
@@ -538,7 +518,7 @@ export function AuthenticationFlow() {
                       <p className="text-sm text-red-500">{signUpForm.formState.errors.password.message}</p>
                     )}
                   </div>
-                  
+
                   <div className="space-y-2">
                     <Label htmlFor="confirmPassword">Confirm password</Label>
                     <Input
@@ -551,7 +531,7 @@ export function AuthenticationFlow() {
                       <p className="text-sm text-red-500">{signUpForm.formState.errors.confirmPassword.message}</p>
                     )}
                   </div>
-                  
+
                   <div className="space-y-3">
                     <div className="flex items-center space-x-2">
                       <input
@@ -568,7 +548,7 @@ export function AuthenticationFlow() {
                       <p className="text-sm text-red-500">{signUpForm.formState.errors.acceptTerms.message}</p>
                     )}
                   </div>
-                  
+
                   <Button
                     type="submit"
                     className="w-full h-12"

@@ -10,6 +10,7 @@ import { FaRulerCombined } from "react-icons/fa";
 import { FaMapMarkerAlt } from "react-icons/fa";
 import { FaEuroSign } from "react-icons/fa";
 import Link from "next/link";
+import { usePropertyAnalytics } from "@/hooks/usePropertyAnalytics";
 
 import { PropertyDetail as PropertyDetailType } from "@/types/properties";
 
@@ -42,11 +43,12 @@ const PropertyDetail: React.FC = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const id = getNumericId(searchParams); // Will throw error if missing/invalid
+  const analytics = usePropertyAnalytics();
 
-  const [property, setProperty] = useState<PropertyDetails | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [activeImage, setActiveImage] = useState(0);
+  const [propertysetProperty] = useState<PropertyDetails | null>(null);
+  const [loadingsetLoading] = useState(true);
+  const [errorsetError] = useState<string | null>(null);
+  const [activeImagesetActiveImage] = useState(0);
 
   useEffect(() => {
     const fetchPropertyDetails = async () => {
@@ -59,7 +61,7 @@ const PropertyDetail: React.FC = () => {
         if (response.success) {
           // Transform API data to match component state
           const propertyData = response.data;
-          setProperty({
+          const propertyDetails = {
             id: propertyData._id,
             name: propertyData.name,
             type: propertyData.type,
@@ -71,7 +73,7 @@ const PropertyDetail: React.FC = () => {
             description: propertyData.description,
             features: propertyData.features || [],
             images:
-              propertyData.images && propertyData.images.length > 0
+              propertyData.images && propertyData.images.length> 0
                 ? propertyData.images
                 : ["/placeholder-property.jpg"],
             floorPlan: propertyData.floorPlan,
@@ -84,20 +86,33 @@ const PropertyDetail: React.FC = () => {
             project: propertyData.project ? {
               id: propertyData.project._id,
               name: propertyData.project.name,
-              location: propertyData.project.location,
-            } : undefined,
-          });
+              location: propertyData.project.location} : undefined};
+
+          setProperty(propertyDetails);
+
+          // Track property view
+          analytics.trackPropertyViewed({
+            id: propertyDetails.id,
+            name: propertyDetails.name,
+            type: propertyDetails.type,
+            price: propertyDetails.price,
+            bedrooms: propertyDetails.bedrooms,
+            bathrooms: propertyDetails.bathrooms,
+            developmentId: propertyDetails.developmentId,
+            developmentName: propertyDetails.developmentName,
+            status: propertyDetails.status
+          }, 'property_detail_page');
         }
       } catch (err: any) {
         setError(err.message || "Failed to fetch property details");
-        console.error("Error fetching property details:", err);
+
       } finally {
         setLoading(false);
       }
     };
 
     fetchPropertyDetails();
-  }, [id]);
+  }, [idanalytics]);
 
   const getStatusBadgeClass = (status: string) => {
     switch (status) {
@@ -168,7 +183,7 @@ const PropertyDetail: React.FC = () => {
             </div>
             <div className="mt-4 md:mt-0">
               <span className="text-3xl font-bold text-gray-900 flex items-center">
-                <FaEuroSign className="mr-1" />{" "}
+                <FaEuroSign className="mr-1" />{" "
                 {property.price.toLocaleString()}
               </span>
               <span
@@ -190,12 +205,12 @@ const PropertyDetail: React.FC = () => {
               className="w-full h-full object-cover"
             />
           </div>
-          {property.images.length > 1 && (
+          {property.images.length> 1 && (
             <div className="mt-4 grid grid-cols-5 gap-2">
-              {property.images.map((image, index) => (
+              {property.images.map((imageindex: any) => (
                 <div
                   key={index}
-                  className={`h-20 cursor-pointer rounded-md overflow-hidden border-2 ${activeImage === index ? "border-blue-500" : "border-transparent"}`}
+                  className={`h-20 cursor-pointer rounded-md overflow-hidden border-2 ${activeImage === index ? "border-blue-500" : "border-transparent"`}
                   onClick={() => setActiveImage(index)}
                 >
                   <img
@@ -281,7 +296,28 @@ const PropertyDetail: React.FC = () => {
               </div>
             </div>
 
-            {property.features.length > 0 && (
+            {/* Customization CTA */}
+            <div className="bg-gradient-to-r from-blue-500 to-purple-600 shadow overflow-hidden sm:rounded-lg mb-8">
+              <div className="px-6 py-8 text-center text-white">
+                <h3 className="text-2xl font-bold mb-4">
+                  Make it Yours
+                </h3>
+                <p className="text-lg mb-6 opacity-90">
+                  Personalize your new home with our 3D customization studio
+                </p>
+                <Link
+                  href={`/properties/${property.id}/customize`}
+                  className="inline-flex items-center px-6 py-3 bg-white text-blue-600 font-semibold rounded-lg hover:bg-gray-100 transition duration-300"
+                >
+                  <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                  </svg>
+                  Customize This Home
+                </Link>
+              </div>
+            </div>
+
+            {property.features.length> 0 && (
               <div className="bg-white shadow overflow-hidden sm:rounded-lg mb-8">
                 <div className="px-4 py-5 sm:px-6">
                   <h3 className="text-lg leading-6 font-medium text-gray-900">
@@ -290,7 +326,7 @@ const PropertyDetail: React.FC = () => {
                 </div>
                 <div className="border-t border-gray-200 px-4 py-5 sm:px-6">
                   <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-2">
-                    {property.features.map((feature, index) => (
+                    {property.features.map((featureindex: any) => (
                       <li
                         key={index}
                         className="text-sm text-gray-500 flex items-center"
@@ -323,7 +359,21 @@ const PropertyDetail: React.FC = () => {
                     Floor Plan
                   </h3>
                 </div>
-                <div className="border-t border-gray-200 px-4 py-5 sm:px-6">
+                <div 
+                  className="border-t border-gray-200 px-4 py-5 sm:px-6"
+                  onClick={() => {
+                    // Track floor plan viewed
+                    analytics.trackPropertyInterest(
+                      {
+                        id: property.id,
+                        type: property.type,
+                        price: property.price,
+                        developmentId: property.developmentId
+                      },
+                      'floor_plan_viewed'
+                    );
+                  }
+                >
                   <img
                     src={property.floorPlan}
                     alt={`${property.name} - Floor Plan`}
@@ -380,7 +430,21 @@ const PropertyDetail: React.FC = () => {
                 </div>
 
                 {property.status === "available" && (
-                  <Link href={`/property/purchase?id=${property.id}`}>
+                  <Link 
+                    href={`/property/purchase?id=${property.id}`}
+                    onClick={() => {
+                      // Track purchase process initiation
+                      analytics.trackPurchaseStarted(property.id, property.price);
+                      analytics.trackReservationIntent({
+                        id: property.id,
+                        name: property.name,
+                        type: property.type,
+                        price: property.price,
+                        developmentId: property.developmentId,
+                        developmentName: property.developmentName
+                      });
+                    }
+                  >
                     <button className="mt-6 w-full bg-blue-600 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                       Start Purchase Process
                     </button>

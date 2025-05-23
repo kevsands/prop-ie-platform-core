@@ -1,0 +1,215 @@
+import { NextRequest, NextResponse } from 'next/server';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/app/api/auth/[...nextauth]/auth-server';
+import * as XLSX from 'xlsx';
+import { jsPDF } from 'jspdf';
+import 'jspdf-autotable';
+import { format } from 'date-fns';
+
+export async function GET(request: NextRequest) {
+  try {
+    const session = await getServerSession(authOptions);
+    if (!session?.user?.id) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    const searchParams = request.nextUrl.searchParams;
+    const formatType = searchParams.get('format') || 'csv';
+    const from = searchParams.get('from') ? new Date(searchParams.get('from')!) : new Date();
+    const to = searchParams.get('to') ? new Date(searchParams.get('to')!) : new Date();
+
+    // Fetch analytics data (reuse the logic from developer route)
+    const analyticsResponse = await fetch(
+      `${request.nextUrl.origin}/api/analytics/developer?from=${from.toISOString()}&to=${to.toISOString()}`,
+      {
+        headers: {
+          cookie: request.headers.get('cookie') || '',
+        },
+      }
+    );
+
+    if (!analyticsResponse.ok) {
+      throw new Error('Failed to fetch analytics data');
+    }
+
+    const analytics = await analyticsResponse.json();
+
+    switch (formatType) {
+      case 'pdf':
+        return generatePDF(analytics, session.user.name || 'Developer');
+
+      case 'excel':
+        return generateExcel(analytics);
+
+      case 'csv':
+      default:
+        return generateCSV(analytics);
+    }
+  } catch (error) {
+    console.error('Export error:', error);
+    return NextResponse.json(
+      { error: 'Failed to export analytics' },
+      { status: 500 }
+    );
+  }
+}
+
+function generatePDF(analytics: any, developerName: string) {
+  const doc = new jsPDF();
+  
+  // Title
+  doc.setFontSize(20);
+  doc.text('Developer Analytics Report', 14, 22);
+  
+  // Subtitle
+  doc.setFontSize(12);
+  doc.text(`Generated for: ${developerName}`, 14, 32);
+  doc.text(`Date: ${format(new Date(), 'MMMM d, yyyy')}`, 14, 40);
+  
+  // KPI Summary
+  doc.setFontSize(16);
+  doc.text('Key Performance Indicators', 14, 55);
+  
+  const kpiData = [
+    ['Metric', 'Value', 'Change'],
+    ['Total Sales', `€${analytics.totalSales?.toLocaleString() || 0}`, `${analytics.salesChange || 0}%`],
+    ['Revenue', `€${analytics.totalRevenue?.toLocaleString() || 0}`, `${analytics.revenueChange || 0}%`],
+    ['Conversion Rate', `${analytics.conversionRate || 0}%`, '-'],
+    ['Avg. Time to Sale', `${analytics.avgTimeToSale || 0} days`, `${analytics.timeToSaleChange || 0} days`],
+  ];
+  
+  (doc as any).autoTable({
+    startY: 60,
+    head: [kpiData[0]],
+    body: kpiData.slice(1),
+    theme: 'striped',
+  });
+  
+  // Revenue by Development
+  const yPos = (doc as any).lastAutoTable.finalY + 20;
+  doc.setFontSize(16);
+  doc.text('Revenue by Development', 14, yPos);
+  
+  const devData = [
+    ['Development', 'Revenue'],
+    ...analytics.salesByDevelopment?.map((dev: any) => [
+      dev.name,
+      `€${dev.value?.toLocaleString() || 0}`,
+    ]) || [],
+  ];
+  
+  (doc as any).autoTable({
+    startY: yPos + 5,
+    head: [devData[0]],
+    body: devData.slice(1),
+    theme: 'striped',
+  });
+  
+  // Financial Summary
+  const finYPos = (doc as any).lastAutoTable.finalY + 20;
+  doc.setFontSize(16);
+  doc.text('Financial Summary', 14, finYPos);
+  
+  const finData = [
+    ['Metric', 'Amount'],
+    ['Cash Flow', `€${analytics.cashFlow?.toLocaleString() || 0}`],
+    ['Outstanding Payments', `€${analytics.outstandingPayments?.toLocaleString() || 0}`],
+    ['Projected Revenue (90 days)', `€${analytics.projectedRevenue?.toLocaleString() || 0}`],
+  ];
+  
+  (doc as any).autoTable({
+    startY: finYPos + 5,
+    head: [finData[0]],
+    body: finData.slice(1),
+    theme: 'striped',
+  });
+  
+  const pdfBlob = doc.output('blob');
+  return new NextResponse(pdfBlob, {
+    headers: {
+      'Content-Type': 'application/pdf',
+      'Content-Disposition': `attachment; filename="analytics-report-${format(new Date(), 'yyyy-MM-dd')}.pdf"`,
+    },
+  });
+}
+
+function generateExcel(analytics: any) {
+  const wb = XLSX.utils.book_new();
+  
+  // KPI Sheet
+  const kpiData = [
+    ['Key Performance Indicators'],
+    ['Metric', 'Value', 'Change'],
+    ['Total Sales', analytics.totalSales || 0, `${analytics.salesChange || 0}%`],
+    ['Revenue', analytics.totalRevenue || 0, `${analytics.revenueChange || 0}%`],
+    ['Conversion Rate', `${analytics.conversionRate || 0}%`, '-'],
+    ['Avg. Time to Sale', `${analytics.avgTimeToSale || 0} days`, `${analytics.timeToSaleChange || 0} days`],
+  ];
+  const kpiSheet = XLSX.utils.aoa_to_sheet(kpiData);
+  XLSX.utils.book_append_sheet(wb, kpiSheet, 'KPIs');
+  
+  // Revenue Data Sheet
+  if (analytics.revenueData) {
+    const revenueSheet = XLSX.utils.json_to_sheet(analytics.revenueData);
+    XLSX.utils.book_append_sheet(wb, revenueSheet, 'Revenue Trends');
+  }
+  
+  // Sales by Development Sheet
+  if (analytics.salesByDevelopment) {
+    const salesSheet = XLSX.utils.json_to_sheet(analytics.salesByDevelopment);
+    XLSX.utils.book_append_sheet(wb, salesSheet, 'Sales by Development');
+  }
+  
+  // Financial Summary Sheet
+  const finData = [
+    ['Financial Summary'],
+    ['Metric', 'Amount'],
+    ['Cash Flow', analytics.cashFlow || 0],
+    ['Outstanding Payments', analytics.outstandingPayments || 0],
+    ['Projected Revenue (90 days)', analytics.projectedRevenue || 0],
+    ['Payment Collection Rate', `${analytics.paymentCollectionRate || 0}%`],
+  ];
+  const finSheet = XLSX.utils.aoa_to_sheet(finData);
+  XLSX.utils.book_append_sheet(wb, finSheet, 'Financial Summary');
+  
+  const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'buffer' });
+  return new NextResponse(excelBuffer, {
+    headers: {
+      'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      'Content-Disposition': `attachment; filename="analytics-report-${format(new Date(), 'yyyy-MM-dd')}.xlsx"`,
+    },
+  });
+}
+
+function generateCSV(analytics: any) {
+  const csvData = [
+    'Developer Analytics Report',
+    `Generated on: ${format(new Date(), 'MMMM d, yyyy')}`,
+    '',
+    'Key Performance Indicators',
+    'Metric,Value,Change',
+    `Total Sales,€${analytics.totalSales?.toLocaleString() || 0},${analytics.salesChange || 0}%`,
+    `Revenue,€${analytics.totalRevenue?.toLocaleString() || 0},${analytics.revenueChange || 0}%`,
+    `Conversion Rate,${analytics.conversionRate || 0}%,-`,
+    `Avg. Time to Sale,${analytics.avgTimeToSale || 0} days,${analytics.timeToSaleChange || 0} days`,
+    '',
+    'Financial Summary',
+    'Metric,Amount',
+    `Cash Flow,€${analytics.cashFlow?.toLocaleString() || 0}`,
+    `Outstanding Payments,€${analytics.outstandingPayments?.toLocaleString() || 0}`,
+    `Projected Revenue (90 days),€${analytics.projectedRevenue?.toLocaleString() || 0}`,
+    '',
+    'Revenue by Development',
+    'Development,Revenue',
+    ...(analytics.salesByDevelopment?.map((dev: any) => 
+      `${dev.name},€${dev.value?.toLocaleString() || 0}`
+    ) || []),
+  ].join('\n');
+  
+  return new NextResponse(csvData, {
+    headers: {
+      'Content-Type': 'text/csv',
+      'Content-Disposition': `attachment; filename="analytics-report-${format(new Date(), 'yyyy-MM-dd')}.csv"`,
+    },
+  });
+}

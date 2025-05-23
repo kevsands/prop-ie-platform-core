@@ -13,8 +13,7 @@ const ContactInfo: React.FC<ContactInfoProps> = ({ email, phone, address }) => {
         </svg>
       ),
       title: 'Phone',
-      details: [phone],
-    },
+      details: [phone]},
     {
       icon: (
         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -22,8 +21,7 @@ const ContactInfo: React.FC<ContactInfoProps> = ({ email, phone, address }) => {
         </svg>
       ),
       title: 'Email',
-      details: [email],
-    },
+      details: [email]},
     {
       icon: (
         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -32,8 +30,7 @@ const ContactInfo: React.FC<ContactInfoProps> = ({ email, phone, address }) => {
         </svg>
       ),
       title: 'Address',
-      details: [address],
-    },
+      details: [address]},
     {
       icon: (
         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -44,29 +41,26 @@ const ContactInfo: React.FC<ContactInfoProps> = ({ email, phone, address }) => {
       details: [
         'Monday - Friday: 9:00 AM - 6:00 PM',
         'Saturday: 10:00 AM - 4:00 PM',
-        'Sunday: Closed',
-      ],
-    },
-  ];
+        'Sunday: Closed']}];
 
   return (
     <motion.div 
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.5 }}
+      initial={ opacity: 0, y: 20 }
+      whileInView={ opacity: 1, y: 0 }
+      viewport={ once: true }
+      transition={ duration: 0.5 }
       className="bg-white p-8 rounded-lg shadow-sm"
     >
       <h2 className="text-2xl font-bold mb-6 text-gray-900">Contact Information</h2>
-      
+
       <div className="space-y-8">
-        {contactDetails.map((item, index) => (
+        {contactDetails.map((itemindex: any) => (
           <motion.div 
             key={index}
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: index * 0.1 }}
+            initial={ opacity: 0, y: 20 }
+            whileInView={ opacity: 1, y: 0 }
+            viewport={ once: true }
+            transition={ duration: 0.5, delay: index * 0.1 }
             className="flex"
           >
             <div className="text-blue-600 mt-1 mr-4">
@@ -75,7 +69,7 @@ const ContactInfo: React.FC<ContactInfoProps> = ({ email, phone, address }) => {
             <div>
               <h3 className="text-lg font-semibold text-gray-900 mb-2">{item.title}</h3>
               <div className="space-y-1">
-                {item.details.map((detail, i) => (
+                {item.details.map((detaili: any) => (
                   <p key={i} className="text-gray-600">{detail}</p>
                 ))}
               </div>
@@ -83,7 +77,7 @@ const ContactInfo: React.FC<ContactInfoProps> = ({ email, phone, address }) => {
           </motion.div>
         ))}
       </div>
-      
+
       <div className="mt-8 pt-6 border-t border-gray-200">
         <h3 className="text-lg font-semibold text-gray-900 mb-4">Connect With Us</h3>
         <div className="flex space-x-4">

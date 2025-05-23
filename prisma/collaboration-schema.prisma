@@ -1,0 +1,530 @@
+// Architect Collaboration Tools Schema
+
+model Project {
+  id                String            @id @default(cuid())
+  name              String
+  description       String?
+  propertyId        String
+  developmentId     String?
+  status            ProjectStatus     @default(PLANNING)
+  startDate         DateTime
+  targetCompletion  DateTime?
+  actualCompletion  DateTime?
+  budget            Float?
+  
+  // Team
+  leadArchitectId   String
+  architectIds      String[]
+  engineerIds       String[]
+  contractorIds     String[]
+  
+  // Files and drawings
+  drawings          Drawing[]
+  revisions         DrawingRevision[]
+  documents         ProjectDocument[]
+  milestones        ProjectMilestone[]
+  tasks             ProjectTask[]
+  comments          ProjectComment[]
+  changeOrders      ChangeOrder[]
+  buildingModels    BuildingModel[]
+  specifications    Specification[]
+  
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+}
+
+model Drawing {
+  id                String            @id @default(cuid())
+  projectId         String
+  project           Project           @relation(fields: [projectId], references: [id])
+  type              DrawingType
+  title             String
+  description       String?
+  drawingNumber     String            @unique
+  scale             String?
+  
+  // File details
+  fileUrl           String
+  fileSize          Int
+  mimeType          String
+  
+  // Version control
+  version           Int               @default(1)
+  status            DrawingStatus     @default(DRAFT)
+  currentRevisionId String?
+  revisions         DrawingRevision[]
+  
+  // Metadata
+  createdById       String
+  lastModifiedById  String
+  tags              String[]
+  discipline        DrawingDiscipline
+  
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+}
+
+model DrawingRevision {
+  id                String            @id @default(cuid())
+  drawingId         String
+  drawing           Drawing           @relation(fields: [drawingId], references: [id])
+  revisionNumber    String
+  description       String
+  fileUrl           String
+  
+  // Changes
+  changesMade       String[]
+  reviewedBy        String?
+  approvedBy        String?
+  rejectedBy        String?
+  
+  status            RevisionStatus    @default(PENDING)
+  comments          RevisionComment[]
+  markups           DrawingMarkup[]
+  
+  createdById       String
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+}
+
+model DrawingMarkup {
+  id                String            @id @default(cuid())
+  revisionId        String
+  revision          DrawingRevision   @relation(fields: [revisionId], references: [id])
+  
+  // Markup details
+  type              MarkupType
+  coordinates       Json              // SVG or canvas coordinates
+  content           String
+  color             String
+  authorId          String
+  
+  resolved          Boolean           @default(false)
+  resolvedById      String?
+  resolvedAt        DateTime?
+  
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+}
+
+model BuildingModel {
+  id                String            @id @default(cuid())
+  projectId         String
+  project           Project           @relation(fields: [projectId], references: [id])
+  
+  name              String
+  description       String?
+  type              ModelType         // 3D, BIM, etc.
+  fileUrl           String
+  fileSize          Int
+  
+  // Model metadata
+  format            String            // IFC, Revit, etc.
+  modelVersion      String
+  softwareUsed      String
+  
+  // Viewing
+  viewerUrl         String?           // For web viewing
+  thumbnailUrl      String?
+  
+  createdById       String
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+}
+
+model ProjectTask {
+  id                String            @id @default(cuid())
+  projectId         String
+  project           Project           @relation(fields: [projectId], references: [id])
+  
+  title             String
+  description       String?
+  priority          TaskPriority      @default(MEDIUM)
+  status            TaskStatus        @default(PENDING)
+  
+  // Assignments
+  assignedToId      String
+  assignedTeam      String?
+  
+  // Timeline
+  dueDate           DateTime?
+  completedAt       DateTime?
+  estimatedHours    Float?
+  actualHours       Float?
+  
+  // Dependencies
+  dependentTaskIds  String[]
+  blockingTaskIds   String[]
+  
+  // Related items
+  relatedDrawingIds String[]
+  relatedDocumentIds String[]
+  attachments       TaskAttachment[]
+  comments          TaskComment[]
+  
+  createdById       String
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+}
+
+model ProjectComment {
+  id                String            @id @default(cuid())
+  projectId         String
+  project           Project           @relation(fields: [projectId], references: [id])
+  
+  content           String
+  authorId          String
+  
+  // What it relates to
+  entityType        CommentEntityType
+  entityId          String
+  
+  // Thread
+  parentCommentId   String?
+  parentComment     ProjectComment?   @relation("CommentThread", fields: [parentCommentId], references: [id])
+  replies           ProjectComment[]  @relation("CommentThread")
+  
+  mentions          String[]          // User IDs mentioned
+  resolved          Boolean           @default(false)
+  resolvedById      String?
+  
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+}
+
+model ChangeOrder {
+  id                String            @id @default(cuid())
+  projectId         String
+  project           Project           @relation(fields: [projectId], references: [id])
+  
+  orderNumber       String            @unique
+  title             String
+  description       String
+  requestedById     String
+  
+  // Impact
+  costImpact        Float?
+  scheduleImpact    Int?              // Days
+  
+  status            ChangeOrderStatus @default(PENDING)
+  priority          ChangePriority    @default(MEDIUM)
+  
+  // Approval workflow
+  approvalSteps     ApprovalStep[]
+  currentStepId     String?
+  
+  // Documentation
+  attachments       ChangeOrderDoc[]
+  affectedDrawings  String[]          // Drawing IDs
+  
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+}
+
+model Specification {
+  id                String            @id @default(cuid())
+  projectId         String
+  project           Project           @relation(fields: [projectId], references: [id])
+  
+  section           String
+  title             String
+  content           String
+  type              SpecificationType
+  
+  // Related items
+  relatedDrawingIds String[]
+  relatedProductIds String[]
+  attachments       SpecAttachment[]
+  
+  version           Int               @default(1)
+  status            SpecStatus        @default(DRAFT)
+  
+  createdById       String
+  approvedById      String?
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+}
+
+// Supporting models
+model ProjectDocument {
+  id                String            @id @default(cuid())
+  projectId         String
+  project           Project           @relation(fields: [projectId], references: [id])
+  
+  title             String
+  description       String?
+  documentType      DocumentType
+  fileUrl           String
+  fileSize          Int
+  mimeType          String
+  
+  tags              String[]
+  accessLevel       AccessLevel       @default(TEAM)
+  
+  createdById       String
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+}
+
+model ProjectMilestone {
+  id                String            @id @default(cuid())
+  projectId         String
+  project           Project           @relation(fields: [projectId], references: [id])
+  
+  name              String
+  description       String?
+  targetDate        DateTime
+  actualDate        DateTime?
+  
+  deliverables      String[]
+  status            MilestoneStatus   @default(UPCOMING)
+  
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+}
+
+model RevisionComment {
+  id                String            @id @default(cuid())
+  revisionId        String
+  revision          DrawingRevision   @relation(fields: [revisionId], references: [id])
+  
+  content           String
+  authorId          String
+  resolved          Boolean           @default(false)
+  
+  createdAt         DateTime          @default(now())
+}
+
+model TaskComment {
+  id                String            @id @default(cuid())
+  taskId            String
+  task              ProjectTask       @relation(fields: [taskId], references: [id])
+  
+  content           String
+  authorId          String
+  
+  createdAt         DateTime          @default(now())
+}
+
+model TaskAttachment {
+  id                String            @id @default(cuid())
+  taskId            String
+  task              ProjectTask       @relation(fields: [taskId], references: [id])
+  
+  fileName          String
+  fileUrl           String
+  fileSize          Int
+  mimeType          String
+  
+  uploadedById      String
+  createdAt         DateTime          @default(now())
+}
+
+model ChangeOrderDoc {
+  id                String            @id @default(cuid())
+  changeOrderId     String
+  changeOrder       ChangeOrder       @relation(fields: [changeOrderId], references: [id])
+  
+  title             String
+  fileUrl           String
+  fileSize          Int
+  mimeType          String
+  
+  uploadedById      String
+  createdAt         DateTime          @default(now())
+}
+
+model SpecAttachment {
+  id                String            @id @default(cuid())
+  specificationId   String
+  specification     Specification     @relation(fields: [specificationId], references: [id])
+  
+  fileName          String
+  fileUrl           String
+  fileSize          Int
+  mimeType          String
+  
+  uploadedById      String
+  createdAt         DateTime          @default(now())
+}
+
+model ApprovalStep {
+  id                String            @id @default(cuid())
+  changeOrderId     String
+  changeOrder       ChangeOrder       @relation(fields: [changeOrderId], references: [id])
+  
+  stepNumber        Int
+  approverId        String
+  role              String
+  status            ApprovalStatus    @default(PENDING)
+  comments          String?
+  
+  approvedAt        DateTime?
+  rejectedAt        DateTime?
+}
+
+// Enums
+enum ProjectStatus {
+  PLANNING
+  DESIGN
+  APPROVAL
+  CONSTRUCTION
+  COMPLETED
+  ON_HOLD
+  CANCELLED
+}
+
+enum DrawingType {
+  FLOOR_PLAN
+  ELEVATION
+  SECTION
+  DETAIL
+  SITE_PLAN
+  LANDSCAPE
+  ELECTRICAL
+  PLUMBING
+  STRUCTURAL
+  HVAC
+  FURNITURE
+  REFLECTED_CEILING
+}
+
+enum DrawingStatus {
+  DRAFT
+  FOR_REVIEW
+  APPROVED
+  FOR_CONSTRUCTION
+  AS_BUILT
+  SUPERSEDED
+}
+
+enum DrawingDiscipline {
+  ARCHITECTURAL
+  STRUCTURAL
+  MECHANICAL
+  ELECTRICAL
+  PLUMBING
+  LANDSCAPE
+  INTERIOR
+  CIVIL
+}
+
+enum RevisionStatus {
+  PENDING
+  REVIEWED
+  APPROVED
+  REJECTED
+  SUPERSEDED
+}
+
+enum MarkupType {
+  COMMENT
+  DIMENSION
+  ARROW
+  RECTANGLE
+  CIRCLE
+  FREEHAND
+  TEXT
+}
+
+enum ModelType {
+  CONCEPT_3D
+  BIM
+  STRUCTURAL
+  MEP
+  FULL_BUILDING
+  LANDSCAPE
+}
+
+enum TaskStatus {
+  PENDING
+  IN_PROGRESS
+  REVIEW
+  COMPLETED
+  BLOCKED
+  CANCELLED
+}
+
+enum TaskPriority {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+}
+
+enum CommentEntityType {
+  PROJECT
+  DRAWING
+  REVISION
+  TASK
+  CHANGE_ORDER
+  SPECIFICATION
+}
+
+enum ChangeOrderStatus {
+  PENDING
+  REVIEWING
+  APPROVED
+  REJECTED
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+}
+
+enum ChangePriority {
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
+}
+
+enum DocumentType {
+  CONTRACT
+  REPORT
+  CERTIFICATE
+  PERMIT
+  SCHEDULE
+  BUDGET
+  MEETING_MINUTES
+  CORRESPONDENCE
+  PHOTO
+  OTHER
+}
+
+enum SpecificationType {
+  MATERIAL
+  PRODUCT
+  PERFORMANCE
+  EXECUTION
+  GENERAL
+}
+
+enum SpecStatus {
+  DRAFT
+  REVIEW
+  APPROVED
+  ISSUED
+  SUPERSEDED
+}
+
+enum AccessLevel {
+  PUBLIC
+  TEAM
+  RESTRICTED
+  CONFIDENTIAL
+}
+
+enum MilestoneStatus {
+  UPCOMING
+  IN_PROGRESS
+  COMPLETED
+  DELAYED
+  CANCELLED
+}
+
+enum ApprovalStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  CONDITIONAL
+}

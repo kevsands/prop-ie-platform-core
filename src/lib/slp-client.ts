@@ -4,18 +4,15 @@ export const slpClient = {
     findUnique: async () => null,
     findMany: async () => [],
     create: async () => null,
-    update: async () => null,
-  },
+    update: async () => null},
   task: {
     findMany: async () => [],
     create: async () => null,
-    update: async () => null,
-  },
+    update: async () => null},
   document: {
     findMany: async () => [],
     create: async () => null,
-    update: async () => null,
-  }
+    update: async () => null}
 }
 
 export default slpClient;

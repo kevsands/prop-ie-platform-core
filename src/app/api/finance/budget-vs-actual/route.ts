@@ -22,7 +22,7 @@ export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url);
     const projectId = searchParams.get('projectId');
     const category = searchParams.get('category');
-    
+
     if (!projectId) {
       return NextResponse.json(
         { error: 'Project ID is required' },
@@ -92,26 +92,25 @@ export async function GET(request: NextRequest) {
         budgetValue: 450000,
         actualValue: 400000,
         category: 'Revenue'
-      },
-    ];
+      }];
 
     // Filter by category if specified
     const filteredData = category 
       ? budgetVsActualData.filter(item => item.category === category)
       : budgetVsActualData;
-    
+
     // Calculate summary metrics
     const summary = {
-      totalBudget: filteredData.reduce((sum, item) => sum + item.budgetValue, 0),
-      totalActual: filteredData.reduce((sum, item) => sum + item.actualValue, 0),
-      variance: filteredData.reduce((sum, item) => sum + (item.actualValue - item.budgetValue), 0),
+      totalBudget: filteredData.reduce((sumitem: any) => sum + item.budgetValue0),
+      totalActual: filteredData.reduce((sumitem: any) => sum + item.actualValue0),
+      variance: filteredData.reduce((sumitem: any) => sum + (item.actualValue - item.budgetValue), 0),
       overBudgetItems: filteredData.filter(item => 
-        (item.invertComparison && item.actualValue > item.budgetValue) || 
-        (!item.invertComparison && item.actualValue < item.budgetValue)
+        (item.invertComparison && item.actualValue> item.budgetValue) || 
+        (!item.invertComparison && item.actualValue <item.budgetValue)
       ).length,
       underBudgetItems: filteredData.filter(item => 
-        (item.invertComparison && item.actualValue < item.budgetValue) || 
-        (!item.invertComparison && item.actualValue > item.budgetValue)
+        (item.invertComparison && item.actualValue <item.budgetValue) || 
+        (!item.invertComparison && item.actualValue> item.budgetValue)
       ).length
     };
 
@@ -121,8 +120,7 @@ export async function GET(request: NextRequest) {
       { month: 'Feb', budget: 185000, actual: 190000 },
       { month: 'Mar', budget: 190000, actual: 195000 },
       { month: 'Apr', budget: 200000, actual: 205000 },
-      { month: 'May', budget: 210000, actual: 220000 },
-    ];
+      { month: 'May', budget: 210000, actual: 220000 }];
 
     return NextResponse.json({
       projectId,
@@ -131,7 +129,7 @@ export async function GET(request: NextRequest) {
       monthlyBreakdown
     });
   } catch (error) {
-    console.error('Error fetching budget vs actual data:', error);
+
     return NextResponse.json(
       { error: 'Failed to fetch budget vs actual data' },
       { status: 500 }
@@ -156,9 +154,9 @@ export async function POST(request: NextRequest) {
     }
 
     // Parse request body
-    const body = await request.json();
+    const body: any = await request.json();
     const { projectId, itemId, budgetValue } = body;
-    
+
     if (!projectId || !itemId || budgetValue === undefined) {
       return NextResponse.json(
         { error: 'Missing required fields' },
@@ -175,7 +173,7 @@ export async function POST(request: NextRequest) {
       itemId
     });
   } catch (error) {
-    console.error('Error updating budget item:', error);
+
     return NextResponse.json(
       { error: 'Failed to update budget item' },
       { status: 500 }

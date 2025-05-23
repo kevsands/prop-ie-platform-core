@@ -1,0 +1,164 @@
+{
+  "timestamp": "2025-05-23T16:05:59.701Z",
+  "buildIssues": {
+    "totalErrors": 2425,
+    "errorTypes": {
+      "1002": 6,
+      "1003": 60,
+      "1005": 745,
+      "1011": 78,
+      "1068": 3,
+      "1109": 288,
+      "1110": 19,
+      "1128": 238,
+      "1130": 2,
+      "1131": 57,
+      "1134": 5,
+      "1135": 59,
+      "1136": 64,
+      "1138": 11,
+      "1144": 1,
+      "1161": 1,
+      "1359": 7,
+      "1381": 321,
+      "1382": 194,
+      "1434": 20,
+      "1472": 1,
+      "2657": 19,
+      "17002": 216,
+      "17008": 8,
+      "17015": 2
+    },
+    "topErrors": [
+      {
+        "code": "TS1005",
+        "count": 745
+      },
+      {
+        "code": "TS1381",
+        "count": 321
+      },
+      {
+        "code": "TS1109",
+        "count": 288
+      },
+      {
+        "code": "TS1128",
+        "count": 238
+      },
+      {
+        "code": "TS17002",
+        "count": 216
+      },
+      {
+        "code": "TS1382",
+        "count": 194
+      },
+      {
+        "code": "TS1011",
+        "count": 78
+      },
+      {
+        "code": "TS1136",
+        "count": 64
+      },
+      {
+        "code": "TS1003",
+        "count": 60
+      },
+      {
+        "code": "TS1135",
+        "count": 59
+      }
+    ]
+  },
+  "dependencies": {
+    "production": 119,
+    "development": 95,
+    "total": 214,
+    "largeDependencies": [
+      "lodash"
+    ],
+    "duplicateCategories": [
+      {
+        "type": "HTTP clients",
+        "packages": [
+          "axios",
+          "got"
+        ]
+      }
+    ],
+    "recommendations": [
+      "Use lodash-es and import specific functions to enable tree shaking"
+    ]
+  },
+  "deployment": {
+    "environment": {
+      "envFile": true,
+      "envExample": true,
+      "gitignored": true
+    },
+    "docker": {
+      "dockerfile": true,
+      "dockerignore": false,
+      "compose": true
+    },
+    "cicd": {
+      "githubActions": true,
+      "vercel": true,
+      "netlify": false,
+      "amplify": true
+    },
+    "monitoring": {
+      "sentry": false,
+      "datadog": false,
+      "googleAnalytics": false
+    },
+    "security": {
+      "headers": false,
+      "csp": false
+    },
+    "issues": [
+      "No monitoring solution configured"
+    ]
+  },
+  "performance": {},
+  "recommendations": [
+    {
+      "category": "Build",
+      "priority": "High",
+      "issue": "2425 TypeScript errors preventing optimized build",
+      "action": "Fix TypeScript errors to enable production optimizations"
+    },
+    {
+      "category": "Bundle Size",
+      "priority": "Medium",
+      "issue": "Large dependencies detected: lodash",
+      "action": "Consider lighter alternatives or lazy loading"
+    },
+    {
+      "category": "Deployment",
+      "priority": "Medium",
+      "issue": "No monitoring solution configured",
+      "action": "Fix deployment configuration issue"
+    },
+    {
+      "category": "Performance",
+      "priority": "Medium",
+      "issue": "Image optimization",
+      "action": "Use next/image component for automatic image optimization"
+    },
+    {
+      "category": "Performance",
+      "priority": "Medium",
+      "issue": "Font optimization",
+      "action": "Use next/font for optimized font loading"
+    },
+    {
+      "category": "Performance",
+      "priority": "Low",
+      "issue": "Bundle analysis",
+      "action": "Install @next/bundle-analyzer to identify large modules"
+    }
+  ]
+}

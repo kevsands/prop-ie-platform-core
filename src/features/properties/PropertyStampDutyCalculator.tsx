@@ -43,18 +43,18 @@ export default function PropertyStampDutyCalculator({
   propertyPrice, 
   propertyType 
 }: PropertyStampDutyCalculatorProps) {
-  const [buyerType, setBuyerType] = useState<'first-time' | 'mover' | 'investor'>('first-time');
-  const [propertyCategory, setPropertyCategory] = useState<'residential' | 'commercial'>(
+  const [buyerTypesetBuyerType] = useState<'first-time' | 'mover' | 'investor'>('first-time');
+  const [propertyCategorysetPropertyCategory] = useState<'residential' | 'commercial'>(
     propertyType.toLowerCase().includes('commercial') ? 'commercial' : 'residential'
   );
-  const [customPrice, setCustomPrice] = useState<number | null>(null);
-  const [showBreakdown, setShowBreakdown] = useState(false);
+  const [customPricesetCustomPrice] = useState<number | null>(null);
+  const [showBreakdownsetShowBreakdown] = useState(false);
 
   const calculationPrice = customPrice || propertyPrice;
 
   const calculation = useMemo(() => {
     let stampDuty = 0;
-    let breakdown: { band: string; amount: number; rate: number }[] = [];
+    const breakdown: { band: string; amount: number; rate: number }[] = [];
     const rates = propertyCategory === 'residential' ? RESIDENTIAL_RATES : COMMERCIAL_RATES;
 
     // Calculate stamp duty based on bands
@@ -64,8 +64,8 @@ export default function PropertyStampDutyCalculator({
     for (const band of rates) {
       const bandValue = Math.min(remainingValue, band.threshold - previousThreshold);
       const bandDuty = bandValue * band.rate;
-      
-      if (bandValue > 0) {
+
+      if (bandValue> 0) {
         stampDuty += bandDuty;
         breakdown.push({
           band: band.label,
@@ -93,7 +93,7 @@ export default function PropertyStampDutyCalculator({
       }
     }
 
-    const effectiveRate = calculationPrice > 0 ? (stampDuty / calculationPrice) * 100 : 0;
+    const effectiveRate = calculationPrice> 0 ? (stampDuty / calculationPrice) * 100 : 0;
 
     return {
       stampDuty,
@@ -101,7 +101,7 @@ export default function PropertyStampDutyCalculator({
       effectiveRate,
       breakdown
     };
-  }, [calculationPrice, buyerType, propertyCategory]);
+  }, [calculationPrice, buyerTypepropertyCategory]);
 
   return (
     <Card>
@@ -122,7 +122,7 @@ export default function PropertyStampDutyCalculator({
             <Input
               type="number"
               value={customPrice || propertyPrice}
-              onChange={(e) => setCustomPrice(parseFloat(e.target.value) || null)}
+              onChange={(e: any) => setCustomPrice(parseFloat(e.target.value) || null)}
               prefix="€"
               className="flex-1"
             />
@@ -143,7 +143,7 @@ export default function PropertyStampDutyCalculator({
           <Label>Property Type</Label>
           <RadioGroup
             value={propertyCategory}
-            onValueChange={(value) => setPropertyCategory(value as 'residential' | 'commercial')}
+            onValueChange={(value: any) => setPropertyCategory(value as 'residential' | 'commercial')}
           >
             <div className="flex items-center space-x-2">
               <RadioGroupItem value="residential" id="residential" />
@@ -162,7 +162,7 @@ export default function PropertyStampDutyCalculator({
             <Label>Buyer Type</Label>
             <RadioGroup
               value={buyerType}
-              onValueChange={(value) => setBuyerType(value as typeof buyerType)}
+              onValueChange={(value: any) => setBuyerType(value as typeof buyerType)}
             >
               <div className="flex items-center space-x-2">
                 <RadioGroupItem value="first-time" id="first-time" />
@@ -215,7 +215,7 @@ export default function PropertyStampDutyCalculator({
           </div>
 
           {/* First-time Buyer Relief */}
-          {calculation.firstTimeBuyerRelief > 0 && (
+          {calculation.firstTimeBuyerRelief> 0 && (
             <Alert className="mb-6">
               <CheckCircleIcon className="h-4 w-4" />
               <AlertDescription>
@@ -239,7 +239,7 @@ export default function PropertyStampDutyCalculator({
           {showBreakdown && (
             <div className="space-y-3">
               <h4 className="font-semibold text-sm">Calculation Breakdown</h4>
-              {calculation.breakdown.map((band, index) => (
+              {calculation.breakdown.map((bandindex: any) => (
                 <div key={index} className="flex justify-between text-sm">
                   <span className="text-gray-600">
                     {band.band} @ {(band.rate * 100).toFixed(1)}%
@@ -249,7 +249,7 @@ export default function PropertyStampDutyCalculator({
                   </span>
                 </div>
               ))}
-              {buyerType === 'first-time' && calculationPrice > 500000 && (
+              {buyerType === 'first-time' && calculationPrice> 500000 && (
                 <div className="flex justify-between text-sm pt-2 border-t">
                   <span className="text-gray-600">First-time buyer relief</span>
                   <span className="font-medium text-green-600">

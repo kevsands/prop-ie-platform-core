@@ -1,0 +1,107 @@
+import React from 'react';
+'use client';
+
+import Link from 'next/link';
+import { ArrowRight, User, LogIn, UserPlus } from 'lucide-react';
+
+export default function AuthFlowDemo() {
+  return (
+    <div className="min-h-screen bg-gray-50 py-12 px-4">
+      <div className="max-w-4xl mx-auto">
+        <h1 className="text-4xl font-bold text-gray-900 mb-8 text-center">
+          Authentication Flow Visual Guide
+        </h1>
+
+        <div className="bg-white rounded-xl shadow-lg p-8 mb-8">
+          <h2 className="text-2xl font-semibold mb-6">Sign In/Up Options Location</h2>
+
+          <div className="mb-8 p-6 bg-blue-50 rounded-lg">
+            <h3 className="text-lg font-semibold text-blue-900 mb-3">
+              Top Right Corner Navigation
+            </h3>
+            <p className="text-gray-700 mb-4">
+              The main navigation bar in the top right corner contains:
+            </p>
+            <div className="flex items-center space-x-4 mb-4">
+              <div className="bg-white border-2 border-gray-300 px-4 py-2 rounded-md">
+                <LogIn className="inline w-4 h-4 mr-2" />
+                Login
+              </div>
+              <div className="bg-[#2B5273] text-white px-4 py-2 rounded-md">
+                <UserPlus className="inline w-4 h-4 mr-2" />
+                Sign Up
+              </div>
+            </div>
+            <p className="text-sm text-gray-600">
+              These buttons are visible when not logged in and appear in the main navigation bar.
+            </p>
+          </div>
+
+          <div className="p-6 bg-gray-50 rounded-lg">
+            <h3 className="text-lg font-semibold text-gray-900 mb-3">
+              Consolidated Authentication Flow
+            </h3>
+            <div className="space-y-4">
+              <div className="flex items-center space-x-4">
+                <div className="bg-blue-100 p-3 rounded-full">
+                  <LogIn className="w-6 h-6 text-blue-600" />
+                </div>
+                <div>
+                  <h4 className="font-medium">Login Page</h4>
+                  <p className="text-gray-600">Path: <code className="bg-gray-200 px-2 py-1 rounded">/login</code></p>
+                </div>
+              </div>
+
+              <div className="flex items-center space-x-4">
+                <div className="bg-green-100 p-3 rounded-full">
+                  <UserPlus className="w-6 h-6 text-green-600" />
+                </div>
+                <div>
+                  <h4 className="font-medium">Register Page</h4>
+                  <p className="text-gray-600">Path: <code className="bg-gray-200 px-2 py-1 rounded">/auth/register</code></p>
+                  <p className="text-sm text-gray-500">Note: Old /register redirects here</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="bg-white rounded-xl shadow-lg p-8">
+          <h2 className="text-2xl font-semibold mb-6">Quick Access Links</h2>
+
+          <div className="grid md:grid-cols-3 gap-6">
+            <Link 
+              href="/login" 
+              className="border-2 border-gray-300 rounded-lg p-6 hover:border-blue-500 transition-colors"
+            >
+              <LogIn className="w-8 h-8 text-gray-600 mb-3" />
+              <h3 className="font-semibold mb-2">Login Page</h3>
+              <p className="text-gray-600 text-sm">Sign in to your account</p>
+              <ArrowRight className="w-5 h-5 text-gray-400 mt-4" />
+            </Link>
+
+            <Link 
+              href="/auth/register" 
+              className="border-2 border-gray-300 rounded-lg p-6 hover:border-green-500 transition-colors"
+            >
+              <UserPlus className="w-8 h-8 text-gray-600 mb-3" />
+              <h3 className="font-semibold mb-2">Register Page</h3>
+              <p className="text-gray-600 text-sm">Create a new account</p>
+              <ArrowRight className="w-5 h-5 text-gray-400 mt-4" />
+            </Link>
+
+            <Link 
+              href="/auth/test" 
+              className="border-2 border-gray-300 rounded-lg p-6 hover:border-purple-500 transition-colors"
+            >
+              <User className="w-8 h-8 text-gray-600 mb-3" />
+              <h3 className="font-semibold mb-2">Test Auth</h3>
+              <p className="text-gray-600 text-sm">Quick test logins</p>
+              <ArrowRight className="w-5 h-5 text-gray-400 mt-4" />
+            </Link>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}

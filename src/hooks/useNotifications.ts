@@ -52,9 +52,9 @@ interface NotificationPreferences {
 
 export const useNotifications = () => {
   const { user } = useAuth();
-  const [notifications, setNotifications] = useState<Notification[]>([]);
-  const [unreadCount, setUnreadCount] = useState(0);
-  const [preferences, setPreferences] = useState<NotificationPreferences>({
+  const [notificationssetNotifications] = useState<Notification[]>([]);
+  const [unreadCountsetUnreadCount] = useState(0);
+  const [preferencessetPreferences] = useState<NotificationPreferences>({
     email: true,
     push: true,
     sms: false,
@@ -65,15 +65,12 @@ export const useNotifications = () => {
       documents: true,
       appointments: true,
       transactions: true,
-      system: true,
-    },
+      system: true},
     quietHours: {
       enabled: false,
       start: '22:00',
-      end: '08:00',
-    },
-  });
-  
+      end: '08:00'});
+
   const socketRef = useRef<Socket | null>(null);
 
   // Initialize WebSocket connection for real-time notifications
@@ -82,11 +79,10 @@ export const useNotifications = () => {
 
     const socket = io(process.env.NEXT_PUBLIC_WS_URL || 'ws://localhost:3001', {
       auth: { token: user.accessToken },
-      transports: ['websocket'],
-    });
+      transports: ['websocket']});
 
     socket.on('connect', () => {
-      console.log('Connected to notification service');
+
       socket.emit('join-notification-room', user.id);
     });
 
@@ -125,14 +121,12 @@ export const useNotifications = () => {
     try {
       const response = await fetch('/api/notifications', {
         headers: {
-          Authorization: `Bearer ${user?.accessToken}`,
-        },
-      });
+          Authorization: `Bearer ${user?.accessToken}`});
       const data = await response.json();
       setNotifications(data.notifications);
       updateUnreadCount();
     } catch (error) {
-      console.error('Error fetching notifications:', error);
+
     }
   };
 
@@ -140,13 +134,11 @@ export const useNotifications = () => {
     try {
       const response = await fetch('/api/notifications/preferences', {
         headers: {
-          Authorization: `Bearer ${user?.accessToken}`,
-        },
-      });
+          Authorization: `Bearer ${user?.accessToken}`});
       const data = await response.json();
       setPreferences(data.preferences);
     } catch (error) {
-      console.error('Error fetching notification preferences:', error);
+
     }
   };
 
@@ -185,17 +177,17 @@ export const useNotifications = () => {
 
     const now = new Date();
     const currentTime = now.getHours() * 60 + now.getMinutes();
-    
-    const [startHour, startMin] = preferences.quietHours.start.split(':').map(Number);
-    const [endHour, endMin] = preferences.quietHours.end.split(':').map(Number);
-    
+
+    const [startHourstartMin] = preferences.quietHours.start.split(':').map(Number);
+    const [endHourendMin] = preferences.quietHours.end.split(':').map(Number);
+
     const startTime = startHour * 60 + startMin;
     const endTime = endHour * 60 + endMin;
 
-    if (startTime < endTime) {
-      return currentTime >= startTime && currentTime < endTime;
+    if (startTime <endTime) {
+      return currentTime>= startTime && currentTime <endTime;
     } else {
-      return currentTime >= startTime || currentTime < endTime;
+      return currentTime>= startTime || currentTime <endTime;
     }
   };
 
@@ -222,9 +214,7 @@ export const useNotifications = () => {
       badge: '/icon-72x72.png',
       tag: notification.id,
       data: {
-        url: notification.actionUrl,
-      },
-    });
+        url: notification.actionUrl});
 
     browserNotification.onclick = () => {
       window.focus();
@@ -237,7 +227,7 @@ export const useNotifications = () => {
 
   const playNotificationSound = () => {
     const audio = new Audio('/sounds/notification.mp3');
-    audio.play().catch(e => console.log('Audio play failed:', e));
+    audio.play().catch(e => );
   };
 
   const updateUnreadCount = useCallback(() => {
@@ -250,9 +240,7 @@ export const useNotifications = () => {
       await fetch(`/api/notifications/${notificationId}/read`, {
         method: 'PUT',
         headers: {
-          Authorization: `Bearer ${user?.accessToken}`,
-        },
-      });
+          Authorization: `Bearer ${user?.accessToken}`});
 
       setNotifications(prev =>
         prev.map(n => n.id === notificationId ? { ...n, read: true } : n)
@@ -262,7 +250,7 @@ export const useNotifications = () => {
       // Emit to other connected clients
       socketRef.current?.emit('notification-read', notificationId);
     } catch (error) {
-      console.error('Error marking notification as read:', error);
+
     }
   };
 
@@ -271,14 +259,12 @@ export const useNotifications = () => {
       await fetch('/api/notifications/read-all', {
         method: 'PUT',
         headers: {
-          Authorization: `Bearer ${user?.accessToken}`,
-        },
-      });
+          Authorization: `Bearer ${user?.accessToken}`});
 
       setNotifications(prev => prev.map(n => ({ ...n, read: true })));
       updateUnreadCount();
     } catch (error) {
-      console.error('Error marking all notifications as read:', error);
+
     }
   };
 
@@ -287,9 +273,7 @@ export const useNotifications = () => {
       await fetch(`/api/notifications/${notificationId}`, {
         method: 'DELETE',
         headers: {
-          Authorization: `Bearer ${user?.accessToken}`,
-        },
-      });
+          Authorization: `Bearer ${user?.accessToken}`});
 
       setNotifications(prev => prev.filter(n => n.id !== notificationId));
       updateUnreadCount();
@@ -297,7 +281,7 @@ export const useNotifications = () => {
       // Emit to other connected clients
       socketRef.current?.emit('notification-deleted', notificationId);
     } catch (error) {
-      console.error('Error deleting notification:', error);
+
     }
   };
 
@@ -310,17 +294,15 @@ export const useNotifications = () => {
         method: 'PUT',
         headers: {
           Authorization: `Bearer ${user?.accessToken}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ archived: !notification.archived }),
-      });
+          'Content-Type': 'application/json'},
+        body: JSON.stringify({ archived: !notification.archived })});
 
       setNotifications(prev =>
         prev.map(n => n.id === notificationId ? { ...n, archived: !n.archived } : n)
       );
       updateUnreadCount();
     } catch (error) {
-      console.error('Error archiving notification:', error);
+
     }
   };
 
@@ -330,14 +312,12 @@ export const useNotifications = () => {
         method: 'PUT',
         headers: {
           Authorization: `Bearer ${user?.accessToken}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(newPreferences),
-      });
+          'Content-Type': 'application/json'},
+        body: JSON.stringify(newPreferences)});
 
       setPreferences(newPreferences);
     } catch (error) {
-      console.error('Error updating notification preferences:', error);
+
     }
   };
 
@@ -347,15 +327,13 @@ export const useNotifications = () => {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${user?.accessToken}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(notification),
-      });
+          'Content-Type': 'application/json'},
+        body: JSON.stringify(notification)});
 
       const data = await response.json();
       return data.notification;
     } catch (error) {
-      console.error('Error creating notification:', error);
+
       throw error;
     }
   };
@@ -366,12 +344,10 @@ export const useNotifications = () => {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${user?.accessToken}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ alertTypes }),
-      });
+          'Content-Type': 'application/json'},
+        body: JSON.stringify({ alertTypes })});
     } catch (error) {
-      console.error('Error subscribing to property alerts:', error);
+
     }
   };
 
@@ -380,11 +356,9 @@ export const useNotifications = () => {
       await fetch(`/api/properties/${propertyId}/alerts`, {
         method: 'DELETE',
         headers: {
-          Authorization: `Bearer ${user?.accessToken}`,
-        },
-      });
+          Authorization: `Bearer ${user?.accessToken}`});
     } catch (error) {
-      console.error('Error unsubscribing from property alerts:', error);
+
     }
   };
 
@@ -399,6 +373,5 @@ export const useNotifications = () => {
     updatePreferences,
     createNotification,
     subscribeToPropertyAlerts,
-    unsubscribeFromPropertyAlerts,
-  };
+    unsubscribeFromPropertyAlerts};
 };

@@ -43,34 +43,34 @@ const SecurityMetricsChart: React.FC<SecurityMetricsChartProps> = ({ metrics }) 
     // Filter metrics to include only those with historical values
     const metricCategories = new Set<string>();
     const metricsByName: Record<string, any[]> = {};
-    
+
     // Group metrics by name and collect categories
     metrics.forEach(metric => {
       if (!metricsByName[metric.name]) {
         metricsByName[metric.name] = [];
       }
-      
+
       metricsByName[metric.name].push(metric);
       metricCategories.add(metric.category);
     });
-    
+
     // Sort metrics by timestamp for each name
     Object.keys(metricsByName).forEach(name => {
-      metricsByName[name].sort((a, b) => {
+      metricsByName[name].sort((ab: any) => {
         return new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime();
       });
     });
-    
+
     // Prepare labels (timestamps)
     let labels: string[] = [];
     const scoreMetrics = metricsByName['Security Score'] || [];
-    
-    if (scoreMetrics.length > 0) {
+
+    if (scoreMetrics.length> 0) {
       labels = scoreMetrics.map(m => {
         const date = new Date(m.timestamp);
         return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
       });
-    } else if (Object.keys(metricsByName).length > 0) {
+    } else if (Object.keys(metricsByName).length> 0) {
       // Fallback to any available metric's timestamps
       const firstMetricName = Object.keys(metricsByName)[0];
       labels = metricsByName[firstMetricName].map(m => {
@@ -78,28 +78,28 @@ const SecurityMetricsChart: React.FC<SecurityMetricsChartProps> = ({ metrics }) 
         return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
       });
     }
-    
+
     // Prepare datasets
     const datasets = [];
-    
+
     // Color palette for different metrics
     const colors = [
-      { border: 'rgba(75, 192, 192, 1)', background: 'rgba(75, 192, 192, 0.2)' },
-      { border: 'rgba(54, 162, 235, 1)', background: 'rgba(54, 162, 235, 0.2)' },
-      { border: 'rgba(255, 206, 86, 1)', background: 'rgba(255, 206, 86, 0.2)' },
-      { border: 'rgba(255, 99, 132, 1)', background: 'rgba(255, 99, 132, 0.2)' },
-      { border: 'rgba(153, 102, 255, 1)', background: 'rgba(153, 102, 255, 0.2)' }
+      { border: 'rgba(75, 192, 1921)', background: 'rgba(75, 192, 192, 0.2)' },
+      { border: 'rgba(54, 162, 2351)', background: 'rgba(54, 162, 235, 0.2)' },
+      { border: 'rgba(255, 206, 861)', background: 'rgba(255, 206, 86, 0.2)' },
+      { border: 'rgba(255, 99, 1321)', background: 'rgba(255, 99, 132, 0.2)' },
+      { border: 'rgba(153, 102, 2551)', background: 'rgba(153, 102, 255, 0.2)' }
     ];
-    
+
     // Important metrics to always show
     const priorityMetrics = ['Security Score', 'Failed Login Attempts', 'API Rate Limit'];
-    
+
     // Add priority metrics first
-    priorityMetrics.forEach((metricName, index) => {
-      if (metricsByName[metricName] && metricsByName[metricName].length > 0) {
+    priorityMetrics.forEach((metricNameindex: any) => {
+      if (metricsByName[metricName] && metricsByName[metricName].length> 0) {
         // Get values
         const values = metricsByName[metricName].map(m => m.value);
-        
+
         datasets.push({
           label: metricName,
           data: values,
@@ -112,20 +112,20 @@ const SecurityMetricsChart: React.FC<SecurityMetricsChartProps> = ({ metrics }) 
         });
       }
     });
-    
+
     // Add other metrics (up to a reasonable limit to avoid clutter)
     let additionalMetricsCount = 0;
-    Object.keys(metricsByName).forEach((metricName, index) => {
+    Object.keys(metricsByName).forEach((metricNameindex: any) => {
       // Skip if it's a priority metric or if we already have enough metrics
-      if (priorityMetrics.includes(metricName) || additionalMetricsCount >= 2) {
+      if (priorityMetrics.includes(metricName) || additionalMetricsCount>= 2) {
         return;
       }
-      
+
       const metricsForName = metricsByName[metricName];
-      if (metricsForName && metricsForName.length > 0) {
+      if (metricsForName && metricsForName.length> 0) {
         // Get values
         const values = metricsForName.map(m => m.value);
-        
+
         datasets.push({
           label: metricName,
           data: values,
@@ -136,17 +136,17 @@ const SecurityMetricsChart: React.FC<SecurityMetricsChartProps> = ({ metrics }) 
           pointRadius: 2,
           borderWidth: 2
         });
-        
+
         additionalMetricsCount++;
       }
     });
-    
+
     return {
       labels,
       datasets
     };
   }, [metrics]);
-  
+
   // Chart options
   const options: ChartOptions<'line'> = {
     responsive: true,
@@ -156,12 +156,10 @@ const SecurityMetricsChart: React.FC<SecurityMetricsChartProps> = ({ metrics }) 
     },
     plugins: {
       legend: {
-        position: 'top' as const,
-      },
+        position: 'top' as const},
       tooltip: {
         mode: 'index',
-        intersect: false,
-      }
+        intersect: false}
     },
     interaction: {
       mode: 'nearest' as const,
@@ -190,7 +188,7 @@ const SecurityMetricsChart: React.FC<SecurityMetricsChartProps> = ({ metrics }) 
       }
     }
   };
-  
+
   // If no data is available, show a placeholder message
   if (!chartData.datasets.length) {
     return (
@@ -199,9 +197,9 @@ const SecurityMetricsChart: React.FC<SecurityMetricsChartProps> = ({ metrics }) 
       </div>
     );
   }
-  
+
   // Render the chart with memoized data
-  return <Line data={chartData} options={options} />;
+  return <Line data={chartData} options={options} />\n  );
 };
 
 export default React.memo(SecurityMetricsChart);

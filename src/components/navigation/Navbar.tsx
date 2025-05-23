@@ -15,7 +15,7 @@ interface NavbarProps {
 const Navbar: React.FC<NavbarProps> = ({ className }) => {
   const { user, isAuthenticated, signOut } = useAuth();
   const { investorMode, toggleInvestorMode } = useInvestorMode();
-  
+
   return (
     <nav className={`bg-white shadow-md ${className || ''}`}>
       <div className="container mx-auto px-4 py-2 flex items-center justify-between">
@@ -28,7 +28,7 @@ const Navbar: React.FC<NavbarProps> = ({ className }) => {
             className="h-10 w-auto object-contain"
           />
         </Link>
-        
+
         <div className="flex items-center space-x-4">
           {isAuthenticated ? (
             <>
@@ -41,7 +41,7 @@ const Navbar: React.FC<NavbarProps> = ({ className }) => {
               >
                 Dashboard
               </Link>
-              
+
               {user?.role === 'buyer' && (
                 <Link 
                   href="/buyer/first-time-buyer"
@@ -50,7 +50,7 @@ const Navbar: React.FC<NavbarProps> = ({ className }) => {
                   First-Time Buyer
                 </Link>
               )}
-              
+
               {investorMode && (
                 <span className="bg-amber-100 text-amber-800 px-2 py-1 rounded text-xs">
                   Investor Mode
@@ -67,10 +67,10 @@ const Navbar: React.FC<NavbarProps> = ({ className }) => {
                 <Link
                   href="/investor/dashboard"
                   className="text-gray-600 hover:text-[#2B5273] text-sm"
-                  onClick={(e) => {
+                  onClick={(e: any) => {
                     toggleInvestorMode();
                     // Let the link navigation happen naturally
-                  }}
+                  }
                 >
                   Investor View
                 </Link>
@@ -88,7 +88,7 @@ const Navbar: React.FC<NavbarProps> = ({ className }) => {
                 Login
               </Link>
               <Link 
-                href="/register" 
+                href="/auth/register" 
                 className="bg-[#2B5273] text-white px-4 py-2 rounded hover:bg-[#1e3a50]"
               >
                 Register

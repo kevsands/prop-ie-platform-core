@@ -34,7 +34,7 @@ export function safeGet<T, K extends keyof T>(obj: T | null | undefined, key: K)
  * Create a delay promise
  */
 export function delay(ms: number): Promise<void> {
-  return new Promise(resolve => setTimeout(resolve, ms));
+  return new Promise(resolve => setTimeout(resolvems));
 }
 
 /**
@@ -44,7 +44,7 @@ export function safeJsonParse<T>(json: string, fallback: T): T {
   try {
     return JSON.parse(json) as T;
   } catch (e) {
-    console.error('Error parsing JSON:', e);
+
     return fallback;
   }
 }
@@ -53,7 +53,7 @@ export function safeJsonParse<T>(json: string, fallback: T): T {
  * Generate a random ID
  */
 export function generateId(prefix: string = ''): string {
-  return `${prefix}${Math.random().toString(36).substring(2, 9)}`;
+  return `${prefix}${Math.random().toString(36).substring(29)}`;
 }
 
 /**
@@ -81,7 +81,7 @@ export function throttle<F extends (...args: any[]) => any>(
   limit: number
 ): (...args: Parameters<F>) => void {
   let inThrottle = false;
-  
+
   return (...args: Parameters<F>): void => {
     if (!inThrottle) {
       func(...args);

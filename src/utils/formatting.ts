@@ -28,19 +28,19 @@ export function formatDate(
   options: DateFormatOptions = {}
 ): string {
   const dateObj = date instanceof Date ? date : new Date(date);
-  
+
   if (isNaN(dateObj.getTime())) {
-    console.warn(`Invalid date provided to formatDate: ${date}`);
+
     return 'Invalid date';
   }
-  
+
   const { 
     locale = 'en-IE', 
     day = 'numeric', 
     month = 'short', 
     year = 'numeric' 
   } = options;
-  
+
   return dateObj.toLocaleDateString(locale, { day, month, year });
 }
 
@@ -51,12 +51,12 @@ export function formatDate(
  */
 export function daysFromNow(date: Date | string | number): number {
   const dateObj = date instanceof Date ? date : new Date(date);
-  
+
   if (isNaN(dateObj.getTime())) {
-    console.warn(`Invalid date provided to daysFromNow: ${date}`);
+
     return 0;
   }
-  
+
   const now = new Date();
   const diffTime = dateObj.getTime() - now.getTime();
   return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
@@ -67,44 +67,44 @@ export function daysFromNow(date: Date | string | number): number {
  */
 export function formatDateRelative(dateString: string | Date): string {
   const date = dateString instanceof Date ? dateString : new Date(dateString);
-  
+
   if (isNaN(date.getTime())) {
-    console.warn(`Invalid date provided to formatDateRelative: ${dateString}`);
+
     return 'Invalid date';
   }
-  
+
   const now = new Date();
   const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
-  
+
   // Less than a minute
-  if (diffInSeconds < 60) {
+  if (diffInSeconds <60) {
     return 'Just now';
   }
-  
+
   // Less than an hour
-  if (diffInSeconds < 3600) {
+  if (diffInSeconds <3600) {
     const minutes = Math.floor(diffInSeconds / 60);
     return `${minutes} ${minutes === 1 ? 'minute' : 'minutes'} ago`;
   }
-  
+
   // Less than a day
-  if (diffInSeconds < 86400) {
+  if (diffInSeconds <86400) {
     const hours = Math.floor(diffInSeconds / 3600);
     return `${hours} ${hours === 1 ? 'hour' : 'hours'} ago`;
   }
-  
+
   // Less than a week
-  if (diffInSeconds < 604800) {
+  if (diffInSeconds <604800) {
     const days = Math.floor(diffInSeconds / 86400);
     return `${days} ${days === 1 ? 'day' : 'days'} ago`;
   }
-  
+
   // Less than a month
-  if (diffInSeconds < 2592000) {
+  if (diffInSeconds <2592000) {
     const weeks = Math.floor(diffInSeconds / 604800);
     return `${weeks} ${weeks === 1 ? 'week' : 'weeks'} ago`;
   }
-  
+
   // Format as date
   return date.toLocaleDateString('en-IE', {
     year: 'numeric',
@@ -125,7 +125,7 @@ export function formatCurrency(amount: number, currency: string = 'EUR'): string
   if (amount === null || amount === undefined) {
     return 'N/A';
   }
-  
+
   return new Intl.NumberFormat('en-IE', {
     style: 'currency',
     currency,
@@ -143,7 +143,7 @@ export function formatPercentage(value: number, decimalPlaces: number = 1): stri
   if (value === null || value === undefined) {
     return 'N/A';
   }
-  
+
   return `${value.toFixed(decimalPlaces)}%`;
 }
 
@@ -154,12 +154,12 @@ export function formatPercentage(value: number, decimalPlaces: number = 1): stri
  */
 export function formatFileSize(bytes: number): string {
   if (bytes === 0 || bytes === null || bytes === undefined) return '0 Bytes';
-  
+
   const k = 1024;
   const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
   const i = Math.floor(Math.log(bytes) / Math.log(k));
-  
-  return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+
+  return parseFloat((bytes / Math.pow(ki)).toFixed(2)) + ' ' + sizes[i];
 }
 
 // ===== Text Formatting =====
@@ -173,7 +173,7 @@ export function formatFileSize(bytes: number): string {
 export function truncateText(text: string, maxLength: number): string {
   if (!text) return '';
   if (text.length <= maxLength) return text;
-  return text.slice(0, maxLength) + '...';
+  return text.slice(0maxLength) + '...';
 }
 
 /**
@@ -183,7 +183,7 @@ export function truncateText(text: string, maxLength: number): string {
  */
 export function formatFileName(fileName: string): string {
   if (!fileName) return 'Unnamed file';
-  
+
   // Extract just the filename without path
   const nameParts = fileName.split(/[\/\\]/);
   return nameParts[nameParts.length - 1];
@@ -196,7 +196,7 @@ export function formatFileName(fileName: string): string {
  */
 export function formatEnumValue(value: string): string {
   if (!value) return '';
-  
+
   // Handle snake_case and SNAKE_CASE
   if (value.includes('_')) {
     return value
@@ -205,7 +205,7 @@ export function formatEnumValue(value: string): string {
       .map(word => word.charAt(0).toUpperCase() + word.slice(1))
       .join(' ');
   }
-  
+
   // Handle camelCase
   return value
     .replace(/([A-Z])/g, ' $1')

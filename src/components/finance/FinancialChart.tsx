@@ -33,7 +33,7 @@ interface FinancialChartProps {
     name: string | number;
     value: number;
     [key: string]: any;
-  }>;
+  }>\n  );
   chartType: 'line' | 'bar' | 'area' | 'pie' | 'composed';
   dataKeys?: DataKey[];
   colors?: string[];
@@ -58,8 +58,7 @@ const FinancialChart = ({
   stacked = false,
   currencyFormat = true,
   xAxisKey = 'name',
-  className = '',
-}: FinancialChartProps) => {
+  className = ''}: FinancialChartProps) => {
   const renderTooltipContent = (value: number | string) => {
     if (currencyFormat && typeof value === 'number') {
       return formatCurrency(value);
@@ -76,7 +75,7 @@ const FinancialChart = ({
             <div key={index} className="flex items-center gap-2">
               <div 
                 className="w-3 h-3 rounded-full" 
-                style={{ backgroundColor: item.color }}
+                style={ backgroundColor: item.color }
               />
               <p className="text-sm">
                 <span className="font-medium">{item.name}:</span>{' '}
@@ -96,8 +95,7 @@ const FinancialChart = ({
     const chartProps = {
       data,
       height,
-      margin: { top: 5, right: 30, left: 20, bottom: 5 },
-    };
+      margin: { top: 5, right: 30, left: 20, bottom: 5 };
 
     // Common chart inner components
     const chartInnerComponents = (
@@ -105,19 +103,19 @@ const FinancialChart = ({
         {showGrid && <CartesianGrid strokeDasharray="3 3" />}
         <XAxis 
           dataKey={xAxisKey} 
-          tick={{ fontSize: 12 }}
-          tickLine={{ stroke: '#e2e8f0' }}
+          tick={ fontSize: 12 }
+          tickLine={ stroke: '#e2e8f0' }
         />
         <YAxis 
-          tickFormatter={currencyFormat ? (value) => formatCurrency(value, true) : undefined}
-          tick={{ fontSize: 12 }}
-          tickLine={{ stroke: '#e2e8f0' }}
+          tickFormatter={currencyFormat ? (value: any) => formatCurrency(valuetrue) : undefined}
+          tick={ fontSize: 12 }
+          tickLine={ stroke: '#e2e8f0' }
         />
         <Tooltip content={customTooltip} />
         <Legend />
-        {dataKeys?.map((key, index) => {
+        {dataKeys?.map((keyindex: any) => {
           const color = colors[index % colors.length];
-          
+
           if (chartType === 'line') {
             return (
               <Line 
@@ -126,12 +124,12 @@ const FinancialChart = ({
                 dataKey={key.dataKey} 
                 name={key.name || key.dataKey}
                 stroke={color}
-                activeDot={{ r: 6 }}
+                activeDot={ r: 6 }
                 strokeWidth={2}
               />
             );
           }
-          
+
           if (chartType === 'bar') {
             return (
               <Bar 
@@ -143,7 +141,7 @@ const FinancialChart = ({
               />
             );
           }
-          
+
           if (chartType === 'area') {
             return (
               <Area 
@@ -157,7 +155,7 @@ const FinancialChart = ({
               />
             );
           }
-          
+
           // Default is line
           return (
             <Line 

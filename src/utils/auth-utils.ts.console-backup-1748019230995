@@ -1,0 +1,240 @@
+import { Session } from 'next-auth';
+import { PrismaClient } from '@prisma/client';
+
+const prisma = new PrismaClient();
+
+/**
+ * Check if a user can access a specific transaction
+ * 
+ * Rules:
+ * - Admins can access any transaction
+ * - Buyers can only access their own transactions
+ * - Developers can access transactions related to their developments
+ * - Agents can access transactions they are assigned to
+ * - Solicitors can access transactions they are assigned to
+ */
+export async function canAccessTransaction(
+  session: Session | null,
+  transactionId: string
+): Promise<boolean> {
+  if (!session || !session.user) return false;
+
+  const userId = session.user.id;
+  const userRole = session.user.role;
+
+  // Admin has full access
+  if (userRole === 'ADMIN') return true;
+
+  try {
+    const transaction = await prisma.transaction.findUnique({
+      where: { id: transactionId },
+      select: {
+        buyerId: true,
+        developmentId: true,
+        agentId: true,
+        solicitorId: true,
+        development: {
+          select: {
+            developerId: true
+          }
+        }
+      }
+    });
+
+    if (!transaction) return false;
+
+    // Role-based access control
+    switch (userRole) {
+      case 'BUYER':
+        return transaction.buyerId === userId;
+      
+      case 'DEVELOPER':
+        return transaction.development?.developerId === userId;
+      
+      case 'AGENT':
+        return transaction.agentId === userId;
+      
+      case 'SOLICITOR':
+        return transaction.solicitorId === userId;
+      
+      default:
+        return false;
+    }
+  } catch (error) {
+    console.error('Error checking transaction access:', error);
+    return false;
+  }
+}
+
+/**
+ * Check if a user can access a specific development
+ */
+export async function canAccessDevelopment(
+  session: Session | null,
+  developmentId: string
+): Promise<boolean> {
+  if (!session || !session.user) return false;
+
+  const userId = session.user.id;
+  const userRole = session.user.role;
+
+  // Admin has full access
+  if (userRole === 'ADMIN') return true;
+
+  try {
+    const development = await prisma.development.findUnique({
+      where: { id: developmentId },
+      select: {
+        developerId: true
+      }
+    });
+
+    if (!development) return false;
+
+    // Role-based access control
+    switch (userRole) {
+      case 'DEVELOPER':
+        return development.developerId === userId;
+      
+      // Buyers, Solicitors and Agents can access development info
+      case 'BUYER':
+      case 'SOLICITOR':
+      case 'AGENT':
+        return true;
+      
+      default:
+        return false;
+    }
+  } catch (error) {
+    console.error('Error checking development access:', error);
+    return false;
+  }
+}
+
+/**
+ * Check if a user can access a specific unit
+ */
+export async function canAccessUnit(
+  session: Session | null,
+  unitId: string
+): Promise<boolean> {
+  if (!session || !session.user) return false;
+
+  const userId = session.user.id;
+  const userRole = session.user.role;
+
+  // Admin has full access
+  if (userRole === 'ADMIN') return true;
+
+  try {
+    const unit = await prisma.unit.findUnique({
+      where: { id: unitId },
+      select: {
+        developmentId: true,
+        development: {
+          select: {
+            developerId: true
+          }
+        }
+      }
+    });
+
+    if (!unit) return false;
+
+    // Role-based access control
+    switch (userRole) {
+      case 'DEVELOPER':
+        return unit.development?.developerId === userId;
+      
+      // Buyers, Solicitors and Agents can access unit info
+      case 'BUYER':
+      case 'SOLICITOR':
+      case 'AGENT':
+        return true;
+      
+      default:
+        return false;
+    }
+  } catch (error) {
+    console.error('Error checking unit access:', error);
+    return false;
+  }
+}
+
+/**
+ * Check if a user can access a specific document
+ */
+export async function canAccessDocument(
+  session: Session | null,
+  documentId: string
+): Promise<boolean> {
+  if (!session || !session.user) return false;
+
+  const userId = session.user.id;
+  const userRole = session.user.role;
+
+  // Admin has full access
+  if (userRole === 'ADMIN') return true;
+
+  try {
+    const document = await prisma.document.findUnique({
+      where: { id: documentId },
+      select: {
+        userId: true,
+        transactionId: true,
+        accessControl: true,
+        transaction: {
+          select: {
+            buyerId: true,
+            agentId: true,
+            solicitorId: true,
+            developmentId: true,
+            development: {
+              select: {
+                developerId: true
+              }
+            }
+          }
+        }
+      }
+    });
+
+    if (!document) return false;
+
+    // Personal document
+    if (document.userId === userId) return true;
+
+    // Access control list (if specified)
+    if (document.accessControl) {
+      const accessControl = document.accessControl as { userIds?: string[], roles?: string[] };
+      if (accessControl.userIds?.includes(userId)) return true;
+      if (accessControl.roles?.includes(userRole)) return true;
+    }
+
+    // Transaction document
+    if (document.transactionId && document.transaction) {
+      // Role-based access control
+      switch (userRole) {
+        case 'BUYER':
+          return document.transaction.buyerId === userId;
+        
+        case 'DEVELOPER':
+          return document.transaction.development?.developerId === userId;
+        
+        case 'AGENT':
+          return document.transaction.agentId === userId;
+        
+        case 'SOLICITOR':
+          return document.transaction.solicitorId === userId;
+        
+        default:
+          return false;
+      }
+    }
+
+    return false;
+  } catch (error) {
+    console.error('Error checking document access:', error);
+    return false;
+  }
+}

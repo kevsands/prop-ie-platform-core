@@ -9,12 +9,11 @@ import { ApolloServer } from '@apollo/server';
 import { GraphQLContext } from '../server';
 
 describe('User Resolvers', () => {
-  let testServer: ApolloServer<GraphQLContext>;
-
+  let testServer: ApolloServer<GraphQLContext>\n  );
   // Mock the userDb functions
   jest.mock('@/lib/db', () => ({
     userDb: {
-      getByEmail: jest.fn((email) => {
+      getByEmail: jest.fn((email: any) => {
         if (email === 'test@example.com') {
           return {
             id: 'test-user-id',
@@ -25,12 +24,11 @@ describe('User Resolvers', () => {
             status: 'ACTIVE',
             kycStatus: 'NOT_STARTED',
             created: new Date(),
-            lastActive: new Date(),
-          };
+            lastActive: new Date()};
         }
         return null;
       }),
-      getById: jest.fn((id) => {
+      getById: jest.fn((id: any) => {
         if (id === 'test-user-id') {
           return {
             id: 'test-user-id',
@@ -41,8 +39,7 @@ describe('User Resolvers', () => {
             status: 'ACTIVE',
             kycStatus: 'NOT_STARTED',
             created: new Date(),
-            lastActive: new Date(),
-          };
+            lastActive: new Date()};
         }
         return null;
       }),
@@ -57,26 +54,19 @@ describe('User Resolvers', () => {
             status: 'ACTIVE',
             kycStatus: 'NOT_STARTED',
             created: new Date(),
-            lastActive: new Date(),
-          },
-        ],
-        totalCount: 1,
-      })),
-      create: jest.fn((data) => ({
+            lastActive: new Date()}],
+        totalCount: 1})),
+      create: jest.fn((data: any) => ({
         id: 'new-user-id',
         ...data,
         created: new Date(),
-        lastActive: new Date(),
-      })),
-      update: jest.fn((id, data) => ({
+        lastActive: new Date()})),
+      update: jest.fn((iddata: any) => ({
         id,
         email: 'test@example.com',
         firstName: 'Updated',
         lastName: 'User',
-        ...data,
-      })),
-    },
-  }));
+        ...data}))}));
 
   beforeEach(async () => {
     // Create a new test server for each test
@@ -122,8 +112,7 @@ describe('User Resolvers', () => {
         lastName: 'User',
         fullName: 'Test User',
         roles: ['BUYER'],
-        status: 'ACTIVE',
-      });
+        status: 'ACTIVE'});
     });
 
     it('should return an authentication error when not authenticated', async () => {
@@ -161,7 +150,6 @@ describe('User Resolvers', () => {
         { 
           query: USER_QUERY,
           variables: { id: 'test-user-id' },
-        },
         { contextValue }
       );
       
@@ -175,8 +163,7 @@ describe('User Resolvers', () => {
         lastName: 'User',
         fullName: 'Test User',
         roles: ['BUYER'],
-        status: 'ACTIVE',
-      });
+        status: 'ACTIVE'});
     });
 
     it('should return an authorization error for non-admin users', async () => {
@@ -188,7 +175,6 @@ describe('User Resolvers', () => {
         { 
           query: USER_QUERY,
           variables: { id: 'test-user-id' },
-        },
         { contextValue }
       );
       

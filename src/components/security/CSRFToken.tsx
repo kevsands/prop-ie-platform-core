@@ -1,3 +1,4 @@
+import React from 'react';
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -22,18 +23,17 @@ interface CSRFTokenProps {
 export default function CSRFToken({
   fieldName = 'csrf_token',
   tokenExpiry = 3600, // 1 hour default
-  onTokenGenerated,
-}: CSRFTokenProps) {
-  const [token, setToken] = useState<string>('');
+  onTokenGenerated}: CSRFTokenProps) {
+  const [tokensetToken] = useState<string>('');
 
   // Generate a cryptographically secure random token
   const generateToken = (): string => {
     if (typeof window === 'undefined') return '';
-    
+
     // Generate random bytes and convert to hex string
     const randomBytes = new Uint8Array(32); // 256 bits
     window.crypto.getRandomValues(randomBytes);
-    
+
     return Array.from(randomBytes)
       .map(b => b.toString(16).padStart(2, '0'))
       .join('');
@@ -47,14 +47,14 @@ export default function CSRFToken({
         const expires = Date.now() + tokenExpiry * 1000;
         sessionStorage.setItem('csrf_token', newToken);
         sessionStorage.setItem('csrf_token_expiry', expires.toString());
-        
+
         // Notify parent component if needed
         if (onTokenGenerated) {
           onTokenGenerated(newToken);
         }
       }
     } catch (error) {
-      console.error('Failed to store CSRF token:', error);
+
     }
   };
 
@@ -64,21 +64,21 @@ export default function CSRFToken({
       if (typeof window !== 'undefined') {
         const storedToken = sessionStorage.getItem('csrf_token');
         const tokenExpiry = sessionStorage.getItem('csrf_token_expiry');
-        
+
         // If token exists and is not expired, use it
         if (storedToken && tokenExpiry && parseInt(tokenExpiry) > Date.now()) {
           return storedToken;
         }
-        
+
         // Otherwise generate a new token
         const newToken = generateToken();
         storeToken(newToken);
         return newToken;
       }
     } catch (error) {
-      console.error('Error retrieving CSRF token:', error);
+
     }
-    
+
     // Fallback to generating a new token if any issues
     return generateToken();
   };
@@ -87,13 +87,13 @@ export default function CSRFToken({
     // Initialize token on mount
     const newToken = getOrCreateToken();
     setToken(newToken);
-    
+
     // Set up token refresh timer
     const refreshTimer = setInterval(() => {
       const newToken = getOrCreateToken();
       setToken(newToken);
     }, tokenExpiry * 1000 / 2); // Refresh halfway through expiry time
-    
+
     return () => {
       clearInterval(refreshTimer);
     };
@@ -117,18 +117,18 @@ export default function CSRFToken({
  */
 export function useCSRFToken(): string {
   if (typeof window === 'undefined') return '';
-  
+
   try {
     const token = sessionStorage.getItem('csrf_token');
     const expiry = sessionStorage.getItem('csrf_token_expiry');
-    
+
     if (token && expiry && parseInt(expiry) > Date.now()) {
       return token;
     }
   } catch (error) {
-    console.error('Error retrieving CSRF token:', error);
+
   }
-  
+
   return '';
 }
 
@@ -141,12 +141,12 @@ export function useCSRFToken(): string {
 export function verifyCSRFToken(token: string): boolean {
   if (typeof window === 'undefined') return false;
   if (!token) return false;
-  
+
   try {
     const storedToken = sessionStorage.getItem('csrf_token');
     return token === storedToken;
   } catch (error) {
-    console.error('Error verifying CSRF token:', error);
+
     return false;
   }
 }

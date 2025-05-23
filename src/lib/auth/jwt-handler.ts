@@ -25,9 +25,8 @@ export function generateTokenPair(payload: JWTPayload): TokenPair {
     expiresIn: JWT_ACCESS_EXPIRY,
     audience: 'prop-ie',
     issuer: 'prop-ie-auth',
-    subject: payload.userId,
-  });
-  
+    subject: payload.userId});
+
   const refreshToken = jwt.sign(
     { userId: payload.userId, sessionId: payload.sessionId },
     JWT_REFRESH_SECRET,
@@ -35,10 +34,9 @@ export function generateTokenPair(payload: JWTPayload): TokenPair {
       expiresIn: JWT_REFRESH_EXPIRY,
       audience: 'prop-ie',
       issuer: 'prop-ie-auth',
-      subject: payload.userId,
-    }
+      subject: payload.userId}
   );
-  
+
   return {
     accessToken,
     refreshToken,
@@ -51,9 +49,8 @@ export function verifyAccessToken(token: string): JWTPayload {
   try {
     const decoded = jwt.verify(token, JWT_SECRET, {
       audience: 'prop-ie',
-      issuer: 'prop-ie-auth',
-    }) as JWTPayload;
-    
+      issuer: 'prop-ie-auth'}) as JWTPayload;
+
     return decoded;
   } catch (error) {
     throw new Error('Invalid access token');
@@ -64,9 +61,8 @@ export function verifyRefreshToken(token: string): { userId: string; sessionId: 
   try {
     const decoded = jwt.verify(token, JWT_REFRESH_SECRET, {
       audience: 'prop-ie',
-      issuer: 'prop-ie-auth',
-    }) as { userId: string; sessionId: string };
-    
+      issuer: 'prop-ie-auth'}) as { userId: string; sessionId: string };
+
     return decoded;
   } catch (error) {
     throw new Error('Invalid refresh token');
@@ -76,20 +72,19 @@ export function verifyRefreshToken(token: string): { userId: string; sessionId: 
 // Token refresh
 export async function refreshTokens(refreshToken: string): Promise<TokenPair> {
   const { userId, sessionId } = verifyRefreshToken(refreshToken);
-  
+
   // Here you would typically:
   // 1. Verify the session is still valid
   // 2. Get the latest user data
   // 3. Check if the user is still active
-  
+
   // For now, we'll create a new token pair
   const payload: JWTPayload = {
     userId,
     email: '', // You'd fetch this from database
     roles: [], // You'd fetch this from database
-    sessionId,
-  };
-  
+    sessionId};
+
   return generateTokenPair(payload);
 }
 
@@ -124,9 +119,9 @@ export function isTokenBlacklisted(token: string): boolean {
 // Cleanup expired sessions (run periodically)
 export function cleanupExpiredSessions(): void {
   const now = new Date();
-  for (const [sessionId, session] of activeSessions.entries()) {
+  for (const [sessionIdsession] of activeSessions.entries()) {
     const sessionAge = now.getTime() - session.createdAt.getTime();
-    if (sessionAge > 7 * 24 * 60 * 60 * 1000) { // 7 days
+    if (sessionAge> 7 * 24 * 60 * 60 * 1000) { // 7 days
       activeSessions.delete(sessionId);
     }
   }

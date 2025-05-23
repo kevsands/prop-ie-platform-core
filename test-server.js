@@ -1,33 +1,31 @@
-const http = require('http');
+const { createServer } = require('http');
+const { parse } = require('url');
+const next = require('next');
 
-const checkServer = () => {
-  const options = {
-    hostname: 'localhost',
-    port: 3000,
-    path: '/',
-    method: 'GET'
-  };
+const dev = process.env.NODE_ENV \!== 'production';
+const hostname = 'localhost';
+const port = 3000;
 
-  console.log('🔍 Checking if server is running...\n');
+const app = next({ dev, hostname, port });
+const handle = app.getRequestHandler();
 
-  const req = http.request(options, (res) => {
-    console.log(`✅ Server is running! Status: ${res.statusCode}`);
-    console.log(`🌐 URL: http://localhost:3000`);
-    console.log('\n🎉 Your app is ready!');
-    console.log('\nYou can now:');
-    console.log('  • Open http://localhost:3000 in your browser');
-    console.log('  • Start developing with hot reloading');
-    console.log('  • Check the console for any runtime errors');
-    process.exit(0);
-  });
-
-  req.on('error', (error) => {
-    console.error(`❌ Server not responding: ${error.message}`);
-    console.log('\nPlease check if the server is running on port 3000');
+app.prepare().then(() => {
+  createServer(async (req, res) => {
+    try {
+      const parsedUrl = parse(req.url, true);
+      await handle(req, res, parsedUrl);
+    } catch (err) {
+      console.error('Error occurred handling', req.url, err);
+      res.statusCode = 500;
+      res.end('Internal server error');
+    }
+  })
+  .once('error', (err) => {
+    console.error('Server error:', err);
     process.exit(1);
+  })
+  .listen(port, () => {
+    console.log(`> Ready on http://${hostname}:${port}`);
   });
-
-  req.end();
-};
-
-checkServer();
+});
+EOF < /dev/null

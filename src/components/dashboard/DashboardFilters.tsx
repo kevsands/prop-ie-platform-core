@@ -26,14 +26,13 @@ export function DashboardFilters({
   filters,
   onFiltersChangeAction,
   availableFilters,
-  className,
-}: DashboardFiltersProps) {
+  className}: DashboardFiltersProps) {
   // Local state for date range
-  const [fromDate, setFromDate] = useState<Date | undefined>(
+  const [fromDatesetFromDate] = useState<Date | undefined>(
     filters.customDateRange?.startDate ? new Date(filters.customDateRange.startDate) : undefined
   );
-  
-  const [toDate, setToDate] = useState<Date | undefined>(
+
+  const [toDatesetToDate] = useState<Date | undefined>(
     filters.customDateRange?.endDate ? new Date(filters.customDateRange.endDate) : undefined
   );
 
@@ -43,8 +42,7 @@ export function DashboardFilters({
       ...filters,
       timeRange: value as "week" | "month" | "quarter" | "year" | "custom",
       // Reset custom date range if not selecting "custom"
-      customDateRange: value === "custom" ? filters.customDateRange : undefined,
-    });
+      customDateRange: value === "custom" ? filters.customDateRange : undefined});
   };
 
   // Handle custom date range changes
@@ -55,9 +53,7 @@ export function DashboardFilters({
         timeRange: "custom",
         customDateRange: {
           startDate: fromDate.toISOString(),
-          endDate: toDate.toISOString(),
-        },
-      });
+          endDate: toDate.toISOString()});
     }
   };
 
@@ -65,13 +61,12 @@ export function DashboardFilters({
   const toggleFilter = (type: "projectStatus" | "projectTypes" | "locations", value: string) => {
     const currentValues = filters[type] || [];
     const newValues = currentValues.includes(value)
-      ? currentValues.filter((item) => item !== value)
-      : [...currentValues, value];
+      ? currentValues.filter((item: any) => item !== value)
+      : [...currentValuesvalue];
 
     onFiltersChangeAction({
       ...filters,
-      [type]: newValues,
-    });
+      [type]: newValues});
   };
 
   // Handle clearing all filters
@@ -80,8 +75,7 @@ export function DashboardFilters({
       timeRange: "month",
       projectStatus: [],
       projectTypes: [],
-      locations: [],
-    });
+      locations: []});
     setFromDate(undefined);
     setToDate(undefined);
   };
@@ -109,7 +103,7 @@ export function DashboardFilters({
               ? "This Quarter"
               : filters.timeRange === "year"
               ? "This Year"
-              : "Time Range"}
+              : "Time Range"
             <ChevronDown className="ml-2 h-4 w-4" />
           </Button>
         </PopoverTrigger>
@@ -155,7 +149,7 @@ export function DashboardFilters({
                         mode="single"
                         selected={fromDate}
                         onSelect={setFromDate}
-                        disabled={(date) => toDate ? date > toDate : false}
+                        disabled={(date: any) => toDate ? date> toDate : false}
                         initialFocus
                       />
                     </div>
@@ -165,7 +159,7 @@ export function DashboardFilters({
                         mode="single"
                         selected={toDate}
                         onSelect={setToDate}
-                        disabled={(date) => fromDate ? date < fromDate : false}
+                        disabled={(date: any) => fromDate ? date <fromDate : false}
                         initialFocus
                       />
                     </div>
@@ -189,7 +183,7 @@ export function DashboardFilters({
         <PopoverTrigger asChild>
           <Button variant="outline" size="sm">
             Status
-            {filters.projectStatus && filters.projectStatus.length > 0 && (
+            {filters.projectStatus && filters.projectStatus.length> 0 && (
               <Badge className="ml-2 bg-primary/20 text-primary" variant="secondary">
                 {filters.projectStatus.length}
               </Badge>
@@ -203,7 +197,7 @@ export function DashboardFilters({
             <CommandList>
               <CommandEmpty>No statuses found</CommandEmpty>
               <CommandGroup heading="Project Status">
-                {availableFilters.projectStatuses.map((status) => (
+                {availableFilters.projectStatuses.map((status: any) => (
                   <CommandItem
                     key={status}
                     onSelect={() => toggleFilter("projectStatus", status)}
@@ -224,7 +218,7 @@ export function DashboardFilters({
         <PopoverTrigger asChild>
           <Button variant="outline" size="sm">
             Project Type
-            {filters.projectTypes && filters.projectTypes.length > 0 && (
+            {filters.projectTypes && filters.projectTypes.length> 0 && (
               <Badge className="ml-2 bg-primary/20 text-primary" variant="secondary">
                 {filters.projectTypes.length}
               </Badge>
@@ -238,7 +232,7 @@ export function DashboardFilters({
             <CommandList>
               <CommandEmpty>No project types found</CommandEmpty>
               <CommandGroup heading="Project Type">
-                {availableFilters.projectTypes.map((type) => (
+                {availableFilters.projectTypes.map((type: any) => (
                   <CommandItem
                     key={type}
                     onSelect={() => toggleFilter("projectTypes", type)}
@@ -259,7 +253,7 @@ export function DashboardFilters({
         <PopoverTrigger asChild>
           <Button variant="outline" size="sm">
             Location
-            {filters.locations && filters.locations.length > 0 && (
+            {filters.locations && filters.locations.length> 0 && (
               <Badge className="ml-2 bg-primary/20 text-primary" variant="secondary">
                 {filters.locations.length}
               </Badge>
@@ -273,7 +267,7 @@ export function DashboardFilters({
             <CommandList>
               <CommandEmpty>No locations found</CommandEmpty>
               <CommandGroup heading="Location">
-                {availableFilters.locations.map((location) => (
+                {availableFilters.locations.map((location: any) => (
                   <CommandItem
                     key={location}
                     onSelect={() => toggleFilter("locations", location)}
@@ -290,7 +284,7 @@ export function DashboardFilters({
       </Popover>
 
       {/* Clear Filters Button - only shown when filters are active */}
-      {activeFilterCount > 0 && (
+      {activeFilterCount> 0 && (
         <Button variant="ghost" size="sm" onClick={handleClearFilters} className="ml-2">
           <X className="mr-2 h-4 w-4" />
           Clear Filters

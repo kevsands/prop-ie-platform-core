@@ -81,9 +81,9 @@ const UserProfileGraphQL: React.FC<UserProfileProps> = ({
   onUserUpdated 
 }) => {
   // State for edit mode and form data
-  const [isEditing, setIsEditing] = useState(false);
-  const [formData, setFormData] = useState<DeepPartial<UserFragment>>({});
-  const [formErrors, setFormErrors] = useState<FormErrors<UserFragment>>({});
+  const [isEditingsetIsEditing] = useState(false);
+  const [formDatasetFormData] = useState<DeepPartial<UserFragment>>({});
+  const [formErrorssetFormErrors] = useState<FormErrors<UserFragment>>({});
 
   // Type-safe GraphQL query
   const { data, loading, error, refetch } = useQuery<
@@ -102,15 +102,15 @@ const UserProfileGraphQL: React.FC<UserProfileProps> = ({
 
   // Type-safe form handling
   const handleInputChange = (field: keyof UserFragment, value: any) => {
-    setFormData(prev => ({
+    setFormData(prev: any => ({
       ...prev,
       [field]: value
     }));
     
     // Clear field error when value changes
     if (formErrors[field]) {
-      setFormErrors(prev => {
-        const updated = { ...prev };
+      setFormErrors(prev: any => {
+        const updated = { ...prev: any };
         delete updated[field];
         return updated;
       });
@@ -175,7 +175,7 @@ const UserProfileGraphQL: React.FC<UserProfileProps> = ({
       }
     } catch (error) {
       // Handle GraphQL error and extract validation errors if available
-      if (error.graphQLErrors && error.graphQLErrors.length > 0) {
+      if (error.graphQLErrors && error.graphQLErrors.length> 0) {
         const gqlError = error.graphQLErrors[0];
         
         if (gqlError.extensions?.validationErrors) {
@@ -213,17 +213,17 @@ const UserProfileGraphQL: React.FC<UserProfileProps> = ({
 
   // Loading state
   if (loading && !data) {
-    return <div>Loading user data...</div>;
+    return <div>Loading user data...</div>\n  );
   }
 
   // Error state
   if (error) {
-    return <div>Error loading user: {error.message}</div>;
+    return <div>Error loading user: {error.message}</div>\n  );
   }
 
   // No data state
   if (!data?.user) {
-    return <div>User not found</div>;
+    return <div>User not found</div>\n  );
   }
 
   const user = data.user;
@@ -260,7 +260,7 @@ const UserProfileGraphQL: React.FC<UserProfileProps> = ({
               id="firstName"
               type="text"
               value={formData.firstName || ''}
-              onChange={(e) => handleInputChange('firstName', e.target.value)}
+              onChange={(e: any) => handleInputChange('firstName', e.target.value)}
               className={formErrors.firstName ? 'error' : ''}
             />
             {formErrors.firstName && (
@@ -274,7 +274,7 @@ const UserProfileGraphQL: React.FC<UserProfileProps> = ({
               id="lastName"
               type="text"
               value={formData.lastName || ''}
-              onChange={(e) => handleInputChange('lastName', e.target.value)}
+              onChange={(e: any) => handleInputChange('lastName', e.target.value)}
               className={formErrors.lastName ? 'error' : ''}
             />
             {formErrors.lastName && (
@@ -288,7 +288,7 @@ const UserProfileGraphQL: React.FC<UserProfileProps> = ({
               id="email"
               type="email"
               value={formData.email || ''}
-              onChange={(e) => handleInputChange('email', e.target.value)}
+              onChange={(e: any) => handleInputChange('email', e.target.value)}
               className={formErrors.email ? 'error' : ''}
             />
             {formErrors.email && (
@@ -302,7 +302,7 @@ const UserProfileGraphQL: React.FC<UserProfileProps> = ({
               id="phone"
               type="tel"
               value={formData.phone || ''}
-              onChange={(e) => handleInputChange('phone', e.target.value)}
+              onChange={(e: any) => handleInputChange('phone', e.target.value)}
               className={formErrors.phone ? 'error' : ''}
             />
             {formErrors.phone && (
@@ -315,10 +315,10 @@ const UserProfileGraphQL: React.FC<UserProfileProps> = ({
             <select
               id="status"
               value={formData.status || user.status}
-              onChange={(e) => handleInputChange('status', e.target.value)}
+              onChange={(e: any) => handleInputChange('status', e.target.value)}
               className={formErrors.status ? 'error' : ''}
             >
-              {Object.values(UserStatus).map((status) => (
+              {Object.values(UserStatus).map((status: any) => (
                 <option key={status} value={status}>
                   {status}
                 </option>
@@ -335,7 +335,7 @@ const UserProfileGraphQL: React.FC<UserProfileProps> = ({
               id="organization"
               type="text"
               value={formData.organization || ''}
-              onChange={(e) => handleInputChange('organization', e.target.value)}
+              onChange={(e: any) => handleInputChange('organization', e.target.value)}
               className={formErrors.organization ? 'error' : ''}
             />
             {formErrors.organization && (
@@ -349,7 +349,7 @@ const UserProfileGraphQL: React.FC<UserProfileProps> = ({
               id="position"
               type="text"
               value={formData.position || ''}
-              onChange={(e) => handleInputChange('position', e.target.value)}
+              onChange={(e: any) => handleInputChange('position', e.target.value)}
               className={formErrors.position ? 'error' : ''}
             />
             {formErrors.position && (

@@ -1,0 +1,590 @@
+'use client';
+
+import React, { useState, useRef, useEffect } from 'react';
+import { 
+  Document as DocumentType, 
+  DocumentStatus, 
+  DocumentType as DocType,
+  DocumentCategory
+} from '@/types/document';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Card, CardContent } from '@/components/ui/card';
+import { Upload, X, File, Calendar, AlertCircle } from 'lucide-react';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { Calendar as CalendarComponent } from '@/components/ui/calendar';
+import { format } from 'date-fns';
+import { cn } from '@/lib/utils';
+import { Checkbox } from '@/components/ui/checkbox';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { Separator } from '@/components/ui/separator';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { useMemo } from 'react';
+import { DocumentCategoryTypeMapping } from '@/types/core/document';
+
+interface DocumentUploaderProps {
+  onUpload: (file: File, metadata: Partial<DocumentType>) => Promise<void>;
+  loading: boolean;
+  relatedEntityType?: string;
+  relatedEntityId?: string;
+  relatedEntityName?: string;
+  existingDocument?: DocumentType; // For versioning
+  isVersionUpload?: boolean;
+}
+
+const DocumentUploader: React.FC<DocumentUploaderProps> = ({
+  onUpload,
+  loading,
+  relatedEntityType,
+  relatedEntityId,
+  relatedEntityName,
+  existingDocument,
+  isVersionUpload = false
+}) => {
+  const [file, setFile] = useState<File | null>(null);
+  const [name, setName] = useState<string>('');
+  const [description, setDescription] = useState<string>('');
+  const [type, setType] = useState<DocType>(DocType.LEGAL);
+  const [category, setCategory] = useState<DocumentCategory>(DocumentCategory.ADMINISTRATIVE);
+  const [tags, setTags] = useState<string>('');
+  const [expiryDate, setExpiryDate] = useState<Date | undefined>(undefined);
+  const [signatureRequired, setSignatureRequired] = useState<boolean>(false);
+  const [versionNotes, setVersionNotes] = useState<string>('');
+  const [isPublic, setIsPublic] = useState<boolean>(false);
+  const [sensitivity, setSensitivity] = useState<string>('standard');
+  const [validationErrors, setValidationErrors] = useState<{[key: string]: string}>({});
+  const [dragActive, setDragActive] = useState<boolean>(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // Populate form with existing document data if in versioning mode
+  useEffect(() => {
+    if (existingDocument && isVersionUpload) {
+      setName(existingDocument.name);
+      setDescription(existingDocument.description || '');
+      setType(existingDocument.type);
+      setCategory(existingDocument.category);
+      setTags(existingDocument.tags?.join(', ') || '');
+      setExpiryDate(existingDocument.expiryDate ? new Date(existingDocument.expiryDate) : undefined);
+      setSignatureRequired(existingDocument.signatureRequired || false);
+    }
+  }, [existingDocument, isVersionUpload]);
+
+  // Filter document types by selected category
+  const availableDocTypes = useMemo(() => {
+    if (!category) return Object.values(DocType);
+    return DocumentCategoryTypeMapping[category] || Object.values(DocType);
+  }, [category]);
+
+  // Validate the type is allowed for the selected category
+  useEffect(() => {
+    if (category && type && availableDocTypes.indexOf(type) === -1) {
+      setType(availableDocTypes[0]);
+    }
+  }, [category, type, availableDocTypes]);
+
+  // Handle file selection
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      const selectedFile = e.target.files[0];
+      setFile(selectedFile);
+
+      // Auto-populate name if empty and not in versioning mode
+      if (!name && !isVersionUpload) {
+        setName(selectedFile.name);
+      }
+
+      // Clear file validation error if it exists
+      if (validationErrors.file) {
+        setValidationErrors(prev => ({...prev, file: ''}));
+      }
+    }
+  };
+
+  // Handle file drop
+  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setDragActive(false);
+
+    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+      const droppedFile = e.dataTransfer.files[0];
+      setFile(droppedFile);
+
+      // Auto-populate name if empty and not in versioning mode
+      if (!name && !isVersionUpload) {
+        setName(droppedFile.name);
+      }
+
+      // Clear file validation error if it exists
+      if (validationErrors.file) {
+        setValidationErrors(prev => ({...prev, file: ''}));
+      }
+    }
+  };
+
+  // Handle drag events
+  const handleDrag = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (e.type === 'dragenter' || e.type === 'dragover') {
+      setDragActive(true);
+    } else if (e.type === 'dragleave') {
+      setDragActive(false);
+    }
+  };
+
+  // Validate form
+  const validateForm = (): boolean => {
+    const errors: {[key: string]: string} = {};
+
+    if (!file) {
+      errors.file = 'Please select a file to upload';
+    }
+
+    if (!name.trim()) {
+      errors.name = 'Document name is required';
+    }
+
+    if (!type) {
+      errors.type = 'Document type is required';
+    }
+
+    if (!category) {
+      errors.category = 'Document category is required';
+    }
+
+    if (isVersionUpload && !versionNotes.trim()) {
+      errors.versionNotes = 'Please provide notes about what changed in this version';
+    }
+
+    setValidationErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
+  // Handle form submission
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!validateForm()) {
+      return;
+    }
+
+    // Prepare metadata
+    const metadata: Partial<DocumentType> = {
+      name: name.trim(),
+      description: description.trim(),
+      type,
+      status: DocumentStatus.DRAFT,
+      category,
+      tags: tags ? tags.split(',').map(tag => tag.trim()).filter(Boolean) : [],
+      expiryDate,
+      signatureRequired
+    };
+
+    // Add related entity if provided
+    if (relatedEntityType && relatedEntityId) {
+      metadata.relatedTo = {
+        type: relatedEntityType as any,
+        id: relatedEntityId,
+        name: relatedEntityName
+      };
+    }
+
+    // Add versioning data if this is a version upload
+    if (isVersionUpload && existingDocument) {
+      metadata.version = (existingDocument.version || 0) + 1;
+      metadata.previousVersions = [...(existingDocument.previousVersions || []), existingDocument.id];
+      metadata.metadata = {
+        ...metadata.metadata,
+        versionNotes: versionNotes.trim()
+      };
+    }
+
+    // Add permissions
+    metadata.permissions = {
+      canView: [],
+      canEdit: [],
+      canDelete: [],
+      canShare: [],
+      canSign: [],
+      isPublic
+    };
+
+    // Add sensitivity level to metadata
+    metadata.metadata = {
+      ...metadata.metadata,
+      sensitivity
+    };
+
+    try {
+      if (!file) {
+        throw new Error('No file selected');
+      }
+      await onUpload(file, metadata);
+      resetForm();
+    } catch (error) {
+
+      setValidationErrors(prev => ({
+        ...prev,
+        submit: 'Failed to upload document. Please try again.'
+      }));
+    }
+  };
+
+  // Reset form
+  const resetForm = () => {
+    setFile(null);
+    setName('');
+    setDescription('');
+    setTags('');
+    setExpiryDate(undefined);
+    setSignatureRequired(false);
+    setVersionNotes('');
+    setIsPublic(false);
+    setSensitivity('standard');
+    setValidationErrors({});
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
+  };
+
+  // Remove selected file
+  const removeFile = (e?: React.MouseEvent) => {
+    if (e) {
+      e.stopPropagation();
+    }
+    setFile(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
+  };
+
+  // File drop area class
+  const fileDropAreaClass = cn(
+    'border-2 border-dashed rounded-md p-6 text-center cursor-pointer transition-colors',
+    dragActive ? 'border-primary bg-primary/5' : 'border-muted',
+    file ? 'bg-gray-50' : 'hover:bg-gray-50',
+    validationErrors.file ? 'border-destructive' : ''
+  );
+
+  return (
+    <form onSubmit={handleSubmit} className="space-y-6">
+      <div 
+        className={fileDropAreaClass}
+        onDragEnter={handleDrag}
+        onDragLeave={handleDrag}
+        onDragOver={handleDrag}
+        onDrop={handleDrop}
+        onClick={() => fileInputRef.current?.click()}
+      >
+        <input
+          type="file"
+          ref={fileInputRef}
+          onChange={handleFileChange}
+          className="hidden"
+        />
+
+        {file ? (
+          <div className="flex items-center justify-between bg-white p-3 rounded-md">
+            <div className="flex items-center space-x-3">
+              <File className="h-6 w-6 text-primary" />
+              <div className="text-sm text-left">
+                <p className="font-medium truncate">{file.name}</p>
+                <p className="text-muted-foreground text-xs">
+                  {file.type || 'Unknown type'} · {(file.size / 1024 / 1024).toFixed(2)} MB
+                </p>
+              </div>
+            </div>
+            <Button 
+              type="button" 
+              variant="ghost" 
+              size="icon" 
+              onClick={removeFile}
+            >
+              <X className="h-4 w-4" />
+            </Button>
+          </div>
+        ) : (
+          <div className="py-4">
+            <Upload className="h-8 w-8 text-muted-foreground mx-auto mb-2" />
+            <p className="text-sm font-medium">Drag and drop your file here or click to browse</p>
+            <p className="text-xs text-muted-foreground mt-1">PDF, Word, Excel, PowerPoint, and image files supported</p>
+          </div>
+        )}
+      </div>
+
+      {validationErrors.file && (
+        <Alert variant="destructive" className="py-2">
+          <AlertCircle className="h-4 w-4" />
+          <AlertDescription>{validationErrors.file}</AlertDescription>
+        </Alert>
+      )}
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="space-y-3">
+          <div>
+            <Label htmlFor="name" className={validationErrors.name ? 'text-destructive' : ''}>
+              Document Name <span className="text-destructive">*</span>
+            </Label>
+            <Input
+              id="name"
+              value={name}
+              onChange={(e) => {
+                setName(e.target.value);
+                if (validationErrors.name) {
+                  setValidationErrors(prev => ({...prev, name: ''}));
+                }
+              }}
+              placeholder="Enter document name"
+              className={validationErrors.name ? 'border-destructive' : ''}
+              disabled={isVersionUpload}
+              required
+            />
+            {validationErrors.name && (
+              <p className="text-destructive text-xs mt-1">{validationErrors.name}</p>
+            )}
+          </div>
+
+          <div>
+            <Label htmlFor="category" className={validationErrors.category ? 'text-destructive' : ''}>
+              Category <span className="text-destructive">*</span>
+            </Label>
+            <Select 
+              value={category} 
+              onValueChange={(value) => {
+                setCategory(value as DocumentCategory);
+                if (validationErrors.category) {
+                  setValidationErrors(prev => ({...prev, category: ''}));
+                }
+              }}
+              disabled={isVersionUpload}
+            >
+              <SelectTrigger className={validationErrors.category ? 'border-destructive' : ''}>
+                <SelectValue placeholder="Select category" />
+              </SelectTrigger>
+              <SelectContent>
+                {Object.values(DocumentCategory).map((cat) => (
+                  <SelectItem key={cat} value={cat}>
+                    {cat.charAt(0) + cat.slice(1).toLowerCase().replace('_', ' ')}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            {validationErrors.category && (
+              <p className="text-destructive text-xs mt-1">{validationErrors.category}</p>
+            )}
+          </div>
+
+          <div>
+            <Label htmlFor="type" className={validationErrors.type ? 'text-destructive' : ''}>
+              Document Type <span className="text-destructive">*</span>
+            </Label>
+            <Select 
+              value={type} 
+              onValueChange={(value) => {
+                setType(value as DocType);
+                if (validationErrors.type) {
+                  setValidationErrors(prev => ({...prev, type: ''}));
+                }
+              }}
+              disabled={isVersionUpload}
+            >
+              <SelectTrigger className={validationErrors.type ? 'border-destructive' : ''}>
+                <SelectValue placeholder="Select document type" />
+              </SelectTrigger>
+              <SelectContent>
+                {availableDocTypes.map((docType) => (
+                  <SelectItem key={docType} value={docType}>
+                    {docType.charAt(0) + docType.slice(1).toLowerCase().replace('_', ' ')}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            {validationErrors.type && (
+              <p className="text-destructive text-xs mt-1">{validationErrors.type}</p>
+            )}
+          </div>
+
+          <div>
+            <Label htmlFor="tags">Tags (comma separated)</Label>
+            <Input
+              id="tags"
+              value={tags}
+              onChange={(e) => setTags(e.target.value)}
+              placeholder="e.g. important, contract, approved"
+              disabled={isVersionUpload}
+            />
+          </div>
+
+          <div>
+            <Label htmlFor="expiryDate">Expiry Date</Label>
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button
+                  variant={"outline"}
+                  className={cn(
+                    "w-full justify-start text-left font-normal",
+                    !expiryDate && "text-muted-foreground"
+                  )}
+                  disabled={isVersionUpload}
+                >
+                  <Calendar className="mr-2 h-4 w-4" />
+                  {expiryDate ? format(expiryDate, 'PPP') : <span>Set expiry date (optional)</span>}
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-auto p-0">
+                <CalendarComponent
+                  mode="single"
+                  selected={expiryDate}
+                  onSelect={setExpiryDate}
+                  initialFocus
+                  disabled={(date) => date < new Date()}
+                />
+              </PopoverContent>
+            </Popover>
+          </div>
+        </div>
+
+        <div className="space-y-3">
+          <div>
+            <Label htmlFor="description">Description</Label>
+            <Textarea
+              id="description"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              placeholder="Provide a brief description of the document"
+              rows={3}
+              disabled={isVersionUpload}
+            />
+          </div>
+
+          {isVersionUpload && (
+            <div>
+              <Label htmlFor="versionNotes" className={validationErrors.versionNotes ? 'text-destructive' : ''}>
+                Version Notes <span className="text-destructive">*</span>
+              </Label>
+              <Textarea
+                id="versionNotes"
+                value={versionNotes}
+                onChange={(e) => {
+                  setVersionNotes(e.target.value);
+                  if (validationErrors.versionNotes) {
+                    setValidationErrors(prev => ({...prev, versionNotes: ''}));
+                  }
+                }}
+                placeholder="What has changed in this version?"
+                rows={3}
+                className={validationErrors.versionNotes ? 'border-destructive' : ''}
+              />
+              {validationErrors.versionNotes && (
+                <p className="text-destructive text-xs mt-1">{validationErrors.versionNotes}</p>
+              )}
+            </div>
+          )}
+
+          <div className="flex items-center space-x-2">
+            <Checkbox 
+              id="signatureRequired" 
+              checked={signatureRequired} 
+              onCheckedChange={(checked) => setSignatureRequired(checked as boolean)} 
+              disabled={isVersionUpload}
+            />
+            <Label htmlFor="signatureRequired" className="cursor-pointer">
+              Requires signature
+            </Label>
+          </div>
+
+          {/* Access Control Section */}
+          <Separator className="my-2" />
+          <div>
+            <h3 className="text-sm font-medium mb-2">Access Control</h3>
+            <div className="space-y-2">
+              <div className="flex items-center space-x-2">
+                <Checkbox 
+                  id="isPublic" 
+                  checked={isPublic} 
+                  onCheckedChange={(checked) => setIsPublic(checked as boolean)}
+                  disabled={isVersionUpload}
+                />
+                <Label htmlFor="isPublic" className="cursor-pointer">
+                  Make document public to all users
+                </Label>
+              </div>
+
+              <div>
+                <Label htmlFor="sensitivity" className="mb-1">Sensitivity Level</Label>
+                <RadioGroup 
+                  id="sensitivity" 
+                  value={sensitivity} 
+                  onValueChange={setSensitivity}
+                  className="flex flex-col space-y-1"
+                  disabled={isVersionUpload}
+                >
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="low" id="sensitivity-low" />
+                    <Label htmlFor="sensitivity-low">Low (General information)</Label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="standard" id="sensitivity-standard" />
+                    <Label htmlFor="sensitivity-standard">Standard (Business use)</Label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="confidential" id="sensitivity-confidential" />
+                    <Label htmlFor="sensitivity-confidential">Confidential (Restricted access)</Label>
+                  </div>
+                </RadioGroup>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Related Entity Info */}
+      {relatedEntityType && relatedEntityId && (
+        <Card className="bg-muted/40">
+          <CardContent className="pt-4">
+            <p className="text-sm text-muted-foreground">
+              This document will be linked to: <span className="font-medium">{relatedEntityName || `${relatedEntityType} #${relatedEntityId}`}</span>
+            </p>
+          </CardContent>
+        </Card>
+      )}
+
+      {/* Version Info */}
+      {isVersionUpload && existingDocument && (
+        <Card className="bg-blue-50">
+          <CardContent className="pt-4">
+            <p className="text-sm">
+              Creating new version of: <span className="font-medium">{existingDocument.name}</span>
+            </p>
+            <p className="text-xs text-muted-foreground mt-1">
+              Current version: {existingDocument.version || 1} • Uploaded {existingDocument.uploadDate && format(new Date(existingDocument.uploadDate), 'PPP')}
+            </p>
+          </CardContent>
+        </Card>
+      )}
+
+      <div className="flex justify-end">
+        <Button type="submit" disabled={loading}>
+          {loading ? (
+            <>
+              <div className="animate-spin mr-2 h-4 w-4 border-2 border-b-transparent border-white rounded-full"></div>
+              {isVersionUpload ? 'Uploading Version...' : 'Uploading...'}
+            </>
+          ) : (
+            <>
+              <Upload className="mr-2 h-4 w-4" />
+              {isVersionUpload ? 'Upload New Version' : 'Upload Document'}
+            </>
+          )}
+        </Button>
+      </div>
+    </form>
+  );
+};
+
+export default DocumentUploader;

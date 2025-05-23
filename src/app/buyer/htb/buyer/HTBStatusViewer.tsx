@@ -14,19 +14,19 @@ import { HTBClaimStatus } from '@/types/htb';
  */
 export const HTBStatusViewer: React.FC<{ claimId?: string }> = ({ claimId }) => {
   const { selectedBuyerClaim, fetchClaimById, buyerClaims, isLoading, error } = useHTB();
-  const [activeTab, setActiveTab] = useState<"details" | "documents" | "notes">("details");
-  
+  const [activeTabsetActiveTab] = useState<"details" | "documents" | "notes">("details");
+
   useEffect(() => {
     // If claim ID is provided, fetch that specific claim
     if (claimId) {
       fetchClaimById(claimId, "buyer");
     } 
     // If no claim ID but we have claims, select the first one
-    else if (buyerClaims.length > 0 && !selectedBuyerClaim) {
+    else if (buyerClaims.length> 0 && !selectedBuyerClaim) {
       fetchClaimById(buyerClaims[0].id, "buyer");
     }
-  }, [claimId, buyerClaims, selectedBuyerClaim, fetchClaimById]);
-  
+  }, [claimId, buyerClaims, selectedBuyerClaimfetchClaimById]);
+
   if (isLoading) {
     return (
       <div className="flex justify-center items-center py-12">
@@ -34,7 +34,7 @@ export const HTBStatusViewer: React.FC<{ claimId?: string }> = ({ claimId }) => 
       </div>
     );
   }
-  
+
   if (error) {
     return (
       <div className="bg-red-50 p-4 rounded-md">
@@ -61,7 +61,7 @@ export const HTBStatusViewer: React.FC<{ claimId?: string }> = ({ claimId }) => 
       </div>
     );
   }
-  
+
   if (!selectedBuyerClaim) {
     return (
       <div className="bg-yellow-50 p-4 rounded-md">
@@ -90,7 +90,7 @@ export const HTBStatusViewer: React.FC<{ claimId?: string }> = ({ claimId }) => 
       </div>
     );
   }
-  
+
   const getStatusBadgeClass = (status: string) => {
     switch (status) {
       case "INITIATED":
@@ -114,7 +114,7 @@ export const HTBStatusViewer: React.FC<{ claimId?: string }> = ({ claimId }) => 
         return "bg-gray-100 text-gray-800";
     }
   };
-  
+
   const renderStatusStep = (label: string, date: Date | null, status: "complete" | "current" | "upcoming") => {
     return (
       <div className="relative pb-8">
@@ -157,7 +157,7 @@ export const HTBStatusViewer: React.FC<{ claimId?: string }> = ({ claimId }) => 
               )}
             </div>
           </div>
-          
+
           {/* Step content */}
           <div className="ml-4">
             <div
@@ -175,11 +175,11 @@ export const HTBStatusViewer: React.FC<{ claimId?: string }> = ({ claimId }) => 
       </div>
     );
   };
-  
+
   const renderStatusTimeline = () => {
     const claim = selectedBuyerClaim;
     const steps = [];
-    
+
     // Application initiated
     steps.push(
       renderStatusStep(
@@ -188,7 +188,7 @@ export const HTBStatusViewer: React.FC<{ claimId?: string }> = ({ claimId }) => 
         "complete"
       )
     );
-    
+
     // Access code submitted
     if (claim.status === HTBClaimStatus.ACCESS_CODE_SUBMITTED || 
         [HTBClaimStatus.DEVELOPER_PROCESSING, HTBClaimStatus.CLAIM_CODE_RECEIVED, HTBClaimStatus.FUNDS_REQUESTED, 
@@ -212,7 +212,7 @@ export const HTBStatusViewer: React.FC<{ claimId?: string }> = ({ claimId }) => 
         )
       );
     }
-    
+
     // Developer processing
     if ([HTBClaimStatus.DEVELOPER_PROCESSING, HTBClaimStatus.CLAIM_CODE_RECEIVED, HTBClaimStatus.FUNDS_REQUESTED, 
          HTBClaimStatus.FUNDS_RECEIVED, HTBClaimStatus.DEPOSIT_APPLIED, HTBClaimStatus.COMPLETED].includes(claim.status)) {
@@ -234,7 +234,7 @@ export const HTBStatusViewer: React.FC<{ claimId?: string }> = ({ claimId }) => 
         )
       );
     }
-    
+
     // Funds requested
     if ([HTBClaimStatus.FUNDS_REQUESTED, HTBClaimStatus.FUNDS_RECEIVED, HTBClaimStatus.DEPOSIT_APPLIED, HTBClaimStatus.COMPLETED].includes(claim.status)) {
       steps.push(
@@ -255,7 +255,7 @@ export const HTBStatusViewer: React.FC<{ claimId?: string }> = ({ claimId }) => 
         )
       );
     }
-    
+
     // Funds received
     if ([HTBClaimStatus.FUNDS_RECEIVED, HTBClaimStatus.DEPOSIT_APPLIED, HTBClaimStatus.COMPLETED].includes(claim.status)) {
       steps.push(
@@ -276,7 +276,7 @@ export const HTBStatusViewer: React.FC<{ claimId?: string }> = ({ claimId }) => 
         )
       );
     }
-    
+
     // Deposit applied
     if ([HTBClaimStatus.DEPOSIT_APPLIED, HTBClaimStatus.COMPLETED].includes(claim.status)) {
       steps.push(
@@ -297,7 +297,7 @@ export const HTBStatusViewer: React.FC<{ claimId?: string }> = ({ claimId }) => 
         )
       );
     }
-    
+
     // Completed
     if (claim.status === HTBClaimStatus.COMPLETED) {
       steps.push(
@@ -318,7 +318,7 @@ export const HTBStatusViewer: React.FC<{ claimId?: string }> = ({ claimId }) => 
         )
       );
     }
-    
+
     // Special case for rejected/expired/cancelled
     if ([HTBClaimStatus.REJECTED, HTBClaimStatus.EXPIRED, HTBClaimStatus.CANCELLED].includes(claim.status)) {
       steps.push(
@@ -331,17 +331,17 @@ export const HTBStatusViewer: React.FC<{ claimId?: string }> = ({ claimId }) => 
         )
       );
     }
-    
+
     return steps;
   };
-  
+
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
       <h1 className="text-2xl font-bold text-gray-900 mb-2">Help-to-Buy Claim Status</h1>
       <p className="text-gray-600 mb-6">
         Track the progress of your Help-to-Buy application and next steps.
       </p>
-      
+
       {/* Status overview */}
       <div className="bg-white shadow overflow-hidden sm:rounded-lg mb-8">
         <div className="px-4 py-5 sm:px-6 flex justify-between items-center">
@@ -359,7 +359,7 @@ export const HTBStatusViewer: React.FC<{ claimId?: string }> = ({ claimId }) => 
             {selectedBuyerClaim.status.replace(/_/g, " ")}
           </span>
         </div>
-        
+
         <div className="border-t border-gray-200 px-4 py-5 sm:p-0">
           <dl className="sm:divide-y sm:divide-gray-200">
             <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
@@ -371,7 +371,7 @@ export const HTBStatusViewer: React.FC<{ claimId?: string }> = ({ claimId }) => 
             <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
               <dt className="text-sm font-medium text-gray-500">Access Code</dt>
               <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                {selectedBuyerClaim.accessCode || "Not yet submitted"}
+                {selectedBuyerClaim.accessCode || "Not yet submitted"
               </dd>
             </div>
             <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
@@ -385,7 +385,7 @@ export const HTBStatusViewer: React.FC<{ claimId?: string }> = ({ claimId }) => 
               <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                 {selectedBuyerClaim.approvedAmount
                   ? `€${selectedBuyerClaim.approvedAmount.toLocaleString()}`
-                  : "Pending approval"}
+                  : "Pending approval"
               </dd>
             </div>
             <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
@@ -403,7 +403,7 @@ export const HTBStatusViewer: React.FC<{ claimId?: string }> = ({ claimId }) => 
           </dl>
         </div>
       </div>
-      
+
       {/* Tabs */}
       <div className="border-b border-gray-200 mb-6">
         <nav className="-mb-px flex">
@@ -439,7 +439,7 @@ export const HTBStatusViewer: React.FC<{ claimId?: string }> = ({ claimId }) => 
           </button>
         </nav>
       </div>
-      
+
       {/* Tab content */}
       <div className="bg-white shadow sm:rounded-lg p-6">
         {activeTab === "details" && (
@@ -450,11 +450,11 @@ export const HTBStatusViewer: React.FC<{ claimId?: string }> = ({ claimId }) => 
             </div>
           </div>
         )}
-        
+
         {activeTab === "documents" && (
           <div>
             <h3 className="text-lg font-medium text-gray-900 mb-4">Documents</h3>
-            
+
             {selectedBuyerClaim.documents.length === 0 ? (
               <div className="text-sm text-gray-500">No documents available yet.</div>
             ) : (
@@ -510,11 +510,11 @@ export const HTBStatusViewer: React.FC<{ claimId?: string }> = ({ claimId }) => 
             )}
           </div>
         )}
-        
+
         {activeTab === "notes" && (
           <div>
             <h3 className="text-lg font-medium text-gray-900 mb-4">Notes & Updates</h3>
-            
+
             {selectedBuyerClaim.notes.filter((note: HTBNote) => !note.isPrivate).length === 0 ? (
               <div className="text-sm text-gray-500">No notes available yet.</div>
             ) : (
@@ -573,7 +573,7 @@ export const HTBStatusViewer: React.FC<{ claimId?: string }> = ({ claimId }) => 
           </div>
         )}
       </div>
-      
+
       {/* Help information */}
       <div className="mt-8 bg-blue-50 p-6 rounded-lg">
         <h3 className="text-lg font-medium text-blue-900">Need Help?</h3>

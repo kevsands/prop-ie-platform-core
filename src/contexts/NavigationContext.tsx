@@ -65,7 +65,7 @@ export const NavigationProvider: React.FC<{ children: React.ReactNode }> = ({ ch
   const { user, isAuthenticated } = useAuth();
   const { activeTransaction } = useTransaction();
   
-  const [state, setState] = useState<NavigationState>({
+  const [statesetState] = useState<NavigationState>({
     currentPath: pathname || '/',
     previousPath: '/',
     breadcrumbs: [],
@@ -74,10 +74,9 @@ export const NavigationProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     quickActions: [],
     activeSection: '',
     mobileMenuOpen: false,
-    searchOpen: false,
-  });
+    searchOpen: false});
 
-  const [historyIndex, setHistoryIndex] = useState(0);
+  const [historyIndexsetHistoryIndex] = useState(0);
 
   // Update navigation state when path changes
   useEffect(() => {
@@ -87,11 +86,10 @@ export const NavigationProvider: React.FC<{ children: React.ReactNode }> = ({ ch
         previousPath: prev.currentPath,
         currentPath: pathname,
         navigationHistory: [...prev.navigationHistory.slice(0, historyIndex + 1), pathname],
-        isNavigating: false,
-      }));
+        isNavigating: false}));
       setHistoryIndex(prev => prev + 1);
     }
-  }, [pathname, state.currentPath, historyIndex]);
+  }, [pathname, state.currentPathhistoryIndex]);
 
   // Generate breadcrumbs based on current path
   useEffect(() => {
@@ -102,12 +100,11 @@ export const NavigationProvider: React.FC<{ children: React.ReactNode }> = ({ ch
       // Add home/dashboard based on authentication
       breadcrumbs.push({
         label: isAuthenticated ? 'Dashboard' : 'Home',
-        href: isAuthenticated ? `/${user?.role?.toLowerCase() || 'dashboard'}` : '/',
-      });
+        href: isAuthenticated ? `/${user?.role?.toLowerCase() || 'dashboard'}` : '/'});
 
       // Build breadcrumb trail
       let currentPath = '';
-      pathSegments.forEach((segment, index) => {
+      pathSegments.forEach((segmentindex: any) => {
         currentPath += `/${segment}`;
         const isLast = index === pathSegments.length - 1;
         
@@ -120,15 +117,14 @@ export const NavigationProvider: React.FC<{ children: React.ReactNode }> = ({ ch
         breadcrumbs.push({
           label,
           href: currentPath,
-          isActive: isLast,
-        });
+          isActive: isLast});
       });
 
       setState(prev => ({ ...prev, breadcrumbs }));
     };
 
     generateBreadcrumbs();
-  }, [pathname, isAuthenticated, user]);
+  }, [pathname, isAuthenticateduser]);
 
   // Update quick actions based on user role and context
   useEffect(() => {
@@ -221,7 +217,7 @@ export const NavigationProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     };
 
     generateQuickActions();
-  }, [isAuthenticated, user, activeTransaction]);
+  }, [isAuthenticated, useractiveTransaction]);
 
   // Navigation methods
   const navigateTo = useCallback((path: string, options: NavigationOptions = {}) => {
@@ -234,12 +230,12 @@ export const NavigationProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     }
     
     if (options.scroll !== false) {
-      window.scrollTo(0, 0);
+      window.scrollTo(00);
     }
   }, [router]);
 
   const goBack = useCallback(() => {
-    if (historyIndex > 0) {
+    if (historyIndex> 0) {
       const newIndex = historyIndex - 1;
       const previousPath = state.navigationHistory[newIndex];
       setHistoryIndex(newIndex);
@@ -247,16 +243,16 @@ export const NavigationProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     } else {
       router.back();
     }
-  }, [historyIndex, state.navigationHistory, navigateTo, router]);
+  }, [historyIndex, state.navigationHistory, navigateTorouter]);
 
   const goForward = useCallback(() => {
-    if (historyIndex < state.navigationHistory.length - 1) {
+    if (historyIndex <state.navigationHistory.length - 1) {
       const newIndex = historyIndex + 1;
       const nextPath = state.navigationHistory[newIndex];
       setHistoryIndex(newIndex);
       navigateTo(nextPath);
     }
-  }, [historyIndex, state.navigationHistory, navigateTo]);
+  }, [historyIndex, state.navigationHistorynavigateTo]);
 
   const setBreadcrumbs = useCallback((breadcrumbs: BreadcrumbItem[]) => {
     setState(prev => ({ ...prev, breadcrumbs }));
@@ -288,9 +284,8 @@ export const NavigationProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     setActiveSection,
     toggleMobileMenu,
     toggleSearch,
-    canGoBack: historyIndex > 0,
-    canGoForward: historyIndex < state.navigationHistory.length - 1,
-  };
+    canGoBack: historyIndex> 0,
+    canGoForward: historyIndex <state.navigationHistory.length - 1};
 
   return (
     <NavigationContext.Provider value={value}>

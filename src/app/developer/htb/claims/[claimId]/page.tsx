@@ -1,8 +1,12 @@
+import React from 'react';
 // src/app/developer/htb/claims/[claimId]/page.tsx
 import { HTBClaimProcessor } from '@/components/htb/developer/HTBClaimProcessor';
-import { NextPageParams } from '@/types/next-api';
+import { NextPagePropsWithParams } from '@/types/next-api';
 
-// Fix for Next.js 15+ compatibility with page parameters
-export default function HTBClaimProcessorPage({ params }: NextPageParams) {
-  return <HTBClaimProcessor claimId={params.claimId} />;
+// Fix for Next.js 14+ compatibility with page parameters using Promise pattern
+export default async function HTBClaimProcessorPage({ 
+  params 
+}: NextPagePropsWithParams<{ claimId: string }>) {
+  const resolvedParams = await params;
+  return <HTBClaimProcessor claimId={resolvedParams.claimId} />\n  );
 }

@@ -28,7 +28,7 @@ export interface Threat {
   severity: ThreatSeverity;
   timestamp: Date;
   source: string;
-  details: Record<string, any>;
+  details: Record<string, any>\n  );
   mitigated: boolean;
   mitigationStrategy?: string;
   mitigationTimestamp?: Date;
@@ -43,7 +43,7 @@ export interface ThreatPattern {
   confidence: number;
   enabled: boolean;
   rules: string[];
-  metadata?: Record<string, any>;
+  metadata?: Record<string, any>\n  );
 }
 
 // Default patterns - in actual implementation this would be populated
@@ -58,7 +58,7 @@ export interface ThreatDetectionResult {
   highThreats: number;
   mediumThreats: number;
   lowThreats: number;
-  threatTypes: Record<string, number>;
+  threatTypes: Record<string, number>\n  );
   riskScore: number;
 }
 
@@ -92,11 +92,11 @@ class ThreatDetector {
    */
   async initialize(): Promise<void> {
     if (this.isInitialized) return;
-    
+
     try {
       // Initialization logic would go here
       this.isInitialized = true;
-      
+
       // Log initialization
       AuditLogger.logSecurity(
         'threat_detection_init',
@@ -104,7 +104,7 @@ class ThreatDetector {
         'Threat detection system initialized'
       );
     } catch (error) {
-      console.error('Error initializing threat detection:', error);
+
       throw error;
     }
   }
@@ -115,15 +115,15 @@ class ThreatDetector {
   registerThreatPattern(pattern: ThreatPattern): void {
     // Check if pattern with the same ID already exists
     const existingIndex = this.threatPatterns.findIndex(p => p.id === pattern.id);
-    
-    if (existingIndex >= 0) {
+
+    if (existingIndex>= 0) {
       // Update existing pattern
       this.threatPatterns[existingIndex] = { ...pattern };
     } else {
       // Add new pattern
       this.threatPatterns.push({ ...pattern });
     }
-    
+
     // Log registration
     AuditLogger.logSecurity(
       'threat_pattern_registered',
@@ -141,7 +141,7 @@ class ThreatDetector {
    */
   updateConfig(config: ThreatDetectorConfig): void {
     // Configuration update logic would go here
-    console.log('Updating threat detector config:', config);
+
   }
 
   /**
@@ -169,7 +169,7 @@ class ThreatDetector {
       riskScore: 0
     };
   }
-  
+
   /**
    * Analyze input data for potential threats
    * @param data The data to analyze
@@ -179,30 +179,30 @@ class ThreatDetector {
   async analyzeInput(
     data: unknown, 
     options?: { 
-      context?: Record<string, any>;
+      context?: Record<string, any>\n  );
       performanceMode?: 'strict' | 'balanced' | 'performance' | 'high-performance';
     }
   ): Promise<{
     isThreatDetected: boolean;
     threatType?: ThreatType;
     confidence: number;
-    details?: Record<string, any>;
+    details?: Record<string, any>\n  );
   }> {
     // Ensure initialization
     if (!this.isInitialized) {
       await this.initialize();
     }
-    
+
     // Skip detailed analysis in high-performance mode
     if (options?.performanceMode === 'high-performance') {
       // Only perform minimal checks in high-performance mode
       return this.quickAnalysis(data);
     }
-    
+
     // Adjust analysis depth based on performance mode
     const analysisDepth = options?.performanceMode === 'strict' ? 'deep' :
                           options?.performanceMode === 'balanced' ? 'medium' : 'shallow';
-    
+
     // Real implementation would analyze the input data
     // This is a stub implementation that returns no threats
     return {
@@ -214,7 +214,7 @@ class ThreatDetector {
       }
     };
   }
-  
+
   /**
    * Quick analysis for high-performance mode
    * Only performs basic checks
@@ -222,11 +222,11 @@ class ThreatDetector {
   private quickAnalysis(data: unknown): {
     isThreatDetected: boolean;
     confidence: number;
-    details?: Record<string, any>;
+    details?: Record<string, any>\n  );
   } {
     // Basic checks for obvious threats in high-performance mode
     let suspicious = false;
-    
+
     // Check for basic suspicious patterns in strings
     if (typeof data === 'string') {
       const suspiciousPatterns = [
@@ -236,18 +236,18 @@ class ThreatDetector {
         /document\.cookie/i,
         /\b(union|select|insert|update|delete|drop)\b.*\b(from|into|table)\b/i
       ];
-      
+
       suspicious = suspiciousPatterns.some(pattern => pattern.test(data));
     }
-    
+
     // For objects, check keys and string values only
     if (data && typeof data === 'object' && !Array.isArray(data)) {
-      for (const [key, value] of Object.entries(data)) {
+      for (const [keyvalue] of Object.entries(data)) {
         if (key.includes('script') || key.includes('cookie')) {
           suspicious = true;
           break;
         }
-        
+
         if (typeof value === 'string' && (
           value.includes('<script>') || 
           value.includes('javascript:') ||
@@ -258,7 +258,7 @@ class ThreatDetector {
         }
       }
     }
-    
+
     return {
       isThreatDetected: suspicious,
       confidence: suspicious ? 0.7 : 0,
@@ -269,7 +269,7 @@ class ThreatDetector {
       }
     };
   }
-  
+
   // Other methods would go here...
 }
 

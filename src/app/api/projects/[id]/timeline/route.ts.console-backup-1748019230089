@@ -1,0 +1,229 @@
+type Props = {
+  params: Promise<{ id: string }>
+}
+
+import { NextRequest, NextResponse } from 'next/server';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/lib/auth';
+
+/**
+ * GET /api/projects/[id]/timeline
+ * Fetch timeline data for a specific project
+ */
+export async function GET(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  try {
+    const session = await getServerSession(authOptions);
+
+    // Check authentication
+    if (!session || !session.user) {
+      return NextResponse.json(
+        { error: 'Authentication required' },
+        { status: 401 }
+      );
+    }
+
+    const { id: projectId } = await params;
+    
+    if (!projectId) {
+      return NextResponse.json(
+        { error: 'Project ID is required' },
+        { status: 400 }
+      );
+    }
+
+    // Mock timeline data for demonstration
+    const timelineData = {
+      summary: {
+        startDate: '2022-06-15',
+        targetCompletionDate: '2023-12-31',
+        totalMilestones: 12,
+        completedMilestones: 7,
+        upcomingMilestones: 5,
+        completionPercentage: 58,
+        isDelayed: true,
+        delayDays: 14
+      },
+      milestones: [
+        {
+          id: 'milestone-1',
+          title: 'Planning Permission Approval',
+          date: '2022-08-10',
+          completed: true,
+          status: 'completed',
+          description: 'Full planning permission approved by local council',
+          assignees: ['1', '2'],
+          dependencies: []
+        },
+        {
+          id: 'milestone-2',
+          title: 'Foundation Work',
+          date: '2023-01-15',
+          completed: true,
+          status: 'completed',
+          description: 'Foundation laying for all blocks',
+          assignees: ['4'],
+          dependencies: ['milestone-1']
+        },
+        {
+          id: 'milestone-3',
+          title: 'Structural Frame',
+          date: '2023-04-22',
+          completed: true,
+          status: 'completed',
+          description: 'Structural frame completed for all buildings',
+          assignees: ['4'],
+          dependencies: ['milestone-2']
+        },
+        {
+          id: 'milestone-4',
+          title: 'Roofing',
+          date: '2023-07-10',
+          completed: true,
+          status: 'completed',
+          description: 'All roof structures and coverings installed',
+          assignees: ['4'],
+          dependencies: ['milestone-3']
+        },
+        {
+          id: 'milestone-5',
+          title: 'Electrical & Plumbing First Fix',
+          date: '2023-08-30',
+          completed: true,
+          status: 'completed',
+          description: 'First fix of electrical and plumbing systems',
+          assignees: ['4'],
+          dependencies: ['milestone-4']
+        },
+        {
+          id: 'milestone-6',
+          title: 'Phase 1 Handover',
+          date: '2023-10-15',
+          originalDate: '2023-10-01',
+          completed: false,
+          status: 'delayed',
+          description: 'First 15 units ready for occupation',
+          assignees: ['1', '3', '4'],
+          dependencies: ['milestone-5'],
+          delayReason: 'Supply chain issues with kitchen fittings'
+        },
+        {
+          id: 'milestone-7',
+          title: 'Interior Finishing Phase 2',
+          date: '2023-11-22',
+          completed: false,
+          status: 'upcoming',
+          description: 'Kitchen and bathroom installation, painting',
+          assignees: ['4'],
+          dependencies: ['milestone-5']
+        },
+        {
+          id: 'milestone-8',
+          title: 'Phase 2 Handover',
+          date: '2023-12-31',
+          completed: false,
+          status: 'upcoming',
+          description: 'Next 15 units ready for occupation',
+          assignees: ['1', '3', '4'],
+          dependencies: ['milestone-7']
+        }
+      ],
+      team: [
+        {
+          id: '1',
+          name: 'Sarah Johnson',
+          role: 'Project Manager',
+          avatarUrl: '',
+          initials: 'SJ'
+        },
+        {
+          id: '2',
+          name: 'Michael Chen',
+          role: 'Lead Architect',
+          avatarUrl: '',
+          initials: 'MC'
+        },
+        {
+          id: '3',
+          name: 'Emma Wilson',
+          role: 'Sales Director',
+          avatarUrl: '',
+          initials: 'EW'
+        },
+        {
+          id: '4',
+          name: 'John Murphy',
+          role: 'Site Foreman',
+          avatarUrl: '',
+          initials: 'JM'
+        }
+      ]
+    };
+
+    return NextResponse.json(timelineData);
+  } catch (error) {
+    console.error('Error fetching timeline data:', error);
+    return NextResponse.json(
+      { error: 'Failed to fetch timeline data' },
+      { status: 500 }
+    );
+  }
+}
+
+/**
+ * PATCH /api/projects/[id]/timeline
+ * Update timeline milestone status
+ */
+export async function PATCH(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  try {
+    const session = await getServerSession(authOptions);
+
+    // Check authentication
+    if (!session || !session.user) {
+      return NextResponse.json(
+        { error: 'Authentication required' },
+        { status: 401 }
+      );
+    }
+
+    const { id: projectId } = await params;
+    
+    if (!projectId) {
+      return NextResponse.json(
+        { error: 'Project ID is required' },
+        { status: 400 }
+      );
+    }
+
+    // Parse request body
+    const body: any = await request.json();
+    
+    if (!body.milestoneId) {
+      return NextResponse.json(
+        { error: 'Milestone ID is required' },
+        { status: 400 }
+      );
+    }
+
+    // In production, this would update the milestone in database
+    // For now, just return success response
+    return NextResponse.json({
+      success: true,
+      message: 'Milestone updated successfully',
+      milestoneId: body.milestoneId,
+      projectId,
+      updatedFields: Object.keys(body).filter(key => key !== 'milestoneId')
+    });
+  } catch (error) {
+    console.error('Error updating milestone:', error);
+    return NextResponse.json(
+      { error: 'Failed to update milestone' },
+      { status: 500 }
+    );
+  }
+}

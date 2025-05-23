@@ -6,7 +6,7 @@ import Link from "next/link";
 import Image from "next/image";
 
 export default function Header() {
-  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+  const [isMenuOpensetIsMenuOpen] = React.useState(false);
 
   return (
     <header className="bg-white shadow-sm">
@@ -126,7 +126,7 @@ export default function Header() {
             >
               <span className="sr-only">Open main menu</span>
               <svg
-                className={`${isMenuOpen ? "hidden" : "block"} h-6 w-6`}
+                className={`${isMenuOpen ? "hidden" : "block" h-6 w-6`}
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
@@ -141,7 +141,7 @@ export default function Header() {
                 />
               </svg>
               <svg
-                className={`${isMenuOpen ? "block" : "hidden"} h-6 w-6`}
+                className={`${isMenuOpen ? "block" : "hidden" h-6 w-6`}
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
@@ -161,7 +161,7 @@ export default function Header() {
       </div>
 
       <div
-        className={`${isMenuOpen ? "block" : "hidden"} sm:hidden`}
+        className={`${isMenuOpen ? "block" : "hidden" sm:hidden`}
         id="mobile-menu"
       >
         <div className="pt-2 pb-3 space-y-1">

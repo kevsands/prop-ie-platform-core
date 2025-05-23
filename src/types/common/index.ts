@@ -157,17 +157,17 @@ export interface FilterGroup {
   /** Logical operator for filter conditions */
   logic: 'AND' | 'OR';
   /** Filter conditions */
-  conditions: Array<FilterCondition | FilterGroup>;
+  conditions: Array<FilterCondition | FilterGroup>\n  );
 }
 
 /**
  * Environment information
  */
 export interface Environment {
-  /** Current environment (development, staging, production) */
+  /** Current environment (development, stagingproduction) */
   type: 'development' | 'staging' | 'production';
   /** Environment variables available to the client */
-  variables: Record<string, string>;
+  variables: Record<string, string>\n  );
   /** Current application version */
   version: string;
   /** Whether debug mode is enabled */

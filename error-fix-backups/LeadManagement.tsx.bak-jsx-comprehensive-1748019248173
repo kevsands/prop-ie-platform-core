@@ -1,0 +1,108 @@
+'use client';
+
+import React, { useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import { Table } from '@/components/ui/table';
+import { Badge } from '@/components/ui/badge';
+import { PlusCircle, Search, Filter } from 'lucide-react';
+
+export interface Lead {
+  id: string;
+  name: string;
+  email: string;
+  phone: string;
+  status: 'new' | 'contacted' | 'qualified' | 'closed';
+  source: string;
+  createdAt: Date;
+  lastContact?: Date;
+  notes?: string;
+}
+
+export default function LeadManagement() {
+  const [leads, setLeads] = useState<Lead[]>([]);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [statusFilter, setStatusFilter] = useState<string>('all');
+
+  const filteredLeads = leads.filter(lead => {
+    const matchesSearch = lead.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         lead.email.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesStatus = statusFilter === 'all' || lead.status === statusFilter;
+    return matchesSearch && matchesStatus;
+  });
+
+  return (
+    <div className="p-6">
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-2xl font-bold">Lead Management</h1>
+        <Button variant="default">
+          <PlusCircle className="mr-2 h-4 w-4" />
+          Add Lead
+        </Button>
+      </div>
+
+      <Card className="p-4 mb-6">
+        <div className="flex gap-4">
+          <div className="flex-1">
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+              <input
+                type="text"
+                placeholder="Search leads..."
+                className="w-full pl-10 pr-4 py-2 border rounded-lg"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+            </div>
+          </div>
+          <select
+            className="px-4 py-2 border rounded-lg"
+            value={statusFilter}
+            onChange={(e) => setStatusFilter(e.target.value)}
+          >
+            <option value="all">All Status</option>
+            <option value="new">New</option>
+            <option value="contacted">Contacted</option>
+            <option value="qualified">Qualified</option>
+            <option value="closed">Closed</option>
+          </select>
+        </div>
+      </Card>
+
+      <Card>
+        <Table>
+          <thead>
+            <tr>
+              <th className="text-left p-4">Name</th>
+              <th className="text-left p-4">Email</th>
+              <th className="text-left p-4">Phone</th>
+              <th className="text-left p-4">Status</th>
+              <th className="text-left p-4">Source</th>
+              <th className="text-left p-4">Created</th>
+              <th className="text-left p-4">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {filteredLeads.map((lead) => (
+              <tr key={lead.id} className="border-t">
+                <td className="p-4">{lead.name}</td>
+                <td className="p-4">{lead.email}</td>
+                <td className="p-4">{lead.phone}</td>
+                <td className="p-4">
+                  <Badge variant={lead.status === 'new' ? 'default' : 'secondary'}>
+                    {lead.status}
+                  </Badge>
+                </td>
+                <td className="p-4">{lead.source}</td>
+                <td className="p-4">{new Date(lead.createdAt).toLocaleDateString()}</td>
+                <td className="p-4">
+                  <Button variant="outline" size="sm">View</Button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
+      </Card>
+    </div>
+  );
+}

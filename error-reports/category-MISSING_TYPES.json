@@ -1,0 +1,1146 @@
+[
+  {
+    "filePath": "src/app/buyer/customization/fallback-page.tsx",
+    "lineNum": 13,
+    "colNum": 33,
+    "errorMessage": "error TS7031: Binding element 'children' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/app/buyer/customization/fallback-page.tsx",
+    "lineNum": 19,
+    "colNum": 39,
+    "errorMessage": "error TS7031: Binding element 'children' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/app/buyer/customization/fallback-page.tsx",
+    "lineNum": 25,
+    "colNum": 38,
+    "errorMessage": "error TS7031: Binding element 'children' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/app/buyer/customization/fallback-page.tsx",
+    "lineNum": 31,
+    "colNum": 44,
+    "errorMessage": "error TS7031: Binding element 'children' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/app/buyer/customization/fallback-page.tsx",
+    "lineNum": 37,
+    "colNum": 40,
+    "errorMessage": "error TS7031: Binding element 'children' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/app/buyer/customization/fallback-page.tsx",
+    "lineNum": 43,
+    "colNum": 39,
+    "errorMessage": "error TS7031: Binding element 'children' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/app/buyer/customization/fallback-page.tsx",
+    "lineNum": 53,
+    "colNum": 3,
+    "errorMessage": "error TS7031: Binding element 'children' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/app/buyer/customization/fallback-page.tsx",
+    "lineNum": 55,
+    "colNum": 3,
+    "errorMessage": "error TS7031: Binding element 'onClick' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/app/developer/developments/[id]/documents/page.tsx",
+    "lineNum": 19,
+    "colNum": 3,
+    "errorMessage": "error TS7031: Binding element 'children' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/app/developer/developments/[id]/documents/page.tsx",
+    "lineNum": 21,
+    "colNum": 3,
+    "errorMessage": "error TS7031: Binding element 'onClick' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/app/developer/developments/page.tsx",
+    "lineNum": 258,
+    "colNum": 28,
+    "errorMessage": "error TS7031: Binding element 'development' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/app/developer/developments/page.tsx",
+    "lineNum": 385,
+    "colNum": 27,
+    "errorMessage": "error TS7031: Binding element 'development' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/app/developer/financial/page.tsx",
+    "lineNum": 332,
+    "colNum": 23,
+    "errorMessage": "error TS7031: Binding element 'title' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/app/developer/financial/page.tsx",
+    "lineNum": 332,
+    "colNum": 30,
+    "errorMessage": "error TS7031: Binding element 'amount' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/app/developer/financial/page.tsx",
+    "lineNum": 332,
+    "colNum": 38,
+    "errorMessage": "error TS7031: Binding element 'percentage' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/app/developer/financial/page.tsx",
+    "lineNum": 350,
+    "colNum": 33,
+    "errorMessage": "error TS7031: Binding element 'project' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/app/developer/financial/page.tsx",
+    "lineNum": 410,
+    "colNum": 36,
+    "errorMessage": "error TS7031: Binding element 'project' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/app/developer/financial/page.tsx",
+    "lineNum": 488,
+    "colNum": 21,
+    "errorMessage": "error TS7031: Binding element 'title' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/app/developer/financial/page.tsx",
+    "lineNum": 488,
+    "colNum": 28,
+    "errorMessage": "error TS7031: Binding element 'level' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/app/developer/financial/page.tsx",
+    "lineNum": 506,
+    "colNum": 29,
+    "errorMessage": "error TS7031: Binding element 'onClose' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/app/developer/htb/analytics/page.tsx",
+    "lineNum": 26,
+    "colNum": 33,
+    "errorMessage": "error TS7031: Binding element 'children' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/app/developer/htb/analytics/page.tsx",
+    "lineNum": 32,
+    "colNum": 39,
+    "errorMessage": "error TS7031: Binding element 'children' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/app/developer/htb/analytics/page.tsx",
+    "lineNum": 38,
+    "colNum": 38,
+    "errorMessage": "error TS7031: Binding element 'children' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/app/developer/htb/analytics/page.tsx",
+    "lineNum": 44,
+    "colNum": 44,
+    "errorMessage": "error TS7031: Binding element 'children' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/app/developer/htb/analytics/page.tsx",
+    "lineNum": 50,
+    "colNum": 40,
+    "errorMessage": "error TS7031: Binding element 'children' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/app/developer/htb/analytics/page.tsx",
+    "lineNum": 56,
+    "colNum": 39,
+    "errorMessage": "error TS7031: Binding element 'children' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/app/developer/htb/page.tsx",
+    "lineNum": 13,
+    "colNum": 33,
+    "errorMessage": "error TS7031: Binding element 'children' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/app/developer/htb/page.tsx",
+    "lineNum": 19,
+    "colNum": 39,
+    "errorMessage": "error TS7031: Binding element 'children' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/app/developer/htb/page.tsx",
+    "lineNum": 25,
+    "colNum": 38,
+    "errorMessage": "error TS7031: Binding element 'children' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/app/developer/htb/page.tsx",
+    "lineNum": 31,
+    "colNum": 44,
+    "errorMessage": "error TS7031: Binding element 'children' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/app/developer/htb/page.tsx",
+    "lineNum": 37,
+    "colNum": 40,
+    "errorMessage": "error TS7031: Binding element 'children' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/app/developer/htb/page.tsx",
+    "lineNum": 43,
+    "colNum": 39,
+    "errorMessage": "error TS7031: Binding element 'children' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/app/developer/htb/page.tsx",
+    "lineNum": 53,
+    "colNum": 3,
+    "errorMessage": "error TS7031: Binding element 'children' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/app/developer/htb/page.tsx",
+    "lineNum": 55,
+    "colNum": 3,
+    "errorMessage": "error TS7031: Binding element 'onClick' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/app/developer/htb/revenue-guide/page.tsx",
+    "lineNum": 12,
+    "colNum": 33,
+    "errorMessage": "error TS7031: Binding element 'children' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/app/developer/htb/revenue-guide/page.tsx",
+    "lineNum": 18,
+    "colNum": 39,
+    "errorMessage": "error TS7031: Binding element 'children' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/app/developer/htb/revenue-guide/page.tsx",
+    "lineNum": 24,
+    "colNum": 38,
+    "errorMessage": "error TS7031: Binding element 'children' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/app/developer/htb/revenue-guide/page.tsx",
+    "lineNum": 30,
+    "colNum": 44,
+    "errorMessage": "error TS7031: Binding element 'children' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/app/developer/htb/revenue-guide/page.tsx",
+    "lineNum": 36,
+    "colNum": 40,
+    "errorMessage": "error TS7031: Binding element 'children' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/app/developer/htb/revenue-guide/page.tsx",
+    "lineNum": 42,
+    "colNum": 39,
+    "errorMessage": "error TS7031: Binding element 'children' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/app/developer/htb/revenue-guide/page.tsx",
+    "lineNum": 52,
+    "colNum": 3,
+    "errorMessage": "error TS7031: Binding element 'children' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/app/developer/htb/revenue-guide/page.tsx",
+    "lineNum": 54,
+    "colNum": 3,
+    "errorMessage": "error TS7031: Binding element 'onClick' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/app/developer/page.tsx",
+    "lineNum": 353,
+    "colNum": 23,
+    "errorMessage": "error TS7031: Binding element 'title' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/app/developer/page.tsx",
+    "lineNum": 353,
+    "colNum": 30,
+    "errorMessage": "error TS7031: Binding element 'value' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/app/developer/page.tsx",
+    "lineNum": 353,
+    "colNum": 37,
+    "errorMessage": "error TS7031: Binding element 'change' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/app/developer/page.tsx",
+    "lineNum": 353,
+    "colNum": 45,
+    "errorMessage": "error TS7031: Binding element 'icon' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/app/developer/page.tsx",
+    "lineNum": 353,
+    "colNum": 51,
+    "errorMessage": "error TS7031: Binding element 'color' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/app/developer/page.tsx",
+    "lineNum": 353,
+    "colNum": 58,
+    "errorMessage": "error TS7031: Binding element 'subtext' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/app/developer/page.tsx",
+    "lineNum": 379,
+    "colNum": 25,
+    "errorMessage": "error TS7031: Binding element 'icon' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/app/developer/page.tsx",
+    "lineNum": 379,
+    "colNum": 31,
+    "errorMessage": "error TS7031: Binding element 'title' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/app/developer/page.tsx",
+    "lineNum": 379,
+    "colNum": 38,
+    "errorMessage": "error TS7031: Binding element 'subtitle' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/app/developer/page.tsx",
+    "lineNum": 379,
+    "colNum": 48,
+    "errorMessage": "error TS7031: Binding element 'time' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/app/developer/project/[id]/timeline/page.tsx",
+    "lineNum": 27,
+    "colNum": 3,
+    "errorMessage": "error TS7031: Binding element 'children' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/app/developer/project/[id]/timeline/page.tsx",
+    "lineNum": 29,
+    "colNum": 3,
+    "errorMessage": "error TS7031: Binding element 'onClick' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/app/developer/project/[id]/timeline/page.tsx",
+    "lineNum": 47,
+    "colNum": 34,
+    "errorMessage": "error TS7031: Binding element 'children' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/app/developer/project/[id]/timeline/page.tsx",
+    "lineNum": 53,
+    "colNum": 45,
+    "errorMessage": "error TS7031: Binding element 'children' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/app/developer/projects/page.tsx",
+    "lineNum": 311,
+    "colNum": 24,
+    "errorMessage": "error TS7031: Binding element 'project' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/app/developer/sales/page.tsx",
+    "lineNum": 413,
+    "colNum": 25,
+    "errorMessage": "error TS7031: Binding element 'icon' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/app/developer/sales/page.tsx",
+    "lineNum": 413,
+    "colNum": 31,
+    "errorMessage": "error TS7031: Binding element 'title' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/app/developer/sales/page.tsx",
+    "lineNum": 413,
+    "colNum": 38,
+    "errorMessage": "error TS7031: Binding element 'subtitle' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/app/developer/sales/page.tsx",
+    "lineNum": 413,
+    "colNum": 48,
+    "errorMessage": "error TS7031: Binding element 'time' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/app/developer/sales/page.tsx",
+    "lineNum": 429,
+    "colNum": 20,
+    "errorMessage": "error TS7031: Binding element 'lead' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/app/developer/sales/page.tsx",
+    "lineNum": 498,
+    "colNum": 24,
+    "errorMessage": "error TS7031: Binding element 'onClose' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/app/developer/team/contractors/page.tsx",
+    "lineNum": 275,
+    "colNum": 27,
+    "errorMessage": "error TS7031: Binding element 'contractor' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/app/developer/team/contractors/page.tsx",
+    "lineNum": 372,
+    "colNum": 26,
+    "errorMessage": "error TS7031: Binding element 'contractor' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/app/investor/financial/page.tsx",
+    "lineNum": 8,
+    "colNum": 19,
+    "errorMessage": "error TS7031: Binding element 'children' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/app/investor/financial/page.tsx",
+    "lineNum": 8,
+    "colNum": 29,
+    "errorMessage": "error TS7031: Binding element 'asChild' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/app/investor/financial/page.tsx",
+    "lineNum": 23,
+    "colNum": 33,
+    "errorMessage": "error TS7031: Binding element 'children' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/app/investor/financial/page.tsx",
+    "lineNum": 29,
+    "colNum": 39,
+    "errorMessage": "error TS7031: Binding element 'children' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/app/investor/financial/page.tsx",
+    "lineNum": 35,
+    "colNum": 38,
+    "errorMessage": "error TS7031: Binding element 'children' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/app/investor/financial/page.tsx",
+    "lineNum": 41,
+    "colNum": 40,
+    "errorMessage": "error TS7031: Binding element 'children' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/app/investor/layout.tsx",
+    "lineNum": 9,
+    "colNum": 33,
+    "errorMessage": "error TS7031: Binding element 'children' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/app/investor/layout.tsx",
+    "lineNum": 16,
+    "colNum": 33,
+    "errorMessage": "error TS7031: Binding element 'children' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/app/investor/properties/page.tsx",
+    "lineNum": 8,
+    "colNum": 19,
+    "errorMessage": "error TS7031: Binding element 'children' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/app/investor/properties/page.tsx",
+    "lineNum": 8,
+    "colNum": 29,
+    "errorMessage": "error TS7031: Binding element 'asChild' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/app/investor/properties/page.tsx",
+    "lineNum": 36,
+    "colNum": 33,
+    "errorMessage": "error TS7031: Binding element 'children' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/app/investor/properties/page.tsx",
+    "lineNum": 42,
+    "colNum": 39,
+    "errorMessage": "error TS7031: Binding element 'children' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/app/investor/properties/page.tsx",
+    "lineNum": 48,
+    "colNum": 38,
+    "errorMessage": "error TS7031: Binding element 'children' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/app/investor/properties/page.tsx",
+    "lineNum": 54,
+    "colNum": 44,
+    "errorMessage": "error TS7031: Binding element 'children' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/app/investor/properties/page.tsx",
+    "lineNum": 60,
+    "colNum": 40,
+    "errorMessage": "error TS7031: Binding element 'children' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/components/navigation/EnhancedMainNavigation.tsx",
+    "lineNum": 722,
+    "colNum": 28,
+    "errorMessage": "error TS7031: Binding element 'title' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/components/navigation/EnhancedMainNavigation.tsx",
+    "lineNum": 722,
+    "colNum": 35,
+    "errorMessage": "error TS7031: Binding element 'items' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/components/navigation/EnhancedMainNavigation.tsx",
+    "lineNum": 722,
+    "colNum": 42,
+    "errorMessage": "error TS7031: Binding element 'textColor' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/components/navigation/EnhancedMainNavigation.tsx",
+    "lineNum": 722,
+    "colNum": 53,
+    "errorMessage": "error TS7031: Binding element 'featuredContent' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/components/navigation/EnhancedMainNavigation.tsx",
+    "lineNum": 722,
+    "colNum": 70,
+    "errorMessage": "error TS7031: Binding element 'isActive' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/components/navigation/EnhancedMainNavigation.tsx",
+    "lineNum": 722,
+    "colNum": 80,
+    "errorMessage": "error TS7031: Binding element 'onMouseEnter' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/components/navigation/EnhancedMainNavigation.tsx",
+    "lineNum": 722,
+    "colNum": 94,
+    "errorMessage": "error TS7031: Binding element 'onMouseLeave' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/components/navigation/EnhancedMainNavigation.tsx",
+    "lineNum": 784,
+    "colNum": 23,
+    "errorMessage": "error TS7031: Binding element 'isOpen' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/components/navigation/EnhancedMainNavigation.tsx",
+    "lineNum": 784,
+    "colNum": 31,
+    "errorMessage": "error TS7031: Binding element 'userFlow' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/components/navigation/EnhancedMainNavigation.tsx",
+    "lineNum": 784,
+    "colNum": 41,
+    "errorMessage": "error TS7031: Binding element 'navigationSections' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/components/navigation/EnhancedMainNavigation.tsx",
+    "lineNum": 784,
+    "colNum": 61,
+    "errorMessage": "error TS7031: Binding element 'isAuthenticated' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/components/navigation/EnhancedMainNavigation.tsx",
+    "lineNum": 784,
+    "colNum": 78,
+    "errorMessage": "error TS7031: Binding element 'user' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/components/navigation/EnhancedMainNavigation.tsx",
+    "lineNum": 784,
+    "colNum": 84,
+    "errorMessage": "error TS7031: Binding element 'onLogout' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/components/navigation/EnhancedMainNavigation.tsx",
+    "lineNum": 795,
+    "colNum": 26,
+    "errorMessage": "error TS7031: Binding element 'isOpen' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/components/navigation/EnhancedMainNavigation.tsx",
+    "lineNum": 795,
+    "colNum": 34,
+    "errorMessage": "error TS7031: Binding element 'onClose' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/components/navigation/EnhancedMainNavigation.tsx",
+    "lineNum": 795,
+    "colNum": 43,
+    "errorMessage": "error TS7031: Binding element 'searchQuery' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/components/navigation/EnhancedMainNavigation.tsx",
+    "lineNum": 795,
+    "colNum": 56,
+    "errorMessage": "error TS7031: Binding element 'onSearchChange' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/components/navigation/EnhancedMainNavigation.tsx",
+    "lineNum": 795,
+    "colNum": 72,
+    "errorMessage": "error TS7031: Binding element 'quickLinks' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/components/navigation/NextGenNavigation.tsx",
+    "lineNum": 141,
+    "colNum": 26,
+    "errorMessage": "error TS7031: Binding element 'user' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/components/navigation/NextGenNavigation.tsx",
+    "lineNum": 495,
+    "colNum": 27,
+    "errorMessage": "error TS7031: Binding element 'item' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/components/navigation/NextGenNavigation.tsx",
+    "lineNum": 552,
+    "colNum": 27,
+    "errorMessage": "error TS7031: Binding element 'onClose' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/components/navigation/NextGenNavigation.tsx",
+    "lineNum": 619,
+    "colNum": 23,
+    "errorMessage": "error TS7031: Binding element 'isOpen' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/components/navigation/NextGenNavigation.tsx",
+    "lineNum": 619,
+    "colNum": 31,
+    "errorMessage": "error TS7031: Binding element 'onClose' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/components/navigation/NextGenNavigation.tsx",
+    "lineNum": 619,
+    "colNum": 40,
+    "errorMessage": "error TS7031: Binding element 'items' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/components/navigation/RevolutionaryNavigation.tsx",
+    "lineNum": 20,
+    "colNum": 27,
+    "errorMessage": "error TS7031: Binding element 'isOpen' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/components/navigation/RevolutionaryNavigation.tsx",
+    "lineNum": 20,
+    "colNum": 35,
+    "errorMessage": "error TS7031: Binding element 'onClose' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/components/navigation/RevolutionaryNavigation.tsx",
+    "lineNum": 20,
+    "colNum": 44,
+    "errorMessage": "error TS7031: Binding element 'userActions' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/components/navigation/RevolutionaryNavigation.tsx",
+    "lineNum": 380,
+    "colNum": 20,
+    "errorMessage": "error TS7031: Binding element 'href' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/components/navigation/RevolutionaryNavigation.tsx",
+    "lineNum": 380,
+    "colNum": 26,
+    "errorMessage": "error TS7031: Binding element 'label' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/components/navigation/RevolutionaryNavigation.tsx",
+    "lineNum": 380,
+    "colNum": 33,
+    "errorMessage": "error TS7031: Binding element 'icon' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/components/navigation/RevolutionaryNavigation.tsx",
+    "lineNum": 403,
+    "colNum": 21,
+    "errorMessage": "error TS7031: Binding element 'user' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/components/navigation/RevolutionaryNavigation.tsx",
+    "lineNum": 465,
+    "colNum": 23,
+    "errorMessage": "error TS7031: Binding element 'isOpen' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/components/navigation/RevolutionaryNavigation.tsx",
+    "lineNum": 465,
+    "colNum": 31,
+    "errorMessage": "error TS7031: Binding element 'onClose' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/components/navigation/RevolutionaryNavigation.tsx",
+    "lineNum": 503,
+    "colNum": 26,
+    "errorMessage": "error TS7031: Binding element 'href' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/components/navigation/RevolutionaryNavigation.tsx",
+    "lineNum": 503,
+    "colNum": 32,
+    "errorMessage": "error TS7031: Binding element 'label' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/components/navigation/RevolutionaryNavigation.tsx",
+    "lineNum": 503,
+    "colNum": 39,
+    "errorMessage": "error TS7031: Binding element 'icon' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/components/navigation/UltraModernNavigation.tsx",
+    "lineNum": 21,
+    "colNum": 24,
+    "errorMessage": "error TS7031: Binding element 'isOpen' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/components/navigation/UltraModernNavigation.tsx",
+    "lineNum": 21,
+    "colNum": 32,
+    "errorMessage": "error TS7031: Binding element 'onClose' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/components/navigation/UltraModernNavigation.tsx",
+    "lineNum": 496,
+    "colNum": 27,
+    "errorMessage": "error TS7031: Binding element 'item' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/components/navigation/UltraModernNavigation.tsx",
+    "lineNum": 532,
+    "colNum": 21,
+    "errorMessage": "error TS7031: Binding element 'item' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/components/navigation/UltraModernNavigation.tsx",
+    "lineNum": 559,
+    "colNum": 24,
+    "errorMessage": "error TS7031: Binding element 'icon' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/components/navigation/UltraModernNavigation.tsx",
+    "lineNum": 559,
+    "colNum": 30,
+    "errorMessage": "error TS7031: Binding element 'count' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/components/navigation/UltraModernNavigation.tsx",
+    "lineNum": 602,
+    "colNum": 24,
+    "errorMessage": "error TS7031: Binding element 'user' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/components/navigation/UltraModernNavigation.tsx",
+    "lineNum": 631,
+    "colNum": 23,
+    "errorMessage": "error TS7031: Binding element 'isOpen' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/components/navigation/UltraModernNavigation.tsx",
+    "lineNum": 631,
+    "colNum": 31,
+    "errorMessage": "error TS7031: Binding element 'onClose' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/components/navigation/UltraModernNavigation.tsx",
+    "lineNum": 631,
+    "colNum": 40,
+    "errorMessage": "error TS7031: Binding element 'items' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/features/properties/PropertyFloorPlan.tsx",
+    "lineNum": 103,
+    "colNum": 15,
+    "errorMessage": "error TS7031: Binding element 'zoomIn' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/features/properties/PropertyFloorPlan.tsx",
+    "lineNum": 103,
+    "colNum": 23,
+    "errorMessage": "error TS7031: Binding element 'zoomOut' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/features/properties/PropertyFloorPlan.tsx",
+    "lineNum": 103,
+    "colNum": 32,
+    "errorMessage": "error TS7031: Binding element 'resetTransform' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/hooks/use-amplify-data.ts",
+    "lineNum": 487,
+    "colNum": 16,
+    "errorMessage": "error TS7031: Binding element 'data' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/hooks/use-query-example.tsx",
+    "lineNum": 109,
+    "colNum": 26,
+    "errorMessage": "error TS7031: Binding element 'id' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/hooks/use-query-example.tsx",
+    "lineNum": 109,
+    "colNum": 30,
+    "errorMessage": "error TS7031: Binding element 'updates' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/hooks/use-query-example.tsx",
+    "lineNum": 115,
+    "colNum": 24,
+    "errorMessage": "error TS7031: Binding element 'id' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/hooks/use-query-example.tsx",
+    "lineNum": 115,
+    "colNum": 28,
+    "errorMessage": "error TS7031: Binding element 'updates' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/hooks/use-query-example.tsx",
+    "lineNum": 152,
+    "colNum": 22,
+    "errorMessage": "error TS7031: Binding element 'id' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/hooks/use-query-example.tsx",
+    "lineNum": 174,
+    "colNum": 32,
+    "errorMessage": "error TS7031: Binding element 'id' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/hooks/useDocuments.ts",
+    "lineNum": 351,
+    "colNum": 14,
+    "errorMessage": "error TS7031: Binding element 'id' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/hooks/useDocuments.ts",
+    "lineNum": 351,
+    "colNum": 18,
+    "errorMessage": "error TS7031: Binding element 'input' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/hooks/useDocuments.ts",
+    "lineNum": 366,
+    "colNum": 14,
+    "errorMessage": "error TS7031: Binding element 'id' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/hooks/useDocuments.ts",
+    "lineNum": 366,
+    "colNum": 18,
+    "errorMessage": "error TS7031: Binding element 'status' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/lib/data-client.ts",
+    "lineNum": 155,
+    "colNum": 18,
+    "errorMessage": "error TS7031: Binding element 'data' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/lib/performance/cache-manager.ts",
+    "lineNum": 31,
+    "colNum": 59,
+    "errorMessage": "error TS7031: Binding element 'signal' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  },
+  {
+    "filePath": "src/tests/mocks/react-query-mock.ts",
+    "lineNum": 205,
+    "colNum": 27,
+    "errorMessage": "error TS7031: Binding element 'children' implicitly has an 'any' type.",
+    "errorCode": "TS7031",
+    "category": "MISSING_TYPES"
+  }
+]

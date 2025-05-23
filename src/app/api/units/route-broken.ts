@@ -11,8 +11,7 @@ import { getServerAuthSession } from "../auth/[...nextauth]/auth-server";
 type PrismaTransactionClient = Omit<
   PrismaClient, 
   '$connect' | '$disconnect' | '$on' | '$transaction' | '$use' | '$extends'
->;
-
+>\n  );
 // Create Prisma client instance
 const prisma = new PrismaClient();
 
@@ -35,7 +34,7 @@ interface UnitInput {
     name: string;
     type: string;
     url: string;
-  }>;
+  }>\n  );
 }
 
 /**
@@ -59,11 +58,11 @@ export const GET = async (request: NextRequest) => {
     const sortBy = searchParams.get("sortBy") || "updatedAt";
     const sortOrder = (searchParams.get("sortOrder") || "desc") as "asc" | "desc";
     const id = searchParams.get("id");
-    
+
     // If specific unit ID is requested, return with full details
     if (id) {
       const unit = await unitRepository.findById(id);
-      
+
       if (!unit) {
         return NextResponse.json(
           { error: "Unit not found" },
@@ -121,7 +120,7 @@ export const GET = async (request: NextRequest) => {
       error: error.message, 
       stack: error.stack
     });
-    
+
     return NextResponse.json(
       { error: "Failed to fetch units" },
       { status: 500 }
@@ -137,7 +136,7 @@ export const POST = async (request: NextRequest) => {
   try {
     // Get auth session
     const session = await getServerAuthSession();
-    
+
     // Check authorization (e.g., DEVELOPER or ADMIN role required)
     if (!session || !["DEVELOPER", "ADMIN"].includes(session.user.role)) {
       return NextResponse.json(
@@ -148,14 +147,14 @@ export const POST = async (request: NextRequest) => {
 
     // Parse request body with type assertion
     const data = await request.json() as UnitInput;
-    
+
     // Validate required fields
     const requiredFields = [
       "name", "developmentId", "type", "size", "bedrooms", 
       "bathrooms", "floors", "parkingSpaces", "basePrice", 
       "status", "berRating", "features", "primaryImage"
     ] as const;
-    
+
     for (const field of requiredFields) {
       if (!data[field]) {
         return NextResponse.json(
@@ -167,7 +166,7 @@ export const POST = async (request: NextRequest) => {
 
     // Extract documents data if present
     const { documents, ...unitData } = data;
-    
+
     // Generate a new ID if not provided
     const unitId = uuidv4();
 
@@ -182,10 +181,10 @@ export const POST = async (request: NextRequest) => {
             viewCount: 0
           }
         });
-        
+
         // Create any associated documents if provided
         const createdDocuments: Document[] = [];
-        if (documents && Array.isArray(documents) && documents.length > 0) {
+        if (documents && Array.isArray(documents) && documents.length> 0) {
           for (const doc of documents) {
             const document = await tx.document.create({
               data: {
@@ -206,20 +205,20 @@ export const POST = async (request: NextRequest) => {
             createdDocuments.push(document);
           }
         }
-        
-        return { unit, documents: createdDocuments };
+
+        return { unit, DevelopmentDocument: createdDocuments };
       });
-      
+
       // Return the created unit with its documents
       return NextResponse.json(result, { status: 201 });
     } catch (error: any) {
-      logger.error("Transaction failed when creating unit with documents:", { 
+      logger.error("Transaction failed when creating unit with DevelopmentDocument:", { 
         error: error.message, 
         stack: error.stack,
         developmentId: unitData.developmentId,
         unitName: unitData.name
       });
-      
+
       return NextResponse.json(
         { error: "Failed to create unit with documents" },
         { status: 500 }
@@ -230,7 +229,7 @@ export const POST = async (request: NextRequest) => {
       error: error.message, 
       stack: error.stack
     });
-    
+
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 }
@@ -245,7 +244,7 @@ export const PUT = async (request: NextRequest) => {
   try {
     // Get auth session
     const session = await getServerAuthSession();
-    
+
     // Check authorization (e.g., DEVELOPER or ADMIN role required)
     if (!session || !["DEVELOPER", "ADMIN"].includes(session.user.role)) {
       return NextResponse.json(
@@ -255,20 +254,20 @@ export const PUT = async (request: NextRequest) => {
     }
 
     // Parse request body and URL parameters
-    const { documents, ...unitData } = await request.json() as Partial<UnitInput>;
+    const { documents, ...unitData } = await request.json() as Partial<UnitInput>\n  );
     const searchParams = request.nextUrl.searchParams;
     const id = searchParams.get("id");
-    
+
     if (!id) {
       return NextResponse.json(
         { error: "Unit ID is required" },
         { status: 400 }
       );
     }
-    
+
     // Check if unit exists
     const existingUnit = await unitRepository.findById(id);
-    
+
     if (!existingUnit) {
       return NextResponse.json(
         { error: "Unit not found" },
@@ -282,11 +281,11 @@ export const PUT = async (request: NextRequest) => {
       updatedAt: new Date()
     };
 
-    const updatedUnit = await unitRepository.update(id, updateData);
-    
+    const updatedUnit = await unitRepository.update(idupdateData);
+
     // Handle document updates if provided
     if (documents && Array.isArray(documents)) {
-      await prisma.$transaction(async (tx) => {
+      await prisma.$transaction(async (tx: any) => {
         // Delete existing documents
         await tx.document.deleteMany({
           where: { unitId: id }
@@ -313,14 +312,14 @@ export const PUT = async (request: NextRequest) => {
         }
       });
     }
-    
+
     return NextResponse.json(updatedUnit);
   } catch (error: any) {
     logger.error("Error updating unit:", { 
       error: error.message, 
       stack: error.stack
     });
-    
+
     return NextResponse.json(
       { error: "Failed to update unit" },
       { status: 500 }
@@ -335,7 +334,7 @@ export const DELETE = async (request: NextRequest) => {
   try {
     // Get auth session
     const session = await getServerAuthSession();
-    
+
     // Check authorization (e.g., DEVELOPER or ADMIN role required)
     if (!session || !["DEVELOPER", "ADMIN"].includes(session.user.role)) {
       return NextResponse.json(
@@ -347,17 +346,17 @@ export const DELETE = async (request: NextRequest) => {
     // Get URL parameters
     const searchParams = request.nextUrl.searchParams;
     const id = searchParams.get("id");
-    
+
     if (!id) {
       return NextResponse.json(
         { error: "Unit ID is required" },
         { status: 400 }
       );
     }
-    
+
     // Check if unit exists
     const existingUnit = await unitRepository.findById(id);
-    
+
     if (!existingUnit) {
       return NextResponse.json(
         { error: "Unit not found" },
@@ -375,18 +374,18 @@ export const DELETE = async (request: NextRequest) => {
             unitId: id
           }
         });
-        
-        if (sales.length > 0) {
+
+        if (sales.length> 0) {
           throw new Error("Cannot delete unit with associated sales");
         }
-        
+
         // Delete associated documents first
         await tx.document.deleteMany({
           where: {
             unitId: id
           }
         });
-        
+
         // Delete the unit
         return tx.unit.delete({
           where: {
@@ -394,7 +393,7 @@ export const DELETE = async (request: NextRequest) => {
           }
         });
       });
-      
+
       return NextResponse.json({ 
         message: "Unit deleted successfully",
         unit: result
@@ -406,7 +405,7 @@ export const DELETE = async (request: NextRequest) => {
           { status: 409 }
         );
       }
-      
+
       throw error; // Let the outer catch handle other errors
     }
   } catch (error: any) {
@@ -414,7 +413,7 @@ export const DELETE = async (request: NextRequest) => {
       error: error.message, 
       stack: error.stack
     });
-    
+
     return NextResponse.json(
       { error: "Failed to delete unit" },
       { status: 500 }

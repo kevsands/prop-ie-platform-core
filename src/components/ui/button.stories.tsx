@@ -1,3 +1,4 @@
+import React from 'react';
 import type { Meta, StoryObj } from "@storybook/react";
 import { Button } from "./button";
 import { Mail, ArrowRight, Plus, Check } from "lucide-react";
@@ -7,7 +8,6 @@ const meta: Meta<typeof Button> = {
   component: Button,
   parameters: {
     layout: "centered",
-  },
   tags: ["autodocs"],
   argTypes: {
     variant: {
@@ -23,202 +23,145 @@ const meta: Meta<typeof Button> = {
         "warning",
         "info",
         "subtle",
-        "brand",
-      ],
-    },
+        "brand"]},
     size: {
       control: "select",
-      options: ["default", "xs", "sm", "lg", "xl", "icon", "icon-sm", "icon-lg"],
-    },
+      options: ["default", "xs", "sm", "lg", "xl", "icon", "icon-sm", "icon-lg"]},
     isLoading: {
       control: "boolean",
-    },
     fullWidth: {
       control: "boolean",
-    },
     disabled: {
-      control: "boolean",
-    },
-  },
-};
+      control: "boolean"};
 
 export default meta;
-type Story = StoryObj<typeof Button>;
-
+type Story = StoryObj<typeof Button>\n  );
 export const Default: Story = {
   args: {
     children: "Button",
     variant: "default",
-    size: "default",
-  },
-};
+    size: "default"};
 
 export const Secondary: Story = {
   args: {
     children: "Secondary",
-    variant: "secondary",
-  },
-};
+    variant: "secondary"};
 
 export const Destructive: Story = {
   args: {
     children: "Destructive",
-    variant: "destructive",
-  },
-};
+    variant: "destructive"};
 
 export const Outline: Story = {
   args: {
     children: "Outline",
-    variant: "outline",
-  },
-};
+    variant: "outline"};
 
 export const Ghost: Story = {
   args: {
     children: "Ghost",
-    variant: "ghost",
-  },
-};
+    variant: "ghost"};
 
 export const Link: Story = {
   args: {
     children: "Link Button",
-    variant: "link",
-  },
-};
+    variant: "link"};
 
 export const Success: Story = {
   args: {
     children: "Success",
     variant: "success",
-    leftIcon: <Check />,
-  },
-};
+    leftIcon: <Check />};
 
 export const Warning: Story = {
   args: {
     children: "Warning",
-    variant: "warning",
-  },
-};
+    variant: "warning"};
 
 export const Info: Story = {
   args: {
     children: "Info",
-    variant: "info",
-  },
-};
+    variant: "info"};
 
 export const Subtle: Story = {
   args: {
     children: "Subtle",
-    variant: "subtle",
-  },
-};
+    variant: "subtle"};
 
 export const Brand: Story = {
   args: {
     children: "Brand",
-    variant: "brand",
-  },
-};
+    variant: "brand"};
 
 export const WithLeftIcon: Story = {
   args: {
     children: "Email",
-    leftIcon: <Mail />,
-  },
-};
+    leftIcon: <Mail />};
 
 export const WithRightIcon: Story = {
   args: {
     children: "Next",
-    rightIcon: <ArrowRight />,
-  },
-};
+    rightIcon: <ArrowRight />};
 
 export const WithBothIcons: Story = {
   args: {
     children: "Add Email",
     leftIcon: <Plus />,
-    rightIcon: <Mail />,
-  },
-};
+    rightIcon: <Mail />};
 
 export const Small: Story = {
   args: {
     children: "Small",
-    size: "sm",
-  },
-};
+    size: "sm"};
 
 export const Large: Story = {
   args: {
     children: "Large",
-    size: "lg",
-  },
-};
+    size: "lg"};
 
 export const ExtraLarge: Story = {
   args: {
     children: "Extra Large",
-    size: "xl",
-  },
-};
+    size: "xl"};
 
 export const Icon: Story = {
   args: {
     children: <Mail />,
     size: "icon",
-    "aria-label": "Send email",
-  },
-};
+    "aria-label": "Send email"};
 
 export const IconSmall: Story = {
   args: {
     children: <Mail />,
     size: "icon-sm",
-    "aria-label": "Send email",
-  },
-};
+    "aria-label": "Send email"};
 
 export const IconLarge: Story = {
   args: {
     children: <Mail />,
     size: "icon-lg",
-    "aria-label": "Send email",
-  },
-};
+    "aria-label": "Send email"};
 
 export const FullWidth: Story = {
   args: {
     children: "Full Width Button",
-    fullWidth: true,
-  },
-};
+    fullWidth: true};
 
 export const Loading: Story = {
   args: {
     children: "Loading",
-    isLoading: true,
-  },
-};
+    isLoading: true};
 
 export const LoadingWithText: Story = {
   args: {
     children: "Submit",
     isLoading: true,
-    loadingText: "Submitting...",
-  },
-};
+    loadingText: "Submitting..."};
 
 export const Disabled: Story = {
   args: {
     children: "Disabled",
-    disabled: true,
-  },
-};
+    disabled: true};
 
 export const ButtonGroup: Story = {
   render: () => (
@@ -234,8 +177,7 @@ export const ButtonGroup: Story = {
       <Button variant="subtle">Subtle</Button>
       <Button variant="brand">Brand</Button>
     </div>
-  ),
-};
+  )};
 
 export const SizeVariants: Story = {
   render: () => (
@@ -246,8 +188,7 @@ export const SizeVariants: Story = {
       <Button size="lg">Large</Button>
       <Button size="xl">Extra Large</Button>
     </div>
-  ),
-};
+  )};
 
 export const IconSizeVariants: Story = {
   render: () => (
@@ -256,5 +197,4 @@ export const IconSizeVariants: Story = {
       <Button size="icon" aria-label="Default icon"><Mail /></Button>
       <Button size="icon-lg" aria-label="Large icon"><Mail /></Button>
     </div>
-  ),
-};
+  )};

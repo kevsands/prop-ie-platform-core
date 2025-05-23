@@ -1,3 +1,4 @@
+import React from 'react';
 import { ComponentType, lazy, Suspense, ReactNode } from 'react';
 
 /**
@@ -43,7 +44,7 @@ export function lazyPage<T extends ComponentType<any>>(
  * Interface for components that support loading states and preloading
  */
 export interface LoadableComponent<P = any> extends React.FC<P & { fallback?: ReactNode }> {
-  preload: () => Promise<void>;
+  preload: () => Promise<void>\n  );
   displayName?: string;
 }
 
@@ -67,7 +68,7 @@ export function createLoadable<T extends ComponentType<any>>(
   displayName?: string
 ): LoadableComponent<React.ComponentProps<T>> {
   const LazyComponent = lazy(importFn);
-  
+
   const LoadableComponent = (props: any) => {
     const { fallback: propFallback, ...componentProps } = props;
     return (
@@ -76,24 +77,24 @@ export function createLoadable<T extends ComponentType<any>>(
       </Suspense>
     );
   };
-  
+
   // Add preload capability
   const preloadFunc = async (): Promise<void> => {
     try {
       await importFn();
     } catch (error) {
-      console.error('Error preloading component:', error);
+
     }
   };
-  
+
   // Assign preload function
-  const loadableComponent = LoadableComponent as LoadableComponent<React.ComponentProps<T>>;
+  const loadableComponent = LoadableComponent as LoadableComponent<React.ComponentProps<T>>\n  );
   loadableComponent.preload = preloadFunc;
-  
+
   if (displayName) {
     loadableComponent.displayName = displayName;
   }
-  
+
   return loadableComponent;
 }
 
@@ -111,7 +112,7 @@ export function createRoute<T extends ComponentType<any>>(
   importFn: () => Promise<{ default: T }>,
   fallback: ReactNode = null
 ): LoadableComponent<React.ComponentProps<T>> {
-  return createLoadable(importFn, fallback);
+  return createLoadable(importFnfallback);
 }
 
 /**
@@ -149,15 +150,13 @@ export function prefetchCriticalComponents(components: LoadableComponent[]) {
   if (typeof window !== 'undefined' && 'requestIdleCallback' in window) {
     (window as any).requestIdleCallback(() => {
       preloadComponents(components).catch(err => 
-        console.error('Error prefetching components:', err)
-      );
+        );
     });
   } else {
     // Fallback for browsers without requestIdleCallback
     setTimeout(() => {
       preloadComponents(components).catch(err => 
-        console.error('Error prefetching components:', err)
-      );
+        );
     }, 1000);
   }
 }
@@ -171,20 +170,19 @@ export const lazyComponents = {
   Button: lazyImport(() => import('@/components/ui/button').then(mod => ({ default: mod.Button }))),
   Card: lazyImport(() => import('@/components/ui/card').then(mod => ({ default: mod.Card }))),
   Dialog: lazyImport(() => import('@/components/ui/dialog').then(mod => ({ default: mod.Dialog }))),
-  
+
   // Form Components
   Form: lazyImport(() => import('@/components/ui/form').then(mod => ({ default: mod.Form }))),
   Input: lazyImport(() => import('@/components/ui/input').then(mod => ({ default: mod.Input }))),
-  
+
   // Property Components
   PropertyCard: lazyImport(() => import('@/components/property/PropertyCard')),
   PropertyDetail: lazyImport(() => import('@/components/property/PropertyDetail')),
-  
+
   // Dashboard Components
   KPIWidget: lazyImport(() => import('@/components/dashboard/KPIWidget')),
   DashboardGrid: lazyImport(() => import('@/components/dashboard/DashboardGrid')),
-  ProjectStatusCard: lazyImport(() => import('@/components/dashboard/ProjectStatusCard')),
-};
+  ProjectStatusCard: lazyImport(() => import('@/components/dashboard/ProjectStatusCard'))};
 
 /**
  * Group of common routes that can be lazy-loaded
@@ -193,8 +191,7 @@ export const lazyRoutes = {
   Login: lazyPage(() => import('@/app/login/page')),
   Register: lazyPage(() => import('@/app/register/page')),
   Dashboard: lazyPage(() => import('@/app/dashboard/page')),
-  Properties: lazyPage(() => import('@/app/properties/page')),
-};
+  Properties: lazyPage(() => import('@/app/properties/page'))};
 
 /**
  * Loadable components with built-in Suspense and preloading
@@ -204,7 +201,7 @@ export const loadableComponents = {
   Button: createLoadable(() => import('@/components/ui/button').then(mod => ({ default: mod.Button })), null, 'Button'),
   Card: createLoadable(() => import('@/components/ui/card').then(mod => ({ default: mod.Card })), null, 'Card'),
   Dialog: createLoadable(() => import('@/components/ui/dialog').then(mod => ({ default: mod.Dialog })), null, 'Dialog'),
-  
+
   // Property Components
   PropertyCard: createLoadable(
     () => import('@/components/property/PropertyCard'),
@@ -215,8 +212,7 @@ export const loadableComponents = {
     () => import('@/components/property/PropertyDetail'),
     null,
     'PropertyDetail'
-  ),
-};
+  )};
 
 /**
  * Loadable routes with built-in Suspense and preloading
@@ -225,8 +221,7 @@ export const loadableRoutes = {
   Login: createRoute(() => import('@/app/login/page')),
   Register: createRoute(() => import('@/app/register/page')),
   Dashboard: createRoute(() => import('@/app/dashboard/page')),
-  Properties: createRoute(() => import('@/app/properties/page')),
-};
+  Properties: createRoute(() => import('@/app/properties/page'))};
 
 export default {
   lazyImport,

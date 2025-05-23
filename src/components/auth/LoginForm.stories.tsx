@@ -1,3 +1,4 @@
+import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { userEvent, within, expect } from '@storybook/test';
 import LoginForm from './LoginForm';
@@ -30,28 +31,21 @@ const meta = {
     layout: 'centered',
     docs: {
       description: {
-        component: 'Authentication form with comprehensive validation',
-      },
-    },
+        component: 'Authentication form with comprehensive validation'},
     // Enable a11y testing for this component
     a11y: { disable: false },
-  },
   // Mock authentication context for Storybook
   decorators: [
-    (Story) => {
+    (Story: any) => {
       // This setup allows the component to render properly in Storybook
       return (
         <div className="w-full max-w-md">
           <Story />
         </div>
       );
-    },
-  ],
-} satisfies Meta<typeof LoginForm>;
-
+    }]} satisfies Meta<typeof LoginForm>\n  );
 export default meta;
-type Story = StoryObj<typeof meta>;
-
+type Story = StoryObj<typeof meta>\n  );
 /**
  * Default state of the login form
  */
@@ -63,15 +57,14 @@ export const Default: Story = {};
 export const WithValidationErrors: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    
+
     // Click the sign in button without filling out the form
     await userEvent.click(canvas.getByRole('button', { name: /sign in/i }));
-    
+
     // Wait for validation errors to appear
     await expect(canvas.findByText(/email is required/i)).resolves.toBeInTheDocument();
     await expect(canvas.findByText(/password is required/i)).resolves.toBeInTheDocument();
-  },
-};
+  };
 
 /**
  * Shows the form with a general error message
@@ -80,12 +73,9 @@ export const WithAuthError: Story = {
   parameters: {
     mockData: {
       auth: {
-        error: 'Invalid email or password. Please try again.',
-      },
-    },
-  },
+        error: 'Invalid email or password. Please try again.'}},
   decorators: [
-    (Story) => {
+    (Story: any) => {
       return (
         <div className="w-full max-w-md">
           <div className="mb-6 border-l-4 border-red-500 bg-red-50 p-4">
@@ -94,16 +84,14 @@ export const WithAuthError: Story = {
           <Story />
         </div>
       );
-    },
-  ],
-};
+    }]};
 
 /**
  * Shows the login form after a successful registration
  */
 export const AfterRegistration: Story = {
   decorators: [
-    (Story) => {
+    (Story: any) => {
       return (
         <div className="w-full max-w-md">
           <div className="mb-6 border-l-4 border-green-500 bg-green-50 p-4">
@@ -115,16 +103,14 @@ export const AfterRegistration: Story = {
           <Story />
         </div>
       );
-    },
-  ],
-};
+    }]};
 
 /**
  * Shows the form with loading state
  */
 export const Loading: Story = {
   decorators: [
-    (Story) => {
+    (Story: any) => {
       return (
         <div className="w-full max-w-md relative">
           <div className="absolute inset-0 bg-white/80 flex items-center justify-center z-10">
@@ -134,9 +120,7 @@ export const Loading: Story = {
           <Story />
         </div>
       );
-    },
-  ],
-};
+    }]};
 
 /**
  * Play through a successful login interaction
@@ -144,19 +128,18 @@ export const Loading: Story = {
 export const SuccessfulLogin: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    
+
     // Get the form fields
     const emailInput = canvas.getByLabelText(/email address/i);
     const passwordInput = canvas.getByLabelText(/password/i);
     const rememberMeCheckbox = canvas.getByLabelText(/remember me/i);
     const submitButton = canvas.getByRole('button', { name: /sign in/i });
-    
+
     // Fill out the form
     await userEvent.type(emailInput, 'user@example.com', { delay: 100 });
     await userEvent.type(passwordInput, 'Password123', { delay: 100 });
     await userEvent.click(rememberMeCheckbox);
-    
+
     // Submit the form
     await userEvent.click(submitButton);
-  },
-};
+  };

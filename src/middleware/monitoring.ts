@@ -41,7 +41,7 @@ export async function monitoringMiddleware(request: NextRequest) {
         !path.endsWith('.js')) {
       
       try {
-        recordMetric(method, path, statusCode, responseTime);
+        recordMetric(method, path, statusCoderesponseTime);
       } catch (error) {
         console.error('Failed to record metric:', error);
       }
@@ -57,7 +57,7 @@ export async function monitoringMiddleware(request: NextRequest) {
 
 // Generate unique request ID for tracing
 function generateRequestId(): string {
-  return `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+  return `${Date.now()}-${Math.random().toString(36).substr(29)}`;
 }
 
 // CloudWatch metrics helper
@@ -87,7 +87,7 @@ export function trackError(
     method?: string;
     userId?: string;
     sessionId?: string;
-    metadata?: Record<string, any>;
+    metadata?: Record<string, any>\n  );
   }
 ) {
   // This would integrate with error tracking service (e.g., Sentry)

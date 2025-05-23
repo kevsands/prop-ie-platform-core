@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/5</span>
+                <span class='fraction'>0/6</span>
             </div>
         
             
@@ -39,14 +39,14 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/2</span>
+                <span class='fraction'>0/1</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/5</span>
+                <span class='fraction'>0/6</span>
             </div>
         
             
@@ -98,31 +98,14 @@
 <a name='L33'></a><a href='#L33'>33</a>
 <a name='L34'></a><a href='#L34'>34</a>
 <a name='L35'></a><a href='#L35'>35</a>
-<a name='L36'></a><a href='#L36'>36</a>
-<a name='L37'></a><a href='#L37'>37</a>
-<a name='L38'></a><a href='#L38'>38</a>
-<a name='L39'></a><a href='#L39'>39</a>
-<a name='L40'></a><a href='#L40'>40</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L36'></a><a href='#L36'>36</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -132,6 +115,15 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -144,50 +136,46 @@
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">'use client';
 &nbsp;
 import React from <span class="cstat-no" title="statement not covered" >'react';</span>
-// Corrected import for @tanstack/react-query v5, common for Next.js App Router
 import { QueryClient, QueryClientProvider } from <span class="cstat-no" title="statement not covered" >'@tanstack/react-query';</span>
-// For React Query Devtools (optional, ensure it's installed if used):
-// import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { SessionProvider } from <span class="cstat-no" title="statement not covered" >'next-auth/react';</span>
+import { AuthProvider } from <span class="cstat-no" title="statement not covered" >'@/context/AuthContext';</span>
 &nbsp;
-// Create a new QueryClient instance
-// It's good practice to create it once and reuse it.
-// For Next.js App Router, you might want to ensure it's only created once per request on the server,
-// or once per client session. A simple way for client components is to instantiate it outside the component
-// or use useState to ensure it's stable.
+// Create a client
+const queryClient = <span class="cstat-no" title="statement not covered" >new QueryClient({ </span>
+  defaultOptions: { 
+    queries: {
+      staleTime: 60 * 1000,
+      retry: false,
+    },
+  },
+});
 &nbsp;
-// Option 1: Instantiate outside if this component is only rendered once per client session effectively.
-// const queryClient = new QueryClient();
-&nbsp;
+/**
+ * Core Providers component for the application
+ * 
+ * This handles the provider tree in the correct order:
+ * 1. SessionProvider - Provides Next-Auth session state
+ * 2. QueryClientProvider - Provides React-Query for data fetching
+ * 3. AuthProvider - Our app-specific auth context that uses the session
+ */
 export default function <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >Providers({</span></span> children }: { children: React.ReactNode }) {
-  // Option 2: Use useState to ensure the client is stable across re-renders of this component.
-  // This is generally safer for components that might re-render.
-  const [queryClient] = <span class="cstat-no" title="statement not covered" >React.useState(<span class="fstat-no" title="function not covered" >() =&gt; </span></span>
-<span class="cstat-no" title="statement not covered" >    new QueryClient({</span>
-      defaultOptions: {
-        queries: {
-          // Global default query options can go here
-          // staleTime: 5 * 1000 * 60, // 5 minutes
-          // refetchOnWindowFocus: false,
-        },
-      },
-    })
-  );
-&nbsp;
   return (
-    &lt;QueryClientProvider client={queryClient}&gt;
-      {children}
-      {/* Optional: React Query Devtools for easier debugging during development */}
-      {/* &lt;ReactQueryDevtools initialIsOpen={false} /&gt; */}
-    &lt;/QueryClientProvider&gt;
+    &lt;SessionProvider&gt;
+      &lt;QueryClientProvider client={queryClient}&gt;
+        &lt;AuthProvider&gt;
+          {children}
+        &lt;/AuthProvider&gt;
+      &lt;/QueryClientProvider&gt;
+    &lt;/SessionProvider&gt;
   );
-} </pre></td></tr></table></pre>
+}</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
             </div><!-- /wrapper -->
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-15T16:23:25.168Z
+                at 2025-05-22T22:15:28.100Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

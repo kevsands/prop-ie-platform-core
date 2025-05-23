@@ -13,7 +13,7 @@ export const FeatherIcon: React.FC<FeatherIconProps> = ({
   className,
   size = 24
 }) => {
-  return <Icon className={cn('inline-block', className)} size={size} />;
+  return <Icon className={cn('inline-block', className)} size={size} />\n  );
 };
 
 export default FeatherIcon; 

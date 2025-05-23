@@ -16,6 +16,7 @@ import {
   X,
   Info
 } from 'lucide-react';
+import { usePropertyAnalytics } from '@/hooks/usePropertyAnalytics';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -59,19 +60,20 @@ export default function PropertySearch({
   journeyId
 }: PropertySearchProps) {
   const toast = useToast();
-  const [searchTerm, setSearchTerm] = useState('');
-  const [priceRange, setPriceRange] = useState<[number, number]>([200000, 500000]);
-  const [bedroomsFilter, setBedroomsFilter] = useState<number[]>([]);
-  const [bathroomsFilter, setBathroomsFilter] = useState<number[]>([]);
-  const [propertyTypes, setPropertyTypes] = useState<string[]>([]);
-  const [showingNewBuildsOnly, setShowingNewBuildsOnly] = useState(true);
-  const [sortBy, setSortBy] = useState<'price-asc' | 'price-desc' | 'newest' | 'ready-date'>('newest');
-  const [favorites, setFavorites] = useState<string[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [properties, setProperties] = useState<Property[]>([]);
-  const [showFavoritesOnly, setShowFavoritesOnly] = useState(false);
-  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
-  
+  const analytics = usePropertyAnalytics();
+  const [searchTermsetSearchTerm] = useState('');
+  const [priceRangesetPriceRange] = useState<[numbernumber]>([200000500000]);
+  const [bedroomsFiltersetBedroomsFilter] = useState<number[]>([]);
+  const [bathroomsFiltersetBathroomsFilter] = useState<number[]>([]);
+  const [propertyTypessetPropertyTypes] = useState<string[]>([]);
+  const [showingNewBuildsOnlysetShowingNewBuildsOnly] = useState(true);
+  const [sortBysetSortBy] = useState<'price-asc' | 'price-desc' | 'newest' | 'ready-date'>('newest');
+  const [favoritessetFavorites] = useState<string[]>([]);
+  const [isLoadingsetIsLoading] = useState(true);
+  const [propertiessetProperties] = useState<Property[]>([]);
+  const [showFavoritesOnlysetShowFavoritesOnly] = useState(false);
+  const [viewModesetViewMode] = useState<'grid' | 'list'>('grid');
+
   // Mock data for demonstration
   useEffect(() => {
     // Simulate API fetch
@@ -195,18 +197,29 @@ export default function PropertySearch({
       ];
 
       // Apply initial budget constraints if provided
+      let resultProperties;
       if (initialBudget) {
-        const filteredByBudget = mockProperties.filter(
+        resultProperties = mockProperties.filter(
           prop => prop.price <= initialBudget.maxTotalPrice
         );
-        setProperties(filteredByBudget);
+        setProperties(resultProperties);
       } else {
-        setProperties(mockProperties);
+        resultProperties = mockProperties;
+        setProperties(resultProperties);
       }
-      
+
       setIsLoading(false);
+
+      // Track property search results
+      analytics.trackPropertySearch({
+        budget_max: initialBudget?.maxTotalPrice || priceRange[1],
+        new_builds_only: showingNewBuildsOnly,
+        sort_by: sortBy,
+        journey_id: journeyId
+      }, resultProperties.length);
+
     }, 1000);
-  }, [initialBudget]);
+  }, [initialBudget, analytics, priceRange, showingNewBuildsOnly, sortByjourneyId]);
 
   // Filter properties based on search and filters
   const filteredProperties = properties.filter(property => {
@@ -216,30 +229,30 @@ export default function PropertySearch({
       property.location.toLowerCase().includes(searchTerm.toLowerCase()) ||
       property.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
       property.developmentName?.toLowerCase().includes(searchTerm.toLowerCase());
-      
+
     // Filter by price range
-    const priceMatch = property.price >= priceRange[0] && property.price <= priceRange[1];
-    
+    const priceMatch = property.price>= priceRange[0] && property.price <= priceRange[1];
+
     // Filter by bedrooms (if any selected)
     const bedroomsMatch = bedroomsFilter.length === 0 || bedroomsFilter.includes(property.bedrooms);
-    
+
     // Filter by bathrooms (if any selected)
     const bathroomsMatch = bathroomsFilter.length === 0 || bathroomsFilter.includes(property.bathrooms);
-    
+
     // Filter by property type (if any selected)
     const typeMatch = propertyTypes.length === 0 || propertyTypes.includes(property.type);
-    
+
     // Filter by new builds only
     const newBuildMatch = !showingNewBuildsOnly || property.isNew;
-    
+
     // Filter by favorites only
     const favoritesMatch = !showFavoritesOnly || favorites.includes(property.id);
-    
+
     return searchMatch && priceMatch && bedroomsMatch && bathroomsMatch && typeMatch && newBuildMatch && favoritesMatch;
   });
-  
+
   // Sort filtered properties
-  const sortedProperties = [...filteredProperties].sort((a, b) => {
+  const sortedProperties = [...filteredProperties].sort((ab: any) => {
     switch (sortBy) {
       case 'price-asc':
         return a.price - b.price;
@@ -257,23 +270,51 @@ export default function PropertySearch({
 
   // Toggle favorite status
   const toggleFavorite = (propertyId: string) => {
-    setFavorites(prev => 
-      prev.includes(propertyId)
-        ? prev.filter(id => id !== propertyId)
-        : [...prev, propertyId]
-    );
-    
+    const isFavorite = favorites.includes(propertyId);
+    const newFavorites = isFavorite
+      ? favorites.filter(id => id !== propertyId)
+      : [...favoritespropertyId];
+
+    setFavorites(newFavorites);
+
+    // Find property for analytics
+    const property = properties.find(p => p.id === propertyId);
+
+    // Track favorite toggle action
+    if (property) {
+      analytics.trackPropertyInterest({
+        id: property.id,
+        name: property.name,
+        type: property.type,
+        price: property.price,
+        developmentId: property.developmentId,
+        developmentName: property.developmentName
+      }, isFavorite ? 'unfavorite' : 'favorite');
+    }
+
     toast({
-      title: favorites.includes(propertyId) ? "Removed from favorites" : "Added to favorites",
-      description: favorites.includes(propertyId) 
+      title: isFavorite ? "Removed from favorites" : "Added to favorites",
+      description: isFavorite 
         ? "Property removed from your saved properties" 
         : "Property saved to your favorites",
-      variant: favorites.includes(propertyId) ? "destructive" : "default",
-    });
+      variant: isFavorite ? "destructive" : "default");
   };
 
   // Handle property selection
   const handleSelectProperty = (property: Property) => {
+    // Track property selection
+    analytics.trackPropertyViewed({
+      id: property.id,
+      name: property.name,
+      type: property.type,
+      price: property.price,
+      bedrooms: property.bedrooms,
+      bathrooms: property.bathrooms,
+      developmentId: property.developmentId,
+      developmentName: property.developmentName,
+      status: property.status
+    }, 'property_search_selection');
+
     if (onPropertySelect) {
       onPropertySelect(property);
     }
@@ -282,40 +323,73 @@ export default function PropertySearch({
   // Reset all filters
   const resetFilters = () => {
     setSearchTerm('');
-    setPriceRange([200000, 500000]);
+    setPriceRange([200000500000]);
     setBedroomsFilter([]);
     setBathroomsFilter([]);
     setPropertyTypes([]);
     setShowingNewBuildsOnly(true);
     setSortBy('newest');
     setShowFavoritesOnly(false);
+
+    // Track filter reset
+    analytics.trackPropertySearch({
+      action: 'reset_filters',
+      journey_id: journeyId
+    }, sortedProperties.length);
   };
 
   // Toggle bedroom filter
   const toggleBedroomFilter = (count: number) => {
-    setBedroomsFilter(prev => 
-      prev.includes(count)
-        ? prev.filter(n => n !== count)
-        : [...prev, count]
-    );
+    const newFilter = bedroomsFilter.includes(count)
+      ? bedroomsFilter.filter(n => n !== count)
+      : [...bedroomsFiltercount];
+
+    setBedroomsFilter(newFilter);
+
+    // Track bedroom filter change
+    analytics.trackPropertySearch({
+      filter_type: 'bedrooms',
+      bedrooms: newFilter,
+      action: bedroomsFilter.includes(count) ? 'remove_bedroom' : 'add_bedroom',
+      bedroom_count: count,
+      journey_id: journeyId
+    }, filteredProperties.length);
   };
 
   // Toggle bathroom filter
   const toggleBathroomFilter = (count: number) => {
-    setBathroomsFilter(prev => 
-      prev.includes(count)
-        ? prev.filter(n => n !== count)
-        : [...prev, count]
-    );
+    const newFilter = bathroomsFilter.includes(count)
+      ? bathroomsFilter.filter(n => n !== count)
+      : [...bathroomsFiltercount];
+
+    setBathroomsFilter(newFilter);
+
+    // Track bathroom filter change
+    analytics.trackPropertySearch({
+      filter_type: 'bathrooms',
+      bathrooms: newFilter,
+      action: bathroomsFilter.includes(count) ? 'remove_bathroom' : 'add_bathroom',
+      bathroom_count: count,
+      journey_id: journeyId
+    }, filteredProperties.length);
   };
 
   // Toggle property type filter
   const togglePropertyType = (type: string) => {
-    setPropertyTypes(prev => 
-      prev.includes(type)
-        ? prev.filter(t => t !== type)
-        : [...prev, type]
-    );
+    const newTypes = propertyTypes.includes(type)
+      ? propertyTypes.filter(t => t !== type)
+      : [...propertyTypestype];
+
+    setPropertyTypes(newTypes);
+
+    // Track property type filter change
+    analytics.trackPropertySearch({
+      filter_type: 'property_type',
+      property_types: newTypes,
+      action: propertyTypes.includes(type) ? 'remove_property_type' : 'add_property_type',
+      property_type: type,
+      journey_id: journeyId
+    }, filteredProperties.length);
   };
 
   // Format currency for display
@@ -323,8 +397,7 @@ export default function PropertySearch({
     return new Intl.NumberFormat('en-IE', {
       style: 'currency',
       currency: 'EUR',
-      maximumFractionDigits: 0,
-    }).format(amount);
+      maximumFractionDigits: 0}).format(amount);
   };
 
   return (
@@ -337,17 +410,17 @@ export default function PropertySearch({
               type="text"
               placeholder="Search by location, development name, or property type..."
               value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
+              onChange={(e: any) => setSearchTerm(e.target.value)}
               className="pl-10"
             />
           </div>
-          
+
           <Popover>
             <PopoverTrigger asChild>
               <Button variant="outline" className="flex items-center">
                 <Sliders className="mr-2 h-4 w-4" />
                 Filters
-                {(bedroomsFilter.length > 0 || bathroomsFilter.length > 0 || propertyTypes.length > 0) && (
+                {(bedroomsFilter.length> 0 || bathroomsFilter.length> 0 || propertyTypes.length> 0) && (
                   <span className="ml-2 bg-blue-100 text-blue-600 rounded-full w-5 h-5 flex items-center justify-center text-xs">
                     {bedroomsFilter.length + bathroomsFilter.length + propertyTypes.length}
                   </span>
@@ -364,7 +437,7 @@ export default function PropertySearch({
                       min={100000}
                       max={1000000}
                       step={5000}
-                      onValueChange={(value) => setPriceRange(value as [number, number])}
+                      onValueChange={(value: any) => setPriceRange(value as [numbernumber])}
                     />
                     <div className="flex justify-between">
                       <span className="text-sm text-gray-600">{formatCurrency(priceRange[0])}</span>
@@ -372,11 +445,11 @@ export default function PropertySearch({
                     </div>
                   </div>
                 </div>
-                
+
                 <div>
                   <h3 className="font-medium mb-2">Bedrooms</h3>
                   <div className="flex flex-wrap gap-2">
-                    {[1, 2, 3, 4, 5].map(count => (
+                    {[1, 2, 3, 45].map(count => (
                       <button
                         key={`bedroom-${count}`}
                         onClick={() => toggleBedroomFilter(count)}
@@ -391,11 +464,11 @@ export default function PropertySearch({
                     ))}
                   </div>
                 </div>
-                
+
                 <div>
                   <h3 className="font-medium mb-2">Bathrooms</h3>
                   <div className="flex flex-wrap gap-2">
-                    {[1, 2, 3, 4].map(count => (
+                    {[1, 2, 34].map(count => (
                       <button
                         key={`bathroom-${count}`}
                         onClick={() => toggleBathroomFilter(count)}
@@ -410,7 +483,7 @@ export default function PropertySearch({
                     ))}
                   </div>
                 </div>
-                
+
                 <div>
                   <h3 className="font-medium mb-2">Property Type</h3>
                   <div className="flex flex-wrap gap-2">
@@ -429,7 +502,7 @@ export default function PropertySearch({
                     ))}
                   </div>
                 </div>
-                
+
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-2">
                     <input
@@ -441,7 +514,7 @@ export default function PropertySearch({
                     />
                     <label htmlFor="new-builds-only" className="text-sm">New builds only</label>
                   </div>
-                  
+
                   <button
                     onClick={resetFilters}
                     className="text-sm text-blue-600 hover:text-blue-800"
@@ -452,7 +525,7 @@ export default function PropertySearch({
               </div>
             </PopoverContent>
           </Popover>
-          
+
           <Popover>
             <PopoverTrigger asChild>
               <Button variant="outline" className="flex items-center">
@@ -491,7 +564,7 @@ export default function PropertySearch({
               </div>
             </PopoverContent>
           </Popover>
-          
+
           <div className="flex items-center">
             <button
               onClick={() => setViewMode('grid')}
@@ -520,7 +593,7 @@ export default function PropertySearch({
               </svg>
             </button>
           </div>
-          
+
           <button
             onClick={() => setShowFavoritesOnly(!showFavoritesOnly)}
             className={`flex items-center space-x-1 px-3 py-2 rounded text-sm ${
@@ -532,7 +605,7 @@ export default function PropertySearch({
           </button>
         </div>
       </div>
-      
+
       {/* Results count and summary */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
         <p className="text-gray-600">
@@ -540,7 +613,7 @@ export default function PropertySearch({
             sortedProperties.length === 0 ? 'No properties match your criteria' :
             `Showing ${sortedProperties.length} ${sortedProperties.length === 1 ? 'property' : 'properties'}`}
         </p>
-        
+
         {initialBudget && (
           <div className="flex items-center bg-blue-50 text-blue-700 px-3 py-1 rounded-full text-sm mt-2 sm:mt-0">
             <Info size={16} className="mr-1" />
@@ -548,11 +621,11 @@ export default function PropertySearch({
           </div>
         )}
       </div>
-      
+
       {/* Property grid/list */}
       {isLoading ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {[1, 2, 3, 4, 5, 6].map(i => (
+          {[1, 2, 3, 4, 56].map(i => (
             <Card key={i} className="overflow-hidden">
               <div className="h-48 bg-gray-200 animate-pulse"></div>
               <div className="p-4 space-y-3">
@@ -592,13 +665,13 @@ export default function PropertySearch({
                   alt={property.name}
                   className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
                 />
-                
+
                 {/* Favorite button */}
                 <button
-                  onClick={(e) => {
+                  onClick={(e: any) => {
                     e.stopPropagation();
                     toggleFavorite(property.id);
-                  }}
+                  }
                   className="absolute top-2 right-2 p-2 bg-white rounded-full shadow-md hover:bg-gray-100"
                 >
                   <Heart 
@@ -606,7 +679,7 @@ export default function PropertySearch({
                     className={favorites.includes(property.id) ? 'fill-pink-600 text-pink-600' : 'text-gray-600'} 
                   />
                 </button>
-                
+
                 {/* Status badge */}
                 {property.status !== 'available' && (
                   <div className={`absolute top-2 left-2 px-3 py-1 rounded-full text-xs font-medium ${
@@ -615,20 +688,20 @@ export default function PropertySearch({
                     {property.status === 'reserved' ? 'Reserved' : 'Sold'}
                   </div>
                 )}
-                
+
                 {/* Price badge */}
                 <div className="absolute bottom-2 left-2 bg-white/90 px-3 py-1 rounded-lg text-sm font-semibold shadow-sm">
                   {formatCurrency(property.price)}
                 </div>
               </div>
-              
+
               <div className="p-4">
                 <h3 className="font-semibold text-lg mb-1 line-clamp-1">{property.name}</h3>
                 <div className="flex items-center text-gray-600 mb-2">
                   <MapPin size={16} className="flex-shrink-0 mr-1" />
                   <p className="text-sm truncate">{property.location}</p>
                 </div>
-                
+
                 <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center space-x-3 text-gray-600">
                     <div className="flex items-center">
@@ -644,12 +717,12 @@ export default function PropertySearch({
                       <span className="text-sm">{property.area} m²</span>
                     </div>
                   </div>
-                  
+
                   <div className="text-sm text-gray-500">
                     {property.type.charAt(0).toUpperCase() + property.type.slice(1)}
                   </div>
                 </div>
-                
+
                 <div className="flex flex-wrap gap-2 mb-4">
                   {property.energyRating && (
                     <span className="bg-green-50 text-green-700 px-2 py-1 rounded text-xs font-medium inline-flex items-center">
@@ -667,7 +740,7 @@ export default function PropertySearch({
                     </span>
                   )}
                 </div>
-                
+
                 <Button
                   onClick={() => handleSelectProperty(property)}
                   className="w-full"
@@ -690,7 +763,7 @@ export default function PropertySearch({
                     alt={property.name}
                     className="w-full h-full object-cover"
                   />
-                  
+
                   {/* Status badge */}
                   {property.status !== 'available' && (
                     <div className={`absolute top-2 left-2 px-3 py-1 rounded-full text-xs font-medium ${
@@ -700,7 +773,7 @@ export default function PropertySearch({
                     </div>
                   )}
                 </div>
-                
+
                 <div className="flex-1 p-4">
                   <div className="flex flex-col h-full">
                     <div className="flex justify-between items-start">
@@ -711,10 +784,10 @@ export default function PropertySearch({
                           <p className="text-sm">{property.location}</p>
                         </div>
                       </div>
-                      
+
                       <div className="text-lg font-bold">{formatCurrency(property.price)}</div>
                     </div>
-                    
+
                     <div className="flex flex-wrap gap-4 my-2">
                       <div className="flex items-center">
                         <Bed size={16} className="mr-1 text-gray-600" />
@@ -733,9 +806,9 @@ export default function PropertySearch({
                         <span className="text-sm">{property.type.charAt(0).toUpperCase() + property.type.slice(1)}</span>
                       </div>
                     </div>
-                    
+
                     <p className="text-gray-600 text-sm mb-3 line-clamp-2">{property.description}</p>
-                    
+
                     <div className="flex flex-wrap gap-2 mb-3">
                       {property.energyRating && (
                         <span className="bg-green-50 text-green-700 px-2 py-1 rounded text-xs font-medium inline-flex items-center">
@@ -753,7 +826,7 @@ export default function PropertySearch({
                         </span>
                       )}
                     </div>
-                    
+
                     <div className="flex items-center justify-between mt-auto">
                       <div className="flex items-center space-x-2">
                         <button
@@ -773,7 +846,7 @@ export default function PropertySearch({
                           <Share2 size={18} />
                         </button>
                       </div>
-                      
+
                       <Button
                         onClick={() => handleSelectProperty(property)}
                         disabled={property.status !== 'available'}
@@ -788,7 +861,7 @@ export default function PropertySearch({
           ))}
         </div>
       )}
-      
+
       {/* First-time buyer assistance information */}
       <Tabs defaultValue="htb" className="mt-8">
         <TabsList className="grid w-full grid-cols-3">
@@ -867,7 +940,7 @@ export default function PropertySearch({
                   <p className="text-gray-600 text-sm">Before you start viewing properties, get pre-approved so you know your budget</p>
                 </div>
               </div>
-              
+
               <div className="flex items-start">
                 <div className="bg-blue-100 p-2 rounded-lg text-blue-700 mr-3 mt-1">
                   <Check size={18} />
@@ -877,7 +950,7 @@ export default function PropertySearch({
                   <p className="text-gray-600 text-sm">Remember to budget for stamp duty, legal fees, and moving costs</p>
                 </div>
               </div>
-              
+
               <div className="flex items-start">
                 <div className="bg-blue-100 p-2 rounded-lg text-blue-700 mr-3 mt-1">
                   <Check size={18} />
@@ -887,7 +960,7 @@ export default function PropertySearch({
                   <p className="text-gray-600 text-sm">Check local amenities, transport links, and future development plans</p>
                 </div>
               </div>
-              
+
               <div className="flex items-start">
                 <div className="bg-blue-100 p-2 rounded-lg text-blue-700 mr-3 mt-1">
                   <Check size={18} />
@@ -897,7 +970,7 @@ export default function PropertySearch({
                   <p className="text-gray-600 text-sm">Shop around for the best interest rates and terms</p>
                 </div>
               </div>
-              
+
               <div className="flex items-start">
                 <div className="bg-blue-100 p-2 rounded-lg text-blue-700 mr-3 mt-1">
                   <Check size={18} />

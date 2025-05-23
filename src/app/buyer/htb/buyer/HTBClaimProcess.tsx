@@ -11,115 +11,111 @@ import { HTBClaimStatus, HTBClaim } from "@/types/htb";
  */
 export const HTBClaimProcess: React.FC<{ propertyId?: string; propertyPrice?: number }> = ({
     propertyId = "",
-    propertyPrice = 0,
-  }) => {
+    propertyPrice = 0}) => {
     const router = useRouter();
     const { selectedBuyerClaim, createNewClaim, fetchClaimById, updateAccessCode } = useHTB();
-    
-    const [step, setStep] = useState(1);
-    const [isLoading, setIsLoading] = useState(false);
-    const [error, setError] = useState<string | null>(null);
-    
+
+    const [stepsetStep] = useState(1);
+    const [isLoadingsetIsLoading] = useState(false);
+    const [errorsetError] = useState<string | null>(null);
+
     // Form state
-    const [formData, setFormData] = useState({
+    const [formDatasetFormData] = useState({
       propertyId: propertyId,
-      requestedAmount: Math.min(propertyPrice * 0.1, 30000), // 10% of price or €30k max
+      requestedAmount: Math.min(propertyPrice * 0.130000), // 10% of price or €30k max
       accessCode: "",
       accessCodeExpiryDate: "",
-      documentFile: null as File | null,
-    });
-  
+      documentFile: null as File | null});
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
-      [name]: value,
-    });
+      [name]: value});
   };
-  
+
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       setFormData({
         ...formData,
-        documentFile: e.target.files[0],
-      });
+        documentFile: e.target.files[0]});
     }
   };
-  
+
   const handleCreateClaim = async () => {
     try {
       setIsLoading(true);
       setError(null);
-      
+
       // Validate
       if (!formData.propertyId) {
         setError("Please select a property");
         setIsLoading(false);
         return;
       }
-      
+
       // Create new claim with the correct data format
       const claim = await createNewClaim({
         propertyId: formData.propertyId,
         requestedAmount: formData.requestedAmount
       });
-      
+
       // Move to next step
       setStep(2);
-      
+
       // Force reload of claim
       await fetchClaimById(claim.id, "buyer");
     } catch (err) {
       setError("Failed to create HTB claim. Please try again.");
-      console.error(err);
+
     } finally {
       setIsLoading(false);
     }
   };
-  
+
   const handleSubmitAccessCode = async () => {
     try {
       setIsLoading(true);
       setError(null);
-      
+
       // Validate
       if (!formData.accessCode) {
         setError("Please enter your HTB access code");
         setIsLoading(false);
         return;
       }
-      
+
       if (!selectedBuyerClaim) {
         setError("No active HTB claim found");
         setIsLoading(false);
         return;
       }
-      
+
       // Parse date or use current date + 60 days if not provided
       const expiryDate = formData.accessCodeExpiryDate
         ? new Date(formData.accessCodeExpiryDate)
         : new Date(Date.now() + 60 * 24 * 60 * 60 * 1000);
-      
+
       // Update claim with access code (removing the document file parameter)
       await updateAccessCode(
         selectedBuyerClaim.id,
         formData.accessCode,
         expiryDate
       );
-      
+
       // Move to next step
       setStep(3);
-      
+
       // Force reload of claim
       await fetchClaimById(selectedBuyerClaim.id, "buyer");
     } catch (err) {
       setError("Failed to submit access code. Please try again.");
-      console.error(err);
+
     } finally {
       setIsLoading(false);
     }
   };
-  
+
   const getStepContent = () => {
     switch (step) {
       case 1:
@@ -130,7 +126,7 @@ export const HTBClaimProcess: React.FC<{ propertyId?: string; propertyPrice?: nu
               Start your Help-to-Buy application process. You'll need to apply to Revenue separately
               to receive your HTB access code.
             </p>
-            
+
             {propertyId ? (
               <div className="bg-blue-50 p-4 rounded-md">
                 <p className="font-medium">
@@ -159,7 +155,7 @@ export const HTBClaimProcess: React.FC<{ propertyId?: string; propertyPrice?: nu
                 </select>
               </div>
             )}
-            
+
             <div className="mb-4">
               <label htmlFor="requestedAmount" className="block text-sm font-medium text-gray-700 mb-1">
                 HTB Amount (€)
@@ -178,7 +174,7 @@ export const HTBClaimProcess: React.FC<{ propertyId?: string; propertyPrice?: nu
                 Maximum: €30,000 or 10% of property price, whichever is lower
               </p>
             </div>
-            
+
             <div className="bg-yellow-50 p-4 rounded-md mb-6">
               <h3 className="text-sm font-medium text-yellow-800">Important Information</h3>
               <p className="text-sm text-yellow-700 mt-1">
@@ -194,7 +190,7 @@ export const HTBClaimProcess: React.FC<{ propertyId?: string; propertyPrice?: nu
                 Visit Revenue Website →
               </a>
             </div>
-            
+
             {error && (
               <div className="bg-red-50 border-l-4 border-red-400 p-4">
                 <div className="flex">
@@ -218,24 +214,24 @@ export const HTBClaimProcess: React.FC<{ propertyId?: string; propertyPrice?: nu
                 </div>
               </div>
             )}
-            
+
             <div className="flex justify-end">
               <button
                 onClick={handleCreateClaim}
                 disabled={isLoading}
                 className="px-4 py-2 bg-blue-600 text-white font-medium rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50"
               >
-                {isLoading ? "Processing..." : "Continue to Revenue Application"}
+                {isLoading ? "Processing..." : "Continue to Revenue Application"
               </button>
             </div>
           </div>
         );
-        
+
       case 2:
         return (
           <div className="space-y-6">
             <h2 className="text-xl font-semibold">Step 2: Submit Revenue HTB Access Code</h2>
-            
+
             <div className="bg-green-50 p-4 rounded-md mb-6">
               <div className="flex">
                 <div className="flex-shrink-0">
@@ -262,12 +258,12 @@ export const HTBClaimProcess: React.FC<{ propertyId?: string; propertyPrice?: nu
                 </div>
               </div>
             </div>
-            
+
             <p className="text-gray-600">
               Once you've completed your application on the Revenue website and received your access code,
               enter it below to continue with your HTB claim.
             </p>
-            
+
             <div className="mb-4">
               <label htmlFor="accessCode" className="block text-sm font-medium text-gray-700 mb-1">
                 HTB Access Code *
@@ -286,7 +282,7 @@ export const HTBClaimProcess: React.FC<{ propertyId?: string; propertyPrice?: nu
                 Enter the HTB access code you received from Revenue
               </p>
             </div>
-            
+
             <div className="mb-4">
               <label htmlFor="accessCodeExpiryDate" className="block text-sm font-medium text-gray-700 mb-1">
                 Access Code Expiry Date
@@ -303,7 +299,7 @@ export const HTBClaimProcess: React.FC<{ propertyId?: string; propertyPrice?: nu
                 If not provided, we'll assume 60 days from today
               </p>
             </div>
-            
+
             <div className="mb-4">
               <label htmlFor="documentFile" className="block text-sm font-medium text-gray-700 mb-1">
                 Revenue Confirmation Document (Optional)
@@ -349,7 +345,7 @@ export const HTBClaimProcess: React.FC<{ propertyId?: string; propertyPrice?: nu
                 </p>
               )}
             </div>
-            
+
             {error && (
               <div className="bg-red-50 border-l-4 border-red-400 p-4">
                 <div className="flex">
@@ -373,7 +369,7 @@ export const HTBClaimProcess: React.FC<{ propertyId?: string; propertyPrice?: nu
                 </div>
               </div>
             )}
-            
+
             <div className="flex justify-between">
               <button
                 onClick={() => setStep(1)}
@@ -386,17 +382,17 @@ export const HTBClaimProcess: React.FC<{ propertyId?: string; propertyPrice?: nu
                 disabled={isLoading || !formData.accessCode}
                 className="px-4 py-2 bg-blue-600 text-white font-medium rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50"
               >
-                {isLoading ? "Submitting..." : "Submit Access Code"}
+                {isLoading ? "Submitting..." : "Submit Access Code"
               </button>
             </div>
           </div>
         );
-        
+
       case 3:
         return (
           <div className="space-y-6">
             <h2 className="text-xl font-semibold">Step 3: HTB Claim Status</h2>
-            
+
             <div className="bg-green-50 p-4 rounded-md mb-6">
               <div className="flex">
                 <div className="flex-shrink-0">
@@ -423,7 +419,7 @@ export const HTBClaimProcess: React.FC<{ propertyId?: string; propertyPrice?: nu
                 </div>
               </div>
             </div>
-            
+
             <div className="bg-white shadow overflow-hidden sm:rounded-lg">
             <div className="px-4 py-5 sm:px-6">
              <h3 className="text-lg leading-6 font-medium text-gray-900">HTB Claim Details</h3>
@@ -431,7 +427,7 @@ export const HTBClaimProcess: React.FC<{ propertyId?: string; propertyPrice?: nu
                   Current status and information about your Help-to-Buy claim.
                 </p>
               </div>
-              
+
               {selectedBuyerClaim && (
                 <div className="border-t border-gray-200 px-4 py-5 sm:p-0">
                   <dl className="sm:divide-y sm:divide-gray-200">
@@ -477,7 +473,7 @@ export const HTBClaimProcess: React.FC<{ propertyId?: string; propertyPrice?: nu
                 </div>
               )}
             </div>
-            
+
             <div className="bg-blue-50 p-4 rounded-md">
               <h3 className="text-sm font-medium text-blue-800">What happens next?</h3>
               <p className="text-sm text-blue-700 mt-1">
@@ -486,7 +482,7 @@ export const HTBClaimProcess: React.FC<{ propertyId?: string; propertyPrice?: nu
                 your claim at any time on this page.
               </p>
             </div>
-            
+
             <div className="flex justify-end">
               <button
                 onClick={() => router.push("/buyer/htb/status")}
@@ -497,25 +493,24 @@ export const HTBClaimProcess: React.FC<{ propertyId?: string; propertyPrice?: nu
             </div>
           </div>
         );
-        
+
       default:
         return null;
     }
   };
-  
+
   return (
     <div className="max-w-3xl mx-auto px-4 py-8">
       <h1 className="text-2xl font-bold text-gray-900 mb-6">Help-to-Buy Application</h1>
-      
+
       <HTBStepIndicator
         steps={[
-          { label: "Start Application", status: step >= 1 ? "complete" : "upcoming" },
-          { label: "Submit Access Code", status: step >= 2 ? "complete" : "upcoming" },
-          { label: "Track Status", status: step >= 3 ? "complete" : "upcoming" },
-        ]}
+          { label: "Start Application", status: step>= 1 ? "complete" : "upcoming" },
+          { label: "Submit Access Code", status: step>= 2 ? "complete" : "upcoming" },
+          { label: "Track Status", status: step>= 3 ? "complete" : "upcoming" }]}
         currentStep={step}
       />
-      
+
       <div className="mt-8 bg-white shadow-sm rounded-lg p-6 border border-gray-200">
         {getStepContent()}
       </div>

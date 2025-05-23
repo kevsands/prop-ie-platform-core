@@ -1,0 +1,216 @@
+name: Build and Deploy
+
+on:
+  push:
+    branches:
+      - main
+      - staging
+    paths-ignore:
+      - 'infrastructure/**'
+      - '**.md'
+  pull_request:
+    branches:
+      - main
+      - staging
+    paths-ignore:
+      - 'infrastructure/**'
+      - '**.md'
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to deploy to'
+        required: true
+        default: 'staging'
+        type: choice
+        options:
+          - dev
+          - staging
+          - production
+
+env:
+  AWS_REGION: eu-west-1
+  ECR_REPOSITORY: prop-transaction-app
+
+jobs:
+  build-and-test:
+    name: Build and Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+          
+      - name: Install Dependencies
+        run: npm ci
+      
+      - name: Run Linting
+        run: npm run lint
+      
+      - name: Run Type Check
+        run: npm run type-check
+      
+      - name: Run Tests
+        run: npm test
+        
+      - name: Run Build
+        run: npm run build
+
+  docker-build-and-push:
+    name: Build and Push Docker Image
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    environment: ${{ github.event.inputs.environment || (github.ref == 'refs/heads/main' && 'production' || 'staging') }}
+    
+    permissions:
+      id-token: write
+      contents: read
+    
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+      
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+      
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+      
+      - name: Determine Environment and Tags
+        id: env
+        run: |
+          if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+            ENV=${{ github.event.inputs.environment }}
+          elif [ "${{ github.ref }}" == "refs/heads/main" ]; then
+            ENV=production
+          else
+            ENV=staging
+          fi
+          
+          REPO_URL=${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}
+          
+          # Set the image tag based on environment and commit
+          SHA_SHORT=$(echo ${{ github.sha }} | cut -c1-8)
+          VERSION_TAG="${ENV}-${SHA_SHORT}"
+          
+          # For production builds, also tag as 'latest'
+          if [ "$ENV" == "production" ]; then
+            TAGS="${REPO_URL}:${VERSION_TAG},${REPO_URL}:latest"
+          else
+            TAGS="${REPO_URL}:${VERSION_TAG},${REPO_URL}:${ENV}"
+          fi
+          
+          echo "environment=${ENV}" >> $GITHUB_OUTPUT
+          echo "version_tag=${VERSION_TAG}" >> $GITHUB_OUTPUT
+          echo "tags=${TAGS}" >> $GITHUB_OUTPUT
+          echo "repo_url=${REPO_URL}" >> $GITHUB_OUTPUT
+      
+      - name: Set up environment variables for build
+        run: |
+          # Create a .env.production file with the necessary variables
+          echo "NODE_ENV=${{ steps.env.outputs.environment }}" > .env.production
+          echo "NEXT_PUBLIC_API_URL=https://${{ steps.env.outputs.environment == 'production' && 'property-platform.ie' || 'staging.property-platform.ie' }}/api" >> .env.production
+      
+      - name: Build and Push Docker image
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.env.outputs.tags }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          build-args: |
+            NEXT_PUBLIC_ENV=${{ steps.env.outputs.environment }}
+      
+      - name: Verify pushed image
+        run: |
+          aws ecr describe-images --repository-name ${{ env.ECR_REPOSITORY }} --image-ids imageTag=${{ steps.env.outputs.version_tag }}
+      
+      - name: Output Build Summary
+        run: |
+          echo "## Docker Build Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Environment: **${{ steps.env.outputs.environment }}**" >> $GITHUB_STEP_SUMMARY
+          echo "Image: **${{ steps.env.outputs.repo_url }}:${{ steps.env.outputs.version_tag }}**" >> $GITHUB_STEP_SUMMARY
+          echo "Commit: **${{ github.sha }}**" >> $GITHUB_STEP_SUMMARY
+          
+  deploy:
+    name: Deploy to ECS
+    needs: docker-build-and-push
+    runs-on: ubuntu-latest
+    environment: ${{ github.event.inputs.environment || (github.ref == 'refs/heads/main' && 'production' || 'staging') }}
+    
+    permissions:
+      id-token: write
+      contents: read
+    
+    steps:
+      - name: Determine Environment
+        id: env
+        run: |
+          if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+            echo "environment=${{ github.event.inputs.environment }}" >> $GITHUB_OUTPUT
+          elif [ "${{ github.ref }}" == "refs/heads/main" ]; then
+            echo "environment=production" >> $GITHUB_OUTPUT
+          else
+            echo "environment=staging" >> $GITHUB_OUTPUT
+          fi
+      
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+      
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+      
+      - name: Download Task Definition
+        run: |
+          aws ecs describe-task-definition \
+            --task-definition prop-transaction-${{ steps.env.outputs.environment }}-app \
+            --query taskDefinition > task-definition.json
+      
+      - name: Fill in the new image ID in the Amazon ECS task definition
+        id: task-def
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: task-definition.json
+          container-name: prop-transaction-app
+          image: ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:${{ steps.env.outputs.environment }}-${{ github.sha }}
+      
+      - name: Deploy Amazon ECS task definition
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+        with:
+          task-definition: ${{ steps.task-def.outputs.task-definition }}
+          service: prop-transaction-${{ steps.env.outputs.environment }}-service
+          cluster: prop-transaction-${{ steps.env.outputs.environment }}-cluster
+          wait-for-service-stability: true
+      
+      - name: Output Deployment Summary
+        run: |
+          echo "## Deployment Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "✅ Deployed successfully to **${{ steps.env.outputs.environment }}** environment" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Environment: **${{ steps.env.outputs.environment }}**" >> $GITHUB_STEP_SUMMARY
+          echo "ECS Cluster: **prop-transaction-${{ steps.env.outputs.environment }}-cluster**" >> $GITHUB_STEP_SUMMARY
+          echo "ECS Service: **prop-transaction-${{ steps.env.outputs.environment }}-service**" >> $GITHUB_STEP_SUMMARY
+          
+          if [ "${{ steps.env.outputs.environment }}" == "production" ]; then
+            echo "Application URL: **https://property-platform.ie**" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "Application URL: **https://staging.property-platform.ie**" >> $GITHUB_STEP_SUMMARY
+          fi

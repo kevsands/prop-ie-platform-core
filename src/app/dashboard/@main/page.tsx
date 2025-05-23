@@ -34,14 +34,14 @@ const useAuth = () => {
  */
 export default function DashboardOverview() {
   const { user } = useAuth();
-  const [stats, setStats] = useState({
+  const [statssetStats] = useState({
     properties: 0,
     documents: 0,
     purchases: 0,
     notifications: 0
   });
-  const [loading, setLoading] = useState(true);
-  
+  const [loadingsetLoading] = useState(true);
+
   useEffect(() => {
     // In a real app, fetch dashboard data from API
     const fetchDashboardData = async () => {
@@ -58,11 +58,11 @@ export default function DashboardOverview() {
           setLoading(false);
         }, 1000);
       } catch (error) {
-        console.error('Error fetching dashboard data:', error);
+
         setLoading(false);
       }
     };
-    
+
     fetchDashboardData();
   }, []);
 
@@ -82,7 +82,7 @@ export default function DashboardOverview() {
           Welcome back, {user?.firstName || 'User'}. Here's what's happening with your account.
         </p>
       </header>
-      
+
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         {/* Stats cards */}
         <div className="bg-white rounded-lg shadow p-6">
@@ -96,7 +96,7 @@ export default function DashboardOverview() {
             </div>
           </div>
         </div>
-        
+
         <div className="bg-white rounded-lg shadow p-6">
           <div className="flex items-center">
             <div className="p-3 rounded-full bg-green-100 text-green-600 mr-4">
@@ -108,7 +108,7 @@ export default function DashboardOverview() {
             </div>
           </div>
         </div>
-        
+
         <div className="bg-white rounded-lg shadow p-6">
           <div className="flex items-center">
             <div className="p-3 rounded-full bg-purple-100 text-purple-600 mr-4">
@@ -120,7 +120,7 @@ export default function DashboardOverview() {
             </div>
           </div>
         </div>
-        
+
         <div className="bg-white rounded-lg shadow p-6">
           <div className="flex items-center">
             <div className="p-3 rounded-full bg-red-100 text-red-600 mr-4">
@@ -133,7 +133,7 @@ export default function DashboardOverview() {
           </div>
         </div>
       </div>
-      
+
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Recent activity section */}
         <div className="bg-white rounded-lg shadow overflow-hidden">
@@ -166,7 +166,7 @@ export default function DashboardOverview() {
             </ul>
           </div>
         </div>
-        
+
         {/* Quick actions section */}
         <div className="bg-white rounded-lg shadow overflow-hidden">
           <div className="px-6 py-4 border-b">

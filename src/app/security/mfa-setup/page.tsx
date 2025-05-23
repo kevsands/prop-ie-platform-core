@@ -180,49 +180,49 @@ const LoadingSpinner: React.FC<{className?: string}> = ({ className = "" }) => (
 export default function MFASetupPage(): JSX.Element {
   const router = useRouter();
   const { user, mfaEnabled } = useAuth();
-  
-  const [activeTab, setActiveTab] = useState('totp');
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState<string | null>(null);
-  
+
+  const [activeTabsetActiveTab] = useState('totp');
+  const [loadingsetLoading] = useState(false);
+  const [errorsetError] = useState<string | null>(null);
+  const [successsetSuccess] = useState<string | null>(null);
+
   // TOTP setup state
-  const [totpData, setTotpData] = useState<{ qrCode: string; secretKey: string } | null>(null);
-  const [verificationCode, setVerificationCode] = useState('');
-  
+  const [totpDatasetTotpData] = useState<{ qrCode: string; secretKey: string } | null>(null);
+  const [verificationCodesetVerificationCode] = useState('');
+
   // SMS setup state
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [smsVerificationCode, setSmsVerificationCode] = useState('');
-  const [smsSetupStage, setSmsSetupStage] = useState<'phone' | 'verify'>('phone');
-  
+  const [phoneNumbersetPhoneNumber] = useState('');
+  const [smsVerificationCodesetSmsVerificationCode] = useState('');
+  const [smsSetupStagesetSmsSetupStage] = useState<'phone' | 'verify'>('phone');
+
   // Check if MFA is already enabled on mount
   useEffect(() => {
     if (mfaEnabled) {
       setSuccess('MFA is already enabled for your account.');
     }
   }, [mfaEnabled]);
-  
+
   // Handle TOTP setup
   const handleSetupTOTP = async (): Promise<void> => {
     setLoading(true);
     setError(null);
-    
+
     try {
       // Initialize security if needed
       if (!Security.isInitialized()) {
         await Security.initialize();
       }
-      
+
       // Get MFA service
       const MFAService = Security.getMFA();
-      
+
       // Setup TOTP
       const result = await MFAService.setupTOTPMFA();
-      
+
       if (result.setupStatus === 'ERROR') {
         throw new Error(result.errorMessage || 'Failed to setup TOTP');
       }
-      
+
       // Store TOTP data for display
       setTotpData({
         qrCode: result.qrCode || '',
@@ -234,24 +234,24 @@ export default function MFASetupPage(): JSX.Element {
       setLoading(false);
     }
   };
-  
+
   // Verify TOTP setup with code
   const handleVerifyTOTP = async (): Promise<void> => {
     if (!verificationCode || verificationCode.length !== 6) {
       setError('Please enter a valid 6-digit verification code');
       return;
     }
-    
+
     setLoading(true);
     setError(null);
-    
+
     try {
       // Get MFA service
       const MFAService = Security.getMFA();
-      
+
       // Verify TOTP setup
       const success = await MFAService.verifyTOTPSetupWithCode(verificationCode);
-      
+
       if (success) {
         setSuccess('TOTP verification successful! MFA has been enabled for your account.');
         setTimeout(() => {
@@ -266,24 +266,24 @@ export default function MFASetupPage(): JSX.Element {
       setLoading(false);
     }
   };
-  
+
   // Handle SMS setup - Step 1: Set phone number
   const handleSMSSetup = async (): Promise<void> => {
     if (!phoneNumber || !/^\+?[1-9]\d{9,14}$/.test(phoneNumber)) {
       setError('Please enter a valid phone number (E.164 format recommended: +1234567890)');
       return;
     }
-    
+
     setLoading(true);
     setError(null);
-    
+
     try {
       // Get MFA service
       const MFAService = Security.getMFA();
-      
+
       // Setup SMS MFA with phone number
       const success = await MFAService.setupSMSMFA(phoneNumber);
-      
+
       if (success) {
         setSmsSetupStage('verify');
         setSuccess('Verification code sent to your phone number. Please enter it below.');
@@ -296,24 +296,24 @@ export default function MFASetupPage(): JSX.Element {
       setLoading(false);
     }
   };
-  
+
   // Handle SMS verification - Step 2: Verify code
   const handleVerifySMS = async (): Promise<void> => {
     if (!smsVerificationCode || smsVerificationCode.length !== 6) {
       setError('Please enter a valid 6-digit verification code');
       return;
     }
-    
+
     setLoading(true);
     setError(null);
-    
+
     try {
       // Get MFA service
       const MFAService = Security.getMFA();
-      
+
       // Verify SMS setup
       const success = await MFAService.verifySMSSetup(smsVerificationCode);
-      
+
       if (success) {
         setSuccess('SMS verification successful! MFA has been enabled for your account.');
         setTimeout(() => {
@@ -328,7 +328,7 @@ export default function MFASetupPage(): JSX.Element {
       setLoading(false);
     }
   };
-  
+
   return (
     <div className="container mx-auto px-4 py-12 max-w-md">
       <Card className="w-full">
@@ -338,7 +338,7 @@ export default function MFASetupPage(): JSX.Element {
             Add an extra layer of security to your account by enabling MFA.
           </CardDescription>
         </CardHeader>
-        
+
         <CardContent>
           {success && (
             <Alert className="mb-6 border-green-500 bg-green-50">
@@ -347,7 +347,7 @@ export default function MFASetupPage(): JSX.Element {
               </AlertDescription>
             </Alert>
           )}
-          
+
           {error && (
             <Alert className="mb-6 border-red-500 bg-red-50">
               <AlertDescription className="text-red-700">
@@ -355,7 +355,7 @@ export default function MFASetupPage(): JSX.Element {
               </AlertDescription>
             </Alert>
           )}
-          
+
           <div className="w-full">
             <div className="inline-flex items-center justify-center rounded-md bg-gray-100 p-1 grid w-full grid-cols-2">
               <button
@@ -379,9 +379,9 @@ export default function MFASetupPage(): JSX.Element {
                 SMS Verification
               </button>
             </div>
-            
+
             {/* TOTP Setup */}
-            <div className={`mt-2 ring-offset-white ${activeTab === 'totp' ? "block" : "hidden"} space-y-4 mt-4`}>
+            <div className={`mt-2 ring-offset-white ${activeTab === 'totp' ? "block" : "hidden" space-y-4 mt-4`}>
               {!totpData ? (
                 <div className="text-center space-y-4">
                   <p className="text-gray-600 mb-4">
@@ -419,7 +419,7 @@ export default function MFASetupPage(): JSX.Element {
                       </code>
                     </div>
                   </div>
-                  
+
                   <div className="space-y-2">
                     <Label htmlFor="verification-code">Enter the 6-digit verification code</Label>
                     <Input
@@ -427,10 +427,10 @@ export default function MFASetupPage(): JSX.Element {
                       placeholder="123456"
                       maxLength={6}
                       value={verificationCode}
-                      onChange={(e) => setVerificationCode(e.target.value.replace(/\D/g, '').substring(0, 6))}
+                      onChange={(e: any) => setVerificationCode(e.target.value.replace(/\D/g, '').substring(06))}
                     />
                   </div>
-                  
+
                   <Button 
                     onClick={handleVerifyTOTP} 
                     disabled={loading || verificationCode.length !== 6 || !!success}
@@ -442,28 +442,28 @@ export default function MFASetupPage(): JSX.Element {
                 </div>
               )}
             </div>
-            
+
             {/* SMS Setup */}
-            <div className={`mt-2 ring-offset-white ${activeTab === 'sms' ? "block" : "hidden"} space-y-4 mt-4`}>
+            <div className={`mt-2 ring-offset-white ${activeTab === 'sms' ? "block" : "hidden" space-y-4 mt-4`}>
               {smsSetupStage === 'phone' ? (
                 <div className="space-y-4">
                   <p className="text-gray-600 mb-4">
                     Receive verification codes via SMS text message when signing in.
                   </p>
-                  
+
                   <div className="space-y-2">
                     <Label htmlFor="phone-number">Phone Number (include country code)</Label>
                     <Input
                       id="phone-number"
                       placeholder="+1234567890"
                       value={phoneNumber}
-                      onChange={(e) => setPhoneNumber(e.target.value.replace(/[^\d+]/g, ''))}
+                      onChange={(e: any) => setPhoneNumber(e.target.value.replace(/[^\d+]/g, ''))}
                     />
                     <p className="text-xs text-gray-500">
                       Format: +1234567890 (including country code)
                     </p>
                   </div>
-                  
+
                   <Button 
                     onClick={handleSMSSetup} 
                     disabled={loading || !!success}
@@ -478,7 +478,7 @@ export default function MFASetupPage(): JSX.Element {
                   <p className="text-gray-600 mb-4">
                     Enter the verification code sent to {phoneNumber}.
                   </p>
-                  
+
                   <div className="space-y-2">
                     <Label htmlFor="sms-code">Verification Code</Label>
                     <Input
@@ -486,10 +486,10 @@ export default function MFASetupPage(): JSX.Element {
                       placeholder="123456"
                       maxLength={6}
                       value={smsVerificationCode}
-                      onChange={(e) => setSmsVerificationCode(e.target.value.replace(/\D/g, '').substring(0, 6))}
+                      onChange={(e: any) => setSmsVerificationCode(e.target.value.replace(/\D/g, '').substring(06))}
                     />
                   </div>
-                  
+
                   <Button 
                     onClick={handleVerifySMS} 
                     disabled={loading || smsVerificationCode.length !== 6 || !!success}
@@ -498,7 +498,7 @@ export default function MFASetupPage(): JSX.Element {
                     {loading ? <LoadingSpinner className="mr-2" /> : null}
                     Verify and Enable
                   </Button>
-                  
+
                   <Button 
                     variant="outline" 
                     onClick={() => setSmsSetupStage('phone')}
@@ -512,7 +512,7 @@ export default function MFASetupPage(): JSX.Element {
             </div>
           </div>
         </CardContent>
-        
+
         <CardFooter>
           <Button 
             variant="outline" 

@@ -1,0 +1,280 @@
+"use client";
+
+import { useHTB } from "@/context/HTBContext";
+import { useState, useEffect } from "react";
+import Link from "next/link";
+
+export default function HTBStatus() {
+  const { htbClaim, claimStatus, getClaimStatus } = useHTB();
+  const [loading, setLoading] = useState(false);
+  const [statusDetails, setStatusDetails] = useState({
+    submitted: false,
+    verified: false,
+    approved: false,
+    processed: false});
+
+  useEffect(() => {
+    // In a real app, this would fetch the claim status from the API
+    if (htbClaim) {
+      setStatusDetails({
+        submitted: true,
+        verified: claimStatus === "submitted" || claimStatus === "approved",
+        approved: claimStatus === "approved",
+        processed: claimStatus === "approved"});
+    }
+  }, [htbClaim, claimStatus]);
+
+  return (
+    <div className="min-h-screen bg-gray-50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold text-gray-900">
+            Help-to-Buy Claim Status
+          </h1>
+          <p className="mt-2 text-gray-600">
+            Track the progress of your Help-to-Buy claim.
+          </p>
+        </div>
+
+        {htbClaim ? (
+          <div className="bg-white shadow overflow-hidden sm:rounded-lg">
+            <div className="px-4 py-5 sm:px-6">
+              <h3 className="text-lg leading-6 font-medium text-gray-900">
+                Claim Information
+              </h3>
+              <p className="mt-1 max-w-2xl text-sm text-gray-500">
+                Details and status of your Help-to-Buy claim.
+              </p>
+            </div>
+            <div className="border-t border-gray-200">
+              <dl>
+                <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                  <dt className="text-sm font-medium text-gray-500">
+                    Claim Reference
+                  </dt>
+                  <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                    HTB-{Math.random().toString(36).substr(2, 9).toUpperCase()}
+                  </dd>
+                </div>
+                <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                  <dt className="text-sm font-medium text-gray-500">
+                    Applicant Name
+                  </dt>
+                  <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                    {htbClaim.firstName} {htbClaim.lastName}
+                  </dd>
+                </div>
+                <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                  <dt className="text-sm font-medium text-gray-500">
+                    Property Address
+                  </dt>
+                  <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                    {htbClaim.propertyAddress}
+                  </dd>
+                </div>
+                <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                  <dt className="text-sm font-medium text-gray-500">
+                    Claim Amount
+                  </dt>
+                  <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                    €{htbClaim.claimAmount.toLocaleString()}
+                  </dd>
+                </div>
+                <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                  <dt className="text-sm font-medium text-gray-500">
+                    Submission Date
+                  </dt>
+                  <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                    {new Date().toLocaleDateString()}
+                  </dd>
+                </div>
+                <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                  <dt className="text-sm font-medium text-gray-500">
+                    Current Status
+                  </dt>
+                  <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                    <span
+                      className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
+                        claimStatus === "approved"
+                          ? "bg-green-100 text-green-800"
+                          : claimStatus === "rejected"
+                            ? "bg-red-100 text-red-800"
+                            : "bg-yellow-100 text-yellow-800"
+                      }`}
+                    >
+                      {claimStatus === "submitted"
+                        ? "Under Review"
+                        : claimStatus === "approved"
+                          ? "Approved"
+                          : claimStatus === "rejected"
+                            ? "Rejected"
+                            : "Processing"}
+                    </span>
+                  </dd>
+                </div>
+              </dl>
+            </div>
+          </div>
+        ) : (
+          <div className="bg-white shadow sm:rounded-lg">
+            <div className="px-4 py-5 sm:p-6">
+              <h3 className="text-lg leading-6 font-medium text-gray-900">
+                No Help-to-Buy Claim Found
+              </h3>
+              <div className="mt-2 max-w-xl text-sm text-gray-500">
+                <p>You haven't submitted a Help-to-Buy claim yet.</p>
+              </div>
+              <div className="mt-5">
+                <Link
+                  href="/buyer/htb"
+                  className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                >
+                  Submit a Claim
+                </Link>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {htbClaim && (
+          <div className="mt-8">
+            <h2 className="text-xl font-semibold mb-4">Claim Progress</h2>
+            <div className="bg-white shadow overflow-hidden sm:rounded-lg">
+              <ul className="divide-y divide-gray-200">
+                <li className="px-4 py-4 sm:px-6">
+                  <div className="flex items-center">
+                    <div
+                      className={`flex-shrink-0 h-8 w-8 rounded-full flex items-center justify-center ${statusDetails.submitted ? "bg-green-100" : "bg-gray-100"}`}
+                    >
+                      {statusDetails.submitted ? (
+                        <svg
+                          className="h-5 w-5 text-green-600"
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                        >
+                          <path
+                            fillRule="evenodd"
+                            d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                            clipRule="evenodd"
+                          />
+                        </svg>
+                      ) : (
+                        <span className="text-gray-500">1</span>
+                      )}
+                    </div>
+                    <div className="ml-4">
+                      <h4 className="text-sm font-medium text-gray-900">
+                        Claim Submitted
+                      </h4>
+                      <p className="text-sm text-gray-500">
+                        Your Help-to-Buy claim has been submitted to Revenue.
+                      </p>
+                    </div>
+                  </div>
+                </li>
+                <li className="px-4 py-4 sm:px-6">
+                  <div className="flex items-center">
+                    <div
+                      className={`flex-shrink-0 h-8 w-8 rounded-full flex items-center justify-center ${statusDetails.verified ? "bg-green-100" : "bg-gray-100"}`}
+                    >
+                      {statusDetails.verified ? (
+                        <svg
+                          className="h-5 w-5 text-green-600"
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                        >
+                          <path
+                            fillRule="evenodd"
+                            d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                            clipRule="evenodd"
+                          />
+                        </svg>
+                      ) : (
+                        <span className="text-gray-500">2</span>
+                      )}
+                    </div>
+                    <div className="ml-4">
+                      <h4 className="text-sm font-medium text-gray-900">
+                        Documentation Verified
+                      </h4>
+                      <p className="text-sm text-gray-500">
+                        Your documentation has been verified by Revenue.
+                      </p>
+                    </div>
+                  </div>
+                </li>
+                <li className="px-4 py-4 sm:px-6">
+                  <div className="flex items-center">
+                    <div
+                      className={`flex-shrink-0 h-8 w-8 rounded-full flex items-center justify-center ${statusDetails.approved ? "bg-green-100" : "bg-gray-100"}`}
+                    >
+                      {statusDetails.approved ? (
+                        <svg
+                          className="h-5 w-5 text-green-600"
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                        >
+                          <path
+                            fillRule="evenodd"
+                            d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                            clipRule="evenodd"
+                          />
+                        </svg>
+                      ) : (
+                        <span className="text-gray-500">3</span>
+                      )}
+                    </div>
+                    <div className="ml-4">
+                      <h4 className="text-sm font-medium text-gray-900">
+                        Claim Approved
+                      </h4>
+                      <p className="text-sm text-gray-500">
+                        Your Help-to-Buy claim has been approved by Revenue.
+                      </p>
+                    </div>
+                  </div>
+                </li>
+                <li className="px-4 py-4 sm:px-6">
+                  <div className="flex items-center">
+                    <div
+                      className={`flex-shrink-0 h-8 w-8 rounded-full flex items-center justify-center ${statusDetails.processed ? "bg-green-100" : "bg-gray-100"}`}
+                    >
+                      {statusDetails.processed ? (
+                        <svg
+                          className="h-5 w-5 text-green-600"
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                        >
+                          <path
+                            fillRule="evenodd"
+                            d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                            clipRule="evenodd"
+                          />
+                        </svg>
+                      ) : (
+                        <span className="text-gray-500">4</span>
+                      )}
+                    </div>
+                    <div className="ml-4">
+                      <h4 className="text-sm font-medium text-gray-900">
+                        Funds Processed
+                      </h4>
+                      <p className="text-sm text-gray-500">
+                        Your Help-to-Buy funds have been processed and are ready
+                        for use.
+                      </p>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}

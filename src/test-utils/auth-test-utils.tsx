@@ -16,9 +16,7 @@ const mockAuthContext = {
       <div data-testid="auth-provider" data-auth-state={JSON.stringify(value)}>
         {children}
       </div>
-    ),
-  },
-};
+    )};
 
 // Try to import the actual auth context, falling back to mock if not available
 let AuthContext: any;
@@ -42,7 +40,7 @@ export const defaultAuthUser = {
 interface AuthRenderOptions extends RenderOptions {
   isAuthenticated?: boolean;
   user?: typeof defaultAuthUser | null;
-  authState?: Record<string, any>;
+  authState?: Record<string, any>\n  );
 }
 
 // Auth provider wrapper component
@@ -55,7 +53,7 @@ export const AuthProvider = ({
   children: ReactNode;
   isAuthenticated?: boolean;
   user?: typeof defaultAuthUser | null;
-  authState?: Record<string, any>;
+  authState?: Record<string, any>\n  );
 }) => {
   // Create a default auth value
   const defaultAuthValue = {
@@ -150,8 +148,7 @@ export const mockRouter = {
       on: jest.fn(),
       off: jest.fn()
     }
-  }),
-};
+  })};
 
 // Reset all router mocks
 export function resetRouterMocks() {

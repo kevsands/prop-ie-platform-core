@@ -18,7 +18,7 @@ export function authDirectiveTransformer() {
   return (schema: GraphQLSchema) => {
     return mapSchema(schema, {
       // Apply directive to all field definitions
-      [MapperKind.OBJECT_FIELD]: (fieldConfig) => {
+      [MapperKind.OBJECT_FIELD]: (fieldConfig: any) => {
         // Check if the @auth directive is applied to this field
         const authDirective = getDirective(schema, fieldConfig, 'auth')?.[0];
 
@@ -29,17 +29,17 @@ export function authDirectiveTransformer() {
           const originalResolver = fieldConfig.resolve || defaultFieldResolver;
 
           // Replace the resolver with one that includes auth checks
-          fieldConfig.resolve = async (source, args, context: GraphQLContext, info) => {
+          fieldConfig.resolve = async (source, args, context: GraphQLContextinfo) => {
             // Check if the user is authenticated
             if (!context.isAuthenticated || !context.user) {
               throw new AuthenticationError();
             }
 
             // If roles are specified, check if the user has any of them
-            if (requires && requires.length > 0) {
+            if (requires && requires.length> 0) {
               // Admin can access everything
               if (context.userRoles.includes(UserRole.ADMIN)) {
-                return originalResolver(source, args, context, info);
+                return originalResolver(source, args, contextinfo);
               }
 
               // Check if user has any of the required roles
@@ -53,12 +53,11 @@ export function authDirectiveTransformer() {
             }
 
             // Call the original resolver
-            return originalResolver(source, args, context, info);
+            return originalResolver(source, args, contextinfo);
           };
 
           return fieldConfig;
         }
-      },
-    });
+      });
   };
 }

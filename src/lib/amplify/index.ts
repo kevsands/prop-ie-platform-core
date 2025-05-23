@@ -35,32 +35,32 @@ export function initialize(options: AmplifyInitOptions = { ssr: true, debug: isD
   if (isInitialized) {
     return true;
   }
-  
+
   try {
     // Configure Amplify with our config and options
     AmplifyCore.configure(amplifyConfig);
-    
+
     // Set up debugging if enabled
     if (options.debug) {
       enableDebugMode();
     }
-    
+
     // Listen for auth events if in browser
     if (typeof window !== 'undefined') {
       setupAuthListeners();
     }
-    
+
     isInitialized = true;
     isDebugMode = options.debug || false;
-    
+
     // Log success but only in development or if debug mode is on
     if (process.env.NODE_ENV !== 'production' || isDebugMode) {
-      console.log('[Amplify] Initialized successfully');
+
     }
-    
+
     return true;
   } catch (error) {
-    console.error('[Amplify] Failed to initialize:', error);
+
     return false;
   }
 }
@@ -78,7 +78,7 @@ export async function initializeAsync(options: AmplifyInitOptions = { ssr: true,
     if (isInitialized) {
       return true;
     }
-    
+
     // Get Auth configuration from environment
     const authConfig = {
       region: process.env.NEXT_PUBLIC_AWS_REGION || amplifyConfig.Auth?.Cognito?.region || 'us-east-1',
@@ -86,7 +86,7 @@ export async function initializeAsync(options: AmplifyInitOptions = { ssr: true,
       userPoolClientId: process.env.NEXT_PUBLIC_AWS_USER_POOLS_WEB_CLIENT_ID || amplifyConfig.Auth?.Cognito?.userPoolClientId,
       identityPoolId: process.env.NEXT_PUBLIC_AWS_COGNITO_IDENTITY_POOL_ID || amplifyConfig.Auth?.Cognito?.identityPoolId
     };
-    
+
     // Configure Amplify with our config enhanced with any environment overrides
     const configToUse = {
       ...amplifyConfig,
@@ -97,35 +97,34 @@ export async function initializeAsync(options: AmplifyInitOptions = { ssr: true,
         }
       }
     };
-    
+
     await AmplifyCore.configure(configToUse);
-    
+
     // Set up debugging if enabled
     if (options.debug) {
       enableDebugMode();
     }
-    
+
     // Listen for auth events if in browser
     if (typeof window !== 'undefined') {
       setupAuthListeners();
     }
-    
+
     isInitialized = true;
     isDebugMode = options.debug || false;
-    
+
     // Log success but only in development or if debug mode is on
     if (process.env.NODE_ENV !== 'production' || isDebugMode) {
-      console.log('[Amplify] Initialized successfully (async)');
+      ');
     }
-    
+
     return true;
   } catch (error) {
     // Log the error but still return true to prevent app crashes
-    console.error('[Amplify] Failed to initialize, app will continue with limited functionality:', error);
-    
+
     // Ensure we at least set the initialized flag to prevent repeated initialization attempts
     isInitialized = true;
-    
+
     // Always return true to prevent application crashes
     return true;
   }
@@ -147,31 +146,31 @@ function enableDebugMode() {
 function setupAuthListeners() {
   Hub.listen('auth', ({ payload }) => {
     const { event } = payload;
-    
+
     if (isDebugMode) {
-      console.log(`[Amplify Auth] ${event}`, payload);
+
     }
-    
+
     switch (event) {
       case 'signedIn':
         // User has signed in
-        if (isDebugMode) console.log('[Amplify Auth] User signed in');
+        if (isDebugMode) 
         break;
       case 'signedOut':
         // User has signed out
-        if (isDebugMode) console.log('[Amplify Auth] User signed out');
+        if (isDebugMode) 
         break;
       case 'tokenRefresh':
         // Token has been refreshed
-        if (isDebugMode) console.log('[Amplify Auth] Token refreshed');
+        if (isDebugMode) 
         break;
       case 'tokenRefresh_failure':
         // Token refresh failed
-        console.warn('[Amplify Auth] Token refresh failed');
+
         break;
       case 'configured':
         // Amplify has been configured
-        if (isDebugMode) console.log('[Amplify] Configuration applied');
+        if (isDebugMode) 
         break;
     }
   });
@@ -243,7 +242,6 @@ const Amplify = {
   isInitialized: isAmplifyInitialized,
   resetState: resetAmplifyState,
   setDebugMode,
-  ensureInitialized: ensureAmplifyInitialized,
-};
+  ensureInitialized: ensureAmplifyInitialized};
 
 export default Amplify;

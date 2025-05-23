@@ -1,0 +1,4 @@
+// Temporarily disabled component
+export default function PropertyAlertsManager() {
+  return <div>Property Alerts Manager - Temporarily Disabled</div>;
+}

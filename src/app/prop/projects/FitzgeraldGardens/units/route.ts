@@ -60,7 +60,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json(unitsData);
   } catch (error) {
-    console.error('Error fetching units data:', error);
+
     return NextResponse.json(
       { error: 'Failed to fetch units data' },
       { status: 500 }

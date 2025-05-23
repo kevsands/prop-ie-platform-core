@@ -1,0 +1,224 @@
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader';
+import { KTX2Loader } from 'three/examples/jsm/loaders/KTX2Loader';
+import * as THREE from 'three';
+
+// Model cache
+const modelCache = new Map<string, any>();
+const textureCache = new Map<string, THREE.Texture>();
+
+// Loader instances (singleton)
+let gltfLoader: GLTFLoader;
+let dracoLoader: DRACOLoader;
+let ktx2Loader: KTX2Loader;
+
+// Initialize loaders
+function initLoaders() {
+  if (!gltfLoader) {
+    gltfLoader = new GLTFLoader();
+    
+    // Setup DRACO loader for compressed geometry
+    dracoLoader = new DRACOLoader();
+    dracoLoader.setDecoderPath('/draco/');
+    dracoLoader.setDecoderConfig({ type: 'js' });
+    gltfLoader.setDRACOLoader(dracoLoader);
+    
+    // Setup KTX2 loader for compressed textures
+    ktx2Loader = new KTX2Loader();
+    ktx2Loader.setTranscoderPath('/basis/');
+    gltfLoader.setKTX2Loader(ktx2Loader);
+  }
+}
+
+// Texture optimization
+function optimizeTexture(texture: THREE.Texture): THREE.Texture {
+  // Enable mipmapping for better performance
+  texture.generateMipmaps = true;
+  texture.minFilter = THREE.LinearMipmapLinearFilter;
+  texture.magFilter = THREE.LinearFilter;
+  
+  // Optimize texture format
+  texture.format = THREE.RGBAFormat;
+  texture.type = THREE.UnsignedByteType;
+  
+  // Enable anisotropic filtering
+  const maxAnisotropy = 4; // Balance between quality and performance
+  texture.anisotropy = maxAnisotropy;
+  
+  return texture;
+}
+
+// Model optimization
+function optimizeModel(gltf: any): any {
+  const scene = gltf.scene;
+  
+  // Optimize meshes
+  scene.traverse((child: any) => {
+    if (child instanceof THREE.Mesh) {
+      // Enable frustum culling
+      child.frustumCulled = true;
+      
+      // Optimize geometry
+      if (child.geometry) {
+        // Compute bounding box for culling
+        child.geometry.computeBoundingBox();
+        child.geometry.computeBoundingSphere();
+        
+        // Use buffer geometry attributes
+        if (child.geometry.attributes.position) {
+          child.geometry.attributes.position.setUsage(THREE.StaticDrawUsage);
+        }
+        if (child.geometry.attributes.normal) {
+          child.geometry.attributes.normal.setUsage(THREE.StaticDrawUsage);
+        }
+        if (child.geometry.attributes.uv) {
+          child.geometry.attributes.uv.setUsage(THREE.StaticDrawUsage);
+        }
+      }
+      
+      // Optimize materials
+      if (child.material) {
+        const material = child.material as THREE.MeshStandardMaterial;
+        
+        // Reduce shader complexity for mobile
+        if (isMobile()) {
+          material.envMapIntensity = 0.5;
+          material.aoMapIntensity = 0.5;
+        }
+        
+        // Cache textures
+        if (material.map) {
+          material.map = optimizeTexture(material.map);
+        }
+        if (material.normalMap) {
+          material.normalMap = optimizeTexture(material.normalMap);
+        }
+        if (material.roughnessMap) {
+          material.roughnessMap = optimizeTexture(material.roughnessMap);
+        }
+      }
+    }
+  });
+  
+  return gltf;
+}
+
+// Load model with caching
+export async function loadModel(url: string, onProgress?: (progress: number) => void): Promise<any> {
+  // Check cache first
+  if (modelCache.has(url)) {
+    onProgress?.(100);
+    return modelCache.get(url);
+  }
+  
+  initLoaders();
+  
+  return new Promise((resolve, reject) => {
+    gltfLoader.load(
+      url,
+      (gltf) => {
+        // Optimize the model
+        const optimized = optimizeModel(gltf);
+        
+        // Cache the model
+        modelCache.set(url, optimized);
+        
+        resolve(optimized);
+      },
+      (progress) => {
+        if (onProgress) {
+          const percent = (progress.loaded / progress.total) * 100;
+          onProgress(percent);
+        }
+      },
+      (error) => {
+        console.error('Error loading model:', error);
+        reject(error);
+      }
+    );
+  });
+}
+
+// Preload multiple models
+export async function preloadModels(urls: string[]): Promise<void> {
+  const promises = urls.map(url => loadModel(url));
+  await Promise.all(promises);
+}
+
+// Clear cache
+export function clearModelCache(): void {
+  modelCache.clear();
+  textureCache.clear();
+}
+
+// Dispose of a model
+export function disposeModel(url: string): void {
+  const model = modelCache.get(url);
+  if (model) {
+    model.scene.traverse((child: any) => {
+      if (child instanceof THREE.Mesh) {
+        child.geometry?.dispose();
+        
+        if (child.material) {
+          const material = child.material as THREE.MeshStandardMaterial;
+          material.map?.dispose();
+          material.normalMap?.dispose();
+          material.roughnessMap?.dispose();
+          material.metalnessMap?.dispose();
+          material.aoMap?.dispose();
+          material.dispose();
+        }
+      }
+    });
+    
+    modelCache.delete(url);
+  }
+}
+
+// Check if device is mobile
+function isMobile(): boolean {
+  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+}
+
+// Get recommended quality settings based on device
+export function getQualitySettings() {
+  const isMobileDevice = isMobile();
+  const hasWebGL2 = !!document.createElement('canvas').getContext('webgl2');
+  
+  return {
+    shadowMapSize: isMobileDevice ? 1024 : 2048,
+    antialias: !isMobileDevice,
+    pixelRatio: Math.min(window.devicePixelRatio, isMobileDevice ? 2 : 3),
+    maxLights: isMobileDevice ? 3 : 5,
+    envMapResolution: isMobileDevice ? 256 : 512,
+    textureAnisotropy: isMobileDevice ? 4 : 16,
+    useWebGL2: hasWebGL2,
+  };
+}
+
+// Create optimized renderer
+export function createOptimizedRenderer(canvas: HTMLCanvasElement) {
+  const settings = getQualitySettings();
+  
+  const renderer = new THREE.WebGLRenderer({
+    canvas,
+    antialias: settings.antialias,
+    alpha: true,
+    powerPreference: 'high-performance',
+    stencil: false,
+    depth: true,
+  });
+  
+  renderer.setPixelRatio(settings.pixelRatio);
+  renderer.shadowMap.enabled = true;
+  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+  renderer.outputEncoding = THREE.sRGBEncoding;
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 1;
+  
+  // Enable performance optimizations
+  renderer.info.autoReset = false;
+  renderer.physicallyCorrectLights = true;
+  
+  return renderer;
+}

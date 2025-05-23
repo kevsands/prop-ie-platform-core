@@ -14,7 +14,7 @@ import {
 import { motion, AnimatePresence } from 'framer-motion';
 
 export default function EstateAgentsPage() {
-  const [activeFeature, setActiveFeature] = useState('transaction');
+  const [activeFeaturesetActiveFeature] = useState('transaction');
 
   return (
     <div className="min-h-screen bg-white">
@@ -24,28 +24,28 @@ export default function EstateAgentsPage() {
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
           <div className="text-center mb-12">
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
+              initial={ opacity: 0, y: 20 }
+              animate={ opacity: 1, y: 0 }
               className="inline-flex items-center px-6 py-3 bg-blue-600/20 backdrop-blur-sm border border-blue-400/30 rounded-full mb-6"
             >
               <Briefcase className="h-5 w-5 mr-2 text-blue-300" />
               <span className="text-blue-300 font-medium">Estate Agent Solutions</span>
             </motion.div>
-            
+
             <motion.h1 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 }}
+              initial={ opacity: 0, y: 20 }
+              animate={ opacity: 1, y: 0 }
+              transition={ delay: 0.1 }
               className="text-5xl md:text-6xl font-bold mb-6"
             >
               Streamline Every Sale from
               <span className="block text-blue-400">Launch to Handover</span>
             </motion.h1>
-            
+
             <motion.p 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
+              initial={ opacity: 0, y: 20 }
+              animate={ opacity: 1, y: 0 }
+              transition={ delay: 0.2 }
               className="text-xl text-gray-300 max-w-3xl mx-auto mb-8"
             >
               Complete digital platform for estate agents to manage developer sales, 
@@ -53,9 +53,9 @@ export default function EstateAgentsPage() {
             </motion.p>
 
             <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3 }}
+              initial={ opacity: 0, y: 20 }
+              animate={ opacity: 1, y: 0 }
+              transition={ delay: 0.3 }
               className="flex flex-col sm:flex-row gap-4 justify-center"
             >
               <Link 
@@ -102,12 +102,12 @@ export default function EstateAgentsPage() {
                 label: "Sales Managed",
                 description: "Total transaction value"
               }
-            ].map((metric, index) => (
+            ].map((metricindex: any) => (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.4 + index * 0.1 }}
+                initial={ opacity: 0, y: 20 }
+                animate={ opacity: 1, y: 0 }
+                transition={ delay: 0.4 + index * 0.1 }
                 className="bg-white/10 backdrop-blur-sm rounded-xl p-6 text-center"
               >
                 <div className="text-blue-400 mb-3 flex justify-center">{metric.icon}</div>
@@ -140,7 +140,7 @@ export default function EstateAgentsPage() {
               { id: 'completion', label: 'Completion Process', icon: CheckCircle },
               { id: 'communication', label: 'Client Communication', icon: MessageSquare },
               { id: 'analytics', label: 'Sales Analytics', icon: BarChart3 }
-            ].map((tab) => (
+            ].map((tab: any) => (
               <button
                 key={tab.id}
                 onClick={() => setActiveFeature(tab.id)}
@@ -187,7 +187,7 @@ export default function EstateAgentsPage() {
               { icon: Scale, label: "Contracts", color: "yellow" },
               { icon: Building, label: "Completion", color: "orange" },
               { icon: Key, label: "Handover", color: "red" }
-            ].map((step, index) => (
+            ].map((stepindex: any) => (
               <div key={index} className="relative">
                 <div className="text-center">
                   <div className={`w-16 h-16 bg-${step.color}-100 rounded-full flex items-center justify-center mx-auto mb-3`}>
@@ -195,7 +195,7 @@ export default function EstateAgentsPage() {
                   </div>
                   <p className="font-medium text-gray-900">{step.label}</p>
                 </div>
-                {index < 5 && (
+                {index <5 && (
                   <ChevronRight className="hidden md:block absolute top-8 -right-8 h-6 w-6 text-gray-400" />
                 )}
               </div>
@@ -216,7 +216,7 @@ export default function EstateAgentsPage() {
                 Work directly with developers' project data, pricing, and inventory in real-time. 
                 Coordinate with solicitors, manage documentation, and track every transaction milestone.
               </p>
-              
+
               <div className="space-y-4">
                 <div className="flex items-start gap-4">
                   <Building className="h-6 w-6 text-blue-600 mt-0.5" />
@@ -225,7 +225,7 @@ export default function EstateAgentsPage() {
                     <p className="text-gray-600">Real-time unit availability, pricing, and project updates</p>
                   </div>
                 </div>
-                
+
                 <div className="flex items-start gap-4">
                   <Scale className="h-6 w-6 text-green-600 mt-0.5" />
                   <div>
@@ -233,7 +233,7 @@ export default function EstateAgentsPage() {
                     <p className="text-gray-600">Automated document sharing and milestone tracking</p>
                   </div>
                 </div>
-                
+
                 <div className="flex items-start gap-4">
                   <FileCheck className="h-6 w-6 text-purple-600 mt-0.5" />
                   <div>
@@ -243,7 +243,7 @@ export default function EstateAgentsPage() {
                 </div>
               </div>
             </div>
-            
+
             <div className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl p-8">
               <img src="/api/placeholder/600/400" alt="Platform Integration" className="rounded-xl shadow-lg" />
             </div>
@@ -374,12 +374,12 @@ export default function EstateAgentsPage() {
                 role: "Senior Agent",
                 metric: "40% higher conversions"
               }
-            ].map((story, index) => (
+            ].map((storyindex: any) => (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
+                initial={ opacity: 0, y: 20 }
+                animate={ opacity: 1, y: 0 }
+                transition={ delay: index * 0.1 }
                 className="bg-white rounded-xl p-8 shadow-lg"
               >
                 <Award className="h-8 w-8 text-yellow-500 mb-4" />
@@ -434,12 +434,12 @@ export default function EstateAgentsPage() {
                 question: "How does commission tracking work?",
                 answer: "PROP automatically calculates commissions based on your agreed rates with each developer. You can track pending, earned, and paid commissions with detailed reporting."
               }
-            ].map((faq, index) => (
+            ].map((faqindex: any) => (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
+                initial={ opacity: 0, y: 20 }
+                animate={ opacity: 1, y: 0 }
+                transition={ delay: index * 0.1 }
                 className="bg-white rounded-xl p-6 shadow-lg"
               >
                 <h3 className="text-lg font-semibold text-gray-900 mb-2">{faq.question}</h3>
@@ -475,7 +475,7 @@ export default function EstateAgentsPage() {
               <Phone className="ml-2 h-5 w-5" />
             </Link>
           </div>
-          
+
           <div className="mt-12 flex flex-col sm:flex-row gap-8 justify-center items-center">
             <div className="flex items-center gap-2">
               <HeadphonesIcon className="h-6 w-6" />
@@ -506,7 +506,7 @@ function TransactionManagement() {
           Manage every aspect of the sales process from initial offer to final completion
         </p>
       </div>
-      
+
       <div className="grid md:grid-cols-2 gap-8">
         <div className="space-y-6">
           <div className="bg-white rounded-xl p-6 shadow-lg">
@@ -563,20 +563,20 @@ function TransactionManagement() {
                 <span className="text-2xl font-bold text-blue-600">24</span>
               </div>
               <div className="w-full bg-gray-200 rounded-full h-2">
-                <div className="bg-blue-600 h-2 rounded-full" style={{ width: '65%' }}></div>
+                <div className="bg-blue-600 h-2 rounded-full" style={ width: '65%' }></div>
               </div>
             </div>
-            
+
             <div className="bg-white rounded-lg p-4">
               <div className="flex items-center justify-between mb-2">
                 <span className="font-medium">This Month's Completions</span>
                 <span className="text-2xl font-bold text-green-600">8</span>
               </div>
               <div className="w-full bg-gray-200 rounded-full h-2">
-                <div className="bg-green-600 h-2 rounded-full" style={{ width: '80%' }}></div>
+                <div className="bg-green-600 h-2 rounded-full" style={ width: '80%' }></div>
               </div>
             </div>
-            
+
             <div className="bg-white rounded-lg p-4">
               <div className="flex items-center justify-between mb-2">
                 <span className="font-medium">Pending Commission</span>
@@ -600,7 +600,7 @@ function ViewingCoordination() {
           Coordinate viewings efficiently with automated scheduling and follow-ups
         </p>
       </div>
-      
+
       <div className="grid md:grid-cols-3 gap-8">
         <div className="bg-white rounded-xl p-6 shadow-lg">
           <Calendar className="h-10 w-10 text-purple-600 mb-4" />
@@ -654,7 +654,7 @@ function CompletionProcess() {
           Guide buyers through completion with clear milestones and automated workflows
         </p>
       </div>
-      
+
       <div className="bg-white rounded-2xl shadow-xl p-8">
         <h4 className="text-xl font-semibold mb-6">Completion Timeline</h4>
         <div className="space-y-6">
@@ -667,7 +667,7 @@ function CompletionProcess() {
             { title: "Deposit Paid", status: "upcoming", date: "Mar 1" },
             { title: "Completion", status: "upcoming", date: "Mar 15" },
             { title: "Keys Handover", status: "upcoming", date: "Mar 15" }
-          ].map((milestone, index) => (
+          ].map((milestoneindex: any) => (
             <div key={index} className="flex items-center gap-4">
               <div className={`w-12 h-12 rounded-full flex items-center justify-center ${
                 milestone.status === 'complete' ? 'bg-green-100' :
@@ -708,7 +708,7 @@ function ClientCommunication() {
           Keep all parties informed with automated updates and centralized messaging
         </p>
       </div>
-      
+
       <div className="grid md:grid-cols-2 gap-8">
         <div className="space-y-6">
           <div className="bg-white rounded-xl p-6 shadow-lg">
@@ -736,7 +736,7 @@ function ClientCommunication() {
               { type: "update", content: "Survey report uploaded", time: "1 hour ago" },
               { type: "notification", content: "Contract review complete", time: "3 hours ago" },
               { type: "message", from: "Solicitor", content: "Mortgage approval received", time: "1 day ago" }
-            ].map((activity, index) => (
+            ].map((activityindex: any) => (
               <div key={index} className="flex items-start gap-3 p-3 bg-gray-50 rounded-lg">
                 <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
                   activity.type === 'message' ? 'bg-blue-100' :
@@ -770,26 +770,26 @@ function SalesAnalytics() {
           Track your performance, optimize your strategy, and maximize commissions
         </p>
       </div>
-      
+
       <div className="grid md:grid-cols-4 gap-6">
         <div className="bg-white rounded-xl p-6 shadow-lg text-center">
           <TrendingUp className="h-8 w-8 text-green-600 mx-auto mb-3" />
           <p className="text-3xl font-bold text-gray-900">€3.2M</p>
           <p className="text-sm text-gray-600">YTD Sales Volume</p>
         </div>
-        
+
         <div className="bg-white rounded-xl p-6 shadow-lg text-center">
           <Target className="h-8 w-8 text-blue-600 mx-auto mb-3" />
           <p className="text-3xl font-bold text-gray-900">42%</p>
           <p className="text-sm text-gray-600">Conversion Rate</p>
         </div>
-        
+
         <div className="bg-white rounded-xl p-6 shadow-lg text-center">
           <Clock className="h-8 w-8 text-purple-600 mx-auto mb-3" />
           <p className="text-3xl font-bold text-gray-900">21 days</p>
           <p className="text-sm text-gray-600">Avg Time to Close</p>
         </div>
-        
+
         <div className="bg-white rounded-xl p-6 shadow-lg text-center">
           <DollarSign className="h-8 w-8 text-yellow-600 mx-auto mb-3" />
           <p className="text-3xl font-bold text-gray-900">€156K</p>

@@ -45,7 +45,7 @@ export function ClaimDocuments({ documents }: ClaimDocumentsProps) {
       </div>
       <div className="border-t border-gray-200">
         <ul className="divide-y divide-gray-200">
-          {documents.map((document, index) => (
+          {documents.map((documentindex: any) => (
             <li key={document.id || index} className="px-4 py-4 sm:px-6 hover:bg-gray-50">
               <div className="flex items-center justify-between">
                 <div className="flex items-center">

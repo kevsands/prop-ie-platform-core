@@ -46,12 +46,12 @@ interface SecurityMetrics {
   apiErrorRate: number;
   suspiciousApiCalls: number;
   rateLimitedRequests: number;
-  
+
   // User session metrics
   activeSessions: number;
   sessionDuration: number;
   concurrentSessions: number;
-  
+
   // Audit logs
   securityEvents: SecurityEvent[];
 }
@@ -80,13 +80,13 @@ interface SecurityTimeseriesData {
 }
 
 const EnhancedSecurityDashboard: React.FC = () => {
-  const [metrics, setMetrics] = useState<SecurityMetrics | null>(null);
-  const [timeseriesData, setTimeseriesData] = useState<SecurityTimeseriesData | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [timeRange, setTimeRange] = useState<'day' | 'week' | 'month'>('day');
-  const [filteredEvents, setFilteredEvents] = useState<SecurityEvent[]>([]);
-  const [severityFilter, setSeverityFilter] = useState<string>('all');
+  const [metricssetMetrics] = useState<SecurityMetrics | null>(null);
+  const [timeseriesDatasetTimeseriesData] = useState<SecurityTimeseriesData | null>(null);
+  const [loadingsetLoading] = useState(true);
+  const [errorsetError] = useState<string | null>(null);
+  const [timeRangesetTimeRange] = useState<'day' | 'week' | 'month'>('day');
+  const [filteredEventssetFilteredEvents] = useState<SecurityEvent[]>([]);
+  const [severityFiltersetSeverityFilter] = useState<string>('all');
 
   // Fetch security metrics
   useEffect(() => {
@@ -101,44 +101,44 @@ const EnhancedSecurityDashboard: React.FC = () => {
           registrationAttempts: 15 + Math.floor(Math.random() * 10),
           unauthorizedAccessAttempts: Math.floor(Math.random() * 5),
           mfaEnrollment: 78,
-          
+
           apiErrorRate: 1.2 + (Math.random() * 1),
           suspiciousApiCalls: Math.floor(Math.random() * 3),
           rateLimitedRequests: Math.floor(Math.random() * 8),
-          
+
           activeSessions: 35 + Math.floor(Math.random() * 20),
           sessionDuration: 22 + Math.floor(Math.random() * 5),
           concurrentSessions: 3 + Math.floor(Math.random() * 2),
-          
+
           securityEvents: generateMockSecurityEvents(50)
         };
-        
+
         setMetrics(mockMetrics);
         setFilteredEvents(mockMetrics.securityEvents);
-        
+
         // Generate timeseries data
         const mockTimeseriesData: SecurityTimeseriesData = {
-          authFailures: generateMockTimeseriesData(24, 0, 5),
-          successfulLogins: generateMockTimeseriesData(24, 0, 30),
-          apiRequests: generateMockTimeseriesData(24, 100, 500),
-          apiErrors: generateMockTimeseriesData(24, 0, 20)
+          authFailures: generateMockTimeseriesData(24, 05),
+          successfulLogins: generateMockTimeseriesData(24, 030),
+          apiRequests: generateMockTimeseriesData(24, 100500),
+          apiErrors: generateMockTimeseriesData(24, 020)
         };
-        
+
         setTimeseriesData(mockTimeseriesData);
         setError(null);
       } catch (err) {
-        console.error('Error fetching security metrics:', err);
+
         setError('Failed to load security metrics. Please try again later.');
       } finally {
         setLoading(false);
       }
     };
-    
+
     fetchMetrics();
-    
+
     // Set up polling interval - fetch every 5 minutes in a real app
-    const intervalId = setInterval(fetchMetrics, 300000);
-    
+    const intervalId = setInterval(fetchMetrics300000);
+
     // Clean up interval on component unmount
     return () => clearInterval(intervalId);
   }, [timeRange]);
@@ -146,7 +146,7 @@ const EnhancedSecurityDashboard: React.FC = () => {
   // Filter events when severity filter changes
   useEffect(() => {
     if (!metrics) return;
-    
+
     if (severityFilter === 'all') {
       setFilteredEvents(metrics.securityEvents);
     } else {
@@ -154,7 +154,7 @@ const EnhancedSecurityDashboard: React.FC = () => {
         metrics.securityEvents.filter(event => event.severity === severityFilter)
       );
     }
-  }, [severityFilter, metrics]);
+  }, [severityFiltermetrics]);
 
   // Helper function to generate mock security events
   function generateMockSecurityEvents(count: number): SecurityEvent[] {
@@ -169,20 +169,20 @@ const EnhancedSecurityDashboard: React.FC = () => {
       'MFA_CHALLENGE',
       'PASSWORD_RESET'
     ];
-    
+
     const severities: Array<'low' | 'medium' | 'high' | 'critical'> = [
       'low', 'medium', 'high', 'critical'
     ];
-    
+
     const statuses = ['success', 'failure', 'pending', 'blocked'];
-    
+
     const now = new Date();
-    
-    for (let i = 0; i < count; i++) {
+
+    for (let i = 0; i <count; i++) {
       const eventType = eventTypes[Math.floor(Math.random() * eventTypes.length)];
       const severity = severities[Math.floor(Math.random() * severities.length)];
       const timestamp = new Date(now.getTime() - Math.random() * 86400000 * 7); // Last 7 days
-      
+
       events.push({
         id: `event-${i}`,
         timestamp: timestamp.toISOString(),
@@ -194,9 +194,9 @@ const EnhancedSecurityDashboard: React.FC = () => {
         status: statuses[Math.floor(Math.random() * statuses.length)]
       });
     }
-    
+
     // Sort by timestamp, most recent first
-    return events.sort((a, b) => 
+    return events.sort((ab: any) => 
       new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
     );
   }
@@ -209,13 +209,13 @@ const EnhancedSecurityDashboard: React.FC = () => {
   ): TimeseriesData[] {
     const now = new Date();
     const data: TimeseriesData[] = [];
-    
-    for (let i = 0; i < points; i++) {
+
+    for (let i = 0; i <points; i++) {
       const timestamp = new Date(now.getTime() - i * 3600000).toISOString();
       const value = min + Math.random() * (max - min);
       data.unshift({ timestamp, value });
     }
-    
+
     return data;
   }
 
@@ -225,24 +225,16 @@ const EnhancedSecurityDashboard: React.FC = () => {
     maintainAspectRatio: false,
     plugins: {
       legend: {
-        position: 'top' as const,
-      },
+        position: 'top' as const},
       tooltip: {
         mode: 'index',
-        intersect: false,
-      },
-    },
+        intersect: false},
     scales: {
       x: {
         grid: {
-          display: false,
-        },
-      },
+          display: false},
       y: {
-        beginAtZero: true,
-      },
-    },
-  };
+        beginAtZero: true}};
 
   // Prepare authentication metrics chart data
   const authMetricsData = {
@@ -254,19 +246,15 @@ const EnhancedSecurityDashboard: React.FC = () => {
       {
         label: 'Successful Logins',
         data: timeseriesData?.successfulLogins.map(item => item.value) || [],
-        borderColor: 'rgb(75, 192, 192)',
+        borderColor: 'rgb(75, 192192)',
         backgroundColor: 'rgba(75, 192, 192, 0.5)',
-        tension: 0.3,
-      },
+        tension: 0.3},
       {
         label: 'Auth Failures',
         data: timeseriesData?.authFailures.map(item => item.value) || [],
-        borderColor: 'rgb(255, 99, 132)',
+        borderColor: 'rgb(255, 99132)',
         backgroundColor: 'rgba(255, 99, 132, 0.5)',
-        tension: 0.3,
-      },
-    ],
-  };
+        tension: 0.3}]};
 
   // Prepare API metrics chart data
   const apiMetricsData = {
@@ -278,21 +266,17 @@ const EnhancedSecurityDashboard: React.FC = () => {
       {
         label: 'API Requests',
         data: timeseriesData?.apiRequests.map(item => item.value) || [],
-        borderColor: 'rgb(53, 162, 235)',
+        borderColor: 'rgb(53, 162235)',
         backgroundColor: 'rgba(53, 162, 235, 0.5)',
         tension: 0.3,
-        yAxisID: 'y',
-      },
+        yAxisID: 'y'},
       {
         label: 'API Errors',
         data: timeseriesData?.apiErrors.map(item => item.value) || [],
-        borderColor: 'rgb(255, 99, 132)',
+        borderColor: 'rgb(255, 99132)',
         backgroundColor: 'rgba(255, 99, 132, 0.5)',
         tension: 0.3,
-        yAxisID: 'y1',
-      },
-    ],
-  };
+        yAxisID: 'y1'}]};
 
   // Get badge color for severity
   const getSeverityColor = (severity: string): string => {
@@ -335,7 +319,7 @@ const EnhancedSecurityDashboard: React.FC = () => {
               setLoading(true);
               // This would refresh the data in a real implementation
               setTimeout(() => setLoading(false), 500);
-            }}
+            }
           >
             Refresh
           </Button>
@@ -369,13 +353,13 @@ const EnhancedSecurityDashboard: React.FC = () => {
                 <CardContent>
                   <div className="flex justify-between items-center mb-2">
                     <span>Authentication Failures</span>
-                    <Badge variant={metrics?.authFailures! > 5 ? "destructive" : "default"}>
+                    <Badge variant={metrics?.authFailures! > 5 ? "destructive" : "default">
                       {metrics?.authFailures}
                     </Badge>
                   </div>
                   <div className="flex justify-between items-center mb-2">
                     <span>Unauthorized Access Attempts</span>
-                    <Badge variant={metrics?.unauthorizedAccessAttempts! > 0 ? "destructive" : "default"}>
+                    <Badge variant={metrics?.unauthorizedAccessAttempts! > 0 ? "destructive" : "default">
                       {metrics?.unauthorizedAccessAttempts}
                     </Badge>
                   </div>
@@ -393,19 +377,19 @@ const EnhancedSecurityDashboard: React.FC = () => {
                 <CardContent>
                   <div className="flex justify-between items-center mb-2">
                     <span>API Error Rate</span>
-                    <Badge variant={metrics?.apiErrorRate! > 2 ? "destructive" : "default"}>
+                    <Badge variant={metrics?.apiErrorRate! > 2 ? "destructive" : "default">
                       {metrics?.apiErrorRate.toFixed(2)}%
                     </Badge>
                   </div>
                   <div className="flex justify-between items-center mb-2">
                     <span>Suspicious API Calls</span>
-                    <Badge variant={metrics?.suspiciousApiCalls! > 0 ? "destructive" : "default"}>
+                    <Badge variant={metrics?.suspiciousApiCalls! > 0 ? "destructive" : "default">
                       {metrics?.suspiciousApiCalls}
                     </Badge>
                   </div>
                   <div className="flex justify-between items-center">
                     <span>Rate Limited Requests</span>
-                    <Badge variant={metrics?.rateLimitedRequests! > 5 ? "destructive" : "outline"}>
+                    <Badge variant={metrics?.rateLimitedRequests! > 5 ? "destructive" : "outline">
                       {metrics?.rateLimitedRequests}
                     </Badge>
                   </div>
@@ -453,7 +437,7 @@ const EnhancedSecurityDashboard: React.FC = () => {
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-3">
-                    {metrics?.securityEvents.slice(0, 5).map((event) => (
+                    {metrics?.securityEvents.slice(05).map((event: any) => (
                       <div key={event.id} className="flex items-center space-x-3 p-2 bg-slate-50 dark:bg-slate-800 rounded">
                         <Badge className={getSeverityColor(event.severity)}>
                           {event.severity.toUpperCase()}
@@ -494,15 +478,15 @@ const EnhancedSecurityDashboard: React.FC = () => {
                       <div className="h-2 w-full bg-slate-200 dark:bg-slate-700 rounded">
                         <div 
                           className={`h-full rounded ${
-                            metrics && metrics.authFailures > 0 
-                              ? `bg-${metrics.authFailures > 10 ? 'red' : 'yellow'}-500`
+                            metrics && metrics.authFailures> 0 
+                              ? `bg-${metrics.authFailures> 10 ? 'red' : 'yellow'}-500`
                               : 'bg-green-500'
                           }`}
-                          style={{ 
+                          style={ 
                             width: metrics 
                               ? `${Math.min(100, (metrics.successfulLogins / (metrics.successfulLogins + metrics.authFailures)) * 100)}%`
                               : '0%'
-                          }}
+                          }
                         />
                       </div>
                       <p className="text-xs text-slate-500 mt-1">
@@ -518,20 +502,20 @@ const EnhancedSecurityDashboard: React.FC = () => {
                       <div className="h-2 w-full bg-slate-200 dark:bg-slate-700 rounded">
                         <div 
                           className={`h-full rounded ${
-                            metrics && metrics.mfaEnrollment < 50 
-                              ? `bg-${metrics.mfaEnrollment < 30 ? 'red' : 'yellow'}-500`
+                            metrics && metrics.mfaEnrollment <50 
+                              ? `bg-${metrics.mfaEnrollment <30 ? 'red' : 'yellow'}-500`
                               : 'bg-green-500'
                           }`}
-                          style={{ 
+                          style={ 
                             width: metrics ? `${metrics.mfaEnrollment}%` : '0%'
-                          }}
+                          }
                         />
                       </div>
                       <p className="text-xs text-slate-500 mt-1">
                         {metrics?.mfaEnrollment || 0}% of users have enabled MFA
                       </p>
                     </div>
-                    
+
                     <div className="grid grid-cols-2 gap-4 pt-2">
                       <div className="bg-slate-100 dark:bg-slate-800 p-3 rounded-lg">
                         <div className="text-sm text-slate-500">Successful Logins</div>
@@ -553,7 +537,7 @@ const EnhancedSecurityDashboard: React.FC = () => {
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  {metrics?.mfaEnrollment && metrics.mfaEnrollment < 80 && (
+                  {metrics?.mfaEnrollment && metrics.mfaEnrollment <80 && (
                     <Alert>
                       <AlertTitle>Increase MFA Adoption</AlertTitle>
                       <AlertDescription>
@@ -562,8 +546,8 @@ const EnhancedSecurityDashboard: React.FC = () => {
                       </AlertDescription>
                     </Alert>
                   )}
-                  
-                  {metrics?.authFailures && metrics.authFailures > 5 && (
+
+                  {metrics?.authFailures && metrics.authFailures> 5 && (
                     <Alert variant="destructive">
                       <AlertTitle>High Authentication Failure Rate</AlertTitle>
                       <AlertDescription>
@@ -573,8 +557,8 @@ const EnhancedSecurityDashboard: React.FC = () => {
                       </AlertDescription>
                     </Alert>
                   )}
-                  
-                  {metrics?.unauthorizedAccessAttempts && metrics.unauthorizedAccessAttempts > 0 && (
+
+                  {metrics?.unauthorizedAccessAttempts && metrics.unauthorizedAccessAttempts> 0 && (
                     <Alert variant="destructive">
                       <AlertTitle>Unauthorized Access Attempts</AlertTitle>
                       <AlertDescription>
@@ -597,7 +581,7 @@ const EnhancedSecurityDashboard: React.FC = () => {
                 <CardContent>
                   <div className="h-64">
                     <Line 
-                      options={{
+                      options={
                         ...chartOptions,
                         scales: {
                           ...chartOptions.scales,
@@ -625,7 +609,7 @@ const EnhancedSecurityDashboard: React.FC = () => {
                             }
                           }
                         }
-                      }} 
+                      } 
                       data={apiMetricsData} 
                     />
                   </div>
@@ -643,20 +627,20 @@ const EnhancedSecurityDashboard: React.FC = () => {
                       <div className="h-2 w-full bg-slate-200 dark:bg-slate-700 rounded">
                         <div 
                           className={`h-full rounded ${
-                            metrics && metrics.apiErrorRate > 2 
-                              ? `bg-${metrics.apiErrorRate > 5 ? 'red' : 'yellow'}-500`
+                            metrics && metrics.apiErrorRate> 2 
+                              ? `bg-${metrics.apiErrorRate> 5 ? 'red' : 'yellow'}-500`
                               : 'bg-green-500'
                           }`}
-                          style={{ 
+                          style={ 
                             width: metrics ? `${Math.min(100, metrics.apiErrorRate * 10)}%` : '0%'
-                          }}
+                          }
                         />
                       </div>
                       <p className="text-xs text-slate-500 mt-1">
                         {metrics?.apiErrorRate.toFixed(2) || 0}% error rate
                       </p>
                     </div>
-                    
+
                     <div className="grid grid-cols-2 gap-4 pt-2">
                       <div className="bg-slate-100 dark:bg-slate-800 p-3 rounded-lg">
                         <div className="text-sm text-slate-500">Suspicious API Calls</div>
@@ -667,9 +651,9 @@ const EnhancedSecurityDashboard: React.FC = () => {
                         <div className="text-xl font-bold">{metrics?.rateLimitedRequests || 0}</div>
                       </div>
                     </div>
-                    
+
                     <Separator />
-                    
+
                     <div>
                       <h3 className="text-sm font-medium mb-3">API Security Checks</h3>
                       <div className="space-y-2">
@@ -702,7 +686,7 @@ const EnhancedSecurityDashboard: React.FC = () => {
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  {metrics?.apiErrorRate && metrics.apiErrorRate > 2 && (
+                  {metrics?.apiErrorRate && metrics.apiErrorRate> 2 && (
                     <Alert>
                       <AlertTitle>Elevated API Error Rate</AlertTitle>
                       <AlertDescription>
@@ -711,8 +695,8 @@ const EnhancedSecurityDashboard: React.FC = () => {
                       </AlertDescription>
                     </Alert>
                   )}
-                  
-                  {metrics?.suspiciousApiCalls && metrics.suspiciousApiCalls > 0 && (
+
+                  {metrics?.suspiciousApiCalls && metrics.suspiciousApiCalls> 0 && (
                     <Alert variant="destructive">
                       <AlertTitle>Suspicious API Activity Detected</AlertTitle>
                       <AlertDescription>
@@ -721,8 +705,8 @@ const EnhancedSecurityDashboard: React.FC = () => {
                       </AlertDescription>
                     </Alert>
                   )}
-                  
-                  {metrics?.rateLimitedRequests && metrics.rateLimitedRequests > 5 && (
+
+                  {metrics?.rateLimitedRequests && metrics.rateLimitedRequests> 5 && (
                     <Alert>
                       <AlertTitle>Frequent Rate Limiting</AlertTitle>
                       <AlertDescription>
@@ -742,7 +726,7 @@ const EnhancedSecurityDashboard: React.FC = () => {
               <select
                 className="border border-gray-300 rounded p-2"
                 value={severityFilter}
-                onChange={(e) => setSeverityFilter(e.target.value)}
+                onChange={(e: any) => setSeverityFilter(e.target.value)}
               >
                 <option value="all">All Severities</option>
                 <option value="low">Low</option>
@@ -751,7 +735,7 @@ const EnhancedSecurityDashboard: React.FC = () => {
                 <option value="critical">Critical</option>
               </select>
             </div>
-            
+
             <div className="bg-white dark:bg-slate-800 rounded-lg shadow overflow-hidden">
               <div className="overflow-x-auto">
                 <table className="w-full">
@@ -778,7 +762,7 @@ const EnhancedSecurityDashboard: React.FC = () => {
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-200 dark:divide-slate-700">
-                    {filteredEvents.slice(0, 15).map((event) => (
+                    {filteredEvents.slice(015).map((event: any) => (
                       <tr key={event.id} className="hover:bg-slate-50 dark:hover:bg-slate-800">
                         <td className="px-4 py-3 text-sm text-slate-500">
                           {formatDate(event.timestamp)}
@@ -811,8 +795,8 @@ const EnhancedSecurityDashboard: React.FC = () => {
                   </tbody>
                 </table>
               </div>
-              
-              {filteredEvents.length > 15 && (
+
+              {filteredEvents.length> 15 && (
                 <div className="px-4 py-3 bg-slate-50 dark:bg-slate-700 text-right text-sm">
                   Showing 15 of {filteredEvents.length} events
                   <Button variant="outline" size="sm" className="ml-2">

@@ -33,7 +33,7 @@ interface SessionData {
   startTime: number;
   referrer?: string;
   userAgent?: string;
-  deviceInfo?: Record<string, any>;
+  deviceInfo?: Record<string, any>\n  );
 }
 
 // Event data
@@ -49,7 +49,7 @@ interface EventBatch {
     type: EventType;
     timestamp: number;
     data: EventData;
-  }>;
+  }>\n  );
 }
 
 // Default configuration
@@ -57,8 +57,7 @@ const defaultConfig: AnalyticsConfig = {
   endpoint: '/api/analytics/events',
   batchSize: 10,
   batchInterval: 30000, // 30 seconds
-  debug: process.env.NODE_ENV === 'development',
-};
+  debug: process.env.NODE_ENV === 'development'};
 
 class AnalyticsTracker {
   private config: AnalyticsConfig;
@@ -76,14 +75,12 @@ class AnalyticsTracker {
     // Merge with default config
     this.config = {
       ...defaultConfig,
-      ...config,
-    };
+      ...config};
 
     // Initialize session data with placeholder
     this.sessionData = {
       sessionId: '',
-      startTime: Date.now(),
-    };
+      startTime: Date.now()};
   }
 
   /**
@@ -91,22 +88,22 @@ class AnalyticsTracker {
    */
   public init(userId?: string): void {
     if (this.initialized) return;
-    
+
     // Generate or retrieve session ID
     let sessionId = '';
     if (typeof window !== 'undefined') {
       sessionId = localStorage.getItem('analytics_session_id') || '';
-      
+
       if (!sessionId || this.isSessionExpired()) {
         sessionId = uuidv4();
         localStorage.setItem('analytics_session_id', sessionId);
         localStorage.setItem('analytics_session_start', Date.now().toString());
       }
-      
+
       // Get referrer and user agent
       const referrer = document.referrer;
       const userAgent = navigator.userAgent;
-      
+
       // Collect device info
       const deviceInfo = {
         screenWidth: window.screen.width,
@@ -114,9 +111,8 @@ class AnalyticsTracker {
         viewportWidth: window.innerWidth,
         viewportHeight: window.innerHeight,
         pixelRatio: window.devicePixelRatio,
-        colorDepth: window.screen.colorDepth,
-      };
-      
+        colorDepth: window.screen.colorDepth};
+
       // Set session data
       this.sessionData = {
         sessionId,
@@ -124,17 +120,16 @@ class AnalyticsTracker {
         startTime: parseInt(localStorage.getItem('analytics_session_start') || Date.now().toString()),
         referrer,
         userAgent,
-        deviceInfo,
-      };
-      
+        deviceInfo};
+
       // Set up batch sending
       this.startBatchSending();
-      
+
       // Add beforeunload handler to send remaining events
       window.addEventListener('beforeunload', () => {
         this.sendBatch(true);
       });
-      
+
       this.initialized = true;
     }
   }
@@ -144,12 +139,12 @@ class AnalyticsTracker {
    */
   private isSessionExpired(): boolean {
     if (typeof window === 'undefined') return false;
-    
+
     const sessionStart = parseInt(localStorage.getItem('analytics_session_start') || '0');
     const sessionDuration = Date.now() - sessionStart;
     const maxSessionDuration = 30 * 60 * 1000; // 30 minutes
-    
-    return sessionDuration > maxSessionDuration;
+
+    return sessionDuration> maxSessionDuration;
   }
 
   /**
@@ -159,7 +154,7 @@ class AnalyticsTracker {
     if (this.batchInterval) {
       clearInterval(this.batchInterval);
     }
-    
+
     this.batchInterval = setInterval(() => {
       this.sendBatch();
     }, this.config.batchInterval);
@@ -170,38 +165,35 @@ class AnalyticsTracker {
    */
   private async sendBatch(force = false): Promise<void> {
     if (!this.eventQueue.length) return;
-    if (!force && this.eventQueue.length < this.config.batchSize) return;
-    
+    if (!force && this.eventQueue.length <this.config.batchSize) return;
+
     const events = [...this.eventQueue];
     this.eventQueue = [];
-    
+
     const batch: EventBatch = {
       sessionData: this.sessionData,
-      events,
-    };
-    
+      events};
+
     try {
       const response = await fetch(this.config.endpoint, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
-        },
+          'Content-Type': 'application/json'},
         body: JSON.stringify(batch),
-        keepalive: true,
-      });
-      
+        keepalive: true});
+
       if (!response.ok) {
         throw new Error(`Analytics error: ${response.status}`);
       }
-      
+
       if (this.config.debug) {
-        console.log('Analytics batch sent:', batch);
+
       }
     } catch (error) {
       if (this.config.debug) {
-        console.error('Failed to send analytics batch:', error);
+
       }
-      
+
       // Return events to the queue for retry
       this.eventQueue = [...events, ...this.eventQueue];
     }
@@ -214,22 +206,21 @@ class AnalyticsTracker {
     if (!this.initialized) {
       this.init();
     }
-    
+
     const event = {
       id: uuidv4(),
       type,
       timestamp: Date.now(),
-      data,
-    };
-    
+      data};
+
     this.eventQueue.push(event);
-    
+
     if (this.config.debug) {
-      console.log('Analytics event tracked:', event);
+
     }
-    
+
     // Send immediately if queue is full
-    if (this.eventQueue.length >= this.config.batchSize) {
+    if (this.eventQueue.length>= this.config.batchSize) {
       this.sendBatch();
     }
   }
@@ -241,8 +232,7 @@ class AnalyticsTracker {
     this.trackEvent(EventType.PAGE_VIEW, {
       path,
       title: title || (typeof document !== 'undefined' ? document.title : ''),
-      url: typeof window !== 'undefined' ? window.location.href : '',
-    });
+      url: typeof window !== 'undefined' ? window.location.href : ''});
   }
 
   /**
@@ -251,8 +241,7 @@ class AnalyticsTracker {
   public trackError(message: string, details: Record<string, any> = {}): void {
     this.trackEvent(EventType.ERROR, {
       message,
-      ...details,
-    });
+      ...details});
   }
 
   /**
@@ -277,7 +266,7 @@ class AnalyticsTracker {
       clearInterval(this.batchInterval);
       this.batchInterval = null;
     }
-    
+
     this.sendBatch(true);
   }
 }
@@ -289,35 +278,35 @@ export const analytics = new AnalyticsTracker();
 export function trackEvent(action: string, details: any = {}): void {
   switch (action) {
     case 'change_room':
-      analytics.trackEvent(EventType.CUSTOMIZATION_ROOM_CHANGE, details);
+      analytics.trackEvent(EventType.CUSTOMIZATION_ROOM_CHANGEdetails);
       break;
     case 'change_category':
-      analytics.trackEvent(EventType.CUSTOMIZATION_CATEGORY_CHANGE, details);
+      analytics.trackEvent(EventType.CUSTOMIZATION_CATEGORY_CHANGEdetails);
       break;
     case 'select_option':
-      analytics.trackEvent(EventType.CUSTOMIZATION_OPTION_SELECT, details);
+      analytics.trackEvent(EventType.CUSTOMIZATION_OPTION_SELECTdetails);
       break;
     case 'deselect_option':
-      analytics.trackEvent(EventType.CUSTOMIZATION_OPTION_DESELECT, details);
+      analytics.trackEvent(EventType.CUSTOMIZATION_OPTION_DESELECTdetails);
       break;
     case 'toggle_view_mode':
-      analytics.trackEvent(EventType.CUSTOMIZATION_VIEW_MODE_CHANGE, details);
+      analytics.trackEvent(EventType.CUSTOMIZATION_VIEW_MODE_CHANGEdetails);
       break;
     case 'save_customization':
-      analytics.trackEvent(EventType.CUSTOMIZATION_SAVE, details);
+      analytics.trackEvent(EventType.CUSTOMIZATION_SAVEdetails);
       break;
     case 'finalize_customization':
-      analytics.trackEvent(EventType.CUSTOMIZATION_FINALIZE, details);
+      analytics.trackEvent(EventType.CUSTOMIZATION_FINALIZEdetails);
       break;
     case 'request_consultation':
-      analytics.trackEvent(EventType.CONSULTATION_REQUEST, details);
+      analytics.trackEvent(EventType.CONSULTATION_REQUESTdetails);
       break;
     case 'calculate_mortgage':
-      analytics.trackEvent(EventType.MORTGAGE_CALCULATION, details);
+      analytics.trackEvent(EventType.MORTGAGE_CALCULATIONdetails);
       break;
     default:
       // For custom events not in the enum
-      analytics.trackEvent(action as any, details);
+      analytics.trackEvent(action as anydetails);
   }
 }
 

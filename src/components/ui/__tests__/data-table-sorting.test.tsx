@@ -15,22 +15,17 @@ interface TestData {
 const columns: ColumnDef<TestData>[] = [
   {
     accessorKey: 'name',
-    header: 'Name',
-  },
+    header: 'Name'},
   {
     accessorKey: 'email',
-    header: 'Email',
-  },
+    header: 'Email'},
   {
     accessorKey: 'status',
-    header: 'Status',
-  },
+    header: 'Status'},
   {
     accessorKey: 'createdAt',
     header: 'Created At',
-    cell: ({ row }) => row.original.createdAt.toLocaleDateString(),
-  },
-];
+    cell: ({ row }) => row.original.createdAt.toLocaleDateString()}];
 
 const testData = generateTestData<TestData>(
   {
@@ -38,8 +33,7 @@ const testData = generateTestData<TestData>(
     name: 'John Doe',
     email: 'john@example.com',
     status: 'Active',
-    createdAt: new Date('2024-01-01'),
-  },
+    createdAt: new Date('2024-01-01')},
   10
 );
 
@@ -175,9 +169,7 @@ describe('DataTable Sorting', () => {
       {
         accessorKey: 'status',
         header: 'Status',
-        sortingFn: customSortFn,
-      },
-    ];
+        sortingFn: customSortFn}];
     
     render(
       <DataTable

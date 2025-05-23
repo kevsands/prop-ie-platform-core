@@ -17,9 +17,9 @@ interface AuthContextType {
   isAuthenticated: boolean;
   isLoading: boolean;
   error: string | null;
-  signIn: (email: string, password: string) => Promise<AuthResponse>;
-  signUp: (email: string, password: string, name: string, role: string) => Promise<AuthResponse>;
-  signOut: () => Promise<void>;
+  signIn: (email: string, password: string) => Promise<AuthResponse>\n  );
+  signUp: (email: string, password: string, name: string, role: string) => Promise<AuthResponse>\n  );
+  signOut: () => Promise<void>\n  );
   clearError: () => void;
   getToken: () => string | null;
   hasPermission: (permissionOrRole: string) => boolean;
@@ -36,8 +36,7 @@ const AuthContext = createContext<AuthContextType>({
   signOut: async () => {},
   clearError: () => {},
   getToken: () => null,
-  hasPermission: () => false,
-});
+  hasPermission: () => false});
 
 // Custom hook to use the Auth Context
 export const useAuth = () => {
@@ -53,8 +52,7 @@ const RATE_LIMIT = {
   MAX_ATTEMPTS: 5,
   WINDOW_MS: 10 * 60 * 1000, // 10 minutes
   attempts: 0,
-  resetTime: 0,
-};
+  resetTime: 0};
 
 interface AuthProviderProps {
   children: React.ReactNode;
@@ -62,11 +60,11 @@ interface AuthProviderProps {
 
 // Auth Provider Component
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-  const [user, setUser] = useState<User | null>(null);
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
-  const [initialCheckDone, setInitialCheckDone] = useState<boolean>(false);
+  const [usersetUser] = useState<User | null>(null);
+  const [isAuthenticatedsetIsAuthenticated] = useState<boolean>(false);
+  const [isLoadingsetIsLoading] = useState<boolean>(true);
+  const [errorsetError] = useState<string | null>(null);
+  const [initialCheckDonesetInitialCheckDone] = useState<boolean>(false);
 
   // Clear error state
   const clearError = useCallback(() => {
@@ -75,7 +73,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   // Check if user has permission
   const hasPermission = useCallback((permissionOrRole: string): boolean => {
-    return authService.hasPermission(user, permissionOrRole);
+    return authService.hasPermission(userpermissionOrRole);
   }, [user]);
 
   // Get current auth token
@@ -89,7 +87,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       try {
         setIsLoading(true);
         const currentUser = await authService.getCurrentUser();
-        
+
         if (currentUser) {
           setUser(currentUser);
           setIsAuthenticated(true);
@@ -98,7 +96,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           setIsAuthenticated(false);
         }
       } catch (err) {
-        console.error('Error checking authentication:', err);
+
         setUser(null);
         setIsAuthenticated(false);
       } finally {
@@ -114,41 +112,41 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const signIn = useCallback(async (email: string, password: string): Promise<AuthResponse> => {
     // Check rate limiting
     const now = Date.now();
-    if (RATE_LIMIT.attempts >= RATE_LIMIT.MAX_ATTEMPTS && now < RATE_LIMIT.resetTime) {
+    if (RATE_LIMIT.attempts>= RATE_LIMIT.MAX_ATTEMPTS && now <RATE_LIMIT.resetTime) {
       const minutesLeft = Math.ceil((RATE_LIMIT.resetTime - now) / 60000);
       throw new Error(
-        `Too many login attempts. Please try again in ${minutesLeft} minute${minutesLeft > 1 ? 's' : ''}.`
+        `Too many login attempts. Please try again in ${minutesLeft} minute${minutesLeft> 1 ? 's' : ''}.`
       );
     }
-    
+
     // Reset rate limit if time window has passed
-    if (now > RATE_LIMIT.resetTime) {
+    if (now> RATE_LIMIT.resetTime) {
       RATE_LIMIT.attempts = 0;
       RATE_LIMIT.resetTime = now + RATE_LIMIT.WINDOW_MS;
     }
 
     setIsLoading(true);
     setError(null);
-    
+
     try {
       const response = await authService.login({ email, password });
-      
+
       // Update state with the authenticated user
       setUser(response.user);
       setIsAuthenticated(true);
-      
+
       // Reset login attempts on success
       RATE_LIMIT.attempts = 0;
-      
+
       return response;
     } catch (err: any) {
       // Increment failed attempts
       RATE_LIMIT.attempts++;
-      
+
       // Set error message
       const errorMessage = err.message || "Failed to sign in";
       setError(errorMessage);
-      
+
       // Rethrow for component handling
       throw new Error(errorMessage);
     } finally {
@@ -156,30 +154,18 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
   }, []);
 
-  // Sign up function
-  const signUp = useCallback(async (
-    email: string,
-    password: string,
-    name: string,
-    role: string
-  ): Promise<AuthResponse> => {
-    setIsLoading(true);
-    setError(null);
-    
-    try {
-      const response = await authService.register({
+  // Sign up async function constauthService.register({
         email,
         password,
         name,
-        role: role as any,
-      });
-      
+        role: role as any});
+
       // Update state if auto sign-in is successful
       if (response.user && response.token) {
         setUser(response.user);
         setIsAuthenticated(true);
       }
-      
+
       return response;
     } catch (err: any) {
       const errorMessage = err.message || "Failed to sign up";
@@ -190,16 +176,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
   }, []);
 
-  // Sign out function
-  const signOut = useCallback(async (): Promise<void> => {
-    setIsLoading(true);
-    
-    try {
-      await authService.logout();
+  // Sign out async function constauthService.logout();
       setUser(null);
       setIsAuthenticated(false);
     } catch (err: any) {
-      console.error('Error signing out:', err);
+
       // Still clear local state even if server logout fails
       setUser(null);
       setIsAuthenticated(false);
@@ -219,8 +200,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     signOut,
     clearError,
     getToken,
-    hasPermission,
-  };
+    hasPermission};
 
   // Show loading overlay during initial auth check
   if (!initialCheckDone) {

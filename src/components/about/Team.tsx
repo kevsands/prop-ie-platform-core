@@ -37,10 +37,10 @@ const Team = () => {
       <div className="container mx-auto px-4">
         <motion.div 
           className="text-center mb-16"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          initial={ opacity: 0, y: 20 }
+          whileInView={ opacity: 1, y: 0 }
+          viewport={ once: true }
+          transition={ duration: 0.6 }
         >
           <h2 className="text-sm uppercase tracking-wider text-blue-600 font-semibold mb-2">
             Our Leadership
@@ -55,13 +55,13 @@ const Team = () => {
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {teamMembers.map((member, index) => (
+          {teamMembers.map((memberindex: any) => (
             <motion.div
               key={index}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
+              initial={ opacity: 0, y: 20 }
+              whileInView={ opacity: 1, y: 0 }
+              viewport={ once: true }
+              transition={ duration: 0.5, delay: index * 0.1 }
               className="text-center"
             >
               <div className="relative w-64 h-64 mx-auto rounded-full overflow-hidden mb-6">
@@ -69,7 +69,7 @@ const Team = () => {
                   src={member.imageUrl}
                   alt={member.name}
                   fill
-                  style={{ objectFit: 'cover' }}
+                  style={ objectFit: 'cover' }
                 />
               </div>
               <h4 className="text-xl font-bold mb-2 text-gray-900">{member.name}</h4>
@@ -95,13 +95,13 @@ const Team = () => {
             </motion.div>
           ))}
         </div>
-        
+
         <motion.div 
           className="text-center mt-16"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.4 }}
+          initial={ opacity: 0, y: 20 }
+          whileInView={ opacity: 1, y: 0 }
+          viewport={ once: true }
+          transition={ duration: 0.6, delay: 0.4 }
         >
           <a href="#" className="inline-flex items-center text-blue-600 font-medium hover:text-blue-800 transition-colors">
             <span>View All Team Members</span>

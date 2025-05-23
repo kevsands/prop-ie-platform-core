@@ -55,7 +55,7 @@ interface PropertyDocument {
       name: string;
       status: 'PENDING' | 'SIGNED';
       signedAt?: Date;
-    }>;
+    }>\n  );
   };
 }
 
@@ -79,18 +79,18 @@ const formatFileSize = (bytes: number): string => {
   const k = 1024;
   const sizes = ['Bytes', 'KB', 'MB', 'GB'];
   const i = Math.floor(Math.log(bytes) / Math.log(k));
-  return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+  return parseFloat((bytes / Math.pow(ki)).toFixed(2)) + ' ' + sizes[i];
 };
 
 export default function PropertyDocuments({ documents, propertyId }: PropertyDocumentsProps) {
   const { user } = useAuth();
   const { downloadDocument, viewDocument, requestAccess } = useDocuments();
-  const [selectedCategory, setSelectedCategory] = useState('all');
-  const [showOnlyRequired, setShowOnlyRequired] = useState(false);
-  const [selectedDocument, setSelectedDocument] = useState<PropertyDocument | null>(null);
+  const [selectedCategorysetSelectedCategory] = useState('all');
+  const [showOnlyRequiredsetShowOnlyRequired] = useState(false);
+  const [selectedDocumentsetSelectedDocument] = useState<PropertyDocument | null>(null);
 
   const categories = ['all', ...new Set(documents.map(doc => doc.category))];
-  
+
   const filteredDocuments = documents.filter(doc => {
     if (selectedCategory !== 'all' && doc.category !== selectedCategory) return false;
     if (showOnlyRequired && !doc.requiredForStage) return false;
@@ -234,7 +234,7 @@ export default function PropertyDocuments({ documents, propertyId }: PropertyDoc
                 <input
                   type="checkbox"
                   checked={showOnlyRequired}
-                  onChange={(e) => setShowOnlyRequired(e.target.checked)}
+                  onChange={(e: any) => setShowOnlyRequired(e.target.checked)}
                   className="mr-2"
                 />
                 Required Only
@@ -260,18 +260,18 @@ export default function PropertyDocuments({ documents, propertyId }: PropertyDoc
                 </div>
               ) : (
                 <AnimatePresence>
-                  {filteredDocuments.map((document, index) => {
+                  {filteredDocuments.map((documentindex: any) => {
                     const config = documentTypeConfig[document.type];
                     const Icon = config.icon;
                     const isLocked = document.locked && user?.role !== 'BUYER';
-                    
+
                     return (
                       <motion.div
                         key={document.id}
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -20 }}
-                        transition={{ delay: index * 0.05 }}
+                        initial={ opacity: 0, y: 20 }
+                        animate={ opacity: 1, y: 0 }
+                        exit={ opacity: 0, y: -20 }
+                        transition={ delay: index * 0.05 }
                       >
                         <div className="border rounded-lg p-4 hover:shadow-sm transition-shadow">
                           <div className="flex items-center justify-between">
@@ -326,7 +326,7 @@ export default function PropertyDocuments({ documents, propertyId }: PropertyDoc
                                 )}
                               </div>
                             </div>
-                            
+
                             <div className="flex items-center gap-2">
                               {document.verifiedBy && (
                                 <HoverCard>

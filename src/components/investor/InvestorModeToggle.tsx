@@ -19,7 +19,7 @@ const InvestorModeToggle = () => {
       </button>
     );
   }
-  
+
   return (
     <Link 
       href="/investor/dashboard"

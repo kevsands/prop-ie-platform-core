@@ -1,0 +1,197 @@
+import { NextRequest, NextResponse } from 'next/server';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/app/api/auth/[...nextauth]/auth-server';
+import { prisma } from '@/lib/db';
+
+export async function GET(request: NextRequest) {
+  try {
+    const session = await getServerSession(authOptions);
+    if (!session?.user?.id) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    const searchParams = request.nextUrl.searchParams;
+    const limit = parseInt(searchParams.get('limit') || '10');
+
+    // Fetch various activities
+    const [transactions, viewings, inquiries, documents] = await Promise.all([
+      // Recent transactions
+      prisma.transaction.findMany({
+        where: {
+          unit: {
+            development: {
+              developerId: session.user.id,
+            },
+          },
+        },
+        include: {
+          unit: {
+            select: {
+              unitNumber: true,
+              development: {
+                select: {
+                  name: true,
+                },
+              },
+            },
+          },
+          buyer: {
+            select: {
+              name: true,
+            },
+          },
+        },
+        orderBy: {
+          createdAt: 'desc',
+        },
+        take: limit,
+      }),
+
+      // Recent viewings
+      prisma.viewing.findMany({
+        where: {
+          unit: {
+            development: {
+              developerId: session.user.id,
+            },
+          },
+        },
+        include: {
+          unit: {
+            select: {
+              unitNumber: true,
+              development: {
+                select: {
+                  name: true,
+                },
+              },
+            },
+          },
+          user: {
+            select: {
+              name: true,
+            },
+          },
+        },
+        orderBy: {
+          createdAt: 'desc',
+        },
+        take: limit,
+      }),
+
+      // Recent inquiries
+      prisma.inquiry.findMany({
+        where: {
+          unit: {
+            development: {
+              developerId: session.user.id,
+            },
+          },
+        },
+        include: {
+          unit: {
+            select: {
+              unitNumber: true,
+              development: {
+                select: {
+                  name: true,
+                },
+              },
+            },
+          },
+          user: {
+            select: {
+              name: true,
+            },
+          },
+        },
+        orderBy: {
+          createdAt: 'desc',
+        },
+        take: limit,
+      }),
+
+      // Recent documents
+      prisma.document.findMany({
+        where: {
+          development: {
+            developerId: session.user.id,
+          },
+        },
+        include: {
+          development: {
+            select: {
+              name: true,
+            },
+          },
+        },
+        orderBy: {
+          createdAt: 'desc',
+        },
+        take: limit,
+      }),
+    ]);
+
+    // Combine and format activities
+    const activities = [
+      ...transactions.map(t => ({
+        type: 'transaction',
+        description: `New ${t.status.toLowerCase().replace('_', ' ')} for Unit ${t.unit.unitNumber} in ${t.unit.development.name}`,
+        user: t.buyer?.name || 'Unknown buyer',
+        timestamp: t.createdAt,
+        metadata: {
+          transactionId: t.id,
+          unitId: t.unitId,
+          amount: t.amount,
+          status: t.status,
+        },
+      })),
+      ...viewings.map(v => ({
+        type: 'viewing',
+        description: `${v.status === 'COMPLETED' ? 'Completed' : 'Scheduled'} viewing for Unit ${v.unit.unitNumber} in ${v.unit.development.name}`,
+        user: v.user?.name || 'Unknown user',
+        timestamp: v.createdAt,
+        metadata: {
+          viewingId: v.id,
+          unitId: v.unitId,
+          status: v.status,
+        },
+      })),
+      ...inquiries.map(i => ({
+        type: 'inquiry',
+        description: `New inquiry for Unit ${i.unit.unitNumber} in ${i.unit.development.name}`,
+        user: i.user?.name || 'Unknown user',
+        timestamp: i.createdAt,
+        metadata: {
+          inquiryId: i.id,
+          unitId: i.unitId,
+          message: i.message,
+        },
+      })),
+      ...documents.map(d => ({
+        type: 'document',
+        description: `New document "${d.name}" uploaded for ${d.development.name}`,
+        user: 'System',
+        timestamp: d.createdAt,
+        metadata: {
+          documentId: d.id,
+          documentType: d.type,
+          developmentId: d.developmentId,
+        },
+      })),
+    ]
+      .sort((a, b) => b.timestamp.getTime() - a.timestamp.getTime())
+      .slice(0, limit);
+
+    return NextResponse.json({
+      activities,
+      total: activities.length,
+    });
+  } catch (error) {
+    console.error('Activities error:', error);
+    return NextResponse.json(
+      { error: 'Failed to fetch activities' },
+      { status: 500 }
+    );
+  }
+}

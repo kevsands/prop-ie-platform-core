@@ -26,11 +26,11 @@ const PlanningPermissionUpload: React.FC<PlanningPermissionUploadProps> = ({ onS
       planningPermissionFiles: []
     }
   });
-  
-  const [files, setFiles] = useState<File[]>([]);
-  const [uploading, setUploading] = useState(false);
-  const [uploadError, setUploadError] = useState('');
-  
+
+  const [filessetFiles] = useState<File[]>([]);
+  const [uploadingsetUploading] = useState(false);
+  const [uploadErrorsetUploadError] = useState('');
+
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUploadError('');
     if (e.target.files) {
@@ -38,19 +38,19 @@ const PlanningPermissionUpload: React.FC<PlanningPermissionUploadProps> = ({ onS
       setFiles(prev => [...prev, ...fileArray]);
     }
   };
-  
+
   const removeFile = (index: number) => {
-    setFiles(prev => prev.filter((_, i) => i !== index));
+    setFiles(prev => prev.filter((_i: any) => i !== index));
   };
-  
+
   const handleFormSubmit = (data: PlanningPermissionData) => {
     if (files.length === 0) {
       setUploadError('Please upload at least one planning permission document');
       return;
     }
-    
+
     setUploading(true);
-    
+
     // In a real application, you would upload the files to your server here
     // For now, we'll simulate a delay and then call onSubmit
     setTimeout(() => {
@@ -61,10 +61,10 @@ const PlanningPermissionUpload: React.FC<PlanningPermissionUploadProps> = ({ onS
       setUploading(false);
     }, 1000);
   };
-  
+
   const getFileIcon = (file: File) => {
     const extension = file.name.split('.').pop()?.toLowerCase();
-    
+
     const props: IconBaseProps = {
       className: extension === 'pdf' ? 'text-red-500' : 
                  ['jpg', 'jpeg', 'png'].includes(extension || '') ? 'text-blue-500' :
@@ -90,7 +90,7 @@ const PlanningPermissionUpload: React.FC<PlanningPermissionUploadProps> = ({ onS
   return (
     <div className="bg-white rounded-lg shadow-md p-6">
       <h2 className="text-xl font-semibold text-gray-900 mb-6">Planning Permission</h2>
-      
+
       <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Planning Reference Number */}
@@ -111,7 +111,7 @@ const PlanningPermissionUpload: React.FC<PlanningPermissionUploadProps> = ({ onS
               <p className="mt-1 text-sm text-red-600">{errors.planningReferenceNumber.message}</p>
             )}
           </div>
-          
+
           {/* Planning Submission Date */}
           <div>
             <label htmlFor="planningSubmissionDate" className="block text-sm font-medium text-gray-700 mb-1">
@@ -129,7 +129,7 @@ const PlanningPermissionUpload: React.FC<PlanningPermissionUploadProps> = ({ onS
               <p className="mt-1 text-sm text-red-600">{errors.planningSubmissionDate.message}</p>
             )}
           </div>
-          
+
           {/* Planning Approval Date */}
           <div>
             <label htmlFor="planningApprovalDate" className="block text-sm font-medium text-gray-700 mb-1">
@@ -148,13 +148,13 @@ const PlanningPermissionUpload: React.FC<PlanningPermissionUploadProps> = ({ onS
             )}
           </div>
         </div>
-        
+
         {/* File Upload */}
         <div className="mt-6">
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Planning Permission Documents*
           </label>
-          
+
           <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
             <div className="space-y-1 text-center">
               {FiUpload({ className: "mx-auto h-12 w-12 text-gray-400" })}
@@ -177,7 +177,7 @@ const PlanningPermissionUpload: React.FC<PlanningPermissionUploadProps> = ({ onS
               </p>
             </div>
           </div>
-          
+
           {uploadError && (
             <div className="mt-2 flex items-center text-sm text-red-600">
               {FiAlertCircle({ className: "mr-1" })}
@@ -185,13 +185,13 @@ const PlanningPermissionUpload: React.FC<PlanningPermissionUploadProps> = ({ onS
             </div>
           )}
         </div>
-        
+
         {/* File List */}
-        {files.length > 0 && (
+        {files.length> 0 && (
           <div className="mt-4">
             <h3 className="text-sm font-medium text-gray-700 mb-2">Uploaded Files:</h3>
             <ul className="divide-y divide-gray-200 border border-gray-200 rounded-md">
-              {files.map((file, index) => (
+              {files.map((fileindex: any) => (
                 <li key={index} className="pl-3 pr-4 py-3 flex items-center justify-between text-sm">
                   <div className="flex items-center">
                     {getFileIcon(file)}
@@ -211,7 +211,7 @@ const PlanningPermissionUpload: React.FC<PlanningPermissionUploadProps> = ({ onS
             </ul>
           </div>
         )}
-        
+
         <div className="flex justify-end">
           <button
             type="submit"

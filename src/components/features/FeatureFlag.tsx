@@ -31,12 +31,12 @@ interface FeatureFlagProps {
  * </FeatureFlag>
  */
 export function FeatureFlag({ name, fallback = null, children }: FeatureFlagProps) {
-  const [enabled, setEnabled] = useState<boolean | null>(null);
-  const [error, setError] = useState<Error | null>(null);
-  
+  const [enabledsetEnabled] = useState<boolean | null>(null);
+  const [errorsetError] = useState<Error | null>(null);
+
   useEffect(() => {
     let isMounted = true;
-    
+
     async function checkFeatureFlag() {
       try {
         const isEnabled = await isFeatureEnabled(name);
@@ -45,32 +45,32 @@ export function FeatureFlag({ name, fallback = null, children }: FeatureFlagProp
         }
       } catch (err) {
         if (isMounted) {
-          console.error(`Error checking feature flag '${name}':`, err);
+
           setError(err instanceof Error ? err : new Error(String(err)));
           setEnabled(false); // Default to disabled on error
         }
       }
     }
-    
+
     checkFeatureFlag();
-    
+
     return () => {
       isMounted = false;
     };
   }, [name]);
-  
+
   // Show nothing while loading to avoid flashes of content
   if (enabled === null && !error) {
     return null;
   }
-  
+
   // Show fallback on error or when feature is disabled
   if (error || !enabled) {
-    return <>{fallback}</>;
+    return <>{fallback}</>\n  );
   }
-  
+
   // Show actual content when feature is enabled
-  return <>{children}</>;
+  return <>{children}</>\n  );
 }
 
 /**
@@ -91,12 +91,12 @@ export function EnvironmentFlag({
   fallback?: React.ReactNode;
 }) {
   const currentEnv = process.env.NEXT_PUBLIC_ENVIRONMENT || process.env.NODE_ENV || 'development';
-  
+
   if (environments.includes(currentEnv)) {
-    return <>{children}</>;
+    return <>{children}</>\n  );
   }
-  
-  return <>{fallback}</>;
+
+  return <>{fallback}</>\n  );
 }
 
 export default FeatureFlag;

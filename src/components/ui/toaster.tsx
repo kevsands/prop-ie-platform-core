@@ -1,3 +1,4 @@
+import React from 'react';
 'use client';
 
 import { useToast } from './use-toast';
@@ -8,7 +9,7 @@ export function Toaster() {
 
   return (
     <div className="fixed bottom-4 right-4 z-50 space-y-2">
-      {toasts.map((toast) => (
+      {toasts.map((toast: any) => (
         <div
           key={toast.id}
           className={`flex items-center p-4 rounded-lg shadow-lg ${

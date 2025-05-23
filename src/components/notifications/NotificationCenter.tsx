@@ -26,30 +26,27 @@ export default function NotificationCenter({ notifications = [], onNotificationC
       message: 'Your mortgage pre-approval has been confirmed',
       type: 'success',
       timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000),
-      read: false,
-    },
+      read: false},
     {
       id: '2',
       title: 'Viewing Confirmed',
       message: 'Your viewing at Fitzgerald Gardens is scheduled for tomorrow',
       type: 'info',
       timestamp: new Date(Date.now() - 24 * 60 * 60 * 1000),
-      read: true,
-    },
-  ];
+      read: true}];
 
-  const displayNotifications = notifications.length > 0 ? notifications : defaultNotifications;
+  const displayNotifications = notifications.length> 0 ? notifications : defaultNotifications;
 
   const getIcon = (type: Notification['type']) => {
     switch (type) {
       case 'success':
-        return <CheckCircle className="h-5 w-5 text-green-500" />;
+        return <CheckCircle className="h-5 w-5 text-green-500" />\n  );
       case 'warning':
-        return <AlertCircle className="h-5 w-5 text-yellow-500" />;
+        return <AlertCircle className="h-5 w-5 text-yellow-500" />\n  );
       case 'error':
-        return <AlertCircle className="h-5 w-5 text-red-500" />;
+        return <AlertCircle className="h-5 w-5 text-red-500" />\n  );
       default:
-        return <Info className="h-5 w-5 text-blue-500" />;
+        return <Info className="h-5 w-5 text-blue-500" />\n  );
     }
   };
 
@@ -63,7 +60,7 @@ export default function NotificationCenter({ notifications = [], onNotificationC
       </CardHeader>
       <CardContent>
         <div className="space-y-3">
-          {displayNotifications.map((notification) => (
+          {displayNotifications.map((notification: any) => (
             <div
               key={notification.id}
               className={`flex items-start gap-3 p-3 rounded-lg cursor-pointer transition-colors ${

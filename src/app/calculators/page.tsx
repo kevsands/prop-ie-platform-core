@@ -10,30 +10,25 @@ const calculators = [
     description: 'Calculate your monthly payments and check affordability',
     icon: Home,
     href: '/calculators/mortgage',
-    color: 'bg-blue-500',
-  },
+    color: 'bg-blue-500'},
   {
     title: 'Help-to-Buy Calculator',
     description: 'Check your eligibility and calculate your HTB benefit',
     icon: Euro,
     href: '/calculators/htb',
-    color: 'bg-green-500',
-  },
+    color: 'bg-green-500'},
   {
     title: 'Stamp Duty Calculator',
     description: 'Calculate stamp duty costs for your property purchase',
     icon: Receipt,
     href: '/calculators/stamp-duty',
-    color: 'bg-purple-500',
-  },
+    color: 'bg-purple-500'},
   {
     title: 'Affordability Calculator',
     description: 'Find out how much you can afford to borrow',
     icon: TrendingUp,
     href: '/calculators/affordability',
-    color: 'bg-orange-500',
-  },
-];
+    color: 'bg-orange-500'}];
 
 export default function CalculatorsPage() {
   return (
@@ -54,7 +49,7 @@ export default function CalculatorsPage() {
         </div>
 
         <div className="grid md:grid-cols-2 gap-8">
-          {calculators.map((calculator) => (
+          {calculators.map((calculator: any) => (
             <Link
               key={calculator.href}
               href={calculator.href}

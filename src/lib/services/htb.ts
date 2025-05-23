@@ -10,7 +10,7 @@ export class HTBService {
     try {
       return await api.get<HTBClaim[]>('/htb/developer/claims');
     } catch (error) {
-      console.error('Failed to fetch developer claims:', error);
+
       throw error;
     }
   }
@@ -22,7 +22,7 @@ export class HTBService {
     try {
       return await api.get<HTBClaim[]>('/htb/buyer/claims');
     } catch (error) {
-      console.error('Failed to fetch buyer claims:', error);
+
       throw error;
     }
   }
@@ -34,7 +34,7 @@ export class HTBService {
     try {
       return await api.get<HTBClaim>(`/htb/${role}/claims/${claimId}`);
     } catch (error) {
-      console.error(`Failed to fetch ${role} claim by ID:`, error);
+
       throw error;
     }
   }
@@ -49,7 +49,7 @@ export class HTBService {
         requestedAmount
       });
     } catch (error) {
-      console.error('Failed to create HTB claim:', error);
+
       throw error;
     }
   }
@@ -70,7 +70,7 @@ export class HTBService {
         formData.append('accessCode', accessCode);
         formData.append('accessCodeExpiryDate', accessCodeExpiryDate.toISOString());
         formData.append('documentFile', documentFile);
-        
+
         // Use custom fetch for FormData
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || ''}/api/htb/buyer/claims/${claimId}/access-code`, {
           method: 'PUT',
@@ -80,11 +80,11 @@ export class HTBService {
             Authorization: `Bearer ${localStorage.getItem('auth_token') || ''}`
           }
         });
-        
+
         if (!response.ok) {
           throw new Error(`Failed to update access code: ${response.status}`);
         }
-        
+
         return await response.json();
       } else {
         // Use regular API client for JSON
@@ -94,7 +94,7 @@ export class HTBService {
         });
       }
     } catch (error) {
-      console.error('Failed to update access code:', error);
+
       throw error;
     }
   }
@@ -113,7 +113,7 @@ export class HTBService {
         notes
       });
     } catch (error) {
-      console.error('Failed to process access code:', error);
+
       throw error;
     }
   }
@@ -136,7 +136,7 @@ export class HTBService {
         formData.append('claimCodeExpiryDate', claimCodeExpiryDate.toISOString());
         formData.append('approvedAmount', approvedAmount.toString());
         formData.append('documentFile', documentFile);
-        
+
         // Use custom fetch for FormData
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || ''}/api/htb/developer/claims/${claimId}/claim-code`, {
           method: 'PUT',
@@ -145,11 +145,11 @@ export class HTBService {
             Authorization: `Bearer ${localStorage.getItem('auth_token') || ''}`
           }
         });
-        
+
         if (!response.ok) {
           throw new Error(`Failed to update claim code: ${response.status}`);
         }
-        
+
         return await response.json();
       } else {
         // Use regular API client for JSON
@@ -160,7 +160,7 @@ export class HTBService {
         });
       }
     } catch (error) {
-      console.error('Failed to update claim code:', error);
+
       throw error;
     }
   }
@@ -181,7 +181,7 @@ export class HTBService {
         formData.append('requestDate', requestDate.toISOString());
         formData.append('notes', notes);
         formData.append('documentFile', documentFile);
-        
+
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || ''}/api/htb/developer/claims/${claimId}/request-funds`, {
           method: 'PUT',
           body: formData,
@@ -189,11 +189,11 @@ export class HTBService {
             Authorization: `Bearer ${localStorage.getItem('auth_token') || ''}`
           }
         });
-        
+
         if (!response.ok) {
           throw new Error(`Failed to request funds: ${response.status}`);
         }
-        
+
         return await response.json();
       } else {
         return await api.put<HTBClaim>(`/htb/developer/claims/${claimId}/request-funds`, {
@@ -202,7 +202,7 @@ export class HTBService {
         });
       }
     } catch (error) {
-      console.error('Failed to request funds:', error);
+
       throw error;
     }
   }
@@ -223,7 +223,7 @@ export class HTBService {
         formData.append('receivedAmount', receivedAmount.toString());
         formData.append('receivedDate', receivedDate.toISOString());
         formData.append('documentFile', documentFile);
-        
+
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || ''}/api/htb/developer/claims/${claimId}/funds-received`, {
           method: 'PUT',
           body: formData,
@@ -231,11 +231,11 @@ export class HTBService {
             Authorization: `Bearer ${localStorage.getItem('auth_token') || ''}`
           }
         });
-        
+
         if (!response.ok) {
           throw new Error(`Failed to mark funds as received: ${response.status}`);
         }
-        
+
         return await response.json();
       } else {
         return await api.put<HTBClaim>(`/htb/developer/claims/${claimId}/funds-received`, {
@@ -244,7 +244,7 @@ export class HTBService {
         });
       }
     } catch (error) {
-      console.error('Failed to mark funds as received:', error);
+
       throw error;
     }
   }
@@ -265,7 +265,7 @@ export class HTBService {
         formData.append('appliedDate', appliedDate.toISOString());
         formData.append('notes', notes);
         formData.append('documentFile', documentFile);
-        
+
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || ''}/api/htb/developer/claims/${claimId}/deposit-applied`, {
           method: 'PUT',
           body: formData,
@@ -273,11 +273,11 @@ export class HTBService {
             Authorization: `Bearer ${localStorage.getItem('auth_token') || ''}`
           }
         });
-        
+
         if (!response.ok) {
           throw new Error(`Failed to mark deposit as applied: ${response.status}`);
         }
-        
+
         return await response.json();
       } else {
         return await api.put<HTBClaim>(`/htb/developer/claims/${claimId}/deposit-applied`, {
@@ -286,7 +286,7 @@ export class HTBService {
         });
       }
     } catch (error) {
-      console.error('Failed to mark deposit as applied:', error);
+
       throw error;
     }
   }
@@ -307,7 +307,7 @@ export class HTBService {
         formData.append('completionDate', completionDate.toISOString());
         formData.append('notes', notes);
         formData.append('documentFile', documentFile);
-        
+
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || ''}/api/htb/developer/claims/${claimId}/complete`, {
           method: 'PUT',
           body: formData,
@@ -315,11 +315,11 @@ export class HTBService {
             Authorization: `Bearer ${localStorage.getItem('auth_token') || ''}`
           }
         });
-        
+
         if (!response.ok) {
           throw new Error(`Failed to complete claim: ${response.status}`);
         }
-        
+
         return await response.json();
       } else {
         return await api.put<HTBClaim>(`/htb/developer/claims/${claimId}/complete`, {
@@ -328,7 +328,7 @@ export class HTBService {
         });
       }
     } catch (error) {
-      console.error('Failed to complete claim:', error);
+
       throw error;
     }
   }
@@ -343,7 +343,7 @@ export class HTBService {
         isPrivate
       });
     } catch (error) {
-      console.error('Failed to add note:', error);
+
       throw error;
     }
   }
@@ -370,14 +370,14 @@ export class HTBService {
           Authorization: `Bearer ${localStorage.getItem('auth_token') || ''}`
         }
       });
-      
+
       if (!response.ok) {
         throw new Error(`Failed to upload document: ${response.status}`);
       }
-      
+
       return await response.json();
     } catch (error) {
-      console.error('Failed to upload document:', error);
+
       throw error;
     }
   }
@@ -389,7 +389,7 @@ export class HTBService {
     try {
       return await api.get<any[]>(`/htb/claims/${claimId}/documents`);
     } catch (error) {
-      console.error('Failed to get documents:', error);
+
       throw error;
     }
   }
@@ -401,7 +401,7 @@ export class HTBService {
     try {
       await api.delete(`/htb/claims/${claimId}/documents/${documentId}`);
     } catch (error) {
-      console.error('Failed to delete document:', error);
+
       throw error;
     }
   }

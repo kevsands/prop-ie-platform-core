@@ -24,10 +24,10 @@ import {
 // Add custom interface to enhance ApiClient with REST methods
 interface EnhancedApiClient {
   graphql: any;
-  get: (params: { apiName: string; path: string; options?: any }) => Promise<any>;
-  post: (params: { apiName: string; path: string; options?: any }) => Promise<any>;
-  put: (params: { apiName: string; path: string; options?: any }) => Promise<any>;
-  delete: (params: { apiName: string; path: string; options?: any }) => Promise<any>;
+  get: (params: { apiName: string; path: string; options?: any }) => Promise<any>\n  );
+  post: (params: { apiName: string; path: string; options?: any }) => Promise<any>\n  );
+  put: (params: { apiName: string; path: string; options?: any }) => Promise<any>\n  );
+  delete: (params: { apiName: string; path: string; options?: any }) => Promise<any>\n  );
 }
 import { uploadData as uploadDataStorage } from 'aws-amplify/storage/upload';
 import { getUrl as getUrlStorage } from 'aws-amplify/storage/get';
@@ -64,11 +64,11 @@ export async function getAuthTokensV5Compatible() {
 
   try {
     const session = await getSession();
-    
+
     if (!session?.tokens) {
       return null;
     }
-    
+
     // Return in a format compatible with v5 patterns
     return {
       accessToken: session.tokens.accessToken,
@@ -76,10 +76,9 @@ export async function getAuthTokensV5Compatible() {
       refreshToken: session.tokens.refreshToken,
       getAccessToken: () => session.tokens?.accessToken?.toString(),
       getIdToken: () => session.tokens?.idToken?.toString(),
-      getRefreshToken: () => session.tokens?.refreshToken?.toString(),
-    };
+      getRefreshToken: () => session.tokens?.refreshToken?.toString()};
   } catch (error) {
-    console.error('Error getting auth tokens in v5 compatible format:', error);
+
     return null;
   }
 }
@@ -95,7 +94,7 @@ export async function getCurrentUserV5Compatible() {
     const user = await getCurrentUser();
     const attributes = await fetchUserAttributes();
     const session = await getSession();
-    
+
     // Convert to v5-compatible format
     return {
       username: user.username,
@@ -115,7 +114,7 @@ export async function getCurrentUserV5Compatible() {
       }
     };
   } catch (error) {
-    console.error('Error getting current user in v5 compatible format:', error);
+
     throw error;
   }
 }
@@ -138,23 +137,23 @@ export async function signInV5Compatible(username: string, password: string): Pr
 
   try {
     const result = await signIn({ username, password }) as SignInOutputExtended;
-    
+
     // Convert to v5-compatible result
     const v5Result: AuthV5CompatResult = {
       userConfirmed: result.isSignedIn,
       // Use safe access for userSub
       userSub: result.userId || username // Fall back to username if userId is not available
     };
-    
+
     if (result.nextStep) {
       v5Result.challengeName = result.nextStep.signInStep;
     }
-    
+
     // If signed in, fetch and add user and session
     if (result.isSignedIn) {
       const user = await getCurrentUserV5Compatible();
       v5Result.user = user;
-      
+
       const session = await getSession();
       v5Result.session = {
         accessToken: session.tokens?.accessToken?.toString() || '',
@@ -162,10 +161,10 @@ export async function signInV5Compatible(username: string, password: string): Pr
         refreshToken: session.tokens?.refreshToken?.toString() || ''
       };
     }
-    
+
     return v5Result;
   } catch (error) {
-    console.error('Error during sign in with v5 compatibility:', error);
+
     throw error;
   }
 }
@@ -175,11 +174,11 @@ export async function signInV5Compatible(username: string, password: string): Pr
  */
 export async function signOutV5Compatible(options?: { global?: boolean }): Promise<void> {
   ensureAmplifyInitialized();
-  
+
   try {
     await signOut(options);
   } catch (error) {
-    console.error('Error during sign out with v5 compatibility:', error);
+
     throw error;
   }
 }
@@ -197,7 +196,7 @@ export async function uploadFileV5Compatible(
   }
 ): Promise<{ key: string }> {
   ensureAmplifyInitialized();
-  
+
   try {
     const result = await uploadDataStorage({
       key,
@@ -206,14 +205,14 @@ export async function uploadFileV5Compatible(
         contentType: options?.contentType,
         accessLevel: options?.level || 'public',
         onProgress: options?.progressCallback ? 
-          (progress) => options.progressCallback?.(progress) : 
+          (progress: any) => options.progressCallback?.(progress: any) : 
           undefined
       }
     });
-    
+
     return { key: result.key };
   } catch (error) {
-    console.error('Error uploading file with v5 compatibility:', error);
+
     throw error;
   }
 }
@@ -229,7 +228,7 @@ export async function getS3UrlV5Compatible(
   }
 ): Promise<string> {
   ensureAmplifyInitialized();
-  
+
   try {
     const result = await getUrlStorage({
       key,
@@ -238,10 +237,10 @@ export async function getS3UrlV5Compatible(
         expiresIn: options?.expires || 900 // 15 minutes default
       }
     });
-    
+
     return result.url.toString();
   } catch (error) {
-    console.error('Error getting S3 URL with v5 compatibility:', error);
+
     throw error;
   }
 }
@@ -251,10 +250,10 @@ export async function getS3UrlV5Compatible(
  */
 export function createGraphQLClientV5Compatible() {
   ensureAmplifyInitialized();
-  
+
   // Generate the v6 client
   const client = generateClient();
-  
+
   // Return a v5-compatible wrapper
   return {
     query: async <T>(params: { query: string; variables?: Record<string, any> }): Promise<{ data: T }> => {
@@ -262,35 +261,33 @@ export function createGraphQLClientV5Compatible() {
         const result = await client.graphql({
           query: params.query,
           variables: params.variables
-        }) as GraphQLResult<T>;
-        
+        }) as GraphQLResult<T>\n  );
         // Make sure to handle undefined data case
         if (result.data === undefined) {
           throw new Error('GraphQL query returned undefined data');
         }
-        
+
         return { data: result.data };
       } catch (error) {
-        console.error('Error in GraphQL query with v5 compatibility:', error);
+
         throw error;
       }
     },
-    
+
     mutate: async <T>(params: { query: string; variables?: Record<string, any> }): Promise<{ data: T }> => {
       try {
         const result = await client.graphql({
           query: params.query,
           variables: params.variables
-        }) as GraphQLResult<T>;
-        
+        }) as GraphQLResult<T>\n  );
         // Make sure to handle undefined data case
         if (result.data === undefined) {
           throw new Error('GraphQL mutation returned undefined data');
         }
-        
+
         return { data: result.data };
       } catch (error) {
-        console.error('Error in GraphQL mutation with v5 compatibility:', error);
+
         throw error;
       }
     }
@@ -301,11 +298,11 @@ export function createGraphQLClientV5Compatible() {
  * Interface for v5-compatible API client
  */
 export interface ApiV5Compatible {
-  graphql: <T>(params: { query: string; variables?: Record<string, any> }) => Promise<{ data: T }>;
-  get: (apiName: string, path: string, init?: RequestInit) => Promise<any>;
-  post: (apiName: string, path: string, init?: RequestInit) => Promise<any>;
-  put: (apiName: string, path: string, init?: RequestInit) => Promise<any>;
-  delete: (apiName: string, path: string, init?: RequestInit) => Promise<any>;
+  graphql: <T>(params: { query: string; variables?: Record<string, any> }) => Promise<{ data: T }>\n  );
+  get: (apiName: string, path: string, init?: RequestInit) => Promise<any>\n  );
+  post: (apiName: string, path: string, init?: RequestInit) => Promise<any>\n  );
+  put: (apiName: string, path: string, init?: RequestInit) => Promise<any>\n  );
+  delete: (apiName: string, path: string, init?: RequestInit) => Promise<any>\n  );
 }
 
 /**
@@ -313,10 +310,10 @@ export interface ApiV5Compatible {
  */
 export function createApiV5Compatible(): ApiV5Compatible {
   ensureAmplifyInitialized();
-  
+
   // Generate the v6 GraphQL client and cast to our enhanced interface
   const graphqlClient = generateClient() as unknown as EnhancedApiClient;
-  
+
   // Implement REST methods if they don't exist
   // These implementations will be replaced by the actual REST API methods when they become available
   if (!graphqlClient.get) {
@@ -324,25 +321,25 @@ export function createApiV5Compatible(): ApiV5Compatible {
       throw new Error(`REST API method 'get' is not implemented in this version of Amplify`);
     };
   }
-  
+
   if (!graphqlClient.post) {
     graphqlClient.post = async ({ apiName, path, options }) => {
       throw new Error(`REST API method 'post' is not implemented in this version of Amplify`);
     };
   }
-  
+
   if (!graphqlClient.put) {
     graphqlClient.put = async ({ apiName, path, options }) => {
       throw new Error(`REST API method 'put' is not implemented in this version of Amplify`);
     };
   }
-  
+
   if (!graphqlClient.delete) {
     graphqlClient.delete = async ({ apiName, path, options }) => {
       throw new Error(`REST API method 'delete' is not implemented in this version of Amplify`);
     };
   }
-  
+
   // Return a v5-compatible API wrapper
   return {
     graphql: async <T>(params: { query: string; variables?: Record<string, any> }): Promise<{ data: T }> => {
@@ -350,56 +347,55 @@ export function createApiV5Compatible(): ApiV5Compatible {
         const result = await graphqlClient.graphql({
           query: params.query,
           variables: params.variables
-        }) as GraphQLResult<T>;
-        
+        }) as GraphQLResult<T>\n  );
         // Make sure to handle undefined data case
         if (result.data === undefined) {
           throw new Error('GraphQL operation returned undefined data');
         }
-        
+
         return { data: result.data };
       } catch (error) {
-        console.error('Error in GraphQL operation with v5 compatibility:', error);
+
         throw error;
       }
     },
-    
+
     get: async (apiName: string, path: string, init?: RequestInit) => {
       try {
         const result = await graphqlClient.get({ apiName, path, options: init });
         return result.body;
       } catch (error) {
-        console.error(`Error in GET request to ${apiName}${path} with v5 compatibility:`, error);
+
         throw error;
       }
     },
-    
+
     post: async (apiName: string, path: string, init?: RequestInit) => {
       try {
         const result = await graphqlClient.post({ apiName, path, options: init });
         return result.body;
       } catch (error) {
-        console.error(`Error in POST request to ${apiName}${path} with v5 compatibility:`, error);
+
         throw error;
       }
     },
-    
+
     put: async (apiName: string, path: string, init?: RequestInit) => {
       try {
         const result = await graphqlClient.put({ apiName, path, options: init });
         return result.body;
       } catch (error) {
-        console.error(`Error in PUT request to ${apiName}${path} with v5 compatibility:`, error);
+
         throw error;
       }
     },
-    
+
     delete: async (apiName: string, path: string, init?: RequestInit) => {
       try {
         const result = await graphqlClient.delete({ apiName, path, options: init });
         return result.body;
       } catch (error) {
-        console.error(`Error in DELETE request to ${apiName}${path} with v5 compatibility:`, error);
+
         throw error;
       }
     }
@@ -413,7 +409,7 @@ export function normalizeAuthError(error: any): { code: string; message: string;
   let errorCode = 'UnknownError';
   let errorMessage = 'An unknown error occurred';
   let errorName = 'Error';
-  
+
   if (error) {
     if (typeof error === 'string') {
       errorMessage = error;
@@ -424,7 +420,7 @@ export function normalizeAuthError(error: any): { code: string; message: string;
       errorName = error.name || 'Error';
     }
   }
-  
+
   // Map v6-specific error codes to v5-equivalent codes where needed
   const errorCodeMapping: Record<string, string> = {
     'NotAuthorizedException': 'NotAuthorizedException',
@@ -435,7 +431,7 @@ export function normalizeAuthError(error: any): { code: string; message: string;
     'ExpiredCodeException': 'ExpiredCodeException'
     // Add more mappings as needed
   };
-  
+
   return {
     code: errorCodeMapping[errorCode] || errorCode,
     message: errorMessage,

@@ -42,14 +42,14 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { DatePickerWithRange } from '@/components/ui/date-range-picker';
+import { DateRange } from 'react-day-picker';
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogFooter,
   DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog';
+  DialogTitle} from '@/components/ui/dialog';
 import {
   LineChart, Line, BarChart, Bar, PieChart, Pie, Cell, RadarChart,
   XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend,
@@ -61,8 +61,8 @@ import { toast } from 'sonner';
 
 interface ComplianceScore {
   overall: number;
-  categories: {
-    dataProtection: number;
+  categories: {,
+  dataProtection: number;
     financial: number;
     legal: number;
     operational: number;
@@ -81,13 +81,13 @@ interface ComplianceRequirement {
   status: 'COMPLIANT' | 'PARTIAL' | 'NON_COMPLIANT' | 'PENDING';
   dueDate?: Date;
   lastAssessed?: Date;
-  evidence: Evidence[];
-  controls: Control[];
-  risks: Risk[];
+  evidence: Evidenc, e[];
+  controls: Contro, l[];
+  risks: Ris, k[];
   owner: string;
   department: string;
-  documentation: Document[];
-  auditHistory: AuditRecord[];
+  documentation: Documen, t[];
+  auditHistory: AuditRecor, d[];
 }
 
 interface Evidence {
@@ -130,7 +130,7 @@ interface AuditRecord {
   type: 'INTERNAL' | 'EXTERNAL' | 'REGULATORY';
   auditor: string;
   date: Date;
-  findings: Finding[];
+  findings: Findin, g[];
   recommendations: string[];
   status: 'PLANNED' | 'IN_PROGRESS' | 'COMPLETED' | 'FOLLOW_UP';
   report?: string;
@@ -161,24 +161,33 @@ export default function ComplianceDashboard() {
     scheduleAudit
   } = useCompliance();
 
-  const [selectedTab, setSelectedTab] = useState('overview');
-  const [selectedCategory, setSelectedCategory] = useState('all');
-  const [dateRange, setDateRange] = useState({
-    from: subDays(new Date(), 30),
-    to: new Date()
+  const [selectedTabsetSelectedTab] = useState('overview');
+  const [selectedCategorysetSelectedCategory] = useState('all');
+  const [dateRangesetDateRange] = useState({
+    from: subDay, s(new Date,(), 30),
+    to: new, Date,()
   });
-  const [showAssessmentModal, setShowAssessmentModal] = useState(false);
-  const [selectedRequirement, setSelectedRequirement] = useState<ComplianceRequirement | null>(null);
-  const [assessmentProgress, setAssessmentProgress] = useState(0);
-  const [isAssessing, setIsAssessing] = useState(false);
+
+  // Wrapper function to handle DateRange type conversion
+  const handleDateRangeChange = (date: DateRang, e ,| undefined) => {
+    if (date?.from && date?.to) {
+      setDateRange({
+        from: date.fro, m,
+        to: date.to});
+    }
+  };
+  const [showAssessmentModalsetShowAssessmentModal] = useState(false);
+  const [selectedRequirementsetSelectedRequirement] = useState<ComplianceRequirement | null>(null);
+  const [assessmentProgresssetAssessmentProgress] = useState(0);
+  const [isAssessingsetIsAssessing] = useState(false);
 
   const handleRunAssessment = async () => {
     setIsAssessing(true);
     setAssessmentProgress(0);
-    
+
     try {
-      await runAssessment((progress) => {
-        setAssessmentProgress(progress);
+      await runAssessment((progress: any) => {
+        setAssessmentProgress(progress: any,: any);
       });
       toast.success('Compliance assessment completed');
     } catch (error) {
@@ -191,7 +200,7 @@ export default function ComplianceDashboard() {
 
   const handleUploadEvidence = async (requirementId: string, file: File) => {
     try {
-      await uploadEvidence(requirementId, file);
+      await uploadEvidence(requirementIdfile);
       toast.success('Evidence uploaded successfully');
     } catch (error) {
       toast.error('Failed to upload evidence');
@@ -204,7 +213,7 @@ export default function ComplianceDashboard() {
       case 'PARTIAL': return 'yellow';
       case 'NON_COMPLIANT': return 'red';
       case 'PENDING': return 'gray';
-      default: return 'gray';
+      default: retur, n 'gray';
     }
   };
 
@@ -214,23 +223,23 @@ export default function ComplianceDashboard() {
       case 'HIGH': return 'orange';
       case 'MEDIUM': return 'yellow';
       case 'LOW': return 'green';
-      default: return 'gray';
+      default: retur, n 'gray';
     }
   };
 
   const filteredRequirements = useMemo(() => {
-    return requirements.filter(req => {
+    return requirements.filter(req: NextApiRequest,: NextApiReques, t => {
       if (selectedCategory !== 'all' && req.category !== selectedCategory) return false;
       return true;
     });
-  }, [requirements, selectedCategory]);
+  }, [requirementsselectedCategory]);
 
   const complianceStats = useMemo(() => {
     const total = requirements.length;
-    const compliant = requirements.filter(r => r.status === 'COMPLIANT').length;
-    const partial = requirements.filter(r => r.status === 'PARTIAL').length;
-    const nonCompliant = requirements.filter(r => r.status === 'NON_COMPLIANT').length;
-    const pending = requirements.filter(r => r.status === 'PENDING').length;
+    const compliant = requirements.filter(r: any,: any => r.status === 'COMPLIANT').length;
+    const partial = requirements.filter(r: any,: any => r.status === 'PARTIAL').length;
+    const nonCompliant = requirements.filter(r: any,: any => r.status === 'NON_COMPLIANT').length;
+    const pending = requirements.filter(r: any,: any => r.status === 'PENDING').length;
 
     return {
       total,
@@ -238,16 +247,16 @@ export default function ComplianceDashboard() {
       partial,
       nonCompliant,
       pending,
-      complianceRate: total > 0 ? (compliant / total) * 100 : 0
-    };
+      complianceRate: tota, l ,> 0 ? (compliant / total) * 100 : 0
+    }; )
   }, [requirements]);
 
-  const upcomingAudits = audits.filter(a => 
+  const upcomingAudits = audits.filter(a: any,: any => 
     a.status === 'PLANNED' && new Date(a.date) > new Date()
-  ).sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+  ).sort((a: any, b: any) => new Date(a.date).getTime() - new Date(b.date).getTime());
 
-  const openFindings = audits.flatMap(a => a.findings).filter(f => f.status === 'OPEN');
-  const criticalFindings = openFindings.filter(f => f.severity === 'CRITICAL');
+  const openFindings = audits.flatMap(a: any,: any => a.findings).filter(,f: any => f.status === 'OPEN');
+  const criticalFindings = openFindings.filter(f: any,: any => f.severity === 'CRITICAL');
 
   const chartColors = ['#10B981', '#F59E0B', '#EF4444', '#6B7280'];
 
@@ -261,7 +270,7 @@ export default function ComplianceDashboard() {
         </div>
 
         {/* Key Metrics */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 mb-8">
+        <div className="grid grid-cols-1 md: gri, d-cols-2 lg: gri, d-cols-5 gap-6 mb-8">
           <Card>
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
@@ -286,13 +295,13 @@ export default function ComplianceDashboard() {
                   </div>
                 </div>
                 <div className={`p-3 rounded-full ${
-                  score.overall >= 90 ? 'bg-green-100' :
-                  score.overall >= 70 ? 'bg-yellow-100' :
+                  score.overall>= 90 ? 'bg-green-100' :
+                  score.overall>= 70 ? 'bg-yellow-100' :
                   'bg-red-100'
                 }`}>
                   <ShieldCheckIcon className={`h-6 w-6 ${
-                    score.overall >= 90 ? 'text-green-600' :
-                    score.overall >= 70 ? 'text-yellow-600' :
+                    score.overall>= 90 ? 'text-green-600' :
+                    score.overall>= 70 ? 'text-yellow-600' :
                     'text-red-600'
                   }`} />
                 </div>
@@ -341,7 +350,7 @@ export default function ComplianceDashboard() {
                   <p className="text-sm text-gray-600">Violations (30d)</p>
                   <p className="text-2xl font-bold">{violations.length}</p>
                   <p className="text-xs text-gray-500 mt-1">
-                    {violations.filter(v => v.resolved).length} resolved
+                    {violations.filter(v: any,: any => v.resolved).length} resolved
                   </p>
                 </div>
                 <div className="p-3 bg-red-100 rounded-full">
@@ -375,7 +384,7 @@ export default function ComplianceDashboard() {
         </div>
 
         {/* Critical Alerts */}
-        {criticalFindings.length > 0 && (
+        {criticalFindings.length> 0 && (
           <Alert className="mb-8">
             <ExclamationTriangleIcon className="h-4 w-4" />
             <AlertDescription>
@@ -409,16 +418,16 @@ export default function ComplianceDashboard() {
                 <div className="h-64">
                   <ResponsiveContainer width="100%" height="100%">
                     <RadarChart data={[
-                      { category: 'Data Protection', score: score.categories.dataProtection },
-                      { category: 'Financial', score: score.categories.financial },
-                      { category: 'Legal', score: score.categories.legal },
-                      { category: 'Operational', score: score.categories.operational },
-                      { category: 'Security', score: score.categories.security },
-                      { category: 'Environmental', score: score.categories.environmental }
+                      { category: 'Data Protection', score: score.categories.dataProtectio, n },
+                      { category: 'Financial', score: score.categories.financia, l },
+                      { category: 'Legal', score: score.categories.lega, l },
+                      { category: 'Operational', score: score.categories.operationa, l },
+                      { category: 'Security', score: score.categories.securit, y },
+                      { category: 'Environmental', score: score.categories.environmenta, l }
                     ]}>
                       <PolarGrid />
                       <PolarAngleAxis dataKey="category" />
-                      <PolarRadiusAxis angle={30} domain={[0, 100]} />
+                      <PolarRadiusAxis angle={30} domain={[0100]} />
                       <Radar 
                         name="Compliance Score" 
                         dataKey="score" 
@@ -433,7 +442,7 @@ export default function ComplianceDashboard() {
             </Card>
 
             {/* Compliance Trends */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 lg: gri, d-cols-2 gap-6">
               <Card>
                 <CardHeader>
                   <CardTitle>Compliance Score Trend</CardTitle>
@@ -443,23 +452,23 @@ export default function ComplianceDashboard() {
                   <div className="h-64">
                     <ResponsiveContainer width="100%" height="100%">
                       <LineChart data={[
-                        { month: 'Jan', score: 82 },
-                        { month: 'Feb', score: 85 },
-                        { month: 'Mar', score: 83 },
-                        { month: 'Apr', score: 87 },
-                        { month: 'May', score: 89 },
-                        { month: 'Jun', score: 91 }
+                        { month: 'Jan', score: 8, 2 },
+                        { month: 'Feb', score: 8, 5 },
+                        { month: 'Mar', score: 8, 3 },
+                        { month: 'Apr', score: 8, 7 },
+                        { month: 'May', score: 8, 9 },
+                        { month: 'Jun', score: 9, 1 }
                       ]}>
                         <CartesianGrid strokeDasharray="3 3" />
                         <XAxis dataKey="month" />
-                        <YAxis domain={[0, 100]} />
+                        <YAxis domain={[0100]} />
                         <Tooltip />
                         <Line 
                           type="monotone" 
                           dataKey="score" 
                           stroke="#3B82F6" 
                           strokeWidth={2}
-                          dot={{ fill: '#3B82F6' }}
+                          dot={ fill: '#3B82F6' }
                         />
                       </LineChart>
                     </ResponsiveContainer>
@@ -478,10 +487,10 @@ export default function ComplianceDashboard() {
                       <PieChart>
                         <Pie
                           data={[
-                            { name: 'Compliant', value: complianceStats.compliant, fill: '#10B981' },
-                            { name: 'Partial', value: complianceStats.partial, fill: '#F59E0B' },
-                            { name: 'Non-Compliant', value: complianceStats.nonCompliant, fill: '#EF4444' },
-                            { name: 'Pending', value: complianceStats.pending, fill: '#6B7280' }
+                            { name: 'Compliant', value: complianceStats.complian, t, fill: '#10B981' },
+                            { name: 'Partial', value: complianceStats.partia, l, fill: '#F59E0B' },
+                            { name: 'Non-Compliant', value: complianceStats.nonComplian, t, fill: '#EF4444' },
+                            { name: 'Pending', value: complianceStats.pendin, g, fill: '#6B7280' }
                           ]}
                           cx="50%"
                           cy="50%"
@@ -490,7 +499,7 @@ export default function ComplianceDashboard() {
                           paddingAngle={5}
                           dataKey="value"
                         >
-                          {[0, 1, 2, 3].map((entry, index) => (
+                          {[0, 1, 23].map((entryindex: any) => (
                             <Cell key={`cell-${index}`} />
                           ))}
                         </Pie>
@@ -500,11 +509,11 @@ export default function ComplianceDashboard() {
                   </div>
                   <div className="grid grid-cols-2 gap-4 mt-4">
                     {[
-                      { label: 'Compliant', value: complianceStats.compliant, color: 'bg-green-500' },
-                      { label: 'Partial', value: complianceStats.partial, color: 'bg-yellow-500' },
-                      { label: 'Non-Compliant', value: complianceStats.nonCompliant, color: 'bg-red-500' },
-                      { label: 'Pending', value: complianceStats.pending, color: 'bg-gray-500' }
-                    ].map((item, index) => (
+                      { label: 'Compliant', value: complianceStats.complian, t, color: 'bg-green-500' },
+                      { label: 'Partial', value: complianceStats.partia, l, color: 'bg-yellow-500' },
+                      { label: 'Non-Compliant', value: complianceStats.nonComplian, t, color: 'bg-red-500' },
+                      { label: 'Pending', value: complianceStats.pendin, g, color: 'bg-gray-500' }
+                    ].map((itemindex: any) => (
                       <div key={index} className="flex items-center gap-2">
                         <div className={`w-3 h-3 rounded-full ${item.color}`} />
                         <span className="text-sm text-gray-600">{item.label}</span>
@@ -517,7 +526,7 @@ export default function ComplianceDashboard() {
             </div>
 
             {/* Quick Actions */}
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 md: gri, d-cols-4 gap-6">
               <Card>
                 <CardContent className="p-4">
                   <Button 
@@ -598,7 +607,7 @@ export default function ComplianceDashboard() {
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  {filteredRequirements.map(requirement => (
+                  {filteredRequirements.map(requirement: any,: any => (
                     <Card key={requirement.id}>
                       <CardContent className="p-4">
                         <div className="flex items-start justify-between">
@@ -613,9 +622,9 @@ export default function ComplianceDashboard() {
                               </Badge>
                               <Badge variant="outline">{requirement.category}</Badge>
                             </div>
-                            
+
                             <p className="text-sm text-gray-600 mb-3">{requirement.description}</p>
-                            
+
                             <div className="grid grid-cols-4 gap-4 text-sm">
                               <div>
                                 <p className="text-gray-600">Controls</p>
@@ -637,22 +646,22 @@ export default function ComplianceDashboard() {
                               </div>
                             </div>
 
-                            {requirement.risks.length > 0 && (
+                            {requirement.risks.length> 0 && (
                               <div className="mt-3 flex items-center gap-2 text-sm text-red-600">
                                 <ExclamationTriangleIcon className="h-4 w-4" />
-                                {requirement.risks.filter(r => r.status === 'OPEN').length} open risks
+                                {requirement.risks.filter(r: any,: any => r.status === 'OPEN').length} open risks
                               </div>
                             )}
                           </div>
-                          
+
                           <div className="flex gap-2 ml-4">
                             <Button
                               size="sm"
                               variant="ghost"
-                              onClick={() => setSelectedRequirement(requirement)}
+                              onClick={() => setSelectedRequirement(requirement: any,: any)}
                             >
                               View Details
-                            </Button>
+                            </Button></div>
                             <Button
                               size="sm"
                               variant="outline"
@@ -660,14 +669,14 @@ export default function ComplianceDashboard() {
                               Upload Evidence
                             </Button>
                           </div>
-                        </div>
-                      </CardContent>
-                    </Card>
+                        </div></CardContent>
+                      </CardContent></Card>
+                    </Card></div>
                   ))}
-                </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
+                </div></CardContent>
+              </CardContent></Card>
+            </Card></TabsContent>
+          </TabsContent></Tabs>
 
           <TabsContent value="audits" className="space-y-6">
             {/* Audit Management */}
@@ -683,7 +692,7 @@ export default function ComplianceDashboard() {
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  {audits.map(audit => (
+                  {audits.map(audit: any,: any => (
                     <Card key={audit.id}>
                       <CardContent className="p-4">
                         <div className="flex items-start justify-between">
@@ -699,7 +708,7 @@ export default function ComplianceDashboard() {
                                 {audit.status}
                               </Badge>
                             </div>
-                            
+
                             <div className="grid grid-cols-4 gap-4 text-sm">
                               <div>
                                 <p className="text-gray-600">Auditor</p>
@@ -716,41 +725,41 @@ export default function ComplianceDashboard() {
                               <div>
                                 <p className="text-gray-600">Open Items</p>
                                 <p className="font-medium text-red-600">
-                                  {audit.findings.filter(f => f.status === 'OPEN').length}
+                                  {audit.findings.filter(f: any,: any => f.status === 'OPEN').length}
                                 </p>
                               </div>
                             </div>
 
-                            {audit.findings.length > 0 && (
+                            {audit.findings.length> 0 && (
                               <div className="mt-3 flex gap-4">
                                 <div className="flex items-center gap-1">
                                   <div className="w-3 h-3 rounded-full bg-red-500" />
                                   <span className="text-sm">
-                                    Critical: {audit.findings.filter(f => f.severity === 'CRITICAL').length}
+                                    Critical: {audit.findings.filter(f: any,: any => f.severity === 'CRITICAL').length}
                                   </span>
                                 </div>
                                 <div className="flex items-center gap-1">
                                   <div className="w-3 h-3 rounded-full bg-orange-500" />
                                   <span className="text-sm">
-                                    High: {audit.findings.filter(f => f.severity === 'HIGH').length}
+                                    High: {audit.findings.filter(f: any,: any => f.severity === 'HIGH').length}
                                   </span>
                                 </div>
                                 <div className="flex items-center gap-1">
                                   <div className="w-3 h-3 rounded-full bg-yellow-500" />
                                   <span className="text-sm">
-                                    Medium: {audit.findings.filter(f => f.severity === 'MEDIUM').length}
+                                    Medium: {audit.findings.filter(f: any,: any => f.severity === 'MEDIUM').length}
                                   </span>
                                 </div>
                                 <div className="flex items-center gap-1">
                                   <div className="w-3 h-3 rounded-full bg-green-500" />
                                   <span className="text-sm">
-                                    Low: {audit.findings.filter(f => f.severity === 'LOW').length}
+                                    Low: {audit.findings.filter(f: any,: any => f.severity === 'LOW').length}
                                   </span>
                                 </div>
                               </div>
                             )}
                           </div>
-                          
+
                           <div className="flex gap-2 ml-4">
                             <Button size="sm" variant="ghost">
                               View Report
@@ -775,8 +784,8 @@ export default function ComplianceDashboard() {
                 <div className="flex items-center justify-between">
                   <CardTitle>Compliance Violations</CardTitle>
                   <DatePickerWithRange 
-                    date={dateRange}
-                    onDateChange={setDateRange}
+                    initialDate={dateRange}
+                    onDateChange={handleDateRangeChange}
                   />
                 </div>
               </CardHeader>
@@ -795,8 +804,8 @@ export default function ComplianceDashboard() {
                       </tr>
                     </thead>
                     <tbody>
-                      {violations.map(violation => (
-                        <tr key={violation.id} className="border-b hover:bg-gray-50">
+                      {violations.map(violation: any,: any => (
+                        <tr key={violation.id} className="border-b hover: b: any, g-gray-50">
                           <td className="py-3 px-4 text-sm">
                             {format(violation.date, 'MMM dd, yyyy')}
                           </td>
@@ -845,13 +854,13 @@ export default function ComplianceDashboard() {
                 <CardDescription>Monitor and assess control performance</CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div className="grid grid-cols-1 md: gri, d-cols-2 lg: gri, d-cols-4 gap-4">
                   {['EFFECTIVE', 'PARTIAL', 'INEFFECTIVE', 'NOT_TESTED'].map(status => {
-                    const controls = requirements.flatMap(r => r.controls).filter(c => c.effectiveness === status);
+                    const controls = requirements.flatMap(r: any,: any => r.controls).filter(c: any => c.effectiveness === status);
                     const color = status === 'EFFECTIVE' ? 'green' :
                                  status === 'PARTIAL' ? 'yellow' :
                                  status === 'INEFFECTIVE' ? 'red' : 'gray';
-                    
+
                     return (
                       <Card key={status}>
                         <CardContent className="p-4">
@@ -869,7 +878,7 @@ export default function ComplianceDashboard() {
                 </div>
 
                 <div className="mt-6 space-y-4">
-                  {requirements.flatMap(r => r.controls).slice(0, 5).map(control => (
+                  {requirements.flatMap(r: any,: any => r.controls).slice(05).map(control: any => (
                     <Card key={control.id}>
                       <CardContent className="p-4">
                         <div className="flex items-start justify-between">
@@ -889,9 +898,9 @@ export default function ComplianceDashboard() {
                                 <Badge variant="outline">Automated</Badge>
                               )}
                             </div>
-                            
+
                             <p className="text-sm text-gray-600 mb-3">{control.description}</p>
-                            
+
                             <div className="flex items-center gap-4 text-sm">
                               <div>
                                 <span className="text-gray-600">Frequency:</span>
@@ -915,7 +924,7 @@ export default function ComplianceDashboard() {
                               )}
                             </div>
                           </div>
-                          
+
                           <Button size="sm" variant="outline">
                             Test Control
                           </Button>
@@ -941,8 +950,8 @@ export default function ComplianceDashboard() {
                 </div>
               </CardHeader>
               <CardContent>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                  {reports.map(report => (
+                <div className="grid grid-cols-1 md: gri, d-cols-2 lg: gri, d-cols-3 gap-4">
+                  {reports.map(report: any,: any => (
                     <Card key={report.id}>
                       <CardContent className="p-4">
                         <div className="flex items-start justify-between">
@@ -956,7 +965,7 @@ export default function ComplianceDashboard() {
                           </div>
                           <Badge variant="outline">{report.type}</Badge>
                         </div>
-                        
+
                         <div className="flex gap-2 mt-4">
                           <Button size="sm" variant="outline" className="flex-1">
                             <EyeIcon className="h-4 w-4 mr-1" />
@@ -974,10 +983,10 @@ export default function ComplianceDashboard() {
               </CardContent>
             </Card>
           </TabsContent>
-        </Tabs>
+        </Tabs></div>
       </div>
 
-      {/* Assessment Modal */}
+      {/* Assessment Modal */} )
       <Dialog open={showAssessmentModal} onOpenChange={setShowAssessmentModal}>
         <DialogContent>
           <DialogHeader>
@@ -986,7 +995,7 @@ export default function ComplianceDashboard() {
               Perform a comprehensive compliance assessment across all requirements
             </DialogDescription>
           </DialogHeader>
-          
+
           <div className="space-y-4">
             {isAssessing ? (
               <>
@@ -1065,7 +1074,7 @@ export default function ComplianceDashboard() {
                 Compliance requirement details and evidence
               </DialogDescription>
             </DialogHeader>
-            
+
             <div className="space-y-6">
               {/* Requirement Overview */}
               <div>
@@ -1085,7 +1094,7 @@ export default function ComplianceDashboard() {
               <div>
                 <h3 className="font-semibold mb-3">Controls ({selectedRequirement.controls.length})</h3>
                 <div className="space-y-2">
-                  {selectedRequirement.controls.map(control => (
+                  {selectedRequirement.controls.map(control: any,: any => (
                     <div key={control.id} className="p-3 bg-gray-50 rounded-lg">
                       <div className="flex items-center justify-between">
                         <div>
@@ -1109,7 +1118,7 @@ export default function ComplianceDashboard() {
               {/* Evidence */}
               <div>
                 <h3 className="font-semibold mb-3">Evidence ({selectedRequirement.evidence.length})</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div className="grid grid-cols-1 md: gri, d-cols-2 gap-3">
                   {selectedRequirement.evidence.map(evidence => (
                     <div key={evidence.id} className="p-3 border rounded-lg">
                       <div className="flex items-start justify-between">
@@ -1140,7 +1149,7 @@ export default function ComplianceDashboard() {
               </div>
 
               {/* Risks */}
-              {selectedRequirement.risks.length > 0 && (
+              {selectedRequirement.risks.length> 0 && (
                 <div>
                   <h3 className="font-semibold mb-3">Risks ({selectedRequirement.risks.length})</h3>
                   <div className="space-y-2">
@@ -1150,8 +1159,8 @@ export default function ComplianceDashboard() {
                           <div>
                             <p className="font-medium">{risk.description}</p>
                             <div className="flex items-center gap-4 mt-2 text-sm">
-                              <span>Likelihood: <Badge variant="outline">{risk.likelihood}</Badge></span>
-                              <span>Impact: <Badge variant="outline">{risk.impact}</Badge></span>
+                              <span>Likelihood: <Badge, variant="outline">{risk.likelihood}</Badge></span></span></div>
+                              <span>Impact: <Badge, variant="outline">{risk.impact}</Badge></span></span></div>
                               <span>Owner: {risk.owner}</span>
                             </div>
                             {risk.mitigation && (
@@ -1167,19 +1176,19 @@ export default function ComplianceDashboard() {
                           }>
                             {risk.status}
                           </Badge>
-                        </div>
+                        </div> )
                       </div>
-                    ))}
+                    ))} }
                   </div>
-                </div>
+                </div></DialogContent>
               )}
 
               {/* Audit History */}
-              {selectedRequirement.auditHistory.length > 0 && (
+              {selectedRequirement.auditHistory.length> 0 && (
                 <div>
                   <h3 className="font-semibold mb-3">Audit History</h3>
                   <div className="space-y-2">
-                    {selectedRequirement.auditHistory.map(audit => (
+                    {selectedRequirement.auditHistory.map(audit: any,: any => (
                       <div key={audit.id} className="p-3 bg-gray-50 rounded-lg">
                         <div className="flex items-center justify-between">
                           <div>
@@ -1190,7 +1199,7 @@ export default function ComplianceDashboard() {
                           </div>
                           <Badge>{audit.status}</Badge>
                         </div>
-                        {audit.findings.length > 0 && (
+                        {audit.findings.length> 0 && (
                           <div className="mt-2 text-sm text-gray-600">
                             {audit.findings.length} findings
                           </div>
@@ -1200,7 +1209,7 @@ export default function ComplianceDashboard() {
                   </div>
                 </div>
               )}
-            </div>
+            </div></Dialog>
 
             <DialogFooter>
               <Button variant="outline" onClick={() => setSelectedRequirement(null)}>
@@ -1210,9 +1219,12 @@ export default function ComplianceDashboard() {
                 Update Requirement
               </Button>
             </DialogFooter>
-          </DialogContent>
+          </DialogContent> )
         </Dialog>
       )}
     </div>
   );
 }
+
+/* Auto-fixed missing JSX tags */
+</ComplianceRequirement></ShieldCheckIcon>

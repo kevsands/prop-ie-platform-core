@@ -28,7 +28,7 @@ export class MockBaseRepository<T, CreateInput = any, UpdateInput = any> {
     orderBy?: any;
   }): Promise<T[]> {
     const { skip, take, where, orderBy } = params;
-    
+
     return this.model.findMany?.({
       skip,
       take,
@@ -36,34 +36,28 @@ export class MockBaseRepository<T, CreateInput = any, UpdateInput = any> {
       orderBy: orderBy || { created: 'desc' },
       include: { 
         location: true,
-        developer: true,
-      },
-    }) || [];
+        developer: true}) || [];
   }
 
   async count(where?: any): Promise<number> {
     return this.model.count({
-      where,
-    });
+      where});
   }
 
   async create(data: CreateInput): Promise<T> {
     return this.model.create({
-      data,
-    });
+      data});
   }
 
   async update(id: string, data: UpdateInput): Promise<T> {
     return this.model.update({
       where: { id },
-      data,
-    });
+      data});
   }
 
   async delete(id: string): Promise<T> {
     return this.model.delete({
-      where: { id },
-    });
+      where: { id });
   }
 
   async transaction<R>(callback: (tx: any) => Promise<R>): Promise<R> {
@@ -80,17 +74,14 @@ export class UserRepository extends MockBaseRepository<any> {
 
   async findByEmail(email: string): Promise<any | null> {
     return this.model.findUnique({
-      where: { email },
-    });
+      where: { email });
   }
 
   async getUserPermissions(userId: string): Promise<string[]> {
     const user = await this.model.findUnique({
       where: { id: userId },
       include: {
-        permissions: true,
-      },
-    });
+        permissions: true});
 
     return user?.permissions?.map((p: any) => p.name) || [];
   }
@@ -109,8 +100,7 @@ export class DevelopmentRepository extends MockBaseRepository<any> {
 
   async findByDeveloperId(developerId: string): Promise<any[]> {
     return this.model.findMany({
-      where: { developerId },
-    });
+      where: { developerId });
   }
 
   async findByFilters(filters: any, page: number = 1, pageSize: number = 20): Promise<any> {
@@ -128,11 +118,7 @@ export class DevelopmentRepository extends MockBaseRepository<any> {
       include: {
         timeline: {
           include: {
-            items: true,
-          },
-        },
-      },
-    });
+            items: true}});
 
     return development?.timeline?.items || [];
   }
@@ -162,17 +148,14 @@ export class UnitRepository extends MockBaseRepository<any> {
     }
 
     return this.model.findMany({
-      where,
-    });
+      where});
   }
 
   async getRooms(unitId: string): Promise<any[]> {
     const unit = await this.model.findUnique({
       where: { id: unitId },
       include: {
-        rooms: true,
-      },
-    });
+        rooms: true});
 
     return unit?.rooms || [];
   }
@@ -192,14 +175,12 @@ export class DocumentRepository extends MockBaseRepository<any> {
 
   async findByUnitId(unitId: string): Promise<any[]> {
     return this.model.findMany({
-      where: { unitId },
-    });
+      where: { unitId });
   }
 
   async findByDevelopmentId(developmentId: string): Promise<any[]> {
     return this.model.findMany({
-      where: { developmentId },
-    });
+      where: { developmentId });
   }
 
   async findWithDetails(id: string): Promise<any | null> {
@@ -208,9 +189,7 @@ export class DocumentRepository extends MockBaseRepository<any> {
       include: {
         previousVersions: true,
         workflow: true,
-        signatures: true,
-      },
-    });
+        signatures: true});
   }
 }
 
@@ -228,7 +207,7 @@ export class FinancialRepository extends MockBaseRepository<any> {
         finances: true
       }
     });
-    
+
     return development?.finances || null;
   }
 

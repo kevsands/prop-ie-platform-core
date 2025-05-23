@@ -15,7 +15,7 @@ export interface Notification {
   timestamp: string;
   isRead: boolean;
   actionUrl?: string;
-  metadata?: Record<string, any>;
+  metadata?: Record<string, any>\n  );
   transactionId?: string;
   userId: string;
 }
@@ -26,18 +26,17 @@ interface NotificationContextType {
   loadingNotifications: boolean;
   
   // Actions
-  fetchNotifications: () => Promise<void>;
-  markAsRead: (notificationId: string) => Promise<void>;
-  markAllAsRead: () => Promise<void>;
-  deleteNotification: (notificationId: string) => Promise<void>;
-  clearAllNotifications: () => Promise<void>;
-  
+  fetchNotifications: () => Promise<void>\n  );
+  markAsRead: (notificationId: string) => Promise<void>\n  );
+  markAllAsRead: () => Promise<void>\n  );
+  deleteNotification: (notificationId: string) => Promise<void>\n  );
+  clearAllNotifications: () => Promise<void>\n  );
   // Real-time
   subscribeToNotifications: () => () => void;
   
   // Preferences
   notificationPreferences: NotificationPreferences;
-  updateNotificationPreferences: (preferences: Partial<NotificationPreferences>) => Promise<void>;
+  updateNotificationPreferences: (preferences: Partial<NotificationPreferences>) => Promise<void>\n  );
 }
 
 export interface NotificationPreferences {
@@ -85,9 +84,9 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({ chil
   const { currentTransaction } = useTransaction();
   const { toast } = useToast();
   
-  const [notifications, setNotifications] = useState<Notification[]>([]);
-  const [loadingNotifications, setLoadingNotifications] = useState(false);
-  const [notificationPreferences, setNotificationPreferences] = useState<NotificationPreferences>(defaultPreferences);
+  const [notificationssetNotifications] = useState<Notification[]>([]);
+  const [loadingNotificationssetLoadingNotifications] = useState(false);
+  const [notificationPreferencessetNotificationPreferences] = useState<NotificationPreferences>(defaultPreferences);
   
   // Calculate unread count
   const unreadCount = notifications.filter(n => !n.isRead).length;
@@ -184,7 +183,7 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({ chil
     // Create EventSource for SSE or WebSocket connection
     const eventSource = new EventSource(`/api/notifications/subscribe?userId=${user.id}`);
     
-    eventSource.onmessage = (event) => {
+    eventSource.onmessage = (event: any) => {
       try {
         const notification: Notification = JSON.parse(event.data);
         
@@ -215,7 +214,7 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({ chil
       }
     };
     
-    eventSource.onerror = (error) => {
+    eventSource.onerror = (error: any) => {
       console.error('Notification subscription error:', error);
     };
     
@@ -305,7 +304,7 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({ chil
   useEffect(() => {
     const unsubscribe = subscribeToNotifications();
     return unsubscribe;
-  }, [user, notificationPreferences]);
+  }, [usernotificationPreferences]);
 
   const value: NotificationContextType = {
     notifications,

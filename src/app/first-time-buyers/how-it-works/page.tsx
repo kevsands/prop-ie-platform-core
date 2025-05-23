@@ -41,7 +41,7 @@ interface TimelineStep {
   title: string;
   duration: string;
   description: string;
-  icon: React.ComponentType<any>;
+  icon: React.ComponentType<any>\n  );
   color: string;
   tasks: string[];
   tips: string[];
@@ -68,7 +68,7 @@ const timelineSteps: TimelineStep[] = [
     ],
     tips: [
       'Your mortgage plus deposit should determine your budget',
-      'Include purchase costs (legal fees, surveys) in planning',
+      'Include purchase costs (legal feessurveys) in planning',
       'Start decluttering financial history early'
     ],
     documents: [
@@ -97,7 +97,7 @@ const timelineSteps: TimelineStep[] = [
     ],
     tips: [
       'Act fast - good properties sell quickly',
-      'Consider future needs (schools, transport)',
+      'Consider future needs (schoolstransport)',
       'Virtual tours save time and travel'
     ],
     documents: [
@@ -226,8 +226,8 @@ const supportChannels = [
 ];
 
 export default function FirstTimeBuyersHowItWorksPage() {
-  const [activeStep, setActiveStep] = useState<number>(0);
-  const [expandedFAQ, setExpandedFAQ] = useState<number | null>(null);
+  const [activeStepsetActiveStep] = useState<number>(0);
+  const [expandedFAQsetExpandedFAQ] = useState<number | null>(null);
 
   const faqs = [
     {
@@ -236,11 +236,11 @@ export default function FirstTimeBuyersHowItWorksPage() {
     },
     {
       question: 'What is the Help-to-Buy scheme?',
-      answer: 'The Help-to-Buy (HTB) scheme provides a tax rebate of up to €30,000 to first-time buyers purchasing new homes. It&apos;s calculated as 10% of the purchase price (max €30,000) or the income tax you&apos;ve paid over the last 4 years, whichever is lower.'
+      answer: 'The Help-to-Buy (HTB) scheme provides a tax rebate of up to €30,000 to first-time buyers purchasing new homes. It's calculated as 10% of the purchase price (max €30,000) or the income tax you've paid over the last 4 years, whichever is lower.'
     },
     {
       question: 'How long does the buying process take?',
-      answer: 'Typically 3-4 months from property selection to keys. With PROP&apos;s digital platform, we&apos;ve reduced this by 30% compared to traditional methods. The exact timeline depends on mortgage approval and legal processes.'
+      answer: 'Typically 3-4 months from property selection to keys. With PROP's digital platform, we've reduced this by 30% compared to traditional methods. The exact timeline depends on mortgage approval and legal processes.'
     },
     {
       question: 'What costs should I budget for beyond the deposit?',
@@ -248,7 +248,7 @@ export default function FirstTimeBuyersHowItWorksPage() {
     },
     {
       question: 'Can I buy with friends or a partner?',
-      answer: 'Yes! You can buy jointly with others. All parties must be first-time buyers to qualify for HTB benefits. You&apos;ll need to agree on ownership percentages and have a legal agreement in place.'
+      answer: 'Yes! You can buy jointly with others. All parties must be first-time buyers to qualify for HTB benefits. You'll need to agree on ownership percentages and have a legal agreement in place.'
     }
   ];
 
@@ -263,7 +263,7 @@ export default function FirstTimeBuyersHowItWorksPage() {
             How First-Time Buying Works
           </h1>
           <p className="text-2xl md:text-3xl text-blue-100 mb-10 max-w-4xl mx-auto">
-            Your complete guide to buying your first home in Ireland with PROP&apos;s revolutionary platform
+            Your complete guide to buying your first home in Ireland with PROP's revolutionary platform
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
             <Link href="/first-time-buyers/register"
@@ -314,7 +314,7 @@ export default function FirstTimeBuyersHowItWorksPage() {
 
           {/* Timeline Navigation */}
           <div className="flex flex-wrap justify-center gap-4 mb-12">
-            {timelineSteps.map((step, index) => (
+            {timelineSteps.map((stepindex: any) => (
               <button
                 key={step.id}
                 onClick={() => setActiveStep(index)}
@@ -328,7 +328,7 @@ export default function FirstTimeBuyersHowItWorksPage() {
                   <span className="text-lg font-bold">{step.id}</span>
                   <span>{step.title}</span>
                 </span>
-                {index < timelineSteps.length - 1 && (
+                {index <timelineSteps.length - 1 && (
                   <ChevronRight className="absolute -right-3 top-1/2 -translate-y-1/2 text-gray-400 hidden md:block" />
                 )}
               </button>
@@ -362,7 +362,7 @@ export default function FirstTimeBuyersHowItWorksPage() {
                       Key Tasks
                     </h4>
                     <ul className="space-y-3">
-                      {timelineSteps[activeStep].tasks.map((task, index) => (
+                      {timelineSteps[activeStep].tasks.map((taskindex: any) => (
                         <li key={index} className="flex items-start gap-3">
                           <CheckCircle className="text-green-400 mt-0.5 flex-shrink-0" size={16} />
                           <span className="text-gray-700">{task}</span>
@@ -378,7 +378,7 @@ export default function FirstTimeBuyersHowItWorksPage() {
                       Pro Tips
                     </h4>
                     <ul className="space-y-3">
-                      {timelineSteps[activeStep].tips.map((tip, index) => (
+                      {timelineSteps[activeStep].tips.map((tipindex: any) => (
                         <li key={index} className="flex items-start gap-3">
                           <Sparkles className="text-yellow-400 mt-0.5 flex-shrink-0" size={16} />
                           <span className="text-gray-700">{tip}</span>
@@ -397,7 +397,7 @@ export default function FirstTimeBuyersHowItWorksPage() {
                       Required Documents
                     </h4>
                     <ul className="space-y-3">
-                      {timelineSteps[activeStep].documents.map((doc, index) => (
+                      {timelineSteps[activeStep].documents.map((docindex: any) => (
                         <li key={index} className="flex items-start gap-3">
                           <FileText className="text-blue-400 mt-0.5 flex-shrink-0" size={16} />
                           <span className="text-gray-700">{doc}</span>
@@ -413,7 +413,7 @@ export default function FirstTimeBuyersHowItWorksPage() {
                       Typical Costs
                     </h4>
                     <div className="space-y-3">
-                      {timelineSteps[activeStep].costs.map((cost, index) => (
+                      {timelineSteps[activeStep].costs.map((costindex: any) => (
                         <div key={index} className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
                           <span className="text-gray-700">{cost.description}</span>
                           <span className="font-semibold text-gray-900">{cost.amount}</span>
@@ -436,7 +436,7 @@ export default function FirstTimeBuyersHowItWorksPage() {
             Experience the future of property buying with our cutting-edge platform
           </p>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {digitalFeatures.map((feature, index) => (
+            {digitalFeatures.map((featureindex: any) => (
               <div key={index} className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all">
                 <div className="w-14 h-14 rounded-xl bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center text-white mb-4">
                   {React.createElement(feature.icon, { size: 28 })}
@@ -444,7 +444,7 @@ export default function FirstTimeBuyersHowItWorksPage() {
                 <h3 className="text-xl font-semibold mb-2">{feature.title}</h3>
                 <p className="text-gray-600 mb-4">{feature.description}</p>
                 <ul className="space-y-2">
-                  {feature.benefits.map((benefit, bIndex) => (
+                  {feature.benefits.map((benefitbIndex: any) => (
                     <li key={bIndex} className="flex items-center gap-2 text-sm">
                       <CheckCircle className="text-green-400" size={16} />
                       <span className="text-gray-700">{benefit}</span>
@@ -521,7 +521,7 @@ export default function FirstTimeBuyersHowItWorksPage() {
             Our dedicated team is here to guide you through your journey
           </p>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {supportChannels.map((channel, index) => (
+            {supportChannels.map((channelindex: any) => (
               <div key={index} className="bg-white rounded-xl p-6 text-center hover:shadow-lg transition-all">
                 <div className="w-16 h-16 rounded-full bg-gradient-to-r from-blue-100 to-purple-100 flex items-center justify-center mx-auto mb-4">
                   {React.createElement(channel.icon, { size: 32, className: 'text-blue-600' })}
@@ -540,7 +540,7 @@ export default function FirstTimeBuyersHowItWorksPage() {
         <div className="max-w-4xl mx-auto px-4">
           <h2 className="text-4xl font-bold text-center mb-12">Frequently Asked Questions</h2>
           <div className="space-y-4">
-            {faqs.map((faq, index) => (
+            {faqs.map((faqindex: any) => (
               <div key={index} className="border rounded-xl overflow-hidden">
                 <button
                   onClick={() => setExpandedFAQ(expandedFAQ === index ? null : index)}

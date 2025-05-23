@@ -46,19 +46,19 @@ export const EnhancedMainNavigation: React.FC<EnhancedMainNavigationProps> = ({
   theme = 'light', 
   isTransparent = false 
 }) => {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [searchOpen, setSearchOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [mobileMenuOpensetMobileMenuOpen] = useState(false);
+  const [searchOpensetSearchOpen] = useState(false);
+  const [searchQuerysetSearchQuery] = useState('');
   const { role, setRole } = useUserRole();
   const pathname = usePathname();
   const router = useRouter();
   const { user, isAuthenticated, signOut } = useAuth();
   const { transactions } = useTransaction();
-  
-  const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+
+  const [activeDropdownsetActiveDropdown] = useState<string | null>(null);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const [scrolled, setScrolled] = useState(false);
-  
+  const [scrolledsetScrolled] = useState(false);
+
   // Define user flows for each role
   const userFlows: UserFlow[] = [
     {
@@ -86,7 +86,7 @@ export const EnhancedMainNavigation: React.FC<EnhancedMainNavigationProps> = ({
           icon: <FileText size={18} />,
           description: 'Manage your documents',
           requiresAuth: true,
-          badge: transactions?.filter(t => t.buyerId === user?.id && t.pendingDocs > 0).length || undefined
+          badge: transactions?.filter(t => t.buyerId === user?.id && t.pendingDocs> 0).length || undefined
         },
         { 
           label: 'Help to Buy', 
@@ -284,8 +284,7 @@ export const EnhancedMainNavigation: React.FC<EnhancedMainNavigationProps> = ({
         {
           section: 'AI & Search',
           links: [
-            { href: '/properties/search', label: 'AI Property Search', icon: <Sparkles size={18} />, tag: 'Find your perfect home with AI', highlight: true },
-          ]
+            { href: '/properties/search', label: 'AI Property Search', icon: <Sparkles size={18} />, tag: 'Find your perfect home with AI', highlight: true }]
         },
         { 
           section: "Browse By Type", 
@@ -397,9 +396,9 @@ export const EnhancedMainNavigation: React.FC<EnhancedMainNavigationProps> = ({
   // Handle scroll
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
+      setScrolled(window.scrollY> 20);
     };
-    
+
     window.addEventListener('scroll', handleScroll);
     return () => {
       window.removeEventListener('scroll', handleScroll);
@@ -417,7 +416,7 @@ export const EnhancedMainNavigation: React.FC<EnhancedMainNavigationProps> = ({
         ? 'bg-transparent' 
         : 'bg-white shadow-sm'
   }`;
-  
+
   const textColorClass = 
     scrolled 
       ? 'text-gray-800'
@@ -432,7 +431,7 @@ export const EnhancedMainNavigation: React.FC<EnhancedMainNavigationProps> = ({
     }
     setActiveDropdown(dropdown);
   };
-  
+
   const handleDropdownLeave = () => {
     timeoutRef.current = setTimeout(() => {
       setActiveDropdown(null);
@@ -491,13 +490,13 @@ export const EnhancedMainNavigation: React.FC<EnhancedMainNavigationProps> = ({
                   />
                 </div>
               </Link>
-              
+
               <div className="hidden lg:ml-8 lg:flex lg:space-x-6">
                 {/* Role-specific primary actions */}
                 {isAuthenticated && currentUserFlow && (
                   <>
                     <div className="flex items-center space-x-4 mr-4 pl-4 border-l border-gray-300">
-                      {currentUserFlow.primaryActions.map((action) => (
+                      {currentUserFlow.primaryActions.map((action: any) => (
                         <RoleNavItem 
                           key={action.href} 
                           item={action} 
@@ -512,9 +511,9 @@ export const EnhancedMainNavigation: React.FC<EnhancedMainNavigationProps> = ({
                     <div className="border-l border-gray-300"></div>
                   </>
                 )}
-                
+
                 {/* General navigation sections */}
-                {navigationSections.map((section) => (
+                {navigationSections.map((section: any) => (
                   <DesktopDropdown 
                     key={section.key}
                     title={section.title}
@@ -528,7 +527,7 @@ export const EnhancedMainNavigation: React.FC<EnhancedMainNavigationProps> = ({
                 ))}
               </div>
             </div>
-            
+
             <div className="hidden md:flex md:items-center md:space-x-4">
               {/* Search */}
               <button 
@@ -537,12 +536,12 @@ export const EnhancedMainNavigation: React.FC<EnhancedMainNavigationProps> = ({
               >
                 <Search className="h-5 w-5" />
               </button>
-              
+
               {/* Notifications */}
               <NotificationCenter />
-              
+
               {/* Transaction Badge */}
-              {transactionCount > 0 && (
+              {transactionCount> 0 && (
                 <div className="relative">
                   <Link 
                     href="/transactions"
@@ -555,7 +554,7 @@ export const EnhancedMainNavigation: React.FC<EnhancedMainNavigationProps> = ({
                   </Link>
                 </div>
               )}
-                
+
               {isAuthenticated ? (
                 <div className="flex items-center space-x-3">
                   <Link
@@ -594,7 +593,7 @@ export const EnhancedMainNavigation: React.FC<EnhancedMainNavigationProps> = ({
                 </div>
               )}
             </div>
-            
+
             {/* Mobile menu button */}
             <div className="flex items-center lg:hidden">
               <button
@@ -622,7 +621,7 @@ export const EnhancedMainNavigation: React.FC<EnhancedMainNavigationProps> = ({
           onLogout={handleLogout}
         />
       </nav>
-      
+
       {/* Search Overlay */}
       <SearchOverlay 
         isOpen={searchOpen}
@@ -651,7 +650,7 @@ function RoleNavItem({
   onMouseLeave?: () => void;
   activeDropdown?: string | null;
 }) {
-  const [isDropdownActive, setIsDropdownActive] = useState(false);
+  const [isDropdownActivesetIsDropdownActive] = useState(false);
 
   useEffect(() => {
     setIsDropdownActive(activeDropdown === item.href);
@@ -676,12 +675,12 @@ function RoleNavItem({
           )}
           <ChevronDown className={`ml-1 h-4 w-4 transition-transform ${isDropdownActive ? 'rotate-180' : ''}`} />
         </button>
-        
+
         <div className={`absolute z-10 mt-2 w-64 rounded-md shadow-lg bg-white transition-all duration-200 ${
           isDropdownActive ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-[-10px] pointer-events-none'
         }`}>
           <div className="py-1">
-            {item.children.map((child) => (
+            {item.children.map((child: any) => (
               <Link
                 key={child.href}
                 href={child.href}
@@ -737,11 +736,11 @@ function DesktopDropdown({ title, items, textColor, featuredContent, isActive, o
       }`}>
         <div className="p-6 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8">
           {/* Render each section as a column */}
-          {items.map((section, idx) => (
-            <div key={section.section || idx} className="min-w-[200px]">
-              <h4 className="text-xs font-bold text-gray-700 mb-4 uppercase tracking-wide">{section.section}</h4>
+          {items.map((section: any, idx: any) => (
+            <div key={section.section || idx: any} className="min-w-[200px]">
+              <h4 className="text-xs font-bold text-gray-700 mb-4 uppercase tracking-wide">{section.section: any}</h4>
               <ul className="space-y-3">
-                {section.links.map(link => (
+                {section.links.map(link: any => (
                   <li key={link.href}>
                     <Link href={link.href} className="flex items-start gap-3 group hover:bg-gray-100 rounded-lg p-2 transition-colors">
                       {link.icon && <span className="mt-1 text-[#2B5273]">{link.icon}</span>}

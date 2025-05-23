@@ -7,15 +7,14 @@ import React, { useState } from 'react';
  * Demonstrates the compliance checks for property transactions
  */
 export const KycAmlFlow = () => {
-  const [currentStep, setCurrentStep] = useState(1);
-  const [verificationStatus, setVerificationStatus] = useState<'not_started' | 'in_progress' | 'verified' | 'rejected'>('not_started');
-  const [documents, setDocuments] = useState({
+  const [currentStepsetCurrentStep] = useState(1);
+  const [verificationStatussetVerificationStatus] = useState<'not_started' | 'in_progress' | 'verified' | 'rejected'>('not_started');
+  const [documentssetDocuments] = useState({
     identityUploaded: false,
     addressUploaded: false,
     financialUploaded: false,
-    consentProvided: false,
-  });
-  
+    consentProvided: false});
+
   const steps = [
     {
       id: 1,
@@ -27,8 +26,7 @@ export const KycAmlFlow = () => {
         'All details must be clearly visible'
       ],
       uploadType: 'identity' as const,
-      uploadLabel: 'Upload ID Document',
-    },
+      uploadLabel: 'Upload ID Document'},
     {
       id: 2,
       title: 'Address Verification',
@@ -39,8 +37,7 @@ export const KycAmlFlow = () => {
         'Must show your full name and address'
       ],
       uploadType: 'address' as const,
-      uploadLabel: 'Upload Proof of Address',
-    },
+      uploadLabel: 'Upload Proof of Address'},
     {
       id: 3,
       title: 'Financial Background',
@@ -51,8 +48,7 @@ export const KycAmlFlow = () => {
         'Evidence of deposit source'
       ],
       uploadType: 'financial' as const,
-      uploadLabel: 'Upload Financial Documents',
-    },
+      uploadLabel: 'Upload Financial Documents'},
     {
       id: 4,
       title: 'Consent & Submit',
@@ -63,10 +59,9 @@ export const KycAmlFlow = () => {
         'Consent to third-party checks'
       ],
       uploadType: 'consent' as const,
-      uploadLabel: 'Provide Consent',
-    }
+      uploadLabel: 'Provide Consent'}
   ];
-  
+
   const handleDocumentUpload = (type: 'identity' | 'address' | 'financial' | 'consent') => {
     // In a real implementation, this would handle file uploads
     // For demo purposes, we'll just update the state
@@ -75,13 +70,13 @@ export const KycAmlFlow = () => {
       ...prev,
       [fieldName]: true
     }));
-    
+
     // If all documents are uploaded, set status to in_progress
     const updatedDocs = {
       ...documents,
       [fieldName]: true
     };
-    
+
     if (Object.values(updatedDocs).every(value => value)) {
       setVerificationStatus('in_progress');
       // Simulate automatic verification with timeout
@@ -90,21 +85,21 @@ export const KycAmlFlow = () => {
       }, 3000);
     }
   };
-  
+
   const handleNext = () => {
-    if (currentStep < steps.length) {
+    if (currentStep <steps.length) {
       setCurrentStep(currentStep + 1);
     }
   };
-  
+
   const handlePrevious = () => {
-    if (currentStep > 1) {
+    if (currentStep> 1) {
       setCurrentStep(currentStep - 1);
     }
   };
-  
+
   const currentStepData = steps[currentStep - 1];
-  
+
   // Helper function to check if current step is completed
   const isStepCompleted = (step: typeof steps[0]) => {
     if (step.uploadType === 'consent') {
@@ -112,34 +107,34 @@ export const KycAmlFlow = () => {
     }
     return documents[`${step.uploadType}Uploaded`];
   };
-  
+
   return (
     <div className="bg-white rounded-lg shadow-lg p-6 max-w-4xl mx-auto">
       <h2 className="text-2xl font-bold text-[#2B5273] text-center mb-6">
         KYC/AML Verification Process
       </h2>
-      
+
       <div className="flex items-center mb-8">
         {/* Progress steps */}
-        {steps.map((step) => (
+        {steps.map((step: any) => (
           <div key={step.id} className="flex-1">
             <div className="relative">
               {/* Line */}
-              {step.id < steps.length && (
+              {step.id <steps.length && (
                 <div className={`absolute top-1/2 w-full h-1 ${
-                  step.id < currentStep ? 'bg-green-500' : 'bg-gray-200'
+                  step.id <currentStep ? 'bg-green-500' : 'bg-gray-200'
                 }`}></div>
               )}
-              
+
               {/* Circle */}
               <div 
                 className={`
                   relative z-10 mx-auto w-8 h-8 rounded-full flex items-center justify-center
                   ${step.id === currentStep ? 'bg-[#2B5273] text-white' : 
-                    step.id < currentStep ? 'bg-green-500 text-white' : 'bg-gray-200 text-gray-600'}
+                    step.id <currentStep ? 'bg-green-500 text-white' : 'bg-gray-200 text-gray-600'}
                 `}
               >
-                {step.id < currentStep ? (
+                {step.id <currentStep ? (
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
@@ -148,11 +143,11 @@ export const KycAmlFlow = () => {
                 )}
               </div>
             </div>
-            
+
             <div className="text-center mt-2">
               <span className={`text-xs font-medium ${
                 step.id === currentStep ? 'text-[#2B5273]' : 
-                step.id < currentStep ? 'text-green-500' : 'text-gray-500'
+                step.id <currentStep ? 'text-green-500' : 'text-gray-500'
               }`}>
                 {step.title}
               </span>
@@ -160,16 +155,16 @@ export const KycAmlFlow = () => {
           </div>
         ))}
       </div>
-      
+
       {/* Current step content */}
       <div className="mb-6">
         <h3 className="text-xl font-bold mb-2">{currentStepData.title}</h3>
         <p className="text-gray-600 mb-4">{currentStepData.description}</p>
-        
+
         <div className="bg-blue-50 p-4 rounded-lg mb-6">
           <h4 className="font-semibold mb-2 text-[#2B5273]">Requirements:</h4>
           <ul className="space-y-1">
-            {currentStepData.requirements.map((req, index) => (
+            {currentStepData.requirements.map((reqindex: any) => (
               <li key={index} className="flex items-start">
                 <svg className="h-5 w-5 text-blue-500 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -179,7 +174,7 @@ export const KycAmlFlow = () => {
             ))}
           </ul>
         </div>
-        
+
         <div className="flex justify-center mb-6">
           <button
             onClick={() => handleDocumentUpload(currentStepData.uploadType)}
@@ -209,7 +204,7 @@ export const KycAmlFlow = () => {
           </button>
         </div>
       </div>
-      
+
       {/* Verification status */}
       {currentStep === 4 && (
         <div className={`mb-6 p-4 rounded-lg ${
@@ -236,7 +231,7 @@ export const KycAmlFlow = () => {
               {verificationStatus === 'not_started' && 'Ready for Verification. Please complete all steps to submit.'}
             </h4>
           </div>
-          
+
           {verificationStatus === 'verified' && (
             <div className="mt-4 p-3 bg-white rounded border border-green-200">
               <p className="text-sm text-gray-700 mb-2">
@@ -248,7 +243,7 @@ export const KycAmlFlow = () => {
           )}
         </div>
       )}
-      
+
       {/* Navigation buttons */}
       <div className="flex justify-between mt-8">
         <button
@@ -262,7 +257,7 @@ export const KycAmlFlow = () => {
         >
           Previous
         </button>
-        
+
         <button
           onClick={handleNext}
           disabled={currentStep === steps.length || !isStepCompleted(currentStepData)}
@@ -275,7 +270,7 @@ export const KycAmlFlow = () => {
           Next
         </button>
       </div>
-      
+
       {/* Help & Support */}
       <div className="mt-8 text-center">
         <p className="text-sm text-gray-500">

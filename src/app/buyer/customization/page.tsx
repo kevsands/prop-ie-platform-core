@@ -17,16 +17,14 @@ import {
   Tabs,
   TabsContent,
   TabsList,
-  TabsTrigger,
-} from "../../../components/ui/tabs";
+  TabsTrigger} from "../../../components/ui/tabs";
 import {
   Card,
   CardContent,
   CardDescription,
   CardFooter,
   CardHeader,
-  CardTitle,
-} from "../../../components/ui/card";
+  CardTitle} from "../../../components/ui/card";
 // Removed import for build testing;
 import { 
   Loader2, 
@@ -75,7 +73,7 @@ interface ButtonProps {
   variant?: 'default' | 'outline' | 'secondary';
   children: React.ReactNode;
   disabled?: boolean;
-  onClick?: React.MouseEventHandler<HTMLButtonElement>;
+  onClick?: React.MouseEventHandler<HTMLButtonElement>\n  );
   [key: string]: any; // For additional props
 }
 
@@ -107,7 +105,7 @@ export default function CustomizationPageWrapper() {
   return (
     <ErrorBoundary 
       fallbackRender={() => <FallbackCustomizationPage />} 
-      onError={(error) => console.error("Customization page error:", error)}
+      onError={(error: any) => }
     >
       <CustomizationPageContent />
     </ErrorBoundary>
@@ -116,76 +114,76 @@ export default function CustomizationPageWrapper() {
 
 // The main component content with all the original functionality
 function CustomizationPageContent() {
-  const [activeRoom, setActiveRoom] = useState("livingRoom");
-  const [activeCategory, setActiveCategory] = useState("flooring");
-  const [viewMode, setViewMode] = useState<'grid' | '3d'>('grid');
+  const [activeRoomsetActiveRoom] = useState("livingRoom");
+  const [activeCategorysetActiveCategory] = useState("flooring");
+  const [viewModesetViewMode] = useState<'grid' | '3d'>('grid');
   const { state, selectOption, removeOption, saveCustomization } = useCustomization();
   const router = useRouter();
-  
+
   // Fetch rooms
   const { data: rooms, isLoading: isLoadingRooms } = useQuery({
     queryKey: ['rooms'],
     queryFn: DataService.getRooms,
     staleTime: Infinity, // This data rarely changes
   });
-  
+
   // Fetch categories
   const { data: categories, isLoading: isLoadingCategories } = useQuery({
     queryKey: ['categories'],
     queryFn: DataService.getCategories,
     staleTime: Infinity, // This data rarely changes
   });
-  
+
   // Fetch options for current room and category
   const { data: optionsData, isLoading: isLoadingOptions } = useQuery({
-    queryKey: ['customizationOptions', activeRoom, activeCategory],
-    queryFn: () => DataService.getCustomizationOptions(activeRoom, activeCategory),
+    queryKey: ['customizationOptions', activeRoomactiveCategory],
+    queryFn: () => DataService.getCustomizationOptions(activeRoomactiveCategory),
     staleTime: 1000 * 60 * 5, // 5 minutes
   });
-  
+
   // Get options for the current category
   const options = optionsData?.[activeCategory] || [];
-  
+
   // Track user interactions for analytics and session
   const trackInteraction = useCallback(
     debounce((action: string, details: TrackingDetails) => {
       // This would normally call an analytics tracking service
-      console.log('Tracking:', action, details);
+
     }, 500),
-    [activeRoom, activeCategory]
+    [activeRoomactiveCategory]
   );
-  
+
   // Handle room change
   const handleRoomChange = (roomId: string) => {
     setActiveRoom(roomId);
     trackInteraction('change_room', { roomId });
   };
-  
+
   // Handle category change
   const handleCategoryChange = (categoryId: string) => {
     setActiveCategory(categoryId);
     trackInteraction('change_category', { categoryId });
   };
-  
+
   // Handle option selection
   const handleOptionSelect = (option: CustomizationOption) => {
-    selectOption(option.id, option);
+    selectOption(option.idoption);
     trackInteraction('select_option', { optionId: option.id, price: option.price });
     toast.success(`${option.name} added to your selections`);
   };
-  
+
   // Handle option deselection
   const handleOptionDeselect = (optionId: string) => {
     removeOption(optionId);
     trackInteraction('deselect_option', { optionId });
   };
-  
+
   // Handle view mode toggle
   const handleViewModeToggle = () => {
     setViewMode(viewMode === 'grid' ? '3d' : 'grid');
     trackInteraction('toggle_view_mode', { newMode: viewMode === 'grid' ? '3d' : 'grid' });
   };
-  
+
   // Handle save and continue
   const handleSaveAndContinue = async () => {
     try {
@@ -193,16 +191,16 @@ function CustomizationPageContent() {
       trackInteraction('save_customization', { totalCost: state.totalCost });
       router.push('/buyer/customization/summary');
     } catch (error) {
-      console.error('Failed to save customization:', error);
+
     }
   };
-  
+
   // Handle consultation request
   const handleRequestConsultation = () => {
     trackInteraction('request_consultation', { totalCost: state.totalCost });
     router.push('/buyer/customization/consultation');
   };
-  
+
   // Loading state
   if (isLoadingRooms || isLoadingCategories) {
     return (
@@ -212,7 +210,7 @@ function CustomizationPageContent() {
       </div>
     );
   }
-  
+
   return (
     <div className="min-h-screen bg-gray-50 pb-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -225,18 +223,17 @@ function CustomizationPageContent() {
               Personalize your new home with your preferred finishes and fixtures.
             </p>
           </div>
-          
+
           {/* View Mode Toggle */}
           <Button
-            variant={viewMode === '3d' ? "secondary" : "outline"}
+            variant={viewMode === '3d' ? "secondary" : "outline"
             onClick={handleViewModeToggle}
             className="flex items-center space-x-2"
           >
             {viewMode === 'grid' ? (
               <>
                 <span>View in 3D</span>
-                <Home className="ml-2 h-4 w-4" />
-              </>
+                <Home className="ml-2 h-4 w-4" / />
             ) : (
               <>
                 <span>Grid View</span>
@@ -250,7 +247,7 @@ function CustomizationPageContent() {
             )}
           </Button>
         </div>
-        
+
         {/* Room Navigation */}
         <Tabs defaultValue={activeRoom} onValueChange={handleRoomChange} className="mb-8">
           <TabsList className="flex overflow-x-auto pb-1 mb-2">
@@ -265,7 +262,7 @@ function CustomizationPageContent() {
               </TabsTrigger>
             ))}
           </TabsList>
-          
+
           {rooms?.map((room: Room) => (
             <TabsContent key={room.id} value={room.id} className="mt-0">
               {/* 3D View or Grid View */}
@@ -273,14 +270,14 @@ function CustomizationPageContent() {
                 {/* If in 3D mode, show 3D view */}
                 {viewMode === '3d' && (
                   <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.3 }}
+                    initial={ opacity: 0, y: 10 }
+                    animate={ opacity: 1, y: 0 }
+                    transition={ duration: 0.3 }
                   >
                     <SafeRoomVisualizer room={room.id} />
                   </motion.div>
                 )}
-                
+
                 {/* Category Tabs */}
                 <Tabs defaultValue={activeCategory} onValueChange={handleCategoryChange}>
                   <TabsList className="flex mb-6">
@@ -291,7 +288,7 @@ function CustomizationPageContent() {
                       </TabsTrigger>
                     ))}
                   </TabsList>
-                  
+
                   {categories?.map((category: Category) => (
                     <TabsContent key={category.id} value={category.id}>
                       {isLoadingOptions ? (
@@ -300,13 +297,13 @@ function CustomizationPageContent() {
                         </div>
                       ) : (
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                          {options?.length > 0 ? (
+                          {options?.length> 0 ? (
                             options.map((option: CustomizationOption) => (
                               <motion.div
                                 key={option.id}
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                transition={{ duration: 0.3 }}
+                                initial={ opacity: 0 }
+                                animate={ opacity: 1 }
+                                transition={ duration: 0.3 }
                               >
                                 <Card className={`overflow-hidden transition-all ${
                                   state.selectedOptions[option.id]
@@ -336,7 +333,7 @@ function CustomizationPageContent() {
                                   <CardFooter className="pt-0">
                                     <Button
                                       className="w-full"
-                                      variant={state.selectedOptions[option.id] ? "default" : "outline"}
+                                      variant={state.selectedOptions[option.id] ? "default" : "outline"
                                       onClick={() =>
                                         state.selectedOptions[option.id]
                                           ? handleOptionDeselect(option.id)
@@ -371,13 +368,13 @@ function CustomizationPageContent() {
             </TabsContent>
           ))}
         </Tabs>
-        
+
         {/* Summary and Actions */}
         <Card className="mt-8">
           <CardHeader>
             <CardTitle>Your Selections</CardTitle>
             <CardDescription>
-              Total additional cost:{" "}
+              Total additional cost:{" "
               <span className="font-semibold text-blue-600">
                 €{state.totalCost.toLocaleString()}
               </span>
@@ -416,13 +413,13 @@ function CustomizationPageContent() {
 function getCategoryIcon(categoryId: string) {
   switch (categoryId) {
     case 'flooring':
-      return <Home className="h-4 w-4" />;
+      return <Home className="h-4 w-4" />\n  );
     case 'paint':
-      return <Brush className="h-4 w-4" />;
+      return <Brush className="h-4 w-4" />\n  );
     case 'fixtures':
-      return <Lightbulb className="h-4 w-4" />;
+      return <Lightbulb className="h-4 w-4" />\n  );
     case 'furniture':
-      return <Sofa className="h-4 w-4" />;
+      return <Sofa className="h-4 w-4" />\n  );
     default:
       return null;
   }

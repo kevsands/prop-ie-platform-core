@@ -22,14 +22,12 @@ export default function FinancialOverview({
   budget = { min: 300000, max: 450000 },
   preApproval,
   monthlyPayment = 1850,
-  downPayment = 45000,
-}: FinancialOverviewProps) {
+  downPayment = 45000}: FinancialOverviewProps) {
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('en-IE', {
       style: 'currency',
       currency: 'EUR',
-      minimumFractionDigits: 0,
-    }).format(amount);
+      minimumFractionDigits: 0}).format(amount);
   };
 
   return (
@@ -48,7 +46,7 @@ export default function FinancialOverview({
               {formatCurrency(budget.min)} - {formatCurrency(budget.max)}
             </p>
           </div>
-          
+
           {preApproval && (
             <div className="space-y-1">
               <p className="text-sm text-gray-600">Pre-Approval</p>
@@ -60,14 +58,14 @@ export default function FinancialOverview({
               </p>
             </div>
           )}
-          
+
           <div className="space-y-1">
             <p className="text-sm text-gray-600">Est. Monthly Payment</p>
             <p className="font-semibold">
               {formatCurrency(monthlyPayment)}
             </p>
           </div>
-          
+
           <div className="space-y-1">
             <p className="text-sm text-gray-600">Down Payment</p>
             <p className="font-semibold">
@@ -76,7 +74,7 @@ export default function FinancialOverview({
             <p className="text-xs text-gray-500">10% of property value</p>
           </div>
         </div>
-        
+
         <div className="mt-6 p-4 bg-blue-50 rounded-lg">
           <div className="flex items-center gap-2 mb-2">
             <Calculator className="h-4 w-4 text-blue-600" />

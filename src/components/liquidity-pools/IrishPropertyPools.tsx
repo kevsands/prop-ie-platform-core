@@ -96,11 +96,11 @@ const activePools = [
 ];
 
 export default function IrishPropertyPools() {
-  const [selectedPool, setSelectedPool] = useState<string | null>(null);
-  const [investmentAmount, setInvestmentAmount] = useState<string>('');
-  const [investorType, setInvestorType] = useState<'retail' | 'professional' | 'institutional'>('retail');
-  const [acceptedTerms, setAcceptedTerms] = useState(false);
-  const [showRiskWarning, setShowRiskWarning] = useState(false);
+  const [selectedPoolsetSelectedPool] = useState<string | null>(null);
+  const [investmentAmountsetInvestmentAmount] = useState<string>('');
+  const [investorTypesetInvestorType] = useState<'retail' | 'professional' | 'institutional'>('retail');
+  const [acceptedTermssetAcceptedTerms] = useState(false);
+  const [showRiskWarningsetShowRiskWarning] = useState(false);
 
   // Calculate returns based on investment amount and timing
   const calculateReturns = (pool: any, amount: number) => {
@@ -108,10 +108,10 @@ export default function IrishPropertyPools() {
     const bonusReturn = pool.currentBonus;
     const liquidityReturn = pool.liquidityBonus;
     const totalReturn = baseReturn + bonusReturn + liquidityReturn;
-    
+
     const annualReturn = (amount * totalReturn) / 100;
     const totalProjectReturn = annualReturn * 2.5; // Assuming 2.5 year average project
-    
+
     return {
       baseReturn,
       bonusReturn,
@@ -131,27 +131,27 @@ export default function IrishPropertyPools() {
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
           <div className="text-center">
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
+              initial={ opacity: 0, y: 20 }
+              animate={ opacity: 1, y: 0 }
               className="inline-flex items-center px-6 py-3 bg-emerald-600/20 backdrop-blur-sm border border-emerald-500/50 rounded-full mb-8"
             >
               <Zap className="h-5 w-5 mr-2 text-yellow-400" />
               <span className="text-white font-medium">Revolutionary Development Finance</span>
             </motion.div>
-            
+
             <motion.h1 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 }}
+              initial={ opacity: 0, y: 20 }
+              animate={ opacity: 1, y: 0 }
+              transition={ delay: 0.1 }
               className="text-5xl md:text-6xl font-bold text-white mb-6"
             >
               Irish Property Liquidity Pools
             </motion.h1>
-            
+
             <motion.p 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
+              initial={ opacity: 0, y: 20 }
+              animate={ opacity: 1, y: 0 }
+              transition={ delay: 0.2 }
               className="text-xl md:text-2xl text-gray-300 mb-8 max-w-3xl mx-auto"
             >
               Fund premium developments with dynamic returns, milestone-based releases, 
@@ -159,9 +159,9 @@ export default function IrishPropertyPools() {
             </motion.p>
 
             <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3 }}
+              initial={ opacity: 0, y: 20 }
+              animate={ opacity: 1, y: 0 }
+              transition={ delay: 0.3 }
               className="flex flex-col sm:flex-row gap-4 justify-center"
             >
               <button
@@ -208,12 +208,12 @@ export default function IrishPropertyPools() {
                 title: 'Low Minimums',
                 description: 'Start from €1,000 for retail investors'
               }
-            ].map((benefit, index) => (
+            ].map((benefitindex: any) => (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
+                initial={ opacity: 0, y: 20 }
+                animate={ opacity: 1, y: 0 }
+                transition={ delay: index * 0.1 }
                 className="text-center"
               >
                 <div className="text-emerald-600 mb-4 flex justify-center">{benefit.icon}</div>
@@ -238,14 +238,14 @@ export default function IrishPropertyPools() {
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {activePools.map((pool) => {
+            {activePools.map((pool: any) => {
               const fillPercentage = (pool.currentLiquidity / pool.poolSize) * 100;
               const daysRemaining = Math.ceil((new Date(pool.timeline.fundingDeadline).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24));
-              
+
               return (
                 <motion.div
                   key={pool.id}
-                  whileHover={{ y: -5 }}
+                  whileHover={ y: -5 }
                   className="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-200"
                 >
                   {/* Header */}
@@ -261,7 +261,7 @@ export default function IrishPropertyPools() {
                         {pool.status}
                       </div>
                     </div>
-                    
+
                     {/* Live Returns Display */}
                     <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4">
                       <div className="grid grid-cols-3 gap-4">
@@ -293,9 +293,9 @@ export default function IrishPropertyPools() {
                       </div>
                       <div className="w-full bg-gray-200 rounded-full h-4 mb-2">
                         <motion.div
-                          initial={{ width: 0 }}
-                          animate={{ width: `${fillPercentage}%` }}
-                          transition={{ duration: 1 }}
+                          initial={ width: 0 }
+                          animate={ width: `${fillPercentage}%` }
+                          transition={ duration: 1 }
                           className="bg-gradient-to-r from-emerald-600 to-blue-600 h-4 rounded-full"
                         />
                       </div>
@@ -337,24 +337,24 @@ export default function IrishPropertyPools() {
                           type="number"
                           placeholder="Investment amount"
                           className="flex-1 px-3 py-2 border border-gray-300 rounded-lg"
-                          onChange={(e) => {
+                          onChange={(e: any) => {
                             const value = e.target.value;
                             if (selectedPool === pool.id) {
                               setInvestmentAmount(value);
                             }
-                          }}
+                          }
                         />
                         <button
                           onClick={() => {
                             setSelectedPool(pool.id);
                             setShowRiskWarning(true);
-                          }}
+                          }
                           className="px-4 py-2 bg-emerald-600 text-white rounded-lg font-medium hover:bg-emerald-700"
                         >
                           Calculate
                         </button>
                       </div>
-                      
+
                       {selectedPool === pool.id && investmentAmount && (
                         <div className="mt-4 p-3 bg-white rounded-lg">
                           {(() => {
@@ -413,15 +413,15 @@ export default function IrishPropertyPools() {
       <AnimatePresence>
         {showRiskWarning && (
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
+            initial={ opacity: 0 }
+            animate={ opacity: 1 }
+            exit={ opacity: 0 }
             className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
           >
             <motion.div
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
+              initial={ scale: 0.9, opacity: 0 }
+              animate={ scale: 1, opacity: 1 }
+              exit={ scale: 0.9, opacity: 0 }
               className="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto"
             >
               <div className="p-6 border-b">
@@ -450,7 +450,7 @@ export default function IrishPropertyPools() {
                       'Developer insolvency risk',
                       'Illiquidity during construction period',
                       'Interest rate changes'
-                    ].map((risk, index) => (
+                    ].map((riskindex: any) => (
                       <li key={index} className="flex items-start gap-2">
                         <AlertCircle className="h-5 w-5 text-orange-600 mt-0.5" />
                         <span className="text-gray-700">{risk}</span>
@@ -471,7 +471,7 @@ export default function IrishPropertyPools() {
                     <input
                       type="checkbox"
                       checked={acceptedTerms}
-                      onChange={(e) => setAcceptedTerms(e.target.checked)}
+                      onChange={(e: any) => setAcceptedTerms(e.target.checked)}
                       className="mt-1"
                     />
                     <span className="text-sm text-gray-700">
@@ -494,7 +494,7 @@ export default function IrishPropertyPools() {
                   onClick={() => {
                     // Proceed to investment flow
                     window.location.href = '/invest/kyc';
-                  }}
+                  }
                   className={`flex-1 py-3 rounded-xl font-medium ${
                     acceptedTerms 
                       ? 'bg-emerald-600 text-white hover:bg-emerald-700' 

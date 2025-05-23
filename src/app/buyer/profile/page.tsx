@@ -112,16 +112,16 @@ const propertyFeatures = [
 
 export default function BuyerProfilePage() {
   const router = useRouter();
-  const [activeSection, setActiveSection] = useState('personal');
-  const [isEditing, setIsEditing] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
-  const [profileComplete, setProfileComplete] = useState(75);
-  const [verificationStatus, setVerificationStatus] = useState<'unverified' | 'pending' | 'verified'>('pending');
-  const [uploadProgress, setUploadProgress] = useState(0);
+  const [activeSectionsetActiveSection] = useState('personal');
+  const [isEditingsetIsEditing] = useState(false);
+  const [loadingsetLoading] = useState(false);
+  const [showPasswordsetShowPassword] = useState(false);
+  const [profileCompletesetProfileComplete] = useState(75);
+  const [verificationStatussetVerificationStatus] = useState<'unverified' | 'pending' | 'verified'>('pending');
+  const [uploadProgresssetUploadProgress] = useState(0);
 
   // Form states
-  const [personalInfo, setPersonalInfo] = useState({
+  const [personalInfosetPersonalInfo] = useState({
     firstName: 'John',
     lastName: 'Doe',
     email: 'john.doe@email.com',
@@ -137,7 +137,7 @@ export default function BuyerProfilePage() {
     ppsNumber: '1234567XX'
   });
 
-  const [preferences, setPreferences] = useState({
+  const [preferencessetPreferences] = useState({
     propertyType: ['House', 'Apartment'],
     minBeds: 2,
     maxBeds: 4,
@@ -153,7 +153,7 @@ export default function BuyerProfilePage() {
     reasonForBuying: 'First Home'
   });
 
-  const [financialInfo, setFinancialInfo] = useState({
+  const [financialInfosetFinancialInfo] = useState({
     annualIncome: 65000,
     employmentType: 'Permanent',
     employmentLength: '3+ years',
@@ -168,7 +168,7 @@ export default function BuyerProfilePage() {
     mortgageProvider: 'Bank of Ireland'
   });
 
-  const [notificationSettings, setNotificationSettings] = useState({
+  const [notificationSettingssetNotificationSettings] = useState({
     emailAlerts: true,
     smsAlerts: false,
     pushNotifications: true,
@@ -182,7 +182,7 @@ export default function BuyerProfilePage() {
     newsletter: true
   });
 
-  const [privacySettings, setPrivacySettings] = useState({
+  const [privacySettingssetPrivacySettings] = useState({
     profileVisibility: 'Private',
     shareWithDevelopers: true,
     shareWithAgents: false,
@@ -193,7 +193,7 @@ export default function BuyerProfilePage() {
     apiAccess: false
   });
 
-  const [documents, setDocuments] = useState([
+  const [documentssetDocuments] = useState([
     { id: 1, name: 'Passport', type: 'ID', status: 'verified', uploadDate: '2024-01-15' },
     { id: 2, name: 'Proof of Address', type: 'Address', status: 'verified', uploadDate: '2024-01-16' },
     { id: 3, name: 'Bank Statements', type: 'Financial', status: 'pending', uploadDate: '2024-02-01' },
@@ -216,7 +216,7 @@ export default function BuyerProfilePage() {
   const saveProfile = async () => {
     setLoading(true);
     // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1500));
+    await new Promise(resolve => setTimeout(resolve1500));
     setLoading(false);
     setIsEditing(false);
   };
@@ -228,7 +228,7 @@ export default function BuyerProfilePage() {
       setUploadProgress(0);
       const interval = setInterval(() => {
         setUploadProgress(prev => {
-          if (prev >= 100) {
+          if (prev>= 100) {
             clearInterval(interval);
             return 100;
           }
@@ -245,7 +245,7 @@ export default function BuyerProfilePage() {
           {/* Profile Image */}
           <div className="relative">
             <div className="w-32 h-32 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center overflow-hidden">
-              {uploadProgress > 0 && uploadProgress < 100 ? (
+              {uploadProgress> 0 && uploadProgress <100 ? (
                 <div className="relative w-full h-full flex items-center justify-center">
                   <Loader2 className="w-12 h-12 animate-spin" />
                   <span className="absolute text-sm font-medium">{uploadProgress}%</span>
@@ -340,9 +340,9 @@ export default function BuyerProfilePage() {
 
   const PersonalInfoSection = () => (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3 }}
+      initial={ opacity: 0, y: 20 }
+      animate={ opacity: 1, y: 0 }
+      transition={ duration: 0.3 }
       className="bg-white rounded-xl shadow-lg p-6"
     >
       <div className="flex items-center justify-between mb-6">
@@ -388,7 +388,7 @@ export default function BuyerProfilePage() {
           <input
             type="text"
             value={personalInfo.firstName}
-            onChange={(e) => setPersonalInfo({ ...personalInfo, firstName: e.target.value })}
+            onChange={(e: any) => setPersonalInfo({ ...personalInfo, firstName: e.target.value })}
             disabled={!isEditing}
             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-50"
           />
@@ -402,7 +402,7 @@ export default function BuyerProfilePage() {
           <input
             type="text"
             value={personalInfo.lastName}
-            onChange={(e) => setPersonalInfo({ ...personalInfo, lastName: e.target.value })}
+            onChange={(e: any) => setPersonalInfo({ ...personalInfo, lastName: e.target.value })}
             disabled={!isEditing}
             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-50"
           />
@@ -417,7 +417,7 @@ export default function BuyerProfilePage() {
             <input
               type="email"
               value={personalInfo.email}
-              onChange={(e) => setPersonalInfo({ ...personalInfo, email: e.target.value })}
+              onChange={(e: any) => setPersonalInfo({ ...personalInfo, email: e.target.value })}
               disabled={!isEditing}
               className="w-full px-4 py-2 pl-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-50"
             />
@@ -434,7 +434,7 @@ export default function BuyerProfilePage() {
             <input
               type="tel"
               value={personalInfo.phone}
-              onChange={(e) => setPersonalInfo({ ...personalInfo, phone: e.target.value })}
+              onChange={(e: any) => setPersonalInfo({ ...personalInfo, phone: e.target.value })}
               disabled={!isEditing}
               className="w-full px-4 py-2 pl-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-50"
             />
@@ -450,7 +450,7 @@ export default function BuyerProfilePage() {
           <input
             type="date"
             value={personalInfo.dateOfBirth}
-            onChange={(e) => setPersonalInfo({ ...personalInfo, dateOfBirth: e.target.value })}
+            onChange={(e: any) => setPersonalInfo({ ...personalInfo, dateOfBirth: e.target.value })}
             disabled={!isEditing}
             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-50"
           />
@@ -464,7 +464,7 @@ export default function BuyerProfilePage() {
           <input
             type="text"
             value={personalInfo.occupation}
-            onChange={(e) => setPersonalInfo({ ...personalInfo, occupation: e.target.value })}
+            onChange={(e: any) => setPersonalInfo({ ...personalInfo, occupation: e.target.value })}
             disabled={!isEditing}
             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-50"
           />
@@ -478,7 +478,7 @@ export default function BuyerProfilePage() {
           <input
             type="text"
             value={personalInfo.address}
-            onChange={(e) => setPersonalInfo({ ...personalInfo, address: e.target.value })}
+            onChange={(e: any) => setPersonalInfo({ ...personalInfo, address: e.target.value })}
             disabled={!isEditing}
             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-50"
           />
@@ -493,7 +493,7 @@ export default function BuyerProfilePage() {
             <input
               type={showPassword ? 'text' : 'password'}
               value={personalInfo.ppsNumber}
-              onChange={(e) => setPersonalInfo({ ...personalInfo, ppsNumber: e.target.value })}
+              onChange={(e: any) => setPersonalInfo({ ...personalInfo, ppsNumber: e.target.value })}
               disabled={!isEditing}
               className="w-full px-4 py-2 pr-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-50"
             />
@@ -514,7 +514,7 @@ export default function BuyerProfilePage() {
           </label>
           <select
             value={personalInfo.maritalStatus}
-            onChange={(e) => setPersonalInfo({ ...personalInfo, maritalStatus: e.target.value })}
+            onChange={(e: any) => setPersonalInfo({ ...personalInfo, maritalStatus: e.target.value })}
             disabled={!isEditing}
             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-50"
           >
@@ -530,9 +530,9 @@ export default function BuyerProfilePage() {
 
   const PreferencesSection = () => (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3 }}
+      initial={ opacity: 0, y: 20 }
+      animate={ opacity: 1, y: 0 }
+      transition={ duration: 0.3 }
       className="bg-white rounded-xl shadow-lg p-6"
     >
       <h2 className="text-2xl font-bold text-gray-900 mb-6">Property Preferences</h2>
@@ -541,16 +541,16 @@ export default function BuyerProfilePage() {
       <div className="mb-8">
         <h3 className="text-lg font-semibold mb-4">Property Type</h3>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {['House', 'Apartment', 'Duplex', 'Townhouse'].map((type) => (
+          {['House', 'Apartment', 'Duplex', 'Townhouse'].map((type: any) => (
             <label key={type} className="relative">
               <input
                 type="checkbox"
                 checked={preferences.propertyType.includes(type)}
-                onChange={(e) => {
+                onChange={(e: any) => {
                   if (e.target.checked) {
                     setPreferences({
                       ...preferences,
-                      propertyType: [...preferences.propertyType, type]
+                      propertyType: [...preferences.propertyTypetype]
                     });
                   } else {
                     setPreferences({
@@ -558,7 +558,7 @@ export default function BuyerProfilePage() {
                       propertyType: preferences.propertyType.filter(t => t !== type)
                     });
                   }
-                }}
+                }
                 className="sr-only"
               />
               <div className={`p-4 rounded-lg border-2 cursor-pointer transition-all text-center ${
@@ -585,7 +585,7 @@ export default function BuyerProfilePage() {
               <input
                 type="number"
                 value={preferences.priceMin}
-                onChange={(e) => setPreferences({ ...preferences, priceMin: parseInt(e.target.value) })}
+                onChange={(e: any) => setPreferences({ ...preferences, priceMin: parseInt(e.target.value) })}
                 className="w-full pl-8 pr-4 py-2 border border-gray-300 rounded-lg"
               />
             </div>
@@ -597,7 +597,7 @@ export default function BuyerProfilePage() {
               <input
                 type="number"
                 value={preferences.priceMax}
-                onChange={(e) => setPreferences({ ...preferences, priceMax: parseInt(e.target.value) })}
+                onChange={(e: any) => setPreferences({ ...preferences, priceMax: parseInt(e.target.value) })}
                 className="w-full pl-8 pr-4 py-2 border border-gray-300 rounded-lg"
               />
             </div>
@@ -608,10 +608,10 @@ export default function BuyerProfilePage() {
           <div className="relative h-2 bg-gray-200 rounded-full">
             <div 
               className="absolute h-full bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"
-              style={{
+              style={
                 left: `${(preferences.priceMin / 1000000) * 100}%`,
                 width: `${((preferences.priceMax - preferences.priceMin) / 1000000) * 100}%`
-              }}
+              }
             />
           </div>
           <div className="flex justify-between mt-2 text-sm text-gray-600">
@@ -628,12 +628,12 @@ export default function BuyerProfilePage() {
       <div className="mb-8">
         <h3 className="text-lg font-semibold mb-4">Lifestyle</h3>
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-          {lifestyleOptions.map((option) => (
+          {lifestyleOptions.map((option: any) => (
             <label key={option.id} className="relative">
               <input
                 type="checkbox"
                 checked={preferences.lifestyle.includes(option.id)}
-                onChange={(e) => {
+                onChange={(e: any) => {
                   if (e.target.checked) {
                     setPreferences({
                       ...preferences,
@@ -645,7 +645,7 @@ export default function BuyerProfilePage() {
                       lifestyle: preferences.lifestyle.filter(l => l !== option.id)
                     });
                   }
-                }}
+                }
                 className="sr-only"
               />
               <div className={`p-4 rounded-lg border-2 cursor-pointer transition-all ${
@@ -665,12 +665,12 @@ export default function BuyerProfilePage() {
       <div className="mb-8">
         <h3 className="text-lg font-semibold mb-4">Important Amenities</h3>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-          {amenityPreferences.map((amenity) => (
+          {amenityPreferences.map((amenity: any) => (
             <label key={amenity.id} className="relative">
               <input
                 type="checkbox"
                 checked={preferences.amenities.includes(amenity.id)}
-                onChange={(e) => {
+                onChange={(e: any) => {
                   if (e.target.checked) {
                     setPreferences({
                       ...preferences,
@@ -682,7 +682,7 @@ export default function BuyerProfilePage() {
                       amenities: preferences.amenities.filter(a => a !== amenity.id)
                     });
                   }
-                }}
+                }
                 className="sr-only"
               />
               <div className={`p-3 rounded-lg border cursor-pointer transition-all flex items-center gap-2 ${
@@ -702,12 +702,12 @@ export default function BuyerProfilePage() {
       <div>
         <h3 className="text-lg font-semibold mb-4">Must-Have Features</h3>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-          {propertyFeatures.map((feature) => (
+          {propertyFeatures.map((feature: any) => (
             <label key={feature.id} className="relative">
               <input
                 type="checkbox"
                 checked={preferences.features.includes(feature.id)}
-                onChange={(e) => {
+                onChange={(e: any) => {
                   if (e.target.checked) {
                     setPreferences({
                       ...preferences,
@@ -719,7 +719,7 @@ export default function BuyerProfilePage() {
                       features: preferences.features.filter(f => f !== feature.id)
                     });
                   }
-                }}
+                }
                 className="sr-only"
               />
               <div className={`p-3 rounded-lg border cursor-pointer transition-all flex items-center gap-2 ${
@@ -739,9 +739,9 @@ export default function BuyerProfilePage() {
 
   const FinancialSection = () => (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3 }}
+      initial={ opacity: 0, y: 20 }
+      animate={ opacity: 1, y: 0 }
+      transition={ duration: 0.3 }
       className="bg-white rounded-xl shadow-lg p-6"
     >
       <h2 className="text-2xl font-bold text-gray-900 mb-6">Financial Information</h2>
@@ -757,7 +757,7 @@ export default function BuyerProfilePage() {
             <input
               type="number"
               value={financialInfo.annualIncome}
-              onChange={(e) => setFinancialInfo({ ...financialInfo, annualIncome: parseInt(e.target.value) })}
+              onChange={(e: any) => setFinancialInfo({ ...financialInfo, annualIncome: parseInt(e.target.value) })}
               className="w-full pl-8 pr-4 py-2 border border-gray-300 rounded-lg"
             />
           </div>
@@ -770,7 +770,7 @@ export default function BuyerProfilePage() {
           </label>
           <select
             value={financialInfo.employmentType}
-            onChange={(e) => setFinancialInfo({ ...financialInfo, employmentType: e.target.value })}
+            onChange={(e: any) => setFinancialInfo({ ...financialInfo, employmentType: e.target.value })}
             className="w-full px-4 py-2 border border-gray-300 rounded-lg"
           >
             <option value="Permanent">Permanent</option>
@@ -790,7 +790,7 @@ export default function BuyerProfilePage() {
             <input
               type="number"
               value={financialInfo.deposit}
-              onChange={(e) => setFinancialInfo({ ...financialInfo, deposit: parseInt(e.target.value) })}
+              onChange={(e: any) => setFinancialInfo({ ...financialInfo, deposit: parseInt(e.target.value) })}
               className="w-full pl-8 pr-4 py-2 border border-gray-300 rounded-lg"
             />
           </div>
@@ -803,13 +803,13 @@ export default function BuyerProfilePage() {
           </label>
           <select
             value={financialInfo.creditScore}
-            onChange={(e) => setFinancialInfo({ ...financialInfo, creditScore: e.target.value })}
+            onChange={(e: any) => setFinancialInfo({ ...financialInfo, creditScore: e.target.value })}
             className="w-full px-4 py-2 border border-gray-300 rounded-lg"
           >
             <option value="Excellent">Excellent (750+)</option>
             <option value="Good">Good (700-749)</option>
             <option value="Fair">Fair (650-699)</option>
-            <option value="Poor">Poor (&lt;650)</option>
+            <option value="Poor">Poor (<650)</option>
           </select>
         </div>
       </div>
@@ -817,13 +817,13 @@ export default function BuyerProfilePage() {
       {/* Mortgage Information */}
       <div className="mt-8 p-6 bg-gray-50 rounded-xl">
         <h3 className="text-lg font-semibold mb-4">Mortgage Status</h3>
-        
+
         <div className="space-y-4">
           <label className="flex items-center gap-3">
             <input
               type="checkbox"
               checked={financialInfo.mortgageApprovalInPrinciple}
-              onChange={(e) => setFinancialInfo({ ...financialInfo, mortgageApprovalInPrinciple: e.target.checked })}
+              onChange={(e: any) => setFinancialInfo({ ...financialInfo, mortgageApprovalInPrinciple: e.target.checked })}
               className="w-5 h-5 text-blue-600 rounded"
             />
             <span className="font-medium">I have mortgage approval in principle</span>
@@ -838,7 +838,7 @@ export default function BuyerProfilePage() {
                   <input
                     type="number"
                     value={financialInfo.mortgageAmount}
-                    onChange={(e) => setFinancialInfo({ ...financialInfo, mortgageAmount: parseInt(e.target.value) })}
+                    onChange={(e: any) => setFinancialInfo({ ...financialInfo, mortgageAmount: parseInt(e.target.value) })}
                     className="w-full pl-8 pr-4 py-2 border border-gray-300 rounded-lg"
                   />
                 </div>
@@ -848,7 +848,7 @@ export default function BuyerProfilePage() {
                 <input
                   type="text"
                   value={financialInfo.mortgageProvider}
-                  onChange={(e) => setFinancialInfo({ ...financialInfo, mortgageProvider: e.target.value })}
+                  onChange={(e: any) => setFinancialInfo({ ...financialInfo, mortgageProvider: e.target.value })}
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg"
                 />
               </div>
@@ -859,7 +859,7 @@ export default function BuyerProfilePage() {
             <input
               type="checkbox"
               checked={financialInfo.htbEligible}
-              onChange={(e) => setFinancialInfo({ ...financialInfo, htbEligible: e.target.checked })}
+              onChange={(e: any) => setFinancialInfo({ ...financialInfo, htbEligible: e.target.checked })}
               className="w-5 h-5 text-blue-600 rounded"
             />
             <span className="font-medium">I\'m eligible for Help-to-Buy scheme</span>
@@ -893,9 +893,9 @@ export default function BuyerProfilePage() {
 
   const DocumentsSection = () => (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3 }}
+      initial={ opacity: 0, y: 20 }
+      animate={ opacity: 1, y: 0 }
+      transition={ duration: 0.3 }
       className="bg-white rounded-xl shadow-lg p-6"
     >
       <div className="flex items-center justify-between mb-6">
@@ -908,7 +908,7 @@ export default function BuyerProfilePage() {
       </div>
 
       <div className="space-y-4">
-        {documents.map((doc) => (
+        {documents.map((doc: any) => (
           <div
             key={doc.id}
             className="flex items-center justify-between p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
@@ -962,9 +962,9 @@ export default function BuyerProfilePage() {
 
   const ActivitySection = () => (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3 }}
+      initial={ opacity: 0, y: 20 }
+      animate={ opacity: 1, y: 0 }
+      transition={ duration: 0.3 }
       className="bg-white rounded-xl shadow-lg p-6"
     >
       <h2 className="text-2xl font-bold text-gray-900 mb-6">Activity & Insights</h2>
@@ -1064,9 +1064,9 @@ export default function BuyerProfilePage() {
 
   const NotificationsSection = () => (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3 }}
+      initial={ opacity: 0, y: 20 }
+      animate={ opacity: 1, y: 0 }
+      transition={ duration: 0.3 }
       className="bg-white rounded-xl shadow-lg p-6"
     >
       <h2 className="text-2xl font-bold text-gray-900 mb-6">Notification Preferences</h2>
@@ -1082,14 +1082,13 @@ export default function BuyerProfilePage() {
               viewingReminders: 'Viewing appointment reminders',
               documentDeadlines: 'Document upload deadlines',
               marketInsights: 'Market insights and reports',
-              developerUpdates: 'Updates from developers',
-            }).map(([key, label]) => (
+              developerUpdates: 'Updates from developers'}).map(([keylabel]) => (
               <label key={key} className="flex items-center justify-between p-3 hover:bg-gray-50 rounded-lg cursor-pointer">
                 <span className="text-gray-700">{label}</span>
                 <input
                   type="checkbox"
                   checked={notificationSettings[key]}
-                  onChange={(e) => setNotificationSettings({ ...notificationSettings, [key]: e.target.checked })}
+                  onChange={(e: any) => setNotificationSettings({ ...notificationSettings, [key]: e.target.checked })}
                   className="w-5 h-5 text-blue-600 rounded"
                 />
               </label>
@@ -1112,7 +1111,7 @@ export default function BuyerProfilePage() {
               <input
                 type="checkbox"
                 checked={notificationSettings.emailAlerts}
-                onChange={(e) => setNotificationSettings({ ...notificationSettings, emailAlerts: e.target.checked })}
+                onChange={(e: any) => setNotificationSettings({ ...notificationSettings, emailAlerts: e.target.checked })}
                 className="w-5 h-5 text-blue-600 rounded"
               />
             </label>
@@ -1128,7 +1127,7 @@ export default function BuyerProfilePage() {
               <input
                 type="checkbox"
                 checked={notificationSettings.smsAlerts}
-                onChange={(e) => setNotificationSettings({ ...notificationSettings, smsAlerts: e.target.checked })}
+                onChange={(e: any) => setNotificationSettings({ ...notificationSettings, smsAlerts: e.target.checked })}
                 className="w-5 h-5 text-blue-600 rounded"
               />
             </label>
@@ -1140,9 +1139,9 @@ export default function BuyerProfilePage() {
 
   const PrivacySection = () => (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3 }}
+      initial={ opacity: 0, y: 20 }
+      animate={ opacity: 1, y: 0 }
+      transition={ duration: 0.3 }
       className="bg-white rounded-xl shadow-lg p-6"
     >
       <h2 className="text-2xl font-bold text-gray-900 mb-6">Privacy & Security</h2>
@@ -1159,7 +1158,7 @@ export default function BuyerProfilePage() {
               </div>
               <select
                 value={privacySettings.profileVisibility}
-                onChange={(e) => setPrivacySettings({ ...privacySettings, profileVisibility: e.target.value })}
+                onChange={(e: any) => setPrivacySettings({ ...privacySettings, profileVisibility: e.target.value })}
                 className="px-4 py-2 border border-gray-300 rounded-lg"
               >
                 <option value="Private">Private</option>
@@ -1176,7 +1175,7 @@ export default function BuyerProfilePage() {
               <input
                 type="checkbox"
                 checked={privacySettings.shareWithDevelopers}
-                onChange={(e) => setPrivacySettings({ ...privacySettings, shareWithDevelopers: e.target.checked })}
+                onChange={(e: any) => setPrivacySettings({ ...privacySettings, shareWithDevelopers: e.target.checked })}
                 className="w-5 h-5 text-blue-600 rounded"
               />
             </label>
@@ -1195,7 +1194,7 @@ export default function BuyerProfilePage() {
               <input
                 type="checkbox"
                 checked={privacySettings.twoFactorAuth}
-                onChange={(e) => setPrivacySettings({ ...privacySettings, twoFactorAuth: e.target.checked })}
+                onChange={(e: any) => setPrivacySettings({ ...privacySettings, twoFactorAuth: e.target.checked })}
                 className="w-5 h-5 text-blue-600 rounded"
               />
             </label>
@@ -1208,7 +1207,7 @@ export default function BuyerProfilePage() {
               <input
                 type="checkbox"
                 checked={privacySettings.loginAlerts}
-                onChange={(e) => setPrivacySettings({ ...privacySettings, loginAlerts: e.target.checked })}
+                onChange={(e: any) => setPrivacySettings({ ...privacySettings, loginAlerts: e.target.checked })}
                 className="w-5 h-5 text-blue-600 rounded"
               />
             </label>
@@ -1266,7 +1265,7 @@ export default function BuyerProfilePage() {
               <div className="bg-white rounded-xl shadow-lg p-6">
                 <h3 className="text-lg font-semibold mb-4">Profile Settings</h3>
                 <nav className="space-y-2">
-                  {profileSections.map((section) => (
+                  {profileSections.map((section: any) => (
                     <button
                       key={section.id}
                       onClick={() => setActiveSection(section.id)}

@@ -19,7 +19,7 @@ import { toast } from '@/components/ui/toast';
  *   defaultValues: { email: '', password: '' }
  * });
  * 
- * const onSubmit = handleSubmit(async (data) => {
+ * const onSubmit = handleSubmit(async (data: any) => {
  *   // Form data is already validated by Zod
  *   const result = await api.login(data);
  *   return { success: 'Login successful!' };
@@ -31,14 +31,12 @@ export function useFormWithToast<TSchema extends z.ZodType<any, any, any>, TValu
 }: UseFormProps<TValues> & {
   schema: TSchema
 }) {
-  type FormValues = z.infer<TSchema>;
-  
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  
+  type FormValues = z.infer<TSchema>\n  );
+  const [isSubmittingsetIsSubmitting] = useState(false);
+
   const form = useForm<FormValues>({
     resolver: zodResolver(schema),
-    ...options,
-  });
+    ...options});
 
   /**
    * Enhanced submission handler with toast notifications
@@ -48,19 +46,19 @@ export function useFormWithToast<TSchema extends z.ZodType<any, any, any>, TValu
   const handleSubmit = (
     onSubmit: (data: FormValues) => Promise<{ success?: string } | void>
   ) => {
-    return form.handleSubmit(async (data) => {
+    return form.handleSubmit(async (data: any) => {
       setIsSubmitting(true);
-      
+
       try {
         const result = await onSubmit(data);
-        
+
         if (result?.success) {
           toast.success({ 
             title: 'Success',
             description: result.success 
           });
         }
-        
+
         return result;
       } catch (error: any) {
         toast.error({ 
@@ -73,12 +71,11 @@ export function useFormWithToast<TSchema extends z.ZodType<any, any, any>, TValu
       }
     });
   };
-  
+
   return {
     form,
     handleSubmit,
-    isSubmitting,
-  };
+    isSubmitting};
 }
 
 export default useFormWithToast;

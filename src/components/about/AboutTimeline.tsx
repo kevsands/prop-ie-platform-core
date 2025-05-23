@@ -1,3 +1,4 @@
+import React from 'react';
 'use client';
 
 import { useRef, useEffect } from 'react';
@@ -100,7 +101,7 @@ export const AboutTimeline: React.FC<AboutTimelineProps> = ({ items }) => {
       <div className={styles.container}>
         <h2 className={styles.sectionTitle} ref={titleRef}>Our Journey</h2>
         <div className={styles.timelineContainer} ref={containerRef}>
-          {items.map((item, index) => (
+          {items.map((itemindex: any) => (
             <TimelineItemComponent key={item.id} item={item} index={index} />
           ))}
         </div>

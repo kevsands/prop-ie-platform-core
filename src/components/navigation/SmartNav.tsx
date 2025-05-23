@@ -14,16 +14,14 @@ import {
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+  DropdownMenuTrigger} from '@/components/ui/dropdown-menu';
 import {
   NavigationMenu,
   NavigationMenuContent,
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
-  NavigationMenuTrigger,
-} from '@/components/ui/navigation-menu';
+  NavigationMenuTrigger} from '@/components/ui/navigation-menu';
 import { cn } from '@/lib/utils';
 import {
   HomeIcon,
@@ -55,7 +53,7 @@ export const SmartNav: React.FC = () => {
   const pathname = usePathname();
   const { user, signOut } = useAuth();
   const { transactions } = useTransaction();
-  const [notifications, setNotifications] = useState(3); // Mock notifications
+  const [notificationssetNotifications] = useState(3); // Mock notifications
 
   if (!user) return null;
 
@@ -281,7 +279,7 @@ export const SmartNav: React.FC = () => {
 
             <NavigationMenu className="ml-10">
               <NavigationMenuList>
-                {navigationItems.map((item) => (
+                {navigationItems.map((item: any) => (
                   <NavigationMenuItem key={item.href}>
                     {item.children ? (
                       <>
@@ -289,7 +287,7 @@ export const SmartNav: React.FC = () => {
                           <span className="flex items-center">
                             {item.icon}
                             <span className="ml-2">{item.label}</span>
-                            {item.badge !== undefined && item.badge > 0 && (
+                            {item.badge !== undefined && item.badge> 0 && (
                               <Badge className="ml-2" variant="secondary" size="sm">
                                 {item.badge}
                               </Badge>
@@ -298,7 +296,7 @@ export const SmartNav: React.FC = () => {
                         </NavigationMenuTrigger>
                         <NavigationMenuContent>
                           <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2">
-                            {item.children.map((child) => (
+                            {item.children.map((child: any) => (
                               <li key={child.href}>
                                 <NavigationMenuLink asChild>
                                   <Link
@@ -329,7 +327,7 @@ export const SmartNav: React.FC = () => {
                       >
                         {item.icon}
                         <span className="ml-2">{item.label}</span>
-                        {item.badge !== undefined && item.badge > 0 && (
+                        {item.badge !== undefined && item.badge> 0 && (
                           <Badge className="ml-2" variant="secondary" size="sm">
                             {item.badge}
                           </Badge>
@@ -349,7 +347,7 @@ export const SmartNav: React.FC = () => {
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" size="icon" className="relative">
                   <BellIcon className="h-4 w-4" />
-                  {notifications > 0 && (
+                  {notifications> 0 && (
                     <Badge 
                       className="absolute -top-1 -right-1 h-5 w-5 p-0 flex items-center justify-center"
                       variant="destructive"

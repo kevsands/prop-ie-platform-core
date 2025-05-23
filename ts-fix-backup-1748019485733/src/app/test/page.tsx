@@ -1,0 +1,17 @@
+'use client';
+
+export default function TestPage() {
+  return (
+    <div style={ padding: '20px' }>
+      <h1>Test Page</h1>
+      <p>If you can see this, the app is running!</p>
+      <p>Time: {new Date().toISOString()}</p>
+      <div style={ marginTop: '20px', border: '2px solid red', padding: '10px' }>
+        <h2>Navigation Debug Info:</h2>
+        <p>This page should have the MainNavigation component from ClientLayout.</p>
+        <p>If you don't see a navigation bar at the top, there's an issue.</p>
+        <p>The navigation should be fixed at the top with a white/transparent background.</p>
+      </div>
+    </div>
+  );
+}

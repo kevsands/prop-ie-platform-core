@@ -1,3 +1,4 @@
+import React from 'react';
 import DeveloperPropertiesContent from '@/components/developer/DocumentGeneration';
 
 export default function Page() {
@@ -13,5 +14,5 @@ export default function Page() {
     completionDate: "2026-06-30"
   };
 
-  return <DeveloperPropertiesContent {...projectData} />;
+  return <DeveloperPropertiesContent {...projectData} />\n  );
 }

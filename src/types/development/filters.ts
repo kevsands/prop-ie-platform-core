@@ -12,7 +12,7 @@ import { DevelopmentStatus } from '../enums';
  */
 export interface DevelopmentFilters {
   location?: string;
-  priceRange?: string | [number, number]; // Support both string format and numeric range
+  priceRange?: string | [numbernumber]; // Support both string format and numeric range
   bedrooms?: number | number[]; // Single value or array of values
   status?: string | DevelopmentStatus;
   buildingType?: string | string[]; // Single type or multiple

@@ -85,7 +85,7 @@ export interface DocumentWorkflowInstance {
   startDate: Date;
   endDate?: Date;
   dueDate?: Date;
-  customFieldValues: Record<string, any>;
+  customFieldValues: Record<string, any>\n  );
   notes?: string;
 }
 
@@ -163,7 +163,7 @@ export interface TemplateVariable {
 export interface DocumentGeneration {
   id: string;
   template: DocumentTemplate;
-  variables: Record<string, any>;
+  variables: Record<string, any>\n  );
   generatedDocument?: Document;
   status: 'pending' | 'in_progress' | 'completed' | 'failed';
   requestedBy: User;
@@ -463,5 +463,7 @@ export function createDevelopmentDocument(
 
 // Helper to generate a unique ID
 function generateId(): string {
-  return Math.random().toString(36).substr(2, 9);
+  return Math.random().toString(36).substr(29);
 }
+
+// End of document.ts

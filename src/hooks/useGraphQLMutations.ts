@@ -109,7 +109,7 @@ interface SignatureRequestResponse {
         name: string;
       };
       status: string;
-    }>;
+    }>\n  );
   };
 }
 
@@ -166,7 +166,7 @@ export function useDocumentMutations() {
     UPDATE_DOCUMENT,
     {
       mutationKey: ['updateDocument'],
-      onSuccess: (data) => {
+      onSuccess: (data: any) => {
         queryClient.invalidateQueries({ queryKey: ['documents'] });
         queryClient.invalidateQueries({ 
           queryKey: ['document', data.updateDocument.id]
@@ -194,7 +194,7 @@ export function useDocumentMutations() {
     REQUEST_SIGNATURE,
     {
       mutationKey: ['requestSignature'],
-      onSuccess: (data) => {
+      onSuccess: (data: any) => {
         queryClient.invalidateQueries({ 
           queryKey: ['document', data.requestSignature.id]
         });
@@ -220,25 +220,25 @@ export function useDocumentMutations() {
   const uploadDocument = async (variables: UploadDocumentInput) => {
     // For file uploads, we need to handle the file upload first
     // then pass the resulting URL to the GraphQL mutation
-    
+
     try {
       // 1. Get a presigned URL for the file upload (implementation depends on your backend)
       const presignedUrl = await getPresignedUrl(variables.file.name, variables.file.type);
-      
+
       // 2. Upload the file to the presigned URL
       await uploadToPresignedUrl(presignedUrl.url, variables.file);
-      
+
       // Process tags if they're provided as a string
       let processedTags: string[] | undefined;
       if (typeof variables.metadata.tags === 'string') {
         processedTags = variables.metadata.tags
           .split(',')
           .map(tag => tag.trim())
-          .filter(tag => tag.length > 0);
+          .filter(tag => tag.length> 0);
       } else {
         processedTags = variables.metadata.tags;
       }
-      
+
       // 3. Call the GraphQL mutation with the file URL
       return uploadMutation.mutateAsync({
         input: {
@@ -254,7 +254,7 @@ export function useDocumentMutations() {
         }
       });
     } catch (error) {
-      console.error("Error in uploadDocument:", error);
+
       throw error;
     }
   };
@@ -262,17 +262,17 @@ export function useDocumentMutations() {
   const updateDocument = (variables: UpdateDocumentInput) => {
     // Process tags if they're provided as a string
     const processedInput = { ...variables.input };
-    
+
     if (processedInput.metadata?.tags && typeof processedInput.metadata.tags === 'string') {
       processedInput.metadata = {
         ...processedInput.metadata,
         tags: (processedInput.metadata.tags as string)
           .split(',')
           .map(tag => tag.trim())
-          .filter(tag => tag.length > 0)
+          .filter(tag => tag.length> 0)
       };
     }
-    
+
     return updateMutation.mutateAsync({
       id: variables.id,
       input: processedInput
@@ -324,21 +324,19 @@ async function getPresignedUrl(fileName: string, fileType: string): Promise<{ ur
     const response = await fetch('/api/get-upload-url', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
-      },
+        'Content-Type': 'application/json'},
       body: JSON.stringify({
         fileName,
         fileType
-      }),
-    });
-    
+      })});
+
     if (!response.ok) {
       throw new Error(`Failed to get presigned URL: ${response.status} ${response.statusText}`);
     }
-    
+
     return await response.json();
   } catch (error) {
-    console.error("Error getting presigned URL:", error);
+
     throw error;
   }
 }
@@ -349,15 +347,13 @@ async function uploadToPresignedUrl(url: string, file: File): Promise<void> {
       method: 'PUT',
       body: file,
       headers: {
-        'Content-Type': file.type,
-      },
-    });
-    
+        'Content-Type': file.type});
+
     if (!response.ok) {
       throw new Error(`Failed to upload file: ${response.status} ${response.statusText}`);
     }
   } catch (error) {
-    console.error("Error uploading to presigned URL:", error);
+
     throw error;
   }
 }

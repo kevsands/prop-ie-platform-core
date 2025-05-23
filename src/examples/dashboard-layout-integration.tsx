@@ -24,7 +24,7 @@ export const FinancialDashboardLayout: React.FC<{
   developmentId: string;
 }> = ({ developmentId }) => {
   // Dashboard filter state
-  const [filters, setFilters] = useState<FinancialDashboardFilters>({
+  const [filterssetFilters] = useState<FinancialDashboardFilters>({
     dateRange: {
       startDate: new Date(new Date().setMonth(new Date().getMonth() - 6)),
       endDate: new Date()
@@ -74,7 +74,7 @@ export const FinancialDashboardLayout: React.FC<{
         <div className="flex gap-4">
           <select 
             value={filters.granularity} 
-            onChange={(e) => handleFilterChange({ granularity: e.target.value as any })}
+            onChange={(e: any) => handleFilterChange({ granularity: e.target.value as any })}
             className="px-3 py-2 border rounded-md"
           >
             <option value="day">Daily</option>
@@ -88,7 +88,7 @@ export const FinancialDashboardLayout: React.FC<{
             <input 
               type="checkbox"
               checked={filters.includeForecast}
-              onChange={(e) => handleFilterChange({ includeForecast: e.target.checked })}
+              onChange={(e: any) => handleFilterChange({ includeForecast: e.target.checked })}
             />
             <span>Include Forecast</span>
           </label>

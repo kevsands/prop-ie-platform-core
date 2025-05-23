@@ -93,78 +93,78 @@ const formatCurrency = (amount: number): string => {
 
 export default function MortgageCalculatorPage() {
   // Calculator state
-  const [housePrice, setHousePrice] = useState(300000);
-  const [deposit, setDeposit] = useState(30000);
-  const [depositPercent, setDepositPercent] = useState(10);
-  const [term, setTerm] = useState(30);
-  const [interestRate, setInterestRate] = useState(3.5);
-  const [monthlyPayment, setMonthlyPayment] = useState(0);
-  const [totalRepayment, setTotalRepayment] = useState(0);
-  const [totalInterest, setTotalInterest] = useState(0);
-  
+  const [housePricesetHousePrice] = useState(300000);
+  const [depositsetDeposit] = useState(30000);
+  const [depositPercentsetDepositPercent] = useState(10);
+  const [termsetTerm] = useState(30);
+  const [interestRatesetInterestRate] = useState(3.5);
+  const [monthlyPaymentsetMonthlyPayment] = useState(0);
+  const [totalRepaymentsetTotalRepayment] = useState(0);
+  const [totalInterestsetTotalInterest] = useState(0);
+
   // Advanced options
-  const [showAdvanced, setShowAdvanced] = useState(false);
-  const [paymentFrequency, setPaymentFrequency] = useState('monthly');
-  const [interestType, setInterestType] = useState('fixed');
-  const [extraPayments, setExtraPayments] = useState(0);
-  
+  const [showAdvancedsetShowAdvanced] = useState(false);
+  const [paymentFrequencysetPaymentFrequency] = useState('monthly');
+  const [interestTypesetInterestType] = useState('fixed');
+  const [extraPaymentssetExtraPayments] = useState(0);
+
   // Amortization table state
-  const [amortizationTable, setAmortizationTable] = useState<any[]>([]);
-  const [showFullTable, setShowFullTable] = useState(false);
-  
+  const [amortizationTablesetAmortizationTable] = useState<any[]>([]);
+  const [showFullTablesetShowFullTable] = useState(false);
+
   // Handle deposit percentage change
   useEffect(() => {
     const newDepositPercent = Math.round((deposit / housePrice) * 100);
     setDepositPercent(newDepositPercent);
-  }, [deposit, housePrice]);
-  
+  }, [deposithousePrice]);
+
   // Handle deposit amount change when percentage changes
   const handleDepositPercentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newPercent = Number(e.target.value);
     setDepositPercent(newPercent);
     setDeposit(Math.round((housePrice * newPercent) / 100));
   };
-  
+
   // Calculate mortgage
   useEffect(() => {
     // Principal loan amount
     const principal = housePrice - deposit;
-    
+
     // Convert annual interest rate to monthly
     const monthlyRate = interestRate / 100 / 12;
-    
+
     // Convert years to months
     const numberOfPayments = term * 12;
-    
+
     // Calculate monthly payment
-    const x = Math.pow(1 + monthlyRate, numberOfPayments);
+    const x = Math.pow(1 + monthlyRatenumberOfPayments);
     const monthly = (principal * x * monthlyRate) / (x - 1);
-    
+
     // Calculate total payment over term
     const total = monthly * numberOfPayments;
-    
+
     // Calculate total interest paid
     const interest = total - principal;
-    
+
     setMonthlyPayment(monthly);
     setTotalRepayment(total);
     setTotalInterest(interest);
-    
+
     // Generate amortization table
-    generateAmortizationTable(principal, monthlyRate, numberOfPayments, monthly);
-    
-  }, [housePrice, deposit, term, interestRate, extraPayments]);
-  
+    generateAmortizationTable(principal, monthlyRate, numberOfPaymentsmonthly);
+
+  }, [housePrice, deposit, term, interestRateextraPayments]);
+
   // Generate amortization schedule
   const generateAmortizationTable = (principal: number, monthlyRate: number, numberOfPayments: number, monthlyPayment: number) => {
     let balance = principal;
     const table = [];
-    
+
     for (let i = 1; i <= numberOfPayments; i++) {
       const interestPayment = balance * monthlyRate;
       const principalPayment = monthlyPayment - interestPayment;
       balance -= principalPayment;
-      
+
       // Only store data for years 1, 5, 10, 15, 20, 25, 30 to reduce memory usage
       if (i % 12 === 0 && (i === 12 || i % 60 === 0 || i === numberOfPayments)) {
         table.push({
@@ -172,43 +172,36 @@ export default function MortgageCalculatorPage() {
           payment: monthlyPayment,
           principalPayment: principalPayment,
           interestPayment: interestPayment,
-          remainingBalance: balance > 0 ? balance : 0,
+          remainingBalance: balance> 0 ? balance : 0,
           totalPrincipalPaid: principal - balance
         });
       }
     }
-    
+
     setAmortizationTable(table);
   };
-  
+
   // Prepare chart data
   const pieChartData = {
     labels: ['Principal', 'Total Interest'],
     datasets: [
       {
-        data: [housePrice - deposit, totalInterest],
+        data: [housePrice - deposittotalInterest],
         backgroundColor: ['#2B5273', '#FF6B6B'],
         hoverBackgroundColor: ['#1E3142', '#FF5252'],
-        borderWidth: 0,
-      },
-    ],
-  };
-  
+        borderWidth: 0}]};
+
   const barChartData = {
     labels: amortizationTable.map(row => `Year ${row.period}`),
     datasets: [
       {
         label: 'Principal',
         data: amortizationTable.map(row => row.principalPayment),
-        backgroundColor: '#2B5273',
-      },
+        backgroundColor: '#2B5273'},
       {
         label: 'Interest',
         data: amortizationTable.map(row => row.interestPayment),
-        backgroundColor: '#FF6B6B',
-      },
-    ],
-  };
+        backgroundColor: '#FF6B6B'}]};
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -256,34 +249,34 @@ export default function MortgageCalculatorPage() {
         <div className="w-full lg:w-1/3">
           <div className="bg-white p-6 rounded-lg shadow-md">
             <h2 className="text-xl font-semibold text-gray-900 mb-6">Mortgage Details</h2>
-            
+
             <InputField
               label="Property Price"
               id="house-price"
               type="number"
               value={housePrice}
-              onChange={(e) => setHousePrice(Number(e.target.value))}
+              onChange={(e: any) => setHousePrice(Number(e.target.value))}
               min={50000}
               max={10000000}
               step={1000}
               prefix="€"
               helpText="The purchase price of the property"
             />
-            
+
             <div className="grid grid-cols-2 gap-4">
               <InputField
                 label="Deposit"
                 id="deposit"
                 type="number"
                 value={deposit}
-                onChange={(e) => setDeposit(Number(e.target.value))}
+                onChange={(e: any) => setDeposit(Number(e.target.value))}
                 min={0}
                 max={housePrice}
                 step={1000}
                 prefix="€"
                 helpText="Minimum 10% for first-time buyers"
               />
-              
+
               <InputField
                 label="Deposit Percentage"
                 id="deposit-percent"
@@ -296,33 +289,33 @@ export default function MortgageCalculatorPage() {
                 suffix="%"
               />
             </div>
-            
+
             <InputField
               label="Mortgage Term"
               id="term"
               type="number"
               value={term}
-              onChange={(e) => setTerm(Number(e.target.value))}
+              onChange={(e: any) => setTerm(Number(e.target.value))}
               min={5}
               max={35}
               step={1}
               suffix="years"
               helpText="Typical terms range from 20-35 years"
             />
-            
+
             <InputField
               label="Interest Rate"
               id="interest-rate"
               type="number"
               value={interestRate}
-              onChange={(e) => setInterestRate(Number(e.target.value))}
+              onChange={(e: any) => setInterestRate(Number(e.target.value))}
               min={0.1}
               max={20}
               step={0.1}
               suffix="%"
               helpText="Current mortgage rates in Ireland range from 2.5-5%"
             />
-            
+
             <div className="mt-6">
               <button
                 type="button"
@@ -335,7 +328,7 @@ export default function MortgageCalculatorPage() {
                 </svg>
               </button>
             </div>
-            
+
             {showAdvanced && (
               <div className="mt-4 pt-4 border-t border-gray-200">
                 <div className="mb-4">
@@ -345,14 +338,14 @@ export default function MortgageCalculatorPage() {
                   <select
                     className="block w-full rounded-md border-gray-300 shadow-sm focus:border-[#2B5273] focus:ring-[#2B5273] sm:text-sm"
                     value={paymentFrequency}
-                    onChange={(e) => setPaymentFrequency(e.target.value)}
+                    onChange={(e: any) => setPaymentFrequency(e.target.value)}
                   >
                     <option value="monthly">Monthly</option>
                     <option value="biweekly">Bi-weekly</option>
                     <option value="weekly">Weekly</option>
                   </select>
                 </div>
-                
+
                 <div className="mb-4">
                   <label className="block text-sm font-medium text-gray-700 mb-1">
                     Interest Type
@@ -360,19 +353,19 @@ export default function MortgageCalculatorPage() {
                   <select
                     className="block w-full rounded-md border-gray-300 shadow-sm focus:border-[#2B5273] focus:ring-[#2B5273] sm:text-sm"
                     value={interestType}
-                    onChange={(e) => setInterestType(e.target.value)}
+                    onChange={(e: any) => setInterestType(e.target.value)}
                   >
                     <option value="fixed">Fixed Rate</option>
                     <option value="variable">Variable Rate</option>
                   </select>
                 </div>
-                
+
                 <InputField
                   label="Extra Payments (Monthly)"
                   id="extra-payments"
                   type="number"
                   value={extraPayments}
-                  onChange={(e) => setExtraPayments(Number(e.target.value))}
+                  onChange={(e: any) => setExtraPayments(Number(e.target.value))}
                   min={0}
                   max={10000}
                   step={50}
@@ -382,7 +375,7 @@ export default function MortgageCalculatorPage() {
               </div>
             )}
           </div>
-          
+
           <div className="bg-white p-6 rounded-lg shadow-md mt-6">
             <h2 className="text-xl font-semibold text-gray-900 mb-4">Need Help?</h2>
             <p className="text-gray-700 mb-4">
@@ -396,56 +389,54 @@ export default function MortgageCalculatorPage() {
             </Link>
           </div>
         </div>
-        
+
         {/* Results section */}
         <div className="w-full lg:w-2/3">
           <div className="bg-white p-6 rounded-lg shadow-md">
             <h2 className="text-xl font-semibold text-gray-900 mb-6">Mortgage Summary</h2>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
               <div className="bg-gray-50 p-4 rounded-lg">
                 <div className="text-sm text-gray-500">Monthly Payment</div>
                 <div className="text-2xl font-bold text-gray-900">{formatCurrency(monthlyPayment)}</div>
               </div>
-              
+
               <div className="bg-gray-50 p-4 rounded-lg">
                 <div className="text-sm text-gray-500">Total Repayment</div>
                 <div className="text-2xl font-bold text-gray-900">{formatCurrency(totalRepayment)}</div>
               </div>
-              
+
               <div className="bg-gray-50 p-4 rounded-lg">
                 <div className="text-sm text-gray-500">Total Interest</div>
                 <div className="text-2xl font-bold text-gray-900">{formatCurrency(totalInterest)}</div>
               </div>
             </div>
-            
+
             <div className="mb-8">
               <h3 className="text-lg font-semibold text-gray-900 mb-4">Payment Breakdown</h3>
               <div className="h-64">
-                <Pie data={pieChartData} options={{ maintainAspectRatio: false }} />
+                <Pie data={pieChartData} options={ maintainAspectRatio: false } />
               </div>
             </div>
-            
+
             <div className="mb-8">
               <h3 className="text-lg font-semibold text-gray-900 mb-4">Amortization Chart</h3>
               <div className="h-64">
                 <Bar 
                   data={barChartData} 
-                  options={{ 
+                  options={ 
                     maintainAspectRatio: false,
                     scales: {
                       x: {
-                        stacked: true,
-                      },
+                        stacked: true},
                       y: {
-                        stacked: true,
-                      }
+                        stacked: true}
                     }
-                  }} 
+                  } 
                 />
               </div>
             </div>
-            
+
             <div>
               <h3 className="text-lg font-semibold text-gray-900 mb-4">Amortization Schedule</h3>
               <div className="overflow-x-auto">
@@ -460,7 +451,7 @@ export default function MortgageCalculatorPage() {
                     </tr>
                   </thead>
                   <tbody className="bg-white divide-y divide-gray-200">
-                    {amortizationTable.slice(0, showFullTable ? amortizationTable.length : 5).map((row, index) => (
+                    {amortizationTable.slice(0, showFullTable ? amortizationTable.length : 5).map((rowindex: any) => (
                       <tr key={index}>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{row.period}</td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{formatCurrency(row.payment * 12)}</td>
@@ -472,8 +463,8 @@ export default function MortgageCalculatorPage() {
                   </tbody>
                 </table>
               </div>
-              
-              {amortizationTable.length > 5 && (
+
+              {amortizationTable.length> 5 && (
                 <button
                   type="button"
                   onClick={() => setShowFullTable(!showFullTable)}
@@ -487,7 +478,7 @@ export default function MortgageCalculatorPage() {
               )}
             </div>
           </div>
-          
+
           <div className="bg-gray-50 p-6 rounded-lg mt-6">
             <h3 className="text-lg font-semibold text-gray-900 mb-3">Calculator Disclaimer</h3>
             <p className="text-sm text-gray-600">
@@ -496,7 +487,7 @@ export default function MortgageCalculatorPage() {
               for personalized advice tailored to your circumstances.
             </p>
           </div>
-          
+
           <div className="bg-white p-6 rounded-lg shadow-md mt-6">
             <h3 className="text-lg font-semibold text-gray-900 mb-3">Related Resources</h3>
             <ul className="space-y-2">

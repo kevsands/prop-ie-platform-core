@@ -276,15 +276,15 @@ const salesPipeline = [
 ];
 
 export default function SalesManagementPage() {
-  const [activeTab, setActiveTab] = useState('dashboard');
-  const [selectedUnit, setSelectedUnit] = useState(null);
-  const [selectedBuyer, setSelectedBuyer] = useState(null);
-  const [filterStatus, setFilterStatus] = useState('all');
-  const [searchQuery, setSearchQuery] = useState('');
-  const [viewMode, setViewMode] = useState('grid');
-  const [dateRange, setDateRange] = useState('month');
-  const [showNewBuyerModal, setShowNewBuyerModal] = useState(false);
-  const [showUnitModal, setShowUnitModal] = useState(false);
+  const [activeTabsetActiveTab] = useState('dashboard');
+  const [selectedUnitsetSelectedUnit] = useState(null);
+  const [selectedBuyersetSelectedBuyer] = useState(null);
+  const [filterStatussetFilterStatus] = useState('all');
+  const [searchQuerysetSearchQuery] = useState('');
+  const [viewModesetViewMode] = useState('grid');
+  const [dateRangesetDateRange] = useState('month');
+  const [showNewBuyerModalsetShowNewBuyerModal] = useState(false);
+  const [showUnitModalsetShowUnitModal] = useState(false);
 
   const renderDashboard = () => (
     <div className="space-y-6">
@@ -385,7 +385,7 @@ export default function SalesManagementPage() {
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
           <h3 className="text-lg font-semibold text-gray-900 mb-4">Recent Sales</h3>
           <div className="space-y-4">
-            {recentSales.slice(0, 3).map(sale => (
+            {recentSales.slice(03).map(sale => (
               <div key={sale.id} className="flex items-center justify-between p-3 hover:bg-gray-50 rounded-lg">
                 <div className="flex items-center space-x-3">
                   <div className="p-2 bg-green-100 rounded-lg">
@@ -519,13 +519,13 @@ export default function SalesManagementPage() {
                 type="text"
                 placeholder="Search units..."
                 value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
+                onChange={(e: any) => setSearchQuery(e.target.value)}
                 className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
             <select
               value={filterStatus}
-              onChange={(e) => setFilterStatus(e.target.value)}
+              onChange={(e: any) => setFilterStatus(e.target.value)}
               className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
               <option value="all">All Units</option>
@@ -575,9 +575,9 @@ export default function SalesManagementPage() {
               <div className="mt-4">
                 <div className="w-full bg-gray-200 rounded-full h-2">
                   <div className="flex h-2 rounded-full overflow-hidden">
-                    <div className="bg-green-500" style={{ width: `${(block.sold / block.total) * 100}%` }}></div>
-                    <div className="bg-yellow-500" style={{ width: `${(block.reserved / block.total) * 100}%` }}></div>
-                    <div className="bg-blue-500" style={{ width: `${(block.available / block.total) * 100}%` }}></div>
+                    <div className="bg-green-500" style={ width: `${(block.sold / block.total) * 100}%` }></div>
+                    <div className="bg-yellow-500" style={ width: `${(block.reserved / block.total) * 100}%` }></div>
+                    <div className="bg-blue-500" style={ width: `${(block.available / block.total) * 100}%` }></div>
                   </div>
                 </div>
               </div>
@@ -647,7 +647,7 @@ export default function SalesManagementPage() {
             </button>
           </div>
         </div>
-        
+
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead className="bg-gray-50">
@@ -720,7 +720,7 @@ export default function SalesManagementPage() {
       <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
         <h3 className="text-lg font-semibold text-gray-900 mb-6">Sales Pipeline</h3>
         <div className="space-y-4">
-          {salesPipeline.map((stage, index) => (
+          {salesPipeline.map((stageindex: any) => (
             <div key={stage.stage} className="relative">
               <div className="flex items-center justify-between mb-2">
                 <span className="font-medium text-gray-900">{stage.stage}</span>
@@ -739,7 +739,7 @@ export default function SalesManagementPage() {
                     index === 4 ? 'bg-orange-500' :
                     'bg-green-500'
                   }`}
-                  style={{ width: `${(stage.value / 20000000) * 100}%` }}
+                  style={ width: `${(stage.value / 20000000) * 100}%` }
                 >
                   {stage.count}
                 </div>
@@ -759,19 +759,19 @@ export default function SalesManagementPage() {
                 <div className="text-2xl font-bold text-blue-600">186</div>
                 <div className="text-sm text-blue-600">Inquiries</div>
               </div>
-              <div className="bg-blue-200 py-4" style={{ width: '80%', margin: '0 auto' }}>
+              <div className="bg-blue-200 py-4" style={ width: '80%', margin: '0 auto' }>
                 <div className="text-xl font-bold text-blue-700">148</div>
                 <div className="text-sm text-blue-700">Qualified Leads</div>
               </div>
-              <div className="bg-blue-300 py-4" style={{ width: '60%', margin: '0 auto' }}>
+              <div className="bg-blue-300 py-4" style={ width: '60%', margin: '0 auto' }>
                 <div className="text-lg font-bold text-blue-800">89</div>
                 <div className="text-sm text-blue-800">Viewings</div>
               </div>
-              <div className="bg-blue-400 py-4" style={{ width: '40%', margin: '0 auto' }}>
+              <div className="bg-blue-400 py-4" style={ width: '40%', margin: '0 auto' }>
                 <div className="text-lg font-bold text-white">45</div>
                 <div className="text-sm text-white">Offers</div>
               </div>
-              <div className="bg-blue-500 rounded-b-lg py-4" style={{ width: '20%', margin: '0 auto' }}>
+              <div className="bg-blue-500 rounded-b-lg py-4" style={ width: '20%', margin: '0 auto' }>
                 <div className="text-lg font-bold text-white">22</div>
                 <div className="text-sm text-white">Sales</div>
               </div>
@@ -879,7 +879,7 @@ export default function SalesManagementPage() {
             <span>Upload Document</span>
           </button>
         </div>
-        
+
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead className="bg-gray-50">
@@ -1053,7 +1053,7 @@ export default function SalesManagementPage() {
             </div>
             <h4 className="font-medium text-gray-900">Target Achievement</h4>
           </div>
-          
+
           <div className="text-center">
             <div className="relative w-32 h-32 mx-auto mb-4">
               <svg className="w-32 h-32 transform -rotate-90">
@@ -1084,7 +1084,7 @@ export default function SalesManagementPage() {
             </div>
             <h4 className="font-medium text-gray-900">Conversion Rate</h4>
           </div>
-          
+
           <div className="text-center">
             <div className="relative w-32 h-32 mx-auto mb-4">
               <svg className="w-32 h-32 transform -rotate-90">
@@ -1115,7 +1115,7 @@ export default function SalesManagementPage() {
             </div>
             <h4 className="font-medium text-gray-900">Occupancy Rate</h4>
           </div>
-          
+
           <div className="text-center">
             <div className="relative w-32 h-32 mx-auto mb-4">
               <svg className="w-32 h-32 transform -rotate-90">
@@ -1169,7 +1169,7 @@ export default function SalesManagementPage() {
                 <span className="text-sm text-gray-600">€12.5M (15.8%)</span>
               </div>
               <div className="w-full bg-gray-200 rounded-full h-2">
-                <div className="bg-blue-500 h-2 rounded-full" style={{ width: '15.8%' }}></div>
+                <div className="bg-blue-500 h-2 rounded-full" style={ width: '15.8%' }></div>
               </div>
             </div>
             <div>
@@ -1178,7 +1178,7 @@ export default function SalesManagementPage() {
                 <span className="text-sm text-gray-600">€35.2M (44.5%)</span>
               </div>
               <div className="w-full bg-gray-200 rounded-full h-2">
-                <div className="bg-green-500 h-2 rounded-full" style={{ width: '44.5%' }}></div>
+                <div className="bg-green-500 h-2 rounded-full" style={ width: '44.5%' }></div>
               </div>
             </div>
             <div>
@@ -1187,7 +1187,7 @@ export default function SalesManagementPage() {
                 <span className="text-sm text-gray-600">€24.8M (31.4%)</span>
               </div>
               <div className="w-full bg-gray-200 rounded-full h-2">
-                <div className="bg-yellow-500 h-2 rounded-full" style={{ width: '31.4%' }}></div>
+                <div className="bg-yellow-500 h-2 rounded-full" style={ width: '31.4%' }></div>
               </div>
             </div>
             <div>
@@ -1196,7 +1196,7 @@ export default function SalesManagementPage() {
                 <span className="text-sm text-gray-600">€6.5M (8.3%)</span>
               </div>
               <div className="w-full bg-gray-200 rounded-full h-2">
-                <div className="bg-purple-500 h-2 rounded-full" style={{ width: '8.3%' }}></div>
+                <div className="bg-purple-500 h-2 rounded-full" style={ width: '8.3%' }></div>
               </div>
             </div>
           </div>
@@ -1212,7 +1212,7 @@ export default function SalesManagementPage() {
                 <span className="text-sm text-gray-600">142 (38%)</span>
               </div>
               <div className="w-full bg-gray-200 rounded-full h-2">
-                <div className="bg-blue-500 h-2 rounded-full" style={{ width: '38%' }}></div>
+                <div className="bg-blue-500 h-2 rounded-full" style={ width: '38%' }></div>
               </div>
             </div>
             <div>
@@ -1221,7 +1221,7 @@ export default function SalesManagementPage() {
                 <span className="text-sm text-gray-600">89 (24%)</span>
               </div>
               <div className="w-full bg-gray-200 rounded-full h-2">
-                <div className="bg-green-500 h-2 rounded-full" style={{ width: '24%' }}></div>
+                <div className="bg-green-500 h-2 rounded-full" style={ width: '24%' }></div>
               </div>
             </div>
             <div>
@@ -1230,7 +1230,7 @@ export default function SalesManagementPage() {
                 <span className="text-sm text-gray-600">75 (20%)</span>
               </div>
               <div className="w-full bg-gray-200 rounded-full h-2">
-                <div className="bg-yellow-500 h-2 rounded-full" style={{ width: '20%' }}></div>
+                <div className="bg-yellow-500 h-2 rounded-full" style={ width: '20%' }></div>
               </div>
             </div>
             <div>
@@ -1239,7 +1239,7 @@ export default function SalesManagementPage() {
                 <span className="text-sm text-gray-600">67 (18%)</span>
               </div>
               <div className="w-full bg-gray-200 rounded-full h-2">
-                <div className="bg-purple-500 h-2 rounded-full" style={{ width: '18%' }}></div>
+                <div className="bg-purple-500 h-2 rounded-full" style={ width: '18%' }></div>
               </div>
             </div>
           </div>

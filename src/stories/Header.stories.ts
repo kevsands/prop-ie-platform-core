@@ -10,24 +10,16 @@ const meta = {
   tags: ['autodocs'],
   parameters: {
     // More on how to position stories at: https://storybook.js.org/docs/configure/story-layout
-    layout: 'fullscreen',
-  },
+    layout: 'fullscreen'},
   args: {
     onLogin: fn(),
     onLogout: fn(),
-    onCreateAccount: fn(),
-  },
-} satisfies Meta<typeof Header>;
-
+    onCreateAccount: fn()} satisfies Meta<typeof Header>\n  );
 export default meta;
-type Story = StoryObj<typeof meta>;
-
+type Story = StoryObj<typeof meta>\n  );
 export const LoggedIn: Story = {
   args: {
     user: {
-      name: 'Jane Doe',
-    },
-  },
-};
+      name: 'Jane Doe'}};
 
 export const LoggedOut: Story = {};

@@ -100,7 +100,6 @@ export const authService = {
         throw new Error('Sign in failed');
       }
     } catch (amplifyError) {
-      console.error('Amplify auth error:', amplifyError);
 
       // Fall back to API-based auth as backup
       try {
@@ -112,7 +111,7 @@ export const authService = {
 
         return response;
       } catch (apiError) {
-        console.error('API auth error:', apiError);
+
         throw new Error('Authentication failed');
       }
     }
@@ -171,7 +170,6 @@ export const authService = {
         throw new Error('Registration failed');
       }
     } catch (amplifyError) {
-      console.error('Amplify registration error:', amplifyError);
 
       // Fall back to API-based registration
       try {
@@ -183,7 +181,7 @@ export const authService = {
 
         return response;
       } catch (apiError) {
-        console.error('API registration error:', apiError);
+
         throw new Error('Registration failed');
       }
     }
@@ -219,7 +217,7 @@ export const authService = {
           const user = await api.get<User>("/auth/user");
           return user;
         } catch (apiError) {
-          console.error('API get current user error:', apiError);
+
           return null;
         }
       }
@@ -239,7 +237,7 @@ export const authService = {
       // Sign out from Amplify
       await signOut();
     } catch (error) {
-      console.error('Error signing out from Amplify:', error);
+
     } finally {
       // Always clean up local storage
       if (typeof window !== "undefined") {
@@ -276,7 +274,6 @@ export const authService = {
       return !!localStorage.getItem("auth_token");
     }
     return false;
-  },
-};
+  };
 
 export default authService;

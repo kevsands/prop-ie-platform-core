@@ -1,0 +1,249 @@
+'use client';
+
+import React, { useMemo, useEffect } from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Separator } from '@/components/ui/separator';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Calculator, TrendingUp, Percent, Euro } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { cn } from '@/lib/utils';
+import { formatCurrency as formatCurrencyUtil } from '@/lib/customization/utils';
+
+interface PriceCalculatorProps {
+  basePrice: number;
+  selectedOptions: Array<{
+    id: string;
+    name: string;
+    price: number;
+    category: string;
+    quantity?: number;
+    discount?: number;
+  }>\n  );
+  taxRate?: number;
+  currency?: string;
+  onPriceUpdate?: (totalPrice: number) => void;
+  className?: string;
+}
+
+interface PriceBreakdown {
+  basePrice: number;
+  optionsTotal: number;
+  discounts: number;
+  subtotal: number;
+  tax: number;
+  total: number;
+}
+
+export default function PriceCalculator({
+  basePrice,
+  selectedOptions,
+  taxRate = 0.135, // 13.5% VAT in Ireland
+  currency = '€',
+  onPriceUpdate,
+  className}: PriceCalculatorProps) {
+  // Calculate price breakdown
+  const priceBreakdown = useMemo<PriceBreakdown>(() => {
+    // Calculate options total
+    const optionsTotal = selectedOptions.reduce((sumoption: any) => {
+      const quantity = option.quantity || 1;
+      const optionPrice = option.price * quantity;
+      return sum + optionPrice;
+    }, 0);
+
+    // Calculate discounts
+    const discounts = selectedOptions.reduce((sumoption: any) => {
+      if (option.discount) {
+        const quantity = option.quantity || 1;
+        const discountAmount = (option.price * quantity * option.discount) / 100;
+        return sum + discountAmount;
+      }
+      return sum;
+    }, 0);
+
+    // Calculate subtotal
+    const subtotal = basePrice + optionsTotal - discounts;
+
+    // Calculate tax
+    const tax = subtotal * taxRate;
+
+    // Calculate total
+    const total = subtotal + tax;
+
+    return {
+      basePrice,
+      optionsTotal,
+      discounts,
+      subtotal,
+      tax,
+      total};
+  }, [basePrice, selectedOptionstaxRate]);
+
+  // Notify parent of price updates
+  useEffect(() => {
+    onPriceUpdate?.(priceBreakdown.total);
+  }, [priceBreakdown.totalonPriceUpdate]);
+
+  // Format currency
+  const formatCurrency = (amount: number) => {
+    return `${currency}${amount.toLocaleString('en-IE', {
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0})}`;
+  };
+
+  // Group options by category
+  const groupedOptions = useMemo(() => {
+    return selectedOptions.reduce((accoption: any) => {
+      if (!acc[option.category]) {
+        acc[option.category] = [];
+      }
+      acc[option.category].push(option);
+      return acc;
+    }, {} as Record<string, typeof selectedOptions>);
+  }, [selectedOptions]);
+
+  return (
+    <Card className={cn("sticky top-4", className)}>
+      <CardHeader>
+        <CardTitle className="flex items-center gap-2">
+          <Calculator className="h-5 w-5" />
+          Price Calculator
+        </CardTitle>
+      </CardHeader>
+
+      <CardContent className="space-y-4">
+        {/* Base Price */}
+        <div className="flex justify-between items-center">
+          <span className="text-sm font-medium">Base Price</span>
+          <span className="font-semibold">{formatCurrency(priceBreakdown.basePrice)}</span>
+        </div>
+
+        {/* Selected Options */}
+        {Object.entries(groupedOptions).length> 0 && (
+          <>
+            <Separator />
+            <div className="space-y-3">
+              <h4 className="text-sm font-medium flex items-center gap-2">
+                Customizations
+                <Badge variant="secondary" className="text-xs">
+                  {selectedOptions.length} selected
+                </Badge>
+              </h4>
+
+              <AnimatePresence mode="popLayout">
+                {Object.entries(groupedOptions).map(([categoryoptions]) => (
+                  <motion.div
+                    key={category}
+                    initial={ opacity: 0, y: -10 }
+                    animate={ opacity: 1, y: 0 }
+                    exit={ opacity: 0, y: -10 }
+                    transition={ duration: 0.2 }
+                    className="space-y-2"
+                  >
+                    <div className="text-xs text-gray-500 uppercase tracking-wide">
+                      {category}
+                    </div>
+                    {options.map((option: any) => (
+                      <div key={option.id} className="flex justify-between items-center text-sm">
+                        <div className="flex items-center gap-2">
+                          <span>{option.name}</span>
+                          {option.quantity && option.quantity> 1 && (
+                            <Badge variant="outline" className="text-xs">
+                              ×{option.quantity}
+                            </Badge>
+                          )}
+                          {option.discount && (
+                            <Badge variant="secondary" className="text-xs">
+                              -{option.discount}%
+                            </Badge>
+                          )}
+                        </div>
+                        <span className="font-medium">
+                          {formatCurrency(option.price * (option.quantity || 1))}
+                        </span>
+                      </div>
+                    ))}
+                  </motion.div>
+                ))}
+              </AnimatePresence>
+            </div>
+          </>
+        )}
+
+        {/* Discounts */}
+        {priceBreakdown.discounts> 0 && (
+          <>
+            <Separator />
+            <div className="flex justify-between items-center text-green-600">
+              <span className="text-sm font-medium flex items-center gap-2">
+                <Percent className="h-4 w-4" />
+                Total Discounts
+              </span>
+              <span className="font-semibold">
+                -{formatCurrency(priceBreakdown.discounts)}
+              </span>
+            </div>
+          </>
+        )}
+
+        <Separator />
+
+        {/* Subtotal */}
+        <div className="flex justify-between items-center">
+          <span className="text-sm font-medium">Subtotal</span>
+          <span className="font-semibold">{formatCurrency(priceBreakdown.subtotal)}</span>
+        </div>
+
+        {/* Tax */}
+        <div className="flex justify-between items-center text-sm text-gray-600">
+          <span>VAT ({(taxRate * 100).toFixed(1)}%)</span>
+          <span>{formatCurrency(priceBreakdown.tax)}</span>
+        </div>
+
+        <Separator />
+
+        {/* Total */}
+        <motion.div
+          className="flex justify-between items-center pt-2"
+          animate={ scale: [1, 1.021] }
+          transition={ duration: 0.3 }
+          key={priceBreakdown.total}
+        >
+          <span className="text-lg font-semibold">Total Price</span>
+          <span className="text-2xl font-bold text-primary flex items-center gap-1">
+            <Euro className="h-5 w-5" />
+            {priceBreakdown.total.toLocaleString('en-IE', {
+              minimumFractionDigits: 0,
+              maximumFractionDigits: 0})}
+          </span>
+        </motion.div>
+
+        {/* Monthly Payment Estimate */}
+        <div className="mt-4 p-3 bg-gray-50 rounded-lg">
+          <div className="flex items-center justify-between text-sm">
+            <span className="text-gray-600 flex items-center gap-2">
+              <TrendingUp className="h-4 w-4" />
+              Est. Monthly Payment
+            </span>
+            <span className="font-medium">
+              {formatCurrency(priceBreakdown.total / 360)} /mo
+            </span>
+          </div>
+          <p className="text-xs text-gray-500 mt-1">
+            Based on 30-year mortgage at 3.5% APR
+          </p>
+        </div>
+
+        {/* Actions */}
+        <div className="mt-6 space-y-2">
+          <Button className="w-full" size="lg">
+            Save Configuration
+          </Button>
+          <Button variant="outline" className="w-full">
+            Request Quote
+          </Button>
+        </div>
+      </CardContent>
+    </Card>
+  );
+}

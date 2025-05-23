@@ -1,0 +1,508 @@
+// Notification Service
+import { PrismaClient, User, Transaction, TransactionEvent, Document } from '@prisma/client';
+import { Resend } from 'resend';
+import { format } from 'date-fns';
+
+const prisma = new PrismaClient();
+const resend = new Resend(process.env.RESEND_API_KEY || 'your-resend-api-key');
+
+export interface NotificationOptions {
+  to: string;
+  subject: string;
+  body: string;
+  htmlBody?: string;
+  attachments?: Array<{
+    filename: string;
+    content: Buffer | string;
+    contentType?: string;
+  }>\n  );
+}
+
+export interface TransactionNotificationData {
+  transaction: Transaction & {
+    buyer?: User;
+    seller?: User;
+    solicitor?: User;
+    agent?: User;
+    development?: {
+      name: string;
+      developer?: User;
+    };
+    unit?: {
+      unitNumber: string;
+      type: string;
+    };
+  };
+  event: TransactionEvent;
+  additionalInfo?: any;
+}
+
+class NotificationService {
+  // Send basic email notification
+  async sendEmail(options: NotificationOptions): Promise<void> {
+    try {
+      await resend.emails.send({
+        from: process.env.NOTIFICATION_EMAIL_FROM || 'noreply@propplatform.com',
+        to: options.to,
+        subject: options.subject,
+        text: options.body,
+        html: options.htmlBody || options.body,
+        attachments: options.attachments
+      });
+    } catch (error) {
+
+      throw new Error(`Email sending failed: ${error.message}`);
+    }
+  }
+
+  // Send transaction update notification
+  async sendTransactionNotification(data: TransactionNotificationData): Promise<void> {
+    try {
+      const { transaction, event } = data;
+
+      // Get all stakeholders who should be notified
+      const stakeholders = [
+        transaction.buyer,
+        transaction.seller,
+        transaction.solicitor,
+        transaction.agent,
+        transaction.development?.developer
+      ].filter(Boolean);
+
+      // Create notification content based on event type
+      const { subject, body, htmlBody } = this.createTransactionNotificationContent(data);
+
+      // Send notifications to all stakeholders
+      const notificationPromises = stakeholders.map(async (stakeholder: any) => {
+        if (stakeholder && stakeholder.email && this.shouldNotifyUser(stakeholderevent)) {
+          await this.sendEmail({
+            to: stakeholder.email,
+            subject,
+            body,
+            htmlBody
+          });
+
+          // Log notification in database
+          await prisma.notification.create({
+            data: {
+              userId: stakeholder.id,
+              type: 'TRANSACTION_UPDATE',
+              title: subject,
+              message: body,
+              relatedEntityId: transaction.id,
+              relatedEntityType: 'TRANSACTION',
+              priority: this.getNotificationPriority(event.type),
+              metadata: {
+                eventType: event.type,
+                transactionId: transaction.id
+              }
+            }
+          });
+        }
+      });
+
+      await Promise.all(notificationPromises);
+    } catch (error) {
+
+      throw new Error(`Transaction notification failed: ${error.message}`);
+    }
+  }
+
+  // Create notification content based on event type
+  private createTransactionNotificationContent(
+    data: TransactionNotificationData
+  ): { subject: string; body: string; htmlBody: string } {
+    const { transaction, event } = data;
+    const unitDescription = transaction.unit 
+      ? `Unit ${transaction.unit.unitNumber} (${transaction.unit.type})` 
+      : 'Property';
+    const developmentName = transaction.development?.name || 'Development';
+
+    const baseInfo = `
+      <p>Transaction Reference: ${transaction.referenceNumber}</p>
+      <p>Property: ${unitDescription} at ${developmentName}</p>
+    `;
+
+    switch (event.type) {
+      case 'TRANSACTION_CREATED':
+        return {
+          subject: `New Transaction Started - ${transaction.referenceNumber}`,
+          body: `A new transaction has been initiated for ${unitDescription} at ${developmentName}.`,
+          htmlBody: `
+            <h2>New Transaction Started</h2>
+            ${baseInfo}
+            <p>A new property transaction has been initiated. All parties will be notified as the transaction progresses.</p>
+            <p><a href="${process.env.APP_URL}/transactions/${transaction.id}">View Transaction Details</a></p>
+          `
+        };
+
+      case 'CONTRACT_SENT':
+        return {
+          subject: `Contract Ready for Review - ${transaction.referenceNumber}`,
+          body: `The contract for ${unitDescription} is now ready for review.`,
+          htmlBody: `
+            <h2>Contract Ready for Review</h2>
+            ${baseInfo}
+            <p>The purchase contract has been prepared and is ready for your review.</p>
+            <p><strong>Action Required:</strong> Please review and sign the contract.</p>
+            <p><a href="${process.env.APP_URL}/transactions/${transaction.id}/documents">Review Contract</a></p>
+          `
+        };
+
+      case 'CONTRACT_SIGNED':
+        return {
+          subject: `Contract Signed - ${transaction.referenceNumber}`,
+          body: `The contract for ${unitDescription} has been signed by ${event.metadata?.signedBy || 'a party'}.`,
+          htmlBody: `
+            <h2>Contract Signed</h2>
+            ${baseInfo}
+            <p>The contract has been signed by ${event.metadata?.signedBy || 'a party'}.</p>
+            <p><a href="${process.env.APP_URL}/transactions/${transaction.id}/documents">View Signed Contract</a></p>
+          `
+        };
+
+      case 'DEPOSIT_RECEIVED':
+        return {
+          subject: `Deposit Received - ${transaction.referenceNumber}`,
+          body: `The deposit payment for ${unitDescription} has been received.`,
+          htmlBody: `
+            <h2>Deposit Payment Received</h2>
+            ${baseInfo}
+            <p>We have successfully received the deposit payment of ${event.metadata?.amount || 'the required amount'}.</p>
+            <p><a href="${process.env.APP_URL}/transactions/${transaction.id}/payments">View Payment Details</a></p>
+          `
+        };
+
+      case 'FINANCING_APPROVED':
+        return {
+          subject: `Financing Approved - ${transaction.referenceNumber}`,
+          body: `Financing has been approved for ${unitDescription}.`,
+          htmlBody: `
+            <h2>Financing Approved</h2>
+            ${baseInfo}
+            <p>Great news! Financing has been approved for this transaction.</p>
+            <p><a href="${process.env.APP_URL}/transactions/${transaction.id}">View Transaction Details</a></p>
+          `
+        };
+
+      case 'DUE_DILIGENCE_COMPLETED':
+        return {
+          subject: `Due Diligence Completed - ${transaction.referenceNumber}`,
+          body: `Due diligence has been completed for ${unitDescription}.`,
+          htmlBody: `
+            <h2>Due Diligence Completed</h2>
+            ${baseInfo}
+            <p>The due diligence process has been successfully completed.</p>
+            <p><a href="${process.env.APP_URL}/transactions/${transaction.id}/documents">View Due Diligence Reports</a></p>
+          `
+        };
+
+      case 'CLOSING_SCHEDULED':
+        return {
+          subject: `Closing Scheduled - ${transaction.referenceNumber}`,
+          body: `The closing for ${unitDescription} has been scheduled for ${format(new Date(event.metadata?.closingDate), 'PPP')}.`,
+          htmlBody: `
+            <h2>Closing Scheduled</h2>
+            ${baseInfo}
+            <p>The closing has been scheduled for <strong>${format(new Date(event.metadata?.closingDate), 'PPP')}</strong>.</p>
+            <p>Location: ${event.metadata?.location || 'To be confirmed'}</p>
+            <p><a href="${process.env.APP_URL}/transactions/${transaction.id}">View Transaction Details</a></p>
+          `
+        };
+
+      case 'TRANSACTION_COMPLETED':
+        return {
+          subject: `Transaction Completed - ${transaction.referenceNumber}`,
+          body: `Congratulations! The transaction for ${unitDescription} has been completed.`,
+          htmlBody: `
+            <h2>Transaction Completed</h2>
+            ${baseInfo}
+            <p>Congratulations! The property transaction has been successfully completed.</p>
+            <p>Thank you for using our platform.</p>
+            <p><a href="${process.env.APP_URL}/transactions/${transaction.id}">View Transaction Summary</a></p>
+          `
+        };
+
+      case 'TRANSACTION_CANCELLED':
+        return {
+          subject: `Transaction Cancelled - ${transaction.referenceNumber}`,
+          body: `The transaction for ${unitDescription} has been cancelled.`,
+          htmlBody: `
+            <h2>Transaction Cancelled</h2>
+            ${baseInfo}
+            <p>The transaction has been cancelled. Reason: ${event.metadata?.reason || 'Not specified'}</p>
+            <p><a href="${process.env.APP_URL}/transactions/${transaction.id}">View Transaction Details</a></p>
+          `
+        };
+
+      default:
+        return {
+          subject: `Transaction Update - ${transaction.referenceNumber}`,
+          body: `There has been an update to your transaction for ${unitDescription}.`,
+          htmlBody: `
+            <h2>Transaction Update</h2>
+            ${baseInfo}
+            <p>${event.description || 'Your transaction has been updated.'}</p>
+            <p><a href="${process.env.APP_URL}/transactions/${transaction.id}">View Transaction Details</a></p>
+          `
+        };
+    }
+  }
+
+  // Send document notification
+  async sendDocumentNotification(
+    document: Document & { transaction?: Transaction },
+    action: 'uploaded' | 'signed' | 'updated',
+    recipientEmail: string
+  ): Promise<void> {
+    try {
+      const subjectMap = {
+        uploaded: `New Document Uploaded - ${document.name}`,
+        signed: `Document Signed - ${document.name}`,
+        updated: `Document Updated - ${document.name}`
+      };
+
+      const bodyMap = {
+        uploaded: `A new document "${document.name}" has been uploaded to your transaction.`,
+        signed: `The document "${document.name}" has been signed.`,
+        updated: `The document "${document.name}" has been updated.`
+      };
+
+      const htmlBodyMap = {
+        uploaded: `
+          <h2>New Document Uploaded</h2>
+          <p>A new document has been uploaded to your transaction:</p>
+          <p><strong>${document.name}</strong></p>
+          <p>Type: ${document.type}</p>
+          <p><a href="${process.env.APP_URL}/transactions/${document.transactionId}/documents">View Document</a></p>
+        `,
+        signed: `
+          <h2>Document Signed</h2>
+          <p>The following document has been signed:</p>
+          <p><strong>${document.name}</strong></p>
+          <p>Signed by: ${document.signedBy || 'Unknown'}</p>
+          <p>Signed at: ${document.signedAt ? format(new Date(document.signedAt), 'PPP') : 'Unknown'}</p>
+          <p><a href="${process.env.APP_URL}/transactions/${document.transactionId}/documents">View Document</a></p>
+        `,
+        updated: `
+          <h2>Document Updated</h2>
+          <p>The following document has been updated:</p>
+          <p><strong>${document.name}</strong></p>
+          <p>Version: ${document.version}</p>
+          <p><a href="${process.env.APP_URL}/transactions/${document.transactionId}/documents">View Document</a></p>
+        `
+      };
+
+      await this.sendEmail({
+        to: recipientEmail,
+        subject: subjectMap[action],
+        body: bodyMap[action],
+        htmlBody: htmlBodyMap[action]
+      });
+    } catch (error) {
+
+      throw new Error(`Document notification failed: ${error.message}`);
+    }
+  }
+
+  // Send payment notification
+  async sendPaymentNotification(
+    transaction: Transaction,
+    paymentType: 'deposit' | 'final' | 'scheduled',
+    amount: number,
+    recipientEmail: string
+  ): Promise<void> {
+    try {
+      const subject = `Payment ${paymentType === 'deposit' ? 'Deposit' : paymentType === 'final' ? 'Final Payment' : 'Scheduled Payment'} - ${transaction.referenceNumber}`;
+
+      const htmlBody = `
+        <h2>Payment Notification</h2>
+        <p>Transaction: ${transaction.referenceNumber}</p>
+        <p>Payment Type: ${paymentType}</p>
+        <p>Amount: ${new Intl.NumberFormat('en-IE', { style: 'currency', currency: 'EUR' }).format(amount)}</p>
+        <p><a href="${process.env.APP_URL}/transactions/${transaction.id}/payments">View Payment Details</a></p>
+      `;
+
+      await this.sendEmail({
+        to: recipientEmail,
+        subject,
+        body: `Payment update for transaction ${transaction.referenceNumber}`,
+        htmlBody
+      });
+    } catch (error) {
+
+      throw new Error(`Payment notification failed: ${error.message}`);
+    }
+  }
+
+  // Send verification email
+  async sendVerificationEmail(user: User, token: string): Promise<void> {
+    try {
+      const verificationUrl = `${process.env.APP_URL}/verify-email?token=${token}`;
+
+      await this.sendEmail({
+        to: user.email,
+        subject: 'Verify Your Email - Prop Platform',
+        body: `Please verify your email by clicking the following link: ${verificationUrl}`,
+        htmlBody: `
+          <h2>Welcome to Prop Platform</h2>
+          <p>Hi ${user.name || 'there'},</p>
+          <p>Thank you for registering. Please verify your email address by clicking the link below:</p>
+          <p><a href="${verificationUrl}">Verify Email</a></p>
+          <p>This link will expire in 1 hour.</p>
+          <p>If you didn't create an account, you can safely ignore this email.</p>
+        `
+      });
+    } catch (error) {
+
+      throw new Error(`Verification email failed: ${error.message}`);
+    }
+  }
+
+  // Send password reset email
+  async sendPasswordResetEmail(user: User, token: string): Promise<void> {
+    try {
+      const resetUrl = `${process.env.APP_URL}/reset-password?token=${token}`;
+
+      await this.sendEmail({
+        to: user.email,
+        subject: 'Reset Your Password - Prop Platform',
+        body: `To reset your password, please click the following link: ${resetUrl}`,
+        htmlBody: `
+          <h2>Password Reset Request</h2>
+          <p>Hi ${user.name || 'there'},</p>
+          <p>You requested to reset your password. Click the link below to proceed:</p>
+          <p><a href="${resetUrl}">Reset Password</a></p>
+          <p>This link will expire in 1 hour.</p>
+          <p>If you didn't request this, you can safely ignore this email.</p>
+        `
+      });
+    } catch (error) {
+
+      throw new Error(`Password reset email failed: ${error.message}`);
+    }
+  }
+
+  // Check if user should be notified for specific event
+  private shouldNotifyUser(user: User, event: TransactionEvent): boolean {
+    // Check user notification preferences
+    const eventTypeMapping = {
+      TRANSACTION_CREATED: 'transactionAlerts',
+      CONTRACT_SENT: 'documentUpdates',
+      CONTRACT_SIGNED: 'documentUpdates',
+      DEPOSIT_RECEIVED: 'paymentReminders',
+      FINANCING_APPROVED: 'transactionAlerts',
+      DUE_DILIGENCE_COMPLETED: 'transactionAlerts',
+      CLOSING_SCHEDULED: 'transactionAlerts',
+      TRANSACTION_COMPLETED: 'transactionAlerts',
+      TRANSACTION_CANCELLED: 'transactionAlerts'
+    };
+
+    const preferenceKey = eventTypeMapping[event.type];
+
+    // Default to true if preference not set
+    return user[preferenceKey] !== false;
+  }
+
+  // Get notification priority based on event type
+  private getNotificationPriority(
+    eventType: string
+  ): 'LOW' | 'MEDIUM' | 'HIGH' | 'URGENT' {
+    const priorityMap = {
+      TRANSACTION_CREATED: 'HIGH',
+      CONTRACT_SENT: 'HIGH',
+      CONTRACT_SIGNED: 'HIGH',
+      DEPOSIT_RECEIVED: 'MEDIUM',
+      FINANCING_APPROVED: 'MEDIUM',
+      DUE_DILIGENCE_COMPLETED: 'MEDIUM',
+      CLOSING_SCHEDULED: 'HIGH',
+      TRANSACTION_COMPLETED: 'HIGH',
+      TRANSACTION_CANCELLED: 'URGENT'
+    };
+
+    return priorityMap[eventType] || 'MEDIUM';
+  }
+
+  // Send batch notifications
+  async sendBatchNotifications(
+    notifications: NotificationOptions[]
+  ): Promise<void> {
+    try {
+      const batchPromises = notifications.map(notification => 
+        this.sendEmail(notification)
+      );
+
+      await Promise.all(batchPromises);
+    } catch (error) {
+
+      throw new Error(`Batch notification failed: ${error.message}`);
+    }
+  }
+
+  // Schedule notification for later
+  async scheduleNotification(
+    notification: NotificationOptions,
+    sendAt: Date
+  ): Promise<void> {
+    try {
+      // Store scheduled notification in database
+      await prisma.scheduledNotification.create({
+        data: {
+          to: notification.to,
+          subject: notification.subject,
+          body: notification.body,
+          htmlBody: notification.htmlBody,
+          scheduledFor: sendAt,
+          status: 'PENDING'
+        }
+      });
+    } catch (error) {
+
+      throw new Error(`Notification scheduling failed: ${error.message}`);
+    }
+  }
+
+  // Process scheduled notifications
+  async processScheduledNotifications(): Promise<void> {
+    try {
+      const dueNotifications = await prisma.scheduledNotification.findMany({
+        where: {
+          scheduledFor: { lte: new Date() },
+          status: 'PENDING'
+        }
+      });
+
+      for (const notification of dueNotifications) {
+        try {
+          await this.sendEmail({
+            to: notification.to,
+            subject: notification.subject,
+            body: notification.body,
+            htmlBody: notification.htmlBody || notification.body
+          });
+
+          await prisma.scheduledNotification.update({
+            where: { id: notification.id },
+            data: { 
+              status: 'SENT',
+              sentAt: new Date()
+            }
+          });
+        } catch (error) {
+          await prisma.scheduledNotification.update({
+            where: { id: notification.id },
+            data: { 
+              status: 'FAILED',
+              error: error.message
+            }
+          });
+        }
+      }
+    } catch (error) {
+
+      throw new Error(`Scheduled notification processing failed: ${error.message}`);
+    }
+  }
+}
+
+export default new NotificationService();

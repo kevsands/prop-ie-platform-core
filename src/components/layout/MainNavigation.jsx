@@ -15,7 +15,7 @@ export default function MainNavigation({ theme = 'light', isTransparent = false 
   const pathname = usePathname();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  
+
   // Handle scroll effects
   useEffect(() => {
     const handleScroll = () => {
@@ -35,11 +35,11 @@ export default function MainNavigation({ theme = 'light', isTransparent = false 
     if (isScrolled) {
       return 'bg-white shadow-md';
     }
-    
+
     if (isTransparent) {
       return 'bg-transparent';
     }
-    
+
     return theme === 'light' ? 'bg-white' : 'bg-gray-900';
   };
 
@@ -48,7 +48,7 @@ export default function MainNavigation({ theme = 'light', isTransparent = false 
     if (isScrolled) {
       return 'text-gray-900';
     }
-    
+
     return theme === 'light' || !isTransparent ? 'text-gray-900' : 'text-white';
   };
 
@@ -57,11 +57,11 @@ export default function MainNavigation({ theme = 'light', isTransparent = false 
     if (isScrolled) {
       return 'bg-[#2B5273] text-white hover:bg-[#1E3142]';
     }
-    
+
     if (theme === 'light' || !isTransparent) {
       return 'bg-[#2B5273] text-white hover:bg-[#1E3142]';
     }
-    
+
     return 'bg-white text-[#2B5273] hover:bg-gray-100';
   };
 

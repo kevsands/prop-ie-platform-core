@@ -1,0 +1,316 @@
+'use client';
+
+import React, { useState } from 'react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { 
+  Home, 
+  Calculator, 
+  FileText, 
+  Map, 
+  CheckCircle, 
+  Shield,
+  HelpCircle,
+  BookOpen,
+  Phone,
+  ChevronRight,
+  Menu,
+  X,
+  ArrowLeft
+} from 'lucide-react';
+import MainNavigation from '@/components/navigation/MainNavigation';
+
+interface FirstTimeBuyersLayoutProps {
+  children: React.ReactNode;
+}
+
+export default function FirstTimeBuyersLayout({ children }: FirstTimeBuyersLayoutProps) {
+  const pathname = usePathname();
+  const [mobileMenuOpensetMobileMenuOpen] = useState(false);
+
+  const navigationLinks = [
+    {
+      href: '/first-time-buyers',
+      label: 'Overview',
+      icon: <Home className="w-4 h-4" />
+    },
+    {
+      href: '/first-time-buyers/journey',
+      label: 'Your Journey',
+      icon: <Map className="w-4 h-4" />
+    },
+    {
+      href: '/first-time-buyers/calculator',
+      label: 'Calculators',
+      icon: <Calculator className="w-4 h-4" />
+    },
+    {
+      href: '/first-time-buyers/help-to-buy',
+      label: 'Help-to-Buy',
+      icon: <Home className="w-4 h-4" />
+    },
+    {
+      href: '/first-time-buyers/documents',
+      label: 'Documents',
+      icon: <FileText className="w-4 h-4" />
+    },
+    {
+      href: '/first-time-buyers/kyc',
+      label: 'Verification',
+      icon: <Shield className="w-4 h-4" />
+    },
+    {
+      href: '/first-time-buyers/guides',
+      label: 'Guides',
+      icon: <BookOpen className="w-4 h-4" />
+    }
+  ];
+
+  const quickActions = [
+    {
+      href: '/first-time-buyers/help-to-buy',
+      title: 'Check HTB Eligibility',
+      description: 'See if you qualify for up to €30,000',
+      icon: <CheckCircle className="w-5 h-5 text-green-600" />
+    },
+    {
+      href: '/properties',
+      title: 'Browse Properties',
+      description: 'View available homes',
+      icon: <Home className="w-5 h-5 text-blue-600" />
+    },
+    {
+      href: '/first-time-buyers/calculator',
+      title: 'Calculate Affordability',
+      description: 'Find out how much you can borrow',
+      icon: <Calculator className="w-5 h-5 text-purple-600" />
+    }
+  ];
+
+  const isActive = (href: string) => {
+    if (href === '/first-time-buyers') return pathname === '/first-time-buyers';
+    return pathname.startsWith(href);
+  };
+
+  return (
+    <div className="min-h-screen bg-gray-50">
+      {/* Main Navigation - Always on top */}
+      <MainNavigation />
+
+      {/* Main Header */}
+      <header className="bg-white border-b fixed top-16 left-0 right-0 z-50">
+        <div className="container mx-auto px-4">
+          <div className="flex items-center justify-between h-16">
+            <div className="flex items-center gap-4">
+              <Link href="/" className="flex items-center gap-2">
+                <ArrowLeft className="text-gray-600" size={20} />
+                <span className="text-sm text-gray-600">Back to Main</span>
+              </Link>
+              <div className="h-6 w-px bg-gray-300" />
+              <h1 className="font-bold text-lg">First-Time Buyers Hub</h1>
+            </div>
+
+            {/* Mobile menu button */}
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="md:hidden p-2 rounded-md hover:bg-gray-100"
+            >
+              {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </div>
+        </div>
+      </header>
+
+      {/* Navigation Bar - Desktop */}
+      <div className="bg-white border-b fixed top-32 left-0 right-0 z-40 hidden md:block">
+        <div className="container mx-auto px-4">
+          <div className="flex items-center space-x-8 overflow-x-auto py-3">
+            {navigationLinks.map((link) => {
+              const active = isActive(link.href);
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={`flex items-center space-x-2 text-sm font-medium whitespace-nowrap transition py-2 px-3 rounded-md
+                    ${active 
+                      ? 'bg-blue-50 text-blue-700' 
+                      : 'text-gray-700 hover:text-blue-600 hover:bg-gray-50'
+                    }
+                  `}
+                >
+                  {link.icon}
+                  <span>{link.label}</span>
+                </Link>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+
+      {/* Mobile Navigation Menu */}
+      {mobileMenuOpen && (
+        <>
+          <div 
+            className="fixed inset-0 z-30 bg-black bg-opacity-50 md:hidden"
+            onClick={() => setMobileMenuOpen(false)}
+          />
+          <div className="fixed top-32 left-0 right-0 z-40 bg-white border-b shadow-lg md:hidden">
+            <nav className="container mx-auto px-4 py-4">
+              {navigationLinks.map((link) => {
+                const active = isActive(link.href);
+                return (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    className={`flex items-center space-x-3 py-3 px-4 rounded-md mb-1
+                      ${active 
+                        ? 'bg-blue-50 text-blue-700' 
+                        : 'text-gray-700 hover:bg-gray-50'
+                      }
+                    `}
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    {link.icon}
+                    <span className="font-medium">{link.label}</span>
+                    {active && <ChevronRight className="ml-auto" size={16} />}
+                  </Link>
+                );
+              })}
+            </nav>
+          </div>
+        </>
+      )}
+
+      {/* Main Content with proper spacing */}
+      <div className="pt-32 md:pt-44">
+        {children}
+      </div>
+
+      {/* Help Section */}
+      <div className="bg-blue-900 text-white py-8">
+        <div className="container mx-auto px-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {/* Quick Actions */}
+            <div>
+              <h3 className="text-lg font-semibold mb-4">Quick Actions</h3>
+              <div className="space-y-3">
+                {quickActions.map((action) => (
+                  <Link
+                    key={action.href}
+                    href={action.href}
+                    className="block bg-white/10 rounded-lg p-3 hover:bg-white/20 transition"
+                  >
+                    <div className="flex items-start">
+                      <div className="mr-3">{action.icon}</div>
+                      <div>
+                        <h4 className="font-medium">{action.title}</h4>
+                        <p className="text-sm text-blue-100">{action.description}</p>
+                      </div>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </div>
+
+            {/* Support */}
+            <div>
+              <h3 className="text-lg font-semibold mb-4">Need Help?</h3>
+              <div className="space-y-4">
+                <div className="flex items-start">
+                  <Phone className="w-5 h-5 mr-3 flex-shrink-0" />
+                  <div>
+                    <p className="font-medium">Call our FTB team</p>
+                    <p className="text-sm text-blue-100">+353 1 234 5678</p>
+                    <p className="text-xs text-blue-200">Mon-Fri 9am-6pm</p>
+                  </div>
+                </div>
+                <div className="flex items-start">
+                  <HelpCircle className="w-5 h-5 mr-3 flex-shrink-0" />
+                  <div>
+                    <p className="font-medium">FAQs</p>
+                    <Link href="/first-time-buyers/faqs" className="text-sm text-blue-100 hover:text-white">
+                      Common questions answered →
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Latest Updates */}
+            <div>
+              <h3 className="text-lg font-semibold mb-4">Latest Updates</h3>
+              <div className="space-y-3">
+                <div className="bg-white/10 rounded-lg p-3">
+                  <p className="text-sm font-medium">HTB Scheme Extended</p>
+                  <p className="text-xs text-blue-100">Help-to-Buy now available until 2029</p>
+                </div>
+                <div className="bg-white/10 rounded-lg p-3">
+                  <p className="text-sm font-medium">New Development Launch</p>
+                  <p className="text-xs text-blue-100">Riverside Manor now open for viewing</p>
+                </div>
+                <div className="bg-white/10 rounded-lg p-3">
+                  <p className="text-sm font-medium">Interest Rates Update</p>
+                  <p className="text-xs text-blue-100">Latest mortgage rates available</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Footer */}
+      <footer className="bg-gray-900 text-gray-300 py-8">
+        <div className="container mx-auto px-4">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            <div>
+              <h4 className="font-semibold text-white mb-3">Journey Steps</h4>
+              <ul className="space-y-2 text-sm">
+                <li><Link href="/first-time-buyers/journey" className="hover:text-white">Start Your Journey</Link></li>
+                <li><Link href="/first-time-buyers/calculator" className="hover:text-white">Calculate Budget</Link></li>
+                <li><Link href="/first-time-buyers/help-to-buy" className="hover:text-white">Apply for HTB</Link></li>
+                <li><Link href="/properties" className="hover:text-white">Find Properties</Link></li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="font-semibold text-white mb-3">Resources</h4>
+              <ul className="space-y-2 text-sm">
+                <li><Link href="/first-time-buyers/guides/mortgage" className="hover:text-white">Mortgage Guide</Link></li>
+                <li><Link href="/first-time-buyers/guides/costs" className="hover:text-white">Cost Breakdown</Link></li>
+                <li><Link href="/first-time-buyers/guides/legal" className="hover:text-white">Legal Process</Link></li>
+                <li><Link href="/first-time-buyers/faqs" className="hover:text-white">FAQs</Link></li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="font-semibold text-white mb-3">Government Schemes</h4>
+              <ul className="space-y-2 text-sm">
+                <li><Link href="/first-time-buyers/help-to-buy" className="hover:text-white">Help-to-Buy</Link></li>
+                <li><Link href="/first-time-buyers/shared-equity" className="hover:text-white">Shared Equity</Link></li>
+                <li><Link href="/first-time-buyers/affordable-purchase" className="hover:text-white">Affordable Purchase</Link></li>
+                <li><Link href="/first-time-buyers/schemes" className="hover:text-white">All Schemes</Link></li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="font-semibold text-white mb-3">Legal & Compliance</h4>
+              <ul className="space-y-2 text-sm">
+                <li><Link href="/legal/privacy" className="hover:text-white">Privacy Policy</Link></li>
+                <li><Link href="/legal/terms" className="hover:text-white">Terms of Service</Link></li>
+                <li><Link href="/legal/property-purchase" className="hover:text-white">Purchase Terms</Link></li>
+                <li><Link href="/legal/compliance" className="hover:text-white">Regulatory Info</Link></li>
+              </ul>
+            </div>
+          </div>
+
+          <div className="mt-8 pt-8 border-t border-gray-800 text-center text-sm">
+            <p className="mb-2">
+              © 2025 Prop.ie. All rights reserved. Regulated by the Central Bank of Ireland.
+            </p>
+            <p className="text-xs text-gray-500">
+              The Help-to-Buy information is provided for guidance only. Always check with Revenue for the latest requirements.
+              Property purchases are subject to legal and regulatory requirements. Seek independent legal and financial advice.
+            </p>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+}

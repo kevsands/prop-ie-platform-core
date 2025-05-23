@@ -1,0 +1,466 @@
+'use client';
+
+import { useState } from 'react';
+import { User, Bell, Shield, Globe, Moon, Sun, ChevronRight, Check, Mail, Phone, AlertCircle, Lock, CreditCard, LogOut } from 'lucide-react';
+
+interface SettingSection {
+  id: string;
+  title: string;
+  description: string;
+  icon: any;
+}
+
+export default function SettingsPage() {
+  const [selectedSectionsetSelectedSection] = useState<string>('profile');
+  const [darkModesetDarkMode] = useState(false);
+  const [notificationssetNotifications] = useState({
+    email: {
+      newProperties: true,
+      priceChanges: true,
+      viewingReminders: true,
+      marketUpdates: false,
+      newsletter: true
+    },
+    push: {
+      newProperties: true,
+      priceChanges: true,
+      viewingReminders: true,
+      marketUpdates: false,
+      messages: true
+    },
+    sms: {
+      viewingReminders: true,
+      importantUpdates: true,
+      messages: false
+    }
+  });
+
+  const settingSections: SettingSection[] = [
+    {
+      id: 'profile',
+      title: 'Profile Information',
+      description: 'Manage your personal information',
+      icon: User
+    },
+    {
+      id: 'notifications',
+      title: 'Notifications',
+      description: 'Control how you receive updates',
+      icon: Bell
+    },
+    {
+      id: 'security',
+      title: 'Security & Privacy',
+      description: 'Protect your account and data',
+      icon: Shield
+    },
+    {
+      id: 'preferences',
+      title: 'Preferences',
+      description: 'Customize your experience',
+      icon: Globe
+    }
+  ];
+
+  const handleNotificationToggle = (type: string, setting: string) => {
+    setNotifications(prev => ({
+      ...prev,
+      [type]: {
+        ...prev[type],
+        [setting]: !prev[type][setting]
+      }
+    }));
+  };
+
+  const renderContent = () => {
+    switch (selectedSection) {
+      case 'profile':
+        return (
+          <div className="space-y-6">
+            <h2 className="text-xl font-semibold text-gray-900">Profile Information</h2>
+
+            <div className="bg-white rounded-lg border p-6 space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
+                <input
+                  type="text"
+                  defaultValue="John Smith"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                <input
+                  type="email"
+                  defaultValue="john.smith@email.com"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
+                <input
+                  type="tel"
+                  defaultValue="+353 87 123 4567"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Address</label>
+                <textarea
+                  defaultValue="123 Main Street, Dublin 2, Ireland"
+                  rows={3}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                />
+              </div>
+
+              <button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                Save Changes
+              </button>
+            </div>
+
+            <div className="bg-white rounded-lg border p-6">
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">Buyer Preferences</h3>
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Preferred Location</label>
+                  <select className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                    <option>Dublin</option>
+                    <option>Cork</option>
+                    <option>Galway</option>
+                    <option>Limerick</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Budget Range</label>
+                  <div className="grid grid-cols-2 gap-4">
+                    <input
+                      type="number"
+                      placeholder="Min budget"
+                      defaultValue="300000"
+                      className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    />
+                    <input
+                      type="number"
+                      placeholder="Max budget"
+                      defaultValue="450000"
+                      className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Property Type</label>
+                  <div className="space-y-2">
+                    <label className="flex items-center">
+                      <input type="checkbox" className="mr-2" defaultChecked />
+                      <span>Apartment</span>
+                    </label>
+                    <label className="flex items-center">
+                      <input type="checkbox" className="mr-2" defaultChecked />
+                      <span>House</span>
+                    </label>
+                    <label className="flex items-center">
+                      <input type="checkbox" className="mr-2" />
+                      <span>Duplex</span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+
+      case 'notifications':
+        return (
+          <div className="space-y-6">
+            <h2 className="text-xl font-semibold text-gray-900">Notification Preferences</h2>
+
+            {/* Email Notifications */}
+            <div className="bg-white rounded-lg border p-6">
+              <div className="flex items-center gap-3 mb-4">
+                <Mail className="h-5 w-5 text-gray-600" />
+                <h3 className="text-lg font-semibold text-gray-900">Email Notifications</h3>
+              </div>
+              <div className="space-y-3">
+                {Object.entries(notifications.email).map(([keyvalue]) => (
+                  <label key={key} className="flex items-center justify-between">
+                    <span className="text-gray-700">
+                      {key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}
+                    </span>
+                    <button
+                      onClick={() => handleNotificationToggle('email', key)}
+                      className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
+                        value ? 'bg-blue-600' : 'bg-gray-200'
+                      }`}
+                    >
+                      <span
+                        className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                          value ? 'translate-x-6' : 'translate-x-1'
+                        }`}
+                      />
+                    </button>
+                  </label>
+                ))}
+              </div>
+            </div>
+
+            {/* Push Notifications */}
+            <div className="bg-white rounded-lg border p-6">
+              <div className="flex items-center gap-3 mb-4">
+                <Bell className="h-5 w-5 text-gray-600" />
+                <h3 className="text-lg font-semibold text-gray-900">Push Notifications</h3>
+              </div>
+              <div className="space-y-3">
+                {Object.entries(notifications.push).map(([keyvalue]) => (
+                  <label key={key} className="flex items-center justify-between">
+                    <span className="text-gray-700">
+                      {key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}
+                    </span>
+                    <button
+                      onClick={() => handleNotificationToggle('push', key)}
+                      className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
+                        value ? 'bg-blue-600' : 'bg-gray-200'
+                      }`}
+                    >
+                      <span
+                        className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                          value ? 'translate-x-6' : 'translate-x-1'
+                        }`}
+                      />
+                    </button>
+                  </label>
+                ))}
+              </div>
+            </div>
+
+            {/* SMS Notifications */}
+            <div className="bg-white rounded-lg border p-6">
+              <div className="flex items-center gap-3 mb-4">
+                <Phone className="h-5 w-5 text-gray-600" />
+                <h3 className="text-lg font-semibold text-gray-900">SMS Notifications</h3>
+              </div>
+              <div className="space-y-3">
+                {Object.entries(notifications.sms).map(([keyvalue]) => (
+                  <label key={key} className="flex items-center justify-between">
+                    <span className="text-gray-700">
+                      {key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}
+                    </span>
+                    <button
+                      onClick={() => handleNotificationToggle('sms', key)}
+                      className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
+                        value ? 'bg-blue-600' : 'bg-gray-200'
+                      }`}
+                    >
+                      <span
+                        className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                          value ? 'translate-x-6' : 'translate-x-1'
+                        }`}
+                      />
+                    </button>
+                  </label>
+                ))}
+              </div>
+            </div>
+          </div>
+        );
+
+      case 'security':
+        return (
+          <div className="space-y-6">
+            <h2 className="text-xl font-semibold text-gray-900">Security & Privacy</h2>
+
+            <div className="bg-white rounded-lg border p-6">
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">Password</h3>
+              <button className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                <Lock className="h-5 w-5" />
+                Change Password
+              </button>
+            </div>
+
+            <div className="bg-white rounded-lg border p-6">
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">Two-Factor Authentication</h3>
+              <p className="text-gray-600 mb-4">Add an extra layer of security to your account</p>
+              <button className="flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors">
+                <Shield className="h-5 w-5" />
+                Enable 2FA
+              </button>
+            </div>
+
+            <div className="bg-white rounded-lg border p-6">
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">Privacy Settings</h3>
+              <div className="space-y-3">
+                <label className="flex items-center justify-between">
+                  <span className="text-gray-700">Allow profile visibility to agents</span>
+                  <input type="checkbox" className="h-4 w-4" defaultChecked />
+                </label>
+                <label className="flex items-center justify-between">
+                  <span className="text-gray-700">Share viewing history with agents</span>
+                  <input type="checkbox" className="h-4 w-4" />
+                </label>
+                <label className="flex items-center justify-between">
+                  <span className="text-gray-700">Allow property recommendations</span>
+                  <input type="checkbox" className="h-4 w-4" defaultChecked />
+                </label>
+              </div>
+            </div>
+
+            <div className="bg-white rounded-lg border p-6">
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">Connected Accounts</h3>
+              <div className="space-y-3">
+                <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
+                      <Mail className="h-5 w-5 text-blue-600" />
+                    </div>
+                    <div>
+                      <p className="font-medium text-gray-900">Google Account</p>
+                      <p className="text-sm text-gray-600">john.smith@gmail.com</p>
+                    </div>
+                  </div>
+                  <button className="text-red-600 hover:text-red-700">Disconnect</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+
+      case 'preferences':
+        return (
+          <div className="space-y-6">
+            <h2 className="text-xl font-semibold text-gray-900">Preferences</h2>
+
+            <div className="bg-white rounded-lg border p-6">
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">Appearance</h3>
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    {darkMode ? <Moon className="h-5 w-5 text-gray-600" /> : <Sun className="h-5 w-5 text-gray-600" />}
+                    <span className="text-gray-700">Dark Mode</span>
+                  </div>
+                  <button
+                    onClick={() => setDarkMode(!darkMode)}
+                    className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
+                      darkMode ? 'bg-blue-600' : 'bg-gray-200'
+                    }`}
+                  >
+                    <span
+                      className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                        darkMode ? 'translate-x-6' : 'translate-x-1'
+                      }`}
+                    />
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-white rounded-lg border p-6">
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">Language & Region</h3>
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Language</label>
+                  <select className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                    <option>English (Ireland)</option>
+                    <option>English (US)</option>
+                    <option>Irish (Gaeilge)</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Currency</label>
+                  <select className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                    <option>EUR (€)</option>
+                    <option>GBP (£)</option>
+                    <option>USD ($)</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Date Format</label>
+                  <select className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                    <option>DD/MM/YYYY</option>
+                    <option>MM/DD/YYYY</option>
+                    <option>YYYY-MM-DD</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-white rounded-lg border p-6">
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">Communication Preferences</h3>
+              <div className="space-y-3">
+                <label className="flex items-center justify-between">
+                  <span className="text-gray-700">Marketing emails</span>
+                  <input type="checkbox" className="h-4 w-4" defaultChecked />
+                </label>
+                <label className="flex items-center justify-between">
+                  <span className="text-gray-700">Property alerts</span>
+                  <input type="checkbox" className="h-4 w-4" defaultChecked />
+                </label>
+                <label className="flex items-center justify-between">
+                  <span className="text-gray-700">Newsletter</span>
+                  <input type="checkbox" className="h-4 w-4" />
+                </label>
+              </div>
+            </div>
+          </div>
+        );
+
+      default:
+        return null;
+    }
+  };
+
+  return (
+    <div className="flex-1 p-8">
+      <div className="max-w-7xl mx-auto">
+        <h1 className="text-3xl font-bold text-gray-900 mb-8">Settings</h1>
+
+        <div className="grid md:grid-cols-4 gap-6">
+          {/* Sidebar */}
+          <div className="md:col-span-1">
+            <div className="bg-white rounded-lg border p-4">
+              <nav className="space-y-1">
+                {settingSections.map((section) => {
+                  const Icon = section.icon;
+                  return (
+                    <button
+                      key={section.id}
+                      onClick={() => setSelectedSection(section.id)}
+                      className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${
+                        selectedSection === section.id
+                          ? 'bg-blue-50 text-blue-700'
+                          : 'hover:bg-gray-50 text-gray-700'
+                      }`}
+                    >
+                      <Icon className="h-5 w-5" />
+                      <div className="text-left">
+                        <p className="font-medium">{section.title}</p>
+                        <p className="text-xs text-gray-500">{section.description}</p>
+                      </div>
+                    </button>
+                  );
+                })}
+              </nav>
+
+              <div className="mt-6 pt-6 border-t">
+                <button className="w-full flex items-center gap-3 px-3 py-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors">
+                  <LogOut className="h-5 w-5" />
+                  <span>Sign Out</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* Content */}
+          <div className="md:col-span-3">
+            {renderContent()}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}

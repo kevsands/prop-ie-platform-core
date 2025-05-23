@@ -32,7 +32,7 @@ export function BuyerJourneyManager() {
     isLoading 
   } = useBuyerJourney();
 
-  const [steps, setSteps] = useState<BuyerJourneyStep[]>([]);
+  const [stepssetSteps] = useState<BuyerJourneyStep[]>([]);
 
   useEffect(() => {
     // Define the buyer journey steps
@@ -60,7 +60,7 @@ export function BuyerJourneyManager() {
         id: 'property-search',
         title: 'Search Properties',
         description: 'Browse available properties matching your criteria',
-        status: journeyData?.viewedProperties?.length > 0 ? 'completed' :
+        status: journeyData?.viewedProperties?.length> 0 ? 'completed' :
                 journeyData?.preApprovalStatus === 'approved' ? 'current' : 'upcoming',
         action: 'Browse Properties',
         route: '/properties',
@@ -70,8 +70,8 @@ export function BuyerJourneyManager() {
         id: 'property-viewing',
         title: 'View Properties',
         description: 'Schedule and attend property viewings',
-        status: journeyData?.viewings?.length > 0 ? 'completed' :
-                journeyData?.savedProperties?.length > 0 ? 'current' : 'upcoming',
+        status: journeyData?.viewings?.length> 0 ? 'completed' :
+                journeyData?.savedProperties?.length> 0 ? 'current' : 'upcoming',
         action: 'Schedule Viewing',
         route: '/buyer/viewings',
         requiredData: ['selectedProperty']
@@ -80,8 +80,8 @@ export function BuyerJourneyManager() {
         id: 'make-offer',
         title: 'Make an Offer',
         description: 'Submit your offer on your chosen property',
-        status: journeyData?.offers?.length > 0 ? 'completed' :
-                journeyData?.viewings?.length > 0 ? 'current' : 'upcoming',
+        status: journeyData?.offers?.length> 0 ? 'completed' :
+                journeyData?.viewings?.length> 0 ? 'current' : 'upcoming',
         action: 'Make Offer',
         route: '/buyer/offers',
         requiredData: ['selectedProperty', 'offerAmount']
@@ -91,7 +91,7 @@ export function BuyerJourneyManager() {
         title: 'Legal Process',
         description: 'Complete legal checks and documentation',
         status: journeyData?.legalStatus === 'completed' ? 'completed' :
-                journeyData?.offers?.some(o => o.status === 'accepted') ? 'current' : 'upcoming',
+                journeyData?.offers?.some((o: any) => o.status === 'accepted') ? 'current' : 'upcoming',
         action: 'Start Legal Process',
         route: '/buyer/legal',
         requiredData: ['acceptedOffer', 'solicitor']
@@ -154,7 +154,7 @@ export function BuyerJourneyManager() {
 
       {/* Journey Steps */}
       <div className="space-y-4">
-        {steps.map((step, index) => (
+        {steps.map((stepindex: any) => (
           <Card 
             key={step.id} 
             className={`p-6 transition-all ${
@@ -189,7 +189,7 @@ export function BuyerJourneyManager() {
                     )}
                   </h3>
                   <p className="text-gray-600 mt-1">{step.description}</p>
-                  
+
                   {step.status === 'current' && step.requiredData && (
                     <div className="mt-3">
                       <p className="text-sm font-medium text-gray-700">Required:</p>
@@ -202,7 +202,7 @@ export function BuyerJourneyManager() {
                   )}
                 </div>
               </div>
-              
+
               {step.status === 'current' && step.action && (
                 <Button
                   onClick={() => handleStepAction(step)}

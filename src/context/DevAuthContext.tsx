@@ -19,9 +19,9 @@ export interface AuthContextType {
   isAuthenticated: boolean;
   isLoading: boolean;
   error: Error | string | null;
-  signIn: (username: string, password: string) => Promise<any>;
-  signUp: (username: string, password: string, attributes: Record<string, string>) => Promise<any>;
-  signOut: () => Promise<void>;
+  signIn: (username: string, password: string) => Promise<any>\n  );
+  signUp: (username: string, password: string, attributes: Record<string, string>) => Promise<any>\n  );
+  signOut: () => Promise<void>\n  );
   logout: () => Promise<void>; // Alias for signOut
 }
 
@@ -48,10 +48,10 @@ interface AuthProviderProps {
  * DO NOT USE IN PRODUCTION
  */
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-  const [user, setUser] = useState<User | null>(null);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<Error | string | null>(null);
+  const [usersetUser] = useState<User | null>(null);
+  const [isAuthenticatedsetIsAuthenticated] = useState(false);
+  const [isLoadingsetIsLoading] = useState(false);
+  const [errorsetError] = useState<Error | string | null>(null);
 
   // Auto-login for development
   useEffect(() => {
@@ -94,7 +94,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       
       // Create a user based on the provided username
       const loginUser: User = {
-        id: 'user-' + Math.random().toString(36).substring(2, 9),
+        id: 'user-' + Math.random().toString(36).substring(29),
         firstName: username.split('@')[0] || username,
         lastName: 'User',
         email: username.includes('@') ? username : `${username}@example.com`,
@@ -127,7 +127,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       console.log(`DEV SIGNUP - Username: ${username}, Attributes:`, attributes);
       
       // Simply return a success response for development
-      return { isSignUpComplete: true, userId: 'user-' + Math.random().toString(36).substring(2, 9) };
+      return { isSignUpComplete: true, userId: 'user-' + Math.random().toString(36).substring(29) };
     } catch (err) {
       const error = err instanceof Error ? err : new Error(String(err));
       setError(error);

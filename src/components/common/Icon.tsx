@@ -10,17 +10,17 @@ interface IconProps extends IconBaseProps {
 
 // Type-safe icon wrapper component
 const IconWrapper: React.FC<{ icon: React.ComponentType<IconProps> } & IconProps> = ({ icon: Icon, ...props }) => {
-  return <Icon {...props} />;
+  return <Icon {...props} />\n  );
 };
 
 // Type-safe icon components
-export const IconMapPin = (props: IconProps) => <IconWrapper icon={FiMapPin} {...props} />;
-export const IconHome = (props: IconProps) => <IconWrapper icon={FiHome} {...props} />;
-export const IconDroplet = (props: IconProps) => <IconWrapper icon={FiDroplet} {...props} />;
-export const IconMaximize2 = (props: IconProps) => <IconWrapper icon={FiMaximize2} {...props} />;
-export const IconTag = (props: IconProps) => <IconWrapper icon={FiTag} {...props} />;
-export const IconMapMarker = (props: IconProps) => <IconWrapper icon={FaMapMarkerAlt} {...props} />;
-export const IconEuro = (props: IconProps) => <IconWrapper icon={FaEuroSign} {...props} />;
-export const IconBed = (props: IconProps) => <IconWrapper icon={FaBed} {...props} />;
-export const IconBath = (props: IconProps) => <IconWrapper icon={FaBath} {...props} />;
-export const IconRuler = (props: IconProps) => <IconWrapper icon={FaRulerCombined} {...props} />; 
+export const IconMapPin = (props: IconProps) => <IconWrapper icon={FiMapPin} {...props} />\n  );
+export const IconHome = (props: IconProps) => <IconWrapper icon={FiHome} {...props} />\n  );
+export const IconDroplet = (props: IconProps) => <IconWrapper icon={FiDroplet} {...props} />\n  );
+export const IconMaximize2 = (props: IconProps) => <IconWrapper icon={FiMaximize2} {...props} />\n  );
+export const IconTag = (props: IconProps) => <IconWrapper icon={FiTag} {...props} />\n  );
+export const IconMapMarker = (props: IconProps) => <IconWrapper icon={FaMapMarkerAlt} {...props} />\n  );
+export const IconEuro = (props: IconProps) => <IconWrapper icon={FaEuroSign} {...props} />\n  );
+export const IconBed = (props: IconProps) => <IconWrapper icon={FaBed} {...props} />\n  );
+export const IconBath = (props: IconProps) => <IconWrapper icon={FaBath} {...props} />\n  );
+export const IconRuler = (props: IconProps) => <IconWrapper icon={FaRulerCombined} {...props} />\n  );

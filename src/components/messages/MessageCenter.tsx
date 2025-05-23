@@ -25,25 +25,21 @@ export default function MessageCenter({ messages = [], onMessageClick }: Message
       sender: 'Sarah Johnson (Agent)',
       message: 'Hi! I have some great news about the property you viewed.',
       timestamp: new Date(Date.now() - 30 * 60 * 1000),
-      unread: true,
-    },
+      unread: true},
     {
       id: '2',
       sender: 'Tom Smith (Solicitor)',
       message: 'I\'ve reviewed the contracts. Everything looks good.',
       timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000),
-      unread: false,
-    },
+      unread: false},
     {
       id: '3',
       sender: 'Property Team',
       message: 'Your viewing has been confirmed for tomorrow at 2 PM.',
       timestamp: new Date(Date.now() - 24 * 60 * 60 * 1000),
-      unread: false,
-    },
-  ];
+      unread: false}];
 
-  const displayMessages = messages.length > 0 ? messages : defaultMessages;
+  const displayMessages = messages.length> 0 ? messages : defaultMessages;
 
   return (
     <Card>
@@ -55,7 +51,7 @@ export default function MessageCenter({ messages = [], onMessageClick }: Message
       </CardHeader>
       <CardContent>
         <div className="space-y-3">
-          {displayMessages.map((message) => (
+          {displayMessages.map((message: any) => (
             <div
               key={message.id}
               className={`flex items-start gap-3 p-3 rounded-lg cursor-pointer transition-colors ${

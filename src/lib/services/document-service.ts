@@ -20,7 +20,7 @@ export interface DocumentCreateInput {
   size?: number;
   status?: string;
   tags?: string[];
-  metadata?: Record<string, any>;
+  metadata?: Record<string, any>\n  );
   expiryDate?: Date;
   signatureRequired?: boolean;
   developmentId?: string;
@@ -35,7 +35,7 @@ export interface DocumentUpdateInput {
   category?: string;
   status?: string;
   tags?: string[];
-  metadata?: Record<string, any>;
+  metadata?: Record<string, any>\n  );
   expiryDate?: Date;
   signatureRequired?: boolean;
 }
@@ -55,7 +55,7 @@ export interface DocumentSignatureInput {
   signerId: string;
   signerName: string;
   signatureImageUrl?: string;
-  signaturePosition?: Record<string, any>;
+  signaturePosition?: Record<string, any>\n  );
   signatureMethod: string;
   ipAddress?: string;
 }
@@ -86,7 +86,7 @@ class DocumentService {
   async createDocument(data: DocumentCreateInput): Promise<Document> {
     try {
       const documentRepository = getRepository('document');
-      
+
       // Prepare document data
       const documentData = {
         id: uuidv4(),
@@ -113,16 +113,16 @@ class DocumentService {
         createdAt: new Date(),
         updatedAt: new Date()
       };
-      
+
       const document = await documentRepository.create(documentData);
-      
+
       logger.info('Document created:', {
         documentId: document.id,
         userId: data.createdBy,
         title: data.title,
         type: data.type
       });
-      
+
       return document;
     } catch (error: any) {
       logger.error('Failed to create document:', { 
@@ -134,7 +134,7 @@ class DocumentService {
       throw error;
     }
   }
-  
+
   /**
    * Retrieve a document by ID with all details
    */
@@ -150,7 +150,7 @@ class DocumentService {
       throw error;
     }
   }
-  
+
   /**
    * Get a list of documents based on filters
    */
@@ -160,26 +160,26 @@ class DocumentService {
   }> {
     try {
       const documentRepository = getRepository('document');
-      
+
       // Build the where clause for Prisma
       const where: any = {};
-      
+
       if (filters.developmentId) {
         where.developmentId = filters.developmentId;
       }
-      
+
       if (filters.unitId) {
         where.unitId = filters.unitId;
       }
-      
+
       if (filters.saleId) {
         where.saleId = filters.saleId;
       }
-      
+
       if (filters.createdBy) {
         where.createdById = filters.createdBy;
       }
-      
+
       if (filters.type) {
         if (Array.isArray(filters.type)) {
           where.type = { in: filters.type };
@@ -187,7 +187,7 @@ class DocumentService {
           where.type = filters.type;
         }
       }
-      
+
       if (filters.category) {
         if (Array.isArray(filters.category)) {
           where.category = { in: filters.category };
@@ -195,7 +195,7 @@ class DocumentService {
           where.category = filters.category;
         }
       }
-      
+
       if (filters.status) {
         if (Array.isArray(filters.status)) {
           where.status = { in: filters.status };
@@ -203,48 +203,47 @@ class DocumentService {
           where.status = filters.status;
         }
       }
-      
+
       if (filters.search) {
         where.OR = [
           { title: { contains: filters.search, mode: 'insensitive' } },
-          { description: { contains: filters.search, mode: 'insensitive' } },
-        ];
+          { description: { contains: filters.search, mode: 'insensitive' } }];
       }
-      
-      if (filters.tags && filters.tags.length > 0) {
+
+      if (filters.tags && filters.tags.length> 0) {
         where.tags = {
           hasSome: filters.tags
         };
       }
-      
+
       if (filters.fromDate) {
         where.createdAt = {
           ...(where.createdAt || {}),
           gte: filters.fromDate
         };
       }
-      
+
       if (filters.toDate) {
         where.createdAt = {
           ...(where.createdAt || {}),
           lte: filters.toDate
         };
       }
-      
+
       if (filters.signatureRequired !== undefined) {
         where.signatureRequired = filters.signatureRequired;
       }
-      
+
       // Set up ordering
       const orderBy: any = {};
       const field = filters.orderBy || 'createdAt';
       const direction = filters.orderDirection || 'desc';
       orderBy[field] = direction;
-      
+
       // Set pagination defaults
       const limit = filters.limit || 50;
       const offset = filters.offset || 0;
-      
+
       // Fetch documents
       const documents = await documentRepository.findAll({
         where,
@@ -252,10 +251,10 @@ class DocumentService {
         take: limit,
         orderBy
       });
-      
+
       // Get total count
       const total = await documentRepository.count(where);
-      
+
       return { documents, total };
     } catch (error: any) {
       logger.error('Failed to retrieve documents:', { 
@@ -265,25 +264,25 @@ class DocumentService {
       throw error;
     }
   }
-  
+
   /**
    * Update a document
    */
   async updateDocument(id: string, data: DocumentUpdateInput): Promise<Document> {
     try {
       const documentRepository = getRepository('document');
-      
+
       // Check if document exists
       const existingDocument = await documentRepository.findById(id);
       if (!existingDocument) {
         throw new Error(`Document not found: ${id}`);
       }
-      
+
       // Prepare update data
       const updateData: any = {
         updatedAt: new Date()
       };
-      
+
       if (data.title !== undefined) updateData.title = data.title;
       if (data.description !== undefined) updateData.description = data.description;
       if (data.category !== undefined) updateData.category = data.category;
@@ -291,22 +290,22 @@ class DocumentService {
       if (data.tags !== undefined) updateData.tags = data.tags;
       if (data.expiryDate !== undefined) updateData.expiryDate = data.expiryDate;
       if (data.signatureRequired !== undefined) updateData.signatureRequired = data.signatureRequired;
-      
+
       if (data.metadata !== undefined) {
         updateData.metadata = {
           ...(existingDocument.metadata || {}),
           ...data.metadata
         };
       }
-      
+
       // Update document
-      const updatedDocument = await documentRepository.update(id, updateData);
-      
+      const updatedDocument = await documentRepository.update(idupdateData);
+
       logger.info('Document updated:', {
         documentId: id,
         fields: Object.keys(updateData).filter(k => k !== 'updatedAt')
       });
-      
+
       return updatedDocument;
     } catch (error: any) {
       logger.error('Failed to update document:', { 
@@ -316,29 +315,29 @@ class DocumentService {
       throw error;
     }
   }
-  
+
   /**
    * Update document status
    */
   async updateDocumentStatus(id: string, status: string): Promise<Document> {
     try {
       const documentRepository = getRepository('document');
-      
+
       // Check if document exists
       const existingDocument = await documentRepository.findById(id);
       if (!existingDocument) {
         throw new Error(`Document not found: ${id}`);
       }
-      
+
       // Update status
-      const updatedDocument = await documentRepository.updateStatus(id, status);
-      
+      const updatedDocument = await documentRepository.updateStatus(idstatus);
+
       logger.info('Document status updated:', {
         documentId: id,
         oldStatus: existingDocument.status,
         newStatus: status
       });
-      
+
       return updatedDocument;
     } catch (error: any) {
       logger.error('Failed to update document status:', { 
@@ -349,26 +348,26 @@ class DocumentService {
       throw error;
     }
   }
-  
+
   /**
    * Create a new document version
    */
   async createDocumentVersion(data: DocumentVersionInput): Promise<any> {
     try {
       const documentRepository = getRepository('document');
-      
+
       // Check if document exists
       const existingDocument = await documentRepository.findWithDetails(data.documentId);
       if (!existingDocument) {
         throw new Error(`Document not found: ${data.documentId}`);
       }
-      
+
       // Calculate new version number
       const newVersionNumber = (existingDocument.version || 1) + 1;
-      
+
       // Create new version using transaction
       const tx = await createTransactionContext();
-      
+
       try {
         // Create version record and update document
         const newVersion = await documentRepository.addVersion(
@@ -379,13 +378,13 @@ class DocumentService {
           data.size,
           data.notes
         );
-        
+
         logger.info('Document version created:', {
           documentId: data.documentId,
           userId: data.createdBy,
           versionNumber: newVersionNumber
         });
-        
+
         return newVersion;
       } catch (error) {
         // Transaction will automatically roll back
@@ -400,7 +399,7 @@ class DocumentService {
       throw error;
     }
   }
-  
+
   /**
    * Sign a document
    */
@@ -408,19 +407,19 @@ class DocumentService {
     try {
       // Use transaction to ensure consistency
       const tx = await createTransactionContext();
-      
+
       // Find the document
       const document = await tx.documents.findById(data.documentId);
-      
+
       if (!document) {
         throw new Error(`Document not found: ${data.documentId}`);
       }
-      
+
       // Verify document requires signature
       if (!document.signatureRequired) {
         throw new Error('This document does not require a signature');
       }
-      
+
       // Create signature record
       const signature = await tx.prisma.documentSignature.create({
         data: {
@@ -438,31 +437,30 @@ class DocumentService {
           verified: true,
           verificationMethod: 'authenticated-session',
           createdAt: new Date(),
-          updatedAt: new Date(),
-        }
+          updatedAt: new Date()}
       });
-      
+
       // Check if all required signatures are complete
       // This would be more complex in a real implementation
       const allSignatures = await tx.prisma.documentSignature.findMany({
         where: { documentId: data.documentId }
       });
-      
+
       // Update document signature status if needed
-      if (allSignatures.length > 0) {
+      if (allSignatures.length> 0) {
         await tx.documents.update(data.documentId, {
           signatureStatus: 'COMPLETED',
           status: 'APPROVED',
           updatedAt: new Date()
         });
       }
-      
+
       logger.info('Document signed:', {
         documentId: data.documentId,
         signerId: data.signerId,
         method: data.signatureMethod
       });
-      
+
       return signature;
     } catch (error: any) {
       logger.error('Failed to sign document:', { 
@@ -473,7 +471,7 @@ class DocumentService {
       throw error;
     }
   }
-  
+
   /**
    * Archive a document (soft delete)
    */
@@ -488,7 +486,7 @@ class DocumentService {
       throw error;
     }
   }
-  
+
   /**
    * Get documents by entity type and ID
    */
@@ -496,7 +494,7 @@ class DocumentService {
     try {
       let documents: Document[] = [];
       const documentRepository = getRepository('document');
-      
+
       switch (entityType) {
         case 'development':
           documents = await documentRepository.findByDevelopmentId(entityId);
@@ -513,7 +511,7 @@ class DocumentService {
         default:
           throw new Error(`Unsupported entity type: ${entityType}`);
       }
-      
+
       return documents;
     } catch (error: any) {
       logger.error('Failed to get documents by entity:', { 

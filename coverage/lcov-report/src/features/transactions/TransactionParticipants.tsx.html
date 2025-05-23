@@ -2222,7 +2222,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                 &lt;Button
                   size="sm"
                   variant="outline"
-                  onClick={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; {
+                  onClick={<span class="fstat-no" title="function not covered" >(e</span>: React.MouseEvent) =&gt; {
 <span class="cstat-no" title="statement not covered" >                    e.stopPropagation();</span>
 <span class="cstat-no" title="statement not covered" >                    setSelectedParticipant(participant);</span>
 <span class="cstat-no" title="statement not covered" >                    setShowCommunicationModal(true);</span>
@@ -2233,7 +2233,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                 &lt;Button
                   size="sm"
                   variant="outline"
-                  onClick={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; {
+                  onClick={<span class="fstat-no" title="function not covered" >(e</span>: React.MouseEvent) =&gt; {
 <span class="cstat-no" title="statement not covered" >                    e.stopPropagation();</span>
 <span class="cstat-no" title="statement not covered" >                    window.location.href = `tel:${participant.phone}`;</span>
                   }}
@@ -2243,7 +2243,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                 &lt;Button
                   size="sm"
                   variant="outline"
-                  onClick={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; {
+                  onClick={<span class="fstat-no" title="function not covered" >(e</span>: React.MouseEvent) =&gt; {
 <span class="cstat-no" title="statement not covered" >                    e.stopPropagation();</span>
 <span class="cstat-no" title="statement not covered" >                    window.location.href = `mailto:${participant.email}`;</span>
                   }}
@@ -2253,7 +2253,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                 &lt;Button
                   size="sm"
                   variant="outline"
-                  onClick={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; {
+                  onClick={<span class="fstat-no" title="function not covered" >(e</span>: React.MouseEvent) =&gt; {
 <span class="cstat-no" title="statement not covered" >                    e.stopPropagation();</span>
 <span class="cstat-no" title="statement not covered" >                    toast.success(`Video call scheduled with ${participant.name}`);</span>
                   }}
@@ -2477,7 +2477,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
             animate={{ scale: 1 }}
             exit={{ scale: 0.95 }}
             className="bg-white rounded-lg shadow-xl max-w-4xl w-full mx-4 max-h-[90vh] overflow-hidden"
-            onClick={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; <span class="cstat-no" title="statement not covered" >e.stopPropagation()}</span>
+            onClick={<span class="fstat-no" title="function not covered" >(e</span>: React.MouseEvent) =&gt; <span class="cstat-no" title="statement not covered" >e.stopPropagation()}</span>
           &gt;
             &lt;div className="p-6 border-b"&gt;
               &lt;div className="flex items-center justify-between"&gt;
@@ -2797,7 +2797,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
             animate={{ scale: 1 }}
             exit={{ scale: 0.95 }}
             className="bg-white rounded-lg shadow-xl max-w-2xl w-full mx-4"
-            onClick={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; <span class="cstat-no" title="statement not covered" >e.stopPropagation()}</span>
+            onClick={<span class="fstat-no" title="function not covered" >(e</span>: React.MouseEvent) =&gt; <span class="cstat-no" title="statement not covered" >e.stopPropagation()}</span>
           &gt;
             &lt;div className="p-6 border-b"&gt;
               &lt;div className="flex items-center justify-between"&gt;
@@ -2835,7 +2835,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                   &lt;Label&gt;Subject&lt;/Label&gt;
                   &lt;Input
                     value={communicationSubject}
-                    onChange={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; <span class="cstat-no" title="statement not covered" >setCommunicationSubject(e.target.value)}</span>
+                    onChange={<span class="fstat-no" title="function not covered" >(e</span>: React.MouseEvent) =&gt; <span class="cstat-no" title="statement not covered" >setCommunicationSubject(e.target.value)}</span>
                     placeholder="Enter subject..."
                   /&gt;
                 &lt;/div&gt;
@@ -2844,7 +2844,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                   &lt;Label&gt;Message&lt;/Label&gt;
                   &lt;Textarea
                     value={communicationMessage}
-                    onChange={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; <span class="cstat-no" title="statement not covered" >setCommunicationMessage(e.target.value)}</span>
+                    onChange={<span class="fstat-no" title="function not covered" >(e</span>: React.MouseEvent) =&gt; <span class="cstat-no" title="statement not covered" >setCommunicationMessage(e.target.value)}</span>
                     placeholder="Enter your message..."
                     rows={6}
                   /&gt;
@@ -2878,7 +2878,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-15T16:23:22.212Z
+                at 2025-05-22T22:15:25.812Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

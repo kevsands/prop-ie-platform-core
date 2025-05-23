@@ -25,7 +25,7 @@ const DevelopmentCard: React.FC<DevelopmentCardProps> = React.memo(({ developmen
             src={development.image} // Assuming image is a URL or correct path in /public
             alt={`Exterior view of ${development.name}`}
             fill
-            style={{ objectFit: "cover" }}
+            style={ objectFit: "cover" }
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw" // Optimized sizes
             // Consider adding placeholder="blur" if blurDataURL is available
           />
@@ -40,8 +40,8 @@ const DevelopmentCard: React.FC<DevelopmentCardProps> = React.memo(({ developmen
       </div>
       <div className="p-4">
         <h3 className="text-lg font-semibold text-gray-900 group-hover:text-[#2B5273] transition-colors">{development.name}</h3>
-        <p className="text-sm text-gray-600 mt-1">{development.location || "Location TBC"}</p>
-        <p className="text-sm text-gray-700 mt-2 line-clamp-2">{development.description || ""}</p>
+        <p className="text-sm text-gray-600 mt-1">{development.location || "Location TBC"</p>
+        <p className="text-sm text-gray-700 mt-2 line-clamp-2">{development.description || ""</p>
       </div>
     </Link>
   );

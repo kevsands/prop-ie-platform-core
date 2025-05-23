@@ -19,8 +19,7 @@ import {
   SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
+  SelectValue} from '@/components/ui/select';
 import { Slider } from '@/components/ui/slider';
 import {
   Sheet,
@@ -28,8 +27,7 @@ import {
   SheetDescription,
   SheetHeader,
   SheetTitle,
-  SheetTrigger,
-} from '@/components/ui/sheet';
+  SheetTrigger} from '@/components/ui/sheet';
 import {
   HomeIcon,
   MapPinIcon,
@@ -42,8 +40,7 @@ import {
   EyeIcon,
   CalendarIcon,
   BoltIcon,
-  PhotoIcon,
-} from '@heroicons/react/24/outline';
+  PhotoIcon} from '@heroicons/react/24/outline';
 import { HeartIcon as HeartIconSolid } from '@heroicons/react/24/solid';
 import Image from 'next/image';
 
@@ -99,8 +96,8 @@ type PropertyType = 'APARTMENT' | 'HOUSE' | 'TOWNHOUSE' | 'PENTHOUSE' | 'BUNGALO
 type PropertyStatus = 'AVAILABLE' | 'RESERVED' | 'SOLD' | 'UNDER_OFFER';
 
 interface FilterState {
-  priceRange: [number, number];
-  sizeRange: [number, number];
+  priceRange: [numbernumber];
+  sizeRange: [numbernumber];
   bedrooms: number | null;
   bathrooms: number | null;
   propertyTypes: PropertyType[];
@@ -113,15 +110,15 @@ interface FilterState {
 
 export function PropertyListingGrid() {
   const router = useRouter();
-  const [properties, setProperties] = useState<Property[]>([]);
-  const [filteredProperties, setFilteredProperties] = useState<Property[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [savedProperties, setSavedProperties] = useState<string[]>([]);
-  const [viewMode, setViewMode] = useState<'grid' | 'list' | 'map'>('grid');
-  const [searchQuery, setSearchQuery] = useState('');
-  const [filters, setFilters] = useState<FilterState>({
-    priceRange: [0, 1000000],
-    sizeRange: [0, 500],
+  const [propertiessetProperties] = useState<Property[]>([]);
+  const [filteredPropertiessetFilteredProperties] = useState<Property[]>([]);
+  const [loadingsetLoading] = useState(true);
+  const [savedPropertiessetSavedProperties] = useState<string[]>([]);
+  const [viewModesetViewMode] = useState<'grid' | 'list' | 'map'>('grid');
+  const [searchQuerysetSearchQuery] = useState('');
+  const [filterssetFilters] = useState<FilterState>({
+    priceRange: [01000000],
+    sizeRange: [0500],
     bedrooms: null,
     bathrooms: null,
     propertyTypes: [],
@@ -129,16 +126,14 @@ export function PropertyListingGrid() {
     features: [],
     berRating: null,
     availability: 'all',
-    sortBy: 'newest',
-  });
+    sortBy: 'newest'});
 
   const { ref: loadMoreRef, inView } = useInView({
     threshold: 0,
-    triggerOnce: false,
-  });
+    triggerOnce: false});
 
-  const [page, setPage] = useState(1);
-  const [hasMore, setHasMore] = useState(true);
+  const [pagesetPage] = useState(1);
+  const [hasMoresetHasMore] = useState(true);
   const itemsPerPage = 12;
 
   useEffect(() => {
@@ -148,26 +143,25 @@ export function PropertyListingGrid() {
 
   useEffect(() => {
     applyFilters();
-  }, [properties, filters, searchQuery]);
+  }, [properties, filterssearchQuery]);
 
   useEffect(() => {
     if (inView && hasMore && !loading) {
       loadMoreProperties();
     }
-  }, [inView, hasMore, loading]);
+  }, [inView, hasMoreloading]);
 
   const loadProperties = async () => {
     try {
       setLoading(true);
       const response = await fetch('/api/properties?' + new URLSearchParams({
         limit: itemsPerPage.toString(),
-        offset: '0',
-      }));
+        offset: '0'}));
       const data = await response.json();
       setProperties(data.properties);
-      setHasMore(data.pagination.total > itemsPerPage);
+      setHasMore(data.pagination.total> itemsPerPage);
     } catch (error) {
-      console.error('Error loading properties:', error);
+
     } finally {
       setLoading(false);
     }
@@ -175,20 +169,19 @@ export function PropertyListingGrid() {
 
   const loadMoreProperties = async () => {
     if (loading) return;
-    
+
     try {
       setLoading(true);
       const offset = page * itemsPerPage;
       const response = await fetch('/api/properties?' + new URLSearchParams({
         limit: itemsPerPage.toString(),
-        offset: offset.toString(),
-      }));
+        offset: offset.toString()}));
       const data = await response.json();
       setProperties(prev => [...prev, ...data.properties]);
       setPage(prev => prev + 1);
-      setHasMore(data.pagination.total > (page + 1) * itemsPerPage);
+      setHasMore(data.pagination.total> (page + 1) * itemsPerPage);
     } catch (error) {
-      console.error('Error loading more properties:', error);
+
     } finally {
       setLoading(false);
     }
@@ -200,7 +193,7 @@ export function PropertyListingGrid() {
       const data = await response.json();
       setSavedProperties(data.propertyIds);
     } catch (error) {
-      console.error('Error loading saved properties:', error);
+
     }
   };
 
@@ -220,42 +213,42 @@ export function PropertyListingGrid() {
 
     // Price range
     filtered = filtered.filter(property => 
-      property.price >= filters.priceRange[0] && 
+      property.price>= filters.priceRange[0] && 
       property.price <= filters.priceRange[1]
     );
 
     // Size range
     filtered = filtered.filter(property => 
-      property.size >= filters.sizeRange[0] && 
+      property.size>= filters.sizeRange[0] && 
       property.size <= filters.sizeRange[1]
     );
 
     // Bedrooms
     if (filters.bedrooms !== null) {
-      filtered = filtered.filter(property => property.bedrooms >= filters.bedrooms);
+      filtered = filtered.filter(property => property.bedrooms>= filters.bedrooms);
     }
 
     // Bathrooms
     if (filters.bathrooms !== null) {
-      filtered = filtered.filter(property => property.bathrooms >= filters.bathrooms);
+      filtered = filtered.filter(property => property.bathrooms>= filters.bathrooms);
     }
 
     // Property types
-    if (filters.propertyTypes.length > 0) {
+    if (filters.propertyTypes.length> 0) {
       filtered = filtered.filter(property => 
         filters.propertyTypes.includes(property.type)
       );
     }
 
     // Locations
-    if (filters.locations.length > 0) {
+    if (filters.locations.length> 0) {
       filtered = filtered.filter(property => 
         filters.locations.includes(property.location.county)
       );
     }
 
     // Features
-    if (filters.features.length > 0) {
+    if (filters.features.length> 0) {
       filtered = filtered.filter(property => 
         filters.features.every(feature => property.features.includes(feature))
       );
@@ -270,19 +263,19 @@ export function PropertyListingGrid() {
     if (filters.availability !== 'all') {
       const now = new Date();
       const threeMonths = new Date(now.getTime() + 90 * 24 * 60 * 60 * 1000);
-      
+
       filtered = filtered.filter(property => {
         const moveInDate = new Date(property.availability.moveInDate);
         if (filters.availability === 'immediate') {
           return moveInDate <= threeMonths;
         } else {
-          return moveInDate > threeMonths;
+          return moveInDate> threeMonths;
         }
       });
     }
 
     // Sorting
-    filtered.sort((a, b) => {
+    filtered.sort((ab: any) => {
       switch (filters.sortBy) {
         case 'price-asc':
           return a.price - b.price;
@@ -308,23 +301,23 @@ export function PropertyListingGrid() {
     try {
       const isSaved = savedProperties.includes(propertyId);
       const method = isSaved ? 'DELETE' : 'POST';
-      
+
       await fetch(`/api/user/saved-properties/${propertyId}`, { method });
-      
+
       if (isSaved) {
         setSavedProperties(prev => prev.filter(id => id !== propertyId));
       } else {
-        setSavedProperties(prev => [...prev, propertyId]);
+        setSavedProperties(prev => [...prevpropertyId]);
       }
     } catch (error) {
-      console.error('Error toggling save property:', error);
+
     }
   };
 
   const handlePropertyClick = (property: Property) => {
     // Track view
     fetch(`/api/properties/${property.id}/view`, { method: 'POST' });
-    
+
     // Navigate to property detail
     router.push(`/properties/${property.id}`);
   };
@@ -360,8 +353,7 @@ export function PropertyListingGrid() {
       'E1': 'bg-red-600',
       'E2': 'bg-red-700',
       'F': 'bg-gray-600',
-      'G': 'bg-gray-700',
-    };
+      'G': 'bg-gray-700'};
     return colors[rating] || 'bg-gray-400';
   };
 
@@ -372,11 +364,11 @@ export function PropertyListingGrid() {
     return (
       <motion.div
         layout
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: 20 }}
-        whileHover={{ y: -4 }}
-        transition={{ duration: 0.2 }}
+        initial={ opacity: 0, y: 20 }
+        animate={ opacity: 1, y: 0 }
+        exit={ opacity: 0, y: 20 }
+        whileHover={ y: -4 }
+        transition={ duration: 0.2 }
       >
         <Card 
           className="cursor-pointer overflow-hidden group hover:shadow-xl transition-all duration-300"
@@ -396,28 +388,28 @@ export function PropertyListingGrid() {
                 <PhotoIcon className="h-12 w-12 text-gray-400" />
               </div>
             )}
-            
+
             {/* Status Badge */}
             <Badge 
               className={`absolute top-3 left-3 ${getStatusColor(property.status)}`}
             >
               {property.status.replace(/_/g, ' ')}
             </Badge>
-            
+
             {/* BER Rating */}
             <div className={`absolute top-3 right-3 px-2 py-1 rounded text-white font-bold text-sm ${getBERColor(property.berRating)}`}>
               {property.berRating}
             </div>
-            
+
             {/* Save Button */}
             <Button
               size="icon"
               variant="ghost"
               className="absolute bottom-3 right-3 bg-white/80 backdrop-blur-sm hover:bg-white"
-              onClick={(e) => {
+              onClick={(e: any) => {
                 e.stopPropagation();
                 toggleSaveProperty(property.id);
-              }}
+              }
             >
               {isSaved ? (
                 <HeartIconSolid className="h-5 w-5 text-red-500" />
@@ -425,7 +417,7 @@ export function PropertyListingGrid() {
                 <HeartIcon className="h-5 w-5 text-gray-600" />
               )}
             </Button>
-            
+
             {/* Image Count */}
             <div className="absolute bottom-3 left-3 flex items-center gap-1 bg-black/60 backdrop-blur-sm text-white px-2 py-1 rounded">
               <PhotoIcon className="h-4 w-4" />
@@ -471,12 +463,12 @@ export function PropertyListingGrid() {
 
             {/* Features */}
             <div className="flex flex-wrap gap-1 mb-3">
-              {property.features.slice(0, 3).map((feature, index) => (
+              {property.features.slice(03).map((featureindex: any) => (
                 <Badge key={index} variant="outline" className="text-xs">
                   {feature}
                 </Badge>
               ))}
-              {property.features.length > 3 && (
+              {property.features.length> 3 && (
                 <Badge variant="outline" className="text-xs">
                   +{property.features.length - 3} more
                 </Badge>
@@ -500,10 +492,10 @@ export function PropertyListingGrid() {
             <Button 
               className="w-full" 
               variant="outline"
-              onClick={(e) => {
+              onClick={(e: any) => {
                 e.stopPropagation();
                 router.push(`/properties/${property.id}/book-viewing`);
-              }}
+              }
             >
               Book Viewing
             </Button>
@@ -525,7 +517,7 @@ export function PropertyListingGrid() {
                 type="text"
                 placeholder="Search by location, development, or property name..."
                 value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
+                onChange={(e: any) => setSearchQuery(e.target.value)}
                 className="pl-10 h-12"
               />
               <MagnifyingGlassIcon className="absolute left-3 top-3.5 h-5 w-5 text-gray-400" />
@@ -581,7 +573,7 @@ export function PropertyListingGrid() {
                       max={1000000}
                       step={10000}
                       value={filters.priceRange}
-                      onValueChange={(value) => setFilters(prev => ({ ...prev, priceRange: value as [number, number] }))}
+                      onValueChange={(value: any) => setFilters(prev => ({ ...prev, priceRange: value as [numbernumber] }))}
                     />
                     <div className="flex justify-between text-sm text-gray-600">
                       <span>€{filters.priceRange[0].toLocaleString()}</span>
@@ -597,7 +589,7 @@ export function PropertyListingGrid() {
                       max={500}
                       step={10}
                       value={filters.sizeRange}
-                      onValueChange={(value) => setFilters(prev => ({ ...prev, sizeRange: value as [number, number] }))}
+                      onValueChange={(value: any) => setFilters(prev => ({ ...prev, sizeRange: value as [numbernumber] }))}
                     />
                     <div className="flex justify-between text-sm text-gray-600">
                       <span>{filters.sizeRange[0]} m²</span>
@@ -610,7 +602,7 @@ export function PropertyListingGrid() {
                     <Label>Minimum Bedrooms</Label>
                     <Select
                       value={filters.bedrooms?.toString() || ''}
-                      onValueChange={(value) => setFilters(prev => ({ ...prev, bedrooms: value ? parseInt(value) : null }))}
+                      onValueChange={(value: any) => setFilters(prev => ({ ...prev, bedrooms: value ? parseInt(value) : null }))}
                     >
                       <SelectTrigger>
                         <SelectValue placeholder="Any" />
@@ -630,7 +622,7 @@ export function PropertyListingGrid() {
                   <div className="space-y-3">
                     <Label>Property Type</Label>
                     <div className="grid grid-cols-2 gap-2">
-                      {['APARTMENT', 'HOUSE', 'TOWNHOUSE', 'PENTHOUSE', 'BUNGALOW'].map((type) => (
+                      {['APARTMENT', 'HOUSE', 'TOWNHOUSE', 'PENTHOUSE', 'BUNGALOW'].map((type: any) => (
                         <Button
                           key={type}
                           variant={filters.propertyTypes.includes(type as PropertyType) ? 'default' : 'outline'}
@@ -647,7 +639,7 @@ export function PropertyListingGrid() {
                                 propertyTypes: [...prev.propertyTypes, type as PropertyType]
                               }));
                             }
-                          }}
+                          }
                         >
                           {type}
                         </Button>
@@ -660,8 +652,8 @@ export function PropertyListingGrid() {
                     variant="outline"
                     className="w-full"
                     onClick={() => setFilters({
-                      priceRange: [0, 1000000],
-                      sizeRange: [0, 500],
+                      priceRange: [01000000],
+                      sizeRange: [0500],
                       bedrooms: null,
                       bathrooms: null,
                       propertyTypes: [],
@@ -669,8 +661,7 @@ export function PropertyListingGrid() {
                       features: [],
                       berRating: null,
                       availability: 'all',
-                      sortBy: 'newest',
-                    })}
+                      sortBy: 'newest'})}
                   >
                     Reset Filters
                   </Button>
@@ -686,7 +677,7 @@ export function PropertyListingGrid() {
             </p>
             <Select
               value={filters.sortBy}
-              onValueChange={(value) => setFilters(prev => ({ ...prev, sortBy: value as FilterState['sortBy'] }))}
+              onValueChange={(value: any) => setFilters(prev => ({ ...prev, sortBy: value as FilterState['sortBy'] }))}
             >
               <SelectTrigger className="w-[200px]">
                 <SelectValue />
@@ -708,7 +699,7 @@ export function PropertyListingGrid() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {loading && properties.length === 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[...Array(6)].map((_, i) => (
+            {[...Array(6)].map((_i: any) => (
               <Card key={i} className="h-[450px] animate-pulse">
                 <div className="h-64 bg-gray-200" />
                 <CardContent className="p-4">
@@ -727,7 +718,7 @@ export function PropertyListingGrid() {
           <>
             <AnimatePresence mode="popLayout">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {filteredProperties.map((property) => (
+                {filteredProperties.map((property: any) => (
                   <PropertyCard key={property.id} property={property} />
                 ))}
               </div>

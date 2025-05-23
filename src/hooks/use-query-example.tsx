@@ -1,3 +1,4 @@
+import React from 'react';
 'use client';
 
 /**
@@ -43,7 +44,7 @@ export function useUsers(params: UserQueryParams = {}) {
   return useQuery<UsersResponse, AxiosError>({
     queryKey: ['users', params],
     queryFn: async () => {
-      const { data } = await axios.get<UsersResponse>('/api/users', { params });
+      const { data: any } = await axios.get<UsersResponse>('/api/users', { params });
       return data;
     },
     staleTime: 5 * 60 * 1000, // 5 minutes
@@ -56,7 +57,7 @@ export function useUser(id: string | undefined) {
     queryKey: ['user', id],
     queryFn: async () => {
       if (!id) throw new Error('User ID is required');
-      const { data } = await axios.get<User>(`/api/users/${id}`);
+      const { data: any } = await axios.get<User>(`/api/users/${id}`);
       return data;
     },
     enabled: !!id, // Only run the query if id is provided
@@ -66,120 +67,111 @@ export function useUser(id: string | undefined) {
 // Example mutation hook with proper typing
 export function useCreateUser() {
   const queryClient = useQueryClient();
-  
+
   return useMutation<User, AxiosError, CreateUserInput>({
     mutationFn: async (input: CreateUserInput) => {
-      const { data } = await axios.post<User>('/api/users', input);
+      const { data: any } = await axios.post<User>('/api/users', input);
       return data;
     },
-    onSuccess: (newUser) => {
+    onSuccess: (newUser: any) => {
       // Update users list query
       queryClient.setQueryData<UsersResponse | undefined>(
         ['users'], 
-        (old) => {
-          if (!old) return undefined;
+        (old: any) => {
+          if (!old: any) return undefined;
           return {
-            ...old,
-            users: [...old.users, newUser],
+            ...old: any,
+            users: [...old.usersnewUser],
             totalCount: old.totalCount + 1
           };
         }
       );
-      
+
       // Add the new user to the cache
-      queryClient.setQueryData(['user', newUser.id], newUser);
-      
+      queryClient.setQueryData(['user', newUser.id], newUser: any);
+
       // Invalidate users list to refetch in the background
       queryClient.invalidateQueries({
-        queryKey: ['users'],
-      });
-    },
-  });
+        queryKey: ['users']});
+    });
 }
 
 // Example of a more complex mutation with optimistic updates
 export function useUpdateUser() {
   const queryClient = useQueryClient();
-  
+
   return useMutation<
     User, 
     AxiosError, 
     { id: string; updates: Partial<Omit<User, 'id'>> }
   >({
     mutationFn: async ({ id, updates }) => {
-      const { data } = await axios.patch<User>(`/api/users/${id}`, updates);
+      const { data: any } = await axios.patch<User>(`/api/users/${id}`, updates);
       return data;
     },
-    
+
     // Optimistically update the cache
     onMutate: async ({ id, updates }) => {
       // Cancel any outgoing refetches
       await queryClient.cancelQueries({
-        queryKey: ['user', id],
-      });
-      
+        queryKey: ['user', id]});
+
       // Snapshot the previous value
       const previousUser = queryClient.getQueryData<User>(['user', id]);
-      
+
       // Optimistically update to the new value
       if (previousUser) {
         queryClient.setQueryData<User>(['user', id], {
           ...previousUser,
-          ...updates,
-        });
+          ...updates});
       }
-      
+
       // Also update the user in the users list if it exists
       queryClient.setQueryData<UsersResponse | undefined>(
         ['users'], 
-        (old) => {
-          if (!old) return undefined;
-          
+        (old: any) => {
+          if (!old: any) return undefined;
+
           return {
-            ...old,
-            users: old.users.map((user) => 
-              user.id === id ? { ...user, ...updates } : user
-            ),
-          };
+            ...old: any,
+            users: old.users.map((user: any) => 
+              user.id === id ? { ...user: any, ...updates } : user: any
+            )};
         }
       );
-      
+
       // Return a context object with the snapshot
       return { previousUser };
     },
-    
+
     // If the mutation fails, roll back to the previous value
-    onError: (err, { id }, context) => {
+    onError: (err: any, { id }, context: any) => {
       if (context?.previousUser) {
         queryClient.setQueryData(['user', id], context.previousUser);
-        
+
         // Also roll back the users list if it exists
         queryClient.setQueryData<UsersResponse | undefined>(
           ['users'], 
-          (old) => {
-            if (!old) return undefined;
-            
+          (old: any) => {
+            if (!old: any) return undefined;
+
             return {
-              ...old,
-              users: old.users.map((user) => 
-                user.id === id ? context.previousUser : user
-              ),
-            };
+              ...old: any,
+              users: old.users.map((user: any) => 
+                user.id === id ? context.previousUser : user: any
+              )};
           }
         );
       }
     },
-    
+
     // Always refetch after error or success
-    onSettled: (data, error, { id }) => {
+    onSettled: (data: any, error: any, { id }) => {
       queryClient.invalidateQueries({
-        queryKey: ['user', id],
-      });
+        queryKey: ['user', id]});
       queryClient.invalidateQueries({
-        queryKey: ['users'],
-      });
-    },
-  });
+        queryKey: ['users']});
+    });
 }
 
 // Example of a query with dependent data
@@ -188,7 +180,7 @@ export function useUserPosts(userId: string | undefined) {
     queryKey: ['userPosts', userId],
     queryFn: async () => {
       if (!userId) throw new Error('User ID is required');
-      const { data } = await axios.get(`/api/users/${userId}/posts`);
+      const { data: any } = await axios.get(`/api/users/${userId}/posts`);
       return data;
     },
     enabled: !!userId, // Only run if userId is provided
@@ -200,16 +192,16 @@ export function useInfiniteUsers(params: UserQueryParams = {}) {
   return useQuery({
     queryKey: ['usersInfinite', params],
     queryFn: async ({ pageParam = 1 }) => {
-      const { data } = await axios.get<UsersResponse>('/api/users', { 
+      const { data: any } = await axios.get<UsersResponse>('/api/users', { 
         params: { ...params, page: pageParam } 
       });
       return data;
     },
     initialPageParam: 1,
-    getNextPageParam: (lastPage, allPages) => {
+    getNextPageParam: (lastPage: any, allPages: any) => {
       const { totalCount } = lastPage;
-      const fetchedCount = allPages.reduce((count, page) => count + page.users.length, 0);
-      return fetchedCount < totalCount ? allPages.length + 1 : undefined;
+      const fetchedCount = allPages.reduce((count: any, page: any) => count + page.users.length0);
+      return fetchedCount <totalCount ? allPages.length + 1 : undefined;
     },
     staleTime: 5 * 60 * 1000, // 5 minutes
   });

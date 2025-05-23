@@ -60,9 +60,9 @@ interface BuyerDashboardProps {
 export default function BuyerDashboard({ buyerId }: BuyerDashboardProps) {
   const { user } = useAuth();
   const { data: buyerData, isLoading } = useBuyerData(buyerId || user?.id);
-  const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
-  const [searchQuery, setSearchQuery] = useState('');
-  const [filterStatus, setFilterStatus] = useState('all');
+  const [selectedDatesetSelectedDate] = useState<Date | undefined>(new Date());
+  const [searchQuerysetSearchQuery] = useState('');
+  const [filterStatussetFilterStatus] = useState('all');
 
   if (isLoading) {
     return (
@@ -138,7 +138,7 @@ export default function BuyerDashboard({ buyerId }: BuyerDashboardProps) {
                   <p className="text-sm text-gray-600">Active Searches</p>
                   <p className="text-2xl font-bold">{activeProperties.length}</p>
                   <p className="text-xs text-gray-500 mt-1">
-                    {activeProperties.filter(p => p.isNew).length} new matches
+                    {activeProperties.filter(p: any => p.isNew).length} new matches
                   </p>
                 </div>
                 <div className="p-3 bg-blue-100 rounded-full">
@@ -155,7 +155,7 @@ export default function BuyerDashboard({ buyerId }: BuyerDashboardProps) {
                   <p className="text-sm text-gray-600">Saved Properties</p>
                   <p className="text-2xl font-bold">{savedProperties.length}</p>
                   <p className="text-xs text-gray-500 mt-1">
-                    {savedProperties.filter(p => p.priceChange < 0).length} price drops
+                    {savedProperties.filter(p: any => p.priceChange <0).length} price drops
                   </p>
                 </div>
                 <div className="p-3 bg-green-100 rounded-full">
@@ -171,7 +171,7 @@ export default function BuyerDashboard({ buyerId }: BuyerDashboardProps) {
                 <div>
                   <p className="text-sm text-gray-600">Upcoming Viewings</p>
                   <p className="text-2xl font-bold">
-                    {viewings.filter(v => v.status === 'SCHEDULED').length}
+                    {viewings.filter(v: any => v.status === 'SCHEDULED').length}
                   </p>
                   <p className="text-xs text-gray-500 mt-1">
                     Next: {viewings[0]?.date ? format(viewings[0].date, 'MMM dd') : 'None'}
@@ -205,7 +205,7 @@ export default function BuyerDashboard({ buyerId }: BuyerDashboardProps) {
         </div>
 
         {/* Critical Alerts */}
-        {journeyProgress.blockers.length > 0 && (
+        {journeyProgress.blockers.length> 0 && (
           <Alert className="mb-8">
             <ExclamationTriangleIcon className="h-4 w-4" />
             <AlertDescription>
@@ -237,12 +237,12 @@ export default function BuyerDashboard({ buyerId }: BuyerDashboardProps) {
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-4">
-                    {analytics.recentActivity.map((activity, index) => (
+                    {analytics.recentActivity.map((activity: any, index: any) => (
                       <motion.div
                         key={activity.id}
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: index * 0.05 }}
+                        initial={ opacity: 0, y: 10 }
+                        animate={ opacity: 1, y: 0 }
+                        transition={ delay: index * 0.05 }
                         className="flex items-center gap-4 p-3 rounded-lg hover:bg-gray-50"
                       >
                         <div className={`p-2 rounded-full ${activity.iconColor}`}>
@@ -269,13 +269,13 @@ export default function BuyerDashboard({ buyerId }: BuyerDashboardProps) {
                 </CardHeader>
                 <CardContent>
                   <TaskList 
-                    tasks={tasks.filter(t => t.status !== 'COMPLETED').slice(0, 5)}
+                    tasks={tasks.filter(t: any => t.status !== 'COMPLETED').slice(05)}
                     compact
                   />
                   <Button 
                     variant="outline" 
                     className="w-full mt-4"
-                    onClick={() => {/* Navigate to tasks */}}
+                    onClick={() => {/* Navigate to tasks */}
                   >
                     View All Tasks
                   </Button>
@@ -293,8 +293,8 @@ export default function BuyerDashboard({ buyerId }: BuyerDashboardProps) {
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {activeProperties.slice(0, 3).map(property => (
-                    <PropertyCard key={property.id} property={property} />
+                  {activeProperties.slice(03).map(property: any => (
+                    <PropertyCard key={property.id} property: any={property: any} />
                   ))}
                 </div>
               </CardContent>
@@ -313,7 +313,7 @@ export default function BuyerDashboard({ buyerId }: BuyerDashboardProps) {
                       <CartesianGrid strokeDasharray="3 3" />
                       <XAxis dataKey="month" />
                       <YAxis />
-                      <Tooltip formatter={(value) => `€${Number(value).toLocaleString()}`} />
+                      <Tooltip formatter={(value: any) => `€${Number(value).toLocaleString()}`} />
                       <Legend />
                       <Line 
                         type="monotone" 
@@ -349,7 +349,7 @@ export default function BuyerDashboard({ buyerId }: BuyerDashboardProps) {
                     <Input
                       placeholder="Search by location, price, or features..."
                       value={searchQuery}
-                      onChange={(e) => setSearchQuery(e.target.value)}
+                      onChange={(e: any) => setSearchQuery(e.target.value)}
                       className="w-full"
                     />
                   </div>
@@ -371,7 +371,7 @@ export default function BuyerDashboard({ buyerId }: BuyerDashboardProps) {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {activeProperties
-                    .filter(property => {
+                    .filter(property: any => {
                       if (searchQuery) {
                         const query = searchQuery.toLowerCase();
                         return property.name.toLowerCase().includes(query) ||
@@ -379,12 +379,12 @@ export default function BuyerDashboard({ buyerId }: BuyerDashboardProps) {
                                property.location.county.toLowerCase().includes(query);
                       }
                       if (filterStatus === 'new') return property.isNew;
-                      if (filterStatus === 'price-drop') return property.priceChange < 0;
-                      if (filterStatus === 'saved') return savedProperties.some(sp => sp.id === property.id);
+                      if (filterStatus === 'price-drop') return property.priceChange <0;
+                      if (filterStatus === 'saved') return savedProperties.some(sp: any => sp.id === property.id);
                       return true;
                     })
-                    .map(property => (
-                      <PropertyCard key={property.id} property={property} />
+                    .map(property: any => (
+                      <PropertyCard key={property.id} property: any={property: any} />
                     ))}
                 </div>
               </CardContent>
@@ -401,7 +401,7 @@ export default function BuyerDashboard({ buyerId }: BuyerDashboardProps) {
                 <CardContent>
                   {/* Calendar component would go here */}
                   <div className="space-y-4">
-                    {viewings.map(viewing => (
+                    {viewings.map(viewing: any => (
                       <Card key={viewing.id}>
                         <CardContent className="p-4">
                           <div className="flex items-center justify-between">
@@ -470,7 +470,7 @@ export default function BuyerDashboard({ buyerId }: BuyerDashboardProps) {
             <DocumentList 
               documents={documents}
               onUpload={() => toast.success('Document uploaded')}
-              onDownload={(doc) => toast.success(`Downloading ${doc.name}`)}
+              onDownload={(doc: any) => toast.success(`Downloading ${doc.name}`)}
             />
           </TabsContent>
 
@@ -501,13 +501,13 @@ export default function BuyerDashboard({ buyerId }: BuyerDashboardProps) {
                             cx="50%"
                             cy="50%"
                             labelLine={false}
-                            label={({name, percent}) => `${name} ${(percent * 100).toFixed(0)}%`}
+                            label={({namepercent}) => `${name} ${(percent * 100).toFixed(0)}%`}
                             outerRadius={80}
                             fill="#8884d8"
                             dataKey="value"
                           >
-                            {analytics.priceDistribution.map((entry, index) => (
-                              <Cell key={`cell-${index}`} fill={['#3B82F6', '#10B981', '#F59E0B', '#EF4444'][index % 4]} />
+                            {analytics.priceDistribution.map((entry: any, index: any) => (
+                              <Cell key={`cell-${index: any}`} fill={['#3B82F6', '#10B981', '#F59E0B', '#EF4444'][index % 4]} />
                             ))}
                           </Pie>
                           <Tooltip />

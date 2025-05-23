@@ -70,14 +70,14 @@ export const securityPatterns = {
   // Safe string patterns
   SAFE_STRING: /^[a-zA-Z0-9\s\-_.,;:!?'"()[\]{}@#$%^&*+=|\\/<>~`]+$/,
   ALPHANUMERIC: /^[a-zA-Z0-9]+$/,
-  
+
   // Format patterns
-  EMAIL: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-  STRONG_PASSWORD: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+  EMAIL: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2}$/,
+  STRONG_PASSWORD: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8}$/,
   PHONE: /^\+?[1-9]\d{1,14}$/,
   URL: /^https:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)$/,
   UUID: /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i,
-  
+
   // Security-sensitive patterns
   JWT: /^[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+\.[A-Za-z0-9-_]*$/,
   CREDIT_CARD: /^\d{4}[- ]?\d{4}[- ]?\d{4}[- ]?\d{4}$/,
@@ -86,10 +86,9 @@ export const securityPatterns = {
   // Injection prevention patterns
   NO_SQL_INJECTION: /^[^{}<>$]+$/,
   NO_HTML: /^[^<>]+$/,
-  
+
   // Content security policy
-  CSP_HEADER: /^(default-src|script-src|style-src|img-src|connect-src|font-src|object-src|media-src|frame-src|sandbox|report-uri|child-src|form-action|frame-ancestors|plugin-types|base-uri|report-to|worker-src|manifest-src|prefetch-src|navigate-to)\s.+/,
-}
+  CSP_HEADER: /^(default-src|script-src|style-src|img-src|connect-src|font-src|object-src|media-src|frame-src|sandbox|report-uri|child-src|form-action|frame-ancestors|plugin-types|base-uri|report-to|worker-src|manifest-src|prefetch-src|navigate-to)\s.+/}
 
 /**
  * Enhanced security schemas for validating inputs and outputs in security-critical operations
@@ -102,32 +101,32 @@ export const securitySchemas = {
     setup: z.object({
       method: z.enum(['TOTP', 'SMS']),
       phoneNumber: z.string().optional().refine(
-        (val) => !val || securityPatterns.PHONE.test(val),
+        (val: any) => !val || securityPatterns.PHONE.test(val),
         { message: 'Invalid phone number format. Must include country code (e.g., +1...)' }
       )
     }),
-    
+
     // MFA verification input validation
     verification: z.object({
       method: z.enum(['TOTP', 'SMS', 'RECOVERY']),
       code: z.string().min(6).max(8).refine(
-        (val) => /^[0-9]+$/.test(val),
+        (val: any) => /^[0-9]+$/.test(val),
         { message: 'Verification code must contain only numbers' }
       )
     }),
-    
+
     // Recovery code validation
     recoveryCode: z.string().length(10).refine(
-      (val) => /^[A-Z0-9]{10}$/.test(val),
+      (val: any) => /^[A-Z0-9]{10}$/.test(val),
       { message: 'Invalid recovery code format' }
     ),
-    
+
     // Phone number validation
     phoneNumber: z.string().refine(
-      (val) => securityPatterns.PHONE.test(val),
+      (val: any) => securityPatterns.PHONE.test(val),
       { message: 'Invalid phone number format. Must include country code (e.g., +1...)' }
     ),
-    
+
     // Advanced MFA configuration
     advancedConfig: z.object({
       requiredLevel: z.enum(['OPTIONAL', 'CONDITIONAL', 'REQUIRED']),
@@ -142,7 +141,7 @@ export const securitySchemas = {
       rememberDeviceDays: z.number().nonnegative().optional()
     })
   },
-  
+
   // Session fingerprint validation
   session: {
     // Client fingerprint data (enhanced)
@@ -151,7 +150,7 @@ export const securitySchemas = {
       language: z.string().max(20),
       colorDepth: z.number().int().positive(),
       screenResolution: z.string().max(50).refine(
-        (val) => /^\d+x\d+$/.test(val),
+        (val: any) => /^\d+x\d+$/.test(val),
         { message: 'Invalid screen resolution format' }
       ),
       timezone: z.string().max(50),
@@ -173,26 +172,26 @@ export const securitySchemas = {
       adBlockEnabled: z.boolean().optional(),
       accelerometerUsed: z.boolean().optional()
     }),
-    
+
     // Geolocation data (enhanced)
     geolocation: z.object({
       ip: z.string().max(45).refine(
-        (val) => /^(\d{1,3}\.){3}\d{1,3}$|^([0-9a-f]{1,4}:){7}[0-9a-f]{1,4}$/.test(val),
+        (val: any) => /^(\d{1,3}\.){3}\d{1,3}$|^([0-9a-f]{1,4}:){7}[0-9a-f]{1,4}$/.test(val),
         { message: 'Invalid IP address format' }
       ),
       country: z.string().max(2).refine(
-        (val) => /^[A-Z]{2}$/.test(val),
+        (val: any) => /^[A-Z]{2}$/.test(val),
         { message: 'Country code must be ISO 3166-1 alpha-2 format' }
       ),
       region: z.string().max(50),
       city: z.string().max(100),
       postalCode: z.string().max(20).optional(),
       latitude: z.number().refine(
-        (val) => val >= -90 && val <= 90,
+        (val: any) => val>= -90 && val <= 90,
         { message: 'Latitude must be between -90 and 90' }
       ),
       longitude: z.number().refine(
-        (val) => val >= -180 && val <= 180,
+        (val: any) => val>= -180 && val <= 180,
         { message: 'Longitude must be between -180 and 180' }
       ),
       isp: z.string().max(100).optional(),
@@ -204,12 +203,12 @@ export const securitySchemas = {
       torDetected: z.boolean().optional(),
       dataCenter: z.boolean().optional()
     }).optional(),
-    
+
     // Trusted device (enhanced)
     trustedDevice: z.object({
       fingerprint: z.string().max(500),
       name: z.string().min(1).max(100).refine(
-        (val) => securityPatterns.SAFE_STRING.test(val),
+        (val: any) => securityPatterns.SAFE_STRING.test(val),
         { message: 'Device name contains invalid characters' }
       ),
       trusted: z.boolean(),
@@ -226,11 +225,11 @@ export const securitySchemas = {
       browserVersion: z.string().optional(),
       expiresAt: z.number().int().positive().optional()
     }),
-    
+
     // Session token validation
     token: z.object({
       jwt: z.string().refine(
-        (val) => securityPatterns.JWT.test(val),
+        (val: any) => securityPatterns.JWT.test(val),
         { message: 'Invalid JWT format' }
       ),
       issuedAt: z.number().int().positive(),
@@ -238,19 +237,19 @@ export const securitySchemas = {
       scope: z.array(z.string()).optional(),
       deviceId: z.string().optional(),
       refreshToken: z.string().optional().refine(
-        (val) => !val || val.length >= 64,
+        (val: any) => !val || val.length>= 64,
         { message: 'Refresh token must be at least 64 characters' }
       ),
       sessionType: z.enum(['NORMAL', 'EXTENDED', 'TEMPORARY', 'RESTRICTED']).optional()
     })
   },
-  
+
   // Authentication validation (enhanced)
   auth: {
     // Login request validation
     loginRequest: z.object({
       email: z.string().email().max(255).refine(
-        (val) => securityPatterns.EMAIL.test(val),
+        (val: any) => securityPatterns.EMAIL.test(val),
         { message: 'Invalid email format' }
       ),
       password: z.string().min(8).max(128),
@@ -260,51 +259,51 @@ export const securitySchemas = {
       mfaCode: z.string().optional(),
       clientFingerprint: z.string().optional()
     }),
-    
+
     // Registration request validation (enhanced)
     registrationRequest: z.object({
       email: z.string().email().max(255).refine(
-        (val) => securityPatterns.EMAIL.test(val),
+        (val: any) => securityPatterns.EMAIL.test(val),
         { message: 'Invalid email format' }
       ),
       password: z.string().min(8).max(128).refine(
-        (val) => securityPatterns.STRONG_PASSWORD.test(val),
+        (val: any) => securityPatterns.STRONG_PASSWORD.test(val),
         {
           message: 'Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character'
         }
       ),
       confirmPassword: z.string().min(8).max(128),
       firstName: z.string().min(1).max(50).refine(
-        (val) => securityPatterns.SAFE_STRING.test(val),
+        (val: any) => securityPatterns.SAFE_STRING.test(val),
         { message: 'First name contains invalid characters' }
       ),
       lastName: z.string().min(1).max(50).refine(
-        (val) => securityPatterns.SAFE_STRING.test(val),
+        (val: any) => securityPatterns.SAFE_STRING.test(val),
         { message: 'Last name contains invalid characters' }
       ),
-      termsAccepted: z.boolean().refine((val) => val === true, {
+      termsAccepted: z.boolean().refine((val: any) => val === true, {
         message: 'You must accept the terms and conditions'
       }),
-      privacyPolicyAccepted: z.boolean().refine((val) => val === true, {
+      privacyPolicyAccepted: z.boolean().refine((val: any) => val === true, {
         message: 'You must accept the privacy policy'
       }),
       captchaToken: z.string().optional(),
       clientFingerprint: z.string().optional(),
       referralCode: z.string().max(50).optional(),
       marketingConsent: z.boolean().optional()
-    }).refine((data) => data.password === data.confirmPassword, {
+    }).refine((data: any) => data.password === data.confirmPassword, {
       message: 'Passwords do not match',
       path: ['confirmPassword']
-    }).refine((data) => !data.password.includes(data.firstName) && !data.password.includes(data.lastName), {
+    }).refine((data: any) => !data.password.includes(data.firstName) && !data.password.includes(data.lastName), {
       message: 'Password should not contain your name',
       path: ['password']
     }),
-    
+
     // Password change validation (enhanced)
     passwordChange: z.object({
       currentPassword: z.string().min(8).max(128),
       newPassword: z.string().min(8).max(128).refine(
-        (val) => securityPatterns.STRONG_PASSWORD.test(val),
+        (val: any) => securityPatterns.STRONG_PASSWORD.test(val),
         {
           message: 'Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character'
         }
@@ -312,17 +311,17 @@ export const securitySchemas = {
       confirmPassword: z.string().min(8).max(128),
       mfaCode: z.string().optional(),
       reason: z.enum(['USER_INITIATED', 'PASSWORD_EXPIRED', 'ADMIN_REQUESTED', 'SUSPICIOUS_ACTIVITY']).optional()
-    }).refine((data) => data.newPassword === data.confirmPassword, {
+    }).refine((data: any) => data.newPassword === data.confirmPassword, {
       message: 'Passwords do not match',
       path: ['confirmPassword']
     }).refine(
-      (data) => data.newPassword !== data.currentPassword,
+      (data: any) => data.newPassword !== data.currentPassword,
       {
         message: 'New password must be different from current password',
         path: ['newPassword']
       }
     ).refine(
-      (data) => {
+      (data: any) => {
         // Check for common password patterns to avoid
         const commonPatterns = [
           /password/i, /123456/, /qwerty/i, /admin/i, 
@@ -335,7 +334,7 @@ export const securitySchemas = {
         path: ['newPassword']
       }
     ),
-    
+
     // OAuth token validation
     oauthToken: z.object({
       accessToken: z.string(),
@@ -347,33 +346,33 @@ export const securitySchemas = {
       scope: z.string().optional(),
       state: z.string().optional()
     }),
-    
+
     // Password reset request
     passwordResetRequest: z.object({
       email: z.string().email().max(255).refine(
-        (val) => securityPatterns.EMAIL.test(val),
+        (val: any) => securityPatterns.EMAIL.test(val),
         { message: 'Invalid email format' }
       ),
       captchaToken: z.string().optional(),
       clientFingerprint: z.string().optional()
     }),
-    
+
     // Password reset confirmation
     passwordResetConfirmation: z.object({
       token: z.string(),
       newPassword: z.string().min(8).max(128).refine(
-        (val) => securityPatterns.STRONG_PASSWORD.test(val),
+        (val: any) => securityPatterns.STRONG_PASSWORD.test(val),
         {
           message: 'Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character'
         }
       ),
       confirmPassword: z.string().min(8).max(128)
-    }).refine((data) => data.newPassword === data.confirmPassword, {
+    }).refine((data: any) => data.newPassword === data.confirmPassword, {
       message: 'Passwords do not match',
       path: ['confirmPassword']
     })
   },
-  
+
   // Security event validation (enhanced)
   audit: {
     // Security event schema
@@ -412,7 +411,7 @@ export const securitySchemas = {
       related: z.array(z.string()).optional(),
       tags: z.array(z.string()).optional()
     }),
-    
+
     // Security report schema
     securityReport: z.object({
       reportType: z.enum(['INCIDENT', 'AUDIT', 'COMPLIANCE', 'VULNERABILITY', 'THREAT']),
@@ -432,7 +431,7 @@ export const securitySchemas = {
       attachments: z.array(z.any()).optional()
     })
   },
-  
+
   // API protection validation (enhanced)
   api: {
     // Rate limit configuration
@@ -449,7 +448,7 @@ export const securitySchemas = {
       statusCode: z.number().int().min(400).max(429).optional(),
       skipSuccessfulRequests: z.boolean().optional()
     }),
-    
+
     // API request tracking (enhanced)
     requestInfo: z.object({
       endpoint: z.string().max(200),
@@ -469,11 +468,11 @@ export const securitySchemas = {
       errorCode: z.string().optional(),
       resourceIds: z.array(z.string()).optional()
     }),
-    
+
     // API key validation
     apiKey: z.object({
       key: z.string().min(32).max(128).refine(
-        (val) => /^[A-Za-z0-9_\-]+$/,
+        (val: any) => /^[A-Za-z0-9_\-]+$/,
         { message: 'API key contains invalid characters' }
       ),
       name: z.string().min(1).max(100),
@@ -492,14 +491,14 @@ export const securitySchemas = {
       metadata: z.record(z.any()).optional()
     })
   },
-  
+
   // Data validation (new)
   data: {
     // Generic property data
     property: z.object({
       id: z.string().uuid(),
       title: z.string().min(3).max(200).refine(
-        (val) => securityPatterns.SAFE_STRING.test(val),
+        (val: any) => securityPatterns.SAFE_STRING.test(val),
         { message: 'Property title contains invalid characters' }
       ),
       description: z.string().max(2000).optional(),
@@ -512,8 +511,8 @@ export const securitySchemas = {
         postalCode: z.string().max(20),
         country: z.string().max(100),
         coordinates: z.tuple([
-          z.number().refine(v => v >= -180 && v <= 180),
-          z.number().refine(v => v >= -90 && v <= 90)
+          z.number().refine(v => v>= -180 && v <= 180),
+          z.number().refine(v => v>= -90 && v <= 90)
         ]).optional()
       }),
       features: z.array(z.string()).optional(),
@@ -523,7 +522,7 @@ export const securitySchemas = {
       ownerId: z.string().uuid(),
       metadata: z.record(z.any()).optional()
     }),
-    
+
     // Document data
     document: z.object({
       id: z.string().uuid(),
@@ -543,13 +542,13 @@ export const securitySchemas = {
       metadata: z.record(z.any()).optional(),
       status: z.enum(['DRAFT', 'PUBLISHED', 'ARCHIVED', 'DELETED']).optional()
     }),
-    
+
     // Financial data
     financialTransaction: z.object({
       id: z.string().uuid(),
       type: z.enum(['PAYMENT', 'REFUND', 'DEPOSIT', 'WITHDRAWAL', 'TRANSFER', 'FEE']),
       amount: z.number().refine(
-        (val) => !isNaN(val) && isFinite(val),
+        (val: any) => !isNaN(val) && isFinite(val),
         { message: 'Invalid amount value' }
       ),
       currency: z.string().length(3),
@@ -567,13 +566,13 @@ export const securitySchemas = {
       referenceNumber: z.string().max(100).optional(),
       metadata: z.record(z.any()).optional()
     }).refine(
-      (data) => {
+      (data: any) => {
         // Additional validation for financial data integrity
         if (data.type === 'PAYMENT' || data.type === 'DEPOSIT') {
-          return data.amount > 0;
+          return data.amount> 0;
         }
         if (data.type === 'REFUND' || data.type === 'WITHDRAWAL') {
-          return data.amount < 0;
+          return data.amount <0;
         }
         return true;
       },
@@ -583,7 +582,7 @@ export const securitySchemas = {
       }
     )
   },
-  
+
   // Content Security Policy validation (new)
   security: {
     // CSP configuration
@@ -603,15 +602,14 @@ export const securitySchemas = {
       upgradeInsecureRequests: z.boolean().optional(),
       blockAllMixedContent: z.boolean().optional()
     }).refine(
-      (data) => {
+      (data: any) => {
         // At least one directive must be specified
         return Object.values(data).some(val => val !== undefined);
       },
       {
-        message: 'At least one CSP directive must be specified',
-      }
+        message: 'At least one CSP directive must be specified'}
     ),
-    
+
     // Security headers configuration
     securityHeaders: z.object({
       strictTransportSecurity: z.object({
@@ -642,7 +640,7 @@ export const securitySchemas = {
       })).optional()
     })
   },
-  
+
   // Threat detection configuration (new)
   threatDetection: {
     ruleConfig: z.object({
@@ -707,14 +705,14 @@ async function detectInputThreats(data: unknown, options: Required<ValidationOpt
   isThreatDetected: boolean;
   threatType?: string;
   confidence: number;
-  details?: Record<string, any>;
+  details?: Record<string, any>\n  );
 }> {
   try {
     // Skip threat detection if disabled or not an object
     if (!options.enableThreatDetection || typeof data !== 'object' || data === null) {
       return { isThreatDetected: false, confidence: 0 };
     }
-    
+
     // Basic patterns for common attacks
     const suspiciousPatterns = {
       sqlInjection: [
@@ -746,29 +744,29 @@ async function detectInputThreats(data: unknown, options: Required<ValidationOpt
         /\|\s*wget/i // | wget
       ]
     };
-    
+
     // Convert data to string for pattern matching
     const serialized = JSON.stringify(data);
     const threats: { type: string; patterns: RegExp[]; matches: string[] }[] = [];
-    
+
     // Check for each type of suspicious pattern
-    for (const [type, patterns] of Object.entries(suspiciousPatterns)) {
+    for (const [typepatterns] of Object.entries(suspiciousPatterns)) {
       const matches: string[] = [];
-      
+
       for (const pattern of patterns) {
         const found = serialized.match(pattern);
         if (found) {
           matches.push(...found);
         }
       }
-      
-      if (matches.length > 0) {
+
+      if (matches.length> 0) {
         threats.push({ type, patterns, matches });
       }
     }
-    
+
     // If we have threats detected with basic analysis
-    if (threats.length > 0) {
+    if (threats.length> 0) {
       return {
         isThreatDetected: true,
         threatType: 'suspicious_activity',
@@ -776,12 +774,12 @@ async function detectInputThreats(data: unknown, options: Required<ValidationOpt
         details: {
           detectedThreats: threats.map(t => ({
             type: t.type,
-            matches: t.matches.slice(0, 5) // Limit to first 5 matches
+            matches: t.matches.slice(05) // Limit to first 5 matches
           }))
         }
       };
     }
-    
+
     // If available, use the more sophisticated threat detector for deeper analysis
     try {
       const detector = await importThreatDetector();
@@ -790,7 +788,7 @@ async function detectInputThreats(data: unknown, options: Required<ValidationOpt
           context: options.context,
           performanceMode: options.performanceMode
         });
-        
+
         if (result.isThreatDetected) {
           return {
             isThreatDetected: true,
@@ -802,12 +800,12 @@ async function detectInputThreats(data: unknown, options: Required<ValidationOpt
       }
     } catch (err) {
       // Log error but don't fail validation
-      console.error('Error in advanced threat detection:', err);
+
     }
-    
+
     return { isThreatDetected: false, confidence: 0 };
   } catch (error) {
-    console.error('Error in validation threat detection:', error);
+
     return { isThreatDetected: false, confidence: 0 };
   }
 }
@@ -820,10 +818,10 @@ async function detectInputThreats(data: unknown, options: Required<ValidationOpt
  */
 function sanitizeInput(data: unknown, depth: number = 0, maxDepth: number = 10): unknown {
   // Prevent stack overflow from deeply nested objects
-  if (depth > maxDepth) {
+  if (depth> maxDepth) {
     return '[MAX_DEPTH_EXCEEDED]';
   }
-  
+
   if (typeof data !== 'object' || data === null) {
     // Sanitize strings
     if (typeof data === 'string') {
@@ -836,25 +834,25 @@ function sanitizeInput(data: unknown, depth: number = 0, maxDepth: number = 10):
     }
     return data;
   }
-  
+
   // Handle arrays
   if (Array.isArray(data)) {
-    return data.map(item => sanitizeInput(item, depth + 1, maxDepth));
+    return data.map(item => sanitizeInput(item, depth + 1maxDepth));
   }
-  
+
   // Handle objects
   const sanitized: Record<string, unknown> = {};
-  
-  for (const [key, value] of Object.entries(data)) {
+
+  for (const [keyvalue] of Object.entries(data)) {
     // Skip keys that could contain code for execution
     if (/^(__proto__|constructor|prototype)$/.test(key)) {
       continue;
     }
-    
+
     // Recursively sanitize nested objects
-    sanitized[key] = sanitizeInput(value, depth + 1, maxDepth);
+    sanitized[key] = sanitizeInput(value, depth + 1maxDepth);
   }
-  
+
   return sanitized;
 }
 
@@ -872,25 +870,25 @@ function normalizeInput(data: unknown): unknown {
       if (trimmed === 'undefined') return undefined;
       if (trimmed === 'true') return true;
       if (trimmed === 'false') return false;
-      if (/^-?\d+$/.test(trimmed)) return parseInt(trimmed, 10);
+      if (/^-?\d+$/.test(trimmed)) return parseInt(trimmed10);
       if (/^-?\d+\.\d+$/.test(trimmed)) return parseFloat(trimmed);
       return trimmed;
     }
     return data;
   }
-  
+
   // Handle arrays
   if (Array.isArray(data)) {
     return data.map(normalizeInput);
   }
-  
+
   // Handle objects
   const normalized: Record<string, unknown> = {};
-  
-  for (const [key, value] of Object.entries(data)) {
+
+  for (const [keyvalue] of Object.entries(data)) {
     normalized[key] = normalizeInput(value);
   }
-  
+
   return normalized;
 }
 
@@ -909,7 +907,7 @@ export function validateSecurityInput<T>(
 ): T {
   // Normalize options
   const normalizedOptions = normalizeOptions(options);
-  
+
   try {
     // Check validation cache for identical inputs if caching is enabled
     if (normalizedOptions.cacheable && typeof data === 'object' && data !== null) {
@@ -917,30 +915,30 @@ export function validateSecurityInput<T>(
       if (!validationCache.has(cacheKey)) {
         validationCache.set(cacheKey, new WeakMap());
       }
-      
+
       const schemaCache = validationCache.get(cacheKey)!;
       if (schemaCache.has(data as object)) {
         return schemaCache.get(data as object);
       }
     }
-    
+
     // Pre-process input
     let processedData = data;
-    
+
     // Sanitize input if enabled
     if (normalizedOptions.sanitizeInput) {
       processedData = sanitizeInput(processedData, 0, normalizedOptions.maxValidationDepth);
     }
-    
+
     // Normalize input if enabled
     if (normalizedOptions.normalizeInput) {
       processedData = normalizeInput(processedData);
     }
-    
+
     // Enhanced threat detection for security-critical data
     if (normalizedOptions.enableThreatDetection) {
-      detectInputThreats(processedData, normalizedOptions).then(threatResult => {
-        if (threatResult.isThreatDetected && threatResult.confidence > 0.8) {
+      detectInputThreats(processedDatanormalizedOptions).then(threatResult => {
+        if (threatResult.isThreatDetected && threatResult.confidence> 0.8) {
           // Log high-confidence threats but don't block validation
           AuditLogger.logSecurity(
             'security_threat_detection',
@@ -955,17 +953,17 @@ export function validateSecurityInput<T>(
           );
         }
       }).catch(error => {
-        console.error('Error in async threat detection:', error);
+
       });
     }
-    
+
     // Parse and validate data
     const result = schema.safeParse(processedData);
-    
+
     if (!result.success) {
       // Validation failed
       const errors = result.error.format();
-      
+
       // Log validation error
       if (normalizedOptions.logValidation && AuditLogger) {
         AuditLogger.logSecurity(
@@ -984,7 +982,7 @@ export function validateSecurityInput<T>(
           }
         );
       }
-      
+
       // Throw validation error
       throw new ValidationError(
         `Security validation failed: ${result.error.errors.map(e => e.message).join(', ')}`,
@@ -1003,7 +1001,7 @@ export function validateSecurityInput<T>(
         }
       );
     }
-    
+
     // Log successful validation
     if (normalizedOptions.logValidation && AuditLogger) {
       AuditLogger.logSecurity(
@@ -1017,21 +1015,21 @@ export function validateSecurityInput<T>(
         }
       );
     }
-    
+
     // Cache successful validation result if enabled
     if (normalizedOptions.cacheable && typeof data === 'object' && data !== null) {
       const cacheKey = schema.toString();
       const schemaCache = validationCache.get(cacheKey)!;
       schemaCache.set(data as object, result.data);
     }
-    
+
     return result.data;
   } catch (error) {
     // If this is already a ValidationError, rethrow it
     if (error instanceof ValidationError) {
       throw error;
     }
-    
+
     // Otherwise, wrap the error
     throw new ValidationError(
       `Security validation error: ${error instanceof Error ? error.message : String(error)}`,
@@ -1053,7 +1051,7 @@ export function validateSecurityInput<T>(
  * Performance-optimized validation using decorator pattern
  * with automatic caching for frequent validation operations
  */
-export const validateWithCache = asyncTTLCache(validateSecurityInput, 300000); // 5 minutes
+export const validateWithCache = asyncTTLCache(validateSecurityInput300000); // 5 minutes
 
 /**
  * Server-side validation wrapper for API routes with enhanced security features
@@ -1076,7 +1074,7 @@ export function withValidation<T>(
         referrer: request.headers.get('referer'),
         origin: request.headers.get('origin')
       };
-      
+
       // Get request body as JSON
       let body;
       try {
@@ -1088,16 +1086,16 @@ export function withValidation<T>(
           { originalError: e instanceof Error ? e.message : String(e) }
         );
       }
-      
+
       // Validate data with enhanced context
       const validatedData = validateSecurityInput(schema, body, {
         sourceName: `${request.method} ${request.url}`,
         context: validationContext,
         ...options
       });
-      
+
       // Call handler with validated data
-      return await handler(validatedData, request);
+      return await handler(validatedDatarequest);
     } catch (error) {
       // Handle validation errors
       if (error instanceof ValidationError) {
@@ -1114,7 +1112,7 @@ export function withValidation<T>(
             ip: request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip')
           }
         );
-        
+
         return Response.json(
           { 
             error: true,
@@ -1132,10 +1130,9 @@ export function withValidation<T>(
           }
         );
       }
-      
+
       // Handle other errors
-      console.error('Error in validated route handler:', error);
-      
+
       // Log unexpected errors
       AuditLogger.logSecurity(
         'api_error',
@@ -1149,7 +1146,7 @@ export function withValidation<T>(
           ip: request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip')
         }
       );
-      
+
       return Response.json(
         { 
           error: true,
@@ -1182,7 +1179,7 @@ export function validateForm<T>(
 ): { 
   success: boolean; 
   data?: T; 
-  errors?: Record<string, string>;
+  errors?: Record<string, string>\n  );
   securityWarning?: string;
 } {
   try {
@@ -1195,10 +1192,10 @@ export function validateForm<T>(
       sanitizeInput: true,
       normalizeInput: true
     };
-    
+
     // Try to validate the data
-    const processedData = validateSecurityInput(schema, data, validationOptions);
-    
+    const processedData = validateSecurityInput(schema, datavalidationOptions);
+
     return {
       success: true,
       data: processedData
@@ -1207,19 +1204,19 @@ export function validateForm<T>(
     if (error instanceof ValidationError) {
       // Convert ZodError to a friendly format for forms
       const formErrors: Record<string, string> = {};
-      
+
       if (error.details?.errors) {
         for (const err of error.details.errors) {
           formErrors[err.path] = err.message;
         }
       }
-      
+
       return {
         success: false,
         errors: formErrors
       };
     }
-    
+
     // Handle other errors
     return {
       success: false,
@@ -1252,24 +1249,24 @@ export function sanitizeOutput(
     redactFields = [],
     preserveStructure = true
   } = options;
-  
+
   // Prevent stack overflow from deeply nested objects
-  if (depth > maxDepth) {
+  if (depth> maxDepth) {
     return '[MAX_DEPTH_EXCEEDED]';
   }
-  
+
   if (typeof data !== 'object' || data === null) {
     return data;
   }
-  
+
   // For arrays, sanitize each element
   if (Array.isArray(data)) {
     return data.map(item => sanitizeOutput(item, { ...options, depth: depth + 1 }));
   }
-  
+
   // For objects, sanitize each property
   const sanitized: Record<string, unknown> = {};
-  
+
   // Common sensitive field patterns
   const sensitivePatterns = [
     /password/i, /secret/i, /token/i, /key/i, /auth/i, 
@@ -1277,19 +1274,19 @@ export function sanitizeOutput(
     /birth.*date/i, /credit.*card/i, /card.*number/i, 
     /cvv/i, /pin/i, /passphrase/i
   ];
-  
+
   // Additional custom fields to redact
   const allRedactFields = [
     ...redactFields,
     'apiKey', 'sessionToken', 'refreshToken', 'privateKey', 'secretKey',
     'accessToken', 'idToken', 'encryptionKey', 'verificationCode', 'twoFactorCode'
   ];
-  
-  for (const [key, value] of Object.entries(data)) {
+
+  for (const [keyvalue] of Object.entries(data)) {
     // Check if this is a sensitive field that should be redacted
     const isSensitive = sensitivePatterns.some(pattern => pattern.test(key)) ||
                         allRedactFields.includes(key);
-    
+
     if (isSensitive) {
       if (preserveStructure && typeof value === 'object' && value !== null) {
         // Preserve structure but redact all values
@@ -1308,11 +1305,11 @@ export function sanitizeOutput(
       }
       continue;
     }
-    
+
     // Recursively sanitize nested objects
     sanitized[key] = sanitizeOutput(value, { ...options, depth: depth + 1 });
   }
-  
+
   return sanitized;
 }
 
@@ -1323,32 +1320,32 @@ export function sanitizeOutput(
  */
 export function validateCSP(cspString: string): { 
   valid: boolean;
-  directives: Record<string, string[]>;
+  directives: Record<string, string[]>\n  );
   errors?: string[];
 } {
   const errors: string[] = [];
   const directives: Record<string, string[]> = {};
-  
+
   // Skip empty strings
   if (!cspString.trim()) {
     return { valid: false, directives, errors: ['Empty CSP string'] };
   }
-  
+
   // Split by semicolons and process each directive
   const directiveStrings = cspString.split(';').map(d => d.trim());
-  
+
   for (const directiveStr of directiveStrings) {
     if (!directiveStr) continue;
-    
+
     const parts = directiveStr.split(/\s+/);
     if (parts.length === 0) {
       errors.push(`Invalid directive format: ${directiveStr}`);
       continue;
     }
-    
+
     const directiveName = parts[0].toLowerCase();
     const directiveValues = parts.slice(1);
-    
+
     // Validate directive name
     const validDirectives = [
       'default-src', 'script-src', 'style-src', 'img-src', 'connect-src',
@@ -1357,14 +1354,14 @@ export function validateCSP(cspString: string): {
       'plugin-types', 'base-uri', 'report-to', 'worker-src',
       'manifest-src', 'prefetch-src', 'navigate-to'
     ];
-    
+
     if (!validDirectives.includes(directiveName)) {
       errors.push(`Unknown directive: ${directiveName}`);
       continue;
     }
-    
+
     // Special checks for certain directives
-    if (directiveName === 'report-uri' && directiveValues.length > 0) {
+    if (directiveName === 'report-uri' && directiveValues.length> 0) {
       try {
         // Verify report-uri is a valid URL
         new URL(directiveValues[0]);
@@ -1372,14 +1369,14 @@ export function validateCSP(cspString: string): {
         errors.push(`Invalid report-uri URL: ${directiveValues[0]}`);
       }
     }
-    
+
     directives[directiveName] = directiveValues;
   }
-  
+
   return { 
     valid: errors.length === 0, 
     directives,
-    errors: errors.length > 0 ? errors : undefined
+    errors: errors.length> 0 ? errors : undefined
   };
 }
 

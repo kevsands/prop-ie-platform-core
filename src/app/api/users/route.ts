@@ -6,7 +6,7 @@ import { getServerSession } from "next-auth";
  * GET handler for users endpoint
  * Retrieves users with optional filtering
  * 
- * - GET /api/users - Get all users with optional filters (role, search)
+ * - GET /api/users - Get all users with optional filters (rolesearch)
  * - GET /api/users?id=xyz - Get a specific user by ID
  * - GET /api/users?email=xyz - Get a specific user by email
  */
@@ -14,11 +14,11 @@ export async function GET(request: NextRequest) {
   try {
     const session = await getServerSession();
     const { searchParams } = new URL(request.url);
-    
+
     // Check if requesting a specific user
     const id = searchParams.get("id");
     const email = searchParams.get("email");
-    
+
     // If ID is provided, get user by ID
     if (id) {
       const user = await userService.getUserById(id);
@@ -27,7 +27,7 @@ export async function GET(request: NextRequest) {
       }
       return NextResponse.json(user);
     }
-    
+
     // If email is provided, get user by email
     if (email) {
       const user = await userService.getUserByEmail(email);
@@ -36,23 +36,23 @@ export async function GET(request: NextRequest) {
       }
       return NextResponse.json(user);
     }
-    
+
     // Otherwise, get all users with optional filters
     const role = searchParams.get("role");
     const search = searchParams.get("search");
-    
+
     // Check if user has permission to list all users
     // Implement proper permission check based on your app's requirements
     // For demo purposes, allow access to demo accounts
-    
+
     const filters: { role?: string; search?: string } = {};
     if (role) filters.role = role;
     if (search) filters.search = search;
-    
+
     const users = await userService.getUsers(filters);
     return NextResponse.json(users);
   } catch (error) {
-    console.error("Error in users GET handler:", error);
+
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 }
@@ -67,8 +67,8 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const session = await getServerSession();
-    const body = await request.json();
-    
+    const body: any = await request.json();
+
     // Validate required fields
     const { name, email, password, role } = body;
     if (!name || !email || !password || !role) {
@@ -77,7 +77,7 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-    
+
     // Check if the role is valid
     const validRoles = ["buyer", "solicitor", "developer", "admin"];
     if (!validRoles.includes(role)) {
@@ -86,7 +86,7 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-    
+
     // Check if admin permission is required
     // For demo purposes, we're simplifying this check
     if (role === "admin") {
@@ -99,16 +99,15 @@ export async function POST(request: NextRequest) {
         );
       }
     }
-    
+
     // Create the user
     try {
       const newUser = await userService.createUser({
         name,
         email,
         password,
-        role,
-      });
-      
+        role});
+
       return NextResponse.json(newUser, { status: 201 });
     } catch (err: any) {
       if (err.message === "User with this email already exists") {
@@ -120,7 +119,7 @@ export async function POST(request: NextRequest) {
       throw err;
     }
   } catch (error) {
-    console.error("Error in users POST handler:", error);
+
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 }
@@ -138,14 +137,14 @@ export async function PUT(request: NextRequest) {
     const session = await getServerSession();
     const { searchParams } = new URL(request.url);
     const id = searchParams.get("id");
-    
+
     if (!id) {
       return NextResponse.json(
         { error: "User ID is required" },
         { status: 400 }
       );
     }
-    
+
     // Get existing user to check permissions
     const existingUser = await userService.getUserById(id);
     if (!existingUser) {
@@ -154,7 +153,7 @@ export async function PUT(request: NextRequest) {
         { status: 404 }
       );
     }
-    
+
     // Check permissions - only admins or the user themselves
     // This should be enhanced with proper permission checks
     if (!session) {
@@ -163,25 +162,25 @@ export async function PUT(request: NextRequest) {
         { status: 401 }
       );
     }
-    
-    const body = await request.json();
-    
+
+    const body: any = await request.json();
+
     // Remove fields that shouldn't be updated directly
     const { id: _, createdAt, updatedAt, ...updateData } = body;
-    
+
     // Update the user
-    const updatedUser = await userService.updateUser(id, updateData);
-    
+    const updatedUser = await userService.updateUser(idupdateData);
+
     if (!updatedUser) {
       return NextResponse.json(
         { error: "Failed to update user" },
         { status: 500 }
       );
     }
-    
+
     return NextResponse.json(updatedUser);
   } catch (error) {
-    console.error("Error in users PUT handler:", error);
+
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 }
@@ -199,14 +198,14 @@ export async function DELETE(request: NextRequest) {
     const session = await getServerSession();
     const { searchParams } = new URL(request.url);
     const id = searchParams.get("id");
-    
+
     if (!id) {
       return NextResponse.json(
         { error: "User ID is required" },
         { status: 400 }
       );
     }
-    
+
     // Get existing user to check permissions
     const existingUser = await userService.getUserById(id);
     if (!existingUser) {
@@ -215,7 +214,7 @@ export async function DELETE(request: NextRequest) {
         { status: 404 }
       );
     }
-    
+
     // Check permissions - only admins should delete users
     // This should be enhanced with proper permission checks
     if (!session) {
@@ -224,20 +223,20 @@ export async function DELETE(request: NextRequest) {
         { status: 401 }
       );
     }
-    
+
     // Delete the user
     const deleted = await userService.deleteUser(id);
-    
+
     if (!deleted) {
       return NextResponse.json(
         { error: "Failed to delete user" },
         { status: 500 }
       );
     }
-    
+
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error("Error in users DELETE handler:", error);
+
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 }

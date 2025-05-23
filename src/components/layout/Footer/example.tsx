@@ -34,15 +34,12 @@ const CustomFooterData = {
       links: [
         { label: 'Platform', href: '/platform' },
         { label: 'Features', href: '/features' },
-        { label: 'Pricing', href: '/pricing' },
-      ],
-    },
+        { label: 'Pricing', href: '/pricing' }]},
     // ... more columns
   ],
   socialLinks: [
     { name: 'GitHub', href: 'https://github.com/propie', icon: 'GitHub' },
     // ... more social links
-  ],
-};
+  ]};
 
 export default ExamplePage;

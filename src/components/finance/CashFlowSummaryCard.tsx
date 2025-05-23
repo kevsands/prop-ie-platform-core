@@ -40,17 +40,17 @@ const CashFlowSummaryCard = ({
     inflow: number;
     outflow: number;
     netflow: number;
-  }>;
+  }>\n  );
   onClick?: () => void;
 }) => {
   // Calculate if net cash flow is positive
-  const isPositive = netCashFlow >= 0;
-  
+  const isPositive = netCashFlow>= 0;
+
   // Format values for display
   const formattedInflows = formatCurrency(inflows);
   const formattedOutflows = formatCurrency(outflows);
   const formattedNetCashFlow = formatCurrency(Math.abs(netCashFlow));
-  
+
   // Custom tooltip for the chart
   const CustomTooltip = ({ active, payload, label }: any) => {
     if (active && payload && payload.length) {
@@ -61,7 +61,7 @@ const CashFlowSummaryCard = ({
             <div key={index} className="flex items-center gap-2">
               <div 
                 className="w-3 h-3 rounded-full" 
-                style={{ backgroundColor: entry.color }}
+                style={ backgroundColor: entry.color }
               />
               <p className="text-sm">
                 <span className="font-medium">{entry.name}:</span>{' '}
@@ -112,7 +112,7 @@ const CashFlowSummaryCard = ({
               <span className="font-semibold">{formattedInflows}</span>
             </div>
           </div>
-          
+
           {/* Outflows */}
           <div className="p-3 bg-red-50 dark:bg-red-900/20 rounded-lg">
             <div className="flex items-center mb-1 text-red-600 dark:text-red-400">
@@ -124,7 +124,7 @@ const CashFlowSummaryCard = ({
               <span className="font-semibold">{formattedOutflows}</span>
             </div>
           </div>
-          
+
           {/* Net Cash Flow */}
           <div className={`p-3 rounded-lg ${isPositive ? 'bg-blue-50 dark:bg-blue-900/20' : 'bg-amber-50 dark:bg-amber-900/20'}`}>
             <div className={`flex items-center mb-1 ${isPositive ? 'text-blue-600 dark:text-blue-400' : 'text-amber-600 dark:text-amber-400'}`}>
@@ -142,14 +142,14 @@ const CashFlowSummaryCard = ({
             </div>
           </div>
         </div>
-        
+
         {/* Cash Flow Chart */}
-        {data.length > 0 && (
+        {data.length> 0 && (
           <div className="h-52 mt-4">
             <ResponsiveContainer width="100%" height="100%">
               <AreaChart
                 data={data}
-                margin={{ top: 5, right: 20, left: 0, bottom: 5 }}
+                margin={ top: 5, right: 20, left: 0, bottom: 5 }
               >
                 <defs>
                   <linearGradient id="inflow" x1="0" y1="0" x2="0" y2="1">
@@ -168,13 +168,13 @@ const CashFlowSummaryCard = ({
                 <CartesianGrid strokeDasharray="3 3" opacity={0.2} />
                 <XAxis 
                   dataKey="date" 
-                  tick={{ fontSize: 12 }}
-                  tickLine={{ stroke: '#e2e8f0' }}
+                  tick={ fontSize: 12 }
+                  tickLine={ stroke: '#e2e8f0' }
                 />
                 <YAxis 
-                  tickFormatter={(value) => formatCurrency(value, true)}
-                  tick={{ fontSize: 12 }}
-                  tickLine={{ stroke: '#e2e8f0' }}
+                  tickFormatter={(value: any) => formatCurrency(valuetrue)}
+                  tick={ fontSize: 12 }
+                  tickLine={ stroke: '#e2e8f0' }
                 />
                 <Tooltip content={<CustomTooltip />} />
                 <Area

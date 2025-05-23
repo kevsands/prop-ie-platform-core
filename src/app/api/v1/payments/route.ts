@@ -1,0 +1,155 @@
+/**
+ * Payment API Endpoints
+ * /api/v1/payments
+ */
+
+import { NextRequest, NextResponse } from 'next/server';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/lib/auth';
+import { paymentProcessor } from '@/lib/transaction-engine/payment-processor';
+import { PaymentType, PaymentMethod } from '@/types/models/sales';
+import { z } from 'zod';
+
+// Request schemas
+const CreatePaymentIntentSchema = z.object({
+  transactionId: z.string(),
+  paymentType: z.nativeEnum(PaymentType),
+  amount: z.number().positive(),
+  currency: z.string().default('EUR'),
+  description: z.string().optional(),
+  metadata: z.record(z.any()).optional()
+});
+
+const ProcessPaymentSchema = z.object({
+  paymentIntentId: z.string(),
+  paymentMethodId: z.string()
+});
+
+const BankTransferSchema = z.object({
+  transactionId: z.string(),
+  paymentType: z.nativeEnum(PaymentType),
+  amount: z.number().positive(),
+  currency: z.string().default('EUR')
+});
+
+/**
+ * POST /api/v1/payments/intent
+ * Create payment intent
+ */
+export async function POST(request: NextRequest) {
+  try {
+    const session = await getServerSession(authOptions);
+    if (!session?.user) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    const body: any = await request.json();
+    const validated = CreatePaymentIntentSchema.parse(body);
+
+    const paymentIntent = await paymentProcessor.createPaymentIntent({
+      ...validated,
+      metadata: {
+        ...validated.metadata,
+        userId: session.user.id
+      }
+    });
+
+    return NextResponse.json({
+      paymentIntent,
+      clientSecret: paymentIntent.stripePaymentIntentId // For Stripe.js
+    }, { status: 201 });
+
+  } catch (error: any) {
+    if (error instanceof z.ZodError) {
+      return NextResponse.json(
+        { error: 'Invalid request data', details: error.errors },
+        { status: 400 }
+      );
+    }
+
+    return NextResponse.json(
+      { error: 'Failed to create payment intent' },
+      { status: 500 }
+    );
+  }
+}
+
+/**
+ * POST /api/v1/payments/process
+ * Process card payment
+ */
+export async function PATCH(request: NextRequest) {
+  try {
+    const session = await getServerSession(authOptions);
+    if (!session?.user) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    const body: any = await request.json();
+    const validated = ProcessPaymentSchema.parse(body);
+
+    const payment = await paymentProcessor.processCardPayment(
+      validated.paymentIntentId,
+      validated.paymentMethodId
+    );
+
+    return NextResponse.json({
+      payment,
+      message: 'Payment processed successfully'
+    });
+
+  } catch (error: any) {
+    if (error instanceof z.ZodError) {
+      return NextResponse.json(
+        { error: 'Invalid request data', details: error.errors },
+        { status: 400 }
+      );
+    }
+
+    return NextResponse.json(
+      { error: error.message || 'Failed to process payment' },
+      { status: 500 }
+    );
+  }
+}
+
+/**
+ * GET /api/v1/payments/transaction/[transactionId]
+ * Get payment history for transaction
+ */
+export async function GET(request: NextRequest) {
+  try {
+    const session = await getServerSession(authOptions);
+    if (!session?.user) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    const { searchParams } = new URL(request.url);
+    const transactionId = searchParams.get('transactionId');
+
+    if (!transactionId) {
+      return NextResponse.json(
+        { error: 'Transaction ID is required' },
+        { status: 400 }
+      );
+    }
+
+    // Get payment history
+    const payments = await paymentProcessor.getPaymentHistory(transactionId);
+
+    // Get payment summary
+    const summary = await paymentProcessor.getPaymentSummary(transactionId);
+
+    return NextResponse.json({
+      payments,
+      summary
+    });
+
+  } catch (error: any) {
+
+    return NextResponse.json(
+      { error: 'Failed to fetch payment history' },
+      { status: 500 }
+    );
+  }
+}

@@ -37,10 +37,10 @@ const DocumentWorkflowView: React.FC<DocumentWorkflowViewProps> = ({
   document,
   workflowInstance
 }) => {
-  const [notes, setNotes] = useState('');
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState<string | null>(null);
+  const [notessetNotes] = useState('');
+  const [isSubmittingsetIsSubmitting] = useState(false);
+  const [errorsetError] = useState<string | null>(null);
+  const [successsetSuccess] = useState<string | null>(null);
 
   // Format date for display
   const formatDate = (date: Date | string | undefined) => {
@@ -56,18 +56,18 @@ const DocumentWorkflowView: React.FC<DocumentWorkflowViewProps> = ({
   // Handle approval
   const handleApprove = async () => {
     if (!document.id || !isWorkflowInstance(workflowInstance) || !workflowInstance.id) return;
-    
+
     setIsSubmitting(true);
     setError(null);
     setSuccess(null);
-    
+
     try {
       const result = await documentService.approveWorkflowStage(
         document.id,
         workflowInstance.id,
         notes
       );
-      
+
       if (result.success) {
         setSuccess('Document stage approved successfully');
         setNotes('');
@@ -75,7 +75,7 @@ const DocumentWorkflowView: React.FC<DocumentWorkflowViewProps> = ({
         setError(result.message || 'Failed to approve document stage');
       }
     } catch (err) {
-      console.error('Error approving document stage:', err);
+
       setError(err instanceof Error ? err.message : 'An error occurred');
     } finally {
       setIsSubmitting(false);
@@ -89,18 +89,18 @@ const DocumentWorkflowView: React.FC<DocumentWorkflowViewProps> = ({
       setError('Please provide a reason for rejection');
       return;
     }
-    
+
     setIsSubmitting(true);
     setError(null);
     setSuccess(null);
-    
+
     try {
       const result = await documentService.rejectWorkflowStage(
         document.id,
         workflowInstance.id,
         notes
       );
-      
+
       if (result.success) {
         setSuccess('Document stage rejected successfully');
         setNotes('');
@@ -108,7 +108,7 @@ const DocumentWorkflowView: React.FC<DocumentWorkflowViewProps> = ({
         setError(result.message || 'Failed to reject document stage');
       }
     } catch (err) {
-      console.error('Error rejecting document stage:', err);
+
       setError(err instanceof Error ? err.message : 'An error occurred');
     } finally {
       setIsSubmitting(false);
@@ -204,7 +204,7 @@ const DocumentWorkflowView: React.FC<DocumentWorkflowViewProps> = ({
                 {getWorkflowStatus().charAt(0).toUpperCase() + getWorkflowStatus().slice(1).replace('_', ' ')}
               </Badge>
             </div>
-            
+
             <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
               <div>
                 <p className="text-muted-foreground">Started</p>
@@ -222,7 +222,7 @@ const DocumentWorkflowView: React.FC<DocumentWorkflowViewProps> = ({
           </CardContent>
         </Card>
       </div>
-      
+
       {/* Workflow Stages */}
       <div>
         <h3 className="text-sm font-medium mb-3">Workflow Progress</h3>
@@ -235,7 +235,7 @@ const DocumentWorkflowView: React.FC<DocumentWorkflowViewProps> = ({
             const isCurrentStage = getCurrentStage()?.id === stage.id;
             const isPastStage = historyEntry && historyEntry.exitDate;
             const isFutureStage = !historyEntry && !isCurrentStage;
-            
+
             return (
               <Card 
                 key={stage.id}
@@ -265,7 +265,7 @@ const DocumentWorkflowView: React.FC<DocumentWorkflowViewProps> = ({
                         </div>
                       )}
                     </div>
-                    
+
                     <div className="flex-grow">
                       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
                         <h4 className="text-base font-medium">{stage.name}</h4>
@@ -296,9 +296,9 @@ const DocumentWorkflowView: React.FC<DocumentWorkflowViewProps> = ({
                           )}
                         </div>
                       </div>
-                      
+
                       <p className="text-sm text-muted-foreground mt-1">{stage.description}</p>
-                      
+
                       {/* Approvers */}
                       {(isCurrentStage || isPastStage) && (
                         <div className="mt-3">
@@ -325,7 +325,7 @@ const DocumentWorkflowView: React.FC<DocumentWorkflowViewProps> = ({
           })}
         </div>
       </div>
-      
+
       {/* Approval Actions */}
       {isWorkflowInstance(workflowInstance) && canApprove() && (
         <div>
@@ -336,24 +336,24 @@ const DocumentWorkflowView: React.FC<DocumentWorkflowViewProps> = ({
                 <Textarea
                   placeholder="Add notes (required for rejection)"
                   value={notes}
-                  onChange={(e) => setNotes(e.target.value)}
+                  onChange={(e: any) => setNotes(e.target.value)}
                   className="min-h-[100px]"
                 />
-                
+
                 {error && (
                   <div className="text-sm text-red-600 flex items-center">
                     <AlertCircle className="h-4 w-4 mr-1" />
                     {error}
                   </div>
                 )}
-                
+
                 {success && (
                   <div className="text-sm text-green-600 flex items-center">
                     <CheckSquare className="h-4 w-4 mr-1" />
                     {success}
                   </div>
                 )}
-                
+
                 <div className="flex gap-2">
                   <Button
                     onClick={handleApprove}

@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">50% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/12</span>
+                <span class='fraction'>6/12</span>
             </div>
         
             
@@ -37,16 +37,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">25% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/8</span>
+                <span class='fraction'>2/8</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">50% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/12</span>
+                <span class='fraction'>6/12</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -168,8 +168,8 @@
 <a name='L103'></a><a href='#L103'>103</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -177,19 +177,19 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">28x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">28x</span>
+<span class="cline-any cline-yes">28x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -270,8 +270,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { PrismaClient } from '@prisma/client';
 import type { User } from '@prisma/client';
 import { Prisma } from '.prisma/client';
-import { BaseRepository } from <span class="cstat-no" title="statement not covered" >'./base-repository';</span>
-import { prisma } from <span class="cstat-no" title="statement not covered" >'../index';</span>
+import { BaseRepository } from './base-repository';
+import { prisma } from '../index';
 &nbsp;
 type UserCreateInput = Prisma.UserCreateInput;
 type UserUpdateInput = Prisma.UserUpdateInput;
@@ -279,19 +279,19 @@ type UserUpdateInput = Prisma.UserUpdateInput;
 /**
  * Repository for managing User entities
  */
-export class <span class="cstat-no" title="statement not covered" >UserRepository extends B</span>aseRepository&lt;User, UserCreateInput, UserUpdateInput&gt; {
+export class UserRepository extends BaseRepository&lt;User, UserCreateInput, UserUpdateInput&gt; {
   protected model: any;
 &nbsp;
-<span class="fstat-no" title="function not covered" >  constructor(p</span>rismaClient: PrismaClient = <span class="branch-0 cbranch-no" title="branch not covered" >prisma)</span> {
-<span class="cstat-no" title="statement not covered" >    super(prismaClient);</span>
-<span class="cstat-no" title="statement not covered" >    this.model = this.prisma.user;</span>
+  constructor(prismaClient: PrismaClient = <span class="branch-0 cbranch-no" title="branch not covered" >prisma)</span> {
+    super(prismaClient);
+    this.model = this.prisma.user;
   }
 &nbsp;
   /**
    * Find a user by their email address
    */
-<span class="fstat-no" title="function not covered" >  async f</span>indByEmail(email: string): Promise&lt;User | null&gt; {
-<span class="cstat-no" title="statement not covered" >    return this.model.findUnique({</span>
+  async findByEmail(email: string): Promise&lt;User | null&gt; {
+    return this.model.findUnique({
       where: { email },
     });
   }
@@ -376,7 +376,7 @@ export class <span class="cstat-no" title="statement not covered" >UserRepositor
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-15T16:23:22.212Z
+                at 2025-05-22T22:15:25.812Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

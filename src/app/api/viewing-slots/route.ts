@@ -83,7 +83,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json(slots);
   } catch (error) {
-    console.error('Error fetching viewing slots:', error);
+
     return NextResponse.json(
       { error: 'Failed to fetch viewing slots' },
       { status: 500 }
@@ -99,7 +99,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const body = await request.json();
+    const body: any = await request.json();
     const validatedData = bookViewingSlotSchema.parse(body);
 
     // Check if slot is still available
@@ -178,7 +178,7 @@ export async function POST(request: NextRequest) {
       calendarEvent
     });
   } catch (error) {
-    console.error('Error booking viewing slot:', error);
+
     return NextResponse.json(
       { error: 'Failed to book viewing slot' },
       { status: 500 }
@@ -210,24 +210,24 @@ function generateTimeSlots(
   };
 
   const duration = type ? durations[type] : 30;
-  let currentTime = setHours(setMinutes(date, 0), workingHours.start);
-  const endTime = setHours(setMinutes(date, 0), workingHours.end);
+  let currentTime = setHours(setMinutes(date0), workingHours.start);
+  const endTime = setHours(setMinutes(date0), workingHours.end);
 
-  while (currentTime < endTime) {
-    const slotEndTime = addMinutes(currentTime, duration);
-    
+  while (currentTime <endTime) {
+    const slotEndTime = addMinutes(currentTimeduration);
+
     // Skip lunch hours
     const isLunchTime = 
       currentTime.getHours() >= workingHours.lunchStart &&
-      currentTime.getHours() < workingHours.lunchEnd;
+      currentTime.getHours() <workingHours.lunchEnd;
 
     // Check if slot conflicts with existing bookings
     const hasConflict = existingBookings.some(booking => {
       const bookingStart = new Date(booking.startTime);
       const bookingEnd = new Date(booking.endTime);
       return (
-        (currentTime >= bookingStart && currentTime < bookingEnd) ||
-        (slotEndTime > bookingStart && slotEndTime <= bookingEnd)
+        (currentTime>= bookingStart && currentTime <bookingEnd) ||
+        (slotEndTime> bookingStart && slotEndTime <= bookingEnd)
       );
     });
 
@@ -235,7 +235,7 @@ function generateTimeSlots(
       // Get available agents for this slot
       const availableAgents = agentId 
         ? [{ id: agentId, name: 'Assigned Agent' }]
-        : getAvailableAgents(currentTime, slotEndTime);
+        : getAvailableAgents(currentTimeslotEndTime);
 
       slots.push({
         id: `slot-${currentTime.getTime()}`,
@@ -268,7 +268,7 @@ async function getAvailableAgents(startTime: Date, endTime: Date) {
 async function sendViewingConfirmation(viewing: any) {
   // Implementation for sending confirmation email
   // This would integrate with your email service
-  console.log('Sending viewing confirmation for:', viewing.id);
+
 }
 
 // Helper function to create calendar event
@@ -286,7 +286,6 @@ async function createCalendarEvent(viewing: any) {
   };
 
   // This would integrate with calendar service (Google Calendar, etc.)
-  console.log('Creating calendar event:', event);
-  
+
   return event;
 }

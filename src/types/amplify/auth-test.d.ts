@@ -30,8 +30,8 @@ export interface TestSignInResult {
 // Extend the SignUpResult type for tests
 export interface TestSignUpResult {
   isSignUpComplete: boolean;
-  nextStep: {
-    signUpStep: 'CONFIRM_SIGN_UP' | 'COMPLETE_AUTO_SIGN_IN' | 'DONE';
+  nextStep: {,
+  signUpStep: 'CONFIRM_SIGN_UP' | 'COMPLETE_AUTO_SIGN_IN' | 'DONE';
     codeDeliveryDetails?: {
       destination?: string;
       deliveryMedium?: 'EMAIL' | 'SMS' | 'PHONE';

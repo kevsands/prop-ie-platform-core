@@ -53,9 +53,9 @@ const variantStyles = {
 
 const Button = ({ variant = "default", className = "", children, ...props }: ButtonProps) => {
   const baseStyle = "inline-flex items-center justify-center rounded-md font-medium transition-colors";
-  
+
   const finalStyle = `${baseStyle} ${variantStyles[variant]} h-10 py-2 px-4 ${className}`;
-  
+
   return (
     <button className={finalStyle} {...props}>
       {children}
@@ -78,7 +78,7 @@ interface TabsProps extends BaseComponentProps {
 
 const Tabs = ({ value, onValueChange, children, className = "" }: TabsProps) => {
   return (
-    <TabsContext.Provider value={{ value, onValueChange }}>
+    <TabsContext.Provider value={ value, onValueChange }>
       <div className={className}>
         {children}
       </div>
@@ -101,7 +101,7 @@ interface TabsTriggerProps extends BaseComponentProps {
 const TabsTrigger = ({ value, children, className = "" }: TabsTriggerProps) => {
   const context = React.useContext(TabsContext);
   const isActive = context?.value === value;
-  
+
   return (
     <button
       className={`inline-flex items-center justify-center whitespace-nowrap rounded-sm px-3 py-1.5 text-sm font-medium ${
@@ -123,7 +123,7 @@ interface TabsContentProps extends BaseComponentProps {
 const TabsContent = ({ value, children }: TabsContentProps) => {
   const context = React.useContext(TabsContext);
   if (context?.value !== value) return null;
-  
+
   return (
     <div className="mt-2">
       {children}
@@ -142,7 +142,7 @@ const InvestorModeProvider = ({ children }: BaseComponentProps) => {
 
 export default function InvestorDashboardPage() {
   // We'll force investor mode to be active on this page
-  const [activeTab, setActiveTab] = useState('portfolio');
+  const [activeTabsetActiveTab] = useState('portfolio');
 
   return (
     <InvestorModeProvider>
@@ -152,7 +152,7 @@ export default function InvestorDashboardPage() {
           <h3 className="font-semibold mb-1">Simplified Dashboard</h3>
           <p>This is a simplified investor dashboard for build testing. Full functionality will be restored later.</p>
         </div>
-        
+
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
           <div>
             <h1 className="text-3xl font-bold text-gray-900">Investor Dashboard</h1>
@@ -299,23 +299,23 @@ export default function InvestorDashboardPage() {
                         <span className="text-sm">65%</span>
                       </div>
                       <div className="w-full bg-gray-200 rounded-full h-2.5">
-                        <div className="bg-blue-600 h-2.5 rounded-full" style={{ width: '65%' }}></div>
+                        <div className="bg-blue-600 h-2.5 rounded-full" style={ width: '65%' }></div>
                       </div>
-                      
+
                       <div className="flex justify-between items-center">
                         <span className="text-sm font-medium">Cork</span>
                         <span className="text-sm">20%</span>
                       </div>
                       <div className="w-full bg-gray-200 rounded-full h-2.5">
-                        <div className="bg-blue-600 h-2.5 rounded-full" style={{ width: '20%' }}></div>
+                        <div className="bg-blue-600 h-2.5 rounded-full" style={ width: '20%' }></div>
                       </div>
-                      
+
                       <div className="flex justify-between items-center">
                         <span className="text-sm font-medium">Galway</span>
                         <span className="text-sm">15%</span>
                       </div>
                       <div className="w-full bg-gray-200 rounded-full h-2.5">
-                        <div className="bg-blue-600 h-2.5 rounded-full" style={{ width: '15%' }}></div>
+                        <div className="bg-blue-600 h-2.5 rounded-full" style={ width: '15%' }></div>
                       </div>
                     </div>
                   </CardContent>
@@ -341,7 +341,7 @@ export default function InvestorDashboardPage() {
                         </div>
                       </div>
                     </div>
-                    
+
                     <div className="p-3 bg-green-50 rounded-md border border-green-200">
                       <div className="flex">
                         <DollarSign className="h-5 w-5 text-green-600 mr-2 flex-shrink-0" />
@@ -353,7 +353,7 @@ export default function InvestorDashboardPage() {
                         </div>
                       </div>
                     </div>
-                    
+
                     <div className="p-3 bg-amber-50 rounded-md border border-amber-200">
                       <div className="flex">
                         <BarChart className="h-5 w-5 text-amber-600 mr-2 flex-shrink-0" />

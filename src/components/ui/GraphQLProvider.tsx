@@ -2,7 +2,7 @@
 
 import React, { createContext, useContext, ReactNode } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import {  ReactQueryDevtools  } from "@tanstack/react-query-devtools";
 
 /**
  * GraphQL Context with utility functions for working with GraphQL data
@@ -12,12 +12,12 @@ interface GraphQLContextType {
    * Creates a cache key for React Query based on the query and variables
    */
   createQueryKey: (baseKey: string, variables?: Record<string, any>) => string[];
-  
+
   /**
    * Format date fields for GraphQL variables
    */
   formatDateForGraphQL: (date: Date) => string;
-  
+
   /**
    * Helper for extracting data from responses
    */
@@ -25,7 +25,7 @@ interface GraphQLContextType {
     response: any,
     path: string
   ) => T | null;
-  
+
   /**
    * Format currency values
    */
@@ -50,15 +50,10 @@ export const GraphQLProvider: React.FC<{
   staleTime = DEFAULT_STALE_TIME
 }) => {
   // Create a React Query client with default options
-  const queryClient = new QueryClient({
-    defaultOptions: {
-      queries: {
+  const queryClient = new QueryClient({ defaultOptions: { queries: {
         staleTime,
         retry: 1,
-        refetchOnWindowFocus: false,
-      },
-    },
-  });
+        refetchOnWindowFocus: false}});
 
   // Utility functions for GraphQL operations
   const createQueryKey = (baseKey: string, variables?: Record<string, any>) => {
@@ -74,21 +69,21 @@ export const GraphQLProvider: React.FC<{
     path: string
   ): T | null => {
     if (!response) return null;
-    
+
     // Handle direct responses from React Query where data is wrapped
     if (response.data) {
       response = response.data;
     }
-    
+
     // Split the path by dots and traverse the object
     const parts = path.split('.');
     let result = response;
-    
+
     for (const part of parts) {
       if (!result || typeof result !== 'object') return null;
       result = result[part];
     }
-    
+
     return result as T;
   };
 

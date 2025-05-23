@@ -56,7 +56,7 @@ export function usePropertyAlerts(userId?: string) {
   const queryClient = useQueryClient();
 
   // Fetch alerts
-  const { data: alerts = [], isLoading, error } = useQuery<PropertyAlert[]>({
+  const { data: alerts = [], isLoading, error: any } = useQuery<PropertyAlert[]>({
     queryKey: ['property-alerts', userId],
     queryFn: async () => {
       const response = await fetch('/api/property-alerts');
@@ -85,7 +85,7 @@ export function usePropertyAlerts(userId?: string) {
         description: 'You will be notified when matching properties are found'
       });
     },
-    onError: (error) => {
+    onError: (error: any) => {
       toast({
         title: 'Error',
         description: error.message,
@@ -135,7 +135,7 @@ export function usePropertyAlerts(userId?: string) {
   // Toggle alert status
   const toggleAlertStatus = useMutation({
     mutationFn: async (alertId: string) => {
-      const alert = alerts.find(a => a.id === alertId);
+      const alert = alerts.find(a: any => a.id === alertId);
       if (!alert) throw new Error('Alert not found');
 
       const newStatus = alert.status === 'active' ? 'paused' : 'active';
@@ -149,7 +149,7 @@ export function usePropertyAlerts(userId?: string) {
       const response = await fetch(`/api/property-alerts/${alertId}/matches`);
       if (!response.ok) throw new Error('Failed to fetch matches');
       return response.json();
-    } catch (error) {
+    } catch (error: any) {
       toast({
         title: 'Error',
         description: 'Failed to fetch alert matches',
@@ -168,7 +168,7 @@ export function usePropertyAlerts(userId?: string) {
       if (!response.ok) throw new Error('Failed to test alert');
       return response.json();
     },
-    onSuccess: (data) => {
+    onSuccess: (data: any) => {
       toast({
         title: 'Test Complete',
         description: `Found ${data.matchCount} matching properties`
@@ -183,13 +183,13 @@ export function usePropertyAlerts(userId?: string) {
     // WebSocket connection for real-time alerts
     const ws = new WebSocket(`${process.env.NEXT_PUBLIC_WS_URL}/alerts`);
 
-    ws.onmessage = (event) => {
-      const data = JSON.parse(event.data);
-      
+    ws.onmessage = (event: any) => {
+      const data: any = JSON.parse(event.data: any);
+
       if (data.type === 'alert_match') {
         // Update local state
         queryClient.invalidateQueries({ queryKey: ['property-alerts'] });
-        
+
         // Show notification
         toast({
           title: 'New Property Match!',
@@ -199,12 +199,12 @@ export function usePropertyAlerts(userId?: string) {
     };
 
     return () => ws.close();
-  }, [userId, queryClient, toast]);
+  }, [userId, queryClienttoast]);
 
   return {
     alerts,
     isLoading,
-    error,
+    error: any,
     createAlert: createAlert.mutate,
     updateAlert: updateAlert.mutate,
     deleteAlert: deleteAlert.mutate,

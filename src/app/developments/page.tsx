@@ -9,8 +9,7 @@ import Image from 'next/image';
 
 export const metadata: Metadata = {
   title: 'Developments | Prop.ie',
-  description: 'Browse our property developments across Ireland',
-};
+  description: 'Browse our property developments across Ireland'};
 
 // Updated development data to match what's displayed on the properties page
 const allDevelopments = [
@@ -22,7 +21,7 @@ const allDevelopments = [
     status: 'Selling Fast',
     startingPrice: '€395,000',
     priceRange: '€395,000 - €575,000',
-    bedrooms: [2, 3, 4],
+    bedrooms: [2, 34],
     bathrooms: 2,
     energyRating: 'A2',
     availability: 'Move in from Winter 2025',
@@ -34,8 +33,7 @@ const allDevelopments = [
     ],
     features: ['Energy Efficient', 'Modern Design', 'Secure Parking', 'Landscaped Gardens'],
     unitsAvailable: 12,
-    totalUnits: 48,
-  },
+    totalUnits: 48},
   {
     id: 'ballymakenny-view',
     name: 'Ballymakenny View',
@@ -44,7 +42,7 @@ const allDevelopments = [
     status: 'Coming Soon',
     startingPrice: '€285,000',
     priceRange: '€285,000 - €425,000',
-    bedrooms: [3, 4],
+    bedrooms: [34],
     bathrooms: 2,
     energyRating: 'A3',
     availability: 'Launching Summer 2025',
@@ -56,8 +54,7 @@ const allDevelopments = [
     ],
     features: ['Family Friendly', 'Near Schools', 'Private Gardens', 'Quiet Location'],
     unitsAvailable: 36,
-    totalUnits: 36,
-  },
+    totalUnits: 36},
   {
     id: 'ellwood',
     name: 'Ellwood',
@@ -66,7 +63,7 @@ const allDevelopments = [
     status: 'Now Selling',
     startingPrice: '€415,000',
     priceRange: '€415,000 - €650,000',
-    bedrooms: [1, 2, 3],
+    bedrooms: [1, 23],
     bathrooms: 2,
     energyRating: 'A1',
     availability: 'Available Now',
@@ -78,8 +75,7 @@ const allDevelopments = [
     ],
     features: ['Riverside Views', 'Premium Finishes', 'Concierge Service', 'Gym & Spa'],
     unitsAvailable: 8,
-    totalUnits: 24,
-  }
+    totalUnits: 24}
 ];
 
 export default function DevelopmentsPage() {
@@ -103,7 +99,7 @@ export default function DevelopmentsPage() {
       <section className="py-16 md:py-20">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {allDevelopments.map((development) => (
+            {allDevelopments.map((development: any) => (
               <Link
                 key={development.id}
                 href={`/developments/${development.id}`}
@@ -135,7 +131,7 @@ export default function DevelopmentsPage() {
                   <p className="text-gray-600 mb-4 line-clamp-2">
                     {development.description}
                   </p>
-                  
+
                   <div className="flex items-center text-gray-500 mb-4">
                     <svg className="h-5 w-5 mr-1.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
@@ -150,12 +146,12 @@ export default function DevelopmentsPage() {
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
                       </svg>
                       <span className="text-gray-700">
-                        {development.bedrooms.length > 1 
+                        {development.bedrooms.length> 1 
                           ? `${Math.min(...development.bedrooms)}-${Math.max(...development.bedrooms)} Bed`
                           : `${development.bedrooms[0]} Bed`}
                       </span>
                     </div>
-                    
+
                     <div className="flex items-center bg-green-100 px-3 py-1 rounded-full text-sm">
                       <svg className="h-4 w-4 mr-1.5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z"></path>
@@ -163,7 +159,7 @@ export default function DevelopmentsPage() {
                       <span className="text-green-700">BER {development.energyRating}</span>
                     </div>
 
-                    {development.unitsAvailable > 0 && (
+                    {development.unitsAvailable> 0 && (
                       <div className="flex items-center bg-blue-100 px-3 py-1 rounded-full text-sm">
                         <span className="text-blue-700">
                           {development.unitsAvailable} units available

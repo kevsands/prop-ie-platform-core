@@ -1,0 +1,533 @@
+'use client';
+
+import { useState } from 'react';
+import { MapPin, Home, Bed, Bath, Car, Calendar, Euro, ChevronRight, Download, Heart, Share2, Phone, Mail, Info, CheckCircle } from 'lucide-react';
+import Image from 'next/image';
+import Link from 'next/link';
+
+export default function RiversideManorPage() {
+  const [selectedType, setSelectedType] = useState('all');
+  const [hoveredUnit, setHoveredUnit] = useState<string | null>(null);
+
+  const unitTypes = [
+    {
+      id: '1',
+      name: '3 Bed Semi-Detached',
+      bedrooms: 3,
+      bathrooms: 2,
+      parking: 2,
+      area: '110m²',
+      price: '€385,000',
+      availability: 'Q3 2025',
+      features: ['En-suite Master', 'Utility Room', 'Private Garden', 'Solar Panels'],
+      count: 12
+    },
+    {
+      id: '2',
+      name: '3 Bed Terrace',
+      bedrooms: 3,
+      bathrooms: 2,
+      parking: 1,
+      area: '95m²',
+      price: '€349,000',
+      availability: 'Q3 2025',
+      features: ['Open Plan Living', 'Private Garden', 'Guest WC', 'A-Rated BER'],
+      count: 16
+    },
+    {
+      id: '3',
+      name: '4 Bed Detached',
+      bedrooms: 4,
+      bathrooms: 3,
+      parking: 2,
+      area: '145m²',
+      price: '€485,000',
+      availability: 'Q4 2025',
+      features: ['Double En-suite', 'Home Office', 'Garage', 'Premium Finishes'],
+      count: 4
+    }
+  ];
+
+  const developmentFeatures = [
+    { icon: MapPin, title: 'Prime Location', description: '15 minutes from Dublin city center' },
+    { icon: Home, title: 'Quality Build', description: 'A-rated energy efficient homes' },
+    { icon: Calendar, title: 'Completion', description: 'Q3-Q4 2025' },
+    { icon: CheckCircle, title: 'Amenities', description: 'Riverside walk, playground, community center' }
+  ];
+
+  const filteredTypes = selectedType === 'all' 
+    ? unitTypes 
+    : unitTypes.filter(type => type.id === selectedType);
+
+  return (
+    <div className="min-h-screen bg-gray-50">
+      {/* Hero Section */}
+      <div className="relative h-[60vh] min-h-[500px] bg-gray-900">
+        <div className="absolute inset-0 bg-black/40 z-10"></div>
+        <Image
+          src="/images/riverside-manor/hero.jpg"
+          alt="Riverside Manor"
+          fill
+          className="object-cover"
+          priority
+        />
+        
+        <div className="relative z-20 h-full container mx-auto px-4 flex flex-col justify-end pb-16">
+          <div className="max-w-4xl">
+            <div className="flex items-center space-x-3 mb-4">
+              <span className="px-3 py-1 bg-green-500 text-white text-sm font-medium rounded-full">
+                Now Selling
+              </span>
+              <span className="px-3 py-1 bg-blue-500 text-white text-sm font-medium rounded-full">
+                Phase 1
+              </span>
+            </div>
+            
+            <h1 className="text-5xl md:text-6xl font-bold text-white mb-4">
+              Riverside Manor
+            </h1>
+            
+            <p className="text-xl text-white/90 mb-6">
+              Modern riverside living in Dublin 15
+            </p>
+            
+            <div className="flex items-center space-x-6 text-white/90">
+              <div className="flex items-center space-x-2">
+                <MapPin className="w-5 h-5" />
+                <span>Dublin 15</span>
+              </div>
+              <div className="flex items-center space-x-2">
+                <Home className="w-5 h-5" />
+                <span>32 Units</span>
+              </div>
+              <div className="flex items-center space-x-2">
+                <Euro className="w-5 h-5" />
+                <span>From €349,000</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Quick Actions */}
+      <div className="bg-white border-b sticky top-0 z-30">
+        <div className="container mx-auto px-4">
+          <div className="flex flex-wrap items-center justify-between py-4">
+            <div className="flex items-center space-x-4">
+              <button className="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                <Download className="w-4 h-4" />
+                <span>Download Brochure</span>
+              </button>
+              <button className="flex items-center space-x-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
+                <Calendar className="w-4 h-4" />
+                <span>Book Viewing</span>
+              </button>
+              <button className="flex items-center space-x-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
+                <Heart className="w-4 h-4" />
+                <span>Save</span>
+              </button>
+              <button className="flex items-center space-x-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
+                <Share2 className="w-4 h-4" />
+                <span>Share</span>
+              </button>
+            </div>
+            
+            <div className="flex items-center space-x-6 mt-4 md:mt-0">
+              <a href="tel:01-555-0123" className="flex items-center space-x-2 text-gray-700 hover:text-blue-600 transition-colors">
+                <Phone className="w-4 h-4" />
+                <span>01-555-0123</span>
+              </a>
+              <a href="mailto:info@riversidemanor.ie" className="flex items-center space-x-2 text-gray-700 hover:text-blue-600 transition-colors">
+                <Mail className="w-4 h-4" />
+                <span>Email Agent</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Main Content */}
+      <div className="container mx-auto px-4 py-12">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+          {/* Left Column - Main Info */}
+          <div className="lg:col-span-2 space-y-12">
+            {/* About */}
+            <section>
+              <h2 className="text-3xl font-bold text-gray-900 mb-6">About Riverside Manor</h2>
+              <div className="prose max-w-none text-gray-600">
+                <p className="mb-4">
+                  Riverside Manor offers a unique opportunity to own a modern home in one of Dublin&apos;s most 
+                  sought-after locations. Situated along the banks of the River Tolka, this exclusive development 
+                  combines contemporary design with the tranquility of riverside living.
+                </p>
+                <p className="mb-4">
+                  Each home has been carefully designed to maximize natural light and space, with high-quality 
+                  finishes throughout. The development features a mix of 3 and 4 bedroom homes, perfect for 
+                  growing families or those looking to upsize.
+                </p>
+                <p>
+                  With excellent transport links, local schools, and shopping facilities nearby, Riverside Manor 
+                  offers the perfect balance of suburban tranquility and urban convenience.
+                </p>
+              </div>
+            </section>
+
+            {/* Features */}
+            <section>
+              <h2 className="text-3xl font-bold text-gray-900 mb-6">Development Features</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {developmentFeatures.map((feature, index) => (
+                  <div key={index} className="flex items-start space-x-4">
+                    <div className="flex-shrink-0 w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                      <feature.icon className="w-6 h-6 text-blue-600" />
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-gray-900 mb-1">{feature.title}</h3>
+                      <p className="text-gray-600">{feature.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </section>
+
+            {/* Unit Types */}
+            <section>
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-3xl font-bold text-gray-900">House Types</h2>
+                <select
+                  value={selectedType}
+                  onChange={(e) => setSelectedType(e.target.value)}
+                  className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+                  <option value="all">All Types</option>
+                  {unitTypes.map(type => (
+                    <option key={type.id} value={type.id}>{type.name}</option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {filteredTypes.map((type) => (
+                  <div 
+                    key={type.id}
+                    className="bg-white border rounded-lg p-6 hover:shadow-lg transition-shadow duration-300"
+                    onMouseEnter={() => setHoveredUnit(type.id)}
+                    onMouseLeave={() => setHoveredUnit(null)}
+                  >
+                    <div className="mb-4">
+                      <h3 className="text-xl font-bold text-gray-900 mb-2">{type.name}</h3>
+                      <p className="text-2xl font-bold text-blue-600">{type.price}</p>
+                    </div>
+
+                    <div className="grid grid-cols-4 gap-4 mb-4">
+                      <div className="text-center">
+                        <Bed className="w-5 h-5 text-gray-400 mx-auto mb-1" />
+                        <p className="text-sm text-gray-600">{type.bedrooms} Bed</p>
+                      </div>
+                      <div className="text-center">
+                        <Bath className="w-5 h-5 text-gray-400 mx-auto mb-1" />
+                        <p className="text-sm text-gray-600">{type.bathrooms} Bath</p>
+                      </div>
+                      <div className="text-center">
+                        <Car className="w-5 h-5 text-gray-400 mx-auto mb-1" />
+                        <p className="text-sm text-gray-600">{type.parking} Car</p>
+                      </div>
+                      <div className="text-center">
+                        <Home className="w-5 h-5 text-gray-400 mx-auto mb-1" />
+                        <p className="text-sm text-gray-600">{type.area}</p>
+                      </div>
+                    </div>
+
+                    <div className="space-y-2 mb-4">
+                      {type.features.map((feature, index) => (
+                        <div key={index} className="flex items-center space-x-2">
+                          <CheckCircle className="w-4 h-4 text-green-500" />
+                          <span className="text-sm text-gray-600">{feature}</span>
+                        </div>
+                      ))}
+                    </div>
+
+                    <div className="flex items-center justify-between pt-4 border-t">
+                      <div>
+                        <p className="text-sm text-gray-500">Available</p>
+                        <p className="font-medium text-gray-900">{type.availability}</p>
+                      </div>
+                      <div>
+                        <p className="text-sm text-gray-500">Units</p>
+                        <p className="font-medium text-gray-900">{type.count} available</p>
+                      </div>
+                    </div>
+
+                    <Link
+                      href={`/properties/riverside-manor/${type.id}`}
+                      className="mt-4 w-full flex items-center justify-center space-x-2 bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-colors"
+                    >
+                      <span>View Floor Plans</span>
+                      <ChevronRight className="w-4 h-4" />
+                    </Link>
+                  </div>
+                ))}
+              </div>
+            </section>
+
+            {/* Location */}
+            <section>
+              <h2 className="text-3xl font-bold text-gray-900 mb-6">Location & Amenities</h2>
+              <div className="bg-gray-200 rounded-lg h-96 flex items-center justify-center">
+                <p className="text-gray-500">Interactive Map</p>
+              </div>
+              
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
+                <div>
+                  <h3 className="font-semibold text-gray-900 mb-3">Transport</h3>
+                  <ul className="space-y-2 text-sm text-gray-600">
+                    <li>• 5 min walk to bus stops</li>
+                    <li>• 10 min to Castleknock Station</li>
+                    <li>• 15 min to M50</li>
+                    <li>• 20 min to Dublin Airport</li>
+                  </ul>
+                </div>
+                <div>
+                  <h3 className="font-semibold text-gray-900 mb-3">Education</h3>
+                  <ul className="space-y-2 text-sm text-gray-600">
+                    <li>• Castleknock College</li>
+                    <li>• Mount Sackville Secondary</li>
+                    <li>• St. Brigid&apos;s Primary</li>
+                    <li>• Dublin City University</li>
+                  </ul>
+                </div>
+                <div>
+                  <h3 className="font-semibold text-gray-900 mb-3">Shopping & Leisure</h3>
+                  <ul className="space-y-2 text-sm text-gray-600">
+                    <li>• Blanchardstown Centre</li>
+                    <li>• Phoenix Park</li>
+                    <li>• Westmanstown Sports</li>
+                    <li>• Castleknock Golf Club</li>
+                  </ul>
+                </div>
+              </div>
+            </section>
+
+            {/* Gallery */}
+            <section>
+              <h2 className="text-3xl font-bold text-gray-900 mb-6">Gallery</h2>
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                {[1, 2, 3, 4, 5, 6].map((i) => (
+                  <div key={i} className="relative aspect-video rounded-lg overflow-hidden bg-gray-200">
+                    <p className="absolute inset-0 flex items-center justify-center text-gray-500">
+                      Gallery Image {i}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </section>
+          </div>
+
+          {/* Right Column - Sidebar */}
+          <div className="space-y-6">
+            {/* Price Guide */}
+            <div className="bg-white border rounded-lg p-6 sticky top-24">
+              <h3 className="text-xl font-bold text-gray-900 mb-4">Price Guide</h3>
+              
+              <div className="space-y-4">
+                {unitTypes.map((type) => (
+                  <div key={type.id} className="flex items-center justify-between py-2 border-b last:border-0">
+                    <div>
+                      <p className="font-medium text-gray-900">{type.name}</p>
+                      <p className="text-sm text-gray-500">{type.count} units</p>
+                    </div>
+                    <p className="font-bold text-blue-600">{type.price}</p>
+                  </div>
+                ))}
+              </div>
+
+              <div className="mt-6 pt-6 border-t">
+                <div className="space-y-2 text-sm">
+                  <div className="flex items-center justify-between">
+                    <span className="text-gray-600">Deposit</span>
+                    <span className="font-medium">€5,000</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-gray-600">Completion</span>
+                    <span className="font-medium">Q3-Q4 2025</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-gray-600">Help to Buy</span>
+                    <span className="font-medium text-green-600">Available</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-6 space-y-3">
+                <button className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition-colors">
+                  Book a Viewing
+                </button>
+                <button className="w-full border border-gray-300 py-3 rounded-lg hover:bg-gray-50 transition-colors">
+                  Request Callback
+                </button>
+              </div>
+            </div>
+
+            {/* Contact Agent */}
+            <div className="bg-white border rounded-lg p-6">
+              <h3 className="text-xl font-bold text-gray-900 mb-4">Sales Agent</h3>
+              
+              <div className="flex items-center space-x-4 mb-4">
+                <div className="w-16 h-16 bg-gray-200 rounded-full flex items-center justify-center">
+                  <span className="text-xl font-bold text-gray-600">SM</span>
+                </div>
+                <div>
+                  <p className="font-semibold text-gray-900">Sarah Mitchell</p>
+                  <p className="text-sm text-gray-600">Prop Sales Team</p>
+                  <div className="flex items-center space-x-1 mt-1">
+                    <div className="flex text-yellow-400">
+                      {'★★★★★'.split('').map((star, i) => (
+                        <span key={i}>{star}</span>
+                      ))}
+                    </div>
+                    <span className="text-sm text-gray-500">(4.8)</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="space-y-3">
+                <a href="tel:01-555-0123" className="flex items-center space-x-3 text-gray-700 hover:text-blue-600">
+                  <Phone className="w-4 h-4" />
+                  <span>01-555-0123</span>
+                </a>
+                <a href="mailto:sarah@prop.ie" className="flex items-center space-x-3 text-gray-700 hover:text-blue-600">
+                  <Mail className="w-4 h-4" />
+                  <span>sarah@prop.ie</span>
+                </a>
+              </div>
+
+              <button className="w-full mt-4 bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition-colors">
+                WhatsApp Agent
+              </button>
+            </div>
+
+            {/* Documents */}
+            <div className="bg-white border rounded-lg p-6">
+              <h3 className="text-xl font-bold text-gray-900 mb-4">Downloads</h3>
+              
+              <div className="space-y-3">
+                <a href="#" className="flex items-center justify-between p-3 border rounded-lg hover:bg-gray-50 transition-colors">
+                  <div className="flex items-center space-x-3">
+                    <Download className="w-5 h-5 text-blue-600" />
+                    <span className="text-gray-700">Development Brochure</span>
+                  </div>
+                  <span className="text-sm text-gray-500">PDF</span>
+                </a>
+                <a href="#" className="flex items-center justify-between p-3 border rounded-lg hover:bg-gray-50 transition-colors">
+                  <div className="flex items-center space-x-3">
+                    <Download className="w-5 h-5 text-blue-600" />
+                    <span className="text-gray-700">Floor Plans</span>
+                  </div>
+                  <span className="text-sm text-gray-500">PDF</span>
+                </a>
+                <a href="#" className="flex items-center justify-between p-3 border rounded-lg hover:bg-gray-50 transition-colors">
+                  <div className="flex items-center space-x-3">
+                    <Download className="w-5 h-5 text-blue-600" />
+                    <span className="text-gray-700">Price List</span>
+                  </div>
+                  <span className="text-sm text-gray-500">PDF</span>
+                </a>
+                <a href="#" className="flex items-center justify-between p-3 border rounded-lg hover:bg-gray-50 transition-colors">
+                  <div className="flex items-center space-x-3">
+                    <Download className="w-5 h-5 text-blue-600" />
+                    <span className="text-gray-700">Site Map</span>
+                  </div>
+                  <span className="text-sm text-gray-500">PDF</span>
+                </a>
+              </div>
+            </div>
+
+            {/* Mortgage Calculator */}
+            <div className="bg-white border rounded-lg p-6">
+              <h3 className="text-xl font-bold text-gray-900 mb-4">Mortgage Calculator</h3>
+              
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Property Price</label>
+                  <input
+                    type="text"
+                    value="€349,000"
+                    readOnly
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-gray-50"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Deposit (10%)</label>
+                  <input
+                    type="text"
+                    value="€34,900"
+                    readOnly
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-gray-50"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Term (years)</label>
+                  <select className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <option>25</option>
+                    <option>30</option>
+                    <option>35</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Interest Rate</label>
+                  <input
+                    type="text"
+                    value="3.5%"
+                    readOnly
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-gray-50"
+                  />
+                </div>
+              </div>
+
+              <div className="mt-6 p-4 bg-blue-50 rounded-lg">
+                <p className="text-sm text-gray-600 mb-1">Estimated Monthly Payment</p>
+                <p className="text-2xl font-bold text-blue-600">€1,574</p>
+              </div>
+
+              <button className="w-full mt-4 bg-gray-900 text-white py-2 rounded-lg hover:bg-gray-800 transition-colors">
+                Get Mortgage Approval
+              </button>
+            </div>
+
+            {/* Disclaimer */}
+            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+              <div className="flex items-start space-x-3">
+                <Info className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
+                <div className="text-sm text-blue-800">
+                  <p className="font-medium mb-1">Important Information</p>
+                  <p>
+                    Prices and availability subject to change. Images are for illustrative 
+                    purposes only. Please contact our sales team for the most up-to-date information.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* CTA Section */}
+      <section className="bg-gray-900 text-white py-16">
+        <div className="container mx-auto px-4 text-center">
+          <h2 className="text-3xl font-bold mb-4">Ready to Find Your Dream Home?</h2>
+          <p className="text-xl text-gray-300 mb-8">
+            Contact our sales team today to arrange a viewing
+          </p>
+          <div className="flex items-center justify-center space-x-4">
+            <button className="px-8 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+              Book a Viewing
+            </button>
+            <button className="px-8 py-3 bg-white text-gray-900 rounded-lg hover:bg-gray-100 transition-colors">
+              Download Brochure
+            </button>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}

@@ -26,7 +26,7 @@ interface FirstTimeBuyersLayoutProps {
 
 export default function FirstTimeBuyersLayout({ children }: FirstTimeBuyersLayoutProps) {
   const pathname = usePathname();
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [mobileMenuOpensetMobileMenuOpen] = useState(false);
 
   const navigationLinks = [
     {
@@ -96,7 +96,7 @@ export default function FirstTimeBuyersLayout({ children }: FirstTimeBuyersLayou
     <div className="min-h-screen bg-gray-50">
       {/* Main Navigation - Always on top */}
       <MainNavigation />
-      
+
       {/* Main Header */}
       <header className="bg-white border-b fixed top-16 left-0 right-0 z-50">
         <div className="container mx-auto px-4">
@@ -109,7 +109,7 @@ export default function FirstTimeBuyersLayout({ children }: FirstTimeBuyersLayou
               <div className="h-6 w-px bg-gray-300" />
               <h1 className="font-bold text-lg">First-Time Buyers Hub</h1>
             </div>
-            
+
             {/* Mobile menu button */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -125,7 +125,7 @@ export default function FirstTimeBuyersLayout({ children }: FirstTimeBuyersLayou
       <div className="bg-white border-b fixed top-32 left-0 right-0 z-40 hidden md:block">
         <div className="container mx-auto px-4">
           <div className="flex items-center space-x-8 overflow-x-auto py-3">
-            {navigationLinks.map((link) => {
+            {navigationLinks.map((link: any) => {
               const active = isActive(link.href);
               return (
                 <Link
@@ -156,7 +156,7 @@ export default function FirstTimeBuyersLayout({ children }: FirstTimeBuyersLayou
           />
           <div className="fixed top-32 left-0 right-0 z-40 bg-white border-b shadow-lg md:hidden">
             <nav className="container mx-auto px-4 py-4">
-              {navigationLinks.map((link) => {
+              {navigationLinks.map((link: any) => {
                 const active = isActive(link.href);
                 return (
                   <Link
@@ -194,7 +194,7 @@ export default function FirstTimeBuyersLayout({ children }: FirstTimeBuyersLayou
             <div>
               <h3 className="text-lg font-semibold mb-4">Quick Actions</h3>
               <div className="space-y-3">
-                {quickActions.map((action) => (
+                {quickActions.map((action: any) => (
                   <Link
                     key={action.href}
                     href={action.href}
@@ -299,7 +299,7 @@ export default function FirstTimeBuyersLayout({ children }: FirstTimeBuyersLayou
               </ul>
             </div>
           </div>
-          
+
           <div className="mt-8 pt-8 border-t border-gray-800 text-center text-sm">
             <p className="mb-2">
               © 2025 Prop.ie. All rights reserved. Regulated by the Central Bank of Ireland.

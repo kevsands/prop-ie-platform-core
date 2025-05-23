@@ -1,0 +1,32 @@
+[
+  {
+    "category": "Component Size",
+    "issue": "90 components exceed 500 lines",
+    "recommendation": "Split these components into smaller, more focused components",
+    "components": [
+      "DevelopmentsPage",
+      "ROICalculator",
+      "ScenarioComparison",
+      "SolicitorPage",
+      "MortgageCalculator"
+    ]
+  },
+  {
+    "category": "Security",
+    "issue": "43 API routes lack authentication",
+    "recommendation": "Add authentication checks to these routes",
+    "routes": [
+      "/api/auth/check-user",
+      "/api/auth/login",
+      "/api/auth/password-reset",
+      "/api/auth/permissions",
+      "/api/auth/register"
+    ]
+  },
+  {
+    "category": "State Management",
+    "issue": "39 Context providers found",
+    "recommendation": "Consider consolidating related contexts or using a state management library",
+    "severity": "medium"
+  }
+]

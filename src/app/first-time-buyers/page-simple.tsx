@@ -6,7 +6,7 @@ import { HTBCalculatorApp } from './HTBCalculatorApp';
 import { HTBStatusViewer } from './HTBStatusViewer';
 
 function SimpleFirstTimeBuyersPageContent() {
-  const [currentView, setCurrentView] = React.useState<'htb' | 'progress'>('htb');
+  const [currentViewsetCurrentView] = React.useState<'htb' | 'progress'>('htb');
 
   const handleClaimCreated = () => {
     setCurrentView('progress');

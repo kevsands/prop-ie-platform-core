@@ -38,15 +38,15 @@ export function KPIWidget({
         return 'text-gray-500';
     }
   };
-  
+
   const getTrendIcon = (direction: TrendDirection) => {
     switch (direction) {
       case 'up':
-        return <TrendingUp className="inline-block h-4 w-4 mr-1" />;
+        return <TrendingUp className="inline-block h-4 w-4 mr-1" />\n  );
       case 'down':
-        return <TrendingDown className="inline-block h-4 w-4 mr-1" />;
+        return <TrendingDown className="inline-block h-4 w-4 mr-1" />\n  );
       default:
-        return <Minus className="inline-block h-4 w-4 mr-1" />;
+        return <Minus className="inline-block h-4 w-4 mr-1" />\n  );
     }
   };
 

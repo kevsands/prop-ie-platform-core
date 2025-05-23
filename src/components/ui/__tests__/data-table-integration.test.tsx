@@ -29,30 +29,24 @@ const columns: ColumnDef<TestData, unknown>[] = [
   {
     accessorKey: 'name',
     header: 'Name',
-    accessorFn: (row) => row.name,
-  },
+    accessorFn: (row: any) => row.name},
   {
     accessorKey: 'email',
     header: 'Email',
-    accessorFn: (row) => row.email,
-  },
+    accessorFn: (row: any) => row.email},
   {
     accessorKey: 'status',
     header: 'Status',
-    accessorFn: (row) => row.status,
-    cell: ({ row }) => <StatusBadge status={row.original.status} />,
-  },
+    accessorFn: (row: any) => row.status,
+    cell: ({ row }) => <StatusBadge status={row.original.status} />},
   {
     accessorKey: 'role',
     header: 'Role',
-    accessorFn: (row) => row.role,
-  },
+    accessorFn: (row: any) => row.role},
   {
     accessorKey: 'score',
     header: 'Score',
-    accessorFn: (row) => row.score,
-  },
-];
+    accessorFn: (row: any) => row.score}];
 
 const testData = generateTestData<TestData>(
   {
@@ -64,9 +58,7 @@ const testData = generateTestData<TestData>(
     score: 85,
     details: {
       department: 'Engineering',
-      joinDate: '2024-01-01',
-    },
-  },
+      joinDate: '2024-01-01'},
   25
 );
 
@@ -76,9 +68,7 @@ const statusFilter = {
   options: [
     { id: 'active', label: 'Active', value: 'active', icon: Filter },
     { id: 'inactive', label: 'Inactive', value: 'inactive', icon: Filter },
-    { id: 'pending', label: 'Pending', value: 'pending', icon: Filter },
-  ],
-};
+    { id: 'pending', label: 'Pending', value: 'pending', icon: Filter }]};
 
 const ExpandedRow = ({ row }: { row: TestData }) => (
   <div data-testid="expanded-row">
@@ -309,9 +299,7 @@ describe('DataTable Integration', () => {
       score: 90,
       details: {
         department: 'Design',
-        joinDate: '2024-02-01',
-      },
-    }];
+        joinDate: '2024-02-01'}];
     
     rerender(
       <DataTable<TestData, unknown>

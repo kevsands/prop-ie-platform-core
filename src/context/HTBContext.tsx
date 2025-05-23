@@ -1,6 +1,6 @@
 'use client';
 
-import React, { createContext, useContext, ReactNode, useState } from "react";
+import React, { createContext, useContext, ReactNode, useState, useEffect } from "react";
 
 /**
  * Help-to-Buy Context Implementation
@@ -122,14 +122,12 @@ export interface HTBContextType {
   selectedBuyerClaim: HTBClaim | null;
   createNewClaim: (data: { propertyId: string; requestedAmount: number }) => Promise<HTBClaim>;
   submitClaim: (data: { propertyId: string; requestedAmount: number }) => Promise<HTBClaim>;
-  fetchClaimById: (id: string, role: "buyer" | "developer") => Promise<void>;
+  fetchClaimById: (id: string, type: 'buyer' | 'developer') => Promise<void>;
   updateAccessCode: (id: string, accessCode: string, expiryDate?: Date) => Promise<void>;
-  
   // Developer claims
   developerClaims: HTBClaim[];
   selectedDeveloperClaim: HTBClaim | null;
   fetchDeveloperClaims: () => Promise<void>;
-  
   // Developer actions
   processAccessCode: (claimId: string, accessCode: string) => Promise<void>;
   addNoteToHTB: (claimId: string, content: string, isPrivate: boolean) => Promise<void>;
@@ -139,38 +137,13 @@ export interface HTBContextType {
   uploadHTBDocument: (claimId: string, file: File, type: string, name: string) => Promise<void>;
   markFundsReceived: (claimId: string, receivedAmount: number, receivedDate: Date, documentFile?: File) => Promise<void>;
   requestClaimFunds: (claimId: string, requestDate: Date, notes: string, documentFile?: File) => Promise<void>;
-  
   // Status
   isLoading: boolean;
   error: Error | null;
 }
 
 // Create the context with proper type safety
-const HTBContext = createContext<HTBContextType>({
-  buyerClaims: [],
-  selectedBuyerClaim: null,
-  createNewClaim: async () => { throw new Error('Not implemented'); },
-  submitClaim: async () => { throw new Error('Not implemented'); },
-  fetchClaimById: async () => { throw new Error('Not implemented'); },
-  updateAccessCode: async () => { throw new Error('Not implemented'); },
-  
-  developerClaims: [],
-  selectedDeveloperClaim: null,
-  fetchDeveloperClaims: async () => { throw new Error('Not implemented'); },
-  
-  // Developer actions with proper error handling
-  processAccessCode: async () => { throw new Error('Not implemented'); },
-  addNoteToHTB: async () => { throw new Error('Not implemented'); },
-  updateClaimCode: async () => { throw new Error('Not implemented'); },
-  completeHTBClaim: async () => { throw new Error('Not implemented'); },
-  markDepositApplied: async () => { throw new Error('Not implemented'); },
-  uploadHTBDocument: async () => { throw new Error('Not implemented'); },
-  markFundsReceived: async () => { throw new Error('Not implemented'); },
-  requestClaimFunds: async () => { throw new Error('Not implemented'); },
-  
-  isLoading: false,
-  error: null,
-});
+const HTBContext = createContext<HTBContextType | undefined>(undefined);
 
 // Hook for using the context with type safety
 export const useHTB = () => {
@@ -184,6 +157,27 @@ export const useHTB = () => {
 // Provider component with proper implementation
 export const HTBProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [selectedBuyerClaim, setSelectedBuyerClaim] = useState<HTBClaim | null>(null);
+  const [buyerClaims, setBuyerClaims] = useState<HTBClaim[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<Error | null>(null);
+
+  const fetchClaimById = async (id: string, type: 'buyer' | 'developer') => {
+    setIsLoading(true);
+    setError(null);
+    try {
+      // TODO: Implement actual API call
+      const response = await fetch(`/api/htb/claims/${id}?type=${type}`);
+      if (!response.ok) {
+        throw new Error('Failed to fetch claim');
+      }
+      const data = await response.json();
+      setSelectedBuyerClaim(data as HTBClaim);
+    } catch (err) {
+      setError(err instanceof Error ? err : new Error('An error occurred'));
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const createNewClaim = async (data: { propertyId: string; requestedAmount: number, firstName?: string, lastName?: string, email?: string, phone?: string, ppsNumber?: string, propertyAddress?: string, claimAmount?: number }) => {
     try {
@@ -208,8 +202,7 @@ export const HTBProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         phone: data.phone,
         ppsNumber: data.ppsNumber,
         propertyAddress: data.propertyAddress,
-        claimAmount: data.claimAmount || data.requestedAmount,
-      };
+        claimAmount: data.claimAmount || data.requestedAmount};
       setSelectedBuyerClaim(claimWithExtras);
       return claimWithExtras;
     } catch (error) {
@@ -221,29 +214,12 @@ export const HTBProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
   const submitClaim = createNewClaim;
 
   const value: HTBContextType = {
-    buyerClaims: [],
+    buyerClaims,
     selectedBuyerClaim,
     createNewClaim,
     submitClaim,
-    fetchClaimById: async (id, role) => {
-      try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || ''}/api/htb/${role}/claims/${id}`, {
-          method: 'GET',
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('auth_token') || ''}`
-          }
-        });
-        if (!response.ok) {
-          throw new Error(`Failed to fetch claim: ${response.status}`);
-        }
-        const claim = await response.json();
-        // No need to return anything as per the interface
-      } catch (error) {
-        console.error('Failed to fetch claim:', error);
-        throw error;
-      }
-    },
-    updateAccessCode: async (id, accessCode, expiryDate) => {
+    fetchClaimById,
+    updateAccessCode: async (id: string, accessCode: string, expiryDate?: Date) => {
       try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || ''}/api/htb/buyer/claims/${id}/access-code`, {
           method: 'PUT',
@@ -292,7 +268,7 @@ export const HTBProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     },
     
     // Developer actions with proper implementation
-    processAccessCode: async (claimId, accessCode) => {
+    processAccessCode: async (claimId: string, accessCode: string) => {
       try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || ''}/api/htb/developer/claims/${claimId}/process-access-code`, {
           method: 'POST',
@@ -313,7 +289,7 @@ export const HTBProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         throw error;
       }
     },
-    addNoteToHTB: async (claimId, content, isPrivate) => {
+    addNoteToHTB: async (claimId: string, content: string, isPrivate: boolean) => {
       try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || ''}/api/htb/developer/claims/${claimId}/notes`, {
           method: 'POST',
@@ -334,7 +310,7 @@ export const HTBProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         throw error;
       }
     },
-    updateClaimCode: async (claimId, claimCode, claimCodeExpiryDate, approvedAmount, documentFile) => {
+    updateClaimCode: async (claimId: string, claimCode: string, claimCodeExpiryDate: string, approvedAmount: number, documentFile: File) => {
       try {
         const formData = new FormData();
         formData.append('claimCode', claimCode);
@@ -360,7 +336,7 @@ export const HTBProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         throw error;
       }
     },
-    completeHTBClaim: async (claimId, completionDate, notes, documentFile) => {
+    completeHTBClaim: async (claimId: string, completionDate: Date, notes: string, documentFile?: File) => {
       try {
         const formData = new FormData();
         formData.append('completionDate', completionDate.toISOString());
@@ -387,7 +363,7 @@ export const HTBProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         throw error;
       }
     },
-    markDepositApplied: async (claimId, appliedDate, notes, documentFile) => {
+    markDepositApplied: async (claimId: string, appliedDate: Date, notes: string, documentFile?: File) => {
       try {
         const formData = new FormData();
         formData.append('appliedDate', appliedDate.toISOString());
@@ -414,7 +390,7 @@ export const HTBProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         throw error;
       }
     },
-    uploadHTBDocument: async (claimId, file, type, name) => {
+    uploadHTBDocument: async (claimId: string, file: File, type: string, name: string) => {
       try {
         const formData = new FormData();
         formData.append('file', file);
@@ -439,7 +415,7 @@ export const HTBProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         throw error;
       }
     },
-    markFundsReceived: async (claimId, receivedAmount, receivedDate, documentFile) => {
+    markFundsReceived: async (claimId: string, receivedAmount: number, receivedDate: Date, documentFile?: File) => {
       try {
         const formData = new FormData();
         formData.append('receivedAmount', receivedAmount.toString());
@@ -466,7 +442,7 @@ export const HTBProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         throw error;
       }
     },
-    requestClaimFunds: async (claimId, requestDate, notes, documentFile) => {
+    requestClaimFunds: async (claimId: string, requestDate: Date, notes: string, documentFile?: File) => {
       try {
         const formData = new FormData();
         formData.append('requestDate', requestDate.toISOString());
@@ -494,8 +470,8 @@ export const HTBProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
       }
     },
     
-    isLoading: false,
-    error: null,
+    isLoading,
+    error
   };
 
   return (

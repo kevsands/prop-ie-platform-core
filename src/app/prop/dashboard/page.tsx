@@ -63,7 +63,7 @@ interface Alert {
 // Mock hook for dashboard data
 const useDashboardData = (orgSlug: string): DashboardState => {
   // This would normally fetch data from an API
-  const [state, setState] = useState<DashboardState>({
+  const [statesetState] = useState<DashboardState>({
     data: null,
     isLoading: true,
     error: null
@@ -106,7 +106,7 @@ const useDashboardData = (orgSlug: string): DashboardState => {
             { id: 'a3', title: 'New inquiry for Parkside Gardens', type: 'info', createdAt: '2025-04-23T09:45:00Z', projectId: 'p3' }
           ]
         };
-        
+
         setState({
           data: mockData,
           isLoading: false,
@@ -158,7 +158,7 @@ const ProjectStatusCard = ({ project, orgSlug }: { project: Project; orgSlug: st
         <div className="w-full bg-gray-200 rounded-full h-2.5">
           <div 
             className="bg-[#2B5273] h-2.5 rounded-full" 
-            style={{ width: `${project.completionPercentage}%` }}
+            style={ width: `${project.completionPercentage}%` }
           ></div>
         </div>
       </div>
@@ -230,19 +230,17 @@ export default function DashboardPage() {
   const params = useParams() as { orgSlug: string };
   const { orgSlug } = params;
   const { data, isLoading, error } = useDashboardData(orgSlug);
-  
-  if (isLoading) return <div className="p-10 text-center">Loading dashboard...</div>;
-  if (error) return <div className="p-10 text-center text-red-600">Error loading dashboard: {error.message}</div>;
-  
-  if (!data) return <div className="p-10 text-center">No data available</div>;
-  
+
+  if (isLoading) return <div className="p-10 text-center">Loading dashboard...</div>\n  );
+  if (error) return <div className="p-10 text-center text-red-600">Error loading dashboard: {error.message}</div>\n  );
+  if (!data) return <div className="p-10 text-center">No data available</div>\n  );
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-[#2B5273]">Dashboard</h1>
         <p className="text-gray-600">Overview of all your property development activities</p>
       </div>
-      
+
       {/* Key Metrics */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-10">
         <div className="bg-white rounded-lg shadow-md p-6">
@@ -256,14 +254,14 @@ export default function DashboardPage() {
             </div>
           </div>
           <div className="mt-4 flex items-center">
-            <span className={`text-sm font-medium ${data.projectsGrowth >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-              {data.projectsGrowth >= 0 ? <FiTrendingUp className="inline mr-1" /> : <FiTrendingDown className="inline mr-1" />}
+            <span className={`text-sm font-medium ${data.projectsGrowth>= 0 ? 'text-green-600' : 'text-red-600'}`}>
+              {data.projectsGrowth>= 0 ? <FiTrendingUp className="inline mr-1" /> : <FiTrendingDown className="inline mr-1" />}
               {Math.abs(data.projectsGrowth)}% 
             </span>
             <span className="text-sm text-gray-500 ml-1">vs. last quarter</span>
           </div>
         </div>
-        
+
         <div className="bg-white rounded-lg shadow-md p-6">
           <div className="flex items-center justify-between">
             <div>
@@ -280,7 +278,7 @@ export default function DashboardPage() {
             </span>
           </div>
         </div>
-        
+
         <div className="bg-white rounded-lg shadow-md p-6">
           <div className="flex items-center justify-between">
             <div>
@@ -292,14 +290,14 @@ export default function DashboardPage() {
             </div>
           </div>
           <div className="mt-4 flex items-center">
-            <span className={`text-sm font-medium ${data.revenueGrowth >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-              {data.revenueGrowth >= 0 ? <FiTrendingUp className="inline mr-1" /> : <FiTrendingDown className="inline mr-1" />}
+            <span className={`text-sm font-medium ${data.revenueGrowth>= 0 ? 'text-green-600' : 'text-red-600'}`}>
+              {data.revenueGrowth>= 0 ? <FiTrendingUp className="inline mr-1" /> : <FiTrendingDown className="inline mr-1" />}
               {Math.abs(data.revenueGrowth)}% 
             </span>
             <span className="text-sm text-gray-500 ml-1">vs. last quarter</span>
           </div>
         </div>
-        
+
         <div className="bg-white rounded-lg shadow-md p-6">
           <div className="flex items-center justify-between">
             <div>
@@ -311,15 +309,15 @@ export default function DashboardPage() {
             </div>
           </div>
           <div className="mt-4 flex items-center">
-            <span className={`text-sm font-medium ${data.velocityGrowth >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-              {data.velocityGrowth >= 0 ? <FiTrendingUp className="inline mr-1" /> : <FiTrendingDown className="inline mr-1" />}
+            <span className={`text-sm font-medium ${data.velocityGrowth>= 0 ? 'text-green-600' : 'text-red-600'}`}>
+              {data.velocityGrowth>= 0 ? <FiTrendingUp className="inline mr-1" /> : <FiTrendingDown className="inline mr-1" />}
               {Math.abs(data.velocityGrowth)}% 
             </span>
             <span className="text-sm text-gray-500 ml-1">vs. last quarter</span>
           </div>
         </div>
       </div>
-      
+
       {/* Performance Chart */}
       <div className="bg-white rounded-lg shadow-md p-6 mb-10">
         <h2 className="text-lg font-semibold text-gray-900 mb-4">Sales Performance</h2>
@@ -327,7 +325,7 @@ export default function DashboardPage() {
           <PerformanceChart data={data.performanceData} />
         </div>
       </div>
-      
+
       {/* Projects Grid */}
       <div className="mb-10">
         <div className="flex items-center justify-between mb-4">
@@ -336,7 +334,7 @@ export default function DashboardPage() {
             View All <FiArrowRight className="ml-1" />
           </Link>
         </div>
-        
+
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {data.activeProjects.map(project => (
             <ProjectStatusCard 
@@ -347,7 +345,7 @@ export default function DashboardPage() {
           ))}
         </div>
       </div>
-      
+
       {/* Tasks and Alerts */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div className="bg-white rounded-lg shadow-md p-6">
@@ -357,10 +355,10 @@ export default function DashboardPage() {
               View All <FiArrowRight className="ml-1" />
             </Link>
           </div>
-          
+
           <TasksList tasks={data.importantTasks} orgSlug={orgSlug} />
         </div>
-        
+
         <div className="bg-white rounded-lg shadow-md p-6">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg font-semibold text-gray-900">Alerts & Notifications</h2>
@@ -368,7 +366,7 @@ export default function DashboardPage() {
               View All <FiArrowRight className="ml-1" />
             </Link>
           </div>
-          
+
           <AlertsList alerts={data.recentAlerts} orgSlug={orgSlug} />
         </div>
       </div>

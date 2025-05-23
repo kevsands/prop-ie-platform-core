@@ -3,14 +3,14 @@
 import React, { useState } from 'react';
 
 export default function TestNavigation() {
-  const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
-  
+  const [activeDropdownsetActiveDropdown] = useState<string | null>(null);
+
   return (
     <div className="fixed top-0 left-0 right-0 bg-white shadow-md z-50">
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex items-center h-16 gap-6">
           <div className="text-2xl font-bold text-[#2B5273]">PropIE</div>
-          
+
           {/* Test Dropdown */}
           <div 
             className="relative"
@@ -23,7 +23,7 @@ export default function TestNavigation() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
               </svg>
             </button>
-            
+
             <div className={`absolute top-full left-0 mt-1 w-64 bg-white rounded-lg shadow-lg transition-all duration-200 ${
               activeDropdown === 'test' 
                 ? 'opacity-100 transform translate-y-0 pointer-events-auto' 
@@ -37,7 +37,7 @@ export default function TestNavigation() {
               </div>
             </div>
           </div>
-          
+
           <div className="ml-auto">
             {activeDropdown ? 'Dropdown is active' : 'Hover over dropdown'}
           </div>

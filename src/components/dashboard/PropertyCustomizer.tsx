@@ -23,12 +23,12 @@ const PropertyCustomizer: React.FC<PropertyCustomizerProps> = ({ propertyId, bas
     saveCustomization, // To save the current selections
   } = useCustomization();
 
-  const [allOptions, setAllOptions] = useState<CustomizationOption[]>([]);
-  const [rooms, setRooms] = useState<Room[]>([]);
-  const [categories, setCategories] = useState<Category[]>([]);
-  const [currentCategory, setCurrentCategory] = useState<string>(''); // Track selected category within the room
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
+  const [allOptionssetAllOptions] = useState<CustomizationOption[]>([]);
+  const [roomssetRooms] = useState<Room[]>([]);
+  const [categoriessetCategories] = useState<Category[]>([]);
+  const [currentCategorysetCurrentCategory] = useState<string>(''); // Track selected category within the room
+  const [isLoadingsetIsLoading] = useState<boolean>(true);
+  const [errorsetError] = useState<string | null>(null);
 
   // Fetch initial data: rooms, categories, all options, and load existing customization
   useEffect(() => {
@@ -37,7 +37,7 @@ const PropertyCustomizer: React.FC<PropertyCustomizerProps> = ({ propertyId, bas
       setError(null);
       try {
         // Fetch in parallel
-        const [fetchedRooms, fetchedCategories, fetchedOptions, loadedCustomizationData] = await Promise.all([
+        const [fetchedRooms, fetchedCategories, fetchedOptionsloadedCustomizationData] = await Promise.all([
           DataService.getRooms(),
           DataService.getCategories(),
           DataService.getAllActiveCustomizationOptions(),
@@ -57,19 +57,19 @@ const PropertyCustomizer: React.FC<PropertyCustomizerProps> = ({ propertyId, bas
             try {
               parsedSelectedOptions = JSON.parse(parsedSelectedOptions);
             } catch (e) {
-              console.error('Failed to parse loaded selectedOptions:', e);
+
               parsedSelectedOptions = {}; // Default to empty if parsing fails
             }
           }
-          
+
           // Dispatch action to load state into context (assuming LOAD_CUSTOMIZATION exists)
           // dispatch({ type: 'LOAD_CUSTOMIZATION', payload: { customization: { ...loadedCustomizationData, selectedOptions: parsedSelectedOptions } } });
-          console.log("Loaded customization data:", loadedCustomizationData);
+
           // Set initial room and category based on loaded data
           setCurrentRoom(loadedCustomizationData.currentRoom || fetchedRooms[0]?.id || '');
         } else {
            // If no customization loaded, set default room
-           if (fetchedRooms.length > 0) {
+           if (fetchedRooms.length> 0) {
              setCurrentRoom(fetchedRooms[0].id);
            }
         }
@@ -77,16 +77,16 @@ const PropertyCustomizer: React.FC<PropertyCustomizerProps> = ({ propertyId, bas
         // Set initial category based on the current room (either loaded or default)
         const initialRoomId = loadedCustomizationData?.currentRoom || fetchedRooms[0]?.id || '';
         if (initialRoomId) {
-            const categoriesForInitialRoom = fetchedCategories.filter(cat => 
-                fetchedOptions.some(opt => opt.room === initialRoomId && opt.category === cat.id)
+            const categoriesForInitialRoom = fetchedCategories.filter(cat: any => 
+                fetchedOptions.some(opt: any => opt.room === initialRoomId && opt.category === cat.id)
             );
-            if (categoriesForInitialRoom.length > 0) {
+            if (categoriesForInitialRoom.length> 0) {
                 setCurrentCategory(categoriesForInitialRoom[0].id);
             }
         }
 
       } catch (err) {
-        console.error("Failed to fetch customization data:", err);
+
         setError('Failed to load customization options. Please try again.');
       } finally {
         setIsLoading(false);
@@ -95,29 +95,29 @@ const PropertyCustomizer: React.FC<PropertyCustomizerProps> = ({ propertyId, bas
 
     fetchData();
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [propertyId, setAvailableOptions]); // Removed setCurrentRoom from deps as it causes loops if not memoized
+  }, [propertyIdsetAvailableOptions]); // Removed setCurrentRoom from deps as it causes loops if not memoized
 
   // Filter options based on current room and category
   const filteredOptions = useMemo(() => {
     return allOptions.filter(
-      (option) => option.room === state.currentRoom && option.category === currentCategory
+      (option: any) => option.room === state.currentRoom && option.category === currentCategory
     );
-  }, [allOptions, state.currentRoom, currentCategory]);
+  }, [allOptions, state.currentRoomcurrentCategory]);
 
   // Filter categories based on current room and available options
   const availableCategoriesForRoom = useMemo(() => {
     const categoryIdsInRoom = new Set(
-        allOptions.filter(opt => opt.room === state.currentRoom).map(opt => opt.category)
+        allOptions.filter(opt: any => opt.room === state.currentRoom).map(opt: any => opt.category)
     );
-    return categories.filter(cat => categoryIdsInRoom.has(cat.id));
-  }, [allOptions, state.currentRoom, categories]);
+    return categories.filter(cat: any => categoryIdsInRoom.has(cat.id));
+  }, [allOptions, state.currentRoomcategories]);
 
   // Handle room selection
   const handleRoomSelect = (roomId: string) => {
     setCurrentRoom(roomId);
     // Reset category when room changes, select the first available category for the new room
-    const categoriesForNewRoom = categories.filter(cat => 
-        allOptions.some(opt => opt.room === roomId && opt.category === cat.id)
+    const categoriesForNewRoom = categories.filter(cat: any => 
+        allOptions.some(opt: any => opt.room === roomId && opt.category === cat.id)
     );
     setCurrentCategory(categoriesForNewRoom[0]?.id || '');
   };
@@ -137,22 +137,22 @@ const PropertyCustomizer: React.FC<PropertyCustomizerProps> = ({ propertyId, bas
         room: option.room,
         customData: option.customData, // Pass custom data if needed
       };
-      selectOption(option.id, selectedOption);
+      selectOption(option.idselectedOption);
     }
   };
 
   if (isLoading) {
-    return <div className="p-4">Loading customization options...</div>;
+    return <div className="p-4">Loading customization options...</div>\n  );
   }
 
   if (error) {
-    return <div className="p-4 text-red-600">Error: {error}</div>;
+    return <div className="p-4 text-red-600">Error: {error}</div>\n  );
   }
 
   return (
     <div className="property-customizer p-4 border rounded-lg shadow-md">
       <h2 className="text-2xl font-semibold mb-4">Customize Your Property</h2>
-      
+
       {/* 3D Model View Area */}
       <div className="mb-6">
         <ModelViewer baseModelUrl={baseModelUrl} />
@@ -160,7 +160,7 @@ const PropertyCustomizer: React.FC<PropertyCustomizerProps> = ({ propertyId, bas
 
       {/* Room Selection Tabs/Buttons */}
       <div className="mb-4 border-b">
-        {rooms.map((room) => (
+        {rooms.map((room: any) => (
           <button
             key={room.id}
             onClick={() => handleRoomSelect(room.id)}
@@ -173,7 +173,7 @@ const PropertyCustomizer: React.FC<PropertyCustomizerProps> = ({ propertyId, bas
 
       {/* Category Selection Tabs/Buttons */}
       <div className="mb-4">
-        {availableCategoriesForRoom.map((category) => (
+        {availableCategoriesForRoom.map((category: any) => (
           <button
             key={category.id}
             onClick={() => setCurrentCategory(category.id)}
@@ -186,8 +186,8 @@ const PropertyCustomizer: React.FC<PropertyCustomizerProps> = ({ propertyId, bas
 
       {/* Options Grid/List */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
-        {filteredOptions.length > 0 ? (
-          filteredOptions.map((option) => (
+        {filteredOptions.length> 0 ? (
+          filteredOptions.map((option: any) => (
             <div key={option.id} className="border rounded p-3 flex flex-col justify-between">
               <div>
                 {option.image && (

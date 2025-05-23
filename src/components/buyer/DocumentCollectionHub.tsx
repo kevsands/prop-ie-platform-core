@@ -226,20 +226,20 @@ export default function DocumentCollectionHub() {
     }
   ]);
 
-  const [selectedCategory, setSelectedCategory] = useState<string>('identity');
+  const [selectedCategorysetSelectedCategory] = useState<string>('identity');
 
   const getStatusIcon = (status: string) => {
     switch (status) {
       case 'approved':
-        return <CheckCircle className="text-green-600" size={20} />;
+        return <CheckCircle className="text-green-600" size={20} />\n  );
       case 'uploading':
-        return <Clock className="text-blue-600 animate-pulse" size={20} />;
+        return <Clock className="text-blue-600 animate-pulse" size={20} />\n  );
       case 'reviewing':
-        return <Clock className="text-orange-600" size={20} />;
+        return <Clock className="text-orange-600" size={20} />\n  );
       case 'rejected':
-        return <AlertCircle className="text-red-600" size={20} />;
+        return <AlertCircle className="text-red-600" size={20} />\n  );
       default:
-        return <Upload className="text-gray-400" size={20} />;
+        return <Upload className="text-gray-400" size={20} />\n  );
     }
   };
 
@@ -275,7 +275,7 @@ export default function DocumentCollectionHub() {
 
   const handleFileUpload = (documentId: string, file: File) => {
     // Handle file upload logic
-    console.log(`Uploading ${file.name} for document ${documentId}`);
+
   };
 
   const calculateProgress = () => {
@@ -321,7 +321,7 @@ export default function DocumentCollectionHub() {
         <div className="w-full bg-gray-200 rounded-full h-4 mb-4">
           <div
             className="bg-blue-600 h-4 rounded-full transition-all duration-500"
-            style={{ width: `${progress.percentage}%` }}
+            style={ width: `${progress.percentage}%` }
           />
         </div>
         <div className="flex justify-between text-sm text-gray-600">
@@ -400,7 +400,7 @@ export default function DocumentCollectionHub() {
                           )}
                         </div>
                         <p className="text-gray-600 text-sm mb-2">{document.description}</p>
-                        
+
                         <div className="flex items-center gap-4 text-sm">
                           <span className={`font-medium ${getStatusColor(document.status)}`}>
                             {getStatusText(document.status)}
@@ -458,7 +458,7 @@ export default function DocumentCollectionHub() {
                               type="file"
                               className="hidden"
                               accept={document.acceptedFormats.map(f => `.${f}`).join(',')}
-                              onChange={(e) => e.target.files && handleFileUpload(document.id, e.target.files[0])}
+                              onChange={(e: any) => e.target.files && handleFileUpload(document.id, e.target.files[0])}
                             />
                           </label>
                         ) : (

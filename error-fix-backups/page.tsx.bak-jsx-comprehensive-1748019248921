@@ -1,0 +1,92 @@
+'use client';
+
+import { useEffect } from 'react';
+
+export default function DebugNavPage() {
+  useEffect(() => {
+    // Check for navigation element
+    const nav = document.querySelector('nav');
+    if (nav) {
+
+      );
+    } else {
+
+    }
+
+    // Check for any elements with z-index
+    const allElements = document.querySelectorAll('*');
+    const highZIndexElements = [];
+    allElements.forEach(el => {
+      const zIndex = window.getComputedStyle(el).zIndex;
+      if (zIndex !== 'auto' && parseInt(zIndex) > 50) {
+        highZIndexElements.push({ element: el, zIndex });
+      }
+    });
+
+  }, []);
+
+  return (
+    <div style={{ 
+      backgroundColor: '#f3f4f6',
+      minHeight: '100vh',
+      paddingTop: '100px' // Extra padding to make sure nothing overlaps
+    }}>
+      <div style={{ padding: '32px', maxWidth: '1200px', margin: '0 auto' }}>
+        <h1 style={{ fontSize: '2rem', fontWeight: 'bold', marginBottom: '16px' }}>
+          Navigation Debug Page
+        </h1>
+
+        <div style={{ 
+          backgroundColor: 'white',
+          padding: '24px',
+          borderRadius: '8px',
+          boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
+          marginBottom: '24px'
+        }}>
+          <h2 style={{ fontSize: '1.25rem', fontWeight: '600', marginBottom: '12px' }}>
+            Check the Browser Console
+          </h2>
+          <p>Open the browser console (F12) to see debug information about the navigation.</p>
+        </div>
+
+        <div style={{ 
+          backgroundColor: 'white',
+          padding: '24px',
+          borderRadius: '8px',
+          boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
+          marginBottom: '24px'
+        }}>
+          <h2 style={{ fontSize: '1.25rem', fontWeight: '600', marginBottom: '12px' }}>
+            Navigation Status
+          </h2>
+          <p>The navigation should be visible at the top of the page with:</p>
+          <ul style={{ marginLeft: '32px', marginTop: '12px', listStyleType: 'disc' }}>
+            <li>Fixed position at the top</li>
+            <li>White background</li>
+            <li>z-index of 100</li>
+            <li>Shadow at the bottom</li>
+          </ul>
+        </div>
+
+        <div style={{ 
+          backgroundColor: 'yellow',
+          padding: '24px',
+          borderRadius: '8px',
+          border: '2px solid orange',
+          marginBottom: '24px'
+        }}>
+          <h2 style={{ fontSize: '1.25rem', fontWeight: '600', marginBottom: '12px' }}>
+            Can you see the navigation?
+          </h2>
+          <p>If the navigation is not visible, try:</p>
+          <ol style={{ marginLeft: '32px', marginTop: '12px', listStyleType: 'decimal' }}>
+            <li>Scroll to the very top of the page</li>
+            <li>Check if there's anything covering it</li>
+            <li>Look for browser console errors</li>
+            <li>Try refreshing the page</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  );
+}

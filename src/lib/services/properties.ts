@@ -67,6 +67,4 @@ export const propertyService = {
     minArea?: number;
   }) =>
     api.get<Property[]>("/properties/search", {
-      body: criteria,
-    }),
-};
+      body: criteria})};

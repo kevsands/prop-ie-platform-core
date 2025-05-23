@@ -18,9 +18,8 @@ export function withAuth<TArgs, TResult>(
   return async (parent: unknown, args: TArgs, context: Context): Promise<TResult> => {
     if (!context.user?.id) {
       throw new GraphQLError('Unauthorized', {
-        extensions: { code: 'UNAUTHORIZED' },
-      });
+        extensions: { code: 'UNAUTHORIZED' });
     }
-    return resolver(parent, args, context);
+    return resolver(parent, argscontext);
   };
 } 

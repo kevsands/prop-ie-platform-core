@@ -37,8 +37,7 @@ import {
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+  DropdownMenuTrigger} from '@/components/ui/dropdown-menu';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -109,15 +108,15 @@ export default function ViewingHistory({
   limit = 10
 }: ViewingHistoryProps) {
   const { toast } = useToast();
-  const [searchQuery, setSearchQuery] = useState('');
-  const [statusFilter, setStatusFilter] = useState<string>('all');
-  const [typeFilter, setTypeFilter] = useState<string>('all');
-  const [sortBy, setSortBy] = useState<string>('date-desc');
-  const [expandedViewings, setExpandedViewings] = useState<Set<string>>(new Set());
+  const [searchQuerysetSearchQuery] = useState('');
+  const [statusFiltersetStatusFilter] = useState<string>('all');
+  const [typeFiltersetTypeFilter] = useState<string>('all');
+  const [sortBysetSortBy] = useState<string>('date-desc');
+  const [expandedViewingssetExpandedViewings] = useState<Set<string>>(new Set());
 
   // Fetch viewing history
   const { data: viewings = [], isLoading, error } = useQuery<Viewing[]>({
-    queryKey: ['viewing-history', propertyId, userId, statusFilter, typeFilter],
+    queryKey: ['viewing-history', propertyId, userId, statusFiltertypeFilter],
     queryFn: async () => {
       const params = new URLSearchParams();
       if (propertyId) params.append('propertyId', propertyId);
@@ -134,7 +133,7 @@ export default function ViewingHistory({
 
   // Filter and sort viewings
   const filteredViewings = viewings
-    .filter(viewing => {
+    .filter(viewing: any => {
       if (searchQuery) {
         const query = searchQuery.toLowerCase();
         return (
@@ -145,7 +144,7 @@ export default function ViewingHistory({
       }
       return true;
     })
-    .sort((a, b) => {
+    .sort((a: any, b: any) => {
       switch (sortBy) {
         case 'date-asc':
           return new Date(a.scheduledDate).getTime() - new Date(b.scheduledDate).getTime();
@@ -183,7 +182,7 @@ export default function ViewingHistory({
         method: 'POST'
       });
       if (!response.ok) throw new Error('Failed to cancel viewing');
-      
+
       toast({
         title: 'Viewing Cancelled',
         description: 'Your viewing has been cancelled successfully'
@@ -219,7 +218,7 @@ export default function ViewingHistory({
         });
       }
     } catch (error) {
-      console.error('Share failed:', error);
+
     }
   };
 
@@ -261,11 +260,11 @@ export default function ViewingHistory({
               <Input
                 placeholder="Search viewings..."
                 value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
+                onChange={(e: any) => setSearchQuery(e.target.value)}
                 className="pl-9"
               />
             </div>
-            
+
             <Select value={statusFilter} onValueChange={setStatusFilter}>
               <SelectTrigger>
                 <SelectValue placeholder="Status" />
@@ -278,7 +277,7 @@ export default function ViewingHistory({
                 <SelectItem value="no-show">No Show</SelectItem>
               </SelectContent>
             </Select>
-            
+
             <Select value={typeFilter} onValueChange={setTypeFilter}>
               <SelectTrigger>
                 <SelectValue placeholder="Type" />
@@ -290,7 +289,7 @@ export default function ViewingHistory({
                 <SelectItem value="self-guided">Self-Guided</SelectItem>
               </SelectContent>
             </Select>
-            
+
             <Select value={sortBy} onValueChange={setSortBy}>
               <SelectTrigger>
                 <SelectValue placeholder="Sort by" />
@@ -321,12 +320,12 @@ export default function ViewingHistory({
         </Card>
       ) : (
         <div className="space-y-4">
-          {filteredViewings.map((viewing) => (
+          {filteredViewings.map((viewing: any) => (
             <motion.div
               key={viewing.id}
               layout
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
+              initial={ opacity: 0, y: 20 }
+              animate={ opacity: 1, y: 0 }
             >
               <Card>
                 <CardContent className="p-6">
@@ -347,23 +346,23 @@ export default function ViewingHistory({
                             {viewing.propertyAddress}
                           </p>
                         </div>
-                        
+
                         <div className="flex items-center space-x-4 text-sm">
                           <Badge variant={statusColors[viewing.status]}>
                             {statusIcons[viewing.status]}
                             <span className="ml-1">{viewing.status}</span>
                           </Badge>
-                          
+
                           <div className="flex items-center">
                             <CalendarDays className="h-4 w-4 mr-1" />
                             {format(new Date(viewing.scheduledDate), 'PP')}
                           </div>
-                          
+
                           <div className="flex items-center">
                             <Clock className="h-4 w-4 mr-1" />
                             {format(new Date(viewing.scheduledDate), 'p')}
                           </div>
-                          
+
                           <Badge variant="outline">
                             {viewing.type === 'in-person' && <Users className="h-3 w-3 mr-1" />}
                             {viewing.type === 'virtual' && <Video className="h-3 w-3 mr-1" />}
@@ -371,7 +370,7 @@ export default function ViewingHistory({
                             {viewing.type}
                           </Badge>
                         </div>
-                        
+
                         {viewing.agent && (
                           <div className="flex items-center space-x-2">
                             <Avatar className="h-6 w-6">
@@ -381,14 +380,14 @@ export default function ViewingHistory({
                             <span className="text-sm">with {viewing.agent.name}</span>
                           </div>
                         )}
-                        
+
                         {viewing.rating && (
                           <div className="flex items-center space-x-1">
-                            {[...Array(5)].map((_, i) => (
+                            {[...Array(5)].map((_i: any) => (
                               <Star
                                 key={i}
                                 className={`h-4 w-4 ${
-                                  i < viewing.rating
+                                  i <viewing.rating
                                     ? 'fill-yellow-400 text-yellow-400'
                                     : 'text-muted-foreground'
                                 }`}
@@ -401,7 +400,7 @@ export default function ViewingHistory({
                         )}
                       </div>
                     </div>
-                    
+
                     <div className="flex items-center space-x-2">
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild>
@@ -412,10 +411,10 @@ export default function ViewingHistory({
                         <DropdownMenuContent align="end">
                           <DropdownMenuLabel>Actions</DropdownMenuLabel>
                           <DropdownMenuSeparator />
-                          
+
                           {viewing.status === 'scheduled' && (
                             <>
-                              <DropdownMenuItem onClick={() => handleReschedule(viewing)}>
+                              <DropdownMenuItem onClick={() => handleReschedule(viewing: any)}>
                                 <Calendar className="h-4 w-4 mr-2" />
                                 Reschedule
                               </DropdownMenuItem>
@@ -428,13 +427,13 @@ export default function ViewingHistory({
                               </DropdownMenuItem>
                             </>
                           )}
-                          
+
                           {viewing.status === 'completed' && (
                             <>
-                              {viewing.recordings?.map((recording, idx) => (
+                              {viewing.recordings?.map((recording: any, idx: any) => (
                                 <DropdownMenuItem
                                   key={recording.id}
-                                  onClick={() => handleDownloadRecording(recording)}
+                                  onClick={() => handleDownloadRecording(recording: any)}
                                 >
                                   <Download className="h-4 w-4 mr-2" />
                                   Download Recording {idx + 1}
@@ -446,12 +445,12 @@ export default function ViewingHistory({
                               </DropdownMenuItem>
                             </>
                           )}
-                          
-                          <DropdownMenuItem onClick={() => handleShareViewing(viewing)}>
+
+                          <DropdownMenuItem onClick={() => handleShareViewing(viewing: any)}>
                             <Share2 className="h-4 w-4 mr-2" />
                             Share
                           </DropdownMenuItem>
-                          
+
                           {viewing.agent && (
                             <>
                               <DropdownMenuSeparator />
@@ -467,7 +466,7 @@ export default function ViewingHistory({
                           )}
                         </DropdownMenuContent>
                       </DropdownMenu>
-                      
+
                       <Button
                         variant="ghost"
                         size="icon"
@@ -481,15 +480,15 @@ export default function ViewingHistory({
                       </Button>
                     </div>
                   </div>
-                  
+
                   {/* Expanded Content */}
                   <AnimatePresence>
                     {expandedViewings.has(viewing.id) && (
                       <motion.div
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: 'auto', opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.2 }}
+                        initial={ height: 0, opacity: 0 }
+                        animate={ height: 'auto', opacity: 1 }
+                        exit={ height: 0, opacity: 0 }
+                        transition={ duration: 0.2 }
                         className="overflow-hidden"
                       >
                         <div className="mt-4 pt-4 border-t space-y-4">
@@ -499,19 +498,19 @@ export default function ViewingHistory({
                               <p className="text-sm text-muted-foreground">{viewing.notes}</p>
                             </div>
                           )}
-                          
+
                           {viewing.feedback && (
                             <div>
                               <h4 className="text-sm font-medium mb-1">Feedback</h4>
                               <p className="text-sm text-muted-foreground">{viewing.feedback}</p>
                             </div>
                           )}
-                          
-                          {viewing.documents && viewing.documents.length > 0 && (
+
+                          {viewing.documents && viewing.documents.length> 0 && (
                             <div>
                               <h4 className="text-sm font-medium mb-2">Documents</h4>
                               <div className="flex flex-wrap gap-2">
-                                {viewing.documents.map((doc) => (
+                                {viewing.documents.map((doc: any) => (
                                   <Button
                                     key={doc.id}
                                     variant="outline"
@@ -525,12 +524,12 @@ export default function ViewingHistory({
                               </div>
                             </div>
                           )}
-                          
-                          {viewing.photos && viewing.photos.length > 0 && (
+
+                          {viewing.photos && viewing.photos.length> 0 && (
                             <div>
                               <h4 className="text-sm font-medium mb-2">Photos</h4>
                               <div className="grid grid-cols-4 gap-2">
-                                {viewing.photos.map((photo) => (
+                                {viewing.photos.map((photo: any) => (
                                   <div key={photo.id} className="relative aspect-square">
                                     <img
                                       src={photo.url}
@@ -542,7 +541,7 @@ export default function ViewingHistory({
                               </div>
                             </div>
                           )}
-                          
+
                           <div className="flex flex-wrap gap-2 pt-2">
                             <Button size="sm" variant="outline">
                               <Calendar className="h-4 w-4 mr-2" />
@@ -569,7 +568,7 @@ export default function ViewingHistory({
       )}
 
       {/* Load More */}
-      {filteredViewings.length >= limit && (
+      {filteredViewings.length>= limit && (
         <div className="text-center">
           <Button variant="outline">
             Load More Viewings

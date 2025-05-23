@@ -4,8 +4,8 @@ import React, { useState } from 'react';
 import { ChevronDown } from 'lucide-react';
 
 export default function NavigationTestPage() {
-  const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
-  const [testLog, setTestLog] = useState<string[]>([]);
+  const [activeDropdownsetActiveDropdown] = useState<string | null>(null);
+  const [testLogsetTestLog] = useState<string[]>([]);
 
   const addLog = (message: string) => {
     setTestLog(prev => [...prev, `${new Date().toLocaleTimeString()}: ${message}`]);
@@ -27,10 +27,10 @@ export default function NavigationTestPage() {
   return (
     <div className="p-8">
       <h1 className="text-2xl font-bold mb-8">Navigation Dropdown Test</h1>
-      
+
       <div className="bg-white shadow rounded p-4 mb-8">
         <h2 className="font-semibold mb-4">Test Navigation</h2>
-        
+
         <div className="flex gap-4">
           {/* Test Dropdown 1 */}
           <div 
@@ -42,14 +42,14 @@ export default function NavigationTestPage() {
               Dropdown 1
               <ChevronDown className="ml-2" size={16} />
             </button>
-            
+
             <div
               className={`absolute top-full left-0 mt-2 w-64 bg-white rounded shadow-lg transition-all duration-200 ${
                 activeDropdown === 'dropdown1'
                   ? 'opacity-100 transform translate-y-0 pointer-events-auto'
                   : 'opacity-0 transform -translate-y-2 pointer-events-none'
               }`}
-              style={{ zIndex: 9999 }}
+              style={ zIndex: 9999 }
             >
               <div className="p-4">
                 <h3 className="font-semibold mb-2">Dropdown Content</h3>
@@ -70,14 +70,14 @@ export default function NavigationTestPage() {
               Dropdown 2
               <ChevronDown className="ml-2" size={16} />
             </button>
-            
+
             <div
               className={`absolute top-full left-0 mt-2 w-64 bg-white rounded shadow-lg transition-all duration-200 ${
                 activeDropdown === 'dropdown2'
                   ? 'opacity-100 transform translate-y-0 pointer-events-auto'
                   : 'opacity-0 transform -translate-y-2 pointer-events-none'
               }`}
-              style={{ zIndex: 9999 }}
+              style={ zIndex: 9999 }
             >
               <div className="p-4">
                 <h3 className="font-semibold mb-2">Dropdown Content</h3>
@@ -93,7 +93,7 @@ export default function NavigationTestPage() {
       <div className="bg-gray-100 rounded p-4">
         <h2 className="font-semibold mb-4">Event Log</h2>
         <div className="space-y-1 text-sm font-mono">
-          {testLog.map((log, index) => (
+          {testLog.map((logindex: any) => (
             <div key={index} className="text-gray-700">{log}</div>
           ))}
         </div>

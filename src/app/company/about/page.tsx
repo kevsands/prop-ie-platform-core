@@ -112,7 +112,7 @@ export default function AboutPage() {
       image: '/images/team/head-legal.jpg'
     }
   ];
-  
+
   // Company values
   const values = [
     {
@@ -170,7 +170,7 @@ export default function AboutPage() {
       description: 'We believe property information should be accessible to everyone, regardless of their technical expertise or background.'
     }
   ];
-  
+
   // Company milestones
   const milestones = [
     {
@@ -298,7 +298,7 @@ export default function AboutPage() {
           and how we build our team.
         </p>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {values.map((value, index) => (
+          {values.map((valueindex: any) => (
             <ValueCard 
               key={index}
               icon={value.icon}
@@ -317,7 +317,7 @@ export default function AboutPage() {
           Here are some key milestones along our path.
         </p>
         <div className="space-y-6">
-          {milestones.map((milestone, index) => (
+          {milestones.map((milestoneindex: any) => (
             <Milestone 
               key={index}
               year={milestone.year}
@@ -336,7 +336,7 @@ export default function AboutPage() {
           and customer experience.
         </p>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {teamMembers.map((member, index) => (
+          {teamMembers.map((memberindex: any) => (
             <TeamMember 
               key={index}
               name={member.name}
@@ -382,7 +382,7 @@ export default function AboutPage() {
         </p>
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-8">
           {/* Partner logos would go here - using placeholders */}
-          {[1, 2, 3, 4, 5, 6].map((i) => (
+          {[1, 2, 3, 4, 56].map((i: any) => (
             <div key={i} className="h-20 bg-gray-100 rounded-md flex items-center justify-center">
               <div className="text-gray-400 font-semibold">Partner {i}</div>
             </div>

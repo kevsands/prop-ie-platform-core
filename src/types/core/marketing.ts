@@ -156,7 +156,7 @@ export interface MarketingActivity {
   externalVendors?: string[];
   
   // Performance
-  metrics: Record<string, number>;
+  metrics: Record<string, number>\n  );
   results?: string;
   
   // Notes and metadata
@@ -308,12 +308,10 @@ export interface MarketingPerformance {
     sales: number;
     spend: number;
     roi: number;
-  }>;
-  
+  }>\n  );
   // Demographic insights
-  leadsByDemographic: Record<string, number>;
-  salesByDemographic: Record<string, number>;
-  
+  leadsByDemographic: Record<string, number>\n  );
+  salesByDemographic: Record<string, number>\n  );
   // Time-based analysis
   performanceByDate: Array<{
     date: Date;
@@ -323,8 +321,7 @@ export interface MarketingPerformance {
     leads: number;
     reservations: number;
     sales: number;
-  }>;
-  
+  }>\n  );
   // Benchmarking
   benchmarkComparison?: {
     impressions: number; // percentage above/below benchmark
@@ -589,7 +586,7 @@ export interface SalesDashboard {
       total: number;
       sold: number;
       percentage: number;
-    }>;
+    }>\n  );
   };
   
   // Sales velocity
@@ -602,7 +599,7 @@ export interface SalesDashboard {
       month: string;
       units: number;
       value: number;
-    }>;
+    }>\n  );
   };
   
   // Lead and pipeline metrics
@@ -615,12 +612,12 @@ export interface SalesDashboard {
     viewingsCompleted: number;
     leadConversionRate: number;
     viewingConversionRate: number;
-    leadsBySource: Record<string, number>;
+    leadsBySource: Record<string, number>\n  );
     leadsVsSales: Array<{
       month: string;
       leads: number;
       sales: number;
-    }>;
+    }>\n  );
   };
   
   // Sales team performance
@@ -632,8 +629,7 @@ export interface SalesDashboard {
     salesValue: number;
     conversionRate: number;
     averageDealTime: number; // in days
-  }>;
-  
+  }>\n  );
   // Marketing attribution
   marketingAttribution: Array<{
     campaign: string;
@@ -642,8 +638,7 @@ export interface SalesDashboard {
     salesValue: number;
     spend: number;
     roi: number;
-  }>;
-  
+  }>\n  );
   // Forecasting
   forecast: {
     nextMonthProjected: {
@@ -674,7 +669,7 @@ export interface ConstructionTracking {
   // Overall progress
   overallProgress: {
     percentage: number;
-    phasePercentages: Record<string, number>;
+    phasePercentages: Record<string, number>\n  );
     unitsCompleted: number;
     totalUnits: number;
     estimatedCompletionDate: Date;
@@ -694,12 +689,12 @@ export interface ConstructionTracking {
       category: string;
       amount: number;
       reason: string;
-    }>;
+    }>\n  );
     costSavings: Array<{
       category: string;
       amount: number;
       reason: string;
-    }>;
+    }>\n  );
   };
   
   // Trades and contractors
@@ -713,8 +708,7 @@ export interface ConstructionTracking {
     percentageComplete: number;
     status: 'not_started' | 'in_progress' | 'delayed' | 'completed';
     issues: number;
-  }>;
-  
+  }>\n  );
   // Quality assurance
   qualityAssurance: {
     inspectionsCompleted: number;
@@ -741,8 +735,7 @@ export interface ConstructionTracking {
     area: string;
     photoUrl: string;
     notes?: string;
-  }>;
-  
+  }>\n  );
   // Risk register
   risks: Array<{
     description: string;
@@ -750,8 +743,7 @@ export interface ConstructionTracking {
     probability: 'low' | 'medium' | 'high' | 'very_high';
     status: 'identified' | 'mitigating' | 'resolved';
     mitigation: string;
-  }>;
-  
+  }>\n  );
   // Unit completion status
   unitStatus: Record<string, {
     unit: string;
@@ -759,7 +751,7 @@ export interface ConstructionTracking {
     status: 'not_started' | 'foundation' | 'structure' | 'envelope' | 'interior_rough' | 'interior_finish' | 'completed';
     estimatedCompletionDate: Date;
     snags: number;
-  }>;
+  }>\n  );
 }
 
 /**
@@ -775,13 +767,13 @@ export function calculateLeadScore(lead: Lead): number {
   if (lead.address) score += 5;
   
   // Engagement level (0-30)
-  score += Math.min(lead.interactions.length * 2, 15);
-  if (lead.viewings.length > 0) score += 15;
+  score += Math.min(lead.interactions.length * 215);
+  if (lead.viewings.length> 0) score += 15;
   
   // Budget and requirements clarity (0-20)
   if (lead.budget) score += 10;
-  if (lead.interestedInDevelopments.length > 0) score += 5;
-  if (lead.interestedInUnits.length > 0) score += 5;
+  if (lead.interestedInDevelopments.length> 0) score += 5;
+  if (lead.interestedInUnits.length> 0) score += 5;
   
   // Lead source quality (0-15)
   if (lead.source === 'referral') score += 15;
@@ -806,11 +798,11 @@ export function calculateCampaignROI(
 ): number {
   const totalRevenue = campaign.leads
     .filter(lead => lead.convertedToSale)
-    .reduce((sum, lead) => {
+    .reduce((sumlead: any) => {
       return sum + (lead.convertedToSale?.totalPrice || 0);
     }, 0);
   
-  return campaign.actualSpend > 0 
+  return campaign.actualSpend> 0 
     ? ((totalRevenue - campaign.actualSpend) / campaign.actualSpend) * 100 
     : 0;
 }
@@ -829,14 +821,14 @@ export function getBestPerformingChannel(
   }
   
   const channels = campaign.channels
-    .filter(channel => channel.inquiries > 0);
+    .filter(channel => channel.inquiries> 0);
   
   if (channels.length === 0) {
     return null;
   }
   
   // Sort by cost per inquiry (lowest first)
-  channels.sort((a, b) => a.costPerInquiry - b.costPerInquiry);
+  channels.sort((ab: any) => a.costPerInquiry - b.costPerInquiry);
   
   return {
     channel: channels[0],

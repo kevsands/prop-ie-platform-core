@@ -38,7 +38,7 @@ const TrustedDevices: React.FC = () => {
             Manage devices that are trusted for accessing your account
           </p>
         </div>
-        
+
         <div className="p-4">
           <div className="overflow-x-auto">
             <table className="w-full">
@@ -52,7 +52,7 @@ const TrustedDevices: React.FC = () => {
                 </tr>
               </thead>
               <tbody className="divide-y">
-                {mockDevices.map((device) => (
+                {mockDevices.map((device: any) => (
                   <tr key={device.id}>
                     <td className="px-4 py-3">
                       <div className="flex items-center">
@@ -80,7 +80,7 @@ const TrustedDevices: React.FC = () => {
             </table>
           </div>
         </div>
-        
+
         <div className="p-4 border-t bg-gray-50 flex justify-between">
           <div className="text-sm text-gray-500">
             Trusted devices help improve your account security

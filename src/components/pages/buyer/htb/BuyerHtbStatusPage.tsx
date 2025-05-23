@@ -1,3 +1,4 @@
+import React from 'react';
 function BuyerHtbStatusPage(props: any) {
   return (
     <div>

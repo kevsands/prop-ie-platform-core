@@ -1,3 +1,4 @@
+import React from 'react';
 'use client';
 
 import { useState } from 'react';
@@ -27,10 +28,10 @@ interface VerificationStep {
 }
 
 export default function VerificationPage() {
-  const [activeStep, setActiveStep] = useState(0);
-  const [uploadingDocument, setUploadingDocument] = useState<string | null>(null);
-  const [showUploadModal, setShowUploadModal] = useState(false);
-  
+  const [activeStepsetActiveStep] = useState(0);
+  const [uploadingDocumentsetUploadingDocument] = useState<string | null>(null);
+  const [showUploadModalsetShowUploadModal] = useState(false);
+
   // Mock verification steps
   const verificationSteps: VerificationStep[] = [
     {
@@ -137,7 +138,7 @@ export default function VerificationPage() {
       ]
     }
   ];
-  
+
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'approved':
@@ -149,33 +150,33 @@ export default function VerificationPage() {
       default: return 'text-gray-600 bg-gray-100';
     }
   };
-  
+
   const getStatusIcon = (status: string) => {
     switch (status) {
-      case 'approved': return <Check className="h-5 w-5" />;
-      case 'under-review': return <Clock className="h-5 w-5" />;
-      case 'rejected': return <AlertCircle className="h-5 w-5" />;
-      case 'uploaded': return <FileText className="h-5 w-5" />;
-      default: return <Upload className="h-5 w-5" />;
+      case 'approved': return <Check className="h-5 w-5" />\n  );
+      case 'under-review': return <Clock className="h-5 w-5" />\n  );
+      case 'rejected': return <AlertCircle className="h-5 w-5" />\n  );
+      case 'uploaded': return <FileText className="h-5 w-5" />\n  );
+      default: return <Upload className="h-5 w-5" />\n  );
     }
   };
-  
+
   const getTypeIcon = (type: string) => {
     switch (type) {
-      case 'identity': return <User className="h-5 w-5 text-blue-600" />;
-      case 'address': return <Home className="h-5 w-5 text-green-600" />;
-      case 'income': return <FileText className="h-5 w-5 text-purple-600" />;
-      case 'employment': return <Mail className="h-5 w-5 text-orange-600" />;
-      default: return <FileText className="h-5 w-5 text-gray-600" />;
+      case 'identity': return <User className="h-5 w-5 text-blue-600" />\n  );
+      case 'address': return <Home className="h-5 w-5 text-green-600" />\n  );
+      case 'income': return <FileText className="h-5 w-5 text-purple-600" />\n  );
+      case 'employment': return <Mail className="h-5 w-5 text-orange-600" />\n  );
+      default: return <FileText className="h-5 w-5 text-gray-600" />\n  );
     }
   };
-  
+
   const calculateProgress = () => {
     const totalDocs = verificationSteps.flatMap(step => step.documents.filter(doc => doc.isRequired));
     const completedDocs = totalDocs.filter(doc => doc.status === 'approved');
     return Math.round((completedDocs.length / totalDocs.length) * 100);
   };
-  
+
   const handleFileUpload = (documentId: string) => {
     setUploadingDocument(documentId);
     // Simulate file upload
@@ -184,7 +185,7 @@ export default function VerificationPage() {
       setShowUploadModal(false);
     }, 2000);
   };
-  
+
   return (
     <div className="flex-1 p-8">
       <div className="max-w-7xl mx-auto">
@@ -193,7 +194,7 @@ export default function VerificationPage() {
           <h1 className="text-3xl font-bold text-gray-900">Identity Verification</h1>
           <p className="text-gray-600 mt-1">Complete your verification to access all features</p>
         </div>
-        
+
         {/* Overall Progress */}
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-8">
           <div className="flex items-center justify-between mb-4">
@@ -208,14 +209,14 @@ export default function VerificationPage() {
               <p className="text-sm text-gray-600">Complete</p>
             </div>
           </div>
-          
+
           <div className="w-full bg-gray-200 rounded-full h-3">
             <div 
               className="h-3 rounded-full bg-blue-600 transition-all duration-300"
-              style={{ width: `${calculateProgress()}%` }}
+              style={ width: `${calculateProgress()}%` }
             />
           </div>
-          
+
           {/* Benefits of Verification */}
           <div className="mt-6 grid md:grid-cols-3 gap-4">
             <div className="flex items-center gap-3 p-3 bg-blue-50 rounded-lg">
@@ -241,7 +242,7 @@ export default function VerificationPage() {
             </div>
           </div>
         </div>
-        
+
         {/* Verification Steps */}
         <div className="grid md:grid-cols-3 gap-6">
           {/* Steps Sidebar */}
@@ -249,7 +250,7 @@ export default function VerificationPage() {
             <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
               <h3 className="text-lg font-semibold text-gray-900 mb-4">Verification Steps</h3>
               <div className="space-y-3">
-                {verificationSteps.map((step, index) => (
+                {verificationSteps.map((stepindex: any) => (
                   <button
                     key={step.id}
                     onClick={() => setActiveStep(index)}
@@ -279,7 +280,7 @@ export default function VerificationPage() {
               </div>
             </div>
           </div>
-          
+
           {/* Step Details */}
           <div className="md:col-span-2">
             <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
@@ -289,10 +290,10 @@ export default function VerificationPage() {
               <p className="text-gray-600 mb-6">
                 {verificationSteps[activeStep].description}
               </p>
-              
+
               {/* Documents List */}
               <div className="space-y-4">
-                {verificationSteps[activeStep].documents.map((doc) => (
+                {verificationSteps[activeStep].documents.map((doc: any) => (
                   <div 
                     key={doc.id}
                     className="border rounded-lg p-4 hover:bg-gray-50 transition-colors"
@@ -310,7 +311,7 @@ export default function VerificationPage() {
                           {doc.notes && (
                             <p className="text-sm text-gray-600 mt-1">{doc.notes}</p>
                           )}
-                          
+
                           <div className="flex items-center gap-4 mt-2">
                             <span className={`flex items-center gap-1 px-2 py-1 text-sm font-medium rounded-full ${
                               getStatusColor(doc.status)
@@ -318,20 +319,20 @@ export default function VerificationPage() {
                               {getStatusIcon(doc.status)}
                               {doc.status.replace('-', ' ')}
                             </span>
-                            
+
                             {doc.uploadedDate && (
                               <span className="text-sm text-gray-500">
                                 Uploaded {format(doc.uploadedDate, 'MMM d, yyyy')}
                               </span>
                             )}
-                            
+
                             {doc.expiryDate && (
                               <span className="text-sm text-gray-500">
                                 Expires {format(doc.expiryDate, 'MMM d, yyyy')}
                               </span>
                             )}
                           </div>
-                          
+
                           {doc.rejectionReason && (
                             <div className="mt-2 p-2 bg-red-50 rounded-lg">
                               <p className="text-sm text-red-800">
@@ -341,14 +342,14 @@ export default function VerificationPage() {
                           )}
                         </div>
                       </div>
-                      
+
                       <div className="flex items-center gap-2">
                         {doc.status === 'approved' && doc.fileUrl && (
                           <button className="p-2 text-gray-500 hover:text-gray-700 transition-colors">
                             <Download className="h-5 w-5" />
                           </button>
                         )}
-                        
+
                         {['not-started', 'rejected'].includes(doc.status) && (
                           <button
                             onClick={() => handleFileUpload(doc.id)}
@@ -358,7 +359,7 @@ export default function VerificationPage() {
                             Upload
                           </button>
                         )}
-                        
+
                         {doc.status === 'uploaded' && (
                           <button
                             onClick={() => handleFileUpload(doc.id)}
@@ -373,7 +374,7 @@ export default function VerificationPage() {
                   </div>
                 ))}
               </div>
-              
+
               {/* Help Section */}
               <div className="mt-8 p-4 bg-blue-50 rounded-lg">
                 <div className="flex items-start gap-3">

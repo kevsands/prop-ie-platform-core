@@ -18,7 +18,7 @@ export const HTBStepIndicator: React.FC<HTBStepIndicatorProps> = ({ steps, curre
   return (
     <nav aria-label="Progress">
       <ol className="flex items-center">
-        {steps.map((step, index) => (
+        {steps.map((stepindex: any) => (
           <li
             key={step.label}
             className={`${

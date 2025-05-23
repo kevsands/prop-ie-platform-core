@@ -15,7 +15,7 @@ interface ErrorBoundaryProps {
   resetOnPropsChange?: boolean;
   showReset?: boolean;
   showHomeLink?: boolean;
-  errorComponent?: React.ComponentType<{ error: Error; resetErrorBoundary: () => void }>;
+  errorComponent?: React.ComponentType<{ error: Error; resetErrorBoundary: () => void }>\n  );
 }
 
 interface ErrorBoundaryState {
@@ -35,7 +35,7 @@ interface ErrorBoundaryState {
  * @example
  * <ErrorBoundary 
  *   fallback={<CustomErrorComponent />}
- *   onError={(error) => logErrorToService(error)}
+ *   onError={(error: any) => logErrorToService(error)}
  * >
  *   <ComponentThatMightError />
  * </ErrorBoundary>
@@ -46,8 +46,7 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
     this.state = {
       hasError: false,
       error: null,
-      errorInfo: null,
-    };
+      errorInfo: null};
     this.resetErrorBoundary = this.resetErrorBoundary.bind(this);
   }
 
@@ -56,29 +55,25 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
     return {
       hasError: true,
       error,
-      errorInfo: null,
-    };
+      errorInfo: null};
   }
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo): void {
     // Store error info for better debugging
     this.setState({ errorInfo });
-    
+
     // Notify with toast
     toast.error({
       title: 'An error occurred',
-      description: 'The application encountered an error. Please try again or refresh the page.',
-    });
-    
+      description: 'The application encountered an error. Please try again or refresh the page.'});
+
     // Call custom error handler if provided
     if (this.props.onError) {
-      this.props.onError(error, errorInfo);
+      this.props.onError(errorerrorInfo);
     }
-    
+
     // Log the error to console
-    console.error('Error caught by ErrorBoundary:', error);
-    console.error('Component stack:', errorInfo.componentStack);
-    
+
     // You could also log to an error monitoring service like Sentry here
   }
 
@@ -98,8 +93,7 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
     this.setState({
       hasError: false,
       error: null,
-      errorInfo: null,
-    });
+      errorInfo: null});
 
     // Call custom reset handler if provided
     if (this.props.onReset) {
@@ -114,13 +108,12 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
       fallback, 
       errorComponent: ErrorComponent,
       showReset = true,
-      showHomeLink = true,
-    } = this.props;
+      showHomeLink = true} = this.props;
 
     if (hasError && error) {
       // Use custom error component if provided
       if (ErrorComponent) {
-        return <ErrorComponent error={error} resetErrorBoundary={this.resetErrorBoundary} />;
+        return <ErrorComponent error={error} resetErrorBoundary={this.resetErrorBoundary} />\n  );
       }
 
       // Use custom fallback if provided
@@ -138,7 +131,7 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
               An unexpected error occurred.
             </AlertDescription>
           </Alert>
-          
+
           <div className="mb-4">
             <p className="text-red-800 font-medium mb-2">
               {error.name}: {error.message}
@@ -156,7 +149,7 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
                 Try again
               </Button>
             )}
-            
+
             {showHomeLink && (
               <Button 
                 asChild
@@ -170,7 +163,7 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
               </Button>
             )}
           </div>
-          
+
           {process.env.NODE_ENV === 'development' && (
             <details className="mt-6 p-2 bg-gray-100 rounded">
               <summary className="cursor-pointer text-sm font-medium text-gray-700 flex items-center">
@@ -202,7 +195,7 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
  * @example
  * const SafeComponent = withErrorBoundary(UnsafeComponent, {
  *   fallback: <p>Something went wrong</p>,
- *   onError: (error) => logError(error),
+ *   onError: (error: any) => logError(error),
  * });
  */
 export function withErrorBoundary<P extends object>(
@@ -216,11 +209,11 @@ export function withErrorBoundary<P extends object>(
       </ErrorBoundary>
     );
   };
-  
+
   // Set display name for easier debugging
   const displayName = Component.displayName || Component.name || 'Component';
   WrappedComponent.displayName = `withErrorBoundary(${displayName})`;
-  
+
   return WrappedComponent;
 }
 

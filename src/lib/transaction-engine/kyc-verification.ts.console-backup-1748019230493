@@ -1,0 +1,543 @@
+/**
+ * KYC/AML Verification System
+ * Handles identity verification and anti-money laundering checks
+ */
+
+import { EventEmitter } from 'events';
+import { transactionEngine, TransactionState, DocumentType } from './index';
+import { prisma } from '@/lib/prisma';
+import axios from 'axios';
+
+export enum VerificationStatus {
+  NOT_STARTED = 'NOT_STARTED',
+  PENDING = 'PENDING',
+  IN_PROGRESS = 'IN_PROGRESS',
+  VERIFIED = 'VERIFIED',
+  FAILED = 'FAILED',
+  REQUIRES_MANUAL_REVIEW = 'REQUIRES_MANUAL_REVIEW'
+}
+
+export enum VerificationStep {
+  IDENTITY_DOCUMENT = 'IDENTITY_DOCUMENT',
+  PROOF_OF_ADDRESS = 'PROOF_OF_ADDRESS',
+  LIVENESS_CHECK = 'LIVENESS_CHECK',
+  PEP_SCREENING = 'PEP_SCREENING',
+  SANCTIONS_CHECK = 'SANCTIONS_CHECK',
+  ADVERSE_MEDIA = 'ADVERSE_MEDIA'
+}
+
+export interface KYCVerification {
+  id: string;
+  transactionId: string;
+  userId: string;
+  status: VerificationStatus;
+  steps: VerificationStepResult[];
+  riskScore: number;
+  completedAt?: Date;
+  reviewedBy?: string;
+  metadata: Record<string, any>;
+}
+
+export interface VerificationStepResult {
+  step: VerificationStep;
+  status: VerificationStatus;
+  result: any;
+  completedAt?: Date;
+  failureReason?: string;
+}
+
+export interface IdentityDocument {
+  type: 'passport' | 'driving_license' | 'national_id';
+  frontImage: string;
+  backImage?: string;
+  extractedData?: {
+    fullName: string;
+    dateOfBirth: string;
+    documentNumber: string;
+    expiryDate: string;
+    nationality: string;
+  };
+}
+
+export interface ProofOfAddress {
+  type: 'utility_bill' | 'bank_statement' | 'tax_document';
+  documentImage: string;
+  extractedData?: {
+    fullName: string;
+    address: string;
+    issueDate: string;
+  };
+}
+
+export class KYCVerificationService extends EventEmitter {
+  private static instance: KYCVerificationService;
+  
+  private constructor() {
+    super();
+  }
+
+  static getInstance(): KYCVerificationService {
+    if (!KYCVerificationService.instance) {
+      KYCVerificationService.instance = new KYCVerificationService();
+    }
+    return KYCVerificationService.instance;
+  }
+
+  /**
+   * Start KYC verification process
+   */
+  async startVerification(transactionId: string, userId: string): Promise<KYCVerification> {
+    // Create verification record
+    const verification = await prisma.kycVerification.create({
+      data: {
+        transactionId,
+        userId,
+        status: VerificationStatus.PENDING,
+        riskScore: 0,
+        steps: [],
+        metadata: {}
+      }
+    });
+
+    // Update transaction state
+    await transactionEngine.updateState(
+      transactionId,
+      TransactionState.KYC_PENDING,
+      'system',
+      { verificationId: verification.id }
+    );
+
+    this.emit('verification_started', { transactionId, verification });
+
+    return verification as any;
+  }
+
+  /**
+   * Upload identity document
+   */
+  async uploadIdentityDocument(
+    verificationId: string,
+    document: IdentityDocument
+  ): Promise<VerificationStepResult> {
+    const verification = await this.getVerification(verificationId);
+    if (!verification) {
+      throw new Error('Verification not found');
+    }
+
+    try {
+      // Extract data from document (using OCR service)
+      const extractedData = await this.extractDocumentData(document);
+      
+      // Verify document authenticity
+      const isAuthentic = await this.verifyDocumentAuthenticity(document);
+      
+      if (!isAuthentic) {
+        return this.updateStepResult(verificationId, VerificationStep.IDENTITY_DOCUMENT, {
+          status: VerificationStatus.FAILED,
+          result: { authentic: false },
+          failureReason: 'Document appears to be fraudulent or tampered'
+        });
+      }
+
+      // Store document
+      await transactionEngine.uploadDocument(verification.transactionId, {
+        name: `${document.type}_${Date.now()}`,
+        type: DocumentType.IDENTITY,
+        url: document.frontImage,
+        uploadedBy: verification.userId,
+        verified: true,
+        metadata: { extractedData }
+      });
+
+      return this.updateStepResult(verificationId, VerificationStep.IDENTITY_DOCUMENT, {
+        status: VerificationStatus.VERIFIED,
+        result: { authentic: true, extractedData }
+      });
+
+    } catch (error: any) {
+      return this.updateStepResult(verificationId, VerificationStep.IDENTITY_DOCUMENT, {
+        status: VerificationStatus.FAILED,
+        result: { error: error.message },
+        failureReason: error.message
+      });
+    }
+  }
+
+  /**
+   * Upload proof of address
+   */
+  async uploadProofOfAddress(
+    verificationId: string,
+    document: ProofOfAddress
+  ): Promise<VerificationStepResult> {
+    const verification = await this.getVerification(verificationId);
+    if (!verification) {
+      throw new Error('Verification not found');
+    }
+
+    try {
+      // Extract address data
+      const extractedData = await this.extractAddressData(document);
+      
+      // Verify document is recent (within 3 months)
+      const isRecent = await this.verifyDocumentRecency(document);
+      
+      if (!isRecent) {
+        return this.updateStepResult(verificationId, VerificationStep.PROOF_OF_ADDRESS, {
+          status: VerificationStatus.FAILED,
+          result: { recent: false },
+          failureReason: 'Document is older than 3 months'
+        });
+      }
+
+      // Store document
+      await transactionEngine.uploadDocument(verification.transactionId, {
+        name: `${document.type}_${Date.now()}`,
+        type: DocumentType.PROOF_OF_ADDRESS,
+        url: document.documentImage,
+        uploadedBy: verification.userId,
+        verified: true,
+        metadata: { extractedData }
+      });
+
+      return this.updateStepResult(verificationId, VerificationStep.PROOF_OF_ADDRESS, {
+        status: VerificationStatus.VERIFIED,
+        result: { recent: true, extractedData }
+      });
+
+    } catch (error: any) {
+      return this.updateStepResult(verificationId, VerificationStep.PROOF_OF_ADDRESS, {
+        status: VerificationStatus.FAILED,
+        result: { error: error.message },
+        failureReason: error.message
+      });
+    }
+  }
+
+  /**
+   * Perform liveness check
+   */
+  async performLivenessCheck(
+    verificationId: string,
+    videoData: string
+  ): Promise<VerificationStepResult> {
+    try {
+      // Mock liveness check API
+      const livenessResult = await this.checkLiveness(videoData);
+      
+      if (!livenessResult.isLive) {
+        return this.updateStepResult(verificationId, VerificationStep.LIVENESS_CHECK, {
+          status: VerificationStatus.FAILED,
+          result: livenessResult,
+          failureReason: 'Liveness check failed'
+        });
+      }
+
+      return this.updateStepResult(verificationId, VerificationStep.LIVENESS_CHECK, {
+        status: VerificationStatus.VERIFIED,
+        result: livenessResult
+      });
+
+    } catch (error: any) {
+      return this.updateStepResult(verificationId, VerificationStep.LIVENESS_CHECK, {
+        status: VerificationStatus.FAILED,
+        result: { error: error.message },
+        failureReason: error.message
+      });
+    }
+  }
+
+  /**
+   * Perform AML screening
+   */
+  async performAMLScreening(verificationId: string): Promise<void> {
+    const verification = await this.getVerification(verificationId);
+    if (!verification) {
+      throw new Error('Verification not found');
+    }
+
+    // Get user data
+    const user = await prisma.user.findUnique({
+      where: { id: verification.userId }
+    });
+
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    // Perform PEP screening
+    const pepResult = await this.screenPEP(user);
+    await this.updateStepResult(verificationId, VerificationStep.PEP_SCREENING, {
+      status: pepResult.isMatch ? VerificationStatus.REQUIRES_MANUAL_REVIEW : VerificationStatus.VERIFIED,
+      result: pepResult
+    });
+
+    // Perform sanctions check
+    const sanctionsResult = await this.checkSanctions(user);
+    await this.updateStepResult(verificationId, VerificationStep.SANCTIONS_CHECK, {
+      status: sanctionsResult.isMatch ? VerificationStatus.FAILED : VerificationStatus.VERIFIED,
+      result: sanctionsResult
+    });
+
+    // Perform adverse media check
+    const adverseMediaResult = await this.checkAdverseMedia(user);
+    await this.updateStepResult(verificationId, VerificationStep.ADVERSE_MEDIA, {
+      status: adverseMediaResult.hasAdverseMedia ? VerificationStatus.REQUIRES_MANUAL_REVIEW : VerificationStatus.VERIFIED,
+      result: adverseMediaResult
+    });
+
+    // Calculate risk score
+    const riskScore = this.calculateRiskScore(verification);
+    await this.updateRiskScore(verificationId, riskScore);
+  }
+
+  /**
+   * Complete verification
+   */
+  async completeVerification(verificationId: string): Promise<KYCVerification> {
+    const verification = await this.getVerification(verificationId);
+    if (!verification) {
+      throw new Error('Verification not found');
+    }
+
+    // Check all required steps are completed
+    const requiredSteps = [
+      VerificationStep.IDENTITY_DOCUMENT,
+      VerificationStep.PROOF_OF_ADDRESS,
+      VerificationStep.LIVENESS_CHECK,
+      VerificationStep.PEP_SCREENING,
+      VerificationStep.SANCTIONS_CHECK
+    ];
+
+    const completedSteps = verification.steps.filter(
+      step => step.status === VerificationStatus.VERIFIED
+    );
+
+    const failedSteps = verification.steps.filter(
+      step => step.status === VerificationStatus.FAILED
+    );
+
+    if (failedSteps.length > 0) {
+      await this.updateVerificationStatus(verificationId, VerificationStatus.FAILED);
+      throw new Error('Verification failed due to failed steps');
+    }
+
+    const requiresReview = verification.steps.some(
+      step => step.status === VerificationStatus.REQUIRES_MANUAL_REVIEW
+    );
+
+    if (requiresReview) {
+      await this.updateVerificationStatus(verificationId, VerificationStatus.REQUIRES_MANUAL_REVIEW);
+      this.emit('manual_review_required', { verificationId, verification });
+      return verification;
+    }
+
+    if (completedSteps.length === requiredSteps.length) {
+      await this.updateVerificationStatus(verificationId, VerificationStatus.VERIFIED);
+      
+      // Update transaction state
+      await transactionEngine.updateState(
+        verification.transactionId,
+        TransactionState.KYC_VERIFIED,
+        'system',
+        { verificationId }
+      );
+
+      this.emit('verification_completed', { verificationId, verification });
+      return verification;
+    }
+
+    throw new Error('Not all required steps are completed');
+  }
+
+  /**
+   * Manual review approval
+   */
+  async approveManualReview(
+    verificationId: string,
+    reviewedBy: string,
+    notes: string
+  ): Promise<KYCVerification> {
+    const verification = await this.getVerification(verificationId);
+    if (!verification) {
+      throw new Error('Verification not found');
+    }
+
+    await prisma.kycVerification.update({
+      where: { id: verificationId },
+      data: {
+        status: VerificationStatus.VERIFIED,
+        reviewedBy,
+        completedAt: new Date(),
+        metadata: {
+          ...verification.metadata,
+          reviewNotes: notes
+        }
+      }
+    });
+
+    // Update transaction state
+    await transactionEngine.updateState(
+      verification.transactionId,
+      TransactionState.KYC_VERIFIED,
+      reviewedBy,
+      { verificationId, manuallyReviewed: true }
+    );
+
+    return this.getVerification(verificationId) as any;
+  }
+
+  /**
+   * Helper methods
+   */
+
+  private async getVerification(verificationId: string): Promise<KYCVerification | null> {
+    return prisma.kycVerification.findUnique({
+      where: { id: verificationId }
+    }) as any;
+  }
+
+  private async updateStepResult(
+    verificationId: string,
+    step: VerificationStep,
+    result: Partial<VerificationStepResult>
+  ): Promise<VerificationStepResult> {
+    const verification = await this.getVerification(verificationId);
+    if (!verification) {
+      throw new Error('Verification not found');
+    }
+
+    const stepResult: VerificationStepResult = {
+      step,
+      status: result.status || VerificationStatus.PENDING,
+      result: result.result || {},
+      completedAt: result.status === VerificationStatus.VERIFIED ? new Date() : undefined,
+      failureReason: result.failureReason
+    };
+
+    const existingStepIndex = verification.steps.findIndex(s => s.step === step);
+    
+    if (existingStepIndex >= 0) {
+      verification.steps[existingStepIndex] = stepResult;
+    } else {
+      verification.steps.push(stepResult);
+    }
+
+    await prisma.kycVerification.update({
+      where: { id: verificationId },
+      data: { steps: verification.steps as any }
+    });
+
+    return stepResult;
+  }
+
+  private async updateVerificationStatus(
+    verificationId: string,
+    status: VerificationStatus
+  ): Promise<void> {
+    await prisma.kycVerification.update({
+      where: { id: verificationId },
+      data: {
+        status,
+        completedAt: status === VerificationStatus.VERIFIED ? new Date() : undefined
+      }
+    });
+  }
+
+  private async updateRiskScore(verificationId: string, score: number): Promise<void> {
+    await prisma.kycVerification.update({
+      where: { id: verificationId },
+      data: { riskScore: score }
+    });
+  }
+
+  private calculateRiskScore(verification: KYCVerification): number {
+    let score = 0;
+
+    // PEP match increases risk
+    const pepStep = verification.steps.find(s => s.step === VerificationStep.PEP_SCREENING);
+    if (pepStep?.result?.isMatch) {
+      score += 30;
+    }
+
+    // Adverse media increases risk
+    const adverseStep = verification.steps.find(s => s.step === VerificationStep.ADVERSE_MEDIA);
+    if (adverseStep?.result?.hasAdverseMedia) {
+      score += 20;
+    }
+
+    // Failed liveness check increases risk
+    const livenessStep = verification.steps.find(s => s.step === VerificationStep.LIVENESS_CHECK);
+    if (livenessStep?.status === VerificationStatus.FAILED) {
+      score += 40;
+    }
+
+    return Math.min(score, 100);
+  }
+
+  // Mock external API calls
+  private async extractDocumentData(document: IdentityDocument) {
+    // Mock OCR API call
+    return {
+      fullName: 'John Doe',
+      dateOfBirth: '1990-01-01',
+      documentNumber: 'AB123456',
+      expiryDate: '2030-01-01',
+      nationality: 'Ireland'
+    };
+  }
+
+  private async verifyDocumentAuthenticity(document: IdentityDocument): Promise<boolean> {
+    // Mock document verification API
+    return true;
+  }
+
+  private async extractAddressData(document: ProofOfAddress) {
+    // Mock OCR API call
+    return {
+      fullName: 'John Doe',
+      address: '123 Main St, Dublin, Ireland',
+      issueDate: '2024-01-01'
+    };
+  }
+
+  private async verifyDocumentRecency(document: ProofOfAddress): Promise<boolean> {
+    // Mock date verification
+    return true;
+  }
+
+  private async checkLiveness(videoData: string) {
+    // Mock liveness detection API
+    return {
+      isLive: true,
+      confidence: 0.95
+    };
+  }
+
+  private async screenPEP(user: any) {
+    // Mock PEP screening API
+    return {
+      isMatch: false,
+      matches: []
+    };
+  }
+
+  private async checkSanctions(user: any) {
+    // Mock sanctions screening API
+    return {
+      isMatch: false,
+      lists: []
+    };
+  }
+
+  private async checkAdverseMedia(user: any) {
+    // Mock adverse media screening API
+    return {
+      hasAdverseMedia: false,
+      articles: []
+    };
+  }
+}
+
+// Export singleton instance
+export const kycService = KYCVerificationService.getInstance();

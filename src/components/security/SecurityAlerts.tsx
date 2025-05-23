@@ -34,28 +34,28 @@ interface SecurityAlert {
  */
 export function SecurityAlerts() {
   const { user } = useAuth();
-  const [alerts, setAlerts] = useState<SecurityAlert[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [showMFASetup, setShowMFASetup] = useState<boolean>(false);
-  const [showMFAChallenge, setShowMFAChallenge] = useState<boolean>(false);
-  const [mfaStatus, setMfaStatus] = useState<MFAStatus | null>(null);
-  const [sessionValid, setSessionValid] = useState<boolean>(true);
-  
+  const [alertssetAlerts] = useState<SecurityAlert[]>([]);
+  const [loadingsetLoading] = useState<boolean>(true);
+  const [showMFASetupsetShowMFASetup] = useState<boolean>(false);
+  const [showMFAChallengesetShowMFAChallenge] = useState<boolean>(false);
+  const [mfaStatussetMfaStatus] = useState<MFAStatus | null>(null);
+  const [sessionValidsetSessionValid] = useState<boolean>(true);
+
   // Check security status on mount
   useEffect(() => {
     async function checkSecurityStatus() {
       if (!user) return;
-      
+
       setLoading(true);
       const alerts: SecurityAlert[] = [];
-      
+
       try {
         // 1. Check MFA status
         const mfaEnabled = await isFeatureEnabled('enable-mfa');
         if (mfaEnabled) {
           const status = await EnhancedMFA.getMFAStatus();
           setMfaStatus(status);
-          
+
           // Alert if MFA is not enabled but should be
           if (!status.enabled && EnhancedMFA.shouldEnforceMFA(user)) {
             alerts.push({
@@ -69,13 +69,13 @@ export function SecurityAlerts() {
             });
           }
         }
-        
+
         // 2. Check session fingerprint
         const fingerprintEnabled = await isFeatureEnabled('enable-session-fingerprinting');
         if (fingerprintEnabled) {
           const { valid, reason } = await SessionFingerprint.validate();
           setSessionValid(valid);
-          
+
           if (!valid) {
             alerts.push({
               id: 'suspicious-session',
@@ -86,7 +86,7 @@ export function SecurityAlerts() {
               action: () => setShowMFAChallenge(true),
               dismissable: false
             });
-            
+
             // Log suspicious session
             AuditLogger.logAuth(
               'suspicious_session',
@@ -96,9 +96,9 @@ export function SecurityAlerts() {
             );
           }
         }
-        
+
         // 3. Check for recovery codes running low
-        if (mfaStatus?.enabled && mfaStatus.recoveryCodesRemaining < 3) {
+        if (mfaStatus?.enabled && mfaStatus.recoveryCodesRemaining <3) {
           alerts.push({
             id: 'low-recovery-codes',
             type: 'warning',
@@ -109,36 +109,36 @@ export function SecurityAlerts() {
             dismissable: true
           });
         }
-        
+
         setAlerts(alerts);
       } catch (error) {
-        console.error('Error checking security status:', error);
+
       } finally {
         setLoading(false);
       }
     }
-    
+
     checkSecurityStatus();
   }, [user]);
-  
+
   // Dismiss an alert
   const dismissAlert = (id: string) => {
     setAlerts(currentAlerts => currentAlerts.filter(alert => alert.id !== id));
   };
-  
+
   // Handle MFA setup completion
   const handleMFASetupComplete = async () => {
     setShowMFASetup(false);
-    
+
     // Refresh MFA status
     try {
       const status = await EnhancedMFA.getMFAStatus();
       setMfaStatus(status);
-      
+
       // Remove MFA required alert if MFA is now enabled
       if (status.enabled) {
         dismissAlert('mfa-required');
-        
+
         // Add success alert
         setAlerts(prev => [
           ...prev,
@@ -152,19 +152,19 @@ export function SecurityAlerts() {
         ]);
       }
     } catch (error) {
-      console.error('Error refreshing MFA status:', error);
+
     }
   };
-  
+
   // Handle MFA challenge completion
   const handleMFAChallengeComplete = (success: boolean) => {
     setShowMFAChallenge(false);
-    
+
     if (success) {
       // Remove suspicious session alert
       dismissAlert('suspicious-session');
       setSessionValid(true);
-      
+
       // Add success alert
       setAlerts(prev => [
         ...prev,
@@ -176,7 +176,7 @@ export function SecurityAlerts() {
           dismissable: true
         }
       ]);
-      
+
       // Log successful verification
       AuditLogger.logAuth(
         'identity_verified',
@@ -194,12 +194,12 @@ export function SecurityAlerts() {
       );
     }
   };
-  
+
   // If no alerts and not loading, return null
   if (!loading && alerts.length === 0) {
     return null;
   }
-  
+
   return (
     <>
       <div className="space-y-3 mb-6">
@@ -232,7 +232,7 @@ export function SecurityAlerts() {
           </Alert>
         ))}
       </div>
-      
+
       {/* MFA Setup Dialog */}
       {showMFASetup && (
         <div className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4">
@@ -244,7 +244,7 @@ export function SecurityAlerts() {
           </div>
         </div>
       )}
-      
+
       {/* MFA Challenge Dialog */}
       {showMFAChallenge && (
         <div className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4">

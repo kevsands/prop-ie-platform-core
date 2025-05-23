@@ -1,0 +1,2950 @@
+{
+  "summary": {
+    "totalComponents": 661,
+    "totalRoutes": 386,
+    "averageComponentSize": 230,
+    "totalLinesOfCode": 152162
+  },
+  "routes": {
+    "app": [
+      {
+        "path": "/about",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/about/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/admin/documents",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/admin/documents/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/admin",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/admin/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/admin/platform-overview",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/admin/platform-overview/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/admin/properties",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/admin/properties/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/admin/security",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/admin/security/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/admin/security/test",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/admin/security/test/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/admin/verifications",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/admin/verifications/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/agents/dashboard",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/agents/dashboard/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/agents/leads",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/agents/leads/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/agents/listings",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/agents/listings/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/agents",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/agents/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/agents/resources",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/agents/resources/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/agents/transactions",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/agents/transactions/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/alerts",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/alerts/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/analytics/dashboard",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/analytics/dashboard/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/architect/collaboration",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/architect/collaboration/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/architect/dashboard",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/architect/dashboard/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/auth/flow-demo",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/auth/flow-demo/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/auth/login",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/auth/login/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/auth",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/auth/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/auth/register",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/auth/register/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/auth/step-up",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/auth/step-up/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/auth/test",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/auth/test/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/auth-wrapper",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/auth-wrapper/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/buyer/advisor",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/buyer/advisor/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/buyer/appointments",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/buyer/appointments/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/buyer/booking",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/buyer/booking/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/buyer/calculator/htb",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/buyer/calculator/htb/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/buyer/calculator",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/buyer/calculator/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/buyer/checklists",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/buyer/checklists/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/buyer/contracts",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/buyer/contracts/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/buyer/customization",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/buyer/customization/layout.tsx",
+        "type": "layout"
+      },
+      {
+        "path": "/buyer/customization",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/buyer/customization/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/buyer/dashboard",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/buyer/dashboard/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/buyer/documents",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/buyer/documents/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/buyer/first-time-buyer",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/buyer/first-time-buyer/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/buyer/first-time-buyers/welcome",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/buyer/first-time-buyers/welcome/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/buyer/guides",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/buyer/guides/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/buyer/htb/calculator",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/buyer/htb/calculator/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/buyer/htb/new",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/buyer/htb/new/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/buyer/htb",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/buyer/htb/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/buyer/htb/status",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/buyer/htb/status/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/buyer/insights",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/buyer/insights/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/buyer/journey/[transactionId]",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/buyer/journey/[transactionId]/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/buyer/journey/complete-flow",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/buyer/journey/complete-flow/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/buyer/journey/financing",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/buyer/journey/financing/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/buyer/journey",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/buyer/journey/layout.tsx",
+        "type": "layout"
+      },
+      {
+        "path": "/buyer/journey/legal-process",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/buyer/journey/legal-process/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/buyer/journey",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/buyer/journey/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/buyer/journey/planning/government-schemes",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/buyer/journey/planning/government-schemes/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/buyer/journey/planning",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/buyer/journey/planning/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/buyer/journey/property-search",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/buyer/journey/property-search/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/buyer/journey/reservation",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/buyer/journey/reservation/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/buyer",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/buyer/layout.tsx",
+        "type": "layout"
+      },
+      {
+        "path": "/buyer/legal-purchase/[unitId]",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/buyer/legal-purchase/[unitId]/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/buyer/messages",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/buyer/messages/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/buyer/mortgage",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/buyer/mortgage/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/buyer/offers",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/buyer/offers/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/buyer",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/buyer/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/buyer/payment-methods",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/buyer/payment-methods/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/buyer/planning/checklist",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/buyer/planning/checklist/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/buyer/planning",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/buyer/planning/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/buyer/profile",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/buyer/profile/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/buyer/purchase/[id]",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/buyer/purchase/[id]/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/buyer/saved-properties",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/buyer/saved-properties/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/buyer/settings",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/buyer/settings/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/buyer/setup",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/buyer/setup/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/buyer/support",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/buyer/support/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/buyer/transactions/[id]",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/buyer/transactions/[id]/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/buyer/transactions",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/buyer/transactions/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/buyer/verification",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/buyer/verification/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/buyer/viewings",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/buyer/viewings/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/buyer-journey",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/buyer-journey/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/calculators/htb",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/calculators/htb/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/calculators/mortgage",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/calculators/mortgage/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/calculators",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/calculators/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/calculators/stamp-duty",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/calculators/stamp-duty/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/collaboration-demo",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/collaboration-demo/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/company/about",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/company/about/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/company/contact",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/company/contact/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/company",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/company/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/contact",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/contact/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/customisation/how-it-works",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/customisation/how-it-works/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/dashboard/@main",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/dashboard/@main/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/dashboard/@main/profile",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/dashboard/@main/profile/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/dashboard/@main/security",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/dashboard/@main/security/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/dashboard",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/dashboard/layout.tsx",
+        "type": "layout"
+      },
+      {
+        "path": "/dashboard",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/dashboard/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/dashboard/security",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/dashboard/security/layout.tsx",
+        "type": "layout"
+      },
+      {
+        "path": "/dashboard/security",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/dashboard/security/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/dashboard/unified",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/dashboard/unified/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/debug/auth",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/debug/auth/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/debug",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/debug/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/debug-nav",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/debug-nav/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/demo/navigation",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/demo/navigation/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/demo/platform-overview",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/demo/platform-overview/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/demo/transaction-flow",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/demo/transaction-flow/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/demo-login",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/demo-login/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/dev/developer-dashboard-test",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/dev/developer-dashboard-test/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/dev/testing-dashboard",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/dev/testing-dashboard/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/dev-login",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/dev-login/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/developer/analytics",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/developer/analytics/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/developer/dashboard",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/developer/dashboard/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/developer/developments/[id]/documents",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/developer/developments/[id]/documents/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/developer/developments/[id]",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/developer/developments/[id]/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/developer/developments/[id]/units/[unitId]",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/developer/developments/[id]/units/[unitId]/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/developer/developments/[id]/units",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/developer/developments/[id]/units/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/developer/developments",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/developer/developments/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/developer/documents",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/developer/documents/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/developer/finance",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/developer/finance/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/developer/financial",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/developer/financial/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/developer/htb/analytics",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/developer/htb/analytics/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/developer/htb/claims/[claimId]",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/developer/htb/claims/[claimId]/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/developer/htb/claims",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/developer/htb/claims/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/developer/htb",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/developer/htb/layout.tsx",
+        "type": "layout"
+      },
+      {
+        "path": "/developer/htb",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/developer/htb/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/developer/htb/revenue-guide",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/developer/htb/revenue-guide/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/developer",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/developer/layout.tsx",
+        "type": "layout"
+      },
+      {
+        "path": "/developer/media",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/developer/media/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/developer/new-project",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/developer/new-project/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/developer/onboarding/company-setup",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/developer/onboarding/company-setup/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/developer/onboarding",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/developer/onboarding/layout.tsx",
+        "type": "layout"
+      },
+      {
+        "path": "/developer/onboarding",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/developer/onboarding/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/developer/onboarding/subscription",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/developer/onboarding/subscription/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/developer/onboarding/team-setup",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/developer/onboarding/team-setup/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/developer/onboarding/verification",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/developer/onboarding/verification/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/developer",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/developer/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/developer/project/[id]",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/developer/project/[id]/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/developer/project/[id]/sales",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/developer/project/[id]/sales/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/developer/project/[id]/timeline",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/developer/project/[id]/timeline/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/developer/project/new",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/developer/project/new/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/developer/projects/create",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/developer/projects/create/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/developer/projects",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/developer/projects/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/developer/prop-dashboard",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/developer/prop-dashboard/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/developer/properties",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/developer/properties/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/developer/protected-project",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/developer/protected-project/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/developer/sales",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/developer/sales/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/developer/settings/company",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/developer/settings/company/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/developer/team/contractors",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/developer/team/contractors/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/developer/team/members",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/developer/team/members/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/developer/test",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/developer/test/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/developer/transactions",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/developer/transactions/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/developers/analytics",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/developers/analytics/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/developers",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/developers/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/developers/projects",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/developers/projects/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/developers/submissions",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/developers/submissions/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/developments/[id]",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/developments/[id]/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/developments/ballymakenny-view",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/developments/ballymakenny-view/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/developments/fitzgerald-gardens",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/developments/fitzgerald-gardens/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/developments",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/developments/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/developments/riverside-manor",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/developments/riverside-manor/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/documents",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/documents/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/enterprise-demo",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/enterprise-demo/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/examples/developments",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/examples/developments/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/first-time-buyers/calculator",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/first-time-buyers/calculator/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/first-time-buyers/documents",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/first-time-buyers/documents/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/first-time-buyers/how-it-works",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/first-time-buyers/how-it-works/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/first-time-buyers/journey",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/first-time-buyers/journey/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/first-time-buyers/kyc",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/first-time-buyers/kyc/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/first-time-buyers",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/first-time-buyers/layout.tsx",
+        "type": "layout"
+      },
+      {
+        "path": "/first-time-buyers",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/first-time-buyers/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/first-time-buyers/register",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/first-time-buyers/register/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/home-nav-test",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/home-nav-test/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/invest/liquidity-pools",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/invest/liquidity-pools/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/investor/dashboard",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/investor/dashboard/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/investor/financial",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/investor/financial/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/investor",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/investor/layout.tsx",
+        "type": "layout"
+      },
+      {
+        "path": "/investor/market",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/investor/market/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/investor",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/investor/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/investor/portfolio",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/investor/portfolio/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/investor/properties",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/investor/properties/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/investor/settings",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/investor/settings/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/kyc-verifcationpage",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/kyc-verifcationpage/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/kyc-verification",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/kyc-verification/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/kyc-verificationpage",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/kyc-verificationpage/layout.tsx",
+        "type": "layout"
+      },
+      {
+        "path": "/kyc-verificationpage",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/kyc-verificationpage/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/layout.tsx",
+        "type": "layout"
+      },
+      {
+        "path": "/login",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/login/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/login-nextauth",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/login-nextauth/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/monitoring",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/monitoring/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/nav-test",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/nav-test/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/navigation-test",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/navigation-test/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/platform",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/platform/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/project-management/[id]/documents",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/project-management/[id]/documents/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/project-management/[id]",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/project-management/[id]/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/project-management/[id]/slp",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/project-management/[id]/slp/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/project-management",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/project-management/layout.tsx",
+        "type": "layout"
+      },
+      {
+        "path": "/project-management",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/project-management/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/projects",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/projects/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/projects/project-details",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/projects/project-details/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/prop/dashboard",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/prop/dashboard/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/prop/projects",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/prop/projects/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/prop/templates",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/prop/templates/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/prop-choice",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/prop-choice/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/properties/[id]/customize",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/properties/[id]/customize/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/properties/[id]",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/properties/[id]/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/properties/[id]/reserve",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/properties/[id]/reserve/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/properties/[id]/viewing",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/properties/[id]/viewing/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/properties/analytics",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/properties/analytics/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/properties",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/properties/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/properties/search",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/properties/search/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/property",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/property/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/protected-test",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/protected-test/layout.tsx",
+        "type": "layout"
+      },
+      {
+        "path": "/protected-test",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/protected-test/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/quick-test",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/quick-test/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/register/investor",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/register/investor/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/register",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/register/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/register/professional",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/register/professional/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/resources/buy-off-plan",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/resources/buy-off-plan/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/resources/calculators/mortgage-calculator",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/resources/calculators/mortgage-calculator/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/resources/calculators",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/resources/calculators/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/resources/market-reports",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/resources/market-reports/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/resources",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/resources/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/resources/property-guides/first-time-buyer-guide",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/resources/property-guides/first-time-buyer-guide/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/resources/property-guides",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/resources/property-guides/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/resources/templates",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/resources/templates/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/security",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/security/layout.tsx",
+        "type": "layout"
+      },
+      {
+        "path": "/security/mfa-setup",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/security/mfa-setup/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/simple-test",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/simple-test/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/solicitor/conveyancing-dashboard",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/solicitor/conveyancing-dashboard/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/solicitor/dashboard",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/solicitor/dashboard/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/solicitor",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/solicitor/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/solicitors/cases/[id]/chat",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/solicitors/cases/[id]/chat/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/solicitors/cases",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/solicitors/cases/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/solicitors/contacts",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/solicitors/contacts/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/solicitors/documents",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/solicitors/documents/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/solicitors",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/solicitors/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/solicitors/transactions",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/solicitors/transactions/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/solutions/architects",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/solutions/architects/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/solutions/developers/analytics",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/solutions/developers/analytics/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/solutions/developers/marketing",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/solutions/developers/marketing/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/solutions/developers",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/solutions/developers/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/solutions/developers/sales",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/solutions/developers/sales/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/solutions/estate-agents",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/solutions/estate-agents/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/solutions/estate-agents/test",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/solutions/estate-agents/test/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/solutions/first-time-buyers",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/solutions/first-time-buyers/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/solutions/home-buyers",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/solutions/home-buyers/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/solutions/institutional",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/solutions/institutional/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/solutions/investors",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/solutions/investors/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/solutions",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/solutions/layout.tsx",
+        "type": "layout"
+      },
+      {
+        "path": "/solutions",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/solutions/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/solutions/professional-investors",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/solutions/professional-investors/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/solutions/prop-choice",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/solutions/prop-choice/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/solutions/property-professionals",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/solutions/property-professionals/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/solutions/solicitors",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/solutions/solicitors/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/status",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/status/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/test",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/test/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/test-agents",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/test-agents/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/test-all-features",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/test-all-features/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/test-auth",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/test-auth/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/test-auth-status",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/test-auth-status/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/test-debug",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/test-debug/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/test-deployment",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/test-deployment/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/test-dropdown",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/test-dropdown/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/test-fix",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/test-fix/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/test-footer",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/test-footer/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/test-homepage",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/test-homepage/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/test-htb",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/test-htb/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/test-login",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/test-login/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/test-media",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/test-media/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/test-minimal",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/test-minimal/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/test-nav",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/test-nav/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/test-navigation",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/test-navigation/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/test-new-nav",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/test-new-nav/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/test-professional-upload",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/test-professional-upload/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/test-simple-upload",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/test-simple-upload/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/test-upload",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/test-upload/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/testapi",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/testapi/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/testing/graphql",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/testing/graphql/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/tracker-test",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/tracker-test/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/transaction-basic",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/transaction-basic/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/transaction-dashboard",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/transaction-dashboard/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/transaction-demo",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/transaction-demo/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/transaction-flow",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/transaction-flow/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/transactions/[id]",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/transactions/[id]/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/unauthorized",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/unauthorized/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/user/security/devices",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/user/security/devices/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/user/security",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/user/security/page.tsx",
+        "type": "page"
+      },
+      {
+        "path": "/user/security/setup",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/user/security/setup/page.tsx",
+        "type": "page"
+      }
+    ],
+    "pages": [],
+    "api": [
+      {
+        "path": "/api/analytics/activities",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/analytics/activities/route.ts",
+        "hasAuth": true
+      },
+      {
+        "path": "/api/analytics/developer",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/analytics/developer/route.ts",
+        "hasAuth": true
+      },
+      {
+        "path": "/api/analytics/export",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/analytics/export/route.ts",
+        "hasAuth": true
+      },
+      {
+        "path": "/api/analytics/property-performance",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/analytics/property-performance/route.ts",
+        "hasAuth": true
+      },
+      {
+        "path": "/api/analytics/sales-funnel",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/analytics/sales-funnel/route.ts",
+        "hasAuth": true
+      },
+      {
+        "path": "/api/auth/[...nextauth]",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/auth/[...nextauth]/route.ts",
+        "hasAuth": true
+      },
+      {
+        "path": "/api/auth/check-user",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/auth/check-user/route.ts",
+        "hasAuth": false
+      },
+      {
+        "path": "/api/auth/data-deletion",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/auth/data-deletion/route.ts",
+        "hasAuth": true
+      },
+      {
+        "path": "/api/auth/data-export",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/auth/data-export/route.ts",
+        "hasAuth": true
+      },
+      {
+        "path": "/api/auth/login",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/auth/login/route.ts",
+        "hasAuth": false
+      },
+      {
+        "path": "/api/auth/password-reset",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/auth/password-reset/route.ts",
+        "hasAuth": false
+      },
+      {
+        "path": "/api/auth/permissions",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/auth/permissions/route.ts",
+        "hasAuth": false
+      },
+      {
+        "path": "/api/auth/register",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/auth/register/route.ts",
+        "hasAuth": false
+      },
+      {
+        "path": "/api/auth",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/auth/route.ts",
+        "hasAuth": false
+      },
+      {
+        "path": "/api/auth/two-factor",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/auth/two-factor/route.ts",
+        "hasAuth": false
+      },
+      {
+        "path": "/api/auth/verify-email",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/auth/verify-email/route.ts",
+        "hasAuth": false
+      },
+      {
+        "path": "/api/auth-disabled",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/auth-disabled/route.ts",
+        "hasAuth": false
+      },
+      {
+        "path": "/api/blockchain/dividends",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/blockchain/dividends/route.ts",
+        "hasAuth": true
+      },
+      {
+        "path": "/api/blockchain/purchase",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/blockchain/purchase/route.ts",
+        "hasAuth": true
+      },
+      {
+        "path": "/api/blockchain/tokenize",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/blockchain/tokenize/route.ts",
+        "hasAuth": true
+      },
+      {
+        "path": "/api/blockchain/verify",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/blockchain/verify/route.ts",
+        "hasAuth": true
+      },
+      {
+        "path": "/api/booking/initiate",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/booking/initiate/route.ts",
+        "hasAuth": true
+      },
+      {
+        "path": "/api/buyer/solicitor",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/buyer/solicitor/route.ts",
+        "hasAuth": true
+      },
+      {
+        "path": "/api/cases",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/cases/route.ts",
+        "hasAuth": true
+      },
+      {
+        "path": "/api/compliance/audits",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/compliance/audits/route.ts",
+        "hasAuth": false
+      },
+      {
+        "path": "/api/compliance/reports",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/compliance/reports/route.ts",
+        "hasAuth": false
+      },
+      {
+        "path": "/api/compliance/requirements",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/compliance/requirements/route.ts",
+        "hasAuth": false
+      },
+      {
+        "path": "/api/compliance/violations",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/compliance/violations/route.ts",
+        "hasAuth": false
+      },
+      {
+        "path": "/api/contractors",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/contractors/route.ts",
+        "hasAuth": false
+      },
+      {
+        "path": "/api/contracts/finalize",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/contracts/finalize/route.ts",
+        "hasAuth": true
+      },
+      {
+        "path": "/api/contracts/generate",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/contracts/generate/route.ts",
+        "hasAuth": true
+      },
+      {
+        "path": "/api/contracts/sign",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/contracts/sign/route.ts",
+        "hasAuth": true
+      },
+      {
+        "path": "/api/create-test-user",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/create-test-user/route.ts",
+        "hasAuth": false
+      },
+      {
+        "path": "/api/customization/calculate",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/customization/calculate/route.ts",
+        "hasAuth": false
+      },
+      {
+        "path": "/api/customization/options",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/customization/options/route.ts",
+        "hasAuth": true
+      },
+      {
+        "path": "/api/customization/pdf",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/customization/pdf/route.ts",
+        "hasAuth": true
+      },
+      {
+        "path": "/api/customization",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/customization/route.ts",
+        "hasAuth": true
+      },
+      {
+        "path": "/api/customizations",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/customizations/route.ts",
+        "hasAuth": true
+      },
+      {
+        "path": "/api/deployment-status",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/deployment-status/route.ts",
+        "hasAuth": false
+      },
+      {
+        "path": "/api/deposit/confirm",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/deposit/confirm/route.ts",
+        "hasAuth": true
+      },
+      {
+        "path": "/api/developer/developments/[id]",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/developer/developments/[id]/route.ts",
+        "hasAuth": false
+      },
+      {
+        "path": "/api/developer/developments/[id]/units/[unitId]",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/developer/developments/[id]/units/[unitId]/route.ts",
+        "hasAuth": false
+      },
+      {
+        "path": "/api/developer/developments/[id]/units",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/developer/developments/[id]/units/route.ts",
+        "hasAuth": false
+      },
+      {
+        "path": "/api/developer/developments",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/developer/developments/route.ts",
+        "hasAuth": false
+      },
+      {
+        "path": "/api/developments/[id]",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/developments/[id]/route.ts",
+        "hasAuth": true
+      },
+      {
+        "path": "/api/developments",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/developments/route.ts",
+        "hasAuth": true
+      },
+      {
+        "path": "/api/documents",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/documents/route.ts",
+        "hasAuth": false
+      },
+      {
+        "path": "/api/documents/sign",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/documents/sign/route.ts",
+        "hasAuth": true
+      },
+      {
+        "path": "/api/finance/budget-vs-actual",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/finance/budget-vs-actual/route.ts",
+        "hasAuth": true
+      },
+      {
+        "path": "/api/finance/projections",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/finance/projections/route.ts",
+        "hasAuth": true
+      },
+      {
+        "path": "/api/finance",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/finance/route.ts",
+        "hasAuth": true
+      },
+      {
+        "path": "/api/graphql",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/graphql/route.ts",
+        "hasAuth": false
+      },
+      {
+        "path": "/api/health",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/health/route.ts",
+        "hasAuth": false
+      },
+      {
+        "path": "/api/health/simple",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/health/simple/route.ts",
+        "hasAuth": false
+      },
+      {
+        "path": "/api/htb/buyer/claims/[id]",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/htb/buyer/claims/[id]/route.ts",
+        "hasAuth": false
+      },
+      {
+        "path": "/api/htb/buyer/claims",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/htb/buyer/claims/route.ts",
+        "hasAuth": false
+      },
+      {
+        "path": "/api/htb-claims",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/htb-claims/route.ts",
+        "hasAuth": false
+      },
+      {
+        "path": "/api/kyc/status",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/kyc/status/route.ts",
+        "hasAuth": true
+      },
+      {
+        "path": "/api/legal/reservations/[id]",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/legal/reservations/[id]/route.ts",
+        "hasAuth": true
+      },
+      {
+        "path": "/api/metrics",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/metrics/route.ts",
+        "hasAuth": false
+      },
+      {
+        "path": "/api/monitoring/api-metrics",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/monitoring/api-metrics/route.ts",
+        "hasAuth": false
+      },
+      {
+        "path": "/api/notifications",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/notifications/route.ts",
+        "hasAuth": false
+      },
+      {
+        "path": "/api/payments/create-intent",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/payments/create-intent/route.ts",
+        "hasAuth": true
+      },
+      {
+        "path": "/api/payments",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/payments/route.ts",
+        "hasAuth": false
+      },
+      {
+        "path": "/api/ping",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/ping/route.ts",
+        "hasAuth": false
+      },
+      {
+        "path": "/api/projects/[id]/activity",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/projects/[id]/activity/route.ts",
+        "hasAuth": true
+      },
+      {
+        "path": "/api/projects/[id]/alerts",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/projects/[id]/alerts/route.ts",
+        "hasAuth": true
+      },
+      {
+        "path": "/api/projects/[id]/media",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/projects/[id]/media/route.ts",
+        "hasAuth": false
+      },
+      {
+        "path": "/api/projects/[id]",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/projects/[id]/route.ts",
+        "hasAuth": true
+      },
+      {
+        "path": "/api/projects/[id]/sales",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/projects/[id]/sales/route.ts",
+        "hasAuth": true
+      },
+      {
+        "path": "/api/projects/[id]/timeline",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/projects/[id]/timeline/route.ts",
+        "hasAuth": true
+      },
+      {
+        "path": "/api/projects",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/projects/route.ts",
+        "hasAuth": true
+      },
+      {
+        "path": "/api/properties/[id]",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/properties/[id]/route.ts",
+        "hasAuth": true
+      },
+      {
+        "path": "/api/properties",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/properties/route.ts",
+        "hasAuth": true
+      },
+      {
+        "path": "/api/property-alerts",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/property-alerts/route.ts",
+        "hasAuth": true
+      },
+      {
+        "path": "/api/sales",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/sales/route.ts",
+        "hasAuth": true
+      },
+      {
+        "path": "/api/security/log",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/security/log/route.ts",
+        "hasAuth": false
+      },
+      {
+        "path": "/api/security/report",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/security/report/route.ts",
+        "hasAuth": false
+      },
+      {
+        "path": "/api/slp/[projectId]",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/slp/[projectId]/route.ts",
+        "hasAuth": false
+      },
+      {
+        "path": "/api/test",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/test/route.ts",
+        "hasAuth": false
+      },
+      {
+        "path": "/api/transactions/[id]/documents",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/transactions/[id]/documents/route.ts",
+        "hasAuth": true
+      },
+      {
+        "path": "/api/transactions/[id]/payment-process",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/transactions/[id]/payment-process/route.ts",
+        "hasAuth": true
+      },
+      {
+        "path": "/api/transactions/[id]/payments/[paymentId]",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/transactions/[id]/payments/[paymentId]/route.ts",
+        "hasAuth": true
+      },
+      {
+        "path": "/api/transactions/[id]/payments/receipt",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/transactions/[id]/payments/receipt/route.ts",
+        "hasAuth": true
+      },
+      {
+        "path": "/api/transactions/[id]/payments",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/transactions/[id]/payments/route.ts",
+        "hasAuth": true
+      },
+      {
+        "path": "/api/transactions/[id]",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/transactions/[id]/route.ts",
+        "hasAuth": true
+      },
+      {
+        "path": "/api/transactions/reservation",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/transactions/reservation/route.ts",
+        "hasAuth": true
+      },
+      {
+        "path": "/api/transactions",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/transactions/route.ts",
+        "hasAuth": true
+      },
+      {
+        "path": "/api/units",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/units/route.ts",
+        "hasAuth": false
+      },
+      {
+        "path": "/api/users/me",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/users/me/route.ts",
+        "hasAuth": false
+      },
+      {
+        "path": "/api/users",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/users/route.ts",
+        "hasAuth": true
+      },
+      {
+        "path": "/api/v1/developer/projects",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/v1/developer/projects/route.ts",
+        "hasAuth": true
+      },
+      {
+        "path": "/api/v1/kyc/aml-screening",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/v1/kyc/aml-screening/route.ts",
+        "hasAuth": true
+      },
+      {
+        "path": "/api/v1/kyc/complete",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/v1/kyc/complete/route.ts",
+        "hasAuth": true
+      },
+      {
+        "path": "/api/v1/kyc/start",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/v1/kyc/start/route.ts",
+        "hasAuth": true
+      },
+      {
+        "path": "/api/v1/kyc/upload",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/v1/kyc/upload/route.ts",
+        "hasAuth": true
+      },
+      {
+        "path": "/api/v1/payments",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/v1/payments/route.ts",
+        "hasAuth": true
+      },
+      {
+        "path": "/api/v1/payments/webhook",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/v1/payments/webhook/route.ts",
+        "hasAuth": false
+      },
+      {
+        "path": "/api/v1/transactions/[id]",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/v1/transactions/[id]/route.ts",
+        "hasAuth": true
+      },
+      {
+        "path": "/api/v1/transactions/[id]/transition",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/v1/transactions/[id]/transition/route.ts",
+        "hasAuth": true
+      },
+      {
+        "path": "/api/v1/transactions",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/v1/transactions/route.ts",
+        "hasAuth": true
+      },
+      {
+        "path": "/api/viewing-slots",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/viewing-slots/route.ts",
+        "hasAuth": true
+      },
+      {
+        "path": "/api/webhooks/stripe",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/webhooks/stripe/route.ts",
+        "hasAuth": false
+      },
+      {
+        "path": "/api/websocket/developer-analytics",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/websocket/developer-analytics/route.ts",
+        "hasAuth": true
+      },
+      {
+        "path": "/api/websocket",
+        "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/websocket/route.ts",
+        "hasAuth": false
+      }
+    ]
+  },
+  "largestComponents": [
+    {
+      "name": "DevelopmentsPage",
+      "lines": 1736,
+      "path": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/components/pages/developments/DevelopmentsPage.tsx"
+    },
+    {
+      "name": "ROICalculator",
+      "lines": 1604,
+      "path": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/components/finance/ROICalculator.tsx"
+    },
+    {
+      "name": "ScenarioComparison",
+      "lines": 1542,
+      "path": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/components/finance/ScenarioComparison.tsx"
+    },
+    {
+      "name": "SolicitorPage",
+      "lines": 1337,
+      "path": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/components/pages/solicitor/SolicitorPage.tsx"
+    },
+    {
+      "name": "MortgageCalculator",
+      "lines": 1284,
+      "path": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/features/mortgage-calculator/MortgageCalculator.tsx"
+    },
+    {
+      "name": "ComplianceDashboard",
+      "lines": 1230,
+      "path": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/features/compliance/ComplianceDashboard.tsx"
+    },
+    {
+      "name": "RegulatoryReportingSystem",
+      "lines": 1178,
+      "path": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/features/compliance/RegulatoryReportingSystem.tsx"
+    },
+    {
+      "name": "RuntimeSecurityMonitor",
+      "lines": 1100,
+      "path": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/features/security/RuntimeSecurityMonitor.tsx"
+    },
+    {
+      "name": "DevelopmentDetailConnected",
+      "lines": 1061,
+      "path": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/components/development/DevelopmentDetailConnected.tsx"
+    },
+    {
+      "name": "PropertySearch",
+      "lines": 989,
+      "path": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/components/buyer/property/PropertySearch.tsx"
+    }
+  ],
+  "stateManagement": {
+    "contexts": 39,
+    "reactQuery": 78,
+    "redux": 0,
+    "zustand": 91
+  },
+  "issues": [
+    {
+      "type": "circular-dependency",
+      "component": "ComplianceDashboard",
+      "severity": "high"
+    },
+    {
+      "type": "circular-dependency",
+      "component": "RuntimeSecurityMonitor",
+      "severity": "high"
+    },
+    {
+      "type": "circular-dependency",
+      "component": "TransactionParticipants",
+      "severity": "high"
+    },
+    {
+      "type": "circular-dependency",
+      "component": "TransactionMilestones",
+      "severity": "high"
+    },
+    {
+      "type": "circular-dependency",
+      "component": "DataEncryptionService",
+      "severity": "high"
+    },
+    {
+      "type": "circular-dependency",
+      "component": "TransactionDocuments",
+      "severity": "high"
+    },
+    {
+      "type": "circular-dependency",
+      "component": "PropertyDetailView",
+      "severity": "high"
+    },
+    {
+      "type": "circular-dependency",
+      "component": "TransactionTimeline",
+      "severity": "high"
+    },
+    {
+      "type": "circular-dependency",
+      "component": "TransactionTimeline",
+      "severity": "high"
+    },
+    {
+      "type": "circular-dependency",
+      "component": "PlatformAssistant",
+      "severity": "high"
+    },
+    {
+      "type": "circular-dependency",
+      "component": "PropertyDocuments",
+      "severity": "high"
+    },
+    {
+      "type": "circular-dependency",
+      "component": "BuyerDashboardLayout",
+      "severity": "high"
+    },
+    {
+      "type": "circular-dependency",
+      "component": "input-otp",
+      "severity": "high"
+    },
+    {
+      "type": "circular-dependency",
+      "component": "sonner",
+      "severity": "high"
+    },
+    {
+      "type": "missing-auth",
+      "path": "/api/auth/check-user",
+      "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/auth/check-user/route.ts",
+      "severity": "high"
+    },
+    {
+      "type": "missing-auth",
+      "path": "/api/auth/login",
+      "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/auth/login/route.ts",
+      "severity": "high"
+    },
+    {
+      "type": "missing-auth",
+      "path": "/api/auth/password-reset",
+      "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/auth/password-reset/route.ts",
+      "severity": "high"
+    },
+    {
+      "type": "missing-auth",
+      "path": "/api/auth/permissions",
+      "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/auth/permissions/route.ts",
+      "severity": "high"
+    },
+    {
+      "type": "missing-auth",
+      "path": "/api/auth/register",
+      "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/auth/register/route.ts",
+      "severity": "high"
+    },
+    {
+      "type": "missing-auth",
+      "path": "/api/auth",
+      "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/auth/route.ts",
+      "severity": "high"
+    },
+    {
+      "type": "missing-auth",
+      "path": "/api/auth/two-factor",
+      "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/auth/two-factor/route.ts",
+      "severity": "high"
+    },
+    {
+      "type": "missing-auth",
+      "path": "/api/auth/verify-email",
+      "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/auth/verify-email/route.ts",
+      "severity": "high"
+    },
+    {
+      "type": "missing-auth",
+      "path": "/api/auth-disabled",
+      "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/auth-disabled/route.ts",
+      "severity": "high"
+    },
+    {
+      "type": "missing-auth",
+      "path": "/api/compliance/audits",
+      "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/compliance/audits/route.ts",
+      "severity": "high"
+    },
+    {
+      "type": "missing-auth",
+      "path": "/api/compliance/reports",
+      "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/compliance/reports/route.ts",
+      "severity": "high"
+    },
+    {
+      "type": "missing-auth",
+      "path": "/api/compliance/requirements",
+      "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/compliance/requirements/route.ts",
+      "severity": "high"
+    },
+    {
+      "type": "missing-auth",
+      "path": "/api/compliance/violations",
+      "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/compliance/violations/route.ts",
+      "severity": "high"
+    },
+    {
+      "type": "missing-auth",
+      "path": "/api/contractors",
+      "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/contractors/route.ts",
+      "severity": "high"
+    },
+    {
+      "type": "missing-auth",
+      "path": "/api/create-test-user",
+      "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/create-test-user/route.ts",
+      "severity": "high"
+    },
+    {
+      "type": "missing-auth",
+      "path": "/api/customization/calculate",
+      "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/customization/calculate/route.ts",
+      "severity": "high"
+    },
+    {
+      "type": "missing-auth",
+      "path": "/api/deployment-status",
+      "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/deployment-status/route.ts",
+      "severity": "high"
+    },
+    {
+      "type": "missing-auth",
+      "path": "/api/developer/developments/[id]",
+      "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/developer/developments/[id]/route.ts",
+      "severity": "high"
+    },
+    {
+      "type": "missing-auth",
+      "path": "/api/developer/developments/[id]/units/[unitId]",
+      "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/developer/developments/[id]/units/[unitId]/route.ts",
+      "severity": "high"
+    },
+    {
+      "type": "missing-auth",
+      "path": "/api/developer/developments/[id]/units",
+      "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/developer/developments/[id]/units/route.ts",
+      "severity": "high"
+    },
+    {
+      "type": "missing-auth",
+      "path": "/api/developer/developments",
+      "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/developer/developments/route.ts",
+      "severity": "high"
+    },
+    {
+      "type": "missing-auth",
+      "path": "/api/documents",
+      "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/documents/route.ts",
+      "severity": "high"
+    },
+    {
+      "type": "missing-auth",
+      "path": "/api/graphql",
+      "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/graphql/route.ts",
+      "severity": "high"
+    },
+    {
+      "type": "missing-auth",
+      "path": "/api/health",
+      "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/health/route.ts",
+      "severity": "high"
+    },
+    {
+      "type": "missing-auth",
+      "path": "/api/health/simple",
+      "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/health/simple/route.ts",
+      "severity": "high"
+    },
+    {
+      "type": "missing-auth",
+      "path": "/api/htb/buyer/claims/[id]",
+      "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/htb/buyer/claims/[id]/route.ts",
+      "severity": "high"
+    },
+    {
+      "type": "missing-auth",
+      "path": "/api/htb/buyer/claims",
+      "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/htb/buyer/claims/route.ts",
+      "severity": "high"
+    },
+    {
+      "type": "missing-auth",
+      "path": "/api/htb-claims",
+      "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/htb-claims/route.ts",
+      "severity": "high"
+    },
+    {
+      "type": "missing-auth",
+      "path": "/api/metrics",
+      "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/metrics/route.ts",
+      "severity": "high"
+    },
+    {
+      "type": "missing-auth",
+      "path": "/api/monitoring/api-metrics",
+      "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/monitoring/api-metrics/route.ts",
+      "severity": "high"
+    },
+    {
+      "type": "missing-auth",
+      "path": "/api/notifications",
+      "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/notifications/route.ts",
+      "severity": "high"
+    },
+    {
+      "type": "missing-auth",
+      "path": "/api/payments",
+      "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/payments/route.ts",
+      "severity": "high"
+    },
+    {
+      "type": "missing-auth",
+      "path": "/api/ping",
+      "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/ping/route.ts",
+      "severity": "high"
+    },
+    {
+      "type": "missing-auth",
+      "path": "/api/projects/[id]/media",
+      "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/projects/[id]/media/route.ts",
+      "severity": "high"
+    },
+    {
+      "type": "missing-auth",
+      "path": "/api/security/log",
+      "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/security/log/route.ts",
+      "severity": "high"
+    },
+    {
+      "type": "missing-auth",
+      "path": "/api/security/report",
+      "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/security/report/route.ts",
+      "severity": "high"
+    },
+    {
+      "type": "missing-auth",
+      "path": "/api/slp/[projectId]",
+      "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/slp/[projectId]/route.ts",
+      "severity": "high"
+    },
+    {
+      "type": "missing-auth",
+      "path": "/api/test",
+      "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/test/route.ts",
+      "severity": "high"
+    },
+    {
+      "type": "missing-auth",
+      "path": "/api/units",
+      "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/units/route.ts",
+      "severity": "high"
+    },
+    {
+      "type": "missing-auth",
+      "path": "/api/users/me",
+      "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/users/me/route.ts",
+      "severity": "high"
+    },
+    {
+      "type": "missing-auth",
+      "path": "/api/v1/payments/webhook",
+      "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/v1/payments/webhook/route.ts",
+      "severity": "high"
+    },
+    {
+      "type": "missing-auth",
+      "path": "/api/webhooks/stripe",
+      "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/webhooks/stripe/route.ts",
+      "severity": "high"
+    },
+    {
+      "type": "missing-auth",
+      "path": "/api/websocket",
+      "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/api/websocket/route.ts",
+      "severity": "high"
+    },
+    {
+      "type": "large-component",
+      "component": "DevelopmentsPage",
+      "lines": 1736,
+      "severity": "medium"
+    },
+    {
+      "type": "large-component",
+      "component": "ROICalculator",
+      "lines": 1604,
+      "severity": "medium"
+    },
+    {
+      "type": "large-component",
+      "component": "ScenarioComparison",
+      "lines": 1542,
+      "severity": "medium"
+    },
+    {
+      "type": "large-component",
+      "component": "SolicitorPage",
+      "lines": 1337,
+      "severity": "medium"
+    },
+    {
+      "type": "large-component",
+      "component": "MortgageCalculator",
+      "lines": 1284,
+      "severity": "medium"
+    },
+    {
+      "type": "large-component",
+      "component": "ComplianceDashboard",
+      "lines": 1230,
+      "severity": "medium"
+    },
+    {
+      "type": "large-component",
+      "component": "RegulatoryReportingSystem",
+      "lines": 1178,
+      "severity": "medium"
+    },
+    {
+      "type": "large-component",
+      "component": "RuntimeSecurityMonitor",
+      "lines": 1100,
+      "severity": "medium"
+    },
+    {
+      "type": "large-component",
+      "component": "DevelopmentDetailConnected",
+      "lines": 1061,
+      "severity": "medium"
+    },
+    {
+      "type": "large-component",
+      "component": "PropertySearch",
+      "lines": 989,
+      "severity": "medium"
+    },
+    {
+      "type": "large-component",
+      "component": "TransactionParticipants",
+      "lines": 937,
+      "severity": "medium"
+    },
+    {
+      "type": "large-component",
+      "component": "SalesProgressTracker",
+      "lines": 902,
+      "severity": "medium"
+    },
+    {
+      "type": "large-component",
+      "component": "PropertyReservation",
+      "lines": 895,
+      "severity": "medium"
+    },
+    {
+      "type": "large-component",
+      "component": "MortgageCalculator",
+      "lines": 844,
+      "severity": "medium"
+    },
+    {
+      "type": "large-component",
+      "component": "MessagingCenter",
+      "lines": 839,
+      "severity": "medium"
+    },
+    {
+      "type": "large-component",
+      "component": "TransactionMilestones",
+      "lines": 827,
+      "severity": "medium"
+    },
+    {
+      "type": "large-component",
+      "component": "AdminFinancialDashboard",
+      "lines": 826,
+      "severity": "medium"
+    },
+    {
+      "type": "large-component",
+      "component": "DataEncryptionService",
+      "lines": 822,
+      "severity": "medium"
+    },
+    {
+      "type": "large-component",
+      "component": "EnhancedSecurityDashboard",
+      "lines": 815,
+      "severity": "medium"
+    },
+    {
+      "type": "large-component",
+      "component": "DevelopmentDetail",
+      "lines": 814,
+      "severity": "medium"
+    },
+    {
+      "type": "large-component",
+      "component": "InvestorMode",
+      "lines": 805,
+      "severity": "medium"
+    },
+    {
+      "type": "large-component",
+      "component": "EnhancedMainNavigation",
+      "lines": 804,
+      "severity": "medium"
+    },
+    {
+      "type": "large-component",
+      "component": "DocumentSecurity",
+      "lines": 801,
+      "severity": "medium"
+    },
+    {
+      "type": "large-component",
+      "component": "TransactionDocuments",
+      "lines": 792,
+      "severity": "medium"
+    },
+    {
+      "type": "large-component",
+      "component": "MainNavigationFixed",
+      "lines": 785,
+      "severity": "medium"
+    },
+    {
+      "type": "large-component",
+      "component": "MainNavigation",
+      "lines": 769,
+      "severity": "medium"
+    },
+    {
+      "type": "large-component",
+      "component": "sidebar",
+      "lines": 765,
+      "severity": "medium"
+    },
+    {
+      "type": "large-component",
+      "component": "ProfitabilityAnalysis",
+      "lines": 760,
+      "severity": "medium"
+    },
+    {
+      "type": "large-component",
+      "component": "HelpToBuyClaimUpload",
+      "lines": 759,
+      "severity": "medium"
+    },
+    {
+      "type": "large-component",
+      "component": "ReadinessChecklist",
+      "lines": 757,
+      "severity": "medium"
+    },
+    {
+      "type": "large-component",
+      "component": "PropertyListingGrid",
+      "lines": 743,
+      "severity": "medium"
+    },
+    {
+      "type": "large-component",
+      "component": "ReadinessChecklist",
+      "lines": 735,
+      "severity": "medium"
+    },
+    {
+      "type": "large-component",
+      "component": "data-table",
+      "lines": 733,
+      "severity": "medium"
+    },
+    {
+      "type": "large-component",
+      "component": "ProjectOverview",
+      "lines": 727,
+      "severity": "medium"
+    },
+    {
+      "type": "large-component",
+      "component": "DeveloperNew-projectPage",
+      "lines": 712,
+      "severity": "medium"
+    },
+    {
+      "type": "large-component",
+      "component": "UserRegistration",
+      "lines": 700,
+      "severity": "medium"
+    },
+    {
+      "type": "large-component",
+      "component": "PerformanceDashboard",
+      "lines": 696,
+      "severity": "medium"
+    },
+    {
+      "type": "large-component",
+      "component": "AnalyticsDashboard",
+      "lines": 676,
+      "severity": "medium"
+    },
+    {
+      "type": "large-component",
+      "component": "ViewingScheduler",
+      "lines": 671,
+      "severity": "medium"
+    },
+    {
+      "type": "large-component",
+      "component": "PurchaseFlow",
+      "lines": 665,
+      "severity": "medium"
+    },
+    {
+      "type": "large-component",
+      "component": "TransactionTracker",
+      "lines": 661,
+      "severity": "medium"
+    },
+    {
+      "type": "large-component",
+      "component": "HomePage",
+      "lines": 660,
+      "severity": "medium"
+    },
+    {
+      "type": "large-component",
+      "component": "UltraModernNavigation",
+      "lines": 649,
+      "severity": "medium"
+    },
+    {
+      "type": "large-component",
+      "component": "DocumentCenter",
+      "lines": 646,
+      "severity": "medium"
+    },
+    {
+      "type": "large-component",
+      "component": "ProjectTimeline",
+      "lines": 640,
+      "severity": "medium"
+    },
+    {
+      "type": "large-component",
+      "component": "DocumentDetails",
+      "lines": 637,
+      "severity": "medium"
+    },
+    {
+      "type": "large-component",
+      "component": "AppShell",
+      "lines": 635,
+      "severity": "medium"
+    },
+    {
+      "type": "large-component",
+      "component": "Kyc-verifcationPage",
+      "lines": 626,
+      "severity": "medium"
+    },
+    {
+      "type": "large-component",
+      "component": "PropertySearchFilters",
+      "lines": 625,
+      "severity": "medium"
+    },
+    {
+      "type": "large-component",
+      "component": "DocumentIntegrations",
+      "lines": 623,
+      "severity": "medium"
+    },
+    {
+      "type": "large-component",
+      "component": "TransactionCoordinator",
+      "lines": 623,
+      "severity": "medium"
+    },
+    {
+      "type": "large-component",
+      "component": "PropertySelectionWizard",
+      "lines": 619,
+      "severity": "medium"
+    },
+    {
+      "type": "large-component",
+      "component": "FeatureFlagAdmin",
+      "lines": 615,
+      "severity": "medium"
+    },
+    {
+      "type": "large-component",
+      "component": "VirtualViewing",
+      "lines": 605,
+      "severity": "medium"
+    },
+    {
+      "type": "large-component",
+      "component": "RoomVisualizer.old",
+      "lines": 603,
+      "severity": "medium"
+    },
+    {
+      "type": "large-component",
+      "component": "CleanProfessionalNav",
+      "lines": 603,
+      "severity": "medium"
+    },
+    {
+      "type": "large-component",
+      "component": "DocumentGenerator",
+      "lines": 602,
+      "severity": "medium"
+    },
+    {
+      "type": "large-component",
+      "component": "BuyerDashboard",
+      "lines": 600,
+      "severity": "medium"
+    },
+    {
+      "type": "large-component",
+      "component": "ConversionFocusedNavigation",
+      "lines": 599,
+      "severity": "medium"
+    },
+    {
+      "type": "large-component",
+      "component": "DeveloperDashboard",
+      "lines": 592,
+      "severity": "medium"
+    },
+    {
+      "type": "large-component",
+      "component": "SLPGenerator",
+      "lines": 590,
+      "severity": "medium"
+    },
+    {
+      "type": "large-component",
+      "component": "DocumentUploader",
+      "lines": 590,
+      "severity": "medium"
+    },
+    {
+      "type": "large-component",
+      "component": "DocumentComplianceTracker",
+      "lines": 589,
+      "severity": "medium"
+    },
+    {
+      "type": "large-component",
+      "component": "TransactionPayment",
+      "lines": 581,
+      "severity": "medium"
+    },
+    {
+      "type": "large-component",
+      "component": "ViewingHistory",
+      "lines": 580,
+      "severity": "medium"
+    },
+    {
+      "type": "large-component",
+      "component": "ReservationForm",
+      "lines": 576,
+      "severity": "medium"
+    },
+    {
+      "type": "large-component",
+      "component": "AuthenticationFlow",
+      "lines": 575,
+      "severity": "medium"
+    },
+    {
+      "type": "large-component",
+      "component": "FinancialDashboard",
+      "lines": 572,
+      "severity": "medium"
+    },
+    {
+      "type": "large-component",
+      "component": "PropertyDetailView",
+      "lines": 571,
+      "severity": "medium"
+    },
+    {
+      "type": "large-component",
+      "component": "PropertyReservation",
+      "lines": 569,
+      "severity": "medium"
+    },
+    {
+      "type": "large-component",
+      "component": "DeveloperPage",
+      "lines": 566,
+      "severity": "medium"
+    },
+    {
+      "type": "large-component",
+      "component": "PurchaseDetail",
+      "lines": 562,
+      "severity": "medium"
+    },
+    {
+      "type": "large-component",
+      "component": "FirstTimeBuyerDashboard",
+      "lines": 559,
+      "severity": "medium"
+    },
+    {
+      "type": "large-component",
+      "component": "DevelopmentAppraisal",
+      "lines": 556,
+      "severity": "medium"
+    },
+    {
+      "type": "large-component",
+      "component": "RevolutionaryNavigation",
+      "lines": 553,
+      "severity": "medium"
+    },
+    {
+      "type": "large-component",
+      "component": "AdminDocumentReview",
+      "lines": 542,
+      "severity": "medium"
+    },
+    {
+      "type": "large-component",
+      "component": "DocumentUploader",
+      "lines": 542,
+      "severity": "medium"
+    },
+    {
+      "type": "large-component",
+      "component": "EnhancedNavigation",
+      "lines": 539,
+      "severity": "medium"
+    },
+    {
+      "type": "large-component",
+      "component": "BuyerFinancialDashboard",
+      "lines": 537,
+      "severity": "medium"
+    },
+    {
+      "type": "large-component",
+      "component": "JourneyPlanner",
+      "lines": 537,
+      "severity": "medium"
+    },
+    {
+      "type": "large-component",
+      "component": "ProfessionalAppointments",
+      "lines": 527,
+      "severity": "medium"
+    },
+    {
+      "type": "large-component",
+      "component": "DocumentViewer",
+      "lines": 524,
+      "severity": "medium"
+    },
+    {
+      "type": "large-component",
+      "component": "PaymentOverview",
+      "lines": 524,
+      "severity": "medium"
+    },
+    {
+      "type": "large-component",
+      "component": "GovernmentSchemeInfo",
+      "lines": 518,
+      "severity": "medium"
+    },
+    {
+      "type": "large-component",
+      "component": "AutomatedFollowUp",
+      "lines": 513,
+      "severity": "medium"
+    },
+    {
+      "type": "large-component",
+      "component": "IrishPropertyPools",
+      "lines": 513,
+      "severity": "medium"
+    },
+    {
+      "type": "large-component",
+      "component": "DocumentGeneration",
+      "lines": 509,
+      "severity": "medium"
+    },
+    {
+      "type": "large-component",
+      "component": "DocumentCollectionHub",
+      "lines": 507,
+      "severity": "medium"
+    },
+    {
+      "type": "large-component",
+      "component": "Page",
+      "lines": 507,
+      "severity": "medium"
+    },
+    {
+      "type": "large-component",
+      "component": "MFASetup",
+      "lines": 502,
+      "severity": "medium"
+    }
+  ],
+  "conflicts": [
+    {
+      "type": "route-conflict",
+      "path": "/buyer/customization",
+      "message": "Duplicate route found: /buyer/customization"
+    },
+    {
+      "type": "route-conflict",
+      "path": "/buyer/journey",
+      "message": "Duplicate route found: /buyer/journey"
+    },
+    {
+      "type": "route-conflict",
+      "path": "/buyer",
+      "message": "Duplicate route found: /buyer"
+    },
+    {
+      "type": "route-conflict",
+      "path": "/dashboard",
+      "message": "Duplicate route found: /dashboard"
+    },
+    {
+      "type": "route-conflict",
+      "path": "/dashboard/security",
+      "message": "Duplicate route found: /dashboard/security"
+    },
+    {
+      "type": "route-conflict",
+      "path": "/developer/htb",
+      "message": "Duplicate route found: /developer/htb"
+    },
+    {
+      "type": "route-conflict",
+      "path": "/developer/onboarding",
+      "message": "Duplicate route found: /developer/onboarding"
+    },
+    {
+      "type": "route-conflict",
+      "path": "/developer",
+      "message": "Duplicate route found: /developer"
+    },
+    {
+      "type": "route-conflict",
+      "path": "/first-time-buyers",
+      "message": "Duplicate route found: /first-time-buyers"
+    },
+    {
+      "type": "route-conflict",
+      "path": "/investor",
+      "message": "Duplicate route found: /investor"
+    },
+    {
+      "type": "route-conflict",
+      "path": "/kyc-verificationpage",
+      "message": "Duplicate route found: /kyc-verificationpage"
+    },
+    {
+      "type": "route-conflict",
+      "path": "/",
+      "message": "Duplicate route found: /"
+    },
+    {
+      "type": "route-conflict",
+      "path": "/project-management",
+      "message": "Duplicate route found: /project-management"
+    },
+    {
+      "type": "route-conflict",
+      "path": "/protected-test",
+      "message": "Duplicate route found: /protected-test"
+    },
+    {
+      "type": "route-conflict",
+      "path": "/solutions",
+      "message": "Duplicate route found: /solutions"
+    }
+  ]
+}

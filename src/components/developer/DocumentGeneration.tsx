@@ -26,11 +26,10 @@ const DocumentGeneration: React.FC<DocumentGenerationProps> = ({
   totalUnits,
   constructionCost,
   startDate,
-  completionDate,
-}) => {
-  const [selectedDocType, setSelectedDocType] = useState<string>("boq");
-  const [generating, setGenerating] = useState<boolean>(false);
-  const [generatedDocuments, setGeneratedDocuments] = useState<
+  completionDate}) => {
+  const [selectedDocTypesetSelectedDocType] = useState<string>("boq");
+  const [generatingsetGenerating] = useState<boolean>(false);
+  const [generatedDocumentssetGeneratedDocuments] = useState<
     {
       id: string;
       name: string;
@@ -49,7 +48,6 @@ const DocumentGeneration: React.FC<DocumentGenerationProps> = ({
       size: "2.4 MB",
       status: "ready",
       url: "#",
-    },
     {
       id: "2",
       name: "Subcontractor Instructions - Electrical",
@@ -58,7 +56,6 @@ const DocumentGeneration: React.FC<DocumentGenerationProps> = ({
       size: "1.8 MB",
       status: "ready",
       url: "#",
-    },
     {
       id: "3",
       name: "Project Timeline Report",
@@ -67,7 +64,6 @@ const DocumentGeneration: React.FC<DocumentGenerationProps> = ({
       size: "3.2 MB",
       status: "ready",
       url: "#",
-    },
     {
       id: "4",
       name: "Financial Projection Summary",
@@ -75,17 +71,14 @@ const DocumentGeneration: React.FC<DocumentGenerationProps> = ({
       date: "2025-04-20",
       size: "1.5 MB",
       status: "ready",
-      url: "#",
-    },
-  ]);
+      url: "#"]);
 
-  const [customOptions, setCustomOptions] = useState({
+  const [customOptionssetCustomOptions] = useState({
     includeImages: true,
     includePricing: true,
     includeTimeline: true,
     format: "pdf",
-    recipientEmail: "",
-  });
+    recipientEmail: "");
 
   const handleOptionChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
@@ -96,8 +89,7 @@ const DocumentGeneration: React.FC<DocumentGenerationProps> = ({
 
     setCustomOptions({
       ...customOptions,
-      [name]: type === "checkbox" ? checked : value,
-    });
+      [name]: type === "checkbox" ? checked : value});
   };
 
   const handleGenerateDocument = () => {
@@ -112,8 +104,7 @@ const DocumentGeneration: React.FC<DocumentGenerationProps> = ({
         date: new Date().toISOString().split("T")[0],
         size: `${(Math.random() * 5 + 1).toFixed(1)} MB`,
         status: "ready" as const,
-        url: "#",
-      };
+        url: "#";
 
       setGeneratedDocuments([newDoc, ...generatedDocuments]);
       setGenerating(false);
@@ -140,7 +131,7 @@ const DocumentGeneration: React.FC<DocumentGenerationProps> = ({
   const filteredDocuments =
     selectedDocType === "all"
       ? generatedDocuments
-      : generatedDocuments.filter((doc) => doc.type === selectedDocType);
+      : generatedDocuments.filter((doc: any) => doc.type === selectedDocType);
 
   return (
     <div className="bg-white rounded-lg shadow-md overflow-hidden">
@@ -170,7 +161,7 @@ const DocumentGeneration: React.FC<DocumentGenerationProps> = ({
             <div className="flex items-center space-x-2">
               <Icon name="clipboard" className="text-gray-400" />
               <h4
-                className={`font-medium ${selectedDocType === "boq" ? "text-[#2B5273]" : "text-gray-700"}`}
+                className={`font-medium ${selectedDocType === "boq" ? "text-[#2B5273]" : "text-gray-700"`}
               >
                 Bill of Quantities
               </h4>
@@ -191,17 +182,17 @@ const DocumentGeneration: React.FC<DocumentGenerationProps> = ({
             <div className="flex items-center space-x-2">
               <Icon name="file-text" className="text-gray-400" />
               <h4
-                className={`font-medium ${selectedDocType === "instructions" ? "text-[#2B5273]" : "text-gray-700"}`}
+                className={`font-medium ${selectedDocType === "instructions" ? "text-[#2B5273]" : "text-gray-700"`}
               >
                 Subcontractor Instructions
               </h4>
             </div>
             <Icon 
               name="file-text" 
-              className={`h-8 w-8 mb-2 ${selectedDocType === "instructions" ? "text-[#2B5273]" : "text-gray-400"}`} 
+              className={`h-8 w-8 mb-2 ${selectedDocType === "instructions" ? "text-[#2B5273]" : "text-gray-400"`} 
             />
             <h4
-              className={`font-medium ${selectedDocType === "instructions" ? "text-[#2B5273]" : "text-gray-700"}`}
+              className={`font-medium ${selectedDocType === "instructions" ? "text-[#2B5273]" : "text-gray-700"`}
             >
               Subcontractor Instructions
             </h4>
@@ -220,10 +211,10 @@ const DocumentGeneration: React.FC<DocumentGenerationProps> = ({
           >
             <Icon 
               name="file" 
-              className={`h-8 w-8 mb-2 ${selectedDocType === "report" ? "text-[#2B5273]" : "text-gray-400"}`} 
+              className={`h-8 w-8 mb-2 ${selectedDocType === "report" ? "text-[#2B5273]" : "text-gray-400"`} 
             />
             <h4
-              className={`font-medium ${selectedDocType === "report" ? "text-[#2B5273]" : "text-gray-700"}`}
+              className={`font-medium ${selectedDocType === "report" ? "text-[#2B5273]" : "text-gray-700"`}
             >
               Project Report
             </h4>
@@ -242,10 +233,10 @@ const DocumentGeneration: React.FC<DocumentGenerationProps> = ({
           >
             <Icon 
               name="file" 
-              className={`h-8 w-8 mb-2 ${selectedDocType === "financial" ? "text-[#2B5273]" : "text-gray-400"}`} 
+              className={`h-8 w-8 mb-2 ${selectedDocType === "financial" ? "text-[#2B5273]" : "text-gray-400"`} 
             />
             <h4
-              className={`font-medium ${selectedDocType === "financial" ? "text-[#2B5273]" : "text-gray-700"}`}
+              className={`font-medium ${selectedDocType === "financial" ? "text-[#2B5273]" : "text-gray-700"`}
             >
               Financial Summary
             </h4>
@@ -264,10 +255,10 @@ const DocumentGeneration: React.FC<DocumentGenerationProps> = ({
           >
             <Icon 
               name="file" 
-              className={`h-8 w-8 mb-2 ${selectedDocType === "contract" ? "text-[#2B5273]" : "text-gray-400"}`} 
+              className={`h-8 w-8 mb-2 ${selectedDocType === "contract" ? "text-[#2B5273]" : "text-gray-400"`} 
             />
             <h4
-              className={`font-medium ${selectedDocType === "contract" ? "text-[#2B5273]" : "text-gray-700"}`}
+              className={`font-medium ${selectedDocType === "contract" ? "text-[#2B5273]" : "text-gray-700"`}
             >
               Contract Template
             </h4>

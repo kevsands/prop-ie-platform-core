@@ -34,8 +34,7 @@ const mockCases: LegalCase[] = [
     status: 'in_progress',
     price: 395000,
     startDate: '2023-06-15',
-    dueDate: '2023-07-30',
-  },
+    dueDate: '2023-07-30'},
   {
     id: '2',
     clientName: 'Sarah O\'Connor',
@@ -45,8 +44,7 @@ const mockCases: LegalCase[] = [
     status: 'review',
     price: 450000,
     startDate: '2023-05-20',
-    dueDate: '2023-07-05',
-  },
+    dueDate: '2023-07-05'},
   {
     id: '3',
     clientName: 'Michael Kelly',
@@ -56,8 +54,7 @@ const mockCases: LegalCase[] = [
     status: 'new',
     price: 320000,
     startDate: '2023-06-25',
-    dueDate: '2023-08-10',
-  }
+    dueDate: '2023-08-10'}
 ];
 
 // Mock participants
@@ -185,28 +182,28 @@ const mockMessages: Record<string, ChatMessage[]> = {
 export default function SolicitorCaseChat() {
   const params = useParams();
   const caseId = params?.id as string;
-  
+
   // Get the case, participants, and messages
   const legalCase = mockCases.find(c => c.id === caseId);
   const participants = mockParticipants[caseId] || [];
-  const [messages, setMessages] = useState<ChatMessage[]>(mockMessages[caseId] || []);
-  
+  const [messagessetMessages] = useState<ChatMessage[]>(mockMessages[caseId] || []);
+
   // Get the current user (for this demo, always the solicitor)
   const currentUser = participants.find(p => p.role === 'solicitor') || participants[0];
-  
+
   // Handle send message
   const handleSendMessage = (content: string, files?: File[]) => {
     if (!content.trim() && (!files || files.length === 0)) return;
-    
+
     // Create attachments from files (mock implementation)
-    const attachments: Attachment[] | undefined = files?.map((file, index) => ({
+    const attachments: Attachment[] | undefined = files?.map((fileindex: any) => ({
       id: `new-att-${Date.now()}-${index}`,
       name: file.name,
       type: file.type.startsWith('image/') ? 'image' : 'document',
       url: '#', // In a real app, this would be a URL after uploading
       size: `${(file.size / 1024).toFixed(1)} KB`
     }));
-    
+
     // Create the new message
     const newMessage: ChatMessage = {
       id: `m${Date.now()}`,
@@ -216,16 +213,16 @@ export default function SolicitorCaseChat() {
       attachments,
       status: 'sent'
     };
-    
+
     // Update messages
-    setMessages([...messages, newMessage]);
-    
+    setMessages([...messagesnewMessage]);
+
     // In a real app, we would:
     // 1. Send the message to the backend
     // 2. Upload any attachments
     // 3. Update the UI with the new message once confirmed
     // 4. Handle status updates (sent → delivered → read)
-    
+
     // Simulate message status updates
     setTimeout(() => {
       setMessages(prev => 
@@ -234,7 +231,7 @@ export default function SolicitorCaseChat() {
         )
       );
     }, 1000);
-    
+
     setTimeout(() => {
       setMessages(prev => 
         prev.map(m => 
@@ -243,7 +240,7 @@ export default function SolicitorCaseChat() {
       );
     }, 2000);
   };
-  
+
   // If case not found
   if (!legalCase) {
     return (
@@ -262,10 +259,10 @@ export default function SolicitorCaseChat() {
       </div>
     );
   }
-  
+
   // Get the client (buyer) participant
   const clientParticipant = participants.find(p => p.role === 'buyer');
-  
+
   return (
     <div className="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
       <div className="mb-6">
@@ -276,7 +273,7 @@ export default function SolicitorCaseChat() {
           <FiArrowLeft className="mr-2" />
           Back to Case
         </Link>
-        
+
         <h1 className="text-2xl font-bold mt-2">
           Chat with {clientParticipant?.name || 'Client'}
         </h1>
@@ -284,7 +281,7 @@ export default function SolicitorCaseChat() {
           {legalCase.propertyAddress}
         </p>
       </div>
-      
+
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2">
           <ChatComponent
@@ -295,33 +292,33 @@ export default function SolicitorCaseChat() {
             title={`Chat with ${clientParticipant?.name || 'Client'}`}
           />
         </div>
-        
+
         <div className="bg-white rounded-lg border overflow-hidden">
           <div className="p-4 border-b bg-gray-50">
             <h2 className="font-semibold">Case Information</h2>
           </div>
-          
+
           <div className="p-4">
             <div className="mb-4">
               <h3 className="text-sm text-gray-500">Property</h3>
               <p className="font-medium">{legalCase.propertyAddress}</p>
             </div>
-            
+
             <div className="mb-4">
               <h3 className="text-sm text-gray-500">Client</h3>
               <p className="font-medium">{legalCase.clientName}</p>
             </div>
-            
+
             <div className="mb-4">
               <h3 className="text-sm text-gray-500">Agent</h3>
               <p className="font-medium">{legalCase.agentName}</p>
             </div>
-            
+
             <div className="mb-4">
               <h3 className="text-sm text-gray-500">Status</h3>
               <p className="font-medium capitalize">{legalCase.status.replace('_', ' ')}</p>
             </div>
-            
+
             <div className="mb-6">
               <h3 className="text-sm text-gray-500">Due Date</h3>
               <p className="font-medium">
@@ -332,10 +329,10 @@ export default function SolicitorCaseChat() {
                 })}
               </p>
             </div>
-            
+
             <div className="border-t pt-4">
               <h3 className="font-medium mb-2">Recent Documents</h3>
-              
+
               <div className="space-y-2">
                 <div className="border rounded p-3 flex items-center">
                   <FiFileText className="text-[#2B5273] mr-3" size={20} />
@@ -347,7 +344,7 @@ export default function SolicitorCaseChat() {
                     <FiDownload size={18} />
                   </button>
                 </div>
-                
+
                 <div className="border rounded p-3 flex items-center">
                   <FiFileText className="text-[#2B5273] mr-3" size={20} />
                   <div className="flex-1">
@@ -359,7 +356,7 @@ export default function SolicitorCaseChat() {
                   </button>
                 </div>
               </div>
-              
+
               <div className="mt-3">
                 <Link 
                   href={`/solicitors/cases/${caseId}/documents`}

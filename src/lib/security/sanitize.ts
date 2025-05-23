@@ -7,11 +7,11 @@
 
 // Define HTML entities for escaping
 const htmlEntities: Record<string, string> = {
-  '&': '&amp;',
-  '<': '&lt;',
-  '>': '&gt;',
-  '"': '&quot;',
-  "'": '&#x27;',
+  '&': '&',
+  '<': '<',
+  '>': '>',
+  '"': '"',
+  "'": ''',
   '/': '&#x2F;',
   '`': '&#x60;',
   '=': '&#x3D;'
@@ -25,7 +25,7 @@ const htmlEntities: Record<string, string> = {
  */
 export function escapeHtml(str: string): string {
   if (!str) return '';
-  
+
   return String(str).replace(/[&<>"'`=\/]/g, match => htmlEntities[match]);
 }
 
@@ -37,7 +37,7 @@ export function escapeHtml(str: string): string {
  */
 export function stripHtml(html: string): string {
   if (!html) return '';
-  
+
   return String(html)
     .replace(/<[^>]*>/g, '') // Remove HTML tags
     .replace(/javascript:/gi, '') // Remove javascript: protocol
@@ -52,12 +52,12 @@ export function stripHtml(html: string): string {
  */
 export function sanitizeAttribute(str: string): string {
   if (!str) return '';
-  
+
   return String(str)
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#x27;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;');
+    .replace(/"/g, '"')
+    .replace(/'/g, ''')
+    .replace(/</g, '<')
+    .replace(/>/g, '>');
 }
 
 /**
@@ -68,20 +68,20 @@ export function sanitizeAttribute(str: string): string {
  */
 export function sanitizeUrl(url: string): string {
   if (!url) return '';
-  
+
   // Remove javascript: protocol and other dangerous protocols
   const sanitized = String(url)
     .replace(/javascript:/gi, '')
     .replace(/data:/gi, '')
     .replace(/vbscript:/gi, '')
     .replace(/file:/gi, '');
-  
+
   // Only allow http, https, mailto, and relative paths
   const urlPattern = /^(?:(?:https?|mailto):\/\/|\/(?!\/))/i;
   if (urlPattern.test(sanitized)) {
     return sanitized;
   }
-  
+
   // If not a valid URL format, make it relative
   return sanitized.replace(/^.*?:\/\//, '/');
 }
@@ -94,13 +94,13 @@ export function sanitizeUrl(url: string): string {
  */
 export function sanitizeObject<T>(obj: T): T {
   if (!obj || typeof obj !== 'object') return obj;
-  
+
   const result = { ...obj } as T;
-  
+
   for (const key in result) {
-    if (Object.prototype.hasOwnProperty.call(result, key)) {
+    if (Object.prototype.hasOwnProperty.call(resultkey)) {
       const value = result[key];
-      
+
       if (typeof value === 'string') {
         // Sanitize string values
         (result as any)[key] = stripHtml(value);
@@ -110,7 +110,7 @@ export function sanitizeObject<T>(obj: T): T {
       }
     }
   }
-  
+
   return result;
 }
 
@@ -125,7 +125,7 @@ export function safeJsonParse<T>(jsonString: string): T | null {
     const parsed = JSON.parse(jsonString);
     return sanitizeObject<T>(parsed);
   } catch (e) {
-    console.error('Failed to parse JSON:', e);
+
     return null;
   }
 }

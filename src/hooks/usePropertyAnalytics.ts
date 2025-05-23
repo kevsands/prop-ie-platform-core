@@ -1,0 +1,113 @@
+'use client';
+
+import { useCallback } from 'react';
+import { buyerJourneyAnalytics } from '@/lib/analytics/buyer-journey-analytics';
+import { analytics } from '@/lib/analytics';
+import { useAuth } from '@/context/AuthContext';
+
+interface PropertyDetails {
+  id: string;
+  name?: string;
+  title?: string;
+  type?: string;
+  price?: number;
+  bedrooms?: number;
+  bathrooms?: number;
+  developmentId?: string;
+  developmentName?: string;
+  status?: string;
+}
+
+/**
+ * Hook that provides property-related analytics tracking functionality
+ */
+export function usePropertyAnalytics() {
+  const { user } = useAuth();
+
+  // Track property viewed event
+  const trackPropertyViewed = useCallback((property: PropertyDetails, source?: string) => {
+    buyerJourneyAnalytics.trackEvent('unit_viewed', {
+      unit_id: property.id,
+      unit_type: property.type || 'unknown',
+      price: property.price,
+      development_id: property.developmentId,
+      development_name: property.developmentName,
+      bedrooms: property.bedrooms,
+      bathrooms: property.bathrooms,
+      status: property.status,
+      source: source || 'property_detail',
+      user_id: user?.id
+    });
+
+    // Also track in general analytics
+    analytics.trackEvent('property_viewed', {
+      property_id: property.id,
+      property_name: property.name || property.title,
+      property_type: property.type,
+      price: property.price
+    });
+  }, [user?.id]);
+
+  // Track property search
+  const trackPropertySearch = useCallback((searchParams: Record<string, any>, resultsCount: number) => {
+    analytics.trackEvent('property_search', {
+      ...searchParams,
+      results_count: resultsCount,
+      user_id: user?.id
+    });
+  }, [user?.id]);
+
+  // Track interest in property (e.g., clicking contact, viewing floor plan)
+  const trackPropertyInterest = useCallback((property: PropertyDetails, interestType: string, details?: Record<string, any>) => {
+    buyerJourneyAnalytics.trackEvent('property_interest', {
+      unit_id: property.id,
+      unit_type: property.type || 'unknown',
+      price: property.price,
+      development_id: property.developmentId,
+      interest_type: interestType,
+      ...details
+    });
+  }, []);
+
+  // Track property comparison
+  const trackPropertyComparison = useCallback((propertyIds: string[]) => {
+    analytics.trackEvent('property_comparison', {
+      property_ids: propertyIds,
+      count: propertyIds.length,
+      user_id: user?.id
+    });
+  }, [user?.id]);
+
+  // Track property reservation intent (clicking reservation button)
+  const trackReservationIntent = useCallback((property: PropertyDetails) => {
+    buyerJourneyAnalytics.trackEvent('reservation_intent', {
+      unit_id: property.id,
+      unit_type: property.type || 'unknown',
+      price: property.price,
+      development_id: property.developmentId,
+      user_id: user?.id
+    });
+  }, [user?.id]);
+
+  // Track purchase process started
+  const trackPurchaseStarted = useCallback((propertyId: string, price?: number) => {
+    buyerJourneyAnalytics.startStepTimer(`purchase_${propertyId}`);
+
+    buyerJourneyAnalytics.trackEvent('purchase_started', {
+      unit_id: propertyId,
+      price: price,
+      user_id: user?.id
+    });
+  }, [user?.id]);
+
+  return {
+    trackPropertyViewed,
+    trackPropertySearch,
+    trackPropertyInterest,
+    trackPropertyComparison,
+    trackReservationIntent,
+    trackPurchaseStarted
+  };
+}
+
+export default usePropertyAnalytics;

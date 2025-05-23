@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">50% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/12</span>
+                <span class='fraction'>6/12</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">12.5% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/16</span>
+                <span class='fraction'>2/16</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">20% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/5</span>
+                <span class='fraction'>1/5</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">50% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/12</span>
+                <span class='fraction'>6/12</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -165,14 +165,14 @@
 <a name='L100'></a><a href='#L100'>100</a>
 <a name='L101'></a><a href='#L101'>101</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -265,14 +265,14 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">"use client";
 &nbsp;
-import React, { useState } from <span class="cstat-no" title="statement not covered" >'react';</span>
-import { useEnterpriseNotifications } from <span class="cstat-no" title="statement not covered" >'@/context/EnterpriseNotificationContext';</span>
+import React, { useState } from 'react';
+import { useEnterpriseNotifications } from '@/context/EnterpriseNotificationContext';
 &nbsp;
-export default function <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >NotificationCenter() {</span></span>
-  const [isOpen, setIsOpen] = <span class="cstat-no" title="statement not covered" >useState(false);</span>
-  const { notifications, unreadCount, markAsRead, markAllAsRead } = <span class="cstat-no" title="statement not covered" >useEnterpriseNotifications();</span>
+export default function NotificationCenter() {
+  const [isOpen, setIsOpen] = useState(false);
+  const { notifications, unreadCount, markAsRead, markAllAsRead } = useEnterpriseNotifications();
 &nbsp;
-  const toggleOpen = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
+  const toggleOpen = <span class="fstat-no" title="function not covered" >() =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    setIsOpen(!isOpen);</span>
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!isOpen &amp;&amp; unreadCount &gt; 0) {</span>
       // When opening and we have unread notifications, mark them as read
@@ -301,14 +301,14 @@ export default function <span class="cstat-no" title="statement not covered" ><s
           /&gt;
         &lt;/svg&gt;
         
-        {<span class="branch-0 cbranch-no" title="branch not covered" >unreadCount &gt; 0 &amp;&amp; (</span>
+        {unreadCount &gt; 0 &amp;&amp; (
           &lt;span className="absolute -top-1 -right-1 bg-red-500 text-white rounded-full h-4 w-4 flex items-center justify-center text-xs"&gt;
             {unreadCount}
           &lt;/span&gt;
         )}
       &lt;/button&gt;
       
-      {<span class="branch-0 cbranch-no" title="branch not covered" >isOpen &amp;&amp; (</span>
+      {isOpen &amp;&amp; (
         &lt;div className="absolute right-0 mt-2 w-80 bg-white rounded-md shadow-lg py-1 z-50"&gt;
           &lt;div className="px-4 py-2 border-b border-gray-200"&gt;
             &lt;div className="flex justify-between items-center"&gt;
@@ -370,7 +370,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-15T16:23:25.168Z
+                at 2025-05-22T22:15:28.100Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

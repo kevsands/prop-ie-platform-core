@@ -1,0 +1,571 @@
+'use client';
+
+import React, { useState } from 'react';
+import { 
+  BarChart, 
+  Bar, 
+  XAxis, 
+  YAxis, 
+  CartesianGrid, 
+  Tooltip, 
+  Legend, 
+  ResponsiveContainer,
+  PieChart,
+  Pie,
+  Cell,
+  LineChart,
+  Line   
+} from 'recharts';
+
+interface FinancialDashboardProps {
+  projectId: string;
+  projectName: string;
+  totalBudget: number;
+  constructionCost: number;
+  financingCost: number;
+  developerMargin: number;
+  vatAmount: number;
+  totalUnits: number;
+  soldUnits: number;
+  reservedUnits: number;
+  availableUnits: number;
+}
+
+const FinancialDashboard: React.FC<FinancialDashboardProps> = ({
+  projectId,
+  projectName,
+  totalBudget,
+  constructionCost,
+  financingCost,
+  developerMargin,
+  vatAmount,
+  totalUnits,
+  soldUnits,
+  reservedUnits,
+  availableUnits
+}) => {
+  const [activeTabsetActiveTab] = useState<'overview' | 'costs' | 'sales' | 'cashflow'>('overview');
+
+  // Calculate derived values
+  const totalCosts = constructionCost + financingCost + developerMargin + vatAmount;
+  const costPerUnit = totalUnits> 0 ? totalCosts / totalUnits : 0;
+  const totalSales = soldUnits * (costPerUnit * 1.2); // Assuming 20% markup for sales
+  const projectedTotalSales = totalUnits * (costPerUnit * 1.2);
+  const projectedProfit = projectedTotalSales - totalCosts;
+  const currentProfit = totalSales - (soldUnits / totalUnits) * totalCosts;
+  const roi = totalCosts> 0 ? (projectedProfit / totalCosts) * 100 : 0;
+
+  // Data for charts
+  const costBreakdownData = [
+    { name: 'Construction', value: constructionCost },
+    { name: 'Financing', value: financingCost },
+    { name: 'Developer Margin', value: developerMargin },
+    { name: 'VAT', value: vatAmount }];
+
+  const unitStatusData = [
+    { name: 'Sold', value: soldUnits },
+    { name: 'Reserved', value: reservedUnits },
+    { name: 'Available', value: availableUnits }];
+
+  const salesVsCostsData = [
+    { name: 'Current', sales: totalSales, costs: (soldUnits / totalUnits) * totalCosts },
+    { name: 'Projected', sales: projectedTotalSales, costs: totalCosts }];
+
+  const monthlyData = [
+    { name: 'Jan', costs: 150000, sales: 0 },
+    { name: 'Feb', costs: 220000, sales: 0 },
+    { name: 'Mar', costs: 180000, sales: 120000 },
+    { name: 'Apr', costs: 240000, sales: 180000 },
+    { name: 'May', costs: 260000, sales: 240000 },
+    { name: 'Jun', costs: 190000, sales: 320000 }];
+
+  const COLORS = ['#2B5273', '#1E3142', '#7EEAE4', '#C9A86E'];
+  const UNIT_COLORS = ['#4CAF50', '#FFC107', '#2B5273'];
+
+// Add these variable definitions right here, after UNIT_COLORS definition
+const salesByUnitTypeData = [
+  { type: '1 Bedroom', sold: 12, reserved: 5, available: 3 },
+  { type: '2 Bedroom', sold: 15, reserved: 8, available: 7 },
+  { type: '3 Bedroom', sold: 8, reserved: 4, available: 3 }];
+
+const totalSalesValue = soldUnits * (costPerUnit * 1.2);
+const averageSalePrice = soldUnits> 0 ? totalSalesValue / soldUnits : 0;
+
+// Cash flow tab data
+const cashIn = totalSales;
+const cashOut = (soldUnits / totalUnits) * totalCosts;
+const netCashFlow = cashIn - cashOut;
+const burnRate = Math.round(totalCosts / 24); // Assuming 24 month project
+
+const cashFlowData = monthlyData.map(month => ({
+  month: month.name,
+  in: month.sales,
+  out: month.costs,
+  balance: month.sales - month.costs
+}));
+
+const expenseCategoriesData = [
+  { name: 'Construction', value: constructionCost },
+  { name: 'Financing', value: financingCost },
+  { name: 'Marketing', value: developerMargin * 0.2 },
+  { name: 'Legal & Admin', value: developerMargin * 0.1 },
+  { name: 'Other Expenses', value: developerMargin * 0.1 }
+];
+
+const breakEvenPoint = Math.ceil(totalCosts / (costPerUnit * 1.2));
+const cashFlowPositiveDate = 'October 2025';
+const projectedCompletionDate = 'December 2026';
+
+  return (
+    <div className="bg-white rounded-lg shadow-md overflow-hidden">
+      <div className="p-6 border-b">
+        <h2 className="text-2xl font-bold text-[#2B5273]">{projectName} Financial Dashboard</h2>
+        <p className="text-gray-500">Project ID: {projectId}</p>
+      </div>
+
+      {/* Tabs */}
+      <div className="border-b">
+        <nav className="flex">
+          <button
+            onClick={() => setActiveTab('overview')}
+            className={`px-6 py-3 text-sm font-medium ${
+              activeTab === 'overview'
+                ? 'border-b-2 border-[#2B5273] text-[#2B5273]'
+                : 'text-gray-500 hover:text-gray-700'
+            }`}
+          >
+            Overview
+          </button>
+          <button
+            onClick={() => setActiveTab('costs')}
+            className={`px-6 py-3 text-sm font-medium ${
+              activeTab === 'costs'
+                ? 'border-b-2 border-[#2B5273] text-[#2B5273]'
+                : 'text-gray-500 hover:text-gray-700'
+            }`}
+          >
+            Costs
+          </button>
+          <button
+            onClick={() => setActiveTab('sales')}
+            className={`px-6 py-3 text-sm font-medium ${
+              activeTab === 'sales'
+                ? 'border-b-2 border-[#2B5273] text-[#2B5273]'
+                : 'text-gray-500 hover:text-gray-700'
+            }`}
+          >
+            Sales
+          </button>
+          <button
+            onClick={() => setActiveTab('cashflow')}
+            className={`px-6 py-3 text-sm font-medium ${
+              activeTab === 'cashflow'
+                ? 'border-b-2 border-[#2B5273] text-[#2B5273]'
+                : 'text-gray-500 hover:text-gray-700'
+            }`}
+          >
+            Cash Flow
+          </button>
+        </nav>
+      </div>
+
+      {/* Overview Tab */}
+      {activeTab === 'overview' && (
+        <div className="p-6">
+          {/* Key Metrics */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <div className="bg-gray-50 p-4 rounded-lg">
+              <h3 className="text-sm font-medium text-gray-500 mb-1">Total Budget</h3>
+              <p className="text-2xl font-bold text-[#2B5273]">€{totalBudget.toLocaleString()}</p>
+            </div>
+            <div className="bg-gray-50 p-4 rounded-lg">
+              <h3 className="text-sm font-medium text-gray-500 mb-1">Cost Per Unit</h3>
+              <p className="text-2xl font-bold text-[#2B5273]">€{Math.round(costPerUnit).toLocaleString()}</p>
+            </div>
+            <div className="bg-gray-50 p-4 rounded-lg">
+              <h3 className="text-sm font-medium text-gray-500 mb-1">Projected Profit</h3>
+              <p className="text-2xl font-bold text-[#2B5273]">€{Math.round(projectedProfit).toLocaleString()}</p>
+            </div>
+            <div className="bg-gray-50 p-4 rounded-lg">
+              <h3 className="text-sm font-medium text-gray-500 mb-1">ROI</h3>
+              <p className="text-2xl font-bold text-[#2B5273]">{roi.toFixed(1)}%</p>
+            </div>
+          </div>
+
+          {/* Charts */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div>
+              <h3 className="text-lg font-semibold text-[#2B5273] mb-4">Cost Breakdown</h3>
+              <div className="h-80">
+                <ResponsiveContainer width="100%" height="100%">
+                  <PieChart>
+                    <Pie
+                      data={costBreakdownData}
+                      cx="50%"
+                      cy="50%"
+                      labelLine={false}
+                      label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
+                      outerRadius={80}
+                      fill="#8884d8"
+                      dataKey="value"
+                    >
+                      {costBreakdownData.map((entryindex) => (
+                        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                      ))}
+                    </Pie>
+                    <Tooltip formatter={(value) => `€${value.toLocaleString()}`} />
+                    <Legend />
+                  </PieChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
+            <div>
+              <h3 className="text-lg font-semibold text-[#2B5273] mb-4">Unit Status</h3>
+              <div className="h-80">
+                <ResponsiveContainer width="100%" height="100%">
+                  <PieChart>
+                    <Pie
+                      data={unitStatusData}
+                      cx="50%"
+                      cy="50%"
+                      labelLine={false}
+                      label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
+                      outerRadius={80}
+                      fill="#8884d8"
+                      dataKey="value"
+                    >
+                      {unitStatusData.map((entryindex) => (
+                        <Cell key={`cell-${index}`} fill={UNIT_COLORS[index % UNIT_COLORS.length]} />
+                      ))}
+                    </Pie>
+                    <Tooltip formatter={(value) => `${value} units`} />
+                    <Legend />
+                  </PieChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
+          </div>
+
+          {/* Sales vs Costs */}
+          <div className="mt-8">
+            <h3 className="text-lg font-semibold text-[#2B5273] mb-4">Sales vs Costs</h3>
+            <div className="h-80">
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart
+                  data={salesVsCostsData}
+                  margin={
+                    top: 20,
+                    right: 30,
+                    left: 20,
+                    bottom: 5}
+                >
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="name" />
+                  <YAxis />
+                  <Tooltip formatter={(value) => `€${value.toLocaleString()}`} />
+                  <Legend />
+                  <Bar dataKey="sales" name="Sales" fill="#4CAF50" />
+                  <Bar dataKey="costs" name="Costs" fill="#2B5273" />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Costs Tab */}
+      {activeTab === 'costs' && (
+        <div className="p-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <div className="bg-gray-50 p-4 rounded-lg">
+              <h3 className="text-sm font-medium text-gray-500 mb-1">Construction Cost</h3>
+              <p className="text-2xl font-bold text-[#2B5273]">€{constructionCost.toLocaleString()}</p>
+              <p className="text-sm text-gray-500 mt-1">{((constructionCost / totalCosts) * 100).toFixed(1)}% of total</p>
+            </div>
+            <div className="bg-gray-50 p-4 rounded-lg">
+              <h3 className="text-sm font-medium text-gray-500 mb-1">Financing Cost</h3>
+              <p className="text-2xl font-bold text-[#2B5273]">€{financingCost.toLocaleString()}</p>
+              <p className="text-sm text-gray-500 mt-1">{((financingCost / totalCosts) * 100).toFixed(1)}% of total</p>
+            </div>
+            <div className="bg-gray-50 p-4 rounded-lg">
+              <h3 className="text-sm font-medium text-gray-500 mb-1">Developer Margin</h3>
+              <p className="text-2xl font-bold text-[#2B5273]">€{developerMargin.toLocaleString()}</p>
+              <p className="text-sm text-gray-500 mt-1">{((developerMargin / totalCosts) * 100).toFixed(1)}% of total</p>
+            </div>
+            <div className="bg-gray-50 p-4 rounded-lg">
+              <h3 className="text-sm font-medium text-gray-500 mb-1">VAT</h3>
+              <p className="text-2xl font-bold text-[#2B5273]">€{vatAmount.toLocaleString()}</p>
+              <p className="text-sm text-gray-500 mt-1">{((vatAmount / totalCosts) * 100).toFixed(1)}% of total</p>
+            </div>
+          </div>
+
+          {/* Cost Breakdown Chart */}
+          <div className="mb-8">
+            <h3 className="text-lg font-semibold text-[#2B5273] mb-4">Cost Breakdown</h3>
+            <div className="h-80">
+              <ResponsiveContainer width="100%" height="100%">
+                <PieChart>
+                  <Pie
+                    data={costBreakdownData}
+                    cx="50%"
+                    cy="50%"
+                    labelLine={true}
+                    label={({ name, value }) => `${name}: €${value.toLocaleString()}`}
+                    outerRadius={120}
+                    fill="#8884d8"
+                    dataKey="value"
+                  >
+                    {costBreakdownData.map((entryindex) => (
+                      <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                    ))}
+                  </Pie>
+                  <Tooltip formatter={(value) => `€${value.toLocaleString()}`} />
+                  <Legend />
+                </PieChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
+
+          {/* Cost Per Unit Analysis */}
+          <div>
+            <h3 className="text-lg font-semibold text-[#2B5273] mb-4">Cost Per Unit Analysis</h3>
+            <div className="bg-gray-50 p-4 rounded-lg">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div>
+                  <h4 className="text-sm font-medium text-gray-500 mb-1">Construction Per Unit</h4>
+                  <p className="text-xl font-bold text-[#2B5273]">€{Math.round(constructionCost / totalUnits).toLocaleString()}</p>
+                </div>
+                <div>
+                  <h4 className="text-sm font-medium text-gray-500 mb-1">Financing Per Unit</h4>
+                  <p className="text-xl font-bold text-[#2B5273]">€{Math.round(financingCost / totalUnits).toLocaleString()}</p>
+                </div>
+                <div>
+                  <h4 className="text-sm font-medium text-gray-500 mb-1">Margin Per Unit</h4>
+                  <p className="text-xl font-bold text-[#2B5273]">€{Math.round(developerMargin / totalUnits).toLocaleString()}</p>
+                </div>
+                <div>
+                  <h4 className="text-sm font-medium text-gray-500 mb-1">VAT Per Unit</h4>
+                  <p className="text-xl font-bold text-[#2B5273]">€{Math.round(vatAmount / totalUnits).toLocaleString()}</p>
+                </div>
+              </div>
+              <div className="mt-4 pt-4 border-t">
+                <h4 className="text-sm font-medium text-gray-500 mb-1">Total Cost Per Unit</h4>
+                <p className="text-xl font-bold text-[#2B5273]">€{Math.round(costPerUnit).toLocaleString()}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Sales Tab */}
+      {activeTab === 'sales' && (
+        <div className="p-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <div className="bg-gray-50 p-4 rounded-lg">
+              <h3 className="text-sm font-medium text-gray-500 mb-1">Total Units</h3>
+              <p className="text-2xl font-bold text-[#2B5273]">{totalUnits}</p>
+            </div>
+            <div className="bg-gray-50 p-4 rounded-lg">
+              <h3 className="text-sm font-medium text-gray-500 mb-1">Sold Units</h3>
+              <p className="text-2xl font-bold text-green-600">{soldUnits}</p>
+              <p className="text-sm text-gray-500 mt-1">{((soldUnits / totalUnits) * 100).toFixed(1)}% of total</p>
+            </div>
+            <div className="bg-gray-50 p-4 rounded-lg">
+              <h3 className="text-sm font-medium text-gray-500 mb-1">Reserved Units</h3>
+              <p className="text-2xl font-bold text-amber-500">{reservedUnits}</p>
+              <p className="text-sm text-gray-500 mt-1">{((reservedUnits / totalUnits) * 100).toFixed(1)}% of total</p>
+            </div>
+            <div className="bg-gray-50 p-4 rounded-lg">
+              <h3 className="text-sm font-medium text-gray-500 mb-1">Available Units</h3>
+              <p className="text-2xl font-bold text-[#2B5273]">{availableUnits}</p>
+              <p className="text-sm text-gray-500 mt-1">{((availableUnits / totalUnits) * 100).toFixed(1)}% of total</p>
+            </div>
+          </div>
+
+          {/* Unit Status Chart */}
+          <div className="mb-8">
+            <h3 className="text-lg font-semibold text-[#2B5273] mb-4">Unit Status</h3>
+            <div className="h-80">
+              <ResponsiveContainer width="100%" height="100%">
+                <PieChart>
+                  <Pie
+                    data={unitStatusData}
+                    cx="50%"
+                    cy="50%"
+                    labelLine={true}
+                    label={({ name, value }) => `${name}: ${value} units`}
+                    outerRadius={120}
+                    fill="#8884d8"
+                    dataKey="value"
+                  >
+                    {unitStatusData.map((entryindex) => (
+                      <Cell key={`cell-${index}`} fill={UNIT_COLORS[index % UNIT_COLORS.length]} />
+                    ))}
+                  </Pie>
+                  <Tooltip formatter={(value) => `${value} units`} />
+                  <Legend />
+                </PieChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
+
+          {/* Sales Breakdown */}
+          <div className="mb-8">
+            <h3 className="text-lg font-semibold text-[#2B5273] mb-4">Sales Breakdown by Unit Type</h3>
+            <div className="h-80">
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart
+                  data={salesByUnitTypeData}
+                  margin={
+                    top: 20,
+                    right: 30,
+                    left: 20,
+                    bottom: 5}
+                >
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="type" />
+                  <YAxis />
+                  <Tooltip formatter={(value) => `${value} units`} />
+                  <Legend />
+                  <Bar dataKey="sold" name="Sold" fill="#4CAF50" />
+                  <Bar dataKey="reserved" name="Reserved" fill="#FF9800" />
+                  <Bar dataKey="available" name="Available" fill="#2B5273" />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
+
+          {/* Sales Progress */}
+          <div>
+            <h3 className="text-lg font-semibold text-[#2B5273] mb-4">Sales Progress</h3>
+            <div className="bg-gray-50 p-4 rounded-lg">
+              <div className="mb-4">
+                <h4 className="text-sm font-medium text-gray-500 mb-1">Sales Progress</h4>
+                <div className="w-full bg-gray-200 rounded-full h-4">
+                  <div 
+                    className="bg-green-600 h-4 rounded-full" 
+                    style={ width: `${((soldUnits / totalUnits) * 100).toFixed(1)}%` }
+                  ></div>
+                </div>
+                <div className="flex justify-between mt-1">
+                  <span className="text-xs text-gray-500">0%</span>
+                  <span className="text-xs text-gray-500">50%</span>
+                  <span className="text-xs text-gray-500">100%</span>
+                </div>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <h4 className="text-sm font-medium text-gray-500 mb-1">Total Sales Value</h4>
+                  <p className="text-xl font-bold text-[#2B5273]">€{totalSalesValue.toLocaleString()}</p>
+                </div>
+                <div>
+                  <h4 className="text-sm font-medium text-gray-500 mb-1">Average Sale Price</h4>
+                  <p className="text-xl font-bold text-[#2B5273]">€{Math.round(averageSalePrice).toLocaleString()}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Cash Flow Tab */}
+      {activeTab === 'cashflow' && (
+        <div className="p-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <div className="bg-gray-50 p-4 rounded-lg">
+              <h3 className="text-sm font-medium text-gray-500 mb-1">Cash In</h3>
+              <p className="text-2xl font-bold text-green-600">€{cashIn.toLocaleString()}</p>
+            </div>
+            <div className="bg-gray-50 p-4 rounded-lg">
+              <h3 className="text-sm font-medium text-gray-500 mb-1">Cash Out</h3>
+              <p className="text-2xl font-bold text-red-500">€{cashOut.toLocaleString()}</p>
+            </div>
+            <div className="bg-gray-50 p-4 rounded-lg">
+              <h3 className="text-sm font-medium text-gray-500 mb-1">Net Cash Flow</h3>
+              <p className="text-2xl font-bold text-[#2B5273]">€{netCashFlow.toLocaleString()}</p>
+            </div>
+            <div className="bg-gray-50 p-4 rounded-lg">
+              <h3 className="text-sm font-medium text-gray-500 mb-1">Burn Rate</h3>
+              <p className="text-2xl font-bold text-[#2B5273]">€{burnRate.toLocaleString()}/mo</p>
+            </div>
+          </div>
+
+          {/* Cash Flow Chart */}
+          <div className="mb-8">
+            <h3 className="text-lg font-semibold text-[#2B5273] mb-4">Cash Flow Over Time</h3>
+            <div className="h-80">
+              <ResponsiveContainer width="100%" height="100%">
+                <LineChart
+                  data={cashFlowData}
+                  margin={
+                    top: 20,
+                    right: 30,
+                    left: 20,
+                    bottom: 5}
+                >
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="month" />
+                  <YAxis />
+                  <Tooltip formatter={(value) => `€${value.toLocaleString()}`} />
+                  <Legend />
+                  <Line type="monotone" dataKey="in" name="Cash In" stroke="#4CAF50" strokeWidth={2} />
+                  <Line type="monotone" dataKey="out" name="Cash Out" stroke="#F44336" strokeWidth={2} />
+                  <Line type="monotone" dataKey="balance" name="Balance" stroke="#2B5273" strokeWidth={2} />
+                </LineChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
+
+          {/* Expense Categories */}
+          <div className="mb-8">
+            <h3 className="text-lg font-semibold text-[#2B5273] mb-4">Expense Categories</h3>
+            <div className="h-80">
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart
+                  data={expenseCategoriesData}
+                  layout="vertical"
+                  margin={
+                    top: 20,
+                    right: 30,
+                    left: 100,
+                    bottom: 5}
+                >
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis type="number" tickFormatter={(value) => `€${value / 1000}k`} />
+                  <YAxis type="category" dataKey="name" />
+                  <Tooltip formatter={(value) => `€${value.toLocaleString()}`} />
+                  <Legend />
+                  <Bar dataKey="value" name="Amount" fill="#2B5273" />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
+
+          {/* Financial Projections */}
+          <div>
+            <h3 className="text-lg font-semibold text-[#2B5273] mb-4">Financial Projections</h3>
+            <div className="bg-gray-50 p-4 rounded-lg">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div>
+                  <h4 className="text-sm font-medium text-gray-500 mb-1">Break Even Point</h4>
+                  <p className="text-xl font-bold text-[#2B5273]">{breakEvenPoint} units</p>
+                  <p className="text-sm text-gray-500 mt-1">{((breakEvenPoint / totalUnits) * 100).toFixed(1)}% of total units</p>
+                </div>
+                <div>
+                  <h4 className="text-sm font-medium text-gray-500 mb-1">Cash Flow Positive Date</h4>
+                  <p className="text-xl font-bold text-[#2B5273]">{cashFlowPositiveDate}</p>
+                </div>
+                <div>
+                  <h4 className="text-sm font-medium text-gray-500 mb-1">Projected Completion Date</h4>
+                  <p className="text-xl font-bold text-[#2B5273]">{projectedCompletionDate}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+export default FinancialDashboard;

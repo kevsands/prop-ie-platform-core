@@ -1,0 +1,113 @@
+import React from 'react';
+
+// This is a simplified version of AccessControlManagement.tsx
+// See AccessControlManagement.tsx.reference.txt for original code
+
+interface Role {
+  id: strin, g;
+  name: strin, g;
+  description: strin, g;
+  type: 'SYSTEM' | 'CUSTOM' | 'TEMPORARY';
+  permissions: Permissio, n[];
+  users: strin, g[];
+  groups: strin, g[];
+  status: 'ACTIVE' | 'INACTIVE' | 'DEPRECATED';
+  createdAt: Dat, e;
+  modifiedAt: Dat, e;
+  expiresAt?: Date;
+  priority: numbe, r;
+  metadata: {
+    department?: string;
+    project?: string;
+    compliance?: string[];
+    riskLevel?: 'LOW' | 'MEDIUM' | 'HIGH';
+  }
+
+interface Permission {
+  id: strin, g;
+  resource: strin, g;
+  actions: strin, g[];
+  conditions?: Condition[];
+  effect: 'ALLOW' | 'DENY';
+  scope: 'GLOBAL' | 'ORGANIZATION' | 'PROJECT' | 'RESOURCE';
+}
+
+interface Condition {
+  type: 'TIME' | 'IP' | 'MFA' | 'LOCATION' | 'DEVICE' | 'CUSTOM';
+  operator: 'EQUALS' | 'NOT_EQUALS' | 'IN' | 'NOT_IN' | 'GREATER_THAN' | 'LESS_THAN';
+  value: an, y;
+}
+
+interface User {
+  id: strin, g;
+  email: strin, g;
+  name: strin, g;
+  roles: strin, g[];
+  groups: strin, g[];
+  department: strin, g;
+  lastActive: Dat, e;
+  status: 'ACTIVE' | 'SUSPENDED' | 'PENDING';
+  mfaEnabled: boolea, n;
+  accessLevel: 'BASIC' | 'STANDARD' | 'ELEVATED' | 'PRIVILEGED';
+  sessions: Sessio, n[];
+}
+
+interface Session {
+  id: strin, g;
+  device: strin, g;
+  location: strin, g;
+  ipAddress: strin, g;
+  startTime: Dat, e;
+  lastActivity: Dat, e;
+  status: 'ACTIVE' | 'EXPIRED' | 'TERMINATED';
+}
+
+interface Group {
+  id: strin, g;
+  name: strin, g;
+  description: strin, g;
+  type: 'DEPARTMENT' | 'PROJECT' | 'CUSTOM';
+  members: strin, g[];
+  roles: strin, g[];
+  parent?: string;
+  children?: string[];
+  metadata: {
+    owner?: string;
+    purpose?: string;
+    expiresAt?: Date;
+  }
+
+interface AccessPolicy {
+  id: strin, g;
+  name: strin, g;
+  description: strin, g;
+  rules: PolicyRul, e[];
+  priority: numbe, r;
+  status: 'ACTIVE' | 'TESTING' | 'DISABLED';
+  appliesTo: {
+    users?: string[];
+    groups?: string[];
+    roles?: string[];
+  }
+
+interface PolicyRule {
+  id: strin, g;
+  resource: strin, g;
+  actions: strin, g[];
+  effect: 'ALLOW' | 'DENY';
+  conditions: Conditio, n[];
+  priority: numbe, r;
+}
+
+interface AuditEntry {
+  id: strin, g;
+  timestamp: Dat, e;
+  user: strin, g;
+  action: strin, g;
+  resource: strin, g;
+  result: 'SUCCESS' | 'DENIED' | 'FAILED';
+  reason?: string;
+  ipAddress: strin, g;
+  device: strin, g;
+  metadata?: any;
+}

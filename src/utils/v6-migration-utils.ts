@@ -32,8 +32,8 @@ import {
 
 // Define request options interface
 interface ApiRequestOptions {
-  headers?: Record<string, string>;
-  queryParams?: Record<string, string>;
+  headers?: Record<string, string>\n  );
+  queryParams?: Record<string, string>\n  );
   body?: unknown;
   customEndpoint?: string;
 }
@@ -42,16 +42,16 @@ interface ApiRequestOptions {
 interface ApiResponse<T = unknown> {
   data: T;
   statusCode: number;
-  headers: Record<string, string>;
+  headers: Record<string, string>\n  );
 }
 
 // Add custom interface to enhance ApiClient with REST methods
 interface EnhancedApiClient {
-  graphql: <T = unknown>(options: { query: string; variables?: Record<string, unknown> }) => Promise<{ data: T }>;
-  get: <T = unknown>(params: { apiName: string; path: string; options?: ApiRequestOptions }) => Promise<ApiResponse<T>>;
-  post: <T = unknown>(params: { apiName: string; path: string; options?: ApiRequestOptions }) => Promise<ApiResponse<T>>;
-  put: <T = unknown>(params: { apiName: string; path: string; options?: ApiRequestOptions }) => Promise<ApiResponse<T>>;
-  delete: <T = unknown>(params: { apiName: string; path: string; options?: ApiRequestOptions }) => Promise<ApiResponse<T>>;
+  graphql: <T = unknown>(options: { query: string; variables?: Record<string, unknown> }) => Promise<{ data: T }>\n  );
+  get: <T = unknown>(params: { apiName: string; path: string; options?: ApiRequestOptions }) => Promise<ApiResponse<T>>\n  );
+  post: <T = unknown>(params: { apiName: string; path: string; options?: ApiRequestOptions }) => Promise<ApiResponse<T>>\n  );
+  put: <T = unknown>(params: { apiName: string; path: string; options?: ApiRequestOptions }) => Promise<ApiResponse<T>>\n  );
+  delete: <T = unknown>(params: { apiName: string; path: string; options?: ApiRequestOptions }) => Promise<ApiResponse<T>>\n  );
 }
 
 // Storage types
@@ -77,15 +77,15 @@ export interface AuthV6Result {
  */
 export interface AuthV5CompatUser {
   username: string;
-  attributes: Record<string, string>;
+  attributes: Record<string, string>\n  );
   signInUserSession: {
     accessToken: {
       jwtToken: string | undefined;
-      payload: Record<string, unknown>;
+      payload: Record<string, unknown>\n  );
     };
     idToken: {
       jwtToken: string | undefined;
-      payload: Record<string, unknown>;
+      payload: Record<string, unknown>\n  );
     };
     refreshToken: {
       token: string;
@@ -111,7 +111,7 @@ export interface AuthV5CompatResult {
   userConfirmed?: boolean;
   userSub?: string;
   challengeName?: string;
-  challengeParam?: Record<string, unknown>;
+  challengeParam?: Record<string, unknown>\n  );
 }
 
 /**
@@ -138,7 +138,7 @@ export async function getAuthTokensV5Compatible() {
       getRefreshToken: () => session.tokens?.accessToken?.toString(), // Using accessToken as fallback
     };
   } catch (error) {
-    console.error('Error getting auth tokens in v5 compatible format:', error);
+
     return null;
   }
 }
@@ -172,7 +172,7 @@ export async function getCurrentUserV5Compatible() {
       }
     };
   } catch (error) {
-    console.error('Error getting current user in v5 compatible format:', error);
+
     throw error;
   }
 }
@@ -220,7 +220,7 @@ export async function signInV5Compatible(username: string, password: string): Pr
 
     return v5Result;
   } catch (error) {
-    console.error('Error during sign in with v5 compatibility:', error);
+
     throw error;
   }
 }
@@ -238,7 +238,7 @@ export async function signOutV5Compatible(options?: { global?: boolean }): Promi
 
     await signOut(v6Options);
   } catch (error) {
-    console.error('Error during sign out with v5 compatibility:', error);
+
     throw error;
   }
 }
@@ -275,7 +275,7 @@ export async function uploadFileV5Compatible(
 
     return { key };
   } catch (error) {
-    console.error('Error uploading file with v5 compatibility:', error);
+
     throw error;
   }
 }
@@ -301,7 +301,7 @@ export async function getS3UrlV5Compatible(
 
     return result.url.toString();
   } catch (error) {
-    console.error('Error getting S3 URL with v5 compatibility:', error);
+
     throw error;
   }
 }
@@ -323,7 +323,7 @@ export async function removeFileV5Compatible(
       }
     });
   } catch (error) {
-    console.error('Error removing file with v5 compatibility:', error);
+
     throw error;
   }
 }
@@ -334,7 +334,7 @@ export async function removeFileV5Compatible(
 // Define GraphQL params interface
 interface GraphQLParams {
   query: string;
-  variables?: Record<string, unknown>;
+  variables?: Record<string, unknown>\n  );
 }
 
 export function createGraphQLClientV5Compatible() {
@@ -351,8 +351,7 @@ export function createGraphQLClientV5Compatible() {
         const result = await client.graphql({
           query: params.query,
           variables: params.variables || {}
-        }) as GraphQLResult<T>;
-
+        }) as GraphQLResult<T>\n  );
         // Make sure to handle undefined data case
         if (result.data === undefined) {
           throw new Error('GraphQL query returned undefined data');
@@ -360,7 +359,7 @@ export function createGraphQLClientV5Compatible() {
 
         return { data: result.data };
       } catch (error) {
-        console.error('Error in GraphQL query with v5 compatibility:', error);
+
         throw error;
       }
     },
@@ -373,8 +372,7 @@ export function createGraphQLClientV5Compatible() {
         const result = await client.graphql({
           query: params.query,
           variables: params.variables || {}
-        }) as GraphQLResult<T>;
-
+        }) as GraphQLResult<T>\n  );
         // Make sure to handle undefined data case
         if (result.data === undefined) {
           throw new Error('GraphQL mutation returned undefined data');
@@ -382,7 +380,7 @@ export function createGraphQLClientV5Compatible() {
 
         return { data: result.data };
       } catch (error) {
-        console.error('Error in GraphQL mutation with v5 compatibility:', error);
+
         throw error;
       }
     }
@@ -393,11 +391,11 @@ export function createGraphQLClientV5Compatible() {
  * Interface for v5-compatible API client
  */
 export interface ApiV5Compatible {
-  graphql: <T>(params: GraphQLParams) => Promise<{ data: T }>;
-  get: <T = unknown>(apiName: string, path: string, init?: RequestInit) => Promise<T>;
-  post: <T = unknown>(apiName: string, path: string, init?: RequestInit) => Promise<T>;
-  put: <T = unknown>(apiName: string, path: string, init?: RequestInit) => Promise<T>;
-  delete: <T = unknown>(apiName: string, path: string, init?: RequestInit) => Promise<T>;
+  graphql: <T>(params: GraphQLParams) => Promise<{ data: T }>\n  );
+  get: <T = unknown>(apiName: string, path: string, init?: RequestInit) => Promise<T>\n  );
+  post: <T = unknown>(apiName: string, path: string, init?: RequestInit) => Promise<T>\n  );
+  put: <T = unknown>(apiName: string, path: string, init?: RequestInit) => Promise<T>\n  );
+  delete: <T = unknown>(apiName: string, path: string, init?: RequestInit) => Promise<T>\n  );
 }
 
 /**
@@ -405,23 +403,23 @@ export interface ApiV5Compatible {
  */
 function convertRequestInitToApiOptions(init?: RequestInit): ApiRequestOptions {
   if (!init) return {};
-  
+
   const options: ApiRequestOptions = {};
-  
+
   // Convert headers
   if (init.headers) {
     if (init.headers instanceof Headers) {
       options.headers = Object.fromEntries(init.headers.entries());
     } else if (typeof init.headers === 'object') {
-      options.headers = init.headers as Record<string, string>;
+      options.headers = init.headers as Record<string, string>\n  );
     }
   }
-  
+
   // Convert body
   if (init.body) {
     options.body = init.body;
   }
-  
+
   return options;
 }
 
@@ -465,8 +463,7 @@ export function createApiV5Compatible(): ApiV5Compatible {
         const result = await graphqlClient.graphql({
           query: params.query,
           variables: params.variables
-        }) as GraphQLResult<T>;
-
+        }) as GraphQLResult<T>\n  );
         // Make sure to handle undefined data case
         if (result.data === undefined) {
           throw new Error('GraphQL operation returned undefined data');
@@ -474,7 +471,7 @@ export function createApiV5Compatible(): ApiV5Compatible {
 
         return { data: result.data };
       } catch (error) {
-        console.error('Error in GraphQL operation with v5 compatibility:', error);
+
         throw error;
       }
     },
@@ -488,7 +485,7 @@ export function createApiV5Compatible(): ApiV5Compatible {
         });
         return result.data;
       } catch (error) {
-        console.error(`Error in GET request to ${apiName}${path} with v5 compatibility:`, error);
+
         throw error;
       }
     },
@@ -502,7 +499,7 @@ export function createApiV5Compatible(): ApiV5Compatible {
         });
         return result.data;
       } catch (error) {
-        console.error(`Error in POST request to ${apiName}${path} with v5 compatibility:`, error);
+
         throw error;
       }
     },
@@ -516,7 +513,7 @@ export function createApiV5Compatible(): ApiV5Compatible {
         });
         return result.data;
       } catch (error) {
-        console.error(`Error in PUT request to ${apiName}${path} with v5 compatibility:`, error);
+
         throw error;
       }
     },
@@ -530,7 +527,7 @@ export function createApiV5Compatible(): ApiV5Compatible {
         });
         return result.data;
       } catch (error) {
-        console.error(`Error in DELETE request to ${apiName}${path} with v5 compatibility:`, error);
+
         throw error;
       }
     }

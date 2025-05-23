@@ -4,8 +4,7 @@ import type {
   GraphQLResult,
   GraphQLOperationOptions,
   GraphQLSubscriptionOptions,
-  GraphQLMutationOptions,
-} from '../types';
+  GraphQLMutationOptions} from '../types';
 
 interface UseQueryOptions<T> extends GraphQLOperationOptions<T> {
   skip?: boolean;
@@ -30,9 +29,9 @@ export function useQuery<T = unknown>(
   query: string,
   options: UseQueryOptions<T> = {}
 ) {
-  const [data, setData] = React.useState<T | null>(null);
-  const [error, setError] = React.useState<Error | null>(null);
-  const [loading, setLoading] = React.useState(true);
+  const [datasetData] = React.useState<T | null>(null);
+  const [errorsetError] = React.useState<Error | null>(null);
+  const [loadingsetLoading] = React.useState(true);
 
   const fetchData = React.useCallback(async () => {
     if (options.skip || options.enabled === false) {
@@ -43,8 +42,7 @@ export function useQuery<T = unknown>(
     setLoading(true);
     const result = await graphQLClient.query<T>({
       query,
-      ...options,
-    });
+      ...options});
 
     setData(result.data);
     setError(result.error);
@@ -55,7 +53,7 @@ export function useQuery<T = unknown>(
     } else if (result.data && options.onSuccess) {
       options.onSuccess(result.data);
     }
-  }, [query, options]);
+  }, [queryoptions]);
 
   React.useEffect(() => {
     fetchData();
@@ -100,17 +98,16 @@ export function useQuery<T = unknown>(
     data,
     error,
     loading,
-    refetch: fetchData,
-  };
+    refetch: fetchData};
 }
 
 export function useMutation<T = unknown, V extends Record<string, unknown> = Record<string, unknown>>(
   mutation: string,
   options: UseMutationOptions<T> = {}
 ) {
-  const [data, setData] = React.useState<T | null>(null);
-  const [error, setError] = React.useState<Error | null>(null);
-  const [loading, setLoading] = React.useState(false);
+  const [datasetData] = React.useState<T | null>(null);
+  const [errorsetError] = React.useState<Error | null>(null);
+  const [loadingsetLoading] = React.useState(false);
 
   const mutate = React.useCallback(async (variables?: V) => {
     setLoading(true);
@@ -118,8 +115,7 @@ export function useMutation<T = unknown, V extends Record<string, unknown> = Rec
     const result = await graphQLClient.mutate<T>({
       mutation,
       variables,
-      ...options,
-    });
+      ...options});
 
     setData(result.data);
     setError(result.error);
@@ -135,22 +131,21 @@ export function useMutation<T = unknown, V extends Record<string, unknown> = Rec
     }
 
     return result.data;
-  }, [mutation, options]);
+  }, [mutationoptions]);
 
   return {
     mutate,
     data,
     error,
-    loading,
-  };
+    loading};
 }
 
 export function useSubscription<T = unknown>(
   subscription: string,
   options: UseSubscriptionOptions<T> = {}
 ) {
-  const [data, setData] = React.useState<T | null>(null);
-  const [error, setError] = React.useState<Error | null>(null);
+  const [datasetData] = React.useState<T | null>(null);
+  const [errorsetError] = React.useState<Error | null>(null);
 
   React.useEffect(() => {
     if (options.skip || options.enabled === false) {
@@ -164,16 +159,15 @@ export function useSubscription<T = unknown>(
         cleanup = await graphQLClient.subscribe<T>({
           subscription,
           ...options,
-          onData: (data) => {
+          onData: (data: any) => {
             setData(data);
             setError(null);
             options.onData?.(data);
           },
-          onError: (error) => {
+          onError: (error: any) => {
             setError(error);
             options.onError?.(error);
-          },
-        });
+          });
       } catch (err) {
         const error = err as Error;
         setError(error);
@@ -186,16 +180,14 @@ export function useSubscription<T = unknown>(
     return () => {
       cleanup?.();
     };
-  }, [subscription, options]);
+  }, [subscriptionoptions]);
 
   return {
     data,
-    error,
-  };
+    error};
 }
 
 export default {
   useQuery,
   useMutation,
-  useSubscription,
-}; 
+  useSubscription}; 

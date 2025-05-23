@@ -12,7 +12,7 @@ export default function SecurityTestPage() {
         to ensure they work correctly together. These tests run in a sandbox environment
         and don't affect production data.
       </p>
-      
+
       <TestRunnerUI />
     </div>
   );

@@ -18,21 +18,17 @@ const meta: Meta<typeof ChartWrapper> = {
   title: 'UI/Chart',
   component: ChartWrapper,
   parameters: {
-    layout: 'centered',
-  },
+    layout: 'centered'},
   tags: ['autodocs'],
   decorators: [
-    (Story) => (
+    (Story: any) => (
       <div className="p-6 max-w-4xl mx-auto">
         <Story />
       </div>
-    ),
-  ],
-};
+    )]};
 
 export default meta;
-type Story = StoryObj<typeof ChartWrapper>;
-
+type Story = StoryObj<typeof ChartWrapper>\n  );
 // Sample data for charts
 const barChartData = [
   { name: 'Jan', revenue: 12000, expenses: 8000, profit: 4000 },
@@ -40,8 +36,7 @@ const barChartData = [
   { name: 'Mar', revenue: 18000, expenses: 12000, profit: 6000 },
   { name: 'Apr', revenue: 21000, expenses: 13000, profit: 8000 },
   { name: 'May', revenue: 23000, expenses: 14000, profit: 9000 },
-  { name: 'Jun', revenue: 26000, expenses: 16000, profit: 10000 },
-];
+  { name: 'Jun', revenue: 26000, expenses: 16000, profit: 10000 }];
 
 const lineChartData = [
   { date: 'Week 1', sales: 120, visitors: 450, leads: 23 },
@@ -51,8 +46,7 @@ const lineChartData = [
   { date: 'Week 5', sales: 250, visitors: 700, leads: 40 },
   { date: 'Week 6', sales: 280, visitors: 750, leads: 45 },
   { date: 'Week 7', sales: 300, visitors: 800, leads: 50 },
-  { date: 'Week 8', sales: 320, visitors: 880, leads: 55 },
-];
+  { date: 'Week 8', sales: 320, visitors: 880, leads: 55 }];
 
 const areaChartData = [
   { month: 'Jan', residential: 45, commercial: 30, industrial: 15 },
@@ -62,18 +56,15 @@ const areaChartData = [
   { month: 'May', residential: 70, commercial: 50, industrial: 25 },
   { month: 'Jun', residential: 75, commercial: 55, industrial: 28 },
   { month: 'Jul', residential: 82, commercial: 60, industrial: 30 },
-  { month: 'Aug', residential: 85, commercial: 62, industrial: 32 },
-];
+  { month: 'Aug', residential: 85, commercial: 62, industrial: 32 }];
 
 const pieChartData = [
   { name: 'Residential', value: 65 },
   { name: 'Commercial', value: 25 },
-  { name: 'Industrial', value: 10 },
-];
+  { name: 'Industrial', value: 10 }];
 
-const metricTrendData = Array.from({ length: 7 }, (_, i) => ({
-  value: 10 + Math.random() * 50,
-}));
+const metricTrendData = Array.from({ length: 7 }, (_i: any) => ({
+  value: 10 + Math.random() * 50}));
 
 export const BarChart: Story = {
   render: () => (
@@ -83,14 +74,12 @@ export const BarChart: Story = {
       series={[
         { dataKey: 'revenue', name: 'Revenue' },
         { dataKey: 'expenses', name: 'Expenses' },
-        { dataKey: 'profit', name: 'Profit' },
-      ]}
+        { dataKey: 'profit', name: 'Profit' }]}
       xAxisKey="name"
       height={400}
-      formatYAxis={(value) => `$${value / 1000}k`}
+      formatYAxis={(value: any) => `$${value / 1000}k`}
     />
-  ),
-};
+  )};
 
 export const StackedBarChart: Story = {
   render: () => (
@@ -100,15 +89,13 @@ export const StackedBarChart: Story = {
       series={[
         { dataKey: 'revenue', name: 'Revenue', stackId: 'stack' },
         { dataKey: 'expenses', name: 'Expenses', stackId: 'stack' },
-        { dataKey: 'profit', name: 'Profit', stackId: 'stack' },
-      ]}
+        { dataKey: 'profit', name: 'Profit', stackId: 'stack' }]}
       xAxisKey="name"
       height={400}
       stacked={true}
-      formatYAxis={(value) => `$${value / 1000}k`}
+      formatYAxis={(value: any) => `$${value / 1000}k`}
     />
-  ),
-};
+  )};
 
 export const HorizontalBarChart: Story = {
   render: () => (
@@ -117,15 +104,13 @@ export const HorizontalBarChart: Story = {
       type="bar"
       series={[
         { dataKey: 'revenue', name: 'Revenue' },
-        { dataKey: 'expenses', name: 'Expenses' },
-      ]}
+        { dataKey: 'expenses', name: 'Expenses' }]}
       xAxisKey="name"
       height={400}
       horizontal={true}
-      formatYAxis={(value) => `$${value / 1000}k`}
+      formatYAxis={(value: any) => `$${value / 1000}k`}
     />
-  ),
-};
+  )};
 
 export const LineChartExample: Story = {
   name: 'Line Chart',
@@ -135,17 +120,15 @@ export const LineChartExample: Story = {
       type="line"
       series={[
         { dataKey: 'sales', name: 'Sales' },
-        { dataKey: 'leads', name: 'Leads', yAxisId: 'right' },
-      ]}
+        { dataKey: 'leads', name: 'Leads', yAxisId: 'right' }]}
       xAxisKey="date"
       height={400}
       showDots={true}
       secondaryYAxis={true}
       grid={true}
-      tooltipFormatter={(value, name) => [`${value}`, name]}
+      tooltipFormatter={(valuename: any) => [`${value}`, name]}
     />
-  ),
-};
+  )};
 
 export const AreaChart: Story = {
   render: () => (
@@ -155,14 +138,12 @@ export const AreaChart: Story = {
       series={[
         { dataKey: 'residential', name: 'Residential' },
         { dataKey: 'commercial', name: 'Commercial' },
-        { dataKey: 'industrial', name: 'Industrial' },
-      ]}
+        { dataKey: 'industrial', name: 'Industrial' }]}
       xAxisKey="month"
       height={400}
       stacked={true}
     />
-  ),
-};
+  )};
 
 export const PieChart: Story = {
   render: () => (
@@ -172,10 +153,9 @@ export const PieChart: Story = {
       series={[{ dataKey: 'value' }]}
       xAxisKey="name"
       height={400}
-      tooltipFormatter={(value) => [`${value}%`, '']}
+      tooltipFormatter={(value: any) => [`${value}%`, '']}
     />
-  ),
-};
+  )};
 
 export const ComposedChart: Story = {
   render: () => (
@@ -185,16 +165,14 @@ export const ComposedChart: Story = {
       series={[
         { dataKey: 'revenue', name: 'Revenue', type: 'bar' },
         { dataKey: 'expenses', name: 'Expenses', type: 'bar' },
-        { dataKey: 'profit', name: 'Profit', type: 'line' },
-      ]}
+        { dataKey: 'profit', name: 'Profit', type: 'line' }]}
       xAxisKey="name"
       height={400}
       showDots={true}
       grid={true}
-      formatYAxis={(value) => `$${value / 1000}k`}
+      formatYAxis={(value: any) => `$${value / 1000}k`}
     />
-  ),
-};
+  )};
 
 export const MetricCards: Story = {
   render: () => (
@@ -242,8 +220,7 @@ export const MetricCards: Story = {
         trendColor="warning"
       />
     </div>
-  ),
-};
+  )};
 
 export const ResponsiveDashboardSample: Story = {
   render: () => (
@@ -301,11 +278,10 @@ export const ResponsiveDashboardSample: Story = {
               series={[
                 { dataKey: 'revenue', name: 'Revenue' },
                 { dataKey: 'expenses', name: 'Expenses' },
-                { dataKey: 'profit', name: 'Profit' },
-              ]}
+                { dataKey: 'profit', name: 'Profit' }]}
               xAxisKey="name"
               height={300}
-              formatYAxis={(value) => `$${value / 1000}k`}
+              formatYAxis={(value: any) => `$${value / 1000}k`}
             />
           </CardContent>
         </Card>
@@ -320,8 +296,7 @@ export const ResponsiveDashboardSample: Story = {
               type="line"
               series={[
                 { dataKey: 'sales', name: 'Sales' },
-                { dataKey: 'leads', name: 'Leads', yAxisId: 'right' },
-              ]}
+                { dataKey: 'leads', name: 'Leads', yAxisId: 'right' }]}
               xAxisKey="date"
               height={300}
               showDots={true}
@@ -343,7 +318,7 @@ export const ResponsiveDashboardSample: Story = {
               series={[{ dataKey: 'value' }]}
               xAxisKey="name"
               height={250}
-              tooltipFormatter={(value) => [`${value}%`, '']}
+              tooltipFormatter={(value: any) => [`${value}%`, '']}
             />
           </CardContent>
         </Card>
@@ -359,8 +334,7 @@ export const ResponsiveDashboardSample: Story = {
               series={[
                 { dataKey: 'residential', name: 'Residential' },
                 { dataKey: 'commercial', name: 'Commercial' },
-                { dataKey: 'industrial', name: 'Industrial' },
-              ]}
+                { dataKey: 'industrial', name: 'Industrial' }]}
               xAxisKey="month"
               height={250}
               stacked={true}
@@ -369,5 +343,4 @@ export const ResponsiveDashboardSample: Story = {
         </Card>
       </div>
     </div>
-  ),
-};
+  )};

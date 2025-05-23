@@ -92,30 +92,26 @@ export default function SimilarProperties({
   return (
     <div className="relative">
       <Swiper
-        modules={[Navigation, Pagination]}
+        modules={[NavigationPagination]}
         spaceBetween={16}
         slidesPerView={1}
-        navigation={{
+        navigation={
           prevEl: '.swiper-button-prev',
-          nextEl: '.swiper-button-next',
-        }}
-        pagination={{ clickable: true }}
-        breakpoints={{
+          nextEl: '.swiper-button-next'}
+        pagination={ clickable: true }
+        breakpoints={
           640: {
-            slidesPerView: 2,
-          },
+            slidesPerView: 2},
           1024: {
-            slidesPerView: 3,
-          },
-        }}
+            slidesPerView: 3}}
         className="pb-10"
       >
         {properties.map((property: SimilarProperty, index: number) => (
           <SwiperSlide key={property.id}>
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1 }}
+              initial={ opacity: 0, y: 20 }
+              animate={ opacity: 1, y: 0 }
+              transition={ delay: index * 0.1 }
             >
               <Link href={`/properties/${property.id}`}>
                 <Card className="overflow-hidden hover:shadow-lg transition-shadow cursor-pointer h-full">
@@ -174,11 +170,11 @@ export default function SimilarProperties({
                       </div>
                     </div>
 
-                    {property.similarity.reasons.length > 0 && (
+                    {property.similarity.reasons.length> 0 && (
                       <div className="pt-2 border-t">
                         <p className="text-xs text-gray-600 mb-1">Similar because:</p>
                         <div className="flex flex-wrap gap-1">
-                          {property.similarity.reasons.slice(0, 2).map((reason, idx) => (
+                          {property.similarity.reasons.slice(02).map((reasonidx: any) => (
                             <Badge key={idx} variant="secondary" className="text-xs">
                               {reason}
                             </Badge>

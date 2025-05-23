@@ -1,3 +1,4 @@
+import React from 'react';
 'use client';
 
 import { useState, useMemo } from 'react';
@@ -48,8 +49,7 @@ import {
   TableCell,
   TableHead,
   TableHeader,
-  TableRow,
-} from '@/components/ui/table';
+  TableRow} from '@/components/ui/table';
 import {
   Dialog,
   DialogContent,
@@ -57,8 +57,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
-} from '@/components/ui/dialog';
+  DialogTrigger} from '@/components/ui/dialog';
 import { Badge } from '@/components/ui/badge';
 import { 
   ChevronDown, 
@@ -82,31 +81,26 @@ import {
   SelectItem,
   SelectLabel,
   SelectTrigger,
-  SelectValue, 
-} from '@/components/ui/select';
+  SelectValue} from '@/components/ui/select';
 import {
   HoverCard,
   HoverCardContent,
-  HoverCardTrigger,
-} from '@/components/ui/hover-card';
+  HoverCardTrigger} from '@/components/ui/hover-card';
 import { cn } from '@/lib/utils';
 import {
   ContextMenu,
   ContextMenuContent,
   ContextMenuItem,
-  ContextMenuTrigger,
-} from '@/components/ui/context-menu';
+  ContextMenuTrigger} from '@/components/ui/context-menu';
 import {
   Popover,
   PopoverContent,
-  PopoverTrigger,
-} from '@/components/ui/popover';
+  PopoverTrigger} from '@/components/ui/popover';
 import { 
   Tooltip as UITooltip,
   TooltipContent,
   TooltipProvider,
-  TooltipTrigger,
-} from '@/components/ui/tooltip';
+  TooltipTrigger} from '@/components/ui/tooltip';
 import { ScrollArea } from '@/components/ui/scroll-area';
 
 // Types
@@ -155,7 +149,7 @@ export default function ScenarioComparison({
   className
 }: ScenarioComparisonProps) {
   // State for scenarios
-  const [scenarios, setScenarios] = useState<FinancialScenario[]>([
+  const [scenariossetScenarios] = useState<FinancialScenario[]>([
     {
       id: 'base',
       name: 'Base Case',
@@ -279,20 +273,20 @@ export default function ScenarioComparison({
   ]);
 
   // State for active tab
-  const [activeTab, setActiveTab] = useState<'compare' | 'detail' | 'cashflow'>('compare');
-  
+  const [activeTabsetActiveTab] = useState<'compare' | 'detail' | 'cashflow'>('compare');
+
   // State for selected scenarios (for comparison)
-  const [selectedScenarioIds, setSelectedScenarioIds] = useState<string[]>(['base', 'optimistic', 'pessimistic']);
-  
+  const [selectedScenarioIdssetSelectedScenarioIds] = useState<string[]>(['base', 'optimistic', 'pessimistic']);
+
   // State for the active scenario in detail view
-  const [activeScenarioId, setActiveScenarioId] = useState<string>('base');
-  
+  const [activeScenarioIdsetActiveScenarioId] = useState<string>('base');
+
   // State for sensitivity analysis parameter
-  const [sensitivityParam, setSensitivityParam] = useState<keyof FinancialScenario['parameters']>('salesPrice');
-  
+  const [sensitivityParamsetSensitivityParam] = useState<keyof FinancialScenario['parameters']>('salesPrice');
+
   // State for new scenario dialog
-  const [newScenarioOpen, setNewScenarioOpen] = useState(false);
-  const [newScenario, setNewScenario] = useState<Partial<FinancialScenario>>({
+  const [newScenarioOpensetNewScenarioOpen] = useState(false);
+  const [newScenariosetNewScenario] = useState<Partial<FinancialScenario>>({
     name: '',
     description: '',
     type: 'custom',
@@ -305,17 +299,17 @@ export default function ScenarioComparison({
       marketingCosts: 150000
     }
   });
-  
+
   // Get active scenarios for comparison
   const activeScenarios = useMemo(() => {
     return scenarios.filter(s => selectedScenarioIds.includes(s.id));
-  }, [scenarios, selectedScenarioIds]);
-  
+  }, [scenariosselectedScenarioIds]);
+
   // Get current active scenario for detail view
   const activeScenario = useMemo(() => {
     return scenarios.find(s => s.id === activeScenarioId) || scenarios[0];
-  }, [scenarios, activeScenarioId]);
-  
+  }, [scenariosactiveScenarioId]);
+
   // Format currency with locale
   const formatCurrency = (value: number) => {
     return new Intl.NumberFormat('en-US', {
@@ -325,12 +319,12 @@ export default function ScenarioComparison({
       maximumFractionDigits: 0
     }).format(value);
   };
-  
+
   // Format percentage
   const formatPercentage = (value: number) => {
     return `${value.toFixed(2)}%`;
   };
-  
+
   // Add type guards for value formatting
   const formatValue = (value: any) => {
     if (typeof value === 'number') {
@@ -341,23 +335,23 @@ export default function ScenarioComparison({
     }
     return value;
   };
-  
+
   // Handle adding a new scenario
   const handleAddScenario = () => {
     if (!newScenario.name) return;
-    
+
     // Generate new scenario with basic calculations
     // In a real app this would use financial formulas based on parameters
     const baseScenario = scenarios.find(s => s.id === 'base')!;
     const newId = `custom-${Date.now()}`;
-    
+
     const newParams = newScenario.parameters!;
-    
+
     // Simple calculations based on parameter changes
     const priceRatio = newParams.salesPrice / baseScenario.parameters.salesPrice;
     const costRatio = newParams.constructionCosts / baseScenario.parameters.constructionCosts;
     const velocityRatio = newParams.salesVelocity / baseScenario.parameters.salesVelocity;
-    
+
     // Rough estimate calculations
     const totalRevenue = Math.round(baseScenario.results.totalRevenue * priceRatio);
     const totalCosts = Math.round(baseScenario.results.totalCosts * costRatio * 
@@ -366,26 +360,26 @@ export default function ScenarioComparison({
     const grossProfit = totalRevenue - totalCosts;
     const margin = (grossProfit / totalRevenue) * 100;
     const roi = (grossProfit / totalCosts) * 100;
-    
+
     // Simple IRR and NPV adjustments based on parameters
     const irr = baseScenario.results.irr * 
                 (priceRatio * 0.5 + velocityRatio * 0.3 - 
                  (newParams.interestRate - baseScenario.parameters.interestRate) * 0.1);
-    
+
     const npv = baseScenario.results.npv * priceRatio * velocityRatio / 
                 (1 + (newParams.interestRate - baseScenario.parameters.interestRate) / 20);
-    
+
     // Generate monthly projections (simplified)
-    const monthlyProjections = baseScenario.monthlyProjections.map((month, i) => {
+    const monthlyProjections = baseScenario.monthlyProjections.map((monthi: any) => {
       const revenue = Math.round(month.revenue * priceRatio * (i === 0 ? 1 : velocityRatio));
       const costs = Math.round(month.costs * costRatio * (1 + (newParams.contingency - baseScenario.parameters.contingency) / 100));
       const cashFlow = revenue - costs;
       // Calculate cumulative cash flow
-      const prevCumulativeCashFlow = i > 0 ? 
+      const prevCumulativeCashFlow = i> 0 ? 
                     baseScenario.monthlyProjections[i-1].cumulativeCashFlow * priceRatio * velocityRatio / costRatio :
                     0;
       const cumulativeCashFlow = prevCumulativeCashFlow + cashFlow;
-      
+
       return {
         month: month.month,
         revenue,
@@ -394,7 +388,7 @@ export default function ScenarioComparison({
         cumulativeCashFlow
       };
     });
-    
+
     // Create the new scenario
     const scenario: FinancialScenario = {
       id: newId,
@@ -416,13 +410,13 @@ export default function ScenarioComparison({
       },
       monthlyProjections
     };
-    
+
     // Add to scenarios and select it
-    setScenarios([...scenarios, scenario]);
-    setSelectedScenarioIds([...selectedScenarioIds, newId]);
+    setScenarios([...scenariosscenario]);
+    setSelectedScenarioIds([...selectedScenarioIdsnewId]);
     setActiveScenarioId(newId);
     setActiveTab('detail');
-    
+
     // Close dialog and reset form
     setNewScenarioOpen(false);
     setNewScenario({
@@ -439,21 +433,21 @@ export default function ScenarioComparison({
       }
     });
   };
-  
+
   // Calculate sensitivity analysis data
   const sensitivityData = useMemo(() => {
     const baseScenario = scenarios.find(s => s.id === 'base')!;
     const baseParam = baseScenario.parameters[sensitivityParam];
     const baseResult = baseScenario.results.grossProfit;
-    
+
     // Calculate profit impact for parameter changes from -20% to +20%
-    return Array.from({ length: 9 }, (_, i) => {
+    return Array.from({ length: 9 }, (_i: any) => {
       const change = -20 + i * 5; // -20, -15, -10, -5, 0, 5, 10, 15, 20
       const paramValue = baseParam * (1 + change / 100);
-      
+
       // Simplified calculation of profit impact
       let profitImpact = 0;
-      
+
       if (sensitivityParam === 'salesPrice') {
         const revenueChange = baseScenario.results.totalRevenue * (change / 100);
         profitImpact = revenueChange;
@@ -474,12 +468,12 @@ export default function ScenarioComparison({
       } else if (sensitivityParam === 'marketingCosts') {
         profitImpact = -(baseScenario.parameters.marketingCosts * (change / 100));
       }
-      
+
       const newProfit = baseResult + profitImpact;
       const profitChangePercent = (profitImpact / baseResult) * 100;
-      
+
       return {
-        change: `${change > 0 ? '+' : ''}${change}%`,
+        change: `${change> 0 ? '+' : ''}${change}%`,
         paramValue: sensitivityParam === 'interestRate' || sensitivityParam === 'contingency' ? 
                     baseParam + (change / 100) : paramValue,
         profit: newProfit,
@@ -487,25 +481,24 @@ export default function ScenarioComparison({
         profitChangePercent
       };
     });
-  }, [sensitivityParam, scenarios]);
-  
+  }, [sensitivityParamscenarios]);
+
   // Colors for charts
   const scenarioColors = {
     base: '#0088FE',
     optimistic: '#00C49F',
-    pessimistic: '#FF8042',
-  };
-  
+    pessimistic: '#FF8042'};
+
   const getScenarioColor = (scenarioId: string) => {
     if (scenarioId.startsWith('custom')) {
       // Generate a color based on the ID to keep it consistent
       const hash = scenarioId.split('-')[1];
-      const hue = parseInt(hash.slice(0, 4), 16) % 360;
+      const hue = parseInt(hash.slice(04), 16) % 360;
       return `hsl(${hue}, 70%, 50%)`;
     }
     return (scenarioColors as any)[scenarioId] || '#8884d8';
   };
-  
+
   return (
     <Card className={cn("w-full", className)}>
       <CardHeader className="pb-3">
@@ -540,15 +533,15 @@ export default function ScenarioComparison({
           </div>
         </div>
       </CardHeader>
-      
+
       <CardContent className="space-y-6">
-        <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as any)} className="space-y-4">
+        <Tabs value={activeTab} onValueChange={(v: any) => setActiveTab(v as any)} className="space-y-4">
           <TabsList>
             <TabsTrigger value="compare">Compare Scenarios</TabsTrigger>
             <TabsTrigger value="detail">Scenario Details</TabsTrigger>
             <TabsTrigger value="cashflow">Cash Flow Analysis</TabsTrigger>
           </TabsList>
-          
+
           {/* Scenario Comparison Tab */}
           <TabsContent value="compare" className="space-y-6">
             {/* Scenario Selection */}
@@ -559,7 +552,7 @@ export default function ScenarioComparison({
               <CardContent>
                 <ScrollArea className="max-h-64">
                   <div className="space-y-2">
-                    {scenarios.map((scenario) => (
+                    {scenarios.map((scenario: any) => (
                       <div 
                         key={scenario.id} 
                         className={cn(
@@ -571,20 +564,20 @@ export default function ScenarioComparison({
                           type="checkbox"
                           id={`scenario-${scenario.id}`}
                           checked={selectedScenarioIds.includes(scenario.id)}
-                          onChange={(e) => {
+                          onChange={(e: any) => {
                             if (e.target.checked) {
                               setSelectedScenarioIds([...selectedScenarioIds, scenario.id]);
                             } else {
                               setSelectedScenarioIds(selectedScenarioIds.filter(id => id !== scenario.id));
                             }
-                          }}
+                          }
                           className="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary"
                         />
                         <label htmlFor={`scenario-${scenario.id}`} className="ml-2 flex-grow cursor-pointer">
                           <div className="flex items-center">
                             <span 
                               className="h-3 w-3 rounded-full mr-2"
-                              style={{ backgroundColor: getScenarioColor(scenario.id) }}
+                              style={ backgroundColor: getScenarioColor(scenario.id) }
                             ></span>
                             <span>{scenario.name}</span>
                             {scenario.type !== 'custom' && (
@@ -622,7 +615,7 @@ export default function ScenarioComparison({
                 </ScrollArea>
               </CardContent>
             </Card>
-            
+
             {/* Comparison Charts */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {/* Key Metrics Comparison */}
@@ -642,22 +635,22 @@ export default function ScenarioComparison({
                           roi: s.results.roi
                         }))}
                         layout="vertical"
-                        margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+                        margin={ top: 5, right: 30, left: 20, bottom: 5 }
                       >
                         <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis type="number" tickFormatter={(value) => formatCurrency(value)} />
+                        <XAxis type="number" tickFormatter={(value: any) => formatCurrency(value)} />
                         <YAxis type="category" dataKey="name" width={100} />
                         <Tooltip 
-                          formatter={(value, name) => {
+                          formatter={(valuename: any) => {
                             if (name === 'margin' || name === 'roi') {
                               return [`${value.toFixed(2)}%`, name === 'margin' ? 'Margin' : 'ROI'];
                             }
                             return [formatCurrency(value as number), name === 'profit' ? 'Profit' : name];
-                          }}
+                          }
                         />
                         <Legend />
                         <Bar dataKey="profit" fill="#0088FE" name="Gross Profit">
-                          {activeScenarios.map((s, index) => (
+                          {activeScenarios.map((sindex: any) => (
                             <Cell key={`cell-${index}`} fill={getScenarioColor(s.id)} />
                           ))}
                         </Bar>
@@ -666,7 +659,7 @@ export default function ScenarioComparison({
                   </div>
                 </CardContent>
               </Card>
-              
+
               {/* ROI and IRR Comparison */}
               <Card>
                 <CardHeader>
@@ -724,7 +717,7 @@ export default function ScenarioComparison({
                 </CardContent>
               </Card>
             </div>
-            
+
             {/* Detailed Comparison Table */}
             <Card>
               <CardHeader>
@@ -735,12 +728,12 @@ export default function ScenarioComparison({
                   <TableHeader>
                     <TableRow>
                       <TableHead className="w-[200px]">Metric</TableHead>
-                      {activeScenarios.map((scenario) => (
+                      {activeScenarios.map((scenario: any) => (
                         <TableHead key={scenario.id} className="text-right">
                           <div className="flex items-center justify-end gap-2">
                             <span
                               className="h-3 w-3 rounded-full"
-                              style={{ backgroundColor: getScenarioColor(scenario.id) }}
+                              style={ backgroundColor: getScenarioColor(scenario.id) }
                             ></span>
                             <span>{scenario.name}</span>
                           </div>
@@ -757,7 +750,7 @@ export default function ScenarioComparison({
                     </TableRow>
                     <TableRow>
                       <TableCell>Sales Price</TableCell>
-                      {activeScenarios.map((scenario) => (
+                      {activeScenarios.map((scenario: any) => (
                         <TableCell key={scenario.id} className="text-right">
                           {formatCurrency(scenario.parameters.salesPrice)}
                         </TableCell>
@@ -765,7 +758,7 @@ export default function ScenarioComparison({
                     </TableRow>
                     <TableRow>
                       <TableCell>Sales Velocity (units/month)</TableCell>
-                      {activeScenarios.map((scenario) => (
+                      {activeScenarios.map((scenario: any) => (
                         <TableCell key={scenario.id} className="text-right">
                           {scenario.parameters.salesVelocity.toFixed(1)}
                         </TableCell>
@@ -773,7 +766,7 @@ export default function ScenarioComparison({
                     </TableRow>
                     <TableRow>
                       <TableCell>Construction Costs</TableCell>
-                      {activeScenarios.map((scenario) => (
+                      {activeScenarios.map((scenario: any) => (
                         <TableCell key={scenario.id} className="text-right">
                           {formatCurrency(scenario.parameters.constructionCosts)}
                         </TableCell>
@@ -781,7 +774,7 @@ export default function ScenarioComparison({
                     </TableRow>
                     <TableRow>
                       <TableCell>Interest Rate (%)</TableCell>
-                      {activeScenarios.map((scenario) => (
+                      {activeScenarios.map((scenario: any) => (
                         <TableCell key={scenario.id} className="text-right">
                           {scenario.parameters.interestRate.toFixed(2)}%
                         </TableCell>
@@ -789,7 +782,7 @@ export default function ScenarioComparison({
                     </TableRow>
                     <TableRow>
                       <TableCell>Contingency (%)</TableCell>
-                      {activeScenarios.map((scenario) => (
+                      {activeScenarios.map((scenario: any) => (
                         <TableCell key={scenario.id} className="text-right">
                           {scenario.parameters.contingency.toFixed(1)}%
                         </TableCell>
@@ -797,13 +790,13 @@ export default function ScenarioComparison({
                     </TableRow>
                     <TableRow>
                       <TableCell>Marketing Costs</TableCell>
-                      {activeScenarios.map((scenario) => (
+                      {activeScenarios.map((scenario: any) => (
                         <TableCell key={scenario.id} className="text-right">
                           {formatCurrency(scenario.parameters.marketingCosts)}
                         </TableCell>
                       ))}
                     </TableRow>
-                    
+
                     {/* Results section */}
                     <TableRow className="bg-muted/50">
                       <TableCell colSpan={activeScenarios.length + 1} className="font-semibold">
@@ -812,7 +805,7 @@ export default function ScenarioComparison({
                     </TableRow>
                     <TableRow>
                       <TableCell>Total Revenue</TableCell>
-                      {activeScenarios.map((scenario) => (
+                      {activeScenarios.map((scenario: any) => (
                         <TableCell key={scenario.id} className="text-right">
                           {formatCurrency(scenario.results.totalRevenue)}
                         </TableCell>
@@ -820,7 +813,7 @@ export default function ScenarioComparison({
                     </TableRow>
                     <TableRow>
                       <TableCell>Total Costs</TableCell>
-                      {activeScenarios.map((scenario) => (
+                      {activeScenarios.map((scenario: any) => (
                         <TableCell key={scenario.id} className="text-right">
                           {formatCurrency(scenario.results.totalCosts)}
                         </TableCell>
@@ -828,7 +821,7 @@ export default function ScenarioComparison({
                     </TableRow>
                     <TableRow>
                       <TableCell>Gross Profit</TableCell>
-                      {activeScenarios.map((scenario) => (
+                      {activeScenarios.map((scenario: any) => (
                         <TableCell key={scenario.id} className="text-right font-medium">
                           {formatCurrency(scenario.results.grossProfit)}
                         </TableCell>
@@ -836,7 +829,7 @@ export default function ScenarioComparison({
                     </TableRow>
                     <TableRow>
                       <TableCell>Profit Margin</TableCell>
-                      {activeScenarios.map((scenario) => (
+                      {activeScenarios.map((scenario: any) => (
                         <TableCell key={scenario.id} className="text-right">
                           {formatPercentage(scenario.results.margin)}
                         </TableCell>
@@ -844,7 +837,7 @@ export default function ScenarioComparison({
                     </TableRow>
                     <TableRow>
                       <TableCell>ROI</TableCell>
-                      {activeScenarios.map((scenario) => (
+                      {activeScenarios.map((scenario: any) => (
                         <TableCell key={scenario.id} className="text-right">
                           {formatPercentage(scenario.results.roi)}
                         </TableCell>
@@ -852,7 +845,7 @@ export default function ScenarioComparison({
                     </TableRow>
                     <TableRow>
                       <TableCell>IRR</TableCell>
-                      {activeScenarios.map((scenario) => (
+                      {activeScenarios.map((scenario: any) => (
                         <TableCell key={scenario.id} className="text-right">
                           {formatPercentage(scenario.results.irr)}
                         </TableCell>
@@ -860,7 +853,7 @@ export default function ScenarioComparison({
                     </TableRow>
                     <TableRow>
                       <TableCell>Payback Period (years)</TableCell>
-                      {activeScenarios.map((scenario) => (
+                      {activeScenarios.map((scenario: any) => (
                         <TableCell key={scenario.id} className="text-right">
                           {scenario.results.paybackPeriod.toFixed(1)}
                         </TableCell>
@@ -868,7 +861,7 @@ export default function ScenarioComparison({
                     </TableRow>
                     <TableRow>
                       <TableCell>Net Present Value</TableCell>
-                      {activeScenarios.map((scenario) => (
+                      {activeScenarios.map((scenario: any) => (
                         <TableCell key={scenario.id} className="text-right">
                           {formatCurrency(scenario.results.npv)}
                         </TableCell>
@@ -879,7 +872,7 @@ export default function ScenarioComparison({
               </CardContent>
             </Card>
           </TabsContent>
-          
+
           {/* Scenario Details Tab */}
           <TabsContent value="detail" className="space-y-6">
             {/* Scenario Selection */}
@@ -894,12 +887,12 @@ export default function ScenarioComparison({
                 <SelectContent>
                   <SelectGroup>
                     <SelectLabel>Scenarios</SelectLabel>
-                    {scenarios.map((scenario) => (
+                    {scenarios.map((scenario: any) => (
                       <SelectItem key={scenario.id} value={scenario.id}>
                         <div className="flex items-center">
                           <span 
                             className="h-2 w-2 rounded-full mr-2"
-                            style={{ backgroundColor: getScenarioColor(scenario.id) }}
+                            style={ backgroundColor: getScenarioColor(scenario.id) }
                           ></span>
                           {scenario.name}
                         </div>
@@ -908,7 +901,7 @@ export default function ScenarioComparison({
                   </SelectGroup>
                 </SelectContent>
               </Select>
-              
+
               <div className="flex gap-2">
                 <Button variant="outline" size="sm">
                   <Copy className="h-4 w-4 mr-1.5" />
@@ -920,7 +913,7 @@ export default function ScenarioComparison({
                 </Button>
               </div>
             </div>
-            
+
             {/* Scenario Details & Sensitivity */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {/* Scenario Parameters */}
@@ -955,7 +948,7 @@ export default function ScenarioComparison({
                         />
                       </div>
                     </div>
-                    
+
                     <div className="grid grid-cols-2 gap-4">
                       <div className="space-y-2">
                         <Label htmlFor="constructionCosts">Construction Costs</Label>
@@ -981,7 +974,7 @@ export default function ScenarioComparison({
                         />
                       </div>
                     </div>
-                    
+
                     <div className="grid grid-cols-2 gap-4">
                       <div className="space-y-2">
                         <Label htmlFor="contingency">Contingency (%)</Label>
@@ -1010,7 +1003,7 @@ export default function ScenarioComparison({
                   </div>
                 </CardContent>
               </Card>
-              
+
               {/* Sensitivity Analysis */}
               <Card>
                 <CardHeader>
@@ -1018,7 +1011,7 @@ export default function ScenarioComparison({
                     <CardTitle className="text-base">Sensitivity Analysis</CardTitle>
                     <Select 
                       value={sensitivityParam} 
-                      onValueChange={(value) => setSensitivityParam(value as any)}
+                      onValueChange={(value: any) => setSensitivityParam(value as any)}
                     >
                       <SelectTrigger className="w-[180px]">
                         <SelectValue placeholder="Select parameter" />
@@ -1042,21 +1035,21 @@ export default function ScenarioComparison({
                     <ResponsiveContainer width="100%" height="100%">
                       <LineChart 
                         data={sensitivityData}
-                        margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+                        margin={ top: 5, right: 30, left: 20, bottom: 5 }
                       >
                         <CartesianGrid strokeDasharray="3 3" />
                         <XAxis dataKey="change" />
-                        <YAxis yAxisId="left" tickFormatter={(value) => `$${(value / 1000000).toFixed(1)}M`} />
-                        <YAxis yAxisId="right" orientation="right" tickFormatter={(value) => `${value.toFixed(0)}%`} />
+                        <YAxis yAxisId="left" tickFormatter={(value: any) => `$${(value / 1000000).toFixed(1)}M`} />
+                        <YAxis yAxisId="right" orientation="right" tickFormatter={(value: any) => `${value.toFixed(0)}%`} />
                         <Tooltip 
-                          formatter={(value, name) => {
+                          formatter={(valuename: any) => {
                             if (name === 'profitChangePercent') {
                               return [`${value.toFixed(2)}%`, 'Change %'];
                             }
                             return [formatCurrency(value as number), 
                                    name === 'profit' ? 'Profit' : 
                                    name === 'profitChange' ? 'Change $' : name];
-                          }}
+                          }
                         />
                         <Legend />
                         <Line 
@@ -1064,7 +1057,7 @@ export default function ScenarioComparison({
                           type="monotone" 
                           dataKey="profit" 
                           stroke="#0088FE" 
-                          activeDot={{ r: 8 }}
+                          activeDot={ r: 8 }
                           name="Gross Profit" 
                         />
                         <Line 
@@ -1078,7 +1071,7 @@ export default function ScenarioComparison({
                       </LineChart>
                     </ResponsiveContainer>
                   </div>
-                  
+
                   <div className="mt-2 text-sm text-muted-foreground">
                     <span className="font-medium">Note:</span> This chart shows how profit changes 
                     when {sensitivityParam === 'salesPrice' ? 'sales price' : 
@@ -1091,7 +1084,7 @@ export default function ScenarioComparison({
                 </CardContent>
               </Card>
             </div>
-            
+
             {/* Results and Financial Metrics */}
             <Card>
               <CardHeader>
@@ -1119,7 +1112,7 @@ export default function ScenarioComparison({
                       </div>
                     </div>
                   </div>
-                  
+
                   <div className="space-y-4">
                     <div className="space-y-1">
                       <Label className="text-sm text-muted-foreground">Profit Margin</Label>
@@ -1140,7 +1133,7 @@ export default function ScenarioComparison({
                       </div>
                     </div>
                   </div>
-                  
+
                   <div className="space-y-4">
                     <div className="space-y-1">
                       <div className="flex items-center">
@@ -1190,7 +1183,7 @@ export default function ScenarioComparison({
               </CardContent>
             </Card>
           </TabsContent>
-          
+
           {/* Cash Flow Analysis Tab */}
           <TabsContent value="cashflow" className="space-y-6">
             {/* Scenario Selection */}
@@ -1205,12 +1198,12 @@ export default function ScenarioComparison({
                 <SelectContent>
                   <SelectGroup>
                     <SelectLabel>Scenarios</SelectLabel>
-                    {scenarios.map((scenario) => (
+                    {scenarios.map((scenario: any) => (
                       <SelectItem key={scenario.id} value={scenario.id}>
                         <div className="flex items-center">
                           <span 
                             className="h-2 w-2 rounded-full mr-2"
-                            style={{ backgroundColor: getScenarioColor(scenario.id) }}
+                            style={ backgroundColor: getScenarioColor(scenario.id) }
                           ></span>
                           {scenario.name}
                         </div>
@@ -1219,13 +1212,13 @@ export default function ScenarioComparison({
                   </SelectGroup>
                 </SelectContent>
               </Select>
-              
+
               <Button variant="outline" size="sm">
                 <Download className="h-4 w-4 mr-1.5" />
                 Export Cash Flow
               </Button>
             </div>
-            
+
             {/* Cash Flow Charts */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {/* Monthly Cash Flow */}
@@ -1238,13 +1231,13 @@ export default function ScenarioComparison({
                     <ResponsiveContainer width="100%" height="100%">
                       <ComposedChart
                         data={activeScenario.monthlyProjections}
-                        margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+                        margin={ top: 20, right: 30, left: 20, bottom: 5 }
                       >
                         <CartesianGrid strokeDasharray="3 3" />
                         <XAxis dataKey="month" />
-                        <YAxis tickFormatter={(value) => `$${(value / 1000).toFixed(0)}k`} />
+                        <YAxis tickFormatter={(value: any) => `$${(value / 1000).toFixed(0)}k`} />
                         <Tooltip 
-                          formatter={(value) => [formatCurrency(value as number), '']}
+                          formatter={(value: any) => [formatCurrency(value as number), '']}
                         />
                         <Legend />
                         <Bar dataKey="revenue" stackId="a" fill="#0088FE" name="Revenue" />
@@ -1255,7 +1248,7 @@ export default function ScenarioComparison({
                   </div>
                 </CardContent>
               </Card>
-              
+
               {/* Cumulative Cash Flow */}
               <Card>
                 <CardHeader>
@@ -1266,13 +1259,13 @@ export default function ScenarioComparison({
                     <ResponsiveContainer width="100%" height="100%">
                       <AreaChart
                         data={activeScenario.monthlyProjections}
-                        margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+                        margin={ top: 20, right: 30, left: 20, bottom: 5 }
                       >
                         <CartesianGrid strokeDasharray="3 3" />
                         <XAxis dataKey="month" />
-                        <YAxis tickFormatter={(value) => `$${(value / 1000).toFixed(0)}k`} />
+                        <YAxis tickFormatter={(value: any) => `$${(value / 1000).toFixed(0)}k`} />
                         <Tooltip 
-                          formatter={(value) => [formatCurrency(value as number), '']}
+                          formatter={(value: any) => [formatCurrency(value as number), '']}
                         />
                         <Legend />
                         <ReferenceLine y={0} stroke="#000" />
@@ -1290,7 +1283,7 @@ export default function ScenarioComparison({
                 </CardContent>
               </Card>
             </div>
-            
+
             {/* Cash Flow Table */}
             <Card>
               <CardHeader>
@@ -1309,24 +1302,24 @@ export default function ScenarioComparison({
                       </TableRow>
                     </TableHeader>
                     <TableBody>
-                      {activeScenario.monthlyProjections.map((month, i) => (
+                      {activeScenario.monthlyProjections.map((monthi: any) => (
                         <TableRow key={month.month}>
                           <TableCell>{month.month}</TableCell>
                           <TableCell className="text-right">{formatCurrency(month.revenue)}</TableCell>
                           <TableCell className="text-right">{formatCurrency(month.costs)}</TableCell>
                           <TableCell className="text-right">
-                            <span className={month.cashFlow >= 0 ? 'text-green-600' : 'text-red-600'}>
+                            <span className={month.cashFlow>= 0 ? 'text-green-600' : 'text-red-600'}>
                               {formatCurrency(month.cashFlow)}
                             </span>
                           </TableCell>
                           <TableCell className="text-right">
-                            <span className={month.cumulativeCashFlow >= 0 ? 'text-green-600' : 'text-red-600'}>
+                            <span className={month.cumulativeCashFlow>= 0 ? 'text-green-600' : 'text-red-600'}>
                               {formatCurrency(month.cumulativeCashFlow)}
                             </span>
                           </TableCell>
                         </TableRow>
                       ))}
-                      
+
                       {/* Totals row */}
                       <TableRow className="font-bold border-t-2">
                         <TableCell>Total</TableCell>
@@ -1337,12 +1330,12 @@ export default function ScenarioComparison({
                           {formatCurrency(activeScenario.results.totalCosts)}
                         </TableCell>
                         <TableCell className="text-right">
-                          <span className={activeScenario.results.grossProfit >= 0 ? 'text-green-600' : 'text-red-600'}>
+                          <span className={activeScenario.results.grossProfit>= 0 ? 'text-green-600' : 'text-red-600'}>
                             {formatCurrency(activeScenario.results.grossProfit)}
                           </span>
                         </TableCell>
                         <TableCell className="text-right">
-                          <span className={activeScenario.results.grossProfit >= 0 ? 'text-green-600' : 'text-red-600'}>
+                          <span className={activeScenario.results.grossProfit>= 0 ? 'text-green-600' : 'text-red-600'}>
                             {formatCurrency(activeScenario.results.grossProfit)}
                           </span>
                         </TableCell>
@@ -1360,7 +1353,7 @@ export default function ScenarioComparison({
           </TabsContent>
         </Tabs>
       </CardContent>
-      
+
       {/* New Scenario Dialog */}
       <Dialog open={newScenarioOpen} onOpenChange={setNewScenarioOpen}>
         <DialogContent className="sm:max-w-[550px]">
@@ -1370,7 +1363,7 @@ export default function ScenarioComparison({
               Define parameters for your new financial scenario.
             </DialogDescription>
           </DialogHeader>
-          
+
           <div className="grid gap-4 py-4">
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="name" className="text-right">
@@ -1379,11 +1372,11 @@ export default function ScenarioComparison({
               <Input
                 id="name"
                 value={newScenario.name}
-                onChange={(e) => setNewScenario({ ...newScenario, name: e.target.value })}
+                onChange={(e: any) => setNewScenario({ ...newScenario, name: e.target.value })}
                 className="col-span-3"
               />
             </div>
-            
+
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="description" className="text-right">
                 Description
@@ -1391,11 +1384,11 @@ export default function ScenarioComparison({
               <Input
                 id="description"
                 value={newScenario.description}
-                onChange={(e) => setNewScenario({ ...newScenario, description: e.target.value })}
+                onChange={(e: any) => setNewScenario({ ...newScenario, description: e.target.value })}
                 className="col-span-3"
               />
             </div>
-            
+
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="salesPrice" className="text-right">
                 Sales Price
@@ -1406,7 +1399,7 @@ export default function ScenarioComparison({
                   id="salesPrice"
                   type="number"
                   value={newScenario.parameters?.salesPrice}
-                  onChange={(e) => setNewScenario({ 
+                  onChange={(e: any) => setNewScenario({ 
                     ...newScenario, 
                     parameters: { 
                       ...newScenario.parameters!, 
@@ -1417,7 +1410,7 @@ export default function ScenarioComparison({
                 />
               </div>
             </div>
-            
+
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="salesVelocity" className="text-right">
                 Sales Velocity
@@ -1427,7 +1420,7 @@ export default function ScenarioComparison({
                 type="number"
                 step="0.1"
                 value={newScenario.parameters?.salesVelocity}
-                onChange={(e) => setNewScenario({ 
+                onChange={(e: any) => setNewScenario({ 
                   ...newScenario, 
                   parameters: { 
                     ...newScenario.parameters!, 
@@ -1437,7 +1430,7 @@ export default function ScenarioComparison({
                 className="col-span-3"
               />
             </div>
-            
+
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="constructionCosts" className="text-right">
                 Construction Costs
@@ -1448,7 +1441,7 @@ export default function ScenarioComparison({
                   id="constructionCosts"
                   type="number"
                   value={newScenario.parameters?.constructionCosts}
-                  onChange={(e) => setNewScenario({ 
+                  onChange={(e: any) => setNewScenario({ 
                     ...newScenario, 
                     parameters: { 
                       ...newScenario.parameters!, 
@@ -1459,7 +1452,7 @@ export default function ScenarioComparison({
                 />
               </div>
             </div>
-            
+
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="interestRate" className="text-right">
                 Interest Rate (%)
@@ -1469,7 +1462,7 @@ export default function ScenarioComparison({
                 type="number"
                 step="0.1"
                 value={newScenario.parameters?.interestRate}
-                onChange={(e) => setNewScenario({ 
+                onChange={(e: any) => setNewScenario({ 
                   ...newScenario, 
                   parameters: { 
                     ...newScenario.parameters!, 
@@ -1479,7 +1472,7 @@ export default function ScenarioComparison({
                 className="col-span-3"
               />
             </div>
-            
+
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="contingency" className="text-right">
                 Contingency (%)
@@ -1489,7 +1482,7 @@ export default function ScenarioComparison({
                 type="number"
                 step="0.1"
                 value={newScenario.parameters?.contingency}
-                onChange={(e) => setNewScenario({ 
+                onChange={(e: any) => setNewScenario({ 
                   ...newScenario, 
                   parameters: { 
                     ...newScenario.parameters!, 
@@ -1499,7 +1492,7 @@ export default function ScenarioComparison({
                 className="col-span-3"
               />
             </div>
-            
+
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="marketingCosts" className="text-right">
                 Marketing Costs
@@ -1510,7 +1503,7 @@ export default function ScenarioComparison({
                   id="marketingCosts"
                   type="number"
                   value={newScenario.parameters?.marketingCosts}
-                  onChange={(e) => setNewScenario({ 
+                  onChange={(e: any) => setNewScenario({ 
                     ...newScenario, 
                     parameters: { 
                       ...newScenario.parameters!, 
@@ -1522,7 +1515,7 @@ export default function ScenarioComparison({
               </div>
             </div>
           </div>
-          
+
           <DialogFooter>
             <Button variant="outline" onClick={() => setNewScenarioOpen(false)}>
               Cancel
@@ -1533,7 +1526,7 @@ export default function ScenarioComparison({
           </DialogFooter>
         </DialogContent>
       </Dialog>
-      
+
       <CardFooter className="border-t p-4">
         <div className="flex flex-col xs:flex-row justify-between w-full text-sm text-muted-foreground gap-2">
           <div className="flex items-center">

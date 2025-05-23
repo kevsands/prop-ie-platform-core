@@ -26,23 +26,23 @@ const TimelineHeader: React.FC<TimelineHeaderProps> = ({
   showWeekends
 }) => {
   // Calculate the total number of days in the timeline
-  const totalDays = differenceInDays(endDate, startDate) + 1;
-  
+  const totalDays = differenceInDays(endDatestartDate) + 1;
+
   // Generate all dates in the timeline range
-  const allDates = Array.from({ length: totalDays }, (_, i) => 
-    addDays(startDate, i)
+  const allDates = Array.from({ length: totalDays }, (_i: any) => 
+    addDays(startDatei)
   );
-  
+
   // Render month header cells
   const renderMonthHeaders = () => {
     let currentMonth = -1;
     let currentMonthWidth = 0;
     const monthCells = [];
-    
-    for (let i = 0; i < allDates.length; i++) {
+
+    for (let i = 0; i <allDates.length; i++) {
       const date = allDates[i];
       const month = getMonth(date);
-      
+
       if (month !== currentMonth) {
         // Push the previous month cell if it exists
         if (currentMonth !== -1) {
@@ -50,7 +50,7 @@ const TimelineHeader: React.FC<TimelineHeaderProps> = ({
             <div 
               key={`month-${currentMonth}`}
               className="h-full border-r border-slate-200 dark:border-slate-700 flex items-center justify-center"
-              style={{ width: `${currentMonthWidth}px` }}
+              style={ width: `${currentMonthWidth}px` }
             >
               <span className="text-xs font-medium text-slate-700 dark:text-slate-300">
                 {format(addDays(date, -1), 'MMMM yyyy')}
@@ -58,7 +58,7 @@ const TimelineHeader: React.FC<TimelineHeaderProps> = ({
             </div>
           );
         }
-        
+
         // Reset for the new month
         currentMonth = month;
         currentMonthWidth = columnWidth;
@@ -66,14 +66,14 @@ const TimelineHeader: React.FC<TimelineHeaderProps> = ({
         currentMonthWidth += columnWidth;
       }
     }
-    
+
     // Add the last month
     if (currentMonth !== -1) {
       monthCells.push(
         <div 
           key={`month-${currentMonth}`}
           className="h-full border-r border-slate-200 dark:border-slate-700 flex items-center justify-center"
-          style={{ width: `${currentMonthWidth}px` }}
+          style={ width: `${currentMonthWidth}px` }
         >
           <span className="text-xs font-medium text-slate-700 dark:text-slate-300">
             {format(allDates[allDates.length - 1], 'MMMM yyyy')}
@@ -81,16 +81,16 @@ const TimelineHeader: React.FC<TimelineHeaderProps> = ({
         </div>
       );
     }
-    
+
     return monthCells;
   };
-  
+
   // Render week header cells
   const renderWeekHeaders = () => {
-    return allDates.map((date, i) => {
+    return allDates.map((datei: any) => {
       const isWeekStart = isSunday(date); // or use getDay(date) === 1 for Monday
       const showWeek = isWeekStart || i === 0;
-      
+
       return (
         <div
           key={`week-${i}`}
@@ -99,7 +99,7 @@ const TimelineHeader: React.FC<TimelineHeaderProps> = ({
             ${isWeekStart ? 'border-slate-300 dark:border-slate-600' : ''}
             ${isWeekend(date) && !showWeekends ? 'bg-slate-100 dark:bg-slate-800/50' : ''}
           `}
-          style={{ width: `${columnWidth}px` }}
+          style={ width: `${columnWidth}px` }
         >
           {showWeek && (
             <div className="text-[10px] text-slate-500 dark:text-slate-400 text-center mt-1">
@@ -110,13 +110,13 @@ const TimelineHeader: React.FC<TimelineHeaderProps> = ({
       );
     });
   };
-  
+
   // Render day header cells
   const renderDayHeaders = () => {
-    return allDates.map((date, i) => {
+    return allDates.map((datei: any) => {
       const isCurrentDay = isToday(date);
       const isMonthStart = isFirstDayOfMonth(date);
-      
+
       return (
         <div
           key={`day-${i}`}
@@ -126,7 +126,7 @@ const TimelineHeader: React.FC<TimelineHeaderProps> = ({
             ${isWeekend(date) ? 'bg-slate-100/80 dark:bg-slate-800/30' : ''}
             ${isCurrentDay ? 'bg-blue-50 dark:bg-blue-900/20' : ''}
           `}
-          style={{ width: `${columnWidth}px` }}
+          style={ width: `${columnWidth}px` }
         >
           <div className={`
             text-[10px] text-center pt-0.5
@@ -144,7 +144,7 @@ const TimelineHeader: React.FC<TimelineHeaderProps> = ({
       );
     });
   };
-  
+
   // Determine which headers to show based on view mode
   const renderHeaderCells = () => {
     switch (viewMode) {
@@ -159,19 +159,19 @@ const TimelineHeader: React.FC<TimelineHeaderProps> = ({
         return renderDayHeaders();
     }
   };
-  
+
   // Render today marker
   const renderTodayMarker = () => {
     // Only show if today is within the timeline range
-    if (today < startDate || today > endDate) return null;
-    
-    const daysFromStart = differenceInDays(today, startDate);
+    if (today <startDate || today> endDate) return null;
+
+    const daysFromStart = differenceInDays(todaystartDate);
     const leftPosition = daysFromStart * columnWidth;
-    
+
     return (
       <div 
         className="absolute top-0 bottom-0 w-0.5 bg-blue-500 dark:bg-blue-400 z-10 pointer-events-none"
-        style={{ left: `${leftPosition + (columnWidth / 2)}px` }}
+        style={ left: `${leftPosition + (columnWidth / 2)}px` }
       />
     );
   };
@@ -182,7 +182,7 @@ const TimelineHeader: React.FC<TimelineHeaderProps> = ({
       <div className="h-7 flex flex-nowrap border-b border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/50">
         {viewMode === 'month' || viewMode === 'quarter' ? renderMonthHeaders() : renderWeekHeaders()}
       </div>
-      
+
       {/* Day Header Row */}
       <div className="h-8 flex flex-nowrap border-b border-slate-300 dark:border-slate-700 bg-slate-100 dark:bg-slate-900/80">
         {renderDayHeaders()}

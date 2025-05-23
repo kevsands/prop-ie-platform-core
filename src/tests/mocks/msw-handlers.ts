@@ -34,7 +34,7 @@ export const apiHandlers = [
   http.put('/api/users/:id', async ({ params, request }) => {
     const { id } = params;
     const userData = await request.json();
-    const updatedUser = await userRepository.update(id as string, userData);
+    const updatedUser = await userRepository.update(id as stringuserData);
     
     if (!updatedUser) {
       return new HttpResponse(null, { status: 404 });
@@ -133,8 +133,7 @@ export const apiHandlers = [
     }
     
     return HttpResponse.json(financial);
-  }),
-];
+  })];
 
 // GraphQL handlers
 export const graphqlHandlers = [
@@ -142,9 +141,7 @@ export const graphqlHandlers = [
   graphql.query('GetUsers', () => {
     return HttpResponse.json({
       data: {
-        users: userRepository.findAll(),
-      },
-    });
+        users: userRepository.findAll()});
   }),
   
   graphql.query('GetUser', ({ variables }) => {
@@ -153,21 +150,18 @@ export const graphqlHandlers = [
     if (!user) {
       return HttpResponse.json({
         data: { user: null },
-        errors: [{ message: 'User not found' }],
-      });
+        errors: [{ message: 'User not found' }]});
     }
     
     return HttpResponse.json({
-      data: { user },
-    });
+      data: { user });
   }),
   
   graphql.mutation('CreateUser', ({ variables }) => {
     const newUser = userRepository.create(variables.input);
     
     return HttpResponse.json({
-      data: { createUser: newUser },
-    });
+      data: { createUser: newUser });
   }),
   
   graphql.mutation('UpdateUser', ({ variables }) => {
@@ -176,13 +170,11 @@ export const graphqlHandlers = [
     if (!updatedUser) {
       return HttpResponse.json({
         data: { updateUser: null },
-        errors: [{ message: 'User not found' }],
-      });
+        errors: [{ message: 'User not found' }]});
     }
     
     return HttpResponse.json({
-      data: { updateUser: updatedUser },
-    });
+      data: { updateUser: updatedUser });
   }),
   
   graphql.mutation('DeleteUser', ({ variables }) => {
@@ -191,22 +183,18 @@ export const graphqlHandlers = [
     if (!success) {
       return HttpResponse.json({
         data: { deleteUser: false },
-        errors: [{ message: 'User not found' }],
-      });
+        errors: [{ message: 'User not found' }]});
     }
     
     return HttpResponse.json({
-      data: { deleteUser: true },
-    });
+      data: { deleteUser: true });
   }),
   
   // Development queries
   graphql.query('GetDevelopments', () => {
     return HttpResponse.json({
       data: {
-        developments: developmentRepository.findAll(),
-      },
-    });
+        developments: developmentRepository.findAll()});
   }),
   
   graphql.query('GetDevelopment', ({ variables }) => {
@@ -215,39 +203,32 @@ export const graphqlHandlers = [
     if (!development) {
       return HttpResponse.json({
         data: { development: null },
-        errors: [{ message: 'Development not found' }],
-      });
+        errors: [{ message: 'Development not found' }]});
     }
     
     return HttpResponse.json({
-      data: { development },
-    });
+      data: { development });
   }),
   
   // Unit queries
   graphql.query('GetUnits', () => {
     return HttpResponse.json({
       data: {
-        units: unitRepository.findAll(),
-      },
-    });
+        units: unitRepository.findAll()});
   }),
   
   graphql.query('GetUnitsByDevelopment', ({ variables }) => {
     const units = unitRepository.findByDevelopmentId(variables.developmentId);
     
     return HttpResponse.json({
-      data: { units },
-    });
+      data: { units });
   }),
   
   // Document queries
   graphql.query('GetDocuments', () => {
     return HttpResponse.json({
       data: {
-        documents: documentRepository.findAll(),
-      },
-    });
+        documents: documentRepository.findAll()});
   }),
   
   // Financial queries
@@ -257,15 +238,12 @@ export const graphqlHandlers = [
     if (!financial) {
       return HttpResponse.json({
         data: { financial: null },
-        errors: [{ message: 'Financial data not found' }],
-      });
+        errors: [{ message: 'Financial data not found' }]});
     }
     
     return HttpResponse.json({
-      data: { financial },
-    });
-  }),
-];
+      data: { financial });
+  })];
 
 // Combined handlers for easy setup
 export const handlers = [...apiHandlers, ...graphqlHandlers];

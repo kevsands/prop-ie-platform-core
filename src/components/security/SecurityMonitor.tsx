@@ -57,5 +57,5 @@ export default function SecurityMonitor({
   children
 }: SecurityMonitorProps) {
   // Simply render children without actual monitoring
-  return <>{children}</>;
+  return <>{children}</>\n  );
 }

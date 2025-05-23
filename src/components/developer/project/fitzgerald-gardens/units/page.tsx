@@ -40,32 +40,31 @@ const generateMockUnits = (): Unit[] => {
   const unitTypes: UnitType[] = [
     { id: 'type-a', name: 'Type A - 2 Bed Apartment', bedrooms: 2, bathrooms: 2, floorArea: 85 },
     { id: 'type-b', name: 'Type B - 3 Bed Semi-Detached', bedrooms: 3, bathrooms: 2.5, floorArea: 110 },
-    { id: 'type-c', name: 'Type C - 4 Bed Detached', bedrooms: 4, bathrooms: 3, floorArea: 145 },
-  ];
-  
+    { id: 'type-c', name: 'Type C - 4 Bed Detached', bedrooms: 4, bathrooms: 3, floorArea: 145 }];
+
   const statuses = ['Available', 'Reserved', 'Sale Agreed', 'Sold', 'Under Construction'];
-  
+
   const units: Unit[] = [];
-  
+
   // Generate 97 units across 4 phases
   for (let i = 1; i <= 97; i++) {
     // Determine phase (1-4)
     const phase = i <= 20 ? 1 : i <= 45 ? 2 : i <= 75 ? 3 : 4;
-    
+
     // Determine unit type
     const typeIndex = Math.floor(Math.random() * unitTypes.length);
     const unitType = unitTypes[typeIndex];
-    
+
     // Determine status (weight more towards available)
     const statusIndex = Math.floor(Math.random() * (statuses.length + 5));
-    const status = statusIndex >= statuses.length ? 'Available' : statuses[statusIndex];
-    
+    const status = statusIndex>= statuses.length ? 'Available' : statuses[statusIndex];
+
     // Generate price based on unit type and some variation
     const basePrice = unitType.id === 'type-a' ? 285000 : 
                      unitType.id === 'type-b' ? 350000 : 410000;
     const priceVariation = Math.floor(Math.random() * 30000);
     const price = basePrice + priceVariation;
-    
+
     units.push({
       id: `unit-${i}`,
       unitNumber: `${i <= 9 ? '0' : ''}${i}`,
@@ -79,55 +78,54 @@ const generateMockUnits = (): Unit[] => {
       unitType: unitType.id
     });
   }
-  
+
   return units;
 };
 
 export default function FitzgeraldGardensUnits() {
-  const [units, setUnits] = useState<Unit[]>([]);
-  const [filteredUnits, setFilteredUnits] = useState<Unit[]>([]);
-  const [filters, setFilters] = useState<FilterState>({
+  const [unitssetUnits] = useState<Unit[]>([]);
+  const [filteredUnitssetFilteredUnits] = useState<Unit[]>([]);
+  const [filterssetFilters] = useState<FilterState>({
     phase: 'all',
     bedrooms: 'all',
     status: 'all',
     priceMin: '',
-    priceMax: '',
-  });
-  
+    priceMax: ''});
+
   useEffect(() => {
     // In a real app, this would fetch from API
     const mockUnits = generateMockUnits();
     setUnits(mockUnits);
     setFilteredUnits(mockUnits);
   }, []);
-  
+
   useEffect(() => {
     // Apply filters
     let result = [...units];
-    
+
     if (filters.phase !== 'all') {
       result = result.filter(unit => unit.phase === parseInt(filters.phase));
     }
-    
+
     if (filters.bedrooms !== 'all') {
       result = result.filter(unit => unit.bedrooms === parseInt(filters.bedrooms));
     }
-    
+
     if (filters.status !== 'all') {
       result = result.filter(unit => unit.status === filters.status);
     }
-    
+
     if (filters.priceMin) {
-      result = result.filter(unit => unit.price >= parseInt(filters.priceMin));
+      result = result.filter(unit => unit.price>= parseInt(filters.priceMin));
     }
-    
+
     if (filters.priceMax) {
       result = result.filter(unit => unit.price <= parseInt(filters.priceMax));
     }
-    
+
     setFilteredUnits(result);
-  }, [filters, units]);
-  
+  }, [filtersunits]);
+
   const handleFilterChange = (e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>) => {
     const { name, value } = e.target;
     setFilters({
@@ -135,7 +133,7 @@ export default function FitzgeraldGardensUnits() {
       [name]: value
     });
   };
-  
+
   const exportToCSV = () => {
     // Create CSV content
     const headers = ['Unit Number', 'Address', 'Bedrooms', 'Bathrooms', 'Floor Area', 'Price', 'Phase', 'Status'];
@@ -149,12 +147,12 @@ export default function FitzgeraldGardensUnits() {
       unit.phase,
       unit.status
     ]);
-    
+
     const csvContent = [
       headers.join(','),
       ...rows.map(row => row.join(','))
     ].join('\n');
-    
+
     // Create download link
     const blob = new Blob([csvContent], { type: 'text/csv' });
     const url = URL.createObjectURL(blob);
@@ -164,7 +162,7 @@ export default function FitzgeraldGardensUnits() {
     a.click();
     URL.revokeObjectURL(url);
   };
-  
+
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
       <div className="flex items-center justify-between mb-8">
@@ -181,14 +179,14 @@ export default function FitzgeraldGardensUnits() {
           </button>
         </div>
       </div>
-      
+
       {/* Filters */}
       <div className="bg-white rounded-lg shadow-md p-6 mb-8">
         <div className="flex items-center mb-4">
           {FiFilter({ className: "text-[#2B5273] mr-2" })}
           <h2 className="text-lg font-semibold">Filter Units</h2>
         </div>
-        
+
         <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Phase</label>
@@ -205,7 +203,7 @@ export default function FitzgeraldGardensUnits() {
               <option value="4">Phase 4</option>
             </select>
           </div>
-          
+
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Bedrooms</label>
             <select
@@ -220,7 +218,7 @@ export default function FitzgeraldGardensUnits() {
               <option value="4">4 Bedrooms</option>
             </select>
           </div>
-          
+
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Status</label>
             <select
@@ -237,7 +235,7 @@ export default function FitzgeraldGardensUnits() {
               <option value="Under Construction">Under Construction</option>
             </select>
           </div>
-          
+
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Min Price</label>
             <input
@@ -249,7 +247,7 @@ export default function FitzgeraldGardensUnits() {
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#2B5273]"
             />
           </div>
-          
+
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Max Price</label>
             <input
@@ -263,7 +261,7 @@ export default function FitzgeraldGardensUnits() {
           </div>
         </div>
       </div>
-      
+
       {/* Units Table */}
       <div className="bg-white rounded-lg shadow-md overflow-hidden">
         <div className="overflow-x-auto">
@@ -279,7 +277,7 @@ export default function FitzgeraldGardensUnits() {
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
-              {filteredUnits.map((unit) => (
+              {filteredUnits.map((unit: any) => (
                 <tr key={unit.id}>
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                     {unit.unitNumber}

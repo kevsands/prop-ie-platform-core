@@ -59,19 +59,19 @@ export function createNextCache<T>(
  */
 export function createClientCache<T>(fn: (...args: any[]) => Promise<T>) {
   const cache = new Map<string, Promise<T>>();
-  
+
   return (...args: any[]): Promise<T> => {
     try {
       const key = JSON.stringify(args);
-      
+
       if (!cache.has(key)) {
         cache.set(key, fn(...args));
       }
-      
+
       return cache.get(key)!;
     } catch (error) {
       // If JSON.stringify fails or any other error occurs, fall back to direct function call
-      console.warn('Cache key creation failed, falling back to uncached call', error);
+
       return fn(...args);
     }
   };
@@ -88,11 +88,11 @@ export const createMemoizedFunction = createClientCache;
 export class MemoryCache {
   private cache: Map<string, { value: any; expires: number }> = new Map();
   private maxSize: number;
-  
+
   constructor(maxSize = 100) {
     this.maxSize = maxSize;
   }
-  
+
   /**
    * Set a value in the cache with expiration
    * 
@@ -102,17 +102,17 @@ export class MemoryCache {
    */
   set(key: string, value: any, ttlMs = 60000): void {
     // If cache is at max size, remove oldest entry
-    if (this.cache.size >= this.maxSize) {
+    if (this.cache.size>= this.maxSize) {
       const oldestKey = this.cache.keys().next().value;
       this.cache.delete(oldestKey);
     }
-    
+
     this.cache.set(key, {
       value,
       expires: Date.now() + ttlMs
     });
   }
-  
+
   /**
    * Get a value from the cache
    * 
@@ -121,20 +121,20 @@ export class MemoryCache {
    */
   get<T>(key: string): T | undefined {
     const entry = this.cache.get(key);
-    
+
     if (!entry) {
       return undefined;
     }
-    
+
     // Check if entry has expired
     if (Date.now() > entry.expires) {
       this.cache.delete(key);
       return undefined;
     }
-    
+
     return entry.value as T;
   }
-  
+
   /**
    * Check if a key exists in the cache and is not expired
    * 
@@ -143,20 +143,20 @@ export class MemoryCache {
    */
   has(key: string): boolean {
     const entry = this.cache.get(key);
-    
+
     if (!entry) {
       return false;
     }
-    
+
     // Check if entry has expired
     if (Date.now() > entry.expires) {
       this.cache.delete(key);
       return false;
     }
-    
+
     return true;
   }
-  
+
   /**
    * Remove a key from the cache
    * 
@@ -165,14 +165,14 @@ export class MemoryCache {
   delete(key: string): void {
     this.cache.delete(key);
   }
-  
+
   /**
    * Clear all entries from the cache
    */
   clear(): void {
     this.cache.clear();
   }
-  
+
   /**
    * Get or set a cache value
    * 
@@ -183,18 +183,18 @@ export class MemoryCache {
    */
   async getOrSet<T>(key: string, fetcher: () => Promise<T>, ttlMs = 60000): Promise<T> {
     const cachedValue = this.get<T>(key);
-    
+
     if (cachedValue !== undefined) {
       return cachedValue;
     }
-    
+
     try {
       const value = await fetcher();
-      this.set(key, value, ttlMs);
+      this.set(key, valuettlMs);
       return value;
     } catch (error) {
       // Re-throw the error for proper error handling
-      console.error(`Error in cache fetcher for key ${key}:`, error);
+
       throw error;
     }
   }

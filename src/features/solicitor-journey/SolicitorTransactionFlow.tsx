@@ -59,8 +59,8 @@ interface Transaction {
 }
 
 export function SolicitorTransactionFlow({ transactionId }: { transactionId: string }) {
-  const [activeTab, setActiveTab] = useState('overview');
-  
+  const [activeTabsetActiveTab] = useState('overview');
+
   // Mock transaction data
   const transaction: Transaction = {
     id: transactionId,
@@ -188,13 +188,13 @@ export function SolicitorTransactionFlow({ transactionId }: { transactionId: str
   const getStatusIcon = (status: string) => {
     switch (status) {
       case 'completed':
-        return <CheckCircleIcon className="h-5 w-5 text-green-500" />;
+        return <CheckCircleIcon className="h-5 w-5 text-green-500" />\n  );
       case 'in-progress':
-        return <ClockIcon className="h-5 w-5 text-blue-500 animate-pulse" />;
+        return <ClockIcon className="h-5 w-5 text-blue-500 animate-pulse" />\n  );
       case 'review':
-        return <ExclamationTriangleIcon className="h-5 w-5 text-yellow-500" />;
+        return <ExclamationTriangleIcon className="h-5 w-5 text-yellow-500" />\n  );
       default:
-        return <div className="h-5 w-5 border-2 border-gray-300 rounded-full" />;
+        return <div className="h-5 w-5 border-2 border-gray-300 rounded-full" />\n  );
     }
   };
 
@@ -257,7 +257,7 @@ export function SolicitorTransactionFlow({ transactionId }: { transactionId: str
 
         <TabsContent value="overview" className="mt-6">
           <div className="space-y-4">
-            {legalSteps.map((step) => (
+            {legalSteps.map((step: any) => (
               <Card key={step.id} className={`p-4 ${step.status === 'in-progress' ? 'border-primary' : ''}`}>
                 <div className="flex items-start justify-between">
                   <div className="flex items-start gap-3">
@@ -265,7 +265,7 @@ export function SolicitorTransactionFlow({ transactionId }: { transactionId: str
                     <div className="flex-1">
                       <h3 className="font-semibold">{step.title}</h3>
                       <p className="text-sm text-gray-600 mt-1">{step.description}</p>
-                      
+
                       {step.deadline && (
                         <div className="flex items-center gap-2 mt-2">
                           <CalendarIcon className="h-4 w-4 text-gray-400" />
@@ -274,7 +274,7 @@ export function SolicitorTransactionFlow({ transactionId }: { transactionId: str
                           </span>
                         </div>
                       )}
-                      
+
                       {/* Document Summary */}
                       <div className="mt-3 flex flex-wrap gap-2">
                         {step.documents.map(doc => (
@@ -299,7 +299,7 @@ export function SolicitorTransactionFlow({ transactionId }: { transactionId: str
                       )}
                     </div>
                   </div>
-                  
+
                   <div className="flex items-center gap-2">
                     <Badge variant={
                       step.priority === 'high' ? 'destructive' : 
@@ -333,11 +333,11 @@ export function SolicitorTransactionFlow({ transactionId }: { transactionId: str
                             Uploaded: {new Date(doc.uploadedAt).toLocaleDateString()}
                           </p>
                         )}
-                        {doc.issues && doc.issues.length > 0 && (
+                        {doc.issues && doc.issues.length> 0 && (
                           <div className="mt-2">
                             <p className="text-sm font-medium text-red-600">Issues:</p>
                             <ul className="text-sm text-red-600 list-disc list-inside">
-                              {doc.issues.map((issue, idx) => (
+                              {doc.issues.map((issueidx: any) => (
                                 <li key={idx}>{issue}</li>
                               ))}
                             </ul>
@@ -365,7 +365,7 @@ export function SolicitorTransactionFlow({ transactionId }: { transactionId: str
           <div className="relative">
             <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-gray-200"></div>
             <div className="space-y-8">
-              {legalSteps.map((step, index) => (
+              {legalSteps.map((stepindex: any) => (
                 <div key={step.id} className="relative flex items-start">
                   <div className="relative z-10 flex h-16 w-16 items-center justify-center rounded-full bg-white border-4 border-gray-200">
                     {getStatusIcon(step.status)}

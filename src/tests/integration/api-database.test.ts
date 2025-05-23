@@ -33,8 +33,7 @@ describe('API and Database Integration', () => {
       created: new Date(),
       lastActive: new Date(),
       lastLogin: null,
-      metadata: null,
-    };
+      metadata: null};
     
     prismaMock.user.findUnique.mockResolvedValue(mockUser);
     
@@ -49,13 +48,11 @@ describe('API and Database Integration', () => {
     expect(result).toEqual({
       ...mockUser,
       fullName: 'Test User',
-      roles: [UserRole.BUYER],
-    });
+      roles: [UserRole.BUYER]});
     
     // Verify that the database was called correctly
     expect(prismaMock.user.findUnique).toHaveBeenCalledWith({
-      where: { id: '1' },
-    });
+      where: { id: '1' });
   });
   
   test('Development query returns development from database', async () => {
@@ -73,7 +70,7 @@ describe('API and Database Integration', () => {
       description: 'Test description',
       shortDescription: null,
       features: ['Feature 1', 'Feature 2'],
-      amenities: ['Amenity 1', 'Amenity 2'],
+      Amenity: ['Amenity 1', 'Amenity 2'],
       buildingSpecs: null,
       created: new Date(),
       updated: new Date(),
@@ -92,9 +89,7 @@ describe('API and Database Integration', () => {
         eircode: null,
         country: 'Ireland',
         longitude: null,
-        latitude: null,
-      },
-    };
+        latitude: null};
     
     prismaMock.development.findUnique.mockResolvedValue(mockDevelopment);
     
@@ -138,8 +133,7 @@ describe('API and Database Integration', () => {
       created: new Date(),
       lastActive: new Date(),
       lastLogin: null,
-      metadata: null,
-    };
+      metadata: null};
     
     // Mock the create user function
     prismaMock.user.create.mockResolvedValue(createdUser);
@@ -156,8 +150,7 @@ describe('API and Database Integration', () => {
       phone: '+1234567890',
       roles: [UserRole.BUYER],
       organization: 'Test Org',
-      position: 'Test Position',
-    };
+      position: 'Test Position'};
     
     // Execute resolver
     const result = await userResolvers.Mutation.createUser(null, { input }, context);
@@ -166,8 +159,7 @@ describe('API and Database Integration', () => {
     expect(result).toEqual({
       ...createdUser,
       fullName: 'New User',
-      roles: ['BUYER'],
-    });
+      roles: ['BUYER']});
     
     // Verify the create function was called with correct data
     expect(prismaMock.user.create).toHaveBeenCalled();
@@ -192,8 +184,7 @@ describe('API and Database Integration', () => {
       created: new Date(),
       lastActive: new Date(),
       lastLogin: null,
-      metadata: null,
-    };
+      metadata: null};
     
     prismaMock.user.findUnique.mockResolvedValue(mockUser);
     
@@ -205,8 +196,7 @@ describe('API and Database Integration', () => {
     
     // Verify the database was called correctly
     expect(prismaMock.user.findUnique).toHaveBeenCalledWith({
-      where: { id: '1' },
-    });
+      where: { id: '1' });
   });
   
   test('Repository findByEmail returns user from database', async () => {
@@ -228,8 +218,7 @@ describe('API and Database Integration', () => {
       created: new Date(),
       lastActive: new Date(),
       lastLogin: null,
-      metadata: null,
-    };
+      metadata: null};
     
     prismaMock.user.findUnique.mockResolvedValue(mockUser);
     
@@ -241,8 +230,7 @@ describe('API and Database Integration', () => {
     
     // Verify the database was called correctly
     expect(prismaMock.user.findUnique).toHaveBeenCalledWith({
-      where: { email: 'test@example.com' },
-    });
+      where: { email: 'test@example.com' });
   });
   
   test('Repository create adds user to database', async () => {
@@ -264,8 +252,7 @@ describe('API and Database Integration', () => {
       created: new Date(),
       lastActive: new Date(),
       lastLogin: null,
-      metadata: null,
-    };
+      metadata: null};
     
     // Mock the create user function
     prismaMock.user.create.mockResolvedValue(createdUser);
@@ -278,8 +265,7 @@ describe('API and Database Integration', () => {
       phone: '+1234567890',
       roles: ['USER'],
       organization: 'Test Org',
-      position: 'Test Position',
-    };
+      position: 'Test Position'};
     
     // Use the repository directly
     const result = await userRepository.create(input);
@@ -292,9 +278,7 @@ describe('API and Database Integration', () => {
       data: expect.objectContaining({
         email: 'new@example.com',
         firstName: 'New',
-        lastName: 'User',
-      }),
-    });
+        lastName: 'User'})});
   });
   
   test('Repository update modifies user in database', async () => {
@@ -316,16 +300,14 @@ describe('API and Database Integration', () => {
       created: new Date(),
       lastActive: new Date(),
       lastLogin: null,
-      metadata: null,
-    };
+      metadata: null};
     
     // Mock the update user function
     prismaMock.user.update.mockResolvedValue(updatedUser);
     
     // Input for updating a user
     const updateData = {
-      firstName: 'Updated',
-    };
+      firstName: 'Updated'};
     
     // Use the repository directly
     const result = await userRepository.update('1', updateData);
@@ -336,7 +318,6 @@ describe('API and Database Integration', () => {
     // Verify the update function was called with correct data
     expect(prismaMock.user.update).toHaveBeenCalledWith({
       where: { id: '1' },
-      data: updateData,
-    });
+      data: updateData});
   });
 });

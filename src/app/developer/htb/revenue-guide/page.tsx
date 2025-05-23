@@ -185,7 +185,7 @@ export default function RevenueGuidePage() {
                 to purchase or self-build a new property. The scheme provides for a refund of Income Tax and Deposit 
                 Interest Retention Tax (DIRT) paid in Ireland over the previous four tax years.
               </p>
-              
+
               <h3>Key Developer Responsibilities</h3>
               <ul>
                 <li>Verify the HTB Access Code provided by the buyer</li>
@@ -194,7 +194,7 @@ export default function RevenueGuidePage() {
                 <li>Submit relevant documentation to Revenue</li>
                 <li>Apply HTB funds to the buyer's deposit</li>
               </ul>
-              
+
               <h3>Documentation Requirements</h3>
               <p>
                 Developers must maintain the following documentation for each HTB claim:
@@ -226,7 +226,7 @@ export default function RevenueGuidePage() {
                     </p>
                   </div>
                 </li>
-                
+
                 <li className="flex items-start">
                   <div className="bg-blue-100 text-blue-700 rounded-full h-6 w-6 flex items-center justify-center font-bold mr-3 mt-0.5">2</div>
                   <div>
@@ -237,7 +237,7 @@ export default function RevenueGuidePage() {
                     </p>
                   </div>
                 </li>
-                
+
                 <li className="flex items-start">
                   <div className="bg-blue-100 text-blue-700 rounded-full h-6 w-6 flex items-center justify-center font-bold mr-3 mt-0.5">3</div>
                   <div>
@@ -248,7 +248,7 @@ export default function RevenueGuidePage() {
                     </p>
                   </div>
                 </li>
-                
+
                 {/* Remaining steps omitted for brevity */}
               </ol>
             </div>
@@ -272,7 +272,7 @@ export default function RevenueGuidePage() {
                     </p>
                   </div>
                 </div>
-                
+
                 <div className="flex items-start">
                   <CheckCircle className="h-5 w-5 text-green-500 mr-3 mt-0.5 flex-shrink-0" />
                   <div>
@@ -288,7 +288,7 @@ export default function RevenueGuidePage() {
           </div>
         </div>
       </div>
-      
+
       <div className="bg-amber-100 p-3 mt-6 rounded-md text-amber-800">
         Note: UI components temporarily simplified for build testing - full functionality will be restored later.
       </div>

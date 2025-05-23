@@ -5,9 +5,14 @@ import { Logger } from '@/utils/logger';
 
 const logger = new Logger('AuthAPI');
 
+interface LoginRequestBody {
+  email: string;
+  password: string;
+}
+
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json();
+    const body: LoginRequestBody = await request.json();
     const { email, password } = body;
 
     if (!email || !password) {
@@ -24,15 +29,15 @@ export async function POST(request: NextRequest) {
                       email.includes('developer') ? 'developer' :
                       email.includes('solicitor') ? 'solicitor' :
                       email.includes('agent') ? 'agent' : 'buyer';
-      
+
       const mockUser = {
-        id: `dev-user-${Math.random().toString(36).substring(2, 9)}`,
+        id: `dev-user-${Math.random().toString(36).substring(29)}`,
         email,
         firstName: email.split('@')[0],
         lastName: 'User',
         role: mockRole,
         permissions: ['read', 'write']
-      };
+      } as const;
 
       const response = NextResponse.json({
         user: mockUser,
@@ -50,16 +55,31 @@ export async function POST(request: NextRequest) {
     }
 
     // Production login with real authentication
-    const authResponse = await authService.login({ email, password });
+    const authTokens = await authService.login({ email, password });
 
-    // Create response with token in header and cookie
+    // Get user data based on the email since authService.login doesn't return it
+    const user = await authService.getUserByEmail(email);
+
+    if (!user) {
+      throw new Error('User not found after successful login');
+    }
+
+    // Create response with user data and access token
     const response = NextResponse.json({
-      user: authResponse.user,
-      token: authResponse.token
+      user: {
+        id: user.id,
+        email: user.email,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        role: user.roles[0] || 'BUYER', // Use first role or default to BUYER
+        permissions: []  // We can populate this based on role
+      },
+      token: authTokens.accessToken,
+      expiresIn: authTokens.expiresIn
     });
 
     // Set auth cookie (httpOnly for security)
-    response.cookies.set('auth-token', authResponse.token, {
+    response.cookies.set('auth-token', authTokens.accessToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'lax',
@@ -67,7 +87,7 @@ export async function POST(request: NextRequest) {
     });
 
     // Set refresh token cookie
-    response.cookies.set('refresh-token', authResponse.refreshToken, {
+    response.cookies.set('refresh-token', authTokens.refreshToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'lax',
@@ -75,11 +95,11 @@ export async function POST(request: NextRequest) {
     });
 
     return response;
-  } catch (error: any) {
+  } catch (error) {
     logger.error('Login failed', { error });
-    
+
     // Don't reveal specific errors for security
-    if (error.message === 'Invalid credentials') {
+    if (error instanceof Error && error.message === 'Invalid credentials') {
       return NextResponse.json(
         { error: 'Invalid email or password' },
         { status: 401 }

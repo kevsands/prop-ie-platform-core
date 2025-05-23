@@ -16,7 +16,7 @@ import React, { useEffect, useState } from 'react';
  * - Ensures users can navigate the site with keyboard only
  */
 export default function KeyboardFocusHandler(): null {
-  const [isKeyboardNavigation, setIsKeyboardNavigation] = useState(false);
+  const [isKeyboardNavigationsetIsKeyboardNavigation] = useState(false);
 
   useEffect(() => {
     // Function to handle keyboard navigation
@@ -51,13 +51,13 @@ export default function KeyboardFocusHandler(): null {
         *:focus {
           outline: none;
         }
-        
+
         /* Show focus outlines only for keyboard users */
         body.keyboard-navigation *:focus {
           outline: 2px solid #2563eb;
           outline-offset: 2px;
         }
-        
+
         /* Skip to content link */
         .sr-only {
           position: absolute;
@@ -66,11 +66,11 @@ export default function KeyboardFocusHandler(): null {
           padding: 0;
           margin: -1px;
           overflow: hidden;
-          clip: rect(0, 0, 0, 0);
+          clip: rect(0, 0, 00);
           white-space: nowrap;
           border-width: 0;
         }
-        
+
         .sr-only:focus {
           position: fixed;
           top: 0;

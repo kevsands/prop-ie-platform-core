@@ -20,7 +20,7 @@ interface ViewingSlot {
   };
   status: 'available' | 'booked' | 'blocked' | 'tentative';
   notes?: string;
-  metadata?: Record<string, any>;
+  metadata?: Record<string, any>\n  );
 }
 
 interface BookingInfo {
@@ -52,11 +52,11 @@ interface ViewingScheduleConfig {
 export function useViewingSchedule(propertyId: string) {
   const { toast } = useToast();
   const queryClient = useQueryClient();
-  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [selectedDatesetSelectedDate] = useState(new Date());
 
   // Fetch available viewing slots
   const { data: availableSlots = [], isLoading: loadingSlots, error: slotsError } = useQuery({
-    queryKey: ['viewing-slots', propertyId, selectedDate],
+    queryKey: ['viewing-slots', propertyIdselectedDate],
     queryFn: async () => {
       const response = await fetch(`/api/viewing-slots?propertyId=${propertyId}&date=${format(selectedDate, 'yyyy-MM-dd')}`);
       if (!response.ok) throw new Error('Failed to fetch slots');
@@ -87,7 +87,7 @@ export function useViewingSchedule(propertyId: string) {
       if (!response.ok) throw new Error('Failed to schedule viewing');
       return response.json();
     },
-    onSuccess: (data) => {
+    onSuccess: (data: any) => {
       queryClient.invalidateQueries({ queryKey: ['viewing-slots'] });
       queryClient.invalidateQueries({ queryKey: ['booked-slots'] });
       toast({
@@ -95,7 +95,7 @@ export function useViewingSchedule(propertyId: string) {
         description: 'Your viewing has been successfully scheduled'
       });
     },
-    onError: (error) => {
+    onError: (error: any) => {
       toast({
         title: 'Scheduling Failed',
         description: error.message,
@@ -150,8 +150,8 @@ export function useViewingSchedule(propertyId: string) {
       const response = await fetch(`/api/agents/${agentId}/availability?date=${format(date, 'yyyy-MM-dd')}`);
       if (!response.ok) throw new Error('Failed to fetch agent availability');
       return response.json();
-    } catch (error) {
-      console.error('Error fetching agent availability:', error);
+    } catch (error: any) {
+
       return [];
     }
   }, []);
@@ -166,16 +166,16 @@ export function useViewingSchedule(propertyId: string) {
       lunchEnd: 14
     };
 
-    let currentTime = setHours(setMinutes(date, 0), workingHours.start);
-    const endTime = setHours(setMinutes(date, 0), workingHours.end);
+    let currentTime = setHours(setMinutes(date0), workingHours.start);
+    const endTime = setHours(setMinutes(date0), workingHours.end);
 
-    while (currentTime < endTime) {
+    while (currentTime <endTime) {
       const slotEndTime = new Date(currentTime.getTime() + duration * 60000);
-      
+
       // Skip lunch hours
       const isLunchTime = 
         currentTime.getHours() >= workingHours.lunchStart &&
-        currentTime.getHours() < workingHours.lunchEnd;
+        currentTime.getHours() <workingHours.lunchEnd;
 
       if (!isLunchTime) {
         slots.push({
@@ -203,9 +203,9 @@ export function useViewingSchedule(propertyId: string) {
       const bookingEnd = new Date(booking.endTime);
 
       return (
-        (slotStart >= bookingStart && slotStart < bookingEnd) ||
-        (slotEnd > bookingStart && slotEnd <= bookingEnd) ||
-        (slotStart <= bookingStart && slotEnd >= bookingEnd)
+        (slotStart>= bookingStart && slotStart <bookingEnd) ||
+        (slotEnd> bookingStart && slotEnd <= bookingEnd) ||
+        (slotStart <= bookingStart && slotEnd>= bookingEnd)
       );
     });
   }, []);
@@ -214,9 +214,9 @@ export function useViewingSchedule(propertyId: string) {
   const getNextAvailableSlot = useCallback(() => {
     const now = new Date();
     const futureSlots = availableSlots
-      .filter(slot => new Date(slot.startTime) > now && slot.available)
-      .sort((a, b) => new Date(a.startTime).getTime() - new Date(b.startTime).getTime());
-    
+      .filter(slot: any => new Date(slot.startTime) > now && slot.available)
+      .sort((a: any, b: any) => new Date(a.startTime).getTime() - new Date(b.startTime).getTime());
+
     return futureSlots[0] || null;
   }, [availableSlots]);
 
@@ -231,7 +231,7 @@ export function useViewingSchedule(propertyId: string) {
       if (!response.ok) throw new Error('Failed to schedule viewings');
       return response.json();
     },
-    onSuccess: (data) => {
+    onSuccess: (data: any) => {
       queryClient.invalidateQueries({ queryKey: ['viewing-slots'] });
       queryClient.invalidateQueries({ queryKey: ['booked-slots'] });
       toast({
@@ -278,7 +278,7 @@ export function useViewingSchedule(propertyId: string) {
       if (!response.ok) throw new Error('Failed to setup virtual viewing');
       return response.json();
     },
-    onSuccess: (data) => {
+    onSuccess: (data: any) => {
       toast({
         title: 'Virtual Viewing Ready',
         description: 'Virtual viewing room created successfully'
@@ -292,7 +292,7 @@ export function useViewingSchedule(propertyId: string) {
     try {
       const response = await fetch(`/api/viewing-slots/export/${viewingId}`);
       if (!response.ok) throw new Error('Failed to export');
-      
+
       const blob = await response.blob();
       const url = URL.createObjectURL(blob);
       const link = document.createElement('a');
@@ -302,7 +302,7 @@ export function useViewingSchedule(propertyId: string) {
       link.click();
       document.body.removeChild(link);
       URL.revokeObjectURL(url);
-    } catch (error) {
+    } catch (error: any) {
       toast({
         title: 'Export Failed',
         description: 'Failed to export calendar event',

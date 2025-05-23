@@ -65,10 +65,10 @@ export function useCurrentUser() {
       retry: 1,
       staleTime: 5 * 60 * 1000, // 5 minutes
       cacheTime: 10 * 60 * 1000, // 10 minutes
-      
+
       // Special handling for authentication errors
       onError: (error: Error) => {
-        console.warn('Error fetching current user:', error);
+
         // Could handle token refresh here if needed
       }
     }
@@ -78,23 +78,13 @@ export function useCurrentUser() {
 /**
  * Custom hook to manage authenticated GraphQL state
  */
-export function useAuthenticatedGraphQL() {
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-  const [authToken, setAuthToken] = useState<string | null>(null);
-  const queryClient = useQueryClient();
-  const router = useRouter();
-
-  // Initialize authentication state
-  useEffect(() => {
-    const checkAuth = async () => {
-      try {
-        const token = await Auth.getAccessToken();
+export async function useAuthenticatedGraphQLAuth.getAccessToken();
         setAuthToken(token);
         setIsAuthenticated(!!token);
       } catch (error) {
         setIsAuthenticated(false);
         setAuthToken(null);
-        console.error('Error checking authentication status:', error);
+
       }
     };
 
@@ -105,16 +95,16 @@ export function useAuthenticatedGraphQL() {
   const signIn = async (email: string, password: string): Promise<AuthSignInResult> => {
     try {
       const signInResult = await Auth.signIn({ username: email, password });
-      
+
       if (signInResult.isSignedIn) {
         // Get fresh token
         const token = await Auth.getAccessToken();
         setAuthToken(token);
         setIsAuthenticated(true);
-        
+
         // Invalidate user queries to refetch with new token
         queryClient.invalidateQueries({ queryKey: ['me'] });
-        
+
         return { success: true };
       } else {
         return { 
@@ -124,7 +114,7 @@ export function useAuthenticatedGraphQL() {
         };
       }
     } catch (error) {
-      console.error('Sign in error:', error);
+
       return { 
         success: false, 
         error: error instanceof Error ? error.message : 'Unknown error during sign in' 
@@ -138,17 +128,17 @@ export function useAuthenticatedGraphQL() {
       await Auth.signOut();
       setIsAuthenticated(false);
       setAuthToken(null);
-      
+
       // Clear user data from cache
       queryClient.invalidateQueries({ queryKey: ['me'] });
       queryClient.removeQueries({ queryKey: ['me'] });
-      
+
       // Redirect to home page
       router.push('/');
-      
+
       return { success: true };
     } catch (error) {
-      console.error('Sign out error:', error);
+
       return { 
         success: false, 
         error: error instanceof Error ? error.message : 'Unknown error during sign out' 
@@ -161,7 +151,7 @@ export function useAuthenticatedGraphQL() {
     operation: any,
     variables?: Record<string, any>
   ): Promise<GraphQLResult<T>> => {
-    return executeAuthenticatedOperation<GraphQLResult<T>>(operation, variables);
+    return executeAuthenticatedOperation<GraphQLResult<T>>(operationvariables);
   };
 
   return {
@@ -178,14 +168,14 @@ export function useAuthenticatedGraphQL() {
  */
 export function useUserRoles() {
   const { data, isLoading, error } = useCurrentUser();
-  
+
   const hasRole = (role: string): boolean => {
     if (!data?.data?.me || !data.data.me.roles) return false;
     return data.data.me.roles.includes(role);
   };
-  
+
   const roles = data?.data?.me?.roles || [];
-  
+
   return {
     roles,
     hasRole,

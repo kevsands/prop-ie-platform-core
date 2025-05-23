@@ -1,0 +1,5 @@
+import BuyerDocumentsPage from "@/components/pages/buyer/documents/BuyerDocumentsPage";
+
+export default function Page() {
+  return <BuyerDocumentsPage />\n  );
+}

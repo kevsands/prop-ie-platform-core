@@ -1,42 +1,35 @@
+type Props = {
+  params: Promise<{ id: string }>
+}
+
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
-// import { Auth } from '@/lib/auth';
-
-import { GetHandler, PostHandler, IdParam } from '@/types/next-route-handlers';
 
 /**
  * GET /api/projects/[id]/activity
  * Fetch activity feed for a specific project
  */
-export const GET: GetHandler<IdParam> = async (request, { params }) => {
+export async function GET(
+  request: NextRequest, 
+  context: { params: Promise<{ id: string }> }
+) {
+  const params = await context.params;
   try {
     // Try to get session from NextAuth
     const session = await getServerSession(authOptions);
-    
+
     // If session doesn't exist, try Amplify auth
     if (!session || !session.user) {
-      // Alternative auth check using Amplify
-      try {
-        const user = await Auth.currentAuthenticatedUser();
-        // If neither auth method works, return 401
-        if (!user) {
-          return NextResponse.json(
-            { error: 'Authentication required' },
-            { status: 401 }
-          );
-        }
-      } catch (authError) {
-        console.error('Auth error:', authError);
-        return NextResponse.json(
-          { error: 'Authentication required' },
-          { status: 401 }
-        );
-      }
+      // Amplify auth is disabled - returning 401
+      return NextResponse.json(
+        { error: 'Authentication required' },
+        { status: 401 }
+      );
     }
 
     const projectId = params.id as string;
-    
+
     if (!projectId) {
       return NextResponse.json(
         { error: 'Project ID is required' },
@@ -90,7 +83,7 @@ export const GET: GetHandler<IdParam> = async (request, { params }) => {
 
     return NextResponse.json(activityData);
   } catch (error) {
-    console.error('Error fetching activity data:', error);
+
     return NextResponse.json(
       { error: 'Failed to fetch activity data' },
       { status: 500 }
@@ -102,35 +95,24 @@ export const GET: GetHandler<IdParam> = async (request, { params }) => {
  * POST /api/projects/[id]/activity
  * Add new activity to a project's feed
  */
-export const POST: PostHandler<IdParam> = async (request, { params }) => {
+export async function POST(
+  request: NextRequest,
+  context: { params: Promise<{ id: string }> }
+) {
+  const params = await context.params;
   try {
     // Try to get session from NextAuth
     const session = await getServerSession(authOptions);
     let userName = '';
     let userImage = '';
-    
+
     // If session doesn't exist, try Amplify auth
     if (!session || !session.user) {
-      // Alternative auth check using Amplify
-      try {
-        const user = await Auth.currentAuthenticatedUser();
-        // If neither auth method works, return 401
-        if (!user) {
-          return NextResponse.json(
-            { error: 'Authentication required' },
-            { status: 401 }
-          );
-        }
-        // Set user info from Amplify user
-        userName = user.username || '';
-        userImage = '';
-      } catch (authError) {
-        console.error('Auth error:', authError);
-        return NextResponse.json(
-          { error: 'Authentication required' },
-          { status: 401 }
-        );
-      }
+      // Amplify auth is disabled - returning 401
+      return NextResponse.json(
+        { error: 'Authentication required' },
+        { status: 401 }
+      );
     } else {
       // Set user info from session
       userName = session.user.name || '';
@@ -138,7 +120,7 @@ export const POST: PostHandler<IdParam> = async (request, { params }) => {
     }
 
     const projectId = params.id as string;
-    
+
     if (!projectId) {
       return NextResponse.json(
         { error: 'Project ID is required' },
@@ -147,8 +129,8 @@ export const POST: PostHandler<IdParam> = async (request, { params }) => {
     }
 
     // Parse request body
-    const body = await request.json();
-    
+    const body: any = await request.json();
+
     if (!body.type || !body.content) {
       return NextResponse.json(
         { error: 'Activity type and content are required' },
@@ -167,14 +149,14 @@ export const POST: PostHandler<IdParam> = async (request, { params }) => {
         user: {
           name: userName || 'Anonymous User',
           avatar: userImage || '',
-          initials: userName ? userName.substring(0, 2).toUpperCase() : 'AU'
+          initials: userName ? userName.substring(02).toUpperCase() : 'AU'
         },
         content: body.content,
         projectId
       }
     });
   } catch (error) {
-    console.error('Error adding activity:', error);
+
     return NextResponse.json(
       { error: 'Failed to add activity' },
       { status: 500 }

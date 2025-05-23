@@ -30,8 +30,7 @@ import {
   TableCell,
   TableHead,
   TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+  TableRow} from "@/components/ui/table";
 import { useToast } from "@/hooks/useToast";
 import { useAuth } from "@/context/AuthContext";
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
@@ -57,7 +56,7 @@ interface SLPData {
     totalComponents: number;
     approvedComponents: number;
     progressPercentage: number;
-    componentsbyStatus: Record<string, number>;
+    componentsbyStatus: Record<string, number>\n  );
   };
 }
 
@@ -68,8 +67,8 @@ export default function ProjectSLPPage() {
   const { user, isAuthenticated, loading: authLoading } = useAuth();
   const queryClient = useQueryClient();
   const projectId = params?.id as string;
-  const [activeFilter, setActiveFilter] = useState('all');
-  
+  const [activeFiltersetActiveFilter] = useState('all');
+
   // React Query for fetching SLP data
   const { data: slpData, isLoading, isError } = useQuery<SLPData>({
     queryKey: ['slp', projectId],
@@ -80,11 +79,11 @@ export default function ProjectSLPPage() {
           'Authorization': `Bearer ${token}`
         }
       });
-      
+
       if (!response.ok) {
         throw new Error('Failed to fetch SLP data');
       }
-      
+
       return response.json();
     },
     enabled: !!projectId && isAuthenticated,
@@ -122,19 +121,18 @@ export default function ProjectSLPPage() {
           }
         })
       });
-      
+
       if (!response.ok) {
         throw new Error('Failed to update component status');
       }
-      
+
       return response.json();
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['slp', projectId] });
       toast({
         title: "Success",
-        description: "Component status updated successfully.",
-      });
+        description: "Component status updated successfully.");
     },
     onError: () => {
       toast({
@@ -166,19 +164,18 @@ export default function ProjectSLPPage() {
           }
         })
       });
-      
+
       if (!response.ok) {
         throw new Error('Failed to upload document');
       }
-      
+
       return response.json();
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['slp', projectId] });
       toast({
         title: "Success",
-        description: "Document uploaded successfully.",
-      });
+        description: "Document uploaded successfully.");
     },
     onError: () => {
       toast({
@@ -188,7 +185,7 @@ export default function ProjectSLPPage() {
       });
     }
   });
-  
+
   // Loading state
   if (authLoading || isLoading) {
     return (
@@ -205,7 +202,7 @@ export default function ProjectSLPPage() {
     router.push('/login');
     return null;
   }
-  
+
   // Error state or no data
   if (isError || !slpData) {
     return (
@@ -223,15 +220,15 @@ export default function ProjectSLPPage() {
       </div>
     );
   }
-  
+
   const { components, progress } = slpData;
   const statusCounts = getStatusCounts(components);
-  
+
   // Filter components
   const filteredComponents = activeFilter === 'all' 
     ? components 
     : components.filter((component: SLPComponent) => component.status === activeFilter);
-  
+
   return (
     <div className="container mx-auto py-8 px-4">
       <div className="mb-6">
@@ -239,13 +236,13 @@ export default function ProjectSLPPage() {
           <ArrowLeft className="h-4 w-4 mr-1" />
           Back to Project
         </Link>
-        
+
         <div className="flex justify-between items-center mt-2">
           <div>
             <h1 className="text-3xl font-bold">Seller's Legal Pack (SLP)</h1>
             <p className="text-gray-500 mt-1">Project ID: {projectId}</p>
           </div>
-          
+
           <div className="space-x-2">
             <Link href={`/project-management/${projectId}/slp/generate-report`}>
               <Button variant="outline">
@@ -262,7 +259,7 @@ export default function ProjectSLPPage() {
           </div>
         </div>
       </div>
-      
+
       {/* SLP Overview */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
         <Card className="md:col-span-2">
@@ -278,7 +275,7 @@ export default function ProjectSLPPage() {
               </div>
               <Progress value={progress.progressPercentage} className="h-2" />
             </div>
-            
+
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
               <Card className="p-3 bg-green-50 border border-green-100">
                 <div className="text-center">
@@ -307,7 +304,7 @@ export default function ProjectSLPPage() {
             </div>
           </CardContent>
         </Card>
-        
+
         <Card>
           <CardHeader className="pb-2">
             <CardTitle>SLP Information</CardTitle>
@@ -324,14 +321,14 @@ export default function ProjectSLPPage() {
                 </p>
               </div>
             </div>
-            
+
             <div>
               <p className="text-sm text-gray-600">
                 Complete SLPs lead to faster sales completions and fewer legal queries.
                 Ensure all required components are approved before marketing units.
               </p>
             </div>
-            
+
             <div className="pt-4">
               <Link href="/resources/slp-guidelines" className="text-sm text-blue-600 hover:text-blue-800 flex items-center">
                 <FileText className="h-4 w-4 mr-1" />
@@ -341,7 +338,7 @@ export default function ProjectSLPPage() {
           </CardContent>
         </Card>
       </div>
-      
+
       {/* SLP Components List */}
       <Card>
         <CardHeader>
@@ -445,12 +442,12 @@ export default function ProjectSLPPage() {
                         <label>
                           <input
                             type="file"
-                            onChange={(e) => {
+                            onChange={(e: any) => {
                               const file = e.target.files?.[0];
                               if (file) {
                                 uploadDocumentMutation.mutate({ componentId: component.id, file });
                               }
-                            }}
+                            }
                             className="hidden"
                             disabled={uploadDocumentMutation.isLoading}
                           />
@@ -477,7 +474,7 @@ export default function ProjectSLPPage() {
                   </TableCell>
                 </TableRow>
               ))}
-              
+
               {filteredComponents.length === 0 && (
                 <TableRow>
                   <TableCell colSpan={5} className="text-center py-8">
@@ -522,14 +519,14 @@ function formatDate(dateString: string | null) {
 function getStatusBadge(status: string) {
   switch (status) {
     case 'APPROVED':
-      return <Badge variant="outline" className="bg-green-100 text-green-800 flex items-center"><Check className="h-3 w-3 mr-1" /> Approved</Badge>;
+      return <Badge variant="outline" className="bg-green-100 text-green-800 flex items-center"><Check className="h-3 w-3 mr-1" /> Approved</Badge>\n  );
     case 'IN_REVIEW':
-      return <Badge variant="outline" className="bg-amber-100 text-amber-800 flex items-center"><Clock className="h-3 w-3 mr-1" /> In Review</Badge>;
+      return <Badge variant="outline" className="bg-amber-100 text-amber-800 flex items-center"><Clock className="h-3 w-3 mr-1" /> In Review</Badge>\n  );
     case 'REJECTED':
-      return <Badge variant="destructive" className="flex items-center"><XCircle className="h-3 w-3 mr-1" /> Rejected</Badge>;
+      return <Badge variant="destructive" className="flex items-center"><XCircle className="h-3 w-3 mr-1" /> Rejected</Badge>\n  );
     case 'PENDING':
     default:
-      return <Badge variant="outline" className="flex items-center"><AlertCircle className="h-3 w-3 mr-1" /> Pending</Badge>;
+      return <Badge variant="outline" className="flex items-center"><AlertCircle className="h-3 w-3 mr-1" /> Pending</Badge>\n  );
   }
 }
 

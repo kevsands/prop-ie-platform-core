@@ -89,7 +89,7 @@ const DEFAULT_FEATURE_FLAGS: Record<string, FeatureFlagConfig> = {
     enabled: true,
     description: 'Enable multi-factor authentication'
   },
-  
+
   // Environment-specific feature flags
   'advanced-security': {
     type: 'environment',
@@ -101,7 +101,7 @@ const DEFAULT_FEATURE_FLAGS: Record<string, FeatureFlagConfig> = {
     },
     description: 'Enable advanced security features'
   },
-  
+
   // Percentage rollout feature flags
   'new-dashboard': {
     type: 'percentage',
@@ -109,7 +109,7 @@ const DEFAULT_FEATURE_FLAGS: Record<string, FeatureFlagConfig> = {
     seed: 'dashboard-2025-04',
     description: 'New dashboard UI'
   },
-  
+
   // User segment targeting feature flags
   'api-rate-limiting': {
     type: 'userSegment',
@@ -130,7 +130,7 @@ const DEFAULT_FEATURE_FLAGS: Record<string, FeatureFlagConfig> = {
     defaultEnabled: true, // Rate limiting is on by default
     description: 'API rate limiting rules'
   },
-  
+
   // Default feature flags for control flow
   'enable-session-fingerprinting': {
     type: 'environment',
@@ -142,7 +142,7 @@ const DEFAULT_FEATURE_FLAGS: Record<string, FeatureFlagConfig> = {
     },
     description: 'Enable session fingerprinting for security'
   },
-  
+
   'enable-session-recording': {
     type: 'environment',
     environments: {
@@ -153,7 +153,7 @@ const DEFAULT_FEATURE_FLAGS: Record<string, FeatureFlagConfig> = {
     },
     description: 'Enable session recording for debugging and user experience analysis'
   },
-  
+
   'enable-audit-logging': {
     type: 'environment',
     environments: {
@@ -191,18 +191,18 @@ export async function initializeFeatureFlags(): Promise<void> {
       // Server-side initialization
       return;
     }
-    
+
     // Reset cache
     Object.keys(evaluatedFlagsCache).forEach(key => {
       delete evaluatedFlagsCache[key];
     });
-    
+
     // Fetch feature flags from server if we haven't fetched recently
-    if (Date.now() - lastFetchTime > FETCH_INTERVAL) {
+    if (Date.now() - lastFetchTime> FETCH_INTERVAL) {
       await fetchFeatureFlagsFromServer();
     }
   } catch (error) {
-    console.error('Error initializing feature flags:', error);
+
   }
 }
 
@@ -214,17 +214,17 @@ async function fetchFeatureFlagsFromServer(): Promise<void> {
     // Make API request to fetch current feature flags
     // This would typically be an authenticated endpoint that returns
     // user-specific feature flag configurations
-    
+
     // For now, we'll use a mock implementation
     const response = await fetch('/api/feature-flags').catch(() => null);
-    
+
     if (response && response.ok) {
       const data = await response.json();
       serverFeatureFlags = data.featureFlags || {};
       lastFetchTime = Date.now();
     }
   } catch (error) {
-    console.error('Error fetching feature flags:', error);
+
   }
 }
 
@@ -236,22 +236,22 @@ export async function isFeatureEnabled(featureName: string): Promise<boolean> {
   if (evaluatedFlagsCache[featureName] !== undefined) {
     return evaluatedFlagsCache[featureName];
   }
-  
+
   // Get feature flag configuration
   const flagConfig = serverFeatureFlags[featureName] || DEFAULT_FEATURE_FLAGS[featureName];
-  
+
   if (!flagConfig) {
     // If flag doesn't exist, default to disabled
     evaluatedFlagsCache[featureName] = false;
     return false;
   }
-  
+
   // Evaluate the feature flag based on its type
   const isEnabled = await evaluateFeatureFlag(flagConfig);
-  
+
   // Cache the result
   evaluatedFlagsCache[featureName] = isEnabled;
-  
+
   return isEnabled;
 }
 
@@ -262,16 +262,16 @@ async function evaluateFeatureFlag(flagConfig: FeatureFlagConfig): Promise<boole
   switch (flagConfig.type) {
     case 'boolean':
       return flagConfig.enabled;
-      
+
     case 'environment':
       return !!flagConfig.environments[ENVIRONMENT];
-      
+
     case 'percentage':
       return evaluatePercentageFlag(flagConfig);
-      
+
     case 'userSegment':
       return evaluateUserSegmentFlag(flagConfig);
-      
+
     default:
       return false;
   }
@@ -284,18 +284,18 @@ async function evaluatePercentageFlag(flag: PercentageFeatureFlag): Promise<bool
   try {
     const user = await getCurrentUser().catch(() => null);
     const userId = user?.userId || 'anonymous';
-    
+
     // Create a hash based on user ID and optional seed
     const seed = flag.seed || 'default-seed';
     const hash = simpleHash(`${seed}-${userId}`);
-    
+
     // Convert hash to a percentage (0-100)
     const userPercentile = hash % 100;
-    
+
     // Check if user falls within the rollout percentage
-    return userPercentile < flag.percentage;
+    return userPercentile <flag.percentage;
   } catch (error) {
-    console.error('Error evaluating percentage flag:', error);
+
     return false;
   }
 }
@@ -306,69 +306,69 @@ async function evaluatePercentageFlag(flag: PercentageFeatureFlag): Promise<bool
 async function evaluateUserSegmentFlag(flag: UserSegmentFeatureFlag): Promise<boolean> {
   try {
     const user = await getCurrentUser().catch(() => null);
-    
+
     if (!user) {
       return flag.defaultEnabled;
     }
-    
+
     // Get user attributes
     const userId = user.userId;
     const userEmail = user.email || '';
     const userDomain = userEmail.split('@')[1] || '';
-    
+
     // Get custom attributes
     const attributes = await fetch('/api/user/attributes')
       .then(res => res.json())
       .catch(() => ({}));
-    
+
     const userRole = attributes.role || '';
-    
+
     // Check if user matches any segment
     for (const segment of flag.segments) {
       let isMatch = false;
-      
+
       switch (segment.segmentType) {
         case 'role':
           isMatch = Array.isArray(segment.segmentValue)
             ? segment.segmentValue.includes(userRole)
             : segment.segmentValue === userRole;
           break;
-          
+
         case 'email':
           isMatch = Array.isArray(segment.segmentValue)
             ? segment.segmentValue.includes(userEmail)
             : segment.segmentValue === userEmail;
           break;
-          
+
         case 'domain':
           isMatch = Array.isArray(segment.segmentValue)
             ? segment.segmentValue.includes(userDomain)
             : userDomain.endsWith(segment.segmentValue as string);
           break;
-          
+
         case 'id':
           isMatch = Array.isArray(segment.segmentValue)
             ? segment.segmentValue.includes(userId)
             : segment.segmentValue === userId;
           break;
-          
+
         case 'property':
           if (typeof segment.segmentValue === 'string') {
-            const [property, value] = segment.segmentValue.split(':');
+            const [propertyvalue] = segment.segmentValue.split(':');
             isMatch = attributes[property] === value;
           }
           break;
       }
-      
+
       if (isMatch) {
         return segment.enabled;
       }
     }
-    
+
     // If no segment matched, return default
     return flag.defaultEnabled;
   } catch (error) {
-    console.error('Error evaluating user segment flag:', error);
+
     return flag.defaultEnabled;
   }
 }
@@ -378,9 +378,9 @@ async function evaluateUserSegmentFlag(flag: UserSegmentFeatureFlag): Promise<bo
  */
 function simpleHash(input: string): number {
   let hash = 0;
-  for (let i = 0; i < input.length; i++) {
+  for (let i = 0; i <input.length; i++) {
     const char = input.charCodeAt(i);
-    hash = ((hash << 5) - hash) + char;
+    hash = ((hash <<5) - hash) + char;
     hash = hash & hash; // Convert to 32bit integer
   }
   return Math.abs(hash);
@@ -390,22 +390,22 @@ function simpleHash(input: string): number {
  * React hook for using feature flags in components
  */
 export function useFeatureFlag(featureName: string, defaultValue = false): boolean {
-  const [isEnabled, setIsEnabled] = React.useState<boolean>(defaultValue);
-  
+  const [isEnabledsetIsEnabled] = React.useState<boolean>(defaultValue);
+
   React.useEffect(() => {
     let isMounted = true;
-    
+
     isFeatureEnabled(featureName).then(enabled => {
       if (isMounted) {
         setIsEnabled(enabled);
       }
     });
-    
+
     return () => {
       isMounted = false;
     };
   }, [featureName]);
-  
+
   return isEnabled;
 }
 
@@ -415,12 +415,12 @@ export function useFeatureFlag(featureName: string, defaultValue = false): boole
 export async function getAllFeatureFlags(): Promise<Record<string, { config: FeatureFlagConfig, enabled: boolean }>> {
   const allFlags = { ...DEFAULT_FEATURE_FLAGS, ...serverFeatureFlags };
   const result: Record<string, { config: FeatureFlagConfig, enabled: boolean }> = {};
-  
-  for (const [name, config] of Object.entries(allFlags)) {
+
+  for (const [nameconfig] of Object.entries(allFlags)) {
     const enabled = await evaluateFeatureFlag(config);
     result[name] = { config, enabled };
   }
-  
+
   return result;
 }
 

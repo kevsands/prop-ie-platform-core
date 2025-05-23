@@ -56,7 +56,7 @@ export function useCreateDevelopment(
     }
     ${developmentDetailsFragment}
   `;
-  
+
   return useGraphQLMutation<
     { createDevelopment: Development },
     { input: CreateDevelopmentInput },
@@ -86,7 +86,7 @@ export function useUpdateDevelopment(
     }
     ${developmentDetailsFragment}
   `;
-  
+
   return useGraphQLMutation<
     { updateDevelopment: Development },
     { id: string, input: UpdateDevelopmentInput },
@@ -124,7 +124,7 @@ export function useUpdateDevelopmentLocation(
       }
     }
   `;
-  
+
   return useGraphQLMutation<
     { updateDevelopmentLocation: Location },
     { developmentId: string, input: UpdateLocationInput },
@@ -184,7 +184,7 @@ export function useAddProfessionalTeamMember(
       }
     }
   `;
-  
+
   return useGraphQLMutation<
     { addProfessionalTeamMember: ProfessionalTeamMember },
     {
@@ -225,7 +225,7 @@ export function useUpdateTeamMemberStatus(
       }
     }
   `;
-  
+
   return useGraphQLMutation<
     { updateTeamMemberStatus: ProfessionalTeamMember },
     { teamMemberId: string, status: AppointmentStatus },
@@ -283,7 +283,7 @@ export function useAddProjectMilestone(
       }
     }
   `;
-  
+
   return useGraphQLMutation<
     { addProjectMilestone: ProjectMilestone },
     {
@@ -330,7 +330,7 @@ export function useUpdateMilestoneStatus(
       }
     }
   `;
-  
+
   return useGraphQLMutation<
     { updateMilestoneStatus: ProjectMilestone },
     { milestoneId: string, status: MilestoneStatus, actualDate?: string },
@@ -362,7 +362,7 @@ export function useCreateUser(
     }
     ${userDetailsFragment}
   `;
-  
+
   return useGraphQLMutation<
     { createUser: User },
     { input: CreateUserInput },
@@ -392,7 +392,7 @@ export function useUpdateUser(
     }
     ${userDetailsFragment}
   `;
-  
+
   return useGraphQLMutation<
     { updateUser: User },
     { id: string, input: UpdateUserInput },
@@ -422,7 +422,7 @@ export function useChangeUserStatus(
       }
     }
   `;
-  
+
   return useGraphQLMutation<
     { changeUserStatus: User },
     { id: string, status: UserStatus },
@@ -452,7 +452,7 @@ export function useUpdateKYCStatus(
       }
     }
   `;
-  
+
   return useGraphQLMutation<
     { updateKYCStatus: User },
     { id: string, status: KYCStatus },
@@ -501,7 +501,7 @@ export function useUploadDocument(
     }
     ${documentFragment}
   `;
-  
+
   return useGraphQLMutation<
     { uploadDocument: Document },
     {

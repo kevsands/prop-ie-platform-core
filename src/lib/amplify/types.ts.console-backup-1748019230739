@@ -1,0 +1,89 @@
+/**
+ * AWS Amplify Types
+ * 
+ * This file contains shared types used across Amplify modules.
+ */
+
+/**
+ * Auth types
+ */
+export namespace Auth {
+  export interface User {
+    userId: string;
+    username: string;
+    email?: string;
+    firstName?: string;
+    lastName?: string;
+    roles: string[];
+  }
+
+  export interface SignInInput {
+    username: string;
+    password: string;
+  }
+
+  export interface SignUpInput {
+    username: string;
+    password: string;
+    email: string;
+    firstName?: string;
+    lastName?: string;
+    phoneNumber?: string;
+  }
+}
+
+/**
+ * API types
+ */
+export namespace API {
+  export interface GraphQLOptions {
+    query: string;
+    variables?: Record<string, any>;
+    operationName?: string;
+    authMode?: 'apiKey' | 'userPool' | 'iam';
+  }
+
+  export interface RestOptions {
+    path: string;
+    method?: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
+    body?: any;
+    headers?: Record<string, string>;
+    queryParams?: Record<string, string | number | boolean>;
+  }
+
+  export class ApiError extends Error {
+    statusCode: number;
+    originalError?: any;
+    
+    constructor(message: string, statusCode = 500, originalError?: any) {
+      super(message);
+      this.name = 'ApiError';
+      this.statusCode = statusCode;
+      this.originalError = originalError;
+    }
+  }
+}
+
+/**
+ * Storage types
+ */
+export namespace Storage {
+  export interface UploadOptions {
+    path?: string;
+    contentType?: string;
+    metadata?: Record<string, string>;
+    level?: 'public' | 'protected' | 'private';
+    onProgress?: (progress: { loaded: number; total: number }) => void;
+  }
+
+  export interface GetUrlOptions {
+    level?: 'public' | 'protected' | 'private';
+    expires?: number;
+  }
+
+  export interface ListOptions {
+    level?: 'public' | 'protected' | 'private';
+    maxKeys?: number;
+    prefix?: string;
+  }
+}

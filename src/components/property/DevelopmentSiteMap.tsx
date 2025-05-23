@@ -29,15 +29,13 @@ interface DevelopmentSiteMapProps {
 }
 
 const DevelopmentSiteMap: React.FC<DevelopmentSiteMapProps> = ({
-  development,
-}) => {
-  const [hoveredUnit, setHoveredUnit] = useState<Unit | null>(null);
+  development}) => {
+  const [hoveredUnitsetHoveredUnit] = useState<Unit | null>(null);
 
   const statusColors = {
     available: "bg-green-500/30 hover:bg-green-500/50",
     reserved: "bg-yellow-500/30 hover:bg-yellow-500/50",
-    sold: "bg-red-500/30 hover:bg-red-500/50",
-  };
+    sold: "bg-red-500/30 hover:bg-red-500/50";
 
   return (
     <div className="relative w-full h-auto bg-white rounded-lg shadow-md overflow-hidden">
@@ -62,7 +60,7 @@ const DevelopmentSiteMap: React.FC<DevelopmentSiteMapProps> = ({
 
         {/* Map overlay with clickable areas for each unit */}
         <div className="absolute top-0 left-0 w-full h-full">
-          {development.units.map((unit) => (
+          {development.units.map((unit: any) => (
             <Link
               key={unit.id}
               href={`/developments/${development.id}/properties/${unit.id}`}
@@ -73,12 +71,11 @@ const DevelopmentSiteMap: React.FC<DevelopmentSiteMapProps> = ({
                     ? "border-yellow-500 " + statusColors.reserved
                     : "border-red-500 " + statusColors.sold
               }`}
-              style={{
+              style={
                 left: `${unit.coordinates.x}%`,
                 top: `${unit.coordinates.y}%`,
                 width: `${unit.coordinates.width}%`,
-                height: `${unit.coordinates.height}%`,
-              }}
+                height: `${unit.coordinates.height}%`}
               onMouseEnter={() => setHoveredUnit(unit)}
               onMouseLeave={() => setHoveredUnit(null)}
             />
@@ -89,10 +86,9 @@ const DevelopmentSiteMap: React.FC<DevelopmentSiteMapProps> = ({
         {hoveredUnit && (
           <div
             className="absolute z-10 bg-white rounded-md shadow-lg p-3 border border-gray-200 min-w-[200px]"
-            style={{
-              left: `${Math.min(hoveredUnit.coordinates.x + hoveredUnit.coordinates.width + 1, 80)}%`,
-              top: `${hoveredUnit.coordinates.y}%`,
-            }}
+            style={
+              left: `${Math.min(hoveredUnit.coordinates.x + hoveredUnit.coordinates.width + 180)}%`,
+              top: `${hoveredUnit.coordinates.y}%`}
           >
             <div className="flex justify-between items-start">
               <h3 className="font-bold text-gray-900">
@@ -114,15 +110,15 @@ const DevelopmentSiteMap: React.FC<DevelopmentSiteMapProps> = ({
             <p className="text-sm text-gray-600 mt-1">{hoveredUnit.type}</p>
             <div className="mt-2 grid grid-cols-2 gap-x-2 gap-y-1 text-sm">
               <div>
-                <span className="text-gray-500">Bedrooms:</span>{" "}
+                <span className="text-gray-500">Bedrooms:</span>{" "
                 {hoveredUnit.bedrooms}
               </div>
               <div>
-                <span className="text-gray-500">Bathrooms:</span>{" "}
+                <span className="text-gray-500">Bathrooms:</span>{" "
                 {hoveredUnit.bathrooms}
               </div>
               <div>
-                <span className="text-gray-500">Size:</span> {hoveredUnit.sqm}{" "}
+                <span className="text-gray-500">Size:</span> {hoveredUnit.sqm}{" "
                 m²
               </div>
               <div>

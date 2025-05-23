@@ -3,19 +3,33 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { useSession } from 'next-auth/react';
 import ClientLayout from '../ClientLayout';
 import { useAuth } from '@/context/AuthContext';
 
 export default function LoginPage() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState('');
-  
+  const [emailsetEmail] = useState('');
+  const [passwordsetPassword] = useState('');
+  const [isLoadingsetIsLoading] = useState(false);
+  const [errorsetError] = useState('');
+
   const { signIn } = useAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
-  
+  const { data: session, status } = useSession();
+
+  // Get the callback URL if it exists
+  const callbackUrl = searchParams.get('callbackUrl') || '/';
+
+  // If user is already logged in, redirect to appropriate dashboard
+  useEffect(() => {
+    if (status === 'authenticated' && session?.user) {
+      const role = (session.user as any).role?.toLowerCase();
+      redirectByRole(role);
+    }
+  }, [session, statusrouter]);
+
+  // Set email from query parameter if present
   useEffect(() => {
     const hint = searchParams.get('hint');
     if (hint) {
@@ -23,36 +37,85 @@ export default function LoginPage() {
     }
   }, [searchParams]);
 
+  // Redirect based on user role
+  const redirectByRole = (role?: string) => {
+    if (!role) {
+      router.push('/buyer');
+      return;
+    }
+
+    switch (role) {
+      case 'developer':
+        router.push('/developer');
+        break;
+      case 'agent':
+        router.push('/agents');
+        break;
+      case 'estate_agent':
+        router.push('/agents');
+        break;
+      case 'solicitor':
+        router.push('/solicitor');
+        break;
+      case 'admin':
+        router.push('/admin');
+        break;
+      case 'buyer':
+      default:
+        router.push('/buyer');
+        break;
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
     setError('');
-    
+
     try {
-      const result = await signIn(email, password);
-      
+
+      const result = await signIn(emailpassword);
+
       if (result.isSignedIn) {
-        // Navigate based on user role
-        if (email.includes('buyer')) {
-          router.push('/buyer');
-        } else if (email.includes('developer')) {
-          router.push('/developer');
-        } else if (email.includes('agent')) {
-          router.push('/agents');
-        } else if (email.includes('solicitor')) {
-          router.push('/solicitor');
-        } else if (email.includes('admin')) {
-          router.push('/admin');
+
+        // Use the refreshSession method to ensure the session is up-to-date
+        await new Promise(resolve => setTimeout(resolve500));
+
+        // Get latest session data
+        const response = await fetch('/api/auth/session');
+        const sessionData = await response.json();
+
+        if (sessionData?.user) {
+
+          // Handle MFA if required
+          if (result.nextStep?.signInStep === 'CONFIRM_SIGN_IN_WITH_SMS_CODE') {
+            router.push('/auth/mfa');
+            return;
+          }
+
+          // If there's a callback URL, use it
+          if (callbackUrl && callbackUrl !== '/') {
+
+            router.push(callbackUrl);
+            return;
+          }
+
+          // Otherwise redirect based on role
+          redirectByRole(sessionData.user.role?.toLowerCase());
         } else {
-          router.push('/dashboard');
+          // Fallback if session data not available yet
+
+          router.push('/buyer');
         }
       } else if (result.nextStep?.signInStep === 'CONFIRM_SIGN_IN_WITH_SMS_CODE') {
         // Handle MFA
         router.push('/auth/mfa');
+      } else {
+        setError('Authentication failed. Please try again.');
       }
     } catch (err) {
-      setError('Invalid email or password');
-      console.error('Login error:', err);
+
+      setError(err instanceof Error ? err.message : 'Invalid email or password');
     } finally {
       setIsLoading(false);
     }
@@ -66,7 +129,7 @@ export default function LoginPage() {
             <h2 className="text-2xl font-bold text-center text-gray-900 mb-8">
               Sign in to your account
             </h2>
-            
+
             {/* Test user credentials hint */}
             <div className="mb-6 p-4 bg-blue-50 rounded-lg">
               <p className="text-sm text-blue-900 font-medium mb-2">Test Credentials:</p>
@@ -79,13 +142,13 @@ export default function LoginPage() {
                 <p className="mt-2 text-xs">Password: any value</p>
               </div>
             </div>
-            
+
             {error && (
               <div className="mb-4 p-3 bg-red-50 text-red-800 rounded-md text-sm">
                 {error}
               </div>
             )}
-            
+
             <form onSubmit={handleSubmit}>
               <div className="mb-6">
                 <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
@@ -96,12 +159,12 @@ export default function LoginPage() {
                   type="email"
                   required
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={(e: any) => setEmail(e.target.value)}
                   className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-[#2B5273] focus:border-[#2B5273]"
                   placeholder="your@email.com"
                 />
               </div>
-              
+
               <div className="mb-6">
                 <div className="flex justify-between items-center mb-1">
                   <label htmlFor="password" className="block text-sm font-medium text-gray-700">
@@ -116,12 +179,12 @@ export default function LoginPage() {
                   type="password"
                   required
                   value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  onChange={(e: any) => setPassword(e.target.value)}
                   className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-[#2B5273] focus:border-[#2B5273]"
                   placeholder="••••••••"
                 />
               </div>
-              
+
               <button
                 type="submit"
                 disabled={isLoading}
@@ -130,7 +193,7 @@ export default function LoginPage() {
                 {isLoading ? 'Signing in...' : 'Sign in'}
               </button>
             </form>
-            
+
             <div className="mt-6 text-center">
               <p className="text-sm text-gray-600">
                 Don't have an account?{' '}
@@ -139,7 +202,7 @@ export default function LoginPage() {
                 </Link>
               </p>
             </div>
-            
+
             {/* Development mode helper */}
             {process.env.NODE_ENV === 'development' && (
               <div className="mt-6 p-4 bg-blue-50 rounded-lg">

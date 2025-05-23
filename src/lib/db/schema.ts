@@ -11,8 +11,7 @@ export const users = pgTable("users", {
   password: text("password").notNull(),
   role: text("role").notNull().default("buyer"),
   createdAt: timestamp("created_at").notNull().defaultNow(),
-  updatedAt: timestamp("updated_at").notNull().defaultNow(),
-});
+  updatedAt: timestamp("updated_at").notNull().defaultNow()});
 
 // Define properties table
 export const properties = pgTable("properties", {
@@ -29,8 +28,7 @@ export const properties = pgTable("properties", {
     .references(() => users.id),
   status: text("status").notNull().default("available"),
   createdAt: timestamp("created_at").notNull().defaultNow(),
-  updatedAt: timestamp("updated_at").notNull().defaultNow(),
-});
+  updatedAt: timestamp("updated_at").notNull().defaultNow()});
 
 // Define HTB claims table
 export const htbClaims = pgTable("htb_claims", {
@@ -49,8 +47,7 @@ export const htbClaims = pgTable("htb_claims", {
     .defaultNow(),
   approvalDate: timestamp("approval_date"),
   createdAt: timestamp("created_at").notNull().defaultNow(),
-  updatedAt: timestamp("updated_at").notNull().defaultNow(),
-});
+  updatedAt: timestamp("updated_at").notNull().defaultNow()});
 
 // Define customizations table
 export const customizations = pgTable("customizations", {
@@ -65,8 +62,7 @@ export const customizations = pgTable("customizations", {
   totalCost: integer("total_cost").notNull(),
   status: text("status").notNull().default("draft"),
   createdAt: timestamp("created_at").notNull().defaultNow(),
-  updatedAt: timestamp("updated_at").notNull().defaultNow(),
-});
+  updatedAt: timestamp("updated_at").notNull().defaultNow()});
 
 // Define documents table
 export const documents = pgTable("documents", {
@@ -82,8 +78,7 @@ export const documents = pgTable("documents", {
     .references(() => users.id),
   status: text("status").notNull().default("active"),
   createdAt: timestamp("created_at").notNull().defaultNow(),
-  updatedAt: timestamp("updated_at").notNull().defaultNow(),
-});
+  updatedAt: timestamp("updated_at").notNull().defaultNow()});
 
 // Define contractors table
 export const contractors = pgTable("contractors", {
@@ -98,11 +93,9 @@ export const contractors = pgTable("contractors", {
     .references(() => users.id),
   status: text("status").notNull().default("active"),
   createdAt: timestamp("created_at").notNull().defaultNow(),
-  updatedAt: timestamp("updated_at").notNull().defaultNow(),
-});
+  updatedAt: timestamp("updated_at").notNull().defaultNow()});
 
-let dbClient: NodePgDatabase<any>;
-
+let dbClient: NodePgDatabase<any>\n  );
 export function initializeDb(): NodePgDatabase<any> {
   if (!dbClient) {
     const pool = new Pool({ connectionString: process.env.DATABASE_URL! });

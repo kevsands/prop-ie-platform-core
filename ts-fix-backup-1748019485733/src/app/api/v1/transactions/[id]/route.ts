@@ -1,0 +1,272 @@
+type Props = {
+  params: Promise<{ id: string }>
+}
+
+/**
+ * Transaction Detail API - Get, update, and transition transactions
+ */
+
+import { NextRequest, NextResponse } from 'next/server';
+import { getServerSession } from 'next-auth';
+import { PrismaClient } from '@prisma/client';
+import { z } from 'zod';
+import { authOptions } from '@/lib/auth-options';
+import { Logger } from '@/utils/logger';
+import { TransactionEngine, TransactionPhase } from '@/services/transaction/engine';
+
+const prisma = new PrismaClient();
+const logger = new Logger('api-transaction-detail');
+const transactionEngine = new TransactionEngine();
+
+// Validation schemas
+const UpdateTransactionSchema = z.object({
+  notes: z.string().optional(),
+  metadata: z.record(z.any()).optional()
+});
+
+export async function GET(
+  request: NextRequest,
+  context: { params: Promise<{ id: string }> }
+) {
+  const params = await context.params;
+  try {
+    const session = await getServerSession(authOptions);
+    if (!session?.user) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    const transaction = await prisma.sale.findUnique({
+      where: { id: params.id },
+      include: {
+        unit: {
+          include: {
+            development: {
+              include: {
+                location: true
+              }
+            },
+            customizationOptions: true,
+            rooms: true,
+            outdoorSpaces: true
+          }
+        },
+        sellingAgent: {
+          select: {
+            id: true,
+            firstName: true,
+            lastName: true,
+            email: true,
+            phone: true
+          }
+        },
+        timeline: true,
+        depositInfo: true,
+        mortgageDetails: true,
+        htbDetails: true,
+        statusHistory: {
+          orderBy: { timestamp: 'desc' },
+          include: {
+            updatedBy: {
+              select: {
+                firstName: true,
+                lastName: true
+              }
+            }
+          }
+        },
+        tasks: {
+          orderBy: { dueDate: 'asc' }
+        },
+        DevelopmentDocument: {
+          orderBy: { uploadDate: 'desc' }
+        },
+        notes: {
+          orderBy: { timestamp: 'desc' }
+        }
+      }
+    });
+
+    if (!transaction) {
+      return NextResponse.json({ error: 'Transaction not found' }, { status: 404 });
+    }
+
+    // Check access permissions
+    if (session.user.role === 'BUYER' && transaction.buyerId !== session.user.id) {
+      return NextResponse.json({ error: 'Access denied' }, { status: 403 });
+    }
+
+    if (session.user.role === 'AGENT' && 
+        transaction.sellingAgentId !== session.user.id &&
+        transaction.buyerId !== session.user.id) {
+      return NextResponse.json({ error: 'Access denied' }, { status: 403 });
+    }
+
+    // Get available transitions
+    const availableTransitions = await transactionEngine.getAvailableTransitions(params.id);
+
+    // Get current phase milestones
+    const currentMilestones = transactionEngine.getMilestonesForPhase(
+      transaction.status as TransactionPhase
+    );
+
+    // Build comprehensive transaction data
+    const transactionData = {
+      ...transaction,
+      availableTransitions,
+      currentMilestones,
+      completionPercentage: calculateCompletionPercentage(transaction),
+      nextActions: getNextActions(transaction),
+      timeline: await transactionEngine.getTransactionTimeline(params.id)
+    };
+
+    return NextResponse.json({ transaction: transactionData });
+
+  } catch (error) {
+    logger.error('Failed to get transaction:', error);
+    return NextResponse.json(
+      { error: 'Failed to get transaction', message: (error as Error).message },
+      { status: 500 }
+    );
+  }
+}
+
+type PutParams = {
+  params: Promise<{ id: string }>
+}
+
+export async function PUT(
+  request: NextRequest,
+  context: PutParams
+) {
+  const params = await context.params;
+  try {
+    const session = await getServerSession(authOptions);
+    if (!session?.user) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    const body: any = await request.json();
+    const validation = UpdateTransactionSchema.safeParse(body);
+
+    if (!validation.success) {
+      return NextResponse.json(
+        { error: 'Invalid request', details: validation.error.errors },
+        { status: 400 }
+      );
+    }
+
+    const { notes, metadata } = validation.data;
+
+    // Check permissions
+    const transaction = await prisma.sale.findUnique({
+      where: { id: params.id }
+    });
+
+    if (!transaction) {
+      return NextResponse.json({ error: 'Transaction not found' }, { status: 404 });
+    }
+
+    if (session.user.role === 'BUYER' && transaction.buyerId !== session.user.id) {
+      return NextResponse.json({ error: 'Access denied' }, { status: 403 });
+    }
+
+    // Update transaction
+    const updatedTransaction = await prisma.$transaction(async (tx) => {
+      const updated = await tx.sale.update({
+        where: { id: params.id },
+        data: {
+          metadata: metadata ? {
+            ...(transaction.metadata as any || {}),
+            ...metadata
+          } : transaction.metadata
+        }
+      });
+
+      // Add note if provided
+      if (notes) {
+        await tx.saleNote.create({
+          data: {
+            saleId: params.id,
+            authorId: session.user.id,
+            content: notes,
+            isPrivate: false
+          }
+        });
+      }
+
+      return updated;
+    });
+
+    logger.info('Transaction updated', {
+      saleId: params.id,
+      userId: session.user.id
+    });
+
+    return NextResponse.json({
+      success: true,
+      transaction: updatedTransaction
+    });
+
+  } catch (error) {
+    logger.error('Failed to update transaction:', error);
+    return NextResponse.json(
+      { error: 'Failed to update transaction', message: (error as Error).message },
+      { status: 500 }
+    );
+  }
+}
+
+/**
+ * Calculate completion percentage based on transaction phase
+ */
+function calculateCompletionPercentage(transaction: any): number {
+  const phases = Object.values(TransactionPhase);
+  const currentIndex = phases.indexOf(transaction.status);
+  const completedIndex = phases.indexOf(TransactionPhase.COMPLETED);
+
+  if (currentIndex === -1 || completedIndex === -1) return 0;
+
+  return Math.round((currentIndex / completedIndex) * 100);
+}
+
+/**
+ * Get next recommended actions for the transaction
+ */
+function getNextActions(transaction: any): string[] {
+  const actions: string[] = [];
+
+  switch (transaction.status) {
+    case TransactionPhase.ENQUIRY:
+      actions.push('Schedule a viewing', 'Upload financial documents');
+      break;
+    case TransactionPhase.VIEWING_SCHEDULED:
+      actions.push('Prepare viewing questions', 'Review property details');
+      break;
+    case TransactionPhase.VIEWED:
+      actions.push('Make a reservation', 'Schedule second viewing');
+      break;
+    case TransactionPhase.RESERVATION:
+      actions.push('Pay reservation deposit', 'Review contract');
+      break;
+    case TransactionPhase.CONTRACT_ISSUED:
+      actions.push('Review with solicitor', 'Sign contract');
+      break;
+    case TransactionPhase.CONTRACT_SIGNED:
+      actions.push('Pay deposit', 'Finalize mortgage');
+      break;
+    case TransactionPhase.DEPOSIT_PAID:
+      actions.push('Complete mortgage application', 'Schedule closing');
+      break;
+    case TransactionPhase.MORTGAGE_APPROVED:
+      actions.push('Prepare for closing', 'Final walkthrough');
+      break;
+    case TransactionPhase.CLOSING:
+      actions.push('Transfer funds', 'Sign final documents');
+      break;
+    case TransactionPhase.COMPLETED:
+      actions.push('Schedule handover', 'Collect keys');
+      break;
+  }
+
+  return actions;
+}

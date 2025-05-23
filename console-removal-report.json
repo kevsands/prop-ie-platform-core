@@ -1,0 +1,4922 @@
+{
+  "timestamp": "2025-05-23T16:53:51.026Z",
+  "summary": {
+    "totalFilesScanned": 1307,
+    "filesModified": 929,
+    "totalStatementsRemoved": 1210
+  },
+  "files": [
+    {
+      "file": "src/components/NotificationCenter.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/NotificationCenter.tsx.console-backup-1748019228222"
+    },
+    {
+      "file": "src/components/HomePage.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/HomePage.tsx.console-backup-1748019228226"
+    },
+    {
+      "file": "src/components/ErrorBoundary.tsx",
+      "statementsRemoved": 1,
+      "backupPath": "src/components/ErrorBoundary.tsx.console-backup-1748019228228"
+    },
+    {
+      "file": "src/components/CustomizationSummary.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/CustomizationSummary.tsx.console-backup-1748019228234"
+    },
+    {
+      "file": "src/components/AuthProvider.tsx",
+      "statementsRemoved": 2,
+      "backupPath": "src/components/AuthProvider.tsx.console-backup-1748019228238"
+    },
+    {
+      "file": "src/components/AmplifyDataFetcher.tsx",
+      "statementsRemoved": 1,
+      "backupPath": "src/components/AmplifyDataFetcher.tsx.console-backup-1748019228242"
+    },
+    {
+      "file": "src/components/units/UnitCard.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/units/UnitCard.tsx.console-backup-1748019228243"
+    },
+    {
+      "file": "src/components/units/CustomizationOptions.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/units/CustomizationOptions.tsx.console-backup-1748019228245"
+    },
+    {
+      "file": "src/components/ui/use-toast.tsx",
+      "statementsRemoved": 1,
+      "backupPath": "src/components/ui/use-toast.tsx.console-backup-1748019228247"
+    },
+    {
+      "file": "src/components/ui/toast.stories.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/ui/toast.stories.tsx.console-backup-1748019228252"
+    },
+    {
+      "file": "src/components/ui/toast-context.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/ui/toast-context.tsx.console-backup-1748019228253"
+    },
+    {
+      "file": "src/components/ui/tabs.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/ui/tabs.tsx.console-backup-1748019228255"
+    },
+    {
+      "file": "src/components/ui/metric-card.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/ui/metric-card.tsx.console-backup-1748019228269"
+    },
+    {
+      "file": "src/components/ui/loading-states.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/ui/loading-states.tsx.console-backup-1748019228272"
+    },
+    {
+      "file": "src/components/ui/loading-skeleton.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/ui/loading-skeleton.tsx.console-backup-1748019228273"
+    },
+    {
+      "file": "src/components/ui/loading-skeleton.stories.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/ui/loading-skeleton.stories.tsx.console-backup-1748019228276"
+    },
+    {
+      "file": "src/components/ui/icons.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/ui/icons.tsx.console-backup-1748019228279"
+    },
+    {
+      "file": "src/components/ui/form-field.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/ui/form-field.tsx.console-backup-1748019228281"
+    },
+    {
+      "file": "src/components/ui/error-boundary.tsx",
+      "statementsRemoved": 2,
+      "backupPath": "src/components/ui/error-boundary.tsx.console-backup-1748019228283"
+    },
+    {
+      "file": "src/components/ui/error-boundary.stories.tsx",
+      "statementsRemoved": 1,
+      "backupPath": "src/components/ui/error-boundary.stories.tsx.console-backup-1748019228284"
+    },
+    {
+      "file": "src/components/ui/data-table.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/ui/data-table.tsx.console-backup-1748019228290"
+    },
+    {
+      "file": "src/components/ui/chart-wrapper.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/ui/chart-wrapper.tsx.console-backup-1748019228294"
+    },
+    {
+      "file": "src/components/ui/badge.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/ui/badge.tsx.console-backup-1748019228299"
+    },
+    {
+      "file": "src/components/ui/NotificationCenter.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/ui/NotificationCenter.tsx.console-backup-1748019228303"
+    },
+    {
+      "file": "src/components/ui/LoadingSpinner.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/ui/LoadingSpinner.tsx.console-backup-1748019228305"
+    },
+    {
+      "file": "src/components/ui/KPIWidget.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/ui/KPIWidget.tsx.console-backup-1748019228306"
+    },
+    {
+      "file": "src/components/ui/IconRegistry.tsx",
+      "statementsRemoved": 1,
+      "backupPath": "src/components/ui/IconRegistry.tsx.console-backup-1748019228307"
+    },
+    {
+      "file": "src/components/ui/Icon.tsx",
+      "statementsRemoved": 2,
+      "backupPath": "src/components/ui/Icon.tsx.console-backup-1748019228308"
+    },
+    {
+      "file": "src/components/ui/GraphQLProvider.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/ui/GraphQLProvider.tsx.console-backup-1748019228310"
+    },
+    {
+      "file": "src/components/ui/ChatComponent.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/ui/ChatComponent.tsx.console-backup-1748019228311"
+    },
+    {
+      "file": "src/components/transaction/TransactionTracker.tsx",
+      "statementsRemoved": 1,
+      "backupPath": "src/components/transaction/TransactionTracker.tsx.console-backup-1748019228312"
+    },
+    {
+      "file": "src/components/transaction/TransactionTimeline.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/transaction/TransactionTimeline.tsx.console-backup-1748019228313"
+    },
+    {
+      "file": "src/components/transaction/TransactionPayment.tsx",
+      "statementsRemoved": 1,
+      "backupPath": "src/components/transaction/TransactionPayment.tsx.console-backup-1748019228315"
+    },
+    {
+      "file": "src/components/transaction/TransactionFlow.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/transaction/TransactionFlow.tsx.console-backup-1748019228317"
+    },
+    {
+      "file": "src/components/transaction/PaymentOverview.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/transaction/PaymentOverview.tsx.console-backup-1748019228318"
+    },
+    {
+      "file": "src/components/transaction/ParticipantsList.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/transaction/ParticipantsList.tsx.console-backup-1748019228320"
+    },
+    {
+      "file": "src/components/transaction/DocumentCenter.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/transaction/DocumentCenter.tsx.console-backup-1748019228322"
+    },
+    {
+      "file": "src/components/transaction/CommunicationHub.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/transaction/CommunicationHub.tsx.console-backup-1748019228323"
+    },
+    {
+      "file": "src/components/timeline/TimelineToolbar.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/timeline/TimelineToolbar.tsx.console-backup-1748019228324"
+    },
+    {
+      "file": "src/components/timeline/TimelineSummaryCards.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/timeline/TimelineSummaryCards.tsx.console-backup-1748019228326"
+    },
+    {
+      "file": "src/components/timeline/TimelineRow.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/timeline/TimelineRow.tsx.console-backup-1748019228327"
+    },
+    {
+      "file": "src/components/timeline/TimelineHeader.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/timeline/TimelineHeader.tsx.console-backup-1748019228328"
+    },
+    {
+      "file": "src/components/timeline/ProjectTimeline.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/timeline/ProjectTimeline.tsx.console-backup-1748019228330"
+    },
+    {
+      "file": "src/components/timeline/DependencyLines.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/timeline/DependencyLines.tsx.console-backup-1748019228331"
+    },
+    {
+      "file": "src/components/tests/GraphQLTester.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/tests/GraphQLTester.tsx.console-backup-1748019228333"
+    },
+    {
+      "file": "src/components/tender/TenderManagement.tsx",
+      "statementsRemoved": 1,
+      "backupPath": "src/components/tender/TenderManagement.tsx.console-backup-1748019228334"
+    },
+    {
+      "file": "src/components/security/withCSRFProtection.tsx",
+      "statementsRemoved": 3,
+      "backupPath": "src/components/security/withCSRFProtection.tsx.console-backup-1748019228337"
+    },
+    {
+      "file": "src/components/security/TrustedDevices.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/security/TrustedDevices.tsx.console-backup-1748019228338"
+    },
+    {
+      "file": "src/components/security/ThreatVisualization.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/security/ThreatVisualization.tsx.console-backup-1748019228339"
+    },
+    {
+      "file": "src/components/security/SecurityTimeline.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/security/SecurityTimeline.tsx.console-backup-1748019228341"
+    },
+    {
+      "file": "src/components/security/SecuritySetupWizard.tsx",
+      "statementsRemoved": 1,
+      "backupPath": "src/components/security/SecuritySetupWizard.tsx.console-backup-1748019228342"
+    },
+    {
+      "file": "src/components/security/SecurityMonitoringDashboard.tsx",
+      "statementsRemoved": 1,
+      "backupPath": "src/components/security/SecurityMonitoringDashboard.tsx.console-backup-1748019228345"
+    },
+    {
+      "file": "src/components/security/SecurityMetricsSkeleton.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/security/SecurityMetricsSkeleton.tsx.console-backup-1748019228347"
+    },
+    {
+      "file": "src/components/security/SecurityMetricsChart.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/security/SecurityMetricsChart.tsx.console-backup-1748019228348"
+    },
+    {
+      "file": "src/components/security/SecurityDashboard.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/security/SecurityDashboard.tsx.console-backup-1748019228349"
+    },
+    {
+      "file": "src/components/security/SecurityAlerts.tsx",
+      "statementsRemoved": 2,
+      "backupPath": "src/components/security/SecurityAlerts.tsx.console-backup-1748019228350"
+    },
+    {
+      "file": "src/components/security/SafeLink.tsx",
+      "statementsRemoved": 1,
+      "backupPath": "src/components/security/SafeLink.tsx.console-backup-1748019228352"
+    },
+    {
+      "file": "src/components/security/OptimizedSecurityDashboard.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/security/OptimizedSecurityDashboard.tsx.console-backup-1748019228353"
+    },
+    {
+      "file": "src/components/security/MFASetup.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/security/MFASetup.tsx.console-backup-1748019228355"
+    },
+    {
+      "file": "src/components/security/MFAChallenge.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/security/MFAChallenge.tsx.console-backup-1748019228356"
+    },
+    {
+      "file": "src/components/security/EnhancedSecurityDashboard.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/security/EnhancedSecurityDashboard.tsx.console-backup-1748019228357"
+    },
+    {
+      "file": "src/components/security/ClientSecurityProvider.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/security/ClientSecurityProvider.tsx.console-backup-1748019228358"
+    },
+    {
+      "file": "src/components/security/CSRFToken.tsx",
+      "statementsRemoved": 4,
+      "backupPath": "src/components/security/CSRFToken.tsx.console-backup-1748019228360"
+    },
+    {
+      "file": "src/components/security/mfa/MFASetup.tsx",
+      "statementsRemoved": 6,
+      "backupPath": "src/components/security/mfa/MFASetup.tsx.console-backup-1748019228362"
+    },
+    {
+      "file": "src/components/sections/HeroWithSearch.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/sections/HeroWithSearch.tsx.console-backup-1748019228363"
+    },
+    {
+      "file": "src/components/sections/HeroWithCarousel.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/sections/HeroWithCarousel.tsx.console-backup-1748019228364"
+    },
+    {
+      "file": "src/components/sales/SalesProgressTracker.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/sales/SalesProgressTracker.tsx.console-backup-1748019228366"
+    },
+    {
+      "file": "src/components/sales/SalesProgressBar.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/sales/SalesProgressBar.tsx.console-backup-1748019228367"
+    },
+    {
+      "file": "src/components/sales/SalesFunnelChart.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/sales/SalesFunnelChart.tsx.console-backup-1748019228368"
+    },
+    {
+      "file": "src/components/sales/DepositTracker.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/sales/DepositTracker.tsx.console-backup-1748019228369"
+    },
+    {
+      "file": "src/components/reservation/ReservationForm.tsx",
+      "statementsRemoved": 1,
+      "backupPath": "src/components/reservation/ReservationForm.tsx.console-backup-1748019228371"
+    },
+    {
+      "file": "src/components/property/VirtualTourViewer.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/property/VirtualTourViewer.tsx.console-backup-1748019228372"
+    },
+    {
+      "file": "src/components/property/PurchaseInitiation.tsx",
+      "statementsRemoved": 1,
+      "backupPath": "src/components/property/PurchaseInitiation.tsx.console-backup-1748019228373"
+    },
+    {
+      "file": "src/components/property/PropertyReservation.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/property/PropertyReservation.tsx.console-backup-1748019228375"
+    },
+    {
+      "file": "src/components/property/PropertyMap.tsx",
+      "statementsRemoved": 1,
+      "backupPath": "src/components/property/PropertyMap.tsx.console-backup-1748019228377"
+    },
+    {
+      "file": "src/components/property/PropertyListing.tsx",
+      "statementsRemoved": 1,
+      "backupPath": "src/components/property/PropertyListing.tsx.console-backup-1748019228378"
+    },
+    {
+      "file": "src/components/property/PropertyDetail.tsx",
+      "statementsRemoved": 1,
+      "backupPath": "src/components/property/PropertyDetail.tsx.console-backup-1748019228380"
+    },
+    {
+      "file": "src/components/property/PropertyCardTest.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/property/PropertyCardTest.tsx.console-backup-1748019228380"
+    },
+    {
+      "file": "src/components/property/PropertyCard.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/property/PropertyCard.tsx.console-backup-1748019228382"
+    },
+    {
+      "file": "src/components/properties/SavedSearchModal.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/properties/SavedSearchModal.tsx.console-backup-1748019228383"
+    },
+    {
+      "file": "src/components/properties/PropertySearchHeader.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/properties/PropertySearchHeader.tsx.console-backup-1748019228385"
+    },
+    {
+      "file": "src/components/properties/PropertyMapView.tsx",
+      "statementsRemoved": 1,
+      "backupPath": "src/components/properties/PropertyMapView.tsx.console-backup-1748019228388"
+    },
+    {
+      "file": "src/components/properties/PropertyListView.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/properties/PropertyListView.tsx.console-backup-1748019228389"
+    },
+    {
+      "file": "src/components/properties/PropertyCard.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/properties/PropertyCard.tsx.console-backup-1748019228391"
+    },
+    {
+      "file": "src/components/properties/ComparePropertiesPanel.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/properties/ComparePropertiesPanel.tsx.console-backup-1748019228392"
+    },
+    {
+      "file": "src/components/projects/ProjectStatusCard.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/projects/ProjectStatusCard.tsx.console-backup-1748019228393"
+    },
+    {
+      "file": "src/components/projects/ProjectCard.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/projects/ProjectCard.tsx.console-backup-1748019228395"
+    },
+    {
+      "file": "src/components/performance/VirtualizedList.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/performance/VirtualizedList.tsx.console-backup-1748019228397"
+    },
+    {
+      "file": "src/components/performance/ServiceWorkerRegistration.tsx",
+      "statementsRemoved": 4,
+      "backupPath": "src/components/performance/ServiceWorkerRegistration.tsx.console-backup-1748019228398"
+    },
+    {
+      "file": "src/components/performance/PerformanceProvider.tsx",
+      "statementsRemoved": 4,
+      "backupPath": "src/components/performance/PerformanceProvider.tsx.console-backup-1748019228399"
+    },
+    {
+      "file": "src/components/performance/PerformanceMonitor.tsx",
+      "statementsRemoved": 3,
+      "backupPath": "src/components/performance/PerformanceMonitor.tsx.console-backup-1748019228401"
+    },
+    {
+      "file": "src/components/performance/PerformanceExample.tsx",
+      "statementsRemoved": 1,
+      "backupPath": "src/components/performance/PerformanceExample.tsx.console-backup-1748019228401"
+    },
+    {
+      "file": "src/components/performance/OptimizedComponent.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/performance/OptimizedComponent.tsx.console-backup-1748019228403"
+    },
+    {
+      "file": "src/components/payments/PaymentForm.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/payments/PaymentForm.tsx.console-backup-1748019228405"
+    },
+    {
+      "file": "src/components/pages/index.tsx",
+      "statementsRemoved": 1,
+      "backupPath": "src/components/pages/index.tsx.console-backup-1748019228407"
+    },
+    {
+      "file": "src/components/pages/Page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/pages/Page.tsx.console-backup-1748019228408"
+    },
+    {
+      "file": "src/components/pages/test-api/TestapiPage.tsx",
+      "statementsRemoved": 1,
+      "backupPath": "src/components/pages/test-api/TestapiPage.tsx.console-backup-1748019228409"
+    },
+    {
+      "file": "src/components/pages/solicitor/SolicitorPage.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/pages/solicitor/SolicitorPage.tsx.console-backup-1748019228437"
+    },
+    {
+      "file": "src/components/pages/register/RegisterPage.tsx",
+      "statementsRemoved": 1,
+      "backupPath": "src/components/pages/register/RegisterPage.tsx.console-backup-1748019228438"
+    },
+    {
+      "file": "src/components/pages/login/LoginPage.tsx",
+      "statementsRemoved": 1,
+      "backupPath": "src/components/pages/login/LoginPage.tsx.console-backup-1748019228443"
+    },
+    {
+      "file": "src/components/pages/kyc-verifcationpage/Kyc-verifcationPage.tsx",
+      "statementsRemoved": 2,
+      "backupPath": "src/components/pages/kyc-verifcationpage/Kyc-verifcationPage.tsx.console-backup-1748019228447"
+    },
+    {
+      "file": "src/components/pages/developments/index.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/pages/developments/index.tsx.console-backup-1748019228448"
+    },
+    {
+      "file": "src/components/pages/developments/DevelopmentSiteMap.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/pages/developments/DevelopmentSiteMap.tsx.console-backup-1748019228452"
+    },
+    {
+      "file": "src/components/pages/developer/new-project/DeveloperNew-projectPage.tsx",
+      "statementsRemoved": 3,
+      "backupPath": "src/components/pages/developer/new-project/DeveloperNew-projectPage.tsx.console-backup-1748019228486"
+    },
+    {
+      "file": "src/components/pages/buyer/htb/BuyerHtbPage.tsx",
+      "statementsRemoved": 1,
+      "backupPath": "src/components/pages/buyer/htb/BuyerHtbPage.tsx.console-backup-1748019228491"
+    },
+    {
+      "file": "src/components/pages/admin/documents/AdminDocumentsPage.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/pages/admin/documents/AdminDocumentsPage.tsx.console-backup-1748019228496"
+    },
+    {
+      "file": "src/components/navigation/UltraModernNavigation.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/navigation/UltraModernNavigation.tsx.console-backup-1748019228499"
+    },
+    {
+      "file": "src/components/navigation/TestNavigation.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/navigation/TestNavigation.tsx.console-backup-1748019228501"
+    },
+    {
+      "file": "src/components/navigation/SimpleWorkingNav.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/navigation/SimpleWorkingNav.tsx.console-backup-1748019228503"
+    },
+    {
+      "file": "src/components/navigation/RevolutionaryNavigation.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/navigation/RevolutionaryNavigation.tsx.console-backup-1748019228511"
+    },
+    {
+      "file": "src/components/navigation/NavigationErrorBoundary.tsx",
+      "statementsRemoved": 1,
+      "backupPath": "src/components/navigation/NavigationErrorBoundary.tsx.console-backup-1748019228516"
+    },
+    {
+      "file": "src/components/navigation/Navbar.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/navigation/Navbar.tsx.console-backup-1748019228518"
+    },
+    {
+      "file": "src/components/navigation/MainNavigationFixed.tsx",
+      "statementsRemoved": 2,
+      "backupPath": "src/components/navigation/MainNavigationFixed.tsx.console-backup-1748019228592"
+    },
+    {
+      "file": "src/components/navigation/MainNavigation.tsx",
+      "statementsRemoved": 2,
+      "backupPath": "src/components/navigation/MainNavigation.tsx.console-backup-1748019228596"
+    },
+    {
+      "file": "src/components/navigation/MainNavbar.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/navigation/MainNavbar.tsx.console-backup-1748019228599"
+    },
+    {
+      "file": "src/components/navigation/EnhancedMainNavigation.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/navigation/EnhancedMainNavigation.tsx.console-backup-1748019228602"
+    },
+    {
+      "file": "src/components/navigation/ConversionFocusedNavigation.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/navigation/ConversionFocusedNavigation.tsx.console-backup-1748019228608"
+    },
+    {
+      "file": "src/components/navigation/ConsistentNavigation.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/navigation/ConsistentNavigation.tsx.console-backup-1748019228614"
+    },
+    {
+      "file": "src/components/navigation/CleanProfessionalNav.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/navigation/CleanProfessionalNav.tsx.console-backup-1748019228620"
+    },
+    {
+      "file": "src/components/navigation/Breadcrumbs.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/navigation/Breadcrumbs.tsx.console-backup-1748019228629"
+    },
+    {
+      "file": "src/components/monitoring/ErrorBoundary.tsx",
+      "statementsRemoved": 1,
+      "backupPath": "src/components/monitoring/ErrorBoundary.tsx.console-backup-1748019228631"
+    },
+    {
+      "file": "src/components/media/WatermarkImage.tsx",
+      "statementsRemoved": 1,
+      "backupPath": "src/components/media/WatermarkImage.tsx.console-backup-1748019228634"
+    },
+    {
+      "file": "src/components/media/MediaUpload.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/media/MediaUpload.tsx.console-backup-1748019228638"
+    },
+    {
+      "file": "src/components/media/MediaManager.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/media/MediaManager.tsx.console-backup-1748019228640"
+    },
+    {
+      "file": "src/components/media/MediaGallery.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/media/MediaGallery.tsx.console-backup-1748019228643"
+    },
+    {
+      "file": "src/components/media/ImagePreview.tsx",
+      "statementsRemoved": 1,
+      "backupPath": "src/components/media/ImagePreview.tsx.console-backup-1748019228687"
+    },
+    {
+      "file": "src/components/liquidity-pools/IrishPropertyPools.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/liquidity-pools/IrishPropertyPools.tsx.console-backup-1748019228691"
+    },
+    {
+      "file": "src/components/legal/LegalTransactionIntegration.tsx",
+      "statementsRemoved": 2,
+      "backupPath": "src/components/legal/LegalTransactionIntegration.tsx.console-backup-1748019228696"
+    },
+    {
+      "file": "src/components/legal/LegalTransactionFlow.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/legal/LegalTransactionFlow.tsx.console-backup-1748019228701"
+    },
+    {
+      "file": "src/components/legal/CookieConsent.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/legal/CookieConsent.tsx.console-backup-1748019228706"
+    },
+    {
+      "file": "src/components/layout/DashboardLayout.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/layout/DashboardLayout.tsx.console-backup-1748019228728"
+    },
+    {
+      "file": "src/components/layout/AppShell.tsx",
+      "statementsRemoved": 1,
+      "backupPath": "src/components/layout/AppShell.tsx.console-backup-1748019228730"
+    },
+    {
+      "file": "src/components/layout/AppLayout.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/layout/AppLayout.tsx.console-backup-1748019228732"
+    },
+    {
+      "file": "src/components/layout/Footer/SocialLinks.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/layout/Footer/SocialLinks.tsx.console-backup-1748019228741"
+    },
+    {
+      "file": "src/components/layout/Footer/Footer.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/layout/Footer/Footer.tsx.console-backup-1748019228744"
+    },
+    {
+      "file": "src/components/kyc/KYCVerificationForm.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/kyc/KYCVerificationForm.tsx.console-backup-1748019228745"
+    },
+    {
+      "file": "src/components/kyc/KYCVerification.tsx",
+      "statementsRemoved": 3,
+      "backupPath": "src/components/kyc/KYCVerification.tsx.console-backup-1748019228747"
+    },
+    {
+      "file": "src/components/journey/JourneyTracker.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/journey/JourneyTracker.tsx.console-backup-1748019228749"
+    },
+    {
+      "file": "src/components/investor/InvestorModeToggle.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/investor/InvestorModeToggle.tsx.console-backup-1748019228751"
+    },
+    {
+      "file": "src/components/investor/InvestorMode.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/investor/InvestorMode.tsx.console-backup-1748019228754"
+    },
+    {
+      "file": "src/components/htb/HelpToBuyClaimUpload.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/htb/HelpToBuyClaimUpload.tsx.console-backup-1748019228757"
+    },
+    {
+      "file": "src/components/htb/developer/HTBClaimsDashboard.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/htb/developer/HTBClaimsDashboard.tsx.console-backup-1748019228761"
+    },
+    {
+      "file": "src/components/htb/developer/HTBClaimProcessor.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/htb/developer/HTBClaimProcessor.tsx.console-backup-1748019228762"
+    },
+    {
+      "file": "src/components/htb/developer/forms/RequestFundsForm.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/htb/developer/forms/RequestFundsForm.tsx.console-backup-1748019228767"
+    },
+    {
+      "file": "src/components/htb/developer/forms/FundsReceivedForm.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/htb/developer/forms/FundsReceivedForm.tsx.console-backup-1748019228768"
+    },
+    {
+      "file": "src/components/htb/developer/forms/DocumentUploadForm.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/htb/developer/forms/DocumentUploadForm.tsx.console-backup-1748019228770"
+    },
+    {
+      "file": "src/components/htb/developer/forms/DepositAppliedForm.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/htb/developer/forms/DepositAppliedForm.tsx.console-backup-1748019228771"
+    },
+    {
+      "file": "src/components/htb/developer/forms/CompleteClaimForm.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/htb/developer/forms/CompleteClaimForm.tsx.console-backup-1748019228773"
+    },
+    {
+      "file": "src/components/htb/developer/forms/ClaimCodeForm.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/htb/developer/forms/ClaimCodeForm.tsx.console-backup-1748019228774"
+    },
+    {
+      "file": "src/components/home/TestimonialsSection.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/home/TestimonialsSection.tsx.console-backup-1748019228777"
+    },
+    {
+      "file": "src/components/home/SolutionsSection.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/home/SolutionsSection.tsx.console-backup-1748019228778"
+    },
+    {
+      "file": "src/components/home/EnhancedServicesSection.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/home/EnhancedServicesSection.tsx.console-backup-1748019228780"
+    },
+    {
+      "file": "src/components/home/EnhancedPropertySearch.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/home/EnhancedPropertySearch.tsx.console-backup-1748019228781"
+    },
+    {
+      "file": "src/components/home/BasicTestimonialsSection.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/home/BasicTestimonialsSection.tsx.console-backup-1748019228782"
+    },
+    {
+      "file": "src/components/financial/FinancialOverview.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/financial/FinancialOverview.tsx.console-backup-1748019228788"
+    },
+    {
+      "file": "src/components/finance/ScenarioComparison.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/finance/ScenarioComparison.tsx.console-backup-1748019228789"
+    },
+    {
+      "file": "src/components/finance/ROICalculator.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/finance/ROICalculator.tsx.console-backup-1748019228794"
+    },
+    {
+      "file": "src/components/finance/ProfitabilityAnalysis.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/finance/ProfitabilityAnalysis.tsx.console-backup-1748019228796"
+    },
+    {
+      "file": "src/components/finance/FinancialMetricCard.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/finance/FinancialMetricCard.tsx.console-backup-1748019228798"
+    },
+    {
+      "file": "src/components/finance/FinancialDashboard.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/finance/FinancialDashboard.tsx.console-backup-1748019228799"
+    },
+    {
+      "file": "src/components/finance/FinancialChart.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/finance/FinancialChart.tsx.console-backup-1748019228800"
+    },
+    {
+      "file": "src/components/finance/CashFlowSummaryCard.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/finance/CashFlowSummaryCard.tsx.console-backup-1748019228802"
+    },
+    {
+      "file": "src/components/finance/BudgetVsActualCard.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/finance/BudgetVsActualCard.tsx.console-backup-1748019228804"
+    },
+    {
+      "file": "src/components/features/FeatureFlagAdmin.tsx",
+      "statementsRemoved": 3,
+      "backupPath": "src/components/features/FeatureFlagAdmin.tsx.console-backup-1748019228806"
+    },
+    {
+      "file": "src/components/features/FeatureFlag.tsx",
+      "statementsRemoved": 1,
+      "backupPath": "src/components/features/FeatureFlag.tsx.console-backup-1748019228807"
+    },
+    {
+      "file": "src/components/features/home/HeroSection.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/features/home/HeroSection.tsx.console-backup-1748019228808"
+    },
+    {
+      "file": "src/components/features/development/DevelopmentListConnected.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/features/development/DevelopmentListConnected.tsx.console-backup-1748019228810"
+    },
+    {
+      "file": "src/components/features/development/DevelopmentList.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/features/development/DevelopmentList.tsx.console-backup-1748019228811"
+    },
+    {
+      "file": "src/components/features/development/DevelopmentCardConnected.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/features/development/DevelopmentCardConnected.tsx.console-backup-1748019228813"
+    },
+    {
+      "file": "src/components/examples/GraphQLExample.tsx",
+      "statementsRemoved": 2,
+      "backupPath": "src/components/examples/GraphQLExample.tsx.console-backup-1748019228814"
+    },
+    {
+      "file": "src/components/examples/AuthenticatedGraphQL.tsx",
+      "statementsRemoved": 1,
+      "backupPath": "src/components/examples/AuthenticatedGraphQL.tsx.console-backup-1748019228816"
+    },
+    {
+      "file": "src/components/documents/VariablesPanel.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/documents/VariablesPanel.tsx.console-backup-1748019228817"
+    },
+    {
+      "file": "src/components/documents/DocumentWorkflowView.tsx",
+      "statementsRemoved": 2,
+      "backupPath": "src/components/documents/DocumentWorkflowView.tsx.console-backup-1748019228819"
+    },
+    {
+      "file": "src/components/documents/DocumentVersionHistory.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/documents/DocumentVersionHistory.tsx.console-backup-1748019228821"
+    },
+    {
+      "file": "src/components/documents/DocumentUploader.tsx",
+      "statementsRemoved": 1,
+      "backupPath": "src/components/documents/DocumentUploader.tsx.console-backup-1748019228822"
+    },
+    {
+      "file": "src/components/documents/DocumentPermissionsEditor.tsx",
+      "statementsRemoved": 1,
+      "backupPath": "src/components/documents/DocumentPermissionsEditor.tsx.console-backup-1748019228824"
+    },
+    {
+      "file": "src/components/documents/DocumentManager.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/documents/DocumentManager.tsx.console-backup-1748019228827"
+    },
+    {
+      "file": "src/components/documents/DocumentList.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/documents/DocumentList.tsx.console-backup-1748019228829"
+    },
+    {
+      "file": "src/components/documents/DocumentGenerator.tsx",
+      "statementsRemoved": 2,
+      "backupPath": "src/components/documents/DocumentGenerator.tsx.console-backup-1748019228831"
+    },
+    {
+      "file": "src/components/documents/DocumentFilterPanel.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/documents/DocumentFilterPanel.tsx.console-backup-1748019228832"
+    },
+    {
+      "file": "src/components/documents/DocumentDetails.tsx",
+      "statementsRemoved": 4,
+      "backupPath": "src/components/documents/DocumentDetails.tsx.console-backup-1748019228834"
+    },
+    {
+      "file": "src/components/documents/DocumentCategoryProgress.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/documents/DocumentCategoryProgress.tsx.console-backup-1748019228836"
+    },
+    {
+      "file": "src/components/document/SLPGenerator.tsx",
+      "statementsRemoved": 1,
+      "backupPath": "src/components/document/SLPGenerator.tsx.console-backup-1748019228839"
+    },
+    {
+      "file": "src/components/document/DocumentViewer.tsx",
+      "statementsRemoved": 2,
+      "backupPath": "src/components/document/DocumentViewer.tsx.console-backup-1748019228840"
+    },
+    {
+      "file": "src/components/document/DocumentUploader.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/document/DocumentUploader.tsx.console-backup-1748019228842"
+    },
+    {
+      "file": "src/components/document/DocumentUploadDialog.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/document/DocumentUploadDialog.tsx.console-backup-1748019228844"
+    },
+    {
+      "file": "src/components/document/DocumentUpload.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/document/DocumentUpload.tsx.console-backup-1748019228845"
+    },
+    {
+      "file": "src/components/document/DocumentTimeline.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/document/DocumentTimeline.tsx.console-backup-1748019228847"
+    },
+    {
+      "file": "src/components/document/DocumentSecurity.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/document/DocumentSecurity.tsx.console-backup-1748019228849"
+    },
+    {
+      "file": "src/components/document/DocumentManager.tsx",
+      "statementsRemoved": 4,
+      "backupPath": "src/components/document/DocumentManager.tsx.console-backup-1748019228852"
+    },
+    {
+      "file": "src/components/document/DocumentListItem.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/document/DocumentListItem.tsx.console-backup-1748019228853"
+    },
+    {
+      "file": "src/components/document/DocumentList.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/document/DocumentList.tsx.console-backup-1748019228854"
+    },
+    {
+      "file": "src/components/document/DocumentIntegrations.tsx",
+      "statementsRemoved": 3,
+      "backupPath": "src/components/document/DocumentIntegrations.tsx.console-backup-1748019228856"
+    },
+    {
+      "file": "src/components/document/DocumentFilterBar.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/document/DocumentFilterBar.tsx.console-backup-1748019228858"
+    },
+    {
+      "file": "src/components/document/DocumentComplianceTracker.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/document/DocumentComplianceTracker.tsx.console-backup-1748019228859"
+    },
+    {
+      "file": "src/components/document/DocumentCategoryProgress.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/document/DocumentCategoryProgress.tsx.console-backup-1748019228860"
+    },
+    {
+      "file": "src/components/development/DevelopmentDetailConnected.tsx",
+      "statementsRemoved": 1,
+      "backupPath": "src/components/development/DevelopmentDetailConnected.tsx.console-backup-1748019228867"
+    },
+    {
+      "file": "src/components/development/DevelopmentDetail.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/development/DevelopmentDetail.tsx.console-backup-1748019228869"
+    },
+    {
+      "file": "src/components/development/DevelopmentAppraisal.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/development/DevelopmentAppraisal.tsx.console-backup-1748019228871"
+    },
+    {
+      "file": "src/components/developer/ProjectList.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/developer/ProjectList.tsx.console-backup-1748019228873"
+    },
+    {
+      "file": "src/components/developer/ProfessionalAppointments.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/developer/ProfessionalAppointments.tsx.console-backup-1748019228874"
+    },
+    {
+      "file": "src/components/developer/MicrosoftIntegration.tsx",
+      "statementsRemoved": 1,
+      "backupPath": "src/components/developer/MicrosoftIntegration.tsx.console-backup-1748019228876"
+    },
+    {
+      "file": "src/components/developer/FinancialDashboard.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/developer/FinancialDashboard.tsx.console-backup-1748019228878"
+    },
+    {
+      "file": "src/components/developer/DeveloperSidebar.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/developer/DeveloperSidebar.tsx.console-backup-1748019228881"
+    },
+    {
+      "file": "src/components/developer/DeveloperDashboard.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/developer/DeveloperDashboard.tsx.console-backup-1748019228883"
+    },
+    {
+      "file": "src/components/developer/projects/create/ProjectReview.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/developer/projects/create/ProjectReview.tsx.console-backup-1748019228885"
+    },
+    {
+      "file": "src/components/developer/projects/create/ProjectFinancials.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/developer/projects/create/ProjectFinancials.tsx.console-backup-1748019228887"
+    },
+    {
+      "file": "src/components/developer/projects/create/LocationSelection.tsx",
+      "statementsRemoved": 1,
+      "backupPath": "src/components/developer/projects/create/LocationSelection.tsx.console-backup-1748019228889"
+    },
+    {
+      "file": "src/components/developer/projects/create/AIProjectAssistant.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/developer/projects/create/AIProjectAssistant.tsx.console-backup-1748019228891"
+    },
+    {
+      "file": "src/components/developer/project/wizard/SitePlanUpload.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/developer/project/wizard/SitePlanUpload.tsx.console-backup-1748019228892"
+    },
+    {
+      "file": "src/components/developer/project/wizard/ScheduleOfAccommodation.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/developer/project/wizard/ScheduleOfAccommodation.tsx.console-backup-1748019228894"
+    },
+    {
+      "file": "src/components/developer/project/wizard/ProjectBasicInfo.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/developer/project/wizard/ProjectBasicInfo.tsx.console-backup-1748019228895"
+    },
+    {
+      "file": "src/components/developer/project/wizard/PlanningPermissionUpload.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/developer/project/wizard/PlanningPermissionUpload.tsx.console-backup-1748019228897"
+    },
+    {
+      "file": "src/components/developer/project/fitzgerald-gardens/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/developer/project/fitzgerald-gardens/page.tsx.console-backup-1748019228899"
+    },
+    {
+      "file": "src/components/developer/project/fitzgerald-gardens/units/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/developer/project/fitzgerald-gardens/units/page.tsx.console-backup-1748019228901"
+    },
+    {
+      "file": "src/components/developer/project/fitzgerald-gardens/sales/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/developer/project/fitzgerald-gardens/sales/page.tsx.console-backup-1748019228902"
+    },
+    {
+      "file": "src/components/dashboard/index.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/dashboard/index.tsx.console-backup-1748019228903"
+    },
+    {
+      "file": "src/components/dashboard/UnifiedDashboard.tsx",
+      "statementsRemoved": 2,
+      "backupPath": "src/components/dashboard/UnifiedDashboard.tsx.console-backup-1748019228904"
+    },
+    {
+      "file": "src/components/dashboard/TasksList.tsx",
+      "statementsRemoved": 1,
+      "backupPath": "src/components/dashboard/TasksList.tsx.console-backup-1748019228906"
+    },
+    {
+      "file": "src/components/dashboard/PropertyCustomizer.tsx",
+      "statementsRemoved": 3,
+      "backupPath": "src/components/dashboard/PropertyCustomizer.tsx.console-backup-1748019228907"
+    },
+    {
+      "file": "src/components/dashboard/ProjectStatusCard.tsx",
+      "statementsRemoved": 1,
+      "backupPath": "src/components/dashboard/ProjectStatusCard.tsx.console-backup-1748019228909"
+    },
+    {
+      "file": "src/components/dashboard/ProjectOverview.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/dashboard/ProjectOverview.tsx.console-backup-1748019228911"
+    },
+    {
+      "file": "src/components/dashboard/EnhancedDeveloperDashboard.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/dashboard/EnhancedDeveloperDashboard.tsx.console-backup-1748019228914"
+    },
+    {
+      "file": "src/components/dashboard/DeveloperDashboard.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/dashboard/DeveloperDashboard.tsx.console-backup-1748019228916"
+    },
+    {
+      "file": "src/components/dashboard/DashboardGrid.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/dashboard/DashboardGrid.tsx.console-backup-1748019228917"
+    },
+    {
+      "file": "src/components/dashboard/DashboardFilters.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/dashboard/DashboardFilters.tsx.console-backup-1748019228919"
+    },
+    {
+      "file": "src/components/dashboard/AlertsList.tsx",
+      "statementsRemoved": 1,
+      "backupPath": "src/components/dashboard/AlertsList.tsx.console-backup-1748019228922"
+    },
+    {
+      "file": "src/components/dashboard/widgets/ProgressWidget.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/dashboard/widgets/ProgressWidget.tsx.console-backup-1748019228925"
+    },
+    {
+      "file": "src/components/dashboard/widgets/ListWidget.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/dashboard/widgets/ListWidget.tsx.console-backup-1748019228926"
+    },
+    {
+      "file": "src/components/customization/Studio3D.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/customization/Studio3D.tsx.console-backup-1748019228928"
+    },
+    {
+      "file": "src/components/customization/PriceCalculator.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/customization/PriceCalculator.tsx.console-backup-1748019228935"
+    },
+    {
+      "file": "src/components/customization/OptionsManager.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/customization/OptionsManager.tsx.console-backup-1748019228938"
+    },
+    {
+      "file": "src/components/customization/CustomizationStudio.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/customization/CustomizationStudio.tsx.console-backup-1748019228942"
+    },
+    {
+      "file": "src/components/crm/PropertyMatching.tsx",
+      "statementsRemoved": 5,
+      "backupPath": "src/components/crm/PropertyMatching.tsx.console-backup-1748019228945"
+    },
+    {
+      "file": "src/components/crm/CommissionTracking.tsx",
+      "statementsRemoved": 2,
+      "backupPath": "src/components/crm/CommissionTracking.tsx.console-backup-1748019228966"
+    },
+    {
+      "file": "src/components/crm/AutomatedFollowUp.tsx",
+      "statementsRemoved": 4,
+      "backupPath": "src/components/crm/AutomatedFollowUp.tsx.console-backup-1748019228969"
+    },
+    {
+      "file": "src/components/crm/AgentPerformance.tsx",
+      "statementsRemoved": 1,
+      "backupPath": "src/components/crm/AgentPerformance.tsx.console-backup-1748019228971"
+    },
+    {
+      "file": "src/components/conveyancing/FeeManagement.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/conveyancing/FeeManagement.tsx.console-backup-1748019228975"
+    },
+    {
+      "file": "src/components/contracts/ContractManager.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/contracts/ContractManager.tsx.console-backup-1748019228985"
+    },
+    {
+      "file": "src/components/contractor/ContractorDirectory.tsx",
+      "statementsRemoved": 1,
+      "backupPath": "src/components/contractor/ContractorDirectory.tsx.console-backup-1748019228991"
+    },
+    {
+      "file": "src/components/contact/SocialCta.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/contact/SocialCta.tsx.console-backup-1748019228995"
+    },
+    {
+      "file": "src/components/contact/Offices.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/contact/Offices.tsx.console-backup-1748019229003"
+    },
+    {
+      "file": "src/components/contact/Map.tsx",
+      "statementsRemoved": 1,
+      "backupPath": "src/components/contact/Map.tsx.console-backup-1748019229008"
+    },
+    {
+      "file": "src/components/contact/Hero.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/contact/Hero.tsx.console-backup-1748019229010"
+    },
+    {
+      "file": "src/components/contact/Faq.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/contact/Faq.tsx.console-backup-1748019229012"
+    },
+    {
+      "file": "src/components/contact/ContactPageClient.tsx",
+      "statementsRemoved": 1,
+      "backupPath": "src/components/contact/ContactPageClient.tsx.console-backup-1748019229016"
+    },
+    {
+      "file": "src/components/contact/ContactOffices.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/contact/ContactOffices.tsx.console-backup-1748019229019"
+    },
+    {
+      "file": "src/components/contact/ContactMap.tsx",
+      "statementsRemoved": 1,
+      "backupPath": "src/components/contact/ContactMap.tsx.console-backup-1748019229020"
+    },
+    {
+      "file": "src/components/contact/ContactInfo.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/contact/ContactInfo.tsx.console-backup-1748019229021"
+    },
+    {
+      "file": "src/components/contact/ContactForm.tsx",
+      "statementsRemoved": 1,
+      "backupPath": "src/components/contact/ContactForm.tsx.console-backup-1748019229024"
+    },
+    {
+      "file": "src/components/contact/ContactFaq.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/contact/ContactFaq.tsx.console-backup-1748019229025"
+    },
+    {
+      "file": "src/components/construction/TasksList.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/construction/TasksList.tsx.console-backup-1748019229027"
+    },
+    {
+      "file": "src/components/construction/SnagListItem.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/construction/SnagListItem.tsx.console-backup-1748019229028"
+    },
+    {
+      "file": "src/components/compliance/KycAmlFlow.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/compliance/KycAmlFlow.tsx.console-backup-1748019229030"
+    },
+    {
+      "file": "src/components/collaboration/TaskBoard.tsx",
+      "statementsRemoved": 3,
+      "backupPath": "src/components/collaboration/TaskBoard.tsx.console-backup-1748019229033"
+    },
+    {
+      "file": "src/components/collaboration/ProjectDashboard.tsx",
+      "statementsRemoved": 1,
+      "backupPath": "src/components/collaboration/ProjectDashboard.tsx.console-backup-1748019229035"
+    },
+    {
+      "file": "src/components/collaboration/ModelViewer.tsx",
+      "statementsRemoved": 2,
+      "backupPath": "src/components/collaboration/ModelViewer.tsx.console-backup-1748019229037"
+    },
+    {
+      "file": "src/components/collaboration/DrawingManager.tsx",
+      "statementsRemoved": 2,
+      "backupPath": "src/components/collaboration/DrawingManager.tsx.console-backup-1748019229088"
+    },
+    {
+      "file": "src/components/collaboration/CommentThread.tsx",
+      "statementsRemoved": 5,
+      "backupPath": "src/components/collaboration/CommentThread.tsx.console-backup-1748019229091"
+    },
+    {
+      "file": "src/components/calculators/HelpToBuyCalculator.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/calculators/HelpToBuyCalculator.tsx.console-backup-1748019229093"
+    },
+    {
+      "file": "src/components/buyer-journey/UnitReservation.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/buyer-journey/UnitReservation.tsx.console-backup-1748019229096"
+    },
+    {
+      "file": "src/components/buyer-journey/UnitDetails.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/buyer-journey/UnitDetails.tsx.console-backup-1748019229098"
+    },
+    {
+      "file": "src/components/buyer-journey/TransactionFlow.tsx",
+      "statementsRemoved": 1,
+      "backupPath": "src/components/buyer-journey/TransactionFlow.tsx.console-backup-1748019229100"
+    },
+    {
+      "file": "src/components/buyer-journey/SnaggingInspection.tsx",
+      "statementsRemoved": 2,
+      "backupPath": "src/components/buyer-journey/SnaggingInspection.tsx.console-backup-1748019229102"
+    },
+    {
+      "file": "src/components/buyer-journey/SecurePaymentProcessor.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/buyer-journey/SecurePaymentProcessor.tsx.console-backup-1748019229105"
+    },
+    {
+      "file": "src/components/buyer-journey/PropertySelection.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/buyer-journey/PropertySelection.tsx.console-backup-1748019229106"
+    },
+    {
+      "file": "src/components/buyer-journey/HandoverScheduling.tsx",
+      "statementsRemoved": 1,
+      "backupPath": "src/components/buyer-journey/HandoverScheduling.tsx.console-backup-1748019229111"
+    },
+    {
+      "file": "src/components/buyer-journey/HTBApplication.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/buyer-journey/HTBApplication.tsx.console-backup-1748019229154"
+    },
+    {
+      "file": "src/components/buyer-journey/ContractReview.tsx",
+      "statementsRemoved": 1,
+      "backupPath": "src/components/buyer-journey/ContractReview.tsx.console-backup-1748019229162"
+    },
+    {
+      "file": "src/components/buyer-journey/BuyerProgressTracker.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/buyer-journey/BuyerProgressTracker.tsx.console-backup-1748019229167"
+    },
+    {
+      "file": "src/components/buyer-journey/BuyerJourney.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/buyer-journey/BuyerJourney.tsx.console-backup-1748019229172"
+    },
+    {
+      "file": "src/components/buyer/SimplifiedReadinessChecklist.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/buyer/SimplifiedReadinessChecklist.tsx.console-backup-1748019229185"
+    },
+    {
+      "file": "src/components/buyer/ReadinessChecklist.tsx",
+      "statementsRemoved": 2,
+      "backupPath": "src/components/buyer/ReadinessChecklist.tsx.console-backup-1748019229197"
+    },
+    {
+      "file": "src/components/buyer/PurchaseList.tsx",
+      "statementsRemoved": 1,
+      "backupPath": "src/components/buyer/PurchaseList.tsx.console-backup-1748019229201"
+    },
+    {
+      "file": "src/components/buyer/PurchaseDetail.tsx",
+      "statementsRemoved": 1,
+      "backupPath": "src/components/buyer/PurchaseDetail.tsx.console-backup-1748019229203"
+    },
+    {
+      "file": "src/components/buyer/MortgageApprovalFlow.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/buyer/MortgageApprovalFlow.tsx.console-backup-1748019229206"
+    },
+    {
+      "file": "src/components/buyer/FirstTimeBuyerPromotion.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/buyer/FirstTimeBuyerPromotion.tsx.console-backup-1748019229221"
+    },
+    {
+      "file": "src/components/buyer/FirstTimeBuyerDashboard.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/buyer/FirstTimeBuyerDashboard.tsx.console-backup-1748019229223"
+    },
+    {
+      "file": "src/components/buyer/EnhancedBuyerDashboard.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/buyer/EnhancedBuyerDashboard.tsx.console-backup-1748019229225"
+    },
+    {
+      "file": "src/components/buyer/DocumentUpload.tsx",
+      "statementsRemoved": 1,
+      "backupPath": "src/components/buyer/DocumentUpload.tsx.console-backup-1748019229226"
+    },
+    {
+      "file": "src/components/buyer/DocumentManager.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/buyer/DocumentManager.tsx.console-backup-1748019229228"
+    },
+    {
+      "file": "src/components/buyer/DocumentCollectionHub.tsx",
+      "statementsRemoved": 1,
+      "backupPath": "src/components/buyer/DocumentCollectionHub.tsx.console-backup-1748019229229"
+    },
+    {
+      "file": "src/components/buyer/DevelopmentCTA.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/buyer/DevelopmentCTA.tsx.console-backup-1748019229231"
+    },
+    {
+      "file": "src/components/buyer/BuyerRegistrationFlow.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/buyer/BuyerRegistrationFlow.tsx.console-backup-1748019229234"
+    },
+    {
+      "file": "src/components/buyer/BuyerMilestoneTracker.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/buyer/BuyerMilestoneTracker.tsx.console-backup-1748019229238"
+    },
+    {
+      "file": "src/components/buyer/BuyerFinancialDashboard.tsx",
+      "statementsRemoved": 1,
+      "backupPath": "src/components/buyer/BuyerFinancialDashboard.tsx.console-backup-1748019229241"
+    },
+    {
+      "file": "src/components/buyer/BuyerDashboardLayout.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/buyer/BuyerDashboardLayout.tsx.console-backup-1748019229244"
+    },
+    {
+      "file": "src/components/buyer/property/PropertySearch.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/buyer/property/PropertySearch.tsx.console-backup-1748019229248"
+    },
+    {
+      "file": "src/components/buyer/property/PropertyReservation.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/buyer/property/PropertyReservation.tsx.console-backup-1748019229250"
+    },
+    {
+      "file": "src/components/buyer/property/PropertyComparison.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/buyer/property/PropertyComparison.tsx.console-backup-1748019229251"
+    },
+    {
+      "file": "src/components/buyer/planning/ReadinessChecklist.tsx",
+      "statementsRemoved": 2,
+      "backupPath": "src/components/buyer/planning/ReadinessChecklist.tsx.console-backup-1748019229284"
+    },
+    {
+      "file": "src/components/buyer/planning/JourneyPlanner.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/buyer/planning/JourneyPlanner.tsx.console-backup-1748019229290"
+    },
+    {
+      "file": "src/components/buyer/planning/GovernmentSchemeInfo.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/buyer/planning/GovernmentSchemeInfo.tsx.console-backup-1748019229295"
+    },
+    {
+      "file": "src/components/buyer/planning/AffordabilityCalculator.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/buyer/planning/AffordabilityCalculator.tsx.console-backup-1748019229300"
+    },
+    {
+      "file": "src/components/buyer/journey/JourneyTracker.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/buyer/journey/JourneyTracker.tsx.console-backup-1748019229305"
+    },
+    {
+      "file": "src/components/buyer/journey/JourneyDocumentsPanel.tsx",
+      "statementsRemoved": 1,
+      "backupPath": "src/components/buyer/journey/JourneyDocumentsPanel.tsx.console-backup-1748019229308"
+    },
+    {
+      "file": "src/components/buyer/financing/MortgageCalculator.tsx",
+      "statementsRemoved": 1,
+      "backupPath": "src/components/buyer/financing/MortgageCalculator.tsx.console-backup-1748019229311"
+    },
+    {
+      "file": "src/components/buyer/documents/BuyerDocumentRepository.tsx",
+      "statementsRemoved": 1,
+      "backupPath": "src/components/buyer/documents/BuyerDocumentRepository.tsx.console-backup-1748019229315"
+    },
+    {
+      "file": "src/components/auth/RegisterForm.tsx",
+      "statementsRemoved": 1,
+      "backupPath": "src/components/auth/RegisterForm.tsx.console-backup-1748019229318"
+    },
+    {
+      "file": "src/components/auth/LoginForm.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/auth/LoginForm.tsx.console-backup-1748019229321"
+    },
+    {
+      "file": "src/components/auth/LoginForm.stories.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/auth/LoginForm.stories.tsx.console-backup-1748019229322"
+    },
+    {
+      "file": "src/components/auth/AuthErrorBoundary.tsx",
+      "statementsRemoved": 2,
+      "backupPath": "src/components/auth/AuthErrorBoundary.tsx.console-backup-1748019229324"
+    },
+    {
+      "file": "src/components/analytics/PerformanceChart.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/analytics/PerformanceChart.tsx.console-backup-1748019229325"
+    },
+    {
+      "file": "src/components/analytics/GoogleAnalytics.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/analytics/GoogleAnalytics.tsx.console-backup-1748019229328"
+    },
+    {
+      "file": "src/components/analytics/DashboardMetricCard.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/analytics/DashboardMetricCard.tsx.console-backup-1748019229329"
+    },
+    {
+      "file": "src/components/analytics/AnalyticsDashboard.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/analytics/AnalyticsDashboard.tsx.console-backup-1748019229332"
+    },
+    {
+      "file": "src/components/ai/PlatformAssistant.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/ai/PlatformAssistant.tsx.console-backup-1748019229334"
+    },
+    {
+      "file": "src/components/admin/PerformanceDashboard.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/admin/PerformanceDashboard.tsx.console-backup-1748019229336"
+    },
+    {
+      "file": "src/components/admin/FeatureFlagManager.tsx",
+      "statementsRemoved": 3,
+      "backupPath": "src/components/admin/FeatureFlagManager.tsx.console-backup-1748019229338"
+    },
+    {
+      "file": "src/components/admin/EnhancedSecurityDashboard.tsx",
+      "statementsRemoved": 1,
+      "backupPath": "src/components/admin/EnhancedSecurityDashboard.tsx.console-backup-1748019229340"
+    },
+    {
+      "file": "src/components/admin/AdminFinancialDashboard.tsx",
+      "statementsRemoved": 2,
+      "backupPath": "src/components/admin/AdminFinancialDashboard.tsx.console-backup-1748019229342"
+    },
+    {
+      "file": "src/components/admin/AdminDocumentReview.tsx",
+      "statementsRemoved": 2,
+      "backupPath": "src/components/admin/AdminDocumentReview.tsx.console-backup-1748019229345"
+    },
+    {
+      "file": "src/components/accessibility/ScreenReaderText.stories.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/accessibility/ScreenReaderText.stories.tsx.console-backup-1748019229348"
+    },
+    {
+      "file": "src/components/accessibility/KeyboardFocusHandler.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/accessibility/KeyboardFocusHandler.tsx.console-backup-1748019229350"
+    },
+    {
+      "file": "src/components/accessibility/AccessibleForm.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/accessibility/AccessibleForm.tsx.console-backup-1748019229351"
+    },
+    {
+      "file": "src/components/accessibility/AccessibleForm.stories.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/accessibility/AccessibleForm.stories.tsx.console-backup-1748019229353"
+    },
+    {
+      "file": "src/components/about/Timeline.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/about/Timeline.tsx.console-backup-1748019229356"
+    },
+    {
+      "file": "src/components/about/Team.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/about/Team.tsx.console-backup-1748019229360"
+    },
+    {
+      "file": "src/components/about/Mission.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/about/Mission.tsx.console-backup-1748019229361"
+    },
+    {
+      "file": "src/components/about/Hero.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/about/Hero.tsx.console-backup-1748019229363"
+    },
+    {
+      "file": "src/components/about/Cta.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/about/Cta.tsx.console-backup-1748019229365"
+    },
+    {
+      "file": "src/components/about/AboutPageClient.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/about/AboutPageClient.tsx.console-backup-1748019229369"
+    },
+    {
+      "file": "src/components/about/AboutMission.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/about/AboutMission.tsx.console-backup-1748019229371"
+    },
+    {
+      "file": "src/components/3d/SafeRoomVisualizer.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/3d/SafeRoomVisualizer.tsx.console-backup-1748019229378"
+    },
+    {
+      "file": "src/components/3d/RoomVisualizer.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/3d/RoomVisualizer.tsx.console-backup-1748019229382"
+    },
+    {
+      "file": "src/components/3d/RoomVisualizer.old.tsx",
+      "statementsRemoved": 5,
+      "backupPath": "src/components/3d/RoomVisualizer.old.tsx.console-backup-1748019229384"
+    },
+    {
+      "file": "src/components/3d/ModelViewer.tsx",
+      "statementsRemoved": 2,
+      "backupPath": "src/components/3d/ModelViewer.tsx.console-backup-1748019229386"
+    },
+    {
+      "file": "src/components/layout/MainNavigation.jsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/layout/MainNavigation.jsx.console-backup-1748019229390"
+    },
+    {
+      "file": "src/components/media/mediaUtils.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/components/media/mediaUtils.ts.console-backup-1748019229393"
+    },
+    {
+      "file": "src/components/buyer-journey/hooks/usePerformanceOptimizedBuyerJourney.ts",
+      "statementsRemoved": 2,
+      "backupPath": "src/components/buyer-journey/hooks/usePerformanceOptimizedBuyerJourney.ts.console-backup-1748019229407"
+    },
+    {
+      "file": "src/app/ClientLayout.tsx",
+      "statementsRemoved": 1,
+      "backupPath": "src/app/ClientLayout.tsx.console-backup-1748019229414"
+    },
+    {
+      "file": "src/app/user/security/page.tsx",
+      "statementsRemoved": 1,
+      "backupPath": "src/app/user/security/page.tsx.console-backup-1748019229418"
+    },
+    {
+      "file": "src/app/user/security/setup/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/user/security/setup/page.tsx.console-backup-1748019229420"
+    },
+    {
+      "file": "src/app/user/security/devices/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/user/security/devices/page.tsx.console-backup-1748019229424"
+    },
+    {
+      "file": "src/app/transaction-flow/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/transaction-flow/page.tsx.console-backup-1748019229428"
+    },
+    {
+      "file": "src/app/transaction-demo/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/transaction-demo/page.tsx.console-backup-1748019229436"
+    },
+    {
+      "file": "src/app/transaction-dashboard/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/transaction-dashboard/page.tsx.console-backup-1748019229469"
+    },
+    {
+      "file": "src/app/transaction-basic/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/transaction-basic/page.tsx.console-backup-1748019229485"
+    },
+    {
+      "file": "src/app/tracker-test/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/tracker-test/page.tsx.console-backup-1748019229490"
+    },
+    {
+      "file": "src/app/testing/graphql/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/testing/graphql/page.tsx.console-backup-1748019229501"
+    },
+    {
+      "file": "src/app/test-upload/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/test-upload/page.tsx.console-backup-1748019229503"
+    },
+    {
+      "file": "src/app/test-simple-upload/page.tsx",
+      "statementsRemoved": 2,
+      "backupPath": "src/app/test-simple-upload/page.tsx.console-backup-1748019229504"
+    },
+    {
+      "file": "src/app/test-professional-upload/page.tsx",
+      "statementsRemoved": 2,
+      "backupPath": "src/app/test-professional-upload/page.tsx.console-backup-1748019229506"
+    },
+    {
+      "file": "src/app/test-navigation/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/test-navigation/page.tsx.console-backup-1748019229508"
+    },
+    {
+      "file": "src/app/test-minimal/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/test-minimal/page.tsx.console-backup-1748019229513"
+    },
+    {
+      "file": "src/app/test-media/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/test-media/page.tsx.console-backup-1748019229516"
+    },
+    {
+      "file": "src/app/test-login/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/test-login/page.tsx.console-backup-1748019229519"
+    },
+    {
+      "file": "src/app/test-htb/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/test-htb/page.tsx.console-backup-1748019229522"
+    },
+    {
+      "file": "src/app/test-footer/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/test-footer/page.tsx.console-backup-1748019229525"
+    },
+    {
+      "file": "src/app/test-fix/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/test-fix/page.tsx.console-backup-1748019229527"
+    },
+    {
+      "file": "src/app/test-dropdown/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/test-dropdown/page.tsx.console-backup-1748019229529"
+    },
+    {
+      "file": "src/app/test-deployment/page.tsx",
+      "statementsRemoved": 1,
+      "backupPath": "src/app/test-deployment/page.tsx.console-backup-1748019229531"
+    },
+    {
+      "file": "src/app/test-debug/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/test-debug/page.tsx.console-backup-1748019229533"
+    },
+    {
+      "file": "src/app/test-auth-status/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/test-auth-status/page.tsx.console-backup-1748019229535"
+    },
+    {
+      "file": "src/app/test-auth/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/test-auth/page.tsx.console-backup-1748019229538"
+    },
+    {
+      "file": "src/app/status/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/status/page.tsx.console-backup-1748019229545"
+    },
+    {
+      "file": "src/app/solutions/solicitors/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/solutions/solicitors/page.tsx.console-backup-1748019229551"
+    },
+    {
+      "file": "src/app/solutions/property-professionals/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/solutions/property-professionals/page.tsx.console-backup-1748019229555"
+    },
+    {
+      "file": "src/app/solutions/professional-investors/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/solutions/professional-investors/page.tsx.console-backup-1748019229559"
+    },
+    {
+      "file": "src/app/solutions/investors/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/solutions/investors/page.tsx.console-backup-1748019229562"
+    },
+    {
+      "file": "src/app/solutions/institutional/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/solutions/institutional/page.tsx.console-backup-1748019229565"
+    },
+    {
+      "file": "src/app/solutions/home-buyers/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/solutions/home-buyers/page.tsx.console-backup-1748019229571"
+    },
+    {
+      "file": "src/app/solutions/estate-agents/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/solutions/estate-agents/page.tsx.console-backup-1748019229575"
+    },
+    {
+      "file": "src/app/solutions/estate-agents/test/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/solutions/estate-agents/test/page.tsx.console-backup-1748019229578"
+    },
+    {
+      "file": "src/app/solutions/developers/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/solutions/developers/page.tsx.console-backup-1748019229582"
+    },
+    {
+      "file": "src/app/solutions/developers/sales/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/solutions/developers/sales/page.tsx.console-backup-1748019229587"
+    },
+    {
+      "file": "src/app/solutions/developers/marketing/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/solutions/developers/marketing/page.tsx.console-backup-1748019229590"
+    },
+    {
+      "file": "src/app/solicitors/cases/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/solicitors/cases/page.tsx.console-backup-1748019229598"
+    },
+    {
+      "file": "src/app/solicitors/cases/[id]/chat/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/solicitors/cases/[id]/chat/page.tsx.console-backup-1748019229600"
+    },
+    {
+      "file": "src/app/solicitor/dashboard/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/solicitor/dashboard/page.tsx.console-backup-1748019229604"
+    },
+    {
+      "file": "src/app/security/mfa-setup/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/security/mfa-setup/page.tsx.console-backup-1748019229611"
+    },
+    {
+      "file": "src/app/resources/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/resources/page.tsx.console-backup-1748019229614"
+    },
+    {
+      "file": "src/app/resources/templates/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/resources/templates/page.tsx.console-backup-1748019229616"
+    },
+    {
+      "file": "src/app/resources/property-guides/first-time-buyer-guide/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/resources/property-guides/first-time-buyer-guide/page.tsx.console-backup-1748019229619"
+    },
+    {
+      "file": "src/app/resources/market-reports/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/resources/market-reports/page.tsx.console-backup-1748019229621"
+    },
+    {
+      "file": "src/app/resources/calculators/mortgage-calculator/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/resources/calculators/mortgage-calculator/page.tsx.console-backup-1748019229628"
+    },
+    {
+      "file": "src/app/resources/buy-off-plan/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/resources/buy-off-plan/page.tsx.console-backup-1748019229630"
+    },
+    {
+      "file": "src/app/register/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/register/page.tsx.console-backup-1748019229634"
+    },
+    {
+      "file": "src/app/register/professional/page.tsx",
+      "statementsRemoved": 1,
+      "backupPath": "src/app/register/professional/page.tsx.console-backup-1748019229637"
+    },
+    {
+      "file": "src/app/register/investor/page.tsx",
+      "statementsRemoved": 1,
+      "backupPath": "src/app/register/investor/page.tsx.console-backup-1748019229641"
+    },
+    {
+      "file": "src/app/quick-test/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/quick-test/page.tsx.console-backup-1748019229644"
+    },
+    {
+      "file": "src/app/protected-test/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/protected-test/page.tsx.console-backup-1748019229648"
+    },
+    {
+      "file": "src/app/property/page.tsx",
+      "statementsRemoved": 1,
+      "backupPath": "src/app/property/page.tsx.console-backup-1748019229651"
+    },
+    {
+      "file": "src/app/properties/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/properties/page.tsx.console-backup-1748019229654"
+    },
+    {
+      "file": "src/app/properties/loading.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/properties/loading.tsx.console-backup-1748019229657"
+    },
+    {
+      "file": "src/app/properties/search/enhanced-page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/properties/search/enhanced-page.tsx.console-backup-1748019229663"
+    },
+    {
+      "file": "src/app/properties/[id]/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/properties/[id]/page.tsx.console-backup-1748019229683"
+    },
+    {
+      "file": "src/app/properties/[id]/viewing/page.tsx",
+      "statementsRemoved": 2,
+      "backupPath": "src/app/properties/[id]/viewing/page.tsx.console-backup-1748019229696"
+    },
+    {
+      "file": "src/app/properties/[id]/reserve/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/properties/[id]/reserve/page.tsx.console-backup-1748019229699"
+    },
+    {
+      "file": "src/app/prop-choice/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/prop-choice/page.tsx.console-backup-1748019229704"
+    },
+    {
+      "file": "src/app/prop/templates/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/prop/templates/page.tsx.console-backup-1748019229706"
+    },
+    {
+      "file": "src/app/prop/projects/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/prop/projects/page.tsx.console-backup-1748019229709"
+    },
+    {
+      "file": "src/app/prop/dashboard/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/prop/dashboard/page.tsx.console-backup-1748019229712"
+    },
+    {
+      "file": "src/app/projects/project-details/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/projects/project-details/page.tsx.console-backup-1748019229714"
+    },
+    {
+      "file": "src/app/project-management/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/project-management/page.tsx.console-backup-1748019229715"
+    },
+    {
+      "file": "src/app/project-management/[id]/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/project-management/[id]/page.tsx.console-backup-1748019229718"
+    },
+    {
+      "file": "src/app/project-management/[id]/slp/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/project-management/[id]/slp/page.tsx.console-backup-1748019229720"
+    },
+    {
+      "file": "src/app/project-management/[id]/documents/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/project-management/[id]/documents/page.tsx.console-backup-1748019229722"
+    },
+    {
+      "file": "src/app/navigation-test/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/navigation-test/page.tsx.console-backup-1748019229726"
+    },
+    {
+      "file": "src/app/monitoring/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/monitoring/page.tsx.console-backup-1748019229730"
+    },
+    {
+      "file": "src/app/login-nextauth/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/login-nextauth/page.tsx.console-backup-1748019229732"
+    },
+    {
+      "file": "src/app/login/page.tsx",
+      "statementsRemoved": 7,
+      "backupPath": "src/app/login/page.tsx.console-backup-1748019229733"
+    },
+    {
+      "file": "src/app/investor/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/investor/page.tsx.console-backup-1748019229737"
+    },
+    {
+      "file": "src/app/investor/layout.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/investor/layout.tsx.console-backup-1748019229738"
+    },
+    {
+      "file": "src/app/investor/settings/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/investor/settings/page.tsx.console-backup-1748019229740"
+    },
+    {
+      "file": "src/app/investor/properties/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/investor/properties/page.tsx.console-backup-1748019229740"
+    },
+    {
+      "file": "src/app/investor/portfolio/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/investor/portfolio/page.tsx.console-backup-1748019229742"
+    },
+    {
+      "file": "src/app/investor/market/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/investor/market/page.tsx.console-backup-1748019229743"
+    },
+    {
+      "file": "src/app/investor/financial/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/investor/financial/page.tsx.console-backup-1748019229744"
+    },
+    {
+      "file": "src/app/investor/dashboard/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/investor/dashboard/page.tsx.console-backup-1748019229746"
+    },
+    {
+      "file": "src/app/first-time-buyers/test-simple.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/first-time-buyers/test-simple.tsx.console-backup-1748019229749"
+    },
+    {
+      "file": "src/app/first-time-buyers/layout.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/first-time-buyers/layout.tsx.console-backup-1748019229758"
+    },
+    {
+      "file": "src/app/first-time-buyers/HTBStatusViewer.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/first-time-buyers/HTBStatusViewer.tsx.console-backup-1748019229760"
+    },
+    {
+      "file": "src/app/first-time-buyers/HTBCalculatorApp.tsx",
+      "statementsRemoved": 1,
+      "backupPath": "src/app/first-time-buyers/HTBCalculatorApp.tsx.console-backup-1748019229762"
+    },
+    {
+      "file": "src/app/first-time-buyers/register/page.tsx",
+      "statementsRemoved": 1,
+      "backupPath": "src/app/first-time-buyers/register/page.tsx.console-backup-1748019229764"
+    },
+    {
+      "file": "src/app/first-time-buyers/kyc/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/first-time-buyers/kyc/page.tsx.console-backup-1748019229766"
+    },
+    {
+      "file": "src/app/first-time-buyers/documents/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/first-time-buyers/documents/page.tsx.console-backup-1748019229771"
+    },
+    {
+      "file": "src/app/first-time-buyers/calculator/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/first-time-buyers/calculator/page.tsx.console-backup-1748019229772"
+    },
+    {
+      "file": "src/app/enterprise-demo/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/enterprise-demo/page.tsx.console-backup-1748019229775"
+    },
+    {
+      "file": "src/app/documents/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/documents/page.tsx.console-backup-1748019229776"
+    },
+    {
+      "file": "src/app/developments/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/developments/page.tsx.console-backup-1748019229778"
+    },
+    {
+      "file": "src/app/developments/riverside-manor/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/developments/riverside-manor/page.tsx.console-backup-1748019229779"
+    },
+    {
+      "file": "src/app/developments/fitzgerald-gardens/BuyerJourneyPage.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/developments/fitzgerald-gardens/BuyerJourneyPage.tsx.console-backup-1748019229781"
+    },
+    {
+      "file": "src/app/developments/ballymakenny-view/page.enhanced.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/developments/ballymakenny-view/page.enhanced.tsx.console-backup-1748019229785"
+    },
+    {
+      "file": "src/app/developments/[id]/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/developments/[id]/page.tsx.console-backup-1748019229786"
+    },
+    {
+      "file": "src/app/developers/projects/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/developers/projects/page.tsx.console-backup-1748019229790"
+    },
+    {
+      "file": "src/app/developer/layout.tsx",
+      "statementsRemoved": 1,
+      "backupPath": "src/app/developer/layout.tsx.console-backup-1748019229794"
+    },
+    {
+      "file": "src/app/developer/transactions/page.tsx",
+      "statementsRemoved": 1,
+      "backupPath": "src/app/developer/transactions/page.tsx.console-backup-1748019229795"
+    },
+    {
+      "file": "src/app/developer/test/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/developer/test/page.tsx.console-backup-1748019229797"
+    },
+    {
+      "file": "src/app/developer/team/members/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/developer/team/members/page.tsx.console-backup-1748019229799"
+    },
+    {
+      "file": "src/app/developer/settings/company/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/developer/settings/company/page.tsx.console-backup-1748019229802"
+    },
+    {
+      "file": "src/app/developer/protected-project/page.tsx",
+      "statementsRemoved": 1,
+      "backupPath": "src/app/developer/protected-project/page.tsx.console-backup-1748019229805"
+    },
+    {
+      "file": "src/app/developer/prop-dashboard/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/developer/prop-dashboard/page.tsx.console-backup-1748019229808"
+    },
+    {
+      "file": "src/app/developer/projects/create/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/developer/projects/create/page.tsx.console-backup-1748019229811"
+    },
+    {
+      "file": "src/app/developer/project/new/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/developer/project/new/page.tsx.console-backup-1748019229812"
+    },
+    {
+      "file": "src/app/developer/project/[id]/page.tsx",
+      "statementsRemoved": 2,
+      "backupPath": "src/app/developer/project/[id]/page.tsx.console-backup-1748019229815"
+    },
+    {
+      "file": "src/app/developer/project/[id]/timeline/page.tsx",
+      "statementsRemoved": 2,
+      "backupPath": "src/app/developer/project/[id]/timeline/page.tsx.console-backup-1748019229817"
+    },
+    {
+      "file": "src/app/developer/project/[id]/sales/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/developer/project/[id]/sales/page.tsx.console-backup-1748019229818"
+    },
+    {
+      "file": "src/app/developer/onboarding/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/developer/onboarding/page.tsx.console-backup-1748019229820"
+    },
+    {
+      "file": "src/app/developer/onboarding/layout.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/developer/onboarding/layout.tsx.console-backup-1748019229821"
+    },
+    {
+      "file": "src/app/developer/onboarding/verification/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/developer/onboarding/verification/page.tsx.console-backup-1748019229822"
+    },
+    {
+      "file": "src/app/developer/onboarding/team-setup/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/developer/onboarding/team-setup/page.tsx.console-backup-1748019229824"
+    },
+    {
+      "file": "src/app/developer/onboarding/company-setup/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/developer/onboarding/company-setup/page.tsx.console-backup-1748019229827"
+    },
+    {
+      "file": "src/app/developer/media/page.tsx",
+      "statementsRemoved": 2,
+      "backupPath": "src/app/developer/media/page.tsx.console-backup-1748019229829"
+    },
+    {
+      "file": "src/app/developer/htb/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/developer/htb/page.tsx.console-backup-1748019229830"
+    },
+    {
+      "file": "src/app/developer/htb/revenue-guide/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/developer/htb/revenue-guide/page.tsx.console-backup-1748019229832"
+    },
+    {
+      "file": "src/app/developer/htb/analytics/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/developer/htb/analytics/page.tsx.console-backup-1748019229835"
+    },
+    {
+      "file": "src/app/developer/finance/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/developer/finance/page.tsx.console-backup-1748019229839"
+    },
+    {
+      "file": "src/app/developer/documents/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/developer/documents/page.tsx.console-backup-1748019229841"
+    },
+    {
+      "file": "src/app/developer/developments/new/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/developer/developments/new/page.tsx.console-backup-1748019229845"
+    },
+    {
+      "file": "src/app/developer/developments/[id]/page.tsx",
+      "statementsRemoved": 3,
+      "backupPath": "src/app/developer/developments/[id]/page.tsx.console-backup-1748019229847"
+    },
+    {
+      "file": "src/app/developer/developments/[id]/units/page.tsx",
+      "statementsRemoved": 1,
+      "backupPath": "src/app/developer/developments/[id]/units/page.tsx.console-backup-1748019229850"
+    },
+    {
+      "file": "src/app/developer/developments/[id]/units/[unitId]/page.tsx",
+      "statementsRemoved": 2,
+      "backupPath": "src/app/developer/developments/[id]/units/[unitId]/page.tsx.console-backup-1748019229854"
+    },
+    {
+      "file": "src/app/developer/developments/[id]/documents/page.tsx",
+      "statementsRemoved": 1,
+      "backupPath": "src/app/developer/developments/[id]/documents/page.tsx.console-backup-1748019229856"
+    },
+    {
+      "file": "src/app/developer/dashboard/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/developer/dashboard/page.tsx.console-backup-1748019229860"
+    },
+    {
+      "file": "src/app/developer/analytics/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/developer/analytics/page.tsx.console-backup-1748019229861"
+    },
+    {
+      "file": "src/app/dev-login/page.tsx",
+      "statementsRemoved": 1,
+      "backupPath": "src/app/dev-login/page.tsx.console-backup-1748019229862"
+    },
+    {
+      "file": "src/app/demo-login/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/demo-login/page.tsx.console-backup-1748019229864"
+    },
+    {
+      "file": "src/app/demo/transaction-flow/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/demo/transaction-flow/page.tsx.console-backup-1748019229865"
+    },
+    {
+      "file": "src/app/demo/navigation/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/demo/navigation/page.tsx.console-backup-1748019229868"
+    },
+    {
+      "file": "src/app/demo/navigation/flow-diagram.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/demo/navigation/flow-diagram.tsx.console-backup-1748019229870"
+    },
+    {
+      "file": "src/app/debug-nav/page.tsx",
+      "statementsRemoved": 4,
+      "backupPath": "src/app/debug-nav/page.tsx.console-backup-1748019229871"
+    },
+    {
+      "file": "src/app/debug/auth/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/debug/auth/page.tsx.console-backup-1748019229872"
+    },
+    {
+      "file": "src/app/dashboard/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/dashboard/page.tsx.console-backup-1748019229874"
+    },
+    {
+      "file": "src/app/dashboard/layout.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/dashboard/layout.tsx.console-backup-1748019229874"
+    },
+    {
+      "file": "src/app/dashboard/security/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/dashboard/security/page.tsx.console-backup-1748019229876"
+    },
+    {
+      "file": "src/app/dashboard/security/SecurityDashboardClient.tsx",
+      "statementsRemoved": 3,
+      "backupPath": "src/app/dashboard/security/SecurityDashboardClient.tsx.console-backup-1748019229878"
+    },
+    {
+      "file": "src/app/dashboard/security/EnhancedSecurityDashboardPage.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/dashboard/security/EnhancedSecurityDashboardPage.tsx.console-backup-1748019229879"
+    },
+    {
+      "file": "src/app/dashboard/@sidebar/default.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/dashboard/@sidebar/default.tsx.console-backup-1748019229881"
+    },
+    {
+      "file": "src/app/dashboard/@main/page.tsx",
+      "statementsRemoved": 1,
+      "backupPath": "src/app/dashboard/@main/page.tsx.console-backup-1748019229882"
+    },
+    {
+      "file": "src/app/dashboard/@main/security/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/dashboard/@main/security/page.tsx.console-backup-1748019229884"
+    },
+    {
+      "file": "src/app/dashboard/@main/profile/page.tsx",
+      "statementsRemoved": 1,
+      "backupPath": "src/app/dashboard/@main/profile/page.tsx.console-backup-1748019229885"
+    },
+    {
+      "file": "src/app/company/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/company/page.tsx.console-backup-1748019229888"
+    },
+    {
+      "file": "src/app/company/about/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/company/about/page.tsx.console-backup-1748019229890"
+    },
+    {
+      "file": "src/app/collaboration-demo/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/collaboration-demo/page.tsx.console-backup-1748019229891"
+    },
+    {
+      "file": "src/app/calculators/stamp-duty/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/calculators/stamp-duty/page.tsx.console-backup-1748019229893"
+    },
+    {
+      "file": "src/app/calculators/mortgage/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/calculators/mortgage/page.tsx.console-backup-1748019229894"
+    },
+    {
+      "file": "src/app/calculators/htb/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/calculators/htb/page.tsx.console-backup-1748019229897"
+    },
+    {
+      "file": "src/app/buyer/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/buyer/page.tsx.console-backup-1748019229900"
+    },
+    {
+      "file": "src/app/buyer/layout.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/buyer/layout.tsx.console-backup-1748019229903"
+    },
+    {
+      "file": "src/app/buyer/viewings/page.tsx",
+      "statementsRemoved": 5,
+      "backupPath": "src/app/buyer/viewings/page.tsx.console-backup-1748019229904"
+    },
+    {
+      "file": "src/app/buyer/verification/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/buyer/verification/page.tsx.console-backup-1748019229908"
+    },
+    {
+      "file": "src/app/buyer/transactions/page.tsx",
+      "statementsRemoved": 2,
+      "backupPath": "src/app/buyer/transactions/page.tsx.console-backup-1748019229910"
+    },
+    {
+      "file": "src/app/buyer/transactions/[id]/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/buyer/transactions/[id]/page.tsx.console-backup-1748019229912"
+    },
+    {
+      "file": "src/app/buyer/support/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/buyer/support/page.tsx.console-backup-1748019229913"
+    },
+    {
+      "file": "src/app/buyer/setup/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/buyer/setup/page.tsx.console-backup-1748019229916"
+    },
+    {
+      "file": "src/app/buyer/settings/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/buyer/settings/page.tsx.console-backup-1748019229918"
+    },
+    {
+      "file": "src/app/buyer/saved-properties/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/buyer/saved-properties/page.tsx.console-backup-1748019229919"
+    },
+    {
+      "file": "src/app/buyer/purchase/[id]/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/buyer/purchase/[id]/page.tsx.console-backup-1748019229921"
+    },
+    {
+      "file": "src/app/buyer/profile/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/buyer/profile/page.tsx.console-backup-1748019229924"
+    },
+    {
+      "file": "src/app/buyer/planning/checklist/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/buyer/planning/checklist/page.tsx.console-backup-1748019229927"
+    },
+    {
+      "file": "src/app/buyer/payment-methods/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/buyer/payment-methods/page.tsx.console-backup-1748019229929"
+    },
+    {
+      "file": "src/app/buyer/offers/page.tsx",
+      "statementsRemoved": 3,
+      "backupPath": "src/app/buyer/offers/page.tsx.console-backup-1748019229930"
+    },
+    {
+      "file": "src/app/buyer/mortgage/page.tsx",
+      "statementsRemoved": 1,
+      "backupPath": "src/app/buyer/mortgage/page.tsx.console-backup-1748019229932"
+    },
+    {
+      "file": "src/app/buyer/messages/page.tsx",
+      "statementsRemoved": 1,
+      "backupPath": "src/app/buyer/messages/page.tsx.console-backup-1748019229934"
+    },
+    {
+      "file": "src/app/buyer/legal-purchase/[unitId]/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/buyer/legal-purchase/[unitId]/page.tsx.console-backup-1748019229936"
+    },
+    {
+      "file": "src/app/buyer/journey/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/buyer/journey/page.tsx.console-backup-1748019229937"
+    },
+    {
+      "file": "src/app/buyer/journey/reservation/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/buyer/journey/reservation/page.tsx.console-backup-1748019229939"
+    },
+    {
+      "file": "src/app/buyer/journey/property-search/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/buyer/journey/property-search/page.tsx.console-backup-1748019229940"
+    },
+    {
+      "file": "src/app/buyer/journey/planning/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/buyer/journey/planning/page.tsx.console-backup-1748019229942"
+    },
+    {
+      "file": "src/app/buyer/journey/planning/government-schemes/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/buyer/journey/planning/government-schemes/page.tsx.console-backup-1748019229944"
+    },
+    {
+      "file": "src/app/buyer/journey/legal-process/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/buyer/journey/legal-process/page.tsx.console-backup-1748019229945"
+    },
+    {
+      "file": "src/app/buyer/journey/financing/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/buyer/journey/financing/page.tsx.console-backup-1748019229946"
+    },
+    {
+      "file": "src/app/buyer/journey/complete-flow/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/buyer/journey/complete-flow/page.tsx.console-backup-1748019229947"
+    },
+    {
+      "file": "src/app/buyer/journey/[transactionId]/page.tsx",
+      "statementsRemoved": 2,
+      "backupPath": "src/app/buyer/journey/[transactionId]/page.tsx.console-backup-1748019229949"
+    },
+    {
+      "file": "src/app/buyer/insights/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/buyer/insights/page.tsx.console-backup-1748019229951"
+    },
+    {
+      "file": "src/app/buyer/htb/HTBErrorWrapper.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/buyer/htb/HTBErrorWrapper.tsx.console-backup-1748019229953"
+    },
+    {
+      "file": "src/app/buyer/htb/HTBErrorBoundary.tsx",
+      "statementsRemoved": 1,
+      "backupPath": "src/app/buyer/htb/HTBErrorBoundary.tsx.console-backup-1748019229955"
+    },
+    {
+      "file": "src/app/buyer/htb/calculator/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/buyer/htb/calculator/page.tsx.console-backup-1748019229958"
+    },
+    {
+      "file": "src/app/buyer/htb/buyer/HTBStatusViewer.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/buyer/htb/buyer/HTBStatusViewer.tsx.console-backup-1748019229960"
+    },
+    {
+      "file": "src/app/buyer/htb/buyer/HTBClaimProcess.tsx",
+      "statementsRemoved": 2,
+      "backupPath": "src/app/buyer/htb/buyer/HTBClaimProcess.tsx.console-backup-1748019229966"
+    },
+    {
+      "file": "src/app/buyer/htb/buyer/developer/HTBClaimsDashboard.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/buyer/htb/buyer/developer/HTBClaimsDashboard.tsx.console-backup-1748019229967"
+    },
+    {
+      "file": "src/app/buyer/htb/buyer/developer/HTBClaimProcessor.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/buyer/htb/buyer/developer/HTBClaimProcessor.tsx.console-backup-1748019229968"
+    },
+    {
+      "file": "src/app/buyer/guides/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/buyer/guides/page.tsx.console-backup-1748019229970"
+    },
+    {
+      "file": "src/app/buyer/first-time-buyers/welcome/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/buyer/first-time-buyers/welcome/page.tsx.console-backup-1748019229971"
+    },
+    {
+      "file": "src/app/buyer/dashboard/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/buyer/dashboard/page.tsx.console-backup-1748019229974"
+    },
+    {
+      "file": "src/app/buyer/customization/page.tsx",
+      "statementsRemoved": 3,
+      "backupPath": "src/app/buyer/customization/page.tsx.console-backup-1748019229978"
+    },
+    {
+      "file": "src/app/buyer/customization/layout.tsx",
+      "statementsRemoved": 1,
+      "backupPath": "src/app/buyer/customization/layout.tsx.console-backup-1748019229979"
+    },
+    {
+      "file": "src/app/buyer/customization/fallback-page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/buyer/customization/fallback-page.tsx.console-backup-1748019229980"
+    },
+    {
+      "file": "src/app/buyer/customization/fallback-layout.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/buyer/customization/fallback-layout.tsx.console-backup-1748019229981"
+    },
+    {
+      "file": "src/app/buyer/contracts/page.tsx",
+      "statementsRemoved": 2,
+      "backupPath": "src/app/buyer/contracts/page.tsx.console-backup-1748019229984"
+    },
+    {
+      "file": "src/app/buyer/checklists/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/buyer/checklists/page.tsx.console-backup-1748019229986"
+    },
+    {
+      "file": "src/app/buyer/calculator/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/buyer/calculator/page.tsx.console-backup-1748019229987"
+    },
+    {
+      "file": "src/app/buyer/calculator/htb/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/buyer/calculator/htb/page.tsx.console-backup-1748019229989"
+    },
+    {
+      "file": "src/app/buyer/booking/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/buyer/booking/page.tsx.console-backup-1748019229993"
+    },
+    {
+      "file": "src/app/buyer/appointments/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/buyer/appointments/page.tsx.console-backup-1748019229994"
+    },
+    {
+      "file": "src/app/buyer/advisor/page.tsx",
+      "statementsRemoved": 1,
+      "backupPath": "src/app/buyer/advisor/page.tsx.console-backup-1748019229996"
+    },
+    {
+      "file": "src/app/auth/test/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/auth/test/page.tsx.console-backup-1748019230000"
+    },
+    {
+      "file": "src/app/auth/step-up/StepUpAuthContent.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/auth/step-up/StepUpAuthContent.tsx.console-backup-1748019230003"
+    },
+    {
+      "file": "src/app/auth/register/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/auth/register/page.tsx.console-backup-1748019230005"
+    },
+    {
+      "file": "src/app/auth/register/enhanced-page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/auth/register/enhanced-page.tsx.console-backup-1748019230007"
+    },
+    {
+      "file": "src/app/auth/login/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/auth/login/page.tsx.console-backup-1748019230009"
+    },
+    {
+      "file": "src/app/auth/login/enhanced-page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/auth/login/enhanced-page.tsx.console-backup-1748019230011"
+    },
+    {
+      "file": "src/app/auth/flow-demo/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/auth/flow-demo/page.tsx.console-backup-1748019230012"
+    },
+    {
+      "file": "src/app/architect/dashboard/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/architect/dashboard/page.tsx.console-backup-1748019230013"
+    },
+    {
+      "file": "src/app/analytics/dashboard/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/analytics/dashboard/page.tsx.console-backup-1748019230016"
+    },
+    {
+      "file": "src/app/alerts/page.tsx",
+      "statementsRemoved": 2,
+      "backupPath": "src/app/alerts/page.tsx.console-backup-1748019230017"
+    },
+    {
+      "file": "src/app/agents/transactions/page.tsx",
+      "statementsRemoved": 2,
+      "backupPath": "src/app/agents/transactions/page.tsx.console-backup-1748019230019"
+    },
+    {
+      "file": "src/app/agents/listings/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/agents/listings/page.tsx.console-backup-1748019230021"
+    },
+    {
+      "file": "src/app/agents/dashboard/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/agents/dashboard/page.tsx.console-backup-1748019230022"
+    },
+    {
+      "file": "src/app/admin/verifications/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/admin/verifications/page.tsx.console-backup-1748019230026"
+    },
+    {
+      "file": "src/app/admin/security/test/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/admin/security/test/page.tsx.console-backup-1748019230028"
+    },
+    {
+      "file": "src/app/admin/properties/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/admin/properties/page.tsx.console-backup-1748019230029"
+    },
+    {
+      "file": "src/app/admin/platform-overview/page.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/admin/platform-overview/page.tsx.console-backup-1748019230030"
+    },
+    {
+      "file": "src/app/sitemap.ts",
+      "statementsRemoved": 1,
+      "backupPath": "src/app/sitemap.ts.console-backup-1748019230033"
+    },
+    {
+      "file": "src/app/counter.ts",
+      "statementsRemoved": 4,
+      "backupPath": "src/app/counter.ts.console-backup-1748019230035"
+    },
+    {
+      "file": "src/app/prop/projects/FitzgeraldGardens/route.ts",
+      "statementsRemoved": 1,
+      "backupPath": "src/app/prop/projects/FitzgeraldGardens/route.ts.console-backup-1748019230036"
+    },
+    {
+      "file": "src/app/prop/projects/FitzgeraldGardens/units/route.ts",
+      "statementsRemoved": 1,
+      "backupPath": "src/app/prop/projects/FitzgeraldGardens/units/route.ts.console-backup-1748019230037"
+    },
+    {
+      "file": "src/app/api/websocket/route.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/api/websocket/route.ts.console-backup-1748019230040"
+    },
+    {
+      "file": "src/app/api/websocket/developer-analytics/route.ts",
+      "statementsRemoved": 3,
+      "backupPath": "src/app/api/websocket/developer-analytics/route.ts.console-backup-1748019230042"
+    },
+    {
+      "file": "src/app/api/webhooks/stripe/route.ts",
+      "statementsRemoved": 5,
+      "backupPath": "src/app/api/webhooks/stripe/route.ts.console-backup-1748019230044"
+    },
+    {
+      "file": "src/app/api/viewing-slots/route.ts",
+      "statementsRemoved": 4,
+      "backupPath": "src/app/api/viewing-slots/route.ts.console-backup-1748019230046"
+    },
+    {
+      "file": "src/app/api/v1/transactions/route.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/api/v1/transactions/route.ts.console-backup-1748019230047"
+    },
+    {
+      "file": "src/app/api/v1/transactions/[id]/route.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/api/v1/transactions/[id]/route.ts.console-backup-1748019230049"
+    },
+    {
+      "file": "src/app/api/v1/payments/route.ts",
+      "statementsRemoved": 3,
+      "backupPath": "src/app/api/v1/payments/route.ts.console-backup-1748019230051"
+    },
+    {
+      "file": "src/app/api/v1/payments/webhook/route.ts",
+      "statementsRemoved": 2,
+      "backupPath": "src/app/api/v1/payments/webhook/route.ts.console-backup-1748019230052"
+    },
+    {
+      "file": "src/app/api/v1/kyc/upload/route.ts",
+      "statementsRemoved": 1,
+      "backupPath": "src/app/api/v1/kyc/upload/route.ts.console-backup-1748019230053"
+    },
+    {
+      "file": "src/app/api/v1/kyc/start/route.ts",
+      "statementsRemoved": 1,
+      "backupPath": "src/app/api/v1/kyc/start/route.ts.console-backup-1748019230055"
+    },
+    {
+      "file": "src/app/api/v1/kyc/complete/route.ts",
+      "statementsRemoved": 1,
+      "backupPath": "src/app/api/v1/kyc/complete/route.ts.console-backup-1748019230056"
+    },
+    {
+      "file": "src/app/api/v1/kyc/aml-screening/route.ts",
+      "statementsRemoved": 1,
+      "backupPath": "src/app/api/v1/kyc/aml-screening/route.ts.console-backup-1748019230057"
+    },
+    {
+      "file": "src/app/api/v1/developer/projects/route.ts",
+      "statementsRemoved": 2,
+      "backupPath": "src/app/api/v1/developer/projects/route.ts.console-backup-1748019230058"
+    },
+    {
+      "file": "src/app/api/users/route.ts",
+      "statementsRemoved": 4,
+      "backupPath": "src/app/api/users/route.ts.console-backup-1748019230060"
+    },
+    {
+      "file": "src/app/api/units/route.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/api/units/route.ts.console-backup-1748019230062"
+    },
+    {
+      "file": "src/app/api/units/route-broken.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/api/units/route-broken.ts.console-backup-1748019230063"
+    },
+    {
+      "file": "src/app/api/transactions/route.ts",
+      "statementsRemoved": 4,
+      "backupPath": "src/app/api/transactions/route.ts.console-backup-1748019230064"
+    },
+    {
+      "file": "src/app/api/transactions/reservation/route.ts",
+      "statementsRemoved": 2,
+      "backupPath": "src/app/api/transactions/reservation/route.ts.console-backup-1748019230065"
+    },
+    {
+      "file": "src/app/api/transactions/[id]/route.ts",
+      "statementsRemoved": 4,
+      "backupPath": "src/app/api/transactions/[id]/route.ts.console-backup-1748019230066"
+    },
+    {
+      "file": "src/app/api/transactions/[id]/payments/route.ts",
+      "statementsRemoved": 2,
+      "backupPath": "src/app/api/transactions/[id]/payments/route.ts.console-backup-1748019230067"
+    },
+    {
+      "file": "src/app/api/transactions/[id]/payments/receipt/route.ts",
+      "statementsRemoved": 2,
+      "backupPath": "src/app/api/transactions/[id]/payments/receipt/route.ts.console-backup-1748019230069"
+    },
+    {
+      "file": "src/app/api/transactions/[id]/payments/[paymentId]/route.ts",
+      "statementsRemoved": 3,
+      "backupPath": "src/app/api/transactions/[id]/payments/[paymentId]/route.ts.console-backup-1748019230071"
+    },
+    {
+      "file": "src/app/api/transactions/[id]/payment-process/route.ts",
+      "statementsRemoved": 2,
+      "backupPath": "src/app/api/transactions/[id]/payment-process/route.ts.console-backup-1748019230072"
+    },
+    {
+      "file": "src/app/api/transactions/[id]/documents/route.ts",
+      "statementsRemoved": 4,
+      "backupPath": "src/app/api/transactions/[id]/documents/route.ts.console-backup-1748019230073"
+    },
+    {
+      "file": "src/app/api/slp/[projectId]/route.ts",
+      "statementsRemoved": 2,
+      "backupPath": "src/app/api/slp/[projectId]/route.ts.console-backup-1748019230075"
+    },
+    {
+      "file": "src/app/api/security/report/route.ts",
+      "statementsRemoved": 2,
+      "backupPath": "src/app/api/security/report/route.ts.console-backup-1748019230077"
+    },
+    {
+      "file": "src/app/api/security/log/route.ts",
+      "statementsRemoved": 13,
+      "backupPath": "src/app/api/security/log/route.ts.console-backup-1748019230078"
+    },
+    {
+      "file": "src/app/api/sales/route.ts",
+      "statementsRemoved": 4,
+      "backupPath": "src/app/api/sales/route.ts.console-backup-1748019230079"
+    },
+    {
+      "file": "src/app/api/property-alerts/route.ts",
+      "statementsRemoved": 6,
+      "backupPath": "src/app/api/property-alerts/route.ts.console-backup-1748019230081"
+    },
+    {
+      "file": "src/app/api/properties/route.ts",
+      "statementsRemoved": 2,
+      "backupPath": "src/app/api/properties/route.ts.console-backup-1748019230083"
+    },
+    {
+      "file": "src/app/api/properties/[id]/route.ts",
+      "statementsRemoved": 3,
+      "backupPath": "src/app/api/properties/[id]/route.ts.console-backup-1748019230085"
+    },
+    {
+      "file": "src/app/api/projects/route.ts",
+      "statementsRemoved": 5,
+      "backupPath": "src/app/api/projects/route.ts.console-backup-1748019230087"
+    },
+    {
+      "file": "src/app/api/projects/[id]/route.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/api/projects/[id]/route.ts.console-backup-1748019230088"
+    },
+    {
+      "file": "src/app/api/projects/[id]/timeline/route.ts",
+      "statementsRemoved": 2,
+      "backupPath": "src/app/api/projects/[id]/timeline/route.ts.console-backup-1748019230089"
+    },
+    {
+      "file": "src/app/api/projects/[id]/sales/route.ts",
+      "statementsRemoved": 1,
+      "backupPath": "src/app/api/projects/[id]/sales/route.ts.console-backup-1748019230091"
+    },
+    {
+      "file": "src/app/api/projects/[id]/media/route.ts",
+      "statementsRemoved": 1,
+      "backupPath": "src/app/api/projects/[id]/media/route.ts.console-backup-1748019230092"
+    },
+    {
+      "file": "src/app/api/projects/[id]/alerts/route.ts",
+      "statementsRemoved": 2,
+      "backupPath": "src/app/api/projects/[id]/alerts/route.ts.console-backup-1748019230094"
+    },
+    {
+      "file": "src/app/api/projects/[id]/activity/route.ts",
+      "statementsRemoved": 2,
+      "backupPath": "src/app/api/projects/[id]/activity/route.ts.console-backup-1748019230095"
+    },
+    {
+      "file": "src/app/api/payments/route.ts",
+      "statementsRemoved": 3,
+      "backupPath": "src/app/api/payments/route.ts.console-backup-1748019230096"
+    },
+    {
+      "file": "src/app/api/payments/create-intent/route.ts",
+      "statementsRemoved": 1,
+      "backupPath": "src/app/api/payments/create-intent/route.ts.console-backup-1748019230097"
+    },
+    {
+      "file": "src/app/api/notifications/route.ts",
+      "statementsRemoved": 4,
+      "backupPath": "src/app/api/notifications/route.ts.console-backup-1748019230099"
+    },
+    {
+      "file": "src/app/api/monitoring/api-metrics/route.ts",
+      "statementsRemoved": 3,
+      "backupPath": "src/app/api/monitoring/api-metrics/route.ts.console-backup-1748019230100"
+    },
+    {
+      "file": "src/app/api/metrics/route.ts",
+      "statementsRemoved": 3,
+      "backupPath": "src/app/api/metrics/route.ts.console-backup-1748019230101"
+    },
+    {
+      "file": "src/app/api/legal/reservations/[id]/route.ts",
+      "statementsRemoved": 4,
+      "backupPath": "src/app/api/legal/reservations/[id]/route.ts.console-backup-1748019230102"
+    },
+    {
+      "file": "src/app/api/kyc/status/route.ts",
+      "statementsRemoved": 2,
+      "backupPath": "src/app/api/kyc/status/route.ts.console-backup-1748019230103"
+    },
+    {
+      "file": "src/app/api/htb-claims/route.ts",
+      "statementsRemoved": 2,
+      "backupPath": "src/app/api/htb-claims/route.ts.console-backup-1748019230104"
+    },
+    {
+      "file": "src/app/api/htb/buyer/claims/route.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/api/htb/buyer/claims/route.ts.console-backup-1748019230105"
+    },
+    {
+      "file": "src/app/api/health/route.ts",
+      "statementsRemoved": 2,
+      "backupPath": "src/app/api/health/route.ts.console-backup-1748019230107"
+    },
+    {
+      "file": "src/app/api/graphql/route.ts",
+      "statementsRemoved": 1,
+      "backupPath": "src/app/api/graphql/route.ts.console-backup-1748019230109"
+    },
+    {
+      "file": "src/app/api/finance/route.ts",
+      "statementsRemoved": 2,
+      "backupPath": "src/app/api/finance/route.ts.console-backup-1748019230111"
+    },
+    {
+      "file": "src/app/api/finance/projections/route.ts",
+      "statementsRemoved": 2,
+      "backupPath": "src/app/api/finance/projections/route.ts.console-backup-1748019230114"
+    },
+    {
+      "file": "src/app/api/finance/budget-vs-actual/route.ts",
+      "statementsRemoved": 2,
+      "backupPath": "src/app/api/finance/budget-vs-actual/route.ts.console-backup-1748019230116"
+    },
+    {
+      "file": "src/app/api/documents/route.ts",
+      "statementsRemoved": 5,
+      "backupPath": "src/app/api/documents/route.ts.console-backup-1748019230117"
+    },
+    {
+      "file": "src/app/api/documents/enhanced-route.ts",
+      "statementsRemoved": 9,
+      "backupPath": "src/app/api/documents/enhanced-route.ts.console-backup-1748019230119"
+    },
+    {
+      "file": "src/app/api/documents/sign/route.ts",
+      "statementsRemoved": 1,
+      "backupPath": "src/app/api/documents/sign/route.ts.console-backup-1748019230121"
+    },
+    {
+      "file": "src/app/api/developments/route.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/api/developments/route.ts.console-backup-1748019230122"
+    },
+    {
+      "file": "src/app/api/developments/[id]/route.ts",
+      "statementsRemoved": 1,
+      "backupPath": "src/app/api/developments/[id]/route.ts.console-backup-1748019230123"
+    },
+    {
+      "file": "src/app/api/developer/developments/route.ts",
+      "statementsRemoved": 2,
+      "backupPath": "src/app/api/developer/developments/route.ts.console-backup-1748019230130"
+    },
+    {
+      "file": "src/app/api/developer/developments/[id]/route.ts",
+      "statementsRemoved": 3,
+      "backupPath": "src/app/api/developer/developments/[id]/route.ts.console-backup-1748019230134"
+    },
+    {
+      "file": "src/app/api/developer/developments/[id]/units/route.ts",
+      "statementsRemoved": 2,
+      "backupPath": "src/app/api/developer/developments/[id]/units/route.ts.console-backup-1748019230138"
+    },
+    {
+      "file": "src/app/api/developer/developments/[id]/units/[unitId]/route.ts",
+      "statementsRemoved": 2,
+      "backupPath": "src/app/api/developer/developments/[id]/units/[unitId]/route.ts.console-backup-1748019230140"
+    },
+    {
+      "file": "src/app/api/deposit/confirm/route.ts",
+      "statementsRemoved": 6,
+      "backupPath": "src/app/api/deposit/confirm/route.ts.console-backup-1748019230143"
+    },
+    {
+      "file": "src/app/api/deployment-status/route.ts",
+      "statementsRemoved": 2,
+      "backupPath": "src/app/api/deployment-status/route.ts.console-backup-1748019230144"
+    },
+    {
+      "file": "src/app/api/customizations/route.ts",
+      "statementsRemoved": 1,
+      "backupPath": "src/app/api/customizations/route.ts.console-backup-1748019230146"
+    },
+    {
+      "file": "src/app/api/customization/route.ts",
+      "statementsRemoved": 12,
+      "backupPath": "src/app/api/customization/route.ts.console-backup-1748019230147"
+    },
+    {
+      "file": "src/app/api/customization/pdf/route.ts",
+      "statementsRemoved": 1,
+      "backupPath": "src/app/api/customization/pdf/route.ts.console-backup-1748019230148"
+    },
+    {
+      "file": "src/app/api/customization/options/route.ts",
+      "statementsRemoved": 2,
+      "backupPath": "src/app/api/customization/options/route.ts.console-backup-1748019230150"
+    },
+    {
+      "file": "src/app/api/customization/calculate/route.ts",
+      "statementsRemoved": 1,
+      "backupPath": "src/app/api/customization/calculate/route.ts.console-backup-1748019230152"
+    },
+    {
+      "file": "src/app/api/create-test-user/route.ts",
+      "statementsRemoved": 1,
+      "backupPath": "src/app/api/create-test-user/route.ts.console-backup-1748019230154"
+    },
+    {
+      "file": "src/app/api/contracts/sign/route.ts",
+      "statementsRemoved": 3,
+      "backupPath": "src/app/api/contracts/sign/route.ts.console-backup-1748019230155"
+    },
+    {
+      "file": "src/app/api/contracts/generate/route.ts",
+      "statementsRemoved": 4,
+      "backupPath": "src/app/api/contracts/generate/route.ts.console-backup-1748019230156"
+    },
+    {
+      "file": "src/app/api/contracts/finalize/route.ts",
+      "statementsRemoved": 8,
+      "backupPath": "src/app/api/contracts/finalize/route.ts.console-backup-1748019230157"
+    },
+    {
+      "file": "src/app/api/contractors/route.ts",
+      "statementsRemoved": 2,
+      "backupPath": "src/app/api/contractors/route.ts.console-backup-1748019230158"
+    },
+    {
+      "file": "src/app/api/compliance/violations/route.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/api/compliance/violations/route.ts.console-backup-1748019230160"
+    },
+    {
+      "file": "src/app/api/compliance/requirements/route.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/api/compliance/requirements/route.ts.console-backup-1748019230161"
+    },
+    {
+      "file": "src/app/api/compliance/reports/route.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/api/compliance/reports/route.ts.console-backup-1748019230164"
+    },
+    {
+      "file": "src/app/api/compliance/audits/route.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/api/compliance/audits/route.ts.console-backup-1748019230166"
+    },
+    {
+      "file": "src/app/api/cases/route.ts",
+      "statementsRemoved": 5,
+      "backupPath": "src/app/api/cases/route.ts.console-backup-1748019230168"
+    },
+    {
+      "file": "src/app/api/buyer/solicitor/route.ts",
+      "statementsRemoved": 4,
+      "backupPath": "src/app/api/buyer/solicitor/route.ts.console-backup-1748019230169"
+    },
+    {
+      "file": "src/app/api/booking/initiate/route.ts",
+      "statementsRemoved": 1,
+      "backupPath": "src/app/api/booking/initiate/route.ts.console-backup-1748019230170"
+    },
+    {
+      "file": "src/app/api/blockchain/verify/route.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/api/blockchain/verify/route.ts.console-backup-1748019230172"
+    },
+    {
+      "file": "src/app/api/blockchain/purchase/route.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/api/blockchain/purchase/route.ts.console-backup-1748019230173"
+    },
+    {
+      "file": "src/app/api/blockchain/dividends/route.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/api/blockchain/dividends/route.ts.console-backup-1748019230175"
+    },
+    {
+      "file": "src/app/api/auth/route.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/api/auth/route.ts.console-backup-1748019230179"
+    },
+    {
+      "file": "src/app/api/auth/verify-email/route.ts",
+      "statementsRemoved": 2,
+      "backupPath": "src/app/api/auth/verify-email/route.ts.console-backup-1748019230180"
+    },
+    {
+      "file": "src/app/api/auth/two-factor/route.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/api/auth/two-factor/route.ts.console-backup-1748019230182"
+    },
+    {
+      "file": "src/app/api/auth/register/route.ts",
+      "statementsRemoved": 1,
+      "backupPath": "src/app/api/auth/register/route.ts.console-backup-1748019230183"
+    },
+    {
+      "file": "src/app/api/auth/permissions/route.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/api/auth/permissions/route.ts.console-backup-1748019230185"
+    },
+    {
+      "file": "src/app/api/auth/password-reset/route.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/api/auth/password-reset/route.ts.console-backup-1748019230187"
+    },
+    {
+      "file": "src/app/api/auth/login/route.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/app/api/auth/login/route.ts.console-backup-1748019230188"
+    },
+    {
+      "file": "src/app/api/auth/data-export/route.ts",
+      "statementsRemoved": 1,
+      "backupPath": "src/app/api/auth/data-export/route.ts.console-backup-1748019230190"
+    },
+    {
+      "file": "src/app/api/auth/data-deletion/route.ts",
+      "statementsRemoved": 2,
+      "backupPath": "src/app/api/auth/data-deletion/route.ts.console-backup-1748019230192"
+    },
+    {
+      "file": "src/app/api/auth/check-user/route.ts",
+      "statementsRemoved": 1,
+      "backupPath": "src/app/api/auth/check-user/route.ts.console-backup-1748019230193"
+    },
+    {
+      "file": "src/app/api/auth/[...nextauth]/auth.config.ts",
+      "statementsRemoved": 1,
+      "backupPath": "src/app/api/auth/[...nextauth]/auth.config.ts.console-backup-1748019230196"
+    },
+    {
+      "file": "src/app/api/auth/[...nextauth]/auth-server.ts",
+      "statementsRemoved": 2,
+      "backupPath": "src/app/api/auth/[...nextauth]/auth-server.ts.console-backup-1748019230197"
+    },
+    {
+      "file": "src/app/api/auth/[...nextauth]/auth-helpers.ts",
+      "statementsRemoved": 3,
+      "backupPath": "src/app/api/auth/[...nextauth]/auth-helpers.ts.console-backup-1748019230198"
+    },
+    {
+      "file": "src/app/api/analytics/sales-funnel/route.ts",
+      "statementsRemoved": 1,
+      "backupPath": "src/app/api/analytics/sales-funnel/route.ts.console-backup-1748019230199"
+    },
+    {
+      "file": "src/app/api/analytics/property-performance/route.ts",
+      "statementsRemoved": 1,
+      "backupPath": "src/app/api/analytics/property-performance/route.ts.console-backup-1748019230200"
+    },
+    {
+      "file": "src/app/api/analytics/export/route.ts",
+      "statementsRemoved": 1,
+      "backupPath": "src/app/api/analytics/export/route.ts.console-backup-1748019230202"
+    },
+    {
+      "file": "src/app/api/analytics/developer/route.ts",
+      "statementsRemoved": 1,
+      "backupPath": "src/app/api/analytics/developer/route.ts.console-backup-1748019230204"
+    },
+    {
+      "file": "src/app/api/analytics/activities/route.ts",
+      "statementsRemoved": 1,
+      "backupPath": "src/app/api/analytics/activities/route.ts.console-backup-1748019230205"
+    },
+    {
+      "file": "src/features/virtual-viewing/VirtualViewing.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/features/virtual-viewing/VirtualViewing.tsx.console-backup-1748019230206"
+    },
+    {
+      "file": "src/features/viewing-scheduler/ViewingScheduler.tsx",
+      "statementsRemoved": 1,
+      "backupPath": "src/features/viewing-scheduler/ViewingScheduler.tsx.console-backup-1748019230209"
+    },
+    {
+      "file": "src/features/viewing-history/ViewingHistory.tsx",
+      "statementsRemoved": 1,
+      "backupPath": "src/features/viewing-history/ViewingHistory.tsx.console-backup-1748019230212"
+    },
+    {
+      "file": "src/features/user-journey/UserJourneyOrchestrator.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/features/user-journey/UserJourneyOrchestrator.tsx.console-backup-1748019230215"
+    },
+    {
+      "file": "src/features/transactions/TransactionTimeline.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/features/transactions/TransactionTimeline.tsx.console-backup-1748019230218"
+    },
+    {
+      "file": "src/features/transactions/TransactionParticipants.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/features/transactions/TransactionParticipants.tsx.console-backup-1748019230278"
+    },
+    {
+      "file": "src/features/transactions/TransactionMilestones.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/features/transactions/TransactionMilestones.tsx.console-backup-1748019230327"
+    },
+    {
+      "file": "src/features/transactions/TransactionDocuments.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/features/transactions/TransactionDocuments.tsx.console-backup-1748019230333"
+    },
+    {
+      "file": "src/features/transactions/TransactionCoordinator.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/features/transactions/TransactionCoordinator.tsx.console-backup-1748019230337"
+    },
+    {
+      "file": "src/features/solicitor-journey/SolicitorTransactionFlow.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/features/solicitor-journey/SolicitorTransactionFlow.tsx.console-backup-1748019230340"
+    },
+    {
+      "file": "src/features/security/RuntimeSecurityMonitor.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/features/security/RuntimeSecurityMonitor.tsx.console-backup-1748019230345"
+    },
+    {
+      "file": "src/features/security/DataEncryptionService.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/features/security/DataEncryptionService.tsx.console-backup-1748019230347"
+    },
+    {
+      "file": "src/features/properties/PropertyStampDutyCalculator.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/features/properties/PropertyStampDutyCalculator.tsx.console-backup-1748019230358"
+    },
+    {
+      "file": "src/features/properties/PropertyMortgageCalculator.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/features/properties/PropertyMortgageCalculator.tsx.console-backup-1748019230360"
+    },
+    {
+      "file": "src/features/properties/PropertyMap.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/features/properties/PropertyMap.tsx.console-backup-1748019230363"
+    },
+    {
+      "file": "src/features/properties/PropertyListingGrid.tsx",
+      "statementsRemoved": 4,
+      "backupPath": "src/features/properties/PropertyListingGrid.tsx.console-backup-1748019230366"
+    },
+    {
+      "file": "src/features/properties/PropertyDocuments.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/features/properties/PropertyDocuments.tsx.console-backup-1748019230372"
+    },
+    {
+      "file": "src/features/properties/PropertyDetailView.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/features/properties/PropertyDetailView.tsx.console-backup-1748019230374"
+    },
+    {
+      "file": "src/features/notifications/NotificationCenter.tsx",
+      "statementsRemoved": 1,
+      "backupPath": "src/features/notifications/NotificationCenter.tsx.console-backup-1748019230375"
+    },
+    {
+      "file": "src/features/mortgage-calculator/MortgageCalculator.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/features/mortgage-calculator/MortgageCalculator.tsx.console-backup-1748019230377"
+    },
+    {
+      "file": "src/features/messaging/MessagingCenter.tsx",
+      "statementsRemoved": 1,
+      "backupPath": "src/features/messaging/MessagingCenter.tsx.console-backup-1748019230379"
+    },
+    {
+      "file": "src/features/developer-journey/DeveloperProjectWorkflow.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/features/developer-journey/DeveloperProjectWorkflow.tsx.console-backup-1748019230381"
+    },
+    {
+      "file": "src/features/compliance/RegulatoryReportingSystem.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/features/compliance/RegulatoryReportingSystem.tsx.console-backup-1748019230387"
+    },
+    {
+      "file": "src/features/compliance/ComplianceDashboard.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/features/compliance/ComplianceDashboard.tsx.console-backup-1748019230390"
+    },
+    {
+      "file": "src/features/buyer-journey/BuyerJourneyManager.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/features/buyer-journey/BuyerJourneyManager.tsx.console-backup-1748019230397"
+    },
+    {
+      "file": "src/features/auth/AuthenticationFlow.tsx",
+      "statementsRemoved": 4,
+      "backupPath": "src/features/auth/AuthenticationFlow.tsx.console-backup-1748019230410"
+    },
+    {
+      "file": "src/lib/modelLoaderUtils.tsx",
+      "statementsRemoved": 1,
+      "backupPath": "src/lib/modelLoaderUtils.tsx.console-backup-1748019230414"
+    },
+    {
+      "file": "src/lib/modelLoader.tsx",
+      "statementsRemoved": 4,
+      "backupPath": "src/lib/modelLoader.tsx.console-backup-1748019230422"
+    },
+    {
+      "file": "src/lib/security/AppSecurityProvider.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/lib/security/AppSecurityProvider.tsx.console-backup-1748019230428"
+    },
+    {
+      "file": "src/lib/performance/lazy-loader.tsx",
+      "statementsRemoved": 1,
+      "backupPath": "src/lib/performance/lazy-loader.tsx.console-backup-1748019230430"
+    },
+    {
+      "file": "src/lib/utils.ts",
+      "statementsRemoved": 1,
+      "backupPath": "src/lib/utils.ts.console-backup-1748019230432"
+    },
+    {
+      "file": "src/lib/use-mock-data.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/lib/use-mock-data.ts.console-backup-1748019230437"
+    },
+    {
+      "file": "src/lib/supplierApi.ts",
+      "statementsRemoved": 4,
+      "backupPath": "src/lib/supplierApi.ts.console-backup-1748019230439"
+    },
+    {
+      "file": "src/lib/redis.ts",
+      "statementsRemoved": 2,
+      "backupPath": "src/lib/redis.ts.console-backup-1748019230442"
+    },
+    {
+      "file": "src/lib/react-query-config.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/lib/react-query-config.ts.console-backup-1748019230443"
+    },
+    {
+      "file": "src/lib/mongodb.ts",
+      "statementsRemoved": 9,
+      "backupPath": "src/lib/mongodb.ts.console-backup-1748019230445"
+    },
+    {
+      "file": "src/lib/mongodb-helper.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/lib/mongodb-helper.ts.console-backup-1748019230447"
+    },
+    {
+      "file": "src/lib/mock.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/lib/mock.ts.console-backup-1748019230448"
+    },
+    {
+      "file": "src/lib/mock-data.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/lib/mock-data.ts.console-backup-1748019230450"
+    },
+    {
+      "file": "src/lib/mfa.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/lib/mfa.ts.console-backup-1748019230451"
+    },
+    {
+      "file": "src/lib/jwt-auth.ts",
+      "statementsRemoved": 1,
+      "backupPath": "src/lib/jwt-auth.ts.console-backup-1748019230453"
+    },
+    {
+      "file": "src/lib/jwt-auth-middleware.ts",
+      "statementsRemoved": 1,
+      "backupPath": "src/lib/jwt-auth-middleware.ts.console-backup-1748019230454"
+    },
+    {
+      "file": "src/lib/eventBus.ts",
+      "statementsRemoved": 6,
+      "backupPath": "src/lib/eventBus.ts.console-backup-1748019230456"
+    },
+    {
+      "file": "src/lib/error-tracking.ts",
+      "statementsRemoved": 4,
+      "backupPath": "src/lib/error-tracking.ts.console-backup-1748019230458"
+    },
+    {
+      "file": "src/lib/environment.ts",
+      "statementsRemoved": 5,
+      "backupPath": "src/lib/environment.ts.console-backup-1748019230458"
+    },
+    {
+      "file": "src/lib/data-service.ts",
+      "statementsRemoved": 31,
+      "backupPath": "src/lib/data-service.ts.console-backup-1748019230461"
+    },
+    {
+      "file": "src/lib/cloudwatch.ts",
+      "statementsRemoved": 4,
+      "backupPath": "src/lib/cloudwatch.ts.console-backup-1748019230463"
+    },
+    {
+      "file": "src/lib/auth.ts",
+      "statementsRemoved": 2,
+      "backupPath": "src/lib/auth.ts.console-backup-1748019230464"
+    },
+    {
+      "file": "src/lib/auth-middleware.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/lib/auth-middleware.ts.console-backup-1748019230466"
+    },
+    {
+      "file": "src/lib/api.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/lib/api.ts.console-backup-1748019230468"
+    },
+    {
+      "file": "src/lib/api-client.ts",
+      "statementsRemoved": 2,
+      "backupPath": "src/lib/api-client.ts.console-backup-1748019230471"
+    },
+    {
+      "file": "src/lib/analytics.ts",
+      "statementsRemoved": 3,
+      "backupPath": "src/lib/analytics.ts.console-backup-1748019230472"
+    },
+    {
+      "file": "src/lib/amplify.ts",
+      "statementsRemoved": 6,
+      "backupPath": "src/lib/amplify.ts.console-backup-1748019230474"
+    },
+    {
+      "file": "src/lib/amplify-data.ts",
+      "statementsRemoved": 1,
+      "backupPath": "src/lib/amplify-data.ts.console-backup-1748019230476"
+    },
+    {
+      "file": "src/lib/amplify-client.ts",
+      "statementsRemoved": 1,
+      "backupPath": "src/lib/amplify-client.ts.console-backup-1748019230477"
+    },
+    {
+      "file": "src/lib/validation/index.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/lib/validation/index.ts.console-backup-1748019230479"
+    },
+    {
+      "file": "src/lib/validation/buyer-journey.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/lib/validation/buyer-journey.ts.console-backup-1748019230482"
+    },
+    {
+      "file": "src/lib/utils/warnIfExcessive.ts",
+      "statementsRemoved": 1,
+      "backupPath": "src/lib/utils/warnIfExcessive.ts.console-backup-1748019230483"
+    },
+    {
+      "file": "src/lib/utils/safeCache.ts",
+      "statementsRemoved": 6,
+      "backupPath": "src/lib/utils/safeCache.ts.console-backup-1748019230485"
+    },
+    {
+      "file": "src/lib/transaction-engine/snagging-system.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/lib/transaction-engine/snagging-system.ts.console-backup-1748019230488"
+    },
+    {
+      "file": "src/lib/transaction-engine/payment-processor.ts",
+      "statementsRemoved": 3,
+      "backupPath": "src/lib/transaction-engine/payment-processor.ts.console-backup-1748019230489"
+    },
+    {
+      "file": "src/lib/transaction-engine/notification-service.ts",
+      "statementsRemoved": 2,
+      "backupPath": "src/lib/transaction-engine/notification-service.ts.console-backup-1748019230492"
+    },
+    {
+      "file": "src/lib/transaction-engine/kyc-verification.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/lib/transaction-engine/kyc-verification.ts.console-backup-1748019230493"
+    },
+    {
+      "file": "src/lib/transaction-engine/index.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/lib/transaction-engine/index.ts.console-backup-1748019230497"
+    },
+    {
+      "file": "src/lib/transaction-engine/handover-system.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/lib/transaction-engine/handover-system.ts.console-backup-1748019230498"
+    },
+    {
+      "file": "src/lib/transaction-engine/document-manager.ts",
+      "statementsRemoved": 1,
+      "backupPath": "src/lib/transaction-engine/document-manager.ts.console-backup-1748019230499"
+    },
+    {
+      "file": "src/lib/services/users.ts",
+      "statementsRemoved": 7,
+      "backupPath": "src/lib/services/users.ts.console-backup-1748019230500"
+    },
+    {
+      "file": "src/lib/services/units.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/lib/services/units.ts.console-backup-1748019230502"
+    },
+    {
+      "file": "src/lib/services/sales.ts",
+      "statementsRemoved": 9,
+      "backupPath": "src/lib/services/sales.ts.console-backup-1748019230503"
+    },
+    {
+      "file": "src/lib/services/htb.ts",
+      "statementsRemoved": 15,
+      "backupPath": "src/lib/services/htb.ts.console-backup-1748019230506"
+    },
+    {
+      "file": "src/lib/services/documents.ts",
+      "statementsRemoved": 7,
+      "backupPath": "src/lib/services/documents.ts.console-backup-1748019230508"
+    },
+    {
+      "file": "src/lib/services/document-service.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/lib/services/document-service.ts.console-backup-1748019230509"
+    },
+    {
+      "file": "src/lib/services/auth.ts",
+      "statementsRemoved": 6,
+      "backupPath": "src/lib/services/auth.ts.console-backup-1748019230512"
+    },
+    {
+      "file": "src/lib/seo/metadata.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/lib/seo/metadata.ts.console-backup-1748019230513"
+    },
+    {
+      "file": "src/lib/security/validation.ts",
+      "statementsRemoved": 4,
+      "backupPath": "src/lib/security/validation.ts.console-backup-1748019230516"
+    },
+    {
+      "file": "src/lib/security/useSecurityMonitor.ts",
+      "statementsRemoved": 5,
+      "backupPath": "src/lib/security/useSecurityMonitor.ts.console-backup-1748019230519"
+    },
+    {
+      "file": "src/lib/security/urlSafetyCheck.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/lib/security/urlSafetyCheck.ts.console-backup-1748019230520"
+    },
+    {
+      "file": "src/lib/security/threatDetection.ts",
+      "statementsRemoved": 2,
+      "backupPath": "src/lib/security/threatDetection.ts.console-backup-1748019230523"
+    },
+    {
+      "file": "src/lib/security/sessionFingerprint.ts",
+      "statementsRemoved": 7,
+      "backupPath": "src/lib/security/sessionFingerprint.ts.console-backup-1748019230526"
+    },
+    {
+      "file": "src/lib/security/securityPerformanceIntegration.ts",
+      "statementsRemoved": 5,
+      "backupPath": "src/lib/security/securityPerformanceIntegration.ts.console-backup-1748019230548"
+    },
+    {
+      "file": "src/lib/security/securityAnalyticsServer.ts",
+      "statementsRemoved": 6,
+      "backupPath": "src/lib/security/securityAnalyticsServer.ts.console-backup-1748019230551"
+    },
+    {
+      "file": "src/lib/security/securityAnalyticsClient.ts",
+      "statementsRemoved": 1,
+      "backupPath": "src/lib/security/securityAnalyticsClient.ts.console-backup-1748019230553"
+    },
+    {
+      "file": "src/lib/security/security-exports.ts",
+      "statementsRemoved": 3,
+      "backupPath": "src/lib/security/security-exports.ts.console-backup-1748019230556"
+    },
+    {
+      "file": "src/lib/security/sanitize.ts",
+      "statementsRemoved": 1,
+      "backupPath": "src/lib/security/sanitize.ts.console-backup-1748019230558"
+    },
+    {
+      "file": "src/lib/security/sanitization.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/lib/security/sanitization.ts.console-backup-1748019230559"
+    },
+    {
+      "file": "src/lib/security/rateLimit.ts",
+      "statementsRemoved": 6,
+      "backupPath": "src/lib/security/rateLimit.ts.console-backup-1748019230561"
+    },
+    {
+      "file": "src/lib/security/quick-fixes.ts",
+      "statementsRemoved": 1,
+      "backupPath": "src/lib/security/quick-fixes.ts.console-backup-1748019230564"
+    },
+    {
+      "file": "src/lib/security/performanceCorrelation.ts",
+      "statementsRemoved": 19,
+      "backupPath": "src/lib/security/performanceCorrelation.ts.console-backup-1748019230567"
+    },
+    {
+      "file": "src/lib/security/lazySecurityFeatures.ts",
+      "statementsRemoved": 3,
+      "backupPath": "src/lib/security/lazySecurityFeatures.ts.console-backup-1748019230570"
+    },
+    {
+      "file": "src/lib/security/index.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/lib/security/index.ts.console-backup-1748019230573"
+    },
+    {
+      "file": "src/lib/security/headers.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/lib/security/headers.ts.console-backup-1748019230574"
+    },
+    {
+      "file": "src/lib/security/errorHandling.ts",
+      "statementsRemoved": 3,
+      "backupPath": "src/lib/security/errorHandling.ts.console-backup-1748019230576"
+    },
+    {
+      "file": "src/lib/security/enhancedAnalytics.ts",
+      "statementsRemoved": 11,
+      "backupPath": "src/lib/security/enhancedAnalytics.ts.console-backup-1748019230578"
+    },
+    {
+      "file": "src/lib/security/csrf.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/lib/security/csrf.ts.console-backup-1748019230581"
+    },
+    {
+      "file": "src/lib/security/cachedSecurityApi.ts",
+      "statementsRemoved": 7,
+      "backupPath": "src/lib/security/cachedSecurityApi.ts.console-backup-1748019230582"
+    },
+    {
+      "file": "src/lib/security/authLogger.ts",
+      "statementsRemoved": 5,
+      "backupPath": "src/lib/security/authLogger.ts.console-backup-1748019230583"
+    },
+    {
+      "file": "src/lib/security/auditLogger.ts",
+      "statementsRemoved": 5,
+      "backupPath": "src/lib/security/auditLogger.ts.console-backup-1748019230584"
+    },
+    {
+      "file": "src/lib/security/apiProtection.ts",
+      "statementsRemoved": 2,
+      "backupPath": "src/lib/security/apiProtection.ts.console-backup-1748019230586"
+    },
+    {
+      "file": "src/lib/security/analytics.ts",
+      "statementsRemoved": 5,
+      "backupPath": "src/lib/security/analytics.ts.console-backup-1748019230591"
+    },
+    {
+      "file": "src/lib/security/amplify-integration.ts",
+      "statementsRemoved": 5,
+      "backupPath": "src/lib/security/amplify-integration.ts.console-backup-1748019230592"
+    },
+    {
+      "file": "src/lib/security/mfa/qrCodeGenerator.ts",
+      "statementsRemoved": 2,
+      "backupPath": "src/lib/security/mfa/qrCodeGenerator.ts.console-backup-1748019230593"
+    },
+    {
+      "file": "src/lib/security/mfa/index.ts",
+      "statementsRemoved": 20,
+      "backupPath": "src/lib/security/mfa/index.ts.console-backup-1748019230597"
+    },
+    {
+      "file": "src/lib/performance/cache-manager.ts",
+      "statementsRemoved": 4,
+      "backupPath": "src/lib/performance/cache-manager.ts.console-backup-1748019230599"
+    },
+    {
+      "file": "src/lib/optimization/images.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/lib/optimization/images.ts.console-backup-1748019230600"
+    },
+    {
+      "file": "src/lib/optimization/database.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/lib/optimization/database.ts.console-backup-1748019230601"
+    },
+    {
+      "file": "src/lib/optimization/compression.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/lib/optimization/compression.ts.console-backup-1748019230602"
+    },
+    {
+      "file": "src/lib/monitoring/sentry.ts",
+      "statementsRemoved": 1,
+      "backupPath": "src/lib/monitoring/sentry.ts.console-backup-1748019230604"
+    },
+    {
+      "file": "src/lib/monitoring/performance.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/lib/monitoring/performance.ts.console-backup-1748019230606"
+    },
+    {
+      "file": "src/lib/monitoring/logger.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/lib/monitoring/logger.ts.console-backup-1748019230607"
+    },
+    {
+      "file": "src/lib/monitoring/apiPerformance.ts",
+      "statementsRemoved": 2,
+      "backupPath": "src/lib/monitoring/apiPerformance.ts.console-backup-1748019230609"
+    },
+    {
+      "file": "src/lib/monitoring/alerts.ts",
+      "statementsRemoved": 4,
+      "backupPath": "src/lib/monitoring/alerts.ts.console-backup-1748019230611"
+    },
+    {
+      "file": "src/lib/graphql/server.ts",
+      "statementsRemoved": 6,
+      "backupPath": "src/lib/graphql/server.ts.console-backup-1748019230614"
+    },
+    {
+      "file": "src/lib/graphql/auth-client.ts",
+      "statementsRemoved": 3,
+      "backupPath": "src/lib/graphql/auth-client.ts.console-backup-1748019230619"
+    },
+    {
+      "file": "src/lib/graphql/testing/testServer.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/lib/graphql/testing/testServer.ts.console-backup-1748019230620"
+    },
+    {
+      "file": "src/lib/graphql/resolvers/user.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/lib/graphql/resolvers/user.ts.console-backup-1748019230622"
+    },
+    {
+      "file": "src/lib/graphql/resolvers/document.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/lib/graphql/resolvers/document.ts.console-backup-1748019230625"
+    },
+    {
+      "file": "src/lib/graphql/resolvers/development.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/lib/graphql/resolvers/development.ts.console-backup-1748019230627"
+    },
+    {
+      "file": "src/lib/graphql/resolvers/buyer.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/lib/graphql/resolvers/buyer.ts.console-backup-1748019230629"
+    },
+    {
+      "file": "src/lib/graphql/dashboard/queries.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/lib/graphql/dashboard/queries.ts.console-backup-1748019230634"
+    },
+    {
+      "file": "src/lib/gdpr/dataRetention.ts",
+      "statementsRemoved": 2,
+      "backupPath": "src/lib/gdpr/dataRetention.ts.console-backup-1748019230636"
+    },
+    {
+      "file": "src/lib/fix-security/index.ts",
+      "statementsRemoved": 1,
+      "backupPath": "src/lib/fix-security/index.ts.console-backup-1748019230637"
+    },
+    {
+      "file": "src/lib/features/featureFlags.ts",
+      "statementsRemoved": 4,
+      "backupPath": "src/lib/features/featureFlags.ts.console-backup-1748019230639"
+    },
+    {
+      "file": "src/lib/estate-agent-crm/index.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/lib/estate-agent-crm/index.ts.console-backup-1748019230641"
+    },
+    {
+      "file": "src/lib/errors/buyer-journey-errors.ts",
+      "statementsRemoved": 1,
+      "backupPath": "src/lib/errors/buyer-journey-errors.ts.console-backup-1748019230644"
+    },
+    {
+      "file": "src/lib/developer-platform/index.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/lib/developer-platform/index.ts.console-backup-1748019230645"
+    },
+    {
+      "file": "src/lib/db/seed.ts",
+      "statementsRemoved": 13,
+      "backupPath": "src/lib/db/seed.ts.console-backup-1748019230648"
+    },
+    {
+      "file": "src/lib/db/migrations.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/lib/db/migrations.ts.console-backup-1748019230651"
+    },
+    {
+      "file": "src/lib/db/mappers.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/lib/db/mappers.ts.console-backup-1748019230652"
+    },
+    {
+      "file": "src/lib/db/index.ts",
+      "statementsRemoved": 3,
+      "backupPath": "src/lib/db/index.ts.console-backup-1748019230653"
+    },
+    {
+      "file": "src/lib/db/connection.ts",
+      "statementsRemoved": 3,
+      "backupPath": "src/lib/db/connection.ts.console-backup-1748019230654"
+    },
+    {
+      "file": "src/lib/db/cache.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/lib/db/cache.ts.console-backup-1748019230655"
+    },
+    {
+      "file": "src/lib/db/testing/mock-repositories.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/lib/db/testing/mock-repositories.ts.console-backup-1748019230657"
+    },
+    {
+      "file": "src/lib/db/repositories/financial-repository.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/lib/db/repositories/financial-repository.ts.console-backup-1748019230662"
+    },
+    {
+      "file": "src/lib/db/repositories/examples.ts",
+      "statementsRemoved": 6,
+      "backupPath": "src/lib/db/repositories/examples.ts.console-backup-1748019230665"
+    },
+    {
+      "file": "src/lib/db/repositories/development-repository.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/lib/db/repositories/development-repository.ts.console-backup-1748019230667"
+    },
+    {
+      "file": "src/lib/db/repositories/base-repository.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/lib/db/repositories/base-repository.ts.console-backup-1748019230668"
+    },
+    {
+      "file": "src/lib/db/operations/unitDb.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/lib/db/operations/unitDb.ts.console-backup-1748019230669"
+    },
+    {
+      "file": "src/lib/db/operations/documentDb.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/lib/db/operations/documentDb.ts.console-backup-1748019230670"
+    },
+    {
+      "file": "src/lib/db/operations/developmentDb.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/lib/db/operations/developmentDb.ts.console-backup-1748019230671"
+    },
+    {
+      "file": "src/lib/data-service/index.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/lib/data-service/index.ts.console-backup-1748019230673"
+    },
+    {
+      "file": "src/lib/customization/utils.ts",
+      "statementsRemoved": 1,
+      "backupPath": "src/lib/customization/utils.ts.console-backup-1748019230675"
+    },
+    {
+      "file": "src/lib/customization/modelLoader.ts",
+      "statementsRemoved": 1,
+      "backupPath": "src/lib/customization/modelLoader.ts.console-backup-1748019230677"
+    },
+    {
+      "file": "src/lib/conveyancing/index.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/lib/conveyancing/index.ts.console-backup-1748019230680"
+    },
+    {
+      "file": "src/lib/contractor-management/index.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/lib/contractor-management/index.ts.console-backup-1748019230681"
+    },
+    {
+      "file": "src/lib/collaboration/index.ts",
+      "statementsRemoved": 1,
+      "backupPath": "src/lib/collaboration/index.ts.console-backup-1748019230683"
+    },
+    {
+      "file": "src/lib/cache/redis.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/lib/cache/redis.ts.console-backup-1748019230684"
+    },
+    {
+      "file": "src/lib/cache/dataCache.ts",
+      "statementsRemoved": 7,
+      "backupPath": "src/lib/cache/dataCache.ts.console-backup-1748019230686"
+    },
+    {
+      "file": "src/lib/cache/clientCache.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/lib/cache/clientCache.ts.console-backup-1748019230688"
+    },
+    {
+      "file": "src/lib/auth/requireRoles.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/lib/auth/requireRoles.ts.console-backup-1748019230690"
+    },
+    {
+      "file": "src/lib/auth/jwt-handler.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/lib/auth/jwt-handler.ts.console-backup-1748019230691"
+    },
+    {
+      "file": "src/lib/api/buyer-journey-api.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/lib/api/buyer-journey-api.ts.console-backup-1748019230696"
+    },
+    {
+      "file": "src/lib/analytics/gtag.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/lib/analytics/gtag.ts.console-backup-1748019230731"
+    },
+    {
+      "file": "src/lib/analytics/buyer-journey-analytics.ts",
+      "statementsRemoved": 9,
+      "backupPath": "src/lib/analytics/buyer-journey-analytics.ts.console-backup-1748019230734"
+    },
+    {
+      "file": "src/lib/amplify/v6-migration-utils.ts",
+      "statementsRemoved": 13,
+      "backupPath": "src/lib/amplify/v6-migration-utils.ts.console-backup-1748019230737"
+    },
+    {
+      "file": "src/lib/amplify/types.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/lib/amplify/types.ts.console-backup-1748019230739"
+    },
+    {
+      "file": "src/lib/amplify/storage.ts",
+      "statementsRemoved": 10,
+      "backupPath": "src/lib/amplify/storage.ts.console-backup-1748019230740"
+    },
+    {
+      "file": "src/lib/amplify/server.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/lib/amplify/server.ts.console-backup-1748019230743"
+    },
+    {
+      "file": "src/lib/amplify/server-adapter.ts",
+      "statementsRemoved": 1,
+      "backupPath": "src/lib/amplify/server-adapter.ts.console-backup-1748019230746"
+    },
+    {
+      "file": "src/lib/amplify/interceptors.ts",
+      "statementsRemoved": 6,
+      "backupPath": "src/lib/amplify/interceptors.ts.console-backup-1748019230748"
+    },
+    {
+      "file": "src/lib/amplify/index.ts",
+      "statementsRemoved": 10,
+      "backupPath": "src/lib/amplify/index.ts.console-backup-1748019230751"
+    },
+    {
+      "file": "src/lib/amplify/config.ts",
+      "statementsRemoved": 1,
+      "backupPath": "src/lib/amplify/config.ts.console-backup-1748019230753"
+    },
+    {
+      "file": "src/lib/amplify/cache.ts",
+      "statementsRemoved": 2,
+      "backupPath": "src/lib/amplify/cache.ts.console-backup-1748019230754"
+    },
+    {
+      "file": "src/lib/amplify/auth.ts",
+      "statementsRemoved": 13,
+      "backupPath": "src/lib/amplify/auth.ts.console-backup-1748019230755"
+    },
+    {
+      "file": "src/lib/amplify/api.ts",
+      "statementsRemoved": 6,
+      "backupPath": "src/lib/amplify/api.ts.console-backup-1748019230757"
+    },
+    {
+      "file": "src/lib/amplify/analytics-adapter.ts",
+      "statementsRemoved": 3,
+      "backupPath": "src/lib/amplify/analytics-adapter.ts.console-backup-1748019230758"
+    },
+    {
+      "file": "src/lib/amplify/auth/mfa.ts",
+      "statementsRemoved": 5,
+      "backupPath": "src/lib/amplify/auth/mfa.ts.console-backup-1748019230761"
+    },
+    {
+      "file": "src/services/websocketService.ts",
+      "statementsRemoved": 4,
+      "backupPath": "src/services/websocketService.ts.console-backup-1748019230762"
+    },
+    {
+      "file": "src/services/user-service.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/services/user-service.ts.console-backup-1748019230764"
+    },
+    {
+      "file": "src/services/transactionService.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/services/transactionService.ts.console-backup-1748019230765"
+    },
+    {
+      "file": "src/services/transactionCoordinator.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/services/transactionCoordinator.ts.console-backup-1748019230767"
+    },
+    {
+      "file": "src/services/slpService.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/services/slpService.ts.console-backup-1748019230769"
+    },
+    {
+      "file": "src/services/sales-service.ts",
+      "statementsRemoved": 2,
+      "backupPath": "src/services/sales-service.ts.console-backup-1748019230770"
+    },
+    {
+      "file": "src/services/propertyService.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/services/propertyService.ts.console-backup-1748019230771"
+    },
+    {
+      "file": "src/services/paymentService.ts",
+      "statementsRemoved": 1,
+      "backupPath": "src/services/paymentService.ts.console-backup-1748019230774"
+    },
+    {
+      "file": "src/services/notificationService.ts",
+      "statementsRemoved": 9,
+      "backupPath": "src/services/notificationService.ts.console-backup-1748019230775"
+    },
+    {
+      "file": "src/services/mockDataService.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/services/mockDataService.ts.console-backup-1748019230776"
+    },
+    {
+      "file": "src/services/journeyService.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/services/journeyService.ts.console-backup-1748019230778"
+    },
+    {
+      "file": "src/services/index.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/services/index.ts.console-backup-1748019230779"
+    },
+    {
+      "file": "src/services/htbServiceMock.ts",
+      "statementsRemoved": 2,
+      "backupPath": "src/services/htbServiceMock.ts.console-backup-1748019230781"
+    },
+    {
+      "file": "src/services/htbService.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/services/htbService.ts.console-backup-1748019230782"
+    },
+    {
+      "file": "src/services/documentService.ts",
+      "statementsRemoved": 14,
+      "backupPath": "src/services/documentService.ts.console-backup-1748019230784"
+    },
+    {
+      "file": "src/services/document-service.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/services/document-service.ts.console-backup-1748019230785"
+    },
+    {
+      "file": "src/services/development-service.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/services/development-service.ts.console-backup-1748019230786"
+    },
+    {
+      "file": "src/services/cacheService.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/services/cacheService.ts.console-backup-1748019230788"
+    },
+    {
+      "file": "src/services/buyerDocumentService.ts",
+      "statementsRemoved": 7,
+      "backupPath": "src/services/buyerDocumentService.ts.console-backup-1748019230790"
+    },
+    {
+      "file": "src/services/boqService.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/services/boqService.ts.console-backup-1748019230792"
+    },
+    {
+      "file": "src/services/authService.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/services/authService.ts.console-backup-1748019230794"
+    },
+    {
+      "file": "src/services/apiClient.ts",
+      "statementsRemoved": 9,
+      "backupPath": "src/services/apiClient.ts.console-backup-1748019230797"
+    },
+    {
+      "file": "src/services/api.ts",
+      "statementsRemoved": 2,
+      "backupPath": "src/services/api.ts.console-backup-1748019230798"
+    },
+    {
+      "file": "src/services/analyticsEngine.ts",
+      "statementsRemoved": 1,
+      "backupPath": "src/services/analyticsEngine.ts.console-backup-1748019230801"
+    },
+    {
+      "file": "src/services/TenderService.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/services/TenderService.ts.console-backup-1748019230803"
+    },
+    {
+      "file": "src/services/DevelopmentService.ts",
+      "statementsRemoved": 6,
+      "backupPath": "src/services/DevelopmentService.ts.console-backup-1748019230807"
+    },
+    {
+      "file": "src/services/realtime/collaboration-engine.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/services/realtime/collaboration-engine.ts.console-backup-1748019230820"
+    },
+    {
+      "file": "src/services/realtime/RealtimeEngine.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/services/realtime/RealtimeEngine.ts.console-backup-1748019230834"
+    },
+    {
+      "file": "src/services/data-service/mock.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/services/data-service/mock.ts.console-backup-1748019230838"
+    },
+    {
+      "file": "src/services/contract/ContractService.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/services/contract/ContractService.ts.console-backup-1748019230844"
+    },
+    {
+      "file": "src/services/blockchain/property-tokenization.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/services/blockchain/property-tokenization.ts.console-backup-1748019230845"
+    },
+    {
+      "file": "src/services/base/BaseService.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/services/base/BaseService.ts.console-backup-1748019230846"
+    },
+    {
+      "file": "src/services/ai/property-valuation.ts",
+      "statementsRemoved": 2,
+      "backupPath": "src/services/ai/property-valuation.ts.console-backup-1748019230847"
+    },
+    {
+      "file": "src/hooks/usePerformanceMonitor.tsx",
+      "statementsRemoved": 1,
+      "backupPath": "src/hooks/usePerformanceMonitor.tsx.console-backup-1748019230852"
+    },
+    {
+      "file": "src/hooks/useAuth.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/hooks/useAuth.tsx.console-backup-1748019230854"
+    },
+    {
+      "file": "src/hooks/use-query-example.tsx",
+      "statementsRemoved": 0,
+      "backupPath": "src/hooks/use-query-example.tsx.console-backup-1748019230856"
+    },
+    {
+      "file": "src/hooks/userDb.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/hooks/userDb.ts.console-backup-1748019230859"
+    },
+    {
+      "file": "src/hooks/user.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/hooks/user.ts.console-backup-1748019230863"
+    },
+    {
+      "file": "src/hooks/user-service.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/hooks/user-service.ts.console-backup-1748019230865"
+    },
+    {
+      "file": "src/hooks/useWebSocket.ts",
+      "statementsRemoved": 11,
+      "backupPath": "src/hooks/useWebSocket.ts.console-backup-1748019230867"
+    },
+    {
+      "file": "src/hooks/useViewingSchedule.ts",
+      "statementsRemoved": 1,
+      "backupPath": "src/hooks/useViewingSchedule.ts.console-backup-1748019230870"
+    },
+    {
+      "file": "src/hooks/useSecuritySettings.ts",
+      "statementsRemoved": 3,
+      "backupPath": "src/hooks/useSecuritySettings.ts.console-backup-1748019230872"
+    },
+    {
+      "file": "src/hooks/useSecurityPerformance.ts",
+      "statementsRemoved": 1,
+      "backupPath": "src/hooks/useSecurityPerformance.ts.console-backup-1748019230874"
+    },
+    {
+      "file": "src/hooks/useSecurityMonitor.ts",
+      "statementsRemoved": 5,
+      "backupPath": "src/hooks/useSecurityMonitor.ts.console-backup-1748019230875"
+    },
+    {
+      "file": "src/hooks/useSecurityFeatures.ts",
+      "statementsRemoved": 1,
+      "backupPath": "src/hooks/useSecurityFeatures.ts.console-backup-1748019230877"
+    },
+    {
+      "file": "src/hooks/useSecureJWT.ts",
+      "statementsRemoved": 3,
+      "backupPath": "src/hooks/useSecureJWT.ts.console-backup-1748019230879"
+    },
+    {
+      "file": "src/hooks/useSecureAuth.ts",
+      "statementsRemoved": 4,
+      "backupPath": "src/hooks/useSecureAuth.ts.console-backup-1748019230881"
+    },
+    {
+      "file": "src/hooks/useRealtime.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/hooks/useRealtime.ts.console-backup-1748019230882"
+    },
+    {
+      "file": "src/hooks/usePropertySearch.ts",
+      "statementsRemoved": 1,
+      "backupPath": "src/hooks/usePropertySearch.ts.console-backup-1748019230883"
+    },
+    {
+      "file": "src/hooks/usePropertyAnalytics.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/hooks/usePropertyAnalytics.ts.console-backup-1748019230885"
+    },
+    {
+      "file": "src/hooks/usePropertyAlerts.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/hooks/usePropertyAlerts.ts.console-backup-1748019230887"
+    },
+    {
+      "file": "src/hooks/usePermissions.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/hooks/usePermissions.ts.console-backup-1748019230889"
+    },
+    {
+      "file": "src/hooks/usePerformanceOptimization.ts",
+      "statementsRemoved": 1,
+      "backupPath": "src/hooks/usePerformanceOptimization.ts.console-backup-1748019230890"
+    },
+    {
+      "file": "src/hooks/usePerformanceMonitor.ts",
+      "statementsRemoved": 2,
+      "backupPath": "src/hooks/usePerformanceMonitor.ts.console-backup-1748019230892"
+    },
+    {
+      "file": "src/hooks/useNotifications.ts",
+      "statementsRemoved": 12,
+      "backupPath": "src/hooks/useNotifications.ts.console-backup-1748019230893"
+    },
+    {
+      "file": "src/hooks/useMessaging.ts",
+      "statementsRemoved": 11,
+      "backupPath": "src/hooks/useMessaging.ts.console-backup-1748019230896"
+    },
+    {
+      "file": "src/hooks/useLegalTransaction.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/hooks/useLegalTransaction.ts.console-backup-1748019230898"
+    },
+    {
+      "file": "src/hooks/useGraphQLMutations.ts",
+      "statementsRemoved": 3,
+      "backupPath": "src/hooks/useGraphQLMutations.ts.console-backup-1748019230900"
+    },
+    {
+      "file": "src/hooks/useGraphQL.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/hooks/useGraphQL.ts.console-backup-1748019230903"
+    },
+    {
+      "file": "src/hooks/useFormWithToast.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/hooks/useFormWithToast.ts.console-backup-1748019230904"
+    },
+    {
+      "file": "src/hooks/useFinancialData.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/hooks/useFinancialData.ts.console-backup-1748019230906"
+    },
+    {
+      "file": "src/hooks/useEnterpriseAuth.ts",
+      "statementsRemoved": 2,
+      "backupPath": "src/hooks/useEnterpriseAuth.ts.console-backup-1748019230909"
+    },
+    {
+      "file": "src/hooks/useDocuments.ts",
+      "statementsRemoved": 2,
+      "backupPath": "src/hooks/useDocuments.ts.console-backup-1748019230911"
+    },
+    {
+      "file": "src/hooks/useDeveloperDashboard.ts",
+      "statementsRemoved": 2,
+      "backupPath": "src/hooks/useDeveloperDashboard.ts.console-backup-1748019230912"
+    },
+    {
+      "file": "src/hooks/useDashboardData.ts",
+      "statementsRemoved": 1,
+      "backupPath": "src/hooks/useDashboardData.ts.console-backup-1748019230914"
+    },
+    {
+      "file": "src/hooks/useCustomization.ts",
+      "statementsRemoved": 2,
+      "backupPath": "src/hooks/useCustomization.ts.console-backup-1748019230916"
+    },
+    {
+      "file": "src/hooks/useCompliance.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/hooks/useCompliance.ts.console-backup-1748019230918"
+    },
+    {
+      "file": "src/hooks/useClientSecurity.ts",
+      "statementsRemoved": 2,
+      "backupPath": "src/hooks/useClientSecurity.ts.console-backup-1748019230920"
+    },
+    {
+      "file": "src/hooks/useBuyerJourneyAnalytics.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/hooks/useBuyerJourneyAnalytics.ts.console-backup-1748019230922"
+    },
+    {
+      "file": "src/hooks/useBuyerJourney.ts",
+      "statementsRemoved": 1,
+      "backupPath": "src/hooks/useBuyerJourney.ts.console-backup-1748019230924"
+    },
+    {
+      "file": "src/hooks/useBuyerData.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/hooks/useBuyerData.ts.console-backup-1748019230925"
+    },
+    {
+      "file": "src/hooks/useBuyerAPI.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/hooks/useBuyerAPI.ts.console-backup-1748019230926"
+    },
+    {
+      "file": "src/hooks/useAffordabilityCalculator.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/hooks/useAffordabilityCalculator.ts.console-backup-1748019230928"
+    },
+    {
+      "file": "src/hooks/api-hooks.ts",
+      "statementsRemoved": 1,
+      "backupPath": "src/hooks/api-hooks.ts.console-backup-1748019230931"
+    },
+    {
+      "file": "src/hooks/api/useGraphQLMutations.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/hooks/api/useGraphQLMutations.ts.console-backup-1748019230933"
+    },
+    {
+      "file": "src/hooks/api/useDevelopments.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/hooks/api/useDevelopments.ts.console-backup-1748019230934"
+    },
+    {
+      "file": "src/hooks/api/useDevelopmentMutations.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/hooks/api/useDevelopmentMutations.ts.console-backup-1748019230935"
+    },
+    {
+      "file": "src/hooks/api/useDeveloperDashboard.ts",
+      "statementsRemoved": 1,
+      "backupPath": "src/hooks/api/useDeveloperDashboard.ts.console-backup-1748019230937"
+    },
+    {
+      "file": "src/hooks/api/useAuth.ts",
+      "statementsRemoved": 4,
+      "backupPath": "src/hooks/api/useAuth.ts.console-backup-1748019230941"
+    },
+    {
+      "file": "src/utils/modelLoaderUtils.tsx",
+      "statementsRemoved": 1,
+      "backupPath": "src/utils/modelLoaderUtils.tsx.console-backup-1748019230943"
+    },
+    {
+      "file": "src/utils/code-splitting.tsx",
+      "statementsRemoved": 3,
+      "backupPath": "src/utils/code-splitting.tsx.console-backup-1748019230945"
+    },
+    {
+      "file": "src/utils/performance/withMemo.tsx",
+      "statementsRemoved": 1,
+      "backupPath": "src/utils/performance/withMemo.tsx.console-backup-1748019230946"
+    },
+    {
+      "file": "src/utils/performance/safeMemo.tsx",
+      "statementsRemoved": 11,
+      "backupPath": "src/utils/performance/safeMemo.tsx.console-backup-1748019230957"
+    },
+    {
+      "file": "src/utils/performance/react-cache-polyfill.tsx",
+      "statementsRemoved": 1,
+      "backupPath": "src/utils/performance/react-cache-polyfill.tsx.console-backup-1748019230959"
+    },
+    {
+      "file": "src/utils/performance/optimizeComponent.tsx",
+      "statementsRemoved": 1,
+      "backupPath": "src/utils/performance/optimizeComponent.tsx.console-backup-1748019230960"
+    },
+    {
+      "file": "src/utils/performance/monitor.tsx",
+      "statementsRemoved": 19,
+      "backupPath": "src/utils/performance/monitor.tsx.console-backup-1748019230962"
+    },
+    {
+      "file": "src/utils/performance/lazyLoad.tsx",
+      "statementsRemoved": 16,
+      "backupPath": "src/utils/performance/lazyLoad.tsx.console-backup-1748019230964"
+    },
+    {
+      "file": "src/utils/v6-migration-utils.ts",
+      "statementsRemoved": 14,
+      "backupPath": "src/utils/v6-migration-utils.ts.console-backup-1748019230965"
+    },
+    {
+      "file": "src/utils/utils.ts",
+      "statementsRemoved": 1,
+      "backupPath": "src/utils/utils.ts.console-backup-1748019230967"
+    },
+    {
+      "file": "src/utils/testUtils.ts",
+      "statementsRemoved": 3,
+      "backupPath": "src/utils/testUtils.ts.console-backup-1748019230968"
+    },
+    {
+      "file": "src/utils/subscriptionManager.ts",
+      "statementsRemoved": 16,
+      "backupPath": "src/utils/subscriptionManager.ts.console-backup-1748019230972"
+    },
+    {
+      "file": "src/utils/safeJsonParser.ts",
+      "statementsRemoved": 8,
+      "backupPath": "src/utils/safeJsonParser.ts.console-backup-1748019230975"
+    },
+    {
+      "file": "src/utils/queryClient-simplified.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/utils/queryClient-simplified.ts.console-backup-1748019230976"
+    },
+    {
+      "file": "src/utils/performance.ts",
+      "statementsRemoved": 2,
+      "backupPath": "src/utils/performance.ts.console-backup-1748019230978"
+    },
+    {
+      "file": "src/utils/paramValidator.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/utils/paramValidator.ts.console-backup-1748019230980"
+    },
+    {
+      "file": "src/utils/monitoring.ts",
+      "statementsRemoved": 6,
+      "backupPath": "src/utils/monitoring.ts.console-backup-1748019230982"
+    },
+    {
+      "file": "src/utils/metrics.ts",
+      "statementsRemoved": 2,
+      "backupPath": "src/utils/metrics.ts.console-backup-1748019230984"
+    },
+    {
+      "file": "src/utils/logger.ts",
+      "statementsRemoved": 4,
+      "backupPath": "src/utils/logger.ts.console-backup-1748019230985"
+    },
+    {
+      "file": "src/utils/index.ts",
+      "statementsRemoved": 1,
+      "backupPath": "src/utils/index.ts.console-backup-1748019230987"
+    },
+    {
+      "file": "src/utils/graphql-helpers.ts",
+      "statementsRemoved": 1,
+      "backupPath": "src/utils/graphql-helpers.ts.console-backup-1748019230988"
+    },
+    {
+      "file": "src/utils/formatting.ts",
+      "statementsRemoved": 3,
+      "backupPath": "src/utils/formatting.ts.console-backup-1748019230990"
+    },
+    {
+      "file": "src/utils/format.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/utils/format.ts.console-backup-1748019230991"
+    },
+    {
+      "file": "src/utils/error-reporter.ts",
+      "statementsRemoved": 3,
+      "backupPath": "src/utils/error-reporter.ts.console-backup-1748019230992"
+    },
+    {
+      "file": "src/utils/cache-manager.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/utils/cache-manager.ts.console-backup-1748019230994"
+    },
+    {
+      "file": "src/utils/auth-utils.ts",
+      "statementsRemoved": 4,
+      "backupPath": "src/utils/auth-utils.ts.console-backup-1748019230995"
+    },
+    {
+      "file": "src/utils/apiClient.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/utils/apiClient.ts.console-backup-1748019230996"
+    },
+    {
+      "file": "src/utils/performance/safeCache.ts",
+      "statementsRemoved": 11,
+      "backupPath": "src/utils/performance/safeCache.ts.console-backup-1748019231000"
+    },
+    {
+      "file": "src/utils/performance/react-cache-polyfill.ts",
+      "statementsRemoved": 1,
+      "backupPath": "src/utils/performance/react-cache-polyfill.ts.console-backup-1748019231002"
+    },
+    {
+      "file": "src/utils/performance/index.ts",
+      "statementsRemoved": 3,
+      "backupPath": "src/utils/performance/index.ts.console-backup-1748019231003"
+    },
+    {
+      "file": "src/utils/performance/enhancedCache.ts",
+      "statementsRemoved": 1,
+      "backupPath": "src/utils/performance/enhancedCache.ts.console-backup-1748019231005"
+    },
+    {
+      "file": "src/utils/performance/dataCache.ts",
+      "statementsRemoved": 24,
+      "backupPath": "src/utils/performance/dataCache.ts.console-backup-1748019231020"
+    },
+    {
+      "file": "src/utils/performance/apiBatcher.ts",
+      "statementsRemoved": 1,
+      "backupPath": "src/utils/performance/apiBatcher.ts.console-backup-1748019231021"
+    },
+    {
+      "file": "src/utils/finance/formatting.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/utils/finance/formatting.ts.console-backup-1748019231022"
+    },
+    {
+      "file": "src/utils/finance/calculations.ts",
+      "statementsRemoved": 0,
+      "backupPath": "src/utils/finance/calculations.ts.console-backup-1748019231025"
+    }
+  ],
+  "highRiskFiles": [
+    {
+      "file": "src/lib/data-service.ts",
+      "statementsRemoved": 31,
+      "backupPath": "src/lib/data-service.ts.console-backup-1748019230461"
+    },
+    {
+      "file": "src/utils/performance/dataCache.ts",
+      "statementsRemoved": 24,
+      "backupPath": "src/utils/performance/dataCache.ts.console-backup-1748019231020"
+    },
+    {
+      "file": "src/lib/security/mfa/index.ts",
+      "statementsRemoved": 20,
+      "backupPath": "src/lib/security/mfa/index.ts.console-backup-1748019230597"
+    },
+    {
+      "file": "src/lib/security/performanceCorrelation.ts",
+      "statementsRemoved": 19,
+      "backupPath": "src/lib/security/performanceCorrelation.ts.console-backup-1748019230567"
+    },
+    {
+      "file": "src/utils/performance/monitor.tsx",
+      "statementsRemoved": 19,
+      "backupPath": "src/utils/performance/monitor.tsx.console-backup-1748019230962"
+    },
+    {
+      "file": "src/utils/performance/lazyLoad.tsx",
+      "statementsRemoved": 16,
+      "backupPath": "src/utils/performance/lazyLoad.tsx.console-backup-1748019230964"
+    },
+    {
+      "file": "src/utils/subscriptionManager.ts",
+      "statementsRemoved": 16,
+      "backupPath": "src/utils/subscriptionManager.ts.console-backup-1748019230972"
+    },
+    {
+      "file": "src/lib/services/htb.ts",
+      "statementsRemoved": 15,
+      "backupPath": "src/lib/services/htb.ts.console-backup-1748019230506"
+    },
+    {
+      "file": "src/services/documentService.ts",
+      "statementsRemoved": 14,
+      "backupPath": "src/services/documentService.ts.console-backup-1748019230784"
+    },
+    {
+      "file": "src/utils/v6-migration-utils.ts",
+      "statementsRemoved": 14,
+      "backupPath": "src/utils/v6-migration-utils.ts.console-backup-1748019230965"
+    },
+    {
+      "file": "src/app/api/security/log/route.ts",
+      "statementsRemoved": 13,
+      "backupPath": "src/app/api/security/log/route.ts.console-backup-1748019230078"
+    },
+    {
+      "file": "src/lib/db/seed.ts",
+      "statementsRemoved": 13,
+      "backupPath": "src/lib/db/seed.ts.console-backup-1748019230648"
+    },
+    {
+      "file": "src/lib/amplify/v6-migration-utils.ts",
+      "statementsRemoved": 13,
+      "backupPath": "src/lib/amplify/v6-migration-utils.ts.console-backup-1748019230737"
+    },
+    {
+      "file": "src/lib/amplify/auth.ts",
+      "statementsRemoved": 13,
+      "backupPath": "src/lib/amplify/auth.ts.console-backup-1748019230755"
+    },
+    {
+      "file": "src/app/api/customization/route.ts",
+      "statementsRemoved": 12,
+      "backupPath": "src/app/api/customization/route.ts.console-backup-1748019230147"
+    },
+    {
+      "file": "src/hooks/useNotifications.ts",
+      "statementsRemoved": 12,
+      "backupPath": "src/hooks/useNotifications.ts.console-backup-1748019230893"
+    },
+    {
+      "file": "src/lib/security/enhancedAnalytics.ts",
+      "statementsRemoved": 11,
+      "backupPath": "src/lib/security/enhancedAnalytics.ts.console-backup-1748019230578"
+    },
+    {
+      "file": "src/hooks/useWebSocket.ts",
+      "statementsRemoved": 11,
+      "backupPath": "src/hooks/useWebSocket.ts.console-backup-1748019230867"
+    },
+    {
+      "file": "src/hooks/useMessaging.ts",
+      "statementsRemoved": 11,
+      "backupPath": "src/hooks/useMessaging.ts.console-backup-1748019230896"
+    },
+    {
+      "file": "src/utils/performance/safeMemo.tsx",
+      "statementsRemoved": 11,
+      "backupPath": "src/utils/performance/safeMemo.tsx.console-backup-1748019230957"
+    },
+    {
+      "file": "src/utils/performance/safeCache.ts",
+      "statementsRemoved": 11,
+      "backupPath": "src/utils/performance/safeCache.ts.console-backup-1748019231000"
+    },
+    {
+      "file": "src/lib/amplify/storage.ts",
+      "statementsRemoved": 10,
+      "backupPath": "src/lib/amplify/storage.ts.console-backup-1748019230740"
+    },
+    {
+      "file": "src/lib/amplify/index.ts",
+      "statementsRemoved": 10,
+      "backupPath": "src/lib/amplify/index.ts.console-backup-1748019230751"
+    },
+    {
+      "file": "src/app/api/documents/enhanced-route.ts",
+      "statementsRemoved": 9,
+      "backupPath": "src/app/api/documents/enhanced-route.ts.console-backup-1748019230119"
+    },
+    {
+      "file": "src/lib/mongodb.ts",
+      "statementsRemoved": 9,
+      "backupPath": "src/lib/mongodb.ts.console-backup-1748019230445"
+    },
+    {
+      "file": "src/lib/services/sales.ts",
+      "statementsRemoved": 9,
+      "backupPath": "src/lib/services/sales.ts.console-backup-1748019230503"
+    },
+    {
+      "file": "src/lib/analytics/buyer-journey-analytics.ts",
+      "statementsRemoved": 9,
+      "backupPath": "src/lib/analytics/buyer-journey-analytics.ts.console-backup-1748019230734"
+    },
+    {
+      "file": "src/services/notificationService.ts",
+      "statementsRemoved": 9,
+      "backupPath": "src/services/notificationService.ts.console-backup-1748019230775"
+    },
+    {
+      "file": "src/services/apiClient.ts",
+      "statementsRemoved": 9,
+      "backupPath": "src/services/apiClient.ts.console-backup-1748019230797"
+    },
+    {
+      "file": "src/app/api/contracts/finalize/route.ts",
+      "statementsRemoved": 8,
+      "backupPath": "src/app/api/contracts/finalize/route.ts.console-backup-1748019230157"
+    },
+    {
+      "file": "src/utils/safeJsonParser.ts",
+      "statementsRemoved": 8,
+      "backupPath": "src/utils/safeJsonParser.ts.console-backup-1748019230975"
+    },
+    {
+      "file": "src/app/login/page.tsx",
+      "statementsRemoved": 7,
+      "backupPath": "src/app/login/page.tsx.console-backup-1748019229733"
+    },
+    {
+      "file": "src/lib/services/users.ts",
+      "statementsRemoved": 7,
+      "backupPath": "src/lib/services/users.ts.console-backup-1748019230500"
+    },
+    {
+      "file": "src/lib/services/documents.ts",
+      "statementsRemoved": 7,
+      "backupPath": "src/lib/services/documents.ts.console-backup-1748019230508"
+    },
+    {
+      "file": "src/lib/security/sessionFingerprint.ts",
+      "statementsRemoved": 7,
+      "backupPath": "src/lib/security/sessionFingerprint.ts.console-backup-1748019230526"
+    },
+    {
+      "file": "src/lib/security/cachedSecurityApi.ts",
+      "statementsRemoved": 7,
+      "backupPath": "src/lib/security/cachedSecurityApi.ts.console-backup-1748019230582"
+    },
+    {
+      "file": "src/lib/cache/dataCache.ts",
+      "statementsRemoved": 7,
+      "backupPath": "src/lib/cache/dataCache.ts.console-backup-1748019230686"
+    },
+    {
+      "file": "src/services/buyerDocumentService.ts",
+      "statementsRemoved": 7,
+      "backupPath": "src/services/buyerDocumentService.ts.console-backup-1748019230790"
+    },
+    {
+      "file": "src/components/security/mfa/MFASetup.tsx",
+      "statementsRemoved": 6,
+      "backupPath": "src/components/security/mfa/MFASetup.tsx.console-backup-1748019228362"
+    },
+    {
+      "file": "src/app/api/property-alerts/route.ts",
+      "statementsRemoved": 6,
+      "backupPath": "src/app/api/property-alerts/route.ts.console-backup-1748019230081"
+    },
+    {
+      "file": "src/app/api/deposit/confirm/route.ts",
+      "statementsRemoved": 6,
+      "backupPath": "src/app/api/deposit/confirm/route.ts.console-backup-1748019230143"
+    },
+    {
+      "file": "src/lib/eventBus.ts",
+      "statementsRemoved": 6,
+      "backupPath": "src/lib/eventBus.ts.console-backup-1748019230456"
+    },
+    {
+      "file": "src/lib/amplify.ts",
+      "statementsRemoved": 6,
+      "backupPath": "src/lib/amplify.ts.console-backup-1748019230474"
+    },
+    {
+      "file": "src/lib/utils/safeCache.ts",
+      "statementsRemoved": 6,
+      "backupPath": "src/lib/utils/safeCache.ts.console-backup-1748019230485"
+    },
+    {
+      "file": "src/lib/services/auth.ts",
+      "statementsRemoved": 6,
+      "backupPath": "src/lib/services/auth.ts.console-backup-1748019230512"
+    },
+    {
+      "file": "src/lib/security/securityAnalyticsServer.ts",
+      "statementsRemoved": 6,
+      "backupPath": "src/lib/security/securityAnalyticsServer.ts.console-backup-1748019230551"
+    },
+    {
+      "file": "src/lib/security/rateLimit.ts",
+      "statementsRemoved": 6,
+      "backupPath": "src/lib/security/rateLimit.ts.console-backup-1748019230561"
+    },
+    {
+      "file": "src/lib/graphql/server.ts",
+      "statementsRemoved": 6,
+      "backupPath": "src/lib/graphql/server.ts.console-backup-1748019230614"
+    },
+    {
+      "file": "src/lib/db/repositories/examples.ts",
+      "statementsRemoved": 6,
+      "backupPath": "src/lib/db/repositories/examples.ts.console-backup-1748019230665"
+    },
+    {
+      "file": "src/lib/amplify/interceptors.ts",
+      "statementsRemoved": 6,
+      "backupPath": "src/lib/amplify/interceptors.ts.console-backup-1748019230748"
+    },
+    {
+      "file": "src/lib/amplify/api.ts",
+      "statementsRemoved": 6,
+      "backupPath": "src/lib/amplify/api.ts.console-backup-1748019230757"
+    },
+    {
+      "file": "src/services/DevelopmentService.ts",
+      "statementsRemoved": 6,
+      "backupPath": "src/services/DevelopmentService.ts.console-backup-1748019230807"
+    },
+    {
+      "file": "src/utils/monitoring.ts",
+      "statementsRemoved": 6,
+      "backupPath": "src/utils/monitoring.ts.console-backup-1748019230982"
+    }
+  ]
+}

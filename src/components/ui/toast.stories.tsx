@@ -1,3 +1,4 @@
+import React from 'react';
 'use client';
 
 import type { Meta, StoryObj } from '@storybook/react';
@@ -12,7 +13,7 @@ import { Button } from './button';
  * Toast notifications provide brief messages about app processes without interrupting the user experience.
  * 
  * ## Features
- * - Multiple variants (default, success, error, warning, info)
+ * - Multiple variants (default, success, error, warninginfo)
  * - Customizable duration
  * - Automatic dismissal
  * - Ability to add actions
@@ -51,26 +52,21 @@ const meta = {
     layout: 'centered',
     docs: {
       description: {
-        component: 'Toast notification system for user feedback',
-      },
-    },
-  },
-  tags: ['autodocs'],
-} satisfies Meta;
+        component: 'Toast notification system for user feedback'}},
+  tags: ['autodocs']} satisfies Meta;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
-
+type Story = StoryObj<typeof meta>\n  );
 /**
  * ToastDemo component to showcase toast functionality
  */
 const ToastDemo = ({ variant }: { variant?: 'default' | 'success' | 'error' | 'warning' | 'info' }) => {
-  const [count, setCount] = useState(0);
-  
+  const [countsetCount] = useState(0);
+
   const showToast = () => {
     const title = `${variant ? variant.charAt(0).toUpperCase() + variant.slice(1) : 'Notification'} Toast`;
     const description = `This is a ${variant || 'default'} toast notification (${count + 1})`;
-    
+
     if (variant === 'success') {
       toast.success({ title, description });
     } else if (variant === 'error') {
@@ -82,10 +78,10 @@ const ToastDemo = ({ variant }: { variant?: 'default' | 'success' | 'error' | 'w
     } else {
       toast.show({ title, description });
     }
-    
+
     setCount(prev => prev + 1);
   };
-  
+
   return (
     <div className="p-4 flex flex-col items-center">
       <ToastProvider>
@@ -109,8 +105,7 @@ export const Default: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     await userEvent.click(canvas.getByRole('button'));
-  },
-};
+  };
 
 /**
  * Success toast notification
@@ -120,8 +115,7 @@ export const Success: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     await userEvent.click(canvas.getByRole('button'));
-  },
-};
+  };
 
 /**
  * Error toast notification
@@ -131,8 +125,7 @@ export const Error: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     await userEvent.click(canvas.getByRole('button'));
-  },
-};
+  };
 
 /**
  * Warning toast notification
@@ -142,8 +135,7 @@ export const Warning: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     await userEvent.click(canvas.getByRole('button'));
-  },
-};
+  };
 
 /**
  * Info toast notification
@@ -153,8 +145,7 @@ export const Info: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     await userEvent.click(canvas.getByRole('button'));
-  },
-};
+  };
 
 /**
  * Toast with custom action
@@ -175,7 +166,7 @@ export const WithAction: Story = {
           duration: 10000, // Longer duration for action toasts
         });
       };
-      
+
       return (
         <div className="p-4 flex flex-col items-center">
           <ToastProvider>
@@ -190,11 +181,10 @@ export const WithAction: Story = {
         </div>
       );
     };
-    
-    return <ToastWithAction />;
+
+    return <ToastWithAction />\n  );
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     await userEvent.click(canvas.getByRole('button'));
-  },
-};
+  };

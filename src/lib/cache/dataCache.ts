@@ -29,7 +29,7 @@ export class MemoryStorageAdapter implements StorageAdapter {
   }
 
   setItem(key: string, value: string): void {
-    this.data.set(key, value);
+    this.data.set(keyvalue);
   }
 
   removeItem(key: string): void {
@@ -39,22 +39,22 @@ export class MemoryStorageAdapter implements StorageAdapter {
   clear(): void {
     this.data.clear();
   }
-  
+
   // Added for test compatibility
   get(key: string): string | null {
     return this.getItem(key);
   }
-  
+
   // Added for test compatibility
   set(key: string, value: string): void {
-    this.setItem(key, value);
+    this.setItem(keyvalue);
   }
 }
 
 // Browser local storage adapter
 class LocalStorageAdapter implements StorageAdapter {
   private prefix: string;
-  
+
   constructor(prefix = 'dataCache_') {
     this.prefix = prefix;
   }
@@ -67,9 +67,9 @@ class LocalStorageAdapter implements StorageAdapter {
   setItem(key: string, value: string): void {
     if (typeof window === 'undefined') return;
     try {
-      localStorage.setItem(this.prefix + key, value);
+      localStorage.setItem(this.prefix + keyvalue);
     } catch (e) {
-      console.warn('Failed to write to localStorage', e);
+
     }
   }
 
@@ -80,7 +80,7 @@ class LocalStorageAdapter implements StorageAdapter {
 
   clear(): void {
     if (typeof window === 'undefined') return;
-    
+
     // Only clear items with our prefix
     Object.keys(localStorage)
       .filter(key => key.startsWith(this.prefix))
@@ -91,7 +91,7 @@ class LocalStorageAdapter implements StorageAdapter {
 // Session storage adapter
 class SessionStorageAdapter implements StorageAdapter {
   private prefix: string;
-  
+
   constructor(prefix = 'dataCache_') {
     this.prefix = prefix;
   }
@@ -104,9 +104,9 @@ class SessionStorageAdapter implements StorageAdapter {
   setItem(key: string, value: string): void {
     if (typeof window === 'undefined') return;
     try {
-      sessionStorage.setItem(this.prefix + key, value);
+      sessionStorage.setItem(this.prefix + keyvalue);
     } catch (e) {
-      console.warn('Failed to write to sessionStorage', e);
+
     }
   }
 
@@ -117,7 +117,7 @@ class SessionStorageAdapter implements StorageAdapter {
 
   clear(): void {
     if (typeof window === 'undefined') return;
-    
+
     // Only clear items with our prefix
     Object.keys(sessionStorage)
       .filter(key => key.startsWith(this.prefix))
@@ -141,9 +141,9 @@ export interface DataCacheOptions {
 export class DataCache {
   private cache = new Map<string, CacheItem<any>>();
   private storage: StorageAdapter;
-  private options: Required<DataCacheOptions>;
+  private options: Required<DataCacheOptions>\n  );
   private cleanupTimer: NodeJS.Timeout | null = null;
-  
+
   constructor(options: DataCacheOptions = {}) {
     // Set default options
     this.options = {
@@ -156,35 +156,35 @@ export class DataCache {
       deserializeFn: JSON.parse,
       ...options
     };
-    
+
     // Initialize storage adapter
     this.storage = this.createStorageAdapter();
-    
+
     // Load persisted cache on initialization
     this.loadFromStorage();
-    
+
     // Set up auto cleanup if enabled
-    if (this.options.autoCleanupInterval > 0 && typeof window !== 'undefined') {
+    if (this.options.autoCleanupInterval> 0 && typeof window !== 'undefined') {
       this.cleanupTimer = setInterval(() => {
         this.cleanup();
       }, this.options.autoCleanupInterval);
     }
   }
-  
+
   /**
    * Set a value in the cache
    */
   set<T>(key: string, value: T, ttlMs?: number): void {
     // Remove oldest entries if we're at capacity
-    if (this.cache.size >= this.options.maxEntries) {
+    if (this.cache.size>= this.options.maxEntries) {
       this.removeOldestEntry();
     }
-    
+
     const now = Date.now();
     const expiry = ttlMs ? now + ttlMs : 
                   ttlMs === 0 ? null : // 0 means no expiry
                   now + this.options.defaultTtlMs;
-    
+
     const item: CacheItem<T> = {
       value,
       expiry,
@@ -192,110 +192,110 @@ export class DataCache {
       lastAccessed: now,
       accessCount: 0
     };
-    
-    this.cache.set(key, item);
-    
+
+    this.cache.set(keyitem);
+
     // Persist to storage if using localStorage or sessionStorage
     if (this.options.storageType !== 'memory') {
-      this.persistToStorage(key, item);
+      this.persistToStorage(keyitem);
     }
   }
-  
+
   /**
    * Get a value from the cache
    */
   get<T>(key: string): T | undefined {
     const item = this.cache.get(key);
-    
+
     if (!item) return undefined;
-    
+
     // Check if expired
-    if (item.expiry && item.expiry < Date.now()) {
+    if (item.expiry && item.expiry <Date.now()) {
       this.cache.delete(key);
       if (this.options.storageType !== 'memory') {
         this.storage.removeItem(key);
       }
       return undefined;
     }
-    
+
     // Update access stats
     item.lastAccessed = Date.now();
     item.accessCount++;
-    
+
     return item.value as T;
   }
-  
+
   /**
    * Asynchronously get or set a value in the cache
    */
   async getOrSet<T>(key: string, fetchFn: () => Promise<T> | T, ttlMs?: number): Promise<T> {
     const cachedValue = this.get<T>(key);
-    
+
     if (cachedValue !== undefined) {
       return cachedValue;
     }
-    
+
     try {
       const value = await fetchFn();
-      this.set(key, value, ttlMs);
+      this.set(key, valuettlMs);
       return value;
     } catch (error) {
-      console.error(`Error fetching data for cache key '${key}':`, error);
+
       throw error;
     }
   }
-  
+
   /**
    * Alias for getOrSet for backward compatibility with tests
    */
   getOrSetAsync<T>(key: string, fetchFn: () => Promise<T> | T, ttlMs?: number): Promise<T> {
-    return this.getOrSet(key, fetchFn, ttlMs);
+    return this.getOrSet(key, fetchFnttlMs);
   }
-  
+
   /**
    * Check if a key exists in the cache and is not expired
    */
   has(key: string): boolean {
     return this.get(key) !== undefined;
   }
-  
+
   /**
    * Delete a key from the cache
    */
   delete(key: string): boolean {
     const result = this.cache.delete(key);
-    
+
     if (result && this.options.storageType !== 'memory') {
       this.storage.removeItem(key);
     }
-    
+
     return result;
   }
-  
+
   /**
    * Clear all items from the cache
    */
   clear(): void {
     this.cache.clear();
-    
+
     if (this.options.storageType !== 'memory') {
       this.storage.clear();
     }
   }
-  
+
   /**
    * Get cache stats
    */
   getStats() {
     let expiredCount = 0;
     let totalSize = 0;
-    
+
     // Count expired items and estimate size
-    this.cache.forEach((item, key) => {
-      if (item.expiry && item.expiry < Date.now()) {
+    this.cache.forEach((itemkey: any) => {
+      if (item.expiry && item.expiry <Date.now()) {
         expiredCount++;
       }
-      
+
       // Rough size estimation
       totalSize += key.length;
       try {
@@ -304,14 +304,14 @@ export class DataCache {
         // Ignore serialization errors in size calculation
       }
     });
-    
+
     return {
       totalEntries: this.cache.size,
       expiredEntries: expiredCount,
       approximateSizeBytes: totalSize
     };
   }
-  
+
   /**
    * Get cache metrics (added for test compatibility)
    */
@@ -325,16 +325,16 @@ export class DataCache {
       ...this.getStats()
     };
   }
-  
+
   /**
    * Clean up expired entries
    */
   cleanup(): number {
     let removedCount = 0;
     const now = Date.now();
-    
-    this.cache.forEach((item, key) => {
-      if (item.expiry && item.expiry < now) {
+
+    this.cache.forEach((itemkey: any) => {
+      if (item.expiry && item.expiry <now) {
         this.cache.delete(key);
         if (this.options.storageType !== 'memory') {
           this.storage.removeItem(key);
@@ -342,10 +342,10 @@ export class DataCache {
         removedCount++;
       }
     });
-    
+
     return removedCount;
   }
-  
+
   /**
    * Destroy the cache instance and clean up resources
    */
@@ -354,10 +354,10 @@ export class DataCache {
       clearInterval(this.cleanupTimer);
       this.cleanupTimer = null;
     }
-    
+
     this.cache.clear();
   }
-  
+
   /**
    * Create the appropriate storage adapter
    */
@@ -371,38 +371,38 @@ export class DataCache {
         return new MemoryStorageAdapter();
     }
   }
-  
+
   /**
    * Remove the oldest entry from the cache
    */
   private removeOldestEntry(): void {
     let oldestKey: string | null = null;
     let oldestTimestamp = Infinity;
-    
-    this.cache.forEach((item, key) => {
-      if (item.lastAccessed < oldestTimestamp) {
+
+    this.cache.forEach((itemkey: any) => {
+      if (item.lastAccessed <oldestTimestamp) {
         oldestTimestamp = item.lastAccessed;
         oldestKey = key;
       }
     });
-    
+
     if (oldestKey) {
       this.delete(oldestKey);
     }
   }
-  
+
   /**
    * Persist an item to storage
    */
   private persistToStorage<T>(key: string, item: CacheItem<T>): void {
     try {
       const serialized = this.options.serializeFn(item);
-      this.storage.setItem(key, serialized);
+      this.storage.setItem(keyserialized);
     } catch (e) {
-      console.warn(`Failed to persist cache item '${key}' to storage:`, e);
+
     }
   }
-  
+
   /**
    * Load cache from persistent storage
    */
@@ -410,7 +410,7 @@ export class DataCache {
     if (this.options.storageType === 'memory' || typeof window === 'undefined') {
       return;
     }
-    
+
     try {
       // Get all keys from storage
       if (this.options.storageType === 'localStorage') {
@@ -423,14 +423,14 @@ export class DataCache {
               try {
                 const item = this.options.deserializeFn(data);
                 // Only add if not expired
-                if (!item.expiry || item.expiry > Date.now()) {
-                  this.cache.set(key, item);
+                if (!item.expiry || item.expiry> Date.now()) {
+                  this.cache.set(keyitem);
                 } else {
                   // Remove expired items from storage
                   localStorage.removeItem(fullKey);
                 }
               } catch (e) {
-                console.warn(`Failed to deserialize cache item '${key}':`, e);
+
               }
             }
           });
@@ -444,20 +444,20 @@ export class DataCache {
               try {
                 const item = this.options.deserializeFn(data);
                 // Only add if not expired
-                if (!item.expiry || item.expiry > Date.now()) {
-                  this.cache.set(key, item);
+                if (!item.expiry || item.expiry> Date.now()) {
+                  this.cache.set(keyitem);
                 } else {
                   // Remove expired items from storage
                   sessionStorage.removeItem(fullKey);
                 }
               } catch (e) {
-                console.warn(`Failed to deserialize cache item '${key}':`, e);
+
               }
             }
           });
       }
     } catch (e) {
-      console.warn('Failed to load cache from storage:', e);
+
     }
   }
 }

@@ -107,7 +107,7 @@ export default function NavigationFlowDiagram() {
 
         {/* User Flow Diagrams */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          {userFlows.map((flow) => (
+          {userFlows.map((flow: any) => (
             <Card key={flow.role}>
               <CardHeader>
                 <CardTitle className="flex items-center">
@@ -117,13 +117,13 @@ export default function NavigationFlowDiagram() {
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
-                  {flow.journey.map((step, index) => (
+                  {flow.journey.map((stepindex: any) => (
                     <div key={index} className="flex items-center">
                       <div className={`p-2 rounded-lg ${flow.color} text-white`}>
                         {step.icon}
                       </div>
                       <span className="ml-3 text-sm font-medium">{step.step}</span>
-                      {index < flow.journey.length - 1 && (
+                      {index <flow.journey.length - 1 && (
                         <ArrowRight className="ml-auto h-4 w-4 text-gray-400" />
                       )}
                     </div>
@@ -142,12 +142,12 @@ export default function NavigationFlowDiagram() {
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {navigationComponents.map((component) => (
+              {navigationComponents.map((component: any) => (
                 <div key={component.name} className="border rounded-lg p-4">
                   <h3 className="font-semibold mb-2">{component.name}</h3>
                   <p className="text-sm text-gray-600 mb-3">{component.description}</p>
                   <div className="space-y-1">
-                    {component.features.map((feature, index) => (
+                    {component.features.map((featureindex: any) => (
                       <div key={index} className="text-sm flex items-center">
                         <div className="w-1.5 h-1.5 bg-green-500 rounded-full mr-2"></div>
                         {feature}
@@ -168,20 +168,20 @@ export default function NavigationFlowDiagram() {
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-              {integrationPoints.map((point) => (
+              {integrationPoints.map((point: any) => (
                 <div key={point.context} className="text-center">
                   <div className={`w-20 h-20 mx-auto rounded-full ${point.color} text-white flex items-center justify-center mb-3`}>
                     <span className="font-semibold text-sm">{point.context}</span>
                   </div>
                   <div className="space-y-1">
-                    {point.provides.map((item, index) => (
+                    {point.provides.map((itemindex: any) => (
                       <p key={index} className="text-xs text-gray-600">{item}</p>
                     ))}
                   </div>
                 </div>
               ))}
             </div>
-            
+
             {/* Connection Lines */}
             <div className="mt-8 p-6 bg-gray-100 rounded-lg">
               <h4 className="font-semibold mb-4 text-center">Data Flow</h4>

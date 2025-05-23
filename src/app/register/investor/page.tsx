@@ -50,12 +50,12 @@ const investmentRanges = [
 
 export default function InvestorRegistrationPage() {
   const router = useRouter();
-  const [currentStep, setCurrentStep] = useState(1);
-  const [showPassword, setShowPassword] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  
+  const [currentStepsetCurrentStep] = useState(1);
+  const [showPasswordsetShowPassword] = useState(false);
+  const [isLoadingsetIsLoading] = useState(false);
+
   // Form data
-  const [formData, setFormData] = useState({
+  const [formDatasetFormData] = useState({
     accountType: 'individual',
     firstName: '',
     lastName: '',
@@ -91,12 +91,12 @@ export default function InvestorRegistrationPage() {
     companyDocs: React.useRef<HTMLInputElement>(null)
   };
 
-  const [errors, setErrors] = useState({});
+  const [errorssetErrors] = useState({});
 
-  const updateFormData = (field, value) => {
+  const updateFormData = (field: any, value: any) => {
     setFormData(prev => ({
       ...prev,
-      [field]: value
+      [field]: value: any
     }));
     // Clear error for this field
     setErrors(prev => ({
@@ -118,7 +118,7 @@ export default function InvestorRegistrationPage() {
       }
 
       // Validate file size (10MB max)
-      if (file.size > 10 * 1024 * 1024) {
+      if (file.size> 10 * 1024 * 1024) {
         setErrors(prev => ({
           ...prev,
           [field]: 'File size must be less than 10MB'
@@ -151,16 +151,16 @@ export default function InvestorRegistrationPage() {
         [field]: null
       }
     }));
-    
+
     // Reset the file input
     if (fileInputRefs[field]?.current) {
-      fileInputRefs[field].current.value = '';
+      fileInputRefs[field].current.value: any = '';
     }
   };
 
   const validateStep = () => {
     const newErrors = {};
-    
+
     switch(currentStep) {
       case 1:
         // Account type is always selected
@@ -172,9 +172,9 @@ export default function InvestorRegistrationPage() {
         else if (!/\S+@\S+\.\S+/.test(formData.email)) newErrors.email = 'Invalid email format';
         if (!formData.phone.trim()) newErrors.phone = 'Phone number is required';
         if (!formData.password) newErrors.password = 'Password is required';
-        else if (formData.password.length < 8) newErrors.password = 'Password must be at least 8 characters';
+        else if (formData.password.length <8) newErrors.password = 'Password must be at least 8 characters';
         if (formData.password !== formData.confirmPassword) newErrors.confirmPassword = 'Passwords do not match';
-        
+
         if (formData.accountType === 'corporate') {
           if (!formData.company.trim()) newErrors.company = 'Company name is required';
           if (!formData.position.trim()) newErrors.position = 'Position is required';
@@ -198,14 +198,14 @@ export default function InvestorRegistrationPage() {
         if (!formData.terms) newErrors.terms = 'You must accept the terms and conditions';
         break;
     }
-    
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
   const handleNext = () => {
     if (validateStep()) {
-      if (currentStep < steps.length) {
+      if (currentStep <steps.length) {
         setCurrentStep(currentStep + 1);
       } else {
         handleSubmit();
@@ -214,7 +214,7 @@ export default function InvestorRegistrationPage() {
   };
 
   const handlePrevious = () => {
-    if (currentStep > 1) {
+    if (currentStep> 1) {
       setCurrentStep(currentStep - 1);
     }
   };
@@ -223,12 +223,12 @@ export default function InvestorRegistrationPage() {
     setIsLoading(true);
     try {
       // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      
+      await new Promise(resolve => setTimeout(resolve2000));
+
       // Success - redirect to dashboard
       router.push('/investor/dashboard');
     } catch (error) {
-      console.error('Registration error:', error);
+
     } finally {
       setIsLoading(false);
     }
@@ -246,7 +246,7 @@ export default function InvestorRegistrationPage() {
               </div>
               <span className="text-xl font-bold text-gray-900">Prop.ie</span>
             </Link>
-            
+
             <div className="hidden md:flex items-center gap-2">
               <span className="text-gray-600">Already have an account?</span>
               <Link
@@ -264,39 +264,39 @@ export default function InvestorRegistrationPage() {
       <div className="bg-white shadow-sm">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="flex items-center justify-between mb-8">
-            {steps.map((step, index) => {
+            {steps.map((stepindex: any) => {
               const Icon = step.icon;
               return (
                 <div
                   key={step.id}
-                  className={`flex items-center ${index < steps.length - 1 ? 'flex-1' : ''}`}
+                  className={`flex items-center ${index <steps.length - 1 ? 'flex-1' : ''}`}
                 >
                   <div className="flex flex-col items-center">
                     <div
                       className={`w-12 h-12 rounded-full flex items-center justify-center transition-all ${
-                        currentStep > step.id
+                        currentStep> step.id
                           ? 'bg-green-500 text-white'
                           : currentStep === step.id
                           ? 'bg-[#2B5273] text-white'
                           : 'bg-gray-200 text-gray-400'
                       }`}
                     >
-                      {currentStep > step.id ? (
+                      {currentStep> step.id ? (
                         <Check className="h-6 w-6" />
                       ) : (
                         <Icon className="h-6 w-6" />
                       )}
                     </div>
                     <span className={`text-sm mt-2 font-medium ${
-                      currentStep >= step.id ? 'text-gray-900' : 'text-gray-400'
+                      currentStep>= step.id ? 'text-gray-900' : 'text-gray-400'
                     }`}>
                       {step.name}
                     </span>
                   </div>
-                  {index < steps.length - 1 && (
+                  {index <steps.length - 1 && (
                     <div
                       className={`hidden md:block flex-1 h-1 mx-4 ${
-                        currentStep > step.id ? 'bg-green-500' : 'bg-gray-200'
+                        currentStep> step.id ? 'bg-green-500' : 'bg-gray-200'
                       }`}
                     />
                   )}
@@ -314,9 +314,9 @@ export default function InvestorRegistrationPage() {
           {currentStep === 1 && (
             <motion.div
               key="step1"
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -20 }}
+              initial={ opacity: 0, x: 20 }
+              animate={ opacity: 1, x: 0 }
+              exit={ opacity: 0, x: -20 }
               className="space-y-8"
             >
               <div>
@@ -391,9 +391,9 @@ export default function InvestorRegistrationPage() {
           {currentStep === 2 && (
             <motion.div
               key="step2"
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -20 }}
+              initial={ opacity: 0, x: 20 }
+              animate={ opacity: 1, x: 0 }
+              exit={ opacity: 0, x: -20 }
               className="space-y-8"
             >
               <div>
@@ -412,8 +412,8 @@ export default function InvestorRegistrationPage() {
                   </label>
                   <input
                     type="text"
-                    value={formData.firstName}
-                    onChange={(e) => updateFormData('firstName', e.target.value)}
+                    value: any={formData.firstName}
+                    onChange={(e: any) => updateFormData('firstName', e.target.value: any)}
                     className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#2B5273] ${
                       errors.firstName ? 'border-red-500' : 'border-gray-300'
                     }`}
@@ -430,8 +430,8 @@ export default function InvestorRegistrationPage() {
                   </label>
                   <input
                     type="text"
-                    value={formData.lastName}
-                    onChange={(e) => updateFormData('lastName', e.target.value)}
+                    value: any={formData.lastName}
+                    onChange={(e: any) => updateFormData('lastName', e.target.value: any)}
                     className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#2B5273] ${
                       errors.lastName ? 'border-red-500' : 'border-gray-300'
                     }`}
@@ -448,8 +448,8 @@ export default function InvestorRegistrationPage() {
                   </label>
                   <input
                     type="email"
-                    value={formData.email}
-                    onChange={(e) => updateFormData('email', e.target.value)}
+                    value: any={formData.email}
+                    onChange={(e: any) => updateFormData('email', e.target.value: any)}
                     className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#2B5273] ${
                       errors.email ? 'border-red-500' : 'border-gray-300'
                     }`}
@@ -466,8 +466,8 @@ export default function InvestorRegistrationPage() {
                   </label>
                   <input
                     type="tel"
-                    value={formData.phone}
-                    onChange={(e) => updateFormData('phone', e.target.value)}
+                    value: any={formData.phone}
+                    onChange={(e: any) => updateFormData('phone', e.target.value: any)}
                     className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#2B5273] ${
                       errors.phone ? 'border-red-500' : 'border-gray-300'
                     }`}
@@ -486,8 +486,8 @@ export default function InvestorRegistrationPage() {
                       </label>
                       <input
                         type="text"
-                        value={formData.company}
-                        onChange={(e) => updateFormData('company', e.target.value)}
+                        value: any={formData.company}
+                        onChange={(e: any) => updateFormData('company', e.target.value: any)}
                         className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#2B5273] ${
                           errors.company ? 'border-red-500' : 'border-gray-300'
                         }`}
@@ -504,8 +504,8 @@ export default function InvestorRegistrationPage() {
                       </label>
                       <input
                         type="text"
-                        value={formData.position}
-                        onChange={(e) => updateFormData('position', e.target.value)}
+                        value: any={formData.position}
+                        onChange={(e: any) => updateFormData('position', e.target.value: any)}
                         className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#2B5273] ${
                           errors.position ? 'border-red-500' : 'border-gray-300'
                         }`}
@@ -522,8 +522,8 @@ export default function InvestorRegistrationPage() {
                       </label>
                       <input
                         type="url"
-                        value={formData.website}
-                        onChange={(e) => updateFormData('website', e.target.value)}
+                        value: any={formData.website}
+                        onChange={(e: any) => updateFormData('website', e.target.value: any)}
                         className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#2B5273]"
                         placeholder="https://www.example.com"
                       />
@@ -538,8 +538,8 @@ export default function InvestorRegistrationPage() {
                   <div className="relative">
                     <input
                       type={showPassword ? 'text' : 'password'}
-                      value={formData.password}
-                      onChange={(e) => updateFormData('password', e.target.value)}
+                      value: any={formData.password}
+                      onChange={(e: any) => updateFormData('password', e.target.value: any)}
                       className={`w-full px-4 py-2 pr-10 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#2B5273] ${
                         errors.password ? 'border-red-500' : 'border-gray-300'
                       }`}
@@ -564,8 +564,8 @@ export default function InvestorRegistrationPage() {
                   </label>
                   <input
                     type="password"
-                    value={formData.confirmPassword}
-                    onChange={(e) => updateFormData('confirmPassword', e.target.value)}
+                    value: any={formData.confirmPassword}
+                    onChange={(e: any) => updateFormData('confirmPassword', e.target.value: any)}
                     className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#2B5273] ${
                       errors.confirmPassword ? 'border-red-500' : 'border-gray-300'
                     }`}
@@ -583,9 +583,9 @@ export default function InvestorRegistrationPage() {
           {currentStep === 3 && (
             <motion.div
               key="step3"
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -20 }}
+              initial={ opacity: 0, x: 20 }
+              animate={ opacity: 1, x: 0 }
+              exit={ opacity: 0, x: -20 }
               className="space-y-8"
             >
               <div>
@@ -603,7 +603,7 @@ export default function InvestorRegistrationPage() {
                     Investment Range *
                   </label>
                   <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                    {investmentRanges.map((range) => (
+                    {investmentRanges.map((range: any) => (
                       <button
                         key={range.id}
                         onClick={() => updateFormData('investmentRange', range.id)}
@@ -630,7 +630,7 @@ export default function InvestorRegistrationPage() {
                     Investment Horizon *
                   </label>
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    {['1-3 years', '3-5 years', '5-10 years', '10+ years'].map((horizon) => (
+                    {['1-3 years', '3-5 years', '5-10 years', '10+ years'].map((horizon: any) => (
                       <button
                         key={horizon}
                         onClick={() => updateFormData('investmentHorizon', horizon)}
@@ -655,7 +655,7 @@ export default function InvestorRegistrationPage() {
                     Risk Tolerance *
                   </label>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    {['conservative', 'moderate', 'aggressive'].map((risk) => (
+                    {['conservative', 'moderate', 'aggressive'].map((risk: any) => (
                       <button
                         key={risk}
                         onClick={() => updateFormData('riskTolerance', risk)}
@@ -685,7 +685,7 @@ export default function InvestorRegistrationPage() {
                     Investment Strategies * (Select all that apply)
                   </label>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {investmentStrategies.map((strategy) => (
+                    {investmentStrategies.map((strategy: any) => (
                       <button
                         key={strategy.id}
                         onClick={() => {
@@ -693,7 +693,7 @@ export default function InvestorRegistrationPage() {
                             ? formData.strategies.filter(s => s !== strategy.id)
                             : [...formData.strategies, strategy.id];
                           updateFormData('strategies', newStrategies);
-                        }}
+                        }
                         className={`p-4 rounded-lg border-2 transition-all text-left ${
                           formData.strategies.includes(strategy.id)
                             ? 'border-[#2B5273] bg-blue-50'
@@ -726,7 +726,7 @@ export default function InvestorRegistrationPage() {
                     Property Types * (Select all that apply)
                   </label>
                   <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                    {propertyTypes.map((type) => {
+                    {propertyTypes.map((type: any) => {
                       const Icon = type.icon;
                       return (
                         <button
@@ -736,7 +736,7 @@ export default function InvestorRegistrationPage() {
                               ? formData.propertyTypes.filter(t => t !== type.id)
                               : [...formData.propertyTypes, type.id];
                             updateFormData('propertyTypes', newTypes);
-                          }}
+                          }
                           className={`p-4 rounded-lg border-2 transition-all ${
                             formData.propertyTypes.includes(type.id)
                               ? 'border-[#2B5273] bg-blue-50'
@@ -759,8 +759,8 @@ export default function InvestorRegistrationPage() {
                     Previous Real Estate Investment Experience
                   </label>
                   <textarea
-                    value={formData.previousExperience}
-                    onChange={(e) => updateFormData('previousExperience', e.target.value)}
+                    value: any={formData.previousExperience}
+                    onChange={(e: any) => updateFormData('previousExperience', e.target.value: any)}
                     rows={4}
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#2B5273]"
                     placeholder="Describe your previous property investment experience..."
@@ -774,9 +774,9 @@ export default function InvestorRegistrationPage() {
           {currentStep === 4 && (
             <motion.div
               key="step4"
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -20 }}
+              initial={ opacity: 0, x: 20 }
+              animate={ opacity: 1, x: 0 }
+              exit={ opacity: 0, x: -20 }
               className="space-y-8"
             >
               <div>
@@ -821,10 +821,10 @@ export default function InvestorRegistrationPage() {
                               </div>
                             </div>
                             <button
-                              onClick={(e) => {
+                              onClick={(e: any) => {
                                 e.stopPropagation();
                                 handleFileRemove('proofOfIdentity');
-                              }}
+                              }
                               className="text-red-500 hover:text-red-700 transition-colors"
                             >
                               <X className="h-5 w-5" />
@@ -854,7 +854,7 @@ export default function InvestorRegistrationPage() {
                         type="file"
                         accept=".pdf,.jpg,.jpeg,.png"
                         className="hidden"
-                        onChange={(e) => handleFileUpload('proofOfIdentity', e.target.files?.[0] || null)}
+                        onChange={(e: any) => handleFileUpload('proofOfIdentity', e.target.files?.[0] || null)}
                       />
                     </div>
                     {errors.proofOfIdentity && (
@@ -880,10 +880,10 @@ export default function InvestorRegistrationPage() {
                               </div>
                             </div>
                             <button
-                              onClick={(e) => {
+                              onClick={(e: any) => {
                                 e.stopPropagation();
                                 handleFileRemove('proofOfAddress');
-                              }}
+                              }
                               className="text-red-500 hover:text-red-700 transition-colors"
                             >
                               <X className="h-5 w-5" />
@@ -913,7 +913,7 @@ export default function InvestorRegistrationPage() {
                         type="file"
                         accept=".pdf,.jpg,.jpeg,.png"
                         className="hidden"
-                        onChange={(e) => handleFileUpload('proofOfAddress', e.target.files?.[0] || null)}
+                        onChange={(e: any) => handleFileUpload('proofOfAddress', e.target.files?.[0] || null)}
                       />
                     </div>
                     {errors.proofOfAddress && (
@@ -939,10 +939,10 @@ export default function InvestorRegistrationPage() {
                               </div>
                             </div>
                             <button
-                              onClick={(e) => {
+                              onClick={(e: any) => {
                                 e.stopPropagation();
                                 handleFileRemove('bankStatement');
-                              }}
+                              }
                               className="text-red-500 hover:text-red-700 transition-colors"
                             >
                               <X className="h-5 w-5" />
@@ -968,7 +968,7 @@ export default function InvestorRegistrationPage() {
                         type="file"
                         accept=".pdf,.jpg,.jpeg,.png"
                         className="hidden"
-                        onChange={(e) => handleFileUpload('bankStatement', e.target.files?.[0] || null)}
+                        onChange={(e: any) => handleFileUpload('bankStatement', e.target.files?.[0] || null)}
                       />
                     </div>
                   </div>
@@ -992,10 +992,10 @@ export default function InvestorRegistrationPage() {
                                 </div>
                               </div>
                               <button
-                                onClick={(e) => {
+                                onClick={(e: any) => {
                                   e.stopPropagation();
                                   handleFileRemove('companyDocs');
-                                }}
+                                }
                                 className="text-red-500 hover:text-red-700 transition-colors"
                               >
                                 <X className="h-5 w-5" />
@@ -1025,7 +1025,7 @@ export default function InvestorRegistrationPage() {
                           type="file"
                           accept=".pdf,.jpg,.jpeg,.png"
                           className="hidden"
-                          onChange={(e) => handleFileUpload('companyDocs', e.target.files?.[0] || null)}
+                          onChange={(e: any) => handleFileUpload('companyDocs', e.target.files?.[0] || null)}
                         />
                       </div>
                       {errors.companyDocs && (
@@ -1042,9 +1042,9 @@ export default function InvestorRegistrationPage() {
           {currentStep === 5 && (
             <motion.div
               key="step5"
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -20 }}
+              initial={ opacity: 0, x: 20 }
+              animate={ opacity: 1, x: 0 }
+              exit={ opacity: 0, x: -20 }
               className="space-y-8"
             >
               <div>
@@ -1085,7 +1085,7 @@ export default function InvestorRegistrationPage() {
                   <input
                     type="checkbox"
                     checked={formData.terms}
-                    onChange={(e) => updateFormData('terms', e.target.checked)}
+                    onChange={(e: any) => updateFormData('terms', e.target.checked)}
                     className="mt-1"
                   />
                   <span className="text-sm text-gray-600">
@@ -1108,7 +1108,7 @@ export default function InvestorRegistrationPage() {
                   <input
                     type="checkbox"
                     checked={formData.newsletter}
-                    onChange={(e) => updateFormData('newsletter', e.target.checked)}
+                    onChange={(e: any) => updateFormData('newsletter', e.target.checked)}
                   />
                   <span className="text-sm text-gray-600">
                     Send me investment opportunities and platform updates
@@ -1164,13 +1164,11 @@ export default function InvestorRegistrationPage() {
             ) : currentStep === steps.length ? (
               <>
                 Complete Registration
-                <Check className="h-5 w-5" />
-              </>
+                <Check className="h-5 w-5" / />
             ) : (
               <>
                 Next
-                <ChevronRight className="h-5 w-5" />
-              </>
+                <ChevronRight className="h-5 w-5" / />
             )}
           </button>
         </div>

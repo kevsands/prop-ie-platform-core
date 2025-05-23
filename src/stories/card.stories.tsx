@@ -31,21 +31,17 @@ const meta: Meta<typeof Card> = {
   title: 'UI/Card',
   component: Card,
   parameters: {
-    layout: 'centered',
-  },
+    layout: 'centered'},
   tags: ['autodocs'],
   decorators: [
-    (Story) => (
-      <div style={{ maxWidth: '400px', margin: '0 auto' }}>
+    (Story: any) => (
+      <div style={ maxWidth: '400px', margin: '0 auto' }>
         <Story />
       </div>
-    ),
-  ],
-};
+    )]};
 
 export default meta;
-type Story = StoryObj<typeof Card>;
-
+type Story = StoryObj<typeof Card>\n  );
 export const Default: Story = {
   render: () => (
     <Card>
@@ -61,8 +57,7 @@ export const Default: Story = {
         <Button size="sm" className="ml-2">Save</Button>
       </CardFooter>
     </Card>
-  ),
-};
+  )};
 
 export const WithMedia: Story = {
   render: () => (
@@ -84,8 +79,7 @@ export const WithMedia: Story = {
         <Button size="sm" className="ml-2">Book Viewing</Button>
       </CardFooter>
     </Card>
-  ),
-};
+  )};
 
 export const WithMediaOverlay: Story = {
   render: () => (
@@ -121,8 +115,7 @@ export const WithMediaOverlay: Story = {
         </Button>
       </CardFooter>
     </Card>
-  ),
-};
+  )};
 
 export const WithBadge: Story = {
   render: () => (
@@ -146,8 +139,7 @@ export const WithBadge: Story = {
         <Button>View Property</Button>
       </CardFooter>
     </Card>
-  ),
-};
+  )};
 
 export const Interactive: Story = {
   render: () => (
@@ -164,8 +156,7 @@ export const Interactive: Story = {
         <ChevronRight size={16} />
       </CardFooter>
     </Card>
-  ),
-};
+  )};
 
 export const WithAction: Story = {
   render: () => (
@@ -188,8 +179,7 @@ export const WithAction: Story = {
         <Button size="sm" className="ml-2">Confirm</Button>
       </CardFooter>
     </Card>
-  ),
-};
+  )};
 
 export const Variants: Story = {
   render: () => (
@@ -239,8 +229,7 @@ export const Variants: Story = {
         </CardContent>
       </Card>
     </div>
-  ),
-};
+  )};
 
 export const StatusCards: Story = {
   render: () => (
@@ -293,8 +282,7 @@ export const StatusCards: Story = {
         </CardContent>
       </Card>
     </div>
-  ),
-};
+  )};
 
 export const PropertyCard: Story = {
   render: () => (
@@ -353,7 +341,7 @@ export const PropertyCard: Story = {
         
         <div className="flex items-center mt-3 text-sm">
           <div className="flex items-center text-amber-500">
-            {[1, 2, 3, 4, 5].map((star) => (
+            {[1, 2, 3, 45].map((star: any) => (
               <Star key={star} fill="currentColor" size={14} />
             ))}
           </div>
@@ -368,8 +356,7 @@ export const PropertyCard: Story = {
         <Button size="sm">Schedule Viewing</Button>
       </CardFooter>
     </Card>
-  ),
-};
+  )};
 
 export const DashboardCard: Story = {
   render: () => (
@@ -421,8 +408,7 @@ export const DashboardCard: Story = {
         </Button>
       </CardFooter>
     </Card>
-  ),
-};
+  )};
 
 export const BlogPostCard: Story = {
   render: () => (
@@ -459,5 +445,4 @@ export const BlogPostCard: Story = {
         </Button>
       </CardFooter>
     </Card>
-  ),
-};
+  )};

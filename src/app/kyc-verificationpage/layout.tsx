@@ -24,8 +24,7 @@ const ErrorFallback = ({ error, resetErrorBoundary }: ErrorFallbackProps) => (
 );
 
 export default function KycVerificationLayout({
-  children,
-}: {
+  children}: {
   children: React.ReactNode;
 }) {
   return (

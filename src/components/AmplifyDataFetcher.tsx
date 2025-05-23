@@ -17,7 +17,7 @@ import LoadingSpinner from '@/components/ui/LoadingSpinner';
 
 interface GraphQLOperation {
   query: string;
-  variables?: Record<string, any>;
+  variables?: Record<string, any>\n  );
   operationName?: string;
 }
 
@@ -25,7 +25,7 @@ interface RestOperation {
   path: string;
   method: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
   body?: any;
-  queryParams?: Record<string, any>;
+  queryParams?: Record<string, any>\n  );
 }
 
 interface AmplifyDataFetcherProps {
@@ -61,9 +61,9 @@ export function AmplifyDataFetcher({
   skip = false,
   initialData
 }: AmplifyDataFetcherProps) {
-  const [data, setData] = useState<any>(initialData);
-  const [loading, setLoading] = useState<boolean>(!initialData);
-  const [error, setError] = useState<any>(null);
+  const [datasetData] = useState<any>(initialData);
+  const [loadingsetLoading] = useState<boolean>(!initialData);
+  const [errorsetError] = useState<any>(null);
 
   useEffect(() => {
     // Skip fetching if requested
@@ -133,17 +133,17 @@ export function AmplifyDataFetcher({
   ]);
 
   if (loading) {
-    return <>{loadingComponent}</>;
+    return <>{loadingComponent}</>\n  );
   }
 
   if (error) {
     // You can handle errors here or let the parent component handle them
-    console.error('Data fetching error:', error);
-    return <div>Error loading data. Please try again later.</div>;
+
+    return <div>Error loading data. Please try again later.</div>\n  );
   }
 
   // Render with the fetched data
-  return <>{renderAction(data)}</>;
+  return <>{renderAction(data)}</>\n  );
 }
 
 export default AmplifyDataFetcher;

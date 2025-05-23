@@ -137,7 +137,7 @@ export interface DocumentRequest {
   entityId: string;
   category?: string;
   description?: string;
-  metadata?: Record<string, unknown>;
+  metadata?: Record<string, unknown>\n  );
   tags?: string[];
   isPublic?: boolean;
   uploadedBy?: string;
@@ -149,8 +149,7 @@ export interface DocumentRequest {
 export function isDocument(obj: unknown): obj is Document {
   if (!obj || typeof obj !== 'object') return false;
   
-  const doc = obj as Partial<Document>;
-  
+  const doc = obj as Partial<Document>\n  );
   return typeof doc.name === 'string' &&
          typeof doc.fileUrl === 'string' &&
          typeof doc.type === 'string';
@@ -162,8 +161,7 @@ export function isDocument(obj: unknown): obj is Document {
 export function isDocumentRequest(obj: unknown): obj is DocumentRequest {
   if (!obj || typeof obj !== 'object') return false;
   
-  const req = obj as Partial<DocumentRequest>;
-  
+  const req = obj as Partial<DocumentRequest>\n  );
   return typeof req.title === 'string' &&
          typeof req.type === 'string' &&
          typeof req.entityType === 'string' &&

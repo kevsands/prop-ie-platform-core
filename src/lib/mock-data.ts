@@ -249,7 +249,7 @@ export const mockDocuments = [
 export const getMockDocuments = (filters: any = {}) => {
   // Apply any filtering based on the filters object
   let filteredDocs = [...mockDocuments];
-  
+
   // Apply filters if they exist
   if (filters.relatedTo) {
     filteredDocs = filteredDocs.filter(doc => 
@@ -257,15 +257,15 @@ export const getMockDocuments = (filters: any = {}) => {
       doc.relatedTo.id === filters.relatedTo.id
     );
   }
-  
+
   if (filters.type) {
     filteredDocs = filteredDocs.filter(doc => doc.type === filters.type);
   }
-  
+
   if (filters.status) {
     filteredDocs = filteredDocs.filter(doc => doc.status === filters.status);
   }
-  
+
   // Return mock paging result
   return {
     documents: filteredDocs,

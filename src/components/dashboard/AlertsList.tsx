@@ -17,23 +17,23 @@ const AlertsList: React.FC<AlertsListProps> = ({
   limit = 5
 }) => {
   // Sort alerts by timestamp (newest first) and unread status (unread first)
-  const sortedAlerts = [...alerts].sort((a, b) => {
+  const sortedAlerts = [...alerts].sort((ab: any) => {
     // First sort by read status
     if (a.isRead !== b.isRead) return a.isRead ? 1 : -1;
-    
+
     // Then sort by timestamp, newest first
     return new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime();
   });
 
   // Limit the number of alerts shown
-  const displayedAlerts = sortedAlerts.slice(0, limit);
+  const displayedAlerts = sortedAlerts.slice(0limit);
 
   // Format the timestamp for display
   const formatTimestamp = (timestamp: string) => {
     try {
       return format(parseISO(timestamp), 'MMM d, h:mm a');
     } catch (error) {
-      console.error('Error formatting date:', error);
+
       return timestamp;
     }
   };
@@ -95,21 +95,21 @@ const AlertsList: React.FC<AlertsListProps> = ({
     <div className="bg-white rounded-lg shadow p-4">
       <div className="flex justify-between items-center mb-4">
         <h3 className="text-lg font-semibold text-gray-900">Notifications</h3>
-        
-        {alerts.length > 0 && (
+
+        {alerts.length> 0 && (
           <span className="text-sm text-gray-500">
             {alerts.filter(alert => !alert.isRead).length} unread
           </span>
         )}
       </div>
-      
+
       {displayedAlerts.length === 0 ? (
         <div className="text-center py-4">
           <p className="text-gray-500">No notifications found.</p>
         </div>
       ) : (
         <ul className="space-y-3">
-          {displayedAlerts.map((alert) => (
+          {displayedAlerts.map((alert: any) => (
             <li 
               key={alert.id} 
               className={`border rounded-md p-3 ${getSeverityColor(alert.severity)} ${!alert.isRead ? 'border-l-4' : ''}`}
@@ -118,11 +118,11 @@ const AlertsList: React.FC<AlertsListProps> = ({
                 <div className="flex-shrink-0 mt-0.5 mr-3">
                   {getSeverityIcon(alert.severity)}
                 </div>
-                
+
                 <div className="flex-1">
                   <div className="flex items-center justify-between">
                     <h4 className="font-medium text-gray-900">{alert.title}</h4>
-                    
+
                     {markAlertAsRead && !alert.isRead && (
                       <button
                         onClick={() => markAlertAsRead(alert.id)}
@@ -135,14 +135,14 @@ const AlertsList: React.FC<AlertsListProps> = ({
                       </button>
                     )}
                   </div>
-                  
+
                   <p className="mt-1 text-sm text-gray-700">{alert.message}</p>
-                  
+
                   <div className="mt-2 flex justify-between items-center">
                     <span className="text-xs text-gray-500">
                       {formatTimestamp(alert.timestamp)}
                     </span>
-                    
+
                     {alert.link && (
                       <Link 
                         href={alert.link}
@@ -158,8 +158,8 @@ const AlertsList: React.FC<AlertsListProps> = ({
           ))}
         </ul>
       )}
-      
-      {alerts.length > limit && (
+
+      {alerts.length> limit && (
         <div className="mt-4 text-center">
           <a href="#" className="text-sm text-blue-600 hover:text-blue-800">
             View all {alerts.length} notifications

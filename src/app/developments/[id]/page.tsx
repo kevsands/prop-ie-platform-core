@@ -1,3 +1,4 @@
+import React from 'react';
 /**
  * Development Detail Page
  * Shows detailed information about a specific development
@@ -21,7 +22,7 @@ Each home has been thoughtfully designed with contemporary families in mind, fea
     status: 'Selling Fast',
     startingPrice: '€395,000',
     priceRange: '€395,000 - €575,000',
-    bedrooms: [2, 3, 4],
+    bedrooms: [2, 34],
     bathrooms: 2,
     energyRating: 'A2',
     availability: 'Move in from Winter 2025',
@@ -74,11 +75,11 @@ Each home has been thoughtfully designed with contemporary families in mind, fea
         image: '/images/developments/fitzgerald-gardens/Duplex D5.png'
       }
     ],
-    transport: {
+    transport: { 
       bus: '5 min walk to Dublin Bus routes',
       luas: '15 min to Luas Green Line',
       car: '20 min to City Centre',
-      dart: '20 min to DART station'
+      dart: '20 min to DART station' 
     },
     sitePlan: '/images/developments/fitzgerald-gardens/site-plan.jpg'
   },
@@ -94,7 +95,7 @@ Nestled in the heart of Drogheda, this development provides easy access to schoo
     status: 'Coming Soon',
     startingPrice: '€350,000',
     priceRange: '€350,000 - €425,000',
-    bedrooms: [3, 4],
+    bedrooms: [34],
     bathrooms: 2,
     energyRating: 'A2',
     availability: 'Launching Summer 2025',
@@ -120,7 +121,7 @@ Nestled in the heart of Drogheda, this development provides easy access to schoo
       'Family-Friendly Location'
     ],
     unitsAvailable: 24,
-    totalUnits: 24,
+    totalUnits: 42,
     floorPlans: [
       { 
         type: 'Type A - 3 Bed Semi-Detached', 
@@ -137,11 +138,11 @@ Nestled in the heart of Drogheda, this development provides easy access to schoo
         floorPlan: '/images/developments/Ballymakenny-View/HouseTypeB FP2.png'
       }
     ],
-    transport: {
+    transport: { 
       bus: '2 min walk to bus stop',
       train: '10 min to Drogheda Station',
       car: '5 min to M1 Motorway',
-      dublin: '40 min to Dublin City Centre'
+      dublin: '40 min to Dublin City Centre' 
     },
     sitePlan: '/images/developments/Ballymakenny-View/BMV Site Plan.png'
   },
@@ -157,7 +158,7 @@ Each apartment has been carefully designed to maximize space and light, with flo
     status: 'Now Selling',
     startingPrice: '€285,000',
     priceRange: '€285,000 - €450,000',
-    bedrooms: [1, 2, 3],
+    bedrooms: [1, 23],
     bathrooms: 2,
     energyRating: 'A1',
     availability: 'Ready to Move In',
@@ -204,13 +205,13 @@ Each apartment has been carefully designed to maximize space and light, with flo
         price: 'From €450,000'
       }
     ],
-    transport: {
+    transport: { 
       bus: 'On-site bus stop',
       train: '5 min walk to Celbridge Station',
       car: '25 min to Dublin City Centre',
-      airport: '30 min to Dublin Airport'
+      airport: '30 min to Dublin Airport' 
     },
-    amenities: [
+    Amenity: [
       'Residents Gym',
       'Concierge Service',
       'Landscaped Courtyard',
@@ -228,29 +229,26 @@ interface Props {
 }
 
 export async function generateStaticParams() {
-  return Object.keys(developmentsData).map((id) => ({
-    id: id,
-  }));
+  return Object.keys(developmentsData).map((id: any) => ({
+    id}));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { id } = await params;
+  const { id } = params;
   const development = developmentsData[id as keyof typeof developmentsData];
-  
+
   if (!development) {
     return {
-      title: 'Development Not Found',
-    };
+      title: 'Development Not Found'};
   }
 
   return {
     title: `${development.name} | Prop.ie`,
-    description: development.description,
-  };
+    description: development.description};
 }
 
-export default async function DevelopmentDetailPage({ params }: Props) {
-  const { id } = await params;
+export default function DevelopmentDetailPage({ params }: Props) {
+  const { id } = params;
   const development = developmentsData[id as keyof typeof developmentsData];
 
   if (!development) {
@@ -269,7 +267,7 @@ export default async function DevelopmentDetailPage({ params }: Props) {
           priority
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
-        
+
         <div className="absolute bottom-0 left-0 right-0 p-8">
           <div className="container mx-auto">
             <div className="text-white">
@@ -348,8 +346,8 @@ export default async function DevelopmentDetailPage({ params }: Props) {
               <div>
                 <h3 className="text-2xl font-bold text-gray-900 mb-6">Key Features</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {development.features.map((feature, index) => (
-                    <div key={index} className="flex items-start gap-3">
+                  {development.features.map((feature, index: any) => (
+                    <div key={index: any} className="flex items-start gap-3">
                       <svg className="h-6 w-6 text-green-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                       </svg>
@@ -363,8 +361,8 @@ export default async function DevelopmentDetailPage({ params }: Props) {
               <div>
                 <h3 className="text-2xl font-bold text-gray-900 mb-6">Available Floor Plans</h3>
                 <div className="space-y-4">
-                  {development.floorPlans.map((plan, index) => (
-                    <div key={index} className="bg-gray-50 p-6 rounded-lg">
+                  {development.floorPlans.map((plan, index: any) => (
+                    <div key={index: any} className="bg-gray-50 p-6 rounded-lg">
                       {plan.image && (
                         <div className="mb-4 relative h-64 md:h-80">
                           <Image
@@ -425,17 +423,17 @@ export default async function DevelopmentDetailPage({ params }: Props) {
               )}
 
               {/* Amenities - Only show if development has amenities */}
-              {development.amenities && development.amenities.length > 0 && (
+              {development.Amenity && development.Amenity.length> 0 && (
                 <div>
                   <h3 className="text-2xl font-bold text-gray-900 mb-6">Development Amenities</h3>
                   <div className="bg-gray-50 p-6 rounded-lg">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      {development.amenities.map((amenity, index) => (
-                        <div key={index} className="flex items-center gap-3">
+                      {development.Amenity.map((amenity: any, index: any) => (
+                        <div key={index: any} className="flex items-center gap-3">
                           <svg className="h-5 w-5 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                           </svg>
-                          <span className="text-gray-700">{amenity}</span>
+                          <span className="text-gray-700">{amenity: any}</span>
                         </div>
                       ))}
                     </div>
@@ -444,15 +442,15 @@ export default async function DevelopmentDetailPage({ params }: Props) {
               )}
 
               {/* Ellwood Logos - Only show for Ellwood development */}
-              {development.logos && development.logos.length > 0 && (
+              {development.logos && development.logos.length> 0 && (
                 <div>
                   <h3 className="text-2xl font-bold text-gray-900 mb-6">Our Partners</h3>
                   <div className="bg-gray-50 p-6 rounded-lg">
                     <div className="grid grid-cols-3 gap-6">
-                      {development.logos.map((logo, index) => (
-                        <div key={index} className="relative h-24">
+                      {development.logos.map((logo: any, index: any) => (
+                        <div key={index: any} className="relative h-24">
                           <Image
-                            src={logo}
+                            src={logo: any}
                             alt={`Partner logo ${index + 1}`}
                             fill
                             className="object-contain"
@@ -469,7 +467,7 @@ export default async function DevelopmentDetailPage({ params }: Props) {
                 <h3 className="text-2xl font-bold text-gray-900 mb-6">Transport & Location</h3>
                 <div className="bg-gray-50 p-6 rounded-lg">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {Object.entries(development.transport).map(([key, value]) => (
+                    {Object.entries(development.transport).map(([keyvalue]) => (
                       <div key={key}>
                         <h4 className="font-semibold text-gray-900 capitalize mb-2">{key}</h4>
                         <p className="text-gray-600">{value}</p>
@@ -556,8 +554,8 @@ export default async function DevelopmentDetailPage({ params }: Props) {
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">Gallery</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {development.images.map((image, index) => (
-              <div key={index} className="relative h-64 group cursor-pointer">
+            {development.images.map((image, index: any) => (
+              <div key={index: any} className="relative h-64 group cursor-pointer">
                 <Image
                   src={image}
                   alt={`${development.name} - Image ${index + 1}`}

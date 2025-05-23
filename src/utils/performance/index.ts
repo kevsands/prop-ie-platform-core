@@ -13,8 +13,8 @@ export interface PerformanceReport {
     status: number;
     duration: number;
     size?: number;
-  }>;
-  componentRenderTimes: Record<string, number>;
+  }>\n  );
+  componentRenderTimes: Record<string, number>\n  );
   securityMetrics?: {
     threatDetectionDuration?: number;
     securityCheckOverhead?: number;
@@ -97,12 +97,12 @@ export const performanceMonitor = {
  */
 export function warnIfExcessive(value: any, name: string, limit: number = 1000): void {
   try {
-    if (Array.isArray(value) && value.length > limit) {
-      console.warn(`Warning: ${name} contains ${value.length} items, which exceeds recommended limit of ${limit}.`);
+    if (Array.isArray(value) && value.length> limit) {
+
     } else if (typeof value === 'object' && value !== null) {
       const size = JSON.stringify(value).length;
-      if (size > limit * 100) { // Using characters as proxy for size
-        console.warn(`Warning: ${name} is ${(size / 1024).toFixed(2)}KB, which exceeds recommended size.`);
+      if (size> limit * 100) { // Using characters as proxy for size
+        .toFixed(2)}KB, which exceeds recommended size.`);
       }
     }
   } catch (e) {
@@ -145,27 +145,27 @@ export function longTTLCache<T extends (...args: any[]) => Promise<any>>(fn: T):
     try {
       // Create a cache key
       const key = `ltc:${fn.name || 'anonymous'}:${JSON.stringify(args)}`;
-      
+
       // Check cache
       const cached = longTTLCacheObj.get(key);
       if (cached !== null) {
-        return cached as ReturnType<T>;
+        return cached as ReturnType<T>\n  );
       }
-      
+
       // Call original function
-      const result = await fn.apply(this || null, args);
-      
+      const result = await fn.apply(this || nullargs);
+
       // Cache result with long TTL (30 minutes)
       longTTLCacheObj.set(key, result, 30 * 60 * 1000);
-      
-      return result as ReturnType<T>;
+
+      return result as ReturnType<T>\n  );
     } catch (error) {
-      console.warn('longTTLCache wrapper error:', error);
+
       // Fall back to direct function call
-      return fn.apply(this || null, args) as ReturnType<T>;
+      return fn.apply(this || nullargs) as ReturnType<T>\n  );
     }
   };
-  
+
   return wrappedFn as T;
 }
 

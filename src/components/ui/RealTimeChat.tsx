@@ -21,14 +21,13 @@ interface RealTimeChatProps {
 
 const RealTimeChat: React.FC<RealTimeChatProps> = ({
   purchaseId,
-  propertyName,
-}) => {
+  propertyName}) => {
   const { user } = useAuth();
-  const [socket, setSocket] = React.useState<Socket | null>(null);
-  const [messages, setMessages] = React.useState<ChatMessage[]>([]);
-  const [newMessage, setNewMessage] = React.useState("");
-  const [isTyping, setIsTyping] = React.useState(false);
-  const [typingUser, setTypingUser] = React.useState("");
+  const [socketsetSocket] = React.useState<Socket | null>(null);
+  const [messagessetMessages] = React.useState<ChatMessage[]>([]);
+  const [newMessagesetNewMessage] = React.useState("");
+  const [isTypingsetIsTyping] = React.useState(false);
+  const [typingUsersetTypingUser] = React.useState("");
   const messagesEndRef = React.useRef<HTMLDivElement>(null);
 
   // Initialize socket connection
@@ -41,9 +40,7 @@ const RealTimeChat: React.FC<RealTimeChatProps> = ({
           query: {
             userId: user.id,
             role: user.role,
-            purchaseId,
-          },
-        },
+            purchaseId},
       );
 
       setSocket(socketInstance);
@@ -63,7 +60,7 @@ const RealTimeChat: React.FC<RealTimeChatProps> = ({
         socketInstance.disconnect();
       };
     }
-  }, [user, purchaseId]);
+  }, [userpurchaseId]);
 
   const scrollToBottom = () => {
     setTimeout(() => {
@@ -77,7 +74,7 @@ const RealTimeChat: React.FC<RealTimeChatProps> = ({
 
     // Listen for new messages
     socket.on("new_message", (message: ChatMessage) => {
-      setMessages((prev) => [...prev, message]);
+      setMessages((prev: any) => [...prevmessage]);
       scrollToBottom();
     });
 
@@ -108,8 +105,7 @@ const RealTimeChat: React.FC<RealTimeChatProps> = ({
       senderId: user.id,
       senderName: user.name,
       message: newMessage,
-      timestamp: new Date().toISOString(),
-    };
+      timestamp: new Date().toISOString()};
 
     socket.emit("send_message", messageData);
     setNewMessage("");
@@ -137,11 +133,11 @@ const RealTimeChat: React.FC<RealTimeChatProps> = ({
 
       <div className="flex-1 p-4 overflow-y-auto">
         <div className="space-y-4">
-          {messages.length > 0 ? (
-            messages.map((msg) => (
+          {messages.length> 0 ? (
+            messages.map((msg: any) => (
               <div
                 key={msg.id}
-                className={`flex ${msg.senderId === user?.id ? "justify-end" : "justify-start"}`}
+                className={`flex ${msg.senderId === user?.id ? "justify-end" : "justify-start"`}
               >
                 <div
                   className={`max-w-xs lg:max-w-md px-4 py-2 rounded-lg ${
@@ -155,7 +151,7 @@ const RealTimeChat: React.FC<RealTimeChatProps> = ({
                   )}
                   <p>{msg.message}</p>
                   <p
-                    className={`text-xs mt-1 ${msg.senderId === user?.id ? "text-blue-100" : "text-gray-500"}`}
+                    className={`text-xs mt-1 ${msg.senderId === user?.id ? "text-blue-100" : "text-gray-500"`}
                   >
                     {formatTimestamp(msg.timestamp)}
                   </p>
@@ -189,7 +185,7 @@ const RealTimeChat: React.FC<RealTimeChatProps> = ({
           <input
             type="text"
             value={newMessage}
-            onChange={(e) => setNewMessage(e.target.value)}
+            onChange={(e: any) => setNewMessage(e.target.value)}
             onKeyDown={handleTyping}
             placeholder="Type a message..."
             className="flex-1 focus:ring-blue-500 focus:border-blue-500 block w-full rounded-md sm:text-sm border-gray-300"

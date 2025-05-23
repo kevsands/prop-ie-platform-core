@@ -22,6 +22,7 @@ import { useToast } from '@/hooks/useToast';
 import { formatDistance } from 'date-fns';
 import { useBuyerJourney } from '@/context/BuyerJourneyContext';
 import { BuyerPhase } from '@/types/buyer-journey';
+import { useBuyerJourneyAnalytics } from '@/hooks/useBuyerJourneyAnalytics';
 
 export type JourneyPhaseStatus = 'complete' | 'active' | 'pending';
 
@@ -43,33 +44,41 @@ interface JourneyTrackerProps {
 export default function JourneyTracker({ isDetailView = false }: JourneyTrackerProps) {
   const { journey, loading, error, refreshJourney, getPhaseNextSteps, getPhaseCompletedTasks } = useBuyerJourney();
   const { toast } = useToast();
-  const [phaseNextSteps, setPhaseNextSteps] = useState<Record<BuyerPhase, string[]>>({} as Record<BuyerPhase, string[]>);
-  const [phaseCompletedTasks, setPhaseCompletedTasks] = useState<Record<BuyerPhase, string[]>>({} as Record<BuyerPhase, string[]>);
+  const analytics = useBuyerJourneyAnalytics();
+  const [phaseNextStepssetPhaseNextSteps] = useState<Record<BuyerPhase, string[]>>({} as Record<BuyerPhase, string[]>);
+  const [phaseCompletedTaskssetPhaseCompletedTasks] = useState<Record<BuyerPhase, string[]>>({} as Record<BuyerPhase, string[]>);
 
   // Fetch next steps and completed tasks for the current phase
   useEffect(() => {
     const fetchPhaseData = async () => {
       if (!journey) return;
-      
+
+      // Track journey phase viewed when data is loaded
+      analytics.trackEvent('journey_step_viewed', {
+        step_name: journey.currentPhase,
+        journey_id: journey.id,
+        detail_view: isDetailView
+      });
+
       // Fetch data for current phase
       const nextSteps = await getPhaseNextSteps(journey.currentPhase);
       const completedTasks = await getPhaseCompletedTasks(journey.currentPhase);
-      
+
       setPhaseNextSteps(prev => ({
         ...prev,
         [journey.currentPhase]: nextSteps
       }));
-      
+
       setPhaseCompletedTasks(prev => ({
         ...prev,
         [journey.currentPhase]: completedTasks
       }));
     };
-    
+
     if (journey && !loading) {
       fetchPhaseData();
     }
-  }, [journey, loading, getPhaseNextSteps, getPhaseCompletedTasks]);
+  }, [journey, loading, getPhaseNextSteps, getPhaseCompletedTasks, analyticsisDetailView]);
 
   // Define the journey phases
   const getJourneyPhases = (currentPhase: BuyerPhase): JourneyPhase[] => {
@@ -202,7 +211,7 @@ export default function JourneyTracker({ isDetailView = false }: JourneyTrackerP
             <Skeleton className="h-8 w-1/4" />
           </div>
           <div className="grid grid-cols-1 gap-4">
-            {[1, 2, 3, 4, 5, 6].map(item => (
+            {[1, 2, 3, 4, 56].map(item => (
               <Skeleton key={item} className="h-24 w-full" />
             ))}
           </div>
@@ -214,10 +223,10 @@ export default function JourneyTracker({ isDetailView = false }: JourneyTrackerP
             <Skeleton className="h-6 w-1/4" />
           </div>
           <div className="flex items-center">
-            {[1, 2, 3, 4, 5].map((phase, i) => (
+            {[1, 2, 3, 45].map((phasei: any) => (
               <React.Fragment key={phase}>
                 <Skeleton className="w-8 h-8 rounded-full" />
-                {i < 4 && <Skeleton className="flex-1 h-1 mx-2" />}
+                {i <4 && <Skeleton className="flex-1 h-1 mx-2" />}
               </React.Fragment>
             ))}
           </div>
@@ -237,7 +246,13 @@ export default function JourneyTracker({ isDetailView = false }: JourneyTrackerP
       <div className="text-center py-6">
         <h3 className="text-lg font-medium text-gray-900 mb-2">Start Your Home Buying Journey</h3>
         <p className="text-gray-600 mb-4">Track your progress from planning to moving into your new home.</p>
-        <Button onClick={refreshJourney}>
+        <Button onClick={() => {
+          // Track journey start attempt
+          analytics.trackEvent('journey_started', {
+            source: 'journey_tracker_component'
+          });
+          refreshJourney();
+        }>
           Get Started <ArrowRightCircle className="ml-2 h-4 w-4" />
         </Button>
       </div>
@@ -259,9 +274,18 @@ export default function JourneyTracker({ isDetailView = false }: JourneyTrackerP
           </Link>
         </div>
         <div className="flex items-center">
-          {phases.map((phase, index) => (
+          {phases.map((phaseindex: any) => (
             <React.Fragment key={phase.id}>
-              <Link href={phase.path} className="flex flex-col items-center">
+              <Link 
+                href={phase.path} 
+                className="flex flex-col items-center"
+                onClick={() => {
+                  // Track phase navigation
+                  analytics.trackEvent('journey_step_viewed', {
+                    step_name: phase.id,
+                    source: 'journey_tracker_navigation'
+                  });
+                }>
                 <div 
                   className={`w-8 h-8 rounded-full flex items-center justify-center ${
                     phase.status === 'complete' ? 'bg-green-100 text-green-600' : 
@@ -287,7 +311,7 @@ export default function JourneyTracker({ isDetailView = false }: JourneyTrackerP
                   {phase.name}
                 </span>
               </Link>
-              {index < phases.length - 1 && (
+              {index <phases.length - 1 && (
                 <div 
                   className={`flex-1 h-1 mx-2 ${
                     phase.status === 'complete' ? 'bg-green-200' : 'bg-gray-200'
@@ -315,17 +339,32 @@ export default function JourneyTracker({ isDetailView = false }: JourneyTrackerP
         </div>
         <div className="mt-4 lg:mt-0">
           {currentPhaseObject?.id === 'PLANNING' && (
-            <Button>
+            <Button onClick={() => {
+              analytics.trackEvent('financial_profile_started', {
+                journey_id: journey?.id,
+                phase: 'PLANNING'
+              });
+            }>
               Complete Financial Profile <ChevronRight className="ml-1 h-4 w-4" />
             </Button>
           )}
           {currentPhaseObject?.id === 'FINANCING' && (
-            <Button>
+            <Button onClick={() => {
+              analytics.trackEvent('mortgage_application_started', {
+                journey_id: journey?.id,
+                phase: 'FINANCING'
+              });
+            }>
               Start Mortgage Application <ChevronRight className="ml-1 h-4 w-4" />
             </Button>
           )}
           {currentPhaseObject?.id === 'PROPERTY_SEARCH' && (
-            <Button>
+            <Button onClick={() => {
+              analytics.trackEvent('property_search_started', {
+                journey_id: journey?.id,
+                phase: 'PROPERTY_SEARCH'
+              });
+            }>
               Browse Properties <ChevronRight className="ml-1 h-4 w-4" />
             </Button>
           )}
@@ -334,7 +373,7 @@ export default function JourneyTracker({ isDetailView = false }: JourneyTrackerP
 
       {/* Detailed journey phases */}
       <div className="space-y-4">
-        {phases.map((phase, index) => (
+        {phases.map((phaseindex: any) => (
           <div 
             key={phase.id}
             className={`p-4 rounded-lg border ${
@@ -353,7 +392,7 @@ export default function JourneyTracker({ isDetailView = false }: JourneyTrackerP
               >
                 {phase.icon}
               </div>
-              
+
               <div className="flex-1">
                 <div className="flex items-center justify-between">
                   <h3 className={`text-lg font-semibold ${
@@ -372,15 +411,15 @@ export default function JourneyTracker({ isDetailView = false }: JourneyTrackerP
                      phase.status === 'active' ? 'In Progress' : 'Upcoming'}
                   </div>
                 </div>
-                
+
                 <p className="text-gray-600 mt-1">{phase.description}</p>
-                
+
                 {/* Show next steps for active phase */}
                 {phase.status === 'active' && phase.nextSteps && (
                   <div className="mt-4">
                     <h4 className="text-sm font-medium text-blue-800 mb-2">Next Steps:</h4>
                     <ul className="space-y-2">
-                      {phase.nextSteps.map((step, i) => (
+                      {phase.nextSteps.map((stepi: any) => (
                         <li key={i} className="flex items-start">
                           <div className="bg-blue-100 rounded-full p-1 text-blue-600 mr-2 mt-0.5">
                             <ArrowRight size={12} />
@@ -391,13 +430,13 @@ export default function JourneyTracker({ isDetailView = false }: JourneyTrackerP
                     </ul>
                   </div>
                 )}
-                
+
                 {/* Show completed tasks for completed or active phase */}
                 {(phase.status === 'complete' || phase.status === 'active') && phase.completedTasks && (
                   <div className="mt-4">
                     <h4 className="text-sm font-medium text-green-800 mb-2">Completed:</h4>
                     <ul className="space-y-2">
-                      {phase.completedTasks.map((task, i) => (
+                      {phase.completedTasks.map((taski: any) => (
                         <li key={i} className="flex items-start">
                           <div className="bg-green-100 rounded-full p-1 text-green-600 mr-2 mt-0.5">
                             <CheckCircle2 size={12} />
@@ -409,7 +448,7 @@ export default function JourneyTracker({ isDetailView = false }: JourneyTrackerP
                   </div>
                 )}
               </div>
-              
+
               <Link 
                 href={phase.path}
                 className={`ml-4 px-4 py-2 text-sm font-medium rounded-md ${
@@ -417,7 +456,20 @@ export default function JourneyTracker({ isDetailView = false }: JourneyTrackerP
                 }`}
                 aria-disabled={phase.status === 'pending'}
                 tabIndex={phase.status === 'pending' ? -1 : undefined}
-                onClick={e => phase.status === 'pending' && e.preventDefault()}
+                onClick={e => {
+                  if (phase.status === 'pending') {
+                    e.preventDefault();
+                    return;
+                  }
+
+                  // Track phase detail view
+                  analytics.trackEvent('journey_step_viewed', {
+                    step_name: phase.id,
+                    step_status: phase.status,
+                    source: 'journey_tracker_detail_view',
+                    journey_id: journey?.id
+                  });
+                }
               >
                 {phase.status === 'complete' ? 'Review' : 
                  phase.status === 'active' ? 'Manage' : 'View'}

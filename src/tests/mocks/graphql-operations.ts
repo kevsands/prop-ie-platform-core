@@ -19,8 +19,7 @@ export const GraphQLOperations = {
   UpdateDocument: 'UpdateDocument',
   DeleteDocument: 'DeleteDocument',
   CreateUser: 'CreateUser',
-  UpdateUser: 'UpdateUser',
-};
+  UpdateUser: 'UpdateUser'};
 
 /**
  * Mock user data
@@ -33,8 +32,7 @@ export const mockUsers = [
     lastName: 'User',
     fullName: 'Developer User',
     roles: [UserRole.DEVELOPER],
-    status: UserStatus.ACTIVE,
-  },
+    status: UserStatus.ACTIVE},
   {
     id: 'user-2',
     email: 'buyer@example.com',
@@ -42,8 +40,7 @@ export const mockUsers = [
     lastName: 'User',
     fullName: 'Buyer User',
     roles: [UserRole.BUYER],
-    status: UserStatus.ACTIVE,
-  },
+    status: UserStatus.ACTIVE},
   {
     id: 'user-3',
     email: 'admin@example.com',
@@ -51,9 +48,7 @@ export const mockUsers = [
     lastName: 'User',
     fullName: 'Admin User',
     roles: [UserRole.ADMIN],
-    status: UserStatus.ACTIVE,
-  },
-];
+    status: UserStatus.ACTIVE}];
 
 /**
  * Mock document items
@@ -68,17 +63,14 @@ export const mockDocuments: DocumentItem[] = [
     uploadedBy: {
       id: 'user-1',
       name: 'Developer User',
-      email: 'developer@example.com',
-    },
+      email: 'developer@example.com'},
     metadata: {
       category: 'planning',
       tags: ['project', 'plan'],
       description: 'Project plan document',
-      version: '1.0',
-    },
+      version: '1.0'},
     status: 'active',
-    uploadedAt: '2023-01-15T12:00:00Z',
-  },
+    uploadedAt: '2023-01-15T12:00:00Z'},
   {
     id: 'doc-2',
     name: 'Financial Report',
@@ -88,17 +80,14 @@ export const mockDocuments: DocumentItem[] = [
     uploadedBy: {
       id: 'user-3',
       name: 'Admin User',
-      email: 'admin@example.com',
-    },
+      email: 'admin@example.com'},
     metadata: {
       category: 'financial',
       tags: ['finance', 'report'],
       description: 'Financial report for Q1',
-      version: '1.0',
-    },
+      version: '1.0'},
     status: 'active',
-    uploadedAt: '2023-02-20T15:30:00Z',
-  },
+    uploadedAt: '2023-02-20T15:30:00Z'},
   {
     id: 'doc-3',
     name: 'Contract Template',
@@ -108,18 +97,14 @@ export const mockDocuments: DocumentItem[] = [
     uploadedBy: {
       id: 'user-3',
       name: 'Admin User',
-      email: 'admin@example.com',
-    },
+      email: 'admin@example.com'},
     metadata: {
       category: 'legal',
       tags: ['contract', 'template'],
       description: 'Standard contract template',
-      version: '2.1',
-    },
+      version: '2.1'},
     status: 'active',
-    uploadedAt: '2023-03-10T09:45:00Z',
-  },
-];
+    uploadedAt: '2023-03-10T09:45:00Z'}];
 
 /**
  * Mock document categories
@@ -131,33 +116,28 @@ export const mockDocumentCategories: DocumentCategoryItem[] = [
     description: 'Planning documents for developments',
     required: true,
     documentCount: 5,
-    completionStatus: 'complete',
-  },
+    completionStatus: 'complete'},
   {
     id: 'cat-2',
     name: 'Financial',
     description: 'Financial reports and documents',
     required: true,
     documentCount: 3,
-    completionStatus: 'partial',
-  },
+    completionStatus: 'partial'},
   {
     id: 'cat-3',
     name: 'Legal',
     description: 'Legal documents and contracts',
     required: true,
     documentCount: 2,
-    completionStatus: 'partial',
-  },
+    completionStatus: 'partial'},
   {
     id: 'cat-4',
     name: 'Marketing',
     description: 'Marketing materials',
     required: false,
     documentCount: 1,
-    completionStatus: 'incomplete',
-  },
-];
+    completionStatus: 'incomplete'}];
 
 /**
  * Mock projects
@@ -166,19 +146,15 @@ export const mockProjects: ProjectItem[] = [
   {
     id: 'proj-1',
     name: 'Riverside Manor',
-    status: 'active',
-  },
+    status: 'active'},
   {
     id: 'proj-2',
     name: 'Maple Avenue',
-    status: 'planning',
-  },
+    status: 'planning'},
   {
     id: 'proj-3',
     name: 'Oakwood Heights',
-    status: 'completed',
-  },
-];
+    status: 'completed'}];
 
 /**
  * Mock developer dashboard data
@@ -195,8 +171,7 @@ export const mockDeveloperDashboard = {
       completionPercentage: 75,
       location: 'Riverside',
       propertyCount: 10,
-      lastUpdated: '2023-05-15T14:30:00Z',
-    },
+      lastUpdated: '2023-05-15T14:30:00Z'},
     {
       id: 'proj-2',
       name: 'Maple Avenue',
@@ -204,8 +179,7 @@ export const mockDeveloperDashboard = {
       completionPercentage: 25,
       location: 'Maplewood',
       propertyCount: 5,
-      lastUpdated: '2023-04-20T10:15:00Z',
-    },
+      lastUpdated: '2023-04-20T10:15:00Z'},
     {
       id: 'proj-3',
       name: 'Oakwood Heights',
@@ -213,15 +187,11 @@ export const mockDeveloperDashboard = {
       completionPercentage: 100,
       location: 'Oakville',
       propertyCount: 8,
-      lastUpdated: '2022-12-10T16:45:00Z',
-    },
-  ],
+      lastUpdated: '2022-12-10T16:45:00Z'}],
   salesTrend: {
     period: 'month',
     percentage: 12,
-    direction: 'up',
-  },
-};
+    direction: 'up'};
 
 /**
  * GraphQL Query Response Mocks
@@ -231,36 +201,28 @@ export const GraphQLQueryResponses = {
   [GraphQLOperations.GetDocuments]: {
     documents: {
       items: mockDocuments,
-      totalCount: mockDocuments.length,
-    },
-  },
+      totalCount: mockDocuments.length},
   
   // GetDocumentCategories response
   [GraphQLOperations.GetDocumentCategories]: {
-    documentCategories: mockDocumentCategories,
-  },
+    documentCategories: mockDocumentCategories},
   
   // GetDocumentById response
   [GraphQLOperations.GetDocumentById]: (documentId: string) => ({
-    document: mockDocuments.find(doc => doc.id === documentId) || mockDocuments[0],
-  }),
+    document: mockDocuments.find(doc => doc.id === documentId) || mockDocuments[0]}),
   
   // GetProjects response
   [GraphQLOperations.GetProjects]: {
     projects: {
-      items: mockProjects,
-    },
-  },
+      items: mockProjects},
   
   // GetDeveloperDashboard response
   [GraphQLOperations.GetDeveloperDashboard]: {
-    developerDashboard: mockDeveloperDashboard,
-  },
+    developerDashboard: mockDeveloperDashboard},
   
   // GetUser response
   [GraphQLOperations.GetUser]: (userId: string) => ({
-    user: mockUsers.find(user => user.id === userId) || mockUsers[0],
-  }),
+    user: mockUsers.find(user => user.id === userId) || mockUsers[0]}),
   
   // GetUsers response
   [GraphQLOperations.GetUsers]: {
@@ -271,11 +233,7 @@ export const GraphQLQueryResponses = {
         hasNextPage: false,
         hasPreviousPage: false,
         startCursor: null,
-        endCursor: null,
-      },
-    },
-  },
-};
+        endCursor: null}};
 
 /**
  * GraphQL Mutation Response Mocks
@@ -292,18 +250,14 @@ export const GraphQLMutationResponses = {
       uploadedBy: {
         id: 'user-1',
         name: 'Developer User',
-        email: 'developer@example.com',
-      },
+        email: 'developer@example.com'},
       metadata: {
         category: variables.input.category,
         tags: variables.input.tags || [],
         description: variables.input.description,
-        version: '1.0',
-      },
+        version: '1.0'},
       status: 'active',
-      uploadedAt: new Date().toISOString(),
-    },
-  }),
+      uploadedAt: new Date().toISOString()}),
   
   // UpdateDocument response
   [GraphQLOperations.UpdateDocument]: (variables: any) => ({
@@ -316,27 +270,21 @@ export const GraphQLMutationResponses = {
       uploadedBy: {
         id: 'user-1',
         name: 'Developer User',
-        email: 'developer@example.com',
-      },
+        email: 'developer@example.com'},
       metadata: {
         category: variables.input.category || 'other',
         tags: variables.input.tags || [],
         description: variables.input.description || 'Updated description',
-        version: '1.1',
-      },
+        version: '1.1'},
       status: variables.input.status || 'active',
       uploadedAt: '2023-01-15T12:00:00Z',
-      updatedAt: new Date().toISOString(),
-    },
-  }),
+      updatedAt: new Date().toISOString()}),
   
   // DeleteDocument response
   [GraphQLOperations.DeleteDocument]: (variables: any) => ({
     deleteDocument: {
       id: variables.id,
-      success: true,
-    },
-  }),
+      success: true}),
   
   // CreateUser response
   [GraphQLOperations.CreateUser]: (variables: any) => ({
@@ -347,9 +295,7 @@ export const GraphQLMutationResponses = {
       lastName: variables.lastName,
       fullName: `${variables.firstName} ${variables.lastName}`,
       roles: variables.roles || [UserRole.BUYER],
-      status: UserStatus.PENDING,
-    },
-  }),
+      status: UserStatus.PENDING}),
   
   // UpdateUser response
   [GraphQLOperations.UpdateUser]: (variables: any) => ({
@@ -360,7 +306,4 @@ export const GraphQLMutationResponses = {
       lastName: variables.lastName || 'User',
       fullName: `${variables.firstName || 'Updated'} ${variables.lastName || 'User'}`,
       roles: variables.roles || [UserRole.BUYER],
-      status: variables.status || UserStatus.ACTIVE,
-    },
-  }),
-};
+      status: variables.status || UserStatus.ACTIVE})};

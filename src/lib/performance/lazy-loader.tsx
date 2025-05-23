@@ -17,20 +17,20 @@ export function lazyWithRetry<T extends ComponentType<any>>(
   options: LazyOptions = {}
 ): React.LazyExoticComponent<T> {
   const { retry = 3, onError } = options;
-  
+
   let retryCount = 0;
-  
+
   const load = (): Promise<{ default: T }> => {
-    return importFunc().catch((error) => {
-      if (retryCount < retry) {
+    return importFunc().catch((error: any) => {
+      if (retryCount <retry) {
         retryCount++;
-        return new Promise((resolve) => {
+        return new Promise((resolve: any) => {
           setTimeout(() => {
             resolve(load());
           }, 1000 * retryCount); // Exponential backoff
         });
       }
-      
+
       if (onError) {
         onError(error);
       }
@@ -55,13 +55,13 @@ export const LoadingSkeletons = {
       <Skeleton className="h-12 w-1/3 mb-4" />
       <Skeleton className="h-6 w-2/3 mb-8" />
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {[...Array(6)].map((_, i) => (
+        {[...Array(6)].map((_i: any) => (
           <Skeleton key={i} className="h-64" />
         ))}
       </div>
     </div>
   ),
-  
+
   card: (
     <div className="p-4">
       <Skeleton className="h-48 mb-4" />
@@ -69,19 +69,19 @@ export const LoadingSkeletons = {
       <Skeleton className="h-4 w-1/2" />
     </div>
   ),
-  
+
   table: (
     <div className="p-4">
       <Skeleton className="h-10 mb-4" />
-      {[...Array(5)].map((_, i) => (
+      {[...Array(5)].map((_i: any) => (
         <Skeleton key={i} className="h-12 mb-2" />
       ))}
     </div>
   ),
-  
+
   form: (
     <div className="p-4 space-y-4">
-      {[...Array(4)].map((_, i) => (
+      {[...Array(4)].map((_i: any) => (
         <div key={i}>
           <Skeleton className="h-4 w-1/4 mb-2" />
           <Skeleton className="h-10 w-full" />
@@ -90,7 +90,7 @@ export const LoadingSkeletons = {
       <Skeleton className="h-10 w-32" />
     </div>
   ),
-  
+
   spinner: (
     <div className="flex items-center justify-center h-64">
       <Loader2 className="h-8 w-8 animate-spin text-blue-500" />
@@ -105,12 +105,12 @@ export function LazyLoad<P extends object>({
   errorFallback,
   ...props
 }: {
-  loader: () => Promise<{ default: ComponentType<P> }>;
+  loader: () => Promise<{ default: ComponentType<P> }>\n  );
   fallback?: React.ReactNode;
   errorFallback?: React.ReactNode;
 } & P) {
   const LazyComponent = lazyWithRetry(loader);
-  
+
   return (
     <Suspense fallback={fallback}>
       <LazyComponent {...props} />
@@ -133,7 +133,7 @@ export class LazyLoadErrorBoundary extends React.Component<
   }
 
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
-    console.error('LazyLoad error:', error, errorInfo);
+
   }
 
   render() {
@@ -158,7 +158,7 @@ export class LazyLoadErrorBoundary extends React.Component<
 
 // Intersection Observer for lazy loading images and components
 export function useLazyLoad(options: IntersectionObserverInit = {}) {
-  const [isIntersecting, setIsIntersecting] = React.useState(false);
+  const [isIntersectingsetIsIntersecting] = React.useState(false);
   const ref = React.useRef<HTMLElement>(null);
 
   React.useEffect(() => {
@@ -191,8 +191,8 @@ export function LazyImage({
   ...props
 }: React.ImgHTMLAttributes<HTMLImageElement> & { placeholder?: string }) {
   const { ref, isIntersecting } = useLazyLoad();
-  const [isLoaded, setIsLoaded] = React.useState(false);
-  const [error, setError] = React.useState(false);
+  const [isLoadedsetIsLoaded] = React.useState(false);
+  const [errorsetError] = React.useState(false);
 
   return (
     <div ref={ref as any} className={className}>
@@ -211,7 +211,7 @@ export function LazyImage({
             className={className}
             onLoad={() => setIsLoaded(true)}
             onError={() => setError(true)}
-            style={{ opacity: isLoaded ? 1 : 0, transition: 'opacity 0.3s' }}
+            style={ opacity: isLoaded ? 1 : 0, transition: 'opacity 0.3s' }
             {...props}
           />
           {error && (
@@ -261,25 +261,24 @@ export const dynamicImport = {
   PropertySearch: () => lazyWithRetry(() => import('@/app/properties/search/page')),
   BuyerDashboard: () => lazyWithRetry(() => import('@/features/dashboards/BuyerDashboard')),
   DeveloperDashboard: () => lazyWithRetry(() => import('@/features/dashboards/DeveloperDashboard')),
-  
+
   // Features
   ComplianceDashboard: () => lazyWithRetry(() => import('@/features/compliance/ComplianceDashboard')),
   RegulatoryReporting: () => lazyWithRetry(() => import('@/features/compliance/RegulatoryReportingSystem')),
-  
+
   // Heavy components
   PropertyMap: () => lazyWithRetry(() => import('@/components/properties/PropertyMapView')),
   Analytics: () => lazyWithRetry(() => import('@/features/analytics/AnalyticsDashboard')),
-  
+
   // Modals
   PropertyDetailModal: () => lazyWithRetry(() => import('@/components/properties/PropertyDetailModal')),
-  DocumentViewer: () => lazyWithRetry(() => import('@/components/documents/DocumentViewer')),
-};
+  DocumentViewer: () => lazyWithRetry(() => import('@/components/documents/DocumentViewer'))};
 
 // Preload critical routes
 export const preloadCriticalRoutes = () => {
   // Preload based on user role
   const userRole = sessionStorage.getItem('userRole');
-  
+
   switch (userRole) {
     case 'buyer':
       dynamicImport.PropertySearch();
@@ -297,11 +296,11 @@ export const preloadCriticalRoutes = () => {
 // Component for route-based lazy loading
 export function RouteLoader({ path, children }: { path: string; children: React.ReactNode }) {
   const config = routeConfig[path];
-  
+
   if (!config) {
-    return <>{children}</>;
+    return <>{children}</>\n  );
   }
-  
+
   return (
     <LazyLoadErrorBoundary>
       <Suspense fallback={LoadingSkeletons.page}>

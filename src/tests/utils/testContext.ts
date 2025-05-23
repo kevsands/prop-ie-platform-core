@@ -23,7 +23,7 @@ export interface TestGraphQLContext extends GraphQLContext {
     hasPermission: (resource: string, action: string) => boolean;
   };
   request: {
-    headers: Record<string, string>;
+    headers: Record<string, string>\n  );
     ip: string;
   };
 }
@@ -37,8 +37,7 @@ export function createTestContext(userId = '1', userRoles = ['USER']): TestGraph
       developments: new DevelopmentRepository(prismaMock),
       units: new UnitRepository(prismaMock),
       documents: new DocumentRepository(prismaMock),
-      financials: new FinancialRepository(prismaMock),
-    },
+      financials: new FinancialRepository(prismaMock)},
     user: {
       id: userId,
       userId: userId,
@@ -55,9 +54,7 @@ export function createTestContext(userId = '1', userRoles = ['USER']): TestGraph
     },
     request: {
       headers: {},
-      ip: '127.0.0.1',
-    },
-  };
+      ip: '127.0.0.1'};
 }
 
 // Create context with unauthenticated user (for auth tests)
@@ -69,8 +66,7 @@ export function createUnauthenticatedContext(): TestGraphQLContext {
       developments: new DevelopmentRepository(prismaMock),
       units: new UnitRepository(prismaMock),
       documents: new DocumentRepository(prismaMock),
-      financials: new FinancialRepository(prismaMock),
-    },
+      financials: new FinancialRepository(prismaMock)},
     user: null,
     userRoles: [],
     isAuthenticated: false,
@@ -78,11 +74,8 @@ export function createUnauthenticatedContext(): TestGraphQLContext {
       isAuthenticated: false,
       userId: null,
       userRoles: [],
-      hasPermission: () => false,
-    },
+      hasPermission: () => false},
     request: {
       headers: {},
-      ip: '127.0.0.1',
-    },
-  };
+      ip: '127.0.0.1'};
 }

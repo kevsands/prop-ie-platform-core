@@ -1,8 +1,16 @@
 'use client';
 
 import React, { Component, ErrorInfo, ReactNode } from 'react';
-// Import three as a namespace
-import * as THREE from 'three';
+
+// Add Three.js type support
+import '../types/three-extensions';
+// Import specific Three.js classes directly to avoid TypeScript errors
+import { 
+  BoxGeometry, 
+  MeshBasicMaterial, 
+  Mesh, 
+  Group 
+} from 'three';
 
 interface ModelErrorBoundaryProps {
   children: ReactNode;
@@ -23,7 +31,7 @@ interface ModelErrorBoundaryState {
 export function createFallbackModel(roomType: string = 'default') {
   // Different colored fallback models based on room type
   let color = 0x808080; // Default gray
-  
+
   switch (roomType.toLowerCase()) {
     case 'livingroom':
       color = 0xA9D18E; // Green
@@ -38,28 +46,23 @@ export function createFallbackModel(roomType: string = 'default') {
       color = 0x8ED1D1; // Cyan
       break;
   }
-  
+
   // Create a simple wireframe box as fallback
-  const BoxGeometry = THREE.BoxGeometry;
-  const MeshBasicMaterial = THREE.MeshBasicMaterial;
-  const Mesh = THREE.Mesh;
-  const Group = THREE.Group;
-  
-  const geometry = new BoxGeometry(1, 1, 1);
+  const geometry = new BoxGeometry(1, 11);
   const material = new MeshBasicMaterial({ 
     color, 
     wireframe: true,
     transparent: true,
     opacity: 0.7
   });
-  
+
   // Create a mesh
-  const mesh = new Mesh(geometry, material);
-  
+  const mesh = new Mesh(geometrymaterial);
+
   // Create a group to match the scene structure
   const group = new Group();
   group.add(mesh);
-  
+
   return {
     scene: group,
     mesh
@@ -83,18 +86,18 @@ export class ModelErrorBoundary extends Component<ModelErrorBoundaryProps, Model
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo): void {
     // Log the error to an error reporting service
-    console.error('Model rendering error:', error, errorInfo);
+
   }
 
   render(): ReactNode {
     const { children, roomType, fallback } = this.props;
-    
+
     if (this.state.hasError) {
       // If a custom fallback is provided, use it
       if (fallback) {
         return fallback;
       }
-      
+
       // Otherwise, return a default fallback
       return createFallbackModel(roomType).scene;
     }

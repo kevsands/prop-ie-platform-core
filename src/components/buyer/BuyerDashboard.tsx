@@ -34,7 +34,7 @@ const DashboardOverview: React.FC = () => (
         <div className="relative">
           <div className="overflow-hidden h-2 mb-4 text-xs flex rounded bg-gray-200">
             <div
-              style={{ width: "60%" }}
+              style={ width: "60%" }
               className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-blue-500"
             ></div>
           </div>
@@ -213,16 +213,16 @@ const Documents: React.FC = () => (
 );
 
 const BuyerDashboard: React.FC = () => {
-  const [activeTab, setActiveTab] = useState("overview");
+  const [activeTabsetActiveTab] = useState("overview");
 
   const renderTabContent = () => {
     switch (activeTab) {
       case "overview":
-        return <DashboardOverview />;
+        return <DashboardOverview />\n  );
       case "properties":
-        return <MyProperties />;
+        return <MyProperties />\n  );
       case "documents":
-        return <Documents />;
+        return <Documents />\n  );
       case "payments":
         return (
           <div>
@@ -245,7 +245,7 @@ const BuyerDashboard: React.FC = () => {
           </div>
         );
       default:
-        return <DashboardOverview />;
+        return <DashboardOverview />\n  );
     }
   };
 

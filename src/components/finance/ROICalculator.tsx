@@ -1,3 +1,4 @@
+import React from 'react';
 'use client';
 
 import { useState, useMemo } from 'react';
@@ -26,7 +27,7 @@ import {
   XAxis, 
   YAxis, 
   CartesianGrid, 
-  Tooltip, 
+  Tooltip as RechartsTooltip, 
   Legend, 
   ResponsiveContainer,
   LineChart,
@@ -45,8 +46,7 @@ import {
   TableCell,
   TableHead,
   TableHeader,
-  TableRow,
-} from '@/components/ui/table';
+  TableRow} from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
 import { 
   Check, 
@@ -66,13 +66,11 @@ import {
   SelectItem,
   SelectLabel,
   SelectTrigger,
-  SelectValue, 
-} from '@/components/ui/select';
+  SelectValue} from '@/components/ui/select';
 import {
   HoverCard,
   HoverCardContent,
-  HoverCardTrigger,
-} from '@/components/ui/hover-card';
+  HoverCardTrigger} from '@/components/ui/hover-card';
 import { cn } from '@/lib/utils';
 import {
   AlertDialog,
@@ -83,8 +81,7 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
+  AlertDialogTrigger} from "@/components/ui/alert-dialog";
 import {
   Dialog,
   DialogContent,
@@ -92,25 +89,21 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+  DialogTrigger} from "@/components/ui/dialog";
 import { 
   Tooltip as UITooltip,
   TooltipContent,
   TooltipProvider,
-  TooltipTrigger,
-} from '@/components/ui/tooltip';
+  TooltipTrigger} from '@/components/ui/tooltip';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import {
   Collapsible,
   CollapsibleContent,
-  CollapsibleTrigger,
-} from "@/components/ui/collapsible";
+  CollapsibleTrigger} from "@/components/ui/collapsible";
 import {
   Popover,
   PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+  PopoverTrigger} from "@/components/ui/popover";
 
 // Types
 interface FinancingOption {
@@ -160,7 +153,7 @@ export default function ROICalculator({
   className
 }: ROICalculatorProps) {
   // State for active project
-  const [activeProject, setActiveProject] = useState<Project>({
+  const [activeProjectsetActiveProject] = useState<Project>({
     id: 'project-1',
     name: 'Fitzgerald Gardens',
     value: 5000000,
@@ -254,7 +247,7 @@ export default function ROICalculator({
   });
 
   // State for new financing option
-  const [newOption, setNewOption] = useState<Partial<FinancingOption>>({
+  const [newOptionsetNewOption] = useState<Partial<FinancingOption>>({
     name: '',
     loanAmount: 3500000,
     interestRate: 5.75,
@@ -262,7 +255,7 @@ export default function ROICalculator({
   });
 
   // State for custom parameters
-  const [customParams, setCustomParams] = useState<{
+  const [customParamssetCustomParams] = useState<{
     propertyValue: number;
     annualIncome: number;
     annualExpenses: number;
@@ -275,32 +268,32 @@ export default function ROICalculator({
   });
 
   // State for dialog open
-  const [newOptionDialogOpen, setNewOptionDialogOpen] = useState(false);
+  const [newOptionDialogOpensetNewOptionDialogOpen] = useState(false);
 
   // State for selected option IDs
-  const [selectedOptionIds, setSelectedOptionIds] = useState<string[]>(['option-1', 'option-2', 'option-3']);
+  const [selectedOptionIdssetSelectedOptionIds] = useState<string[]>(['option-1', 'option-2', 'option-3']);
 
   // State for active option ID
-  const [activeOptionId, setActiveOptionId] = useState<string>('option-1');
+  const [activeOptionIdsetActiveOptionId] = useState<string>('option-1');
 
   // State for active tab
-  const [activeTab, setActiveTab] = useState<'compare' | 'detail' | 'amortization'>('compare');
+  const [activeTabsetActiveTab] = useState<'compare' | 'detail' | 'amortization'>('compare');
 
   // Get active options for comparison
   const activeOptions = useMemo(() => {
     return activeProject.options.filter(option => selectedOptionIds.includes(option.id));
-  }, [activeProject.options, selectedOptionIds]);
+  }, [activeProject.optionsselectedOptionIds]);
 
   // Get active option for detailed view
   const activeOption = useMemo(() => {
     return activeProject.options.find(option => option.id === activeOptionId) || activeProject.options[0];
-  }, [activeProject.options, activeOptionId]);
+  }, [activeProject.optionsactiveOptionId]);
 
   // Calculate monthly payment for a loan
   const calculateMonthlyPayment = (loanAmount: number, interestRate: number, termYears: number): number => {
     const monthlyRate = interestRate / 100 / 12;
     const numPayments = termYears * 12;
-    return loanAmount * monthlyRate * Math.pow(1 + monthlyRate, numPayments) / (Math.pow(1 + monthlyRate, numPayments) - 1);
+    return loanAmount * monthlyRate * Math.pow(1 + monthlyRatenumPayments) / (Math.pow(1 + monthlyRatenumPayments) - 1);
   };
 
   // Calculate amortization schedule
@@ -315,7 +308,7 @@ export default function ROICalculator({
       for (let year = 1; year <= termYears; year++) {
         const annualInterest = loanAmount * interestRate / 100;
         const annualPrincipal = year === termYears ? loanAmount : 0;
-        
+
         amortization.push({
           year,
           principal: annualPrincipal,
@@ -330,20 +323,20 @@ export default function ROICalculator({
     for (let year = 1; year <= termYears; year++) {
       let annualPrincipal = 0;
       let annualInterest = 0;
-      
-      for (let month = 1; month <= 12 && balance > 0; month++) {
+
+      for (let month = 1; month <= 12 && balance> 0; month++) {
         const interestPayment = balance * monthlyRate;
         let principalPayment = monthlyPayment - interestPayment;
-        
-        if (principalPayment > balance) {
+
+        if (principalPayment> balance) {
           principalPayment = balance;
         }
-        
+
         balance -= principalPayment;
         annualPrincipal += principalPayment;
         annualInterest += interestPayment;
       }
-      
+
       amortization.push({
         year,
         principal: Math.round(annualPrincipal),
@@ -351,7 +344,7 @@ export default function ROICalculator({
         balance: Math.round(balance)
       });
     }
-    
+
     return amortization;
   };
 
@@ -369,17 +362,17 @@ export default function ROICalculator({
     const cashOnCashReturn = (annualCashFlow / equityRequired) * 100;
     const appreciationReturn = (propertyValue * appreciation / 100) / equityRequired * 100;
     const roi = cashOnCashReturn + appreciationReturn;
-    
+
     // Simplified IRR calculation (not a true IRR, just an approximation)
     const irr = roi * 0.75; // Discounted for time value of money
-    
+
     const dscr = (annualIncome - annualExpenses) / annualDebtService;
     const ltv = (loanAmount / propertyValue) * 100;
     const debtYield = annualCashFlow / loanAmount * 100;
-    
+
     // Break-even occupancy
     const breakEvenOccupancy = ((annualExpenses + annualDebtService) / annualIncome) * 100;
-    
+
     return {
       roi,
       irr,
@@ -412,7 +405,7 @@ export default function ROICalculator({
     );
 
     // Calculate total interest and total payment
-    const totalInterest = amortization.reduce((sum, year) => sum + year.interest, 0);
+    const totalInterest = amortization.reduce((sumyear: any) => sum + year.interest0);
     const totalPayment = newOption.loanAmount! + totalInterest;
 
     // Calculate ROI and other metrics
@@ -442,9 +435,9 @@ export default function ROICalculator({
     };
 
     // Add to options and select it
-    const updatedOptions = [...activeProject.options, option];
+    const updatedOptions = [...activeProject.optionsoption];
     setActiveProject({ ...activeProject, options: updatedOptions });
-    setSelectedOptionIds([...selectedOptionIds, newId]);
+    setSelectedOptionIds([...selectedOptionIdsnewId]);
     setActiveOptionId(newId);
     setActiveTab('detail');
 
@@ -488,14 +481,13 @@ export default function ROICalculator({
   const optionColors = {
     'option-1': '#0088FE',
     'option-2': '#00C49F',
-    'option-3': '#FF8042',
-  };
+    'option-3': '#FF8042'};
 
   const getOptionColor = (optionId: string) => {
     if (optionId.startsWith('option-') && !Object.keys(optionColors).includes(optionId)) {
       // Generate a color based on the ID to keep it consistent
       const hash = optionId.split('-')[1];
-      const hue = parseInt(hash.slice(0, 4), 16) % 360;
+      const hue = parseInt(hash.slice(04), 16) % 360;
       return `hsl(${hue}, 70%, 50%)`;
     }
     return (optionColors as any)[optionId] || '#8884d8';
@@ -558,7 +550,7 @@ export default function ROICalculator({
                     id="propertyValue"
                     type="number"
                     value={customParams.propertyValue}
-                    onChange={(e) => setCustomParams({
+                    onChange={(e: any) => setCustomParams({
                       ...customParams,
                       propertyValue: parseInt(e.target.value) || 0
                     })}
@@ -574,7 +566,7 @@ export default function ROICalculator({
                     id="annualIncome"
                     type="number"
                     value={customParams.annualIncome}
-                    onChange={(e) => setCustomParams({
+                    onChange={(e: any) => setCustomParams({
                       ...customParams,
                       annualIncome: parseInt(e.target.value) || 0
                     })}
@@ -590,7 +582,7 @@ export default function ROICalculator({
                     id="annualExpenses"
                     type="number"
                     value={customParams.annualExpenses}
-                    onChange={(e) => setCustomParams({
+                    onChange={(e: any) => setCustomParams({
                       ...customParams,
                       annualExpenses: parseInt(e.target.value) || 0
                     })}
@@ -622,7 +614,7 @@ export default function ROICalculator({
                     max={10}
                     step={0.1}
                     value={[customParams.appreciation]}
-                    onValueChange={(value) => setCustomParams({
+                    onValueChange={(value: any) => setCustomParams({
                       ...customParams,
                       appreciation: value[0]
                     })}
@@ -636,14 +628,14 @@ export default function ROICalculator({
             </div>
           </CollapsibleContent>
         </Collapsible>
-        
-        <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as any)} className="space-y-4">
+
+        <Tabs value={activeTab} onValueChange={(v: any) => setActiveTab(v as any)} className="space-y-4">
           <TabsList>
             <TabsTrigger value="compare">Compare Options</TabsTrigger>
             <TabsTrigger value="detail">Option Details</TabsTrigger>
             <TabsTrigger value="amortization">Amortization</TabsTrigger>
           </TabsList>
-          
+
           {/* Compare Options Tab */}
           <TabsContent value="compare" className="space-y-6">
             {/* Financing Options Selection */}
@@ -654,7 +646,7 @@ export default function ROICalculator({
               <CardContent>
                 <ScrollArea className="max-h-64">
                   <div className="space-y-2">
-                    {activeProject.options.map((option) => (
+                    {activeProject.options.map((option: any) => (
                       <div 
                         key={option.id} 
                         className={cn(
@@ -666,20 +658,20 @@ export default function ROICalculator({
                           type="checkbox"
                           id={`option-${option.id}`}
                           checked={selectedOptionIds.includes(option.id)}
-                          onChange={(e) => {
+                          onChange={(e: any) => {
                             if (e.target.checked) {
                               setSelectedOptionIds([...selectedOptionIds, option.id]);
                             } else {
                               setSelectedOptionIds(selectedOptionIds.filter(id => id !== option.id));
                             }
-                          }}
+                          }
                           className="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary"
                         />
                         <label htmlFor={`option-${option.id}`} className="ml-2 flex-grow cursor-pointer">
                           <div className="flex items-center">
                             <span 
                               className="h-3 w-3 rounded-full mr-2"
-                              style={{ backgroundColor: getOptionColor(option.id) }}
+                              style={ backgroundColor: getOptionColor(option.id) }
                             ></span>
                             <span>{option.name}</span>
                           </div>
@@ -703,7 +695,7 @@ export default function ROICalculator({
                 </ScrollArea>
               </CardContent>
             </Card>
-            
+
             {/* Comparison Charts */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {/* ROI Comparison */}
@@ -723,20 +715,20 @@ export default function ROICalculator({
                           cashOnCash: option.cashOnCashReturn,
                           appreciation: option.roi - option.cashOnCashReturn
                         }))}
-                        margin={{ top: 20, right: 30, left: 40, bottom: 10 }}
+                        margin={ top: 20, right: 30, left: 40, bottom: 10 }
                       >
                         <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis type="number" tickFormatter={(value) => `${value}%`} />
+                        <XAxis type="number" tickFormatter={(value: any) => `${value}%`} />
                         <YAxis type="category" dataKey="name" width={100} />
-                        <Tooltip formatter={(value) => [`${value.toFixed(2)}%`, '']} />
+                        <RechartsTooltip formatter={(value: any) => [`${value.toFixed(2)}%`, '']} />
                         <Legend />
                         <Bar dataKey="cashOnCash" stackId="a" name="Cash on Cash Return" fill="#0088FE">
-                          {activeOptions.map((option, index) => (
+                          {activeOptions.map((optionindex: any) => (
                             <Cell key={`cell-cash-${index}`} fill={getOptionColor(option.id)} />
                           ))}
                         </Bar>
                         <Bar dataKey="appreciation" stackId="a" name="Appreciation" fill="#00C49F" opacity={0.7}>
-                          {activeOptions.map((option, index) => (
+                          {activeOptions.map((optionindex: any) => (
                             <Cell key={`cell-appr-${index}`} fill={getOptionColor(option.id)} opacity={0.7} />
                           ))}
                         </Bar>
@@ -745,7 +737,7 @@ export default function ROICalculator({
                   </div>
                 </CardContent>
               </Card>
-              
+
               {/* Financial Metrics Comparison */}
               <Card>
                 <CardHeader>
@@ -796,7 +788,7 @@ export default function ROICalculator({
                 </CardContent>
               </Card>
             </div>
-            
+
             {/* Detailed Comparison Table */}
             <Card>
               <CardHeader>
@@ -807,12 +799,12 @@ export default function ROICalculator({
                   <TableHeader>
                     <TableRow>
                       <TableHead className="w-[200px]">Metric</TableHead>
-                      {activeOptions.map((option) => (
+                      {activeOptions.map((option: any) => (
                         <TableHead key={option.id} className="text-right">
                           <div className="flex items-center justify-end gap-2">
                             <span
                               className="h-3 w-3 rounded-full"
-                              style={{ backgroundColor: getOptionColor(option.id) }}
+                              style={ backgroundColor: getOptionColor(option.id) }
                             ></span>
                             <span>{option.name}</span>
                           </div>
@@ -829,7 +821,7 @@ export default function ROICalculator({
                     </TableRow>
                     <TableRow>
                       <TableCell>Loan Amount</TableCell>
-                      {activeOptions.map((option) => (
+                      {activeOptions.map((option: any) => (
                         <TableCell key={option.id} className="text-right">
                           {formatCurrency(option.loanAmount)}
                         </TableCell>
@@ -837,7 +829,7 @@ export default function ROICalculator({
                     </TableRow>
                     <TableRow>
                       <TableCell>Interest Rate</TableCell>
-                      {activeOptions.map((option) => (
+                      {activeOptions.map((option: any) => (
                         <TableCell key={option.id} className="text-right">
                           {option.interestRate.toFixed(2)}%
                         </TableCell>
@@ -845,7 +837,7 @@ export default function ROICalculator({
                     </TableRow>
                     <TableRow>
                       <TableCell>Term (Years)</TableCell>
-                      {activeOptions.map((option) => (
+                      {activeOptions.map((option: any) => (
                         <TableCell key={option.id} className="text-right">
                           {option.termYears}
                         </TableCell>
@@ -853,7 +845,7 @@ export default function ROICalculator({
                     </TableRow>
                     <TableRow>
                       <TableCell>Monthly Payment</TableCell>
-                      {activeOptions.map((option) => (
+                      {activeOptions.map((option: any) => (
                         <TableCell key={option.id} className="text-right">
                           {formatCurrency(option.monthlyPayment)}
                         </TableCell>
@@ -861,7 +853,7 @@ export default function ROICalculator({
                     </TableRow>
                     <TableRow>
                       <TableCell>Total Interest</TableCell>
-                      {activeOptions.map((option) => (
+                      {activeOptions.map((option: any) => (
                         <TableCell key={option.id} className="text-right">
                           {formatCurrency(option.totalInterest)}
                         </TableCell>
@@ -869,13 +861,13 @@ export default function ROICalculator({
                     </TableRow>
                     <TableRow>
                       <TableCell>Total Payment</TableCell>
-                      {activeOptions.map((option) => (
+                      {activeOptions.map((option: any) => (
                         <TableCell key={option.id} className="text-right">
                           {formatCurrency(option.totalPayment)}
                         </TableCell>
                       ))}
                     </TableRow>
-                    
+
                     {/* Investment Performance section */}
                     <TableRow className="bg-muted/50">
                       <TableCell colSpan={activeOptions.length + 1} className="font-semibold">
@@ -884,7 +876,7 @@ export default function ROICalculator({
                     </TableRow>
                     <TableRow>
                       <TableCell>Equity Required</TableCell>
-                      {activeOptions.map((option) => (
+                      {activeOptions.map((option: any) => (
                         <TableCell key={option.id} className="text-right">
                           {formatCurrency(option.equityRequired)}
                         </TableCell>
@@ -892,7 +884,7 @@ export default function ROICalculator({
                     </TableRow>
                     <TableRow>
                       <TableCell>Annual Cash Flow</TableCell>
-                      {activeOptions.map((option) => (
+                      {activeOptions.map((option: any) => (
                         <TableCell key={option.id} className="text-right">
                           {formatCurrency(customParams.annualIncome - customParams.annualExpenses - (option.monthlyPayment * 12))}
                         </TableCell>
@@ -900,7 +892,7 @@ export default function ROICalculator({
                     </TableRow>
                     <TableRow>
                       <TableCell className="font-medium">Return on Investment (ROI)</TableCell>
-                      {activeOptions.map((option) => (
+                      {activeOptions.map((option: any) => (
                         <TableCell key={option.id} className="text-right font-medium">
                           {formatPercentage(option.roi)}
                         </TableCell>
@@ -908,7 +900,7 @@ export default function ROICalculator({
                     </TableRow>
                     <TableRow>
                       <TableCell>Internal Rate of Return (IRR)</TableCell>
-                      {activeOptions.map((option) => (
+                      {activeOptions.map((option: any) => (
                         <TableCell key={option.id} className="text-right">
                           {formatPercentage(option.irr)}
                         </TableCell>
@@ -916,13 +908,13 @@ export default function ROICalculator({
                     </TableRow>
                     <TableRow>
                       <TableCell>Cash-on-Cash Return</TableCell>
-                      {activeOptions.map((option) => (
+                      {activeOptions.map((option: any) => (
                         <TableCell key={option.id} className="text-right">
                           {formatPercentage(option.cashOnCashReturn)}
                         </TableCell>
                       ))}
                     </TableRow>
-                    
+
                     {/* Risk Metrics section */}
                     <TableRow className="bg-muted/50">
                       <TableCell colSpan={activeOptions.length + 1} className="font-semibold">
@@ -931,7 +923,7 @@ export default function ROICalculator({
                     </TableRow>
                     <TableRow>
                       <TableCell>Loan-to-Value (LTV)</TableCell>
-                      {activeOptions.map((option) => (
+                      {activeOptions.map((option: any) => (
                         <TableCell key={option.id} className="text-right">
                           {formatPercentage(option.loanToValue)}
                         </TableCell>
@@ -939,9 +931,9 @@ export default function ROICalculator({
                     </TableRow>
                     <TableRow>
                       <TableCell>Debt Service Coverage Ratio</TableCell>
-                      {activeOptions.map((option) => (
+                      {activeOptions.map((option: any) => (
                         <TableCell key={option.id} className="text-right">
-                          <span className={option.debtServiceCoverageRatio < 1.2 ? 'text-red-500' : 'text-green-500'}>
+                          <span className={option.debtServiceCoverageRatio <1.2 ? 'text-red-500' : 'text-green-500'}>
                             {option.debtServiceCoverageRatio.toFixed(2)}
                           </span>
                         </TableCell>
@@ -949,7 +941,7 @@ export default function ROICalculator({
                     </TableRow>
                     <TableRow>
                       <TableCell>Debt Yield</TableCell>
-                      {activeOptions.map((option) => (
+                      {activeOptions.map((option: any) => (
                         <TableCell key={option.id} className="text-right">
                           {formatPercentage(option.debtYield)}
                         </TableCell>
@@ -957,7 +949,7 @@ export default function ROICalculator({
                     </TableRow>
                     <TableRow>
                       <TableCell>Break-Even Occupancy</TableCell>
-                      {activeOptions.map((option) => (
+                      {activeOptions.map((option: any) => (
                         <TableCell key={option.id} className="text-right">
                           {formatPercentage(option.breakEvenOccupancy)}
                         </TableCell>
@@ -968,7 +960,7 @@ export default function ROICalculator({
               </CardContent>
             </Card>
           </TabsContent>
-          
+
           {/* Option Details Tab */}
           <TabsContent value="detail" className="space-y-6">
             {/* Option Selection */}
@@ -983,12 +975,12 @@ export default function ROICalculator({
                 <SelectContent>
                   <SelectGroup>
                     <SelectLabel>Financing Options</SelectLabel>
-                    {activeProject.options.map((option) => (
+                    {activeProject.options.map((option: any) => (
                       <SelectItem key={option.id} value={option.id}>
                         <div className="flex items-center">
                           <span 
                             className="h-2 w-2 rounded-full mr-2"
-                            style={{ backgroundColor: getOptionColor(option.id) }}
+                            style={ backgroundColor: getOptionColor(option.id) }
                           ></span>
                           {option.name}
                         </div>
@@ -997,7 +989,7 @@ export default function ROICalculator({
                   </SelectGroup>
                 </SelectContent>
               </Select>
-              
+
               <div className="flex gap-2">
                 <Button variant="outline" size="sm">
                   <Save className="h-4 w-4 mr-1.5" />
@@ -1027,7 +1019,7 @@ export default function ROICalculator({
                 </AlertDialog>
               </div>
             </div>
-            
+
             {/* Option Details */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {/* Loan Details */}
@@ -1051,7 +1043,7 @@ export default function ROICalculator({
                         </div>
                       </div>
                     </div>
-                    
+
                     <div className="grid grid-cols-2 gap-4">
                       <div className="space-y-2">
                         <Label className="text-sm text-muted-foreground">Term (Years)</Label>
@@ -1066,7 +1058,7 @@ export default function ROICalculator({
                         </div>
                       </div>
                     </div>
-                    
+
                     <div className="grid grid-cols-2 gap-4">
                       <div className="space-y-2">
                         <Label className="text-sm text-muted-foreground">Total Interest</Label>
@@ -1081,7 +1073,7 @@ export default function ROICalculator({
                         </div>
                       </div>
                     </div>
-                    
+
                     <div className="pt-2">
                       <div className="text-sm font-medium pb-2">Payment Breakdown</div>
                       <div className="h-[200px]">
@@ -1090,8 +1082,7 @@ export default function ROICalculator({
                             <Pie
                               data={[
                                 { name: 'Principal', value: activeOption.loanAmount },
-                                { name: 'Interest', value: activeOption.totalInterest },
-                              ]}
+                                { name: 'Interest', value: activeOption.totalInterest }]}
                               cx="50%"
                               cy="50%"
                               labelLine={false}
@@ -1103,7 +1094,7 @@ export default function ROICalculator({
                               <Cell key="cell-principal" fill="#0088FE" />
                               <Cell key="cell-interest" fill="#FF8042" />
                             </Pie>
-                            <Tooltip formatter={(value) => [formatCurrency(value as number), '']} />
+                            <RechartsTooltip formatter={(value: any) => [formatCurrency(value as number), '']} />
                           </PieChart>
                         </ResponsiveContainer>
                       </div>
@@ -1111,7 +1102,7 @@ export default function ROICalculator({
                   </div>
                 </CardContent>
               </Card>
-              
+
               {/* Investment Performance */}
               <Card>
                 <CardHeader>
@@ -1163,7 +1154,7 @@ export default function ROICalculator({
                         </div>
                       </div>
                     </div>
-                    
+
                     <div className="grid grid-cols-2 gap-4">
                       <div className="space-y-1">
                         <Label className="text-sm text-muted-foreground">Equity Required</Label>
@@ -1178,7 +1169,7 @@ export default function ROICalculator({
                         </div>
                       </div>
                     </div>
-                    
+
                     <div className="pt-2">
                       <div className="text-sm font-medium pb-2">Return Breakdown</div>
                       <div className="h-[220px]">
@@ -1189,15 +1180,14 @@ export default function ROICalculator({
                                 name: 'ROI Components', 
                                 cashFlow: activeOption.cashOnCashReturn,
                                 appreciation: activeOption.roi - activeOption.cashOnCashReturn
-                              },
-                            ]}
+                              }]}
                             layout="vertical"
-                            margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+                            margin={ top: 20, right: 30, left: 20, bottom: 5 }
                           >
                             <CartesianGrid strokeDasharray="3 3" />
-                            <XAxis type="number" tickFormatter={(value) => `${value}%`} />
+                            <XAxis type="number" tickFormatter={(value: any) => `${value}%`} />
                             <YAxis type="category" dataKey="name" tick={false} />
-                            <Tooltip formatter={(value) => [`${value.toFixed(2)}%`, '']} />
+                            <RechartsTooltip formatter={(value: any) => [`${value.toFixed(2)}%`, '']} />
                             <Legend />
                             <Bar dataKey="cashFlow" stackId="a" name="Cash Flow Return" fill="#0088FE" />
                             <Bar dataKey="appreciation" stackId="a" name="Appreciation Return" fill="#00C49F" />
@@ -1209,7 +1199,7 @@ export default function ROICalculator({
                 </CardContent>
               </Card>
             </div>
-            
+
             {/* Risk Analysis */}
             <Card>
               <CardHeader>
@@ -1238,14 +1228,14 @@ export default function ROICalculator({
                       {formatPercentage(activeOption.loanToValue)}
                     </div>
                     <div className="text-xs text-muted-foreground">
-                      {activeOption.loanToValue > 80 
+                      {activeOption.loanToValue> 80 
                         ? "High leverage (higher risk)"
-                        : activeOption.loanToValue > 70
+                        : activeOption.loanToValue> 70
                         ? "Moderate leverage"
-                        : "Conservative leverage (lower risk)"}
+                        : "Conservative leverage (lower risk)"
                     </div>
                   </div>
-                  
+
                   <div className="space-y-2">
                     <div className="flex items-center">
                       <Label className="text-sm text-muted-foreground">Debt Service Coverage Ratio</Label>
@@ -1265,19 +1255,19 @@ export default function ROICalculator({
                     </div>
                     <div className={cn(
                       "text-2xl font-semibold",
-                      activeOption.debtServiceCoverageRatio < 1.2 ? "text-red-500" : "text-green-500"
+                      activeOption.debtServiceCoverageRatio <1.2 ? "text-red-500" : "text-green-500"
                     )}>
                       {activeOption.debtServiceCoverageRatio.toFixed(2)}
                     </div>
                     <div className="text-xs text-muted-foreground">
-                      {activeOption.debtServiceCoverageRatio < 1.0
+                      {activeOption.debtServiceCoverageRatio <1.0
                         ? "Negative cash flow (high risk)"
-                        : activeOption.debtServiceCoverageRatio < 1.2
+                        : activeOption.debtServiceCoverageRatio <1.2
                         ? "Thin coverage (moderate risk)"
-                        : "Good coverage (lower risk)"}
+                        : "Good coverage (lower risk)"
                     </div>
                   </div>
-                  
+
                   <div className="space-y-2">
                     <div className="flex items-center">
                       <Label className="text-sm text-muted-foreground">Debt Yield</Label>
@@ -1299,14 +1289,14 @@ export default function ROICalculator({
                       {formatPercentage(activeOption.debtYield)}
                     </div>
                     <div className="text-xs text-muted-foreground">
-                      {activeOption.debtYield < 5
+                      {activeOption.debtYield <5
                         ? "Low yield (higher risk)"
-                        : activeOption.debtYield < 7
+                        : activeOption.debtYield <7
                         ? "Moderate yield"
-                        : "High yield (lower risk)"}
+                        : "High yield (lower risk)"
                     </div>
                   </div>
-                  
+
                   <div className="space-y-2">
                     <div className="flex items-center">
                       <Label className="text-sm text-muted-foreground">Break-Even Occupancy</Label>
@@ -1328,18 +1318,18 @@ export default function ROICalculator({
                       {formatPercentage(activeOption.breakEvenOccupancy)}
                     </div>
                     <div className="text-xs text-muted-foreground">
-                      {activeOption.breakEvenOccupancy > 85
+                      {activeOption.breakEvenOccupancy> 85
                         ? "High break-even (higher risk)"
-                        : activeOption.breakEvenOccupancy > 75
+                        : activeOption.breakEvenOccupancy> 75
                         ? "Moderate break-even"
-                        : "Low break-even (lower risk)"}
+                        : "Low break-even (lower risk)"
                     </div>
                   </div>
                 </div>
               </CardContent>
             </Card>
           </TabsContent>
-          
+
           {/* Amortization Tab */}
           <TabsContent value="amortization" className="space-y-6">
             {/* Option Selection */}
@@ -1354,12 +1344,12 @@ export default function ROICalculator({
                 <SelectContent>
                   <SelectGroup>
                     <SelectLabel>Financing Options</SelectLabel>
-                    {activeProject.options.map((option) => (
+                    {activeProject.options.map((option: any) => (
                       <SelectItem key={option.id} value={option.id}>
                         <div className="flex items-center">
                           <span 
                             className="h-2 w-2 rounded-full mr-2"
-                            style={{ backgroundColor: getOptionColor(option.id) }}
+                            style={ backgroundColor: getOptionColor(option.id) }
                           ></span>
                           {option.name}
                         </div>
@@ -1368,13 +1358,13 @@ export default function ROICalculator({
                   </SelectGroup>
                 </SelectContent>
               </Select>
-              
+
               <Button variant="outline" size="sm">
                 <Download className="h-4 w-4 mr-1.5" />
                 Export Schedule
               </Button>
             </div>
-            
+
             {/* Amortization Charts */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {/* Principal vs Interest */}
@@ -1391,12 +1381,12 @@ export default function ROICalculator({
                           year.year % 5 === 0 || 
                           year.year === activeOption.termYears
                         )}
-                        margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+                        margin={ top: 20, right: 30, left: 20, bottom: 5 }
                       >
                         <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis dataKey="year" label={{ value: 'Year', position: 'insideBottom', offset: -5 }} />
-                        <YAxis tickFormatter={(value) => `$${(value / 1000).toFixed(0)}k`} />
-                        <Tooltip formatter={(value) => [formatCurrency(value as number), '']} />
+                        <XAxis dataKey="year" label={ value: 'Year', position: 'insideBottom', offset: -5 } />
+                        <YAxis tickFormatter={(value: any) => `$${(value / 1000).toFixed(0)}k`} />
+                        <RechartsTooltip formatter={(value: any) => [formatCurrency(value as number), '']} />
                         <Legend />
                         <Bar dataKey="principal" stackId="a" name="Principal" fill="#0088FE" />
                         <Bar dataKey="interest" stackId="a" name="Interest" fill="#FF8042" />
@@ -1405,7 +1395,7 @@ export default function ROICalculator({
                   </div>
                 </CardContent>
               </Card>
-              
+
               {/* Loan Balance */}
               <Card>
                 <CardHeader>
@@ -1416,12 +1406,12 @@ export default function ROICalculator({
                     <ResponsiveContainer width="100%" height="100%">
                       <LineChart
                         data={activeOption.amortization}
-                        margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+                        margin={ top: 20, right: 30, left: 20, bottom: 5 }
                       >
                         <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis dataKey="year" label={{ value: 'Year', position: 'insideBottom', offset: -5 }} />
-                        <YAxis tickFormatter={(value) => `$${(value / 1000000).toFixed(1)}M`} />
-                        <Tooltip formatter={(value) => [formatCurrency(value as number), '']} />
+                        <XAxis dataKey="year" label={ value: 'Year', position: 'insideBottom', offset: -5 } />
+                        <YAxis tickFormatter={(value: any) => `$${(value / 1000000).toFixed(1)}M`} />
+                        <RechartsTooltip formatter={(value: any) => [formatCurrency(value as number), '']} />
                         <Legend />
                         <Line 
                           type="monotone" 
@@ -1429,8 +1419,8 @@ export default function ROICalculator({
                           name="Loan Balance" 
                           stroke="#8884d8"
                           strokeWidth={2}
-                          dot={{ r: 3 }}
-                          activeDot={{ r: 8 }}
+                          dot={ r: 3 }
+                          activeDot={ r: 8 }
                         />
                       </LineChart>
                     </ResponsiveContainer>
@@ -1438,7 +1428,7 @@ export default function ROICalculator({
                 </CardContent>
               </Card>
             </div>
-            
+
             {/* Amortization Table */}
             <Card>
               <CardHeader>
@@ -1458,7 +1448,7 @@ export default function ROICalculator({
                       </TableRow>
                     </TableHeader>
                     <TableBody>
-                      {activeOption.amortization.map((year) => (
+                      {activeOption.amortization.map((year: any) => (
                         <TableRow key={year.year}>
                           <TableCell>{year.year}</TableCell>
                           <TableCell className="text-right">{formatCurrency(year.principal)}</TableCell>
@@ -1470,7 +1460,7 @@ export default function ROICalculator({
                           </TableCell>
                         </TableRow>
                       ))}
-                      
+
                       {/* Total row */}
                       <TableRow className="font-bold border-t-2">
                         <TableCell>Total</TableCell>
@@ -1503,7 +1493,7 @@ export default function ROICalculator({
           </TabsContent>
         </Tabs>
       </CardContent>
-      
+
       {/* New Financing Option Dialog */}
       <Dialog open={newOptionDialogOpen} onOpenChange={setNewOptionDialogOpen}>
         <DialogContent className="sm:max-w-[550px]">
@@ -1513,7 +1503,7 @@ export default function ROICalculator({
               Define parameters for your new financing option.
             </DialogDescription>
           </DialogHeader>
-          
+
           <div className="grid gap-4 py-4">
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="name" className="text-right">
@@ -1522,11 +1512,11 @@ export default function ROICalculator({
               <Input
                 id="name"
                 value={newOption.name}
-                onChange={(e) => setNewOption({ ...newOption, name: e.target.value })}
+                onChange={(e: any) => setNewOption({ ...newOption, name: e.target.value })}
                 className="col-span-3"
               />
             </div>
-            
+
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="loanAmount" className="text-right">
                 Loan Amount
@@ -1537,7 +1527,7 @@ export default function ROICalculator({
                   id="loanAmount"
                   type="number"
                   value={newOption.loanAmount}
-                  onChange={(e) => setNewOption({ 
+                  onChange={(e: any) => setNewOption({ 
                     ...newOption, 
                     loanAmount: parseInt(e.target.value) || 0
                   })}
@@ -1545,7 +1535,7 @@ export default function ROICalculator({
                 />
               </div>
             </div>
-            
+
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="interestRate" className="text-right">
                 Interest Rate (%)
@@ -1555,14 +1545,14 @@ export default function ROICalculator({
                 type="number"
                 step="0.05"
                 value={newOption.interestRate}
-                onChange={(e) => setNewOption({ 
+                onChange={(e: any) => setNewOption({ 
                   ...newOption, 
                   interestRate: parseFloat(e.target.value) || 0
                 })}
                 className="col-span-3"
               />
             </div>
-            
+
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="termYears" className="text-right">
                 Term (Years)
@@ -1571,14 +1561,14 @@ export default function ROICalculator({
                 id="termYears"
                 type="number"
                 value={newOption.termYears}
-                onChange={(e) => setNewOption({ 
+                onChange={(e: any) => setNewOption({ 
                   ...newOption, 
                   termYears: parseInt(e.target.value) || 0
                 })}
                 className="col-span-3"
               />
             </div>
-            
+
             <div className="grid grid-cols-4 items-center gap-4">
               <div className="col-span-4 text-sm text-muted-foreground">
                 <HelpCircle className="h-4 w-4 inline mr-1" />
@@ -1587,7 +1577,7 @@ export default function ROICalculator({
               </div>
             </div>
           </div>
-          
+
           <DialogFooter>
             <Button variant="outline" onClick={() => setNewOptionDialogOpen(false)}>
               Cancel
@@ -1598,7 +1588,7 @@ export default function ROICalculator({
           </DialogFooter>
         </DialogContent>
       </Dialog>
-      
+
       <CardFooter className="border-t p-4">
         <div className="flex flex-col xs:flex-row justify-between w-full text-sm text-muted-foreground gap-2">
           <div className="flex items-center">

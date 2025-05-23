@@ -1,13 +1,19 @@
+type Props = {
+  params: Promise<{ id: string }>
+}
+
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
-import { GetHandler, IdParam } from '@/types/next-route-handlers';
 
 /**
  * GET /api/projects/[id]/sales
  * Fetch sales data for a specific project
  */
-export const GET: GetHandler<IdParam> = async (request, { params }) => {
+export async function GET(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
   try {
     const session = await getServerSession(authOptions);
 
@@ -19,8 +25,8 @@ export const GET: GetHandler<IdParam> = async (request, { params }) => {
       );
     }
 
-    const projectId = params.id as string;
-    
+    const { id: projectId } = await params;
+
     if (!projectId) {
       return NextResponse.json(
         { error: 'Project ID is required' },
@@ -133,7 +139,7 @@ export const GET: GetHandler<IdParam> = async (request, { params }) => {
 
     return NextResponse.json(salesData);
   } catch (error) {
-    console.error('Error fetching sales data:', error);
+
     return NextResponse.json(
       { error: 'Failed to fetch sales data' },
       { status: 500 }

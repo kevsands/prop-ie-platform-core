@@ -113,8 +113,7 @@ const calculators = [
     href: '/resources/calculators/customisation',
     icon: <Settings size={32} className="text-teal-600" />,
     description: 'Estimate the cost of upgrades and extras for your new home.'
-  },
-];
+  }];
 
 const comingSoon = [
   {
@@ -126,8 +125,7 @@ const comingSoon = [
     title: 'Multi-Unit Investment Tool',
     icon: <PlusCircle size={32} className="text-gray-500" />,
     description: 'Analyse returns for multi-unit or bulk property investments.'
-  },
-];
+  }];
 
 function CalculatorCard({ calculator }: { calculator: any }) {
   const CardContent = (

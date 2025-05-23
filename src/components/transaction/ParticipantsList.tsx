@@ -15,16 +15,14 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
-} from '@/components/ui/dialog';
+  DialogTrigger} from '@/components/ui/dialog';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+  DropdownMenuTrigger} from '@/components/ui/dropdown-menu';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import {
@@ -32,8 +30,7 @@ import {
   SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
+  SelectValue} from '@/components/ui/select';
 import { useToast } from '@/components/ui/use-toast';
 import {
   UserIcon,
@@ -65,31 +62,31 @@ export const ParticipantsList: React.FC<ParticipantsListProps> = ({
   const { user } = useAuth();
   const { addParticipant, removeParticipant } = useTransaction();
   const { toast } = useToast();
-  const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
-  const [newParticipant, setNewParticipant] = useState({
+  const [isAddDialogOpensetIsAddDialogOpen] = useState(false);
+  const [newParticipantsetNewParticipant] = useState({
     role: '',
     name: '',
     email: '',
     phone: ''
   });
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingsetIsLoading] = useState(false);
 
   // Get icon for participant role
   const getRoleIcon = (role: string) => {
     switch (role) {
       case 'BUYER':
-        return <HomeIcon className="h-4 w-4" />;
+        return <HomeIcon className="h-4 w-4" />\n  );
       case 'DEVELOPER':
-        return <BuildingIcon className="h-4 w-4" />;
+        return <BuildingIcon className="h-4 w-4" />\n  );
       case 'AGENT':
-        return <BriefcaseIcon className="h-4 w-4" />;
+        return <BriefcaseIcon className="h-4 w-4" />\n  );
       case 'BUYER_SOLICITOR':
       case 'VENDOR_SOLICITOR':
-        return <ScaleIcon className="h-4 w-4" />;
+        return <ScaleIcon className="h-4 w-4" />\n  );
       case 'LENDER':
-        return <CreditCardIcon className="h-4 w-4" />;
+        return <CreditCardIcon className="h-4 w-4" />\n  );
       default:
-        return <UserIcon className="h-4 w-4" />;
+        return <UserIcon className="h-4 w-4" />\n  );
     }
   };
 
@@ -143,7 +140,7 @@ export const ParticipantsList: React.FC<ParticipantsListProps> = ({
       'VENDOR_SOLICITOR',
       'LENDER'
     ];
-    
+
     // Filter out roles that already exist
     return allRoles.filter(role => {
       // Allow multiple agents but not other roles
@@ -183,8 +180,7 @@ export const ParticipantsList: React.FC<ParticipantsListProps> = ({
 
       toast({
         title: "Success",
-        description: `${newParticipant.name} has been added to the transaction`,
-      });
+        description: `${newParticipant.name} has been added to the transaction`});
 
       // Reset form and close dialog
       setNewParticipant({ role: '', name: '', email: '', phone: '' });
@@ -207,11 +203,10 @@ export const ParticipantsList: React.FC<ParticipantsListProps> = ({
     }
 
     try {
-      await removeParticipant(transaction.id, participantId);
+      await removeParticipant(transaction.idparticipantId);
       toast({
         title: "Success",
-        description: `${participantName} has been removed from the transaction`,
-      });
+        description: `${participantName} has been removed from the transaction`});
     } catch (error) {
       toast({
         title: "Error",
@@ -222,7 +217,7 @@ export const ParticipantsList: React.FC<ParticipantsListProps> = ({
   };
 
   // Group participants by role
-  const groupedParticipants = transaction.participants.reduce((acc, participant) => {
+  const groupedParticipants = transaction.participants.reduce((accparticipant: any) => {
     const role = participant.role;
     if (!acc[role]) {
       acc[role] = [];
@@ -258,7 +253,7 @@ export const ParticipantsList: React.FC<ParticipantsListProps> = ({
                   <Label htmlFor="role">Role</Label>
                   <Select
                     value={newParticipant.role}
-                    onValueChange={(value) => setNewParticipant({ ...newParticipant, role: value })}
+                    onValueChange={(value: any) => setNewParticipant({ ...newParticipant, role: value })}
                   >
                     <SelectTrigger>
                       <SelectValue placeholder="Select a role" />
@@ -280,7 +275,7 @@ export const ParticipantsList: React.FC<ParticipantsListProps> = ({
                   <Input
                     id="name"
                     value={newParticipant.name}
-                    onChange={(e) => setNewParticipant({ ...newParticipant, name: e.target.value })}
+                    onChange={(e: any) => setNewParticipant({ ...newParticipant, name: e.target.value })}
                     placeholder="John Doe"
                   />
                 </div>
@@ -290,7 +285,7 @@ export const ParticipantsList: React.FC<ParticipantsListProps> = ({
                     id="email"
                     type="email"
                     value={newParticipant.email}
-                    onChange={(e) => setNewParticipant({ ...newParticipant, email: e.target.value })}
+                    onChange={(e: any) => setNewParticipant({ ...newParticipant, email: e.target.value })}
                     placeholder="john@example.com"
                   />
                 </div>
@@ -300,7 +295,7 @@ export const ParticipantsList: React.FC<ParticipantsListProps> = ({
                     id="phone"
                     type="tel"
                     value={newParticipant.phone}
-                    onChange={(e) => setNewParticipant({ ...newParticipant, phone: e.target.value })}
+                    onChange={(e: any) => setNewParticipant({ ...newParticipant, phone: e.target.value })}
                     placeholder="+353 1 234 5678"
                   />
                 </div>
@@ -319,13 +314,13 @@ export const ParticipantsList: React.FC<ParticipantsListProps> = ({
       </CardHeader>
       <CardContent>
         <div className="space-y-6">
-          {Object.entries(groupedParticipants).map(([role, participants]) => (
+          {Object.entries(groupedParticipants).map(([roleparticipants]) => (
             <div key={role}>
               <h3 className="font-medium text-sm text-gray-500 mb-3">
                 {getRoleDisplayName(role)}
               </h3>
               <div className="space-y-3">
-                {participants.map((participant) => (
+                {participants.map((participant: any) => (
                   <div key={participant.id} className="flex items-center justify-between p-3 rounded-lg border">
                     <div className="flex items-center gap-3">
                       <Avatar>
@@ -379,7 +374,7 @@ export const ParticipantsList: React.FC<ParticipantsListProps> = ({
                         </div>
                       </div>
                     </div>
-                    
+
                     {canManageParticipants() && participant.userId !== user?.id && (
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild>
@@ -407,7 +402,7 @@ export const ParticipantsList: React.FC<ParticipantsListProps> = ({
         </div>
 
         {/* Missing Participants Alert */}
-        {getAvailableRoles().length > 0 && (
+        {getAvailableRoles().length> 0 && (
           <div className="mt-6 p-4 bg-yellow-50 rounded-lg border border-yellow-200">
             <div className="flex items-start gap-2">
               <AlertCircleIcon className="h-5 w-5 text-yellow-600 flex-shrink-0" />

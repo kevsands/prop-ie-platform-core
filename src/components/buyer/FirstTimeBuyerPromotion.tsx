@@ -21,7 +21,7 @@ const FirstTimeBuyerPromotion = () => {
         <CardTitle className="text-xl text-blue-800">First-Time Buyer Services</CardTitle>
         <CardDescription>Specialized tools to guide you through your home buying journey</CardDescription>
       </CardHeader>
-      
+
       <CardContent>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
           <div className="flex items-start space-x-3">
@@ -33,7 +33,7 @@ const FirstTimeBuyerPromotion = () => {
               <p className="text-sm text-blue-700">Track your progress from planning to moving in</p>
             </div>
           </div>
-          
+
           <div className="flex items-start space-x-3">
             <div className="bg-blue-100 p-2 rounded-full">
               <FeatherIcon icon={FiClipboard} className="h-5 w-5 text-blue-700" />
@@ -43,7 +43,7 @@ const FirstTimeBuyerPromotion = () => {
               <p className="text-sm text-blue-700">Reserve your dream home and manage deposit payments</p>
             </div>
           </div>
-          
+
           <div className="flex items-start space-x-3">
             <div className="bg-blue-100 p-2 rounded-full">
               <FeatherIcon icon={FiTool} className="h-5 w-5 text-blue-700" />
@@ -53,7 +53,7 @@ const FirstTimeBuyerPromotion = () => {
               <p className="text-sm text-blue-700">Report and track property issues after completion</p>
             </div>
           </div>
-          
+
           <div className="flex items-start space-x-3">
             <div className="bg-blue-100 p-2 rounded-full">
               <FeatherIcon icon={FiFileText} className="h-5 w-5 text-blue-700" />
@@ -65,7 +65,7 @@ const FirstTimeBuyerPromotion = () => {
           </div>
         </div>
       </CardContent>
-      
+
       <CardFooter>
         <Button className="w-full bg-blue-600 hover:bg-blue-700">
           Get Started

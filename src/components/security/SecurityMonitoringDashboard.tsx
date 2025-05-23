@@ -49,19 +49,19 @@ interface SecurityMetric {
 
 const SecurityMonitoringDashboard: React.FC = () => {
   // State for security data
-  const [securityEvents, setSecurityEvents] = useState<SecurityEvent[]>([]);
-  const [blockedIPs, setBlockedIPs] = useState<BlockedIP[]>([]);
-  const [metrics, setMetrics] = useState<SecurityMetric[]>([
+  const [securityEventssetSecurityEvents] = useState<SecurityEvent[]>([]);
+  const [blockedIPssetBlockedIPs] = useState<BlockedIP[]>([]);
+  const [metricssetMetrics] = useState<SecurityMetric[]>([
     { name: 'Security Score', value: 85, max: 100, status: 'good' },
     { name: 'Active Sessions', value: 12, max: 100, status: 'good' },
     { name: 'Failed Logins (24h)', value: 3, max: 10, status: 'good' },
     { name: 'API Rate Limit Warnings', value: 2, max: 5, status: 'warning' }
   ]);
-  
-  const [activeTab, setActiveTab] = useState('overview');
-  const [refreshInterval, setRefreshInterval] = useState(30); // seconds
-  const [lastRefreshed, setLastRefreshed] = useState<Date>(new Date());
-  const [sessionStatus, setSessionStatus] = useState<{valid: boolean; reason?: string}>({ valid: true });
+
+  const [activeTabsetActiveTab] = useState('overview');
+  const [refreshIntervalsetRefreshInterval] = useState(30); // seconds
+  const [lastRefreshedsetLastRefreshed] = useState<Date>(new Date());
+  const [sessionStatussetSessionStatus] = useState<{valid: boolean; reason?: string}>({ valid: true });
 
   // Calculate overall security status based on metrics
   const securityStatus = useMemo(() => {
@@ -75,7 +75,7 @@ const SecurityMonitoringDashboard: React.FC = () => {
     try {
       // In a real implementation, these would be API calls
       // For now, we'll simulate with mock data
-      
+
       // Get latest audit logs
       const latestEvents: SecurityEvent[] = [
         {
@@ -111,7 +111,7 @@ const SecurityMonitoringDashboard: React.FC = () => {
           ipAddress: '192.168.1.3'
         }
       ];
-      
+
       // Get blocked IPs
       const currentBlockedIPs: BlockedIP[] = [
         {
@@ -129,41 +129,41 @@ const SecurityMonitoringDashboard: React.FC = () => {
           attemptCount: 5
         }
       ];
-      
+
       // Update session status
       const currentSessionStatus = SessionFingerprint && typeof SessionFingerprint.validate === 'function' 
         ? SessionFingerprint.validate() 
         : { valid: true };
-      
+
       // Update states
       setSecurityEvents(latestEvents);
       setBlockedIPs(currentBlockedIPs);
       setSessionStatus(currentSessionStatus);
       setLastRefreshed(new Date());
-      
+
     } catch (error) {
-      console.error('Error fetching security data:', error);
+
     }
   };
 
   // Set up interval to refresh data
   useEffect(() => {
     fetchSecurityData();
-    
+
     const intervalId = setInterval(() => {
       fetchSecurityData();
     }, refreshInterval * 1000);
-    
+
     return () => clearInterval(intervalId);
   }, [refreshInterval]);
 
   // Format timestamp relative to now
   const formatTimeAgo = (date: Date) => {
     const seconds = Math.floor((new Date().getTime() - date.getTime()) / 1000);
-    
-    if (seconds < 60) return `${seconds} seconds ago`;
-    if (seconds < 3600) return `${Math.floor(seconds / 60)} minutes ago`;
-    if (seconds < 86400) return `${Math.floor(seconds / 3600)} hours ago`;
+
+    if (seconds <60) return `${seconds} seconds ago`;
+    if (seconds <3600) return `${Math.floor(seconds / 60)} minutes ago`;
+    if (seconds <86400) return `${Math.floor(seconds / 3600)} hours ago`;
     return `${Math.floor(seconds / 86400)} days ago`;
   };
 
@@ -171,15 +171,15 @@ const SecurityMonitoringDashboard: React.FC = () => {
   const SeverityBadge = ({ severity }: { severity: string }) => {
     switch (severity) {
       case 'low':
-        return <Badge variant="outline" className="bg-green-50 text-green-700">Low</Badge>;
+        return <Badge variant="outline" className="bg-green-50 text-green-700">Low</Badge>\n  );
       case 'medium':
-        return <Badge variant="outline" className="bg-yellow-50 text-yellow-700">Medium</Badge>;
+        return <Badge variant="outline" className="bg-yellow-50 text-yellow-700">Medium</Badge>\n  );
       case 'high':
-        return <Badge variant="outline" className="bg-orange-50 text-orange-700">High</Badge>;
+        return <Badge variant="outline" className="bg-orange-50 text-orange-700">High</Badge>\n  );
       case 'critical':
-        return <Badge variant="outline" className="bg-red-50 text-red-700">Critical</Badge>;
+        return <Badge variant="outline" className="bg-red-50 text-red-700">Critical</Badge>\n  );
       default:
-        return <Badge variant="outline">{severity}</Badge>;
+        return <Badge variant="outline">{severity}</Badge>\n  );
     }
   };
 
@@ -187,11 +187,11 @@ const SecurityMonitoringDashboard: React.FC = () => {
   const StatusBadge = ({ status }: { status: string }) => {
     switch (status) {
       case 'success':
-        return <Badge variant="outline" className="bg-green-50 text-green-700">Success</Badge>;
+        return <Badge variant="outline" className="bg-green-50 text-green-700">Success</Badge>\n  );
       case 'failure':
-        return <Badge variant="outline" className="bg-red-50 text-red-700">Failure</Badge>;
+        return <Badge variant="outline" className="bg-red-50 text-red-700">Failure</Badge>\n  );
       default:
-        return <Badge variant="outline">{status}</Badge>;
+        return <Badge variant="outline">{status}</Badge>\n  );
     }
   };
 
@@ -204,7 +204,7 @@ const SecurityMonitoringDashboard: React.FC = () => {
           Last updated: {formatTimeAgo(lastRefreshed)}
         </div>
       </div>
-      
+
       {/* Security Status Overview */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <Card className={`border-l-4 ${
@@ -226,7 +226,7 @@ const SecurityMonitoringDashboard: React.FC = () => {
             </div>
           </CardContent>
         </Card>
-        
+
         <Card className={`border-l-4 ${
           sessionStatus.valid ? 'border-l-green-500' : 'border-l-red-500'
         }`}>
@@ -248,7 +248,7 @@ const SecurityMonitoringDashboard: React.FC = () => {
             )}
           </CardContent>
         </Card>
-        
+
         <Card>
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium text-gray-500">Recent Events</CardTitle>
@@ -260,7 +260,7 @@ const SecurityMonitoringDashboard: React.FC = () => {
             </div>
           </CardContent>
         </Card>
-        
+
         <Card>
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium text-gray-500">Blocked IPs</CardTitle>
@@ -273,7 +273,7 @@ const SecurityMonitoringDashboard: React.FC = () => {
           </CardContent>
         </Card>
       </div>
-      
+
       {/* Security Metrics */}
       <Card>
         <CardHeader>
@@ -282,7 +282,7 @@ const SecurityMonitoringDashboard: React.FC = () => {
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
-            {metrics.map((metric) => (
+            {metrics.map((metric: any) => (
               <div key={metric.name} className="space-y-1">
                 <div className="flex items-center justify-between">
                   <span className="text-sm font-medium">{metric.name}</span>
@@ -309,7 +309,7 @@ const SecurityMonitoringDashboard: React.FC = () => {
           </div>
         </CardContent>
       </Card>
-      
+
       {/* Tabs for detailed information */}
       <Tabs value={activeTab} onValueChange={setActiveTab}>
         <TabsList className="grid w-full grid-cols-3">
@@ -317,7 +317,7 @@ const SecurityMonitoringDashboard: React.FC = () => {
           <TabsTrigger value="blocks">IP Blocks</TabsTrigger>
           <TabsTrigger value="actions">Available Actions</TabsTrigger>
         </TabsList>
-        
+
         <TabsContent value="events" className="pt-4">
           <Card>
             <CardHeader>
@@ -337,7 +337,7 @@ const SecurityMonitoringDashboard: React.FC = () => {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {securityEvents.map((event) => (
+                  {securityEvents.map((event: any) => (
                     <TableRow key={event.id}>
                       <TableCell className="font-medium">{formatTimeAgo(event.timestamp)}</TableCell>
                       <TableCell>{event.category}</TableCell>
@@ -352,7 +352,7 @@ const SecurityMonitoringDashboard: React.FC = () => {
             </CardContent>
           </Card>
         </TabsContent>
-        
+
         <TabsContent value="blocks" className="pt-4">
           <Card>
             <CardHeader>
@@ -371,7 +371,7 @@ const SecurityMonitoringDashboard: React.FC = () => {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {blockedIPs.map((ip) => (
+                  {blockedIPs.map((ip: any) => (
                     <TableRow key={ip.ip}>
                       <TableCell className="font-medium">{ip.ip}</TableCell>
                       <TableCell>{ip.reason}</TableCell>
@@ -385,7 +385,7 @@ const SecurityMonitoringDashboard: React.FC = () => {
             </CardContent>
           </Card>
         </TabsContent>
-        
+
         <TabsContent value="actions" className="pt-4">
           <Card>
             <CardHeader>
@@ -409,12 +409,12 @@ const SecurityMonitoringDashboard: React.FC = () => {
                         SessionFingerprint.refresh();
                         fetchSecurityData();
                       }
-                    }}
+                    }
                   >
                     Refresh
                   </button>
                 </div>
-                
+
                 <div className="flex items-center p-4 border rounded-lg">
                   <div className="mr-4">
                     <ShieldAlert className="h-10 w-10 text-yellow-500" />
@@ -430,12 +430,12 @@ const SecurityMonitoringDashboard: React.FC = () => {
                         RateLimiter.reset();
                         fetchSecurityData();
                       }
-                    }}
+                    }
                   >
                     Clear
                   </button>
                 </div>
-                
+
                 <div className="flex items-center p-4 border rounded-lg">
                   <div className="mr-4">
                     <AlertTriangle className="h-10 w-10 text-red-500" />
@@ -449,7 +449,7 @@ const SecurityMonitoringDashboard: React.FC = () => {
                     onClick={() => {
                       // In a real implementation, this would call an API
                       setBlockedIPs([]);
-                    }}
+                    }
                   >
                     Unblock All
                   </button>

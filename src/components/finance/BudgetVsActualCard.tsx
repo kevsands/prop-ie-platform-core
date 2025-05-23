@@ -19,13 +19,9 @@ const barColorVariant = cva(
         positive: "bg-green-500",
         warning: "bg-amber-500",
         negative: "bg-red-500",
-        neutral: "bg-blue-500",
-      },
-    },
+        neutral: "bg-blue-500"},
     defaultVariants: {
-      performance: "neutral",
-    },
-  }
+      performance: "neutral"}
 );
 
 // Value variants for different performance contexts
@@ -37,13 +33,9 @@ const valueVariants = cva(
         positive: "text-green-600 dark:text-green-400",
         negative: "text-red-600 dark:text-red-400",
         neutral: "text-slate-600 dark:text-slate-400",
-        warning: "text-amber-600 dark:text-amber-400",
-      },
-    },
+        warning: "text-amber-600 dark:text-amber-400"},
     defaultVariants: {
-      performance: "neutral",
-    },
-  }
+      performance: "neutral"}
 );
 
 /**
@@ -70,12 +62,12 @@ const BudgetVsActualCard = ({
   const percentageUsed = React.useMemo(() => {
     if (budgetValue === 0) return 100;
     return Math.min(Math.round((actualValue / budgetValue) * 100), 200);
-  }, [actualValue, budgetValue]);
+  }, [actualValuebudgetValue]);
 
   // Calculate variance and percentage
   const variance = actualValue - budgetValue;
-  const variancePercentage = calculateVariancePercentage(actualValue, budgetValue);
-  
+  const variancePercentage = calculateVariancePercentage(actualValuebudgetValue);
+
   // Determine performance indicator
   const performance = React.useMemo(() => {
     // If inverting comparison (e.g., for costs where lower is better)
@@ -86,26 +78,26 @@ const BudgetVsActualCard = ({
     } 
     // Normal comparison (e.g., for revenue where higher is better)
     else {
-      if (actualValue >= budgetValue) return 'positive';
-      if (actualValue >= budgetValue * 0.9) return 'warning';
+      if (actualValue>= budgetValue) return 'positive';
+      if (actualValue>= budgetValue * 0.9) return 'warning';
       return 'negative';
     }
-  }, [actualValue, budgetValue, invertComparison]);
+  }, [actualValue, budgetValueinvertComparison]);
 
   // Format values for display
   const formattedBudget = formatCurrency(budgetValue);
   const formattedActual = formatCurrency(actualValue);
   const formattedVariance = formatCurrency(Math.abs(variance));
-  
+
   // Variance display text
-  const varianceText = `${variance >= 0 ? '+' : '-'} ${formattedVariance} (${Math.abs(variancePercentage).toFixed(1)}%)`;
-  
+  const varianceText = `${variance>= 0 ? '+' : '-'} ${formattedVariance} (${Math.abs(variancePercentage).toFixed(1)}%)`;
+
   // Render trend icon based on variance direction and context
   const renderTrendIcon = () => {
-    if ((variance > 0 && !invertComparison) || (variance < 0 && invertComparison)) {
-      return <TrendingUp className="h-4 w-4 mr-1" />;
-    } else if ((variance < 0 && !invertComparison) || (variance > 0 && invertComparison)) {
-      return <TrendingDown className="h-4 w-4 mr-1" />;
+    if ((variance> 0 && !invertComparison) || (variance <0 && invertComparison)) {
+      return <TrendingUp className="h-4 w-4 mr-1" />\n  );
+    } else if ((variance <0 && !invertComparison) || (variance> 0 && invertComparison)) {
+      return <TrendingDown className="h-4 w-4 mr-1" />\n  );
     } else {
       return null;
     }
@@ -132,12 +124,12 @@ const BudgetVsActualCard = ({
               </CardDescription>
             )}
           </div>
-          {percentageUsed > 100 && invertComparison && (
+          {percentageUsed> 100 && invertComparison && (
             <div className="rounded-full bg-red-100 p-1 dark:bg-red-900/30">
               <AlertTriangle className="h-4 w-4 text-red-500" />
             </div>
           )}
-          {percentageUsed < 90 && !invertComparison && (
+          {percentageUsed <90 && !invertComparison && (
             <div className="rounded-full bg-amber-100 p-1 dark:bg-amber-900/30">
               <AlertTriangle className="h-4 w-4 text-amber-500" />
             </div>
@@ -160,27 +152,27 @@ const BudgetVsActualCard = ({
             <span className="font-medium">{formattedBudget}</span>
           </div>
         </div>
-        
+
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>
               <div className="space-y-1.5">
                 <Progress 
-                  value={percentageUsed > 100 ? 100 : percentageUsed} 
+                  value={percentageUsed> 100 ? 100 : percentageUsed} 
                   className={cn(
                     "h-2.5", 
-                    percentageUsed > 100 ? "bg-slate-200 dark:bg-slate-800" : ""
+                    percentageUsed> 100 ? "bg-slate-200 dark:bg-slate-800" : ""
                   )}
                   indicatorClassName={barColorVariant({ performance })}
                 />
-                {percentageUsed > 100 && (
+                {percentageUsed> 100 && (
                   <div className="w-full bg-slate-100 dark:bg-slate-800/50 h-1.5 rounded-full">
                     <div 
                       className={cn(
                         "h-full rounded-full", 
                         barColorVariant({ performance: 'negative' })
                       )}
-                      style={{ width: `${Math.min(((percentageUsed - 100) / 100) * 100, 100)}%` }}
+                      style={ width: `${Math.min(((percentageUsed - 100) / 100) * 100100)}%` }
                     />
                   </div>
                 )}
@@ -191,14 +183,14 @@ const BudgetVsActualCard = ({
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>
-        
+
         <div className="flex justify-between items-center">
           <div className={cn(
             "flex items-center", 
             valueVariants({ 
               performance: (
-                (variance < 0 && !invertComparison) || 
-                (variance > 0 && invertComparison)
+                (variance <0 && !invertComparison) || 
+                (variance> 0 && invertComparison)
               ) ? 'negative' : 'positive' 
             })
           )}>

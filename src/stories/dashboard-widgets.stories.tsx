@@ -30,24 +30,20 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 const meta: Meta = {
   title: 'Dashboard/Widgets',
   parameters: {
-    layout: 'centered',
-  },
+    layout: 'centered'},
   tags: ['autodocs'],
   decorators: [
-    (Story) => (
+    (Story: any) => (
       <div className="max-w-md mx-auto">
         <Story />
       </div>
-    ),
-  ],
-};
+    )]};
 
 export default meta;
 
 // Sample metric trend data
-const metricTrendData = Array.from({ length: 7 }, (_, i) => ({
-  value: 10 + Math.random() * 50,
-}));
+const metricTrendData = Array.from({ length: 7 }, (_i: any) => ({
+  value: 10 + Math.random() * 50}));
 
 // Sample list data
 const listItems: ListItem[] = [
@@ -58,11 +54,9 @@ const listItems: ListItem[] = [
     icon: Home,
     timestamp: '1 hour ago',
     actions: [
-      { label: 'View', onClick: (id) => console.log('View', id) },
-      { label: 'Edit', onClick: (id) => console.log('Edit', id), icon: Edit },
-      { label: 'Delete', onClick: (id) => console.log('Delete', id), icon: Trash2 },
-    ],
-  },
+      { label: 'View', onClick: (id: any) => console.log('View', id) },
+      { label: 'Edit', onClick: (id: any) => console.log('Edit', id), icon: Edit },
+      { label: 'Delete', onClick: (id: any) => console.log('Delete', id), icon: Trash2 }]},
   {
     id: '2',
     title: 'Maintenance Request',
@@ -72,10 +66,8 @@ const listItems: ListItem[] = [
     statusColor: 'danger',
     timestamp: '3 hours ago',
     actions: [
-      { label: 'View', onClick: (id) => console.log('View', id) },
-      { label: 'Assign', onClick: (id) => console.log('Assign', id) },
-    ],
-  },
+      { label: 'View', onClick: (id: any) => console.log('View', id) },
+      { label: 'Assign', onClick: (id: any) => console.log('Assign', id) }]},
   {
     id: '3',
     title: 'Contract Signed',
@@ -85,9 +77,7 @@ const listItems: ListItem[] = [
     statusColor: 'success',
     timestamp: 'Yesterday',
     actions: [
-      { label: 'View Contract', onClick: (id) => console.log('View', id) },
-    ],
-  },
+      { label: 'View Contract', onClick: (id: any) => console.log('View', id) }]},
   {
     id: '4',
     title: 'Property Viewing Scheduled',
@@ -97,12 +87,9 @@ const listItems: ListItem[] = [
     statusColor: 'info',
     timestamp: 'Tomorrow at 10:00 AM',
     actions: [
-      { label: 'View', onClick: (id) => console.log('View', id) },
-      { label: 'Reschedule', onClick: (id) => console.log('Reschedule', id) },
-      { label: 'Cancel', onClick: (id) => console.log('Cancel', id) },
-    ],
-  },
-];
+      { label: 'View', onClick: (id: any) => console.log('View', id) },
+      { label: 'Reschedule', onClick: (id: any) => console.log('Reschedule', id) },
+      { label: 'Cancel', onClick: (id: any) => console.log('Cancel', id) }]}];
 
 // Stat Widget Stories
 export const BasicStatWidget: StoryObj = {
@@ -113,8 +100,7 @@ export const BasicStatWidget: StoryObj = {
       description="Monthly revenue"
       icon={DollarSign}
     />
-  ),
-};
+  )};
 
 export const StatWidgetWithTrend: StoryObj = {
   render: () => (
@@ -123,14 +109,12 @@ export const StatWidgetWithTrend: StoryObj = {
       value="€234,567"
       description="Monthly revenue"
       icon={DollarSign}
-      trend={{
+      trend={
         value: 12.5,
         positive: true,
-        label: "vs last month",
-      }}
+        label: "vs last month"}
     />
-  ),
-};
+  )};
 
 export const StatWidgetVariants: StoryObj = {
   render: () => (
@@ -139,47 +123,46 @@ export const StatWidgetVariants: StoryObj = {
         title="Total Revenue"
         value="€234,567"
         icon={DollarSign}
-        trend={{ value: 12.5, positive: true }}
+        trend={ value: 12.5, positive: true }
         variant="default"
       />
       <StatWidget
         title="New Customers"
         value="1,234"
         icon={Users}
-        trend={{ value: 3.2, positive: false }}
+        trend={ value: 3.2, positive: false }
         variant="outline"
       />
       <StatWidget
         title="Properties"
         value="48"
         icon={Building2}
-        trend={{ value: 8.7, positive: true }}
+        trend={ value: 8.7, positive: true }
         variant="success"
       />
       <StatWidget
         title="Pending Maintenance"
         value="7"
         icon={Wrench}
-        trend={{ value: 2.8, positive: false }}
+        trend={ value: 2.8, positive: false }
         variant="warning"
       />
       <StatWidget
         title="Overdue Payments"
         value="3"
         icon={AlertCircle}
-        trend={{ value: 1.2, positive: false }}
+        trend={ value: 1.2, positive: false }
         variant="danger"
       />
       <StatWidget
         title="Property Viewings"
         value="15"
         icon={Calendar}
-        trend={{ value: 5.4, positive: true }}
+        trend={ value: 5.4, positive: true }
         variant="info"
       />
     </div>
-  ),
-};
+  )};
 
 export const StatWidgetClickable: StoryObj = {
   render: () => (
@@ -188,11 +171,10 @@ export const StatWidgetClickable: StoryObj = {
       value="€234,567"
       description="Click for details"
       icon={DollarSign}
-      trend={{ value: 12.5, positive: true }}
+      trend={ value: 12.5, positive: true }
       onClick={() => alert("Widget clicked!")}
     />
-  ),
-};
+  )};
 
 export const StatWidgetLoading: StoryObj = {
   render: () => (
@@ -203,8 +185,7 @@ export const StatWidgetLoading: StoryObj = {
       icon={DollarSign}
       loading={true}
     />
-  ),
-};
+  )};
 
 // Progress Widget Stories
 export const BasicProgressWidget: StoryObj = {
@@ -216,8 +197,7 @@ export const BasicProgressWidget: StoryObj = {
       icon={Layers}
       description="FitzGerald Gardens development"
     />
-  ),
-};
+  )};
 
 export const ProgressWidgetWithStatus: StoryObj = {
   render: () => (
@@ -230,8 +210,7 @@ export const ProgressWidgetWithStatus: StoryObj = {
       status="inProgress"
       primaryLabel="65% Complete"
     />
-  ),
-};
+  )};
 
 export const ProgressWidgetColors: StoryObj = {
   render: () => (
@@ -276,8 +255,7 @@ export const ProgressWidgetColors: StoryObj = {
         primaryLabel="50% Complete"
       />
     </div>
-  ),
-};
+  )};
 
 export const ProgressWidgetSizes: StoryObj = {
   render: () => (
@@ -301,8 +279,7 @@ export const ProgressWidgetSizes: StoryObj = {
         primaryLabel="75% Complete"
       />
     </div>
-  ),
-};
+  )};
 
 export const ProgressWidgetWithTarget: StoryObj = {
   render: () => (
@@ -318,8 +295,7 @@ export const ProgressWidgetWithTarget: StoryObj = {
       icon={DollarSign}
       status="inProgress"
     />
-  ),
-};
+  )};
 
 // List Widget Stories
 export const BasicListWidget: StoryObj = {
@@ -327,10 +303,9 @@ export const BasicListWidget: StoryObj = {
     <ListWidget
       title="Recent Activities"
       items={listItems}
-      onItemClick={(id) => console.log('Item clicked', id)}
+      onItemClick={(id: any) => console.log('Item clicked', id)}
     />
-  ),
-};
+  )};
 
 export const ListWidgetWithActions: StoryObj = {
   render: () => (
@@ -338,7 +313,7 @@ export const ListWidgetWithActions: StoryObj = {
       title="Recent Activities"
       description="Latest events from your properties"
       items={listItems}
-      onItemClick={(id) => console.log('Item clicked', id)}
+      onItemClick={(id: any) => console.log('Item clicked', id)}
       actions={
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -354,13 +329,11 @@ export const ListWidgetWithActions: StoryObj = {
           </DropdownMenuContent>
         </DropdownMenu>
       }
-      footerAction={{
+      footerAction={
         label: "View All",
-        onClick: () => console.log("View all clicked"),
-      }}
+        onClick: () => console.log("View all clicked")}
     />
-  ),
-};
+  )};
 
 export const ListWidgetVariants: StoryObj = {
   render: () => (
@@ -369,7 +342,7 @@ export const ListWidgetVariants: StoryObj = {
         <h3 className="text-sm font-medium mb-2">Default Variant</h3>
         <ListWidget
           title="Activities"
-          items={listItems.slice(0, 2)}
+          items={listItems.slice(02)}
           variant="default"
         />
       </div>
@@ -378,7 +351,7 @@ export const ListWidgetVariants: StoryObj = {
         <h3 className="text-sm font-medium mb-2">Compact Variant</h3>
         <ListWidget
           title="Activities"
-          items={listItems.slice(0, 2)}
+          items={listItems.slice(02)}
           variant="compact"
         />
       </div>
@@ -387,7 +360,7 @@ export const ListWidgetVariants: StoryObj = {
         <h3 className="text-sm font-medium mb-2">Card Variant</h3>
         <ListWidget
           title="Activities"
-          items={listItems.slice(0, 2)}
+          items={listItems.slice(02)}
           variant="card"
         />
       </div>
@@ -396,13 +369,12 @@ export const ListWidgetVariants: StoryObj = {
         <h3 className="text-sm font-medium mb-2">Separated Variant</h3>
         <ListWidget
           title="Activities"
-          items={listItems.slice(0, 2)}
+          items={listItems.slice(02)}
           variant="separated"
         />
       </div>
     </div>
-  ),
-};
+  )};
 
 export const ListWidgetEmpty: StoryObj = {
   render: () => (
@@ -419,8 +391,7 @@ export const ListWidgetEmpty: StoryObj = {
         </div>
       }
     />
-  ),
-};
+  )};
 
 export const ListWidgetLoading: StoryObj = {
   render: () => (
@@ -430,8 +401,7 @@ export const ListWidgetLoading: StoryObj = {
       loading={true}
       loadingItemCount={3}
     />
-  ),
-};
+  )};
 
 // Metric Card Stories
 export const BasicMetricCard: StoryObj = {
@@ -445,8 +415,7 @@ export const BasicMetricCard: StoryObj = {
       trendLabel="vs last month"
       trendData={metricTrendData}
     />
-  ),
-};
+  )};
 
 export const MetricCardVariants: StoryObj = {
   render: () => (
@@ -489,8 +458,7 @@ export const MetricCardVariants: StoryObj = {
         trendColor="warning"
       />
     </div>
-  ),
-};
+  )};
 
 // Widget Composition Examples
 export const DashboardWidgetsGrid: StoryObj = {
@@ -502,21 +470,21 @@ export const DashboardWidgetsGrid: StoryObj = {
         <StatWidget
           title="Monthly Revenue"
           value="€234,567"
-          trend={{ value: 12.5, positive: true, label: "vs last month" }}
+          trend={ value: 12.5, positive: true, label: "vs last month" }
           icon={DollarSign}
         />
         
         <StatWidget
           title="Occupancy Rate"
           value="94.2%"
-          trend={{ value: 2.3, positive: true, label: "vs last month" }}
+          trend={ value: 2.3, positive: true, label: "vs last month" }
           icon={Percent}
         />
         
         <StatWidget
           title="Active Properties"
           value="48"
-          trend={{ value: 8.7, positive: true, label: "growth" }}
+          trend={ value: 8.7, positive: true, label: "growth" }
           icon={Building2}
         />
       </div>
@@ -552,11 +520,10 @@ export const DashboardWidgetsGrid: StoryObj = {
             title="Recent Activities"
             description="Latest events from your properties"
             items={listItems}
-            onItemClick={(id) => console.log('Item clicked', id)}
-            footerAction={{
+            onItemClick={(id: any) => console.log('Item clicked', id)}
+            footerAction={
               label: "View All",
-              onClick: () => console.log("View all clicked"),
-            }}
+              onClick: () => console.log("View all clicked")}
           />
         </div>
         
@@ -572,5 +539,4 @@ export const DashboardWidgetsGrid: StoryObj = {
         />
       </div>
     </div>
-  ),
-};
+  )};

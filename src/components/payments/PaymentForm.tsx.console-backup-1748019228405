@@ -1,0 +1,187 @@
+'use client';
+
+import React, { useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import { PaymentType, PaymentMethod } from '@/lib/transaction-engine/types';
+import { CreditCard, Building, FileText } from 'lucide-react';
+
+export interface PaymentFormProps {
+  transactionId: string;
+  paymentType: PaymentType;
+  amount: number;
+  onSuccess: (paymentId: string) => void;
+  onError: (error: Error) => void;
+}
+
+export function PaymentForm({ transactionId, paymentType, amount, onSuccess, onError }: PaymentFormProps) {
+  const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>(PaymentMethod.CARD);
+  const [processing, setProcessing] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const formatAmount = (amount: number) => {
+    return new Intl.NumberFormat('en-IE', {
+      style: 'currency',
+      currency: 'EUR'
+    }).format(amount);
+  };
+
+  const getPaymentTypeLabel = (type: PaymentType) => {
+    switch (type) {
+      case PaymentType.BOOKING_DEPOSIT:
+        return 'Booking Deposit';
+      case PaymentType.CONTRACTUAL_DEPOSIT:
+        return 'Contractual Deposit';
+      case PaymentType.CUSTOMIZATION_PAYMENT:
+        return 'Customization Payment';
+      case PaymentType.STAGE_PAYMENT:
+        return 'Stage Payment';
+      case PaymentType.FINAL_PAYMENT:
+        return 'Final Payment';
+      case PaymentType.MORTGAGE_DRAWDOWN:
+        return 'Mortgage Drawdown';
+      default:
+        return 'Payment';
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setProcessing(true);
+    setError(null);
+
+    try {
+      // Simulate payment processing
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      
+      // Generate mock payment ID
+      const paymentId = `PAY-${Date.now()}`;
+      onSuccess(paymentId);
+    } catch (err) {
+      const error = err as Error;
+      setError(error.message);
+      onError(error);
+    } finally {
+      setProcessing(false);
+    }
+  };
+
+  return (
+    <Card className="p-6">
+      <h2 className="text-xl font-bold mb-4">
+        {getPaymentTypeLabel(paymentType)}
+      </h2>
+      
+      <div className="mb-6">
+        <p className="text-3xl font-bold text-green-600">{formatAmount(amount)}</p>
+        <p className="text-sm text-gray-600">Payment amount</p>
+      </div>
+
+      <form onSubmit={handleSubmit}>
+        <div className="mb-6">
+          <label className="block text-sm font-medium mb-2">Payment Method</label>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <button
+              type="button"
+              className={`p-4 border rounded-lg transition-colors ${
+                paymentMethod === PaymentMethod.CARD
+                  ? 'border-blue-500 bg-blue-50'
+                  : 'border-gray-300 hover:border-gray-400'
+              }`}
+              onClick={() => setPaymentMethod(PaymentMethod.CARD)}
+            >
+              <CreditCard className="h-6 w-6 mx-auto mb-2" />
+              <p className="text-sm font-medium">Card</p>
+            </button>
+
+            <button
+              type="button"
+              className={`p-4 border rounded-lg transition-colors ${
+                paymentMethod === PaymentMethod.BANK_TRANSFER
+                  ? 'border-blue-500 bg-blue-50'
+                  : 'border-gray-300 hover:border-gray-400'
+              }`}
+              onClick={() => setPaymentMethod(PaymentMethod.BANK_TRANSFER)}
+            >
+              <Building className="h-6 w-6 mx-auto mb-2" />
+              <p className="text-sm font-medium">Bank Transfer</p>
+            </button>
+
+            <button
+              type="button"
+              className={`p-4 border rounded-lg transition-colors ${
+                paymentMethod === PaymentMethod.DIRECT_DEBIT
+                  ? 'border-blue-500 bg-blue-50'
+                  : 'border-gray-300 hover:border-gray-400'
+              }`}
+              onClick={() => setPaymentMethod(PaymentMethod.DIRECT_DEBIT)}
+            >
+              <FileText className="h-6 w-6 mx-auto mb-2" />
+              <p className="text-sm font-medium">Direct Debit</p>
+            </button>
+          </div>
+        </div>
+
+        {paymentMethod === PaymentMethod.CARD && (
+          <div className="space-y-4 mb-6">
+            <div>
+              <label className="block text-sm font-medium mb-1">Card Number</label>
+              <input
+                type="text"
+                placeholder="1234 5678 9012 3456"
+                className="w-full px-3 py-2 border rounded-lg"
+                maxLength={19}
+              />
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium mb-1">Expiry Date</label>
+                <input
+                  type="text"
+                  placeholder="MM/YY"
+                  className="w-full px-3 py-2 border rounded-lg"
+                  maxLength={5}
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-1">CVV</label>
+                <input
+                  type="text"
+                  placeholder="123"
+                  className="w-full px-3 py-2 border rounded-lg"
+                  maxLength={3}
+                />
+              </div>
+            </div>
+          </div>
+        )}
+
+        {paymentMethod === PaymentMethod.BANK_TRANSFER && (
+          <div className="mb-6 p-4 bg-gray-50 rounded-lg">
+            <h3 className="font-medium mb-2">Bank Transfer Details</h3>
+            <div className="space-y-2 text-sm">
+              <p><span className="font-medium">Account Name:</span> Property Developer Ltd</p>
+              <p><span className="font-medium">IBAN:</span> IE29 AIBK 9311 5212 3456 78</p>
+              <p><span className="font-medium">BIC:</span> AIBKIE2D</p>
+              <p><span className="font-medium">Reference:</span> {transactionId}</p>
+            </div>
+          </div>
+        )}
+
+        {error && (
+          <div className="mb-4 p-3 bg-red-50 text-red-800 rounded-lg">
+            {error}
+          </div>
+        )}
+
+        <Button
+          type="submit"
+          className="w-full"
+          disabled={processing}
+        >
+          {processing ? 'Processing...' : `Pay ${formatAmount(amount)}`}
+        </Button>
+      </form>
+    </Card>
+  );
+}

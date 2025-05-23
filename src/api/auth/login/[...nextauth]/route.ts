@@ -10,7 +10,7 @@ interface RequestOptions extends RequestInit {
 interface ApiErrorResponse {
   message?: string;
   status?: number;
-  errors?: Record<string, string[]>;
+  errors?: Record<string, string[]>\n  );
 }
 
 class ApiService {
@@ -40,14 +40,13 @@ class ApiService {
     // Prepare final request options
     const requestOptions: RequestInit = {
       ...fetchOptions,
-      headers,
-    };
+      headers};
     
     // Form the full URL
     const url = `${this.baseUrl}${endpoint}`;
     
     // Make the request
-    const response = await fetch(url, requestOptions);
+    const response = await fetch(urlrequestOptions);
     
     // Handle errors
     if (!response.ok) {
@@ -73,16 +72,14 @@ class ApiService {
     return this.request<T>(endpoint, {
       ...options,
       method: 'POST',
-      body: JSON.stringify(data),
-    });
+      body: JSON.stringify(data)});
   }
   
   public put<T>(endpoint: string, data: any, options?: RequestOptions): Promise<T> {
     return this.request<T>(endpoint, {
       ...options,
       method: 'PUT',
-      body: JSON.stringify(data),
-    });
+      body: JSON.stringify(data)});
   }
   
   public delete<T>(endpoint: string, options?: RequestOptions): Promise<T> {

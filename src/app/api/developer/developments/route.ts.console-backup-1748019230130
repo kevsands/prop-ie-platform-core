@@ -1,0 +1,58 @@
+import { NextRequest, NextResponse } from 'next/server';
+import { prisma } from '@/lib/prisma';
+
+// GET /api/developer/developments - Get all developments for the developer
+export async function GET(request: NextRequest) {
+  try {
+    const developments = await prisma.development.findMany({
+      where: {
+        developerId: 'fitzgerald-gardens-residential-ltd'
+      },
+      include: {
+        UnitType: {
+          include: {
+            _count: {
+              select: { units: true }
+            }
+          }
+        },
+        _count: {
+          select: {
+            units: true,
+            Viewing: true
+          }
+        }
+      }
+    });
+
+    return NextResponse.json({ developments });
+  } catch (error) {
+    console.error('Error fetching developments:', error);
+    return NextResponse.json(
+      { error: 'Failed to fetch developments' },
+      { status: 500 }
+    );
+  }
+}
+
+// POST /api/developer/developments - Create a new development
+export async function POST(request: NextRequest) {
+  try {
+    const body: any = await request.json();
+    
+    const development = await prisma.development.create({
+      data: {
+        ...body,
+        developerId: 'fitzgerald-gardens-residential-ltd'
+      }
+    });
+
+    return NextResponse.json({ development }, { status: 201 });
+  } catch (error) {
+    console.error('Error creating development:', error);
+    return NextResponse.json(
+      { error: 'Failed to create development' },
+      { status: 500 }
+    );
+  }
+}

@@ -230,18 +230,18 @@ const liveActivity = [
 ];
 
 export default function ProfessionalInvestorsPage() {
-  const [selectedClass, setSelectedClass] = useState('all');
-  const [sortBy, setSortBy] = useState('yield');
-  const [showDetails, setShowDetails] = useState<number | null>(null);
-  const [portfolioVisible, setPortfolioVisible] = useState(false);
-  const [expandedPlacement, setExpandedPlacement] = useState<number | null>(null);
-  const [showActivityFeed, setShowActivityFeed] = useState(false);
-  
+  const [selectedClasssetSelectedClass] = useState('all');
+  const [sortBysetSortBy] = useState('yield');
+  const [showDetailssetShowDetails] = useState<number | null>(null);
+  const [portfolioVisiblesetPortfolioVisible] = useState(false);
+  const [expandedPlacementsetExpandedPlacement] = useState<number | null>(null);
+  const [showActivityFeedsetShowActivityFeed] = useState(false);
+
   const filteredOpportunities = opportunities.filter(opp => 
     selectedClass === 'all' || opp.class === selectedClass
   );
 
-  const sortedOpportunities = [...filteredOpportunities].sort((a, b) => {
+  const sortedOpportunities = [...filteredOpportunities].sort((ab: any) => {
     switch(sortBy) {
       case 'yield': return b.yield - a.yield;
       case 'price': return a.price - b.price;
@@ -258,27 +258,27 @@ export default function ProfessionalInvestorsPage() {
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
           <div className="text-center">
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
+              initial={ opacity: 0, y: 20 }
+              animate={ opacity: 1, y: 0 }
               className="inline-flex items-center px-6 py-3 bg-blue-600/20 backdrop-blur-sm border border-blue-500/50 rounded-full mb-8"
             >
               <Trophy className="h-5 w-5 mr-2 text-yellow-400" />
               <span className="text-white font-medium">Ireland\'s Leading Investment Platform</span>
             </motion.div>
-            
+
             <motion.h1 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 }}
+              initial={ opacity: 0, y: 20 }
+              animate={ opacity: 1, y: 0 }
+              transition={ delay: 0.1 }
               className="text-5xl md:text-6xl font-bold text-white mb-6"
             >
               Professional Property Investment
             </motion.h1>
-            
+
             <motion.p 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
+              initial={ opacity: 0, y: 20 }
+              animate={ opacity: 1, y: 0 }
+              transition={ delay: 0.2 }
               className="text-xl md:text-2xl text-gray-300 mb-8 max-w-3xl mx-auto"
             >
               Access institutional-grade opportunities with advanced analytics, 
@@ -286,9 +286,9 @@ export default function ProfessionalInvestorsPage() {
             </motion.p>
 
             <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3 }}
+              initial={ opacity: 0, y: 20 }
+              animate={ opacity: 1, y: 0 }
+              transition={ delay: 0.3 }
               className="flex flex-col sm:flex-row gap-4 justify-center"
             >
               <Link
@@ -313,9 +313,9 @@ export default function ProfessionalInvestorsPage() {
       <AnimatePresence>
         {portfolioVisible && (
           <motion.section 
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: 'auto', opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
+            initial={ height: 0, opacity: 0 }
+            animate={ height: 'auto', opacity: 1 }
+            exit={ height: 0, opacity: 0 }
             className="bg-gray-900 text-white overflow-hidden"
           >
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -368,7 +368,7 @@ export default function ProfessionalInvestorsPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between flex-wrap gap-4">
             <div className="flex items-center gap-2 overflow-x-auto">
-              {assetClasses.map((asset) => (
+              {assetClasses.map((asset: any) => (
                 <button
                   key={asset.id}
                   onClick={() => setSelectedClass(asset.id)}
@@ -383,10 +383,10 @@ export default function ProfessionalInvestorsPage() {
                 </button>
               ))}
             </div>
-            
+
             <select
               value={sortBy}
-              onChange={(e) => setSortBy(e.target.value)}
+              onChange={(e: any) => setSortBy(e.target.value)}
               className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
               <option value="yield">Sort by Yield</option>
@@ -410,11 +410,11 @@ export default function ProfessionalInvestorsPage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {sortedOpportunities.map((opp) => (
+            {sortedOpportunities.map((opp: any) => (
               <motion.div
                 key={opp.id}
                 layout
-                whileHover={{ y: -5 }}
+                whileHover={ y: -5 }
                 className="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-200"
               >
                 {/* Status Badge */}
@@ -469,7 +469,7 @@ export default function ProfessionalInvestorsPage() {
                   </div>
 
                   <div className="flex flex-wrap gap-2 mb-6">
-                    {opp.features.map((feature, idx) => (
+                    {opp.features.map((featureidx: any) => (
                       <span key={idx} className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm">
                         {feature}
                       </span>
@@ -502,9 +502,9 @@ export default function ProfessionalInvestorsPage() {
                 <AnimatePresence>
                   {showDetails === opp.id && (
                     <motion.div
-                      initial={{ height: 0 }}
-                      animate={{ height: 'auto' }}
-                      exit={{ height: 0 }}
+                      initial={ height: 0 }
+                      animate={ height: 'auto' }
+                      exit={ height: 0 }
                       className="overflow-hidden"
                     >
                       <div className="p-6 bg-gray-50 border-t">
@@ -527,7 +527,7 @@ export default function ProfessionalInvestorsPage() {
                             <div className="text-lg font-bold">Year 5-7</div>
                           </div>
                         </div>
-                        
+
                         <div className="mt-6 flex gap-3">
                           <Link
                             href={`/investment/${opp.id}/full-analysis`}
@@ -560,7 +560,7 @@ export default function ProfessionalInvestorsPage() {
               <Zap className="h-5 w-5 mr-2" />
               <span className="font-bold">NEW: Irish Property Liquidity Pools</span>
             </div>
-            
+
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
               Revolutionary Development Finance
             </h2>
@@ -568,7 +568,7 @@ export default function ProfessionalInvestorsPage() {
               Access crypto-style liquidity pools for Irish property development with full CBI compliance, 
               dynamic returns up to 12.7% p.a., and milestone-based fund releases
             </p>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto mb-8">
               <div className="bg-white rounded-xl p-6 shadow-lg border border-emerald-200">
                 <TrendingUp className="h-8 w-8 text-emerald-600 mx-auto mb-3" />
@@ -586,7 +586,7 @@ export default function ProfessionalInvestorsPage() {
                 <p className="text-gray-600">Funds released based on verified construction progress</p>
               </div>
             </div>
-            
+
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
                 href="/invest/liquidity-pools"
@@ -603,7 +603,7 @@ export default function ProfessionalInvestorsPage() {
               </Link>
             </div>
           </div>
-          
+
           {/* Live Pool Stats */}
           <div className="mt-12 bg-gradient-to-r from-gray-900 to-blue-900 rounded-2xl p-8 text-white">
             <h3 className="text-2xl font-bold mb-6 flex items-center gap-3">
@@ -640,14 +640,14 @@ export default function ProfessionalInvestorsPage() {
               <Hammer className="h-5 w-5 mr-2 text-purple-400" />
               <span className="text-purple-900 font-medium">Private Placement Opportunities</span>
             </div>
-            
+
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
               Fund Premier Development Projects
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
               Exclusive access to pre-construction funding opportunities with real-time project tracking and milestone updates
             </p>
-            
+
             <button
               onClick={() => setShowActivityFeed(!showActivityFeed)}
               className="mt-6 px-6 py-3 bg-white border border-gray-300 rounded-lg font-medium hover:bg-gray-50 transition-all"
@@ -660,9 +660,9 @@ export default function ProfessionalInvestorsPage() {
           <AnimatePresence>
             {showActivityFeed && (
               <motion.div
-                initial={{ height: 0, opacity: 0 }}
-                animate={{ height: 'auto', opacity: 1 }}
-                exit={{ height: 0, opacity: 0 }}
+                initial={ height: 0, opacity: 0 }
+                animate={ height: 'auto', opacity: 1 }
+                exit={ height: 0, opacity: 0 }
                 className="mb-12 overflow-hidden"
               >
                 <div className="bg-gradient-to-r from-gray-900 to-purple-900 rounded-2xl p-6">
@@ -671,12 +671,12 @@ export default function ProfessionalInvestorsPage() {
                     Live Investment Activity
                   </h3>
                   <div className="space-y-3">
-                    {liveActivity.map((activity, idx) => (
+                    {liveActivity.map((activityidx: any) => (
                       <motion.div
                         key={idx}
-                        initial={{ x: -20, opacity: 0 }}
-                        animate={{ x: 0, opacity: 1 }}
-                        transition={{ delay: idx * 0.1 }}
+                        initial={ x: -20, opacity: 0 }
+                        animate={ x: 0, opacity: 1 }
+                        transition={ delay: idx * 0.1 }
                         className="flex items-center justify-between bg-white/10 backdrop-blur-sm rounded-lg p-3"
                       >
                         <div className="flex items-center gap-3">
@@ -698,15 +698,15 @@ export default function ProfessionalInvestorsPage() {
 
           {/* Private Placement Cards */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {privatePlacements.map((placement) => {
+            {privatePlacements.map((placement: any) => {
               const fundingPercentage = (placement.raised / placement.totalCost) * 100;
               const remainingAmount = placement.totalCost - placement.raised;
               const daysToMilestone = Math.ceil((new Date(placement.milestoneDate).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24));
-              
+
               return (
                 <motion.div
                   key={placement.id}
-                  whileHover={{ y: -5 }}
+                  whileHover={ y: -5 }
                   className="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-200"
                 >
                   {/* Header */}
@@ -759,9 +759,9 @@ export default function ProfessionalInvestorsPage() {
                       </div>
                       <div className="w-full bg-gray-200 rounded-full h-3">
                         <motion.div
-                          initial={{ width: 0 }}
-                          animate={{ width: `${fundingPercentage}%` }}
-                          transition={{ duration: 1, delay: 0.2 }}
+                          initial={ width: 0 }
+                          animate={ width: `${fundingPercentage}%` }
+                          transition={ duration: 1, delay: 0.2 }
                           className="bg-gradient-to-r from-purple-600 to-blue-600 h-3 rounded-full"
                         />
                       </div>
@@ -775,9 +775,9 @@ export default function ProfessionalInvestorsPage() {
                       </div>
                       <div className="w-full bg-gray-200 rounded-full h-3">
                         <motion.div
-                          initial={{ width: 0 }}
-                          animate={{ width: `${placement.completionPercentage}%` }}
-                          transition={{ duration: 1, delay: 0.3 }}
+                          initial={ width: 0 }
+                          animate={ width: `${placement.completionPercentage}%` }
+                          transition={ duration: 1, delay: 0.3 }
                           className="bg-gradient-to-r from-green-600 to-emerald-600 h-3 rounded-full"
                         />
                       </div>
@@ -806,7 +806,7 @@ export default function ProfessionalInvestorsPage() {
                     <div className="mb-6">
                       <h4 className="font-medium text-gray-900 mb-3">Key Investment Highlights</h4>
                       <div className="grid grid-cols-1 gap-2">
-                        {placement.highlights.map((highlight, idx) => (
+                        {placement.highlights.map((highlightidx: any) => (
                           <div key={idx} className="flex items-start gap-2">
                             <CheckCircle2 className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
                             <span className="text-sm text-gray-700">{highlight}</span>
@@ -836,9 +836,9 @@ export default function ProfessionalInvestorsPage() {
                   <AnimatePresence>
                     {expandedPlacement === placement.id && (
                       <motion.div
-                        initial={{ height: 0 }}
-                        animate={{ height: 'auto' }}
-                        exit={{ height: 0 }}
+                        initial={ height: 0 }
+                        animate={ height: 'auto' }
+                        exit={ height: 0 }
                         className="overflow-hidden"
                       >
                         <div className="p-6 bg-gray-50 border-t">
@@ -849,7 +849,7 @@ export default function ProfessionalInvestorsPage() {
                               Recent Updates
                             </h4>
                             <div className="space-y-3">
-                              {placement.updates.map((update, idx) => (
+                              {placement.updates.map((updateidx: any) => (
                                 <div key={idx} className="flex items-start gap-3">
                                   <div className={`h-8 w-8 rounded-full flex items-center justify-center flex-shrink-0 ${
                                     update.type === 'milestone' ? 'bg-green-100' :
@@ -880,7 +880,7 @@ export default function ProfessionalInvestorsPage() {
                               Risk Factors
                             </h4>
                             <div className="space-y-2">
-                              {placement.risks.map((risk, idx) => (
+                              {placement.risks.map((riskidx: any) => (
                                 <div key={idx} className="flex items-center gap-2">
                                   <div className="h-2 w-2 bg-orange-400 rounded-full" />
                                   <span className="text-sm text-gray-700">{risk}</span>
@@ -992,17 +992,17 @@ export default function ProfessionalInvestorsPage() {
                 description: 'Access to top-tier property investment advisors',
                 features: ['Market Analysis', 'Legal Support', 'Tax Advisory']
               }
-            ].map((feature, index) => (
+            ].map((featureindex: any) => (
               <motion.div
                 key={index}
-                whileHover={{ y: -5 }}
+                whileHover={ y: -5 }
                 className="bg-white rounded-xl p-6 shadow-lg"
               >
                 <div className="text-blue-600 mb-4">{feature.icon}</div>
                 <h3 className="text-xl font-bold text-gray-900 mb-2">{feature.title}</h3>
                 <p className="text-gray-600 mb-4">{feature.description}</p>
                 <ul className="space-y-2">
-                  {feature.features.map((item, idx) => (
+                  {feature.features.map((itemidx: any) => (
                     <li key={idx} className="flex items-center text-sm text-gray-600">
                       <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
                       {item}
@@ -1029,7 +1029,7 @@ export default function ProfessionalInvestorsPage() {
             </div>
 
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-              {metrics.map((metric, index) => (
+              {metrics.map((metricindex: any) => (
                 <div key={index} className="text-center">
                   <div className="text-3xl md:text-4xl font-bold mb-2">{metric.value}</div>
                   <div className="text-blue-200 mb-1">{metric.label}</div>

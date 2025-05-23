@@ -33,16 +33,16 @@ export const SecurityService = {
             environment: process.env.NODE_ENV || 'development'
           }
         );
-        
+
         return true;
       } catch (error) {
-        console.error('Failed to initialize security services:', error);
+
         return false;
       }
     }
     return true;
   },
-  
+
   /**
    * Validate input data for security threats
    * 
@@ -53,26 +53,26 @@ export const SecurityService = {
     try {
       // Perform basic validation
       if (!data) return false;
-      
+
       // Check for suspicious strings
       if (typeof data === 'string') {
         return !data.includes('script');
       }
-      
+
       // For objects, validate recursively
       if (typeof data === 'object') {
         return Object.values(data).every(v => 
           typeof v !== 'string' || !String(v).includes('script')
         );
       }
-      
+
       return true;
     } catch (error) {
-      console.error('Validation error:', error);
+
       return false;
     }
   },
-  
+
   /**
    * Sanitize HTML content
    * 
@@ -86,7 +86,7 @@ export const SecurityService = {
       .replace(/on\w+="[^"]*"/gi, '')
       .replace(/on\w+='[^']*'/gi, '');
   },
-  
+
   /**
    * Check if a URL is safe
    * 
@@ -98,7 +98,7 @@ export const SecurityService = {
       // Simple URL safety check
       const urlObj = new URL(url);
       const hostname = urlObj.hostname;
-      
+
       // Check against known bad domains
       const badDomains = [
         'evil.com',
@@ -106,14 +106,14 @@ export const SecurityService = {
         'example-malicious-domain.com', // Example domain for demonstration purposes
         'phishing.org'
       ];
-      
+
       return !badDomains.some(domain => hostname.includes(domain));
     } catch (error) {
-      console.error('URL safety check error:', error);
+
       return false;
     }
   },
-  
+
   /**
    * Log a security event safely
    * 
@@ -122,9 +122,9 @@ export const SecurityService = {
    * @param details Optional event details
    */
   logSecurityEvent: (event: string, message: string, details?: any) => {
-    AuditLogger.logSecurity(event, AuditSeverity.INFO, message, details);
+    AuditLogger.logSecurity(event, AuditSeverity.INFO, messagedetails);
   },
-  
+
   /**
    * Handle security errors safely
    * 
@@ -141,7 +141,7 @@ export const SecurityService = {
           {},
           { originalError: error.message }
         );
-    
+
     // Log the error
     AuditLogger.logSecurity(
       'security_error',
@@ -149,7 +149,7 @@ export const SecurityService = {
       securityError.message,
       { errorCode: securityError.code }
     );
-    
+
     // Return JSON response
     return {
       error: true,

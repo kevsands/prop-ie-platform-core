@@ -1,3 +1,4 @@
+import React from 'react';
 "use client";
 
 import { useState } from 'react';
@@ -34,9 +35,9 @@ interface ApiResponse {
 
 const CreateProjectPage = () => {
   const router = useRouter();
-  const [step, setStep] = useState(1);
+  const [stepsetStep] = useState(1);
   // Adjust state to properly store the data from each component
-  const [projectData, setProjectData] = useState({
+  const [projectDatasetProjectData] = useState({
     basicInfo: {
       name: '',
       location: '',
@@ -78,14 +79,11 @@ const CreateProjectPage = () => {
     const response = await fetch('/api/projects', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
-      },
+        'Content-Type': 'application/json'},
       body: JSON.stringify({
         name: projectData.basicInfo.name,
         address: projectData.basicInfo.location,
-        description: projectData.basicInfo.description,
-      }),
-    });
+        description: projectData.basicInfo.description})});
 
     if (response.ok) {
       const data = await response.json() as ApiResponse;
@@ -99,16 +97,16 @@ const CreateProjectPage = () => {
 
       <div className="mb-10">
         <div className="flex items-center">
-          {[1, 2, 3, 4].map((i) => (
+          {[1, 2, 34].map((i: any) => (
             <div key={i} className="flex items-center">
               <div className={`rounded-full h-10 w-10 flex items-center justify-center ${
                 i <= step ? 'bg-[#2B5273] text-white' : 'bg-gray-200 text-gray-600'
               }`}>
                 {i}
               </div>
-              {i < 4 && (
+              {i <4 && (
                 <div className={`h-1 w-10 ${
-                  i < step ? 'bg-[#2B5273]' : 'bg-gray-200'
+                  i <step ? 'bg-[#2B5273]' : 'bg-gray-200'
                 }`}></div>
               )}
             </div>

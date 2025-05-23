@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { FiFileText, FiPlus, FiEdit2, FiTrash2, FiCopy, FiSearch, FiFilter } from 'react-icons/fi';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
+import { usePermissions } from '@/hooks/usePermissions';
 
 // Define DocumentTemplate interface for type safety
 export interface DocumentTemplate {
@@ -74,50 +75,38 @@ const useDocumentTemplates = (orgSlug: string) => {
   };
 };
 
-// Mock implementation of usePermissions hook
-export const usePermissions = () => {
-  return {
-    hasPermission: (resource: string, action: string): boolean => {
-      // For demo purposes, always return true
-      return true;
-    }
-  };
-};
-
 export default function DocumentTemplatesPage() {
   // Explicitly type params to include orgSlug
   const params = useParams() as { orgSlug: string };
   const { orgSlug } = params;
-  const [searchQuery, setSearchQuery] = useState('');
-  const [filterCategory, setFilterCategory] = useState('all');
-  
+  const [searchQuerysetSearchQuery] = useState('');
+  const [filterCategorysetFilterCategory] = useState('all');
+
   const { templates, isLoading, error } = useDocumentTemplates(orgSlug);
   const { hasPermission } = usePermissions();
-  
+
   const canCreateTemplate = hasPermission('templates', 'create');
   const canEditTemplate = hasPermission('templates', 'update');
   const canDeleteTemplate = hasPermission('templates', 'delete');
-  
+
   // Filter templates based on search and category
   const filteredTemplates = templates?.filter((template: DocumentTemplate) => {
     const matchesSearch = template.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
                         template.description.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesCategory = filterCategory === 'all' || template.category === filterCategory;
-    
+
     return matchesSearch && matchesCategory;
   }) || [];
-  
+
   const categories = [
     { id: 'sales', name: 'Sales Documents' },
     { id: 'legal', name: 'Legal Documents' },
     { id: 'marketing', name: 'Marketing Materials' },
     { id: 'construction', name: 'Construction Documents' },
-    { id: 'handover', name: 'Handover Documents' },
-  ];
-  
-  if (isLoading) return <div className="p-10 text-center">Loading document templates...</div>;
-  if (error) return <div className="p-10 text-center text-red-600">Error loading templates: {error.message}</div>;
-  
+    { id: 'handover', name: 'Handover Documents' }];
+
+  if (isLoading) return <div className="p-10 text-center">Loading document templates...</div>\n  );
+  if (error) return <div className="p-10 text-center text-red-600">Error loading templates: {error.message}</div>\n  );
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
       <div className="flex items-center justify-between mb-8">
@@ -134,7 +123,7 @@ export default function DocumentTemplatesPage() {
           </Link>
         )}
       </div>
-      
+
       {/* Search and Filters */}
       <div className="bg-white rounded-lg shadow-md p-6 mb-8">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
@@ -145,17 +134,17 @@ export default function DocumentTemplatesPage() {
             <input
               type="text"
               value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+              onChange={(e: any) => setSearchQuery(e.target.value)}
               placeholder="Search templates..."
               className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#2B5273]"
             />
           </div>
-          
+
           <div className="flex items-center gap-2">
             <FiFilter className="text-gray-500" />
             <select
               value={filterCategory}
-              onChange={(e) => setFilterCategory(e.target.value)}
+              onChange={(e: any) => setFilterCategory(e.target.value)}
               className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#2B5273]"
             >
               <option value="all">All Categories</option>
@@ -166,7 +155,7 @@ export default function DocumentTemplatesPage() {
           </div>
         </div>
       </div>
-      
+
       {/* Templates List */}
       {filteredTemplates.length === 0 ? (
         <div className="text-center py-16 bg-gray-50 rounded-lg">
@@ -209,9 +198,9 @@ export default function DocumentTemplatesPage() {
                     )}
                   </div>
                 </div>
-                
+
                 <p className="mt-2 text-sm text-gray-600">{template.description}</p>
-                
+
                 <div className="mt-4 flex flex-wrap gap-2">
                   {template.tags?.map((tag: string, index: number) => (
                     <span key={index} className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
@@ -219,7 +208,7 @@ export default function DocumentTemplatesPage() {
                     </span>
                   ))}
                 </div>
-                
+
                 <div className="mt-6 pt-4 border-t border-gray-200">
                   <div className="grid grid-cols-2 gap-4 text-sm">
                     <div>
@@ -232,7 +221,7 @@ export default function DocumentTemplatesPage() {
                     </div>
                   </div>
                 </div>
-                
+
                 <div className="mt-6">
                   <Link 
                     href={`/${orgSlug}/templates/${template.id}`}

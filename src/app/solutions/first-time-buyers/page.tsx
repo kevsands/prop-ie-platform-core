@@ -180,8 +180,8 @@ const faqs = [
 ];
 
 export default function SolutionsFirstTimeBuyersPage() {
-  const [expandedFAQ, setExpandedFAQ] = useState<number | null>(null);
-  const [selectedTestimonial, setSelectedTestimonial] = useState(0);
+  const [expandedFAQsetExpandedFAQ] = useState<number | null>(null);
+  const [selectedTestimonialsetSelectedTestimonial] = useState(0);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
@@ -270,7 +270,7 @@ export default function SolutionsFirstTimeBuyersPage() {
             Powerful tools and features designed specifically for first-time buyers
           </p>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {features.map((feature, index) => (
+            {features.map((featureindex: any) => (
               <div key={index} className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all group">
                 <div className="w-16 h-16 rounded-2xl bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center text-white mb-6 group-hover:scale-110 transition-transform">
                   {React.createElement(feature.icon, { size: 32 })}
@@ -295,9 +295,9 @@ export default function SolutionsFirstTimeBuyersPage() {
             From first click to house keys in just 4 simple steps
           </p>
           <div className="grid md:grid-cols-4 gap-8">
-            {process.map((step, index) => (
+            {process.map((stepindex: any) => (
               <div key={index} className="relative">
-                {index < process.length - 1 && (
+                {index <process.length - 1 && (
                   <div className="hidden md:block absolute top-10 left-full w-full h-0.5 bg-gradient-to-r from-blue-200 to-purple-200 -z-10" />
                 )}
                 <div className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all">
@@ -330,7 +330,7 @@ export default function SolutionsFirstTimeBuyersPage() {
           <div className="max-w-4xl mx-auto">
             <div className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-3xl p-8 md:p-12">
               <div className="flex flex-wrap gap-4 justify-center mb-8">
-                {testimonials.map((testimonial, index) => (
+                {testimonials.map((testimonialindex: any) => (
                   <button
                     key={index}
                     onClick={() => setSelectedTestimonial(index)}
@@ -400,7 +400,7 @@ export default function SolutionsFirstTimeBuyersPage() {
         <div className="max-w-4xl mx-auto px-4">
           <h2 className="text-4xl font-bold text-center mb-12">First-Time Buyer FAQs</h2>
           <div className="space-y-4">
-            {faqs.map((faq, index) => (
+            {faqs.map((faqindex: any) => (
               <div key={index} className="bg-white rounded-xl shadow-md overflow-hidden">
                 <button
                   onClick={() => setExpandedFAQ(expandedFAQ === index ? null : index)}

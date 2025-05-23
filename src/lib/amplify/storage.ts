@@ -26,7 +26,7 @@ type StorageAccessLevel = 'private' | 'protected' | 'guest';
 export interface StorageOptions {
   path?: string;
   contentType?: string;
-  metadata?: Record<string, string>;
+  metadata?: Record<string, string>\n  );
   level?: 'public' | 'protected' | 'private';
   onProgress?: (progress: { loaded: number; total: number }) => void;
   expires?: number; // Expiration time in seconds for signed URLs
@@ -44,7 +44,7 @@ function normalizeAccessLevel(level: 'public' | 'protected' | 'private'): Storag
 // Helper to adapt our progress callback to Amplify's expected format
 function adaptProgressCallback(callback?: (progress: { loaded: number; total: number }) => void) {
   if (!callback) return undefined;
-  
+
   return (event: any) => {
     // Extract loaded and total from whatever is available in the event
     const loaded = event.loaded || 0;
@@ -71,7 +71,7 @@ export class AmplifyStorage {
     try {
       const { path = '', level = 'public', contentType, metadata, onProgress } = options;
       const fullKey = path ? `${path}/${key}` : key;
-      
+
       const result = await uploadData({
         key: fullKey,
         data: file,
@@ -79,17 +79,15 @@ export class AmplifyStorage {
           contentType: contentType || file.type,
           metadata,
           accessLevel: normalizeAccessLevel(level),
-          onProgress: adaptProgressCallback(onProgress),
-        },
-      }).result;
-      
+          onProgress: adaptProgressCallback(onProgress)}).result;
+
       return result;
     } catch (error) {
-      console.error(`Error uploading file ${key}:`, error);
+
       throw error;
     }
   }
-  
+
   /**
    * Download a file from S3
    */
@@ -98,18 +96,17 @@ export class AmplifyStorage {
     try {
       const { path = '', level = 'public', onProgress } = options;
       const fullKey = path ? `${path}/${key}` : key;
-      
+
       const result = await downloadData({
         key: fullKey,
         options: {
           accessLevel: normalizeAccessLevel(level),
-          onProgress: adaptProgressCallback(onProgress),
-        }
+          onProgress: adaptProgressCallback(onProgress)}
       }).result;
-      
+
       return result;
     } catch (error) {
-      console.error(`Error downloading file ${key}:`, error);
+
       throw error;
     }
   }
@@ -122,18 +119,16 @@ export class AmplifyStorage {
     try {
       const { level = 'public', path = '', expires = 900 } = options;
       const fullKey = path ? `${path}/${key}` : key;
-      
+
       const result = await getUrl({
         key: fullKey,
         options: {
           accessLevel: normalizeAccessLevel(level),
           validateObjectExistence: true,
-          expiresIn: expires,
-        },
-      });
+          expiresIn: expires});
       return result.url.toString();
     } catch (error) {
-      console.error(`Error getting URL for ${key}:`, error);
+
       throw error;
     }
   }
@@ -146,17 +141,15 @@ export class AmplifyStorage {
     try {
       const { level = 'public', path = '' } = options;
       const fullKey = path ? `${path}/${key}` : key;
-      
+
       await remove({
         key: fullKey,
         options: {
-          accessLevel: normalizeAccessLevel(level),
-        },
-      });
-      
+          accessLevel: normalizeAccessLevel(level)});
+
       return { success: true, key: fullKey };
     } catch (error) {
-      console.error(`Error removing file ${key}:`, error);
+
       throw error;
     }
   }
@@ -168,7 +161,7 @@ export class AmplifyStorage {
     ensureAmplifyInitialized();
     try {
       const { level = 'public' } = options;
-      
+
       // Adapt to actual Amplify v6 API structure
       const result = await list({
         path: path,
@@ -177,14 +170,14 @@ export class AmplifyStorage {
           listAll: true
         }
       });
-      
+
       return result;
     } catch (error) {
-      console.error(`Error listing files in ${path}:`, error);
+
       throw error;
     }
   }
-  
+
   /**
    * Check if a file exists in S3
    */
@@ -192,16 +185,14 @@ export class AmplifyStorage {
     try {
       const { level = 'public', path = '' } = options;
       const fullKey = path ? `${path}/${key}` : key;
-      
+
       // Try to get the URL with validation - this will throw if the file doesn't exist
       await getUrl({
         key: fullKey,
         options: {
           accessLevel: normalizeAccessLevel(level),
-          validateObjectExistence: true,
-        },
-      });
-      
+          validateObjectExistence: true});
+
       return true;
     } catch (error) {
       return false;
@@ -224,7 +215,7 @@ export async function uploadFile(file: File, path: string) {
     });
     return result;
   } catch (error) {
-    console.error('Error uploading file:', error);
+
     throw error;
   }
 }
@@ -239,7 +230,7 @@ export async function downloadFile(path: string) {
     });
     return result;
   } catch (error) {
-    console.error('Error downloading file:', error);
+
     throw error;
   }
 }
@@ -255,7 +246,7 @@ export async function getFileUrl(path: string) {
     });
     return result.url;
   } catch (error) {
-    console.error('Error getting file URL:', error);
+
     throw error;
   }
 }
@@ -269,7 +260,7 @@ export async function deleteFile(path: string) {
       }
     });
   } catch (error) {
-    console.error('Error deleting file:', error);
+
     throw error;
   }
 }
@@ -285,7 +276,7 @@ export async function listFiles(prefix: string) {
     });
     return result.items;
   } catch (error) {
-    console.error('Error listing files:', error);
+
     throw error;
   }
 }

@@ -1,17 +1,22 @@
+type Props = {
+  params: Promise<{ id: string }>
+}
+
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '../../../auth/[...nextauth]/auth.config';
 import { z } from 'zod';
+import { transactionService } from '../../../../../services/transactionService';
+import { canAccessTransaction } from '../../../../../utils/auth-utils';
 
 // Payment schema
 const PaymentSchema = z.object({
   amount: z.number().positive(),
-  type: z.enum(['BOOKING_DEPOSIT', 'CONTRACT_DEPOSIT', 'STAGE_PAYMENT', 'FINAL_PAYMENT']),
-  dueDate: z.string().datetime(),
-  paymentMethod: z.enum(['bank_transfer', 'credit_card', 'debit_card', 'cash']).optional(),
+  type: z.enum(['BOOKING_DEPOSIT', 'CONTRACT_DEPOSIT', 'STAGE_PAYMENT', 'FINAL_PAYMENT', 'CUSTOMIZATION_PAYMENT', 'LEGAL_FEE']),
+  dueDate: z.string().datetime().optional(),
+  method: z.enum(['BANK_TRANSFER', 'CREDIT_CARD', 'DEBIT_CARD', 'CASH', 'CHEQUE', 'MORTGAGE_DRAWDOWN']),
   reference: z.string().optional(),
-  notes: z.string().optional(),
-});
+  description: z.string().optional()});
 
 /**
  * GET /api/transactions/[id]/payments
@@ -19,9 +24,10 @@ const PaymentSchema = z.object({
  */
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const session = await getServerSession(authOptions);
     if (!session) {
       return NextResponse.json(
@@ -30,53 +36,27 @@ export async function GET(
       );
     }
 
-    // Mock payment data - would be fetched from payment service/database
-    const payments = [
-      {
-        id: 'pay_1',
-        transactionId: params.id,
-        amount: 5000,
-        currency: 'EUR',
-        type: 'BOOKING_DEPOSIT',
-        status: 'COMPLETED',
-        dueDate: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString(),
-        paidDate: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString(),
-        paidBy: session.user?.id,
-        reference: 'REF-001',
-        paymentMethod: 'bank_transfer',
-      },
-      {
-        id: 'pay_2',
-        transactionId: params.id,
-        amount: 35000,
-        currency: 'EUR',
-        type: 'CONTRACT_DEPOSIT',
-        status: 'PENDING',
-        dueDate: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toISOString(),
-      },
-      {
-        id: 'pay_3',
-        transactionId: params.id,
-        amount: 120000,
-        currency: 'EUR',
-        type: 'STAGE_PAYMENT',
-        status: 'PENDING',
-        dueDate: new Date(Date.now() + 60 * 24 * 60 * 60 * 1000).toISOString(),
-      },
-      {
-        id: 'pay_4',
-        transactionId: params.id,
-        amount: 190000,
-        currency: 'EUR',
-        type: 'FINAL_PAYMENT',
-        status: 'PENDING',
-        dueDate: new Date(Date.now() + 180 * 24 * 60 * 60 * 1000).toISOString(),
-      },
-    ];
+    // Check if user can access this transaction
+    const canAccess = await canAccessTransaction(sessionid);
+    if (!canAccess) {
+      return NextResponse.json(
+        { error: 'You do not have permission to access this transaction' },
+        { status: 403 }
+      );
+    }
 
-    return NextResponse.json(payments);
+    // Get transaction with included payments
+    const transaction = await transactionService.getTransaction(id);
+    if (!transaction) {
+      return NextResponse.json(
+        { error: 'Transaction not found' },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json(transaction.payments);
   } catch (error) {
-    console.error('Error fetching payments:', error);
+
     return NextResponse.json(
       { error: 'Failed to fetch payments' },
       { status: 500 }
@@ -90,9 +70,10 @@ export async function GET(
  */
 export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const session = await getServerSession(authOptions);
     if (!session) {
       return NextResponse.json(
@@ -101,7 +82,16 @@ export async function POST(
       );
     }
 
-    const body = await request.json();
+    // Check if user can access this transaction
+    const canAccess = await canAccessTransaction(sessionid);
+    if (!canAccess) {
+      return NextResponse.json(
+        { error: 'You do not have permission to access this transaction' },
+        { status: 403 }
+      );
+    }
+
+    const body: any = await request.json();
     const validationResult = PaymentSchema.safeParse(body);
 
     if (!validationResult.success) {
@@ -113,20 +103,21 @@ export async function POST(
 
     const paymentData = validationResult.data;
 
-    // Mock payment creation - would integrate with payment service
-    const newPayment = {
-      id: `pay_${Date.now()}`,
-      transactionId: params.id,
-      ...paymentData,
-      currency: 'EUR',
-      status: 'PENDING',
-      createdAt: new Date().toISOString(),
-      createdBy: session.user?.id,
-    };
+    // Generate a unique reference if not provided
+    const reference = paymentData.reference || `PAY-${Date.now()}-${Math.random().toString(36).substring(27).toUpperCase()}`;
+
+    // Process the payment using transaction service
+    const newPayment = await transactionService.processPayment(id, {
+      type: paymentData.type,
+      amount: paymentData.amount,
+      method: paymentData.method,
+      reference: reference,
+      description: paymentData.description || `${paymentData.type} payment`
+    });
 
     return NextResponse.json(newPayment, { status: 201 });
   } catch (error) {
-    console.error('Error creating payment:', error);
+
     return NextResponse.json(
       { error: 'Failed to create payment' },
       { status: 500 }

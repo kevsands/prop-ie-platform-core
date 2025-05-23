@@ -7,10 +7,10 @@ import Image from 'next/image';
 
 // Mock API client for build testing
 const propertyAPI = {
-  getProperties: async (params) => {
+  getProperties: async (params: any) => {
     // Simulate API delay
-    await new Promise(resolve => setTimeout(resolve, 500));
-    
+    await new Promise(resolve => setTimeout(resolve500));
+
     // Mock properties data
     const mockProperties = [
       {
@@ -47,7 +47,7 @@ const propertyAPI = {
         status: 'reserved'
       }
     ];
-    
+
     return {
       success: true,
       data: {
@@ -68,17 +68,17 @@ const createQueryString = (
   searchParams: URLSearchParams, 
   updates: Record<string, string | number | undefined | null>
 ): string => {
-  const params = new URLSearchParams(searchParams.toString());
-  
+  const params: any = new URLSearchParams(searchParams.toString());
+
   // Update or add new parameters
-  Object.entries(updates).forEach(([key, value]) => {
+  Object.entries(updates).forEach(([keyvalue]) => {
     if (value === undefined || value === null) {
       params.delete(key);
     } else {
       params.set(key, String(value));
     }
   });
-  
+
   return params.toString();
 };
 
@@ -105,7 +105,7 @@ const PropertyListing = ({ properties, initialLoading }: PropertyListingProps) =
   if (initialLoading) {
     return (
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {[1, 2, 3].map((i) => (
+        {[1, 23].map((i: any) => (
           <div key={i} className="bg-white rounded-lg shadow-md overflow-hidden animate-pulse">
             <div className="h-48 bg-gray-300"></div>
             <div className="p-4">
@@ -129,12 +129,12 @@ const PropertyListing = ({ properties, initialLoading }: PropertyListingProps) =
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {properties.map((property) => (
+      {properties.map((property: any) => (
         <div key={property.id} className="bg-white rounded-lg shadow-md overflow-hidden">
           <div className="relative h-48 w-full">
             <div 
               className="absolute inset-0 bg-center bg-cover"
-              style={{ backgroundImage: `url(${property.imageUrl})` }}
+              style={ backgroundImage: `url(${property.imageUrl})` }
             ></div>
             <div className="absolute top-2 right-2">
               <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${
@@ -147,18 +147,18 @@ const PropertyListing = ({ properties, initialLoading }: PropertyListingProps) =
               </span>
             </div>
           </div>
-          
+
           <div className="p-4">
             <h3 className="text-lg font-semibold mb-1">{property.name}</h3>
             <p className="text-gray-600 mb-2">{property.location}</p>
             <p className="text-blue-600 font-bold mb-3">€{property.price.toLocaleString()}</p>
-            
+
             <div className="flex justify-between text-sm text-gray-500">
               <span>{property.bedrooms} Beds</span>
               <span>{property.bathrooms} Baths</span>
               <span>{property.area} sq.ft</span>
             </div>
-            
+
             <div className="mt-4">
               <Link 
                 href={`/property/${property.id}`}
@@ -189,46 +189,46 @@ function PropertySearchContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const pathname = usePathname();
-  
+
   // Extract search parameters with validation
   const location = searchParams ? getValidParam(searchParams, 'location') : undefined;
-  
+
   const minPrice = searchParams?.get('minPrice') 
-                   ? parseInt(searchParams.get('minPrice') as string, 10) 
+                   ? parseInt(searchParams.get('minPrice') as string10) 
                    : undefined;
-                   
+
   const maxPrice = searchParams?.get('maxPrice') 
-                   ? parseInt(searchParams.get('maxPrice') as string, 10) 
+                   ? parseInt(searchParams.get('maxPrice') as string10) 
                    : undefined;
-                   
+
   const bedrooms = searchParams?.get('bedrooms') 
-                   ? parseInt(searchParams.get('bedrooms') as string, 10) 
+                   ? parseInt(searchParams.get('bedrooms') as string10) 
                    : undefined;
-                   
+
   const type = searchParams ? getValidParam(searchParams, 'type') : undefined;
-  
+
   const sort = searchParams 
                 ? getValidParam(searchParams, 'sort') as PropertySearchParams['sort'] 
                 : undefined;
-                
+
   const page = searchParams?.get('page') 
-               ? parseInt(searchParams.get('page') as string, 10) 
+               ? parseInt(searchParams.get('page') as string10) 
                : 1;
-  
+
   // Using the PropertyType interface defined above
-  
-  const [properties, setProperties] = useState<PropertyType[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [totalProperties, setTotalProperties] = useState(0);
-  const [totalPages, setTotalPages] = useState(1);
-  
+
+  const [propertiessetProperties] = useState<PropertyType[]>([]);
+  const [loadingsetLoading] = useState(true);
+  const [errorsetError] = useState<string | null>(null);
+  const [totalPropertiessetTotalProperties] = useState(0);
+  const [totalPagessetTotalPages] = useState(1);
+
   // Load properties based on search parameters
   useEffect(() => {
     const fetchProperties = async () => {
       setLoading(true);
       setError(null);
-      
+
       try {
         // Build query parameters for the API request
         const queryParams = {
@@ -240,10 +240,10 @@ function PropertySearchContent() {
           sort,
           page
         };
-        
+
         // Use the searchParams values to filter properties
         const response = await propertyAPI.getProperties(queryParams);
-        
+
         if (response.success) {
           // Type-safe transformation of the API response
           const transformedProperties: PropertyType[] = (response.data.properties || []).map((property: any) => ({
@@ -257,7 +257,7 @@ function PropertySearchContent() {
             imageUrl: property.imageUrl || (property.images?.[0]) || property.image || '/images/placeholder-property.jpg',
             status: property.status || 'available'
           }));
-          
+
           setProperties(transformedProperties);
           setTotalProperties(response.data.total || transformedProperties.length);
           setTotalPages(Math.ceil((response.data.total || transformedProperties.length) / (response.data.limit || 10)));
@@ -266,67 +266,67 @@ function PropertySearchContent() {
         }
       } catch (err: any) {
         setError(err.message || 'Failed to load properties');
-        console.error('Error loading properties:', err);
+
       } finally {
         setLoading(false);
       }
     };
-    
+
     fetchProperties();
-  }, [location, minPrice, maxPrice, bedrooms, type, sort, page]);
-  
+  }, [location, minPrice, maxPrice, bedrooms, type, sortpage]);
+
   // Update filters and navigate
   const updateFilters = (updates: Partial<PropertySearchParams>) => {
     if (!searchParams || !pathname) {
       return; // Exit if searchParams or pathname is null
     }
-    
+
     // Create a new query string
     const queryString = createQueryString(searchParams, {
       ...updates,
       // Reset page to 1 when filters change (except when explicitly setting page)
-      page: updates.page !== undefined ? updates.page : (Object.keys(updates).length > 0 ? 1 : page)
+      page: updates.page !== undefined ? updates.page : (Object.keys(updates).length> 0 ? 1 : page)
     });
-    
+
     // Navigate with the new query string
     router.push(`${pathname}?${queryString}`);
   };
-  
+
   // Handle pagination
   const handlePageChange = (newPage: number) => {
     updateFilters({ page: newPage });
   };
-  
+
   // Handle sort change
   const handleSortChange = (newSort: PropertySearchParams['sort']) => {
     updateFilters({ sort: newSort });
   };
-  
+
   // Handle filter changes
   const handleFilterChange = (name: string, value: string | number | null) => {
-    const updates = { [name]: value } as Partial<PropertySearchParams>;
+    const updates = { [name]: value } as Partial<PropertySearchParams>\n  );
     updateFilters(updates);
   };
-  
+
   // Handle filter clear
   const clearFilters = () => {
     if (pathname) {
       router.push(pathname);
     }
   };
-  
+
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-6">Find Your Perfect Home</h1>
-      
+
       {/* Filter UI would go here */}
-      
+
       {error && (
         <div className="bg-red-50 border-l-4 border-red-400 p-4 mb-6">
           <p className="text-red-700">{error}</p>
         </div>
       )}
-      
+
       {loading ? (
         <div className="flex justify-center p-12">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
@@ -338,13 +338,13 @@ function PropertySearchContent() {
               {totalProperties} properties found
               {location ? ` in ${location}` : ''}
             </p>
-            
+
             <div className="flex items-center">
               <label htmlFor="sort" className="mr-2 text-sm">Sort by:</label>
               <select
                 id="sort"
                 value={sort || 'newest'}
-                onChange={(e) => handleSortChange(e.target.value as PropertySearchParams['sort'])}
+                onChange={(e: any) => handleSortChange(e.target.value as PropertySearchParams['sort'])}
                 className="border rounded p-2 text-sm"
               >
                 <option value="newest">Newest</option>
@@ -354,14 +354,14 @@ function PropertySearchContent() {
               </select>
             </div>
           </div>
-          
+
           <PropertyListing 
             properties={properties} 
             initialLoading={false} 
           />
-          
+
           {/* Pagination UI */}
-          {totalPages > 1 && (
+          {totalPages> 1 && (
             <div className="flex justify-center mt-8">
               <nav className="inline-flex rounded-md shadow">
                 <button
@@ -371,9 +371,9 @@ function PropertySearchContent() {
                 >
                   Previous
                 </button>
-                
+
                 {/* Page numbers */}
-                {Array.from({ length: totalPages }, (_, i) => i + 1).map(pageNum => (
+                {Array.from({ length: totalPages }, (_i: any) => i + 1).map(pageNum => (
                   <button
                     key={pageNum}
                     onClick={() => handlePageChange(pageNum)}
@@ -386,7 +386,7 @@ function PropertySearchContent() {
                     {pageNum}
                   </button>
                 ))}
-                
+
                 <button
                   onClick={() => handlePageChange(page + 1)}
                   disabled={page === totalPages}

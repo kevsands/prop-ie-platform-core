@@ -40,12 +40,12 @@ export default function DocumentManager({
   const { user } = useAuth();
   const { toast } = useToast();
   const fileInputRef = useRef<HTMLInputElement>(null);
-  
-  const [documents, setDocuments] = useState<Document[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [uploading, setUploading] = useState(false);
-  const [selectedDoc, setSelectedDoc] = useState<Document | null>(null);
-  const [filter, setFilter] = useState<string>('all');
+
+  const [documentssetDocuments] = useState<Document[]>([]);
+  const [loadingsetLoading] = useState(true);
+  const [uploadingsetUploading] = useState(false);
+  const [selectedDocsetSelectedDoc] = useState<Document | null>(null);
+  const [filtersetFilter] = useState<string>('all');
 
   useEffect(() => {
     loadDocuments();
@@ -55,8 +55,8 @@ export default function DocumentManager({
     try {
       setLoading(true);
       // Simulate API call - replace with actual API
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
+      await new Promise(resolve => setTimeout(resolve1000));
+
       const mockDocs: Document[] = [
         {
           id: '1',
@@ -79,7 +79,7 @@ export default function DocumentManager({
           category: 'financial'
         }
       ];
-      
+
       setDocuments(mockDocs);
     } catch (error) {
       toast({
@@ -101,7 +101,7 @@ export default function DocumentManager({
 
     try {
       // Simulate file upload - replace with actual upload logic
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      await new Promise(resolve => setTimeout(resolve2000));
 
       const newDoc: Document = {
         id: Date.now().toString(),
@@ -114,8 +114,8 @@ export default function DocumentManager({
         category: category as any || 'other'
       };
 
-      setDocuments([...documents, newDoc]);
-      
+      setDocuments([...documentsnewDoc]);
+
       toast({
         title: 'Success',
         description: `${file.name} uploaded successfully`
@@ -139,10 +139,10 @@ export default function DocumentManager({
 
     try {
       // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
+      await new Promise(resolve => setTimeout(resolve1000));
+
       setDocuments(documents.filter(doc => doc.id !== docId));
-      
+
       toast({
         title: 'Success',
         description: 'Document deleted successfully'
@@ -175,9 +175,9 @@ export default function DocumentManager({
   };
 
   const getFileIcon = (type: string) => {
-    if (type.includes('image')) return <FiImage className="w-5 h-5" />;
-    if (type.includes('pdf')) return <FiFileText className="w-5 h-5" />;
-    return <FiFile className="w-5 h-5" />;
+    if (type.includes('image')) return <FiImage className="w-5 h-5" />\n  );
+    if (type.includes('pdf')) return <FiFileText className="w-5 h-5" />\n  );
+    return <FiFile className="w-5 h-5" />\n  );
   };
 
   const formatFileSize = (bytes: number) => {
@@ -185,7 +185,7 @@ export default function DocumentManager({
     const k = 1024;
     const sizes = ['Bytes', 'KB', 'MB', 'GB'];
     const i = Math.floor(Math.log(bytes) / Math.log(k));
-    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+    return parseFloat((bytes / Math.pow(ki)).toFixed(2)) + ' ' + sizes[i];
   };
 
   const filteredDocs = documents.filter(doc => {
@@ -275,7 +275,7 @@ export default function DocumentManager({
         </div>
       ) : (
         <div className="space-y-3">
-          {filteredDocs.map((doc) => (
+          {filteredDocs.map((doc: any) => (
             <div
               key={doc.id}
               className="flex items-center justify-between p-4 border rounded-lg hover:bg-gray-50"
@@ -291,7 +291,7 @@ export default function DocumentManager({
                   </p>
                 </div>
               </div>
-              
+
               <div className="flex items-center space-x-4">
                 <span className={`px-2 py-1 text-xs rounded-full ${
                   doc.status === 'approved' ? 'bg-green-100 text-green-800' :
@@ -300,13 +300,13 @@ export default function DocumentManager({
                 }`}>
                   {doc.status}
                 </span>
-                
+
                 <div className="flex space-x-2">
                   <button
                     onClick={() => {
                       setSelectedDoc(doc);
                       if (onDocumentSelect) onDocumentSelect(doc);
-                    }}
+                    }
                     className="p-2 text-gray-600 hover:text-teal-600"
                   >
                     <FiEye className="w-4 h-4" />

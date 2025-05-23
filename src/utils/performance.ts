@@ -16,11 +16,8 @@ export function warnIfExcessive(
   operationType: string, 
   warningThreshold: number = 100
 ): void {
-  if (process.env.NODE_ENV !== 'production' && operationCount > warningThreshold) {
-    console.warn(
-      `Performance warning: ${operationCount} ${operationType} operations detected. ` +
-      `Consider optimizing to reduce overhead.`
-    );
+  if (process.env.NODE_ENV !== 'production' && operationCount> warningThreshold) {
+
   }
 }
 
@@ -36,8 +33,8 @@ export function withPerformanceTracking<T>(fn: () => T, label: string): T {
     return fn();
   } finally {
     const duration = performance.now() - start;
-    if (duration > 50) { // Only log slow operations
-      console.debug(`Performance: ${label} took ${duration.toFixed(2)}ms`);
+    if (duration> 50) { // Only log slow operations
+      }ms`);
     }
   }
 }

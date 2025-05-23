@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
-// import { PrismaClient } from '@prisma/slp-client';
-import { prisma } from '@/lib/prisma';
-// Use regular Prisma client for now
+import { transactionService } from '@/services/transactionService';
 
-// const prisma = new PrismaClient(); // Already imported above
+interface RouteContext {
+  params: Promise<{ id: string }>\n  );
+}
 
 /**
  * GET /api/transactions/[id]
@@ -13,7 +13,7 @@ import { prisma } from '@/lib/prisma';
  */
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: RouteContext
 ) {
   try {
     const session = await getServerSession(authOptions);
@@ -24,14 +24,8 @@ export async function GET(
       );
     }
 
-    const transaction = await prisma.transaction.findUnique({
-      where: { id: params.id },
-      include: {
-        project: true,
-        milestones: true,
-        participants: true,
-      },
-    });
+    const params = await context.params;
+    const transaction = await transactionService.getTransaction(params.id);
 
     if (!transaction) {
       return NextResponse.json(
@@ -41,20 +35,26 @@ export async function GET(
     }
 
     // Check if user has access to this transaction
-    const isParticipant = transaction.participants.some(
-      p => p.userId === session.user?.id
-    );
+    const hasAccess = 
+      session.user?.role === 'ADMIN' ||
+      (session.user?.role === 'BUYER' && transaction.buyerId === session.user.id) ||
+      (session.user?.role === 'AGENT' && transaction.agentId === session.user.id) ||
+      (session.user?.role === 'DEVELOPER' && transaction.development?.developerId === session.user.id) ||
+      (session.user?.role === 'SOLICITOR' && transaction.solicitorId === session.user.id);
 
-    if (!isParticipant && session.user?.role !== 'ADMIN') {
+    if (!hasAccess) {
       return NextResponse.json(
         { error: 'Access denied' },
         { status: 403 }
       );
     }
 
-    return NextResponse.json(transaction);
+    return NextResponse.json({
+      success: true,
+      data: transaction
+    });
   } catch (error) {
-    console.error('Error fetching transaction:', error);
+
     return NextResponse.json(
       { error: 'Failed to fetch transaction' },
       { status: 500 }
@@ -68,7 +68,7 @@ export async function GET(
  */
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: RouteContext
 ) {
   try {
     const session = await getServerSession(authOptions);
@@ -79,15 +79,11 @@ export async function PUT(
       );
     }
 
+    const params = await context.params;
     const body = await request.json();
-    const { status, notes } = body;
 
     // Check if user has permission to update
-    const transaction = await prisma.transaction.findUnique({
-      where: { id: params.id },
-      include: { participants: true },
-    });
-
+    const transaction = await transactionService.getTransaction(params.id);
     if (!transaction) {
       return NextResponse.json(
         { error: 'Transaction not found' },
@@ -95,11 +91,14 @@ export async function PUT(
       );
     }
 
-    const isParticipant = transaction.participants.some(
-      p => p.userId === session.user?.id
-    );
+    const canUpdate = 
+      session.user?.role === 'ADMIN' ||
+      (session.user?.role === 'BUYER' && transaction.buyerId === session.user.id) ||
+      (session.user?.role === 'AGENT' && transaction.agentId === session.user.id) ||
+      (session.user?.role === 'DEVELOPER' && transaction.development?.developerId === session.user.id) ||
+      (session.user?.role === 'SOLICITOR' && transaction.solicitorId === session.user.id);
 
-    if (!isParticipant && session.user?.role !== 'ADMIN') {
+    if (!canUpdate) {
       return NextResponse.json(
         { error: 'Access denied' },
         { status: 403 }
@@ -107,24 +106,108 @@ export async function PUT(
     }
 
     // Update transaction
-    const updatedTransaction = await prisma.transaction.update({
-      where: { id: params.id },
-      data: {
-        status,
-        ...(notes && { metadata: { notes } }),
-      },
-      include: {
-        project: true,
-        milestones: true,
-        participants: true,
-      },
-    });
+    const updatedTransaction = await transactionService.updateTransaction(
+      params.id,
+      body,
+      session.user?.id || 'system'
+    );
 
-    return NextResponse.json(updatedTransaction);
+    return NextResponse.json({
+      success: true,
+      data: updatedTransaction
+    });
   } catch (error) {
-    console.error('Error updating transaction:', error);
+
     return NextResponse.json(
       { error: 'Failed to update transaction' },
+      { status: 500 }
+    );
+  }
+}
+
+/**
+ * PATCH /api/transactions/[id]
+ * Partially update a transaction (specific fields or operations)
+ */
+export async function PATCH(
+  request: NextRequest,
+  context: RouteContext
+) {
+  try {
+    const session = await getServerSession(authOptions);
+    if (!session) {
+      return NextResponse.json(
+        { error: 'Authentication required' },
+        { status: 401 }
+      );
+    }
+
+    const params = await context.params;
+    const body = await request.json();
+    const { operation, ...data } = body;
+
+    // Check permissions
+    const transaction = await transactionService.getTransaction(params.id);
+    if (!transaction) {
+      return NextResponse.json(
+        { error: 'Transaction not found' },
+        { status: 404 }
+      );
+    }
+
+    // Handle specific operations
+    switch (operation) {
+      case 'progress':
+        // Progress to next stage
+        const updatedTransaction = await transactionService.progressToNextStage(
+          params.id,
+          session.user?.id || 'system'
+        );
+        return NextResponse.json({
+          success: true,
+          data: updatedTransaction
+        });
+
+      case 'update-status':
+        // Update status only
+        const statusUpdate = await transactionService.updateTransaction(
+          params.id,
+          { status: data.status },
+          session.user?.id || 'system'
+        );
+        return NextResponse.json({
+          success: true,
+          data: statusUpdate
+        });
+
+      case 'update-stage':
+        // Update stage only
+        const stageUpdate = await transactionService.updateTransaction(
+          params.id,
+          { stage: data.stage },
+          session.user?.id || 'system'
+        );
+        return NextResponse.json({
+          success: true,
+          data: stageUpdate
+        });
+
+      default:
+        // General update
+        const generalUpdate = await transactionService.updateTransaction(
+          params.id,
+          data,
+          session.user?.id || 'system'
+        );
+        return NextResponse.json({
+          success: true,
+          data: generalUpdate
+        });
+    }
+  } catch (error) {
+
+    return NextResponse.json(
+      { error: 'Failed to perform operation' },
       { status: 500 }
     );
   }
@@ -136,7 +219,7 @@ export async function PUT(
  */
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: RouteContext
 ) {
   try {
     const session = await getServerSession(authOptions);
@@ -147,12 +230,10 @@ export async function DELETE(
       );
     }
 
-    // Check if user has permission to cancel
-    const transaction = await prisma.transaction.findUnique({
-      where: { id: params.id },
-      include: { participants: true },
-    });
+    const params = await context.params;
 
+    // Check if user has permission to cancel
+    const transaction = await transactionService.getTransaction(params.id);
     if (!transaction) {
       return NextResponse.json(
         { error: 'Transaction not found' },
@@ -160,12 +241,20 @@ export async function DELETE(
       );
     }
 
-    const isOwner = transaction.buyerId === session.user?.id;
-    const isDeveloper = transaction.participants.some(
-      p => p.userId === session.user?.id && p.role === 'DEVELOPER'
-    );
+    // Prevent cancellation of completed transactions
+    if (['COMPLETED', 'HANDED_OVER'].includes(transaction.status)) {
+      return NextResponse.json(
+        { error: 'Cannot cancel completed transactions' },
+        { status: 400 }
+      );
+    }
 
-    if (!isOwner && !isDeveloper && session.user?.role !== 'ADMIN') {
+    const canCancel = 
+      session.user?.role === 'ADMIN' ||
+      (session.user?.role === 'BUYER' && transaction.buyerId === session.user.id) ||
+      (session.user?.role === 'DEVELOPER' && transaction.development?.developerId === session.user.id);
+
+    if (!canCancel) {
       return NextResponse.json(
         { error: 'Access denied' },
         { status: 403 }
@@ -173,20 +262,19 @@ export async function DELETE(
     }
 
     // Cancel transaction
-    const cancelledTransaction = await prisma.transaction.update({
-      where: { id: params.id },
-      data: {
-        status: 'CANCELLED',
-        completedAt: new Date(),
-      },
-    });
+    const cancelledTransaction = await transactionService.updateTransaction(
+      params.id,
+      { status: 'CANCELLED' },
+      session.user?.id || 'system'
+    );
 
     return NextResponse.json({
+      success: true,
       message: 'Transaction cancelled successfully',
-      transaction: cancelledTransaction,
+      data: cancelledTransaction
     });
   } catch (error) {
-    console.error('Error cancelling transaction:', error);
+
     return NextResponse.json(
       { error: 'Failed to cancel transaction' },
       { status: 500 }

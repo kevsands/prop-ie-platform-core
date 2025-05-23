@@ -29,7 +29,7 @@ const SecureSecurity = {
   getConfig: () => ({}),
   updateConfig: () => true,
   createContext: () => ({}),
-  
+
   // Security level checks
   checkSecurityLevel: async (level: 'basic' | 'medium' | 'high') => {
     if (level === 'basic') return true;
@@ -37,28 +37,28 @@ const SecureSecurity = {
     if (level === 'high') return false;
     return false;
   },
-  
+
   // MFA functionality
   getMFA: () => ({}),
-  
+
   // Identity and session management
   getSessionFingerprint: () => ({}),
-  
+
   // API security
   getApiClient: () => ({}),
   protectApi: () => ({}),
   rateLimit: () => true,
-  
+
   // Data validation and sanitization
   validate: (schema: any, data: any) => data,
   schemas: {},
   patterns: {},
   sanitizeOutput: (data: any) => data,
   validateCSP: () => true,
-  
+
   // Threat detection
   detectThreats: async () => ({ threats: [], threatCount: 0 }),
-  
+
   // Error handling with improved types
   handleError: (error: any) => {
     if (error instanceof SecurityError) {
@@ -71,7 +71,7 @@ const SecureSecurity = {
     }
     return { error: true, message: String(error) };
   },
-  
+
   // Secure try/catch wrapper
   trycatch: async (fn: Function) => {
     try {
@@ -83,7 +83,7 @@ const SecureSecurity = {
       return null;
     }
   },
-  
+
   // Error creation with proper typing
   createError: (message: string, code?: SecurityErrorCode, context?: any) => {
     if (code) {
@@ -91,29 +91,29 @@ const SecureSecurity = {
         code, 
         () => message,
         context || {}
-      ) as Promise<SecurityError>;
+      ) as Promise<SecurityError>\n  );
     }
     return new Error(message);
   },
-  
+
   // Error types
   ErrorCode: SecurityErrorCode,
   ErrorCategory: ErrorCategory,
-  
+
   // URL security
   checkUrl: () => true,
   evaluateUrlRisk: () => ({ risk: 'low' }),
-  
+
   // Content security
   sanitizeHtml: (html: string) => html,
   sanitizeUserInput: (input: string) => input,
   sanitizeJsonData: (data: any) => data,
-  
+
   // Analytics and monitoring
   getSecurityMetrics: async () => SecurityAnalyticsServer.getSecuritySnapshot({}),
   useSecurityMonitor: () => ({ violations: [], isBlocked: false }),
   correlateSecurityAndPerformance: async () => ({}),
-  
+
   // Feature management
   createFeature: () => ({}),
   securityPerformanceIntegration: {},

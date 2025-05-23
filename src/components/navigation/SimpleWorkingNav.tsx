@@ -6,9 +6,9 @@ import { ChevronDown, Home, User } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 
 export default function SimpleWorkingNav() {
-  const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+  const [activeDropdownsetActiveDropdown] = useState<string | null>(null);
   const pathname = usePathname();
-  
+
   return (
     <nav className="fixed top-0 left-0 right-0 bg-white shadow-md z-50">
       <div className="max-w-7xl mx-auto px-4">
@@ -17,7 +17,7 @@ export default function SimpleWorkingNav() {
             <Link href="/" className="text-2xl font-bold text-[#2B5273]">
               PropIE
             </Link>
-            
+
             <div className="hidden md:flex ml-8 space-x-6">
               {/* Properties Dropdown */}
               <div className="relative">
@@ -29,7 +29,7 @@ export default function SimpleWorkingNav() {
                   Properties
                   <ChevronDown className="ml-1 h-4 w-4" />
                 </button>
-                
+
                 {activeDropdown === 'properties' && (
                   <div 
                     onMouseEnter={() => setActiveDropdown('properties')}
@@ -42,7 +42,7 @@ export default function SimpleWorkingNav() {
                   </div>
                 )}
               </div>
-              
+
               {/* Solutions Dropdown */}
               <div className="relative">
                 <button
@@ -53,7 +53,7 @@ export default function SimpleWorkingNav() {
                   Solutions
                   <ChevronDown className="ml-1 h-4 w-4" />
                 </button>
-                
+
                 {activeDropdown === 'solutions' && (
                   <div 
                     onMouseEnter={() => setActiveDropdown('solutions')}
@@ -66,17 +66,17 @@ export default function SimpleWorkingNav() {
                   </div>
                 )}
               </div>
-              
+
               <Link href="/resources" className="px-3 py-2 text-gray-700 hover:text-gray-900">
                 Resources
               </Link>
-              
+
               <Link href="/contact" className="px-3 py-2 text-gray-700 hover:text-gray-900">
                 Contact
               </Link>
             </div>
           </div>
-          
+
           <div className="flex items-center space-x-4">
             <Link href="/login" className="px-4 py-2 text-gray-700 hover:text-gray-900">
               Login

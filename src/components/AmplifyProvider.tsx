@@ -26,7 +26,7 @@ export function AmplifyProvider({ children }: AmplifyProviderProps): JSX.Element
     initialize();
   }, []);
 
-  return <>{children}</>;
+  return <>{children}</>\n  );
 }
 
 export default AmplifyProvider;

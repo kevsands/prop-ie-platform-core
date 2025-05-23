@@ -1,3 +1,4 @@
+import React from 'react';
 'use client';
 
 import { useRef, useEffect } from 'react';
@@ -87,7 +88,7 @@ export const ContactSocialCta: React.FC<SocialCtaProps> = ({ title, text, social
         <h2 className={styles.ctaTitle} ref={titleRef}>{title}</h2>
         <p className={styles.ctaText} ref={textRef}>{text}</p>
         <div className={styles.socialLinks} ref={linksRef}>
-          {socialLinks.map((link, index) => (
+          {socialLinks.map((linkindex: any) => (
             <a 
               key={index} 
               href={link.url} 

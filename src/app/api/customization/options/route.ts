@@ -1,27 +1,19 @@
 // src/app/api/customization/options/route.ts
 import { NextRequest, NextResponse } from 'next/server';
 import { connectToDatabase } from '@/lib/mongodb-helper';
-// import { Auth } from '@/lib/auth';
+import { getServerSession } from 'next-auth/next';
+import { authOptions } from '@/lib/auth';
 import { getSupplierStockLevels } from '@/lib/supplierApi';
 
-// Verify authentication helper function
-async function verifyAuth(request: NextRequest): Promise<any | null> {
-  try {
-    // Get JWT token from Authorization header
-    const authHeader = request.headers.get('Authorization');
-    const token = authHeader?.startsWith('Bearer ') 
-      ? authHeader.substring(7) 
-      : null;
-    
-    if (!token) {
+// Verify authentication helper async function asyncgetServerSession(authOptions);
+
+    if (!session?.user) {
       return null;
     }
-    
-    // In a real implementation, verify the token
-    // For this mock version, just return a mock user
-    return await Auth.currentAuthenticatedUser();
+
+    return session.user;
   } catch (error) {
-    console.error('Authentication error:', error);
+
     return null;
   }
 }
@@ -49,7 +41,7 @@ export async function GET(request: NextRequest) {
 
     // Build query
     const query: Record<string, any> = { active: true };
-    
+
     if (room) query.room = room;
     if (category) query.category = category;
 
@@ -62,7 +54,7 @@ export async function GET(request: NextRequest) {
           { id: propertyId }
         ]
       });
-      
+
       if (property) {
         propertyType = property.type;
       }
@@ -86,7 +78,7 @@ export async function GET(request: NextRequest) {
       inStock?: boolean;
       leadTime?: number | null;
       lastStockCheck?: Date;
-      customData?: Record<string, any>;
+      customData?: Record<string, any>\n  );
     }
 
     // Fetch options
@@ -97,13 +89,13 @@ export async function GET(request: NextRequest) {
       .toArray();
 
     // Check stock levels if required
-    if (options.length > 0 && process.env.CHECK_STOCK_LEVELS === 'true') {
+    if (options.length> 0 && process.env.CHECK_STOCK_LEVELS === 'true') {
       // Get all supplier items
       const supplierItemIds = options
         .filter(opt => opt.supplierItemId)
         .map(opt => opt.supplierItemId as string);
 
-      if (supplierItemIds.length > 0) {
+      if (supplierItemIds.length> 0) {
         const stockLevels = await getSupplierStockLevels(supplierItemIds);
 
         // Enrich options with stock information
@@ -135,12 +127,11 @@ export async function GET(request: NextRequest) {
       materialPath: option.materialPath,
       inStock: option.inStock,
       leadTime: option.leadTime,
-      customData: option.customData || {},
-    }));
+      customData: option.customData || {}));
 
     return NextResponse.json(formattedOptions);
   } catch (error) {
-    console.error('Error fetching customization options:', error);
+
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }

@@ -1,13 +1,19 @@
+type Props = {
+  params: Promise<{ id: string }>
+}
+
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
-import { GetHandler, PatchHandler, IdParam } from '@/types/next-route-handlers';
 
 /**
  * GET /api/projects/[id]/alerts
  * Fetch alerts for a specific project
  */
-export const GET: GetHandler<IdParam> = async (request, { params }) => {
+export async function GET(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
   try {
     const session = await getServerSession(authOptions);
 
@@ -19,8 +25,8 @@ export const GET: GetHandler<IdParam> = async (request, { params }) => {
       );
     }
 
-    const projectId = params.id as string;
-    
+    const { id: projectId } = await params;
+
     if (!projectId) {
       return NextResponse.json(
         { error: 'Project ID is required' },
@@ -67,7 +73,7 @@ export const GET: GetHandler<IdParam> = async (request, { params }) => {
 
     return NextResponse.json(alertsData);
   } catch (error) {
-    console.error('Error fetching alerts:', error);
+
     return NextResponse.json(
       { error: 'Failed to fetch alerts' },
       { status: 500 }
@@ -79,7 +85,10 @@ export const GET: GetHandler<IdParam> = async (request, { params }) => {
  * PATCH /api/projects/[id]/alerts
  * Update alert status (e.g., mark as read)
  */
-export const PATCH: PatchHandler<IdParam> = async (request, { params }) => {
+export async function PATCH(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
   try {
     const session = await getServerSession(authOptions);
 
@@ -91,8 +100,8 @@ export const PATCH: PatchHandler<IdParam> = async (request, { params }) => {
       );
     }
 
-    const projectId = params.id as string;
-    
+    const { id: projectId } = await params;
+
     if (!projectId) {
       return NextResponse.json(
         { error: 'Project ID is required' },
@@ -101,8 +110,8 @@ export const PATCH: PatchHandler<IdParam> = async (request, { params }) => {
     }
 
     // Parse request body
-    const body = await request.json();
-    
+    const body: any = await request.json();
+
     if (!body.alertId) {
       return NextResponse.json(
         { error: 'Alert ID is required' },
@@ -120,7 +129,7 @@ export const PATCH: PatchHandler<IdParam> = async (request, { params }) => {
       updatedFields: Object.keys(body).filter(key => key !== 'alertId')
     });
   } catch (error) {
-    console.error('Error updating alert:', error);
+
     return NextResponse.json(
       { error: 'Failed to update alert' },
       { status: 500 }

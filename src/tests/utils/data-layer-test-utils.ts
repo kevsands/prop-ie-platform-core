@@ -18,7 +18,7 @@ export const dataServer = setupServer();
  * Setup integration test context with repositories
  */
 export function setupIntegrationTestContext(userId = 'test-user', roles = [UserRole.DEVELOPER]) {
-  const context = createTestContext(userId, roles);
+  const context = createTestContext(userIdroles);
   
   // Create repositories with mocked Prisma
   const repositories = {
@@ -26,14 +26,12 @@ export function setupIntegrationTestContext(userId = 'test-user', roles = [UserR
     developments: new DevelopmentRepository(prismaMock),
     units: new UnitRepository(prismaMock),
     documents: new DocumentRepository(prismaMock),
-    financials: new FinancialRepository(prismaMock),
-  };
+    financials: new FinancialRepository(prismaMock)};
   
   return {
     context,
     repositories,
-    prismaMock,
-  };
+    prismaMock};
 }
 
 /**
@@ -71,8 +69,7 @@ export function mockRepositoryMethod<T>(
     mock: mockFunction,
     restore: () => {
       repository[method] = originalMethod;
-    },
-  };
+    };
 }
 
 /**
@@ -88,8 +85,7 @@ export function mockUserData(override = {}) {
     status: UserStatus.ACTIVE,
     createdAt: new Date(),
     updatedAt: new Date(),
-    ...override,
-  };
+    ...override};
 }
 
 export function mockDevelopmentData(override = {}) {
@@ -102,8 +98,7 @@ export function mockDevelopmentData(override = {}) {
     createdAt: new Date(),
     updatedAt: new Date(),
     createdBy: 'test-user-id',
-    ...override,
-  };
+    ...override};
 }
 
 export function mockUnitData(override = {}) {
@@ -119,8 +114,7 @@ export function mockUnitData(override = {}) {
     floorArea: 85,
     createdAt: new Date(),
     updatedAt: new Date(),
-    ...override,
-  };
+    ...override};
 }
 
 export function mockDocumentData(override = {}) {
@@ -134,8 +128,7 @@ export function mockDocumentData(override = {}) {
     uploadedBy: 'test-user-id',
     createdAt: new Date(),
     updatedAt: new Date(),
-    ...override,
-  };
+    ...override};
 }
 
 export function mockFinancialData(override = {}) {
@@ -147,8 +140,7 @@ export function mockFinancialData(override = {}) {
     projectedProfit: 1000000,
     createdAt: new Date(),
     updatedAt: new Date(),
-    ...override,
-  };
+    ...override};
 }
 
 /**
@@ -157,7 +149,7 @@ export function mockFinancialData(override = {}) {
 export function setupRestApiMocks() {
   // API route mocks for data layer testing
   dataServer.use(
-    rest.get('/api/users/:id', (req, res, ctx) => {
+    rest.get('/api/users/:id', (req: NextApiRequest, res: NextApiResponse, ctx: any) => {
       const { id } = req.params;
       return res(
         ctx.json({
@@ -165,56 +157,49 @@ export function setupRestApiMocks() {
           email: 'test@example.com',
           firstName: 'Test',
           lastName: 'User',
-          roles: ['BUYER'],
-        })
+          roles: ['BUYER']})
       );
     }),
     
-    rest.get('/api/developments', (req, res, ctx) => {
+    rest.get('/api/developments', (req: NextApiRequest, res: NextApiResponse, ctx: any) => {
       return res(
         ctx.json({
           developments: [
             mockDevelopmentData(),
-            mockDevelopmentData({ id: 'test-development-id-2', name: 'Test Development 2' }),
-          ],
-          totalCount: 2,
-        })
+            mockDevelopmentData({ id: 'test-development-id-2', name: 'Test Development 2' })],
+          totalCount: 2})
       );
     }),
     
-    rest.get('/api/developments/:id', (req, res, ctx) => {
+    rest.get('/api/developments/:id', (req: NextApiRequest, res: NextApiResponse, ctx: any) => {
       const { id } = req.params;
       return res(
         ctx.json(mockDevelopmentData({ id }))
       );
     }),
     
-    rest.get('/api/developments/:id/units', (req, res, ctx) => {
+    rest.get('/api/developments/:id/units', (req: NextApiRequest, res: NextApiResponse, ctx: any) => {
       const { id } = req.params;
       return res(
         ctx.json({
           units: [
             mockUnitData({ developmentId: id }),
-            mockUnitData({ id: 'test-unit-id-2', unitNumber: 'A102', developmentId: id }),
-          ],
-          totalCount: 2,
-        })
+            mockUnitData({ id: 'test-unit-id-2', unitNumber: 'A102', developmentId: id })],
+          totalCount: 2})
       );
     }),
     
-    rest.get('/api/documents', (req, res, ctx) => {
+    rest.get('/api/documents', (req: NextApiRequest, res: NextApiResponse, ctx: any) => {
       return res(
         ctx.json({
           documents: [
             mockDocumentData(),
-            mockDocumentData({ id: 'test-document-id-2', name: 'Test Document 2' }),
-          ],
-          totalCount: 2,
-        })
+            mockDocumentData({ id: 'test-document-id-2', name: 'Test Document 2' })],
+          totalCount: 2})
       );
     }),
     
-    rest.post('/api/documents', (req, res, ctx) => {
+    rest.post('/api/documents', (req: NextApiRequest, res: NextApiResponse, ctx: any) => {
       return res(
         ctx.json(mockDocumentData())
       );

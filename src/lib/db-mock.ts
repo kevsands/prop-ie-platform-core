@@ -55,8 +55,7 @@ class MockDatabase {
       name: 'Admin User',
       role: 'admin',
       status: 'active',
-      createdAt: new Date(),
-    });
+      createdAt: new Date()});
 
     // Add mock developments
     this.developments.set('fitzgerald-gardens', {
@@ -67,8 +66,7 @@ class MockDatabase {
       status: 'available',
       totalUnits: 24,
       availableUnits: 8,
-      createdAt: new Date(),
-    });
+      createdAt: new Date()});
 
     this.developments.set('ballymakenny-view', {
       id: 'ballymakenny-view',
@@ -78,8 +76,7 @@ class MockDatabase {
       status: 'available',
       totalUnits: 36,
       availableUnits: 12,
-      createdAt: new Date(),
-    });
+      createdAt: new Date()});
 
     // Add mock properties
     for (let i = 1; i <= 10; i++) {
@@ -94,8 +91,7 @@ class MockDatabase {
         size: 1000 + (i * 100),
         status: 'available',
         images: [`/images/properties/property-${i}.jpg`],
-        createdAt: new Date(),
-      });
+        createdAt: new Date()});
     }
   }
 
@@ -113,9 +109,8 @@ class MockDatabase {
     const user: User = {
       ...data,
       id,
-      createdAt: new Date(),
-    };
-    this.users.set(id, user);
+      createdAt: new Date()};
+    this.users.set(iduser);
     return user;
   }
 
@@ -149,7 +144,7 @@ class MockDatabase {
         properties = properties.filter(p => p.type === filters.type);
       }
       if (filters.minPrice) {
-        properties = properties.filter(p => p.price >= filters.minPrice!);
+        properties = properties.filter(p => p.price>= filters.minPrice!);
       }
       if (filters.maxPrice) {
         properties = properties.filter(p => p.price <= filters.maxPrice!);

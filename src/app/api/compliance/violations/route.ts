@@ -106,40 +106,40 @@ export async function GET(request: NextRequest) {
   const status = searchParams.get('status');
   const startDate = searchParams.get('startDate');
   const endDate = searchParams.get('endDate');
-  
+
   let filtered = [...complianceViolations];
-  
+
   if (category) {
     filtered = filtered.filter(violation => violation.category === category);
   }
-  
+
   if (severity) {
     filtered = filtered.filter(violation => violation.severity === severity);
   }
-  
+
   if (status) {
     filtered = filtered.filter(violation => violation.status === status);
   }
-  
+
   if (startDate) {
     const start = new Date(startDate);
-    filtered = filtered.filter(violation => violation.detectedDate >= start);
+    filtered = filtered.filter(violation => violation.detectedDate>= start);
   }
-  
+
   if (endDate) {
     const end = new Date(endDate);
     filtered = filtered.filter(violation => violation.detectedDate <= end);
   }
-  
+
   return NextResponse.json(filtered);
 }
 
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json();
-    const newViolation = {
+    const body = await request.json() as any;
+    const newViolation: any = {
       id: `violation-${Date.now()}`,
-      ...body,
+      ...(body as Record<string, any>),
       detectedDate: new Date(),
       status: 'OPEN',
       remediationSteps: body.remediationSteps || [],
@@ -149,9 +149,9 @@ export async function POST(request: NextRequest) {
         content: 'Violation reported'
       }]
     };
-    
+
     complianceViolations.push(newViolation);
-    
+
     return NextResponse.json(newViolation, { status: 201 });
   } catch (error) {
     return NextResponse.json(
@@ -163,9 +163,9 @@ export async function POST(request: NextRequest) {
 
 export async function PUT(request: NextRequest) {
   try {
-    const body = await request.json();
+    const body = await request.json() as any;
     const { id, ...updates } = body;
-    
+
     const violationIndex = complianceViolations.findIndex(v => v.id === id);
     if (violationIndex === -1) {
       return NextResponse.json(
@@ -173,9 +173,9 @@ export async function PUT(request: NextRequest) {
         { status: 404 }
       );
     }
-    
+
     const existingViolation = complianceViolations[violationIndex];
-    
+
     // Add note if status changed
     if (updates.status && updates.status !== existingViolation.status) {
       updates.notes = [
@@ -187,12 +187,12 @@ export async function PUT(request: NextRequest) {
         }
       ];
     }
-    
+
     complianceViolations[violationIndex] = {
       ...existingViolation,
       ...updates
     };
-    
+
     return NextResponse.json(complianceViolations[violationIndex]);
   } catch (error) {
     return NextResponse.json(

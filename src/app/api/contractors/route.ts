@@ -33,7 +33,6 @@ export async function GET(request: NextRequest) {
         status: "active",
         createdAt: "2025-01-10T08:30:00Z",
         updatedAt: "2025-01-10T08:30:00Z",
-      },
       {
         id: "2",
         name: "Elite Electrical Services",
@@ -45,7 +44,6 @@ export async function GET(request: NextRequest) {
         status: "active",
         createdAt: "2025-01-15T10:45:00Z",
         updatedAt: "2025-01-15T10:45:00Z",
-      },
       {
         id: "3",
         name: "Premium Plumbing",
@@ -57,7 +55,6 @@ export async function GET(request: NextRequest) {
         status: "active",
         createdAt: "2025-01-20T14:15:00Z",
         updatedAt: "2025-01-20T14:15:00Z",
-      },
       {
         id: "4",
         name: "Emerald Landscaping",
@@ -69,7 +66,6 @@ export async function GET(request: NextRequest) {
         status: "active",
         createdAt: "2025-02-05T09:20:00Z",
         updatedAt: "2025-02-05T09:20:00Z",
-      },
       {
         id: "5",
         name: "Superior Interiors",
@@ -80,30 +76,28 @@ export async function GET(request: NextRequest) {
         developerId: "3",
         status: "active",
         createdAt: "2025-02-12T11:30:00Z",
-        updatedAt: "2025-02-12T11:30:00Z",
-      },
-    ];
+        updatedAt: "2025-02-12T11:30:00Z"];
 
     if (developerId && specialty) {
       const filteredContractors = mockContractors.filter(
-        (c) => c.developerId === developerId && c.specialty === specialty,
+        (c: any) => c.developerId === developerId && c.specialty === specialty,
       );
       return NextResponse.json(filteredContractors);
     } else if (developerId) {
       const developerContractors = mockContractors.filter(
-        (c) => c.developerId === developerId,
+        (c: any) => c.developerId === developerId,
       );
       return NextResponse.json(developerContractors);
     } else if (specialty) {
       const specialtyContractors = mockContractors.filter(
-        (c) => c.specialty === specialty,
+        (c: any) => c.specialty === specialty,
       );
       return NextResponse.json(specialtyContractors);
     }
 
     return NextResponse.json(mockContractors);
   } catch (error) {
-    console.error("Error fetching contractors:", error);
+
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 },
@@ -139,12 +133,11 @@ export async function POST(request: NextRequest) {
         developerId,
         status: "active",
         createdAt: now,
-        updatedAt: now,
-      },
+        updatedAt: now},
       { status: 201 },
     );
   } catch (error) {
-    console.error("Error creating contractor:", error);
+
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 },

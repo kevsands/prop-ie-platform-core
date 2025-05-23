@@ -1,0 +1,169 @@
+'use client';
+
+import React, { useEffect, useState } from 'react';
+import { useParams, useRouter } from 'next/navigation';
+import { LegalTransactionIntegration } from '@/components/legal';
+import { useAuth } from '@/hooks/useAuth';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Button } from '@/components/ui/button';
+import { ArrowLeftIcon, ExclamationTriangleIcon } from '@heroicons/react/24/outline';
+
+/**
+ * Legal Purchase Page - Entry point for the legal transaction flow
+ * Integrates with existing buyer journey and transaction system
+ */
+export default function LegalPurchasePage() {
+  const params = useParams();
+  const router = useRouter();
+  const { user, isLoading: authLoading } = useAuth();
+
+  const unitId = params.unitId as string;
+  const [unitDetails, setUnitDetails] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string>('');
+
+  useEffect(() => {
+    if (!authLoading && user) {
+      loadUnitDetails();
+    }
+  }, [authLoading, user, unitId]);
+
+  const loadUnitDetails = async () => {
+    try {
+      setLoading(true);
+
+      // Fetch unit details using your existing API
+      const response = await fetch(`/api/units/${unitId}`);
+      const data = await response.json();
+
+      if (data.success) {
+        setUnitDetails(data.data);
+      } else {
+        setError('Unit not found or no longer available');
+      }
+    } catch (err) {
+      setError('Failed to load unit details');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleTransactionComplete = (transactionId: string) => {
+    // Navigate to transaction dashboard
+    router.push(`/buyer/transactions/${transactionId}`);
+  };
+
+  const handleCancel = () => {
+    // Navigate back to unit details or search
+    router.push(`/properties/${unitId}`);
+  };
+
+  if (authLoading || loading) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4" />
+          <p className="text-gray-600">Loading unit details...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!user) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <Card className="max-w-md mx-auto">
+          <CardHeader>
+            <CardTitle>Authentication Required</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-gray-600 mb-4">
+              You must be logged in to start a legal transaction process.
+            </p>
+            <div className="flex gap-2">
+              <Button onClick={() => router.push('/auth/login')}>
+                Sign In
+              </Button>
+              <Button variant="outline" onClick={() => router.push('/auth/register')}>
+                Create Account
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
+  if (error || !unitDetails) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <Card className="max-w-md mx-auto">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <ExclamationTriangleIcon className="h-5 w-5 text-red-600" />
+              Error
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <Alert className="mb-4">
+              <AlertDescription>
+                {error || 'Unit details could not be loaded'}
+              </AlertDescription>
+            </Alert>
+            <div className="flex gap-2">
+              <Button onClick={() => router.back()}>
+                <ArrowLeftIcon className="h-4 w-4 mr-2" />
+                Go Back
+              </Button>
+              <Button variant="outline" onClick={loadUnitDetails}>
+                Retry
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
+  // Check if user has appropriate role for purchase
+  if (!['BUYER', 'INVESTOR'].includes(user.role || '')) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <Card className="max-w-md mx-auto">
+          <CardHeader>
+            <CardTitle>Access Restricted</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-gray-600 mb-4">
+              Only buyers and investors can initiate property purchases.
+            </p>
+            <Button onClick={() => router.push('/register/buyer')}>
+              Register as Buyer
+            </Button>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-gray-50">
+      <LegalTransactionIntegration
+        unitId={unitId}
+        unitDetails={{
+          id: unitDetails.id,
+          name: unitDetails.name,
+          price: unitDetails.price,
+          bookingDeposit: unitDetails.bookingDeposit || Math.round(unitDetails.price * 0.015), // 1.5% default
+          address: unitDetails.address || `${unitDetails.location}, Ireland`,
+          bedrooms: unitDetails.bedrooms,
+          bathrooms: unitDetails.bathrooms,
+          type: unitDetails.type
+        }}
+        onComplete={handleTransactionComplete}
+        onCancel={handleCancel}
+      />
+    </div>
+  );
+}

@@ -12,16 +12,15 @@ interface CompleteClaimFormProps {
 export function CompleteClaimForm({ claimId, onSuccessAction, onErrorAction }: CompleteClaimFormProps) {
   const { completeHTBClaim, isLoading } = useHTB();
   const fileInputRef = useRef<HTMLInputElement>(null);
-  
-  const [formData, setFormData] = useState({
+
+  const [formDatasetFormData] = useState({
     completionDate: new Date().toISOString().split("T")[0],
     notes: "",
-    documentFile: null as File | null,
-  });
+    documentFile: null as File | null});
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value, type } = e.target;
-    
+
     if (type === 'file') {
       const fileInput = e.target as HTMLInputElement;
       const file = fileInput.files?.[0] || null;
@@ -39,7 +38,7 @@ export function CompleteClaimForm({ claimId, onSuccessAction, onErrorAction }: C
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     try {
       await completeHTBClaim(
         claimId, 

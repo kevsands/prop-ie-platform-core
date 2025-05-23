@@ -1,0 +1,314 @@
+// WebSocket Hook for React Components
+import { useEffect, useState, useRef, useCallback } from 'react';
+import { io, Socket } from 'socket.io-client';
+
+interface WebSocketOptions {
+  autoConnect?: boolean;
+  reconnection?: boolean;
+  reconnectionAttempts?: number;
+  reconnectionDelay?: number;
+}
+
+interface WebSocketHook {
+  socket: Socket | null;
+  connected: boolean;
+  connecting: boolean;
+  error: Error | null;
+  connect: () => void;
+  disconnect: () => void;
+  emit: (event: string, data?: any) => void;
+  on: (event: string, handler: (data: any) => void) => void;
+  off: (event: string, handler?: (data: any) => void) => void;
+  joinTransaction: (transactionId: string) => void;
+  leaveTransaction: (transactionId: string) => void;
+  startTyping: (transactionId: string, field: string) => void;
+  stopTyping: (transactionId: string, field: string) => void;
+  updatePresence: (status: string) => void;
+}
+
+export function useWebSocket(options: WebSocketOptions = {}): WebSocketHook {
+  const [socket, setSocket] = useState<Socket | null>(null);
+  const [connected, setConnected] = useState(false);
+  const [connecting, setConnecting] = useState(false);
+  const [error, setError] = useState<Error | null>(null);
+  const socketRef = useRef<Socket | null>(null);
+
+  const connect = useCallback(() => {
+    if (socketRef.current?.connected) return;
+
+    setConnecting(true);
+    setError(null);
+
+    const newSocket = io(process.env.NEXT_PUBLIC_WEBSOCKET_URL || 'http://localhost:3001', {
+      ...options,
+      transports: ['websocket'],
+      auth: {
+        token: localStorage.getItem('accessToken')
+      }
+    });
+
+    newSocket.on('connect', () => {
+      console.log('WebSocket connected');
+      setConnected(true);
+      setConnecting(false);
+      
+      // Authenticate after connection
+      const token = localStorage.getItem('accessToken');
+      if (token) {
+        newSocket.emit('authenticate', token);
+      }
+    });
+
+    newSocket.on('authenticated', (data) => {
+      console.log('WebSocket authenticated:', data);
+    });
+
+    newSocket.on('disconnect', () => {
+      console.log('WebSocket disconnected');
+      setConnected(false);
+    });
+
+    newSocket.on('connect_error', (err) => {
+      console.error('WebSocket connection error:', err);
+      setError(err);
+      setConnecting(false);
+    });
+
+    newSocket.on('authentication_error', (data) => {
+      console.error('WebSocket authentication error:', data);
+      setError(new Error(data.message));
+      newSocket.disconnect();
+    });
+
+    socketRef.current = newSocket;
+    setSocket(newSocket);
+  }, [options]);
+
+  const disconnect = useCallback(() => {
+    if (socketRef.current) {
+      socketRef.current.disconnect();
+      socketRef.current = null;
+      setSocket(null);
+      setConnected(false);
+    }
+  }, []);
+
+  const emit = useCallback((event: string, data?: any) => {
+    if (socketRef.current?.connected) {
+      socketRef.current.emit(event, data);
+    } else {
+      console.warn('Socket not connected, cannot emit event:', event);
+    }
+  }, []);
+
+  const on = useCallback((event: string, handler: (data: any) => void) => {
+    if (socketRef.current) {
+      socketRef.current.on(event, handler);
+    }
+  }, []);
+
+  const off = useCallback((event: string, handler?: (data: any) => void) => {
+    if (socketRef.current) {
+      if (handler) {
+        socketRef.current.off(event, handler);
+      } else {
+        socketRef.current.off(event);
+      }
+    }
+  }, []);
+
+  const joinTransaction = useCallback((transactionId: string) => {
+    emit('join_transaction', transactionId);
+  }, [emit]);
+
+  const leaveTransaction = useCallback((transactionId: string) => {
+    emit('leave_transaction', transactionId);
+  }, [emit]);
+
+  const startTyping = useCallback((transactionId: string, field: string) => {
+    emit('typing_start', { transactionId, field });
+  }, [emit]);
+
+  const stopTyping = useCallback((transactionId: string, field: string) => {
+    emit('typing_stop', { transactionId, field });
+  }, [emit]);
+
+  const updatePresence = useCallback((status: string) => {
+    emit('presence_update', { status, lastActivity: new Date() });
+  }, [emit]);
+
+  useEffect(() => {
+    if (options.autoConnect !== false) {
+      connect();
+    }
+
+    return () => {
+      disconnect();
+    };
+  }, []);
+
+  return {
+    socket,
+    connected,
+    connecting,
+    error,
+    connect,
+    disconnect,
+    emit,
+    on,
+    off,
+    joinTransaction,
+    leaveTransaction,
+    startTyping,
+    stopTyping,
+    updatePresence
+  };
+}
+
+// Specialized hook for transaction real-time updates
+export function useTransactionWebSocket(transactionId: string) {
+  const ws = useWebSocket();
+  const [transactionState, setTransactionState] = useState<any>(null);
+  const [onlineUsers, setOnlineUsers] = useState<any[]>([]);
+  const [typingUsers, setTypingUsers] = useState<Map<string, string>>(new Map());
+
+  useEffect(() => {
+    if (ws.connected && transactionId) {
+      // Join transaction room
+      ws.joinTransaction(transactionId);
+
+      // Listen for transaction state
+      ws.on('transaction_state', (data) => {
+        setTransactionState(data);
+      });
+
+      // Listen for transaction updates
+      ws.on('transaction_update', (data) => {
+        console.log('Transaction update:', data);
+        // Update local state based on update type
+        if (data.type === 'event') {
+          setTransactionState(prev => ({
+            ...prev,
+            events: [data.data, ...(prev?.events || [])]
+          }));
+        }
+      });
+
+      // Listen for user presence
+      ws.on('user_joined_transaction', (data) => {
+        setOnlineUsers(prev => [...prev, data.user]);
+      });
+
+      ws.on('user_left_transaction', (data) => {
+        setOnlineUsers(prev => prev.filter(u => u.userId !== data.userId));
+      });
+
+      // Listen for typing indicators
+      ws.on('user_typing', (data) => {
+        setTypingUsers(prev => new Map(prev).set(data.userId, data.field));
+      });
+
+      ws.on('user_stopped_typing', (data) => {
+        setTypingUsers(prev => {
+          const newMap = new Map(prev);
+          newMap.delete(data.userId);
+          return newMap;
+        });
+      });
+
+      // Listen for document updates
+      ws.on('document_update', (data) => {
+        console.log('Document update:', data);
+        setTransactionState(prev => ({
+          ...prev,
+          documents: prev?.documents?.map(doc => 
+            doc.id === data.documentId ? { ...doc, ...data.update } : doc
+          )
+        }));
+      });
+
+      // Listen for payment updates
+      ws.on('payment_update', (data) => {
+        console.log('Payment update:', data);
+        setTransactionState(prev => ({
+          ...prev,
+          payments: prev?.payments?.map(payment => 
+            payment.id === data.paymentId ? { ...payment, ...data.update } : payment
+          )
+        }));
+      });
+
+      return () => {
+        ws.leaveTransaction(transactionId);
+        ws.off('transaction_state');
+        ws.off('transaction_update');
+        ws.off('user_joined_transaction');
+        ws.off('user_left_transaction');
+        ws.off('user_typing');
+        ws.off('user_stopped_typing');
+        ws.off('document_update');
+        ws.off('payment_update');
+      };
+    }
+  }, [ws.connected, transactionId]);
+
+  return {
+    ...ws,
+    transactionState,
+    onlineUsers,
+    typingUsers
+  };
+}
+
+// Hook for real-time analytics
+export function useAnalyticsWebSocket() {
+  const ws = useWebSocket();
+  const [analyticsData, setAnalyticsData] = useState<any>(null);
+
+  useEffect(() => {
+    if (ws.connected) {
+      ws.on('analytics_update', (data) => {
+        console.log('Analytics update:', data);
+        setAnalyticsData(data);
+      });
+
+      return () => {
+        ws.off('analytics_update');
+      };
+    }
+  }, [ws.connected]);
+
+  return {
+    ...ws,
+    analyticsData
+  };
+}
+
+// Hook for system notifications
+export function useSystemNotifications() {
+  const ws = useWebSocket();
+  const [systemNotifications, setSystemNotifications] = useState<any[]>([]);
+
+  useEffect(() => {
+    if (ws.connected) {
+      ws.on('system_notification', (notification) => {
+        console.log('System notification:', notification);
+        setSystemNotifications(prev => [notification, ...prev]);
+      });
+
+      return () => {
+        ws.off('system_notification');
+      };
+    }
+  }, [ws.connected]);
+
+  const clearNotification = useCallback((id: string) => {
+    setSystemNotifications(prev => prev.filter(n => n.id !== id));
+  }, []);
+
+  return {
+    ...ws,
+    systemNotifications,
+    clearNotification
+  };
+}

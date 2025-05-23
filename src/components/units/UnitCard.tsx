@@ -40,11 +40,11 @@ const UnitCard: React.FC<UnitCardProps> = ({ unit, orgSlug, onClick }) => {
         return 'bg-gray-100 text-gray-800';
     }
   };
-  
+
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('en-IE', { style: 'currency', currency: 'EUR' }).format(amount);
   };
-  
+
   return (
     <div 
       className="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200 hover:shadow-lg transition-shadow cursor-pointer"
@@ -71,7 +71,7 @@ const UnitCard: React.FC<UnitCardProps> = ({ unit, orgSlug, onClick }) => {
           Unit {unit.unitNumber}
         </div>
       </div>
-      
+
       <div className="p-4">
         <div className="flex justify-between items-start">
           <div>
@@ -82,7 +82,7 @@ const UnitCard: React.FC<UnitCardProps> = ({ unit, orgSlug, onClick }) => {
             <p className="text-lg font-bold text-[#2B5273]">{formatCurrency(unit.price)}</p>
           </div>
         </div>
-        
+
         <div className="mt-4 flex flex-wrap gap-3">
           <div className="flex items-center text-sm text-gray-600">
             <FiUsers className="mr-1" />
@@ -96,26 +96,26 @@ const UnitCard: React.FC<UnitCardProps> = ({ unit, orgSlug, onClick }) => {
             <span>{unit.floorArea} m²</span>
           </div>
         </div>
-        
+
         {unit.phase && (
           <div className="mt-4 flex items-center text-sm text-gray-600">
             <FiTag className="mr-1" />
             <span>Phase: {unit.phase}</span>
           </div>
         )}
-        
+
         {unit.completionDate && (
           <div className="mt-1 flex items-center text-sm text-gray-600">
             <FiCalendar className="mr-1" />
             <span>Completion: {new Date(unit.completionDate).toLocaleDateString()}</span>
           </div>
         )}
-        
+
         <div className="mt-4 pt-4 border-t border-gray-100 flex justify-end">
           <Link 
             href={`/${orgSlug}/projects/${unit.projectSlug}/units/${unit.id}`}
             className="text-[#2B5273] hover:text-[#1E3142] text-sm font-medium"
-            onClick={(e) => e.stopPropagation()}
+            onClick={(e: any) => e.stopPropagation()}
           >
             View Details
           </Link>

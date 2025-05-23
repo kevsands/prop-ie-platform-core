@@ -4,322 +4,2959 @@
 
    ▲ Next.js 15.3.1
    - Local:        http://localhost:3000
-   - Network:      http://192.168.0.41:3000
+   - Network:      http://10.0.0.55:3000
    - Environments: .env.local, .env
 
  ✓ Starting...
- ✓ Ready in 2.2s
- ✓ Compiled /middleware in 211ms (108 modules)
+ ✓ Ready in 1983ms
+ ✓ Compiled /middleware in 214ms (207 modules)
+ ○ Compiling /api/auth/[...nextauth] ...
+ ✓ Compiled /api/auth/[...nextauth] in 607ms (652 modules)
+[next-auth][warn][DEBUG_ENABLED] 
+https://next-auth.js.org/warnings#debug_enabled
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 1869ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 22ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 20ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 19ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 22ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 23ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 21ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 19ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 22ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 20ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 18ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 15ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 18ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 16ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 15ms
+ ○ Compiling /auth/register ...
+ ✓ Compiled /auth/register in 926ms (992 modules)
+ GET /auth/register?name=Kevin+Sands&email=developer%40example.com&userType=developer&password=Developer123%21&confirmPassword=Developer123%21 200 in 1421ms
+ ✓ Compiled /favicon.ico in 333ms (571 modules)
+ GET /favicon.ico 200 in 512ms
+ ✓ Compiled /api/auth/[...nextauth] in 96ms (877 modules)
+[next-auth][warn][DEBUG_ENABLED] 
+https://next-auth.js.org/warnings#debug_enabled
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 334ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 20ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 18ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 23ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 19ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 16ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 16ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 15ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 16ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 16ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 16ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 15ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 33ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 16ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 16ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 14ms
+ ✓ Compiled /_not-found in 177ms (1318 modules)
+ GET /resources/calculators/affordability 404 in 395ms
+ GET /favicon.ico 200 in 26ms
+[next-auth][warn][DEBUG_ENABLED] 
+https://next-auth.js.org/warnings#debug_enabled
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 111ms
+ GET /icon-144x144.png 404 in 91ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 24ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 22ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 19ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 18ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 18ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 29ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 16ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 16ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 17ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 15ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 17ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 14ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 16ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 16ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 16ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 25ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 30ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 29ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 20ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 17ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 14ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 17ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 16ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 15ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 15ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 12ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 17ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 17ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 14ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 17ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 17ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 17ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 15ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 61ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 20ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 16ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 14ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 15ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 16ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 19ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 19ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 18ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 19ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 18ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 18ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 23ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 29ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 33ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 20ms
+ ✓ Compiled /buyer/first-time-buyers/welcome in 422ms (1353 modules)
+ GET /buyer/first-time-buyers/welcome 200 in 879ms
+ ✓ Compiled /favicon.ico in 97ms (906 modules)
+ GET /favicon.ico 200 in 345ms
+[next-auth][warn][DEBUG_ENABLED] 
+https://next-auth.js.org/warnings#debug_enabled
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 126ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 21ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 17ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 18ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 19ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 15ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 14ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 14ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 16ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 14ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 26ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 19ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 25ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 15ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 20ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 15ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 96ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 15ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 17ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 15ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 16ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 14ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 16ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 16ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 15ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 14ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 15ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 17ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 16ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 19ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 14ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 16ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 76ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 21ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 17ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 18ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 21ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 16ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 15ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 16ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 14ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 16ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 16ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 18ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 119ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 37ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 38ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 32ms
+ ○ Compiling /developer ...
+ ✓ Compiled /developer in 2s (2581 modules)
+ GET /developer 200 in 2373ms
+ ✓ Compiled /favicon.ico in 379ms (1521 modules)
+ GET /favicon.ico 200 in 635ms
+[next-auth][warn][DEBUG_ENABLED] 
+https://next-auth.js.org/warnings#debug_enabled
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 180ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 21ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 22ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 37ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 17ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 17ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 17ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 16ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 17ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 20ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 17ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 15ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 13ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 12ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 12ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 13ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 12ms
+ ✓ Compiled /developer/developments/[id] in 497ms (2606 modules)
+ GET /developer/developments/1 200 in 1034ms
+ ○ Compiling /_not-found ...
+ ✓ Compiled /_not-found in 686ms (2612 modules)
+ GET /icon-144x144.png 404 in 922ms
+Error: Route "/api/developer/developments/[id]" used `params.id`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at GET (src/app/api/developer/developments/[id]/route.ts:13:10)
+  11 |   props: Props
+  12 | ) {
+> 13 |   const { id } = props.params;
+     |          ^
+  14 |   
+  15 |   try {
+  16 |     const development = await prisma.development.findUnique({
+prisma:query SELECT "public"."Development"."id", "public"."Development"."name", "public"."Development"."slug", "public"."Development"."developerId", "public"."Development"."locationId", "public"."Development"."status"::text, "public"."Development"."totalUnits", "public"."Development"."marketingStatus", "public"."Development"."salesStatus", "public"."Development"."constructionStatus", "public"."Development"."complianceStatus", "public"."Development"."timelineId", "public"."Development"."financialsId", "public"."Development"."mainImage", "public"."Development"."images", "public"."Development"."videos", "public"."Development"."sitePlanUrl", "public"."Development"."brochureUrl", "public"."Development"."virtualTourUrl", "public"."Development"."websiteUrl", "public"."Development"."description", "public"."Development"."shortDescription", "public"."Development"."features", "public"."Development"."amenities", "public"."Development"."buildingSpecs", "public"."Development"."buildingType", "public"."Development"."completionDate", "public"."Development"."startDate", "public"."Development"."created", "public"."Development"."updated", "public"."Development"."publishedDate", "public"."Development"."isPublished", "public"."Development"."tags", "public"."Development"."awards" FROM "public"."Development" WHERE ("public"."Development"."id" = $1 AND 1=1) LIMIT $2 OFFSET $3
+ GET /api/developer/developments/1 404 in 2066ms
+Error: Route "/api/developer/developments/[id]" used `params.id`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at GET (src/app/api/developer/developments/[id]/route.ts:13:10)
+  11 |   props: Props
+  12 | ) {
+> 13 |   const { id } = props.params;
+     |          ^
+  14 |   
+  15 |   try {
+  16 |     const development = await prisma.development.findUnique({
+prisma:query SELECT "public"."Development"."id", "public"."Development"."name", "public"."Development"."slug", "public"."Development"."developerId", "public"."Development"."locationId", "public"."Development"."status"::text, "public"."Development"."totalUnits", "public"."Development"."marketingStatus", "public"."Development"."salesStatus", "public"."Development"."constructionStatus", "public"."Development"."complianceStatus", "public"."Development"."timelineId", "public"."Development"."financialsId", "public"."Development"."mainImage", "public"."Development"."images", "public"."Development"."videos", "public"."Development"."sitePlanUrl", "public"."Development"."brochureUrl", "public"."Development"."virtualTourUrl", "public"."Development"."websiteUrl", "public"."Development"."description", "public"."Development"."shortDescription", "public"."Development"."features", "public"."Development"."amenities", "public"."Development"."buildingSpecs", "public"."Development"."buildingType", "public"."Development"."completionDate", "public"."Development"."startDate", "public"."Development"."created", "public"."Development"."updated", "public"."Development"."publishedDate", "public"."Development"."isPublished", "public"."Development"."tags", "public"."Development"."awards" FROM "public"."Development" WHERE ("public"."Development"."id" = $1 AND 1=1) LIMIT $2 OFFSET $3
+ GET /api/developer/developments/1 404 in 43ms
+[next-auth][warn][DEBUG_ENABLED] 
+https://next-auth.js.org/warnings#debug_enabled
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 125ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 39ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 17ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 17ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 15ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 15ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 16ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 17ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 17ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 18ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 17ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 18ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 17ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 20ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 17ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 20ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 14ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 19ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 16ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 16ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 18ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 13ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 16ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 20ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 14ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 13ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 15ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 14ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 14ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 15ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 15ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 16ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 15ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 15ms
+ ✓ Compiled in 7.1s (2298 modules)
+ GET /developer/developments/1 200 in 101ms
+ ✓ Compiled /_not-found in 252ms (2288 modules)
+ GET /icon-144x144.png 404 in 468ms
+ ✓ Compiled in 344ms (1095 modules)
+ GET /developer/developments/1 200 in 33ms
+ GET /icon-144x144.png 404 in 86ms
+ ✓ Compiled in 498ms (1095 modules)
+ GET /developer/developments/1 200 in 32ms
+ GET /icon-144x144.png 404 in 135ms
+ ✓ Compiled in 474ms (1095 modules)
+ GET /developer/developments/1 200 in 87ms
+ GET /icon-144x144.png 404 in 120ms
+ ✓ Compiled in 436ms (1095 modules)
+ GET /developer/developments/1 200 in 40ms
+ GET /icon-144x144.png 404 in 122ms
+ ✓ Compiled in 343ms (1095 modules)
+ GET /developer/developments/1 200 in 32ms
+ GET /icon-144x144.png 404 in 99ms
+ ✓ Compiled in 526ms (1095 modules)
+ GET /developer/developments/1 200 in 55ms
+ GET /icon-144x144.png 404 in 88ms
+ ✓ Compiled in 732ms (1092 modules)
+ GET /developer/developments/1 200 in 51ms
+ GET /developer/developments/1 200 in 22ms
+ ✓ Compiled /_not-found in 330ms (2288 modules)
+ GET /icon-144x144.png 404 in 518ms
+ ✓ Compiled in 361ms (1095 modules)
+ GET /developer/developments/1 200 in 41ms
+ GET /icon-144x144.png 404 in 429ms
+ ✓ Compiled in 1269ms (1092 modules)
+ GET /developer/developments/1 200 in 177ms
+ GET /developer/developments/1 200 in 26ms
+ ✓ Compiled /_not-found in 186ms (2288 modules)
+ GET /icon-144x144.png 404 in 361ms
+ ✓ Compiled in 489ms (1092 modules)
+ GET /developer/developments/1 200 in 39ms
+ ✓ Compiled /_not-found in 257ms (2288 modules)
+ GET /icon-144x144.png 404 in 400ms
+ ✓ Compiled in 537ms (1095 modules)
+ GET /developer/developments/1 200 in 61ms
+ GET /icon-144x144.png 404 in 142ms
+ ✓ Compiled in 480ms (1092 modules)
+ GET /developer/developments/1 200 in 33ms
+ ✓ Compiled /_not-found in 240ms (2288 modules)
+ GET /icon-144x144.png 404 in 389ms
+ ✓ Compiled in 590ms (1095 modules)
+ GET /developer/developments/1 200 in 135ms
+ GET /icon-144x144.png 404 in 98ms
  ○ Compiling / ...
- ✓ Compiled / in 4.7s (2596 modules)
- ⨯ ReferenceError: Cannot access 'ShoppingCart' before initialization
-    at eval (src/components/navigation/CleanProfessionalNav.tsx:141:19)
-    at (ssr)/./src/components/navigation/CleanProfessionalNav.tsx (.next/server/app/page.js:250:1)
-    at __webpack_require__ (.next/server/webpack-runtime.js:33:42)
-    at eval (webpack-internal:///(ssr)/./src/app/ClientLayout.tsx:12:101)
-    at (ssr)/./src/app/ClientLayout.tsx (.next/server/app/page.js:195:1)
-    at Object.__webpack_require__ [as require] (.next/server/webpack-runtime.js:33:42)
-  139 |             href: '/solutions/buy-off-plan',
-  140 |             description: 'How it works: digital contracts, secure payments, instant reservation',
-> 141 |             icon: <ShoppingCart className="h-5 w-5" />
-      |                   ^
-  142 |           }
-  143 |         ]
-  144 |       }, {
-  digest: '703992493'
-}
- ⨯ ReferenceError: Cannot access 'ShoppingCart' before initialization
-    at eval (src/components/navigation/CleanProfessionalNav.tsx:141:19)
-    at (ssr)/./src/components/navigation/CleanProfessionalNav.tsx (.next/server/app/page.js:250:1)
-    at __webpack_require__ (.next/server/webpack-runtime.js:33:42)
-    at eval (webpack-internal:///(ssr)/./src/app/ClientLayout.tsx:12:101)
-    at (ssr)/./src/app/ClientLayout.tsx (.next/server/app/page.js:195:1)
-    at Object.__webpack_require__ [as require] (.next/server/webpack-runtime.js:33:42)
-  139 |             href: '/solutions/buy-off-plan',
-  140 |             description: 'How it works: digital contracts, secure payments, instant reservation',
-> 141 |             icon: <ShoppingCart className="h-5 w-5" />
-      |                   ^
-  142 |           }
-  143 |         ]
-  144 |       }, {
-  digest: '703992493'
-}
- ⚠ metadataBase property in metadata export is not set for resolving social open graph or twitter images, using "http://localhost:3000". See https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase
- GET / 500 in 4162ms
- ✓ Compiled /favicon.ico in 430ms (1362 modules)
- GET /favicon.ico 200 in 625ms
- ⨯ ReferenceError: Cannot access 'ShoppingCart' before initialization
-    at eval (src/components/navigation/CleanProfessionalNav.tsx:141:19)
-    at (ssr)/./src/components/navigation/CleanProfessionalNav.tsx (.next/server/app/page.js:250:1)
-    at __webpack_require__ (.next/server/webpack-runtime.js:33:42)
-    at eval (webpack-internal:///(ssr)/./src/app/ClientLayout.tsx:12:101)
-    at (ssr)/./src/app/ClientLayout.tsx (.next/server/app/page.js:195:1)
-    at Object.__webpack_require__ [as require] (.next/server/webpack-runtime.js:33:42)
-  139 |             href: '/solutions/buy-off-plan',
-  140 |             description: 'How it works: digital contracts, secure payments, instant reservation',
-> 141 |             icon: <ShoppingCart className="h-5 w-5" />
-      |                   ^
-  142 |           }
-  143 |         ]
-  144 |       }, {
-  digest: '703992493'
-}
- ⚠ metadataBase property in metadata export is not set for resolving social open graph or twitter images, using "http://localhost:3000". See https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase
- GET / 500 in 235ms
- GET /favicon.ico 200 in 27ms
- ⨯ ReferenceError: Cannot access 'ShoppingCart' before initialization
-    at eval (src/components/navigation/CleanProfessionalNav.tsx:141:19)
-    at (ssr)/./src/components/navigation/CleanProfessionalNav.tsx (.next/server/app/page.js:250:1)
-    at __webpack_require__ (.next/server/webpack-runtime.js:33:42)
-    at eval (webpack-internal:///(ssr)/./src/app/ClientLayout.tsx:12:101)
-    at (ssr)/./src/app/ClientLayout.tsx (.next/server/app/page.js:195:1)
-    at Object.__webpack_require__ [as require] (.next/server/webpack-runtime.js:33:42)
-  139 |             href: '/solutions/buy-off-plan',
-  140 |             description: 'How it works: digital contracts, secure payments, instant reservation',
-> 141 |             icon: <ShoppingCart className="h-5 w-5" />
-      |                   ^
-  142 |           }
-  143 |         ]
-  144 |       }, {
-  digest: '703992493'
-}
- GET / 500 in 161ms
- GET /favicon.ico 200 in 29ms
- ⨯ ReferenceError: Cannot access 'ShoppingCart' before initialization
-    at eval (src/components/navigation/CleanProfessionalNav.tsx:141:19)
-    at (ssr)/./src/components/navigation/CleanProfessionalNav.tsx (.next/server/app/page.js:250:1)
-    at __webpack_require__ (.next/server/webpack-runtime.js:33:42)
-    at eval (webpack-internal:///(ssr)/./src/app/ClientLayout.tsx:12:101)
-    at (ssr)/./src/app/ClientLayout.tsx (.next/server/app/page.js:195:1)
-    at Object.__webpack_require__ [as require] (.next/server/webpack-runtime.js:33:42)
-  139 |             href: '/solutions/buy-off-plan',
-  140 |             description: 'How it works: digital contracts, secure payments, instant reservation',
-> 141 |             icon: <ShoppingCart className="h-5 w-5" />
-      |                   ^
-  142 |           }
-  143 |         ]
-  144 |       }, {
-  digest: '703992493'
-}
- GET / 500 in 147ms
- GET /favicon.ico 200 in 20ms
- ⨯ ReferenceError: Cannot access 'ShoppingCart' before initialization
-    at eval (src/components/navigation/CleanProfessionalNav.tsx:141:19)
-    at (ssr)/./src/components/navigation/CleanProfessionalNav.tsx (.next/server/app/page.js:250:1)
-    at __webpack_require__ (.next/server/webpack-runtime.js:33:42)
-    at eval (webpack-internal:///(ssr)/./src/app/ClientLayout.tsx:12:101)
-    at (ssr)/./src/app/ClientLayout.tsx (.next/server/app/page.js:195:1)
-    at Object.__webpack_require__ [as require] (.next/server/webpack-runtime.js:33:42)
-  139 |             href: '/solutions/buy-off-plan',
-  140 |             description: 'How it works: digital contracts, secure payments, instant reservation',
-> 141 |             icon: <ShoppingCart className="h-5 w-5" />
-      |                   ^
-  142 |           }
-  143 |         ]
-  144 |       }, {
-  digest: '703992493'
-}
- HEAD / 500 in 186ms
- ⨯ ReferenceError: Cannot access 'ShoppingCart' before initialization
-    at eval (src/components/navigation/CleanProfessionalNav.tsx:141:19)
-    at (ssr)/./src/components/navigation/CleanProfessionalNav.tsx (.next/server/app/page.js:250:1)
-    at __webpack_require__ (.next/server/webpack-runtime.js:33:42)
-    at eval (webpack-internal:///(ssr)/./src/app/ClientLayout.tsx:12:101)
-    at (ssr)/./src/app/ClientLayout.tsx (.next/server/app/page.js:195:1)
-    at Object.__webpack_require__ [as require] (.next/server/webpack-runtime.js:33:42)
-  139 |             href: '/solutions/buy-off-plan',
-  140 |             description: 'How it works: digital contracts, secure payments, instant reservation',
-> 141 |             icon: <ShoppingCart className="h-5 w-5" />
-      |                   ^
-  142 |           }
-  143 |         ]
-  144 |       }, {
-  digest: '703992493'
-}
- GET / 500 in 162ms
- GET /favicon.ico 200 in 21ms
- ○ Compiling /properties/[id] ...
- ✓ Compiled /properties/[id] in 1091ms (2633 modules)
+ ✓ Compiled / in 751ms (2331 modules)
+ GET / 200 in 988ms
+ ✓ Compiled /favicon.ico in 335ms (1246 modules)
+ GET /favicon.ico 200 in 495ms
+ ✓ Compiled /api/auth/[...nextauth] in 404ms (1552 modules)
+[next-auth][warn][DEBUG_ENABLED] 
+https://next-auth.js.org/warnings#debug_enabled
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 747ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 29ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 26ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 26ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 21ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 18ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 15ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 28ms
+ ○ Compiling /properties/search ...
+ ✓ Compiled /properties/search in 1113ms (2742 modules)
+[next-auth][warn][DEBUG_ENABLED] 
+https://next-auth.js.org/warnings#debug_enabled
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 1224ms
+ GET /properties/search 200 in 1247ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 42ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 80ms
+ GET /icon-144x144.png 404 in 146ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 152ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 18ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 30ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 127ms
+ GET /api/locations 404 in 132ms
+ ○ Compiling /api/properties ...
+ ✓ Compiled /api/properties in 516ms (2745 modules)
+[next-auth][warn][DEBUG_ENABLED] 
+https://next-auth.js.org/warnings#debug_enabled
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/properties?priceMin=200000&priceMax=800000 200 in 701ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 574ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 53ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 33ms
+ GET /properties/search 200 in 289ms
+ GET /favicon.ico 200 in 39ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 27ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/properties?priceMin=200000&priceMax=800000 200 in 127ms
+ GET /api/locations 404 in 130ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 119ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 30ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 21ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 23ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 19ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 22ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 16ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 19ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 24ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 30ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 29ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 56ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 24ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 18ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 20ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 20ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 19ms
+ GET /properties/search 200 in 145ms
+ GET /favicon.ico 200 in 40ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 38ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/properties?priceMin=200000&priceMax=800000 200 in 116ms
+ GET /api/locations 404 in 117ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 28ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 30ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 22ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 25ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 20ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 25ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 19ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 22ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 21ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 21ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 24ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 20ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 20ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 21ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 21ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 20ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 21ms
+ GET /properties/search 200 in 112ms
+ GET /favicon.ico 200 in 33ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 28ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/properties?priceMin=200000&priceMax=800000 200 in 112ms
+ GET /api/locations 404 in 116ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 107ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 19ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 22ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 18ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 19ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 33ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 124ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 30ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 25ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 17ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 17ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 21ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 21ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 16ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 21ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 20ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 19ms
+ ✓ Compiled in 943ms (1161 modules)
  ⚠ Fast Refresh had to perform a full reload due to a runtime error.
- ⨯ ReferenceError: Cannot access 'ShoppingCart' before initialization
-    at eval (src/components/navigation/CleanProfessionalNav.tsx:141:19)
-    at (ssr)/./src/components/navigation/CleanProfessionalNav.tsx (.next/server/app/page.js:250:1)
-    at __webpack_require__ (.next/server/webpack-runtime.js:33:42)
-    at eval (webpack-internal:///(ssr)/./src/app/ClientLayout.tsx:12:101)
-    at (ssr)/./src/app/ClientLayout.tsx (.next/server/app/page.js:195:1)
-    at Object.__webpack_require__ [as require] (.next/server/webpack-runtime.js:33:42)
-  139 |             href: '/solutions/buy-off-plan',
-  140 |             description: 'How it works: digital contracts, secure payments, instant reservation',
-> 141 |             icon: <ShoppingCart className="h-5 w-5" />
-      |                   ^
-  142 |           }
-  143 |         ]
-  144 |       }, {
-  digest: '703992493'
-}
- ⚠ metadataBase property in metadata export is not set for resolving social open graph or twitter images, using "http://localhost:3000". See https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase
- GET / 500 in 280ms
- ✓ Compiled /_not-found in 425ms (2623 modules)
- ⚠ metadataBase property in metadata export is not set for resolving social open graph or twitter images, using "http://localhost:3000". See https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase
- ⨯ ReferenceError: Cannot access 'ShoppingCart' before initialization
-    at eval (src/components/navigation/CleanProfessionalNav.tsx:141:19)
-    at (ssr)/./src/components/navigation/CleanProfessionalNav.tsx (.next/server/app/_not-found/page.js:174:1)
-    at __webpack_require__ (.next/server/webpack-runtime.js:33:42)
-    at eval (webpack-internal:///(ssr)/./src/app/ClientLayout.tsx:12:101)
-    at (ssr)/./src/app/ClientLayout.tsx (.next/server/app/_not-found/page.js:141:1)
-    at Object.__webpack_require__ [as require] (.next/server/webpack-runtime.js:33:42)
-  139 |             href: '/solutions/buy-off-plan',
-  140 |             description: 'How it works: digital contracts, secure payments, instant reservation',
-> 141 |             icon: <ShoppingCart className="h-5 w-5" />
-      |                   ^
-  142 |           }
-  143 |         ]
-  144 |       }, {
-  digest: '703992493'
-}
- ⨯ ReferenceError: Cannot access 'ShoppingCart' before initialization
-    at eval (src/components/navigation/CleanProfessionalNav.tsx:141:19)
-    at (ssr)/./src/components/navigation/CleanProfessionalNav.tsx (.next/server/app/_not-found/page.js:174:1)
-    at __webpack_require__ (.next/server/webpack-runtime.js:33:42)
-    at eval (webpack-internal:///(ssr)/./src/app/ClientLayout.tsx:12:101)
-    at (ssr)/./src/app/ClientLayout.tsx (.next/server/app/_not-found/page.js:141:1)
-    at Object.__webpack_require__ [as require] (.next/server/webpack-runtime.js:33:42)
-  139 |             href: '/solutions/buy-off-plan',
-  140 |             description: 'How it works: digital contracts, secure payments, instant reservation',
-> 141 |             icon: <ShoppingCart className="h-5 w-5" />
-      |                   ^
-  142 |           }
-  143 |         ]
-  144 |       }, {
-  digest: '703992493'
-}
- ⨯ ReferenceError: Cannot access 'ShoppingCart' before initialization
-    at eval (src/components/navigation/CleanProfessionalNav.tsx:141:19)
-    at (ssr)/./src/components/navigation/CleanProfessionalNav.tsx (.next/server/app/_not-found/page.js:174:1)
-    at __webpack_require__ (.next/server/webpack-runtime.js:33:42)
-    at eval (webpack-internal:///(ssr)/./src/app/ClientLayout.tsx:12:101)
-    at (ssr)/./src/app/ClientLayout.tsx (.next/server/app/_not-found/page.js:141:1)
-    at Object.__webpack_require__ [as require] (.next/server/webpack-runtime.js:33:42)
-  139 |             href: '/solutions/buy-off-plan',
-  140 |             description: 'How it works: digital contracts, secure payments, instant reservation',
-> 141 |             icon: <ShoppingCart className="h-5 w-5" />
-      |                   ^
-  142 |           }
-  143 |         ]
-  144 |       }, {
-  digest: '703992493'
-}
- ⨯ [Error: Cannot find module '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/properties/[id]/page.js'
-Require stack:
-- /Users/kevin/Downloads/awsready/prop-ie-aws-app/node_modules/next/dist/server/require.js
-- /Users/kevin/Downloads/awsready/prop-ie-aws-app/node_modules/next/dist/server/load-components.js
-- /Users/kevin/Downloads/awsready/prop-ie-aws-app/node_modules/next/dist/build/utils.js
-- /Users/kevin/Downloads/awsready/prop-ie-aws-app/node_modules/next/dist/server/dev/static-paths-worker.js
-- /Users/kevin/Downloads/awsready/prop-ie-aws-app/node_modules/next/dist/compiled/jest-worker/processChild.js] {
-  type: 'Error',
-  code: 'MODULE_NOT_FOUND',
-  requireStack: [Array],
-  page: '/properties/houses'
-}
- GET /_next/static/css/app/layout.css?v=1747418880860 500 in 931ms
- GET /_next/static/chunks/app-pages-internals.js 500 in 677ms
- GET /_next/static/chunks/main-app.js 500 in 692ms
- ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/favicon.ico/route.js'] {
-  errno: -2,
-  code: 'ENOENT',
-  syscall: 'open',
-  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/favicon.ico/route.js',
-  page: '/favicon.ico'
-}
- GET /favicon.ico 500 in 320ms
- ○ Compiling /_error ...
- ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/favicon.ico/route.js'] {
-  errno: -2,
-  code: 'ENOENT',
-  syscall: 'open',
-  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/favicon.ico/route.js',
-  page: '/favicon.ico'
-}
- GET /favicon.ico 500 in 223ms
- ✓ Compiled /_error in 1379ms (2959 modules)
- ⚠ metadataBase property in metadata export is not set for resolving social open graph or twitter images, using "http://localhost:3000". See https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase
- ⨯ ReferenceError: Cannot access 'ShoppingCart' before initialization
-    at eval (src/components/navigation/CleanProfessionalNav.tsx:141:19)
-    at (ssr)/./src/components/navigation/CleanProfessionalNav.tsx (.next/server/app/_not-found/page.js:174:1)
-    at __webpack_require__ (.next/server/webpack-runtime.js:33:42)
-    at eval (webpack-internal:///(ssr)/./src/app/ClientLayout.tsx:12:101)
-    at (ssr)/./src/app/ClientLayout.tsx (.next/server/app/_not-found/page.js:141:1)
-    at Object.__webpack_require__ [as require] (.next/server/webpack-runtime.js:33:42)
-  139 |             href: '/solutions/buy-off-plan',
-  140 |             description: 'How it works: digital contracts, secure payments, instant reservation',
-> 141 |             icon: <ShoppingCart className="h-5 w-5" />
-      |                   ^
-  142 |           }
-  143 |         ]
-  144 |       }, {
-  digest: '703992493'
-}
- GET /icon-16x16.png 500 in 953ms
- ⨯ ReferenceError: Cannot access 'ShoppingCart' before initialization
-    at eval (src/components/navigation/CleanProfessionalNav.tsx:141:19)
-    at (ssr)/./src/components/navigation/CleanProfessionalNav.tsx (.next/server/app/_not-found/page.js:174:1)
-    at __webpack_require__ (.next/server/webpack-runtime.js:33:42)
-    at eval (webpack-internal:///(ssr)/./src/app/ClientLayout.tsx:12:101)
-    at (ssr)/./src/app/ClientLayout.tsx (.next/server/app/_not-found/page.js:141:1)
-    at Object.__webpack_require__ [as require] (.next/server/webpack-runtime.js:33:42)
-  139 |             href: '/solutions/buy-off-plan',
-  140 |             description: 'How it works: digital contracts, secure payments, instant reservation',
-> 141 |             icon: <ShoppingCart className="h-5 w-5" />
-      |                   ^
-  142 |           }
-  143 |         ]
-  144 |       }, {
-  digest: '703992493'
-}
- GET /properties/houses 500 in 4381ms
- GET /icon-32x32.png 500 in 199ms
- ✓ Compiled in 588ms (2973 modules)
- ✓ Compiled in 396ms (1505 modules)
- ✓ Compiled in 604ms (1505 modules)
- ✓ Compiled in 340ms (1505 modules)
- ✓ Compiled in 1384ms (2959 modules)
-<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: ENOENT: no such file or directory, stat '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/cache/webpack/client-development/4.pack.gz'
- ✓ Compiled in 552ms (2975 modules)
-[Error: ENOENT: no such file or directory, stat '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/cache/webpack/server-development/1.pack.gz'] {
-  errno: -2,
-  code: 'ENOENT',
-  syscall: 'stat',
-  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/cache/webpack/server-development/1.pack.gz'
-}
- ⨯ unhandledRejection: [Error: ENOENT: no such file or directory, stat '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/cache/webpack/server-development/1.pack.gz'] {
-  errno: -2,
-  code: 'ENOENT',
-  syscall: 'stat',
-  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/cache/webpack/server-development/1.pack.gz'
-}
- ⨯ unhandledRejection:  [Error: ENOENT: no such file or directory, stat '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/cache/webpack/server-development/1.pack.gz'] {
-  errno: -2,
-  code: 'ENOENT',
-  syscall: 'stat',
-  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/cache/webpack/server-development/1.pack.gz'
-}
-[Error: ENOENT: no such file or directory, stat '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/cache/webpack/server-development/29.pack.gz'] {
-  errno: -2,
-  code: 'ENOENT',
-  syscall: 'stat',
-  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/cache/webpack/server-development/29.pack.gz'
-}
- ⨯ unhandledRejection: [Error: ENOENT: no such file or directory, stat '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/cache/webpack/server-development/29.pack.gz'] {
-  errno: -2,
-  code: 'ENOENT',
-  syscall: 'stat',
-  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/cache/webpack/server-development/29.pack.gz'
-}
- ⨯ unhandledRejection:  [Error: ENOENT: no such file or directory, stat '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/cache/webpack/server-development/29.pack.gz'] {
-  errno: -2,
-  code: 'ENOENT',
-  syscall: 'stat',
-  path: '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/cache/webpack/server-development/29.pack.gz'
-}
-<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: ENOENT: no such file or directory, stat '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/cache/webpack/server-development/0.pack.gz'
-[?25h
+ GET /properties/search 200 in 176ms
+ GET /developer/developments/1 200 in 252ms
+ GET /favicon.ico 200 in 195ms
+ GET /icon-144x144.png 404 in 94ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/properties?priceMin=200000&priceMax=800000 200 in 200ms
+ GET /api/locations 404 in 184ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 172ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 55ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 30ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 27ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 38ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 46ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 26ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 19ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 23ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 20ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 18ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 15ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 17ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 17ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 16ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 15ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 15ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 22ms
+ ✓ Compiled in 688ms (1161 modules)
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ GET /developer/developments/1 200 in 246ms
+ GET /icon-144x144.png 404 in 98ms
+ GET / 200 in 131ms
+ GET /favicon.ico 200 in 61ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 32ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 36ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 71ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 54ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 119ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 65ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 40ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 30ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 17ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 19ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 20ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 20ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 18ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 24ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 20ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 22ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 28ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 23ms
+ ○ Compiling /developments/ballymakenny-view ...
+ ✓ Compiled /developments/ballymakenny-view in 696ms (2752 modules)
+ GET /developments/ballymakenny-view 200 in 820ms
+ GET /images/ballymakenny-view/2bed.jpg 404 in 130ms
+ ⨯ The requested resource isn't a valid image for /images/ballymakenny-view/2bed.jpg received text/html; charset=utf-8
+ GET /icon-144x144.png 404 in 93ms
+ GET /images/ballymakenny-view/site-plan.jpg 404 in 120ms
+ ⨯ The requested resource isn't a valid image for /images/ballymakenny-view/site-plan.jpg received text/html; charset=utf-8
+ GET /images/ballymakenny-view/location-map.jpg 404 in 100ms
+ ⨯ The requested resource isn't a valid image for /images/ballymakenny-view/location-map.jpg received text/html; charset=utf-8
+ GET /icon-144x144.png 404 in 105ms
+ ○ Compiling /developments/fitzgerald-gardens ...
+ ✓ Compiled /developments/fitzgerald-gardens in 530ms (2762 modules)
+ GET /developments/fitzgerald-gardens 200 in 613ms
+ GET /icon-144x144.png 404 in 130ms
+ ✓ Compiled in 679ms (2171 modules)
+ GET /developments/fitzgerald-gardens 200 in 150ms
+ GET /developer/developments/1 200 in 159ms
+ GET /icon-144x144.png 404 in 147ms
+ GET /icon-144x144.png 404 in 92ms
+ ○ Compiling /login ...
+ ✓ Compiled /login in 1361ms (1844 modules)
+ GET /login 200 in 3844ms
+ ○ Compiling /developer ...
+ ✓ Compiled /developer in 1567ms (2446 modules)
+ GET /icon-144x144.png 404 in 2053ms
+ GET /developer 200 in 2130ms
+ GET /developer 200 in 163ms
+ GET /icon-144x144.png 404 in 122ms
+ ✓ Compiled in 772ms (2460 modules)
+ GET /developments/fitzgerald-gardens 200 in 117ms
+ GET /developer/developments/1 200 in 138ms
+ GET /icon-144x144.png 404 in 470ms
+ GET /icon-144x144.png 404 in 116ms
+ ✓ Compiled in 1553ms (1849 modules)
+ GET /developments/fitzgerald-gardens 200 in 219ms
+ GET /developer/developments/1 200 in 229ms
+ ✓ Compiled /_not-found in 260ms (1839 modules)
+ GET /icon-144x144.png 404 in 448ms
+ GET /icon-144x144.png 404 in 86ms
+ ✓ Compiled in 967ms (1853 modules)
+ GET /developments/fitzgerald-gardens 200 in 56ms
+ GET /developer/developments/1 200 in 57ms
+ GET /icon-144x144.png 404 in 136ms
+ GET /icon-144x144.png 404 in 87ms
+ ○ Compiling /api/auth/[...nextauth] ...
+ ✓ Compiled /api/auth/[...nextauth] in 636ms (979 modules)
+[next-auth][warn][DEBUG_ENABLED] 
+https://next-auth.js.org/warnings#debug_enabled
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 884ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 17ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 16ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 15ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 16ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 17ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 19ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 17ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 20ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 18ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 17ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 19ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 20ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 21ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 18ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 17ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 19ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 18ms
+ GET /developer/developments/1 200 in 68ms
+ GET /icon-144x144.png 404 in 183ms
+ GET /developer/developments/1 200 in 31ms
+ GET /icon-144x144.png 404 in 121ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 46ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 19ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 17ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 17ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 17ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 15ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 15ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 16ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 14ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 15ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 13ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 14ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 12ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 14ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 17ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 17ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 17ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 15ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 23ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 25ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 21ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 20ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 18ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 19ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 23ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 30ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 20ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 60ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 16ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 16ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 17ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 16ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 25ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 16ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 14ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 14ms
+ GET / 200 in 150ms
+ ✓ Compiled /favicon.ico in 362ms (993 modules)
+ GET /favicon.ico 200 in 582ms
+[next-auth][warn][DEBUG_ENABLED] 
+https://next-auth.js.org/warnings#debug_enabled
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 311ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 21ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 19ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 17ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 17ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 18ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 17ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 17ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 18ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 16ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 19ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 17ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 16ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 15ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 19ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 18ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 17ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 17ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 17ms
+ GET /properties/search 200 in 51ms
+ GET /api/locations 404 in 176ms
+ ○ Compiling /api/properties ...
+ ✓ Compiled /api/properties in 650ms (2162 modules)
+[next-auth][warn][DEBUG_ENABLED] 
+https://next-auth.js.org/warnings#debug_enabled
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/properties?priceMin=200000&priceMax=800000 200 in 1014ms
+ GET /icon-144x144.png 404 in 846ms
+ GET /images/properties/apartment-102-1.jpg 404 in 230ms
+ ⨯ The requested resource isn't a valid image for /images/properties/apartment-102-1.jpg received text/html; charset=utf-8
+ GET /images/properties/apartment-101-1.jpg 404 in 232ms
+ ⨯ The requested resource isn't a valid image for /images/properties/apartment-101-1.jpg received text/html; charset=utf-8
+ GET /api/locations 404 in 105ms
+ ✓ Compiled /properties/[id] in 470ms (2176 modules)
+ GET /properties/unit-2 200 in 977ms
+ GET /properties/unit-2 200 in 25ms
+ GET /icon-144x144.png 404 in 137ms
+ ○ Compiling /buyer/purchase/[id] ...
+ ✓ Compiled /buyer/purchase/[id] in 744ms (2206 modules)
+ GET /buyer/purchase/unit-2 200 in 1237ms
+ ✓ Compiled in 1310ms (1192 modules)
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ GET /developments/fitzgerald-gardens 200 in 254ms
+ GET /developer/developments/1 200 in 268ms
+ GET /properties/search 200 in 289ms
+ ✓ Compiled /favicon.ico in 483ms (1841 modules)
+ ✓ Compiled /api/auth/[...nextauth] in 420ms (2164 modules)
+ GET /icon-144x144.png 404 in 1497ms
+ GET /favicon.ico 200 in 1277ms
+[next-auth][warn][DEBUG_ENABLED] 
+https://next-auth.js.org/warnings#debug_enabled
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/locations 404 in 888ms
+ GET /api/properties?priceMin=200000&priceMax=800000 200 in 901ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 902ms
+ GET /icon-144x144.png 404 in 158ms
+ GET /images/properties/apartment-102-1.jpg 404 in 176ms
+ ⨯ The requested resource isn't a valid image for /images/properties/apartment-102-1.jpg received text/html; charset=utf-8
+ GET /images/properties/apartment-101-1.jpg 404 in 177ms
+ ⨯ The requested resource isn't a valid image for /images/properties/apartment-101-1.jpg received text/html; charset=utf-8
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 192ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 28ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 21ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 20ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 21ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 15ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 20ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 22ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 19ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 16ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 20ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 18ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 18ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 16ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 18ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 19ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 20ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 17ms
+ ✓ Compiled in 541ms (1195 modules)
+ GET /properties/search 200 in 105ms
+ GET /developments/fitzgerald-gardens 200 in 122ms
+ GET /developer/developments/1 200 in 124ms
+ GET /icon-144x144.png 404 in 797ms
+ GET /icon-144x144.png 404 in 216ms
+ GET /icon-144x144.png 404 in 90ms
+ ✓ Compiled in 1164ms (2178 modules)
+ GET /properties/search 200 in 220ms
+ GET /developments/fitzgerald-gardens 200 in 240ms
+ GET /developer/developments/1 200 in 193ms
+ GET /icon-144x144.png 404 in 183ms
+ GET /icon-144x144.png 404 in 128ms
+ GET /icon-144x144.png 404 in 84ms
+ ✓ Compiled in 1641ms (1988 modules)
+ GET /properties/search 200 in 292ms
+ GET /developer/developments/1 200 in 269ms
+ ✓ Compiled /api/auth/[...nextauth] in 173ms (1032 modules)
+ GET /developments/fitzgerald-gardens 200 in 679ms
+[next-auth][warn][DEBUG_ENABLED] 
+https://next-auth.js.org/warnings#debug_enabled
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 745ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 54ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 194ms
+ GET /icon-144x144.png 404 in 180ms
+ GET /icon-144x144.png 404 in 124ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 28ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 26ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 22ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 24ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 22ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 22ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 126ms
+ GET /icon-144x144.png 404 in 115ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 17ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 17ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 40ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 20ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 19ms
+ ✓ Compiled in 566ms (2292 modules)
+ GET /properties/search 200 in 89ms
+ GET /developments/fitzgerald-gardens 200 in 112ms
+ GET /developer/developments/1 200 in 106ms
+ GET /icon-144x144.png 404 in 117ms
+ GET /icon-144x144.png 404 in 95ms
+ GET /icon-144x144.png 404 in 78ms
+ ✓ Compiled in 1137ms (2499 modules)
+ GET /properties/search 200 in 833ms
+ GET /developments/fitzgerald-gardens 200 in 857ms
+ GET /developer/developments/1 200 in 798ms
+ GET /properties/search 200 in 29ms
+ GET /developments/fitzgerald-gardens 200 in 43ms
+ GET /developer/developments/1 200 in 48ms
+ GET /icon-144x144.png 404 in 128ms
+ GET /icon-144x144.png 404 in 96ms
+ GET /icon-144x144.png 404 in 83ms
+ ✓ Compiled in 1229ms (2499 modules)
+ GET /developments/fitzgerald-gardens 200 in 931ms
+ GET /developer/developments/1 200 in 906ms
+ GET /properties/search 200 in 931ms
+ GET /properties/search 200 in 52ms
+ GET /developments/fitzgerald-gardens 200 in 57ms
+ GET /developer/developments/1 200 in 45ms
+ GET /icon-144x144.png 404 in 127ms
+ GET /icon-144x144.png 404 in 101ms
+ GET /icon-144x144.png 404 in 104ms
+ ✓ Compiled in 627ms (2485 modules)
+ GET /developments/fitzgerald-gardens 200 in 75ms
+ GET /properties/search 200 in 90ms
+ GET /developer/developments/1 200 in 87ms
+ GET /developments/fitzgerald-gardens 200 in 43ms
+ GET /properties/search 200 in 45ms
+ GET /developer/developments/1 200 in 50ms
+ GET /icon-144x144.png 404 in 117ms
+ GET /icon-144x144.png 404 in 102ms
+ GET /icon-144x144.png 404 in 76ms
+ ✓ Compiled in 319ms (2485 modules)
+ ✓ Compiled in 716ms (2181 modules)
+ GET /developments/fitzgerald-gardens 200 in 470ms
+ GET /developer/developments/1 200 in 461ms
+ GET /properties/search 200 in 472ms
+ GET /developments/fitzgerald-gardens 200 in 46ms
+ GET /developer/developments/1 200 in 60ms
+ GET /properties/search 200 in 43ms
+ GET /icon-144x144.png 404 in 134ms
+ GET /icon-144x144.png 404 in 100ms
+ GET /icon-144x144.png 404 in 79ms
+ ✓ Compiled in 1065ms (2181 modules)
+ GET /developments/fitzgerald-gardens 200 in 682ms
+ GET /properties/search 200 in 685ms
+ GET /developer/developments/1 200 in 667ms
+ GET /developments/fitzgerald-gardens 200 in 70ms
+ GET /properties/search 200 in 80ms
+ GET /developer/developments/1 200 in 71ms
+ GET /icon-144x144.png 404 in 163ms
+ GET /icon-144x144.png 404 in 108ms
+ GET /icon-144x144.png 404 in 99ms
+ ✓ Compiled in 102ms (1246 modules)
+ ✓ Compiled in 86ms (1246 modules)
+ ✓ Compiled in 385ms (1257 modules)
+ GET /developments/fitzgerald-gardens 200 in 66ms
+ GET /properties/search 200 in 77ms
+ GET /developer/developments/1 200 in 70ms
+ ✓ Compiled /_not-found in 501ms (1974 modules)
+ GET /icon-144x144.png 404 in 690ms
+ GET /icon-144x144.png 404 in 98ms
+ GET /icon-144x144.png 404 in 76ms
+ ✓ Compiled in 505ms (1260 modules)
+ GET /properties/search 200 in 95ms
+ GET /developments/fitzgerald-gardens 200 in 97ms
+ GET /developer/developments/1 200 in 194ms
+ GET /icon-144x144.png 404 in 95ms
+ GET /icon-144x144.png 404 in 85ms
+ GET /icon-144x144.png 404 in 82ms
+ ✓ Compiled in 2.7s (1984 modules)
+ GET /properties/search 200 in 194ms
+ GET /developments/fitzgerald-gardens 200 in 211ms
+ GET /developer/developments/1 200 in 187ms
+ ✓ Compiled /api/developer/developments/[id] in 494ms (744 modules)
+Error: Route "/api/developer/developments/[id]" used `params.id`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at GET (src/app/api/developer/developments/[id]/route.ts:13:10)
+  11 |   { params }: Props
+  12 | ) {
+> 13 |   const { id } = params;
+     |          ^
+  14 |   
+  15 |   try {
+  16 |     const development = await prisma.development.findUnique({
+ GET /developments/fitzgerald-gardens 200 in 126ms
+ GET /properties/search 200 in 138ms
+ GET /developer/developments/1 200 in 136ms
+ GET /api/developer/developments/1 404 in 909ms
+prisma:query SELECT "public"."Development"."id", "public"."Development"."name", "public"."Development"."slug", "public"."Development"."developerId", "public"."Development"."locationId", "public"."Development"."status"::text, "public"."Development"."totalUnits", "public"."Development"."marketingStatus", "public"."Development"."salesStatus", "public"."Development"."constructionStatus", "public"."Development"."complianceStatus", "public"."Development"."timelineId", "public"."Development"."financialsId", "public"."Development"."mainImage", "public"."Development"."images", "public"."Development"."videos", "public"."Development"."sitePlanUrl", "public"."Development"."brochureUrl", "public"."Development"."virtualTourUrl", "public"."Development"."websiteUrl", "public"."Development"."description", "public"."Development"."shortDescription", "public"."Development"."features", "public"."Development"."amenities", "public"."Development"."buildingSpecs", "public"."Development"."buildingType", "public"."Development"."completionDate", "public"."Development"."startDate", "public"."Development"."created", "public"."Development"."updated", "public"."Development"."publishedDate", "public"."Development"."isPublished", "public"."Development"."tags", "public"."Development"."awards" FROM "public"."Development" WHERE ("public"."Development"."id" = $1 AND 1=1) LIMIT $2 OFFSET $3
+ ✓ Compiled /_not-found in 322ms (1991 modules)
+ GET /icon-144x144.png 404 in 594ms
+ GET /icon-144x144.png 404 in 101ms
+ GET /icon-144x144.png 404 in 99ms
+ GET /icon-144x144.png 404 in 84ms
+ GET /icon-144x144.png 404 in 81ms
+ GET /icon-144x144.png 404 in 81ms
+ ✓ Compiled in 605ms (1260 modules)
+ GET /developments/fitzgerald-gardens 200 in 170ms
+ GET /properties/search 200 in 190ms
+ GET /developer/developments/1 200 in 179ms
+ GET /icon-144x144.png 404 in 130ms
+ GET /icon-144x144.png 404 in 89ms
+ GET /icon-144x144.png 404 in 109ms
+ ✓ Compiled in 505ms (1260 modules)
+ GET /properties/search 200 in 110ms
+ GET /developments/fitzgerald-gardens 200 in 120ms
+ GET /developer/developments/1 200 in 107ms
+ GET /icon-144x144.png 404 in 85ms
+ GET /icon-144x144.png 404 in 81ms
+ GET /icon-144x144.png 404 in 88ms
+ ✓ Compiled in 361ms (1260 modules)
+ GET /developments/fitzgerald-gardens 200 in 73ms
+ GET /properties/search 200 in 84ms
+ GET /developer/developments/1 200 in 78ms
+ GET /icon-144x144.png 404 in 97ms
+ GET /icon-144x144.png 404 in 91ms
+ GET /icon-144x144.png 404 in 88ms
+ ✓ Compiled in 434ms (1260 modules)
+ GET /developments/fitzgerald-gardens 200 in 56ms
+ GET /properties/search 200 in 76ms
+ GET /developer/developments/1 200 in 68ms
+ GET /icon-144x144.png 404 in 189ms
+ GET /icon-144x144.png 404 in 86ms
+ GET /icon-144x144.png 404 in 92ms
+ ✓ Compiled in 1584ms (2195 modules)
+ GET /developments/fitzgerald-gardens 200 in 994ms
+ GET /properties/search 200 in 1023ms
+ GET /developer/developments/1 200 in 965ms
+ GET /developments/fitzgerald-gardens 200 in 50ms
+ GET /properties/search 200 in 56ms
+ GET /developer/developments/1 200 in 61ms
+ GET /icon-144x144.png 404 in 223ms
+ GET /icon-144x144.png 404 in 175ms
+ GET /icon-144x144.png 404 in 97ms
+ ✓ Compiled in 798ms (1260 modules)
+ GET /properties/search 200 in 85ms
+ GET /developments/fitzgerald-gardens 200 in 118ms
+ GET /developer/developments/1 200 in 417ms
+ ✓ Compiled in 407ms (1260 modules)
+ GET /icon-144x144.png 404 in 148ms
+ GET /properties/search 200 in 206ms
+ GET /developments/fitzgerald-gardens 200 in 62ms
+ GET /developer/developments/1 200 in 53ms
+ GET /icon-144x144.png 404 in 139ms
+ GET /icon-144x144.png 404 in 116ms
+ GET /icon-144x144.png 404 in 107ms
+ ✓ Compiled in 508ms (1260 modules)
+ GET /properties/search 200 in 141ms
+ GET /developments/fitzgerald-gardens 200 in 142ms
+ GET /developer/developments/1 200 in 135ms
+ GET /properties/search 200 in 57ms
+ GET /developments/fitzgerald-gardens 200 in 59ms
+ GET /developer/developments/1 200 in 48ms
+ GET /icon-144x144.png 404 in 91ms
+ GET /icon-144x144.png 404 in 80ms
+ GET /icon-144x144.png 404 in 82ms
+ ✓ Compiled in 391ms (1260 modules)
+ GET /developments/fitzgerald-gardens 200 in 61ms
+ GET /properties/search 200 in 70ms
+ GET /developer/developments/1 200 in 64ms
+ GET /icon-144x144.png 404 in 88ms
+ GET /icon-144x144.png 404 in 82ms
+ GET /icon-144x144.png 404 in 85ms
+ ✓ Compiled in 579ms (1260 modules)
+ GET /properties/search 200 in 134ms
+ GET /developments/fitzgerald-gardens 200 in 142ms
+ GET /developer/developments/1 200 in 112ms
+ GET /icon-144x144.png 404 in 106ms
+ GET /icon-144x144.png 404 in 93ms
+ GET /icon-144x144.png 404 in 88ms
+ ✓ Compiled in 431ms (1260 modules)
+ GET /developments/fitzgerald-gardens 200 in 66ms
+ GET /properties/search 200 in 77ms
+ GET /developer/developments/1 200 in 69ms
+ GET /icon-144x144.png 404 in 97ms
+ GET /icon-144x144.png 404 in 89ms
+ GET /icon-144x144.png 404 in 92ms
+ ⚠ Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+ ⚠ ./src/app/properties/search/enhanced-page.tsx
+Attempted import error: 'SquareArrowOut' is not exported from '__barrel_optimize__?names=ArrowUpRight,Bath,BedDouble,ChevronLeft,ChevronRight,Filter,Grid,Heart,List,MapPin,MoveRight,Search,Sparkles,SquareArrowOut!=!lucide-react' (imported as 'SquareArrowOut').
+
+Import trace for requested module:
+./src/app/properties/search/enhanced-page.tsx
+./src/app/properties/search/page.tsx
+
+./src/app/properties/search/enhanced-page.tsx
+Attempted import error: 'SquareArrowOut' is not exported from '__barrel_optimize__?names=ArrowUpRight,Bath,BedDouble,ChevronLeft,ChevronRight,Filter,Grid,Heart,List,MapPin,MoveRight,Search,Sparkles,SquareArrowOut!=!lucide-react' (imported as 'SquareArrowOut').
+
+Import trace for requested module:
+./src/app/properties/search/enhanced-page.tsx
+./src/app/properties/search/page.tsx
+
+./src/app/properties/search/enhanced-page.tsx
+Attempted import error: 'SquareArrowOut' is not exported from '__barrel_optimize__?names=ArrowUpRight,Bath,BedDouble,ChevronLeft,ChevronRight,Filter,Grid,Heart,List,MapPin,MoveRight,Search,Sparkles,SquareArrowOut!=!lucide-react' (imported as 'SquareArrowOut').
+
+Import trace for requested module:
+./src/app/properties/search/enhanced-page.tsx
+./src/app/properties/search/page.tsx
+
+./src/app/properties/search/enhanced-page.tsx
+Attempted import error: 'SquareArrowOut' is not exported from '__barrel_optimize__?names=ArrowUpRight,Bath,BedDouble,ChevronLeft,ChevronRight,Filter,Grid,Heart,List,MapPin,MoveRight,Search,Sparkles,SquareArrowOut!=!lucide-react' (imported as 'SquareArrowOut').
+
+Import trace for requested module:
+./src/app/properties/search/enhanced-page.tsx
+./src/app/properties/search/page.tsx
+ ⚠ ./src/app/properties/search/enhanced-page.tsx
+Attempted import error: 'SquareArrowOut' is not exported from '__barrel_optimize__?names=ArrowUpRight,Bath,BedDouble,ChevronLeft,ChevronRight,Filter,Grid,Heart,List,MapPin,MoveRight,Search,Sparkles,SquareArrowOut!=!lucide-react' (imported as 'SquareArrowOut').
+
+Import trace for requested module:
+./src/app/properties/search/enhanced-page.tsx
+./src/app/properties/search/page.tsx
+
+./src/app/properties/search/enhanced-page.tsx
+Attempted import error: 'SquareArrowOut' is not exported from '__barrel_optimize__?names=ArrowUpRight,Bath,BedDouble,ChevronLeft,ChevronRight,Filter,Grid,Heart,List,MapPin,MoveRight,Search,Sparkles,SquareArrowOut!=!lucide-react' (imported as 'SquareArrowOut').
+
+Import trace for requested module:
+./src/app/properties/search/enhanced-page.tsx
+./src/app/properties/search/page.tsx
+
+./src/app/properties/search/enhanced-page.tsx
+Attempted import error: 'SquareArrowOut' is not exported from '__barrel_optimize__?names=ArrowUpRight,Bath,BedDouble,ChevronLeft,ChevronRight,Filter,Grid,Heart,List,MapPin,MoveRight,Search,Sparkles,SquareArrowOut!=!lucide-react' (imported as 'SquareArrowOut').
+
+Import trace for requested module:
+./src/app/properties/search/enhanced-page.tsx
+./src/app/properties/search/page.tsx
+
+./src/app/properties/search/enhanced-page.tsx
+Attempted import error: 'SquareArrowOut' is not exported from '__barrel_optimize__?names=ArrowUpRight,Bath,BedDouble,ChevronLeft,ChevronRight,Filter,Grid,Heart,List,MapPin,MoveRight,Search,Sparkles,SquareArrowOut!=!lucide-react' (imported as 'SquareArrowOut').
+
+Import trace for requested module:
+./src/app/properties/search/enhanced-page.tsx
+./src/app/properties/search/page.tsx
+ ⚠ ./src/app/properties/search/enhanced-page.tsx
+Attempted import error: 'SquareArrowOut' is not exported from '__barrel_optimize__?names=ArrowUpRight,Bath,BedDouble,ChevronLeft,ChevronRight,Filter,Grid,Heart,List,MapPin,MoveRight,Search,Sparkles,SquareArrowOut!=!lucide-react' (imported as 'SquareArrowOut').
+
+Import trace for requested module:
+./src/app/properties/search/enhanced-page.tsx
+./src/app/properties/search/page.tsx
+
+./src/app/properties/search/enhanced-page.tsx
+Attempted import error: 'SquareArrowOut' is not exported from '__barrel_optimize__?names=ArrowUpRight,Bath,BedDouble,ChevronLeft,ChevronRight,Filter,Grid,Heart,List,MapPin,MoveRight,Search,Sparkles,SquareArrowOut!=!lucide-react' (imported as 'SquareArrowOut').
+
+Import trace for requested module:
+./src/app/properties/search/enhanced-page.tsx
+./src/app/properties/search/page.tsx
+
+./src/app/properties/search/enhanced-page.tsx
+Attempted import error: 'SquareArrowOut' is not exported from '__barrel_optimize__?names=ArrowUpRight,Bath,BedDouble,ChevronLeft,ChevronRight,Filter,Grid,Heart,List,MapPin,MoveRight,Search,Sparkles,SquareArrowOut!=!lucide-react' (imported as 'SquareArrowOut').
+
+Import trace for requested module:
+./src/app/properties/search/enhanced-page.tsx
+./src/app/properties/search/page.tsx
+
+./src/app/properties/search/enhanced-page.tsx
+Attempted import error: 'SquareArrowOut' is not exported from '__barrel_optimize__?names=ArrowUpRight,Bath,BedDouble,ChevronLeft,ChevronRight,Filter,Grid,Heart,List,MapPin,MoveRight,Search,Sparkles,SquareArrowOut!=!lucide-react' (imported as 'SquareArrowOut').
+
+Import trace for requested module:
+./src/app/properties/search/enhanced-page.tsx
+./src/app/properties/search/page.tsx
+ ⚠ ./src/app/properties/search/enhanced-page.tsx
+Attempted import error: 'SquareArrowOut' is not exported from '__barrel_optimize__?names=ArrowUpRight,Bath,BedDouble,ChevronLeft,ChevronRight,Filter,Grid,Heart,List,MapPin,MoveRight,Search,Sparkles,SquareArrowOut!=!lucide-react' (imported as 'SquareArrowOut').
+
+Import trace for requested module:
+./src/app/properties/search/enhanced-page.tsx
+./src/app/properties/search/page.tsx
+
+./src/app/properties/search/enhanced-page.tsx
+Attempted import error: 'SquareArrowOut' is not exported from '__barrel_optimize__?names=ArrowUpRight,Bath,BedDouble,ChevronLeft,ChevronRight,Filter,Grid,Heart,List,MapPin,MoveRight,Search,Sparkles,SquareArrowOut!=!lucide-react' (imported as 'SquareArrowOut').
+
+Import trace for requested module:
+./src/app/properties/search/enhanced-page.tsx
+./src/app/properties/search/page.tsx
+
+./src/app/properties/search/enhanced-page.tsx
+Attempted import error: 'SquareArrowOut' is not exported from '__barrel_optimize__?names=ArrowUpRight,Bath,BedDouble,ChevronLeft,ChevronRight,Filter,Grid,Heart,List,MapPin,MoveRight,Search,Sparkles,SquareArrowOut!=!lucide-react' (imported as 'SquareArrowOut').
+
+Import trace for requested module:
+./src/app/properties/search/enhanced-page.tsx
+./src/app/properties/search/page.tsx
+
+./src/app/properties/search/enhanced-page.tsx
+Attempted import error: 'SquareArrowOut' is not exported from '__barrel_optimize__?names=ArrowUpRight,Bath,BedDouble,ChevronLeft,ChevronRight,Filter,Grid,Heart,List,MapPin,MoveRight,Search,Sparkles,SquareArrowOut!=!lucide-react' (imported as 'SquareArrowOut').
+
+Import trace for requested module:
+./src/app/properties/search/enhanced-page.tsx
+./src/app/properties/search/page.tsx
+React does not recognize the `asChild` prop on a DOM element. If you intentionally want it to appear in the DOM as a custom attribute, spell it as lowercase `aschild` instead. If you accidentally passed it from a parent component, remove it from the DOM element.
+ GET /properties/search 200 in 901ms
+ GET /properties/search 200 in 1439ms
+ ⚠ ./src/app/properties/search/enhanced-page.tsx
+Attempted import error: 'SquareArrowOut' is not exported from '__barrel_optimize__?names=ArrowUpRight,Bath,BedDouble,ChevronLeft,ChevronRight,Filter,Grid,Heart,List,MapPin,MoveRight,Search,Sparkles,SquareArrowOut!=!lucide-react' (imported as 'SquareArrowOut').
+
+Import trace for requested module:
+./src/app/properties/search/enhanced-page.tsx
+./src/app/properties/search/page.tsx
+
+./src/app/properties/search/enhanced-page.tsx
+Attempted import error: 'SquareArrowOut' is not exported from '__barrel_optimize__?names=ArrowUpRight,Bath,BedDouble,ChevronLeft,ChevronRight,Filter,Grid,Heart,List,MapPin,MoveRight,Search,Sparkles,SquareArrowOut!=!lucide-react' (imported as 'SquareArrowOut').
+
+Import trace for requested module:
+./src/app/properties/search/enhanced-page.tsx
+./src/app/properties/search/page.tsx
+
+./src/app/properties/search/enhanced-page.tsx
+Attempted import error: 'SquareArrowOut' is not exported from '__barrel_optimize__?names=ArrowUpRight,Bath,BedDouble,ChevronLeft,ChevronRight,Filter,Grid,Heart,List,MapPin,MoveRight,Search,Sparkles,SquareArrowOut!=!lucide-react' (imported as 'SquareArrowOut').
+
+Import trace for requested module:
+./src/app/properties/search/enhanced-page.tsx
+./src/app/properties/search/page.tsx
+
+./src/app/properties/search/enhanced-page.tsx
+Attempted import error: 'SquareArrowOut' is not exported from '__barrel_optimize__?names=ArrowUpRight,Bath,BedDouble,ChevronLeft,ChevronRight,Filter,Grid,Heart,List,MapPin,MoveRight,Search,Sparkles,SquareArrowOut!=!lucide-react' (imported as 'SquareArrowOut').
+
+Import trace for requested module:
+./src/app/properties/search/enhanced-page.tsx
+./src/app/properties/search/page.tsx
+ ⚠ ./src/app/properties/search/enhanced-page.tsx
+Attempted import error: 'SquareArrowOut' is not exported from '__barrel_optimize__?names=ArrowUpRight,Bath,BedDouble,ChevronLeft,ChevronRight,Filter,Grid,Heart,List,MapPin,MoveRight,Search,Sparkles,SquareArrowOut!=!lucide-react' (imported as 'SquareArrowOut').
+
+Import trace for requested module:
+./src/app/properties/search/enhanced-page.tsx
+./src/app/properties/search/page.tsx
+
+./src/app/properties/search/enhanced-page.tsx
+Attempted import error: 'SquareArrowOut' is not exported from '__barrel_optimize__?names=ArrowUpRight,Bath,BedDouble,ChevronLeft,ChevronRight,Filter,Grid,Heart,List,MapPin,MoveRight,Search,Sparkles,SquareArrowOut!=!lucide-react' (imported as 'SquareArrowOut').
+
+Import trace for requested module:
+./src/app/properties/search/enhanced-page.tsx
+./src/app/properties/search/page.tsx
+
+./src/app/properties/search/enhanced-page.tsx
+Attempted import error: 'SquareArrowOut' is not exported from '__barrel_optimize__?names=ArrowUpRight,Bath,BedDouble,ChevronLeft,ChevronRight,Filter,Grid,Heart,List,MapPin,MoveRight,Search,Sparkles,SquareArrowOut!=!lucide-react' (imported as 'SquareArrowOut').
+
+Import trace for requested module:
+./src/app/properties/search/enhanced-page.tsx
+./src/app/properties/search/page.tsx
+
+./src/app/properties/search/enhanced-page.tsx
+Attempted import error: 'SquareArrowOut' is not exported from '__barrel_optimize__?names=ArrowUpRight,Bath,BedDouble,ChevronLeft,ChevronRight,Filter,Grid,Heart,List,MapPin,MoveRight,Search,Sparkles,SquareArrowOut!=!lucide-react' (imported as 'SquareArrowOut').
+
+Import trace for requested module:
+./src/app/properties/search/enhanced-page.tsx
+./src/app/properties/search/page.tsx
+ GET /developments/fitzgerald-gardens 200 in 1149ms
+ GET /developer/developments/1 200 in 1147ms
+ ⚠ ./src/app/properties/search/enhanced-page.tsx
+Attempted import error: 'SquareArrowOut' is not exported from '__barrel_optimize__?names=ArrowUpRight,Bath,BedDouble,ChevronLeft,ChevronRight,Filter,Grid,Heart,List,MapPin,MoveRight,Search,Sparkles,SquareArrowOut!=!lucide-react' (imported as 'SquareArrowOut').
+
+Import trace for requested module:
+./src/app/properties/search/enhanced-page.tsx
+./src/app/properties/search/page.tsx
+
+./src/app/properties/search/enhanced-page.tsx
+Attempted import error: 'SquareArrowOut' is not exported from '__barrel_optimize__?names=ArrowUpRight,Bath,BedDouble,ChevronLeft,ChevronRight,Filter,Grid,Heart,List,MapPin,MoveRight,Search,Sparkles,SquareArrowOut!=!lucide-react' (imported as 'SquareArrowOut').
+
+Import trace for requested module:
+./src/app/properties/search/enhanced-page.tsx
+./src/app/properties/search/page.tsx
+
+./src/app/properties/search/enhanced-page.tsx
+Attempted import error: 'SquareArrowOut' is not exported from '__barrel_optimize__?names=ArrowUpRight,Bath,BedDouble,ChevronLeft,ChevronRight,Filter,Grid,Heart,List,MapPin,MoveRight,Search,Sparkles,SquareArrowOut!=!lucide-react' (imported as 'SquareArrowOut').
+
+Import trace for requested module:
+./src/app/properties/search/enhanced-page.tsx
+./src/app/properties/search/page.tsx
+
+./src/app/properties/search/enhanced-page.tsx
+Attempted import error: 'SquareArrowOut' is not exported from '__barrel_optimize__?names=ArrowUpRight,Bath,BedDouble,ChevronLeft,ChevronRight,Filter,Grid,Heart,List,MapPin,MoveRight,Search,Sparkles,SquareArrowOut!=!lucide-react' (imported as 'SquareArrowOut').
+
+Import trace for requested module:
+./src/app/properties/search/enhanced-page.tsx
+./src/app/properties/search/page.tsx
+ ○ Compiling /api/auth/[...nextauth] ...
+ ⚠ ./src/app/properties/search/enhanced-page.tsx
+Attempted import error: 'SquareArrowOut' is not exported from '__barrel_optimize__?names=ArrowUpRight,Bath,BedDouble,ChevronLeft,ChevronRight,Filter,Grid,Heart,List,MapPin,MoveRight,Search,Sparkles,SquareArrowOut!=!lucide-react' (imported as 'SquareArrowOut').
+
+Import trace for requested module:
+./src/app/properties/search/enhanced-page.tsx
+./src/app/properties/search/page.tsx
+
+./src/app/properties/search/enhanced-page.tsx
+Attempted import error: 'SquareArrowOut' is not exported from '__barrel_optimize__?names=ArrowUpRight,Bath,BedDouble,ChevronLeft,ChevronRight,Filter,Grid,Heart,List,MapPin,MoveRight,Search,Sparkles,SquareArrowOut!=!lucide-react' (imported as 'SquareArrowOut').
+
+Import trace for requested module:
+./src/app/properties/search/enhanced-page.tsx
+./src/app/properties/search/page.tsx
+
+./src/app/properties/search/enhanced-page.tsx
+Attempted import error: 'SquareArrowOut' is not exported from '__barrel_optimize__?names=ArrowUpRight,Bath,BedDouble,ChevronLeft,ChevronRight,Filter,Grid,Heart,List,MapPin,MoveRight,Search,Sparkles,SquareArrowOut!=!lucide-react' (imported as 'SquareArrowOut').
+
+Import trace for requested module:
+./src/app/properties/search/enhanced-page.tsx
+./src/app/properties/search/page.tsx
+
+./src/app/properties/search/enhanced-page.tsx
+Attempted import error: 'SquareArrowOut' is not exported from '__barrel_optimize__?names=ArrowUpRight,Bath,BedDouble,ChevronLeft,ChevronRight,Filter,Grid,Heart,List,MapPin,MoveRight,Search,Sparkles,SquareArrowOut!=!lucide-react' (imported as 'SquareArrowOut').
+
+Import trace for requested module:
+./src/app/properties/search/enhanced-page.tsx
+./src/app/properties/search/page.tsx
+ GET /favicon.ico 200 in 1804ms
+[next-auth][warn][DEBUG_ENABLED] 
+https://next-auth.js.org/warnings#debug_enabled
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 1494ms
+ GET /icon-144x144.png 404 in 1710ms
+ GET /icon-144x144.png 404 in 120ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 42ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 29ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 24ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 20ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 20ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 20ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 22ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 24ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 23ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 23ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 20ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 24ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 26ms
+ ⚠ ./src/app/properties/search/enhanced-page.tsx
+Attempted import error: 'SquareArrowOut' is not exported from '__barrel_optimize__?names=ArrowUpRight,Bath,BedDouble,ChevronLeft,ChevronRight,Filter,Grid,Heart,List,MapPin,MoveRight,Search,Sparkles,SquareArrowOut!=!lucide-react' (imported as 'SquareArrowOut').
+
+Import trace for requested module:
+./src/app/properties/search/enhanced-page.tsx
+./src/app/properties/search/page.tsx
+
+./src/app/properties/search/enhanced-page.tsx
+Attempted import error: 'SquareArrowOut' is not exported from '__barrel_optimize__?names=ArrowUpRight,Bath,BedDouble,ChevronLeft,ChevronRight,Filter,Grid,Heart,List,MapPin,MoveRight,Search,Sparkles,SquareArrowOut!=!lucide-react' (imported as 'SquareArrowOut').
+
+Import trace for requested module:
+./src/app/properties/search/enhanced-page.tsx
+./src/app/properties/search/page.tsx
+
+./src/app/properties/search/enhanced-page.tsx
+Attempted import error: 'SquareArrowOut' is not exported from '__barrel_optimize__?names=ArrowUpRight,Bath,BedDouble,ChevronLeft,ChevronRight,Filter,Grid,Heart,List,MapPin,MoveRight,Search,Sparkles,SquareArrowOut!=!lucide-react' (imported as 'SquareArrowOut').
+
+Import trace for requested module:
+./src/app/properties/search/enhanced-page.tsx
+./src/app/properties/search/page.tsx
+
+./src/app/properties/search/enhanced-page.tsx
+Attempted import error: 'SquareArrowOut' is not exported from '__barrel_optimize__?names=ArrowUpRight,Bath,BedDouble,ChevronLeft,ChevronRight,Filter,Grid,Heart,List,MapPin,MoveRight,Search,Sparkles,SquareArrowOut!=!lucide-react' (imported as 'SquareArrowOut').
+
+Import trace for requested module:
+./src/app/properties/search/enhanced-page.tsx
+./src/app/properties/search/page.tsx
+ GET /properties/search 200 in 98ms
+ GET /developments/fitzgerald-gardens 200 in 115ms
+ GET /developer/developments/1 200 in 106ms
+ GET /icon-144x144.png 404 in 143ms
+ GET /icon-144x144.png 404 in 113ms
+ GET /icon-144x144.png 404 in 121ms
+ ⚠ ./src/app/properties/search/enhanced-page.tsx
+Attempted import error: 'SquareArrowOut' is not exported from '__barrel_optimize__?names=ArrowUpRight,Bath,BedDouble,ChevronLeft,ChevronRight,Filter,Grid,Heart,List,MapPin,MoveRight,Search,Sparkles,SquareArrowOut!=!lucide-react' (imported as 'SquareArrowOut').
+
+Import trace for requested module:
+./src/app/properties/search/enhanced-page.tsx
+./src/app/properties/search/page.tsx
+
+./src/app/properties/search/enhanced-page.tsx
+Attempted import error: 'SquareArrowOut' is not exported from '__barrel_optimize__?names=ArrowUpRight,Bath,BedDouble,ChevronLeft,ChevronRight,Filter,Grid,Heart,List,MapPin,MoveRight,Search,Sparkles,SquareArrowOut!=!lucide-react' (imported as 'SquareArrowOut').
+
+Import trace for requested module:
+./src/app/properties/search/enhanced-page.tsx
+./src/app/properties/search/page.tsx
+
+./src/app/properties/search/enhanced-page.tsx
+Attempted import error: 'SquareArrowOut' is not exported from '__barrel_optimize__?names=ArrowUpRight,Bath,BedDouble,ChevronLeft,ChevronRight,Filter,Grid,Heart,List,MapPin,MoveRight,Search,Sparkles,SquareArrowOut!=!lucide-react' (imported as 'SquareArrowOut').
+
+Import trace for requested module:
+./src/app/properties/search/enhanced-page.tsx
+./src/app/properties/search/page.tsx
+
+./src/app/properties/search/enhanced-page.tsx
+Attempted import error: 'SquareArrowOut' is not exported from '__barrel_optimize__?names=ArrowUpRight,Bath,BedDouble,ChevronLeft,ChevronRight,Filter,Grid,Heart,List,MapPin,MoveRight,Search,Sparkles,SquareArrowOut!=!lucide-react' (imported as 'SquareArrowOut').
+
+Import trace for requested module:
+./src/app/properties/search/enhanced-page.tsx
+./src/app/properties/search/page.tsx
+ ⚠ ./src/app/properties/search/enhanced-page.tsx
+Attempted import error: 'SquareArrowOut' is not exported from '__barrel_optimize__?names=ArrowUpRight,Bath,BedDouble,ChevronLeft,ChevronRight,Filter,Grid,Heart,List,MapPin,MoveRight,Search,Sparkles,SquareArrowOut!=!lucide-react' (imported as 'SquareArrowOut').
+
+Import trace for requested module:
+./src/app/properties/search/enhanced-page.tsx
+./src/app/properties/search/page.tsx
+
+./src/app/properties/search/enhanced-page.tsx
+Attempted import error: 'SquareArrowOut' is not exported from '__barrel_optimize__?names=ArrowUpRight,Bath,BedDouble,ChevronLeft,ChevronRight,Filter,Grid,Heart,List,MapPin,MoveRight,Search,Sparkles,SquareArrowOut!=!lucide-react' (imported as 'SquareArrowOut').
+
+Import trace for requested module:
+./src/app/properties/search/enhanced-page.tsx
+./src/app/properties/search/page.tsx
+
+./src/app/properties/search/enhanced-page.tsx
+Attempted import error: 'SquareArrowOut' is not exported from '__barrel_optimize__?names=ArrowUpRight,Bath,BedDouble,ChevronLeft,ChevronRight,Filter,Grid,Heart,List,MapPin,MoveRight,Search,Sparkles,SquareArrowOut!=!lucide-react' (imported as 'SquareArrowOut').
+
+Import trace for requested module:
+./src/app/properties/search/enhanced-page.tsx
+./src/app/properties/search/page.tsx
+
+./src/app/properties/search/enhanced-page.tsx
+Attempted import error: 'SquareArrowOut' is not exported from '__barrel_optimize__?names=ArrowUpRight,Bath,BedDouble,ChevronLeft,ChevronRight,Filter,Grid,Heart,List,MapPin,MoveRight,Search,Sparkles,SquareArrowOut!=!lucide-react' (imported as 'SquareArrowOut').
+
+Import trace for requested module:
+./src/app/properties/search/enhanced-page.tsx
+./src/app/properties/search/page.tsx
+ GET /developments/fitzgerald-gardens 200 in 175ms
+ GET /properties/search 200 in 190ms
+ GET /developer/developments/1 200 in 186ms
+ GET /developments/fitzgerald-gardens 200 in 81ms
+ GET /properties/search 200 in 83ms
+ GET /developer/developments/1 200 in 67ms
+ GET /icon-144x144.png 404 in 106ms
+ ⚠ ./src/app/properties/search/enhanced-page.tsx
+Attempted import error: 'SquareArrowOut' is not exported from '__barrel_optimize__?names=ArrowUpRight,Bath,BedDouble,ChevronLeft,ChevronRight,Filter,Grid,Heart,List,MapPin,MoveRight,Search,Sparkles,SquareArrowOut!=!lucide-react' (imported as 'SquareArrowOut').
+
+Import trace for requested module:
+./src/app/properties/search/enhanced-page.tsx
+./src/app/properties/search/page.tsx
+
+./src/app/properties/search/enhanced-page.tsx
+Attempted import error: 'SquareArrowOut' is not exported from '__barrel_optimize__?names=ArrowUpRight,Bath,BedDouble,ChevronLeft,ChevronRight,Filter,Grid,Heart,List,MapPin,MoveRight,Search,Sparkles,SquareArrowOut!=!lucide-react' (imported as 'SquareArrowOut').
+
+Import trace for requested module:
+./src/app/properties/search/enhanced-page.tsx
+./src/app/properties/search/page.tsx
+
+./src/app/properties/search/enhanced-page.tsx
+Attempted import error: 'SquareArrowOut' is not exported from '__barrel_optimize__?names=ArrowUpRight,Bath,BedDouble,ChevronLeft,ChevronRight,Filter,Grid,Heart,List,MapPin,MoveRight,Search,Sparkles,SquareArrowOut!=!lucide-react' (imported as 'SquareArrowOut').
+
+Import trace for requested module:
+./src/app/properties/search/enhanced-page.tsx
+./src/app/properties/search/page.tsx
+
+./src/app/properties/search/enhanced-page.tsx
+Attempted import error: 'SquareArrowOut' is not exported from '__barrel_optimize__?names=ArrowUpRight,Bath,BedDouble,ChevronLeft,ChevronRight,Filter,Grid,Heart,List,MapPin,MoveRight,Search,Sparkles,SquareArrowOut!=!lucide-react' (imported as 'SquareArrowOut').
+
+Import trace for requested module:
+./src/app/properties/search/enhanced-page.tsx
+./src/app/properties/search/page.tsx
+ GET /icon-144x144.png 404 in 875ms
+ GET /icon-144x144.png 404 in 160ms
+ GET /developments/fitzgerald-gardens 200 in 180ms
+ GET /properties/search 200 in 191ms
+ GET /developer/developments/1 200 in 190ms
+ GET /icon-144x144.png 404 in 93ms
+ GET /icon-144x144.png 404 in 79ms
+ GET /icon-144x144.png 404 in 79ms
+ ⚠ ./src/app/properties/search/enhanced-page.tsx
+Attempted import error: 'SquareArrowOut' is not exported from '__barrel_optimize__?names=ArrowUpRight,Bath,BedDouble,ChevronLeft,ChevronRight,Filter,Grid,Heart,List,MapPin,MoveRight,Search,Sparkles,SquareArrowOut!=!lucide-react' (imported as 'SquareArrowOut').
+
+Import trace for requested module:
+./src/app/properties/search/enhanced-page.tsx
+./src/app/properties/search/page.tsx
+
+./src/app/properties/search/enhanced-page.tsx
+Attempted import error: 'SquareArrowOut' is not exported from '__barrel_optimize__?names=ArrowUpRight,Bath,BedDouble,ChevronLeft,ChevronRight,Filter,Grid,Heart,List,MapPin,MoveRight,Search,Sparkles,SquareArrowOut!=!lucide-react' (imported as 'SquareArrowOut').
+
+Import trace for requested module:
+./src/app/properties/search/enhanced-page.tsx
+./src/app/properties/search/page.tsx
+
+./src/app/properties/search/enhanced-page.tsx
+Attempted import error: 'SquareArrowOut' is not exported from '__barrel_optimize__?names=ArrowUpRight,Bath,BedDouble,ChevronLeft,ChevronRight,Filter,Grid,Heart,List,MapPin,MoveRight,Search,Sparkles,SquareArrowOut!=!lucide-react' (imported as 'SquareArrowOut').
+
+Import trace for requested module:
+./src/app/properties/search/enhanced-page.tsx
+./src/app/properties/search/page.tsx
+
+./src/app/properties/search/enhanced-page.tsx
+Attempted import error: 'SquareArrowOut' is not exported from '__barrel_optimize__?names=ArrowUpRight,Bath,BedDouble,ChevronLeft,ChevronRight,Filter,Grid,Heart,List,MapPin,MoveRight,Search,Sparkles,SquareArrowOut!=!lucide-react' (imported as 'SquareArrowOut').
+
+Import trace for requested module:
+./src/app/properties/search/enhanced-page.tsx
+./src/app/properties/search/page.tsx
+ GET /properties/search 200 in 172ms
+ GET /developments/fitzgerald-gardens 200 in 182ms
+ GET /developer/developments/1 200 in 151ms
+ GET /icon-144x144.png 404 in 134ms
+ GET /icon-144x144.png 404 in 112ms
+ GET /icon-144x144.png 404 in 125ms
+ ⨯ ./src/app/developments/ballymakenny-view/page.tsx
+Error:   [31mx[0m Unexpected token `div`. Expected jsx identifier
+     ,-[[36;1;4m/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/developments/ballymakenny-view/page.tsx[0m:116:1]
+ [2m113[0m |   const currentUnit = development.UnitType[selectedUnitType];
+ [2m114[0m | 
+ [2m115[0m |   return (
+ [2m116[0m |     <div className="min-h-screen bg-slate-50">
+     : [35;1m     ^^^[0m
+ [2m117[0m |       {/* Hero Section */}
+ [2m118[0m |       <section className="relative h-[600px] overflow-hidden">
+ [2m119[0m |         <Image
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/app/developments/ballymakenny-view/page.tsx
+ ⨯ ./src/app/developments/ballymakenny-view/page.tsx
+Error:   [31mx[0m Unexpected token `div`. Expected jsx identifier
+     ,-[[36;1;4m/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/developments/ballymakenny-view/page.tsx[0m:116:1]
+ [2m113[0m |   const currentUnit = development.UnitType[selectedUnitType];
+ [2m114[0m | 
+ [2m115[0m |   return (
+ [2m116[0m |     <div className="min-h-screen bg-slate-50">
+     : [35;1m     ^^^[0m
+ [2m117[0m |       {/* Hero Section */}
+ [2m118[0m |       <section className="relative h-[600px] overflow-hidden">
+ [2m119[0m |         <Image
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/app/developments/ballymakenny-view/page.tsx
+ GET /properties/search 500 in 8712ms
+ GET /developments/fitzgerald-gardens 500 in 8711ms
+ GET /developer/developments/1 500 in 8704ms
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: ENOENT: no such file or directory, rename '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/cache/webpack/client-development-fallback/0.pack.gz_' -> '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/cache/webpack/client-development-fallback/0.pack.gz'
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: ENOENT: no such file or directory, rename '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/cache/webpack/client-development-fallback/0.pack.gz_' -> '/Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/cache/webpack/client-development-fallback/0.pack.gz'
+ GET /developments/fitzgerald-gardens 500 in 52ms
+ GET /properties/search 500 in 56ms
+ GET /developer/developments/1 500 in 49ms
+ GET /developments/fitzgerald-gardens 500 in 47ms
+ GET /properties/search 500 in 56ms
+ GET /developer/developments/1 500 in 32ms
+ GET /properties/search 500 in 31ms
+ GET /developments/fitzgerald-gardens 500 in 42ms
+ GET /developer/developments/1 500 in 29ms
+ GET /properties/search 500 in 36ms
+ GET /developments/fitzgerald-gardens 500 in 39ms
+ GET /developer/developments/1 500 in 33ms
+ ⚠ ./src/app/properties/search/enhanced-page.tsx
+Attempted import error: 'SquareArrowOut' is not exported from '__barrel_optimize__?names=ArrowUpRight,Bath,BedDouble,ChevronLeft,ChevronRight,Filter,Grid,Heart,List,MapPin,MoveRight,Search,Sparkles,SquareArrowOut!=!lucide-react' (imported as 'SquareArrowOut').
+
+Import trace for requested module:
+./src/app/properties/search/enhanced-page.tsx
+./src/app/properties/search/page.tsx
+
+./src/app/properties/search/enhanced-page.tsx
+Attempted import error: 'SquareArrowOut' is not exported from '__barrel_optimize__?names=ArrowUpRight,Bath,BedDouble,ChevronLeft,ChevronRight,Filter,Grid,Heart,List,MapPin,MoveRight,Search,Sparkles,SquareArrowOut!=!lucide-react' (imported as 'SquareArrowOut').
+
+Import trace for requested module:
+./src/app/properties/search/enhanced-page.tsx
+./src/app/properties/search/page.tsx
+
+./src/app/properties/search/enhanced-page.tsx
+Attempted import error: 'SquareArrowOut' is not exported from '__barrel_optimize__?names=ArrowUpRight,Bath,BedDouble,ChevronLeft,ChevronRight,Filter,Grid,Heart,List,MapPin,MoveRight,Search,Sparkles,SquareArrowOut!=!lucide-react' (imported as 'SquareArrowOut').
+
+Import trace for requested module:
+./src/app/properties/search/enhanced-page.tsx
+./src/app/properties/search/page.tsx
+
+./src/app/properties/search/enhanced-page.tsx
+Attempted import error: 'SquareArrowOut' is not exported from '__barrel_optimize__?names=ArrowUpRight,Bath,BedDouble,ChevronLeft,ChevronRight,Filter,Grid,Heart,List,MapPin,MoveRight,Search,Sparkles,SquareArrowOut!=!lucide-react' (imported as 'SquareArrowOut').
+
+Import trace for requested module:
+./src/app/properties/search/enhanced-page.tsx
+./src/app/properties/search/page.tsx
+ GET /properties/search 500 in 71ms
+ GET /developments/fitzgerald-gardens 500 in 74ms
+ GET /developer/developments/1 500 in 68ms
+ ⚠ ./src/app/properties/search/enhanced-page.tsx
+Attempted import error: 'SquareArrowOut' is not exported from '__barrel_optimize__?names=ArrowUpRight,Bath,BedDouble,ChevronLeft,ChevronRight,Filter,Grid,Heart,List,MapPin,MoveRight,Search,Sparkles,SquareArrowOut!=!lucide-react' (imported as 'SquareArrowOut').
+
+Import trace for requested module:
+./src/app/properties/search/enhanced-page.tsx
+./src/app/properties/search/page.tsx
+
+./src/app/properties/search/enhanced-page.tsx
+Attempted import error: 'SquareArrowOut' is not exported from '__barrel_optimize__?names=ArrowUpRight,Bath,BedDouble,ChevronLeft,ChevronRight,Filter,Grid,Heart,List,MapPin,MoveRight,Search,Sparkles,SquareArrowOut!=!lucide-react' (imported as 'SquareArrowOut').
+
+Import trace for requested module:
+./src/app/properties/search/enhanced-page.tsx
+./src/app/properties/search/page.tsx
+
+./src/app/properties/search/enhanced-page.tsx
+Attempted import error: 'SquareArrowOut' is not exported from '__barrel_optimize__?names=ArrowUpRight,Bath,BedDouble,ChevronLeft,ChevronRight,Filter,Grid,Heart,List,MapPin,MoveRight,Search,Sparkles,SquareArrowOut!=!lucide-react' (imported as 'SquareArrowOut').
+
+Import trace for requested module:
+./src/app/properties/search/enhanced-page.tsx
+./src/app/properties/search/page.tsx
+
+./src/app/properties/search/enhanced-page.tsx
+Attempted import error: 'SquareArrowOut' is not exported from '__barrel_optimize__?names=ArrowUpRight,Bath,BedDouble,ChevronLeft,ChevronRight,Filter,Grid,Heart,List,MapPin,MoveRight,Search,Sparkles,SquareArrowOut!=!lucide-react' (imported as 'SquareArrowOut').
+
+Import trace for requested module:
+./src/app/properties/search/enhanced-page.tsx
+./src/app/properties/search/page.tsx
+ GET /properties/search 500 in 50ms
+ GET /developments/fitzgerald-gardens 500 in 53ms
+ GET /developer/developments/1 500 in 44ms
+ ⨯ ./src/app/developments/ballymakenny-view/page.tsx
+Error:   [31mx[0m Unexpected token `div`. Expected jsx identifier
+     ,-[[36;1;4m/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/developments/ballymakenny-view/page.tsx[0m:116:1]
+ [2m113[0m |   const currentUnit = development.UnitType[selectedUnitType];
+ [2m114[0m | 
+ [2m115[0m |   return (
+ [2m116[0m |     <div className="min-h-screen bg-slate-50">
+     : [35;1m     ^^^[0m
+ [2m117[0m |       {/* Hero Section */}
+ [2m118[0m |       <section className="relative h-[600px] overflow-hidden">
+ [2m119[0m |         <Image
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/app/developments/ballymakenny-view/page.tsx
+ GET /_next/static/webpack/608fac75516d9b13.webpack.hot-update.json 500 in 2769ms
+ GET /_next/static/webpack/608fac75516d9b13.webpack.hot-update.json 500 in 3ms
+ GET /_next/static/webpack/608fac75516d9b13.webpack.hot-update.json 500 in 5ms
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ ⚠ Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+ ⚠ Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+ GET /properties/search 500 in 49ms
+ GET /developments/fitzgerald-gardens 500 in 52ms
+ GET /developer/developments/1 500 in 53ms
+ ⚠ ./src/app/properties/search/enhanced-page.tsx
+Attempted import error: 'SquareArrowOut' is not exported from '__barrel_optimize__?names=ArrowUpRight,Bath,BedDouble,ChevronLeft,ChevronRight,Filter,Grid,Heart,List,MapPin,MoveRight,Search,Sparkles,SquareArrowOut!=!lucide-react' (imported as 'SquareArrowOut').
+
+Import trace for requested module:
+./src/app/properties/search/enhanced-page.tsx
+./src/app/properties/search/page.tsx
+
+./src/app/properties/search/enhanced-page.tsx
+Attempted import error: 'SquareArrowOut' is not exported from '__barrel_optimize__?names=ArrowUpRight,Bath,BedDouble,ChevronLeft,ChevronRight,Filter,Grid,Heart,List,MapPin,MoveRight,Search,Sparkles,SquareArrowOut!=!lucide-react' (imported as 'SquareArrowOut').
+
+Import trace for requested module:
+./src/app/properties/search/enhanced-page.tsx
+./src/app/properties/search/page.tsx
+
+./src/lib/api/buyer-journey-api.ts
+Attempted import error: 'createQueryKeys' is not exported from '@/lib/react-query-config' (imported as 'createQueryKeys').
+
+Import trace for requested module:
+./src/lib/api/buyer-journey-api.ts
+./src/hooks/useBuyerJourney.ts
+./src/components/buyer-journey/BuyerJourney.tsx
+./src/components/buyer-journey/UnitDetails.tsx
+./src/app/developments/fitzgerald-gardens/page.tsx
+
+./src/app/properties/search/enhanced-page.tsx
+Attempted import error: 'SquareArrowOut' is not exported from '__barrel_optimize__?names=ArrowUpRight,Bath,BedDouble,ChevronLeft,ChevronRight,Filter,Grid,Heart,List,MapPin,MoveRight,Search,Sparkles,SquareArrowOut!=!lucide-react' (imported as 'SquareArrowOut').
+
+Import trace for requested module:
+./src/app/properties/search/enhanced-page.tsx
+./src/app/properties/search/page.tsx
+
+./src/app/properties/search/enhanced-page.tsx
+Attempted import error: 'SquareArrowOut' is not exported from '__barrel_optimize__?names=ArrowUpRight,Bath,BedDouble,ChevronLeft,ChevronRight,Filter,Grid,Heart,List,MapPin,MoveRight,Search,Sparkles,SquareArrowOut!=!lucide-react' (imported as 'SquareArrowOut').
+
+Import trace for requested module:
+./src/app/properties/search/enhanced-page.tsx
+./src/app/properties/search/page.tsx
+
+./src/lib/api/buyer-journey-api.ts
+Attempted import error: 'createQueryKeys' is not exported from '@/lib/react-query-config' (imported as 'createQueryKeys').
+
+Import trace for requested module:
+./src/lib/api/buyer-journey-api.ts
+./src/hooks/useBuyerJourney.ts
+./src/components/buyer-journey/BuyerJourney.tsx
+./src/components/buyer-journey/UnitDetails.tsx
+./src/app/developments/fitzgerald-gardens/page.tsx
+ GET /developments/fitzgerald-gardens 500 in 80ms
+ GET /properties/search 500 in 89ms
+ GET /developer/developments/1 500 in 93ms
+ ⚠ ./src/app/properties/search/enhanced-page.tsx
+Attempted import error: 'SquareArrowOut' is not exported from '__barrel_optimize__?names=ArrowUpRight,Bath,BedDouble,ChevronLeft,ChevronRight,Filter,Grid,Heart,List,MapPin,MoveRight,Search,Sparkles,SquareArrowOut!=!lucide-react' (imported as 'SquareArrowOut').
+
+Import trace for requested module:
+./src/app/properties/search/enhanced-page.tsx
+./src/app/properties/search/page.tsx
+
+./src/app/properties/search/enhanced-page.tsx
+Attempted import error: 'SquareArrowOut' is not exported from '__barrel_optimize__?names=ArrowUpRight,Bath,BedDouble,ChevronLeft,ChevronRight,Filter,Grid,Heart,List,MapPin,MoveRight,Search,Sparkles,SquareArrowOut!=!lucide-react' (imported as 'SquareArrowOut').
+
+Import trace for requested module:
+./src/app/properties/search/enhanced-page.tsx
+./src/app/properties/search/page.tsx
+
+./src/lib/api/buyer-journey-api.ts
+Attempted import error: 'createQueryKeys' is not exported from '@/lib/react-query-config' (imported as 'createQueryKeys').
+
+Import trace for requested module:
+./src/lib/api/buyer-journey-api.ts
+./src/hooks/useBuyerJourney.ts
+./src/components/buyer-journey/BuyerJourney.tsx
+./src/components/buyer-journey/UnitDetails.tsx
+./src/app/developments/fitzgerald-gardens/page.tsx
+
+./src/app/properties/search/enhanced-page.tsx
+Attempted import error: 'SquareArrowOut' is not exported from '__barrel_optimize__?names=ArrowUpRight,Bath,BedDouble,ChevronLeft,ChevronRight,Filter,Grid,Heart,List,MapPin,MoveRight,Search,Sparkles,SquareArrowOut!=!lucide-react' (imported as 'SquareArrowOut').
+
+Import trace for requested module:
+./src/app/properties/search/enhanced-page.tsx
+./src/app/properties/search/page.tsx
+
+./src/app/properties/search/enhanced-page.tsx
+Attempted import error: 'SquareArrowOut' is not exported from '__barrel_optimize__?names=ArrowUpRight,Bath,BedDouble,ChevronLeft,ChevronRight,Filter,Grid,Heart,List,MapPin,MoveRight,Search,Sparkles,SquareArrowOut!=!lucide-react' (imported as 'SquareArrowOut').
+
+Import trace for requested module:
+./src/app/properties/search/enhanced-page.tsx
+./src/app/properties/search/page.tsx
+
+./src/lib/api/buyer-journey-api.ts
+Attempted import error: 'createQueryKeys' is not exported from '@/lib/react-query-config' (imported as 'createQueryKeys').
+
+Import trace for requested module:
+./src/lib/api/buyer-journey-api.ts
+./src/hooks/useBuyerJourney.ts
+./src/components/buyer-journey/BuyerJourney.tsx
+./src/components/buyer-journey/UnitDetails.tsx
+./src/app/developments/fitzgerald-gardens/page.tsx
+ GET /developments/fitzgerald-gardens 500 in 63ms
+ GET /properties/search 500 in 65ms
+ GET /developer/developments/1 500 in 59ms
+ ⚠ ./src/app/properties/search/enhanced-page.tsx
+Attempted import error: 'SquareArrowOut' is not exported from '__barrel_optimize__?names=ArrowUpRight,Bath,BedDouble,ChevronLeft,ChevronRight,Filter,Grid,Heart,List,MapPin,MoveRight,Search,Sparkles,SquareArrowOut!=!lucide-react' (imported as 'SquareArrowOut').
+
+Import trace for requested module:
+./src/app/properties/search/enhanced-page.tsx
+./src/app/properties/search/page.tsx
+
+./src/app/properties/search/enhanced-page.tsx
+Attempted import error: 'SquareArrowOut' is not exported from '__barrel_optimize__?names=ArrowUpRight,Bath,BedDouble,ChevronLeft,ChevronRight,Filter,Grid,Heart,List,MapPin,MoveRight,Search,Sparkles,SquareArrowOut!=!lucide-react' (imported as 'SquareArrowOut').
+
+Import trace for requested module:
+./src/app/properties/search/enhanced-page.tsx
+./src/app/properties/search/page.tsx
+
+./src/lib/api/buyer-journey-api.ts
+Attempted import error: 'createQueryKeys' is not exported from '@/lib/react-query-config' (imported as 'createQueryKeys').
+
+Import trace for requested module:
+./src/lib/api/buyer-journey-api.ts
+./src/hooks/useBuyerJourney.ts
+./src/components/buyer-journey/BuyerJourney.tsx
+./src/components/buyer-journey/UnitDetails.tsx
+./src/app/developments/fitzgerald-gardens/page.tsx
+
+./src/app/properties/search/enhanced-page.tsx
+Attempted import error: 'SquareArrowOut' is not exported from '__barrel_optimize__?names=ArrowUpRight,Bath,BedDouble,ChevronLeft,ChevronRight,Filter,Grid,Heart,List,MapPin,MoveRight,Search,Sparkles,SquareArrowOut!=!lucide-react' (imported as 'SquareArrowOut').
+
+Import trace for requested module:
+./src/app/properties/search/enhanced-page.tsx
+./src/app/properties/search/page.tsx
+
+./src/app/properties/search/enhanced-page.tsx
+Attempted import error: 'SquareArrowOut' is not exported from '__barrel_optimize__?names=ArrowUpRight,Bath,BedDouble,ChevronLeft,ChevronRight,Filter,Grid,Heart,List,MapPin,MoveRight,Search,Sparkles,SquareArrowOut!=!lucide-react' (imported as 'SquareArrowOut').
+
+Import trace for requested module:
+./src/app/properties/search/enhanced-page.tsx
+./src/app/properties/search/page.tsx
+
+./src/lib/api/buyer-journey-api.ts
+Attempted import error: 'createQueryKeys' is not exported from '@/lib/react-query-config' (imported as 'createQueryKeys').
+
+Import trace for requested module:
+./src/lib/api/buyer-journey-api.ts
+./src/hooks/useBuyerJourney.ts
+./src/components/buyer-journey/BuyerJourney.tsx
+./src/components/buyer-journey/UnitDetails.tsx
+./src/app/developments/fitzgerald-gardens/page.tsx
+ GET /properties/search 500 in 84ms
+ GET /developments/fitzgerald-gardens 500 in 88ms
+ GET /developer/developments/1 500 in 77ms
+ ⨯ ./src/app/developments/ballymakenny-view/page.tsx
+Error:   [31mx[0m Unexpected token `div`. Expected jsx identifier
+     ,-[[36;1;4m/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/app/developments/ballymakenny-view/page.tsx[0m:116:1]
+ [2m113[0m |   const currentUnit = development.UnitType[selectedUnitType];
+ [2m114[0m | 
+ [2m115[0m |   return (
+ [2m116[0m |     <div className="min-h-screen bg-slate-50">
+     : [35;1m     ^^^[0m
+ [2m117[0m |       {/* Hero Section */}
+ [2m118[0m |       <section className="relative h-[600px] overflow-hidden">
+ [2m119[0m |         <Image
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/app/developments/ballymakenny-view/page.tsx
+ GET /_next/static/webpack/608fac75516d9b13.webpack.hot-update.json 500 in 1167ms
+ GET /_next/static/webpack/608fac75516d9b13.webpack.hot-update.json 500 in 4ms
+ GET /_next/static/webpack/608fac75516d9b13.webpack.hot-update.json 500 in 9ms
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ ⚠ Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+ ⚠ Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+ GET /developments/fitzgerald-gardens 500 in 54ms
+ GET /properties/search 500 in 56ms
+ GET /developer/developments/1 500 in 50ms
+ ⚠ ./src/app/properties/search/enhanced-page.tsx
+Attempted import error: 'SquareArrowOut' is not exported from '__barrel_optimize__?names=ArrowUpRight,Bath,BedDouble,ChevronLeft,ChevronRight,Filter,Grid,Heart,List,MapPin,MoveRight,Search,Sparkles,SquareArrowOut!=!lucide-react' (imported as 'SquareArrowOut').
+
+Import trace for requested module:
+./src/app/properties/search/enhanced-page.tsx
+./src/app/properties/search/page.tsx
+
+./src/app/properties/search/enhanced-page.tsx
+Attempted import error: 'SquareArrowOut' is not exported from '__barrel_optimize__?names=ArrowUpRight,Bath,BedDouble,ChevronLeft,ChevronRight,Filter,Grid,Heart,List,MapPin,MoveRight,Search,Sparkles,SquareArrowOut!=!lucide-react' (imported as 'SquareArrowOut').
+
+Import trace for requested module:
+./src/app/properties/search/enhanced-page.tsx
+./src/app/properties/search/page.tsx
+
+./src/lib/api/buyer-journey-api.ts
+Attempted import error: 'createQueryKeys' is not exported from '@/lib/react-query-config' (imported as 'createQueryKeys').
+
+Import trace for requested module:
+./src/lib/api/buyer-journey-api.ts
+./src/hooks/useBuyerJourney.ts
+./src/components/buyer-journey/BuyerJourney.tsx
+./src/components/buyer-journey/UnitDetails.tsx
+./src/app/developments/fitzgerald-gardens/page.tsx
+
+./src/app/properties/search/enhanced-page.tsx
+Attempted import error: 'SquareArrowOut' is not exported from '__barrel_optimize__?names=ArrowUpRight,Bath,BedDouble,ChevronLeft,ChevronRight,Filter,Grid,Heart,List,MapPin,MoveRight,Search,Sparkles,SquareArrowOut!=!lucide-react' (imported as 'SquareArrowOut').
+
+Import trace for requested module:
+./src/app/properties/search/enhanced-page.tsx
+./src/app/properties/search/page.tsx
+
+./src/app/properties/search/enhanced-page.tsx
+Attempted import error: 'SquareArrowOut' is not exported from '__barrel_optimize__?names=ArrowUpRight,Bath,BedDouble,ChevronLeft,ChevronRight,Filter,Grid,Heart,List,MapPin,MoveRight,Search,Sparkles,SquareArrowOut!=!lucide-react' (imported as 'SquareArrowOut').
+
+Import trace for requested module:
+./src/app/properties/search/enhanced-page.tsx
+./src/app/properties/search/page.tsx
+
+./src/lib/api/buyer-journey-api.ts
+Attempted import error: 'createQueryKeys' is not exported from '@/lib/react-query-config' (imported as 'createQueryKeys').
+
+Import trace for requested module:
+./src/lib/api/buyer-journey-api.ts
+./src/hooks/useBuyerJourney.ts
+./src/components/buyer-journey/BuyerJourney.tsx
+./src/components/buyer-journey/UnitDetails.tsx
+./src/app/developments/fitzgerald-gardens/page.tsx
+ GET /properties/search 500 in 41ms
+ GET /developments/fitzgerald-gardens 500 in 49ms
+ GET /developer/developments/1 500 in 44ms
+ ⨯ ./src/components/buyer-journey/BuyerJourney.tsx
+Module parse failed: Identifier 'isLoading' has already been declared (1080:10)
+|         }
+|     };
+>     const isLoading = isReserving || startKYCMutation.isPending || createReservationMutation.isPending || processDepositMutation.isPending || isLoadingKYC;
+|     return /*#__PURE__*/ _jsxDEV(Card, {
+|         className: "w-full",
+
+Import trace for requested module:
+./src/components/buyer-journey/BuyerJourney.tsx
+./src/components/buyer-journey/UnitDetails.tsx
+./src/app/developments/fitzgerald-gardens/page.tsx
+ GET /_next/static/webpack/608fac75516d9b13.webpack.hot-update.json 500 in 583ms
+ GET /_next/static/webpack/608fac75516d9b13.webpack.hot-update.json 500 in 3ms
+ GET /_next/static/webpack/608fac75516d9b13.webpack.hot-update.json 500 in 2ms
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ ⚠ Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+ ⚠ Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+ GET /properties/search 500 in 40ms
+ GET /developments/fitzgerald-gardens 500 in 43ms
+ GET /developer/developments/1 500 in 44ms
+ ⨯ ./src/components/buyer-journey/BuyerJourney.tsx
+Module parse failed: Identifier 'isLoading' has already been declared (1080:10)
+|         }
+|     };
+>     const isLoading = isReserving || startKYCMutation.isPending || createReservationMutation.isPending || processDepositMutation.isPending || isLoadingKYC;
+|     return /*#__PURE__*/ _jsxDEV(Card, {
+|         className: "w-full",
+
+Import trace for requested module:
+./src/components/buyer-journey/BuyerJourney.tsx
+./src/components/buyer-journey/UnitDetails.tsx
+./src/app/developments/fitzgerald-gardens/page.tsx
+ ⨯ ./src/components/buyer-journey/BuyerJourney.tsx
+Module parse failed: Identifier 'isLoading' has already been declared (1080:10)
+|         }
+|     };
+>     const isLoading = isReserving || startKYCMutation.isPending || createReservationMutation.isPending || processDepositMutation.isPending || isLoadingKYC;
+|     return /*#__PURE__*/ _jsxDEV(Card, {
+|         className: "w-full",
+
+Import trace for requested module:
+./src/components/buyer-journey/BuyerJourney.tsx
+./src/components/buyer-journey/UnitDetails.tsx
+./src/app/developments/fitzgerald-gardens/page.tsx
+ ⨯ ./src/components/buyer-journey/BuyerJourney.tsx
+Module parse failed: Identifier 'isLoading' has already been declared (1080:10)
+|         }
+|     };
+>     const isLoading = isReserving || startKYCMutation.isPending || createReservationMutation.isPending || processDepositMutation.isPending || isLoadingKYC;
+|     return /*#__PURE__*/ _jsxDEV(Card, {
+|         className: "w-full",
+
+Import trace for requested module:
+./src/components/buyer-journey/BuyerJourney.tsx
+./src/components/buyer-journey/UnitDetails.tsx
+./src/app/developments/fitzgerald-gardens/page.tsx
+ ⨯ ./src/components/buyer-journey/BuyerJourney.tsx
+Module parse failed: Identifier 'isLoading' has already been declared (1080:10)
+|         }
+|     };
+>     const isLoading = isReserving || startKYCMutation.isPending || createReservationMutation.isPending || processDepositMutation.isPending || isLoadingKYC;
+|     return /*#__PURE__*/ _jsxDEV(Card, {
+|         className: "w-full",
+
+Import trace for requested module:
+./src/components/buyer-journey/BuyerJourney.tsx
+./src/components/buyer-journey/UnitDetails.tsx
+./src/app/developments/fitzgerald-gardens/page.tsx
+ ⨯ ./src/components/buyer-journey/BuyerJourney.tsx
+Module parse failed: Identifier 'isLoading' has already been declared (1080:10)
+|         }
+|     };
+>     const isLoading = isReserving || startKYCMutation.isPending || createReservationMutation.isPending || processDepositMutation.isPending || isLoadingKYC;
+|     return /*#__PURE__*/ _jsxDEV(Card, {
+|         className: "w-full",
+
+Import trace for requested module:
+./src/components/buyer-journey/BuyerJourney.tsx
+./src/components/buyer-journey/UnitDetails.tsx
+./src/app/developments/fitzgerald-gardens/page.tsx
+ ⨯ ./src/components/buyer-journey/BuyerJourney.tsx
+Module parse failed: Identifier 'isLoading' has already been declared (1080:10)
+|         }
+|     };
+>     const isLoading = isReserving || startKYCMutation.isPending || createReservationMutation.isPending || processDepositMutation.isPending || isLoadingKYC;
+|     return /*#__PURE__*/ _jsxDEV(Card, {
+|         className: "w-full",
+
+Import trace for requested module:
+./src/components/buyer-journey/BuyerJourney.tsx
+./src/components/buyer-journey/UnitDetails.tsx
+./src/app/developments/fitzgerald-gardens/page.tsx
+ ⨯ ./src/components/buyer-journey/BuyerJourney.tsx
+Module parse failed: Identifier 'isLoading' has already been declared (1080:10)
+|         }
+|     };
+>     const isLoading = isReserving || startKYCMutation.isPending || createReservationMutation.isPending || processDepositMutation.isPending || isLoadingKYC;
+|     return /*#__PURE__*/ _jsxDEV(Card, {
+|         className: "w-full",
+
+Import trace for requested module:
+./src/components/buyer-journey/BuyerJourney.tsx
+./src/components/buyer-journey/UnitDetails.tsx
+./src/app/developments/fitzgerald-gardens/page.tsx
+ ⨯ ./src/components/buyer-journey/BuyerJourney.tsx
+Module parse failed: Identifier 'isLoading' has already been declared (1080:10)
+|         }
+|     };
+>     const isLoading = isReserving || startKYCMutation.isPending || createReservationMutation.isPending || processDepositMutation.isPending || isLoadingKYC;
+|     return /*#__PURE__*/ _jsxDEV(Card, {
+|         className: "w-full",
+
+Import trace for requested module:
+./src/components/buyer-journey/BuyerJourney.tsx
+./src/components/buyer-journey/UnitDetails.tsx
+./src/app/developments/fitzgerald-gardens/page.tsx
+ ⨯ ./src/components/buyer-journey/BuyerJourney.tsx
+Module parse failed: Identifier 'isLoading' has already been declared (1080:10)
+|         }
+|     };
+>     const isLoading = isReserving || startKYCMutation.isPending || createReservationMutation.isPending || processDepositMutation.isPending || isLoadingKYC;
+|     return /*#__PURE__*/ _jsxDEV(Card, {
+|         className: "w-full",
+
+Import trace for requested module:
+./src/components/buyer-journey/BuyerJourney.tsx
+./src/components/buyer-journey/UnitDetails.tsx
+./src/app/developments/fitzgerald-gardens/page.tsx
+ ⨯ ./src/components/buyer-journey/BuyerJourney.tsx
+Module parse failed: Identifier 'isLoading' has already been declared (1080:10)
+|         }
+|     };
+>     const isLoading = isReserving || startKYCMutation.isPending || createReservationMutation.isPending || processDepositMutation.isPending || isLoadingKYC;
+|     return /*#__PURE__*/ _jsxDEV(Card, {
+|         className: "w-full",
+
+Import trace for requested module:
+./src/components/buyer-journey/BuyerJourney.tsx
+./src/components/buyer-journey/UnitDetails.tsx
+./src/app/developments/fitzgerald-gardens/page.tsx
+ ⨯ ./src/components/buyer-journey/BuyerJourney.tsx
+Module parse failed: Identifier 'isLoading' has already been declared (1080:10)
+|         }
+|     };
+>     const isLoading = isReserving || startKYCMutation.isPending || createReservationMutation.isPending || processDepositMutation.isPending || isLoadingKYC;
+|     return /*#__PURE__*/ _jsxDEV(Card, {
+|         className: "w-full",
+
+Import trace for requested module:
+./src/components/buyer-journey/BuyerJourney.tsx
+./src/components/buyer-journey/UnitDetails.tsx
+./src/app/developments/fitzgerald-gardens/page.tsx
+ ⨯ ./src/components/buyer-journey/BuyerJourney.tsx
+Module parse failed: Identifier 'isLoading' has already been declared (1080:10)
+|         }
+|     };
+>     const isLoading = isReserving || startKYCMutation.isPending || createReservationMutation.isPending || processDepositMutation.isPending || isLoadingKYC;
+|     return /*#__PURE__*/ _jsxDEV(Card, {
+|         className: "w-full",
+
+Import trace for requested module:
+./src/components/buyer-journey/BuyerJourney.tsx
+./src/components/buyer-journey/UnitDetails.tsx
+./src/app/developments/fitzgerald-gardens/page.tsx
+ ⨯ ./src/components/buyer-journey/BuyerJourney.tsx
+Module parse failed: Identifier 'isLoading' has already been declared (1080:10)
+|         }
+|     };
+>     const isLoading = isReserving || startKYCMutation.isPending || createReservationMutation.isPending || processDepositMutation.isPending || isLoadingKYC;
+|     return /*#__PURE__*/ _jsxDEV(Card, {
+|         className: "w-full",
+
+Import trace for requested module:
+./src/components/buyer-journey/BuyerJourney.tsx
+./src/components/buyer-journey/UnitDetails.tsx
+./src/app/developments/fitzgerald-gardens/page.tsx
+ ⨯ ./src/components/buyer-journey/BuyerJourney.tsx
+Module parse failed: Identifier 'isLoading' has already been declared (1080:10)
+|         }
+|     };
+>     const isLoading = isReserving || startKYCMutation.isPending || createReservationMutation.isPending || processDepositMutation.isPending || isLoadingKYC;
+|     return /*#__PURE__*/ _jsxDEV(Card, {
+|         className: "w-full",
+
+Import trace for requested module:
+./src/components/buyer-journey/BuyerJourney.tsx
+./src/components/buyer-journey/UnitDetails.tsx
+./src/app/developments/fitzgerald-gardens/page.tsx
+ ⨯ ./src/components/buyer-journey/BuyerJourney.tsx
+Module parse failed: Identifier 'isLoading' has already been declared (1080:10)
+|         }
+|     };
+>     const isLoading = isReserving || startKYCMutation.isPending || createReservationMutation.isPending || processDepositMutation.isPending || isLoadingKYC;
+|     return /*#__PURE__*/ _jsxDEV(Card, {
+|         className: "w-full",
+
+Import trace for requested module:
+./src/components/buyer-journey/BuyerJourney.tsx
+./src/components/buyer-journey/UnitDetails.tsx
+./src/app/developments/fitzgerald-gardens/page.tsx
+ ⨯ ./src/components/buyer-journey/BuyerJourney.tsx
+Module parse failed: Identifier 'isLoading' has already been declared (1080:10)
+|         }
+|     };
+>     const isLoading = isReserving || startKYCMutation.isPending || createReservationMutation.isPending || processDepositMutation.isPending || isLoadingKYC;
+|     return /*#__PURE__*/ _jsxDEV(Card, {
+|         className: "w-full",
+
+Import trace for requested module:
+./src/components/buyer-journey/BuyerJourney.tsx
+./src/components/buyer-journey/UnitDetails.tsx
+./src/app/developments/fitzgerald-gardens/page.tsx
+ ⨯ ./src/components/buyer-journey/BuyerJourney.tsx
+Module parse failed: Identifier 'isLoading' has already been declared (1080:10)
+|         }
+|     };
+>     const isLoading = isReserving || startKYCMutation.isPending || createReservationMutation.isPending || processDepositMutation.isPending || isLoadingKYC;
+|     return /*#__PURE__*/ _jsxDEV(Card, {
+|         className: "w-full",
+
+Import trace for requested module:
+./src/components/buyer-journey/BuyerJourney.tsx
+./src/components/buyer-journey/UnitDetails.tsx
+./src/app/developments/fitzgerald-gardens/page.tsx
+ ⨯ ./src/components/buyer-journey/BuyerJourney.tsx
+Module parse failed: Identifier 'isLoading' has already been declared (1080:10)
+|         }
+|     };
+>     const isLoading = isReserving || startKYCMutation.isPending || createReservationMutation.isPending || processDepositMutation.isPending || isLoadingKYC;
+|     return /*#__PURE__*/ _jsxDEV(Card, {
+|         className: "w-full",
+
+Import trace for requested module:
+./src/components/buyer-journey/BuyerJourney.tsx
+./src/components/buyer-journey/UnitDetails.tsx
+./src/app/developments/fitzgerald-gardens/page.tsx
+ ⨯ ./src/components/buyer-journey/BuyerJourney.tsx
+Module parse failed: Identifier 'isLoading' has already been declared (1080:10)
+|         }
+|     };
+>     const isLoading = isReserving || startKYCMutation.isPending || createReservationMutation.isPending || processDepositMutation.isPending || isLoadingKYC;
+|     return /*#__PURE__*/ _jsxDEV(Card, {
+|         className: "w-full",
+
+Import trace for requested module:
+./src/components/buyer-journey/BuyerJourney.tsx
+./src/components/buyer-journey/UnitDetails.tsx
+./src/app/developments/fitzgerald-gardens/page.tsx
+ ⨯ ./src/components/buyer-journey/BuyerJourney.tsx
+Module parse failed: Identifier 'isLoading' has already been declared (1080:10)
+|         }
+|     };
+>     const isLoading = isReserving || startKYCMutation.isPending || createReservationMutation.isPending || processDepositMutation.isPending || isLoadingKYC;
+|     return /*#__PURE__*/ _jsxDEV(Card, {
+|         className: "w-full",
+
+Import trace for requested module:
+./src/components/buyer-journey/BuyerJourney.tsx
+./src/components/buyer-journey/UnitDetails.tsx
+./src/app/developments/fitzgerald-gardens/page.tsx
+ ⨯ ./src/components/buyer-journey/BuyerJourney.tsx
+Module parse failed: Identifier 'isLoading' has already been declared (1080:10)
+|         }
+|     };
+>     const isLoading = isReserving || startKYCMutation.isPending || createReservationMutation.isPending || processDepositMutation.isPending || isLoadingKYC;
+|     return /*#__PURE__*/ _jsxDEV(Card, {
+|         className: "w-full",
+
+Import trace for requested module:
+./src/components/buyer-journey/BuyerJourney.tsx
+./src/components/buyer-journey/UnitDetails.tsx
+./src/app/developments/fitzgerald-gardens/page.tsx
+ ⨯ ./src/components/buyer-journey/BuyerJourney.tsx
+Module parse failed: Identifier 'isLoading' has already been declared (1080:10)
+|         }
+|     };
+>     const isLoading = isReserving || startKYCMutation.isPending || createReservationMutation.isPending || processDepositMutation.isPending || isLoadingKYC;
+|     return /*#__PURE__*/ _jsxDEV(Card, {
+|         className: "w-full",
+
+Import trace for requested module:
+./src/components/buyer-journey/BuyerJourney.tsx
+./src/components/buyer-journey/UnitDetails.tsx
+./src/app/developments/fitzgerald-gardens/page.tsx
+ ⨯ ./src/components/buyer-journey/BuyerJourney.tsx
+Module parse failed: Identifier 'isLoading' has already been declared (1080:10)
+|         }
+|     };
+>     const isLoading = isReserving || startKYCMutation.isPending || createReservationMutation.isPending || processDepositMutation.isPending || isLoadingKYC;
+|     return /*#__PURE__*/ _jsxDEV(Card, {
+|         className: "w-full",
+
+Import trace for requested module:
+./src/components/buyer-journey/BuyerJourney.tsx
+./src/components/buyer-journey/UnitDetails.tsx
+./src/app/developments/fitzgerald-gardens/page.tsx
+ ⨯ ./src/components/buyer-journey/BuyerJourney.tsx
+Module parse failed: Identifier 'isLoading' has already been declared (1080:10)
+|         }
+|     };
+>     const isLoading = isReserving || startKYCMutation.isPending || createReservationMutation.isPending || processDepositMutation.isPending || isLoadingKYC;
+|     return /*#__PURE__*/ _jsxDEV(Card, {
+|         className: "w-full",
+
+Import trace for requested module:
+./src/components/buyer-journey/BuyerJourney.tsx
+./src/components/buyer-journey/UnitDetails.tsx
+./src/app/developments/fitzgerald-gardens/page.tsx
+ ⨯ ./src/components/buyer-journey/BuyerJourney.tsx
+Module parse failed: Identifier 'isLoading' has already been declared (1080:10)
+|         }
+|     };
+>     const isLoading = isReserving || startKYCMutation.isPending || createReservationMutation.isPending || processDepositMutation.isPending || isLoadingKYC;
+|     return /*#__PURE__*/ _jsxDEV(Card, {
+|         className: "w-full",
+
+Import trace for requested module:
+./src/components/buyer-journey/BuyerJourney.tsx
+./src/components/buyer-journey/UnitDetails.tsx
+./src/app/developments/fitzgerald-gardens/page.tsx
+ ⨯ ./src/components/buyer-journey/BuyerJourney.tsx
+Module parse failed: Identifier 'isLoading' has already been declared (1080:10)
+|         }
+|     };
+>     const isLoading = isReserving || startKYCMutation.isPending || createReservationMutation.isPending || processDepositMutation.isPending || isLoadingKYC;
+|     return /*#__PURE__*/ _jsxDEV(Card, {
+|         className: "w-full",
+
+Import trace for requested module:
+./src/components/buyer-journey/BuyerJourney.tsx
+./src/components/buyer-journey/UnitDetails.tsx
+./src/app/developments/fitzgerald-gardens/page.tsx
+ ⨯ ./src/components/buyer-journey/BuyerJourney.tsx
+Module parse failed: Identifier 'isLoading' has already been declared (1080:10)
+|         }
+|     };
+>     const isLoading = isReserving || startKYCMutation.isPending || createReservationMutation.isPending || processDepositMutation.isPending || isLoadingKYC;
+|     return /*#__PURE__*/ _jsxDEV(Card, {
+|         className: "w-full",
+
+Import trace for requested module:
+./src/components/buyer-journey/BuyerJourney.tsx
+./src/components/buyer-journey/UnitDetails.tsx
+./src/app/developments/fitzgerald-gardens/page.tsx
+ ⨯ ./src/components/buyer-journey/BuyerJourney.tsx
+Module parse failed: Identifier 'isLoading' has already been declared (1080:10)
+|         }
+|     };
+>     const isLoading = isReserving || startKYCMutation.isPending || createReservationMutation.isPending || processDepositMutation.isPending || isLoadingKYC;
+|     return /*#__PURE__*/ _jsxDEV(Card, {
+|         className: "w-full",
+
+Import trace for requested module:
+./src/components/buyer-journey/BuyerJourney.tsx
+./src/components/buyer-journey/UnitDetails.tsx
+./src/app/developments/fitzgerald-gardens/page.tsx
+ ⨯ ./src/components/buyer-journey/BuyerJourney.tsx
+Module parse failed: Identifier 'isLoading' has already been declared (1080:10)
+|         }
+|     };
+>     const isLoading = isReserving || startKYCMutation.isPending || createReservationMutation.isPending || processDepositMutation.isPending || isLoadingKYC;
+|     return /*#__PURE__*/ _jsxDEV(Card, {
+|         className: "w-full",
+
+Import trace for requested module:
+./src/components/buyer-journey/BuyerJourney.tsx
+./src/components/buyer-journey/UnitDetails.tsx
+./src/app/developments/fitzgerald-gardens/page.tsx
+ ⨯ ./src/components/buyer-journey/BuyerJourney.tsx
+Module parse failed: Identifier 'isLoading' has already been declared (1080:10)
+|         }
+|     };
+>     const isLoading = isReserving || startKYCMutation.isPending || createReservationMutation.isPending || processDepositMutation.isPending || isLoadingKYC;
+|     return /*#__PURE__*/ _jsxDEV(Card, {
+|         className: "w-full",
+
+Import trace for requested module:
+./src/components/buyer-journey/BuyerJourney.tsx
+./src/components/buyer-journey/UnitDetails.tsx
+./src/app/developments/fitzgerald-gardens/page.tsx
+ ⨯ ./src/components/buyer-journey/BuyerJourney.tsx
+Module parse failed: Identifier 'isLoading' has already been declared (1080:10)
+|         }
+|     };
+>     const isLoading = isReserving || startKYCMutation.isPending || createReservationMutation.isPending || processDepositMutation.isPending || isLoadingKYC;
+|     return /*#__PURE__*/ _jsxDEV(Card, {
+|         className: "w-full",
+
+Import trace for requested module:
+./src/components/buyer-journey/BuyerJourney.tsx
+./src/components/buyer-journey/UnitDetails.tsx
+./src/app/developments/fitzgerald-gardens/page.tsx
+ GET /properties/search 500 in 27ms
+ ⨯ ./src/components/buyer-journey/BuyerJourney.tsx
+Module parse failed: Identifier 'isLoading' has already been declared (1080:10)
+|         }
+|     };
+>     const isLoading = isReserving || startKYCMutation.isPending || createReservationMutation.isPending || processDepositMutation.isPending || isLoadingKYC;
+|     return /*#__PURE__*/ _jsxDEV(Card, {
+|         className: "w-full",
+
+Import trace for requested module:
+./src/components/buyer-journey/BuyerJourney.tsx
+./src/components/buyer-journey/UnitDetails.tsx
+./src/app/developments/fitzgerald-gardens/page.tsx
+ GET /_next/static/chunks/fallback/webpack.js 500 in 661ms
+ GET /_next/static/chunks/fallback/main.js 500 in 651ms
+ GET /_next/static/chunks/fallback/react-refresh.js 500 in 649ms
+ GET /_next/static/chunks/fallback/pages/_app.js 500 in 515ms
+ GET /_next/static/chunks/fallback/pages/_error.js 500 in 515ms
+ ⨯ ./src/components/buyer-journey/BuyerJourney.tsx
+Module parse failed: Identifier 'isLoading' has already been declared (1080:10)
+|         }
+|     };
+>     const isLoading = isReserving || startKYCMutation.isPending || createReservationMutation.isPending || processDepositMutation.isPending || isLoadingKYC;
+|     return /*#__PURE__*/ _jsxDEV(Card, {
+|         className: "w-full",
+
+Import trace for requested module:
+./src/components/buyer-journey/BuyerJourney.tsx
+./src/components/buyer-journey/UnitDetails.tsx
+./src/app/developments/fitzgerald-gardens/page.tsx
+ ⨯ ./src/components/buyer-journey/BuyerJourney.tsx
+Module parse failed: Identifier 'isLoading' has already been declared (1080:10)
+|         }
+|     };
+>     const isLoading = isReserving || startKYCMutation.isPending || createReservationMutation.isPending || processDepositMutation.isPending || isLoadingKYC;
+|     return /*#__PURE__*/ _jsxDEV(Card, {
+|         className: "w-full",
+
+Import trace for requested module:
+./src/components/buyer-journey/BuyerJourney.tsx
+./src/components/buyer-journey/UnitDetails.tsx
+./src/app/developments/fitzgerald-gardens/page.tsx
+ GET /properties/search 500 in 21ms
+ GET /_next/static/chunks/fallback/webpack.js 500 in 3ms
+ GET /_next/static/chunks/fallback/main.js 500 in 3ms
+ GET /_next/static/chunks/fallback/react-refresh.js 500 in 2ms
+ GET /_next/static/chunks/fallback/pages/_app.js 500 in 4ms
+ GET /_next/static/chunks/fallback/pages/_error.js 500 in 3ms
+ ⨯ ./src/components/buyer-journey/BuyerJourney.tsx
+Module parse failed: Identifier 'isLoading' has already been declared (1080:10)
+|         }
+|     };
+>     const isLoading = isReserving || startKYCMutation.isPending || createReservationMutation.isPending || processDepositMutation.isPending || isLoadingKYC;
+|     return /*#__PURE__*/ _jsxDEV(Card, {
+|         className: "w-full",
+
+Import trace for requested module:
+./src/components/buyer-journey/BuyerJourney.tsx
+./src/app/developments/fitzgerald-gardens/BuyerJourneyPage.tsx
+./src/app/developments/fitzgerald-gardens/page.tsx
+ ⨯ ./src/components/buyer-journey/BuyerJourney.tsx
+Module parse failed: Identifier 'isLoading' has already been declared (1080:10)
+|         }
+|     };
+>     const isLoading = isReserving || startKYCMutation.isPending || createReservationMutation.isPending || processDepositMutation.isPending || isLoadingKYC;
+|     return /*#__PURE__*/ _jsxDEV(Card, {
+|         className: "w-full",
+
+Import trace for requested module:
+./src/components/buyer-journey/BuyerJourney.tsx
+./src/app/developments/fitzgerald-gardens/BuyerJourneyPage.tsx
+./src/app/developments/fitzgerald-gardens/page.tsx
+ GET /properties/search 500 in 29ms
+ GET /_next/static/chunks/fallback/webpack.js 500 in 14ms
+ GET /_next/static/chunks/fallback/main.js 500 in 5ms
+ GET /_next/static/chunks/fallback/react-refresh.js 500 in 5ms
+ GET /_next/static/chunks/fallback/pages/_app.js 500 in 7ms
+ GET /_next/static/chunks/fallback/pages/_error.js 500 in 5ms
+ ⨯ ./src/components/buyer-journey/BuyerJourney.tsx
+Module parse failed: Identifier 'isLoading' has already been declared (1080:10)
+|         }
+|     };
+>     const isLoading = isReserving || startKYCMutation.isPending || createReservationMutation.isPending || processDepositMutation.isPending || isLoadingKYC;
+|     return /*#__PURE__*/ _jsxDEV(Card, {
+|         className: "w-full",
+
+Import trace for requested module:
+./src/components/buyer-journey/BuyerJourney.tsx
+./src/app/developments/fitzgerald-gardens/BuyerJourneyPage.tsx
+./src/app/developments/fitzgerald-gardens/page.tsx
+ GET /properties/search 500 in 55ms
+ GET /_next/static/chunks/fallback/webpack.js 500 in 9ms
+ GET /_next/static/chunks/fallback/main.js 500 in 6ms
+ GET /_next/static/chunks/fallback/react-refresh.js 500 in 6ms
+ GET /_next/static/chunks/fallback/pages/_app.js 500 in 6ms
+ GET /_next/static/chunks/fallback/pages/_error.js 500 in 4ms
+ GET /properties/search 500 in 28ms
+ GET /_next/static/chunks/fallback/webpack.js 500 in 9ms
+ GET /_next/static/chunks/fallback/main.js 500 in 5ms
+ GET /_next/static/chunks/fallback/react-refresh.js 500 in 3ms
+ GET /_next/static/chunks/fallback/pages/_app.js 500 in 4ms
+ GET /_next/static/chunks/fallback/pages/_error.js 500 in 4ms

@@ -1,3 +1,4 @@
+import React from 'react';
 // src/components/ui/spinner.tsx
 import * as React from "react";
 import { cva, type VariantProps } from "class-variance-authority";
@@ -12,21 +13,16 @@ const spinnerVariants = cva(
         md: "h-6 w-6 border-2",
         lg: "h-8 w-8 border-3",
         xl: "h-12 w-12 border-4",
-      },
       variant: {
         primary: "text-primary",
         secondary: "text-secondary",
         accent: "text-[#2B5273]", // Your brand color
         white: "text-white",
         destructive: "text-destructive",
-        muted: "text-muted-foreground",
-      },
-    },
+        muted: "text-muted-foreground"},
     defaultVariants: {
       size: "md",
-      variant: "accent",
-    },
-  }
+      variant: "accent"}
 );
 
 interface SpinnerProps

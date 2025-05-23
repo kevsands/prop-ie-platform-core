@@ -1,0 +1,81 @@
+{
+  "name": "Prop.ie - Ireland's Premier Property Platform",
+  "short_name": "Prop.ie",
+  "description": "Discover your dream property in Ireland. Browse new developments, connect with developers, and manage your property journey seamlessly.",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "theme_color": "#0070f3",
+  "background_color": "#ffffff",
+  "icons": [
+    {
+      "src": "/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    },
+    {
+      "src": "/favicon-32x32.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "/favicon-16x16.png",
+      "sizes": "16x16",
+      "type": "image/png"
+    }
+  ],
+  "categories": ["business", "lifestyle", "finance"],
+  "lang": "en-IE",
+  "dir": "ltr",
+  "scope": "/",
+  "shortcuts": [
+    {
+      "name": "Search Properties",
+      "url": "/properties/search",
+      "description": "Find your dream property"
+    },
+    {
+      "name": "My Dashboard",
+      "url": "/buyer/dashboard",
+      "description": "View your property journey"
+    },
+    {
+      "name": "New Developments",
+      "url": "/developments",
+      "description": "Browse latest developments"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/screenshots/homepage.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "label": "Homepage"
+    },
+    {
+      "src": "/screenshots/property-search.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "label": "Property Search"
+    },
+    {
+      "src": "/screenshots/dashboard.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "label": "User Dashboard"
+    }
+  ],
+  "prefer_related_applications": false
+}

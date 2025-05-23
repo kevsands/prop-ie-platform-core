@@ -10,16 +10,16 @@ export interface HTBCalculatorProps {
 
 export const HTBCalculatorApp: React.FC<HTBCalculatorProps> = ({ onClaimCreated }) => {
   const { createNewClaim, isLoading, error } = useHTB();
-  const [showApplication, setShowApplication] = useState(false);
-  const [calculatorData, setCalculatorData] = useState({
+  const [showApplicationsetShowApplication] = useState(false);
+  const [calculatorDatasetCalculatorData] = useState({
     propertyPrice: '',
     depositAvailable: '',
     annualIncome: '',
     incomeTaxPaid: '',
     taxYears: 4
   });
-  
-  const [applicationData, setApplicationData] = useState({
+
+  const [applicationDatasetApplicationData] = useState({
     firstName: '',
     lastName: '',
     email: '',
@@ -29,8 +29,8 @@ export const HTBCalculatorApp: React.FC<HTBCalculatorProps> = ({ onClaimCreated 
     propertyId: '',
     acceptTerms: false
   });
-  
-  const [calculationResults, setCalculationResults] = useState<{
+
+  const [calculationResultssetCalculationResults] = useState<{
     eligible: boolean;
     maxHTB: number;
     depositNeeded: number;
@@ -45,45 +45,45 @@ export const HTBCalculatorApp: React.FC<HTBCalculatorProps> = ({ onClaimCreated 
     const deposit = parseFloat(calculatorData.depositAvailable) || 0;
     const income = parseFloat(calculatorData.annualIncome) || 0;
     const taxPaid = parseFloat(calculatorData.incomeTaxPaid) || 0;
-    
+
     // HTB calculation rules
     const maxHTBAmount = 30000;
     const maxHTBPercentage = 0.1; // 10% of purchase price
     const maxPropertyValue = 500000;
     const depositRequired = price * 0.1; // 10% deposit for FTB
-    
+
     // Calculate potential HTB
     const htbFromPrice = price * maxHTBPercentage;
     const htbFromTax = taxPaid * calculatorData.taxYears;
-    const potentialHTB = Math.min(htbFromPrice, htbFromTax, maxHTBAmount);
-    
+    const potentialHTB = Math.min(htbFromPrice, htbFromTaxmaxHTBAmount);
+
     // Check eligibility
     const messages: string[] = [];
     const eligible = price <= maxPropertyValue;
-    
+
     if (!eligible) {
       messages.push(`Property price exceeds the €${maxPropertyValue.toLocaleString()} limit for HTB.`);
     }
-    
-    if (htbFromTax < htbFromPrice) {
+
+    if (htbFromTax <htbFromPrice) {
       messages.push(`HTB limited to €${htbFromTax.toLocaleString()} based on tax paid over ${calculatorData.taxYears} years.`);
     }
-    
+
     if (potentialHTB === maxHTBAmount) {
       messages.push(`HTB capped at the maximum of €${maxHTBAmount.toLocaleString()}.`);
     }
-    
+
     // Calculate affordability
     const lti = price / income;
     const maxLTI = 3.5;
     const affordability = income * maxLTI;
-    
-    if (lti > maxLTI) {
+
+    if (lti> maxLTI) {
       messages.push(`Loan-to-income ratio of ${lti.toFixed(1)} exceeds the ${maxLTI} limit.`);
     }
-    
+
     const totalDeposit = deposit + (eligible ? potentialHTB : 0);
-    
+
     setCalculationResults({
       eligible,
       maxHTB: eligible ? potentialHTB : 0,
@@ -97,12 +97,12 @@ export const HTBCalculatorApp: React.FC<HTBCalculatorProps> = ({ onClaimCreated 
 
   const handleApplicationSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!calculationResults || !calculationResults.eligible) {
       alert('Please complete the calculator to verify eligibility first.');
       return;
     }
-    
+
     try {
       const claim = await createNewClaim({
         propertyId: applicationData.propertyId,
@@ -115,11 +115,11 @@ export const HTBCalculatorApp: React.FC<HTBCalculatorProps> = ({ onClaimCreated 
         propertyAddress: applicationData.propertyAddress,
         claimAmount: calculationResults.maxHTB
       });
-      
+
       if (onClaimCreated) {
         onClaimCreated(claim);
       }
-      
+
       // Reset form
       setShowApplication(false);
       setApplicationData({
@@ -132,10 +132,10 @@ export const HTBCalculatorApp: React.FC<HTBCalculatorProps> = ({ onClaimCreated 
         propertyId: '',
         acceptTerms: false
       });
-      
+
       alert('HTB application submitted successfully! Check the progress tab to track your claim.');
     } catch (err) {
-      console.error('Failed to submit HTB claim:', err);
+
     }
   };
 
@@ -149,12 +149,12 @@ export const HTBCalculatorApp: React.FC<HTBCalculatorProps> = ({ onClaimCreated 
               <Calculator className="text-blue-600 mr-3" size={32} />
               <h2 className="text-3xl font-bold text-gray-900">Help-to-Buy Calculator</h2>
             </div>
-            
+
             <div className="grid md:grid-cols-2 gap-8">
               {/* Calculator Form */}
               <div>
                 <h3 className="text-xl font-semibold mb-4">Enter Your Details</h3>
-                
+
                 <div className="space-y-4">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -165,13 +165,13 @@ export const HTBCalculatorApp: React.FC<HTBCalculatorProps> = ({ onClaimCreated 
                       <input
                         type="number"
                         value={calculatorData.propertyPrice}
-                        onChange={(e) => setCalculatorData({ ...calculatorData, propertyPrice: e.target.value })}
+                        onChange={(e: any) => setCalculatorData({ ...calculatorData, propertyPrice: e.target.value })}
                         className="pl-10 w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                         placeholder="400,000"
                       />
                     </div>
                   </div>
-                  
+
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
                       Current Deposit Available
@@ -181,13 +181,13 @@ export const HTBCalculatorApp: React.FC<HTBCalculatorProps> = ({ onClaimCreated 
                       <input
                         type="number"
                         value={calculatorData.depositAvailable}
-                        onChange={(e) => setCalculatorData({ ...calculatorData, depositAvailable: e.target.value })}
+                        onChange={(e: any) => setCalculatorData({ ...calculatorData, depositAvailable: e.target.value })}
                         className="pl-10 w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                         placeholder="20,000"
                       />
                     </div>
                   </div>
-                  
+
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
                       Annual Income (Combined if joint application)
@@ -197,13 +197,13 @@ export const HTBCalculatorApp: React.FC<HTBCalculatorProps> = ({ onClaimCreated 
                       <input
                         type="number"
                         value={calculatorData.annualIncome}
-                        onChange={(e) => setCalculatorData({ ...calculatorData, annualIncome: e.target.value })}
+                        onChange={(e: any) => setCalculatorData({ ...calculatorData, annualIncome: e.target.value })}
                         className="pl-10 w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                         placeholder="80,000"
                       />
                     </div>
                   </div>
-                  
+
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
                       Annual Income Tax Paid (Average)
@@ -213,20 +213,20 @@ export const HTBCalculatorApp: React.FC<HTBCalculatorProps> = ({ onClaimCreated 
                       <input
                         type="number"
                         value={calculatorData.incomeTaxPaid}
-                        onChange={(e) => setCalculatorData({ ...calculatorData, incomeTaxPaid: e.target.value })}
+                        onChange={(e: any) => setCalculatorData({ ...calculatorData, incomeTaxPaid: e.target.value })}
                         className="pl-10 w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                         placeholder="15,000"
                       />
                     </div>
                   </div>
-                  
+
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
                       Tax Years to Include
                     </label>
                     <select
                       value={calculatorData.taxYears}
-                      onChange={(e) => setCalculatorData({ ...calculatorData, taxYears: parseInt(e.target.value) })}
+                      onChange={(e: any) => setCalculatorData({ ...calculatorData, taxYears: parseInt(e.target.value) })}
                       className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                     >
                       <option value={1}>1 Year</option>
@@ -235,7 +235,7 @@ export const HTBCalculatorApp: React.FC<HTBCalculatorProps> = ({ onClaimCreated 
                       <option value={4}>4 Years</option>
                     </select>
                   </div>
-                  
+
                   <button
                     onClick={calculateHTB}
                     className="w-full py-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-lg font-medium hover:from-blue-600 hover:to-blue-700 transition-all duration-200"
@@ -244,11 +244,11 @@ export const HTBCalculatorApp: React.FC<HTBCalculatorProps> = ({ onClaimCreated 
                   </button>
                 </div>
               </div>
-              
+
               {/* Results Section */}
               <div>
                 <h3 className="text-xl font-semibold mb-4">Your HTB Benefits</h3>
-                
+
                 {calculationResults ? (
                   <div className="space-y-4">
                     {/* Eligibility Status */}
@@ -264,7 +264,7 @@ export const HTBCalculatorApp: React.FC<HTBCalculatorProps> = ({ onClaimCreated 
                         </span>
                       </div>
                     </div>
-                    
+
                     {/* Key Results */}
                     <div className="bg-blue-50 p-4 rounded-lg">
                       <h4 className="font-semibold text-blue-900 mb-3">Your Numbers</h4>
@@ -287,16 +287,16 @@ export const HTBCalculatorApp: React.FC<HTBCalculatorProps> = ({ onClaimCreated 
                         </div>
                       </div>
                     </div>
-                    
+
                     {/* Messages */}
-                    {calculationResults.messages.length > 0 && (
+                    {calculationResults.messages.length> 0 && (
                       <div className="bg-yellow-50 p-4 rounded-lg">
                         <div className="flex items-start">
                           <Info className="text-yellow-600 mr-2 mt-0.5" size={20} />
                           <div>
                             <h4 className="font-semibold text-yellow-900 mb-1">Important Notes</h4>
                             <ul className="space-y-1">
-                              {calculationResults.messages.map((msg, idx) => (
+                              {calculationResults.messages.map((msgidx: any) => (
                                 <li key={idx} className="text-sm text-yellow-800">{msg}</li>
                               ))}
                             </ul>
@@ -304,7 +304,7 @@ export const HTBCalculatorApp: React.FC<HTBCalculatorProps> = ({ onClaimCreated 
                         </div>
                       </div>
                     )}
-                    
+
                     {/* Action Button */}
                     {calculationResults.eligible && (
                       <button
@@ -325,7 +325,7 @@ export const HTBCalculatorApp: React.FC<HTBCalculatorProps> = ({ onClaimCreated 
               </div>
             </div>
           </div>
-          
+
           {/* Information Section */}
           <div className="mt-8 bg-blue-50 rounded-xl p-6">
             <h3 className="text-lg font-semibold text-blue-900 mb-3">How Help-to-Buy Works</h3>
@@ -361,7 +361,7 @@ export const HTBCalculatorApp: React.FC<HTBCalculatorProps> = ({ onClaimCreated 
                 <X size={24} />
               </button>
             </div>
-            
+
             {calculationResults && (
               <div className="bg-green-50 p-4 rounded-lg mb-6">
                 <p className="text-green-800">
@@ -369,7 +369,7 @@ export const HTBCalculatorApp: React.FC<HTBCalculatorProps> = ({ onClaimCreated 
                 </p>
               </div>
             )}
-            
+
             <form onSubmit={handleApplicationSubmit} className="space-y-6">
               <div className="grid md:grid-cols-2 gap-4">
                 <div>
@@ -380,11 +380,11 @@ export const HTBCalculatorApp: React.FC<HTBCalculatorProps> = ({ onClaimCreated 
                     type="text"
                     required
                     value={applicationData.firstName}
-                    onChange={(e) => setApplicationData({ ...applicationData, firstName: e.target.value })}
+                    onChange={(e: any) => setApplicationData({ ...applicationData, firstName: e.target.value })}
                     className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                   />
                 </div>
-                
+
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
                     Last Name <span className="text-red-500">*</span>
@@ -393,12 +393,12 @@ export const HTBCalculatorApp: React.FC<HTBCalculatorProps> = ({ onClaimCreated 
                     type="text"
                     required
                     value={applicationData.lastName}
-                    onChange={(e) => setApplicationData({ ...applicationData, lastName: e.target.value })}
+                    onChange={(e: any) => setApplicationData({ ...applicationData, lastName: e.target.value })}
                     className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                   />
                 </div>
               </div>
-              
+
               <div className="grid md:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -408,11 +408,11 @@ export const HTBCalculatorApp: React.FC<HTBCalculatorProps> = ({ onClaimCreated 
                     type="email"
                     required
                     value={applicationData.email}
-                    onChange={(e) => setApplicationData({ ...applicationData, email: e.target.value })}
+                    onChange={(e: any) => setApplicationData({ ...applicationData, email: e.target.value })}
                     className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                   />
                 </div>
-                
+
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
                     Phone <span className="text-red-500">*</span>
@@ -421,12 +421,12 @@ export const HTBCalculatorApp: React.FC<HTBCalculatorProps> = ({ onClaimCreated 
                     type="tel"
                     required
                     value={applicationData.phone}
-                    onChange={(e) => setApplicationData({ ...applicationData, phone: e.target.value })}
+                    onChange={(e: any) => setApplicationData({ ...applicationData, phone: e.target.value })}
                     className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                   />
                 </div>
               </div>
-              
+
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   PPS Number <span className="text-red-500">*</span>
@@ -435,12 +435,12 @@ export const HTBCalculatorApp: React.FC<HTBCalculatorProps> = ({ onClaimCreated 
                   type="text"
                   required
                   value={applicationData.ppsNumber}
-                  onChange={(e) => setApplicationData({ ...applicationData, ppsNumber: e.target.value })}
+                  onChange={(e: any) => setApplicationData({ ...applicationData, ppsNumber: e.target.value })}
                   className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                   placeholder="1234567AB"
                 />
               </div>
-              
+
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Property Address <span className="text-red-500">*</span>
@@ -449,12 +449,12 @@ export const HTBCalculatorApp: React.FC<HTBCalculatorProps> = ({ onClaimCreated 
                   required
                   rows={2}
                   value={applicationData.propertyAddress}
-                  onChange={(e) => setApplicationData({ ...applicationData, propertyAddress: e.target.value })}
+                  onChange={(e: any) => setApplicationData({ ...applicationData, propertyAddress: e.target.value })}
                   className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                   placeholder="Unit 102, Fitzgerald Gardens, Dublin"
                 />
               </div>
-              
+
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Property ID / Development Name <span className="text-red-500">*</span>
@@ -463,19 +463,19 @@ export const HTBCalculatorApp: React.FC<HTBCalculatorProps> = ({ onClaimCreated 
                   type="text"
                   required
                   value={applicationData.propertyId}
-                  onChange={(e) => setApplicationData({ ...applicationData, propertyId: e.target.value })}
+                  onChange={(e: any) => setApplicationData({ ...applicationData, propertyId: e.target.value })}
                   className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                   placeholder="Fitzgerald Gardens - Unit 102"
                 />
               </div>
-              
+
               <div>
                 <label className="flex items-start">
                   <input
                     type="checkbox"
                     required
                     checked={applicationData.acceptTerms}
-                    onChange={(e) => setApplicationData({ ...applicationData, acceptTerms: e.target.checked })}
+                    onChange={(e: any) => setApplicationData({ ...applicationData, acceptTerms: e.target.checked })}
                     className="mt-1 mr-2"
                   />
                   <span className="text-sm text-gray-700">
@@ -484,7 +484,7 @@ export const HTBCalculatorApp: React.FC<HTBCalculatorProps> = ({ onClaimCreated 
                   </span>
                 </label>
               </div>
-              
+
               <div className="flex justify-between">
                 <button
                   type="button"
@@ -493,7 +493,7 @@ export const HTBCalculatorApp: React.FC<HTBCalculatorProps> = ({ onClaimCreated 
                 >
                   Back to Calculator
                 </button>
-                
+
                 <button
                   type="submit"
                   disabled={isLoading}
@@ -506,7 +506,7 @@ export const HTBCalculatorApp: React.FC<HTBCalculatorProps> = ({ onClaimCreated 
               </div>
             </form>
           </div>
-          
+
           {error && (
             <div className="mt-4 bg-red-50 p-4 rounded-lg">
               <div className="flex items-center">

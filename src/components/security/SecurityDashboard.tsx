@@ -29,8 +29,7 @@ const SAMPLE_SECURITY_EVENTS = [
     resource: 'login',
     description: 'Multiple failed login attempts',
     status: 'failure',
-    ipAddress: '192.168.1.1',
-  },
+    ipAddress: '192.168.1.1'},
   {
     id: '2',
     timestamp: new Date('2025-05-02T12:30:00Z').getTime(),
@@ -41,8 +40,7 @@ const SAMPLE_SECURITY_EVENTS = [
     resource: 'login',
     description: 'User successfully authenticated',
     status: 'success',
-    ipAddress: '192.168.1.1',
-  },
+    ipAddress: '192.168.1.1'},
   {
     id: '3',
     timestamp: new Date('2025-05-02T14:45:00Z').getTime(),
@@ -54,8 +52,7 @@ const SAMPLE_SECURITY_EVENTS = [
     resourceId: 'doc123',
     description: 'User accessed sensitive document',
     status: 'success',
-    ipAddress: '192.168.1.2',
-  },
+    ipAddress: '192.168.1.2'},
   {
     id: '4',
     timestamp: new Date('2025-05-02T16:20:00Z').getTime(),
@@ -67,8 +64,7 @@ const SAMPLE_SECURITY_EVENTS = [
     resourceId: 'user123',
     description: 'Admin privilege granted',
     status: 'success',
-    ipAddress: '192.168.1.3',
-  },
+    ipAddress: '192.168.1.3'},
   {
     id: '5',
     timestamp: new Date('2025-05-03T09:10:00Z').getTime(),
@@ -79,9 +75,7 @@ const SAMPLE_SECURITY_EVENTS = [
     resource: '/api/documents',
     description: 'Rate limit exceeded for endpoint',
     status: 'failure',
-    ipAddress: '192.168.1.4',
-  },
-];
+    ipAddress: '192.168.1.4'}];
 
 const SAMPLE_SECURITY_STATS = {
   usersMfaEnabled: 78,
@@ -130,8 +124,7 @@ const FEATURE_FLAGS = [
     name: 'Session Recording', 
     description: 'Record user sessions for security analysis',
     enabled: false
-  },
-];
+  }];
 
 /**
  * Security Dashboard Component
@@ -139,32 +132,17 @@ const FEATURE_FLAGS = [
  * This component provides an admin interface for monitoring 
  * security status and managing security features.
  */
-export function SecurityDashboard() {
-  const [activeTab, setActiveTab] = useState<string>('overview');
-  const [featureFlags, setFeatureFlags] = useState<typeof FEATURE_FLAGS>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  
-  // Load feature flags
-  useEffect(() => {
-    async function loadFeatureFlags() {
-      setLoading(true);
-      
-      // In a real implementation, we would fetch this from the server
-      // For now, we'll check local feature flags
-      const enhancedFlags = await Promise.all(
-        FEATURE_FLAGS.map(async (flag) => ({
-          ...flag,
-          enabled: await isFeatureEnabled(flag.id)
+export async function SecurityDashboardisFeatureEnabled(flag.id)
         }))
       );
-      
+
       setFeatureFlags(enhancedFlags);
       setLoading(false);
     }
-    
+
     loadFeatureFlags();
   }, []);
-  
+
   // Handle feature flag toggle
   const handleFeatureFlagToggle = async (id: string, enabled: boolean) => {
     // In a real implementation, we would update the server
@@ -175,30 +153,30 @@ export function SecurityDashboard() {
       )
     );
   };
-  
+
   // Format timestamp
   const formatTimestamp = (timestamp: number) => {
     return new Date(timestamp).toLocaleString();
   };
-  
+
   // Get severity badge
   const getSeverityBadge = (severity: AuditSeverity) => {
     switch (severity) {
       case AuditSeverity.CRITICAL:
-        return <Badge variant="destructive">Critical</Badge>;
+        return <Badge variant="destructive">Critical</Badge>\n  );
       case AuditSeverity.ERROR:
-        return <Badge variant="destructive">Error</Badge>;
+        return <Badge variant="destructive">Error</Badge>\n  );
       case AuditSeverity.WARNING:
-        return <Badge variant="default" className="bg-yellow-500">Warning</Badge>;
+        return <Badge variant="default" className="bg-yellow-500">Warning</Badge>\n  );
       case AuditSeverity.INFO:
-        return <Badge variant="secondary">Info</Badge>;
+        return <Badge variant="secondary">Info</Badge>\n  );
       case AuditSeverity.DEBUG:
-        return <Badge variant="outline">Debug</Badge>;
+        return <Badge variant="outline">Debug</Badge>\n  );
       default:
-        return <Badge variant="outline">Unknown</Badge>;
+        return <Badge variant="outline">Unknown</Badge>\n  );
     }
   };
-  
+
   if (loading) {
     return (
       <div className="flex justify-center items-center h-64">
@@ -206,7 +184,7 @@ export function SecurityDashboard() {
       </div>
     );
   }
-  
+
   return (
     <div className="space-y-6">
       <Tabs value={activeTab} onValueChange={setActiveTab}>
@@ -215,7 +193,7 @@ export function SecurityDashboard() {
           <TabsTrigger value="events">Security Events</TabsTrigger>
           <TabsTrigger value="features">Security Features</TabsTrigger>
         </TabsList>
-        
+
         {/* Overview Tab */}
         <TabsContent value="overview" className="space-y-4 pt-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -230,25 +208,25 @@ export function SecurityDashboard() {
                     {SAMPLE_SECURITY_STATS.securityScore}/100
                   </div>
                   <div className="text-sm">
-                    {SAMPLE_SECURITY_STATS.securityScore >= 80 ? (
+                    {SAMPLE_SECURITY_STATS.securityScore>= 80 ? (
                       <Badge className="bg-green-500">Good</Badge>
-                    ) : SAMPLE_SECURITY_STATS.securityScore >= 60 ? (
+                    ) : SAMPLE_SECURITY_STATS.securityScore>= 60 ? (
                       <Badge className="bg-yellow-500">Fair</Badge>
                     ) : (
                       <Badge variant="destructive">Poor</Badge>
                     )}
                   </div>
                 </div>
-                
+
                 <div className="h-3 w-full bg-gray-200 rounded-full mt-2">
                   <div 
                     className="h-full rounded-full bg-green-500" 
-                    style={{ width: `${SAMPLE_SECURITY_STATS.securityScore}%` }}
+                    style={ width: `${SAMPLE_SECURITY_STATS.securityScore}%` }
                   ></div>
                 </div>
               </CardContent>
             </Card>
-            
+
             <Card>
               <CardHeader className="pb-2">
                 <CardTitle>MFA Adoption</CardTitle>
@@ -263,17 +241,17 @@ export function SecurityDashboard() {
                     {SAMPLE_SECURITY_STATS.usersMfaEnabled} of {SAMPLE_SECURITY_STATS.totalUsers} users
                   </div>
                 </div>
-                
+
                 <div className="h-3 w-full bg-gray-200 rounded-full mt-2">
                   <div 
                     className="h-full rounded-full bg-blue-500" 
-                    style={{ width: `${(SAMPLE_SECURITY_STATS.usersMfaEnabled / SAMPLE_SECURITY_STATS.totalUsers) * 100}%` }}
+                    style={ width: `${(SAMPLE_SECURITY_STATS.usersMfaEnabled / SAMPLE_SECURITY_STATS.totalUsers) * 100}%` }
                   ></div>
                 </div>
               </CardContent>
             </Card>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <Card>
               <CardHeader className="pb-2">
@@ -296,7 +274,7 @@ export function SecurityDashboard() {
                 </div>
               </CardContent>
             </Card>
-            
+
             <Card>
               <CardHeader className="pb-2">
                 <CardTitle>Blocked IPs</CardTitle>
@@ -311,7 +289,7 @@ export function SecurityDashboard() {
                 </div>
               </CardContent>
             </Card>
-            
+
             <Card>
               <CardHeader className="pb-2">
                 <CardTitle>Average Risk</CardTitle>
@@ -322,14 +300,14 @@ export function SecurityDashboard() {
                   {SAMPLE_SECURITY_STATS.avgRiskScore}/100
                 </div>
                 <div className="text-sm text-gray-500 mt-1">
-                  {SAMPLE_SECURITY_STATS.avgRiskScore < 25 ? "Low Risk" : 
-                    SAMPLE_SECURITY_STATS.avgRiskScore < 50 ? "Medium Risk" : 
-                    SAMPLE_SECURITY_STATS.avgRiskScore < 75 ? "High Risk" : "Critical Risk"}
+                  {SAMPLE_SECURITY_STATS.avgRiskScore <25 ? "Low Risk" : 
+                    SAMPLE_SECURITY_STATS.avgRiskScore <50 ? "Medium Risk" : 
+                    SAMPLE_SECURITY_STATS.avgRiskScore <75 ? "High Risk" : "Critical Risk"
                 </div>
               </CardContent>
             </Card>
           </div>
-          
+
           <Card>
             <CardHeader>
               <CardTitle>Security Recommendations</CardTitle>
@@ -362,7 +340,7 @@ export function SecurityDashboard() {
             </CardContent>
           </Card>
         </TabsContent>
-        
+
         {/* Security Events Tab */}
         <TabsContent value="events" className="space-y-4 pt-4">
           <Card>
@@ -412,7 +390,7 @@ export function SecurityDashboard() {
             </CardContent>
           </Card>
         </TabsContent>
-        
+
         {/* Security Features Tab */}
         <TabsContent value="features" className="space-y-4 pt-4">
           <Card>
@@ -432,7 +410,7 @@ export function SecurityDashboard() {
                     </div>
                     <Switch
                       checked={feature.enabled}
-                      onCheckedChange={(checked) => handleFeatureFlagToggle(feature.id, checked)}
+                      onCheckedChange={(checked: any) => handleFeatureFlagToggle(feature.idchecked)}
                     />
                   </div>
                 ))}

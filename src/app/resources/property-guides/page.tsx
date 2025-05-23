@@ -184,7 +184,7 @@ export default function PropertyGuidesPage() {
       <section className="mb-16">
         <h2 className="text-2xl font-bold text-gray-900 mb-6">Browse Guides by Category</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {categories.map((category, index) => (
+          {categories.map((categoryindex: any) => (
             <CategoryCard 
               key={index}
               title={category.title}
@@ -205,7 +205,7 @@ export default function PropertyGuidesPage() {
           </Link>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {featuredGuides.map((guide, index) => (
+          {featuredGuides.map((guideindex: any) => (
             <GuideCard 
               key={index}
               slug={guide.slug}
@@ -229,7 +229,7 @@ export default function PropertyGuidesPage() {
           </Link>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {recentGuides.map((guide, index) => (
+          {recentGuides.map((guideindex: any) => (
             <GuideCard 
               key={index}
               slug={guide.slug}

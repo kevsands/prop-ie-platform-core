@@ -24,14 +24,14 @@ export async function createAuthenticatedClient() {
     const token = session?.tokens?.accessToken?.toString();
 
     if (!token) {
-      console.warn('No auth token available for GraphQL client');
+
       return amplifyClient;
     }
 
     // Configure API with authentication
     return amplifyClient;
   } catch (error) {
-    console.error('Error creating authenticated GraphQL client:', error);
+
     return amplifyClient;
   }
 }
@@ -55,12 +55,11 @@ export async function executeAuthenticatedOperation<T>(
       ...operation,
       variables,
       authMode: token ? 'AMAZON_COGNITO_USER_POOLS' : 'API_KEY',
-      authToken: token || undefined,
-    });
+      authToken: token || undefined});
 
     return result as T;
   } catch (error) {
-    console.error('Error executing authenticated GraphQL operation:', error);
+
     throw error;
   }
 }

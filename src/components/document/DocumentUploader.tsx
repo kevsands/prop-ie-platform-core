@@ -28,11 +28,25 @@ import {
   FormMessage 
 } from '@/components/ui/form';
 import { Checkbox } from '@/components/ui/checkbox';
-import { Upload, X, FileText, Image, FileArchive } from 'lucide-react';
+import { 
+  Upload, 
+  X, 
+  FileText, 
+  Image, 
+  FileArchive, 
+  Shield, 
+  FileSearch, 
+  AlertCircle,
+  CheckCircle,
+  Loader2
+} from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { DocumentCategory as DocumentCategoryEnum } from '@/hooks/useDocuments';
+import { Progress } from '@/components/ui/progress';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Badge } from '@/components/ui/badge';
 
 // Document category interface for UI
 interface DocumentCategoryItem {
@@ -45,24 +59,37 @@ interface DocumentCategoryItem {
 }
 
 interface DocumentUploaderProps {
-  onUpload: (file: File, metadata: any) => Promise<void>;
+  onUpload: (file: File, metadata: any) => Promise<void>\n  );
   onCancel: () => void;
   categories: DocumentCategoryItem[];
   isUploading?: boolean;
   maxSizeMB?: number;
   allowedFileTypes?: string[];
+  enableVirusScan?: boolean;
+  enableOCR?: boolean;
+  enableWatermark?: boolean;
+}
+
+interface FileValidationStatus {
+  virusScan?: {
+    status: 'pending' | 'scanning' | 'clean' | 'infected';
+    message?: string;
+  };
+  ocr?: {
+    status: 'pending' | 'processing' | 'completed' | 'failed';
+    extractedText?: string;
+    confidence?: number;
+  };
 }
 
 const formSchema = z.object({
   name: z.string().min(1, 'Document name is required'),
   description: z.string().optional(),
   category: z.string({
-    required_error: 'Please select a category',
-  }),
+    required_error: 'Please select a category'}),
   tags: z.string().optional(),
   expiryDate: z.string().optional(),
-  signatureRequired: z.boolean().default(false),
-});
+  signatureRequired: z.boolean().default(false)});
 
 const DocumentUploader: React.FC<DocumentUploaderProps> = ({
   onUpload,
@@ -71,11 +98,16 @@ const DocumentUploader: React.FC<DocumentUploaderProps> = ({
   isUploading = false,
   maxSizeMB = 10,
   allowedFileTypes = ['.pdf', '.docx', '.doc', '.xlsx', '.xls', '.jpg', '.jpeg', '.png'],
-}) => {
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [fileError, setFileError] = useState<string | null>(null);
-  const [dragActive, setDragActive] = useState(false);
-  
+  enableVirusScan = true,
+  enableOCR = true,
+  enableWatermark = false}) => {
+  const [selectedFilesetSelectedFile] = useState<File | null>(null);
+  const [fileErrorsetFileError] = useState<string | null>(null);
+  const [dragActivesetDragActive] = useState(false);
+  const [uploadProgresssetUploadProgress] = useState(0);
+  const [validationStatussetValidationStatus] = useState<FileValidationStatus>({});
+  const [isValidatingsetIsValidating] = useState(false);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -84,39 +116,37 @@ const DocumentUploader: React.FC<DocumentUploaderProps> = ({
       category: '',
       tags: '',
       expiryDate: '',
-      signatureRequired: false,
-    },
-  });
-  
+      signatureRequired: false});
+
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     validateAndSetFile(file);
   };
-  
+
   const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     e.stopPropagation();
     setDragActive(false);
-    
+
     if (e.dataTransfer.files && e.dataTransfer.files[0]) {
       validateAndSetFile(e.dataTransfer.files[0]);
     }
   };
-  
-  const validateAndSetFile = (file: File | undefined) => {
+
+  const validateAndSetFile = async (file: File | undefined) => {
     if (!file) {
       setFileError('No file selected');
       setSelectedFile(null);
       return;
     }
-    
+
     // Validate file size
-    if (file.size > maxSizeMB * 1024 * 1024) {
+    if (file.size> maxSizeMB * 1024 * 1024) {
       setFileError(`File is too large. Maximum size is ${maxSizeMB}MB.`);
       setSelectedFile(null);
       return;
     }
-    
+
     // Validate file type
     const fileExtension = `.${file.name.split('.').pop()?.toLowerCase()}`;
     if (!allowedFileTypes.includes(fileExtension) && !allowedFileTypes.includes('*')) {
@@ -124,58 +154,118 @@ const DocumentUploader: React.FC<DocumentUploaderProps> = ({
       setSelectedFile(null);
       return;
     }
-    
+
     // Set form name to file name by default if empty
     if (!form.getValues('name')) {
       form.setValue('name', file.name.split('.')[0]);
     }
-    
+
     setFileError(null);
     setSelectedFile(file);
+
+    // Perform additional validations
+    if (enableVirusScan || enableOCR) {
+      setIsValidating(true);
+      await performFileValidations(file);
+      setIsValidating(false);
+    }
   };
-  
+
+  const performFileValidations = async (file: File) => {
+    const newStatus: FileValidationStatus = {};
+
+    // Simulate virus scanning
+    if (enableVirusScan) {
+      newStatus.virusScan = { status: 'scanning' };
+      setValidationStatus(newStatus);
+
+      // Simulate API call for virus scanning
+      await new Promise(resolve => setTimeout(resolve2000));
+
+      // Mock result (in production, call actual virus scanning API)
+      const isClean = Math.random() > 0.05; // 95% chance of being clean
+      newStatus.virusScan = isClean 
+        ? { status: 'clean', message: 'No threats detected' }
+        : { status: 'infected', message: 'Potential threat detected' };
+
+      if (!isClean) {
+        setFileError('File failed virus scan. Please try a different file.');
+        setSelectedFile(null);
+        setValidationStatus(newStatus);
+        return;
+      }
+    }
+
+    // Perform OCR if enabled and file is an image or PDF
+    if (enableOCR && (file.type.includes('image') || file.type.includes('pdf'))) {
+      newStatus.ocr = { status: 'processing' };
+      setValidationStatus({ ...newStatus });
+
+      // Simulate OCR processing
+      await new Promise(resolve => setTimeout(resolve3000));
+
+      // Mock OCR result (in production, call actual OCR API)
+      newStatus.ocr = {
+        status: 'completed',
+        extractedText: 'Sample extracted text from document...',
+        confidence: 0.95
+      };
+    }
+
+    setValidationStatus(newStatus);
+  };
+
   const getFileIcon = (file: File) => {
     const fileType = file.type.toLowerCase();
     if (fileType.includes('pdf')) {
-      return <FileText className="h-12 w-12 text-red-500" />;
+      return <FileText className="h-12 w-12 text-red-500" />\n  );
     } else if (fileType.includes('image')) {
-      return <Image className="h-12 w-12 text-blue-500" />;
+      return <Image className="h-12 w-12 text-blue-500" />\n  );
     } else if (fileType.includes('word') || fileType.includes('document')) {
-      return <FileText className="h-12 w-12 text-blue-700" />;
+      return <FileText className="h-12 w-12 text-blue-700" />\n  );
     } else if (fileType.includes('excel') || fileType.includes('spreadsheet')) {
-      return <FileText className="h-12 w-12 text-green-600" />;
+      return <FileText className="h-12 w-12 text-green-600" />\n  );
     } else {
-      return <FileArchive className="h-12 w-12 text-gray-500" />;
+      return <FileArchive className="h-12 w-12 text-gray-500" />\n  );
     }
   };
-  
+
   const formatFileSize = (bytes: number): string => {
-    if (bytes < 1024) return `${bytes} bytes`;
-    if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+    if (bytes <1024) return `${bytes} bytes`;
+    if (bytes <1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
     return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
   };
-  
+
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     if (!selectedFile) {
       setFileError('Please select a file to upload');
       return;
     }
-    
+
+    // Check if validations are complete
+    if (validationStatus.virusScan?.status === 'infected') {
+      setFileError('Cannot upload infected file');
+      return;
+    }
+
     const metadata = {
       ...values,
       tags: values.tags ? values.tags.split(',').map(tag => tag.trim()) : [],
-    };
-    
-    await onUpload(selectedFile, metadata);
+      ocrText: validationStatus.ocr?.extractedText,
+      ocrConfidence: validationStatus.ocr?.confidence,
+      virusScanStatus: validationStatus.virusScan?.status,
+      enableWatermark};
+
+    await onUpload(selectedFilemetadata);
   };
-  
+
   return (
     <Dialog open={true} onOpenChange={onCancel}>
       <DialogContent className="max-w-md">
         <DialogHeader>
           <DialogTitle>Upload Document</DialogTitle>
         </DialogHeader>
-        
+
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             {/* File Upload Area */}
@@ -185,9 +275,9 @@ const DocumentUploader: React.FC<DocumentUploaderProps> = ({
                 ${dragActive ? 'border-primary bg-primary/5' : 'border-gray-300 hover:border-primary/50'}
                 ${selectedFile ? 'bg-gray-50' : ''}
               `}
-              onDragOver={(e) => { e.preventDefault(); e.stopPropagation(); setDragActive(true); }}
-              onDragEnter={(e) => { e.preventDefault(); e.stopPropagation(); setDragActive(true); }}
-              onDragLeave={(e) => { e.preventDefault(); e.stopPropagation(); setDragActive(false); }}
+              onDragOver={(e: any) => { e.preventDefault(); e.stopPropagation(); setDragActive(true); }
+              onDragEnter={(e: any) => { e.preventDefault(); e.stopPropagation(); setDragActive(true); }
+              onDragLeave={(e: any) => { e.preventDefault(); e.stopPropagation(); setDragActive(false); }
               onDrop={handleDrop}
               onClick={() => document.getElementById('file-upload')?.click()}
             >
@@ -198,7 +288,7 @@ const DocumentUploader: React.FC<DocumentUploaderProps> = ({
                 onChange={handleFileChange}
                 accept={allowedFileTypes.join(',')}
               />
-              
+
               {selectedFile ? (
                 <div className="flex items-center justify-center space-x-3">
                   <div className="flex-shrink-0">
@@ -213,10 +303,10 @@ const DocumentUploader: React.FC<DocumentUploaderProps> = ({
                     variant="ghost"
                     size="icon"
                     className="flex-shrink-0"
-                    onClick={(e) => {
+                    onClick={(e: any) => {
                       e.stopPropagation();
                       setSelectedFile(null);
-                    }}
+                    }
                   >
                     <X className="h-4 w-4" />
                   </Button>
@@ -233,11 +323,77 @@ const DocumentUploader: React.FC<DocumentUploaderProps> = ({
                 </div>
               )}
             </div>
-            
+
             {fileError && (
-              <p className="text-sm text-red-500">{fileError}</p>
+              <Alert variant="destructive" className="mt-2">
+                <AlertCircle className="h-4 w-4" />
+                <AlertDescription>{fileError}</AlertDescription>
+              </Alert>
             )}
-            
+
+            {/* Validation Status */}
+            {selectedFile && (enableVirusScan || enableOCR) && (
+              <div className="space-y-2">
+                {/* Virus Scan Status */}
+                {enableVirusScan && validationStatus.virusScan && (
+                  <div className="flex items-center space-x-2">
+                    {validationStatus.virusScan.status === 'scanning' && (
+                      <>
+                        <Loader2 className="h-4 w-4 animate-spin text-blue-500" />
+                        <span className="text-sm text-gray-600">Scanning for viruses...</span>
+                      </>
+                    )}
+                    {validationStatus.virusScan.status === 'clean' && (
+                      <>
+                        <Shield className="h-4 w-4 text-green-500" />
+                        <span className="text-sm text-green-600">Virus scan passed</span>
+                        <Badge variant="outline" className="text-green-600">Clean</Badge>
+                      </>
+                    )}
+                    {validationStatus.virusScan.status === 'infected' && (
+                      <>
+                        <AlertCircle className="h-4 w-4 text-red-500" />
+                        <span className="text-sm text-red-600">Virus detected</span>
+                        <Badge variant="destructive">Infected</Badge>
+                      </>
+                    )}
+                  </div>
+                )}
+
+                {/* OCR Status */}
+                {enableOCR && validationStatus.ocr && (
+                  <div className="flex items-center space-x-2">
+                    {validationStatus.ocr.status === 'processing' && (
+                      <>
+                        <FileSearch className="h-4 w-4 animate-pulse text-blue-500" />
+                        <span className="text-sm text-gray-600">Extracting text...</span>
+                      </>
+                    )}
+                    {validationStatus.ocr.status === 'completed' && (
+                      <>
+                        <CheckCircle className="h-4 w-4 text-green-500" />
+                        <span className="text-sm text-green-600">Text extracted</span>
+                        <Badge variant="outline" className="text-green-600">
+                          {Math.round((validationStatus.ocr.confidence || 0) * 100)}% confidence
+                        </Badge>
+                      </>
+                    )}
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* Upload Progress */}
+            {isUploading && (
+              <div className="space-y-2">
+                <div className="flex justify-between text-sm">
+                  <span>Uploading...</span>
+                  <span>{uploadProgress}%</span>
+                </div>
+                <Progress value={uploadProgress} className="w-full" />
+              </div>
+            )}
+
             {/* Document Metadata */}
             <FormField
               control={form.control}
@@ -252,7 +408,7 @@ const DocumentUploader: React.FC<DocumentUploaderProps> = ({
                 </FormItem>
               )}
             />
-            
+
             <FormField
               control={form.control}
               name="description"
@@ -270,7 +426,7 @@ const DocumentUploader: React.FC<DocumentUploaderProps> = ({
                 </FormItem>
               )}
             />
-            
+
             <FormField
               control={form.control}
               name="category"
@@ -284,7 +440,7 @@ const DocumentUploader: React.FC<DocumentUploaderProps> = ({
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      {categories.map((category) => (
+                      {categories.map((category: any) => (
                         <SelectItem key={category.id} value={category.name}>
                           {category.name}
                         </SelectItem>
@@ -295,7 +451,7 @@ const DocumentUploader: React.FC<DocumentUploaderProps> = ({
                 </FormItem>
               )}
             />
-            
+
             <FormField
               control={form.control}
               name="tags"
@@ -312,7 +468,7 @@ const DocumentUploader: React.FC<DocumentUploaderProps> = ({
                 </FormItem>
               )}
             />
-            
+
             <FormField
               control={form.control}
               name="expiryDate"
@@ -326,7 +482,7 @@ const DocumentUploader: React.FC<DocumentUploaderProps> = ({
                 </FormItem>
               )}
             />
-            
+
             <FormField
               control={form.control}
               name="signatureRequired"
@@ -347,13 +503,33 @@ const DocumentUploader: React.FC<DocumentUploaderProps> = ({
                 </FormItem>
               )}
             />
-            
+
             <DialogFooter>
               <Button type="button" variant="outline" onClick={onCancel}>
                 Cancel
               </Button>
-              <Button type="submit" disabled={!selectedFile || isUploading}>
-                {isUploading ? 'Uploading...' : 'Upload Document'}
+              <Button 
+                type="submit" 
+                disabled={
+                  !selectedFile || 
+                  isUploading || 
+                  isValidating ||
+                  validationStatus.virusScan?.status === 'infected'
+                }
+              >
+                {isValidating ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Validating...
+                  </>
+                ) : isUploading ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Uploading...
+                  </>
+                ) : (
+                  'Upload Document'
+                )}
               </Button>
             </DialogFooter>
           </form>

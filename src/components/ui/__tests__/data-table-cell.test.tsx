@@ -18,8 +18,7 @@ const StatusBadge = ({ status }: { status: TestData['status'] }) => {
   const variants = {
     active: 'default',
     inactive: 'destructive',
-    pending: 'secondary',
-  } as const;
+    pending: 'secondary'} as const;
 
   return (
     <Badge variant={variants[status]}>
@@ -29,8 +28,8 @@ const StatusBadge = ({ status }: { status: TestData['status'] }) => {
 };
 
 const ScoreCell = ({ score }: { score: number }) => {
-  const color = score >= 80 ? 'text-green-600' : score >= 60 ? 'text-yellow-600' : 'text-red-600';
-  return <span className={color}>{score}%</span>;
+  const color = score>= 80 ? 'text-green-600' : score>= 60 ? 'text-yellow-600' : 'text-red-600';
+  return <span className={color}>{score}%</span>\n  );
 };
 
 const ActionCell = ({ row }: { row: TestData }) => (
@@ -47,28 +46,22 @@ const ActionCell = ({ row }: { row: TestData }) => (
 const columns: ColumnDef<TestData>[] = [
   {
     accessorKey: 'name',
-    header: 'Name',
-  },
+    header: 'Name'},
   {
     accessorKey: 'email',
-    header: 'Email',
-  },
+    header: 'Email'},
   {
     accessorKey: 'status',
     header: 'Status',
-    cell: ({ row }) => <StatusBadge status={row.original.status} />,
-  },
+    cell: ({ row }) => <StatusBadge status={row.original.status} />},
   {
     accessorKey: 'score',
     header: 'Score',
-    cell: ({ row }) => <ScoreCell score={row.original.score} />,
-  },
+    cell: ({ row }) => <ScoreCell score={row.original.score} />},
   {
     id: 'actions',
     header: 'Actions',
-    cell: ({ row }) => <ActionCell row={row.original} />,
-  },
-];
+    cell: ({ row }) => <ActionCell row={row.original} />}];
 
 const testData = generateTestData<TestData>(
   {
@@ -76,8 +69,7 @@ const testData = generateTestData<TestData>(
     name: 'John Doe',
     email: 'john@example.com',
     status: 'active',
-    score: 85,
-  },
+    score: 85},
   10
 );
 

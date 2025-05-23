@@ -1,0 +1,342 @@
+'use client';
+
+import { useState } from 'react';
+import { signIn } from 'next-auth/react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Icons } from '@/components/ui/icons';
+import Link from 'next/link';
+import { z } from 'zod';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+
+// Validation schemas
+const loginSchema = z.object({
+  email: z.string().email('Invalid email address'),
+  password: z.string().min(8, 'Password must be at least 8 characters'),
+  rememberMe: z.boolean().optional()
+});
+
+const mfaSchema = z.object({
+  code: z.string().length(6, 'MFA code must be 6 digits')
+});
+
+type LoginForm = z.infer<typeof loginSchema>;
+type MfaForm = z.infer<typeof mfaSchema>;
+
+export default function EnhancedLoginPage() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const callbackUrl = searchParams.get('callbackUrl') || '/';
+  const error = searchParams.get('error');
+
+  const [isLoading, setIsLoading] = useState(false);
+  const [loginError, setLoginError] = useState<string | null>(error);
+  const [showMfa, setShowMfa] = useState(false);
+  const [mfaSession, setMfaSession] = useState<any>(null);
+
+  // Login form
+  const loginForm = useForm<LoginForm>({
+    resolver: zodResolver(loginSchema),
+    defaultValues: {
+      email: '',
+      password: '',
+      rememberMe: false
+    }
+  });
+
+  // MFA form
+  const mfaForm = useForm<MfaForm>({
+    resolver: zodResolver(mfaSchema),
+    defaultValues: {
+      code: ''
+    }
+  });
+
+  // Handle credential login
+  const handleCredentialLogin = async (data: LoginForm) => {
+    setIsLoading(true);
+    setLoginError(null);
+
+    try {
+      const result = await signIn('credentials', {
+        redirect: false,
+        email: data.email,
+        password: data.password,
+        callbackUrl
+      });
+
+      if (result?.error) {
+        if (result.error === 'MFA_REQUIRED') {
+          setMfaSession({ email: data.email, password: data.password });
+          setShowMfa(true);
+        } else {
+          setLoginError(result.error);
+        }
+      } else if (result?.ok) {
+        router.push(callbackUrl);
+      }
+    } catch (error) {
+      setLoginError('An unexpected error occurred');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Handle MFA verification
+  const handleMfaVerification = async (data: MfaForm) => {
+    setIsLoading(true);
+    setLoginError(null);
+
+    try {
+      const result = await signIn('credentials', {
+        redirect: false,
+        email: mfaSession.email,
+        password: mfaSession.password,
+        mfaCode: data.code,
+        callbackUrl
+      });
+
+      if (result?.error) {
+        setLoginError('Invalid MFA code');
+      } else if (result?.ok) {
+        router.push(callbackUrl);
+      }
+    } catch (error) {
+      setLoginError('An unexpected error occurred');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Handle OAuth login
+  const handleOAuthLogin = async (provider: 'google' | 'azure-ad') => {
+    setIsLoading(true);
+    try {
+      await signIn(provider, { callbackUrl });
+    } catch (error) {
+      setLoginError('OAuth login failed');
+      setIsLoading(false);
+    }
+  };
+
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100 py-12 px-4 sm:px-6 lg:px-8">
+      <Card className="w-full max-w-md shadow-xl">
+        <CardHeader className="space-y-1">
+          <CardTitle className="text-center text-2xl font-bold">
+            {showMfa ? 'Two-Factor Authentication' : 'Welcome back'}
+          </CardTitle>
+          <CardDescription className="text-center">
+            {showMfa 
+              ? 'Enter the 6-digit code from your authenticator app'
+              : 'Sign in to access your property platform account'
+            }
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          {!showMfa ? (
+            <Tabs defaultValue="credentials" className="w-full">
+              <TabsList className="grid w-full grid-cols-2">
+                <TabsTrigger value="credentials">Email</TabsTrigger>
+                <TabsTrigger value="oauth">Social</TabsTrigger>
+              </TabsList>
+
+              <TabsContent value="credentials" className="space-y-4">
+                <form onSubmit={loginForm.handleSubmit(handleCredentialLogin)} className="space-y-4">
+                  {loginError && (
+                    <Alert variant="destructive">
+                      <AlertDescription>{loginError}</AlertDescription>
+                    </Alert>
+                  )}
+
+                  <div className="space-y-2">
+                    <Label htmlFor="email">Email address</Label>
+                    <Input
+                      id="email"
+                      type="email"
+                      placeholder="you@example.com"
+                      {...loginForm.register('email')}
+                      className={loginForm.formState.errors.email ? 'border-red-500' : ''}
+                    />
+                    {loginForm.formState.errors.email && (
+                      <p className="text-sm text-red-500">{loginForm.formState.errors.email.message}</p>
+                    )}
+                  </div>
+
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between">
+                      <Label htmlFor="password">Password</Label>
+                      <Link 
+                        href="/auth/forgot-password" 
+                        className="text-sm text-blue-600 hover:text-blue-500"
+                      >
+                        Forgot password?
+                      </Link>
+                    </div>
+                    <Input
+                      id="password"
+                      type="password"
+                      placeholder="••••••••"
+                      {...loginForm.register('password')}
+                      className={loginForm.formState.errors.password ? 'border-red-500' : ''}
+                    />
+                    {loginForm.formState.errors.password && (
+                      <p className="text-sm text-red-500">{loginForm.formState.errors.password.message}</p>
+                    )}
+                  </div>
+
+                  <div className="flex items-center space-x-2">
+                    <Checkbox 
+                      id="remember" 
+                      {...loginForm.register('rememberMe')}
+                    />
+                    <Label 
+                      htmlFor="remember" 
+                      className="text-sm font-normal cursor-pointer"
+                    >
+                      Remember me for 30 days
+                    </Label>
+                  </div>
+
+                  <Button
+                    type="submit"
+                    className="w-full"
+                    disabled={isLoading}
+                  >
+                    {isLoading ? (
+                      <>
+                        <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+                        Signing in...
+                      </>
+                    ) : (
+                      'Sign in'
+                    )}
+                  </Button>
+                </form>
+
+                <div className="text-center text-sm">
+                  <span className="text-gray-600">Don't have an account? </span>
+                  <Link href="/auth/register" className="text-blue-600 hover:text-blue-500 font-medium">
+                    Sign up
+                  </Link>
+                </div>
+              </TabsContent>
+
+              <TabsContent value="oauth" className="space-y-4">
+                <div className="space-y-3">
+                  <Button
+                    variant="outline"
+                    className="w-full"
+                    onClick={() => handleOAuthLogin('google')}
+                    disabled={isLoading}
+                  >
+                    <Icons.google className="mr-2 h-4 w-4" />
+                    Continue with Google
+                  </Button>
+
+                  <Button
+                    variant="outline"
+                    className="w-full"
+                    onClick={() => handleOAuthLogin('azure-ad')}
+                    disabled={isLoading}
+                  >
+                    <Icons.microsoft className="mr-2 h-4 w-4" />
+                    Continue with Microsoft
+                  </Button>
+                </div>
+
+                <div className="relative">
+                  <div className="absolute inset-0 flex items-center">
+                    <span className="w-full border-t" />
+                  </div>
+                  <div className="relative flex justify-center text-xs uppercase">
+                    <span className="bg-white px-2 text-gray-500">Or</span>
+                  </div>
+                </div>
+
+                <div className="text-center text-sm">
+                  <span className="text-gray-600">Need to use email? </span>
+                  <button 
+                    onClick={() => document.querySelector('[data-value="credentials"]')?.click()}
+                    className="text-blue-600 hover:text-blue-500 font-medium"
+                  >
+                    Sign in with email
+                  </button>
+                </div>
+              </TabsContent>
+            </Tabs>
+          ) : (
+            <form onSubmit={mfaForm.handleSubmit(handleMfaVerification)} className="space-y-4">
+              {loginError && (
+                <Alert variant="destructive">
+                  <AlertDescription>{loginError}</AlertDescription>
+                </Alert>
+              )}
+
+              <div className="space-y-2">
+                <Label htmlFor="mfa-code">Verification Code</Label>
+                <Input
+                  id="mfa-code"
+                  type="text"
+                  placeholder="000000"
+                  maxLength={6}
+                  className="text-center text-2xl tracking-widest"
+                  {...mfaForm.register('code')}
+                />
+                {mfaForm.formState.errors.code && (
+                  <p className="text-sm text-red-500">{mfaForm.formState.errors.code.message}</p>
+                )}
+              </div>
+
+              <Button
+                type="submit"
+                className="w-full"
+                disabled={isLoading}
+              >
+                {isLoading ? (
+                  <>
+                    <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+                    Verifying...
+                  </>
+                ) : (
+                  'Verify'
+                )}
+              </Button>
+
+              <Button
+                type="button"
+                variant="ghost"
+                className="w-full"
+                onClick={() => {
+                  setShowMfa(false);
+                  setMfaSession(null);
+                  mfaForm.reset();
+                }}
+              >
+                Back to login
+              </Button>
+            </form>
+          )}
+
+          <div className="mt-6 text-center text-xs text-gray-500">
+            By signing in, you agree to our{' '}
+            <Link href="/terms" className="underline hover:text-gray-700">
+              Terms of Service
+            </Link>{' '}
+            and{' '}
+            <Link href="/privacy" className="underline hover:text-gray-700">
+              Privacy Policy
+            </Link>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  );
+}

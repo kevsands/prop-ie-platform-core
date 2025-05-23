@@ -67,14 +67,14 @@ export default function PropertyDetailView({ propertyId }: PropertyDetailViewPro
   const { mutate: toggleSave, isSaved } = useSaveProperty(propertyId);
   const { mutate: sendEnquiry } = useEnquiry();
 
-  const [showShareDialog, setShowShareDialog] = useState(false);
-  const [selectedView, setSelectedView] = useState<'photos' | 'floor-plan' | 'virtual-tour' | 'map'>('photos');
-  const [showBooking, setShowBooking] = useState(false);
-  const [enquiryMessage, setEnquiryMessage] = useState('');
+  const [showShareDialogsetShowShareDialog] = useState(false);
+  const [selectedViewsetSelectedView] = useState<'photos' | 'floor-plan' | 'virtual-tour' | 'map'>('photos');
+  const [showBookingsetShowBooking] = useState(false);
+  const [enquiryMessagesetEnquiryMessage] = useState('');
 
   // Premium features check
   const hasPremiumContent = property?.virtualTour || property?.video;
-  const hasDocuments = property?.documents?.length > 0;
+  const hasDocuments = property?.documents?.length> 0;
 
   const handleBookViewing = (date: Date, time: string) => {
     bookViewing(
@@ -360,8 +360,8 @@ export default function PropertyDetailView({ propertyId }: PropertyDetailViewPro
                   </CardHeader>
                   <CardContent>
                     <div className="grid grid-cols-2 gap-4">
-                      {property.features.map((feature) => (
-                        <div key={feature} className="flex items-center">
+                      {property.features.map((feature: any) => (
+                        <div key={feature: any} className="flex items-center">
                           <CheckCircleIcon className="h-5 w-5 text-green-600 mr-2" />
                           <span>{feature.replace(/_/g, ' ').toLowerCase()}</span>
                         </div>
@@ -376,8 +376,8 @@ export default function PropertyDetailView({ propertyId }: PropertyDetailViewPro
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-4">
-                      {property.rooms.map((room, index) => (
-                        <div key={index} className="border-b pb-3 last:border-0">
+                      {property.rooms.map((room: any, index: any) => (
+                        <div key={index: any} className="border-b pb-3 last:border-0">
                           <div className="flex justify-between">
                             <span className="font-semibold">{room.name}</span>
                             <span className="text-gray-600">{room.dimensions}</span>
@@ -421,8 +421,8 @@ export default function PropertyDetailView({ propertyId }: PropertyDetailViewPro
 
                 <PropertyMortgageCalculator propertyPrice={property.price} />
                 <PropertyStampDutyCalculator propertyPrice={property.price} propertyType={property.propertyType} />
-                
-                {property.priceHistory && property.priceHistory.length > 0 && (
+
+                {property.priceHistory && property.priceHistory.length> 0 && (
                   <Card>
                     <CardHeader>
                       <CardTitle>Price History</CardTitle>
@@ -525,7 +525,7 @@ export default function PropertyDetailView({ propertyId }: PropertyDetailViewPro
                   <Textarea
                     placeholder="I'm interested in this property..."
                     value={enquiryMessage}
-                    onChange={(e) => setEnquiryMessage(e.target.value)}
+                    onChange={(e: React.MouseEvent) => setEnquiryMessage(e.target.value)}
                     rows={4}
                   />
                   <Button
@@ -549,10 +549,10 @@ export default function PropertyDetailView({ propertyId }: PropertyDetailViewPro
                   currentPropertyId={property.id}
                   location={property.location}
                   propertyType={property.propertyType}
-                  priceRange={{
+                  priceRange={
                     min: property.price * 0.8,
                     max: property.price * 1.2
-                  }}
+                  }
                 />
               </CardContent>
             </Card>

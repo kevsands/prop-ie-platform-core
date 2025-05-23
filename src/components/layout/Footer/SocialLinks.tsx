@@ -1,3 +1,4 @@
+import React from 'react';
 import { Facebook, Twitter, Instagram, Linkedin } from 'lucide-react';
 import { SocialLink } from './types';
 
@@ -9,16 +10,15 @@ const iconMap = {
   Facebook: Facebook,
   Twitter: Twitter,
   Instagram: Instagram,
-  LinkedIn: Linkedin,
-};
+  LinkedIn: Linkedin};
 
 const SocialLinks: React.FC<SocialLinksProps> = ({ links }) => {
   return (
-    <nav aria-label="Social media links">
+    <nav aria-label="Social media links" className="footer-social">
       <ul className="flex items-center gap-4">
-        {links.map((link) => {
+        {links.map((link: any) => {
           const Icon = iconMap[link.icon as keyof typeof iconMap];
-          
+
           return (
             <li key={link.name}>
               <a

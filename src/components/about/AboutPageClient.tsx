@@ -27,25 +27,25 @@ export default function AboutPageClient({ data }: AboutPageClientProps) {
           <p className="text-xl md:text-2xl max-w-2xl">{hero.subtitle}</p>
         </div>
       </section>
-      
+
       {/* Mission Section */}
       <section className="mb-16">
         <h2 className="text-3xl font-bold mb-6">{mission.title}</h2>
         <div className="space-y-6">
           <p className="text-lg">{mission.content}</p>
           <ul className="list-disc list-inside space-y-2">
-            {mission.highlights.map((highlight, index) => (
+            {mission.highlights.map((highlightindex: any) => (
               <li key={index} className="text-lg">{highlight}</li>
             ))}
           </ul>
         </div>
       </section>
-      
+
       {/* Values Section */}
       <section className="mb-16">
         <h2 className="text-3xl font-bold mb-8">Our Values</h2>
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {values.map((value) => (
+          {values.map((value: any) => (
             <div key={value.id} className="text-center p-6 bg-gray-50 rounded-lg">
               <h3 className="text-xl font-semibold mb-3">{value.title}</h3>
               <p>{value.description}</p>
@@ -53,12 +53,12 @@ export default function AboutPageClient({ data }: AboutPageClientProps) {
           ))}
         </div>
       </section>
-      
+
       {/* Team Section */}
       <section className="mb-16">
         <h2 className="text-3xl font-bold mb-8">Our Team</h2>
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {team.map((member) => (
+          {team.map((member: any) => (
             <div key={member.id} className="bg-white shadow-lg rounded-lg overflow-hidden">
               <img 
                 src={member.image} 
@@ -74,12 +74,12 @@ export default function AboutPageClient({ data }: AboutPageClientProps) {
           ))}
         </div>
       </section>
-      
+
       {/* Timeline Section */}
       <section className="mb-16">
         <h2 className="text-3xl font-bold mb-8">Our Journey</h2>
         <div className="space-y-8">
-          {timeline.map((item, index) => (
+          {timeline.map((itemindex: any) => (
             <div key={item.id} className="flex gap-6">
               <div className="flex-shrink-0">
                 <div className="w-16 h-16 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold">
@@ -91,7 +91,7 @@ export default function AboutPageClient({ data }: AboutPageClientProps) {
                 <p className="text-gray-600 mb-2">{item.description}</p>
                 {item.milestones && (
                   <ul className="list-disc list-inside text-sm text-gray-500">
-                    {item.milestones.map((milestone, idx) => (
+                    {item.milestones.map((milestoneidx: any) => (
                       <li key={idx}>{milestone}</li>
                     ))}
                   </ul>
@@ -101,7 +101,7 @@ export default function AboutPageClient({ data }: AboutPageClientProps) {
           ))}
         </div>
       </section>
-      
+
       {/* Statistics Section */}
       <section className="mb-16 bg-gray-50 p-8 rounded-lg">
         <h2 className="text-3xl font-bold mb-8 text-center">By the Numbers</h2>
@@ -124,12 +124,12 @@ export default function AboutPageClient({ data }: AboutPageClientProps) {
           </div>
         </div>
       </section>
-      
+
       {/* Testimonials Section */}
       <section className="mb-16">
         <h2 className="text-3xl font-bold mb-8">What Our Clients Say</h2>
         <div className="grid md:grid-cols-2 gap-8">
-          {testimonials.map((testimonial) => (
+          {testimonials.map((testimonial: any) => (
             <div key={testimonial.id} className="bg-white p-6 rounded-lg shadow-lg">
               <p className="text-lg italic mb-4">"{testimonial.content}"</p>
               <div className="flex items-center gap-4">
@@ -147,7 +147,7 @@ export default function AboutPageClient({ data }: AboutPageClientProps) {
           ))}
         </div>
       </section>
-      
+
       {/* CTA Section */}
       <section className="text-center py-16 bg-blue-600 text-white rounded-lg">
         <h2 className="text-3xl font-bold mb-4">{cta.title}</h2>

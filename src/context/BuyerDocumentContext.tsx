@@ -18,7 +18,7 @@ interface BuyerDocumentContextType {
   documents: DocumentType[];
   requiredDocuments: RequiredDocument[];
   documentStatuses: DocumentUploadStatus[];
-  phaseProgress: Record<BuyerPhase, PhaseDocumentProgress>;
+  phaseProgress: Record<BuyerPhase, PhaseDocumentProgress>\n  );
   overallProgress: number;
   loading: boolean;
   error: string | null;
@@ -31,12 +31,12 @@ interface BuyerDocumentContextType {
     success: boolean;
     document?: DocumentType;
     message?: string;
-  }>;
+  }>\n  );
   deleteDocument: (documentId: string) => Promise<{
     success: boolean;
     message?: string;
-  }>;
-  refreshDocuments: () => Promise<void>;
+  }>\n  );
+  refreshDocuments: () => Promise<void>\n  );
   getPhaseDocuments: (phase: BuyerPhase) => DocumentType[];
 }
 
@@ -46,13 +46,13 @@ export const BuyerDocumentProvider: React.FC<{
   children: React.ReactNode;
   buyerId: string;
 }> = ({ children, buyerId }) => {
-  const [documents, setDocuments] = useState<DocumentType[]>([]);
-  const [requiredDocuments, setRequiredDocuments] = useState<RequiredDocument[]>([]);
-  const [documentStatuses, setDocumentStatuses] = useState<DocumentUploadStatus[]>([]);
-  const [phaseProgress, setPhaseProgress] = useState<Record<BuyerPhase, PhaseDocumentProgress>>({} as Record<BuyerPhase, PhaseDocumentProgress>);
-  const [overallProgress, setOverallProgress] = useState<number>(0);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
+  const [documentssetDocuments] = useState<DocumentType[]>([]);
+  const [requiredDocumentssetRequiredDocuments] = useState<RequiredDocument[]>([]);
+  const [documentStatusessetDocumentStatuses] = useState<DocumentUploadStatus[]>([]);
+  const [phaseProgresssetPhaseProgress] = useState<Record<BuyerPhase, PhaseDocumentProgress>>({} as Record<BuyerPhase, PhaseDocumentProgress>);
+  const [overallProgresssetOverallProgress] = useState<number>(0);
+  const [loadingsetLoading] = useState<boolean>(true);
+  const [errorsetError] = useState<string | null>(null);
   
   const { journey, refreshJourney } = useBuyerJourney();
   
@@ -97,12 +97,12 @@ export const BuyerDocumentProvider: React.FC<{
         'POST_PURCHASE'
       ];
       
-      const totalRequired = phases.reduce((total, phase) => 
+      const totalRequired = phases.reduce((totalphase: any) => 
         total + (progress[phase as keyof typeof progress]?.requiredCount || 0), 0);
-      const totalUploaded = phases.reduce((total, phase) => 
+      const totalUploaded = phases.reduce((totalphase: any) => 
         total + (progress[phase as keyof typeof progress]?.uploadedCount || 0), 0);
       
-      const overall = totalRequired > 0 
+      const overall = totalRequired> 0 
         ? Math.floor((totalUploaded / totalRequired) * 100) 
         : 0;
       setOverallProgress(overall);

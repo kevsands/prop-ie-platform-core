@@ -133,13 +133,13 @@ export default function BuyerMilestoneTracker() {
   const getStatusIcon = (status: string) => {
     switch (status) {
       case 'completed':
-        return <CheckCircle className="text-green-600" size={24} />;
+        return <CheckCircle className="text-green-600" size={24} />\n  );
       case 'current':
-        return <Clock className="text-blue-600 animate-pulse" size={24} />;
+        return <Clock className="text-blue-600 animate-pulse" size={24} />\n  );
       case 'blocked':
-        return <AlertCircle className="text-red-600" size={24} />;
+        return <AlertCircle className="text-red-600" size={24} />\n  );
       default:
-        return <div className="w-6 h-6 rounded-full border-2 border-gray-300" />;
+        return <div className="w-6 h-6 rounded-full border-2 border-gray-300" />\n  );
     }
   };
 
@@ -205,10 +205,10 @@ export default function BuyerMilestoneTracker() {
 
       {/* Timeline */}
       <div className="relative">
-        {milestones.map((milestone, index) => (
+        {milestones.map((milestoneindex: any) => (
           <div key={milestone.id} className="relative">
             {/* Connection line */}
-            {index < milestones.length - 1 && (
+            {index <milestones.length - 1 && (
               <div className={`absolute left-8 top-16 w-0.5 h-24 ${
                 milestone.status === 'completed' ? 'bg-green-600' : 'bg-gray-300'
               }`} />
@@ -219,13 +219,13 @@ export default function BuyerMilestoneTracker() {
               <div className="flex-shrink-0 mr-4">
                 {getStatusIcon(milestone.status)}
               </div>
-              
+
               <div className={`flex-grow border rounded-lg p-6 ${getStatusColor(milestone.status)}`}>
                 <div className="flex items-start justify-between">
                   <div>
                     <h3 className="text-lg font-semibold text-gray-900">{milestone.title}</h3>
                     <p className="text-gray-600 mt-1">{milestone.description}</p>
-                    
+
                     {/* Dates */}
                     <div className="mt-3 flex items-center gap-4 text-sm">
                       {milestone.completedDate && (
@@ -247,7 +247,7 @@ export default function BuyerMilestoneTracker() {
                     <div className="mt-4">
                       <p className="text-sm font-medium text-gray-700 mb-2">Required Documents:</p>
                       <div className="flex flex-wrap gap-2">
-                        {milestone.requiredDocuments.map((doc, i) => (
+                        {milestone.requiredDocuments.map((doci: any) => (
                           <span key={i} className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
                             <FileText size={12} className="mr-1" />
                             {doc}

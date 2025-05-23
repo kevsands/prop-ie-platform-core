@@ -26,21 +26,17 @@ if (typeof global.expect !== 'undefined') {
     global.expect.extend({
       toBeUndefined: (received: unknown) => ({
         message: () => `expected ${received} to be undefined`,
-        pass: received === undefined,
-      }),
+        pass: received === undefined}),
       toBeCalled: (received: Mock | unknown) => ({
         message: () => `expected ${received} to have been called`,
-        pass: received && typeof (received as Mock).mock === 'object' && (received as Mock).mock.calls.length > 0,
-      }),
+        pass: received && typeof (received as Mock).mock === 'object' && (received as Mock).mock.calls.length> 0}),
       toBeCalledWith: (received: Mock | unknown, ...args: unknown[]) => ({
         message: () => `expected ${received} to have been called with ${args}`,
         pass: received && 
           typeof (received as Mock).mock === 'object' && 
           (received as Mock).mock.calls.some(call => 
             JSON.stringify(call) === JSON.stringify(args)
-          ),
-      }),
-    });
+          )})});
   }
 } else if (typeof global.chai !== 'undefined') {
   // This is a Chai environment (likely Cypress)

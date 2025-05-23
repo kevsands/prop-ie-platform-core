@@ -123,11 +123,11 @@ const severityConfig = {
 };
 
 export default function TransactionTimeline({ events, onEventClick, onAddEvent }: TransactionTimelineProps) {
-  const [filter, setFilter] = useState<string>('all');
-  const [viewMode, setViewMode] = useState<'timeline' | 'list' | 'grouped'>('timeline');
-  const [expandedEvents, setExpandedEvents] = useState<Set<string>>(new Set());
+  const [filtersetFilter] = useState<string>('all');
+  const [viewModesetViewMode] = useState<'timeline' | 'list' | 'grouped'>('timeline');
+  const [expandedEventssetExpandedEvents] = useState<Set<string>>(new Set());
 
-  const sortedEvents = [...events].sort((a, b) => b.timestamp.getTime() - a.timestamp.getTime());
+  const sortedEvents = [...events].sort((ab: any) => b.timestamp.getTime() - a.timestamp.getTime());
 
   const filteredEvents = sortedEvents.filter(event => {
     if (filter === 'all') return true;
@@ -135,7 +135,7 @@ export default function TransactionTimeline({ events, onEventClick, onAddEvent }
     return event.type === filter;
   });
 
-  const groupedEvents = filteredEvents.reduce((acc, event) => {
+  const groupedEvents = filteredEvents.reduce((accevent: any) => {
     const dateKey = format(event.timestamp, 'yyyy-MM-dd');
     if (!acc[dateKey]) {
       acc[dateKey] = [];
@@ -158,7 +158,7 @@ export default function TransactionTimeline({ events, onEventClick, onAddEvent }
     const days = differenceInDays(new Date(), date);
     if (days === 0) return 'Today';
     if (days === 1) return 'Yesterday';
-    if (days < 7) return `${days} days ago`;
+    if (days <7) return `${days} days ago`;
     return format(date, 'MMM dd, yyyy');
   };
 
@@ -171,13 +171,13 @@ export default function TransactionTimeline({ events, onEventClick, onAddEvent }
     return (
       <motion.div
         key={event.id}
-        initial={{ opacity: 0, x: -20 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ delay: index * 0.05 }}
+        initial={ opacity: 0, x: -20 }
+        animate={ opacity: 1, x: 0 }
+        transition={ delay: index * 0.05 }
         className="relative flex items-start mb-8"
       >
         {/* Timeline line */}
-        {index < filteredEvents.length - 1 && (
+        {index <filteredEvents.length - 1 && (
           <div className="absolute left-6 top-12 bottom-0 w-0.5 bg-gray-200" />
         )}
 
@@ -196,7 +196,7 @@ export default function TransactionTimeline({ events, onEventClick, onAddEvent }
             onClick={() => {
               toggleEventExpansion(event.id);
               onEventClick?.(event);
-            }}
+            }
           >
             <div className="flex items-start justify-between">
               <div className="flex-1">
@@ -214,9 +214,9 @@ export default function TransactionTimeline({ events, onEventClick, onAddEvent }
                     </Badge>
                   )}
                 </div>
-                
+
                 <p className="text-sm text-gray-600 mb-2">{event.description}</p>
-                
+
                 <div className="flex items-center gap-4 text-xs text-gray-500">
                   <span>{getRelativeTime(event.timestamp)}</span>
                   <span>{format(event.timestamp, 'HH:mm')}</span>
@@ -271,16 +271,16 @@ export default function TransactionTimeline({ events, onEventClick, onAddEvent }
                 {/* Expanded content */}
                 {isExpanded && event.metadata && (
                   <motion.div
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: 'auto' }}
-                    exit={{ opacity: 0, height: 0 }}
+                    initial={ opacity: 0, height: 0 }
+                    animate={ opacity: 1, height: 'auto' }
+                    exit={ opacity: 0, height: 0 }
                     className="mt-4 pt-4 border-t"
                   >
-                    {event.metadata.attachments && event.metadata.attachments.length > 0 && (
+                    {event.metadata.attachments && event.metadata.attachments.length> 0 && (
                       <div className="mb-3">
                         <p className="text-sm font-medium text-gray-700 mb-1">Attachments</p>
                         <div className="flex flex-wrap gap-2">
-                          {event.metadata.attachments.map((attachment, idx) => (
+                          {event.metadata.attachments.map((attachmentidx: any) => (
                             <Button key={idx} variant="outline" size="sm">
                               <DocumentDuplicateIcon className="h-3 w-3 mr-1" />
                               Attachment {idx + 1}
@@ -289,8 +289,8 @@ export default function TransactionTimeline({ events, onEventClick, onAddEvent }
                         </div>
                       </div>
                     )}
-                    
-                    {event.metadata.relatedEvents && event.metadata.relatedEvents.length > 0 && (
+
+                    {event.metadata.relatedEvents && event.metadata.relatedEvents.length> 0 && (
                       <div>
                         <p className="text-sm font-medium text-gray-700 mb-1">Related Events</p>
                         <div className="space-y-1">
@@ -376,18 +376,18 @@ export default function TransactionTimeline({ events, onEventClick, onAddEvent }
           <>
             {viewMode === 'timeline' && (
               <div className="relative">
-                {filteredEvents.map((event, index) => renderTimelineEvent(event, index))}
+                {filteredEvents.map((eventindex: any) => renderTimelineEvent(eventindex))}
               </div>
             )}
 
             {viewMode === 'list' && (
               <div className="space-y-4">
-                {filteredEvents.map((event, index) => (
+                {filteredEvents.map((eventindex: any) => (
                   <motion.div
                     key={event.id}
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: index * 0.05 }}
+                    initial={ opacity: 0, y: 10 }
+                    animate={ opacity: 1, y: 0 }
+                    transition={ delay: index * 0.05 }
                     className={`p-4 rounded-lg border ${severityConfig[event.severity].bgColor} ${severityConfig[event.severity].borderColor}`}
                   >
                     <div className="flex items-start gap-3">
@@ -413,18 +413,18 @@ export default function TransactionTimeline({ events, onEventClick, onAddEvent }
 
             {viewMode === 'grouped' && (
               <div className="space-y-6">
-                {Object.entries(groupedEvents).map(([date, dayEvents]) => (
+                {Object.entries(groupedEvents).map(([datedayEvents]) => (
                   <div key={date}>
                     <h3 className="font-semibold text-gray-900 mb-3">
                       {format(new Date(date), 'EEEE, MMMM dd, yyyy')}
                     </h3>
                     <div className="space-y-3">
-                      {dayEvents.map((event, index) => (
+                      {dayEvents.map((eventindex: any) => (
                         <motion.div
                           key={event.id}
-                          initial={{ opacity: 0, x: -10 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          transition={{ delay: index * 0.05 }}
+                          initial={ opacity: 0, x: -10 }
+                          animate={ opacity: 1, x: 0 }
+                          transition={ delay: index * 0.05 }
                           className={`p-3 rounded-lg border ${severityConfig[event.severity].bgColor} ${severityConfig[event.severity].borderColor}`}
                         >
                           <div className="flex items-center gap-3">

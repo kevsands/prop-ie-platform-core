@@ -1,3 +1,4 @@
+import React from 'react';
 'use client';
 
 import { useState } from 'react';
@@ -6,35 +7,35 @@ import { Calculator, ChevronRight, Info, Home, Building2, PiggyBank, TrendingUp 
 
 export default function HTBCalculatorPage() {
   const router = useRouter();
-  
+
   // Form state
-  const [propertyPrice, setPropertyPrice] = useState('');
-  const [deposit, setDeposit] = useState('');
-  const [income, setIncome] = useState('');
-  const [isFirstTimeBuyer, setIsFirstTimeBuyer] = useState(true);
-  
+  const [propertyPricesetPropertyPrice] = useState('');
+  const [depositsetDeposit] = useState('');
+  const [incomesetIncome] = useState('');
+  const [isFirstTimeBuyersetIsFirstTimeBuyer] = useState(true);
+
   // Calculation results
-  const [results, setResults] = useState(null);
-  
+  const [resultssetResults] = useState(null);
+
   const calculateHTB = () => {
     const price = parseFloat(propertyPrice) || 0;
     const depositAmount = parseFloat(deposit) || 0;
     const annualIncome = parseFloat(income) || 0;
-    
+
     // HTB equity loan calculation
     const htbPercentage = isFirstTimeBuyer ? 0.3 : 0.2; // 30% for FTB, 20% for others
     const maxHTB = 30000; // €30,000 cap
-    const htbAmount = Math.min(price * htbPercentage, maxHTB);
-    
+    const htbAmount = Math.min(price * htbPercentagemaxHTB);
+
     // Mortgage calculation
     const loanToValue = ((price - depositAmount - htbAmount) / price) * 100;
     const mortgageAmount = price - depositAmount - htbAmount;
     const monthlyPayment = (mortgageAmount * 0.04) / 12; // Assuming 4% interest rate
-    
+
     // Affordability check
     const maxAffordableMonthly = (annualIncome / 12) * 0.35; // 35% of monthly income
     const isAffordable = monthlyPayment <= maxAffordableMonthly;
-    
+
     setResults({
       propertyPrice: price,
       deposit: depositAmount,
@@ -49,7 +50,7 @@ export default function HTBCalculatorPage() {
       savingsRequired: price * 0.1 // 10% minimum deposit
     });
   };
-  
+
   return (
     <div className="flex-1 p-8">
       <div className="max-w-4xl mx-auto">
@@ -58,7 +59,7 @@ export default function HTBCalculatorPage() {
           <h1 className="text-3xl font-bold text-gray-900 mb-2">Help to Buy Calculator</h1>
           <p className="text-gray-600">Calculate your Help to Buy equity loan and understand your financing options</p>
         </div>
-        
+
         {/* Information Banner */}
         <div className="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-8">
           <div className="flex items-start">
@@ -75,11 +76,11 @@ export default function HTBCalculatorPage() {
             </div>
           </div>
         </div>
-        
+
         {/* Calculator Form */}
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-8">
           <h2 className="text-xl font-semibold text-gray-900 mb-6">Your Property Details</h2>
-          
+
           <div className="grid md:grid-cols-2 gap-6">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -90,13 +91,13 @@ export default function HTBCalculatorPage() {
                 <input
                   type="number"
                   value={propertyPrice}
-                  onChange={(e) => setPropertyPrice(e.target.value)}
+                  onChange={(e: any) => setPropertyPrice(e.target.value)}
                   className="w-full pl-8 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                   placeholder="400,000"
                 />
               </div>
             </div>
-            
+
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Your Deposit
@@ -106,13 +107,13 @@ export default function HTBCalculatorPage() {
                 <input
                   type="number"
                   value={deposit}
-                  onChange={(e) => setDeposit(e.target.value)}
+                  onChange={(e: any) => setDeposit(e.target.value)}
                   className="w-full pl-8 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                   placeholder="40,000"
                 />
               </div>
             </div>
-            
+
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Annual Income
@@ -122,20 +123,20 @@ export default function HTBCalculatorPage() {
                 <input
                   type="number"
                   value={income}
-                  onChange={(e) => setIncome(e.target.value)}
+                  onChange={(e: any) => setIncome(e.target.value)}
                   className="w-full pl-8 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                   placeholder="60,000"
                 />
               </div>
             </div>
-            
+
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Buyer Type
               </label>
               <select
                 value={isFirstTimeBuyer ? 'first-time' : 'other'}
-                onChange={(e) => setIsFirstTimeBuyer(e.target.value === 'first-time')}
+                onChange={(e: any) => setIsFirstTimeBuyer(e.target.value === 'first-time')}
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               >
                 <option value="first-time">First-time Buyer</option>
@@ -143,7 +144,7 @@ export default function HTBCalculatorPage() {
               </select>
             </div>
           </div>
-          
+
           <button
             onClick={calculateHTB}
             className="mt-6 w-full bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors font-medium"
@@ -151,7 +152,7 @@ export default function HTBCalculatorPage() {
             Calculate HTB Loan
           </button>
         </div>
-        
+
         {/* Results */}
         {results && (
           <div className="space-y-6">
@@ -167,7 +168,7 @@ export default function HTBCalculatorPage() {
                 </p>
                 <p className="text-sm text-gray-600 mt-1">{results.htbPercentage}% of property price</p>
               </div>
-              
+
               <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
                 <div className="flex items-center justify-between mb-4">
                   <h3 className="text-lg font-semibold text-gray-900">Mortgage Required</h3>
@@ -178,7 +179,7 @@ export default function HTBCalculatorPage() {
                 </p>
                 <p className="text-sm text-gray-600 mt-1">{results.loanToValue.toFixed(1)}% LTV</p>
               </div>
-              
+
               <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
                 <div className="flex items-center justify-between mb-4">
                   <h3 className="text-lg font-semibold text-gray-900">Monthly Payment</h3>
@@ -196,7 +197,7 @@ export default function HTBCalculatorPage() {
                 </p>
               </div>
             </div>
-            
+
             {/* Breakdown Table */}
             <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
               <h3 className="text-lg font-semibold text-gray-900 mb-4">Financing Breakdown</h3>
@@ -223,7 +224,7 @@ export default function HTBCalculatorPage() {
                 </div>
               </div>
             </div>
-            
+
             {/* Affordability Check */}
             <div className={`rounded-xl p-6 ${results.isAffordable ? 'bg-green-50 border border-green-200' : 'bg-red-50 border border-red-200'}`}>
               <div className="flex items-start">
@@ -244,7 +245,7 @@ export default function HTBCalculatorPage() {
                 </div>
               </div>
             </div>
-            
+
             {/* Next Steps */}
             <div className="bg-gray-50 rounded-xl p-6">
               <h3 className="text-lg font-semibold text-gray-900 mb-4">Next Steps</h3>

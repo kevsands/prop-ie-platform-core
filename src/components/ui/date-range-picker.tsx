@@ -1,3 +1,4 @@
+import React from 'react';
 "use client"
 
 import * as React from "react"
@@ -11,8 +12,7 @@ import { Calendar } from "@/components/ui/calendar"
 import {
   Popover,
   PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover"
+  PopoverTrigger} from "@/components/ui/popover"
 
 interface DatePickerWithRangeProps {
   className?: string
@@ -23,13 +23,11 @@ interface DatePickerWithRangeProps {
 export function DatePickerWithRange({
   className,
   onDateChange,
-  initialDate,
-}: DatePickerWithRangeProps) {
-  const [date, setDate] = React.useState<DateRange | undefined>(
+  initialDate}: DatePickerWithRangeProps) {
+  const [datesetDate] = React.useState<DateRange | undefined>(
     initialDate || {
       from: new Date(),
-      to: new Date(),
-    }
+      to: new Date()}
   )
 
   const handleSelect = (newDate: DateRange | undefined) => {
@@ -45,7 +43,7 @@ export function DatePickerWithRange({
         <PopoverTrigger asChild>
           <Button
             id="date"
-            variant={"outline"}
+            variant={"outline"
             className={cn(
               "w-[300px] justify-start text-left font-normal",
               !date && "text-muted-foreground"
@@ -55,7 +53,7 @@ export function DatePickerWithRange({
             {date?.from ? (
               date.to ? (
                 <>
-                  {format(date.from, "LLL dd, y")} -{" "}
+                  {format(date.from, "LLL dd, y")} -{" "
                   {format(date.to, "LLL dd, y")}
                 </>
               ) : (

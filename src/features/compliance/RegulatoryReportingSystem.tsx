@@ -1,3 +1,4 @@
+import React from 'react';
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -26,8 +27,7 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-  CardFooter,
-} from "@/components/ui/card";
+  CardFooter} from "@/components/ui/card";
 import {
   Dialog,
   DialogContent,
@@ -35,8 +35,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-  DialogFooter,
-} from "@/components/ui/dialog";
+  DialogFooter} from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -48,8 +47,7 @@ import {
   SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+  SelectValue} from "@/components/ui/select";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { cn } from "@/lib/utils";
 
@@ -224,17 +222,17 @@ interface RegulatoryReportingSystemProps {
 }
 
 export default function RegulatoryReportingSystem({ organizationId }: RegulatoryReportingSystemProps) {
-  const [reportTemplates, setReportTemplates] = useState<ReportTemplate[]>([]);
-  const [reports, setReports] = useState<RegulationReport[]>([]);
-  const [filings, setFilings] = useState<RegulatoryFiling[]>([]);
-  const [selectedTemplate, setSelectedTemplate] = useState<ReportTemplate | null>(null);
-  const [selectedReport, setSelectedReport] = useState<RegulationReport | null>(null);
-  const [selectedTab, setSelectedTab] = useState('overview');
-  const [isGeneratingReport, setIsGeneratingReport] = useState(false);
-  const [isSubmittingReport, setIsSubmittingReport] = useState(false);
-  const [showNewReportDialog, setShowNewReportDialog] = useState(false);
-  const [showSubmissionDialog, setShowSubmissionDialog] = useState(false);
-  const [filters, setFilters] = useState({
+  const [reportTemplatessetReportTemplates] = useState<ReportTemplate[]>([]);
+  const [reportssetReports] = useState<RegulationReport[]>([]);
+  const [filingssetFilings] = useState<RegulatoryFiling[]>([]);
+  const [selectedTemplatesetSelectedTemplate] = useState<ReportTemplate | null>(null);
+  const [selectedReportsetSelectedReport] = useState<RegulationReport | null>(null);
+  const [selectedTabsetSelectedTab] = useState('overview');
+  const [isGeneratingReportsetIsGeneratingReport] = useState(false);
+  const [isSubmittingReportsetIsSubmittingReport] = useState(false);
+  const [showNewReportDialogsetShowNewReportDialog] = useState(false);
+  const [showSubmissionDialogsetShowSubmissionDialog] = useState(false);
+  const [filterssetFilters] = useState({
     regulation: 'all',
     status: 'all',
     period: 'all',
@@ -460,8 +458,8 @@ export default function RegulatoryReportingSystem({ organizationId }: Regulatory
 
   const upcomingDeadlines = filings
     .filter(filing => filing.status !== 'OVERDUE')
-    .sort((a, b) => a.filingDeadline.getTime() - b.filingDeadline.getTime())
-    .slice(0, 5);
+    .sort((ab: any) => a.filingDeadline.getTime() - b.filingDeadline.getTime())
+    .slice(05);
 
   const overdueFilings = filings.filter(filing => filing.status === 'OVERDUE');
 
@@ -488,7 +486,7 @@ export default function RegulatoryReportingSystem({ organizationId }: Regulatory
                 </DialogDescription>
               </DialogHeader>
               <div className="space-y-4">
-                {reportTemplates.map((template) => (
+                {reportTemplates.map((template: any) => (
                   <Card key={template.id} className="cursor-pointer hover:bg-gray-50"
                     onClick={() => setSelectedTemplate(template)}>
                     <CardHeader>
@@ -609,7 +607,7 @@ export default function RegulatoryReportingSystem({ organizationId }: Regulatory
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
-                {upcomingDeadlines.map((filing) => {
+                {upcomingDeadlines.map((filing: any) => {
                   const daysUntilDue = differenceInDays(filing.filingDeadline, new Date());
                   return (
                     <div key={filing.id} className="flex items-center justify-between p-4 border rounded-lg">
@@ -646,7 +644,7 @@ export default function RegulatoryReportingSystem({ organizationId }: Regulatory
           </Card>
 
           {/* Overdue Filings Alert */}
-          {overdueFilings.length > 0 && (
+          {overdueFilings.length> 0 && (
             <Alert variant="destructive">
               <ExclamationCircleIcon className="h-4 w-4" />
               <AlertTitle>Overdue Filings</AlertTitle>
@@ -662,7 +660,7 @@ export default function RegulatoryReportingSystem({ organizationId }: Regulatory
           <Card>
             <CardContent className="pt-6">
               <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                <Select value={filters.regulation} onValueChange={(value) => 
+                <Select value={filters.regulation} onValueChange={(value: any) => 
                   setFilters({...filters, regulation: value})}>
                   <SelectTrigger>
                     <SelectValue placeholder="All Regulations" />
@@ -675,7 +673,7 @@ export default function RegulatoryReportingSystem({ organizationId }: Regulatory
                   </SelectContent>
                 </Select>
 
-                <Select value={filters.status} onValueChange={(value) => 
+                <Select value={filters.status} onValueChange={(value: any) => 
                   setFilters({...filters, status: value})}>
                   <SelectTrigger>
                     <SelectValue placeholder="All Statuses" />
@@ -690,7 +688,7 @@ export default function RegulatoryReportingSystem({ organizationId }: Regulatory
                   </SelectContent>
                 </Select>
 
-                <Select value={filters.period} onValueChange={(value) => 
+                <Select value={filters.period} onValueChange={(value: any) => 
                   setFilters({...filters, period: value})}>
                   <SelectTrigger>
                     <SelectValue placeholder="All Periods" />
@@ -709,7 +707,7 @@ export default function RegulatoryReportingSystem({ organizationId }: Regulatory
 
           {/* Reports List */}
           <div className="space-y-4">
-            {filteredReports.map((report) => (
+            {filteredReports.map((report: any) => (
               <Card key={report.id}>
                 <CardHeader>
                   <div className="flex justify-between items-start">
@@ -816,10 +814,10 @@ export default function RegulatoryReportingSystem({ organizationId }: Regulatory
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
-                {filings.map((filing) => {
+                {filings.map((filing: any) => {
                   const daysUntilDue = differenceInDays(filing.filingDeadline, new Date());
-                  const isOverdue = daysUntilDue < 0;
-                  
+                  const isOverdue = daysUntilDue <0;
+
                   return (
                     <div key={filing.id} className="border rounded-lg p-4">
                       <div className="flex justify-between items-start">
@@ -851,7 +849,7 @@ export default function RegulatoryReportingSystem({ organizationId }: Regulatory
                           <div className="text-sm">
                             <span className="text-gray-500">Requirements:</span>
                             <ul className="list-disc list-inside mt-1">
-                              {filing.requirements.map((req, index) => (
+                              {filing.requirements.map((reqindex: any) => (
                                 <li key={index}>{req}</li>
                               ))}
                             </ul>
@@ -884,7 +882,7 @@ export default function RegulatoryReportingSystem({ organizationId }: Regulatory
                         </div>
                       </div>
                       {filing.penaltyForLateSubmission && (
-                        <Alert className="mt-4" variant={isOverdue ? "destructive" : "default"}>
+                        <Alert className="mt-4" variant={isOverdue ? "destructive" : "default">
                           <AlertDescription>
                             <strong>Penalty for late submission:</strong> {filing.penaltyForLateSubmission}
                           </AlertDescription>
@@ -908,7 +906,7 @@ export default function RegulatoryReportingSystem({ organizationId }: Regulatory
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
-                {reportTemplates.map((template) => (
+                {reportTemplates.map((template: any) => (
                   <div key={template.id} className="border rounded-lg p-4">
                     <div className="flex justify-between items-start">
                       <div className="space-y-2">
@@ -963,7 +961,7 @@ export default function RegulatoryReportingSystem({ organizationId }: Regulatory
             </CardHeader>
             <CardContent>
               <div className="space-y-6">
-                {reportTemplates.filter(t => t.automationEnabled).map((template) => (
+                {reportTemplates.filter(t => t.automationEnabled).map((template: any) => (
                   <div key={template.id} className="border rounded-lg p-4">
                     <div className="flex justify-between items-start mb-4">
                       <div>
@@ -979,7 +977,7 @@ export default function RegulatoryReportingSystem({ organizationId }: Regulatory
                         <div>
                           <Label>Data Sources</Label>
                           <div className="flex flex-wrap gap-2 mt-2">
-                            {template.dataSource.map((source) => (
+                            {template.dataSource.map((source: any) => (
                               <Badge key={source} variant="secondary">{source}</Badge>
                             ))}
                           </div>
@@ -987,7 +985,7 @@ export default function RegulatoryReportingSystem({ organizationId }: Regulatory
                         <div>
                           <Label>Recipients</Label>
                           <div className="flex flex-wrap gap-2 mt-2">
-                            {template.recipients.map((recipient) => (
+                            {template.recipients.map((recipient: any) => (
                               <Badge key={recipient} variant="secondary">{recipient}</Badge>
                             ))}
                           </div>
@@ -1092,24 +1090,24 @@ export default function RegulatoryReportingSystem({ organizationId }: Regulatory
                           <span className="font-medium">{selectedReport.validationStatus.completeness}%</span>
                         </div>
                       </div>
-                      {selectedReport.validationStatus.errors.length > 0 && (
+                      {selectedReport.validationStatus.errors.length> 0 && (
                         <Alert variant="destructive">
                           <AlertTitle>Validation Errors</AlertTitle>
                           <AlertDescription>
                             <ul className="list-disc list-inside mt-2">
-                              {selectedReport.validationStatus.errors.map((error, index) => (
+                              {selectedReport.validationStatus.errors.map((errorindex: any) => (
                                 <li key={index}>{error.message}</li>
                               ))}
                             </ul>
                           </AlertDescription>
                         </Alert>
                       )}
-                      {selectedReport.validationStatus.warnings.length > 0 && (
+                      {selectedReport.validationStatus.warnings.length> 0 && (
                         <Alert>
                           <AlertTitle>Warnings</AlertTitle>
                           <AlertDescription>
                             <ul className="list-disc list-inside mt-2">
-                              {selectedReport.validationStatus.warnings.map((warning, index) => (
+                              {selectedReport.validationStatus.warnings.map((warningindex: any) => (
                                 <li key={index}>{warning.message}</li>
                               ))}
                             </ul>
@@ -1130,7 +1128,7 @@ export default function RegulatoryReportingSystem({ organizationId }: Regulatory
                       <p className="text-gray-500">No submission history available</p>
                     ) : (
                       <div className="space-y-3">
-                        {selectedReport.submissionHistory.map((event) => (
+                        {selectedReport.submissionHistory.map((event: any) => (
                           <div key={event.id} className="flex items-start gap-3 pb-3 border-b last:border-0">
                             <div className={cn(
                               "p-2 rounded-lg",

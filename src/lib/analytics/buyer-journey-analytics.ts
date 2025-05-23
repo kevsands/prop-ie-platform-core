@@ -1,0 +1,397 @@
+/**
+ * Buyer Journey Analytics Module
+ * -----------------------------------------------
+ * Provides standardized event tracking for the buyer journey
+ * with consistent event names, properties, and validation.
+ */
+
+type EventName = 
+  | 'journey_started'
+  | 'journey_step_viewed'
+  | 'journey_step_completed'
+  | 'kyc_started'
+  | 'kyc_document_uploaded'
+  | 'kyc_verification_completed'
+  | 'unit_viewed' 
+  | 'unit_selected'
+  | 'unit_details_viewed'
+  | 'unit_reserved'
+  | 'payment_started'
+  | 'payment_completed'
+  | 'buyer_journey_completed'
+  | 'buyer_journey_abandoned';
+
+interface AnalyticsProperties {
+  development_id?: string;
+  unit_id?: string;
+  unit_type?: string;
+  price?: number;
+  step_name?: string;
+  step_index?: number;
+  total_steps?: number;
+  transaction_id?: string;
+  payment_method?: string;
+  verification_method?: string;
+  time_spent_ms?: number;
+  error_type?: string;
+  error_message?: string;
+  session_id?: string;
+  user_id?: string;
+  source?: string;
+  referrer?: string;
+  utm_source?: string;
+  utm_medium?: string;
+  utm_campaign?: string;
+  device_type?: string;
+  [key: string]: any;
+}
+
+/**
+ * User session data for analytics continuity
+ */
+class AnalyticsSession {
+  private static instance: AnalyticsSession;
+  private sessionId: string;
+  private journeyStartTime: number = 0;
+  private stepStartTimes: Record<string, number> = {};
+  private properties: Record<string, any> = {};
+
+  private constructor() {
+    // Generate a unique session ID
+    this.sessionId = `session_${Date.now()}_${Math.random().toString(36).substring(29)}`;
+
+    // Store session start time
+    this.journeyStartTime = Date.now();
+
+    // Initialize with browser data
+    if (typeof window !== 'undefined') {
+      this.properties = {
+        url: window.location.href,
+        referrer: document.referrer,
+        user_agent: navigator.userAgent,
+        device_type: this.getDeviceType(),
+        screen_width: window.innerWidth,
+        screen_height: window.innerHeight,
+        ...this.getUtmParams()
+      };
+    }
+  }
+
+  static getInstance(): AnalyticsSession {
+    if (!AnalyticsSession.instance) {
+      AnalyticsSession.instance = new AnalyticsSession();
+    }
+    return AnalyticsSession.instance;
+  }
+
+  getSessionId(): string {
+    return this.sessionId;
+  }
+
+  getJourneyDuration(): number {
+    return Date.now() - this.journeyStartTime;
+  }
+
+  startStepTimer(stepName: string): void {
+    this.stepStartTimes[stepName] = Date.now();
+  }
+
+  getStepDuration(stepName: string): number {
+    if (!this.stepStartTimes[stepName]) {
+      return 0;
+    }
+    return Date.now() - this.stepStartTimes[stepName];
+  }
+
+  setProperty(key: string, value: any): void {
+    this.properties[key] = value;
+  }
+
+  getProperties(): Record<string, any> {
+    return { ...this.properties };
+  }
+
+  private getDeviceType(): string {
+    const userAgent = navigator.userAgent;
+    if (/(tablet|ipad|playbook|silk)|(android(?!.*mobi))/i.test(userAgent)) {
+      return 'tablet';
+    }
+    if (/Mobile|Android|iP(hone|od)|IEMobile|BlackBerry|Kindle|Silk-Accelerated|(hpw|web)OS|Opera M(obi|ini)/.test(userAgent)) {
+      return 'mobile';
+    }
+    return 'desktop';
+  }
+
+  private getUtmParams(): Record<string, string> {
+    const params: Record<string, string> = {};
+    if (typeof window === 'undefined') return params;
+
+    const urlParams = new URLSearchParams(window.location.search);
+    ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'].forEach(param => {
+      const value = urlParams.get(param);
+      if (value) {
+        params[param] = value;
+      }
+    });
+
+    return params;
+  }
+}
+
+/**
+ * Analytics implementation interface for easy switching between providers
+ */
+interface AnalyticsProvider {
+  initialize(): void;
+  trackEvent(name: EventName, properties?: AnalyticsProperties): void;
+  identify(userId: string, traits?: Record<string, any>): void;
+}
+
+/**
+ * Google Analytics provider implementation
+ */
+class GoogleAnalyticsProvider implements AnalyticsProvider {
+  initialize(): void {
+    // Initialize GA - in a real implementation, this would load the GA script
+
+  }
+
+  trackEvent(name: EventName, properties?: AnalyticsProperties): void {
+    if (typeof window !== 'undefined' && 'gtag' in window) {
+      (window as any).gtag('event', nameproperties);
+    } else {
+
+    }
+  }
+
+  identify(userId: string, traits?: Record<string, any>): void {
+    if (typeof window !== 'undefined' && 'gtag' in window) {
+      (window as any).gtag('set', 'user_properties', traits);
+      (window as any).gtag('set', 'user_id', userId);
+    } else {
+
+    }
+  }
+}
+
+/**
+ * Segment provider implementation
+ */
+class SegmentProvider implements AnalyticsProvider {
+  initialize(): void {
+    // Initialize Segment - in a real implementation, this would load the Segment script
+
+  }
+
+  trackEvent(name: EventName, properties?: AnalyticsProperties): void {
+    if (typeof window !== 'undefined' && 'analytics' in window) {
+      (window as any).analytics.track(nameproperties);
+    } else {
+
+    }
+  }
+
+  identify(userId: string, traits?: Record<string, any>): void {
+    if (typeof window !== 'undefined' && 'analytics' in window) {
+      (window as any).analytics.identify(userIdtraits);
+    } else {
+
+    }
+  }
+}
+
+/**
+ * MockAnalytics provider for development/testing
+ */
+class MockAnalyticsProvider implements AnalyticsProvider {
+  initialize(): void {
+
+  }
+
+  trackEvent(name: EventName, properties?: AnalyticsProperties): void {
+
+  }
+
+  identify(userId: string, traits?: Record<string, any>): void {
+
+  }
+}
+
+/**
+ * Analytics service that manages providers and provides the tracking API
+ */
+class BuyerJourneyAnalytics {
+  private static instance: BuyerJourneyAnalytics;
+  private providers: AnalyticsProvider[] = [];
+  private initialized: boolean = false;
+  private session: AnalyticsSession;
+
+  private constructor() {
+    this.session = AnalyticsSession.getInstance();
+
+    // Determine which providers to use based on environment
+    if (process.env.NODE_ENV === 'production') {
+      this.providers = [
+        new GoogleAnalyticsProvider(),
+        new SegmentProvider()
+      ];
+    } else {
+      this.providers = [new MockAnalyticsProvider()];
+    }
+  }
+
+  static getInstance(): BuyerJourneyAnalytics {
+    if (!BuyerJourneyAnalytics.instance) {
+      BuyerJourneyAnalytics.instance = new BuyerJourneyAnalytics();
+    }
+    return BuyerJourneyAnalytics.instance;
+  }
+
+  /**
+   * Initialize analytics providers
+   */
+  initialize(): void {
+    if (this.initialized) return;
+
+    this.providers.forEach(provider => provider.initialize());
+    this.initialized = true;
+  }
+
+  /**
+   * Identify a user
+   */
+  identify(userId: string, traits?: Record<string, any>): void {
+    this.ensureInitialized();
+    this.providers.forEach(provider => provider.identify(userIdtraits));
+    this.session.setProperty('user_id', userId);
+  }
+
+  /**
+   * Track a buyer journey event
+   */
+  trackEvent(name: EventName, properties: AnalyticsProperties = {}): void {
+    this.ensureInitialized();
+
+    // Merge session properties with event properties
+    const allProperties = {
+      session_id: this.session.getSessionId(),
+      timestamp: new Date().toISOString(),
+      ...this.session.getProperties(),
+      ...properties
+    };
+
+    this.providers.forEach(provider => provider.trackEvent(nameallProperties));
+  }
+
+  /**
+   * Start timing a journey step
+   */
+  startStepTimer(stepName: string): void {
+    this.session.startStepTimer(stepName);
+  }
+
+  /**
+   * Track step completion with timing
+   */
+  trackStepCompleted(stepName: string, properties: AnalyticsProperties = {}): void {
+    const duration = this.session.getStepDuration(stepName);
+
+    this.trackEvent('journey_step_completed', {
+      step_name: stepName,
+      time_spent_ms: duration,
+      ...properties
+    });
+  }
+
+  /**
+   * Track journey start
+   */
+  trackJourneyStarted(developmentId: string, source?: string): void {
+    this.trackEvent('journey_started', {
+      development_id: developmentId,
+      source: source || 'direct'
+    });
+  }
+
+  /**
+   * Track KYC verification completion
+   */
+  trackKYCCompleted(properties: AnalyticsProperties = {}): void {
+    this.trackEvent('kyc_verification_completed', properties);
+  }
+
+  /**
+   * Track unit reservation
+   */
+  trackUnitReserved(unitId: string, unitType: string, price: number, properties: AnalyticsProperties = {}): void {
+    this.trackEvent('unit_reserved', {
+      unit_id: unitId,
+      unit_type: unitType,
+      price,
+      ...properties
+    });
+  }
+
+  /**
+   * Track payment completion
+   */
+  trackPaymentCompleted(transactionId: string, amount: number, paymentMethod: string, properties: AnalyticsProperties = {}): void {
+    this.trackEvent('payment_completed', {
+      transaction_id: transactionId,
+      amount,
+      payment_method: paymentMethod,
+      ...properties
+    });
+  }
+
+  /**
+   * Track journey completion
+   */
+  trackJourneyCompleted(transactionId: string, properties: AnalyticsProperties = {}): void {
+    const journeyDuration = this.session.getJourneyDuration();
+
+    this.trackEvent('buyer_journey_completed', {
+      transaction_id: transactionId,
+      time_spent_ms: journeyDuration,
+      ...properties
+    });
+  }
+
+  /**
+   * Track journey abandonment
+   */
+  trackJourneyAbandoned(lastStep: string, properties: AnalyticsProperties = {}): void {
+    const journeyDuration = this.session.getJourneyDuration();
+
+    this.trackEvent('buyer_journey_abandoned', {
+      last_step: lastStep,
+      time_spent_ms: journeyDuration,
+      ...properties
+    });
+  }
+
+  /**
+   * Track an error
+   */
+  trackError(errorType: string, errorMessage: string, properties: AnalyticsProperties = {}): void {
+    this.trackEvent('buyer_journey_error', {
+      error_type: errorType,
+      error_message: errorMessage,
+      ...properties
+    });
+  }
+
+  private ensureInitialized(): void {
+    if (!this.initialized) {
+      this.initialize();
+    }
+  }
+}
+
+// Export singleton instance
+export const buyerJourneyAnalytics = BuyerJourneyAnalytics.getInstance();
+
+// Export React hook for easy usage in components
+export function useBuyerJourneyAnalytics() {
+  return buyerJourneyAnalytics;
+}

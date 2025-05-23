@@ -1,3 +1,4 @@
+import React from 'react';
 import { Metadata } from 'next';
 import { 
   ContactPageData,
@@ -11,8 +12,7 @@ import ContactPageClient from '@/components/contact/ContactPageClient';
 export const metadata: Metadata = {
   title: 'Contact Us | Prop - Premier Property Developers in Ireland',
   description: 'Get in touch with Prop, Ireland\'s leading property developer. Contact our team for information about our developments, sales inquiries, or customer support.',
-  keywords: 'contact property developer, property inquiries, new homes inquiry, development contact, Irish property contact',
-};
+  keywords: 'contact property developer, property inquiries, new homes inquiry, development contact, Irish property contact'};
 
 // Sample data for the Contact page
 const offices: Office[] = [
@@ -90,20 +90,16 @@ const faqs: FAQItem[] = [
 const socialLinks: SocialLink[] = [
   {
     platform: 'Facebook',
-    url: 'https://facebook.com/',
-  },
+    url: 'https://facebook.com/'},
   {
     platform: 'Twitter',
-    url: 'https://twitter.com/',
-  },
+    url: 'https://twitter.com/'},
   {
     platform: 'Instagram',
-    url: 'https://instagram.com/',
-  },
+    url: 'https://instagram.com/'},
   {
     platform: 'LinkedIn',
-    url: 'https://linkedin.com/',
-  }
+    url: 'https://linkedin.com/'}
 ];
 
 const contactData: ContactPageData = {
@@ -124,5 +120,5 @@ const contactData: ContactPageData = {
 
 export default function ContactPage() {
   // Server component that passes data to the client component
-  return <ContactPageClient data={contactData} />;
+  return <ContactPageClient data={contactData} />\n  );
 }

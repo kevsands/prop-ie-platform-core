@@ -31,8 +31,7 @@ describe('Data Layer Integration Tests', () => {
       // Verify the results
       expect(result).toEqual(mockUser);
       expect(prismaMock.user.findUnique).toHaveBeenCalledWith({
-        where: { id: mockUser.id },
-      });
+        where: { id: mockUser.id });
     });
     
     it('should find users by role', async () => {
@@ -43,8 +42,7 @@ describe('Data Layer Integration Tests', () => {
       // Mock data to be returned by Prisma
       const mockUsers = [
         mockUserData({ roles: [UserRole.BUYER] }),
-        mockUserData({ id: 'user-2', email: 'buyer2@example.com', roles: [UserRole.BUYER] }),
-      ];
+        mockUserData({ id: 'user-2', email: 'buyer2@example.com', roles: [UserRole.BUYER] })];
       
       // Mock the Prisma call
       prismaMock.user.findMany.mockResolvedValue(mockUsers);
@@ -57,10 +55,7 @@ describe('Data Layer Integration Tests', () => {
       expect(prismaMock.user.findMany).toHaveBeenCalledWith({
         where: {
           roles: {
-            has: UserRole.BUYER,
-          },
-        },
-      });
+            has: UserRole.BUYER}});
     });
     
     it('should create a new user', async () => {
@@ -73,8 +68,7 @@ describe('Data Layer Integration Tests', () => {
         email: 'new@example.com',
         firstName: 'New',
         lastName: 'User',
-        roles: [UserRole.BUYER],
-      };
+        roles: [UserRole.BUYER]};
       
       // Mock created user data
       const mockUser = mockUserData({
@@ -82,8 +76,7 @@ describe('Data Layer Integration Tests', () => {
         email: userData.email,
         firstName: userData.firstName,
         lastName: userData.lastName,
-        roles: userData.roles,
-      });
+        roles: userData.roles});
       
       // Mock the Prisma call
       prismaMock.user.create.mockResolvedValue(mockUser);
@@ -94,8 +87,7 @@ describe('Data Layer Integration Tests', () => {
       // Verify the results
       expect(result).toEqual(mockUser);
       expect(prismaMock.user.create).toHaveBeenCalledWith({
-        data: expect.objectContaining(userData),
-      });
+        data: expect.objectContaining(userData)});
     });
   });
   
@@ -117,8 +109,7 @@ describe('Data Layer Integration Tests', () => {
       // Verify the results
       expect(result).toEqual(mockDevelopment);
       expect(prismaMock.development.findUnique).toHaveBeenCalledWith({
-        where: { id: mockDevelopment.id },
-      });
+        where: { id: mockDevelopment.id });
     });
     
     it('should list all active developments', async () => {
@@ -131,9 +122,7 @@ describe('Data Layer Integration Tests', () => {
         mockDevelopmentData(),
         mockDevelopmentData({ 
           id: 'dev-2', 
-          name: 'Development 2',
-        }),
-      ];
+          name: 'Development 2'})];
       
       // Mock the Prisma call
       prismaMock.development.findMany.mockResolvedValue(mockDevelopments);
@@ -145,9 +134,7 @@ describe('Data Layer Integration Tests', () => {
       expect(result).toEqual(mockDevelopments);
       expect(prismaMock.development.findMany).toHaveBeenCalledWith({
         where: {
-          status: 'ACTIVE',
-        },
-      });
+          status: 'ACTIVE'});
     });
     
     it('should create a new development', async () => {
@@ -159,8 +146,7 @@ describe('Data Layer Integration Tests', () => {
       const developmentData = {
         name: 'New Development',
         description: 'A new development for testing',
-        location: 'Test Location',
-      };
+        location: 'Test Location'};
       
       // Mock created development data
       const mockDevelopment = mockDevelopmentData({
@@ -168,8 +154,7 @@ describe('Data Layer Integration Tests', () => {
         name: developmentData.name,
         description: developmentData.description,
         location: developmentData.location,
-        createdBy: 'test-user',
-      });
+        createdBy: 'test-user'});
       
       // Mock the Prisma call
       prismaMock.development.create.mockResolvedValue(mockDevelopment);
@@ -182,9 +167,7 @@ describe('Data Layer Integration Tests', () => {
       expect(prismaMock.development.create).toHaveBeenCalledWith({
         data: expect.objectContaining({
           ...developmentData,
-          createdBy: 'test-user',
-        }),
-      });
+          createdBy: 'test-user'})});
     });
   });
   
@@ -206,8 +189,7 @@ describe('Data Layer Integration Tests', () => {
       // Verify the results
       expect(result).toEqual(mockDocument);
       expect(prismaMock.document.findUnique).toHaveBeenCalledWith({
-        where: { id: mockDocument.id },
-      });
+        where: { id: mockDocument.id });
     });
     
     it('should find documents by user ID', async () => {
@@ -221,9 +203,7 @@ describe('Data Layer Integration Tests', () => {
         mockDocumentData({ 
           id: 'doc-2',
           name: 'Document 2',
-          uploadedBy: 'test-user',
-        }),
-      ];
+          uploadedBy: 'test-user'})];
       
       // Mock the Prisma call
       prismaMock.document.findMany.mockResolvedValue(mockDocuments);
@@ -235,9 +215,7 @@ describe('Data Layer Integration Tests', () => {
       expect(result).toEqual(mockDocuments);
       expect(prismaMock.document.findMany).toHaveBeenCalledWith({
         where: {
-          uploadedBy: 'test-user',
-        },
-      });
+          uploadedBy: 'test-user'});
     });
     
     it('should create a new document', async () => {
@@ -250,8 +228,7 @@ describe('Data Layer Integration Tests', () => {
         name: 'New Document',
         fileUrl: 'https://example.com/test-document.pdf',
         fileType: 'application/pdf',
-        fileSize: 12345,
-      };
+        fileSize: 12345};
       
       // Mock created document data
       const mockDocument = mockDocumentData({
@@ -260,8 +237,7 @@ describe('Data Layer Integration Tests', () => {
         fileUrl: documentData.fileUrl,
         fileType: documentData.fileType,
         fileSize: documentData.fileSize,
-        uploadedBy: 'test-user',
-      });
+        uploadedBy: 'test-user'});
       
       // Mock the Prisma call
       prismaMock.document.create.mockResolvedValue(mockDocument);
@@ -274,9 +250,7 @@ describe('Data Layer Integration Tests', () => {
       expect(prismaMock.document.create).toHaveBeenCalledWith({
         data: expect.objectContaining({
           ...documentData,
-          uploadedBy: 'test-user',
-        }),
-      });
+          uploadedBy: 'test-user'})});
     });
   });
   
@@ -287,9 +261,7 @@ describe('Data Layer Integration Tests', () => {
       const userRepo = repositories.users;
       const documentRepo = repositories.documents;
       
-      // Mock transaction function
-      prismaMock.$transaction.mockImplementation(async (callback) => {
-        return await callback(prismaMock);
+      // Mock transaction async function prismaMockcallback(prismaMock);
       });
       
       // Mock create operations
@@ -301,20 +273,18 @@ describe('Data Layer Integration Tests', () => {
         email: 'new@example.com',
         firstName: 'New',
         lastName: 'User',
-        roles: [UserRole.BUYER],
-      };
+        roles: [UserRole.BUYER]};
       
       const documentData = {
         name: 'New Document',
         fileUrl: 'https://example.com/test-document.pdf',
         fileType: 'application/pdf',
-        fileSize: 12345,
-      };
+        fileSize: 12345};
       
       // Execute transaction
-      await prismaMock.$transaction(async (tx) => {
-        await userRepo.create(userData, tx);
-        await documentRepo.create(documentData, tx);
+      await prismaMock.$transaction(async (tx: any) => {
+        await userRepo.create(userDatatx);
+        await documentRepo.create(documentDatatx);
       });
       
       // Verify transaction was used

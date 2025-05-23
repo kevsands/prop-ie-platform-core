@@ -16,17 +16,13 @@ interface TestData {
 const columns: ColumnDef<TestData>[] = [
   {
     accessorKey: 'name',
-    header: 'Name',
-  },
+    header: 'Name'},
   {
     accessorKey: 'email',
-    header: 'Email',
-  },
+    header: 'Email'},
   {
     accessorKey: 'status',
-    header: 'Status',
-  },
-];
+    header: 'Status'}];
 
 // Test data
 const testData = generateTestData<TestData>(
@@ -34,8 +30,7 @@ const testData = generateTestData<TestData>(
     id: '1',
     name: 'John Doe',
     email: 'john@example.com',
-    status: 'Active',
-  },
+    status: 'Active'},
   10
 );
 
@@ -150,10 +145,7 @@ describe('DataTable', () => {
         title: 'Status',
         options: [
           { id: 'active', label: 'Active', value: 'active' },
-          { id: 'inactive', label: 'Inactive', value: 'inactive' },
-        ],
-      },
-    ];
+          { id: 'inactive', label: 'Inactive', value: 'inactive' }]}];
     
     render(
       <DataTable

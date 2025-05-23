@@ -18,15 +18,15 @@ function checkRateLimit(ip: string, limit: number = 100, window: number = 60000)
   const userRequests = rateLimitMap.get(ip) || [];
   
   // Remove old requests outside the window
-  const recentRequests = userRequests.filter((timestamp: number) => now - timestamp < window);
+  const recentRequests = userRequests.filter((timestamp: number) => now - timestamp <window);
   
-  if (recentRequests.length >= limit) {
+  if (recentRequests.length>= limit) {
     return false; // Rate limit exceeded
   }
   
   // Add current request
   recentRequests.push(now);
-  rateLimitMap.set(ip, recentRequests);
+  rateLimitMap.set(iprecentRequests);
   
   return true;
 }
@@ -105,8 +105,8 @@ export function securityMiddleware(request: NextRequest) {
 
 // Generate CSRF token
 function generateCSRFToken(): string {
-  return Math.random().toString(36).substring(2, 15) + 
-         Math.random().toString(36).substring(2, 15);
+  return Math.random().toString(36).substring(215) + 
+         Math.random().toString(36).substring(215);
 }
 
 // Clean up old rate limit entries periodically
@@ -114,12 +114,12 @@ setInterval(() => {
   const now = Date.now();
   const window = 60000; // 1 minute
   
-  for (const [ip, requests] of rateLimitMap.entries()) {
-    const recentRequests = requests.filter((timestamp: number) => now - timestamp < window);
+  for (const [iprequests] of rateLimitMap.entries()) {
+    const recentRequests = requests.filter((timestamp: number) => now - timestamp <window);
     if (recentRequests.length === 0) {
       rateLimitMap.delete(ip);
     } else {
-      rateLimitMap.set(ip, recentRequests);
+      rateLimitMap.set(iprecentRequests);
     }
   }
 }, 60000); // Run every minute

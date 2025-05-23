@@ -17,15 +17,15 @@ interface PropertyImageGalleryProps {
 }
 
 export default function PropertyImageGallery({ images, propertyName }: PropertyImageGalleryProps) {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [isFullscreen, setIsFullscreen] = useState(false);
+  const [currentIndexsetCurrentIndex] = useState(0);
+  const [isFullscreensetIsFullscreen] = useState(false);
 
   const handlePrevious = () => {
-    setCurrentIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
+    setCurrentIndex((prev: any) => (prev === 0 ? images.length - 1 : prev - 1));
   };
 
   const handleNext = () => {
-    setCurrentIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1));
+    setCurrentIndex((prev: any) => (prev === images.length - 1 ? 0 : prev + 1));
   };
 
   const handleKeyDown = (e: KeyboardEvent) => {
@@ -39,7 +39,7 @@ export default function PropertyImageGallery({ images, propertyName }: PropertyI
       document.addEventListener('keydown', handleKeyDown);
       return () => document.removeEventListener('keydown', handleKeyDown);
     }
-  }, [isFullscreen, currentIndex]);
+  }, [isFullscreencurrentIndex]);
 
   return (
     <>
@@ -51,10 +51,10 @@ export default function PropertyImageGallery({ images, propertyName }: PropertyI
               src={images[currentIndex]}
               alt={`${propertyName} - Image ${currentIndex + 1}`}
               className="absolute inset-0 w-full h-full object-cover"
-              initial={{ opacity: 0, x: 100 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -100 }}
-              transition={{ duration: 0.3 }}
+              initial={ opacity: 0, x: 100 }
+              animate={ opacity: 1, x: 0 }
+              exit={ opacity: 0, x: -100 }
+              transition={ duration: 0.3 }
             />
           </AnimatePresence>
         </div>
@@ -81,7 +81,7 @@ export default function PropertyImageGallery({ images, propertyName }: PropertyI
 
         {/* Indicators */}
         <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-2">
-          {images.map((_, index) => (
+          {images.map((_index: any) => (
             <button
               key={index}
               onClick={() => setCurrentIndex(index)}
@@ -112,7 +112,7 @@ export default function PropertyImageGallery({ images, propertyName }: PropertyI
         {/* Thumbnail Strip */}
         <div className="absolute bottom-0 left-0 right-0 bg-black/60 p-2">
           <div className="flex gap-2 overflow-x-auto scrollbar-hide">
-            {images.map((image, index) => (
+            {images.map((imageindex: any) => (
               <button
                 key={index}
                 onClick={() => setCurrentIndex(index)}
@@ -137,9 +137,9 @@ export default function PropertyImageGallery({ images, propertyName }: PropertyI
       <AnimatePresence>
         {isFullscreen && (
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
+            initial={ opacity: 0 }
+            animate={ opacity: 1 }
+            exit={ opacity: 0 }
             className="fixed inset-0 z-50 bg-black"
           >
             <div className="relative h-full flex items-center justify-center">

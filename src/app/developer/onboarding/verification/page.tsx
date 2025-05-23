@@ -1,0 +1,275 @@
+import React from 'react';
+'use client';
+
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { motion } from 'framer-motion';
+import { FiCheck, FiUpload, FiCamera, FiShield, FiCheckCircle, FiAlertCircle } from 'react-icons/fi';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import { Progress } from '@/components/ui/progress';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { toast } from 'sonner';
+
+interface VerificationStep {
+  id: string;
+  title: string;
+  description: string;
+  status: 'pending' | 'processing' | 'completed' | 'failed';
+  icon: React.ElementType;
+}
+
+const verificationSteps: VerificationStep[] = [
+  {
+    id: 'documents',
+    title: 'Document Verification',
+    description: 'Verify company registration documents',
+    status: 'pending',
+    icon: FiUpload},
+  {
+    id: 'identity',
+    title: 'Identity Verification',
+    description: 'Verify your identity with AI-powered biometrics',
+    status: 'pending',
+    icon: FiCamera},
+  {
+    id: 'compliance',
+    title: 'Compliance Check',
+    description: 'Automated compliance and AML screening',
+    status: 'pending',
+    icon: FiShield},
+  {
+    id: 'approval',
+    title: 'Final Approval',
+    description: 'Review and approve your application',
+    status: 'pending',
+    icon: FiCheckCircle}];
+
+export default function VerificationPage() {
+  const router = useRouter();
+  const [stepssetSteps] = useState(verificationSteps);
+  const [currentStepsetCurrentStep] = useState(0);
+  const [isProcessingsetIsProcessing] = useState(false);
+  const [verificationCompletesetVerificationComplete] = useState(false);
+
+  useEffect(() => {
+    // Start automated verification process
+    if (currentStep <steps.length && !isProcessing) {
+      processStep(currentStep);
+    }
+  }, [currentStep]);
+
+  const processStep = async (stepIndex: number) => {
+    setIsProcessing(true);
+
+    // Update step status to processing
+    const updatedSteps = [...steps];
+    updatedSteps[stepIndex].status = 'processing';
+    setSteps(updatedSteps);
+
+    // Simulate AI processing
+    await new Promise(resolve => setTimeout(resolve, 2000 + Math.random() * 1000));
+
+    // Update step status to completed (or failed randomly for demo)
+    const success = Math.random() > 0.1; // 90% success rate
+    updatedSteps[stepIndex].status = success ? 'completed' : 'failed';
+    setSteps(updatedSteps);
+
+    if (success) {
+      setIsProcessing(false);
+      if (stepIndex <steps.length - 1) {
+        setCurrentStep(stepIndex + 1);
+      } else {
+        setVerificationComplete(true);
+      }
+    } else {
+      // Handle failure
+      toast.error(`${steps[stepIndex].title} failed. Please try again.`);
+      setIsProcessing(false);
+    }
+  };
+
+  const retryStep = () => {
+    processStep(currentStep);
+  };
+
+  const completeOnboarding = async () => {
+    setIsProcessing(true);
+
+    try {
+      // Collect all onboarding data
+      const companyData = JSON.parse(localStorage.getItem('companyData') || '{}');
+      const teamData = JSON.parse(localStorage.getItem('teamData') || '[]');
+      const subscriptionData = JSON.parse(localStorage.getItem('subscriptionData') || '{}');
+
+      // Simulate final API call
+      await new Promise(resolve => setTimeout(resolve2000));
+
+      // Clear local storage
+      localStorage.removeItem('companyData');
+      localStorage.removeItem('teamData');
+      localStorage.removeItem('subscriptionData');
+
+      toast.success('Welcome to PropIE Enterprise! Your account is now active.');
+      router.push('/developer/dashboard');
+    } catch (error) {
+      toast.error('Failed to complete onboarding');
+      setIsProcessing(false);
+    }
+  };
+
+  const progressValue = 100; // Step 4 of 4
+
+  return (
+    <div className="min-h-screen px-4 sm:px-6 lg:px-8 py-12">
+      <div className="max-w-4xl mx-auto">
+        {/* Progress Bar */}
+        <div className="mb-8">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-2xl font-bold text-gray-900">Verification</h2>
+            <span className="text-sm text-gray-600">Step 4 of 4</span>
+          </div>
+          <Progress value={progressValue} className="h-2" />
+        </div>
+
+        <motion.div
+          initial={ opacity: 0, y: 20 }
+          animate={ opacity: 1, y: 0 }
+          transition={ duration: 0.5 }
+        >
+          <Card className="p-8">
+            <div className="mb-8 text-center">
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                AI-Powered Verification
+              </h3>
+              <p className="text-gray-600">
+                Our AI system will verify your information in real-time. This usually takes 2-3 minutes.
+              </p>
+            </div>
+
+            {/* Verification Steps */}
+            <div className="space-y-6 mb-8">
+              {steps.map((stepindex: any) => (
+                <motion.div
+                  key={step.id}
+                  initial={ opacity: 0, x: -20 }
+                  animate={ opacity: 1, x: 0 }
+                  transition={ duration: 0.5, delay: index * 0.1 }
+                  className={`flex items-center gap-4 p-4 rounded-lg border ${
+                    step.status === 'completed'
+                      ? 'bg-green-50 border-green-200'
+                      : step.status === 'processing'
+                      ? 'bg-blue-50 border-blue-200'
+                      : step.status === 'failed'
+                      ? 'bg-red-50 border-red-200'
+                      : 'bg-gray-50 border-gray-200'
+                  }`}
+                >
+                  <div className="flex-shrink-0">
+                    {step.status === 'completed' ? (
+                      <div className="w-10 h-10 rounded-full bg-green-500 text-white flex items-center justify-center">
+                        <FiCheck className="w-5 h-5" />
+                      </div>
+                    ) : step.status === 'processing' ? (
+                      <motion.div
+                        animate={ rotate: 360 }
+                        transition={ duration: 2, repeat: Infinity, ease: "linear" }
+                        className="w-10 h-10 rounded-full border-4 border-blue-500 border-t-transparent"
+                      />
+                    ) : step.status === 'failed' ? (
+                      <div className="w-10 h-10 rounded-full bg-red-500 text-white flex items-center justify-center">
+                        <FiAlertCircle className="w-5 h-5" />
+                      </div>
+                    ) : (
+                      <div className="w-10 h-10 rounded-full bg-gray-300 text-white flex items-center justify-center">
+                        <step.icon className="w-5 h-5" />
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="flex-grow">
+                    <h4 className="font-medium text-gray-900">{step.title}</h4>
+                    <p className="text-sm text-gray-600">{step.description}</p>
+                  </div>
+
+                  {step.status === 'processing' && (
+                    <span className="text-sm text-blue-600">Processing...</span>
+                  )}
+                  {step.status === 'completed' && (
+                    <span className="text-sm text-green-600">Completed</span>
+                  )}
+                  {step.status === 'failed' && (
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      onClick={retryStep}
+                      className="text-red-600 border-red-300"
+                    >
+                      Retry
+                    </Button>
+                  )}
+                </motion.div>
+              ))}
+            </div>
+
+            {verificationComplete && (
+              <motion.div
+                initial={ opacity: 0, scale: 0.9 }
+                animate={ opacity: 1, scale: 1 }
+                transition={ duration: 0.5 }
+              >
+                <Alert className="mb-8 border-green-200 bg-green-50">
+                  <FiCheckCircle className="h-4 w-4 text-green-600" />
+                  <AlertDescription className="text-green-800">
+                    <strong>Verification Complete!</strong> Your account has been successfully verified.
+                    You're now ready to start building with PropIE Enterprise.
+                  </AlertDescription>
+                </Alert>
+
+                <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg p-6 mb-8">
+                  <h4 className="font-semibold text-gray-900 mb-4">Welcome Package Includes:</h4>
+                  <ul className="space-y-2">
+                    <li className="flex items-center gap-2">
+                      <FiCheck className="text-green-500" />
+                      <span>30-minute onboarding call with your success manager</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <FiCheck className="text-green-500" />
+                      <span>Access to PropIE Academy training resources</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <FiCheck className="text-green-500" />
+                      <span>€500 in platform credits to get started</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <FiCheck className="text-green-500" />
+                      <span>Priority support for your first 30 days</span>
+                    </li>
+                  </ul>
+                </div>
+
+                <Button
+                  onClick={completeOnboarding}
+                  disabled={isProcessing}
+                  className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white"
+                >
+                  {isProcessing ? 'Starting Your Journey...' : 'Go to Dashboard'}
+                </Button>
+              </motion.div>
+            )}
+
+            {!verificationComplete && currentStep <steps.length && steps[currentStep].status === 'failed' && (
+              <Alert className="border-red-200 bg-red-50">
+                <FiAlertCircle className="h-4 w-4 text-red-600" />
+                <AlertDescription className="text-red-800">
+                  Verification failed. Please check your information and try again.
+                  If the problem persists, contact our support team.
+                </AlertDescription>
+              </Alert>
+            )}
+          </Card>
+        </motion.div>
+      </div>
+    </div>
+  );
+}

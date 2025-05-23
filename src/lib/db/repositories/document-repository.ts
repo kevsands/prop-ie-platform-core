@@ -29,8 +29,7 @@ export class DocumentRepository extends BaseRepository<Document, DocumentCreateI
             id: userId
           }
         }
-      },
-    });
+      });
   }
 
   /**
@@ -38,8 +37,7 @@ export class DocumentRepository extends BaseRepository<Document, DocumentCreateI
    */
   async findByDevelopmentId(developmentId: string): Promise<Document[]> {
     return this.model.findMany({
-      where: { developmentId },
-    });
+      where: { developmentId });
   }
 
   /**
@@ -47,8 +45,7 @@ export class DocumentRepository extends BaseRepository<Document, DocumentCreateI
    */
   async findByUnitId(unitId: string): Promise<Document[]> {
     return this.model.findMany({
-      where: { unitId },
-    });
+      where: { unitId });
   }
 
   /**
@@ -56,8 +53,7 @@ export class DocumentRepository extends BaseRepository<Document, DocumentCreateI
    */
   async findBySaleId(saleId: string): Promise<Document[]> {
     return this.model.findMany({
-      where: { saleId },
-    });
+      where: { saleId });
   }
 
   /**
@@ -66,21 +62,18 @@ export class DocumentRepository extends BaseRepository<Document, DocumentCreateI
   async findByEntity(entityType: string, entityId: string, filters?: any): Promise<Document[]> {
     const where: any = {
       entityType,
-      entityId,
-    };
+      entityId};
 
     // Apply any additional filters
     if (filters) {
-      Object.assign(where, filters);
+      Object.assign(wherefilters);
     }
 
     return this.model.findMany({
       where,
       include: {
         uploadedBy: true,
-        previousVersions: true,
-      },
-    });
+        previousVersions: true});
   }
 
   /**
@@ -95,14 +88,11 @@ export class DocumentRepository extends BaseRepository<Document, DocumentCreateI
           include: {
             history: {
               include: {
-                approvals: true,
-              }
+                approvals: true}
             }
           }
         },
-        signatures: true,
-      },
-    });
+        signatures: true});
   }
 
   /**
@@ -110,8 +100,7 @@ export class DocumentRepository extends BaseRepository<Document, DocumentCreateI
    */
   async findByType(type: string): Promise<Document[]> {
     return this.model.findMany({
-      where: { type },
-    });
+      where: { type });
   }
 
   /**
@@ -119,8 +108,7 @@ export class DocumentRepository extends BaseRepository<Document, DocumentCreateI
    */
   async findByCategory(category: string): Promise<Document[]> {
     return this.model.findMany({
-      where: { category },
-    });
+      where: { category });
   }
 
   /**
@@ -128,8 +116,7 @@ export class DocumentRepository extends BaseRepository<Document, DocumentCreateI
    */
   async findByStatus(status: string): Promise<Document[]> {
     return this.model.findMany({
-      where: { status },
-    });
+      where: { status });
   }
 
   /**
@@ -139,9 +126,7 @@ export class DocumentRepository extends BaseRepository<Document, DocumentCreateI
     return this.model.update({
       where: { id },
       data: {
-        status,
-      },
-    });
+        status});
   }
 
   /**
@@ -160,24 +145,18 @@ export class DocumentRepository extends BaseRepository<Document, DocumentCreateI
       where: { id: documentId },
       data: {
         version: versionNumber,
-        fileUrl: fileUrl,
-      },
-    });
+        fileUrl: fileUrl});
 
     // Create a version record
     return this.prisma.documentVersion.create({
       data: {
         document: {
           connect: { id: documentId },
-        },
         versionNumber: versionNumber - 1, // Store the previous version number
         fileUrl: fileUrl,
         createdBy: {
           connect: { id: createdById },
-        },
         size,
-        notes,
-      },
-    });
+        notes});
   }
 }

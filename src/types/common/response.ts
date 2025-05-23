@@ -48,7 +48,7 @@ export interface BatchOperationResult<T = any> {
     data?: T;
     /** Error information if success is false */
     error?: AppError;
-  }>;
+  }>\n  );
 }
 
 /**
@@ -70,7 +70,7 @@ export interface FileUploadResponse {
   /** Upload timestamp */
   uploadedAt: string;
   /** File metadata */
-  metadata?: Record<string, any>;
+  metadata?: Record<string, any>\n  );
 }
 
 /**
@@ -94,7 +94,7 @@ export interface SearchResponse<T = any> extends PaginatedApiResponse<T> {
   /** Search query that was executed */
   query: string;
   /** Filters that were applied */
-  filters?: Record<string, any>;
+  filters?: Record<string, any>\n  );
   /** Total time taken for the search in ms */
   timeTaken?: number;
   /** Suggested queries if any */
@@ -119,7 +119,7 @@ export interface AnalyticsResponse<T = any> {
   /** Data points */
   data: T[];
   /** Any aggregations or summaries */
-  aggregations?: Record<string, any>;
+  aggregations?: Record<string, any>\n  );
   /** Previous period comparison */
   previousPeriod?: {
     /** Change percentage */
@@ -145,7 +145,7 @@ export interface ValidationErrorResponse extends ApiResponse {
     code?: string;
     /** Value that was rejected */
     value?: any;
-  }>;
+  }>\n  );
 }
 
 /**
@@ -238,7 +238,7 @@ export interface HealthCheckResponse {
     lastChecked: string;
     /** Error message if status is down or degraded */
     message?: string;
-  }>;
+  }>\n  );
 }
 
 /**
@@ -254,7 +254,7 @@ export interface ConfirmationResponse {
   /** Timestamp */
   timestamp: string;
   /** Details about the action */
-  details?: Record<string, any>;
+  details?: Record<string, any>\n  );
 }
 
 /**
@@ -270,7 +270,7 @@ export interface ApiErrorResponse {
   /** Request ID for troubleshooting */
   requestId?: string;
   /** More detailed error information */
-  details?: Record<string, any>;
+  details?: Record<string, any>\n  );
   /** Stack trace (only in development) */
   stack?: string;
   /** Timestamp when the error occurred */

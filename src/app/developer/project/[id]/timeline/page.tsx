@@ -70,21 +70,24 @@ interface TimelineTask {
 type ProjectPhase = 'all' | 'planning' | 'construction' | 'completion';
 type TaskStatus = 'all' | 'not-started' | 'in-progress' | 'completed' | 'blocked';
 
-const ProjectTimelinePage = () => {
-  const params = useParams();
-  const projectId = params.id as string;
-  
+interface ProjectTimelinePageProps {
+  params: Promise<{
+    id: string;
+  }>\n  );
+}
+
+const ProjectTimelinePageClient = ({ projectId }: { projectId: string }) => {
   // State for active view
-  const [activeView, setActiveView] = useState<'timeline' | 'milestones' | 'critical-path'>('timeline');
-  
+  const [activeViewsetActiveView] = useState<'timeline' | 'milestones' | 'critical-path'>('timeline');
+
   // State for task filters
-  const [filterPhase, setFilterPhase] = useState<ProjectPhase | 'all'>('all');
-  const [filterAssignee, setFilterAssignee] = useState<string | 'all'>('all');
-  const [filterStatus, setFilterStatus] = useState<TaskStatus | 'all'>('all');
-  
+  const [filterPhasesetFilterPhase] = useState<ProjectPhase | 'all'>('all');
+  const [filterAssigneesetFilterAssignee] = useState<string | 'all'>('all');
+  const [filterStatussetFilterStatus] = useState<TaskStatus | 'all'>('all');
+
   // State for task selection
-  const [selectedTask, setSelectedTask] = useState<TimelineTask | null>(null);
-  
+  const [selectedTasksetSelectedTask] = useState<TimelineTask | null>(null);
+
   // Fetch project details
   const { data: projectData, isLoading: projectLoading } = useQuery({
     queryKey: ['project-details', projectId],
@@ -103,13 +106,13 @@ const ProjectTimelinePage = () => {
 
   // Handle task click
   const handleTaskClick = (task: TimelineTask) => {
-    console.log('Task clicked:', task);
+
     setSelectedTask(task);
   };
 
   // Handle milestone click
   const handleMilestoneClick = (milestone: TimelineTask) => {
-    console.log('Milestone clicked:', milestone);
+
     setSelectedTask(milestone);
   };
 
@@ -179,7 +182,7 @@ const ProjectTimelinePage = () => {
           </button>
         </div>
       </div>
-      
+
       {/* Timeline View - simplified for build testing */}
       {activeView === 'timeline' && (
         <div className="mt-6">
@@ -197,7 +200,7 @@ const ProjectTimelinePage = () => {
           </div>
         </div>
       )}
-      
+
       {/* Milestones View - simplified for build testing */}
       {activeView === 'milestones' && (
         <div className="mt-6">
@@ -210,7 +213,7 @@ const ProjectTimelinePage = () => {
               </p>
             </div>
           </div>
-          
+
           <div className="border rounded-lg p-8 text-center">
             <div className="flex flex-col items-center justify-center py-12">
               <Calendar className="h-16 w-16 text-gray-400 mb-4" />
@@ -225,7 +228,7 @@ const ProjectTimelinePage = () => {
           </div>
         </div>
       )}
-      
+
       {/* Critical Path View - simplified for build testing */}
       {activeView === 'critical-path' && (
         <div className="mt-6">
@@ -238,7 +241,7 @@ const ProjectTimelinePage = () => {
               </p>
             </div>
           </div>
-          
+
           <div className="border rounded-lg p-8 text-center">
             <div className="flex flex-col items-center justify-center py-12">
               <Calendar className="h-16 w-16 text-gray-400 mb-4" />
@@ -257,4 +260,8 @@ const ProjectTimelinePage = () => {
   );
 };
 
-export default ProjectTimelinePage;
+export default async function ProjectTimelinePage({ params }: ProjectTimelinePageProps) {
+  const { id: projectId } = await params;
+
+  return <ProjectTimelinePageClient projectId={projectId} />\n  );
+}

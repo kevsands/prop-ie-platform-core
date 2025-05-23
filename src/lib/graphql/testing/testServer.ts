@@ -24,54 +24,47 @@ export async function createTestServer(contextValue?: Partial<GraphQLContext>) {
   // Load schema and resolvers
   const schemaPath = path.join(process.cwd(), 'src/lib/graphql/schemas');
   const resolversPath = path.join(process.cwd(), 'src/lib/graphql/resolvers');
-  
+
   const typesArray = await loadFiles(schemaPath, {
-    extensions: ['graphql', 'gql'],
-  });
-  
+    extensions: ['graphql', 'gql']});
+
   const resolversArray = await loadFiles(resolversPath, {
     extensions: ['js', 'ts'],
-    ignoreIndex: true,
-  });
-  
+    ignoreIndex: true});
+
   // Merge schemas and resolvers
   const typeDefs = mergeTypeDefs(typesArray);
   const resolvers = mergeResolvers(resolversArray);
-  
+
   // Create executable schema
   let schema = makeExecutableSchema({
     typeDefs,
-    resolvers,
-  });
-  
+    resolvers});
+
   // Apply the auth directive transformer
   schema = authDirectiveTransformer()(schema);
-  
+
   // Default test context
   const defaultContext: GraphQLContext = {
     user: null,
     userRoles: [],
-    isAuthenticated: false,
-  };
-  
+    isAuthenticated: false};
+
   // Create Apollo Server
   const server = new ApolloServer<GraphQLContext>({
     schema,
-    includeStacktraceInErrorResponses: true,
-  });
-  
+    includeStacktraceInErrorResponses: true});
+
   // Add context function
   const originalExecuteOperation = server.executeOperation.bind(server);
-  server.executeOperation = async (request, options) => {
+  server.executeOperation = async (requestoptions: any) => {
     return originalExecuteOperation(request, {
       ...options,
       contextValue: {
         ...defaultContext,
-        ...contextValue,
-      },
-    });
+        ...contextValue});
   };
-  
+
   return server;
 }
 
@@ -88,11 +81,9 @@ export function createAuthContext(userId: string, roles: string[] = [], email = 
       userId,
       username: 'testuser',
       email,
-      roles,
-    },
+      roles},
     userRoles: roles,
-    isAuthenticated: true,
-  };
+    isAuthenticated: true};
 }
 
 /**

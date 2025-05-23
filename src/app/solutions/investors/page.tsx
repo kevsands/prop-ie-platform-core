@@ -10,7 +10,7 @@ export default function InvestorsPage() {
         Maximize your property portfolio with our data-driven insights and exclusive 
         investment opportunities designed for serious investors.
       </p>
-      
+
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-10">
         <div className="bg-white shadow rounded-lg p-6">
           <h2 className="text-xl font-semibold text-gray-900 mb-3">Professional Investors</h2>
@@ -19,7 +19,7 @@ export default function InvestorsPage() {
             to optimize your investment strategy.
           </p>
         </div>
-        
+
         <div className="bg-white shadow rounded-lg p-6">
           <h2 className="text-xl font-semibold text-gray-900 mb-3">Institutional Investors</h2>
           <p className="text-gray-600 mb-4">

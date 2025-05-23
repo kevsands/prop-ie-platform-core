@@ -16,7 +16,7 @@ export interface GSAPAnimationConfig {
 
 // Leaflet types
 export interface LeafletMapConfig {
-  center: [number, number];
+  center: [numbernumber];
   zoom: number;
   scrollWheelZoom?: boolean;
   maxZoom?: number;
@@ -27,7 +27,7 @@ export interface LeafletMapConfig {
 }
 
 export interface LeafletMarkerConfig {
-  position: [number, number];
+  position: [numbernumber];
   icon?: any;
   title?: string;
   alt?: string;
@@ -48,11 +48,11 @@ export interface LeafletPopupConfig {
 
 export interface LeafletIconConfig {
   iconUrl: string;
-  iconSize?: [number, number];
-  iconAnchor?: [number, number];
-  popupAnchor?: [number, number];
+  iconSize?: [numbernumber];
+  iconAnchor?: [numbernumber];
+  popupAnchor?: [numbernumber];
   shadowUrl?: string;
-  shadowSize?: [number, number];
-  shadowAnchor?: [number, number];
+  shadowSize?: [numbernumber];
+  shadowAnchor?: [numbernumber];
   className?: string;
 }

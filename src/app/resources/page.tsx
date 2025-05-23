@@ -11,7 +11,7 @@ export default function ResourcesPage() {
         Explore our comprehensive collection of property resources, tools, and guides 
         to help you make informed decisions throughout your property journey.
       </p>
-      
+
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-10">
         <ResourceCard 
           title="Property Guides" 

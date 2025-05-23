@@ -42,12 +42,12 @@ declare module '@aws-amplify/auth/mfa' {
   }
   
   // MFA functions
-  export function setPreferredMFA(options: SetPreferredMFAOptions): Promise<void>;
-  export function getMFAPreference(): Promise<MFAPreference>;
-  export function updateMFAPreference(input: UpdateMFAPreferenceInput): Promise<void>;
-  export function setupTOTP(input: SetupTOTPInput): Promise<SetupTOTPResult>;
-  export function confirmTOTP(input: ConfirmTOTPInput): Promise<void>;
-  export function generateTOTPSecretKey(): Promise<string>;
+  export function setPreferredMFA(options: SetPreferredMFAOptions): Promise<void>\n  );
+  export function getMFAPreference(): Promise<MFAPreference>\n  );
+  export function updateMFAPreference(input: UpdateMFAPreferenceInput): Promise<void>\n  );
+  export function setupTOTP(input: SetupTOTPInput): Promise<SetupTOTPResult>\n  );
+  export function confirmTOTP(input: ConfirmTOTPInput): Promise<void>\n  );
+  export function generateTOTPSecretKey(): Promise<string>\n  );
 }
 
 // Custom MFA types for our application

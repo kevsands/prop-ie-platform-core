@@ -9,26 +9,12 @@ import { Development, Property } from "@/types";
 import DevelopmentCard from "@/components/DevelopmentCard";
 // We'll create PropertyCard component separately
 
-export default function HomePage() {
-  const router = useRouter();
-  const [activeTab, setActiveTab] = useState('buyers');
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-  const [featuredDevelopments, setFeaturedDevelopments] = useState<Development[]>([]);
-  const [featuredProperties, setFeaturedProperties] = useState<Property[]>([]);
+export default async function HomePageDataService.getFeaturedProperties();
 
-  // Fetch data using the DataService
-  const fetchData = useCallback(async () => {
-    try {
-      setIsLoading(true);
-      // Fetch developments and properties using DataService
-      const developments = await DataService.getFeaturedDevelopments();
-      const properties = await DataService.getFeaturedProperties();
-      
       setFeaturedDevelopments(developments);
       setFeaturedProperties(properties);
     } catch (error) {
-      console.error('Error fetching data:', error);
+
     } finally {
       setIsLoading(false);
     }
@@ -77,7 +63,7 @@ export default function HomePage() {
             src="/images/hero-background-drogheda.jpg"
             alt="Drogheda Property Background"
             fill
-            style={{ objectFit: 'cover' }}
+            style={ objectFit: 'cover' }
             priority
           />
         </div>
@@ -287,7 +273,7 @@ export default function HomePage() {
 
           {/* Development Cards */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            {featuredDevelopments.map((development) => (
+            {featuredDevelopments.map((development: any) => (
               <DevelopmentCard 
                 key={development.id} 
                 development={development} 
@@ -321,7 +307,7 @@ export default function HomePage() {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {featuredProperties.map((property) => (
+            {featuredProperties.map((property: any) => (
               // Using the div version for now, replace with PropertyCard component when available
               <div
                 key={property.id}
@@ -332,7 +318,7 @@ export default function HomePage() {
                     src={property.images[0]} // Use first image from the images array
                     alt={property.name} // Use name instead of title
                     fill
-                    style={{ objectFit: 'cover' }}
+                    style={ objectFit: 'cover' }
                     className="rounded-t-lg"
                   />
                   {property.isNew && (

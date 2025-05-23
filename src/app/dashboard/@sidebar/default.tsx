@@ -37,7 +37,7 @@ const useAuth = () => {
 export default function DashboardSidebar() {
   const pathname = usePathname();
   const { user } = useAuth();
-  
+
   // Define navigation items with paths and access control
   const navItems = [
     { label: 'Overview', path: '/dashboard', icon: 'HomeIcon' },
@@ -46,9 +46,8 @@ export default function DashboardSidebar() {
     { label: 'Purchases', path: '/dashboard/purchases', icon: 'ShoppingCartIcon' },
     { label: 'Profile', path: '/dashboard/profile', icon: 'UserIcon' },
     { label: 'Security', path: '/dashboard/security', icon: 'ShieldCheckIcon' },
-    { label: 'Settings', path: '/dashboard/settings', icon: 'CogIcon' },
-  ];
-  
+    { label: 'Settings', path: '/dashboard/settings', icon: 'CogIcon' }];
+
   // Add role-specific items
   if (user?.role === 'developer') {
     navItems.push(
@@ -56,7 +55,7 @@ export default function DashboardSidebar() {
       { label: 'Analytics', path: '/dashboard/analytics', icon: 'ChartBarIcon' }
     );
   }
-  
+
   if (user?.role === 'admin') {
     navItems.push(
       { label: 'Users', path: '/dashboard/users', icon: 'UsersIcon' },
@@ -72,10 +71,10 @@ export default function DashboardSidebar() {
           {user?.firstName ? `Welcome, ${user.firstName}` : 'Welcome'}
         </p>
       </div>
-      
+
       <nav className="flex-1 py-4">
         <ul className="space-y-1">
-          {navItems.map((item) => (
+          {navItems.map((item: any) => (
             <li key={item.path}>
               <Link
                 href={item.path}
@@ -92,7 +91,7 @@ export default function DashboardSidebar() {
           ))}
         </ul>
       </nav>
-      
+
       <div className="p-4 border-t mt-auto">
         <div className="flex items-center">
           <div className="w-8 h-8 rounded-full bg-gray-300 mr-3">

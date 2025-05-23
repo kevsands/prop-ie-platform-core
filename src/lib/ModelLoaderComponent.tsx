@@ -6,6 +6,9 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import * as THREE from "three";
 
+// Add Three.js type support
+import '../types/three-extensions';
+
 // --- Mock Data (replace with actual data fetching/management) ---
 interface Development {
   id: string;
@@ -44,7 +47,6 @@ const mockDevelopments: Development[] = [
     image: "/images/developments/fitzgerald-gardens/hero.jpg",
     status: "Selling Fast",
     statusColor: "green",
-  },
   {
     id: "riverside-manor",
     name: "Riverside Manor",
@@ -53,7 +55,6 @@ const mockDevelopments: Development[] = [
     image: "/images/developments/riverside-manor/hero.jpg",
     status: "New Release",
     statusColor: "blue",
-  },
   {
     id: "meadow-heights",
     name: "Meadow Heights",
@@ -62,7 +63,6 @@ const mockDevelopments: Development[] = [
     image: "/images/developments/meadow-heights/hero.jpg",
     status: "Launching Soon",
     statusColor: "yellow",
-  },
   {
     id: "harbour-view",
     name: "Harbour View",
@@ -71,7 +71,6 @@ const mockDevelopments: Development[] = [
     image: "/images/developments/harbour-view/hero.jpg",
     status: "Completed",
     statusColor: "gray",
-  },
   {
     id: "bayside-villas",
     name: "Bayside Villas",
@@ -79,9 +78,7 @@ const mockDevelopments: Development[] = [
     location: "Coastal",
     image: "/images/developments/placeholder-dev-2.jpg",
     status: "Future",
-    statusColor: "purple",
-  },
-];
+    statusColor: "purple"];
 
 const mockProperties: Property[] = [
   {
@@ -94,8 +91,7 @@ const mockProperties: Property[] = [
     area: 110,
     image: "/images/properties/fg101.jpg",
     isNew: true,
-    isReduced: false,
-  },
+    isReduced: false},
   {
     id: "prop-fg-105",
     development: "Fitzgerald Gardens",
@@ -106,8 +102,7 @@ const mockProperties: Property[] = [
     area: 140,
     image: "/images/properties/fg105.jpg",
     isNew: true,
-    isReduced: false,
-  },
+    isReduced: false},
   {
     id: "prop-rm-203",
     development: "Riverside Manor",
@@ -118,8 +113,7 @@ const mockProperties: Property[] = [
     area: 85,
     image: "/images/properties/rm203.jpg",
     isNew: false,
-    isReduced: true,
-  },
+    isReduced: true},
   {
     id: "prop-mh-301",
     development: "Meadow Heights",
@@ -130,8 +124,7 @@ const mockProperties: Property[] = [
     area: 100,
     image: "/images/properties/mh301.jpg",
     isNew: false,
-    isReduced: false,
-  },
+    isReduced: false},
   {
     id: "prop-fg-110",
     development: "Fitzgerald Gardens",
@@ -142,8 +135,7 @@ const mockProperties: Property[] = [
     area: 110,
     image: "/images/properties/fg101.jpg",
     isNew: false,
-    isReduced: true,
-  },
+    isReduced: true},
   {
     id: "prop-rm-208",
     development: "Riverside Manor",
@@ -154,8 +146,7 @@ const mockProperties: Property[] = [
     area: 85,
     image: "/images/properties/rm203.jpg",
     isNew: true,
-    isReduced: false,
-  },
+    isReduced: false},
   {
     id: "prop-mh-305",
     development: "Meadow Heights",
@@ -166,8 +157,7 @@ const mockProperties: Property[] = [
     area: 105,
     image: "/images/properties/mh301.jpg",
     isNew: false,
-    isReduced: false,
-  },
+    isReduced: false},
   {
     id: "prop-hv-401",
     development: "Harbour View",
@@ -178,8 +168,7 @@ const mockProperties: Property[] = [
     area: 125,
     image: "/images/properties/hv401.jpg",
     isNew: true,
-    isReduced: false,
-  },
+    isReduced: false},
   {
     id: "prop-fg-115",
     development: "Fitzgerald Gardens",
@@ -190,18 +179,16 @@ const mockProperties: Property[] = [
     area: 140,
     image: "/images/properties/fg105.jpg",
     isNew: false,
-    isReduced: false,
-  },
-];
+    isReduced: false}];
 
-const getFeaturedDevelopments = () => mockDevelopments.slice(0, 4);
-const getFeaturedProperties = () => mockProperties.slice(0, 6);
+const getFeaturedDevelopments = () => mockDevelopments.slice(04);
+const getFeaturedProperties = () => mockProperties.slice(06);
 
 export default function HomePage() {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState("buyers");
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const [activeTabsetActiveTab] = useState("buyers");
+  const [isMenuOpensetIsMenuOpen] = useState(false);
+  const [isLoadingsetIsLoading] = useState(true);
 
   const featuredDevelopments: Development[] = getFeaturedDevelopments();
   const featuredProperties: Property[] = getFeaturedProperties();
@@ -219,8 +206,7 @@ export default function HomePage() {
     return new Intl.NumberFormat("en-IE", {
       style: "currency",
       currency: "EUR",
-      maximumFractionDigits: 0,
-    }).format(price);
+      maximumFractionDigits: 0}).format(price);
   };
 
   // Helper function to get Tailwind color class based on status
@@ -259,7 +245,7 @@ export default function HomePage() {
             src="/images/hero-background-drogheda.jpg"
             alt="Drogheda Property Background"
             fill
-            style={{ objectFit: "cover" }}
+            style={ objectFit: "cover" }
             priority
           />
         </div>
@@ -540,7 +526,7 @@ export default function HomePage() {
 
           {/* Development Cards */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            {featuredDevelopments.map((development) => (
+            {featuredDevelopments.map((development: any) => (
               <Link
                 key={development.id}
                 href={`/developments/${development.id}`}
@@ -551,7 +537,7 @@ export default function HomePage() {
                     src={development.image}
                     alt={development.name}
                     fill
-                    style={{ objectFit: "cover" }}
+                    style={ objectFit: "cover" }
                     className="rounded-t-lg group-hover:scale-105 transition-transform duration-300"
                   />
                   {development.status && (
@@ -620,7 +606,7 @@ export default function HomePage() {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {featuredProperties.map((property) => (
+            {featuredProperties.map((property: any) => (
               <div
                 key={property.id}
                 className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow"
@@ -630,7 +616,7 @@ export default function HomePage() {
                     src={property.image}
                     alt={property.title}
                     fill
-                    style={{ objectFit: "cover" }}
+                    style={ objectFit: "cover" }
                     className="rounded-t-lg"
                   />
                   {property.isNew && (
@@ -801,7 +787,7 @@ export default function HomePage() {
                 src="/images/about-image-placeholder.jpg"
                 alt="Our projects overview"
                 fill
-                style={{ objectFit: "cover" }}
+                style={ objectFit: "cover" }
               />
             </div>
           </div>
@@ -845,7 +831,7 @@ export default function HomePage() {
                 smooth and professional. Highly recommend!"
               </p>
               <div className="flex mt-4">
-                {[...Array(5)].map((_, i) => (
+                {[...Array(5)].map((_i: any) => (
                   <svg
                     key={i}
                     className="h-5 w-5 text-yellow-400"
@@ -877,7 +863,7 @@ export default function HomePage() {
                 We've recommended Property Developments to all our friends."
               </p>
               <div className="flex mt-4">
-                {[...Array(5)].map((_, i) => (
+                {[...Array(5)].map((_i: any) => (
                   <svg
                     key={i}
                     className="h-5 w-5 text-yellow-400"
@@ -910,7 +896,7 @@ export default function HomePage() {
                 process. Highly satisfied."
               </p>
               <div className="flex mt-4">
-                {[...Array(5)].map((_, i) => (
+                {[...Array(5)].map((_i: any) => (
                   <svg
                     key={i}
                     className="h-5 w-5 text-yellow-400"
@@ -1060,7 +1046,7 @@ export default function HomePage() {
                     : "bg-white text-gray-700 hover:bg-gray-50"
                 } rounded-l-lg transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#2B5273] whitespace-nowrap`}
                 onClick={() => setActiveTab("buyers")}
-                aria-pressed={activeTab === "buyers"}
+                aria-pressed={activeTab === "buyers"
                 aria-label="Show information for buyers"
               >
                 For Buyers
@@ -1072,7 +1058,7 @@ export default function HomePage() {
                     : "bg-white text-gray-700 hover:bg-gray-50"
                 } transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#2B5273] whitespace-nowrap`}
                 onClick={() => setActiveTab("investors")}
-                aria-pressed={activeTab === "investors"}
+                aria-pressed={activeTab === "investors"
                 aria-label="Show information for investors"
               >
                 For Investors
@@ -1084,7 +1070,7 @@ export default function HomePage() {
                     : "bg-white text-gray-700 hover:bg-gray-50"
                 } transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#2B5273] whitespace-nowrap`}
                 onClick={() => setActiveTab("developers")}
-                aria-pressed={activeTab === "developers"}
+                aria-pressed={activeTab === "developers"
                 aria-label="Show information for developers"
               >
                 For Developers
@@ -1096,7 +1082,7 @@ export default function HomePage() {
                     : "bg-white text-gray-700 hover:bg-gray-50"
                 } transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#2B5273] whitespace-nowrap`}
                 onClick={() => setActiveTab("agents")}
-                aria-pressed={activeTab === "agents"}
+                aria-pressed={activeTab === "agents"
                 aria-label="Show information for agents"
               >
                 For Agents
@@ -1108,7 +1094,7 @@ export default function HomePage() {
                     : "bg-white text-gray-700 hover:bg-gray-50"
                 } rounded-r-lg transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#2B5273] whitespace-nowrap`}
                 onClick={() => setActiveTab("solicitors")}
-                aria-pressed={activeTab === "solicitors"}
+                aria-pressed={activeTab === "solicitors"
                 aria-label="Show information for solicitors"
               >
                 For Solicitors

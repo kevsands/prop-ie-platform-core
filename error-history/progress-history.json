@@ -1,0 +1,263 @@
+[
+  {
+    "timestamp": "2025-05-20T23:00:56.096Z",
+    "totalErrors": 3250,
+    "fileCount": 473,
+    "categoryCounts": {
+      "OTHER": 813,
+      "TYPE_MISMATCH": 313,
+      "PROPERTY_ACCESS": 1111,
+      "IMPLICIT_ANY": 476,
+      "MODULE_IMPORT": 211,
+      "UNKNOWN_TYPE": 156,
+      "AMPLIFY_AUTH": 18,
+      "MISSING_TYPES": 143,
+      "NEXTJS_ROUTES": 1,
+      "THREE_JS": 8
+    },
+    "topErrorCodes": [
+      {
+        "code": "TS2339",
+        "count": 997
+      },
+      {
+        "code": "TS7006",
+        "count": 476
+      },
+      {
+        "code": "TS2322",
+        "count": 311
+      },
+      {
+        "code": "TS2305",
+        "count": 194
+      },
+      {
+        "code": "TS18046",
+        "count": 156
+      },
+      {
+        "code": "TS7031",
+        "count": 143
+      },
+      {
+        "code": "TS2345",
+        "count": 124
+      },
+      {
+        "code": "TS2353",
+        "count": 115
+      },
+      {
+        "code": "TS2551",
+        "count": 114
+      },
+      {
+        "code": "TS2307",
+        "count": 92
+      }
+    ]
+  },
+  {
+    "timestamp": "2025-05-20T23:06:49.174Z",
+    "totalErrors": 1541,
+    "fileCount": 69,
+    "categoryCounts": {
+      "OTHER": 1541
+    },
+    "topErrorCodes": [
+      {
+        "code": "TS1005",
+        "count": 548
+      },
+      {
+        "code": "TS1381",
+        "count": 333
+      },
+      {
+        "code": "TS17002",
+        "count": 243
+      },
+      {
+        "code": "TS1382",
+        "count": 203
+      },
+      {
+        "code": "TS1128",
+        "count": 99
+      },
+      {
+        "code": "TS1109",
+        "count": 77
+      },
+      {
+        "code": "TS2657",
+        "count": 13
+      },
+      {
+        "code": "TS1003",
+        "count": 7
+      },
+      {
+        "code": "TS1434",
+        "count": 6
+      },
+      {
+        "code": "TS17008",
+        "count": 4
+      }
+    ]
+  },
+  {
+    "timestamp": "2025-05-20T23:11:21.673Z",
+    "totalErrors": 2523,
+    "fileCount": 69,
+    "categoryCounts": {
+      "OTHER": 2523
+    },
+    "topErrorCodes": [
+      {
+        "code": "TS1005",
+        "count": 683
+      },
+      {
+        "code": "TS1381",
+        "count": 384
+      },
+      {
+        "code": "TS1109",
+        "count": 343
+      },
+      {
+        "code": "TS1128",
+        "count": 286
+      },
+      {
+        "code": "TS17002",
+        "count": 266
+      },
+      {
+        "code": "TS1382",
+        "count": 222
+      },
+      {
+        "code": "TS1135",
+        "count": 99
+      },
+      {
+        "code": "TS1003",
+        "count": 67
+      },
+      {
+        "code": "TS1011",
+        "count": 37
+      },
+      {
+        "code": "TS1139",
+        "count": 34
+      }
+    ]
+  },
+  {
+    "timestamp": "2025-05-20T23:13:14.479Z",
+    "totalErrors": 4239,
+    "fileCount": 68,
+    "categoryCounts": {
+      "OTHER": 4239
+    },
+    "topErrorCodes": [
+      {
+        "code": "TS1005",
+        "count": 1731
+      },
+      {
+        "code": "TS1109",
+        "count": 440
+      },
+      {
+        "code": "TS1128",
+        "count": 428
+      },
+      {
+        "code": "TS1381",
+        "count": 384
+      },
+      {
+        "code": "TS17002",
+        "count": 266
+      },
+      {
+        "code": "TS1382",
+        "count": 222
+      },
+      {
+        "code": "TS1135",
+        "count": 167
+      },
+      {
+        "code": "TS1003",
+        "count": 112
+      },
+      {
+        "code": "TS1136",
+        "count": 100
+      },
+      {
+        "code": "TS1434",
+        "count": 98
+      }
+    ]
+  },
+  {
+    "timestamp": "2025-05-20T23:36:56.779Z",
+    "totalErrors": 2623,
+    "fileCount": 79,
+    "categoryCounts": {
+      "OTHER": 2611,
+      "AMPLIFY_AUTH": 7,
+      "THREE_JS": 5
+    },
+    "topErrorCodes": [
+      {
+        "code": "TS1005",
+        "count": 693
+      },
+      {
+        "code": "TS1109",
+        "count": 354
+      },
+      {
+        "code": "TS1381",
+        "count": 341
+      },
+      {
+        "code": "TS1128",
+        "count": 274
+      },
+      {
+        "code": "TS17002",
+        "count": 232
+      },
+      {
+        "code": "TS1382",
+        "count": 195
+      },
+      {
+        "code": "TS1135",
+        "count": 128
+      },
+      {
+        "code": "TS1011",
+        "count": 78
+      },
+      {
+        "code": "TS1136",
+        "count": 73
+      },
+      {
+        "code": "TS1003",
+        "count": 68
+      }
+    ]
+  }
+]

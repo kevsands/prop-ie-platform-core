@@ -22,15 +22,15 @@ export function safeJsonParse<T = unknown>(
   fallback: T | null = null
 ): T | null {
   if (!jsonString || typeof jsonString !== 'string') {
-    console.warn('[safeJsonParse] Invalid input: not a string');
+
     return fallback;
   }
-  
+
   try {
     // Use the built-in JSON.parse rather than eval
     return JSON.parse(jsonString) as T;
   } catch (error) {
-    console.error('[safeJsonParse] Failed to parse JSON:', error);
+
     return fallback;
   }
 }
@@ -77,35 +77,35 @@ export function parseWithSchema<T>(
     const parsed = typeof safeJsonParse === 'function' 
       ? safeJsonParse(jsonString)
       : JSON.parse(jsonString);
-    
+
     if (parsed === null) {
       return fallback;
     }
-    
+
     // Handle Zod schema
     if (schema && typeof schema.parse === 'function') {
       try {
         return schema.parse(parsed);
       } catch (error) {
-        console.error('[parseWithSchema] Zod validation failed:', error);
+
         return fallback;
       }
     }
-    
+
     // Handle other validation libraries (like Joi, Yup, etc.)
     if (schema && typeof schema.validate === 'function') {
       const result = schema.validate(parsed);
       if (result.error) {
-        console.error('[parseWithSchema] Schema validation failed:', result.error);
+
         return fallback;
       }
       return (result.value || parsed) as T;
     }
-    
+
     // Default case - no validation, just casting
     return parsed as T;
   } catch (error) {
-    console.error('[parseWithSchema] JSON parsing failed:', error);
+
     return fallback;
   }
 }
@@ -129,19 +129,19 @@ export function parseWithValidator<T>(
     const parsed = typeof safeJsonParse === 'function'
       ? safeJsonParse(jsonString)
       : JSON.parse(jsonString);
-    
+
     if (parsed === null) {
       return fallback;
     }
-    
+
     if (validator(parsed)) {
       return parsed as T;
     } else {
-      console.error('[parseWithValidator] Validation failed for:', parsed);
+
       return fallback;
     }
   } catch (error) {
-    console.error('[parseWithValidator] Error parsing or validating JSON:', error);
+
     return fallback;
   }
 }
@@ -158,11 +158,11 @@ export function safeJsonParseWithReviver<T = unknown>(
   if (!jsonString || typeof jsonString !== 'string') {
     return fallback;
   }
-  
+
   try {
-    return JSON.parse(jsonString, reviver) as T;
+    return JSON.parse(jsonStringreviver) as T;
   } catch (error) {
-    console.error('[safeJsonParseWithReviver] Failed to parse JSON:', error);
+
     return fallback;
   }
 }

@@ -160,13 +160,13 @@ const statusColors = {
 };
 
 export default function TransactionParticipants({ participants, onUpdateParticipant, onInviteParticipant }: TransactionParticipantsProps) {
-  const [selectedParticipant, setSelectedParticipant] = useState<Participant | null>(null);
-  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
-  const [filterRole, setFilterRole] = useState<string>('all');
-  const [showCommunicationModal, setShowCommunicationModal] = useState(false);
-  const [communicationType, setCommunicationType] = useState<'EMAIL' | 'PHONE' | 'VIDEO' | 'MEETING'>('EMAIL');
-  const [communicationSubject, setCommunicationSubject] = useState('');
-  const [communicationMessage, setCommunicationMessage] = useState('');
+  const [selectedParticipantsetSelectedParticipant] = useState<Participant | null>(null);
+  const [viewModesetViewMode] = useState<'grid' | 'list'>('grid');
+  const [filterRolesetFilterRole] = useState<string>('all');
+  const [showCommunicationModalsetShowCommunicationModal] = useState(false);
+  const [communicationTypesetCommunicationType] = useState<'EMAIL' | 'PHONE' | 'VIDEO' | 'MEETING'>('EMAIL');
+  const [communicationSubjectsetCommunicationSubject] = useState('');
+  const [communicationMessagesetCommunicationMessage] = useState('');
 
   const allParticipants = [
     participants.buyer,
@@ -207,8 +207,8 @@ export default function TransactionParticipants({ participants, onUpdateParticip
 
     return (
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
+        initial={ opacity: 0, y: 20 }
+        animate={ opacity: 1, y: 0 }
         className="h-full"
       >
         <Card className="h-full hover:shadow-lg transition-shadow cursor-pointer" onClick={() => setSelectedParticipant(participant)}>
@@ -266,11 +266,11 @@ export default function TransactionParticipants({ participants, onUpdateParticip
               {participant.rating && (
                 <div className="flex items-center gap-2">
                   <div className="flex items-center">
-                    {[...Array(5)].map((_, i) => (
+                    {[...Array(5)].map((_i: any) => (
                       <StarIcon
                         key={i}
                         className={`h-4 w-4 ${
-                          i < Math.floor(participant.rating!) ? 'text-yellow-400 fill-current' : 'text-gray-300'
+                          i <Math.floor(participant.rating!) ? 'text-yellow-400 fill-current' : 'text-gray-300'
                         }`}
                       />
                     ))}
@@ -285,41 +285,41 @@ export default function TransactionParticipants({ participants, onUpdateParticip
                 <Button
                   size="sm"
                   variant="outline"
-                  onClick={(e) => {
+                  onClick={(e: React.MouseEvent) => {
                     e.stopPropagation();
                     setSelectedParticipant(participant);
                     setShowCommunicationModal(true);
-                  }}
+                  }
                 >
                   <ChatBubbleLeftRightIcon className="h-4 w-4" />
                 </Button>
                 <Button
                   size="sm"
                   variant="outline"
-                  onClick={(e) => {
+                  onClick={(e: React.MouseEvent) => {
                     e.stopPropagation();
                     window.location.href = `tel:${participant.phone}`;
-                  }}
+                  }
                 >
                   <PhoneIcon className="h-4 w-4" />
                 </Button>
                 <Button
                   size="sm"
                   variant="outline"
-                  onClick={(e) => {
+                  onClick={(e: React.MouseEvent) => {
                     e.stopPropagation();
                     window.location.href = `mailto:${participant.email}`;
-                  }}
+                  }
                 >
                   <EnvelopeIcon className="h-4 w-4" />
                 </Button>
                 <Button
                   size="sm"
                   variant="outline"
-                  onClick={(e) => {
+                  onClick={(e: React.MouseEvent) => {
                     e.stopPropagation();
                     toast.success(`Video call scheduled with ${participant.name}`);
-                  }}
+                  }
                 >
                   <VideoCameraIcon className="h-4 w-4" />
                 </Button>
@@ -346,21 +346,21 @@ export default function TransactionParticipants({ participants, onUpdateParticip
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="all">All Roles</SelectItem>
-              {Object.entries(roleConfig).map(([key, config]) => (
+              {Object.entries(roleConfig).map(([keyconfig]) => (
                 <SelectItem key={key} value={key}>
                   {config.label}
                 </SelectItem>
               ))}
             </SelectContent>
           </Select>
-          
+
           <Button
             variant="outline"
             onClick={() => setViewMode(viewMode === 'grid' ? 'list' : 'grid')}
           >
             {viewMode === 'grid' ? 'List View' : 'Grid View'}
           </Button>
-          
+
           {onInviteParticipant && (
             <Button onClick={onInviteParticipant}>
               <UserPlusIcon className="h-4 w-4 mr-2" />
@@ -383,7 +383,7 @@ export default function TransactionParticipants({ participants, onUpdateParticip
             </div>
           </CardContent>
         </Card>
-        
+
         <Card>
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
@@ -397,28 +397,28 @@ export default function TransactionParticipants({ participants, onUpdateParticip
             </div>
           </CardContent>
         </Card>
-        
+
         <Card>
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-gray-600">Tasks Pending</p>
                 <p className="text-2xl font-bold text-yellow-600">
-                  {allParticipants.reduce((sum, p) => sum + p.pendingActions, 0)}
+                  {allParticipants.reduce((sump: any) => sum + p.pendingActions0)}
                 </p>
               </div>
               <ClockIcon className="h-8 w-8 text-yellow-400" />
             </div>
           </CardContent>
         </Card>
-        
+
         <Card>
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-gray-600">Documents</p>
                 <p className="text-2xl font-bold text-blue-600">
-                  {allParticipants.reduce((sum, p) => sum + p.documents, 0)}
+                  {allParticipants.reduce((sump: any) => sum + p.documents0)}
                 </p>
               </div>
               <DocumentTextIcon className="h-8 w-8 text-blue-400" />
@@ -464,7 +464,7 @@ export default function TransactionParticipants({ participants, onUpdateParticip
                 {filteredParticipants.map(participant => {
                   const config = roleConfig[participant.role];
                   const taskProgress = participant.completedActions / (participant.completedActions + participant.pendingActions) * 100;
-                  
+
                   return (
                     <tr key={participant.id} className="hover:bg-gray-50">
                       <td className="px-6 py-4 whitespace-nowrap">
@@ -511,7 +511,7 @@ export default function TransactionParticipants({ participants, onUpdateParticip
                             onClick={() => {
                               setSelectedParticipant(participant);
                               setShowCommunicationModal(true);
-                            }}
+                            }
                           >
                             Contact
                           </Button>
@@ -529,18 +529,18 @@ export default function TransactionParticipants({ participants, onUpdateParticip
       {/* Participant Details Modal */}
       {selectedParticipant && !showCommunicationModal && (
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
+          initial={ opacity: 0 }
+          animate={ opacity: 1 }
+          exit={ opacity: 0 }
           className="fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center z-50"
           onClick={() => setSelectedParticipant(null)}
         >
           <motion.div
-            initial={{ scale: 0.95 }}
-            animate={{ scale: 1 }}
-            exit={{ scale: 0.95 }}
+            initial={ scale: 0.95 }
+            animate={ scale: 1 }
+            exit={ scale: 0.95 }
             className="bg-white rounded-lg shadow-xl max-w-4xl w-full mx-4 max-h-[90vh] overflow-hidden"
-            onClick={(e) => e.stopPropagation()}
+            onClick={(e: React.MouseEvent) => e.stopPropagation()}
           >
             <div className="p-6 border-b">
               <div className="flex items-center justify-between">
@@ -637,14 +637,14 @@ export default function TransactionParticipants({ participants, onUpdateParticip
                     </Card>
                   )}
 
-                  {selectedParticipant.specializations && selectedParticipant.specializations.length > 0 && (
+                  {selectedParticipant.specializations && selectedParticipant.specializations.length> 0 && (
                     <Card>
                       <CardHeader>
                         <CardTitle className="text-sm">Specializations</CardTitle>
                       </CardHeader>
                       <CardContent>
                         <div className="flex flex-wrap gap-2">
-                          {selectedParticipant.specializations.map((spec, index) => (
+                          {selectedParticipant.specializations.map((specindex: any) => (
                             <Badge key={index} variant="secondary">
                               {spec}
                             </Badge>
@@ -662,7 +662,7 @@ export default function TransactionParticipants({ participants, onUpdateParticip
                       {selectedParticipant.tasks.filter(t => t.status === 'PENDING').length} Pending
                     </Badge>
                   </div>
-                  
+
                   <div className="space-y-3">
                     {selectedParticipant.tasks.map(task => (
                       <Card key={task.id}>
@@ -695,7 +695,7 @@ export default function TransactionParticipants({ participants, onUpdateParticip
                                 <span className="text-gray-500">
                                   Due: {format(task.dueDate, 'MMM dd, yyyy')}
                                 </span>
-                                {task.relatedDocuments && task.relatedDocuments.length > 0 && (
+                                {task.relatedDocuments && task.relatedDocuments.length> 0 && (
                                   <span className="text-gray-500">
                                     <PaperClipIcon className="h-4 w-4 inline mr-1" />
                                     {task.relatedDocuments.length} documents
@@ -720,12 +720,12 @@ export default function TransactionParticipants({ participants, onUpdateParticip
                       size="sm"
                       onClick={() => {
                         setShowCommunicationModal(true);
-                      }}
+                      }
                     >
                       New Message
                     </Button>
                   </div>
-                  
+
                   <div className="space-y-3">
                     {selectedParticipant.communications.map(comm => (
                       <Card key={comm.id}>
@@ -767,7 +767,7 @@ export default function TransactionParticipants({ participants, onUpdateParticip
                     </CardHeader>
                     <CardContent>
                       <div className="space-y-3">
-                        {Object.entries(selectedParticipant.permissions).map(([key, value]) => (
+                        {Object.entries(selectedParticipant.permissions).map(([keyvalue]) => (
                           <div key={key} className="flex items-center justify-between">
                             <span className="text-sm capitalize">
                               {key.replace(/([A-Z])/g, ' $1').trim()}
@@ -798,7 +798,7 @@ export default function TransactionParticipants({ participants, onUpdateParticip
                               {selectedParticipant.availability.workingHours.start} - {selectedParticipant.availability.workingHours.end}
                             </p>
                           </div>
-                          {selectedParticipant.availability.daysOff.length > 0 && (
+                          {selectedParticipant.availability.daysOff.length> 0 && (
                             <div>
                               <p className="text-sm text-gray-600">Days Off</p>
                               <p className="font-medium">
@@ -825,7 +825,7 @@ export default function TransactionParticipants({ participants, onUpdateParticip
                           <div>
                             <p className="text-sm text-gray-600">Notifications</p>
                             <div className="space-y-2 mt-1">
-                              {Object.entries(selectedParticipant.preferences.notificationSettings).map(([key, value]) => (
+                              {Object.entries(selectedParticipant.preferences.notificationSettings).map(([keyvalue]) => (
                                 <div key={key} className="flex items-center justify-between">
                                   <span className="text-sm capitalize">{key}</span>
                                   <span className={`text-sm ${value ? 'text-green-600' : 'text-gray-500'}`}>
@@ -849,18 +849,18 @@ export default function TransactionParticipants({ participants, onUpdateParticip
       {/* Communication Modal */}
       {showCommunicationModal && selectedParticipant && (
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
+          initial={ opacity: 0 }
+          animate={ opacity: 1 }
+          exit={ opacity: 0 }
           className="fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center z-50"
           onClick={() => setShowCommunicationModal(false)}
         >
           <motion.div
-            initial={{ scale: 0.95 }}
-            animate={{ scale: 1 }}
-            exit={{ scale: 0.95 }}
+            initial={ scale: 0.95 }
+            animate={ scale: 1 }
+            exit={ scale: 0.95 }
             className="bg-white rounded-lg shadow-xl max-w-2xl w-full mx-4"
-            onClick={(e) => e.stopPropagation()}
+            onClick={(e: React.MouseEvent) => e.stopPropagation()}
           >
             <div className="p-6 border-b">
               <div className="flex items-center justify-between">
@@ -880,7 +880,7 @@ export default function TransactionParticipants({ participants, onUpdateParticip
                   <Label>Communication Type</Label>
                   <Select
                     value={communicationType}
-                    onValueChange={(value) => setCommunicationType(value as any)}
+                    onValueChange={(value: any) => setCommunicationType(value as any)}
                   >
                     <SelectTrigger>
                       <SelectValue />
@@ -898,7 +898,7 @@ export default function TransactionParticipants({ participants, onUpdateParticip
                   <Label>Subject</Label>
                   <Input
                     value={communicationSubject}
-                    onChange={(e) => setCommunicationSubject(e.target.value)}
+                    onChange={(e: React.MouseEvent) => setCommunicationSubject(e.target.value)}
                     placeholder="Enter subject..."
                   />
                 </div>
@@ -907,7 +907,7 @@ export default function TransactionParticipants({ participants, onUpdateParticip
                   <Label>Message</Label>
                   <Textarea
                     value={communicationMessage}
-                    onChange={(e) => setCommunicationMessage(e.target.value)}
+                    onChange={(e: React.MouseEvent) => setCommunicationMessage(e.target.value)}
                     placeholder="Enter your message..."
                     rows={6}
                   />

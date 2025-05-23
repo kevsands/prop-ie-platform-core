@@ -9,8 +9,7 @@ import {
   FiEye,
   FiEyeOff,
   FiCheck,
-  FiX,
-} from "react-icons/fi";
+  FiX} from "react-icons/fi";
 import { IconType } from "react-icons";
 
 interface UserRegistrationProps {
@@ -23,9 +22,9 @@ const renderIcon = (Icon: IconType, className?: string) => {
 };
 
 const UserRegistration: React.FC<UserRegistrationProps> = ({ onRegister }) => {
-  const [step, setStep] = useState<number>(1);
-  const [showPassword, setShowPassword] = useState<boolean>(false);
-  const [formData, setFormData] = useState({
+  const [stepsetStep] = useState<number>(1);
+  const [showPasswordsetShowPassword] = useState<boolean>(false);
+  const [formDatasetFormData] = useState({
     firstName: "",
     lastName: "",
     email: "",
@@ -42,10 +41,9 @@ const UserRegistration: React.FC<UserRegistrationProps> = ({ onRegister }) => {
     isInvestor: false,
     agreeTerms: false,
     agreePrivacy: false,
-    agreeMarketing: false,
-  });
+    agreeMarketing: false});
 
-  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [errorssetErrors] = useState<Record<string, string>>({});
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -58,15 +56,13 @@ const UserRegistration: React.FC<UserRegistrationProps> = ({ onRegister }) => {
 
     setFormData({
       ...formData,
-      [name]: type === "checkbox" ? checked : value,
-    });
+      [name]: type === "checkbox" ? checked : value});
 
     // Clear error when field is edited
     if (errors[name]) {
       setErrors({
         ...errors,
-        [name]: "",
-      });
+        [name]: "");
     }
   };
 
@@ -90,7 +86,7 @@ const UserRegistration: React.FC<UserRegistrationProps> = ({ onRegister }) => {
       }
       if (!formData.password) {
         newErrors.password = "Password is required";
-      } else if (formData.password.length < 8) {
+      } else if (formData.password.length <8) {
         newErrors.password = "Password must be at least 8 characters";
       }
       if (formData.password !== formData.confirmPassword) {
@@ -158,7 +154,7 @@ const UserRegistration: React.FC<UserRegistrationProps> = ({ onRegister }) => {
           <div className="flex flex-col items-center">
             <div
               className={`h-10 w-10 rounded-full flex items-center justify-center ${
-                step >= 1
+                step>= 1
                   ? "bg-[#2B5273] text-white"
                   : "bg-gray-200 text-gray-500"
               }`}
@@ -169,13 +165,13 @@ const UserRegistration: React.FC<UserRegistrationProps> = ({ onRegister }) => {
           </div>
 
           <div
-            className={`flex-1 h-1 mx-2 ${step >= 2 ? "bg-[#2B5273]" : "bg-gray-200"}`}
+            className={`flex-1 h-1 mx-2 ${step>= 2 ? "bg-[#2B5273]" : "bg-gray-200"`}
           ></div>
 
           <div className="flex flex-col items-center">
             <div
               className={`h-10 w-10 rounded-full flex items-center justify-center ${
-                step >= 2
+                step>= 2
                   ? "bg-[#2B5273] text-white"
                   : "bg-gray-200 text-gray-500"
               }`}
@@ -188,13 +184,13 @@ const UserRegistration: React.FC<UserRegistrationProps> = ({ onRegister }) => {
           </div>
 
           <div
-            className={`flex-1 h-1 mx-2 ${step >= 3 ? "bg-[#2B5273]" : "bg-gray-200"}`}
+            className={`flex-1 h-1 mx-2 ${step>= 3 ? "bg-[#2B5273]" : "bg-gray-200"`}
           ></div>
 
           <div className="flex flex-col items-center">
             <div
               className={`h-10 w-10 rounded-full flex items-center justify-center ${
-                step >= 3
+                step>= 3
                   ? "bg-[#2B5273] text-white"
                   : "bg-gray-200 text-gray-500"
               }`}
@@ -205,13 +201,13 @@ const UserRegistration: React.FC<UserRegistrationProps> = ({ onRegister }) => {
           </div>
 
           <div
-            className={`flex-1 h-1 mx-2 ${step >= 4 ? "bg-[#2B5273]" : "bg-gray-200"}`}
+            className={`flex-1 h-1 mx-2 ${step>= 4 ? "bg-[#2B5273]" : "bg-gray-200"`}
           ></div>
 
           <div className="flex flex-col items-center">
             <div
               className={`h-10 w-10 rounded-full flex items-center justify-center ${
-                step >= 4
+                step>= 4
                   ? "bg-[#2B5273] text-white"
                   : "bg-gray-200 text-gray-500"
               }`}
@@ -348,7 +344,7 @@ const UserRegistration: React.FC<UserRegistrationProps> = ({ onRegister }) => {
                     {renderIcon(FiLock, "text-gray-400")}
                   </div>
                   <input
-                    type={showPassword ? "text" : "password"}
+                    type={showPassword ? "text" : "password"
                     id="password"
                     name="password"
                     value={formData.password}
@@ -385,7 +381,7 @@ const UserRegistration: React.FC<UserRegistrationProps> = ({ onRegister }) => {
                     {renderIcon(FiLock, "text-gray-400")}
                   </div>
                   <input
-                    type={showPassword ? "text" : "password"}
+                    type={showPassword ? "text" : "password"
                     id="confirmPassword"
                     name="confirmPassword"
                     value={formData.confirmPassword}

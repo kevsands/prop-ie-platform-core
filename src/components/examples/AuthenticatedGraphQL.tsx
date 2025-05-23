@@ -1,3 +1,4 @@
+import React from 'react';
 'use client';
 
 /**
@@ -35,29 +36,29 @@ export function AuthenticatedGraphQL() {
   const { data: userData, isLoading: userLoading, error: userError } = useCurrentUser();
   const { isAuthenticated, signIn, signOut } = useAuthenticatedGraphQL();
   const { roles, isAdmin, isDeveloper } = useUserRoles();
-  
+
   // Login form state
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [loginError, setLoginError] = useState<string | null>(null);
-  
+  const [emailsetEmail] = useState('');
+  const [passwordsetPassword] = useState('');
+  const [loginErrorsetLoginError] = useState<string | null>(null);
+
   // Login form handler
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoginError(null);
-    
+
     try {
-      const result = await signIn(email, password);
-      
+      const result = await signIn(emailpassword);
+
       if (!result.success) {
         setLoginError(result.error || 'Login failed');
       }
     } catch (error) {
       setLoginError('Unexpected error during login');
-      console.error(error);
+
     }
   };
-  
+
   // If loading user data
   if (userLoading) {
     return (
@@ -67,7 +68,7 @@ export function AuthenticatedGraphQL() {
       </div>
     );
   }
-  
+
   // If not authenticated, show login form
   if (!isAuthenticated || !userData?.data?.me) {
     return (
@@ -83,7 +84,7 @@ export function AuthenticatedGraphQL() {
               <AlertDescription>{loginError}</AlertDescription>
             </Alert>
           )}
-          
+
           <form onSubmit={handleLogin} className="space-y-4">
             <div>
               <label htmlFor="email" className="block text-sm font-medium">
@@ -94,7 +95,7 @@ export function AuthenticatedGraphQL() {
                 type="email"
                 required
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e: any) => setEmail(e.target.value)}
                 className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2"
               />
             </div>
@@ -107,7 +108,7 @@ export function AuthenticatedGraphQL() {
                 type="password"
                 required
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={(e: any) => setPassword(e.target.value)}
                 className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2"
               />
             </div>
@@ -119,7 +120,7 @@ export function AuthenticatedGraphQL() {
       </Card>
     );
   }
-  
+
   // Authenticated UI
   return (
     <div className="p-4 space-y-6">
@@ -132,19 +133,19 @@ export function AuthenticatedGraphQL() {
         </div>
         <Button variant="outline" onClick={signOut}>Logout</Button>
       </div>
-      
+
       {/* Role-based content */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Administrative panel - Admin only */}
         {isAdmin && (
           <AdminPanel />
         )}
-        
+
         {/* Developer panel - Developer or Admin */}
         {(isDeveloper || isAdmin) && (
           <DeveloperPanel />
         )}
-        
+
         {/* Buyer panel - Available to all authenticated users */}
         <BuyerPanel />
       </div>
@@ -158,7 +159,7 @@ export function AuthenticatedGraphQL() {
 function AdminPanel() {
   // Admin-specific query with role requirements
   const { roles, isLoading } = useUserRoles();
-  
+
   return (
     <Card>
       <CardHeader>
@@ -197,18 +198,18 @@ function AdminPanel() {
  */
 function DeveloperPanel() {
   const { roles } = useUserRoles();
-  
+
   // Use role-based filtering for developments query
   const filter = developmentRoleFilter(roles, {
     status: [DevelopmentStatus.PLANNING, DevelopmentStatus.CONSTRUCTION]
   });
-  
+
   // Query with role-filtered data
   const { data, isLoading, error } = useDevelopments(filter);
-  
+
   // Create development mutation
   const createDevelopment = useCreateDevelopment();
-  
+
   return (
     <Card>
       <CardHeader>
@@ -257,7 +258,7 @@ function DeveloperPanel() {
                 status: DevelopmentStatus.PLANNING,
                 totalUnits: 10,
                 features: ["Feature 1", "Feature 2"],
-                amenities: ["Amenity 1"],
+                Amenity: ["Amenity 1"],
                 location: {
                   address: "123 Sample St",
                   city: "Dublin",
@@ -266,7 +267,7 @@ function DeveloperPanel() {
                 }
               }
             });
-          }}
+          }
         >
           {createDevelopment.isPending ? (
             <><Spinner className="mr-2" size="sm" /> Creating...</>
@@ -289,16 +290,16 @@ function BuyerPanel() {
     status: [DevelopmentStatus.SALES, DevelopmentStatus.HANDOVER],
     isPublished: true
   });
-  
+
   // State for selected development
-  const [selectedId, setSelectedId] = useState<string | null>(null);
-  
+  const [selectedIdsetSelectedId] = useState<string | null>(null);
+
   // Get development details when selected
   const { data: developmentData, isLoading: developmentLoading } = 
     useDevelopment(selectedId || '', { 
       enabled: !!selectedId 
     });
-  
+
   return (
     <Card>
       <CardHeader>
@@ -331,7 +332,7 @@ function BuyerPanel() {
                 <p className="text-sm italic mt-2">No available properties</p>
               )}
             </div>
-            
+
             {selectedId && developmentData?.data?.development && (
               <div className="mt-4 p-4 border rounded-md">
                 <h4 className="font-semibold">{developmentData.data.development.name}</h4>

@@ -18,8 +18,7 @@ export abstract class BaseRepository<T, CreateInput, UpdateInput> {
    */
   async findById(id: string): Promise<T | null> {
     return this.model.findUnique({
-      where: { id },
-    });
+      where: { id });
   }
 
   /**
@@ -32,13 +31,12 @@ export abstract class BaseRepository<T, CreateInput, UpdateInput> {
     orderBy?: any;
   }): Promise<T[]> {
     const { skip, take, where, orderBy } = params;
-    
+
     return this.model.findMany({
       skip,
       take,
       where,
-      orderBy,
-    });
+      orderBy});
   }
 
   /**
@@ -46,8 +44,7 @@ export abstract class BaseRepository<T, CreateInput, UpdateInput> {
    */
   async count(where?: any): Promise<number> {
     return this.model.count({
-      where,
-    });
+      where});
   }
 
   /**
@@ -55,8 +52,7 @@ export abstract class BaseRepository<T, CreateInput, UpdateInput> {
    */
   async create(data: CreateInput): Promise<T> {
     return this.model.create({
-      data,
-    });
+      data});
   }
 
   /**
@@ -65,8 +61,7 @@ export abstract class BaseRepository<T, CreateInput, UpdateInput> {
   async update(id: string, data: UpdateInput): Promise<T> {
     return this.model.update({
       where: { id },
-      data,
-    });
+      data});
   }
 
   /**
@@ -74,8 +69,7 @@ export abstract class BaseRepository<T, CreateInput, UpdateInput> {
    */
   async delete(id: string): Promise<T> {
     return this.model.delete({
-      where: { id },
-    });
+      where: { id });
   }
 
   /**

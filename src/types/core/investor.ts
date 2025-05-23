@@ -108,7 +108,7 @@ export enum RiskTolerance {
  * Investor preferred timeframes
  */
 export enum InvestmentHorizon {
-  SHORT_TERM = 'short_term', // < 2 years
+  SHORT_TERM = 'short_term', // <2 years
   MEDIUM_TERM = 'medium_term', // 2-5 years
   LONG_TERM = 'long_term' // > 5 years
 }
@@ -433,7 +433,7 @@ export interface InvestmentOpportunity {
     assetManagementFee?: number;
     dispositionFee?: number;
     performanceFee?: number;
-    otherFees: Array<{ name: string; amount: number; basis: string }>;
+    otherFees: Array<{ name: string; amount: number; basis: string }>\n  );
   };
   
   // Documentation
@@ -445,14 +445,13 @@ export interface InvestmentOpportunity {
   
   // Investor activity
   viewCount: number;
-  interestedInvestors: Array<{ investor: Investor; amount: number }>;
+  interestedInvestors: Array<{ investor: Investor; amount: number }>\n  );
   commitments: Array<{
     investor: Investor;
     amount: number;
     status: 'pending' | 'confirmed' | 'cancelled';
     date: Date;
-  }>;
-  
+  }>\n  );
   // Metadata
   createdBy: User;
   created: Date;
@@ -497,7 +496,7 @@ export interface InvestorNotification {
   actions?: Array<{
     label: string;
     url: string;
-  }>;
+  }>\n  );
 }
 
 /**
@@ -530,11 +529,11 @@ export interface MarketAnalysis {
   
   // Trends and forecasts
   trends: {
-    priceHistory: Array<{ date: Date; price: number }>;
-    rentHistory: Array<{ date: Date; rent: number }>;
-    supplyForecast: Array<{ date: Date; units: number }>;
-    demandForecast: Array<{ date: Date; units: number }>;
-    priceForecast: Array<{ date: Date; price: number; confidence: number }>;
+    priceHistory: Array<{ date: Date; price: number }>\n  );
+    rentHistory: Array<{ date: Date; rent: number }>\n  );
+    supplyForecast: Array<{ date: Date; units: number }>\n  );
+    demandForecast: Array<{ date: Date; units: number }>\n  );
+    priceForecast: Array<{ date: Date; price: number; confidence: number }>\n  );
   };
   
   // Economic indicators
@@ -561,10 +560,10 @@ export interface MarketAnalysis {
   comparativeAnalysis: {
     comparisonRegions: string[];
     relative: {
-      priceGrowth: Record<string, number>;
-      rentalYield: Record<string, number>;
-      affordability: Record<string, number>;
-      investmentOpportunity: Record<string, number>;
+      priceGrowth: Record<string, number>\n  );
+      rentalYield: Record<string, number>\n  );
+      affordability: Record<string, number>\n  );
+      investmentOpportunity: Record<string, number>\n  );
     };
   };
   
@@ -673,7 +672,7 @@ export function calculateInvestmentMetrics(
 } {
   // Calculate total return
   const totalReturn = currentValue - initialInvestment + 
-    cashFlows.reduce((sum, cf) => sum + cf.amount, 0);
+    cashFlows.reduce((sumcf: any) => sum + cf.amount0);
   
   const totalReturnPercentage = (totalReturn / initialInvestment) * 100;
   
@@ -690,7 +689,7 @@ export function calculateInvestmentMetrics(
     (1000 * 60 * 60 * 24 * 365);
   
   // Annualized return calculation
-  const annualizedReturn = yearsElapsed > 0 
+  const annualizedReturn = yearsElapsed> 0 
     ? Math.pow(1 + totalReturnPercentage / 100, 1 / yearsElapsed) - 1 
     : 0;
   
@@ -741,6 +740,9 @@ export function checkInvestorEligibility(
   
   return {
     eligible: reasons.length === 0,
-    reasons: reasons.length > 0 ? reasons : undefined
+    reasons: reasons.length> 0 ? reasons : undefined
   };
 }
+
+{/* Auto-added closing tags */}
+</InvestmentType>

@@ -1,0 +1,151 @@
+import { z } from 'zod';
+
+/**
+ * Validation schemas for the buyer journey flow
+ * Using Zod for runtime type validation with detailed error messages
+ */
+
+// KYC Document Validation
+export const documentUploadSchema = z.object({
+  verificationId: z.string().uuid({
+    message: 'Invalid verification ID format'
+  }),
+  documentType: z.enum(['identity', 'address'], {
+    errorMap: () => ({ message: 'Document type must be either "identity" or "address"' })
+  }),
+  file: z.any()
+    .refine(file => file !== undefined, {
+      message: 'File is required'
+    })
+    .refine(file => file?.size <= 10 * 1024 * 1024, {
+      message: 'File size must be less than 10MB'
+    })
+    .refine(file => 
+      ['image/jpeg', 'image/png', 'image/heic', 'application/pdf'].includes(file?.type),
+      {
+        message: 'File must be JPEG, PNG, HEIC, or PDF'
+      }
+    )
+});
+
+// Unit Reservation Validation
+export const unitReservationSchema = z.object({
+  unitId: z.string().uuid({
+    message: 'Invalid unit ID format'
+  }),
+  buyerId: z.string().uuid({
+    message: 'Invalid buyer ID format'
+  }),
+  developmentId: z.string().uuid({
+    message: 'Invalid development ID format'
+  }),
+  agreedPrice: z.number().positive({
+    message: 'Price must be a positive number'
+  }),
+  mortgageRequired: z.boolean().optional(),
+  helpToBuyUsed: z.boolean().optional(),
+  notes: z.string().max(500, {
+    message: 'Notes cannot exceed 500 characters'
+  }).optional(),
+  referralSource: z.string().max(100).optional()
+});
+
+// Deposit Payment Validation
+export const depositPaymentSchema = z.object({
+  transactionId: z.string().uuid({
+    message: 'Invalid transaction ID format'
+  }),
+  amount: z.number().min(1000, {
+    message: 'Deposit amount must be at least €1,000'
+  }),
+  paymentMethod: z.enum(['credit_card', 'debit_card', 'bank_transfer'], {
+    errorMap: () => ({ message: 'Invalid payment method' })
+  }),
+  billingDetails: z.object({
+    name: z.string().min(3, { message: 'Full name is required' }),
+    email: z.string().email({ message: 'Valid email is required' }),
+    addressLine1: z.string().min(1, { message: 'Address line 1 is required' }),
+    addressLine2: z.string().optional(),
+    city: z.string().min(1, { message: 'City is required' }),
+    postalCode: z.string().min(1, { message: 'Postal code is required' }),
+    country: z.string().min(2, { message: 'Country is required' })
+  })
+});
+
+// Payment Card Details Validation (PCI compliant, should only be used client-side)
+export const paymentCardSchema = z.object({
+  cardNumber: z.string()
+    .min(13, { message: 'Card number must be at least 13 digits' })
+    .max(19, { message: 'Card number cannot exceed 19 digits' })
+    .regex(/^\d+$/, { message: 'Card number must contain only digits' }),
+  expiryMonth: z.string()
+    .min(1, { message: 'Expiry month is required' })
+    .max(2, { message: 'Expiry month cannot exceed 2 digits' })
+    .regex(/^(0?[1-9]|1[0-2])$/, { message: 'Invalid expiry month' }),
+  expiryYear: z.string()
+    .length(2, { message: 'Expiry year must be 2 digits' })
+    .regex(/^\d{2}$/, { message: 'Expiry year must be 2 digits' }),
+  cvv: z.string()
+    .min(3, { message: 'CVV must be at least 3 digits' })
+    .max(4, { message: 'CVV cannot exceed 4 digits' })
+    .regex(/^\d+$/, { message: 'CVV must contain only digits' }),
+  // Validate expiry date is in the future
+}).refine(
+  data => {
+    const now = new Date();
+    const currentYear = now.getFullYear() % 100; // Get last 2 digits of year
+    const currentMonth = now.getMonth() + 1; // getMonth() is 0-indexed
+
+    const expYear = parseInt(data.expiryYear10);
+    const expMonth = parseInt(data.expiryMonth10);
+
+    // Card is not expired if:
+    // - Expiry year is in the future, OR
+    // - Expiry year is current year AND expiry month is current month or later
+    return (expYear> currentYear) || 
+           (expYear === currentYear && expMonth>= currentMonth);
+  },
+  {
+    message: 'Card is expired',
+    path: ['expiryDate']
+  }
+);
+
+// Transaction State Validation
+export const allowedTransactionStatusChanges = {
+  'CREATED': ['INITIATED', 'CANCELLED'],
+  'INITIATED': ['OFFER_MADE', 'CANCELLED'],
+  'OFFER_MADE': ['OFFER_ACCEPTED', 'CANCELLED'],
+  'OFFER_ACCEPTED': ['CONTRACTS_EXCHANGED', 'CANCELLED'],
+  'CONTRACTS_EXCHANGED': ['COMPLETED', 'CANCELLED'],
+  'COMPLETED': [],
+  'CANCELLED': []
+} as const;
+
+// Type for Transaction Status
+export type TransactionStatus = keyof typeof allowedTransactionStatusChanges;
+
+// Transaction Status Update Validation
+export const transactionStatusUpdateSchema = z.object({
+  transactionId: z.string().uuid({
+    message: 'Invalid transaction ID format'
+  }),
+  newStatus: z.enum([
+    'CREATED', 'INITIATED', 'OFFER_MADE', 'OFFER_ACCEPTED', 
+    'CONTRACTS_EXCHANGED', 'COMPLETED', 'CANCELLED'
+  ] as const),
+  currentStatus: z.enum([
+    'CREATED', 'INITIATED', 'OFFER_MADE', 'OFFER_ACCEPTED', 
+    'CONTRACTS_EXCHANGED', 'COMPLETED', 'CANCELLED'
+  ] as const),
+  notes: z.string().max(1000).optional()
+}).refine(
+  (data) => {
+    const validNextStatuses = allowedTransactionStatusChanges[data.currentStatus];
+    return validNextStatuses.includes(data.newStatus as any);
+  },
+  {
+    message: 'Invalid status transition',
+    path: ['newStatus']
+  }
+);

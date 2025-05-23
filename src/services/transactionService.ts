@@ -1,0 +1,883 @@
+import { PrismaClient, Transaction, TransactionStatus, TransactionStage, TransactionEventType, TransactionDocumentStatus, TransactionPaymentStatus, TransactionTaskStatus, TransactionMilestoneStatus, TransactionNotificationStatus, TransactionIssueStatus } from '@prisma/client';
+import { EventEmitter } from 'events';
+import { addDays, differenceInDays } from 'date-fns';
+
+export interface TransactionCreate {
+  buyerId: string;
+  developmentId: string;
+  unitId: string;
+  agentId?: string;
+  agreedPrice?: number;
+  mortgageRequired?: boolean;
+  helpToBuyUsed?: boolean;
+  referralSource?: string;
+  notes?: string;
+}
+
+export interface TransactionUpdate {
+  status?: TransactionStatus;
+  stage?: TransactionStage;
+  agreedPrice?: number;
+  notes?: string;
+  internalNotes?: string;
+  [key: string]: any;
+}
+
+export interface TransactionFilter {
+  buyerId?: string;
+  developmentId?: string;
+  unitId?: string;
+  status?: TransactionStatus;
+  stage?: TransactionStage;
+  createdAfter?: Date;
+  createdBefore?: Date;
+}
+
+interface MilestoneDefinition {
+  name: string;
+  description: string;
+  stage: TransactionStage;
+  order: number;
+  requiredDocs: string[];
+  requiredPayments: string[];
+  targetDaysFromStart: number;
+}
+
+// Define standard milestones for Irish property transactions
+const STANDARD_MILESTONES: MilestoneDefinition[] = [
+  {
+    name: 'Initial Enquiry Received',
+    description: 'Buyer has made initial contact and expressed interest',
+    stage: TransactionStage.INITIAL_ENQUIRY,
+    order: 1,
+    requiredDocs: [],
+    requiredPayments: [],
+    targetDaysFromStart: 0
+  },
+  {
+    name: 'Property Viewing Completed',
+    description: 'Buyer has viewed the property',
+    stage: TransactionStage.PROPERTY_VIEWING,
+    order: 2,
+    requiredDocs: [],
+    requiredPayments: [],
+    targetDaysFromStart: 7
+  },
+  {
+    name: 'Offer Accepted',
+    description: 'Buyer\'s offer has been accepted by the developer',
+    stage: TransactionStage.OFFER_NEGOTIATION,
+    order: 3,
+    requiredDocs: [],
+    requiredPayments: [],
+    targetDaysFromStart: 14
+  },
+  {
+    name: 'Reservation Completed',
+    description: 'Property reserved with booking deposit paid',
+    stage: TransactionStage.RESERVATION,
+    order: 4,
+    requiredDocs: ['RESERVATION_FORM', 'IDENTIFICATION', 'PROOF_OF_ADDRESS'],
+    requiredPayments: ['BOOKING_DEPOSIT'],
+    targetDaysFromStart: 21
+  },
+  {
+    name: 'Sale Agreed',
+    description: 'Sale terms agreed and legal process initiated',
+    stage: TransactionStage.LEGAL_PROCESSING,
+    order: 5,
+    requiredDocs: ['PROOF_OF_FUNDS', 'MORTGAGE_APPROVAL'],
+    requiredPayments: [],
+    targetDaysFromStart: 30
+  },
+  {
+    name: 'Contracts Exchanged',
+    description: 'Purchase contracts signed and exchanged',
+    stage: TransactionStage.CONTRACT_EXCHANGE,
+    order: 6,
+    requiredDocs: ['SALES_CONTRACT'],
+    requiredPayments: ['CONTRACT_DEPOSIT'],
+    targetDaysFromStart: 60
+  },
+  {
+    name: 'Mortgage Drawdown',
+    description: 'Final mortgage approval and funds ready',
+    stage: TransactionStage.PRE_COMPLETION,
+    order: 7,
+    requiredDocs: ['MORTGAGE_OFFER'],
+    requiredPayments: [],
+    targetDaysFromStart: 90
+  },
+  {
+    name: 'Completion',
+    description: 'Transaction completed and ownership transferred',
+    stage: TransactionStage.COMPLETION,
+    order: 8,
+    requiredDocs: ['TITLE_DEED', 'COMPLETION_CERTIFICATE'],
+    requiredPayments: ['BALANCE_PAYMENT'],
+    targetDaysFromStart: 120
+  },
+  {
+    name: 'Keys Handover',
+    description: 'Keys handed over to buyer',
+    stage: TransactionStage.POST_COMPLETION,
+    order: 9,
+    requiredDocs: ['WARRANTY'],
+    requiredPayments: [],
+    targetDaysFromStart: 121
+  }
+];
+
+class TransactionService extends EventEmitter {
+  private prisma: PrismaClient;
+
+  constructor() {
+    super();
+    this.prisma = new PrismaClient();
+  }
+
+  // Generate a unique reference number for transactions
+  private generateReferenceNumber(): string {
+    const date = new Date();
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const random = Math.random().toString(36).substring(28).toUpperCase();
+    return `PROP-${year}${month}-${random}`;
+  }
+
+  // Create a new transaction
+  async createTransaction(data: TransactionCreate): Promise<Transaction> {
+    const referenceNumber = this.generateReferenceNumber();
+
+    return await this.prisma.$transaction(async (tx: any) => {
+      // Create the main transaction
+      const transaction = await tx.transaction.create({
+        data: {
+          referenceNumber,
+          buyerId: data.buyerId,
+          developmentId: data.developmentId,
+          unitId: data.unitId,
+          agentId: data.agentId,
+          agreedPrice: data.agreedPrice,
+          mortgageRequired: data.mortgageRequired ?? true,
+          helpToBuyUsed: data.helpToBuyUsed ?? false,
+          referralSource: data.referralSource,
+          notes: data.notes,
+          gdprConsent: true
+        }
+      });
+
+      // Create initial event
+      await tx.transactionEvent.create({
+        data: {
+          transactionId: transaction.id,
+          eventType: TransactionEventType.STATUS_CHANGE,
+          description: 'Transaction created',
+          metadata: {
+            status: TransactionStatus.ENQUIRY,
+            buyerId: data.buyerId,
+            unitId: data.unitId
+          },
+          performedBy: data.buyerId
+        }
+      });
+
+      // Create standard milestones
+      const milestones = await Promise.all(
+        STANDARD_MILESTONES.map((milestone: any) =>
+          tx.transactionMilestone.create({
+            data: {
+              transactionId: transaction.id,
+              name: milestone.name,
+              description: milestone.description,
+              stage: milestone.stage,
+              order: milestone.order,
+              requiredDocs: milestone.requiredDocs,
+              requiredPayments: milestone.requiredPayments,
+              targetDate: addDays(new Date(), milestone.targetDaysFromStart)
+            }
+          })
+        )
+      );
+
+      // Create initial tasks
+      await this.createInitialTasks(tx, transaction.iddata);
+
+      // Send initial notification
+      await tx.transactionNotification.create({
+        data: {
+          transactionId: transaction.id,
+          type: 'STATUS_UPDATE',
+          priority: 'NORMAL',
+          recipient: data.buyerId,
+          title: 'Property Enquiry Received',
+          message: `Thank you for your interest. Your enquiry reference is ${referenceNumber}. Our team will contact you shortly.`,
+          actionUrl: `/buyer/transactions/${transaction.id}`
+        }
+      });
+
+      // Create timeline record
+      await tx.transactionTimeline.create({
+        data: {
+          transactionId: transaction.id,
+          firstContactDate: new Date()
+        }
+      });
+
+      this.emit('transaction:created', transaction);
+      return transaction;
+    });
+  }
+
+  // Update transaction
+  async updateTransaction(id: string, data: TransactionUpdate, performedBy: string): Promise<Transaction> {
+    return await this.prisma.$transaction(async (tx: any) => {
+      // Get current transaction
+      const currentTransaction = await tx.transaction.findUnique({
+        where: { id }
+      });
+
+      if (!currentTransaction) {
+        throw new Error('Transaction not found');
+      }
+
+      // Update transaction
+      const updatedTransaction = await tx.transaction.update({
+        where: { id },
+        data: {
+          ...data,
+          updatedAt: new Date()
+        }
+      });
+
+      // Log status change
+      if (data.status && data.status !== currentTransaction.status) {
+        await tx.transactionEvent.create({
+          data: {
+            transactionId: id,
+            eventType: TransactionEventType.STATUS_CHANGE,
+            description: `Status changed from ${currentTransaction.status} to ${data.status}`,
+            metadata: {
+              oldStatus: currentTransaction.status,
+              newStatus: data.status
+            },
+            performedBy
+          }
+        });
+
+        // Update timeline based on status
+        await this.updateTimeline(tx, id, data.status);
+
+        // Handle status-specific logic
+        await this.handleStatusChange(tx, updatedTransaction, currentTransaction.status, data.status!, performedBy);
+      }
+
+      // Log stage change
+      if (data.stage && data.stage !== currentTransaction.stage) {
+        await tx.transactionEvent.create({
+          data: {
+            transactionId: id,
+            eventType: TransactionEventType.STAGE_CHANGE,
+            description: `Stage changed from ${currentTransaction.stage} to ${data.stage}`,
+            metadata: {
+              oldStage: currentTransaction.stage,
+              newStage: data.stage
+            },
+            performedBy
+          }
+        });
+
+        // Update milestone statuses
+        await this.updateMilestoneStatuses(tx, id, data.stage);
+      }
+
+      this.emit('transaction:updated', updatedTransaction);
+      return updatedTransaction;
+    });
+  }
+
+  // Handle status-specific logic
+  private async handleStatusChange(
+    tx: any,
+    transaction: Transaction,
+    oldStatus: TransactionStatus,
+    newStatus: TransactionStatus,
+    performedBy: string
+  ) {
+    switch (newStatus) {
+      case TransactionStatus.RESERVED:
+        // Create reservation fee payment record
+        await tx.transactionPayment.create({
+          data: {
+            transactionId: transaction.id,
+            type: 'BOOKING_DEPOSIT',
+            amount: 5000, // Standard €5,000 booking deposit
+            reference: `BD-${transaction.referenceNumber}`,
+            method: 'BANK_TRANSFER',
+            dueDate: addDays(new Date(), 7),
+            description: 'Booking deposit to reserve property'
+          }
+        });
+
+        // Update unit status
+        await tx.unit.update({
+          where: { id: transaction.unitId },
+          data: { status: 'RESERVED' }
+        });
+
+        // Create tasks for next steps
+        await tx.transactionTask.create({
+          data: {
+            transactionId: transaction.id,
+            title: 'Complete KYC/AML Verification',
+            description: 'Submit required documents for identity verification',
+            category: 'COMPLIANCE',
+            priority: 'HIGH',
+            dueDate: addDays(new Date(), 14),
+            assignedTo: transaction.buyerId
+          }
+        });
+        break;
+
+      case TransactionStatus.SALE_AGREED:
+        // Calculate 10% contractual deposit
+        const depositAmount = transaction.agreedPrice ? transaction.agreedPrice * 0.1 : 0;
+
+        await tx.transactionPayment.create({
+          data: {
+            transactionId: transaction.id,
+            type: 'CONTRACT_DEPOSIT',
+            amount: depositAmount,
+            reference: `CD-${transaction.referenceNumber}`,
+            method: 'BANK_TRANSFER',
+            dueDate: addDays(new Date(), 21),
+            description: '10% contractual deposit'
+          }
+        });
+
+        // Create legal tasks
+        await tx.transactionTask.create({
+          data: {
+            transactionId: transaction.id,
+            title: 'Review and Sign Contracts',
+            description: 'Review purchase contracts with your solicitor',
+            category: 'LEGAL',
+            priority: 'HIGH',
+            dueDate: addDays(new Date(), 21),
+            assignedTo: transaction.buyerId
+          }
+        });
+        break;
+
+      case TransactionStatus.CONTRACTS_SIGNED:
+        // Update timeline
+        await tx.transactionTimeline.update({
+          where: { transactionId: transaction.id },
+          data: { contractSignedDate: new Date() }
+        });
+
+        // Create next phase tasks
+        if (transaction.mortgageRequired) {
+          await tx.transactionTask.create({
+            data: {
+              transactionId: transaction.id,
+              title: 'Finalize Mortgage Application',
+              description: 'Complete final mortgage requirements with your lender',
+              category: 'MORTGAGE',
+              priority: 'HIGH',
+              dueDate: addDays(new Date(), 30),
+              assignedTo: transaction.buyerId
+            }
+          });
+        }
+        break;
+
+      case TransactionStatus.COMPLETED:
+        // Update unit status
+        await tx.unit.update({
+          where: { id: transaction.unitId },
+          data: { status: 'SOLD' }
+        });
+
+        // Update timeline
+        await tx.transactionTimeline.update({
+          where: { transactionId: transaction.id },
+          data: { 
+            completionActualDate: new Date(),
+            totalDurationDays: differenceInDays(new Date(), transaction.createdAt)
+          }
+        });
+
+        // Create completion notification
+        await tx.transactionNotification.create({
+          data: {
+            transactionId: transaction.id,
+            type: 'STATUS_UPDATE',
+            priority: 'HIGH',
+            recipient: transaction.buyerId,
+            title: 'Congratulations! Purchase Completed',
+            message: 'Your property purchase has been completed successfully. Welcome to your new home!',
+            actionUrl: `/buyer/transactions/${transaction.id}`
+          }
+        });
+        break;
+    }
+  }
+
+  // Update timeline based on status changes
+  private async updateTimeline(tx: any, transactionId: string, status: TransactionStatus) {
+    const updates: any = {};
+
+    switch (status) {
+      case TransactionStatus.VIEWING_SCHEDULED:
+        updates.propertyViewingDate = new Date();
+        break;
+      case TransactionStatus.OFFER_ACCEPTED:
+        updates.offerAcceptedDate = new Date();
+        break;
+      case TransactionStatus.RESERVED:
+        updates.reservationDate = new Date();
+        break;
+      case TransactionStatus.CONTRACTS_ISSUED:
+        updates.contractIssuedDate = new Date();
+        break;
+      case TransactionStatus.CONTRACTS_SIGNED:
+        updates.contractSignedDate = new Date();
+        break;
+      case TransactionStatus.MORTGAGE_APPROVED:
+        updates.mortgageApprovedDate = new Date();
+        break;
+      case TransactionStatus.COMPLETED:
+        updates.completionActualDate = new Date();
+        break;
+      case TransactionStatus.HANDED_OVER:
+        updates.keysHandoverDate = new Date();
+        break;
+    }
+
+    if (Object.keys(updates).length> 0) {
+      await tx.transactionTimeline.update({
+        where: { transactionId },
+        data: updates
+      });
+    }
+  }
+
+  // Update milestone statuses based on stage
+  private async updateMilestoneStatuses(tx: any, transactionId: string, stage: TransactionStage) {
+    const milestones = await tx.transactionMilestone.findMany({
+      where: { transactionId },
+      orderBy: { order: 'asc' }
+    });
+
+    const currentStageIndex = STANDARD_MILESTONES.findIndex(m => m.stage === stage);
+
+    for (const milestone of milestones) {
+      const milestoneIndex = milestone.order - 1;
+      let status: TransactionMilestoneStatus;
+
+      if (milestoneIndex <currentStageIndex) {
+        status = 'COMPLETED';
+      } else if (milestoneIndex === currentStageIndex) {
+        status = 'IN_PROGRESS';
+      } else {
+        status = 'PENDING';
+      }
+
+      if (milestone.status !== status) {
+        await tx.transactionMilestone.update({
+          where: { id: milestone.id },
+          data: { 
+            status,
+            actualDate: status === 'COMPLETED' ? new Date() : null
+          }
+        });
+      }
+    }
+  }
+
+  // Create initial tasks for a new transaction
+  private async createInitialTasks(tx: any, transactionId: string, data: TransactionCreate) {
+    const tasks = [
+      {
+        title: 'Schedule Property Viewing',
+        description: 'Arrange a viewing of the selected property',
+        category: 'PROPERTY_INSPECTION',
+        priority: 'HIGH',
+        dueDate: addDays(new Date(), 7)
+      },
+      {
+        title: 'Prepare Documentation',
+        description: 'Gather required documents for the transaction',
+        category: 'DOCUMENTATION',
+        priority: 'NORMAL',
+        dueDate: addDays(new Date(), 14)
+      }
+    ];
+
+    if (data.mortgageRequired) {
+      tasks.push({
+        title: 'Mortgage Application',
+        description: 'Apply for mortgage pre-approval',
+        category: 'MORTGAGE',
+        priority: 'HIGH',
+        dueDate: addDays(new Date(), 21)
+      });
+    }
+
+    if (data.helpToBuyUsed) {
+      tasks.push({
+        title: 'Help to Buy Application',
+        description: 'Submit Help to Buy scheme application',
+        category: 'HTB',
+        priority: 'HIGH',
+        dueDate: addDays(new Date(), 14)
+      });
+    }
+
+    await Promise.all(
+      tasks.map((task: any) =>
+        tx.transactionTask.create({
+          data: {
+            transactionId,
+            ...task,
+            assignedTo: data.buyerId
+          }
+        })
+      )
+    );
+  }
+
+  // Get transaction by ID
+  async getTransaction(id: string): Promise<Transaction | null> {
+    return await this.prisma.transaction.findUnique({
+      where: { id },
+      include: {
+        buyer: true,
+        development: true,
+        unit: true,
+        agent: true,
+        solicitor: true,
+        events: {
+          orderBy: { performedAt: 'desc' },
+          take: 10
+        },
+        documents: {
+          orderBy: { uploadedAt: 'desc' }
+        },
+        payments: {
+          orderBy: { createdAt: 'desc' }
+        },
+        tasks: {
+          where: { status: { not: 'COMPLETED' } },
+          orderBy: { dueDate: 'asc' }
+        },
+        milestones: {
+          orderBy: { order: 'asc' }
+        },
+        notifications: {
+          where: { status: { not: 'READ' } },
+          orderBy: { createdAt: 'desc' }
+        },
+        timeline: true
+      }
+    });
+  }
+
+  // Get transactions with filters
+  async getTransactions(filter: TransactionFilter = {}) {
+    const where: any = {};
+
+    if (filter.buyerId) where.buyerId = filter.buyerId;
+    if (filter.developmentId) where.developmentId = filter.developmentId;
+    if (filter.unitId) where.unitId = filter.unitId;
+    if (filter.status) where.status = filter.status;
+    if (filter.stage) where.stage = filter.stage;
+
+    if (filter.createdAfter || filter.createdBefore) {
+      where.createdAt = {};
+      if (filter.createdAfter) where.createdAt.gte = filter.createdAfter;
+      if (filter.createdBefore) where.createdAt.lte = filter.createdBefore;
+    }
+
+    return await this.prisma.transaction.findMany({
+      where,
+      include: {
+        buyer: true,
+        development: true,
+        unit: true,
+        _count: {
+          select: {
+            documents: true,
+            payments: true,
+            tasks: { where: { status: { not: 'COMPLETED' } } },
+            notifications: { where: { status: { not: 'READ' } } }
+          }
+        }
+      },
+      orderBy: { createdAt: 'desc' }
+    });
+  }
+
+  // Progress transaction to next stage
+  async progressToNextStage(id: string, performedBy: string): Promise<Transaction> {
+    const transaction = await this.getTransaction(id);
+    if (!transaction) throw new Error('Transaction not found');
+
+    const stageOrder = Object.values(TransactionStage);
+    const currentIndex = stageOrder.indexOf(transaction.stage);
+
+    if (currentIndex === stageOrder.length - 1) {
+      throw new Error('Transaction is already at final stage');
+    }
+
+    const nextStage = stageOrder[currentIndex + 1];
+
+    return await this.updateTransaction(id, { stage: nextStage }, performedBy);
+  }
+
+  // Add document to transaction
+  async addDocument(
+    transactionId: string,
+    document: {
+      name: string;
+      type: string;
+      category: string;
+      fileName: string;
+      fileSize: number;
+      mimeType: string;
+      fileUrl: string;
+      uploadedBy: string;
+      requiresSignature?: boolean;
+    }
+  ) {
+    const newDocument = await this.prisma.transactionDocument.create({
+      data: {
+        transactionId,
+        ...document
+      }
+    });
+
+    // Log event
+    await this.prisma.transactionEvent.create({
+      data: {
+        transactionId,
+        eventType: TransactionEventType.DOCUMENT_UPLOADED,
+        description: `Document uploaded: ${document.name}`,
+        metadata: {
+          documentId: newDocument.id,
+          documentType: document.type
+        },
+        performedBy: document.uploadedBy
+      }
+    });
+
+    this.emit('document:uploaded', { transactionId, document: newDocument });
+    return newDocument;
+  }
+
+  // Process payment
+  async processPayment(
+    transactionId: string,
+    payment: {
+      type: string;
+      amount: number;
+      method: string;
+      reference: string;
+      description?: string;
+    }
+  ) {
+    const newPayment = await this.prisma.transactionPayment.create({
+      data: {
+        transactionId,
+        ...payment,
+        status: 'PROCESSING'
+      }
+    });
+
+    // Log event
+    await this.prisma.transactionEvent.create({
+      data: {
+        transactionId,
+        eventType: TransactionEventType.PAYMENT_RECEIVED,
+        description: `Payment received: ${payment.type}`,
+        metadata: {
+          paymentId: newPayment.id,
+          amount: payment.amount,
+          method: payment.method
+        }
+      }
+    });
+
+    // In real implementation, integrate with payment provider
+    // For now, simulate payment processing
+    setTimeout(async () => {
+      await this.prisma.transactionPayment.update({
+        where: { id: newPayment.id },
+        data: { 
+          status: 'COMPLETED',
+          paidDate: new Date(),
+          clearedDate: new Date()
+        }
+      });
+
+      // Update transaction totals
+      const transaction = await this.prisma.transaction.findUnique({
+        where: { id: transactionId }
+      });
+
+      if (transaction) {
+        const totalPaid = transaction.totalPaid + payment.amount;
+        const outstandingBalance = (transaction.agreedPrice || 0) - totalPaid;
+
+        await this.prisma.transaction.update({
+          where: { id: transactionId },
+          data: { totalPaid, outstandingBalance }
+        });
+      }
+
+      this.emit('payment:completed', { transactionId, payment: newPayment });
+    }, 3000);
+
+    return newPayment;
+  }
+
+  // Create notification
+  async createNotification(
+    transactionId: string,
+    notification: {
+      type: string;
+      priority?: string;
+      recipient: string;
+      title: string;
+      message: string;
+      actionUrl?: string;
+      channels?: string[];
+    }
+  ) {
+    const newNotification = await this.prisma.transactionNotification.create({
+      data: {
+        transactionId,
+        ...notification,
+        priority: notification.priority || 'NORMAL',
+        channels: notification.channels || ['IN_APP']
+      }
+    });
+
+    // In real implementation, send actual notifications
+    this.emit('notification:created', { transactionId, notification: newNotification });
+
+    return newNotification;
+  }
+
+  // Update task status
+  async updateTaskStatus(
+    taskId: string,
+    status: TransactionTaskStatus,
+    performedBy: string,
+    notes?: string
+  ) {
+    const task = await this.prisma.transactionTask.findUnique({
+      where: { id: taskId }
+    });
+
+    if (!task) throw new Error('Task not found');
+
+    const updatedTask = await this.prisma.transactionTask.update({
+      where: { id: taskId },
+      data: {
+        status,
+        notes,
+        startedAt: status === 'IN_PROGRESS' ? new Date() : undefined,
+        completedAt: status === 'COMPLETED' ? new Date() : undefined
+      }
+    });
+
+    // Log event
+    await this.prisma.transactionEvent.create({
+      data: {
+        transactionId: task.transactionId,
+        eventType: status === 'COMPLETED' ? TransactionEventType.TASK_COMPLETED : TransactionEventType.TASK_CREATED,
+        description: `Task ${status.toLowerCase()}: ${task.title}`,
+        metadata: {
+          taskId,
+          status,
+          notes
+        },
+        performedBy
+      }
+    });
+
+    return updatedTask;
+  }
+
+  // Get transaction analytics
+  async getTransactionAnalytics(developmentId?: string) {
+    const where = developmentId ? { developmentId } : {};
+
+    const [
+      totalTransactions,
+      statusCounts,
+      stageCounts,
+      averageDuration,
+      monthlyTransactions
+    ] = await Promise.all([
+      // Total transactions
+      this.prisma.transaction.count({ where }),
+
+      // Status distribution
+      this.prisma.transaction.groupBy({
+        by: ['status'],
+        where,
+        _count: true
+      }),
+
+      // Stage distribution
+      this.prisma.transaction.groupBy({
+        by: ['stage'],
+        where,
+        _count: true
+      }),
+
+      // Average duration for completed transactions
+      this.prisma.transactionTimeline.aggregate({
+        where: {
+          transaction: {
+            ...where,
+            status: 'COMPLETED'
+          }
+        },
+        _avg: {
+          totalDurationDays: true
+        }
+      }),
+
+      // Monthly transaction counts
+      this.prisma.$queryRaw`
+        SELECT 
+          DATE_TRUNC('month', "createdAt") as month,
+          COUNT(*) as count
+        FROM "Transaction"
+        WHERE ${developmentId ? '"developmentId" = ${developmentId}' : 'true'}
+        GROUP BY month
+        ORDER BY month DESC
+        LIMIT 12
+      `
+    ]);
+
+    return {
+      totalTransactions,
+      statusDistribution: statusCounts,
+      stageDistribution: stageCounts,
+      averageCompletionDays: averageDuration._avg.totalDurationDays,
+      monthlyTrends: monthlyTransactions
+    };
+  }
+
+  // Close the Prisma connection
+  async disconnect() {
+    await this.prisma.$disconnect();
+  }
+}
+
+export const transactionService = new TransactionService();

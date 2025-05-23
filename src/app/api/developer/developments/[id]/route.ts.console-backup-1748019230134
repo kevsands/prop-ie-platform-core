@@ -1,0 +1,146 @@
+import { NextRequest, NextResponse } from 'next/server';
+import { prisma } from '@/lib/prisma';
+
+type Props = {
+  params: { id: string }
+}
+
+// GET /api/developer/developments/[id] - Get a specific development
+export async function GET(
+  request: NextRequest,
+  { params }: Props
+) {
+  const { id } = params;
+  
+  try {
+    const development = await prisma.development.findUnique({
+      where: {
+        id
+      },
+      include: {
+        UnitType: {
+          include: {
+            schedule: {
+              orderBy: { order: 'asc' }
+            },
+            units: {
+              include: {
+                _count: {
+                  select: {
+                    reservations: true,
+                    sales: true
+                  }
+                }
+              }
+            }
+          }
+        },
+        Amenity: true,
+        DevelopmentMedia: {
+          orderBy: { order: 'asc' }
+        },
+        DevelopmentDocument: true,
+        Viewing: {
+          orderBy: { date: 'desc' },
+          take: 10
+        }
+      }
+    });
+
+    if (!development) {
+      return NextResponse.json(
+        { error: 'Development not found' },
+        { status: 404 }
+      );
+    }
+
+    // Calculate metrics
+    const metrics = {
+      totalUnits: 0,
+      availableUnits: 0,
+      reservedUnits: 0,
+      soldUnits: 0,
+      revenue: 0
+    };
+
+    development.UnitType.forEach(unitType => {
+      const totalUnitsOfType = unitType.units.length;
+      metrics.totalUnits += totalUnitsOfType;
+      
+      unitType.units.forEach(unit => {
+        if (unit._count.sales > 0) {
+          metrics.soldUnits++;
+          metrics.revenue += unit.price || 0;
+        } else if (unit._count.reservations > 0) {
+          metrics.reservedUnits++;
+        } else if (unit.status === 'AVAILABLE') {
+          metrics.availableUnits++;
+        }
+      });
+    });
+
+    return NextResponse.json({
+      development,
+      metrics
+    });
+
+  } catch (error) {
+    console.error('Error fetching development:', error);
+    return NextResponse.json(
+      { error: 'Failed to fetch development' },
+      { status: 500 }
+    );
+  }
+}
+
+// PUT /api/developer/developments/[id] - Update development
+export async function PUT(
+  request: NextRequest,
+  { params }: Props
+) {
+  const { id } = params;
+  const body: any = await request.json();
+  
+  try {
+    const updated = await prisma.development.update({
+      where: {
+        id
+      },
+      data: body
+    });
+
+    return NextResponse.json(updated);
+
+  } catch (error) {
+    console.error('Error updating development:', error);
+    return NextResponse.json(
+      { error: 'Failed to update development' },
+      { status: 500 }
+    );
+  }
+}
+
+// DELETE /api/developer/developments/[id] - Delete development
+export async function DELETE(
+  request: NextRequest,
+  { params }: Props
+) {
+  const { id } = params;
+  
+  try {
+    await prisma.development.delete({
+      where: {
+        id
+      }
+    });
+
+    return NextResponse.json({ success: true });
+
+  } catch (error) {
+    console.error('Error deleting development:', error);
+    return NextResponse.json(
+      { error: 'Failed to delete development' },
+      { status: 500 }
+    );
+  }
+}

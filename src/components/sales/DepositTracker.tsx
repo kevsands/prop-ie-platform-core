@@ -37,12 +37,12 @@ const DepositTracker: React.FC<DepositTrackerProps> = ({
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('en-IE', { style: 'currency', currency: 'EUR' }).format(amount);
   };
-  
+
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     return date.toLocaleDateString('en-IE', { year: 'numeric', month: 'short', day: 'numeric' });
   };
-  
+
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'paid':
@@ -57,7 +57,7 @@ const DepositTracker: React.FC<DepositTrackerProps> = ({
         return 'text-gray-600';
     }
   };
-  
+
   const getStatusIcon = (status: string) => {
     switch (status) {
       case 'paid':
@@ -72,11 +72,11 @@ const DepositTracker: React.FC<DepositTrackerProps> = ({
         return null;
     }
   };
-  
+
   return (
     <div className="bg-white rounded-lg shadow-md p-6">
       <h3 className="text-lg font-semibold text-gray-900 mb-4">Payment Schedule</h3>
-      
+
       <div className="space-y-6">
         <div className="flex items-center justify-between pb-4 border-b border-gray-200">
           <div className="flex items-center">
@@ -105,7 +105,7 @@ const DepositTracker: React.FC<DepositTrackerProps> = ({
             )}
           </div>
         </div>
-        
+
         <div className="flex items-center justify-between pb-4 border-b border-gray-200">
           <div className="flex items-center">
             {getStatusIcon(contractDeposit.status)}
@@ -135,7 +135,7 @@ const DepositTracker: React.FC<DepositTrackerProps> = ({
             )}
           </div>
         </div>
-        
+
         <div className="flex items-center justify-between">
           <div className="flex items-center">
             {getStatusIcon(balance.status)}
@@ -166,7 +166,7 @@ const DepositTracker: React.FC<DepositTrackerProps> = ({
           </div>
         </div>
       </div>
-      
+
       <div className="mt-6 pt-6 border-t border-gray-200 flex justify-between">
         <span className="font-medium">Total Purchase Price:</span>
         <span className="font-bold text-lg">{formatCurrency(unitPrice)}</span>

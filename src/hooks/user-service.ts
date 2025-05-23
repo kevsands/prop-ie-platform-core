@@ -19,7 +19,7 @@ export class UserService {
     if (!prismaUser) return null;
     return mapPrismaUserToUser(prismaUser);
   }
-  
+
   /**
    * Get a user by email
    * @param email User email
@@ -30,7 +30,7 @@ export class UserService {
     if (!prismaUser) return null;
     return mapPrismaUserToUser(prismaUser);
   }
-  
+
   /**
    * Create a new user
    * @param data User creation data
@@ -46,7 +46,7 @@ export class UserService {
   }): Promise<User> {
     // Convert UserRole enum values to string values for storage
     const roleStrings = data.roles.map(role => role.toString());
-    
+
     const prismaUser = await userDb.create({
       email: data.email,
       firstName: data.firstName,
@@ -55,10 +55,10 @@ export class UserService {
       phone: data.phone,
       roles: roleStrings
     });
-    
+
     return mapPrismaUserToUser(prismaUser);
   }
-  
+
   /**
    * Update a user's profile
    * @param id User ID
@@ -71,10 +71,10 @@ export class UserService {
     phone?: string;
     avatar?: string;
   }): Promise<User> {
-    const prismaUser = await userDb.update(id, data);
+    const prismaUser = await userDb.update(iddata);
     return mapPrismaUserToUser(prismaUser);
   }
-  
+
   /**
    * Update a user's status
    * @param id User ID
@@ -85,7 +85,7 @@ export class UserService {
     const prismaUser = await userDb.update(id, { status });
     return mapPrismaUserToUser(prismaUser);
   }
-  
+
   /**
    * List users with filtering
    * @param options Filter options
@@ -106,13 +106,13 @@ export class UserService {
   }> {
     const { page = 1, limit = 50, ...filterOptions } = options || {};
     const offset = (page - 1) * limit;
-    
+
     const result = await userDb.list({
       ...filterOptions,
       limit,
       offset
     });
-    
+
     return {
       users: result.users.map(mapPrismaUserToUser),
       totalCount: result.totalCount,
@@ -121,7 +121,7 @@ export class UserService {
       limit
     };
   }
-  
+
   /**
    * Authenticate a user with email and password
    * @param email User email
@@ -130,25 +130,25 @@ export class UserService {
    */
   async authenticate(email: string, password: string): Promise<AuthResponse> {
     const user = await this.getUserByEmail(email);
-    
+
     if (!user) {
       return {
         success: false,
         message: 'Invalid email or password'
       };
     }
-    
+
     // In a real implementation, we would verify the password hash here
     // This is just a placeholder for demonstration purposes
     const passwordValid = true; // Replace with actual password verification
-    
+
     if (!passwordValid) {
       return {
         success: false,
         message: 'Invalid email or password'
       };
     }
-    
+
     return {
       success: true,
       user,

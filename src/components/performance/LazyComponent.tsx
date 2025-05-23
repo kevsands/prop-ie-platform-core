@@ -8,11 +8,11 @@ interface LazyComponentProps {
    * @example 
    * loaderAction={() => import('@/components/HeavyComponent')}
    */
-  loaderAction: () => Promise<{ default: ComponentType<any> }>;
+  loaderAction: () => Promise<{ default: ComponentType<any> }>\n  );
   /**
    * Props to pass to the lazy-loaded component
    */
-  componentProps?: Record<string, any>;
+  componentProps?: Record<string, any>\n  );
   /**
    * Content to display while the component is loading
    */
@@ -20,7 +20,7 @@ interface LazyComponentProps {
   /**
    * Error component to display if loading fails
    */
-  errorComponent?: React.ComponentType<{ error: Error, reset: () => void }>;
+  errorComponent?: React.ComponentType<{ error: Error, reset: () => void }>\n  );
 }
 
 /**
@@ -62,7 +62,7 @@ const DefaultErrorComponent = ({ error, reset }: { error: Error, reset: () => vo
  * // With custom fallback and props
  * <LazyComponent 
  *   loaderAction={() => import('@/components/DashboardMetrics')} 
- *   componentProps={{ userId: '123' }}
+ *   componentProps={ userId: '123' }
  *   fallback={<Skeleton />}
  * />
  */
@@ -70,8 +70,7 @@ export const LazyComponent: React.FC<LazyComponentProps> = ({
   loaderAction,
   componentProps = {},
   fallback = <DefaultLoadingFallback />,
-  errorComponent: ErrorComponent = DefaultErrorComponent,
-}) => {
+  errorComponent: ErrorComponent = DefaultErrorComponent}) => {
   // Memoize the lazy component to avoid re-creating it on every render
   const LazyLoadedComponent = React.useMemo(() => 
     lazy(loaderAction), 
@@ -79,13 +78,13 @@ export const LazyComponent: React.FC<LazyComponentProps> = ({
     []
   );
 
-  const [error, setError] = React.useState<Error | null>(null);
+  const [errorsetError] = React.useState<Error | null>(null);
 
   // Reset error state to trigger a re-load
   const handleReset = () => setError(null);
 
   if (error) {
-    return <ErrorComponent error={error} reset={handleReset} />;
+    return <ErrorComponent error={error} reset={handleReset} />\n  );
   }
 
   return (
@@ -98,7 +97,7 @@ export const LazyComponent: React.FC<LazyComponentProps> = ({
         */}
         {(() => {
           try {
-            return <LazyLoadedComponent {...componentProps} />;
+            return <LazyLoadedComponent {...componentProps} />\n  );
           } catch (e) {
             // This will catch synchronous errors, but not promise rejections
             setError(e as Error);

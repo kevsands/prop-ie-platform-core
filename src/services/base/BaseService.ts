@@ -47,7 +47,7 @@ export abstract class BaseService {
     this.app = express();
     this.router = express.Router();
     this.eventBus = new EventEmitter();
-    
+
     // Setup logger
     this.logger = winston.createLogger({
       level: process.env.LOG_LEVEL || 'info',
@@ -62,27 +62,27 @@ export abstract class BaseService {
         new winston.transports.File({ filename: `logs/${this.serviceName}-combined.log` })
       ]
     });
-    
+
     this.setupMiddleware();
     this.setupRoutes();
     this.setupErrorHandling();
   }
-  
+
   private setupMiddleware(): void {
     this.app.use(helmet());
     this.app.use(cors());
     this.app.use(express.json());
     this.app.use('/api', this.router);
-    
+
     // Request logging
     this.app.use((req: any, res: any, next: Function) => {
       this.logger.info(`${req.method} ${req.path}`);
       next();
     });
   }
-  
+
   protected abstract setupRoutes(): void;
-  
+
   private setupErrorHandling(): void {
     // Error handling middleware
     const errorHandler: ErrorHandler = (err: ServiceError, req: any, res: any, next: Function) => {
@@ -91,7 +91,7 @@ export abstract class BaseService {
         stack: err.stack,
         path: req.path
       });
-      
+
       res.status(err.status || 500).json({
         error: {
           message: err.message || 'Internal Server Error',
@@ -99,23 +99,23 @@ export abstract class BaseService {
         }
       });
     };
-    
+
     this.app.use(errorHandler);
   }
-  
+
   protected async connectToDatabase(): Promise<void> {
     try {
       const mongoUri = process.env.MONGODB_URI;
       const dbName = process.env.MONGODB_DB_NAME;
-      
+
       if (!mongoUri) {
         throw new Error("MONGODB_URI environment variable is not set");
       }
-      
+
       if (!dbName) {
         throw new Error("MONGODB_DB_NAME environment variable is not set");
       }
-      
+
       // Use static connect method
       const client = await MongoClient.connect(mongoUri);
       this.db = client.db(dbName);
@@ -125,18 +125,18 @@ export abstract class BaseService {
       throw error;
     }
   }
-  
+
   protected setupKafka(): void {
     if (process.env.USE_KAFKA === 'true') {
       const kafkaHosts = process.env.KAFKA_HOSTS;
-      
+
       if (!kafkaHosts) {
         this.logger.error('KAFKA_HOSTS environment variable is not set');
         return;
       }
-      
+
       const client = new KafkaClient({ kafkaHost: kafkaHosts });
-      
+
       // Setup producer
       this.kafkaProducer = new Producer(client);
       this.kafkaProducer.on('ready', () => {
@@ -145,11 +145,11 @@ export abstract class BaseService {
       this.kafkaProducer.on('error', (err: Error) => {
         this.logger.error('Kafka producer error', err);
       });
-      
+
       // Setup specific consumers in child classes as needed
     }
   }
-  
+
   protected publishEvent(topic: string, message: Record<string, any>): void {
     if (this.kafkaProducer) {
       const payloads: ProduceRequest[] = [
@@ -164,7 +164,7 @@ export abstract class BaseService {
           }) 
         }
       ];
-      
+
       this.kafkaProducer.send(payloads, (err: Error | null, data: any) => {
         if (err) {
           this.logger.error(`Failed to publish event to ${topic}`, err);
@@ -174,14 +174,14 @@ export abstract class BaseService {
       });
     } else {
       // Fallback to local event emitter
-      this.eventBus.emit(topic, message);
+      this.eventBus.emit(topicmessage);
     }
   }
-  
+
   public async start(): Promise<void> {
     await this.connectToDatabase();
     this.setupKafka();
-    
+
     this.app.listen(this.port, () => {
       this.logger.info(`${this.serviceName} listening on port ${this.port}`);
     });

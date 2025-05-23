@@ -15,27 +15,22 @@ const columns: ColumnDef<TestData>[] = [
   {
     accessorKey: 'name',
     header: 'Name',
-    size: 200,
-  },
+    size: 200},
   {
     accessorKey: 'email',
     header: 'Email',
-    size: 300,
-  },
+    size: 300},
   {
     accessorKey: 'status',
     header: 'Status',
-    size: 150,
-  },
-];
+    size: 150}];
 
 const testData = generateTestData<TestData>(
   {
     id: '1',
     name: 'John Doe',
     email: 'john@example.com',
-    status: 'Active',
-  },
+    status: 'Active'},
   10
 );
 
@@ -74,8 +69,7 @@ describe('DataTable Column Sizing', () => {
       id: '11',
       name: 'New User',
       email: 'new@example.com',
-      status: 'Inactive',
-    }];
+      status: 'Inactive'}];
     
     rerender(
       <DataTable

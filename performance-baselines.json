@@ -1,12 +1,12 @@
 {
-  "HomePage-render": 200,
-  "PropertyListing-render": 300,
-  "PropertyDetail-render": 400,
-  "BuyerDashboard-render": 500,
-  "CustomizationPage-render": 600,
-  "LoginForm-render": 150,
-  "RegisterForm-render": 200,
-  "PropertySearch-journey": 800,
-  "Auth-journey": 600,
-  "Customization-journey": 1200
+  "HomePage-render": 27,
+  "PropertyListing-render": 40,
+  "PropertyDetail-render": 53,
+  "BuyerDashboard-render": 67,
+  "CustomizationPage-render": 80,
+  "LoginForm-render": 20,
+  "RegisterForm-render": 27,
+  "PropertySearch-journey": 107,
+  "Auth-journey": 80,
+  "Customization-journey": 161
 }

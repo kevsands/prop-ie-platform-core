@@ -24,7 +24,7 @@ export class DevelopmentService {
         }
       }
     `;
-    
+
     try {
       const responseData = await API.graphql<ListDevelopmentsResponse>({ 
         query, 
@@ -33,20 +33,20 @@ export class DevelopmentService {
       });
       return responseData.listDevelopments?.items || [];
     } catch (error) {
-      console.error("Error fetching featured developments:", error);
+
       return [];
     }
   }
-  
+
   /**
    * Get a development by ID
    */
   static async getDevelopmentById(developmentId: string): Promise<Development | null> {
     if (!developmentId) {
-      console.error("getDevelopmentById requires a developmentId");
+
       return null;
     }
-    
+
     const query = `
       query GetDevelopmentWithProperties($id: ID!, $propertyLimit: Int) {
         getDevelopment(id: $id) {
@@ -71,7 +71,7 @@ export class DevelopmentService {
         }
       }
     `;
-    
+
     try {
       const responseData = await API.graphql<GetDevelopmentResponse>({ 
         query, 
@@ -83,7 +83,7 @@ export class DevelopmentService {
       });
       return responseData.getDevelopment || null;
     } catch (error) {
-      console.error(`Error fetching development with ID ${developmentId}:`, error);
+
       return null;
     }
   }
@@ -93,10 +93,10 @@ export class DevelopmentService {
    */
   static async updateDevelopment(developmentId: string, updateData: Partial<Development>): Promise<Development | null> {
     if (!developmentId) {
-      console.error("updateDevelopment requires a developmentId");
+
       return null;
     }
-    
+
     const mutation = `
       mutation UpdateDevelopment($id: ID!, $input: UpdateDevelopmentInput!) {
         updateDevelopment(id: $id, input: $input) {
@@ -111,7 +111,7 @@ export class DevelopmentService {
         }
       }
     `;
-    
+
     try {
       const responseData = await API.graphql<{ updateDevelopment: Development }>({ 
         query: mutation, 
@@ -123,7 +123,7 @@ export class DevelopmentService {
       });
       return responseData.updateDevelopment || null;
     } catch (error) {
-      console.error(`Error updating development with ID ${developmentId}:`, error);
+
       return null;
     }
   }
@@ -147,7 +147,7 @@ export class DevelopmentService {
         }
       }
     `;
-    
+
     try {
       const responseData = await API.graphql<{ createDevelopment: Development }>({ 
         query: mutation, 
@@ -158,7 +158,7 @@ export class DevelopmentService {
       });
       return responseData.createDevelopment || null;
     } catch (error) {
-      console.error(`Error creating development:`, error);
+
       return null;
     }
   }

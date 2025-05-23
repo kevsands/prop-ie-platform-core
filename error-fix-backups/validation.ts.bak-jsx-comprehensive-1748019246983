@@ -1,0 +1,1399 @@
+/**
+ * Enhanced Security Schema Validation
+ * 
+ * This module provides performance-optimized schema validation for security-critical operations
+ * to ensure data integrity and prevent security vulnerabilities in the PropIE application.
+ * 
+ * Features:
+ * - Comprehensive security schema validation with strict type checking
+ * - Performance-optimized validation with caching for frequently used schemas
+ * - Integration with threat detection for validation-related threats
+ * - Content security policy validation
+ * - Input sanitization and normalization
+ * - Advanced pattern matching for security-sensitive fields
+ * - Cross-field validation rules
+ */
+
+import { z } from 'zod';
+import { AuditLogger, AuditCategory, AuditSeverity } from './auditLogger';
+import { SecurityError, SecurityErrorCode, ValidationError } from './errorHandling';
+import { asyncTTLCache } from '@/lib/utils/safeCache';
+import { ThreatType } from './threatDetection';
+
+// Import optional dependencies
+let threatDetector: any;
+
+// Dynamically import threat detector to avoid circular dependencies
+const importThreatDetector = async () => {
+  if (!threatDetector) {
+    const module = await import('./threatDetection');
+    threatDetector = module.default;
+  }
+  return threatDetector;
+};
+
+/**
+ * ValidationContext provides additional context for validation operations
+ */
+export interface ValidationContext {
+  userId?: string;
+  sessionId?: string;
+  ipAddress?: string;
+  userAgent?: string;
+  referrer?: string;
+  resourceType?: string;
+  resourceId?: string;
+  action?: string;
+  origin?: string;
+}
+
+/**
+ * Validation options with performance settings
+ */
+export interface ValidationOptions {
+  sourceName?: string;
+  context?: ValidationContext;
+  stripUnknown?: boolean;
+  logValidation?: boolean;
+  performanceMode?: 'strict' | 'balanced' | 'performance' | 'high-performance';
+  enableThreatDetection?: boolean;
+  cacheable?: boolean;
+  sanitizeInput?: boolean;
+  normalizeInput?: boolean;
+  maxValidationDepth?: number;
+}
+
+/**
+ * Common regex patterns for secure validation
+ */
+export const securityPatterns = {
+  // Safe string patterns
+  SAFE_STRING: /^[a-zA-Z0-9\s\-_.,;:!?'"()[\]{}@#$%^&*+=|\\/<>~`]+$/,
+  ALPHANUMERIC: /^[a-zA-Z0-9]+$/,
+
+  // Format patterns
+  EMAIL: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2}$/,
+  STRONG_PASSWORD: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8}$/,
+  PHONE: /^\+?[1-9]\d{1,14}$/,
+  URL: /^https:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)$/,
+  UUID: /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i,
+
+  // Security-sensitive patterns
+  JWT: /^[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+\.[A-Za-z0-9-_]*$/,
+  CREDIT_CARD: /^\d{4}[- ]?\d{4}[- ]?\d{4}[- ]?\d{4}$/,
+  SSN: /^\d{3}-\d{2}-\d{4}$/,
+
+  // Injection prevention patterns
+  NO_SQL_INJECTION: /^[^{}<>$]+$/,
+  NO_HTML: /^[^<>]+$/,
+
+  // Content security policy
+  CSP_HEADER: /^(default-src|script-src|style-src|img-src|connect-src|font-src|object-src|media-src|frame-src|sandbox|report-uri|child-src|form-action|frame-ancestors|plugin-types|base-uri|report-to|worker-src|manifest-src|prefetch-src|navigate-to)\s.+/}
+
+/**
+ * Enhanced security schemas for validating inputs and outputs in security-critical operations
+ * with performance optimizations and advanced validation patterns
+ */
+export const securitySchemas = {
+  // MFA setup schemas
+  mfa: {
+    // MFA setup input validation
+    setup: z.object({
+      method: z.enum(['TOTP', 'SMS']),
+      phoneNumber: z.string().optional().refine(
+        (val) => !val || securityPatterns.PHONE.test(val),
+        { message: 'Invalid phone number format. Must include country code (e.g., +1...)' }
+      )
+    }),
+
+    // MFA verification input validation
+    verification: z.object({
+      method: z.enum(['TOTP', 'SMS', 'RECOVERY']),
+      code: z.string().min(6).max(8).refine(
+        (val) => /^[0-9]+$/.test(val),
+        { message: 'Verification code must contain only numbers' }
+      )
+    }),
+
+    // Recovery code validation
+    recoveryCode: z.string().length(10).refine(
+      (val) => /^[A-Z0-9]{10}$/.test(val),
+      { message: 'Invalid recovery code format' }
+    ),
+
+    // Phone number validation
+    phoneNumber: z.string().refine(
+      (val) => securityPatterns.PHONE.test(val),
+      { message: 'Invalid phone number format. Must include country code (e.g., +1...)' }
+    ),
+
+    // Advanced MFA configuration
+    advancedConfig: z.object({
+      requiredLevel: z.enum(['OPTIONAL', 'CONDITIONAL', 'REQUIRED']),
+      allowedMethods: z.array(z.enum(['TOTP', 'SMS', 'RECOVERY', 'HARDWARE_KEY'])),
+      graceperiodDays: z.number().int().nonnegative().optional(),
+      recoveryCodesCount: z.number().int().min(1).max(20).optional(),
+      enforcementRules: z.array(z.object({
+        condition: z.string(),
+        level: z.enum(['OPTIONAL', 'REQUIRED'])
+      })).optional(),
+      sessionDurationHours: z.number().positive().optional(),
+      rememberDeviceDays: z.number().nonnegative().optional()
+    })
+  },
+
+  // Session fingerprint validation
+  session: {
+    // Client fingerprint data (enhanced)
+    fingerprint: z.object({
+      userAgent: z.string().max(500),
+      language: z.string().max(20),
+      colorDepth: z.number().int().positive(),
+      screenResolution: z.string().max(50).refine(
+        (val) => /^\d+x\d+$/.test(val),
+        { message: 'Invalid screen resolution format' }
+      ),
+      timezone: z.string().max(50),
+      platform: z.string().max(50),
+      hasTouch: z.boolean(),
+      hasWebGL: z.boolean(),
+      hasStorage: z.boolean(),
+      hasIndexDB: z.boolean(),
+      cpuCores: z.number().int().positive(),
+      deviceMemory: z.number().optional(),
+      networkType: z.string().optional(),
+      networkDownlink: z.number().optional(),
+      hardwareConcurrency: z.number().int().positive().optional(),
+      webglRenderer: z.string().optional(),
+      canvasFingerprint: z.string().optional(),
+      fontFingerprint: z.string().optional(),
+      audioFingerprint: z.string().optional(),
+      doNotTrack: z.enum(['1', '0', 'unspecified']).optional(),
+      adBlockEnabled: z.boolean().optional(),
+      accelerometerUsed: z.boolean().optional()
+    }),
+
+    // Geolocation data (enhanced)
+    geolocation: z.object({
+      ip: z.string().max(45).refine(
+        (val) => /^(\d{1,3}\.){3}\d{1,3}$|^([0-9a-f]{1,4}:){7}[0-9a-f]{1,4}$/.test(val),
+        { message: 'Invalid IP address format' }
+      ),
+      country: z.string().max(2).refine(
+        (val) => /^[A-Z]{2}$/.test(val),
+        { message: 'Country code must be ISO 3166-1 alpha-2 format' }
+      ),
+      region: z.string().max(50),
+      city: z.string().max(100),
+      postalCode: z.string().max(20).optional(),
+      latitude: z.number().refine(
+        (val) => val >= -90 && val <= 90,
+        { message: 'Latitude must be between -90 and 90' }
+      ),
+      longitude: z.number().refine(
+        (val) => val >= -180 && val <= 180,
+        { message: 'Longitude must be between -180 and 180' }
+      ),
+      isp: z.string().max(100).optional(),
+      asn: z.number().int().positive().optional(),
+      timezone: z.string().max(50).optional(),
+      accuracyRadius: z.number().int().positive().optional(),
+      vpnDetected: z.boolean().optional(),
+      proxyDetected: z.boolean().optional(),
+      torDetected: z.boolean().optional(),
+      dataCenter: z.boolean().optional()
+    }).optional(),
+
+    // Trusted device (enhanced)
+    trustedDevice: z.object({
+      fingerprint: z.string().max(500),
+      name: z.string().min(1).max(100).refine(
+        (val) => securityPatterns.SAFE_STRING.test(val),
+        { message: 'Device name contains invalid characters' }
+      ),
+      trusted: z.boolean(),
+      firstSeen: z.number().int().positive(),
+      lastSeen: z.number().int().positive(),
+      approvalMethod: z.enum(['EMAIL', 'SMS', 'PUSH', 'MFA']).optional(),
+      approvalDate: z.number().int().positive().optional(),
+      approvedByUserId: z.string().optional(),
+      approvedFromIp: z.string().optional(),
+      deviceType: z.enum(['DESKTOP', 'MOBILE', 'TABLET', 'TV', 'OTHER']).optional(),
+      osName: z.string().optional(),
+      osVersion: z.string().optional(),
+      browserName: z.string().optional(),
+      browserVersion: z.string().optional(),
+      expiresAt: z.number().int().positive().optional()
+    }),
+
+    // Session token validation
+    token: z.object({
+      jwt: z.string().refine(
+        (val) => securityPatterns.JWT.test(val),
+        { message: 'Invalid JWT format' }
+      ),
+      issuedAt: z.number().int().positive(),
+      expiresAt: z.number().int().positive(),
+      scope: z.array(z.string()).optional(),
+      deviceId: z.string().optional(),
+      refreshToken: z.string().optional().refine(
+        (val) => !val || val.length >= 64,
+        { message: 'Refresh token must be at least 64 characters' }
+      ),
+      sessionType: z.enum(['NORMAL', 'EXTENDED', 'TEMPORARY', 'RESTRICTED']).optional()
+    })
+  },
+
+  // Authentication validation (enhanced)
+  auth: {
+    // Login request validation
+    loginRequest: z.object({
+      email: z.string().email().max(255).refine(
+        (val) => securityPatterns.EMAIL.test(val),
+        { message: 'Invalid email format' }
+      ),
+      password: z.string().min(8).max(128),
+      rememberMe: z.boolean().optional(),
+      deviceName: z.string().max(100).optional(),
+      captchaToken: z.string().optional(),
+      mfaCode: z.string().optional(),
+      clientFingerprint: z.string().optional()
+    }),
+
+    // Registration request validation (enhanced)
+    registrationRequest: z.object({
+      email: z.string().email().max(255).refine(
+        (val) => securityPatterns.EMAIL.test(val),
+        { message: 'Invalid email format' }
+      ),
+      password: z.string().min(8).max(128).refine(
+        (val) => securityPatterns.STRONG_PASSWORD.test(val),
+        {
+          message: 'Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character'
+        }
+      ),
+      confirmPassword: z.string().min(8).max(128),
+      firstName: z.string().min(1).max(50).refine(
+        (val) => securityPatterns.SAFE_STRING.test(val),
+        { message: 'First name contains invalid characters' }
+      ),
+      lastName: z.string().min(1).max(50).refine(
+        (val) => securityPatterns.SAFE_STRING.test(val),
+        { message: 'Last name contains invalid characters' }
+      ),
+      termsAccepted: z.boolean().refine((val) => val === true, {
+        message: 'You must accept the terms and conditions'
+      }),
+      privacyPolicyAccepted: z.boolean().refine((val) => val === true, {
+        message: 'You must accept the privacy policy'
+      }),
+      captchaToken: z.string().optional(),
+      clientFingerprint: z.string().optional(),
+      referralCode: z.string().max(50).optional(),
+      marketingConsent: z.boolean().optional()
+    }).refine((data) => data.password === data.confirmPassword, {
+      message: 'Passwords do not match',
+      path: ['confirmPassword']
+    }).refine((data) => !data.password.includes(data.firstName) && !data.password.includes(data.lastName), {
+      message: 'Password should not contain your name',
+      path: ['password']
+    }),
+
+    // Password change validation (enhanced)
+    passwordChange: z.object({
+      currentPassword: z.string().min(8).max(128),
+      newPassword: z.string().min(8).max(128).refine(
+        (val) => securityPatterns.STRONG_PASSWORD.test(val),
+        {
+          message: 'Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character'
+        }
+      ),
+      confirmPassword: z.string().min(8).max(128),
+      mfaCode: z.string().optional(),
+      reason: z.enum(['USER_INITIATED', 'PASSWORD_EXPIRED', 'ADMIN_REQUESTED', 'SUSPICIOUS_ACTIVITY']).optional()
+    }).refine((data) => data.newPassword === data.confirmPassword, {
+      message: 'Passwords do not match',
+      path: ['confirmPassword']
+    }).refine(
+      (data) => data.newPassword !== data.currentPassword,
+      {
+        message: 'New password must be different from current password',
+        path: ['newPassword']
+      }
+    ).refine(
+      (data) => {
+        // Check for common password patterns to avoid
+        const commonPatterns = [
+          /password/i, /123456/, /qwerty/i, /admin/i, 
+          /welcome/i, /letmein/i, /abc123/i
+        ];
+        return !commonPatterns.some(pattern => pattern.test(data.newPassword));
+      },
+      {
+        message: 'Password contains common patterns that are too easy to guess',
+        path: ['newPassword']
+      }
+    ),
+
+    // OAuth token validation
+    oauthToken: z.object({
+      accessToken: z.string(),
+      tokenType: z.string(),
+      expiresIn: z.number().int().positive(),
+      refreshToken: z.string().optional(),
+      idToken: z.string().optional(),
+      provider: z.enum(['GOOGLE', 'FACEBOOK', 'APPLE', 'MICROSOFT', 'GITHUB']),
+      scope: z.string().optional(),
+      state: z.string().optional()
+    }),
+
+    // Password reset request
+    passwordResetRequest: z.object({
+      email: z.string().email().max(255).refine(
+        (val) => securityPatterns.EMAIL.test(val),
+        { message: 'Invalid email format' }
+      ),
+      captchaToken: z.string().optional(),
+      clientFingerprint: z.string().optional()
+    }),
+
+    // Password reset confirmation
+    passwordResetConfirmation: z.object({
+      token: z.string(),
+      newPassword: z.string().min(8).max(128).refine(
+        (val) => securityPatterns.STRONG_PASSWORD.test(val),
+        {
+          message: 'Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character'
+        }
+      ),
+      confirmPassword: z.string().min(8).max(128)
+    }).refine((data) => data.newPassword === data.confirmPassword, {
+      message: 'Passwords do not match',
+      path: ['confirmPassword']
+    })
+  },
+
+  // Security event validation (enhanced)
+  audit: {
+    // Security event schema
+    securityEvent: z.object({
+      category: z.enum([
+        'AUTHENTICATION', 
+        'AUTHORIZATION', 
+        'DATA_ACCESS', 
+        'ADMIN_ACTION', 
+        'SECURITY', 
+        'SYSTEM', 
+        'USER_ACTION', 
+        'API',
+        'FINANCIAL',
+        'INTEGRITY',
+        'COMMUNICATION',
+        'EXTERNAL'
+      ]),
+      action: z.string().min(1).max(100),
+      severity: z.enum(['DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL']),
+      description: z.string().min(1).max(500),
+      status: z.enum(['SUCCESS', 'FAILURE', 'ATTEMPT', 'BLOCKED', 'PENDING']).optional(),
+      resourceId: z.string().optional(),
+      resourceType: z.string().optional(),
+      userId: z.string().optional(),
+      sessionId: z.string().optional(),
+      ipAddress: z.string().optional(),
+      timestamp: z.number().int().positive().optional(),
+      duration: z.number().int().nonnegative().optional(),
+      location: z.object({
+        country: z.string().optional(),
+        region: z.string().optional(),
+        city: z.string().optional()
+      }).optional(),
+      details: z.record(z.any()).optional(),
+      related: z.array(z.string()).optional(),
+      tags: z.array(z.string()).optional()
+    }),
+
+    // Security report schema
+    securityReport: z.object({
+      reportType: z.enum(['INCIDENT', 'AUDIT', 'COMPLIANCE', 'VULNERABILITY', 'THREAT']),
+      title: z.string().min(1).max(200),
+      description: z.string().min(1),
+      severity: z.enum(['LOW', 'MEDIUM', 'HIGH', 'CRITICAL']),
+      status: z.enum(['DRAFT', 'SUBMITTED', 'UNDER_REVIEW', 'APPROVED', 'REJECTED', 'ARCHIVED']),
+      createdBy: z.string(),
+      createdAt: z.number().int().positive(),
+      updatedAt: z.number().int().positive().optional(),
+      assignedTo: z.string().optional(),
+      dueDate: z.number().int().positive().optional(),
+      affectedSystems: z.array(z.string()).optional(),
+      remediationSteps: z.array(z.string()).optional(),
+      evidence: z.array(z.any()).optional(),
+      tags: z.array(z.string()).optional(),
+      attachments: z.array(z.any()).optional()
+    })
+  },
+
+  // API protection validation (enhanced)
+  api: {
+    // Rate limit configuration
+    rateLimitConfig: z.object({
+      endpoint: z.string().max(200),
+      limit: z.number().int().positive(),
+      windowMs: z.number().int().positive(),
+      category: z.enum(['read', 'write', 'admin', 'auth', 'public', 'search']).optional(),
+      perUser: z.boolean().optional(),
+      perIp: z.boolean().optional(),
+      bypassKey: z.string().optional(),
+      errorMessage: z.string().optional(),
+      headers: z.array(z.string()).optional(),
+      statusCode: z.number().int().min(400).max(429).optional(),
+      skipSuccessfulRequests: z.boolean().optional()
+    }),
+
+    // API request tracking (enhanced)
+    requestInfo: z.object({
+      endpoint: z.string().max(200),
+      method: z.enum(['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS', 'HEAD']),
+      timestamp: z.number().int().positive().optional(),
+      userId: z.string().optional(),
+      sessionId: z.string().optional(),
+      ipAddress: z.string().optional(),
+      userAgent: z.string().optional(),
+      category: z.enum(['read', 'write', 'admin', 'auth', 'public', 'search']).optional(),
+      duration: z.number().int().nonnegative().optional(),
+      statusCode: z.number().int().optional(),
+      bytesTransferred: z.number().int().nonnegative().optional(),
+      referrer: z.string().optional(),
+      cacheHit: z.boolean().optional(),
+      queryComplexity: z.number().int().nonnegative().optional(),
+      errorCode: z.string().optional(),
+      resourceIds: z.array(z.string()).optional()
+    }),
+
+    // API key validation
+    apiKey: z.object({
+      key: z.string().min(32).max(128).refine(
+        (val) => /^[A-Za-z0-9_\-]+$/,
+        { message: 'API key contains invalid characters' }
+      ),
+      name: z.string().min(1).max(100),
+      scopes: z.array(z.string()),
+      expiresAt: z.number().int().positive().optional(),
+      createdBy: z.string(),
+      createdAt: z.number().int().positive(),
+      lastUsed: z.number().int().positive().optional(),
+      rateLimit: z.object({
+        limit: z.number().int().positive(),
+        windowMs: z.number().int().positive()
+      }).optional(),
+      allowedIps: z.array(z.string()).optional(),
+      allowedDomains: z.array(z.string()).optional(),
+      allowedEnvironments: z.array(z.string()).optional(),
+      metadata: z.record(z.any()).optional()
+    })
+  },
+
+  // Data validation (new)
+  data: {
+    // Generic property data
+    property: z.object({
+      id: z.string().uuid(),
+      title: z.string().min(3).max(200).refine(
+        (val) => securityPatterns.SAFE_STRING.test(val),
+        { message: 'Property title contains invalid characters' }
+      ),
+      description: z.string().max(2000).optional(),
+      price: z.number().positive(),
+      status: z.enum(['ACTIVE', 'PENDING', 'SOLD', 'INACTIVE']),
+      location: z.object({
+        address: z.string().max(200),
+        city: z.string().max(100),
+        state: z.string().max(100),
+        postalCode: z.string().max(20),
+        country: z.string().max(100),
+        coordinates: z.tuple([
+          z.number().refine(v => v >= -180 && v <= 180),
+          z.number().refine(v => v >= -90 && v <= 90)
+        ]).optional()
+      }),
+      features: z.array(z.string()).optional(),
+      images: z.array(z.string().url()).optional(),
+      createdAt: z.number().int().positive(),
+      updatedAt: z.number().int().positive(),
+      ownerId: z.string().uuid(),
+      metadata: z.record(z.any()).optional()
+    }),
+
+    // Document data
+    document: z.object({
+      id: z.string().uuid(),
+      title: z.string().min(1).max(200),
+      type: z.enum(['CONTRACT', 'INVOICE', 'REPORT', 'LEGAL', 'FINANCE', 'OTHER']),
+      fileUrl: z.string().url().optional(),
+      fileHash: z.string().optional(),
+      fileSize: z.number().int().nonnegative().optional(),
+      mimeType: z.string().max(100).optional(),
+      tags: z.array(z.string()).optional(),
+      createdAt: z.number().int().positive(),
+      createdBy: z.string().uuid(),
+      expiresAt: z.number().int().positive().optional(),
+      accessLevel: z.enum(['PUBLIC', 'RESTRICTED', 'PRIVATE', 'CONFIDENTIAL']),
+      accessibleTo: z.array(z.string()).optional(),
+      versions: z.array(z.any()).optional(),
+      metadata: z.record(z.any()).optional(),
+      status: z.enum(['DRAFT', 'PUBLISHED', 'ARCHIVED', 'DELETED']).optional()
+    }),
+
+    // Financial data
+    financialTransaction: z.object({
+      id: z.string().uuid(),
+      type: z.enum(['PAYMENT', 'REFUND', 'DEPOSIT', 'WITHDRAWAL', 'TRANSFER', 'FEE']),
+      amount: z.number().refine(
+        (val) => !isNaN(val) && isFinite(val),
+        { message: 'Invalid amount value' }
+      ),
+      currency: z.string().length(3),
+      status: z.enum(['PENDING', 'COMPLETED', 'FAILED', 'CANCELLED']),
+      timestamp: z.number().int().positive(),
+      description: z.string().max(500).optional(),
+      paymentMethod: z.object({
+        type: z.enum(['CREDIT_CARD', 'BANK_TRANSFER', 'PAYPAL', 'CRYPTO', 'OTHER']),
+        lastFour: z.string().length(4).optional(),
+        expiryDate: z.string().optional(),
+        tokenized: z.boolean().optional()
+      }).optional(),
+      fromAccount: z.string().optional(),
+      toAccount: z.string().optional(),
+      referenceNumber: z.string().max(100).optional(),
+      metadata: z.record(z.any()).optional()
+    }).refine(
+      (data) => {
+        // Additional validation for financial data integrity
+        if (data.type === 'PAYMENT' || data.type === 'DEPOSIT') {
+          return data.amount > 0;
+        }
+        if (data.type === 'REFUND' || data.type === 'WITHDRAWAL') {
+          return data.amount < 0;
+        }
+        return true;
+      },
+      {
+        message: 'Amount must be positive for payments/deposits and negative for refunds/withdrawals',
+        path: ['amount']
+      }
+    )
+  },
+
+  // Content Security Policy validation (new)
+  security: {
+    // CSP configuration
+    contentSecurityPolicy: z.object({
+      defaultSrc: z.array(z.string()).optional(),
+      scriptSrc: z.array(z.string()).optional(),
+      styleSrc: z.array(z.string()).optional(),
+      imgSrc: z.array(z.string()).optional(),
+      connectSrc: z.array(z.string()).optional(),
+      fontSrc: z.array(z.string()).optional(),
+      objectSrc: z.array(z.string()).optional(),
+      mediaSrc: z.array(z.string()).optional(),
+      frameSrc: z.array(z.string()).optional(),
+      sandbox: z.array(z.string()).optional(),
+      reportUri: z.string().url().optional(),
+      reportTo: z.string().optional(),
+      upgradeInsecureRequests: z.boolean().optional(),
+      blockAllMixedContent: z.boolean().optional()
+    }).refine(
+      (data) => {
+        // At least one directive must be specified
+        return Object.values(data).some(val => val !== undefined);
+      },
+      {
+        message: 'At least one CSP directive must be specified'}
+    ),
+
+    // Security headers configuration
+    securityHeaders: z.object({
+      strictTransportSecurity: z.object({
+        maxAge: z.number().int().positive(),
+        includeSubdomains: z.boolean().optional(),
+        preload: z.boolean().optional()
+      }).optional(),
+      xContentTypeOptions: z.enum(['nosniff']).optional(),
+      xFrameOptions: z.enum(['DENY', 'SAMEORIGIN']).optional(),
+      xXssProtection: z.enum(['0', '1', '1; mode=block']).optional(),
+      referrerPolicy: z.enum([
+        'no-referrer', 'no-referrer-when-downgrade',
+        'origin', 'origin-when-cross-origin',
+        'same-origin', 'strict-origin',
+        'strict-origin-when-cross-origin', 'unsafe-url'
+      ]).optional(),
+      permissionsPolicy: z.record(z.union([
+        z.boolean(),
+        z.array(z.string())
+      ])).optional(),
+      reportTo: z.array(z.object({
+        group: z.string(),
+        max_age: z.number().int().positive(),
+        endpoints: z.array(z.object({
+          url: z.string().url()
+        })),
+        include_subdomains: z.boolean().optional()
+      })).optional()
+    })
+  },
+
+  // Threat detection configuration (new)
+  threatDetection: {
+    ruleConfig: z.object({
+      id: z.string().min(1).max(100),
+      name: z.string().min(1).max(200),
+      description: z.string().optional(),
+      threatType: z.enum(['brute_force', 'credential_stuffing', 'account_takeover', 'mfa_bypass', 'session_hijacking', 'suspicious_activity']),
+      severity: z.enum(['LOW', 'MEDIUM', 'HIGH', 'CRITICAL']),
+      enabled: z.boolean(),
+      conditions: z.array(z.object({
+        field: z.string(),
+        operator: z.enum(['eq', 'neq', 'gt', 'gte', 'lt', 'lte', 'contains', 'not_contains', 'starts_with', 'ends_with', 'regex']),
+        value: z.any(),
+        negate: z.boolean().optional()
+      })),
+      threshold: z.number().int().positive().optional(),
+      timeWindowMs: z.number().int().positive().optional(),
+      actions: z.array(z.enum([
+        'LOG', 'ALERT', 'BLOCK', 'THROTTLE', 
+        'REQUIRE_MFA', 'LOCK_ACCOUNT', 'NOTIFY_ADMIN',
+        'CAPTCHA'
+      ])).optional(),
+      tags: z.array(z.string()).optional(),
+      priority: z.number().int().min(1).max(100).optional(),
+      metadata: z.record(z.any()).optional(),
+      createdAt: z.number().int().positive().optional(),
+      updatedAt: z.number().int().positive().optional()
+    })
+  }
+};
+
+/**
+ * Cache for commonly used schema validation results
+ * Uses WeakMap to avoid memory leaks
+ */
+const validationCache = new Map<string, WeakMap<object, any>>();
+
+/**
+ * Normalize validation options by setting defaults
+ */
+function normalizeOptions(options: ValidationOptions = {}): Required<ValidationOptions> {
+  return {
+    sourceName: options.sourceName || 'unknown',
+    context: options.context || {},
+    stripUnknown: options.stripUnknown !== undefined ? options.stripUnknown : true,
+    logValidation: options.logValidation !== undefined ? options.logValidation : true,
+    performanceMode: options.performanceMode || 'balanced',
+    enableThreatDetection: options.enableThreatDetection !== undefined ? options.enableThreatDetection : true,
+    cacheable: options.cacheable !== undefined ? options.cacheable : true,
+    sanitizeInput: options.sanitizeInput !== undefined ? options.sanitizeInput : true,
+    normalizeInput: options.normalizeInput !== undefined ? options.normalizeInput : true,
+    maxValidationDepth: options.maxValidationDepth || 10
+  };
+}
+
+/**
+ * Check for suspicious input patterns that might indicate attacks
+ * @param data Input data to analyze
+ * @returns Object containing threat detection results
+ */
+async function detectInputThreats(data: unknown, options: Required<ValidationOptions>): Promise<{
+  isThreatDetected: boolean;
+  threatType?: string;
+  confidence: number;
+  details?: Record<string, any>;
+}> {
+  try {
+    // Skip threat detection if disabled or not an object
+    if (!options.enableThreatDetection || typeof data !== 'object' || data === null) {
+      return { isThreatDetected: false, confidence: 0 };
+    }
+
+    // Basic patterns for common attacks
+    const suspiciousPatterns = {
+      sqlInjection: [
+        /'\s*or\s*['"]\s*['"]\s*=\s*['"]\s*['"]/, // 'or ''=''
+        /'\s*or\s*\d+=\d+/, // 'or 1=1
+        /'\s*;\s*drop\s+table/i, // '; drop table
+        /union\s+select/i, // union select
+        /exec\s*\(/i, // exec(
+        /xp_cmdshell/i // xp_cmdshell
+      ],
+      xss: [
+        /<script\b[^>]*>[\s\S]*?<\/script>/gi, // <script> tags
+        /javascript\s*:/i, // javascript: protocol
+        /on\w+\s*=\s*["']/i, // event handlers (onclick, onload, etc.)
+        /eval\s*\(/i, // eval(
+        /document\s*\.\s*cookie/i // document.cookie
+      ],
+      nosqlInjection: [
+        /\$where\s*:/i, // $where operator
+        /\$ne\s*:/i, // $ne operator
+        /\$gt\s*:/i, // $gt operator
+        /\$regex\s*:/i // $regex operator
+      ],
+      commandInjection: [
+        /`[^`]*`/, // backticks
+        /\$\([^)]*\)/, // $() 
+        /;\s*rm\s+-rf/i, // ; rm -rf
+        /;\s*cat\s+/i, // ; cat
+        /\|\s*wget/i // | wget
+      ]
+    };
+
+    // Convert data to string for pattern matching
+    const serialized = JSON.stringify(data);
+    const threats: { type: string; patterns: RegExp[]; matches: string[] }[] = [];
+
+    // Check for each type of suspicious pattern
+    for (const [type, patterns] of Object.entries(suspiciousPatterns)) {
+      const matches: string[] = [];
+
+      for (const pattern of patterns) {
+        const found = serialized.match(pattern);
+        if (found) {
+          matches.push(...found);
+        }
+      }
+
+      if (matches.length > 0) {
+        threats.push({ type, patterns, matches });
+      }
+    }
+
+    // If we have threats detected with basic analysis
+    if (threats.length > 0) {
+      return {
+        isThreatDetected: true,
+        threatType: 'suspicious_activity',
+        confidence: 0.85,
+        details: {
+          detectedThreats: threats.map(t => ({
+            type: t.type,
+            matches: t.matches.slice(0, 5) // Limit to first 5 matches
+          }))
+        }
+      };
+    }
+
+    // If available, use the more sophisticated threat detector for deeper analysis
+    try {
+      const detector = await importThreatDetector();
+      if (detector) {
+        const result = await detector.analyzeInput(data, {
+          context: options.context,
+          performanceMode: options.performanceMode
+        });
+
+        if (result.isThreatDetected) {
+          return {
+            isThreatDetected: true,
+            threatType: result.threatType,
+            confidence: result.confidence,
+            details: result.details
+          };
+        }
+      }
+    } catch (err) {
+      // Log error but don't fail validation
+
+    }
+
+    return { isThreatDetected: false, confidence: 0 };
+  } catch (error) {
+
+    return { isThreatDetected: false, confidence: 0 };
+  }
+}
+
+/**
+ * Sanitize input data to prevent security issues
+ * @param data Data to sanitize
+ * @param depth Current recursion depth
+ * @returns Sanitized data
+ */
+function sanitizeInput(data: unknown, depth: number = 0, maxDepth: number = 10): unknown {
+  // Prevent stack overflow from deeply nested objects
+  if (depth > maxDepth) {
+    return '[MAX_DEPTH_EXCEEDED]';
+  }
+
+  if (typeof data !== 'object' || data === null) {
+    // Sanitize strings
+    if (typeof data === 'string') {
+      // Remove potentially dangerous HTML content
+      return data
+        .replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, '')
+        .replace(/javascript\s*:/gi, 'blocked:')
+        .replace(/on\w+\s*=\s*["'][^"']*["']/gi, '')
+        .replace(/eval\s*\(/gi, 'blocked(');
+    }
+    return data;
+  }
+
+  // Handle arrays
+  if (Array.isArray(data)) {
+    return data.map(item => sanitizeInput(item, depth + 1, maxDepth));
+  }
+
+  // Handle objects
+  const sanitized: Record<string, unknown> = {};
+
+  for (const [key, value] of Object.entries(data)) {
+    // Skip keys that could contain code for execution
+    if (/^(__proto__|constructor|prototype)$/.test(key)) {
+      continue;
+    }
+
+    // Recursively sanitize nested objects
+    sanitized[key] = sanitizeInput(value, depth + 1, maxDepth);
+  }
+
+  return sanitized;
+}
+
+/**
+ * Normalize input data for consistent validation
+ * @param data Data to normalize
+ * @returns Normalized data
+ */
+function normalizeInput(data: unknown): unknown {
+  if (typeof data !== 'object' || data === null) {
+    // Trim strings and convert "null" strings to actual null
+    if (typeof data === 'string') {
+      const trimmed = data.trim();
+      if (trimmed === 'null') return null;
+      if (trimmed === 'undefined') return undefined;
+      if (trimmed === 'true') return true;
+      if (trimmed === 'false') return false;
+      if (/^-?\d+$/.test(trimmed)) return parseInt(trimmed, 10);
+      if (/^-?\d+\.\d+$/.test(trimmed)) return parseFloat(trimmed);
+      return trimmed;
+    }
+    return data;
+  }
+
+  // Handle arrays
+  if (Array.isArray(data)) {
+    return data.map(normalizeInput);
+  }
+
+  // Handle objects
+  const normalized: Record<string, unknown> = {};
+
+  for (const [key, value] of Object.entries(data)) {
+    normalized[key] = normalizeInput(value);
+  }
+
+  return normalized;
+}
+
+/**
+ * Validate security-critical inputs with enhanced performance and security features
+ * @param schema The validation schema
+ * @param data The data to validate
+ * @param options Optional validation options
+ * @returns The validated data
+ * @throws ValidationError if validation fails
+ */
+export function validateSecurityInput<T>(
+  schema: z.ZodType<T>,
+  data: unknown,
+  options: ValidationOptions = {}
+): T {
+  // Normalize options
+  const normalizedOptions = normalizeOptions(options);
+
+  try {
+    // Check validation cache for identical inputs if caching is enabled
+    if (normalizedOptions.cacheable && typeof data === 'object' && data !== null) {
+      const cacheKey = schema.toString();
+      if (!validationCache.has(cacheKey)) {
+        validationCache.set(cacheKey, new WeakMap());
+      }
+
+      const schemaCache = validationCache.get(cacheKey)!;
+      if (schemaCache.has(data as object)) {
+        return schemaCache.get(data as object);
+      }
+    }
+
+    // Pre-process input
+    let processedData = data;
+
+    // Sanitize input if enabled
+    if (normalizedOptions.sanitizeInput) {
+      processedData = sanitizeInput(processedData, 0, normalizedOptions.maxValidationDepth);
+    }
+
+    // Normalize input if enabled
+    if (normalizedOptions.normalizeInput) {
+      processedData = normalizeInput(processedData);
+    }
+
+    // Enhanced threat detection for security-critical data
+    if (normalizedOptions.enableThreatDetection) {
+      detectInputThreats(processedData, normalizedOptions).then(threatResult => {
+        if (threatResult.isThreatDetected && threatResult.confidence > 0.8) {
+          // Log high-confidence threats but don't block validation
+          AuditLogger.logSecurity(
+            'security_threat_detection',
+            AuditSeverity.WARNING,
+            `Potential security threat detected in ${normalizedOptions.sourceName}`,
+            {
+              userId: normalizedOptions.context?.userId,
+              threatType: threatResult.threatType,
+              confidence: threatResult.confidence,
+              details: threatResult.details
+            }
+          );
+        }
+      }).catch(error => {
+
+      });
+    }
+
+    // Parse and validate data
+    const result = schema.safeParse(processedData);
+
+    if (!result.success) {
+      // Validation failed
+      const errors = result.error.format();
+
+      // Log validation error
+      if (normalizedOptions.logValidation && AuditLogger) {
+        AuditLogger.logSecurity(
+          'validation_error',
+          AuditSeverity.WARNING,
+          `Security validation failed for ${normalizedOptions.sourceName}`,
+          {
+            userId: normalizedOptions.context?.userId,
+            sessionId: normalizedOptions.context?.sessionId,
+            ipAddress: normalizedOptions.context?.ipAddress,
+            validationErrors: result.error.errors.map(e => ({ 
+              path: e.path.join('.'), 
+              message: e.message 
+            })),
+            dataType: normalizedOptions.sourceName
+          }
+        );
+      }
+
+      // Throw validation error
+      throw new ValidationError(
+        `Security validation failed: ${result.error.errors.map(e => e.message).join(', ')}`,
+        SecurityErrorCode.VALIDATION_FAILED,
+        { 
+          errors: result.error.errors.map(e => ({ 
+            path: e.path.join('.'), 
+            message: e.message 
+          })),
+          sourceName: normalizedOptions.sourceName,
+          context: {
+            userId: normalizedOptions.context?.userId,
+            sessionId: normalizedOptions.context?.sessionId,
+            action: normalizedOptions.context?.action
+          }
+        }
+      );
+    }
+
+    // Log successful validation
+    if (normalizedOptions.logValidation && AuditLogger) {
+      AuditLogger.logSecurity(
+        'validation_success',
+        AuditSeverity.DEBUG,
+        `Security validation succeeded for ${normalizedOptions.sourceName}`,
+        {
+          userId: normalizedOptions.context?.userId,
+          sessionId: normalizedOptions.context?.sessionId,
+          dataType: normalizedOptions.sourceName
+        }
+      );
+    }
+
+    // Cache successful validation result if enabled
+    if (normalizedOptions.cacheable && typeof data === 'object' && data !== null) {
+      const cacheKey = schema.toString();
+      const schemaCache = validationCache.get(cacheKey)!;
+      schemaCache.set(data as object, result.data);
+    }
+
+    return result.data;
+  } catch (error) {
+    // If this is already a ValidationError, rethrow it
+    if (error instanceof ValidationError) {
+      throw error;
+    }
+
+    // Otherwise, wrap the error
+    throw new ValidationError(
+      `Security validation error: ${error instanceof Error ? error.message : String(error)}`,
+      SecurityErrorCode.VALIDATION_FAILED,
+      { 
+        sourceName: normalizedOptions.sourceName,
+        originalError: error instanceof Error ? error.message : String(error),
+        context: {
+          userId: normalizedOptions.context?.userId,
+          sessionId: normalizedOptions.context?.sessionId,
+          action: normalizedOptions.context?.action
+        }
+      }
+    );
+  }
+}
+
+/**
+ * Performance-optimized validation using decorator pattern
+ * with automatic caching for frequent validation operations
+ */
+export const validateWithCache = asyncTTLCache(validateSecurityInput, 300000); // 5 minutes
+
+/**
+ * Server-side validation wrapper for API routes with enhanced security features
+ * @param schema The validation schema
+ * @param handler The route handler function
+ * @param options Additional validation options
+ * @returns A wrapped handler function with validation
+ */
+export function withValidation<T>(
+  schema: z.ZodType<T>,
+  handler: (data: T, request: Request) => Promise<Response>,
+  options: Omit<ValidationOptions, 'context'> = {}
+): (request: Request) => Promise<Response> {
+  return async (request: Request) => {
+    try {
+      // Extract validation context from request
+      const validationContext: ValidationContext = {
+        ipAddress: request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip'),
+        userAgent: request.headers.get('user-agent'),
+        referrer: request.headers.get('referer'),
+        origin: request.headers.get('origin')
+      };
+
+      // Get request body as JSON
+      let body;
+      try {
+        body = await request.json();
+      } catch (e) {
+        throw new ValidationError(
+          'Invalid JSON in request body',
+          SecurityErrorCode.INVALID_FORMAT,
+          { originalError: e instanceof Error ? e.message : String(e) }
+        );
+      }
+
+      // Validate data with enhanced context
+      const validatedData = validateSecurityInput(schema, body, {
+        sourceName: `${request.method} ${request.url}`,
+        context: validationContext,
+        ...options
+      });
+
+      // Call handler with validated data
+      return await handler(validatedData, request);
+    } catch (error) {
+      // Handle validation errors
+      if (error instanceof ValidationError) {
+        // Log the validation error for security monitoring
+        AuditLogger.logSecurity(
+          'api_validation_error',
+          AuditSeverity.WARNING,
+          `API validation failed: ${request.method} ${request.url}`,
+          {
+            endpoint: request.url,
+            method: request.method,
+            error: error.message,
+            code: error.code,
+            ip: request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip')
+          }
+        );
+
+        return Response.json(
+          { 
+            error: true,
+            code: error.code,
+            message: error.getUserMessage(),
+            details: error.details?.errors,
+            requestId: crypto.randomUUID() // Include request ID for tracking
+          },
+          { 
+            status: 400,
+            headers: {
+              'X-Content-Type-Options': 'nosniff',
+              'Cache-Control': 'no-store'
+            } 
+          }
+        );
+      }
+
+      // Handle other errors
+
+      // Log unexpected errors
+      AuditLogger.logSecurity(
+        'api_error',
+        AuditSeverity.ERROR,
+        `Unexpected error in API route: ${request.method} ${request.url}`,
+        {
+          endpoint: request.url,
+          method: request.method,
+          error: error instanceof Error ? error.message : String(error),
+          stack: error instanceof Error ? error.stack : undefined,
+          ip: request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip')
+        }
+      );
+
+      return Response.json(
+        { 
+          error: true,
+          message: 'An unexpected error occurred',
+          requestId: crypto.randomUUID() // Include request ID for tracking
+        },
+        { 
+          status: 500,
+          headers: {
+            'X-Content-Type-Options': 'nosniff',
+            'Cache-Control': 'no-store'
+          }
+        }
+      );
+    }
+  };
+}
+
+/**
+ * Client-side validation helper for forms with enhanced security features
+ * @param schema The validation schema
+ * @param data The form data to validate
+ * @param options Additional validation options
+ * @returns Validation result with errors
+ */
+export function validateForm<T>(
+  schema: z.ZodType<T>,
+  data: unknown,
+  options: Omit<ValidationOptions, 'logValidation'> = {}
+): { 
+  success: boolean; 
+  data?: T; 
+  errors?: Record<string, string>;
+  securityWarning?: string;
+} {
+  try {
+    // Default options for client validation
+    const validationOptions: ValidationOptions = {
+      ...options,
+      logValidation: false,
+      performanceMode: 'balanced',
+      enableThreatDetection: true,
+      sanitizeInput: true,
+      normalizeInput: true
+    };
+
+    // Try to validate the data
+    const processedData = validateSecurityInput(schema, data, validationOptions);
+
+    return {
+      success: true,
+      data: processedData
+    };
+  } catch (error) {
+    if (error instanceof ValidationError) {
+      // Convert ZodError to a friendly format for forms
+      const formErrors: Record<string, string> = {};
+
+      if (error.details?.errors) {
+        for (const err of error.details.errors) {
+          formErrors[err.path] = err.message;
+        }
+      }
+
+      return {
+        success: false,
+        errors: formErrors
+      };
+    }
+
+    // Handle other errors
+    return {
+      success: false,
+      errors: { '_form': 'An unexpected error occurred during validation' },
+      securityWarning: error instanceof Error ? error.message : String(error)
+    };
+  }
+}
+
+/**
+ * Sanitize sensitive data for safe display
+ * @param data The data to sanitize
+ * @param options Sanitization options
+ * @returns Sanitized data safe for display
+ */
+export function sanitizeOutput(
+  data: unknown, 
+  options: {
+    depth?: number;
+    maxDepth?: number;
+    redactionString?: string;
+    redactFields?: string[];
+    preserveStructure?: boolean;
+  } = {}
+): unknown {
+  const { 
+    depth = 0, 
+    maxDepth = 10,
+    redactionString = '[REDACTED]',
+    redactFields = [],
+    preserveStructure = true
+  } = options;
+
+  // Prevent stack overflow from deeply nested objects
+  if (depth > maxDepth) {
+    return '[MAX_DEPTH_EXCEEDED]';
+  }
+
+  if (typeof data !== 'object' || data === null) {
+    return data;
+  }
+
+  // For arrays, sanitize each element
+  if (Array.isArray(data)) {
+    return data.map(item => sanitizeOutput(item, { ...options, depth: depth + 1 }));
+  }
+
+  // For objects, sanitize each property
+  const sanitized: Record<string, unknown> = {};
+
+  // Common sensitive field patterns
+  const sensitivePatterns = [
+    /password/i, /secret/i, /token/i, /key/i, /auth/i, 
+    /credential/i, /ssn/i, /social.*security/i, /dob/i, 
+    /birth.*date/i, /credit.*card/i, /card.*number/i, 
+    /cvv/i, /pin/i, /passphrase/i
+  ];
+
+  // Additional custom fields to redact
+  const allRedactFields = [
+    ...redactFields,
+    'apiKey', 'sessionToken', 'refreshToken', 'privateKey', 'secretKey',
+    'accessToken', 'idToken', 'encryptionKey', 'verificationCode', 'twoFactorCode'
+  ];
+
+  for (const [key, value] of Object.entries(data)) {
+    // Check if this is a sensitive field that should be redacted
+    const isSensitive = sensitivePatterns.some(pattern => pattern.test(key)) ||
+                        allRedactFields.includes(key);
+
+    if (isSensitive) {
+      if (preserveStructure && typeof value === 'object' && value !== null) {
+        // Preserve structure but redact all values
+        if (Array.isArray(value)) {
+          sanitized[key] = value.map(() => redactionString);
+        } else {
+          const redactedObj: Record<string, string> = {};
+          for (const objKey of Object.keys(value)) {
+            redactedObj[objKey] = redactionString;
+          }
+          sanitized[key] = redactedObj;
+        }
+      } else {
+        // Simple redaction
+        sanitized[key] = redactionString;
+      }
+      continue;
+    }
+
+    // Recursively sanitize nested objects
+    sanitized[key] = sanitizeOutput(value, { ...options, depth: depth + 1 });
+  }
+
+  return sanitized;
+}
+
+/**
+ * Validate content security policy directives
+ * @param cspString The CSP string to validate
+ * @returns Validation result
+ */
+export function validateCSP(cspString: string): { 
+  valid: boolean;
+  directives: Record<string, string[]>;
+  errors?: string[];
+} {
+  const errors: string[] = [];
+  const directives: Record<string, string[]> = {};
+
+  // Skip empty strings
+  if (!cspString.trim()) {
+    return { valid: false, directives, errors: ['Empty CSP string'] };
+  }
+
+  // Split by semicolons and process each directive
+  const directiveStrings = cspString.split(';').map(d => d.trim());
+
+  for (const directiveStr of directiveStrings) {
+    if (!directiveStr) continue;
+
+    const parts = directiveStr.split(/\s+/);
+    if (parts.length === 0) {
+      errors.push(`Invalid directive format: ${directiveStr}`);
+      continue;
+    }
+
+    const directiveName = parts[0].toLowerCase();
+    const directiveValues = parts.slice(1);
+
+    // Validate directive name
+    const validDirectives = [
+      'default-src', 'script-src', 'style-src', 'img-src', 'connect-src',
+      'font-src', 'object-src', 'media-src', 'frame-src', 'sandbox',
+      'report-uri', 'child-src', 'form-action', 'frame-ancestors',
+      'plugin-types', 'base-uri', 'report-to', 'worker-src',
+      'manifest-src', 'prefetch-src', 'navigate-to'
+    ];
+
+    if (!validDirectives.includes(directiveName)) {
+      errors.push(`Unknown directive: ${directiveName}`);
+      continue;
+    }
+
+    // Special checks for certain directives
+    if (directiveName === 'report-uri' && directiveValues.length > 0) {
+      try {
+        // Verify report-uri is a valid URL
+        new URL(directiveValues[0]);
+      } catch (e) {
+        errors.push(`Invalid report-uri URL: ${directiveValues[0]}`);
+      }
+    }
+
+    directives[directiveName] = directiveValues;
+  }
+
+  return { 
+    valid: errors.length === 0, 
+    directives,
+    errors: errors.length > 0 ? errors : undefined
+  };
+}
+
+/**
+ * Create a schema validator function for reuse
+ * @param schema The schema to validate with
+ * @param defaultOptions Default options for validation
+ * @returns A reusable validator function
+ */
+export function createValidator<T>(
+  schema: z.ZodType<T>,
+  defaultOptions: ValidationOptions = {}
+): (data: unknown, options?: ValidationOptions) => T {
+  return (data: unknown, options?: ValidationOptions) => {
+    return validateSecurityInput(schema, data, {
+      ...defaultOptions,
+      ...options
+    });
+  };
+}

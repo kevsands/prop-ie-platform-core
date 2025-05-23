@@ -17,8 +17,8 @@ const apiBaseUrl = env?.apiUrl ? `${env.apiUrl}/api` : (process.env.NEXT_PUBLIC_
 const api = axios.create({
   baseURL: apiBaseUrl,
   headers: {
-    "Content-Type": "application/json",
-  },
+    "Content-Type": "application/json"
+  }
 });
 
 // Define error type
@@ -54,11 +54,9 @@ export const propertyAPI = {
       return response.data;
     } catch (error) {
       const apiError = error as AxiosError<ApiError>;
-      throw (
-        apiError.response?.data || {
-          message: "An error occurred while fetching properties",
-        }
-      );
+      throw apiError.response?.data || {
+        message: "An error occurred while fetching properties"
+      };
     }
   },
 
@@ -68,11 +66,9 @@ export const propertyAPI = {
       return response.data;
     } catch (error) {
       const apiError = error as AxiosError<ApiError>;
-      throw (
-        apiError.response?.data || {
-          message: "An error occurred while fetching property",
-        }
-      );
+      throw apiError.response?.data || {
+        message: "An error occurred while fetching property"
+      };
     }
   },
 
@@ -82,13 +78,11 @@ export const propertyAPI = {
       return response.data;
     } catch (error) {
       const apiError = error as AxiosError<ApiError>;
-      throw (
-        apiError.response?.data || {
-          message: "An error occurred while fetching project properties",
-        }
-      );
+      throw apiError.response?.data || {
+        message: "An error occurred while fetching project properties"
+      };
     }
-  },
+  }
 };
 
 // Purchase API calls
@@ -106,11 +100,9 @@ export const purchaseAPI = {
       return response.data;
     } catch (error) {
       const apiError = error as AxiosError<ApiError>;
-      throw (
-        apiError.response?.data || {
-          message: "An error occurred while creating purchase",
-        }
-      );
+      throw apiError.response?.data || {
+        message: "An error occurred while creating purchase"
+      };
     }
   },
 
@@ -120,11 +112,9 @@ export const purchaseAPI = {
       return response.data;
     } catch (error) {
       const apiError = error as AxiosError<ApiError>;
-      throw (
-        apiError.response?.data || {
-          message: "An error occurred while fetching purchases",
-        }
-      );
+      throw apiError.response?.data || {
+        message: "An error occurred while fetching purchases"
+      };
     }
   },
 
@@ -134,13 +124,11 @@ export const purchaseAPI = {
       return response.data;
     } catch (error) {
       const apiError = error as AxiosError<ApiError>;
-      throw (
-        apiError.response?.data || {
-          message: "An error occurred while fetching purchase details",
-        }
-      );
+      throw apiError.response?.data || {
+        message: "An error occurred while fetching purchase details"
+      };
     }
-  },
+  }
 };
 
 export default api;
@@ -158,11 +146,9 @@ export const authAPI = {
       return response.data;
     } catch (error) {
       const apiError = error as AxiosError<ApiError>;
-      throw (
-        apiError.response?.data || {
-          message: "An error occurred during registration",
-        }
-      );
+      throw apiError.response?.data || {
+        message: "An error occurred during registration"
+      };
     }
   },
   
@@ -178,11 +164,9 @@ export const authAPI = {
       return response.data;
     } catch (error) {
       const apiError = error as AxiosError<ApiError>;
-      throw (
-        apiError.response?.data || {
-          message: "An error occurred during login",
-        }
-      );
+      throw apiError.response?.data || {
+        message: "An error occurred during login"
+      };
     }
   },
   
@@ -198,11 +182,9 @@ export const authAPI = {
       return response.data;
     } catch (error) {
       const apiError = error as AxiosError<ApiError>;
-      throw (
-        apiError.response?.data || {
-          message: "An error occurred during email verification",
-        }
-      );
+      throw apiError.response?.data || {
+        message: "An error occurred during email verification"
+      };
     }
   },
 
@@ -212,27 +194,22 @@ export const authAPI = {
       return response.data;
     } catch (error) {
       const apiError = error as AxiosError<ApiError>;
-      throw (
-        apiError.response?.data || {
-          message: "An error occurred during password reset request",
-        }
-      );
+      throw apiError.response?.data || {
+        message: "An error occurred during password reset request"
+      };
     }
   },
 
   resetPassword: async (token: string, password: string) => {
     try {
       const response = await api.post(`/auth/reset-password/${token}`, {
-        password,
-      });
+        password});
       return response.data;
     } catch (error) {
       const apiError = error as AxiosError<ApiError>;
-      throw (
-        apiError.response?.data || {
-          message: "An error occurred during password reset",
-        }
-      );
+      throw apiError.response?.data || {
+        message: "An error occurred during password reset"
+      };
     }
   },
 
@@ -242,11 +219,9 @@ export const authAPI = {
       return response.data;
     } catch (error) {
       const apiError = error as AxiosError<ApiError>;
-      throw (
-        apiError.response?.data || {
-          message: "An error occurred while fetching profile",
-        }
-      );
+      throw apiError.response?.data || {
+        message: "An error occurred while fetching profile"
+      };
     }
   },
 
@@ -264,19 +239,16 @@ export const authAPI = {
           "user",
           JSON.stringify({
             ...user,
-            ...response.data.data,
-          }),
+            ...response.data.data}),
         );
       }
 
       return response.data;
     } catch (error) {
       const apiError = error as AxiosError<ApiError>;
-      throw (
-        apiError.response?.data || {
-          message: "An error occurred while updating profile",
-        }
-      );
+      throw apiError.response?.data || {
+        message: "An error occurred while updating profile"
+      };
     }
   },
 
@@ -289,11 +261,9 @@ export const authAPI = {
       return response.data;
     } catch (error) {
       const apiError = error as AxiosError<ApiError>;
-      throw (
-        apiError.response?.data || {
-          message: "An error occurred while changing password",
-        }
-      );
+      throw apiError.response?.data || {
+        message: "An error occurred while changing password"
+      };
     }
-  },
-}
+  }
+};

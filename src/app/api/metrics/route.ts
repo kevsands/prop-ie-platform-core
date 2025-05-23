@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import os from 'os';
 import { PrismaClient } from '@prisma/client';
+import { metrics } from '@/lib/metrics-utils';
 
 // Types
 interface MetricsResponse {
@@ -57,7 +58,7 @@ interface MetricsResponse {
     keys: number;
   };
   errors: {
-    byType: Record<string, number>;
+    byType: Record<string, number>\n  );
     criticalErrors: number;
     warningCount: number;
   };
@@ -67,38 +68,15 @@ interface MetricsResponse {
     count: number;
     averageTime: number;
     errorRate: number;
-  }>;
+  }>\n  );
 }
-
-// Metrics storage (in-memory for now, should use Redis in production)
-interface MetricData {
-  requestCount: number;
-  errorCount: number;
-  totalResponseTime: number;
-  endpoints: Map<string, {
-    count: number;
-    totalTime: number;
-    errors: number;
-  }>;
-  errorTypes: Map<string, number>;
-  startTime: number;
-}
-
-const metrics: MetricData = {
-  requestCount: 0,
-  errorCount: 0,
-  totalResponseTime: 0,
-  endpoints: new Map(),
-  errorTypes: new Map(),
-  startTime: Date.now()
-};
 
 // Initialize Prisma (safely)
 let prisma: PrismaClient | null = null;
 try {
   prisma = new PrismaClient();
 } catch (error) {
-  console.error('Failed to initialize Prisma:', error);
+
 }
 
 // Helper functions
@@ -113,7 +91,7 @@ async function getDatabaseMetrics() {
 
     // Get connection pool metrics (simulated for now)
     // In production, you'd get this from your database monitoring
-    
+
     return {
       connections: {
         active: Math.floor(Math.random() * 10) + 1,
@@ -126,7 +104,7 @@ async function getDatabaseMetrics() {
       }
     };
   } catch (error) {
-    console.error('Error getting database metrics:', error);
+
     return {
       connections: { active: 0, idle: 0, total: 0 },
       queryPerformance: { averageTime: 0, slowQueries: 0 }
@@ -139,7 +117,7 @@ function getCacheMetrics() {
   const totalRequests = metrics.requestCount || 1;
   const cacheHits = Math.floor(totalRequests * 0.85); // 85% hit rate
   const cacheMisses = totalRequests - cacheHits;
-  
+
   return {
     hitRate: cacheHits / totalRequests,
     missRate: cacheMisses / totalRequests,
@@ -152,11 +130,11 @@ function getResourceMetrics() {
   const totalMemory = os.totalmem();
   const freeMemory = os.freemem();
   const usedMemory = totalMemory - freeMemory;
-  
+
   const cpuCores = os.cpus().length;
   const loadAverage = os.loadavg();
   const cpuUsage = (loadAverage[0] / cpuCores) * 100;
-  
+
   const processMemory = process.memoryUsage();
 
   return {
@@ -182,27 +160,27 @@ function getResourceMetrics() {
 }
 
 function getEndpointMetrics() {
-  const endpoints = Array.from(metrics.endpoints.entries()).map(([key, data]) => {
-    const [method, path] = key.split(':');
+  const endpoints = Array.from(metrics.endpoints.entries()).map(([keydata]) => {
+    const [methodpath] = key.split(':');
     return {
       path,
       method,
       count: data.count,
-      averageTime: data.count > 0 ? data.totalTime / data.count : 0,
-      errorRate: data.count > 0 ? data.errors / data.count : 0
+      averageTime: data.count> 0 ? data.totalTime / data.count : 0,
+      errorRate: data.count> 0 ? data.errors / data.count : 0
     };
   });
 
   // Sort by request count descending
-  endpoints.sort((a, b) => b.count - a.count);
-  
+  endpoints.sort((ab: any) => b.count - a.count);
+
   // Return top 10 endpoints
-  return endpoints.slice(0, 10);
+  return endpoints.slice(010);
 }
 
 function getErrorMetrics() {
   const errorTypes: Record<string, number> = {};
-  metrics.errorTypes.forEach((count, type) => {
+  metrics.errorTypes.forEach((counttype: any) => {
     errorTypes[type] = count;
   });
 
@@ -216,47 +194,12 @@ function getErrorMetrics() {
   };
 }
 
-// Metrics recording function (should be called by middleware)
-export function recordMetric(
-  method: string,
-  path: string,
-  statusCode: number,
-  responseTime: number
-) {
-  metrics.requestCount++;
-  metrics.totalResponseTime += responseTime;
-
-  if (statusCode >= 400) {
-    metrics.errorCount++;
-    const errorType = statusCode.toString();
-    metrics.errorTypes.set(
-      errorType,
-      (metrics.errorTypes.get(errorType) || 0) + 1
-    );
-  }
-
-  const endpointKey = `${method}:${path}`;
-  const endpoint = metrics.endpoints.get(endpointKey) || {
-    count: 0,
-    totalTime: 0,
-    errors: 0
-  };
-
-  endpoint.count++;
-  endpoint.totalTime += responseTime;
-  if (statusCode >= 400) {
-    endpoint.errors++;
-  }
-
-  metrics.endpoints.set(endpointKey, endpoint);
-}
-
 export async function GET(request: NextRequest) {
   const startTime = Date.now();
-  
+
   try {
     // Get all metrics data
-    const [databaseMetrics, cacheMetrics, resourceMetrics] = await Promise.all([
+    const [databaseMetrics, cacheMetricsresourceMetrics] = await Promise.all([
       getDatabaseMetrics(),
       Promise.resolve(getCacheMetrics()),
       Promise.resolve(getResourceMetrics())
@@ -266,12 +209,12 @@ export async function GET(request: NextRequest) {
     const errorMetrics = getErrorMetrics();
 
     const uptime = Date.now() - metrics.startTime;
-    const averageResponseTime = metrics.requestCount > 0 
+    const averageResponseTime = metrics.requestCount> 0 
       ? metrics.totalResponseTime / metrics.requestCount 
       : 0;
-    
+
     const requestsPerSecond = metrics.requestCount / (uptime / 1000);
-    const errorRate = metrics.requestCount > 0 
+    const errorRate = metrics.requestCount> 0 
       ? metrics.errorCount / metrics.requestCount 
       : 0;
     const successRate = 1 - errorRate;
@@ -308,8 +251,7 @@ export async function GET(request: NextRequest) {
       }
     });
   } catch (error) {
-    console.error('Metrics error:', error);
-    
+
     return NextResponse.json({
       error: 'Failed to collect metrics',
       message: error instanceof Error ? error.message : 'Unknown error'
@@ -322,8 +264,9 @@ export async function GET(request: NextRequest) {
 // Reset metrics endpoint (for testing)
 export async function POST(request: NextRequest) {
   try {
-    const { action } = await request.json();
-    
+    const body: any = await request.json();
+    const { action } = body;
+
     if (action === 'reset') {
       metrics.requestCount = 0;
       metrics.errorCount = 0;
@@ -331,10 +274,10 @@ export async function POST(request: NextRequest) {
       metrics.endpoints.clear();
       metrics.errorTypes.clear();
       metrics.startTime = Date.now();
-      
+
       return NextResponse.json({ success: true, message: 'Metrics reset' });
     }
-    
+
     return NextResponse.json({ error: 'Invalid action' }, { status: 400 });
   } catch (error) {
     return NextResponse.json({ error: 'Failed to process request' }, { status: 500 });

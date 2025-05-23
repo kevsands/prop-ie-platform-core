@@ -1,3 +1,4 @@
+import React from 'react';
 "use client";
 
 import { useState, useRef, useEffect } from 'react';
@@ -24,8 +25,8 @@ interface DropdownProps {
 
 export default function MainNavbar() {
   const { user, isAuthenticated, signOut } = useAuth();
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  
+  const [mobileMenuOpensetMobileMenuOpen] = useState(false);
+
   return (
     <nav className="bg-white shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -40,7 +41,7 @@ export default function MainNavbar() {
                 className="h-10 w-auto object-contain"
               />
             </Link>
-            
+
             {/* Desktop Navigation */}
             <div className="hidden md:ml-6 md:flex md:space-x-8">
               <DesktopDropdown 
@@ -66,7 +67,7 @@ export default function MainNavbar() {
                   ]}
                 ]} 
               />
-              
+
               {/* Resources Dropdown */}
               <DesktopDropdown 
                 title="Resources" 
@@ -86,7 +87,7 @@ export default function MainNavbar() {
                   ]}
                 ]} 
               />
-              
+
               {/* Company Dropdown */}
               <DesktopDropdown 
                 title="Company" 
@@ -104,7 +105,7 @@ export default function MainNavbar() {
               />
             </div>
           </div>
-          
+
           {/* Right side buttons */}
           <div className="flex items-center">
             {isAuthenticated ? (
@@ -136,7 +137,7 @@ export default function MainNavbar() {
               </>
             )}
           </div>
-          
+
           {/* Mobile menu button */}
           <div className="flex items-center md:hidden">
             <button 
@@ -156,7 +157,7 @@ export default function MainNavbar() {
           </div>
         </div>
       </div>
-      
+
       {/* Mobile menu */}
       {mobileMenuOpen && (
         <div className="md:hidden">
@@ -167,20 +168,20 @@ export default function MainNavbar() {
               <MobileNavLink href="/solutions/developer-hub">Developer Hub</MobileNavLink>
               <MobileNavLink href="/solutions/solicitors">Solicitors</MobileNavLink>
             </MobileNavSection>
-            
+
             <MobileNavSection title="Resources">
               <MobileNavLink href="/resources/property-guides">Property Guides</MobileNavLink>
               <MobileNavLink href="/resources/calculators">Calculators & Tools</MobileNavLink>
               <MobileNavLink href="/resources/market-reports">Market Reports</MobileNavLink>
             </MobileNavSection>
-            
+
             <MobileNavSection title="Company">
               <MobileNavLink href="/company/about">About Us</MobileNavLink>
               <MobileNavLink href="/contact">Contact Us</MobileNavLink>
               <MobileNavLink href="/company/careers">Careers</MobileNavLink>
             </MobileNavSection>
           </div>
-          
+
           <div className="pt-4 pb-3 border-t border-gray-200">
             <div className="space-y-1">
               {isAuthenticated ? (
@@ -214,9 +215,9 @@ export default function MainNavbar() {
 
 // Desktop dropdown menu component
 function DesktopDropdown({ title, items }: DropdownProps) {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpensetIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
-  
+
   // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -224,13 +225,13 @@ function DesktopDropdown({ title, items }: DropdownProps) {
         setIsOpen(false);
       }
     };
-    
+
     document.addEventListener('mousedown', handleClickOutside);
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
-  
+
   return (
     <div className="relative" ref={dropdownRef} onMouseLeave={() => setIsOpen(false)}>
       <button
@@ -242,16 +243,16 @@ function DesktopDropdown({ title, items }: DropdownProps) {
         {title}
         <ChevronDown className="ml-1 h-4 w-4" />
       </button>
-      
+
       {isOpen && (
         <div className="absolute z-10 mt-1 w-screen max-w-md rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
           <div className="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 overflow-hidden">
             <div className="relative grid gap-6 bg-white px-5 py-6 sm:gap-8 sm:p-8">
-              {items.map((item, index) => (
+              {items.map((itemindex: any) => (
                 <div key={index}>
                   <h3 className="text-sm font-semibold text-gray-900 uppercase tracking-wider">{item.section}</h3>
                   <div className="mt-2 space-y-4">
-                    {item.links.map((link, linkIndex) => (
+                    {item.links.map((linklinkIndex: any) => (
                       <Link 
                         key={linkIndex}
                         href={link.href}
@@ -276,8 +277,8 @@ function DesktopDropdown({ title, items }: DropdownProps) {
 
 // Mobile nav section component
 function MobileNavSection({ title, children }: { title: string, children: React.ReactNode }) {
-  const [isOpen, setIsOpen] = useState(false);
-  
+  const [isOpensetIsOpen] = useState(false);
+
   return (
     <div>
       <button
@@ -287,7 +288,7 @@ function MobileNavSection({ title, children }: { title: string, children: React.
         {title}
         <ChevronDown className={`h-5 w-5 transform ${isOpen ? 'rotate-180' : ''} transition-transform`} />
       </button>
-      
+
       {isOpen && (
         <div className="pl-4">
           {children}

@@ -140,7 +140,7 @@ export default function SolutionsPage() {
       <section className="py-20">
         <div className="max-w-7xl mx-auto px-4">
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {solutions.map((solution) => (
+            {solutions.map((solution: any) => (
               <div 
                 key={solution.href}
                 className="bg-white rounded-xl shadow-sm hover:shadow-lg transition-shadow"
@@ -156,7 +156,7 @@ export default function SolutionsPage() {
                     {solution.description}
                   </p>
                   <ul className="space-y-2 mb-6">
-                    {solution.features.map((feature, index) => (
+                    {solution.features.map((featureindex: any) => (
                       <li key={index} className="flex items-start">
                         <span className="text-green-500 mr-2">✓</span>
                         <span className="text-gray-700">{feature}</span>

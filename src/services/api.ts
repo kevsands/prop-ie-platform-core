@@ -22,16 +22,16 @@ interface RequestOptions extends RequestInit {
 
 class ApiService {
   private baseUrl: string;
-  
+
   constructor() {
     this.baseUrl = env.apiUrl || '';
-    
+
     // Validate baseUrl during initialization
     if (!this.baseUrl) {
-      console.warn('API URL is not defined. API requests may fail.');
+
     }
   }
-  
+
   /**
    * Get access token from storage safely (works in both browser and server contexts)
    */
@@ -41,19 +41,19 @@ class ApiService {
     }
     return null;
   }
-  
+
   /**
    * Core request method for all HTTP requests
    */
   private async request<T>(endpoint: string, options: RequestOptions = {}): Promise<T> {
     const { requiresAuth = true, skipErrorHandling = false, ...fetchOptions } = options;
-    
+
     // Default headers
     const headers = new Headers(fetchOptions.headers);
     if (!headers.has('Content-Type') && !(fetchOptions.body instanceof FormData)) {
       headers.set('Content-Type', 'application/json');
     }
-    
+
     // Add auth token if required
     if (requiresAuth) {
       const token = this.getAccessToken();
@@ -61,23 +61,22 @@ class ApiService {
         headers.set('Authorization', `Bearer ${token}`);
       } else if (typeof window !== 'undefined') {
         // Only throw if we're in the browser and should have an auth token
-        console.warn('Authentication required but no token found');
+
       }
     }
-    
+
     // Prepare final request options
     const requestOptions: RequestInit = {
       ...fetchOptions,
-      headers,
-    };
-    
+      headers};
+
     // Form the full URL
     const url = endpoint.startsWith('http') ? endpoint : `${this.baseUrl}${endpoint}`;
-    
+
     try {
       // Make the request
-      const response = await fetch(url, requestOptions);
-      
+      const response = await fetch(urlrequestOptions);
+
       // Handle success
       if (response.ok) {
         // Check if response is empty
@@ -89,7 +88,7 @@ class ApiService {
           return {} as T;
         }
       }
-      
+
       // Handle errors
       if (!skipErrorHandling) {
         // Fixed: Properly type errorData and handle the unknown type from response.json()
@@ -98,12 +97,12 @@ class ApiService {
           const jsonData = await response.json();
           // Safely convert to a usable object with type checking
           if (jsonData && typeof jsonData === 'object') {
-            errorData = jsonData as Record<string, any>;
+            errorData = jsonData as Record<string, any>\n  );
           }
         } catch {
           // If JSON parsing fails, keep the default empty object
         }
-        
+
         throw new ApiError(
           // Safely access message property with type checking
           typeof errorData.message === 'string' 
@@ -113,14 +112,14 @@ class ApiService {
           errorData
         );
       }
-      
+
       return response as unknown as T;
     } catch (error) {
       // Rethrow ApiError instances
       if (error instanceof ApiError) {
         throw error;
       }
-      
+
       // Convert other errors to ApiError
       throw new ApiError(
         error instanceof Error ? error.message : 'Unknown error occurred',
@@ -129,14 +128,14 @@ class ApiService {
       );
     }
   }
-  
+
   /**
    * Perform GET request
    */
   public get<T>(endpoint: string, options?: RequestOptions): Promise<T> {
     return this.request<T>(endpoint, { ...options, method: 'GET' });
   }
-  
+
   /**
    * Perform POST request
    */
@@ -144,10 +143,9 @@ class ApiService {
     return this.request<T>(endpoint, {
       ...options,
       method: 'POST',
-      body: JSON.stringify(data),
-    });
+      body: JSON.stringify(data)});
   }
-  
+
   /**
    * Perform PUT request
    */
@@ -155,10 +153,9 @@ class ApiService {
     return this.request<T>(endpoint, {
       ...options,
       method: 'PUT',
-      body: JSON.stringify(data),
-    });
+      body: JSON.stringify(data)});
   }
-  
+
   /**
    * Perform PATCH request
    */
@@ -166,17 +163,16 @@ class ApiService {
     return this.request<T>(endpoint, {
       ...options,
       method: 'PATCH',
-      body: JSON.stringify(data),
-    });
+      body: JSON.stringify(data)});
   }
-  
+
   /**
    * Perform DELETE request
    */
   public delete<T>(endpoint: string, options?: RequestOptions): Promise<T> {
     return this.request<T>(endpoint, { ...options, method: 'DELETE' });
   }
-  
+
   /**
    * Upload file(s) as FormData
    */

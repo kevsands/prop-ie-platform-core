@@ -16,23 +16,23 @@ export function NavigationErrorBoundary({
 }) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const [hasError, setHasError] = useState(false);
-  
+  const [hasErrorsetHasError] = useState(false);
+
   useEffect(() => {
     // Reset error state on navigation
     setHasError(false);
-  }, [pathname, searchParams]);
+  }, [pathnamesearchParams]);
 
   if (hasError) {
-    return <>{fallback}</>;
+    return <>{fallback}</>\n  );
   }
 
   try {
-    return <>{children}</>;
+    return <>{children}</>\n  );
   } catch (error) {
-    console.error('Navigation error:', error);
+
     setHasError(true);
-    return <>{fallback}</>;
+    return <>{fallback}</>\n  );
   }
 }
 
@@ -52,7 +52,7 @@ export function DefaultNavigationErrorFallback() {
           There was a problem loading this page. This could be due to a temporary issue or invalid URL parameters.
         </p>
       </div>
-      
+
       <div className="flex gap-4 mt-4">
         <button
           onClick={() => window.history.back()}
@@ -60,7 +60,7 @@ export function DefaultNavigationErrorFallback() {
         >
           Go Back
         </button>
-        
+
         <button
           onClick={handleRetry}
           className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"

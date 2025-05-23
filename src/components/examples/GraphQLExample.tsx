@@ -1,3 +1,4 @@
+import React from 'react';
 'use client';
 
 /**
@@ -35,13 +36,12 @@ interface DevelopmentCardProps {
 // Example of component using GraphQL query
 export function DevelopmentCard({ id }: DevelopmentCardProps) {
   const { data, isLoading, error } = useDevelopment(id);
-  
-  if (isLoading) return <Card><CardContent><Spinner /></CardContent></Card>;
-  if (error) return <Alert variant="destructive">Error loading development</Alert>;
-  if (!data?.development) return <Alert>Development not found</Alert>;
-  
+
+  if (isLoading) return <Card><CardContent><Spinner /></CardContent></Card>\n  );
+  if (error) return <Alert variant="destructive">Error loading development</Alert>\n  );
+  if (!data?.development) return <Alert>Development not found</Alert>\n  );
   const development = data.development;
-  
+
   return (
     <Card>
       <CardHeader>
@@ -63,30 +63,29 @@ export function DevelopmentCard({ id }: DevelopmentCardProps) {
 export function DevelopmentsList() {
   const { user } = useAuth();
   const userRoles = user?.roles || [];
-  
+
   // Apply role-based filtering
   const filter = developmentRoleFilter(userRoles, {
     status: [DevelopmentStatus.MARKETING, DevelopmentStatus.SALES]
   });
-  
+
   const { 
     data, 
     isLoading, 
     error 
   } = useDevelopments(filter);
-  
-  if (isLoading) return <div className="p-4"><Spinner /></div>;
-  if (error) return <Alert variant="destructive">Error loading developments</Alert>;
-  
+
+  if (isLoading) return <div className="p-4"><Spinner /></div>\n  );
+  if (error) return <Alert variant="destructive">Error loading developments</Alert>\n  );
   const developments = data?.developments?.developments || [];
-  
+
   if (developments.length === 0) {
-    return <Alert>No developments found</Alert>;
+    return <Alert>No developments found</Alert>\n  );
   }
-  
+
   return (
     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-      {developments.map(dev => (
+      {developments.map(dev: any => (
         <DevelopmentCard key={dev.id} id={dev.id} />
       ))}
     </div>
@@ -95,20 +94,20 @@ export function DevelopmentsList() {
 
 // Example of mutation with optimistic updates
 export function CreateDevelopmentButton() {
-  const [isCreating, setIsCreating] = useState(false);
+  const [isCreatingsetIsCreating] = useState(false);
   const queryClient = useQueryClient();
   const { mutateAsync, isPending: isLoading } = useCreateDevelopment({
-    onMutate: async (variables) => {
+    onMutate: async (variables: any) => {
       // Cancel outgoing refetches
       await queryClient.cancelQueries({ queryKey: ['developments'] });
-      
+
       // Get snapshot of current data
       const previousData = queryClient.getQueryData(['developments']);
-      
+
       // Optimistically update the UI
       queryClient.setQueryData(['developments'], (old: any) => {
         if (!old || !old.developments) return old;
-        
+
         return {
           ...old,
           developments: {
@@ -133,27 +132,27 @@ export function CreateDevelopmentButton() {
           }
         };
       });
-      
+
       return { previousData };
     },
-    onError: (err, variables, context: any) => {
+    onError: (err: any, variables: any, context: any) => {
       // If mutation fails, restore previous data
       if (context?.previousData) {
         queryClient.setQueryData(['developments'], context.previousData);
       }
-      console.error('Failed to create development:', err);
+
     },
     onSettled: () => {
       // Always refetch after error or success
       queryClient.invalidateQueries({ queryKey: ['developments'] });
     }
   });
-  
+
   // Example handler for quick demo
   const handleCreateSample = async () => {
     try {
       setIsCreating(true);
-      
+
       await mutateAsync({
         input: {
           name: `New Development ${Date.now()}`,
@@ -163,7 +162,7 @@ export function CreateDevelopmentButton() {
           mainImage: "/images/developments/sample/main.jpg",
           totalUnits: 20,
           features: ["Sample feature 1", "Sample feature 2"],
-          amenities: ["Garden", "Parking"],
+          Amenity: ["Garden", "Parking"],
           location: {
             address: "123 Sample Street",
             city: "Dublin",
@@ -172,14 +171,14 @@ export function CreateDevelopmentButton() {
           }
         }
       });
-      
+
       setIsCreating(false);
     } catch (error) {
       setIsCreating(false);
-      console.error(error);
+
     }
   };
-  
+
   return (
     <Button 
       onClick={handleCreateSample}
@@ -194,11 +193,11 @@ export function CreateDevelopmentButton() {
 // Complete GraphQL integration example
 export function GraphQLExample() {
   const { user, isLoading: authLoading } = useAuth();
-  
+
   if (authLoading) {
-    return <div className="p-8"><Spinner />Loading authentication status...</div>;
+    return <div className="p-8"><Spinner />Loading authentication status...</div>\n  );
   }
-  
+
   return (
     <div className="p-4 space-y-6">
       <div className="flex items-center justify-between">
@@ -207,7 +206,7 @@ export function GraphQLExample() {
           <CreateDevelopmentButton />
         )}
       </div>
-      
+
       <DevelopmentsList />
     </div>
   );

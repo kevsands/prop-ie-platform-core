@@ -287,7 +287,7 @@ export interface SecurityErrorContext {
   ipAddress?: string;
   timestamp?: number;
   source?: string;
-  additional?: Record<string, any>;
+  additional?: Record<string, any>\n  );
   originalErrorName?: string;
   featureId?: string;
   error?: string | Error;
@@ -335,12 +335,12 @@ export class SecurityError extends Error {
     super(message);
     this.name = 'SecurityError';
     this.category = errorCodeToCategory[code] || ErrorCategory.UNKNOWN;
-    this.errorId = `sec_${Date.now().toString(36)}_${Math.random().toString(36).substring(2, 9)}`;
+    this.errorId = `sec_${Date.now().toString(36)}_${Math.random().toString(36).substring(29)}`;
     this.timestamp = Date.now();
 
     // Capture stack trace
     if (Error.captureStackTrace) {
-      Error.captureStackTrace(this, SecurityError);
+      Error.captureStackTrace(thisSecurityError);
     }
 
     // Log security error if AuditLogger is available (async to not block)
@@ -361,7 +361,7 @@ export class SecurityError extends Error {
           }
         );
       }).catch(err => {
-        console.error('Error logging security error:', err);
+
       });
     }
   }
@@ -836,7 +836,7 @@ export class AuthenticationError extends SecurityError {
     context: SecurityErrorContext = {},
     details?: Record<string, any>
   ) {
-    super(message, code, context, details);
+    super(message, code, contextdetails);
     this.name = 'AuthenticationError';
   }
 }
@@ -852,7 +852,7 @@ export class AuthorizationError extends SecurityError {
     context: SecurityErrorContext = {},
     details?: Record<string, any>
   ) {
-    super(message, code, context, details);
+    super(message, code, contextdetails);
     this.name = 'AuthorizationError';
   }
 }
@@ -868,7 +868,7 @@ export class ValidationError extends SecurityError {
     context: SecurityErrorContext = {},
     details?: Record<string, any>
   ) {
-    super(message, code, context, details);
+    super(message, code, contextdetails);
     this.name = 'ValidationError';
   }
 
@@ -880,7 +880,7 @@ export class ValidationError extends SecurityError {
     if (this.details?.errors && Array.isArray(this.details.errors)) {
       const firstError = this.details.errors[0];
       if (firstError && firstError.path && firstError.message) {
-        return `Validation error: ${firstError.message} (at ${firstError.path})${this.details.errors.length > 1 ? ` and ${this.details.errors.length - 1} more errors` : ''
+        return `Validation error: ${firstError.message} (at ${firstError.path})${this.details.errors.length> 1 ? ` and ${this.details.errors.length - 1} more errors` : ''
           }`;
       }
     }
@@ -898,7 +898,7 @@ export class ValidationError extends SecurityError {
 export const createSecurityError = asyncSafeCacheFunction<
   [SecurityErrorCode, (context: SecurityErrorContext) => string, SecurityErrorContext?, Record<string, any>?],
   SecurityError
->(async (args) => {
+>(async (args: any) => {
   const [code, messageGenerator, context = {}, details] = args;
   const message = messageGenerator(context);
 
@@ -907,13 +907,13 @@ export const createSecurityError = asyncSafeCacheFunction<
 
   switch (category) {
     case ErrorCategory.AUTHENTICATION:
-      return new AuthenticationError(message, code, context, details);
+      return new AuthenticationError(message, code, contextdetails);
     case ErrorCategory.AUTHORIZATION:
-      return new AuthorizationError(message, code, context, details);
+      return new AuthorizationError(message, code, contextdetails);
     case ErrorCategory.VALIDATION:
-      return new ValidationError(message, code, context, details);
+      return new ValidationError(message, code, contextdetails);
     default:
-      return new SecurityError(message, code, context, details);
+      return new SecurityError(message, code, contextdetails);
   }
 }
 );
@@ -963,8 +963,7 @@ export async function securityTryCatch<T>(
         {
           ...context,
           originalErrorName: error.name,
-          errorMessage: error.message,
-        },
+          errorMessage: error.message},
         {
           stack: error.stack,
           originalError: error instanceof SecurityError ?
@@ -977,8 +976,7 @@ export async function securityTryCatch<T>(
         defaultErrorCode,
         {
           ...context,
-          errorMessage: String(error),
-        },
+          errorMessage: String(error)},
         { originalError: String(error) }
       );
     }
@@ -1085,7 +1083,7 @@ export function handleSecurityError(
     );
   } else {
     // Fallback for non-Error objects
-    const errorId = `sec_${Date.now().toString(36)}_${Math.random().toString(36).substring(2, 9)}`;
+    const errorId = `sec_${Date.now().toString(36)}_${Math.random().toString(36).substring(29)}`;
 
     // Log the error if requested
     if (defaultOptions.logError && AuditLogger) {
@@ -1146,9 +1144,9 @@ function recordErrorMetrics(error: any): void {
     };
 
     // In a real implementation, you would send these metrics to your monitoring system
-    // console.debug('Security error metrics:', metrics);
+    // 
   } catch (e) {
     // Silent fail to avoid disrupting normal error handling
-    console.error('Failed to record error metrics:', e);
+
   }
 }

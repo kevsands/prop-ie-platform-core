@@ -1,3 +1,4 @@
+import React from 'react';
 'use client';
 
 import { useAuth } from "@/context/AuthContext";
@@ -25,7 +26,7 @@ export default function BuyerDashboardContent() {
       <header className="mb-8">
         <h1 className="text-3xl font-bold mb-2">Buyer Dashboard</h1>
         <p className="text-gray-600">
-          Welcome back{user?.name ? `, ${user.name}` : ""}! Manage your property
+          Welcome back{user?.name ? `, ${user.name}` : ""! Manage your property
           journey from here.
         </p>
       </header>

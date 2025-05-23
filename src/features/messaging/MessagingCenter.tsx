@@ -1,3 +1,4 @@
+import React from 'react';
 'use client';
 
 import { useState, useEffect, useRef, useCallback } from 'react';
@@ -35,26 +36,22 @@ import {
   SheetDescription,
   SheetHeader,
   SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
+  SheetTrigger} from "@/components/ui/sheet";
 import {
   Tabs,
   TabsContent,
   TabsList,
-  TabsTrigger,
-} from "@/components/ui/tabs";
+  TabsTrigger} from "@/components/ui/tabs";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-  DropdownMenuSeparator,
-} from "@/components/ui/dropdown-menu";
+  DropdownMenuSeparator} from "@/components/ui/dropdown-menu";
 import {
   Popover,
   PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+  PopoverTrigger} from "@/components/ui/popover";
 import { format, isToday, isYesterday } from 'date-fns';
 import { cn } from "@/lib/utils";
 import { useMessaging } from '@/hooks/useMessaging';
@@ -138,18 +135,18 @@ export default function MessagingCenter() {
     setTyping
   } = useMessaging();
 
-  const [selectedConversation, setSelectedConversation] = useState<string | null>(null);
-  const [messageText, setMessageText] = useState('');
-  const [searchQuery, setSearchQuery] = useState('');
-  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
-  const [isRecording, setIsRecording] = useState(false);
-  const [showInfo, setShowInfo] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
-  const [selectedTab, setSelectedTab] = useState('all');
-  const [attachments, setAttachments] = useState<File[]>([]);
-  const [replyingTo, setReplyingTo] = useState<Message | null>(null);
-  const [editingMessage, setEditingMessage] = useState<Message | null>(null);
-  
+  const [selectedConversationsetSelectedConversation] = useState<string | null>(null);
+  const [messageTextsetMessageText] = useState('');
+  const [searchQuerysetSearchQuery] = useState('');
+  const [showEmojiPickersetShowEmojiPicker] = useState(false);
+  const [isRecordingsetIsRecording] = useState(false);
+  const [showInfosetShowInfo] = useState(false);
+  const [isOpensetIsOpen] = useState(false);
+  const [selectedTabsetSelectedTab] = useState('all');
+  const [attachmentssetAttachments] = useState<File[]>([]);
+  const [replyingTosetReplyingTo] = useState<Message | null>(null);
+  const [editingMessagesetEditingMessage] = useState<Message | null>(null);
+
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -170,13 +167,13 @@ export default function MessagingCenter() {
     if (selectedTab === 'unread' && conv.unreadCount === 0) return false;
     if (selectedTab === 'groups' && conv.type !== 'group') return false;
     if (selectedTab === 'archived' && !conv.archived) return false;
-    
+
     if (searchQuery) {
       const query = searchQuery.toLowerCase();
       return conv.name?.toLowerCase().includes(query) ||
         conv.participants.some(p => p.name.toLowerCase().includes(query));
     }
-    
+
     return true;
   });
 
@@ -189,11 +186,10 @@ export default function MessagingCenter() {
       conversationId: selectedConversation,
       text: messageText.trim(),
       attachments: [],
-      replyTo: replyingTo?.id,
-    };
+      replyTo: replyingTo?.id};
 
     // Upload attachments if any
-    if (attachments.length > 0) {
+    if (attachments.length> 0) {
       const uploadedAttachments = await Promise.all(
         attachments.map(file => uploadAttachment(file))
       );
@@ -221,23 +217,23 @@ export default function MessagingCenter() {
       try {
         const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
         const mediaRecorder = new MediaRecorder(stream);
-        
-        mediaRecorder.ondataavailable = (event) => {
+
+        mediaRecorder.ondataavailable = (event: any) => {
           audioChunksRef.current.push(event.data);
         };
-        
+
         mediaRecorder.onstop = async () => {
           const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/webm' });
           const audioFile = new File([audioBlob], 'voice-message.webm', { type: 'audio/webm' });
-          setAttachments([...attachments, audioFile]);
+          setAttachments([...attachmentsaudioFile]);
           audioChunksRef.current = [];
         };
-        
+
         mediaRecorderRef.current = mediaRecorder;
         mediaRecorder.start();
         setIsRecording(true);
       } catch (error) {
-        console.error('Error starting recording:', error);
+
       }
     } else {
       if (mediaRecorderRef.current) {
@@ -251,14 +247,14 @@ export default function MessagingCenter() {
   // Handle typing indicator
   const handleTyping = useCallback(() => {
     if (selectedConversation) {
-      setTyping(selectedConversation, true);
-      
+      setTyping(selectedConversationtrue);
+
       // Clear typing after 3 seconds
       setTimeout(() => {
-        setTyping(selectedConversation, false);
+        setTyping(selectedConversationfalse);
       }, 3000);
     }
-  }, [selectedConversation, setTyping]);
+  }, [selectedConversationsetTyping]);
 
   // Format message timestamp
   const formatMessageTime = (date: Date) => {
@@ -274,12 +270,12 @@ export default function MessagingCenter() {
   // Get conversation display name
   const getConversationName = (conversation: Conversation) => {
     if (conversation.name) return conversation.name;
-    
+
     if (conversation.type === 'direct') {
       const otherParticipant = conversation.participants.find(p => p.userId !== user?.id);
       return otherParticipant?.name || 'Unknown';
     }
-    
+
     return 'Unnamed conversation';
   };
 
@@ -289,7 +285,7 @@ export default function MessagingCenter() {
       const otherParticipant = conversation.participants.find(p => p.userId !== user?.id);
       return otherParticipant?.avatar;
     }
-    
+
     return null;
   };
 
@@ -303,8 +299,8 @@ export default function MessagingCenter() {
 
     return (
       <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
+        initial={ opacity: 0, y: 10 }
+        animate={ opacity: 1, y: 0 }
         className={cn(
           "flex items-end gap-2 mb-4",
           isOwnMessage && "flex-row-reverse"
@@ -320,7 +316,7 @@ export default function MessagingCenter() {
             )}
           </div>
         )}
-        
+
         <div className={cn(
           "max-w-[70%] space-y-1",
           isOwnMessage && "items-end"
@@ -333,23 +329,23 @@ export default function MessagingCenter() {
               )}
             </div>
           )}
-          
+
           {message.replyTo && (
             <div className="bg-gray-100 rounded p-2 mb-1 text-sm">
               <p className="text-gray-600">Replying to</p>
               {/* Show replied message preview */}
             </div>
           )}
-          
+
           <div className={cn(
             "rounded-lg p-3",
             isOwnMessage ? "bg-blue-500 text-white" : "bg-gray-100"
           )}>
             <p className="whitespace-pre-wrap">{message.text}</p>
-            
-            {message.attachments && message.attachments.length > 0 && (
+
+            {message.attachments && message.attachments.length> 0 && (
               <div className="mt-2 space-y-2">
-                {message.attachments.map((attachment) => (
+                {message.attachments.map((attachment: any) => (
                   <div key={attachment.id}>
                     {attachment.type === 'image' ? (
                       <img 
@@ -374,7 +370,7 @@ export default function MessagingCenter() {
                 ))}
               </div>
             )}
-            
+
             {message.edited && (
               <p className={cn(
                 "text-xs mt-1",
@@ -384,24 +380,24 @@ export default function MessagingCenter() {
               </p>
             )}
           </div>
-          
+
           <div className="flex items-center gap-2">
             {showTimestamp && (
               <span className="text-xs text-gray-500">
                 {formatMessageTime(message.timestamp)}
               </span>
             )}
-            
+
             {isOwnMessage && (
               <span className="text-xs text-gray-500">
                 {message.status === 'read' && '✓✓'}
                 {message.status === 'delivered' && '✓'}
               </span>
             )}
-            
-            {message.reactions && message.reactions.length > 0 && (
+
+            {message.reactions && message.reactions.length> 0 && (
               <div className="flex -space-x-1">
-                {message.reactions.map((reaction) => (
+                {message.reactions.map((reaction: any) => (
                   <span key={reaction.userId} className="text-sm">
                     {reaction.emoji}
                   </span>
@@ -419,17 +415,17 @@ export default function MessagingCenter() {
       <SheetTrigger asChild>
         <Button variant="ghost" size="icon" className="relative">
           <ChatBubbleLeftRightIcon className="h-5 w-5" />
-          {conversations.reduce((sum, conv) => sum + conv.unreadCount, 0) > 0 && (
+          {conversations.reduce((sumconv: any) => sum + conv.unreadCount0) > 0 && (
             <Badge 
               variant="destructive" 
               className="absolute -top-1 -right-1 h-5 w-5 p-0 text-xs"
             >
-              {conversations.reduce((sum, conv) => sum + conv.unreadCount, 0)}
+              {conversations.reduce((sumconv: any) => sum + conv.unreadCount0)}
             </Badge>
           )}
         </Button>
       </SheetTrigger>
-      
+
       <SheetContent side="right" className="w-full sm:max-w-4xl p-0">
         <div className="flex h-full">
           {/* Conversations sidebar */}
@@ -442,34 +438,34 @@ export default function MessagingCenter() {
                   New Chat
                 </Button>
               </div>
-              
+
               <div className="relative">
                 <MagnifyingGlassIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
                 <Input
                   type="text"
                   placeholder="Search conversations..."
                   value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onChange={(e: any) => setSearchQuery(e.target.value)}
                   className="pl-9"
                 />
               </div>
             </div>
-            
+
             <Tabs value={selectedTab} onValueChange={setSelectedTab}>
               <TabsList className="w-full rounded-none border-b">
                 <TabsTrigger value="all" className="flex-1">All</TabsTrigger>
                 <TabsTrigger value="unread" className="flex-1">
-                  Unread ({conversations.reduce((sum, conv) => sum + conv.unreadCount, 0)})
+                  Unread ({conversations.reduce((sumconv: any) => sum + conv.unreadCount0)})
                 </TabsTrigger>
                 <TabsTrigger value="groups" className="flex-1">Groups</TabsTrigger>
                 <TabsTrigger value="archived" className="flex-1">Archived</TabsTrigger>
               </TabsList>
-              
+
               <TabsContent value={selectedTab} className="flex-1 m-0">
                 <ScrollArea className="h-full">
-                  {filteredConversations.map((conversation) => {
+                  {filteredConversations.map((conversation: any) => {
                     const isActive = selectedConversation === conversation.id;
-                    
+
                     return (
                       <div
                         key={conversation.id}
@@ -495,12 +491,12 @@ export default function MessagingCenter() {
                             <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-white" />
                           )}
                         </div>
-                        
+
                         <div className="flex-1 min-w-0">
                           <div className="flex justify-between items-baseline">
                             <h3 className={cn(
                               "font-medium truncate",
-                              conversation.unreadCount > 0 && "font-semibold"
+                              conversation.unreadCount> 0 && "font-semibold"
                             )}>
                               {getConversationName(conversation)}
                             </h3>
@@ -510,18 +506,18 @@ export default function MessagingCenter() {
                               </span>
                             )}
                           </div>
-                          
+
                           {conversation.lastMessage && (
                             <p className={cn(
                               "text-sm truncate",
-                              conversation.unreadCount > 0 ? "text-gray-900" : "text-gray-600"
+                              conversation.unreadCount> 0 ? "text-gray-900" : "text-gray-600"
                             )}>
                               {conversation.lastMessage.text}
                             </p>
                           )}
-                          
+
                           <div className="flex items-center gap-2 mt-1">
-                            {conversation.unreadCount > 0 && (
+                            {conversation.unreadCount> 0 && (
                               <Badge variant="destructive" className="text-xs">
                                 {conversation.unreadCount}
                               </Badge>
@@ -541,7 +537,7 @@ export default function MessagingCenter() {
               </TabsContent>
             </Tabs>
           </div>
-          
+
           {/* Chat area */}
           {selectedConversation && activeConversation ? (
             <div className="flex-1 flex flex-col">
@@ -551,7 +547,7 @@ export default function MessagingCenter() {
                   <Button variant="ghost" size="icon" onClick={() => setSelectedConversation(null)}>
                     <ArrowLeftIcon className="h-5 w-5" />
                   </Button>
-                  
+
                   <Avatar>
                     <AvatarImage src={getConversationAvatar(activeConversation)} />
                     <AvatarFallback>
@@ -562,7 +558,7 @@ export default function MessagingCenter() {
                       )}
                     </AvatarFallback>
                   </Avatar>
-                  
+
                   <div>
                     <h3 className="font-semibold">{getConversationName(activeConversation)}</h3>
                     <p className="text-sm text-gray-500">
@@ -572,7 +568,7 @@ export default function MessagingCenter() {
                     </p>
                   </div>
                 </div>
-                
+
                 <div className="flex items-center gap-2">
                   <Button variant="ghost" size="icon">
                     <PhoneIcon className="h-5 w-5" />
@@ -585,11 +581,11 @@ export default function MessagingCenter() {
                   </Button>
                 </div>
               </div>
-              
+
               {/* Messages area */}
               <ScrollArea className="flex-1 p-4">
                 <AnimatePresence>
-                  {messages.map((message, index) => (
+                  {messages.map((messageindex: any) => (
                     <MessageItem 
                       key={message.id} 
                       message={message}
@@ -597,22 +593,22 @@ export default function MessagingCenter() {
                     />
                   ))}
                 </AnimatePresence>
-                
+
                 {/* Typing indicator */}
                 {typing[selectedConversation] && (
                   <div className="flex items-center gap-2 text-gray-500">
                     <div className="flex space-x-1">
                       <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" />
-                      <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }} />
-                      <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }} />
+                      <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={ animationDelay: '0.1s' } />
+                      <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={ animationDelay: '0.2s' } />
                     </div>
                     <span className="text-sm">typing...</span>
                   </div>
                 )}
-                
+
                 <div ref={messagesEndRef} />
               </ScrollArea>
-              
+
               {/* Message input */}
               <div className="p-4 border-t bg-white">
                 {replyingTo && (
@@ -630,10 +626,10 @@ export default function MessagingCenter() {
                     </Button>
                   </div>
                 )}
-                
-                {attachments.length > 0 && (
+
+                {attachments.length> 0 && (
                   <div className="flex gap-2 mb-2 overflow-x-auto">
-                    {attachments.map((file, index) => (
+                    {attachments.map((fileindex: any) => (
                       <div key={index} className="relative group">
                         <div className="p-2 bg-gray-100 rounded">
                           {file.type.startsWith('image/') ? (
@@ -652,7 +648,7 @@ export default function MessagingCenter() {
                           variant="destructive"
                           size="icon"
                           className="absolute -top-2 -right-2 h-6 w-6 opacity-0 group-hover:opacity-100 transition-opacity"
-                          onClick={() => setAttachments(attachments.filter((_, i) => i !== index))}
+                          onClick={() => setAttachments(attachments.filter((_i: any) => i !== index))}
                         >
                           <XMarkIcon className="h-3 w-3" />
                         </Button>
@@ -660,28 +656,28 @@ export default function MessagingCenter() {
                     ))}
                   </div>
                 )}
-                
+
                 <div className="flex items-end gap-2">
                   <div className="flex-1">
                     <Textarea
                       ref={textareaRef}
                       value={messageText}
-                      onChange={(e) => {
+                      onChange={(e: any) => {
                         setMessageText(e.target.value);
                         handleTyping();
-                      }}
-                      onKeyDown={(e) => {
+                      }
+                      onKeyDown={(e: any) => {
                         if (e.key === 'Enter' && !e.shiftKey) {
                           e.preventDefault();
                           handleSendMessage();
                         }
-                      }}
+                      }
                       placeholder="Type a message..."
                       className="min-h-[40px] max-h-[120px] resize-none"
                       rows={1}
                     />
                   </div>
-                  
+
                   <div className="flex items-center gap-1">
                     <Popover open={showEmojiPicker} onOpenChange={setShowEmojiPicker}>
                       <PopoverTrigger asChild>
@@ -691,14 +687,14 @@ export default function MessagingCenter() {
                       </PopoverTrigger>
                       <PopoverContent className="w-80">
                         <EmojiPicker
-                          onEmojiSelect={(emoji) => {
+                          onEmojiSelect={(emoji: any) => {
                             setMessageText(messageText + emoji);
                             setShowEmojiPicker(false);
-                          }}
+                          }
                         />
                       </PopoverContent>
                     </Popover>
-                    
+
                     <Button
                       variant="ghost"
                       size="icon"
@@ -706,7 +702,7 @@ export default function MessagingCenter() {
                     >
                       <PaperClipIcon className="h-5 w-5" />
                     </Button>
-                    
+
                     <Button
                       variant="ghost"
                       size="icon"
@@ -719,7 +715,7 @@ export default function MessagingCenter() {
                         <MicrophoneIcon className="h-5 w-5" />
                       )}
                     </Button>
-                    
+
                     <Button
                       onClick={handleSendMessage}
                       disabled={!messageText.trim() && attachments.length === 0}
@@ -728,7 +724,7 @@ export default function MessagingCenter() {
                     </Button>
                   </div>
                 </div>
-                
+
                 <input
                   ref={fileInputRef}
                   type="file"
@@ -747,14 +743,14 @@ export default function MessagingCenter() {
               </div>
             </div>
           )}
-          
+
           {/* Conversation info sidebar */}
           <AnimatePresence>
             {showInfo && activeConversation && (
               <motion.div
-                initial={{ width: 0, opacity: 0 }}
-                animate={{ width: 320, opacity: 1 }}
-                exit={{ width: 0, opacity: 0 }}
+                initial={ width: 0, opacity: 0 }
+                animate={ width: 320, opacity: 1 }
+                exit={ width: 0, opacity: 0 }
                 className="border-l bg-gray-50 overflow-hidden"
               >
                 <div className="p-4 border-b bg-white">
@@ -769,14 +765,14 @@ export default function MessagingCenter() {
                     </Button>
                   </div>
                 </div>
-                
+
                 <ScrollArea className="h-full">
                   <div className="p-4 space-y-6">
                     {/* Participants */}
                     <div>
                       <h4 className="font-medium mb-3">Participants</h4>
                       <div className="space-y-2">
-                        {activeConversation.participants.map((participant) => (
+                        {activeConversation.participants.map((participant: any) => (
                           <div key={participant.userId} className="flex items-center gap-3">
                             <Avatar className="h-10 w-10">
                               <AvatarImage src={participant.avatar} />
@@ -793,17 +789,17 @@ export default function MessagingCenter() {
                         ))}
                       </div>
                     </div>
-                    
+
                     {/* Shared files */}
                     <div>
                       <h4 className="font-medium mb-3">Shared Files</h4>
                       <div className="space-y-2">
                         {messages
-                          .filter(m => m.attachments && m.attachments.length > 0)
+                          .filter(m => m.attachments && m.attachments.length> 0)
                           .map(m => m.attachments!)
                           .flat()
-                          .slice(0, 5)
-                          .map((attachment) => (
+                          .slice(05)
+                          .map((attachment: any) => (
                             <a
                               key={attachment.id}
                               href={attachment.url}
@@ -816,7 +812,7 @@ export default function MessagingCenter() {
                           ))}
                       </div>
                     </div>
-                    
+
                     {/* Actions */}
                     <div className="space-y-2">
                       <Button variant="outline" className="w-full justify-start">

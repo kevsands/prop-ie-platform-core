@@ -11,15 +11,15 @@ export default function Loading() {
       <h1 className="text-3xl font-bold mb-6 text-gray-800 animate-pulse">
         Loading properties...
       </h1>
-      
+
       {/* Filter skeleton */}
       <div className="mb-8">
         <div className="h-10 bg-gray-200 rounded-md w-full max-w-3xl animate-pulse"></div>
       </div>
-      
+
       {/* Grid skeleton */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {Array.from({ length: 6 }).map((_, index) => (
+        {Array.from({ length: 6 }).map((_index: any) => (
           <div key={index} className="bg-white rounded-lg shadow overflow-hidden animate-pulse">
             <div className="h-48 bg-gray-300"></div>
             <div className="p-4">
@@ -31,7 +31,7 @@ export default function Loading() {
           </div>
         ))}
       </div>
-      
+
       {/* Pagination skeleton */}
       <div className="flex justify-center mt-8">
         <div className="h-10 bg-gray-200 rounded-md w-64 animate-pulse"></div>

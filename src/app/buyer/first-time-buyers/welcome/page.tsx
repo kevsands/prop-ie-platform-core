@@ -49,9 +49,9 @@ interface UserData {
 
 export default function FirstTimeBuyerWelcomePage() {
   const router = useRouter();
-  const [userData, setUserData] = useState<UserData | null>(null);
-  const [htbEstimate, setHtbEstimate] = useState(0);
-  const [currentTime, setCurrentTime] = useState(new Date());
+  const [userDatasetUserData] = useState<UserData | null>(null);
+  const [htbEstimatesetHtbEstimate] = useState(0);
+  const [currentTimesetCurrentTime] = useState(new Date());
 
   useEffect(() => {
     // Get user data from localStorage
@@ -59,10 +59,10 @@ export default function FirstTimeBuyerWelcomePage() {
     if (storedData) {
       const data = JSON.parse(storedData);
       setUserData(data);
-      
+
       // Calculate HTB estimate based on budget
       const budgetValue = data.budget.split('-')[0];
-      const estimate = Math.min(parseInt(budgetValue) * 1000 * 0.1, 30000);
+      const estimate = Math.min(parseInt(budgetValue) * 1000 * 0.130000);
       setHtbEstimate(estimate);
     } else {
       // Redirect to registration if no data
@@ -79,8 +79,8 @@ export default function FirstTimeBuyerWelcomePage() {
 
   const greeting = () => {
     const hour = currentTime.getHours();
-    if (hour < 12) return 'Good morning';
-    if (hour < 18) return 'Good afternoon';
+    if (hour <12) return 'Good morning';
+    if (hour <18) return 'Good afternoon';
     return 'Good evening';
   };
 
@@ -236,10 +236,10 @@ export default function FirstTimeBuyerWelcomePage() {
               <div className="text-xl md:text-2xl font-mono">{currentTime.toLocaleTimeString()}</div>
             </div>
           </div>
-          
+
           {/* Personalized Stats */}
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4 mt-6">
-            {personalizedStats.map((stat, index) => (
+            {personalizedStats.map((statindex: any) => (
               <div key={index} className="bg-white/20 backdrop-blur-sm rounded-lg p-3 md:p-4">
                 <div className={`w-8 h-8 md:w-10 md:h-10 rounded-lg ${stat.color} flex items-center justify-center mb-2`}>
                   <stat.icon className="w-5 h-5 md:w-6 md:h-6" />
@@ -279,7 +279,7 @@ export default function FirstTimeBuyerWelcomePage() {
             <div className="bg-gray-50 rounded-xl shadow-sm p-4 md:p-6">
               <h2 className="text-lg md:text-xl font-bold mb-4">Your Next Steps</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
-                {nextSteps.map((step, index) => (
+                {nextSteps.map((stepindex: any) => (
                   <div
                     key={index}
                     onClick={() => router.push(step.link)}
@@ -329,7 +329,7 @@ export default function FirstTimeBuyerWelcomePage() {
                     </div>
                   </div>
                 </div>
-                
+
                 <div>
                   <h3 className="font-semibold text-sm md:text-base mb-3 flex items-center gap-2">
                     <Home className="text-blue-600" size={18} />
@@ -351,7 +351,7 @@ export default function FirstTimeBuyerWelcomePage() {
                   </div>
                 </div>
               </div>
-              
+
               <div className="mt-4 pt-4 border-t">
                 <h3 className="font-semibold text-sm md:text-base mb-3 flex items-center gap-2">
                   <PiggyBank className="text-blue-600" size={18} />
@@ -371,7 +371,7 @@ export default function FirstTimeBuyerWelcomePage() {
                     <div className="text-xs text-gray-600">Est. HTB Benefit</div>
                   </div>
                 </div>
-                
+
                 <div className="flex items-center gap-2 mt-3">
                   <div className={`px-2 py-1 rounded-full text-xs font-medium ${
                     userData.hasHTB ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-600'
@@ -396,7 +396,7 @@ export default function FirstTimeBuyerWelcomePage() {
               <div className="relative">
                 <div className="absolute left-0 top-0 bottom-0 w-0.5 bg-gray-200"></div>
                 <div className="space-y-4">
-                  {journeyMilestones.map((milestone, index) => (
+                  {journeyMilestones.map((milestoneindex: any) => (
                     <div key={index} className="flex items-start gap-3 relative">
                       <div className={`absolute left-0 w-0.5 h-full ${
                         milestone.status === 'completed' ? 'bg-green-600' : 'bg-gray-200'
@@ -436,7 +436,7 @@ export default function FirstTimeBuyerWelcomePage() {
             <div className="bg-gray-50 rounded-xl shadow-sm p-4 md:p-6">
               <h2 className="text-lg md:text-xl font-bold mb-4">Essential Resources</h2>
               <div className="space-y-3">
-                {resources.map((resource, index) => (
+                {resources.map((resourceindex: any) => (
                   <div
                     key={index}
                     onClick={() => router.push(resource.href)}

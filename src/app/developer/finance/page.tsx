@@ -21,7 +21,7 @@ interface ButtonProps {
   variant?: 'default' | 'outline' | 'secondary';
   children: React.ReactNode;
   disabled?: boolean;
-  onClick?: React.MouseEventHandler<HTMLButtonElement>;
+  onClick?: React.MouseEventHandler<HTMLButtonElement>\n  );
   [key: string]: any; // For additional props
 }
 
@@ -52,8 +52,7 @@ const Button = ({
 const DEMO_PROJECTS = [
   { id: 'proj1', name: 'Fitzgerald Gardens' },
   { id: 'proj2', name: 'Ballymakenny View' },
-  { id: 'proj3', name: 'Riverside Manor' },
-];
+  { id: 'proj3', name: 'Riverside Manor' }];
 
 // Sample metric data
 const METRICS = [
@@ -69,8 +68,7 @@ const METRICS = [
       { value: 1050000 },
       { value: 1020000 },
       { value: 1100000 },
-      { value: 1250000 },
-    ]
+      { value: 1250000 }]
   },
   {
     title: 'Expenses',
@@ -84,8 +82,7 @@ const METRICS = [
       { value: 710000 },
       { value: 750000 },
       { value: 740000 },
-      { value: 780000 },
-    ],
+      { value: 780000 }],
     invertTrend: true
   },
   {
@@ -101,8 +98,7 @@ const METRICS = [
       { value: 32.4 },
       { value: 26.5 },
       { value: 32.7 },
-      { value: 37.6 },
-    ]
+      { value: 37.6 }]
   },
   {
     title: 'Units Sold',
@@ -115,10 +111,8 @@ const METRICS = [
       { value: 35 },
       { value: 40 },
       { value: 38 },
-      { value: 42 },
-    ]
-  },
-];
+      { value: 42 }]
+  }];
 
 // Sample budget vs actual data
 const BUDGET_VS_ACTUALS = [
@@ -182,8 +176,7 @@ const BUDGET_VS_ACTUALS = [
     budgetValue: 450000,
     actualValue: 400000,
     category: 'Revenue'
-  },
-];
+  }];
 
 // Revenue data for charts
 const REVENUE_DATA = {
@@ -192,13 +185,11 @@ const REVENUE_DATA = {
     { month: 'Feb', residential: 210000, commercial: 0, land: 0 },
     { month: 'Mar', residential: 250000, commercial: 0, land: 0 },
     { month: 'Apr', residential: 280000, commercial: 0, land: 0 },
-    { month: 'May', residential: 330000, commercial: 0, land: 0 },
-  ],
+    { month: 'May', residential: 330000, commercial: 0, land: 0 }],
   dataKeys: [
     { dataKey: 'residential', name: 'Residential' },
     { dataKey: 'commercial', name: 'Commercial' },
-    { dataKey: 'land', name: 'Land Sales' },
-  ]
+    { dataKey: 'land', name: 'Land Sales' }]
 };
 
 // Cost data for charts
@@ -208,13 +199,11 @@ const COST_DATA = {
     { month: 'Feb', construction: 140000, marketing: 18000, administration: 30000 },
     { month: 'Mar', construction: 150000, marketing: 20000, administration: 32000 },
     { month: 'Apr', construction: 160000, marketing: 22000, administration: 32000 },
-    { month: 'May', construction: 180000, marketing: 25000, administration: 35000 },
-  ],
+    { month: 'May', construction: 180000, marketing: 25000, administration: 35000 }],
   dataKeys: [
     { dataKey: 'construction', name: 'Construction' },
     { dataKey: 'marketing', name: 'Marketing' },
-    { dataKey: 'administration', name: 'Administration' },
-  ]
+    { dataKey: 'administration', name: 'Administration' }]
 };
 
 // Profit data for charts
@@ -224,12 +213,10 @@ const PROFIT_DATA = {
     { month: 'Feb', profit: 52000, margin: 14.0 },
     { month: 'Mar', profit: 68000, margin: 16.7 },
     { month: 'Apr', profit: 98000, margin: 19.8 },
-    { month: 'May', profit: 120000, margin: 22.4 },
-  ],
+    { month: 'May', profit: 120000, margin: 22.4 }],
   dataKeys: [
     { dataKey: 'profit', name: 'Net Profit' },
-    { dataKey: 'margin', name: 'Profit Margin %' },
-  ],
+    { dataKey: 'margin', name: 'Profit Margin %' }],
   // Projections
   revenueProjection: {
     data: [
@@ -238,13 +225,11 @@ const PROFIT_DATA = {
       { month: 'Aug', baseline: 390000, optimistic: 430000, pessimistic: 340000 },
       { month: 'Sep', baseline: 410000, optimistic: 460000, pessimistic: 350000 },
       { month: 'Oct', baseline: 430000, optimistic: 490000, pessimistic: 360000 },
-      { month: 'Nov', baseline: 450000, optimistic: 520000, pessimistic: 370000 },
-    ],
+      { month: 'Nov', baseline: 450000, optimistic: 520000, pessimistic: 370000 }],
     dataKeys: [
       { dataKey: 'baseline', name: 'Baseline' },
       { dataKey: 'optimistic', name: 'Optimistic' },
-      { dataKey: 'pessimistic', name: 'Pessimistic' },
-    ]
+      { dataKey: 'pessimistic', name: 'Pessimistic' }]
   },
   profitProjection: {
     data: [
@@ -253,13 +238,11 @@ const PROFIT_DATA = {
       { month: 'Aug', baseline: 115000, optimistic: 140000, pessimistic: 100000 },
       { month: 'Sep', baseline: 120000, optimistic: 150000, pessimistic: 105000 },
       { month: 'Oct', baseline: 125000, optimistic: 160000, pessimistic: 110000 },
-      { month: 'Nov', baseline: 130000, optimistic: 170000, pessimistic: 115000 },
-    ],
+      { month: 'Nov', baseline: 130000, optimistic: 170000, pessimistic: 115000 }],
     dataKeys: [
       { dataKey: 'baseline', name: 'Baseline' },
       { dataKey: 'optimistic', name: 'Optimistic' },
-      { dataKey: 'pessimistic', name: 'Pessimistic' },
-    ]
+      { dataKey: 'pessimistic', name: 'Pessimistic' }]
   },
   sensitivityAnalysis: {
     data: [
@@ -267,12 +250,10 @@ const PROFIT_DATA = {
       { variable: '-5%', profitMargin: 18, returnOnInvestment: 12 },
       { variable: '0%', profitMargin: 22, returnOnInvestment: 16 },
       { variable: '+5%', profitMargin: 26, returnOnInvestment: 20 },
-      { variable: '+10%', profitMargin: 30, returnOnInvestment: 24 },
-    ],
+      { variable: '+10%', profitMargin: 30, returnOnInvestment: 24 }],
     dataKeys: [
       { dataKey: 'profitMargin', name: 'Profit Margin %' },
-      { dataKey: 'returnOnInvestment', name: 'ROI %' },
-    ]
+      { dataKey: 'returnOnInvestment', name: 'ROI %' }]
   }
 };
 
@@ -288,20 +269,17 @@ const CASH_FLOW_DATA = {
     { date: 'Feb', inflow: 250000, outflow: 180000, netflow: 70000 },
     { date: 'Mar', inflow: 270000, outflow: 190000, netflow: 80000 },
     { date: 'Apr', inflow: 290000, outflow: 200000, netflow: 90000 },
-    { date: 'May', inflow: 310000, outflow: 210000, netflow: 100000 },
-  ],
+    { date: 'May', inflow: 310000, outflow: 210000, netflow: 100000 }],
   inflowsByCategory: {
     data: [
       { month: 'Jan', sales: 220000, investments: 10000 },
       { month: 'Feb', sales: 240000, investments: 10000 },
       { month: 'Mar', sales: 260000, investments: 10000 },
       { month: 'Apr', sales: 280000, investments: 10000 },
-      { month: 'May', sales: 300000, investments: 10000 },
-    ],
+      { month: 'May', sales: 300000, investments: 10000 }],
     dataKeys: [
       { dataKey: 'sales', name: 'Sales Revenue' },
-      { dataKey: 'investments', name: 'Investment Income' },
-    ]
+      { dataKey: 'investments', name: 'Investment Income' }]
   },
   outflowsByCategory: {
     data: [
@@ -309,13 +287,11 @@ const CASH_FLOW_DATA = {
       { month: 'Feb', construction: 125000, marketing: 25000, administration: 30000 },
       { month: 'Mar', construction: 130000, marketing: 30000, administration: 30000 },
       { month: 'Apr', construction: 135000, marketing: 35000, administration: 30000 },
-      { month: 'May', construction: 140000, marketing: 40000, administration: 30000 },
-    ],
+      { month: 'May', construction: 140000, marketing: 40000, administration: 30000 }],
     dataKeys: [
       { dataKey: 'construction', name: 'Construction' },
       { dataKey: 'marketing', name: 'Marketing' },
-      { dataKey: 'administration', name: 'Administration' },
-    ]
+      { dataKey: 'administration', name: 'Administration' }]
   },
   projection: {
     data: [
@@ -325,11 +301,9 @@ const CASH_FLOW_DATA = {
       { month: 'Sep', cashPosition: 960000 },
       { month: 'Oct', cashPosition: 1080000 },
       { month: 'Nov', cashPosition: 1200000 },
-      { month: 'Dec', cashPosition: 1320000 },
-    ],
+      { month: 'Dec', cashPosition: 1320000 }],
     dataKeys: [
-      { dataKey: 'cashPosition', name: 'Cash Position' },
-    ]
+      { dataKey: 'cashPosition', name: 'Cash Position' }]
   }
 };
 
@@ -337,28 +311,28 @@ const CASH_FLOW_DATA = {
  * Developer Financial Dashboard Page
  */
 const FinancialDashboardPage = () => {
-  const [selectedProject, setSelectedProject] = React.useState(DEMO_PROJECTS[0].id);
-  const [isLoading, setIsLoading] = React.useState(false);
-  
+  const [selectedProjectsetSelectedProject] = React.useState(DEMO_PROJECTS[0].id);
+  const [isLoadingsetIsLoading] = React.useState(false);
+
   // Handle project change
   const handleProjectChange = (projectId: string) => {
     setIsLoading(true);
     setSelectedProject(projectId);
-    
+
     // Simulate loading
     setTimeout(() => {
       setIsLoading(false);
     }, 800);
   };
-  
+
   // Get project name
   const projectName = DEMO_PROJECTS.find(p => p.id === selectedProject)?.name || '';
-  
+
   return (
     <div className="container mx-auto py-6 space-y-8">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <h1 className="text-3xl font-bold">Developer Dashboard</h1>
-        
+
         <div className="flex items-center gap-2">
           <Select value={selectedProject} onValueChange={handleProjectChange}>
             <SelectTrigger className="w-[240px]">
@@ -366,21 +340,21 @@ const FinancialDashboardPage = () => {
               <SelectValue placeholder="Select project" />
             </SelectTrigger>
             <SelectContent>
-              {DEMO_PROJECTS.map((project) => (
+              {DEMO_PROJECTS.map((project: any) => (
                 <SelectItem key={project.id} value={project.id}>
                   {project.name}
                 </SelectItem>
               ))}
             </SelectContent>
           </Select>
-          
+
           <Button variant="outline">
             <PieChart className="h-4 w-4 mr-2" />
             Reports
           </Button>
         </div>
       </div>
-      
+
       <FinancialDashboard
         title="Financial Dashboard"
         description="Financial overview and analysis"

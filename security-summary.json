@@ -1,0 +1,104 @@
+{
+  "scanDate": "2025-05-23T16:58:00.524Z",
+  "filesScanned": 1892,
+  "realFindings": {
+    "critical": 16,
+    "high": 45,
+    "medium": 240
+  },
+  "topIssues": [
+    {
+      "severity": "CRITICAL",
+      "description": "Critical security vulnerabilities found",
+      "count": 16,
+      "examples": [
+        {
+          "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/security-scanner.js",
+          "issue": "coinhive",
+          "category": "cryptoMiners"
+        },
+        {
+          "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/security-scanner.js",
+          "issue": "cryptonight",
+          "category": "cryptoMiners"
+        },
+        {
+          "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/security-scanner.js",
+          "issue": "monero",
+          "category": "cryptoMiners"
+        }
+      ]
+    },
+    {
+      "severity": "HIGH",
+      "description": "Potentially exposed secrets or API keys",
+      "count": 35,
+      "examples": [
+        {
+          "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/claude-code-vscode-resolver.js",
+          "issue": "apiKey: '${ANTHROPIC_API_KEY}'...",
+          "line": 76
+        },
+        {
+          "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/cypress/fixtures/users.json",
+          "issue": "\"password\": \"Password123!\"...",
+          "line": 6
+        },
+        {
+          "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/fix-seed-properly.js",
+          "issue": "password: 'password123'...",
+          "line": 24
+        }
+      ]
+    },
+    {
+      "severity": "HIGH",
+      "description": "Potential SQL injection vulnerabilities",
+      "count": 1,
+      "examples": [
+        {
+          "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/lib/db/repositories.ts",
+          "issue": "query(`SELECT COUNT(*) FROM ${this.tableName}`)",
+          "line": 103
+        }
+      ]
+    },
+    {
+      "severity": "MEDIUM",
+      "description": "Potential XSS vulnerabilities",
+      "count": 159,
+      "examples": [
+        {
+          "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/fix-final-imports.js",
+          "issue": "setTimeout(resolve,",
+          "line": 241
+        },
+        {
+          "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/jest.dom.setup.js",
+          "issue": "setTimeout(callback, 0)),\n    cancelAnimationFrame: jest.fn(),",
+          "line": 1
+        },
+        {
+          "file": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/performance-optimization.js",
+          "issue": "setTimeout(() => func(...args), delay);\n  };\n}\n\nexport function throttle<T extends (...args: any[]) ...",
+          "line": 1
+        }
+      ]
+    }
+  ],
+  "recommendations": [
+    "🔴 URGENT: Review and rotate any exposed API keys or secrets",
+    "🔴 Move all secrets to environment variables",
+    "🔴 Ensure .env files are in .gitignore",
+    "🟠 Use parameterized queries with Prisma instead of raw SQL",
+    "🟠 Validate and sanitize all user inputs",
+    "🟡 Implement Content Security Policy headers",
+    "🟡 Use React's built-in escaping instead of dangerouslySetInnerHTML",
+    "🟡 Sanitize any HTML content from user inputs",
+    "✅ Run npm audit fix to patch known vulnerabilities",
+    "✅ Keep all dependencies up to date",
+    "✅ Implement security headers in middleware",
+    "✅ Add rate limiting to API endpoints",
+    "✅ Enable CORS only for trusted domains"
+  ]
+}

@@ -17,8 +17,7 @@ const mockDevelopments = [
     description: 'Luxury family homes in a peaceful setting with excellent access to Dublin.',
     imageUrl: '/images/development-1.jpg',
     completionDate: 'Summer 2025',
-    featured: true,
-  },
+    featured: true},
   {
     id: '2',
     name: 'Riverbank View',
@@ -30,8 +29,7 @@ const mockDevelopments = [
     description: 'Modern riverside apartments with stunning views and excellent amenities.',
     imageUrl: '/images/development-2.jpg',
     completionDate: 'Autumn 2025',
-    featured: false,
-  },
+    featured: false},
   {
     id: '3',
     name: 'The Oaks',
@@ -43,8 +41,7 @@ const mockDevelopments = [
     description: 'Premium detached homes with spacious gardens and high-quality finishes.',
     imageUrl: '/images/development-3.jpg',
     completionDate: 'Winter 2025',
-    featured: true,
-  },
+    featured: true},
   {
     id: '4',
     name: 'Park Manor',
@@ -56,9 +53,7 @@ const mockDevelopments = [
     description: 'Family-friendly development with community park and playground.',
     imageUrl: '/images/development-4.jpg',
     completionDate: 'Spring 2026',
-    featured: false,
-  },
-];
+    featured: false}];
 
 // Filter types
 type FilterOptions = {
@@ -69,24 +64,23 @@ type FilterOptions = {
 };
 
 const DevelopmentsList: React.FC = () => {
-  const [filters, setFilters] = useState<FilterOptions>({
+  const [filterssetFilters] = useState<FilterOptions>({
     bedroomsMin: null,
     priceMin: null,
     priceMax: null,
-    propertyType: null,
-  });
+    propertyType: null});
 
   // Apply filters to developments
-  const filteredDevelopments = mockDevelopments.filter((dev) => {
+  const filteredDevelopments = mockDevelopments.filter((dev: any) => {
     // Filter by minimum bedrooms
     if (filters.bedroomsMin !== null) {
       const minBedrooms = parseInt(dev.bedroomsRange.split('-')[0]);
-      if (minBedrooms < filters.bedroomsMin) return false;
+      if (minBedrooms <filters.bedroomsMin) return false;
     }
 
     // Filter by price range
-    if (filters.priceMin !== null && dev.priceFrom < filters.priceMin) return false;
-    if (filters.priceMax !== null && dev.priceFrom > filters.priceMax) return false;
+    if (filters.priceMin !== null && dev.priceFrom <filters.priceMin) return false;
+    if (filters.priceMax !== null && dev.priceFrom> filters.priceMax) return false;
 
     // Filter by property type
     if (filters.propertyType !== null && dev.type !== filters.propertyType) return false;
@@ -96,10 +90,9 @@ const DevelopmentsList: React.FC = () => {
 
   // Handler for filter changes
   const handleFilterChange = (name: keyof FilterOptions, value: any) => {
-    setFilters((prev) => ({
+    setFilters((prev: any) => ({
       ...prev,
-      [name]: value,
-    }));
+      [name]: value}));
   };
 
   return (
@@ -115,7 +108,7 @@ const DevelopmentsList: React.FC = () => {
               id="bedroomsMin"
               className="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
               value={filters.bedroomsMin || ''}
-              onChange={(e) => handleFilterChange('bedroomsMin', e.target.value ? parseInt(e.target.value) : null)}
+              onChange={(e: any) => handleFilterChange('bedroomsMin', e.target.value ? parseInt(e.target.value) : null)}
             >
               <option value="">Any</option>
               <option value="2">2+</option>
@@ -133,7 +126,7 @@ const DevelopmentsList: React.FC = () => {
               id="priceMin"
               className="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
               value={filters.priceMin || ''}
-              onChange={(e) => handleFilterChange('priceMin', e.target.value ? parseInt(e.target.value) : null)}
+              onChange={(e: any) => handleFilterChange('priceMin', e.target.value ? parseInt(e.target.value) : null)}
             >
               <option value="">Any</option>
               <option value="250000">€250,000+</option>
@@ -151,7 +144,7 @@ const DevelopmentsList: React.FC = () => {
               id="priceMax"
               className="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
               value={filters.priceMax || ''}
-              onChange={(e) => handleFilterChange('priceMax', e.target.value ? parseInt(e.target.value) : null)}
+              onChange={(e: any) => handleFilterChange('priceMax', e.target.value ? parseInt(e.target.value) : null)}
             >
               <option value="">Any</option>
               <option value="300000">€300,000</option>
@@ -170,7 +163,7 @@ const DevelopmentsList: React.FC = () => {
               id="propertyType"
               className="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
               value={filters.propertyType || ''}
-              onChange={(e) => handleFilterChange('propertyType', e.target.value || null)}
+              onChange={(e: any) => handleFilterChange('propertyType', e.target.value || null)}
             >
               <option value="">Any</option>
               <option value="Houses">Houses</option>
@@ -188,7 +181,7 @@ const DevelopmentsList: React.FC = () => {
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredDevelopments.map((development) => (
+          {filteredDevelopments.map((development: any) => (
             <div key={development.id} className="border border-gray-200 rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300">
               <div className="relative h-60 w-full">
                 <div className="absolute inset-0 bg-gray-300 flex items-center justify-center">

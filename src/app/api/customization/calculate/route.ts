@@ -1,0 +1,112 @@
+import { NextRequest, NextResponse } from 'next/server';
+import { z } from 'zod';
+import prisma from '@/lib/prisma';
+
+// Validation schema
+const calculatePriceSchema = z.object({
+  propertyId: z.string(),
+  options: z.array(z.object({
+    optionId: z.string(),
+    variantId: z.string().optional(),
+    quantity: z.number().min(1).default(1)}))});
+
+// POST /api/customization/calculate - Calculate total price for customization
+export async function POST(req: NextRequest) {
+  try {
+    const body = await req.json();
+    const validated = calculatePriceSchema.parse(body);
+
+    // Get base property price
+    const property = await prisma.property.findUnique({
+      where: { id: validated.propertyId },
+      select: { price: true });
+
+    if (!property) {
+      return NextResponse.json({ error: 'Property not found' }, { status: 404 });
+    }
+
+    let totalPrice = property.price;
+    let totalDiscount = 0;
+    const breakdown = [];
+
+    // Calculate option prices
+    for (const option of validated.options) {
+      const dbOption = await prisma.customizationOption.findUnique({
+        where: { id: option.optionId },
+        include: {
+          variants: option.variantId ? {
+            where: { id: option.variantId }
+          } : false});
+
+      if (!dbOption) {
+        return NextResponse.json(
+          { error: `Option ${option.optionId} not found` },
+          { status: 400 }
+        );
+      }
+
+      let optionPrice = dbOption.price;
+      let variantPrice = 0;
+
+      // Add variant price if selected
+      if (option.variantId && dbOption.variants && dbOption.variants.length> 0) {
+        const variant = dbOption.variants[0];
+        variantPrice = variant.additionalPrice || 0;
+        optionPrice += variantPrice;
+      }
+
+      // Calculate discount
+      let discount = 0;
+      if (dbOption.bulkDiscountPercent && 
+          dbOption.bulkDiscountMinQuantity && 
+          option.quantity>= dbOption.bulkDiscountMinQuantity) {
+        discount = optionPrice * option.quantity * (dbOption.bulkDiscountPercent / 100);
+        totalDiscount += discount;
+      }
+
+      const lineTotal = (optionPrice * option.quantity) - discount;
+      totalPrice += lineTotal;
+
+      breakdown.push({
+        optionId: option.optionId,
+        optionName: dbOption.name,
+        variantId: option.variantId,
+        variantName: dbOption.variants?.[0]?.name,
+        unitPrice: dbOption.price,
+        variantPrice,
+        quantity: option.quantity,
+        discount,
+        total: lineTotal});
+    }
+
+    // Calculate tax
+    const taxRate = 0.135; // 13.5% VAT in Ireland
+    const subtotal = totalPrice;
+    const tax = subtotal * taxRate;
+    const finalTotal = subtotal + tax;
+
+    return NextResponse.json({
+      propertyId: validated.propertyId,
+      basePrice: property.price,
+      optionsTotal: totalPrice - property.price + totalDiscount,
+      totalDiscount,
+      subtotal,
+      taxRate,
+      tax,
+      total: finalTotal,
+      breakdown,
+      currency: 'EUR'});
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      return NextResponse.json(
+        { error: 'Invalid request data', details: error.errors },
+        { status: 400 }
+      );
+    }
+
+    return NextResponse.json(
+      { error: 'Failed to calculate price' },
+      { status: 500 }
+    );
+  }
+}

@@ -1,62 +1,118 @@
 'use client';
 
-/**
- * Client Providers Component
- * 
- * This component wraps client-side only providers that should not be rendered on the server.
- * It includes:
- * - AWS Amplify Provider for initialization
- * - Authentication context provider
- * - Notification context provider
- * - React Query provider for data fetching
- * - Security features that require browser APIs
- */
-
-import React, { useState } from 'react';
+import React, { ReactNode } from 'react';
+import { QueryClient, QueryClientProvider as ReactQueryClientProvider } from '@tanstack/react-query';
+import { SessionProvider } from 'next-auth/react';
 import AmplifyProvider from '@/components/AmplifyProvider';
 import { AuthProvider } from '@/context/AuthContext';
+import { CustomizationProvider } from '@/context/CustomizationContext';
+import { BuyerJourneyProvider } from '@/context/BuyerJourneyContext';
 import { NotificationProvider } from '@/context/NotificationContext';
-import { ProvidersWrapperProps } from '@/types/common/components';
-// Import from React Query package
-import { QueryClient as ReactQueryClient } from '@tanstack/react-query';
-import { QueryClientProvider as ReactQueryClientProvider } from '@tanstack/react-query';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import { AppSecurityProvider } from '@/components/security/AppSecurityProvider';
+import { TransactionProvider } from '@/context/TransactionContext';
+import { DashboardPreferenceProvider } from '@/context/DashboardPreferenceContext';
+import { UserRoleProvider } from '@/context/UserRoleContext';
 
-/**
- * Client Providers component wraps all client-side context providers
- * following our architectural pattern of explicit provider initialization.
- */
-export function ClientProviders({ children, includeAll = true, include = [] }: ProvidersWrapperProps) {
-  // Initialize React Query client
-  const [queryClient] = useState(() => new ReactQueryClient({
-    defaultOptions: {
-      queries: {
-        refetchOnWindowFocus: false,
-        staleTime: 5 * 60 * 1000, // 5 minutes
-        retry: 1,
-      },
-    },
-  }));
-  
-  const [showDevtools] = useState(process.env.NODE_ENV === 'development');
-  
-  // Helper to check if a provider should be included
-  const shouldInclude = (name: string) => includeAll || include.includes(name as any);
-  
-  // Wrap children with each enabled provider
-  let wrappedChildren = <>{children}</>;
-  
-  // Wrap with notification provider if included
-  if (shouldInclude('notifications')) {
+import React, { FC, ReactNode } from 'react';
+
+interface ClientProvidersProps {
+  children: ReactNode;
+  includeQuery?: boolean;
+  includeAuth?: boolean;
+  includeCustomization?: boolean;
+  includeBuyerJourney?: boolean;
+  includeNotification?: boolean;
+  includeTransaction?: boolean;
+  includeDashboard?: boolean;
+  includeUserRole?: boolean;
+  includeAll?: boolean;
+  showDevtools?: boolean;
+}
+
+const queryClient = new QueryClient({ defaultOptions: { queries: {
+      staleTime: 60 * 1000,
+      retry: false, // Disable retries in development
+    }});
+
+function ClientProviders({
+  children,
+  includeQuery = true,
+  includeAuth = true,
+  includeCustomization = false,
+  includeBuyerJourney = false,
+  includeNotification = false,
+  includeTransaction = false,
+  includeDashboard = false,
+  includeUserRole = false,
+  includeAll = false,
+  showDevtools = false}: ClientProvidersProps) {
+  // Helper function to determine if a provider should be included
+  const shouldInclude = (provider: string) => {
+    if (includeAll) return true;
+    const propMap: { [key: string]: boolean } = {
+      query: includeQuery,
+      auth: includeAuth,
+      customization: includeCustomization,
+      buyerJourney: includeBuyerJourney,
+      notification: includeNotification,
+      transaction: includeTransaction,
+      dashboard: includeDashboard,
+      userRole: includeUserRole};
+    return propMap[provider] || false;
+  };
+
+  let wrappedChildren = children;
+
+  // Providers that depend on auth must go inside auth
+  if (shouldInclude('notification')) {
     wrappedChildren = (
       <NotificationProvider>
         {wrappedChildren}
       </NotificationProvider>
     );
   }
-  
-  // Wrap with auth provider if included
+
+  if (shouldInclude('userRole')) {
+    wrappedChildren = (
+      <UserRoleProvider>
+        {wrappedChildren}
+      </UserRoleProvider>
+    );
+  }
+
+  if (shouldInclude('dashboard')) {
+    wrappedChildren = (
+      <DashboardPreferenceProvider>
+        {wrappedChildren}
+      </DashboardPreferenceProvider>
+    );
+  }
+
+  if (shouldInclude('customization')) {
+    wrappedChildren = (
+      <CustomizationProvider>
+        {wrappedChildren}
+      </CustomizationProvider>
+    );
+  }
+
+  if (shouldInclude('buyerJourney')) {
+    wrappedChildren = (
+      <BuyerJourneyProvider>
+        {wrappedChildren}
+      </BuyerJourneyProvider>
+    );
+  }
+
+  // Transaction provider needs auth
+  if (shouldInclude('transaction')) {
+    wrappedChildren = (
+      <TransactionProvider>
+        {wrappedChildren}
+      </TransactionProvider>
+    );
+  }
+
+  // Auth provider must wrap providers that depend on it
   if (shouldInclude('auth')) {
     wrappedChildren = (
       <AuthProvider>
@@ -64,31 +120,23 @@ export function ClientProviders({ children, includeAll = true, include = [] }: P
       </AuthProvider>
     );
   }
-  
-  // Wrap with security provider if included
-  if (shouldInclude('security')) {
-    wrappedChildren = (
-      <AppSecurityProvider>
-        {wrappedChildren}
-      </AppSecurityProvider>
-    );
-  }
-  
-  // Wrap with React Query provider if included
+
+  // Query provider wraps everything that might need data fetching
   if (shouldInclude('query')) {
     wrappedChildren = (
       <ReactQueryClientProvider client={queryClient}>
         {wrappedChildren}
-        {showDevtools && <ReactQueryDevtools initialIsOpen={false} position="bottom" />}
       </ReactQueryClientProvider>
     );
   }
-  
-  // Always wrap with AmplifyProvider as it's required for other providers
+
+  // Session and Amplify providers are the outermost
   return (
-    <AmplifyProvider>
-      {wrappedChildren}
-    </AmplifyProvider>
+    <SessionProvider>
+      <AmplifyProvider>
+        {wrappedChildren}
+      </AmplifyProvider>
+    </SessionProvider>
   );
 }
 

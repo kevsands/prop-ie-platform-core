@@ -11,7 +11,7 @@ interface FormData {
   dateOfBirth: string;
   nationality: string;
   ppsNumber: string;
-  
+
   // Identity Verification
   idType: 'passport' | 'driving_license' | 'national_id';
   idNumber: string;
@@ -19,7 +19,7 @@ interface FormData {
   idFrontImage: File | null;
   idBackImage: File | null;
   selfieImage: File | null;
-  
+
   // Address Verification
   addressLine1: string;
   addressLine2: string;
@@ -28,7 +28,7 @@ interface FormData {
   eircode: string;
   addressProofType: 'utility_bill' | 'bank_statement' | 'government_letter';
   addressProofImage: File | null;
-  
+
   // Declaration
   isPoliticallyExposed: boolean;
   isHighRiskCountry: boolean;
@@ -58,14 +58,14 @@ interface FormErrors {
 
 export default function KYCVerificationPage() {
   const router = useRouter();
-  const [step, setStep] = useState(1);
-  const [formData, setFormData] = useState<FormData>({
+  const [stepsetStep] = useState(1);
+  const [formDatasetFormData] = useState<FormData>({
     // Personal Information
     fullName: '',
     dateOfBirth: '',
     nationality: '',
     ppsNumber: '',
-    
+
     // Identity Verification
     idType: 'passport',
     idNumber: '',
@@ -73,7 +73,7 @@ export default function KYCVerificationPage() {
     idFrontImage: null,
     idBackImage: null,
     selfieImage: null,
-    
+
     // Address Verification
     addressLine1: '',
     addressLine2: '',
@@ -82,19 +82,19 @@ export default function KYCVerificationPage() {
     eircode: '',
     addressProofType: 'utility_bill',
     addressProofImage: null,
-    
+
     // Declaration
     isPoliticallyExposed: false,
     isHighRiskCountry: false,
     sourceOfFunds: 'employment',
     termsAccepted: false
   });
-  const [errors, setErrors] = useState<FormErrors>({});
-  const [isLoading, setIsLoading] = useState(false);
-  
+  const [errorssetErrors] = useState<FormErrors>({});
+  const [isLoadingsetIsLoading] = useState(false);
+
   const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value, type, checked, files } = e.target as HTMLInputElement;
-    
+
     if (type === 'file' && files) {
       setFormData({
         ...formData,
@@ -107,10 +107,10 @@ export default function KYCVerificationPage() {
       });
     }
   };
-  
+
   const validateStep = () => {
     const newErrors: FormErrors = {};
-    
+
     if (step === 1) {
       if (!formData.fullName.trim()) newErrors.fullName = 'Full name is required';
       if (!formData.dateOfBirth) newErrors.dateOfBirth = 'Date of birth is required';
@@ -120,7 +120,7 @@ export default function KYCVerificationPage() {
         newErrors.ppsNumber = 'PPS Number must be in the format 1234567A or 1234567AB';
       }
     }
-    
+
     if (step === 2) {
       if (!formData.idNumber.trim()) newErrors.idNumber = 'ID number is required';
       if (!formData.idExpiryDate) newErrors.idExpiryDate = 'Expiry date is required';
@@ -130,7 +130,7 @@ export default function KYCVerificationPage() {
       }
       if (!formData.selfieImage) newErrors.selfieImage = 'Selfie image is required';
     }
-    
+
     if (step === 3) {
       if (!formData.addressLine1.trim()) newErrors.addressLine1 = 'Address line 1 is required';
       if (!formData.city.trim()) newErrors.city = 'City is required';
@@ -138,49 +138,48 @@ export default function KYCVerificationPage() {
       if (!formData.eircode.trim()) newErrors.eircode = 'Eircode is required';
       if (!formData.addressProofImage) newErrors.addressProofImage = 'Proof of address is required';
     }
-    
+
     if (step === 4) {
       if (!formData.termsAccepted) {
         newErrors.termsAccepted = 'You must accept the terms and conditions';
       }
     }
-    
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
-  
+
   const handleNextStep = () => {
     if (validateStep()) {
       setStep(step + 1);
     }
   };
-  
+
   const handlePrevStep = () => {
     setStep(step - 1);
   };
-  
+
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    
+
     if (validateStep()) {
       setIsLoading(true);
-      
+
       try {
         // In a real implementation, this would call your API
-        console.log('KYC Verification data:', formData);
-        
+
         // Simulate API call
         setTimeout(() => {
           setStep(5); // Success step
           setIsLoading(false);
         }, 2000);
       } catch (error) {
-        console.error('KYC Verification error:', error);
+
         setIsLoading(false);
       }
     }
   };
-  
+
   return (
     <div className="min-h-screen bg-gray-50 py-12">
       <div className="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl">
@@ -188,18 +187,18 @@ export default function KYCVerificationPage() {
           <div className="flex justify-between items-center mb-8">
             <h2 className="text-2xl font-bold text-[#2B5273]">KYC/AML Verification</h2>
             <div className="text-sm text-gray-500">
-              Step {step} of {step > 4 ? 4 : 4}
+              Step {step} of {step> 4 ? 4 : 4}
             </div>
           </div>
-          
+
           {/* Progress Bar */}
           <div className="w-full bg-gray-200 rounded-full h-2 mb-8">
             <div 
               className="bg-[#2B5273] h-2 rounded-full" 
-              style={{ width: `${(step / 4) * 100}%` }}
+              style={ width: `${(step / 4) * 100}%` }
             ></div>
           </div>
-          
+
           <form onSubmit={handleSubmit}>
             {/* Step 1: Personal Information */}
             {step === 1 && (
@@ -224,7 +223,7 @@ export default function KYCVerificationPage() {
                       <p className="mt-1 text-sm text-red-500">{errors.fullName}</p>
                     )}
                   </div>
-                  
+
                   <div>
                     <label htmlFor="dateOfBirth" className="block text-sm font-medium text-gray-700 mb-1">
                       Date of Birth
@@ -243,7 +242,7 @@ export default function KYCVerificationPage() {
                       <p className="mt-1 text-sm text-red-500">{errors.dateOfBirth}</p>
                     )}
                   </div>
-                  
+
                   <div>
                     <label htmlFor="nationality" className="block text-sm font-medium text-gray-700 mb-1">
                       Nationality
@@ -267,7 +266,7 @@ export default function KYCVerificationPage() {
                       <p className="mt-1 text-sm text-red-500">{errors.nationality}</p>
                     )}
                   </div>
-                  
+
                   <div>
                     <label htmlFor="ppsNumber" className="block text-sm font-medium text-gray-700 mb-1">
                       PPS Number
@@ -290,7 +289,7 @@ export default function KYCVerificationPage() {
                       Your Personal Public Service Number is required for tax purposes and Help-to-Buy verification.
                     </p>
                   </div>
-                  
+
                   <div className="pt-4">
                     <button
                       type="button"
@@ -303,7 +302,7 @@ export default function KYCVerificationPage() {
                 </div>
               </div>
             )}
-            
+
             {/* Step 2: Identity Verification */}
             {step === 2 && (
               <div>
@@ -325,7 +324,7 @@ export default function KYCVerificationPage() {
                       <option value="national_id">National ID Card</option>
                     </select>
                   </div>
-                  
+
                   <div>
                     <label htmlFor="idNumber" className="block text-sm font-medium text-gray-700 mb-1">
                       ID Number
@@ -344,7 +343,7 @@ export default function KYCVerificationPage() {
                       <p className="mt-1 text-sm text-red-500">{errors.idNumber}</p>
                     )}
                   </div>
-                  
+
                   <div>
                     <label htmlFor="idExpiryDate" className="block text-sm font-medium text-gray-700 mb-1">
                       ID Expiry Date
@@ -363,7 +362,7 @@ export default function KYCVerificationPage() {
                       <p className="mt-1 text-sm text-red-500">{errors.idExpiryDate}</p>
                     )}
                   </div>
-                  
+
                   <div>
                     <label htmlFor="idFrontImage" className="block text-sm font-medium text-gray-700 mb-1">
                       Upload Front of ID
@@ -401,7 +400,7 @@ export default function KYCVerificationPage() {
                       <p className="mt-1 text-sm text-red-500">{errors.idFrontImage}</p>
                     )}
                   </div>
-                  
+
                   {formData.idType !== 'passport' && (
                     <div>
                       <label htmlFor="idBackImage" className="block text-sm font-medium text-gray-700 mb-1">
@@ -441,7 +440,7 @@ export default function KYCVerificationPage() {
                       )}
                     </div>
                   )}
-                  
+
                   <div>
                     <label htmlFor="selfieImage" className="block text-sm font-medium text-gray-700 mb-1">
                       Upload Selfie with ID
@@ -479,7 +478,7 @@ export default function KYCVerificationPage() {
                       <p className="mt-1 text-sm text-red-500">{errors.selfieImage}</p>
                     )}
                   </div>
-                  
+
                   <div className="pt-4 flex justify-between">
                     <button
                       type="button"
@@ -499,7 +498,7 @@ export default function KYCVerificationPage() {
                 </div>
               </div>
             )}
-            
+
             {/* Step 3: Address Verification would go here */}
             {step === 3 && (
               <div>
@@ -524,7 +523,7 @@ export default function KYCVerificationPage() {
                       <p className="mt-1 text-sm text-red-500">{errors.addressLine1}</p>
                     )}
                   </div>
-                  
+
                   <div className="pt-4 flex justify-between">
                     <button
                       type="button"
@@ -544,7 +543,7 @@ export default function KYCVerificationPage() {
                 </div>
               </div>
             )}
-            
+
             {/* Step 4: Declaration would go here */}
             {step === 4 && (
               <div>
@@ -574,7 +573,7 @@ export default function KYCVerificationPage() {
                   {errors.termsAccepted && (
                     <p className="mt-1 text-sm text-red-500">{errors.termsAccepted}</p>
                   )}
-                  
+
                   <div className="pt-4 flex justify-between">
                     <button
                       type="button"
@@ -594,7 +593,7 @@ export default function KYCVerificationPage() {
                 </div>
               </div>
             )}
-            
+
             {/* Step 5: Success */}
             {step === 5 && (
               <div className="text-center py-8">

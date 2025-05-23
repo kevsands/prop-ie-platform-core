@@ -1,3 +1,4 @@
+import React from 'react';
 'use client';
 
 import type { Meta, StoryObj } from '@storybook/react';
@@ -38,17 +39,12 @@ const meta = {
     layout: 'centered',
     docs: {
       description: {
-        component: 'Components that enhance screen reader accessibility',
-      },
-    },
+        component: 'Components that enhance screen reader accessibility'},
     a11y: { disable: false },
-  },
-  tags: ['autodocs'],
-} satisfies Meta;
+  tags: ['autodocs']} satisfies Meta;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
-
+type Story = StoryObj<typeof meta>\n  );
 /**
  * Text that is only visible to screen readers
  */
@@ -56,12 +52,12 @@ export const HiddenText: Story = {
   render: () => (
     <div className="p-6 max-w-md bg-white rounded-lg border">
       <h2 className="text-lg font-semibold mb-4">Screen Reader Example</h2>
-      
+
       <p className="mb-4">
         The following button has text that is only visible to screen readers.
         Turn on your screen reader to hear the additional context.
       </p>
-      
+
       <div className="flex items-center space-x-4">
         <button
           className="p-2 rounded-full bg-gray-200 hover:bg-gray-300"
@@ -82,7 +78,7 @@ export const HiddenText: Story = {
           </svg>
           <ScreenReaderText>Close menu</ScreenReaderText>
         </button>
-        
+
         <button
           className="p-2 rounded-full bg-gray-200 hover:bg-gray-300"
           aria-label="Settings"
@@ -103,7 +99,7 @@ export const HiddenText: Story = {
           <ScreenReaderText>Settings</ScreenReaderText>
         </button>
       </div>
-      
+
       <div className="mt-6 p-4 bg-gray-100 rounded">
         <p className="font-medium">Developer Note:</p>
         <p className="text-sm mt-1">
@@ -112,38 +108,37 @@ export const HiddenText: Story = {
         </p>
       </div>
     </div>
-  ),
-};
+  )};
 
 /**
  * Dynamic announcements with LiveRegion
  */
 export const LiveAnnouncements: Story = {
   render: () => {
-    const [count, setCount] = useState(0);
-    const [message, setMessage] = useState('');
-    
+    const [countsetCount] = useState(0);
+    const [messagesetMessage] = useState('');
+
     const incrementCounter = () => {
       const newCount = count + 1;
       setCount(newCount);
       setMessage(`Counter incremented to ${newCount}`);
     };
-    
+
     const decrementCounter = () => {
       const newCount = count - 1;
       setCount(newCount);
       setMessage(`Counter decremented to ${newCount}`);
     };
-    
+
     return (
       <div className="p-6 max-w-md bg-white rounded-lg border">
         <h2 className="text-lg font-semibold mb-4">Live Region Example</h2>
-        
+
         <p className="mb-4">
           The following counter will announce changes to screen readers.
           Turn on your screen reader and click the buttons to hear the announcements.
         </p>
-        
+
         <div className="flex items-center justify-between p-4 bg-gray-100 rounded mb-4">
           <Button 
             variant="outline" 
@@ -152,11 +147,11 @@ export const LiveAnnouncements: Story = {
           >
             -
           </Button>
-          
+
           <span className="font-bold text-xl" aria-live="polite">
             {count}
           </span>
-          
+
           <Button 
             variant="outline" 
             onClick={incrementCounter}
@@ -164,12 +159,12 @@ export const LiveAnnouncements: Story = {
           >
             +
           </Button>
-          
+
           <LiveRegion>
             {message}
           </LiveRegion>
         </div>
-        
+
         <div className="mt-6 p-4 bg-gray-100 rounded">
           <p className="font-medium">Developer Note:</p>
           <p className="text-sm mt-1">
@@ -180,29 +175,28 @@ export const LiveAnnouncements: Story = {
         </div>
       </div>
     );
-  },
-};
+  };
 
 /**
  * Different politeness levels for announcements
  */
 export const PolitenessLevels: Story = {
   render: () => {
-    const [politeMessage, setPoliteMessage] = useState('');
-    const [assertiveMessage, setAssertiveMessage] = useState('');
-    
+    const [politeMessagesetPoliteMessage] = useState('');
+    const [assertiveMessagesetAssertiveMessage] = useState('');
+
     const announcePolite = () => {
       setPoliteMessage(`Polite announcement at ${new Date().toLocaleTimeString()}`);
     };
-    
+
     const announceAssertive = () => {
       setAssertiveMessage(`Assertive announcement at ${new Date().toLocaleTimeString()}`);
     };
-    
+
     return (
       <div className="p-6 max-w-md bg-white rounded-lg border">
         <h2 className="text-lg font-semibold mb-4">Announcement Politeness Levels</h2>
-        
+
         <div className="space-y-4">
           <div>
             <p className="mb-2">
@@ -215,7 +209,7 @@ export const PolitenessLevels: Story = {
               {politeMessage}
             </LiveRegion>
           </div>
-          
+
           <div>
             <p className="mb-2">
               Assertive announcements - interrupt user immediately:
@@ -228,7 +222,7 @@ export const PolitenessLevels: Story = {
             </LiveRegion>
           </div>
         </div>
-        
+
         <div className="mt-6 p-4 bg-gray-100 rounded">
           <p className="font-medium">When to use each politeness level:</p>
           <ul className="list-disc ml-5 mt-2 text-sm space-y-1">
@@ -242,5 +236,4 @@ export const PolitenessLevels: Story = {
         </div>
       </div>
     );
-  },
-};
+  };

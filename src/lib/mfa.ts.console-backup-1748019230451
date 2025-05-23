@@ -1,0 +1,277 @@
+import { authenticator } from 'otplib';
+import QRCode from 'qrcode';
+import crypto from 'crypto';
+import { prisma } from '@/lib/prisma';
+
+// Constants
+const BACKUP_CODES_COUNT = 10;
+const MFA_TOKEN_EXPIRY_MINUTES = 5;
+
+// Encryption key from environment
+const ENCRYPTION_KEY = process.env.MFA_ENCRYPTION_KEY || process.env.NEXTAUTH_SECRET || 'default-key';
+
+// Simple encryption for storing secrets
+function encrypt(text: string): string {
+  const cipher = crypto.createCipher('aes-256-cbc', ENCRYPTION_KEY);
+  let encrypted = cipher.update(text, 'utf8', 'hex');
+  encrypted += cipher.final('hex');
+  return encrypted;
+}
+
+function decrypt(text: string): string {
+  const decipher = crypto.createDecipher('aes-256-cbc', ENCRYPTION_KEY);
+  let decrypted = decipher.update(text, 'hex', 'utf8');
+  decrypted += decipher.final('utf8');
+  return decrypted;
+}
+
+export class MfaService {
+  /**
+   * Generate TOTP secret and QR code for user
+   */
+  static async setupTotp(userId: string, userEmail: string) {
+    const secret = authenticator.generateSecret();
+    const appName = process.env.NEXT_PUBLIC_APP_NAME || 'Property Platform';
+    const otpauth = authenticator.keyuri(userEmail, appName, secret);
+    
+    // Generate QR code
+    const qrCode = await QRCode.toDataURL(otpauth);
+    
+    // Generate backup codes
+    const backupCodes = Array.from({ length: BACKUP_CODES_COUNT }, () =>
+      crypto.randomBytes(4).toString('hex').toUpperCase()
+    );
+    
+    // Store encrypted secret and backup codes
+    await prisma.mfaSettings.upsert({
+      where: { userId },
+      update: {
+        secret: encrypt(secret),
+        backupCodes: backupCodes.map(code => encrypt(code)),
+        method: 'TOTP',
+        enabled: false // Will be enabled after first successful verification
+      },
+      create: {
+        userId,
+        secret: encrypt(secret),
+        backupCodes: backupCodes.map(code => encrypt(code)),
+        method: 'TOTP',
+        enabled: false
+      }
+    });
+    
+    return {
+      secret,
+      qrCode,
+      backupCodes
+    };
+  }
+  
+  /**
+   * Verify TOTP code
+   */
+  static async verifyTotp(userId: string, token: string): Promise<boolean> {
+    const mfaSettings = await prisma.mfaSettings.findUnique({
+      where: { userId }
+    });
+    
+    if (!mfaSettings || !mfaSettings.secret) {
+      return false;
+    }
+    
+    const secret = decrypt(mfaSettings.secret);
+    const isValid = authenticator.verify({ token, secret });
+    
+    if (isValid && !mfaSettings.enabled) {
+      // Enable MFA on first successful verification
+      await prisma.mfaSettings.update({
+        where: { userId },
+        data: { 
+          enabled: true,
+          lastUsed: new Date()
+        }
+      });
+    } else if (isValid) {
+      // Update last used
+      await prisma.mfaSettings.update({
+        where: { userId },
+        data: { lastUsed: new Date() }
+      });
+    }
+    
+    return isValid;
+  }
+  
+  /**
+   * Verify backup code
+   */
+  static async verifyBackupCode(userId: string, code: string): Promise<boolean> {
+    const mfaSettings = await prisma.mfaSettings.findUnique({
+      where: { userId }
+    });
+    
+    if (!mfaSettings || !mfaSettings.backupCodes.length) {
+      return false;
+    }
+    
+    // Check if code matches any unused backup code
+    const encryptedCode = encrypt(code.toUpperCase());
+    const codeIndex = mfaSettings.backupCodes.findIndex(
+      backupCode => backupCode === encryptedCode
+    );
+    
+    if (codeIndex === -1) {
+      return false;
+    }
+    
+    // Remove used backup code
+    const newBackupCodes = [...mfaSettings.backupCodes];
+    newBackupCodes.splice(codeIndex, 1);
+    
+    await prisma.mfaSettings.update({
+      where: { userId },
+      data: { 
+        backupCodes: newBackupCodes,
+        lastUsed: new Date()
+      }
+    });
+    
+    return true;
+  }
+  
+  /**
+   * Generate and send MFA code via email/SMS
+   */
+  static async generateMfaToken(userId: string, type: 'EMAIL' | 'SMS'): Promise<string> {
+    const token = crypto.randomInt(100000, 999999).toString();
+    const expiresAt = new Date(Date.now() + MFA_TOKEN_EXPIRY_MINUTES * 60 * 1000);
+    
+    await prisma.mfaToken.create({
+      data: {
+        userId,
+        token,
+        type: 'VERIFICATION',
+        expiresAt
+      }
+    });
+    
+    // TODO: Send token via email or SMS
+    // For now, we'll return it (in production, this should be sent via email/SMS)
+    return token;
+  }
+  
+  /**
+   * Verify email/SMS MFA token
+   */
+  static async verifyMfaToken(userId: string, token: string): Promise<boolean> {
+    const mfaToken = await prisma.mfaToken.findFirst({
+      where: {
+        userId,
+        token,
+        used: false,
+        expiresAt: { gt: new Date() }
+      }
+    });
+    
+    if (!mfaToken) {
+      return false;
+    }
+    
+    // Mark token as used
+    await prisma.mfaToken.update({
+      where: { id: mfaToken.id },
+      data: { used: true }
+    });
+    
+    // Update last used
+    await prisma.mfaSettings.update({
+      where: { userId },
+      data: { lastUsed: new Date() }
+    });
+    
+    return true;
+  }
+  
+  /**
+   * Disable MFA for user
+   */
+  static async disableMfa(userId: string): Promise<void> {
+    await prisma.mfaSettings.update({
+      where: { userId },
+      data: { enabled: false }
+    });
+    
+    // Clean up any pending tokens
+    await prisma.mfaToken.deleteMany({
+      where: { userId }
+    });
+  }
+  
+  /**
+   * Check if user has MFA enabled
+   */
+  static async isMfaEnabled(userId: string): Promise<boolean> {
+    const mfaSettings = await prisma.mfaSettings.findUnique({
+      where: { userId },
+      select: { enabled: true }
+    });
+    
+    return mfaSettings?.enabled || false;
+  }
+  
+  /**
+   * Get user's MFA method
+   */
+  static async getMfaMethod(userId: string): Promise<'TOTP' | 'EMAIL' | 'SMS' | null> {
+    const mfaSettings = await prisma.mfaSettings.findUnique({
+      where: { userId },
+      select: { method: true, enabled: true }
+    });
+    
+    return mfaSettings?.enabled ? mfaSettings.method : null;
+  }
+  
+  /**
+   * Regenerate backup codes
+   */
+  static async regenerateBackupCodes(userId: string): Promise<string[]> {
+    const backupCodes = Array.from({ length: BACKUP_CODES_COUNT }, () =>
+      crypto.randomBytes(4).toString('hex').toUpperCase()
+    );
+    
+    await prisma.mfaSettings.update({
+      where: { userId },
+      data: {
+        backupCodes: backupCodes.map(code => encrypt(code))
+      }
+    });
+    
+    return backupCodes;
+  }
+}
+
+// Update the verifyMfaCode function in auth.ts to use this service
+export async function verifyMfaCode(userId: string, code: string): Promise<boolean> {
+  const mfaMethod = await MfaService.getMfaMethod(userId);
+  
+  if (!mfaMethod) {
+    return false;
+  }
+  
+  switch (mfaMethod) {
+    case 'TOTP':
+      // Try TOTP first, then backup codes
+      const totpValid = await MfaService.verifyTotp(userId, code);
+      if (totpValid) return true;
+      
+      // If TOTP fails, try backup code
+      return await MfaService.verifyBackupCode(userId, code);
+      
+    case 'EMAIL':
+    case 'SMS':
+      return await MfaService.verifyMfaToken(userId, code);
+      
+    default:
+      return false;
+  }
+}

@@ -25,13 +25,13 @@ export async function setupTestUser() {
 
 // Mock function to enable all security features
 export async function enableAllSecurityFeatures() {
-  console.log('All security features enabled (mock)');
+  ');
   return true;
 }
 
 // Mock function to reset security state
 export async function resetSecurityState() {
-  console.log('Security state reset (mock)');
+  ');
   return true;
 }
 
@@ -52,7 +52,7 @@ export async function simulateSecurityEvent(
   eventType: string, 
   details: SecurityEventDetail = {}
 ) {
-  console.log(`Security event simulated: ${eventType}`, details);
+
   return {
     id: 'mock-event-id',
     type: eventType,
@@ -79,7 +79,7 @@ export function simulateDeviceChange(deviceType: 'desktop' | 'mobile' | 'tablet'
     mobile: 'Mozilla/5.0 (iPhone; CPU iPhone OS 14_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0 Mobile/15E148 Safari/604.1',
     tablet: 'Mozilla/5.0 (iPad; CPU OS 14_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0 Mobile/15E148 Safari/604.1'
   };
-  
+
   return {
     userAgent: userAgents[deviceType],
     type: deviceType
@@ -117,8 +117,8 @@ export function getRecentSecurityEvents(count = 5) {
       status: 'success'
     }
   ];
-  
-  return mockEvents.slice(0, count);
+
+  return mockEvents.slice(0count);
 }
 
 export default {

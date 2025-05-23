@@ -1,0 +1,140 @@
+import { NextResponse } from 'next/server';
+
+/**
+ * Security headers configuration
+ */
+export const securityHeaders = {
+  // Content Security Policy
+  'Content-Security-Policy': [
+    "default-src 'self'",
+    "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com",
+    "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+    "img-src 'self' data: https: blob:",
+    "font-src 'self' https://fonts.gstatic.com",
+    "connect-src 'self' https://api.stripe.com https://*.sentry.io wss://prop.ie",
+    "frame-src 'self' https://js.stripe.com",
+    "object-src 'none'",
+    "base-uri 'self'",
+    "form-action 'self'",
+    "frame-ancestors 'none'",
+    "upgrade-insecure-requests",
+  ].join('; '),
+  
+  // Strict Transport Security
+  'Strict-Transport-Security': 'max-age=31536000; includeSubDomains; preload',
+  
+  // X-Frame-Options
+  'X-Frame-Options': 'DENY',
+  
+  // X-Content-Type-Options
+  'X-Content-Type-Options': 'nosniff',
+  
+  // Referrer Policy
+  'Referrer-Policy': 'strict-origin-when-cross-origin',
+  
+  // Permissions Policy
+  'Permissions-Policy': [
+    'camera=()',
+    'microphone=()',
+    'geolocation=(self)',
+    'payment=(self https://js.stripe.com)',
+  ].join(', '),
+  
+  // X-XSS-Protection (legacy, but still useful)
+  'X-XSS-Protection': '1; mode=block',
+  
+  // X-DNS-Prefetch-Control
+  'X-DNS-Prefetch-Control': 'on',
+  
+  // X-Permitted-Cross-Domain-Policies
+  'X-Permitted-Cross-Domain-Policies': 'none',
+};
+
+/**
+ * Apply security headers to response
+ */
+export function applySecurityHeaders(response: NextResponse): NextResponse {
+  Object.entries(securityHeaders).forEach(([key, value]) => {
+    response.headers.set(key, value);
+  });
+  
+  return response;
+}
+
+/**
+ * CORS configuration
+ */
+export const corsHeaders = {
+  'Access-Control-Allow-Origin': process.env.ALLOWED_ORIGINS || 'https://prop.ie',
+  'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+  'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-CSRF-Token',
+  'Access-Control-Allow-Credentials': 'true',
+  'Access-Control-Max-Age': '86400',
+};
+
+/**
+ * Apply CORS headers for API routes
+ */
+export function applyCorsHeaders(response: NextResponse, origin?: string): NextResponse {
+  // Check if origin is allowed
+  const allowedOrigins = (process.env.ALLOWED_ORIGINS || 'https://prop.ie').split(',');
+  
+  if (origin && allowedOrigins.includes(origin)) {
+    response.headers.set('Access-Control-Allow-Origin', origin);
+  } else if (allowedOrigins.includes('*')) {
+    response.headers.set('Access-Control-Allow-Origin', '*');
+  }
+  
+  // Apply other CORS headers
+  Object.entries(corsHeaders).forEach(([key, value]) => {
+    if (key !== 'Access-Control-Allow-Origin') {
+      response.headers.set(key, value);
+    }
+  });
+  
+  return response;
+}
+
+/**
+ * Remove sensitive headers
+ */
+export function removeSensitiveHeaders(response: NextResponse): NextResponse {
+  const sensitiveHeaders = [
+    'X-Powered-By',
+    'Server',
+    'X-AspNet-Version',
+    'X-AspNetMvc-Version',
+  ];
+  
+  sensitiveHeaders.forEach(header => {
+    response.headers.delete(header);
+  });
+  
+  return response;
+}
+
+/**
+ * Add cache headers based on content type
+ */
+export function addCacheHeaders(response: NextResponse, path: string): NextResponse {
+  // Static assets - long cache
+  if (path.match(/\.(js|css|jpg|jpeg|png|gif|svg|ico|woff|woff2)$/)) {
+    response.headers.set('Cache-Control', 'public, max-age=31536000, immutable');
+  }
+  // HTML - no cache
+  else if (path.match(/\.html$/) || path === '/') {
+    response.headers.set('Cache-Control', 'no-cache, no-store, must-revalidate');
+    response.headers.set('Pragma', 'no-cache');
+    response.headers.set('Expires', '0');
+  }
+  // API responses - private cache
+  else if (path.startsWith('/api/')) {
+    response.headers.set('Cache-Control', 'private, no-cache');
+  }
+  // Default - short cache
+  else {
+    response.headers.set('Cache-Control', 'public, max-age=3600');
+  }
+  
+  return response;
+}

@@ -15,7 +15,6 @@ export async function GET() {
       { resource: 'projects', action: 'delete' },
       { resource: 'units', action: 'create' },
       { resource: 'units', action: 'read' },
-      { resource: 'sales', action: 'create' },
-    ]
+      { resource: 'sales', action: 'create' }]
   });
 }

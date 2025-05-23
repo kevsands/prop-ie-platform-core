@@ -1,0 +1,258 @@
+import { NextRequest, NextResponse } from 'next/server';
+import { PrismaClient } from '@prisma/client';
+import { writeFile, unlink } from 'fs/promises';
+import { join } from 'path';
+import crypto from 'crypto';
+
+const prisma = new PrismaClient();
+
+// GET /api/documents
+export async function GET(request: NextRequest) {
+  try {
+    const { searchParams } = new URL(request.url);
+    const transactionId = searchParams.get('transactionId');
+    const userId = searchParams.get('userId');
+    const type = searchParams.get('type');
+    const category = searchParams.get('category');
+    const status = searchParams.get('status');
+    const page = parseInt(searchParams.get('page') || '1');
+    const limit = parseInt(searchParams.get('limit') || '20');
+
+    // Build the where clause
+    const where: any = {};
+    if (transactionId) where.transactionId = transactionId;
+    if (userId) where.userId = userId;
+    if (type) where.type = type;
+    if (category) where.category = category;
+    if (status) where.status = status;
+
+    // Get total count
+    const total = await prisma.document.count({ where });
+
+    // Get paginated results
+    const documents = await prisma.document.findMany({
+      where,
+      include: {
+        uploadedBy: {
+          select: {
+            id: true,
+            firstName: true,
+            lastName: true,
+            email: true,
+          },
+        },
+        // Transaction relation removed as it doesn't exist in the schema
+        signatures: true,
+        // Activities relation removed as it doesn't exist in the schema
+      },
+      skip: (page - 1) * limit,
+      take: limit,
+      orderBy: {
+        uploadDate: 'desc',
+      },
+    });
+
+    return NextResponse.json({
+      success: true,
+      data: {
+        documents,
+        pagination: {
+          page,
+          limit,
+          total,
+          totalPages: Math.ceil(total / limit),
+        },
+      },
+    });
+  } catch (error) {
+    console.error('Error fetching DevelopmentDocument:', error);
+    return NextResponse.json(
+      { success: false, error: 'Failed to fetch documents' },
+      { status: 500 }
+    );
+  }
+}
+
+// POST /api/documents (Upload)
+export async function POST(request: NextRequest) {
+  try {
+    const formData = await request.formData();
+    const file = formData.get('file') as File;
+    const transactionId = formData.get('transactionId') as string;
+    const userId = formData.get('userId') as string;
+    const documentType = formData.get('type') as string;
+    const category = formData.get('category') as string;
+    const description = formData.get('description') as string;
+    const requiresSignature = formData.get('requiresSignature') === 'true';
+
+    if (!file || !userId || !documentType || !category) {
+      return NextResponse.json(
+        { success: false, error: 'Missing required fields' },
+        { status: 400 }
+      );
+    }
+
+    // Generate unique filename
+    const fileExtension = file.name.split('.').pop();
+    const uniqueFilename = `${crypto.randomBytes(16).toString('hex')}.${fileExtension}`;
+    const uploadDir = join(process.cwd(), 'uploads', 'documents');
+    const filePath = join(uploadDir, uniqueFilename);
+
+    // Save file to disk (in production, use cloud storage like S3)
+    const bytes = await file.arrayBuffer();
+    const buffer = Buffer.from(bytes);
+    await writeFile(filePath, new Uint8Array(buffer));
+
+    // Create document record
+    const document = await prisma.document.create({
+      data: {
+        name: file.name,
+        type: documentType,
+        category,
+        status: 'PENDING_REVIEW',
+        fileUrl: `/uploads/documents/${uniqueFilename}`, // In production, use CDN URL
+        fileType: file.type,
+        fileSize: file.size,
+        uploadedBy: {
+          connect: { id: userId }
+        },
+        uploadedByName: undefined, // Optional field
+        description,
+        tags: [],
+        signatureRequired: requiresSignature || false,
+        signatureStatus: requiresSignature ? 'PENDING' : 'NOT_REQUIRED',
+      },
+      include: {
+        uploadedBy: true,
+        signatures: true,
+      },
+    });
+
+    // Activity tracking and notifications removed - models don't exist in main schema
+    // TODO: Add these features when Transaction, Notification, and DocumentActivity models are available
+
+    return NextResponse.json({
+      success: true,
+      data: document,
+    });
+  } catch (error) {
+    console.error('Error uploading document:', error);
+    return NextResponse.json(
+      { success: false, error: 'Failed to upload document' },
+      { status: 500 }
+    );
+  }
+}
+
+// PATCH /api/documents (Update)
+export async function PATCH(request: NextRequest) {
+  try {
+    const body = await request.json() as any;
+    const { documentId, updates, performedBy } = body;
+
+    if (!documentId) {
+      return NextResponse.json(
+        { success: false, error: 'Document ID is required' },
+        { status: 400 }
+      );
+    }
+
+    const document = await prisma.$transaction(async (tx) => {
+      // Get current document
+      const currentDocument = await tx.document.findUnique({
+        where: { id: documentId },
+      });
+
+      if (!currentDocument) {
+        throw new Error('Document not found');
+      }
+
+      // Update document
+      const updatedDocument = await tx.document.update({
+        where: { id: documentId },
+        data: updates,
+        include: {
+          uploadedBy: true,
+          signatures: true,
+        },
+      });
+
+      // Activity tracking and notifications removed - models don't exist in main schema
+      // TODO: Add these features when DocumentActivity and Notification models are available
+
+      return updatedDocument;
+    });
+
+    return NextResponse.json({
+      success: true,
+      data: document,
+    });
+  } catch (error) {
+    console.error('Error updating document:', error);
+    return NextResponse.json(
+      { success: false, error: 'Failed to update document' },
+      { status: 500 }
+    );
+  }
+}
+
+// DELETE /api/documents
+export async function DELETE(request: NextRequest) {
+  try {
+    const { searchParams } = new URL(request.url);
+    const documentId = searchParams.get('documentId');
+    const performedBy = searchParams.get('performedBy');
+
+    if (!documentId) {
+      return NextResponse.json(
+        { success: false, error: 'Document ID is required' },
+        { status: 400 }
+      );
+    }
+
+    const document = await prisma.$transaction(async (tx) => {
+      // Get document
+      const doc = await tx.document.findUnique({
+        where: { id: documentId },
+      });
+
+      if (!doc) {
+        throw new Error('Document not found');
+      }
+
+      // Mark as archived instead of deleting
+      const archivedDocument = await tx.document.update({
+        where: { id: documentId },
+        data: {
+          status: 'ARCHIVED',
+        },
+      });
+
+      // Activity tracking removed - model doesn't exist in main schema
+      // TODO: Add activity tracking when DocumentActivity model is available
+
+      // Delete physical file (in production, move to archive storage)
+      try {
+        // Extract filename from fileUrl
+        const fileName = doc.fileUrl.split('/').pop() || '';
+        const filePath = join(process.cwd(), 'uploads', 'documents', fileName);
+        await unlink(filePath);
+      } catch (error) {
+        console.error('Error deleting file:', error);
+      }
+
+      return archivedDocument;
+    });
+
+    return NextResponse.json({
+      success: true,
+      data: document,
+    });
+  } catch (error) {
+    console.error('Error deleting document:', error);
+    return NextResponse.json(
+      { success: false, error: 'Failed to delete document' },
+      { status: 500 }
+    );
+  }
+}

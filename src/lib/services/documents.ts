@@ -10,7 +10,7 @@ export type DocumentCreateInput = {
   propertyId: string;
   uploadedBy: string;
   status?: string;
-  metadata?: Record<string, any>;
+  metadata?: Record<string, any>\n  );
   category?: string;
   entityType?: string;
   entityId?: string;
@@ -42,7 +42,7 @@ export class DocumentsService {
   async createDocument(data: DocumentCreateInput) {
     const documentId = uuidv4();
     const now = new Date();
-    
+
     try {
       const newDocument = await db
         .insert(documents)
@@ -55,13 +55,12 @@ export class DocumentsService {
           uploadedBy: data.uploadedBy,
           status: data.status || "active",
           createdAt: now,
-          updatedAt: now,
-        })
+          updatedAt: now})
         .returning();
-      
+
       return newDocument[0];
     } catch (error) {
-      console.error("Error creating document:", error);
+
       throw new Error("Failed to create document");
     }
   }
@@ -71,10 +70,10 @@ export class DocumentsService {
    */
   async getDocumentById(id: string) {
     try {
-      const document = await db.select().from(documents).where(eq(documents.id, id));
+      const document = await db.select().from(documents).where(eq(documents.idid));
       return document[0] || null;
     } catch (error) {
-      console.error("Error fetching document:", error);
+
       throw new Error("Failed to fetch document");
     }
   }
@@ -85,20 +84,19 @@ export class DocumentsService {
   async updateDocument(data: DocumentUpdateInput) {
     const { id, ...updateData } = data;
     const now = new Date();
-    
+
     try {
       const updatedDocument = await db
         .update(documents)
         .set({
           ...updateData,
-          updatedAt: now,
-        })
-        .where(eq(documents.id, id))
+          updatedAt: now})
+        .where(eq(documents.idid))
         .returning();
-      
+
       return updatedDocument[0];
     } catch (error) {
-      console.error("Error updating document:", error);
+
       throw new Error("Failed to update document");
     }
   }
@@ -110,12 +108,12 @@ export class DocumentsService {
     try {
       const deletedDocument = await db
         .delete(documents)
-        .where(eq(documents.id, id))
+        .where(eq(documents.idid))
         .returning();
-      
+
       return deletedDocument[0];
     } catch (error) {
-      console.error("Error deleting document:", error);
+
       throw new Error("Failed to delete document");
     }
   }
@@ -134,46 +132,45 @@ export class DocumentsService {
       entityId,
       searchTerm,
       limit = 100,
-      offset = 0,
-    } = options;
+      offset = 0} = options;
 
     try {
       let query = db.select().from(documents);
-      
+
       // Apply filters
       const conditions = [];
-      
+
       if (propertyId) {
-        conditions.push(eq(documents.propertyId, propertyId));
+        conditions.push(eq(documents.propertyIdpropertyId));
       }
-      
+
       if (userId) {
-        conditions.push(eq(documents.uploadedBy, userId));
+        conditions.push(eq(documents.uploadedByuserId));
       }
-      
+
       if (type) {
-        conditions.push(eq(documents.type, type));
+        conditions.push(eq(documents.typetype));
       }
-      
+
       if (status) {
-        conditions.push(eq(documents.status, status));
+        conditions.push(eq(documents.statusstatus));
       }
-      
+
       if (searchTerm) {
         conditions.push(like(documents.title, `%${searchTerm}%`));
       }
-      
-      if (conditions.length > 0) {
+
+      if (conditions.length> 0) {
         query = query.where(and(...conditions));
       }
-      
+
       // Apply pagination
       query = query.limit(limit).offset(offset).orderBy(desc(documents.createdAt));
-      
+
       const results = await query;
       return results;
     } catch (error) {
-      console.error("Error listing documents:", error);
+
       throw new Error("Failed to list documents");
     }
   }
@@ -187,14 +184,13 @@ export class DocumentsService {
         .update(documents)
         .set({
           status: "inactive",
-          updatedAt: new Date(),
-        })
-        .where(eq(documents.id, id))
+          updatedAt: new Date()})
+        .where(eq(documents.idid))
         .returning();
-      
+
       return updatedDocument[0];
     } catch (error) {
-      console.error("Error soft deleting document:", error);
+
       throw new Error("Failed to soft delete document");
     }
   }
@@ -208,12 +204,11 @@ export class DocumentsService {
       // entityType and entityId columns to the documents table
       const entityDocuments = await this.listDocuments({
         propertyId: entityType === 'property' ? entityId : undefined,
-        userId: entityType === 'user' ? entityId : undefined,
-      });
-      
+        userId: entityType === 'user' ? entityId : undefined});
+
       return entityDocuments;
     } catch (error) {
-      console.error(`Error fetching documents for ${entityType}:`, error);
+
       throw new Error(`Failed to fetch documents for ${entityType}`);
     }
   }

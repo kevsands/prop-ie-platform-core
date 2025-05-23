@@ -1,0 +1,70 @@
+'use client';
+
+import React, { ReactNode } from 'react';
+import { QueryClientProvider } from '@tanstack/react-query';
+import AuthProvider from './auth/ProtectedRoute';
+import { AppSecurityProvider } from './security/AppSecurityProvider';
+import { queryClient } from '@/lib/react-query-config';
+
+/**
+ * Available provider types that can be included
+ */
+export type ProviderType = 'auth' | 'query' | 'security' | 'notification';
+
+/**
+ * Props for the AppProvider component
+ */
+interface AppProviderProps {
+  children: ReactNode;
+  includeAll?: boolean;
+  include?: ProviderType[];
+}
+
+/**
+ * AppProvider Component
+ * 
+ * A centralized component that wraps the application with all necessary
+ * context providers in the correct order:
+ * - AWS Amplify
+ * - Authentication
+ * - React Query
+ * - Security
+ * - Notification
+ * 
+ * @param {ReactNode} children - The child components to be wrapped
+ * @param {boolean} includeAll - Flag to include all providers (default: true)
+ * @param {ProviderType[]} include - Array of specific providers to include
+ */
+export default function AppProvider({
+  children,
+  includeAll = true,
+  include = []}: AppProviderProps): JSX.Element {
+  // Determine which providers should be included
+  const shouldInclude = (type: ProviderType): boolean => {
+    return includeAll || include.includes(type);
+  };
+
+  // Wrap children with each provider, in the correct order
+  let content = <>{children}</>;
+
+  // Add Security Provider
+  if (shouldInclude('security')) {
+    content = <AppSecurityProvider>{content}</AppSecurityProvider>;
+  }
+
+  // Add Auth Provider
+  if (shouldInclude('auth')) {
+    content = <AuthProvider>{content}</AuthProvider>;
+  }
+
+  // Add React Query Provider
+  if (shouldInclude('query')) {
+    content = (
+      <QueryClientProvider client={queryClient}>
+        {content}
+      </QueryClientProvider>
+    );
+  }
+
+  return content;
+}

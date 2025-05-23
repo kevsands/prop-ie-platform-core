@@ -19,14 +19,14 @@ declare module 'aws-amplify/auth' {
   export interface SignInInput {
     username: string;
     password: string;
-    options?: Record<string, any>;
+    options?: Record<string, any>\n  );
   }
   
   export interface SignUpInput {
     username: string;
     password: string;
     options?: {
-      userAttributes?: Record<string, string>;
+      userAttributes?: Record<string, string>\n  );
       autoSignIn?: boolean;
       [key: string]: any;
     };
@@ -35,24 +35,24 @@ declare module 'aws-amplify/auth' {
   export interface ConfirmSignUpInput {
     username: string;
     confirmationCode: string;
-    options?: Record<string, any>;
+    options?: Record<string, any>\n  );
   }
   
   export interface ConfirmSignInInput {
     challengeResponse: string;
-    options?: Record<string, any>;
+    options?: Record<string, any>\n  );
   }
   
   export interface ResetPasswordInput {
     username: string;
-    options?: Record<string, any>;
+    options?: Record<string, any>\n  );
   }
   
   export interface ConfirmResetPasswordInput {
     username: string;
     confirmationCode: string;
     newPassword: string;
-    options?: Record<string, any>;
+    options?: Record<string, any>\n  );
   }
   
   export interface SignInStepType {
@@ -67,7 +67,7 @@ declare module 'aws-amplify/auth' {
   export interface AuthUser {
     userId: string;
     username: string;
-    signInDetails?: Record<string, any>;
+    signInDetails?: Record<string, any>\n  );
   }
   
   export interface AuthUserAttributes {
@@ -96,7 +96,7 @@ declare module 'aws-amplify/auth' {
     tokens?: {
       accessToken?: {
         toString: () => string;
-        payload: Record<string, any>;
+        payload: Record<string, any>\n  );
       };
       idToken?: {
         toString: () => string;
@@ -108,24 +108,24 @@ declare module 'aws-amplify/auth' {
   }
   
   // Auth functions
-  export function fetchUserAttributes(): Promise<AuthUserAttributes>;
-  export function getCurrentUser(): Promise<AuthUser>;
-  export function signIn(input: SignInInput): Promise<SignInOutput>;
-  export function signOut(options?: Record<string, any>): Promise<void>;
-  export function signUp(input: SignUpInput): Promise<SignUpOutput>;
-  export function confirmSignUp(input: ConfirmSignUpInput): Promise<any>;
-  export function resetPassword(input: ResetPasswordInput): Promise<any>;
-  export function confirmResetPassword(input: ConfirmResetPasswordInput): Promise<any>;
-  export function confirmSignIn(input: ConfirmSignInInput): Promise<SignInOutput>;
-  export function fetchAuthSession(): Promise<AuthSession>;
-  export function autoSignIn(): Promise<SignInOutput>;
+  export function fetchUserAttributes(): Promise<AuthUserAttributes>\n  );
+  export function getCurrentUser(): Promise<AuthUser>\n  );
+  export function signIn(input: SignInInput): Promise<SignInOutput>\n  );
+  export function signOut(options?: Record<string, any>): Promise<void>\n  );
+  export function signUp(input: SignUpInput): Promise<SignUpOutput>\n  );
+  export function confirmSignUp(input: ConfirmSignUpInput): Promise<any>\n  );
+  export function resetPassword(input: ResetPasswordInput): Promise<any>\n  );
+  export function confirmResetPassword(input: ConfirmResetPasswordInput): Promise<any>\n  );
+  export function confirmSignIn(input: ConfirmSignInInput): Promise<SignInOutput>\n  );
+  export function fetchAuthSession(): Promise<AuthSession>\n  );
+  export function autoSignIn(): Promise<SignInOutput>\n  );
 }
 
 // API module
 declare module 'aws-amplify/api' {
   export interface GraphQLOptions {
     query: string;
-    variables?: Record<string, any>;
+    variables?: Record<string, any>\n  );
     authMode?: string;
     authToken?: string;
     [key: string]: any;
@@ -137,14 +137,14 @@ declare module 'aws-amplify/api' {
       message: string;
       path?: string[];
       locations?: { line: number; column: number }[];
-    }>;
-    extensions?: Record<string, any>;
+    }>\n  );
+    extensions?: Record<string, any>\n  );
   }
   
   export interface ApiClient {
-    graphql: <T = any>(options: GraphQLOptions) => Promise<GraphQLResult<T>>;
-    query: <T = any>(query: string, variables?: Record<string, any>) => Promise<GraphQLResult<T>>;
-    mutate: <T = any>(mutation: string, variables?: Record<string, any>) => Promise<GraphQLResult<T>>;
+    graphql: <T = any>(options: GraphQLOptions) => Promise<GraphQLResult<T>>\n  );
+    query: <T = any>(query: string, variables?: Record<string, any>) => Promise<GraphQLResult<T>>\n  );
+    mutate: <T = any>(mutation: string, variables?: Record<string, any>) => Promise<GraphQLResult<T>>\n  );
   }
   
   export function generateClient(): ApiClient;

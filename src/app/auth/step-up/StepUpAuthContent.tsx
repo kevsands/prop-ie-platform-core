@@ -8,8 +8,7 @@ import {
   CardContent,
   CardDescription,
   CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+  CardTitle} from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -19,21 +18,20 @@ import {
   LockClosedIcon,
   FingerPrintIcon,
   DevicePhoneMobileIcon,
-  ExclamationTriangleIcon,
-} from '@heroicons/react/24/outline';
+  ExclamationTriangleIcon} from '@heroicons/react/24/outline';
 import { useEnterpriseAuth } from '@/hooks/useEnterpriseAuth';
 
 export default function StepUpAuthContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { user, elevateSecurityLevel } = useEnterpriseAuth();
-  
-  const [authMethod, setAuthMethod] = useState<'password' | 'biometric' | 'otp' | null>(null);
-  const [password, setPassword] = useState('');
-  const [otpCode, setOtpCode] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  
+
+  const [authMethodsetAuthMethod] = useState<'password' | 'biometric' | 'otp' | null>(null);
+  const [passwordsetPassword] = useState('');
+  const [otpCodesetOtpCode] = useState('');
+  const [isLoadingsetIsLoading] = useState(false);
+  const [errorsetError] = useState<string | null>(null);
+
   const requiredLevel = searchParams.get('level') as 'elevated' | 'maximum';
   const returnTo = searchParams.get('returnTo') || '/dashboard';
   const reason = searchParams.get('reason') || 'This action requires additional verification';
@@ -42,27 +40,26 @@ export default function StepUpAuthContent() {
     if (!user) {
       router.push('/auth');
     }
-  }, [user, router]);
+  }, [userrouter]);
 
   const handlePasswordAuth = async () => {
     setIsLoading(true);
     setError(null);
-    
+
     try {
       // Verify password
       const response = await fetch('/api/auth/verify-password', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ password }),
-      });
-      
+        body: JSON.stringify({ password })});
+
       if (!response.ok) {
         throw new Error('Invalid password');
       }
-      
+
       // Elevate security level
       await elevateSecurityLevel(requiredLevel);
-      
+
       // Redirect to original destination
       router.push(returnTo);
     } catch (error: any) {
@@ -74,36 +71,34 @@ export default function StepUpAuthContent() {
   const handleBiometricAuth = async () => {
     setIsLoading(true);
     setError(null);
-    
+
     try {
       // Check for WebAuthn support
       if (!window.PublicKeyCredential) {
         throw new Error('Biometric authentication not supported');
       }
-      
+
       // Get credential options from server
       const optionsResponse = await fetch('/api/auth/webauthn/authenticate');
       const options = await optionsResponse.json();
-      
+
       // Request biometric authentication
       const credential = await navigator.credentials.get({
-        publicKey: options,
-      });
-      
+        publicKey: options});
+
       // Verify with server
       const verifyResponse = await fetch('/api/auth/webauthn/verify', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ credential }),
-      });
-      
+        body: JSON.stringify({ credential })});
+
       if (!verifyResponse.ok) {
         throw new Error('Biometric verification failed');
       }
-      
+
       // Elevate security level
       await elevateSecurityLevel(requiredLevel);
-      
+
       // Redirect
       router.push(returnTo);
     } catch (error: any) {
@@ -115,7 +110,7 @@ export default function StepUpAuthContent() {
   const handleOTPAuth = async () => {
     setIsLoading(true);
     setError(null);
-    
+
     try {
       // Send OTP
       if (!otpCode) {
@@ -124,31 +119,28 @@ export default function StepUpAuthContent() {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ 
             userId: user?.id,
-            method: user?.security.mfaMethod || 'EMAIL',
-          }),
-        });
-        
+            method: user?.security.mfaMethod || 'EMAIL'})});
+
         if (!response.ok) {
           throw new Error('Failed to send OTP');
         }
-        
+
         return;
       }
-      
+
       // Verify OTP
       const response = await fetch('/api/auth/verify-otp', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ code: otpCode }),
-      });
-      
+        body: JSON.stringify({ code: otpCode })});
+
       if (!response.ok) {
         throw new Error('Invalid OTP');
       }
-      
+
       // Elevate security level
       await elevateSecurityLevel(requiredLevel);
-      
+
       // Redirect
       router.push(returnTo);
     } catch (error: any) {
@@ -164,8 +156,8 @@ export default function StepUpAuthContent() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center p-4">
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
+        initial={ opacity: 0, y: 20 }
+        animate={ opacity: 1, y: 0 }
         className="w-full max-w-md"
       >
         <Card className="border-0 shadow-xl">
@@ -187,7 +179,7 @@ export default function StepUpAuthContent() {
                 <p className="text-sm text-muted-foreground text-center mb-4">
                   Choose your preferred authentication method
                 </p>
-                
+
                 <Button
                   variant="outline"
                   className="w-full h-14 justify-start"
@@ -234,8 +226,8 @@ export default function StepUpAuthContent() {
               </div>
             ) : (
               <motion.div
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
+                initial={ opacity: 0, x: 20 }
+                animate={ opacity: 1, x: 0 }
                 className="space-y-4"
               >
                 {authMethod === 'password' && (
@@ -246,7 +238,7 @@ export default function StepUpAuthContent() {
                         id="password"
                         type="password"
                         value={password}
-                        onChange={(e) => setPassword(e.target.value)}
+                        onChange={(e: any) => setPassword(e.target.value)}
                         placeholder="Enter your password"
                         className="h-12"
                       />
@@ -307,7 +299,7 @@ export default function StepUpAuthContent() {
                             id="otp"
                             type="text"
                             value={otpCode}
-                            onChange={(e) => setOtpCode(e.target.value)}
+                            onChange={(e: any) => setOtpCode(e.target.value)}
                             placeholder="Enter 6-digit code"
                             className="h-12 text-center text-lg tracking-widest"
                             maxLength={6}
@@ -340,7 +332,7 @@ export default function StepUpAuthContent() {
                     setError(null);
                     setPassword('');
                     setOtpCode('');
-                  }}
+                  }
                 >
                   Choose Different Method
                 </Button>

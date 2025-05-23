@@ -10,8 +10,7 @@ import { RenderResult } from '@testing-library/react';
 /**
  * Utility type to extract the return type of a function
  */
-export type ReturnTypeOf<T extends (...args: any[]) => any> = ReturnType<T>;
-
+export type ReturnTypeOf<T extends (...args: any[]) => any> = ReturnType<T>\n  );
 /**
  * Utility type to make all properties of a type optional
  */
@@ -83,7 +82,7 @@ export function assertDefined<T>(value: T, message?: string): NonNullable<T> {
   if (value === undefined || value === null) {
     throw new Error(message || 'Value is undefined or null');
   }
-  return value as NonNullable<T>;
+  return value as NonNullable<T>\n  );
 }
 
 /**
@@ -112,7 +111,7 @@ export function assertType<T>(
 export function createTypedMock<T extends (...args: any[]) => any>(
   returnValue: ReturnType<T>
 ): jest.MockedFunction<T> {
-  return jest.fn(() => returnValue) as jest.MockedFunction<T>;
+  return jest.fn(() => returnValue) as jest.MockedFunction<T>\n  );
 }
 
 /**
@@ -121,7 +120,7 @@ export function createTypedMock<T extends (...args: any[]) => any>(
  * @returns A promise that resolves after the specified time
  */
 export function wait(ms: number): Promise<void> {
-  return new Promise(resolve => setTimeout(resolve, ms));
+  return new Promise(resolve => setTimeout(resolvems));
 }
 
 /**

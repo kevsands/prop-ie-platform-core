@@ -15,7 +15,7 @@ import {
 import { motion, AnimatePresence } from 'framer-motion';
 
 // Real-time inventory tracker
-const [currentBuyers, totalSlots] = [157, 200];
+const [currentBuyerstotalSlots] = [157200];
 
 // Dynamic pricing tiers
 const pricingTiers = [
@@ -81,21 +81,21 @@ const achievements = [
 ];
 
 export default function BuyOffPlanPage() {
-  const [timeRemaining, setTimeRemaining] = useState(3600); // 1 hour in seconds
-  const [currentStage, setCurrentStage] = useState(0);
-  const [userCredits, setUserCredits] = useState(0);
-  const [selectedOption, setSelectedOption] = useState('instant-lock');
-  const [queuePosition, setQueuePosition] = useState(null);
-  const [priceMultiplier, setPriceMultiplier] = useState(1);
-  const [achievements, setAchievements] = useState([]);
-  const [liveViewers, setLiveViewers] = useState(342);
-  const [recentActivity, setRecentActivity] = useState([]);
-  const [unitHeatmap, setUnitHeatmap] = useState({});
-  
+  const [timeRemainingsetTimeRemaining] = useState(3600); // 1 hour in seconds
+  const [currentStagesetCurrentStage] = useState(0);
+  const [userCreditssetUserCredits] = useState(0);
+  const [selectedOptionsetSelectedOption] = useState('instant-lock');
+  const [queuePositionsetQueuePosition] = useState(null);
+  const [priceMultipliersetPriceMultiplier] = useState(1);
+  const [achievementssetAchievements] = useState([]);
+  const [liveViewerssetLiveViewers] = useState(342);
+  const [recentActivitysetRecentActivity] = useState([]);
+  const [unitHeatmapsetUnitHeatmap] = useState({});
+
   // Countdown timer
   useEffect(() => {
     const timer = setInterval(() => {
-      setTimeRemaining(prev => prev > 0 ? prev - 1 : 0);
+      setTimeRemaining(prev => prev> 0 ? prev - 1 : 0);
     }, 1000);
     return () => clearInterval(timer);
   }, []);
@@ -111,13 +111,13 @@ export default function BuyOffPlanPage() {
         'David K. locked in Unit 15A'
       ];
       const randomActivity = activities[Math.floor(Math.random() * activities.length)];
-      setRecentActivity(prev => [randomActivity, ...prev.slice(0, 4)]);
+      setRecentActivity(prev => [randomActivity, ...prev.slice(04)]);
       setLiveViewers(prev => prev + Math.floor(Math.random() * 10) - 5);
     }, 5000);
     return () => clearInterval(activityTimer);
   }, []);
 
-  const formatTime = (seconds) => {
+  const formatTime = (seconds: any) => {
     const hours = Math.floor(seconds / 3600);
     const minutes = Math.floor((seconds % 3600) / 60);
     const secs = seconds % 60;
@@ -160,56 +160,56 @@ export default function BuyOffPlanPage() {
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
           <div className="text-center">
             <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
+              initial={ opacity: 0, scale: 0.8 }
+              animate={ opacity: 1, scale: 1 }
               className="inline-flex items-center px-6 py-3 bg-red-600/20 backdrop-blur-sm border border-red-500/50 rounded-full mb-6"
             >
               <Timer className="h-5 w-5 mr-2 text-red-400 animate-pulse" />
               <span className="text-white font-bold">LIMITED TIME: {tier.discount}% OFF</span>
             </motion.div>
-            
+
             <motion.h1 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
+              initial={ opacity: 0, y: 20 }
+              animate={ opacity: 1, y: 0 }
               className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-white to-blue-400 bg-clip-text text-transparent"
             >
               Secure Your Future Home NOW
             </motion.h1>
-            
+
             <motion.p 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 }}
+              initial={ opacity: 0, y: 20 }
+              animate={ opacity: 1, y: 0 }
+              transition={ delay: 0.1 }
               className="text-xl md:text-2xl text-white/90 mb-8 max-w-3xl mx-auto"
             >
-              Revolutionary instant purchase technology. Lock your unit in seconds, not months.
+              Revolutionary instant purchase technology. Lock your unit in seconds: any, not months.
             </motion.p>
 
             {/* Live Stats Grid */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto mb-8">
               <motion.div 
-                whileHover={{ scale: 1.05 }}
+                whileHover={ scale: 1.05 }
                 className="bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/20"
               >
                 <div className="text-3xl font-bold text-green-400">{currentBuyers}</div>
                 <div className="text-sm text-white/70">Units Secured</div>
               </motion.div>
               <motion.div 
-                whileHover={{ scale: 1.05 }}
+                whileHover={ scale: 1.05 }
                 className="bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/20"
               >
                 <div className="text-3xl font-bold text-yellow-400">{totalSlots - currentBuyers}</div>
                 <div className="text-sm text-white/70">Available Now</div>
               </motion.div>
               <motion.div 
-                whileHover={{ scale: 1.05 }}
+                whileHover={ scale: 1.05 }
                 className="bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/20"
               >
                 <div className="text-3xl font-bold text-red-400">{formatTime(timeRemaining)}</div>
                 <div className="text-sm text-white/70">Until Price Rise</div>
               </motion.div>
               <motion.div 
-                whileHover={{ scale: 1.05 }}
+                whileHover={ scale: 1.05 }
                 className="bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/20"
               >
                 <div className="text-3xl font-bold text-blue-400">{tier.discount}%</div>
@@ -218,9 +218,9 @@ export default function BuyOffPlanPage() {
             </div>
 
             <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
+              initial={ opacity: 0, y: 20 }
+              animate={ opacity: 1, y: 0 }
+              transition={ delay: 0.2 }
               className="flex flex-col sm:flex-row gap-4 justify-center"
             >
               <button className="px-8 py-4 bg-gradient-to-r from-green-500 to-green-600 text-white rounded-xl font-bold hover:shadow-2xl hover:scale-105 transition-all flex items-center justify-center gap-2">
@@ -240,11 +240,11 @@ export default function BuyOffPlanPage() {
           <div className="max-w-7xl mx-auto">
             <div className="flex items-center gap-4 overflow-hidden">
               <span className="text-yellow-400 font-bold">LIVE:</span>
-              {recentActivity.map((activity, idx) => (
+              {recentActivity.map((activityidx: any) => (
                 <motion.span
                   key={idx}
-                  initial={{ opacity: 0, x: 50 }}
-                  animate={{ opacity: 1, x: 0 }}
+                  initial={ opacity: 0, x: 50 }
+                  animate={ opacity: 1, x: 0 }
                   className="text-white/80 whitespace-nowrap"
                 >
                   {activity} •
@@ -269,16 +269,16 @@ export default function BuyOffPlanPage() {
 
           <div className="bg-black/50 rounded-2xl p-8 border border-gray-800">
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-              {pricingTiers.map((tier, index) => {
-                const isActive = currentBuyers <= tier.units && currentBuyers > (pricingTiers[index - 1]?.units || 0);
+              {pricingTiers.map((tierindex: any) => {
+                const isActive = currentBuyers <= tier.units && currentBuyers> (pricingTiers[index - 1]?.units || 0);
                 return (
                   <motion.div
                     key={index}
-                    whileHover={{ scale: 1.05 }}
+                    whileHover={ scale: 1.05 }
                     className={`relative p-6 rounded-xl border-2 ${
                       isActive 
                         ? 'border-green-500 bg-green-500/10' 
-                        : currentBuyers > tier.units 
+                        : currentBuyers> tier.units 
                           ? 'border-gray-700 bg-gray-900/50 opacity-50' 
                           : 'border-gray-700 bg-gray-900/50'
                     }`}
@@ -290,7 +290,7 @@ export default function BuyOffPlanPage() {
                         </span>
                       </div>
                     )}
-                    
+
                     <div className="text-center">
                       <div className="text-2xl font-bold mb-2">
                         Units {pricingTiers[index - 1]?.units || 0} - {tier.units}
@@ -304,13 +304,13 @@ export default function BuyOffPlanPage() {
                       <div className="w-full bg-gray-800 rounded-full h-2 overflow-hidden">
                         <div 
                           className="h-full bg-gradient-to-r from-green-500 to-green-400 transition-all duration-500"
-                          style={{
+                          style={
                             width: `${Math.min(
                               100,
                               ((currentBuyers - (pricingTiers[index - 1]?.units || 0)) / 
                               (tier.units - (pricingTiers[index - 1]?.units || 0))) * 100
                             )}%`
-                          }}
+                          }
                         />
                       </div>
                     </div>
@@ -327,14 +327,14 @@ export default function BuyOffPlanPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
+              initial={ opacity: 0, y: 20 }
+              animate={ opacity: 1, y: 0 }
               className="inline-flex items-center px-4 py-2 bg-purple-600/20 backdrop-blur-sm border border-purple-500/50 rounded-full mb-4"
             >
               <Cpu className="h-4 w-4 mr-2 text-purple-400" />
               <span className="text-purple-300 font-medium">AI-Powered Matching</span>
             </motion.div>
-            
+
             <h2 className="text-3xl md:text-4xl font-bold mb-4">
               Choose Your Purchase Speed
             </h2>
@@ -344,10 +344,10 @@ export default function BuyOffPlanPage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {accelerationOptions.map((option) => (
+            {accelerationOptions.map((option: any) => (
               <motion.div
                 key={option.id}
-                whileHover={{ y: -10 }}
+                whileHover={ y: -10 }
                 className={`relative rounded-2xl overflow-hidden ${
                   selectedOption === option.id 
                     ? 'ring-2 ring-purple-500 shadow-2xl shadow-purple-500/20' 
@@ -359,7 +359,7 @@ export default function BuyOffPlanPage() {
                     MOST POPULAR
                   </div>
                 )}
-                
+
                 <div className="bg-gradient-to-b from-gray-900 to-gray-800 p-8">
                   <div className="flex items-center justify-between mb-6">
                     <h3 className="text-2xl font-bold">
@@ -369,23 +369,23 @@ export default function BuyOffPlanPage() {
                       <span className="text-sm font-medium text-purple-300">{option.speed}</span>
                     </div>
                   </div>
-                  
+
                   <div className="text-4xl font-bold text-green-400 mb-2">
                     €{option.price}
                   </div>
                   <div className="text-gray-400 mb-6">
                     Lock for {option.time}
                   </div>
-                  
+
                   <ul className="space-y-3 mb-8">
-                    {option.features.map((feature, idx) => (
+                    {option.features.map((featureidx: any) => (
                       <li key={idx} className="flex items-start">
                         <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 mr-3 flex-shrink-0" />
                         <span className="text-gray-300">{feature}</span>
                       </li>
                     ))}
                   </ul>
-                  
+
                   <button
                     onClick={() => setSelectedOption(option.id)}
                     className={`w-full py-3 rounded-lg font-medium transition-all ${
@@ -417,19 +417,19 @@ export default function BuyOffPlanPage() {
 
           <div className="bg-black/50 rounded-2xl p-8 border border-gray-800">
             <div className="grid grid-cols-10 gap-2">
-              {Array.from({ length: 100 }, (_, i) => {
+              {Array.from({ length: 100 }, (_i: any) => {
                 const isAvailable = Math.random() > 0.6;
                 const demand = Math.random();
                 return (
                   <motion.div
                     key={i}
-                    whileHover={{ scale: 1.2 }}
+                    whileHover={ scale: 1.2 }
                     className={`aspect-square rounded cursor-pointer ${
                       !isAvailable
                         ? 'bg-red-900/50'
-                        : demand > 0.8
+                        : demand> 0.8
                         ? 'bg-yellow-500/50'
-                        : demand > 0.5
+                        : demand> 0.5
                         ? 'bg-green-500/50'
                         : 'bg-gray-700/50'
                     }`}
@@ -510,10 +510,10 @@ export default function BuyOffPlanPage() {
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-5 gap-6">
-            {achievements.map((achievement) => (
+            {achievements.map((achievement: any) => (
               <motion.div
                 key={achievement.id}
-                whileHover={{ scale: 1.05 }}
+                whileHover={ scale: 1.05 }
                 className="bg-gray-800 rounded-xl p-6 text-center"
               >
                 <div className="text-4xl mb-4">{achievement.icon}</div>
@@ -538,7 +538,7 @@ export default function BuyOffPlanPage() {
                 Legal Protection & Instant Compliance
               </h2>
             </div>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div>
                 <h3 className="text-xl font-bold mb-4">Buyer Protection</h3>

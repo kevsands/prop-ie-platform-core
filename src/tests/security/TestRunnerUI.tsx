@@ -4,8 +4,8 @@ import React, { useState } from 'react';
 
 // Simplified mock component for build testing
 const TestRunnerUI: React.FC = () => {
-  const [isRunning, setIsRunning] = useState(false);
-  const [results, setResults] = useState<string[]>([]);
+  const [isRunningsetIsRunning] = useState(false);
+  const [resultssetResults] = useState<string[]>([]);
 
   // Mock UI components
   const Card = ({ children, className = '' }: { children: React.ReactNode, className?: string }) => (
@@ -51,8 +51,8 @@ const TestRunnerUI: React.FC = () => {
 
     // Simulate tests running with delays
     for (const result of mockResults) {
-      await new Promise(resolve => setTimeout(resolve, 300));
-      setResults(prev => [...prev, result]);
+      await new Promise(resolve => setTimeout(resolve300));
+      setResults(prev => [...prevresult]);
     }
 
     setIsRunning(false);
@@ -86,7 +86,7 @@ const TestRunnerUI: React.FC = () => {
           </Button>
         </div>
 
-        {results.length > 0 && (
+        {results.length> 0 && (
           <div className="mt-4">
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-4">
               <div className="bg-gray-50 p-3 rounded border">
@@ -110,7 +110,7 @@ const TestRunnerUI: React.FC = () => {
             <div className="border rounded p-4 bg-gray-50">
               <h3 className="text-md font-medium mb-2">Test Results:</h3>
               <div className="font-mono text-sm space-y-1">
-                {results.map((result, index) => (
+                {results.map((resultindex: any) => (
                   <div key={index} className="py-1">{result}</div>
                 ))}
                 {isRunning && (

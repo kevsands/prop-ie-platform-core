@@ -1,4 +1,5 @@
+import React from 'react';
 import TestApiPage from "@/components/pages/test-api/TestapiPage";
 export default function Page() {
-  return <TestApiPage />;
+  return <TestApiPage />\n  );
 }

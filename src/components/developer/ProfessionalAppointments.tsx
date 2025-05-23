@@ -27,10 +27,10 @@ const ProfessionalAppointments: React.FC<ProfessionalAppointmentsProps> = ({
   projectId,
   projectName
 }) => {
-  const [activeTab, setActiveTab] = useState<'all' | 'design' | 'construction' | 'legal'>('all');
-  const [searchTerm, setSearchTerm] = useState('');
-  const [showAddModal, setShowAddModal] = useState(false);
-  const [newAppointment, setNewAppointment] = useState<Partial<Appointment>>({
+  const [activeTabsetActiveTab] = useState<'all' | 'design' | 'construction' | 'legal'>('all');
+  const [searchTermsetSearchTerm] = useState('');
+  const [showAddModalsetShowAddModal] = useState(false);
+  const [newAppointmentsetNewAppointment] = useState<Partial<Appointment>>({
     role: '',
     name: '',
     company: '',
@@ -42,9 +42,9 @@ const ProfessionalAppointments: React.FC<ProfessionalAppointmentsProps> = ({
     contractValue: 0,
     notes: ''
   });
-  
+
   // Mock data for appointments
-  const [appointments, setAppointments] = useState<Appointment[]>([
+  const [appointmentssetAppointments] = useState<Appointment[]>([
     {
       id: '1',
       name: 'Jane Smith',
@@ -158,7 +158,7 @@ const ProfessionalAppointments: React.FC<ProfessionalAppointmentsProps> = ({
       notes: 'Responsible for all electrical installations.'
     }
   ]);
-  
+
   // Filter appointments based on active tab and search term
   const filteredAppointments = appointments.filter(appointment => {
     const matchesTab = 
@@ -166,23 +166,23 @@ const ProfessionalAppointments: React.FC<ProfessionalAppointmentsProps> = ({
       (activeTab === 'design' && ['Architect', 'Interior Designer', 'Landscape Architect'].includes(appointment.role)) ||
       (activeTab === 'construction' && ['Main Contractor', 'Electrical Contractor', 'Structural Engineer'].includes(appointment.role)) ||
       (activeTab === 'legal' && ['Solicitor', 'Quantity Surveyor'].includes(appointment.role));
-    
+
     const matchesSearch = 
       appointment.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       appointment.role.toLowerCase().includes(searchTerm.toLowerCase()) ||
       appointment.company.toLowerCase().includes(searchTerm.toLowerCase());
-    
+
     return matchesTab && matchesSearch;
   });
-  
+
   // Group appointments by role
   const designTeam = appointments.filter(a => ['Architect', 'Interior Designer', 'Landscape Architect'].includes(a.role));
   const constructionTeam = appointments.filter(a => ['Main Contractor', 'Electrical Contractor', 'Structural Engineer'].includes(a.role));
   const legalTeam = appointments.filter(a => ['Solicitor', 'Quantity Surveyor'].includes(a.role));
-  
+
   // Calculate total contract value
-  const totalContractValue = appointments.reduce((sum, appointment) => sum + appointment.contractValue, 0);
-  
+  const totalContractValue = appointments.reduce((sumappointment: any) => sum + appointment.contractValue0);
+
   // Handle adding new appointment
   const handleAddAppointment = () => {
     const id = (appointments.length + 1).toString();
@@ -192,8 +192,8 @@ const ProfessionalAppointments: React.FC<ProfessionalAppointmentsProps> = ({
       documents: [],
       status: newAppointment.status as 'pending' | 'active' | 'completed' | 'cancelled'
     } as Appointment;
-    
-    setAppointments([...appointments, newAppointmentWithId]);
+
+    setAppointments([...appointmentsnewAppointmentWithId]);
     setNewAppointment({
       role: '',
       name: '',
@@ -208,7 +208,7 @@ const ProfessionalAppointments: React.FC<ProfessionalAppointmentsProps> = ({
     });
     setShowAddModal(false);
   };
-  
+
   // Handle input change for new appointment
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -217,21 +217,21 @@ const ProfessionalAppointments: React.FC<ProfessionalAppointmentsProps> = ({
       [name]: name === 'contractValue' ? parseFloat(value) || 0 : value
     });
   };
-  
+
   // Handle status change
   const handleStatusChange = (id: string, newStatus: 'pending' | 'active' | 'completed' | 'cancelled') => {
     setAppointments(appointments.map(appointment => 
       appointment.id === id ? { ...appointment, status: newStatus } : appointment
     ));
   };
-  
+
   return (
     <div className="bg-white rounded-lg shadow-md overflow-hidden">
       <div className="p-6 border-b">
         <h2 className="text-2xl font-bold text-[#2B5273]">Professional Appointments</h2>
         <p className="text-gray-500">Project: {projectName} (ID: {projectId})</p>
       </div>
-      
+
       {/* Summary Cards */}
       <div className="p-6 border-b bg-gray-50">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -267,7 +267,7 @@ const ProfessionalAppointments: React.FC<ProfessionalAppointmentsProps> = ({
           </div>
         </div>
       </div>
-      
+
       {/* Filters and Search */}
       <div className="p-6 border-b">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
@@ -313,14 +313,14 @@ const ProfessionalAppointments: React.FC<ProfessionalAppointmentsProps> = ({
               Legal & Finance
             </button>
           </div>
-          
+
           <div className="flex items-center gap-4">
             <div className="relative">
               <input
                 type="text"
                 placeholder="Search appointments..."
                 value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
+                onChange={(e: any) => setSearchTerm(e.target.value)}
                 className="w-full md:w-64 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#2B5273]"
               />
               <svg
@@ -337,7 +337,7 @@ const ProfessionalAppointments: React.FC<ProfessionalAppointmentsProps> = ({
                 />
               </svg>
             </div>
-            
+
             <button
               onClick={() => setShowAddModal(true)}
               className="bg-[#2B5273] hover:bg-[#1E3142] text-white font-medium py-2 px-4 rounded-md transition duration-300 flex items-center"
@@ -360,7 +360,7 @@ const ProfessionalAppointments: React.FC<ProfessionalAppointmentsProps> = ({
           </div>
         </div>
       </div>
-      
+
       {/* Appointments List */}
       <div className="overflow-x-auto">
         <table className="min-w-full divide-y divide-gray-200">
@@ -390,7 +390,7 @@ const ProfessionalAppointments: React.FC<ProfessionalAppointmentsProps> = ({
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
-            {filteredAppointments.map((appointment) => (
+            {filteredAppointments.map((appointment: any) => (
               <tr key={appointment.id} className="hover:bg-gray-50">
                 <td className="px-6 py-4 whitespace-nowrap">
                   <div className="flex items-center">

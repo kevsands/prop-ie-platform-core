@@ -1,0 +1,283 @@
+'use client';
+
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { motion } from 'framer-motion';
+import { FiCheck, FiZap, FiTrendingUp, FiGlobe, FiShield, FiArrowRight } from 'react-icons/fi';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import { Progress } from '@/components/ui/progress';
+import { Badge } from '@/components/ui/badge';
+import { Switch } from '@/components/ui/switch';
+import { toast } from 'sonner';
+
+interface PricingTier {
+  id: string;
+  name: string;
+  description: string;
+  monthlyPrice: number;
+  yearlyPrice: number;
+  features: string[];
+  highlighted?: boolean;
+  badge?: string;
+  icon: React.ElementType;
+  color: string;
+}
+
+const pricingTiers: PricingTier[] = {
+  starter: {
+    id: 'starter',
+    name: 'Starter',
+    description: 'Perfect for small developers getting started',
+    monthlyPrice: 99,
+    yearlyPrice: 990,
+    features: [
+      'Up to 3 active projects',
+      'Basic analytics dashboard',
+      'Standard support (48hr)',
+      'Document storage (10GB)',
+      'API access (10k calls/month)',
+      'Team members (up to 5)',
+    ],
+    icon: FiZap,
+    color: 'blue',
+  },
+  professional: {
+    id: 'professional',
+    name: 'Professional',
+    description: 'For growing developers with multiple projects',
+    monthlyPrice: 499,
+    yearlyPrice: 4990,
+    features: [
+      'Unlimited active projects',
+      'Advanced analytics & AI insights',
+      'Priority support (4hr)',
+      'Document storage (100GB)',
+      'API access (100k calls/month)',
+      'Team members (up to 20)',
+      'Custom branding',
+      'Automated marketing tools',
+      'Financial modeling',
+    ],
+    highlighted: true,
+    badge: 'Most Popular',
+    icon: FiTrendingUp,
+    color: 'indigo',
+  },
+  enterprise: {
+    id: 'enterprise',
+    name: 'Enterprise',
+    description: 'For large developers with custom needs',
+    monthlyPrice: 2499,
+    yearlyPrice: 24990,
+    features: [
+      'Unlimited everything',
+      'AI-powered market intelligence',
+      'Dedicated support team',
+      'Unlimited storage',
+      'Unlimited API access',
+      'Unlimited team members',
+      'White-label platform',
+      'Custom integrations',
+      'On-premise deployment option',
+      'SLA guarantee (99.99%)',
+      'Dedicated account manager',
+    ],
+    icon: FiGlobe,
+    color: 'purple',
+  },
+};
+
+export default function SubscriptionPage() {
+  const router = useRouter();
+  const [selectedTier, setSelectedTier] = useState<string>('professional');
+  const [isYearly, setIsYearly] = useState(true);
+  const [isProcessing, setIsProcessing] = useState(false);
+
+  const handleSubscribe = async () => {
+    setIsProcessing(true);
+
+    try {
+      // Save subscription data
+      const subscriptionData = {
+        tier: selectedTier,
+        billing: isYearly ? 'yearly' : 'monthly',
+        price: isYearly ? pricingTiers[selectedTier as keyof typeof pricingTiers].yearlyPrice : pricingTiers[selectedTier as keyof typeof pricingTiers].monthlyPrice,
+      };
+
+      localStorage.setItem('subscriptionData', JSON.stringify(subscriptionData));
+
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 2000));
+
+      toast.success('Subscription selected successfully');
+      router.push('/developer/onboarding/verification');
+    } catch (error) {
+      toast.error('Failed to process subscription');
+      setIsProcessing(false);
+    }
+  };
+
+  const progressValue = 75; // Step 3 of 4
+
+  return (
+    <div className="min-h-screen px-4 sm:px-6 lg:px-8 py-12">
+      <div className="max-w-7xl mx-auto">
+        {/* Progress Bar */}
+        <div className="mb-8 max-w-4xl mx-auto">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-2xl font-bold text-gray-900">Choose Your Plan</h2>
+            <span className="text-sm text-gray-600">Step 3 of 4</span>
+          </div>
+          <Progress value={progressValue} className="h-2" />
+        </div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="text-center mb-12"
+        >
+          <h3 className="text-3xl font-bold text-gray-900 mb-4">
+            Select the perfect plan for your business
+          </h3>
+          <p className="text-lg text-gray-600 mb-8">
+            Start with a 14-day free trial. No credit card required.
+          </p>
+
+          {/* Billing Toggle */}
+          <div className="inline-flex items-center gap-4 bg-gray-100 rounded-full p-1">
+            <span className={`px-4 py-2 ${!isYearly ? 'text-gray-900 font-medium' : 'text-gray-600'}`}>
+              Monthly
+            </span>
+            <Switch
+              checked={isYearly}
+              onCheckedChange={setIsYearly}
+              className="data-[state=checked]:bg-green-600"
+            />
+            <span className={`px-4 py-2 ${isYearly ? 'text-gray-900 font-medium' : 'text-gray-600'}`}>
+              Yearly
+              <Badge className="ml-2 bg-green-100 text-green-800">Save 20%</Badge>
+            </span>
+          </div>
+        </motion.div>
+
+        {/* Pricing Cards */}
+        <div className="grid md:grid-cols-3 gap-8 mb-12">
+          {Object.entries(pricingTiers).map(([key, tier], index) => (
+            <motion.div
+              key={key}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+            >
+              <Card
+                className={`relative p-8 h-full ${
+                  selectedTier === key ? 'ring-2 ring-blue-600' : ''
+                } ${tier.highlighted ? 'border-blue-600' : ''}`}
+                onClick={() => setSelectedTier(key)}
+              >
+                {tier.badge && (
+                  <Badge className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-blue-600 text-white">
+                    {tier.badge}
+                  </Badge>
+                )}
+
+                <div className="text-center mb-8">
+                  <div className={`inline-flex p-3 rounded-lg bg-${tier.color}-100 mb-4`}>
+                    <tier.icon className={`w-8 h-8 text-${tier.color}-600`} />
+                  </div>
+                  <h4 className="text-2xl font-bold text-gray-900 mb-2">{tier.name}</h4>
+                  <p className="text-gray-600 mb-4">{tier.description}</p>
+                  <div className="text-4xl font-bold text-gray-900">
+                    €{isYearly ? tier.yearlyPrice : tier.monthlyPrice}
+                    <span className="text-lg font-normal text-gray-600">
+                      /{isYearly ? 'year' : 'month'}
+                    </span>
+                  </div>
+                  {isYearly && (
+                    <p className="text-sm text-green-600 mt-2">
+                      Save €{(tier.monthlyPrice * 12 - tier.yearlyPrice).toFixed(0)} annually
+                    </p>
+                  )}
+                </div>
+
+                <ul className="space-y-3 mb-8">
+                  {tier.features.map((feature, featureIndex) => (
+                    <li key={featureIndex} className="flex items-start gap-3">
+                      <FiCheck className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
+                      <span className="text-gray-700">{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                <Button
+                  className={`w-full ${
+                    selectedTier === key
+                      ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white'
+                      : 'bg-gray-100 text-gray-900 hover:bg-gray-200'
+                  }`}
+                  onClick={() => setSelectedTier(key)}
+                >
+                  {selectedTier === key ? 'Selected' : 'Select Plan'}
+                </Button>
+              </Card>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* Enterprise CTA */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.4 }}
+          className="text-center bg-gradient-to-r from-purple-600 to-indigo-600 rounded-2xl p-8 text-white mb-12"
+        >
+          <FiShield className="w-12 h-12 mx-auto mb-4" />
+          <h3 className="text-2xl font-bold mb-4">Need a Custom Solution?</h3>
+          <p className="mb-6 max-w-2xl mx-auto">
+            Contact our enterprise team for custom pricing, dedicated support, and tailored features for your organization.
+          </p>
+          <Button
+            variant="secondary"
+            className="bg-white text-purple-600 hover:bg-gray-100"
+            onClick={() => router.push('/contact-sales')}
+          >
+            Contact Sales Team
+          </Button>
+        </motion.div>
+
+        {/* Continue Button */}
+        <div className="flex justify-between max-w-4xl mx-auto">
+          <Button
+            variant="outline"
+            onClick={() => router.push('/developer/onboarding/team-setup')}
+          >
+            Back
+          </Button>
+          <Button
+            onClick={handleSubscribe}
+            disabled={isProcessing}
+            className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-8"
+          >
+            {isProcessing ? (
+              <span className="flex items-center gap-2">
+                <motion.div
+                  animate={{ rotate: 360 }}
+                  transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                  className="w-5 h-5 border-2 border-white border-t-transparent rounded-full"
+                />
+                Processing...
+              </span>
+            ) : (
+              <span className="flex items-center gap-2">
+                Continue to Verification
+                <FiArrowRight />
+              </span>
+            )}
+          </Button>
+        </div>
+      </div>
+    </div>
+  );
+}

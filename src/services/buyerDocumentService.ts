@@ -66,25 +66,25 @@ class BuyerDocumentService {
           isBuyerJourneyDocument: true
         }
       };
-      
+
       // Use the document service to handle the upload
-      const result = await documentService.uploadDocument(file, metadata);
-      
+      const result = await documentService.uploadDocument(filemetadata);
+
       // If successful, add an entry to link this document to the buyer's journey
       if (result.success && result.document) {
-        await this.linkDocumentToJourney(result.document.id, buyerId, phaseId);
+        await this.linkDocumentToJourney(result.document.id, buyerIdphaseId);
       }
-      
+
       return result;
     } catch (error) {
-      console.error('Error uploading buyer document:', error);
+
       return {
         success: false,
         message: error instanceof Error ? error.message : 'An error occurred during upload'
       };
     }
   }
-  
+
   /**
    * Link a document to the buyer's journey
    * @param documentId Document ID
@@ -109,14 +109,14 @@ class BuyerDocumentService {
           phaseId
         })
       });
-      
+
       return response.ok;
     } catch (error) {
-      console.error('Error linking document to journey:', error);
+
       return false;
     }
   }
-  
+
   /**
    * Get all documents for a specific buyer
    * @param buyerId Buyer ID
@@ -131,14 +131,14 @@ class BuyerDocumentService {
           id: buyerId
         }
       };
-      
+
       return await documentService.getDocuments(filter);
     } catch (error) {
-      console.error('Error getting buyer documents:', error);
+
       return [];
     }
   }
-  
+
   /**
    * Get documents for a specific phase of the buyer's journey
    * @param buyerId Buyer ID
@@ -149,19 +149,19 @@ class BuyerDocumentService {
     try {
       // Get all buyer documents
       const allDocs = await this.getBuyerDocuments(buyerId);
-      
+
       // Filter documents by phase
       return allDocs.filter(doc => 
         doc.metadata?.journeyPhaseId === phase || 
         doc.metadata?.requiredDocumentId && 
-        this.isDocumentForPhase(doc.metadata.requiredDocumentId, phase)
+        this.isDocumentForPhase(doc.metadata.requiredDocumentIdphase)
       );
     } catch (error) {
-      console.error('Error getting phase documents:', error);
+
       return [];
     }
   }
-  
+
   /**
    * Check if a document is for a specific phase
    * @param requiredDocumentId Required document ID
@@ -172,7 +172,7 @@ class BuyerDocumentService {
     const requiredDocs = getRequiredDocumentsForPhase(phase);
     return requiredDocs.some(doc => doc.id === requiredDocumentId);
   }
-  
+
   /**
    * Get document progress for a specific phase
    * @param buyerId Buyer ID
@@ -186,17 +186,17 @@ class BuyerDocumentService {
     try {
       // Get required documents for the phase
       const requiredDocs = getRequiredDocumentsForPhase(phase);
-      
+
       // Get uploaded documents for the buyer
-      const uploadedDocs = await this.getPhaseDocuments(buyerId, phase);
-      
+      const uploadedDocs = await this.getPhaseDocuments(buyerIdphase);
+
       // Map required documents to upload status
       const documentStatuses: DocumentUploadStatus[] = requiredDocs.map(requiredDoc => {
         // Find an uploaded document matching this required document
         const uploadedDoc = uploadedDocs.find(
           doc => doc.metadata?.requiredDocumentId === requiredDoc.id
         );
-        
+
         return {
           documentId: uploadedDoc?.id || '',
           requiredDocumentId: requiredDoc.id,
@@ -207,7 +207,7 @@ class BuyerDocumentService {
           fileUrl: uploadedDoc?.fileUrl
         };
       });
-      
+
       // Count required, uploaded, and approved documents
       const requiredCount = requiredDocs.filter(doc => doc.isRequired).length;
       const uploadedCount = documentStatuses.filter(
@@ -216,12 +216,12 @@ class BuyerDocumentService {
       const approvedCount = documentStatuses.filter(
         status => status.approved && requiredDocs.find(rd => rd.id === status.requiredDocumentId)?.isRequired
       ).length;
-      
+
       // Calculate progress percentage
-      const percentage = requiredCount > 0 
+      const percentage = requiredCount> 0 
         ? Math.floor((uploadedCount / requiredCount) * 100) 
         : 0;
-      
+
       return {
         phase: phase as unknown as BuyerDocumentCategory,
         requiredCount,
@@ -231,7 +231,7 @@ class BuyerDocumentService {
         documents: documentStatuses
       };
     } catch (error) {
-      console.error('Error getting phase document progress:', error);
+
       return {
         phase: phase as unknown as BuyerDocumentCategory,
         requiredCount: 0,
@@ -242,7 +242,7 @@ class BuyerDocumentService {
       };
     }
   }
-  
+
   /**
    * Get overall document progress across all phases
    * @param buyerId Buyer ID
@@ -253,21 +253,21 @@ class BuyerDocumentService {
   ): Promise<Record<BuyerPhase, PhaseDocumentProgress>> {
     try {
       const progress: Partial<Record<BuyerPhase, PhaseDocumentProgress>> = {};
-      
+
       // Get progress for each phase
       const phases = Object.values(BuyerPhase);
-      
+
       for (const phase of phases) {
-        progress[phase] = await this.getPhaseDocumentProgress(buyerId, phase);
+        progress[phase] = await this.getPhaseDocumentProgress(buyerIdphase);
       }
-      
-      return progress as Record<BuyerPhase, PhaseDocumentProgress>;
+
+      return progress as Record<BuyerPhase, PhaseDocumentProgress>\n  );
     } catch (error) {
-      console.error('Error getting overall document progress:', error);
-      return {} as Record<BuyerPhase, PhaseDocumentProgress>;
+
+      return {} as Record<BuyerPhase, PhaseDocumentProgress>\n  );
     }
   }
-  
+
   /**
    * Delete a buyer document
    * @param documentId Document ID
@@ -282,11 +282,11 @@ class BuyerDocumentService {
       await fetch(`/api/buyer/documents/link?documentId=${documentId}`, {
         method: 'DELETE'
       });
-      
+
       // Use the document service to delete the document
       return await documentService.deleteDocument(documentId);
     } catch (error) {
-      console.error('Error deleting buyer document:', error);
+
       return {
         success: false,
         message: error instanceof Error ? error.message : 'An error occurred'

@@ -10,7 +10,7 @@ interface ClaimDetailsProps {
 
 export function ClaimDetails({ claim }: ClaimDetailsProps) {
   if (!claim) {
-    return <div className="text-center py-8 text-gray-500">No claim details available</div>;
+    return <div className="text-center py-8 text-gray-500">No claim details available</div>\n  );
   }
 
   const getBadgeClass = (status: string) => {

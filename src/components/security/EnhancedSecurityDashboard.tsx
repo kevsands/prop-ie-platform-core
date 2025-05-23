@@ -79,7 +79,7 @@ export interface SecurityFeatures {
 }
 
 interface EnhancedSecurityDashboardProps {
-  initialFeatures?: Partial<SecurityFeatures>;
+  initialFeatures?: Partial<SecurityFeatures>\n  );
   onFeaturesChange?: (features: SecurityFeatures) => void;
 }
 
@@ -87,11 +87,11 @@ const EnhancedSecurityDashboard: React.FC<EnhancedSecurityDashboardProps> = ({
   initialFeatures = {}, 
   onFeaturesChange 
 }) => {
-  const [activeTab, setActiveTab] = useState('overview');
-  const [securityScore, setSecurityScore] = useState(85);
-  
+  const [activeTabsetActiveTab] = useState('overview');
+  const [securityScoresetSecurityScore] = useState(85);
+
   // Use initialFeatures with defaults for unspecified features
-  const [features, setFeatures] = useState<SecurityFeatures>({
+  const [featuressetFeatures] = useState<SecurityFeatures>({
     mfa: true,
     sessionFingerprinting: true,
     deviceTrust: initialFeatures.deviceTrust ?? true,
@@ -101,25 +101,25 @@ const EnhancedSecurityDashboard: React.FC<EnhancedSecurityDashboardProps> = ({
     enhancedLoginProtection: initialFeatures.enhancedLoginProtection ?? false,
     ...initialFeatures
   });
-  
+
   // Toggle feature and update security score
   const toggleFeature = (feature: keyof SecurityFeatures) => {
     const updatedFeatures = {
       ...features,
       [feature]: !features[feature]
     };
-    
+
     setFeatures(updatedFeatures);
-    
+
     // Notify parent component if callback provided
     if (onFeaturesChange) {
       onFeaturesChange(updatedFeatures);
     }
-    
+
     // Update security score
     updateSecurityScore(updatedFeatures);
   };
-  
+
   // Calculate security score based on enabled features
   const updateSecurityScore = (updatedFeatures: SecurityFeatures) => {
     // Weights for each security feature (out of 100)
@@ -132,62 +132,62 @@ const EnhancedSecurityDashboard: React.FC<EnhancedSecurityDashboardProps> = ({
       ipBlocking: 15,
       enhancedLoginProtection: 10
     };
-    
+
     // Calculate score
-    const score = Object.entries(updatedFeatures).reduce((total, [feature, enabled]) => {
+    const score = Object.entries(updatedFeatures).reduce((total, [featureenabled]) => {
       return total + (enabled ? weights[feature as keyof SecurityFeatures] : 0);
     }, 0);
-    
+
     setSecurityScore(score);
   };
-  
+
   // Get security score color
   const getScoreColor = () => {
-    if (securityScore >= 80) return 'text-green-600';
-    if (securityScore >= 60) return 'text-yellow-600';
+    if (securityScore>= 80) return 'text-green-600';
+    if (securityScore>= 60) return 'text-yellow-600';
     return 'text-red-600';
   };
-  
+
   // Get security level text
   const getSecurityLevel = () => {
-    if (securityScore >= 80) return 'Strong';
-    if (securityScore >= 60) return 'Good';
-    if (securityScore >= 40) return 'Basic';
+    if (securityScore>= 80) return 'Strong';
+    if (securityScore>= 60) return 'Good';
+    if (securityScore>= 40) return 'Basic';
     return 'Weak';
   };
-  
+
   // Security recommendations based on disabled features
   const getRecommendations = () => {
     const recommendations = [];
-    
+
     if (!features.mfa) {
       recommendations.push({
         title: 'Enable Multi-Factor Authentication',
         description: 'Add an additional layer of security to your account by requiring a second verification step when signing in.'
       });
     }
-    
+
     if (!features.deviceTrust) {
       recommendations.push({
         title: 'Enable Device Trust',
         description: 'Verify your trusted devices to make sign-in easier on devices you use regularly.'
       });
     }
-    
+
     if (!features.ipBlocking) {
       recommendations.push({
         title: 'Enable IP Blocking',
         description: 'Automatically block suspicious IP addresses that attempt to access your account.'
       });
     }
-    
+
     if (!features.enhancedLoginProtection) {
       recommendations.push({
         title: 'Enable Enhanced Login Protection',
         description: 'Add additional security checks during sign-in based on location and device changes.'
       });
     }
-    
+
     return recommendations;
   };
 
@@ -200,7 +200,7 @@ const EnhancedSecurityDashboard: React.FC<EnhancedSecurityDashboardProps> = ({
           <TabsTrigger value="monitoring">Monitoring</TabsTrigger>
           <TabsTrigger value="devices">Devices</TabsTrigger>
         </TabsList>
-        
+
         {/* Overview Tab */}
         <TabsContent value="overview" className="space-y-6">
           {/* Security Score Card */}
@@ -220,21 +220,21 @@ const EnhancedSecurityDashboard: React.FC<EnhancedSecurityDashboardProps> = ({
                   <div className="text-lg mt-2">
                     {getSecurityLevel()} Security
                   </div>
-                  
+
                   <div className="w-full bg-gray-200 rounded-full h-2.5 mt-6">
                     <div 
                       className={`h-2.5 rounded-full ${
-                        securityScore >= 80 ? 'bg-green-600' : 
-                        securityScore >= 60 ? 'bg-yellow-500' : 
-                        securityScore >= 40 ? 'bg-orange-500' : 'bg-red-600'
+                        securityScore>= 80 ? 'bg-green-600' : 
+                        securityScore>= 60 ? 'bg-yellow-500' : 
+                        securityScore>= 40 ? 'bg-orange-500' : 'bg-red-600'
                       }`} 
-                      style={{ width: `${securityScore}%` }}
+                      style={ width: `${securityScore}%` }
                     ></div>
                   </div>
                 </div>
               </CardContent>
             </Card>
-            
+
             {/* Active Security Features */}
             <Card className="md:col-span-2">
               <CardHeader>
@@ -254,7 +254,7 @@ const EnhancedSecurityDashboard: React.FC<EnhancedSecurityDashboardProps> = ({
                       </div>
                     </div>
                   </div>
-                  
+
                   <div className={`flex items-center p-3 rounded-lg ${features.sessionFingerprinting ? 'bg-green-50' : 'bg-gray-50'}`}>
                     <UserCheck className={`h-5 w-5 mr-2 ${features.sessionFingerprinting ? 'text-green-600' : 'text-gray-400'}`} />
                     <div>
@@ -264,7 +264,7 @@ const EnhancedSecurityDashboard: React.FC<EnhancedSecurityDashboardProps> = ({
                       </div>
                     </div>
                   </div>
-                  
+
                   <div className={`flex items-center p-3 rounded-lg ${features.deviceTrust ? 'bg-green-50' : 'bg-gray-50'}`}>
                     <Smartphone className={`h-5 w-5 mr-2 ${features.deviceTrust ? 'text-green-600' : 'text-gray-400'}`} />
                     <div>
@@ -274,7 +274,7 @@ const EnhancedSecurityDashboard: React.FC<EnhancedSecurityDashboardProps> = ({
                       </div>
                     </div>
                   </div>
-                  
+
                   <div className={`flex items-center p-3 rounded-lg ${features.auditLogging ? 'bg-green-50' : 'bg-gray-50'}`}>
                     <History className={`h-5 w-5 mr-2 ${features.auditLogging ? 'text-green-600' : 'text-gray-400'}`} />
                     <div>
@@ -284,7 +284,7 @@ const EnhancedSecurityDashboard: React.FC<EnhancedSecurityDashboardProps> = ({
                       </div>
                     </div>
                   </div>
-                  
+
                   <div className={`flex items-center p-3 rounded-lg ${features.securityAlerts ? 'bg-green-50' : 'bg-gray-50'}`}>
                     <AlertCircle className={`h-5 w-5 mr-2 ${features.securityAlerts ? 'text-green-600' : 'text-gray-400'}`} />
                     <div>
@@ -294,7 +294,7 @@ const EnhancedSecurityDashboard: React.FC<EnhancedSecurityDashboardProps> = ({
                       </div>
                     </div>
                   </div>
-                  
+
                   <div className={`flex items-center p-3 rounded-lg ${features.ipBlocking ? 'bg-green-50' : 'bg-gray-50'}`}>
                     <Shield className={`h-5 w-5 mr-2 ${features.ipBlocking ? 'text-green-600' : 'text-gray-400'}`} />
                     <div>
@@ -308,9 +308,9 @@ const EnhancedSecurityDashboard: React.FC<EnhancedSecurityDashboardProps> = ({
               </CardContent>
             </Card>
           </div>
-          
+
           {/* Recommendations */}
-          {getRecommendations().length > 0 && (
+          {getRecommendations().length> 0 && (
             <Card>
               <CardHeader>
                 <CardTitle>Security Recommendations</CardTitle>
@@ -320,7 +320,7 @@ const EnhancedSecurityDashboard: React.FC<EnhancedSecurityDashboardProps> = ({
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  {getRecommendations().map((recommendation, index) => (
+                  {getRecommendations().map((recommendationindex: any) => (
                     <div key={index} className="flex items-start p-3 bg-blue-50 rounded-lg">
                       <div className="mr-3 mt-0.5">
                         <AlertCircle className="h-5 w-5 text-blue-600" />
@@ -336,7 +336,7 @@ const EnhancedSecurityDashboard: React.FC<EnhancedSecurityDashboardProps> = ({
             </Card>
           )}
         </TabsContent>
-        
+
         {/* Settings Tab */}
         <TabsContent value="settings" className="space-y-6">
           <Card>
@@ -355,7 +355,7 @@ const EnhancedSecurityDashboard: React.FC<EnhancedSecurityDashboardProps> = ({
                 onToggle={() => toggleFeature('mfa')}
                 href="/user/security/mfa"
               />
-              
+
               <SecuritySetting 
                 title="Session Fingerprinting" 
                 description="Detect unusual changes in your session to prevent unauthorized access."
@@ -363,7 +363,7 @@ const EnhancedSecurityDashboard: React.FC<EnhancedSecurityDashboardProps> = ({
                 icon={<UserCheck className="h-6 w-6 text-blue-600" />}
                 onToggle={() => toggleFeature('sessionFingerprinting')}
               />
-              
+
               <SecuritySetting 
                 title="Device Trust" 
                 description="Remember your trusted devices to make sign-in easier and more secure."
@@ -372,7 +372,7 @@ const EnhancedSecurityDashboard: React.FC<EnhancedSecurityDashboardProps> = ({
                 onToggle={() => toggleFeature('deviceTrust')}
                 href="/user/security/devices"
               />
-              
+
               <SecuritySetting 
                 title="Audit Logging" 
                 description="Keep detailed records of account activity and security events."
@@ -380,7 +380,7 @@ const EnhancedSecurityDashboard: React.FC<EnhancedSecurityDashboardProps> = ({
                 icon={<History className="h-6 w-6 text-blue-600" />}
                 onToggle={() => toggleFeature('auditLogging')}
               />
-              
+
               <SecuritySetting 
                 title="Security Alerts" 
                 description="Receive notifications about suspicious activity on your account."
@@ -389,7 +389,7 @@ const EnhancedSecurityDashboard: React.FC<EnhancedSecurityDashboardProps> = ({
                 onToggle={() => toggleFeature('securityAlerts')}
                 href="/user/security/alerts"
               />
-              
+
               <SecuritySetting 
                 title="IP Blocking" 
                 description="Automatically block suspicious IP addresses."
@@ -397,7 +397,7 @@ const EnhancedSecurityDashboard: React.FC<EnhancedSecurityDashboardProps> = ({
                 icon={<Shield className="h-6 w-6 text-blue-600" />}
                 onToggle={() => toggleFeature('ipBlocking')}
               />
-              
+
               <SecuritySetting 
                 title="Enhanced Login Protection" 
                 description="Add additional security checks during sign-in based on risk factors."
@@ -407,7 +407,7 @@ const EnhancedSecurityDashboard: React.FC<EnhancedSecurityDashboardProps> = ({
               />
             </CardContent>
           </Card>
-          
+
           <Card>
             <CardHeader>
               <CardTitle>Advanced Security Options</CardTitle>
@@ -433,7 +433,7 @@ const EnhancedSecurityDashboard: React.FC<EnhancedSecurityDashboardProps> = ({
                     </div>
                   </Link>
                 </div>
-                
+
                 <div>
                   <Link 
                     href="/user/security/sessions" 
@@ -454,12 +454,12 @@ const EnhancedSecurityDashboard: React.FC<EnhancedSecurityDashboardProps> = ({
             </CardContent>
           </Card>
         </TabsContent>
-        
+
         {/* Monitoring Tab */}
         <TabsContent value="monitoring">
           <SecurityMonitoringDashboard />
         </TabsContent>
-        
+
         {/* Devices Tab */}
         <TabsContent value="devices">
           <TrustedDevices />

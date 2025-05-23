@@ -11,7 +11,7 @@ export async function isDatabaseAvailable(): Promise<boolean> {
     // In development, always use mock data to avoid database dependency
     return false;
   }
-  
+
   try {
     // In production, check if database URL is configured
     return !!process.env.DATABASE_URL;

@@ -111,12 +111,12 @@ const recentTransactions = [
 ];
 
 export default function SolicitorsPage() {
-  const [activeTab, setActiveTab] = useState('dashboard');
-  const [selectedDevelopment, setSelectedDevelopment] = useState(null);
-  const [filterStatus, setFilterStatus] = useState('all');
-  const [searchQuery, setSearchQuery] = useState('');
-  const [showNewSLPModal, setShowNewSLPModal] = useState(false);
-  const [showProfessionalTeamModal, setShowProfessionalTeamModal] = useState(false);
+  const [activeTabsetActiveTab] = useState('dashboard');
+  const [selectedDevelopmentsetSelectedDevelopment] = useState(null);
+  const [filterStatussetFilterStatus] = useState('all');
+  const [searchQuerysetSearchQuery] = useState('');
+  const [showNewSLPModalsetShowNewSLPModal] = useState(false);
+  const [showProfessionalTeamModalsetShowProfessionalTeamModal] = useState(false);
 
   const renderDashboard = () => (
     <div className="space-y-6">
@@ -211,7 +211,7 @@ export default function SolicitorsPage() {
                       <div className="w-full bg-gray-200 rounded-full h-2 mr-2">
                         <div 
                           className="bg-blue-500 h-2 rounded-full"
-                          style={{ width: `${development.slpProgress}%` }}
+                          style={ width: `${development.slpProgress}%` }
                         ></div>
                       </div>
                       <span className="text-sm text-gray-600">{development.slpProgress}%</span>
@@ -258,7 +258,7 @@ export default function SolicitorsPage() {
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
           <h3 className="text-lg font-semibold text-gray-900 mb-4">Recent Transactions</h3>
           <div className="space-y-4">
-            {recentTransactions.slice(0, 3).map(transaction => (
+            {recentTransactions.slice(03).map(transaction => (
               <div key={transaction.id} className="flex items-center justify-between p-3 hover:bg-gray-50 rounded-lg">
                 <div className="flex items-center space-x-3">
                   <div className="p-2 bg-blue-100 rounded-lg">
@@ -465,7 +465,7 @@ export default function SolicitorsPage() {
                   <Edit className="w-4 h-4" />
                 </button>
               </div>
-              
+
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div className="p-4 bg-gray-50 rounded-lg">
                   <div className="flex items-center justify-between mb-2">
@@ -580,7 +580,7 @@ export default function SolicitorsPage() {
       {/* Banking Requirements Dashboard */}
       <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
         <h3 className="text-lg font-semibold text-gray-900 mb-6">Banking & Finance Compliance</h3>
-        
+
         {/* Bank Panel Status */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
           <div className="text-center p-4 bg-green-50 rounded-lg">
@@ -590,7 +590,7 @@ export default function SolicitorsPage() {
             <h4 className="font-medium text-gray-900">AIB</h4>
             <p className="text-sm text-gray-600">Panel Approved</p>
           </div>
-          
+
           <div className="text-center p-4 bg-green-50 rounded-lg">
             <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-3">
               <CheckCircle className="w-8 h-8 text-green-600" />
@@ -598,7 +598,7 @@ export default function SolicitorsPage() {
             <h4 className="font-medium text-gray-900">Bank of Ireland</h4>
             <p className="text-sm text-gray-600">Panel Approved</p>
           </div>
-          
+
           <div className="text-center p-4 bg-yellow-50 rounded-lg">
             <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-3">
               <Clock className="w-8 h-8 text-yellow-600" />
@@ -606,7 +606,7 @@ export default function SolicitorsPage() {
             <h4 className="font-medium text-gray-900">Ulster Bank</h4>
             <p className="text-sm text-gray-600">In Review</p>
           </div>
-          
+
           <div className="text-center p-4 bg-gray-50 rounded-lg">
             <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-3">
               <Plus className="w-8 h-8 text-gray-400" />
@@ -710,7 +710,7 @@ export default function SolicitorsPage() {
                 <td className="px-6 py-4 whitespace-nowrap">
                   <div className="flex items-center">
                     <div className="w-24 bg-gray-200 rounded-full h-2 mr-2">
-                      <div className="bg-green-500 h-2 rounded-full" style={{ width: '100%' }}></div>
+                      <div className="bg-green-500 h-2 rounded-full" style={ width: '100%' }></div>
                     </div>
                     <span className="text-sm text-gray-600">100%</span>
                   </div>
@@ -733,7 +733,7 @@ export default function SolicitorsPage() {
                 <td className="px-6 py-4 whitespace-nowrap">
                   <div className="flex items-center">
                     <div className="w-24 bg-gray-200 rounded-full h-2 mr-2">
-                      <div className="bg-blue-500 h-2 rounded-full" style={{ width: '65%' }}></div>
+                      <div className="bg-blue-500 h-2 rounded-full" style={ width: '65%' }></div>
                     </div>
                     <span className="text-sm text-gray-600">65%</span>
                   </div>
@@ -762,7 +762,7 @@ export default function SolicitorsPage() {
       {/* Property Registration Overview */}
       <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
         <h3 className="text-lg font-semibold text-gray-900 mb-6">Property Registration & Compliance</h3>
-        
+
         {/* Compliance Status Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           <div className="bg-blue-50 rounded-lg p-6">
@@ -773,7 +773,7 @@ export default function SolicitorsPage() {
             <h4 className="font-medium text-gray-900">Overall Compliance</h4>
             <p className="text-sm text-gray-600 mt-1">Across all developments</p>
           </div>
-          
+
           <div className="bg-green-50 rounded-lg p-6">
             <div className="flex items-center justify-between mb-4">
               <FileCheck className="w-8 h-8 text-green-600" />
@@ -782,7 +782,7 @@ export default function SolicitorsPage() {
             <h4 className="font-medium text-gray-900">Registered Units</h4>
             <p className="text-sm text-gray-600 mt-1">Property Registration Authority</p>
           </div>
-          
+
           <div className="bg-purple-50 rounded-lg p-6">
             <div className="flex items-center justify-between mb-4">
               <Key className="w-8 h-8 text-purple-600" />

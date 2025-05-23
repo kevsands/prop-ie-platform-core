@@ -41,7 +41,7 @@ const ProjectStatusCard: React.FC<ProjectStatusCardProps> = ({
   // Format the due date if it exists
   const formatDueDate = (dateString?: string) => {
     if (!dateString) return null;
-    
+
     try {
       const date = new Date(dateString);
       return new Intl.DateTimeFormat('en-IE', {
@@ -50,7 +50,7 @@ const ProjectStatusCard: React.FC<ProjectStatusCardProps> = ({
         year: 'numeric'
       }).format(date);
     } catch (error) {
-      console.error('Error formatting date:', error);
+
       return dateString;
     }
   };
@@ -85,7 +85,7 @@ const ProjectStatusCard: React.FC<ProjectStatusCardProps> = ({
           </div>
         </div>
       )}
-      
+
       {/* Project Details */}
       <div className="p-4">
         <div className="flex justify-between items-start mb-2">
@@ -96,7 +96,7 @@ const ProjectStatusCard: React.FC<ProjectStatusCardProps> = ({
             {project.status}
           </span>
         </div>
-        
+
         {/* Progress Bar */}
         <div className="mb-4">
           <div className="flex justify-between items-center mb-1">
@@ -106,18 +106,18 @@ const ProjectStatusCard: React.FC<ProjectStatusCardProps> = ({
           <div className="w-full bg-gray-200 rounded-full h-2.5">
             <div 
               className="h-2.5 rounded-full bg-blue-600" 
-              style={{ width: `${project.progress}%` }}
+              style={ width: `${project.progress}%` }
             ></div>
           </div>
         </div>
-        
+
         {/* Due Date (if available) */}
         {project.dueDate && (
           <div className="text-sm text-gray-600 mb-4">
             <span className="font-medium">Due:</span> {formatDueDate(project.dueDate)}
           </div>
         )}
-        
+
         {/* Link to Project Details */}
         <Link 
           href={`/${orgSlug}/projects/${project.id}`}

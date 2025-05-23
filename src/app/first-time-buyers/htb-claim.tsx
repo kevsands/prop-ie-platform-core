@@ -1,0 +1,453 @@
+import React from 'react';
+'use client';
+
+import { useState } from 'react';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Badge } from '@/components/ui/badge';
+import { Progress } from '@/components/ui/progress';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import {
+  Home,
+  Calculator,
+  FileText,
+  Check,
+  AlertCircle,
+  Info,
+  Upload,
+  Download,
+  ClipboardList,
+  Euro,
+  Calendar,
+  Shield,
+  Loader2
+} from 'lucide-react';
+
+interface HTBStep {
+  id: string;
+  title: string;
+  description: string;
+  status: 'pending' | 'in_progress' | 'completed' | 'error';
+}
+
+const htbSteps: HTBStep[] = [
+  {
+    id: 'eligibility',
+    title: 'Check Eligibility',
+    description: 'Verify you meet HTB criteria',
+    status: 'completed'
+  },
+  {
+    id: 'registration',
+    title: 'Register with Revenue',
+    description: 'Create HTB online account',
+    status: 'completed'
+  },
+  {
+    id: 'application',
+    title: 'Submit Application',
+    description: 'Complete HTB application form',
+    status: 'completed'
+  },
+  {
+    id: 'approval',
+    title: 'Receive Approval',
+    description: 'Get HTB approval and claim code',
+    status: 'in_progress'
+  },
+  {
+    id: 'claim',
+    title: 'Submit to Developer',
+    description: 'Provide claim details to Prop',
+    status: 'pending'
+  },
+  {
+    id: 'refund',
+    title: 'Receive Refund',
+    description: 'Developer claims on your behalf',
+    status: 'pending'
+  }
+];
+
+export default function HTBClaimComponent() {
+  const [currentStepsetCurrentStep] = useState('approval');
+  const [claimDetailssetClaimDetails] = useState({
+    claimCode: '',
+    accessCode: '',
+    approvedAmount: ''
+  });
+  const [isSubmittingsetIsSubmitting] = useState(false);
+
+  const completedSteps = htbSteps.filter(step => step.status === 'completed').length;
+  const progress = (completedSteps / htbSteps.length) * 100;
+
+  const handleSubmitClaim = async () => {
+    setIsSubmitting(true);
+    // Simulate API call
+    setTimeout(() => {
+      setIsSubmitting(false);
+      // Update step status
+    }, 2000);
+  };
+
+  // Mock data
+  const property = {
+    development: 'Fitzgerald Gardens',
+    unit: 'Block A - Unit 23',
+    type: '2 Bed Apartment',
+    price: 385000
+  };
+
+  const maxHTB = Math.min(property.price * 0.130000);
+
+  return (
+    <div className="space-y-6">
+      <Card>
+        <CardHeader>
+          <CardTitle>Help to Buy (HTB) Scheme</CardTitle>
+          <CardDescription>
+            Claim up to �{maxHTB.toLocaleString()} towards your deposit
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          {/* Progress Tracker */}
+          <div className="mb-8">
+            <Progress value={progress} className="mb-4" />
+            <div className="grid grid-cols-2 md:grid-cols-6 gap-4">
+              {htbSteps.map((stepindex: any) => (
+                <div
+                  key={step.id}
+                  className={`text-center cursor-pointer ${
+                    currentStep === step.id ? 'font-semibold' : ''
+                  }`}
+                  onClick={() => setCurrentStep(step.id)}
+                >
+                  <div className={`w-8 h-8 rounded-full mx-auto mb-2 flex items-center justify-center ${
+                    step.status === 'completed' ? 'bg-green-600 text-white' :
+                    step.status === 'in_progress' ? 'bg-blue-600 text-white' :
+                    step.status === 'error' ? 'bg-red-600 text-white' :
+                    'bg-gray-200'
+                  }`}>
+                    {step.status === 'completed' ? (
+                      <Check className="h-4 w-4" />
+                    ) : (
+                      <span className="text-sm">{index + 1}</span>
+                    )}
+                  </div>
+                  <p className="text-xs">{step.title}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Step Content */}
+          <Tabs value={currentStep} onValueChange={setCurrentStep}>
+            <TabsList className="hidden">
+              {htbSteps.map(step => (
+                <TabsTrigger key={step.id} value={step.id}>{step.title}</TabsTrigger>
+              ))}
+            </TabsList>
+
+            <TabsContent value="eligibility" className="space-y-4">
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-lg">Eligibility Confirmed</CardTitle>
+                  <CardDescription>You meet all HTB requirements</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-3">
+                    <div className="flex items-center gap-2">
+                      <Check className="h-5 w-5 text-green-600" />
+                      <span>First-time buyer</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Check className="h-5 w-5 text-green-600" />
+                      <span>Buying new build property</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Check className="h-5 w-5 text-green-600" />
+                      <span>Property value under �500,000</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Check className="h-5 w-5 text-green-600" />
+                      <span>Will occupy as principal residence</span>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </TabsContent>
+
+            <TabsContent value="approval" className="space-y-4">
+              <Alert>
+                <Info className="h-4 w-4" />
+                <AlertDescription>
+                  Your HTB application has been approved by Revenue. You should have received an email with your claim code and access code.
+                </AlertDescription>
+              </Alert>
+
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-lg">Enter HTB Approval Details</CardTitle>
+                  <CardDescription>
+                    Provide your claim codes to proceed with the refund
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    <div>
+                      <Label htmlFor="claim-code">HTB Claim Code</Label>
+                      <Input
+                        id="claim-code"
+                        placeholder="Enter your claim code"
+                        value={claimDetails.claimCode}
+                        onChange={(e: any) => setClaimDetails({...claimDetails, claimCode: e.target.value})}
+                      />
+                      <p className="text-sm text-muted-foreground mt-1">
+                        This is the unique code provided by Revenue
+                      </p>
+                    </div>
+
+                    <div>
+                      <Label htmlFor="access-code">Access Code</Label>
+                      <Input
+                        id="access-code"
+                        type="password"
+                        placeholder="Enter your access code"
+                        value={claimDetails.accessCode}
+                        onChange={(e: any) => setClaimDetails({...claimDetails, accessCode: e.target.value})}
+                      />
+                      <p className="text-sm text-muted-foreground mt-1">
+                        Your secure access code from Revenue
+                      </p>
+                    </div>
+
+                    <div>
+                      <Label htmlFor="approved-amount">Approved HTB Amount</Label>
+                      <div className="relative">
+                        <span className="absolute left-3 top-1/2 transform -translate-y-1/2">�</span>
+                        <Input
+                          id="approved-amount"
+                          type="number"
+                          className="pl-8"
+                          placeholder="0"
+                          value={claimDetails.approvedAmount}
+                          onChange={(e: any) => setClaimDetails({...claimDetails, approvedAmount: e.target.value})}
+                        />
+                      </div>
+                      <p className="text-sm text-muted-foreground mt-1">
+                        Maximum eligible: �{maxHTB.toLocaleString()}
+                      </p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <div className="flex justify-end gap-4">
+                <Button variant="outline">Save Draft</Button>
+                <Button 
+                  onClick={() => setCurrentStep('claim')}
+                  disabled={!claimDetails.claimCode || !claimDetails.accessCode || !claimDetails.approvedAmount}
+                >
+                  Continue to Submit
+                </Button>
+              </div>
+            </TabsContent>
+
+            <TabsContent value="claim" className="space-y-4">
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-lg">Submit HTB Claim to Developer</CardTitle>
+                  <CardDescription>
+                    Review and authorize Prop to claim HTB on your behalf
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-6">
+                    {/* Summary */}
+                    <div className="bg-muted p-4 rounded-lg space-y-3">
+                      <div className="flex justify-between">
+                        <span className="text-muted-foreground">Property</span>
+                        <span className="font-medium">{property.unit}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-muted-foreground">Purchase Price</span>
+                        <span className="font-medium">�{property.price.toLocaleString()}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-muted-foreground">HTB Amount</span>
+                        <span className="font-medium text-green-600">
+                          �{claimDetails.approvedAmount || '0'}
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Authorization */}
+                    <Alert>
+                      <Shield className="h-4 w-4" />
+                      <AlertDescription>
+                        By proceeding, you authorize Prop (as developer) to:
+                        <ul className="mt-2 space-y-1 text-sm">
+                          <li>" Access your HTB claim using the provided codes</li>
+                          <li>" Submit the claim to Revenue on your behalf</li>
+                          <li>" Apply the HTB refund to your deposit</li>
+                        </ul>
+                      </AlertDescription>
+                    </Alert>
+
+                    {/* Documents */}
+                    <div>
+                      <h4 className="font-medium mb-3">Required Documents</h4>
+                      <div className="space-y-3">
+                        <div className="flex items-center justify-between p-3 border rounded-lg">
+                          <div className="flex items-center gap-3">
+                            <FileText className="h-5 w-5 text-muted-foreground" />
+                            <div>
+                              <p className="font-medium">HTB Approval Letter</p>
+                              <p className="text-sm text-muted-foreground">PDF from Revenue</p>
+                            </div>
+                          </div>
+                          <Button variant="outline" size="sm">
+                            <Upload className="h-4 w-4 mr-2" />
+                            Upload
+                          </Button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+                <CardFooter className="flex justify-between">
+                  <Button variant="outline" onClick={() => setCurrentStep('approval')}>
+                    Back
+                  </Button>
+                  <Button onClick={handleSubmitClaim} disabled={isSubmitting}>
+                    {isSubmitting ? (
+                      <>
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        Submitting...
+                      </>
+                    ) : (
+                      'Submit HTB Claim'
+                    )}
+                  </Button>
+                </CardFooter>
+              </Card>
+            </TabsContent>
+
+            <TabsContent value="refund" className="space-y-4">
+              <Alert className="bg-green-50 border-green-200">
+                <Check className="h-4 w-4 text-green-600" />
+                <AlertDescription className="text-green-800">
+                  HTB claim submitted successfully. The developer will process your claim within 5-7 business days.
+                </AlertDescription>
+              </Alert>
+
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-lg">HTB Refund Status</CardTitle>
+                  <CardDescription>Track your HTB claim progress</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between p-4 border rounded-lg">
+                      <div className="flex items-center gap-3">
+                        <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+                          <FileText className="h-4 w-4 text-blue-600" />
+                        </div>
+                        <div>
+                          <p className="font-medium">Claim Submitted</p>
+                          <p className="text-sm text-muted-foreground">March 10, 2024</p>
+                        </div>
+                      </div>
+                      <Badge>Completed</Badge>
+                    </div>
+
+                    <div className="flex items-center justify-between p-4 border rounded-lg">
+                      <div className="flex items-center gap-3">
+                        <div className="w-8 h-8 bg-yellow-100 rounded-full flex items-center justify-center">
+                          <Clock className="h-4 w-4 text-yellow-600" />
+                        </div>
+                        <div>
+                          <p className="font-medium">Developer Processing</p>
+                          <p className="text-sm text-muted-foreground">In Progress</p>
+                        </div>
+                      </div>
+                      <Badge variant="secondary">Pending</Badge>
+                    </div>
+
+                    <div className="flex items-center justify-between p-4 border rounded-lg opacity-50">
+                      <div className="flex items-center gap-3">
+                        <div className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center">
+                          <Euro className="h-4 w-4 text-gray-600" />
+                        </div>
+                        <div>
+                          <p className="font-medium">Refund Applied</p>
+                          <p className="text-sm text-muted-foreground">Awaiting</p>
+                        </div>
+                      </div>
+                      <Badge variant="outline">Upcoming</Badge>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-lg">What Happens Next?</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <ol className="space-y-3">
+                    <li className="flex gap-3">
+                      <span className="font-semibold text-primary">1.</span>
+                      <span>Prop processes your HTB claim with Revenue</span>
+                    </li>
+                    <li className="flex gap-3">
+                      <span className="font-semibold text-primary">2.</span>
+                      <span>Revenue releases funds directly to Prop</span>
+                    </li>
+                    <li className="flex gap-3">
+                      <span className="font-semibold text-primary">3.</span>
+                      <span>HTB amount is applied to your deposit</span>
+                    </li>
+                    <li className="flex gap-3">
+                      <span className="font-semibold text-primary">4.</span>
+                      <span>You receive confirmation of the applied refund</span>
+                    </li>
+                  </ol>
+                </CardContent>
+              </Card>
+            </TabsContent>
+          </Tabs>
+        </CardContent>
+      </Card>
+
+      {/* HTB Calculator */}
+      <Card>
+        <CardHeader>
+          <CardTitle>HTB Calculator</CardTitle>
+          <CardDescription>Estimate your Help to Buy refund</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div>
+              <Label>Purchase Price</Label>
+              <div className="text-2xl font-bold">�{property.price.toLocaleString()}</div>
+            </div>
+            <div>
+              <Label>Maximum HTB (10%)</Label>
+              <div className="text-2xl font-bold">�{(property.price * 0.1).toLocaleString()}</div>
+            </div>
+            <div>
+              <Label>Your HTB Amount</Label>
+              <div className="text-2xl font-bold text-green-600">�{maxHTB.toLocaleString()}</div>
+              <p className="text-sm text-muted-foreground">Capped at �30,000</p>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  );
+}

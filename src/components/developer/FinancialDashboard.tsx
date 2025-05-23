@@ -44,57 +44,52 @@ const FinancialDashboard: React.FC<FinancialDashboardProps> = ({
   reservedUnits,
   availableUnits
 }) => {
-  const [activeTab, setActiveTab] = useState<'overview' | 'costs' | 'sales' | 'cashflow'>('overview');
-  
+  const [activeTabsetActiveTab] = useState<'overview' | 'costs' | 'sales' | 'cashflow'>('overview');
+
   // Calculate derived values
   const totalCosts = constructionCost + financingCost + developerMargin + vatAmount;
-  const costPerUnit = totalUnits > 0 ? totalCosts / totalUnits : 0;
+  const costPerUnit = totalUnits> 0 ? totalCosts / totalUnits : 0;
   const totalSales = soldUnits * (costPerUnit * 1.2); // Assuming 20% markup for sales
   const projectedTotalSales = totalUnits * (costPerUnit * 1.2);
   const projectedProfit = projectedTotalSales - totalCosts;
   const currentProfit = totalSales - (soldUnits / totalUnits) * totalCosts;
-  const roi = totalCosts > 0 ? (projectedProfit / totalCosts) * 100 : 0;
-  
+  const roi = totalCosts> 0 ? (projectedProfit / totalCosts) * 100 : 0;
+
   // Data for charts
   const costBreakdownData = [
     { name: 'Construction', value: constructionCost },
     { name: 'Financing', value: financingCost },
     { name: 'Developer Margin', value: developerMargin },
-    { name: 'VAT', value: vatAmount },
-  ];
-  
+    { name: 'VAT', value: vatAmount }];
+
   const unitStatusData = [
     { name: 'Sold', value: soldUnits },
     { name: 'Reserved', value: reservedUnits },
-    { name: 'Available', value: availableUnits },
-  ];
-  
+    { name: 'Available', value: availableUnits }];
+
   const salesVsCostsData = [
     { name: 'Current', sales: totalSales, costs: (soldUnits / totalUnits) * totalCosts },
-    { name: 'Projected', sales: projectedTotalSales, costs: totalCosts },
-  ];
-  
+    { name: 'Projected', sales: projectedTotalSales, costs: totalCosts }];
+
   const monthlyData = [
     { name: 'Jan', costs: 150000, sales: 0 },
     { name: 'Feb', costs: 220000, sales: 0 },
     { name: 'Mar', costs: 180000, sales: 120000 },
     { name: 'Apr', costs: 240000, sales: 180000 },
     { name: 'May', costs: 260000, sales: 240000 },
-    { name: 'Jun', costs: 190000, sales: 320000 },
-  ];
-  
+    { name: 'Jun', costs: 190000, sales: 320000 }];
+
   const COLORS = ['#2B5273', '#1E3142', '#7EEAE4', '#C9A86E'];
   const UNIT_COLORS = ['#4CAF50', '#FFC107', '#2B5273'];
-  
+
 // Add these variable definitions right here, after UNIT_COLORS definition
 const salesByUnitTypeData = [
   { type: '1 Bedroom', sold: 12, reserved: 5, available: 3 },
   { type: '2 Bedroom', sold: 15, reserved: 8, available: 7 },
-  { type: '3 Bedroom', sold: 8, reserved: 4, available: 3 },
-];
+  { type: '3 Bedroom', sold: 8, reserved: 4, available: 3 }];
 
 const totalSalesValue = soldUnits * (costPerUnit * 1.2);
-const averageSalePrice = soldUnits > 0 ? totalSalesValue / soldUnits : 0;
+const averageSalePrice = soldUnits> 0 ? totalSalesValue / soldUnits : 0;
 
 // Cash flow tab data
 const cashIn = totalSales;
@@ -127,7 +122,7 @@ const projectedCompletionDate = 'December 2026';
         <h2 className="text-2xl font-bold text-[#2B5273]">{projectName} Financial Dashboard</h2>
         <p className="text-gray-500">Project ID: {projectId}</p>
       </div>
-      
+
       {/* Tabs */}
       <div className="border-b">
         <nav className="flex">
@@ -173,7 +168,7 @@ const projectedCompletionDate = 'December 2026';
           </button>
         </nav>
       </div>
-      
+
       {/* Overview Tab */}
       {activeTab === 'overview' && (
         <div className="p-6">
@@ -196,7 +191,7 @@ const projectedCompletionDate = 'December 2026';
               <p className="text-2xl font-bold text-[#2B5273]">{roi.toFixed(1)}%</p>
             </div>
           </div>
-          
+
           {/* Charts */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div>
@@ -214,11 +209,11 @@ const projectedCompletionDate = 'December 2026';
                       fill="#8884d8"
                       dataKey="value"
                     >
-                      {costBreakdownData.map((entry, index) => (
+                      {costBreakdownData.map((entryindex: any) => (
                         <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                       ))}
                     </Pie>
-                    <Tooltip formatter={(value) => `€${value.toLocaleString()}`} />
+                    <Tooltip formatter={(value: any) => `€${value.toLocaleString()}`} />
                     <Legend />
                   </PieChart>
                 </ResponsiveContainer>
@@ -239,18 +234,18 @@ const projectedCompletionDate = 'December 2026';
                       fill="#8884d8"
                       dataKey="value"
                     >
-                      {unitStatusData.map((entry, index) => (
+                      {unitStatusData.map((entryindex: any) => (
                         <Cell key={`cell-${index}`} fill={UNIT_COLORS[index % UNIT_COLORS.length]} />
                       ))}
                     </Pie>
-                    <Tooltip formatter={(value) => `${value} units`} />
+                    <Tooltip formatter={(value: any) => `${value} units`} />
                     <Legend />
                   </PieChart>
                 </ResponsiveContainer>
               </div>
             </div>
           </div>
-          
+
           {/* Sales vs Costs */}
           <div className="mt-8">
             <h3 className="text-lg font-semibold text-[#2B5273] mb-4">Sales vs Costs</h3>
@@ -258,17 +253,16 @@ const projectedCompletionDate = 'December 2026';
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart
                   data={salesVsCostsData}
-                  margin={{
+                  margin={
                     top: 20,
                     right: 30,
                     left: 20,
-                    bottom: 5,
-                  }}
+                    bottom: 5}
                 >
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="name" />
                   <YAxis />
-                  <Tooltip formatter={(value) => `€${value.toLocaleString()}`} />
+                  <Tooltip formatter={(value: any) => `€${value.toLocaleString()}`} />
                   <Legend />
                   <Bar dataKey="sales" name="Sales" fill="#4CAF50" />
                   <Bar dataKey="costs" name="Costs" fill="#2B5273" />
@@ -278,7 +272,7 @@ const projectedCompletionDate = 'December 2026';
           </div>
         </div>
       )}
-      
+
       {/* Costs Tab */}
       {activeTab === 'costs' && (
         <div className="p-6">
@@ -304,7 +298,7 @@ const projectedCompletionDate = 'December 2026';
               <p className="text-sm text-gray-500 mt-1">{((vatAmount / totalCosts) * 100).toFixed(1)}% of total</p>
             </div>
           </div>
-          
+
           {/* Cost Breakdown Chart */}
           <div className="mb-8">
             <h3 className="text-lg font-semibold text-[#2B5273] mb-4">Cost Breakdown</h3>
@@ -321,17 +315,17 @@ const projectedCompletionDate = 'December 2026';
                     fill="#8884d8"
                     dataKey="value"
                   >
-                    {costBreakdownData.map((entry, index) => (
+                    {costBreakdownData.map((entryindex: any) => (
                       <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                     ))}
                   </Pie>
-                  <Tooltip formatter={(value) => `€${value.toLocaleString()}`} />
+                  <Tooltip formatter={(value: any) => `€${value.toLocaleString()}`} />
                   <Legend />
                 </PieChart>
               </ResponsiveContainer>
             </div>
           </div>
-          
+
           {/* Cost Per Unit Analysis */}
           <div>
             <h3 className="text-lg font-semibold text-[#2B5273] mb-4">Cost Per Unit Analysis</h3>
@@ -362,7 +356,7 @@ const projectedCompletionDate = 'December 2026';
           </div>
         </div>
       )}
-      
+
       {/* Sales Tab */}
       {activeTab === 'sales' && (
         <div className="p-6">
@@ -387,7 +381,7 @@ const projectedCompletionDate = 'December 2026';
               <p className="text-sm text-gray-500 mt-1">{((availableUnits / totalUnits) * 100).toFixed(1)}% of total</p>
             </div>
           </div>
-          
+
           {/* Unit Status Chart */}
           <div className="mb-8">
             <h3 className="text-lg font-semibold text-[#2B5273] mb-4">Unit Status</h3>
@@ -404,17 +398,17 @@ const projectedCompletionDate = 'December 2026';
                     fill="#8884d8"
                     dataKey="value"
                   >
-                    {unitStatusData.map((entry, index) => (
+                    {unitStatusData.map((entryindex: any) => (
                       <Cell key={`cell-${index}`} fill={UNIT_COLORS[index % UNIT_COLORS.length]} />
                     ))}
                   </Pie>
-                  <Tooltip formatter={(value) => `${value} units`} />
+                  <Tooltip formatter={(value: any) => `${value} units`} />
                   <Legend />
                 </PieChart>
               </ResponsiveContainer>
             </div>
           </div>
-          
+
           {/* Sales Breakdown */}
           <div className="mb-8">
             <h3 className="text-lg font-semibold text-[#2B5273] mb-4">Sales Breakdown by Unit Type</h3>
@@ -422,17 +416,16 @@ const projectedCompletionDate = 'December 2026';
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart
                   data={salesByUnitTypeData}
-                  margin={{
+                  margin={
                     top: 20,
                     right: 30,
                     left: 20,
-                    bottom: 5,
-                  }}
+                    bottom: 5}
                 >
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="type" />
                   <YAxis />
-                  <Tooltip formatter={(value) => `${value} units`} />
+                  <Tooltip formatter={(value: any) => `${value} units`} />
                   <Legend />
                   <Bar dataKey="sold" name="Sold" fill="#4CAF50" />
                   <Bar dataKey="reserved" name="Reserved" fill="#FF9800" />
@@ -441,7 +434,7 @@ const projectedCompletionDate = 'December 2026';
               </ResponsiveContainer>
             </div>
           </div>
-          
+
           {/* Sales Progress */}
           <div>
             <h3 className="text-lg font-semibold text-[#2B5273] mb-4">Sales Progress</h3>
@@ -451,7 +444,7 @@ const projectedCompletionDate = 'December 2026';
                 <div className="w-full bg-gray-200 rounded-full h-4">
                   <div 
                     className="bg-green-600 h-4 rounded-full" 
-                    style={{ width: `${((soldUnits / totalUnits) * 100).toFixed(1)}%` }}
+                    style={ width: `${((soldUnits / totalUnits) * 100).toFixed(1)}%` }
                   ></div>
                 </div>
                 <div className="flex justify-between mt-1">
@@ -474,7 +467,7 @@ const projectedCompletionDate = 'December 2026';
           </div>
         </div>
       )}
-      
+
       {/* Cash Flow Tab */}
       {activeTab === 'cashflow' && (
         <div className="p-6">
@@ -496,7 +489,7 @@ const projectedCompletionDate = 'December 2026';
               <p className="text-2xl font-bold text-[#2B5273]">€{burnRate.toLocaleString()}/mo</p>
             </div>
           </div>
-          
+
           {/* Cash Flow Chart */}
           <div className="mb-8">
             <h3 className="text-lg font-semibold text-[#2B5273] mb-4">Cash Flow Over Time</h3>
@@ -504,17 +497,16 @@ const projectedCompletionDate = 'December 2026';
               <ResponsiveContainer width="100%" height="100%">
                 <LineChart
                   data={cashFlowData}
-                  margin={{
+                  margin={
                     top: 20,
                     right: 30,
                     left: 20,
-                    bottom: 5,
-                  }}
+                    bottom: 5}
                 >
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="month" />
                   <YAxis />
-                  <Tooltip formatter={(value) => `€${value.toLocaleString()}`} />
+                  <Tooltip formatter={(value: any) => `€${value.toLocaleString()}`} />
                   <Legend />
                   <Line type="monotone" dataKey="in" name="Cash In" stroke="#4CAF50" strokeWidth={2} />
                   <Line type="monotone" dataKey="out" name="Cash Out" stroke="#F44336" strokeWidth={2} />
@@ -523,7 +515,7 @@ const projectedCompletionDate = 'December 2026';
               </ResponsiveContainer>
             </div>
           </div>
-          
+
           {/* Expense Categories */}
           <div className="mb-8">
             <h3 className="text-lg font-semibold text-[#2B5273] mb-4">Expense Categories</h3>
@@ -532,24 +524,23 @@ const projectedCompletionDate = 'December 2026';
                 <BarChart
                   data={expenseCategoriesData}
                   layout="vertical"
-                  margin={{
+                  margin={
                     top: 20,
                     right: 30,
                     left: 100,
-                    bottom: 5,
-                  }}
+                    bottom: 5}
                 >
                   <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis type="number" tickFormatter={(value) => `€${value / 1000}k`} />
+                  <XAxis type="number" tickFormatter={(value: any) => `€${value / 1000}k`} />
                   <YAxis type="category" dataKey="name" />
-                  <Tooltip formatter={(value) => `€${value.toLocaleString()}`} />
+                  <Tooltip formatter={(value: any) => `€${value.toLocaleString()}`} />
                   <Legend />
                   <Bar dataKey="value" name="Amount" fill="#2B5273" />
                 </BarChart>
               </ResponsiveContainer>
             </div>
           </div>
-          
+
           {/* Financial Projections */}
           <div>
             <h3 className="text-lg font-semibold text-[#2B5273] mb-4">Financial Projections</h3>

@@ -21,8 +21,7 @@ export class DevelopmentRepository extends BaseRepository<Development, Developme
    */
   async findBySlug(slug: string): Promise<Development | null> {
     return this.model.findUnique({
-      where: { slug },
-    });
+      where: { slug });
   }
 
   /**
@@ -30,8 +29,7 @@ export class DevelopmentRepository extends BaseRepository<Development, Developme
    */
   async findByDeveloperId(developerId: string): Promise<Development[]> {
     return this.model.findMany({
-      where: { developerId },
-    });
+      where: { developerId });
   }
 
   /**
@@ -41,9 +39,7 @@ export class DevelopmentRepository extends BaseRepository<Development, Developme
     return this.model.findUnique({
       where: { id },
       include: {
-        units: true,
-      },
-    });
+        units: true});
   }
 
   /**
@@ -56,18 +52,12 @@ export class DevelopmentRepository extends BaseRepository<Development, Developme
         units: true,
         timeline: {
           include: {
-            milestones: true,
-          },
-        },
+            milestones: true},
         documents: true,
         professionalTeam: {
           include: {
-            professional: true,
-          },
-        },
-        location: true,
-      },
-    });
+            professional: true},
+        location: true});
   }
 
   /**
@@ -80,16 +70,14 @@ export class DevelopmentRepository extends BaseRepository<Development, Developme
     orderBy?: any;
   }): Promise<Development[]> {
     const { skip, take, where, orderBy } = params;
-    
+
     return this.model.findMany({
       skip,
       take,
       where: {
         isPublished: true,
-        ...where,
-      },
-      orderBy,
-    });
+        ...where},
+      orderBy});
   }
 
   /**
@@ -99,9 +87,7 @@ export class DevelopmentRepository extends BaseRepository<Development, Developme
     return this.model.update({
       where: { id },
       data: {
-        status,
-      },
-    });
+        status});
   }
 
   /**
@@ -112,8 +98,6 @@ export class DevelopmentRepository extends BaseRepository<Development, Developme
       where: { id },
       data: {
         isPublished,
-        publishedDate: isPublished ? new Date() : null,
-      },
-    });
+        publishedDate: isPublished ? new Date() : null});
   }
 }

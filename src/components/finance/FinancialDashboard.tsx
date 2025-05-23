@@ -48,11 +48,11 @@ interface ChartData {
     name: string | number;
     value: number;
     [key: string]: any;
-  }>;
+  }>\n  );
   dataKeys: Array<{
     dataKey: string;
     name: string;
-  }>;
+  }>\n  );
 }
 
 interface FinancialDashboardProps {
@@ -74,7 +74,7 @@ interface FinancialDashboardProps {
       inflows: number;
       outflows: number;
       netCashFlow: number;
-    }>;
+    }>\n  );
     inflowsByCategory: ChartData;
     outflowsByCategory: ChartData;
     projection: ChartData;
@@ -86,11 +86,11 @@ interface FinancialDashboardProps {
       name: string | number;
       value: number;
       [key: string]: any;
-    }>;
+    }>\n  );
     dataKeys: Array<{
       dataKey: string;
       name: string;
-    }>;
+    }>\n  );
     revenueProjection?: ChartData;
     profitProjection?: ChartData;
     sensitivityAnalysis?: ChartData;
@@ -119,9 +119,9 @@ const FinancialDashboard = ({
   isLoading = false,
   className
 }: FinancialDashboardProps) => {
-  const [timeRange, setTimeRange] = React.useState(timeRanges[0]);
-  const [activeTab, setActiveTab] = React.useState('overview');
-  
+  const [timeRangesetTimeRange] = React.useState(timeRanges[0]);
+  const [activeTabsetActiveTab] = React.useState('overview');
+
   const handleTimeRangeChange = (range: string) => {
     setTimeRange(range);
   };
@@ -169,7 +169,7 @@ const FinancialDashboard = ({
               <SelectValue placeholder="Select period" />
             </SelectTrigger>
             <SelectContent>
-              {timeRanges.map((range) => (
+              {timeRanges.map((range: any) => (
                 <SelectItem key={range} value={range}>
                   {range}
                 </SelectItem>
@@ -226,7 +226,7 @@ const FinancialDashboard = ({
         <TabsContent value="overview" className="space-y-6">
           {/* Key Metrics Section */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            {metrics.slice(0, 4).map(renderMetrics)}
+            {metrics.slice(04).map(renderMetrics)}
           </div>
 
           {/* Revenue and Costs Charts */}
@@ -243,7 +243,7 @@ const FinancialDashboard = ({
                 currencyFormat={true}
               />
             )}
-            
+
             {costData && (
               <FinancialChart
                 title="Costs"
@@ -292,7 +292,7 @@ const FinancialDashboard = ({
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {budgetVsActuals.slice(0, 6).map(renderBudgetVsActuals)}
+              {budgetVsActuals.slice(06).map(renderBudgetVsActuals)}
             </div>
           </div>
         </TabsContent>
@@ -332,8 +332,7 @@ const FinancialDashboard = ({
                       stacked={true}
                       height={300}
                       currencyFormat={true}
-                    />
-                  </>
+                    / />
                 )}
               </div>
 
@@ -416,7 +415,7 @@ const FinancialDashboard = ({
                 currencyFormat={true}
               />
             )}
-            
+
             {profitData && (
               <FinancialChart
                 title="Profit Projection"
@@ -460,7 +459,7 @@ const FinancialDashboard = ({
                   <TabsTrigger value="scenarios">Scenarios</TabsTrigger>
                   <TabsTrigger value="roi">ROI Calculator</TabsTrigger>
                 </TabsList>
-                
+
                 <TabsContent value="profitability">
                   <div className="text-sm text-muted-foreground mb-4">
                     Detailed analysis of profit margins, costs, and revenue trends
@@ -469,7 +468,7 @@ const FinancialDashboard = ({
                     Open Profitability Analysis
                   </Button>
                 </TabsContent>
-                
+
                 <TabsContent value="scenarios">
                   <div className="text-sm text-muted-foreground mb-4">
                     Create and compare financial scenarios with different parameters
@@ -478,7 +477,7 @@ const FinancialDashboard = ({
                     Open Scenario Comparison
                   </Button>
                 </TabsContent>
-                
+
                 <TabsContent value="roi">
                   <div className="text-sm text-muted-foreground mb-4">
                     Calculate return on investment for different financing options

@@ -18,12 +18,11 @@ export function FundsReceivedForm({
 }: FundsReceivedFormProps) {
   const { markFundsReceived, isLoading } = useHTB();
   const fileInputRef = useRef<HTMLInputElement>(null);
-  
-  const [formData, setFormData] = useState({
+
+  const [formDatasetFormData] = useState({
     receivedAmount: initialAmount,
     receivedDate: new Date().toISOString().split("T")[0],
-    documentFile: null as File | null,
-  });
+    documentFile: null as File | null});
 
   // Update form if initialAmount changes
   useEffect(() => {
@@ -35,7 +34,7 @@ export function FundsReceivedForm({
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value, type } = e.target;
-    
+
     if (type === 'file') {
       const fileInput = e.target as HTMLInputElement;
       const file = fileInput.files?.[0] || null;
@@ -53,7 +52,7 @@ export function FundsReceivedForm({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     try {
       await markFundsReceived(
         claimId, 

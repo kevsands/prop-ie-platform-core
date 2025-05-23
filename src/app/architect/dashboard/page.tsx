@@ -15,7 +15,7 @@ export default function ArchitectDashboard() {
           <h1 className="text-3xl font-bold text-gray-900">Architect Dashboard</h1>
           <p className="text-gray-600 mt-2">Welcome back, John Doe</p>
         </div>
-        
+
         {/* Quick Stats */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
           <div className="bg-white rounded-lg p-6 shadow-sm">
@@ -27,7 +27,7 @@ export default function ArchitectDashboard() {
               <Building2 className="h-8 w-8 text-blue-500" />
             </div>
           </div>
-          
+
           <div className="bg-white rounded-lg p-6 shadow-sm">
             <div className="flex items-center justify-between">
               <div>
@@ -37,7 +37,7 @@ export default function ArchitectDashboard() {
               <Users className="h-8 w-8 text-green-500" />
             </div>
           </div>
-          
+
           <div className="bg-white rounded-lg p-6 shadow-sm">
             <div className="flex items-center justify-between">
               <div>
@@ -47,7 +47,7 @@ export default function ArchitectDashboard() {
               <AlertCircle className="h-8 w-8 text-yellow-500" />
             </div>
           </div>
-          
+
           <div className="bg-white rounded-lg p-6 shadow-sm">
             <div className="flex items-center justify-between">
               <div>
@@ -110,6 +110,12 @@ export default function ArchitectDashboard() {
                 className="block w-full text-center px-4 py-2 bg-white text-[#2B5273] border-2 border-[#2B5273] rounded-lg hover:bg-gray-50 transition-all"
               >
                 Upload Documents
+              </Link>
+              <Link
+                href="/architect/collaboration"
+                className="block w-full text-center px-4 py-2 bg-[#2B5273] text-white rounded-lg hover:bg-[#1E3142] transition-all"
+              >
+                Collaboration Hub
               </Link>
             </div>
           </div>

@@ -1,330 +1,857 @@
+import React from 'react';
 'use client';
 
-import React, { useState, useEffect, useCallback } from "react";
-import { useParams } from "next/navigation";
-import Image from "next/image";
-import Link from "next/link";
-import { BedDouble, Bath, Maximize, MapPin, CheckCircle } from "lucide-react";
+import { useState, useEffect } from 'react';
+import { useParams, useRouter } from 'next/navigation';
+import { useQuery, useMutation } from '@tanstack/react-query';
+import Image from 'next/image';
+import Link from 'next/link';
+import { 
+  ChevronLeft, 
+  ChevronRight, 
+  MapPin, 
+  Bed, 
+  Bath, 
+  Square, 
+  Calendar,
+  Phone,
+  Mail,
+  Share2,
+  Heart,
+  Download,
+  Video,
+  Camera,
+  CheckCircle,
+  Home,
+  Car,
+  Trees,
+  Building
+} from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Badge } from '@/components/ui/badge';
+import { Separator } from '@/components/ui/separator';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbSeparator } from '@/components/ui/breadcrumb';
+import { Property } from '@/types/models/property';
+import { PropertyStatus } from '@/types/enums';
+import { formatPrice, formatDate } from '@/utils/format';
+import { usePropertyAnalytics } from '@/hooks/usePropertyAnalytics';
+import { PropertyCard } from '@/components/property/PropertyCard';
+import dynamic from 'next/dynamic';
+import { Skeleton } from '@/components/ui/skeleton';
+import { useToast } from '@/components/ui/use-toast';
+import { useSession } from 'next-auth/react';
 
-// Mock DataService for build testing
-const DataService = {
-  getPropertyById: async (id: string) => {
-    // Return mock property data for build testing
-    return {
-      id,
-      title: "Sample Property",
-      name: "Sample Property",
-      description: "This is a sample property description for build testing purposes. The actual property details would be fetched from the API in production.",
-      price: 350000,
-      bedrooms: 3,
-      bathrooms: 2,
-      area: 120,
-      images: [
-        "/images/properties/10-maple-ave-1.jpg",
-        "/images/properties/10-maple-ave-2.jpg",
-        "/images/properties/10-maple-ave-3.jpg"
-      ],
-      features: [
-        "Modern Kitchen",
-        "South-Facing Garden",
-        "Energy Efficient",
-        "Close to amenities",
-        "Recently renovated"
-      ],
-      developmentId: "fitzgerald-gardens",
-      developmentName: "Fitzgerald Gardens",
-      status: "For Sale",
-      statusColor: "bg-blue-500",
-      address: {
-        city: "Drogheda",
-        state: "Co. Louth"
-      }
-    };
-  }
-};
+// Lazy load heavy components
+const PropertyMap = dynamic(() => import('@/components/property/PropertyMap'), {
+  ssr: false,
+  loading: () => <Skeleton className="w-full h-[400px]" />
+});
 
-// Define Property type
-interface Property {
-  id: string;
-  title?: string;
-  name?: string;
-  description?: string;
-  price?: number;
-  bedrooms?: number;
-  bathrooms?: number;
-  area?: number;
-  floorArea?: number;
-  images?: string[];
-  image?: string;
-  features?: string[];
-  developmentId?: string;
-  developmentName?: string;
-  status?: string;
-  statusColor?: string;
-  address?: {
-    city?: string;
-    state?: string;
-    country?: string;
-  };
-  isNew?: boolean;
-  isReduced?: boolean;
-  floorPlanUrl?: string;
-  floorPlan?: string;
-  virtualTourUrl?: string;
+const VirtualTourViewer = dynamic(() => import('@/components/property/VirtualTourViewer'), {
+  ssr: false,
+  loading: () => <Skeleton className="w-full h-[600px]" />
+});
+
+interface PropertyDetailResponse {
+  property: Property;
+  similarProperties: Array<{
+    id: string;
+    name: string;
+    price: number;
+    bedrooms: number;
+    bathrooms: number;
+    size: number;
+    type: string;
+    image: string;
+  }>\n  );
 }
 
 export default function PropertyDetailPage() {
   const params = useParams();
-  const propertyId = params?.id as string;
+  const router = useRouter();
+  const { toast } = useToast();
+  const { data: session } = useSession();
+  const analytics = usePropertyAnalytics();
 
-  const [property, setProperty] = useState<Property | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+  const propertyId = params.id as string;
 
+  const [selectedImageIndexsetSelectedImageIndex] = useState(0);
+  const [showGallerysetShowGallery] = useState(false);
+  const [showVirtualToursetShowVirtualTour] = useState(false);
+  const [showContactFormsetShowContactForm] = useState(false);
+  const [isFavoritesetIsFavorite] = useState(false);
+
+  // Fetch property details
+  const { data, isLoading, error } = useQuery<PropertyDetailResponse>({
+    queryKey: ['property', propertyId],
+    queryFn: async () => {
+      const response = await fetch(`/api/properties/${propertyId}`);
+      if (!response.ok) throw new Error('Failed to fetch property');
+      return response.json();
+    },
+    staleTime: 300000, // 5 minutes
+  });
+
+  const property = data?.property;
+  const similarProperties = data?.similarProperties || [];
+
+  // Track property view
   useEffect(() => {
-    const fetchProperty = async () => {
-      if (!propertyId) {
-        setError("Property ID not found in URL.");
-        setIsLoading(false);
-        return;
+    if (property) {
+      analytics.trackPropertyViewed({
+        id: property.id,
+        name: property.name,
+        type: property.type,
+        price: property.price,
+        bedrooms: property.bedrooms,
+        bathrooms: property.bathrooms,
+        developmentId: property.developmentId,
+        developmentName: property.development?.name,
+        status: property.status}, 'property_detail');
+    }
+  }, [propertyanalytics]);
+
+  // Save to favorites mutation
+  const saveFavoriteMutation = useMutation({
+    mutationFn: async () => {
+      if (!session?.user) {
+        throw new Error('Please login to save favorites');
       }
-      setIsLoading(true);
-      setError(null);
-      try {
-        const fetchedProperty = await DataService.getPropertyById(propertyId);
-        if (fetchedProperty) {
-          // Ensure backward compatibility by handling both image patterns
-          const imagesList = fetchedProperty.images && fetchedProperty.images.length 
-            ? fetchedProperty.images 
-            : (fetchedProperty.image ? [fetchedProperty.image] : []);
-          
-          setProperty({
-            ...fetchedProperty,
-            images: imagesList
-          });
-        } else {
-          setError("Property not found.");
-        }
-      } catch (err: any) {
-        console.error(`Error fetching property ${propertyId}:`, err);
-        setError("Failed to load property details. Please try refreshing the page.");
-      } finally {
-        setIsLoading(false);
-      }
-    };
+      const response = await fetch(`/api/users/favorites`, {
+        method: isFavorite ? 'DELETE' : 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ propertyId })});
+      if (!response.ok) throw new Error('Failed to update favorites');
+      return response.json();
+    },
+    onSuccess: () => {
+      setIsFavorite(!isFavorite);
+      toast({
+        title: isFavorite ? 'Removed from favorites' : 'Added to favorites',
+        description: isFavorite 
+          ? 'Property removed from your favorites' 
+          : 'Property saved to your favorites'});
+    },
+    onError: (error: any) => {
+      toast({
+        title: 'Error',
+        description: error.message,
+        variant: 'destructive'});
+    });
 
-    fetchProperty();
-  }, [propertyId]);
-
-  // Memoize helper function
-  const formatPrice = useCallback((price: number | undefined | null): string => {
-    if (price === undefined || price === null) return "Price on application";
-    return new Intl.NumberFormat("en-IE", {
-      style: "currency",
-      currency: "EUR",
-      maximumFractionDigits: 0,
-    }).format(price);
-  }, []);
-
-  const handleThumbnailClick = (index: number) => {
-    setSelectedImageIndex(index);
+  // Handle share
+  const handleShare = () => {
+    if (navigator.share) {
+      navigator.share({
+        title: property?.name,
+        text: `Check out this property: ${property?.name}`,
+        url: window.location.href}).catch(() => {});
+    } else {
+      navigator.clipboard.writeText(window.location.href);
+      toast({
+        title: 'Link copied',
+        description: 'Property link copied to clipboard'});
+    }
   };
 
-  // Get main image url - now safely handles both image patterns
-  const mainImageUrl = property?.images && property.images.length > 0 
-    ? property.images[selectedImageIndex] 
-    : "/images/placeholder-property.jpg";
-
+  // Loading state
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center min-h-[60vh]">
-        <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-[#2B5273]" role="status" aria-label="Loading property details"></div>
+      <div className="min-h-screen bg-gray-50">
+        <div className="container mx-auto px-4 py-8">
+          <Skeleton className="h-8 w-64 mb-8" />
+          <div className="grid lg:grid-cols-3 gap-8">
+            <div className="lg:col-span-2 space-y-6">
+              <Skeleton className="h-[500px] w-full" />
+              <Skeleton className="h-32 w-full" />
+              <Skeleton className="h-64 w-full" />
+            </div>
+            <div className="space-y-6">
+              <Skeleton className="h-48 w-full" />
+              <Skeleton className="h-32 w-full" />
+            </div>
+          </div>
+        </div>
       </div>
     );
   }
 
-  if (error) {
+  // Error state
+  if (error || !property) {
     return (
-      <div className="flex items-center justify-center min-h-[60vh] text-red-600 text-center px-4" role="alert">
-        <p>{error}</p>
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <Card className="max-w-md w-full">
+          <CardContent className="text-center py-8">
+            <p className="text-red-600 mb-4">Failed to load property details</p>
+            <Button onClick={() => router.back()}>Go Back</Button>
+          </CardContent>
+        </Card>
       </div>
     );
   }
 
-  if (!property) {
-    return (
-      <div className="flex items-center justify-center min-h-[60vh] text-gray-500 text-center px-4">
-        <p>Property data could not be loaded.</p>
-      </div>
-    );
-  }
+  const mainImage = property.images?.[selectedImageIndex] || property.images?.[0];
+  const hasMultipleImages = property.images && property.images.length> 1;
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      <div className="bg-amber-100 p-4 rounded-md mb-6 text-amber-800">
-        <h3 className="font-semibold mb-1">Simplified Page</h3>
-        <p>This is a simplified property detail page for build testing. Full functionality will be restored later.</p>
-      </div>
-      
-      {/* Back Link & Title */}
-      <div className="mb-6">
-        <Link href={property.developmentId ? `/developments/${property.developmentId}` : "/developments"} className="text-sm text-[#2B5273] hover:underline mb-2 inline-block">
-          &larr; Back to {property.developmentName || "Developments"}
-        </Link>
-        <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-1">{property.title || property.name}</h1>
-        <p className="text-lg text-gray-600 flex items-center">
-          <MapPin className="w-5 h-5 mr-2 inline-block text-gray-500" />
-          {property.address 
-            ? `${property.address.city || ''}${property.address.state ? `, ${property.address.state}` : ''}`
-            : property.developmentName || "Location TBC"}
-        </p>
-      </div>
+    <div className="min-h-screen bg-gray-50">
+      {/* SEO Meta */}
+      <head>
+        <title>{property.name} | Property Details</title>
+        <meta name="description" content={property.description || `${property.bedrooms} bedroom ${property.type} for sale in ${property.location.city}`} />
+      </head>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12">
-        {/* Image Gallery */}
-        <div className="lg:col-span-2">
-          <div className="relative aspect-video w-full overflow-hidden rounded-lg shadow-md mb-4 bg-gray-200">
-            <Image
-              key={mainImageUrl}
-              src={mainImageUrl}
-              alt={`View of ${property.title || property.name}`}
-              fill
-              style={{ objectFit: "cover" }}
-              priority
-              sizes="(max-width: 1024px) 100vw, 67vw"
-              onError={(e) => { (e.target as HTMLImageElement).src = "/images/placeholder-property.jpg"; }}
-            />
-          </div>
-          {property.images && property.images.length > 1 && (
-            <div className="flex space-x-2 overflow-x-auto pb-2">
-              {property.images.map((imgUrl: string, index: number) => (
-                <button
-                  key={index}
-                  onClick={() => handleThumbnailClick(index)}
-                  className={`relative w-20 h-16 rounded overflow-hidden flex-shrink-0 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#2B5273] ${selectedImageIndex === index ? "ring-2 ring-[#2B5273]" : ""}`}
-                  aria-label={`View image ${index + 1}`}
-                >
-                  <Image
-                    src={imgUrl}
-                    alt={`Thumbnail ${index + 1}`}
-                    fill
-                    style={{ objectFit: "cover" }}
-                    sizes="80px"
-                    onError={(e) => { (e.target as HTMLImageElement).src = "/images/placeholder-property.jpg"; }}
-                  />
-                </button>
-              ))}
-            </div>
-          )}
-        </div>
-
-        {/* Details & Actions */}
-        <div className="lg:col-span-1">
-          <div className="bg-gray-50 p-6 rounded-lg shadow-sm border border-gray-200">
-            <p className="text-3xl font-bold text-[#2B5273] mb-4">{formatPrice(property.price)}</p>
-            <div className="flex justify-around text-center border-t border-b border-gray-200 py-4 mb-6">
-              <div className="px-2">
-                <BedDouble className="w-6 h-6 mx-auto text-gray-600 mb-1" />
-                <span className="text-sm font-medium text-gray-800">{property.bedrooms || "-"} Bed</span>
-              </div>
-              <div className="px-2">
-                <Bath className="w-6 h-6 mx-auto text-gray-600 mb-1" />
-                <span className="text-sm font-medium text-gray-800">{property.bathrooms || "-"} Bath</span>
-              </div>
-              <div className="px-2">
-                <Maximize className="w-6 h-6 mx-auto text-gray-600 mb-1" />
-                <span className="text-sm font-medium text-gray-800">
-                  {property.area || property.floorArea ? `${property.area || property.floorArea} sq m` : "-"}
-                </span>
-              </div>
-            </div>
-            
-            {/* Action Buttons */} 
-            <div className="space-y-3">
-              <Link 
-                href={`/buyer/purchase/${property.id}`} 
-                className="block w-full text-center bg-green-600 text-white px-5 py-3 rounded-md hover:bg-green-700 transition-colors font-bold text-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-600"
-              >
-                Buy Now - Reserve for €500
-              </Link>
-              <button 
-                onClick={() => alert("Booking functionality not yet implemented.")} 
-                className="w-full bg-[#2B5273] text-white px-5 py-3 rounded-md hover:bg-[#1E3142] transition-colors font-medium text-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#2B5273]"
-              >
-                Book Viewing
-              </button>
-              <Link 
-                href={`/customize/${property.id}`} 
-                className="block w-full text-center bg-white text-[#2B5273] border border-[#2B5273] px-5 py-3 rounded-md hover:bg-gray-100 transition-colors font-medium text-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#2B5273]"
-              >
-                Customize This Home
-              </Link>
-            </div>
-
-            {/* Status Tags */} 
-            <div className="mt-6 flex flex-wrap gap-2">
-              {property.status && (
-                <span className={`px-3 py-1 text-xs font-semibold text-white rounded ${property.statusColor || "bg-gray-500"}`}>
-                  {property.status}
-                </span>
+      {/* Breadcrumb */}
+      <div className="bg-white border-b">
+        <div className="container mx-auto px-4 py-4">
+          <Breadcrumb>
+            <BreadcrumbList>
+              <BreadcrumbItem>
+                <BreadcrumbLink href="/">Home</BreadcrumbLink>
+              </BreadcrumbItem>
+              <BreadcrumbSeparator />
+              <BreadcrumbItem>
+                <BreadcrumbLink href="/properties">Properties</BreadcrumbLink>
+              </BreadcrumbItem>
+              <BreadcrumbSeparator />
+              {property.development && (
+                <>
+                  <BreadcrumbItem>
+                    <BreadcrumbLink href={`/developments/${property.development.id}`}>
+                      {property.development.name}
+                    </BreadcrumbLink>
+                  </BreadcrumbItem>
+                  <BreadcrumbSeparator / />
               )}
-              {property.isNew && <span className="px-3 py-1 text-xs font-semibold text-white bg-blue-500 rounded">New Listing</span>}
-              {property.isReduced && <span className="px-3 py-1 text-xs font-semibold text-white bg-red-500 rounded">Price Reduced</span>}
+              <BreadcrumbItem>
+                <span className="text-gray-600">{property.name}</span>
+              </BreadcrumbItem>
+            </BreadcrumbList>
+          </Breadcrumb>
+        </div>
+      </div>
+
+      <div className="container mx-auto px-4 py-8">
+        <div className="grid lg:grid-cols-3 gap-8">
+          {/* Main Content */}
+          <div className="lg:col-span-2 space-y-6">
+            {/* Image Gallery */}
+            <Card className="overflow-hidden">
+              <div className="relative">
+                {/* Main Image */}
+                <div className="relative h-[500px] bg-gray-100">
+                  {mainImage ? (
+                    <Image
+                      src={mainImage.url}
+                      alt={mainImage.alt || property.name}
+                      fill
+                      className="object-cover cursor-pointer"
+                      priority
+                      onClick={() => setShowGallery(true)}
+                    />
+                  ) : (
+                    <div className="flex items-center justify-center h-full text-gray-400">
+                      <Camera className="h-16 w-16" />
+                    </div>
+                  )}
+
+                  {/* Navigation Arrows */}
+                  {hasMultipleImages && (
+                    <>
+                      <button
+                        onClick={() => setSelectedImageIndex((prev: any) => 
+                          prev === 0 ? property.images.length - 1 : prev - 1
+                        )}
+                        className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 text-white p-2 rounded-full hover:bg-black/70 transition-colors"
+                      >
+                        <ChevronLeft className="h-6 w-6" />
+                      </button>
+                      <button
+                        onClick={() => setSelectedImageIndex((prev: any) => 
+                          prev === property.images.length - 1 ? 0 : prev + 1
+                        )}
+                        className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 text-white p-2 rounded-full hover:bg-black/70 transition-colors"
+                      >
+                        <ChevronRight className="h-6 w-6" />
+                      </button>
+                    </>
+                  )}
+
+                  {/* Image Counter */}
+                  {property.images && property.images.length> 0 && (
+                    <div className="absolute bottom-4 right-4 bg-black/70 text-white px-3 py-1 rounded">
+                      {selectedImageIndex + 1} / {property.images.length}
+                    </div>
+                  )}
+
+                  {/* Virtual Tour Button */}
+                  {property.virtualTourUrl && (
+                    <Button
+                      onClick={() => setShowVirtualTour(true)}
+                      className="absolute bottom-4 left-4 gap-2"
+                      variant="secondary"
+                    >
+                      <Video className="h-4 w-4" />
+                      Virtual Tour
+                    </Button>
+                  )}
+                </div>
+
+                {/* Thumbnail Strip */}
+                {property.images && property.images.length> 1 && (
+                  <div className="flex gap-2 p-4 overflow-x-auto">
+                    {property.images.map((imageindex: any) => (
+                      <button
+                        key={index}
+                        onClick={() => setSelectedImageIndex(index)}
+                        className={`relative h-20 w-32 flex-shrink-0 overflow-hidden rounded ${
+                          index === selectedImageIndex ? 'ring-2 ring-blue-600' : ''
+                        }`}
+                      >
+                        <Image
+                          src={image.thumbnailUrl || image.url}
+                          alt={`Thumbnail ${index + 1}`}
+                          fill
+                          className="object-cover"
+                        />
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </Card>
+
+            {/* Property Details */}
+            <Card>
+              <CardHeader>
+                <div className="flex justify-between items-start">
+                  <div>
+                    <CardTitle className="text-2xl">{property.name}</CardTitle>
+                    <div className="flex items-center gap-1 text-gray-600 mt-2">
+                      <MapPin className="h-4 w-4" />
+                      <span>{property.location.address}, {property.location.city}, {property.location.county}</span>
+                    </div>
+                  </div>
+                  <Badge className={getStatusColor(property.status)}>
+                    {property.status.replace(/_/g, ' ')}
+                  </Badge>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <Tabs defaultValue="overview" className="w-full">
+                  <TabsList className="grid w-full grid-cols-4">
+                    <TabsTrigger value="overview">Overview</TabsTrigger>
+                    <TabsTrigger value="specifications">Specifications</TabsTrigger>
+                    <TabsTrigger value="location">Location</TabsTrigger>
+                    <TabsTrigger value="floorplans">Floor Plans</TabsTrigger>
+                  </TabsList>
+
+                  <TabsContent value="overview" className="space-y-6">
+                    {/* Key Features */}
+                    <div>
+                      <h3 className="font-semibold text-lg mb-4">Key Features</h3>
+                      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <div className="flex items-center gap-2">
+                          <Bed className="h-5 w-5 text-gray-600" />
+                          <span>{property.bedrooms} Bedrooms</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <Bath className="h-5 w-5 text-gray-600" />
+                          <span>{property.bathrooms} Bathrooms</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <Square className="h-5 w-5 text-gray-600" />
+                          <span>{property.size} sq ft</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <Home className="h-5 w-5 text-gray-600" />
+                          <span>{property.type.replace(/_/g, ' ')}</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <Separator />
+
+                    {/* Description */}
+                    {property.description && (
+                      <>
+                        <div>
+                          <h3 className="font-semibold text-lg mb-4">Description</h3>
+                          <p className="text-gray-600 whitespace-pre-line">
+                            {property.description}
+                          </p>
+                        </div>
+                        <Separator / />
+                    )}
+
+                    {/* Features List */}
+                    {property.features && property.features.length> 0 && (
+                      <>
+                        <div>
+                          <h3 className="font-semibold text-lg mb-4">Features</h3>
+                          <div className="grid grid-cols-2 gap-2">
+                            {property.features.map((featureindex: any) => (
+                              <div key={index} className="flex items-center gap-2">
+                                <CheckCircle className="h-4 w-4 text-green-600" />
+                                <span className="text-gray-600">{feature}</span>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                        <Separator / />
+                    )}
+
+                    {/* Amenities */}
+                    {property.amenities && property.amenities.length> 0 && (
+                      <div>
+                        <h3 className="font-semibold text-lg mb-4">Amenities</h3>
+                        <div className="flex flex-wrap gap-2">
+                          {property.amenities.map((amenity: any) => (
+                            <Badge key={amenity} variant="secondary">
+                              {amenity}
+                            </Badge>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </TabsContent>
+
+                  <TabsContent value="specifications" className="space-y-4">
+                    <div className="grid grid-cols-2 gap-4">
+                      {property.specifications && (
+                        <>
+                          <div>
+                            <p className="text-sm text-gray-600">Total Area</p>
+                            <p className="font-semibold">{property.specifications.totalArea} sq ft</p>
+                          </div>
+                          {property.specifications.internalArea && (
+                            <div>
+                              <p className="text-sm text-gray-600">Internal Area</p>
+                              <p className="font-semibold">{property.specifications.internalArea} sq ft</p>
+                            </div>
+                          )}
+                          {property.specifications.parkingSpaces !== undefined && (
+                            <div>
+                              <p className="text-sm text-gray-600">Parking Spaces</p>
+                              <p className="font-semibold">{property.specifications.parkingSpaces}</p>
+                            </div>
+                          )}
+                          {property.specifications.floors && (
+                            <div>
+                              <p className="text-sm text-gray-600">Number of Floors</p>
+                              <p className="font-semibold">{property.specifications.floors}</p>
+                            </div>
+                          )}
+                          {property.specifications.yearBuilt && (
+                            <div>
+                              <p className="text-sm text-gray-600">Year Built</p>
+                              <p className="font-semibold">{property.specifications.yearBuilt}</p>
+                            </div>
+                          )}
+                          {property.specifications.orientation && (
+                            <div>
+                              <p className="text-sm text-gray-600">Orientation</p>
+                              <p className="font-semibold">{property.specifications.orientation}</p>
+                            </div>
+                          )}
+                          {property.specifications.heatingType && (
+                            <div>
+                              <p className="text-sm text-gray-600">Heating</p>
+                              <p className="font-semibold">{property.specifications.heatingType}</p>
+                            </div>
+                          )}
+                          {property.specifications.windowType && (
+                            <div>
+                              <p className="text-sm text-gray-600">Windows</p>
+                              <p className="font-semibold">{property.specifications.windowType}</p>
+                            </div>
+                          )}
+                        </>
+                      )}
+                      {property.energyRating && (
+                        <div>
+                          <p className="text-sm text-gray-600">Energy Rating</p>
+                          <p className="font-semibold">{property.energyRating}</p>
+                        </div>
+                      )}
+                      {property.berNumber && (
+                        <div>
+                          <p className="text-sm text-gray-600">BER Number</p>
+                          <p className="font-semibold">{property.berNumber}</p>
+                        </div>
+                      )}
+                    </div>
+                  </TabsContent>
+
+                  <TabsContent value="location" className="space-y-4">
+                    <div className="h-[400px] rounded-lg overflow-hidden">
+                      <PropertyMap
+                        properties={[property]}
+                        center={
+                          lat: property.location.latitude,
+                          lng: property.location.longitude}
+                        zoom={15}
+                      />
+                    </div>
+
+                    {/* Nearby Amenities */}
+                    {property.location.nearbyAmenities && property.location.nearbyAmenities.length> 0 && (
+                      <div>
+                        <h3 className="font-semibold text-lg mb-4">What's Nearby</h3>
+                        <div className="grid grid-cols-2 gap-4">
+                          {property.location.nearbyAmenities.map((amenityindex: any) => (
+                            <div key={index} className="flex items-start gap-3">
+                              <div className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center flex-shrink-0">
+                                {amenity.type === 'school' && <Building className="h-5 w-5 text-gray-600" />}
+                                {amenity.type === 'park' && <Trees className="h-5 w-5 text-gray-600" />}
+                                {amenity.type === 'transport' && <Car className="h-5 w-5 text-gray-600" />}
+                                {!['school', 'park', 'transport'].includes(amenity.type) && <MapPin className="h-5 w-5 text-gray-600" />}
+                              </div>
+                              <div>
+                                <p className="font-medium">{amenity.name}</p>
+                                <p className="text-sm text-gray-600">
+                                  {amenity.distance} km • {amenity.walkingTime} min walk
+                                </p>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </TabsContent>
+
+                  <TabsContent value="floorplans" className="space-y-4">
+                    {property.floorPlans && property.floorPlans.length> 0 ? (
+                      <div className="grid gap-4">
+                        {property.floorPlans.map((planindex: any) => (
+                          <div key={index} className="relative">
+                            <Image
+                              src={plan}
+                              alt={`Floor plan ${index + 1}`}
+                              width={800}
+                              height={600}
+                              className="w-full h-auto rounded-lg"
+                            />
+                            <Button
+                              variant="secondary"
+                              size="sm"
+                              className="absolute top-4 right-4 gap-2"
+                              asChild
+                            >
+                              <a href={plan} download>
+                                <Download className="h-4 w-4" />
+                                Download
+                              </a>
+                            </Button>
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <p className="text-gray-600 text-center py-8">
+                        Floor plans not available yet
+                      </p>
+                    )}
+                  </TabsContent>
+                </Tabs>
+              </CardContent>
+            </Card>
+
+            {/* Similar Properties */}
+            {similarProperties.length> 0 && (
+              <Card>
+                <CardHeader>
+                  <CardTitle>Similar Properties</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid sm:grid-cols-2 gap-4">
+                    {similarProperties.map((similar: any) => (
+                      <Link
+                        key={similar.id}
+                        href={`/properties/${similar.id}`}
+                        className="group"
+                      >
+                        <Card className="overflow-hidden hover:shadow-lg transition-shadow">
+                          <div className="relative h-40">
+                            <Image
+                              src={similar.image}
+                              alt={similar.name}
+                              fill
+                              className="object-cover group-hover:scale-105 transition-transform"
+                            />
+                          </div>
+                          <CardContent className="p-4">
+                            <h4 className="font-semibold line-clamp-1">{similar.name}</h4>
+                            <p className="text-lg font-bold text-blue-600 mt-1">
+                              {formatPrice(similar.price)}
+                            </p>
+                            <div className="flex gap-3 text-sm text-gray-600 mt-2">
+                              <span>{similar.bedrooms} bed</span>
+                              <span>{similar.bathrooms} bath</span>
+                              <span>{similar.size} sq ft</span>
+                            </div>
+                          </CardContent>
+                        </Card>
+                      </Link>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            )}
+          </div>
+
+          {/* Sidebar */}
+          <div className="space-y-6">
+            {/* Price & Actions */}
+            <Card>
+              <CardContent className="p-6">
+                <div className="space-y-4">
+                  {/* Price */}
+                  <div>
+                    <p className="text-3xl font-bold text-gray-900">
+                      {formatPrice(property.price)}
+                    </p>
+                    {property.originalPrice && property.price <property.originalPrice && (
+                      <p className="text-sm text-gray-500 line-through">
+                        {formatPrice(property.originalPrice)}
+                      </p>
+                    )}
+                  </div>
+
+                  {/* Monthly Payment Estimate */}
+                  <div className="bg-gray-50 p-4 rounded-lg">
+                    <p className="text-sm text-gray-600">Est. Monthly Payment</p>
+                    <p className="text-xl font-semibold">
+                      {formatPrice(Math.round(property.price * 0.004))}
+                    </p>
+                    <p className="text-xs text-gray-500 mt-1">
+                      *Based on 20% down, 3.5% interest
+                    </p>
+                  </div>
+
+                  {/* Action Buttons */}
+                  <div className="space-y-2">
+                    {property.status === PropertyStatus.Available && (
+                      <>
+                        <Button className="w-full" size="lg" asChild>
+                          <Link href={`/properties/${property.id}/reserve`}>
+                            Reserve This Property
+                          </Link>
+                        </Button>
+                        <Button 
+                          variant="outline" 
+                          className="w-full" 
+                          size="lg"
+                          asChild
+                        >
+                          <Link href={`/properties/${property.id}/viewing`}>
+                            <Calendar className="h-4 w-4 mr-2" />
+                            Schedule Viewing
+                          </Link>
+                        </Button>
+                      </>
+                    )}
+                    <Button
+                      variant="outline"
+                      className="w-full"
+                      onClick={() => setShowContactForm(true)}
+                    >
+                      <Mail className="h-4 w-4 mr-2" />
+                      Contact Agent
+                    </Button>
+                  </div>
+
+                  {/* Quick Actions */}
+                  <div className="flex gap-2 pt-2">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="flex-1"
+                      onClick={() => saveFavoriteMutation.mutate()}
+                    >
+                      <Heart className={`h-4 w-4 mr-1 ${isFavorite ? 'fill-red-500 text-red-500' : ''}`} />
+                      Save
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="flex-1"
+                      onClick={handleShare}
+                    >
+                      <Share2 className="h-4 w-4 mr-1" />
+                      Share
+                    </Button>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Developer Info */}
+            {property.development && (
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-lg">Development Info</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-3">
+                  <div>
+                    <p className="font-semibold">{property.development.name}</p>
+                    <p className="text-sm text-gray-600">by {property.development.developer.name}</p>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-gray-600">Total Units</span>
+                    <span>{property.development.totalUnits}</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-gray-600">Available Units</span>
+                    <span>{property.development.availableUnits}</span>
+                  </div>
+                  {property.development.completionDate && (
+                    <div className="flex justify-between text-sm">
+                      <span className="text-gray-600">Completion</span>
+                      <span>{formatDate(property.development.completionDate)}</span>
+                    </div>
+                  )}
+                  <Button variant="outline" className="w-full mt-4" asChild>
+                    <Link href={`/developments/${property.development.id}`}>
+                      View Development
+                    </Link>
+                  </Button>
+                </CardContent>
+              </Card>
+            )}
+
+            {/* Contact Card */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-lg">Have Questions?</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                <p className="text-sm text-gray-600">
+                  Our property experts are here to help
+                </p>
+                <div className="space-y-2">
+                  <Button variant="outline" className="w-full justify-start" asChild>
+                    <a href="tel:+353123456789">
+                      <Phone className="h-4 w-4 mr-2" />
+                      Call +353 1 234 5678
+                    </a>
+                  </Button>
+                  <Button variant="outline" className="w-full justify-start" asChild>
+                    <a href={`mailto:info@propie.com?subject=Inquiry about ${property.name}`}>
+                      <Mail className="h-4 w-4 mr-2" />
+                      Email Us
+                    </a>
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Property Costs */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-lg">Additional Costs</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-2 text-sm">
+                  {property.propertyTax && (
+                    <div className="flex justify-between">
+                      <span className="text-gray-600">Property Tax (Annual)</span>
+                      <span>{formatPrice(property.propertyTax)}</span>
+                    </div>
+                  )}
+                  {property.managementFee && (
+                    <div className="flex justify-between">
+                      <span className="text-gray-600">Management Fee (Monthly)</span>
+                      <span>{formatPrice(property.managementFee)}</span>
+                    </div>
+                  )}
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">Stamp Duty (Est.)</span>
+                    <span>{formatPrice(property.price * 0.01)}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">Legal Fees (Est.)</span>
+                    <span>{formatPrice(2500)}</span>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </div>
+
+      {/* Image Gallery Modal */}
+      <Dialog open={showGallery} onOpenChange={setShowGallery}>
+        <DialogContent className="max-w-screen-xl">
+          <DialogHeader>
+            <DialogTitle>Property Gallery</DialogTitle>
+          </DialogHeader>
+          <div className="relative">
+            <div className="relative h-[70vh]">
+              {property.images && property.images[selectedImageIndex] && (
+                <Image
+                  src={property.images[selectedImageIndex].url}
+                  alt={property.images[selectedImageIndex].alt || property.name}
+                  fill
+                  className="object-contain"
+                />
+              )}
             </div>
+            {hasMultipleImages && (
+              <>
+                <button
+                  onClick={() => setSelectedImageIndex((prev: any) => 
+                    prev === 0 ? property.images.length - 1 : prev - 1
+                  )}
+                  className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 text-white p-2 rounded-full hover:bg-black/70 transition-colors"
+                >
+                  <ChevronLeft className="h-6 w-6" />
+                </button>
+                <button
+                  onClick={() => setSelectedImageIndex((prev: any) => 
+                    prev === property.images.length - 1 ? 0 : prev + 1
+                  )}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 text-white p-2 rounded-full hover:bg-black/70 transition-colors"
+                >
+                  <ChevronRight className="h-6 w-6" />
+                </button>
+              </>
+            )}
           </div>
-        </div>
-      </div>
+        </DialogContent>
+      </Dialog>
 
-      {/* Description & Features */}
-      <div className="mt-12">
-        <h2 className="text-2xl font-bold text-gray-900 mb-4">Description</h2>
-        <div className="prose max-w-none text-gray-700">
-          {property.description ? (
-            <p>{property.description}</p>
-          ) : (
-            <p>No description available.</p>
-          )}
-        </div>
-
-        {property.features && property.features.length > 0 && (
-          <div className="mt-8">
-            <h3 className="text-xl font-semibold text-gray-900 mb-3">Key Features</h3>
-            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2">
-              {property.features.map((feature: string, index: number) => (
-                <li key={index} className="flex items-center text-gray-700">
-                  <CheckCircle className="w-4 h-4 mr-2 text-green-500 flex-shrink-0" />
-                  <span>{feature}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
-
-        {/* Use either floorPlanUrl or floorPlan */}
-        <div className="mt-8 flex space-x-4">
-          {(property.floorPlanUrl || property.floorPlan) && (
-            <a 
-              href={property.floorPlanUrl || property.floorPlan} 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              className="text-[#2B5273] hover:underline font-medium"
-            >
-              View Floor Plan
-            </a>
-          )}
-          {property.virtualTourUrl && (
-            <a 
-              href={property.virtualTourUrl} 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              className="text-[#2B5273] hover:underline font-medium"
-            >
-              Take Virtual Tour
-            </a>
-          )}
-        </div>
-      </div>
+      {/* Virtual Tour Modal */}
+      {property.virtualTourUrl && (
+        <Dialog open={showVirtualTour} onOpenChange={setShowVirtualTour}>
+          <DialogContent className="max-w-screen-xl">
+            <DialogHeader>
+              <DialogTitle>Virtual Tour</DialogTitle>
+            </DialogHeader>
+            <div className="h-[70vh]">
+              <VirtualTourViewer url={property.virtualTourUrl} />
+            </div>
+          </DialogContent>
+        </Dialog>
+      )}
     </div>
   );
+}
+
+// Helper function (import from enums in real implementation)
+function getStatusColor(status: PropertyStatus): string {
+  const colors: Record<PropertyStatus, string> = {
+    [PropertyStatus.Available]: 'bg-green-100 text-green-800',
+    [PropertyStatus.Reserved]: 'bg-orange-100 text-orange-800',
+    [PropertyStatus.Sold]: 'bg-red-100 text-red-800',
+    [PropertyStatus.UnderOffer]: 'bg-purple-100 text-purple-800',
+    [PropertyStatus.ComingSoon]: 'bg-blue-100 text-blue-800',
+    [PropertyStatus.UnderConstruction]: 'bg-yellow-100 text-yellow-800',
+    [PropertyStatus.OffMarket]: 'bg-gray-100 text-gray-800',
+    [PropertyStatus.Selling]: 'bg-emerald-100 text-emerald-800',
+    [PropertyStatus.SaleAgreed]: 'bg-indigo-100 text-indigo-800',
+    [PropertyStatus.ToLet]: 'bg-teal-100 text-teal-800'};
+  return colors[status] || 'bg-gray-100 text-gray-800';
 }

@@ -1,3 +1,4 @@
+import React from 'react';
 "use client";
 
 import * as React from "react";
@@ -17,8 +18,7 @@ import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+  TooltipTrigger} from "@/components/ui/tooltip";
 
 const SIDEBAR_COOKIE_NAME = "sidebar:state";
 const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7;
@@ -69,11 +69,11 @@ const SidebarProvider = React.forwardRef<
     ref,
   ) => {
     const isMobile = useIsMobile();
-    const [openMobile, setOpenMobile] = React.useState(false);
+    const [openMobilesetOpenMobile] = React.useState(false);
 
     // This is the internal state of the sidebar.
     // We use openProp and setOpenProp for control from outside the component.
-    const [_open, _setOpen] = React.useState(defaultOpen);
+    const [_open_setOpen] = React.useState(defaultOpen);
     const open = openProp ?? _open;
     const setOpen = React.useCallback(
       (value: boolean | ((value: boolean) => boolean)) => {
@@ -87,15 +87,15 @@ const SidebarProvider = React.forwardRef<
         // This sets the cookie to keep the sidebar state.
         document.cookie = `${SIDEBAR_COOKIE_NAME}=${openState}; path=/; max-age=${SIDEBAR_COOKIE_MAX_AGE}`;
       },
-      [setOpenProp, open],
+      [setOpenPropopen],
     );
 
     // Helper to toggle the sidebar.
     const toggleSidebar = React.useCallback(() => {
       return isMobile
-        ? setOpenMobile((open) => !open)
-        : setOpen((open) => !open);
-    }, [isMobile, setOpen, setOpenMobile]);
+        ? setOpenMobile((open: any) => !open)
+        : setOpen((open: any) => !open);
+    }, [isMobile, setOpensetOpenMobile]);
 
     // Adds a keyboard shortcut to toggle the sidebar.
     React.useEffect(() => {
@@ -125,8 +125,7 @@ const SidebarProvider = React.forwardRef<
         isMobile,
         openMobile,
         setOpenMobile,
-        toggleSidebar,
-      }),
+        toggleSidebar}),
       [
         state,
         open,
@@ -134,8 +133,7 @@ const SidebarProvider = React.forwardRef<
         isMobile,
         openMobile,
         setOpenMobile,
-        toggleSidebar,
-      ],
+        toggleSidebar],
     );
 
     return (
@@ -146,8 +144,7 @@ const SidebarProvider = React.forwardRef<
               {
                 "--sidebar-width": SIDEBAR_WIDTH,
                 "--sidebar-width-icon": SIDEBAR_WIDTH_ICON,
-                ...style,
-              } as React.CSSProperties
+                ...style} as React.CSSProperties
             }
             className={cn(
               "group/sidebar-wrapper flex min-h-svh w-full has-[[data-variant=inset]]:bg-sidebar",
@@ -210,8 +207,7 @@ const Sidebar = React.forwardRef<
             className="w-[--sidebar-width] bg-sidebar p-0 text-sidebar-foreground [&>button]:hidden"
             style={
               {
-                "--sidebar-width": SIDEBAR_WIDTH_MOBILE,
-              } as React.CSSProperties
+                "--sidebar-width": SIDEBAR_WIDTH_MOBILE} as React.CSSProperties
             }
             side={side}
           >
@@ -226,7 +222,7 @@ const Sidebar = React.forwardRef<
         ref={ref}
         className="group peer hidden md:block text-sidebar-foreground"
         data-state={state}
-        data-collapsible={state === "collapsed" ? collapsible : ""}
+        data-collapsible={state === "collapsed" ? collapsible : ""
         data-variant={variant}
         data-side={side}
       >
@@ -281,10 +277,10 @@ const SidebarTrigger = React.forwardRef<
       variant="ghost"
       size="icon"
       className={cn("h-7 w-7", className)}
-      onClick={(event) => {
+      onClick={(event: any) => {
         onClick?.(event);
         toggleSidebar();
-      }}
+      }
       {...props}
     >
       <PanelLeft />
@@ -441,8 +437,7 @@ type SlotProps = {
   asChild?: boolean;
 };
 
-type ElementRef<T extends keyof JSX.IntrinsicElements> = NonNullable<JSX.IntrinsicElements[T]['ref']>;
-
+type ElementRef<T extends keyof JSX.IntrinsicElements> = NonNullable<JSX.IntrinsicElements[T]['ref']>\n  );
 const SidebarGroupLabel = React.forwardRef<
   HTMLDivElement,
   React.ComponentProps<"div"> & SlotProps
@@ -533,18 +528,13 @@ const sidebarMenuButtonVariants = cva(
         default: "hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
         outline:
           "bg-background shadow-[0_0_0_1px_hsl(var(--sidebar-border))] hover:bg-sidebar-accent hover:text-sidebar-accent-foreground hover:shadow-[0_0_0_1px_hsl(var(--sidebar-accent))]",
-      },
       size: {
         default: "h-8 text-sm",
         sm: "h-7 text-xs",
-        lg: "h-12 text-sm group-data-[collapsible=icon]:!p-0",
-      },
-    },
+        lg: "h-12 text-sm group-data-[collapsible=icon]:!p-0"},
     defaultVariants: {
       variant: "default",
-      size: "default",
-    },
-  },
+      size: "default"},
 );
 
 const SidebarMenuButton = React.forwardRef<
@@ -552,7 +542,7 @@ const SidebarMenuButton = React.forwardRef<
   React.ComponentProps<"button"> & {
     asChild?: boolean;
     isActive?: boolean;
-    tooltip?: string | React.ComponentProps<typeof TooltipContent>;
+    tooltip?: string | React.ComponentProps<typeof TooltipContent>\n  );
   } & VariantProps<typeof sidebarMenuButtonVariants>
 >(
   (
@@ -587,8 +577,7 @@ const SidebarMenuButton = React.forwardRef<
 
     if (typeof tooltip === "string") {
       tooltip = {
-        children: tooltip,
-      };
+        children: tooltip};
     }
 
     return (
@@ -687,8 +676,7 @@ const SidebarMenuSkeleton = React.forwardRef<
         data-sidebar="menu-skeleton-text"
         style={
           {
-            "--skeleton-width": width,
-          } as React.CSSProperties
+            "--skeleton-width": width} as React.CSSProperties
         }
       />
     </div>
@@ -773,5 +761,4 @@ export {
   SidebarRail,
   SidebarSeparator,
   SidebarTrigger,
-  useSidebar,
-};
+  useSidebar};

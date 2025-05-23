@@ -20,6 +20,9 @@ import { Loader2, AlertTriangle } from "lucide-react";
 import { ErrorBoundary, FallbackProps } from 'react-error-boundary';
 import { GLTF } from 'three/examples/jsm/loaders/GLTFLoader';
 
+// Add Three.js type support
+import '../../types/three-extensions';
+
 // Extend Three.js elements for type safety
 extend({ Group: THREE.Group });
 
@@ -36,9 +39,9 @@ interface CustomizationOption {
   modelPath?: string;
   customData?: {
     colorHex?: string;
-    position?: [number, number, number];
-    rotation?: [number, number, number];
-    scale?: [number, number, number];
+    position?: [number, numbernumber];
+    rotation?: [number, numbernumber];
+    scale?: [number, numbernumber];
   };
 }
 
@@ -65,7 +68,7 @@ function adaptSelectedOption(
     unit: option.unit || '',
     customData: option.customData || {}
   };
-  
+
   return {
     optionId: id,
     option: matchingOption
@@ -73,7 +76,7 @@ function adaptSelectedOption(
 }
 
 // Loading indicator for suspense
-function Loader() {
+function LoaderComponent() {
   const { progress } = useProgress();
   return (
     <Html center>
@@ -89,15 +92,15 @@ function Loader() {
 
 // Types for GLTF result
 type GLTFResult = GLTF & {
-  nodes: Record<string, THREE.Mesh>;
-  materials: Record<string, THREE.Material>;
+  nodes: Record<string, THREE.Mesh>\n  );
+  materials: Record<string, THREE.Material>\n  );
 };
 
 // Fallback model for error cases
 function FallbackModel({ roomType }: { roomType: string }) {
   // Different colored fallback models based on room type
   let color = 0x808080; // Default gray
-  
+
   switch (roomType.toLowerCase()) {
     case 'livingroom':
       color = 0xA9D18E; // Green
@@ -112,11 +115,11 @@ function FallbackModel({ roomType }: { roomType: string }) {
       color = 0x8ED1D1; // Cyan
       break;
   }
-  
+
   return (
     <group>
       <mesh>
-        <boxGeometry args={[1, 1, 1]} />
+        <boxGeometry args={[1, 11]} />
         <meshBasicMaterial 
           color={color} 
           wireframe 
@@ -124,7 +127,7 @@ function FallbackModel({ roomType }: { roomType: string }) {
           opacity={0.7} 
         />
       </mesh>
-      <Html position={[0, 2, 0]}>
+      <Html position={[0, 20]}>
         <div className="bg-red-50 border border-red-200 rounded-md p-2 shadow-sm">
           <div className="flex items-center">
             <AlertTriangle className="h-4 w-4 text-red-500 mr-2" />
@@ -145,58 +148,58 @@ function RoomModel({
   selectedOptions: Record<string, RoomVisualizer3DSelectedOption> 
 }) {
   const groupRef = useRef<THREE.Group>(null);
-  const [modelError, setModelError] = useState<Error | null>(null);
+  const [modelErrorsetModelError] = useState<Error | null>(null);
   const modelPath = `/models/rooms/${room}.glb`;
-  
+
   // Load textures based on selected options
   const texturePaths = useMemo(() => {
     const paths: Record<string, string> = {};
-    
+
     Object.values(selectedOptions).forEach(selection => {
       const { option } = selection;
       if (option.materialPath) {
         paths[option.category] = option.materialPath;
       }
     });
-    
+
     return paths;
   }, [selectedOptions]);
-  
+
   // Load textures 
-  const textures = useTexture(
-    Object.entries(texturePaths).reduce((acc, [key, path]) => {
+  const textures: any = useTexture(
+    Object.entries(texturePaths).reduce((acc, [keypath]) => {
       acc[key] = path;
       return acc;
     }, {} as Record<string, string>),
-    (textures) => {
+    (textures: any) => {
       // Set texture properties after loading
-      Object.values(textures).forEach(texture => {
+      Object.values(textures: any).forEach(texture => {
         texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
-        texture.repeat.set(4, 4);
+        texture.repeat.set(44);
       });
     }
   );
-  
+
   // Try to load the room model
   let gltf: GLTFResult | null = null;
   try {
     gltf = useGLTF(modelPath) as GLTFResult;
   } catch (error) {
-    console.error(`Failed to load model: ${modelPath}`, error);
+
     setModelError(error as Error);
   }
-  
+
   // Apply materials and textures to the model
   useEffect(() => {
     if (!gltf || !groupRef.current) return;
-    
+
     try {
-      groupRef.current.traverse((child) => {
+      groupRef.current.traverse((child: any) => {
         if (!(child instanceof THREE.Mesh)) return;
-        
+
         Object.values(selectedOptions).forEach(selected => {
           const { option } = selected;
-          
+
           // Apply flooring materials
           if (option.category === 'flooring' && 
               child.name.toLowerCase().includes('floor')) {
@@ -204,11 +207,10 @@ function RoomModel({
               child.material = new THREE.MeshStandardMaterial({
                 map: textures[option.category],
                 roughness: 0.7,
-                metalness: 0.1,
-              });
+                metalness: 0.1});
             }
           }
-          
+
           // Apply wall paint
           if (option.category === 'paint' && 
               child.name.toLowerCase().includes('wall')) {
@@ -216,17 +218,15 @@ function RoomModel({
               child.material = new THREE.MeshStandardMaterial({
                 map: textures[option.category],
                 roughness: 0.9,
-                metalness: 0.0,
-              });
+                metalness: 0.0});
             } else if (option.customData?.colorHex) {
               child.material = new THREE.MeshStandardMaterial({
                 color: new THREE.Color(option.customData.colorHex),
                 roughness: 0.9,
-                metalness: 0.0,
-              });
+                metalness: 0.0});
             }
           }
-          
+
           // Apply fixtures
           if (option.category === 'fixtures' && 
               child.name.toLowerCase().includes('fixture')) {
@@ -234,22 +234,21 @@ function RoomModel({
               child.material = new THREE.MeshStandardMaterial({
                 map: textures[option.category],
                 roughness: 0.2,
-                metalness: 0.8,
-              });
+                metalness: 0.8});
             }
           }
         });
       });
     } catch (err) {
-      console.error("Error applying materials to model", err);
+
     }
-  }, [gltf, selectedOptions, textures]);
-  
+  }, [gltf, selectedOptionstextures]);
+
   // If there was a model error, show the fallback
   if (modelError || !gltf) {
-    return <FallbackModel roomType={room} />;
+    return <FallbackModel roomType={room} />\n  );
   }
-  
+
   return (
     <group ref={groupRef}>
       <primitive object={gltf.scene} />
@@ -260,64 +259,63 @@ function RoomModel({
 // Furniture model component with error handling
 function FurnitureItem({ 
   option,
-  position = [0, 0, 0],
-  rotation = [0, 0, 0],
-  scale = [1, 1, 1],
-}: { 
+  position = [0, 00],
+  rotation = [0, 00],
+  scale = [1, 11]}: { 
   option: CustomizationOption;
-  position?: [number, number, number];
-  rotation?: [number, number, number];
-  scale?: [number, number, number];
+  position?: [number, numbernumber];
+  rotation?: [number, numbernumber];
+  scale?: [number, numbernumber];
 }) {
   const modelPath = option.modelPath || '';
-  const [error, setError] = useState<Error | null>(null);
-  
+  const [errorsetError] = useState<Error | null>(null);
+
   // Try to load the model, handle errors gracefully
   let gltf: GLTF | null = null;
   try {
     gltf = useGLTF(modelPath);
   } catch (err) {
-    console.error(`Failed to load furniture model: ${modelPath}`, err);
+
     setError(err as Error);
     return null;
   }
-  
+
   // Configure the model
   useEffect(() => {
     if (!gltf?.scene) return;
-    
-    gltf.scene.traverse((child) => {
+
+    gltf.scene.traverse((child: any) => {
       if (child instanceof THREE.Mesh) {
         child.castShadow = true;
         child.receiveShadow = true;
       }
     });
   }, [gltf]);
-  
+
   // If there was an error, don't render anything
   if (error || !gltf) {
     return null;
   }
-  
+
   return (
     <primitive 
       object={gltf.scene} 
       position={position} 
-      rotation={rotation as [number, number, number]} 
-      scale={scale as [number, number, number]} 
+      rotation={rotation as [number, numbernumber]} 
+      scale={scale as [number, numbernumber]} 
     />
   );
 }
 
-// Camera controller with smooth transitions
+// THREE.Camera controller with smooth transitions
 function CameraController({ 
-  targetPosition = [0, 1, 0],
+  targetPosition = [0, 10],
   minDistance = 2,
   maxDistance = 10,
   minPolarAngle = Math.PI / 6,
   maxPolarAngle = Math.PI / 2
 }: { 
-  targetPosition?: [number, number, number];
+  targetPosition?: [number, numbernumber];
   minDistance?: number;
   maxDistance?: number;
   minPolarAngle?: number;
@@ -325,7 +323,7 @@ function CameraController({
 }) {
   const controlsRef = useRef<OrbitControls>(null);
   const target = useMemo(() => new THREE.Vector3(...targetPosition), [targetPosition]);
-  
+
   // Smooth camera transitions
   useFrame(() => {
     if (controlsRef.current) {
@@ -335,7 +333,7 @@ function CameraController({
       controlsRef.current.update();
     }
   });
-  
+
   return (
     <OrbitControls 
       ref={controlsRef}
@@ -353,7 +351,7 @@ function CameraController({
 // Performance monitoring component
 function PerformanceMonitor({ enabled = false }) {
   if (!enabled) return null;
-  return <Stats />;
+  return <Stats />\n  );
 }
 
 // Error boundary for 3D components
@@ -371,12 +369,12 @@ class ModelErrorBoundary extends React.Component<
   }
 
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
-    console.error('Model rendering error:', error, errorInfo);
+
   }
 
   render() {
     if (this.state.hasError) {
-      return <FallbackModel roomType={this.props.roomType} />;
+      return <FallbackModel roomType={this.props.roomType} />\n  );
     }
     return this.props.children;
   }
@@ -386,74 +384,73 @@ class ModelErrorBoundary extends React.Component<
 export function RoomVisualizer({ 
   room = "livingRoom",
   showPerformanceStats = false,
-  height = 600,
-}: { 
+  height = 600}: { 
   room?: string;
   showPerformanceStats?: boolean;
   height?: number;
 }) {
   // Get customization context
   const customizationContext = useCustomization();
-  
+
   // Safely access state, provide fallback if needed
   const state = customizationContext?.state || { selectedOptions: {} };
-  
+
   // Component state
-  const [isLoading, setIsLoading] = useState(true);
-  const [cameraTarget, setCameraTarget] = useState<[number, number, number]>([0, 1, 0]);
-  const [error, setError] = useState<Error | null>(null);
-  
+  const [isLoadingsetIsLoading] = useState(true);
+  const [cameraTargetsetCameraTarget] = useState<[number, numbernumber]>([0, 10]);
+  const [errorsetError] = useState<Error | null>(null);
+
   // Filter options for current room and get furniture items
   const selectedOptionsForRoom = useMemo(() => {
     return Object.values(state.selectedOptions)
       .filter(selected => selected.room === room);
-  }, [state.selectedOptions, room]);
-  
+  }, [state.selectedOptionsroom]);
+
   const furnitureItems = useMemo(() => {
     return selectedOptionsForRoom
       .filter(selected => selected.category === 'furniture');
   }, [selectedOptionsForRoom]);
-  
+
   // Handle model loading completion
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false);
     }, 1500);
-    
+
     return () => clearTimeout(timer);
   }, [room]);
-  
+
   // Focus camera on specific areas based on category
   const focusOnArea = useCallback((category: string) => {
     switch(category) {
       case 'flooring':
-        setCameraTarget([0, 0, 0]);
+        setCameraTarget([0, 00]);
         break;
       case 'paint':
-        setCameraTarget([0, 1.5, 0]);
+        setCameraTarget([0, 1.50]);
         break;
       case 'fixtures':
-        setCameraTarget([1, 1.5, 0]);
+        setCameraTarget([1, 1.50]);
         break;
       case 'furniture':
-        setCameraTarget([0, 0.5, 0]);
+        setCameraTarget([0, 0.50]);
         break;
       default:
-        setCameraTarget([0, 1, 0]);
+        setCameraTarget([0, 10]);
     }
   }, []);
-  
+
   // Handle errors
   const handleError = useCallback((err: Error) => {
-    console.error('RoomVisualizer encountered an error:', err);
+
     setError(err);
     setIsLoading(false);
   }, []);
-  
+
   return (
     <ErrorBoundary
       fallbackRender={({ error }: FallbackProps) => (
-        <div className="w-full bg-red-50 border border-red-200 rounded-lg p-4 flex items-center justify-center" style={{ height: `${height}px` }}>
+        <div className="w-full bg-red-50 border border-red-200 rounded-lg p-4 flex items-center justify-center" style={ height: `${height}px` }>
           <div className="text-center">
             <AlertTriangle className="h-10 w-10 text-red-500 mx-auto mb-2" />
             <h3 className="text-lg font-medium text-red-800">Visualization Error</h3>
@@ -466,72 +463,72 @@ export function RoomVisualizer({
       )}
       onError={handleError}
     >
-      <div className="w-full bg-gray-100 rounded-lg overflow-hidden shadow-md relative" style={{ height: `${height}px` }}>
+      <div className="w-full bg-gray-100 rounded-lg overflow-hidden shadow-md relative" style={ height: `${height}px` }>
         {isLoading && (
           <div className="absolute inset-0 flex items-center justify-center bg-white bg-opacity-70 z-10">
             <Loader2 className="mr-2 h-8 w-8 animate-spin text-blue-500" />
             <span className="text-lg font-medium">Loading 3D model...</span>
           </div>
         )}
-        
+
         <motion.div 
           className="w-full h-full"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: isLoading ? 0.3 : 1 }}
-          transition={{ duration: 0.5 }}
+          initial={ opacity: 0 }
+          animate={ opacity: isLoading ? 0.3 : 1 }
+          transition={ duration: 0.5 }
         >
           <Canvas 
             shadows 
-            camera={{ position: [0, 1.5, 4], fov: 60 }}
-            gl={{ antialias: true, preserveDrawingBuffer: true }}
-            dpr={[1, 2]} // Responsive to device pixel ratio
+            camera={ position: [0, 1.54], fov: 60 }
+            gl={ antialias: true, preserveDrawingBuffer: true }
+            dpr={[12]} // Responsive to device pixel ratio
           >
-            {/* Camera setup */}
-            <PerspectiveCamera makeDefault position={[0, 1.5, 4]} fov={60} />
-            
+            {/* THREE.Camera setup */}
+            <PerspectiveCamera makeDefault position={[0, 1.54]} fov={60} />
+
             {/* Lighting */}
             <ambientLight intensity={0.5} />
             <directionalLight 
-              position={[10, 10, 10]} 
+              position={[10, 1010]} 
               intensity={1}
               castShadow
-              shadow-mapSize={[2048, 2048]}
+              shadow-mapSize={[20482048]}
             />
-            
+
             {/* Models */}
-            <Suspense fallback={<Loader />}>
+            <Suspense fallback={<THREE.Loader />}>
               <ModelErrorBoundary roomType={room}>
                 <RoomModel 
                   room={room} 
                   selectedOptions={
                     // Convert the CustomizationContext options to RoomVisualizer compatible options
-                    Object.entries(state.selectedOptions).reduce((acc, [id, option]) => {
+                    Object.entries(state.selectedOptions).reduce((acc, [idoption]) => {
                       acc[id] = adaptSelectedOption(id, option, customizationContext?.state?.availableOptions || []);
                       return acc;
                     }, {} as Record<string, RoomVisualizer3DSelectedOption>)
                   } 
                 />
-                
+
                 {/* Furniture items */}
-                {furnitureItems.map((selected) => {
+                {furnitureItems.map((selected: any) => {
                   // Adapt each option
                   const adaptedItem = adaptSelectedOption(
                     selected.id, 
                     selected, 
                     customizationContext?.state?.availableOptions || []
                   );
-                  
+
                   return (
                     <FurnitureItem 
                       key={adaptedItem.optionId}
                       option={adaptedItem.option}
-                      position={adaptedItem.option.customData?.position || [0, 0, 0]}
-                      rotation={adaptedItem.option.customData?.rotation || [0, 0, 0]}
-                      scale={adaptedItem.option.customData?.scale || [1, 1, 1]}
+                      position={adaptedItem.option.customData?.position || [0, 00]}
+                      rotation={adaptedItem.option.customData?.rotation || [0, 00]}
+                      scale={adaptedItem.option.customData?.scale || [1, 11]}
                     />
                   );
                 })}
-                
+
                 {/* Environment and controls */}
                 <Environment preset="apartment" />
                 <CameraController targetPosition={cameraTarget} />
@@ -540,7 +537,7 @@ export function RoomVisualizer({
             </Suspense>
           </Canvas>
         </motion.div>
-        
+
         {/* View controls */}
         <div className="absolute bottom-4 right-4 flex space-x-2">
           <button 

@@ -64,8 +64,7 @@ const statusData = [
   { name: 'Pending', value: 12, fill: '#FFBF00' },
   { name: 'Processing', value: 24, fill: '#3B82F6' },
   { name: 'Completed', value: 45, fill: '#10B981' },
-  { name: 'Rejected', value: 8, fill: '#EF4444' },
-];
+  { name: 'Rejected', value: 8, fill: '#EF4444' }];
 
 export default function HTBAnalyticsPage() {
   // Simplified placeholder implementation for build testing
@@ -101,7 +100,7 @@ export default function HTBAnalyticsPage() {
             </div>
           </div>
         </div>
-        
+
         {/* Card 2 */}
         <div className="border rounded-lg p-4 shadow-sm">
           <div className="pb-2">
@@ -115,7 +114,7 @@ export default function HTBAnalyticsPage() {
             </div>
           </div>
         </div>
-        
+
         {/* Card 3 */}
         <div className="border rounded-lg p-4 shadow-sm">
           <div className="pb-2">
@@ -129,7 +128,7 @@ export default function HTBAnalyticsPage() {
             </div>
           </div>
         </div>
-        
+
         {/* Card 4 */}
         <div className="border rounded-lg p-4 shadow-sm">
           <div className="pb-2">
@@ -153,7 +152,7 @@ export default function HTBAnalyticsPage() {
             <h2 className="text-lg font-medium">Help To Buy Status Distribution</h2>
             <p className="text-sm text-gray-500">Overview of claim statuses</p>
           </div>
-          
+
           <div className="h-80">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
@@ -167,7 +166,7 @@ export default function HTBAnalyticsPage() {
                   dataKey="value"
                   label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
                 />
-                <Tooltip formatter={(value) => [`${value} claims`, 'Count']} />
+                <Tooltip formatter={(value: any) => [`${value} claims`, 'Count']} />
                 <Legend />
               </PieChart>
             </ResponsiveContainer>

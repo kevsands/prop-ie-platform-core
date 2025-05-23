@@ -1,3 +1,4 @@
+import React from 'react';
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
@@ -35,8 +36,7 @@ const propertyLocations: Record<string, { lat: number; lng: number }> = {
   'dublin-west': { lat: 53.3478, lng: -6.4038 },
   'cork': { lat: 51.8985, lng: -8.4756 },
   'galway': { lat: 53.2707, lng: -9.0568 },
-  'limerick': { lat: 52.6638, lng: -8.6267 },
-};
+  'limerick': { lat: 52.6638, lng: -8.6267 };
 
 export default function PropertyMapView({
   properties,
@@ -48,23 +48,23 @@ export default function PropertyMapView({
   onCompareToggle
 }: PropertyMapViewProps) {
   const mapRef = useRef<HTMLDivElement>(null);
-  const [zoom, setZoom] = useState(10);
-  const [center, setCenter] = useState({ lat: 53.3498, lng: -6.2603 }); // Dublin
-  const [hoveredProperty, setHoveredProperty] = useState<Property | null>(null);
-  const [showPropertyCard, setShowPropertyCard] = useState(false);
-  const [mapMode, setMapMode] = useState<'road' | 'satellite'>('road');
+  const [zoomsetZoom] = useState(10);
+  const [centersetCenter] = useState({ lat: 53.3498, lng: -6.2603 }); // Dublin
+  const [hoveredPropertysetHoveredProperty] = useState<Property | null>(null);
+  const [showPropertyCardsetShowPropertyCard] = useState(false);
+  const [mapModesetMapMode] = useState<'road' | 'satellite'>('road');
 
   useEffect(() => {
     // In production, initialize the actual map library here
-    console.log('Initializing map with center:', center, 'and zoom:', zoom);
+
   }, []);
 
   const handleZoomIn = () => {
-    setZoom(prev => Math.min(prev + 1, 18));
+    setZoom(prev => Math.min(prev + 118));
   };
 
   const handleZoomOut = () => {
-    setZoom(prev => Math.max(prev - 1, 5));
+    setZoom(prev => Math.max(prev - 15));
   };
 
   const getLocationForProperty = (property: Property) => {
@@ -77,18 +77,17 @@ export default function PropertyMapView({
     const location = getLocationForProperty(property);
     const isSelected = selectedProperty?.id === property.id;
     const isComparing = compareProperties.some(p => p.id === property.id);
-    
+
     return (
       <div
         className={cn(
           "absolute transform -translate-x-1/2 -translate-y-full cursor-pointer",
           "transition-all duration-200"
         )}
-        style={{
+        style={
           // In production, calculate actual pixel positions based on lat/lng
           left: `${50 + (location.lng + 6.2603) * 100}%`,
-          top: `${50 - (location.lat - 53.3498) * 100}%`,
-        }}
+          top: `${50 - (location.lat - 53.3498) * 100}%`}
         onMouseEnter={() => setHoveredProperty(property)}
         onMouseLeave={() => setHoveredProperty(null)}
         onClick={() => onPropertySelect(property)}
@@ -107,7 +106,7 @@ export default function PropertyMapView({
           )}>
             <span className="font-semibold">€{property.price.toLocaleString()}</span>
           </div>
-          
+
           <div className={cn(
             "absolute w-3 h-3 bg-inherit transform rotate-45",
             "left-1/2 -translate-x-1/2 -bottom-1.5"
@@ -153,7 +152,7 @@ export default function PropertyMapView({
         >
           {/* Map grid lines for demonstration */}
           <div className="absolute inset-0 grid grid-cols-8 grid-rows-8">
-            {[...Array(64)].map((_, i) => (
+            {[...Array(64)].map((_i: any) => (
               <div key={i} className="border border-gray-300/20" />
             ))}
           </div>

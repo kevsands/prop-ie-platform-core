@@ -27,8 +27,7 @@ export default function ConsistentNavigation() {
     { label: 'Properties', path: '/properties' },
     { label: 'Developments', path: '/developments' },
     { label: 'About', path: '/about' },
-    { label: 'Contact', path: '/contact' },
-  ];
+    { label: 'Contact', path: '/contact' }];
 
   // Check if a link is active based on the current path
   const isActive = (path: string) => {
@@ -45,10 +44,10 @@ export default function ConsistentNavigation() {
               {/* Logo text or image */}
               <span className="text-xl font-bold">Prop</span>
             </Link>
-            
+
             {/* Desktop menu */}
             <nav className="hidden md:ml-10 md:flex md:space-x-8">
-              {mainNavLinks.map((link) => (
+              {mainNavLinks.map((link: any) => (
                 <Link
                   key={link.path}
                   href={link.path}

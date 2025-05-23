@@ -65,8 +65,7 @@ const coverageMetrics: CoverageMetric[] = [
   { name: 'Statements', value: 84, target: 80, status: 'success' },
   { name: 'Branches', value: 72, target: 75, status: 'warning' },
   { name: 'Functions', value: 88, target: 80, status: 'success' },
-  { name: 'Lines', value: 86, target: 80, status: 'success' },
-];
+  { name: 'Lines', value: 86, target: 80, status: 'success' }];
 
 const performanceMetrics: PerformanceMetric[] = [
   { 
@@ -100,8 +99,7 @@ const performanceMetrics: PerformanceMetric[] = [
     change: -14, 
     threshold: 500,
     status: 'improved' 
-  },
-];
+  }];
 
 const failedTests: TestResult[] = [
   { 
@@ -117,8 +115,7 @@ const failedTests: TestResult[] = [
     status: 'failed', 
     duration: 189,
     errorMessage: 'Timeout waiting for search results to load'
-  },
-];
+  }];
 
 const recentTests: TestResult[] = [
   { name: 'should render login form', component: 'LoginForm', status: 'passed', duration: 145 },
@@ -128,8 +125,7 @@ const recentTests: TestResult[] = [
   { name: 'should handle auth token refresh', component: 'AuthContext', status: 'failed', duration: 245 },
   { name: 'should handle property search with filters', component: 'PropertySearch', status: 'failed', duration: 189 },
   { name: 'should lazy load dashboard components', component: 'BuyerDashboard', status: 'passed', duration: 420 },
-  { name: 'should handle form submission', component: 'ContactForm', status: 'passed', duration: 185 },
-];
+  { name: 'should handle form submission', component: 'ContactForm', status: 'passed', duration: 185 }];
 
 const coverageHistory: CoverageHistory[] = [
   { date: '2025-04-01', statements: 70, branches: 61, functions: 72, lines: 74 },
@@ -137,8 +133,7 @@ const coverageHistory: CoverageHistory[] = [
   { date: '2025-04-15', statements: 78, branches: 67, functions: 82, lines: 80 },
   { date: '2025-04-22', statements: 80, branches: 68, functions: 83, lines: 82 },
   { date: '2025-04-29', statements: 82, branches: 70, functions: 85, lines: 84 },
-  { date: '2025-05-03', statements: 84, branches: 72, functions: 88, lines: 86 },
-];
+  { date: '2025-05-03', statements: 84, branches: 72, functions: 88, lines: 86 }];
 
 const performanceHistory = [
   { date: '2025-04-01', homepage: 280, search: 620, login: 390, dashboard: 520 },
@@ -146,8 +141,7 @@ const performanceHistory = [
   { date: '2025-04-15', homepage: 250, search: 560, login: 370, dashboard: 470 },
   { date: '2025-04-22', homepage: 240, search: 540, login: 360, dashboard: 450 },
   { date: '2025-04-29', homepage: 230, search: 520, login: 350, dashboard: 440 },
-  { date: '2025-05-03', homepage: 210, search: 520, login: 350, dashboard: 430 },
-];
+  { date: '2025-05-03', homepage: 210, search: 520, login: 350, dashboard: 430 }];
 
 // Color constants
 const colors = {
@@ -164,8 +158,7 @@ const colors = {
   statements: '#3b82f6',
   branches: '#8b5cf6',
   functions: '#ec4899',
-  lines: '#14b8a6',
-};
+  lines: '#14b8a6'};
 
 // Get status color
 const getStatusColor = (status: string): string => {
@@ -174,20 +167,20 @@ const getStatusColor = (status: string): string => {
 
 // Format duration in ms to readable string
 const formatDuration = (ms: number): string => {
-  if (ms < 1000) return `${ms}ms`;
+  if (ms <1000) return `${ms}ms`;
   return `${(ms / 1000).toFixed(1)}s`;
 };
 
 // Format percentage change
 const formatChange = (change: number): string => {
-  return change >= 0 ? `+${change}%` : `${change}%`;
+  return change>= 0 ? `+${change}%` : `${change}%`;
 };
 
 // Dashboard Component
 const TestDashboard: React.FC = () => {
-  const [activeTab, setActiveTab] = useState('overview');
-  const [isLoading, setIsLoading] = useState(false);
-  const [lastUpdated, setLastUpdated] = useState(new Date());
+  const [activeTabsetActiveTab] = useState('overview');
+  const [isLoadingsetIsLoading] = useState(false);
+  const [lastUpdatedsetLastUpdated] = useState(new Date());
 
   // In a real app, this would fetch data from an API
   const refreshData = () => {
@@ -243,7 +236,7 @@ const TestDashboard: React.FC = () => {
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  {coverageMetrics.map((metric) => (
+                  {coverageMetrics.map((metric: any) => (
                     <div key={metric.name} className="space-y-1">
                       <div className="flex justify-between items-center">
                         <span className="text-sm font-medium">{metric.name}</span>
@@ -251,10 +244,10 @@ const TestDashboard: React.FC = () => {
                           <span className="text-sm font-bold">{metric.value}%</span>
                           <Badge 
                             className={`bg-${metric.status === 'success' ? 'green' : metric.status === 'warning' ? 'yellow' : 'red'}-100 text-${metric.status === 'success' ? 'green' : metric.status === 'warning' ? 'yellow' : 'red'}-800`}
-                            style={{ 
+                            style={ 
                               backgroundColor: `${getStatusColor(metric.status)}20`,
                               color: getStatusColor(metric.status)
-                            }}
+                            }
                           >
                             {metric.status === 'success' ? 'Meets Target' : metric.status === 'warning' ? 'Near Target' : 'Below Target'}
                           </Badge>
@@ -265,7 +258,7 @@ const TestDashboard: React.FC = () => {
                         max={100} 
                         className="h-2"
                         indicatorClassName="bg-primary" 
-                        style={{ 
+                        style={ 
                           '--progress-background': '#e5e7eb',
                           '--progress-foreground': getStatusColor(metric.status)
                         } as React.CSSProperties}
@@ -296,7 +289,7 @@ const TestDashboard: React.FC = () => {
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  {performanceMetrics.map((metric) => (
+                  {performanceMetrics.map((metric: any) => (
                     <div key={metric.name} className="flex justify-between items-center">
                       <div>
                         <p className="text-sm font-medium">{metric.name}</p>
@@ -307,10 +300,10 @@ const TestDashboard: React.FC = () => {
                           <span className="text-sm font-bold">{metric.currentValue}ms</span>
                           <Badge
                             className="flex items-center gap-1"
-                            style={{ 
+                            style={ 
                               backgroundColor: `${getStatusColor(metric.status)}20`,
                               color: getStatusColor(metric.status)
-                            }}
+                            }
                           >
                             {metric.status === 'improved' ? (
                               <TrendingDown size={12} />
@@ -340,22 +333,22 @@ const TestDashboard: React.FC = () => {
           </div>
           
           {/* Failed Tests Section */}
-          <Card className={failedTests.length > 0 ? 'border-red-200' : ''}>
+          <Card className={failedTests.length> 0 ? 'border-red-200' : ''}>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <XCircle size={18} color={colors.failed} />
                 Failed Tests
               </CardTitle>
               <CardDescription>
-                {failedTests.length > 0 
+                {failedTests.length> 0 
                   ? `${failedTests.length} tests are currently failing`
                   : 'All tests are passing'}
               </CardDescription>
             </CardHeader>
             <CardContent>
-              {failedTests.length > 0 ? (
+              {failedTests.length> 0 ? (
                 <div className="space-y-4">
-                  {failedTests.map((test, index) => (
+                  {failedTests.map((testindex: any) => (
                     <Alert key={index} className="bg-red-50 border-red-200">
                       <AlertTitle className="flex items-center gap-2 font-bold">
                         <XCircle size={16} className="text-red-500" />
@@ -382,7 +375,7 @@ const TestDashboard: React.FC = () => {
                 </div>
               )}
             </CardContent>
-            {failedTests.length > 0 && (
+            {failedTests.length> 0 && (
               <CardFooter>
                 <Button variant="outline" size="sm" className="w-full flex items-center justify-center gap-1">
                   Debug Failed Tests
@@ -405,18 +398,18 @@ const TestDashboard: React.FC = () => {
                 <ResponsiveContainer width="100%" height="100%">
                   <LineChart
                     data={coverageHistory}
-                    margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+                    margin={ top: 5, right: 30, left: 20, bottom: 5 }
                   >
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis dataKey="date" />
-                    <YAxis domain={[50, 100]} />
+                    <YAxis domain={[50100]} />
                     <Tooltip />
                     <Legend />
                     <Line 
                       type="monotone" 
                       dataKey="statements" 
                       stroke={colors.statements} 
-                      activeDot={{ r: 8 }} 
+                      activeDot={ r: 8 } 
                       name="Statements"
                     />
                     <Line 
@@ -456,10 +449,10 @@ const TestDashboard: React.FC = () => {
             <CardContent>
               <div className="space-y-4">
                 <div className="grid grid-cols-4 gap-4">
-                  {coverageMetrics.map((metric) => (
+                  {coverageMetrics.map((metric: any) => (
                     <Card key={metric.name} className="p-4">
                       <h3 className="text-sm font-medium text-gray-600">{metric.name}</h3>
-                      <p className="text-3xl font-bold" style={{ color: getStatusColor(metric.status) }}>
+                      <p className="text-3xl font-bold" style={ color: getStatusColor(metric.status) }>
                         {metric.value}%
                       </p>
                       <div className="flex items-center mt-2">
@@ -467,7 +460,7 @@ const TestDashboard: React.FC = () => {
                           value={metric.value} 
                           max={100} 
                           className="h-1 flex-1"
-                          style={{ 
+                          style={ 
                             '--progress-background': '#e5e7eb',
                             '--progress-foreground': getStatusColor(metric.status)
                           } as React.CSSProperties}
@@ -489,13 +482,12 @@ const TestDashboard: React.FC = () => {
                         { name: 'API Clients', statements: 80, branches: 72, functions: 82, lines: 81 },
                         { name: 'Utils', statements: 94, branches: 88, functions: 96, lines: 95 },
                         { name: 'Contexts', statements: 82, branches: 64, functions: 88, lines: 80 },
-                        { name: 'Security', statements: 90, branches: 86, functions: 92, lines: 91 },
-                      ]}
-                      margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+                        { name: 'Security', statements: 90, branches: 86, functions: 92, lines: 91 }]}
+                      margin={ top: 20, right: 30, left: 20, bottom: 5 }
                     >
                       <CartesianGrid strokeDasharray="3 3" />
                       <XAxis dataKey="name" />
-                      <YAxis domain={[0, 100]} />
+                      <YAxis domain={[0100]} />
                       <Tooltip />
                       <Legend />
                       <Bar dataKey="statements" name="Statements" fill={colors.statements} />
@@ -527,7 +519,7 @@ const TestDashboard: React.FC = () => {
                 <ResponsiveContainer width="100%" height="100%">
                   <LineChart
                     data={performanceHistory}
-                    margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+                    margin={ top: 5, right: 30, left: 20, bottom: 5 }
                   >
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis dataKey="date" />
@@ -565,17 +557,17 @@ const TestDashboard: React.FC = () => {
               <div className="space-y-4">
                 <h3 className="text-lg font-medium">Current Performance</h3>
                 <div className="divide-y">
-                  {performanceMetrics.map((metric) => (
+                  {performanceMetrics.map((metric: any) => (
                     <div key={metric.name} className="py-4 flex items-center justify-between">
                       <div>
                         <p className="font-medium">{metric.name}</p>
                         <div className="flex items-center mt-1">
                           <Badge
                             className="flex items-center gap-1"
-                            style={{ 
+                            style={ 
                               backgroundColor: `${getStatusColor(metric.status)}20`,
                               color: getStatusColor(metric.status)
-                            }}
+                            }
                           >
                             {metric.status === 'improved' ? (
                               <TrendingDown size={12} />
@@ -649,7 +641,7 @@ const TestDashboard: React.FC = () => {
                         <p className="text-sm font-medium text-gray-600">Avg. Duration</p>
                         <p className="text-xl font-bold text-gray-600">
                           {formatDuration(
-                            recentTests.reduce((sum, test) => sum + test.duration, 0) / recentTests.length
+                            recentTests.reduce((sumtest: any) => sum + test.duration0) / recentTests.length
                           )}
                         </p>
                       </div>
@@ -668,17 +660,17 @@ const TestDashboard: React.FC = () => {
                       </tr>
                     </thead>
                     <tbody className="divide-y">
-                      {recentTests.map((test, index) => (
+                      {recentTests.map((testindex: any) => (
                         <tr key={index} className="hover:bg-gray-50">
                           <td className="py-3 px-3">{test.name}</td>
                           <td className="py-3 px-3">{test.component}</td>
                           <td className="py-3 px-3">
                             <Badge
                               className="inline-flex items-center gap-1"
-                              style={{ 
+                              style={ 
                                 backgroundColor: `${getStatusColor(test.status)}20`,
                                 color: getStatusColor(test.status)
-                              }}
+                              }
                             >
                               {test.status === 'passed' ? (
                                 <CheckCircle size={12} />

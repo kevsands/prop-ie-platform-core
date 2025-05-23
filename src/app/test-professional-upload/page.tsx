@@ -4,11 +4,11 @@ import React, { useState, useRef } from 'react';
 import { Upload, X, FileText } from 'lucide-react';
 
 export default function TestProfessionalUploadPage() {
-  const [files, setFiles] = useState({
+  const [filessetFiles] = useState({
     license: null as File | null,
     insurance: null as File | null
   });
-  
+
   const fileInputRefs = {
     license: useRef<HTMLInputElement>(null),
     insurance: useRef<HTMLInputElement>(null)
@@ -16,8 +16,7 @@ export default function TestProfessionalUploadPage() {
 
   const handleFileUpload = (field: 'license' | 'insurance', file: File | null) => {
     if (file) {
-      console.log(`Uploading ${field}:`, file.name, file.size, file.type);
-      
+
       // Validate file type
       const allowedTypes = ['application/pdf', 'image/jpeg', 'image/jpg', 'image/png'];
       if (!allowedTypes.includes(file.type)) {
@@ -26,7 +25,7 @@ export default function TestProfessionalUploadPage() {
       }
 
       // Validate file size (10MB max)
-      if (file.size > 10 * 1024 * 1024) {
+      if (file.size> 10 * 1024 * 1024) {
         alert('File size must be less than 10MB');
         return;
       }
@@ -39,12 +38,12 @@ export default function TestProfessionalUploadPage() {
   };
 
   const handleFileRemove = (field: 'license' | 'insurance') => {
-    console.log(`Removing ${field}`);
+
     setFiles(prev => ({
       ...prev,
       [field]: null
     }));
-    
+
     if (fileInputRefs[field]?.current) {
       fileInputRefs[field].current.value = '';
     }
@@ -54,7 +53,7 @@ export default function TestProfessionalUploadPage() {
     <div className="min-h-screen bg-gray-50 p-8">
       <div className="max-w-2xl mx-auto">
         <h1 className="text-3xl font-bold mb-8">Test Professional Document Upload</h1>
-        
+
         <div className="bg-white p-6 rounded-lg shadow space-y-6">
           {/* License Upload */}
           <div>
@@ -101,7 +100,7 @@ export default function TestProfessionalUploadPage() {
                 type="file"
                 accept=".pdf,.jpg,.jpeg,.png"
                 className="hidden"
-                onChange={(e) => handleFileUpload('license', e.target.files?.[0] || null)}
+                onChange={(e: any) => handleFileUpload('license', e.target.files?.[0] || null)}
               />
             </div>
           </div>
@@ -151,7 +150,7 @@ export default function TestProfessionalUploadPage() {
                 type="file"
                 accept=".pdf,.jpg,.jpeg,.png"
                 className="hidden"
-                onChange={(e) => handleFileUpload('insurance', e.target.files?.[0] || null)}
+                onChange={(e: any) => handleFileUpload('insurance', e.target.files?.[0] || null)}
               />
             </div>
           </div>
@@ -171,7 +170,7 @@ export default function TestProfessionalUploadPage() {
                   size: files.insurance.size,
                   type: files.insurance.type
                 } : null
-              }, null, 2)}
+              }, null2)}
             </pre>
           </div>
         </div>

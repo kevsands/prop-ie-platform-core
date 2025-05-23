@@ -1,0 +1,127 @@
+type Props = {
+  params: Promise<{ id: string }>
+}
+
+import { NextRequest, NextResponse } from 'next/server';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '../../../auth/[...nextauth]/auth.config';
+import { z } from 'zod';
+import { transactionService } from '../../../../../services/transactionService';
+import { canAccessTransaction } from '../../../../../utils/auth-utils';
+
+// Payment schema
+const PaymentSchema = z.object({
+  amount: z.number().positive(),
+  type: z.enum(['BOOKING_DEPOSIT', 'CONTRACT_DEPOSIT', 'STAGE_PAYMENT', 'FINAL_PAYMENT', 'CUSTOMIZATION_PAYMENT', 'LEGAL_FEE']),
+  dueDate: z.string().datetime().optional(),
+  method: z.enum(['BANK_TRANSFER', 'CREDIT_CARD', 'DEBIT_CARD', 'CASH', 'CHEQUE', 'MORTGAGE_DRAWDOWN']),
+  reference: z.string().optional(),
+  description: z.string().optional(),
+});
+
+/**
+ * GET /api/transactions/[id]/payments
+ * Get all payments for a transaction
+ */
+export async function GET(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  try {
+    const { id } = await params;
+    const session = await getServerSession(authOptions);
+    if (!session) {
+      return NextResponse.json(
+        { error: 'Authentication required' },
+        { status: 401 }
+      );
+    }
+
+    // Check if user can access this transaction
+    const canAccess = await canAccessTransaction(session, id);
+    if (!canAccess) {
+      return NextResponse.json(
+        { error: 'You do not have permission to access this transaction' },
+        { status: 403 }
+      );
+    }
+
+    // Get transaction with included payments
+    const transaction = await transactionService.getTransaction(id);
+    if (!transaction) {
+      return NextResponse.json(
+        { error: 'Transaction not found' },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json(transaction.payments);
+  } catch (error) {
+    console.error('Error fetching payments:', error);
+    return NextResponse.json(
+      { error: 'Failed to fetch payments' },
+      { status: 500 }
+    );
+  }
+}
+
+/**
+ * POST /api/transactions/[id]/payments
+ * Create a new payment for a transaction
+ */
+export async function POST(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  try {
+    const { id } = await params;
+    const session = await getServerSession(authOptions);
+    if (!session) {
+      return NextResponse.json(
+        { error: 'Authentication required' },
+        { status: 401 }
+      );
+    }
+
+    // Check if user can access this transaction
+    const canAccess = await canAccessTransaction(session, id);
+    if (!canAccess) {
+      return NextResponse.json(
+        { error: 'You do not have permission to access this transaction' },
+        { status: 403 }
+      );
+    }
+
+    const body: any = await request.json();
+    const validationResult = PaymentSchema.safeParse(body);
+
+    if (!validationResult.success) {
+      return NextResponse.json(
+        { error: 'Invalid payment data', details: validationResult.error.format() },
+        { status: 400 }
+      );
+    }
+
+    const paymentData = validationResult.data;
+
+    // Generate a unique reference if not provided
+    const reference = paymentData.reference || `PAY-${Date.now()}-${Math.random().toString(36).substring(2, 7).toUpperCase()}`;
+
+    // Process the payment using transaction service
+    const newPayment = await transactionService.processPayment(id, {
+      type: paymentData.type,
+      amount: paymentData.amount,
+      method: paymentData.method,
+      reference: reference,
+      description: paymentData.description || `${paymentData.type} payment`
+    });
+
+    return NextResponse.json(newPayment, { status: 201 });
+  } catch (error) {
+    console.error('Error creating payment:', error);
+    return NextResponse.json(
+      { error: 'Failed to create payment' },
+      { status: 500 }
+    );
+  }
+}

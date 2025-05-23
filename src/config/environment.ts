@@ -56,16 +56,14 @@ const ENVIRONMENT_CONFIGS: Record<Environment, EnvironmentConfig> = {
       enableApiProtection: true,
       enableSecurityMonitoring: true,
       enablePerformanceMonitoring: true,
-      enableAmplifyCache: process.env.NEXT_PUBLIC_FEATURE_ENABLE_AMPLIFY_CACHE !== 'false',
-    },
+      enableAmplifyCache: process.env.NEXT_PUBLIC_FEATURE_ENABLE_AMPLIFY_CACHE !== 'false'},
     authConfig: {
       authority: 'http://localhost:3000/auth',
       clientId: process.env.NEXT_PUBLIC_AUTH_CLIENT_ID || '74cb9eb7-d97a-4857-857a-de763959ebf4',
       region: process.env.NEXT_PUBLIC_AWS_REGION || 'eu-west-1',
       userPoolId: process.env.NEXT_PUBLIC_USER_POOL_ID,
       userPoolWebClientId: process.env.NEXT_PUBLIC_USER_POOL_WEB_CLIENT_ID,
-      identityPoolId: process.env.NEXT_PUBLIC_IDENTITY_POOL_ID,
-    },
+      identityPoolId: process.env.NEXT_PUBLIC_IDENTITY_POOL_ID},
     caching: {
       apiCacheTtl: 10,  // 10 seconds for local development
       dataCacheTtl: 30, // 30 seconds for local development
@@ -83,16 +81,14 @@ const ENVIRONMENT_CONFIGS: Record<Environment, EnvironmentConfig> = {
       enableApiProtection: true,
       enableSecurityMonitoring: true,
       enablePerformanceMonitoring: true,
-      enableAmplifyCache: process.env.NEXT_PUBLIC_FEATURE_ENABLE_AMPLIFY_CACHE !== 'false',
-    },
+      enableAmplifyCache: process.env.NEXT_PUBLIC_FEATURE_ENABLE_AMPLIFY_CACHE !== 'false'},
     authConfig: {
       authority: process.env.NEXT_PUBLIC_API_ENDPOINT || 'https://dev-api.prop-ie-app.com/auth',
       clientId: process.env.NEXT_PUBLIC_AUTH_CLIENT_ID || '74cb9eb7-d97a-4857-857a-de763959ebf4',
       region: process.env.NEXT_PUBLIC_AWS_REGION || 'eu-west-1',
       userPoolId: process.env.NEXT_PUBLIC_USER_POOL_ID,
       userPoolWebClientId: process.env.NEXT_PUBLIC_USER_POOL_WEB_CLIENT_ID,
-      identityPoolId: process.env.NEXT_PUBLIC_IDENTITY_POOL_ID,
-    },
+      identityPoolId: process.env.NEXT_PUBLIC_IDENTITY_POOL_ID},
     caching: {
       apiCacheTtl: 60,  // 1 minute
       dataCacheTtl: 300, // 5 minutes
@@ -110,16 +106,14 @@ const ENVIRONMENT_CONFIGS: Record<Environment, EnvironmentConfig> = {
       enableApiProtection: true,
       enableSecurityMonitoring: true,
       enablePerformanceMonitoring: true,
-      enableAmplifyCache: true,
-    },
+      enableAmplifyCache: true},
     authConfig: {
       authority: process.env.NEXT_PUBLIC_API_ENDPOINT || 'https://staging-api.prop-ie-app.com/auth',
       clientId: process.env.NEXT_PUBLIC_AUTH_CLIENT_ID || '74cb9eb7-d97a-4857-857a-de763959ebf4',
       region: process.env.NEXT_PUBLIC_AWS_REGION || 'eu-west-1',
       userPoolId: process.env.NEXT_PUBLIC_USER_POOL_ID,
       userPoolWebClientId: process.env.NEXT_PUBLIC_USER_POOL_WEB_CLIENT_ID,
-      identityPoolId: process.env.NEXT_PUBLIC_IDENTITY_POOL_ID,
-    },
+      identityPoolId: process.env.NEXT_PUBLIC_IDENTITY_POOL_ID},
     caching: {
       apiCacheTtl: 300,  // 5 minutes
       dataCacheTtl: 600, // 10 minutes
@@ -137,22 +131,19 @@ const ENVIRONMENT_CONFIGS: Record<Environment, EnvironmentConfig> = {
       enableApiProtection: true,
       enableSecurityMonitoring: true,
       enablePerformanceMonitoring: true,
-      enableAmplifyCache: true,
-    },
+      enableAmplifyCache: true},
     authConfig: {
       authority: process.env.NEXT_PUBLIC_API_ENDPOINT || 'https://api.prop-ie-app.com/auth',
       clientId: process.env.NEXT_PUBLIC_AUTH_CLIENT_ID || '74cb9eb7-d97a-4857-857a-de763959ebf4',
       region: process.env.NEXT_PUBLIC_AWS_REGION || 'eu-west-1',
       userPoolId: process.env.NEXT_PUBLIC_USER_POOL_ID,
       userPoolWebClientId: process.env.NEXT_PUBLIC_USER_POOL_WEB_CLIENT_ID,
-      identityPoolId: process.env.NEXT_PUBLIC_IDENTITY_POOL_ID,
-    },
+      identityPoolId: process.env.NEXT_PUBLIC_IDENTITY_POOL_ID},
     caching: {
       apiCacheTtl: 600,  // 10 minutes
       dataCacheTtl: 1800, // 30 minutes
     }
-  },
-};
+  };
 
 // Smart environment detection with override capability
 function determineEnvironment(): Environment {

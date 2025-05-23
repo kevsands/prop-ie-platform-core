@@ -1,0 +1,431 @@
+'use client';
+
+import { useState, useEffect } from 'react';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Progress } from '@/components/ui/progress';
+import { FiArrowLeft, FiArrowRight, FiCpu, FiZap, FiTarget, FiTrendingUp, FiAlertCircle, FiCheckCircle } from 'react-icons/fi';
+import { motion, AnimatePresence } from 'framer-motion';
+import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar } from 'recharts';
+
+interface AIProjectAssistantProps {
+  projectData: any;
+  onNext: (data: any) => void;
+  onBack: () => void;
+}
+
+interface AIInsight {
+  id: string;
+  category: string;
+  title: string;
+  description: string;
+  impact: 'high' | 'medium' | 'low';
+  confidence: number;
+  recommendation: string;
+  icon: React.ElementType;
+}
+
+export default function AIProjectAssistant({ projectData, onNext, onBack }: AIProjectAssistantProps) {
+  const [isAnalyzing, setIsAnalyzing] = useState(true);
+  const [analysisProgress, setAnalysisProgress] = useState(0);
+  const [selectedInsight, setSelectedInsight] = useState<string | null>(null);
+  const [acceptedRecommendations, setAcceptedRecommendations] = useState<string[]>([]);
+
+  // Simulated AI insights based on project data
+  const [insights, setInsights] = useState<AIInsight[]>([]);
+
+  useEffect(() => {
+    // Simulate AI analysis
+    const analyzeProject = async () => {
+      setIsAnalyzing(true);
+      
+      // Simulate progress
+      const progressInterval = setInterval(() => {
+        setAnalysisProgress(prev => {
+          if (prev >= 100) {
+            clearInterval(progressInterval);
+            return 100;
+          }
+          return prev + 10;
+        });
+      }, 200);
+
+      // Simulate AI processing
+      setTimeout(() => {
+        generateInsights();
+        setIsAnalyzing(false);
+      }, 2500);
+    };
+
+    analyzeProject();
+  }, []);
+
+  const generateInsights = () => {
+    const generatedInsights: AIInsight[] = [
+      {
+        id: '1',
+        category: 'Market Analysis',
+        title: 'Strong Demand in Target Market',
+        description: 'Based on recent market data, first-time buyer demand in your area has increased by 23% year-over-year.',
+        impact: 'high',
+        confidence: 92,
+        recommendation: 'Consider increasing unit allocation for 1-2 bedroom apartments to capture this demand.',
+        icon: FiTarget},
+      {
+        id: '2',
+        category: 'Pricing Strategy',
+        title: 'Optimal Pricing Window Identified',
+        description: 'AI analysis suggests your pricing is 5% below optimal market rate for similar developments.',
+        impact: 'high',
+        confidence: 87,
+        recommendation: 'Increase average unit price by €15,000-20,000 to maximize revenue without affecting demand.',
+        icon: FiDollarSign},
+      {
+        id: '3',
+        category: 'Risk Assessment',
+        title: 'Construction Timeline Risk',
+        description: 'Historical data shows 68% of similar projects experience 2-3 month delays.',
+        impact: 'medium',
+        confidence: 78,
+        recommendation: 'Add 3-month buffer to timeline and increase contingency reserve to 15%.',
+        icon: FiAlertCircle},
+      {
+        id: '4',
+        category: 'Sustainability',
+        title: 'Green Building Opportunity',
+        description: 'BER A-rated homes in your area command 12% price premium and sell 40% faster.',
+        impact: 'high',
+        confidence: 94,
+        recommendation: 'Upgrade to A1 BER rating - additional cost of €1.2M with €2.8M revenue increase.',
+        icon: FiTrendingUp},
+      {
+        id: '5',
+        category: 'Marketing Strategy',
+        title: 'Digital Marketing Optimization',
+        description: 'Similar developments achieved 45% better conversion with targeted social media campaigns.',
+        impact: 'medium',
+        confidence: 82,
+        recommendation: 'Allocate 30% of marketing budget to digital channels, focus on Instagram and LinkedIn.',
+        icon: FiZap}];
+
+    setInsights(generatedInsights);
+  };
+
+  const handleAcceptRecommendation = (insightId: string) => {
+    setAcceptedRecommendations(prev => 
+      prev.includes(insightId) 
+        ? prev.filter(id => id !== insightId)
+        : [...prev, insightId]
+    );
+  };
+
+  const handleContinue = () => {
+    const aiData = {
+      insights,
+      acceptedRecommendations,
+      adjustments: generateAdjustments()};
+    onNext(aiData);
+  };
+
+  const generateAdjustments = () => {
+    const adjustments: any = {};
+    
+    acceptedRecommendations.forEach(id => {
+      const insight = insights.find(i => i.id === id);
+      if (insight) {
+        switch (insight.id) {
+          case '2': // Pricing adjustment
+            adjustments.priceIncrease = 17500;
+            break;
+          case '3': // Timeline buffer
+            adjustments.timelineBuffer = 3;
+            adjustments.contingencyIncrease = 5;
+            break;
+          case '4': // Sustainability upgrade
+            adjustments.sustainabilityUpgrade = true;
+            adjustments.additionalCost = 1200000;
+            break;
+          case '5': // Marketing reallocation
+            adjustments.digitalMarketingPercent = 30;
+            break;
+        }
+      }
+    });
+
+    return adjustments;
+  };
+
+  // Chart data
+  const marketDemandData = [
+    { month: 'Jan', demand: 85 },
+    { month: 'Feb', demand: 92 },
+    { month: 'Mar', demand: 88 },
+    { month: 'Apr', demand: 95 },
+    { month: 'May', demand: 102 },
+    { month: 'Jun', demand: 108 }];
+
+  const competitorAnalysis = [
+    { aspect: 'Price', score: 85, competitor: 72 },
+    { aspect: 'Location', score: 92, competitor: 78 },
+    { aspect: 'Amenities', score: 78, competitor: 85 },
+    { aspect: 'Quality', score: 88, competitor: 82 },
+    { aspect: 'Timeline', score: 75, competitor: 80 }];
+
+  if (isAnalyzing) {
+    return (
+      <div className="min-h-[500px] flex items-center justify-center">
+        <div className="text-center">
+          <motion.div
+            animate={{ rotate: 360 }}
+            transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+            className="w-20 h-20 mx-auto mb-6"
+          >
+            <FiCpu className="w-full h-full text-blue-600" />
+          </motion.div>
+          <h3 className="text-2xl font-bold text-gray-900 mb-2">AI Analysis in Progress</h3>
+          <p className="text-gray-600 mb-6">Analyzing project data and market conditions...</p>
+          <Progress value={analysisProgress} className="w-64 mx-auto mb-4" />
+          <p className="text-sm text-gray-500">{analysisProgress}% complete</p>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div>
+      <div className="mb-8">
+        <h2 className="text-2xl font-bold text-gray-900 mb-2">AI Project Insights</h2>
+        <p className="text-gray-600">Our AI has analyzed your project and identified key opportunities</p>
+      </div>
+
+      <Tabs defaultValue="insights" className="space-y-6">
+        <TabsList className="grid w-full grid-cols-3">
+          <TabsTrigger value="insights">AI Insights</TabsTrigger>
+          <TabsTrigger value="analytics">Market Analytics</TabsTrigger>
+          <TabsTrigger value="optimization">Optimization</TabsTrigger>
+        </TabsList>
+
+        <TabsContent value="insights" className="space-y-4">
+          <div className="grid gap-4">
+            {insights.map((insight) => (
+              <motion.div
+                key={insight.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3 }}
+                onClick={() => setSelectedInsight(insight.id)}
+                className="cursor-pointer"
+              >
+                <Card className={`p-6 ${selectedInsight === insight.id ? 'ring-2 ring-blue-500' : ''}`}>
+                  <div className="flex items-start justify-between">
+                    <div className="flex items-start gap-4">
+                      <div className={`p-3 rounded-lg ${
+                        insight.impact === 'high' ? 'bg-red-100' :
+                        insight.impact === 'medium' ? 'bg-yellow-100' :
+                        'bg-green-100'
+                      }`}>
+                        <insight.icon className={`w-6 h-6 ${
+                          insight.impact === 'high' ? 'text-red-600' :
+                          insight.impact === 'medium' ? 'text-yellow-600' :
+                          'text-green-600'
+                        }`} />
+                      </div>
+                      <div className="flex-1">
+                        <h4 className="font-semibold text-gray-900 mb-1">{insight.title}</h4>
+                        <p className="text-sm text-gray-600 mb-3">{insight.description}</p>
+                        <div className="flex items-center gap-4">
+                          <Badge variant={insight.impact === 'high' ? 'destructive' : insight.impact === 'medium' ? 'warning' : 'default'}>
+                            {insight.impact} impact
+                          </Badge>
+                          <div className="flex items-center gap-1">
+                            <span className="text-sm text-gray-600">Confidence:</span>
+                            <span className="text-sm font-medium">{insight.confidence}%</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <Button
+                      size="sm"
+                      variant={acceptedRecommendations.includes(insight.id) ? 'default' : 'outline'}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleAcceptRecommendation(insight.id);
+                      }}
+                    >
+                      {acceptedRecommendations.includes(insight.id) ? (
+                        <>
+                          <FiCheckCircle className="mr-2" />
+                          Accepted
+                        </>
+                      ) : (
+                        'Accept'
+                      )}
+                    </Button>
+                  </div>
+                  
+                  <AnimatePresence>
+                    {selectedInsight === insight.id && (
+                      <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: 'auto' }}
+                        exit={{ opacity: 0, height: 0 }}
+                        transition={{ duration: 0.3 }}
+                        className="mt-4 pt-4 border-t"
+                      >
+                        <p className="text-sm font-medium text-gray-900 mb-2">Recommendation:</p>
+                        <p className="text-sm text-gray-700">{insight.recommendation}</p>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </Card>
+              </motion.div>
+            ))}
+          </div>
+        </TabsContent>
+
+        <TabsContent value="analytics" className="space-y-6">
+          <div className="grid grid-cols-2 gap-6">
+            {/* Market Demand Trend */}
+            <Card className="p-6">
+              <h4 className="font-semibold text-gray-900 mb-4">Market Demand Trend</h4>
+              <div className="h-64">
+                <ResponsiveContainer width="100%" height="100%">
+                  <LineChart data={marketDemandData}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="month" />
+                    <YAxis />
+                    <Tooltip />
+                    <Line 
+                      type="monotone" 
+                      dataKey="demand" 
+                      stroke="#3B82F6" 
+                      strokeWidth={3}
+                      dot={{ fill: '#3B82F6', r: 4 }}
+                    />
+                  </LineChart>
+                </ResponsiveContainer>
+              </div>
+              <p className="text-sm text-gray-600 mt-4">
+                Market demand index showing 27% growth over 6 months
+              </p>
+            </Card>
+
+            {/* Competitor Analysis */}
+            <Card className="p-6">
+              <h4 className="font-semibold text-gray-900 mb-4">Competitor Analysis</h4>
+              <div className="h-64">
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart data={competitorAnalysis}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="aspect" />
+                    <YAxis />
+                    <Tooltip />
+                    <Bar dataKey="score" fill="#3B82F6" name="Your Project" />
+                    <Bar dataKey="competitor" fill="#94A3B8" name="Competitors" />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+              <p className="text-sm text-gray-600 mt-4">
+                Your project outperforms competitors in 3 of 5 key areas
+              </p>
+            </Card>
+          </div>
+
+          {/* AI Score Card */}
+          <Card className="p-6 bg-gradient-to-r from-blue-50 to-indigo-50">
+            <h4 className="font-semibold text-gray-900 mb-4">AI Project Score</h4>
+            <div className="grid grid-cols-4 gap-4">
+              <div className="text-center">
+                <div className="text-3xl font-bold text-blue-600">92</div>
+                <div className="text-sm text-gray-600">Overall Score</div>
+              </div>
+              <div className="text-center">
+                <div className="text-3xl font-bold text-green-600">A+</div>
+                <div className="text-sm text-gray-600">Market Fit</div>
+              </div>
+              <div className="text-center">
+                <div className="text-3xl font-bold text-purple-600">87%</div>
+                <div className="text-sm text-gray-600">Success Rate</div>
+              </div>
+              <div className="text-center">
+                <div className="text-3xl font-bold text-indigo-600">18mo</div>
+                <div className="text-sm text-gray-600">ROI Timeline</div>
+              </div>
+            </div>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="optimization" className="space-y-6">
+          <Card className="p-6">
+            <h4 className="font-semibold text-gray-900 mb-4">AI-Powered Optimizations</h4>
+            
+            <div className="space-y-4">
+              {acceptedRecommendations.length === 0 ? (
+                <p className="text-gray-600 text-center py-8">
+                  No recommendations accepted yet. Review the insights tab to optimize your project.
+                </p>
+              ) : (
+                <div className="space-y-3">
+                  {acceptedRecommendations.map(id => {
+                    const insight = insights.find(i => i.id === id);
+                    if (!insight) return null;
+                    
+                    return (
+                      <div key={id} className="flex items-center gap-3 p-3 bg-green-50 rounded-lg">
+                        <FiCheckCircle className="text-green-600" />
+                        <div className="flex-1">
+                          <p className="font-medium text-gray-900">{insight.title}</p>
+                          <p className="text-sm text-gray-600">{insight.recommendation}</p>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+
+            {acceptedRecommendations.length > 0 && (
+              <div className="mt-6 p-4 bg-blue-50 rounded-lg">
+                <h5 className="font-semibold text-gray-900 mb-2">Projected Impact</h5>
+                <div className="grid grid-cols-3 gap-4 text-sm">
+                  <div>
+                    <span className="text-gray-600">Revenue Increase:</span>
+                    <span className="font-medium text-green-600 ml-2">+12.5%</span>
+                  </div>
+                  <div>
+                    <span className="text-gray-600">Risk Reduction:</span>
+                    <span className="font-medium text-blue-600 ml-2">-18%</span>
+                  </div>
+                  <div>
+                    <span className="text-gray-600">Timeline Impact:</span>
+                    <span className="font-medium text-purple-600 ml-2">+2 months</span>
+                  </div>
+                </div>
+              </div>
+            )}
+          </Card>
+        </TabsContent>
+      </Tabs>
+
+      <div className="flex justify-between mt-8">
+        <Button
+          type="button"
+          variant="outline"
+          onClick={onBack}
+        >
+          <FiArrowLeft className="mr-2" />
+          Back
+        </Button>
+        <Button
+          onClick={handleContinue}
+          className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white"
+        >
+          Continue
+          <FiArrowRight className="ml-2" />
+        </Button>
+      </div>
+    </div>
+  );
+}

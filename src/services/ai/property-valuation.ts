@@ -1,0 +1,228 @@
+import * as tf from '@tensorflow/tfjs';
+import { Property } from '@/types/property';
+
+interface ValuationFactors {
+  location: {
+    lat: number;
+    lng: number;
+    neighborhoodScore: number;
+    proximityToAmenities: number;
+  };
+  property: {
+    size: number;
+    bedrooms: number;
+    bathrooms: number;
+    yearBuilt: number;
+    condition: number;
+  };
+  market: {
+    avgPricePerSqft: number;
+    trendDirection: number;
+    demandScore: number;
+    supplyScore: number;
+  };
+}
+
+export interface ValuationResult {
+  estimatedValue: number;
+  confidence: number;
+  range: {
+    min: number;
+    max: number;
+  };
+  factors: {
+    name: string;
+    impact: number;
+    weight: number;
+  }[];
+  comparables: Property[];
+}
+
+export class PropertyValuationAI {
+  private model: tf.LayersModel | null = null;
+  private readonly modelPath = '/models/property-valuation/';
+
+  async initialize(): Promise<void> {
+    try {
+      // Load pre-trained model
+      this.model = await tf.loadLayersModel(`${this.modelPath}model.json`);
+
+    } catch (error) {
+
+      // Fallback to traditional valuation
+    }
+  }
+
+  async predictValue(property: Property): Promise<ValuationResult> {
+    const factors = await this.extractFactors(property);
+
+    if (this.model) {
+      return this.aiBasedValuation(factors);
+    } else {
+      return this.traditionalValuation(factors);
+    }
+  }
+
+  private async aiBasedValuation(factors: ValuationFactors): Promise<ValuationResult> {
+    // Prepare input tensor
+    const input = this.prepareInputTensor(factors);
+
+    // Run prediction
+    const prediction = this.model!.predict(input) as tf.Tensor;
+    const value = await prediction.data();
+
+    // Calculate confidence based on model certainty
+    const confidence = this.calculateConfidence(prediction);
+
+    // Get feature importance
+    const featureImportance = await this.analyzeFeatureImportance(factors);
+
+    // Find comparable properties
+    const comparables = await this.findComparables(factors);
+
+    return {
+      estimatedValue: value[0],
+      confidence,
+      range: {
+        min: value[0] * (1 - (1 - confidence) * 0.15),
+        max: value[0] * (1 + (1 - confidence) * 0.15)
+      },
+      factors: featureImportance,
+      comparables
+    };
+  }
+
+  private async traditionalValuation(factors: ValuationFactors): Promise<ValuationResult> {
+    // Fallback to traditional comp-based valuation
+    const comparables = await this.findComparables(factors);
+    const avgPrice = comparables.reduce((sumcomp: any) => sum + comp.price0) / comparables.length;
+
+    // Apply adjustments based on factors
+    let adjustedValue = avgPrice;
+    const adjustments: any[] = [];
+
+    // Size adjustment
+    const sizeDiff = factors.property.size - this.getAvgSize(comparables);
+    const sizeAdjustment = sizeDiff * factors.market.avgPricePerSqft;
+    adjustedValue += sizeAdjustment;
+    adjustments.push({
+      name: 'Size Adjustment',
+      impact: sizeAdjustment,
+      weight: 0.3
+    });
+
+    // Condition adjustment
+    const conditionMultiplier = 0.8 + (factors.property.condition / 10) * 0.4;
+    const conditionAdjustment = adjustedValue * (conditionMultiplier - 1);
+    adjustedValue *= conditionMultiplier;
+    adjustments.push({
+      name: 'Condition',
+      impact: conditionAdjustment,
+      weight: 0.2
+    });
+
+    return {
+      estimatedValue: adjustedValue,
+      confidence: 0.75, // Lower confidence for traditional method
+      range: {
+        min: adjustedValue * 0.9,
+        max: adjustedValue * 1.1
+      },
+      factors: adjustments,
+      comparables
+    };
+  }
+
+  private async extractFactors(property: Property): Promise<ValuationFactors> {
+    // Extract all relevant factors from property data
+    // This would integrate with various data sources
+    return {
+      location: {
+        lat: property.location.lat,
+        lng: property.location.lng,
+        neighborhoodScore: await this.getNeighborhoodScore(property.location),
+        proximityToAmenities: await this.calculateAmenityProximity(property.location)
+      },
+      property: {
+        size: property.size,
+        bedrooms: property.bedrooms,
+        bathrooms: property.bathrooms,
+        yearBuilt: property.yearBuilt,
+        condition: property.condition || 7
+      },
+      market: await this.getMarketData(property.location)
+    };
+  }
+
+  private prepareInputTensor(factors: ValuationFactors): tf.Tensor {
+    // Normalize and prepare input data for neural network
+    const input = [
+      factors.location.lat / 90,
+      factors.location.lng / 180,
+      factors.location.neighborhoodScore / 10,
+      factors.location.proximityToAmenities / 10,
+      factors.property.size / 10000,
+      factors.property.bedrooms / 10,
+      factors.property.bathrooms / 10,
+      (new Date().getFullYear() - factors.property.yearBuilt) / 100,
+      factors.property.condition / 10,
+      factors.market.avgPricePerSqft / 1000,
+      factors.market.trendDirection,
+      factors.market.demandScore / 10,
+      factors.market.supplyScore / 10
+    ];
+
+    return tf.tensor2d([input]);
+  }
+
+  private calculateConfidence(prediction: tf.Tensor): number {
+    // Calculate confidence based on model's certainty
+    // This is a simplified implementation
+    return 0.85; // Placeholder
+  }
+
+  private async analyzeFeatureImportance(factors: ValuationFactors): Promise<any[]> {
+    // SHAP-like analysis for feature importance
+    // This would use explainable AI techniques
+    return [
+      { name: 'Location', impact: 45000, weight: 0.35 },
+      { name: 'Size', impact: 35000, weight: 0.25 },
+      { name: 'Condition', impact: 25000, weight: 0.20 },
+      { name: 'Market Trends', impact: 15000, weight: 0.15 },
+      { name: 'Age', impact: 5000, weight: 0.05 }
+    ];
+  }
+
+  private async findComparables(factors: ValuationFactors): Promise<Property[]> {
+    // Find similar properties using vector similarity
+    // This would query a vector database
+    return []; // Placeholder
+  }
+
+  private async getNeighborhoodScore(location: any): Promise<number> {
+    // Calculate neighborhood score based on crime, schools, etc.
+    return 7.5; // Placeholder
+  }
+
+  private async calculateAmenityProximity(location: any): Promise<number> {
+    // Calculate proximity to amenities
+    return 8.0; // Placeholder
+  }
+
+  private async getMarketData(location: any): Promise<any> {
+    // Get current market data for the area
+    return {
+      avgPricePerSqft: 250,
+      trendDirection: 0.05,
+      demandScore: 7.5,
+      supplyScore: 6.0
+    };
+  }
+
+  private getAvgSize(comparables: Property[]): number {
+    return comparables.reduce((sumcomp: any) => sum + comp.size0) / comparables.length;
+  }
+}
+
+// Export singleton instance
+export const propertyValuationAI = new PropertyValuationAI();

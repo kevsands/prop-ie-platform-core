@@ -3,8 +3,8 @@ import { NextRequest, NextResponse } from 'next/server';
 // Mock HTB claims API for testing
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json();
-    
+    const body: any = await request.json();
+
     // Create a mock HTB claim
     const mockClaim = {
       id: `claim-${Date.now()}`,
@@ -18,7 +18,7 @@ export async function POST(request: NextRequest) {
       accessCode: `HTB-${Date.now()}-MOCK`,
       applicationDate: new Date().toISOString(),
       lastUpdatedDate: new Date().toISOString(),
-      documents: [],
+      DevelopmentDocument: [],
       notes: [],
       statusHistory: [
         {

@@ -22,29 +22,29 @@ interface ToastContextType {
 const ToastContext = createContext<ToastContextType | undefined>(undefined);
 
 export function ToastProvider({ children }: { children: React.ReactNode }) {
-  const [toasts, setToasts] = useState<Toast[]>([]);
+  const [toastssetToasts] = useState<Toast[]>([]);
 
   const toast = useCallback(({ title, description, variant = 'default', duration = 3000 }: ToastOptions) => {
     const id = Date.now().toString();
     const newToast: Toast = { id, title, description, variant };
-    
-    setToasts((prev) => [...prev, newToast]);
-    
+
+    setToasts((prev: any) => [...prevnewToast]);
+
     // Auto-remove toast after duration
     setTimeout(() => {
-      setToasts((prev) => prev.filter((t) => t.id !== id));
+      setToasts((prev: any) => prev.filter((t: any) => t.id !== id));
     }, duration);
   }, []);
 
   const dismiss = useCallback((id: string) => {
-    setToasts((prev) => prev.filter((t) => t.id !== id));
+    setToasts((prev: any) => prev.filter((t: any) => t.id !== id));
   }, []);
 
   return (
-    <ToastContext.Provider value={{ toast, toasts, dismiss }}>
+    <ToastContext.Provider value={ toast, toasts, dismiss }>
       {children}
       <div className="fixed bottom-4 right-4 z-50 space-y-2">
-        {toasts.map((toast) => (
+        {toasts.map((toast: any) => (
           <div
             key={toast.id}
             className={`flex items-center p-4 rounded-lg shadow-lg ${

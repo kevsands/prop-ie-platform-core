@@ -82,19 +82,19 @@ interface Offer {
     type: string;
     uploadedDate: Date;
     url: string;
-  }>;
+  }>\n  );
   communications: Array<{
     id: string;
     type: 'note' | 'message' | 'update';
     sender: string;
     content: string;
     date: Date;
-  }>;
+  }>\n  );
   timeline: Array<{
     event: string;
     date: Date;
     details?: string;
-  }>;
+  }>\n  );
   competingOffers?: number;
   propertyDetails: {
     askingPrice: number;
@@ -108,15 +108,15 @@ interface Offer {
 const BuyerOffersPage = () => {
   const { user } = useAuth();
   const router = useRouter();
-  const [offers, setOffers] = useState<Offer[]>([]);
-  const [filteredOffers, setFilteredOffers] = useState<Offer[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [filter, setFilter] = useState<'all' | 'active' | 'accepted' | 'rejected'>('all');
-  const [showNewOffer, setShowNewOffer] = useState(false);
-  const [selectedOffer, setSelectedOffer] = useState<Offer | null>(null);
-  const [showCounterOffer, setShowCounterOffer] = useState(false);
-  const [showOfferCalculator, setShowOfferCalculator] = useState(false);
-  const [expandedOffer, setExpandedOffer] = useState<string | null>(null);
+  const [offerssetOffers] = useState<Offer[]>([]);
+  const [filteredOfferssetFilteredOffers] = useState<Offer[]>([]);
+  const [loadingsetLoading] = useState(true);
+  const [filtersetFilter] = useState<'all' | 'active' | 'accepted' | 'rejected'>('all');
+  const [showNewOffersetShowNewOffer] = useState(false);
+  const [selectedOffersetSelectedOffer] = useState<Offer | null>(null);
+  const [showCounterOffersetShowCounterOffer] = useState(false);
+  const [showOfferCalculatorsetShowOfferCalculator] = useState(false);
+  const [expandedOffersetExpandedOffer] = useState<string | null>(null);
 
   // Protect the route
   useEffect(() => {
@@ -125,7 +125,7 @@ const BuyerOffersPage = () => {
     } else if (user.role !== 'buyer') {
       router.push('/unauthorized');
     }
-  }, [user, router]);
+  }, [userrouter]);
 
   // Fetch offers
   useEffect(() => {
@@ -152,9 +152,9 @@ const BuyerOffersPage = () => {
         break;
     }
 
-    filtered.sort((a, b) => b.lastUpdateDate.getTime() - a.lastUpdateDate.getTime());
+    filtered.sort((ab: any) => b.lastUpdateDate.getTime() - a.lastUpdateDate.getTime());
     setFilteredOffers(filtered);
-  }, [offers, filter]);
+  }, [offersfilter]);
 
   const fetchOffers = async () => {
     setLoading(true);
@@ -323,7 +323,7 @@ const BuyerOffersPage = () => {
       ];
       setOffers(mockOffers);
     } catch (error) {
-      console.error('Error fetching offers:', error);
+
     } finally {
       setLoading(false);
     }
@@ -344,10 +344,10 @@ const BuyerOffersPage = () => {
           details: `Offer of €${offer.offerAmount?.toLocaleString()}`
         }]
       };
-      setOffers([...offers, newOffer]);
+      setOffers([...offersnewOffer]);
       setShowNewOffer(false);
     } catch (error) {
-      console.error('Error submitting offer:', error);
+
     }
   };
 
@@ -369,14 +369,14 @@ const BuyerOffersPage = () => {
         )
       );
     } catch (error) {
-      console.error('Error withdrawing offer:', error);
+
     }
   };
 
   const OfferCard = ({ offer }: { offer: Offer }) => {
     const isExpanded = expandedOffer === offer.id;
     const offerPercentage = ((offer.offerAmount / offer.propertyPrice) * 100).toFixed(1);
-    
+
     const getStatusColor = (status: Offer['status']) => {
       switch (status) {
         case 'accepted':
@@ -398,8 +398,8 @@ const BuyerOffersPage = () => {
 
     return (
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
+        initial={ opacity: 0, y: 20 }
+        animate={ opacity: 1, y: 0 }
         className="bg-white border rounded-lg overflow-hidden hover:shadow-lg transition-all"
       >
         <div className="p-6">
@@ -485,12 +485,12 @@ const BuyerOffersPage = () => {
             </div>
           )}
 
-          {offer.competingOffers && offer.competingOffers > 0 && (
+          {offer.competingOffers && offer.competingOffers> 0 && (
             <div className="bg-red-50 rounded-lg p-3 mb-4">
               <div className="flex items-center gap-2">
                 <AlertCircle className="w-4 h-4 text-red-600" />
                 <span className="text-sm text-red-700">
-                  {offer.competingOffers} competing offer{offer.competingOffers > 1 ? 's' : ''} on this property
+                  {offer.competingOffers} competing offer{offer.competingOffers> 1 ? 's' : ''} on this property
                 </span>
               </div>
             </div>
@@ -520,9 +520,9 @@ const BuyerOffersPage = () => {
         <AnimatePresence>
           {isExpanded && (
             <motion.div
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: 'auto', opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
+              initial={ height: 0, opacity: 0 }
+              animate={ height: 'auto', opacity: 1 }
+              exit={ height: 0, opacity: 0 }
               className="border-t"
             >
               <div className="p-6">
@@ -530,7 +530,7 @@ const BuyerOffersPage = () => {
                   <div>
                     <h4 className="font-medium text-gray-900 mb-3">Offer Conditions</h4>
                     <ul className="space-y-2">
-                      {offer.conditions.map((condition, index) => (
+                      {offer.conditions.map((conditionindex: any) => (
                         <li key={index} className="flex items-start gap-2">
                           <CheckCircle className="w-4 h-4 text-gray-400 mt-0.5" />
                           <span className="text-sm text-gray-700">{condition}</span>
@@ -616,11 +616,11 @@ const BuyerOffersPage = () => {
                   )}
                 </div>
 
-                {offer.documents.length > 0 && (
+                {offer.documents.length> 0 && (
                   <div className="mb-6">
                     <h4 className="font-medium text-gray-900 mb-3">Documents</h4>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                      {offer.documents.map((doc) => (
+                      {offer.documents.map((doc: any) => (
                         <div
                           key={doc.id}
                           className="flex items-center justify-between p-3 bg-gray-50 rounded-lg"
@@ -643,11 +643,11 @@ const BuyerOffersPage = () => {
                   </div>
                 )}
 
-                {offer.timeline.length > 0 && (
+                {offer.timeline.length> 0 && (
                   <div className="mb-6">
                     <h4 className="font-medium text-gray-900 mb-3">Timeline</h4>
                     <div className="space-y-3">
-                      {offer.timeline.map((event, index) => (
+                      {offer.timeline.map((eventindex: any) => (
                         <div key={index} className="flex gap-3">
                           <div className="w-2 h-2 bg-[#7C3AED] rounded-full mt-2"></div>
                           <div className="flex-1">
@@ -674,7 +674,7 @@ const BuyerOffersPage = () => {
                           if (confirm('Are you sure you want to withdraw this offer?')) {
                             withdrawOffer(offer.id);
                           }
-                        }}
+                        }
                         className="btn btn-outline text-red-600 border-red-600 hover:bg-red-50"
                       >
                         Withdraw Offer
@@ -733,7 +733,7 @@ const BuyerOffersPage = () => {
           </div>
 
           <div className="flex flex-wrap gap-3 mb-6">
-            {(['all', 'active', 'accepted', 'rejected'] as const).map((status) => (
+            {(['all', 'active', 'accepted', 'rejected'] as const).map((status: any) => (
               <button
                 key={status}
                 onClick={() => setFilter(status)}
@@ -796,14 +796,14 @@ const BuyerOffersPage = () => {
             </div>
           ) : (
             <div className="space-y-6">
-              {filteredOffers.map((offer) => (
+              {filteredOffers.map((offer: any) => (
                 <OfferCard key={offer.id} offer={offer} />
               ))}
             </div>
           )}
         </div>
 
-        {filteredOffers.length > 0 && (
+        {filteredOffers.length> 0 && (
           <div className="bg-white rounded-lg shadow-sm p-6">
             <h3 className="text-lg font-semibold mb-4">Offer Tips</h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">

@@ -13,9 +13,9 @@ export interface Organisation {
 
 export const useOrganisation = () => {
   const { accessToken, isAuthenticated } = useAuth();
-  const [organisation, setOrganisation] = useState<Organisation | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
+  const [organisationsetOrganisation] = useState<Organisation | null>(null);
+  const [loadingsetLoading] = useState<boolean>(true);
+  const [errorsetError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchOrganisation = async () => {
@@ -46,7 +46,7 @@ export const useOrganisation = () => {
     };
 
     fetchOrganisation();
-  }, [isAuthenticated, accessToken]);
+  }, [isAuthenticatedaccessToken]);
 
   return { organisation, loading, error };
 };

@@ -223,7 +223,7 @@ export function useCreateDevelopment(
   >, 'mutationFn'>
 ) {
   const queryClient = useQueryClient();
-  
+
   return useGraphQLMutation<{ createDevelopment: Development }, { input: CreateDevelopmentInput }>(
     CREATE_DEVELOPMENT,
     {
@@ -231,7 +231,7 @@ export function useCreateDevelopment(
         // Invalidate and refetch developments list queries
         queryClient.invalidateQueries({ queryKey: ['developments'] });
         queryClient.invalidateQueries({ queryKey: ['myDevelopments'] });
-        
+
         // If we have a callback, call it with the new development
         if (options?.onSuccess) {
           options.onSuccess(data, { input: data.data?.createDevelopment as any }, undefined as any);
@@ -251,7 +251,7 @@ export function useUpdateDevelopment(
   >, 'mutationFn'>
 ) {
   const queryClient = useQueryClient();
-  
+
   return useGraphQLMutation<{ updateDevelopment: Development }, { id: string; input: UpdateDevelopmentInput }>(
     UPDATE_DEVELOPMENT,
     {
@@ -260,7 +260,7 @@ export function useUpdateDevelopment(
         queryClient.invalidateQueries({ queryKey: ['development', variables.id] });
         queryClient.invalidateQueries({ queryKey: ['developments'] });
         queryClient.invalidateQueries({ queryKey: ['myDevelopments'] });
-        
+
         // If we have a callback, call it
         if (options?.onSuccess) {
           options.onSuccess(data, variables, undefined as any);
@@ -280,7 +280,7 @@ export function useUpdateDevelopmentLocation(
   >, 'mutationFn'>
 ) {
   const queryClient = useQueryClient();
-  
+
   return useGraphQLMutation<
     { updateDevelopmentLocation: Location }, 
     { developmentId: string; input: UpdateLocationInput }
@@ -290,7 +290,7 @@ export function useUpdateDevelopmentLocation(
       onSuccess: (data: GraphQLResult<{ updateDevelopmentLocation: Location }>, variables: { developmentId: string; input: UpdateLocationInput }) => {
         // Invalidate and refetch development detail
         queryClient.invalidateQueries({ queryKey: ['development', variables.developmentId] });
-        
+
         // If we have a callback, call it
         if (options?.onSuccess) {
           options.onSuccess(data, variables, undefined as any);
@@ -310,14 +310,14 @@ export function useAddProfessionalTeamMember(
   >, 'mutationFn'>
 ) {
   const queryClient = useQueryClient();
-  
+
   return useGraphQLMutation<{ addProfessionalTeamMember: any }, TeamMemberInput>(
     ADD_PROFESSIONAL_TEAM_MEMBER,
     {
       onSuccess: (data: GraphQLResult<{ addProfessionalTeamMember: any }>, variables: TeamMemberInput) => {
         // Invalidate and refetch development detail
         queryClient.invalidateQueries({ queryKey: ['development', variables.developmentId] });
-        
+
         // If we have a callback, call it
         if (options?.onSuccess) {
           options.onSuccess(data, variables, undefined as any);
@@ -337,7 +337,7 @@ export function useUpdateTeamMemberStatus(
   >, 'mutationFn'>
 ) {
   const queryClient = useQueryClient();
-  
+
   return useGraphQLMutation<
     { updateTeamMemberStatus: any }, 
     { teamMemberId: string; status: string }
@@ -348,7 +348,7 @@ export function useUpdateTeamMemberStatus(
         // Since we don't know which development this team member belongs to,
         // we'll invalidate all development queries
         queryClient.invalidateQueries({ queryKey: ['development'] });
-        
+
         // If we have a callback, call it
         if (options?.onSuccess) {
           options.onSuccess(undefined as any, undefined as any, undefined as any);
@@ -368,14 +368,14 @@ export function useAddProjectMilestone(
   >, 'mutationFn'>
 ) {
   const queryClient = useQueryClient();
-  
+
   return useGraphQLMutation<{ addProjectMilestone: any }, MilestoneInput>(
     ADD_PROJECT_MILESTONE,
     {
       onSuccess: (data: GraphQLResult<{ addProjectMilestone: any }>, variables: MilestoneInput) => {
         // Invalidate and refetch development detail
         queryClient.invalidateQueries({ queryKey: ['development', variables.developmentId] });
-        
+
         // If we have a callback, call it
         if (options?.onSuccess) {
           options.onSuccess(data, variables, undefined as any);
@@ -395,7 +395,7 @@ export function useUpdateMilestoneStatus(
   >, 'mutationFn'>
 ) {
   const queryClient = useQueryClient();
-  
+
   return useGraphQLMutation<
     { updateMilestoneStatus: any }, 
     { milestoneId: string; status: string; actualDate?: string }
@@ -406,7 +406,7 @@ export function useUpdateMilestoneStatus(
         // Since we don't know which development this milestone belongs to,
         // we'll invalidate all development queries
         queryClient.invalidateQueries({ queryKey: ['development'] });
-        
+
         // If we have a callback, call it
         if (options?.onSuccess) {
           options.onSuccess(undefined as any, undefined as any, undefined as any);

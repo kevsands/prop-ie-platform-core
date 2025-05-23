@@ -1,3 +1,4 @@
+import React from 'react';
 'use client';
 
 import {
@@ -79,7 +80,7 @@ export default function DocumentListItem({
 
   // Get status details
   const statusDetails = getStatusDetails(document.status);
-  
+
   // Format date for display
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -94,7 +95,7 @@ export default function DocumentListItem({
   const isPastDue = () => {
     const now = new Date();
     const deadline = new Date(document.deadline);
-    return deadline < now && document.status !== 'APPROVED';
+    return deadline <now && document.status !== 'APPROVED';
   };
 
   // Handle document action (view or upload)

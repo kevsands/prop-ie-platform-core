@@ -68,39 +68,39 @@ const COST_ESTIMATES = {
 
 export default function FirstTimeBuyerCalculatorPage() {
   // Form inputs
-  const [grossIncome, setGrossIncome] = useState(50000);
-  const [partnerIncome, setPartnerIncome] = useState(0);
-  const [hasPartner, setHasPartner] = useState(false);
-  const [propertyPrice, setPropertyPrice] = useState(350000);
-  const [deposit, setDeposit] = useState(35000);
-  const [interestRate, setInterestRate] = useState(3.5);
-  const [loanTerm, setLoanTerm] = useState(30);
-  const [isFirstTimeBuyer, setIsFirstTimeBuyer] = useState(true);
-  const [hasHTB, setHasHTB] = useState(true);
-  const [htbApproval, setHTBApproval] = useState(25000);
-  const [monthlyExpenses, setMonthlyExpenses] = useState(1500);
-  const [existingLoans, setExistingLoans] = useState(0);
-  
+  const [grossIncomesetGrossIncome] = useState(50000);
+  const [partnerIncomesetPartnerIncome] = useState(0);
+  const [hasPartnersetHasPartner] = useState(false);
+  const [propertyPricesetPropertyPrice] = useState(350000);
+  const [depositsetDeposit] = useState(35000);
+  const [interestRatesetInterestRate] = useState(3.5);
+  const [loanTermsetLoanTerm] = useState(30);
+  const [isFirstTimeBuyersetIsFirstTimeBuyer] = useState(true);
+  const [hasHTBsetHasHTB] = useState(true);
+  const [htbApprovalsetHTBApproval] = useState(25000);
+  const [monthlyExpensessetMonthlyExpenses] = useState(1500);
+  const [existingLoanssetExistingLoans] = useState(0);
+
   // UI state
-  const [activeSection, setActiveSection] = useState('affordability');
-  const [showAdvanced, setShowAdvanced] = useState(false);
-  
+  const [activeSectionsetActiveSection] = useState('affordability');
+  const [showAdvancedsetShowAdvanced] = useState(false);
+
   // Calculation results
-  const [results, setResults] = useState<CalculationResults | null>(null);
+  const [resultssetResults] = useState<CalculationResults | null>(null);
 
   // Calculate monthly payment using amortization formula
   const calculateMonthlyPayment = (principal: number, rate: number, years: number): number => {
     const monthlyRate = rate / 100 / 12;
     const numPayments = years * 12;
-    
+
     if (monthlyRate === 0) {
       return principal / numPayments;
     }
-    
+
     const monthlyPayment = principal * 
-      (monthlyRate * Math.pow(1 + monthlyRate, numPayments)) / 
-      (Math.pow(1 + monthlyRate, numPayments) - 1);
-    
+      (monthlyRate * Math.pow(1 + monthlyRatenumPayments)) / 
+      (Math.pow(1 + monthlyRatenumPayments) - 1);
+
     return monthlyPayment;
   };
 
@@ -118,9 +118,9 @@ export default function FirstTimeBuyerCalculatorPage() {
   // Calculate legal fees (with VAT)
   const calculateLegalFees = (price: number): number => {
     let baseFee = COST_ESTIMATES.LEGAL_FEES_MIN;
-    if (price > 500000) {
+    if (price> 500000) {
       baseFee = COST_ESTIMATES.LEGAL_FEES_MAX;
-    } else if (price > 300000) {
+    } else if (price> 300000) {
       baseFee = (COST_ESTIMATES.LEGAL_FEES_MIN + COST_ESTIMATES.LEGAL_FEES_MAX) / 2;
     }
     return baseFee * (1 + COST_ESTIMATES.VAT_RATE);
@@ -130,41 +130,41 @@ export default function FirstTimeBuyerCalculatorPage() {
   useEffect(() => {
     const totalIncome = grossIncome + (hasPartner ? partnerIncome : 0);
     const maxLoanLTI = totalIncome * LENDING_RULES.LTI_LIMIT;
-    
+
     // Get applicable HTB amount
-    const effectiveHTB = hasHTB && isFirstTimeBuyer ? Math.min(htbApproval, propertyPrice * 0.1, 30000) : 0;
-    
+    const effectiveHTB = hasHTB && isFirstTimeBuyer ? Math.min(htbApproval, propertyPrice * 0.130000) : 0;
+
     // Calculate total deposit including HTB
     const totalDepositAmount = deposit + effectiveHTB;
     const loanAmount = propertyPrice - totalDepositAmount;
-    
+
     // LTV calculation
     const ltv = loanAmount / propertyPrice;
     const maxLTV = isFirstTimeBuyer ? LENDING_RULES.FTB_LTV_LIMIT : LENDING_RULES.NON_FTB_LTV_LIMIT;
-    
+
     // Check if loan meets criteria
     const meetsLTV = ltv <= maxLTV;
     const meetsLTI = loanAmount <= maxLoanLTI;
-    
+
     // Calculate maximum affordable property
     const maxLoanAmount = Math.min(maxLoanLTI, propertyPrice * maxLTV);
     const minDepositRequired = propertyPrice * (1 - maxLTV);
     const affordablePropertyPrice = maxLoanLTI / maxLTV;
-    
+
     // Calculate monthly payment
-    const monthlyPayment = calculateMonthlyPayment(loanAmount, interestRate, loanTerm);
+    const monthlyPayment = calculateMonthlyPayment(loanAmount, interestRateloanTerm);
     const totalRepayment = monthlyPayment * loanTerm * 12;
     const totalInterest = totalRepayment - loanAmount;
-    
+
     // Calculate costs
     const stampDuty = calculateStampDuty(propertyPrice);
     const legalFees = calculateLegalFees(propertyPrice);
     const valuationFee = COST_ESTIMATES.VALUATION_FEE;
     const registrationFee = COST_ESTIMATES.REGISTRATION_FEE;
-    
+
     // Total cash required (excluding mortgage)
     const totalCashRequired = deposit + stampDuty + legalFees + valuationFee + registrationFee;
-    
+
     setResults({
       monthlyPayment: Math.round(monthlyPayment),
       totalLoanAmount: Math.round(loanAmount),
@@ -185,7 +185,7 @@ export default function FirstTimeBuyerCalculatorPage() {
       totalDeposit: totalDepositAmount
     });
   }, [grossIncome, partnerIncome, hasPartner, propertyPrice, deposit, interestRate, 
-      loanTerm, isFirstTimeBuyer, hasHTB, htbApproval]);
+      loanTerm, isFirstTimeBuyer, hasHTBhtbApproval]);
 
   const formatCurrency = (amount: number): string => {
     return `€${amount.toLocaleString('en-IE')}`;
@@ -258,7 +258,7 @@ export default function FirstTimeBuyerCalculatorPage() {
           <div className="lg:col-span-1">
             <div className="bg-white rounded-lg shadow-md p-6">
               <h2 className="text-lg font-semibold text-gray-900 mb-4">Your Details</h2>
-              
+
               <div className="space-y-4">
                 {/* Income Section */}
                 <div>
@@ -270,7 +270,7 @@ export default function FirstTimeBuyerCalculatorPage() {
                     <input
                       type="number"
                       value={grossIncome}
-                      onChange={(e) => setGrossIncome(Number(e.target.value))}
+                      onChange={(e: any) => setGrossIncome(Number(e.target.value))}
                       className="w-full pl-10 pr-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
                       step="1000"
                     />
@@ -283,7 +283,7 @@ export default function FirstTimeBuyerCalculatorPage() {
                     <input
                       type="checkbox"
                       checked={hasPartner}
-                      onChange={(e) => setHasPartner(e.target.checked)}
+                      onChange={(e: any) => setHasPartner(e.target.checked)}
                       className="mr-2"
                     />
                     <span className="text-sm font-medium text-gray-700">
@@ -296,7 +296,7 @@ export default function FirstTimeBuyerCalculatorPage() {
                       <input
                         type="number"
                         value={partnerIncome}
-                        onChange={(e) => setPartnerIncome(Number(e.target.value))}
+                        onChange={(e: any) => setPartnerIncome(Number(e.target.value))}
                         className="w-full pl-10 pr-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
                         step="1000"
                       />
@@ -314,7 +314,7 @@ export default function FirstTimeBuyerCalculatorPage() {
                     <input
                       type="number"
                       value={propertyPrice}
-                      onChange={(e) => setPropertyPrice(Number(e.target.value))}
+                      onChange={(e: any) => setPropertyPrice(Number(e.target.value))}
                       className="w-full pl-10 pr-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
                       step="5000"
                     />
@@ -331,7 +331,7 @@ export default function FirstTimeBuyerCalculatorPage() {
                     <input
                       type="number"
                       value={deposit}
-                      onChange={(e) => setDeposit(Number(e.target.value))}
+                      onChange={(e: any) => setDeposit(Number(e.target.value))}
                       className="w-full pl-10 pr-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
                       step="1000"
                     />
@@ -347,7 +347,7 @@ export default function FirstTimeBuyerCalculatorPage() {
                     <input
                       type="checkbox"
                       checked={isFirstTimeBuyer}
-                      onChange={(e) => setIsFirstTimeBuyer(e.target.checked)}
+                      onChange={(e: any) => setIsFirstTimeBuyer(e.target.checked)}
                       className="mr-2"
                     />
                     <span className="text-sm font-medium text-gray-700">
@@ -363,7 +363,7 @@ export default function FirstTimeBuyerCalculatorPage() {
                       <input
                         type="checkbox"
                         checked={hasHTB}
-                        onChange={(e) => setHasHTB(e.target.checked)}
+                        onChange={(e: any) => setHasHTB(e.target.checked)}
                         className="mr-2"
                       />
                       <span className="text-sm font-medium text-gray-700">
@@ -376,7 +376,7 @@ export default function FirstTimeBuyerCalculatorPage() {
                         <input
                           type="number"
                           value={htbApproval}
-                          onChange={(e) => setHTBApproval(Number(e.target.value))}
+                          onChange={(e: any) => setHTBApproval(Number(e.target.value))}
                           className="w-full pl-10 pr-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
                           step="1000"
                           max="30000"
@@ -407,7 +407,7 @@ export default function FirstTimeBuyerCalculatorPage() {
                         <input
                           type="number"
                           value={interestRate}
-                          onChange={(e) => setInterestRate(Number(e.target.value))}
+                          onChange={(e: any) => setInterestRate(Number(e.target.value))}
                           className="w-full pl-10 pr-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
                           step="0.1"
                           min="0"
@@ -426,7 +426,7 @@ export default function FirstTimeBuyerCalculatorPage() {
                         <input
                           type="number"
                           value={loanTerm}
-                          onChange={(e) => setLoanTerm(Number(e.target.value))}
+                          onChange={(e: any) => setLoanTerm(Number(e.target.value))}
                           className="w-full pl-10 pr-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
                           step="1"
                           min="5"
@@ -445,7 +445,7 @@ export default function FirstTimeBuyerCalculatorPage() {
                         <input
                           type="number"
                           value={monthlyExpenses}
-                          onChange={(e) => setMonthlyExpenses(Number(e.target.value))}
+                          onChange={(e: any) => setMonthlyExpenses(Number(e.target.value))}
                           className="w-full pl-10 pr-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
                           step="100"
                         />
@@ -462,7 +462,7 @@ export default function FirstTimeBuyerCalculatorPage() {
                         <input
                           type="number"
                           value={existingLoans}
-                          onChange={(e) => setExistingLoans(Number(e.target.value))}
+                          onChange={(e: any) => setExistingLoans(Number(e.target.value))}
                           className="w-full pl-10 pr-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
                           step="100"
                         />
@@ -484,7 +484,7 @@ export default function FirstTimeBuyerCalculatorPage() {
                     {/* Lending Rules Check */}
                     <div className="bg-white rounded-lg shadow-md p-6">
                       <h3 className="text-lg font-semibold text-gray-900 mb-4">Central Bank Lending Rules</h3>
-                      
+
                       <div className="space-y-4">
                         {/* LTV Check */}
                         <div className={`p-4 rounded-lg ${
@@ -586,7 +586,7 @@ export default function FirstTimeBuyerCalculatorPage() {
                     {/* Monthly Payment Breakdown */}
                     <div className="bg-white rounded-lg shadow-md p-6">
                       <h3 className="text-lg font-semibold text-gray-900 mb-4">Monthly Payment Breakdown</h3>
-                      
+
                       <div className="mb-6">
                         <div className="flex items-center justify-between mb-2">
                           <span className="text-gray-600">Monthly Payment</span>
@@ -597,11 +597,11 @@ export default function FirstTimeBuyerCalculatorPage() {
                         <div className="w-full bg-gray-200 rounded-full h-4 relative">
                           <div 
                             className="bg-blue-600 h-4 rounded-full"
-                            style={{ width: `${(results.totalLoanAmount / results.totalRepayment) * 100}%` }}
+                            style={ width: `${(results.totalLoanAmount / results.totalRepayment) * 100}%` }
                           />
                           <div 
                             className="absolute top-0 right-0 bg-green-600 h-4 rounded-r-full"
-                            style={{ width: `${(results.totalInterestPaid / results.totalRepayment) * 100}%` }}
+                            style={ width: `${(results.totalInterestPaid / results.totalRepayment) * 100}%` }
                           />
                         </div>
                         <div className="flex justify-between text-sm text-gray-600 mt-2">
@@ -629,13 +629,13 @@ export default function FirstTimeBuyerCalculatorPage() {
                     {/* Deposit Breakdown */}
                     <div className="bg-white rounded-lg shadow-md p-6">
                       <h3 className="text-lg font-semibold text-gray-900 mb-4">Deposit Breakdown</h3>
-                      
+
                       <div className="space-y-3">
                         <div className="flex justify-between items-center">
                           <span className="text-gray-600">Cash Deposit</span>
                           <span className="font-semibold">{formatCurrency(results.netDeposit)}</span>
                         </div>
-                        {results.htbAmount > 0 && (
+                        {results.htbAmount> 0 && (
                           <div className="flex justify-between items-center">
                             <span className="text-gray-600">HTB Refund</span>
                             <span className="font-semibold text-green-600">
@@ -665,7 +665,7 @@ export default function FirstTimeBuyerCalculatorPage() {
                     {/* Purchase Costs */}
                     <div className="bg-white rounded-lg shadow-md p-6">
                       <h3 className="text-lg font-semibold text-gray-900 mb-4">Total Purchase Costs</h3>
-                      
+
                       <div className="space-y-3">
                         <div className="flex justify-between items-center">
                           <span className="text-gray-600">Property Price</span>

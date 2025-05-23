@@ -1,493 +1,470 @@
 'use client';
 
-import React from 'react';
-import { useQuery } from '@tanstack/react-query';
+import React, { useState } from 'react';
 import Link from 'next/link';
-import { Building, ArrowRight, Clock, CalendarDays, AlertTriangle, MapPin, Home } from 'lucide-react';
-import { Project, ProjectPhase, ProjectMilestone, ProjectTeamMember, ProjectBudget, ProjectRisk } from '@/types/project';
-import { DevelopmentStatus } from '@/types/graphql';
-import { Location, Address } from '@/types/location';
-import { Document } from '@/types/document';
+import { 
+  Calendar, CheckCircle, Clock, AlertTriangle, Users, 
+  FileText, DollarSign, Target, GitBranch, BarChart2,
+  Plus, Search, Filter, Download, Eye, Edit, Archive,
+  Zap, Bot, TrendingUp, AlertCircle, ChevronRight,
+  Layers, Settings, MessageSquare, PauseCircle
+} from 'lucide-react';
+import dynamic from 'next/dynamic';
 
-// Define interfaces for our components
-interface CardProps {
-  className?: string;
-  children: React.ReactNode;
-}
+// Gantt chart component temporarily disabled
+// const GanttChart = dynamic(() => import('@/components/developer/GanttChart'), { ssr: false });
 
-interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'default' | 'outline' | 'ghost';
-  size?: 'default' | 'sm';
-  className?: string;
-  asChild?: boolean;
-  children: React.ReactNode;
-}
+export default function ProjectManagementPage() {
+  const [activeTabsetActiveTab] = useState('overview');
+  const [selectedProjectsetSelectedProject] = useState('all');
+  const [showGanttsetShowGantt] = useState(false);
 
-interface BadgeProps {
-  variant?: 'default' | 'secondary' | 'outline';
-  className?: string;
-  children: React.ReactNode;
-}
-
-interface ProgressProps extends React.HTMLAttributes<HTMLDivElement> {
-  value?: number;
-  className?: string;
-}
-
-interface TabsProps {
-  defaultValue: string;
-  children: React.ReactNode;
-  className?: string;
-}
-
-interface TabsContextType {
-  value: string;
-  setValue: (value: string) => void;
-}
-
-interface TabsTriggerProps {
-  value: string;
-  children: React.ReactNode;
-  className?: string;
-}
-
-interface TabsContentProps {
-  value: string;
-  children: React.ReactNode;
-  className?: string;
-}
-
-// Define a local formatDate function with proper typing
-function formatDate(dateString: string): string {
-  const date = new Date(dateString);
-  return date.toLocaleDateString('en-IE', {
-    month: 'short',
-    day: 'numeric',
-    year: 'numeric'
-  });
-}
-
-// Define Card components with proper types
-const Card = ({ className = "", children }: CardProps) => (
-  <div className={`bg-white rounded-lg border border-gray-200 shadow-sm ${className}`}>
-    {children}
-  </div>
-);
-
-const CardHeader = ({ className = "", children }: CardProps) => (
-  <div className={`flex flex-col space-y-1.5 p-6 ${className}`}>
-    {children}
-  </div>
-);
-
-const CardTitle = ({ className = "", children }: CardProps) => (
-  <h3 className={`text-lg font-semibold leading-none tracking-tight ${className}`}>
-    {children}
-  </h3>
-);
-
-const CardDescription = ({ className = "", children }: CardProps) => (
-  <p className={`text-sm text-gray-500 ${className}`}>
-    {children}
-  </p>
-);
-
-const CardContent = ({ className = "", children }: CardProps) => (
-  <div className={`p-6 pt-0 ${className}`}>
-    {children}
-  </div>
-);
-
-const CardFooter = ({ className = "", children }: CardProps) => (
-  <div className={`flex items-center p-6 pt-0 ${className}`}>
-    {children}
-  </div>
-);
-
-// Define Button component with proper types
-const Button = ({ 
-  variant = "default", 
-  size = "default", 
-  className = "", 
-  asChild = false,
-  children,
-  ...props 
-}: ButtonProps) => {
-  const baseStyle = "inline-flex items-center justify-center rounded-md font-medium transition-colors";
-    
-  const variantStyles: Record<string, string> = {
-    default: "bg-blue-600 text-white hover:bg-blue-700",
-    outline: "border border-gray-300 bg-white text-gray-700 hover:bg-gray-50",
-    ghost: "hover:bg-gray-100 text-gray-700",
-  };
-    
-  const sizeStyles: Record<string, string> = {
-    default: "h-10 py-2 px-4",
-    sm: "h-8 px-3 text-sm",
-  };
-    
-  return (
-    <button
-      className={`${baseStyle} ${variantStyles[variant]} ${sizeStyles[size]} ${className}`}
-      {...props}
-    >
-      {children}
-    </button>
-  );
-};
-
-// Define Badge component with proper types
-const Badge = ({ variant = "default", className = "", children }: BadgeProps) => {
-  const variantStyles: Record<string, string> = {
-    default: "bg-blue-100 text-blue-800",
-    secondary: "bg-gray-100 text-gray-800",
-    outline: "bg-transparent border border-gray-300 text-gray-700",
-  };
-  
-  return (
-    <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${variantStyles[variant]} ${className}`}>
-      {children}
-    </span>
-  );
-};
-
-// Define Progress component with proper types
-const Progress = ({ value = 0, className = "", ...props }: ProgressProps) => {
-  return (
-    <div className={`relative h-2 w-full overflow-hidden rounded-full bg-gray-100 ${className}`} {...props}>
-      <div 
-        className="h-full bg-blue-600 transition-all"
-        style={{ width: `${value}%` }}
-      />
-    </div>
-  );
-};
-
-// Define Tabs components with proper types
-const TabsContext = React.createContext<TabsContextType | null>(null);
-
-const Tabs = ({ defaultValue, children, className = "", ...props }: TabsProps) => {
-  const [value, setValue] = React.useState(defaultValue);
-  
-  return (
-    <TabsContext.Provider value={{ value, setValue }}>
-      <div className={className} {...props}>
-        {children}
-      </div>
-    </TabsContext.Provider>
-  );
-};
-
-const TabsList = ({ children, className = "", ...props }: CardProps) => {
-  return (
-    <div 
-      className={`inline-flex items-center rounded-lg bg-gray-100 p-1 ${className}`}
-      role="tablist"
-      {...props}
-    >
-      {children}
-    </div>
-  );
-};
-
-const TabsTrigger = ({ value, children, className = "", ...props }: TabsTriggerProps) => {
-  const context = React.useContext(TabsContext);
-  if (!context) return null;
-  
-  const isActive = context.value === value;
-  
-  return (
-    <button
-      role="tab"
-      type="button"
-      data-state={isActive ? "active" : "inactive"}
-      className={`
-        px-3 py-1.5 text-sm font-medium inline-flex items-center justify-center whitespace-nowrap rounded-md
-        ${isActive ? "bg-white shadow text-gray-900" : "text-gray-500 hover:text-gray-900"}
-        ${className}
-      `}
-      onClick={() => context.setValue(value)}
-      {...props}
-    >
-      {children}
-    </button>
-  );
-};
-
-const TabsContent = ({ value, children, className = "", ...props }: TabsContentProps) => {
-  const context = React.useContext(TabsContext);
-  if (!context) return null;
-  
-  if (context.value !== value) return null;
-  
-  return (
-    <div
-      role="tabpanel"
-      data-state={context.value === value ? "active" : "inactive"}
-      className={className}
-      {...props}
-    >
-      {children}
-    </div>
-  );
-};
-
-const ProjectsPage = () => {
-  // Projects data query
-  const { data: projectsData, isLoading } = useQuery({
-    queryKey: ['projects-list'],
-    queryFn: async () => {
-      // In production, fetch from API
-      // For demo purposes, we'll return mock data
-      return {
-        active: [
-          {
-            id: 'fitzgerald-gardens',
-            name: 'Fitzgerald Gardens',
-            description: 'A modern residential development in Drogheda',
-            developerId: 'dev-1',
-            location: {
-              address: {
-                addressLine1: 'Fitzgerald Gardens',
-                city: 'Drogheda',
-                county: 'Co. Louth',
-                postalCode: 'A92 XXXX',
-                country: 'Ireland',
-                formattedAddress: 'Drogheda, Co. Louth'
-              },
-              coordinates: { lat: 53.7179, lng: -6.3561 }
-            },
-            status: DevelopmentStatus.CONSTRUCTION as const,
-            startDate: new Date('2023-01-01'),
-            estimatedCompletionDate: new Date('2024-06-30'),
-            phases: [],
-            milestones: [
-              {
-                id: 'milestone-1',
-                name: 'Phase 1 Handover',
-                date: new Date('2023-10-15'),
-                isCompleted: true,
-                type: 'handover'
-              }
-            ],
-            team: [],
-            documents: [],
-            salesInfo: {
-              launchDate: new Date('2023-03-01'),
-              salesTarget: 45,
-              reservationsCount: 32,
-              salesCount: 32
-            },
-            createdAt: new Date('2023-01-01'),
-            updatedAt: new Date('2023-10-15')
-          }
-        ],
-        completed: [
-          {
-            id: 'oakwood-residences',
-            name: 'Oakwood Residences',
-            description: 'Completed residential development in Swords',
-            developerId: 'dev-1',
-            location: {
-              address: {
-                addressLine1: 'Oakwood Residences',
-                city: 'Swords',
-                county: 'Co. Dublin',
-                postalCode: 'K67 XXXX',
-                country: 'Ireland',
-                formattedAddress: 'Swords, Co. Dublin'
-              },
-              coordinates: { lat: 53.4597, lng: -6.2181 }
-            },
-            status: DevelopmentStatus.COMPLETED as const,
-            startDate: new Date('2022-01-01'),
-            estimatedCompletionDate: new Date('2023-06-30'),
-            actualCompletionDate: new Date('2023-06-30'),
-            phases: [],
-            milestones: [],
-            team: [],
-            documents: [],
-            salesInfo: {
-              launchDate: new Date('2022-03-01'),
-              salesTarget: 15,
-              reservationsCount: 15,
-              salesCount: 15
-            },
-            createdAt: new Date('2022-01-01'),
-            updatedAt: new Date('2023-06-30')
-          }
-        ],
-        planned: [
-          {
-            id: 'harbour-heights',
-            name: 'Harbour Heights',
-            description: 'Planned residential development in Bettystown',
-            developerId: 'dev-1',
-            location: {
-              address: {
-                addressLine1: 'Harbour Heights',
-                city: 'Bettystown',
-                county: 'Co. Meath',
-                postalCode: 'A92 XXXX',
-                country: 'Ireland',
-                formattedAddress: 'Bettystown, Co. Meath'
-              },
-              coordinates: { lat: 53.7000, lng: -6.2500 }
-            },
-            status: DevelopmentStatus.PLANNING as const,
-            startDate: new Date('2024-01-01'),
-            estimatedCompletionDate: new Date('2025-12-31'),
-            phases: [],
-            milestones: [
-              {
-                id: 'milestone-1',
-                name: 'Submit Planning Application',
-                date: new Date('2023-12-15'),
-                isCompleted: false,
-                type: 'planning_permission'
-              }
-            ],
-            team: [],
-            documents: [],
-            createdAt: new Date('2023-01-01'),
-            updatedAt: new Date('2023-10-15')
-          }
+  // Mock project data
+  const projects = [
+    {
+      id: '1',
+      name: 'Fitzgerald Gardens - Phase 2',
+      development: 'Fitzgerald Gardens',
+      status: 'in-progress',
+      priority: 'high',
+      progress: 68,
+      startDate: '2023-09-01',
+      endDate: '2024-03-31',
+      budget: '€2.4M',
+      spent: '€1.6M',
+      team: 8,
+      tasks: {
+        total: 48,
+        completed: 33,
+        inProgress: 10,
+        pending: 5
+      },
+      milestones: [
+        { name: 'Foundation Complete', date: '2023-10-15', status: 'completed' },
+        { name: 'Structure Complete', date: '2023-12-20', status: 'completed' },
+        { name: 'MEP Installation', date: '2024-02-15', status: 'in-progress' },
+        { name: 'Final Inspection', date: '2024-03-31', status: 'pending' }
+      ],
+      risks: 2,
+      issues: 1,
+      aiInsights: {
+        delayRisk: 'Low',
+        costOverrun: 'Medium',
+        recommendations: [
+          'Consider adding 2 more workers to MEP team to maintain schedule',
+          'Review material costs for potential savings opportunities'
         ]
-      };
+      }
+    },
+    {
+      id: '2',
+      name: 'Riverside Manor - Planning',
+      development: 'Riverside Manor',
+      status: 'planning',
+      priority: 'medium',
+      progress: 25,
+      startDate: '2023-11-01',
+      endDate: '2024-06-30',
+      budget: '€0.8M',
+      spent: '€0.2M',
+      team: 4,
+      tasks: {
+        total: 24,
+        completed: 6,
+        inProgress: 5,
+        pending: 13
+      },
+      milestones: [
+        { name: 'Site Survey', date: '2023-11-30', status: 'completed' },
+        { name: 'Planning Submission', date: '2024-01-15', status: 'in-progress' },
+        { name: 'Planning Approval', date: '2024-04-01', status: 'pending' },
+        { name: 'Contractor Selection', date: '2024-06-30', status: 'pending' }
+      ],
+      risks: 3,
+      issues: 0,
+      aiInsights: {
+        delayRisk: 'Medium',
+        costOverrun: 'Low',
+        recommendations: [
+          'Engage with planning authority early to expedite approval',
+          'Begin contractor pre-qualification process now'
+        ]
+      }
     }
-  });
+  ];
 
-  // Function to render project card
-  const renderProjectCard = (project: Project) => {
-    const nextMilestone = project.milestones.find(m => !m.isCompleted);
-    const isDelayed = nextMilestone && new Date(nextMilestone.date) < new Date() && project.status !== DevelopmentStatus.COMPLETED;
-    const progress = project.phases.length > 0 
-      ? Math.round(project.phases.reduce((acc, phase) => acc + phase.progress, 0) / project.phases.length)
-      : 0;
-    
-    return (
-      <Card key={project.id} className="overflow-hidden">
-        <CardHeader className="pb-3">
-          <div className="flex justify-between items-start">
-            <div>
-              <CardTitle className="text-lg">{project.name}</CardTitle>
-              <CardDescription className="flex items-center mt-1">
-                <MapPin className="h-3.5 w-3.5 mr-1" />
-                <span>{project.location.address.formattedAddress}</span>
-              </CardDescription>
-            </div>
-            <Badge variant={
-              project.status === DevelopmentStatus.CONSTRUCTION ? 'default' :
-              project.status === DevelopmentStatus.PLANNING ? 'outline' :
-              project.status === DevelopmentStatus.COMPLETED ? 'secondary' : 'outline'
-            }>
-              {project.status}
-            </Badge>
+  return (
+    <div className="p-6">
+      {/* Header */}
+      <div className="mb-6">
+        <div className="flex items-center justify-between mb-4">
+          <div>
+            <h1 className="text-2xl font-bold text-gray-900">Project Management</h1>
+            <p className="text-gray-600">AI-powered project tracking and optimization</p>
           </div>
-        </CardHeader>
-        <CardContent className="space-y-4 pb-3">
-          <div className="space-y-2">
-            <div className="flex justify-between text-sm">
-              <span className="text-slate-500">Progress</span>
-              <span className="font-medium">{progress}%</span>
-            </div>
-            <Progress value={progress} className="h-2" />
-          </div>
-          
-          <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-1">
-              <div className="text-sm text-slate-500">Units Sold</div>
-              <div className="text-lg font-semibold">
-                {project.salesInfo?.salesCount || 0}/{project.salesInfo?.salesTarget || 0}
-              </div>
-              <div className="text-xs text-slate-500">
-                {project.salesInfo?.salesTarget ? Math.round((project.salesInfo.salesCount || 0) / project.salesInfo.salesTarget * 100) : 0}% sold
-              </div>
-            </div>
-            
-            {nextMilestone ? (
-              <div className="space-y-1">
-                <div className="text-sm text-slate-500">Next Milestone</div>
-                <div className="text-sm font-medium line-clamp-1">
-                  {nextMilestone.name}
-                </div>
-                <div className={`text-xs flex items-center gap-1 ${
-                  isDelayed ? 'text-red-500' : 'text-slate-500'
-                }`}>
-                  {isDelayed ? (
-                    <>
-                      <AlertTriangle className="h-3 w-3" />
-                      Delayed
-                    </>
-                  ) : (
-                    <>
-                      <CalendarDays className="h-3 w-3" />
-                      {formatDate(nextMilestone.date.toISOString())}
-                    </>
-                  )}
-                </div>
-              </div>
-            ) : (
-              <div className="space-y-1">
-                <div className="text-sm text-slate-500">Status</div>
-                <div className="text-sm font-medium">Completed</div>
-                <div className="text-xs text-green-500 flex items-center gap-1">
-                  <Building className="h-3 w-3" />
-                  All units delivered
-                </div>
-              </div>
-            )}
-          </div>
-        </CardContent>
-        <CardFooter className="pt-0">
-          <Link href={`/developer/project/${project.id}`} className="w-full">
-            <Button variant="ghost" size="sm" className="w-full">
-              View Project Details
-              <ArrowRight className="h-4 w-4 ml-2" />
-            </Button>
+          <Link
+            href="/developer/projects/new"
+            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center"
+          >
+            <Plus className="w-5 h-5 mr-2" />
+            New Project
           </Link>
-        </CardFooter>
-      </Card>
-    );
+        </div>
+
+        {/* Project Selector and Controls */}
+        <div className="flex items-center justify-between">
+          <div className="flex items-center space-x-3">
+            <select
+              value={selectedProject}
+              onChange={(e: any) => setSelectedProject(e.target.value)}
+              className="px-3 py-2 border border-gray-300 rounded-lg text-sm"
+            >
+              <option value="all">All Projects</option>
+              {projects.map(project => (
+                <option key={project.id} value={project.id}>
+                  {project.name}
+                </option>
+              ))}
+            </select>
+
+            <button
+              onClick={() => setShowGantt(!showGantt)}
+              className={`px-3 py-2 border rounded-lg text-sm flex items-center ${
+                showGantt ? 'bg-blue-50 border-blue-300 text-blue-700' : 'border-gray-300 hover:bg-gray-50'
+              }`}
+            >
+              <GitBranch className="w-4 h-4 mr-2" />
+              Gantt View
+            </button>
+
+            <button className="px-3 py-2 border border-gray-300 rounded-lg text-sm hover:bg-gray-50 flex items-center">
+              <Filter className="w-4 h-4 mr-2" />
+              Filters
+            </button>
+          </div>
+
+          <div className="flex items-center space-x-3">
+            <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors flex items-center">
+              <Bot className="w-5 h-5 text-gray-600 mr-2" />
+              <span className="text-sm">AI Assistant</span>
+            </button>
+            <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors">
+              <Download className="w-5 h-5 text-gray-600" />
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* AI Insights Banner */}
+      <div className="bg-gradient-to-r from-purple-600 to-indigo-600 rounded-xl p-4 text-white mb-6">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center space-x-3">
+            <div className="p-2 bg-white/20 rounded-lg backdrop-blur-sm">
+              <Zap className="w-5 h-5" />
+            </div>
+            <div>
+              <p className="font-medium">AI-Powered Insights</p>
+              <p className="text-sm opacity-90">2 projects need attention • 5 optimization opportunities</p>
+            </div>
+          </div>
+          <button className="px-4 py-2 bg-white/20 hover:bg-white/30 rounded-lg backdrop-blur-sm transition-colors flex items-center">
+            View All Insights
+            <ChevronRight className="w-4 h-4 ml-1" />
+          </button>
+        </div>
+      </div>
+
+      {/* Tabs */}
+      <div className="border-b border-gray-200 mb-6">
+        <nav className="-mb-px flex space-x-6">
+          <button
+            onClick={() => setActiveTab('overview')}
+            className={`py-2 px-1 border-b-2 font-medium text-sm transition-colors ${
+              activeTab === 'overview' 
+                ? 'border-blue-500 text-blue-600' 
+                : 'border-transparent text-gray-500 hover:text-gray-700'
+            }`}
+          >
+            Overview
+          </button>
+          <button
+            onClick={() => setActiveTab('timeline')}
+            className={`py-2 px-1 border-b-2 font-medium text-sm transition-colors ${
+              activeTab === 'timeline' 
+                ? 'border-blue-500 text-blue-600' 
+                : 'border-transparent text-gray-500 hover:text-gray-700'
+            }`}
+          >
+            Timeline
+          </button>
+          <button
+            onClick={() => setActiveTab('tasks')}
+            className={`py-2 px-1 border-b-2 font-medium text-sm transition-colors flex items-center ${
+              activeTab === 'tasks' 
+                ? 'border-blue-500 text-blue-600' 
+                : 'border-transparent text-gray-500 hover:text-gray-700'
+            }`}
+          >
+            Tasks
+            <span className="ml-2 bg-gray-200 text-gray-700 text-xs rounded-full px-2 py-0.5">103</span>
+          </button>
+          <button
+            onClick={() => setActiveTab('resources')}
+            className={`py-2 px-1 border-b-2 font-medium text-sm transition-colors ${
+              activeTab === 'resources' 
+                ? 'border-blue-500 text-blue-600' 
+                : 'border-transparent text-gray-500 hover:text-gray-700'
+            }`}
+          >
+            Resources
+          </button>
+          <button
+            onClick={() => setActiveTab('risks')}
+            className={`py-2 px-1 border-b-2 font-medium text-sm transition-colors flex items-center ${
+              activeTab === 'risks' 
+                ? 'border-blue-500 text-blue-600' 
+                : 'border-transparent text-gray-500 hover:text-gray-700'
+            }`}
+          >
+            Risks & Issues
+            <span className="ml-2 bg-red-100 text-red-700 text-xs rounded-full px-2 py-0.5">6</span>
+          </button>
+        </nav>
+      </div>
+
+      {/* Tab Content */}
+      {activeTab === 'overview' && (
+        <div>
+          {/* Summary Stats */}
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-sm text-gray-600">Active Projects</span>
+                <GitBranch className="w-4 h-4 text-gray-400" />
+              </div>
+              <p className="text-2xl font-bold">8</p>
+              <p className="text-xs text-green-600 mt-1">2 ahead of schedule</p>
+            </div>
+            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-sm text-gray-600">Tasks Completed</span>
+                <CheckCircle className="w-4 h-4 text-gray-400" />
+              </div>
+              <p className="text-2xl font-bold">68%</p>
+              <p className="text-xs text-gray-500 mt-1">39 of 103 total</p>
+            </div>
+            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-sm text-gray-600">Budget Status</span>
+                <DollarSign className="w-4 h-4 text-gray-400" />
+              </div>
+              <p className="text-2xl font-bold">72%</p>
+              <p className="text-xs text-yellow-600 mt-1">€0.4M over budget</p>
+            </div>
+            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-sm text-gray-600">Team Utilization</span>
+                <Users className="w-4 h-4 text-gray-400" />
+              </div>
+              <p className="text-2xl font-bold">85%</p>
+              <p className="text-xs text-gray-500 mt-1">12 team members</p>
+            </div>
+          </div>
+
+          {/* Active Projects */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {projects.map(project => (
+              <ProjectCard key={project.id} project={project} />
+            ))}
+          </div>
+        </div>
+      )}
+
+      {showGantt && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-xl w-11/12 h-5/6 p-6">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-xl font-bold">Project Timeline - Gantt View</h2>
+              <button
+                onClick={() => setShowGantt(false)}
+                className="p-2 hover:bg-gray-100 rounded-lg"
+              >
+                ✕
+              </button>
+            </div>
+            <div className="h-full overflow-auto">
+              {/* Gantt chart component would go here */}
+              <div className="bg-gray-100 rounded-lg p-12 text-center text-gray-500">
+                <Calendar className="w-16 h-16 mx-auto mb-4 text-gray-400" />
+                <p>Interactive Gantt Chart</p>
+                <p className="text-sm mt-2">Drag to adjust timelines • Click for details</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// Project Card Component
+function ProjectCard({ project }: { project: any }) {
+  const statusColors = {
+    'in-progress': 'bg-blue-100 text-blue-700',
+    'planning': 'bg-yellow-100 text-yellow-700',
+    'completed': 'bg-green-100 text-green-700',
+    'on-hold': 'bg-gray-100 text-gray-700'
+  };
+
+  const priorityColors = {
+    'high': 'text-red-600',
+    'medium': 'text-yellow-600',
+    'low': 'text-green-600'
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="flex justify-between items-center mb-8">
-        <h1 className="text-2xl font-bold text-gray-900">Projects</h1>
-        <Button>
-          <Building className="h-4 w-4 mr-2" />
-          New Project
-        </Button>
+    <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+      <div className="flex items-start justify-between mb-4">
+        <div>
+          <h3 className="font-semibold text-gray-900">{project.name}</h3>
+          <p className="text-sm text-gray-600">{project.development}</p>
+        </div>
+        <span className={`px-2 py-1 text-xs font-medium rounded-full ${statusColors[project.status]}`}>
+          {project.status}
+        </span>
       </div>
 
-      <Tabs defaultValue="active" className="space-y-6">
-        <TabsList>
-          <TabsTrigger value="active">Active Projects</TabsTrigger>
-          <TabsTrigger value="completed">Completed</TabsTrigger>
-          <TabsTrigger value="planned">Planned</TabsTrigger>
-        </TabsList>
+      {/* Progress Bar */}
+      <div className="mb-4">
+        <div className="flex items-center justify-between text-sm mb-1">
+          <span className="text-gray-600">Overall Progress</span>
+          <span className="font-medium">{project.progress}%</span>
+        </div>
+        <div className="w-full bg-gray-200 rounded-full h-2">
+          <div
+            className="bg-blue-600 h-2 rounded-full"
+            style={ width: `${project.progress}%` }
+          />
+        </div>
+      </div>
 
-        <TabsContent value="active">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {projectsData?.active.map((project: Project) => renderProjectCard(project))}
-          </div>
-        </TabsContent>
+      {/* Key Metrics */}
+      <div className="grid grid-cols-2 gap-4 mb-4">
+        <div>
+          <p className="text-xs text-gray-500">Budget</p>
+          <p className="font-medium">
+            <span className="text-gray-900">{project.spent}</span>
+            <span className="text-gray-500"> / {project.budget}</span>
+          </p>
+        </div>
+        <div>
+          <p className="text-xs text-gray-500">Timeline</p>
+          <p className="font-medium text-gray-900">{project.endDate}</p>
+        </div>
+        <div>
+          <p className="text-xs text-gray-500">Tasks</p>
+          <p className="font-medium">
+            <span className="text-green-600">{project.tasks.completed}</span>
+            <span className="text-gray-500"> / {project.tasks.total}</span>
+          </p>
+        </div>
+        <div>
+          <p className="text-xs text-gray-500">Team</p>
+          <p className="font-medium text-gray-900">{project.team} members</p>
+        </div>
+      </div>
 
-        <TabsContent value="completed">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {projectsData?.completed.map((project: Project) => renderProjectCard(project))}
+      {/* AI Insights */}
+      <div className="bg-gray-50 rounded-lg p-3 mb-4">
+        <div className="flex items-center mb-2">
+          <Bot className="w-4 h-4 text-purple-600 mr-2" />
+          <span className="text-sm font-medium text-gray-900">AI Insights</span>
+        </div>
+        <div className="grid grid-cols-2 gap-3 text-sm">
+          <div>
+            <span className="text-gray-600">Delay Risk:</span>
+            <span className={`ml-2 font-medium ${
+              project.aiInsights.delayRisk === 'Low' ? 'text-green-600' :
+              project.aiInsights.delayRisk === 'Medium' ? 'text-yellow-600' :
+              'text-red-600'
+            }`}>
+              {project.aiInsights.delayRisk}
+            </span>
           </div>
-        </TabsContent>
+          <div>
+            <span className="text-gray-600">Cost Overrun:</span>
+            <span className={`ml-2 font-medium ${
+              project.aiInsights.costOverrun === 'Low' ? 'text-green-600' :
+              project.aiInsights.costOverrun === 'Medium' ? 'text-yellow-600' :
+              'text-red-600'
+            }`}>
+              {project.aiInsights.costOverrun}
+            </span>
+          </div>
+        </div>
+      </div>
 
-        <TabsContent value="planned">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {projectsData?.planned.map((project: Project) => renderProjectCard(project))}
-          </div>
-        </TabsContent>
-      </Tabs>
+      {/* Milestones */}
+      <div className="mb-4">
+        <h4 className="text-sm font-medium text-gray-900 mb-2">Next Milestones</h4>
+        <div className="space-y-2">
+          {project.milestones.slice(02).map((milestone: any, index: number) => (
+            <div key={index: any} className="flex items-center text-sm">
+              {milestone.status === 'completed' ? (
+                <CheckCircle className="w-4 h-4 text-green-600 mr-2" />
+              ) : milestone.status === 'in-progress' ? (
+                <Clock className="w-4 h-4 text-blue-600 mr-2" />
+              ) : (
+                <AlertCircle className="w-4 h-4 text-gray-400 mr-2" />
+              )}
+              <span className={milestone.status === 'completed' ? 'line-through text-gray-500' : ''}>
+                {milestone.name}
+              </span>
+              <span className="text-gray-500 ml-auto">{milestone.date}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Alerts */}
+      {(project.risks> 0 || project.issues> 0) && (
+        <div className="flex items-center space-x-4 mb-4 text-sm">
+          {project.risks> 0 && (
+            <div className="flex items-center text-yellow-600">
+              <AlertTriangle className="w-4 h-4 mr-1" />
+              {project.risks} risks
+            </div>
+          )}
+          {project.issues> 0 && (
+            <div className="flex items-center text-red-600">
+              <AlertCircle className="w-4 h-4 mr-1" />
+              {project.issues} issues
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Actions */}
+      <div className="flex items-center justify-between pt-3 border-t border-gray-200">
+        <div className="flex items-center space-x-2">
+          <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors">
+            <Eye className="w-4 h-4 text-gray-600" />
+          </button>
+          <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors">
+            <Edit className="w-4 h-4 text-gray-600" />
+          </button>
+          <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors">
+            <MessageSquare className="w-4 h-4 text-gray-600" />
+          </button>
+        </div>
+        <Link
+          href={`/developer/projects/${project.id}`}
+          className="text-sm text-blue-600 hover:text-blue-700 flex items-center"
+        >
+          View Details
+          <ChevronRight className="w-4 h-4 ml-1" />
+        </Link>
+      </div>
     </div>
   );
-};
-
-export default ProjectsPage;
+}

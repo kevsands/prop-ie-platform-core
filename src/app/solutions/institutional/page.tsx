@@ -58,7 +58,7 @@ export default function InstitutionalInvestorsPage() {
             </div>
           </div>
         </div>
-        
+
         {/* Background decoration */}
         <div className="absolute top-0 right-0 -mr-20 -mt-20 w-96 h-96 bg-blue-500 rounded-full opacity-10 blur-3xl" />
         <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-96 h-96 bg-purple-500 rounded-full opacity-10 blur-3xl" />

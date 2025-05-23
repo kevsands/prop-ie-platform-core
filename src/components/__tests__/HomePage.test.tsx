@@ -7,17 +7,15 @@ import { useRouter } from 'next/navigation';
 // Mock next/navigation
 jest.mock('next/navigation', () => ({
   useRouter: jest.fn(),
-  usePathname: jest.fn(() => '/'),
-}));
+  usePathname: jest.fn(() => '/')}));
 
 // Mock Next.js Image component
 jest.mock('next/image', () => ({
   __esModule: true,
   default: (props: any) => {
     // eslint-disable-next-line jsx-a11y/alt-text, @next/next/no-img-element
-    return <img {...props} />;
-  },
-}));
+    return <img {...props} />\n  );
+  }));
 
 // Mock data
 jest.mock('@/data/mockDevelopments', () => ({
@@ -29,8 +27,7 @@ jest.mock('@/data/mockDevelopments', () => ({
       location: 'Dublin 15',
       image: '/images/fitzgerald-gardens/hero.jpg',
       status: 'Selling Fast',
-      statusColor: 'green',
-    },
+      statusColor: 'green'},
     {
       id: 'ballymakenny-view',
       name: 'Ballymakenny View',
@@ -38,10 +35,7 @@ jest.mock('@/data/mockDevelopments', () => ({
       location: 'Drogheda',
       image: '/images/ballymakenny-view/hero.jpg',
       status: 'New Phase',
-      statusColor: 'blue',
-    },
-  ],
-}));
+      statusColor: 'blue'}]}));
 
 describe('HomePage Component', () => {
   const mockPush = jest.fn();
@@ -50,8 +44,7 @@ describe('HomePage Component', () => {
     jest.clearAllMocks();
     (useRouter as jest.Mock).mockReturnValue({
       push: mockPush,
-      prefetch: jest.fn(),
-    });
+      prefetch: jest.fn()});
   });
 
   it('renders without crashing', async () => {

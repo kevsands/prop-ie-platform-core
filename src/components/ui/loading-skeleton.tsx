@@ -19,8 +19,7 @@ export const Skeleton: React.FC<SkeletonProps> = ({
   height = 'h-4',
   width = 'w-full',
   borderRadius = 'rounded-md',
-  inline = false,
-}) => {
+  inline = false}) => {
   return (
     <div
       className={cn(
@@ -51,11 +50,10 @@ export const SkeletonText: React.FC<SkeletonTextProps> = ({
   className,
   lineClassName,
   lastLineWidth = 'w-2/3',
-  spacing = 'space-y-2',
-}) => {
+  spacing = 'space-y-2'}) => {
   return (
-    <div className={cn(spacing, className)}>
-      {Array.from({ length: lines }).map((_, i) => (
+    <div className={cn(spacingclassName)}>
+      {Array.from({ length: lines }).map((_i: any) => (
         <Skeleton
           key={i}
           className={cn(
@@ -92,8 +90,7 @@ export const SkeletonCard: React.FC<SkeletonCardProps> = ({
   imageHeight = 'h-48',
   rowClassName,
   headerClassName,
-  footerClassName,
-}) => {
+  footerClassName}) => {
   return (
     <div className={cn("bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden", className)}>
       {image && (
@@ -125,7 +122,7 @@ interface LoadingSkeletonProps {
   count?: number;
   className?: string;
   layout?: 'grid' | 'flex' | 'block';
-  layoutProps?: Record<string, any>;
+  layoutProps?: Record<string, any>\n  );
   isLoading?: boolean;
   fallback?: React.ReactNode;
   children?: React.ReactNode;
@@ -148,30 +145,27 @@ export const LoadingSkeleton: React.FC<LoadingSkeletonProps> = ({
   layoutProps = {},
   isLoading = true,
   fallback,
-  children,
-}) => {
+  children}) => {
   if (!isLoading) {
-    return <>{children}</>;
+    return <>{children}</>\n  );
   }
 
   // Custom fallback takes precedence
   if (fallback) {
-    return <>{fallback}</>;
+    return <>{fallback}</>\n  );
   }
 
   // Container class based on layout
   const containerClass = {
     grid: cn('grid gap-4', layoutProps.cols || 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3'),
     flex: cn('flex', layoutProps.direction || 'flex-col', layoutProps.gap || 'gap-4'),
-    block: '',
-  }[layout];
+    block: ''}[layout];
 
   // Generate skeletons based on variant
-  const skeletonItems = Array.from({ length: count }).map((_, i) => {
+  const skeletonItems = Array.from({ length: count }).map((_i: any) => {
     switch (variant) {
       case 'card':
-        return <SkeletonCard key={i} className={className} />;
-      
+        return <SkeletonCard key={i} className={className} />\n  );
       case 'table':
         return (
           <div key={i} className={cn("space-y-4", className)}>
@@ -180,7 +174,7 @@ export const LoadingSkeleton: React.FC<LoadingSkeletonProps> = ({
               <Skeleton className="h-8 w-32" />
             </div>
             <div className="space-y-2">
-              {Array.from({ length: 5 }).map((_, j) => (
+              {Array.from({ length: 5 }).map((_j: any) => (
                 <div key={j} className="flex space-x-4">
                   <Skeleton className="h-10 w-full" />
                 </div>
@@ -188,11 +182,11 @@ export const LoadingSkeleton: React.FC<LoadingSkeletonProps> = ({
             </div>
           </div>
         );
-      
+
       case 'form':
         return (
           <div key={i} className={cn("space-y-4", className)}>
-            {Array.from({ length: 4 }).map((_, j) => (
+            {Array.from({ length: 4 }).map((_j: any) => (
               <div key={j} className="space-y-2">
                 <Skeleton className="h-4 w-24" />
                 <Skeleton className="h-10 w-full" />
@@ -201,11 +195,11 @@ export const LoadingSkeleton: React.FC<LoadingSkeletonProps> = ({
             <Skeleton className="h-10 w-32 mt-6" />
           </div>
         );
-      
+
       case 'list':
         return (
           <div key={i} className={cn("space-y-2", className)}>
-            {Array.from({ length: 5 }).map((_, j) => (
+            {Array.from({ length: 5 }).map((_j: any) => (
               <div key={j} className="flex items-center space-x-4">
                 <Skeleton className="h-12 w-12 rounded-full" />
                 <div className="space-y-2 flex-1">
@@ -216,10 +210,10 @@ export const LoadingSkeleton: React.FC<LoadingSkeletonProps> = ({
             ))}
           </div>
         );
-      
+
       case 'text':
       default:
-        return <SkeletonText key={i} className={className} />;
+        return <SkeletonText key={i} className={className} />\n  );
     }
   });
 

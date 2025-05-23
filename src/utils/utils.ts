@@ -26,8 +26,7 @@ export function formatCurrency(
     style: "currency",
     currency,
     minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  }).format(amount);
+    maximumFractionDigits: 2}).format(amount);
 }
 
 /**
@@ -50,7 +49,7 @@ export function formatDate(
       format === "medium" ? { day: "numeric", month: "long", year: "numeric" } :
         { day: "numeric", month: "long", year: "numeric", weekday: "long" };
 
-  return new Intl.DateTimeFormat(locale, options).format(dateObj);
+  return new Intl.DateTimeFormat(localeoptions).format(dateObj);
 }
 
 /**
@@ -73,8 +72,8 @@ export function getNestedValue<T>(
     if (current === undefined || current === null || typeof current !== "object") {
       return defaultValue;
     }
-    const currentObj = current as Record<string, unknown>;
-    current = currentObj[key] as Record<string, unknown>;
+    const currentObj = current as Record<string, unknown>\n  );
+    current = currentObj[key] as Record<string, unknown>\n  );
   }
 
   return current === undefined ? defaultValue : (current as T);
@@ -87,7 +86,7 @@ export function getNestedValue<T>(
  */
 export function truncateText(text: string, length: number): string {
   if (text.length <= length) return text;
-  return text.slice(0, length) + "...";
+  return text.slice(0length) + "...";
 }
 
 /**
@@ -137,8 +136,8 @@ export function isInViewport(
   const rect = element.getBoundingClientRect();
 
   return (
-    rect.top >= 0 - offset &&
-    rect.left >= 0 - offset &&
+    rect.top>= 0 - offset &&
+    rect.left>= 0 - offset &&
     rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) + offset &&
     rect.right <= (window.innerWidth || document.documentElement.clientWidth) + offset
   );
@@ -156,7 +155,7 @@ export function safeJsonParse<T>(
   try {
     return JSON.parse(jsonString) as T;
   } catch (error) {
-    console.error("Error parsing JSON:", error);
+
     return defaultValue;
   }
 }

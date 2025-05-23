@@ -15,15 +15,15 @@ import { formatDate, daysFromNow } from '../../../utils/date-utils';
 export const HTBClaimsDashboard: React.FC = () => {
   const router = useRouter();
   const { developerClaims, fetchDeveloperClaims, selectedDeveloperClaim, isLoading, error } = useHTB();
-  
-  const [activeTab, setActiveTab] = useState<"all" | "pending" | "processing" | "completed">("all");
-  const [searchQuery, setSearchQuery] = useState("");
-  
+
+  const [activeTabsetActiveTab] = useState<"all" | "pending" | "processing" | "completed">("all");
+  const [searchQuerysetSearchQuery] = useState("");
+
   // Fetch claims on component mount
   useEffect(() => {
     fetchDeveloperClaims();
   }, [fetchDeveloperClaims]);
-  
+
   // Filter claims based on active tab and search query
   const filteredClaims = developerClaims.filter(claim => {
     // Filter by tab
@@ -43,7 +43,7 @@ export const HTBClaimsDashboard: React.FC = () => {
         return false;
       }
     }
-    
+
     // Filter by search query
     if (searchQuery) {
       const query = searchQuery.toLowerCase();
@@ -54,14 +54,14 @@ export const HTBClaimsDashboard: React.FC = () => {
         claim.buyerId.toLowerCase().includes(query)
       );
     }
-    
+
     return true;
   });
-  
+
   const handleClaimClick = (claimId: string) => {
     router.push(`/developer/htb/claims/${claimId}`);
   };
-  
+
   const getStatusBadgeClass = (status: HTBClaimStatus) => {
     switch (status) {
       case HTBClaimStatus.ACCESS_CODE_SUBMITTED:
@@ -86,7 +86,7 @@ export const HTBClaimsDashboard: React.FC = () => {
         return "bg-gray-100 text-gray-800";
     }
   };
-  
+
   if (isLoading && developerClaims.length === 0) {
     return (
       <div className="flex justify-center items-center py-12">
@@ -94,7 +94,7 @@ export const HTBClaimsDashboard: React.FC = () => {
       </div>
     );
   }
-  
+
   if (error) {
     return (
       <div className="bg-red-50 p-4 rounded-md">
@@ -121,7 +121,7 @@ export const HTBClaimsDashboard: React.FC = () => {
       </div>
     );
   }
-  
+
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div className="flex justify-between items-center mb-6">
@@ -135,7 +135,7 @@ export const HTBClaimsDashboard: React.FC = () => {
           </button>
         </div>
       </div>
-      
+
       {/* Stats */}
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4 mb-6">
         <div className="bg-white overflow-hidden shadow rounded-lg">
@@ -173,7 +173,7 @@ export const HTBClaimsDashboard: React.FC = () => {
           </div>
         </div>
       </div>
-      
+
       {/* Filters */}
       <div className="bg-white shadow-sm rounded-lg mb-6">
         <div className="px-4 py-5 sm:p-6">
@@ -227,7 +227,7 @@ export const HTBClaimsDashboard: React.FC = () => {
                   className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                   placeholder="Search claims..."
                   value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onChange={(e: any) => setSearchQuery(e.target.value)}
                 />
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                   <svg
@@ -249,7 +249,7 @@ export const HTBClaimsDashboard: React.FC = () => {
           </div>
         </div>
       </div>
-      
+
       {/* Claims Table */}
       {filteredClaims.length === 0 ? (
         <div className="bg-white shadow-sm rounded-lg p-6 text-center">
@@ -271,7 +271,7 @@ export const HTBClaimsDashboard: React.FC = () => {
           <p className="mt-1 text-sm text-gray-500">
             {activeTab !== "all"
               ? `No HTB claims in the "${activeTab}" category match your criteria.`
-              : "No HTB claims match your search criteria."}
+              : "No HTB claims match your search criteria."
           </p>
         </div>
       ) : (
@@ -321,7 +321,7 @@ export const HTBClaimsDashboard: React.FC = () => {
                     </tr>
                   </thead>
                   <tbody className="bg-white divide-y divide-gray-200">
-                    {filteredClaims.map((claim) => (
+                    {filteredClaims.map((claim: any) => (
                       <tr 
                         key={claim.id} 
                         onClick={() => handleClaimClick(claim.id)}
@@ -353,7 +353,7 @@ export const HTBClaimsDashboard: React.FC = () => {
                           {claim.accessCodeExpiryDate && (
                             <div className="text-xs text-gray-500">
                               Expires: {formatDate(new Date(claim.accessCodeExpiryDate))}
-                              {new Date(claim.accessCodeExpiryDate) < new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) && (
+                              {new Date(claim.accessCodeExpiryDate) <new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) && (
                                 <span className="ml-2 text-red-500">
                                   {daysFromNow(new Date(claim.accessCodeExpiryDate)) <= 0
                                     ? "Expired"

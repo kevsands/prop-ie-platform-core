@@ -156,7 +156,7 @@ export const mockDevelopments: Development[] = [
     status: 'Selling',
     statusColor: 'green',
     priceRange: '€450,000 - €650,000',
-    bedrooms: [1, 2, 3]
+    bedrooms: [1, 23]
   },
   {
     id: 'dev-2',
@@ -167,13 +167,13 @@ export const mockDevelopments: Development[] = [
     status: 'Selling',
     statusColor: 'green',
     priceRange: '€375,000 - €495,000',
-    bedrooms: [3, 4]
+    bedrooms: [34]
   }
 ];
 
 // Mock data service functions that return Promises
 export const mockGetTasks = (): Promise<TaskItem[]> => {
-  return new Promise((resolve) => {
+  return new Promise((resolve: any) => {
     setTimeout(() => {
       resolve(mockTasks);
     }, 300);
@@ -181,7 +181,7 @@ export const mockGetTasks = (): Promise<TaskItem[]> => {
 };
 
 export const mockGetAlerts = (): Promise<AlertItem[]> => {
-  return new Promise((resolve) => {
+  return new Promise((resolve: any) => {
     setTimeout(() => {
       resolve(mockAlerts);
     }, 300);
@@ -189,7 +189,7 @@ export const mockGetAlerts = (): Promise<AlertItem[]> => {
 };
 
 export const mockGetUser = (): Promise<typeof mockUser> => {
-  return new Promise((resolve) => {
+  return new Promise((resolve: any) => {
     setTimeout(() => {
       resolve(mockUser);
     }, 300);
@@ -198,32 +198,32 @@ export const mockGetUser = (): Promise<typeof mockUser> => {
 
 export function getDevelopments(filters?: Partial<DevelopmentFilters>): Development[] {
   let filteredDevelopments = [...mockDevelopments];
-  
+
   if (filters) {
     // Apply location filter with null check
     if (filters.location) {
       filteredDevelopments = filteredDevelopments
         .filter(dev => dev.location.toLowerCase().includes(filters.location?.toLowerCase() || ''));
     }
-    
+
     // Apply price range filter
     if (filters.priceRange) {
       filteredDevelopments = filteredDevelopments
         .filter(dev => dev.priceRange === filters.priceRange);
     }
-    
+
     // Apply bedrooms filter
     if (filters.bedrooms) {
       filteredDevelopments = filteredDevelopments
         .filter(dev => dev.bedrooms?.includes(filters.bedrooms!) || false);
     }
-    
+
     // Apply status filter
     if (filters.status) {
       filteredDevelopments = filteredDevelopments
         .filter(dev => dev.status === filters.status);
     }
   }
-  
+
   return filteredDevelopments;
 }

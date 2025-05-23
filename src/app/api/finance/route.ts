@@ -22,7 +22,7 @@ export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url);
     const projectId = searchParams.get('projectId');
     const timeRange = searchParams.get('timeRange') || 'month';
-    
+
     if (!projectId) {
       return NextResponse.json(
         { error: 'Project ID is required' },
@@ -39,77 +39,59 @@ export async function GET(request: NextRequest) {
           title: 'Total Revenue',
           value: 1250000,
           previousValue: 1100000,
-          percentChange: 13.64,
-        },
+          percentChange: 13.64},
         {
           title: 'Expenses',
           value: 780000,
           previousValue: 740000,
-          percentChange: 5.41,
-        },
+          percentChange: 5.41},
         {
           title: 'Profit Margin',
           value: 37.6,
           previousValue: 32.7,
-          percentChange: 14.98,
-        },
+          percentChange: 14.98},
         {
           title: 'Units Sold',
           value: 42,
           previousValue: 38,
-          percentChange: 10.53,
-        },
-      ],
+          percentChange: 10.53}],
       budgetData: [
         {
           title: 'Construction Costs',
           budgetValue: 650000,
           actualValue: 680000,
-          category: 'Development',
-        },
+          category: 'Development'},
         {
           title: 'Land Acquisition',
           budgetValue: 350000,
           actualValue: 350000,
-          category: 'Development',
-        },
+          category: 'Development'},
         {
           title: 'Marketing Budget',
           budgetValue: 80000,
           actualValue: 75000,
-          category: 'Marketing',
-        },
-      ],
+          category: 'Marketing'}],
       revenueData: {
         labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May'],
         datasets: [
           {
             label: 'Residential',
-            data: [180000, 210000, 250000, 280000, 330000],
-          },
+            data: [180000, 210000, 250000, 280000330000]},
           {
             label: 'Commercial',
-            data: [0, 0, 0, 0, 0],
-          },
-        ],
-      },
+            data: [0, 0, 0, 00]}]},
       costData: {
         labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May'],
         datasets: [
           {
             label: 'Construction',
-            data: [120000, 140000, 150000, 160000, 180000],
-          },
+            data: [120000, 140000, 150000, 160000180000]},
           {
             label: 'Marketing',
-            data: [15000, 18000, 20000, 22000, 25000],
-          },
+            data: [15000, 18000, 20000, 2200025000]},
           {
             label: 'Administration',
-            data: [30000, 30000, 32000, 32000, 35000],
-          },
-        ],
-      },
+            data: [30000, 30000, 32000, 3200035000]}]},
       cashFlowData: {
         inflows: 1250000,
         outflows: 780000,
@@ -119,24 +101,17 @@ export async function GET(request: NextRequest) {
           datasets: [
             {
               label: 'Inflows',
-              data: [230000, 250000, 270000, 290000, 310000],
-            },
+              data: [230000, 250000, 270000, 290000310000]},
             {
               label: 'Outflows',
-              data: [170000, 180000, 190000, 200000, 210000],
-            },
+              data: [170000, 180000, 190000, 200000210000]},
             {
               label: 'Net Cash Flow',
-              data: [60000, 70000, 80000, 90000, 100000],
-            },
-          ],
-        },
-      },
-    };
+              data: [60000, 70000, 80000, 90000100000]}]}};
 
     return NextResponse.json(financialData);
   } catch (error) {
-    console.error('Error fetching financial data:', error);
+
     return NextResponse.json(
       { error: 'Failed to fetch financial data' },
       { status: 500 }
@@ -161,9 +136,9 @@ export async function POST(request: NextRequest) {
     }
 
     // Parse request body
-    const body = await request.json();
+    const body: any = await request.json();
     const { projectId, budgetData } = body;
-    
+
     if (!projectId || !budgetData) {
       return NextResponse.json(
         { error: 'Missing required fields' },
@@ -176,10 +151,9 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({
       success: true,
       message: 'Budget updated successfully',
-      projectId,
-    });
+      projectId});
   } catch (error) {
-    console.error('Error updating budget data:', error);
+
     return NextResponse.json(
       { error: 'Failed to update budget data' },
       { status: 500 }

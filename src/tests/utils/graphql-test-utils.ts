@@ -22,9 +22,7 @@ export class GraphQLMock {
           errors: [
             {
               message: 'Variables did not match expectations',
-              extensions: { code: 'VARIABLES_MISMATCH' },
-            },
-          ]
+              extensions: { code: 'VARIABLES_MISMATCH' }]
         }, { status: 400 });
       }
       
@@ -49,9 +47,7 @@ export class GraphQLMock {
         errors: [
           {
             message: errorMessage,
-            extensions: { code: errorCode },
-          },
-        ]
+            extensions: { code: errorCode }]
       }, { status: statusCode });
     });
     
@@ -73,9 +69,7 @@ export class GraphQLMock {
           errors: [
             {
               message: 'Variables did not match expectations',
-              extensions: { code: 'VARIABLES_MISMATCH' },
-            },
-          ]
+              extensions: { code: 'VARIABLES_MISMATCH' }]
         }, { status: 400 });
       }
       
@@ -100,9 +94,7 @@ export class GraphQLMock {
         errors: [
           {
             message: errorMessage,
-            extensions: { code: errorCode },
-          },
-        ]
+            extensions: { code: errorCode }]
       }, { status: statusCode });
     });
     
@@ -139,8 +131,7 @@ export function createGraphQLMock() {
  * Mock AWS Amplify GraphQL client
  */
 export const mockAmplifyGraphQL = {
-  graphql: jest.fn(),
-};
+  graphql: jest.fn()};
 
 /**
  * Setup AWS Amplify GraphQL client mock
@@ -148,9 +139,7 @@ export const mockAmplifyGraphQL = {
 export function setupAmplifyMock() {
   jest.mock('aws-amplify/api', () => ({
     generateClient: jest.fn(() => ({
-      graphql: mockAmplifyGraphQL.graphql,
-    })),
-  }));
+      graphql: mockAmplifyGraphQL.graphql}))}));
 }
 
 /**
@@ -181,9 +170,6 @@ export function mockAmplifyGraphQLError(
       {
         message: errorMessage,
         errorType,
-        extensions: { code: errorCode },
-      },
-    ],
-  });
+        extensions: { code: errorCode }]});
   return mockAmplifyGraphQL;
 }

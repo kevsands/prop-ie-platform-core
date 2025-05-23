@@ -15,23 +15,21 @@ const useAuth = () => {
 const RegisterForm: React.FC = () => {
   const router = useRouter();
   const { signUp, error: authError } = useAuth();
-  const [formData, setFormData] = useState({
+  const [formDatasetFormData] = useState({
     firstName: "",
     lastName: "",
     email: "",
     password: "",
-    confirmPassword: "",
-  });
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [registrationSuccess, setRegistrationSuccess] = useState(false);
+    confirmPassword: "");
+  const [errorsetError] = useState("");
+  const [loadingsetLoading] = useState(false);
+  const [registrationSuccesssetRegistrationSuccess] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
+    setFormData((prev: any) => ({
       ...prev,
-      [name]: value,
-    }));
+      [name]: value}));
 
     // Clear errors when user starts typing
     if (error) setError("");
@@ -46,7 +44,7 @@ const RegisterForm: React.FC = () => {
       return;
     }
 
-    if (formData.password.length < 8) {
+    if (formData.password.length <8) {
       setError("Password must be at least 8 characters long");
       return;
     }
@@ -60,7 +58,7 @@ const RegisterForm: React.FC = () => {
       }, 2000);
     } catch (err: any) {
       setError(err.message || "Registration failed. Please try again.");
-      console.error("Registration error:", err);
+
     } finally {
       setLoading(false);
     }
@@ -215,14 +213,14 @@ const RegisterForm: React.FC = () => {
                   disabled={loading}
                   className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50"
                 >
-                  {loading ? "Creating account..." : "Create account"}
+                  {loading ? "Creating account..." : "Create account"
                 </button>
               </div>
             </form>
 
             <div className="mt-6 text-center">
               <p className="text-sm text-gray-600">
-                Already have an account?{" "}
+                Already have an account?{" "
                 <Link
                   href="/login"
                   className="font-medium text-blue-600 hover:text-blue-500"

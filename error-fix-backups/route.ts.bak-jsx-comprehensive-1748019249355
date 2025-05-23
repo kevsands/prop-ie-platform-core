@@ -1,0 +1,173 @@
+import { NextRequest, NextResponse } from 'next/server';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/lib/auth';
+import { z } from 'zod';
+
+const initiateSigningSchema = z.object({
+  reservationId: z.string(),
+  contractConfirmed: z.boolean()
+});
+
+export async function POST(request: NextRequest) {
+  try {
+    const session = await getServerSession(authOptions);
+    if (!session) {
+      return NextResponse.json(
+        { error: 'Authentication required' },
+        { status: 401 }
+      );
+    }
+
+    const body = await request.json();
+    const { reservationId, contractConfirmed } = initiateSigningSchema.parse(body);
+
+    if (!contractConfirmed) {
+      return NextResponse.json(
+        { error: 'Contract confirmation required' },
+        { status: 400 }
+      );
+    }
+
+    const reservation = await getReservationDetails(reservationId);
+    if (!reservation) {
+      return NextResponse.json(
+        { error: 'Reservation not found' },
+        { status: 404 }
+      );
+    }
+
+    // Create DocuSign envelope
+    const docuSignEnvelope = await initiateDocuSign({
+      contractUrl: reservation.contractUrl,
+      signers: [
+        {
+          name: reservation.buyer.name,
+          email: reservation.buyer.email,
+          role: 'Buyer',
+          routingOrder: 1
+        },
+        {
+          name: 'Prop.ie Authorized Signatory',
+          email: 'contracts@prop.ie',
+          role: 'Developer',
+          routingOrder: 2
+        }
+      ],
+      metadata: {
+        reservationId,
+        unitId: reservation.unit.id,
+        transactionType: 'PROPERTY_PURCHASE'
+      }
+    });
+
+    // Log signing initiation for audit trail
+    await logContractEvent(reservationId, 'SIGNING_INITIATED', {
+      docuSignEnvelopeId: docuSignEnvelope.envelopeId,
+      initiatedAt: new Date(),
+      initiatedBy: session.user?.id
+    });
+
+    // Update transaction status
+    await updateTransactionStatus(reservationId, 'PENDING_SIGNATURES');
+
+    return NextResponse.json({
+      success: true,
+      docuSignUrl: docuSignEnvelope.signingUrl,
+      envelopeId: docuSignEnvelope.envelopeId,
+      instructions: 'You will be redirected to DocuSign to complete the electronic signature process.'
+    });
+
+  } catch (error) {
+
+    if (error instanceof z.ZodError) {
+      return NextResponse.json(
+        { error: 'Invalid request data', details: error.errors },
+        { status: 400 }
+      );
+    }
+
+    return NextResponse.json(
+      { error: 'Failed to initiate contract signing' },
+      { status: 500 }
+    );
+  }
+}
+
+async function getReservationDetails(reservationId: string) {
+  // Integration with your existing database
+  return {
+    id: reservationId,
+    contractUrl: 'https://secure.prop.ie/contracts/contract_123.pdf',
+    unit: {
+      id: 'unit_123',
+      name: 'Unit 12, Fitzgerald Gardens'
+    },
+    buyer: {
+      id: 'buyer_123',
+      name: 'John Doe',
+      email: 'john.doe@example.com'
+    }
+  };
+}
+
+async function initiateDocuSign(params: {
+  contractUrl: string;
+  signers: Array<{
+    name: string;
+    email: string;
+    role: string;
+    routingOrder: number;
+  }>;
+  metadata: any;
+}) {
+  // Integration with DocuSign API
+  // This would use your DocuSign credentials and configuration
+
+  const mockEnvelopeId = `env_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+  const mockSigningUrl = `https://demo.docusign.net/Signing/MTRedeem/v1/PowerForm/FusionId=${mockEnvelopeId}`;
+
+  // In production, this would create actual DocuSign envelope:
+  // const docusign = require('docusign-esign');
+  // const apiClient = new docusign.ApiClient();
+  // apiClient.setBasePath(process.env.DOCUSIGN_BASE_URL);
+  // apiClient.addDefaultHeader('Authorization', 'Bearer ' + accessToken);
+  // 
+  // const envelopeDefinition = new docusign.EnvelopeDefinition();
+  // envelopeDefinition.emailSubject = 'Property Purchase Contract - Signature Required';
+  // // ... configure envelope with contract document and signers
+  // 
+  // const envelopesApi = new docusign.EnvelopesApi(apiClient);
+  // const results = await envelopesApi.createEnvelope(accountId, { envelopeDefinition });
+
+  return {
+    envelopeId: mockEnvelopeId,
+    signingUrl: mockSigningUrl,
+    status: 'created'
+  };
+}
+
+async function logContractEvent(reservationId: string, event: string, data: any) {
+  // Integration with your existing audit logging system
+  const auditLog = {
+    reservationId,
+    event,
+    data,
+    timestamp: new Date(),
+    source: 'legal-transaction-api'
+  };
+
+  // In production, this would write to your audit database:
+  // await prisma.auditLog.create({
+  //   data: auditLog
+  // });
+}
+
+async function updateTransactionStatus(reservationId: string, status: string) {
+  // Integration with your existing transaction service
+
+  // await transactionService.updateTransaction(transactionId, {
+  //   status: status,
+  //   stage: 'CONTRACT',
+  //   lastUpdated: new Date()
+  // });
+}

@@ -203,9 +203,9 @@ const fitzgeraldGardens: Development = {
 };
 
 export default function FitzgeraldGardensPage() {
-  const [activeTab, setActiveTab] = useState('overview');
-  const [isLoading, setIsLoading] = useState(true);
-  const [selectedHouseType, setSelectedHouseType] = useState<HouseType | null>(null);
+  const [activeTabsetActiveTab] = useState('overview');
+  const [isLoadingsetIsLoading] = useState(true);
+  const [selectedHouseTypesetSelectedHouseType] = useState<HouseType | null>(null);
 
   // Simulating loading state
   useEffect(() => {
@@ -486,7 +486,7 @@ export default function FitzgeraldGardensPage() {
               <div className="mt-12 bg-white p-6 rounded-lg shadow-md">
                 <h3 className="text-xl font-semibold text-[#2B5273] mb-4">Available House Types</h3>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                  {fitzgeraldGardens.propertyTypes.map((type) => (
+                  {fitzgeraldGardens.propertyTypes.map((type: any) => (
                     <div key={type.id} className="border border-gray-200 rounded-lg p-4">
                       <h4 className="font-semibold text-[#2B5273]">{type.name}</h4>
                       <p className="text-sm text-gray-600">{type.description}</p>
@@ -496,7 +496,7 @@ export default function FitzgeraldGardensPage() {
                         onClick={() => {
                           setActiveTab('house-types');
                           showHouseTypeDetails(type.id);
-                        }}
+                        }
                         aria-label={`View floor plans for ${type.name}`}
                       >
                         View Floor Plans
@@ -569,7 +569,7 @@ export default function FitzgeraldGardensPage() {
                       <div>Price</div>
                       <div>Action</div>
                     </div>
-                    {fitzgeraldGardens.units.map((unit) => (
+                    {fitzgeraldGardens.units.map((unit: any) => (
                       <div key={unit.id} className="grid grid-cols-1 md:grid-cols-5 gap-4 py-4 border-b border-gray-200 last:border-0">
                         <div className="font-medium">{unit.number}</div>
                         <div>{unit.type}</div>
@@ -609,7 +609,7 @@ export default function FitzgeraldGardensPage() {
 
               {/* House Type Selection */}
               <div className="flex flex-wrap gap-4 mb-8">
-                {fitzgeraldGardens.propertyTypes.map((type) => (
+                {fitzgeraldGardens.propertyTypes.map((type: any) => (
                   <button
                     key={type.id}
                     className={`px-6 py-3 rounded-full text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#2B5273] ${selectedHouseType?.id === type.id
@@ -1310,7 +1310,7 @@ export default function FitzgeraldGardensPage() {
                       Schools
                     </h4>
                     <ul className="space-y-2">
-                      {fitzgeraldGardens.amenities.schools.map((item, index) => (
+                      {fitzgeraldGardens.amenities.schools.map((itemindex: any) => (
                         <li key={index} className="text-sm">
                           <span className="font-medium">{item.name}</span>
                           <div className="text-gray-500">{item.distance}</div>
@@ -1327,7 +1327,7 @@ export default function FitzgeraldGardensPage() {
                       Shopping
                     </h4>
                     <ul className="space-y-2">
-                      {fitzgeraldGardens.amenities.shopping.map((item, index) => (
+                      {fitzgeraldGardens.amenities.shopping.map((itemindex: any) => (
                         <li key={index} className="text-sm">
                           <span className="font-medium">{item.name}</span>
                           <div className="text-gray-500">{item.distance}</div>
@@ -1345,7 +1345,7 @@ export default function FitzgeraldGardensPage() {
                       Transport
                     </h4>
                     <ul className="space-y-2">
-                      {fitzgeraldGardens.amenities.transport.map((item, index) => (
+                      {fitzgeraldGardens.amenities.transport.map((itemindex: any) => (
                         <li key={index} className="text-sm">
                           <span className="font-medium">{item.name}</span>
                           <div className="text-gray-500">{item.distance}</div>
@@ -1362,7 +1362,7 @@ export default function FitzgeraldGardensPage() {
                       Leisure
                     </h4>
                     <ul className="space-y-2">
-                      {fitzgeraldGardens.amenities.leisure.map((item, index) => (
+                      {fitzgeraldGardens.amenities.leisure.map((itemindex: any) => (
                         <li key={index} className="text-sm">
                           <span className="font-medium">{item.name}</span>
                           <div className="text-gray-500">{item.distance}</div>
@@ -1397,7 +1397,7 @@ export default function FitzgeraldGardensPage() {
 
               {/* Gallery grid */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-12">
-                {fitzgeraldGardens.galleryImages.map((image, index) => (
+                {fitzgeraldGardens.galleryImages.map((imageindex: any) => (
                   <div key={index} className="rounded-lg overflow-hidden shadow-md bg-white">
                     <div className="relative h-64">
                       <div className="absolute inset-0 bg-gray-200 flex items-center justify-center">
@@ -1453,7 +1453,7 @@ export default function FitzgeraldGardensPage() {
                     All legal documents related to Fitzgerald Gardens are available through our secure portal. These include:
                   </p>
                   <ul className="space-y-3">
-                    {fitzgeraldGardens.legalInfo.documents.map((doc, index) => (
+                    {fitzgeraldGardens.legalInfo.documents.map((docindex: any) => (
                       <li key={index} className="flex items-start">
                         <svg className="h-5 w-5 text-[#C9A86E] mt-0.5 mr-2" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
                           <path fillRule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clipRule="evenodd" />

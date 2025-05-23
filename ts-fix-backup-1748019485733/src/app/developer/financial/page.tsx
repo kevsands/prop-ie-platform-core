@@ -1,0 +1,605 @@
+'use client';
+
+import React, { useState } from 'react';
+import { 
+  Calculator, TrendingUp, DollarSign, PieChart, BarChart3,
+  Target, AlertTriangle, CheckCircle, Clock, FileText,
+  Download, Upload, Filter, Plus, Eye, Edit, Trash2,
+  Building, Users, Package, Calendar, Settings,
+  ChevronRight, Info, Shield, Activity, Layers
+} from 'lucide-react';
+import Link from 'next/link';
+import dynamic from 'next/dynamic';
+
+// Dynamic imports for charts
+const LineChart = dynamic(() => import('recharts').then(mod => mod.LineChart), { ssr: false });
+const AreaChart = dynamic(() => import('recharts').then(mod => mod.AreaChart), { ssr: false });
+const BarChart = dynamic(() => import('recharts').then(mod => mod.BarChart), { ssr: false });
+const ResponsiveContainer = dynamic(() => import('recharts').then(mod => mod.ResponsiveContainer), { ssr: false });
+const XAxis = dynamic(() => import('recharts').then(mod => mod.XAxis), { ssr: false });
+const YAxis = dynamic(() => import('recharts').then(mod => mod.YAxis), { ssr: false });
+const CartesianGrid = dynamic(() => import('recharts').then(mod => mod.CartesianGrid), { ssr: false });
+const Tooltip = dynamic(() => import('recharts').then(mod => mod.Tooltip), { ssr: false });
+const Legend = dynamic(() => import('recharts').then(mod => mod.Legend), { ssr: false });
+const Line = dynamic(() => import('recharts').then(mod => mod.Line), { ssr: false });
+const Area = dynamic(() => import('recharts').then(mod => mod.Area), { ssr: false });
+const Bar = dynamic(() => import('recharts').then(mod => mod.Bar), { ssr: false });
+
+export default function FinancialAppraisalsPage() {
+  const [activeTabsetActiveTab] = useState('overview');
+  const [selectedProjectsetSelectedProject] = useState('all');
+  const [showNewAppraisalsetShowNewAppraisal] = useState(false);
+
+  // Mock financial data
+  const portfolioMetrics = {
+    totalInvestment: '€145.8M',
+    currentValue: '€168.2M',
+    roi: 15.4,
+    irr: 18.7,
+    projectedReturn: '€198.5M',
+    netMargin: 22.3
+  };
+
+  const projects = [
+    {
+      id: '1',
+      name: 'Fitzgerald Gardens',
+      status: 'active',
+      investment: '€24.5M',
+      currentValue: '€28.2M',
+      roi: 15.1,
+      completion: 65,
+      units: {
+        total: 48,
+        sold: 31,
+        reserved: 8
+      },
+      financials: {
+        landCost: '€4.5M',
+        constructionCost: '€15.8M',
+        marketingCost: '€1.2M',
+        revenue: '€31.5M',
+        profit: '€10.0M'
+      },
+      cashflow: [
+        { month: 'Jan', inflow: 2500000, outflow: 1800000 },
+        { month: 'Feb', inflow: 3200000, outflow: 2100000 },
+        { month: 'Mar', inflow: 2800000, outflow: 1900000 },
+        { month: 'Apr', inflow: 3800000, outflow: 2200000 },
+        { month: 'May', inflow: 4200000, outflow: 2400000 },
+        { month: 'Jun', inflow: 4500000, outflow: 2300000 }]
+    },
+    {
+      id: '2',
+      name: 'Riverside Manor',
+      status: 'planning',
+      investment: '€18.2M',
+      currentValue: '€18.2M',
+      roi: 0,
+      completion: 0,
+      units: {
+        total: 32,
+        sold: 0,
+        reserved: 0
+      },
+      financials: {
+        landCost: '€3.2M',
+        constructionCost: '€12.5M',
+        marketingCost: '€0.8M',
+        revenue: '€0',
+        profit: '€0'
+      },
+      cashflow: []
+    }
+  ];
+
+  const marketData = [
+    { month: 'Jan', avgPrice: 450000, sales: 145, inventory: 890 },
+    { month: 'Feb', avgPrice: 455000, sales: 152, inventory: 875 },
+    { month: 'Mar', avgPrice: 462000, sales: 168, inventory: 862 },
+    { month: 'Apr', avgPrice: 468000, sales: 175, inventory: 848 },
+    { month: 'May', avgPrice: 475000, sales: 182, inventory: 835 },
+    { month: 'Jun', avgPrice: 482000, sales: 189, inventory: 820 }];
+
+  return (
+    <div className="p-6">
+      {/* Header */}
+      <div className="mb-6">
+        <div className="flex items-center justify-between mb-4">
+          <div>
+            <h1 className="text-2xl font-bold text-gray-900">Financial & Appraisals</h1>
+            <p className="text-gray-600">Development financial modeling and market analysis</p>
+          </div>
+          <button
+            onClick={() => setShowNewAppraisal(true)}
+            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center"
+          >
+            <Plus className="w-5 h-5 mr-2" />
+            New Appraisal
+          </button>
+        </div>
+
+        {/* Portfolio Summary */}
+        <div className="grid grid-cols-1 md:grid-cols-6 gap-4 mb-6">
+          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-sm text-gray-600">Total Investment</span>
+              <DollarSign className="w-4 h-4 text-gray-400" />
+            </div>
+            <p className="text-2xl font-bold">{portfolioMetrics.totalInvestment}</p>
+          </div>
+          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-sm text-gray-600">Current Value</span>
+              <TrendingUp className="w-4 h-4 text-gray-400" />
+            </div>
+            <p className="text-2xl font-bold">{portfolioMetrics.currentValue}</p>
+          </div>
+          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-sm text-gray-600">Portfolio ROI</span>
+              <Target className="w-4 h-4 text-gray-400" />
+            </div>
+            <p className="text-2xl font-bold text-green-600">{portfolioMetrics.roi}%</p>
+          </div>
+          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-sm text-gray-600">IRR</span>
+              <Activity className="w-4 h-4 text-gray-400" />
+            </div>
+            <p className="text-2xl font-bold">{portfolioMetrics.irr}%</p>
+          </div>
+          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-sm text-gray-600">Projected Return</span>
+              <Calculator className="w-4 h-4 text-gray-400" />
+            </div>
+            <p className="text-2xl font-bold">{portfolioMetrics.projectedReturn}</p>
+          </div>
+          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-sm text-gray-600">Net Margin</span>
+              <BarChart3 className="w-4 h-4 text-gray-400" />
+            </div>
+            <p className="text-2xl font-bold">{portfolioMetrics.netMargin}%</p>
+          </div>
+        </div>
+
+        {/* Tabs */}
+        <div className="border-b border-gray-200 mb-6">
+          <nav className="-mb-px flex space-x-6">
+            <button
+              onClick={() => setActiveTab('overview')}
+              className={`py-2 px-1 border-b-2 font-medium text-sm transition-colors ${
+                activeTab === 'overview' 
+                  ? 'border-blue-500 text-blue-600' 
+                  : 'border-transparent text-gray-500 hover:text-gray-700'
+              }`}
+            >
+              Overview
+            </button>
+            <button
+              onClick={() => setActiveTab('projects')}
+              className={`py-2 px-1 border-b-2 font-medium text-sm transition-colors ${
+                activeTab === 'projects' 
+                  ? 'border-blue-500 text-blue-600' 
+                  : 'border-transparent text-gray-500 hover:text-gray-700'
+              }`}
+            >
+              Project Analysis
+            </button>
+            <button
+              onClick={() => setActiveTab('cashflow')}
+              className={`py-2 px-1 border-b-2 font-medium text-sm transition-colors ${
+                activeTab === 'cashflow' 
+                  ? 'border-blue-500 text-blue-600' 
+                  : 'border-transparent text-gray-500 hover:text-gray-700'
+              }`}
+            >
+              Cash Flow
+            </button>
+            <button
+              onClick={() => setActiveTab('market')}
+              className={`py-2 px-1 border-b-2 font-medium text-sm transition-colors ${
+                activeTab === 'market' 
+                  ? 'border-blue-500 text-blue-600' 
+                  : 'border-transparent text-gray-500 hover:text-gray-700'
+              }`}
+            >
+              Market Analysis
+            </button>
+            <button
+              onClick={() => setActiveTab('scenarios')}
+              className={`py-2 px-1 border-b-2 font-medium text-sm transition-colors ${
+                activeTab === 'scenarios' 
+                  ? 'border-blue-500 text-blue-600' 
+                  : 'border-transparent text-gray-500 hover:text-gray-700'
+              }`}
+            >
+              Scenarios
+            </button>
+          </nav>
+        </div>
+      </div>
+
+      {/* Tab Content */}
+      {activeTab === 'overview' && (
+        <div>
+          {/* Portfolio Performance Chart */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+              <h3 className="font-semibold text-gray-900 mb-4">Portfolio Performance</h3>
+              <div className="h-64">
+                <ResponsiveContainer width="100%" height="100%">
+                  <LineChart data={marketData}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="month" />
+                    <YAxis />
+                    <Tooltip />
+                    <Legend />
+                    <Line type="monotone" dataKey="avgPrice" stroke="#3B82F6" name="Avg Price" />
+                    <Line type="monotone" dataKey="sales" stroke="#10B981" name="Sales Volume" />
+                  </LineChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
+
+            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+              <h3 className="font-semibold text-gray-900 mb-4">Revenue Breakdown</h3>
+              <div className="space-y-4">
+                <RevenuItem title="Residential Sales" amount="€125.8M" percentage={68} />
+                <RevenuItem title="Commercial Leases" amount="€42.5M" percentage={23} />
+                <RevenuItem title="Parking & Amenities" amount="€12.2M" percentage={7} />
+                <RevenuItem title="Other Revenue" amount="€3.7M" percentage={2} />
+              </div>
+              <div className="mt-4 pt-4 border-t border-gray-200">
+                <div className="flex items-center justify-between">
+                  <span className="font-medium text-gray-900">Total Revenue</span>
+                  <span className="text-xl font-bold">€184.2M</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Project Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {projects.map(project => (
+              <ProjectFinancialCard key={project.id} project={project} />
+            ))}
+          </div>
+        </div>
+      )}
+
+      {activeTab === 'projects' && (
+        <div className="space-y-6">
+          {projects.map(project => (
+            <ProjectDetailedAnalysis key={project.id} project={project} />
+          ))}
+        </div>
+      )}
+
+      {activeTab === 'cashflow' && (
+        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="font-semibold text-gray-900">Cash Flow Analysis</h3>
+            <select className="px-3 py-2 border border-gray-300 rounded-lg text-sm">
+              <option>All Projects</option>
+              {projects.map(p => (
+                <option key={p.id}>{p.name}</option>
+              ))}
+            </select>
+          </div>
+          <div className="h-96">
+            <ResponsiveContainer width="100%" height="100%">
+              <AreaChart data={projects[0].cashflow}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="month" />
+                <YAxis tickFormatter={(value) => `€${(value / 1000000).toFixed(1)}M`} />
+                <Tooltip formatter={(value) => `€${(value / 1000000).toFixed(2)}M`} />
+                <Legend />
+                <Area type="monotone" dataKey="inflow" stackId="1" stroke="#10B981" fill="#10B981" name="Cash Inflow" />
+                <Area type="monotone" dataKey="outflow" stackId="1" stroke="#EF4444" fill="#EF4444" name="Cash Outflow" />
+              </AreaChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
+      )}
+
+      {/* New Appraisal Modal */}
+      {showNewAppraisal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-xl w-full max-w-4xl p-6">
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-xl font-bold">New Development Appraisal</h2>
+              <button
+                onClick={() => setShowNewAppraisal(false)}
+                className="p-2 hover:bg-gray-100 rounded-lg"
+              >
+                ✕
+              </button>
+            </div>
+            <NewAppraisalForm onClose={() => setShowNewAppraisal(false)} />
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// Revenue Item Component
+function RevenuItem({ title, amount, percentage }) {
+  return (
+    <div>
+      <div className="flex items-center justify-between mb-1">
+        <span className="text-sm text-gray-600">{title}</span>
+        <span className="font-medium">{amount}</span>
+      </div>
+      <div className="w-full bg-gray-200 rounded-full h-2">
+        <div
+          className="bg-blue-600 h-2 rounded-full"
+          style={ width: `${percentage}%` }
+        />
+      </div>
+    </div>
+  );
+}
+
+// Project Financial Card
+function ProjectFinancialCard({ project }) {
+  return (
+    <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+      <div className="flex items-start justify-between mb-4">
+        <div>
+          <h3 className="font-semibold text-gray-900">{project.name}</h3>
+          <p className="text-sm text-gray-600">{project.units.total} units</p>
+        </div>
+        <span className={`px-2 py-1 text-xs font-medium rounded-full ${
+          project.status === 'active' ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'
+        }`}>
+          {project.status}
+        </span>
+      </div>
+
+      <div className="grid grid-cols-2 gap-4 mb-4">
+        <div>
+          <p className="text-xs text-gray-500">Investment</p>
+          <p className="font-medium">{project.investment}</p>
+        </div>
+        <div>
+          <p className="text-xs text-gray-500">Current Value</p>
+          <p className="font-medium">{project.currentValue}</p>
+        </div>
+        <div>
+          <p className="text-xs text-gray-500">ROI</p>
+          <p className="font-medium text-green-600">{project.roi}%</p>
+        </div>
+        <div>
+          <p className="text-xs text-gray-500">Completion</p>
+          <p className="font-medium">{project.completion}%</p>
+        </div>
+      </div>
+
+      <div className="mb-4">
+        <div className="flex items-center justify-between text-sm mb-1">
+          <span className="text-gray-600">Sales Progress</span>
+          <span>{project.units.sold + project.units.reserved}/{project.units.total}</span>
+        </div>
+        <div className="w-full bg-gray-200 rounded-full h-2">
+          <div
+            className="bg-gradient-to-r from-blue-600 to-green-600 h-2 rounded-full"
+            style={ width: `${((project.units.sold + project.units.reserved) / project.units.total) * 100}%` }
+          />
+        </div>
+      </div>
+
+      <div className="flex items-center justify-between pt-4 border-t border-gray-200">
+        <Link href={`/developer/financial/projects/${project.id}`} className="text-blue-600 hover:text-blue-700 font-medium text-sm">
+          View Details
+        </Link>
+        <button className="text-gray-600 hover:text-gray-700 font-medium text-sm">
+          Export Report
+        </button>
+      </div>
+    </div>
+  );
+}
+
+// Project Detailed Analysis
+function ProjectDetailedAnalysis({ project }) {
+  return (
+    <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+      <div className="flex items-center justify-between mb-6">
+        <h3 className="text-lg font-semibold text-gray-900">{project.name}</h3>
+        <div className="flex items-center space-x-2">
+          <button className="p-2 hover:bg-gray-100 rounded-lg">
+            <Download className="w-5 h-5 text-gray-600" />
+          </button>
+          <button className="p-2 hover:bg-gray-100 rounded-lg">
+            <Edit className="w-5 h-5 text-gray-600" />
+          </button>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {/* Cost Breakdown */}
+        <div>
+          <h4 className="font-medium text-gray-900 mb-3">Cost Breakdown</h4>
+          <div className="space-y-2">
+            <div className="flex justify-between">
+              <span className="text-sm text-gray-600">Land Cost</span>
+              <span className="font-medium">{project.financials.landCost}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-sm text-gray-600">Construction</span>
+              <span className="font-medium">{project.financials.constructionCost}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-sm text-gray-600">Marketing</span>
+              <span className="font-medium">{project.financials.marketingCost}</span>
+            </div>
+            <div className="flex justify-between pt-2 border-t">
+              <span className="font-medium">Total Cost</span>
+              <span className="font-bold">{project.investment}</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Revenue Projection */}
+        <div>
+          <h4 className="font-medium text-gray-900 mb-3">Revenue Projection</h4>
+          <div className="space-y-2">
+            <div className="flex justify-between">
+              <span className="text-sm text-gray-600">Total Revenue</span>
+              <span className="font-medium">{project.financials.revenue}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-sm text-gray-600">Net Profit</span>
+              <span className="font-medium text-green-600">{project.financials.profit}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-sm text-gray-600">Margin</span>
+              <span className="font-medium">32.5%</span>
+            </div>
+            <div className="flex justify-between pt-2 border-t">
+              <span className="font-medium">ROI</span>
+              <span className="font-bold text-green-600">{project.roi}%</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Risk Assessment */}
+        <div>
+          <h4 className="font-medium text-gray-900 mb-3">Risk Assessment</h4>
+          <div className="space-y-3">
+            <RiskItem title="Market Risk" level="low" />
+            <RiskItem title="Construction Risk" level="medium" />
+            <RiskItem title="Financial Risk" level="low" />
+            <RiskItem title="Regulatory Risk" level="low" />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Risk Item Component
+function RiskItem({ title, level }) {
+  const colors = {
+    low: 'text-green-600 bg-green-50',
+    medium: 'text-yellow-600 bg-yellow-50',
+    high: 'text-red-600 bg-red-50'
+  };
+
+  return (
+    <div className="flex items-center justify-between">
+      <span className="text-sm text-gray-600">{title}</span>
+      <span className={`px-2 py-1 text-xs font-medium rounded-full ${colors[level]}`}>
+        {level}
+      </span>
+    </div>
+  );
+}
+
+// New Appraisal Form Component
+function NewAppraisalForm({ onClose }) {
+  const [formDatasetFormData] = useState({
+    name: '',
+    location: '',
+    landCost: '',
+    constructionCost: '',
+    units: '',
+    avgUnitPrice: ''
+  });
+
+  return (
+    <form>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Project Name
+          </label>
+          <input
+            type="text"
+            value={formData.name}
+            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Location
+          </label>
+          <input
+            type="text"
+            value={formData.location}
+            onChange={(e) => setFormData({ ...formData, location: e.target.value })}
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Land Cost
+          </label>
+          <input
+            type="text"
+            value={formData.landCost}
+            onChange={(e) => setFormData({ ...formData, landCost: e.target.value })}
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+            placeholder="€0"
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Construction Cost
+          </label>
+          <input
+            type="text"
+            value={formData.constructionCost}
+            onChange={(e) => setFormData({ ...formData, constructionCost: e.target.value })}
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+            placeholder="€0"
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Number of Units
+          </label>
+          <input
+            type="number"
+            value={formData.units}
+            onChange={(e) => setFormData({ ...formData, units: e.target.value })}
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Average Unit Price
+          </label>
+          <input
+            type="text"
+            value={formData.avgUnitPrice}
+            onChange={(e) => setFormData({ ...formData, avgUnitPrice: e.target.value })}
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+            placeholder="€0"
+          />
+        </div>
+      </div>
+
+      <div className="mt-6 flex items-center justify-end space-x-3">
+        <button
+          type="button"
+          onClick={onClose}
+          className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50"
+        >
+          Cancel
+        </button>
+        <button
+          type="submit"
+          className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+        >
+          Generate Appraisal
+        </button>
+      </div>
+    </form>
+  );
+}

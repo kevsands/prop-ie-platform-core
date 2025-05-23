@@ -163,7 +163,7 @@ export interface BuyerProfile {
   assignedAgentId?: string;
   assignedAgent?: UserSummary;
   isFirstTimeBuyer: boolean;
-  metadata?: Record<string, any>;
+  metadata?: Record<string, any>\n  );
 }
 
 /**
@@ -173,7 +173,7 @@ export interface BuyerJourneyProgress {
   id: string;
   userId: string;
   currentStage: BuyerJourneyStage;
-  stageProgress: Record<BuyerJourneyStage, number>;
+  stageProgress: Record<BuyerJourneyStage, number>\n  );
   checklistCompletion: number;
   documentsCompletion: number;
   overallProgress: number;
@@ -182,7 +182,7 @@ export interface BuyerJourneyProgress {
     title: string;
     dueDate?: Date;
     priority: 'LOW' | 'MEDIUM' | 'HIGH';
-  }>;
+  }>\n  );
 }
 
 /**

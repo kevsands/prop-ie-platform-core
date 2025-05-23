@@ -1,0 +1,431 @@
+'use client';
+
+import React, { useState, useEffect } from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Label } from '@/components/ui/label';
+import { Input } from '@/components/ui/input';
+import { Select } from '@/components/ui/select';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Badge } from '@/components/ui/badge';
+import { 
+  Key, 
+  Calendar,
+  Clock,
+  MapPin,
+  FileText,
+  CheckCircle,
+  AlertCircle,
+  Download,
+  User,
+  Home,
+  Zap,
+  Droplets,
+  Thermometer
+} from 'lucide-react';
+import { formatDate } from '@/utils/format';
+
+interface HandoverSchedulingProps {
+  transactionId: string;
+  onComplete: () => void;
+}
+
+interface HandoverAppointment {
+  id: string;
+  date: string;
+  time: string;
+  location: string;
+  duration: number;
+  attendees: Attendee[];
+  checklist: ChecklistItem[];
+  status: 'scheduled' | 'completed' | 'cancelled';
+  completedAt?: string;
+}
+
+interface Attendee {
+  id: string;
+  name: string;
+  role: 'buyer' | 'seller' | 'agent' | 'solicitor';
+  email: string;
+  confirmed: boolean;
+}
+
+interface ChecklistItem {
+  id: string;
+  category: 'keys' | 'utilities' | 'documents' | 'inspection';
+  item: string;
+  description?: string;
+  completed: boolean;
+  completedBy?: string;
+  completedAt?: string;
+}
+
+interface MeterReading {
+  utility: 'electricity' | 'gas' | 'water';
+  reading: string;
+  photoUrl?: string;
+}
+
+export function HandoverScheduling({ transactionId, onComplete }: HandoverSchedulingProps) {
+  const [appointmentsetAppointment] = useState<HandoverAppointment | null>(null);
+  const [loadingsetLoading] = useState(true);
+  const [errorsetError] = useState<string | null>(null);
+  const [selectedDatesetSelectedDate] = useState('');
+  const [selectedTimesetSelectedTime] = useState('');
+  const [meterReadingssetMeterReadings] = useState<MeterReading[]>([
+    { utility: 'electricity', reading: '' },
+    { utility: 'gas', reading: '' },
+    { utility: 'water', reading: '' }]);
+
+  useEffect(() => {
+    fetchHandoverAppointment();
+  }, [transactionId]);
+
+  const fetchHandoverAppointment = async () => {
+    try {
+      const response = await fetch(`/api/v1/transactions/${transactionId}/handover`);
+      if (!response.ok) throw new Error('Failed to fetch handover details');
+
+      const data = await response.json();
+      setAppointment(data.appointment);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'An error occurred');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const scheduleHandover = async () => {
+    setLoading(true);
+    setError(null);
+
+    try {
+      const response = await fetch(`/api/v1/transactions/${transactionId}/handover/schedule`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          date: selectedDate,
+          time: selectedTime})});
+
+      if (!response.ok) throw new Error('Failed to schedule handover');
+
+      const data = await response.json();
+      setAppointment(data.appointment);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'An error occurred');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleChecklistToggle = async (itemId: string) => {
+    if (!appointment) return;
+
+    try {
+      const response = await fetch(`/api/v1/handover/${appointment.id}/checklist/${itemId}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ completed: true })});
+
+      if (!response.ok) throw new Error('Failed to update checklist');
+
+      const updatedItem = await response.json();
+
+      setAppointment(prev => ({
+        ...prev!,
+        checklist: prev!.checklist.map(item =>
+          item.id === itemId ? updatedItem : item
+        )}));
+    } catch (err) {
+
+    }
+  };
+
+  const submitMeterReadings = async () => {
+    if (!appointment) return;
+
+    try {
+      const response = await fetch(`/api/v1/handover/${appointment.id}/meter-readings`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ readings: meterReadings })});
+
+      if (!response.ok) throw new Error('Failed to submit meter readings');
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'An error occurred');
+    }
+  };
+
+  const completeHandover = async () => {
+    if (!appointment) return;
+
+    setLoading(true);
+    setError(null);
+
+    try {
+      await submitMeterReadings();
+
+      const response = await fetch(`/api/v1/handover/${appointment.id}/complete`, {
+        method: 'POST'});
+
+      if (!response.ok) throw new Error('Failed to complete handover');
+
+      onComplete();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'An error occurred');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const allChecklistComplete = appointment?.checklist.every(item => item.completed) || false;
+  const allMeterReadings = meterReadings.every(reading => reading.reading !== '');
+
+  if (loading) {
+    return (
+      <Card>
+        <CardContent className="p-8">
+          <div className="animate-pulse space-y-4">
+            <div className="h-8 bg-muted rounded w-1/3" />
+            <div className="h-32 bg-muted rounded" />
+          </div>
+        </CardContent>
+      </Card>
+    );
+  }
+
+  if (!appointment || appointment.status === 'scheduled') {
+    return (
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Calendar className="h-5 w-5" />
+            Schedule Property Handover
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-6">
+          {error && (
+            <Alert variant="destructive">
+              <AlertCircle className="h-4 w-4" />
+              <AlertDescription>{error}</AlertDescription>
+            </Alert>
+          )}
+
+          <Alert>
+            <Home className="h-4 w-4" />
+            <AlertDescription>
+              Schedule a convenient time for the property handover. This includes key collection, 
+              final inspection, and utility meter readings.
+            </AlertDescription>
+          </Alert>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <Label htmlFor="date">Preferred Date</Label>
+              <Input
+                id="date"
+                type="date"
+                value={selectedDate}
+                onChange={(e: React.MouseEvent) => setSelectedDate(e.target.value)}
+                min={new Date().toISOString().split('T')[0]}
+              />
+            </div>
+
+            <div>
+              <Label htmlFor="time">Preferred Time</Label>
+              <Select
+                value={selectedTime}
+                onChange={(e: React.MouseEvent) => setSelectedTime(e.target.value)}
+              >
+                <option value="">Select time</option>
+                <option value="09:00">9:00 AM</option>
+                <option value="10:00">10:00 AM</option>
+                <option value="11:00">11:00 AM</option>
+                <option value="14:00">2:00 PM</option>
+                <option value="15:00">3:00 PM</option>
+                <option value="16:00">4:00 PM</option>
+              </Select>
+            </div>
+          </div>
+
+          <Button
+            onClick={scheduleHandover}
+            disabled={!selectedDate || !selectedTime || loading}
+            className="w-full"
+          >
+            {loading ? 'Scheduling...' : 'Schedule Handover'}
+          </Button>
+        </CardContent>
+      </Card>
+    );
+  }
+
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle className="flex items-center gap-2">
+          <Key className="h-5 w-5" />
+          Property Handover
+        </CardTitle>
+      </CardHeader>
+      <CardContent className="space-y-6">
+        {error && (
+          <Alert variant="destructive">
+            <AlertCircle className="h-4 w-4" />
+            <AlertDescription>{error}</AlertDescription>
+          </Alert>
+        )}
+
+        <div className="bg-muted p-4 rounded-lg">
+          <h3 className="font-semibold mb-3 flex items-center gap-2">
+            <Calendar className="h-4 w-4" />
+            Appointment Details
+          </h3>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div>
+              <p className="text-sm text-muted-foreground">Date</p>
+              <p className="font-medium">{formatDate(appointment.date)}</p>
+            </div>
+            <div>
+              <p className="text-sm text-muted-foreground">Time</p>
+              <p className="font-medium flex items-center gap-1">
+                <Clock className="h-3 w-3" />
+                {appointment.time}
+              </p>
+            </div>
+            <div>
+              <p className="text-sm text-muted-foreground">Location</p>
+              <p className="font-medium flex items-center gap-1">
+                <MapPin className="h-3 w-3" />
+                {appointment.location}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <h3 className="font-semibold mb-3">Attendees</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            {appointment.attendees.map(attendee => (
+              <div key={attendee.id} className="flex items-center justify-between p-3 border rounded-lg">
+                <div className="flex items-center gap-2">
+                  <User className="h-4 w-4 text-muted-foreground" />
+                  <div>
+                    <p className="font-medium">{attendee.name}</p>
+                    <p className="text-sm text-muted-foreground">{attendee.role}</p>
+                  </div>
+                </div>
+                <Badge variant={attendee.confirmed ? 'success' : 'default'}>
+                  {attendee.confirmed ? 'Confirmed' : 'Pending'}
+                </Badge>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div>
+          <h3 className="font-semibold mb-3 flex items-center gap-2">
+            <CheckCircle className="h-4 w-4" />
+            Handover Checklist
+          </h3>
+          <div className="space-y-2">
+            {appointment.checklist.map(item => (
+              <div key={item.id} className="flex items-center justify-between p-3 border rounded-lg">
+                <div className="flex items-center gap-3">
+                  <Checkbox
+                    checked={item.completed}
+                    onCheckedChange={() => handleChecklistToggle(item.id)}
+                  />
+                  <div>
+                    <p className="font-medium">{item.item}</p>
+                    {item.description && (
+                      <p className="text-sm text-muted-foreground">{item.description}</p>
+                    )}
+                  </div>
+                </div>
+                {item.completed && (
+                  <Badge variant="success" className="text-xs">
+                    <CheckCircle className="h-3 w-3 mr-1" />
+                    Completed
+                  </Badge>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div>
+          <h3 className="font-semibold mb-3">Utility Meter Readings</h3>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {meterReadings.map((readingindex) => (
+              <div key={reading.utility} className="space-y-2">
+                <Label className="flex items-center gap-2">
+                  {reading.utility === 'electricity' && <Zap className="h-4 w-4" />}
+                  {reading.utility === 'gas' && <Thermometer className="h-4 w-4" />}
+                  {reading.utility === 'water' && <Droplets className="h-4 w-4" />}
+                  {reading.utility}
+                </Label>
+                <Input
+                  type="text"
+                  placeholder="Enter reading"
+                  value={reading.reading}
+                  onChange={(e: React.MouseEvent) => {
+                    const newReadings = [...meterReadings];
+                    newReadings[index].reading = e.target.value;
+                    setMeterReadings(newReadings);
+                  }
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div>
+          <h3 className="font-semibold mb-3">Documents</h3>
+          <div className="space-y-2">
+            <Button variant="outline" className="w-full justify-start">
+              <FileText className="h-4 w-4 mr-2" />
+              Welcome Pack
+              <Download className="h-4 w-4 ml-auto" />
+            </Button>
+            <Button variant="outline" className="w-full justify-start">
+              <FileText className="h-4 w-4 mr-2" />
+              Property Manual
+              <Download className="h-4 w-4 ml-auto" />
+            </Button>
+            <Button variant="outline" className="w-full justify-start">
+              <FileText className="h-4 w-4 mr-2" />
+              Warranty Information
+              <Download className="h-4 w-4 ml-auto" />
+            </Button>
+          </div>
+        </div>
+
+        {allChecklistComplete && allMeterReadings ? (
+          <Alert className="bg-success/10 border-success">
+            <CheckCircle className="h-4 w-4 text-success" />
+            <AlertDescription className="text-success">
+              All handover requirements completed! Ready to finalize.
+            </AlertDescription>
+          </Alert>
+        ) : (
+          <Alert>
+            <AlertCircle className="h-4 w-4" />
+            <AlertDescription>
+              Please complete all checklist items and meter readings before finalizing handover.
+            </AlertDescription>
+          </Alert>
+        )}
+
+        <Button
+          onClick={completeHandover}
+          disabled={!allChecklistComplete || !allMeterReadings || loading}
+          className="w-full"
+        >
+          {loading ? 'Completing...' : 'Complete Handover'}
+        </Button>
+      </CardContent>
+    </Card>
+  );
+}

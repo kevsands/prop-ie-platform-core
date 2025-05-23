@@ -31,12 +31,12 @@ export interface MockUserService {
 
 // Mock Repository types
 export interface MockRepository<T> {
-  findAll: jest.Mock<Promise<T[]>>;
-  findById: jest.Mock<Promise<T | null>>;
-  create: jest.Mock<Promise<T>>;
-  update: jest.Mock<Promise<T>>;
-  delete: jest.Mock<Promise<boolean>>;
-  findByFilter: jest.Mock<Promise<T[]>>;
+  findAll: jest.Mock<Promise<T[]>>\n  );
+  findById: jest.Mock<Promise<T | null>>\n  );
+  create: jest.Mock<Promise<T>>\n  );
+  update: jest.Mock<Promise<T>>\n  );
+  delete: jest.Mock<Promise<boolean>>\n  );
+  findByFilter: jest.Mock<Promise<T[]>>\n  );
 }
 
 // Mock API response types
@@ -59,7 +59,7 @@ export interface MockDatabaseClient {
 // Mock database pool
 export interface MockDatabasePool {
   query: jest.Mock;
-  connect: jest.Mock<Promise<MockDatabaseClient>>;
+  connect: jest.Mock<Promise<MockDatabaseClient>>\n  );
   on: jest.Mock;
   end: jest.Mock;
 }

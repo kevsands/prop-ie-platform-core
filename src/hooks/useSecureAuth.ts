@@ -18,13 +18,13 @@ export interface UseSecureAuthOptions {
    * @default true
    */
   initializeOnMount?: boolean;
-  
+
   /**
    * Security level to check for when using the requiresAuth method
    * @default 'basic'
    */
   defaultSecurityLevel?: 'basic' | 'medium' | 'high';
-  
+
   /**
    * Whether to log security events
    * @default true
@@ -39,17 +39,16 @@ export const useSecureAuth = (options: UseSecureAuthOptions = {}) => {
   const {
     initializeOnMount = true,
     defaultSecurityLevel = 'basic',
-    enableAuditLogging = true,
-  } = options;
-  
+    enableAuditLogging = true} = options;
+
   // Get authentication context
   const auth = useAuth();
-  
+
   // Add security initialization state
-  const [securityInitialized, setSecurityInitialized] = useState<boolean>(
+  const [securityInitializedsetSecurityInitialized] = useState<boolean>(
     Security.isInitialized()
   );
-  
+
   // Initialize security module if not already initialized
   useEffect(() => {
     if (initializeOnMount && !securityInitialized) {
@@ -57,7 +56,7 @@ export const useSecureAuth = (options: UseSecureAuthOptions = {}) => {
         try {
           await Security.initialize();
           setSecurityInitialized(true);
-          
+
           if (enableAuditLogging) {
             AuditLogger.logSecurity(
               'security_module_initialized',
@@ -70,8 +69,7 @@ export const useSecureAuth = (options: UseSecureAuthOptions = {}) => {
             );
           }
         } catch (error) {
-          console.error('Failed to initialize security module:', error);
-          
+
           if (enableAuditLogging) {
             AuditLogger.logSecurity(
               'security_module_init_failed',
@@ -85,11 +83,11 @@ export const useSecureAuth = (options: UseSecureAuthOptions = {}) => {
           }
         }
       };
-      
+
       initSecurity();
     }
-  }, [initializeOnMount, securityInitialized, auth.user?.id, enableAuditLogging]);
-  
+  }, [initializeOnMount, securityInitialized, auth.user?.idenableAuditLogging]);
+
   /**
    * Check if the current user has sufficient authorization for a given resource
    * Combines authentication, role check, permission check, and security level verification
@@ -106,15 +104,14 @@ export const useSecureAuth = (options: UseSecureAuthOptions = {}) => {
       role,
       permission,
       securityLevel = defaultSecurityLevel,
-      requiresMFA = false,
-    } = options;
-    
+      requiresMFA = false} = options;
+
     try {
       // First, check authentication
       if (!auth.isAuthenticated || !auth.user) {
         return false;
       }
-      
+
       // Check security level
       if (securityLevel) {
         const hasSecurityLevel = await auth.checkSecurityLevel(securityLevel);
@@ -122,7 +119,7 @@ export const useSecureAuth = (options: UseSecureAuthOptions = {}) => {
           return false;
         }
       }
-      
+
       // Check role if specified
       if (role) {
         const roles = Array.isArray(role) ? role : [role];
@@ -131,7 +128,7 @@ export const useSecureAuth = (options: UseSecureAuthOptions = {}) => {
           return false;
         }
       }
-      
+
       // Check permission if specified
       if (permission) {
         const permissions = Array.isArray(permission) ? permission : [permission];
@@ -140,17 +137,16 @@ export const useSecureAuth = (options: UseSecureAuthOptions = {}) => {
           return false;
         }
       }
-      
+
       // Check MFA if required
       if (requiresMFA && !auth.mfaEnabled) {
         return false;
       }
-      
+
       // All checks passed
       return true;
     } catch (error) {
-      console.error('Error in requiresAuth check:', error);
-      
+
       if (enableAuditLogging) {
         AuditLogger.logSecurity(
           'auth_check_error',
@@ -166,12 +162,12 @@ export const useSecureAuth = (options: UseSecureAuthOptions = {}) => {
           }
         );
       }
-      
+
       // Fail closed for security
       return false;
     }
-  }, [auth, defaultSecurityLevel, enableAuditLogging]);
-  
+  }, [auth, defaultSecurityLevelenableAuditLogging]);
+
   /**
    * Elevate security level by triggering additional verification
    * This can be used to re-authenticate or verify MFA before sensitive operations
@@ -185,7 +181,7 @@ export const useSecureAuth = (options: UseSecureAuthOptions = {}) => {
       if (alreadyElevated) {
         return true;
       }
-      
+
       if (targetLevel === 'medium') {
         // For medium level, check session fingerprint
         try {
@@ -194,25 +190,24 @@ export const useSecureAuth = (options: UseSecureAuthOptions = {}) => {
             return true;
           }
         } catch (error) {
-          console.error('Error validating session fingerprint:', error);
+
         }
       }
-      
+
       if (targetLevel === 'high') {
         // High level might require MFA if not already enabled
         if (!auth.mfaEnabled) {
           return false; // MFA needs to be set up first
         }
-        
+
         // Additional verificaiton would be handled by the application UI
         // For example, requesting MFA code again or doing a step-up auth
       }
-      
+
       // The UI should react to false and prompt for appropriate verification
       return false;
     } catch (error) {
-      console.error('Error in elevateSecurityLevel:', error);
-      
+
       if (enableAuditLogging) {
         AuditLogger.logSecurity(
           'security_elevation_error',
@@ -225,11 +220,11 @@ export const useSecureAuth = (options: UseSecureAuthOptions = {}) => {
           }
         );
       }
-      
+
       return false;
     }
-  }, [auth, enableAuditLogging]);
-  
+  }, [authenableAuditLogging]);
+
   // Return combined authentication and security capabilities
   return {
     ...auth,

@@ -52,7 +52,7 @@ export interface Development {
     bathrooms: number;
     squareFeet: number;
     image: string;
-  }>;
+  }>\n  );
   floorPlans?: Array<{
     id: string;
     name: string;
@@ -61,7 +61,7 @@ export interface Development {
     squareFeet: number;
     image: string;
     price?: string;  // Made price optional to match mock data
-  }>;
+  }>\n  );
   mapLocation?: {
     lat: number;
     lng: number;

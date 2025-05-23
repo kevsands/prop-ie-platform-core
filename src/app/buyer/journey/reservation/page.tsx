@@ -34,7 +34,7 @@ import {
  */
 export default function ReservationPage() {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState('overview');
+  const [activeTabsetActiveTab] = useState('overview');
 
   // Mock reservation data
   const reservation = {
@@ -159,7 +159,7 @@ export default function ReservationPage() {
             {/* Tabs */}
             <div className="bg-white rounded-lg shadow-sm">
               <div className="flex border-b">
-                {['overview', 'documents', 'timeline'].map((tab) => (
+                {['overview', 'documents', 'timeline'].map((tab: any) => (
                   <button
                     key={tab}
                     onClick={() => setActiveTab(tab)}
@@ -248,7 +248,7 @@ export default function ReservationPage() {
                 {activeTab === 'documents' && (
                   <div className="space-y-4">
                     <h3 className="font-semibold mb-4">Your Documents</h3>
-                    {reservation.documents.map((doc) => (
+                    {reservation.documents.map((doc: any) => (
                       <div key={doc.id} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
                         <div className="flex items-center gap-3">
                           <FileText className="w-5 h-5 text-blue-600" />
@@ -270,7 +270,7 @@ export default function ReservationPage() {
                   <div className="space-y-4">
                     <h3 className="font-semibold mb-4">Reservation Timeline</h3>
                     <div className="space-y-4">
-                      {reservation.timeline.map((event, index) => (
+                      {reservation.timeline.map((eventindex: any) => (
                         <div key={index} className="flex items-start gap-4">
                           <div className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 ${
                             event.status === 'completed' ? 'bg-green-100 text-green-600' :
@@ -322,7 +322,7 @@ export default function ReservationPage() {
                   <dd className="font-medium">{reservation.deposit.dueDate.toLocaleDateString()}</dd>
                 </div>
               </dl>
-              
+
               <button className="w-full mt-6 px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium">
                 Pay Remaining Deposit
               </button>
@@ -339,7 +339,7 @@ export default function ReservationPage() {
                   </div>
                   <ChevronRight className="w-4 h-4 text-gray-400" />
                 </button>
-                
+
                 <button className="w-full flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
                   <div className="flex items-center gap-3">
                     <MessageSquare className="w-5 h-5 text-blue-600" />
@@ -347,7 +347,7 @@ export default function ReservationPage() {
                   </div>
                   <ChevronRight className="w-4 h-4 text-gray-400" />
                 </button>
-                
+
                 <button className="w-full flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
                   <div className="flex items-center gap-3">
                     <Calculator className="w-5 h-5 text-blue-600" />
@@ -355,7 +355,7 @@ export default function ReservationPage() {
                   </div>
                   <ChevronRight className="w-4 h-4 text-gray-400" />
                 </button>
-                
+
                 <button className="w-full flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
                   <div className="flex items-center gap-3">
                     <Briefcase className="w-5 h-5 text-blue-600" />

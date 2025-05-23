@@ -1,0 +1,164 @@
+"use client";
+
+import { useState, useEffect, createContext, useContext } from 'react';
+import { signIn, signOut, getCurrentUser, fetchUserAttributes } from 'aws-amplify/auth';
+import { generateClient } from 'aws-amplify/api';
+
+// Define types for authentication
+export interface User {
+  id: string;
+  name: string;
+  email: string;
+  role: string;
+  organisationId: string;
+  accessToken?: string;
+  permissions?: Array<{ resource: string; action: string }>;
+}
+
+interface AuthState {
+  user: User | null;
+  accessToken: string | null;
+  isLoading: boolean;
+  error: string | null;
+}
+
+interface AuthContextType extends AuthState {
+  login: (email: string, password: string) => Promise<void>;
+  logout: () => Promise<void>;
+  isAuthenticated: boolean;
+}
+
+// Create context
+const AuthContext = createContext<AuthContextType | undefined>(undefined);
+
+// Create provider component
+export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
+  const [authState, setAuthState] = useState<AuthState>({
+    user: null,
+    accessToken: null,
+    isLoading: true,
+    error: null
+  });
+
+  // Check for existing session on mount
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        const { userId, signInDetails } = await getCurrentUser();
+        const attributes = await fetchUserAttributes();
+
+        if (userId && attributes) {
+          setAuthState({
+            user: {
+              id: userId,
+              name: attributes.name || attributes.preferred_username || '',
+              email: attributes.email || '',
+              role: attributes['custom:role'] || 'user',
+              organisationId: attributes['custom:organisationId'] || ''},
+            accessToken: signInDetails?.loginId || null,
+            isLoading: false,
+            error: null
+          });
+        } else {
+          setAuthState({
+            user: null,
+            accessToken: null,
+            isLoading: false,
+            error: null
+          });
+        }
+      } catch (error) {
+        setAuthState({
+          user: null,
+          accessToken: null,
+          isLoading: false,
+          error: null
+        });
+      }
+    };
+
+    checkAuth();
+  }, []);
+
+  // Login function
+  const login = async (email: string, password: string) => {
+    setAuthState(prev => ({
+      ...prev,
+      isLoading: true,
+      error: null
+    }));
+
+    try {
+      const { isSignedIn, nextStep } = await signIn({ username: email, password });
+
+      if (isSignedIn) {
+        const { userId, signInDetails } = await getCurrentUser();
+        const attributes = await fetchUserAttributes();
+
+        setAuthState({
+          user: {
+            id: userId,
+            name: attributes.name || attributes.preferred_username || '',
+            email: attributes.email || '',
+            role: attributes['custom:role'] || 'user',
+            organisationId: attributes['custom:organisationId'] || ''},
+          accessToken: signInDetails?.loginId || null,
+          isLoading: false,
+          error: null
+        });
+      } else {
+        setAuthState(prev => ({
+          ...prev,
+          isLoading: false,
+          error: 'Login failed: ' + nextStep.signInStep
+        }));
+      }
+    } catch (error) {
+      setAuthState(prev => ({
+        ...prev,
+        isLoading: false,
+        error: error instanceof Error ? error.message : 'An error occurred during login'
+      }));
+    }
+  };
+
+  // Logout function
+  const logout = async () => {
+    try {
+      await signOut();
+      setAuthState({
+        user: null,
+        accessToken: null,
+        isLoading: false,
+        error: null
+      });
+    } catch (error) {
+      setAuthState(prev => ({
+        ...prev,
+        error: error instanceof Error ? error.message : 'An error occurred during logout'
+      }));
+    }
+  };
+
+  return (
+    <AuthContext.Provider 
+      value={{ 
+        ...authState, 
+        login, 
+        logout, 
+        isAuthenticated: !!authState.user 
+      }}
+    >
+      {children}
+    </AuthContext.Provider>
+  );
+};
+
+// Hook to use the auth context
+export const useAuth = () => {
+  const context = useContext(AuthContext);
+  if (context === undefined) {
+    throw new Error('useAuth must be used within an AuthProvider');
+  }
+  return context;
+}

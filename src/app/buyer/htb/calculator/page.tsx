@@ -12,9 +12,9 @@ export default function HelpToBuyCalculatorPage() {
             This tool helps you understand how much you could receive under the scheme.
           </p>
         </div>
-        
+
         <HelpToBuyCalculator />
-        
+
         <div className="mt-8 bg-gray-50 p-6 rounded-lg border border-gray-200">
           <h2 className="text-xl font-semibold mb-3 text-[#2B5273]">Next Steps</h2>
           <p className="text-gray-600 mb-4">

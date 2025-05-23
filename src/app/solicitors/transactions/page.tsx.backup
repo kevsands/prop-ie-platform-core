@@ -1,0 +1,818 @@
+'use client';
+
+import React, { useState, useEffect } from 'react';
+import { useRealtime } from '@/hooks/useRealtime';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Progress } from '@/components/ui/progress';
+import { 
+  FileText,
+  Shield,
+  CheckCircle,
+  AlertCircle,
+  Clock,
+  Scale,
+  DollarSign,
+  Calendar,
+  Download,
+  Upload,
+  Send,
+  MessageSquare,
+  UserCheck,
+  Home
+} from 'lucide-react';
+import { format } from 'date-fns';
+
+interface LegalTransaction {
+  id: string;
+  status: string;
+  stage: string;
+  property: {
+    address: string;
+    titleNumber: string;
+    price: number;
+    type: string;
+  };
+  buyer: {
+    id: string;
+    name: string;
+    email: string;
+    phone?: string;
+    solicitor?: {
+      name: string;
+      firm: string;
+    };
+  };
+  seller: {
+    id: string;
+    name: string;
+    solicitor?: {
+      name: string;
+      firm: string;
+    };
+  };
+  legalDocuments: {
+    id: string;
+    type: string;
+    name: string;
+    status: string;
+    uploadedAt?: Date;
+    reviewedAt?: Date;
+    approvedAt?: Date;
+  }[];
+  complianceChecks: {
+    id: string;
+    type: string;
+    status: string;
+    completedAt?: Date;
+    notes?: string;
+  }[];
+  titleInvestigation: {
+    status: string;
+    issues: any[];
+    completedAt?: Date;
+  };
+  searches: {
+    type: string;
+    status: string;
+    orderedAt: Date;
+    receivedAt?: Date;
+    results?: any;
+  }[];
+  contractExchange: {
+    draftsSent: boolean;
+    draftsApproved: boolean;
+    depositReceived: boolean;
+    exchangeDate?: Date;
+    completionDate?: Date;
+  };
+  fees: {
+    professional: number;
+    searches: number;
+    stampDuty: number;
+    registration: number;
+    vat: number;
+    total: number;
+  };
+  timeline: any[];
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export default function SolicitorTransactionsPage() {
+  const { connected, joinRoom, leaveRoom, sendMessage } = useRealtime();
+  const [transactions, setTransactions] = useState<LegalTransaction[]>([]);
+  const [selectedTransaction, setSelectedTransaction] = useState<LegalTransaction | null>(null);
+  const [activeTab, setActiveTab] = useState('overview');
+  const [filter, setFilter] = useState('active');
+
+  useEffect(() => {
+    fetchTransactions();
+    
+    if (connected) {
+      joinRoom('solicitor:transactions');
+    }
+    
+    return () => {
+      if (connected) {
+        leaveRoom('solicitor:transactions');
+      }
+    };
+  }, [connected]);
+
+  const fetchTransactions = async () => {
+    try {
+      const response = await fetch('/api/solicitors/transactions');
+      const data = await response.json();
+      setTransactions(data.transactions || []);
+    } catch (error) {
+      console.error('Failed to fetch transactions:', error);
+    }
+  };
+
+  const filteredTransactions = transactions.filter(transaction => {
+    if (filter === 'all') return true;
+    if (filter === 'active') return !['COMPLETED', 'CANCELLED'].includes(transaction.status);
+    if (filter === 'exchange') return transaction.stage === 'CONTRACT_EXCHANGE';
+    if (filter === 'completion') return transaction.stage === 'COMPLETION';
+    return true;
+  });
+
+  const getStageProgress = (stage: string): number => {
+    const stages = [
+      'INSTRUCTION_RECEIVED',
+      'TITLE_INVESTIGATION',
+      'SEARCHES_ORDERED',
+      'CONTRACT_DRAFTING',
+      'CONTRACT_NEGOTIATION',
+      'CONTRACT_EXCHANGE',
+      'COMPLETION'
+    ];
+    const index = stages.indexOf(stage);
+    return index >= 0 ? ((index + 1) / stages.length) * 100 : 0;
+  };
+
+  const getComplianceStatus = (checks: any[]): string => {
+    const pending = checks.filter(c => c.status === 'PENDING').length;
+    const failed = checks.filter(c => c.status === 'FAILED').length;
+    const completed = checks.filter(c => c.status === 'COMPLETED').length;
+    
+    if (failed > 0) return 'ISSUES';
+    if (pending > 0) return 'IN_PROGRESS';
+    if (completed === checks.length) return 'COMPLETED';
+    return 'PENDING';
+  };
+
+  const handleDocumentUpload = async (transactionId: string, file: File, type: string) => {
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('type', type);
+    
+    try {
+      await fetch(`/api/solicitors/transactions/${transactionId}/documents`, {
+        method: 'POST',
+        body: formData
+      });
+    } catch (error) {
+      console.error('Failed to upload document:', error);
+    }
+  };
+
+  const updateComplianceCheck = async (transactionId: string, checkId: string, status: string) => {
+    try {
+      await fetch(`/api/solicitors/transactions/${transactionId}/compliance/${checkId}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status })
+      });
+    } catch (error) {
+      console.error('Failed to update compliance check:', error);
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-gray-50 p-6">
+      <div className="mx-auto max-w-7xl">
+        {/* Header */}
+        <div className="mb-8 flex items-center justify-between">
+          <div>
+            <h1 className="text-3xl font-bold text-gray-900">Legal Transactions</h1>
+            <p className="text-gray-600 mt-1">Manage conveyancing and legal processes</p>
+          </div>
+          <div className="flex items-center gap-4">
+            <Badge className={connected ? 'bg-green-500' : 'bg-gray-500'}>
+              {connected ? 'Live Updates' : 'Connecting...'}
+            </Badge>
+            <Button>
+              <FileText className="mr-2 h-4 w-4" />
+              New Case
+            </Button>
+          </div>
+        </div>
+
+        {/* Stats */}
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 mb-8">
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Active Cases</CardTitle>
+              <Scale className="h-4 w-4 text-muted-foreground" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">
+                {transactions.filter(t => !['COMPLETED', 'CANCELLED'].includes(t.status)).length}
+              </div>
+              <p className="text-xs text-muted-foreground">
+                In progress
+              </p>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Due This Week</CardTitle>
+              <Calendar className="h-4 w-4 text-muted-foreground" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">
+                {transactions.filter(t => {
+                  if (!t.contractExchange.exchangeDate) return false;
+                  const date = new Date(t.contractExchange.exchangeDate);
+                  const now = new Date();
+                  const weekFromNow = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
+                  return date >= now && date <= weekFromNow;
+                }).length}
+              </div>
+              <p className="text-xs text-muted-foreground">
+                Exchanges scheduled
+              </p>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Compliance Issues</CardTitle>
+              <AlertCircle className="h-4 w-4 text-muted-foreground" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">
+                {transactions.filter(t => 
+                  getComplianceStatus(t.complianceChecks) === 'ISSUES'
+                ).length}
+              </div>
+              <p className="text-xs text-muted-foreground">
+                Require attention
+              </p>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Total Fees</CardTitle>
+              <DollarSign className="h-4 w-4 text-muted-foreground" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">
+                €{transactions.reduce((sum, t) => sum + t.fees.total, 0).toLocaleString()}
+              </div>
+              <p className="text-xs text-muted-foreground">
+                Billable amount
+              </p>
+            </CardContent>
+          </card>
+        </div>
+
+        {/* Filter Tabs */}
+        <div className="mb-6">
+          <div className="flex gap-2">
+            <Button
+              variant={filter === 'all' ? 'default' : 'outline'}
+              size="sm"
+              onClick={() => setFilter('all')}
+            >
+              All Cases
+            </Button>
+            <Button
+              variant={filter === 'active' ? 'default' : 'outline'}
+              size="sm"
+              onClick={() => setFilter('active')}
+            >
+              Active
+            </Button>
+            <Button
+              variant={filter === 'exchange' ? 'default' : 'outline'}
+              size="sm"
+              onClick={() => setFilter('exchange')}
+            >
+              Awaiting Exchange
+            </Button>
+            <Button
+              variant={filter === 'completion' ? 'default' : 'outline'}
+              size="sm"
+              onClick={() => setFilter('completion')}
+            >
+              Near Completion
+            </Button>
+          </div>
+        </div>
+
+        {/* Transactions List */}
+        <Card>
+          <CardContent className="p-0">
+            <div className="divide-y">
+              {filteredTransactions.map((transaction) => (
+                <div
+                  key={transaction.id}
+                  className="p-6 hover:bg-gray-50 cursor-pointer"
+                  onClick={() => setSelectedTransaction(transaction)}
+                >
+                  <div className="flex items-start justify-between">
+                    <div className="space-y-3">
+                      <div>
+                        <h3 className="font-semibold text-lg">{transaction.property.address}</h3>
+                        <p className="text-sm text-gray-600">
+                          Title: {transaction.property.titleNumber} | {transaction.property.type}
+                        </p>
+                      </div>
+                      
+                      <div className="flex items-center gap-6">
+                        <div>
+                          <p className="text-sm font-medium">Buyer</p>
+                          <p className="text-sm text-gray-600">{transaction.buyer.name}</p>
+                        </div>
+                        <div>
+                          <p className="text-sm font-medium">Seller</p>
+                          <p className="text-sm text-gray-600">{transaction.seller.name}</p>
+                        </div>
+                        <div>
+                          <p className="text-sm font-medium">Purchase Price</p>
+                          <p className="text-sm text-gray-600">€{transaction.property.price.toLocaleString()}</p>
+                        </div>
+                      </div>
+                      
+                      <div>
+                        <div className="flex items-center gap-2 mb-2">
+                          <span className="text-sm font-medium">Progress</span>
+                          <span className="text-sm text-gray-600">{transaction.stage}</span>
+                        </div>
+                        <Progress value={getStageProgress(transaction.stage)} className="h-2" />
+                      </div>
+                    </div>
+                    
+                    <div className="flex flex-col items-end gap-3">
+                      <Badge>{transaction.status}</Badge>
+                      
+                      <div className="flex items-center gap-2">
+                        {getComplianceStatus(transaction.complianceChecks) === 'ISSUES' && (
+                          <Badge variant="destructive">
+                            <AlertCircle className="mr-1 h-3 w-3" />
+                            Compliance Issues
+                          </Badge>
+                        )}
+                        {transaction.titleInvestigation.issues.length > 0 && (
+                          <Badge variant="warning">
+                            <AlertCircle className="mr-1 h-3 w-3" />
+                            Title Issues
+                          </Badge>
+                        )}
+                      </div>
+                      
+                      {transaction.contractExchange.exchangeDate && (
+                        <p className="text-sm text-gray-600">
+                          Exchange: {format(new Date(transaction.contractExchange.exchangeDate), 'MMM dd')}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Transaction Details Modal */}
+        {selectedTransaction && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+            <div className="bg-white rounded-lg p-6 max-w-6xl w-full max-h-[90vh] overflow-y-auto">
+              <div className="flex items-center justify-between mb-6">
+                <div>
+                  <h2 className="text-2xl font-bold">{selectedTransaction.property.address}</h2>
+                  <p className="text-gray-600">Case ID: {selectedTransaction.id}</p>
+                </div>
+                <Button
+                  variant="ghost"
+                  onClick={() => setSelectedTransaction(null)}
+                >
+                  ×
+                </Button>
+              </div>
+
+              <Tabs value={activeTab} onValueChange={setActiveTab}>
+                <TabsList className="grid grid-cols-6 w-full">
+                  <TabsTrigger value="overview">Overview</TabsTrigger>
+                  <TabsTrigger value="documents">Documents</TabsTrigger>
+                  <TabsTrigger value="compliance">Compliance</TabsTrigger>
+                  <TabsTrigger value="searches">Searches</TabsTrigger>
+                  <TabsTrigger value="contract">Contract</TabsTrigger>
+                  <TabsTrigger value="fees">Fees</TabsTrigger>
+                </TabsList>
+
+                <TabsContent value="overview">
+                  <div className="grid grid-cols-2 gap-6">
+                    <div className="space-y-6">
+                      <div>
+                        <h3 className="font-semibold mb-3">Property Details</h3>
+                        <div className="space-y-2 text-sm">
+                          <p><strong>Address:</strong> {selectedTransaction.property.address}</p>
+                          <p><strong>Title Number:</strong> {selectedTransaction.property.titleNumber}</p>
+                          <p><strong>Type:</strong> {selectedTransaction.property.type}</p>
+                          <p><strong>Price:</strong> €{selectedTransaction.property.price.toLocaleString()}</p>
+                        </div>
+                      </div>
+                      
+                      <div>
+                        <h3 className="font-semibold mb-3">Parties</h3>
+                        <div className="space-y-4 text-sm">
+                          <div>
+                            <p className="font-medium">Buyer</p>
+                            <p>{selectedTransaction.buyer.name}</p>
+                            <p className="text-gray-600">{selectedTransaction.buyer.email}</p>
+                            {selectedTransaction.buyer.solicitor && (
+                              <p className="text-gray-600">
+                                Rep: {selectedTransaction.buyer.solicitor.name} 
+                                ({selectedTransaction.buyer.solicitor.firm})
+                              </p>
+                            )}
+                          </div>
+                          <div>
+                            <p className="font-medium">Seller</p>
+                            <p>{selectedTransaction.seller.name}</p>
+                            {selectedTransaction.seller.solicitor && (
+                              <p className="text-gray-600">
+                                Rep: {selectedTransaction.seller.solicitor.name} 
+                                ({selectedTransaction.seller.solicitor.firm})
+                              </p>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div className="space-y-6">
+                      <div>
+                        <h3 className="font-semibold mb-3">Case Progress</h3>
+                        <div className="space-y-3">
+                          <div>
+                            <div className="flex justify-between mb-1">
+                              <span className="text-sm font-medium">Overall Progress</span>
+                              <span className="text-sm">{getStageProgress(selectedTransaction.stage)}%</span>
+                            </div>
+                            <Progress value={getStageProgress(selectedTransaction.stage)} />
+                          </div>
+                          <p className="text-sm text-gray-600">
+                            Current Stage: {selectedTransaction.stage.replace(/_/g, ' ')}
+                          </p>
+                        </div>
+                      </div>
+                      
+                      <div>
+                        <h3 className="font-semibold mb-3">Key Dates</h3>
+                        <div className="space-y-2 text-sm">
+                          {selectedTransaction.contractExchange.exchangeDate && (
+                            <p>
+                              <strong>Exchange:</strong> {
+                                format(new Date(selectedTransaction.contractExchange.exchangeDate), 'MMM dd, yyyy')
+                              }
+                            </p>
+                          )}
+                          {selectedTransaction.contractExchange.completionDate && (
+                            <p>
+                              <strong>Completion:</strong> {
+                                format(new Date(selectedTransaction.contractExchange.completionDate), 'MMM dd, yyyy')
+                              }
+                            </p>
+                          )}
+                        </div>
+                      </div>
+                      
+                      <div>
+                        <h3 className="font-semibold mb-3">Title Investigation</h3>
+                        <div className="space-y-2">
+                          <Badge className={
+                            selectedTransaction.titleInvestigation.status === 'COMPLETED' ? 'bg-green-500' :
+                            selectedTransaction.titleInvestigation.status === 'IN_PROGRESS' ? 'bg-blue-500' :
+                            'bg-gray-500'
+                          }>
+                            {selectedTransaction.titleInvestigation.status}
+                          </Badge>
+                          {selectedTransaction.titleInvestigation.issues.length > 0 && (
+                            <div className="mt-2">
+                              <p className="text-sm font-medium text-red-600">Issues Found:</p>
+                              <ul className="list-disc list-inside text-sm text-gray-600">
+                                {selectedTransaction.titleInvestigation.issues.map((issue, index) => (
+                                  <li key={index}>{issue.description}</li>
+                                ))}
+                              </ul>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </TabsContent>
+
+                <TabsContent value="documents">
+                  <div className="space-y-6">
+                    <div className="flex justify-between items-center">
+                      <h3 className="font-semibold">Legal Documents</h3>
+                      <Button size="sm">
+                        <Upload className="mr-2 h-4 w-4" />
+                        Upload Document
+                      </Button>
+                    </div>
+                    
+                    <div className="space-y-3">
+                      {selectedTransaction.legalDocuments.map((doc) => (
+                        <div
+                          key={doc.id}
+                          className="flex items-center justify-between p-4 border rounded-lg"
+                        >
+                          <div className="flex items-center gap-3">
+                            <FileText className="h-5 w-5 text-gray-500" />
+                            <div>
+                              <p className="font-medium">{doc.name}</p>
+                              <p className="text-sm text-gray-600">{doc.type}</p>
+                            </div>
+                          </div>
+                          
+                          <div className="flex items-center gap-4">
+                            <Badge className={
+                              doc.status === 'APPROVED' ? 'bg-green-500' :
+                              doc.status === 'REVIEWED' ? 'bg-blue-500' :
+                              doc.status === 'PENDING' ? 'bg-yellow-500' :
+                              'bg-gray-500'
+                            }>
+                              {doc.status}
+                            </Badge>
+                            
+                            <div className="flex gap-2">
+                              <Button size="sm" variant="outline">
+                                <Download className="h-4 w-4" />
+                              </Button>
+                              {doc.status === 'PENDING' && (
+                                <Button size="sm" variant="outline">
+                                  Review
+                                </Button>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </TabsContent>
+
+                <TabsContent value="compliance">
+                  <div className="space-y-6">
+                    <div className="flex justify-between items-center">
+                      <h3 className="font-semibold">Compliance Checks</h3>
+                      <Badge className={
+                        getComplianceStatus(selectedTransaction.complianceChecks) === 'COMPLETED' ? 'bg-green-500' :
+                        getComplianceStatus(selectedTransaction.complianceChecks) === 'ISSUES' ? 'bg-red-500' :
+                        getComplianceStatus(selectedTransaction.complianceChecks) === 'IN_PROGRESS' ? 'bg-blue-500' :
+                        'bg-gray-500'
+                      }>
+                        {getComplianceStatus(selectedTransaction.complianceChecks)}
+                      </Badge>
+                    </div>
+                    
+                    <div className="space-y-3">
+                      {selectedTransaction.complianceChecks.map((check) => (
+                        <div
+                          key={check.id}
+                          className="flex items-center justify-between p-4 border rounded-lg"
+                        >
+                          <div className="flex items-center gap-3">
+                            {check.status === 'COMPLETED' ? (
+                              <CheckCircle className="h-5 w-5 text-green-500" />
+                            ) : check.status === 'FAILED' ? (
+                              <AlertCircle className="h-5 w-5 text-red-500" />
+                            ) : (
+                              <Clock className="h-5 w-5 text-gray-500" />
+                            )}
+                            <div>
+                              <p className="font-medium">{check.type}</p>
+                              {check.notes && (
+                                <p className="text-sm text-gray-600">{check.notes}</p>
+                              )}
+                            </div>
+                          </div>
+                          
+                          <div className="flex items-center gap-4">
+                            {check.completedAt && (
+                              <p className="text-sm text-gray-600">
+                                {format(new Date(check.completedAt), 'MMM dd, yyyy')}
+                              </p>
+                            )}
+                            {check.status === 'PENDING' && (
+                              <Button
+                                size="sm"
+                                onClick={() => updateComplianceCheck(
+                                  selectedTransaction.id,
+                                  check.id,
+                                  'COMPLETED'
+                                )}
+                              >
+                                Mark Complete
+                              </Button>
+                            )}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </TabsContent>
+
+                <TabsContent value="searches">
+                  <div className="space-y-6">
+                    <div className="flex justify-between items-center">
+                      <h3 className="font-semibold">Property Searches</h3>
+                      <Button size="sm">
+                        <Plus className="mr-2 h-4 w-4" />
+                        Order Search
+                      </Button>
+                    </div>
+                    
+                    <div className="space-y-3">
+                      {selectedTransaction.searches.map((search, index) => (
+                        <div
+                          key={index}
+                          className="flex items-center justify-between p-4 border rounded-lg"
+                        >
+                          <div>
+                            <p className="font-medium">{search.type}</p>
+                            <p className="text-sm text-gray-600">
+                              Ordered: {format(new Date(search.orderedAt), 'MMM dd, yyyy')}
+                            </p>
+                            {search.receivedAt && (
+                              <p className="text-sm text-gray-600">
+                                Received: {format(new Date(search.receivedAt), 'MMM dd, yyyy')}
+                              </p>
+                            )}
+                          </div>
+                          
+                          <div className="flex items-center gap-4">
+                            <Badge className={
+                              search.status === 'COMPLETED' ? 'bg-green-500' :
+                              search.status === 'PENDING' ? 'bg-yellow-500' :
+                              'bg-gray-500'
+                            }>
+                              {search.status}
+                            </Badge>
+                            
+                            {search.status === 'COMPLETED' && (
+                              <Button size="sm" variant="outline">
+                                View Results
+                              </Button>
+                            )}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </TabsContent>
+
+                <TabsContent value="contract">
+                  <div className="space-y-6">
+                    <h3 className="font-semibold mb-4">Contract Exchange</h3>
+                    
+                    <div className="grid grid-cols-2 gap-6">
+                      <div className="space-y-4">
+                        <div className="flex items-center justify-between p-4 border rounded-lg">
+                          <div className="flex items-center gap-3">
+                            {selectedTransaction.contractExchange.draftsSent ? (
+                              <CheckCircle className="h-5 w-5 text-green-500" />
+                            ) : (
+                              <Circle className="h-5 w-5 text-gray-400" />
+                            )}
+                            <span>Contract Drafts Sent</span>
+                          </div>
+                          {!selectedTransaction.contractExchange.draftsSent && (
+                            <Button size="sm">Send Drafts</Button>
+                          )}
+                        </div>
+                        
+                        <div className="flex items-center justify-between p-4 border rounded-lg">
+                          <div className="flex items-center gap-3">
+                            {selectedTransaction.contractExchange.draftsApproved ? (
+                              <CheckCircle className="h-5 w-5 text-green-500" />
+                            ) : (
+                              <Circle className="h-5 w-5 text-gray-400" />
+                            )}
+                            <span>Drafts Approved</span>
+                          </div>
+                          {!selectedTransaction.contractExchange.draftsApproved && (
+                            <Button size="sm">Mark Approved</Button>
+                          )}
+                        </div>
+                        
+                        <div className="flex items-center justify-between p-4 border rounded-lg">
+                          <div className="flex items-center gap-3">
+                            {selectedTransaction.contractExchange.depositReceived ? (
+                              <CheckCircle className="h-5 w-5 text-green-500" />
+                            ) : (
+                              <Circle className="h-5 w-5 text-gray-400" />
+                            )}
+                            <span>Deposit Received</span>
+                          </div>
+                          {!selectedTransaction.contractExchange.depositReceived && (
+                            <Button size="sm">Confirm Deposit</Button>
+                          )}
+                        </div>
+                      </div>
+                      
+                      <div className="space-y-4">
+                        <div className="p-4 border rounded-lg">
+                          <p className="font-medium mb-2">Exchange Date</p>
+                          {selectedTransaction.contractExchange.exchangeDate ? (
+                            <p>{format(new Date(selectedTransaction.contractExchange.exchangeDate), 'MMMM dd, yyyy')}</p>
+                          ) : (
+                            <Button size="sm" variant="outline">Set Date</Button>
+                          )}
+                        </div>
+                        
+                        <div className="p-4 border rounded-lg">
+                          <p className="font-medium mb-2">Completion Date</p>
+                          {selectedTransaction.contractExchange.completionDate ? (
+                            <p>{format(new Date(selectedTransaction.contractExchange.completionDate), 'MMMM dd, yyyy')}</p>
+                          ) : (
+                            <Button size="sm" variant="outline">Set Date</Button>
+                          )}
+                        </div>
+                        
+                        <Button className="w-full" size="lg">
+                          <Send className="mr-2 h-4 w-4" />
+                          Exchange Contracts
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                </TabsContent>
+
+                <TabsContent value="fees">
+                  <div className="space-y-6">
+                    <h3 className="font-semibold mb-4">Fees & Disbursements</h3>
+                    
+                    <div className="space-y-3">
+                      <div className="flex justify-between p-4 border rounded-lg">
+                        <span className="font-medium">Professional Fees</span>
+                        <span>€{selectedTransaction.fees.professional.toLocaleString()}</span>
+                      </div>
+                      
+                      <div className="flex justify-between p-4 border rounded-lg">
+                        <span className="font-medium">Search Fees</span>
+                        <span>€{selectedTransaction.fees.searches.toLocaleString()}</span>
+                      </div>
+                      
+                      <div className="flex justify-between p-4 border rounded-lg">
+                        <span className="font-medium">Stamp Duty</span>
+                        <span>€{selectedTransaction.fees.stampDuty.toLocaleString()}</span>
+                      </div>
+                      
+                      <div className="flex justify-between p-4 border rounded-lg">
+                        <span className="font-medium">Land Registry</span>
+                        <span>€{selectedTransaction.fees.registration.toLocaleString()}</span>
+                      </div>
+                      
+                      <div className="flex justify-between p-4 border rounded-lg">
+                        <span className="font-medium">VAT</span>
+                        <span>€{selectedTransaction.fees.vat.toLocaleString()}</span>
+                      </div>
+                      
+                      <div className="flex justify-between p-4 border rounded-lg bg-gray-50">
+                        <span className="font-bold">Total</span>
+                        <span className="font-bold">€{selectedTransaction.fees.total.toLocaleString()}</span>
+                      </div>
+                    </div>
+                    
+                    <div className="flex gap-3">
+                      <Button className="flex-1">
+                        <FileText className="mr-2 h-4 w-4" />
+                        Generate Invoice
+                      </Button>
+                      <Button variant="outline">
+                        <Download className="mr-2 h-4 w-4" />
+                        Export Breakdown
+                      </Button>
+                    </div>
+                  </div>
+                </TabsContent>
+              </Tabs>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}

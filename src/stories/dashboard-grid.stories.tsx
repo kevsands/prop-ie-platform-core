@@ -15,14 +15,11 @@ const meta: Meta<typeof DashboardGrid> = {
   title: 'Dashboard/DashboardGrid',
   component: DashboardGrid,
   parameters: {
-    layout: 'fullscreen',
-  },
-  tags: ['autodocs'],
-};
+    layout: 'fullscreen'},
+  tags: ['autodocs']};
 
 export default meta;
-type Story = StoryObj<typeof DashboardGrid>;
-
+type Story = StoryObj<typeof DashboardGrid>\n  );
 // Sample chart data
 const barChartData = [
   { name: 'Jan', revenue: 12000, expenses: 8000, profit: 4000 },
@@ -30,8 +27,7 @@ const barChartData = [
   { name: 'Mar', revenue: 18000, expenses: 12000, profit: 6000 },
   { name: 'Apr', revenue: 21000, expenses: 13000, profit: 8000 },
   { name: 'May', revenue: 23000, expenses: 14000, profit: 9000 },
-  { name: 'Jun', revenue: 26000, expenses: 16000, profit: 10000 },
-];
+  { name: 'Jun', revenue: 26000, expenses: 16000, profit: 10000 }];
 
 const lineChartData = [
   { date: 'Week 1', sales: 120, visitors: 450, leads: 23 },
@@ -39,21 +35,18 @@ const lineChartData = [
   { date: 'Week 3', sales: 180, visitors: 600, leads: 31 },
   { date: 'Week 4', sales: 220, visitors: 650, leads: 35 },
   { date: 'Week 5', sales: 250, visitors: 700, leads: 40 },
-  { date: 'Week 6', sales: 280, visitors: 750, leads: 45 },
-];
+  { date: 'Week 6', sales: 280, visitors: 750, leads: 45 }];
 
 // Sample metric trend data
-const metricTrendData = Array.from({ length: 7 }, (_, i) => ({
-  value: 10 + Math.random() * 50,
-}));
+const metricTrendData = Array.from({ length: 7 }, (_i: any) => ({
+  value: 10 + Math.random() * 50}));
 
 // Team members for team widget
 const teamMembers = [
   { name: 'John Doe', role: 'Sales Manager', avatar: '' },
   { name: 'Sarah Smith', role: 'Property Agent', avatar: '' },
   { name: 'David Lee', role: 'Customer Support', avatar: '' },
-  { name: 'Emily Chen', role: 'Marketing', avatar: '' },
-];
+  { name: 'Emily Chen', role: 'Marketing', avatar: '' }];
 
 // Simple example with equal-width items
 export const Simple: Story = {
@@ -86,8 +79,7 @@ export const Simple: Story = {
         </DashboardItem>
       </DashboardGrid>
     </div>
-  ),
-};
+  )};
 
 // Dashboard with various column spans
 export const DifferentColSpans: Story = {
@@ -120,8 +112,7 @@ export const DifferentColSpans: Story = {
         </DashboardItem>
       </DashboardGrid>
     </div>
-  ),
-};
+  )};
 
 // Dashboard with mixed column and row spans
 export const MixedSpans: Story = {
@@ -166,8 +157,7 @@ export const MixedSpans: Story = {
         </DashboardItem>
       </DashboardGrid>
     </div>
-  ),
-};
+  )};
 
 // Real-world property management dashboard
 export const PropertyManagementDashboard: Story = {
@@ -263,11 +253,10 @@ export const PropertyManagementDashboard: Story = {
             series={[
               { dataKey: 'revenue', name: 'Revenue' },
               { dataKey: 'expenses', name: 'Expenses' },
-              { dataKey: 'profit', name: 'Profit' },
-            ]}
+              { dataKey: 'profit', name: 'Profit' }]}
             xAxisKey="name"
             height={300}
-            formatYAxis={(value) => `€${value / 1000}k`}
+            formatYAxis={(value: any) => `€${value / 1000}k`}
           />
         </DashboardItem>
         
@@ -297,8 +286,7 @@ export const PropertyManagementDashboard: Story = {
             type="line"
             series={[
               { dataKey: 'sales', name: 'Sales' },
-              { dataKey: 'leads', name: 'Leads', yAxisId: 'right' },
-            ]}
+              { dataKey: 'leads', name: 'Leads', yAxisId: 'right' }]}
             xAxisKey="date"
             height={300}
             showDots={true}
@@ -348,14 +336,14 @@ export const PropertyManagementDashboard: Story = {
           <div className="space-y-4">
             <div className="text-sm text-muted-foreground">Team members</div>
             <div className="space-y-3">
-              {teamMembers.map((member, i) => (
+              {teamMembers.map((memberi: any) => (
                 <div key={i} className="flex items-center gap-3">
                   <Avatar>
                     <AvatarImage src={member.avatar} />
                     <AvatarFallback>
                       {member.name
                         .split(" ")
-                        .map((n) => n[0])
+                        .map((n: any) => n[0])
                         .join("")
                         .toUpperCase()}
                     </AvatarFallback>
@@ -379,7 +367,7 @@ export const PropertyManagementDashboard: Story = {
           title="Recent Activities"
         >
           <div className="space-y-4">
-            {Array.from({ length: 4 }).map((_, i) => (
+            {Array.from({ length: 4 }).map((_i: any) => (
               <div key={i} className="flex gap-4 border-b pb-4 last:border-0 last:pb-0">
                 <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary/10">
                   {[<LayoutDashboard />, <Building2 />, <Users />, <Layers />][i % 4]}
@@ -411,19 +399,17 @@ export const PropertyManagementDashboard: Story = {
         </DashboardItem>
       </DashboardGrid>
     </div>
-  ),
-};
+  )};
 
 // Dashboard with removable widgets
 export const RemovableWidgets: Story = {
   render: () => {
     // Use local state to track visible widgets
-    const [widgets, setWidgets] = React.useState([
+    const [widgetssetWidgets] = React.useState([
       { id: 'widget-1', title: 'Revenue', visible: true },
       { id: 'widget-2', title: 'Users', visible: true },
       { id: 'widget-3', title: 'Properties', visible: true },
-      { id: 'widget-4', title: 'Tasks', visible: true },
-    ]);
+      { id: 'widget-4', title: 'Tasks', visible: true }]);
     
     const handleRemove = (id: string) => {
       setWidgets(widgets.map(widget => 
@@ -443,7 +429,7 @@ export const RemovableWidgets: Story = {
         </div>
         
         <DashboardGrid>
-          {widgets.map((widget) => (
+          {widgets.map((widget: any) => (
             widget.visible && (
               <DashboardItem 
                 key={widget.id}
@@ -461,8 +447,7 @@ export const RemovableWidgets: Story = {
         </DashboardGrid>
       </div>
     );
-  },
-};
+  };
 
 // Dashboard with different column configurations
 export const DifferentColumnCounts: Story = {
@@ -531,5 +516,4 @@ export const DifferentColumnCounts: Story = {
         </DashboardGrid>
       </div>
     </div>
-  ),
-};
+  )};

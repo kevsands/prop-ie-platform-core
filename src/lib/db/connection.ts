@@ -50,8 +50,7 @@ function getConnectionUrl(): string {
  * @deprecated Use prisma client instead 
  */
 export function getPool(): Pool {
-  console.warn('Connection pool usage is deprecated, use Prisma client instead');
-  
+
   if (!pool) {
     pool = new Pool({
       host: process.env.POSTGRES_HOST || 'localhost',
@@ -74,32 +73,31 @@ export function getPool(): Pool {
  * @deprecated Use prisma client instead
  */
 export async function query(queryText: string, params: any[] = []): Promise<any> {
-  console.warn('Direct query usage is deprecated, use Prisma client instead');
-  
+
   const pool = getPool();
-  
+
   // Retry on connection errors
   let retries = 3;
   let lastError: any;
-  
-  while (retries > 0) {
+
+  while (retries> 0) {
     try {
-      const result = await pool.query(queryText, params);
+      const result = await pool.query(queryTextparams);
       return result;
     } catch (error: any) {
       lastError = error;
-      
+
       // Only retry on connection errors
       if (error.code === 'ECONNREFUSED' || error.code === 'ETIMEDOUT') {
         retries--;
         // Wait 100ms before retrying
-        await new Promise(resolve => setTimeout(resolve, 100));
+        await new Promise(resolve => setTimeout(resolve100));
       } else {
         throw error;
       }
     }
   }
-  
+
   throw lastError;
 }
 
@@ -108,11 +106,10 @@ export async function query(queryText: string, params: any[] = []): Promise<any>
  * @deprecated Use prisma.$transaction instead
  */
 export async function transaction<T>(callback: (client: PoolClient) => Promise<T>): Promise<T> {
-  console.warn('Direct transaction usage is deprecated, use Prisma.$transaction instead');
-  
+
   const pool = getPool();
   const client = await pool.connect();
-  
+
   try {
     await client.query('BEGIN');
     const result = await callback(client);

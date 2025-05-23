@@ -47,7 +47,7 @@ interface Property {
     type: string;
     uploadDate: string;
     url: string;
-  }>;
+  }>\n  );
 }
 
 interface Portfolio {
@@ -64,11 +64,11 @@ interface Portfolio {
 // New component for investor dashboard
 export const InvestorDashboard: React.FC<Record<string, never>> = () => {
   const { investorMode } = useInvestorMode();
-  const [activeTab, setActiveTab] = useState<string>('portfolio');
-  const [isSubscribed, setIsSubscribed] = useState<boolean>(false);
-  
+  const [activeTabsetActiveTab] = useState<string>('portfolio');
+  const [isSubscribedsetIsSubscribed] = useState<boolean>(false);
+
   // Mock portfolios and properties
-  const [portfolios, setPortfolios] = useState<Portfolio[]>([
+  const [portfoliossetPortfolios] = useState<Portfolio[]>([
     {
       id: 'p1',
       name: 'Dublin Properties',
@@ -90,8 +90,8 @@ export const InvestorDashboard: React.FC<Record<string, never>> = () => {
       roi: 10.0
     }
   ]);
-  
-  const [properties, setProperties] = useState<Property[]>([
+
+  const [propertiessetProperties] = useState<Property[]>([
     {
       id: 'prop1',
       name: 'Riverside Apartment',
@@ -142,11 +142,11 @@ export const InvestorDashboard: React.FC<Record<string, never>> = () => {
     },
     // Add more properties...
   ]);
-  
+
   if (!investorMode) {
     return null;
   }
-  
+
   // Format currency
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('en-IE', {
@@ -155,7 +155,7 @@ export const InvestorDashboard: React.FC<Record<string, never>> = () => {
       maximumFractionDigits: 0
     }).format(amount);
   };
-  
+
   return (
     <div className="bg-white shadow-md rounded-lg overflow-hidden">
       {/* Subscription Banner (if not subscribed) */}
@@ -177,7 +177,7 @@ export const InvestorDashboard: React.FC<Record<string, never>> = () => {
           </div>
         </div>
       )}
-      
+
       {/* Dashboard Tabs */}
       <div className="border-b border-gray-200">
         <nav className="flex overflow-x-auto">
@@ -194,7 +194,7 @@ export const InvestorDashboard: React.FC<Record<string, never>> = () => {
               Portfolio Overview
             </div>
           </button>
-          
+
           <button
             onClick={() => setActiveTab('properties')}
             className={`px-4 py-3 text-sm font-medium border-b-2 whitespace-nowrap ${
@@ -208,7 +208,7 @@ export const InvestorDashboard: React.FC<Record<string, never>> = () => {
               My Properties
             </div>
           </button>
-          
+
           <button
             onClick={() => setActiveTab('finances')}
             className={`px-4 py-3 text-sm font-medium border-b-2 whitespace-nowrap ${
@@ -222,7 +222,7 @@ export const InvestorDashboard: React.FC<Record<string, never>> = () => {
               Financial Analysis
             </div>
           </button>
-          
+
           <button
             onClick={() => setActiveTab('tenants')}
             className={`px-4 py-3 text-sm font-medium border-b-2 whitespace-nowrap ${
@@ -236,7 +236,7 @@ export const InvestorDashboard: React.FC<Record<string, never>> = () => {
               Lease Management
             </div>
           </button>
-          
+
           <button
             onClick={() => setActiveTab('insights')}
             className={`px-4 py-3 text-sm font-medium border-b-2 whitespace-nowrap ${
@@ -250,7 +250,7 @@ export const InvestorDashboard: React.FC<Record<string, never>> = () => {
               AI Insights
             </div>
           </button>
-          
+
           <button
             onClick={() => setActiveTab('documents')}
             className={`px-4 py-3 text-sm font-medium border-b-2 whitespace-nowrap ${
@@ -266,7 +266,7 @@ export const InvestorDashboard: React.FC<Record<string, never>> = () => {
           </button>
         </nav>
       </div>
-      
+
       {/* Tab Content */}
       <div className="p-6">
         {/* Portfolio Overview Tab */}
@@ -279,7 +279,7 @@ export const InvestorDashboard: React.FC<Record<string, never>> = () => {
                 Add Portfolio
               </button>
             </div>
-            
+
             {/* Summary Cards */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
               <div className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm">
@@ -290,7 +290,7 @@ export const InvestorDashboard: React.FC<Record<string, never>> = () => {
                   Up 8.3% from last year
                 </p>
               </div>
-              
+
               <div className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm">
                 <p className="text-sm text-gray-500 mb-1">Total Equity</p>
                 <p className="text-2xl font-bold text-gray-900">{formatCurrency(630000)}</p>
@@ -299,7 +299,7 @@ export const InvestorDashboard: React.FC<Record<string, never>> = () => {
                   Up 12.5% from last year
                 </p>
               </div>
-              
+
               <div className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm">
                 <p className="text-sm text-gray-500 mb-1">Annual Cash Flow</p>
                 <p className="text-2xl font-bold text-gray-900">{formatCurrency(50000)}</p>
@@ -308,7 +308,7 @@ export const InvestorDashboard: React.FC<Record<string, never>> = () => {
                   Up 5.2% from last year
                 </p>
               </div>
-              
+
               <div className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm">
                 <p className="text-sm text-gray-500 mb-1">Average ROI</p>
                 <p className="text-2xl font-bold text-gray-900">7.9%</p>
@@ -318,7 +318,7 @@ export const InvestorDashboard: React.FC<Record<string, never>> = () => {
                 </p>
               </div>
             </div>
-            
+
             {/* Portfolios List */}
             <div className="mb-8">
               <h3 className="text-lg font-semibold text-gray-900 mb-4">My Portfolios</h3>
@@ -336,7 +336,7 @@ export const InvestorDashboard: React.FC<Record<string, never>> = () => {
                         </button>
                       </div>
                     </div>
-                    
+
                     <div className="p-4">
                       <p className="text-sm text-gray-600 mb-3">{portfolio.description}</p>
                       <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-3">
@@ -365,14 +365,14 @@ export const InvestorDashboard: React.FC<Record<string, never>> = () => {
                 ))}
               </div>
             </div>
-            
+
             {/* AI Investment Recommendations */}
             <div className="border border-gray-200 rounded-lg p-4">
               <div className="flex items-center mb-3">
                 <FeatherIcon name="TrendingUp" size={20} className="text-[#2B5273] mr-2" />
                 <h3 className="text-lg font-semibold text-gray-900">AI Investment Recommendations</h3>
               </div>
-              
+
               <div className="space-y-4">
                 <div className="flex items-start p-3 bg-blue-50 rounded-md border border-blue-200">
                   <FeatherIcon name="Info" size={20} className="text-blue-600 mr-3 mt-0.5 flex-shrink-0" />
@@ -383,7 +383,7 @@ export const InvestorDashboard: React.FC<Record<string, never>> = () => {
                     </p>
                   </div>
                 </div>
-                
+
                 <div className="flex items-start p-3 bg-green-50 rounded-md border border-green-200">
                   <FeatherIcon name="TrendingUp" size={20} className="text-green-600 mr-3 mt-0.5 flex-shrink-0" />
                   <div>
@@ -393,7 +393,7 @@ export const InvestorDashboard: React.FC<Record<string, never>> = () => {
                     </p>
                   </div>
                 </div>
-                
+
                 <div className="flex items-start p-3 bg-amber-50 rounded-md border border-amber-200">
                   <FeatherIcon name="AlertCircle" size={20} className="text-amber-600 mr-3 mt-0.5 flex-shrink-0" />
                   <div>
@@ -407,7 +407,7 @@ export const InvestorDashboard: React.FC<Record<string, never>> = () => {
             </div>
           </div>
         )}
-        
+
         {/* Properties Tab */}
         {activeTab === 'properties' && (
           <div>
@@ -418,7 +418,7 @@ export const InvestorDashboard: React.FC<Record<string, never>> = () => {
                 Add Property
               </button>
             </div>
-            
+
             <div className="space-y-6">
               {properties.map(property => (
                 <div key={property.id} className="border border-gray-200 rounded-lg overflow-hidden">
@@ -429,7 +429,7 @@ export const InvestorDashboard: React.FC<Record<string, never>> = () => {
                         <FeatherIcon name="Home" size={48} className="text-gray-400" />
                       </div>
                     </div>
-                    
+
                     <div className="md:w-2/3 p-4">
                       <div className="flex justify-between items-start">
                         <div>
@@ -445,7 +445,7 @@ export const InvestorDashboard: React.FC<Record<string, never>> = () => {
                           </button>
                         </div>
                       </div>
-                      
+
                       <div className="mt-4 grid grid-cols-2 md:grid-cols-3 gap-4">
                         <div>
                           <p className="text-xs text-gray-500">Purchase Price</p>
@@ -461,7 +461,7 @@ export const InvestorDashboard: React.FC<Record<string, never>> = () => {
                             {(((property.currentValue - property.purchasePrice) / property.purchasePrice) * 100).toFixed(1)}%
                           </p>
                         </div>
-                        
+
                         <div>
                           <p className="text-xs text-gray-500">Monthly Rental Income</p>
                           <p className="font-medium">
@@ -498,7 +498,7 @@ export const InvestorDashboard: React.FC<Record<string, never>> = () => {
                           </p>
                         </div>
                       </div>
-                      
+
                       <div className="mt-4 flex flex-wrap gap-2">
                         <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
                           {property.type}
@@ -518,7 +518,7 @@ export const InvestorDashboard: React.FC<Record<string, never>> = () => {
                           </span>
                         )}
                       </div>
-                      
+
                       <div className="mt-4">
                         <button className="text-sm text-[#2B5273] hover:underline">
                           View Property Details
@@ -531,7 +531,7 @@ export const InvestorDashboard: React.FC<Record<string, never>> = () => {
             </div>
           </div>
         )}
-        
+
         {/* AI Insights Tab */}
         {activeTab === 'insights' && (
           <div>
@@ -539,7 +539,7 @@ export const InvestorDashboard: React.FC<Record<string, never>> = () => {
               <h2 className="text-xl font-bold text-gray-900">AI-Powered Insights</h2>
               <span className="bg-[#2B5273] text-white text-xs px-2 py-1 rounded">Premium Feature</span>
             </div>
-            
+
             <div className="space-y-6">
               <div className="border border-gray-200 rounded-lg overflow-hidden">
                 <div className="bg-gradient-to-r from-[#2B5273] to-[#1E3142] px-4 py-3">
@@ -573,7 +573,7 @@ export const InvestorDashboard: React.FC<Record<string, never>> = () => {
                         View Details
                       </button>
                     </div>
-                    
+
                     <div className="bg-white shadow-sm border rounded-md p-4">
                       <div className="flex justify-between items-center mb-2">
                         <h4 className="font-semibold text-[#2B5273]">Kitchen Renovation</h4>
@@ -599,7 +599,7 @@ export const InvestorDashboard: React.FC<Record<string, never>> = () => {
                   </div>
                 </div>
               </div>
-              
+
               <div className="border border-gray-200 rounded-lg overflow-hidden">
                 <div className="bg-gradient-to-r from-[#2B5273] to-[#1E3142] px-4 py-3">
                   <h3 className="text-white font-medium">Dynamic Rental Pricing</h3>
@@ -610,7 +610,7 @@ export const InvestorDashboard: React.FC<Record<string, never>> = () => {
                       Our AI model analyzes market trends, seasonal demand, and local economic factors to recommend optimal rental pricing.
                     </p>
                   </div>
-                  
+
                   <div className="space-y-4">
                     <div className="bg-white shadow-sm border rounded-md p-4">
                       <div className="flex justify-between items-center mb-2">
@@ -644,7 +644,7 @@ export const InvestorDashboard: React.FC<Record<string, never>> = () => {
                   </div>
                 </div>
               </div>
-              
+
               <div className="border border-gray-200 rounded-lg overflow-hidden">
                 <div className="bg-gradient-to-r from-[#2B5273] to-[#1E3142] px-4 py-3">
                   <h3 className="text-white font-medium">Market Opportunity Alerts</h3>
@@ -681,7 +681,7 @@ export const InvestorDashboard: React.FC<Record<string, never>> = () => {
             </div>
           </div>
         )}
-        
+
         {/* Lease Management Tab */}
         {activeTab === 'tenants' && (
           <div>
@@ -689,13 +689,13 @@ export const InvestorDashboard: React.FC<Record<string, never>> = () => {
               <h2 className="text-xl font-bold text-gray-900">Lease Management</h2>
               <span className="bg-[#2B5273] text-white text-xs px-2 py-1 rounded">Premium Feature</span>
             </div>
-            
+
             <div className="space-y-6">
               <div className="border border-gray-200 rounded-lg overflow-hidden">
                 <div className="bg-gray-50 px-4 py-3 border-b border-gray-200">
                   <h3 className="font-medium text-[#2B5273]">Active Leases</h3>
                 </div>
-                
+
                 <div className="overflow-x-auto">
                   <table className="min-w-full divide-y divide-gray-200">
                     <thead className="bg-gray-50">
@@ -726,12 +726,12 @@ export const InvestorDashboard: React.FC<Record<string, never>> = () => {
                   </table>
                 </div>
               </div>
-              
+
               <div className="border border-gray-200 rounded-lg overflow-hidden">
                 <div className="bg-gray-50 px-4 py-3 border-b border-gray-200">
                   <h3 className="font-medium text-[#2B5273]">Lease Expiry Calendar</h3>
                 </div>
-                
+
                 <div className="p-4">
                   <div className="bg-amber-50 border border-amber-200 rounded-md p-4 flex items-start">
                     <FeatherIcon name="Calendar" size={16} className="text-amber-600 mt-0.5 mr-3 flex-shrink-0" />
@@ -752,17 +752,17 @@ export const InvestorDashboard: React.FC<Record<string, never>> = () => {
                   </div>
                 </div>
               </div>
-              
+
               <div className="border border-gray-200 rounded-lg overflow-hidden">
                 <div className="bg-gray-50 px-4 py-3 border-b border-gray-200">
                   <h3 className="font-medium text-[#2B5273]">Tenant Screening Tools</h3>
                 </div>
-                
+
                 <div className="p-4">
                   <p className="text-sm text-gray-600 mb-4">
                     Our AI-powered tenant screening tools help you find reliable tenants while complying with fair housing laws.
                   </p>
-                  
+
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div className="border border-gray-200 rounded-md p-4 text-center">
                       <FeatherIcon name="FileText" size={32} className="text-[#2B5273] mx-auto mb-2" />
@@ -771,7 +771,7 @@ export const InvestorDashboard: React.FC<Record<string, never>> = () => {
                         Comprehensive background checks including credit, criminal, and eviction history.
                       </p>
                     </div>
-                    
+
                     <div className="border border-gray-200 rounded-md p-4 text-center">
                       <FeatherIcon name="CheckCircle" size={32} className="text-[#2B5273] mx-auto mb-2" />
                       <h4 className="font-medium text-gray-900 mb-1">Income Verification</h4>
@@ -779,7 +779,7 @@ export const InvestorDashboard: React.FC<Record<string, never>> = () => {
                         Secure and compliant income and employment verification process.
                       </p>
                     </div>
-                    
+
                     <div className="border border-gray-200 rounded-md p-4 text-center">
                       <FeatherIcon name="Users" size={32} className="text-[#2B5273] mx-auto mb-2" />
                       <h4 className="font-medium text-gray-900 mb-1">Rental History</h4>
@@ -788,7 +788,7 @@ export const InvestorDashboard: React.FC<Record<string, never>> = () => {
                       </p>
                     </div>
                   </div>
-                  
+
                   <div className="mt-4 text-center">
                     <button className="text-sm bg-[#2B5273] text-white px-4 py-2 rounded hover:bg-[#1E3142] transition-colors">
                       Start Tenant Screening

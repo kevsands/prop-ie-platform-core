@@ -1,3 +1,4 @@
+import React from 'react';
 // This file enables /solutions/prop-choice to show the PROP Choice customisation flow
 // It reuses the content from /customisation/how-it-works/page.tsx
 
@@ -6,5 +7,5 @@
 import PropChoiceHowItWorksPage from '../../customisation/how-it-works/page';
 
 export default function PropChoicePage() {
-  return <PropChoiceHowItWorksPage />;
+  return <PropChoiceHowItWorksPage />\n  );
 } 

@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">1.2% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/78</span>
+                <span class='fraction'>1/83</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/57</span>
+                <span class='fraction'>0/90</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">1.42% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/65</span>
+                <span class='fraction'>1/70</span>
             </div>
         
             
@@ -774,7 +774,12 @@
 <a name='L709'></a><a href='#L709'>709</a>
 <a name='L710'></a><a href='#L710'>710</a>
 <a name='L711'></a><a href='#L711'>711</a>
-<a name='L712'></a><a href='#L712'>712</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L712'></a><a href='#L712'>712</a>
+<a name='L713'></a><a href='#L713'>713</a>
+<a name='L714'></a><a href='#L714'>714</a>
+<a name='L715'></a><a href='#L715'>715</a>
+<a name='L716'></a><a href='#L716'>716</a>
+<a name='L717'></a><a href='#L717'>717</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -803,6 +808,9 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -830,12 +838,14 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1466,7 +1476,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1513,25 +1523,28 @@ import { PrismaClient, User as PrismaUser } from '@prisma/client';
 export function <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >mapUser(</span></span>dbUser: any): User {
 <span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (!dbUser) <span class="cstat-no" title="statement not covered" >return null;</span></span>
   
+  const metadata = <span class="cstat-no" title="statement not covered" >dbUser.metadata || {};</span>
+  const twoFactorEnabled = <span class="cstat-no" title="statement not covered" >metadata.twoFactorEnabled || false;</span>
+  
 <span class="cstat-no" title="statement not covered" >  return {</span>
     id: dbUser.id,
-    cognitoId: dbUser.cognito_id,
+    cognitoId: dbUser.cognito_id || dbUser.cognitoId,
     email: dbUser.email,
-    firstName: dbUser.first_name,
-    lastName: dbUser.last_name,
+    firstName: dbUser.first_name || dbUser.firstName,
+    lastName: dbUser.last_name || dbUser.lastName,
     phone: dbUser.phone,
-    profileImageUrl: dbUser.profile_image_url,
+    profileImageUrl: dbUser.profile_image_url || dbUser.profileImageUrl,
     role: dbUser.role,
     status: dbUser.status,
-    kycStatus: dbUser.kyc_status,
-    twoFactorEnabled: dbUser.two_factor_enabled,
-    lastLogin: dbUser.last_login,
+    kycStatus: dbUser.kyc_status || dbUser.kycStatus,
+    twoFactorEnabled: twoFactorEnabled,
+    lastLogin: dbUser.last_login || dbUser.lastLogin,
     metadata: dbUser.metadata,
-    termsAccepted: dbUser.terms_accepted,
-    termsAcceptedAt: dbUser.terms_accepted_at,
-    marketingConsent: dbUser.marketing_consent,
-    createdAt: dbUser.created_at,
-    updatedAt: dbUser.updated_at
+    termsAccepted: dbUser.terms_accepted || dbUser.termsAccepted,
+    termsAcceptedAt: dbUser.terms_accepted_at || dbUser.termsAcceptedAt,
+    marketingConsent: dbUser.marketing_consent || dbUser.marketingConsent,
+    createdAt: dbUser.created_at || dbUser.createdAt || dbUser.created,
+    updatedAt: dbUser.updated_at || dbUser.updatedAt || dbUser.lastActive
   };
 }
 &nbsp;
@@ -1541,21 +1554,23 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
  * @returns Database user object
  */
 export function <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >mapUserToDb(</span></span>user: User): any {
+  // Ensure two-factor settings are stored in metadata
+  const metadata = <span class="cstat-no" title="statement not covered" >user.metadata || {};</span>
+<span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (user.twoFactorEnabled !== undefined) {</span>
+<span class="cstat-no" title="statement not covered" >    metadata.twoFactorEnabled = user.twoFactorEnabled;</span>
+  }
+  
+  // For Prisma, use camelCase field names
 <span class="cstat-no" title="statement not covered" >  return {</span>
-    cognito_id: user.cognitoId,
     email: user.email,
-    first_name: user.firstName,
-    last_name: user.lastName,
+    firstName: user.firstName,
+    lastName: user.lastName,
     phone: user.phone,
-    profile_image_url: user.profileImageUrl,
-    role: user.role,
+    avatar: user.profileImageUrl,
+    roles: user.role ? [user.role] : [], // Prisma expects an array of roles
     status: user.status,
-    kyc_status: user.kycStatus,
-    two_factor_enabled: user.twoFactorEnabled,
-    metadata: user.metadata,
-    terms_accepted: user.termsAccepted,
-    terms_accepted_at: user.termsAcceptedAt,
-    marketing_consent: user.marketingConsent
+    kycStatus: user.kycStatus,
+    metadata: metadata
   };
 }
 &nbsp;
@@ -1605,7 +1620,7 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
     sitePlanUrl: dbDevelopment.site_plan_url,
     virtualTourUrl: dbDevelopment.virtual_tour_url,
     floorplans: dbDevelopment.floorplans,
-    amenities: dbDevelopment.amenities,
+    Amenity: dbDevelopment.Amenity,
     features: dbDevelopment.features,
     metadata: dbDevelopment.metadata,
     createdAt: dbDevelopment.created_at,
@@ -1640,7 +1655,7 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
     site_plan_url: development.sitePlanUrl,
     virtual_tour_url: development.virtualTourUrl,
     floorplans: development.floorplans,
-    amenities: development.amenities,
+    Amenity: development.Amenity,
     features: development.features,
     metadata: development.metadata
   };
@@ -2177,7 +2192,7 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
 }
 &nbsp;
 // Export all mappers
-<span class="cstat-no" title="statement not covered" >export default <span class="cstat-no" title="statement not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >export default {</span>
   mapUser,
   mapUserToDb,
   mapDevelopment,
@@ -2203,7 +2218,7 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-15T16:23:25.168Z
+                at 2025-05-22T22:15:28.100Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

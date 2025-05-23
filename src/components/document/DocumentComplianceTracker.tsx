@@ -1,3 +1,4 @@
+import React from 'react';
 'use client';
 
 import { useState, useMemo } from 'react';
@@ -22,14 +23,12 @@ import {
   SelectItem,
   SelectLabel,
   SelectTrigger,
-  SelectValue, 
-} from '@/components/ui/select';
+  SelectValue} from '@/components/ui/select';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+  DropdownMenuTrigger} from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Progress } from '@/components/ui/progress';
@@ -94,10 +93,10 @@ export default function DocumentComplianceTracker({
   className
 }: DocumentComplianceTrackerProps) {
   // State for filters
-  const [categoryFilter, setCategoryFilter] = useState<DocumentCategory | 'ALL'>('ALL');
-  const [statusFilter, setStatusFilter] = useState<DocumentStatus | 'ALL'>('ALL');
-  const [searchQuery, setSearchQuery] = useState('');
-  const [activeTab, setActiveTab] = useState<'all' | 'timeline'>('all');
+  const [categoryFiltersetCategoryFilter] = useState<DocumentCategory | 'ALL'>('ALL');
+  const [statusFiltersetStatusFilter] = useState<DocumentStatus | 'ALL'>('ALL');
+  const [searchQuerysetSearchQuery] = useState('');
+  const [activeTabsetActiveTab] = useState<'all' | 'timeline'>('all');
 
   // Fetch documents using React Query
   // In a real implementation, you would pass the projectId and filters to the hook
@@ -157,7 +156,7 @@ export default function DocumentComplianceTracker({
       documents.data.forEach(doc => {
         if (stats[doc.category]) {
           stats[doc.category].total++;
-          
+
           switch (doc.status) {
             case 'APPROVED':
               stats[doc.category].approved++;
@@ -182,7 +181,7 @@ export default function DocumentComplianceTracker({
   // Calculate overall compliance percentage
   const overallCompliance = useMemo(() => {
     if (!documents?.data || documents.data.length === 0) return 0;
-    
+
     const approvedCount = documents.data.filter(doc => doc.status === 'APPROVED').length;
     return Math.round((approvedCount / documents.data.length) * 100);
   }, [documents]);
@@ -190,36 +189,36 @@ export default function DocumentComplianceTracker({
   // Filter documents by upcoming deadlines for timeline view
   const upcomingDeadlines = useMemo(() => {
     if (!documents?.data) return [];
-    
+
     const now = new Date();
     const thirtyDaysLater = new Date();
     thirtyDaysLater.setDate(now.getDate() + 30);
-    
+
     return documents.data
       .filter(doc => {
         if (doc.status === 'APPROVED') return false;
-        
+
         const deadlineDate = new Date(doc.deadline);
-        return deadlineDate >= now && deadlineDate <= thirtyDaysLater;
+        return deadlineDate>= now && deadlineDate <= thirtyDaysLater;
       })
-      .sort((a, b) => new Date(a.deadline).getTime() - new Date(b.deadline).getTime());
+      .sort((ab: any) => new Date(a.deadline).getTime() - new Date(b.deadline).getTime());
   }, [documents]);
 
   // Group documents by month and day for timeline view
   const groupedDeadlines = useMemo(() => {
     const grouped: Record<string, DocumentItem[]> = {};
-    
+
     upcomingDeadlines.forEach(doc => {
       const date = new Date(doc.deadline);
       const monthDay = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-      
+
       if (!grouped[monthDay]) {
         grouped[monthDay] = [];
       }
-      
+
       grouped[monthDay].push(doc);
     });
-    
+
     return grouped;
   }, [upcomingDeadlines]);
 
@@ -243,7 +242,7 @@ export default function DocumentComplianceTracker({
         <CardContent>
           <div className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-              {Array(4).fill(0).map((_, i) => (
+              {Array(4).fill(0).map((_i: any) => (
                 <Card key={i}>
                   <CardContent className="p-4">
                     <Skeleton className="h-4 w-1/2 mb-2" />
@@ -254,7 +253,7 @@ export default function DocumentComplianceTracker({
               ))}
             </div>
             <div className="space-y-2">
-              {Array(5).fill(0).map((_, i) => (
+              {Array(5).fill(0).map((_i: any) => (
                 <Skeleton key={i} className="h-16 w-full" />
               ))}
             </div>
@@ -307,10 +306,10 @@ export default function DocumentComplianceTracker({
             </TooltipProvider>
 
             <Button variant="outline" size="sm" asChild>
-              <a href="#" onClick={(e) => {
+              <a href="#" onClick={(e: any) => {
                 e.preventDefault();
                 // This would open a document compliance report
-              }}>
+              }>
                 Generate Report
               </a>
             </Button>
@@ -320,17 +319,17 @@ export default function DocumentComplianceTracker({
       <CardContent className="space-y-6">
         {/* Category Progress Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          {Object.entries(categoryStats).map(([category, stats]) => {
-            const progressPercentage = stats.total > 0 
+          {Object.entries(categoryStats).map(([categorystats]) => {
+            const progressPercentage = stats.total> 0 
               ? Math.round((stats.approved / stats.total) * 100) 
               : 0;
-            
+
             return (
               <Card key={category}>
                 <CardContent className="p-4">
                   <div className="flex justify-between items-start mb-2">
                     <h3 className="font-medium">{category.charAt(0) + category.slice(1).toLowerCase()}</h3>
-                    <Badge variant={progressPercentage === 100 ? "default" : "outline"}>
+                    <Badge variant={progressPercentage === 100 ? "default" : "outline">
                       {stats.approved}/{stats.total}
                     </Badge>
                   </div>
@@ -357,7 +356,7 @@ export default function DocumentComplianceTracker({
             <div className="w-full md:w-auto">
               <Select 
                 value={categoryFilter} 
-                onValueChange={(value) => setCategoryFilter(value as any)}
+                onValueChange={(value: any) => setCategoryFilter(value as any)}
               >
                 <SelectTrigger className="w-[180px]">
                   <SelectValue placeholder="Category Filter" />
@@ -378,7 +377,7 @@ export default function DocumentComplianceTracker({
             <div className="w-full md:w-auto">
               <Select 
                 value={statusFilter} 
-                onValueChange={(value) => setStatusFilter(value as any)}
+                onValueChange={(value: any) => setStatusFilter(value as any)}
               >
                 <SelectTrigger className="w-[180px]">
                   <SelectValue placeholder="Status Filter" />
@@ -402,14 +401,14 @@ export default function DocumentComplianceTracker({
             <Input
               placeholder="Search documents..."
               value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+              onChange={(e: any) => setSearchQuery(e.target.value)}
               className="pl-8"
             />
           </div>
         </div>
 
         {/* Tab view for All Documents vs Timeline */}
-        <Tabs defaultValue="all" onValueChange={(value) => setActiveTab(value as 'all' | 'timeline')}>
+        <Tabs defaultValue="all" onValueChange={(value: any) => setActiveTab(value as 'all' | 'timeline')}>
           <TabsList>
             <TabsTrigger value="all" className="flex items-center gap-1">
               <ListFilter className="h-4 w-4" />
@@ -424,7 +423,7 @@ export default function DocumentComplianceTracker({
           <TabsContent value="all" className="mt-4">
             {/* Documents List */}
             <div className="space-y-2">
-              {documents?.data && documents.data.length > 0 ? (
+              {documents?.data && documents.data.length> 0 ? (
                 documents.data.map(doc => {
                   const statusDetails = getStatusDetails(doc.status);
                   return (
@@ -491,7 +490,7 @@ export default function DocumentComplianceTracker({
                       setCategoryFilter('ALL');
                       setStatusFilter('ALL');
                       setSearchQuery('');
-                    }}
+                    }
                   >
                     Clear filters
                   </Button>
@@ -503,8 +502,8 @@ export default function DocumentComplianceTracker({
           <TabsContent value="timeline" className="mt-4">
             {/* Timeline View */}
             <div className="space-y-6">
-              {Object.keys(groupedDeadlines).length > 0 ? (
-                Object.entries(groupedDeadlines).map(([date, docs]) => (
+              {Object.keys(groupedDeadlines).length> 0 ? (
+                Object.entries(groupedDeadlines).map(([datedocs]) => (
                   <div key={date} className="relative pl-8 border-l pb-6">
                     <div className="absolute -left-2.5 top-0 bg-background border-4 border-background rounded-full">
                       <div className="h-5 w-5 rounded-full bg-primary"></div>

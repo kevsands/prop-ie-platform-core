@@ -29,30 +29,33 @@ async function testAuthentication() {
     // Wait a moment
     await delay(1000);
     
-    // Test 2: Login
-    console.log('\n🔐 Test 2: User Login');
+    // Test 2: Get CSRF token first
+    console.log('\n🔑 Test 2: Getting CSRF token...');
+    const csrfResponse = await axios.get(`${BASE_URL}/api/auth/csrf`);
+    const csrfToken = csrfResponse.data.csrfToken;
+    const csrfCookies = csrfResponse.headers['set-cookie'] || [];
+    console.log('CSRF token obtained');
     
-    // Using the signIn function from NextAuth
-    const loginData = {
-      email: TEST_USER.email,
-      password: TEST_USER.password,
-      redirect: false
-    };
+    // Test 3: Login
+    console.log('\n🔐 Test 3: User Login');
     
-    console.log('Attempting login with:', loginData);
+    const authData = new URLSearchParams({
+      'csrfToken': csrfToken,
+      'email': TEST_USER.email,
+      'password': TEST_USER.password,
+      'callbackUrl': BASE_URL,
+      'json': 'true'
+    });
     
-    // Test the NextAuth signin endpoint directly
+    console.log('Attempting login with:', TEST_USER.email);
+    
     const signInResponse = await axios.post(
       `${BASE_URL}/api/auth/callback/credentials`,
-      new URLSearchParams({
-        email: TEST_USER.email,
-        password: TEST_USER.password,
-        redirect: 'false',
-        json: 'true'
-      }).toString(),
+      authData.toString(),
       {
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
+          'Cookie': csrfCookies.join('; ')
         },
         maxRedirects: 0,
         validateStatus: (status) => status < 500
@@ -63,15 +66,23 @@ async function testAuthentication() {
     console.log('Headers:', signInResponse.headers);
     
     // Extract cookies
-    const cookies = signInResponse.headers['set-cookie'];
-    if (cookies) {
-      console.log('✅ Session cookies received:', cookies.length);
+    const authCookies = signInResponse.headers['set-cookie'] || [];
+    const allCookies = [...csrfCookies, ...authCookies];
+    
+    if (authCookies.length > 0) {
+      console.log('✅ Session cookies received:', authCookies.length);
       
-      // Test 3: Verify session
-      console.log('\n🔍 Test 3: Session Verification');
+      // Check for session token
+      const sessionToken = authCookies.find(c => c.includes('next-auth.session-token'));
+      if (sessionToken) {
+        console.log('✅ Session token found');
+      }
+      
+      // Test 4: Verify session
+      console.log('\n🔍 Test 4: Session Verification');
       const sessionResponse = await axios.get(`${BASE_URL}/api/auth/session`, {
         headers: {
-          'Cookie': cookies.join('; ')
+          'Cookie': allCookies.join('; ')
         }
       });
       
@@ -84,11 +95,11 @@ async function testAuthentication() {
         console.log('⚠️ No user in session');
       }
       
-      // Test 4: Access protected route
-      console.log('\n🛡️ Test 4: Protected Route Access');
+      // Test 5: Access protected route
+      console.log('\n🛡️ Test 5: Protected Route Access');
       const protectedResponse = await axios.get(`${BASE_URL}/buyer`, {
         headers: {
-          'Cookie': cookies.join('; ')
+          'Cookie': allCookies.join('; ')
         },
         maxRedirects: 0,
         validateStatus: (status) => status < 500

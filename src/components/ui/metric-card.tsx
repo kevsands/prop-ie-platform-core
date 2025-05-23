@@ -1,3 +1,4 @@
+import React from 'react';
 "use client";
 
 import * as React from "react";
@@ -15,7 +16,7 @@ interface MetricCardProps {
   icon?: LucideIcon;
   trendValue?: number;
   trendLabel?: string;
-  trendData?: Array<{ value: number }>;
+  trendData?: Array<{ value: number }>\n  );
   trendColor?: "default" | "success" | "warning" | "danger";
   loading?: boolean;
   className?: string;
@@ -40,14 +41,13 @@ export function MetricCard({
   className,
   footerContent,
   headerAction,
-  variant = "default",
-}: MetricCardProps) {
+  variant = "default": MetricCardProps) {
   // Determine trend direction
-  const isTrendPositive = trendValue && trendValue > 0;
-  const isTrendNegative = trendValue && trendValue < 0;
+  const isTrendPositive = trendValue && trendValue> 0;
+  const isTrendNegative = trendValue && trendValue <0;
   const isTrendNeutral = trendValue === 0 || !trendValue;
   const trendValueFormatted = trendValue ? Math.abs(trendValue) : 0;
-  
+
   // Determine trend colors
   const getTrendStyles = () => {
     if (trendColor === "success" || (trendColor === "default" && isTrendPositive)) {
@@ -61,7 +61,7 @@ export function MetricCard({
     }
     return "text-gray-600 bg-gray-50 dark:bg-gray-900/20 dark:text-gray-400";
   };
-  
+
   // Determine sparkline color
   const getSparklineColor = () => {
     if (trendColor === "success" || (trendColor === "default" && isTrendPositive)) {
@@ -75,13 +75,13 @@ export function MetricCard({
     }
     return "var(--gray-600, #4b5563)";
   };
-  
+
   // Select appropriate trend icon
   const TrendIcon = React.useMemo(() => {
     if (isTrendPositive) return TrendingUp;
     if (isTrendNegative) return TrendingDown;
     return null;
-  }, [isTrendPositive, isTrendNegative]);
+  }, [isTrendPositiveisTrendNegative]);
 
   return (
     <Card variant={variant} className={cn("", className)}>
@@ -114,7 +114,7 @@ export function MetricCard({
               <div className="text-2xl font-bold">{value}</div>
             )}
           </div>
-          
+
           {(trendValue !== undefined || trendData) && (
             <div className="flex items-center space-x-2">
               {loading ? (
@@ -129,8 +129,8 @@ export function MetricCard({
                   </div>
                 )
               )}
-              
-              {trendData && trendData.length > 0 && !loading && (
+
+              {trendData && trendData.length> 0 && !loading && (
                 <div className="h-9 w-24 ml-auto">
                   <ResponsiveContainer width="100%" height="100%">
                     <LineChart data={trendData}>
@@ -149,7 +149,7 @@ export function MetricCard({
           )}
         </div>
       </CardContent>
-      
+
       {footerContent && (
         <CardFooter className="pt-2">
           {loading ? <Skeleton className="h-5 w-full" /> : footerContent}

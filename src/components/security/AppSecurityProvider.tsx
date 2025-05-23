@@ -19,8 +19,7 @@ const SecurityContext = createContext<SecurityContextType>({
   enableMonitoring: () => {},
   disableMonitoring: () => {},
   setSecurityLevel: () => {},
-  logSecurityEvent: () => {},
-});
+  logSecurityEvent: () => {});
 
 export const useAppSecurity = () => useContext(SecurityContext);
 
@@ -29,8 +28,8 @@ interface AppSecurityProviderProps {
 }
 
 export function AppSecurityProvider({ children }: AppSecurityProviderProps) {
-  const [securityLevel, setSecurityLevel] = useState<'low' | 'medium' | 'high'>('medium');
-  const [isMonitoring, setIsMonitoring] = useState(false);
+  const [securityLevelsetSecurityLevel] = useState<'low' | 'medium' | 'high'>('medium');
+  const [isMonitoringsetIsMonitoring] = useState(false);
 
   useEffect(() => {
     // Initialize security monitoring based on stored preferences or defaults
@@ -45,8 +44,7 @@ export function AppSecurityProvider({ children }: AppSecurityProviderProps) {
     // Initialize analytics
     enhancedAnalytics.init({
       enabledFeatures: monitoringEnabled ? ['all'] : ['critical'],
-      securityLevel: storedLevel as any || 'medium',
-    });
+      securityLevel: storedLevel as any || 'medium'});
   }, []);
 
   const enableMonitoring = () => {
@@ -77,8 +75,7 @@ export function AppSecurityProvider({ children }: AppSecurityProviderProps) {
     enableMonitoring,
     disableMonitoring,
     setSecurityLevel: handleSetSecurityLevel,
-    logSecurityEvent,
-  };
+    logSecurityEvent};
 
   return (
     <SecurityContext.Provider value={contextValue}>

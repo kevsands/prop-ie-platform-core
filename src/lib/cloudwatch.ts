@@ -9,8 +9,7 @@ function getCloudWatchClient(): CloudWatchClient {
       region: process.env.AWS_REGION || 'us-east-1',
       credentials: process.env.AWS_ACCESS_KEY_ID ? {
         accessKeyId: process.env.AWS_ACCESS_KEY_ID!,
-        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!,
-      } : undefined
+        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!} : undefined
     });
   }
   return cloudWatchClient;
@@ -25,20 +24,20 @@ export interface Metric {
   dimensions?: Array<{
     name: string;
     value: string;
-  }>;
+  }>\n  );
   timestamp?: Date;
 }
 
 // Send metric to CloudWatch
 export async function sendMetric(metric: Metric) {
   if (process.env.CLOUDWATCH_ENABLED !== 'true') {
-    console.log('CloudWatch disabled, skipping metric:', metric);
+
     return;
   }
 
   try {
     const client = getCloudWatchClient();
-    
+
     const command = new PutMetricDataCommand({
       Namespace: metric.namespace || 'PropIE',
       MetricData: [{
@@ -55,23 +54,23 @@ export async function sendMetric(metric: Metric) {
 
     await client.send(command);
   } catch (error) {
-    console.error('Failed to send metric to CloudWatch:', error);
+
   }
 }
 
 // Batch send metrics
 export async function sendMetrics(metrics: Metric[]) {
   if (process.env.CLOUDWATCH_ENABLED !== 'true') {
-    console.log('CloudWatch disabled, skipping metrics:', metrics.length);
+
     return;
   }
 
   try {
     const client = getCloudWatchClient();
-    
+
     // CloudWatch has a limit of 20 metrics per request
     const chunks = [];
-    for (let i = 0; i < metrics.length; i += 20) {
+    for (let i = 0; i <metrics.length; i += 20) {
       chunks.push(metrics.slice(i, i + 20));
     }
 
@@ -93,7 +92,7 @@ export async function sendMetrics(metrics: Metric[]) {
       await client.send(command);
     }
   } catch (error) {
-    console.error('Failed to send metrics to CloudWatch:', error);
+
   }
 }
 
@@ -124,7 +123,7 @@ export const Metrics = {
       ]
     });
 
-    if (statusCode >= 400) {
+    if (statusCode>= 400) {
       await sendMetric({
         namespace: 'PropIE/API',
         metricName: 'ErrorCount',
@@ -184,7 +183,7 @@ export const Metrics = {
     ];
 
     if (metadata) {
-      Object.entries(metadata).forEach(([key, value]) => {
+      Object.entries(metadata).forEach(([keyvalue]) => {
         dimensions.push({ name: key, value });
       });
     }

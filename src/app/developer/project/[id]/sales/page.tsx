@@ -5,13 +5,23 @@ import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import { Building, ArrowLeft } from 'lucide-react';
 
+interface ProjectSalesPageProps {
+  params: Promise<{
+    id: string;
+  }>\n  );
+}
+
 /**
  * Simplified Project Sales Page for build testing
  */
-export default function ProjectSalesPage() {
-  const params = useParams();
-  const projectId = params.id as string;
-  
+export default async function ProjectSalesPage({ params }: ProjectSalesPageProps) {
+  const { id: projectId } = await params;
+
+  return <ProjectSalesPageClient projectId={projectId} />\n  );
+}
+
+function ProjectSalesPageClient({ projectId }: { projectId: string }) {
+
   // Mock project data
   const projectData = {
     id: projectId,
@@ -50,11 +60,11 @@ export default function ProjectSalesPage() {
             <option value="90-days">Last 90 Days</option>
             <option value="year">This Year</option>
           </select>
-          
+
           <button className="border rounded-md px-3 py-2 text-sm bg-white hover:bg-gray-50">
             Export
           </button>
-          
+
           <button className="border rounded-md px-3 py-2 text-sm bg-blue-600 text-white hover:bg-blue-700">
             Update Status
           </button>
@@ -64,7 +74,7 @@ export default function ProjectSalesPage() {
       {/* Simplified Sales Progress Tracker */}
       <div className="bg-white rounded-lg shadow-sm border p-6">
         <h2 className="text-lg font-medium mb-4">Sales Progress</h2>
-        
+
         <div className="relative pt-1">
           <div className="flex mb-2 items-center justify-between">
             <div>
@@ -79,10 +89,10 @@ export default function ProjectSalesPage() {
             </div>
           </div>
           <div className="overflow-hidden h-2 mb-4 text-xs flex rounded bg-blue-200">
-            <div style={{ width: "65%" }} className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-blue-500"></div>
+            <div style={ width: "65%" } className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-blue-500"></div>
           </div>
         </div>
-        
+
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
           <div className="border rounded-lg p-4 text-center">
             <div className="text-2xl font-bold text-blue-600">45</div>
@@ -101,12 +111,12 @@ export default function ProjectSalesPage() {
             <div className="text-sm text-gray-500">Available</div>
           </div>
         </div>
-        
+
         <div className="text-center text-gray-500 py-4 bg-gray-50 rounded-lg border">
           Detailed sales data and interactive charts will be loaded here in the full implementation
         </div>
       </div>
-      
+
       <div className="bg-amber-100 p-3 rounded-md text-amber-800">
         Note: UI components temporarily simplified for build testing - full functionality will be restored later.
       </div>

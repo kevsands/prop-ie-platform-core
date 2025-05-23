@@ -15,16 +15,16 @@ export default function AddNoteForm({
   onErrorAction
 }: AddNoteFormProps) {
   const { addNoteToHTB } = useHTB();
-  const [content, setContent] = useState('');
-  const [isPrivate, setIsPrivate] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [contentsetContent] = useState('');
+  const [isPrivatesetIsPrivate] = useState(false);
+  const [isLoadingsetIsLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
 
     try {
-      await addNoteToHTB(claimId, content, isPrivate);
+      await addNoteToHTB(claimId, contentisPrivate);
       setContent('');
       setIsPrivate(false);
       onSuccessAction();

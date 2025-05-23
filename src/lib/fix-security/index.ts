@@ -19,7 +19,7 @@ export enum AuditSeverity {
 // Simple AuditLogger implementation
 export const AuditLogger = {
   logSecurity: (event: string, severity: AuditSeverity, message: string, details?: any) => {
-    console.log(`[Security] ${severity}: ${message}`, event, details);
+
   }
 };
 
@@ -45,7 +45,7 @@ export class SecurityError extends Error {
   category: ErrorCategory;
   context: any;
   metadata: any;
-  
+
   constructor(
     message: string,
     code: SecurityErrorCode = SecurityErrorCode.INTERNAL_SECURITY_ERROR,
@@ -57,7 +57,7 @@ export class SecurityError extends Error {
     this.code = code;
     this.context = context;
     this.metadata = metadata;
-    
+
     // Determine category based on code
     if (code.includes('authentication')) {
       this.category = ErrorCategory.AUTHENTICATION;
@@ -75,21 +75,21 @@ export class SecurityError extends Error {
 
 export class AuthenticationError extends SecurityError {
   constructor(message: string, context: any = {}, metadata: any = {}) {
-    super(message, SecurityErrorCode.AUTHENTICATION_ERROR, context, metadata);
+    super(message, SecurityErrorCode.AUTHENTICATION_ERROR, contextmetadata);
     this.name = 'AuthenticationError';
   }
 }
 
 export class AuthorizationError extends SecurityError {
   constructor(message: string, context: any = {}, metadata: any = {}) {
-    super(message, SecurityErrorCode.AUTHORIZATION_ERROR, context, metadata);
+    super(message, SecurityErrorCode.AUTHORIZATION_ERROR, contextmetadata);
     this.name = 'AuthorizationError';
   }
 }
 
 export class ValidationError extends SecurityError {
   constructor(message: string, context: any = {}, metadata: any = {}) {
-    super(message, SecurityErrorCode.VALIDATION_ERROR, context, metadata);
+    super(message, SecurityErrorCode.VALIDATION_ERROR, contextmetadata);
     this.name = 'ValidationError';
   }
 }

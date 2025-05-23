@@ -46,7 +46,7 @@ interface Customization {
 }
 
 interface QueryOptions<T> {
-  variables?: Record<string, any>;
+  variables?: Record<string, any>\n  );
   cachePolicy?: 'cache-first' | 'network-only' | 'cache-and-network';
   errorPolicy?: 'none' | 'all' | 'ignore';
   retry?: number | boolean;
@@ -75,8 +75,7 @@ export const queryKeys = {
   categories: ['categories'] as const,
   category: (id: string) => ['category', id] as const,
   customizations: (categoryId: string) => ['customizations', categoryId] as const,
-  customization: (id: string) => ['customization', id] as const,
-};
+  customization: (id: string) => ['customization', id] as const};
 
 // Development hooks
 export function useDevelopments() {
@@ -96,8 +95,7 @@ export function useDevelopments() {
       }
     `,
     {
-      transform: (data) => data.listDevelopments.items ?? [],
-    }
+      transform: (data: any) => data.listDevelopments.items ?? []}
   );
 }
 
@@ -117,8 +115,7 @@ export function useDevelopment(id: string) {
     `,
     {
       variables: { id },
-      transform: (data) => data.getDevelopment,
-    }
+      transform: (data: any) => data.getDevelopment}
   );
 }
 
@@ -142,8 +139,7 @@ export function useProperties(developmentId: string) {
     `,
     {
       variables: { developmentId },
-      transform: (data) => data.listProperties.items ?? [],
-    }
+      transform: (data: any) => data.listProperties.items ?? []}
   );
 }
 
@@ -164,8 +160,7 @@ export function useProperty(id: string) {
     `,
     {
       variables: { id },
-      transform: (data) => data.getProperty,
-    }
+      transform: (data: any) => data.getProperty}
   );
 }
 
@@ -189,8 +184,7 @@ export function useRooms(propertyId: string) {
     `,
     {
       variables: { propertyId },
-      transform: (data) => data.listRooms.items ?? [],
-    }
+      transform: (data: any) => data.listRooms.items ?? []}
   );
 }
 
@@ -211,8 +205,7 @@ export function useRoom(id: string) {
     `,
     {
       variables: { id },
-      transform: (data) => data.getRoom,
-    }
+      transform: (data: any) => data.getRoom}
   );
 }
 
@@ -233,8 +226,7 @@ export function useCategories() {
       }
     `,
     {
-      transform: (data) => data.listCategories.items ?? [],
-    }
+      transform: (data: any) => data.listCategories.items ?? []}
   );
 }
 
@@ -253,8 +245,7 @@ export function useCategory(id: string) {
     `,
     {
       variables: { id },
-      transform: (data) => data.getCategory,
-    }
+      transform: (data: any) => data.getCategory}
   );
 }
 
@@ -278,8 +269,7 @@ export function useCustomizations(categoryId: string) {
     `,
     {
       variables: { categoryId },
-      transform: (data) => data.listCustomizations.items ?? [],
-    }
+      transform: (data: any) => data.listCustomizations.items ?? []}
   );
 }
 
@@ -300,8 +290,7 @@ export function useCustomization(id: string) {
     `,
     {
       variables: { id },
-      transform: (data) => data.getCustomization,
-    }
+      transform: (data: any) => data.getCustomization}
   );
 }
 
@@ -309,9 +298,9 @@ export function useAmplifyQuery<T = any>(
   query: string,
   options: QueryOptions<T> = {}
 ) {
-  const [data, setData] = useState<T | null>(null);
-  const [error, setError] = useState<Error | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [datasetData] = useState<T | null>(null);
+  const [errorsetError] = useState<Error | null>(null);
+  const [loadingsetLoading] = useState(true);
   const subscriptionRef = useRef<{ unsubscribe: () => void } | null>(null);
 
   const fetchData = useCallback(async () => {
@@ -329,8 +318,7 @@ export function useAmplifyQuery<T = any>(
             operation: query,
             duration: 0,
             success: true,
-            cacheHit: true,
-          });
+            cacheHit: true});
           return;
         }
       }
@@ -338,8 +326,7 @@ export function useAmplifyQuery<T = any>(
       const response = await client.graphql({
         query,
         variables: options.variables,
-        authMode: 'userPool',
-      });
+        authMode: 'userPool'});
 
       const transformedData = options.transform 
         ? options.transform(response.data)
@@ -350,23 +337,21 @@ export function useAmplifyQuery<T = any>(
 
       // Cache the result
       if (options.cachePolicy !== 'network-only') {
-        await cache.set(cacheKey, transformedData);
+        await cache.set(cacheKeytransformedData);
       }
 
       metrics.recordQueryMetrics({
         operation: query,
         duration: performance.now() - startTime,
-        success: true,
-      });
+        success: true});
 
       options.onSuccess?.(transformedData);
-    } catch (err) {
+    } catch (err: any) {
       const error = err as Error;
       logger.error('Query error', { error, query, variables: options.variables });
       errorReporter.captureError(error, {
         query,
-        variables: options.variables,
-      });
+        variables: options.variables});
 
       if (options.errorPolicy !== 'ignore') {
         setError(error);
@@ -376,14 +361,13 @@ export function useAmplifyQuery<T = any>(
         operation: query,
         duration: performance.now() - startTime,
         success: false,
-        error,
-      });
+        error});
 
       options.onError?.(error);
     } finally {
       setLoading(false);
     }
-  }, [query, options]);
+  }, [queryoptions]);
 
   useEffect(() => {
     fetchData();
@@ -401,9 +385,9 @@ export function useAmplifyMutation<T = any>(
   mutation: string,
   options: MutationOptions<T> = {}
 ) {
-  const [data, setData] = useState<T | null>(null);
-  const [error, setError] = useState<Error | null>(null);
-  const [loading, setLoading] = useState(false);
+  const [datasetData] = useState<T | null>(null);
+  const [errorsetError] = useState<Error | null>(null);
+  const [loadingsetLoading] = useState(false);
 
   const mutate = useCallback(async (variables?: Record<string, any>) => {
     const startTime = performance.now();
@@ -417,8 +401,7 @@ export function useAmplifyMutation<T = any>(
       const response = await client.graphql({
         query: mutation,
         variables: variables || options.variables,
-        authMode: 'userPool',
-      });
+        authMode: 'userPool'});
 
       const transformedData = options.transform 
         ? options.transform(response.data)
@@ -437,18 +420,16 @@ export function useAmplifyMutation<T = any>(
       metrics.recordMutationMetrics({
         operation: mutation,
         duration: performance.now() - startTime,
-        success: true,
-      });
+        success: true});
 
       options.onSuccess?.(transformedData);
       return transformedData;
-    } catch (err) {
+    } catch (err: any) {
       const error = err as Error;
       logger.error('Mutation error', { error, mutation, variables });
       errorReporter.captureError(error, {
         mutation,
-        variables,
-      });
+        variables});
 
       setError(error);
 
@@ -456,15 +437,14 @@ export function useAmplifyMutation<T = any>(
         operation: mutation,
         duration: performance.now() - startTime,
         success: false,
-        error,
-      });
+        error});
 
       options.onError?.(error);
       throw error;
     } finally {
       setLoading(false);
     }
-  }, [mutation, options]);
+  }, [mutationoptions]);
 
   return { mutate, data, error, loading };
 }
@@ -473,16 +453,14 @@ export function useAmplifySubscription<T = any>(
   subscription: string,
   options: SubscriptionOptions<T> = {}
 ) {
-  const [data, setData] = useState<T | null>(null);
-  const [error, setError] = useState<Error | null>(null);
+  const [datasetData] = useState<T | null>(null);
+  const [errorsetError] = useState<Error | null>(null);
   const subscriptionRef = useRef<{ unsubscribe: () => void } | null>(null);
 
   useEffect(() => {
     const sub = client.graphql({
       query: subscription,
-      variables: options.variables,
-    }) as Observable<{ data: T }>;
-
+      variables: options.variables}) as Observable<{ data: T }>\n  );
     const subscription = sub.subscribe({
       next: ({ data }) => {
         const transformedData = options.transform 
@@ -491,24 +469,22 @@ export function useAmplifySubscription<T = any>(
         setData(transformedData);
         options.onSubscriptionData?.(transformedData);
       },
-      error: (err) => {
+      error: (err: any) => {
         const error = err as Error;
         logger.error('Subscription error', { error, subscription });
         errorReporter.captureError(error, {
           subscription,
-          variables: options.variables,
-        });
+          variables: options.variables});
         setError(error);
         options.onError?.(error);
-      },
-    });
+      });
 
     subscriptionRef.current = subscription;
 
     return () => {
       subscription.unsubscribe();
     };
-  }, [subscription, options]);
+  }, [subscriptionoptions]);
 
   return { data, error };
 }
@@ -516,5 +492,4 @@ export function useAmplifySubscription<T = any>(
 export default {
   useAmplifyQuery,
   useAmplifyMutation,
-  useAmplifySubscription,
-};
+  useAmplifySubscription};

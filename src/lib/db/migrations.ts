@@ -49,7 +49,7 @@ export class MigrationManager {
       const result = await this.pool.query(
         'SELECT version FROM schema_migrations ORDER BY version ASC'
       );
-      return result.rows.map((row) => row.version);
+      return result.rows.map((row: any) => row.version);
     } catch (error) {
       logger.error('Failed to get applied migrations', { error });
       throw error;
@@ -64,7 +64,7 @@ export class MigrationManager {
     try {
       const files = await fs.readdir(this.migrationsDir);
       return files
-        .filter((file) => file.endsWith('.sql'))
+        .filter((file: any) => file.endsWith('.sql'))
         .sort();
     } catch (error) {
       logger.error('Failed to get available migrations', { error, migrationsDir: this.migrationsDir });
@@ -78,45 +78,45 @@ export class MigrationManager {
    */
   async runMigrations(): Promise<string[]> {
     await this.initMigrationsTable();
-    
+
     const appliedMigrations = await this.getAppliedMigrations();
     const availableMigrations = await this.getAvailableMigrations();
-    
+
     const pendingMigrations = availableMigrations.filter(
-      (migration) => !appliedMigrations.includes(migration.split('_')[0])
+      (migration: any) => !appliedMigrations.includes(migration.split('_')[0])
     );
-    
+
     const applied: string[] = [];
-    
+
     if (pendingMigrations.length === 0) {
       logger.info('No pending migrations to apply');
       return applied;
     }
-    
+
     logger.info(`Found ${pendingMigrations.length} pending migrations`);
-    
+
     for (const migration of pendingMigrations) {
       const client = await this.pool.connect();
-      
+
       try {
         await client.query('BEGIN');
-        
-        const migrationPath = join(this.migrationsDir, migration);
+
+        const migrationPath = join(this.migrationsDirmigration);
         const sql = await fs.readFile(migrationPath, 'utf8');
-        
+
         logger.info(`Applying migration: ${migration}`);
         await client.query(sql);
-        
+
         const version = migration.split('_')[0];
         const description = migration.split('_').slice(1).join('_').replace('.sql', '');
-        
+
         await client.query(
-          'INSERT INTO schema_migrations (version, description) VALUES ($1, $2)',
-          [version, description]
+          'INSERT INTO schema_migrations (versiondescription) VALUES ($1, $2)',
+          [versiondescription]
         );
-        
+
         await client.query('COMMIT');
-        
+
         applied.push(version);
         logger.info(`Successfully applied migration: ${migration}`);
       } catch (error) {
@@ -127,7 +127,7 @@ export class MigrationManager {
         client.release();
       }
     }
-    
+
     return applied;
   }
 
@@ -137,36 +137,36 @@ export class MigrationManager {
    */
   async generateSeedData(force = false): Promise<void> {
     const environment = getEnvironmentVariable('NODE_ENV', 'development');
-    
+
     if (environment !== 'development' && !force) {
       logger.warn('Seed data generation requested in non-development environment');
       return;
     }
-    
+
     const client = await this.pool.connect();
-    
+
     try {
       // Find seed migration files
       const seedFiles = (await this.getAvailableMigrations())
         .filter(file => file.includes('seed'));
-      
+
       if (seedFiles.length === 0) {
         logger.info('No seed files found');
         return;
       }
-      
+
       logger.info(`Applying ${seedFiles.length} seed files`);
-      
+
       await client.query('BEGIN');
-      
+
       for (const seedFile of seedFiles) {
-        const seedPath = join(this.migrationsDir, seedFile);
+        const seedPath = join(this.migrationsDirseedFile);
         const sql = await fs.readFile(seedPath, 'utf8');
-        
+
         logger.info(`Applying seed file: ${seedFile}`);
         await client.query(sql);
       }
-      
+
       await client.query('COMMIT');
       logger.info('Successfully applied seed data');
     } catch (error) {
@@ -187,27 +187,26 @@ export class MigrationManager {
     pendingMigrations: string[];
   }> {
     await this.initMigrationsTable();
-    
+
     const result = await this.pool.query(
       'SELECT version, applied_at, description FROM schema_migrations ORDER BY version ASC'
     );
-    
+
     const appliedMigrations = result.rows;
-    const appliedVersions = appliedMigrations.map((m) => m.version);
-    
+    const appliedVersions = appliedMigrations.map((m: any) => m.version);
+
     const availableMigrations = await this.getAvailableMigrations();
     const pendingMigrations = availableMigrations
-      .filter((migration) => !appliedVersions.includes(migration.split('_')[0]))
-      .map((migration) => {
+      .filter((migration: any) => !appliedVersions.includes(migration.split('_')[0]))
+      .map((migration: any) => {
         const version = migration.split('_')[0];
         const description = migration.split('_').slice(1).join('_').replace('.sql', '');
         return `${version} - ${description}`;
       });
-    
+
     return {
       appliedMigrations,
-      pendingMigrations,
-    };
+      pendingMigrations};
   }
 }
 

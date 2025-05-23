@@ -10,10 +10,8 @@ import 'jest-extended';
 // Mock NextResponse for testing redirects and next() calls
 jest.mock('next/server', () => ({
   NextResponse: {
-    redirect: jest.fn().mockImplementation((url) => ({ url })),
-    next: jest.fn().mockImplementation(() => ({ next: true })),
-  },
-}));
+    redirect: jest.fn().mockImplementation((url: any) => ({ url })),
+    next: jest.fn().mockImplementation(() => ({ next: true }))}));
 
 describe('Middleware', () => {
   beforeEach(() => {
@@ -28,12 +26,10 @@ describe('Middleware', () => {
       nextUrl: {
         pathname: '/dashboard',
         searchParams: new URLSearchParams(),
-        href: 'https://example.com/dashboard',
-      },
+        href: 'https://example.com/dashboard'},
       cookies: {
         get: jest.fn().mockReturnValue(null), // No auth cookie
-      },
-    } as unknown as NextRequest;
+      } as unknown as NextRequest;
     
     // Execute
     middleware(req);
@@ -51,12 +47,10 @@ describe('Middleware', () => {
       nextUrl: {
         pathname: '/dashboard',
         searchParams: new URLSearchParams(),
-        href: 'https://example.com/dashboard',
-      },
+        href: 'https://example.com/dashboard'},
       cookies: {
         get: jest.fn().mockReturnValue({ value: 'valid-token' }), // Has auth cookie
-      },
-    } as unknown as NextRequest;
+      } as unknown as NextRequest;
     
     // Execute
     middleware(req);
@@ -73,12 +67,10 @@ describe('Middleware', () => {
       nextUrl: {
         pathname: '/dashboard/documents',
         searchParams: new URLSearchParams('filter=pending&sort=newest'),
-        href: 'https://example.com/dashboard/documents?filter=pending&sort=newest',
-      },
+        href: 'https://example.com/dashboard/documents?filter=pending&sort=newest'},
       cookies: {
         get: jest.fn().mockReturnValue(null), // No auth cookie
-      },
-    } as unknown as NextRequest;
+      } as unknown as NextRequest;
     
     // Execute
     middleware(req);
@@ -98,8 +90,7 @@ describe('Middleware', () => {
       '/',
       '/properties',
       '/about',
-      '/contact',
-    ];
+      '/contact'];
     
     publicRoutes.forEach(route => {
       const req = {
@@ -107,12 +98,10 @@ describe('Middleware', () => {
         nextUrl: {
           pathname: route,
           searchParams: new URLSearchParams(),
-          href: `https://example.com${route}`,
-        },
+          href: `https://example.com${route}`},
         cookies: {
           get: jest.fn().mockReturnValue(null), // No auth cookie
-        },
-      } as unknown as NextRequest;
+        } as unknown as NextRequest;
       
       // Execute
       middleware(req);
@@ -133,16 +122,13 @@ describe('Middleware', () => {
       nextUrl: {
         pathname: '/admin/dashboard',
         searchParams: new URLSearchParams(),
-        href: 'https://example.com/admin/dashboard',
-      },
+        href: 'https://example.com/admin/dashboard'},
       cookies: {
-        get: jest.fn().mockImplementation((name) => {
+        get: jest.fn().mockImplementation((name: any) => {
           if (name === 'auth') return { value: 'valid-token' };
           if (name === 'role') return { value: 'buyer' }; // Non-admin role
           return null;
-        }),
-      },
-    } as unknown as NextRequest;
+        })} as unknown as NextRequest;
     
     // Execute
     middleware(req);

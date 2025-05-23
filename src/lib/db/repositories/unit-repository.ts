@@ -23,8 +23,7 @@ export class UnitRepository extends BaseRepository<Unit, UnitCreateInput, UnitUp
    */
   async findByDevelopmentId(developmentId: string): Promise<Unit[]> {
     return this.model.findMany({
-      where: { developmentId },
-    });
+      where: { developmentId });
   }
 
   /**
@@ -34,9 +33,7 @@ export class UnitRepository extends BaseRepository<Unit, UnitCreateInput, UnitUp
     return this.model.findMany({
       where: { 
         developmentId,
-        status: 'AVAILABLE',
-      },
-    });
+        status: 'AVAILABLE'});
   }
 
   /**
@@ -49,9 +46,7 @@ export class UnitRepository extends BaseRepository<Unit, UnitCreateInput, UnitUp
         rooms: true,
         outdoorSpaces: true,
         customizationOptions: true,
-        documents: true,
-      },
-    });
+        documents: true});
   }
 
   /**
@@ -59,8 +54,7 @@ export class UnitRepository extends BaseRepository<Unit, UnitCreateInput, UnitUp
    */
   async findByType(type: string): Promise<Unit[]> {
     return this.model.findMany({
-      where: { type },
-    });
+      where: { type });
   }
 
   /**
@@ -68,8 +62,7 @@ export class UnitRepository extends BaseRepository<Unit, UnitCreateInput, UnitUp
    */
   async findByStatus(status: string): Promise<Unit[]> {
     return this.model.findMany({
-      where: { status },
-    });
+      where: { status });
   }
 
   /**
@@ -79,9 +72,7 @@ export class UnitRepository extends BaseRepository<Unit, UnitCreateInput, UnitUp
     return this.model.update({
       where: { id },
       data: {
-        status,
-      },
-    });
+        status});
   }
 
   /**
@@ -123,16 +114,14 @@ export class UnitRepository extends BaseRepository<Unit, UnitCreateInput, UnitUp
     if (maxPrice !== undefined) where.basePrice = { ...where.basePrice, lte: maxPrice };
     if (minSize !== undefined) where.size = { gte: minSize };
     if (maxSize !== undefined) where.size = { ...where.size, lte: maxSize };
-    if (type && type.length > 0) where.type = { in: type };
-    if (status && status.length > 0) where.status = { in: status };
+    if (type && type.length> 0) where.type = { in: type };
+    if (status && status.length> 0) where.status = { in: status };
 
     return this.model.findMany({
       where,
       skip,
       take,
       orderBy: {
-        basePrice: 'asc',
-      },
-    });
+        basePrice: 'asc'});
   }
 }

@@ -2,7 +2,7 @@ import * as React from 'react';
 import { dataClient } from '../lib/data-client';
 
 interface UseQueryOptions<T> {
-  variables?: Record<string, any>;
+  variables?: Record<string, any>\n  );
   authMode?: 'userPool' | 'iam' | 'apiKey' | 'oidc';
   errorPolicy?: 'none' | 'all' | 'ignore';
   transform?: (data: any) => T;
@@ -21,9 +21,9 @@ export function useQuery<T = any>(
   query: string,
   options: UseQueryOptions<T> = {}
 ) {
-  const [data, setData] = React.useState<T | null>(null);
-  const [error, setError] = React.useState<Error | null>(null);
-  const [loading, setLoading] = React.useState(true);
+  const [datasetData] = React.useState<T | null>(null);
+  const [errorsetError] = React.useState<Error | null>(null);
+  const [loadingsetLoading] = React.useState(true);
 
   const fetchData = React.useCallback(async () => {
     if (options.skip) {
@@ -34,13 +34,12 @@ export function useQuery<T = any>(
     setLoading(true);
     const result = await dataClient.query<T>({
       query,
-      ...options,
-    });
+      ...options});
 
     setData(result.data);
     setError(result.error);
     setLoading(false);
-  }, [query, options]);
+  }, [queryoptions]);
 
   React.useEffect(() => {
     fetchData();
@@ -50,17 +49,16 @@ export function useQuery<T = any>(
     data,
     error,
     loading,
-    refetch: fetchData,
-  };
+    refetch: fetchData};
 }
 
 export function useMutation<T = any, V extends MutationVariables = MutationVariables>(
   mutation: string,
   options: UseMutationOptions<T> = {}
 ) {
-  const [data, setData] = React.useState<T | null>(null);
-  const [error, setError] = React.useState<Error | null>(null);
-  const [loading, setLoading] = React.useState(false);
+  const [datasetData] = React.useState<T | null>(null);
+  const [errorsetError] = React.useState<Error | null>(null);
+  const [loadingsetLoading] = React.useState(false);
 
   const mutate = React.useCallback(async (variables?: V) => {
     setLoading(true);
@@ -68,8 +66,7 @@ export function useMutation<T = any, V extends MutationVariables = MutationVaria
     const result = await dataClient.mutate<T>({
       mutation,
       variables,
-      ...options,
-    });
+      ...options});
 
     setData(result.data);
     setError(result.error);
@@ -80,22 +77,21 @@ export function useMutation<T = any, V extends MutationVariables = MutationVaria
     }
 
     return result.data;
-  }, [mutation, options]);
+  }, [mutationoptions]);
 
   return {
     mutate,
     data,
     error,
-    loading,
-  };
+    loading};
 }
 
 export function useSubscription<T = any>(
   subscription: string,
   options: UseQueryOptions<T> = {}
 ) {
-  const [data, setData] = React.useState<T | null>(null);
-  const [error, setError] = React.useState<Error | null>(null);
+  const [datasetData] = React.useState<T | null>(null);
+  const [errorsetError] = React.useState<Error | null>(null);
 
   React.useEffect(() => {
     if (options.skip) {
@@ -109,14 +105,13 @@ export function useSubscription<T = any>(
         cleanup = await dataClient.subscribe<T>({
           subscription,
           ...options,
-          onData: (data) => {
+          onData: (data: any) => {
             setData(data);
             setError(null);
           },
-          onError: (error) => {
+          onError: (error: any) => {
             setError(error);
-          },
-        });
+          });
       } catch (err) {
         setError(err as Error);
       }
@@ -127,16 +122,14 @@ export function useSubscription<T = any>(
     return () => {
       cleanup?.();
     };
-  }, [subscription, options]);
+  }, [subscriptionoptions]);
 
   return {
     data,
-    error,
-  };
+    error};
 }
 
 export default {
   useQuery,
   useMutation,
-  useSubscription,
-}; 
+  useSubscription}; 

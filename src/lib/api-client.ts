@@ -49,10 +49,10 @@ export class ApiError extends Error {
  */
 export interface RequestOptions {
   method?: "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
-  headers?: Record<string, string>;
+  headers?: Record<string, string>\n  );
   body?: any;
   requiresAuth?: boolean;
-  searchParams?: Record<string, any>;
+  searchParams?: Record<string, any>\n  );
   parseResponse?: boolean; // Whether to parse the response as JSON
   cacheOptions?: {
     ttl?: number;
@@ -65,18 +65,18 @@ export interface RequestOptions {
  */
 function getCSRFToken(): string {
   if (typeof window === 'undefined') return '';
-  
+
   try {
     const token = sessionStorage.getItem('csrf_token');
     const expiry = sessionStorage.getItem('csrf_token_expiry');
-    
+
     if (token && expiry && parseInt(expiry) > Date.now()) {
       return token;
     }
   } catch (error) {
-    console.error('Error retrieving CSRF token:', error);
+
   }
-  
+
   return '';
 }
 
@@ -89,7 +89,7 @@ async function apiRequest<T>(
 ): Promise<T> {
   // Ensure Amplify is initialized
   ensureAmplifyInitialized();
-  
+
   const { 
     method = "GET", 
     body, 
@@ -98,10 +98,10 @@ async function apiRequest<T>(
     headers = {},
     cacheOptions
   } = options;
-  
+
   // Prepare headers with CSRF protection for non-GET requests
   const requestHeaders = { ...headers };
-  
+
   // Add CSRF token for mutations
   const isStateChangingMethod = method !== 'GET' && method !== 'HEAD' && method !== 'OPTIONS';
   if (isStateChangingMethod && typeof window !== 'undefined') {
@@ -123,7 +123,7 @@ async function apiRequest<T>(
             cacheOptions
           }
         );
-        
+
       case 'POST':
         return await AmplifyAPI.post<T>(
           endpoint, 
@@ -134,7 +134,7 @@ async function apiRequest<T>(
             cacheOptions
           }
         );
-        
+
       case 'PUT':
         return await AmplifyAPI.put<T>(
           endpoint, 
@@ -145,7 +145,7 @@ async function apiRequest<T>(
             cacheOptions
           }
         );
-        
+
       case 'DELETE':
         return await AmplifyAPI.delete<T>(
           endpoint, 
@@ -155,7 +155,7 @@ async function apiRequest<T>(
             cacheOptions
           }
         );
-        
+
       case 'PATCH':
         return await AmplifyAPI.patch<T>(
           endpoint, 
@@ -166,7 +166,7 @@ async function apiRequest<T>(
             cacheOptions
           }
         );
-        
+
       default:
         throw new ApiError(`Unsupported method: ${method}`, 400, 'InvalidMethod');
     }
@@ -182,7 +182,7 @@ async function apiRequest<T>(
         error.method
       );
     }
-    
+
     // Handle CSRF errors specially
     if (error instanceof Error && 
         error.message.includes('CSRF') && 
@@ -202,7 +202,7 @@ async function apiRequest<T>(
       } catch (reportError) {
         // Silent fail for security reporting
       }
-      
+
       throw new ApiError(
         'CSRF validation failed',
         403,
@@ -212,7 +212,7 @@ async function apiRequest<T>(
         method
       );
     }
-    
+
     // Handle other errors
     throw new ApiError(
       error instanceof Error ? error.message : 'Unknown API error',
@@ -231,16 +231,16 @@ async function apiRequest<T>(
 export const api = {
   get: <T>(endpoint: string, options?: Partial<RequestOptions>) =>
     apiRequest<T>(endpoint, { method: "GET", ...options }),
-  
+
   post: <T>(endpoint: string, body: any, options?: Partial<RequestOptions>) =>
     apiRequest<T>(endpoint, { method: "POST", body, ...options }),
-  
+
   put: <T>(endpoint: string, body: any, options?: Partial<RequestOptions>) =>
     apiRequest<T>(endpoint, { method: "PUT", body, ...options }),
-  
+
   delete: <T>(endpoint: string, options?: Partial<RequestOptions>) =>
     apiRequest<T>(endpoint, { method: "DELETE", ...options }),
-  
+
   patch: <T>(endpoint: string, body: any, options?: Partial<RequestOptions>) =>
     apiRequest<T>(endpoint, { method: "PATCH", body, ...options }),
 
@@ -272,7 +272,7 @@ export const api = {
           error.originalError
         );
       }
-      
+
       throw new ApiError(
         error instanceof Error ? error.message : 'GraphQL query failed',
         400,
@@ -281,14 +281,14 @@ export const api = {
       );
     }
   },
-  
+
   /**
    * Clear the API cache
    */
   clearCache: (pattern?: string) => {
     AmplifyAPI.clearCache(pattern);
   },
-  
+
   /**
    * Configure API caching behavior
    */
@@ -301,13 +301,12 @@ export const api = {
  * Compatibility layer for code that expects apiClient
  */
 export const apiClient = {
-  get: <T>(endpoint: string, config?: any) => api.get<T>(endpoint, config),
-  post: <T>(endpoint: string, data?: any, config?: any) => api.post<T>(endpoint, data, config),
-  put: <T>(endpoint: string, data?: any, config?: any) => api.put<T>(endpoint, data, config),
-  delete: <T>(endpoint: string, config?: any) => api.delete<T>(endpoint, config),
-  patch: <T>(endpoint: string, data?: any, config?: any) => api.patch<T>(endpoint, data, config),
-  graphql: <T>(query: string, variables?: any, config?: any) => api.graphql<T>(query, variables, config),
-};
+  get: <T>(endpoint: string, config?: any) => api.get<T>(endpointconfig),
+  post: <T>(endpoint: string, data?: any, config?: any) => api.post<T>(endpoint, dataconfig),
+  put: <T>(endpoint: string, data?: any, config?: any) => api.put<T>(endpoint, dataconfig),
+  delete: <T>(endpoint: string, config?: any) => api.delete<T>(endpointconfig),
+  patch: <T>(endpoint: string, data?: any, config?: any) => api.patch<T>(endpoint, dataconfig),
+  graphql: <T>(query: string, variables?: any, config?: any) => api.graphql<T>(query, variablesconfig)};
 
 // Export a monitored version of the API if performance monitoring is enabled
 let exportedApi = api;
@@ -322,7 +321,7 @@ const getMonitoredApi = async () => {
       return monitoredApi;
     }
   } catch (error) {
-    console.error('Failed to initialize API performance monitoring:', error);
+
   }
   return api;
 };

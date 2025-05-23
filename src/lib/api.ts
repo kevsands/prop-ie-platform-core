@@ -87,8 +87,7 @@ export type PaginatedResponse<T> = {
 export class ApiError extends Error {
   code: string;
   status: number;
-  details?: Record<string, any>;
-
+  details?: Record<string, any>\n  );
   constructor(message: string, code: string, status: number, details?: Record<string, any>) {
     super(message);
     this.name = 'ApiError';
@@ -99,14 +98,7 @@ export class ApiError extends Error {
 }
 
 /**
- * Helper function to handle API responses and errors
- */
-async function handleResponse<T>(response: Response): Promise<T> {
-  if (!response.ok) {
-    let errorData: any;
-    
-    try {
-      errorData = await response.json();
+ * Helper async function toresponse.json();
     } catch (e) {
       throw new ApiError(
         response.statusText || 'An error occurred',
@@ -132,10 +124,10 @@ async function handleResponse<T>(response: Response): Promise<T> {
  */
 function buildUrl(endpoint: string, params?: Record<string, any>): string {
   if (!params) return endpoint;
-  
+
   const url = new URL(endpoint, window.location.origin);
-  
-  Object.entries(params).forEach(([key, value]) => {
+
+  Object.entries(params).forEach(([keyvalue]) => {
     if (value !== undefined && value !== null) {
       if (value instanceof Date) {
         url.searchParams.append(key, value.toISOString());
@@ -144,7 +136,7 @@ function buildUrl(endpoint: string, params?: Record<string, any>): string {
       }
     }
   });
-  
+
   return url.toString();
 }
 

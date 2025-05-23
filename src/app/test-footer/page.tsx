@@ -1,3 +1,4 @@
+import React from 'react';
 /**
  * Test page to verify the Footer component is working
  */
@@ -21,7 +22,7 @@ export default function TestFooterPage() {
           <li>Hover animations</li>
           <li>Legal links</li>
         </ul>
-        
+
         <div className="bg-white rounded-lg shadow-md p-8 mb-8">
           <h2 className="text-2xl font-semibold text-gray-800 mb-4">Features</h2>
           <div className="grid md:grid-cols-2 gap-6">
@@ -45,7 +46,7 @@ export default function TestFooterPage() {
             </div>
           </div>
         </div>
-        
+
         <div className="bg-blue-50 border-l-4 border-blue-500 p-6 mb-8">
           <p className="text-blue-800">
             <strong>Note:</strong> The footer is rendered through the ClientLayout component, 

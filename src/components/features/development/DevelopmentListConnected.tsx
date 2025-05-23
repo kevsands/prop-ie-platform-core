@@ -25,14 +25,14 @@ const DevelopmentListConnected: React.FC<DevelopmentListConnectedProps> = ({
   showViewAll = true
 }) => {
   // State for filters
-  const [filter, setFilter] = useState<DevelopmentFilterInput>(initialFilter);
-  
+  const [filtersetFilter] = useState<DevelopmentFilterInput>(initialFilter);
+
   // Fetch developments with GraphQL
   const { data, isLoading, error } = useDevelopments({
     filter,
     pagination: { first: limit }
   });
-  
+
   // Show loading state
   if (isLoading) {
     return (
@@ -44,9 +44,9 @@ const DevelopmentListConnected: React.FC<DevelopmentListConnectedProps> = ({
               {subtitle}
             </p>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[...Array(3)].map((_, index) => (
+            {[...Array(3)].map((_index: any) => (
               <div key={index} className="bg-white rounded-lg overflow-hidden shadow-md h-96 animate-pulse">
                 <div className="h-64 bg-gray-200"></div>
                 <div className="p-6">
@@ -61,7 +61,7 @@ const DevelopmentListConnected: React.FC<DevelopmentListConnectedProps> = ({
       </section>
     );
   }
-  
+
   // Show error state
   if (error) {
     return (
@@ -73,7 +73,7 @@ const DevelopmentListConnected: React.FC<DevelopmentListConnectedProps> = ({
               {subtitle}
             </p>
           </div>
-          
+
           <div className="bg-red-50 border border-red-200 rounded-md p-6 text-center">
             <p className="text-red-600">
               Error loading developments: {error.message}
@@ -83,7 +83,7 @@ const DevelopmentListConnected: React.FC<DevelopmentListConnectedProps> = ({
       </section>
     );
   }
-  
+
   // No developments found
   if (!data || !data.developments || data.developments.length === 0) {
     return (
@@ -95,7 +95,7 @@ const DevelopmentListConnected: React.FC<DevelopmentListConnectedProps> = ({
               {subtitle}
             </p>
           </div>
-          
+
           <div className="bg-gray-50 border border-gray-200 rounded-md p-8 text-center">
             <p className="text-gray-600">
               No developments found.
@@ -105,7 +105,7 @@ const DevelopmentListConnected: React.FC<DevelopmentListConnectedProps> = ({
       </section>
     );
   }
-  
+
   // Show developments
   return (
     <section aria-labelledby="our-communities-heading" className="py-16 bg-white">
@@ -116,11 +116,11 @@ const DevelopmentListConnected: React.FC<DevelopmentListConnectedProps> = ({
             {subtitle}
           </p>
         </div>
-        
+
         {/* Development Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {data.developments.map((development) => (
-            <DevelopmentCardConnected key={development.id} development={development} />
+          {data.developments.map((development: any) => (
+            <DevelopmentCardConnected key={development.id} development: any={development: any} />
           ))}
         </div>
 

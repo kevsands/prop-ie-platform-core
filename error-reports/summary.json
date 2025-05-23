@@ -1,0 +1,131 @@
+{
+  "totalErrors": 2425,
+  "fileCount": 75,
+  "categoryCounts": {
+    "OTHER": 2425
+  },
+  "topErrorCodes": [
+    {
+      "code": "TS1005",
+      "count": 745
+    },
+    {
+      "code": "TS1381",
+      "count": 321
+    },
+    {
+      "code": "TS1109",
+      "count": 288
+    },
+    {
+      "code": "TS1128",
+      "count": 238
+    },
+    {
+      "code": "TS17002",
+      "count": 216
+    },
+    {
+      "code": "TS1382",
+      "count": 194
+    },
+    {
+      "code": "TS1011",
+      "count": 78
+    },
+    {
+      "code": "TS1136",
+      "count": 64
+    },
+    {
+      "code": "TS1003",
+      "count": 60
+    },
+    {
+      "code": "TS1135",
+      "count": 59
+    }
+  ],
+  "fileRanking": [
+    {
+      "file": "src/features/security/DataEncryptionService.tsx",
+      "count": 197
+    },
+    {
+      "file": "src/app/register/professional/page.tsx",
+      "count": 196
+    },
+    {
+      "file": "src/features/compliance/ComplianceDashboard.tsx",
+      "count": 160
+    },
+    {
+      "file": "src/services/development-service.ts",
+      "count": 155
+    },
+    {
+      "file": "src/components/dashboard/ProjectOverview.tsx",
+      "count": 143
+    },
+    {
+      "file": "src/lib/graphql/resolvers/development.ts",
+      "count": 130
+    },
+    {
+      "file": "src/features/security/RuntimeSecurityMonitor.tsx",
+      "count": 128
+    },
+    {
+      "file": "src/app/transaction-dashboard/page.tsx",
+      "count": 96
+    },
+    {
+      "file": "src/services/realtime/RealtimeEngine.ts",
+      "count": 91
+    },
+    {
+      "file": "src/lib/developer-platform/index.ts",
+      "count": 89
+    },
+    {
+      "file": "src/disabled-components/PropertyAlertsManager.tsx",
+      "count": 54
+    },
+    {
+      "file": "src/lib/transaction-engine/snagging-system.ts",
+      "count": 54
+    },
+    {
+      "file": "src/lib/supplierApi.ts",
+      "count": 51
+    },
+    {
+      "file": "src/app/developments/[id]/page.tsx",
+      "count": 45
+    },
+    {
+      "file": "src/features/dashboards/DeveloperDashboard.tsx",
+      "count": 43
+    },
+    {
+      "file": "src/features/dashboards/BuyerDashboard.tsx",
+      "count": 41
+    },
+    {
+      "file": "src/features/security/AccessControlManagement.tsx",
+      "count": 41
+    },
+    {
+      "file": "src/features/viewing-history/ViewingHistory.tsx",
+      "count": 41
+    },
+    {
+      "file": "src/components/transaction/TransactionTracker.tsx",
+      "count": 40
+    },
+    {
+      "file": "src/disabled-components/PropertyAnalyticsDashboard.tsx",
+      "count": 40
+    }
+  ]
+}

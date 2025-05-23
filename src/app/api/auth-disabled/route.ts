@@ -4,15 +4,13 @@ import { NextRequest, NextResponse } from 'next/server';
 export async function GET(req: NextRequest) {
   return NextResponse.json({
     status: 'disabled',
-    message: 'Auth API endpoints are temporarily disabled during Next.js 15.3.1 migration',
-  });
+    message: 'Auth API endpoints are temporarily disabled during Next.js 15.3.1 migration'});
 }
 
 export async function POST(req: NextRequest) {
   return NextResponse.json({
     status: 'disabled',
-    message: 'Auth API endpoints are temporarily disabled during Next.js 15.3.1 migration',
-  });
+    message: 'Auth API endpoints are temporarily disabled during Next.js 15.3.1 migration'});
 }
 
 // Handle all methods

@@ -72,7 +72,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
       }
 
       // Check security level
-      checkSecurityLevel(securityLevel).then(hasLevel => {
+      checkSecurityLevel(securityLevel).then((hasLevel: any) => {
         if (!hasLevel) {
           if (onAccessDenied) onAccessDenied();
           router.push(permissionDeniedRedirectTo);
@@ -134,7 +134,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
     return fallback || null;
   }
 
-  return <>{children}</>;
+  return <>{children}</>\n  );
 };
 
 export default ProtectedRoute;

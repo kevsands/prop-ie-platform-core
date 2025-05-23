@@ -71,7 +71,7 @@ export interface SalesData {
     month: string;
     units: number;
     value: number;
-  }>;
+  }>\n  );
   reservationsThisMonth: number;
   completionsThisMonth: number;
   salesVelocity: number;
@@ -205,7 +205,7 @@ export interface DashboardEvent {
     name: string;
     avatar?: string;
     confirmed: boolean;
-  }>;
+  }>\n  );
 }
 
 export interface EventsResponse {
@@ -305,7 +305,7 @@ export function useDeveloperDashboard(options?: UseQueryOptions<{ developerDashb
     {
       refetchOnWindowFocus: false,
       ...options,
-      select: (data) => data?.developerDashboard
+      select: (data: any) => data?.developerDashboard
     }
   );
 }
@@ -320,7 +320,7 @@ export function useProjectDashboard(projectId?: string, options?: UseQueryOption
       enabled: Boolean(projectId),
       refetchOnWindowFocus: false,
       ...options,
-      select: (data) => data?.developmentDashboard
+      select: (data: any) => data?.developmentDashboard
     }
   );
 }
@@ -334,7 +334,7 @@ export function useProjectsForDashboard(options?: UseQueryOptions<{ projects: Pr
     {
       refetchOnWindowFocus: false,
       ...options,
-      select: (data) => data?.projects
+      select: (data: any) => data?.projects
     }
   );
 }
@@ -348,7 +348,7 @@ export function useProjectAlerts(projectId?: string, options?: UseQueryOptions<{
     {
       refetchOnWindowFocus: false,
       ...options,
-      select: (data) => data?.projectAlerts
+      select: (data: any) => data?.projectAlerts
     }
   );
 }
@@ -362,7 +362,7 @@ export function useDashboardActivities(limit?: number, options?: UseQueryOptions
     {
       refetchOnWindowFocus: false,
       ...options,
-      select: (data) => data?.dashboardActivities
+      select: (data: any) => data?.dashboardActivities
     }
   );
 }
@@ -374,13 +374,13 @@ export function useDashboardEvents(
   options?: UseQueryOptions<{ dashboardEvents: EventsResponse }>
 ) {
   return useGraphQLQuery<{ dashboardEvents: EventsResponse }>(
-    ['dashboardEvents', startDate, endDate] as QueryKey,
+    ['dashboardEvents', startDateendDate] as QueryKey,
     GET_DASHBOARD_EVENTS,
     { startDate, endDate },
     {
       refetchOnWindowFocus: false,
       ...options,
-      select: (data) => data?.dashboardEvents
+      select: (data: any) => data?.dashboardEvents
     }
   );
 }
@@ -394,7 +394,7 @@ export function useDashboardPreferences(options?: UseQueryOptions<{ dashboardPre
     {
       refetchOnWindowFocus: false,
       ...options,
-      select: (data) => data?.dashboardPreferences
+      select: (data: any) => data?.dashboardPreferences
     }
   );
 }
@@ -408,7 +408,7 @@ export function useDocumentsRequiringAttention(options?: UseQueryOptions<{ docum
     {
       refetchOnWindowFocus: false,
       ...options,
-      select: (data) => data?.documentsRequiringAttention
+      select: (data: any) => data?.documentsRequiringAttention
     }
   );
 }
@@ -421,13 +421,13 @@ export function useSalesStatistics(
   options?: UseQueryOptions<{ salesStatistics: SalesStatistics }>
 ) {
   return useGraphQLQuery<{ salesStatistics: SalesStatistics }>(
-    ['salesStatistics', startDate, endDate, developmentId] as QueryKey,
+    ['salesStatistics', startDate, endDatedevelopmentId] as QueryKey,
     GET_SALES_STATISTICS,
     { startDate, endDate, developmentId },
     {
       refetchOnWindowFocus: false,
       ...options,
-      select: (data) => data?.salesStatistics
+      select: (data: any) => data?.salesStatistics
     }
   );
 }

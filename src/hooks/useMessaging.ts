@@ -71,13 +71,13 @@ interface SendMessageData {
 
 export const useMessaging = () => {
   const { user } = useAuth();
-  const [conversations, setConversations] = useState<Conversation[]>([]);
-  const [activeConversation, setActiveConversation] = useState<Conversation | null>(null);
-  const [messages, setMessages] = useState<Message[]>([]);
-  const [typing, setTyping] = useState<Record<string, boolean>>({});
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  
+  const [conversationssetConversations] = useState<Conversation[]>([]);
+  const [activeConversationsetActiveConversation] = useState<Conversation | null>(null);
+  const [messagessetMessages] = useState<Message[]>([]);
+  const [typingsetTyping] = useState<Record<string, boolean>>({});
+  const [loadingsetLoading] = useState(false);
+  const [errorsetError] = useState<string | null>(null);
+
   const socketRef = useRef<Socket | null>(null);
   const typingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -87,11 +87,10 @@ export const useMessaging = () => {
 
     const socket = io(process.env.NEXT_PUBLIC_WS_URL || 'ws://localhost:3001', {
       auth: { token: user.accessToken },
-      transports: ['websocket'],
-    });
+      transports: ['websocket']});
 
     socket.on('connect', () => {
-      console.log('Connected to messaging service');
+
       socket.emit('join-user-room', user.id);
     });
 
@@ -116,7 +115,7 @@ export const useMessaging = () => {
     });
 
     socket.on('user-status', ({ userId, status }: { userId: string; status: string }) => {
-      updateUserStatus(userId, status);
+      updateUserStatus(userIdstatus);
     });
 
     socketRef.current = socket;
@@ -139,13 +138,11 @@ export const useMessaging = () => {
     try {
       const response = await fetch('/api/conversations', {
         headers: {
-          Authorization: `Bearer ${user?.accessToken}`,
-        },
-      });
+          Authorization: `Bearer ${user?.accessToken}`});
       const data = await response.json();
       setConversations(data.conversations);
     } catch (error) {
-      console.error('Error fetching conversations:', error);
+
       setError('Failed to load conversations');
     } finally {
       setLoading(false);
@@ -159,14 +156,12 @@ export const useMessaging = () => {
         `/api/conversations/${conversationId}/messages?limit=${limit}&offset=${offset}`,
         {
           headers: {
-            Authorization: `Bearer ${user?.accessToken}`,
-          },
-        }
+            Authorization: `Bearer ${user?.accessToken}`}
       );
       const data = await response.json();
       return data.messages;
     } catch (error) {
-      console.error('Error fetching messages:', error);
+
       throw error;
     }
   };
@@ -179,10 +174,10 @@ export const useMessaging = () => {
     setActiveConversation(conversation);
     const messages = await fetchMessages(conversationId);
     setMessages(messages);
-    
+
     // Mark messages as read
     markAsRead(conversationId);
-    
+
     // Join conversation room
     socketRef.current?.emit('join-conversation', conversationId);
   };
@@ -191,7 +186,7 @@ export const useMessaging = () => {
   const handleNewMessage = (message: Message) => {
     // Update messages if it's for the active conversation
     if (message.conversationId === activeConversation?.id) {
-      setMessages(prev => [...prev, message]);
+      setMessages(prev => [...prevmessage]);
       markAsRead(message.conversationId);
     }
 
@@ -205,14 +200,13 @@ export const useMessaging = () => {
             lastActivity: message.timestamp,
             unreadCount: message.conversationId === activeConversation?.id
               ? conv.unreadCount
-              : conv.unreadCount + 1,
-          };
+              : conv.unreadCount + 1};
         }
         return conv;
       });
 
       // Sort by last activity
-      return updatedConversations.sort((a, b) => 
+      return updatedConversations.sort((ab: any) => 
         new Date(b.lastActivity).getTime() - new Date(a.lastActivity).getTime()
       );
     });
@@ -229,24 +223,21 @@ export const useMessaging = () => {
       timestamp: new Date(),
       status: 'sending',
       attachments: data.attachments,
-      replyTo: data.replyTo,
-    };
+      replyTo: data.replyTo};
 
     // Optimistically add message
-    setMessages(prev => [...prev, tempMessage]);
+    setMessages(prev => [...prevtempMessage]);
 
     try {
       const response = await fetch(`/api/conversations/${data.conversationId}/messages`, {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${user?.accessToken}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      });
+          'Content-Type': 'application/json'},
+        body: JSON.stringify(data)});
 
       const sentMessage = await response.json();
-      
+
       // Replace temp message with real one
       setMessages(prev =>
         prev.map(m => m.id === tempId ? sentMessage : m)
@@ -278,9 +269,7 @@ export const useMessaging = () => {
       await fetch(`/api/conversations/${conversationId}/read`, {
         method: 'POST',
         headers: {
-          Authorization: `Bearer ${user?.accessToken}`,
-        },
-      });
+          Authorization: `Bearer ${user?.accessToken}`});
 
       // Update conversation unread count
       setConversations(prev =>
@@ -296,7 +285,7 @@ export const useMessaging = () => {
         )
       );
     } catch (error) {
-      console.error('Error marking messages as read:', error);
+
     }
   };
 
@@ -326,14 +315,12 @@ export const useMessaging = () => {
 
       const response = await fetch(url, {
         headers: {
-          Authorization: `Bearer ${user?.accessToken}`,
-        },
-      });
+          Authorization: `Bearer ${user?.accessToken}`});
 
       const data = await response.json();
       return data.messages;
     } catch (error) {
-      console.error('Error searching messages:', error);
+
       throw error;
     }
   };
@@ -350,16 +337,14 @@ export const useMessaging = () => {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${user?.accessToken}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ participantIds, type, name, metadata }),
-      });
+          'Content-Type': 'application/json'},
+        body: JSON.stringify({ participantIds, type, name, metadata })});
 
       const conversation = await response.json();
       setConversations(prev => [conversation, ...prev]);
       return conversation;
     } catch (error) {
-      console.error('Error creating conversation:', error);
+
       throw error;
     }
   };
@@ -371,10 +356,8 @@ export const useMessaging = () => {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${user?.accessToken}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ emoji }),
-      });
+          'Content-Type': 'application/json'},
+        body: JSON.stringify({ emoji })});
 
       // Update message locally
       setMessages(prev =>
@@ -386,22 +369,19 @@ export const useMessaging = () => {
                 ...m,
                 reactions: m.reactions?.map(r =>
                   r.userId === user?.id ? { ...r, emoji } : r
-                ),
-              };
+                )};
             }
             return {
               ...m,
               reactions: [
                 ...(m.reactions || []),
-                { userId: user!.id, emoji, timestamp: new Date() },
-              ],
-            };
+                { userId: user!.id, emoji, timestamp: new Date() }]};
           }
           return m;
         })
       );
     } catch (error) {
-      console.error('Error adding reaction:', error);
+
     }
   };
 
@@ -411,9 +391,7 @@ export const useMessaging = () => {
       await fetch(`/api/messages/${messageId}/reactions`, {
         method: 'DELETE',
         headers: {
-          Authorization: `Bearer ${user?.accessToken}`,
-        },
-      });
+          Authorization: `Bearer ${user?.accessToken}`});
 
       // Update message locally
       setMessages(prev =>
@@ -421,14 +399,13 @@ export const useMessaging = () => {
           if (m.id === messageId) {
             return {
               ...m,
-              reactions: m.reactions?.filter(r => r.userId !== user?.id),
-            };
+              reactions: m.reactions?.filter(r => r.userId !== user?.id)};
           }
           return m;
         })
       );
     } catch (error) {
-      console.error('Error removing reaction:', error);
+
     }
   };
 
@@ -439,10 +416,8 @@ export const useMessaging = () => {
         method: 'PUT',
         headers: {
           Authorization: `Bearer ${user?.accessToken}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ text: newText }),
-      });
+          'Content-Type': 'application/json'},
+        body: JSON.stringify({ text: newText })});
 
       const updatedMessage = await response.json();
 
@@ -453,7 +428,7 @@ export const useMessaging = () => {
 
       return updatedMessage;
     } catch (error) {
-      console.error('Error editing message:', error);
+
       throw error;
     }
   };
@@ -464,14 +439,12 @@ export const useMessaging = () => {
       await fetch(`/api/messages/${messageId}`, {
         method: 'DELETE',
         headers: {
-          Authorization: `Bearer ${user?.accessToken}`,
-        },
-      });
+          Authorization: `Bearer ${user?.accessToken}`});
 
       // Remove message locally
       setMessages(prev => prev.filter(m => m.id !== messageId));
     } catch (error) {
-      console.error('Error deleting message:', error);
+
       throw error;
     }
   };
@@ -485,15 +458,13 @@ export const useMessaging = () => {
       const response = await fetch('/api/uploads', {
         method: 'POST',
         headers: {
-          Authorization: `Bearer ${user?.accessToken}`,
-        },
-        body: formData,
-      });
+          Authorization: `Bearer ${user?.accessToken}`},
+        body: formData});
 
       const data = await response.json();
       return data.attachment;
     } catch (error) {
-      console.error('Error uploading attachment:', error);
+
       throw error;
     }
   };
@@ -505,8 +476,7 @@ export const useMessaging = () => {
         ...conv,
         participants: conv.participants.map(p =>
           p.userId === userId ? { ...p, status: status as any } : p
-        ),
-      }))
+        )}))
     );
   };
 
@@ -528,6 +498,5 @@ export const useMessaging = () => {
     editMessage,
     deleteMessage,
     uploadAttachment,
-    setTyping: setTypingIndicator,
-  };
+    setTyping: setTypingIndicator};
 };

@@ -90,10 +90,10 @@ const mockProjects: Project[] = [
 ];
 
 export default function DeveloperProjects() {
-  const [showInviteModal, setShowInviteModal] = useState(false);
-  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
-  const [statusFilter, setStatusFilter] = useState<'all' | Project['status']>('all');
-  const [searchTerm, setSearchTerm] = useState('');
+  const [showInviteModalsetShowInviteModal] = useState(false);
+  const [selectedProjectsetSelectedProject] = useState<Project | null>(null);
+  const [statusFiltersetStatusFilter] = useState<'all' | Project['status']>('all');
+  const [searchTermsetSearchTerm] = useState('');
 
   // Handle opening the invite agent modal
   const handleInviteAgent = (project: Project) => {
@@ -158,14 +158,14 @@ export default function DeveloperProjects() {
             placeholder="Search projects..."
             className="pl-10 pr-4 py-2 border rounded-md w-full"
             value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
+            onChange={(e: any) => setSearchTerm(e.target.value)}
           />
           <FiSearch className="absolute left-3 top-3 text-gray-400" />
         </div>
-        
+
         <select
           value={statusFilter}
-          onChange={(e) => setStatusFilter(e.target.value as 'all' | Project['status'])}
+          onChange={(e: any) => setStatusFilter(e.target.value as 'all' | Project['status'])}
           className="pl-10 pr-4 py-2 border rounded-md w-full sm:w-48"
         >
           <option value="all">All Statuses</option>
@@ -174,13 +174,13 @@ export default function DeveloperProjects() {
           <option value="selling">Selling</option>
           <option value="completed">Completed</option>
         </select>
-        <FiFilter className="absolute left-3 top-3 text-gray-400 hidden sm:block" style={{ marginLeft: '15px', marginTop: '45px' }} />
+        <FiFilter className="absolute left-3 top-3 text-gray-400 hidden sm:block" style={ marginLeft: '15px', marginTop: '45px' } />
       </div>
 
       <div className="grid gap-6">
         {filteredProjects.map(project => {
           const statusInfo = getStatusInfo(project.status);
-          
+
           return (
             <div 
               key={project.id} 
@@ -198,21 +198,21 @@ export default function DeveloperProjects() {
                   </span>
                 </div>
               </div>
-              
+
               <div className="p-6 flex-1 flex flex-col">
                 <div className="flex justify-between items-start">
                   <div>
                     <h2 className="text-xl font-bold text-[#2B5273] mb-1">{project.name}</h2>
                     <p className="text-gray-600 text-sm mb-4">{project.location}</p>
                   </div>
-                  
+
                   <div className="relative">
                     <button className="p-2 rounded-full hover:bg-gray-100">
                       <FiMoreVertical />
                     </button>
                   </div>
                 </div>
-                
+
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
                   <div>
                     <p className="text-gray-500 text-sm">Total Units</p>
@@ -229,13 +229,13 @@ export default function DeveloperProjects() {
                   <div>
                     <p className="text-gray-500 text-sm">Sales Agent</p>
                     <p className="font-medium">
-                      {project.agents.length > 0 
+                      {project.agents.length> 0 
                         ? project.agents[0].name 
                         : 'None assigned'}
                     </p>
                   </div>
                 </div>
-                
+
                 <div className="mt-auto flex flex-wrap gap-2">
                   <Link
                     href={`/developers/projects/${project.id}`}
@@ -263,7 +263,7 @@ export default function DeveloperProjects() {
                     className="px-4 py-2 bg-white border border-[#2B5273] text-[#2B5273] rounded-md flex items-center text-sm"
                   >
                     <FiUserPlus className="mr-2" />
-                    {project.agents.length > 0 ? 'Change Agent' : 'Invite Agent'}
+                    {project.agents.length> 0 ? 'Change Agent' : 'Invite Agent'}
                   </button>
                 </div>
               </div>
@@ -280,7 +280,7 @@ export default function DeveloperProjects() {
             <p className="mb-4">
               <span className="font-medium">Project:</span> {selectedProject.name}
             </p>
-            
+
             <div className="mb-4">
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Agent Email
@@ -291,7 +291,7 @@ export default function DeveloperProjects() {
                 placeholder="agent@example.com"
               />
             </div>
-            
+
             <div className="mb-4">
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Message (Optional)
@@ -301,7 +301,7 @@ export default function DeveloperProjects() {
                 placeholder="Add a personal message..."
               ></textarea>
             </div>
-            
+
             <div className="flex justify-end gap-3">
               <button
                 onClick={() => setShowInviteModal(false)}
@@ -313,7 +313,7 @@ export default function DeveloperProjects() {
                 onClick={() => {
                   alert("Invitation sent!");
                   setShowInviteModal(false);
-                }}
+                }
                 className="px-4 py-2 bg-[#2B5273] text-white rounded-md"
               >
                 Send Invitation

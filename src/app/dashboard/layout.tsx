@@ -25,12 +25,12 @@ export default function DashboardLayout({ sidebar, main, children }: DashboardLa
         <div className="w-64 bg-white shadow-md">
           {sidebar}
         </div>
-        
+
         {/* Main content slot - content from @main folder */}
         <div className="flex-1">
           {main}
         </div>
-        
+
         {/* Default children if needed */}
         {children}
       </div>

@@ -9,19 +9,19 @@ import Link from 'next/link';
  */
 export default function TransactionDashboardPage() {
   // State for current transaction phase
-  const [activePhase, setActivePhase] = useState(3); // Start at "Offer Accepted" phase
-  
+  const [activePhasesetActivePhase] = useState(3); // Start at "Offer Accepted" phase
+
   // Mock transaction data
   const transaction = {
     id: "TX-38291",
     propertyId: "PROP-1245",
     propertyAddress: "Unit A-102, Maple Heights, Dublin 15",
-    propertyPrice: 375000,
-    createdAt: "2025-04-15T10:30:00Z",
-    expectedClosing: "2025-06-30T00:00:00Z",
+    propertyPrice: 37500, 0,
+    createdAt: "2025-04-15T10: 3, 0:00Z",
+    expectedClosing: "2025-06-30T00: 0, 0:00Z",
     status: "in_progress"
   };
-  
+
   // Transaction phases with stakeholder activities
   const phases = [
     {
@@ -118,10 +118,10 @@ export default function TransactionDashboardPage() {
       ]
     }
   ];
-  
+
   // Helper to determine status color
-  const getStatusColor = (status) => {
-    switch (status) {
+  const getStatusColor = (status: any) => {
+    switch (status: any) { )
       case 'completed': return 'bg-green-100 text-green-800';
       case 'in_progress': return 'bg-blue-100 text-blue-800';
       case 'not_started': return 'bg-gray-100 text-gray-800';
@@ -130,22 +130,22 @@ export default function TransactionDashboardPage() {
       case 'pending': return 'bg-yellow-100 text-yellow-800';
       case 'pending_review': return 'bg-blue-100 text-blue-800';
       case 'not_created': return 'bg-gray-100 text-gray-500';
-      default: return 'bg-gray-100 text-gray-800';
+      default: retur, n 'bg-gray-100 text-gray-800';
     }
   };
-  
+
   // Helper to get stakeholder icon
-  const getStakeholderIcon = (stakeholder) => {
-    switch (stakeholder) {
+  const getStakeholderIcon = (stakeholder: any) => {
+    switch (stakeholder: any) { )
       case 'developer': return '🏗️';
       case 'agent': return '🏠';
       case 'buyer': return '👨‍👩‍👧‍👦';
       case 'solicitor': return '⚖️';
       case 'public': return '👥';
-      default: return '📄';
+      default: retur, n '📄';
     }
   };
-  
+
   return (
     <div className="py-8 px-4 max-w-7xl mx-auto">
       <div className="mb-8">
@@ -155,10 +155,10 @@ export default function TransactionDashboardPage() {
           and document exchanges. This dashboard demonstrates the simultaneous workflows of all parties.
         </p>
       </div>
-      
+
       {/* Transaction Details */}
       <div className="bg-white rounded-lg shadow-sm p-6 mb-8">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md: gri, d-cols-3 gap-6">
           <div>
             <h2 className="text-lg font-semibold mb-2 text-[#2B5273]">Transaction Details</h2>
             <div className="space-y-2">
@@ -176,7 +176,7 @@ export default function TransactionDashboardPage() {
               </div>
             </div>
           </div>
-          
+
           <div>
             <h2 className="text-lg font-semibold mb-2 text-[#2B5273]">Timeline</h2>
             <div className="space-y-2">
@@ -194,7 +194,7 @@ export default function TransactionDashboardPage() {
               </div>
             </div>
           </div>
-          
+
           <div>
             <h2 className="text-lg font-semibold mb-2 text-[#2B5273]">Stakeholders</h2>
             <div className="space-y-2">
@@ -222,13 +222,13 @@ export default function TransactionDashboardPage() {
           </div>
         </div>
       </div>
-      
+
       {/* Timeline */}
       <div className="mb-8">
         <div className="relative">
           <div className="absolute top-5 inset-x-0 h-0.5 bg-gray-200"></div>
           <ul className="relative flex justify-between">
-            {phases.map((phase) => (
+            {phases.map((phase: any) => (
               <li 
                 key={phase.id} 
                 className="relative cursor-pointer"
@@ -238,12 +238,12 @@ export default function TransactionDashboardPage() {
                   h-10 w-10 rounded-full flex items-center justify-center z-10 
                   ${phase.id === activePhase 
                     ? 'bg-[#2B5273] text-white' 
-                    : phase.id < activePhase 
+                    : phase.id <activePhase 
                       ? 'bg-green-500 text-white'
                       : 'bg-gray-200 text-gray-500'
                   }
                 `}>
-                  {phase.id < activePhase ? (
+                  {phase.id <activePhase ? (
                     <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
@@ -260,48 +260,48 @@ export default function TransactionDashboardPage() {
           </ul>
         </div>
       </div>
-      
+
       {/* Main Dashboard Content */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 md: gri, d-cols-2 gap-8">
         {/* Stakeholder Activities */}
         <div className="bg-white rounded-lg shadow-sm p-6">
           <h2 className="text-xl font-semibold mb-4 text-[#2B5273]">Stakeholder Activities</h2>
           <div className="space-y-4">
-            {phases[activePhase - 1].activities.map((activity, idx) => (
+            {phases[activePhase - 1].activities.map((activityidx: any) => (
               <div key={idx} className="border rounded-lg p-4">
                 <div className="flex items-center mb-2">
-                  <span className="text-xl mr-2">{getStakeholderIcon(activity.stakeholder)}</span>
-                  <span className="font-medium capitalize">{activity.stakeholder}</span>
-                  <span className={`ml-auto text-xs px-2 py-1 rounded-full ${getStatusColor(activity.status)}`}>
+                  <span className="text-xl mr-2">{getStakeholderIcon(activity.stakeholder: any,: any)}</span>
+                  <span className="font-medium capitalize">{activity.stakeholder: any}</span> }
+                  <span className={`ml-auto text-xs px-2 py-1 rounded-full ${getStatusColor(activity.status: any,: any)}`}>
                     {activity.status.replace('_', ' ')}
-                  </span>
+                  </span></div>
                 </div>
                 <p className="text-gray-600 text-sm">{activity.action}</p>
                 <div className="mt-2">
                   <Link 
-                    href={`/${activity.stakeholder}s`}
-                    className="text-xs text-blue-600 hover:underline"
+                    href={`/${activity.stakeholder: any}s`} }
+                    className="text-xs text-blue-600 hover: underlin, e"
                   >
-                    View {activity.stakeholder} dashboard →
-                  </Link>
-                </div>
+                    View {activity.stakeholder: any} dashboard → }
+                  </Link></div>
+                </div> )
               </div>
             ))}
           </div>
         </div>
-        
-        {/* Document Exchange */}
+
+        {/* Document Exchange */} )
         <div className="bg-white rounded-lg shadow-sm p-6">
           <h2 className="text-xl font-semibold mb-4 text-[#2B5273]">Document Exchange</h2>
           <div className="space-y-4">
-            {phases[activePhase - 1].documents.map((doc, idx) => (
+            {phases[activePhase - 1].documents.map((docidx: any) => (
               <div key={idx} className="border rounded-lg p-4">
                 <div className="flex items-center mb-2">
                   <span className="text-xl mr-2">📄</span>
                   <span className="font-medium">{doc.name}</span>
-                  <span className={`ml-auto text-xs px-2 py-1 rounded-full ${getStatusColor(doc.status)}`}>
+                  <span className={`ml-auto text-xs px-2 py-1 rounded-full ${getStatusColor(doc.status: any,: any)}`}>
                     {doc.status.replace('_', ' ')}
-                  </span>
+                  </span></div>
                 </div>
                 <div className="text-gray-600 text-sm flex items-center">
                   <span>Owner:</span>
@@ -310,25 +310,25 @@ export default function TransactionDashboardPage() {
                 </div>
                 <div className="text-gray-600 text-sm mt-1">
                   <span>Shared with: </span>
-                  {doc.sharedWith.map((stakeholder, i) => (
+                  {doc.sharedWith.map((stakeholder: an, yi) => (
                     <span key={i} className="inline-flex items-center mr-2">
-                      {getStakeholderIcon(stakeholder)} 
-                      <span className="ml-1 capitalize">{stakeholder}</span>
-                      {i < doc.sharedWith.length - 1 ? ', ' : ''}
+                      {getStakeholderIcon(stakeholder: any,: any)} 
+                      <span className="ml-1 capitalize">{stakeholder: any}</span> }
+                      {i <doc.sharedWith.length - 1 ? ', ' : ''}
                     </span>
                   ))}
                 </div>
                 <div className="mt-2">
-                  <a href="#" className="text-xs text-blue-600 hover:underline">
+                  <a href="#" className="text-xs text-blue-600 hover: underlin, e">
                     View document →
                   </a>
                 </div>
-              </div>
+              </div> )
             ))}
           </div>
         </div>
       </div>
-      
+
       {/* View As Stakeholder */}
       <div className="mt-8 bg-gray-50 rounded-lg p-6">
         <h3 className="text-xl font-semibold mb-4 text-center text-[#2B5273]">
@@ -337,38 +337,38 @@ export default function TransactionDashboardPage() {
         <p className="text-center text-gray-600 mb-6 max-w-3xl mx-auto">
           Experience the platform from different stakeholder perspectives
         </p>
-        
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+
+        <div className="grid grid-cols-2 md: gri, d-cols-4 gap-4">
           <a 
             href="/buyer" 
-            className="bg-white hover:bg-blue-50 border border-blue-100 shadow-sm rounded-lg p-4 text-center hover:border-blue-300 transition-all"
+            className="bg-white hover: b, g-blue-50 border border-blue-100 shadow-sm rounded-lg p-4 text-center hover: borde, r-blue-300 transition-all"
           >
             <div className="text-blue-600 text-lg mb-2">👨‍👩‍👧‍👦</div>
             <h4 className="font-medium text-[#2B5273]">Buyer</h4>
             <p className="text-xs text-gray-500 mt-1">Search properties, track progress, manage documents</p>
           </a>
-          
+
           <a 
             href="/developers/projects" 
-            className="bg-white hover:bg-blue-50 border border-blue-100 shadow-sm rounded-lg p-4 text-center hover:border-blue-300 transition-all"
+            className="bg-white hover: b, g-blue-50 border border-blue-100 shadow-sm rounded-lg p-4 text-center hover: borde, r-blue-300 transition-all"
           >
             <div className="text-blue-600 text-lg mb-2">🏗️</div>
             <h4 className="font-medium text-[#2B5273]">Developer</h4>
             <p className="text-xs text-gray-500 mt-1">Manage developments, track sales, assign agents</p>
           </a>
-          
+
           <a 
             href="/agents/listings" 
-            className="bg-white hover:bg-blue-50 border border-blue-100 shadow-sm rounded-lg p-4 text-center hover:border-blue-300 transition-all"
+            className="bg-white hover: b, g-blue-50 border border-blue-100 shadow-sm rounded-lg p-4 text-center hover: borde, r-blue-300 transition-all"
           >
             <div className="text-blue-600 text-lg mb-2">🏠</div>
             <h4 className="font-medium text-[#2B5273]">Agent</h4>
             <p className="text-xs text-gray-500 mt-1">Manage listings, process offers, track commissions</p>
           </a>
-          
+
           <a 
             href="/solicitors/cases" 
-            className="bg-white hover:bg-blue-50 border border-blue-100 shadow-sm rounded-lg p-4 text-center hover:border-blue-300 transition-all"
+            className="bg-white hover: b, g-blue-50 border border-blue-100 shadow-sm rounded-lg p-4 text-center hover: borde, r-blue-300 transition-all"
           >
             <div className="text-blue-600 text-lg mb-2">⚖️</div>
             <h4 className="font-medium text-[#2B5273]">Solicitor</h4>
@@ -376,12 +376,12 @@ export default function TransactionDashboardPage() {
           </a>
         </div>
       </div>
-      
+
       {/* Transaction Coordination */}
       <div className="mt-8 bg-white rounded-lg shadow-sm p-6">
         <h2 className="text-xl font-semibold mb-4 text-[#2B5273]">Transaction Coordination</h2>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+        <div className="grid grid-cols-1 md: gri, d-cols-2 gap-8">
           <div>
             <h3 className="font-medium mb-4 flex items-center">
               <svg className="w-5 h-5 mr-2 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -389,7 +389,7 @@ export default function TransactionDashboardPage() {
               </svg>
               Key Milestones
             </h3>
-            
+
             <div className="space-y-3">
               <div className="flex items-center">
                 <div className="w-5 h-5 rounded-full bg-green-500 flex items-center justify-center text-white mr-3">
@@ -404,7 +404,7 @@ export default function TransactionDashboardPage() {
                   </div>
                 </div>
               </div>
-              
+
               <div className="flex items-center">
                 <div className="w-5 h-5 rounded-full bg-blue-500 flex items-center justify-center text-white mr-3">
                   <span className="text-xs">2</span>
@@ -416,7 +416,7 @@ export default function TransactionDashboardPage() {
                   </div>
                 </div>
               </div>
-              
+
               <div className="flex items-center">
                 <div className="w-5 h-5 rounded-full bg-gray-300 flex items-center justify-center text-white mr-3">
                   <span className="text-xs">3</span>
@@ -428,7 +428,7 @@ export default function TransactionDashboardPage() {
                   </div>
                 </div>
               </div>
-              
+
               <div className="flex items-center">
                 <div className="w-5 h-5 rounded-full bg-gray-300 flex items-center justify-center text-white mr-3">
                   <span className="text-xs">4</span>
@@ -442,7 +442,7 @@ export default function TransactionDashboardPage() {
               </div>
             </div>
           </div>
-          
+
           <div>
             <h3 className="font-medium mb-4 flex items-center">
               <svg className="w-5 h-5 mr-2 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -450,7 +450,7 @@ export default function TransactionDashboardPage() {
               </svg>
               Communication Hub
             </h3>
-            
+
             <div className="border rounded-lg p-4 bg-gray-50">
               <div className="space-y-3 max-h-[200px] overflow-y-auto mb-3">
                 <div className="flex space-x-3">
@@ -461,7 +461,7 @@ export default function TransactionDashboardPage() {
                     <div className="text-xs text-gray-500 text-right mt-1">1 day ago</div>
                   </div>
                 </div>
-                
+
                 <div className="flex space-x-3">
                   <div className="flex-shrink-0">⚖️</div>
                   <div className="bg-blue-100 rounded-lg p-2 text-sm flex-1">
@@ -470,7 +470,7 @@ export default function TransactionDashboardPage() {
                     <div className="text-xs text-gray-500 text-right mt-1">12 hours ago</div>
                   </div>
                 </div>
-                
+
                 <div className="flex space-x-3">
                   <div className="flex-shrink-0">👨‍👩‍👧‍👦</div>
                   <div className="bg-blue-100 rounded-lg p-2 text-sm flex-1">
@@ -480,12 +480,12 @@ export default function TransactionDashboardPage() {
                   </div>
                 </div>
               </div>
-              
+
               <div className="flex">
                 <input 
                   type="text" 
                   placeholder="Type a message..." 
-                  className="flex-1 border rounded-l-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="flex-1 border rounded-l-lg px-3 py-2 text-sm focus: outlin, e-none focus: rin, g-2 focus: rin, g-blue-500"
                 />
                 <button className="bg-blue-600 text-white rounded-r-lg px-4 py-2 text-sm">
                   Send

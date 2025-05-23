@@ -10,25 +10,23 @@ const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || '';
 
 // Default request headers
 const defaultHeaders = {
-  'Content-Type': 'application/json',
-};
+  'Content-Type': 'application/json'};
 
 // Create API client
 const apiClient = axios.create({
   baseURL: API_BASE_URL,
-  headers: defaultHeaders,
-});
+  headers: defaultHeaders});
 
 // Add auth token to requests
 apiClient.interceptors.request.use(
-  (config) => {
+  (config: any) => {
     const token = localStorage.getItem('auth-token');
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
     return config;
   },
-  (error) => Promise.reject(error)
+  (error: any) => Promise.reject(error)
 );
 
 // API Client Service
@@ -39,16 +37,15 @@ export const ApiClient = {
   async getCustomizationOptions(room: string, category: string): Promise<Record<string, CustomizationOption[]>> {
     try {
       const response = await apiClient.get('/api/customization/options', {
-        params: { room, category },
-      });
-      
+        params: { room, category });
+
       return response.data;
     } catch (error) {
-      console.error('Error fetching customization options:', error);
+
       return {};
     }
   },
-  
+
   /**
    * Get available rooms
    */
@@ -57,8 +54,7 @@ export const ApiClient = {
       const response = await apiClient.get('/api/customization/rooms');
       return response.data;
     } catch (error) {
-      console.error('Error fetching rooms:', error);
-      
+
       // Return fallback data
       return [
         { id: "livingRoom", name: "Living Room", icon: "🛋️" },
@@ -66,11 +62,10 @@ export const ApiClient = {
         { id: "masterBedroom", name: "Master Bedroom", icon: "🛏️" },
         { id: "bathroom", name: "Bathroom", icon: "🚿" },
         { id: "secondBedroom", name: "Second Bedroom", icon: "🛌" },
-        { id: "study", name: "Study/Office", icon: "💻" },
-      ];
+        { id: "study", name: "Study/Office", icon: "💻" }];
     }
   },
-  
+
   /**
    * Get available categories
    */
@@ -79,19 +74,17 @@ export const ApiClient = {
       const response = await apiClient.get('/api/customization/categories');
       return response.data;
     } catch (error) {
-      console.error('Error fetching categories:', error);
-      
+
       // Return fallback data
       return [
         { id: "flooring", name: "Flooring" },
         { id: "paint", name: "Wall Paint" },
         { id: "fixtures", name: "Fixtures & Fittings" },
         { id: "appliances", name: "Appliances" },
-        { id: "furniture", name: "Furniture" },
-      ];
+        { id: "furniture", name: "Furniture" }];
     }
   },
-  
+
   /**
    * Save customization
    */
@@ -100,11 +93,11 @@ export const ApiClient = {
       const response = await apiClient.post('/api/customization/save', customizationData);
       return response.data;
     } catch (error) {
-      console.error('Error saving customization:', error);
+
       throw error;
     }
   },
-  
+
   /**
    * Get customization by ID
    */
@@ -113,26 +106,25 @@ export const ApiClient = {
       const response = await apiClient.get(`/api/customization/${customizationId}`);
       return response.data;
     } catch (error) {
-      console.error(`Error fetching customization ${customizationId}:`, error);
+
       throw error;
     }
   },
-  
+
   /**
    * Get latest customization for a property
    */
   async getLatestCustomization(propertyId: string): Promise<any> {
     try {
       const response = await apiClient.get('/api/customization/latest', {
-        params: { propertyId },
-      });
+        params: { propertyId });
       return response.data;
     } catch (error) {
-      console.error(`Error fetching latest customization for property ${propertyId}:`, error);
+
       return null;
     }
   },
-  
+
   /**
    * Request consultation
    */
@@ -141,15 +133,14 @@ export const ApiClient = {
       const response = await apiClient.post('/api/customization/consultation', {
         propertyId,
         customizationId,
-        ...consultationData,
-      });
+        ...consultationData});
       return response.data;
     } catch (error) {
-      console.error('Error requesting consultation:', error);
+
       throw error;
     }
   },
-  
+
   /**
    * Finalize customization
    */
@@ -158,11 +149,11 @@ export const ApiClient = {
       const response = await apiClient.post(`/api/customization/${customizationId}/finalize`);
       return response.data;
     } catch (error) {
-      console.error(`Error finalizing customization ${customizationId}:`, error);
+
       throw error;
     }
   },
-  
+
   /**
    * Calculate mortgage with customizations
    */
@@ -179,14 +170,12 @@ export const ApiClient = {
       const response = await apiClient.post('/api/financial/mortgage-calculation', {
         propertyId,
         customizationCost,
-        ...mortgageParams,
-      });
+        ...mortgageParams});
       return response.data;
     } catch (error) {
-      console.error('Error calculating mortgage:', error);
+
       throw error;
     }
-  },
-};
+  };
 
 export default ApiClient;

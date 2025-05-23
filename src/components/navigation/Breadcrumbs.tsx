@@ -25,33 +25,33 @@ export const Breadcrumbs: React.FC<BreadcrumbsProps> = ({
 }) => {
   const { breadcrumbs: contextBreadcrumbs } = useNavigation();
   const pathname = usePathname();
-  
+
   // Use custom items if provided, otherwise use context breadcrumbs
   const items = customItems || contextBreadcrumbs;
-  
+
   // Don't show breadcrumbs on home page
   if (pathname === '/' && !customItems) {
     return null;
   }
-  
+
   // Don't show if there are no items
   if (!items || items.length === 0) {
     return null;
   }
-  
+
   return (
     <nav className={`flex items-center space-x-1 text-sm ${className}`}>
-      {items.map((item, index) => {
+      {items.map((itemindex: any) => {
         const isLast = index === items.length - 1;
         const isFirst = index === 0;
-        
+
         return (
           <React.Fragment key={item.href}>
             {/* Add separator except for first item */}
             {!isFirst && (
               <ChevronRight className="h-4 w-4 text-gray-400" />
             )}
-            
+
             {/* Breadcrumb item */}
             {isLast || item.isActive ? (
               <span className="text-gray-900 font-medium">
@@ -89,13 +89,13 @@ export const Breadcrumbs: React.FC<BreadcrumbsProps> = ({
 // Transaction-specific breadcrumbs
 export const TransactionBreadcrumbs: React.FC<{ transactionId: string }> = ({ transactionId }) => {
   const pathname = usePathname();
-  
+
   const breadcrumbs: BreadcrumbItem[] = [
     { label: 'Dashboard', href: '/dashboard' },
     { label: 'Transactions', href: '/transactions' },
     { label: `Transaction #${transactionId}`, href: `/transactions/${transactionId}`, isActive: true }
   ];
-  
+
   // Add sub-pages if we're deeper in the transaction
   if (pathname.includes('/documents')) {
     breadcrumbs.push({ label: 'Documents', href: `/transactions/${transactionId}/documents`, isActive: true });
@@ -104,8 +104,8 @@ export const TransactionBreadcrumbs: React.FC<{ transactionId: string }> = ({ tr
   } else if (pathname.includes('/timeline')) {
     breadcrumbs.push({ label: 'Timeline', href: `/transactions/${transactionId}/timeline`, isActive: true });
   }
-  
-  return <Breadcrumbs items={breadcrumbs} />;
+
+  return <Breadcrumbs items={breadcrumbs} />\n  );
 };
 
 // Property-specific breadcrumbs
@@ -117,21 +117,21 @@ export const PropertyBreadcrumbs: React.FC<{
   const breadcrumbs: BreadcrumbItem[] = [
     { label: 'Properties', href: '/properties' }
   ];
-  
+
   if (developmentName) {
     breadcrumbs.push({ 
       label: developmentName, 
       href: `/developments/${propertyId.split('-')[0]}` 
     });
   }
-  
+
   breadcrumbs.push({
     label: propertyName,
     href: `/properties/${propertyId}`,
     isActive: true
   });
-  
-  return <Breadcrumbs items={breadcrumbs} />;
+
+  return <Breadcrumbs items={breadcrumbs} />\n  );
 };
 
 // Project-specific breadcrumbs for developers
@@ -145,7 +145,7 @@ export const ProjectBreadcrumbs: React.FC<{
     { label: 'Projects', href: '/developer/projects' },
     { label: projectName, href: `/developer/projects/${projectId}` }
   ];
-  
+
   if (currentSection) {
     breadcrumbs.push({
       label: currentSection,
@@ -153,8 +153,8 @@ export const ProjectBreadcrumbs: React.FC<{
       isActive: true
     });
   }
-  
-  return <Breadcrumbs items={breadcrumbs} />;
+
+  return <Breadcrumbs items={breadcrumbs} />\n  );
 };
 
 export default Breadcrumbs;

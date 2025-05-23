@@ -1,0 +1,259 @@
+{
+  "transactionFlow": {
+    "overview": "Complete end-to-end property transaction management system with 11 distinct phases",
+    "phases": [
+      {
+        "phase": "ENQUIRY",
+        "description": "Initial buyer interest and property information request",
+        "tasks": [
+          "Submit enquiry form",
+          "Receive property information pack",
+          "Schedule viewing"
+        ],
+        "duration": "1-2 days",
+        "stakeholders": ["Buyer", "Agent"]
+      },
+      {
+        "phase": "VIEWING_SCHEDULED",
+        "description": "Property viewing arranged with agent",
+        "tasks": [
+          "Confirm viewing appointment",
+          "Prepare viewing checklist",
+          "Review property details"
+        ],
+        "duration": "1-3 days",
+        "stakeholders": ["Buyer", "Agent", "Developer"]
+      },
+      {
+        "phase": "VIEWED",
+        "description": "Property viewing completed",
+        "tasks": [
+          "Complete viewing feedback",
+          "Request additional information",
+          "Make reservation decision"
+        ],
+        "duration": "1-7 days",
+        "stakeholders": ["Buyer", "Agent"]
+      },
+      {
+        "phase": "RESERVATION",
+        "description": "Property reserved with booking deposit",
+        "tasks": [
+          "Sign reservation form",
+          "Pay booking deposit (€5,000)",
+          "Nominate solicitor",
+          "Begin mortgage application"
+        ],
+        "duration": "1-2 days",
+        "stakeholders": ["Buyer", "Developer", "Agent"],
+        "payment": {
+          "type": "BOOKING_DEPOSIT",
+          "amount": 5000,
+          "refundable": "Conditional"
+        }
+      },
+      {
+        "phase": "CONTRACT_ISSUED",
+        "description": "Legal contracts prepared and issued",
+        "tasks": [
+          "Review Seller's Legal Pack",
+          "Solicitor reviews contracts",
+          "Raise pre-contract enquiries",
+          "Finalize contract terms"
+        ],
+        "duration": "7-14 days",
+        "stakeholders": ["Buyer", "Buyer's Solicitor", "Developer's Solicitor"]
+      },
+      {
+        "phase": "CONTRACT_SIGNED",
+        "description": "Contracts signed and exchanged",
+        "tasks": [
+          "Sign contracts",
+          "Pay contract deposit (10%)",
+          "Exchange contracts",
+          "Set completion date"
+        ],
+        "duration": "1-2 days",
+        "stakeholders": ["Buyer", "Developer", "Both Solicitors"],
+        "payment": {
+          "type": "CONTRACT_DEPOSIT",
+          "amount": "10% of purchase price",
+          "refundable": false
+        }
+      },
+      {
+        "phase": "DEPOSIT_PAID",
+        "description": "All deposits paid and confirmed",
+        "tasks": [
+          "Confirm deposit receipt",
+          "Update payment records",
+          "Issue deposit confirmation"
+        ],
+        "duration": "1 day",
+        "stakeholders": ["Developer", "Buyer's Solicitor"]
+      },
+      {
+        "phase": "MORTGAGE_APPROVED",
+        "description": "Mortgage approval received",
+        "tasks": [
+          "Submit final mortgage documents",
+          "Property valuation completed",
+          "Receive mortgage offer",
+          "Accept mortgage terms"
+        ],
+        "duration": "14-30 days",
+        "stakeholders": ["Buyer", "Mortgage Provider", "Solicitor"]
+      },
+      {
+        "phase": "CLOSING",
+        "description": "Final steps before completion",
+        "tasks": [
+          "Final property inspection",
+          "Prepare completion funds",
+          "Review closing statement",
+          "Schedule handover"
+        ],
+        "duration": "7-14 days",
+        "stakeholders": ["All parties"]
+      },
+      {
+        "phase": "COMPLETED",
+        "description": "Legal completion and ownership transfer",
+        "tasks": [
+          "Transfer final payment",
+          "Execute deed of transfer",
+          "Register ownership",
+          "Receive title documents"
+        ],
+        "duration": "1 day",
+        "stakeholders": ["All parties"],
+        "payment": {
+          "type": "FINAL_PAYMENT",
+          "amount": "Remaining balance",
+          "refundable": false
+        }
+      },
+      {
+        "phase": "HANDED_OVER",
+        "description": "Physical handover of property",
+        "tasks": [
+          "Final walkthrough",
+          "Receive keys",
+          "Sign handover documentation",
+          "Utility transfers"
+        ],
+        "duration": "1 day",
+        "stakeholders": ["Buyer", "Developer", "Agent"]
+      }
+    ],
+    "milestones": {
+      "automatic": [
+        {
+          "name": "Initial Deposit",
+          "triggerPhase": "RESERVATION",
+          "daysAfterTrigger": 0
+        },
+        {
+          "name": "Document Submission",
+          "triggerPhase": "RESERVATION",
+          "daysAfterTrigger": 7
+        },
+        {
+          "name": "Legal Review",
+          "triggerPhase": "CONTRACT_ISSUED",
+          "daysAfterTrigger": 0
+        },
+        {
+          "name": "Exchange Contracts",
+          "triggerPhase": "CONTRACT_SIGNED",
+          "daysAfterTrigger": 0
+        },
+        {
+          "name": "Completion",
+          "triggerPhase": "COMPLETED",
+          "daysAfterTrigger": 0
+        }
+      ]
+    },
+    "services": {
+      "TransactionCoordinator": {
+        "path": "/src/services/transactionCoordinator.ts",
+        "features": [
+          "State machine for phase transitions",
+          "Automatic milestone creation",
+          "Participant management",
+          "Event notifications",
+          "Audit trail"
+        ]
+      },
+      "PaymentService": {
+        "path": "/src/services/paymentService.ts",
+        "features": [
+          "Multiple payment methods",
+          "Payment scheduling",
+          "Stripe integration",
+          "Refund processing",
+          "Payment tracking"
+        ]
+      },
+      "ContractService": {
+        "path": "/src/services/contract/ContractService.ts",
+        "features": [
+          "PDF generation",
+          "Digital signatures",
+          "Contract lifecycle",
+          "Document storage"
+        ]
+      }
+    },
+    "notifications": {
+      "types": ["Email", "SMS", "In-app", "Push"],
+      "triggers": [
+        "Phase transitions",
+        "Payment confirmations",
+        "Document uploads",
+        "Milestone completions",
+        "Action reminders"
+      ]
+    },
+    "validationRules": {
+      "phaseTransitions": {
+        "ENQUIRY": ["VIEWING_SCHEDULED"],
+        "VIEWING_SCHEDULED": ["VIEWED", "ENQUIRY"],
+        "VIEWED": ["RESERVATION", "ENQUIRY"],
+        "RESERVATION": ["CONTRACT_ISSUED"],
+        "CONTRACT_ISSUED": ["CONTRACT_SIGNED"],
+        "CONTRACT_SIGNED": ["DEPOSIT_PAID"],
+        "DEPOSIT_PAID": ["MORTGAGE_APPROVED"],
+        "MORTGAGE_APPROVED": ["CLOSING"],
+        "CLOSING": ["COMPLETED"],
+        "COMPLETED": ["HANDED_OVER"]
+      },
+      "requiredDocuments": {
+        "RESERVATION": ["ID", "Proof of funds"],
+        "CONTRACT_ISSUED": ["Mortgage approval in principle"],
+        "MORTGAGE_APPROVED": ["Final mortgage offer"],
+        "CLOSING": ["Insurance certificate"]
+      }
+    },
+    "integrations": {
+      "payment": {
+        "stripe": {
+          "webhooks": [
+            "payment.succeeded",
+            "payment.failed",
+            "refund.created"
+          ]
+        }
+      },
+      "documents": {
+        "storage": "AWS S3",
+        "signing": "DocuSign API (planned)"
+      },
+      "communications": {
+        "email": "SendGrid (planned)",
+        "sms": "Twilio (planned)"
+      }
+    }
+  }
+}

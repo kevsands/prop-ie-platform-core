@@ -11,7 +11,6 @@ export const mockUserService = {
   deleteUser: jest.fn(),
   changePassword: jest.fn(),
   updateUserRole: jest.fn(),
-  updateUserStatus: jest.fn(),
-};
+  updateUserStatus: jest.fn()};
 
 export default mockUserService;

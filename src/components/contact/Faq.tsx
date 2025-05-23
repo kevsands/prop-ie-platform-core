@@ -6,8 +6,7 @@ import {
   Accordion,
   AccordionContent,
   AccordionItem,
-  AccordionTrigger,
-} from '@/components/ui/accordion';
+  AccordionTrigger} from '@/components/ui/accordion';
 
 const Faq = () => {
   const faqs = [
@@ -41,10 +40,10 @@ const Faq = () => {
     <section className="py-16 bg-white">
       <div className="container mx-auto px-4">
         <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          initial={ opacity: 0, y: 20 }
+          whileInView={ opacity: 1, y: 0 }
+          viewport={ once: true }
+          transition={ duration: 0.6 }
           className="text-center mb-12"
         >
           <h2 className="text-3xl font-bold text-gray-900 mb-4">Frequently Asked Questions</h2>
@@ -52,16 +51,16 @@ const Faq = () => {
             Find answers to common questions about our services, property purchases, and more.
           </p>
         </motion.div>
-        
+
         <div className="max-w-3xl mx-auto">
           <Accordion type="single" collapsible className="space-y-4">
-            {faqs.map((faq, index) => (
+            {faqs.map((faqindex: any) => (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
+                initial={ opacity: 0, y: 20 }
+                whileInView={ opacity: 1, y: 0 }
+                viewport={ once: true }
+                transition={ duration: 0.5, delay: index * 0.1 }
               >
                 <AccordionItem value={`item-${index}`} className="border border-gray-200 rounded-lg overflow-hidden">
                   <AccordionTrigger className="px-6 py-4 hover:bg-gray-50 text-left font-medium text-gray-900">
@@ -74,12 +73,12 @@ const Faq = () => {
               </motion.div>
             ))}
           </Accordion>
-          
+
           <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.6 }}
+            initial={ opacity: 0, y: 20 }
+            whileInView={ opacity: 1, y: 0 }
+            viewport={ once: true }
+            transition={ duration: 0.6, delay: 0.6 }
             className="text-center mt-12"
           >
             <p className="text-gray-600 mb-4">

@@ -1,0 +1,125 @@
+'use client';
+
+import { useRef, useEffect, useState } from 'react';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { OfficesListProps, Office } from '@/types/contact';
+import styles from '@/app/contact/contact.module.css';
+
+// Register the ScrollTrigger plugin
+if (typeof window !== 'undefined') {
+  gsap.registerPlugin(ScrollTrigger);
+}
+
+type OfficeItemComponentProps = {
+  office: Office;
+  index: number;
+  onHover?: (office: Office) => void;
+};
+
+const OfficeItemComponent: React.FC<OfficeItemComponentProps> = ({ office, index, onHover }) => {
+  const itemRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const item = itemRef.current;
+
+    if (item && typeof window !== 'undefined') {
+      gsap.fromTo(
+        item,
+        { y: 30, opacity: 0 },
+        { 
+          y: 0, 
+          opacity: 1, 
+          duration: 0.6,
+          delay: index * 0.1,
+          scrollTrigger: {
+            trigger: item,
+            start: 'top 85%',
+            toggleActions: 'play none none none'
+          }
+        }
+      );
+    }
+  }, [index]);
+
+  const handleMouseEnter = () => {
+    if (onHover) {
+      onHover(office);
+    }
+  };
+
+  return (
+    <div 
+      className={styles.officeCard} 
+      ref={itemRef}
+      onMouseEnter={handleMouseEnter}
+    >
+      <h3 className={styles.officeName}>{office.name}</h3>
+      <p className={styles.officeAddress}>{office.address}</p>
+
+      <div className={styles.officeContact}>
+        <p>Phone: {office.phone}</p>
+        <p>Email: {office.email}</p>
+      </div>
+
+      {office.hours && (
+        <p className={styles.officeHours}>{office.hours}</p>
+      )}
+    </div>
+  );
+};
+
+export const ContactOffices: React.FC<OfficesListProps> = ({ offices }) => {
+  const sectionRef = useRef<HTMLElement>(null);
+  const titleRef = useRef<HTMLHeadingElement>(null);
+
+  // State for active office can be added if needed for map integration
+  const [activeOfficesetActiveOffice] = useState<Office | null>(null);
+
+  useEffect(() => {
+    const section = sectionRef.current;
+    const title = titleRef.current;
+
+    if (section && title && typeof window !== 'undefined') {
+      gsap.fromTo(
+        title,
+        { y: 30, opacity: 0 },
+        { 
+          y: 0, 
+          opacity: 1, 
+          duration: 0.8,
+          scrollTrigger: {
+            trigger: section,
+            start: 'top 70%',
+            toggleActions: 'play none none none'
+          }
+        }
+      );
+    }
+  }, []);
+
+  const handleOfficeHover = (office: Office) => {
+    setActiveOffice(office);
+    // You could emit an event here to update a map component if needed
+  };
+
+  return (
+    <section className={`${styles.section} ${styles.officesSection}`} ref={sectionRef}>
+      <div className={styles.container}>
+        <h2 className={styles.sectionTitle} ref={titleRef}>Our Offices</h2>
+        <div className={styles.officesGrid}>
+          {offices.map((officeindex) => (
+            <OfficeItemComponent
+              key={office.id}
+              office={office}
+              index={index}
+              onHover={handleOfficeHover}
+            />
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default ContactOffices;

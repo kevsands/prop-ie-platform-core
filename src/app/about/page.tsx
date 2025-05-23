@@ -1,3 +1,4 @@
+import React from 'react';
 import { Metadata } from 'next';
 import { 
   AboutPageData, 
@@ -11,8 +12,7 @@ import AboutPageClient from '@/components/about/AboutPageClient';
 export const metadata: Metadata = {
   title: 'About Us | Prop - Premier Property Developers in Ireland',
   description: 'Learn about Prop, Ireland\'s leading property developer. Discover our mission, values, team, and the story behind our commitment to creating exceptional homes.',
-  keywords: 'property developer, homes in Ireland, sustainable development, property development company, Irish property developer',
-};
+  keywords: 'property developer, homes in Ireland, sustainable development, property development company, Irish property developer'};
 
 // Sample data for the About page
 const teamMembers: TeamMember[] = [
@@ -233,5 +233,5 @@ const aboutPageData: AboutPageData = {
 };
 
 export default function AboutPage() {
-  return <AboutPageClient data={aboutPageData} />;
+  return <AboutPageClient data={aboutPageData} />\n  );
 }

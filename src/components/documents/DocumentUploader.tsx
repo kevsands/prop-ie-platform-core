@@ -26,7 +26,7 @@ import { useMemo } from 'react';
 import { DocumentCategoryTypeMapping } from '@/types/core/document';
 
 interface DocumentUploaderProps {
-  onUpload: (file: File, metadata: Partial<DocumentType>) => Promise<void>;
+  onUpload: (file: File, metadata: Partial<DocumentType>) => Promise<void>\n  );
   loading: boolean;
   relatedEntityType?: string;
   relatedEntityId?: string;
@@ -44,19 +44,19 @@ const DocumentUploader: React.FC<DocumentUploaderProps> = ({
   existingDocument,
   isVersionUpload = false
 }) => {
-  const [file, setFile] = useState<File | null>(null);
-  const [name, setName] = useState<string>('');
-  const [description, setDescription] = useState<string>('');
-  const [type, setType] = useState<DocType>(DocType.LEGAL);
-  const [category, setCategory] = useState<DocumentCategory>(DocumentCategory.ADMINISTRATIVE);
-  const [tags, setTags] = useState<string>('');
-  const [expiryDate, setExpiryDate] = useState<Date | undefined>(undefined);
-  const [signatureRequired, setSignatureRequired] = useState<boolean>(false);
-  const [versionNotes, setVersionNotes] = useState<string>('');
-  const [isPublic, setIsPublic] = useState<boolean>(false);
-  const [sensitivity, setSensitivity] = useState<string>('standard');
-  const [validationErrors, setValidationErrors] = useState<{[key: string]: string}>({});
-  const [dragActive, setDragActive] = useState<boolean>(false);
+  const [filesetFile] = useState<File | null>(null);
+  const [namesetName] = useState<string>('');
+  const [descriptionsetDescription] = useState<string>('');
+  const [typesetType] = useState<DocType>(DocType.LEGAL);
+  const [categorysetCategory] = useState<DocumentCategory>(DocumentCategory.ADMINISTRATIVE);
+  const [tagssetTags] = useState<string>('');
+  const [expiryDatesetExpiryDate] = useState<Date | undefined>(undefined);
+  const [signatureRequiredsetSignatureRequired] = useState<boolean>(false);
+  const [versionNotessetVersionNotes] = useState<string>('');
+  const [isPublicsetIsPublic] = useState<boolean>(false);
+  const [sensitivitysetSensitivity] = useState<string>('standard');
+  const [validationErrorssetValidationErrors] = useState<{[key: string]: string}>({});
+  const [dragActivesetDragActive] = useState<boolean>(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Populate form with existing document data if in versioning mode
@@ -70,7 +70,7 @@ const DocumentUploader: React.FC<DocumentUploaderProps> = ({
       setExpiryDate(existingDocument.expiryDate ? new Date(existingDocument.expiryDate) : undefined);
       setSignatureRequired(existingDocument.signatureRequired || false);
     }
-  }, [existingDocument, isVersionUpload]);
+  }, [existingDocumentisVersionUpload]);
 
   // Filter document types by selected category
   const availableDocTypes = useMemo(() => {
@@ -83,14 +83,14 @@ const DocumentUploader: React.FC<DocumentUploaderProps> = ({
     if (category && type && availableDocTypes.indexOf(type) === -1) {
       setType(availableDocTypes[0]);
     }
-  }, [category, type, availableDocTypes]);
+  }, [category, typeavailableDocTypes]);
 
   // Handle file selection
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const selectedFile = e.target.files[0];
       setFile(selectedFile);
-      
+
       // Auto-populate name if empty and not in versioning mode
       if (!name && !isVersionUpload) {
         setName(selectedFile.name);
@@ -108,11 +108,11 @@ const DocumentUploader: React.FC<DocumentUploaderProps> = ({
     e.preventDefault();
     e.stopPropagation();
     setDragActive(false);
-    
+
     if (e.dataTransfer.files && e.dataTransfer.files[0]) {
       const droppedFile = e.dataTransfer.files[0];
       setFile(droppedFile);
-      
+
       // Auto-populate name if empty and not in versioning mode
       if (!name && !isVersionUpload) {
         setName(droppedFile.name);
@@ -129,7 +129,7 @@ const DocumentUploader: React.FC<DocumentUploaderProps> = ({
   const handleDrag = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     e.stopPropagation();
-    
+
     if (e.type === 'dragenter' || e.type === 'dragover') {
       setDragActive(true);
     } else if (e.type === 'dragleave') {
@@ -140,27 +140,27 @@ const DocumentUploader: React.FC<DocumentUploaderProps> = ({
   // Validate form
   const validateForm = (): boolean => {
     const errors: {[key: string]: string} = {};
-    
+
     if (!file) {
       errors.file = 'Please select a file to upload';
     }
-    
+
     if (!name.trim()) {
       errors.name = 'Document name is required';
     }
-    
+
     if (!type) {
       errors.type = 'Document type is required';
     }
-    
+
     if (!category) {
       errors.category = 'Document category is required';
     }
-    
+
     if (isVersionUpload && !versionNotes.trim()) {
       errors.versionNotes = 'Please provide notes about what changed in this version';
     }
-    
+
     setValidationErrors(errors);
     return Object.keys(errors).length === 0;
   };
@@ -168,11 +168,11 @@ const DocumentUploader: React.FC<DocumentUploaderProps> = ({
   // Handle form submission
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!validateForm()) {
       return;
     }
-    
+
     // Prepare metadata
     const metadata: Partial<DocumentType> = {
       name: name.trim(),
@@ -184,7 +184,7 @@ const DocumentUploader: React.FC<DocumentUploaderProps> = ({
       expiryDate,
       signatureRequired
     };
-    
+
     // Add related entity if provided
     if (relatedEntityType && relatedEntityId) {
       metadata.relatedTo = {
@@ -193,7 +193,7 @@ const DocumentUploader: React.FC<DocumentUploaderProps> = ({
         name: relatedEntityName
       };
     }
-    
+
     // Add versioning data if this is a version upload
     if (isVersionUpload && existingDocument) {
       metadata.version = (existingDocument.version || 0) + 1;
@@ -203,7 +203,7 @@ const DocumentUploader: React.FC<DocumentUploaderProps> = ({
         versionNotes: versionNotes.trim()
       };
     }
-    
+
     // Add permissions
     metadata.permissions = {
       canView: [],
@@ -224,10 +224,10 @@ const DocumentUploader: React.FC<DocumentUploaderProps> = ({
       if (!file) {
         throw new Error('No file selected');
       }
-      await onUpload(file, metadata);
+      await onUpload(filemetadata);
       resetForm();
     } catch (error) {
-      console.error('Error uploading document:', error);
+
       setValidationErrors(prev => ({
         ...prev,
         submit: 'Failed to upload document. Please try again.'
@@ -262,7 +262,7 @@ const DocumentUploader: React.FC<DocumentUploaderProps> = ({
       fileInputRef.current.value = '';
     }
   };
-  
+
   // File drop area class
   const fileDropAreaClass = cn(
     'border-2 border-dashed rounded-md p-6 text-center cursor-pointer transition-colors',
@@ -287,7 +287,7 @@ const DocumentUploader: React.FC<DocumentUploaderProps> = ({
           onChange={handleFileChange}
           className="hidden"
         />
-        
+
         {file ? (
           <div className="flex items-center justify-between bg-white p-3 rounded-md">
             <div className="flex items-center space-x-3">
@@ -316,14 +316,14 @@ const DocumentUploader: React.FC<DocumentUploaderProps> = ({
           </div>
         )}
       </div>
-      
+
       {validationErrors.file && (
         <Alert variant="destructive" className="py-2">
           <AlertCircle className="h-4 w-4" />
           <AlertDescription>{validationErrors.file}</AlertDescription>
         </Alert>
       )}
-      
+
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="space-y-3">
           <div>
@@ -333,12 +333,12 @@ const DocumentUploader: React.FC<DocumentUploaderProps> = ({
             <Input
               id="name"
               value={name}
-              onChange={(e) => {
+              onChange={(e: any) => {
                 setName(e.target.value);
                 if (validationErrors.name) {
                   setValidationErrors(prev => ({...prev, name: ''}));
                 }
-              }}
+              }
               placeholder="Enter document name"
               className={validationErrors.name ? 'border-destructive' : ''}
               disabled={isVersionUpload}
@@ -348,26 +348,26 @@ const DocumentUploader: React.FC<DocumentUploaderProps> = ({
               <p className="text-destructive text-xs mt-1">{validationErrors.name}</p>
             )}
           </div>
-          
+
           <div>
             <Label htmlFor="category" className={validationErrors.category ? 'text-destructive' : ''}>
               Category <span className="text-destructive">*</span>
             </Label>
             <Select 
               value={category} 
-              onValueChange={(value) => {
+              onValueChange={(value: any) => {
                 setCategory(value as DocumentCategory);
                 if (validationErrors.category) {
                   setValidationErrors(prev => ({...prev, category: ''}));
                 }
-              }}
+              }
               disabled={isVersionUpload}
             >
               <SelectTrigger className={validationErrors.category ? 'border-destructive' : ''}>
                 <SelectValue placeholder="Select category" />
               </SelectTrigger>
               <SelectContent>
-                {Object.values(DocumentCategory).map((cat) => (
+                {Object.values(DocumentCategory).map((cat: any) => (
                   <SelectItem key={cat} value={cat}>
                     {cat.charAt(0) + cat.slice(1).toLowerCase().replace('_', ' ')}
                   </SelectItem>
@@ -378,26 +378,26 @@ const DocumentUploader: React.FC<DocumentUploaderProps> = ({
               <p className="text-destructive text-xs mt-1">{validationErrors.category}</p>
             )}
           </div>
-          
+
           <div>
             <Label htmlFor="type" className={validationErrors.type ? 'text-destructive' : ''}>
               Document Type <span className="text-destructive">*</span>
             </Label>
             <Select 
               value={type} 
-              onValueChange={(value) => {
+              onValueChange={(value: any) => {
                 setType(value as DocType);
                 if (validationErrors.type) {
                   setValidationErrors(prev => ({...prev, type: ''}));
                 }
-              }}
+              }
               disabled={isVersionUpload}
             >
               <SelectTrigger className={validationErrors.type ? 'border-destructive' : ''}>
                 <SelectValue placeholder="Select document type" />
               </SelectTrigger>
               <SelectContent>
-                {availableDocTypes.map((docType) => (
+                {availableDocTypes.map((docType: any) => (
                   <SelectItem key={docType} value={docType}>
                     {docType.charAt(0) + docType.slice(1).toLowerCase().replace('_', ' ')}
                   </SelectItem>
@@ -408,24 +408,24 @@ const DocumentUploader: React.FC<DocumentUploaderProps> = ({
               <p className="text-destructive text-xs mt-1">{validationErrors.type}</p>
             )}
           </div>
-          
+
           <div>
             <Label htmlFor="tags">Tags (comma separated)</Label>
             <Input
               id="tags"
               value={tags}
-              onChange={(e) => setTags(e.target.value)}
+              onChange={(e: any) => setTags(e.target.value)}
               placeholder="e.g. important, contract, approved"
               disabled={isVersionUpload}
             />
           </div>
-          
+
           <div>
             <Label htmlFor="expiryDate">Expiry Date</Label>
             <Popover>
               <PopoverTrigger asChild>
                 <Button
-                  variant={"outline"}
+                  variant={"outline"
                   className={cn(
                     "w-full justify-start text-left font-normal",
                     !expiryDate && "text-muted-foreground"
@@ -442,26 +442,26 @@ const DocumentUploader: React.FC<DocumentUploaderProps> = ({
                   selected={expiryDate}
                   onSelect={setExpiryDate}
                   initialFocus
-                  disabled={(date) => date < new Date()}
+                  disabled={(date: any) => date <new Date()}
                 />
               </PopoverContent>
             </Popover>
           </div>
         </div>
-        
+
         <div className="space-y-3">
           <div>
             <Label htmlFor="description">Description</Label>
             <Textarea
               id="description"
               value={description}
-              onChange={(e) => setDescription(e.target.value)}
+              onChange={(e: any) => setDescription(e.target.value)}
               placeholder="Provide a brief description of the document"
               rows={3}
               disabled={isVersionUpload}
             />
           </div>
-          
+
           {isVersionUpload && (
             <div>
               <Label htmlFor="versionNotes" className={validationErrors.versionNotes ? 'text-destructive' : ''}>
@@ -470,12 +470,12 @@ const DocumentUploader: React.FC<DocumentUploaderProps> = ({
               <Textarea
                 id="versionNotes"
                 value={versionNotes}
-                onChange={(e) => {
+                onChange={(e: any) => {
                   setVersionNotes(e.target.value);
                   if (validationErrors.versionNotes) {
                     setValidationErrors(prev => ({...prev, versionNotes: ''}));
                   }
-                }}
+                }
                 placeholder="What has changed in this version?"
                 rows={3}
                 className={validationErrors.versionNotes ? 'border-destructive' : ''}
@@ -485,19 +485,19 @@ const DocumentUploader: React.FC<DocumentUploaderProps> = ({
               )}
             </div>
           )}
-          
+
           <div className="flex items-center space-x-2">
             <Checkbox 
               id="signatureRequired" 
               checked={signatureRequired} 
-              onCheckedChange={(checked) => setSignatureRequired(checked as boolean)} 
+              onCheckedChange={(checked: any) => setSignatureRequired(checked as boolean)} 
               disabled={isVersionUpload}
             />
             <Label htmlFor="signatureRequired" className="cursor-pointer">
               Requires signature
             </Label>
           </div>
-          
+
           {/* Access Control Section */}
           <Separator className="my-2" />
           <div>
@@ -507,14 +507,14 @@ const DocumentUploader: React.FC<DocumentUploaderProps> = ({
                 <Checkbox 
                   id="isPublic" 
                   checked={isPublic} 
-                  onCheckedChange={(checked) => setIsPublic(checked as boolean)}
+                  onCheckedChange={(checked: any) => setIsPublic(checked as boolean)}
                   disabled={isVersionUpload}
                 />
                 <Label htmlFor="isPublic" className="cursor-pointer">
                   Make document public to all users
                 </Label>
               </div>
-              
+
               <div>
                 <Label htmlFor="sensitivity" className="mb-1">Sensitivity Level</Label>
                 <RadioGroup 
@@ -542,7 +542,7 @@ const DocumentUploader: React.FC<DocumentUploaderProps> = ({
           </div>
         </div>
       </div>
-      
+
       {/* Related Entity Info */}
       {relatedEntityType && relatedEntityId && (
         <Card className="bg-muted/40">
@@ -553,7 +553,7 @@ const DocumentUploader: React.FC<DocumentUploaderProps> = ({
           </CardContent>
         </Card>
       )}
-      
+
       {/* Version Info */}
       {isVersionUpload && existingDocument && (
         <Card className="bg-blue-50">
@@ -567,7 +567,7 @@ const DocumentUploader: React.FC<DocumentUploaderProps> = ({
           </CardContent>
         </Card>
       )}
-      
+
       <div className="flex justify-end">
         <Button type="submit" disabled={loading}>
           {loading ? (

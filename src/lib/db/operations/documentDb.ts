@@ -94,7 +94,7 @@ export const documentDb = {
     search?: string;
   }): Promise<Document[]> {
     const where: Prisma.DocumentWhereInput = {};
-    
+
     if (filter.types?.length) {
       where.type = { in: filter.types };
     }

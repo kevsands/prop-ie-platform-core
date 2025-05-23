@@ -1,0 +1,340 @@
+/**
+ * Error handling system for buyer journey
+ * Custom error types with context and recovery strategies
+ */
+
+// Base error class for buyer journey
+export abstract class BuyerJourneyError extends Error {
+  public readonly code: string;
+  public readonly userMessage: string;
+  public readonly context: Record<string, any>;
+  public readonly recoverable: boolean;
+  public readonly suggestedAction?: string;
+
+  constructor(
+    message: string,
+    code: string,
+    userMessage: string,
+    context: Record<string, any> = {},
+    recoverable: boolean = false,
+    suggestedAction?: string
+  ) {
+    super(message);
+    this.name = this.constructor.name;
+    this.code = code;
+    this.userMessage = userMessage;
+    this.context = context;
+    this.recoverable = recoverable;
+    this.suggestedAction = suggestedAction;
+  }
+}
+
+// Authentication Errors
+export class AuthenticationError extends BuyerJourneyError {
+  constructor(message: string, context: Record<string, any> = {}) {
+    super(
+      message,
+      'AUTH_ERROR',
+      'Please sign in to continue with your purchase',
+      context,
+      true,
+      'Sign in or create an account'
+    );
+  }
+}
+
+// KYC Verification Errors
+export class KYCVerificationError extends BuyerJourneyError {
+  constructor(
+    message: string, 
+    context: Record<string, any> = {},
+    userMessage: string = 'There was an issue with identity verification'
+  ) {
+    super(
+      message,
+      'KYC_VERIFICATION_ERROR',
+      userMessage,
+      context,
+      true,
+      'Try uploading your documents again or contact support'
+    );
+  }
+}
+
+export class DocumentUploadError extends BuyerJourneyError {
+  constructor(message: string, context: Record<string, any> = {}) {
+    super(
+      message,
+      'DOCUMENT_UPLOAD_ERROR',
+      'There was an issue uploading your document',
+      context,
+      true,
+      'Check your file format and try again'
+    );
+  }
+}
+
+// Unit Reservation Errors
+export class UnitUnavailableError extends BuyerJourneyError {
+  constructor(unitId: string, context: Record<string, any> = {}) {
+    super(
+      `Unit ${unitId} is no longer available`,
+      'UNIT_UNAVAILABLE',
+      'Sorry, this unit is no longer available for purchase',
+      { unitId, ...context },
+      false,
+      'Browse other available units'
+    );
+  }
+}
+
+export class ReservationError extends BuyerJourneyError {
+  constructor(message: string, context: Record<string, any> = {}) {
+    super(
+      message,
+      'RESERVATION_ERROR',
+      'There was an issue reserving your unit',
+      context,
+      true,
+      'Please try again or contact our sales team'
+    );
+  }
+}
+
+// Payment Errors
+export class PaymentError extends BuyerJourneyError {
+  constructor(
+    message: string, 
+    context: Record<string, any> = {},
+    userMessage: string = 'There was an issue processing your payment'
+  ) {
+    super(
+      message,
+      'PAYMENT_ERROR',
+      userMessage,
+      context,
+      true,
+      'Check your payment details and try again'
+    );
+  }
+}
+
+export class InsufficientFundsError extends PaymentError {
+  constructor(context: Record<string, any> = {}) {
+    super(
+      'Insufficient funds',
+      context,
+      'Your payment was declined due to insufficient funds'
+    );
+  }
+}
+
+export class CardDeclinedError extends PaymentError {
+  constructor(context: Record<string, any> = {}) {
+    super(
+      'Card declined',
+      context,
+      'Your card was declined. Please check your details or try a different card'
+    );
+  }
+}
+
+// Network and API Errors
+export class NetworkError extends BuyerJourneyError {
+  constructor(message: string, context: Record<string, any> = {}) {
+    super(
+      message,
+      'NETWORK_ERROR',
+      'Connection issue - please check your internet connection',
+      context,
+      true,
+      'Check your internet connection and try again'
+    );
+  }
+}
+
+export class APIError extends BuyerJourneyError {
+  constructor(
+    message: string, 
+    statusCode: number,
+    context: Record<string, any> = {}
+  ) {
+    const isServerError = statusCode >= 500;
+    super(
+      message,
+      'API_ERROR',
+      isServerError 
+        ? 'Our service is temporarily unavailable. Please try again in a few minutes.'
+        : 'There was an issue with your request',
+      { statusCode, ...context },
+      true,
+      isServerError 
+        ? 'Please try again in a few minutes'
+        : 'Please try again or contact support'
+    );
+  }
+}
+
+// Validation Errors
+export class ValidationError extends BuyerJourneyError {
+  constructor(
+    message: string, 
+    fieldErrors: Record<string, string[]>,
+    context: Record<string, any> = {}
+  ) {
+    super(
+      message,
+      'VALIDATION_ERROR',
+      'Please check the information provided',
+      { fieldErrors, ...context },
+      true,
+      'Correct the highlighted fields and try again'
+    );
+  }
+}
+
+// Rate Limiting Errors
+export class RateLimitError extends BuyerJourneyError {
+  constructor(retryAfter: number, context: Record<string, any> = {}) {
+    super(
+      'Rate limit exceeded',
+      'RATE_LIMIT_ERROR',
+      'Too many attempts. Please wait before trying again.',
+      { retryAfter, ...context },
+      true,
+      `Please wait ${Math.ceil(retryAfter / 60)} minutes before trying again`
+    );
+  }
+}
+
+// Error factory for creating errors from API responses
+export class ErrorFactory {
+  static fromApiResponse(response: any): BuyerJourneyError {
+    const { status, data } = response;
+    
+    switch (status) {
+      case 401:
+        return new AuthenticationError('Unauthorized', { response: data });
+      case 403:
+        return new AuthenticationError('Forbidden', { response: data });
+      case 404:
+        return new APIError('Resource not found', status, { response: data });
+      case 409:
+        if (data?.error?.includes('unit')) {
+          return new UnitUnavailableError(data.unitId || 'unknown', { response: data });
+        }
+        return new APIError('Conflict', status, { response: data });
+      case 422:
+        return new ValidationError(
+          'Validation failed',
+          data?.fieldErrors || {},
+          { response: data }
+        );
+      case 429:
+        return new RateLimitError(
+          data?.retryAfter || 60,
+          { response: data }
+        );
+      default:
+        if (status >= 500) {
+          return new APIError('Server error', status, { response: data });
+        }
+        return new APIError('Client error', status, { response: data });
+    }
+  }
+
+  static fromNetworkError(error: Error): NetworkError {
+    return new NetworkError(error.message, { originalError: error });
+  }
+
+  static fromValidationError(error: any): ValidationError {
+    if (error.errors) {
+      const fieldErrors: Record<string, string[]> = {};
+      error.errors.forEach((err: any) => {
+        const field = err.path?.join('.') || 'unknown';
+        if (!fieldErrors[field]) {
+          fieldErrors[field] = [];
+        }
+        fieldErrors[field].push(err.message);
+      });
+      
+      return new ValidationError(
+        'Validation failed',
+        fieldErrors,
+        { zodError: error }
+      );
+    }
+    
+    return new ValidationError(
+      error.message || 'Validation failed',
+      {},
+      { originalError: error }
+    );
+  }
+}
+
+// Error recovery strategies
+export interface ErrorRecoveryStrategy {
+  canRecover(error: BuyerJourneyError): boolean;
+  recover(error: BuyerJourneyError): Promise<void> | void;
+}
+
+export class AuthenticationRecoveryStrategy implements ErrorRecoveryStrategy {
+  canRecover(error: BuyerJourneyError): boolean {
+    return error instanceof AuthenticationError;
+  }
+
+  recover(error: BuyerJourneyError): void {
+    // Redirect to login page
+    window.location.href = '/login?redirect=' + encodeURIComponent(window.location.pathname);
+  }
+}
+
+export class NetworkRecoveryStrategy implements ErrorRecoveryStrategy {
+  canRecover(error: BuyerJourneyError): boolean {
+    return error instanceof NetworkError;
+  }
+
+  async recover(error: BuyerJourneyError): Promise<void> {
+    // Wait and retry
+    await new Promise(resolve => setTimeout(resolve, 2000));
+    window.location.reload();
+  }
+}
+
+export class PaymentRecoveryStrategy implements ErrorRecoveryStrategy {
+  canRecover(error: BuyerJourneyError): boolean {
+    return error instanceof PaymentError && error.recoverable;
+  }
+
+  recover(error: BuyerJourneyError): void {
+    // Clear payment form and allow retry
+    const paymentForm = document.querySelector('[data-payment-form]');
+    if (paymentForm) {
+      (paymentForm as HTMLFormElement).reset();
+    }
+  }
+}
+
+// Error recovery manager
+export class ErrorRecoveryManager {
+  private strategies: ErrorRecoveryStrategy[] = [
+    new AuthenticationRecoveryStrategy(),
+    new NetworkRecoveryStrategy(),
+    new PaymentRecoveryStrategy()
+  ];
+
+  async attemptRecovery(error: BuyerJourneyError): Promise<boolean> {
+    for (const strategy of this.strategies) {
+      if (strategy.canRecover(error)) {
+        try {
+          await strategy.recover(error);
+          return true;
+        } catch (recoveryError) {
+          console.error('Recovery strategy failed:', recoveryError);
+        }
+      }
+    }
+    return false;
+  }
+}

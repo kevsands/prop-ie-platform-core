@@ -27,6 +27,4 @@ export function middleware(request: NextRequest) {
 // Only run on specific routes
 export const config = {
   matcher: [
-    '/((?!_next/static|_next/image|favicon.ico).*)',
-  ],
-};
+    '/((?!_next/static|_next/image|favicon.ico).*)']};

@@ -1,0 +1,300 @@
+import { NextRequest, NextResponse } from 'next/server';
+import { z } from 'zod';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/app/api/auth/[...nextauth]/auth-server';
+import prisma from '@/lib/prisma';
+import { PropertyStatus, PropertyType } from '@/types/enums';
+import { Property } from '@/types/models/property';
+
+// Update property schema
+const updatePropertySchema = z.object({
+  name: z.string().optional(),
+  type: z.nativeEnum(PropertyType).optional(),
+  size: z.number().min(0).optional(),
+  bedrooms: z.number().min(0).max(10).optional(),
+  bathrooms: z.number().min(0).max(10).optional(),
+  price: z.number().min(0).optional(),
+  status: z.nativeEnum(PropertyStatus).optional(),
+  features: z.array(z.string()).optional(),
+  images: z.array(z.object({
+    url: z.string().url(),
+    alt: z.string().optional(),
+    isPrimary: z.boolean().default(false),
+    order: z.number().default(0)})).optional(),
+  floorPlans: z.array(z.string().url()).optional(),
+  virtualTourUrl: z.string().url().optional().nullable(),
+  description: z.string().optional(),
+  energyRating: z.string().optional(),
+  berNumber: z.string().optional(),
+  propertyTax: z.number().optional(),
+  managementFee: z.number().optional(),
+  amenities: z.array(z.string()).optional()});
+
+// GET /api/properties/[id] - Get property details
+export async function GET(
+  request: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  try {
+    const unit = await prisma.unit.findUnique({
+      where: { id: params.id },
+      include: {
+        development: {
+          include: {
+            developer: true,
+            units: {
+              where: {
+                id: { not: params.id },
+                status: 'AVAILABLE'},
+              take: 4,
+              select: {
+                id: true,
+                name: true,
+                price: true,
+                bedrooms: true,
+                bathrooms: true,
+                size: true,
+                images: true,
+                type: true}}}},
+        reservations: {
+          where: {
+            status: 'ACTIVE'},
+          include: {
+            user: {
+              select: {
+                id: true,
+                name: true}}}},
+        customizations: {
+          include: {
+            user: {
+              select: {
+                id: true,
+                name: true}}}}}});
+
+    if (!unit) {
+      return NextResponse.json(
+        { error: 'Property not found' },
+        { status: 404 }
+      );
+    }
+
+    // Transform to Property type
+    const property: Property = {
+      id: unit.id,
+      developmentId: unit.developmentId || undefined,
+      development: unit.development ? {
+        id: unit.development.id,
+        name: unit.development.name,
+        slug: unit.development.slug || unit.development.name.toLowerCase().replace(/\s+/g, '-'),
+        developer: {
+          id: unit.development.developer?.id || '',
+          name: unit.development.developer?.name || unit.development.developerName || 'Unknown Developer',
+          logo: unit.development.developer?.logo || undefined,
+          website: unit.development.developer?.website || undefined,
+          description: unit.development.developer?.description || undefined},
+        location: unit.development.location,
+        totalUnits: unit.development.totalUnits,
+        availableUnits: unit.development.availableUnits || 0,
+        completionDate: unit.development.completionDate || undefined,
+        description: unit.development.description || undefined,
+        masterplanImage: unit.development.masterplanImage || undefined,
+        amenities: unit.development.amenities || []} : undefined,
+      unitNumber: unit.unitNumber,
+      name: unit.name,
+      type: unit.type as PropertyType,
+      size: unit.size,
+      bedrooms: unit.bedrooms,
+      bathrooms: unit.bathrooms,
+      price: unit.price.toNumber(),
+      originalPrice: unit.originalPrice?.toNumber(),
+      status: unit.status as PropertyStatus,
+      features: unit.features || [],
+      images: (unit.images as any[])?.map((img, index) => ({
+        id: img.id || `${unit.id}-img-${index}`,
+        url: img.url || img,
+        alt: img.alt || `${unit.name} - Image ${index + 1}`,
+        isPrimary: img.isPrimary || index === 0,
+        order: img.order || index,
+        width: img.width,
+        height: img.height,
+        thumbnailUrl: img.thumbnailUrl})) || [],
+      floorPlans: unit.floorPlans || [],
+      virtualTourUrl: unit.virtualTourUrl || undefined,
+      description: unit.description || undefined,
+      specifications: unit.specifications as any || {
+        totalArea: unit.size,
+        internalArea: unit.size * 0.85,
+        externalArea: unit.size * 0.15,
+        floors: unit.floors || 1,
+        parkingSpaces: unit.parkingSpaces || 0,
+        orientation: unit.orientation || undefined,
+        yearBuilt: unit.development?.completionDate?.getFullYear() || new Date().getFullYear(),
+        heatingType: 'Central Heating',
+        windowType: 'Double Glazed'},
+      location: {
+        address: unit.development?.address || '',
+        city: unit.development?.city || '',
+        county: unit.development?.county || '',
+        postcode: unit.development?.postcode || undefined,
+        country: 'Ireland',
+        latitude: unit.development?.latitude || 0,
+        longitude: unit.development?.longitude || 0,
+        neighborhood: unit.development?.neighborhood || undefined,
+        nearbyAmenities: getNearbyAmenities(unit.development),
+        transportLinks: getTransportLinks(unit.development)},
+      amenities: unit.amenities || [],
+      availability: {
+        isAvailable: unit.status === 'AVAILABLE',
+        availableFrom: unit.availableFrom || undefined,
+        moveInDate: unit.moveInDate || undefined,
+        reservationDeadline: unit.reservations?.[0]?.expiryDate || undefined},
+      customizationOptions: unit.customizationOptions as any || undefined,
+      energyRating: unit.energyRating || undefined,
+      berNumber: unit.berNumber || undefined,
+      propertyTax: unit.propertyTax?.toNumber() || undefined,
+      managementFee: unit.managementFee?.toNumber() || undefined,
+      createdAt: unit.createdAt,
+      updatedAt: unit.updatedAt};
+
+    // Get similar properties
+    const similarProperties = unit.development?.units.map(similarUnit => ({
+      id: similarUnit.id,
+      name: similarUnit.name,
+      price: similarUnit.price.toNumber(),
+      bedrooms: similarUnit.bedrooms,
+      bathrooms: similarUnit.bathrooms,
+      size: similarUnit.size,
+      type: similarUnit.type,
+      image: (similarUnit.images as any[])?.[0]?.url || ''})) || [];
+
+    // Track view analytics (fire and forget)
+    prisma.propertyView.create({
+      data: {
+        propertyId: unit.id,
+        viewedAt: new Date(),
+        userAgent: request.headers.get('user-agent') || undefined,
+        ipAddress: request.ip || 'unknown'}}).catch(console.error);
+
+    return NextResponse.json({
+      property,
+      similarProperties});
+  } catch (error) {
+    console.error('Error fetching property:', error);
+    return NextResponse.json(
+      { error: 'Failed to fetch property details' },
+      { status: 500 }
+    );
+  }
+}
+
+// PUT /api/properties/[id] - Update property (admin only)
+export async function PUT(
+  request: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  try {
+    const session = await getServerSession(authOptions);
+    
+    if (!session || session.user.role !== 'admin') {
+      return NextResponse.json(
+        { error: 'Unauthorized' },
+        { status: 401 }
+      );
+    }
+
+    const body = await request.json();
+    const validatedData = updatePropertySchema.parse(body);
+
+    const property = await prisma.unit.update({
+      where: { id: params.id },
+      data: validatedData,
+      include: {
+        development: {
+          include: {
+            developer: true}}}});
+
+    return NextResponse.json({
+      success: true,
+      property});
+  } catch (error) {
+    console.error('Error updating property:', error);
+    
+    if (error instanceof z.ZodError) {
+      return NextResponse.json(
+        { error: 'Invalid data', details: error.errors },
+        { status: 400 }
+      );
+    }
+
+    return NextResponse.json(
+      { error: 'Failed to update property' },
+      { status: 500 }
+    );
+  }
+}
+
+// DELETE /api/properties/[id] - Delete property (admin only)
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  try {
+    const session = await getServerSession(authOptions);
+    
+    if (!session || session.user.role !== 'admin') {
+      return NextResponse.json(
+        { error: 'Unauthorized' },
+        { status: 401 }
+      );
+    }
+
+    // Check if property has active reservations
+    const activeReservations = await prisma.reservation.count({
+      where: {
+        unitId: params.id,
+        status: 'ACTIVE'}});
+
+    if (activeReservations > 0) {
+      return NextResponse.json(
+        { error: 'Cannot delete property with active reservations' },
+        { status: 400 }
+      );
+    }
+
+    await prisma.unit.delete({
+      where: { id: params.id }});
+
+    return NextResponse.json({
+      success: true,
+      message: 'Property deleted successfully'});
+  } catch (error) {
+    console.error('Error deleting property:', error);
+    return NextResponse.json(
+      { error: 'Failed to delete property' },
+      { status: 500 }
+    );
+  }
+}
+
+// Helper functions
+function getNearbyAmenities(development: any) {
+  if (!development) return [];
+  
+  // Mock data - in production, this would come from a geocoding service
+  return [
+    { type: 'school' as const, name: 'St. Patrick\'s Primary School', distance: 0.5, walkingTime: 6 },
+    { type: 'shopping' as const, name: 'Tesco Express', distance: 0.3, walkingTime: 4 },
+    { type: 'transport' as const, name: 'Bus Stop', distance: 0.1, walkingTime: 2 },
+    { type: 'park' as const, name: 'Phoenix Park', distance: 1.2, walkingTime: 15 },
+    { type: 'hospital' as const, name: 'Mater Hospital', distance: 2.5, walkingTime: 30 }];
+}
+
+function getTransportLinks(development: any) {
+  if (!development) return [];
+  
+  // Mock data - in production, this would come from transport APIs
+  return [
+    { type: 'bus' as const, name: 'Dublin Bus Stop', lines: ['39', '39A', '70'], distance: 0.1, walkingTime: 2 },
+    { type: 'luas' as const, name: 'Smithfield Luas Stop', lines: ['Red Line'], distance: 0.8, walkingTime: 10 },
+    { type: 'dart' as const, name: 'Drumcondra Station', lines: ['Northern Line'], distance: 1.5, walkingTime: 18 }];
+}

@@ -27,14 +27,14 @@ const DocumentFilterPanel: React.FC<DocumentFilterPanelProps> = ({
   ) => {
     const currentValues = (filter[filterName] as T[]) || [];
     const valueExists = currentValues.includes(value);
-    
+
     let newValues: T[];
     if (valueExists) {
       newValues = currentValues.filter(v => v !== value);
     } else {
-      newValues = [...currentValues, value];
+      newValues = [...currentValuesvalue];
     }
-    
+
     onFilterChange({ [filterName]: newValues.length ? newValues : undefined });
   };
 
@@ -67,17 +67,17 @@ const DocumentFilterPanel: React.FC<DocumentFilterPanelProps> = ({
           Clear All
         </Button>
       </div>
-      
+
       <Separator />
-      
+
       {/* Document Types */}
       <Collapsible defaultOpen={true}>
         <CollapsibleTrigger className="flex items-center justify-between w-full">
           <h4 className="text-sm font-medium">Document Type</h4>
-          {open => open ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
+          {open: any => open ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
         </CollapsibleTrigger>
         <CollapsibleContent className="pt-2 space-y-2">
-          {Object.values(DocumentType).map((type) => (
+          {Object.values(DocumentType).map((type: any) => (
             <div key={type} className="flex items-center space-x-2">
               <Checkbox
                 id={`type-${type}`}
@@ -91,17 +91,17 @@ const DocumentFilterPanel: React.FC<DocumentFilterPanelProps> = ({
           ))}
         </CollapsibleContent>
       </Collapsible>
-      
+
       <Separator />
-      
+
       {/* Document Status */}
       <Collapsible defaultOpen={true}>
         <CollapsibleTrigger className="flex items-center justify-between w-full">
           <h4 className="text-sm font-medium">Status</h4>
-          {open => open ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
+          {open: any => open ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
         </CollapsibleTrigger>
         <CollapsibleContent className="pt-2 space-y-2">
-          {Object.values(DocumentStatus).map((status) => (
+          {Object.values(DocumentStatus).map((status: any) => (
             <div key={status} className="flex items-center space-x-2">
               <Checkbox
                 id={`status-${status}`}
@@ -115,19 +115,19 @@ const DocumentFilterPanel: React.FC<DocumentFilterPanelProps> = ({
           ))}
         </CollapsibleContent>
       </Collapsible>
-      
+
       {showCategories && (
         <>
           <Separator />
-          
+
           {/* Document Categories */}
           <Collapsible defaultOpen={false}>
             <CollapsibleTrigger className="flex items-center justify-between w-full">
               <h4 className="text-sm font-medium">Category</h4>
-              {open => open ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
+              {open: any => open ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
             </CollapsibleTrigger>
             <CollapsibleContent className="pt-2 space-y-2">
-              {Object.values(DocumentCategory).map((category) => (
+              {Object.values(DocumentCategory).map((category: any) => (
                 <div key={category} className="flex items-center space-x-2">
                   <Checkbox
                     id={`category-${category}`}

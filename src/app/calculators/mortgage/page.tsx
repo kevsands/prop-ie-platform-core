@@ -16,41 +16,41 @@ interface MortgageResult {
 
 export default function MortgageCalculator() {
   // Input states
-  const [propertyPrice, setPropertyPrice] = useState(350000);
-  const [deposit, setDeposit] = useState(35000);
-  const [interestRate, setInterestRate] = useState(3.5);
-  const [loanTerm, setLoanTerm] = useState(30);
-  const [monthlyIncome, setMonthlyIncome] = useState(5000);
-  
+  const [propertyPricesetPropertyPrice] = useState(350000);
+  const [depositsetDeposit] = useState(35000);
+  const [interestRatesetInterestRate] = useState(3.5);
+  const [loanTermsetLoanTerm] = useState(30);
+  const [monthlyIncomesetMonthlyIncome] = useState(5000);
+
   // State for Help to Buy
-  const [useHTB, setUseHTB] = useState(false);
-  const [htbAmount, setHtbAmount] = useState(0);
-  
+  const [useHTBsetUseHTB] = useState(false);
+  const [htbAmountsetHtbAmount] = useState(0);
+
   // Results
-  const [result, setResult] = useState<MortgageResult | null>(null);
-  
+  const [resultsetResult] = useState<MortgageResult | null>(null);
+
   // Calculate loan amount
   const loanAmount = propertyPrice - deposit - (useHTB ? htbAmount : 0);
-  
+
   // Calculate mortgage
   useEffect(() => {
     const calculateMortgage = () => {
       const principal = loanAmount;
       const monthlyRate = interestRate / 100 / 12;
       const numberOfPayments = loanTerm * 12;
-      
+
       // Monthly payment calculation
       const monthlyPayment = principal * 
-        (monthlyRate * Math.pow(1 + monthlyRate, numberOfPayments)) / 
-        (Math.pow(1 + monthlyRate, numberOfPayments) - 1);
-      
+        (monthlyRate * Math.pow(1 + monthlyRatenumberOfPayments)) / 
+        (Math.pow(1 + monthlyRatenumberOfPayments) - 1);
+
       const totalAmount = monthlyPayment * numberOfPayments;
       const totalInterest = totalAmount - principal;
-      
+
       // Affordability calculation (typically 35% of income is the limit)
       const percentageOfIncome = (monthlyPayment / monthlyIncome) * 100;
       const isAffordable = percentageOfIncome <= 35;
-      
+
       setResult({
         monthlyPayment,
         totalInterest,
@@ -62,12 +62,12 @@ export default function MortgageCalculator() {
         }
       });
     };
-    
-    if (loanAmount > 0 && interestRate > 0 && loanTerm > 0) {
+
+    if (loanAmount> 0 && interestRate> 0 && loanTerm> 0) {
       calculateMortgage();
     }
-  }, [propertyPrice, deposit, interestRate, loanTerm, monthlyIncome, useHTB, htbAmount, loanAmount]);
-  
+  }, [propertyPrice, deposit, interestRate, loanTerm, monthlyIncome, useHTB, htbAmountloanAmount]);
+
   // Format currency
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('en-IE', {
@@ -76,17 +76,17 @@ export default function MortgageCalculator() {
       maximumFractionDigits: 0
     }).format(amount);
   };
-  
+
   // Calculate max HTB benefit
   useEffect(() => {
     if (useHTB) {
-      const maxHTB = Math.min(propertyPrice * 0.1, 30000);
+      const maxHTB = Math.min(propertyPrice * 0.130000);
       setHtbAmount(maxHTB);
     } else {
       setHtbAmount(0);
     }
-  }, [useHTB, propertyPrice]);
-  
+  }, [useHTBpropertyPrice]);
+
   return (
     <div className="min-h-screen bg-gray-50 pt-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -94,13 +94,13 @@ export default function MortgageCalculator() {
           <h1 className="text-3xl font-bold text-gray-900 mb-2">Mortgage Calculator</h1>
           <p className="text-gray-600">Calculate your monthly payments and check affordability</p>
         </div>
-        
+
         <div className="grid lg:grid-cols-3 gap-8">
           {/* Input Panel */}
           <div className="lg:col-span-2">
             <div className="bg-white rounded-xl shadow-sm p-6">
               <h2 className="text-xl font-semibold mb-6">Mortgage Details</h2>
-              
+
               <div className="grid md:grid-cols-2 gap-6">
                 {/* Property Price */}
                 <div>
@@ -113,12 +113,12 @@ export default function MortgageCalculator() {
                     <input
                       type="number"
                       value={propertyPrice}
-                      onChange={(e) => setPropertyPrice(Number(e.target.value))}
+                      onChange={(e: any) => setPropertyPrice(Number(e.target.value))}
                       className="w-full pl-8 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     />
                   </div>
                 </div>
-                
+
                 {/* Deposit */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -130,7 +130,7 @@ export default function MortgageCalculator() {
                     <input
                       type="number"
                       value={deposit}
-                      onChange={(e) => setDeposit(Number(e.target.value))}
+                      onChange={(e: any) => setDeposit(Number(e.target.value))}
                       className="w-full pl-8 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     />
                   </div>
@@ -138,7 +138,7 @@ export default function MortgageCalculator() {
                     {((deposit / propertyPrice) * 100).toFixed(1)}% of property price
                   </p>
                 </div>
-                
+
                 {/* Interest Rate */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -148,12 +148,12 @@ export default function MortgageCalculator() {
                   <input
                     type="number"
                     value={interestRate}
-                    onChange={(e) => setInterestRate(Number(e.target.value))}
+                    onChange={(e: any) => setInterestRate(Number(e.target.value))}
                     step="0.1"
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   />
                 </div>
-                
+
                 {/* Loan Term */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -162,7 +162,7 @@ export default function MortgageCalculator() {
                   </label>
                   <select
                     value={loanTerm}
-                    onChange={(e) => setLoanTerm(Number(e.target.value))}
+                    onChange={(e: any) => setLoanTerm(Number(e.target.value))}
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   >
                     <option value={10}>10 years</option>
@@ -173,7 +173,7 @@ export default function MortgageCalculator() {
                     <option value={35}>35 years</option>
                   </select>
                 </div>
-                
+
                 {/* Monthly Income */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -185,19 +185,19 @@ export default function MortgageCalculator() {
                     <input
                       type="number"
                       value={monthlyIncome}
-                      onChange={(e) => setMonthlyIncome(Number(e.target.value))}
+                      onChange={(e: any) => setMonthlyIncome(Number(e.target.value))}
                       className="w-full pl-8 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     />
                   </div>
                 </div>
-                
+
                 {/* Help to Buy */}
                 <div>
                   <label className="flex items-center space-x-3">
                     <input
                       type="checkbox"
                       checked={useHTB}
-                      onChange={(e) => setUseHTB(e.target.checked)}
+                      onChange={(e: any) => setUseHTB(e.target.checked)}
                       className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
                     />
                     <span className="text-sm font-medium text-gray-700">
@@ -216,7 +216,7 @@ export default function MortgageCalculator() {
                   )}
                 </div>
               </div>
-              
+
               {/* Loan Summary */}
               <div className="mt-6 p-4 bg-gray-50 rounded-lg">
                 <h3 className="font-medium text-gray-900 mb-2">Loan Summary</h3>
@@ -243,7 +243,7 @@ export default function MortgageCalculator() {
               </div>
             </div>
           </div>
-          
+
           {/* Results Panel */}
           <div>
             {result && (
@@ -256,7 +256,7 @@ export default function MortgageCalculator() {
                   </p>
                   <p className="text-sm text-gray-600">per month for {loanTerm} years</p>
                 </div>
-                
+
                 {/* Total Cost */}
                 <div className="bg-white rounded-xl shadow-sm p-6">
                   <h3 className="text-lg font-semibold mb-4">Total Cost</h3>
@@ -275,7 +275,7 @@ export default function MortgageCalculator() {
                     </div>
                   </div>
                 </div>
-                
+
                 {/* Affordability Check */}
                 <div className={`rounded-xl shadow-sm p-6 ${
                   result.affordability.isAffordable ? 'bg-green-50' : 'bg-red-50'
@@ -314,7 +314,7 @@ export default function MortgageCalculator() {
                     </div>
                   </div>
                 </div>
-                
+
                 {/* Save Results */}
                 <div className="bg-white rounded-xl shadow-sm p-6">
                   <button className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition-colors font-medium">

@@ -19,13 +19,10 @@ export interface TestResult {
     step: string;
     success: boolean;
     error?: string;
-  }>;
+  }>\n  );
 }
 
-// Mock function to run security tests
-export async function runSecurityTests(): Promise<TestResult[]> {
-  // This is a simplified mock implementation
-  await new Promise((resolve) => setTimeout(resolve, 1000));
+// Mock async function tonew Promise((resolve: any) => setTimeout(resolve1000));
   
   return [
     {

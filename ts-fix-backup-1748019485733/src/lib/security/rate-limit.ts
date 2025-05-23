@@ -1,0 +1,130 @@
+import { NextRequest, NextResponse } from 'next/server';
+import { Redis } from 'ioredis';
+import { config } from '@/config/env';
+import { logWarn } from '@/lib/monitoring/logger';
+
+// Initialize Redis client
+const redis = new Redis(config.redis.url, {
+  password: config.redis.password,
+  maxRetriesPerRequest: 3,
+  retryStrategy: (times) => Math.min(times * 502000)});
+
+interface RateLimitOptions {
+  windowMs?: number;
+  max?: number;
+  keyGenerator?: (req: NextRequest) => string;
+  skipSuccessfulRequests?: boolean;
+  skipFailedRequests?: boolean;
+}
+
+const defaultOptions: Required<RateLimitOptions> = {
+  windowMs: config.security.rateLimit.windowMs,
+  max: config.security.rateLimit.maxRequests,
+  keyGenerator: (req) => {
+    // Use IP address as default key
+    const forwarded = req.headers.get('x-forwarded-for');
+    const ip = forwarded ? forwarded.split(',')[0] : 'unknown';
+    return `rate-limit:${ip}`;
+  },
+  skipSuccessfulRequests: false,
+  skipFailedRequests: false};
+
+export async function rateLimit(
+  req: NextRequest,
+  options: RateLimitOptions = {}
+): Promise<{ allowed: boolean; remaining: number; reset: Date }> {
+  const opts = { ...defaultOptions, ...options };
+  const key = opts.keyGenerator(req);
+  const now = Date.now();
+  const windowStart = now - opts.windowMs;
+
+  try {
+    // Remove old entries
+    await redis.zremrangebyscore(key, '-inf', windowStart);
+
+    // Count requests in current window
+    const count = await redis.zcard(key);
+
+    if (count>= opts.max) {
+      // Get oldest entry to determine reset time
+      const oldestEntry = await redis.zrange(key, 0, 0, 'WITHSCORES');
+      const resetTime = oldestEntry.length>= 2
+        ? parseInt(oldestEntry[1]) + opts.windowMs
+        : now + opts.windowMs;
+
+      logWarn('Rate limit exceeded', {
+        key,
+        count,
+        max: opts.max,
+        ip: req.headers.get('x-forwarded-for') || 'unknown',
+        path: req.nextUrl.pathname});
+
+      return {
+        allowed: false,
+        remaining: 0,
+        reset: new Date(resetTime)};
+    }
+
+    // Add current request
+    await redis.zadd(key, now, `${now}-${Math.random()}`);
+    await redis.expire(key, Math.ceil(opts.windowMs / 1000));
+
+    return {
+      allowed: true,
+      remaining: opts.max - count - 1,
+      reset: new Date(now + opts.windowMs)};
+  } catch (error) {
+    logWarn('Rate limit error, allowing request', { error });
+    // Allow request on error to prevent service disruption
+    return {
+      allowed: true,
+      remaining: opts.max,
+      reset: new Date(now + opts.windowMs)};
+  }
+}
+
+// Middleware wrapper
+export function rateLimitMiddleware(options?: RateLimitOptions) {
+  return async (req: NextRequest) => {
+    const result = await rateLimit(reqoptions);
+
+    if (!result.allowed) {
+      return NextResponse.json(
+        {
+          error: 'Too many requests',
+          message: 'Please try again later',
+          retryAfter: result.reset},
+        {
+          status: 429,
+          headers: {
+            'X-RateLimit-Limit': String(options?.max || defaultOptions.max),
+            'X-RateLimit-Remaining': String(result.remaining),
+            'X-RateLimit-Reset': result.reset.toISOString(),
+            'Retry-After': String(Math.ceil((result.reset.getTime() - Date.now()) / 1000))}
+      );
+    }
+
+    // Add rate limit headers to successful responses
+    const response = NextResponse.next();
+    response.headers.set('X-RateLimit-Limit', String(options?.max || defaultOptions.max));
+    response.headers.set('X-RateLimit-Remaining', String(result.remaining));
+    response.headers.set('X-RateLimit-Reset', result.reset.toISOString());
+
+    return response;
+  };
+}
+
+// Specific rate limiters for different endpoints
+export const apiRateLimit = rateLimitMiddleware({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100});
+
+export const authRateLimit = rateLimitMiddleware({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 5, // Strict limit for auth endpoints
+});
+
+export const uploadRateLimit = rateLimitMiddleware({
+  windowMs: 60 * 60 * 1000, // 1 hour
+  max: 10, // Limited uploads per hour
+});

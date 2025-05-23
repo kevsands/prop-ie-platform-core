@@ -9,16 +9,14 @@ interface BuyerDashboardSidebarProps {
 
 const BuyerDashboardSidebar: React.FC<BuyerDashboardSidebarProps> = ({
   activeTab,
-  onTabChange,
-}) => {
+  onTabChange}) => {
   const tabs = [
     { id: "overview", name: "Overview", icon: "home" },
     { id: "properties", name: "My Properties", icon: "building" },
     { id: "documents", name: "Documents", icon: "document" },
     { id: "payments", name: "Payments", icon: "credit-card" },
     { id: "messages", name: "Messages", icon: "chat" },
-    { id: "profile", name: "Profile", icon: "user" },
-  ];
+    { id: "profile", name: "Profile", icon: "user" }];
 
   const getIcon = (iconName: string) => {
     switch (iconName) {
@@ -129,7 +127,7 @@ const BuyerDashboardSidebar: React.FC<BuyerDashboardSidebarProps> = ({
         <h2 className="text-lg font-medium text-gray-900">Buyer Dashboard</h2>
       </div>
       <nav className="mt-5 px-2 space-y-1">
-        {tabs.map((tab) => (
+        {tabs.map((tab: any) => (
           <button
             key={tab.id}
             onClick={() => onTabChange(tab.id)}

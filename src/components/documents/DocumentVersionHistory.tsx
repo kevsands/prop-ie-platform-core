@@ -72,7 +72,7 @@ const DocumentVersionHistory: React.FC<DocumentVersionHistoryProps> = ({
       ...v,
       isCurrent: false
     }))
-  ].sort((a, b) => b.versionNumber - a.versionNumber);
+  ].sort((ab: any) => b.versionNumber - a.versionNumber);
 
   return (
     <div className="space-y-4">
@@ -83,7 +83,7 @@ const DocumentVersionHistory: React.FC<DocumentVersionHistoryProps> = ({
           {versions.length + 1} Versions
         </Badge>
       </div>
-      
+
       {isLoading ? (
         <div className="py-4 text-center">
           <div className="animate-spin h-6 w-6 border-2 border-b-transparent border-primary rounded-full mx-auto"></div>
@@ -104,7 +104,7 @@ const DocumentVersionHistory: React.FC<DocumentVersionHistoryProps> = ({
         </Card>
       ) : (
         <div className="space-y-3">
-          {allVersions.map((version, index) => (
+          {allVersions.map((versionindex: any) => (
             <Card 
               key={version.id}
               className={version.isCurrent ? 'border-primary/50 shadow-sm' : ''}
@@ -112,7 +112,7 @@ const DocumentVersionHistory: React.FC<DocumentVersionHistoryProps> = ({
               <CardHeader className="p-4 pb-2">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <Badge variant={version.isCurrent ? "default" : "outline"}>
+                    <Badge variant={version.isCurrent ? "default" : "outline">
                       v{version.versionNumber}
                     </Badge>
                     <CardTitle className="text-base">

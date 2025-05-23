@@ -1,3 +1,4 @@
+import React from 'react';
 "use client";
 
 import SolutionCard from '@/components/solutions/SolutionCard';
@@ -5,7 +6,7 @@ import SolutionCard from '@/components/solutions/SolutionCard';
 export default function SolutionsSection() {
   // Solution icons could be replaced with actual SVGs/images
   const placeholderIcon = "/icons/placeholder.svg";
-  
+
   return (
     <section className="py-12 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -15,7 +16,7 @@ export default function SolutionsSection() {
             Specialized tools for everyone in the property ecosystem
           </p>
         </div>
-        
+
         <div className="grid gap-8">
           {/* Home Buyers */}
           <div>
@@ -41,7 +42,7 @@ export default function SolutionsSection() {
               />
             </div>
           </div>
-          
+
           {/* Investors */}
           <div className="mt-12">
             <h3 className="text-xl font-bold text-gray-900 mb-4 border-b pb-2">Investors</h3>
@@ -66,7 +67,7 @@ export default function SolutionsSection() {
               />
             </div>
           </div>
-          
+
           {/* Developers */}
           <div className="mt-12">
             <h3 className="text-xl font-bold text-gray-900 mb-4 border-b pb-2">Developers</h3>
@@ -91,7 +92,7 @@ export default function SolutionsSection() {
               />
             </div>
           </div>
-          
+
           {/* Professionals */}
           <div className="mt-12">
             <h3 className="text-xl font-bold text-gray-900 mb-4 border-b pb-2">Professionals</h3>

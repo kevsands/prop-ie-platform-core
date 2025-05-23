@@ -1,0 +1,572 @@
+'use client';
+
+import React, { useState } from 'react';
+import { 
+  Building, Phone, Mail, Globe, MapPin, FileText,
+  Camera, Save, Edit, Shield, CreditCard, Award,
+  Users, Clock, CheckCircle, Upload, Download
+} from 'lucide-react';
+
+export default function CompanySettingsPage() {
+  const [isEditing, setIsEditing] = useState(false);
+  const [logoPreview, setLogoPreview] = useState('/images/company-logo.png');
+  
+  const [companyData, setCompanyData] = useState({
+    name: 'Developer Corp Ltd',
+    tradingName: 'DevCorp Properties',
+    registrationNumber: 'IE123456789',
+    vatNumber: 'IE9876543V',
+    address: {
+      line1: '123 Development Street',
+      line2: 'Innovation Park',
+      city: 'Dublin',
+      county: 'Dublin',
+      postcode: 'D02 XY12',
+      country: 'Ireland'
+    },
+    contact: {
+      phone: '+353 1 234 5678',
+      email: 'info@devcorp.ie',
+      website: 'www.devcorp.ie',
+      supportEmail: 'support@devcorp.ie'
+    },
+    billing: {
+      email: 'billing@devcorp.ie',
+      address: 'Same as company address'
+    },
+    details: {
+      founded: '2015',
+      employees: '45',
+      sector: 'Residential & Commercial',
+      description: 'Leading property developer specializing in sustainable residential and commercial developments across Ireland.'
+    },
+    certifications: [
+      'ISO 9001:2015',
+      'ISO 14001:2015',
+      'BREEAM Certified',
+      'LEED Gold Partner'
+    ],
+    memberOf: [
+      'Construction Industry Federation',
+      'Irish Home Builders Association',
+      'Property Industry Ireland'
+    ]
+  });
+
+  const handleLogoUpload = (e: React.MouseEvent) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setLogoPreview(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleSave = () => {
+    setIsEditing(false);
+    // Save logic here
+  };
+
+  return (
+    <div className="p-6">
+      {/* Header */}
+      <div className="mb-6">
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-2xl font-bold text-gray-900">Company Details</h1>
+            <p className="text-gray-600">Manage your company information and branding</p>
+          </div>
+          <div className="flex items-center space-x-3">
+            {!isEditing ? (
+              <button
+                onClick={() => setIsEditing(true)}
+                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center"
+              >
+                <Edit className="w-5 h-5 mr-2" />
+                Edit Details
+              </button>
+            ) : (
+              <>
+                <button
+                  onClick={() => setIsEditing(false)}
+                  className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleSave}
+                  className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center"
+                >
+                  <Save className="w-5 h-5 mr-2" />
+                  Save Changes
+                </button>
+              </>
+            )}
+          </div>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* Company Logo & Basic Info */}
+        <div className="lg:col-span-1">
+          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+            <h3 className="font-semibold text-gray-900 mb-4">Company Logo</h3>
+            
+            <div className="text-center mb-6">
+              <div className="w-32 h-32 mx-auto mb-4 rounded-lg overflow-hidden bg-gray-100">
+                <img
+                  src={logoPreview}
+                  alt="Company Logo"
+                  className="w-full h-full object-contain"
+                  onError={(e) => {
+                    e.target.style.display = 'none';
+                    e.target.nextSibling.style.display = 'flex';
+                  }}
+                />
+                <div className="w-full h-full items-center justify-center hidden">
+                  <Building className="w-16 h-16 text-gray-400" />
+                </div>
+              </div>
+              
+              {isEditing && (
+                <div>
+                  <input
+                    type="file"
+                    id="logo-upload"
+                    accept="image/*"
+                    onChange={handleLogoUpload}
+                    className="hidden"
+                  />
+                  <label
+                    htmlFor="logo-upload"
+                    className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 cursor-pointer inline-flex items-center"
+                  >
+                    <Upload className="w-4 h-4 mr-2" />
+                    Upload Logo
+                  </label>
+                  <p className="text-xs text-gray-500 mt-2">
+                    Recommended: 400x400px, PNG or JPG
+                  </p>
+                </div>
+              )}
+            </div>
+
+            {/* Basic Company Info */}
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Company Name
+                </label>
+                {isEditing ? (
+                  <input
+                    type="text"
+                    value={companyData.name}
+                    onChange={(e) => setCompanyData({ ...companyData, name: e.target.value })}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+                  />
+                ) : (
+                  <p className="font-medium">{companyData.name}</p>
+                )}
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Trading Name
+                </label>
+                {isEditing ? (
+                  <input
+                    type="text"
+                    value={companyData.tradingName}
+                    onChange={(e) => setCompanyData({ ...companyData, tradingName: e.target.value })}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+                  />
+                ) : (
+                  <p className="font-medium">{companyData.tradingName}</p>
+                )}
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Registration Number
+                </label>
+                {isEditing ? (
+                  <input
+                    type="text"
+                    value={companyData.registrationNumber}
+                    onChange={(e) => setCompanyData({ ...companyData, registrationNumber: e.target.value })}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+                  />
+                ) : (
+                  <p className="font-medium">{companyData.registrationNumber}</p>
+                )}
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  VAT Number
+                </label>
+                {isEditing ? (
+                  <input
+                    type="text"
+                    value={companyData.vatNumber}
+                    onChange={(e) => setCompanyData({ ...companyData, vatNumber: e.target.value })}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+                  />
+                ) : (
+                  <p className="font-medium">{companyData.vatNumber}</p>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Company Details & Contact */}
+        <div className="lg:col-span-2">
+          <div className="space-y-6">
+            {/* Contact Information */}
+            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+              <h3 className="font-semibold text-gray-900 mb-4">Contact Information</h3>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <Phone className="w-4 h-4 inline mr-1" />
+                    Phone
+                  </label>
+                  {isEditing ? (
+                    <input
+                      type="tel"
+                      value={companyData.contact.phone}
+                      onChange={(e) => setCompanyData({
+                        ...companyData,
+                        contact: { ...companyData.contact, phone: e.target.value }
+                      })}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+                    />
+                  ) : (
+                    <p className="font-medium">{companyData.contact.phone}</p>
+                  )}
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <Mail className="w-4 h-4 inline mr-1" />
+                    Email
+                  </label>
+                  {isEditing ? (
+                    <input
+                      type="email"
+                      value={companyData.contact.email}
+                      onChange={(e) => setCompanyData({
+                        ...companyData,
+                        contact: { ...companyData.contact, email: e.target.value }
+                      })}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+                    />
+                  ) : (
+                    <p className="font-medium">{companyData.contact.email}</p>
+                  )}
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <Globe className="w-4 h-4 inline mr-1" />
+                    Website
+                  </label>
+                  {isEditing ? (
+                    <input
+                      type="url"
+                      value={companyData.contact.website}
+                      onChange={(e) => setCompanyData({
+                        ...companyData,
+                        contact: { ...companyData.contact, website: e.target.value }
+                      })}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+                    />
+                  ) : (
+                    <p className="font-medium">{companyData.contact.website}</p>
+                  )}
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <Mail className="w-4 h-4 inline mr-1" />
+                    Support Email
+                  </label>
+                  {isEditing ? (
+                    <input
+                      type="email"
+                      value={companyData.contact.supportEmail}
+                      onChange={(e) => setCompanyData({
+                        ...companyData,
+                        contact: { ...companyData.contact, supportEmail: e.target.value }
+                      })}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+                    />
+                  ) : (
+                    <p className="font-medium">{companyData.contact.supportEmail}</p>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            {/* Address */}
+            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+              <h3 className="font-semibold text-gray-900 mb-4">
+                <MapPin className="w-5 h-5 inline mr-2" />
+                Company Address
+              </h3>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="md:col-span-2">
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Address Line 1
+                  </label>
+                  {isEditing ? (
+                    <input
+                      type="text"
+                      value={companyData.address.line1}
+                      onChange={(e) => setCompanyData({
+                        ...companyData,
+                        address: { ...companyData.address, line1: e.target.value }
+                      })}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+                    />
+                  ) : (
+                    <p className="font-medium">{companyData.address.line1}</p>
+                  )}
+                </div>
+
+                <div className="md:col-span-2">
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Address Line 2
+                  </label>
+                  {isEditing ? (
+                    <input
+                      type="text"
+                      value={companyData.address.line2}
+                      onChange={(e) => setCompanyData({
+                        ...companyData,
+                        address: { ...companyData.address, line2: e.target.value }
+                      })}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+                    />
+                  ) : (
+                    <p className="font-medium">{companyData.address.line2}</p>
+                  )}
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    City
+                  </label>
+                  {isEditing ? (
+                    <input
+                      type="text"
+                      value={companyData.address.city}
+                      onChange={(e) => setCompanyData({
+                        ...companyData,
+                        address: { ...companyData.address, city: e.target.value }
+                      })}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+                    />
+                  ) : (
+                    <p className="font-medium">{companyData.address.city}</p>
+                  )}
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    County
+                  </label>
+                  {isEditing ? (
+                    <input
+                      type="text"
+                      value={companyData.address.county}
+                      onChange={(e) => setCompanyData({
+                        ...companyData,
+                        address: { ...companyData.address, county: e.target.value }
+                      })}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+                    />
+                  ) : (
+                    <p className="font-medium">{companyData.address.county}</p>
+                  )}
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Postcode
+                  </label>
+                  {isEditing ? (
+                    <input
+                      type="text"
+                      value={companyData.address.postcode}
+                      onChange={(e) => setCompanyData({
+                        ...companyData,
+                        address: { ...companyData.address, postcode: e.target.value }
+                      })}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+                    />
+                  ) : (
+                    <p className="font-medium">{companyData.address.postcode}</p>
+                  )}
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Country
+                  </label>
+                  {isEditing ? (
+                    <input
+                      type="text"
+                      value={companyData.address.country}
+                      onChange={(e) => setCompanyData({
+                        ...companyData,
+                        address: { ...companyData.address, country: e.target.value }
+                      })}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+                    />
+                  ) : (
+                    <p className="font-medium">{companyData.address.country}</p>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            {/* Company Details */}
+            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+              <h3 className="font-semibold text-gray-900 mb-4">Company Details</h3>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <Clock className="w-4 h-4 inline mr-1" />
+                    Founded
+                  </label>
+                  {isEditing ? (
+                    <input
+                      type="text"
+                      value={companyData.details.founded}
+                      onChange={(e) => setCompanyData({
+                        ...companyData,
+                        details: { ...companyData.details, founded: e.target.value }
+                      })}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+                    />
+                  ) : (
+                    <p className="font-medium">{companyData.details.founded}</p>
+                  )}
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <Users className="w-4 h-4 inline mr-1" />
+                    Employees
+                  </label>
+                  {isEditing ? (
+                    <input
+                      type="text"
+                      value={companyData.details.employees}
+                      onChange={(e) => setCompanyData({
+                        ...companyData,
+                        details: { ...companyData.details, employees: e.target.value }
+                      })}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+                    />
+                  ) : (
+                    <p className="font-medium">{companyData.details.employees}</p>
+                  )}
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <Building className="w-4 h-4 inline mr-1" />
+                    Sector
+                  </label>
+                  {isEditing ? (
+                    <input
+                      type="text"
+                      value={companyData.details.sector}
+                      onChange={(e) => setCompanyData({
+                        ...companyData,
+                        details: { ...companyData.details, sector: e.target.value }
+                      })}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+                    />
+                  ) : (
+                    <p className="font-medium">{companyData.details.sector}</p>
+                  )}
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Company Description
+                </label>
+                {isEditing ? (
+                  <textarea
+                    value={companyData.details.description}
+                    onChange={(e) => setCompanyData({
+                      ...companyData,
+                      details: { ...companyData.details, description: e.target.value }
+                    })}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+                    rows={3}
+                  />
+                ) : (
+                  <p className="text-gray-700">{companyData.details.description}</p>
+                )}
+              </div>
+            </div>
+
+            {/* Certifications & Memberships */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                <h3 className="font-semibold text-gray-900 mb-4">
+                  <Award className="w-5 h-5 inline mr-2" />
+                  Certifications
+                </h3>
+                <ul className="space-y-2">
+                  {companyData.certifications.map((cert, index) => (
+                    <li key={index} className="flex items-center">
+                      <CheckCircle className="w-4 h-4 text-green-600 mr-2" />
+                      <span className="text-sm">{cert}</span>
+                    </li>
+                  ))}
+                </ul>
+                {isEditing && (
+                  <button className="mt-3 text-sm text-blue-600 hover:text-blue-700">
+                    + Add Certification
+                  </button>
+                )}
+              </div>
+
+              <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                <h3 className="font-semibold text-gray-900 mb-4">
+                  <Shield className="w-5 h-5 inline mr-2" />
+                  Member Of
+                </h3>
+                <ul className="space-y-2">
+                  {companyData.memberOf.map((org, index) => (
+                    <li key={index} className="flex items-center">
+                      <CheckCircle className="w-4 h-4 text-blue-600 mr-2" />
+                      <span className="text-sm">{org}</span>
+                    </li>
+                  ))}
+                </ul>
+                {isEditing && (
+                  <button className="mt-3 text-sm text-blue-600 hover:text-blue-700">
+                    + Add Membership
+                  </button>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}

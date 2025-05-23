@@ -1,0 +1,174 @@
+'use client';
+
+import React, { useEffect, useRef, useState } from 'react';
+import { Property } from '@/types/models/property';
+import { Card } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { MapPin, ZoomIn, ZoomOut, Layers } from 'lucide-react';
+import { formatPrice } from '@/utils/format';
+
+interface PropertyMapProps {
+  properties: Property[];
+  center?: { lat: number; lng: number };
+  zoom?: number;
+  onPropertyClick?: (property: Property) => void;
+  height?: string;
+  className?: string;
+}
+
+// Placeholder map component - replace with actual map library (Google Maps, Mapbox, etc.)
+const PropertyMap: React.FC<PropertyMapProps> = ({
+  properties,
+  center = { lat: 53.3498, lng: -6.2603 }, // Dublin center
+  zoom = 12,
+  onPropertyClick,
+  height = '100%',
+  className = ''}) => {
+  const mapRef = useRef<HTMLDivElement>(null);
+  const [selectedPropertysetSelectedProperty] = useState<Property | null>(null);
+  const [mapTypesetMapType] = useState<'roadmap' | 'satellite'>('roadmap');
+
+  // Initialize map (placeholder)
+  useEffect(() => {
+    // In production, initialize actual map library here
+
+  }, [properties]);
+
+  // Handle property marker click
+  const handleMarkerClick = (property: Property) => {
+    setSelectedProperty(property);
+    if (onPropertyClick) {
+      onPropertyClick(property);
+    }
+  };
+
+  return (
+    <div className={`relative ${className}`} style={ height }>
+      {/* Map Container */}
+      <div ref={mapRef} className="w-full h-full bg-gray-200 relative">
+        {/* Placeholder Map Background */}
+        <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-blue-50 to-green-50">
+          <div className="text-center">
+            <MapPin className="h-16 w-16 text-gray-400 mx-auto mb-4" />
+            <p className="text-gray-600 text-lg font-medium">Interactive Map View</p>
+            <p className="text-gray-500 text-sm mt-2">
+              {properties.length} properties available
+            </p>
+          </div>
+        </div>
+
+        {/* Property Markers (Placeholder) */}
+        <div className="absolute inset-0 p-8">
+          <div className="grid grid-cols-4 gap-4 h-full">
+            {properties.slice(08).map((propertyindex: any) => (
+              <div
+                key={property.id}
+                className="relative"
+                style={
+                  gridColumn: (index % 4) + 1,
+                  gridRow: Math.floor(index / 4) + 1}
+              >
+                <button
+                  onClick={() => handleMarkerClick(property)}
+                  className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-blue-600 text-white rounded-full w-12 h-12 flex items-center justify-center shadow-lg hover:bg-blue-700 transition-colors"
+                  title={property.name}
+                >
+                  <span className="text-xs font-bold">
+                    €{Math.round(property.price / 1000)}k
+                  </span>
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Map Controls */}
+      <div className="absolute top-4 right-4 flex flex-col gap-2">
+        <Button
+          size="icon"
+          variant="secondary"
+          className="bg-white shadow-md"
+          title="Zoom in"
+        >
+          <ZoomIn className="h-4 w-4" />
+        </Button>
+        <Button
+          size="icon"
+          variant="secondary"
+          className="bg-white shadow-md"
+          title="Zoom out"
+        >
+          <ZoomOut className="h-4 w-4" />
+        </Button>
+        <Button
+          size="icon"
+          variant="secondary"
+          className="bg-white shadow-md"
+          onClick={() => setMapType(mapType === 'roadmap' ? 'satellite' : 'roadmap')}
+          title="Toggle map type"
+        >
+          <Layers className="h-4 w-4" />
+        </Button>
+      </div>
+
+      {/* Property Info Card */}
+      {selectedProperty && (
+        <Card className="absolute bottom-4 left-4 right-4 md:left-auto md:right-4 md:w-80 p-4 shadow-lg">
+          <button
+            onClick={() => setSelectedProperty(null)}
+            className="absolute top-2 right-2 text-gray-400 hover:text-gray-600"
+          >
+            ×
+          </button>
+          <div className="pr-6">
+            <h3 className="font-semibold text-lg">{selectedProperty.name}</h3>
+            <p className="text-sm text-gray-600">
+              {selectedProperty.location.city}, {selectedProperty.location.county}
+            </p>
+            <p className="text-lg font-bold text-blue-600 mt-2">
+              {formatPrice(selectedProperty.price)}
+            </p>
+            <div className="flex gap-4 text-sm text-gray-600 mt-2">
+              <span>{selectedProperty.bedrooms} bed</span>
+              <span>{selectedProperty.bathrooms} bath</span>
+              <span>{selectedProperty.size} sq ft</span>
+            </div>
+            <Button
+              size="sm"
+              className="w-full mt-3"
+              onClick={() => {
+                if (onPropertyClick) {
+                  onPropertyClick(selectedProperty);
+                }
+              }
+            >
+              View Details
+            </Button>
+          </div>
+        </Card>
+      )}
+
+      {/* Map Legend */}
+      <div className="absolute bottom-4 right-4 bg-white rounded-lg shadow-md p-3 text-xs">
+        <p className="font-semibold mb-1">Price Range</p>
+        <div className="space-y-1">
+          <div className="flex items-center gap-2">
+            <span className="w-3 h-3 bg-green-500 rounded-full"></span>
+            <span>Under €300k</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="w-3 h-3 bg-yellow-500 rounded-full"></span>
+            <span>€300k - €500k</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="w-3 h-3 bg-red-500 rounded-full"></span>
+            <span>Over €500k</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default PropertyMap;

@@ -1,0 +1,829 @@
+/**
+ * Enhanced Data Service for Prop.ie platform
+ * 
+ * This service provides a unified interface for data fetching across the application,
+ * combining AWS Amplify Data API with error handling, caching, and retry logic.
+ * It's designed to work with both GraphQL and REST APIs as needed.
+ */
+
+import { amplifyApiClient, getAuthenticatedUser } from "@/lib/amplify-client";
+import { api } from "./api-client";
+import { type GraphQLResult } from '@aws-amplify/api';
+
+// Import centralized types
+import {
+  Development,
+  Property,
+  CustomizationOption,
+  Room,
+  Category,
+  UserInfo,
+  ListDevelopmentsResponse,
+  ListPropertiesResponse,
+  ListCustomizationOptionsResponse,
+  ListRoomsResponse,
+  ListCategoriesResponse,
+  GetCustomizationResponse,
+  CreateMutationResponse,
+  UpdateMutationResponse} from "@/types";
+
+// Define missing Customization type
+export interface Customization {
+  id?: string;
+  propertyId: string;
+  userId: string;
+  selectedOptions: Record<string, any>; // Ideally replace with SelectedOption type
+  totalCost: number;
+  status?: string;
+  userPreferences?: Record<string, any>;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+// Define missing Consultation type
+export interface Consultation {
+  id?: string;
+  propertyId: string;
+  customizationId: string;
+  userId: string;
+  status: string;
+  details: string; // JSON stringified consultation details
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+// Define additional response types
+export interface ListCustomizationsResponse {
+  listCustomizations: {
+    items: Customization[];
+    nextToken?: string | null;
+  } | null;
+}
+
+export interface CreateConsultationResponse {
+  createConsultation: Consultation | null;
+}
+
+// Service result type for consistent error handling
+interface ServiceResult<T> {
+  success: boolean;
+  data?: T;
+  error?: Error;
+}
+
+// Simple in-memory cache implementation
+interface CacheItem<T> {
+  data: T;
+  timestamp: number;
+  ttl: number;
+}
+
+class Cache {
+  private cache: Record<string, CacheItem<any>> = {};
+  private readonly defaultTTL = 5 * 60 * 1000; // 5 minutes by default
+
+  set<T>(key: string, data: T, ttl: number = this.defaultTTL): void {
+    this.cache[key] = {
+      data,
+      timestamp: Date.now(),
+      ttl};
+  }
+
+  get<T>(key: string): T | null {
+    const item = this.cache[key];
+    if (!item) return null;
+
+    // Check if item has expired
+    if (Date.now() - item.timestamp > item.ttl) {
+      delete this.cache[key];
+      return null;
+    }
+
+    return item.data as T;
+  }
+
+  remove(key: string): void {
+    delete this.cache[key];
+  }
+
+  clear(): void {
+    this.cache = {};
+  }
+
+  clearPattern(pattern: string): void {
+    for (const key of Object.keys(this.cache)) {
+      if (key.includes(pattern)) {
+        delete this.cache[key];
+      }
+    }
+  }
+}
+
+// Initialize cache singleton
+const cache = new Cache();
+
+// --- Enhanced Data Service ---
+export const DataService = {
+  /**
+   * Helper function for GraphQL calls with error handling, caching, and typing
+   * @returns ServiceResult with success/data/error fields
+   */
+  async _callGraphQL<T>({ 
+    query, 
+    variables, 
+    operationName,
+    cacheKey = '',
+    cacheTTL = 5 * 60 * 1000, // 5 minutes by default
+    skipCache = false
+  }: { 
+    query: string; 
+    variables?: Record<string, any>;
+    operationName?: string;
+    cacheKey?: string;
+    cacheTTL?: number;
+    skipCache?: boolean;
+  }): Promise<ServiceResult<T>> {
+    const effectiveOperationName = operationName || query.split("{")[0].trim();
+
+    // Try to get from cache first if we have a cache key and skipCache is false
+    if (cacheKey && !skipCache) {
+      const cachedResult = cache.get<T>(cacheKey);
+      if (cachedResult) {
+
+        return { success: true, data: cachedResult };
+      }
+    }
+
+    try {
+      // Use the client to make GraphQL request
+      const response = await amplifyApiClient.graphql({
+        query: query,
+        variables: variables
+      }) as GraphQLResult<T>;
+
+      // Check for GraphQL errors within the response
+      if (response.errors) {
+        const errorMessage = response.errors.map((e: { message: string }) => e.message).join(', ');
+
+        return { 
+          success: false, 
+          error: new Error(`GraphQL operation failed: ${errorMessage}`) 
+        };
+      }
+
+      // Ensure data exists before returning
+      if (!response.data) {
+        return { 
+          success: false, 
+          error: new Error(`GraphQL response for ${effectiveOperationName} missing data`) 
+        };
+      }
+
+      // Cache the result if we have a cache key
+      if (cacheKey && !skipCache) {
+        cache.set(cacheKey, response.data, cacheTTL);
+      }
+
+      return { success: true, data: response.data };
+    } catch (error) {
+
+      return { 
+        success: false, 
+        error: error instanceof Error ? error : new Error(String(error)) 
+      };
+    }
+  },
+
+  /**
+   * Get featured developments with enhanced caching
+   */
+  async getFeaturedDevelopments(limit: number = 4): Promise<Development[]> {
+    const cacheKey = `featured-developments-${limit}`;
+
+    const query = `
+      query ListFeaturedDevelopments($limit: Int) {
+        listDevelopments(limit: $limit, sortDirection: DESC, sortField: "createdAt") {
+          items {
+            id name description location image status statusColor createdAt updatedAt
+          }
+        }
+      }
+    `;
+    const variables = { limit };
+
+    const result = await this._callGraphQL({ 
+      query, 
+      variables,
+      operationName: "ListFeaturedDevelopments",
+      cacheKey,
+      cacheTTL: 30 * 60 * 1000 // 30 minutes cache for featured developments
+    }) as ServiceResult<ListDevelopmentsResponse>;
+
+    if (!result.success || !result.data) {
+
+      // Try to fetch from REST API as fallback
+      try {
+        const apiDevelopments = await api.get<Development[]>("/developments", { 
+          // Using searchParams instead of params
+          searchParams: { limit, featured: true } 
+        });
+        return apiDevelopments || [];
+      } catch (apiError) {
+
+        return [];
+      }
+    }
+
+    return result.data.listDevelopments?.items || [];
+  },
+
+  /**
+   * Get featured properties with fallback to latest properties
+   */
+  async getFeaturedProperties(limit: number = 6): Promise<Property[]> {
+    const cacheKey = `featured-properties-${limit}`;
+
+    const query = `
+      query ListFeaturedProperties($limit: Int, $filter: ModelPropertyFilterInput) {
+        listProperties(limit: $limit, filter: $filter, sortDirection: DESC, sortField: "createdAt") {
+          items {
+            id developmentId developmentName title price bedrooms bathrooms area image isNew isReduced createdAt updatedAt
+          }
+        }
+      }
+    `;
+    const variables = {
+        limit,
+        filter: { isFeatured: { eq: true } }
+    };
+
+    const result = await this._callGraphQL({ 
+      query, 
+      variables,
+      operationName: "ListFeaturedProperties",
+      cacheKey,
+      cacheTTL: 15 * 60 * 1000 // 15 minutes cache for featured properties
+    }) as ServiceResult<ListPropertiesResponse>;
+
+    if (!result.success || !result.data) {
+
+      try {
+        // Try REST API fallback
+        const apiProperties = await api.get<Property[]>("/properties", {
+          searchParams: { limit, featured: true }
+        });
+        return apiProperties || [];
+      } catch (apiError) {
+
+        return [];
+      }
+    }
+
+    let properties = result.data.listProperties?.items || [];
+
+    // Fallback to latest properties if not enough featured ones
+    if (properties.length < limit) {
+
+      const fallbackCacheKey = `latest-properties-${limit}`;
+
+      const fallbackQuery = `
+        query ListLatestProperties($limit: Int) {
+          listProperties(limit: $limit, sortDirection: DESC, sortField: "createdAt") {
+            items {
+              id developmentId developmentName title price bedrooms bathrooms area image isNew isReduced createdAt updatedAt
+            }
+          }
+        }
+      `;
+      const fallbackResult = await this._callGraphQL({ 
+        query: fallbackQuery, 
+        variables: { limit },
+        operationName: "ListLatestProperties",
+        cacheKey: fallbackCacheKey,
+        cacheTTL: 10 * 60 * 1000 // 10 minutes cache for latest properties
+      }) as ServiceResult<ListPropertiesResponse>;
+
+      if (fallbackResult.success && fallbackResult.data) {
+        properties = fallbackResult.data.listProperties?.items || [];
+      }
+    }
+
+    return properties;
+  },
+
+  /**
+   * Get customization options with retry logic and enhanced error handling
+   */
+  async getCustomizationOptions(
+    room: string,
+    category: string,
+    retryCount = 0
+  ): Promise<Record<string, CustomizationOption[]>> {
+    const cacheKey = `customization-options-${room}-${category}`;
+
+    const query = `
+      query GetCustomizationOptions($filter: ModelCustomizationOptionFilterInput) {
+        listCustomizationOptions(filter: $filter) {
+          items {
+            id name description price unit image category room modelPath materialPath customData active supplierItemId displayOrder createdAt updatedAt
+          }
+        }
+      }
+    `;
+    const variables = {
+      filter: { 
+        and: [
+          { room: { eq: room } }, 
+          { category: { eq: category } }, 
+          { active: { eq: true } }
+        ] 
+      }
+    };
+
+    try {
+      const result = await this._callGraphQL({ 
+        query, 
+        variables,
+        operationName: "GetCustomizationOptions",
+        cacheKey,
+        cacheTTL: 60 * 60 * 1000 // 1 hour cache for customization options (more static data)
+      }) as ServiceResult<ListCustomizationOptionsResponse>;
+
+      if (!result.success) {
+        throw result.error;
+      }
+
+      const options = result.data?.listCustomizationOptions?.items || [];
+      const resultObj: Record<string, CustomizationOption[]> = {};
+      resultObj[category] = options;
+      return resultObj;
+
+    } catch (error) {
+
+      // Implement retry logic with exponential backoff
+      if (retryCount < 3) {
+        const delay = Math.min(Math.pow(2, retryCount) * 500, 5000);
+        ...`);
+        await new Promise(resolve => setTimeout(resolve, delay));
+        return this.getCustomizationOptions(room, category, retryCount + 1);
+      }
+
+      // After retries, try REST API as last resort
+      try {
+
+        const apiOptions = await api.get<CustomizationOption[]>("/customization/options", {
+          searchParams: { room, category, active: true }
+        });
+
+        const fallbackResult: Record<string, CustomizationOption[]> = {};
+        fallbackResult[category] = apiOptions || [];
+        return fallbackResult;
+      } catch (apiError) {
+
+        const emptyResult: Record<string, CustomizationOption[]> = {};
+        emptyResult[category] = [];
+        return emptyResult;
+      }
+    }
+  },
+
+  /**
+   * Get rooms
+   */
+  async getRooms(): Promise<Room[]> {
+    const cacheKey = "rooms-list";
+
+    const query = `
+      query ListRooms {
+        listRooms(sortDirection: ASC, sortField: "displayOrder") {
+          items { id name icon displayOrder }
+        }
+      }
+    `;
+
+    const result = await this._callGraphQL({ 
+      query,
+      operationName: "ListRooms",
+      cacheKey,
+      cacheTTL: 24 * 60 * 60 * 1000 // 24 hours cache for rooms (very static data)
+    }) as ServiceResult<ListRoomsResponse>;
+
+    if (!result.success || !result.data) {
+
+      // Try REST API fallback
+      try {
+        const apiRooms = await api.get<Room[]>("/rooms");
+        return apiRooms || [];
+      } catch (apiError) {
+
+        return [];
+      }
+    }
+
+    return result.data.listRooms?.items || [];
+  },
+
+  /**
+   * Get categories with enhanced caching
+   */
+  async getCategories(): Promise<Category[]> {
+    const cacheKey = "categories-list";
+
+    const query = `
+      query ListCategories {
+        listCategories(sortDirection: ASC, sortField: "displayOrder") {
+          items { id name displayOrder }
+        }
+      }
+    `;
+
+    const result = await this._callGraphQL({ 
+      query,
+      operationName: "ListCategories",
+      cacheKey,
+      cacheTTL: 24 * 60 * 60 * 1000 // 24 hours cache for categories (very static data)
+    }) as ServiceResult<ListCategoriesResponse>;
+
+    if (!result.success || !result.data) {
+
+      // Try REST API fallback
+      try {
+        const apiCategories = await api.get<Category[]>("/categories");
+        return apiCategories || [];
+      } catch (apiError) {
+
+        return [];
+      }
+    }
+
+    return result.data.listCategories?.items || [];
+  },
+
+  /**
+   * Save customization (Create or Update) with error handling and verification
+   */
+  async saveCustomization(customizationData: Partial<Customization>): Promise<{ customizationId: string } | null> {
+    if (!customizationData) {
+      throw new Error("Invalid customization data: Data is required");
+    }
+
+    try {
+      const userInfo = await getAuthenticatedUser();
+      if (!userInfo) {
+        throw new Error("Authentication required to save customization.");
+      }
+
+      // Validate required fields
+      if (!customizationData.propertyId) {
+        throw new Error("Property ID is required for customization");
+      }
+
+      if (!customizationData.selectedOptions || Object.keys(customizationData.selectedOptions).length === 0) {
+        throw new Error("Selected options are required for customization");
+      }
+
+      // Ensure totalCost is a valid number
+      if (typeof customizationData.totalCost !== 'number' || isNaN(customizationData.totalCost)) {
+        customizationData.totalCost = 0;
+
+      }
+
+      const now = new Date().toISOString();
+      const input = { 
+        ...customizationData, 
+        userId: userInfo.userId, 
+        updatedAt: now 
+      };
+
+      let mutation: string;
+      let operationName: string;
+      let responsePath: string;
+
+      if (customizationData.id) {
+        // Update existing customization
+        mutation = `
+          mutation UpdateCustomization($input: UpdateCustomizationInput!) { 
+            updateCustomization(input: $input) { 
+              id 
+            } 
+          }
+        `;
+        operationName = "UpdateCustomization";
+        responsePath = "updateCustomization";
+      } else {
+        // Create new customization
+        input.createdAt = now;
+        mutation = `
+          mutation CreateCustomization($input: CreateCustomizationInput!) { 
+            createCustomization(input: $input) { 
+              id 
+            } 
+          }
+        `;
+        operationName = "CreateCustomization";
+        responsePath = "createCustomization";
+      }
+
+      // Skip cache for mutations
+      type MutationResponse = { [key: string]: { id: string } | null }; 
+      const result = await this._callGraphQL({ 
+        query: mutation, 
+        variables: { input },
+        operationName,
+        skipCache: true
+      }) as ServiceResult<MutationResponse>;
+
+      if (!result.success || !result.data) {
+        throw result.error || new Error("Failed to save customization: No response data");
+      }
+
+      const resultId = result.data[responsePath]?.id;
+      if (!resultId) {
+        throw new Error(`Failed to ${customizationData.id ? "update" : "create"} customization: No ID returned.`);
+      }
+
+      // Clear any related cache items
+      cache.clearPattern(`customization-${customizationData.propertyId}`);
+
+      return { customizationId: resultId };
+
+    } catch (error) {
+
+      // Try REST API fallback for creating/updating customization
+      try {
+        if (!customizationData.propertyId) {
+          throw new Error("Property ID is required for customization");
+        }
+
+        const method = customizationData.id ? 'put' : 'post';
+        const endpoint = customizationData.id 
+          ? `/customizations/${customizationData.id}` 
+          : '/customizations';
+
+        const apiResponse = await api[method](endpoint, customizationData);
+
+        if (apiResponse && apiResponse !== null && typeof apiResponse === 'object' && 'id' in apiResponse) {
+          return { customizationId: apiResponse.id as string };
+        }
+
+        throw new Error("API fallback failed to save customization");
+      } catch (apiError) {
+
+        return null;
+      }
+    }
+  },
+
+  /**
+   * Get customization by ID with enhanced error handling
+   */
+  async getCustomization(customizationId: string): Promise<Customization | null> {
+    if (!customizationId) {
+      throw new Error("Customization ID is required");
+    }
+
+    const cacheKey = `customization-${customizationId}`;
+
+    const query = `
+      query GetCustomization($id: ID!) {
+        getCustomization(id: $id) {
+          id propertyId userId selectedOptions totalCost status userPreferences createdAt updatedAt
+        }
+      }
+    `;
+    const variables = { id: customizationId };
+
+    const result = await this._callGraphQL({ 
+      query, 
+      variables,
+      operationName: "GetCustomization",
+      cacheKey,
+      cacheTTL: 5 * 60 * 1000 // 5 minutes cache for customization data
+    }) as ServiceResult<GetCustomizationResponse>;
+
+    if (!result.success || !result.data?.getCustomization) {
+
+      // Try REST API fallback
+      try {
+        const apiCustomization = await api.get<Customization>(`/customizations/${customizationId}`);
+        return apiCustomization;
+      } catch (apiError) {
+
+        return null;
+      }
+    }
+
+    return result.data.getCustomization as Customization;
+  },
+
+  /**
+   * Get latest customization for a property for the current user
+   */
+  async getLatestCustomization(propertyId: string): Promise<Customization | null> {
+    if (!propertyId) {
+      throw new Error("Property ID is required");
+    }
+
+    try {
+      const userInfo = await getAuthenticatedUser();
+      if (!userInfo) {
+
+        return null;
+      }
+
+      const cacheKey = `customization-latest-${propertyId}-${userInfo.userId}`;
+
+      const query = `
+        query ListCustomizations($filter: ModelCustomizationFilterInput, $limit: Int, $sortDirection: ModelSortDirection) {
+          listCustomizations(filter: $filter, limit: $limit, sortDirection: $sortDirection, sortField: "updatedAt") {
+            items {
+              id propertyId userId selectedOptions totalCost status userPreferences createdAt updatedAt
+            }
+          }
+        }
+      `;
+      const variables = {
+        filter: { 
+          and: [
+            { propertyId: { eq: propertyId } }, 
+            { userId: { eq: userInfo.userId } }
+          ] 
+        },
+        limit: 1,
+        sortDirection: "DESC"};
+
+      const result = await this._callGraphQL({ 
+        query, 
+        variables,
+        operationName: "ListCustomizations",
+        cacheKey
+      }) as ServiceResult<ListCustomizationsResponse>;
+
+      if (!result.success || !result.data) {
+        throw result.error || new Error("Failed to fetch customizations");
+      }
+
+      const items = result.data.listCustomizations?.items || [];
+      return items.length > 0 ? items[0] : null;
+
+    } catch (error) {
+
+      // Try REST API fallback
+      try {
+        const userInfo = await getAuthenticatedUser();
+        if (!userInfo) return null;
+
+        const apiCustomizations = await api.get<Customization[]>(`/customizations`, {
+          searchParams: { propertyId, userId: userInfo.userId, limit: 1, sort: 'updatedAt:desc' }
+        });
+
+        return apiCustomizations && apiCustomizations.length > 0 
+          ? apiCustomizations[0] 
+          : null;
+      } catch (apiError) {
+
+        return null;
+      }
+    }
+  },
+
+  /**
+   * Request consultation with validation and error handling
+   */
+  async requestConsultation(
+    propertyId: string, 
+    customizationId: string, 
+    consultationData: Record<string, any>
+  ): Promise<Consultation | null> {
+    if (!propertyId) throw new Error("Property ID is required");
+    if (!customizationId) throw new Error("Customization ID is required");
+    if (!consultationData) throw new Error("Consultation details are required");
+
+    try {
+      const userInfo = await getAuthenticatedUser();
+      if (!userInfo) {
+        throw new Error("Authentication required to request consultation");
+      }
+
+      // Validate essential consultation data
+      if (!consultationData.preferredDate) {
+        throw new Error("Preferred consultation date is required");
+      }
+
+      // Ensure consultationData has required fields with defaults
+      const sanitizedData = {
+        ...consultationData,
+        preferredDate: consultationData.preferredDate,
+        contactMethod: consultationData.contactMethod || 'email',
+        notes: consultationData.notes || '',
+        status: 'REQUESTED'
+      };
+
+      const input = {
+        propertyId, 
+        customizationId, 
+        userId: userInfo.userId,
+        status: "REQUESTED", 
+        details: JSON.stringify(sanitizedData),
+        createdAt: new Date().toISOString()};
+
+      const mutation = `
+        mutation CreateConsultation($input: CreateConsultationInput!) {
+          createConsultation(input: $input) { 
+            id status createdAt 
+          }
+        }
+      `;
+
+      const result = await this._callGraphQL({ 
+        query: mutation, 
+        variables: { input },
+        operationName: "CreateConsultation",
+        skipCache: true
+      }) as ServiceResult<CreateConsultationResponse>;
+
+      if (!result.success || !result.data?.createConsultation) {
+        throw result.error || new Error("Failed to create consultation: No response data");
+      }
+
+      return result.data.createConsultation as Consultation;
+
+    } catch (error) {
+
+      // Try REST API fallback
+      try {
+        const userInfo = await getAuthenticatedUser();
+        if (!userInfo) {
+          throw new Error("Authentication required");
+        }
+
+        const consultationRequest = {
+          propertyId,
+          customizationId,
+          userId: userInfo.userId,
+          status: "REQUESTED",
+          details: JSON.stringify(consultationData)};
+
+        const apiConsultation = await api.post<Consultation>('/consultations', consultationRequest);
+        return apiConsultation;
+      } catch (apiError) {
+
+        return null;
+      }
+    }
+  },
+
+  /**
+   * Get current authenticated user info with enhanced error handling
+   */
+  async getCurrentUser(): Promise<UserInfo | null> {
+    try {
+      const user = await getAuthenticatedUser();
+      if (!user) return null;
+
+      return {
+        userId: user.userId,
+        username: user.username,
+        email: user.email,
+        roles: user.roles
+      };
+    } catch (error) {
+
+      // Try getting user info from API as fallback
+      try {
+        const apiUser = await api.get<UserInfo>('/auth/user');
+        return apiUser;
+      } catch (apiError) {
+        // Both methods failed, return null
+        return null;
+      }
+    }
+  },
+
+  /**
+   * Clear all cached data
+   */
+  clearCache: () => {
+    cache.clear();
+
+  },
+
+  /**
+   * Clear specific cache entry
+   */
+  clearCacheItem: (key: string) => {
+    cache.remove(key);
+
+  },
+
+  /**
+   * Clear cache matching a pattern
+   */
+  clearCachePattern: (pattern: string) => {
+    cache.clearPattern(pattern);
+
+  }
+};
+
+// Export the service as default
+export default DataService;

@@ -196,7 +196,7 @@ const GET_MY_DEVELOPMENTS = /* GraphQL */ `
 // Hook for fetching a development by ID
 export function useDevelopment(id?: string, options?: Omit<UseQueryOptions<GraphQLResult<{ development: Development }>, Error, Development>, 'queryKey' | 'queryFn'>) {
   const queryKey = id ? queryKeys.developments.detail(id) : ['development', 'undefined'];
-  
+
   return useGraphQLQuery<{ development: Development }>(
     queryKey as unknown[],
     GET_DEVELOPMENT,
@@ -216,7 +216,7 @@ export function useDevelopment(id?: string, options?: Omit<UseQueryOptions<Graph
 // Hook for fetching a development by slug
 export function useDevelopmentBySlug(slug?: string, options?: Omit<UseQueryOptions<GraphQLResult<{ developmentBySlug: Development }>, Error, Development>, 'queryKey' | 'queryFn'>) {
   const queryKey = slug ? queryKeys.developments.bySlug(slug) : ['development', 'slug', 'undefined'];
-  
+
   return useGraphQLQuery<{ developmentBySlug: Development }>(
     queryKey as unknown[],
     GET_DEVELOPMENT_BY_SLUG,
@@ -243,7 +243,7 @@ export function useDevelopments(
 ) {
   const filters = JSON.stringify(options.filter || {});
   const queryKey = queryKeys.developments.list(filters);
-  
+
   return useGraphQLQuery<{ developments: DevelopmentsResponse }>(
     queryKey as any[],
     GET_DEVELOPMENTS,
@@ -272,7 +272,7 @@ export function useMyDevelopments(
 ) {
   const filters = JSON.stringify(options.filter || {});
   const queryKey = [...queryKeys.developments.all, 'my', filters];
-  
+
   return useGraphQLQuery<{ myDevelopments: DevelopmentsResponse }>(
     queryKey as any[],
     GET_MY_DEVELOPMENTS,
@@ -294,12 +294,12 @@ export function useMyDevelopments(
 // Utility function to get status color class based on status
 export function getStatusColorClass(statusColor?: string): string {
   if (!statusColor) return 'bg-gray-500';
-  
+
   // Handle both formats: 'green' and 'green-500'
   if (statusColor.includes('-')) {
     return `bg-${statusColor}`;
   }
-  
+
   switch (statusColor) {
     case 'green': return 'bg-green-500';
     case 'blue': return 'bg-blue-500';

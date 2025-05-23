@@ -94,7 +94,7 @@ export type UserPreferences = {
   theme: string;
   language: string;
   timezone: string;
-  dashboardLayout?: Maybe<JSON>;
+  dashboardLayout?: Maybe<JSON>\n  );
 };
 
 export type NotificationPreferences = {
@@ -107,7 +107,7 @@ export type UserPermission = {
   id: Scalars['ID'];
   resource: string;
   action: string;
-  conditions?: Maybe<JSON>;
+  conditions?: Maybe<JSON>\n  );
 };
 
 export type User = {
@@ -116,31 +116,31 @@ export type User = {
   firstName: string;
   lastName: string;
   fullName: string;
-  phone?: Maybe<string>;
-  roles: Array<Role>;
+  phone?: Maybe<string>\n  );
+  roles: Array<Role>\n  );
   status: UserStatus;
   kycStatus: KYCStatus;
-  organization?: Maybe<string>;
-  position?: Maybe<string>;
-  avatar?: Maybe<string>;
-  preferences?: Maybe<UserPreferences>;
+  organization?: Maybe<string>\n  );
+  position?: Maybe<string>\n  );
+  avatar?: Maybe<string>\n  );
+  preferences?: Maybe<UserPreferences>\n  );
   created: Scalars['DateTime'];
   lastActive: Scalars['DateTime'];
-  lastLogin?: Maybe<Scalars['DateTime']>;
-  metadata?: Maybe<JSON>;
-  permissions?: Maybe<Array<UserPermission>>;
+  lastLogin?: Maybe<Scalars['DateTime']>\n  );
+  metadata?: Maybe<JSON>\n  );
+  permissions?: Maybe<Array<UserPermission>>\n  );
 };
 
 export type UserSummary = {
   id: Scalars['ID'];
   fullName: string;
   email: string;
-  roles: Array<Role>;
-  avatar?: Maybe<string>;
+  roles: Array<Role>\n  );
+  avatar?: Maybe<string>\n  );
 };
 
 export type UsersResponse = {
-  users: Array<User>;
+  users: Array<User>\n  );
   totalCount: Scalars['Int'];
   pageInfo: PageInfo;
 };
@@ -148,22 +148,22 @@ export type UsersResponse = {
 export type PageInfo = {
   hasNextPage: Scalars['Boolean'];
   hasPreviousPage: Scalars['Boolean'];
-  startCursor?: Maybe<Scalars['String']>;
-  endCursor?: Maybe<Scalars['String']>;
+  startCursor?: Maybe<Scalars['String']>\n  );
+  endCursor?: Maybe<Scalars['String']>\n  );
 };
 
 // Development Types
 export type Location = {
   id: Scalars['ID'];
   address: string;
-  addressLine1?: Maybe<string>;
-  addressLine2?: Maybe<string>;
+  addressLine1?: Maybe<string>\n  );
+  addressLine2?: Maybe<string>\n  );
   city: string;
   county: string;
-  eircode?: Maybe<string>;
+  eircode?: Maybe<string>\n  );
   country: string;
-  longitude?: Maybe<Scalars['Float']>;
-  latitude?: Maybe<Scalars['Float']>;
+  longitude?: Maybe<Scalars['Float']>\n  );
+  latitude?: Maybe<Scalars['Float']>\n  );
 };
 
 export type ProfessionalTeamMember = {
@@ -171,11 +171,11 @@ export type ProfessionalTeamMember = {
   user: UserSummary;
   role: ProfessionalRole;
   company: string;
-  appointmentDocument?: Maybe<Document>;
+  appointmentDocument?: Maybe<Document>\n  );
   status: AppointmentStatus;
-  startDate?: Maybe<Scalars['DateTime']>;
-  endDate?: Maybe<Scalars['DateTime']>;
-  notes?: Maybe<string>;
+  startDate?: Maybe<Scalars['DateTime']>\n  );
+  endDate?: Maybe<Scalars['DateTime']>\n  );
+  notes?: Maybe<string>\n  );
 };
 
 export type ProjectMilestone = {
@@ -183,28 +183,28 @@ export type ProjectMilestone = {
   name: string;
   description: string;
   plannedDate: Scalars['DateTime'];
-  actualDate?: Maybe<Scalars['DateTime']>;
+  actualDate?: Maybe<Scalars['DateTime']>\n  );
   status: MilestoneStatus;
-  dependencies?: Maybe<Array<ProjectMilestone>>;
-  documents?: Maybe<Array<Document>>;
+  dependencies?: Maybe<Array<ProjectMilestone>>\n  );
+  documents?: Maybe<Array<Document>>\n  );
 };
 
 export type ProjectTimeline = {
   id: Scalars['ID'];
   planningSubmissionDate: Scalars['DateTime'];
-  planningDecisionDate?: Maybe<Scalars['DateTime']>;
-  constructionStartDate?: Maybe<Scalars['DateTime']>;
-  constructionEndDate?: Maybe<Scalars['DateTime']>;
-  marketingLaunchDate?: Maybe<Scalars['DateTime']>;
-  salesLaunchDate?: Maybe<Scalars['DateTime']>;
-  milestones: Array<ProjectMilestone>;
+  planningDecisionDate?: Maybe<Scalars['DateTime']>\n  );
+  constructionStartDate?: Maybe<Scalars['DateTime']>\n  );
+  constructionEndDate?: Maybe<Scalars['DateTime']>\n  );
+  marketingLaunchDate?: Maybe<Scalars['DateTime']>\n  );
+  salesLaunchDate?: Maybe<Scalars['DateTime']>\n  );
+  milestones: Array<ProjectMilestone>\n  );
 };
 
 export type MarketingStatus = {
   website: Scalars['Boolean'];
   brochuresReady: Scalars['Boolean'];
   showUnitReady: Scalars['Boolean'];
-  launchDate?: Maybe<Scalars['DateTime']>;
+  launchDate?: Maybe<Scalars['DateTime']>\n  );
 };
 
 export type SalesStatus = {
@@ -216,7 +216,7 @@ export type SalesStatus = {
   salesVelocity: Scalars['Float'];
   targetPriceAverage: Scalars['Float'];
   actualPriceAverage: Scalars['Float'];
-  projectedSelloutDate?: Maybe<Scalars['DateTime']>;
+  projectedSelloutDate?: Maybe<Scalars['DateTime']>\n  );
 };
 
 export type BuildingSpecifications = {
@@ -228,70 +228,70 @@ export type BuildingSpecifications = {
   doors: string;
   interiorFinishes: string;
   heatingSystem: string;
-  coolingSystem?: Maybe<string>;
+  coolingSystem?: Maybe<string>\n  );
   electricalSystem: string;
   plumbingSystem: string;
   insulation: string;
-  energyFeatures: Array<string>;
-  smartHomeFeatures?: Maybe<Array<string>>;
-  securityFeatures?: Maybe<Array<string>>;
-  accessibilityFeatures?: Maybe<Array<string>>;
-  sustainabilityFeatures?: Maybe<Array<string>>;
+  energyFeatures: Array<string>\n  );
+  smartHomeFeatures?: Maybe<Array<string>>\n  );
+  securityFeatures?: Maybe<Array<string>>\n  );
+  accessibilityFeatures?: Maybe<Array<string>>\n  );
+  sustainabilityFeatures?: Maybe<Array<string>>\n  );
 };
 
 export type DevelopmentSummary = {
   id: Scalars['ID'];
   name: string;
-  slug?: Maybe<string>;
+  slug?: Maybe<string>\n  );
   status: DevelopmentStatus;
   mainImage: string;
-  shortDescription?: Maybe<string>;
+  shortDescription?: Maybe<string>\n  );
   location: Location;
   totalUnits: Scalars['Int'];
   availableUnits: Scalars['Int'];
-  priceRange?: Maybe<string>;
+  priceRange?: Maybe<string>\n  );
   developer: UserSummary;
 };
 
 export type Development = {
   id: Scalars['ID'];
   name: string;
-  slug?: Maybe<string>;
+  slug?: Maybe<string>\n  );
   developer: UserSummary;
   location: Location;
   status: DevelopmentStatus;
   totalUnits: Scalars['Int'];
   availableUnits: Scalars['Int'];
-  professionalTeam: Array<ProfessionalTeamMember>;
-  documents: Array<Document>;
+  professionalTeam: Array<ProfessionalTeamMember>\n  );
+  documents: Array<Document>\n  );
   marketingStatus: MarketingStatus;
   salesStatus: SalesStatus;
-  timeline?: Maybe<ProjectTimeline>;
+  timeline?: Maybe<ProjectTimeline>\n  );
   mainImage: string;
-  images: Array<string>;
-  videos?: Maybe<Array<string>>;
-  sitePlanUrl?: Maybe<string>;
-  brochureUrl?: Maybe<string>;
-  virtualTourUrl?: Maybe<string>;
-  websiteUrl?: Maybe<string>;
+  images: Array<string>\n  );
+  videos?: Maybe<Array<string>>\n  );
+  sitePlanUrl?: Maybe<string>\n  );
+  brochureUrl?: Maybe<string>\n  );
+  virtualTourUrl?: Maybe<string>\n  );
+  websiteUrl?: Maybe<string>\n  );
   description: string;
-  shortDescription?: Maybe<string>;
-  features: Array<string>;
-  amenities: Array<string>;
-  buildingSpecs?: Maybe<BuildingSpecifications>;
-  buildingType?: Maybe<string>;
-  completionDate?: Maybe<Scalars['DateTime']>;
-  startDate?: Maybe<Scalars['DateTime']>;
+  shortDescription?: Maybe<string>\n  );
+  features: Array<string>\n  );
+  amenities: Array<string>\n  );
+  buildingSpecs?: Maybe<BuildingSpecifications>\n  );
+  buildingType?: Maybe<string>\n  );
+  completionDate?: Maybe<Scalars['DateTime']>\n  );
+  startDate?: Maybe<Scalars['DateTime']>\n  );
   created: Scalars['DateTime'];
   updated: Scalars['DateTime'];
-  publishedDate?: Maybe<Scalars['DateTime']>;
+  publishedDate?: Maybe<Scalars['DateTime']>\n  );
   isPublished: Scalars['Boolean'];
-  tags?: Maybe<Array<string>>;
-  awards?: Maybe<Array<string>>;
+  tags?: Maybe<Array<string>>\n  );
+  awards?: Maybe<Array<string>>\n  );
 };
 
 export type DevelopmentsResponse = {
-  developments: Array<DevelopmentSummary>;
+  developments: Array<DevelopmentSummary>\n  );
   totalCount: Scalars['Int'];
   pageInfo: PageInfo;
 };
@@ -300,7 +300,7 @@ export type DevelopmentsResponse = {
 export type Document = {
   id: Scalars['ID'];
   name: string;
-  description?: Maybe<string>;
+  description?: Maybe<string>\n  );
   category: string;
   status: string;
   url: string;
@@ -328,112 +328,112 @@ export type CashFlowItem = {
   expenses: Scalars['Float'];
   balance: Scalars['Float'];
   category: string;
-  description?: Maybe<string>;
+  description?: Maybe<string>\n  );
 };
 
 // Input Types
 export type LocationInput = {
   address: string;
-  addressLine1?: Maybe<string>;
-  addressLine2?: Maybe<string>;
+  addressLine1?: Maybe<string>\n  );
+  addressLine2?: Maybe<string>\n  );
   city: string;
   county: string;
-  eircode?: Maybe<string>;
-  longitude?: Maybe<Scalars['Float']>;
-  latitude?: Maybe<Scalars['Float']>;
+  eircode?: Maybe<string>\n  );
+  longitude?: Maybe<Scalars['Float']>\n  );
+  latitude?: Maybe<Scalars['Float']>\n  );
 };
 
 export type CreateDevelopmentInput = {
   name: string;
   location: LocationInput;
   description: string;
-  shortDescription?: Maybe<string>;
+  shortDescription?: Maybe<string>\n  );
   mainImage: string;
-  features: Array<string>;
-  amenities: Array<string>;
+  features: Array<string>\n  );
+  amenities: Array<string>\n  );
   totalUnits: Scalars['Int'];
   status: DevelopmentStatus;
-  buildingType?: Maybe<string>;
-  startDate?: Maybe<Scalars['DateTime']>;
-  completionDate?: Maybe<Scalars['DateTime']>;
-  tags?: Maybe<Array<string>>;
+  buildingType?: Maybe<string>\n  );
+  startDate?: Maybe<Scalars['DateTime']>\n  );
+  completionDate?: Maybe<Scalars['DateTime']>\n  );
+  tags?: Maybe<Array<string>>\n  );
 };
 
 export type UpdateDevelopmentInput = {
-  name?: Maybe<string>;
-  description?: Maybe<string>;
-  shortDescription?: Maybe<string>;
-  mainImage?: Maybe<string>;
-  features?: Maybe<Array<string>>;
-  amenities?: Maybe<Array<string>>;
-  status?: Maybe<DevelopmentStatus>;
-  buildingType?: Maybe<string>;
-  startDate?: Maybe<Scalars['DateTime']>;
-  completionDate?: Maybe<Scalars['DateTime']>;
-  isPublished?: Maybe<Scalars['Boolean']>;
-  tags?: Maybe<Array<string>>;
+  name?: Maybe<string>\n  );
+  description?: Maybe<string>\n  );
+  shortDescription?: Maybe<string>\n  );
+  mainImage?: Maybe<string>\n  );
+  features?: Maybe<Array<string>>\n  );
+  amenities?: Maybe<Array<string>>\n  );
+  status?: Maybe<DevelopmentStatus>\n  );
+  buildingType?: Maybe<string>\n  );
+  startDate?: Maybe<Scalars['DateTime']>\n  );
+  completionDate?: Maybe<Scalars['DateTime']>\n  );
+  isPublished?: Maybe<Scalars['Boolean']>\n  );
+  tags?: Maybe<Array<string>>\n  );
 };
 
 export type UpdateLocationInput = {
-  address?: Maybe<string>;
-  addressLine1?: Maybe<string>;
-  addressLine2?: Maybe<string>;
-  city?: Maybe<string>;
-  county?: Maybe<string>;
-  eircode?: Maybe<string>;
-  longitude?: Maybe<Scalars['Float']>;
-  latitude?: Maybe<Scalars['Float']>;
+  address?: Maybe<string>\n  );
+  addressLine1?: Maybe<string>\n  );
+  addressLine2?: Maybe<string>\n  );
+  city?: Maybe<string>\n  );
+  county?: Maybe<string>\n  );
+  eircode?: Maybe<string>\n  );
+  longitude?: Maybe<Scalars['Float']>\n  );
+  latitude?: Maybe<Scalars['Float']>\n  );
 };
 
 export type DevelopmentFilterInput = {
-  search?: Maybe<string>;
-  status?: Maybe<Array<DevelopmentStatus>>;
-  developer?: Maybe<Scalars['ID']>;
-  city?: Maybe<string>;
-  county?: Maybe<string>;
-  minUnits?: Maybe<Scalars['Int']>;
-  maxUnits?: Maybe<Scalars['Int']>;
-  isPublished?: Maybe<Scalars['Boolean']>;
-  tags?: Maybe<Array<string>>;
+  search?: Maybe<string>\n  );
+  status?: Maybe<Array<DevelopmentStatus>>\n  );
+  developer?: Maybe<Scalars['ID']>\n  );
+  city?: Maybe<string>\n  );
+  county?: Maybe<string>\n  );
+  minUnits?: Maybe<Scalars['Int']>\n  );
+  maxUnits?: Maybe<Scalars['Int']>\n  );
+  isPublished?: Maybe<Scalars['Boolean']>\n  );
+  tags?: Maybe<Array<string>>\n  );
 };
 
 export type CreateUserInput = {
   email: string;
   firstName: string;
   lastName: string;
-  phone?: Maybe<string>;
-  roles: Array<Role>;
-  organization?: Maybe<string>;
-  position?: Maybe<string>;
-  password?: Maybe<string>;
+  phone?: Maybe<string>\n  );
+  roles: Array<Role>\n  );
+  organization?: Maybe<string>\n  );
+  position?: Maybe<string>\n  );
+  password?: Maybe<string>\n  );
 };
 
 export type UpdateUserInput = {
-  firstName?: Maybe<string>;
-  lastName?: Maybe<string>;
-  phone?: Maybe<string>;
-  roles?: Maybe<Array<Role>>;
-  status?: Maybe<UserStatus>;
-  organization?: Maybe<string>;
-  position?: Maybe<string>;
-  avatar?: Maybe<string>;
-  preferences?: Maybe<JSON>;
+  firstName?: Maybe<string>\n  );
+  lastName?: Maybe<string>\n  );
+  phone?: Maybe<string>\n  );
+  roles?: Maybe<Array<Role>>\n  );
+  status?: Maybe<UserStatus>\n  );
+  organization?: Maybe<string>\n  );
+  position?: Maybe<string>\n  );
+  avatar?: Maybe<string>\n  );
+  preferences?: Maybe<JSON>\n  );
 };
 
 export type UserFilterInput = {
-  search?: Maybe<string>;
-  roles?: Maybe<Array<Role>>;
-  status?: Maybe<UserStatus>;
-  kycStatus?: Maybe<KYCStatus>;
-  createdAfter?: Maybe<Scalars['DateTime']>;
-  createdBefore?: Maybe<Scalars['DateTime']>;
+  search?: Maybe<string>\n  );
+  roles?: Maybe<Array<Role>>\n  );
+  status?: Maybe<UserStatus>\n  );
+  kycStatus?: Maybe<KYCStatus>\n  );
+  createdAfter?: Maybe<Scalars['DateTime']>\n  );
+  createdBefore?: Maybe<Scalars['DateTime']>\n  );
 };
 
 export type PaginationInput = {
-  first?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  last?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>\n  );
+  after?: Maybe<Scalars['String']>\n  );
+  last?: Maybe<Scalars['Int']>\n  );
+  before?: Maybe<Scalars['String']>\n  );
 };
 
 // Dashboard and Project Types
@@ -464,13 +464,13 @@ export type ProjectSummary = {
   progress: Scalars['Float'];
   location: string;
   startDate: Scalars['DateTime'];
-  completionDate?: Maybe<Scalars['DateTime']>;
+  completionDate?: Maybe<Scalars['DateTime']>\n  );
   totalUnits: Scalars['Int'];
   soldUnits: Scalars['Int'];
   availableUnits: Scalars['Int'];
   reservedUnits: Scalars['Int'];
   lastUpdated: Scalars['DateTime'];
-  thumbnail?: Maybe<string>;
+  thumbnail?: Maybe<string>\n  );
 };
 
 export type SalesMetrics = {
@@ -479,12 +479,12 @@ export type SalesMetrics = {
     year: number;
     count: number;
     value: number;
-  }>;
+  }>\n  );
   salesByStatus: Array<{
     status: string;
     count: number;
     value: number;
-  }>;
+  }>\n  );
   conversionRate: number;
   averageTimeToSale: number;
   hotLeads: number;
@@ -509,18 +509,18 @@ export type TimelineEvent = {
   timestamp: Scalars['DateTime'];
   type: string;
   title: string;
-  description?: Maybe<string>;
+  description?: Maybe<string>\n  );
   user?: Maybe<{
     id: Scalars['ID'];
     fullName: string;
-    avatar?: Maybe<string>;
-  }>;
+    avatar?: Maybe<string>\n  );
+  }>\n  );
   project?: Maybe<{
     id: Scalars['ID'];
     name: string;
-  }>;
-  entityType?: Maybe<string>;
-  entityId?: Maybe<Scalars['ID']>;
+  }>\n  );
+  entityType?: Maybe<string>\n  );
+  entityId?: Maybe<Scalars['ID']>\n  );
 };
 
 export type DateRangeInput = {
@@ -529,11 +529,11 @@ export type DateRangeInput = {
 };
 
 export type DashboardFilterInput = {
-  developerId?: Maybe<Scalars['ID']>;
-  projectIds?: Maybe<Array<Scalars['ID']>>;
-  projectStatus?: Maybe<Array<ProjectStatus>>;
-  projectCategory?: Maybe<Array<ProjectCategory>>;
-  includeCompletedProjects?: Maybe<Scalars['Boolean']>;
+  developerId?: Maybe<Scalars['ID']>\n  );
+  projectIds?: Maybe<Array<Scalars['ID']>>\n  );
+  projectStatus?: Maybe<Array<ProjectStatus>>\n  );
+  projectCategory?: Maybe<Array<ProjectCategory>>\n  );
+  includeCompletedProjects?: Maybe<Scalars['Boolean']>\n  );
 };
 
 /**
@@ -554,26 +554,24 @@ export interface GraphQLContext {
 }
 
 export interface AuthContext extends GraphQLContext {
-  user: NonNullable<GraphQLContext['user']>;
+  user: NonNullable<GraphQLContext['user']>\n  );
 }
 
 export type ResolverFunction<TArgs = any, TResult = any> = (
   parent: unknown,
   args: TArgs,
   context: GraphQLContext
-) => Promise<TResult>;
-
+) => Promise<TResult>\n  );
 export type AuthResolverFunction<TArgs = any, TResult = any> = (
   parent: unknown,
   args: TArgs,
   context: AuthContext
-) => Promise<TResult>;
-
+) => Promise<TResult>\n  );
 // GraphQL Operation Types
 export interface GraphQLOperationContext {
   operationType: 'query' | 'mutation';
   operationName: string;
-  variables?: Record<string, unknown>;
+  variables?: Record<string, unknown>\n  );
   timestamp: string;
 }
 
@@ -600,11 +598,9 @@ export function createGraphQLResult<T>(
   if (response.errors) {
     return {
       error: errorHandler.handleError(response.errors[0]),
-      context,
-    };
+      context};
   }
   return {
     data: response.data,
-    context,
-  };
+    context};
 }

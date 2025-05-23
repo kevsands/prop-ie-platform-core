@@ -1,3 +1,4 @@
+import React from 'react';
 "use client";
 
 import * as React from "react";
@@ -14,8 +15,7 @@ import {
   Filter,
   MoreHorizontal,
   SlidersHorizontal,
-  ChevronDown,
-} from "lucide-react";
+  ChevronDown} from "lucide-react";
 import {
   Column,
   ColumnDef,
@@ -31,8 +31,7 @@ import {
   Header,
   HeaderGroup,
   Cell,
-  Table as TableInstance,
-} from "@tanstack/react-table";
+  Table as TableInstance} from "@tanstack/react-table";
 
 import { cn } from "@/lib/utils";
 import { Button } from "./button";
@@ -44,8 +43,7 @@ import {
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "./dropdown-menu";
+  DropdownMenuTrigger} from "./dropdown-menu";
 import { Input } from "./input";
 import {
   Table,
@@ -53,8 +51,7 @@ import {
   TableCell,
   TableHead,
   TableHeader,
-  TableRow,
-} from "./table";
+  TableRow} from "./table";
 import { Skeleton } from "./skeleton";
 import { Badge } from "./badge";
 import { Popover, PopoverContent, PopoverTrigger } from "./popover";
@@ -64,7 +61,7 @@ export type DataTableFilterOption = {
   id: string;
   label: string;
   value: string;
-  icon?: React.ComponentType<{ className?: string }>;
+  icon?: React.ComponentType<{ className?: string }>\n  );
 };
 
 export interface DataTableFilterProps<TData> {
@@ -116,7 +113,7 @@ export function DataTable<TData, TValue>({
   rowSelection = false,
   pagination = true,
   pageSize = 10,
-  pageSizeOptions = [10, 25, 50, 100],
+  pageSizeOptions = [10, 25, 50100],
   onRowClick,
   loading = false,
   loadingRowCount = 5,
@@ -138,15 +135,14 @@ export function DataTable<TData, TValue>({
   showRowHover = true,
   expandable = false,
   expandedRow,
-  onRowExpand,
-}: DataTableProps<TData, TValue>) {
-  const [sorting, setSorting] = useState<SortingState>(initialSorting || []);
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-  const [globalFilter, setGlobalFilter] = useState<string>("");
-  const [rowSelectionState, setRowSelectionState] = useState({});
-  const [columnVisibility, setColumnVisibility] = useState({});
-  const [expandedRows, setExpandedRows] = useState<Record<string, boolean>>({});
-  
+  onRowExpand}: DataTableProps<TData, TValue>) {
+  const [sortingsetSorting] = useState<SortingState>(initialSorting || []);
+  const [columnFilterssetColumnFilters] = useState<ColumnFiltersState>([]);
+  const [globalFiltersetGlobalFilter] = useState<string>("");
+  const [rowSelectionStatesetRowSelectionState] = useState({});
+  const [columnVisibilitysetColumnVisibility] = useState({});
+  const [expandedRowssetExpandedRows] = useState<Record<string, boolean>>({});
+
   // Create table instance
   const table: TableInstance<TData> = useReactTable({
     data,
@@ -176,74 +172,69 @@ export function DataTable<TData, TValue>({
       columnVisibility,
       pagination: {
         pageIndex: 0,
-        pageSize: pageSize,
-      },
-    },
+        pageSize: pageSize},
     enableRowSelection: rowSelection,
     initialState: {
-      pagination: pagination ? { pageSize } : undefined,
-    },
-  });
-  
+      pagination: pagination ? { pageSize } : undefined});
+
   // Handle pagination changes
   useEffect(() => {
     if (pagination && onPaginationChange) {
       const { pageIndex, pageSize: currentPageSize } = table.getState().pagination;
-      onPaginationChange(pageIndex + 1, currentPageSize);
+      onPaginationChange(pageIndex + 1currentPageSize);
     }
   }, [
     pagination,
     onPaginationChange,
     table.getState().pagination.pageIndex,
-    table.getState().pagination.pageSize,
-  ]);
-  
+    table.getState().pagination.pageSize]);
+
   // Handle selected rows change
   useEffect(() => {
     if (rowSelection && onSelectedRowsChange) {
       const selectedRows = table
         .getFilteredSelectedRowModel()
-        .rows.map((row) => row.original);
+        .rows.map((row: any) => row.original);
       onSelectedRowsChange(selectedRows);
     }
-  }, [rowSelection, onSelectedRowsChange, table, rowSelectionState]);
+  }, [rowSelection, onSelectedRowsChange, tablerowSelectionState]);
 
   // Export table data to CSV
   const exportToCSV = () => {
     if (!exportData) return;
-    
+
     const visibleColumns = table.getAllColumns().filter(column => column.getIsVisible());
     const headers = visibleColumns.map(column => column.id).join(',');
-    
+
     const csvRows = [headers];
-    
+
     table.getFilteredRowModel().rows.forEach(row => {
       const rowData = visibleColumns.map(column => {
         const cell = row.getAllCells().find(cell => cell.column.id === column.id);
         if (!cell) return '';
-        
+
         // Get the cell's displayed value
         let cellValue = cell.getValue() as string;
-        
+
         // Handle different types of data
         if (cellValue === null || cellValue === undefined) {
           cellValue = '';
         } else if (typeof cellValue === 'object') {
           cellValue = JSON.stringify(cellValue);
         }
-        
+
         // Escape commas and quotes
         cellValue = cellValue.toString().replace(/"/g, '""');
         if (cellValue.includes(',') || cellValue.includes('"') || cellValue.includes('\n')) {
           cellValue = `"${cellValue}"`;
         }
-        
+
         return cellValue;
       }).join(',');
-      
+
       csvRows.push(rowData);
     });
-    
+
     const csv = csvRows.join('\n');
     const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
@@ -298,7 +289,7 @@ export function DataTable<TData, TValue>({
       ...prev,
       [rowId]: newExpanded
     }));
-    onRowExpand?.(row.original, newExpanded);
+    onRowExpand?.(row.originalnewExpanded);
   };
 
   // Render loading state
@@ -313,14 +304,14 @@ export function DataTable<TData, TValue>({
             <Skeleton className="h-9 w-9" />
           </div>
         </div>
-        
+
         {/* Table */}
         <div className="rounded-md border">
           <Table>
             <TableHeader>
               <TableRow>
                 {rowSelection && <TableHead className="w-10"><Skeleton className="h-4 w-4" /></TableHead>}
-                {columns.map((column, index) => (
+                {columns.map((columnindex: any) => (
                   <TableHead key={index}>
                     <Skeleton className="h-4 w-24" />
                   </TableHead>
@@ -328,10 +319,10 @@ export function DataTable<TData, TValue>({
               </TableRow>
             </TableHeader>
             <TableBody>
-              {Array.from({ length: loadingRowCount }).map((_, index) => (
+              {Array.from({ length: loadingRowCount }).map((_index: any) => (
                 <TableRow key={index}>
                   {rowSelection && <TableCell><Skeleton className="h-4 w-4" /></TableCell>}
-                  {columns.map((_, cellIndex) => (
+                  {columns.map((_cellIndex: any) => (
                     <TableCell key={cellIndex}>
                       <Skeleton className="h-4 w-full" />
                     </TableCell>
@@ -341,7 +332,7 @@ export function DataTable<TData, TValue>({
             </TableBody>
           </Table>
         </div>
-        
+
         {/* Pagination */}
         {pagination && (
           <div className="flex items-center justify-between py-4">
@@ -367,17 +358,17 @@ export function DataTable<TData, TValue>({
             <div className="w-full md:max-w-xs">
               <Input
                 placeholder={searchPlaceholder}
-                value={(table.getColumn(searchColumn)?.getFilterValue() as string) ?? ""}
+                value={(table.getColumn(searchColumn)?.getFilterValue() as string) ?? ""
                 onChange={handleSearchChange}
                 className="w-full"
               />
             </div>
           )}
-          
+
           {/* Custom filters */}
-          {filters && filters.length > 0 && (
+          {filters && filters.length> 0 && (
             <div className="flex flex-wrap gap-2">
-              {filters.map((filter) => (
+              {filters.map((filter: any) => (
                 <DataTableFilter
                   key={filter.columnId}
                   table={table}
@@ -386,11 +377,11 @@ export function DataTable<TData, TValue>({
               ))}
             </div>
           )}
-          
+
           {/* Custom toolbar */}
           {toolbar}
         </div>
-        
+
         <div className="flex gap-2">
           {exportData && (
             <Button
@@ -403,7 +394,7 @@ export function DataTable<TData, TValue>({
               <span className="hidden sm:inline-block">Export</span>
             </Button>
           )}
-          
+
           {/* Column visibility */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -427,7 +418,7 @@ export function DataTable<TData, TValue>({
                       key={column.id}
                       className="capitalize"
                       checked={column.getIsVisible()}
-                      onCheckedChange={(value) => column.toggleVisibility(!!value)}
+                      onCheckedChange={(value: any) => column.toggleVisibility(!!value)}
                     >
                       {column.id}
                     </DropdownMenuCheckboxItem>
@@ -437,10 +428,10 @@ export function DataTable<TData, TValue>({
           </DropdownMenu>
         </div>
       </div>
-      
+
       {/* Table */}
       <div className="rounded-md border">
-        <Table className={dense ? "data-table-dense" : ""}>
+        <Table className={dense ? "data-table-dense" : "">
           {!noHeader && (
             <TableHeader className={cn(
               hasStickyHeader && "sticky top-0 z-10 bg-card border-b",
@@ -452,7 +443,7 @@ export function DataTable<TData, TValue>({
                   <TableHead className="w-[50px]">
                     <Checkbox
                       checked={table.getIsAllRowsSelected()}
-                      onCheckedChange={(value) => table.toggleAllRowsSelected(!!value)}
+                      onCheckedChange={(value: any) => table.toggleAllRowsSelected(!!value)}
                       aria-label="Select all"
                     />
                   </TableHead>
@@ -496,10 +487,10 @@ export function DataTable<TData, TValue>({
           )}
           <TableBody>
             {loading ? (
-              Array.from({ length: loadingRowCount }).map((_, index) => (
+              Array.from({ length: loadingRowCount }).map((_index: any) => (
                 <TableRow key={index}>
                   {rowSelection && <TableCell><Skeleton className="h-4 w-4" /></TableCell>}
-                  {columns.map((_, cellIndex) => (
+                  {columns.map((_cellIndex: any) => (
                     <TableCell key={cellIndex}>
                       <Skeleton className="h-4 w-full" />
                     </TableCell>
@@ -510,7 +501,7 @@ export function DataTable<TData, TValue>({
               table.getRowModel().rows.map((row: Row<TData>) => (
                 <React.Fragment key={row.id}>
                   <TableRow
-                    data-state={row.getIsSelected() && "selected"}
+                    data-state={row.getIsSelected() && "selected"
                     className={cn(
                       showRowHover && "hover:bg-muted/50",
                       zebra && row.index % 2 === 0 && "bg-muted/50",
@@ -524,11 +515,11 @@ export function DataTable<TData, TValue>({
                         <Button
                           variant="ghost"
                           size="sm"
-                          onClick={(e) => {
+                          onClick={(e: any) => {
                             e.stopPropagation();
                             handleRowExpand(row);
-                          }}
-                          aria-label={expandedRows[row.id] ? "Collapse row" : "Expand row"}
+                          }
+                          aria-label={expandedRows[row.id] ? "Collapse row" : "Expand row"
                         >
                           {expandedRows[row.id] ? (
                             <ChevronDown className="h-4 w-4" />
@@ -542,9 +533,9 @@ export function DataTable<TData, TValue>({
                       <TableCell>
                         <Checkbox
                           checked={row.getIsSelected()}
-                          onCheckedChange={(value) => row.toggleSelected(!!value)}
+                          onCheckedChange={(value: any) => row.toggleSelected(!!value)}
                           aria-label="Select row"
-                          onClick={(e) => e.stopPropagation()}
+                          onClick={(e: any) => e.stopPropagation()}
                         />
                       </TableCell>
                     )}
@@ -582,7 +573,7 @@ export function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-      
+
       {/* Pagination */}
       {pagination && (
         <div className="flex flex-col-reverse items-center justify-between gap-4 py-2 md:flex-row">
@@ -593,15 +584,15 @@ export function DataTable<TData, TValue>({
               </p>
               <Select
                 value={`${table.getState().pagination.pageSize}`}
-                onValueChange={(value) => {
+                onValueChange={(value: any) => {
                   table.setPageSize(Number(value));
-                }}
+                }
               >
                 <SelectTrigger className="h-8 w-16">
                   <SelectValue placeholder={String(table.getState().pagination.pageSize)} />
                 </SelectTrigger>
                 <SelectContent>
-                  {pageSizeOptions.map((option) => (
+                  {pageSizeOptions.map((option: any) => (
                     <SelectItem key={option} value={`${option}`}>
                       {option}
                     </SelectItem>
@@ -609,13 +600,13 @@ export function DataTable<TData, TValue>({
                 </SelectContent>
               </Select>
             </div>
-            
+
             <div className="text-sm text-muted-foreground">
-              Page {table.getState().pagination.pageIndex + 1} of{" "}
+              Page {table.getState().pagination.pageIndex + 1} of{" "
               {table.getPageCount() || 1}
             </div>
           </div>
-          
+
           <div className="flex items-center gap-2">
             <Button
               variant="outline"
@@ -665,26 +656,25 @@ export function DataTable<TData, TValue>({
 }
 
 interface DataTableFilterComponentProps<TData> {
-  table: TableInstance<TData>;
-  filter: DataTableFilterProps<TData>;
+  table: TableInstance<TData>\n  );
+  filter: DataTableFilterProps<TData>\n  );
 }
 
 export function DataTableFilter<TData>({
   table,
-  filter,
-}: DataTableFilterComponentProps<TData>) {
+  filter}: DataTableFilterComponentProps<TData>) {
   const { columnId, title, options } = filter;
-  const column = table.getColumn(columnId) as Column<TData, unknown>;
+  const column = table.getColumn(columnId) as Column<TData, unknown>\n  );
   const filterValue = column?.getFilterValue() as string | undefined;
 
   const handleFilterChange = (option: DataTableFilterOption) => {
     column?.setFilterValue(option.value);
   };
-  
+
   const clearFilter = () => {
     column?.setFilterValue(undefined);
   };
-  
+
   return (
     <Popover>
       <PopoverTrigger asChild>
@@ -715,10 +705,10 @@ export function DataTableFilter<TData>({
           )}
         </div>
         <div className="grid gap-1 p-2">
-          {options.map((option) => {
+          {options.map((option: any) => {
             const Icon = option.icon;
             const isActive = filterValue === option.value;
-            
+
             return (
               <Button
                 key={option.value}

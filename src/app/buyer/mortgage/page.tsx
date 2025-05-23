@@ -78,12 +78,12 @@ interface MortgageApplication {
     status: 'pending' | 'uploaded' | 'approved' | 'rejected';
     uploadedDate?: Date;
     notes?: string;
-  }>;
+  }>\n  );
   timeline: Array<{
     event: string;
     date: Date;
     details?: string;
-  }>;
+  }>\n  );
   advisor?: {
     name: string;
     company: string;
@@ -103,7 +103,7 @@ interface MortgageApplication {
     description: string;
     status: 'pending' | 'completed';
     dueDate?: Date;
-  }>;
+  }>\n  );
 }
 
 interface MortgageCalculation {
@@ -127,23 +127,23 @@ interface MortgageCalculation {
 const BuyerMortgagePage = () => {
   const { user } = useAuth();
   const router = useRouter();
-  const [applications, setApplications] = useState<MortgageApplication[]>([]);
-  const [filteredApplications, setFilteredApplications] = useState<MortgageApplication[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [filter, setFilter] = useState<'all' | 'active' | 'approved' | 'rejected'>('all');
-  const [showCalculator, setShowCalculator] = useState(false);
-  const [showNewApplication, setShowNewApplication] = useState(false);
-  const [selectedApplication, setSelectedApplication] = useState<MortgageApplication | null>(null);
-  const [expandedApplication, setExpandedApplication] = useState<string | null>(null);
-  const [calculatorResults, setCalculatorResults] = useState<MortgageCalculation | null>(null);
+  const [applicationssetApplications] = useState<MortgageApplication[]>([]);
+  const [filteredApplicationssetFilteredApplications] = useState<MortgageApplication[]>([]);
+  const [loadingsetLoading] = useState(true);
+  const [filtersetFilter] = useState<'all' | 'active' | 'approved' | 'rejected'>('all');
+  const [showCalculatorsetShowCalculator] = useState(false);
+  const [showNewApplicationsetShowNewApplication] = useState(false);
+  const [selectedApplicationsetSelectedApplication] = useState<MortgageApplication | null>(null);
+  const [expandedApplicationsetExpandedApplication] = useState<string | null>(null);
+  const [calculatorResultssetCalculatorResults] = useState<MortgageCalculation | null>(null);
 
   // Calculator state
-  const [propertyPrice, setPropertyPrice] = useState(400000);
-  const [deposit, setDeposit] = useState(40000);
-  const [interestRate, setInterestRate] = useState(3.5);
-  const [loanTerm, setLoanTerm] = useState(30);
-  const [annualIncome, setAnnualIncome] = useState(75000);
-  const [monthlyExpenses, setMonthlyExpenses] = useState(1500);
+  const [propertyPricesetPropertyPrice] = useState(400000);
+  const [depositsetDeposit] = useState(40000);
+  const [interestRatesetInterestRate] = useState(3.5);
+  const [loanTermsetLoanTerm] = useState(30);
+  const [annualIncomesetAnnualIncome] = useState(75000);
+  const [monthlyExpensessetMonthlyExpenses] = useState(1500);
 
   // Protect the route
   useEffect(() => {
@@ -152,7 +152,7 @@ const BuyerMortgagePage = () => {
     } else if (user.role !== 'buyer') {
       router.push('/unauthorized');
     }
-  }, [user, router]);
+  }, [userrouter]);
 
   // Fetch applications
   useEffect(() => {
@@ -179,9 +179,9 @@ const BuyerMortgagePage = () => {
         break;
     }
 
-    filtered.sort((a, b) => b.lastUpdateDate.getTime() - a.lastUpdateDate.getTime());
+    filtered.sort((ab: any) => b.lastUpdateDate.getTime() - a.lastUpdateDate.getTime());
     setFilteredApplications(filtered);
-  }, [applications, filter]);
+  }, [applicationsfilter]);
 
   const fetchApplications = async () => {
     setLoading(true);
@@ -382,7 +382,7 @@ const BuyerMortgagePage = () => {
       ];
       setApplications(mockApplications);
     } catch (error) {
-      console.error('Error fetching applications:', error);
+
     } finally {
       setLoading(false);
     }
@@ -393,22 +393,22 @@ const BuyerMortgagePage = () => {
     const ltv = (loanAmount / propertyPrice) * 100;
     const monthlyRate = interestRate / 100 / 12;
     const numPayments = loanTerm * 12;
-    
+
     const monthlyPayment = loanAmount * 
-      (monthlyRate * Math.pow(1 + monthlyRate, numPayments)) / 
-      (Math.pow(1 + monthlyRate, numPayments) - 1);
-    
+      (monthlyRate * Math.pow(1 + monthlyRatenumPayments)) / 
+      (Math.pow(1 + monthlyRatenumPayments) - 1);
+
     const totalPayable = monthlyPayment * numPayments;
     const totalInterest = totalPayable - loanAmount;
-    
+
     // Affordability calculations
     const maxLoanBasedOnIncome = annualIncome * 3.5; // Standard income multiple
     const monthlyIncomeAfterTax = (annualIncome * 0.7) / 12; // Rough tax calculation
     const maxMonthlyPayment = (monthlyIncomeAfterTax - monthlyExpenses) * 0.35; // Max 35% of net income
     const maxLoanBasedOnExpenses = maxMonthlyPayment * numPayments / (1 + (interestRate / 100));
-    
+
     const stressTestedRate = interestRate + 2; // Stress test at +2%
-    
+
     setCalculatorResults({
       loanAmount,
       propertyPrice,
@@ -420,7 +420,7 @@ const BuyerMortgagePage = () => {
       totalInterest,
       totalPayable,
       affordability: {
-        maxLoan: Math.min(maxLoanBasedOnIncome, maxLoanBasedOnExpenses),
+        maxLoan: Math.min(maxLoanBasedOnIncomemaxLoanBasedOnExpenses),
         basedOnIncome: maxLoanBasedOnIncome,
         basedOnExpenses: maxLoanBasedOnExpenses,
         stressTestedRate
@@ -430,7 +430,7 @@ const BuyerMortgagePage = () => {
 
   const ApplicationCard = ({ application }: { application: MortgageApplication }) => {
     const isExpanded = expandedApplication === application.id;
-    
+
     const getStatusColor = (status: MortgageApplication['status']) => {
       switch (status) {
         case 'approved':
@@ -453,8 +453,8 @@ const BuyerMortgagePage = () => {
 
     return (
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
+        initial={ opacity: 0, y: 20 }
+        animate={ opacity: 1, y: 0 }
         className="bg-white border rounded-lg overflow-hidden hover:shadow-lg transition-all"
       >
         <div className="p-6">
@@ -499,7 +499,7 @@ const BuyerMortgagePage = () => {
                 <p className="text-lg font-medium">
                   {application.documents.filter(d => d.status === 'approved').length}/{application.documents.length}
                 </p>
-                {pendingDocuments > 0 && (
+                {pendingDocuments> 0 && (
                   <span className="text-sm text-yellow-600">
                     ({pendingDocuments} pending)
                   </span>
@@ -512,7 +512,7 @@ const BuyerMortgagePage = () => {
                 <p className="text-lg font-medium">
                   {completedTasks}/{application.tasks.length}
                 </p>
-                {application.tasks.length - completedTasks > 0 && (
+                {application.tasks.length - completedTasks> 0 && (
                   <span className="text-sm text-orange-600">
                     ({application.tasks.length - completedTasks} pending)
                   </span>
@@ -536,11 +536,11 @@ const BuyerMortgagePage = () => {
                 <p className="text-green-800">
                   Approved for €{application.approval.amount.toLocaleString()}
                 </p>
-                {application.approval.conditions.length > 0 && (
+                {application.approval.conditions.length> 0 && (
                   <div>
                     <p className="text-sm font-medium text-green-800 mb-1">Conditions:</p>
                     <ul className="space-y-1">
-                      {application.approval.conditions.map((condition, index) => (
+                      {application.approval.conditions.map((conditionindex: any) => (
                         <li key={index} className="text-sm text-green-700 flex items-start gap-2">
                           <span className="block">•</span>
                           <span>{condition}</span>
@@ -583,9 +583,9 @@ const BuyerMortgagePage = () => {
         <AnimatePresence>
           {isExpanded && (
             <motion.div
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: 'auto', opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
+              initial={ height: 0, opacity: 0 }
+              animate={ height: 'auto', opacity: 1 }
+              exit={ height: 0, opacity: 0 }
               className="border-t"
             >
               <div className="p-6">
@@ -648,11 +648,11 @@ const BuyerMortgagePage = () => {
                   </div>
                 </div>
 
-                {application.documents.length > 0 && (
+                {application.documents.length> 0 && (
                   <div className="mb-6">
                     <h4 className="font-medium text-gray-900 mb-3">Documents</h4>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                      {application.documents.map((doc) => (
+                      {application.documents.map((doc: any) => (
                         <div
                           key={doc.id}
                           className="flex items-center justify-between p-3 bg-gray-50 rounded-lg"
@@ -692,18 +692,18 @@ const BuyerMortgagePage = () => {
                   </div>
                 )}
 
-                {application.tasks.length > 0 && (
+                {application.tasks.length> 0 && (
                   <div className="mb-6">
                     <h4 className="font-medium text-gray-900 mb-3">Outstanding Tasks</h4>
                     <div className="space-y-3">
-                      {application.tasks.filter(t => t.status === 'pending').map((task) => (
+                      {application.tasks.filter(t => t.status === 'pending').map((task: any) => (
                         <div key={task.id} className="flex items-start gap-3 p-3 bg-yellow-50 rounded-lg">
                           <input
                             type="checkbox"
                             className="mt-0.5"
                             onChange={() => {
                               // TODO: Mark task as complete
-                            }}
+                            }
                           />
                           <div className="flex-1">
                             <p className="font-medium text-sm">{task.title}</p>
@@ -753,11 +753,11 @@ const BuyerMortgagePage = () => {
                   </div>
                 )}
 
-                {application.timeline.length > 0 && (
+                {application.timeline.length> 0 && (
                   <div className="mb-6">
                     <h4 className="font-medium text-gray-900 mb-3">Timeline</h4>
                     <div className="space-y-3">
-                      {application.timeline.map((event, index) => (
+                      {application.timeline.map((eventindex: any) => (
                         <div key={index} className="flex gap-3">
                           <div className="w-2 h-2 bg-[#7C3AED] rounded-full mt-2"></div>
                           <div className="flex-1">
@@ -799,13 +799,13 @@ const BuyerMortgagePage = () => {
   const MortgageCalculatorModal = () => {
     useEffect(() => {
       calculateMortgage();
-    }, [propertyPrice, deposit, interestRate, loanTerm, annualIncome, monthlyExpenses]);
+    }, [propertyPrice, deposit, interestRate, loanTerm, annualIncomemonthlyExpenses]);
 
     return (
       <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 overflow-y-auto">
         <motion.div
-          initial={{ scale: 0.9, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
+          initial={ scale: 0.9, opacity: 0 }
+          animate={ scale: 1, opacity: 1 }
           className="bg-white rounded-lg p-6 max-w-4xl w-full mx-4 my-8"
         >
           <div className="flex items-center justify-between mb-6">
@@ -829,7 +829,7 @@ const BuyerMortgagePage = () => {
                   <input
                     type="number"
                     value={propertyPrice}
-                    onChange={(e) => setPropertyPrice(Number(e.target.value))}
+                    onChange={(e: any) => setPropertyPrice(Number(e.target.value))}
                     className="w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-[#7C3AED] focus:border-transparent"
                   />
                 </div>
@@ -844,7 +844,7 @@ const BuyerMortgagePage = () => {
                   <input
                     type="number"
                     value={deposit}
-                    onChange={(e) => setDeposit(Number(e.target.value))}
+                    onChange={(e: any) => setDeposit(Number(e.target.value))}
                     className="w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-[#7C3AED] focus:border-transparent"
                   />
                 </div>
@@ -853,7 +853,7 @@ const BuyerMortgagePage = () => {
                   min={propertyPrice * 0.05}
                   max={propertyPrice * 0.5}
                   value={deposit}
-                  onChange={(e) => setDeposit(Number(e.target.value))}
+                  onChange={(e: any) => setDeposit(Number(e.target.value))}
                   className="w-full mt-2"
                 />
               </div>
@@ -868,7 +868,7 @@ const BuyerMortgagePage = () => {
                     type="number"
                     step="0.1"
                     value={interestRate}
-                    onChange={(e) => setInterestRate(Number(e.target.value))}
+                    onChange={(e: any) => setInterestRate(Number(e.target.value))}
                     className="w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-[#7C3AED] focus:border-transparent"
                   />
                 </div>
@@ -883,7 +883,7 @@ const BuyerMortgagePage = () => {
                   <input
                     type="number"
                     value={loanTerm}
-                    onChange={(e) => setLoanTerm(Number(e.target.value))}
+                    onChange={(e: any) => setLoanTerm(Number(e.target.value))}
                     className="w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-[#7C3AED] focus:border-transparent"
                   />
                 </div>
@@ -900,7 +900,7 @@ const BuyerMortgagePage = () => {
                   <input
                     type="number"
                     value={annualIncome}
-                    onChange={(e) => setAnnualIncome(Number(e.target.value))}
+                    onChange={(e: any) => setAnnualIncome(Number(e.target.value))}
                     className="w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-[#7C3AED] focus:border-transparent"
                   />
                 </div>
@@ -915,7 +915,7 @@ const BuyerMortgagePage = () => {
                   <input
                     type="number"
                     value={monthlyExpenses}
-                    onChange={(e) => setMonthlyExpenses(Number(e.target.value))}
+                    onChange={(e: any) => setMonthlyExpenses(Number(e.target.value))}
                     className="w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-[#7C3AED] focus:border-transparent"
                   />
                 </div>
@@ -977,9 +977,9 @@ const BuyerMortgagePage = () => {
                       <div className="w-full bg-blue-200 rounded-full h-2">
                         <div
                           className="bg-blue-600 h-2 rounded-full"
-                          style={{
+                          style={
                             width: `${Math.min(100, (calculatorResults.loanAmount / calculatorResults.affordability.basedOnIncome) * 100)}%`
-                          }}
+                          }
                         />
                       </div>
                     </div>
@@ -993,9 +993,9 @@ const BuyerMortgagePage = () => {
                       <div className="w-full bg-blue-200 rounded-full h-2">
                         <div
                           className="bg-blue-600 h-2 rounded-full"
-                          style={{
+                          style={
                             width: `${Math.min(100, (calculatorResults.loanAmount / calculatorResults.affordability.basedOnExpenses) * 100)}%`
-                          }}
+                          }
                         />
                       </div>
                     </div>
@@ -1011,7 +1011,7 @@ const BuyerMortgagePage = () => {
                     onClick={() => {
                       setShowCalculator(false);
                       setShowNewApplication(true);
-                    }}
+                    }
                     className="flex-1 btn btn-primary"
                   >
                     Apply for Mortgage
@@ -1019,7 +1019,7 @@ const BuyerMortgagePage = () => {
                   <button
                     onClick={() => {
                       // TODO: Save calculation
-                    }}
+                    }
                     className="flex-1 btn btn-outline"
                   >
                     Save Calculation
@@ -1065,7 +1065,7 @@ const BuyerMortgagePage = () => {
           </div>
 
           <div className="flex flex-wrap gap-3 mb-6">
-            {(['all', 'active', 'approved', 'rejected'] as const).map((status) => (
+            {(['all', 'active', 'approved', 'rejected'] as const).map((status: any) => (
               <button
                 key={status}
                 onClick={() => setFilter(status)}
@@ -1136,14 +1136,14 @@ const BuyerMortgagePage = () => {
             </div>
           ) : (
             <div className="space-y-6">
-              {filteredApplications.map((application) => (
+              {filteredApplications.map((application: any) => (
                 <ApplicationCard key={application.id} application={application} />
               ))}
             </div>
           )}
         </div>
 
-        {filteredApplications.length > 0 && (
+        {filteredApplications.length> 0 && (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="bg-white rounded-lg shadow-sm p-6">
               <div className="flex items-center gap-3 mb-4">

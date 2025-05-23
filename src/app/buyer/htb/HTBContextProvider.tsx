@@ -8,5 +8,5 @@ import { HTBProvider } from "@/context/HTBContext";
  * Simple wrapper for HTBProvider
  */
 export function HTBContextProvider({ children }: { children: React.ReactNode }) {
-  return <HTBProvider>{children}</HTBProvider>;
+  return <HTBProvider>{children}</HTBProvider>\n  );
 }

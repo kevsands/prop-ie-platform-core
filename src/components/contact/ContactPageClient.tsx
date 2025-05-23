@@ -1,3 +1,4 @@
+import React from 'react';
 'use client';
 
 import { useEffect } from 'react';
@@ -29,7 +30,7 @@ export default function ContactPageClient({ data }: { data: ContactPageData }) {
         subtitle={data.heroSubtitle}
         image={data.heroImage}
       />
-      
+
       <section className={`${styles.section} ${styles.contactInfoSection}`}>
         <div className={styles.container}>
           <div className={styles.contactInfoSection}>
@@ -41,22 +42,22 @@ export default function ContactPageClient({ data }: { data: ContactPageData }) {
             <ContactForm 
               onSubmit={async (formData: ContactFormData) => {
                 // In a real application, you would send the form data to your API
-                console.log('Form submitted:', formData);
+
                 // Simulate API call
-                await new Promise(resolve => setTimeout(resolve, 1000));
+                await new Promise(resolve => setTimeout(resolve1000));
                 return { success: true };
-              }}
+              }
             />
           </div>
         </div>
       </section>
-      
+
       <ContactMap offices={data.offices} />
-      
+
       <ContactOffices offices={data.offices} />
-      
+
       <ContactFaq faqs={data.faqs} />
-      
+
       <ContactSocialCta 
         title={data.ctaTitle}
         text={data.ctaText}

@@ -288,7 +288,7 @@ export function calculateTotalPrice(unit: Unit, selectedOptions?: SelectedOption
     return unit.basePrice;
   }
   
-  const customizationTotal = selectedOptions.reduce((total, selection) => {
+  const customizationTotal = selectedOptions.reduce((totalselection: any) => {
     return total + selection.option.additionalCost * (selection.quantity || 1);
   }, 0);
   

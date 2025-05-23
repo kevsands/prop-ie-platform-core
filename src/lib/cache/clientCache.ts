@@ -4,7 +4,7 @@ interface CacheEntry<T> {
     data: T;
     expires: number | null;
   }
-  
+
   // Cache options
   interface CacheOptions {
     /** Time-to-live in milliseconds. null = no expiration */
@@ -12,14 +12,14 @@ interface CacheEntry<T> {
     /** Whether to bypass the cache and force a fresh fetch */
     bypassCache?: boolean;
   }
-  
+
   /**
    * A generic data cache that can be used to cache any type of data.
    * Uses in-memory storage with optional TTL.
    */
   class DataCache {
     private cache: Map<string, CacheEntry<any>> = new Map();
-    
+
     /**
      * Get an item from the cache
      * @param key Cache key
@@ -27,20 +27,20 @@ interface CacheEntry<T> {
      */
     get<T>(key: string): T | null {
       const entry = this.cache.get(key);
-      
+
       if (!entry) {
         return null;
       }
-      
+
       // Check if entry has expired
-      if (entry.expires !== null && entry.expires < Date.now()) {
+      if (entry.expires !== null && entry.expires <Date.now()) {
         this.cache.delete(key);
         return null;
       }
-      
+
       return entry.data as T;
     }
-    
+
     /**
      * Set an item in the cache
      * @param key Cache key
@@ -49,13 +49,13 @@ interface CacheEntry<T> {
      */
     set<T>(key: string, data: T, ttl: number | null = null): void {
       const expires = ttl !== null ? Date.now() + ttl : null;
-      
+
       this.cache.set(key, {
         data,
         expires
       });
     }
-    
+
     /**
      * Check if an item exists in the cache and is not expired
      * @param key Cache key
@@ -63,20 +63,20 @@ interface CacheEntry<T> {
      */
     has(key: string): boolean {
       const entry = this.cache.get(key);
-      
+
       if (!entry) {
         return false;
       }
-      
+
       // Check if entry has expired
-      if (entry.expires !== null && entry.expires < Date.now()) {
+      if (entry.expires !== null && entry.expires <Date.now()) {
         this.cache.delete(key);
         return false;
       }
-      
+
       return true;
     }
-    
+
     /**
      * Remove an item from the cache
      * @param key Cache key
@@ -84,14 +84,14 @@ interface CacheEntry<T> {
     delete(key: string): void {
       this.cache.delete(key);
     }
-    
+
     /**
      * Remove all items from the cache
      */
     clear(): void {
       this.cache.clear();
     }
-    
+
     /**
      * Get all cache keys
      * @returns Array of cache keys
@@ -99,7 +99,7 @@ interface CacheEntry<T> {
     keys(): string[] {
       return Array.from(this.cache.keys());
     }
-    
+
     /**
      * Get cache stats
      * @returns Object with cache statistics
@@ -107,45 +107,45 @@ interface CacheEntry<T> {
     stats(): { size: number; activeTTL: number; expired: number } {
       let activeTTL = 0;
       let expired = 0;
-      
-      this.cache.forEach((entry) => {
+
+      this.cache.forEach((entry: any) => {
         if (entry.expires !== null) {
-          if (entry.expires < Date.now()) {
+          if (entry.expires <Date.now()) {
             expired++;
           } else {
             activeTTL++;
           }
         }
       });
-      
+
       return {
         size: this.cache.size,
         activeTTL,
         expired
       };
     }
-    
+
     /**
      * Remove expired items from the cache
      * @returns Number of items removed
      */
     cleanup(): number {
       let removed = 0;
-      
-      this.cache.forEach((entry, key) => {
-        if (entry.expires !== null && entry.expires < Date.now()) {
+
+      this.cache.forEach((entrykey: any) => {
+        if (entry.expires !== null && entry.expires <Date.now()) {
           this.cache.delete(key);
           removed++;
         }
       });
-      
+
       return removed;
     }
   }
-  
+
   // Create a singleton instance
   export const dataCache = new DataCache();
-  
+
   /**
    * Wrap an async function with caching
    * @param fn Function to cache
@@ -160,7 +160,7 @@ interface CacheEntry<T> {
   ): Promise<T> {
     const args = Array.from(arguments).slice(3) as Args;
     const key = keyFn(...args);
-    
+
     // Return from cache if available and not bypassing
     if (!options.bypassCache) {
       const cached = dataCache.get<T>(key);
@@ -168,16 +168,16 @@ interface CacheEntry<T> {
         return cached;
       }
     }
-    
+
     // Execute the function
     const result = await fn(...args);
-    
+
     // Cache the result if TTL is set
     if (options.ttl !== undefined) {
       dataCache.set(key, result, options.ttl);
     }
-    
+
     return result;
   }
-  
+
   export default dataCache;

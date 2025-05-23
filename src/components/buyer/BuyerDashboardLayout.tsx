@@ -18,8 +18,8 @@ interface BuyerDashboardLayoutProps {
 
 export function BuyerDashboardLayout({ children }: BuyerDashboardLayoutProps) {
   const pathname = usePathname();
-  const [activeTab, setActiveTab] = useState(getActiveTabFromPath(pathname));
-  
+  const [activeTabsetActiveTab] = useState(getActiveTabFromPath(pathname));
+
   function getActiveTabFromPath(path: string): string {
     if (path === '/buyer') return 'overview';
     if (path.includes('/buyer/properties')) return 'properties';
@@ -99,7 +99,7 @@ export function BuyerDashboardLayout({ children }: BuyerDashboardLayoutProps) {
       <div className="hidden lg:block lg:w-64 fixed inset-y-0">
         <BuyerDashboardSidebar 
           activeTab={activeTab} 
-          onTabChange={(tab) => setActiveTab(tab)} 
+          onTabChange={(tab: any) => setActiveTab(tab)} 
         />
       </div>
 
@@ -115,7 +115,7 @@ export function BuyerDashboardLayout({ children }: BuyerDashboardLayoutProps) {
               </Link>
             </div>
             <div className="flex items-center">
-              {journeyPhases.map((phase, index) => (
+              {journeyPhases.map((phaseindex: any) => (
                 <React.Fragment key={phase.id}>
                   <Link href={phase.path} className="flex flex-col items-center">
                     <div 
@@ -143,7 +143,7 @@ export function BuyerDashboardLayout({ children }: BuyerDashboardLayoutProps) {
                       {phase.name}
                     </span>
                   </Link>
-                  {index < journeyPhases.length - 1 && (
+                  {index <journeyPhases.length - 1 && (
                     <div 
                       className={`flex-1 h-1 mx-2 ${
                         phase.status === 'complete' ? 'bg-green-200' : 'bg-gray-200'
@@ -154,7 +154,7 @@ export function BuyerDashboardLayout({ children }: BuyerDashboardLayoutProps) {
               ))}
             </div>
           </div>
-          
+
           {/* Page content */}
           {children}
         </div>

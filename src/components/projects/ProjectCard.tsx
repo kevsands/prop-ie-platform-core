@@ -40,7 +40,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, orgSlug, onSelect })
         return 'bg-gray-100 text-gray-800';
     }
   };
-  
+
   return (
     <div 
       className="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200 hover:shadow-lg transition-shadow cursor-pointer"
@@ -64,11 +64,11 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, orgSlug, onSelect })
           </span>
         </div>
       </div>
-      
+
       <div className="p-4">
         <h3 className="text-lg font-semibold text-gray-900 mb-1">{project.name}</h3>
         <p className="text-sm text-gray-600 mb-3">{project.address}</p>
-        
+
         {project.unitsCount !== undefined && (
           <div className="flex items-center justify-between text-sm text-gray-600">
             <span>
@@ -77,7 +77,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, orgSlug, onSelect })
             <Link 
               href={`/${orgSlug}/projects/${project.slug}`}
               className="text-blue-600 hover:text-blue-800 flex items-center"
-              onClick={(e) => e.stopPropagation()}
+              onClick={(e: any) => e.stopPropagation()}
             >
               View Details
               <FeatherIcon icon={FiArrowRight} className="ml-1 h-4 w-4" />

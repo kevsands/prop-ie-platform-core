@@ -20,8 +20,7 @@ const ICON_SIZES = {
   md: 20,
   lg: 24,
   xl: 32,
-  '2xl': 48,
-} as const;
+  '2xl': 48} as const;
 
 // Icon color mapping
 const ICON_COLORS = {
@@ -32,18 +31,16 @@ const ICON_COLORS = {
   warning: 'text-yellow-600',
   info: 'text-blue-600',
   light: 'text-gray-400',
-  dark: 'text-gray-800',
-} as const;
+  dark: 'text-gray-800'} as const;
 
 // Icon variant mapping
 const ICON_VARIANTS = {
   solid: 'fill-current',
   outline: 'stroke-current fill-none',
-  duotone: 'stroke-current fill-current fill-opacity-20',
-} as const;
+  duotone: 'stroke-current fill-current fill-opacity-20'} as const;
 
 const IconErrorFallback = ({ error }: { error: Error }) => {
-  console.error('Icon rendering error:', error);
+
   return (
     <span 
       className="inline-flex items-center justify-center bg-gray-100 text-gray-400 rounded"
@@ -67,18 +64,18 @@ const IconComponent = memo<IconProps>(({
   ...props 
 }) => {
   if (!isIconRegistered(name)) {
-    console.warn(`Icon "${name}" is not registered in the icon registry`);
+
     return fallback || null;
   }
 
   const metadata = useIconMetadata(name);
   const IconComponent = iconRegistry[name].component;
-  
+
   const ariaLabel = label || metadata?.name || 'Icon';
   const sizeValue = ICON_SIZES[size];
   const colorClass = ICON_COLORS[color];
   const variantClass = ICON_VARIANTS[variant];
-  
+
   const combinedClassName = [
     'inline-flex items-center justify-center',
     colorClass,

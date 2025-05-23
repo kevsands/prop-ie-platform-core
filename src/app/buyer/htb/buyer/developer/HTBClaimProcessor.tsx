@@ -1,3 +1,4 @@
+import React from 'react';
 'use client';
 
 // src/app/buyer/htb/buyer/developer/HTBClaimProcessor.tsx
@@ -11,10 +12,10 @@ import { HTBClaimProcessor } from '@/components/htb/developer/HTBClaimProcessor'
 export default function HTBClaimProcessorWrapper({ params }: { params: { claimId: string } }) {
   const router = useRouter();
   const claimId = params?.claimId;
-  
+
   if (!claimId) {
-    return <div>Missing claim ID</div>;
+    return <div>Missing claim ID</div>\n  );
   }
-  
-  return <HTBClaimProcessor claimId={claimId} />;
+
+  return <HTBClaimProcessor claimId={claimId} />\n  );
 }

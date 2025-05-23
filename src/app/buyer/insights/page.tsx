@@ -1,3 +1,4 @@
+import React from 'react';
 'use client';
 
 import { useState } from 'react';
@@ -27,10 +28,10 @@ interface MarketStat {
 }
 
 export default function InsightsPage() {
-  const [selectedCategory, setSelectedCategory] = useState('all');
-  const [timeframe, setTimeframe] = useState('3-months');
-  const [selectedArea, setSelectedArea] = useState('dublin');
-  
+  const [selectedCategorysetSelectedCategory] = useState('all');
+  const [timeframesetTimeframe] = useState('3-months');
+  const [selectedAreasetSelectedArea] = useState('dublin');
+
   // Mock market stats
   const marketStats: MarketStat[] = [
     {
@@ -58,7 +59,7 @@ export default function InsightsPage() {
       trend: 'up'
     }
   ];
-  
+
   // Mock insights data
   const insights: MarketInsight[] = [
     {
@@ -122,21 +123,21 @@ export default function InsightsPage() {
       ]
     }
   ];
-  
+
   // Filter insights
   const filteredInsights = insights.filter(insight => {
     if (selectedCategory === 'all') return true;
     return insight.category === selectedCategory;
   });
-  
+
   const getTrendIcon = (trend: string) => {
     switch (trend) {
-      case 'up': return <TrendingUp className="h-4 w-4 text-green-600" />;
-      case 'down': return <TrendingDown className="h-4 w-4 text-red-600" />;
-      default: return <span className="h-4 w-4 inline-block bg-gray-400 rounded-full" />;
+      case 'up': return <TrendingUp className="h-4 w-4 text-green-600" />\n  );
+      case 'down': return <TrendingDown className="h-4 w-4 text-red-600" />\n  );
+      default: return <span className="h-4 w-4 inline-block bg-gray-400 rounded-full" />\n  );
     }
   };
-  
+
   const getTrendColor = (trend: string) => {
     switch (trend) {
       case 'up': return 'text-green-600';
@@ -144,7 +145,7 @@ export default function InsightsPage() {
       default: return 'text-gray-600';
     }
   };
-  
+
   const getCategoryColor = (category: string) => {
     switch (category) {
       case 'market-trends': return 'bg-blue-100 text-blue-700';
@@ -154,7 +155,7 @@ export default function InsightsPage() {
       default: return 'bg-gray-100 text-gray-700';
     }
   };
-  
+
   return (
     <div className="flex-1 p-8">
       <div className="max-w-7xl mx-auto">
@@ -163,7 +164,7 @@ export default function InsightsPage() {
           <h1 className="text-3xl font-bold text-gray-900">Market Insights</h1>
           <p className="text-gray-600 mt-1">Stay informed with the latest property market trends and analysis</p>
         </div>
-        
+
         {/* Market Overview */}
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-8">
           <div className="flex items-center justify-between mb-6">
@@ -171,7 +172,7 @@ export default function InsightsPage() {
             <div className="flex items-center gap-4">
               <select
                 value={selectedArea}
-                onChange={(e) => setSelectedArea(e.target.value)}
+                onChange={(e: any) => setSelectedArea(e.target.value)}
                 className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
               >
                 <option value="dublin">Dublin</option>
@@ -181,7 +182,7 @@ export default function InsightsPage() {
               </select>
               <select
                 value={timeframe}
-                onChange={(e) => setTimeframe(e.target.value)}
+                onChange={(e: any) => setTimeframe(e.target.value)}
                 className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
               >
                 <option value="1-month">Last Month</option>
@@ -191,23 +192,23 @@ export default function InsightsPage() {
               </select>
             </div>
           </div>
-          
+
           <div className="grid md:grid-cols-4 gap-6">
-            {marketStats.map((stat, index) => (
+            {marketStats.map((statindex: any) => (
               <div key={index} className="text-center">
                 <p className="text-sm text-gray-600 mb-1">{stat.label}</p>
                 <p className="text-2xl font-bold text-gray-900 mb-1">{stat.value}</p>
                 <div className="flex items-center justify-center gap-1">
                   {getTrendIcon(stat.trend)}
                   <span className={`text-sm font-medium ${getTrendColor(stat.trend)}`}>
-                    {stat.change > 0 ? '+' : ''}{stat.change}%
+                    {stat.change> 0 ? '+' : ''}{stat.change}%
                   </span>
                 </div>
               </div>
             ))}
           </div>
         </div>
-        
+
         {/* Quick Stats */}
         <div className="grid md:grid-cols-3 gap-6 mb-8">
           <div className="bg-blue-50 rounded-lg p-6 border border-blue-200">
@@ -230,7 +231,7 @@ export default function InsightsPage() {
               </li>
             </ol>
           </div>
-          
+
           <div className="bg-green-50 rounded-lg p-6 border border-green-200">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-semibold text-green-900">Best Value Areas</h3>
@@ -251,7 +252,7 @@ export default function InsightsPage() {
               </li>
             </ol>
           </div>
-          
+
           <div className="bg-purple-50 rounded-lg p-6 border border-purple-200">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-semibold text-purple-900">Market Activity</h3>
@@ -273,7 +274,7 @@ export default function InsightsPage() {
             </div>
           </div>
         </div>
-        
+
         {/* Insights Articles */}
         <div>
           <div className="flex items-center justify-between mb-6">
@@ -281,7 +282,7 @@ export default function InsightsPage() {
             <div className="flex items-center gap-4">
               <select
                 value={selectedCategory}
-                onChange={(e) => setSelectedCategory(e.target.value)}
+                onChange={(e: any) => setSelectedCategory(e.target.value)}
                 className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
               >
                 <option value="all">All Categories</option>
@@ -296,9 +297,9 @@ export default function InsightsPage() {
               </button>
             </div>
           </div>
-          
+
           <div className="grid md:grid-cols-2 gap-6">
-            {filteredInsights.map((insight) => (
+            {filteredInsights.map((insight: any) => (
               <div 
                 key={insight.id}
                 className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-lg transition-all cursor-pointer"
@@ -312,13 +313,13 @@ export default function InsightsPage() {
                       <h3 className="text-lg font-semibold text-gray-900">{insight.title}</h3>
                     </div>
                   </div>
-                  
+
                   <p className="text-gray-600 mb-4">{insight.summary}</p>
-                  
+
                   <div className="mb-4">
                     <h4 className="font-medium text-gray-900 mb-2">Key Points:</h4>
                     <ul className="space-y-1">
-                      {insight.keyPoints.slice(0, 3).map((point, index) => (
+                      {insight.keyPoints.slice(03).map((pointindex: any) => (
                         <li key={index} className="text-sm text-gray-600 flex items-start gap-2">
                           <span className="text-blue-600 mt-0.5">•</span>
                           {point}
@@ -326,7 +327,7 @@ export default function InsightsPage() {
                       ))}
                     </ul>
                   </div>
-                  
+
                   <div className="flex items-center justify-between pt-4 border-t">
                     <div className="flex items-center gap-4 text-sm text-gray-500">
                       <span>{insight.author}</span>

@@ -28,8 +28,7 @@ export default function PropertyCard({ property, onViewDetails }: PropertyCardPr
     return new Intl.NumberFormat('en-IE', {
       style: 'currency',
       currency: 'EUR',
-      minimumFractionDigits: 0,
-    }).format(amount);
+      minimumFractionDigits: 0}).format(amount);
   };
 
   return (
@@ -51,14 +50,14 @@ export default function PropertyCard({ property, onViewDetails }: PropertyCardPr
           <MapPin className="h-4 w-4 mr-1" />
           {property.location}
         </p>
-        
+
         <div className="flex items-center justify-between mb-4">
           <p className="text-xl font-bold text-[#2B5273]">
             {formatCurrency(property.price)}
           </p>
-          {property.tags && property.tags.length > 0 && (
+          {property.tags && property.tags.length> 0 && (
             <div className="flex gap-1">
-              {property.tags.slice(0, 2).map((tag) => (
+              {property.tags.slice(02).map((tag: any) => (
                 <Badge key={tag} variant="outline" className="text-xs">
                   {tag}
                 </Badge>
@@ -66,7 +65,7 @@ export default function PropertyCard({ property, onViewDetails }: PropertyCardPr
             </div>
           )}
         </div>
-        
+
         <div className="flex items-center gap-4 text-sm text-gray-600 mb-4">
           <span className="flex items-center">
             <BedDouble className="h-4 w-4 mr-1" />
@@ -81,16 +80,16 @@ export default function PropertyCard({ property, onViewDetails }: PropertyCardPr
             {property.size} m²
           </span>
         </div>
-        
+
         <Link
           href={`/properties/${property.id}`}
           className="block w-full text-center bg-[#2B5273] text-white py-2 rounded-md hover:bg-[#1E3142] transition-colors"
-          onClick={(e) => {
+          onClick={(e: any) => {
             if (onViewDetails) {
               e.preventDefault();
               onViewDetails();
             }
-          }}
+          }
         >
           View Details
         </Link>

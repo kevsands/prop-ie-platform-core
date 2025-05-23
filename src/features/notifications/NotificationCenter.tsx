@@ -1,3 +1,4 @@
+import React from 'react';
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
@@ -22,21 +23,18 @@ import { Badge } from "@/components/ui/badge";
 import {
   Popover,
   PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+  PopoverTrigger} from "@/components/ui/popover";
 import {
   Tabs,
   TabsContent,
   TabsList,
-  TabsTrigger,
-} from "@/components/ui/tabs";
+  TabsTrigger} from "@/components/ui/tabs";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-  DropdownMenuSeparator,
-} from "@/components/ui/dropdown-menu";
+  DropdownMenuSeparator} from "@/components/ui/dropdown-menu";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Switch } from "@/components/ui/switch";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -74,29 +72,29 @@ interface Notification {
 export default function NotificationCenter() {
   const { user } = useAuth();
   const { notifications, unreadCount, markAsRead, markAllAsRead, deleteNotification, archiveNotification } = useNotifications();
-  const [isOpen, setIsOpen] = useState(false);
-  const [selectedTab, setSelectedTab] = useState('all');
-  const [showArchived, setShowArchived] = useState(false);
+  const [isOpensetIsOpen] = useState(false);
+  const [selectedTabsetSelectedTab] = useState('all');
+  const [showArchivedsetShowArchived] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
 
   // Filter notifications by type
   const filterNotifications = (type: string) => {
     let filtered = notifications;
-    
+
     if (showArchived) {
       filtered = filtered.filter(n => n.archived);
     } else {
       filtered = filtered.filter(n => !n.archived);
     }
-    
+
     if (type === 'unread') {
       return filtered.filter(n => !n.read);
     }
-    
+
     if (type !== 'all') {
       return filtered.filter(n => n.type === type);
     }
-    
+
     return filtered;
   };
 
@@ -105,13 +103,13 @@ export default function NotificationCenter() {
   // Play notification sound
   const playNotificationSound = () => {
     if (audioRef.current) {
-      audioRef.current.play().catch(e => console.log('Audio play failed:', e));
+      audioRef.current.play().catch(e => );
     }
   };
 
   // Monitor for new notifications
   useEffect(() => {
-    if (notifications.length > 0 && !notifications[0].read) {
+    if (notifications.length> 0 && !notifications[0].read) {
       playNotificationSound();
     }
   }, [notifications]);
@@ -119,17 +117,17 @@ export default function NotificationCenter() {
   const getNotificationIcon = (type: string) => {
     switch (type) {
       case 'message':
-        return <ChatBubbleLeftIcon className="h-5 w-5" />;
+        return <ChatBubbleLeftIcon className="h-5 w-5" />\n  );
       case 'property':
-        return <HomeIcon className="h-5 w-5" />;
+        return <HomeIcon className="h-5 w-5" />\n  );
       case 'document':
-        return <DocumentTextIcon className="h-5 w-5" />;
+        return <DocumentTextIcon className="h-5 w-5" />\n  );
       case 'appointment':
-        return <CalendarIcon className="h-5 w-5" />;
+        return <CalendarIcon className="h-5 w-5" />\n  );
       case 'transaction':
-        return <CurrencyEuroIcon className="h-5 w-5" />;
+        return <CurrencyEuroIcon className="h-5 w-5" />\n  );
       default:
-        return <BellIcon className="h-5 w-5" />;
+        return <BellIcon className="h-5 w-5" />\n  );
     }
   };
 
@@ -156,9 +154,9 @@ export default function NotificationCenter() {
 
   const NotificationItem = ({ notification }: { notification: Notification }) => (
     <motion.div
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, x: -100 }}
+      initial={ opacity: 0, y: 10 }
+      animate={ opacity: 1, y: 0 }
+      exit={ opacity: 0, x: -100 }
       className={cn(
         "p-4 border-b hover:bg-gray-50 cursor-pointer transition-all",
         !notification.read && "bg-blue-50 hover:bg-blue-100",
@@ -173,7 +171,7 @@ export default function NotificationCenter() {
         )}>
           {getNotificationIcon(notification.type)}
         </div>
-        
+
         <div className="flex-1 min-w-0">
           <div className="flex items-start justify-between">
             <div className="flex-1">
@@ -202,13 +200,13 @@ export default function NotificationCenter() {
                 )}
               </div>
             </div>
-            
+
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button 
                   variant="ghost" 
                   size="sm"
-                  onClick={(e) => e.stopPropagation()}
+                  onClick={(e: any) => e.stopPropagation()}
                   className="ml-2"
                 >
                   •••
@@ -216,28 +214,28 @@ export default function NotificationCenter() {
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
                 {!notification.read && (
-                  <DropdownMenuItem onClick={(e) => {
+                  <DropdownMenuItem onClick={(e: any) => {
                     e.stopPropagation();
                     markAsRead(notification.id);
-                  }}>
+                  }>
                     <EyeIcon className="h-4 w-4 mr-2" />
                     Mark as read
                   </DropdownMenuItem>
                 )}
-                <DropdownMenuItem onClick={(e) => {
+                <DropdownMenuItem onClick={(e: any) => {
                   e.stopPropagation();
                   archiveNotification(notification.id);
-                }}>
+                }>
                   <ArchiveBoxIcon className="h-4 w-4 mr-2" />
                   {notification.archived ? 'Unarchive' : 'Archive'}
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem 
                   className="text-red-600" 
-                  onClick={(e) => {
+                  onClick={(e: any) => {
                     e.stopPropagation();
                     deleteNotification(notification.id);
-                  }}
+                  }
                 >
                   <TrashIcon className="h-4 w-4 mr-2" />
                   Delete
@@ -254,19 +252,19 @@ export default function NotificationCenter() {
     <>
       {/* Notification Sound */}
       <audio ref={audioRef} src="/sounds/notification.mp3" />
-      
+
       {/* Notification Bell */}
       <Popover open={isOpen} onOpenChange={setIsOpen}>
         <PopoverTrigger asChild>
           <Button variant="ghost" size="icon" className="relative">
-            {unreadCount > 0 ? (
+            {unreadCount> 0 ? (
               <>
                 <BellAlertIcon className="h-5 w-5" />
                 <Badge 
                   variant="destructive" 
                   className="absolute -top-1 -right-1 h-5 w-5 p-0 text-xs"
                 >
-                  {unreadCount > 99 ? '99+' : unreadCount}
+                  {unreadCount> 99 ? '99+' : unreadCount}
                 </Badge>
               </>
             ) : (
@@ -274,7 +272,7 @@ export default function NotificationCenter() {
             )}
           </Button>
         </PopoverTrigger>
-        
+
         <PopoverContent className="w-96 p-0" align="end">
           <div className="flex items-center justify-between p-4 border-b">
             <h3 className="font-semibold">Notifications</h3>
@@ -295,7 +293,7 @@ export default function NotificationCenter() {
               <span className="text-sm text-gray-500">Archived</span>
             </div>
           </div>
-          
+
           <Tabs value={selectedTab} onValueChange={setSelectedTab}>
             <TabsList className="w-full rounded-none border-b h-auto p-0">
               <TabsTrigger value="all" className="flex-1 rounded-none data-[state=active]:border-b-2">
@@ -311,7 +309,7 @@ export default function NotificationCenter() {
                 Properties
               </TabsTrigger>
             </TabsList>
-            
+
             <TabsContent value={selectedTab} className="m-0">
               <ScrollArea className="h-[400px]">
                 {filteredNotifications.length === 0 ? (
@@ -321,7 +319,7 @@ export default function NotificationCenter() {
                   </div>
                 ) : (
                   <AnimatePresence>
-                    {filteredNotifications.map((notification) => (
+                    {filteredNotifications.map((notification: any) => (
                       <NotificationItem 
                         key={notification.id} 
                         notification={notification} 
@@ -332,12 +330,12 @@ export default function NotificationCenter() {
               </ScrollArea>
             </TabsContent>
           </Tabs>
-          
+
           <div className="p-4 border-t bg-gray-50">
             <Button variant="outline" className="w-full" onClick={() => {
               setIsOpen(false);
               window.location.href = '/notifications';
-            }}>
+            }>
               View all notifications
             </Button>
           </div>

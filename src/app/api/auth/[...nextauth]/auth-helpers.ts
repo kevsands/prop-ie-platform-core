@@ -23,7 +23,7 @@ interface Provider {
   id: string;
   name: string;
   type: 'credentials' | 'oauth' | 'email';
-  credentials?: Record<string, any>;
+  credentials?: Record<string, any>\n  );
 }
 
 interface SignInOptions {
@@ -68,8 +68,7 @@ export const authOptions: AuthOptions = {
     maxAge: 30 * 24 * 60 * 60, // 30 days
   },
   secret: process.env.NEXTAUTH_SECRET || 'your-secret-here',
-  debug: process.env.NODE_ENV !== 'production',
-};
+  debug: process.env.NODE_ENV !== 'production'};
 
 /**
  * Get current session from client side
@@ -78,22 +77,21 @@ export const auth = async (): Promise<Session | null> => {
   try {
     // Use AWS Amplify getCurrentUser to validate session
     const user = await getCurrentUser();
-    
+
     if (!user) {
       return null;
     }
-    
+
     // Build session object
     return {
       user: {
         id: user.userId,
         name: user.username,
-        email: user.signInDetails?.loginId,
-      },
+        email: user.signInDetails?.loginId},
       expires: new Date(Date.now() + (30 * 24 * 60 * 60 * 1000)).toISOString(), // 30 days
     };
   } catch (error) {
-    console.error('Auth error:', error);
+
     return null;
   }
 };
@@ -108,23 +106,23 @@ export async function signIn(
   try {
     if (provider === 'aws-cognito') {
       const { username, password } = options;
-      
+
       if (!username || !password) {
         return { error: 'Username and password are required', ok: false };
       }
-      
+
       // Sign in with AWS Cognito
       const signInResult = await amplifySignIn({ username, password });
-      
+
       if (signInResult.isSignedIn) {
         // Set cookies
         const expiry = new Date();
         expiry.setDate(expiry.getDate() + 30);
-        
+
         if (typeof options.callbackUrl === 'string' && options.redirect !== false) {
           return { url: options.callbackUrl, ok: true };
         }
-        
+
         return { ok: true };
       } else {
         return { error: 'Invalid credentials', ok: false };
@@ -133,7 +131,7 @@ export async function signIn(
       return { error: 'Provider not supported', ok: false };
     }
   } catch (error) {
-    console.error('Sign in error:', error);
+
     return { 
       error: error instanceof Error ? error.message : 'An unexpected error occurred', 
       ok: false 
@@ -151,15 +149,15 @@ export async function signOut(
     // Sign out with AWS Amplify
     // Note: We're not actually calling Amplify signOut here to avoid client imports
     // In a real implementation, you'd need to handle this differently
-    
+
     // For now, just simulate success and let the cookie deletion handle the rest
     if (typeof options.callbackUrl === 'string' && options.redirect !== false) {
       return { url: options.callbackUrl, ok: true };
     }
-    
+
     return { ok: true };
   } catch (error) {
-    console.error('Sign out error:', error);
+
     return { ok: false };
   }
 }
@@ -169,7 +167,7 @@ export async function signOut(
  */
 export async function getProviders(): Promise<Record<string, Provider>> {
   const result: Record<string, Provider> = {};
-  
+
   for (const provider of authOptions.providers) {
     result[provider.id] = {
       id: provider.id,
@@ -179,7 +177,7 @@ export async function getProviders(): Promise<Record<string, Provider>> {
       ...(provider.type === 'credentials' ? { credentials: {} } : {})
     };
   }
-  
+
   return result;
 }
 
@@ -187,5 +185,4 @@ export default {
   auth,
   signIn,
   signOut,
-  getProviders,
-};
+  getProviders};

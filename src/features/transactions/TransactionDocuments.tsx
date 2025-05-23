@@ -163,19 +163,19 @@ const documentStatusConfig = {
 export default function TransactionDocuments({ documents, transactionId, onDocumentUpdate }: TransactionDocumentsProps) {
   const { user } = useAuth();
   const { uploadDocument, deleteDocument, updateDocument } = useDocuments();
-  
-  const [selectedDocument, setSelectedDocument] = useState<TransactionDocument | null>(null);
-  const [viewMode, setViewMode] = useState<'grid' | 'list'>('list');
-  const [filterType, setFilterType] = useState<string>('all');
-  const [filterStatus, setFilterStatus] = useState<string>('all');
-  const [searchQuery, setSearchQuery] = useState('');
-  const [selectedDocuments, setSelectedDocuments] = useState<Set<string>>(new Set());
-  const [showUploadModal, setShowUploadModal] = useState(false);
-  const [showViewer, setShowViewer] = useState(false);
-  const [showEditor, setShowEditor] = useState(false);
-  const [showSignatureModal, setShowSignatureModal] = useState(false);
-  const [showVersionHistory, setShowVersionHistory] = useState(false);
-  const [showComments, setShowComments] = useState(false);
+
+  const [selectedDocumentsetSelectedDocument] = useState<TransactionDocument | null>(null);
+  const [viewModesetViewMode] = useState<'grid' | 'list'>('list');
+  const [filterTypesetFilterType] = useState<string>('all');
+  const [filterStatussetFilterStatus] = useState<string>('all');
+  const [searchQuerysetSearchQuery] = useState('');
+  const [selectedDocumentssetSelectedDocuments] = useState<Set<string>>(new Set());
+  const [showUploadModalsetShowUploadModal] = useState(false);
+  const [showViewersetShowViewer] = useState(false);
+  const [showEditorsetShowEditor] = useState(false);
+  const [showSignatureModalsetShowSignatureModal] = useState(false);
+  const [showVersionHistorysetShowVersionHistory] = useState(false);
+  const [showCommentssetShowComments] = useState(false);
 
   const onDrop = useCallback(async (acceptedFiles: File[]) => {
     for (const file of acceptedFiles) {
@@ -184,7 +184,7 @@ export default function TransactionDocuments({ documents, transactionId, onDocum
         formData.append('file', file);
         formData.append('transactionId', transactionId);
         formData.append('type', 'OTHER');
-        
+
         const result = await uploadDocument(formData);
         toast.success(`${file.name} uploaded successfully`);
         onDocumentUpdate?.(result);
@@ -192,7 +192,7 @@ export default function TransactionDocuments({ documents, transactionId, onDocum
         toast.error(`Failed to upload ${file.name}`);
       }
     }
-  }, [transactionId, uploadDocument, onDocumentUpdate]);
+  }, [transactionId, uploadDocumentonDocumentUpdate]);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
@@ -200,8 +200,7 @@ export default function TransactionDocuments({ documents, transactionId, onDocum
       'application/pdf': ['.pdf'],
       'application/msword': ['.doc'],
       'application/vnd.openxmlformats-officedocument.wordprocessingml.document': ['.docx'],
-      'image/*': ['.png', '.jpg', '.jpeg'],
-    }
+      'image/*': ['.png', '.jpg', '.jpeg']}
   });
 
   const filteredDocuments = documents.filter(doc => {
@@ -215,7 +214,7 @@ export default function TransactionDocuments({ documents, transactionId, onDocum
     total: documents.length,
     executed: documents.filter(d => d.status === 'EXECUTED').length,
     pendingSignatures: documents.filter(d => d.status === 'SIGNED' && d.signatures?.some(s => s.status === 'PENDING')).length,
-    overdue: documents.filter(d => d.dueDate && new Date(d.dueDate) < new Date() && d.status !== 'EXECUTED').length,
+    overdue: documents.filter(d => d.dueDate && new Date(d.dueDate) <new Date() && d.status !== 'EXECUTED').length,
     critical: documents.filter(d => d.criticalPath).length
   };
 
@@ -260,7 +259,7 @@ export default function TransactionDocuments({ documents, transactionId, onDocum
 
   const handleBulkAction = async (action: string) => {
     const selectedDocs = documents.filter(doc => selectedDocuments.has(doc.id));
-    
+
     switch (action) {
       case 'download':
         toast.success(`Downloading ${selectedDocs.length} documents`);
@@ -280,7 +279,7 @@ export default function TransactionDocuments({ documents, transactionId, onDocum
     const config = documentTypeConfig[document.type];
     const statusConfig = documentStatusConfig[document.status];
     const Icon = config.icon;
-    const isOverdue = document.dueDate && new Date(document.dueDate) < new Date() && document.status !== 'EXECUTED';
+    const isOverdue = document.dueDate && new Date(document.dueDate) <new Date() && document.status !== 'EXECUTED';
     const canEdit = document.permissions.edit.includes(user?.role || '');
     const canSign = document.permissions.sign.includes(user?.role || '') && document.status === 'APPROVED';
     const canDownload = document.permissions.download.includes(user?.role || '');
@@ -289,9 +288,9 @@ export default function TransactionDocuments({ documents, transactionId, onDocum
       <motion.div
         key={document.id}
         layout
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 1, scale: 1 }}
-        exit={{ opacity: 0, scale: 0.9 }}
+        initial={ opacity: 0, scale: 0.9 }
+        animate={ opacity: 1, scale: 1 }
+        exit={ opacity: 0, scale: 0.9 }
         className="relative"
       >
         <Card className={`overflow-hidden hover:shadow-lg transition-shadow ${
@@ -306,7 +305,7 @@ export default function TransactionDocuments({ documents, transactionId, onDocum
                   </div>
                   <Checkbox
                     checked={selectedDocuments.has(document.id)}
-                    onCheckedChange={(checked) => {
+                    onCheckedChange={(checked: any) => {
                       const newSelected = new Set(selectedDocuments);
                       if (checked) {
                         newSelected.add(document.id);
@@ -314,13 +313,13 @@ export default function TransactionDocuments({ documents, transactionId, onDocum
                         newSelected.delete(document.id);
                       }
                       setSelectedDocuments(newSelected);
-                    }}
+                    }
                   />
                 </div>
-                
+
                 <h3 className="font-semibold text-sm mb-1 line-clamp-2">{document.name}</h3>
                 <p className="text-xs text-gray-600 mb-3">{config.label} • v{document.version}</p>
-                
+
                 <div className="flex items-center justify-between mb-3">
                   <Badge variant={statusConfig.color as any}>
                     {statusConfig.label}
@@ -332,7 +331,7 @@ export default function TransactionDocuments({ documents, transactionId, onDocum
                   )}
                 </div>
 
-                {document.signatures && document.signatures.length > 0 && (
+                {document.signatures && document.signatures.length> 0 && (
                   <div className="mb-3">
                     <div className="flex items-center justify-between text-xs text-gray-600 mb-1">
                       <span>Signatures</span>
@@ -397,7 +396,7 @@ export default function TransactionDocuments({ documents, transactionId, onDocum
               <div className="flex items-center p-4">
                 <Checkbox
                   checked={selectedDocuments.has(document.id)}
-                  onCheckedChange={(checked) => {
+                  onCheckedChange={(checked: any) => {
                     const newSelected = new Set(selectedDocuments);
                     if (checked) {
                       newSelected.add(document.id);
@@ -405,14 +404,14 @@ export default function TransactionDocuments({ documents, transactionId, onDocum
                       newSelected.delete(document.id);
                     }
                     setSelectedDocuments(newSelected);
-                  }}
+                  }
                   className="mr-4"
                 />
-                
+
                 <div className={`p-2 rounded-lg ${config.bgColor}-100 mr-4`}>
                   <Icon className={`h-6 w-6 text-${config.color}-600`} />
                 </div>
-                
+
                 <div className="flex-1">
                   <div className="flex items-center gap-2 mb-1">
                     <h3 className="font-semibold">{document.name}</h3>
@@ -438,12 +437,12 @@ export default function TransactionDocuments({ documents, transactionId, onDocum
                     )}
                   </div>
                 </div>
-                
+
                 <div className="flex items-center gap-4">
                   <Badge variant={statusConfig.color as any}>
                     {statusConfig.label}
                   </Badge>
-                  
+
                   {document.signatures && (
                     <div className="flex items-center gap-2">
                       <Progress 
@@ -456,7 +455,7 @@ export default function TransactionDocuments({ documents, transactionId, onDocum
                       </span>
                     </div>
                   )}
-                  
+
                   <div className="flex items-center gap-1">
                     <Button
                       size="sm"
@@ -524,7 +523,7 @@ export default function TransactionDocuments({ documents, transactionId, onDocum
             </div>
           </CardContent>
         </Card>
-        
+
         <Card>
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
@@ -536,7 +535,7 @@ export default function TransactionDocuments({ documents, transactionId, onDocum
             </div>
           </CardContent>
         </Card>
-        
+
         <Card>
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
@@ -548,7 +547,7 @@ export default function TransactionDocuments({ documents, transactionId, onDocum
             </div>
           </CardContent>
         </Card>
-        
+
         <Card>
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
@@ -560,7 +559,7 @@ export default function TransactionDocuments({ documents, transactionId, onDocum
             </div>
           </CardContent>
         </Card>
-        
+
         <Card>
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
@@ -600,40 +599,40 @@ export default function TransactionDocuments({ documents, transactionId, onDocum
                 <Input
                   placeholder="Search documents..."
                   value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onChange={(e: any) => setSearchQuery(e.target.value)}
                   className="pl-10"
                 />
               </div>
             </div>
-            
+
             <Select value={filterType} onValueChange={setFilterType}>
               <SelectTrigger className="w-[150px]">
                 <SelectValue placeholder="Document type" />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">All Types</SelectItem>
-                {Object.entries(documentTypeConfig).map(([key, config]) => (
+                {Object.entries(documentTypeConfig).map(([keyconfig]) => (
                   <SelectItem key={key} value={key}>
                     {config.label}
                   </SelectItem>
                 ))}
               </SelectContent>
             </Select>
-            
+
             <Select value={filterStatus} onValueChange={setFilterStatus}>
               <SelectTrigger className="w-[150px]">
                 <SelectValue placeholder="Status" />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">All Status</SelectItem>
-                {Object.entries(documentStatusConfig).map(([key, config]) => (
+                {Object.entries(documentStatusConfig).map(([keyconfig]) => (
                   <SelectItem key={key} value={key}>
                     {config.label}
                   </SelectItem>
                 ))}
               </SelectContent>
             </Select>
-            
+
             <div className="flex items-center gap-2">
               <Button
                 variant="outline"
@@ -642,8 +641,8 @@ export default function TransactionDocuments({ documents, transactionId, onDocum
               >
                 {viewMode === 'grid' ? 'List View' : 'Grid View'}
               </Button>
-              
-              {selectedDocuments.size > 0 && (
+
+              {selectedDocuments.size> 0 && (
                 <>
                   <Button
                     variant="outline"
@@ -703,7 +702,7 @@ export default function TransactionDocuments({ documents, transactionId, onDocum
                   setFilterType('all');
                   setFilterStatus('all');
                   setSearchQuery('');
-                }}
+                }
               >
                 Reset filters
               </Button>
@@ -729,7 +728,7 @@ export default function TransactionDocuments({ documents, transactionId, onDocum
           onClose={() => {
             setShowViewer(false);
             setSelectedDocument(null);
-          }}
+          }
         />
       )}
 
@@ -737,16 +736,16 @@ export default function TransactionDocuments({ documents, transactionId, onDocum
       {selectedDocument && showEditor && (
         <DocumentEditor
           document={selectedDocument}
-          onSave={async (updatedDoc) => {
-            await updateDocument(selectedDocument.id, updatedDoc);
+          onSave={async (updatedDoc: any) => {
+            await updateDocument(selectedDocument.id, updatedDoc: any);
             setShowEditor(false);
             setSelectedDocument(null);
             toast.success('Document updated successfully');
-          }}
+          }
           onClose={() => {
             setShowEditor(false);
             setSelectedDocument(null);
-          }}
+          }
         />
       )}
 
@@ -754,16 +753,16 @@ export default function TransactionDocuments({ documents, transactionId, onDocum
       {selectedDocument && showSignatureModal && (
         <SignatureModal
           document={selectedDocument}
-          onSign={async (signature) => {
+          onSign={async (signature: any) => {
             // Handle signature submission
             toast.success('Document signed successfully');
             setShowSignatureModal(false);
             setSelectedDocument(null);
-          }}
+          }
           onClose={() => {
             setShowSignatureModal(false);
             setSelectedDocument(null);
-          }}
+          }
         />
       )}
 
@@ -774,7 +773,7 @@ export default function TransactionDocuments({ documents, transactionId, onDocum
           onClose={() => {
             setShowVersionHistory(false);
             setSelectedDocument(null);
-          }}
+          }
         />
       )}
 
@@ -785,7 +784,7 @@ export default function TransactionDocuments({ documents, transactionId, onDocum
           onClose={() => {
             setShowComments(false);
             setSelectedDocument(null);
-          }}
+          }
         />
       )}
     </div>

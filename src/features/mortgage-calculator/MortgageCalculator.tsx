@@ -143,19 +143,19 @@ export default function MortgageCalculator({
   onCalculate
 }: MortgageCalculatorProps) {
   const { toast } = useToast();
-  const [activeTab, setActiveTab] = useState('calculator');
-  
+  const [activeTabsetActiveTab] = useState('calculator');
+
   // Mortgage parameters
-  const [purchasePrice, setPurchasePrice] = useState(propertyPrice);
-  const [deposit, setDeposit] = useState(propertyPrice * 0.1);
-  const [loanTerm, setLoanTerm] = useState(30);
-  const [interestRate, setInterestRate] = useState(3.5);
-  const [rateType, setRateType] = useState<'variable' | 'fixed'>('variable');
-  const [fixedPeriod, setFixedPeriod] = useState(3);
-  const [selectedLender, setSelectedLender] = useState('aib');
-  
+  const [purchasePricesetPurchasePrice] = useState(propertyPrice);
+  const [depositsetDeposit] = useState(propertyPrice * 0.1);
+  const [loanTermsetLoanTerm] = useState(30);
+  const [interestRatesetInterestRate] = useState(3.5);
+  const [rateTypesetRateType] = useState<'variable' | 'fixed'>('variable');
+  const [fixedPeriodsetFixedPeriod] = useState(3);
+  const [selectedLendersetSelectedLender] = useState('aib');
+
   // Affordability parameters
-  const [affordabilityFactors, setAffordabilityFactors] = useState<AffordabilityFactors>({
+  const [affordabilityFactorssetAffordabilityFactors] = useState<AffordabilityFactors>({
     income: 50000,
     partnerIncome: 0,
     otherIncome: 0,
@@ -165,79 +165,79 @@ export default function MortgageCalculator({
     dependents: 0,
     savingsGoal: 500
   });
-  
+
   // First-time buyer options
-  const [isFirstTimeBuyer, setIsFirstTimeBuyer] = useState(true);
-  const [selectedSchemes, setSelectedSchemes] = useState<string[]>(['htb']);
-  
+  const [isFirstTimeBuyersetIsFirstTimeBuyer] = useState(true);
+  const [selectedSchemessetSelectedSchemes] = useState<string[]>(['htb']);
+
   // Additional costs
-  const [includeCosts, setIncludeCosts] = useState(true);
-  const [stampDuty, setStampDuty] = useState(0);
-  const [legalFees, setLegalFees] = useState(2500);
-  const [surveyFees, setSurveyFees] = useState(500);
-  const [otherFees, setOtherFees] = useState(1000);
-  
+  const [includeCostssetIncludeCosts] = useState(true);
+  const [stampDutysetStampDuty] = useState(0);
+  const [legalFeessetLegalFees] = useState(2500);
+  const [surveyFeessetSurveyFees] = useState(500);
+  const [otherFeessetOtherFees] = useState(1000);
+
   // Calculate mortgage details
   const mortgageResults = useMemo(() => {
     const loanAmount = purchasePrice - deposit;
     const monthlyRate = interestRate / 100 / 12;
     const numPayments = loanTerm * 12;
-    
+
     // Monthly payment calculation
     const monthlyPayment = loanAmount * 
-      (monthlyRate * Math.pow(1 + monthlyRate, numPayments)) /
-      (Math.pow(1 + monthlyRate, numPayments) - 1);
-    
+      (monthlyRate * Math.pow(1 + monthlyRatenumPayments)) /
+      (Math.pow(1 + monthlyRatenumPayments) - 1);
+
     const totalPayment = monthlyPayment * numPayments;
     const totalInterest = totalPayment - loanAmount;
-    
+
     // Generate payment schedule
     const timeline: PaymentSchedule[] = [];
     let remainingBalance = loanAmount;
-    
+
     for (let month = 1; month <= numPayments; month++) {
       const interestPayment = remainingBalance * monthlyRate;
       const principalPayment = monthlyPayment - interestPayment;
       remainingBalance -= principalPayment;
-      
+
       timeline.push({
         month,
         payment: monthlyPayment,
         principal: principalPayment,
         interest: interestPayment,
-        balance: Math.max(0, remainingBalance)
+        balance: Math.max(0remainingBalance)
       });
     }
-    
+
     // Affordability calculation
     const totalIncome = affordabilityFactors.income + 
       affordabilityFactors.partnerIncome + 
       affordabilityFactors.otherIncome;
-    
+
     const monthlyIncome = totalIncome / 12;
     const monthlyDebts = affordabilityFactors.existingLoans + 
       (affordabilityFactors.creditCardDebt / 12);
-    
+
     const availableIncome = monthlyIncome - 
       affordabilityFactors.monthlyExpenses - 
       monthlyDebts - 
       affordabilityFactors.savingsGoal;
-    
+
     const affordabilityRatio = monthlyPayment / availableIncome;
     const affordabilityScore = Math.max(0, Math.min(100, (1 - affordabilityRatio) * 100));
-    
+
     // Max borrowing capacity (typically 3.5x income in Ireland)
     const maxBorrowingCapacity = totalIncome * 3.5;
-    
+
     // Stress test (typically 2% increase)
     const stressRate = interestRate + 2;
     const stressMonthlyRate = stressRate / 100 / 12;
     const stressPayment = loanAmount * 
-      (stressMonthlyRate * Math.pow(1 + stressMonthlyRate, numPayments)) /
-      (Math.pow(1 + stressMonthlyRate, numPayments) - 1);
-    
+      (stressMonthlyRate * Math.pow(1 + stressMonthlyRatenumPayments)) /
+      (Math.pow(1 + stressMonthlyRatenumPayments) - 1);
+
     const stressTestResult = stressPayment <= availableIncome;
-    
+
     return {
       monthlyPayment,
       totalPayment,
@@ -249,7 +249,7 @@ export default function MortgageCalculator({
       stressTestResult,
       timeline
     };
-  }, [purchasePrice, deposit, loanTerm, interestRate, affordabilityFactors]);
+  }, [purchasePrice, deposit, loanTerm, interestRateaffordabilityFactors]);
 
   // Calculate stamp duty
   useEffect(() => {
@@ -284,7 +284,7 @@ export default function MortgageCalculator({
           results: mortgageResults
         })
       });
-      
+
       if (response.ok) {
         toast({
           title: 'Calculation Saved',
@@ -319,8 +319,8 @@ export default function MortgageCalculator({
         stressTest: mortgageResults.stressTestResult
       }
     };
-    
-    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+
+    const blob = new Blob([JSON.stringify(data, null2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
@@ -363,7 +363,7 @@ export default function MortgageCalculator({
                       <Input
                         type="number"
                         value={purchasePrice}
-                        onChange={(e) => setPurchasePrice(Number(e.target.value))}
+                        onChange={(e: any) => setPurchasePrice(Number(e.target.value))}
                         className="flex-1"
                       />
                     </div>
@@ -384,7 +384,7 @@ export default function MortgageCalculator({
                       <Input
                         type="number"
                         value={deposit}
-                        onChange={(e) => setDeposit(Number(e.target.value))}
+                        onChange={(e: any) => setDeposit(Number(e.target.value))}
                         className="flex-1"
                       />
                     </div>
@@ -400,12 +400,12 @@ export default function MortgageCalculator({
 
                   <div>
                     <Label>Loan Term (Years)</Label>
-                    <Select value={loanTerm.toString()} onValueChange={(value) => setLoanTerm(Number(value))}>
+                    <Select value={loanTerm.toString()} onValueChange={(value: any) => setLoanTerm(Number(value))}>
                       <SelectTrigger>
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        {[15, 20, 25, 30, 35].map((years) => (
+                        {[15, 20, 25, 3035].map((years: any) => (
                           <SelectItem key={years} value={years.toString()}>
                             {years} years
                           </SelectItem>
@@ -435,7 +435,7 @@ export default function MortgageCalculator({
                   {rateType === 'fixed' && (
                     <div>
                       <Label>Fixed Period</Label>
-                      <Select value={fixedPeriod.toString()} onValueChange={(value) => setFixedPeriod(Number(value))}>
+                      <Select value={fixedPeriod.toString()} onValueChange={(value: any) => setFixedPeriod(Number(value))}>
                         <SelectTrigger>
                           <SelectValue />
                         </SelectTrigger>
@@ -456,7 +456,7 @@ export default function MortgageCalculator({
                       <Input
                         type="number"
                         value={interestRate}
-                        onChange={(e) => setInterestRate(Number(e.target.value))}
+                        onChange={(e: any) => setInterestRate(Number(e.target.value))}
                         step="0.1"
                         min="0"
                         max="10"
@@ -530,7 +530,7 @@ export default function MortgageCalculator({
                           <Input
                             type="number"
                             value={legalFees}
-                            onChange={(e) => setLegalFees(Number(e.target.value))}
+                            onChange={(e: any) => setLegalFees(Number(e.target.value))}
                             className="w-24 text-right"
                           />
                         </div>
@@ -539,7 +539,7 @@ export default function MortgageCalculator({
                           <Input
                             type="number"
                             value={surveyFees}
-                            onChange={(e) => setSurveyFees(Number(e.target.value))}
+                            onChange={(e: any) => setSurveyFees(Number(e.target.value))}
                             className="w-24 text-right"
                           />
                         </div>
@@ -548,7 +548,7 @@ export default function MortgageCalculator({
                           <Input
                             type="number"
                             value={otherFees}
-                            onChange={(e) => setOtherFees(Number(e.target.value))}
+                            onChange={(e: any) => setOtherFees(Number(e.target.value))}
                             className="w-24 text-right"
                           />
                         </div>
@@ -588,36 +588,33 @@ export default function MortgageCalculator({
                 <CardContent>
                   <div className="h-[300px]">
                     <Line
-                      data={{
+                      data={
                         labels: mortgageResults.timeline
-                          .filter((_, index) => index % 12 === 0)
-                          .map((item) => `Year ${item.month / 12}`),
+                          .filter((_index: any) => index % 12 === 0)
+                          .map((item: any) => `Year ${item.month / 12}`),
                         datasets: [
                           {
                             label: 'Principal',
                             data: mortgageResults.timeline
-                              .filter((_, index) => index % 12 === 0)
-                              .map((item) => item.principal * 12),
-                            borderColor: 'rgb(59, 130, 246)',
-                            backgroundColor: 'rgba(59, 130, 246, 0.5)',
-                          },
+                              .filter((_index: any) => index % 12 === 0)
+                              .map((item: any) => item.principal * 12),
+                            borderColor: 'rgb(59, 130246)',
+                            backgroundColor: 'rgba(59, 130, 246, 0.5)'},
                           {
                             label: 'Interest',
                             data: mortgageResults.timeline
-                              .filter((_, index) => index % 12 === 0)
-                              .map((item) => item.interest * 12),
-                            borderColor: 'rgb(239, 68, 68)',
-                            backgroundColor: 'rgba(239, 68, 68, 0.5)',
-                          }
+                              .filter((_index: any) => index % 12 === 0)
+                              .map((item: any) => item.interest * 12),
+                            borderColor: 'rgb(239, 6868)',
+                            backgroundColor: 'rgba(239, 68, 68, 0.5)'}
                         ]
-                      }}
-                      options={{
+                      }
+                      options={
                         responsive: true,
                         maintainAspectRatio: false,
                         plugins: {
                           legend: {
-                            position: 'top',
-                          },
+                            position: 'top'},
                           title: {
                             display: false
                           }
@@ -626,11 +623,11 @@ export default function MortgageCalculator({
                           y: {
                             beginAtZero: true,
                             ticks: {
-                              callback: (value) => `€${value.toLocaleString()}`
+                              callback: (value: any) => `€${value.toLocaleString()}`
                             }
                           }
                         }
-                      }}
+                      }
                     />
                   </div>
                 </CardContent>
@@ -642,7 +639,7 @@ export default function MortgageCalculator({
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-4">
                   <h3 className="font-semibold">Income Details</h3>
-                  
+
                   <div>
                     <Label>Your Annual Income</Label>
                     <div className="flex items-center space-x-2">
@@ -650,7 +647,7 @@ export default function MortgageCalculator({
                       <Input
                         type="number"
                         value={affordabilityFactors.income}
-                        onChange={(e) => setAffordabilityFactors({
+                        onChange={(e: any) => setAffordabilityFactors({
                           ...affordabilityFactors,
                           income: Number(e.target.value)
                         })}
@@ -665,7 +662,7 @@ export default function MortgageCalculator({
                       <Input
                         type="number"
                         value={affordabilityFactors.partnerIncome}
-                        onChange={(e) => setAffordabilityFactors({
+                        onChange={(e: any) => setAffordabilityFactors({
                           ...affordabilityFactors,
                           partnerIncome: Number(e.target.value)
                         })}
@@ -680,7 +677,7 @@ export default function MortgageCalculator({
                       <Input
                         type="number"
                         value={affordabilityFactors.otherIncome}
-                        onChange={(e) => setAffordabilityFactors({
+                        onChange={(e: any) => setAffordabilityFactors({
                           ...affordabilityFactors,
                           otherIncome: Number(e.target.value)
                         })}
@@ -697,7 +694,7 @@ export default function MortgageCalculator({
                       <Input
                         type="number"
                         value={affordabilityFactors.monthlyExpenses}
-                        onChange={(e) => setAffordabilityFactors({
+                        onChange={(e: any) => setAffordabilityFactors({
                           ...affordabilityFactors,
                           monthlyExpenses: Number(e.target.value)
                         })}
@@ -712,7 +709,7 @@ export default function MortgageCalculator({
                       <Input
                         type="number"
                         value={affordabilityFactors.existingLoans}
-                        onChange={(e) => setAffordabilityFactors({
+                        onChange={(e: any) => setAffordabilityFactors({
                           ...affordabilityFactors,
                           existingLoans: Number(e.target.value)
                         })}
@@ -724,7 +721,7 @@ export default function MortgageCalculator({
                     <Label>Number of Dependents</Label>
                     <Select 
                       value={affordabilityFactors.dependents.toString()}
-                      onValueChange={(value) => setAffordabilityFactors({
+                      onValueChange={(value: any) => setAffordabilityFactors({
                         ...affordabilityFactors,
                         dependents: Number(value)
                       })}
@@ -733,7 +730,7 @@ export default function MortgageCalculator({
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        {[0, 1, 2, 3, 4, 5].map((num) => (
+                        {[0, 1, 2, 3, 45].map((num: any) => (
                           <SelectItem key={num} value={num.toString()}>
                             {num} {num === 1 ? 'dependent' : 'dependents'}
                           </SelectItem>
@@ -762,11 +759,11 @@ export default function MortgageCalculator({
                           className="h-3"
                         />
                         <p className="text-sm text-muted-foreground mt-1">
-                          {mortgageResults.affordabilityScore >= 70 
+                          {mortgageResults.affordabilityScore>= 70 
                             ? 'Excellent affordability'
-                            : mortgageResults.affordabilityScore >= 50
+                            : mortgageResults.affordabilityScore>= 50
                             ? 'Good affordability'
-                            : mortgageResults.affordabilityScore >= 30
+                            : mortgageResults.affordabilityScore>= 30
                             ? 'Moderate affordability'
                             : 'Poor affordability'}
                         </p>
@@ -797,7 +794,7 @@ export default function MortgageCalculator({
                     <CardContent>
                       <div className="h-[200px]">
                         <Doughnut
-                          data={{
+                          data={
                             labels: ['Mortgage', 'Living Expenses', 'Other Loans', 'Savings', 'Remaining'],
                             datasets: [{
                               data: [
@@ -823,24 +820,23 @@ export default function MortgageCalculator({
                                 'rgba(156, 163, 175, 0.8)'
                               ],
                               borderColor: [
-                                'rgb(59, 130, 246)',
-                                'rgb(239, 68, 68)',
-                                'rgb(251, 191, 36)',
-                                'rgb(34, 197, 94)',
-                                'rgb(156, 163, 175)'
+                                'rgb(59, 130246)',
+                                'rgb(239, 6868)',
+                                'rgb(251, 19136)',
+                                'rgb(34, 19794)',
+                                'rgb(156, 163175)'
                               ],
                               borderWidth: 1
                             }]
-                          }}
-                          options={{
+                          }
+                          options={
                             responsive: true,
                             maintainAspectRatio: false,
                             plugins: {
                               legend: {
-                                position: 'right',
-                              }
+                                position: 'right'}
                             }
-                          }}
+                          }
                         />
                       </div>
                     </CardContent>
@@ -855,7 +851,7 @@ export default function MortgageCalculator({
                       </CardTitle>
                     </CardHeader>
                     <CardContent className="space-y-2">
-                      {mortgageResults.affordabilityScore < 50 && (
+                      {mortgageResults.affordabilityScore <50 && (
                         <div className="flex items-start space-x-2">
                           <AlertCircle className="h-4 w-4 text-warning mt-0.5" />
                           <p className="text-sm">
@@ -863,7 +859,7 @@ export default function MortgageCalculator({
                           </p>
                         </div>
                       )}
-                      {mortgageResults.monthlyPayment > (affordabilityFactors.income + affordabilityFactors.partnerIncome) / 12 * 0.35 && (
+                      {mortgageResults.monthlyPayment> (affordabilityFactors.income + affordabilityFactors.partnerIncome) / 12 * 0.35 && (
                         <div className="flex items-start space-x-2">
                           <AlertCircle className="h-4 w-4 text-warning mt-0.5" />
                           <p className="text-sm">
@@ -879,7 +875,7 @@ export default function MortgageCalculator({
                           </p>
                         </div>
                       )}
-                      {mortgageResults.affordabilityScore >= 70 && (
+                      {mortgageResults.affordabilityScore>= 70 && (
                         <div className="flex items-start space-x-2">
                           <CheckCircle2 className="h-4 w-4 text-success mt-0.5" />
                           <p className="text-sm">
@@ -907,20 +903,20 @@ export default function MortgageCalculator({
 
                   {isFirstTimeBuyer && (
                     <div className="space-y-4">
-                      {firstTimeBuyerSchemes.map((scheme) => (
+                      {firstTimeBuyerSchemes.map((scheme: any) => (
                         <Card key={scheme.id}>
                           <CardHeader>
                             <CardTitle className="text-lg flex items-center justify-between">
                               <span>{scheme.name}</span>
                               <Switch
                                 checked={selectedSchemes.includes(scheme.id)}
-                                onCheckedChange={(checked) => {
+                                onCheckedChange={(checked: any) => {
                                   if (checked) {
                                     setSelectedSchemes([...selectedSchemes, scheme.id]);
                                   } else {
                                     setSelectedSchemes(selectedSchemes.filter(s => s !== scheme.id));
                                   }
-                                }}
+                                }
                               />
                             </CardTitle>
                             <CardDescription>{scheme.description}</CardDescription>
@@ -947,7 +943,7 @@ export default function MortgageCalculator({
                               )}
                             </div>
                             <div className="mt-3 space-y-1">
-                              {scheme.conditions.map((condition, index) => (
+                              {scheme.conditions.map((conditionindex: any) => (
                                 <div key={index} className="flex items-start space-x-2">
                                   <CheckCircle2 className="h-3 w-3 text-muted-foreground mt-0.5" />
                                   <p className="text-sm text-muted-foreground">{condition}</p>
@@ -988,7 +984,7 @@ export default function MortgageCalculator({
                               </div>
                             </div>
                           )}
-                          
+
                           {selectedSchemes.includes('fhbs') && (
                             <div>
                               <h4 className="font-medium mb-1">First Home Scheme</h4>
@@ -1067,21 +1063,21 @@ export default function MortgageCalculator({
                           </tr>
                         </thead>
                         <tbody>
-                          {lenderProfiles.map((lender) => {
+                          {lenderProfiles.map((lender: any) => {
                             const rate = rateType === 'variable' 
                               ? lender.rates.variable 
                               : lender.rates[`fixed${fixedPeriod}`];
-                            
+
                             const monthlyRate = rate / 100 / 12;
                             const numPayments = loanTerm * 12;
                             const loanAmount = purchasePrice - deposit;
-                            
+
                             const monthlyPayment = loanAmount * 
-                              (monthlyRate * Math.pow(1 + monthlyRate, numPayments)) /
-                              (Math.pow(1 + monthlyRate, numPayments) - 1);
-                            
+                              (monthlyRate * Math.pow(1 + monthlyRatenumPayments)) /
+                              (Math.pow(1 + monthlyRatenumPayments) - 1);
+
                             const totalPayment = monthlyPayment * numPayments;
-                            
+
                             return (
                               <tr key={lender.id} className="border-b">
                                 <td className="p-4 font-medium">{lender.name}</td>
@@ -1112,43 +1108,39 @@ export default function MortgageCalculator({
                     <CardContent>
                       <div className="h-[300px]">
                         <Bar
-                          data={{
+                          data={
                             labels: lenderProfiles.map(l => l.name),
                             datasets: [
                               {
                                 label: 'Variable',
                                 data: lenderProfiles.map(l => l.rates.variable),
-                                backgroundColor: 'rgba(59, 130, 246, 0.8)',
-                              },
+                                backgroundColor: 'rgba(59, 130, 246, 0.8)'},
                               {
                                 label: '3 Year Fixed',
                                 data: lenderProfiles.map(l => l.rates.fixed3),
-                                backgroundColor: 'rgba(34, 197, 94, 0.8)',
-                              },
+                                backgroundColor: 'rgba(34, 197, 94, 0.8)'},
                               {
                                 label: '5 Year Fixed',
                                 data: lenderProfiles.map(l => l.rates.fixed5),
-                                backgroundColor: 'rgba(251, 191, 36, 0.8)',
-                              }
+                                backgroundColor: 'rgba(251, 191, 36, 0.8)'}
                             ]
-                          }}
-                          options={{
+                          }
+                          options={
                             responsive: true,
                             maintainAspectRatio: false,
                             plugins: {
                               legend: {
-                                position: 'top',
-                              }
+                                position: 'top'}
                             },
                             scales: {
                               y: {
                                 beginAtZero: true,
                                 ticks: {
-                                  callback: (value) => `${value}%`
+                                  callback: (value: any) => `${value}%`
                                 }
                               }
                             }
-                          }}
+                          }
                         />
                       </div>
                     </CardContent>

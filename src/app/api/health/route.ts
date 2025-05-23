@@ -44,13 +44,13 @@ let prisma: PrismaClient | null = null;
 try {
   prisma = new PrismaClient();
 } catch (error) {
-  console.error('Failed to initialize Prisma:', error);
+
 }
 
 // Health check functions
 async function checkDatabase(): Promise<any> {
   const startTime = Date.now();
-  
+
   try {
     if (!prisma) {
       return {
@@ -62,7 +62,7 @@ async function checkDatabase(): Promise<any> {
 
     // Test connection with a simple query
     await prisma.$queryRaw`SELECT 1`;
-    
+
     return {
       status: 'ok',
       responseTime: Date.now() - startTime,
@@ -81,7 +81,7 @@ async function checkDatabase(): Promise<any> {
 
 async function checkRedis(): Promise<any> {
   const startTime = Date.now();
-  
+
   try {
     // Check if Redis URL is configured
     if (!process.env.REDIS_URL) {
@@ -137,7 +137,7 @@ async function checkExternalServices(): Promise<any> {
   }
 
   return {
-    status: Object.keys(services).length > 0 ? 'ok' : 'warning',
+    status: Object.keys(services).length> 0 ? 'ok' : 'warning',
     message: Object.keys(services).length === 0 ? 'No external services configured' : undefined,
     responseTime: Date.now() - startTime,
     details: services
@@ -148,10 +148,10 @@ function getSystemInfo() {
   const totalMemory = os.totalmem();
   const freeMemory = os.freemem();
   const usedMemory = totalMemory - freeMemory;
-  
+
   const cpuCores = os.cpus().length;
   const loadAverage = os.loadavg();
-  
+
   const processMemory = process.memoryUsage();
 
   return {
@@ -176,10 +176,10 @@ function getSystemInfo() {
 
 export async function GET(request: Request) {
   const startTime = Date.now();
-  
+
   try {
     // Run all health checks in parallel
-    const [databaseCheck, redisCheck, externalServicesCheck] = await Promise.all([
+    const [databaseCheck, redisCheckexternalServicesCheck] = await Promise.all([
       checkDatabase(),
       checkRedis(),
       checkExternalServices()
@@ -194,7 +194,7 @@ export async function GET(request: Request) {
     // Determine overall status
     const hasError = Object.values(checks).some(check => check.status === 'error');
     const hasWarning = Object.values(checks).some(check => check.status === 'warning');
-    
+
     let status: 'healthy' | 'unhealthy' | 'degraded';
     if (hasError) {
       status = 'unhealthy';
@@ -227,8 +227,7 @@ export async function GET(request: Request) {
       headers: responseHeaders
     });
   } catch (error) {
-    console.error('Health check error:', error);
-    
+
     return NextResponse.json({
       status: 'unhealthy',
       timestamp: new Date().toISOString(),

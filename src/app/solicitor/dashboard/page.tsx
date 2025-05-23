@@ -133,9 +133,9 @@ const progressSteps = [
 ];
 
 export default function SolicitorsDashboardPage() {
-  const [selectedDevelopment, setSelectedDevelopment] = useState(developmentsList[0]);
-  const [selectedBuyer, setSelectedBuyer] = useState(recentBuyers[0]);
-  const [showNewClientModal, setShowNewClientModal] = useState(false);
+  const [selectedDevelopmentsetSelectedDevelopment] = useState(developmentsList[0]);
+  const [selectedBuyersetSelectedBuyer] = useState(recentBuyers[0]);
+  const [showNewClientModalsetShowNewClientModal] = useState(false);
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -149,7 +149,7 @@ export default function SolicitorsDashboardPage() {
               </Link>
               <span className="ml-2 text-sm text-gray-600">Solicitor Portal</span>
             </div>
-            
+
             <div className="flex items-center space-x-4">
               <button className="text-gray-600 hover:text-gray-900">
                 <Search className="h-5 w-5" />
@@ -252,7 +252,7 @@ export default function SolicitorsDashboardPage() {
                       <div className="w-full bg-gray-200 rounded-full h-2">
                         <div 
                           className="bg-[#2B5273] h-2 rounded-full"
-                          style={{ width: `${development.slpProgress}%` }}
+                          style={ width: `${development.slpProgress}%` }
                         ></div>
                       </div>
                     </div>
@@ -309,7 +309,7 @@ export default function SolicitorsDashboardPage() {
                       </div>
                       <div className="flex-1 mx-4">
                         <div className="h-2 bg-gray-200 rounded-full">
-                          <div className="h-2 bg-green-500 rounded-full" style={{ width: '75%' }}></div>
+                          <div className="h-2 bg-green-500 rounded-full" style={ width: '75%' }></div>
                         </div>
                       </div>
                       <div className="text-center">
@@ -328,6 +328,13 @@ export default function SolicitorsDashboardPage() {
                       Download Reports
                     </button>
                   </div>
+
+                  <Link href="/solicitor/conveyancing-dashboard">
+                    <button className="w-full mt-4 px-4 py-2 bg-[#2B5273] text-white rounded-lg hover:bg-[#1E3142] transition-colors flex items-center justify-center">
+                      <Briefcase className="h-4 w-4 mr-2" />
+                      View Conveyancing Dashboard
+                    </button>
+                  </Link>
                 </div>
               </div>
             </div>
@@ -361,7 +368,7 @@ export default function SolicitorsDashboardPage() {
                         {buyer.status}
                       </span>
                     </div>
-                    
+
                     <div className="flex items-center justify-between mb-3">
                       <div className="flex items-center space-x-4 text-sm text-gray-600">
                         <span className="flex items-center">
@@ -381,7 +388,7 @@ export default function SolicitorsDashboardPage() {
                         className={`h-2 rounded-full ${
                           buyer.status === 'Completed' ? 'bg-green-500' : 'bg-blue-500'
                         }`}
-                        style={{ width: `${buyer.progress}%` }}
+                        style={ width: `${buyer.progress}%` }
                       ></div>
                     </div>
                   </div>
@@ -400,7 +407,7 @@ export default function SolicitorsDashboardPage() {
           </div>
           <div className="p-6">
             <div className="flex items-center justify-between mb-6">
-              {progressSteps.map((step, index) => (
+              {progressSteps.map((stepindex: any) => (
                 <React.Fragment key={step.id}>
                   <div className="flex flex-col items-center">
                     <div className={`w-10 h-10 rounded-full flex items-center justify-center mb-2 ${
@@ -422,7 +429,7 @@ export default function SolicitorsDashboardPage() {
                       {step.name}
                     </span>
                   </div>
-                  {index < progressSteps.length - 1 && (
+                  {index <progressSteps.length - 1 && (
                     <div className={`flex-1 h-1 mx-2 ${
                       progressSteps[index + 1].status !== 'upcoming'
                         ? 'bg-green-500'
@@ -458,7 +465,7 @@ export default function SolicitorsDashboardPage() {
                 <X className="h-5 w-5" />
               </button>
             </div>
-            
+
             <form className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -470,7 +477,7 @@ export default function SolicitorsDashboardPage() {
                   placeholder="Enter client name"
                 />
               </div>
-              
+
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Email
@@ -481,7 +488,7 @@ export default function SolicitorsDashboardPage() {
                   placeholder="Enter email address"
                 />
               </div>
-              
+
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Development
@@ -492,7 +499,7 @@ export default function SolicitorsDashboardPage() {
                   ))}
                 </select>
               </div>
-              
+
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Unit Number
@@ -503,7 +510,7 @@ export default function SolicitorsDashboardPage() {
                   placeholder="Enter unit number"
                 />
               </div>
-              
+
               <div className="flex space-x-3 pt-4">
                 <button
                   type="submit"

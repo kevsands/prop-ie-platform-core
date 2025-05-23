@@ -22,14 +22,14 @@ export interface CustomizationOption {
   
   // For CustomizationState
   export interface CustomizationState {
-    selectedOptions?: Record<string, SelectedOption>;
+    selectedOptions?: Record<string, SelectedOption>\n  );
     lastSaved?: Date;
     totalCost?: number;
   }
   
   // For CustomizationContextType
   export interface CustomizationContextType {
-    selectedOptions?: Record<string, SelectedOption>;
+    selectedOptions?: Record<string, SelectedOption>\n  );
     totalCost?: number;
     // Add other properties needed
   }

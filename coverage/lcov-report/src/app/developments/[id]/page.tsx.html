@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/22</span>
+                <span class='fraction'>0/24</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/21</span>
+                <span class='fraction'>0/23</span>
             </div>
         
             
@@ -660,7 +660,9 @@
 <a name='L595'></a><a href='#L595'>595</a>
 <a name='L596'></a><a href='#L596'>596</a>
 <a name='L597'></a><a href='#L597'>597</a>
-<a name='L598'></a><a href='#L598'>598</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L598'></a><a href='#L598'>598</a>
+<a name='L599'></a><a href='#L599'>599</a>
+<a name='L600'></a><a href='#L600'>600</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -897,6 +899,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -910,6 +913,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1333,11 +1337,11 @@ Each home has been thoughtfully designed with contemporary families in mind, fea
         image: '/images/developments/fitzgerald-gardens/Duplex D5.png'
       }
     ],
-    transport: {
+    transport: { 
       bus: '5 min walk to Dublin Bus routes',
       luas: '15 min to Luas Green Line',
       car: '20 min to City Centre',
-      dart: '20 min to DART station'
+      dart: '20 min to DART station' 
     },
     sitePlan: '/images/developments/fitzgerald-gardens/site-plan.jpg'
   },
@@ -1379,7 +1383,7 @@ Nestled in the heart of Drogheda, this development provides easy access to schoo
       'Family-Friendly Location'
     ],
     unitsAvailable: 24,
-    totalUnits: 24,
+    totalUnits: 42,
     floorPlans: [
       { 
         type: 'Type A - 3 Bed Semi-Detached', 
@@ -1396,11 +1400,11 @@ Nestled in the heart of Drogheda, this development provides easy access to schoo
         floorPlan: '/images/developments/Ballymakenny-View/HouseTypeB FP2.png'
       }
     ],
-    transport: {
+    transport: { 
       bus: '2 min walk to bus stop',
       train: '10 min to Drogheda Station',
       car: '5 min to M1 Motorway',
-      dublin: '40 min to Dublin City Centre'
+      dublin: '40 min to Dublin City Centre' 
     },
     sitePlan: '/images/developments/Ballymakenny-View/BMV Site Plan.png'
   },
@@ -1463,13 +1467,13 @@ Each apartment has been carefully designed to maximize space and light, with flo
         price: 'From €450,000'
       }
     ],
-    transport: {
+    transport: { 
       bus: 'On-site bus stop',
       train: '5 min walk to Celbridge Station',
       car: '25 min to Dublin City Centre',
-      airport: '30 min to Dublin Airport'
+      airport: '30 min to Dublin Airport' 
     },
-    amenities: [
+    Amenity: [
       'Residents Gym',
       'Concierge Service',
       'Landscaped Courtyard',
@@ -1488,12 +1492,13 @@ interface Props {
 &nbsp;
 export async function <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >generateStaticParams(</span></span>) {
 <span class="cstat-no" title="statement not covered" >  return Object.keys(developmentsData).map(<span class="fstat-no" title="function not covered" >(i</span>d) =&gt; (<span class="cstat-no" title="statement not covered" >{</span></span>
-    id: id,
+    id,
   }));
 }
 &nbsp;
 export async function <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >generateMetadata(</span></span>{ params }: Props): Promise&lt;Metadata&gt; {
-  const development = <span class="cstat-no" title="statement not covered" >developmentsData[params.id as keyof typeof developmentsData];</span>
+  const { id } = <span class="cstat-no" title="statement not covered" >params;</span>
+  const development = <span class="cstat-no" title="statement not covered" >developmentsData[id as keyof typeof developmentsData];</span>
   
 <span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (!development) {</span>
 <span class="cstat-no" title="statement not covered" >    return {</span>
@@ -1508,7 +1513,8 @@ export async function <span class="cstat-no" title="statement not covered" ><spa
 }
 &nbsp;
 export default function <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >DevelopmentDetailPage({</span></span> params }: Props) {
-  const development = <span class="cstat-no" title="statement not covered" >developmentsData[params.id as keyof typeof developmentsData];</span>
+  const { id } = <span class="cstat-no" title="statement not covered" >params;</span>
+  const development = <span class="cstat-no" title="statement not covered" >developmentsData[id as keyof typeof developmentsData];</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (!development) {</span>
 <span class="cstat-no" title="statement not covered" >    notFound();</span>
@@ -1682,12 +1688,12 @@ export default function <span class="cstat-no" title="statement not covered" ><s
               )}
 &nbsp;
               {/* Amenities - Only show if development has amenities */}
-              {development.amenities &amp;&amp; development.amenities.length &gt; 0 &amp;&amp; (
+              {development.Amenity &amp;&amp; development.Amenity.length &gt; 0 &amp;&amp; (
                 &lt;div&gt;
                   &lt;h3 className="text-2xl font-bold text-gray-900 mb-6"&gt;Development Amenities&lt;/h3&gt;
                   &lt;div className="bg-gray-50 p-6 rounded-lg"&gt;
                     &lt;div className="grid grid-cols-1 md:grid-cols-2 gap-4"&gt;
-                      {development.amenities.map(<span class="fstat-no" title="function not covered" >(a</span>menity, index) =&gt; (
+                      {development.Amenity.map(<span class="fstat-no" title="function not covered" >(a</span>menity, index) =&gt; (
 <span class="cstat-no" title="statement not covered" >                        &lt;div key={index} c</span>lassName="flex items-center gap-3"&gt;
                           &lt;svg className="h-5 w-5 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"&gt;
                             &lt;path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /&gt;
@@ -1861,7 +1867,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-15T16:23:22.212Z
+                at 2025-05-22T22:15:25.812Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

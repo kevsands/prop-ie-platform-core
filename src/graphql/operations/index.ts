@@ -96,8 +96,7 @@ export const DOCUMENT_QUERIES = {
         completionStatus
       }
     }
-  `,
-};
+  `};
 
 export const DOCUMENT_MUTATIONS = {
   UPLOAD_DOCUMENT: /* GraphQL */ `
@@ -161,8 +160,7 @@ export const DOCUMENT_MUTATIONS = {
         signedAt
       }
     }
-  `,
-};
+  `};
 
 export const DOCUMENT_SUBSCRIPTIONS = {
   ON_DOCUMENT_UPDATE: /* GraphQL */ `
@@ -207,8 +205,7 @@ export const DOCUMENT_SUBSCRIPTIONS = {
         requestedAt
       }
     }
-  `,
-};
+  `};
 
 // Project Operations
 export const PROJECT_QUERIES = {
@@ -251,8 +248,7 @@ export const PROJECT_QUERIES = {
         }
       }
     }
-  `,
-};
+  `};
 
 export const PROJECT_MUTATIONS = {
   CREATE_PROJECT: /* GraphQL */ `
@@ -282,8 +278,7 @@ export const PROJECT_MUTATIONS = {
         status
       }
     }
-  `,
-};
+  `};
 
 export const PROJECT_SUBSCRIPTIONS = {
   ON_PROJECT_UPDATE: /* GraphQL */ `
@@ -299,8 +294,7 @@ export const PROJECT_SUBSCRIPTIONS = {
         }
       }
     }
-  `,
-};
+  `};
 
 // User Operations
 export const USER_QUERIES = {
@@ -334,8 +328,7 @@ export const USER_QUERIES = {
         }
       }
     }
-  `,
-};
+  `};
 
 export const USER_MUTATIONS = {
   UPDATE_USER: /* GraphQL */ `
@@ -361,8 +354,7 @@ export const USER_MUTATIONS = {
         notifications
       }
     }
-  `,
-};
+  `};
 
 export const USER_SUBSCRIPTIONS = {
   ON_USER_UPDATE: /* GraphQL */ `
@@ -379,7 +371,6 @@ export const USER_SUBSCRIPTIONS = {
         }
       }
     }
-  `,
-};
+  `};
 
 export * from './documents'; 

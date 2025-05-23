@@ -56,7 +56,7 @@ export interface ProvidersWrapperProps {
     | 'customization'
     | 'amplify'
     | 'security'
-  >;
+  >\n  );
 }
 
 /**
@@ -108,12 +108,12 @@ export interface FormProps extends BaseComponentProps {
   /** Form ID */
   id?: string;
   /** Initial values for the form */
-  initialValues?: Record<string, any>;
+  initialValues?: Record<string, any>\n  );
   /** Function to call when the form is submitted */
   onSubmit: (
     values: Record<string, any>,
     event?: FormEvent<HTMLFormElement>
-  ) => void | Promise<void>;
+  ) => void | Promise<void>\n  );
   /** Function to call when the form is reset */
   onReset?: () => void;
   /** Whether the form is submitting */
@@ -201,7 +201,7 @@ export interface ModalProps extends BaseComponentProps {
   /** Whether to close the modal when pressing escape */
   closeOnEsc?: boolean;
   /** Initial focus element ref */
-  initialFocusRef?: React.RefObject<HTMLElement>;
+  initialFocusRef?: React.RefObject<HTMLElement>\n  );
   /** Whether the modal is in loading state */
   loading?: boolean;
 }
@@ -230,7 +230,7 @@ export interface TableProps<T = any> extends BaseComponentProps {
     align?: 'left' | 'center' | 'right';
     /** Whether to hide the column on mobile */
     hideOnMobile?: boolean;
-  }>;
+  }>\n  );
   /** Whether the table is in loading state */
   loading?: boolean;
   /** Whether the table is in error state */
@@ -296,7 +296,7 @@ export interface TabsProps extends BaseComponentProps {
     icon?: ReactNode;
     /** Tab badge count */
     badgeCount?: number;
-  }>;
+  }>\n  );
   /** Tabs orientation */
   orientation?: 'horizontal' | 'vertical';
   /** Tabs variant */
@@ -375,7 +375,7 @@ export interface PageLayoutProps extends BaseComponentProps {
     href?: string;
     /** Whether this is the current page */
     current?: boolean;
-  }>;
+  }>\n  );
   /** Page actions */
   actions?: ReactNode;
   /** Page content */
@@ -405,7 +405,7 @@ export interface ListItemProps extends BaseComponentProps {
   /** Function to call when the item is clicked */
   onClick?: () => void;
   /** Item metadata */
-  metadata?: Record<string, any>;
+  metadata?: Record<string, any>\n  );
 }
 
 /**

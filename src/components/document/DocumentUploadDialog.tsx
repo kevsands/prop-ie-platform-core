@@ -1,3 +1,4 @@
+import React from 'react';
 'use client';
 
 import { useState, useRef, useCallback } from 'react';
@@ -17,8 +18,7 @@ import {
   SelectItem,
   SelectLabel,
   SelectTrigger,
-  SelectValue, 
-} from '@/components/ui/select';
+  SelectValue} from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -30,8 +30,7 @@ import { Calendar } from '@/components/ui/calendar';
 import {
   Popover,
   PopoverContent,
-  PopoverTrigger,
-} from '@/components/ui/popover';
+  PopoverTrigger} from '@/components/ui/popover';
 import { cn } from '@/lib/utils';
 import { format } from 'date-fns';
 
@@ -59,21 +58,21 @@ export default function DocumentUploadDialog({
   onUploadCompleteAction
 }: DocumentUploadDialogProps) {
   // Form state
-  const [documentName, setDocumentName] = useState(initialData?.name || '');
-  const [category, setCategory] = useState<DocumentCategory | ''>(initialData?.category || '');
-  const [description, setDescription] = useState(initialData?.description || '');
-  const [deadline, setDeadline] = useState<Date | undefined>(initialData?.deadline);
-  const [required, setRequired] = useState(initialData?.required !== undefined ? initialData.required : true);
-  
+  const [documentNamesetDocumentName] = useState(initialData?.name || '');
+  const [categorysetCategory] = useState<DocumentCategory | ''>(initialData?.category || '');
+  const [descriptionsetDescription] = useState(initialData?.description || '');
+  const [deadlinesetDeadline] = useState<Date | undefined>(initialData?.deadline);
+  const [requiredsetRequired] = useState(initialData?.required !== undefined ? initialData.required : true);
+
   // File upload state
-  const [file, setFile] = useState<File | null>(null);
-  const [dragActive, setDragActive] = useState(false);
+  const [filesetFile] = useState<File | null>(null);
+  const [dragActivesetDragActive] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
-  
+
   // Upload state
-  const [isUploading, setIsUploading] = useState(false);
-  const [uploadProgress, setUploadProgress] = useState(0);
-  const [uploadError, setUploadError] = useState<string | null>(null);
+  const [isUploadingsetIsUploading] = useState(false);
+  const [uploadProgresssetUploadProgress] = useState(0);
+  const [uploadErrorsetUploadError] = useState<string | null>(null);
 
   // Reset form when dialog opens/closes
   const resetForm = useCallback(() => {
@@ -103,7 +102,7 @@ export default function DocumentUploadDialog({
     e.preventDefault();
     e.stopPropagation();
     setDragActive(false);
-    
+
     if (e.dataTransfer.files && e.dataTransfer.files[0]) {
       setFile(e.dataTransfer.files[0]);
     }
@@ -146,7 +145,7 @@ export default function DocumentUploadDialog({
       // For this example, we'll simulate a delay and progress
       const intervalId = setInterval(() => {
         setUploadProgress(prev => {
-          if (prev >= 95) {
+          if (prev>= 95) {
             clearInterval(intervalId);
             return 95;
           }
@@ -155,7 +154,7 @@ export default function DocumentUploadDialog({
       }, 200);
 
       // Simulate API call delay
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      await new Promise(resolve => setTimeout(resolve2000));
       clearInterval(intervalId);
       setUploadProgress(100);
 
@@ -173,12 +172,12 @@ export default function DocumentUploadDialog({
   };
 
   return (
-    <Dialog open={open} onOpenChange={(newOpen) => {
+    <Dialog open={open} onOpenChange={(newOpen: any) => {
       if (!newOpen) {
         resetForm();
       }
       onOpenChangeAction(newOpen);
-    }}>
+    }>
       <DialogContent className="sm:max-w-[550px]">
         <form onSubmit={handleSubmit}>
           <DialogHeader>
@@ -189,7 +188,7 @@ export default function DocumentUploadDialog({
                 : 'Upload a new document for this project'}
             </DialogDescription>
           </DialogHeader>
-          
+
           <div className="grid gap-4 py-4">
             {/* Document name */}
             <div className="grid grid-cols-4 items-center gap-4">
@@ -199,12 +198,12 @@ export default function DocumentUploadDialog({
               <Input
                 id="name"
                 value={documentName}
-                onChange={(e) => setDocumentName(e.target.value)}
+                onChange={(e: any) => setDocumentName(e.target.value)}
                 className="col-span-3"
                 required
               />
             </div>
-            
+
             {/* Category */}
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="category" className="text-right">
@@ -212,7 +211,7 @@ export default function DocumentUploadDialog({
               </Label>
               <Select 
                 value={category} 
-                onValueChange={(value) => setCategory(value as DocumentCategory)}
+                onValueChange={(value: any) => setCategory(value as DocumentCategory)}
                 required
               >
                 <SelectTrigger id="category" className="col-span-3">
@@ -229,7 +228,7 @@ export default function DocumentUploadDialog({
                 </SelectContent>
               </Select>
             </div>
-            
+
             {/* Description */}
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="description" className="text-right">
@@ -238,12 +237,12 @@ export default function DocumentUploadDialog({
               <Textarea
                 id="description"
                 value={description}
-                onChange={(e) => setDescription(e.target.value)}
+                onChange={(e: any) => setDescription(e.target.value)}
                 className="col-span-3"
                 rows={3}
               />
             </div>
-            
+
             {/* Deadline */}
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="deadline" className="text-right">
@@ -253,7 +252,7 @@ export default function DocumentUploadDialog({
                 <Popover>
                   <PopoverTrigger asChild>
                     <Button
-                      variant={"outline"}
+                      variant={"outline"
                       className={cn(
                         "w-full justify-start text-left font-normal",
                         !deadline && "text-muted-foreground"
@@ -274,15 +273,15 @@ export default function DocumentUploadDialog({
                 </Popover>
               </div>
             </div>
-            
+
             {/* Required */}
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="required" className="text-right">
                 Required
               </Label>
               <RadioGroup 
-                defaultValue={required ? "yes" : "no"} 
-                onValueChange={(value) => setRequired(value === "yes")}
+                defaultValue={required ? "yes" : "no" 
+                onValueChange={(value: any) => setRequired(value === "yes")}
                 className="col-span-3 flex space-x-4"
               >
                 <div className="flex items-center space-x-2">
@@ -295,7 +294,7 @@ export default function DocumentUploadDialog({
                 </div>
               </RadioGroup>
             </div>
-            
+
             {/* File upload */}
             <div className="grid grid-cols-4 items-center gap-4">
               <Label className="text-right">
@@ -318,7 +317,7 @@ export default function DocumentUploadDialog({
                   className="hidden"
                   onChange={handleChange}
                 />
-                
+
                 {!file ? (
                   <div className="flex flex-col items-center justify-center gap-2 text-center">
                     <Upload className="h-10 w-10 text-muted-foreground" />
@@ -361,7 +360,7 @@ export default function DocumentUploadDialog({
                 )}
               </div>
             </div>
-            
+
             {/* Upload progress */}
             {isUploading && (
               <div className="grid grid-cols-4 items-center gap-4">
@@ -369,7 +368,7 @@ export default function DocumentUploadDialog({
                   <div className="w-full bg-muted rounded-full h-2.5">
                     <div 
                       className="bg-primary h-2.5 rounded-full transition-all duration-300" 
-                      style={{ width: `${uploadProgress}%` }}
+                      style={ width: `${uploadProgress}%` }
                     ></div>
                   </div>
                   <p className="text-xs text-muted-foreground mt-1 text-right">
@@ -378,7 +377,7 @@ export default function DocumentUploadDialog({
                 </div>
               </div>
             )}
-            
+
             {/* Error message */}
             {uploadError && (
               <div className="grid grid-cols-4 items-center gap-4">
@@ -388,7 +387,7 @@ export default function DocumentUploadDialog({
               </div>
             )}
           </div>
-          
+
           <DialogFooter>
             <Button type="button" variant="outline" onClick={() => onOpenChangeAction(false)}>
               Cancel

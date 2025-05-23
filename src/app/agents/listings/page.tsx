@@ -3,7 +3,6 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import PropertyCard from '@/components/properties/PropertyCard';
-import { Property } from '@/hooks/useProperties';
 import { FiFilter, FiSearch, FiUser, FiBriefcase, FiMessageCircle } from 'react-icons/fi';
 
 // Define the Buyer interface
@@ -54,8 +53,7 @@ const mockProperties: AgentProperty[] = [
     type: 'semi-detached',
     images: ['/images/properties/10-maple-ave-1.jpg'],
     buyers: [
-      { id: 'b1', name: 'John Murphy', email: 'john.murphy@example.com', phone: '087-123-4567' },
-    ]
+      { id: 'b1', name: 'John Murphy', email: 'john.murphy@example.com', phone: '087-123-4567' }]
   },
   {
     id: '2',
@@ -73,8 +71,7 @@ const mockProperties: AgentProperty[] = [
     type: 'detached',
     images: ['/images/properties/10-maple-ave-2.jpg'],
     buyers: [
-      { id: 'b2', name: 'Sarah O\'Connor', email: 'sarah.oconnor@example.com', phone: '086-765-4321' },
-    ]
+      { id: 'b2', name: 'Sarah O\'Connor', email: 'sarah.oconnor@example.com', phone: '086-765-4321' }]
   },
   {
     id: '3',
@@ -92,8 +89,7 @@ const mockProperties: AgentProperty[] = [
     type: 'apartment',
     images: ['/images/properties/10-maple-ave-3.jpg'],
     buyers: [
-      { id: 'b3', name: 'Michael Kelly', email: 'michael.kelly@example.com', phone: '085-987-6543' },
-    ]
+      { id: 'b3', name: 'Michael Kelly', email: 'michael.kelly@example.com', phone: '085-987-6543' }]
   },
   {
     id: '4',
@@ -145,18 +141,17 @@ const mockProperties: AgentProperty[] = [
     type: 'semi-detached',
     images: ['/images/properties/10-maple-ave-3.jpg'],
     buyers: [
-      { id: 'b4', name: 'Emma Walsh', email: 'emma.walsh@example.com', phone: '083-456-7890' },
-    ]
+      { id: 'b4', name: 'Emma Walsh', email: 'emma.walsh@example.com', phone: '083-456-7890' }]
   }
 ];
 
 export default function AgentListings() {
-  const [showContactModal, setShowContactModal] = useState(false);
-  const [showInviteModal, setShowInviteModal] = useState(false);
-  const [selectedBuyer, setSelectedBuyer] = useState<Buyer | null>(null);
-  const [selectedProperty, setSelectedProperty] = useState<AgentProperty | null>(null);
-  const [filterStatus, setFilterStatus] = useState<'all' | PropertyStatus>('all');
-  const [searchTerm, setSearchTerm] = useState('');
+  const [showContactModalsetShowContactModal] = useState(false);
+  const [showInviteModalsetShowInviteModal] = useState(false);
+  const [selectedBuyersetSelectedBuyer] = useState<Buyer | null>(null);
+  const [selectedPropertysetSelectedProperty] = useState<AgentProperty | null>(null);
+  const [filterStatussetFilterStatus] = useState<'all' | PropertyStatus>('all');
+  const [searchTermsetSearchTerm] = useState('');
 
   // Handle opening the contact buyer modal
   const handleContactBuyer = (property: AgentProperty, buyer: Buyer) => {
@@ -198,14 +193,14 @@ export default function AgentListings() {
               placeholder="Search properties..."
               className="pl-10 pr-4 py-2 border rounded-md w-full"
               value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
+              onChange={(e: any) => setSearchTerm(e.target.value)}
             />
             <FiSearch className="absolute left-3 top-3 text-gray-400" />
           </div>
-          
+
           <select
             value={filterStatus}
-            onChange={(e) => setFilterStatus(e.target.value as 'all' | PropertyStatus)}
+            onChange={(e: any) => setFilterStatus(e.target.value as 'all' | PropertyStatus)}
             className="pl-10 pr-4 py-2 border rounded-md appearance-none"
           >
             <option value="all">All Statuses</option>
@@ -214,48 +209,44 @@ export default function AgentListings() {
             <option value="under_offer">Under Offer</option>
             <option value="sold">Sold</option>
           </select>
-          <FiFilter className="absolute left-3 top-3 text-gray-400 hidden sm:block" style={{ marginLeft: '220px', marginTop: '2px' }} />
+          <FiFilter className="absolute left-3 top-3 text-gray-400 hidden sm:block" style={ marginLeft: '220px', marginTop: '2px' } />
         </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {filteredProperties.map(property => {
-          // Cast property as Property for the PropertyCard component
-          const propertyForCard: Property = {
+          // Map property to PropertyCard format
+          const propertyForCard = {
             id: property.id,
-            name: property.name,
-            address: property.address,
+            title: property.name,
+            location: property.address,
             price: property.price,
             status: property.status,
             bedrooms: property.bedrooms,
             bathrooms: property.bathrooms,
-            floorArea: property.floorArea,
-            parkingSpaces: property.parkingSpaces,
-            projectSlug: property.projectSlug,
-            projectName: property.projectName,
-            description: property.description,
-            type: property.type,
-            images: property.images
+            size: property.floorArea,
+            image: property.images[0] || '/images/placeholder.jpg',
+            tags: [property.type]
           };
-          
+
           return (
             <div key={property.id} className="flex flex-col">
               <PropertyCard property={propertyForCard} />
-              
+
               {/* Actions for each property */}
               <div className="mt-2 flex gap-2">
-                {property.buyers && property.buyers.length > 0 ? (
+                {property.buyers && property.buyers.length> 0 ? (
                   <>
                     <button
-                      onClick={() => property.buyers && property.buyers.length > 0 && handleContactBuyer(property, property.buyers[0])}
+                      onClick={() => property.buyers && property.buyers.length> 0 && handleContactBuyer(property, property.buyers[0])}
                       className="flex-1 py-2 px-3 bg-[#2B5273] hover:bg-[#1E3142] text-white rounded-md flex items-center justify-center text-sm"
                     >
                       <FiMessageCircle className="mr-2" />
                       Contact Buyer
                     </button>
-                    
+
                     <button
-                      onClick={() => property.buyers && property.buyers.length > 0 && handleInviteSolicitor(property, property.buyers[0])}
+                      onClick={() => property.buyers && property.buyers.length> 0 && handleInviteSolicitor(property, property.buyers[0])}
                       className="flex-1 py-2 px-3 bg-white border border-[#2B5273] hover:bg-gray-50 text-[#2B5273] rounded-md flex items-center justify-center text-sm"
                     >
                       <FiBriefcase className="mr-2" />
@@ -294,7 +285,7 @@ export default function AgentListings() {
             <p className="mb-4">
               <span className="font-medium">Phone:</span> {selectedBuyer.phone}
             </p>
-            
+
             <div className="mb-4">
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Message
@@ -304,7 +295,7 @@ export default function AgentListings() {
                 placeholder="Type your message here..."
               ></textarea>
             </div>
-            
+
             <div className="flex justify-end gap-3">
               <button
                 onClick={() => setShowContactModal(false)}
@@ -316,7 +307,7 @@ export default function AgentListings() {
                 onClick={() => {
                   alert("Message sent!");
                   setShowContactModal(false);
-                }}
+                }
                 className="px-4 py-2 bg-[#2B5273] text-white rounded-md"
               >
                 Send Message
@@ -337,7 +328,7 @@ export default function AgentListings() {
             <p className="mb-4">
               <span className="font-medium">Buyer:</span> {selectedBuyer.name}
             </p>
-            
+
             <div className="mb-4">
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Solicitor Email
@@ -348,7 +339,7 @@ export default function AgentListings() {
                 placeholder="solicitor@example.com"
               />
             </div>
-            
+
             <div className="mb-4">
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Message (Optional)
@@ -358,7 +349,7 @@ export default function AgentListings() {
                 placeholder="Add a personal message..."
               ></textarea>
             </div>
-            
+
             <div className="flex justify-end gap-3">
               <button
                 onClick={() => setShowInviteModal(false)}
@@ -370,7 +361,7 @@ export default function AgentListings() {
                 onClick={() => {
                   alert("Invitation sent!");
                   setShowInviteModal(false);
-                }}
+                }
                 className="px-4 py-2 bg-[#2B5273] text-white rounded-md"
               >
                 Send Invitation

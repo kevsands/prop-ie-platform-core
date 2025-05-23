@@ -1,9 +1,9 @@
+import React from 'react';
 'use client';
 
 // src/components/ui/toast.tsx
 import * as React from 'react';
-import { motion } from 'framer-motion';
-import { AnimatePresence } from 'framer-motion/dist/framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { cva, type VariantProps } from 'class-variance-authority';
 import { X } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -18,13 +18,9 @@ const toastVariants = cva(
         success: "bg-green-50 border-green-200",
         error: "bg-red-50 border-red-200",
         warning: "bg-yellow-50 border-yellow-200",
-        info: "bg-blue-50 border-blue-200",
-      },
-    },
+        info: "bg-blue-50 border-blue-200"},
     defaultVariants: {
-      variant: "default",
-    },
-  }
+      variant: "default"}
 );
 
 // Types
@@ -76,15 +72,15 @@ export const toastService = ToastService.getInstance();
 
 // Toast provider component
 export const ToastProvider = ({ children }: { children: React.ReactNode }) => {
-  const [toasts, setToasts] = React.useState<Toast[]>([]);
+  const [toastssetToasts] = React.useState<Toast[]>([]);
 
   const addToast = React.useCallback((toast: Omit<Toast, 'id'>) => {
-    const id = Math.random().toString(36).substring(2, 9);
+    const id = Math.random().toString(36).substring(29);
     const duration = toast.duration || 5000; // Default 5 seconds
 
     setToasts(prev => [...prev, { ...toast, id }]);
 
-    if (duration > 0) {
+    if (duration> 0) {
       setTimeout(() => {
         setToasts(prev => prev.filter(t => t.id !== id));
       }, duration);
@@ -102,7 +98,7 @@ export const ToastProvider = ({ children }: { children: React.ReactNode }) => {
   }, [addToast]);
 
   return (
-    <ToastContext.Provider value={{ toasts, addToast, removeToast }}>
+    <ToastContext.Provider value={ toasts, addToast, removeToast }>
       {children}
     </ToastContext.Provider>
   );
@@ -119,12 +115,12 @@ export const useToast = () => {
 
 // Toast title component
 export const ToastTitle = ({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) => {
-  return <div className={cn("text-sm font-medium text-gray-900", className)} {...props} />;
+  return <div className={cn("text-sm font-medium text-gray-900", className)} {...props} />\n  );
 };
 
 // Toast description
 export const ToastDescription = ({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) => {
-  return <div className={cn("mt-1 text-sm text-gray-500", className)} {...props} />;
+  return <div className={cn("mt-1 text-sm text-gray-500", className)} {...props} />\n  );
 };
 
 // Toast close button
@@ -157,16 +153,16 @@ export const ToastViewport = () => {
   return (
     <div className="fixed top-0 right-0 z-50 p-4 flex flex-col items-end space-y-4 max-h-screen overflow-hidden">
       <AnimatePresence>
-        {toasts.map((toast) => (
+        {toasts.map((toast: any) => (
           <ToastActionContext.Provider key={toast.id} value={toast}>
             <motion.div
               key={toast.id}
-              initial={{ opacity: 0, y: -20, scale: 0.95 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: -20, scale: 0.95 }}
-              transition={{ duration: 0.2 }}
+              initial={ opacity: 0, y: -20, scale: 0.95 }
+              animate={ opacity: 1, y: 0, scale: 1 }
+              exit={ opacity: 0, y: -20, scale: 0.95 }
+              transition={ duration: 0.2 }
               className={toastVariants({ variant: toast.variant })}
-              style={{ maxWidth: '420px' }}
+              style={ maxWidth: '420px' }
             >
               <div className="flex p-4 w-full">
                 <div className="w-0 flex-1">
@@ -240,5 +236,4 @@ export const toast = {
   },
   info: (props: Omit<Toast, 'id' | 'variant'>) => {
     toast.show({ ...props, variant: 'info' });
-  },
-};
+  };

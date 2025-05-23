@@ -639,7 +639,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
   const { register } = <span class="cstat-no" title="statement not covered" >useAuth();</span>
   const router = <span class="cstat-no" title="statement not covered" >useRouter();</span>
 &nbsp;
-  const handleSubmit = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >async (e</span>) =&gt; {</span>
+  const handleSubmit = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >async (e</span>: React.MouseEvent) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    e.preventDefault();</span>
 <span class="cstat-no" title="statement not covered" >    setError("");</span>
 <span class="cstat-no" title="statement not covered" >    setIsLoading(true);</span>
@@ -741,7 +741,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                   autoComplete="name"
                   required
                   value={name}
-                  onChange={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; <span class="cstat-no" title="statement not covered" >setName(e.target.value)}</span>
+                  onChange={<span class="fstat-no" title="function not covered" >(e</span>: React.MouseEvent) =&gt; <span class="cstat-no" title="statement not covered" >setName(e.target.value)}</span>
                   className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                 /&gt;
               &lt;/div&gt;
@@ -762,7 +762,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                   autoComplete="email"
                   required
                   value={email}
-                  onChange={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; <span class="cstat-no" title="statement not covered" >setEmail(e.target.value)}</span>
+                  onChange={<span class="fstat-no" title="function not covered" >(e</span>: React.MouseEvent) =&gt; <span class="cstat-no" title="statement not covered" >setEmail(e.target.value)}</span>
                   className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                 /&gt;
               &lt;/div&gt;
@@ -783,7 +783,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                   autoComplete="new-password"
                   required
                   value={password}
-                  onChange={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; <span class="cstat-no" title="statement not covered" >setPassword(e.target.value)}</span>
+                  onChange={<span class="fstat-no" title="function not covered" >(e</span>: React.MouseEvent) =&gt; <span class="cstat-no" title="statement not covered" >setPassword(e.target.value)}</span>
                   className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                 /&gt;
               &lt;/div&gt;
@@ -804,7 +804,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                   autoComplete="new-password"
                   required
                   value={confirmPassword}
-                  onChange={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; <span class="cstat-no" title="statement not covered" >setConfirmPassword(e.target.value)}</span>
+                  onChange={<span class="fstat-no" title="function not covered" >(e</span>: React.MouseEvent) =&gt; <span class="cstat-no" title="statement not covered" >setConfirmPassword(e.target.value)}</span>
                   className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                 /&gt;
               &lt;/div&gt;
@@ -822,7 +822,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                   id="role"
                   name="role"
                   value={role}
-                  onChange={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; <span class="cstat-no" title="statement not covered" >setRole(e.target.value)}</span>
+                  onChange={<span class="fstat-no" title="function not covered" >(e</span>: React.MouseEvent) =&gt; <span class="cstat-no" title="statement not covered" >setRole(e.target.value)}</span>
                   className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md"
                 &gt;
                   &lt;option value="buyer"&gt;Property Buyer&lt;/option&gt;
@@ -907,7 +907,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-15T16:23:22.212Z
+                at 2025-05-22T22:15:25.812Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Architecture Diagram - prop-ie-aws-app</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1, h2 {
+            color: #333;
+        }
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        .stat-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            border: 1px solid #e9ecef;
+        }
+        .stat-value {
+            font-size: 2em;
+            font-weight: bold;
+            color: #0066cc;
+        }
+        .stat-label {
+            color: #666;
+            margin-top: 5px;
+        }
+        .issue {
+            background: #fff3cd;
+            border: 1px solid #ffeeba;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        .critical {
+            background: #f8d7da;
+            border-color: #f5c6cb;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Architecture Analysis - prop-ie-aws-app</h1>
+        
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-value">661</div>
+                <div class="stat-label">Total Components</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">386</div>
+                <div class="stat-label">Total Routes</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">152K</div>
+                <div class="stat-label">Lines of Code</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">39</div>
+                <div class="stat-label">Context Providers</div>
+            </div>
+        </div>
+
+        <h2>Application Architecture</h2>
+        <div class="mermaid">
+        graph TB
+            subgraph "Frontend Layer"
+                A[Next.js App Router<br/>281 Routes] --> B[Components<br/>661 Total]
+                B --> C[UI Components]
+                B --> D[Feature Components]
+                B --> E[Page Components]
+            end
+            
+            subgraph "State Management"
+                F[Context API<br/>39 Providers] 
+                G[React Query<br/>78 Files]
+                H[Zustand<br/>91 Files]
+            end
+            
+            subgraph "API Layer"
+                I[API Routes<br/>105 Endpoints]
+                I --> J[Auth APIs]
+                I --> K[Property APIs]
+                I --> L[Transaction APIs]
+                I --> M[Developer APIs]
+            end
+            
+            subgraph "Data Layer"
+                N[PostgreSQL<br/>Prisma ORM]
+                O[MongoDB<br/>Legacy Data]
+            end
+            
+            A --> F
+            A --> G
+            A --> H
+            D --> I
+            I --> N
+            I --> O
+            
+            style A fill:#4a90e2
+            style I fill:#e74c3c
+            style N fill:#2ecc71
+        </div>
+
+        <h2>Critical Issues</h2>
+        <div class="issue critical">
+            <strong>🚨 Security:</strong> 43 API routes lack authentication
+        </div>
+        <div class="issue">
+            <strong>⚠️ Performance:</strong> 90 components exceed 500 lines (largest: 1,736 lines)
+        </div>
+        <div class="issue">
+            <strong>⚠️ Architecture:</strong> 15 route conflicts detected
+        </div>
+        <div class="issue">
+            <strong>⚠️ State Management:</strong> 39 Context providers (excessive fragmentation)
+        </div>
+
+        <h2>Component Hierarchy</h2>
+        <div class="mermaid">
+        graph TD
+            A[Root Components] --> B[Page Components<br/>~100 files]
+            A --> C[Feature Components<br/>~200 files]
+            A --> D[UI Components<br/>~300 files]
+            A --> E[Layout Components<br/>~50 files]
+            
+            B --> F[DevelopmentsPage<br/>1,736 lines]
+            B --> G[SolicitorPage<br/>1,337 lines]
+            
+            C --> H[ROICalculator<br/>1,604 lines]
+            C --> I[MortgageCalculator<br/>1,284 lines]
+            C --> J[ComplianceDashboard<br/>1,230 lines]
+            
+            style F fill:#e74c3c
+            style G fill:#e74c3c
+            style H fill:#e74c3c
+            style I fill:#e74c3c
+            style J fill:#e74c3c
+        </div>
+
+        <h2>Recommended Architecture</h2>
+        <div class="mermaid">
+        graph TB
+            subgraph "Improved Structure"
+                A[App Router<br/>Route Groups] --> B[Feature Modules]
+                B --> C[Auth Module]
+                B --> D[Properties Module]
+                B --> E[Transactions Module]
+                B --> F[Developer Portal]
+                
+                G[Centralized State<br/>5-10 Providers] --> B
+                
+                H[Shared Components<br/>Component Library] --> B
+                
+                I[API Middleware<br/>Auth + Validation] --> J[Protected APIs]
+            end
+            
+            style A fill:#2ecc71
+            style G fill:#2ecc71
+            style I fill:#2ecc71
+        </div>
+    </div>
+
+    <script>
+        mermaid.initialize({ startOnLoad: true, theme: 'default' });
+    </script>
+</body>
+</html>

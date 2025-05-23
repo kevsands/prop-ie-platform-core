@@ -1,3 +1,7 @@
+type Props = {
+  params: Promise<{ id: string }>
+}
+
 /**
  * API Route: /api/developments/[id]
  * Handles specific development endpoints
@@ -8,10 +12,12 @@ import { getServerSession } from 'next-auth';
 import { getRepository } from '@/lib/db/repositories/index';
 import { logger } from '@/lib/security/auditLogger';
 import { authOptions } from '@/lib/auth';
-import { GetHandler, IdParam } from '@/types/next-route-handlers';
 import { mockDevelopments } from '@/data/mockDevelopments';
 
-export const GET: GetHandler<IdParam> = async (request, { params }) => {
+export async function GET(
+  request: NextRequest,
+  context: { params: Promise<{ id: string }> }
+) {
   try {
     // Check authentication
     const session = await getServerSession(authOptions);
@@ -22,19 +28,20 @@ export const GET: GetHandler<IdParam> = async (request, { params }) => {
       );
     }
 
+    const params = await context.params;
     const id = params.id;
     const developments = mockDevelopments;
-    
+
     // Find the development by id (which is the same as slug in our mock data)
     const development = developments.find((dev: any) => dev.id === id);
-    
+
     if (!development) {
       return NextResponse.json({ error: 'Development not found' }, { status: 404 });
     }
-    
+
     return NextResponse.json(development);
   } catch (error) {
-    console.error('Error fetching development:', error);
+
     return NextResponse.json(
       { error: 'Failed to fetch development data' },
       { status: 500 }

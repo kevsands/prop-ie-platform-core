@@ -1,3 +1,4 @@
+import React from 'react';
 "use client";
 
 import * as React from "react";
@@ -36,16 +37,14 @@ export function KPIWidget({
   iconClassName,
   valueClassName,
   onClick,
-  variant = "default",
-}: KPIWidgetProps) {
+  variant = "default": KPIWidgetProps) {
   const variantClassMap = {
     default: "",
     outline: "border-2 bg-transparent",
     success: "bg-green-50 text-green-900 dark:bg-green-900/20 dark:text-green-100",
     warning: "bg-amber-50 text-amber-900 dark:bg-amber-900/20 dark:text-amber-100",
     danger: "bg-red-50 text-red-900 dark:bg-red-900/20 dark:text-red-100",
-    info: "bg-blue-50 text-blue-900 dark:bg-blue-900/20 dark:text-blue-100",
-  };
+    info: "bg-blue-50 text-blue-900 dark:bg-blue-900/20 dark:text-blue-100";
 
   const getTrendColor = () => {
     if (trend?.direction === 'up') {
@@ -59,11 +58,11 @@ export function KPIWidget({
 
   const getTrendIcon = () => {
     if (trend?.direction === 'up') {
-      return <TrendingUp className="w-3 h-3 mr-1" />;
+      return <TrendingUp className="w-3 h-3 mr-1" />\n  );
     } else if (trend?.direction === 'down') {
-      return <TrendingDown className="w-3 h-3 mr-1" />;
+      return <TrendingDown className="w-3 h-3 mr-1" />\n  );
     } else {
-      return <Minus className="w-3 h-3 mr-1" />;
+      return <Minus className="w-3 h-3 mr-1" />\n  );
     }
   };
 
@@ -112,7 +111,7 @@ export function KPIWidget({
                     <div className={cn("ml-2 flex items-center", getTrendColor())}>
                       {getTrendIcon()}
                       <span>
-                        {trend.direction === 'up' ? "+" : trend.direction === 'down' ? "-" : ""}
+                        {trend.direction === 'up' ? "+" : trend.direction === 'down' ? "-" : ""
                         {Math.abs(trend.value)}%
                         {trend.label && <span className="ml-1">{trend.label}</span>}
                       </span>

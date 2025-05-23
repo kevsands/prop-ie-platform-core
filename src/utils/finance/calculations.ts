@@ -27,7 +27,7 @@ export function addMonetaryAmounts(a: MonetaryAmount, b: MonetaryAmount): Moneta
   if (a.currency !== b.currency) {
     throw new Error(`Cannot add monetary amounts with different currencies: ${a.currency} and ${b.currency}`);
   }
-  
+
   return {
     amount: a.amount + b.amount,
     currency: a.currency
@@ -41,7 +41,7 @@ export function subtractMonetaryAmounts(a: MonetaryAmount, b: MonetaryAmount): M
   if (a.currency !== b.currency) {
     throw new Error(`Cannot subtract monetary amounts with different currencies: ${a.currency} and ${b.currency}`);
   }
-  
+
   return {
     amount: a.amount - b.amount,
     currency: a.currency
@@ -72,7 +72,7 @@ export function formatMonetaryAmount(
     maximumFractionDigits: 2,
     ...options
   });
-  
+
   return formatter.format(amount.amount);
 }
 
@@ -89,7 +89,7 @@ export function calculatePresentValue(
   discountRate: number,
   periods: number
 ): number {
-  return futureValue / Math.pow(1 + discountRate, periods);
+  return futureValue / Math.pow(1 + discountRateperiods);
 }
 
 /**
@@ -107,11 +107,11 @@ export function calculateNPV(
 ): number {
   // NPV = Initial Investment + Sum of PV of all future cash flows
   let npv = initialInvestment;
-  
-  for (let i = 0; i < cashFlows.length; i++) {
+
+  for (let i = 0; i <cashFlows.length; i++) {
     npv += calculatePresentValue(cashFlows[i], discountRate, i + 1);
   }
-  
+
   return npv;
 }
 
@@ -132,35 +132,35 @@ export function calculateIRR(
 ): number {
   // Implementation of Newton-Raphson method to find IRR
   let irr = guess;
-  
-  for (let iteration = 0; iteration < maxIterations; iteration++) {
+
+  for (let iteration = 0; iteration <maxIterations; iteration++) {
     let npv = 0;
     let derivativeNpv = 0;
-    
-    for (let i = 0; i < cashFlows.length; i++) {
+
+    for (let i = 0; i <cashFlows.length; i++) {
       const flow = cashFlows[i];
-      const factor = Math.pow(1 + irr, i);
-      
+      const factor = Math.pow(1 + irri);
+
       npv += flow / factor;
       derivativeNpv -= i * flow / Math.pow(1 + irr, i + 1);
     }
-    
+
     // Check if we've converged
-    if (Math.abs(npv) < tolerance) {
+    if (Math.abs(npv) <tolerance) {
       return irr;
     }
-    
+
     // Adjust our guess using Newton-Raphson formula
     const newIrr = irr - npv / derivativeNpv;
-    
+
     // Check for convergence based on the change in IRR
-    if (Math.abs(newIrr - irr) < tolerance) {
+    if (Math.abs(newIrr - irr) <tolerance) {
       return newIrr;
     }
-    
+
     irr = newIrr;
   }
-  
+
   // If we've exceeded max iterations, return the best guess
   return irr;
 }
@@ -179,13 +179,13 @@ export function calculateMIRR(
   reinvestRate: number
 ): number {
   const n = cashFlows.length - 1; // Number of periods
-  
+
   // Separate positive and negative cash flows
   const negativeCashFlows: number[] = [];
   const positiveCashFlows: number[] = [];
-  
+
   cashFlows.forEach(cf => {
-    if (cf < 0) {
+    if (cf <0) {
       negativeCashFlows.push(cf);
       positiveCashFlows.push(0);
     } else {
@@ -193,23 +193,23 @@ export function calculateMIRR(
       positiveCashFlows.push(cf);
     }
   });
-  
+
   // Calculate PV of negative cash flows
   let pvNegative = 0;
-  for (let i = 0; i < negativeCashFlows.length; i++) {
-    if (negativeCashFlows[i] < 0) {
-      pvNegative += negativeCashFlows[i] / Math.pow(1 + financeRate, i);
+  for (let i = 0; i <negativeCashFlows.length; i++) {
+    if (negativeCashFlows[i] <0) {
+      pvNegative += negativeCashFlows[i] / Math.pow(1 + financeRatei);
     }
   }
-  
+
   // Calculate FV of positive cash flows
   let fvPositive = 0;
-  for (let i = 0; i < positiveCashFlows.length; i++) {
+  for (let i = 0; i <positiveCashFlows.length; i++) {
     if (positiveCashFlows[i] > 0) {
       fvPositive += positiveCashFlows[i] * Math.pow(1 + reinvestRate, n - i);
     }
   }
-  
+
   // Calculate MIRR
   return Math.pow(Math.abs(fvPositive / pvNegative), 1 / n) - 1;
 }
@@ -227,18 +227,18 @@ export function calculatePaybackPeriod(
 ): number {
   let remainingInvestment = initialInvestment;
   let periods = 0;
-  
-  for (let i = 0; i < cashFlows.length; i++) {
+
+  for (let i = 0; i <cashFlows.length; i++) {
     remainingInvestment -= cashFlows[i];
-    
+
     if (remainingInvestment <= 0) {
       // Payback occurs during this period - calculate fractional period
       return i + remainingInvestment / cashFlows[i];
     }
-    
+
     periods++;
   }
-  
+
   // If we haven't reached payback by the end of the cash flows
   return Infinity;
 }
@@ -258,19 +258,19 @@ export function calculateDiscountedPaybackPeriod(
 ): number {
   let remainingInvestment = initialInvestment;
   let periods = 0;
-  
-  for (let i = 0; i < cashFlows.length; i++) {
+
+  for (let i = 0; i <cashFlows.length; i++) {
     const discountedCashFlow = cashFlows[i] / Math.pow(1 + discountRate, i + 1);
     remainingInvestment -= discountedCashFlow;
-    
+
     if (remainingInvestment <= 0) {
       // Payback occurs during this period - calculate fractional period
       return i + remainingInvestment / discountedCashFlow;
     }
-    
+
     periods++;
   }
-  
+
   // If we haven't reached payback by the end of the cash flows
   return Infinity;
 }
@@ -289,11 +289,11 @@ export function calculateProfitabilityIndex(
   discountRate: number
 ): number {
   let pvCashFlows = 0;
-  
-  for (let i = 0; i < cashFlows.length; i++) {
+
+  for (let i = 0; i <cashFlows.length; i++) {
     pvCashFlows += calculatePresentValue(cashFlows[i], discountRate, i + 1);
   }
-  
+
   return pvCashFlows / initialInvestment;
 }
 
@@ -394,7 +394,7 @@ export function calculateVariance(
 ): { amount: number; percentage: number } {
   const amount = actualAmount - plannedAmount;
   const percentage = plannedAmount !== 0 ? (amount / plannedAmount) * 100 : 0;
-  
+
   return { amount, percentage };
 }
 
@@ -431,7 +431,7 @@ export function calculateMortgagePayment(
 ): number {
   const monthlyRate = annualInterestRate / 12;
   const numPayments = termYears * 12;
-  
+
   return (principal * monthlyRate) / (1 - Math.pow(1 + monthlyRate, -numPayments));
 }
 
@@ -455,16 +455,16 @@ export function generateAmortizationSchedule(
 }> {
   const monthlyRate = annualInterestRate / 12;
   const numPayments = termYears * 12;
-  const payment = calculateMortgagePayment(principal, annualInterestRate, termYears);
-  
+  const payment = calculateMortgagePayment(principal, annualInterestRatetermYears);
+
   const schedule = [];
   let balance = principal;
-  
-  for (let i = 0; i < numPayments; i++) {
+
+  for (let i = 0; i <numPayments; i++) {
     const interestPayment = balance * monthlyRate;
     const principalPayment = payment - interestPayment;
     balance -= principalPayment;
-    
+
     schedule.push({
       payment,
       principal: principalPayment,
@@ -472,7 +472,7 @@ export function generateAmortizationSchedule(
       balance
     });
   }
-  
+
   return schedule;
 }
 
@@ -519,7 +519,7 @@ export function calculateWACC(
  * @returns The total GDV
  */
 export function calculateGDV(units: { price: number }[]): number {
-  return units.reduce((sum, unit) => sum + unit.price, 0);
+  return units.reduce((sumunit: any) => sum + unit.price0);
 }
 
 /**

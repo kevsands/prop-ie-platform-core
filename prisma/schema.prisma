@@ -28,6 +28,8 @@ model User {
   lastActive   DateTime   @updatedAt
   lastLogin    DateTime?
   metadata     Json?
+  locationId   String?    // Location for users
+  location     Location? @relation(fields: [locationId], references: [id])
 
   // Relations
   kycDocuments        Document[]    @relation("UserKycDocuments")
@@ -48,12 +50,112 @@ model User {
   documentsApproved Document[]        @relation("DocumentApprover")
   updatedDocuments  DocumentVersion[] @relation("DocumentVersionCreator")
   permissions       UserPermission[]  @relation("UserPermissions")
-  
+
   // First-Time Buyer related relations
-  buyerProfile      BuyerProfile?
-  reservations      Reservation[]
-  snagLists         SnagList[]
-  mortgageTracking  MortgageTracking?
+  buyerProfile     BuyerProfile?
+  reservations     Reservation[]
+  snagLists        SnagList[]
+  mortgageTracking MortgageTracking?
+  
+  // Development related relations
+  developmentViewings DevelopmentViewing[]
+  developmentReservations DevelopmentReservation[]
+  developmentSales DevelopmentSale[]
+  viewingAgentFor DevelopmentViewing[] @relation("ViewingAgent")
+  
+  // Transaction relations for different roles
+  buyerTransactions     Transaction[]  @relation("BuyerTransactions")
+  agentTransactions     Transaction[]  @relation("AgentTransactions")
+  solicitorTransactions Transaction[]  @relation("SolicitorTransactions")
+  
+  // Analytics relations
+  inquiries             Inquiry[]
+  
+  // Auth relations
+  sessions      Session[]
+  refreshTokens RefreshToken[]
+  authLogs      AuthLog[]
+  mfaSettings   MfaSettings?
+  mfaTokens     MfaToken[]
+}
+
+// ======= Authentication Models =======
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@index([userId])
+}
+
+model RefreshToken {
+  id        String   @id @default(cuid())
+  token     String   @unique
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  
+  @@index([userId])
+  @@index([expiresAt])
+}
+
+model AuthLog {
+  id        String   @id @default(cuid())
+  eventType String   // LOGIN, LOGOUT, LOGIN_FAILED, TOKEN_REFRESH, MFA_CHALLENGE, etc.
+  userId    String?
+  user      User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  email     String?
+  ipAddress String?
+  userAgent String?
+  metadata  Json?
+  timestamp DateTime @default(now())
+  
+  @@index([userId])
+  @@index([eventType])
+  @@index([timestamp])
+}
+
+model MfaSettings {
+  id            String   @id @default(cuid())
+  userId        String   @unique
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  enabled       Boolean  @default(false)
+  method        MfaMethod @default(TOTP)
+  secret        String?  // Encrypted TOTP secret
+  backupCodes   String[] // Encrypted backup codes
+  lastUsed      DateTime?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model MfaToken {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  token     String
+  type      MfaTokenType
+  used      Boolean  @default(false)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  
+  @@index([userId])
+  @@index([token])
+  @@index([expiresAt])
+}
+
+enum MfaMethod {
+  TOTP
+  SMS
+  EMAIL
+}
+
+enum MfaTokenType {
+  VERIFICATION
+  BACKUP
 }
 
 enum UserRole {
@@ -124,99 +226,99 @@ model Team {
 // ======= First-Time Buyer =======
 
 model BuyerProfile {
-  id                String          @id @default(cuid())
-  userId            String          @unique
-  user              User            @relation(fields: [userId], references: [id])
-  currentJourneyPhase String        @default("planning") // planning, financing, searching, buying, moved-in
-  financialDetails  Json?
-  preferences       Json?
-  governmentSchemes Json?
-  createdAt         DateTime        @default(now())
-  updatedAt         DateTime        @updatedAt
+  id                  String   @id @default(cuid())
+  userId              String   @unique
+  user                User     @relation(fields: [userId], references: [id])
+  currentJourneyPhase String   @default("planning") // planning, financing, searching, buying, moved-in
+  financialDetails    Json?
+  preferences         Json?
+  governmentSchemes   Json?
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
 }
 
 model Reservation {
-  id                String          @id @default(cuid())
-  propertyId        String
-  property          Unit            @relation(fields: [propertyId], references: [id])
-  userId            String
-  user              User            @relation(fields: [userId], references: [id])
-  status            String          @default("pending") // pending, confirmed, cancelled, completed
-  depositAmount     Float
-  depositPaid       Boolean         @default(false)
-  reservationDate   DateTime        @default(now())
-  agreementSigned   Boolean         @default(false)
-  agreementDocument String?
-  expiryDate        DateTime?
-  completionDate    DateTime?
-  cancellationReason String?        // Added field for storing cancellation reason
-  createdAt         DateTime        @default(now())
-  updatedAt         DateTime        @updatedAt
-  
+  id                 String    @id @default(cuid())
+  propertyId         String
+  property           Unit      @relation(fields: [propertyId], references: [id])
+  userId             String
+  user               User      @relation(fields: [userId], references: [id])
+  status             String    @default("pending") // pending, confirmed, cancelled, completed
+  depositAmount      Float
+  depositPaid        Boolean   @default(false)
+  reservationDate    DateTime  @default(now())
+  agreementSigned    Boolean   @default(false)
+  agreementDocument  String?
+  expiryDate         DateTime?
+  completionDate     DateTime?
+  cancellationReason String? // Added field for storing cancellation reason
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+
   // Relations
-  documents         Document[]
+  documents Document[]
 }
 
 model MortgageTracking {
-  id                String          @id @default(cuid())
-  userId            String          @unique
-  user              User            @relation(fields: [userId], references: [id])
-  status            String          @default("not_started") // not_started, aip_received, aip_expired, mortgage_offered, mortgage_completed
+  id                String     @id @default(cuid())
+  userId            String     @unique
+  user              User       @relation(fields: [userId], references: [id])
+  status            String     @default("not_started") // not_started, aip_received, aip_expired, mortgage_offered, mortgage_completed
   lenderName        String?
   amount            Float?
   aipDate           DateTime?
   aipExpiryDate     DateTime?
   formalOfferDate   DateTime?
-  mortgageDocuments Document[]      @relation("MortgageDocuments")
+  mortgageDocuments Document[] @relation("MortgageDocuments")
   conditions        String[]
   notes             String?
-  createdAt         DateTime        @default(now())
-  updatedAt         DateTime        @updatedAt
+  createdAt         DateTime   @default(now())
+  updatedAt         DateTime   @updatedAt
 }
 
 model SnagList {
-  id                String          @id @default(cuid())
-  propertyId        String
-  property          Unit            @relation(fields: [propertyId], references: [id])
-  userId            String
-  user              User            @relation(fields: [userId], references: [id])
-  status            String          @default("active") // active, completed, archived
-  createdAt         DateTime        @default(now())
-  updatedAt         DateTime        @updatedAt
-  
+  id         String   @id @default(cuid())
+  propertyId String
+  property   Unit     @relation(fields: [propertyId], references: [id])
+  userId     String
+  user       User     @relation(fields: [userId], references: [id])
+  status     String   @default("active") // active, completed, archived
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
   // Relations
-  items             SnagItem[]
+  items SnagItem[]
 }
 
 model SnagItem {
-  id                String          @id @default(cuid())
-  snagListId        String
-  snagList          SnagList        @relation(fields: [snagListId], references: [id])
-  description       String
-  location          String          // The room or area where the snag is located
-  status            String          @default("pending") // pending, acknowledged, fixed, disputed
-  images            String[]        // URLs to images of the snag
-  developerNotes    String?
-  fixedDate         DateTime?
-  createdAt         DateTime        @default(now())
-  updatedAt         DateTime        @updatedAt
+  id             String    @id @default(cuid())
+  snagListId     String
+  snagList       SnagList  @relation(fields: [snagListId], references: [id])
+  description    String
+  location       String // The room or area where the snag is located
+  status         String    @default("pending") // pending, acknowledged, fixed, disputed
+  images         String[] // URLs to images of the snag
+  developerNotes String?
+  fixedDate      DateTime?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
 
   // Relations
-  sale             Sale?           @relation("SaleSnagItems", fields: [saleId], references: [id])
-  saleId           String?
+  sale   Sale?   @relation("SaleSnagItems", fields: [saleId], references: [id])
+  saleId String?
 }
 
 model HomePackItem {
-  id                String          @id @default(cuid())
-  propertyId        String
-  property          Unit            @relation(fields: [propertyId], references: [id])
-  title             String
-  category          String          // warranty, manual, certificate, utility
-  documentUrl       String
-  expiryDate        DateTime?
-  issuer            String?
-  createdAt         DateTime        @default(now())
-  updatedAt         DateTime        @updatedAt
+  id          String    @id @default(cuid())
+  propertyId  String
+  property    Unit      @relation(fields: [propertyId], references: [id])
+  title       String
+  category    String // warranty, manual, certificate, utility
+  documentUrl String
+  expiryDate  DateTime?
+  issuer      String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 }
 
 // ======= Location =======
@@ -235,6 +337,7 @@ model Location {
 
   // Relations
   developments Development[]
+  users User[]
 }
 
 // ======= Development =======
@@ -300,18 +403,36 @@ model Development {
   investmentOpportunities InvestmentOpportunity[]
   campaigns               MarketingCampaign[]
 
-  sales      Sale[]
-  Investment Investment[]
-  Viewing    Viewing[]
+  sales               Sale[]
+  Investment          Investment[]
+  Viewing             Viewing[]
+  UnitType            UnitType[]
+  DevelopmentMedia    DevelopmentMedia[]
+  DevelopmentDocument DevelopmentDocument[]
+  Amenity             Amenity[]
+  DevelopmentUnit     DevelopmentUnit[]
+  DevelopmentAmenity  DevelopmentAmenity[]
+  DevelopmentViewing  DevelopmentViewing[]
+  DevelopmentReservation DevelopmentReservation[]
+  DevelopmentSale     DevelopmentSale[]
+  
+  // Transaction Management
+  transactions        Transaction[]
 }
 
 enum DevelopmentStatus {
   PLANNING
+  APPROVED
   PRE_CONSTRUCTION
   CONSTRUCTION
+  UNDER_CONSTRUCTION
+  READY
+  LAUNCHED
   MARKETING
   SALES
+  SELLING
   HANDOVER
+  SOLD_OUT
   COMPLETED
 }
 
@@ -369,18 +490,25 @@ model Unit {
   id            String      @id @default(cuid())
   development   Development @relation(fields: [developmentId], references: [id])
   developmentId String
-  name          String
-  type          UnitType
 
+  // Link to UnitType
+  unitTypeId String?
+  unitType   UnitType? @relation(fields: [unitTypeId], references: [id])
+
+  // Basic info
+  unitNumber    String? // e.g., "A101", "B205"
+  name          String
+  type          PropertyType
   // Basic specifications
   size          Float // in square meters
   bedrooms      Int
-  bathrooms     Int
+  bathrooms     Float // 2.5 for 2 and a half bathrooms
   floors        Int
   parkingSpaces Int
 
   // Pricing and status
   basePrice Float
+  price     Float?
   status    UnitStatus
 
   // Features
@@ -394,7 +522,6 @@ model Unit {
   virtualTourUrl String?
 
   // Additional details
-  unitNumber         String?
   block              String?
   floor              Int?
   aspect             String?
@@ -410,17 +537,26 @@ model Unit {
   rooms                   UnitRoom[]
   customizationOptions    UnitCustomizationOption[]
   customizationSelections CustomizationSelection[]
+  customizations          Customization[]
   sales                   Sale[]
   viewings                Viewing[]
   investorWatchlists      InvestorWatchlistUnit[]
   documents               Document[]                @relation("UnitDocuments")
-  reservations      Reservation[]
-  snagLists        SnagList[]
-  homePackItems    HomePackItem[]
+  reservations            Reservation[]
+  snagLists               SnagList[]
+  homePackItems           HomePackItem[]
+  
+  // Transaction Management
+  transactions            Transaction[]
+  
+  // Analytics relations
+  propertyViews           PropertyView[]
+  inquiries               Inquiry[]
 }
 
-enum UnitType {
+enum PropertyType {
   APARTMENT
+  HOUSE
   DUPLEX
   SEMI_DETACHED
   DETACHED
@@ -581,6 +717,10 @@ model CustomizationSelection {
   deadlineDate  DateTime?
   meetingBooked Boolean             @default(false)
   meetingDate   DateTime?
+  
+  // Transaction relation
+  transactionId String?
+  transaction   Transaction?        @relation(fields: [transactionId], references: [id])
 
   // Relations
   selections SelectedOption[]
@@ -651,12 +791,12 @@ model Document {
   approvedBy   User?   @relation("DocumentApprover", fields: [approvedById], references: [id])
   approvedById String?
 
-  previousVersions DocumentVersion[]
-  signatures       DocumentSignature[]
-  workflow         DocumentWorkflowInstance?
-  reservation       Reservation?    @relation(fields: [reservationId], references: [id])
-  reservationId     String?
-  mortgageTracking  MortgageTracking? @relation("MortgageDocuments", fields: [mortgageTrackingId], references: [id])
+  previousVersions   DocumentVersion[]
+  signatures         DocumentSignature[]
+  workflow           DocumentWorkflowInstance?
+  reservation        Reservation?              @relation(fields: [reservationId], references: [id])
+  reservationId      String?
+  mortgageTracking   MortgageTracking?         @relation("MortgageDocuments", fields: [mortgageTrackingId], references: [id])
   mortgageTrackingId String?
 }
 
@@ -842,7 +982,7 @@ model Sale {
   htbDetails      HTBDetails?
   notes           SaleNote[]
   tasks           SaleTask[]
-  snagList        SnagItem[]       @relation("SaleSnagItems")
+  snagList        SnagItem[]          @relation("SaleSnagItems")
   development     Development         @relation(fields: [developmentId], references: [id])
   developmentId   String
 }
@@ -1274,16 +1414,18 @@ model ProjectTaskDependency {
 }
 
 model TaskComment {
-  id            String      @id @default(cuid())
-  task          ProjectTask @relation(fields: [taskId], references: [id])
-  taskId        String
-  userId        String // User ID
-  content       String
-  timestamp     DateTime    @default(now())
-  attachmentIds String[] // Document IDs
-  mentions      String[] // User IDs
-  edited        Boolean     @default(false)
-  editedAt      DateTime?
+  id                 String            @id @default(cuid())
+  task               ProjectTask       @relation(fields: [taskId], references: [id])
+  taskId             String
+  userId             String // User ID
+  content            String
+  timestamp          DateTime          @default(now())
+  attachmentIds      String[] // Document IDs
+  mentions           String[] // User IDs
+  edited             Boolean           @default(false)
+  editedAt           DateTime?
+  ConveyancingTask   ConveyancingTask? @relation(fields: [conveyancingTaskId], references: [id])
+  conveyancingTaskId String?
 }
 
 model ProjectRisk {
@@ -2084,4 +2226,1521 @@ model UserRoleMapping {
   role   String // UserRole enum value
 
   @@unique([userId, role])
+}
+
+// ======= Transaction Management =======
+
+model Transaction {
+  id                    String              @id @default(cuid())
+  referenceNumber       String              @unique
+  status                TransactionStatus   @default(ENQUIRY)
+  stage                 TransactionStage    @default(INITIAL_ENQUIRY)
+  type                  TransactionType     @default(PURCHASE)
+  
+  // Core parties
+  buyerId               String
+  buyer                 User                @relation("BuyerTransactions", fields: [buyerId], references: [id])
+  developmentId         String
+  development           Development         @relation(fields: [developmentId], references: [id])
+  unitId                String
+  unit                  Unit                @relation(fields: [unitId], references: [id])
+  
+  // Secondary parties
+  agentId               String?
+  agent                 User?               @relation("AgentTransactions", fields: [agentId], references: [id])
+  solicitorId           String?
+  solicitor             User?               @relation("SolicitorTransactions", fields: [solicitorId], references: [id])
+  buyerSolicitorId      String?
+  
+  // Financial details
+  agreedPrice           Float?
+  depositPaid           Float               @default(0)
+  totalPaid             Float               @default(0)
+  outstandingBalance    Float?
+  
+  // Important dates
+  enquiryDate           DateTime            @default(now())
+  viewingDate           DateTime?
+  reservationDate       DateTime?
+  contractDate          DateTime?
+  mortgageApprovalDate  DateTime?
+  completionDate        DateTime?
+  handoverDate          DateTime?
+  
+  // Mortgage details
+  mortgageRequired      Boolean             @default(true)
+  mortgageApproved      Boolean             @default(false)
+  mortgageProvider      String?
+  mortgageAmount        Float?
+  mortgageReference     String?
+  
+  // HTB details
+  helpToBuyUsed         Boolean             @default(false)
+  htbAmount             Float?
+  htbReference          String?
+  htbApplicationDate    DateTime?
+  htbApprovalDate       DateTime?
+  
+  // Legal details
+  contractsSent         Boolean             @default(false)
+  contractsSigned       Boolean             @default(false)
+  contractsExchanged    Boolean             @default(false)
+  titleDeeds            String?
+  
+  // Compliance
+  kycCompleted          Boolean             @default(false)
+  amlCheckCompleted     Boolean             @default(false)
+  sourceOfFundsVerified Boolean             @default(false)
+  
+  // Customizations
+  customizationDeadline DateTime?
+  customizationsLocked  Boolean             @default(false)
+  
+  // Communication preferences
+  preferredContactMethod String             @default("email")
+  marketingOptIn        Boolean            @default(false)
+  gdprConsent           Boolean            @default(false)
+  
+  // Metadata
+  referralSource        String?
+  notes                 String?             @db.Text
+  internalNotes         String?             @db.Text
+  tags                  String[]
+  
+  // Timestamps
+  createdAt             DateTime            @default(now())
+  updatedAt             DateTime            @updatedAt
+  completedAt           DateTime?
+  cancelledAt           DateTime?
+  
+  // Relations
+  events                TransactionEvent[]
+  documents             TransactionDocument[]
+  payments              TransactionPayment[]
+  tasks                 TransactionTask[]
+  milestones            TransactionMilestone[]
+  notifications         TransactionNotification[]
+  communications        TransactionCommunication[]
+  issues                TransactionIssue[]
+  customizations        CustomizationSelection[]
+  timeline              TransactionTimeline?
+  analyticsPayments     Payment[]
+  
+  @@index([buyerId])
+  @@index([unitId])
+  @@index([developmentId])
+  @@index([status])
+  @@index([stage])
+  @@index([referenceNumber])
+}
+
+enum TransactionStatus {
+  ENQUIRY
+  VIEWING_SCHEDULED
+  VIEWED
+  INTERESTED
+  OFFER_MADE
+  OFFER_ACCEPTED
+  RESERVATION_PENDING
+  RESERVED
+  SALE_AGREED
+  CONTRACTS_ISSUED
+  CONTRACTS_SIGNED
+  MORTGAGE_APPLIED
+  MORTGAGE_APPROVED
+  FUNDS_RELEASED
+  COMPLETION_PENDING
+  COMPLETED
+  HANDED_OVER
+  CANCELLED
+  WITHDRAWN
+  FALLEN_THROUGH
+}
+
+enum TransactionStage {
+  INITIAL_ENQUIRY
+  PROPERTY_VIEWING
+  OFFER_NEGOTIATION
+  RESERVATION
+  LEGAL_PROCESSING
+  MORTGAGE_APPLICATION
+  CONTRACT_EXCHANGE
+  PRE_COMPLETION
+  COMPLETION
+  POST_COMPLETION
+}
+
+enum TransactionType {
+  PURCHASE
+  RESERVATION
+  ASSIGNMENT
+  INVESTOR_PURCHASE
+}
+
+// Transaction Events for audit trail
+model TransactionEvent {
+  id              String                  @id @default(cuid())
+  transactionId   String
+  transaction     Transaction             @relation(fields: [transactionId], references: [id], onDelete: Cascade)
+  eventType       TransactionEventType
+  description     String
+  metadata        Json?
+  performedBy     String?
+  performedAt     DateTime                @default(now())
+  ipAddress       String?
+  userAgent       String?
+  
+  @@index([transactionId])
+  @@index([eventType])
+  @@index([performedAt])
+}
+
+enum TransactionEventType {
+  STATUS_CHANGE
+  STAGE_CHANGE
+  DOCUMENT_UPLOADED
+  DOCUMENT_SIGNED
+  PAYMENT_RECEIVED
+  PAYMENT_REFUNDED
+  VIEWING_SCHEDULED
+  VIEWING_COMPLETED
+  OFFER_MADE
+  OFFER_ACCEPTED
+  OFFER_REJECTED
+  RESERVATION_CONFIRMED
+  CONTRACT_ISSUED
+  CONTRACT_SIGNED
+  CONTRACT_EXCHANGED
+  MORTGAGE_UPDATE
+  HTB_UPDATE
+  CUSTOMIZATION_SELECTED
+  TASK_CREATED
+  TASK_COMPLETED
+  ISSUE_RAISED
+  ISSUE_RESOLVED
+  NOTE_ADDED
+  COMMUNICATION_SENT
+  MILESTONE_REACHED
+}
+
+// Transaction Documents
+model TransactionDocument {
+  id              String              @id @default(cuid())
+  transactionId   String
+  transaction     Transaction         @relation(fields: [transactionId], references: [id], onDelete: Cascade)
+  
+  name            String
+  type            TransactionDocumentType
+  category        TransactionDocumentCategory
+  status          TransactionDocumentStatus @default(PENDING)
+  
+  // File details
+  fileName        String
+  fileSize        Int
+  mimeType        String
+  fileUrl         String
+  
+  // Metadata
+  version         Int                 @default(1)
+  description     String?
+  tags            String[]
+  
+  // Security
+  isConfidential  Boolean             @default(false)
+  accessLevel     String              @default("buyer")
+  
+  // Workflow
+  requiresSignature Boolean           @default(false)
+  signedBy          String[]
+  signedAt          DateTime[]
+  
+  // Tracking
+  uploadedBy      String
+  uploadedAt      DateTime            @default(now())
+  lastAccessedBy  String?
+  lastAccessedAt  DateTime?
+  
+  @@index([transactionId])
+  @@index([type])
+  @@index([status])
+}
+
+enum TransactionDocumentType {
+  IDENTIFICATION
+  PROOF_OF_ADDRESS
+  PROOF_OF_FUNDS
+  BANK_STATEMENT
+  PAYSLIP
+  EMPLOYMENT_LETTER
+  RESERVATION_FORM
+  SALES_CONTRACT
+  MORTGAGE_OFFER
+  HTB_APPROVAL
+  SURVEY_REPORT
+  VALUATION_REPORT
+  BER_CERTIFICATE
+  TITLE_DEED
+  COMPLETION_CERTIFICATE
+  SNAG_LIST
+  WARRANTY
+  OTHER
+}
+
+enum TransactionDocumentCategory {
+  KYC_AML
+  FINANCIAL
+  LEGAL
+  PROPERTY
+  MORTGAGE
+  HTB
+  COMPLETION
+  WARRANTY
+}
+
+enum TransactionDocumentStatus {
+  PENDING
+  UPLOADED
+  UNDER_REVIEW
+  APPROVED
+  REJECTED
+  SIGNED
+  EXPIRED
+}
+
+// Transaction Payments
+model TransactionPayment {
+  id              String              @id @default(cuid())
+  transactionId   String
+  transaction     Transaction         @relation(fields: [transactionId], references: [id], onDelete: Cascade)
+  
+  type            TransactionPaymentType
+  amount          Float
+  currency        String              @default("EUR")
+  status          TransactionPaymentStatus @default(PENDING)
+  
+  // Payment details
+  method          PaymentMethod
+  reference       String              @unique
+  
+  // Banking details
+  fromAccount     String?
+  toAccount       String?
+  bankReference   String?
+  
+  // Processing
+  processingFee   Float?
+  netAmount       Float?
+  
+  // Important dates
+  dueDate         DateTime?
+  paidDate        DateTime?
+  clearedDate     DateTime?
+  
+  // Metadata
+  description     String?
+  invoiceNumber   String?
+  receiptUrl      String?
+  
+  createdAt       DateTime            @default(now())
+  updatedAt       DateTime            @updatedAt
+  
+  @@index([transactionId])
+  @@index([status])
+  @@index([reference])
+}
+
+enum TransactionPaymentType {
+  BOOKING_DEPOSIT
+  RESERVATION_FEE
+  CONTRACT_DEPOSIT
+  STAGE_PAYMENT
+  BALANCE_PAYMENT
+  CUSTOMIZATION_PAYMENT
+  LEGAL_FEE
+  STAMP_DUTY
+  REGISTRATION_FEE
+  MORTGAGE_DEPOSIT
+  HTB_DEPOSIT
+  REFUND
+  OTHER
+}
+
+enum TransactionPaymentStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
+  CANCELLED
+  REFUNDED
+  PARTIALLY_REFUNDED
+  DISPUTED
+}
+
+enum PaymentMethod {
+  BANK_TRANSFER
+  CREDIT_CARD
+  DEBIT_CARD
+  CHEQUE
+  CASH
+  MORTGAGE_DRAWDOWN
+  HTB_SCHEME
+  CRYPTO
+  OTHER
+}
+
+// Transaction Tasks
+model TransactionTask {
+  id              String              @id @default(cuid())
+  transactionId   String
+  transaction     Transaction         @relation(fields: [transactionId], references: [id], onDelete: Cascade)
+  
+  title           String
+  description     String?             @db.Text
+  category        TransactionTaskCategory
+  priority        TransactionTaskPriority @default(NORMAL)
+  status          TransactionTaskStatus   @default(PENDING)
+  
+  // Assignment
+  assignedTo      String?
+  assignedBy      String?
+  
+  // Dates
+  dueDate         DateTime?
+  startedAt       DateTime?
+  completedAt     DateTime?
+  
+  // Dependencies
+  dependsOn       String[]            // Task IDs this task depends on
+  blockedBy       String[]            // Task IDs blocking this task
+  
+  // Automation
+  isAutomated     Boolean             @default(false)
+  automationRule  String?
+  
+  // Tracking
+  estimatedHours  Float?
+  actualHours     Float?
+  notes           String?
+  
+  createdAt       DateTime            @default(now())
+  updatedAt       DateTime            @updatedAt
+  
+  @@index([transactionId])
+  @@index([status])
+  @@index([assignedTo])
+  @@index([dueDate])
+}
+
+enum TransactionTaskCategory {
+  DOCUMENTATION
+  FINANCIAL
+  LEGAL
+  PROPERTY_INSPECTION
+  MORTGAGE
+  HTB
+  CUSTOMIZATION
+  COMMUNICATION
+  COMPLIANCE
+  ADMINISTRATIVE
+}
+
+enum TransactionTaskPriority {
+  LOW
+  NORMAL
+  HIGH
+  URGENT
+  CRITICAL
+}
+
+enum TransactionTaskStatus {
+  PENDING
+  IN_PROGRESS
+  ON_HOLD
+  COMPLETED
+  CANCELLED
+  OVERDUE
+}
+
+// Transaction Milestones
+model TransactionMilestone {
+  id              String              @id @default(cuid())
+  transactionId   String
+  transaction     Transaction         @relation(fields: [transactionId], references: [id], onDelete: Cascade)
+  
+  name            String
+  description     String?
+  stage           TransactionStage
+  order           Int
+  
+  status          TransactionMilestoneStatus @default(PENDING)
+  
+  // Completion criteria
+  requiredTasks   String[]            // Task IDs that must be completed
+  requiredDocs    String[]            // Document types required
+  requiredPayments String[]           // Payment types required
+  
+  // Dates
+  targetDate      DateTime?
+  actualDate      DateTime?
+  
+  // Automation
+  autoComplete    Boolean             @default(false)
+  completionRule  String?
+  
+  createdAt       DateTime            @default(now())
+  updatedAt       DateTime            @updatedAt
+  
+  @@index([transactionId])
+  @@index([stage])
+  @@index([order])
+}
+
+enum TransactionMilestoneStatus {
+  PENDING
+  IN_PROGRESS
+  COMPLETED
+  SKIPPED
+  BLOCKED
+}
+
+// Transaction Communications
+model TransactionCommunication {
+  id              String              @id @default(cuid())
+  transactionId   String
+  transaction     Transaction         @relation(fields: [transactionId], references: [id], onDelete: Cascade)
+  
+  type            CommunicationType
+  direction       CommunicationDirection
+  
+  // Participants
+  fromId          String
+  toId            String
+  ccIds           String[]            @default([])
+  
+  // Content
+  subject         String?
+  content         String              @db.Text
+  attachments     Json?               // Array of attachment details
+  
+  // Status
+  status          CommunicationStatus @default(SENT)
+  readAt          DateTime?
+  
+  // Metadata
+  channel         String              // email, sms, in-app, phone
+  threadId        String?             // For grouping related communications
+  externalId      String?             // External system reference
+  
+  createdAt       DateTime            @default(now())
+  
+  @@index([transactionId])
+  @@index([type])
+  @@index([threadId])
+  @@index([createdAt])
+}
+
+enum CommunicationType {
+  EMAIL
+  SMS
+  PHONE_CALL
+  VIDEO_CALL
+  MEETING
+  NOTE
+  LETTER
+  NOTIFICATION
+}
+
+enum CommunicationDirection {
+  INBOUND
+  OUTBOUND
+  INTERNAL
+}
+
+enum CommunicationStatus {
+  DRAFT
+  SENT
+  DELIVERED
+  READ
+  REPLIED
+  BOUNCED
+  FAILED
+}
+
+// Transaction Notifications
+model TransactionNotification {
+  id              String              @id @default(cuid())
+  transactionId   String
+  transaction     Transaction         @relation(fields: [transactionId], references: [id], onDelete: Cascade)
+  
+  type            NotificationType
+  priority        NotificationPriority @default(NORMAL)
+  
+  recipient       String              // User ID
+  title           String
+  message         String              @db.Text
+  actionUrl       String?
+  
+  // Status
+  status          NotificationStatus  @default(PENDING)
+  sentAt          DateTime?
+  readAt          DateTime?
+  
+  // Delivery
+  channels        String[]            @default(["IN_APP"])
+  emailSent       Boolean             @default(false)
+  smsSent         Boolean             @default(false)
+  pushSent        Boolean             @default(false)
+  
+  // Retry logic
+  retryCount      Int                 @default(0)
+  maxRetries      Int                 @default(3)
+  nextRetryAt     DateTime?
+  
+  // Metadata
+  metadata        Json?
+  expiresAt       DateTime?
+  
+  createdAt       DateTime            @default(now())
+  
+  @@index([transactionId])
+  @@index([recipient])
+  @@index([status])
+  @@index([createdAt])
+}
+
+enum NotificationType {
+  STATUS_UPDATE
+  DOCUMENT_REQUEST
+  PAYMENT_REMINDER
+  TASK_ASSIGNMENT
+  MILESTONE_REACHED
+  ISSUE_ALERT
+  DEADLINE_REMINDER
+  GENERAL_UPDATE
+}
+
+enum NotificationPriority {
+  LOW
+  NORMAL
+  HIGH
+  URGENT
+}
+
+enum NotificationStatus {
+  PENDING
+  SENT
+  DELIVERED
+  READ
+  FAILED
+  EXPIRED
+}
+
+// Transaction Issues
+model TransactionIssue {
+  id              String              @id @default(cuid())
+  transactionId   String
+  transaction     Transaction         @relation(fields: [transactionId], references: [id], onDelete: Cascade)
+  
+  title           String
+  description     String              @db.Text
+  category        TransactionIssueCategory
+  severity        TransactionIssueSeverity @default(MEDIUM)
+  status          TransactionIssueStatus   @default(OPEN)
+  
+  // Tracking
+  reportedBy      String
+  assignedTo      String?
+  resolvedBy      String?
+  
+  // Dates
+  reportedAt      DateTime            @default(now())
+  resolvedAt      DateTime?
+  dueDate         DateTime?
+  
+  // Resolution
+  resolution      String?             @db.Text
+  rootCause       String?
+  preventiveMeasures String?          @db.Text
+  
+  // Impact
+  impactedStage   TransactionStage?
+  impactedTasks   String[]
+  estimatedDelay  Int?                // in days
+  
+  createdAt       DateTime            @default(now())
+  updatedAt       DateTime            @updatedAt
+  
+  @@index([transactionId])
+  @@index([status])
+  @@index([category])
+  @@index([severity])
+}
+
+enum TransactionIssueCategory {
+  DOCUMENTATION
+  PAYMENT
+  LEGAL
+  TECHNICAL
+  COMMUNICATION
+  COMPLIANCE
+  PROPERTY
+  MORTGAGE
+  HTB
+  OTHER
+}
+
+enum TransactionIssueSeverity {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+}
+
+enum TransactionIssueStatus {
+  OPEN
+  IN_PROGRESS
+  RESOLVED
+  CLOSED
+  REOPENED
+  ESCALATED
+}
+
+// Transaction Timeline
+model TransactionTimeline {
+  id                  String          @id @default(cuid())
+  transactionId       String          @unique
+  transaction         Transaction     @relation(fields: [transactionId], references: [id], onDelete: Cascade)
+  
+  // Key dates
+  firstContactDate    DateTime?
+  propertyViewingDate DateTime?
+  offerMadeDate       DateTime?
+  offerAcceptedDate   DateTime?
+  reservationDate     DateTime?
+  contractIssuedDate  DateTime?
+  contractSignedDate  DateTime?
+  mortgageAppliedDate DateTime?
+  mortgageApprovedDate DateTime?
+  exchangeDate        DateTime?
+  completionDueDate   DateTime?
+  completionActualDate DateTime?
+  keysHandoverDate    DateTime?
+  moveInDate          DateTime?
+  
+  // Milestones with durations
+  enquiryToViewingDays      Int?
+  viewingToOfferDays        Int?
+  offerToReservationDays    Int?
+  reservationToContractDays Int?
+  contractToMortgageDays    Int?
+  mortgageToExchangeDays    Int?
+  exchangeToCompletionDays  Int?
+  totalDurationDays         Int?
+  
+  createdAt           DateTime        @default(now())
+  updatedAt           DateTime        @updatedAt
+}
+
+// ======= Conveyancing Models =======
+
+model ConveyancingCase {
+  id            String             @id @default(cuid())
+  caseReference String             @unique
+  propertyId    String
+  status        ConveyancingStatus @default(NEW)
+  type          ConveyancingType   @default(PURCHASE)
+
+  // Parties
+  solicitorId String
+  buyerId     String?
+  sellerId    String?
+  agentId     String?
+
+  // Property Details
+  propertyAddress String
+  purchasePrice   Float
+  depositAmount   Float
+  stampDuty       Float?
+
+  // Key Dates
+  instructionDate    DateTime  @default(now())
+  proposedCompletion DateTime?
+  actualCompletion   DateTime?
+
+  // Tasks & Documents
+  tasks     ConveyancingTask[]
+  documents ConveyancingDocument[]
+  notes     ConveyancingNote[]
+
+  // Financials
+  fees     LegalFee[]
+  invoices ConveyancingInvoice[]
+
+  // Compliance
+  amlCheck      AMLCheck?
+  sourceOfFunds SourceOfFunds[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum ConveyancingStatus {
+  NEW
+  INSTRUCTION_RECEIVED
+  DUE_DILIGENCE
+  CONTRACT_PREP
+  CONTRACT_ISSUED
+  CONTRACT_NEGOTIATION
+  CONTRACT_SIGNED
+  DEPOSIT_RECEIVED
+  COMPLETION_PENDING
+  COMPLETED
+  ABORTED
+}
+
+enum ConveyancingType {
+  PURCHASE
+  SALE
+  REMORTGAGE
+  TRANSFER
+}
+
+model ConveyancingTask {
+  id     String           @id @default(cuid())
+  caseId String
+  case   ConveyancingCase @relation(fields: [caseId], references: [id])
+
+  title       String
+  description String?
+  category    TaskCategory
+  priority    Priority     @default(MEDIUM)
+  status      TaskStatus   @default(PENDING)
+
+  assignedTo    String?
+  dueDate       DateTime?
+  completedDate DateTime?
+
+  dependsOn String[] // Task IDs this task depends on
+  blockedBy String[] // Task IDs blocking this task
+
+  documents ConveyancingDocument[]
+  comments  TaskComment[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum TaskCategory {
+  DUE_DILIGENCE
+  CONTRACT_PREPARATION
+  SEARCHES
+  FINANCIAL
+  COMPLIANCE
+  COMMUNICATION
+  COMPLETION
+}
+
+enum TaskStatus {
+  PENDING
+  IN_PROGRESS
+  BLOCKED
+  COMPLETED
+  CANCELLED
+}
+
+enum Priority {
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
+}
+
+model ConveyancingDocument {
+  id     String            @id @default(cuid())
+  caseId String
+  case   ConveyancingCase  @relation(fields: [caseId], references: [id])
+  taskId String?
+  task   ConveyancingTask? @relation(fields: [taskId], references: [id])
+
+  name     String
+  type     ConveyancingDocumentType
+  fileName String
+  fileUrl  String
+  fileSize Int
+  mimeType String
+
+  status  ConveyancingDocumentStatus @default(DRAFT)
+  version Int                        @default(1)
+
+  uploadedBy String
+  uploadedAt DateTime @default(now())
+
+  // Document metadata
+  metadata Json?
+
+  // Security
+  isConfidential Boolean @default(false)
+  accessControl  Json? // Who can access this document
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum ConveyancingDocumentType {
+  CONTRACT
+  TITLE_DEED
+  SEARCH_RESULT
+  AML_CHECK
+  PROOF_OF_FUNDS
+  IDENTITY_VERIFICATION
+  MORTGAGE_OFFER
+  BUILDING_REPORT
+  PLANNING_PERMISSION
+  CORRESPONDENCE
+  OTHER
+}
+
+enum ConveyancingDocumentStatus {
+  DRAFT
+  PENDING_REVIEW
+  APPROVED
+  REJECTED
+  FINAL
+}
+
+model ConveyancingNote {
+  id     String           @id @default(cuid())
+  caseId String
+  case   ConveyancingCase @relation(fields: [caseId], references: [id])
+
+  content   String
+  type      NoteType @default(GENERAL)
+  isPrivate Boolean  @default(false)
+
+  createdBy String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum NoteType {
+  GENERAL
+  LEGAL
+  CLIENT_COMMUNICATION
+  INTERNAL
+  WARNING
+}
+
+model AMLCheck {
+  id     String           @id @default(cuid())
+  caseId String           @unique
+  case   ConveyancingCase @relation(fields: [caseId], references: [id])
+
+  clientId String
+  status   AMLStatus @default(PENDING)
+
+  // ID Verification
+  idVerificationStatus VerificationStatus @default(PENDING)
+  idDocuments          Json[]
+
+  // Address Verification
+  addressVerificationStatus VerificationStatus @default(PENDING)
+  addressDocuments          Json[]
+
+  // PEP & Sanctions
+  pepCheckStatus       CheckStatus @default(PENDING)
+  sanctionsCheckStatus CheckStatus @default(PENDING)
+
+  // Risk Assessment
+  riskLevel   RiskLevel @default(MEDIUM)
+  riskFactors Json?
+
+  completedBy String?
+  completedAt DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum AMLStatus {
+  PENDING
+  IN_PROGRESS
+  COMPLETED
+  FAILED
+  REFERRED
+}
+
+enum VerificationStatus {
+  PENDING
+  VERIFIED
+  FAILED
+  MANUAL_REVIEW
+}
+
+enum CheckStatus {
+  PENDING
+  CLEAR
+  HIT
+  REVIEW_REQUIRED
+}
+
+enum RiskLevel {
+  LOW
+  MEDIUM
+  HIGH
+  UNACCEPTABLE
+}
+
+model SourceOfFunds {
+  id     String           @id @default(cuid())
+  caseId String
+  case   ConveyancingCase @relation(fields: [caseId], references: [id])
+
+  source   FundSource
+  amount   Float
+  currency String     @default("EUR")
+
+  verificationStatus VerificationStatus @default(PENDING)
+  documents          Json[]
+  notes              String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum FundSource {
+  SALARY
+  SAVINGS
+  INVESTMENT
+  INHERITANCE
+  GIFT
+  PROPERTY_SALE
+  BUSINESS_INCOME
+  LOAN
+  OTHER
+}
+
+model LegalFee {
+  id     String           @id @default(cuid())
+  caseId String
+  case   ConveyancingCase @relation(fields: [caseId], references: [id])
+
+  description String
+  category    FeeCategory
+  amount      Float
+  vatRate     Float       @default(0.23)
+  vatAmount   Float
+  totalAmount Float
+
+  status FeeStatus @default(PENDING)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum FeeCategory {
+  PROFESSIONAL_FEE
+  DISBURSEMENT
+  SEARCH_FEE
+  REGISTRATION_FEE
+  STAMP_DUTY
+  OTHER
+}
+
+enum FeeStatus {
+  PENDING
+  INVOICED
+  PAID
+  WAIVED
+}
+
+model ConveyancingInvoice {
+  id     String           @id @default(cuid())
+  caseId String
+  case   ConveyancingCase @relation(fields: [caseId], references: [id])
+
+  invoiceNumber String @unique
+  clientId      String
+
+  subtotal    Float
+  vatAmount   Float
+  totalAmount Float
+
+  status InvoiceStatus @default(DRAFT)
+
+  issuedDate DateTime?
+  dueDate    DateTime?
+  paidDate   DateTime?
+
+  lineItems Json[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum InvoiceStatus {
+  DRAFT
+  ISSUED
+  SENT
+  VIEWED
+  PAID
+  OVERDUE
+  CANCELLED
+}
+
+// ======= Development & Property Management =======
+
+// Core Development model
+
+// Unit Types (1 bed, 2 bed, 3 bed, 4 bed)
+model UnitType {
+  id            String      @id @default(cuid())
+  developmentId String
+  development   Development @relation(fields: [developmentId], references: [id])
+
+  name      String // e.g., "2 Bed Apartment"
+  bedrooms  Int
+  bathrooms Float // 2.5 for 2 and a half bathrooms
+  type      PropertyType
+
+  // Sizing
+  area Float // Square meters
+
+  // Pricing
+  priceFrom Float
+
+  // Inventory
+  totalUnits     Int
+  availableUnits Int @default(0)
+
+  // Features
+  features String[] // Array of features
+
+  // Relationships
+  units      Unit[]
+  schedule   ScheduleOfAccommodation[]
+  floorPlans FloorPlan[]
+  developmentUnits DevelopmentUnit[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([developmentId, name])
+}
+
+// Individual Units
+
+// Schedule of Accommodation
+model ScheduleOfAccommodation {
+  id         String   @id @default(cuid())
+  unitTypeId String
+  unitType   UnitType @relation(fields: [unitTypeId], references: [id])
+
+  room String // e.g., "Living/Kitchen/Dining", "Master Bedroom"
+  area Float // Square meters
+
+  order Int // For display ordering
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([unitTypeId, room])
+}
+
+// Floor Plans
+model FloorPlan {
+  id         String   @id @default(cuid())
+  unitTypeId String
+  unitType   UnitType @relation(fields: [unitTypeId], references: [id])
+
+  imageUrl  String
+  title     String?
+  isPrimary Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// Development Media (images, videos, virtual tours)
+model DevelopmentMedia {
+  id            String      @id @default(cuid())
+  developmentId String
+  development   Development @relation(fields: [developmentId], references: [id])
+
+  type        MediaType
+  url         String
+  title       String?
+  description String?
+  order       Int       @default(0)
+  isPrimary   Boolean   @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// Documents (brochures, price lists, etc.)
+model DevelopmentDocument {
+  id            String      @id @default(cuid())
+  developmentId String
+  development   Development @relation(fields: [developmentId], references: [id])
+
+  type     DocumentType
+  title    String
+  url      String
+  isPublic Boolean      @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// Amenities
+model Amenity {
+  id            String      @id @default(cuid())
+  developmentId String
+  development   Development @relation(fields: [developmentId], references: [id])
+
+  type     AmenityType
+  name     String
+  distance String? // e.g., "5 min drive"
+  icon     String? // Icon identifier
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// Viewings
+
+// Reservations
+
+// Sales
+
+// Customizations
+model Customization {
+  id     String @id @default(cuid())
+  unitId String
+  unit   Unit   @relation(fields: [unitId], references: [id])
+
+  category       String // e.g., "Kitchen", "Flooring", "Bathroom"
+  item           String // e.g., "Cabinet Color", "Floor Type"
+  value          String // e.g., "Oak", "Marble"
+  additionalCost Float  @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// Development-specific Enums
+
+enum MediaType {
+  IMAGE
+  VIDEO
+  VIRTUAL_TOUR
+  FLOOR_PLAN
+}
+
+enum DocumentType {
+  BROCHURE
+  PRICE_LIST
+  SPECIFICATION
+  CONTRACT
+  OTHER
+}
+
+enum AmenityType {
+  SHOPPING
+  EDUCATION
+  TRANSPORT
+  HEALTHCARE
+  LEISURE
+  DINING
+}
+
+enum ViewingStatus {
+  REQUESTED
+  CONFIRMED
+  COMPLETED
+  CANCELLED
+  NO_SHOW
+}
+
+enum ReservationStatus {
+  ACTIVE
+  EXPIRED
+  CANCELLED
+  CONVERTED_TO_SALE
+}
+
+// ======= Enhanced Development Models =======
+
+model DevelopmentUnit {
+  id                    String              @id @default(cuid())
+  developmentId         String              
+  development           Development         @relation(fields: [developmentId], references: [id])
+  unitTypeId            String              
+  unitType              UnitType            @relation(fields: [unitTypeId], references: [id])
+  
+  // Unit identification
+  unitNumber            String              // e.g., "A101", "B205"
+  block                 String?             // Building/block identifier
+  floor                 Int                 // Floor number
+  
+  // Status and pricing
+  status                DevelopmentUnitStatus @default(AVAILABLE)
+  currentPrice          Float               // Can be different from base price
+  
+  // Specific unit details
+  orientation           String?             // North, South, East, West
+  aspect                String?             // Front, Rear, Dual
+  viewType             String?             // Park, Sea, City, etc.
+  
+  // Garden/Balcony (if applicable)
+  balconyArea          Float?              // in sq meters
+  terraceArea          Float?              // in sq meters
+  gardenArea           Float?              // in sq meters
+  
+  // Dates
+  estimatedCompletionDate DateTime?
+  actualCompletionDate   DateTime?
+  customizationDeadline  DateTime?
+  
+  // Optional variations from standard unit type
+  floorplanVariation    String?             // e.g., "Mirror", "Extended Kitchen"
+  features              String[]            // Additional features specific to this unit
+  
+  // Relations
+  reservations          DevelopmentReservation[]
+  viewings              DevelopmentViewing[]
+  sales                 DevelopmentSale[]
+  
+  createdAt            DateTime            @default(now())
+  updatedAt            DateTime            @updatedAt
+  
+  @@unique([developmentId, unitNumber])
+}
+
+model DevelopmentAmenity {
+  id                    String              @id @default(cuid())
+  developmentId         String              
+  development           Development         @relation(fields: [developmentId], references: [id])
+  
+  name                  String              // e.g., "Community Centre", "Gym"
+  category              AmenityCategory     // Type of amenity
+  description           String?
+  location              String?             // Specific location within development
+  
+  // Status
+  isCompleted           Boolean             @default(false)
+  completionDate        DateTime?
+  estimatedCompletionDate DateTime?
+  
+  // Features
+  features              String[]            // Specific features of the amenity
+  openingHours          Json?               // Structured opening hours
+  rules                 String[]            // Usage rules/restrictions
+  
+  // Media
+  images                String[]
+  icon                  String?             // Icon identifier for UI
+  
+  createdAt            DateTime            @default(now())
+  updatedAt            DateTime            @updatedAt
+}
+
+model DevelopmentViewing {
+  id                    String              @id @default(cuid())
+  developmentId         String              
+  development           Development         @relation(fields: [developmentId], references: [id])
+  unitId               String?             
+  unit                 DevelopmentUnit?    @relation(fields: [unitId], references: [id])
+  
+  // Viewer details
+  viewerId             String              // User ID of the viewer
+  viewer               User                @relation(fields: [viewerId], references: [id])
+  
+  // Viewing details
+  scheduledDate        DateTime
+  actualDate           DateTime?
+  duration             Int                 @default(30) // Duration in minutes
+  status               ViewingStatus       @default(REQUESTED)
+  type                 ViewingType         // Physical, Virtual, Show House
+  
+  // Notes and feedback
+  notes                String?
+  feedback             Json?               // Structured feedback
+  interestedLevel      Int?                // 1-5 scale
+  followUpRequired     Boolean             @default(false)
+  
+  // Agent handling the viewing
+  agentId              String?             // User ID of agent
+  agent                User?               @relation("ViewingAgent", fields: [agentId], references: [id])
+  
+  createdAt            DateTime            @default(now())
+  updatedAt            DateTime            @updatedAt
+}
+
+model DevelopmentReservation {
+  id                    String              @id @default(cuid())
+  developmentId         String              
+  development           Development         @relation(fields: [developmentId], references: [id])
+  unitId               String              
+  unit                 DevelopmentUnit     @relation(fields: [unitId], references: [id])
+  
+  // Buyer details
+  buyerId              String              // User ID of buyer
+  buyer                User                @relation(fields: [buyerId], references: [id])
+  
+  // Reservation details
+  reservationDate      DateTime            @default(now())
+  expiryDate           DateTime
+  depositAmount        Float
+  depositPaid          Boolean             @default(false)
+  depositPaidDate      DateTime?
+  
+  // Status
+  status               DevelopmentReservationStatus @default(ACTIVE)
+  
+  // Pricing
+  agreedPrice          Float
+  specialConditions    String[]
+  
+  // References
+  referenceNumber      String              @unique
+  
+  // Relations
+  notes                String?
+  
+  createdAt            DateTime            @default(now())
+  updatedAt            DateTime            @updatedAt
+}
+
+model DevelopmentSale {
+  id                    String              @id @default(cuid())
+  developmentId         String              
+  development           Development         @relation(fields: [developmentId], references: [id])
+  unitId               String              
+  unit                 DevelopmentUnit     @relation(fields: [unitId], references: [id])
+  
+  // Buyer details
+  buyerId              String              // User ID of buyer
+  buyer                User                @relation(fields: [buyerId], references: [id])
+  
+  // Sale details
+  saleDate             DateTime
+  agreedPrice          Float
+  deposit              Json                // Structured deposit information
+  contractSigned       Boolean             @default(false)
+  contractSignedDate   DateTime?
+  
+  // Completion
+  completionDate       DateTime?
+  keysHandedOver       Boolean             @default(false)
+  handoverDate         DateTime?
+  
+  // Additional details
+  solicitor            String?
+  mortgageProvider     String?
+  mortgageApproved     Boolean             @default(false)
+  stampDutyPaid        Boolean             @default(false)
+  
+  // HTB
+  htbUsed              Boolean             @default(false)
+  htbAmount            Float?
+  
+  // References
+  referenceNumber      String              @unique
+  
+  createdAt            DateTime            @default(now())
+  updatedAt            DateTime            @updatedAt
+}
+
+// Additional Enums
+enum DevelopmentUnitStatus {
+  AVAILABLE
+  RESERVED
+  SALE_AGREED
+  SOLD
+  COMPLETED
+  WITHDRAWN
+}
+
+enum DevelopmentReservationStatus {
+  ACTIVE
+  EXPIRED
+  CANCELLED
+  CONVERTED
+}
+
+enum ViewingType {
+  PHYSICAL
+  VIRTUAL
+  SHOW_HOUSE
+  OPEN_DAY
+}
+
+enum AmenityCategory {
+  RECREATION     // Gym, Pool, Sports
+  COMMUNITY      // Centre, Meeting rooms
+  CHILDREN       // Playground, Nursery
+  LANDSCAPE      // Gardens, Parks
+  SECURITY       // Gates, CCTV
+  PARKING        // Underground, Surface
+  TRANSPORT      // Bus stop, Train
+  UTILITIES      // EV charging, Bike storage
+}
+
+// Analytics Models
+model PropertyView {
+  id        String   @id @default(cuid())
+  unitId    String
+  unit      Unit     @relation(fields: [unitId], references: [id])
+  userId    String?
+  sessionId String?
+  createdAt DateTime @default(now())
+  
+  @@index([unitId])
+  @@index([createdAt])
+}
+
+model Inquiry {
+  id        String   @id @default(cuid())
+  unitId    String
+  unit      Unit     @relation(fields: [unitId], references: [id])
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  message   String?
+  status    String   @default("NEW")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@index([unitId])
+  @@index([userId])
+}
+
+model Payment {
+  id            String   @id @default(cuid())
+  transactionId String
+  transaction   Transaction @relation(fields: [transactionId], references: [id])
+  amount        Float
+  status        String   @default("PENDING")
+  method        String?
+  reference     String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  
+  @@index([transactionId])
+  @@index([status])
+}
+
+model AnalyticsSchedule {
+  id          String   @id @default(cuid())
+  developerId String
+  schedule    String   // daily, weekly, monthly
+  email       String
+  active      Boolean  @default(true)
+  lastRun     DateTime?
+  nextRun     DateTime
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  @@index([developerId])
+  @@index([nextRun])
 }

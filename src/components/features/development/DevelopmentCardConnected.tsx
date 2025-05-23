@@ -34,7 +34,7 @@ const DevelopmentCardConnected: React.FC<DevelopmentCardConnectedProps> = React.
             src={development.mainImage}
             alt={`Exterior view of ${development.name}`}
             fill
-            style={{ objectFit: "cover" }}
+            style={ objectFit: "cover" }
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
           />
         ) : (
@@ -49,12 +49,12 @@ const DevelopmentCardConnected: React.FC<DevelopmentCardConnectedProps> = React.
       <div className="p-4">
         <h3 className="text-lg font-semibold text-gray-900 group-hover:text-[#2B5273] transition-colors">{development.name}</h3>
         <p className="text-sm text-gray-600 mt-1">{formattedLocation}</p>
-        <p className="text-sm text-gray-700 mt-2 line-clamp-2">{development.shortDescription || ""}</p>
-        
+        <p className="text-sm text-gray-700 mt-2 line-clamp-2">{development.shortDescription || ""</p>
+
         {development.priceRange && (
           <p className="text-[#2B5273] font-semibold mt-2">{development.priceRange}</p>
         )}
-        
+
         {/* Display availability info */}
         <div className="mt-3 flex items-center text-sm text-gray-500">
           <span className="mr-2">

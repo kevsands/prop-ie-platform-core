@@ -11,18 +11,17 @@ interface SecurityFeatures {
   auditLoggingAvailable: boolean;
   apiProtectionAvailable: boolean;
   contentSecurityAvailable: boolean;
-  
+
   // Current MFA status
   mfaEnabled?: boolean;
   mfaMethods?: string[];
-  
+
   // Current session fingerprint status
   fingerprintValid?: boolean;
   fingerprintReason?: string;
-  
+
   // Function to check security level
-  checkSecurityLevel: (level: 'basic' | 'medium' | 'high') => Promise<boolean>;
-  
+  checkSecurityLevel: (level: 'basic' | 'medium' | 'high') => Promise<boolean>\n  );
   // Loading state
   loading: boolean;
   error: string | null;
@@ -36,28 +35,28 @@ interface SecurityFeatures {
 export function useSecurityFeatures(): SecurityFeatures {
   const [loading] = useState(false);
   const [error] = useState<string | null>(null);
-  
+
   // Mock feature availability
   const mfaAvailable = true;
   const sessionFingerprintingAvailable = true;
   const auditLoggingAvailable = true;
   const apiProtectionAvailable = true;
   const contentSecurityAvailable = true;
-  
+
   // Mock MFA status
   const mfaEnabled = true;
   const mfaMethods = ['totp', 'sms'];
-  
+
   // Mock session fingerprint status
   const fingerprintValid = true;
   const fingerprintReason = undefined;
-  
+
   // Mock function to check security level
   const checkSecurityLevel = async (level: 'basic' | 'medium' | 'high'): Promise<boolean> => {
-    console.log(`Checking security level: ${level}`);
+
     return true;
   };
-  
+
   return {
     // Feature availability
     mfaAvailable,
@@ -65,18 +64,18 @@ export function useSecurityFeatures(): SecurityFeatures {
     auditLoggingAvailable,
     apiProtectionAvailable,
     contentSecurityAvailable,
-    
+
     // MFA status
     mfaEnabled,
     mfaMethods,
-    
+
     // Session fingerprint status
     fingerprintValid,
     fingerprintReason,
-    
+
     // Functions
     checkSecurityLevel,
-    
+
     // Loading state
     loading,
     error

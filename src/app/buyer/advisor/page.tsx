@@ -1,3 +1,4 @@
+import React from 'react';
 'use client';
 
 import { useState } from 'react';
@@ -29,11 +30,11 @@ interface TimeSlot {
 }
 
 export default function AdvisorPage() {
-  const [selectedAdvisor, setSelectedAdvisor] = useState<Advisor | null>(null);
-  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
-  const [selectedTime, setSelectedTime] = useState<string | null>(null);
-  const [consultationType, setConsultationType] = useState<'video' | 'phone' | 'in-person'>('video');
-  
+  const [selectedAdvisorsetSelectedAdvisor] = useState<Advisor | null>(null);
+  const [selectedDatesetSelectedDate] = useState<Date | null>(null);
+  const [selectedTimesetSelectedTime] = useState<string | null>(null);
+  const [consultationTypesetConsultationType] = useState<'video' | 'phone' | 'in-person'>('video');
+
   // Mock advisors data
   const advisors: Advisor[] = [
     {
@@ -85,7 +86,7 @@ export default function AdvisorPage() {
       successStories: 180
     }
   ];
-  
+
   // Mock time slots
   const timeSlots: TimeSlot[] = [
     { id: '1', date: new Date(Date.now() + 24 * 60 * 60 * 1000), time: '09:00 AM', available: true },
@@ -95,18 +96,13 @@ export default function AdvisorPage() {
     { id: '5', date: new Date(Date.now() + 24 * 60 * 60 * 1000), time: '3:00 PM', available: true },
     { id: '6', date: new Date(Date.now() + 24 * 60 * 60 * 1000), time: '4:00 PM', available: true }
   ];
-  
+
   const handleBooking = () => {
     if (selectedAdvisor && selectedDate && selectedTime) {
-      console.log('Booking:', {
-        advisor: selectedAdvisor.name,
-        date: selectedDate,
-        time: selectedTime,
-        type: consultationType
-      });
+
     }
   };
-  
+
   return (
     <div className="flex-1 p-8">
       <div className="max-w-7xl mx-auto">
@@ -115,7 +111,7 @@ export default function AdvisorPage() {
           <h1 className="text-3xl font-bold text-gray-900">Expert Property Advisors</h1>
           <p className="text-gray-600 mt-1">Get personalized guidance from our team of property experts</p>
         </div>
-        
+
         {/* How it Works */}
         <div className="bg-blue-50 rounded-xl p-8 mb-8">
           <h2 className="text-xl font-semibold text-gray-900 mb-6">How Expert Consultation Works</h2>
@@ -150,10 +146,10 @@ export default function AdvisorPage() {
             </div>
           </div>
         </div>
-        
+
         {/* Advisors Grid */}
         <div className="grid md:grid-cols-3 gap-6 mb-8">
-          {advisors.map((advisor) => (
+          {advisors.map((advisor: any) => (
             <div 
               key={advisor.id}
               className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-lg transition-all cursor-pointer"
@@ -178,21 +174,21 @@ export default function AdvisorPage() {
                     </div>
                   </div>
                 </div>
-                
+
                 <p className="text-gray-700 mb-4">{advisor.bio}</p>
-                
+
                 <div className="space-y-3 text-sm">
                   <div>
                     <p className="font-medium text-gray-900 mb-1">Specializations:</p>
                     <div className="flex flex-wrap gap-2">
-                      {advisor.specialization.map((spec, index) => (
+                      {advisor.specialization.map((specindex: any) => (
                         <span key={index} className="px-2 py-1 bg-blue-100 text-blue-700 rounded-full text-xs">
                           {spec}
                         </span>
                       ))}
                     </div>
                   </div>
-                  
+
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       <Briefcase className="h-4 w-4 text-gray-500" />
@@ -203,13 +199,13 @@ export default function AdvisorPage() {
                       <span className="text-gray-600">{advisor.successStories} success stories</span>
                     </div>
                   </div>
-                  
+
                   <div className="flex items-center gap-2">
                     <Clock className="h-4 w-4 text-gray-500" />
                     <span className="text-gray-600">{advisor.responseTime}</span>
                   </div>
                 </div>
-                
+
                 <button className="w-full mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
                   Book Consultation
                 </button>
@@ -217,7 +213,7 @@ export default function AdvisorPage() {
             </div>
           ))}
         </div>
-        
+
         {/* Booking Modal */}
         {selectedAdvisor && (
           <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
@@ -235,7 +231,7 @@ export default function AdvisorPage() {
                   </button>
                 </div>
               </div>
-              
+
               <div className="p-6">
                 {/* Consultation Type */}
                 <div className="mb-6">
@@ -276,12 +272,12 @@ export default function AdvisorPage() {
                     </button>
                   </div>
                 </div>
-                
+
                 {/* Date Selection */}
                 <div className="mb-6">
                   <h3 className="text-lg font-semibold text-gray-900 mb-4">Select Date</h3>
                   <div className="grid grid-cols-7 gap-2">
-                    {[...Array(7)].map((_, index) => {
+                    {[...Array(7)].map((_index: any) => {
                       const date = new Date(Date.now() + (index + 1) * 24 * 60 * 60 * 1000);
                       return (
                         <button
@@ -300,12 +296,12 @@ export default function AdvisorPage() {
                     })}
                   </div>
                 </div>
-                
+
                 {/* Time Selection */}
                 <div className="mb-6">
                   <h3 className="text-lg font-semibold text-gray-900 mb-4">Available Times</h3>
                   <div className="grid grid-cols-3 gap-3">
-                    {timeSlots.map((slot) => (
+                    {timeSlots.map((slot: any) => (
                       <button
                         key={slot.id}
                         onClick={() => setSelectedTime(slot.time)}
@@ -323,7 +319,7 @@ export default function AdvisorPage() {
                     ))}
                   </div>
                 </div>
-                
+
                 {/* Booking Summary */}
                 {selectedDate && selectedTime && (
                   <div className="bg-gray-50 rounded-lg p-4 mb-6">
@@ -344,7 +340,7 @@ export default function AdvisorPage() {
                     </div>
                   </div>
                 )}
-                
+
                 <button
                   onClick={handleBooking}
                   disabled={!selectedDate || !selectedTime}

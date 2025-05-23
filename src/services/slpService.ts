@@ -232,22 +232,22 @@ export class SLPService {
     totalComponents: number;
     approvedComponents: number;
     progressPercentage: number;
-    componentsbyStatus: Record<ComponentStatus, number>;
+    componentsbyStatus: Record<ComponentStatus, number>\n  );
   }> {
     try {
       const components = await this.getComponents(projectId);
-      
+
       const totalComponents = components.length;
       const approvedComponents = components.filter(
         c => c.status === ComponentStatus.APPROVED
       ).length;
-      
-      const componentsByStatus = components.reduce((acc, component) => {
+
+      const componentsByStatus = components.reduce((acccomponent: any) => {
         acc[component.status] = (acc[component.status] || 0) + 1;
         return acc;
       }, {} as Record<ComponentStatus, number>);
 
-      const progressPercentage = totalComponents > 0 
+      const progressPercentage = totalComponents> 0 
         ? Math.round((approvedComponents / totalComponents) * 100)
         : 0;
 

@@ -32,38 +32,38 @@ interface FilterState {
 const generateMockSales = (): SalesRecord[] => {
   const statuses = ['Inquiry', 'Viewing Booked', 'Reserved', 'Sale Agreed', 'Contracts Signed', 'Closed'];
   const nextActions = ['Follow up call', 'Arrange viewing', 'Collect booking deposit', 'Send contracts', 'Chase signed contracts', 'Arrange closing'];
-  
+
   const sales: SalesRecord[] = [];
-  
+
   // Generate 30 sales records
   for (let i = 1; i <= 30; i++) {
     // Determine status
     const statusIndex = Math.floor(Math.random() * statuses.length);
     const status = statuses[statusIndex];
-    
+
     // Determine next action based on status
     let nextActionIndex = statusIndex;
     if (status !== 'Closed') {
       nextActionIndex = Math.min(statusIndex + 1, nextActions.length - 1);
     }
     const nextAction = status === 'Closed' ? 'None' : nextActions[nextActionIndex];
-    
+
     // Generate due date for next action (between now and 30 days from now)
     const daysToAdd = Math.floor(Math.random() * 30);
     const nextActionDue = new Date();
     nextActionDue.setDate(nextActionDue.getDate() + daysToAdd);
-    
+
     // Generate unit number (01-97)
     const unitNum = Math.floor(Math.random() * 97) + 1;
     const unitNumber = unitNum <= 9 ? `0${unitNum}` : `${unitNum}`;
-    
+
     // Generate price (250k-450k)
     const price = 250000 + Math.floor(Math.random() * 200000);
-    
+
     // Determine deposits based on status
     const bookingDeposit = status === 'Inquiry' || status === 'Viewing Booked' ? 0 : Math.round(price * 0.015);
     const contractDeposit = status === 'Inquiry' || status === 'Viewing Booked' || status === 'Reserved' ? 0 : Math.round(price * 0.045);
-    
+
     // Generate customer details
     const firstNames = ['John', 'Mary', 'James', 'Sarah', 'Michael', 'Emma', 'David', 'Laura'];
     const lastNames = ['Murphy', 'Kelly', 'O\'Sullivan', 'Walsh', 'Smith', 'Jones', 'Ryan', 'O\'Brien'];
@@ -72,7 +72,7 @@ const generateMockSales = (): SalesRecord[] => {
     const customer = `${firstName} ${lastName}`;
     const email = `${firstName.toLowerCase()}.${lastName.toLowerCase()}@example.com`;
     const phone = `+353 ${Math.floor(Math.random() * 90) + 10} ${Math.floor(Math.random() * 9000000) + 1000000}`;
-    
+
     sales.push({
       id: `sale-${i}`,
       unitNumber,
@@ -87,39 +87,39 @@ const generateMockSales = (): SalesRecord[] => {
       nextActionDue
     });
   }
-  
+
   return sales;
 };
 
 export default function FitzgeraldGardensSales() {
-  const [sales, setSales] = useState<SalesRecord[]>([]);
-  const [filteredSales, setFilteredSales] = useState<SalesRecord[]>([]);
-  const [filters, setFilters] = useState<FilterState>({
+  const [salessetSales] = useState<SalesRecord[]>([]);
+  const [filteredSalessetFilteredSales] = useState<SalesRecord[]>([]);
+  const [filterssetFilters] = useState<FilterState>({
     status: 'all',
     nextActionDue: 'all',
     depositStatus: 'all',
     unitNumber: ''
   });
-  
+
   useEffect(() => {
     // In a real app, this would fetch from API
     const mockSales = generateMockSales();
     setSales(mockSales);
     setFilteredSales(mockSales);
   }, []);
-  
+
   useEffect(() => {
     // Apply filters
     let result = [...sales];
-    
+
     if (filters.status !== 'all') {
       result = result.filter(sale => sale.status === filters.status);
     }
-    
+
     if (filters.nextActionDue !== 'all') {
       const now = new Date();
       if (filters.nextActionDue === 'overdue') {
-        result = result.filter(sale => sale.nextActionDue < now);
+        result = result.filter(sale => sale.nextActionDue <now);
       } else if (filters.nextActionDue === 'today') {
         result = result.filter(sale => {
           const dueDate = new Date(sale.nextActionDue);
@@ -129,30 +129,30 @@ export default function FitzgeraldGardensSales() {
         const weekLater = new Date();
         weekLater.setDate(now.getDate() + 7);
         result = result.filter(sale => {
-          return sale.nextActionDue >= now && sale.nextActionDue <= weekLater;
+          return sale.nextActionDue>= now && sale.nextActionDue <= weekLater;
         });
       }
     }
-    
+
     if (filters.depositStatus !== 'all') {
       if (filters.depositStatus === 'booking-received') {
-        result = result.filter(sale => sale.bookingDeposit > 0);
+        result = result.filter(sale => sale.bookingDeposit> 0);
       } else if (filters.depositStatus === 'contract-received') {
-        result = result.filter(sale => sale.contractDeposit > 0);
+        result = result.filter(sale => sale.contractDeposit> 0);
       } else if (filters.depositStatus === 'no-deposits') {
         result = result.filter(sale => sale.bookingDeposit === 0 && sale.contractDeposit === 0);
       }
     }
-    
+
     if (filters.unitNumber) {
       result = result.filter(sale => 
         sale.unitNumber.toLowerCase().includes(filters.unitNumber.toLowerCase())
       );
     }
-    
+
     setFilteredSales(result);
-  }, [filters, sales]);
-  
+  }, [filterssales]);
+
   const handleFilterChange = (e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>) => {
     const { name, value } = e.target;
     setFilters({
@@ -160,7 +160,7 @@ export default function FitzgeraldGardensSales() {
       [name]: value
     });
   };
-  
+
   const exportToCSV = () => {
     // Create CSV content
     const headers = ['Unit', 'Customer', 'Email', 'Phone', 'Status', 'Booking Deposit', 'Contract Deposit', 'Price', 'Next Action', 'Next Action Due'];
@@ -176,12 +176,12 @@ export default function FitzgeraldGardensSales() {
       sale.nextAction,
       sale.nextActionDue.toISOString().split('T')[0]
     ]);
-    
+
     const csvContent = [
       headers.join(','),
       ...rows.map(row => row.join(','))
     ].join('\n');
-    
+
     // Create download link
     const blob = new Blob([csvContent], { type: 'text/csv' });
     const url = URL.createObjectURL(blob);
@@ -191,32 +191,32 @@ export default function FitzgeraldGardensSales() {
     a.click();
     URL.revokeObjectURL(url);
   };
-  
+
   // Format currency helper function
   const formatCurrency = (amount: number) => {
     return `€${amount.toLocaleString()}`;
   };
-  
+
   // Format date helper function
   const formatDate = (date: Date) => {
     return date.toLocaleDateString('en-IE', { year: 'numeric', month: 'short', day: 'numeric' });
   };
-  
+
   // Get style for action due date
   const getActionDueStyle = (date: Date) => {
     const now = new Date();
     const timeDiff = date.getTime() - now.getTime();
     const daysDiff = Math.floor(timeDiff / (1000 * 3600 * 24));
-    
-    if (daysDiff < 0) {
+
+    if (daysDiff <0) {
       return 'text-red-600 font-bold';
-    } else if (daysDiff < 3) {
+    } else if (daysDiff <3) {
       return 'text-orange-500 font-bold';
     } else {
       return 'text-gray-700';
     }
   };
-  
+
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
       <div className="flex items-center justify-between mb-8">
@@ -242,7 +242,7 @@ export default function FitzgeraldGardensSales() {
           </Link>
         </div>
       </div>
-      
+
       {/* Filters */}
       <div className="bg-white rounded-lg shadow-md p-6 mb-8">
         <div className="flex items-center mb-4">
@@ -253,7 +253,7 @@ export default function FitzgeraldGardensSales() {
           </span>
           <h2 className="text-lg font-semibold">Filter Sales</h2>
         </div>
-        
+
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Status</label>
@@ -272,7 +272,7 @@ export default function FitzgeraldGardensSales() {
               <option value="Closed">Closed</option>
             </select>
           </div>
-          
+
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Next Action Due</label>
             <select
@@ -287,7 +287,7 @@ export default function FitzgeraldGardensSales() {
               <option value="week">Due This Week</option>
             </select>
           </div>
-          
+
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Deposit Status</label>
             <select
@@ -302,7 +302,7 @@ export default function FitzgeraldGardensSales() {
               <option value="no-deposits">No Deposits Received</option>
             </select>
           </div>
-          
+
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Unit Number</label>
             <input
@@ -316,7 +316,7 @@ export default function FitzgeraldGardensSales() {
           </div>
         </div>
       </div>
-      
+
       {/* Sales Table */}
       <div className="bg-white rounded-lg shadow-md overflow-hidden">
         <div className="overflow-x-auto">
@@ -333,7 +333,7 @@ export default function FitzgeraldGardensSales() {
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
-              {filteredSales.map((sale) => (
+              {filteredSales.map((sale: any) => (
                 <tr key={sale.id}>
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                     {sale.unitNumber}
@@ -353,14 +353,14 @@ export default function FitzgeraldGardensSales() {
                     </span>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm">
-                    {sale.bookingDeposit > 0 ? (
+                    {sale.bookingDeposit> 0 ? (
                       <span className="text-green-600 font-medium">{formatCurrency(sale.bookingDeposit)}</span>
                     ) : (
                       <span className="text-gray-400">Not Received</span>
                     )}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm">
-                    {sale.contractDeposit > 0 ? (
+                    {sale.contractDeposit> 0 ? (
                       <span className="text-green-600 font-medium">{formatCurrency(sale.contractDeposit)}</span>
                     ) : (
                       <span className="text-gray-400">Not Received</span>

@@ -95,7 +95,7 @@ export default function DashboardPage() {
             markAlertAsRead={markAlertAsRead}
           />
         </div>
-        
+
         {/* Add more dashboard widgets as needed */}
       </div>
     </div>

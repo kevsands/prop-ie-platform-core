@@ -1,3 +1,4 @@
+import React from 'react';
 'use client';
 
 import { useAuth } from '@/context/AuthContext';
@@ -22,7 +23,7 @@ export default function TestAuthPage() {
   return (
     <div className="container mx-auto py-8 px-4">
       <h1 className="text-3xl font-bold mb-8">Authentication Test Page</h1>
-      
+
       <div className="grid gap-6 md:grid-cols-2">
         {/* Auth Status Card */}
         <Card>
@@ -42,7 +43,7 @@ export default function TestAuthPage() {
                   {isAuthenticated ? 'Authenticated' : 'Not Authenticated'}
                 </span>
               </div>
-              
+
               {user && (
                 <div className="space-y-2 mt-4 p-4 bg-gray-50 rounded-lg">
                   <p><strong>Email:</strong> {user.email}</p>
@@ -65,7 +66,7 @@ export default function TestAuthPage() {
             {!isAuthenticated ? (
               <div className="space-y-4">
                 <p className="text-sm text-gray-600">Click a test account to login:</p>
-                
+
                 <div className="space-y-2">
                   <Button 
                     onClick={() => login('buyer@example.com', 'test123')}
@@ -74,7 +75,7 @@ export default function TestAuthPage() {
                     <Info className="mr-2 h-4 w-4" />
                     Login as Buyer
                   </Button>
-                  
+
                   <Button 
                     onClick={() => login('developer@example.com', 'test123')}
                     className="w-full justify-start"
@@ -82,7 +83,7 @@ export default function TestAuthPage() {
                     <Info className="mr-2 h-4 w-4" />
                     Login as Developer
                   </Button>
-                  
+
                   <Button 
                     onClick={() => login('agent@example.com', 'test123')}
                     className="w-full justify-start"
@@ -90,7 +91,7 @@ export default function TestAuthPage() {
                     <Info className="mr-2 h-4 w-4" />
                     Login as Agent
                   </Button>
-                  
+
                   <Button 
                     onClick={() => login('solicitor@example.com', 'test123')}
                     className="w-full justify-start"
@@ -98,7 +99,7 @@ export default function TestAuthPage() {
                     <Info className="mr-2 h-4 w-4" />
                     Login as Solicitor
                   </Button>
-                  
+
                   <Button 
                     onClick={() => login('admin@example.com', 'test123')}
                     className="w-full justify-start"
@@ -113,7 +114,7 @@ export default function TestAuthPage() {
                 <p className="text-sm text-gray-600">
                   You are logged in as <strong>{user?.role}</strong>
                 </p>
-                
+
                 <Button 
                   onClick={logout}
                   variant="destructive"
@@ -121,7 +122,7 @@ export default function TestAuthPage() {
                 >
                   Logout
                 </Button>
-                
+
                 <div className="pt-4 space-y-2">
                   <p className="text-sm font-medium">Test Protected Routes:</p>
                   <div className="space-y-2">
@@ -130,19 +131,19 @@ export default function TestAuthPage() {
                         → Buyer Dashboard (buyer only)
                       </Button>
                     </a>
-                    
+
                     <a href="/developer/dashboard" className="block">
                       <Button variant="outline" className="w-full justify-start">
                         → Developer Dashboard (developer only)
                       </Button>
                     </a>
-                    
+
                     <a href="/project-management" className="block">
                       <Button variant="outline" className="w-full justify-start">
                         → Project Management (developer/admin)
                       </Button>
                     </a>
-                    
+
                     <a href="/admin" className="block">
                       <Button variant="outline" className="w-full justify-start">
                         → Admin Panel (admin only)
@@ -173,7 +174,7 @@ export default function TestAuthPage() {
                 <li>Role-based routes check user permissions</li>
               </ol>
             </div>
-            
+
             <div>
               <h3 className="font-medium mb-2">Test Scenarios:</h3>
               <ul className="list-disc list-inside space-y-1 text-gray-600">

@@ -9,12 +9,12 @@ import {
 } from 'lucide-react';
 
 export const HeroWithSearch = () => {
-  const [searchQuery, setSearchQuery] = useState('');
-  const [searchFocused, setSearchFocused] = useState(false);
-  const [locationQuery, setLocationQuery] = useState('');
-  const [priceRange, setPriceRange] = useState('');
-  const [bedrooms, setBedrooms] = useState('');
-  
+  const [searchQuerysetSearchQuery] = useState('');
+  const [searchFocusedsetSearchFocused] = useState(false);
+  const [locationQuerysetLocationQuery] = useState('');
+  const [priceRangesetPriceRange] = useState('');
+  const [bedroomssetBedrooms] = useState('');
+
   return (
     <>
       {/* Hero Section */}
@@ -31,7 +31,7 @@ export const HeroWithSearch = () => {
           />
           <div className="absolute inset-0 bg-gradient-to-b from-black/40 to-black/60" />
         </div>
-        
+
         {/* Hero Content */}
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center">
           <div className="text-white max-w-2xl">
@@ -57,7 +57,7 @@ export const HeroWithSearch = () => {
             </div>
           </div>
         </div>
-        
+
         {/* Quick Stats */}
         <div className="absolute bottom-0 left-0 right-0 bg-black/80 backdrop-blur-sm">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
@@ -82,7 +82,7 @@ export const HeroWithSearch = () => {
           </div>
         </div>
       </section>
-      
+
       {/* AI Search Banner */}
       <section className="bg-white border-b border-gray-200 sticky top-16 z-40">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
@@ -97,12 +97,12 @@ export const HeroWithSearch = () => {
                   placeholder="Search by area, development, or ask AI anything..."
                   className="w-full px-5 py-3 pl-12 pr-32 rounded-full border-2 border-gray-200 focus:border-[#2B5273] focus:outline-none focus:ring-2 focus:ring-[#2B5273]/20 transition-all"
                   value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onChange={(e: any) => setSearchQuery(e.target.value)}
                   onFocus={() => setSearchFocused(true)}
                   onBlur={() => setTimeout(() => setSearchFocused(false), 200)}
                 />
                 <Search className="absolute left-4 h-5 w-5 text-gray-400" />
-                
+
                 {/* Input Methods */}
                 <div className="absolute right-20 flex items-center space-x-2">
                   <button className="p-2 hover:bg-gray-100 rounded-full transition-colors">
@@ -112,14 +112,14 @@ export const HeroWithSearch = () => {
                     <Camera className="h-4 w-4 text-gray-500" />
                   </button>
                 </div>
-                
+
                 {/* AI Button */}
                 <button className="absolute right-2 px-4 py-2 bg-gradient-to-r from-indigo-500 to-purple-600 text-white text-sm font-medium rounded-full hover:shadow-lg transition-all flex items-center space-x-1">
                   <Sparkles className="h-4 w-4" />
                   <span>AI</span>
                 </button>
               </div>
-              
+
               {/* Quick Search Suggestions */}
               {searchFocused && (
                 <div className="absolute top-full mt-2 w-full bg-white rounded-2xl shadow-2xl border border-gray-100 z-50">
@@ -159,13 +159,13 @@ export const HeroWithSearch = () => {
                 </div>
               )}
             </div>
-            
+
             {/* Quick Filters */}
             <div className="hidden md:flex items-center space-x-3">
               <select 
                 className="px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:border-[#2B5273]"
                 value={priceRange}
-                onChange={(e) => setPriceRange(e.target.value)}
+                onChange={(e: any) => setPriceRange(e.target.value)}
               >
                 <option value="">Price Range</option>
                 <option value="0-300000">Up to €300k</option>
@@ -173,11 +173,11 @@ export const HeroWithSearch = () => {
                 <option value="500000-750000">€500k - €750k</option>
                 <option value="750000+">€750k+</option>
               </select>
-              
+
               <select 
                 className="px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:border-[#2B5273]"
                 value={bedrooms}
-                onChange={(e) => setBedrooms(e.target.value)}
+                onChange={(e: any) => setBedrooms(e.target.value)}
               >
                 <option value="">Bedrooms</option>
                 <option value="1">1 Bed</option>
@@ -185,19 +185,19 @@ export const HeroWithSearch = () => {
                 <option value="3">3 Beds</option>
                 <option value="4+">4+ Beds</option>
               </select>
-              
+
               <button className="px-4 py-2 bg-[#2B5273] text-white rounded-lg hover:bg-[#1e3347] transition-colors flex items-center space-x-2">
                 <Search className="h-4 w-4" />
                 <span>Search</span>
               </button>
             </div>
-            
+
             {/* Advanced Filters */}
             <button className="p-2 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
               <Filter className="h-5 w-5 text-gray-600" />
             </button>
           </div>
-          
+
           {/* Quick Links */}
           <div className="flex items-center space-x-4 mt-3 text-sm">
             <Link href="/first-time-buyers" className="text-[#2B5273] hover:underline flex items-center">

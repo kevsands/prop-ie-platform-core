@@ -34,21 +34,7 @@ interface User {
  * Example 1: Enhanced Cache Usage
  * Demonstrates the enhanced cache with deduplication and size limiting
  */
-export function EnhancedCacheExample() {
-  const [data, setData] = useState<Property[] | null>(null);
-  const [loading, setLoading] = useState(false);
-  const [cacheStats, setCacheStats] = useState<any>(null);
-  
-  // Function to fetch data with caching
-  const fetchProperties = async () => {
-    setLoading(true);
-    try {
-      // Use the cache's getOrFetch to avoid redundant network requests
-      const result = await apiCache.getOrFetch<Property[]>(
-        'properties:all',
-        async () => {
-          // Simulate API call
-          const response = await fetch('/api/properties');
+export async function EnhancedCacheExamplefetch('/api/properties');
           if (!response.ok) throw new Error('Network error');
           return response.json();
         },
@@ -87,13 +73,13 @@ export function EnhancedCacheExample() {
       {cacheStats && (
         <div>
           <h3>Cache Stats</h3>
-          <pre>{JSON.stringify(cacheStats, null, 2)}</pre>
+          <pre>{JSON.stringify(cacheStats, null2)}</pre>
         </div>
       )}
       
       {data && (
         <ul>
-          {data.map(property => (
+          {data.map(property: any => (
             <li key={property.id}>
               {property.name} - ${property.price} ({property.status})
             </li>
@@ -132,7 +118,7 @@ export function ReactQueryExample() {
       });
     },
     // Use onMutate for optimistic updates
-    onMutate: async (newProperty) => {
+    onMutate: async (newProperty: any) => {
       // Cancel any outgoing refetches
       await queryClient.cancelQueries({ queryKey: [QUERY_KEYS.PROPERTIES] });
       
@@ -140,13 +126,13 @@ export function ReactQueryExample() {
       const previousProperties = helpers.getCurrentData();
       
       // Optimistically update to the new value
-      helpers.updateItem('id', newProperty.id, newProperty);
+      helpers.updateItem('id', newProperty.id, newProperty: any);
       
       // Return the snapshot
       return { previousProperties };
     },
     // If an error occurs, revert to the previous state
-    onError: (err, newProperty, context) => {
+    onError: (err: any, newProperty: any, context: any) => {
       helpers.resetToPreviousState(context?.previousProperties);
     },
     // Always refetch after error or success
@@ -169,7 +155,7 @@ export function ReactQueryExample() {
       
       {data && (
         <ul>
-          {data.map(property => (
+          {data.map(property: any => (
             <li key={property.id}>
               {property.name} - ${property.price} ({property.status})
               {property.status !== 'sold' && (
@@ -193,9 +179,9 @@ export function ReactQueryExample() {
  * Demonstrates request deduplication
  */
 export function RequestDeduplicationExample() {
-  const [users, setUsers] = useState<User[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [stats, setStats] = useState({ calls: 0, deduped: 0 });
+  const [userssetUsers] = useState<User[]>([]);
+  const [loadingsetLoading] = useState(false);
+  const [statssetStats] = useState({ calls: 0, deduped: 0 });
   
   // Wrapped fetch function with deduplication
   const fetchUserById = deduplicate(async (id: string): Promise<User> => {
@@ -246,9 +232,9 @@ export function RequestDeduplicationExample() {
         <p>Deduplicated requests: {stats.deduped}</p>
       </div>
       
-      {users.length > 0 && (
+      {users.length> 0 && (
         <ul>
-          {users.map((user, index) => (
+          {users.map((userindex: any) => (
             <li key={index}>
               {user.name} ({user.email})
             </li>
@@ -274,7 +260,7 @@ export function RealTimeSubscriptionExample() {
   } = useSubscription<Property>({
     topic: 'property:status:updates',
     // Only show available properties
-    filter: (property) => property.status === 'available',
+    filter: (property: any) => property.status === 'available',
     // Update React Query cache when new data arrives
     queryKeys: [[QUERY_KEYS.PROPERTIES]],
     // Invalidate cache tags
@@ -297,7 +283,7 @@ export function RealTimeSubscriptionExample() {
       {propertyUpdates && (
         <div>
           <h3>Latest Update</h3>
-          <pre>{JSON.stringify(propertyUpdates, null, 2)}</pre>
+          <pre>{JSON.stringify(propertyUpdates, null2)}</pre>
         </div>
       )}
     </div>
@@ -314,7 +300,7 @@ export function ComprehensiveExample() {
   );
   
   // Track requests
-  const [requestCount, setRequestCount] = useState(0);
+  const [requestCountsetRequestCount] = useState(0);
   
   // Step 1: Fetch user data with cache
   const { data: user } = useQuery({
@@ -364,9 +350,9 @@ export function ComprehensiveExample() {
     queryKeys: [[QUERY_KEYS.PROPERTIES, user?.id]],
     cacheTags: [CACHE_TAGS.PROPERTIES],
     batchUpdates: true,
-    filter: (update) => {
+    filter: (update: any) => {
       // Only handle updates for properties we're showing
-      return properties?.some(p => p.id === update.id) || false;
+      return properties?.some(p: any => p.id === update.id) || false;
     }
   });
   
@@ -388,7 +374,7 @@ export function ComprehensiveExample() {
         <p>Loading properties...</p>
       ) : (
         <ul>
-          {properties?.map(property => (
+          {properties?.map(property: any => (
             <li key={property.id}>
               {property.name} - ${property.price} ({property.status})
             </li>

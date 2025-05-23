@@ -1,0 +1,274 @@
+import { prisma } from '@/lib/db'
+import { addDays, subDays } from 'date-fns'
+
+// Data retention periods in days
+export const RETENTION_PERIODS = {
+  // User data
+  INACTIVE_USER: 365 * 2, // 2 years
+  DELETED_USER: 30, // 30 days after deletion request
+
+  // Transaction data
+  COMPLETED_TRANSACTION: 365 * 7, // 7 years for financial records
+  CANCELLED_TRANSACTION: 365, // 1 year
+
+  // Documents
+  KYC_DOCUMENTS: 365 * 5, // 5 years
+  CONTRACTS: 365 * 7, // 7 years
+  GENERAL_DOCUMENTS: 365 * 3, // 3 years
+
+  // Logs and metrics
+  ACCESS_LOGS: 90, // 90 days
+  ERROR_LOGS: 180, // 180 days
+  PERFORMANCE_METRICS: 365, // 1 year
+
+  // Communications
+  EMAILS: 365 * 2, // 2 years
+  NOTIFICATIONS: 90, // 90 days
+  CHAT_MESSAGES: 365, // 1 year
+}
+
+export interface DataRetentionResult {
+  type: string
+  count: number
+  success: boolean
+  error?: string
+}
+
+export class DataRetentionService {
+  async runRetentionCleanup(): Promise<DataRetentionResult[]> {
+    const results: DataRetentionResult[] = []
+
+    try {
+      // Clean up inactive users
+      results.push(await this.cleanupInactiveUsers())
+
+      // Clean up old transactions
+      results.push(await this.cleanupOldTransactions())
+
+      // Clean up expired documents
+      results.push(await this.cleanupExpiredDocuments())
+
+      // Clean up old logs
+      results.push(await this.cleanupOldLogs())
+
+      // Clean up old notifications
+      results.push(await this.cleanupOldNotifications())
+
+    } catch (error) {
+      }
+
+    return results
+  }
+
+  private async cleanupInactiveUsers(): Promise<DataRetentionResult> {
+    try {
+      const cutoffDate = subDays(new Date(), RETENTION_PERIODS.INACTIVE_USER)
+
+      // Find inactive users
+      const inactiveUsers = await prisma.user.findMany({
+        where: {
+          lastActiveAt: {
+            lt: cutoffDate},
+          deletedAt: null},
+        select: { id: true }})
+
+      // Anonymize user data instead of deleting
+      for (const user of inactiveUsers) {
+        await this.anonymizeUser(user.id)
+      }
+
+      return {
+        type: 'inactive_users',
+        count: inactiveUsers.length,
+        success: true}
+    } catch (error) {
+      return {
+        type: 'inactive_users',
+        count: 0,
+        success: false,
+        error: error instanceof Error ? error.message : 'Unknown error'}
+    }
+  }
+
+  private async anonymizeUser(userId: string) {
+    await prisma.user.update({
+      where: { id: userId },
+      data: {
+        email: `anonymized_${userId}@deleted.local`,
+        name: 'Deleted User',
+        phone: null,
+        address: null,
+        // Keep ID for referential integrity
+        anonymizedAt: new Date()}})
+  }
+
+  private async cleanupOldTransactions(): Promise<DataRetentionResult> {
+    try {
+      const completedCutoff = subDays(new Date(), RETENTION_PERIODS.COMPLETED_TRANSACTION)
+      const cancelledCutoff = subDays(new Date(), RETENTION_PERIODS.CANCELLED_TRANSACTION)
+
+      // Archive old completed transactions
+      const archivedTransactions = await prisma.transaction.updateMany({
+        where: {
+          OR: [
+            {
+              status: 'COMPLETED',
+              completedAt: {
+                lt: completedCutoff},
+              archived: false},
+            {
+              status: 'CANCELLED',
+              updatedAt: {
+                lt: cancelledCutoff},
+              archived: false}]},
+        data: {
+          archived: true,
+          archivedAt: new Date()}})
+
+      return {
+        type: 'old_transactions',
+        count: archivedTransactions.count,
+        success: true}
+    } catch (error) {
+      return {
+        type: 'old_transactions',
+        count: 0,
+        success: false,
+        error: error instanceof Error ? error.message : 'Unknown error'}
+    }
+  }
+
+  private async cleanupExpiredDocuments(): Promise<DataRetentionResult> {
+    try {
+      const cutoffDates = {
+        kyc: subDays(new Date(), RETENTION_PERIODS.KYC_DOCUMENTS),
+        contract: subDays(new Date(), RETENTION_PERIODS.CONTRACTS),
+        general: subDays(new Date(), RETENTION_PERIODS.GENERAL_DOCUMENTS)}
+
+      // Mark documents for deletion
+      const deletedDocs = await prisma.document.updateMany({
+        where: {
+          OR: [
+            {
+              type: 'KYC',
+              createdAt: { lt: cutoffDates.kyc },
+              markedForDeletion: false},
+            {
+              type: 'CONTRACT',
+              createdAt: { lt: cutoffDates.contract },
+              markedForDeletion: false},
+            {
+              type: { notIn: ['KYC', 'CONTRACT'] },
+              createdAt: { lt: cutoffDates.general },
+              markedForDeletion: false}]},
+        data: {
+          markedForDeletion: true,
+          markedForDeletionAt: new Date()}})
+
+      return {
+        type: 'expired_documents',
+        count: deletedDocs.count,
+        success: true}
+    } catch (error) {
+      return {
+        type: 'expired_documents',
+        count: 0,
+        success: false,
+        error: error instanceof Error ? error.message : 'Unknown error'}
+    }
+  }
+
+  private async cleanupOldLogs(): Promise<DataRetentionResult> {
+    try {
+      const accessLogCutoff = subDays(new Date(), RETENTION_PERIODS.ACCESS_LOGS)
+      const errorLogCutoff = subDays(new Date(), RETENTION_PERIODS.ERROR_LOGS)
+
+      // Clean up old audit logs
+      const deletedLogs = await prisma.auditLog.deleteMany({
+        where: {
+          OR: [
+            {
+              type: 'ACCESS',
+              createdAt: { lt: accessLogCutoff }},
+            {
+              type: 'ERROR',
+              createdAt: { lt: errorLogCutoff }}]}})
+
+      return {
+        type: 'old_logs',
+        count: deletedLogs.count,
+        success: true}
+    } catch (error) {
+      return {
+        type: 'old_logs',
+        count: 0,
+        success: false,
+        error: error instanceof Error ? error.message : 'Unknown error'}
+    }
+  }
+
+  private async cleanupOldNotifications(): Promise<DataRetentionResult> {
+    try {
+      const cutoffDate = subDays(new Date(), RETENTION_PERIODS.NOTIFICATIONS)
+
+      const deletedNotifications = await prisma.notification.deleteMany({
+        where: {
+          createdAt: { lt: cutoffDate },
+          read: true}})
+
+      return {
+        type: 'old_notifications',
+        count: deletedNotifications.count,
+        success: true}
+    } catch (error) {
+      return {
+        type: 'old_notifications',
+        count: 0,
+        success: false,
+        error: error instanceof Error ? error.message : 'Unknown error'}
+    }
+  }
+
+  async exportUserData(userId: string): Promise<Record<string, any>> {
+    // GDPR data export functionality
+    const userData = await prisma.user.findUnique({
+      where: { id: userId },
+      include: {
+        transactions: true,
+        documents: true,
+        properties: true,
+        notifications: true,
+        auditLogs: {
+          take: 1000}}})
+
+    return {
+      exportDate: new Date().toISOString(),
+      userData}
+  }
+
+  async deleteUserData(userId: string): Promise<boolean> {
+    // GDPR right to be forgotten
+    try {
+      await prisma.$transaction(async (tx) => {
+        // Mark user for deletion
+        await tx.user.update({
+          where: { id: userId },
+          data: {
+            deletedAt: new Date(),
+            deletionRequestedAt: new Date()}})
+
+        // Schedule actual deletion after retention period
+        await tx.deletionRequest.create({
+          data: {
+            userId,
+            requestedAt: new Date(),
+            scheduledFor: addDays(new Date(), RETENTION_PERIODS.DELETED_USER),
+            type: 'USER_DELETION'}})
+      })
+
+      return true
+    } catch (error) {
+      return false
+    }
+  }
+}

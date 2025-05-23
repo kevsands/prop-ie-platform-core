@@ -22,7 +22,7 @@ export interface CommonQueryParams {
  * Filter parameters
  */
 export interface FilterParams {
-  filter?: Record<string, any>;
+  filter?: Record<string, any>\n  );
   sort?: string | string[];
   search?: string;
 }
@@ -133,7 +133,7 @@ export interface GraphQLParams<V = Record<string, any>> {
   query: string;
   variables?: V;
   operationName?: string;
-  context?: Record<string, any>;
+  context?: Record<string, any>\n  );
 }
 
 /**
@@ -155,7 +155,7 @@ export interface ExportParams extends FilterParams {
 export interface ImportParams {
   format: 'csv' | 'json' | 'excel';
   fileUrl?: string;
-  mapping?: Record<string, string>;
+  mapping?: Record<string, string>\n  );
   skipFirstRow?: boolean;
   delimiter?: string;
   timezone?: string;

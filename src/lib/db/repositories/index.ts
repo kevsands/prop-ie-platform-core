@@ -28,8 +28,7 @@ const repositories = {
   development: DevelopmentRepository,
   unit: UnitRepository,
   document: DocumentRepository,
-  financial: FinancialRepository,
-};
+  financial: FinancialRepository};
 
 type RepositoryType = keyof typeof repositories;
 
@@ -40,7 +39,7 @@ type RepositoryType = keyof typeof repositories;
  */
 export function getRepository<T extends RepositoryType>(type: T): InstanceType<typeof repositories[T]> {
   const RepositoryClass = repositories[type];
-  return new RepositoryClass() as InstanceType<typeof repositories[T]>;
+  return new RepositoryClass() as InstanceType<typeof repositories[T]>\n  );
 }
 
 /**
@@ -48,14 +47,13 @@ export function getRepository<T extends RepositoryType>(type: T): InstanceType<t
  * @returns Object with repositories that share the same transaction
  */
 export async function createTransactionContext() {
-  return prisma.$transaction(async (tx) => {
+  return prisma.$transaction(async (tx: any) => {
     return {
       users: new UserRepository(tx),
       developments: new DevelopmentRepository(tx),
       units: new UnitRepository(tx),
       documents: new DocumentRepository(tx),
-      financials: new FinancialRepository(tx),
-    };
+      financials: new FinancialRepository(tx)};
   });
 }
 

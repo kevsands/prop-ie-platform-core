@@ -15,7 +15,7 @@ function ProjectDetailsContent() {
         <p className="text-lg text-gray-700 mb-8">
           Viewing project with ID: {projectId}
         </p>
-        
+
         <div className="bg-white shadow rounded-lg p-6">
           <h2 className="text-xl font-semibold text-gray-900 mb-3">Project Information</h2>
           <p className="text-gray-600 mb-4">

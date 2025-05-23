@@ -14,9 +14,9 @@ export default function AdminDocumentsPage() {
         <div className="font-medium">Simplified Admin Documents Page</div>
         <div>This is a simplified version for build testing. Limited functionality is available.</div>
       </div>
-      
+
       <h1 className="text-3xl font-bold mb-6">Document Management</h1>
-      
+
       <div className="bg-white shadow rounded-lg p-6 mb-8">
         <h2 className="text-xl font-semibold mb-4">Document Dashboard</h2>
         <div className="grid md:grid-cols-4 gap-4 mb-6">
@@ -38,13 +38,13 @@ export default function AdminDocumentsPage() {
           </div>
         </div>
       </div>
-      
+
       <div className="bg-white shadow rounded-lg p-6">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-xl font-semibold">Recent Document Uploads</h2>
           <button className="bg-blue-600 text-white px-4 py-2 rounded">Upload New</button>
         </div>
-        
+
         <div className="overflow-x-auto">
           <table className="min-w-full bg-white">
             <thead>

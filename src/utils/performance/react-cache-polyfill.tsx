@@ -1,3 +1,4 @@
+import React from 'react';
 'use client';
 
 /**
@@ -33,21 +34,21 @@ function createCacheFunction() {
   return function cache<T extends (...args: any[]) => any>(fn: T): T {
     // Use WeakMap for better memory management when keys are objects
     const cacheInstance = new Map<string, any>();
-    
+
     // Return a new function with the same signature that uses caching
     const cachedFn = ((...args: Parameters<T>) => {
       try {
         // Create a unique key for these arguments
         const key = JSON.stringify(args);
-        
+
         // Check if we have a cached result
         if (cacheInstance.has(key)) {
           return cacheInstance.get(key);
         }
-        
+
         // Call the original function and cache the result
         const result = fn(...args);
-        
+
         // Handle promises specially to cache their resolved values
         if (result instanceof Promise) {
           // For promises, we store the promise but also update the cache
@@ -63,18 +64,18 @@ function createCacheFunction() {
             }
           );
         }
-        
+
         // Cache and return the result
-        cacheInstance.set(key, result);
+        cacheInstance.set(keyresult);
         return result;
       } catch (error) {
         // If something goes wrong (e.g. args aren't serializable),
         // fall back to calling the function directly
-        console.warn('Cache key creation failed, falling back to uncached call', error);
+
         return fn(...args);
       }
     }) as T;
-    
+
     return cachedFn;
   };
 }

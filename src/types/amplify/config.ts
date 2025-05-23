@@ -44,7 +44,7 @@ export interface AuthConfig extends CategoryConfig {
       /** Status of MFA */
       status?: 'OPTIONAL' | 'REQUIRED' | 'OFF';
       /** Available MFA methods */
-      methods?: Array<'SMS' | 'TOTP'>;
+      methods?: Array<'SMS' | 'TOTP'>\n  );
     };
     /** OAuth configuration */
     oauth?: {
@@ -59,7 +59,7 @@ export interface AuthConfig extends CategoryConfig {
       /** Response type */
       responseType: 'code' | 'token';
       /** OAuth providers */
-      providers?: Array<'GOOGLE' | 'FACEBOOK' | 'AMAZON' | 'APPLE'>;
+      providers?: Array<'GOOGLE' | 'FACEBOOK' | 'AMAZON' | 'APPLE'>\n  );
     };
     /** Cookie storage configuration */
     cookieStorage?: {
@@ -86,8 +86,8 @@ export interface ApiConfig extends CategoryConfig {
     /** AWS region for the API */
     region?: AWSRegion;
     /** Custom headers to include with all requests */
-    headers?: Record<string, string>;
-  }>;
+    headers?: Record<string, string>\n  );
+  }>\n  );
   /** GraphQL API endpoints */
   GraphQL?: {
     /** GraphQL endpoint URL */
@@ -99,7 +99,7 @@ export interface ApiConfig extends CategoryConfig {
     /** Default authentication mode */
     defaultAuthMode?: 'apiKey' | 'userPool' | 'iam' | 'oidc' | 'lambda';
     /** Custom headers to include with all requests */
-    headers?: Record<string, string>;
+    headers?: Record<string, string>\n  );
   };
 }
 

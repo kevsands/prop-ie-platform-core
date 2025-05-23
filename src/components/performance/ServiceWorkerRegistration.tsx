@@ -9,19 +9,17 @@ export default function ServiceWorkerRegistration() {
       window.addEventListener('load', () => {
         navigator.serviceWorker
           .register('/sw.js')
-          .then((registration) => {
-            console.log('Service Worker registered:', registration);
+          .then((registration: any) => {
 
             // Check for updates
             registration.addEventListener('updatefound', () => {
               const newWorker = registration.installing;
-              
+
               if (newWorker) {
                 newWorker.addEventListener('statechange', () => {
                   if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
                     // New content is available
-                    console.log('New content available');
-                    
+
                     // Optional: Show update notification to user
                     if (window.confirm('New version available! Would you like to update?')) {
                       window.location.reload();
@@ -31,15 +29,15 @@ export default function ServiceWorkerRegistration() {
               }
             });
           })
-          .catch((error) => {
-            console.error('Service Worker registration failed:', error);
+          .catch((error: any) => {
+
           });
       });
 
       // Handle messages from service worker
-      navigator.serviceWorker.addEventListener('message', (event) => {
+      navigator.serviceWorker.addEventListener('message', (event: any) => {
         if (event.data.type === 'CACHE_UPDATED') {
-          console.log('Cache updated:', event.data.payload);
+
         }
       });
     }

@@ -1,0 +1,384 @@
+'use client';
+
+import React, { useState, useEffect } from 'react';
+import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Progress } from '@/components/ui/progress';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Slider } from '@/components/ui/slider';
+import { Switch } from '@/components/ui/switch';
+import { Label } from '@/components/ui/label';
+import { Icons } from '@/components/ui/icons';
+import { EstateAgentCRMService } from '@/lib/estate-agent-crm';
+import {
+  Lead,
+  Property,
+  PropertyRequirement,
+  PropertyMatch,
+  MatchingCriteria
+} from '@/types/crm';
+
+interface PropertyMatchingProps {
+  leadId?: string;
+  propertyId?: string;
+  onMatchesFound?: (matches: PropertyMatch[]) => void;
+}
+
+const PropertyMatching: React.FC<PropertyMatchingProps> = ({
+  leadId,
+  propertyId,
+  onMatchesFound
+}) => {
+  const crmService = new EstateAgentCRMService();
+
+  const [loadingsetLoading] = useState(false);
+  const [matchessetMatches] = useState<PropertyMatch[]>([]);
+  const [selectedLeadsetSelectedLead] = useState<Lead | null>(null);
+  const [leadssetLeads] = useState<Lead[]>([]);
+  const [propertiessetProperties] = useState<Property[]>([]);
+  const [matchingCriteriasetMatchingCriteria] = useState<MatchingCriteria>({
+    location: { weight: 0.3 },
+    price: { weight: 0.25, tolerance: 10 },
+    bedrooms: { weight: 0.15, tolerance: 1 },
+    propertyType: { weight: 0.15 },
+    size: { weight: 0.15, tolerance: 15 }
+  });
+  const [showAdvancedSettingssetShowAdvancedSettings] = useState(false);
+  const [errorsetError] = useState<string | null>(null);
+
+  useEffect(() => {
+    fetchLeads();
+    fetchProperties();
+    if (leadId) {
+      fetchLeadById(leadId);
+    }
+  }, [leadId]);
+
+  const fetchLeads = async () => {
+    try {
+      const data = await crmService.getLeads();
+      setLeads(data);
+    } catch (error) {
+
+    }
+  };
+
+  const fetchProperties = async () => {
+    try {
+      const data = await crmService.getProperties();
+      setProperties(data);
+    } catch (error) {
+
+    }
+  };
+
+  const fetchLeadById = async (id: string) => {
+    try {
+      const lead = await crmService.getLeadById(id);
+      setSelectedLead(lead);
+      if (lead) {
+        findMatches(lead);
+      }
+    } catch (error) {
+
+    }
+  };
+
+  const findMatches = async (lead: Lead) => {
+    if (!lead.requirements) return;
+
+    setLoading(true);
+    setError(null);
+
+    try {
+      const matches = await crmService.findPropertyMatches(lead.idmatchingCriteria);
+      setMatches(matches);
+      if (onMatchesFound) {
+        onMatchesFound(matches);
+      }
+    } catch (error) {
+      setError('Failed to find matches');
+
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const saveMatchingCriteria = async () => {
+    try {
+      await crmService.saveCriteriaPreferences(matchingCriteria);
+      setError(null);
+    } catch (error) {
+      setError('Failed to save matching criteria');
+
+    }
+  };
+
+  return (
+    <div className="space-y-6">
+      {error && (
+        <Alert variant="destructive">
+          <AlertDescription>{error}</AlertDescription>
+        </Alert>
+      )}
+
+      {/* Lead Selection */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Property Matching</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-4">
+            <div>
+              <Label>Select Lead</Label>
+              <select
+                className="w-full mt-1 border rounded-md px-3 py-2"
+                value={selectedLead?.id || ''}
+                onChange={(e) => {
+                  const lead = leads.find(l => l.id === e.target.value);
+                  if (lead) {
+                    setSelectedLead(lead);
+                    findMatches(lead);
+                  }
+                }
+              >
+                <option value="">Choose a lead...</option>
+                {leads.map(lead => (
+                  <option key={lead.id} value={lead.id}>
+                    {lead.name} - {lead.email}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {selectedLead && selectedLead.requirements && (
+              <div className="bg-gray-50 p-4 rounded-md">
+                <h3 className="font-medium mb-2">Lead Requirements</h3>
+                <div className="grid grid-cols-2 gap-2 text-sm">
+                  <div>Budget: €{selectedLead.requirements?.minBudget?.toLocaleString()} - €{selectedLead.requirements?.maxBudget?.toLocaleString()}</div>
+                  <div>Bedrooms: {selectedLead.requirements?.minBedrooms} - {selectedLead.requirements?.maxBedrooms}</div>
+                  <div>Type: {selectedLead.requirements?.propertyTypes?.join(', ')}</div>
+                  <div>Location: {selectedLead.requirements?.preferredLocations?.join(', ')}</div>
+                </div>
+              </div>
+            )}
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Matching Criteria Configuration */}
+      <Card>
+        <CardHeader>
+          <div className="flex justify-between items-center">
+            <CardTitle>Matching Algorithm Settings</CardTitle>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setShowAdvancedSettings(!showAdvancedSettings)}
+            >
+              {showAdvancedSettings ? 'Hide' : 'Show'} Advanced
+            </Button>
+          </div>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-6">
+            {/* Basic Weights */}
+            <div className="space-y-4">
+              <div>
+                <div className="flex justify-between mb-2">
+                  <Label>Location Weight</Label>
+                  <span className="text-sm">{Math.round(matchingCriteria.location.weight * 100)}%</span>
+                </div>
+                <Slider
+                  value={[matchingCriteria.location.weight]}
+                  onValueChange={([value]) => 
+                    setMatchingCriteria(prev => ({
+                      ...prev,
+                      location: { ...prev.location, weight: value }
+                    }))
+                  }
+                  max={1}
+                  step={0.05}
+                />
+              </div>
+
+              <div>
+                <div className="flex justify-between mb-2">
+                  <Label>Price Weight</Label>
+                  <span className="text-sm">{Math.round(matchingCriteria.price.weight * 100)}%</span>
+                </div>
+                <Slider
+                  value={[matchingCriteria.price.weight]}
+                  onValueChange={([value]) => 
+                    setMatchingCriteria(prev => ({
+                      ...prev,
+                      price: { ...prev.price, weight: value }
+                    }))
+                  }
+                  max={1}
+                  step={0.05}
+                />
+              </div>
+
+              <div>
+                <div className="flex justify-between mb-2">
+                  <Label>Bedrooms Weight</Label>
+                  <span className="text-sm">{Math.round(matchingCriteria.bedrooms.weight * 100)}%</span>
+                </div>
+                <Slider
+                  value={[matchingCriteria.bedrooms.weight]}
+                  onValueChange={([value]) => 
+                    setMatchingCriteria(prev => ({
+                      ...prev,
+                      bedrooms: { ...prev.bedrooms, weight: value }
+                    }))
+                  }
+                  max={1}
+                  step={0.05}
+                />
+              </div>
+            </div>
+
+            {/* Advanced Settings */}
+            {showAdvancedSettings && (
+              <div className="space-y-4 pt-4 border-t">
+                <h4 className="font-medium">Tolerance Settings</h4>
+
+                <div>
+                  <Label>Price Tolerance: {matchingCriteria.price.tolerance}%</Label>
+                  <Slider
+                    value={[matchingCriteria.price.tolerance || 10]}
+                    onValueChange={([value]) => 
+                      setMatchingCriteria(prev => ({
+                        ...prev,
+                        price: { ...prev.price, tolerance: value }
+                      }))
+                    }
+                    max={50}
+                    step={5}
+                  />
+                </div>
+
+                <div>
+                  <Label>Bedroom Tolerance: {matchingCriteria.bedrooms.tolerance} rooms</Label>
+                  <Slider
+                    value={[matchingCriteria.bedrooms.tolerance || 1]}
+                    onValueChange={([value]) => 
+                      setMatchingCriteria(prev => ({
+                        ...prev,
+                        bedrooms: { ...prev.bedrooms, tolerance: value }
+                      }))
+                    }
+                    max={3}
+                    step={1}
+                  />
+                </div>
+              </div>
+            )}
+
+            {/* Action Buttons */}
+            <div className="flex justify-end space-x-2">
+              <Button variant="outline" onClick={() => findMatches(selectedLead!)}>
+                Refresh Matches
+              </Button>
+              <Button onClick={saveMatchingCriteria}>
+                Save Settings
+              </Button>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Matches */}
+      {selectedLead && (
+        <Card>
+          <CardHeader>
+            <CardTitle>Property Matches</CardTitle>
+          </CardHeader>
+          <CardContent>
+            {loading ? (
+              <div className="text-center py-4">
+                <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-primary mx-auto"></div>
+                <p className="mt-2 text-gray-600">Finding best matches...</p>
+              </div>
+            ) : matches.length> 0 ? (
+              <div className="space-y-4">
+                {matches.map((match) => (
+                  <div
+                    key={match.property.id}
+                    className="border rounded-lg p-4 hover:bg-gray-50 transition-colors"
+                  >
+                    <div className="flex justify-between items-start">
+                      <div className="flex-1">
+                        <div className="flex items-start justify-between">
+                          <div>
+                            <h3 className="font-semibold text-lg">
+                              {match.property.title}
+                            </h3>
+                            <p className="text-gray-600">
+                              {match.property.address}
+                            </p>
+                          </div>
+                          <Badge variant="outline" className="ml-2">
+                            {Math.round(match.score * 100)}% Match
+                          </Badge>
+                        </div>
+
+                        <div className="mt-3 grid grid-cols-3 gap-4 text-sm">
+                          <div>
+                            <span className="text-gray-500">Price:</span>{' '}
+                            €{match.property.price.toLocaleString()}
+                          </div>
+                          <div>
+                            <span className="text-gray-500">Bedrooms:</span>{' '}
+                            {match.property.bedrooms}
+                          </div>
+                          <div>
+                            <span className="text-gray-500">Type:</span>{' '}
+                            {match.property.propertyType}
+                          </div>
+                        </div>
+
+                        {/* Match Details */}
+                        <div className="mt-4">
+                          <h4 className="text-sm font-medium mb-2">Match Breakdown</h4>
+                          <div className="space-y-2">
+                            {Object.entries(match.breakdown).map(([criteriascore]) => (
+                              <div key={criteria} className="flex justify-between">
+                                <span className="text-sm capitalize">
+                                  {criteria}:
+                                </span>
+                                <Progress value={score * 100} className="w-24" />
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+
+                        {/* Actions */}
+                        <div className="mt-4 flex space-x-2">
+                          <Button size="sm" variant="outline">
+                            Schedule Viewing
+                          </Button>
+                          <Button size="sm">
+                            Send to Lead
+                          </Button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p className="text-center text-gray-600 py-4">
+                No matching properties found. Try adjusting the search criteria.
+              </p>
+            )}
+          </CardContent>
+        </Card>
+      )}
+    </div>
+  );
+};
+
+export default PropertyMatching;

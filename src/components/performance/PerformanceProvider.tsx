@@ -24,9 +24,9 @@ export function usePerformance() {
 
 export default function PerformanceProvider({ children }: { children: React.ReactNode }) {
   const { metrics, resources, getNetworkInfo, getMemoryUsage } = usePerformanceOptimization();
-  const [isOnline, setIsOnline] = useState(true);
-  const [networkInfo, setNetworkInfo] = useState<any>(null);
-  const [memoryInfo, setMemoryInfo] = useState<any>(null);
+  const [isOnlinesetIsOnline] = useState(true);
+  const [networkInfosetNetworkInfo] = useState<any>(null);
+  const [memoryInfosetMemoryInfo] = useState<any>(null);
 
   useEffect(() => {
     // Monitor online status
@@ -38,11 +38,11 @@ export default function PerformanceProvider({ children }: { children: React.Reac
     // Monitor network information
     const updateNetworkInfo = () => setNetworkInfo(getNetworkInfo());
     updateNetworkInfo();
-    
+
     // Monitor memory usage
     const updateMemoryInfo = () => setMemoryInfo(getMemoryUsage());
     updateMemoryInfo();
-    const memoryInterval = setInterval(updateMemoryInfo, 10000); // Check every 10 seconds
+    const memoryInterval = setInterval(updateMemoryInfo10000); // Check every 10 seconds
 
     // Preload critical routes based on user behavior
     preloadCriticalRoutes();
@@ -60,8 +60,8 @@ export default function PerformanceProvider({ children }: { children: React.Reac
 
     // Enable Intersection Observer for lazy loading
     if ('IntersectionObserver' in window) {
-      const imageObserver = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
+      const imageObserver = new IntersectionObserver((entries: any) => {
+        entries.forEach((entry: any) => {
           if (entry.isIntersecting) {
             const lazyImage = entry.target as HTMLImageElement;
             if (lazyImage.dataset.src) {
@@ -75,15 +75,15 @@ export default function PerformanceProvider({ children }: { children: React.Reac
 
       // Observe all lazy images
       const lazyImages = document.querySelectorAll('img[data-src]');
-      lazyImages.forEach((img) => imageObserver.observe(img));
+      lazyImages.forEach((img: any) => imageObserver.observe(img));
     }
 
     // Prefetch visible links
     if ('requestIdleCallback' in window) {
       requestIdleCallback(() => {
         const links = document.querySelectorAll('a[href^="/"]');
-        const observer = new IntersectionObserver((entries) => {
-          entries.forEach((entry) => {
+        const observer = new IntersectionObserver((entries: any) => {
+          entries.forEach((entry: any) => {
             if (entry.isIntersecting) {
               const link = entry.target as HTMLAnchorElement;
               const href = link.getAttribute('href');
@@ -96,7 +96,7 @@ export default function PerformanceProvider({ children }: { children: React.Reac
           });
         });
 
-        links.forEach((link) => observer.observe(link));
+        links.forEach((link: any) => observer.observe(link));
       });
     }
 
@@ -105,20 +105,20 @@ export default function PerformanceProvider({ children }: { children: React.Reac
       window.removeEventListener('offline', updateOnlineStatus);
       clearInterval(memoryInterval);
     };
-  }, [getNetworkInfo, getMemoryUsage]);
+  }, [getNetworkInfogetMemoryUsage]);
 
   // Log performance warnings
   useEffect(() => {
     if (metrics) {
       // Check for poor performance
-      if (metrics.lcp > 2500) {
-        console.warn('Poor LCP detected:', metrics.lcp);
+      if (metrics.lcp> 2500) {
+
       }
-      if (metrics.fid > 100) {
-        console.warn('Poor FID detected:', metrics.fid);
+      if (metrics.fid> 100) {
+
       }
-      if (metrics.cls > 0.1) {
-        console.warn('Poor CLS detected:', metrics.cls);
+      if (metrics.cls> 0.1) {
+
       }
     }
   }, [metrics]);
@@ -127,14 +127,14 @@ export default function PerformanceProvider({ children }: { children: React.Reac
   useEffect(() => {
     if (memoryInfo && memoryInfo.usedJSHeapSize) {
       const usage = memoryInfo.usedJSHeapSize / memoryInfo.jsHeapSizeLimit;
-      if (usage > 0.9) {
-        console.warn('High memory usage detected:', `${(usage * 100).toFixed(2)}%`);
+      if (usage> 0.9) {
+        .toFixed(2)}%`);
       }
     }
   }, [memoryInfo]);
 
   return (
-    <PerformanceContext.Provider value={{ metrics, resources, isOnline, networkInfo, memoryInfo }}>
+    <PerformanceContext.Provider value={ metrics, resources, isOnline, networkInfo, memoryInfo }>
       {children}
     </PerformanceContext.Provider>
   );

@@ -4,28 +4,28 @@ import React, { createContext, useState, useContext, useEffect } from 'react';
 import { BuyerJourney, BuyerPhase, AffordabilityCheck, MortgageApplication } from '@/types/buyer-journey';
 import { journeyService } from '@/services/journeyService';
 import { useToast } from '@/hooks/useToast';
+import { buyerJourneyAnalytics } from '@/lib/analytics/buyer-journey-analytics';
 
 interface BuyerJourneyContextProps {
   journey: BuyerJourney | null;
   loading: boolean;
   error: string | null;
-  updateJourneyPhase: (phase: BuyerPhase) => Promise<void>;
-  addAffordabilityCheck: (check: Omit<AffordabilityCheck, 'id' | 'created'>) => Promise<void>;
-  addMortgageApplication: (app: Omit<MortgageApplication, 'id' | 'created' | 'updated'>) => Promise<void>;
-  refreshJourney: () => Promise<void>;
-  getPhaseNextSteps: (phase: BuyerPhase) => Promise<string[]>;
-  getPhaseCompletedTasks: (phase: BuyerPhase) => Promise<string[]>;
+  updateJourneyPhase: (phase: BuyerPhase) => Promise<void>\n  );
+  addAffordabilityCheck: (check: Omit<AffordabilityCheck, 'id' | 'created'>) => Promise<void>\n  );
+  addMortgageApplication: (app: Omit<MortgageApplication, 'id' | 'created' | 'updated'>) => Promise<void>\n  );
+  refreshJourney: () => Promise<void>\n  );
+  getPhaseNextSteps: (phase: BuyerPhase) => Promise<string[]>\n  );
+  getPhaseCompletedTasks: (phase: BuyerPhase) => Promise<string[]>\n  );
 }
 
 const BuyerJourneyContext = createContext<BuyerJourneyContextProps | undefined>(undefined);
 
 export const BuyerJourneyProvider: React.FC<{ children: React.ReactNode; userId: string }> = ({
   children,
-  userId,
-}) => {
-  const [journey, setJourney] = useState<BuyerJourney | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
+  userId}) => {
+  const [journeysetJourney] = useState<BuyerJourney | null>(null);
+  const [loadingsetLoading] = useState<boolean>(true);
+  const [errorsetError] = useState<string | null>(null);
   const { toast } = useToast();
 
   const fetchJourney = async () => {
@@ -34,14 +34,25 @@ export const BuyerJourneyProvider: React.FC<{ children: React.ReactNode; userId:
       const journeyData = await journeyService.getBuyerJourney(userId);
       setJourney(journeyData);
       setError(null);
+      
+      // Track user identified with analytics when journey data is loaded
+      if (journeyData) {
+        buyerJourneyAnalytics.identify(userId, {
+          journey_id: journeyData.id,
+          journey_phase: journeyData.currentPhase,
+          journey_start_date: journeyData.startDate
+        });
+      }
     } catch (error) {
       console.error('Error fetching buyer journey:', error);
       setError('Failed to load journey data');
       toast({
         title: 'Error',
         description: 'Failed to load your journey data. Please try again later.',
-        variant: 'destructive',
-      });
+        variant: 'destructive'});
+      
+      // Track error
+      buyerJourneyAnalytics.trackError('journey_fetch_error', error instanceof Error ? error.message : 'Unknown error');
     } finally {
       setLoading(false);
     }
@@ -57,62 +68,106 @@ export const BuyerJourneyProvider: React.FC<{ children: React.ReactNode; userId:
     if (!journey) return;
     
     try {
-      const updatedJourney = await journeyService.updateBuyerPhase(journey.id, phase);
+      // Track phase transition start
+      buyerJourneyAnalytics.startStepTimer(phase);
+      
+      const updatedJourney = await journeyService.updateBuyerPhase(journey.idphase);
       setJourney(updatedJourney);
+      
+      // Track successful phase transition
+      buyerJourneyAnalytics.trackEvent('journey_step_completed', {
+        previous_phase: journey.currentPhase,
+        new_phase: phase,
+        journey_id: journey.id
+      });
+      
       toast({
         title: 'Journey Updated',
-        description: `You've progressed to the ${phase.toLowerCase().replace('_', ' ')} phase.`,
-      });
+        description: `You've progressed to the ${phase.toLowerCase().replace('_', ' ')} phase.`});
     } catch (error) {
       console.error('Error updating journey phase:', error);
       toast({
         title: 'Update Failed',
         description: 'Could not update your journey. Please try again.',
-        variant: 'destructive',
+        variant: 'destructive'});
+      
+      // Track error
+      buyerJourneyAnalytics.trackError('journey_phase_update_error', error instanceof Error ? error.message : 'Unknown error', {
+        attempted_phase: phase,
+        current_phase: journey.currentPhase,
+        journey_id: journey.id
       });
     }
   };
 
   const addAffordabilityCheck = async (check: Omit<AffordabilityCheck, 'id' | 'created'>) => {
     try {
+      // Track affordability check start
+      buyerJourneyAnalytics.startStepTimer('affordability_check');
+      
       await journeyService.addAffordabilityCheck(check);
+      
+      // Track successful affordability check
+      buyerJourneyAnalytics.trackEvent('affordability_check_completed', {
+        annual_income: check.annualIncome,
+        max_budget: check.maximumBudget,
+        has_deposit: check.hasDeposit,
+        deposit_amount: check.depositAmount,
+        mortgage_required: check.mortgageRequired
+      });
+      
       toast({
         title: 'Affordability Check Saved',
-        description: 'Your affordability information has been saved.',
-      });
+        description: 'Your affordability information has been saved.'});
       await fetchJourney(); // Refresh journey data
     } catch (error) {
       console.error('Error adding affordability check:', error);
       toast({
         title: 'Save Failed',
         description: 'Could not save your affordability check. Please try again.',
-        variant: 'destructive',
-      });
+        variant: 'destructive'});
+      
+      // Track error
+      buyerJourneyAnalytics.trackError('affordability_check_error', error instanceof Error ? error.message : 'Unknown error');
     }
   };
 
   const addMortgageApplication = async (app: Omit<MortgageApplication, 'id' | 'created' | 'updated'>) => {
     try {
+      // Track mortgage application start
+      buyerJourneyAnalytics.startStepTimer('mortgage_application');
+      
       await journeyService.addMortgageApplication(app);
+      
+      // Track successful mortgage application
+      buyerJourneyAnalytics.trackEvent('mortgage_application_submitted', {
+        lender: app.lender,
+        loan_amount: app.loanAmount,
+        term_years: app.termYears,
+        interest_rate: app.interestRate,
+        application_type: app.applicationType
+      });
+      
       toast({
         title: 'Mortgage Application Saved',
-        description: 'Your mortgage application has been saved.',
-      });
+        description: 'Your mortgage application has been saved.'});
       await fetchJourney(); // Refresh journey data
     } catch (error) {
       console.error('Error adding mortgage application:', error);
       toast({
         title: 'Save Failed',
         description: 'Could not save your mortgage application. Please try again.',
-        variant: 'destructive',
-      });
+        variant: 'destructive'});
+      
+      // Track error
+      buyerJourneyAnalytics.trackError('mortgage_application_error', error instanceof Error ? error.message : 'Unknown error');
     }
   };
 
   const getPhaseNextSteps = async (phase: BuyerPhase) => {
     if (!journey) return [];
     try {
-      return await journeyService.getPhaseNextSteps(journey.id, phase);
+      return await journeyService.getPhaseNextSteps(journey.idphase);
     } catch (error) {
       console.error('Error fetching next steps:', error);
       return [];
@@ -122,7 +177,7 @@ export const BuyerJourneyProvider: React.FC<{ children: React.ReactNode; userId:
   const getPhaseCompletedTasks = async (phase: BuyerPhase) => {
     if (!journey) return [];
     try {
-      return await journeyService.getPhaseCompletedTasks(journey.id, phase);
+      return await journeyService.getPhaseCompletedTasks(journey.idphase);
     } catch (error) {
       console.error('Error fetching completed tasks:', error);
       return [];
@@ -131,7 +186,7 @@ export const BuyerJourneyProvider: React.FC<{ children: React.ReactNode; userId:
 
   return (
     <BuyerJourneyContext.Provider
-      value={{
+      value={
         journey,
         loading,
         error,
@@ -140,8 +195,7 @@ export const BuyerJourneyProvider: React.FC<{ children: React.ReactNode; userId:
         addMortgageApplication,
         refreshJourney: fetchJourney,
         getPhaseNextSteps,
-        getPhaseCompletedTasks,
-      }}
+        getPhaseCompletedTasks}
     >
       {children}
     </BuyerJourneyContext.Provider>

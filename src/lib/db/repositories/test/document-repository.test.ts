@@ -23,7 +23,7 @@ const testSchemaName = `test_${Date.now()}`;
 const prisma = {
   $executeRaw: jest.fn(),
   $disconnect: jest.fn(),
-  $transaction: jest.fn((callback) => callback(prisma)),
+  $transaction: jest.fn((callback: any) => callback(prisma)),
   
   user: {
     create: jest.fn(),
@@ -290,7 +290,7 @@ describe('Document Repository', () => {
       // Create a document with transaction
       let documentId: string;
       
-      await documentRepository.transaction(async (tx) => {
+      await documentRepository.transaction(async (tx: any) => {
         // Create document in transaction
         const documentData = {
           title: 'Transaction Test Document',
@@ -343,7 +343,7 @@ describe('Document Repository', () => {
       const documentId = uuidv4();
       
       try {
-        await documentRepository.transaction(async (tx) => {
+        await documentRepository.transaction(async (tx: any) => {
           // Create document version without creating the document first
           // This should fail with a foreign key constraint error
           await tx.documentVersion.create({

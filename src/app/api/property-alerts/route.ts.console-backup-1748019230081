@@ -1,0 +1,302 @@
+import { NextRequest, NextResponse } from 'next/server';
+import { prisma } from '@/lib/prisma';
+import { z } from 'zod';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/lib/auth';
+
+// Validation schemas
+const alertCriteriaSchema = z.object({
+  locations: z.array(z.string()).optional(),
+  propertyTypes: z.array(z.enum(['apartment', 'house', 'townhouse', 'penthouse', 'studio', 'duplex'])).optional(),
+  priceMin: z.number().optional(),
+  priceMax: z.number().optional(),
+  bedroomsMin: z.number().optional(),
+  bedroomsMax: z.number().optional(),
+  bathroomsMin: z.number().optional(),
+  bathroomsMax: z.number().optional(),
+  areaMin: z.number().optional(),
+  areaMax: z.number().optional(),
+  features: z.array(z.string()).optional(),
+  developers: z.array(z.string()).optional(),
+  priceDropPercentage: z.number().optional(),
+  daysOnMarket: z.number().optional(),
+  keywords: z.array(z.string()).optional(),
+  excludeKeywords: z.array(z.string()).optional()
+});
+
+const notificationChannelSchema = z.object({
+  type: z.enum(['email', 'sms', 'push', 'in_app']),
+  enabled: z.boolean(),
+  settings: z.object({
+    email: z.string().email().optional(),
+    phone: z.string().optional(),
+    sound: z.boolean().optional(),
+    vibrate: z.boolean().optional()
+  }).optional()
+});
+
+const createAlertSchema = z.object({
+  name: z.string(),
+  type: z.enum(['price_drop', 'new_listing', 'price_change', 'status_change', 'open_house', 'market_trend']),
+  criteria: alertCriteriaSchema,
+  frequency: z.enum(['instant', 'daily', 'weekly', 'monthly']),
+  channels: z.array(notificationChannelSchema),
+  priority: z.enum(['low', 'medium', 'high']),
+  tags: z.array(z.string()).optional(),
+  expiresAt: z.string().datetime().optional()
+});
+
+// Helper functions (mocked)
+async function scheduleAlertCheck(alertId: string) {
+  console.log(`Scheduling alert check for alert ID: ${alertId}`);
+  // In a real implementation, this might schedule a job in a queue
+}
+
+async function sendAlertConfirmation(alert: any) {
+  console.log(`Sending confirmation for alert: ${alert.name}`);
+  // In a real implementation, this would send a notification to the user
+}
+
+// GET: Fetch user's property alerts
+export async function GET(request: NextRequest) {
+  try {
+    const session = await getServerSession(authOptions);
+    if (!session?.user) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    const { searchParams } = new URL(request.url);
+    const status = searchParams.get('status');
+    const type = searchParams.get('type');
+
+    // Mock property alerts
+    const mockAlerts = [
+      {
+        id: 'alert-1',
+        userId: session.user.id,
+        name: 'New Apartments in Dublin',
+        type: 'new_listing',
+        criteria: {
+          locations: ['Dublin 1', 'Dublin 2', 'Dublin 4'],
+          propertyTypes: ['apartment', 'penthouse'],
+          priceMax: 500000,
+          bedroomsMin: 2
+        },
+        frequency: 'daily',
+        channels: [
+          {
+            type: 'email',
+            enabled: true,
+            settings: {
+              email: 'user@example.com'
+            }
+          },
+          {
+            type: 'push',
+            enabled: true,
+            settings: {
+              sound: true
+            }
+          }
+        ],
+        priority: 'high',
+        tags: ['investment', 'city-centre'],
+        status: 'active',
+        createdAt: new Date('2023-04-15').toISOString(),
+        updatedAt: new Date('2023-04-15').toISOString(),
+        expiresAt: new Date('2024-04-15').toISOString(),
+        _count: {
+          matches: 5
+        }
+      },
+      {
+        id: 'alert-2',
+        userId: session.user.id,
+        name: 'Price Drops in Cork',
+        type: 'price_drop',
+        criteria: {
+          locations: ['Cork City'],
+          propertyTypes: ['house', 'townhouse'],
+          priceMin: 300000,
+          priceMax: 700000,
+          bedroomsMin: 3,
+          priceDropPercentage: 5
+        },
+        frequency: 'weekly',
+        channels: [
+          {
+            type: 'email',
+            enabled: true,
+            settings: {
+              email: 'user@example.com'
+            }
+          }
+        ],
+        priority: 'medium',
+        tags: ['family-home'],
+        status: 'active',
+        createdAt: new Date('2023-05-20').toISOString(),
+        updatedAt: new Date('2023-05-20').toISOString(),
+        expiresAt: null,
+        _count: {
+          matches: 2
+        }
+      }
+    ];
+
+    // Filter mocked alerts based on query parameters
+    let filteredAlerts = [...mockAlerts];
+    
+    if (status) {
+      filteredAlerts = filteredAlerts.filter(alert => alert.status === status);
+    }
+    
+    if (type) {
+      filteredAlerts = filteredAlerts.filter(alert => alert.type === type);
+    }
+
+    // Transform the data to match frontend expectations
+    const formattedAlerts = filteredAlerts.map(alert => ({
+      ...alert,
+      triggerCount: alert._count.matches,
+      criteria: alert.criteria,
+      channels: alert.channels,
+      tags: alert.tags || []
+    }));
+
+    return NextResponse.json(formattedAlerts);
+  } catch (error) {
+    console.error('Error fetching property alerts:', error);
+    const errorMessage = error instanceof Error ? error.message : 'Failed to fetch property alerts';
+    return NextResponse.json(
+      { error: errorMessage },
+      { status: 500 }
+    );
+  }
+}
+
+// POST: Create a new property alert
+export async function POST(request: NextRequest) {
+  try {
+    const session = await getServerSession(authOptions);
+    if (!session?.user) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    const body: any = await request.json();
+    const validatedData = createAlertSchema.parse(body);
+
+    // Mock alert creation
+    const newAlert = {
+      id: `alert-${Date.now()}`,
+      userId: session.user.id,
+      name: validatedData.name,
+      type: validatedData.type,
+      criteria: validatedData.criteria,
+      frequency: validatedData.frequency,
+      channels: validatedData.channels,
+      priority: validatedData.priority,
+      tags: validatedData.tags || [],
+      status: 'active',
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+      expiresAt: validatedData.expiresAt ? new Date(validatedData.expiresAt).toISOString() : null
+    };
+
+    // Schedule initial check for matching properties (mocked)
+    await scheduleAlertCheck(newAlert.id);
+
+    // Send confirmation notification (mocked)
+    await sendAlertConfirmation(newAlert);
+
+    return NextResponse.json(newAlert);
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      return NextResponse.json(
+        { error: 'Invalid request data', details: error.errors },
+        { status: 400 }
+      );
+    }
+
+    console.error('Error creating property alert:', error);
+    const errorMessage = error instanceof Error ? error.message : 'Failed to create property alert';
+    return NextResponse.json(
+      { error: errorMessage },
+      { status: 500 }
+    );
+  }
+}
+
+// PUT: Update a property alert
+export async function PUT(request: NextRequest) {
+  try {
+    const session = await getServerSession(authOptions);
+    if (!session?.user) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    const { searchParams } = new URL(request.url);
+    const alertId = searchParams.get('id');
+
+    if (!alertId) {
+      return NextResponse.json({ error: 'Alert ID required' }, { status: 400 });
+    }
+
+    // Mock alert update (would verify ownership in a real implementation)
+    const body: any = await request.json();
+    
+    // Return mock updated alert
+    const updatedAlert = {
+      id: alertId,
+      userId: session.user.id,
+      ...body,
+      updatedAt: new Date().toISOString()
+    };
+
+    return NextResponse.json(updatedAlert);
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      return NextResponse.json(
+        { error: 'Invalid request data', details: error.errors },
+        { status: 400 }
+      );
+    }
+
+    console.error('Error updating property alert:', error);
+    const errorMessage = error instanceof Error ? error.message : 'Failed to update property alert';
+    return NextResponse.json(
+      { error: errorMessage },
+      { status: 500 }
+    );
+  }
+}
+
+// DELETE: Delete a property alert
+export async function DELETE(request: NextRequest) {
+  try {
+    const session = await getServerSession(authOptions);
+    if (!session?.user) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    const { searchParams } = new URL(request.url);
+    const alertId = searchParams.get('id');
+
+    if (!alertId) {
+      return NextResponse.json({ error: 'Alert ID required' }, { status: 400 });
+    }
+
+    // Mock alert deletion (would verify ownership in a real implementation)
+    return NextResponse.json({
+      success: true,
+      message: `Alert ${alertId} deleted successfully`
+    });
+  } catch (error) {
+    console.error('Error deleting property alert:', error);
+    const errorMessage = error instanceof Error ? error.message : 'Failed to delete property alert';
+    return NextResponse.json(
+      { error: errorMessage },
+      { status: 500 }
+    );
+  }
+}

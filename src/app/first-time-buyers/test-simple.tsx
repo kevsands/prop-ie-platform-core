@@ -3,12 +3,12 @@
 import React, { useState } from 'react';
 
 export default function TestSimplePage() {
-  const [currentView, setCurrentView] = useState('overview');
+  const [currentViewsetCurrentView] = useState('overview');
 
   return (
     <div className="min-h-screen p-8">
       <h1 className="text-3xl font-bold mb-8">First Time Buyers Test Page</h1>
-      
+
       <div className="flex gap-4 mb-8">
         <button
           onClick={() => setCurrentView('overview')}

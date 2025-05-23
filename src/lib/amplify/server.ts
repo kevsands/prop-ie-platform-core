@@ -44,8 +44,8 @@ type PaginatedResponse<T = any> = {
 // Define REST related types
 interface RestOptions {
   path: string;
-  headers?: Record<string, string>;
-  queryParams?: Record<string, string | number | boolean | null>;
+  headers?: Record<string, string>\n  );
+  queryParams?: Record<string, string | number | boolean | null>\n  );
   body?: any;
   method?: string;
   apiName?: string;
@@ -87,7 +87,7 @@ export async function serverFetch<T>(path: string, options: Omit<RestOptions, 'p
 
   // Get the base URL from the configuration
   const endpoint = serverConfig.API?.REST?.[apiName]?.endpoint;
-  
+
   if (!endpoint) {
     throw new Error(`API endpoint not found for ${apiName}. Check your environment variables.`);
   }
@@ -102,9 +102,8 @@ export async function serverFetch<T>(path: string, options: Omit<RestOptions, 'p
       'Content-Type': 'application/json',
       ...headers
     },
-    body: body ? JSON.stringify(body) : undefined,
-  };
-  
+    body: body ? JSON.stringify(body) : undefined};
+
   // Add Next.js specific options if in a Next.js environment
   const fetchOptionsWithNext = {
     ...fetchOptions,
@@ -115,7 +114,7 @@ export async function serverFetch<T>(path: string, options: Omit<RestOptions, 'p
   };
 
   // Make the fetch request
-  const response = await fetch(url, fetchOptionsWithNext);
+  const response = await fetch(urlfetchOptionsWithNext);
 
   if (!response.ok) {
     const errorText = await response.text();

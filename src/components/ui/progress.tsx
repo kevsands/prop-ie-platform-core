@@ -1,3 +1,4 @@
+import React from 'react';
 "use client";
 
 import * as React from "react";
@@ -18,7 +19,7 @@ const Progress = React.forwardRef<HTMLDivElement, ProgressProps>(
       >
         <div
           className={cn("h-full bg-blue-600 transition-all", indicatorClassName)}
-          style={{ width: `${value}%` }}
+          style={ width: `${value}%` }
         />
       </div>
     );

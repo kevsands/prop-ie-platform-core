@@ -30,18 +30,18 @@ interface PaymentSchedule {
 
 const BuyerFinancialDashboard: React.FC = () => {
   const { user } = useAuth();
-  const [paymentSchedules, setPaymentSchedules] = useState<PaymentSchedule[]>(
+  const [paymentSchedulessetPaymentSchedules] = useState<PaymentSchedule[]>(
     [],
   );
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [selectedSchedule, setSelectedSchedule] =
+  const [loadingsetLoading] = useState(true);
+  const [errorsetError] = useState<string | null>(null);
+  const [selectedSchedulesetSelectedSchedule] =
     useState<PaymentSchedule | null>(null);
 
   // Mock API function - will be replaced with actual API call
   const fetchPaymentSchedules = async () => {
     // Simulate API call
-    return new Promise<any>((resolve) => {
+    return new Promise<any>((resolve: any) => {
       setTimeout(() => {
         resolve({
           success: true,
@@ -73,7 +73,6 @@ const BuyerFinancialDashboard: React.FC = () => {
                   ).toISOString(),
                   reference: "DEP-10001",
                   notes: "Initial booking deposit",
-                },
                 {
                   id: "payment-2",
                   purchaseId: "purchase-1",
@@ -89,7 +88,6 @@ const BuyerFinancialDashboard: React.FC = () => {
                   ).toISOString(),
                   reference: "INS-10002",
                   notes: "First installment payment",
-                },
                 {
                   id: "payment-3",
                   purchaseId: "purchase-1",
@@ -101,7 +99,6 @@ const BuyerFinancialDashboard: React.FC = () => {
                     Date.now() + 30 * 24 * 60 * 60 * 1000,
                   ).toISOString(),
                   notes: "Second installment payment",
-                },
                 {
                   id: "payment-4",
                   purchaseId: "purchase-1",
@@ -112,10 +109,7 @@ const BuyerFinancialDashboard: React.FC = () => {
                   dueDate: new Date(
                     Date.now() + 90 * 24 * 60 * 60 * 1000,
                   ).toISOString(),
-                  notes: "Final payment on completion",
-                },
-              ],
-            },
+                  notes: "Final payment on completion"]},
             {
               id: "schedule-2",
               purchaseId: "purchase-2",
@@ -143,7 +137,6 @@ const BuyerFinancialDashboard: React.FC = () => {
                   ).toISOString(),
                   reference: "DEP-10003",
                   notes: "Initial booking deposit",
-                },
                 {
                   id: "payment-6",
                   purchaseId: "purchase-2",
@@ -155,7 +148,6 @@ const BuyerFinancialDashboard: React.FC = () => {
                     Date.now() + 15 * 24 * 60 * 60 * 1000,
                   ).toISOString(),
                   notes: "First installment payment",
-                },
                 {
                   id: "payment-7",
                   purchaseId: "purchase-2",
@@ -166,12 +158,7 @@ const BuyerFinancialDashboard: React.FC = () => {
                   dueDate: new Date(
                     Date.now() + 120 * 24 * 60 * 60 * 1000,
                   ).toISOString(),
-                  notes: "Final payment on completion",
-                },
-              ],
-            },
-          ],
-        });
+                  notes: "Final payment on completion"]}]});
       }, 1000);
     });
   };
@@ -184,13 +171,13 @@ const BuyerFinancialDashboard: React.FC = () => {
 
         if (response.success) {
           setPaymentSchedules(response.data);
-          if (response.data.length > 0) {
+          if (response.data.length> 0) {
             setSelectedSchedule(response.data[0]);
           }
         }
       } catch (err: any) {
         setError(err.message || "Failed to fetch payment schedules");
-        console.error("Error fetching payment schedules:", err);
+
       } finally {
         setLoading(false);
       }
@@ -234,16 +221,14 @@ const BuyerFinancialDashboard: React.FC = () => {
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat("en-IE", {
       style: "currency",
-      currency: "EUR",
-    }).format(amount);
+      currency: "EUR").format(amount);
   };
 
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString("en-IE", {
       year: "numeric",
       month: "long",
-      day: "numeric",
-    });
+      day: "numeric");
   };
 
   const calculateProgress = (paidAmount: number, totalAmount: number) => {
@@ -316,11 +301,11 @@ const BuyerFinancialDashboard: React.FC = () => {
 
             <div className="overflow-y-auto max-h-96 pr-2">
               <ul className="divide-y divide-gray-200">
-                {paymentSchedules.map((schedule) => (
+                {paymentSchedules.map((schedule: any) => (
                   <li key={schedule.id}>
                     <button
                       onClick={() => handleScheduleSelect(schedule)}
-                      className={`block w-full text-left px-4 py-4 hover:bg-gray-50 focus:outline-none ${selectedSchedule?.id === schedule.id ? "bg-blue-50" : ""}`}
+                      className={`block w-full text-left px-4 py-4 hover:bg-gray-50 focus:outline-none ${selectedSchedule?.id === schedule.id ? "bg-blue-50" : ""`}
                     >
                       <div className="flex flex-col">
                         <div className="flex justify-between">
@@ -335,9 +320,8 @@ const BuyerFinancialDashboard: React.FC = () => {
                           <div className="relative pt-1">
                             <div className="overflow-hidden h-2 text-xs flex rounded bg-gray-200">
                               <div
-                                style={{
-                                  width: `${calculateProgress(schedule.paidAmount, schedule.totalAmount)}%`,
-                                }}
+                                style={
+                                  width: `${calculateProgress(schedule.paidAmount, schedule.totalAmount)}%`}
                                 className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-blue-500"
                               ></div>
                             </div>
@@ -357,8 +341,8 @@ const BuyerFinancialDashboard: React.FC = () => {
                         </div>
                         {schedule.nextPaymentDate && (
                           <p className="mt-2 text-xs text-gray-500">
-                            Next payment:{" "}
-                            {formatCurrency(schedule.nextPaymentAmount || 0)}{" "}
+                            Next payment:{" "
+                            {formatCurrency(schedule.nextPaymentAmount || 0)}{" "
                             due on {formatDate(schedule.nextPaymentDate)}
                           </p>
                         )}
@@ -427,9 +411,8 @@ const BuyerFinancialDashboard: React.FC = () => {
                       </div>
                       <div className="overflow-hidden h-2 mb-4 text-xs flex rounded bg-blue-200">
                         <div
-                          style={{
-                            width: `${calculateProgress(selectedSchedule.paidAmount, selectedSchedule.totalAmount)}%`,
-                          }}
+                          style={
+                            width: `${calculateProgress(selectedSchedule.paidAmount, selectedSchedule.totalAmount)}%`}
                           className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-blue-500"
                         ></div>
                       </div>
@@ -478,7 +461,7 @@ const BuyerFinancialDashboard: React.FC = () => {
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-gray-200 bg-white">
-                      {selectedSchedule.payments.map((payment) => (
+                      {selectedSchedule.payments.map((payment: any) => (
                         <tr key={payment.id}>
                           <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
                             {getPaymentTypeText(payment.type)}
@@ -498,7 +481,7 @@ const BuyerFinancialDashboard: React.FC = () => {
                             </span>
                           </td>
                           <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                            {payment.reference || "-"}
+                            {payment.reference || "-"
                           </td>
                         </tr>
                       ))}
@@ -525,11 +508,11 @@ const BuyerFinancialDashboard: React.FC = () => {
                       </div>
                       <div className="ml-3 flex-1 md:flex md:justify-between">
                         <p className="text-sm text-blue-700">
-                          Your next payment of{" "}
+                          Your next payment of{" "
                           {formatCurrency(
                             selectedSchedule.nextPaymentAmount || 0,
-                          )}{" "}
-                          is due on{" "}
+                          )}{" "
+                          is due on{" "
                           {formatDate(selectedSchedule.nextPaymentDate)}.
                         </p>
                         <p className="mt-3 text-sm md:mt-0 md:ml-6">

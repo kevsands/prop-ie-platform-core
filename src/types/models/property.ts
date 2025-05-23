@@ -1,223 +1,304 @@
-/**
- * Property Domain Model Types
- * 
- * This file defines the core Property domain models and related types
- * that are used throughout the application.
- */
+// Comprehensive Property Types and Interfaces
+import { PropertyStatus, PropertyType } from '../enums';
 
-import { Development } from './development';
-import { User, UserSummary } from './user';
-
-/**
- * Property status enum
- */
-export enum PropertyStatus {
-  UPCOMING = 'UPCOMING',
-  AVAILABLE = 'AVAILABLE',
-  RESERVED = 'RESERVED',
-  SOLD = 'SOLD',
-  UNDER_CONSTRUCTION = 'UNDER_CONSTRUCTION',
-  COMPLETED = 'COMPLETED'
-}
-
-/**
- * Property type enum
- */
-export enum PropertyType {
-  HOUSE = 'HOUSE',
-  APARTMENT = 'APARTMENT',
-  DUPLEX = 'DUPLEX',
-  PENTHOUSE = 'PENTHOUSE',
-  VILLA = 'VILLA',
-  TOWNHOUSE = 'TOWNHOUSE',
-  STUDIO = 'STUDIO'
-}
-
-/**
- * Property feature type
- */
-export interface PropertyFeature {
+// Main Property Interface
+export interface Property {
+  id: string;
+  developmentId?: string;
+  development?: Development;
+  unitNumber: string;
   name: string;
-  value: string | number | boolean;
-  category?: string;
-  icon?: string;
+  type: PropertyType;
+  size: number;
+  bedrooms: number;
+  bathrooms: number;
+  price: number;
+  originalPrice?: number;
+  status: PropertyStatus;
+  features: string[];
+  images: PropertyImage[];
+  floorPlans: string[];
+  virtualTourUrl?: string;
+  description?: string;
+  specifications?: PropertySpecifications;
+  location: PropertyLocation;
+  amenities: string[];
+  availability: PropertyAvailability;
+  customizationOptions?: CustomizationOption[];
+  energyRating?: string;
+  berNumber?: string;
+  propertyTax?: number;
+  managementFee?: number;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
-/**
- * Property location type
- */
-export interface PropertyLocation {
-  address: string;
-  city: string;
-  county: string;
-  postcode: string;
-  country: string;
-  latitude?: number;
-  longitude?: number;
-}
-
-/**
- * Property image type
- */
 export interface PropertyImage {
   id: string;
   url: string;
-  title?: string;
-  description?: string;
+  alt?: string;
   isPrimary: boolean;
   order: number;
-  type: 'EXTERIOR' | 'INTERIOR' | 'FLOORPLAN' | 'SITE_PLAN' | 'OTHER';
+  width?: number;
+  height?: number;
+  thumbnailUrl?: string;
 }
 
-/**
- * Property financial details
- */
-export interface PropertyFinancials {
-  price: number;
-  currency: string;
-  deposit: number;
-  monthlyPayment?: number;
-  estimatedTotalCost?: number;
-  stampDuty?: number;
-  maintenanceFees?: number;
-  rentalYield?: number;
-  investmentDetails?: Record<string, any>;
+export interface PropertySpecifications {
+  internalArea?: number;
+  externalArea?: number;
+  totalArea: number;
+  floors?: number;
+  parkingSpaces?: number;
+  orientation?: string;
+  yearBuilt?: number;
+  heatingType?: string;
+  coolingType?: string;
+  windowType?: string;
+  insulation?: string;
+  constructionType?: string;
+  foundation?: string;
+  roofType?: string;
+  exteriorFinish?: string;
 }
 
-/**
- * Core Property interface
- */
-export interface Property {
-  id: string;
-  title: string;
-  description: string;
-  type: PropertyType;
-  status: PropertyStatus;
-  bedrooms: number;
-  bathrooms: number;
-  squareMeters: number;
-  features: PropertyFeature[];
-  images: PropertyImage[];
-  location: PropertyLocation;
-  financials: PropertyFinancials;
-  developmentId?: string;
-  development?: Development;
-  agentId?: string;
-  agent?: UserSummary;
-  createdAt: Date;
-  updatedAt: Date;
-  publishedAt?: Date;
-  isPublished: boolean;
-  metadata?: Record<string, any>;
+export interface PropertyLocation {
+  address: string;
+  addressLine2?: string;
+  city: string;
+  county: string;
+  postcode?: string;
+  country?: string;
+  latitude: number;
+  longitude: number;
+  neighborhood?: string;
+  nearbyAmenities?: NearbyAmenity[];
+  transportLinks?: TransportLink[];
 }
 
-/**
- * Property summary for listing views
- */
-export interface PropertySummary {
-  id: string;
-  title: string;
-  type: PropertyType;
-  status: PropertyStatus;
-  bedrooms: number;
-  bathrooms: number;
-  squareMeters: number;
-  primaryImage?: string;
-  location: {
-    city: string;
-    county: string;
+export interface NearbyAmenity {
+  type: AmenityType;
+  name: string;
+  distance: number;
+  walkingTime?: number;
+  drivingTime?: number;
+  coordinates?: {
+    latitude: number;
+    longitude: number;
   };
-  price: number;
-  currency: string;
-  developmentName?: string;
 }
 
-/**
- * Property creation request
- */
-export interface CreatePropertyRequest {
-  title: string;
-  description: string;
-  type: PropertyType;
-  status: PropertyStatus;
-  bedrooms: number;
-  bathrooms: number;
-  squareMeters: number;
-  features: PropertyFeature[];
-  location: PropertyLocation;
-  financials: PropertyFinancials;
-  developmentId?: string;
-  agentId?: string;
-  isPublished?: boolean;
+export interface TransportLink {
+  type: 'bus' | 'train' | 'luas' | 'dart' | 'airport';
+  name: string;
+  lines?: string[];
+  distance: number;
+  walkingTime?: number;
 }
 
-/**
- * Property update request
- */
-export interface UpdatePropertyRequest {
-  title?: string;
+export type AmenityType = 
+  | 'school'
+  | 'hospital'
+  | 'shopping'
+  | 'restaurant'
+  | 'park'
+  | 'gym'
+  | 'supermarket'
+  | 'pharmacy'
+  | 'bank'
+  | 'cinema'
+  | 'library'
+  | 'transport';
+
+export interface PropertyAvailability {
+  isAvailable: boolean;
+  availableFrom?: Date;
+  moveInDate?: Date;
+  reservationDeadline?: Date;
+  viewingSlots?: ViewingSlot[];
+}
+
+export interface ViewingSlot {
+  id: string;
+  startTime: Date;
+  endTime: Date;
+  isBooked: boolean;
+  bookedBy?: string;
+}
+
+export interface CustomizationOption {
+  id: string;
+  category: CustomizationCategory;
+  name: string;
   description?: string;
-  type?: PropertyType;
-  status?: PropertyStatus;
-  bedrooms?: number;
-  bathrooms?: number;
-  squareMeters?: number;
-  features?: PropertyFeature[];
-  location?: Partial<PropertyLocation>;
-  financials?: Partial<PropertyFinancials>;
-  developmentId?: string;
-  agentId?: string;
-  isPublished?: boolean;
+  price: number;
+  images?: string[];
+  isStandard?: boolean;
+  leadTime?: number;
+  supplier?: string;
 }
 
-/**
- * Property search parameters
- */
-export interface PropertySearchParams {
-  keyword?: string;
-  location?: string;
-  propertyType?: PropertyType[];
-  status?: PropertyStatus[];
-  minBedrooms?: number;
-  maxBedrooms?: number;
-  minBathrooms?: number;
-  maxBathrooms?: number;
+export type CustomizationCategory = 
+  | 'flooring'
+  | 'kitchen'
+  | 'bathroom'
+  | 'fixtures'
+  | 'paint'
+  | 'appliances'
+  | 'lighting'
+  | 'storage'
+  | 'technology';
+
+export interface Development {
+  id: string;
+  name: string;
+  slug: string;
+  developer: Developer;
+  location: string;
+  totalUnits: number;
+  availableUnits: number;
+  completionDate?: Date;
+  description?: string;
+  masterplanImage?: string;
+  amenities?: string[];
+  specifications?: DevelopmentSpecifications;
+}
+
+export interface Developer {
+  id: string;
+  name: string;
+  logo?: string;
+  website?: string;
+  description?: string;
+  establishedYear?: number;
+  completedProjects?: number;
+}
+
+export interface DevelopmentSpecifications {
+  totalArea?: number;
+  greenSpaces?: number;
+  parkingSpaces?: number;
+  communityAmenities?: string[];
+  securityFeatures?: string[];
+  sustainabilityFeatures?: string[];
+}
+
+// API Request/Response Types
+export interface PropertyFilters {
+  search?: string;
+  type?: PropertyType[];
   minPrice?: number;
   maxPrice?: number;
-  minSquareMeters?: number;
-  maxSquareMeters?: number;
+  bedrooms?: number[];
+  bathrooms?: number[];
+  minSize?: number;
+  maxSize?: number;
+  location?: string[];
+  amenities?: string[];
+  status?: PropertyStatus[];
+  features?: string[];
   developmentId?: string;
-  sortBy?: 'price' | 'date' | 'bedrooms' | 'squareMeters';
+  hasVirtualTour?: boolean;
+  hasParking?: boolean;
+  sortBy?: PropertySortOption;
   sortOrder?: 'asc' | 'desc';
 }
 
-/**
- * Type guard to check if a value is a valid Property
- */
-export function isProperty(value: any): value is Property {
-  return (
-    value &&
-    typeof value === 'object' &&
-    typeof value.id === 'string' &&
-    typeof value.title === 'string' &&
-    typeof value.type === 'string' &&
-    typeof value.status === 'string' &&
-    typeof value.bedrooms === 'number' &&
-    typeof value.bathrooms === 'number' &&
-    typeof value.squareMeters === 'number' &&
-    Array.isArray(value.features) &&
-    Array.isArray(value.images) &&
-    value.location &&
-    value.financials
-  );
+export type PropertySortOption = 
+  | 'price'
+  | 'size'
+  | 'bedrooms'
+  | 'newest'
+  | 'oldest'
+  | 'name'
+  | 'availability';
+
+export interface PropertyListResponse {
+  properties: Property[];
+  total: number;
+  page: number;
+  pageSize: number;
+  totalPages: number;
+  filters: PropertyFilters;
+  aggregations?: PropertyAggregations;
 }
 
-/**
- * Type assertion function to ensure a value is a Property
- * @throws {Error} If the value is not a valid Property
- */
-export function assertProperty(value: any): asserts value is Property {
-  if (!isProperty(value)) {
-    throw new Error('Value is not a valid Property');
-  }
+export interface PropertyAggregations {
+  priceRange: {
+    min: number;
+    max: number;
+    avg: number;
+  };
+  sizeRange: {
+    min: number;
+    max: number;
+    avg: number;
+  };
+  typeCounts: Record<PropertyType, number>\n  );
+  statusCounts: Record<PropertyStatus, number>\n  );
+  bedroomCounts: Record<number, number>\n  );
+  locationCounts: Record<string, number>\n  );
+}
+
+// Property Actions
+export interface PropertyReservation {
+  propertyId: string;
+  userId: string;
+  reservationDate: Date;
+  expiryDate: Date;
+  depositAmount?: number;
+  status: 'pending' | 'confirmed' | 'expired' | 'cancelled';
+}
+
+export interface PropertyInquiry {
+  propertyId: string;
+  userId: string;
+  message: string;
+  contactPreference: 'email' | 'phone' | 'both';
+  preferredContactTime?: string;
+  createdAt: Date;
+}
+
+// Helper Types
+export interface PropertySearchParams {
+  q?: string;
+  filters?: PropertyFilters;
+  page?: number;
+  limit?: number;
+  view?: 'grid' | 'list' | 'map';
+}
+
+export interface PropertyMapMarker {
+  id: string;
+  position: {
+    lat: number;
+    lng: number;
+  };
+  property: {
+    name: string;
+    price: number;
+    type: PropertyType;
+    bedrooms: number;
+    image?: string;
+  };
+}
+
+// Validation schemas
+export interface PropertyValidation {
+  isValid: boolean;
+  errors?: {
+    field: string;
+    message: string;
+  }[];
+}
+
+// Analytics
+export interface PropertyAnalytics {
+  propertyId: string;
+  views: number;
+  inquiries: number;
+  reservations: number;
+  averageViewTime: number;
+  popularFeatures: string[];
+  conversionRate: number;
 }

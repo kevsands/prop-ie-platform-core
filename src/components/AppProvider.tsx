@@ -38,24 +38,22 @@ interface AppProviderProps {
 export default function AppProvider({
   children,
   includeAll = true,
-  include = [],
-}: AppProviderProps): JSX.Element {
+  include = []}: AppProviderProps): JSX.Element {
   // Determine which providers should be included
   const shouldInclude = (type: ProviderType): boolean => {
     return includeAll || include.includes(type);
   };
 
   // Wrap children with each provider, in the correct order
-  let content = <>{children}</>;
-
+  let content = <>{children}</>\n  );
   // Add Security Provider
   if (shouldInclude('security')) {
-    content = <AppSecurityProvider>{content}</AppSecurityProvider>;
+    content = <AppSecurityProvider>{content}</AppSecurityProvider>\n  );
   }
 
   // Add Auth Provider
   if (shouldInclude('auth')) {
-    content = <AuthProvider>{content}</AuthProvider>;
+    content = <AuthProvider>{content}</AuthProvider>\n  );
   }
 
   // Add React Query Provider

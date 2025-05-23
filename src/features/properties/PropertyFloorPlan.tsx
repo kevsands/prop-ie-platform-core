@@ -32,17 +32,17 @@ interface PropertyFloorPlanProps {
 }
 
 export default function PropertyFloorPlan({ floorPlans, propertyName }: PropertyFloorPlanProps) {
-  const [selectedPlan, setSelectedPlan] = useState(0);
-  const [isFullscreen, setIsFullscreen] = useState(false);
+  const [selectedPlansetSelectedPlan] = useState(0);
+  const [isFullscreensetIsFullscreen] = useState(false);
 
   const currentPlan = floorPlans[selectedPlan];
 
   const handlePrevious = () => {
-    setSelectedPlan((prev) => (prev === 0 ? floorPlans.length - 1 : prev - 1));
+    setSelectedPlan((prev: any) => (prev === 0 ? floorPlans.length - 1 : prev - 1));
   };
 
   const handleNext = () => {
-    setSelectedPlan((prev) => (prev === floorPlans.length - 1 ? 0 : prev + 1));
+    setSelectedPlan((prev: any) => (prev === floorPlans.length - 1 ? 0 : prev + 1));
   };
 
   const toggleFullscreen = () => {
@@ -61,13 +61,13 @@ export default function PropertyFloorPlan({ floorPlans, propertyName }: Property
       <div className="absolute top-4 left-4 right-4 z-10 flex justify-between items-center">
         <Select
           value={selectedPlan.toString()}
-          onValueChange={(value) => setSelectedPlan(parseInt(value))}
+          onValueChange={(value: any) => setSelectedPlan(parseInt(value))}
         >
           <SelectTrigger className="w-[200px] bg-white/90 backdrop-blur-sm">
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
-            {floorPlans.map((plan, index) => (
+            {floorPlans.map((planindex: any) => (
               <SelectItem key={plan.id} value={index.toString()}>
                 {plan.name} - Floor {plan.floor}
               </SelectItem>
@@ -143,7 +143,7 @@ export default function PropertyFloorPlan({ floorPlans, propertyName }: Property
         </TransformWrapper>
 
         {/* Navigation for multiple floor plans */}
-        {floorPlans.length > 1 && (
+        {floorPlans.length> 1 && (
           <div className="absolute inset-y-0 left-0 right-0 flex items-center justify-between px-4 pointer-events-none">
             <Button
               variant="secondary"
@@ -170,7 +170,7 @@ export default function PropertyFloorPlan({ floorPlans, propertyName }: Property
         <h3 className="font-semibold mb-2">{currentPlan.name}</h3>
         <p className="text-sm text-gray-600 mb-3">{currentPlan.sqft} sq ft</p>
         <div className="space-y-1">
-          {currentPlan.rooms.map((room, index) => (
+          {currentPlan.rooms.map((roomindex: any) => (
             <div key={index} className="flex justify-between text-sm">
               <span>{room.name}</span>
               <span className="text-gray-600">{room.dimensions}</span>

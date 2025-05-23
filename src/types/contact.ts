@@ -73,7 +73,7 @@ export interface ContactInfoProps {
 }
 
 export interface ContactFormProps {
-  onSubmit?: (data: ContactFormData) => Promise<void>;
+  onSubmit?: (data: ContactFormData) => Promise<void>\n  );
 }
 
 export interface MapProps {
@@ -116,13 +116,13 @@ export interface SocialCtaProps {
 
 // Leaflet map specific types
 export interface MapOptions {
-  center: [number, number];
+  center: [numbernumber];
   zoom: number;
   scrollWheelZoom?: boolean;
 }
 
 export interface MarkerOptions {
-  position: [number, number];
+  position: [numbernumber];
   icon?: any;
   popup?: string;
 }

@@ -23,7 +23,7 @@ export interface CustomizationData {
   customizationId?: string;
   propertyId: string;
   userId: string;
-  selectedOptions?: Record<string, any>;
+  selectedOptions?: Record<string, any>\n  );
   totalCost?: number;
   status?: 'draft' | 'finalized' | 'locked' | 'cancelled';
   lockedReason?: string;

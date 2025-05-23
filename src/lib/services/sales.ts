@@ -21,8 +21,7 @@ export class SalesService {
           ...(filters?.status && { status: filters.status }),
           ...(filters?.developmentId && { developmentId: filters.developmentId }),
           ...(filters?.buyerId && { buyerId: filters.buyerId }),
-          ...(filters?.sellingAgentId && { sellingAgentId: filters.sellingAgentId }),
-        },
+          ...(filters?.sellingAgentId && { sellingAgentId: filters.sellingAgentId })},
         include: {
           unit: true,
           development: true,
@@ -31,16 +30,11 @@ export class SalesService {
           documents: true,
           statusHistory: {
             orderBy: {
-              timestamp: 'desc',
-            },
+              timestamp: 'desc'},
             include: {
-              updatedBy: true,
-            },
-          },
-        },
-      });
+              updatedBy: true}});
     } catch (error) {
-      console.error('Error fetching sales:', error);
+
       throw new Error('Failed to fetch sales data');
     }
   }
@@ -62,28 +56,19 @@ export class SalesService {
           documents: true,
           statusHistory: {
             orderBy: {
-              timestamp: 'desc',
-            },
+              timestamp: 'desc'},
             include: {
-              updatedBy: true,
-            },
-          },
+              updatedBy: true},
           notes: {
             orderBy: {
-              timestamp: 'desc',
-            },
-          },
+              timestamp: 'desc'},
           tasks: {
             orderBy: {
-              dueDate: 'asc',
-            },
-          },
+              dueDate: 'asc'},
           snagList: true,
-          sellingAgent: true,
-        },
-      });
+          sellingAgent: true});
     } catch (error) {
-      console.error(`Error fetching sale with ID ${id}:`, error);
+
       throw new Error('Failed to fetch sale data');
     }
   }
@@ -105,7 +90,7 @@ export class SalesService {
   }) {
     try {
       // Start a transaction to ensure all related records are created consistently
-      return await prisma.$transaction(async (tx) => {
+      return await prisma.$transaction(async (tx: any) => {
         // Create the sale record
         const sale = await tx.sale.create({
           data: {
@@ -118,9 +103,7 @@ export class SalesService {
             totalPrice: data.totalPrice,
             referenceNumber: data.referenceNumber,
             status: data.status,
-            contractStatus: data.contractStatus,
-          },
-        });
+            contractStatus: data.contractStatus});
 
         // Create initial status history record
         await tx.saleStatusHistory.create({
@@ -128,26 +111,20 @@ export class SalesService {
             saleId: sale.id,
             status: data.status,
             updatedById: data.sellingAgentId || data.buyerId, // Use seller or buyer as updater
-            notes: 'Initial sale/reservation created',
-          },
-        });
+            notes: 'Initial sale/reservation created'});
 
         // Create initial timeline
         await tx.saleTimeline.create({
           data: {
             saleId: sale.id,
             initialEnquiryDate: new Date(),
-            reservationDate: data.status === 'RESERVATION' ? new Date() : undefined,
-          },
-        });
+            reservationDate: data.status === 'RESERVATION' ? new Date() : undefined});
 
         // Update unit status
         await tx.unit.update({
           where: { id: data.unitId },
           data: {
-            status: data.status === 'RESERVATION' ? 'RESERVED' : 'AVAILABLE',
-          },
-        });
+            status: data.status === 'RESERVATION' ? 'RESERVED' : 'AVAILABLE'});
 
         // Return the created sale with related data
         return await tx.sale.findUnique({
@@ -156,12 +133,10 @@ export class SalesService {
             unit: true,
             development: true,
             timeline: true,
-            statusHistory: true,
-          },
-        });
+            statusHistory: true});
       });
     } catch (error) {
-      console.error('Error creating sale:', error);
+
       throw new Error('Failed to create sale record');
     }
   }
@@ -174,16 +149,15 @@ export class SalesService {
     previousStatus?: SaleStatus;
     updatedById: string;
     notes?: string;
-    timelineUpdates?: Record<string, Date>;
+    timelineUpdates?: Record<string, Date>\n  );
   }) {
     try {
-      return await prisma.$transaction(async (tx) => {
+      return await prisma.$transaction(async (tx: any) => {
         // Get current sale to determine previous status if not provided
         if (!data.previousStatus) {
           const currentSale = await tx.sale.findUnique({
             where: { id },
-            select: { status: true },
-          });
+            select: { status: true });
 
           if (!currentSale) {
             throw new Error('Sale not found');
@@ -195,8 +169,7 @@ export class SalesService {
         // Update the sale status
         const updatedSale = await tx.sale.update({
           where: { id },
-          data: { status: data.status },
-        });
+          data: { status: data.status });
 
         // Create status history record
         await tx.saleStatusHistory.create({
@@ -205,9 +178,7 @@ export class SalesService {
             status: data.status,
             previousStatus: data.previousStatus,
             updatedById: data.updatedById,
-            notes: data.notes,
-          },
-        });
+            notes: data.notes});
 
         // Update unit status based on sale status
         // Update unit status based on sale status
@@ -241,16 +212,14 @@ export class SalesService {
         if (unitStatus) {
           await tx.unit.update({
             where: { id: updatedSale.unitId },
-            data: { status: unitStatus },
-          });
+            data: { status: unitStatus });
         }
 
         // Update timeline if needed
-        if (data.timelineUpdates && Object.keys(data.timelineUpdates).length > 0) {
+        if (data.timelineUpdates && Object.keys(data.timelineUpdates).length> 0) {
           await tx.saleTimeline.update({
             where: { saleId: id },
-            data: data.timelineUpdates,
-          });
+            data: data.timelineUpdates});
         } else {
           // Set appropriate timeline fields based on status change
           const timelineData: Record<string, Date> = {};
@@ -287,18 +256,17 @@ export class SalesService {
               break;
           }
 
-          if (Object.keys(timelineData).length > 0) {
+          if (Object.keys(timelineData).length> 0) {
             await tx.saleTimeline.update({
               where: { saleId: id },
-              data: timelineData,
-            });
+              data: timelineData});
           }
         }
 
         return updatedSale;
       });
     } catch (error) {
-      console.error(`Error updating sale status for ID ${id}:`, error);
+
       throw new Error('Failed to update sale status');
     }
   }
@@ -321,26 +289,22 @@ export class SalesService {
     try {
       // Check if deposit info already exists
       const existingDeposit = await prisma.deposit.findUnique({
-        where: { saleId },
-      });
+        where: { saleId });
 
       if (existingDeposit) {
         // Update existing deposit
         return await prisma.deposit.update({
           where: { saleId },
-          data,
-        });
+          data});
       } else {
         // Create new deposit record
         return await prisma.deposit.create({
           data: {
             saleId,
-            ...data,
-          },
-        });
+            ...data});
       }
     } catch (error) {
-      console.error(`Error updating deposit for sale ID ${saleId}:`, error);
+
       throw new Error('Failed to update deposit information');
     }
   }
@@ -362,11 +326,9 @@ export class SalesService {
           authorId: data.authorId,
           content: data.content,
           isPrivate: data.isPrivate || false,
-          category: data.category,
-        },
-      });
+          category: data.category});
     } catch (error) {
-      console.error('Error adding note to sale:', error);
+
       throw new Error('Failed to add note');
     }
   }
@@ -400,8 +362,7 @@ export class SalesService {
             assignedToId: data.assignedToId,
             notifyBeforeDays: data.notifyBeforeDays,
             // Don't update createdById
-          },
-        });
+          });
       } else {
         // Create new task
         return await prisma.saleTask.create({
@@ -414,12 +375,10 @@ export class SalesService {
             priority: data.priority,
             assignedToId: data.assignedToId,
             createdById: data.createdById,
-            notifyBeforeDays: data.notifyBeforeDays,
-          },
-        });
+            notifyBeforeDays: data.notifyBeforeDays});
       }
     } catch (error) {
-      console.error('Error upserting task for sale:', error);
+
       throw new Error('Failed to create or update task');
     }
   }
@@ -429,12 +388,11 @@ export class SalesService {
    */
   async deleteSale(id: string, updatedById: string, reason: string) {
     try {
-      return await prisma.$transaction(async (tx) => {
+      return await prisma.$transaction(async (tx: any) => {
         // Update the sale status to CANCELLED
         const updatedSale = await tx.sale.update({
           where: { id },
-          data: { status: 'CANCELLED' },
-        });
+          data: { status: 'CANCELLED' });
 
         // Create status history record
         await tx.saleStatusHistory.create({
@@ -442,20 +400,17 @@ export class SalesService {
             saleId: id,
             status: 'CANCELLED',
             updatedById: updatedById,
-            notes: `Sale cancelled: ${reason}`,
-          },
-        });
+            notes: `Sale cancelled: ${reason}`});
 
         // Update unit status to available
         await tx.unit.update({
           where: { id: updatedSale.unitId },
-          data: { status: 'AVAILABLE' },
-        });
+          data: { status: 'AVAILABLE' });
 
         return updatedSale;
       });
     } catch (error) {
-      console.error(`Error deleting sale with ID ${id}:`, error);
+
       throw new Error('Failed to delete sale');
     }
   }
@@ -469,8 +424,7 @@ export class SalesService {
       const statusCounts = await prisma.sale.groupBy({
         by: ['status'],
         where: developmentId ? { developmentId } : undefined,
-        _count: true,
-      });
+        _count: true});
 
       // Calculate total sales value
       const salesValue = await prisma.sale.aggregate({
@@ -478,12 +432,9 @@ export class SalesService {
           status: {
             in: ['COMPLETED', 'HANDED_OVER']
           },
-          ...(developmentId && { developmentId }),
-        },
+          ...(developmentId && { developmentId })},
         _sum: {
-          totalPrice: true,
-        },
-      });
+          totalPrice: true});
 
       // Calculate reserved value
       const reservedValue = await prisma.sale.aggregate({
@@ -491,19 +442,15 @@ export class SalesService {
           status: {
             in: ['RESERVATION', 'PENDING_APPROVAL', 'RESERVATION_APPROVED', 'CONTRACT_ISSUED']
           },
-          ...(developmentId && { developmentId }),
-        },
+          ...(developmentId && { developmentId })},
         _sum: {
-          totalPrice: true,
-        },
-      });
+          totalPrice: true});
 
       // Get recent sales activity
       const recentActivity = await prisma.saleStatusHistory.findMany({
         take: 10,
         orderBy: {
-          timestamp: 'desc',
-        },
+          timestamp: 'desc'},
         where: developmentId ? {
           sale: {
             developmentId
@@ -517,14 +464,12 @@ export class SalesService {
               unit: {
                 select: {
                   name: true,
-                  type: true,
-                }
+                  type: true}
               },
               development: {
                 select: {
                   name: true,
-                  id: true,
-                }
+                  id: true}
               }
             }
           },
@@ -532,24 +477,22 @@ export class SalesService {
             select: {
               id: true,
               firstName: true,
-              lastName: true,
-            }
+              lastName: true}
           }
         }
       });
 
       // Format and return all statistics
       return {
-        statusCounts: statusCounts.reduce((acc, item) => {
+        statusCounts: statusCounts.reduce((accitem: any) => {
           acc[item.status] = item._count;
           return acc;
         }, {} as Record<string, number>),
         totalSalesValue: salesValue._sum.totalPrice || 0,
         totalReservedValue: reservedValue._sum.totalPrice || 0,
-        recentActivity,
-      };
+        recentActivity};
     } catch (error) {
-      console.error('Error fetching sales statistics:', error);
+
       throw new Error('Failed to fetch sales statistics');
     }
   }

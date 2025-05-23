@@ -1,0 +1,82 @@
+import React, { useState } from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+
+interface ContractConfirmationProps {
+  onConfirm: () => void;
+  onCancel: () => void;
+  loading?: boolean;
+}
+
+export const ContractConfirmation: React.FC<ContractConfirmationProps> = ({
+  onConfirm,
+  onCancel,
+  loading = false
+}) => {
+  const [confirmed, setConfirmed] = useState(false);
+
+  return (
+    <Card className="w-full max-w-3xl mx-auto">
+      <CardHeader>
+        <CardTitle className="text-2xl font-bold text-center">
+          PROP.IE - FINAL CONTRACT CONFIRMATION STATEMENT
+        </CardTitle>
+        <p className="text-center text-sm text-gray-600">
+          Please read carefully before proceeding.
+        </p>
+      </CardHeader>
+      <CardContent>
+        <Alert className="mb-6">
+          <AlertDescription>
+            <strong>Important:</strong> By proceeding, you are entering into a legally binding contract. 
+            Please ensure you have reviewed all terms with your solicitor.
+          </AlertDescription>
+        </Alert>
+
+        <div className="space-y-4 mb-6">
+          <p className="font-semibold">I confirm that:</p>
+          <ul className="space-y-3 text-sm">
+            <li>• I have reviewed the Contract for Sale provided to me via Prop.ie or by my solicitor.</li>
+            <li>• I have had the opportunity to obtain independent legal advice and nominate a solicitor to act on my behalf.</li>
+            <li>• I understand that by signing this contract electronically, I am entering into a legally binding agreement to purchase the selected property/unit.</li>
+            <li>• I am aware that this agreement becomes irrevocable once both parties have executed the contract and that cancellation thereafter may result in forfeiture of booking deposit and/or legal consequences.</li>
+            <li>• I confirm that I have the financial means (including mortgage approval, if applicable) to complete the purchase.</li>
+            <li>• I consent to the use of electronic communications and electronic signatures in this transaction, in compliance with the Electronic Commerce Act 2000 and EU Regulation 910/2014 (eIDAS).</li>
+          </ul>
+        </div>
+
+        <div className="flex items-center space-x-2 mb-6">
+          <Checkbox 
+            id="confirmation" 
+            checked={confirmed}
+            onCheckedChange={setConfirmed}
+          />
+          <label 
+            htmlFor="confirmation" 
+            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+          >
+            I confirm all the above and consent to legally sign the Contract for Sale.
+          </label>
+        </div>
+
+        <div className="flex justify-between">
+          <button
+            onClick={onCancel}
+            className="px-6 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 transition-colors"
+            disabled={loading}
+          >
+            Cancel
+          </button>
+          <button
+            onClick={onConfirm}
+            disabled={!confirmed || loading}
+            className="px-8 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {loading ? 'Processing...' : 'Continue to Sign with DocuSign'}
+          </button>
+        </div>
+      </CardContent>
+    </Card>
+  );
+};

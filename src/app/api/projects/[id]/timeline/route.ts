@@ -1,13 +1,19 @@
+type Props = {
+  params: Promise<{ id: string }>
+}
+
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
-import { GetHandler, PatchHandler, IdParam } from '@/types/next-route-handlers';
 
 /**
  * GET /api/projects/[id]/timeline
  * Fetch timeline data for a specific project
  */
-export const GET: GetHandler<IdParam> = async (request, { params }) => {
+export async function GET(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
   try {
     const session = await getServerSession(authOptions);
 
@@ -19,8 +25,8 @@ export const GET: GetHandler<IdParam> = async (request, { params }) => {
       );
     }
 
-    const projectId = params.id as string;
-    
+    const { id: projectId } = await params;
+
     if (!projectId) {
       return NextResponse.json(
         { error: 'Project ID is required' },
@@ -158,7 +164,7 @@ export const GET: GetHandler<IdParam> = async (request, { params }) => {
 
     return NextResponse.json(timelineData);
   } catch (error) {
-    console.error('Error fetching timeline data:', error);
+
     return NextResponse.json(
       { error: 'Failed to fetch timeline data' },
       { status: 500 }
@@ -170,7 +176,10 @@ export const GET: GetHandler<IdParam> = async (request, { params }) => {
  * PATCH /api/projects/[id]/timeline
  * Update timeline milestone status
  */
-export const PATCH: PatchHandler<IdParam> = async (request, { params }) => {
+export async function PATCH(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
   try {
     const session = await getServerSession(authOptions);
 
@@ -182,8 +191,8 @@ export const PATCH: PatchHandler<IdParam> = async (request, { params }) => {
       );
     }
 
-    const projectId = params.id as string;
-    
+    const { id: projectId } = await params;
+
     if (!projectId) {
       return NextResponse.json(
         { error: 'Project ID is required' },
@@ -192,8 +201,8 @@ export const PATCH: PatchHandler<IdParam> = async (request, { params }) => {
     }
 
     // Parse request body
-    const body = await request.json();
-    
+    const body: any = await request.json();
+
     if (!body.milestoneId) {
       return NextResponse.json(
         { error: 'Milestone ID is required' },
@@ -211,7 +220,7 @@ export const PATCH: PatchHandler<IdParam> = async (request, { params }) => {
       updatedFields: Object.keys(body).filter(key => key !== 'milestoneId')
     });
   } catch (error) {
-    console.error('Error updating milestone:', error);
+
     return NextResponse.json(
       { error: 'Failed to update milestone' },
       { status: 500 }

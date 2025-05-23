@@ -34,7 +34,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json(projectData);
   } catch (error) {
-    console.error('Error fetching project data:', error);
+
     return NextResponse.json(
       { error: 'Failed to fetch project data' },
       { status: 500 }

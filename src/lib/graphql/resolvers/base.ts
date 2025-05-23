@@ -17,9 +17,7 @@ export class AuthenticationError extends GraphQLError {
   constructor(message = 'Not authenticated') {
     super(message, {
       extensions: {
-        code: 'UNAUTHENTICATED',
-      },
-    });
+        code: 'UNAUTHENTICATED'});
   }
 }
 
@@ -30,9 +28,7 @@ export class ForbiddenError extends GraphQLError {
   constructor(message = 'Not authorized') {
     super(message, {
       extensions: {
-        code: 'FORBIDDEN',
-      },
-    });
+        code: 'FORBIDDEN'});
   }
 }
 
@@ -43,9 +39,7 @@ export class NotFoundError extends GraphQLError {
   constructor(entity: string, id: string) {
     super(`${entity} with ID ${id} not found`, {
       extensions: {
-        code: 'NOT_FOUND',
-      },
-    });
+        code: 'NOT_FOUND'});
   }
 }
 
@@ -56,9 +50,7 @@ export class ValidationError extends GraphQLError {
   constructor(message: string) {
     super(message, {
       extensions: {
-        code: 'BAD_USER_INPUT',
-      },
-    });
+        code: 'BAD_USER_INPUT'});
   }
 }
 
@@ -141,7 +133,6 @@ export const baseResolvers = {
       }
       return null;
     },
-  },
 
   JSON: {
     // Serialize JSON value
@@ -158,7 +149,7 @@ export const baseResolvers = {
         case 'StringValue':
           return JSON.parse(ast.value);
         case 'IntValue':
-          return parseInt(ast.value, 10);
+          return parseInt(ast.value10);
         case 'FloatValue':
           return parseFloat(ast.value);
         case 'BooleanValue':
@@ -175,13 +166,10 @@ export const baseResolvers = {
           return null;
       }
     },
-  },
 
   Query: {
     // Base health check query
-    health: () => 'GraphQL API is operational',
-  },
-};
+    health: () => 'GraphQL API is operational'};
 
 /**
  * Helper function to handle pagination
@@ -201,7 +189,7 @@ export function paginateResults<T extends { id: string }>(
   // Apply 'after' cursor
   if (after) {
     const afterIndex = paginatedData.findIndex(item => item.id === after);
-    if (afterIndex >= 0) {
+    if (afterIndex>= 0) {
       paginatedData = paginatedData.slice(afterIndex + 1);
     }
   }
@@ -209,31 +197,30 @@ export function paginateResults<T extends { id: string }>(
   // Apply 'before' cursor
   if (before) {
     const beforeIndex = paginatedData.findIndex(item => item.id === before);
-    if (beforeIndex >= 0) {
-      paginatedData = paginatedData.slice(0, beforeIndex);
+    if (beforeIndex>= 0) {
+      paginatedData = paginatedData.slice(0beforeIndex);
     }
   }
 
   // Store the edges before pagination
   const edges = paginatedData.map(item => ({
     cursor: item.id,
-    node: item,
-  }));
+    node: item}));
 
   // Apply 'first' limit
-  if (first !== undefined && first > 0) {
-    paginatedData = paginatedData.slice(0, first);
+  if (first !== undefined && first> 0) {
+    paginatedData = paginatedData.slice(0first);
   }
 
   // Apply 'last' limit
-  if (last !== undefined && last > 0) {
+  if (last !== undefined && last> 0) {
     paginatedData = paginatedData.slice(-last);
   }
 
   // Calculate page info
-  const startCursor = paginatedData.length > 0 ? paginatedData[0].id : null;
-  const endCursor = paginatedData.length > 0 ? paginatedData[paginatedData.length - 1].id : null;
-  const hasNextPage = endCursor ? edges.some(edge => edge.cursor === endCursor) && edges.indexOf(edges.find(edge => edge.cursor === endCursor)!) < edges.length - 1 : false;
+  const startCursor = paginatedData.length> 0 ? paginatedData[0].id : null;
+  const endCursor = paginatedData.length> 0 ? paginatedData[paginatedData.length - 1].id : null;
+  const hasNextPage = endCursor ? edges.some(edge => edge.cursor === endCursor) && edges.indexOf(edges.find(edge => edge.cursor === endCursor)!) <edges.length - 1 : false;
   const hasPreviousPage = startCursor ? edges.some(edge => edge.cursor === startCursor) && edges.indexOf(edges.find(edge => edge.cursor === startCursor)!) > 0 : false;
 
   return {
@@ -242,10 +229,8 @@ export function paginateResults<T extends { id: string }>(
       hasNextPage,
       hasPreviousPage,
       startCursor,
-      endCursor,
-    },
-    totalCount: data.length,
-  };
+      endCursor},
+    totalCount: data.length};
 }
 
 /**

@@ -23,7 +23,7 @@ export function generateOtpAuthUrl(
   const encodedIssuer = encodeURIComponent(issuer);
   const encodedUsername = encodeURIComponent(username);
   const encodedSecretKey = encodeURIComponent(secretKey);
-  
+
   // Create otpauth URL following the standard format:
   // otpauth://totp/{issuer}:{account}?secret={secret}&issuer={issuer}
   return `otpauth://totp/${encodedIssuer}:${encodedUsername}?secret=${encodedSecretKey}&issuer=${encodedIssuer}`;
@@ -44,7 +44,7 @@ export async function generateQRCodeDataUrl(
     // We'll use a dynamic import of QRCode.js to keep bundles small
     // and avoid including it when not needed
     const QRCode = await import('qrcode');
-    
+
     // Generate QR code as data URL
     return await QRCode.toDataURL(otpAuthUrl, {
       width: size,
@@ -56,7 +56,7 @@ export async function generateQRCodeDataUrl(
       errorCorrectionLevel: 'M' // Medium error correction
     });
   } catch (error) {
-    console.error('Error generating QR code:', error);
+
     throw new Error('Failed to generate QR code for MFA setup');
   }
 }
@@ -74,7 +74,7 @@ export async function generateQRCodeSVG(
 ): Promise<string> {
   try {
     const QRCode = await import('qrcode');
-    
+
     return await QRCode.toString(otpAuthUrl, {
       type: 'svg',
       width: size,
@@ -86,7 +86,7 @@ export async function generateQRCodeSVG(
       errorCorrectionLevel: 'M'
     });
   } catch (error) {
-    console.error('Error generating QR code SVG:', error);
+
     throw new Error('Failed to generate QR code SVG for MFA setup');
   }
 }
@@ -104,11 +104,11 @@ export function formatSecretKeyForDisplay(
 ): string {
   const cleanKey = secretKey.replace(/\s+/g, '').toUpperCase();
   const groups = [];
-  
-  for (let i = 0; i < cleanKey.length; i += groupSize) {
+
+  for (let i = 0; i <cleanKey.length; i += groupSize) {
     groups.push(cleanKey.substring(i, i + groupSize));
   }
-  
+
   return groups.join(' ');
 }
 
@@ -125,25 +125,25 @@ export function generateRecoveryCodes(
 ): string[] {
   const codes = [];
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-  
-  for (let i = 0; i < count; i++) {
+
+  for (let i = 0; i <count; i++) {
     let code = '';
-    
+
     // Generate random code
-    for (let j = 0; j < codeLength; j++) {
+    for (let j = 0; j <codeLength; j++) {
       code += chars.charAt(Math.floor(Math.random() * chars.length));
     }
-    
+
     // Format code as XXXX-XXXX-XX
     const formattedCode = [
-      code.substr(0, 4),
-      code.substr(4, 4),
-      code.substr(8, 2)
+      code.substr(04),
+      code.substr(44),
+      code.substr(82)
     ].join('-');
-    
+
     codes.push(formattedCode);
   }
-  
+
   return codes;
 }
 

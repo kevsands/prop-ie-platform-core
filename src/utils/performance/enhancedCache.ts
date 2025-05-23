@@ -51,7 +51,7 @@ interface CacheItem<T> {
 
 // In-flight request tracking
 interface PendingRequest<T> {
-  promise: Promise<T>;
+  promise: Promise<T>\n  );
   requestId: string;
   timestamp: number;
   abortController: AbortController;
@@ -75,30 +75,30 @@ export interface EnhancedCacheOptions {
  */
 function estimateSize(obj: any): number {
   const objectList = new WeakSet();
-  
+
   function sizeOf(value: any): number {
     if (value === null) return 0;
-    
+
     const type = typeof value;
     if (type === 'boolean') return 4;
     if (type === 'number') return 8;
     if (type === 'string') return value.length * 2;
     if (type === 'object') {
       if (objectList.has(value)) return 0;
-      
+
       objectList.add(value);
-      
+
       let size = 0;
-      
+
       // Arrays
       if (Array.isArray(value)) {
         size = 40; // Array overhead
-        for (let i = 0; i < value.length; i++) {
+        for (let i = 0; i <value.length; i++) {
           size += sizeOf(value[i]);
         }
         return size;
       }
-      
+
       // Object literals
       size = 40; // Object overhead
       const keys = Object.keys(value);
@@ -106,12 +106,12 @@ function estimateSize(obj: any): number {
         size += key.length * 2; // Key size
         size += sizeOf(value[key]); // Value size
       }
-      
+
       return size;
     }
     return 0;
   }
-  
+
   return sizeOf(obj);
 }
 
@@ -123,7 +123,7 @@ function compressData(data: string): string {
   // In a real implementation, use a proper compression library
   // This is just a placeholder to show where compression would happen
   // return LZString.compress(data);
-  
+
   // For now, just return the original data
   return `__compressed__${data}`;
 }
@@ -135,7 +135,7 @@ function decompressData(data: string): string {
   // In a real implementation, use a proper decompression library
   // This is just a placeholder to show where decompression would happen
   // return LZString.decompress(data);
-  
+
   // For now, just return the original data without the prefix
   if (data.startsWith('__compressed__')) {
     return data.substring('__compressed__'.length);
@@ -150,9 +150,9 @@ export class EnhancedCache {
   private cache = new Map<string, CacheItem<any>>();
   private pendingRequests = new Map<string, PendingRequest<any>>();
   private totalSize = 0;
-  private options: Required<EnhancedCacheOptions>;
+  private options: Required<EnhancedCacheOptions>\n  );
   private namespace: string;
-  
+
   constructor(options: EnhancedCacheOptions = {}) {
     this.options = {
       maxSize: 10 * 1024 * 1024, // 10MB default
@@ -166,20 +166,20 @@ export class EnhancedCache {
       maxPendingTime: 30000, // 30 seconds
       ...options
     };
-    
+
     this.namespace = this.options.namespace;
-    
+
     // Load items from disk if persistence is enabled
     if (this.options.persistToDisk && typeof window !== 'undefined') {
       this._loadFromLocalStorage();
     }
-    
+
     // Set up cleanup interval
     if (typeof window !== 'undefined') {
       setInterval(() => this._cleanup(), 60000); // Clean up every minute
     }
   }
-  
+
   /**
    * Set a value in the cache
    * 
@@ -193,28 +193,28 @@ export class EnhancedCache {
     const cacheKey = this._getCacheKey(key);
     const now = Date.now();
     const expiry = now + (ttl || this.options.defaultTtl);
-    
+
     // Remove existing item if present
     this._removeItem(cacheKey);
-    
+
     // Check if we need to make room in the cache
     this._ensureCapacity();
-    
+
     // Stringify for storage and compression
     const valueStr = JSON.stringify(value);
     let finalValueStr = valueStr;
     let isCompressed = false;
-    
+
     // Compress large values if over threshold
-    if (valueStr.length > this.options.compressionThreshold) {
+    if (valueStr.length> this.options.compressionThreshold) {
       finalValueStr = compressData(valueStr);
       isCompressed = true;
       this._debug(`Compressed item ${key} from ${valueStr.length} to ${finalValueStr.length} bytes`);
     }
-    
+
     // Calculate size
     const size = finalValueStr.length * 2; // approximate bytes for string
-    
+
     // Add to cache
     const item: CacheItem<T> = {
       value,
@@ -225,17 +225,17 @@ export class EnhancedCache {
       accessCount: 0,
       isCompressed
     };
-    
-    this.cache.set(cacheKey, item);
+
+    this.cache.set(cacheKeyitem);
     this.totalSize += size;
-    
+
     // Persist to localStorage if enabled
     if (this.options.persistToDisk && typeof window !== 'undefined') {
-      this._saveItemToLocalStorage(cacheKey, item);
+      this._saveItemToLocalStorage(cacheKeyitem);
     }
-    
+
     this._debug(`Set cache item ${key}, expires in ${(expiry - now) / 1000}s, size ${size} bytes`);
-    
+
     // Track metrics
     if (performanceMonitor && typeof performanceMonitor.recordMetric === 'function') {
       performanceMonitor.recordMetric('cache.set', {
@@ -244,10 +244,10 @@ export class EnhancedCache {
         tags: tags.join(',')
       });
     }
-    
+
     return value;
   }
-  
+
   /**
    * Get a value from the cache
    * 
@@ -258,7 +258,7 @@ export class EnhancedCache {
     const cacheKey = this._getCacheKey(key);
     const item = this.cache.get(cacheKey) as CacheItem<T> | undefined;
     const now = Date.now();
-    
+
     if (!item) {
       this._debug(`Cache miss for ${key}`);
       if (performanceMonitor && typeof performanceMonitor.recordCacheMiss === 'function') {
@@ -266,9 +266,9 @@ export class EnhancedCache {
       }
       return undefined;
     }
-    
+
     // Check if expired
-    if (item.expiry < now) {
+    if (item.expiry <now) {
       this._debug(`Cache item ${key} expired`);
       this._removeItem(cacheKey);
       if (performanceMonitor && typeof performanceMonitor.recordCacheMiss === 'function') {
@@ -276,19 +276,19 @@ export class EnhancedCache {
       }
       return undefined;
     }
-    
+
     // Update access metadata
     item.lastAccessed = now;
     item.accessCount++;
-    
+
     this._debug(`Cache hit for ${key}`);
     if (performanceMonitor && typeof performanceMonitor.recordCacheHit === 'function') {
       performanceMonitor.recordCacheHit('enhancedCache', 50);
     }
-    
+
     return item.value;
   }
-  
+
   /**
    * Asynchronously retrieve and deduplicate API requests
    * 
@@ -309,40 +309,36 @@ export class EnhancedCache {
     if (cachedValue !== undefined) {
       return cachedValue;
     }
-    
+
     // Use the same promise for concurrent requests to deduplicate
     const cacheKey = this._getCacheKey(key);
     const requestKey = `req_${cacheKey}`;
-    
+
     // Check if this request is already in-flight
     const pendingRequest = this.pendingRequests.get(requestKey);
     if (pendingRequest) {
       this._debug(`Reusing in-flight request for ${key}`);
       return pendingRequest.promise;
     }
-    
+
     // Create abort controller for timeout
     const abortController = new AbortController();
     const timeoutId = setTimeout(() => {
       abortController.abort();
       this.pendingRequests.delete(requestKey);
     }, this.options.maxPendingTime);
-    
-    // Execute the fetch function
-    const requestPromise = (async () => {
-      try {
-        const start = Date.now();
-        const fetchResult = await fetchFn();
+
+    // Execute the fetch async function constfetchFn();
         const duration = Date.now() - start;
-        
+
         // Save result to cache
-        this.set(key, fetchResult, ttl, tags);
-        
+        this.set(key, fetchResult, ttltags);
+
         // Track metrics
         if (performanceMonitor && typeof performanceMonitor.recordApiCall === 'function') {
-          performanceMonitor.recordApiCall(key, duration, true);
+          performanceMonitor.recordApiCall(key, durationtrue);
         }
-        
+
         return fetchResult;
       } catch (error) {
         this._debug(`Error fetching data for ${key}:`, error);
@@ -353,7 +349,7 @@ export class EnhancedCache {
         this.pendingRequests.delete(requestKey);
       }
     })();
-    
+
     // Register this pending request
     this.pendingRequests.set(requestKey, {
       promise: requestPromise,
@@ -361,10 +357,10 @@ export class EnhancedCache {
       timestamp: Date.now(),
       abortController
     });
-    
+
     return requestPromise;
   }
-  
+
   /**
    * Check if a key exists in the cache and is not expired
    * 
@@ -374,11 +370,11 @@ export class EnhancedCache {
   has(key: string): boolean {
     const cacheKey = this._getCacheKey(key);
     const item = this.cache.get(cacheKey);
-    
+
     if (!item) return false;
-    return item.expiry > Date.now();
+    return item.expiry> Date.now();
   }
-  
+
   /**
    * Remove an item from the cache
    * 
@@ -389,22 +385,22 @@ export class EnhancedCache {
     const cacheKey = this._getCacheKey(key);
     return this._removeItem(cacheKey);
   }
-  
+
   /**
    * Remove all items from the cache
    */
   clear(): void {
     this.cache.clear();
     this.totalSize = 0;
-    
+
     // Clear localStorage if persistence is enabled
     if (this.options.persistToDisk && typeof window !== 'undefined') {
       this._clearLocalStorage();
     }
-    
+
     this._debug('Cache cleared');
   }
-  
+
   /**
    * Invalidate cache items by tag
    * 
@@ -413,25 +409,25 @@ export class EnhancedCache {
    */
   invalidateByTag(tag: string): number {
     let count = 0;
-    
+
     // Find all items with the tag
     const keysToRemove: string[] = [];
-    this.cache.forEach((item, key) => {
+    this.cache.forEach((itemkey: any) => {
       if (item.tags.includes(tag)) {
         keysToRemove.push(key);
       }
     });
-    
+
     // Remove each item
     for (const key of keysToRemove) {
       this._removeItem(key);
       count++;
     }
-    
+
     this._debug(`Invalidated ${count} items with tag ${tag}`);
     return count;
   }
-  
+
   /**
    * Get cache statistics
    * 
@@ -444,31 +440,31 @@ export class EnhancedCache {
     let compressedCount = 0;
     let compressedSize = 0;
     let tagCounts: Record<string, number> = {};
-    
+
     this.cache.forEach(item => {
-      if (item.expiry < now) {
+      if (item.expiry <now) {
         expiredCount++;
       }
-      
+
       totalAccessCount += item.accessCount;
-      
+
       if (item.isCompressed) {
         compressedCount++;
         compressedSize += item.size;
       }
-      
+
       // Count tags
       item.tags.forEach(tag => {
         tagCounts[tag] = (tagCounts[tag] || 0) + 1;
       });
     });
-    
+
     return {
       itemCount: this.cache.size,
       totalSizeBytes: this.totalSize,
       pendingRequests: this.pendingRequests.size,
       expiredItems: expiredCount,
-      averageAccessCount: this.cache.size > 0 ? totalAccessCount / this.cache.size : 0,
+      averageAccessCount: this.cache.size> 0 ? totalAccessCount / this.cache.size : 0,
       compressedItems: compressedCount,
       compressedSizeBytes: compressedSize,
       tagCounts,
@@ -476,47 +472,47 @@ export class EnhancedCache {
       maxItems: this.options.maxItems
     };
   }
-  
+
   /**
    * Create a full cache key with namespace
    */
   private _getCacheKey(key: string): string {
     return `${this.namespace}:${key}`;
   }
-  
+
   /**
    * Remove an item from the cache
    */
   private _removeItem(cacheKey: string): boolean {
     const item = this.cache.get(cacheKey);
-    
+
     if (!item) return false;
-    
+
     // Update total size
     this.totalSize -= item.size;
-    
+
     // Remove from cache
     this.cache.delete(cacheKey);
-    
+
     // Remove from localStorage if persistence is enabled
     if (this.options.persistToDisk && typeof window !== 'undefined') {
       this._removeItemFromLocalStorage(cacheKey);
     }
-    
+
     return true;
   }
-  
+
   /**
    * Ensure the cache is within size limits
    */
   private _ensureCapacity(): void {
     // Check if we need to evict items due to count
-    if (this.cache.size >= this.options.maxItems) {
+    if (this.cache.size>= this.options.maxItems) {
       this._evictItems(Math.ceil(this.options.maxItems * 0.2)); // Evict 20% of items
     }
-    
+
     // Check if we need to evict items due to size
-    if (this.totalSize > this.options.maxSize) {
+    if (this.totalSize> this.options.maxSize) {
       // Get target size (80% of max)
       const targetSize = this.options.maxSize * 0.8;
       // Estimate number of items to remove
@@ -524,60 +520,60 @@ export class EnhancedCache {
       this._evictItems(removalCount);
     }
   }
-  
+
   /**
    * Evict items from the cache using LRU policy
    */
   private _evictItems(count: number): void {
     if (count <= 0 || this.cache.size === 0) return;
-    
+
     // Get all items sorted by last accessed time (oldest first)
     const items = Array.from(this.cache.entries())
-      .sort((a, b) => a[1].lastAccessed - b[1].lastAccessed);
-    
+      .sort((ab: any) => a[1].lastAccessed - b[1].lastAccessed);
+
     // Remove oldest items
     const itemsToRemove = Math.min(count, items.length);
-    for (let i = 0; i < itemsToRemove; i++) {
+    for (let i = 0; i <itemsToRemove; i++) {
       this._removeItem(items[i][0]);
     }
-    
+
     this._debug(`Evicted ${itemsToRemove} items from cache`);
   }
-  
+
   /**
    * Clean up expired items
    */
   private _cleanup(): void {
     const now = Date.now();
     let removedCount = 0;
-    
+
     // Remove expired items
-    this.cache.forEach((item, key) => {
-      if (item.expiry < now) {
+    this.cache.forEach((itemkey: any) => {
+      if (item.expiry <now) {
         this._removeItem(key);
         removedCount++;
       }
     });
-    
+
     // Check for timed out pending requests
-    this.pendingRequests.forEach((request, key) => {
-      if (now - request.timestamp > this.options.maxPendingTime) {
+    this.pendingRequests.forEach((requestkey: any) => {
+      if (now - request.timestamp> this.options.maxPendingTime) {
         request.abortController.abort();
         this.pendingRequests.delete(key);
       }
     });
-    
-    if (removedCount > 0) {
+
+    if (removedCount> 0) {
       this._debug(`Cleaned up ${removedCount} expired items`);
     }
   }
-  
+
   /**
    * Save item to localStorage
    */
   private _saveItemToLocalStorage(key: string, item: CacheItem<any>): void {
     if (typeof window === 'undefined') return;
-    
+
     try {
       const storageKey = `${this.namespace}_${key}`;
       const serialized = JSON.stringify({
@@ -586,8 +582,8 @@ export class EnhancedCache {
         tags: item.tags,
         isCompressed: item.isCompressed
       });
-      
-      localStorage.setItem(storageKey, serialized);
+
+      localStorage.setItem(storageKeyserialized);
     } catch (e) {
       this._debug('Error saving to localStorage:', e);
       // If localStorage is full, clear some space
@@ -597,13 +593,13 @@ export class EnhancedCache {
       }
     }
   }
-  
+
   /**
    * Remove item from localStorage
    */
   private _removeItemFromLocalStorage(key: string): void {
     if (typeof window === 'undefined') return;
-    
+
     try {
       const storageKey = `${this.namespace}_${key}`;
       localStorage.removeItem(storageKey);
@@ -611,13 +607,13 @@ export class EnhancedCache {
       this._debug('Error removing from localStorage:', e);
     }
   }
-  
+
   /**
    * Clear localStorage for this cache namespace
    */
   private _clearLocalStorage(): void {
     if (typeof window === 'undefined') return;
-    
+
     try {
       const prefix = `${this.namespace}_`;
       Object.keys(localStorage)
@@ -627,17 +623,17 @@ export class EnhancedCache {
       this._debug('Error clearing localStorage:', e);
     }
   }
-  
+
   /**
    * Clear old items from localStorage to make space
    */
   private _clearOldLocalStorageItems(): void {
     if (typeof window === 'undefined') return;
-    
+
     try {
       const prefix = `${this.namespace}_`;
       const items: Array<{ key: string; expiry: number }> = [];
-      
+
       // Find all items for this namespace
       Object.keys(localStorage)
         .filter(key => key.startsWith(prefix))
@@ -650,50 +646,50 @@ export class EnhancedCache {
             items.push({ key, expiry: 0 });
           }
         });
-      
+
       // Sort by expiry (oldest first) and remove 20% of items
-      items.sort((a, b) => a.expiry - b.expiry);
+      items.sort((ab: any) => a.expiry - b.expiry);
       const removeCount = Math.max(Math.ceil(items.length * 0.2), 5);
-      
-      for (let i = 0; i < removeCount && i < items.length; i++) {
+
+      for (let i = 0; i <removeCount && i <items.length; i++) {
         localStorage.removeItem(items[i].key);
       }
-      
+
       this._debug(`Cleared ${removeCount} items from localStorage`);
     } catch (e) {
       this._debug('Error clearing old localStorage items:', e);
     }
   }
-  
+
   /**
    * Load items from localStorage
    */
   private _loadFromLocalStorage(): void {
     if (typeof window === 'undefined') return;
-    
+
     try {
       const prefix = `${this.namespace}_`;
       const now = Date.now();
       let loadedCount = 0;
-      
+
       Object.keys(localStorage)
         .filter(key => key.startsWith(prefix))
         .forEach(storageKey => {
           try {
             const data = JSON.parse(localStorage.getItem(storageKey) || '{}');
             const cacheKey = storageKey.substring(prefix.length);
-            
+
             // Skip expired items
-            if (data.expiry && data.expiry < now) {
+            if (data.expiry && data.expiry <now) {
               localStorage.removeItem(storageKey);
               return;
             }
-            
+
             // Decompress if needed
             let value = data.value;
-            
+
             const size = estimateSize(value);
-            
+
             const item: CacheItem<any> = {
               value,
               expiry: data.expiry || (now + this.options.defaultTtl),
@@ -703,8 +699,8 @@ export class EnhancedCache {
               accessCount: 0,
               isCompressed: data.isCompressed
             };
-            
-            this.cache.set(cacheKey, item);
+
+            this.cache.set(cacheKeyitem);
             this.totalSize += size;
             loadedCount++;
           } catch (e) {
@@ -712,19 +708,19 @@ export class EnhancedCache {
             localStorage.removeItem(storageKey);
           }
         });
-      
+
       this._debug(`Loaded ${loadedCount} items from localStorage`);
     } catch (e) {
       this._debug('Error loading from localStorage:', e);
     }
   }
-  
+
   /**
    * Log debug messages if debug mode is enabled
    */
   private _debug(message: string, ...args: any[]): void {
     if (this.options.debug) {
-      console.log(`[EnhancedCache] ${message}`, ...args);
+
     }
   }
 }
@@ -745,7 +741,7 @@ export const cacheFactory = {
       compressionThreshold: 5 * 1024 // 5KB
     });
   },
-  
+
   /**
    * Create a cache instance for UI state
    */
@@ -758,7 +754,7 @@ export const cacheFactory = {
       compressionThreshold: 100 * 1024 // 100KB (most UI state is small)
     });
   },
-  
+
   /**
    * Create a cache instance for static resources
    */
@@ -771,7 +767,7 @@ export const cacheFactory = {
       compressionThreshold: 50 * 1024 // 50KB
     });
   },
-  
+
   /**
    * Create a cache instance for user-specific data
    */
@@ -809,49 +805,49 @@ export function deduplicate<T extends (...args: any[]) => Promise<any>>(
   // Create a cache for this function
   const cache = new Map<string, { promise: Promise<any>; expiry: number }>();
   const { getKey, ttl = 5000, namespace = 'dedup' } = options;
-  
+
   const wrappedFn = async function(this: any, ...args: Parameters<T>): Promise<ReturnType<T>> {
     // Generate cache key
     const key = getKey ? getKey(...args) : `${namespace}:${JSON.stringify(args)}`;
     const now = Date.now();
-    
+
     // Clean expired items
-    for (const [cacheKey, item] of cache.entries()) {
-      if (item.expiry < now) {
+    for (const [cacheKeyitem] of cache.entries()) {
+      if (item.expiry <now) {
         cache.delete(cacheKey);
       }
     }
-    
+
     // Check if request is already in-flight
     const cached = cache.get(key);
-    if (cached && cached.expiry > now) {
+    if (cached && cached.expiry> now) {
       if (performanceMonitor && typeof performanceMonitor.recordMetric === 'function') {
         performanceMonitor.recordMetric('deduplication.hit', { key });
       }
       return cached.promise;
     }
-    
+
     // Execute the function and cache the promise
-    const promise = fn.apply(this, args);
+    const promise = fn.apply(thisargs);
     cache.set(key, { 
       promise, 
       expiry: now + ttl 
     });
-    
+
     if (performanceMonitor && typeof performanceMonitor.recordMetric === 'function') {
       performanceMonitor.recordMetric('deduplication.miss', { key });
     }
-    
+
     // Set up automatic cleanup
     promise.finally(() => {
       setTimeout(() => {
         cache.delete(key);
       }, ttl);
     });
-    
+
     return promise;
   };
-  
+
   return wrappedFn as T;
 }
 
@@ -863,7 +859,7 @@ export function enhancedSafeCache<T extends (...args: unknown[]) => unknown>(
   fn: T, 
   ttlMs: number = 30000
 ): T {
-  return safeCacheFunction(fn, ttlMs);
+  return safeCacheFunction(fnttlMs);
 }
 
 /**
@@ -879,20 +875,20 @@ export function enhancedAsyncCache<T extends (...args: unknown[]) => Promise<any
   } = {}
 ): T {
   const { cacheTTL = 300000, deduplicate: shouldDeduplicate = true, namespace = 'async_cache' } = options;
-  
+
   // If deduplication is enabled, wrap with both deduplication and caching
   if (shouldDeduplicate) {
     // First deduplicate concurrent calls
     const dedupFn = deduplicate<T>(fn, { 
-      ttl: Math.min(cacheTTL, 30000), // Use smaller of cache TTL or 30 seconds for deduplication
+      ttl: Math.min(cacheTTL30000), // Use smaller of cache TTL or 30 seconds for deduplication
       namespace 
     });
-    
+
     // Then add caching on top
     // Explicitly cast to overcome TypeScript limitations with function wrapping
     return asyncSafeCacheFunction(dedupFn, { cacheTTL }) as unknown as T;
   }
-  
+
   // Otherwise, just use regular cache
   // Explicitly cast to overcome TypeScript limitations with function wrapping
   return asyncSafeCacheFunction(fn, { cacheTTL }) as unknown as T;

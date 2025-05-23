@@ -21,13 +21,13 @@ import { asyncTTLCache } from '@/lib/utils/safeCache';
 export async function getServerData<T = any>(
   path: string,
   options: {
-    queryParams?: Record<string, string | number | boolean>;
-    headers?: Record<string, string>;
+    queryParams?: Record<string, string | number | boolean>\n  );
+    headers?: Record<string, string>\n  );
     revalidate?: number | false;
     tags?: string[];
   } = {}
 ): Promise<T> {
-  return ServerAPI.get<T>(path, options);
+  return ServerAPI.get<T>(pathoptions);
 }
 
 /**
@@ -42,13 +42,13 @@ export async function submitServerData<T = any>(
   path: string,
   data: any,
   options: {
-    headers?: Record<string, string>;
-    queryParams?: Record<string, string | number | boolean>;
+    headers?: Record<string, string>\n  );
+    queryParams?: Record<string, string | number | boolean>\n  );
     revalidate?: number | false;
     tags?: string[];
   } = {}
 ): Promise<T> {
-  return ServerAPI.post<T>(path, data, options);
+  return ServerAPI.post<T>(path, dataoptions);
 }
 
 /**

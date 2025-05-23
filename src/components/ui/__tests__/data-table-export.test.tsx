@@ -15,21 +15,16 @@ interface TestData {
 const columns: ColumnDef<TestData>[] = [
   {
     accessorKey: 'name',
-    header: 'Name',
-  },
+    header: 'Name'},
   {
     accessorKey: 'email',
-    header: 'Email',
-  },
+    header: 'Email'},
   {
     accessorKey: 'status',
-    header: 'Status',
-  },
+    header: 'Status'},
   {
     accessorKey: 'score',
-    header: 'Score',
-  },
-];
+    header: 'Score'}];
 
 const testData = generateTestData<TestData>(
   {
@@ -37,8 +32,7 @@ const testData = generateTestData<TestData>(
     name: 'John Doe',
     email: 'john@example.com',
     status: 'Active',
-    score: 85,
-  },
+    score: 85},
   10
 );
 
@@ -51,8 +45,7 @@ describe('DataTable Export', () => {
     // Mock document.createElement and appendChild
     document.createElement = jest.fn(() => ({
       click: jest.fn(),
-      setAttribute: jest.fn(),
-    })) as any;
+      setAttribute: jest.fn()})) as any;
     document.body.appendChild = jest.fn();
     document.body.removeChild = jest.fn();
   });

@@ -24,9 +24,9 @@ interface DocumentTemplate {
 }
 
 export default function DocumentTemplatesPage() {
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-  const [searchQuery, setSearchQuery] = useState('');
-  
+  const [selectedCategorysetSelectedCategory] = useState<string | null>(null);
+  const [searchQuerysetSearchQuery] = useState('');
+
   // Template categories
   const categories: TemplateCategory[] = [
     {
@@ -90,7 +90,7 @@ export default function DocumentTemplatesPage() {
       )
     }
   ];
-  
+
   // Document templates
   const templates: DocumentTemplate[] = [
     {
@@ -196,7 +196,7 @@ export default function DocumentTemplatesPage() {
       updatedAt: 'March 18, 2024'
     }
   ];
-  
+
   // Filter templates based on selected category and search query
   const filteredTemplates = templates.filter(template => {
     const matchesCategory = selectedCategory ? template.categoryId === selectedCategory : true;
@@ -206,10 +206,10 @@ export default function DocumentTemplatesPage() {
       : true;
     return matchesCategory && matchesSearch;
   });
-  
+
   // Get popular templates
   const popularTemplates = templates.filter(template => template.popular);
-  
+
   // Format badge based on file type
   const getFormatBadgeClasses = (format: string) => {
     switch (format) {
@@ -265,7 +265,7 @@ export default function DocumentTemplatesPage() {
                 placeholder="Search templates..."
                 className="w-full py-2 pl-10 pr-4 border border-gray-300 rounded-md focus:ring-[#2B5273] focus:border-[#2B5273]"
                 value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
+                onChange={(e: any) => setSearchQuery(e.target.value)}
               />
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                 <svg className="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -278,10 +278,10 @@ export default function DocumentTemplatesPage() {
             <select
               className="w-full py-2 pl-3 pr-10 border border-gray-300 rounded-md focus:ring-[#2B5273] focus:border-[#2B5273] bg-white"
               value={selectedCategory || ''}
-              onChange={(e) => setSelectedCategory(e.target.value || null)}
+              onChange={(e: any) => setSelectedCategory(e.target.value || null)}
             >
               <option value="">All Categories</option>
-              {categories.map((category) => (
+              {categories.map((category: any) => (
                 <option key={category.id} value={category.id}>
                   {category.name}
                 </option>
@@ -295,7 +295,7 @@ export default function DocumentTemplatesPage() {
       <div className="mb-10">
         <h2 className="text-2xl font-bold text-gray-900 mb-6">Document Categories</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {categories.map((category) => (
+          {categories.map((category: any) => (
             <button
               key={category.id}
               onClick={() => setSelectedCategory(category.id === selectedCategory ? null : category.id)}
@@ -334,7 +334,7 @@ export default function DocumentTemplatesPage() {
         <div className="mb-10">
           <h2 className="text-2xl font-bold text-gray-900 mb-6">Popular Templates</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {popularTemplates.map((template) => (
+            {popularTemplates.map((template: any) => (
               <div key={template.id} className="bg-white rounded-lg shadow">
                 <div className="p-6">
                   <div className="flex items-center justify-between mb-4">
@@ -373,7 +373,7 @@ export default function DocumentTemplatesPage() {
               ? 'Search Results'
               : 'All Templates'}
         </h2>
-        
+
         {filteredTemplates.length === 0 ? (
           <div className="bg-white rounded-lg shadow p-8 text-center">
             <svg className="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -385,7 +385,7 @@ export default function DocumentTemplatesPage() {
             </p>
             <div className="mt-6">
               <button
-                onClick={() => { setSelectedCategory(null); setSearchQuery(''); }}
+                onClick={() => { setSelectedCategory(null); setSearchQuery(''); }
                 className="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
               >
                 Clear Filters
@@ -394,7 +394,7 @@ export default function DocumentTemplatesPage() {
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredTemplates.map((template) => (
+            {filteredTemplates.map((template: any) => (
               <div key={template.id} className="bg-white rounded-lg shadow">
                 <div className="p-6">
                   <div className="flex items-center justify-between mb-4">
@@ -428,7 +428,7 @@ export default function DocumentTemplatesPage() {
           </div>
         )}
       </div>
-      
+
       {/* Legal disclaimer */}
       <div className="mt-16 bg-gray-50 p-6 rounded-lg">
         <h3 className="text-lg font-semibold text-gray-900 mb-3">Legal Disclaimer</h3>
@@ -439,7 +439,7 @@ export default function DocumentTemplatesPage() {
           loss which may arise from reliance on information or templates provided on this website.
         </p>
       </div>
-      
+
       {/* Need legal help CTA */}
       <div className="mt-10 bg-[#2B5273] text-white p-8 rounded-xl">
         <div className="flex flex-col md:flex-row items-center">

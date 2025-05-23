@@ -3,10 +3,15 @@ import { prisma } from '@/lib/prisma';
 import { Logger } from '@/utils/logger';
 import { EventEmitter } from 'events';
 import { slpService } from './slpService';
+import { realtimeEngine } from './realtime/RealtimeEngine';
 
 // Transaction enums for now
 enum TransactionStatus {
   CREATED = 'CREATED',
+  INITIATED = 'INITIATED',
+  OFFER_MADE = 'OFFER_MADE',
+  OFFER_ACCEPTED = 'OFFER_ACCEPTED',
+  CONTRACTS_EXCHANGED = 'CONTRACTS_EXCHANGED',
   ACTIVE = 'ACTIVE',
   COMPLETED = 'COMPLETED',
   CANCELLED = 'CANCELLED'
@@ -23,7 +28,8 @@ enum ParticipantRole {
   BUYER = 'BUYER',
   SELLER = 'SELLER',
   AGENT = 'AGENT',
-  SOLICITOR = 'SOLICITOR'
+  SOLICITOR = 'SOLICITOR',
+  DEVELOPER = 'DEVELOPER'
 }
 const logger = new Logger('TransactionCoordinator');
 const eventBus = new EventEmitter();
@@ -45,7 +51,9 @@ export class TransactionCoordinator {
    */
   async initiatePropertyPurchase(
     buyerId: string, 
-    projectId: string
+    projectId: string,
+    unitId: string,
+    agentId?: string
   ): Promise<any> {
     try {
       // Create the transaction
@@ -53,7 +61,17 @@ export class TransactionCoordinator {
         data: {
           projectId,
           buyerId,
+          unitId,
+          agentId,
           status: TransactionStatus.INITIATED
+        },
+        include: {
+          buyer: true,
+          unit: {
+            include: {
+              development: true
+            }
+          }
         }
       });
 
@@ -143,7 +161,7 @@ export class TransactionCoordinator {
       }
 
       // Validate state transition
-      if (!this.isValidTransition(currentTransaction.status, newStatus)) {
+      if (!this.isValidTransition(currentTransaction.statusnewStatus)) {
         throw new Error(`Invalid state transition from ${currentTransaction.status} to ${newStatus}`);
       }
 
@@ -307,8 +325,8 @@ export class TransactionCoordinator {
 
     if (transaction) {
       const slpProgress = await slpService.getProjectProgress(transaction.projectId);
-      
-      if (slpProgress.progressPercentage < 100) {
+
+      if (slpProgress.progressPercentage <100) {
         logger.warn('SLP not complete for accepted offer', { 
           transactionId, 
           progress: slpProgress.progressPercentage 

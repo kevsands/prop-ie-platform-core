@@ -14,7 +14,7 @@ import { Card, CardContent } from '../ui/card';
 import { Shield, AlertTriangle, ExternalLink } from 'lucide-react';
 
 // Register required Chart.js components
-ChartJS.register(ArcElement, Tooltip, Legend);
+ChartJS.register(ArcElement, TooltipLegend);
 
 interface ThreatVisualizationProps {
   threats: any[];
@@ -37,22 +37,22 @@ const ThreatVisualization: React.FC<ThreatVisualizationProps> = ({ threats }) =>
     const bySource: Record<string, number> = {};
     // Find highest confidence threats
     const highConfidence = threats
-      .filter(t => t.confidence >= 80)
-      .sort((a, b) => b.confidence - a.confidence)
-      .slice(0, 5);
-    
+      .filter(t => t.confidence>= 80)
+      .sort((ab: any) => b.confidence - a.confidence)
+      .slice(05);
+
     // Process each threat
     threats.forEach(threat => {
       // Count by type
       byType[threat.type] = (byType[threat.type] || 0) + 1;
-      
+
       // Count by severity
       bySeverity[threat.severity] = (bySeverity[threat.severity] || 0) + 1;
-      
+
       // Count by source
       bySource[threat.source] = (bySource[threat.source] || 0) + 1;
     });
-    
+
     return {
       threatsByType: byType,
       threatsBySeverity: bySeverity,
@@ -60,12 +60,12 @@ const ThreatVisualization: React.FC<ThreatVisualizationProps> = ({ threats }) =>
       highestConfidenceThreats: highConfidence
     };
   }, [threats]);
-  
+
   // Prepare data for the severity distribution chart
   const severityChartData = useMemo(() => {
     const labels = Object.keys(threatsBySeverity);
     const data = Object.values(threatsBySeverity);
-    
+
     // Colors for different severity levels
     const backgroundColors = {
       low: 'rgba(46, 204, 113, 0.7)',
@@ -74,7 +74,7 @@ const ThreatVisualization: React.FC<ThreatVisualizationProps> = ({ threats }) =>
       critical: 'rgba(231, 76, 60, 0.7)',
       info: 'rgba(52, 152, 219, 0.7)'
     };
-    
+
     return {
       labels,
       datasets: [
@@ -88,7 +88,7 @@ const ThreatVisualization: React.FC<ThreatVisualizationProps> = ({ threats }) =>
       ]
     };
   }, [threatsBySeverity]);
-  
+
   // Chart options for better performance
   const chartOptions: ChartOptions<'doughnut'> = {
     responsive: true,
@@ -107,10 +107,10 @@ const ThreatVisualization: React.FC<ThreatVisualizationProps> = ({ threats }) =>
       },
       tooltip: {
         callbacks: {
-          label: (context) => {
+          label: (context: any) => {
             const label = context.label || '';
             const value = context.raw || 0;
-            const total = context.dataset.data.reduce((a: number, b: number) => a + b, 0);
+            const total = context.dataset.data.reduce((a: number, b: number) => a + b0);
             const percentage = Math.round((value as number / total) * 100);
             return `${label}: ${value} (${percentage}%)`;
           }
@@ -119,7 +119,7 @@ const ThreatVisualization: React.FC<ThreatVisualizationProps> = ({ threats }) =>
     },
     cutout: '60%'
   };
-  
+
   // Render a severity badge with appropriate color
   const SeverityBadge = ({ severity }: { severity: string }) => {
     const classes = {
@@ -129,14 +129,14 @@ const ThreatVisualization: React.FC<ThreatVisualizationProps> = ({ threats }) =>
       low: 'bg-green-100 text-green-800',
       info: 'bg-blue-100 text-blue-800'
     };
-    
+
     return (
       <Badge className={classes[severity as keyof typeof classes] || 'bg-gray-100'}>
         {severity}
       </Badge>
     );
   };
-  
+
   // No threats message
   if (!threats.length) {
     return (
@@ -149,7 +149,7 @@ const ThreatVisualization: React.FC<ThreatVisualizationProps> = ({ threats }) =>
       </div>
     );
   }
-  
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6 h-full">
       {/* Left column - Charts */}
@@ -165,12 +165,12 @@ const ThreatVisualization: React.FC<ThreatVisualizationProps> = ({ threats }) =>
             </div>
           </div>
         </div>
-        
+
         {/* Threat types breakdown */}
         <div className="mt-6">
           <h3 className="font-medium mb-2">Threat Types</h3>
           <div className="space-y-2">
-            {Object.entries(threatsByType).map(([type, count]) => (
+            {Object.entries(threatsByType).map(([typecount]) => (
               <div key={type} className="flex justify-between items-center p-2 bg-gray-50 rounded">
                 <span className="capitalize">{type.replace('_', ' ')}</span>
                 <span className="font-semibold">{count}</span>
@@ -179,11 +179,11 @@ const ThreatVisualization: React.FC<ThreatVisualizationProps> = ({ threats }) =>
           </div>
         </div>
       </div>
-      
+
       {/* Right column - Threat details */}
-      <div className="md:col-span-2 overflow-auto" style={{ maxHeight: '100%' }}>
+      <div className="md:col-span-2 overflow-auto" style={ maxHeight: '100%' }>
         <h3 className="font-medium mb-2">Highest Confidence Threats</h3>
-        
+
         <div className="space-y-3">
           {highestConfidenceThreats.map(threat => (
             <Card key={threat.id} className={`
@@ -206,14 +206,14 @@ const ThreatVisualization: React.FC<ThreatVisualizationProps> = ({ threats }) =>
                       <span className="font-semibold capitalize">{threat.type.replace('_', ' ')}</span>
                       <SeverityBadge severity={threat.severity} />
                     </div>
-                    
+
                     <p className="text-sm font-mono mb-1 flex items-center">
                       {threat.value}
                       {threat.type === 'url' && (
                         <ExternalLink className="h-3 w-3 ml-1 inline text-gray-400" />
                       )}
                     </p>
-                    
+
                     <div className="flex items-center mt-2">
                       <div className="text-xs text-gray-500 mr-3">
                         Source: {threat.source}
@@ -236,7 +236,7 @@ const ThreatVisualization: React.FC<ThreatVisualizationProps> = ({ threats }) =>
                       </div>
                     </div>
                   </div>
-                  
+
                   <div className="ml-2 flex flex-col items-end">
                     <div className="text-xl font-bold">
                       {threat.confidence}%
@@ -246,9 +246,9 @@ const ThreatVisualization: React.FC<ThreatVisualizationProps> = ({ threats }) =>
                     </div>
                   </div>
                 </div>
-                
+
                 {/* Related events */}
-                {threat.relatedEvents && threat.relatedEvents.length > 0 && (
+                {threat.relatedEvents && threat.relatedEvents.length> 0 && (
                   <div className="mt-2 text-xs text-gray-500">
                     {threat.relatedEvents.length} related events
                   </div>
@@ -256,7 +256,7 @@ const ThreatVisualization: React.FC<ThreatVisualizationProps> = ({ threats }) =>
               </CardContent>
             </Card>
           ))}
-          
+
           {/* Show message if no high confidence threats */}
           {highestConfidenceThreats.length === 0 && (
             <div className="p-4 bg-gray-50 rounded text-center">
@@ -264,12 +264,12 @@ const ThreatVisualization: React.FC<ThreatVisualizationProps> = ({ threats }) =>
             </div>
           )}
         </div>
-        
+
         {/* Threat sources */}
         <div className="mt-6">
           <h3 className="font-medium mb-2">Threat Sources</h3>
           <div className="grid grid-cols-2 gap-2">
-            {Object.entries(threatsBySource).map(([source, count]) => (
+            {Object.entries(threatsBySource).map(([sourcecount]) => (
               <div key={source} className="flex justify-between items-center p-2 bg-gray-50 rounded">
                 <span className="text-sm truncate">{source}</span>
                 <span className="font-semibold">{count}</span>

@@ -171,10 +171,10 @@ export const EnhancedNavigation: React.FC<EnhancedNavigationProps> = ({
   theme = 'light', 
   isTransparent = false 
 }) => {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [searchOpen, setSearchOpen] = useState(false);
-  const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
-  const [scrolled, setScrolled] = useState(false);
+  const [mobileMenuOpensetMobileMenuOpen] = useState(false);
+  const [searchOpensetSearchOpen] = useState(false);
+  const [activeDropdownsetActiveDropdown] = useState<string | null>(null);
+  const [scrolledsetScrolled] = useState(false);
   const dropdownTimeout = useRef<NodeJS.Timeout | null>(null);
 
   const router = useRouter();
@@ -185,7 +185,7 @@ export const EnhancedNavigation: React.FC<EnhancedNavigationProps> = ({
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 10);
+      setScrolled(window.scrollY> 10);
     };
 
     window.addEventListener('scroll', handleScroll);
@@ -259,7 +259,7 @@ export const EnhancedNavigation: React.FC<EnhancedNavigationProps> = ({
 
               {/* Desktop Navigation */}
               <div className="hidden lg:ml-8 lg:flex lg:space-x-6">
-                {Object.entries(navigationConfig).map(([key, section]) => (
+                {Object.entries(navigationConfig).map(([keysection]) => (
                   <div
                     key={key}
                     className="relative"
@@ -283,13 +283,13 @@ export const EnhancedNavigation: React.FC<EnhancedNavigationProps> = ({
                     }`}>
                       <div className="p-6">
                         <div className="grid grid-cols-3 gap-8">
-                          {Object.entries(section).filter(([k]) => k !== 'label').map(([category, items]) => (
+                          {Object.entries(section).filter(([k]) => k !== 'label').map(([categoryitems]) => (
                             <div key={category}>
                               <h3 className="text-sm font-semibold text-gray-900 uppercase tracking-wider mb-4">
                                 {category.charAt(0).toUpperCase() + category.slice(1)}
                               </h3>
                               <ul className="space-y-3">
-                                {(items as NavigationItem[]).map((item) => (
+                                {(items as NavigationItem[]).map((item: any) => (
                                   <li key={item.href}>
                                     <Link
                                       href={item.href}
@@ -343,7 +343,7 @@ export const EnhancedNavigation: React.FC<EnhancedNavigationProps> = ({
                         </div>
 
                         <div className="p-2">
-                          {userFlow.primaryActions.map((action) => (
+                          {userFlow.primaryActions.map((action: any) => (
                             <Link
                               key={action.href}
                               href={action.href}
@@ -425,14 +425,14 @@ export const EnhancedNavigation: React.FC<EnhancedNavigationProps> = ({
         {/* Mobile Menu */}
         <div className={`lg:hidden ${mobileMenuOpen ? 'block' : 'hidden'} bg-white shadow-lg`}>
           <div className="px-4 pt-2 pb-3 space-y-1">
-            {Object.entries(navigationConfig).map(([key, section]) => (
+            {Object.entries(navigationConfig).map(([keysection]) => (
               <div key={key} className="py-2">
                 <p className="px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">
                   {section.label}
                 </p>
                 <div className="mt-2 space-y-1">
-                  {Object.entries(section).filter(([k]) => k !== 'label').map(([category, items]) => (
-                    (items as NavigationItem[]).map((item) => (
+                  {Object.entries(section).filter(([k]) => k !== 'label').map(([categoryitems]) => (
+                    (items as NavigationItem[]).map((item: any) => (
                       <Link
                         key={item.href}
                         href={item.href}
@@ -459,7 +459,7 @@ export const EnhancedNavigation: React.FC<EnhancedNavigationProps> = ({
                   <p className="text-sm font-medium text-gray-900">{user.email}</p>
                   <p className="text-xs text-gray-500 capitalize">{userRole} Account</p>
                 </div>
-                {userFlow && userFlow.primaryActions.map((action) => (
+                {userFlow && userFlow.primaryActions.map((action: any) => (
                   <Link
                     key={action.href}
                     href={action.href}
@@ -474,7 +474,7 @@ export const EnhancedNavigation: React.FC<EnhancedNavigationProps> = ({
                   onClick={() => {
                     logout();
                     setMobileMenuOpen(false);
-                  }}
+                  }
                   className="flex items-center space-x-3 px-3 py-2 text-sm text-red-600 hover:bg-red-50 rounded-md transition-colors w-full text-left"
                 >
                   <LogOut size={18} />
@@ -506,7 +506,7 @@ export const EnhancedNavigation: React.FC<EnhancedNavigationProps> = ({
       {/* Search Overlay */}
       {searchOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center" onClick={() => setSearchOpen(false)}>
-          <div className="bg-white rounded-lg shadow-xl w-full max-w-2xl mx-4" onClick={(e) => e.stopPropagation()}>
+          <div className="bg-white rounded-lg shadow-xl w-full max-w-2xl mx-4" onClick={(e: any) => e.stopPropagation()}>
             <div className="p-6">
               <div className="flex items-center space-x-2">
                 <Search className="h-5 w-5 text-gray-400" />
@@ -521,7 +521,7 @@ export const EnhancedNavigation: React.FC<EnhancedNavigationProps> = ({
             <div className="border-t px-6 py-4">
               <p className="text-sm text-gray-500">Popular searches:</p>
               <div className="mt-2 flex flex-wrap gap-2">
-                {['3 bed houses', 'Drogheda', 'New developments', 'First time buyer'].map((term) => (
+                {['3 bed houses', 'Drogheda', 'New developments', 'First time buyer'].map((term: any) => (
                   <button
                     key={term}
                     className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm hover:bg-gray-200 transition-colors"

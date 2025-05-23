@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">10.86% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/92</span>
+                <span class='fraction'>10/92</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">2.22% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/45</span>
+                <span class='fraction'>1/45</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">7.14% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/14</span>
+                <span class='fraction'>1/14</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">11.62% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/86</span>
+                <span class='fraction'>10/86</span>
             </div>
         
             
@@ -387,10 +387,10 @@
 <a name='L322'></a><a href='#L322'>322</a>
 <a name='L323'></a><a href='#L323'>323</a>
 <a name='L324'></a><a href='#L324'>324</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -441,7 +441,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -451,24 +451,24 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -671,7 +671,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -709,11 +709,11 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// src/lib/analytics.ts
-import { v4 as uuidv4 } from <span class="cstat-no" title="statement not covered" >'uuid';</span>
+<span class="cline-any cline-yes">7x</span></td><td class="text"><pre class="prettyprint lang-js">// src/lib/analytics.ts
+import { v4 as uuidv4 } from 'uuid';
 &nbsp;
 // Analytics event types
-export enum <span class="cstat-no" title="statement not covered" >EventType </span>{
+export enum EventType {
   PAGE_VIEW = 'page_view',
   CUSTOMIZATION_START = 'customization_start',
   CUSTOMIZATION_OPTION_SELECT = 'customization_option_select',
@@ -764,7 +764,7 @@ interface EventBatch {
 }
 &nbsp;
 // Default configuration
-const defaultConfig: AnalyticsConfig = <span class="cstat-no" title="statement not covered" >{</span>
+const defaultConfig: AnalyticsConfig = {
   endpoint: '/api/analytics/events',
   batchSize: 10,
   batchInterval: 30000, // 30 seconds
@@ -774,24 +774,24 @@ const defaultConfig: AnalyticsConfig = <span class="cstat-no" title="statement n
 class AnalyticsTracker {
   private config: AnalyticsConfig;
   private sessionData: SessionData;
-  private <span class="cstat-no" title="statement not covered" >eventQueue: Array&lt;{</span>
+  private eventQueue: Array&lt;{
     id: string;
     type: EventType;
     timestamp: number;
     data: EventData;
   }&gt; = [];
-  private <span class="cstat-no" title="statement not covered" >batchInterval: NodeJS.Timeout | null = null;</span>
-  private <span class="cstat-no" title="statement not covered" >initialized = false;</span>
+  private batchInterval: NodeJS.Timeout | null = null;
+  private initialized = false;
 &nbsp;
-<span class="fstat-no" title="function not covered" >  constructor(c</span>onfig: Partial&lt;AnalyticsConfig&gt; = <span class="branch-0 cbranch-no" title="branch not covered" >{})</span> {
+  constructor(config: Partial&lt;AnalyticsConfig&gt; = {}) {
     // Merge with default config
-<span class="cstat-no" title="statement not covered" >    this.config = {</span>
+    this.config = {
       ...defaultConfig,
       ...config,
     };
 &nbsp;
     // Initialize session data with placeholder
-<span class="cstat-no" title="statement not covered" >    this.sessionData = {</span>
+    this.sessionData = {
       sessionId: '',
       startTime: Date.now(),
     };
@@ -994,7 +994,7 @@ class AnalyticsTracker {
 }
 &nbsp;
 // Create singleton instance
-export const <span class="cstat-no" title="statement not covered" >analytics </span>= <span class="cstat-no" title="statement not covered" >new AnalyticsTracker();</span>
+export const <span class="cstat-no" title="statement not covered" >analytics </span>= new AnalyticsTracker();
 &nbsp;
 // Track specific customization events
 export function <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >trackEvent(</span></span>action: string, details: any = <span class="branch-0 cbranch-no" title="branch not covered" >{})</span>: void {
@@ -1032,14 +1032,14 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
   }
 }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >export default <span class="cstat-no" title="statement not covered" >a</span>nalytics;</span></pre></td></tr></table></pre>
+<span class="cstat-no" title="statement not covered" >export default a</span>nalytics;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
             </div><!-- /wrapper -->
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-15T16:23:25.168Z
+                at 2025-05-22T22:15:28.100Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

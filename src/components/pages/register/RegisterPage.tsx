@@ -1,3 +1,4 @@
+import React from 'react';
 "use client";
 
 import { useAuth } from "@/context/AuthContext";
@@ -6,17 +7,17 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 export default function Register() {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [role, setRole] = useState("buyer");
-  const [error, setError] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  const [namesetName] = useState("");
+  const [emailsetEmail] = useState("");
+  const [passwordsetPassword] = useState("");
+  const [confirmPasswordsetConfirmPassword] = useState("");
+  const [rolesetRole] = useState("buyer");
+  const [errorsetError] = useState("");
+  const [isLoadingsetIsLoading] = useState(false);
   const { register } = useAuth();
   const router = useRouter();
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.MouseEvent) => {
     e.preventDefault();
     setError("");
     setIsLoading(true);
@@ -35,7 +36,7 @@ export default function Register() {
     }
 
     try {
-      const result = await register(name, email, password, role);
+      const result = await register(name, email, passwordrole);
       if (result.success) {
         // Redirect based on user role
         if (role === "buyer") {
@@ -52,7 +53,7 @@ export default function Register() {
       }
     } catch (err) {
       setError("An error occurred during registration");
-      console.error(err);
+
     } finally {
       setIsLoading(false);
     }
@@ -65,7 +66,7 @@ export default function Register() {
           Create your account
         </h2>
         <p className="mt-2 text-center text-sm text-gray-600">
-          Or{" "}
+          Or{" "
           <Link
             href="/login"
             className="font-medium text-blue-600 hover:text-blue-500"
@@ -118,7 +119,7 @@ export default function Register() {
                   autoComplete="name"
                   required
                   value={name}
-                  onChange={(e) => setName(e.target.value)}
+                  onChange={(e: React.MouseEvent) => setName(e.target.value)}
                   className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                 />
               </div>
@@ -139,7 +140,7 @@ export default function Register() {
                   autoComplete="email"
                   required
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={(e: React.MouseEvent) => setEmail(e.target.value)}
                   className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                 />
               </div>
@@ -160,7 +161,7 @@ export default function Register() {
                   autoComplete="new-password"
                   required
                   value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  onChange={(e: React.MouseEvent) => setPassword(e.target.value)}
                   className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                 />
               </div>
@@ -181,7 +182,7 @@ export default function Register() {
                   autoComplete="new-password"
                   required
                   value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  onChange={(e: React.MouseEvent) => setConfirmPassword(e.target.value)}
                   className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                 />
               </div>
@@ -199,7 +200,7 @@ export default function Register() {
                   id="role"
                   name="role"
                   value={role}
-                  onChange={(e) => setRole(e.target.value)}
+                  onChange={(e: React.MouseEvent) => setRole(e.target.value)}
                   className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md"
                 >
                   <option value="buyer">Property Buyer</option>
@@ -213,9 +214,9 @@ export default function Register() {
               <button
                 type="submit"
                 disabled={isLoading}
-                className={`w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 ${isLoading ? "opacity-70 cursor-not-allowed" : ""}`}
+                className={`w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 ${isLoading ? "opacity-70 cursor-not-allowed" : ""`}
               >
-                {isLoading ? "Creating account..." : "Create account"}
+                {isLoading ? "Creating account..." : "Create account"
               </button>
             </div>
           </form>

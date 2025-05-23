@@ -1,9 +1,10 @@
+import React from 'react';
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Facebook, Twitter, Instagram, Linkedin, Mail } from 'lucide-react';
+import { Facebook, Twitter, Instagram, Linkedin, Mail, ArrowRight, Check, ArrowUp } from 'lucide-react';
 import { FooterProps, FooterColumn, SocialLink } from './types';
 import FooterColumnComponent from './FooterColumn';
 import FooterLinkComponent from './FooterLink';
@@ -19,8 +20,8 @@ const footerColumns: FooterColumn[] = [
       { label: 'Estate Agents', href: '/agents', ariaLabel: 'Resources for estate agents' },
       { label: 'Developers', href: '/developers', ariaLabel: 'Developer tools and services' },
       { label: 'Solicitors', href: '/solicitors', ariaLabel: 'Legal professional resources' },
-    ],
-  },
+      { label: 'Enterprise Platform', href: '/enterprise', ariaLabel: 'Enterprise property platform solutions' },
+      { label: 'Tender Management', href: '/developer/tenders', ariaLabel: 'Tender management for developers' }]},
   {
     title: 'Resources',
     links: [
@@ -28,10 +29,10 @@ const footerColumns: FooterColumn[] = [
       { label: 'Property Guides', href: '/guides', ariaLabel: 'Property buying guides' },
       { label: 'Market Reports', href: '/reports', ariaLabel: 'Real estate market reports' },
       { label: 'Stamp Duty Calculator', href: '/calculator/stamp-duty', ariaLabel: 'Calculate stamp duty' },
+      { label: 'First Time Buyer Guide', href: '/first-time-buyers/guide', ariaLabel: 'Guide for first time buyers' },
       { label: 'Help Centre', href: '/help', ariaLabel: 'Get help and support' },
       { label: 'Blog', href: '/blog', ariaLabel: 'Read our blog' },
-    ],
-  },
+      { label: 'Developer Documentation', href: '/docs', ariaLabel: 'Developer documentation and API references' }]},
   {
     title: 'Company',
     links: [
@@ -41,24 +42,69 @@ const footerColumns: FooterColumn[] = [
       { label: 'Contact', href: '/contact', ariaLabel: 'Contact us' },
       { label: 'Partners', href: '/partners', ariaLabel: 'Our partners' },
       { label: 'Trust & Security', href: '/security', ariaLabel: 'Security information' },
-    ],
-  },
-];
+      { label: 'Investor Relations', href: '/investors/relations', ariaLabel: 'Information for investors' },
+      { label: 'Sustainability', href: '/sustainability', ariaLabel: 'Our commitment to sustainability' }]}];
 
 const socialLinks: SocialLink[] = [
   { name: 'Facebook', href: 'https://facebook.com/propie', icon: 'Facebook', ariaLabel: 'Follow us on Facebook' },
   { name: 'Twitter', href: 'https://twitter.com/propie', icon: 'Twitter', ariaLabel: 'Follow us on Twitter' },
   { name: 'Instagram', href: 'https://instagram.com/propie', icon: 'Instagram', ariaLabel: 'Follow us on Instagram' },
-  { name: 'LinkedIn', href: 'https://linkedin.com/company/propie', icon: 'LinkedIn', ariaLabel: 'Connect on LinkedIn' },
-];
+  { name: 'LinkedIn', href: 'https://linkedin.com/company/propie', icon: 'LinkedIn', ariaLabel: 'Connect on LinkedIn' }];
 
 const Footer: React.FC<FooterProps> = ({ className = '' }) => {
+  // State for newsletter subscription
+  const [emailsetEmail] = useState<string>('');
+  const [subscribedsetSubscribed] = useState<boolean>(false);
+  const [submittingsetSubmitting] = useState<boolean>(false);
+  const [showBackToTopsetShowBackToTop] = useState<boolean>(false);
+
+  // Handle newsletter subscription
+  const handleSubscribe = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email || submitting) return;
+
+    setSubmitting(true);
+
+    // Simulate API call
+    setTimeout(() => {
+      setSubmitting(false);
+      setSubscribed(true);
+      setEmail('');
+
+      // Reset after 5 seconds
+      setTimeout(() => {
+        setSubscribed(false);
+      }, 5000);
+    }, 1000);
+  };
+
+  // Back to top button visibility
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY> 500) {
+        setShowBackToTop(true);
+      } else {
+        setShowBackToTop(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Scroll to top handler
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  };
   const footerRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
+      (entries: any) => {
+        entries.forEach((entry: any) => {
           if (entry.isIntersecting) {
             entry.target.classList.add('footer-animate-in');
           }
@@ -84,9 +130,20 @@ const Footer: React.FC<FooterProps> = ({ className = '' }) => {
       className={`relative overflow-hidden ${className}`}
       data-testid="footer"
     >
+      {/* Back to Top Button */}
+      {showBackToTop && (
+        <button
+          onClick={scrollToTop}
+          className="fixed bottom-8 right-8 z-50 p-3 rounded-full bg-blue-600 hover:bg-blue-700 text-white shadow-lg transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2"
+          aria-label="Back to top"
+        >
+          <ArrowUp className="w-6 h-6" />
+        </button>
+      )}
+
       {/* Gradient Background */}
       <div className="absolute inset-0 bg-gradient-to-b from-slate-800 to-slate-900"></div>
-      
+
       {/* Main Footer Content */}
       <div className="relative z-10">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -108,32 +165,50 @@ const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                   Ireland's leading property development platform, connecting buyers, developers, 
                   and investors with their perfect properties.
                 </p>
-                
-                {/* Newsletter Signup - Shows on mobile only */}
-                <div className="mt-6 md:hidden">
+
+                {/* Newsletter Signup with success state */}
+                <div className="mt-6">
                   <h3 className="text-sm font-semibold text-white mb-3">Stay Updated</h3>
-                  <form className="flex gap-2">
-                    <input
-                      type="email"
-                      placeholder="Your email"
-                      className="flex-1 px-4 py-2 rounded-lg bg-slate-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all"
-                      aria-label="Email address for newsletter"
-                    />
-                    <button
-                      type="submit"
-                      className="p-2 rounded-lg bg-blue-600 hover:bg-blue-700 transition-colors"
-                      aria-label="Subscribe to newsletter"
-                    >
-                      <Mail className="w-5 h-5 text-white" />
-                    </button>
-                  </form>
+                  {!subscribed ? (
+                    <form onSubmit={handleSubscribe} className="flex gap-2">
+                      <input
+                        type="email"
+                        value={email}
+                        onChange={(e: any) => setEmail(e.target.value)}
+                        placeholder="Your email"
+                        className="flex-1 px-4 py-2 rounded-lg bg-slate-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all"
+                        aria-label="Email address for newsletter"
+                        required
+                      />
+                      <button
+                        type="submit"
+                        className={`p-2 rounded-lg ${submitting ? 'bg-blue-800' : 'bg-blue-600 hover:bg-blue-700'} transition-colors`}
+                        aria-label="Subscribe to newsletter"
+                        disabled={submitting}
+                      >
+                        {submitting ? (
+                          <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                        ) : (
+                          <ArrowRight className="w-5 h-5 text-white" />
+                        )}
+                      </button>
+                    </form>
+                  ) : (
+                    <div className="bg-green-800 text-white px-4 py-2 rounded-lg flex items-center gap-2">
+                      <Check className="w-5 h-5" />
+                      <span>Thanks for subscribing!</span>
+                    </div>
+                  )}
+                  <p className="text-gray-400 text-xs mt-2">
+                    Get updates on property news, market insights, and exclusive offers.
+                  </p>
                 </div>
               </div>
 
               {/* Footer Columns */}
               <div className="lg:col-span-8">
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
-                  {footerColumns.map((column) => (
+                  {footerColumns.map((column: any) => (
                     <FooterColumnComponent
                       key={column.title}
                       title={column.title}
@@ -153,7 +228,7 @@ const Footer: React.FC<FooterProps> = ({ className = '' }) => {
             <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
               {/* Copyright */}
               <p className="text-sm text-gray-400 text-center sm:text-left">
-                © 2026 PropIE Ltd. All rights reserved.
+                © 2026 PropIE Ltd. All rights reserved. <span className="hidden md:inline">|</span> <span className="block md:inline mt-1 md:mt-0">CRO: 123456</span> <span className="hidden md:inline">|</span> <span className="block md:inline mt-1 md:mt-0">Dublin, Ireland</span>
               </p>
 
               {/* Social Links */}
@@ -209,8 +284,44 @@ const Footer: React.FC<FooterProps> = ({ className = '' }) => {
           }
         }
 
+        @keyframes fadeIn {
+          from {
+            opacity: 0;
+          }
+          to {
+            opacity: 1;
+          }
+        }
+
+        @keyframes slideInRight {
+          from {
+            opacity: 0;
+            transform: translateX(-20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateX(0);
+          }
+        }
+
         :global(.footer-animate-in) {
           animation: fadeInUp 0.6s ease-out forwards;
+        }
+
+        :global(.footer-column):nth-child(1) {
+          animation: slideInRight 0.4s ease-out 0.1s both;
+        }
+
+        :global(.footer-column):nth-child(2) {
+          animation: slideInRight 0.4s ease-out 0.2s both;
+        }
+
+        :global(.footer-column):nth-child(3) {
+          animation: slideInRight 0.4s ease-out 0.3s both;
+        }
+
+        :global(.footer-social) {
+          animation: fadeIn 0.8s ease-out 0.6s both;
         }
       `}</style>
     </footer>

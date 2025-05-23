@@ -1,3 +1,4 @@
+import React from 'react';
 'use client';
 
 import { useEffect, useState, ComponentType } from 'react';
@@ -34,13 +35,12 @@ export default function withCSRFProtection<P extends object>(
     redirectUrl = '/login',
     protectGET = false,
     logViolations = true,
-    customErrorComponent = null,
-  } = options;
+    customErrorComponent = null} = options;
 
   function ProtectedComponent(props: P) {
-    const [isVerified, setIsVerified] = useState(false);
-    const [isLoading, setIsLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
+    const [isVerifiedsetIsVerified] = useState(false);
+    const [isLoadingsetIsLoading] = useState(true);
+    const [errorsetError] = useState<string | null>(null);
     const pathname = usePathname();
     const searchParams = useSearchParams();
     const csrfToken = useCSRFToken();
@@ -59,13 +59,13 @@ export default function withCSRFProtection<P extends object>(
         try {
           // Parse the state parameter (could contain token and other data)
           const state = JSON.parse(atob(stateParam));
-          
+
           if (state && state.csrf && verifyCSRFToken(state.csrf)) {
             setIsVerified(true);
             setIsLoading(false);
             return;
           }
-          
+
           setError('Invalid state parameter');
           handleInvalidToken('Invalid state parameter');
         } catch (e) {
@@ -77,7 +77,7 @@ export default function withCSRFProtection<P extends object>(
         setIsVerified(true);
         setIsLoading(false);
       }
-    }, [pathname, searchParams]);
+    }, [pathnamesearchParams]);
 
     // Handle form submissions with CSRF validation
     useEffect(() => {
@@ -85,49 +85,49 @@ export default function withCSRFProtection<P extends object>(
 
       // Store original form submit method
       const originalSubmit = HTMLFormElement.prototype.submit;
-      
+
       // Override form submission to check for CSRF token
       HTMLFormElement.prototype.submit = function() {
         // Skip validation for GET forms
         if (this.method.toLowerCase() === 'get' && !protectGET) {
           return originalSubmit.apply(this);
         }
-        
+
         // Look for CSRF token in the form
         let csrfField: HTMLInputElement | null = null;
-        for (let i = 0; i < this.elements.length; i++) {
+        for (let i = 0; i <this.elements.length; i++) {
           const element = this.elements[i] as HTMLInputElement;
           if (element.name === 'csrf_token' || element.name === '_csrf' || element.getAttribute('data-security') === 'csrf-token') {
             csrfField = element;
             break;
           }
         }
-        
+
         // Validate the token if found
         if (csrfField && verifyCSRFToken(csrfField.value)) {
           return originalSubmit.apply(this);
         }
-        
+
         // No token or invalid token
         const errorMsg = csrfField ? 'Invalid CSRF token' : 'Missing CSRF token';
         handleInvalidToken(errorMsg);
-        
+
         // Prevent form submission
         return false;
       };
-      
+
       // Listen for form submit events to capture inline submissions
       const formSubmitHandler = (e: SubmitEvent) => {
         const form = e.target as HTMLFormElement;
-        
+
         // Skip validation for GET forms
         if (form.method.toLowerCase() === 'get' && !protectGET) {
           return;
         }
-        
+
         // Check for CSRF token
         let hasValidToken = false;
-        for (let i = 0; i < form.elements.length; i++) {
+        for (let i = 0; i <form.elements.length; i++) {
           const element = form.elements[i] as HTMLInputElement;
           if ((element.name === 'csrf_token' || element.name === '_csrf' || element.getAttribute('data-security') === 'csrf-token')
               && verifyCSRFToken(element.value)) {
@@ -135,17 +135,17 @@ export default function withCSRFProtection<P extends object>(
             break;
           }
         }
-        
+
         if (!hasValidToken) {
           e.preventDefault();
           e.stopPropagation();
           handleInvalidToken('Form submission without valid CSRF token');
         }
       };
-      
+
       // Add event listener for all forms
       document.addEventListener('submit', formSubmitHandler);
-      
+
       // Clean up
       return () => {
         HTMLFormElement.prototype.submit = originalSubmit;
@@ -156,11 +156,9 @@ export default function withCSRFProtection<P extends object>(
     // Handle invalid tokens
     const handleInvalidToken = (reason: string) => {
       if (logViolations) {
-        console.error(`CSRF Protection Violation: ${reason}`, {
-          path: pathname,
-          timestamp: new Date().toISOString()
+        .toISOString()
         });
-        
+
         // Optionally report to server
         try {
           fetch('/api/security/report', {
@@ -181,16 +179,16 @@ export default function withCSRFProtection<P extends object>(
                 }
               }
             })
-          }).catch(err => console.error('Failed to report CSRF violation:', err));
+          }).catch(err => );
         } catch (error) {
-          console.error('Error reporting CSRF violation:', error);
+
         }
       }
-      
+
       setIsVerified(false);
       setIsLoading(false);
       setError(reason);
-      
+
       // Redirect if enabled
       if (redirectOnInvalid && typeof window !== 'undefined') {
         window.location.href = redirectUrl;
@@ -199,15 +197,15 @@ export default function withCSRFProtection<P extends object>(
 
     // Show loading state
     if (isLoading) {
-      return <div>Verifying security token...</div>;
+      return <div>Verifying security token...</div>\n  );
     }
 
     // Show error or custom error component
     if (!isVerified) {
       if (customErrorComponent) {
-        return <>{customErrorComponent}</>;
+        return <>{customErrorComponent}</>\n  );
       }
-      
+
       return (
         <div className="security-error">
           <h2>Security Error</h2>
@@ -224,7 +222,7 @@ export default function withCSRFProtection<P extends object>(
     }
 
     // Render the protected component
-    return <Component {...props} />;
+    return <Component {...props} />\n  );
   }
 
   // Set display name for better debugging

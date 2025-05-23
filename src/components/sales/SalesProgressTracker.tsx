@@ -99,35 +99,35 @@ const SalesProgressTracker: React.FC<SalesProgressTrackerProps> = ({
   showLeads = true
 }) => {
   // Local state for filters
-  const [unitTypeFilter, setUnitTypeFilter] = useState<UnitType | 'all'>(
+  const [unitTypeFiltersetUnitTypeFilter] = useState<UnitType | 'all'>(
     filterByUnitType || 'all'
   );
-  const [locationFilter, setLocationFilter] = useState<string | 'all'>(
+  const [locationFiltersetLocationFilter] = useState<string | 'all'>(
     filterByLocation || 'all'
   );
-  const [statusFilter, setStatusFilter] = useState<UnitStatus | 'all'>('all');
-  const [activeTab, setActiveTab] = useState('overview');
+  const [statusFiltersetStatusFilter] = useState<UnitStatus | 'all'>('all');
+  const [activeTabsetActiveTab] = useState('overview');
 
   // Fetch sales data
   const { data, isLoading, error } = useQuery({
-    queryKey: ['project-sales', projectId, unitTypeFilter, locationFilter],
+    queryKey: ['project-sales', projectId, unitTypeFilterlocationFilter],
     queryFn: async () => {
       // In production, this would fetch from API
       const url = new URL(`/api/projects/${projectId}/sales`, window.location.origin);
-      
+
       if (unitTypeFilter !== 'all') {
         url.searchParams.append('unitType', unitTypeFilter);
       }
-      
+
       if (locationFilter !== 'all') {
         url.searchParams.append('location', locationFilter);
       }
-      
+
       const response = await fetch(url.toString());
       if (!response.ok) {
         throw new Error('Failed to fetch sales data');
       }
-      
+
       return response.json();
     },
     enabled: !!projectId
@@ -136,12 +136,12 @@ const SalesProgressTracker: React.FC<SalesProgressTrackerProps> = ({
   // Filter units based on status
   const filteredUnits = React.useMemo(() => {
     if (!data?.units) return [];
-    
+
     return data.units.filter((unit: PropertyUnit) => {
       if (statusFilter !== 'all' && unit.status !== statusFilter) return false;
       return true;
     });
-  }, [data?.units, statusFilter]);
+  }, [data?.unitsstatusFilter]);
 
   // Helper function to get status badge
   const getStatusBadge = (status: UnitStatus) => (
@@ -153,10 +153,10 @@ const SalesProgressTracker: React.FC<SalesProgressTrackerProps> = ({
   // Helper function to generate unit grid visualization
   const renderUnitGrid = () => {
     if (!data?.units) return null;
-    
+
     // Group units by location (block/floor)
     const unitsByLocation: Record<string, PropertyUnit[]> = {};
-    
+
     data.units.forEach((unit: PropertyUnit) => {
       const location = unit.location || 'Unknown';
       if (!unitsByLocation[location]) {
@@ -167,13 +167,13 @@ const SalesProgressTracker: React.FC<SalesProgressTrackerProps> = ({
 
     return (
       <div className="space-y-6">
-        {Object.entries(unitsByLocation).map(([location, units]) => (
+        {Object.entries(unitsByLocation).map(([locationunits]) => (
           <div key={location} className="space-y-2">
             <h3 className="text-sm font-medium text-slate-700 dark:text-slate-300">
               {location}
             </h3>
             <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-2">
-              {units.map((unit) => (
+              {units.map((unit: any) => (
                 <div 
                   key={unit.id}
                   className={`
@@ -185,7 +185,7 @@ const SalesProgressTracker: React.FC<SalesProgressTrackerProps> = ({
                 >
                   <div className="font-medium">{unit.unitNumber}</div>
                   <div className="text-[10px] opacity-80">
-                    {unit.bedrooms}B {unit.type.slice(0, 3)}
+                    {unit.bedrooms}B {unit.type.slice(03)}
                   </div>
                 </div>
               ))}
@@ -203,7 +203,7 @@ const SalesProgressTracker: React.FC<SalesProgressTrackerProps> = ({
         <div className="space-y-4">
           <div className="h-8 w-64 bg-slate-200 dark:bg-slate-700 rounded animate-pulse"></div>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-            {[1, 2, 3, 4].map((i) => (
+            {[1, 2, 34].map((i: any) => (
               <Card key={i} className="h-32">
                 <CardHeader className="pb-2">
                   <div className="h-5 w-24 bg-slate-200 dark:bg-slate-700 rounded animate-pulse"></div>
@@ -255,7 +255,7 @@ const SalesProgressTracker: React.FC<SalesProgressTrackerProps> = ({
         </div>
 
         <div className="flex flex-wrap items-center gap-2">
-          <Select value={unitTypeFilter} onValueChange={(value) => setUnitTypeFilter(value as UnitType | 'all')}>
+          <Select value={unitTypeFilter} onValueChange={(value: any) => setUnitTypeFilter(value as UnitType | 'all')}>
             <SelectTrigger className="w-[160px]">
               <Building className="h-4 w-4 mr-2" />
               <SelectValue placeholder="Unit Type" />
@@ -285,7 +285,7 @@ const SalesProgressTracker: React.FC<SalesProgressTrackerProps> = ({
             </SelectContent>
           </Select>
 
-          <Select value={statusFilter} onValueChange={(value) => setStatusFilter(value as UnitStatus | 'all')}>
+          <Select value={statusFilter} onValueChange={(value: any) => setStatusFilter(value as UnitStatus | 'all')}>
             <SelectTrigger className="w-[160px]">
               <Filter className="h-4 w-4 mr-2" />
               <SelectValue placeholder="Status" />
@@ -372,7 +372,7 @@ const SalesProgressTracker: React.FC<SalesProgressTrackerProps> = ({
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold mb-2">
-                    {formatCurrency(data?.salesSummary?.soldValue, true)}
+                    {formatCurrency(data?.salesSummary?.soldValuetrue)}
                   </div>
                   <Progress 
                     value={(data?.salesSummary?.soldValue / data?.salesSummary?.totalValue) * 100} 
@@ -381,11 +381,11 @@ const SalesProgressTracker: React.FC<SalesProgressTrackerProps> = ({
                   />
                   <div className="grid grid-cols-2 gap-2 text-xs">
                     <div className="flex flex-col p-1.5 rounded-md bg-green-50 dark:bg-green-950/30">
-                      <span className="font-semibold">{formatCurrency(data?.salesSummary?.soldValue, true)}</span>
+                      <span className="font-semibold">{formatCurrency(data?.salesSummary?.soldValuetrue)}</span>
                       <span className="text-slate-500 dark:text-slate-400">Sold Value</span>
                     </div>
                     <div className="flex flex-col p-1.5 rounded-md bg-amber-50 dark:bg-amber-950/30">
-                      <span className="font-semibold">{formatCurrency(data?.salesSummary?.reservedValue, true)}</span>
+                      <span className="font-semibold">{formatCurrency(data?.salesSummary?.reservedValuetrue)}</span>
                       <span className="text-slate-500 dark:text-slate-400">Reserved Value</span>
                     </div>
                   </div>
@@ -460,7 +460,7 @@ const SalesProgressTracker: React.FC<SalesProgressTrackerProps> = ({
                           <div className="flex items-center">
                             <div 
                               className="w-3 h-3 rounded-full mr-2"
-                              style={{ backgroundColor: unitTypeColorMap[metric.type as UnitType] }}
+                              style={ backgroundColor: unitTypeColorMap[metric.type as UnitType] }
                             ></div>
                             <span className="font-medium capitalize">{metric.type}</span>
                           </div>
@@ -505,7 +505,7 @@ const SalesProgressTracker: React.FC<SalesProgressTrackerProps> = ({
                           <div className="flex items-center">
                             <div 
                               className="w-3 h-3 rounded-full mr-2"
-                              style={{ backgroundColor: ['#3b82f6', '#10b981', '#8b5cf6'][index % 3] }}
+                              style={ backgroundColor: ['#3b82f6', '#10b981', '#8b5cf6'][index % 3] }
                             ></div>
                             <span className="font-medium">{metric.location}</span>
                           </div>
@@ -541,7 +541,7 @@ const SalesProgressTracker: React.FC<SalesProgressTrackerProps> = ({
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  {data?.salesActivity?.slice(0, 3).map((activity: any) => (
+                  {data?.salesActivity?.slice(03).map((activity: any) => (
                     <div key={activity.id} className="flex items-start gap-3">
                       <div className={`
                         p-2 rounded-full 
@@ -723,7 +723,7 @@ const SalesProgressTracker: React.FC<SalesProgressTrackerProps> = ({
                           )}
                         </div>
                       </div>
-                      {index < data.salesActivity.length - 1 && (
+                      {index <data.salesActivity.length - 1 && (
                         <Separator className="my-6" />
                       )}
                     </div>

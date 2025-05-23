@@ -1,0 +1,270 @@
+type Props = {
+  params: Promise<{ id: string }>
+}
+
+import { NextRequest, NextResponse } from 'next/server';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '../../../../auth/[...nextauth]/auth.config';
+import { z } from 'zod';
+import { PrismaClient } from '@prisma/client';
+import { canAccessTransaction } from '../../../../../../utils/auth-utils';
+
+const prisma = new PrismaClient();
+
+// Receipt generation schema
+const ReceiptSchema = z.object({
+  paymentId: z.string()
+});
+
+/**
+ * POST /api/transactions/[id]/payments/receipt
+ * Generate a receipt for a payment
+ */
+export async function POST(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  try {
+    const { id } = await params;
+    const session = await getServerSession(authOptions);
+    if (!session) {
+      return NextResponse.json(
+        { error: 'Authentication required' },
+        { status: 401 }
+      );
+    }
+
+    // Check if user can access this transaction
+    const canAccess = await canAccessTransaction(sessionid);
+    if (!canAccess) {
+      return NextResponse.json(
+        { error: 'You do not have permission to access this transaction' },
+        { status: 403 }
+      );
+    }
+
+    const body: any = await request.json();
+    const validationResult = ReceiptSchema.safeParse(body);
+
+    if (!validationResult.success) {
+      return NextResponse.json(
+        { error: 'Invalid receipt data', details: validationResult.error.format() },
+        { status: 400 }
+      );
+    }
+
+    const { paymentId } = validationResult.data;
+
+    // Get the payment details
+    const payment = await prisma.transactionPayment.findUnique({
+      where: {
+        id: paymentId,
+        transactionId: id
+      }
+    });
+
+    if (!payment) {
+      return NextResponse.json(
+        { error: 'Payment not found' },
+        { status: 404 }
+      );
+    }
+
+    // Get transaction details
+    const transaction = await prisma.transaction.findUnique({
+      where: { id },
+      include: {
+        buyer: {
+          select: { name: true, email: true }
+        },
+        development: {
+          select: { name: true }
+        },
+        unit: {
+          select: { unitNumber: true }
+        }
+      }
+    });
+
+    if (!transaction) {
+      return NextResponse.json(
+        { error: 'Transaction not found' },
+        { status: 404 }
+      );
+    }
+
+    // Generate receipt number
+    const receiptNumber = `R-${new Date().getFullYear()}${String(new Date().getMonth() + 1).padStart(2, '0')}-${Math.random().toString(36).substring(28).toUpperCase()}`;
+
+    // Update payment with receipt info
+    await prisma.transactionPayment.update({
+      where: { id: paymentId },
+      data: {
+        receiptNumber
+      }
+    });
+
+    // Create receipt object
+    const receipt = {
+      receiptNumber,
+      issueDate: new Date().toISOString(),
+      paymentDate: payment.paidDate || new Date().toISOString(),
+      paymentReference: payment.reference,
+      paymentMethod: payment.method,
+      paymentType: payment.type,
+      amount: payment.amount,
+      currency: payment.currency,
+      transactionReference: transaction.referenceNumber,
+      buyer: transaction.buyer,
+      development: transaction.development.name,
+      unitNumber: transaction.unit.unitNumber,
+      issuer: 'Fitzgerald Gardens Development Ltd',
+      issuerAddress: '123 Development Street, Dublin, Ireland',
+      issuerTaxId: 'IE1234567T',
+      issuerContact: 'accounts@fitzgerald-gardens.ie',
+      status: 'OFFICIAL RECEIPT',
+      notes: payment.description || `Payment for ${payment.type}`};
+
+    // Log receipt generation in events
+    await prisma.transactionEvent.create({
+      data: {
+        transactionId: id,
+        eventType: 'DOCUMENT_GENERATED',
+        description: `Receipt ${receiptNumber} generated for payment ${paymentId}`,
+        metadata: {
+          paymentId: payment.id,
+          receiptNumber
+        },
+        performedBy: session.user.id
+      }
+    });
+
+    return NextResponse.json(receipt);
+  } catch (error) {
+
+    return NextResponse.json(
+      { error: 'Failed to generate receipt' },
+      { status: 500 }
+    );
+  }
+}
+
+/**
+ * GET /api/transactions/[id]/payments/receipt?paymentId=XXX
+ * Get a receipt for a specific payment
+ */
+export async function GET(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  try {
+    const { id } = await params;
+    const session = await getServerSession(authOptions);
+    if (!session) {
+      return NextResponse.json(
+        { error: 'Authentication required' },
+        { status: 401 }
+      );
+    }
+
+    // Get paymentId from query params
+    const { searchParams } = new URL(request.url);
+    const paymentId = searchParams.get('paymentId');
+
+    if (!paymentId) {
+      return NextResponse.json(
+        { error: 'Payment ID is required' },
+        { status: 400 }
+      );
+    }
+
+    // Check if user can access this transaction
+    const canAccess = await canAccessTransaction(sessionid);
+    if (!canAccess) {
+      return NextResponse.json(
+        { error: 'You do not have permission to access this transaction' },
+        { status: 403 }
+      );
+    }
+
+    // Get the payment details
+    const payment = await prisma.transactionPayment.findUnique({
+      where: {
+        id: paymentId,
+        transactionId: id
+      }
+    });
+
+    if (!payment) {
+      return NextResponse.json(
+        { error: 'Payment not found' },
+        { status: 404 }
+      );
+    }
+
+    // Get transaction details
+    const transaction = await prisma.transaction.findUnique({
+      where: { id },
+      include: {
+        buyer: {
+          select: { name: true, email: true }
+        },
+        development: {
+          select: { name: true }
+        },
+        unit: {
+          select: { unitNumber: true }
+        }
+      }
+    });
+
+    if (!transaction) {
+      return NextResponse.json(
+        { error: 'Transaction not found' },
+        { status: 404 }
+      );
+    }
+
+    // If receipt doesn't exist, generate one
+    const receiptNumber = payment.receiptNumber || `R-${new Date().getFullYear()}${String(new Date().getMonth() + 1).padStart(2, '0')}-${Math.random().toString(36).substring(28).toUpperCase()}`;
+
+    // Update payment with receipt info if it doesn't have one
+    if (!payment.receiptNumber) {
+      await prisma.transactionPayment.update({
+        where: { id: paymentId },
+        data: {
+          receiptNumber
+        }
+      });
+    }
+
+    // Create receipt object
+    const receipt = {
+      receiptNumber,
+      issueDate: payment.paidDate || new Date().toISOString(),
+      paymentDate: payment.paidDate || new Date().toISOString(),
+      paymentReference: payment.reference,
+      paymentMethod: payment.method,
+      paymentType: payment.type,
+      amount: payment.amount,
+      currency: payment.currency,
+      transactionReference: transaction.referenceNumber,
+      buyer: transaction.buyer,
+      development: transaction.development.name,
+      unitNumber: transaction.unit.unitNumber,
+      issuer: 'Fitzgerald Gardens Development Ltd',
+      issuerAddress: '123 Development Street, Dublin, Ireland',
+      issuerTaxId: 'IE1234567T',
+      issuerContact: 'accounts@fitzgerald-gardens.ie',
+      status: payment.status === 'COMPLETED' ? 'OFFICIAL RECEIPT' : 'PAYMENT CONFIRMATION',
+      notes: payment.description || `Payment for ${payment.type}`};
+
+    return NextResponse.json(receipt);
+  } catch (error) {
+
+    return NextResponse.json(
+      { error: 'Failed to fetch receipt' },
+      { status: 500 }
+    );
+  }
+}

@@ -1,3 +1,4 @@
+import React from 'react';
 'use client';
 
 import { useCallback, MouseEvent, ReactNode } from 'react';
@@ -38,30 +39,29 @@ export default function SafeLink({
   ...props
 }: SafeLinkProps) {
   const isExternal = href && typeof href === 'string' && !href.startsWith('/');
-  
+
   const handleClick = useCallback((e: MouseEvent<HTMLAnchorElement>) => {
     // Early exit for non-string hrefs (shouldn't happen with our type)
     if (typeof href !== 'string') return;
-    
+
     // Check URL safety
     const safetyCheck = isUrlSafe(href, {
       allowRelative,
-      onlyAllowTrustedDomains,
-    });
-    
+      onlyAllowTrustedDomains});
+
     if (!safetyCheck.isSafe) {
       e.preventDefault();
-      
+
       // Call the unsafe link handler if provided
       if (onUnsafeLink) {
         onUnsafeLink(href, safetyCheck.reason || 'Unknown safety issue');
       } else {
-        console.warn(`Navigation to unsafe URL blocked: ${href}`, safetyCheck.reason);
+
       }
-      
+
       return;
     }
-    
+
     // Confirmation for external links
     if (confirmExternal && isExternal) {
       const confirmed = window.confirm(`You're navigating to an external site: ${href}. Do you want to continue?`);
@@ -70,8 +70,8 @@ export default function SafeLink({
         return;
       }
     }
-  }, [href, allowRelative, onlyAllowTrustedDomains, confirmExternal, isExternal, onUnsafeLink]);
-  
+  }, [href, allowRelative, onlyAllowTrustedDomains, confirmExternal, isExternalonUnsafeLink]);
+
   if (isExternal) {
     // Handle external links
     return (
@@ -87,7 +87,7 @@ export default function SafeLink({
       </a>
     );
   }
-  
+
   // Handle internal links with Next.js Link
   return (
     <Link

@@ -22,22 +22,18 @@ export default function DeveloperPropertiesPage() {
               location: "Drogheda, Co. Louth",
               units: 27,
               status: "In Planning",
-            },
             {
               id: "prop-002",
               name: "Ellwood",
               location: "Rathmines, Dublin 6",
               units: 14,
               status: "Under Construction",
-            },
             {
               id: "prop-003",
               name: "Ballymakenny View",
               location: "Galway City",
               units: 32,
-              status: "Launching Soon",
-            },
-          ].map((project) => (
+              status: "Launching Soon"].map((project: any) => (
             <div
               key={project.id}
               className="bg-white shadow rounded-lg p-6 border border-gray-200"

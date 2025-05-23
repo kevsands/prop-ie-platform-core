@@ -26,27 +26,25 @@ const defaultContext: EnterpriseNotificationContextType = {
   addNotification: () => {},
   markAsRead: () => {},
   markAllAsRead: () => {},
-  clearNotifications: () => {},
-};
+  clearNotifications: () => {};
 
 const EnterpriseNotificationContext = createContext<EnterpriseNotificationContextType>(defaultContext);
 
 export const useEnterpriseNotifications = () => useContext(EnterpriseNotificationContext);
 
 export const EnterpriseNotificationProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [notifications, setNotifications] = useState<Notification[]>([]);
+  const [notificationssetNotifications] = useState<Notification[]>([]);
 
   const unreadCount = notifications.filter(n => !n.read).length;
 
   const addNotification = ({ title, message, type }: Omit<Notification, 'id' | 'timestamp' | 'read'>) => {
     const newNotification: Notification = {
-      id: Math.random().toString(36).substring(2, 9),
+      id: Math.random().toString(36).substring(29),
       title,
       message,
       type,
       read: false,
-      timestamp: new Date(),
-    };
+      timestamp: new Date()};
     
     setNotifications(prev => [newNotification, ...prev]);
   };
@@ -71,14 +69,14 @@ export const EnterpriseNotificationProvider: React.FC<{ children: ReactNode }> =
 
   return (
     <EnterpriseNotificationContext.Provider 
-      value={{ 
+      value={ 
         notifications, 
         unreadCount, 
         addNotification, 
         markAsRead, 
         markAllAsRead, 
         clearNotifications 
-      }}
+      }
     >
       {children}
     </EnterpriseNotificationContext.Provider>

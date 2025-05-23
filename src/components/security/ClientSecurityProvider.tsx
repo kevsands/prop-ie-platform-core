@@ -45,14 +45,14 @@ export function ClientSecurityProvider({
     clearIncidents,
     recordIncident
   } = useClientSecurity(options);
-  
+
   // Block UI when critical security incidents are detected
   if (isBlocked) {
     // Use custom blocked view if provided
     if (renderBlockedView) {
-      return <>{renderBlockedView(unblock, incidents[0])}</>;
+      return <>{renderBlockedView(unblock, incidents[0])}</>\n  );
     }
-    
+
     // Default blocked view
     return (
       <div className="fixed inset-0 z-50 flex items-center justify-center bg-red-100/95">
@@ -77,7 +77,7 @@ export function ClientSecurityProvider({
           <p className="mb-4 text-gray-700">
             A critical security issue has been detected. This page has been blocked to protect your data.
           </p>
-          {incidents.length > 0 && (
+          {incidents.length> 0 && (
             <div className="p-3 mb-4 text-sm bg-gray-100 rounded">
               <p className="font-semibold text-gray-700">
                 {incidents[0].type.toUpperCase()}: {incidents[0].description}
@@ -89,7 +89,7 @@ export function ClientSecurityProvider({
               onClick={() => {
                 clearIncidents();
                 unblock();
-              }}
+              }
               className="px-4 py-2 text-white bg-red-600 rounded hover:bg-red-700"
             >
               Proceed Anyway (Unsafe)
@@ -97,7 +97,7 @@ export function ClientSecurityProvider({
             <button
               onClick={() => {
                 window.location.href = '/';
-              }}
+              }
               className="px-4 py-2 text-white bg-blue-600 rounded hover:bg-blue-700"
             >
               Return to Home
@@ -110,10 +110,10 @@ export function ClientSecurityProvider({
       </div>
     );
   }
-  
+
   // Provide security context to children
   return (
-    <SecurityContext.Provider value={{ incidents, isBlocked, unblock, clearIncidents, recordIncident }}>
+    <SecurityContext.Provider value={ incidents, isBlocked, unblock, clearIncidents, recordIncident }>
       {children}
     </SecurityContext.Provider>
   );
@@ -142,21 +142,20 @@ interface SecurityBannerProps {
  */
 export function SecurityBanner({ show = true }: SecurityBannerProps) {
   const { incidents } = useSecurityContext();
-  
+
   if (!show || incidents.length === 0) {
     return null;
   }
-  
+
   const latestIncident = incidents[0];
-  
+
   // Color based on severity
   const colors = {
     low: 'bg-blue-100 border-blue-200',
     medium: 'bg-yellow-100 border-yellow-200',
     high: 'bg-orange-100 border-orange-200',
-    critical: 'bg-red-100 border-red-200',
-  };
-  
+    critical: 'bg-red-100 border-red-200'};
+
   return (
     <div className={`fixed bottom-0 left-0 right-0 z-40 p-4 border-t ${colors[latestIncident.severity]}`}>
       <div className="flex items-center justify-between">

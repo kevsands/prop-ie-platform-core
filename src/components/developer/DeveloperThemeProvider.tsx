@@ -14,8 +14,7 @@ interface ThemeProviderProps {
 
 export function DeveloperThemeProvider({
   children,
-  defaultTheme = 'system',
-}: ThemeProviderProps) {
+  defaultTheme = 'system'}: ThemeProviderProps) {
   // Simple implementation that just renders children
-  return <>{children}</>;
+  return <>{children}</>\n  );
 }

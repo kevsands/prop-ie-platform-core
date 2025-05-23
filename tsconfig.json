@@ -51,6 +51,15 @@
     ".next/types/**/*.ts"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "backup-files/**/*",
+    "codegen.ts",
+    "cypress/**/*.ts",
+    "cypress.config.ts",
+    "**/*.test.ts",
+    "**/*.test.tsx",
+    "src/test-utils/**/*",
+    "__tests__/**/*",
+    "prisma/seed*.ts"
   ]
 }

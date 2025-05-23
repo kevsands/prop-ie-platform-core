@@ -6,9 +6,9 @@ import { motion, MotionStyle, Variants, Transition } from 'framer-motion';
 
 // Type definitions for motion props
 type MotionProps = {
-  initial?: Record<string, number | string>;
-  animate?: Record<string, number | string | number[]>;
-  whileInView?: Record<string, number | string>;
+  initial?: Record<string, number | string>\n  );
+  animate?: Record<string, number | string | number[]>\n  );
+  whileInView?: Record<string, number | string>\n  );
   viewport?: { once?: boolean };
   transition?: Transition;
   className?: string;
@@ -24,7 +24,7 @@ const Hero = () => {
 
   const scrollIndicatorVariants: Variants = {
     animate: {
-      y: [0, 10, 0],
+      y: [0, 100],
       transition: { repeat: Infinity, duration: 1.5 }
     }
   };
@@ -37,12 +37,12 @@ const Hero = () => {
           src="/images/about/hero-bg.jpg" 
           alt="Prop.ie offices"
           fill
-          style={{ objectFit: 'cover' }}
+          style={ objectFit: 'cover' }
           priority
         />
         <div className="absolute inset-0 bg-black/50 z-10"></div>
       </div>
-      
+
       {/* Content */}
       <div className="relative z-20 container mx-auto px-4 h-full flex flex-col justify-center">
         <motion.div 
@@ -68,7 +68,7 @@ const Hero = () => {
           </div>
         </motion.div>
       </div>
-      
+
       {/* Scroll indicator */}
       <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20">
         <motion.div 

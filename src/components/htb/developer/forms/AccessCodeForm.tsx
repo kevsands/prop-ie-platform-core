@@ -15,15 +15,15 @@ export default function AccessCodeForm({
   onErrorAction
 }: AccessCodeFormProps) {
   const { processAccessCode } = useHTB();
-  const [accessCode, setAccessCode] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
+  const [accessCodesetAccessCode] = useState('');
+  const [isLoadingsetIsLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
 
     try {
-      await processAccessCode(claimId, accessCode);
+      await processAccessCode(claimIdaccessCode);
       setAccessCode('');
       onSuccessAction();
     } catch (error) {

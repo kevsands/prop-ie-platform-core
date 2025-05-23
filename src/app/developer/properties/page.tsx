@@ -3,17 +3,15 @@
 import React, { useState } from "react";
 
 export default function UserRegistration() {
-  const [formData, setFormData] = useState({
+  const [formDatasetFormData] = useState({
     username: "",
     email: "",
-    password: "",
-  });
+    password: "");
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value,
-    });
+      [e.target.name]: e.target.value});
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {

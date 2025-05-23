@@ -1,0 +1,203 @@
+/**
+ * Test data factories for creating consistent test data
+ */
+
+import { faker } from '@faker-js/faker';
+import { User, Development, Unit, Document, Transaction, Property } from '@prisma/client';
+
+// User factory
+export const createMockUser = (overrides: Partial<User> = {}): User => ({
+  id: faker.string.uuid(),
+  email: faker.internet.email(),
+  name: faker.person.fullName(),
+  password: faker.internet.password(),
+  emailVerified: faker.date.past(),
+  image: faker.image.avatar(),
+  roles: ['buyer'],
+  twoFactorEnabled: false,
+  twoFactorSecret: null,
+  kycStatus: 'pending',
+  kycDocuments: [],
+  walletAddress: faker.finance.ethereumAddress(),
+  createdAt: faker.date.past(),
+  updatedAt: faker.date.recent(),
+  ...overrides});
+
+// Development factory
+export const createMockDevelopment = (overrides: Partial<Development> = {}): Development => ({
+  id: faker.string.uuid(),
+  name: faker.company.name() + ' Development',
+  description: faker.lorem.paragraph(),
+  location: faker.location.city() + ', Ireland',
+  developer: faker.company.name(),
+  status: 'active',
+  totalUnits: faker.number.int({ min: 10, max: 100 }),
+  availableUnits: faker.number.int({ min: 1, max: 50 }),
+  priceFrom: faker.number.int({ min: 200000, max: 500000 }),
+  completionDate: faker.date.future(),
+  features: [faker.lorem.word(), faker.lorem.word(), faker.lorem.word()],
+  amenities: [faker.lorem.word(), faker.lorem.word()],
+  images: [faker.image.url(), faker.image.url()],
+  documents: [],
+  coordinates: {
+    lat: parseFloat(faker.location.latitude()),
+    lng: parseFloat(faker.location.longitude())},
+  createdAt: faker.date.past(),
+  updatedAt: faker.date.recent(),
+  ...overrides});
+
+// Unit factory
+export const createMockUnit = (overrides: Partial<Unit> = {}): Unit => ({
+  id: faker.string.uuid(),
+  developmentId: faker.string.uuid(),
+  unitNumber: faker.string.alphanumeric(4),
+  type: faker.helpers.arrayElement(['apartment', 'house', 'townhouse']),
+  bedrooms: faker.number.int({ min: 1, max: 4 }),
+  bathrooms: faker.number.int({ min: 1, max: 3 }),
+  size: faker.number.int({ min: 50, max: 200 }),
+  floor: faker.number.int({ min: 0, max: 10 }),
+  price: faker.number.int({ min: 200000, max: 800000 }),
+  status: 'available',
+  features: [faker.lorem.word(), faker.lorem.word()],
+  images: [faker.image.url()],
+  floorPlan: faker.image.url(),
+  virtualTour: faker.internet.url(),
+  reservedBy: null,
+  reservedAt: null,
+  soldTo: null,
+  soldAt: null,
+  createdAt: faker.date.past(),
+  updatedAt: faker.date.recent(),
+  ...overrides});
+
+// Document factory
+export const createMockDocument = (overrides: Partial<Document> = {}): Document => ({
+  id: faker.string.uuid(),
+  name: faker.system.fileName(),
+  type: faker.helpers.arrayElement(['contract', 'kyc', 'financial', 'legal']),
+  url: faker.internet.url(),
+  uploadedBy: faker.string.uuid(),
+  uploadedAt: faker.date.recent(),
+  status: 'pending',
+  metadata: {},
+  unitId: faker.string.uuid(),
+  transactionId: faker.string.uuid(),
+  verified: false,
+  verifiedBy: null,
+  verifiedAt: null,
+  createdAt: faker.date.past(),
+  updatedAt: faker.date.recent(),
+  ...overrides});
+
+// Transaction factory
+export const createMockTransaction = (overrides: Partial<Transaction> = {}): Transaction => ({
+  id: faker.string.uuid(),
+  buyerId: faker.string.uuid(),
+  unitId: faker.string.uuid(),
+  status: 'pending',
+  totalAmount: faker.number.int({ min: 200000, max: 800000 }),
+  depositAmount: faker.number.int({ min: 10000, max: 50000 }),
+  depositPaid: false,
+  depositPaidAt: null,
+  contractSigned: false,
+  contractSignedAt: null,
+  mortgageApproved: false,
+  mortgageApprovedAt: null,
+  completionDate: faker.date.future(),
+  notes: faker.lorem.paragraph(),
+  blockchain: {
+    transactionHash: faker.string.hexadecimal({ length: 64 }),
+    blockNumber: faker.number.int({ min: 1000000, max: 2000000 }),
+    contractAddress: faker.finance.ethereumAddress()},
+  timeline: [],
+  documents: [],
+  participants: [],
+  createdAt: faker.date.past(),
+  updatedAt: faker.date.recent(),
+  ...overrides});
+
+// Property factory (for search results)
+export const createMockProperty = (overrides: Partial<any> = {}) => ({
+  id: faker.string.uuid(),
+  title: faker.company.name() + ' - ' + faker.location.street(),
+  price: faker.number.int({ min: 200000, max: 800000 }),
+  location: faker.location.city() + ', Ireland',
+  bedrooms: faker.number.int({ min: 1, max: 4 }),
+  bathrooms: faker.number.int({ min: 1, max: 3 }),
+  size: faker.number.int({ min: 50, max: 200 }),
+  type: faker.helpers.arrayElement(['apartment', 'house', 'townhouse']),
+  images: [faker.image.url(), faker.image.url()],
+  features: [faker.lorem.word(), faker.lorem.word()],
+  description: faker.lorem.paragraph(),
+  ...overrides});
+
+// Batch creation helpers
+export const createMockUsers = (count: number, overrides: Partial<User> = {}) =>
+  Array.from({ length: count }, () => createMockUser(overrides));
+
+export const createMockDevelopments = (count: number, overrides: Partial<Development> = {}) =>
+  Array.from({ length: count }, () => createMockDevelopment(overrides));
+
+export const createMockUnits = (count: number, developmentId: string, overrides: Partial<Unit> = {}) =>
+  Array.from({ length: count }, () => createMockUnit({ developmentId, ...overrides }));
+
+export const createMockProperties = (count: number, overrides: Partial<any> = {}) =>
+  Array.from({ length: count }, () => createMockProperty(overrides));
+
+// Complex data creation helpers
+export const createMockDevelopmentWithUnits = (unitCount: number = 10) => {
+  const development = createMockDevelopment();
+  const units = createMockUnits(unitCount, development.id);
+  return { development, units };
+};
+
+export const createMockTransactionFlow = () => {
+  const buyer = createMockUser({ roles: ['buyer'] });
+  const { development, units } = createMockDevelopmentWithUnits(5);
+  const unit = units[0];
+  const transaction = createMockTransaction({
+    buyerId: buyer.id,
+    unitId: unit.id});
+  const documents = [
+    createMockDocument({ 
+      transactionId: transaction.id, 
+      type: 'contract',
+      name: 'Purchase Agreement.pdf' 
+    }),
+    createMockDocument({ 
+      transactionId: transaction.id, 
+      type: 'financial',
+      name: 'Mortgage Approval.pdf' 
+    })];
+  
+  return { buyer, development, unit, transaction, documents };
+};
+
+// Authentication test data
+export const createMockAuthUser = () => ({
+  id: faker.string.uuid(),
+  email: faker.internet.email(),
+  name: faker.person.fullName(),
+  image: faker.image.avatar()});
+
+export const createMockSession = (user = createMockAuthUser()) => ({
+  user,
+  expires: faker.date.future().toISOString()});
+
+// API response factories
+export const createMockApiResponse = <T>(data: T, status = 200) => ({
+  status,
+  ok: status >= 200 && status < 300,
+  json: async () => data,
+  text: async () => JSON.stringify(data),
+  headers: new Headers({
+    'content-type': 'application/json'})});
+
+export const createMockPaginatedResponse = <T>(items: T[], total: number, page = 1, limit = 10) => ({
+  items,
+  total,
+  page,
+  limit,
+  totalPages: Math.ceil(total / limit),
+  hasNext: page * limit < total,
+  hasPrev: page > 1});

@@ -32,16 +32,14 @@ import {
   TableCell,
   TableHead,
   TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+  TableRow} from "@/components/ui/table";
 import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+  SelectValue} from "@/components/ui/select";
 
 // Mock data
 const mockDocuments = [
@@ -56,8 +54,7 @@ const mockDocuments = [
     fileSize: 2456789,
     fileType: 'application/pdf',
     url: '/documents/title-deeds.pdf',
-    version: 1,
-  },
+    version: 1},
   {
     id: 'doc-002',
     name: 'Planning Permission',
@@ -69,8 +66,7 @@ const mockDocuments = [
     fileSize: 3541234,
     fileType: 'application/pdf',
     url: '/documents/planning-permission.pdf',
-    version: 2,
-  },
+    version: 2},
   {
     id: 'doc-003',
     name: 'Building Regulations Compliance',
@@ -82,8 +78,7 @@ const mockDocuments = [
     fileSize: 4102562,
     fileType: 'application/pdf',
     url: '/documents/building-regs.pdf',
-    version: 1,
-  },
+    version: 1},
   {
     id: 'doc-004',
     name: 'Property Brochure',
@@ -95,8 +90,7 @@ const mockDocuments = [
     fileSize: 8957123,
     fileType: 'application/pdf',
     url: '/documents/fitzgerald-gardens-brochure.pdf',
-    version: 3,
-  },
+    version: 3},
   {
     id: 'doc-005',
     name: 'New Home Warranty',
@@ -108,8 +102,7 @@ const mockDocuments = [
     fileSize: 1254871,
     fileType: 'application/pdf',
     url: '/documents/warranty.pdf',
-    version: 1,
-  },
+    version: 1},
   {
     id: 'doc-006',
     name: 'Management Company Information',
@@ -121,8 +114,7 @@ const mockDocuments = [
     fileSize: 2145789,
     fileType: 'application/pdf',
     url: '/documents/management-company.pdf',
-    version: 2,
-  },
+    version: 2},
   {
     id: 'doc-007',
     name: 'Energy Performance Certificate',
@@ -134,8 +126,7 @@ const mockDocuments = [
     fileSize: 845123,
     fileType: 'application/pdf',
     url: '/documents/epc.pdf',
-    version: 1,
-  },
+    version: 1},
   {
     id: 'doc-008',
     name: 'Sale Contract Template',
@@ -147,8 +138,7 @@ const mockDocuments = [
     fileSize: 1352487,
     fileType: 'application/pdf',
     url: '/documents/sale-contract.pdf',
-    version: 4,
-  },
+    version: 4},
   {
     id: 'doc-009',
     name: 'Site Plan',
@@ -160,8 +150,7 @@ const mockDocuments = [
     fileSize: 4521453,
     fileType: 'application/pdf',
     url: '/documents/site-plan.pdf',
-    version: 2,
-  },
+    version: 2},
   {
     id: 'doc-010',
     name: 'Construction Schedule',
@@ -173,8 +162,7 @@ const mockDocuments = [
     fileSize: 1258456,
     fileType: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
     url: '/documents/construction-schedule.xlsx',
-    version: 3,
-  }
+    version: 3}
 ];
 
 // Mock projects
@@ -197,19 +185,19 @@ export default function ProjectDocumentsPage() {
   const params = useParams();
   const router = useRouter();
   const projectId = params?.id as string;
-  
+
   // Get project details or redirect if not found
   const project = mockProjects[projectId as keyof typeof mockProjects];
   if (!project) {
     router.push('/project-management');
     return null;
   }
-  
+
   // State for filters
-  const [searchQuery, setSearchQuery] = useState('');
-  const [categoryFilter, setCategoryFilter] = useState('all');
-  const [statusFilter, setStatusFilter] = useState('all');
-  
+  const [searchQuerysetSearchQuery] = useState('');
+  const [categoryFiltersetCategoryFilter] = useState('all');
+  const [statusFiltersetStatusFilter] = useState('all');
+
   // Format date
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('en-IE', {
@@ -218,45 +206,45 @@ export default function ProjectDocumentsPage() {
       year: 'numeric'
     });
   };
-  
+
   // Format file size
   const formatFileSize = (bytes: number) => {
-    if (bytes < 1024) return bytes + ' B';
-    if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
-    if (bytes < 1024 * 1024 * 1024) return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+    if (bytes <1024) return bytes + ' B';
+    if (bytes <1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+    if (bytes <1024 * 1024 * 1024) return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
     return (bytes / (1024 * 1024 * 1024)).toFixed(1) + ' GB';
   };
-  
+
   // Get status badge
   const getStatusBadge = (status: string) => {
     switch (status) {
       case 'approved':
-        return <Badge className="bg-green-500"><Check className="h-3 w-3 mr-1" /> Approved</Badge>;
+        return <Badge className="bg-green-500"><Check className="h-3 w-3 mr-1" /> Approved</Badge>\n  );
       case 'in-review':
-        return <Badge className="bg-amber-500"><Clock className="h-3 w-3 mr-1" /> In Review</Badge>;
+        return <Badge className="bg-amber-500"><Clock className="h-3 w-3 mr-1" /> In Review</Badge>\n  );
       case 'rejected':
-        return <Badge className="bg-red-500"><AlertCircle className="h-3 w-3 mr-1" /> Rejected</Badge>;
+        return <Badge className="bg-red-500"><AlertCircle className="h-3 w-3 mr-1" /> Rejected</Badge>\n  );
       default:
-        return <Badge variant="outline"><Clock className="h-3 w-3 mr-1" /> Pending</Badge>;
+        return <Badge variant="outline"><Clock className="h-3 w-3 mr-1" /> Pending</Badge>\n  );
     }
   };
-  
+
   // Filter documents
   const filteredDocuments = mockDocuments.filter(doc => {
     // Search query filter
     const matchesSearch = searchQuery === '' || 
       doc.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       doc.description.toLowerCase().includes(searchQuery.toLowerCase());
-    
+
     // Category filter
     const matchesCategory = categoryFilter === 'all' || doc.category === categoryFilter;
-    
+
     // Status filter
     const matchesStatus = statusFilter === 'all' || doc.status === statusFilter;
-    
+
     return matchesSearch && matchesCategory && matchesStatus;
   });
-  
+
   return (
     <div className="container mx-auto py-8 px-4">
       <div className="mb-6">
@@ -264,13 +252,13 @@ export default function ProjectDocumentsPage() {
           <ArrowLeft className="h-4 w-4 mr-1" />
           Back to Project
         </Link>
-        
+
         <div className="flex justify-between items-center mt-2">
           <div>
             <h1 className="text-3xl font-bold">Project Documents</h1>
             <p className="text-gray-500 mt-1">{project.name}</p>
           </div>
-          
+
           <Link href={`/project-management/${projectId}/documents/upload`}>
             <Button>
               <Upload className="mr-2 h-4 w-4" />
@@ -279,7 +267,7 @@ export default function ProjectDocumentsPage() {
           </Link>
         </div>
       </div>
-      
+
       {/* Filters */}
       <Card className="mb-8">
         <CardHeader className="pb-3">
@@ -295,11 +283,11 @@ export default function ProjectDocumentsPage() {
                   placeholder="Search documents..."
                   className="pl-8"
                   value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onChange={(e: any) => setSearchQuery(e.target.value)}
                 />
               </div>
             </div>
-            
+
             <div>
               <Select value={categoryFilter} onValueChange={setCategoryFilter}>
                 <SelectTrigger>
@@ -314,7 +302,7 @@ export default function ProjectDocumentsPage() {
                 </SelectContent>
               </Select>
             </div>
-            
+
             <div>
               <Select value={statusFilter} onValueChange={setStatusFilter}>
                 <SelectTrigger>
@@ -331,7 +319,7 @@ export default function ProjectDocumentsPage() {
           </div>
         </CardContent>
       </Card>
-      
+
       {/* Document List */}
       <Card>
         <CardHeader>
@@ -412,7 +400,7 @@ export default function ProjectDocumentsPage() {
                   </TableCell>
                 </TableRow>
               ))}
-              
+
               {filteredDocuments.length === 0 && (
                 <TableRow>
                   <TableCell colSpan={7} className="text-center py-8">
@@ -423,7 +411,7 @@ export default function ProjectDocumentsPage() {
                         setSearchQuery('');
                         setCategoryFilter('all');
                         setStatusFilter('all');
-                      }}>
+                      }>
                         Clear Filters
                       </Button>
                     </div>

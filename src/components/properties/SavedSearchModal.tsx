@@ -1,3 +1,4 @@
+import React from 'react';
 'use client';
 
 import { useState } from 'react';
@@ -7,22 +8,19 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogFooter,
-} from "@/components/ui/dialog";
+  DialogFooter} from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import {
   Alert,
-  AlertDescription,
-} from "@/components/ui/alert";
+  AlertDescription} from "@/components/ui/alert";
 import {
   Tabs,
   TabsContent,
   TabsList,
-  TabsTrigger,
-} from "@/components/ui/tabs";
+  TabsTrigger} from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { TrashIcon, BookmarkIcon, ClockIcon } from '@heroicons/react/24/outline';
 import { format } from 'date-fns';
@@ -54,11 +52,11 @@ export default function SavedSearchModal({
   savedSearches,
   onDelete
 }: SavedSearchModalProps) {
-  const [name, setName] = useState('');
-  const [description, setDescription] = useState('');
-  const [enableNotifications, setEnableNotifications] = useState(true);
-  const [activeTab, setActiveTab] = useState('save');
-  const [error, setError] = useState('');
+  const [namesetName] = useState('');
+  const [descriptionsetDescription] = useState('');
+  const [enableNotificationssetEnableNotifications] = useState(true);
+  const [activeTabsetActiveTab] = useState('save');
+  const [errorsetError] = useState('');
 
   const handleSave = () => {
     if (!name.trim()) {
@@ -66,7 +64,7 @@ export default function SavedSearchModal({
       return;
     }
 
-    onSave(name, description, enableNotifications);
+    onSave(name, descriptionenableNotifications);
     setName('');
     setDescription('');
     setError('');
@@ -75,23 +73,23 @@ export default function SavedSearchModal({
 
   const formatFilters = (filters: any) => {
     const parts: string[] = [];
-    
+
     if (filters.priceMin || filters.priceMax) {
       parts.push(`€${filters.priceMin?.toLocaleString() || 0} - €${filters.priceMax?.toLocaleString() || '∞'}`);
     }
-    
+
     if (filters.bedroomsMin || filters.bedroomsMax) {
       parts.push(`${filters.bedroomsMin || 0}-${filters.bedroomsMax || '5+'} beds`);
     }
-    
-    if (filters.propertyTypes?.length > 0) {
+
+    if (filters.propertyTypes?.length> 0) {
       parts.push(filters.propertyTypes.join(', '));
     }
-    
-    if (filters.locations?.length > 0) {
+
+    if (filters.locations?.length> 0) {
       parts.push(filters.locations.join(', '));
     }
-    
+
     return parts.join(' • ');
   };
 
@@ -117,7 +115,7 @@ export default function SavedSearchModal({
               <Input
                 id="name"
                 value={name}
-                onChange={(e) => setName(e.target.value)}
+                onChange={(e: any) => setName(e.target.value)}
                 placeholder="e.g., Dublin 2-bed apartments under €400k"
                 className="mt-1"
               />
@@ -128,7 +126,7 @@ export default function SavedSearchModal({
               <Textarea
                 id="description"
                 value={description}
-                onChange={(e) => setDescription(e.target.value)}
+                onChange={(e: any) => setDescription(e.target.value)}
                 placeholder="Add notes about what you're looking for..."
                 className="mt-1"
                 rows={3}
@@ -149,7 +147,7 @@ export default function SavedSearchModal({
                 type="checkbox"
                 id="notifications"
                 checked={enableNotifications}
-                onChange={(e) => setEnableNotifications(e.target.checked)}
+                onChange={(e: any) => setEnableNotifications(e.target.checked)}
                 className="h-4 w-4"
               />
               <Label 
@@ -176,7 +174,7 @@ export default function SavedSearchModal({
               </div>
             ) : (
               <div className="space-y-3 max-h-[400px] overflow-y-auto">
-                {savedSearches.map((search) => (
+                {savedSearches.map((search: any) => (
                   <div
                     key={search.id}
                     className="p-4 border rounded-lg hover:bg-gray-50 transition-colors"

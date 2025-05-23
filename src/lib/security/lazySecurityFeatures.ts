@@ -38,7 +38,7 @@ export function createSecurityFeature<P extends LazyComponentProps>(
 ) {
   // Check if we should use the enhanced performance integration
   const useEnhancedPerformance = typeof securityPerformanceIntegration !== 'undefined';
-  
+
   // Create a performance-tracked import function
   const trackedImportFn = () => {
     const loadStartTime = performance.now();
@@ -47,7 +47,7 @@ export function createSecurityFeature<P extends LazyComponentProps>(
         if (useEnhancedPerformance) {
           // Track loading time with security performance metrics
           const loadTime = performance.now() - loadStartTime;
-          securityPerformanceIntegration.trackFeatureLoad(name, loadTime);
+          securityPerformanceIntegration.trackFeatureLoad(nameloadTime);
         }
         return module;
       })
@@ -81,12 +81,12 @@ export function createSecurityFeature<P extends LazyComponentProps>(
         startTime: performance.now(),
         timingId: -1
       };
-      
+
       // Start timing with performance monitor if available
       if (performanceMonitor?.startTiming) {
         trackingData.timingId = performanceMonitor.startTiming(`security_${name}_load`, false);
       }
-      
+
       return trackingData;
     },
     onLoadComplete: function() {
@@ -95,11 +95,11 @@ export function createSecurityFeature<P extends LazyComponentProps>(
       if (performanceMonitor?.endTiming && trackingData.timingId !== -1) {
         performanceMonitor.endTiming(trackingData.timingId);
       }
-      
+
       // Calculate load time for security performance metrics
       if (useEnhancedPerformance) {
         const loadTime = performance.now() - trackingData.startTime;
-        securityPerformanceIntegration.trackFeatureLoad(name, loadTime);
+        securityPerformanceIntegration.trackFeatureLoad(nameloadTime);
       }
     },
     onLoadError: (error: Error, trackingData?: TrackingData) => {
@@ -108,26 +108,26 @@ export function createSecurityFeature<P extends LazyComponentProps>(
         const loadTime = performance.now() - trackingData.startTime;
         securityPerformanceIntegration.trackFeatureLoad(`${name}_error`, loadTime);
       }
-      
+
       // Call custom error handler if provided
       if (options.onLoadError) {
         options.onLoadError(error);
       }
     }
   });
-  
+
   // Return enhanced component with utilities
   return {
     Component,
-    
+
     // Preload the component with performance tracking
     preload: () => {
       // Track preload time
       const preloadStartTime = performance.now();
-      
+
       // Preload with performance tracking
       const promise = importFn();
-      
+
       // Track results
       promise
         .then(() => {
@@ -137,17 +137,16 @@ export function createSecurityFeature<P extends LazyComponentProps>(
           }
         })
         .catch(error => {
-          console.error(`Failed to preload security feature "${name}":`, error);
-          
+
           if (useEnhancedPerformance) {
             const loadTime = performance.now() - preloadStartTime;
             securityPerformanceIntegration.trackFeatureLoad(`${name}_preload_failed`, loadTime);
           }
         });
-      
+
       return promise;
     },
-    
+
     // Check if the component is preloaded
     isPreloaded: () => {
       // This is a best-effort check - it cannot guarantee the component is fully preloaded
@@ -164,14 +163,14 @@ export function createSecurityFeature<P extends LazyComponentProps>(
                   (module.exports.__esModule || module.exports.default) &&
                   (module.id || '').includes(name.toLowerCase());
           });
-          
+
           return foundModule;
         }
       } catch (e) {
         // Ignore errors in checking, just return false
-        console.debug(`Error checking if ${name} is preloaded:`, e);
+
       }
-      
+
       return false;
     }
   };
@@ -298,20 +297,20 @@ export function preloadCriticalSecurityComponents() {
   // Track overall preload operation 
   const startTime = performance.now();
   let loadedCount = 0;
-  
+
   // Function to track completion of preloading
   const trackPreloadCompletion = () => {
     loadedCount++;
-    
+
     // If we've loaded 2 components (dashboard and enhanced dashboard), log metrics
     if (loadedCount === 2) {
       const totalTime = performance.now() - startTime;
-      
+
       // Track with security performance metrics if available
       if (typeof securityPerformanceIntegration !== 'undefined') {
         securityPerformanceIntegration.trackFeatureLoad('critical_security_components', totalTime);
       }
-      
+
       // Track with standard performance metrics
       if (performanceMonitor && typeof performanceMonitor.recordCustomMetric === 'function') {
         performanceMonitor.recordCustomMetric(
@@ -325,10 +324,10 @@ export function preloadCriticalSecurityComponents() {
       }
     }
   };
-  
+
   // Use optimal scheduling strategy based on environment
   const isLowPriorityPreload = process.env.NODE_ENV === 'production';
-  
+
   // Use requestIdleCallback if available, otherwise setTimeout
   const schedulePreload = (fn: () => void) => {
     if (typeof window !== 'undefined') {
@@ -348,7 +347,7 @@ export function preloadCriticalSecurityComponents() {
     SecurityDashboard.preload()
       .then(() => trackPreloadCompletion())
       .catch(() => trackPreloadCompletion());
-    
+
     // Preload enhanced dashboard with tracking
     EnhancedSecurityDashboard.preload()
       .then(() => trackPreloadCompletion())
@@ -364,20 +363,20 @@ export function preloadMFAComponents() {
   // Track overall preload operation
   const startTime = performance.now();
   let loadedCount = 0;
-  
+
   // Function to track completion of preloading
   const trackPreloadCompletion = () => {
     loadedCount++;
-    
+
     // If we've loaded both components, log metrics
     if (loadedCount === 2) {
       const totalTime = performance.now() - startTime;
-      
+
       // Track with security performance metrics if available
       if (typeof securityPerformanceIntegration !== 'undefined') {
         securityPerformanceIntegration.trackFeatureLoad('mfa_components', totalTime);
       }
-      
+
       // Track with standard performance metrics
       if (performanceMonitor && typeof performanceMonitor.recordCustomMetric === 'function') {
         performanceMonitor.recordCustomMetric(
@@ -391,12 +390,12 @@ export function preloadMFAComponents() {
       }
     }
   };
-  
+
   // Preload with tracking
   MFASetup.preload()
     .then(() => trackPreloadCompletion())
     .catch(() => trackPreloadCompletion());
-    
+
   MFAChallenge.preload()
     .then(() => trackPreloadCompletion())
     .catch(() => trackPreloadCompletion());
@@ -409,17 +408,17 @@ export function preloadMFAComponents() {
 export function preloadSecurityMonitoring() {
   // Track preload operation
   const startTime = performance.now();
-  
+
   // Preload with tracking
   SecurityMonitoringDashboard.preload()
     .then(() => {
       const loadTime = performance.now() - startTime;
-      
+
       // Track with security performance metrics if available
       if (typeof securityPerformanceIntegration !== 'undefined') {
         securityPerformanceIntegration.trackFeatureLoad('security_monitoring', loadTime);
       }
-      
+
       // Track with standard performance metrics
       if (performanceMonitor && typeof performanceMonitor.recordCustomMetric === 'function') {
         performanceMonitor.recordCustomMetric(
@@ -433,8 +432,7 @@ export function preloadSecurityMonitoring() {
       }
     })
     .catch(error => {
-      console.error('Failed to preload security monitoring:', error);
-      
+
       // Track failure with security performance metrics if available
       if (typeof securityPerformanceIntegration !== 'undefined') {
         const loadTime = performance.now() - startTime;

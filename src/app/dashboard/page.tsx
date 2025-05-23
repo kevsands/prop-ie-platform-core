@@ -39,7 +39,7 @@ export default function DashboardPage() {
           break;
       }
     }
-  }, [user, router, isAuthenticated, isLoading]);
+  }, [user, router, isAuthenticatedisLoading]);
 
   return (
     <ProtectedRoute>
@@ -57,24 +57,24 @@ export default function DashboardPage() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="py-8">
               <h1 className="text-3xl font-bold text-gray-900 mb-8">Dashboard</h1>
-              
+
               <div className="bg-white rounded-lg shadow p-6">
                 <h2 className="text-xl font-semibold mb-4">Welcome, {user.name || user.email}!</h2>
                 <p className="text-gray-600 mb-4">
                   You are logged in as: <span className="font-medium">{user.role}</span>
                 </p>
-                
+
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
                   <div className="bg-gray-50 p-4 rounded-lg">
                     <h3 className="font-medium text-gray-900 mb-2">Profile</h3>
                     <p className="text-sm text-gray-600">View and edit your profile information</p>
                   </div>
-                  
+
                   <div className="bg-gray-50 p-4 rounded-lg">
                     <h3 className="font-medium text-gray-900 mb-2">Settings</h3>
                     <p className="text-sm text-gray-600">Manage your account preferences</p>
                   </div>
-                  
+
                   <div className="bg-gray-50 p-4 rounded-lg">
                     <h3 className="font-medium text-gray-900 mb-2">Support</h3>
                     <p className="text-sm text-gray-600">Get help and contact support</p>

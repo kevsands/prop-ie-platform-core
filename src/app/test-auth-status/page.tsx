@@ -24,7 +24,7 @@ export default function TestAuthStatusPage() {
     <div className="min-h-screen bg-gray-50 p-8">
       <div className="max-w-4xl mx-auto">
         <h1 className="text-3xl font-bold mb-8">Authentication Status Test</h1>
-        
+
         {/* Current Auth Status */}
         <div className="bg-white p-6 rounded-lg shadow mb-8">
           <h2 className="text-xl font-semibold mb-4">Current Authentication Status</h2>
@@ -109,16 +109,16 @@ export default function TestAuthStatusPage() {
             <p>Test accessing different protected pages based on your current role:</p>
             <div className="grid grid-cols-2 gap-4 mt-4">
               <a href="/buyer" className="p-3 bg-gray-200 text-center rounded hover:bg-gray-300">
-                Buyer Dashboard (buyer, admin)
+                Buyer Dashboard (buyeradmin)
               </a>
               <a href="/developer" className="p-3 bg-gray-200 text-center rounded hover:bg-gray-300">
-                Developer Dashboard (developer, admin)
+                Developer Dashboard (developeradmin)
               </a>
               <a href="/agents" className="p-3 bg-gray-200 text-center rounded hover:bg-gray-300">
-                Agent Dashboard (agent, admin)
+                Agent Dashboard (agentadmin)
               </a>
               <a href="/solicitor" className="p-3 bg-gray-200 text-center rounded hover:bg-gray-300">
-                Solicitor Dashboard (solicitor, admin)
+                Solicitor Dashboard (solicitoradmin)
               </a>
               <a href="/admin" className="p-3 bg-gray-200 text-center rounded hover:bg-gray-300">
                 Admin Dashboard (admin)

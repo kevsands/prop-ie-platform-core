@@ -1,0 +1,359 @@
+// Development-specific schema for Prop/Fitzgerald Gardens Residential Ltd
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Core Development model
+model Development {
+  id                  String   @id @default(cuid())
+  name               String   @unique
+  slug               String   @unique
+  description        String?
+  address            String
+  city               String
+  county             String
+  eircode            String?
+  developerId        String   @default("fitzgerald-gardens-residential-ltd")
+  
+  // Development details
+  totalUnits         Int
+  availableUnits     Int      @default(0)
+  reservedUnits      Int      @default(0)
+  soldUnits          Int      @default(0)
+  
+  // Phase information
+  currentPhase       Int      @default(1)
+  totalPhases        Int      @default(1)
+  
+  // Key dates
+  launchDate         DateTime?
+  completionDate     DateTime?
+  
+  // Status
+  status             DevelopmentStatus @default(PLANNING)
+  isActive           Boolean  @default(true)
+  
+  // Relationships
+  units              Unit[]
+  unitTypes          UnitType[]
+  amenities          Amenity[]
+  documents          DevelopmentDocument[]
+  media              DevelopmentMedia[]
+  viewings           Viewing[]
+  
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+}
+
+// Unit Types (1 bed, 2 bed, 3 bed, 4 bed)
+model UnitType {
+  id                  String   @id @default(cuid())
+  developmentId       String
+  development         Development @relation(fields: [developmentId], references: [id])
+  
+  name               String   // e.g., "2 Bed Apartment"
+  bedrooms           Int
+  bathrooms          Float    // 2.5 for 2 and a half bathrooms
+  type               PropertyType
+  
+  // Sizing
+  area               Float    // Square meters
+  
+  // Pricing
+  priceFrom          Float
+  
+  // Inventory
+  totalUnits         Int
+  availableUnits     Int      @default(0)
+  
+  // Features
+  features           String[] // Array of features
+  
+  // Relationships
+  units              Unit[]
+  schedule           ScheduleOfAccommodation[]
+  floorPlans         FloorPlan[]
+  
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+  
+  @@unique([developmentId, name])
+}
+
+// Individual Units
+model Unit {
+  id                  String   @id @default(cuid())
+  developmentId       String
+  development         Development @relation(fields: [developmentId], references: [id])
+  unitTypeId          String
+  unitType            UnitType @relation(fields: [unitTypeId], references: [id])
+  
+  unitNumber         String   // e.g., "A101", "B205"
+  floor              Int
+  block              String?  // For larger developments
+  
+  // Status
+  status             UnitStatus @default(AVAILABLE)
+  
+  // Pricing
+  price              Float
+  
+  // Customizations
+  customizations     Customization[]
+  
+  // Transactions
+  reservations       Reservation[]
+  sales              Sale[]
+  
+  // Viewings
+  viewings           Viewing[]
+  
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+  
+  @@unique([developmentId, unitNumber])
+}
+
+// Schedule of Accommodation
+model ScheduleOfAccommodation {
+  id                  String   @id @default(cuid())
+  unitTypeId          String
+  unitType            UnitType @relation(fields: [unitTypeId], references: [id])
+  
+  room               String   // e.g., "Living/Kitchen/Dining", "Master Bedroom"
+  area               Float    // Square meters
+  
+  order              Int      // For display ordering
+  
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+  
+  @@unique([unitTypeId, room])
+}
+
+// Floor Plans
+model FloorPlan {
+  id                  String   @id @default(cuid())
+  unitTypeId          String
+  unitType            UnitType @relation(fields: [unitTypeId], references: [id])
+  
+  imageUrl           String
+  title              String?
+  isPrimary          Boolean  @default(false)
+  
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+}
+
+// Development Media (images, videos, virtual tours)
+model DevelopmentMedia {
+  id                  String   @id @default(cuid())
+  developmentId       String
+  development         Development @relation(fields: [developmentId], references: [id])
+  
+  type               MediaType
+  url                String
+  title              String?
+  description        String?
+  order              Int      @default(0)
+  isPrimary          Boolean  @default(false)
+  
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+}
+
+// Documents (brochures, price lists, etc.)
+model DevelopmentDocument {
+  id                  String   @id @default(cuid())
+  developmentId       String
+  development         Development @relation(fields: [developmentId], references: [id])
+  
+  type               DocumentType
+  title              String
+  url                String
+  isPublic           Boolean  @default(true)
+  
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+}
+
+// Amenities
+model Amenity {
+  id                  String   @id @default(cuid())
+  developmentId       String
+  development         Development @relation(fields: [developmentId], references: [id])
+  
+  type               AmenityType
+  name               String
+  distance           String?  // e.g., "5 min drive"
+  icon               String?  // Icon identifier
+  
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+}
+
+// Viewings
+model Viewing {
+  id                  String   @id @default(cuid())
+  developmentId       String
+  development         Development @relation(fields: [developmentId], references: [id])
+  unitId             String?
+  unit               Unit?    @relation(fields: [unitId], references: [id])
+  
+  // Contact information
+  name               String
+  email              String
+  phone              String
+  
+  // Viewing details
+  preferredDate      DateTime
+  preferredTime      String   // e.g., "morning", "afternoon", "evening"
+  message            String?
+  
+  // Status
+  status             ViewingStatus @default(REQUESTED)
+  confirmedDate      DateTime?
+  confirmedTime      String?
+  
+  // Notes from sales team
+  internalNotes      String?
+  
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+}
+
+// Reservations
+model Reservation {
+  id                  String   @id @default(cuid())
+  unitId              String
+  unit                Unit     @relation(fields: [unitId], references: [id])
+  
+  // Buyer information
+  buyerName          String
+  buyerEmail         String
+  buyerPhone         String
+  
+  // Reservation details
+  reservationDate    DateTime @default(now())
+  expiryDate         DateTime
+  depositAmount      Float
+  
+  // Status
+  status             ReservationStatus @default(ACTIVE)
+  
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+}
+
+// Sales
+model Sale {
+  id                  String   @id @default(cuid())
+  unitId              String
+  unit                Unit     @relation(fields: [unitId], references: [id])
+  
+  // Buyer information
+  buyerName          String
+  buyerEmail         String
+  buyerPhone         String
+  
+  // Sale details
+  saleDate           DateTime
+  salePrice          Float
+  
+  // Status
+  status             SaleStatus @default(IN_PROGRESS)
+  
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+}
+
+// Customizations
+model Customization {
+  id                  String   @id @default(cuid())
+  unitId              String
+  unit                Unit     @relation(fields: [unitId], references: [id])
+  
+  category           String   // e.g., "Kitchen", "Flooring", "Bathroom"
+  item               String   // e.g., "Cabinet Color", "Floor Type"
+  value              String   // e.g., "Oak", "Marble"
+  additionalCost     Float    @default(0)
+  
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+}
+
+// Enums
+enum DevelopmentStatus {
+  PLANNING
+  UNDER_CONSTRUCTION
+  READY
+  SELLING
+  SOLD_OUT
+  COMPLETED
+}
+
+enum PropertyType {
+  APARTMENT
+  HOUSE
+  DUPLEX
+  PENTHOUSE
+}
+
+enum UnitStatus {
+  AVAILABLE
+  RESERVED
+  SOLD
+  NOT_RELEASED
+}
+
+enum MediaType {
+  IMAGE
+  VIDEO
+  VIRTUAL_TOUR
+  FLOOR_PLAN
+}
+
+enum DocumentType {
+  BROCHURE
+  PRICE_LIST
+  SPECIFICATION
+  CONTRACT
+  OTHER
+}
+
+enum AmenityType {
+  SHOPPING
+  EDUCATION
+  TRANSPORT
+  HEALTHCARE
+  LEISURE
+  DINING
+}
+
+enum ViewingStatus {
+  REQUESTED
+  CONFIRMED
+  COMPLETED
+  CANCELLED
+  NO_SHOW
+}
+
+enum ReservationStatus {
+  ACTIVE
+  EXPIRED
+  CANCELLED
+  CONVERTED_TO_SALE
+}
+
+enum SaleStatus {
+  IN_PROGRESS
+  CONTRACTS_EXCHANGED
+  COMPLETED
+  CANCELLED
+}

@@ -57,8 +57,7 @@ const mockDevelopments: Development[] = [
     image: '/images/developments/placeholder-dev-2.jpg', 
     status: DevelopmentStatus.Future, 
     statusColor: 'purple-600' 
-  },
-];
+  }];
 
 const mockProperties: Property[] = [
   { 
@@ -339,12 +338,11 @@ const mockProperties: Property[] = [
     statusColor: 'green-600',
     createdAt: '2024-01-01',
     updatedAt: '2024-01-01'
-  },
-];
+  }];
 
 // Helper function to simulate API delay
 function delay(ms: number): Promise<void> {
-  return new Promise(resolve => setTimeout(resolve, ms));
+  return new Promise(resolve => setTimeout(resolvems));
 }
 
 /**
@@ -366,15 +364,15 @@ export class MockDataService implements DataService {
 
   async getFeaturedDevelopments(limit = 4): Promise<Development[]> {
     await delay(300);
-    return [...mockDevelopments].slice(0, limit);
+    return [...mockDevelopments].slice(0limit);
   }
 
   // Properties
   async getProperties(filters?: any): Promise<Property[]> {
     await delay(400);
-    
+
     let filteredProperties = [...mockProperties];
-    
+
     // Apply filters if provided
     if (filters) {
       if (filters.location) {
@@ -382,37 +380,37 @@ export class MockDataService implements DataService {
         const matchingDevelopments = mockDevelopments
           .filter(dev => dev.location.includes(location))
           .map(dev => dev.id);
-          
+
         filteredProperties = filteredProperties.filter(prop => 
           matchingDevelopments.includes(prop.developmentId)
         );
       }
-      
+
       if (filters.minBedrooms) {
         filteredProperties = filteredProperties.filter(
-          prop => prop.bedrooms >= filters.minBedrooms
+          prop => prop.bedrooms>= filters.minBedrooms
         );
       }
-      
+
       if (filters.minPrice) {
         filteredProperties = filteredProperties.filter(
-          prop => prop.price >= filters.minPrice
+          prop => prop.price>= filters.minPrice
         );
       }
-      
+
       if (filters.maxPrice) {
         filteredProperties = filteredProperties.filter(
           prop => prop.price <= filters.maxPrice
         );
       }
-      
+
       if (filters.developmentId) {
         filteredProperties = filteredProperties.filter(
           prop => prop.developmentId === filters.developmentId
         );
       }
     }
-    
+
     return filteredProperties;
   }
 
@@ -424,7 +422,7 @@ export class MockDataService implements DataService {
 
   async getFeaturedProperties(limit = 6): Promise<Property[]> {
     await delay(300);
-    return [...mockProperties].slice(0, limit);
+    return [...mockProperties].slice(0limit);
   }
 
   async getPropertiesByDevelopment(developmentId: string): Promise<Property[]> {

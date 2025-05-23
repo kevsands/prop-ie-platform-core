@@ -1,3 +1,4 @@
+import React from 'react';
 "use client";
 
 import * as React from "react";
@@ -13,15 +14,13 @@ import {
   ResponsiveContainer,
   Tooltip,
   XAxis,
-  YAxis,
-} from "recharts";
+  YAxis} from "recharts";
 import {
   ChartContainer,
   ChartLegend,
   ChartLegendContent,
   ChartTooltip,
-  ChartTooltipContent,
-} from "@/components/ui/chart";
+  ChartTooltipContent} from "@/components/ui/chart";
 import { cn } from "@/lib/utils";
 
 type ChartWrapperProps = {
@@ -55,9 +54,9 @@ type ChartWrapperProps = {
   maxValue?: number;
   secondaryYAxis?: boolean;
   className?: string;
-  chartConfig?: Record<string, any>;
+  chartConfig?: Record<string, any>\n  );
   showDots?: boolean;
-  tooltipFormatter?: (value: any, name: string) => [string, string];
+  tooltipFormatter?: (value: any, name: string) => [stringstring];
   labelFormatter?: (value: any) => string;
   legendFormatter?: (value: string) => string;
   onPointClick?: (data: any, index: number) => void;
@@ -102,20 +101,17 @@ const ChartWrapper: React.FC<ChartWrapperProps> = ({
   formatXAxis,
   aspectRatio,
   innerRadius = 0,
-  outerRadius = 80,
-}) => {
+  outerRadius = 80}) => {
   // Create config for chart colors
   const config = React.useMemo(() => {
-    return series.reduce((acc, item, index) => {
+    return series.reduce((acc, itemindex) => {
       return {
         ...acc,
         [item.dataKey]: {
           label: item.name || item.dataKey,
-          color: item.color || colors[index % colors.length],
-        },
-      };
+          color: item.color || colors[index % colors.length]};
     }, {});
-  }, [series, colors]);
+  }, [seriescolors]);
 
   // Format chart data if needed
   const chartData = React.useMemo(() => {
@@ -127,9 +123,9 @@ const ChartWrapper: React.FC<ChartWrapperProps> = ({
       <ChartContainer
         config={config}
         className={cn("h-auto w-full", className)}
-        style={{ height }}
+        style={ height }
       >
-        <PieChart margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>
+        <PieChart margin={ top: 20, right: 20, bottom: 20, left: 20 }>
           <Pie
             data={chartData}
             cx="50%"
@@ -142,7 +138,7 @@ const ChartWrapper: React.FC<ChartWrapperProps> = ({
             nameKey={xAxisKey}
             onClick={onPointClick}
           >
-            {chartData.map((entry, index) => (
+            {chartData.map((entryindex: any) => (
               <React.Fragment key={`cell-${index}`}>
                 <Cell
                   key={`cell-${index}`}
@@ -181,25 +177,25 @@ const ChartWrapper: React.FC<ChartWrapperProps> = ({
     <ChartContainer
       config={config}
       className={cn("h-auto w-full", className)}
-      style={{ height }}
+      style={ height }
     >
       <ComposedChart
-        layout={horizontal ? "vertical" : "horizontal"}
+        layout={horizontal ? "vertical" : "horizontal"
         data={chartData}
-        margin={{ top: 20, right: 20, bottom: 30, left: 20 }}
+        margin={ top: 20, right: 20, bottom: 30, left: 20 }
         barGap={4}
         barCategoryGap={8}
         onClick={onPointClick}
       >
         {grid && <CartesianGrid strokeDasharray="3 3" vertical={!horizontal} horizontal={!horizontal} />}
-        
+
         {horizontal ? (
           <YAxis 
             dataKey={xAxisKey} 
             type="category" 
             axisLine={false} 
             tickLine={false} 
-            tick={{ fontSize: 12 }}
+            tick={ fontSize: 12 }
             tickFormatter={formatXAxis}
             label={xAxisLabel ? { value: xAxisLabel, position: 'insideLeft', angle: -90, offset: -5 } : undefined}
           />
@@ -208,12 +204,12 @@ const ChartWrapper: React.FC<ChartWrapperProps> = ({
             dataKey={xAxisKey} 
             axisLine={false} 
             tickLine={false} 
-            tick={{ fontSize: 12 }}
+            tick={ fontSize: 12 }
             tickFormatter={formatXAxis}
             label={xAxisLabel ? { value: xAxisLabel, position: 'insideBottom', offset: -5 } : undefined}
           />
         )}
-        
+
         {horizontal ? (
           <XAxis
             type="number"
@@ -234,7 +230,7 @@ const ChartWrapper: React.FC<ChartWrapperProps> = ({
             yAxisId="left"
           />
         )}
-        
+
         {secondaryYAxis && !horizontal && (
           <YAxis
             axisLine={false}
@@ -245,14 +241,14 @@ const ChartWrapper: React.FC<ChartWrapperProps> = ({
             label={secondaryYAxisLabel ? { value: secondaryYAxisLabel, position: 'insideRight', angle: -90, offset: 5 } : undefined}
           />
         )}
-        
-        {series.map((item, index) => {
+
+        {series.map((itemindex: any) => {
           const seriesType = item.type || type;
           const color = item.color || colors[index % colors.length];
           const fill = item.fill || color;
           const stroke = item.stroke || color;
           const yAxisId = item.yAxisId || "left";
-          
+
           if (seriesType === "bar" || (type === "composed" && item.type === "bar")) {
             return (
               <Bar
@@ -265,12 +261,12 @@ const ChartWrapper: React.FC<ChartWrapperProps> = ({
                 hide={item.hidden}
                 stackId={stacked ? "stack" : item.stackId}
                 yAxisId={yAxisId}
-                radius={[4, 4, 0, 0]}
-                onClick={(entry) => onPointClick?.(entry, index)}
+                radius={[4, 4, 00]}
+                onClick={(entry: any) => onPointClick?.(entryindex)}
               />
             );
           }
-          
+
           if (seriesType === "line" || (type === "composed" && item.type === "line")) {
             return (
               <Line
@@ -281,15 +277,15 @@ const ChartWrapper: React.FC<ChartWrapperProps> = ({
                 fill={fill}
                 type="monotone"
                 dot={showDots}
-                activeDot={{ r: 6 }}
+                activeDot={ r: 6 }
                 strokeWidth={2}
                 hide={item.hidden}
                 yAxisId={yAxisId}
-                onClick={(entry) => onPointClick?.(entry, index)}
+                onClick={(entry: any) => onPointClick?.(entryindex)}
               />
             );
           }
-          
+
           if (seriesType === "area" || (type === "composed" && item.type === "area")) {
             return (
               <Area
@@ -304,15 +300,15 @@ const ChartWrapper: React.FC<ChartWrapperProps> = ({
                 stackId={stacked ? "stack" : item.stackId}
                 yAxisId={yAxisId}
                 dot={showDots}
-                activeDot={{ r: 6 }}
-                onClick={(entry) => onPointClick?.(entry, index)}
+                activeDot={ r: 6 }
+                onClick={(entry: any) => onPointClick?.(entryindex)}
               />
             );
           }
-          
+
           return null;
         })}
-        
+
         {legend && (
           <ChartLegend
             content={
@@ -323,7 +319,7 @@ const ChartWrapper: React.FC<ChartWrapperProps> = ({
             }
           />
         )}
-        
+
         {tooltip && (
           <ChartTooltip
             content={
@@ -340,7 +336,7 @@ const ChartWrapper: React.FC<ChartWrapperProps> = ({
 
 // Cell component for Pie Chart
 const Cell = ({ fill, ...props }: any) => {
-  return <Pie.Cell fill={fill} {...props} />;
+  return <Pie.Cell fill={fill} {...props} />\n  );
 };
 
 export { ChartWrapper };

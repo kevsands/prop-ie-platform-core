@@ -1,0 +1,350 @@
+import React, { useState, useEffect } from 'react';
+import { LegalTransactionFlow } from './LegalTransactionFlow';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { ArrowLeftIcon, DocumentTextIcon, ShieldCheckIcon } from '@heroicons/react/24/outline';
+import { useRouter } from 'next/navigation';
+
+interface LegalTransactionIntegrationProps {
+  unitId: string;
+  unitDetails: {
+    id: string;
+    name: string;
+    price: number;
+    bookingDeposit: number;
+    address: string;
+    bedrooms: number;
+    bathrooms: number;
+    type: string;
+  };
+  onComplete?: (transactionId: string) => void;
+  onCancel?: () => void;
+  existingTransactionId?: string;
+}
+
+export const LegalTransactionIntegration: React.FC<LegalTransactionIntegrationProps> = ({
+  unitId,
+  unitDetails,
+  onComplete,
+  onCancel,
+  existingTransactionId
+}) => {
+  const router = useRouter();
+  const [showLegalFlowsetShowLegalFlow] = useState(false);
+  const [transactionDatasetTransactionData] = useState<any>(null);
+  const [loadingsetLoading] = useState(false);
+
+  useEffect(() => {
+    if (existingTransactionId) {
+      loadExistingTransaction();
+    }
+  }, [existingTransactionId]);
+
+  const loadExistingTransaction = async () => {
+    try {
+      setLoading(true);
+      const response = await fetch(`/api/transactions/${existingTransactionId}`);
+      const data = await response.json();
+
+      if (data.success) {
+        setTransactionData(data.data);
+
+        // Check if legal flow is already in progress
+        if (data.data.legalReservation) {
+          setShowLegalFlow(true);
+        }
+      }
+    } catch (error) {
+
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleStartLegalProcess = () => {
+    setShowLegalFlow(true);
+  };
+
+  const handleLegalComplete = async (transactionId: string) => {
+    // Update existing transaction with legal completion
+    if (existingTransactionId) {
+      await updateTransactionWithLegalCompletion(existingTransactionIdtransactionId);
+    }
+
+    if (onComplete) {
+      onComplete(transactionId);
+    } else {
+      // Default navigation to transaction dashboard
+      router.push(`/buyer/transactions/${transactionId}`);
+    }
+  };
+
+  const handleLegalCancel = () => {
+    setShowLegalFlow(false);
+    if (onCancel) {
+      onCancel();
+    }
+  };
+
+  const updateTransactionWithLegalCompletion = async (existingTxnId: string, legalTxnId: string) => {
+    try {
+      await fetch(`/api/transactions/${existingTxnId}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          updates: {
+            legalTransactionId: legalTxnId,
+            stage: 'DUE_DILIGENCE',
+            status: 'LEGALLY_BOUND',
+            legallyExecuted: true,
+            updatedAt: new Date().toISOString()
+          }
+        })
+      });
+    } catch (error) {
+
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-64">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600" />
+      </div>
+    );
+  }
+
+  if (showLegalFlow) {
+    return (
+      <LegalTransactionFlow
+        unitId={unitId}
+        unitDetails={unitDetails}
+        onComplete={handleLegalComplete}
+        onCancel={handleLegalCancel}
+      />
+    );
+  }
+
+  return (
+    <div className="max-w-4xl mx-auto p-6">
+      {/* Header */}
+      <div className="flex items-center gap-4 mb-6">
+        <Button 
+          variant="outline" 
+          onClick={() => router.back()}
+          className="flex items-center gap-2"
+        >
+          <ArrowLeftIcon className="h-4 w-4" />
+          Back
+        </Button>
+        <div>
+          <h1 className="text-2xl font-bold text-gray-900">Legal Transaction Process</h1>
+          <p className="text-gray-600">Secure, compliant property purchase</p>
+        </div>
+      </div>
+
+      {/* Property Summary */}
+      <Card className="mb-6">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <DocumentTextIcon className="h-5 w-5" />
+            Property Details
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <h3 className="font-semibold text-lg mb-2">{unitDetails.name}</h3>
+              <p className="text-gray-600 mb-4">{unitDetails.address}</p>
+
+              <div className="space-y-2">
+                <div className="flex justify-between">
+                  <span className="text-gray-600">Property Type:</span>
+                  <span className="font-medium">{unitDetails.type}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-600">Bedrooms:</span>
+                  <span className="font-medium">{unitDetails.bedrooms}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-600">Bathrooms:</span>
+                  <span className="font-medium">{unitDetails.bathrooms}</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="border-l pl-6">
+              <div className="space-y-4">
+                <div>
+                  <p className="text-gray-600 text-sm">Purchase Price</p>
+                  <p className="text-3xl font-bold text-blue-600">
+                    €{unitDetails.price.toLocaleString()}
+                  </p>
+                </div>
+
+                <div>
+                  <p className="text-gray-600 text-sm">Booking Deposit</p>
+                  <p className="text-xl font-semibold text-green-600">
+                    €{unitDetails.bookingDeposit.toLocaleString()}
+                  </p>
+                </div>
+
+                <div className="pt-2">
+                  <Badge variant="secondary" className="text-xs">
+                    Off-Plan Purchase
+                  </Badge>
+                </div>
+              </div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Legal Process Information */}
+      <Card className="mb-6">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <ShieldCheckIcon className="h-5 w-5" />
+            Legal Transaction Process
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-4">
+            <Alert>
+              <AlertDescription>
+                Our legal transaction process ensures full compliance with Irish property law and provides 
+                maximum security for your purchase. All deposits are held in regulated solicitor escrow accounts.
+              </AlertDescription>
+            </Alert>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <h4 className="font-semibold mb-3">Process Overview</h4>
+                <ul className="space-y-2 text-sm">
+                  <li className="flex items-start gap-2">
+                    <span className="w-2 h-2 bg-blue-600 rounded-full mt-2 flex-shrink-0" />
+                    <span>Review and accept Terms of Sale</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="w-2 h-2 bg-blue-600 rounded-full mt-2 flex-shrink-0" />
+                    <span>Secure deposit payment via Stripe</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="w-2 h-2 bg-blue-600 rounded-full mt-2 flex-shrink-0" />
+                    <span>Nominate your solicitor</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="w-2 h-2 bg-blue-600 rounded-full mt-2 flex-shrink-0" />
+                    <span>Contract generation and review</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="w-2 h-2 bg-blue-600 rounded-full mt-2 flex-shrink-0" />
+                    <span>Electronic signature via DocuSign</span>
+                  </li>
+                </ul>
+              </div>
+
+              <div>
+                <h4 className="font-semibold mb-3">Legal Compliance</h4>
+                <ul className="space-y-2 text-sm">
+                  <li className="flex items-center gap-2">
+                    <span className="w-2 h-2 bg-green-600 rounded-full" />
+                    <span>Irish Electronic Commerce Act 2000</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <span className="w-2 h-2 bg-green-600 rounded-full" />
+                    <span>eIDAS Regulation (EU) 910/2014</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <span className="w-2 h-2 bg-green-600 rounded-full" />
+                    <span>Irish Statute of Frauds 1695</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <span className="w-2 h-2 bg-green-600 rounded-full" />
+                    <span>GDPR Data Protection</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <span className="w-2 h-2 bg-green-600 rounded-full" />
+                    <span>Law Society Client Account Rules</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Security & Deposit Protection */}
+      <Card className="mb-6">
+        <CardHeader>
+          <CardTitle>Deposit Protection & Security</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="text-center p-4 bg-green-50 rounded-lg">
+              <ShieldCheckIcon className="h-8 w-8 text-green-600 mx-auto mb-2" />
+              <h5 className="font-semibold text-green-800">Escrow Protected</h5>
+              <p className="text-sm text-green-700">
+                Deposits held in regulated solicitor client accounts
+              </p>
+            </div>
+
+            <div className="text-center p-4 bg-blue-50 rounded-lg">
+              <DocumentTextIcon className="h-8 w-8 text-blue-600 mx-auto mb-2" />
+              <h5 className="font-semibold text-blue-800">Fully Refundable</h5>
+              <p className="text-sm text-blue-700">
+                Until contract execution - complete protection
+              </p>
+            </div>
+
+            <div className="text-center p-4 bg-purple-50 rounded-lg">
+              <ShieldCheckIcon className="h-8 w-8 text-purple-600 mx-auto mb-2" />
+              <h5 className="font-semibold text-purple-800">Legally Compliant</h5>
+              <p className="text-sm text-purple-700">
+                Full Irish property law compliance
+              </p>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Action Buttons */}
+      <div className="flex justify-between items-center">
+        <Button variant="outline" onClick={onCancel || (() => router.back())}>
+          Cancel
+        </Button>
+
+        <Button 
+          onClick={handleStartLegalProcess}
+          className="px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white"
+        >
+          Start Legal Process
+        </Button>
+      </div>
+
+      {/* Existing Transaction Integration */}
+      {existingTransactionId && transactionData && (
+        <Card className="mt-6">
+          <CardHeader>
+            <CardTitle>Existing Transaction</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="font-medium">Transaction ID: {existingTransactionId}</p>
+                <p className="text-sm text-gray-600">
+                  Status: {transactionData.status} | Stage: {transactionData.stage}
+                </p>
+              </div>
+              <Badge variant="outline">
+                Will be linked to legal process
+              </Badge>
+            </div>
+          </CardContent>
+        </Card>
+      )}
+    </div>
+  );
+};

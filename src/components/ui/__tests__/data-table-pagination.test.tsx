@@ -14,25 +14,20 @@ interface TestData {
 const columns: ColumnDef<TestData>[] = [
   {
     accessorKey: 'name',
-    header: 'Name',
-  },
+    header: 'Name'},
   {
     accessorKey: 'email',
-    header: 'Email',
-  },
+    header: 'Email'},
   {
     accessorKey: 'status',
-    header: 'Status',
-  },
-];
+    header: 'Status'}];
 
 const testData = generateTestData<TestData>(
   {
     id: '1',
     name: 'John Doe',
     email: 'john@example.com',
-    status: 'Active',
-  },
+    status: 'Active'},
   25 // Generate 25 rows to test pagination
 );
 
@@ -119,7 +114,7 @@ describe('DataTable Pagination', () => {
         data={testData}
         pagination
         pageSize={10}
-        pageSizeOptions={[5, 10, 25, 50]}
+        pageSizeOptions={[5, 10, 2550]}
       />
     );
     
@@ -142,7 +137,7 @@ describe('DataTable Pagination', () => {
         data={testData}
         pagination
         pageSize={10}
-        pageSizeOptions={[5, 10, 25, 50]}
+        pageSizeOptions={[5, 10, 2550]}
       />
     );
     
@@ -176,14 +171,14 @@ describe('DataTable Pagination', () => {
     // Change page
     const nextButton = screen.getByRole('button', { name: /next/i });
     fireEvent.click(nextButton);
-    expect(onPaginationChange).toHaveBeenCalledWith(2, 10);
+    expect(onPaginationChange).toHaveBeenCalledWith(210);
     
     // Change page size
     const pageSizeSelect = screen.getByRole('combobox');
     fireEvent.click(pageSizeSelect);
     const option25 = screen.getByRole('option', { name: '25' });
     fireEvent.click(option25);
-    expect(onPaginationChange).toHaveBeenCalledWith(1, 25);
+    expect(onPaginationChange).toHaveBeenCalledWith(125);
   });
 
   it('maintains pagination state after data updates', () => {
@@ -205,8 +200,7 @@ describe('DataTable Pagination', () => {
       id: '26',
       name: 'New User',
       email: 'new@example.com',
-      status: 'Active',
-    }];
+      status: 'Active'}];
     
     rerender(
       <DataTable

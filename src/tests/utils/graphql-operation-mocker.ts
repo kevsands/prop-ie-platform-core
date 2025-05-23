@@ -10,7 +10,7 @@ export function setupGraphQLOperationMocks() {
   const handlers = [
     // Query handlers
     ...Object.keys(GraphQLQueryResponses).map(operation => {
-      return graphql.query(operation, (req, res, ctx) => {
+      return graphql.query(operation, (req: NextApiRequest, res: NextApiResponse, ctx: any) => {
         // Check if the mock is a function (parameterized) or a static object
         const mockValue = typeof GraphQLQueryResponses[operation] === 'function'
           ? GraphQLQueryResponses[operation](req.variables?.id || req.variables?.documentId)
@@ -22,7 +22,7 @@ export function setupGraphQLOperationMocks() {
     
     // Mutation handlers
     ...Object.keys(GraphQLMutationResponses).map(operation => {
-      return graphql.mutation(operation, (req, res, ctx) => {
+      return graphql.mutation(operation, (req: NextApiRequest, res: NextApiResponse, ctx: any) => {
         // Check if the mock is a function (parameterized) or a static object
         const mockValue = typeof GraphQLMutationResponses[operation] === 'function'
           ? GraphQLMutationResponses[operation](req.variables)
@@ -30,8 +30,7 @@ export function setupGraphQLOperationMocks() {
           
         return res(ctx.data(mockValue));
       });
-    }),
-  ];
+    })];
   
   // Apply all handlers to the server
   server.use(...handlers);
@@ -43,7 +42,7 @@ export function setupGraphQLOperationMocks() {
  * Sets up a mock for a specific GraphQL query
  */
 export function mockGraphQLQuery(operation: string, mockData: any) {
-  const handler = graphql.query(operation, (req, res, ctx) => {
+  const handler = graphql.query(operation, (req: NextApiRequest, res: NextApiResponse, ctx: any) => {
     return res(ctx.data(mockData));
   });
   
@@ -56,14 +55,12 @@ export function mockGraphQLQuery(operation: string, mockData: any) {
  * Sets up a mock for a specific GraphQL query with error
  */
 export function mockGraphQLQueryError(operation: string, errorMessage: string, errorCode = 'ERROR') {
-  const handler = graphql.query(operation, (req, res, ctx) => {
+  const handler = graphql.query(operation, (req: NextApiRequest, res: NextApiResponse, ctx: any) => {
     return res(
       ctx.errors([
         {
           message: errorMessage,
-          extensions: { code: errorCode },
-        },
-      ])
+          extensions: { code: errorCode }])
     );
   });
   
@@ -76,7 +73,7 @@ export function mockGraphQLQueryError(operation: string, errorMessage: string, e
  * Sets up a mock for a specific GraphQL mutation
  */
 export function mockGraphQLMutation(operation: string, mockData: any) {
-  const handler = graphql.mutation(operation, (req, res, ctx) => {
+  const handler = graphql.mutation(operation, (req: NextApiRequest, res: NextApiResponse, ctx: any) => {
     return res(ctx.data(mockData));
   });
   
@@ -89,14 +86,12 @@ export function mockGraphQLMutation(operation: string, mockData: any) {
  * Sets up a mock for a specific GraphQL mutation with error
  */
 export function mockGraphQLMutationError(operation: string, errorMessage: string, errorCode = 'ERROR') {
-  const handler = graphql.mutation(operation, (req, res, ctx) => {
+  const handler = graphql.mutation(operation, (req: NextApiRequest, res: NextApiResponse, ctx: any) => {
     return res(
       ctx.errors([
         {
           message: errorMessage,
-          extensions: { code: errorCode },
-        },
-      ])
+          extensions: { code: errorCode }])
     );
   });
   
@@ -183,5 +178,4 @@ export const mockPresets = {
     });
     
     return handlers;
-  },
-};
+  };

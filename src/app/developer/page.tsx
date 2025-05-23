@@ -1,351 +1,388 @@
 'use client';
 
-import React from 'react';
-import { Building, CreditCard, Home, TrendingUp, Calendar } from 'lucide-react';
+import React, { useState } from 'react';
+import { 
+  Activity, TrendingUp, Target, Clock, AlertCircle, CheckCircle,
+  Calendar, DollarSign, Users, Building, Package, BarChart3,
+  MessageSquare, FileText, Award, Zap, ChevronRight, Plus,
+  ArrowUpRight, ArrowDownRight, Filter, Download, Share2, Calculator
+} from 'lucide-react';
 import Link from 'next/link';
-import { formatDistance } from 'date-fns';
-import { ArrowUpDown, ChevronRight } from 'lucide-react';
+import dynamic from 'next/dynamic';
 
-// Define simplified Card components for local use
-const Card = ({ className = "", children }) => (
-  <div className={`rounded-lg border bg-white shadow-sm ${className}`}>
-    {children}
-  </div>
-);
+// Dynamic imports for charts
+const LineChart = dynamic(() => import('recharts').then(mod => mod.LineChart), { ssr: false });
+const AreaChart = dynamic(() => import('recharts').then(mod => mod.AreaChart), { ssr: false });
+const BarChart = dynamic(() => import('recharts').then(mod => mod.BarChart), { ssr: false });
+const PieChart = dynamic(() => import('recharts').then(mod => mod.PieChart), { ssr: false });
+const ResponsiveContainer = dynamic(() => import('recharts').then(mod => mod.ResponsiveContainer), { ssr: false });
+const XAxis = dynamic(() => import('recharts').then(mod => mod.XAxis), { ssr: false });
+const YAxis = dynamic(() => import('recharts').then(mod => mod.YAxis), { ssr: false });
+const CartesianGrid = dynamic(() => import('recharts').then(mod => mod.CartesianGrid), { ssr: false });
+const Tooltip = dynamic(() => import('recharts').then(mod => mod.Tooltip), { ssr: false });
+const Legend = dynamic(() => import('recharts').then(mod => mod.Legend), { ssr: false });
+const Line = dynamic(() => import('recharts').then(mod => mod.Line), { ssr: false });
+const Area = dynamic(() => import('recharts').then(mod => mod.Area), { ssr: false });
+const Bar = dynamic(() => import('recharts').then(mod => mod.Bar), { ssr: false });
+const Pie = dynamic(() => import('recharts').then(mod => mod.Pie), { ssr: false });
+const Cell = dynamic(() => import('recharts').then(mod => mod.Cell), { ssr: false });
 
-const CardHeader = ({ className = "", children }) => (
-  <div className={`flex flex-col space-y-1.5 p-6 ${className}`}>
-    {children}
-  </div>
-);
+export default function DeveloperDashboard() {
+  const [timeRangesetTimeRange] = useState('7d');
+  const [selectedMetricsetSelectedMetric] = useState('revenue');
 
-const CardTitle = ({ className = "", children }) => (
-  <h3 className={`text-lg font-semibold leading-none tracking-tight ${className}`}>
-    {children}
-  </h3>
-);
+  // Mock data for charts
+  const salesData = [
+    { month: 'Jan', sales: 4500000, units: 12, conversions: 68 },
+    { month: 'Feb', sales: 5200000, units: 15, conversions: 72 },
+    { month: 'Mar', sales: 4800000, units: 13, conversions: 70 },
+    { month: 'Apr', sales: 6100000, units: 18, conversions: 75 },
+    { month: 'May', sales: 7300000, units: 22, conversions: 78 },
+    { month: 'Jun', sales: 8500000, units: 25, conversions: 82 }];
 
-const CardContent = ({ className = "", children }) => (
-  <div className={`p-6 pt-0 ${className}`}>
-    {children}
-  </div>
-);
+  const projectPhases = [
+    { name: 'Planning', value: 3, color: '#3B82F6' },
+    { name: 'Foundation', value: 5, color: '#10B981' },
+    { name: 'Construction', value: 8, color: '#F59E0B' },
+    { name: 'Finishing', value: 4, color: '#8B5CF6' },
+    { name: 'Complete', value: 2, color: '#6B7280' }];
 
-// Simple table components
-const Table = ({ className = "", children, ...props }) => (
-  <div className="relative w-full overflow-auto">
-    <table className={`w-full caption-bottom text-sm ${className}`} {...props}>
-      {children}
-    </table>
-  </div>
-);
-
-const TableHeader = ({ children, ...props }) => (
-  <thead className="[&_tr]:border-b" {...props}>
-    {children}
-  </thead>
-);
-
-const TableBody = ({ children, ...props }) => (
-  <tbody className="[&_tr:last-child]:border-0" {...props}>
-    {children}
-  </tbody>
-);
-
-const TableRow = ({ className = "", children, ...props }) => (
-  <tr className={`border-b transition-colors hover:bg-gray-50 ${className}`} {...props}>
-    {children}
-  </tr>
-);
-
-const TableHead = ({ className = "", children, ...props }) => (
-  <th className={`h-10 px-2 text-left align-middle font-medium text-gray-500 ${className}`} {...props}>
-    {children}
-  </th>
-);
-
-const TableCell = ({ className = "", children, ...props }) => (
-  <td className={`p-2 align-middle ${className}`} {...props}>
-    {children}
-  </td>
-);
-
-// Simple ProjectList component
-const ProjectList = ({ projects, title, description }) => {
-  if (!projects?.length) {
-    return (
-      <Card>
-        <CardHeader>
-          <CardTitle>{title}</CardTitle>
-          {description && <p className="text-sm text-gray-500">{description}</p>}
-        </CardHeader>
-        <CardContent>
-          <p className="text-center text-gray-500 py-6">No projects found</p>
-        </CardContent>
-      </Card>
-    );
-  }
-  
-  return (
-    <Card>
-      <CardHeader>
-        <CardTitle>{title}</CardTitle>
-        {description && <p className="text-sm text-gray-500">{description}</p>}
-      </CardHeader>
-      <CardContent>
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>
-                <div className="flex items-center">
-                  Name
-                  <ArrowUpDown className="ml-2 h-4 w-4" />
-                </div>
-              </TableHead>
-              <TableHead>
-                <div className="flex items-center">
-                  Status
-                  <ArrowUpDown className="ml-2 h-4 w-4" />
-                </div>
-              </TableHead>
-              <TableHead>
-                <div className="flex items-center">
-                  Completion
-                  <ArrowUpDown className="ml-2 h-4 w-4" />
-                </div>
-              </TableHead>
-              <TableHead>
-                <div className="flex items-center">
-                  Location
-                  <ArrowUpDown className="ml-2 h-4 w-4" />
-                </div>
-              </TableHead>
-              <TableHead>
-                <div className="flex items-center">
-                  Properties
-                  <ArrowUpDown className="ml-2 h-4 w-4" />
-                </div>
-              </TableHead>
-              <TableHead>Last Updated</TableHead>
-              <TableHead className="text-right">Actions</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {projects.map((project) => (
-              <TableRow key={project.id}>
-                <TableCell className="font-medium">
-                  <Link 
-                    href={`/developer/projects/${project.id}`}
-                    className="text-blue-600 hover:underline"
-                  >
-                    {project.name}
-                  </Link>
-                </TableCell>
-                <TableCell>
-                  <span
-                    className={`px-2 py-1 rounded-full text-xs font-medium ${
-                      project.status === 'Active' ? 'bg-green-100 text-green-800' :
-                      project.status === 'Planning' ? 'bg-blue-100 text-blue-800' :
-                      project.status === 'Completed' ? 'bg-gray-100 text-gray-800' :
-                      'bg-yellow-100 text-yellow-800'
-                    }`}
-                  >
-                    {project.status}
-                  </span>
-                </TableCell>
-                <TableCell>
-                  <div className="flex items-center">
-                    <div className="w-full bg-gray-200 rounded-full h-2">
-                      <div 
-                        className="bg-blue-600 h-2 rounded-full" 
-                        style={{ width: `${project.completionPercentage}%` }}
-                      />
-                    </div>
-                    <span className="ml-2 text-xs text-gray-500">
-                      {project.completionPercentage}%
-                    </span>
-                  </div>
-                </TableCell>
-                <TableCell>{project.location}</TableCell>
-                <TableCell>{project.propertyCount}</TableCell>
-                <TableCell>
-                  {formatDistance(new Date(project.lastUpdated), new Date(), { addSuffix: true })}
-                </TableCell>
-                <TableCell className="text-right">
-                  <Link 
-                    href={`/developer/projects/${project.id}`}
-                    className="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors h-8 px-3 border border-gray-300 bg-white text-gray-700 hover:bg-gray-50"
-                  >
-                    View
-                    <ChevronRight className="ml-1 h-4 w-4" />
-                  </Link>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </CardContent>
-    </Card>
-  );
-};
-
-export default function Page(): React.ReactElement {
-  // Enhanced mock data for testing that matches the ProjectList component's needs
-  const mockData = {
-    activeProjects: 5,
-    propertiesAvailable: 27,
-    totalSales: 14560000,
-    projects: [
-      { 
-        id: '1', 
-        name: 'Fitzgerald Gardens', 
-        status: 'Active', 
-        completionPercentage: 65,
-        location: 'Dublin',
-        propertyCount: 32,
-        lastUpdated: new Date(2023, 4, 15).toISOString()
-      },
-      { 
-        id: '2', 
-        name: 'Riverside Manor', 
-        status: 'Planning', 
-        completionPercentage: 10,
-        location: 'Cork',
-        propertyCount: 18,
-        lastUpdated: new Date(2023, 5, 22).toISOString()
-      },
-      { 
-        id: '3', 
-        name: 'Ballymakenny View', 
-        status: 'Construction', 
-        completionPercentage: 45,
-        location: 'Drogheda',
-        propertyCount: 24,
-        lastUpdated: new Date(2023, 6, 8).toISOString()
-      }
-    ]
-  };
+  const performanceMetrics = [
+    { metric: 'Sales Velocity', value: 2.3, target: 2.0, unit: 'units/week' },
+    { metric: 'Lead Conversion', value: 72, target: 70, unit: '%' },
+    { metric: 'Construction Time', value: 14.5, target: 16, unit: 'months' },
+    { metric: 'Cost Efficiency', value: 94, target: 90, unit: '%' }];
 
   return (
-    <div className="p-4">
+    <div className="p-6">
+      {/* Header */}
       <div className="mb-6">
-        <h1 className="text-2xl font-bold mb-2">Developer Dashboard</h1>
-        <p className="text-gray-600">Manage your development projects and monitor progress</p>
-      </div>
+        <div className="flex items-center justify-between mb-4">
+          <div>
+            <h1 className="text-2xl font-bold text-gray-900">Developer Dashboard</h1>
+            <p className="text-gray-600">Welcome back! Here's your portfolio overview.</p>
+          </div>
+          <div className="flex items-center space-x-3">
+            <select
+              value={timeRange}
+              onChange={(e: any) => setTimeRange(e.target.value)}
+              className="px-3 py-2 border border-gray-300 rounded-lg text-sm"
+            >
+              <option value="7d">Last 7 Days</option>
+              <option value="30d">Last 30 Days</option>
+              <option value="90d">Last 3 Months</option>
+              <option value="1y">Last Year</option>
+            </select>
+            <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors">
+              <Filter className="w-5 h-5 text-gray-600" />
+            </button>
+            <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors">
+              <Download className="w-5 h-5 text-gray-600" />
+            </button>
+            <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors">
+              <Share2 className="w-5 h-5 text-gray-600" />
+            </button>
+          </div>
+        </div>
 
-      {/* KPI widgets row */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-        {/* Active Projects */}
-        <Card className="border shadow-sm">
-          <CardContent className="p-4">
-            <div className="flex justify-between items-start mb-2">
-              <h3 className="text-sm font-medium text-gray-500">Active Projects</h3>
-              <div className="p-2 rounded-full bg-blue-100">
-                <Building className="h-4 w-4 text-blue-600" />
+        {/* AI Assistant Banner */}
+        <div className="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-xl p-4 text-white mb-6">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-3">
+              <div className="p-2 bg-white/20 rounded-lg backdrop-blur-sm">
+                <Zap className="w-5 h-5" />
+              </div>
+              <div>
+                <p className="font-medium">AI Insights Available</p>
+                <p className="text-sm opacity-90">3 new optimization opportunities identified</p>
               </div>
             </div>
-            <div className="flex items-baseline">
-              <span className="text-2xl font-semibold mr-2">{mockData.activeProjects}</span>
-              <span className="text-sm bg-green-100 text-green-800 px-2 py-0.5 rounded-full">+5.2%</span>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Properties Available */}
-        <Card className="border shadow-sm">
-          <CardContent className="p-4">
-            <div className="flex justify-between items-start mb-2">
-              <h3 className="text-sm font-medium text-gray-500">Properties Available</h3>
-              <div className="p-2 rounded-full bg-green-100">
-                <Home className="h-4 w-4 text-green-600" />
-              </div>
-            </div>
-            <div className="flex items-baseline">
-              <span className="text-2xl font-semibold">{mockData.propertiesAvailable}</span>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Total Sales */}
-        <Card className="border shadow-sm">
-          <CardContent className="p-4">
-            <div className="flex justify-between items-start mb-2">
-              <h3 className="text-sm font-medium text-gray-500">Total Sales</h3>
-              <div className="p-2 rounded-full bg-indigo-100">
-                <TrendingUp className="h-4 w-4 text-indigo-600" />
-              </div>
-            </div>
-            <div className="flex items-baseline">
-              <span className="text-2xl font-semibold mr-2">£{(mockData.totalSales / 1000000).toFixed(1)}M</span>
-              <span className="text-sm bg-green-100 text-green-800 px-2 py-0.5 rounded-full">+8.5%</span>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Revenue */}
-        <Card className="border shadow-sm">
-          <CardContent className="p-4">
-            <div className="flex justify-between items-start mb-2">
-              <h3 className="text-sm font-medium text-gray-500">Revenue</h3>
-              <div className="p-2 rounded-full bg-purple-100">
-                <CreditCard className="h-4 w-4 text-purple-600" />
-              </div>
-            </div>
-            <div className="flex items-baseline">
-              <span className="text-2xl font-semibold mr-2">£12.4M</span>
-              <span className="text-sm bg-green-100 text-green-800 px-2 py-0.5 rounded-full">+3.2%</span>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Simple tabs navigation */}
-      <div className="border-b mb-6">
-        <div className="flex space-x-6">
-          <button className="px-4 py-2 border-b-2 border-blue-600 text-blue-600 font-medium">Overview</button>
-          <button className="px-4 py-2 text-gray-500 hover:text-gray-700">Projects</button>
-          <button className="px-4 py-2 text-gray-500 hover:text-gray-700">Sales</button>
-          <button className="px-4 py-2 text-gray-500 hover:text-gray-700">Financial</button>
+            <button className="px-4 py-2 bg-white/20 hover:bg-white/30 rounded-lg backdrop-blur-sm transition-colors">
+              View Insights
+            </button>
+          </div>
         </div>
       </div>
 
-      {/* Projects List */}
-      <div className="mb-6">
-        <ProjectList 
-          projects={mockData.projects}
-          title="Active Development Projects"
-          description="Monitor and manage your current development projects"
+      {/* Key Metrics Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+        <MetricCard
+          title="Portfolio Value"
+          value="€142.5M"
+          change={+12.3}
+          icon={<DollarSign className="w-5 h-5" />}
+          color="blue"
+          subtext="Total development value"
+        />
+        <MetricCard
+          title="Active Projects"
+          value="8"
+          change={+2}
+          icon={<Building className="w-5 h-5" />}
+          color="green"
+          subtext="Across 5 locations"
+        />
+        <MetricCard
+          title="Units Sold"
+          value="156"
+          change={+23}
+          icon={<Package className="w-5 h-5" />}
+          color="purple"
+          subtext="Last 30 days"
+        />
+        <MetricCard
+          title="Sales Velocity"
+          value="2.3/week"
+          change={+15}
+          icon={<TrendingUp className="w-5 h-5" />}
+          color="orange"
+          subtext="Units per week"
         />
       </div>
 
-      {/* Quick Links */}
-      <Card className="border">
-        <CardHeader>
-          <CardTitle>Quick Actions</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <Link 
-              href="/developer/projects/new" 
-              className="border rounded-md p-3 hover:bg-gray-50 flex items-center justify-center"
+      {/* Main Charts Row */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+        {/* Sales Performance Chart */}
+        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="font-semibold text-gray-900">Sales Performance</h3>
+            <select
+              value={selectedMetric}
+              onChange={(e: any) => setSelectedMetric(e.target.value)}
+              className="text-sm border border-gray-300 rounded-lg px-3 py-1"
             >
-              Create New Project
-            </Link>
-            <Link 
-              href="/developer/documents" 
-              className="border rounded-md p-3 hover:bg-gray-50 flex items-center justify-center"
-            >
-              View Documents
-            </Link>
-            <Link 
-              href="/developer/htb" 
-              className="border rounded-md p-3 hover:bg-gray-50 flex items-center justify-center"
-            >
-              Help-to-Buy Management
+              <option value="revenue">Revenue</option>
+              <option value="units">Units Sold</option>
+              <option value="conversions">Conversion Rate</option>
+            </select>
+          </div>
+          <div className="h-64">
+            <ResponsiveContainer width="100%" height="100%">
+              <AreaChart data={salesData}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="month" />
+                <YAxis />
+                <Tooltip />
+                <Area
+                  type="monotone"
+                  dataKey={selectedMetric === 'revenue' ? 'sales' : selectedMetric === 'units' ? 'units' : 'conversions'}
+                  stroke="#3B82F6"
+                  fill="#3B82F6"
+                  fillOpacity={0.2}
+                />
+              </AreaChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
+
+        {/* Project Status Distribution */}
+        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="font-semibold text-gray-900">Project Status Distribution</h3>
+            <Link href="/developer/projects" className="text-sm text-blue-600 hover:text-blue-700">
+              View All
             </Link>
           </div>
-        </CardContent>
-      </Card>
+          <div className="h-64">
+            <ResponsiveContainer width="100%" height="100%">
+              <PieChart>
+                <Pie
+                  data={projectPhases}
+                  cx="50%"
+                  cy="50%"
+                  outerRadius={80}
+                  dataKey="value"
+                  label={({ name, value }) => `${name}: ${value}`}
+                >
+                  {projectPhases.map((entryindex: any) => (
+                    <Cell key={`cell-${index}`} fill={entry.color} />
+                  ))}
+                </Pie>
+                <Tooltip />
+              </PieChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
+      </div>
+
+      {/* Performance Metrics */}
+      <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
+        <h3 className="font-semibold text-gray-900 mb-4">Performance vs Targets</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          {performanceMetrics.map((metric: any) => (
+            <div key={metric.metric} className="text-center">
+              <p className="text-sm text-gray-600 mb-2">{metric.metric}</p>
+              <div className="relative h-32 flex items-center justify-center">
+                <div className="relative w-24 h-24">
+                  <svg className="w-24 h-24 transform -rotate-90">
+                    <circle
+                      cx="48"
+                      cy="48"
+                      r="36"
+                      stroke="#E5E7EB"
+                      strokeWidth="8"
+                      fill="none"
+                    />
+                    <circle
+                      cx="48"
+                      cy="48"
+                      r="36"
+                      stroke={metric.value>= metric.target ? '#10B981' : '#F59E0B'}
+                      strokeWidth="8"
+                      fill="none"
+                      strokeDasharray={`${(metric.value / 100) * 226} 226`}
+                    />
+                  </svg>
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <div>
+                      <p className="text-2xl font-bold">{metric.value}</p>
+                      <p className="text-xs text-gray-500">{metric.unit}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <p className="text-sm text-gray-500 mt-2">Target: {metric.target}{metric.unit}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Recent Activity & Actions */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* Recent Activity */}
+        <div className="lg:col-span-2 bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+          <h3 className="font-semibold text-gray-900 mb-4">Recent Activity</h3>
+          <div className="space-y-4">
+            <ActivityItem
+              icon={<CheckCircle className="w-5 h-5 text-green-600" />}
+              title="Phase 2 Construction Complete"
+              subtitle="Fitzgerald Gardens - Block A"
+              time="2 hours ago"
+            />
+            <ActivityItem
+              icon={<DollarSign className="w-5 h-5 text-blue-600" />}
+              title="New Sale: Unit 304"
+              subtitle="€450,000 - Riverside Manor"
+              time="5 hours ago"
+            />
+            <ActivityItem
+              icon={<Users className="w-5 h-5 text-purple-600" />}
+              title="Contractor Added"
+              subtitle="ABC Construction Ltd - Electrical Work"
+              time="1 day ago"
+            />
+            <ActivityItem
+              icon={<AlertCircle className="w-5 h-5 text-yellow-600" />}
+              title="Approval Required"
+              subtitle="Planning permission for Phase 3"
+              time="2 days ago"
+            />
+            <ActivityItem
+              icon={<FileText className="w-5 h-5 text-gray-600" />}
+              title="Document Updated"
+              subtitle="Environmental Impact Assessment"
+              time="3 days ago"
+            />
+          </div>
+          <Link href="/developer/activity" className="mt-4 text-sm text-blue-600 hover:text-blue-700 inline-flex items-center">
+            View All Activity
+            <ChevronRight className="w-4 h-4 ml-1" />
+          </Link>
+        </div>
+
+        {/* Quick Actions */}
+        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+          <h3 className="font-semibold text-gray-900 mb-4">Quick Actions</h3>
+          <div className="space-y-3">
+            <Link href="/developer/developments/new" className="flex items-center justify-between p-3 hover:bg-gray-50 rounded-lg transition-colors">
+              <div className="flex items-center space-x-3">
+                <div className="p-2 bg-blue-100 rounded-lg">
+                  <Plus className="w-4 h-4 text-blue-600" />
+                </div>
+                <span className="text-sm font-medium">New Development</span>
+              </div>
+              <ChevronRight className="w-4 h-4 text-gray-400" />
+            </Link>
+            <Link href="/developer/tenders/create" className="flex items-center justify-between p-3 hover:bg-gray-50 rounded-lg transition-colors">
+              <div className="flex items-center space-x-3">
+                <div className="p-2 bg-green-100 rounded-lg">
+                  <FileText className="w-4 h-4 text-green-600" />
+                </div>
+                <span className="text-sm font-medium">Create Tender</span>
+              </div>
+              <ChevronRight className="w-4 h-4 text-gray-400" />
+            </Link>
+            <Link href="/developer/team/add" className="flex items-center justify-between p-3 hover:bg-gray-50 rounded-lg transition-colors">
+              <div className="flex items-center space-x-3">
+                <div className="p-2 bg-purple-100 rounded-lg">
+                  <Users className="w-4 h-4 text-purple-600" />
+                </div>
+                <span className="text-sm font-medium">Add Team Member</span>
+              </div>
+              <ChevronRight className="w-4 h-4 text-gray-400" />
+            </Link>
+            <Link href="/developer/financial/appraisal" className="flex items-center justify-between p-3 hover:bg-gray-50 rounded-lg transition-colors">
+              <div className="flex items-center space-x-3">
+                <div className="p-2 bg-orange-100 rounded-lg">
+                  <Calculator className="w-4 h-4 text-orange-600" />
+                </div>
+                <span className="text-sm font-medium">New Appraisal</span>
+              </div>
+              <ChevronRight className="w-4 h-4 text-gray-400" />
+            </Link>
+            <Link href="/developer/analytics" className="flex items-center justify-between p-3 hover:bg-gray-50 rounded-lg transition-colors">
+              <div className="flex items-center space-x-3">
+                <div className="p-2 bg-indigo-100 rounded-lg">
+                  <BarChart3 className="w-4 h-4 text-indigo-600" />
+                </div>
+                <span className="text-sm font-medium">View Reports</span>
+              </div>
+              <ChevronRight className="w-4 h-4 text-gray-400" />
+            </Link>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Component definitions
+function MetricCard({ title, value, change, icon, color, subtext }) {
+  const colorClasses = {
+    blue: 'bg-blue-100 text-blue-600',
+    green: 'bg-green-100 text-green-600',
+    purple: 'bg-purple-100 text-purple-600',
+    orange: 'bg-orange-100 text-orange-600'};
+
+  return (
+    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+      <div className="flex items-start justify-between mb-4">
+        <div className={`p-2 rounded-lg ${colorClasses[color]}`}>
+          {icon}
+        </div>
+        <div className={`flex items-center text-sm ${change>= 0 ? 'text-green-600' : 'text-red-600'}`}>
+          {change>= 0 ? <ArrowUpRight className="w-4 h-4 mr-1" /> : <ArrowDownRight className="w-4 h-4 mr-1" />}
+          {Math.abs(change)}%
+        </div>
+      </div>
+      <h3 className="text-sm text-gray-600 mb-1">{title}</h3>
+      <p className="text-2xl font-bold text-gray-900">{value}</p>
+      <p className="text-xs text-gray-500 mt-1">{subtext}</p>
+    </div>
+  );
+}
+
+function ActivityItem({ icon, title, subtitle, time }) {
+  return (
+    <div className="flex items-start space-x-3">
+      <div className="p-2 bg-gray-50 rounded-lg">
+        {icon}
+      </div>
+      <div className="flex-1">
+        <p className="text-sm font-medium text-gray-900">{title}</p>
+        <p className="text-sm text-gray-600">{subtitle}</p>
+      </div>
+      <span className="text-xs text-gray-500">{time}</span>
     </div>
   );
 }

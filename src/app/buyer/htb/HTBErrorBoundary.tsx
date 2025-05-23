@@ -19,7 +19,7 @@ interface HTBErrorBoundaryState {
 export class HTBErrorBoundary extends React.Component<HTBErrorBoundaryProps, HTBErrorBoundaryState> {
   // We only need to define state explicitly - props is handled by React.Component
   readonly state: HTBErrorBoundaryState = { hasError: false };
-  
+
   constructor(props: HTBErrorBoundaryProps) {
     super(props);
     // State is now initialized directly in the property declaration above
@@ -37,7 +37,7 @@ export class HTBErrorBoundary extends React.Component<HTBErrorBoundaryProps, HTB
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo): void {
     // Log only HTB-related errors
     if (error.message.includes("useHTB") || error.message.includes("HTBContext")) {
-      console.error("HTB-related error:", error, errorInfo);
+
     }
   }
 

@@ -61,38 +61,38 @@ const DocumentDetails: React.FC<DocumentDetailsProps> = ({
   canApprove = false,
   canArchive = true
 }) => {
-  const [activeTab, setActiveTab] = useState('details');
-  const [versions, setVersions] = useState<DocumentVersion[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [isVersionDialogOpen, setIsVersionDialogOpen] = useState(false);
-  const [isPermissionsDialogOpen, setIsPermissionsDialogOpen] = useState(false);
-  const [isUploading, setIsUploading] = useState(false);
+  const [activeTabsetActiveTab] = useState('details');
+  const [versionssetVersions] = useState<DocumentVersion[]>([]);
+  const [isLoadingsetIsLoading] = useState(false);
+  const [errorsetError] = useState<string | null>(null);
+  const [isVersionDialogOpensetIsVersionDialogOpen] = useState(false);
+  const [isPermissionsDialogOpensetIsPermissionsDialogOpen] = useState(false);
+  const [isUploadingsetIsUploading] = useState(false);
 
   // Fetch document versions
   useEffect(() => {
     const fetchVersions = async () => {
       if (!document || !document.id) return;
-      
+
       setIsLoading(true);
       setError(null);
-      
+
       try {
         const result = await documentService.getDocumentVersions(document.id);
-        
+
         if (result.success && result.versions) {
           setVersions(result.versions);
         } else {
           setError(result.message || 'Failed to load document versions');
         }
       } catch (err) {
-        console.error('Error fetching document versions:', err);
+
         setError('An error occurred while loading document versions');
       } finally {
         setIsLoading(false);
       }
     };
-    
+
     fetchVersions();
   }, [document]);
 
@@ -112,26 +112,26 @@ const DocumentDetails: React.FC<DocumentDetailsProps> = ({
   // Handle version upload
   const handleVersionUpload = async (file: File, metadata: Partial<DocumentType>) => {
     if (!document.id) return;
-    
+
     setIsUploading(true);
-    
+
     try {
       const result = await documentService.uploadDocument(file, {
         ...metadata,
         isNewVersion: true,
         documentId: document.id
       });
-      
+
       if (result.success && result.document) {
         // Refresh versions list
         const versionsResult = await documentService.getDocumentVersions(document.id);
         if (versionsResult.success && versionsResult.versions) {
           setVersions(versionsResult.versions);
         }
-        
+
         // Close dialog
         setIsVersionDialogOpen(false);
-        
+
         // Notify parent
         if (onVersionAdded) {
           onVersionAdded(result.document);
@@ -140,7 +140,7 @@ const DocumentDetails: React.FC<DocumentDetailsProps> = ({
         setError(result.message || 'Failed to upload new version');
       }
     } catch (err) {
-      console.error('Error uploading new version:', err);
+
       setError('An error occurred while uploading new version');
     } finally {
       setIsUploading(false);
@@ -150,7 +150,7 @@ const DocumentDetails: React.FC<DocumentDetailsProps> = ({
   // Handle document approval
   const handleApprove = async () => {
     if (!document.id) return;
-    
+
     try {
       // Assume we have a current workflow instance for simplicity
       // In a real implementation, would need to get active workflow instance first
@@ -159,13 +159,13 @@ const DocumentDetails: React.FC<DocumentDetailsProps> = ({
           document.id, 
           document.workflow.id
         );
-        
+
         if (result.success) {
           // Update document status
           const updatedDocument = await documentService.updateDocument(document.id, {
             status: DocumentStatus.APPROVED
           });
-          
+
           if (onStatusChange) {
             onStatusChange(updatedDocument);
           }
@@ -177,13 +177,13 @@ const DocumentDetails: React.FC<DocumentDetailsProps> = ({
         const updatedDocument = await documentService.updateDocument(document.id, {
           status: DocumentStatus.APPROVED
         });
-        
+
         if (onStatusChange) {
           onStatusChange(updatedDocument);
         }
       }
     } catch (err) {
-      console.error('Error approving document:', err);
+
       setError('An error occurred while approving document');
     }
   };
@@ -191,16 +191,16 @@ const DocumentDetails: React.FC<DocumentDetailsProps> = ({
   // Handle document archiving
   const handleArchive = async () => {
     if (!document.id) return;
-    
+
     try {
-      const result = await documentService.deleteDocument(document.id, true);
-      
+      const result = await documentService.deleteDocument(document.idtrue);
+
       if (result.success) {
         // Update document status
         const updatedDocument = await documentService.updateDocument(document.id, {
           status: DocumentStatus.ARCHIVED
         });
-        
+
         if (onStatusChange) {
           onStatusChange(updatedDocument);
         }
@@ -208,7 +208,7 @@ const DocumentDetails: React.FC<DocumentDetailsProps> = ({
         setError(result.message || 'Failed to archive document');
       }
     } catch (err) {
-      console.error('Error archiving document:', err);
+
       setError('An error occurred while archiving document');
     }
   };
@@ -258,13 +258,13 @@ const DocumentDetails: React.FC<DocumentDetailsProps> = ({
               )}
             </div>
           </div>
-          
+
           <div className="flex gap-2">
             <Button size="sm" variant="outline" onClick={handleDownload}>
               <Download className="mr-1 h-4 w-4" />
               Download
             </Button>
-            
+
             {canEdit && (
               <Dialog open={isVersionDialogOpen} onOpenChange={setIsVersionDialogOpen}>
                 <DialogTrigger asChild>
@@ -286,14 +286,14 @@ const DocumentDetails: React.FC<DocumentDetailsProps> = ({
                 </DialogContent>
               </Dialog>
             )}
-            
+
             {canApprove && document.status !== DocumentStatus.APPROVED && (
               <Button size="sm" variant="default" onClick={handleApprove}>
                 <CheckSquare className="mr-1 h-4 w-4" />
                 Approve
               </Button>
             )}
-            
+
             {canArchive && document.status !== DocumentStatus.ARCHIVED && (
               <Button size="sm" variant="secondary" onClick={handleArchive}>
                 <Archive className="mr-1 h-4 w-4" />
@@ -303,7 +303,7 @@ const DocumentDetails: React.FC<DocumentDetailsProps> = ({
           </div>
         </div>
       </CardHeader>
-      
+
       <CardContent className="pb-0">
         <Tabs value={activeTab} onValueChange={setActiveTab}>
           <TabsList className="mb-4">
@@ -328,7 +328,7 @@ const DocumentDetails: React.FC<DocumentDetailsProps> = ({
               </TabsTrigger>
             )}
           </TabsList>
-          
+
           <TabsContent value="details" className="pt-2">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-4">
@@ -349,9 +349,9 @@ const DocumentDetails: React.FC<DocumentDetailsProps> = ({
                     </div>
                   </div>
                 </div>
-                
+
                 <Separator />
-                
+
                 <div>
                   <h3 className="text-sm font-medium mb-1">Timeline</h3>
                   <div className="text-sm space-y-2 ml-1">
@@ -373,8 +373,8 @@ const DocumentDetails: React.FC<DocumentDetailsProps> = ({
                     )}
                   </div>
                 </div>
-                
-                {document.tags && document.tags.length > 0 && (
+
+                {document.tags && document.tags.length> 0 && (
                   <>
                     <Separator />
                     <div>
@@ -391,7 +391,7 @@ const DocumentDetails: React.FC<DocumentDetailsProps> = ({
                   </>
                 )}
               </div>
-              
+
               <div className="space-y-4">
                 {document.relatedTo && (
                   <div>
@@ -415,7 +415,7 @@ const DocumentDetails: React.FC<DocumentDetailsProps> = ({
                     </Card>
                   </div>
                 )}
-                
+
                 <div>
                   <h3 className="text-sm font-medium mb-1">Uploaded By</h3>
                   <Card className="bg-muted/30">
@@ -432,7 +432,7 @@ const DocumentDetails: React.FC<DocumentDetailsProps> = ({
                     </CardContent>
                   </Card>
                 </div>
-                
+
                 {document.workflow && (
                   <div>
                     <h3 className="text-sm font-medium mb-1">Current Workflow</h3>
@@ -451,15 +451,15 @@ const DocumentDetails: React.FC<DocumentDetailsProps> = ({
                     </Card>
                   </div>
                 )}
-                
+
                 {/* Metadata - shown if exists */}
-                {document.metadata && Object.keys(document.metadata).length > 0 && (
+                {document.metadata && Object.keys(document.metadata).length> 0 && (
                   <div>
                     <h3 className="text-sm font-medium mb-1">Additional Metadata</h3>
                     <Card className="bg-muted/30">
                       <CardContent className="p-3">
                         <div className="space-y-1">
-                          {Object.entries(document.metadata).map(([key, value]) => (
+                          {Object.entries(document.metadata).map(([keyvalue]) => (
                             <div key={key} className="flex justify-between text-sm">
                               <span className="text-muted-foreground">{key}:</span>
                               <span>{typeof value === 'string' ? value : JSON.stringify(value)}</span>
@@ -473,7 +473,7 @@ const DocumentDetails: React.FC<DocumentDetailsProps> = ({
               </div>
             </div>
           </TabsContent>
-          
+
           <TabsContent value="versions" className="pt-2">
             <DocumentVersionHistory 
               document={document} 
@@ -482,7 +482,7 @@ const DocumentDetails: React.FC<DocumentDetailsProps> = ({
               error={error}
             />
           </TabsContent>
-          
+
           {document.workflow && (
             <TabsContent value="workflow" className="pt-2">
               <DocumentWorkflowView 
@@ -491,7 +491,7 @@ const DocumentDetails: React.FC<DocumentDetailsProps> = ({
               />
             </TabsContent>
           )}
-          
+
           {canViewPermissions && (
             <TabsContent value="permissions" className="pt-2">
               <div className="flex items-center justify-between mb-4">
@@ -516,7 +516,7 @@ const DocumentDetails: React.FC<DocumentDetailsProps> = ({
                   </Dialog>
                 )}
               </div>
-              
+
               <Card>
                 <CardContent className="pt-6">
                   <div className="space-y-4">
@@ -536,7 +536,7 @@ const DocumentDetails: React.FC<DocumentDetailsProps> = ({
                         )}
                       </div>
                     </div>
-                    
+
                     <div>
                       <Label className="text-sm">Sensitivity Level</Label>
                       <div className="mt-1 p-2 border rounded-md">
@@ -548,7 +548,7 @@ const DocumentDetails: React.FC<DocumentDetailsProps> = ({
                         </p>
                       </div>
                     </div>
-                    
+
                     {/* User Permissions */}
                     <div>
                       <Label className="text-sm">User Access</Label>
@@ -556,7 +556,7 @@ const DocumentDetails: React.FC<DocumentDetailsProps> = ({
                         {/* View Access */}
                         <div className="p-2">
                           <p className="text-sm font-medium">Can View</p>
-                          {document.permissions?.canView && document.permissions.canView.length > 0 ? (
+                          {document.permissions?.canView && document.permissions.canView.length> 0 ? (
                             <div className="mt-1 flex flex-wrap gap-1">
                               {document.permissions.canView.map((user: string, i: number) => (
                                 <Badge key={i} variant="outline" className="bg-blue-50">
@@ -568,11 +568,11 @@ const DocumentDetails: React.FC<DocumentDetailsProps> = ({
                             <p className="text-sm text-muted-foreground">No specific users</p>
                           )}
                         </div>
-                        
+
                         {/* Edit Access */}
                         <div className="p-2">
                           <p className="text-sm font-medium">Can Edit</p>
-                          {document.permissions?.canEdit && document.permissions.canEdit.length > 0 ? (
+                          {document.permissions?.canEdit && document.permissions.canEdit.length> 0 ? (
                             <div className="mt-1 flex flex-wrap gap-1">
                               {document.permissions.canEdit.map((user: string, i: number) => (
                                 <Badge key={i} variant="outline" className="bg-green-50">
@@ -584,11 +584,11 @@ const DocumentDetails: React.FC<DocumentDetailsProps> = ({
                             <p className="text-sm text-muted-foreground">No specific users</p>
                           )}
                         </div>
-                        
+
                         {/* Share Access */}
                         <div className="p-2">
                           <p className="text-sm font-medium">Can Share</p>
-                          {document.permissions?.canShare && document.permissions.canShare.length > 0 ? (
+                          {document.permissions?.canShare && document.permissions.canShare.length> 0 ? (
                             <div className="mt-1 flex flex-wrap gap-1">
                               {document.permissions.canShare.map((user: string, i: number) => (
                                 <Badge key={i} variant="outline" className="bg-purple-50">
@@ -609,19 +609,19 @@ const DocumentDetails: React.FC<DocumentDetailsProps> = ({
           )}
         </Tabs>
       </CardContent>
-      
+
       <CardFooter className="flex justify-between pt-6">
         <div className="text-xs text-muted-foreground">
           <Clock className="inline-block mr-1 h-3 w-3" />
           Last updated: {document.lastModified ? formatDate(document.lastModified) : formatDate(document.uploadDate)}
         </div>
-        
+
         <div className="flex gap-2">
           <Button size="sm" variant="ghost" onClick={handleDownload}>
             <Download className="mr-1 h-4 w-4" />
             Download
           </Button>
-          
+
           {canEditPermissions && (
             <Button size="sm" variant="ghost" onClick={() => setIsPermissionsDialogOpen(true)}>
               <Share2 className="mr-1 h-4 w-4" />

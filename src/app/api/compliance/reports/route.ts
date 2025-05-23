@@ -112,34 +112,34 @@ export async function GET(request: NextRequest) {
   const status = searchParams.get('status');
   const period = searchParams.get('period');
   const type = searchParams.get('type');
-  
+
   let filtered = [...regulatoryReports];
-  
+
   if (regulation) {
     filtered = filtered.filter(report => report.regulation === regulation);
   }
-  
+
   if (status) {
     filtered = filtered.filter(report => report.status === status);
   }
-  
+
   if (period) {
     filtered = filtered.filter(report => report.period.includes(period));
   }
-  
+
   if (type) {
     filtered = filtered.filter(report => report.type === type);
   }
-  
+
   return NextResponse.json(filtered);
 }
 
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json();
-    const newReport = {
+    const body = await request.json() as any;
+    const newReport: any = {
       id: `report-${Date.now()}`,
-      ...body,
+      ...(body as Record<string, any>),
       createdDate: new Date(),
       status: 'DRAFT',
       completeness: 0,
@@ -153,9 +153,9 @@ export async function POST(request: NextRequest) {
         }
       ]
     };
-    
+
     regulatoryReports.push(newReport);
-    
+
     return NextResponse.json(newReport, { status: 201 });
   } catch (error) {
     return NextResponse.json(
@@ -167,9 +167,9 @@ export async function POST(request: NextRequest) {
 
 export async function PUT(request: NextRequest) {
   try {
-    const body = await request.json();
+    const body = await request.json() as any;
     const { id, ...updates } = body;
-    
+
     const reportIndex = regulatoryReports.findIndex(report => report.id === id);
     if (reportIndex === -1) {
       return NextResponse.json(
@@ -177,7 +177,7 @@ export async function PUT(request: NextRequest) {
         { status: 404 }
       );
     }
-    
+
     const existingReport = regulatoryReports[reportIndex];
     const updatedReport = {
       ...existingReport,
@@ -192,9 +192,9 @@ export async function PUT(request: NextRequest) {
         }
       ]
     };
-    
+
     regulatoryReports[reportIndex] = updatedReport;
-    
+
     return NextResponse.json(updatedReport);
   } catch (error) {
     return NextResponse.json(
@@ -207,14 +207,14 @@ export async function PUT(request: NextRequest) {
 export async function DELETE(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const id = searchParams.get('id');
-  
+
   if (!id) {
     return NextResponse.json(
       { error: 'Report ID required' },
       { status: 400 }
     );
   }
-  
+
   const reportIndex = regulatoryReports.findIndex(report => report.id === id);
   if (reportIndex === -1) {
     return NextResponse.json(
@@ -222,8 +222,8 @@ export async function DELETE(request: NextRequest) {
       { status: 404 }
     );
   }
-  
-  const deletedReport = regulatoryReports.splice(reportIndex, 1)[0];
-  
+
+  const deletedReport = regulatoryReports.splice(reportIndex1)[0];
+
   return NextResponse.json(deletedReport);
 }

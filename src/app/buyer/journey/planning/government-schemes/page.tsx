@@ -62,7 +62,7 @@ export default function GovernmentSchemesPage() {
             <p className="mb-4">
               The Help-to-Buy (HTB) incentive is a tax rebate designed to help first-time buyers get the deposit needed to buy or build a new home.
             </p>
-            
+
             <div className="mb-6 space-y-4">
               <div className="flex items-start">
                 <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 mr-3 flex-shrink-0" />
@@ -73,7 +73,7 @@ export default function GovernmentSchemesPage() {
                   </p>
                 </div>
               </div>
-              
+
               <div className="flex items-start">
                 <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 mr-3 flex-shrink-0" />
                 <div>
@@ -83,7 +83,7 @@ export default function GovernmentSchemesPage() {
                   </p>
                 </div>
               </div>
-              
+
               <div className="flex items-start">
                 <AlertTriangle className="h-5 w-5 text-amber-500 mt-0.5 mr-3 flex-shrink-0" />
                 <div>
@@ -93,7 +93,7 @@ export default function GovernmentSchemesPage() {
                   </p>
                 </div>
               </div>
-              
+
               <div className="flex items-start">
                 <Info className="h-5 w-5 text-blue-500 mt-0.5 mr-3 flex-shrink-0" />
                 <div>
@@ -104,7 +104,7 @@ export default function GovernmentSchemesPage() {
                 </div>
               </div>
             </div>
-            
+
             <div className="flex flex-wrap gap-4">
               <a 
                 href="https://www.revenue.ie/en/property/help-to-buy-incentive/index.aspx" 
@@ -114,7 +114,7 @@ export default function GovernmentSchemesPage() {
               >
                 <ExternalLink className="h-4 w-4 mr-1" /> Official Revenue Website
               </a>
-              
+
               <a 
                 href="https://www.revenue.ie/en/property/help-to-buy-incentive/check-if-you-are-eligible.aspx" 
                 target="_blank" 
@@ -123,14 +123,14 @@ export default function GovernmentSchemesPage() {
               >
                 <Calculator className="h-4 w-4 mr-1" /> Eligibility Checker
               </a>
-              
+
               <Link href="/buyer/htb-application">
                 <Button variant="outline" size="sm">HTB Application Guide</Button>
               </Link>
             </div>
           </div>
         </Card>
-        
+
         {/* First Home Scheme */}
         <Card className="mb-8 overflow-hidden">
           <div className="bg-green-600 p-6 text-white">
@@ -145,7 +145,7 @@ export default function GovernmentSchemesPage() {
             <p className="mb-4">
               The First Home Scheme is a shared equity scheme where the Government and participating banks pay up to 30% of the cost of a new home in return for a stake in the property.
             </p>
-            
+
             <div className="mb-6 space-y-4">
               <div className="flex items-start">
                 <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 mr-3 flex-shrink-0" />
@@ -156,7 +156,7 @@ export default function GovernmentSchemesPage() {
                   </p>
                 </div>
               </div>
-              
+
               <div className="flex items-start">
                 <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 mr-3 flex-shrink-0" />
                 <div>
@@ -166,7 +166,7 @@ export default function GovernmentSchemesPage() {
                   </p>
                 </div>
               </div>
-              
+
               <div className="flex items-start">
                 <AlertTriangle className="h-5 w-5 text-amber-500 mt-0.5 mr-3 flex-shrink-0" />
                 <div>
@@ -176,7 +176,7 @@ export default function GovernmentSchemesPage() {
                   </p>
                 </div>
               </div>
-              
+
               <div className="flex items-start">
                 <Info className="h-5 w-5 text-blue-500 mt-0.5 mr-3 flex-shrink-0" />
                 <div>
@@ -187,7 +187,7 @@ export default function GovernmentSchemesPage() {
                 </div>
               </div>
             </div>
-            
+
             <div className="flex flex-wrap gap-4">
               <a 
                 href="https://www.firsthomescheme.ie/" 
@@ -197,7 +197,7 @@ export default function GovernmentSchemesPage() {
               >
                 <ExternalLink className="h-4 w-4 mr-1" /> Official Website
               </a>
-              
+
               <a 
                 href="https://www.firsthomescheme.ie/calculator/" 
                 target="_blank" 
@@ -206,14 +206,14 @@ export default function GovernmentSchemesPage() {
               >
                 <Calculator className="h-4 w-4 mr-1" /> Equity Calculator
               </a>
-              
+
               <Link href="/buyer/first-home-scheme-guide">
                 <Button variant="outline" size="sm">FHS Application Guide</Button>
               </Link>
             </div>
           </div>
         </Card>
-        
+
         {/* Local Authority Home Loan */}
         <Card className="mb-8 overflow-hidden">
           <div className="bg-purple-600 p-6 text-white">
@@ -228,7 +228,7 @@ export default function GovernmentSchemesPage() {
             <p className="mb-4">
               The Local Authority Home Loan is a government-backed mortgage for first-time buyers and fresh start applicants who may not be able to get sufficient funding from commercial banks.
             </p>
-            
+
             <div className="mb-6 space-y-4">
               <div className="flex items-start">
                 <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 mr-3 flex-shrink-0" />
@@ -239,7 +239,7 @@ export default function GovernmentSchemesPage() {
                   </p>
                 </div>
               </div>
-              
+
               <div className="flex items-start">
                 <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 mr-3 flex-shrink-0" />
                 <div>
@@ -249,7 +249,7 @@ export default function GovernmentSchemesPage() {
                   </p>
                 </div>
               </div>
-              
+
               <div className="flex items-start">
                 <AlertTriangle className="h-5 w-5 text-amber-500 mt-0.5 mr-3 flex-shrink-0" />
                 <div>
@@ -259,7 +259,7 @@ export default function GovernmentSchemesPage() {
                   </p>
                 </div>
               </div>
-              
+
               <div className="flex items-start">
                 <Info className="h-5 w-5 text-blue-500 mt-0.5 mr-3 flex-shrink-0" />
                 <div>
@@ -270,7 +270,7 @@ export default function GovernmentSchemesPage() {
                 </div>
               </div>
             </div>
-            
+
             <div className="flex flex-wrap gap-4">
               <a 
                 href="https://localauthorityhomeloan.ie/" 
@@ -280,7 +280,7 @@ export default function GovernmentSchemesPage() {
               >
                 <ExternalLink className="h-4 w-4 mr-1" /> Official Website
               </a>
-              
+
               <a 
                 href="https://localauthorityhomeloan.ie/eligibility/" 
                 target="_blank" 
@@ -289,14 +289,14 @@ export default function GovernmentSchemesPage() {
               >
                 <Calculator className="h-4 w-4 mr-1" /> Eligibility Checker
               </a>
-              
+
               <Link href="/buyer/local-authority-loan-guide">
                 <Button variant="outline" size="sm">Application Guide</Button>
               </Link>
             </div>
           </div>
         </Card>
-        
+
         <div className="bg-blue-50 p-6 rounded-lg">
           <h3 className="text-lg font-semibold text-blue-800 mb-4">Need Help Choosing?</h3>
           <p className="text-blue-700 mb-4">

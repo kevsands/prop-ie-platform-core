@@ -9,8 +9,7 @@ import { ApolloServer } from '@apollo/server';
 import { GraphQLContext } from '../server';
 
 describe('Development Resolvers', () => {
-  let testServer: ApolloServer<GraphQLContext>;
-
+  let testServer: ApolloServer<GraphQLContext>\n  );
   // Sample development data
   const sampleDevelopment = {
     id: 'dev-123',
@@ -22,15 +21,13 @@ describe('Development Resolvers', () => {
       firstName: 'Developer',
       lastName: 'User',
       email: 'developer@example.com',
-      roles: ['DEVELOPER'],
-    },
+      roles: ['DEVELOPER']},
     location: {
       id: 'loc-123',
       address: '123 Main St',
       city: 'Dublin',
       county: 'Dublin',
-      country: 'Ireland',
-    },
+      country: 'Ireland'},
     status: 'CONSTRUCTION',
     totalUnits: 50,
     units: [
@@ -38,15 +35,12 @@ describe('Development Resolvers', () => {
         id: 'unit-1',
         name: 'Apartment 1',
         status: 'AVAILABLE',
-        basePrice: 350000,
-      },
+        basePrice: 350000},
       {
         id: 'unit-2',
         name: 'Apartment 2',
         status: 'SOLD',
-        basePrice: 375000,
-      },
-    ],
+        basePrice: 375000}],
     mainImage: 'https://example.com/image.jpg',
     images: ['https://example.com/image1.jpg', 'https://example.com/image2.jpg'],
     description: 'A beautiful development in Dublin',
@@ -63,25 +57,24 @@ describe('Development Resolvers', () => {
     updated: new Date(),
     isPublished: true,
     tags: ['luxury', 'dublin'],
-    availableUnits: 1,
-  };
+    availableUnits: 1};
 
   // Mock the development db functions
   jest.mock('@/lib/db', () => ({
     developmentDb: {
-      getById: jest.fn((id) => {
+      getById: jest.fn((id: any) => {
         if (id === 'dev-123') {
           return sampleDevelopment;
         }
         return null;
       }),
-      getBySlug: jest.fn((slug) => {
+      getBySlug: jest.fn((slug: any) => {
         if (slug === 'sample-development') {
           return sampleDevelopment;
         }
         return null;
       }),
-      list: jest.fn((options) => {
+      list: jest.fn((options: any) => {
         const developerId = options?.developerId;
         const developments = developerId === 'developer-id' 
           ? [sampleDevelopment]
@@ -89,16 +82,14 @@ describe('Development Resolvers', () => {
         
         return {
           developments,
-          totalCount: developments.length,
-        };
+          totalCount: developments.length};
       }),
-      create: jest.fn((data) => ({
+      create: jest.fn((data: any) => ({
         id: 'new-dev-id',
         ...data,
         location: {
           id: 'new-loc-id',
-          ...data.location,
-        },
+          ...data.location},
         created: new Date(),
         updated: new Date(),
         units: [],
@@ -109,32 +100,26 @@ describe('Development Resolvers', () => {
         constructionStatus: {},
         complianceStatus: {},
         isPublished: false,
-        tags: [],
-      })),
+        tags: []})),
       getDevelopmentStatistics: jest.fn(() => ({
         totalUnits: 50,
         availableUnits: 25,
         reservedUnits: 10,
         soldUnits: 15,
         salesProgress: 50,
-        constructionProgress: 75,
-      })),
-    },
+        constructionProgress: 75}))},
     userDb: {
-      getById: jest.fn((id) => {
+      getById: jest.fn((id: any) => {
         if (id === 'developer-id') {
           return {
             id: 'developer-id',
             firstName: 'Developer',
             lastName: 'User',
             email: 'developer@example.com',
-            roles: ['DEVELOPER'],
-          };
+            roles: ['DEVELOPER']};
         }
         return null;
-      }),
-    },
-  }));
+      })}));
 
   beforeEach(async () => {
     // Create a new test server for each test
@@ -175,8 +160,7 @@ describe('Development Resolvers', () => {
       // Execute query
       const response = await testServer.executeOperation({
         query: DEVELOPMENT_QUERY,
-        variables: { id: 'dev-123' },
-      });
+        variables: { id: 'dev-123' });
       
       // Check response
       expect(response.body.kind).toBe('single');
@@ -189,26 +173,22 @@ describe('Development Resolvers', () => {
         developer: {
           id: 'developer-id',
           fullName: 'Developer User',
-          email: 'developer@example.com',
-        },
+          email: 'developer@example.com'},
         totalUnits: 50,
         availableUnits: 1,
         location: {
           city: 'Dublin',
-          county: 'Dublin',
-        },
+          county: 'Dublin'},
         description: 'A beautiful development in Dublin',
         features: ['Feature 1', 'Feature 2'],
-        amenities: ['Amenity 1', 'Amenity 2'],
-      });
+        amenities: ['Amenity 1', 'Amenity 2']});
     });
 
     it('should return null if development does not exist', async () => {
       // Execute query
       const response = await testServer.executeOperation({
         query: DEVELOPMENT_QUERY,
-        variables: { id: 'non-existent-id' },
-      });
+        variables: { id: 'non-existent-id' });
       
       // Check response
       expect(response.body.kind).toBe('single');
@@ -257,15 +237,12 @@ describe('Development Resolvers', () => {
             name: 'Sample Development',
             status: 'CONSTRUCTION',
             totalUnits: 50,
-            availableUnits: 1,
-          }
+            availableUnits: 1}
         ],
         totalCount: 1,
         pageInfo: {
           hasNextPage: false,
-          hasPreviousPage: false,
-        },
-      });
+          hasPreviousPage: false});
     });
 
     it('should return an authentication error for non-developer users', async () => {
@@ -313,23 +290,20 @@ describe('Development Resolvers', () => {
         location: {
           address: '456 Main St',
           city: 'Cork',
-          county: 'Cork',
-        },
+          county: 'Cork'},
         description: 'A great new development',
         shortDescription: 'Cork development',
         mainImage: 'https://example.com/new-image.jpg',
         features: ['New Feature 1', 'New Feature 2'],
         amenities: ['New Amenity 1', 'New Amenity 2'],
         totalUnits: 30,
-        status: 'PLANNING',
-      };
+        status: 'PLANNING'};
       
       // Execute mutation
       const response = await testServer.executeOperation(
         {
           query: CREATE_DEVELOPMENT_MUTATION,
           variables: { input },
-        },
         { contextValue }
       );
       
@@ -345,9 +319,7 @@ describe('Development Resolvers', () => {
         location: {
           address: '456 Main St',
           city: 'Cork',
-          county: 'Cork',
-        },
-      });
+          county: 'Cork'});
     });
 
     it('should return an authentication error for non-authenticated users', async () => {
@@ -357,21 +329,18 @@ describe('Development Resolvers', () => {
         location: {
           address: '456 Main St',
           city: 'Cork',
-          county: 'Cork',
-        },
+          county: 'Cork'},
         description: 'A great new development',
         mainImage: 'https://example.com/new-image.jpg',
         features: ['New Feature 1', 'New Feature 2'],
         amenities: ['New Amenity 1', 'New Amenity 2'],
         totalUnits: 30,
-        status: 'PLANNING',
-      };
+        status: 'PLANNING'};
       
       // Execute mutation
       const response = await testServer.executeOperation({
         query: CREATE_DEVELOPMENT_MUTATION,
-        variables: { input },
-      });
+        variables: { input });
       
       // Check response
       expect(response.body.kind).toBe('single');

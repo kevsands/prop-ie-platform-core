@@ -17,10 +17,10 @@ interface JWTAuthResponse {
 
 export function useSecureJWT() {
   const router = useRouter();
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [isAuthenticatedsetIsAuthenticated] = useState(false);
+  const [usersetUser] = useState(null);
+  const [loadingsetLoading] = useState(true);
+  const [errorsetError] = useState<string | null>(null);
 
   // Check for existing session on mount
   useEffect(() => {
@@ -31,7 +31,7 @@ export function useSecureJWT() {
     try {
       const token = localStorage.getItem('auth-token');
       const storedUser = sessionStorage.getItem('user');
-      
+
       if (token && storedUser) {
         // Verify token with backend
         const response = await fetch('/api/auth/verify', {
@@ -39,7 +39,7 @@ export function useSecureJWT() {
             'Authorization': `Bearer ${token}`
           }
         });
-        
+
         if (response.ok) {
           setUser(JSON.parse(storedUser));
           setIsAuthenticated(true);
@@ -50,7 +50,7 @@ export function useSecureJWT() {
         }
       }
     } catch (err) {
-      console.error('Auth check failed:', err);
+
     } finally {
       setLoading(false);
     }
@@ -64,10 +64,8 @@ export function useSecureJWT() {
       const response = await fetch('/api/auth/login', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, password }),
-      });
+          'Content-Type': 'application/json'},
+        body: JSON.stringify({ email, password })});
 
       if (!response.ok) {
         const error = await response.json();
@@ -80,11 +78,11 @@ export function useSecureJWT() {
       // Store auth data
       localStorage.setItem('auth-token', token);
       sessionStorage.setItem('user', JSON.stringify(user));
-      
+
       // Update state
       setUser(user);
       setIsAuthenticated(true);
-      
+
       // Setup axios interceptor for API calls
       setupAxiosInterceptor(token);
     } catch (err: any) {
@@ -98,10 +96,9 @@ export function useSecureJWT() {
   const logout = async () => {
     try {
       await fetch('/api/auth/logout', {
-        method: 'POST',
-      });
+        method: 'POST'});
     } catch (err) {
-      console.error('Logout error:', err);
+
     } finally {
       clearAuth();
       router.push('/login');
@@ -111,21 +108,20 @@ export function useSecureJWT() {
   const refreshToken = async () => {
     try {
       const response = await fetch('/api/auth/refresh', {
-        method: 'POST',
-      });
+        method: 'POST'});
 
       if (response.ok) {
         const data: JWTAuthResponse = await response.json();
         const { user, token } = data;
-        
+
         localStorage.setItem('auth-token', token);
         sessionStorage.setItem('user', JSON.stringify(user));
         setupAxiosInterceptor(token);
-        
+
         return token;
       }
     } catch (err) {
-      console.error('Token refresh failed:', err);
+
       clearAuth();
       return null;
     }
@@ -136,7 +132,7 @@ export function useSecureJWT() {
     sessionStorage.removeItem('user');
     setUser(null);
     setIsAuthenticated(false);
-    
+
     // Remove axios interceptor
     axios.interceptors.request.eject(0);
   };
@@ -144,31 +140,31 @@ export function useSecureJWT() {
   const setupAxiosInterceptor = (token: string) => {
     // Add auth token to all axios requests
     axios.interceptors.request.use(
-      (config) => {
+      (config: any) => {
         config.headers.Authorization = `Bearer ${token}`;
         return config;
       },
-      (error) => {
+      (error: any) => {
         return Promise.reject(error);
       }
     );
 
     // Handle token refresh on 401
     axios.interceptors.response.use(
-      (response) => response,
-      async (error) => {
+      (response: any) => response,
+      async (error: any) => {
         const originalRequest = error.config;
-        
+
         if (error.response?.status === 401 && !originalRequest._retry) {
           originalRequest._retry = true;
-          
+
           const newToken = await refreshToken();
           if (newToken) {
             originalRequest.headers.Authorization = `Bearer ${newToken}`;
             return axios(originalRequest);
           }
         }
-        
+
         return Promise.reject(error);
       }
     );
@@ -191,6 +187,5 @@ export function useSecureJWT() {
     logout,
     refreshToken,
     hasRole,
-    hasPermission,
-  };
+    hasPermission};
 }

@@ -36,11 +36,11 @@ const ProjectStatusCard: React.FC<ProjectStatusCardProps> = ({ project, orgSlug 
         return 'bg-gray-100 text-gray-800';
     }
   };
-  
+
   const salesPercentage = Math.round((project.soldUnitsCount / project.unitsCount) * 100);
   const reservedPercentage = Math.round((project.reservedUnitsCount / project.unitsCount) * 100);
   const availablePercentage = 100 - salesPercentage - reservedPercentage;
-  
+
   return (
     <div className="bg-white rounded-lg shadow-md p-6">
       <div className="flex justify-between items-start mb-4">
@@ -57,7 +57,7 @@ const ProjectStatusCard: React.FC<ProjectStatusCardProps> = ({ project, orgSlug 
           Details <FiArrowRight className="ml-1" />
         </Link>
       </div>
-      
+
       <div className="mt-4">
         <div className="flex justify-between text-sm mb-1">
           <span>Sales Status</span>
@@ -66,19 +66,19 @@ const ProjectStatusCard: React.FC<ProjectStatusCardProps> = ({ project, orgSlug 
         <div className="w-full h-2.5 rounded-full overflow-hidden flex">
           <div 
             className="bg-green-500 h-full" 
-            style={{ width: `${salesPercentage}%` }}
+            style={ width: `${salesPercentage}%` }
           ></div>
           <div 
             className="bg-yellow-500 h-full" 
-            style={{ width: `${reservedPercentage}%` }}
+            style={ width: `${reservedPercentage}%` }
           ></div>
           <div 
             className="bg-gray-200 h-full" 
-            style={{ width: `${availablePercentage}%` }}
+            style={ width: `${availablePercentage}%` }
           ></div>
         </div>
       </div>
-      
+
       <div className="mt-4 pt-4 border-t border-gray-200 flex justify-between text-sm text-gray-600">
         <span>Total Units: {project.unitsCount}</span>
         {project.lastActivityDate && (

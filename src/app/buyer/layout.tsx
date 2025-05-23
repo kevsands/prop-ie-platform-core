@@ -33,8 +33,8 @@ import {
  */
 export default function BuyerLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [toolkitOpen, setToolkitOpen] = useState(false);
+  const [sidebarOpensetSidebarOpen] = useState(false);
+  const [toolkitOpensetToolkitOpen] = useState(false);
 
   const navigation = [
     { name: 'Welcome', href: '/buyer/first-time-buyers/welcome', icon: Sparkles, isNew: true },
@@ -51,17 +51,14 @@ export default function BuyerLayout({ children }: { children: React.ReactNode })
         { name: 'Affordability Calculator', href: '/buyer/calculator', icon: Calculator },
         { name: 'HTB Calculator', href: '/buyer/calculator/htb', icon: Heart },
         { name: 'Guides & Resources', href: '/buyer/guides', icon: BookOpen },
-        { name: 'Checklists', href: '/buyer/checklists', icon: FileText },
-      ]
+        { name: 'Checklists', href: '/buyer/checklists', icon: FileText }]
     },
-    { name: 'Profile', href: '/buyer/profile', icon: User },
-  ];
+    { name: 'Profile', href: '/buyer/profile', icon: User }];
 
   const profileSection = [
     { name: 'Verification', href: '/buyer/verification', icon: Shield },
     { name: 'Payment Methods', href: '/buyer/payment-methods', icon: CreditCard },
-    { name: 'Settings', href: '/buyer/settings', icon: Settings },
-  ];
+    { name: 'Settings', href: '/buyer/settings', icon: Settings }];
 
   const isActive = (href: string) => {
     if (href === '/buyer') return pathname === '/buyer';
@@ -72,7 +69,7 @@ export default function BuyerLayout({ children }: { children: React.ReactNode })
     <div className="min-h-screen bg-gray-50">
       {/* Main Navigation - Always on top */}
       <MainNavigation />
-      
+
       {/* Content wrapper with top padding to account for main nav */}
       <div className="pt-16">
         {/* Mobile header with proper spacing to avoid overlap */}
@@ -113,7 +110,7 @@ export default function BuyerLayout({ children }: { children: React.ReactNode })
           {/* Navigation */}
           <nav className="mt-5 px-4">
             <ul className="space-y-2">
-              {navigation.map((item) => {
+              {navigation.map((item: any) => {
                 if (item.isDropdown) {
                   return (
                     <li key={item.name}>
@@ -135,7 +132,7 @@ export default function BuyerLayout({ children }: { children: React.ReactNode })
                       </button>
                       {toolkitOpen && (
                         <ul className="mt-2 ml-8 space-y-1">
-                          {item.subItems?.map((subItem) => {
+                          {item.subItems?.map((subItem: any) => {
                             const subActive = pathname === subItem.href;
                             return (
                               <li key={subItem.name}>
@@ -202,7 +199,7 @@ export default function BuyerLayout({ children }: { children: React.ReactNode })
                 Account
               </h3>
               <ul className="space-y-2">
-                {profileSection.map((item) => {
+                {profileSection.map((item: any) => {
                   const active = pathname === item.href;
                   return (
                     <li key={item.name}>
@@ -265,7 +262,7 @@ export default function BuyerLayout({ children }: { children: React.ReactNode })
             </div>
           </div>
         </div>
-        
+
         {/* Main content with proper spacing */}
         <div className="flex-1 md:ml-64">
           {/* Top bar */}

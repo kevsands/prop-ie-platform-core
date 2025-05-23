@@ -1,255 +1,390 @@
+/**
+ * Buyer Transactions List Page
+ * Shows all transactions for the logged-in buyer
+ */
+
 'use client';
 
-import React, { useEffect, useState } from 'react';
-import { useAuth } from '@/context/AuthContext';
-import { useTransaction } from '@/context/TransactionContext';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Progress } from '@/components/ui/progress';
-import { Loader2, CreditCard, FileText, MessageSquare, Users, Clock, CheckCircle, XCircle, AlertCircle } from 'lucide-react';
-import { format } from 'date-fns';
-import { api } from '@/lib/api-client';
-import { PaymentOverview } from '@/components/transaction/PaymentOverview';
-import { DocumentCenter } from '@/components/transaction/DocumentCenter';
-import { CommunicationHub } from '@/components/transaction/CommunicationHub';
-import { ParticipantsList } from '@/components/transaction/ParticipantsList';
+import React, { useState, useEffect } from 'react';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import ProtectedRoute from '@/components/auth/ProtectedRoute';
+import {
+  Home,
+  Calendar,
+  Clock,
+  CheckCircle,
+  AlertCircle,
+  XCircle,
+  Search,
+  Filter,
+  ChevronRight,
+  TrendingUp,
+  FileText,
+  DollarSign
+} from 'lucide-react';
+
+interface Transaction {
+  id: string;
+  referenceNumber: string;
+  status: string;
+  contractStatus?: string;
+  unit: {
+    id: string;
+    name: string;
+    type: string;
+    price: number;
+    development: {
+      name: string;
+      location: any;
+    };
+  };
+  pricing: {
+    basePrice: number;
+    customizationCost: number;
+    totalPrice: number;
+  };
+  timeline: any;
+  createdAt: string;
+  updatedAt: string;
+}
+
+const statusConfig: Record<string, { label: string; color: string; icon: any }> = {
+  ENQUIRY: { label: 'Initial Enquiry', color: 'gray', icon: Clock },
+  VIEWING_SCHEDULED: { label: 'Viewing Scheduled', color: 'blue', icon: Calendar },
+  VIEWED: { label: 'Property Viewed', color: 'blue', icon: Home },
+  RESERVATION: { label: 'Reserved', color: 'yellow', icon: FileText },
+  RESERVATION_PAID: { label: 'Reservation Paid', color: 'green', icon: DollarSign },
+  CONTRACT_ISSUED: { label: 'Contract Issued', color: 'yellow', icon: FileText },
+  CONTRACT_SIGNED: { label: 'Contract Signed', color: 'green', icon: CheckCircle },
+  DEPOSIT_PAID: { label: 'Deposit Paid', color: 'green', icon: DollarSign },
+  MORTGAGE_APPROVED: { label: 'Mortgage Approved', color: 'green', icon: CheckCircle },
+  CLOSING: { label: 'Closing Process', color: 'blue', icon: Clock },
+  COMPLETED: { label: 'Sale Completed', color: 'green', icon: CheckCircle },
+  HANDED_OVER: { label: 'Keys Received', color: 'green', icon: Home },
+  CANCELLED: { label: 'Cancelled', color: 'red', icon: XCircle }
+};
+
+// Mock test transaction for development
+const mockTransaction: Transaction = {
+  id: 'test-transaction-id',
+  referenceNumber: 'FG-202405-ABC123',
+  status: 'RESERVATION_PAID',
+  unit: {
+    id: 'unit-a1',
+    name: 'Unit A1 - 3 Bed Semi-Detached',
+    type: 'SEMI_DETACHED',
+    price: 375000,
+    development: {
+      name: 'Fitzgerald Gardens',
+      location: 'North Dublin'
+    }
+  },
+  pricing: {
+    basePrice: 375000,
+    customizationCost: 0,
+    totalPrice: 375000
+  },
+  timeline: {},
+  createdAt: new Date(Date.now() - 14 * 24 * 60 * 60 * 1000).toISOString(),
+  updatedAt: new Date().toISOString()
+};
 
 export default function BuyerTransactionsPage() {
-  const { user } = useAuth();
-  const { transactions, fetchUserTransactions, loadingTransactions } = useTransaction();
-  const [selectedTransaction, setSelectedTransaction] = useState<any>(null);
-  const [loadingDetails, setLoadingDetails] = useState(false);
+  const router = useRouter();
+  const [transactionssetTransactions] = useState<Transaction[]>([]);
+  const [loadingsetLoading] = useState(true);
+  const [errorsetError] = useState<string | null>(null);
+  const [searchTermsetSearchTerm] = useState('');
+  const [statusFiltersetStatusFilter] = useState('all');
 
   useEffect(() => {
-    if (user) {
-      fetchUserTransactions();
-    }
-  }, [user]);
+    fetchTransactions();
+  }, []);
 
-  const fetchTransactionDetails = async (transactionId: string) => {
-    setLoadingDetails(true);
+  const fetchTransactions = async () => {
     try {
-      const response = await api.get(`/transactions/${transactionId}`);
-      setSelectedTransaction(response);
-    } catch (error) {
-      console.error('Error fetching transaction details:', error);
+      // First try to fetch from the API
+      const response = await fetch('/api/v1/transactions');
+
+      if (response.ok) {
+        const data: any = await response.json();
+        setTransactions(data.transactions);
+      } else {
+        // If API fails, use mock data for development
+
+        setTransactions([mockTransaction]);
+      }
+    } catch (err) {
+
+      // Use mock data for development
+      setTransactions([mockTransaction]);
     } finally {
-      setLoadingDetails(false);
+      setLoading(false);
     }
   };
 
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'DRAFT':
-        return 'bg-gray-100 text-gray-700';
-      case 'RESERVED':
-        return 'bg-blue-100 text-blue-700';
-      case 'DEPOSIT_PAID':
-        return 'bg-green-100 text-green-700';
-      case 'CONTRACTED':
-        return 'bg-purple-100 text-purple-700';
-      case 'MORTGAGE_APPROVED':
-        return 'bg-indigo-100 text-indigo-700';
-      case 'CLOSING':
-        return 'bg-yellow-100 text-yellow-700';
-      case 'COMPLETED':
-        return 'bg-green-100 text-green-700';
-      case 'CANCELLED':
-        return 'bg-red-100 text-red-700';
-      default:
-        return 'bg-gray-100 text-gray-700';
-    }
+  const filteredTransactions = transactions.filter(transaction => {
+    const matchesSearch = searchTerm === '' || 
+      transaction.referenceNumber.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      transaction.unit.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      transaction.unit.development.name.toLowerCase().includes(searchTerm.toLowerCase());
+
+    const matchesStatus = statusFilter === 'all' || transaction.status === statusFilter;
+
+    return matchesSearch && matchesStatus;
+  });
+
+  const getStatusConfig = (status: string) => {
+    return statusConfig[status] || statusConfig.ENQUIRY;
   };
 
-  const getStatusIcon = (status: string) => {
-    switch (status) {
-      case 'COMPLETED':
-        return <CheckCircle className="h-5 w-5 text-green-600" />;
-      case 'CANCELLED':
-        return <XCircle className="h-5 w-5 text-red-600" />;
-      case 'CLOSING':
-      case 'CONTRACTED':
-        return <Clock className="h-5 w-5 text-blue-600" />;
-      default:
-        return <AlertCircle className="h-5 w-5 text-gray-600" />;
-    }
-  };
-
-  if (loadingTransactions) {
+  if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
-        <Loader2 className="h-8 w-8 animate-spin text-blue-600" />
-      </div>
+      <ProtectedRoute requiredRole={['buyer', 'admin']}>
+        <div className="flex items-center justify-center min-h-screen">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+        </div>
+      </ProtectedRoute>
     );
   }
 
   return (
-    <div className="container mx-auto p-6">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold mb-2">My Transactions</h1>
-        <p className="text-gray-600">Manage your property purchases and track progress</p>
-      </div>
-
-      {transactions.length === 0 ? (
-        <Card>
-          <CardContent className="text-center py-12">
-            <p className="text-gray-500 mb-4">You don't have any active transactions</p>
-            <Button>Browse Properties</Button>
-          </CardContent>
-        </Card>
-      ) : (
-        <div className="grid md:grid-cols-3 gap-6">
-          <div className="md:col-span-1">
-            <Card>
-              <CardHeader>
-                <CardTitle>Transaction List</CardTitle>
-              </CardHeader>
-              <CardContent className="p-0">
-                <div className="divide-y">
-                  {transactions.map((transaction) => (
-                    <div
-                      key={transaction.id}
-                      className={`p-4 cursor-pointer hover:bg-gray-50 transition-colors ${
-                        selectedTransaction?.id === transaction.id ? 'bg-blue-50' : ''
-                      }`}
-                      onClick={() => fetchTransactionDetails(transaction.id)}
-                    >
-                      <div className="flex justify-between items-start mb-2">
-                        <h3 className="font-medium">{transaction.property.developmentName}</h3>
-                        {getStatusIcon(transaction.status)}
-                      </div>
-                      <p className="text-sm text-gray-600 mb-2">{transaction.property.address}</p>
-                      <div className="flex justify-between items-center">
-                        <Badge className={getStatusColor(transaction.status)}>
-                          {transaction.status}
-                        </Badge>
-                        <span className="text-sm text-gray-500">
-                          {format(new Date(transaction.createdAt), 'MMM d, yyyy')}
-                        </span>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
+    <ProtectedRoute requiredRole={['buyer', 'admin']}>
+      <div className="min-h-screen bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+          {/* Header */}
+          <div className="mb-6">
+            <h1 className="text-2xl font-bold text-gray-900">My Transactions</h1>
+            <p className="text-gray-600">Track your property purchase journey</p>
           </div>
 
-          <div className="md:col-span-2">
-            {loadingDetails ? (
-              <div className="flex items-center justify-center h-64">
-                <Loader2 className="h-8 w-8 animate-spin text-blue-600" />
+          {/* Summary Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+            <div className="bg-white rounded-lg shadow-sm p-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-medium text-gray-600">Active</p>
+                  <p className="text-2xl font-bold text-gray-900">
+                    {transactions.filter(t => !['COMPLETED', 'HANDED_OVER', 'CANCELLED'].includes(t.status)).length}
+                  </p>
+                </div>
+                <div className="bg-blue-100 rounded-full p-3">
+                  <Clock className="w-6 h-6 text-blue-600" />
+                </div>
               </div>
-            ) : selectedTransaction ? (
-              <div className="space-y-6">
-                {/* Transaction Overview */}
-                <Card>
-                  <CardHeader>
-                    <div className="flex justify-between items-start">
-                      <div>
-                        <CardTitle>{selectedTransaction.property.developmentName}</CardTitle>
-                        <p className="text-gray-600">{selectedTransaction.property.address}</p>
-                      </div>
-                      <Badge className={getStatusColor(selectedTransaction.status)}>
-                        {selectedTransaction.status}
-                      </Badge>
-                    </div>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="grid md:grid-cols-2 gap-4 mb-6">
-                      <div>
-                        <p className="text-sm text-gray-600">Property Price</p>
-                        <p className="text-xl font-semibold">€{selectedTransaction.totalAmount.toLocaleString()}</p>
-                      </div>
-                      <div>
-                        <p className="text-sm text-gray-600">Expected Completion</p>
-                        <p className="text-xl font-semibold">
-                          {selectedTransaction.completionDate 
-                            ? format(new Date(selectedTransaction.completionDate), 'MMM d, yyyy')
-                            : 'TBD'
-                          }
-                        </p>
-                      </div>
-                    </div>
+            </div>
 
-                    {/* Progress Bar */}
-                    <div className="mb-4">
-                      <div className="flex justify-between text-sm mb-2">
-                        <span>Transaction Progress</span>
-                        <span>65%</span>
-                      </div>
-                      <Progress value={65} className="h-2" />
-                    </div>
+            <div className="bg-white rounded-lg shadow-sm p-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-medium text-gray-600">Completed</p>
+                  <p className="text-2xl font-bold text-gray-900">
+                    {transactions.filter(t => ['COMPLETED', 'HANDED_OVER'].includes(t.status)).length}
+                  </p>
+                </div>
+                <div className="bg-green-100 rounded-full p-3">
+                  <CheckCircle className="w-6 h-6 text-green-600" />
+                </div>
+              </div>
+            </div>
 
-                    {/* Current Stage */}
-                    <div className="p-4 bg-blue-50 rounded-lg">
-                      <p className="text-sm font-medium text-blue-700">Current Stage</p>
-                      <p className="text-lg font-semibold text-blue-900">{selectedTransaction.currentStage}</p>
-                    </div>
-                  </CardContent>
-                </Card>
+            <div className="bg-white rounded-lg shadow-sm p-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-medium text-gray-600">Total Value</p>
+                  <p className="text-2xl font-bold text-gray-900">
+                    €{transactions.reduce((sumt: any) => sum + t.pricing.totalPrice0).toLocaleString()}
+                  </p>
+                </div>
+                <div className="bg-purple-100 rounded-full p-3">
+                  <TrendingUp className="w-6 h-6 text-purple-600" />
+                </div>
+              </div>
+            </div>
 
-                {/* Tabbed Content */}
-                <Tabs defaultValue="payments" className="w-full">
-                  <TabsList className="grid w-full grid-cols-4">
-                    <TabsTrigger value="payments">
-                      <CreditCard className="h-4 w-4 mr-2" />
-                      Payments
-                    </TabsTrigger>
-                    <TabsTrigger value="documents">
-                      <FileText className="h-4 w-4 mr-2" />
-                      Documents
-                    </TabsTrigger>
-                    <TabsTrigger value="communication">
-                      <MessageSquare className="h-4 w-4 mr-2" />
-                      Messages
-                    </TabsTrigger>
-                    <TabsTrigger value="participants">
-                      <Users className="h-4 w-4 mr-2" />
-                      Participants
-                    </TabsTrigger>
-                  </TabsList>
+            <div className="bg-white rounded-lg shadow-sm p-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-medium text-gray-600">Next Action</p>
+                  <p className="text-2xl font-bold text-gray-900">
+                    Pay Deposit
+                  </p>
+                </div>
+                <div className="bg-yellow-100 rounded-full p-3">
+                  <AlertCircle className="w-6 h-6 text-yellow-600" />
+                </div>
+              </div>
+            </div>
+          </div>
 
-                  <TabsContent value="payments">
-                    <PaymentOverview 
-                      transaction={selectedTransaction}
-                      userRole="BUYER"
-                    />
-                  </TabsContent>
+          {/* Filters */}
+          <div className="bg-white rounded-lg shadow-sm p-4 mb-6">
+            <div className="flex flex-col md:flex-row gap-4">
+              <div className="flex-1">
+                <div className="relative">
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                  <input
+                    type="text"
+                    placeholder="Search by reference, property, or development..."
+                    value={searchTerm}
+                    onChange={(e: any) => setSearchTerm(e.target.value)}
+                    className="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+              </div>
 
-                  <TabsContent value="documents">
-                    <DocumentCenter 
-                      transaction={selectedTransaction}
-                      userRole="BUYER"
-                    />
-                  </TabsContent>
+              <div className="flex items-center gap-2">
+                <Filter className="w-5 h-5 text-gray-500" />
+                <select
+                  value={statusFilter}
+                  onChange={(e: any) => setStatusFilter(e.target.value)}
+                  className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+                  <option value="all">All Status</option>
+                  {Object.entries(statusConfig).map(([valueconfig]) => (
+                    <option key={value} value={value}>{config.label}</option>
+                  ))}
+                </select>
+              </div>
+            </div>
+          </div>
 
-                  <TabsContent value="communication">
-                    <CommunicationHub 
-                      transaction={selectedTransaction}
-                      userRole="BUYER"
-                    />
-                  </TabsContent>
+          {/* Test Mode Notice */}
+          <div className="bg-blue-50 border-l-4 border-blue-500 p-4 mb-6">
+            <div className="flex items-start">
+              <div className="flex-shrink-0">
+                <AlertCircle className="h-5 w-5 text-blue-500" />
+              </div>
+              <div className="ml-3">
+                <p className="text-sm text-blue-700 font-medium">Test Mode</p>
+                <p className="text-sm text-blue-700 mt-1">
+                  This is running in test mode. Click any transaction to view the payment interface for Fitzgerald Gardens.
+                </p>
+                <p className="text-sm text-blue-700 mt-1">
+                  Navigate to the Payments tab to test payment processing.
+                </p>
+              </div>
+            </div>
+          </div>
 
-                  <TabsContent value="participants">
-                    <ParticipantsList 
-                      transaction={selectedTransaction}
-                      userRole="BUYER"
-                    />
-                  </TabsContent>
-                </Tabs>
+          {/* Transactions List */}
+          <div className="space-y-4">
+            {filteredTransactions.length === 0 ? (
+              <div className="bg-white rounded-lg shadow-sm p-8 text-center">
+                <p className="text-gray-500">No transactions found</p>
               </div>
             ) : (
-              <Card>
-                <CardContent className="text-center py-12">
-                  <p className="text-gray-500">Select a transaction to view details</p>
-                </CardContent>
-              </Card>
+              filteredTransactions.map((transaction: any) => {
+                const status = getStatusConfig(transaction.status);
+                const StatusIcon = status.icon;
+
+                return (
+                  <div
+                    key={transaction.id}
+                    className="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow cursor-pointer"
+                    onClick={() => router.push(`/buyer/transactions/${transaction.id === 'test-transaction-id' ? 'test-transaction-id' : transaction.id}`)}
+                  >
+                    <div className="p-6">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-start gap-4">
+                          <div className="rounded-full p-3 bg-yellow-100">
+                            <StatusIcon className="w-6 h-6 text-yellow-600" />
+                          </div>
+
+                          <div className="flex-1">
+                            <h3 className="text-lg font-semibold text-gray-900">
+                              {transaction.unit.name}
+                            </h3>
+                            <p className="text-sm text-gray-600">
+                              {transaction.unit.development.name}
+                            </p>
+                            <p className="text-xs text-gray-500 mt-1">
+                              Ref: {transaction.referenceNumber}
+                            </p>
+
+                            <div className="flex items-center gap-4 mt-3">
+                              <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                                {status.label}
+                              </span>
+
+                              <span className="text-sm text-gray-600">
+                                €{transaction.pricing.totalPrice.toLocaleString()}
+                              </span>
+
+                              <span className="text-sm text-gray-500">
+                                Started: {new Date(transaction.createdAt).toLocaleDateString()}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+
+                        <ChevronRight className="w-5 h-5 text-gray-400" />
+                      </div>
+
+                      {/* Progress Bar */}
+                      <div className="mt-4">
+                        <div className="bg-gray-200 rounded-full h-2">
+                          <div
+                            className="bg-blue-600 h-2 rounded-full transition-all"
+                            style={
+                              width: `${calculateProgress(transaction.status)}%`
+                            }
+                          />
+                        </div>
+                        <p className="text-xs text-gray-500 mt-1">
+                          {calculateProgress(transaction.status)}% Complete
+                        </p>
+                      </div>
+
+                      {/* Quick Actions */}
+                      {transaction.status === 'RESERVATION_PAID' && (
+                        <div className="mt-4 pt-4 border-t">
+                          <p className="text-sm font-medium text-yellow-600 flex items-center gap-2">
+                            <AlertCircle className="w-4 h-4" />
+                            Action Required: Contract deposit payment due
+                          </p>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                );
+              })
             )}
           </div>
+
+          {/* Start New Transaction */}
+          <div className="mt-8 text-center">
+            <Link
+              href="/properties"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+            >
+              <Home className="w-5 h-5" />
+              Browse Properties
+            </Link>
+          </div>
         </div>
-      )}
-    </div>
+      </div>
+    </ProtectedRoute>
   );
+}
+
+function calculateProgress(status: string): number {
+  const progressMap: Record<string, number> = {
+    ENQUIRY: 10,
+    VIEWING_SCHEDULED: 20,
+    VIEWED: 30,
+    RESERVATION: 35,
+    RESERVATION_PAID: 40,
+    CONTRACT_ISSUED: 50,
+    CONTRACT_SIGNED: 60,
+    DEPOSIT_PAID: 70,
+    MORTGAGE_APPROVED: 80,
+    CLOSING: 90,
+    COMPLETED: 95,
+    HANDED_OVER: 100,
+    CANCELLED: 0
+  };
+
+  return progressMap[status] || 0;
 }

@@ -28,11 +28,11 @@ export default function PropertyVirtualTour({
   propertyName,
   tourType = 'matterport'
 }: PropertyVirtualTourProps) {
-  const [isPlaying, setIsPlaying] = useState(true);
-  const [isMuted, setIsMuted] = useState(false);
-  const [isFullscreen, setIsFullscreen] = useState(false);
-  const [quality, setQuality] = useState('1080p');
-  const [tourMode, setTourMode] = useState<'guided' | 'free'>('guided');
+  const [isPlayingsetIsPlaying] = useState(true);
+  const [isMutedsetIsMuted] = useState(false);
+  const [isFullscreensetIsFullscreen] = useState(false);
+  const [qualitysetQuality] = useState('1080p');
+  const [tourModesetTourMode] = useState<'guided' | 'free'>('guided');
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -118,15 +118,14 @@ export default function PropertyVirtualTour({
           height="100%"
           controls={false}
           onEnded={() => setIsPlaying(false)}
-          config={{
+          config={
             youtube: {
               playerVars: {
                 showinfo: 0,
                 rel: 0,
-                modestbranding: 1,
-              }
+                modestbranding: 1}
             }
-          }}
+          }
         />
 
         {/* Video Controls */}

@@ -1,3 +1,4 @@
+import React from 'react';
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
@@ -73,15 +74,15 @@ export default function SecurityDashboardClient({
   securityStatus = 'normal'
 }: SecurityDashboardClientProps) {
   // State for dashboard data
-  const [score, setScore] = useState(securityScore);
-  const [status, setStatus] = useState(securityStatus);
-  const [metrics, setMetrics] = useState(initialMetrics);
-  const [events, setEvents] = useState(initialEvents);
-  const [anomalies, setAnomalies] = useState(initialAnomalies);
-  const [threats, setThreats] = useState(initialThreats);
-  const [lastRefreshed, setLastRefreshed] = useState<Date>(new Date());
-  const [isRefreshing, setIsRefreshing] = useState(false);
-  const [alertCount, setAlertCount] = useState({
+  const [scoresetScore] = useState(securityScore);
+  const [statussetStatus] = useState(securityStatus);
+  const [metricssetMetrics] = useState(initialMetrics);
+  const [eventssetEvents] = useState(initialEvents);
+  const [anomaliessetAnomalies] = useState(initialAnomalies);
+  const [threatssetThreats] = useState(initialThreats);
+  const [lastRefreshedsetLastRefreshed] = useState<Date>(new Date());
+  const [isRefreshingsetIsRefreshing] = useState(false);
+  const [alertCountsetAlertCount] = useState({
     low: 1,
     medium: 2,
     high: 0,
@@ -90,8 +91,7 @@ export default function SecurityDashboardClient({
 
   // Handle security violation from SecurityMonitor
   const handleSecurityViolation = useCallback((violation: SecurityViolation) => {
-    console.warn('Security violation detected:', violation);
-    
+
     // Record the violation in AWS Amplify Analytics
     try {
       // Handle the promise correctly
@@ -105,13 +105,13 @@ export default function SecurityDashboardClient({
       }).then(
         () => {}, // Success handler (empty)
         (err: Error) => {
-          console.error('Failed to record security violation to analytics:', err);
+
         }
       );
     } catch (error) {
-      console.error('Error sending security violation to analytics:', error);
+
     }
-    
+
     // Update security status based on violation severity
     if (violation.severity === 'critical') {
       setStatus('critical');
@@ -123,7 +123,7 @@ export default function SecurityDashboardClient({
   // Manual refresh of security data (simplified mock implementation)
   const refreshData = useCallback(async () => {
     setIsRefreshing(true);
-    
+
     // Simulate API call delay
     setTimeout(() => {
       setIsRefreshing(false);
@@ -173,9 +173,9 @@ export default function SecurityDashboardClient({
           };
       }
     };
-    
+
     const styles = getStatusStyles();
-    
+
     return (
       <div className={`mb-6 p-4 rounded-lg border flex items-center justify-between ${styles.bg}`}>
         <div className="flex items-center">
@@ -192,23 +192,23 @@ export default function SecurityDashboardClient({
         <div className="flex items-center space-x-4">
           {/* Alert counts */}
           <div className="flex items-center space-x-2">
-            {alertCount.critical > 0 && (
+            {alertCount.critical> 0 && (
               <span className="px-2 py-1 bg-red-100 text-red-800 rounded text-xs font-medium">
                 {alertCount.critical} Critical
               </span>
             )}
-            {alertCount.high > 0 && (
+            {alertCount.high> 0 && (
               <span className="px-2 py-1 bg-orange-100 text-orange-800 rounded text-xs font-medium">
                 {alertCount.high} High
               </span>
             )}
-            {alertCount.medium > 0 && (
+            {alertCount.medium> 0 && (
               <span className="px-2 py-1 bg-yellow-100 text-yellow-800 rounded text-xs font-medium">
                 {alertCount.medium} Medium
               </span>
             )}
           </div>
-          
+
           {/* Refresh button */}
           <button
             onClick={refreshData} 
@@ -235,10 +235,10 @@ export default function SecurityDashboardClient({
         analyticsEnabled={true}
         onViolation={handleSecurityViolation}
       />
-      
+
       {/* Security status banner */}
       {renderSecurityStatus()}
-      
+
       {/* Simplified dashboard for build testing */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="bg-white rounded-lg shadow p-6">
@@ -255,7 +255,7 @@ export default function SecurityDashboardClient({
                 <path
                   d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
                   fill="none"
-                  stroke={score > 70 ? "#10B981" : score > 40 ? "#F59E0B" : "#EF4444"}
+                  stroke={score> 70 ? "#10B981" : score> 40 ? "#F59E0B" : "#EF4444"
                   strokeWidth="3"
                   strokeDasharray={`${score}, 100`}
                   strokeLinecap="round"
@@ -286,15 +286,14 @@ export default function SecurityDashboardClient({
             </div>
           </div>
         </div>
-        
+
         <div className="bg-white rounded-lg shadow p-6">
           <h3 className="text-lg font-medium mb-4">Recent Security Events</h3>
           <div className="space-y-3">
             {[
               { id: '1', type: 'AUTH_SUCCESS', severity: 'info', timestamp: new Date().toISOString(), message: 'User successfully authenticated' },
               { id: '2', type: 'API_REQUEST', severity: 'info', timestamp: new Date(Date.now() - 600000).toISOString(), message: 'API request to /api/data completed' },
-              { id: '3', type: 'VALIDATION_WARNING', severity: 'warning', timestamp: new Date(Date.now() - 1200000).toISOString(), message: 'Suspicious input pattern detected' },
-            ].map(event => (
+              { id: '3', type: 'VALIDATION_WARNING', severity: 'warning', timestamp: new Date(Date.now() - 1200000).toISOString(), message: 'Suspicious input pattern detected' }].map(event => (
               <div key={event.id} className="p-3 border rounded-lg">
                 <div className="flex justify-between mb-1">
                   <span className={

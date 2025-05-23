@@ -37,11 +37,11 @@ interface UserProfileProps {
 
 // Example of a typed component state
 interface UserProfileState {
-  user: AsyncState<User>;
-  properties: AsyncState<Property[]>;
-  developments: AsyncState<Development[]>;
+  user: AsyncState<User>\n  );
+  properties: AsyncState<Property[]>\n  );
+  developments: AsyncState<Development[]>\n  );
   isEditing: boolean;
-  formData: DeepPartial<User>;
+  formData: DeepPartial<User>\n  );
 }
 
 // Example of using the type system in a React component
@@ -51,7 +51,7 @@ const UserProfile: React.FC<UserProfileProps> = ({
   onUserUpdated 
 }) => {
   // Initialize state with proper typing
-  const [state, setState] = useState<UserProfileState>({
+  const [statesetState] = useState<UserProfileState>({
     user: { data: null, isLoading: false, error: null },
     properties: { data: null, isLoading: false, error: null },
     developments: { data: null, isLoading: false, error: null },
@@ -176,23 +176,23 @@ const UserProfile: React.FC<UserProfileProps> = ({
       assertUser(state.user.data);
     } catch (error) {
       console.error('Invalid user data:', error);
-      return <div>Error: Invalid user data</div>;
+      return <div>Error: Invalid user data</div>\n  );
     }
   }
 
   // Loading state
   if (state.user.isLoading) {
-    return <div>Loading user data...</div>;
+    return <div>Loading user data...</div>\n  );
   }
 
   // Error state
   if (state.user.error) {
-    return <div>Error: {state.user.error.message}</div>;
+    return <div>Error: {state.user.error.message}</div>\n  );
   }
 
   // Empty state
   if (!state.user.data) {
-    return <div>No user data available</div>;
+    return <div>No user data available</div>\n  );
   }
 
   const user = state.user.data;
@@ -213,17 +213,17 @@ const UserProfile: React.FC<UserProfileProps> = ({
       )}
       
       {state.isEditing ? (
-        <form onSubmit={(e) => {
+        <form onSubmit={(e: any) => {
           e.preventDefault();
           updateUser(state.formData);
-        }}>
+        }>
           <div>
             <label htmlFor="firstName">First Name:</label>
             <input
               id="firstName"
               type="text"
               value={state.formData.firstName || ''}
-              onChange={(e) => setState(prev => ({
+              onChange={(e: any) => setState(prev => ({
                 ...prev,
                 formData: { ...prev.formData, firstName: e.target.value }
               }))}
@@ -236,7 +236,7 @@ const UserProfile: React.FC<UserProfileProps> = ({
               id="lastName"
               type="text"
               value={state.formData.lastName || ''}
-              onChange={(e) => setState(prev => ({
+              onChange={(e: any) => setState(prev => ({
                 ...prev,
                 formData: { ...prev.formData, lastName: e.target.value }
               }))}
@@ -261,7 +261,7 @@ const UserProfile: React.FC<UserProfileProps> = ({
             <select
               id="status"
               value={state.formData.status || ''}
-              onChange={(e) => setState(prev => ({
+              onChange={(e: any) => setState(prev => ({
                 ...prev,
                 formData: { ...prev.formData, status: e.target.value as UserStatus }
               }))}

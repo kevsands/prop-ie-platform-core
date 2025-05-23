@@ -13,20 +13,20 @@ const MicrosoftIntegration: React.FC<MicrosoftIntegrationProps> = ({
   projectId,
   projectName
 }) => {
-  const [isConnected, setIsConnected] = useState<boolean>(false);
-  const [lastSyncTime, setLastSyncTime] = useState<string | null>(null);
-  const [syncStatus, setSyncStatus] = useState<'idle' | 'syncing' | 'success' | 'error'>('idle');
-  const [showSettings, setShowSettings] = useState<boolean>(false);
-  const [settings, setSettings] = useState({
+  const [isConnectedsetIsConnected] = useState<boolean>(false);
+  const [lastSyncTimesetLastSyncTime] = useState<string | null>(null);
+  const [syncStatussetSyncStatus] = useState<'idle' | 'syncing' | 'success' | 'error'>('idle');
+  const [showSettingssetShowSettings] = useState<boolean>(false);
+  const [settingssetSettings] = useState({
     sharepointSite: 'https://yourcompany.sharepoint.com/sites/PropertyDevelopment',
     propertyListName: 'Properties',
     developmentListName: 'Developments',
     syncInterval: '60', // minutes
     autoSync: true
   });
-  
+
   // Mock data for connected data sources
-  const [dataSources, setDataSources] = useState([
+  const [dataSourcessetDataSources] = useState([
     {
       id: '1',
       name: 'Property Listings',
@@ -60,9 +60,9 @@ const MicrosoftIntegration: React.FC<MicrosoftIntegrationProps> = ({
       lastSync: '2025-04-22T18:30:00Z'
     }
   ]);
-  
+
   // Mock data for sync logs
-  const [syncLogs, setSyncLogs] = useState([
+  const [syncLogssetSyncLogs] = useState([
     {
       id: '1',
       timestamp: '2025-04-22T18:30:00Z',
@@ -96,32 +96,32 @@ const MicrosoftIntegration: React.FC<MicrosoftIntegrationProps> = ({
       message: 'All items synchronized successfully'
     }
   ]);
-  
+
   // Simulate connection status
   useEffect(() => {
     // In a real implementation, we would check the actual connection status
     // and get the last sync time from an API or local storage
     setIsConnected(true);
     setLastSyncTime('2025-04-22T18:30:00Z');
-    
+
     // This effect doesn't have any dependencies since it's just setting
     // initial mock data. In a real implementation, we might want to
     // refresh this data periodically or when certain props change.
   }, []);
-  
+
   // Handle manual sync
   const handleSync = () => {
     setSyncStatus('syncing');
-    
+
     // Simulate sync process
     setTimeout(() => {
       const success = Math.random() > 0.2; // 80% chance of success
-      
+
       if (success) {
         setSyncStatus('success');
         const now = new Date().toISOString();
         setLastSyncTime(now);
-        
+
         // Add new sync log
         const newLog = {
           id: (syncLogs.length + 1).toString(),
@@ -131,9 +131,9 @@ const MicrosoftIntegration: React.FC<MicrosoftIntegrationProps> = ({
           duration: `${Math.floor(Math.random() * 10) + 40} seconds`,
           message: 'All items synchronized successfully'
         };
-        
+
         setSyncLogs([newLog, ...syncLogs]);
-        
+
         // Update data sources last sync time
         setDataSources(dataSources.map(ds => ({
           ...ds,
@@ -141,7 +141,7 @@ const MicrosoftIntegration: React.FC<MicrosoftIntegrationProps> = ({
         })));
       } else {
         setSyncStatus('error');
-        
+
         // Add error log
         const newLog = {
           id: (syncLogs.length + 1).toString(),
@@ -151,10 +151,10 @@ const MicrosoftIntegration: React.FC<MicrosoftIntegrationProps> = ({
           duration: `${Math.floor(Math.random() * 10) + 40} seconds`,
           message: 'Sync failed: Could not connect to SharePoint'
         };
-        
+
         setSyncLogs([newLog, ...syncLogs]);
       }
-      
+
       // Reset status after a delay
       setTimeout(() => {
         setSyncStatus('idle');
@@ -164,20 +164,20 @@ const MicrosoftIntegration: React.FC<MicrosoftIntegrationProps> = ({
 
   // Stub: Export to Excel (not implemented in this context)
   const handleExportToExcel = () => {
-    console.warn('Export to Excel is not implemented yet.');
+
   }; // Proper closure with just a semicolon
-  
+
   // Handle settings change
   const handleSettingsChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target;
     const checked = type === 'checkbox' ? (e.target as HTMLInputElement).checked : undefined;
-    
+
     setSettings({
       ...settings,
       [name]: type === 'checkbox' ? checked : value
     });
   };
-  
+
   // Format date for display
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -189,14 +189,14 @@ const MicrosoftIntegration: React.FC<MicrosoftIntegrationProps> = ({
       minute: '2-digit'
     });
   };
-  
+
   return (
     <div className="bg-white rounded-lg shadow-md overflow-hidden">
       <div className="p-6 border-b">
         <h2 className="text-2xl font-bold text-[#2B5273]">Microsoft Integration</h2>
         <p className="text-gray-500">Project: {projectName} (ID: {projectId})</p>
       </div>
-      
+
       {/* Connection Status */}
       <div className="p-6 border-b bg-gray-50">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between">
@@ -217,7 +217,7 @@ const MicrosoftIntegration: React.FC<MicrosoftIntegrationProps> = ({
               </p>
             </div>
           </div>
-          
+
           <div className="flex space-x-3">
             <button
               onClick={handleSync}
@@ -240,7 +240,7 @@ const MicrosoftIntegration: React.FC<MicrosoftIntegrationProps> = ({
                 </>
               )}
             </button>
-            
+
             <button
               onClick={() => setShowSettings(!showSettings)}
               className="bg-white border border-gray-300 text-gray-700 font-medium py-2 px-4 rounded-md hover:bg-gray-50 transition duration-300 flex items-center"
@@ -250,7 +250,7 @@ const MicrosoftIntegration: React.FC<MicrosoftIntegrationProps> = ({
             </button>
           </div>
         </div>
-        
+
         {/* Sync Status Indicator */}
         {syncStatus === 'success' && (
           <div className="mt-4 p-3 bg-green-50 border border-green-200 rounded-md flex items-center">
@@ -258,7 +258,7 @@ const MicrosoftIntegration: React.FC<MicrosoftIntegrationProps> = ({
             <span className="text-green-700">Sync completed successfully</span>
           </div>
         )}
-        
+
         {syncStatus === 'error' && (
           <div className="mt-4 p-3 bg-red-50 border border-red-200 rounded-md flex items-center">
             {FiAlertTriangle({ className: "text-yellow-500" })}
@@ -266,7 +266,7 @@ const MicrosoftIntegration: React.FC<MicrosoftIntegrationProps> = ({
           </div>
         )}
       </div>
-      
+
       {/* Settings Panel */}
       {showSettings && (
         <div className="p-6 border-b">
@@ -285,7 +285,7 @@ const MicrosoftIntegration: React.FC<MicrosoftIntegrationProps> = ({
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#2B5273]"
               />
             </div>
-            
+
             <div>
               <label htmlFor="propertyListName" className="block text-sm font-medium text-gray-700 mb-1">
                 Property List Name
@@ -299,7 +299,7 @@ const MicrosoftIntegration: React.FC<MicrosoftIntegrationProps> = ({
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#2B5273]"
               />
             </div>
-            
+
             <div>
               <label htmlFor="developmentListName" className="block text-sm font-medium text-gray-700 mb-1">
                 Development List Name
@@ -313,7 +313,7 @@ const MicrosoftIntegration: React.FC<MicrosoftIntegrationProps> = ({
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#2B5273]"
               />
             </div>
-            
+
             <div>
               <label htmlFor="syncInterval" className="block text-sm font-medium text-gray-700 mb-1">
                 Sync Interval (minutes)
@@ -333,7 +333,7 @@ const MicrosoftIntegration: React.FC<MicrosoftIntegrationProps> = ({
                 <option value="1440">Once a day</option>
               </select>
             </div>
-            
+
             <div className="md:col-span-2">
               <div className="flex items-center">
                 <input
@@ -350,7 +350,7 @@ const MicrosoftIntegration: React.FC<MicrosoftIntegrationProps> = ({
               </div>
             </div>
           </div>
-          
+
           <div className="mt-6 flex justify-end space-x-3">
             <button
               onClick={() => setShowSettings(false)}
@@ -367,7 +367,7 @@ const MicrosoftIntegration: React.FC<MicrosoftIntegrationProps> = ({
           </div>
         </div>
       )}
-      
+
       {/* Connected Data Sources */}
       <div className="p-6 border-b">
         <h3 className="text-lg font-semibold text-[#2B5273] mb-4">Connected Data Sources</h3>
@@ -393,7 +393,7 @@ const MicrosoftIntegration: React.FC<MicrosoftIntegrationProps> = ({
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
-              {dataSources.map((source) => (
+              {dataSources.map((source: any) => (
                 <tr key={source.id} className="hover:bg-gray-50">
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="text-sm font-medium text-gray-900">{source.name}</div>
@@ -450,7 +450,7 @@ const MicrosoftIntegration: React.FC<MicrosoftIntegrationProps> = ({
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
-              {syncLogs.map((log) => (
+              {syncLogs.map((log: any) => (
                 <tr key={log.id}>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                     {formatDate(log.timestamp)}

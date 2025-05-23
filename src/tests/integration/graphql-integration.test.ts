@@ -88,7 +88,7 @@ const typeDefs = `
 // Mock resolvers
 const resolvers = {
   Query: {
-    me: (_, __, context) => {
+    me: (_, __context) => {
       if (!context.isAuthenticated) {
         throw new Error('Not authenticated');
       }
@@ -145,8 +145,7 @@ const resolvers = {
       
       return {
         items: filteredDocs,
-        totalCount: filteredDocs.length,
-      };
+        totalCount: filteredDocs.length};
     },
     
     document: (_, { id }, context) => {
@@ -156,7 +155,6 @@ const resolvers = {
       
       return mockDocuments.find(doc => doc.id === id) || mockDocuments[0];
     },
-  },
   
   Mutation: {
     createDocument: (_, { input }, context) => {
@@ -173,17 +171,14 @@ const resolvers = {
         uploadedBy: {
           id: context.user?.userId || 'user-1',
           name: 'Test User',
-          email: 'test@example.com',
-        },
+          email: 'test@example.com'},
         metadata: {
           category: input.category || 'other',
           tags: input.tags || [],
           description: input.description || '',
-          version: '1.0',
-        },
+          version: '1.0'},
         status: 'active',
-        uploadedAt: new Date().toISOString(),
-      };
+        uploadedAt: new Date().toISOString()};
       
       return newDocument;
     },
@@ -204,11 +199,8 @@ const resolvers = {
         ...user,
         firstName: firstName || user.firstName,
         lastName: lastName || user.lastName,
-        fullName: `${firstName || user.firstName} ${lastName || user.lastName}`,
-      };
-    },
-  },
-};
+        fullName: `${firstName || user.firstName} ${lastName || user.lastName}`};
+    }};
 
 describe('GraphQL Server Integration', () => {
   let server: ApolloServer;
@@ -217,12 +209,10 @@ describe('GraphQL Server Integration', () => {
     // Create schema and server
     const schema = makeExecutableSchema({
       typeDefs,
-      resolvers,
-    });
+      resolvers});
     
     server = new ApolloServer({
-      schema,
-    });
+      schema});
     
     await server.start();
   });
@@ -248,8 +238,7 @@ describe('GraphQL Server Integration', () => {
                 roles
               }
             }
-          `,
-        },
+          `},
         { contextValue }
       );
       
@@ -276,8 +265,7 @@ describe('GraphQL Server Integration', () => {
                 fullName
               }
             }
-          `,
-        },
+          `},
         { contextValue }
       );
       
@@ -342,8 +330,7 @@ describe('GraphQL Server Integration', () => {
           `,
           variables: { 
             filters: { 
-              category: 'planning',
-            } 
+              category: 'planning'} 
           }
         },
         { contextValue }
@@ -401,8 +388,7 @@ describe('GraphQL Server Integration', () => {
         fileSize: 12345,
         category: 'testing',
         description: 'Test document for integration testing',
-        tags: ['test', 'integration'],
-      };
+        tags: ['test', 'integration']};
       
       // Execute mutation
       const response = await server.executeOperation(
@@ -447,8 +433,7 @@ describe('GraphQL Server Integration', () => {
       const updateData = {
         id: 'user-2', // The user's own ID
         firstName: 'Updated',
-        lastName: 'Name',
-      };
+        lastName: 'Name'};
       
       // Execute mutation
       const response = await server.executeOperation(
@@ -487,8 +472,7 @@ describe('GraphQL Server Integration', () => {
       const updateData = {
         id: 'user-1', // A different user's ID
         firstName: 'Unauthorized',
-        lastName: 'Change',
-      };
+        lastName: 'Change'};
       
       // Execute mutation
       const response = await server.executeOperation(

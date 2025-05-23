@@ -10,8 +10,7 @@ import type {
   GraphQLMutationOptions,
   CacheConfig,
   RetryConfig,
-  MetricsConfig,
-} from './types';
+  MetricsConfig} from './types';
 import { createGraphQLResult } from './types';
 
 export class GraphQLClient {
@@ -24,17 +23,14 @@ export class GraphQLClient {
   private cacheConfig: CacheConfig = {
     ttl: 5 * 60 * 1000, // 5 minutes
     maxSize: 1000,
-    strategy: 'memory',
-  };
+    strategy: 'memory'};
   private retryConfig: RetryConfig = {
     maxAttempts: 3,
     delay: 1000,
-    backoff: 'exponential',
-  };
+    backoff: 'exponential'};
   private metricsConfig: MetricsConfig = {
     enabled: true,
-    sampleRate: 1,
-  };
+    sampleRate: 1};
 
   private constructor() {}
 
@@ -46,9 +42,9 @@ export class GraphQLClient {
   }
 
   configure(config: {
-    cache?: Partial<CacheConfig>;
-    retry?: Partial<RetryConfig>;
-    metrics?: Partial<MetricsConfig>;
+    cache?: Partial<CacheConfig>\n  );
+    retry?: Partial<RetryConfig>\n  );
+    metrics?: Partial<MetricsConfig>\n  );
   }) {
     if (config.cache) {
       this.cacheConfig = { ...this.cacheConfig, ...config.cache };
@@ -70,7 +66,7 @@ export class GraphQLClient {
     if (!cached) return null;
 
     const now = Date.now();
-    if (now - cached.timestamp > this.cacheConfig.ttl) {
+    if (now - cached.timestamp> this.cacheConfig.ttl) {
       this.cache.delete(key);
       return null;
     }
@@ -79,7 +75,7 @@ export class GraphQLClient {
   }
 
   private setCache<T>(key: string, data: T): void {
-    if (this.cache.size >= this.cacheConfig.maxSize) {
+    if (this.cache.size>= this.cacheConfig.maxSize) {
       const oldestKey = this.cache.keys().next().value;
       this.cache.delete(oldestKey);
     }
@@ -93,7 +89,7 @@ export class GraphQLClient {
     try {
       return await operation();
     } catch (error) {
-      if (attempt >= this.retryConfig.maxAttempts) {
+      if (attempt>= this.retryConfig.maxAttempts) {
         throw error;
       }
 
@@ -101,14 +97,14 @@ export class GraphQLClient {
         ? this.retryConfig.delay * Math.pow(2, attempt - 1)
         : this.retryConfig.delay;
 
-      await new Promise(resolve => setTimeout(resolve, delay));
+      await new Promise(resolve => setTimeout(resolvedelay));
       return this.retry(operation, attempt + 1);
     }
   }
 
   async query<T = unknown>(options: {
     query: string;
-    variables?: Record<string, unknown>;
+    variables?: Record<string, unknown>\n  );
     authMode?: 'userPool' | 'iam' | 'apiKey' | 'oidc';
     errorPolicy?: 'none' | 'all' | 'ignore';
     transform?: (data: unknown) => T;
@@ -120,43 +116,39 @@ export class GraphQLClient {
       operationType: 'query',
       operationName: this.getOperationName(query),
       variables,
-      timestamp: new Date().toISOString(),
-    };
+      timestamp: new Date().toISOString()};
 
     try {
       // Check cache first
-      const cacheKey = this.getCacheKey(query, variables);
+      const cacheKey = this.getCacheKey(queryvariables);
       const cachedData = await this.getFromCache<T>(cacheKey);
       if (cachedData) {
         this.logger.debug('Cache hit', { query, variables });
         return {
           data: cachedData,
           error: null,
-          context,
-        };
+          context};
       }
 
       const response = await this.retry(() =>
         this.client.graphql({
           query,
           variables,
-          authMode,
-        })
+          authMode})
       );
 
       const transformedData = transform ? transform(response.data) : response.data;
 
-      if (this.metricsConfig.enabled && Math.random() < this.metricsConfig.sampleRate) {
+      if (this.metricsConfig.enabled && Math.random() <this.metricsConfig.sampleRate) {
         this.metrics.recordQueryMetrics({
           operation: context.operationName,
           duration: performance.now() - startTime,
           success: true,
-          cacheHit: false,
-        });
+          cacheHit: false});
       }
 
       // Cache the result
-      this.setCache(cacheKey, transformedData);
+      this.setCache(cacheKeytransformedData);
 
       return createGraphQLResult(
         { ...response, data: transformedData },
@@ -167,16 +159,14 @@ export class GraphQLClient {
       this.logger.error('Query error', { error, query, variables });
       this.errorReporter.captureError(error, {
         query,
-        variables,
-      });
+        variables});
 
-      if (this.metricsConfig.enabled && Math.random() < this.metricsConfig.sampleRate) {
+      if (this.metricsConfig.enabled && Math.random() <this.metricsConfig.sampleRate) {
         this.metrics.recordQueryMetrics({
           operation: context.operationName,
           duration: performance.now() - startTime,
           success: false,
-          error,
-        });
+          error});
       }
 
       return createGraphQLResult(
@@ -188,7 +178,7 @@ export class GraphQLClient {
 
   async mutate<T = unknown>(options: {
     mutation: string;
-    variables?: Record<string, unknown>;
+    variables?: Record<string, unknown>\n  );
     authMode?: 'userPool' | 'iam' | 'apiKey' | 'oidc';
     optimisticResponse?: T;
     transform?: (data: unknown) => T;
@@ -200,26 +190,23 @@ export class GraphQLClient {
       operationType: 'mutation',
       operationName: this.getOperationName(mutation),
       variables,
-      timestamp: new Date().toISOString(),
-    };
+      timestamp: new Date().toISOString()};
 
     try {
       const response = await this.retry(() =>
         this.client.graphql({
           query: mutation,
           variables,
-          authMode,
-        })
+          authMode})
       );
 
       const transformedData = transform ? transform(response.data) : response.data;
 
-      if (this.metricsConfig.enabled && Math.random() < this.metricsConfig.sampleRate) {
+      if (this.metricsConfig.enabled && Math.random() <this.metricsConfig.sampleRate) {
         this.metrics.recordMutationMetrics({
           operation: context.operationName,
           duration: performance.now() - startTime,
-          success: true,
-        });
+          success: true});
       }
 
       // Invalidate related caches
@@ -234,16 +221,14 @@ export class GraphQLClient {
       this.logger.error('Mutation error', { error, mutation, variables });
       this.errorReporter.captureError(error, {
         mutation,
-        variables,
-      });
+        variables});
 
-      if (this.metricsConfig.enabled && Math.random() < this.metricsConfig.sampleRate) {
+      if (this.metricsConfig.enabled && Math.random() <this.metricsConfig.sampleRate) {
         this.metrics.recordMutationMetrics({
           operation: context.operationName,
           duration: performance.now() - startTime,
           success: false,
-          error,
-        });
+          error});
       }
 
       return createGraphQLResult(
@@ -255,7 +240,7 @@ export class GraphQLClient {
 
   async subscribe<T = unknown>(options: {
     subscription: string;
-    variables?: Record<string, unknown>;
+    variables?: Record<string, unknown>\n  );
     authMode?: 'userPool' | 'iam' | 'apiKey' | 'oidc';
     onData: (data: T) => void;
     onError: (error: Error) => void;
@@ -267,15 +252,13 @@ export class GraphQLClient {
       operationType: 'subscription',
       operationName: this.getOperationName(subscription),
       variables,
-      timestamp: new Date().toISOString(),
-    };
+      timestamp: new Date().toISOString()};
 
     try {
       const sub = this.client.graphql({
         query: subscription,
         variables,
-        authMode,
-      });
+        authMode});
 
       const unsubscribe = sub.subscribe({
         next: ({ data }: { data: unknown }) => {
@@ -286,11 +269,9 @@ export class GraphQLClient {
           this.logger.error('Subscription error', { error: err, subscription });
           this.errorReporter.captureError(err, {
             subscription,
-            variables,
-          });
+            variables});
           onError(err);
-        },
-      });
+        });
 
       return () => {
         unsubscribe.unsubscribe();
@@ -300,8 +281,7 @@ export class GraphQLClient {
       this.logger.error('Subscription setup error', { error, subscription });
       this.errorReporter.captureError(error, {
         subscription,
-        variables,
-      });
+        variables});
       throw error;
     }
   }

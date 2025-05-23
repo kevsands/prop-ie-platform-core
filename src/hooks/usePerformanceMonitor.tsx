@@ -1,0 +1,22 @@
+
+import { useEffect, useRef } from 'react';
+
+export const usePerformanceMonitor = (componentName: string) => {
+  const renderCount = useRef(0);
+  const renderStartTime = useRef(0);
+
+  useEffect(() => {
+    renderCount.current += 1;
+    const renderEndTime = performance.now();
+    const renderDuration = renderEndTime - renderStartTime.current;
+
+    if (renderCount.current> 1) {
+      }ms`);
+    }
+
+    renderStartTime.current = performance.now();
+  });
+
+  return {
+    renderCount: renderCount.current};
+};

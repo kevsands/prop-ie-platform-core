@@ -1,0 +1,426 @@
+'use client';
+
+import React from 'react';
+import Link from 'next/link';
+import Image from 'next/image';
+
+// Team member component
+const TeamMember = ({ 
+  name, 
+  role, 
+  bio, 
+  image 
+}: { 
+  name: string;
+  role: string;
+  bio: string;
+  image: string;
+}) => (
+  <div className="bg-white rounded-lg shadow-md overflow-hidden">
+    <div className="h-64 relative">
+      <Image 
+        src={image} 
+        alt={name} 
+        fill 
+        className="object-cover"
+        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+      />
+    </div>
+    <div className="p-6">
+      <h3 className="text-xl font-bold text-gray-900">{name}</h3>
+      <p className="text-[#2B5273] font-medium mb-3">{role}</p>
+      <p className="text-gray-600 text-sm">{bio}</p>
+    </div>
+  </div>
+);
+
+// Value card component
+const ValueCard = ({ 
+  icon, 
+  title, 
+  description 
+}: { 
+  icon: React.ReactNode;
+  title: string;
+  description: string;
+}) => (
+  <div className="bg-white p-6 rounded-lg shadow-md">
+    <div className="w-12 h-12 bg-blue-50 rounded-full flex items-center justify-center text-[#2B5273] mb-4">
+      {icon}
+    </div>
+    <h3 className="text-lg font-bold text-gray-900 mb-2">{title}</h3>
+    <p className="text-gray-600">{description}</p>
+  </div>
+);
+
+// Milestone component
+const Milestone = ({ 
+  year, 
+  title, 
+  description 
+}: { 
+  year: string;
+  title: string;
+  description: string;
+}) => (
+  <div className="flex">
+    <div className="flex-shrink-0 w-24 text-xl font-bold text-[#2B5273]">{year}</div>
+    <div className="flex-grow border-l-2 border-gray-200 pl-6 pb-8">
+      <h3 className="text-lg font-semibold text-gray-900 mb-1">{title}</h3>
+      <p className="text-gray-600">{description}</p>
+    </div>
+  </div>
+);
+
+export default function AboutPage() {
+  // Team members data
+  const teamMembers = [
+    {
+      name: 'Sarah O\'Sullivan',
+      role: 'Chief Executive Officer',
+      bio: 'Sarah has 20+ years of experience in property development and technology. Prior to founding PropIE, she led digital innovation at one of Ireland\'s largest property firms.',
+      image: '/images/team/ceo.jpg'
+    },
+    {
+      name: 'Michael Brennan',
+      role: 'Chief Technology Officer',
+      bio: 'Michael brings expertise in fintech and proptech, having previously built transaction systems for major European banks and property portals.',
+      image: '/images/team/cto.jpg'
+    },
+    {
+      name: 'Aidan Murphy',
+      role: 'Head of Property Development',
+      bio: 'With over 15 years in residential property development, Aidan oversees our relationships with developers and ensures quality standards across all listed developments.',
+      image: '/images/team/head-development.jpg'
+    },
+    {
+      name: 'Niamh Kelly',
+      role: 'Chief Financial Officer',
+      bio: 'Niamh\'s background in property investment and financial services helps guide PropIE\'s financial strategy and growth plans.',
+      image: '/images/team/cfo.jpg'
+    },
+    {
+      name: 'James O\'Brien',
+      role: 'Head of User Experience',
+      bio: 'James leads our design team, ensuring that PropIE delivers an intuitive and seamless experience for all users across the platform.',
+      image: '/images/team/head-ux.jpg'
+    },
+    {
+      name: 'Emma Thompson',
+      role: 'Head of Legal & Compliance',
+      bio: 'Emma\'s expertise in property law and regulatory compliance ensures that PropIE maintains the highest standards of legal integrity.',
+      image: '/images/team/head-legal.jpg'
+    }
+  ];
+  
+  // Company values
+  const values = [
+    {
+      icon: (
+        <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+        </svg>
+      ),
+      title: 'Trust & Transparency',
+      description: 'We believe in complete transparency in all property transactions, providing clear information that buyers and sellers can trust.'
+    },
+    {
+      icon: (
+        <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+        </svg>
+      ),
+      title: 'Innovation',
+      description: 'We continuously innovate to improve the property experience, using technology to solve real problems for all stakeholders.'
+    },
+    {
+      icon: (
+        <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+        </svg>
+      ),
+      title: 'Community',
+      description: 'We\'re building more than just a platform – we\'re creating a community where all property stakeholders can collaborate seamlessly.'
+    },
+    {
+      icon: (
+        <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+        </svg>
+      ),
+      title: 'Quality',
+      description: 'We maintain high standards for every property on our platform, ensuring buyers can make confident decisions with quality information.'
+    },
+    {
+      icon: (
+        <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+        </svg>
+      ),
+      title: 'Security',
+      description: 'We prioritize data security and privacy in every transaction, giving all users peace of mind throughout their property journey.'
+    },
+    {
+      icon: (
+        <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
+        </svg>
+      ),
+      title: 'Accessibility',
+      description: 'We believe property information should be accessible to everyone, regardless of their technical expertise or background.'
+    }
+  ];
+  
+  // Company milestones
+  const milestones = [
+    {
+      year: '2018',
+      title: 'Company Founded',
+      description: 'PropIE was founded with the vision of transforming Ireland\'s property ecosystem through technology.'
+    },
+    {
+      year: '2019',
+      title: 'First Platform Launch',
+      description: 'Launched our initial platform connecting property buyers directly with developers of new homes.'
+    },
+    {
+      year: '2020',
+      title: 'Virtual Viewing Technology',
+      description: 'In response to the pandemic, we pioneered virtual property viewings and remote transaction capabilities.'
+    },
+    {
+      year: '2021',
+      title: 'Legal Integration',
+      description: 'Added solicitor integration to streamline the conveyancing process for all parties.'
+    },
+    {
+      year: '2022',
+      title: 'Research Division',
+      description: 'Established our market research division to provide data-driven insights to property stakeholders.'
+    },
+    {
+      year: '2023',
+      title: 'Platform Expansion',
+      description: 'Expanded our platform to include full transaction management capabilities for all stakeholders.'
+    },
+    {
+      year: '2024',
+      title: 'PropIE 2.0 Launch',
+      description: 'Launched our completely redesigned platform with enhanced features, improved user experience, and AI-powered recommendations.'
+    }
+  ];
+
+  return (
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      {/* Breadcrumbs */}
+      <nav className="mb-6 text-sm">
+        <ol className="flex items-center space-x-2">
+          <li>
+            <Link href="/company" className="text-gray-500 hover:text-gray-700">
+              Company
+            </Link>
+          </li>
+          <li className="flex items-center">
+            <svg className="w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+          </li>
+          <li>
+            <span className="text-gray-900 font-medium">About Us</span>
+          </li>
+        </ol>
+      </nav>
+
+      {/* Hero Section */}
+      <div className="relative rounded-xl overflow-hidden mb-16">
+        <div className="absolute inset-0">
+          <Image 
+            src="/images/about/about-hero.jpg" 
+            alt="PropIE Team" 
+            fill 
+            className="object-cover"
+            priority
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#2B5273]/90 to-[#2B5273]/70"></div>
+        </div>
+        <div className="relative px-8 py-24 sm:px-12 sm:py-32 lg:py-40 lg:px-16">
+          <div className="max-w-3xl">
+            <h1 className="text-4xl font-bold tracking-tight text-white sm:text-5xl lg:text-6xl">
+              About PropIE
+            </h1>
+            <p className="mt-6 max-w-xl text-xl text-white/80">
+              We're building Ireland's most comprehensive property platform, connecting buyers, developers, 
+              agents, and solicitors to create a seamless property experience for everyone.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Our Mission Section */}
+      <div className="mb-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+          <div>
+            <h2 className="text-3xl font-bold text-gray-900 mb-6">Our Mission</h2>
+            <div className="prose max-w-none text-gray-600">
+              <p>
+                PropIE was founded with a simple but powerful mission: to transform the property buying and 
+                selling experience in Ireland through technology and transparency.
+              </p>
+              <p>
+                Our platform connects all stakeholders in the property ecosystem – buyers, developers, estate agents, 
+                and solicitors – within a single, seamless environment. By bringing everyone together, we're 
+                removing the traditional friction points that slow down transactions and cause frustration.
+              </p>
+              <p>
+                We believe that buying or selling property should be straightforward, transparent, and even enjoyable. 
+                Through innovative technology and a customer-first approach, we're making that vision a reality.
+              </p>
+            </div>
+          </div>
+          <div>
+            <div className="relative h-full min-h-[300px] rounded-lg overflow-hidden">
+              <Image 
+                src="/images/about/mission.jpg" 
+                alt="Our mission" 
+                fill 
+                className="object-cover" 
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Our Values Section */}
+      <div className="mb-16">
+        <h2 className="text-3xl font-bold text-gray-900 mb-6">Our Values</h2>
+        <p className="text-lg text-gray-600 max-w-3xl mb-8">
+          At PropIE, our values guide everything we do. They shape our product decisions, how we interact with our users, 
+          and how we build our team.
+        </p>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {values.map((value, index) => (
+            <ValueCard 
+              key={index}
+              icon={value.icon}
+              title={value.title}
+              description={value.description}
+            />
+          ))}
+        </div>
+      </div>
+
+      {/* Our Journey Section */}
+      <div className="mb-16">
+        <h2 className="text-3xl font-bold text-gray-900 mb-6">Our Journey</h2>
+        <p className="text-lg text-gray-600 max-w-3xl mb-8">
+          Since our founding, we've been on a mission to transform the property experience in Ireland. 
+          Here are some key milestones along our path.
+        </p>
+        <div className="space-y-6">
+          {milestones.map((milestone, index) => (
+            <Milestone 
+              key={index}
+              year={milestone.year}
+              title={milestone.title}
+              description={milestone.description}
+            />
+          ))}
+        </div>
+      </div>
+
+      {/* Our Team Section */}
+      <div className="mb-16">
+        <h2 className="text-3xl font-bold text-gray-900 mb-6">Our Leadership Team</h2>
+        <p className="text-lg text-gray-600 max-w-3xl mb-8">
+          PropIE is led by a team of professionals with deep expertise in property, technology, 
+          and customer experience.
+        </p>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {teamMembers.map((member, index) => (
+            <TeamMember 
+              key={index}
+              name={member.name}
+              role={member.role}
+              bio={member.bio}
+              image={member.image}
+            />
+          ))}
+        </div>
+      </div>
+
+      {/* Stats Section */}
+      <div className="mb-16 bg-gray-50 rounded-xl p-8">
+        <div className="max-w-7xl mx-auto">
+          <h2 className="text-2xl font-bold text-gray-900 text-center mb-8">PropIE in Numbers</h2>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+            <div>
+              <div className="text-4xl font-bold text-[#2B5273]">450+</div>
+              <div className="text-gray-600 mt-2">Active Developments</div>
+            </div>
+            <div>
+              <div className="text-4xl font-bold text-[#2B5273]">€1.2B+</div>
+              <div className="text-gray-600 mt-2">Transaction Value</div>
+            </div>
+            <div>
+              <div className="text-4xl font-bold text-[#2B5273]">85,000+</div>
+              <div className="text-gray-600 mt-2">Registered Users</div>
+            </div>
+            <div>
+              <div className="text-4xl font-bold text-[#2B5273]">98%</div>
+              <div className="text-gray-600 mt-2">Customer Satisfaction</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Partners Section */}
+      <div className="mb-16">
+        <h2 className="text-3xl font-bold text-gray-900 mb-6">Our Partners</h2>
+        <p className="text-lg text-gray-600 max-w-3xl mb-8">
+          We work with Ireland's leading property developers, estate agents, and legal firms to 
+          provide the best possible service to our users.
+        </p>
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-8">
+          {/* Partner logos would go here - using placeholders */}
+          {[1, 2, 3, 4, 5, 6].map((i) => (
+            <div key={i} className="h-20 bg-gray-100 rounded-md flex items-center justify-center">
+              <div className="text-gray-400 font-semibold">Partner {i}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* CTA Section */}
+      <div className="bg-[#2B5273] rounded-xl overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+            <div>
+              <h2 className="text-2xl font-bold text-white mb-4">Join Our Team</h2>
+              <p className="text-white/80 mb-6">
+                We're always looking for talented individuals who are passionate about transforming the property 
+                experience. Check out our open positions or send us your CV.
+              </p>
+              <Link 
+                href="/company/careers" 
+                className="inline-flex items-center px-6 py-3 bg-white text-[#2B5273] rounded-md font-medium hover:bg-gray-100 transition-colors"
+              >
+                View Careers
+                <svg className="ml-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                  <path fillRule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
+                </svg>
+              </Link>
+            </div>
+            <div className="relative h-64">
+              <Image 
+                src="/images/about/join-team.jpg" 
+                alt="Join our team" 
+                fill 
+                className="object-cover rounded-lg" 
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+} 

@@ -1,0 +1,179 @@
+{
+  "priority1_critical": {
+    "description": "Files with comma syntax errors - can be fixed automatically",
+    "estimatedTime": "5 minutes",
+    "files": [
+      {
+        "path": "src/features/security/DataEncryptionService.tsx",
+        "errors": 197,
+        "severity": "critical",
+        "autoFixable": true
+      },
+      {
+        "path": "src/app/register/professional/page.tsx",
+        "errors": 196,
+        "severity": "critical",
+        "autoFixable": true
+      },
+      {
+        "path": "src/features/compliance/ComplianceDashboard.tsx",
+        "errors": 160,
+        "severity": "critical",
+        "autoFixable": true
+      },
+      {
+        "path": "src/services/development-service.ts",
+        "errors": 155,
+        "severity": "critical",
+        "autoFixable": true
+      },
+      {
+        "path": "src/lib/graphql/resolvers/development.ts",
+        "errors": 130,
+        "severity": "critical",
+        "autoFixable": true
+      },
+      {
+        "path": "src/features/security/RuntimeSecurityMonitor.tsx",
+        "errors": 128,
+        "severity": "critical",
+        "autoFixable": true
+      },
+      {
+        "path": "src/services/realtime/RealtimeEngine.ts",
+        "errors": 91,
+        "severity": "critical",
+        "autoFixable": true
+      },
+      {
+        "path": "src/lib/developer-platform/index.ts",
+        "errors": 89,
+        "severity": "critical",
+        "autoFixable": true
+      },
+      {
+        "path": "src/lib/transaction-engine/snagging-system.ts",
+        "errors": 54,
+        "severity": "critical",
+        "autoFixable": true
+      },
+      {
+        "path": "src/lib/supplierApi.ts",
+        "errors": 51,
+        "severity": "critical",
+        "autoFixable": true
+      },
+      {
+        "path": "src/features/security/AccessControlManagement.tsx",
+        "errors": 41,
+        "severity": "critical",
+        "autoFixable": true
+      },
+      {
+        "path": "src/lib/transaction-engine/handover-system.ts",
+        "errors": 32,
+        "severity": "critical",
+        "autoFixable": true
+      }
+    ]
+  },
+  "priority2_high": {
+    "description": "Files with JSX syntax errors requiring manual review",
+    "estimatedTime": "2-3 hours",
+    "files": [
+      {
+        "path": "src/components/dashboard/ProjectOverview.tsx",
+        "errors": 143,
+        "severity": "high",
+        "mainIssues": ["JSX closing tags", "HTML entities"]
+      },
+      {
+        "path": "src/app/developer/dashboard/page.tsx",
+        "errors": 85,
+        "severity": "high",
+        "mainIssues": ["JSX syntax", "Component structure"]
+      },
+      {
+        "path": "src/components/navigation/NextGenNavigation.tsx",
+        "errors": 78,
+        "severity": "high",
+        "mainIssues": ["JSX closing tags"]
+      },
+      {
+        "path": "src/app/developer/onboarding/page.tsx",
+        "errors": 65,
+        "severity": "high",
+        "mainIssues": ["JSX structure", "Async components"]
+      },
+      {
+        "path": "src/app/developer/developments/[id]/page.tsx",
+        "errors": 54,
+        "severity": "high",
+        "mainIssues": ["Dynamic route types", "JSX"]
+      }
+    ]
+  },
+  "priority3_medium": {
+    "description": "Files with moderate errors - mostly syntax issues",
+    "estimatedTime": "1-2 hours",
+    "files": [
+      {
+        "path": "src/lib/collaboration/collaboration-engine.ts",
+        "errors": 32,
+        "severity": "medium",
+        "mainIssues": ["Missing semicolons", "Type annotations"]
+      },
+      {
+        "path": "src/app/test-all-features/page.tsx",
+        "errors": 28,
+        "severity": "medium",
+        "mainIssues": ["Test component structure"]
+      },
+      {
+        "path": "src/components/property/PropertyDetail.tsx",
+        "errors": 24,
+        "severity": "medium",
+        "mainIssues": ["Props typing", "Event handlers"]
+      },
+      {
+        "path": "src/hooks/usePropertyAlerts.ts",
+        "errors": 18,
+        "severity": "medium",
+        "mainIssues": ["Hook dependencies", "Return types"]
+      }
+    ]
+  },
+  "batchFixStrategies": [
+    {
+      "strategy": "Comma Syntax Auto-Fix",
+      "command": "node fix-comma-syntax-errors.js",
+      "impact": "Fixes ~500-800 errors across 12 files",
+      "risk": "low"
+    },
+    {
+      "strategy": "ESLint Auto-Fix",
+      "command": "npx eslint . --fix --ext .ts,.tsx",
+      "impact": "Fixes basic syntax issues (semicolons, quotes)",
+      "risk": "low"
+    },
+    {
+      "strategy": "Prettier Format",
+      "command": "npx prettier --write \"src/**/*.{ts,tsx}\"",
+      "impact": "Consistent formatting, may fix some syntax errors",
+      "risk": "medium"
+    },
+    {
+      "strategy": "TSC Strict Mode",
+      "command": "Update tsconfig.json with incremental strict checks",
+      "impact": "Catches type errors early",
+      "risk": "high"
+    }
+  ],
+  "metrics": {
+    "totalErrors": 2425,
+    "autoFixableErrors": 1224,
+    "manualFixRequired": 1201,
+    "estimatedTotalTime": "6-10 hours",
+    "recommendedApproach": "Fix in priority order, test after each phase"
+  }
+}

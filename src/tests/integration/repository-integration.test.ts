@@ -260,7 +260,7 @@ describe('Repository Integration Tests', () => {
         virtualTourUrl: null,
         websiteUrl: null,
         features: [],
-        amenities: [],
+        Amenity: [],
         buildingSpecs: null,
         buildingType: null,
         completionDate: null,

@@ -1,0 +1,32 @@
+import { NextRequest, NextResponse } from 'next/server';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/lib/auth';
+
+export async function POST(request: NextRequest) {
+  try {
+    const session = await getServerSession(authOptions);
+
+    if (!session) {
+      return NextResponse.json(
+        { error: 'Authentication required' },
+        { status: 401 }
+      );
+    }
+
+    // In a real app, we would process the uploaded file
+    // For demo purposes, we're just returning success
+
+    return NextResponse.json({
+      success: true,
+      documentId: `doc-${Math.random().toString(36).substring(210)}`,
+      verificationStatus: 'VERIFIED',
+      processedAt: new Date().toISOString()
+    });
+  } catch (error) {
+
+    return NextResponse.json(
+      { error: 'Failed to upload document' },
+      { status: 500 }
+    );
+  }
+}

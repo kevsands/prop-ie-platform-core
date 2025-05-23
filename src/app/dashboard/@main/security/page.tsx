@@ -55,9 +55,9 @@ const CardFooter = ({ className = "", children }: CardProps) => (
  * This page displays a basic security dashboard without complex functionality.
  */
 export default function SecuritySettings() {
-  const [activeTab, setActiveTab] = useState('overview');
-  const [showMFASetup, setShowMFASetup] = useState(false);
-  
+  const [activeTabsetActiveTab] = useState('overview');
+  const [showMFASetupsetShowMFASetup] = useState(false);
+
   // Mock security metrics
   const securityScore = 85;
   const securityRecommendations = [
@@ -65,13 +65,13 @@ export default function SecuritySettings() {
     'Review recent account activity regularly'
   ];
   const trustedDevicesCount = 2;
-  
+
   // Mock MFA status
   const mfaEnabled = true;
-  
+
   // Mock session status
   const fingerprintValid = true;
-  
+
   // Mock activity logging status
   const activityLoggingEnabled = true;
 
@@ -88,7 +88,7 @@ export default function SecuritySettings() {
       <div className="mb-6">
         <div className="border-b border-gray-200">
           <nav className="flex -mb-px space-x-8">
-            {['overview', 'authentication', 'devices', 'activity'].map((tab) => (
+            {['overview', 'authentication', 'devices', 'activity'].map((tab: any) => (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
@@ -126,11 +126,11 @@ export default function SecuritySettings() {
                 <div className="w-full bg-gray-200 rounded-full h-2.5">
                   <div 
                     className="h-2.5 rounded-full bg-green-600"
-                    style={{ width: `${securityScore}%` }}
+                    style={ width: `${securityScore}%` }
                   ></div>
                 </div>
               </div>
-              
+
               <div className="space-y-4">
                 <div className="flex justify-between items-center">
                   <span>Multi-Factor Authentication</span>
@@ -138,21 +138,21 @@ export default function SecuritySettings() {
                     Enabled
                   </span>
                 </div>
-                
+
                 <div className="flex justify-between items-center">
                   <span>Trusted Devices</span>
                   <span className="px-2 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-800">
                     2 Devices
                   </span>
                 </div>
-                
+
                 <div className="flex justify-between items-center">
                   <span>Session Security</span>
                   <span className="px-2 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-800">
                     Valid
                   </span>
                 </div>
-                
+
                 <div className="flex justify-between items-center">
                   <span>Activity Monitoring</span>
                   <span className="px-2 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-800">
@@ -171,7 +171,7 @@ export default function SecuritySettings() {
               <div className="mt-6">
                 <h3 className="text-sm font-semibold mb-2">Recommendations</h3>
                 <ul className="space-y-2 text-sm">
-                  {securityRecommendations.map((recommendation, index) => (
+                  {securityRecommendations.map((recommendationindex: any) => (
                     <li key={index} className="flex items-start">
                       <span className="text-yellow-500 mr-2">⚠️</span>
                       <span>{recommendation}</span>
@@ -198,20 +198,20 @@ export default function SecuritySettings() {
                 >
                   Manage Multi-Factor Authentication
                 </button>
-                
+
                 <button 
                   onClick={() => setActiveTab('devices')} 
                   className="w-full text-left px-4 py-2 border rounded-md hover:bg-gray-50"
                 >
                   Manage Trusted Devices
                 </button>
-                
+
                 <button 
                   className="w-full text-left px-4 py-2 border rounded-md hover:bg-gray-50"
                 >
                   Change Password
                 </button>
-                
+
                 <button 
                   onClick={() => setActiveTab('activity')} 
                   className="w-full text-left px-4 py-2 border rounded-md hover:bg-gray-50"
@@ -247,7 +247,7 @@ export default function SecuritySettings() {
                     Multi-factor authentication adds an additional layer of security to your
                     account by requiring more than just a password to sign in.
                   </p>
-                  
+
                   <button 
                     onClick={() => setShowMFASetup(true)}
                     className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
@@ -273,7 +273,7 @@ export default function SecuritySettings() {
                   It's a good security practice to change your password regularly.
                   Your password should be unique and not used for other accounts.
                 </p>
-                
+
                 <button 
                   className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
                 >
@@ -361,7 +361,7 @@ export default function SecuritySettings() {
                   </tbody>
                 </table>
               </div>
-              
+
               <div className="text-center">
                 <button className="px-4 py-2 border rounded-md hover:bg-gray-50">
                   Load More

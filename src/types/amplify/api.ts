@@ -13,13 +13,13 @@ export interface GraphQLOptions {
   /** The GraphQL query or mutation string */
   query: string;
   /** Variables for the GraphQL operation */
-  variables?: Record<string, any>;
+  variables?: Record<string, any>\n  );
   /** Optional operation name */
   operationName?: string | null;
   /** Authentication mode for the GraphQL operation */
   authMode?: 'apiKey' | 'userPool' | 'iam' | 'oidc' | 'lambda';
   /** Additional headers to include with the request */
-  headers?: Record<string, string>;
+  headers?: Record<string, string>\n  );
   /** Caching options for the GraphQL operation */
   cacheOptions?: {
     /** Time to live in milliseconds */
@@ -40,9 +40,9 @@ export interface RestOptions {
   /** Request body for POST, PUT, PATCH methods */
   body?: any;
   /** Headers to include with the request */
-  headers?: Record<string, string>;
+  headers?: Record<string, string>\n  );
   /** Query parameters for the request */
-  queryParams?: Record<string, string | number | boolean | null | undefined>;
+  queryParams?: Record<string, string | number | boolean | null | undefined>\n  );
   /** Caching options for the REST operation */
   cacheOptions?: {
     /** Time to live in milliseconds */
@@ -63,11 +63,11 @@ export interface GraphQLError {
   /** Error message */
   message: string;
   /** Locations in the GraphQL document where the error occurred */
-  locations?: Array<{ line: number; column: number }>;
+  locations?: Array<{ line: number; column: number }>\n  );
   /** Path in the GraphQL response where the error occurred */
-  path?: Array<string | number>;
+  path?: Array<string | number>\n  );
   /** Additional error information */
-  extensions?: Record<string, any>;
+  extensions?: Record<string, any>\n  );
 }
 
 /**
@@ -79,7 +79,7 @@ export interface GraphQLResult<T = Record<string, any>> {
   /** Errors that occurred during the GraphQL operation */
   errors?: GraphQLError[];
   /** Additional metadata */
-  extensions?: Record<string, any>;
+  extensions?: Record<string, any>\n  );
 }
 
 /**

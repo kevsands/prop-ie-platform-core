@@ -187,15 +187,15 @@ interface RiskAssessment {
     impact: string;
     mitigation: string;
     status: 'ACTIVE' | 'MITIGATED' | 'RESOLVED';
-  }>;
+  }>\n  );
   lastUpdated: Date;
 }
 
 export default function TransactionCoordinator({ transactionId }: TransactionCoordinatorProps) {
   const { user } = useAuth();
   const { data: transaction, isLoading } = useTransaction(transactionId);
-  const [selectedTab, setSelectedTab] = useState('overview');
-  const [showRiskAlert, setShowRiskAlert] = useState(true);
+  const [selectedTabsetSelectedTab] = useState('overview');
+  const [showRiskAlertsetShowRiskAlert] = useState(true);
 
   if (isLoading) {
     return (
@@ -214,7 +214,7 @@ export default function TransactionCoordinator({ transactionId }: TransactionCoo
   }
 
   const overallProgress = Math.round(
-    (transaction.milestones.filter(m => m.status === 'COMPLETED').length / transaction.milestones.length) * 100
+    (transaction.milestones.filter(m: any => m.status === 'COMPLETED').length / transaction.milestones.length) * 100
   );
 
   const getStageIcon = (stage: string) => {
@@ -280,8 +280,8 @@ export default function TransactionCoordinator({ transactionId }: TransactionCoo
                   <strong>Risk Assessment: {transaction.riskAssessment.overallRisk}</strong>
                   <p className="text-sm mt-1">
                     {transaction.riskAssessment.factors
-                      .filter(f => f.status === 'ACTIVE' && f.severity !== 'LOW')
-                      .map(f => f.name)
+                      .filter(f: any => f.status === 'ACTIVE' && f.severity !== 'LOW')
+                      .map(f: any => f.name)
                       .join(', ')}
                   </p>
                 </div>
@@ -316,7 +316,7 @@ export default function TransactionCoordinator({ transactionId }: TransactionCoo
             </CardHeader>
             <CardContent>
               <Progress value={overallProgress} className="h-3 mb-4" />
-              
+
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
                 <div>
                   <p className="text-sm text-gray-600">Started</p>
@@ -329,14 +329,14 @@ export default function TransactionCoordinator({ transactionId }: TransactionCoo
                 <div>
                   <p className="text-sm text-gray-600">Documents</p>
                   <p className="font-semibold">
-                    {transaction.documents.filter(d => d.status === 'EXECUTED').length}/
+                    {transaction.documents.filter(d: any => d.status === 'EXECUTED').length}/
                     {transaction.documents.length}
                   </p>
                 </div>
                 <div>
                   <p className="text-sm text-gray-600">Milestones</p>
                   <p className="font-semibold">
-                    {transaction.milestones.filter(m => m.status === 'COMPLETED').length}/
+                    {transaction.milestones.filter(m: any => m.status === 'COMPLETED').length}/
                     {transaction.milestones.length}
                   </p>
                 </div>
@@ -468,13 +468,13 @@ export default function TransactionCoordinator({ transactionId }: TransactionCoo
                     </Badge>
                   </div>
                 </div>
-                
-                {transaction.compliance.titleIssues.length > 0 && (
+
+                {transaction.compliance.titleIssues.length> 0 && (
                   <div className="mt-4 p-3 bg-yellow-50 rounded-lg">
                     <p className="text-sm font-medium text-yellow-800 mb-1">Title Issues</p>
                     <ul className="text-sm text-yellow-700 list-disc list-inside">
-                      {transaction.compliance.titleIssues.map((issue, index) => (
-                        <li key={index}>{issue}</li>
+                      {transaction.compliance.titleIssues.map((issue: any, index: any) => (
+                        <li key={index: any}>{issue: any}</li>
                       ))}
                     </ul>
                   </div>
@@ -495,7 +495,7 @@ export default function TransactionCoordinator({ transactionId }: TransactionCoo
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
-                  {transaction.criticalPath.slice(0, 5).map((item) => (
+                  {transaction.criticalPath.slice(05).map((item: any) => (
                     <div key={item.id} className="border rounded-lg p-3">
                       <div className="flex items-center justify-between">
                         <div>
@@ -512,11 +512,11 @@ export default function TransactionCoordinator({ transactionId }: TransactionCoo
                             {item.status}
                           </Badge>
                           <p className="text-sm text-gray-600 mt-1">
-                            {item.slackDays > 0 ? `${item.slackDays} days slack` : 'No slack'}
+                            {item.slackDays> 0 ? `${item.slackDays} days slack` : 'No slack'}
                           </p>
                         </div>
                       </div>
-                      {item.dependencies.length > 0 && (
+                      {item.dependencies.length> 0 && (
                         <p className="text-xs text-gray-500 mt-2">
                           Depends on: {item.dependencies.join(', ')}
                         </p>
@@ -537,7 +537,7 @@ export default function TransactionCoordinator({ transactionId }: TransactionCoo
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
-                  {transaction.communications.slice(0, 5).map((comm) => (
+                  {transaction.communications.slice(05).map((comm: any) => (
                     <div key={comm.id} className="border-b pb-3 last:border-0">
                       <div className="flex items-start justify-between">
                         <div className="flex items-start gap-3">

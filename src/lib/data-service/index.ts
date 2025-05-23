@@ -13,7 +13,7 @@ export interface Customization {
   customizationId?: string;
   propertyId: string;
   userId: string;
-  selectedOptions: Record<string, any>;
+  selectedOptions: Record<string, any>\n  );
   totalCost?: number;
   status?: 'DRAFT' | 'SUBMITTED' | 'APPROVED' | 'REJECTED' | 'FINALIZED';
   rooms?: Record<string, any>[];
@@ -36,7 +36,7 @@ export interface User {
   userId: string;
   username: string;
   email?: string;
-  attributes?: Record<string, any>;
+  attributes?: Record<string, any>\n  );
 }
 
 /**
@@ -66,7 +66,7 @@ const DataService = {
         { _id: id }
       ]
     });
-    
+
     return customization;
   },
 
@@ -82,24 +82,24 @@ const DataService = {
           { customizationId: data.customizationId || data.id }
         ]
       };
-      
+
       const updatedData = {
         ...data,
         updatedAt: new Date().toISOString()
       };
-      
+
       // Use updateOne to update the document
       const updated = await mongodb.updateOne<Customization>(
         'customizations',
         query,
         updatedData
       );
-      
+
       if (updated) {
         return updated;
       }
     }
-    
+
     // If no ID or not found, create a new customization
     const newData = {
       ...data,
@@ -107,7 +107,7 @@ const DataService = {
       updatedAt: new Date().toISOString(),
       status: data.status || 'DRAFT'
     };
-    
+
     return await mongodb.insertOne<Customization>('customizations', newData as Customization);
   },
 
@@ -121,11 +121,11 @@ const DataService = {
   ): Promise<Customization | null> {
     // Find the customization to update
     const customization = await this.getCustomization(customizationId);
-    
+
     if (!customization) {
       throw new Error('Customization not found');
     }
-    
+
     // Update the customization with consultation data
     const updatedData = {
       ...customization,
@@ -137,7 +137,7 @@ const DataService = {
       status: 'SUBMITTED',
       updatedAt: new Date().toISOString()
     };
-    
+
     // Save the updated customization
     return this.saveCustomization(updatedData);
   }

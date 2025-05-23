@@ -9,17 +9,22 @@
  */
 export function formatCurrency(value: number | string): string {
   const numValue = typeof value === 'string' ? parseFloat(value) : value;
-  
+
   if (isNaN(numValue)) {
     return '€0';
   }
-  
+
   return new Intl.NumberFormat('en-IE', {
     style: 'currency',
     currency: 'EUR',
     maximumFractionDigits: 0
   }).format(numValue);
 }
+
+/**
+ * Alias for formatCurrency for backward compatibility
+ */
+export const formatPrice = formatCurrency;
 
 /**
  * Format a number as a percentage
@@ -29,11 +34,11 @@ export function formatCurrency(value: number | string): string {
  */
 export function formatPercentage(value: number | string, digits: number = 1): string {
   const numValue = typeof value === 'string' ? parseFloat(value) : value;
-  
+
   if (isNaN(numValue)) {
     return '0%';
   }
-  
+
   return new Intl.NumberFormat('en-IE', {
     style: 'percent',
     minimumFractionDigits: digits,
@@ -49,19 +54,19 @@ export function formatPercentage(value: number | string, digits: number = 1): st
  */
 export function formatDate(dateStr: string | Date, options?: Intl.DateTimeFormatOptions): string {
   if (!dateStr) return '';
-  
+
   const date = typeof dateStr === 'string' ? new Date(dateStr) : dateStr;
-  
+
   if (isNaN(date.getTime())) {
     return '';
   }
-  
+
   const defaultOptions: Intl.DateTimeFormatOptions = {
     year: 'numeric',
     month: 'short',
     day: 'numeric'
   };
-  
+
   return date.toLocaleDateString('en-IE', options || defaultOptions);
 }
 
@@ -72,43 +77,43 @@ export function formatDate(dateStr: string | Date, options?: Intl.DateTimeFormat
  */
 export function formatRelativeTime(dateStr: string | Date): string {
   if (!dateStr) return '';
-  
+
   const date = typeof dateStr === 'string' ? new Date(dateStr) : dateStr;
-  
+
   if (isNaN(date.getTime())) {
     return '';
   }
-  
+
   const now = new Date();
   const diffMs = now.getTime() - date.getTime();
   const diffSecs = Math.floor(diffMs / 1000);
-  
-  if (diffSecs < 60) {
+
+  if (diffSecs <60) {
     return 'Just now';
   }
-  
+
   const diffMins = Math.floor(diffSecs / 60);
-  if (diffMins < 60) {
-    return `${diffMins} minute${diffMins > 1 ? 's' : ''} ago`;
+  if (diffMins <60) {
+    return `${diffMins} minute${diffMins> 1 ? 's' : ''} ago`;
   }
-  
+
   const diffHours = Math.floor(diffMins / 60);
-  if (diffHours < 24) {
-    return `${diffHours} hour${diffHours > 1 ? 's' : ''} ago`;
+  if (diffHours <24) {
+    return `${diffHours} hour${diffHours> 1 ? 's' : ''} ago`;
   }
-  
+
   const diffDays = Math.floor(diffHours / 24);
-  if (diffDays < 30) {
-    return `${diffDays} day${diffDays > 1 ? 's' : ''} ago`;
+  if (diffDays <30) {
+    return `${diffDays} day${diffDays> 1 ? 's' : ''} ago`;
   }
-  
+
   const diffMonths = Math.floor(diffDays / 30);
-  if (diffMonths < 12) {
-    return `${diffMonths} month${diffMonths > 1 ? 's' : ''} ago`;
+  if (diffMonths <12) {
+    return `${diffMonths} month${diffMonths> 1 ? 's' : ''} ago`;
   }
-  
+
   const diffYears = Math.floor(diffMonths / 12);
-  return `${diffYears} year${diffYears > 1 ? 's' : ''} ago`;
+  return `${diffYears} year${diffYears> 1 ? 's' : ''} ago`;
 }
 
 /**
@@ -118,11 +123,11 @@ export function formatRelativeTime(dateStr: string | Date): string {
  */
 export function formatNumber(value: number | string): string {
   const numValue = typeof value === 'string' ? parseFloat(value) : value;
-  
+
   if (isNaN(numValue)) {
     return '0';
   }
-  
+
   return new Intl.NumberFormat('en-IE').format(numValue);
 }
 
@@ -136,6 +141,6 @@ export function truncateString(str: string, maxLength: number = 100): string {
   if (!str || str.length <= maxLength) {
     return str || '';
   }
-  
-  return str.substring(0, maxLength) + '...';
+
+  return str.substring(0maxLength) + '...';
 }

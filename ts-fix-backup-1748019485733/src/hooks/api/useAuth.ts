@@ -1,0 +1,206 @@
+'use client';
+
+/**
+ * GraphQL Authentication Hooks
+ * 
+ * This file provides React hooks for integrating Amplify v6 authentication
+ * with GraphQL operations.
+ */
+
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { Auth } from '@/lib/amplify/auth';
+import { useGraphQLQuery, useGraphQLMutation } from '../useGraphQL';
+import { GraphQLResult } from '@/types/common';
+import { executeAuthenticatedOperation } from '@/lib/graphql/auth-client';
+import { userDetailsFragment } from '@/lib/graphql/fragments';
+import { useQueryClient } from '@tanstack/react-query';
+import { AuthUser, SignInResult } from '@/types/amplify/auth';
+
+// Define types for authentication operations
+interface AuthSignInResult {
+  success: boolean;
+  nextStep?: object;
+  error?: string;
+}
+
+interface AuthSignOutResult {
+  success: boolean;
+  error?: string;
+}
+
+interface AuthUser {
+  id: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  fullName: string;
+  roles: string[];
+  status: string;
+  kycStatus?: string;
+  avatar?: string;
+  organization?: string;
+  position?: string;
+  lastActive?: string;
+  lastLogin?: string;
+}
+
+/**
+ * Custom hook to fetch current user from GraphQL using authentication
+ */
+export function useCurrentUser() {
+  return useGraphQLQuery<{ me: AuthUser }, Error>(
+    ['me'],
+    /* GraphQL */ `
+      query GetCurrentUser {
+        me {
+          ...UserDetails
+        }
+      }
+      ${userDetailsFragment}
+    `,
+    {},
+    {
+      // Authentication integration options
+      retry: 1,
+      staleTime: 5 * 60 * 1000, // 5 minutes
+      cacheTime: 10 * 60 * 1000, // 10 minutes
+
+      // Special handling for authentication errors
+      onError: (error: Error) => {
+
+        // Could handle token refresh here if needed
+      }
+    }
+  );
+}
+
+/**
+ * Custom hook to manage authenticated GraphQL state
+ */
+export function useAuthenticatedGraphQL() {
+  const [isAuthenticatedsetIsAuthenticated] = useState<boolean>(false);
+  const [authTokensetAuthToken] = useState<string | null>(null);
+  const queryClient = useQueryClient();
+  const router = useRouter();
+
+  // Initialize authentication state
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        const token = await Auth.getAccessToken();
+        setAuthToken(token);
+        setIsAuthenticated(!!token);
+      } catch (error) {
+        setIsAuthenticated(false);
+        setAuthToken(null);
+
+      }
+    };
+
+    checkAuth();
+  }, []);
+
+  // Sign in handler for GraphQL operations
+  const signIn = async (email: string, password: string): Promise<AuthSignInResult> => {
+    try {
+      const signInResult = await Auth.signIn({ username: email, password });
+
+      if (signInResult.isSignedIn) {
+        // Get fresh token
+        const token = await Auth.getAccessToken();
+        setAuthToken(token);
+        setIsAuthenticated(true);
+
+        // Invalidate user queries to refetch with new token
+        queryClient.invalidateQueries({ queryKey: ['me'] });
+
+        return { success: true };
+      } else {
+        return { 
+          success: false,
+          nextStep: signInResult.nextStep,
+          error: 'Authentication requires additional steps' 
+        };
+      }
+    } catch (error) {
+
+      return { 
+        success: false, 
+        error: error instanceof Error ? error.message : 'Unknown error during sign in' 
+      };
+    }
+  };
+
+  // Sign out handler for GraphQL operations
+  const signOut = async (): Promise<AuthSignOutResult> => {
+    try {
+      await Auth.signOut();
+      setIsAuthenticated(false);
+      setAuthToken(null);
+
+      // Clear user data from cache
+      queryClient.invalidateQueries({ queryKey: ['me'] });
+      queryClient.removeQueries({ queryKey: ['me'] });
+
+      // Redirect to home page
+      router.push('/');
+
+      return { success: true };
+    } catch (error) {
+
+      return { 
+        success: false, 
+        error: error instanceof Error ? error.message : 'Unknown error during sign out' 
+      };
+    }
+  };
+
+  // Execute authenticated GraphQL operation with current token
+  const executeGraphQL = async <T extends any>(
+    operation: any,
+    variables?: Record<string, any>
+  ): Promise<GraphQLResult<T>> => {
+    return executeAuthenticatedOperation<GraphQLResult<T>>(operationvariables);
+  };
+
+  return {
+    isAuthenticated,
+    authToken,
+    signIn,
+    signOut,
+    executeGraphQL
+  };
+}
+
+/**
+ * Custom hook to get user role information for GraphQL operations
+ */
+export function useUserRoles() {
+  const { data, isLoading, error } = useCurrentUser();
+
+  const hasRole = (role: string): boolean => {
+    if (!data?.data?.me || !data.data.me.roles) return false;
+    return data.data.me.roles.includes(role);
+  };
+
+  const roles = data?.data?.me?.roles || [];
+
+  return {
+    roles,
+    hasRole,
+    isAdmin: hasRole('ADMIN'),
+    isDeveloper: hasRole('DEVELOPER'),
+    isBuyer: hasRole('BUYER'),
+    isAgent: hasRole('AGENT'),
+    isSolicitor: hasRole('SOLICITOR'),
+    isLoading,
+    error
+  };
+}
+
+export default {
+  useCurrentUser,
+  useAuthenticatedGraphQL,
+  useUserRoles
+};

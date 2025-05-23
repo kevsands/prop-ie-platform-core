@@ -15,7 +15,7 @@ const Mission = () => {
       }
     }
   };
-  
+
   const itemVariants = {
     hidden: { opacity: 0, y: 20 },
     visible: { 
@@ -32,7 +32,7 @@ const Mission = () => {
           className="max-w-4xl mx-auto text-center"
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
+          viewport={ once: true, margin: "-100px" }
           variants={containerVariants}
         >
           <motion.div variants={itemVariants}>
@@ -41,17 +41,17 @@ const Mission = () => {
               Revolutionizing Property Development in Ireland
             </h3>
           </motion.div>
-          
+
           <motion.p variants={itemVariants} className="text-lg text-gray-600 mb-8 leading-relaxed">
             At Prop, we're on a mission to transform how people experience property development and purchasing. 
             By combining innovative technology with deep industry expertise, we create seamless, transparent 
             processes that put buyers at the center of their journey.
           </motion.p>
-          
+
           <motion.div variants={itemVariants} className="flex justify-center items-center">
             <div className="h-0.5 w-16 bg-blue-600"></div>
           </motion.div>
-          
+
           <motion.div variants={itemVariants} className="mt-10 grid md:grid-cols-2 gap-8">
             <div className="bg-gray-50 p-8 rounded-lg">
               <h4 className="text-xl font-bold mb-4 text-gray-900">For Property Buyers</h4>
@@ -60,7 +60,7 @@ const Mission = () => {
                 property purchase journey, from exploration to customization and beyond.
               </p>
             </div>
-            
+
             <div className="bg-gray-50 p-8 rounded-lg">
               <h4 className="text-xl font-bold mb-4 text-gray-900">For Developers</h4>
               <p className="text-gray-600">

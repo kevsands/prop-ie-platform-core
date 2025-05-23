@@ -14,25 +14,20 @@ interface TestData {
 const columns: ColumnDef<TestData>[] = [
   {
     accessorKey: 'name',
-    header: 'Name',
-  },
+    header: 'Name'},
   {
     accessorKey: 'email',
-    header: 'Email',
-  },
+    header: 'Email'},
   {
     accessorKey: 'status',
-    header: 'Status',
-  },
-];
+    header: 'Status'}];
 
 const testData = generateTestData<TestData>(
   {
     id: '1',
     name: 'John Doe',
     email: 'john@example.com',
-    status: 'Active',
-  },
+    status: 'Active'},
   10
 );
 
@@ -58,10 +53,7 @@ describe('DataTable Toolbar', () => {
         title: 'Status',
         options: [
           { id: 'active', label: 'Active', value: 'active' },
-          { id: 'inactive', label: 'Inactive', value: 'inactive' },
-        ],
-      },
-    ];
+          { id: 'inactive', label: 'Inactive', value: 'inactive' }]}];
     
     render(
       <DataTable

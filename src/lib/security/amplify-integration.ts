@@ -36,7 +36,7 @@ export function initializeSecurityAmplifyIntegration() {
   Hub.listen('auth', (message: HubCallback) => {
     // Handle auth events for security tracking
     const event = message.payload.event as HubAuthEvent;
-    
+
     switch (event) {
       case 'signIn':
         AuditLogger.logAuth(
@@ -45,15 +45,15 @@ export function initializeSecurityAmplifyIntegration() {
           'User signed in successfully',
           { method: message.payload.data?.method || 'username_password' }
         );
-        
+
         // Generate new session fingerprint on sign in
         if (env.featureFlags.enableSessionFingerprinting) {
           SessionFingerprint.generate().catch(error => {
-            console.error('Failed to generate session fingerprint:', error);
+
           });
         }
         break;
-        
+
       case 'signOut':
         AuditLogger.logAuth(
           'user_sign_out', 
@@ -61,7 +61,7 @@ export function initializeSecurityAmplifyIntegration() {
           'User signed out'
         );
         break;
-        
+
       case 'tokenRefresh':
         AuditLogger.logAuth(
           'token_refresh', 
@@ -69,15 +69,15 @@ export function initializeSecurityAmplifyIntegration() {
           'Auth token refreshed',
           { automatic: true }
         );
-        
+
         // Validate session fingerprint on token refresh
         if (env.featureFlags.enableSessionFingerprinting) {
           SessionFingerprint.validate().catch((error: Error) => {
-            console.error('Session fingerprint validation failed:', error);
+
           });
         }
         break;
-        
+
       case 'tokenRefresh_failure':
         AuditLogger.logAuth(
           'token_refresh', 
@@ -86,7 +86,7 @@ export function initializeSecurityAmplifyIntegration() {
           { error: message.payload.data?.error?.message || 'Unknown error' }
         );
         break;
-        
+
       case 'signIn_failure':
         AuditLogger.logAuth(
           'user_sign_in', 
@@ -97,7 +97,7 @@ export function initializeSecurityAmplifyIntegration() {
         break;
     }
   });
-  
+
   // Configure API protection with auth integration
   if (env.featureFlags.enableApiProtection) {
     ApiProtection.initialize({
@@ -106,7 +106,7 @@ export function initializeSecurityAmplifyIntegration() {
       enableAuditLogging: true,
       enableRequestValidation: true,
       csrfProtection: true,
-      onRateLimited: (endpoint, retryAfter) => {
+      onRateLimited: (endpointretryAfter: any) => {
         AuditLogger.logSecurity(
           'rate_limit_exceeded',
           AuditSeverity.WARNING,
@@ -116,7 +116,7 @@ export function initializeSecurityAmplifyIntegration() {
       }
     });
   }
-  
+
   // Configure audit logger to use auth tokens for requests
   const loggerConfig = {
     endpoint: `${env.apiUrl}/security/audit`,
@@ -126,22 +126,22 @@ export function initializeSecurityAmplifyIntegration() {
         const token = await Auth.getAccessToken();
         return token ? { Authorization: `Bearer ${token}` } : {};
       } catch (error) {
-        console.warn('Failed to get auth token for audit logging:', error);
+
         return {};
       }
     }
   };
-  
+
   // Create a new instance with the config
   (AuditLogger as any).config = { ...((AuditLogger as any).config || {}), ...loggerConfig };
-  
+
   // Set up security telemetry 
   if (env.featureFlags.enableSecurityMonitoring && isProduction) {
     // Set up periodic security checks
     const securityCheckInterval = setInterval(() => {
       performSecurityChecks();
     }, 5 * 60 * 1000); // Every 5 minutes
-    
+
     // Clean up on page unload
     if (typeof window !== 'undefined') {
       window.addEventListener('beforeunload', () => {
@@ -158,7 +158,7 @@ export async function submitSecurityTelemetry(data: any) {
   try {
     return await protectedApi.post('/security/telemetry', data);
   } catch (error) {
-    console.error('Failed to submit security telemetry:', error);
+
     return false;
   }
 }
@@ -171,11 +171,11 @@ async function performSecurityChecks() {
     // Get the current user to check authentication status
     const user = await Auth.getCurrentUser();
     if (!user) return; // Not authenticated
-    
+
     // Check session fingerprint
     if (env.featureFlags.enableSessionFingerprinting) {
       const fingerprintValid = await SessionFingerprint.validate();
-      
+
       if (!fingerprintValid.valid) {
         AuditLogger.logSecurity(
           'invalid_session_fingerprint',
@@ -188,10 +188,10 @@ async function performSecurityChecks() {
         );
       }
     }
-    
+
     // Additional security checks here
   } catch (error) {
-    console.error('Security check failed:', error);
+
   }
 }
 
@@ -211,9 +211,9 @@ export const SecureAPI = {
           throw new Error('Invalid session fingerprint: ' + fingerprintValid.reason);
         }
       }
-      
+
       // Use the protected API client
-      return await protectedApi.get<T>(endpoint, options);
+      return await protectedApi.get<T>(endpointoptions);
     } catch (error) {
       // Log security-related errors
       AuditLogger.logSecurity(
@@ -225,7 +225,7 @@ export const SecureAPI = {
       throw error;
     }
   },
-  
+
   /**
    * Make a secure POST request with security features
    */
@@ -238,9 +238,9 @@ export const SecureAPI = {
           throw new Error('Invalid session fingerprint: ' + fingerprintValid.reason);
         }
       }
-      
+
       // Use the protected API client
-      return await protectedApi.post<T>(endpoint, data, options);
+      return await protectedApi.post<T>(endpoint, dataoptions);
     } catch (error) {
       // Log security-related errors
       AuditLogger.logSecurity(
@@ -252,7 +252,7 @@ export const SecureAPI = {
       throw error;
     }
   },
-  
+
   /**
    * Make a secure PUT request with security features
    */
@@ -265,9 +265,9 @@ export const SecureAPI = {
           throw new Error('Invalid session fingerprint: ' + fingerprintValid.reason);
         }
       }
-      
+
       // Use the protected API client
-      return await protectedApi.put<T>(endpoint, data, options);
+      return await protectedApi.put<T>(endpoint, dataoptions);
     } catch (error) {
       // Log security-related errors
       AuditLogger.logSecurity(
@@ -279,7 +279,7 @@ export const SecureAPI = {
       throw error;
     }
   },
-  
+
   /**
    * Make a secure DELETE request with security features
    */
@@ -292,9 +292,9 @@ export const SecureAPI = {
           throw new Error('Invalid session fingerprint: ' + fingerprintValid.reason);
         }
       }
-      
+
       // Use the protected API client
-      return await protectedApi.delete<T>(endpoint, options);
+      return await protectedApi.delete<T>(endpointoptions);
     } catch (error) {
       // Log security-related errors
       AuditLogger.logSecurity(
@@ -306,7 +306,7 @@ export const SecureAPI = {
       throw error;
     }
   },
-  
+
   /**
    * Execute a GraphQL query with security features
    */
@@ -319,7 +319,7 @@ export const SecureAPI = {
           throw new Error('Invalid session fingerprint: ' + fingerprintValid.reason);
         }
       }
-      
+
       // Use the API client with security checks
       return await API.graphql<T>({
         query,
@@ -334,7 +334,7 @@ export const SecureAPI = {
         `Secure GraphQL operation failed`,
         { 
           error: error instanceof Error ? error.message : String(error),
-          query: query.substring(0, 100) + (query.length > 100 ? '...' : '')
+          query: query.substring(0100) + (query.length> 100 ? '...' : '')
         }
       );
       throw error;

@@ -12,17 +12,16 @@ interface ClaimCodeFormProps {
 export function ClaimCodeForm({ claimId, onSuccessAction, onErrorAction }: ClaimCodeFormProps) {
   const { updateClaimCode, isLoading } = useHTB();
   const fileInputRef = useRef<HTMLInputElement>(null);
-  
-  const [formData, setFormData] = useState({
+
+  const [formDatasetFormData] = useState({
     claimCode: "",
     claimCodeExpiryDate: "",
     approvedAmount: 0,
-    documentFile: null as File | null,
-  });
+    documentFile: null as File | null});
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value, type } = e.target;
-    
+
     if (type === 'file') {
       const fileInput = e.target as HTMLInputElement;
       const file = fileInput.files?.[0] || null;
@@ -40,12 +39,12 @@ export function ClaimCodeForm({ claimId, onSuccessAction, onErrorAction }: Claim
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     try {
       if (!formData.documentFile) {
         throw new Error('Please upload a supporting document');
       }
-      
+
       await updateClaimCode(
         claimId, 
         formData.claimCode, 

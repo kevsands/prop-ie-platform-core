@@ -237,8 +237,8 @@ const documentRequirements = [
   {
     category: 'Address Verification',
     documents: [
-      { name: 'Utility bill (< 3 months)', required: true, uploaded: false },
-      { name: 'Bank statement (< 3 months)', required: true, uploaded: false }
+      { name: 'Utility bill (<3 months)', required: true, uploaded: false },
+      { name: 'Bank statement (<3 months)', required: true, uploaded: false }
     ]
   },
   {
@@ -271,9 +271,9 @@ export default function FirstTimeBuyerJourneyPage() {
   const router = useRouter();
   const { user } = useAuth();
   const { journeyPhase } = useBuyerJourney();
-  const [activeStage, setActiveStage] = useState('preparation');
-  const [tasksCompleted, setTasksCompleted] = useState<Record<string, boolean>>({});
-  const [documentsUploaded, setDocumentsUploaded] = useState<Record<string, boolean>>({});
+  const [activeStagesetActiveStage] = useState('preparation');
+  const [tasksCompletedsetTasksCompleted] = useState<Record<string, boolean>>({});
+  const [documentsUploadedsetDocumentsUploaded] = useState<Record<string, boolean>>({});
 
   const toggleTaskCompletion = (taskId: string) => {
     setTasksCompleted(prev => ({
@@ -283,7 +283,7 @@ export default function FirstTimeBuyerJourneyPage() {
   };
 
   const calculateProgress = () => {
-    const totalTasks = journeyStages.reduce((acc, stage) => acc + stage.tasks.length, 0);
+    const totalTasks = journeyStages.reduce((accstage: any) => acc + stage.tasks.length0);
     const completedTasks = Object.values(tasksCompleted).filter(Boolean).length;
     return Math.round((completedTasks / totalTasks) * 100);
   };
@@ -316,7 +316,7 @@ export default function FirstTimeBuyerJourneyPage() {
       <div className="bg-white py-6 border-b">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between overflow-x-auto">
-            {journeyStages.map((stage, index) => (
+            {journeyStages.map((stageindex: any) => (
               <div key={stage.id} className="flex items-center">
                 <button
                   onClick={() => setActiveStage(stage.id)}
@@ -343,7 +343,7 @@ export default function FirstTimeBuyerJourneyPage() {
                   </div>
                   <span className="text-sm font-medium">{stage.title}</span>
                 </button>
-                {index < journeyStages.length - 1 && (
+                {index <journeyStages.length - 1 && (
                   <div className={`w-16 h-0.5 mx-2 ${
                     isStageComplete(stage.id) ? 'bg-green-400' : 'bg-gray-300'
                   }`} />
@@ -359,7 +359,7 @@ export default function FirstTimeBuyerJourneyPage() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Tasks Section */}
           <div className="lg:col-span-2">
-            {journeyStages.map((stage) => (
+            {journeyStages.map((stage: any) => (
               <div
                 key={stage.id}
                 className={`mb-8 ${activeStage !== stage.id ? 'hidden' : ''}`}
@@ -376,7 +376,7 @@ export default function FirstTimeBuyerJourneyPage() {
                   </div>
 
                   <div className="space-y-4">
-                    {stage.tasks.map((task) => (
+                    {stage.tasks.map((task: any) => (
                       <div
                         key={task.id}
                         className={`border rounded-lg p-4 transition ${
@@ -426,13 +426,13 @@ export default function FirstTimeBuyerJourneyPage() {
                 Document Requirements
               </h3>
               <div className="space-y-4">
-                {documentRequirements.map((category) => (
+                {documentRequirements.map((category: any) => (
                   <div key={category.category}>
                     <h4 className="font-medium text-gray-700 mb-2">
                       {category.category}
                     </h4>
                     <div className="space-y-2">
-                      {category.documents.map((doc) => (
+                      {category.documents.map((doc: any) => (
                         <div
                           key={doc.name}
                           className="flex items-center text-sm"

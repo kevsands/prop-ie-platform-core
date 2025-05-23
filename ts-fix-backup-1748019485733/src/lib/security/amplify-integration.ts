@@ -1,0 +1,349 @@
+'use client';
+
+/**
+ * Security AWS Amplify Integration
+ * 
+ * This module integrates the security features with AWS Amplify.
+ * It provides:
+ * - Secure token handling
+ * - MFA integration with Cognito
+ * - Session fingerprinting with token validation
+ * - Audit logging through secure API channels
+ * - Security monitoring integration with API protection
+ */
+
+import { Auth } from '@/lib/amplify/auth';
+import { API } from '@/lib/amplify/api';
+import { Hub } from 'aws-amplify/utils';
+import type { HubAuthEvent, HubCallback } from '@/types/amplify/hub';
+import { 
+  AuditLogger, 
+  AuditCategory, 
+  AuditSeverity 
+} from './auditLogger';
+import { 
+  ApiProtection,
+  protectedApi
+} from './apiProtection';
+import { SessionFingerprint } from './sessionFingerprint';
+import { env, isProduction } from '@/config/environment';
+
+/**
+ * Initialize security integration with AWS Amplify
+ */
+export function initializeSecurityAmplifyIntegration() {
+  // Set up Hub listener for auth events
+  Hub.listen('auth', (message: HubCallback) => {
+    // Handle auth events for security tracking
+    const event = message.payload.event as HubAuthEvent;
+
+    switch (event) {
+      case 'signIn':
+        AuditLogger.logAuth(
+          'user_sign_in', 
+          'success', 
+          'User signed in successfully',
+          { method: message.payload.data?.method || 'username_password' }
+        );
+
+        // Generate new session fingerprint on sign in
+        if (env.featureFlags.enableSessionFingerprinting) {
+          SessionFingerprint.generate().catch(error => {
+
+          });
+        }
+        break;
+
+      case 'signOut':
+        AuditLogger.logAuth(
+          'user_sign_out', 
+          'success', 
+          'User signed out'
+        );
+        break;
+
+      case 'tokenRefresh':
+        AuditLogger.logAuth(
+          'token_refresh', 
+          'success', 
+          'Auth token refreshed',
+          { automatic: true }
+        );
+
+        // Validate session fingerprint on token refresh
+        if (env.featureFlags.enableSessionFingerprinting) {
+          SessionFingerprint.validate().catch((error: Error) => {
+
+          });
+        }
+        break;
+
+      case 'tokenRefresh_failure':
+        AuditLogger.logAuth(
+          'token_refresh', 
+          'failure', 
+          'Auth token refresh failed',
+          { error: message.payload.data?.error?.message || 'Unknown error' }
+        );
+        break;
+
+      case 'signIn_failure':
+        AuditLogger.logAuth(
+          'user_sign_in', 
+          'failure', 
+          'User sign in failed',
+          { error: message.payload.data?.error?.message || 'Unknown error' }
+        );
+        break;
+    }
+  });
+
+  // Configure API protection with auth integration
+  if (env.featureFlags.enableApiProtection) {
+    ApiProtection.initialize({
+      enableRateLimiting: true,
+      enableBackoff: true,
+      enableAuditLogging: true,
+      enableRequestValidation: true,
+      csrfProtection: true,
+      onRateLimited: (endpointretryAfter) => {
+        AuditLogger.logSecurity(
+          'rate_limit_exceeded',
+          AuditSeverity.WARNING,
+          `Rate limit exceeded for ${endpoint}`,
+          { endpoint, retryAfter }
+        );
+      }
+    });
+  }
+
+  // Configure audit logger to use auth tokens for requests
+  const loggerConfig = {
+    endpoint: `${env.apiUrl}/security/audit`,
+    enableClientStorage: true,
+    authHeaderProvider: async () => {
+      try {
+        const token = await Auth.getAccessToken();
+        return token ? { Authorization: `Bearer ${token}` } : {};
+      } catch (error) {
+
+        return {};
+      }
+    }
+  };
+
+  // Create a new instance with the config
+  (AuditLogger as any).config = { ...((AuditLogger as any).config || {}), ...loggerConfig };
+
+  // Set up security telemetry 
+  if (env.featureFlags.enableSecurityMonitoring && isProduction) {
+    // Set up periodic security checks
+    const securityCheckInterval = setInterval(() => {
+      performSecurityChecks();
+    }, 5 * 60 * 1000); // Every 5 minutes
+
+    // Clean up on page unload
+    if (typeof window !== 'undefined') {
+      window.addEventListener('beforeunload', () => {
+        clearInterval(securityCheckInterval);
+      });
+    }
+  }
+}
+
+/**
+ * Submit security telemetry to the server
+ */
+export async function submitSecurityTelemetry(data: any) {
+  try {
+    return await protectedApi.post('/security/telemetry', data);
+  } catch (error) {
+
+    return false;
+  }
+}
+
+/**
+ * Perform security checks to detect potential issues
+ */
+async function performSecurityChecks() {
+  try {
+    // Get the current user to check authentication status
+    const user = await Auth.getCurrentUser();
+    if (!user) return; // Not authenticated
+
+    // Check session fingerprint
+    if (env.featureFlags.enableSessionFingerprinting) {
+      const fingerprintValid = await SessionFingerprint.validate();
+
+      if (!fingerprintValid.valid) {
+        AuditLogger.logSecurity(
+          'invalid_session_fingerprint',
+          AuditSeverity.WARNING,
+          'Session fingerprint validation failed during security check',
+          { 
+            riskScore: fingerprintValid.riskScore,
+            reason: fingerprintValid.reason
+          }
+        );
+      }
+    }
+
+    // Additional security checks here
+  } catch (error) {
+
+  }
+}
+
+/**
+ * Secure API wrapper that includes security features
+ */
+export const SecureAPI = {
+  /**
+   * Make a secure GET request with security features
+   */
+  async get<T>(endpoint: string, options?: any): Promise<T> {
+    try {
+      // Add security checks before the request
+      if (env.featureFlags.enableSessionFingerprinting) {
+        const fingerprintValid = await SessionFingerprint.validate();
+        if (!fingerprintValid.valid) {
+          throw new Error('Invalid session fingerprint: ' + fingerprintValid.reason);
+        }
+      }
+
+      // Use the protected API client
+      return await protectedApi.get<T>(endpointoptions);
+    } catch (error) {
+      // Log security-related errors
+      AuditLogger.logSecurity(
+        'secure_api_error',
+        AuditSeverity.ERROR,
+        `Secure API GET request to ${endpoint} failed`,
+        { error: error instanceof Error ? error.message : String(error) }
+      );
+      throw error;
+    }
+  },
+
+  /**
+   * Make a secure POST request with security features
+   */
+  async post<T>(endpoint: string, data: any, options?: any): Promise<T> {
+    try {
+      // Add security checks before the request
+      if (env.featureFlags.enableSessionFingerprinting) {
+        const fingerprintValid = await SessionFingerprint.validate();
+        if (!fingerprintValid.valid) {
+          throw new Error('Invalid session fingerprint: ' + fingerprintValid.reason);
+        }
+      }
+
+      // Use the protected API client
+      return await protectedApi.post<T>(endpoint, dataoptions);
+    } catch (error) {
+      // Log security-related errors
+      AuditLogger.logSecurity(
+        'secure_api_error',
+        AuditSeverity.ERROR,
+        `Secure API POST request to ${endpoint} failed`,
+        { error: error instanceof Error ? error.message : String(error) }
+      );
+      throw error;
+    }
+  },
+
+  /**
+   * Make a secure PUT request with security features
+   */
+  async put<T>(endpoint: string, data: any, options?: any): Promise<T> {
+    try {
+      // Add security checks before the request
+      if (env.featureFlags.enableSessionFingerprinting) {
+        const fingerprintValid = await SessionFingerprint.validate();
+        if (!fingerprintValid.valid) {
+          throw new Error('Invalid session fingerprint: ' + fingerprintValid.reason);
+        }
+      }
+
+      // Use the protected API client
+      return await protectedApi.put<T>(endpoint, dataoptions);
+    } catch (error) {
+      // Log security-related errors
+      AuditLogger.logSecurity(
+        'secure_api_error',
+        AuditSeverity.ERROR,
+        `Secure API PUT request to ${endpoint} failed`,
+        { error: error instanceof Error ? error.message : String(error) }
+      );
+      throw error;
+    }
+  },
+
+  /**
+   * Make a secure DELETE request with security features
+   */
+  async delete<T>(endpoint: string, options?: any): Promise<T> {
+    try {
+      // Add security checks before the request
+      if (env.featureFlags.enableSessionFingerprinting) {
+        const fingerprintValid = await SessionFingerprint.validate();
+        if (!fingerprintValid.valid) {
+          throw new Error('Invalid session fingerprint: ' + fingerprintValid.reason);
+        }
+      }
+
+      // Use the protected API client
+      return await protectedApi.delete<T>(endpointoptions);
+    } catch (error) {
+      // Log security-related errors
+      AuditLogger.logSecurity(
+        'secure_api_error',
+        AuditSeverity.ERROR,
+        `Secure API DELETE request to ${endpoint} failed`,
+        { error: error instanceof Error ? error.message : String(error) }
+      );
+      throw error;
+    }
+  },
+
+  /**
+   * Execute a GraphQL query with security features
+   */
+  async graphql<T>(query: string, variables?: Record<string, any>, options?: any): Promise<T> {
+    try {
+      // Add security checks before the request
+      if (env.featureFlags.enableSessionFingerprinting) {
+        const fingerprintValid = await SessionFingerprint.validate();
+        if (!fingerprintValid.valid) {
+          throw new Error('Invalid session fingerprint: ' + fingerprintValid.reason);
+        }
+      }
+
+      // Use the API client with security checks
+      return await API.graphql<T>({
+        query,
+        variables,
+        ...options
+      });
+    } catch (error) {
+      // Log security-related errors
+      AuditLogger.logSecurity(
+        'secure_api_error',
+        AuditSeverity.ERROR,
+        `Secure GraphQL operation failed`,
+        { 
+          error: error instanceof Error ? error.message : String(error),
+          query: query.substring(0100) + (query.length> 100 ? '...' : '')
+        }
+      );
+      throw error;
+    }
+  }
+};
+
+export default {
+  initializeSecurityAmplifyIntegration,
+  submitSecurityTelemetry,
+  SecureAPI
+};

@@ -14,7 +14,7 @@ import {
 } from 'lucide-react';
 
 export default function DeveloperPlatformPage() {
-  const [activeTab, setActiveTab] = useState('overview');
+  const [activeTabsetActiveTab] = useState('overview');
 
   return (
     <div className="min-h-screen bg-white">
@@ -135,7 +135,7 @@ export default function DeveloperPlatformPage() {
 
           {/* Tab Navigation */}
           <div className="flex flex-wrap justify-center mb-8 border-b">
-            {['overview', 'development', 'project', 'sales', 'buyer', 'analytics'].map((tab) => (
+            {['overview', 'development', 'project', 'sales', 'buyer', 'analytics'].map((tab: any) => (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
@@ -426,7 +426,7 @@ function DevelopmentTab() {
           Streamline contractor management, tender processes, and project forecasting with AI-powered tools
         </p>
       </div>
-      
+
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
         {/* Contractor Management */}
         <div className="space-y-6">
@@ -561,7 +561,7 @@ function DevelopmentTab() {
         <h4 className="text-2xl font-bold mb-8 text-center">
           Development Appraisal & Forecasting
         </h4>
-        
+
         <div className="grid md:grid-cols-3 gap-6">
           <div className="bg-white rounded-xl shadow-lg p-6">
             <Calculator className="h-10 w-10 text-blue-600 mb-4" />
@@ -643,7 +643,7 @@ function DevelopmentTab() {
                 </div>
               </div>
             </div>
-            
+
             <div className="bg-white rounded-xl p-6 shadow-lg">
               <h6 className="font-semibold mb-4">AI-Powered Insights</h6>
               <div className="space-y-3">
@@ -683,7 +683,7 @@ function ProjectTab() {
           Manage every aspect of your development project with powerful tools designed for the construction industry
         </p>
       </div>
-      
+
       <div className="grid md:grid-cols-3 gap-8">
         <FeatureCard 
           icon={<Upload />}
@@ -729,7 +729,7 @@ function SalesTab() {
           Modern sales tools that help you sell faster, manage leads better, and close more deals
         </p>
       </div>
-      
+
       <div className="grid md:grid-cols-2 gap-8">
         <div className="space-y-6">
           <SalesFeature 
@@ -770,7 +770,7 @@ function BuyerTab() {
           Give your buyers a premium digital experience that drives satisfaction and accelerates sales
         </p>
       </div>
-      
+
       <div className="grid md:grid-cols-3 gap-8">
         <BuyerFeature 
           icon={<Smartphone />}
@@ -816,7 +816,7 @@ function AnalyticsTab() {
           Comprehensive analytics and reporting tools to optimize your development strategy
         </p>
       </div>
-      
+
       <div className="grid md:grid-cols-2 gap-12">
         <div className="space-y-8">
           <AnalyticsFeature 
@@ -962,7 +962,7 @@ function PricingCard({ tier, price, period, features, cta, highlighted }: {
         <span className={`text-sm ${highlighted ? 'text-blue-200' : 'text-gray-500'}`}> {period}</span>
       </div>
       <ul className="space-y-3 mb-8">
-        {features.map((feature, index) => (
+        {features.map((featureindex: any) => (
           <li key={index} className="flex items-center">
             <CheckCircle className={`h-5 w-5 mr-3 ${highlighted ? 'text-blue-300' : 'text-green-500'}`} />
             <span>{feature}</span>
@@ -984,8 +984,8 @@ function PricingCard({ tier, price, period, features, cta, highlighted }: {
 }
 
 function FAQItem({ question, answer }: { question: string; answer: string }) {
-  const [isOpen, setIsOpen] = useState(false);
-  
+  const [isOpensetIsOpen] = useState(false);
+
   return (
     <div className="border-b border-gray-200 pb-6">
       <button

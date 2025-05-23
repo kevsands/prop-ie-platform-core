@@ -1,0 +1,222 @@
+'use client';
+
+import React from 'react';
+import { useParams, useRouter } from 'next/navigation';
+import { useQuery } from '@tanstack/react-query';
+import ProtectedRoute from '@/components/auth/ProtectedRoute';
+import ReservationForm from '@/components/reservation/ReservationForm';
+import {
+  ArrowLeft,
+  Home,
+  MapPin,
+  Bed,
+  Bath,
+  Square,
+  Calendar,
+  Euro,
+  Loader2,
+  AlertCircle,
+  CheckCircle
+} from 'lucide-react';
+
+export default function PropertyReservationPage() {
+  const params = useParams();
+  const router = useRouter();
+  const propertyId = params.id as string;
+
+  // Fetch property details
+  const { data: property, isLoading, error } = useQuery({
+    queryKey: ['property', propertyId],
+    queryFn: async () => {
+      const response = await fetch(`/api/properties/${propertyId}`);
+      if (!response.ok) throw new Error('Failed to fetch property');
+      return response.json();
+    }
+  });
+
+  if (isLoading) {
+    return (
+      <ProtectedRoute requiredRole={['buyer', 'admin']}>
+        <div className="flex items-center justify-center min-h-screen">
+          <Loader2 className="w-8 h-8 animate-spin text-blue-600" />
+        </div>
+      </ProtectedRoute>
+    );
+  }
+
+  if (error || !property) {
+    return (
+      <ProtectedRoute requiredRole={['buyer', 'admin']}>
+        <div className="min-h-screen bg-gray-50 p-8">
+          <div className="max-w-2xl mx-auto text-center">
+            <AlertCircle className="w-16 h-16 text-red-500 mx-auto mb-4" />
+            <h1 className="text-2xl font-bold text-gray-900 mb-2">Property Not Found</h1>
+            <p className="text-gray-600 mb-6">The property you're looking for doesn't exist or is no longer available.</p>
+            <button
+              onClick={() => router.push('/properties')}
+              className="bg-blue-600 text-white px-6 py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors"
+            >
+              Browse Properties
+            </button>
+          </div>
+        </div>
+      </ProtectedRoute>
+    );
+  }
+
+  return (
+    <ProtectedRoute requiredRole={['buyer', 'admin']}>
+      <div className="min-h-screen bg-gray-50">
+        {/* Header */}
+        <div className="bg-white shadow-sm">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+            <div className="flex items-center gap-4">
+              <button
+                onClick={() => router.back()}
+                className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+              >
+                <ArrowLeft className="w-5 h-5 text-gray-600" />
+              </button>
+              <div>
+                <h1 className="text-2xl font-bold text-gray-900">Reserve Property</h1>
+                <p className="text-gray-600">Secure your dream home today</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            {/* Main Content - Reservation Form */}
+            <div className="lg:col-span-2">
+              <ReservationForm
+                property={{
+                  id: property.id,
+                  title: property.name,
+                  price: property.price,
+                  location: property.location,
+                  developmentId: property.developmentId,
+                  unitId: property.id,
+                  image: property.images?.[0]
+                }}
+                onSuccess={(reservationId) => {
+                  // Navigate to transaction confirmation page
+                  router.push(`/buyer/transactions/${reservationId}/confirmation`);
+                }}
+              />
+            </div>
+
+            {/* Sidebar - Property Summary */}
+            <div>
+              {/* Property Card */}
+              <div className="bg-white rounded-xl shadow-sm overflow-hidden sticky top-4">
+                {property.images?.[0] && (
+                  <img
+                    src={property.images[0]}
+                    alt={property.name}
+                    className="w-full h-48 object-cover"
+                  />
+                )}
+                
+                <div className="p-6">
+                  <h2 className="text-xl font-bold text-gray-900 mb-2">{property.name}</h2>
+                  
+                  <div className="flex items-center gap-2 text-gray-600 mb-4">
+                    <MapPin className="w-4 h-4" />
+                    <span className="text-sm">{property.location}</span>
+                  </div>
+
+                  <div className="grid grid-cols-3 gap-4 mb-6 text-center">
+                    <div>
+                      <div className="flex items-center justify-center gap-1 text-gray-600">
+                        <Bed className="w-4 h-4" />
+                        <span className="text-sm font-medium">{property.bedrooms}</span>
+                      </div>
+                      <p className="text-xs text-gray-500 mt-1">Beds</p>
+                    </div>
+                    <div>
+                      <div className="flex items-center justify-center gap-1 text-gray-600">
+                        <Bath className="w-4 h-4" />
+                        <span className="text-sm font-medium">{property.bathrooms}</span>
+                      </div>
+                      <p className="text-xs text-gray-500 mt-1">Baths</p>
+                    </div>
+                    <div>
+                      <div className="flex items-center justify-center gap-1 text-gray-600">
+                        <Square className="w-4 h-4" />
+                        <span className="text-sm font-medium">{property.size}</span>
+                      </div>
+                      <p className="text-xs text-gray-500 mt-1">sq ft</p>
+                    </div>
+                  </div>
+
+                  <div className="border-t pt-4">
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-gray-600">Property Price</span>
+                      <span className="text-xl font-bold text-gray-900">
+                        €{property.price.toLocaleString()}
+                      </span>
+                    </div>
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-gray-600">Booking Deposit</span>
+                      <span className="font-medium text-gray-900">€500</span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-gray-600">Contract Deposit (10%)</span>
+                      <span className="font-medium text-gray-900">
+                        €{(property.price * 0.1).toLocaleString()}
+                      </span>
+                    </div>
+                  </div>
+
+                  {property.completionDate && (
+                    <div className="mt-4 p-3 bg-blue-50 rounded-lg">
+                      <div className="flex items-center gap-2">
+                        <Calendar className="w-4 h-4 text-blue-600" />
+                        <div>
+                          <p className="text-sm font-medium text-blue-900">Completion Date</p>
+                          <p className="text-xs text-blue-700">
+                            {new Date(property.completionDate).toLocaleDateString('en-IE', {
+                              month: 'long',
+                              year: 'numeric'
+                            })}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Features */}
+                  {property.features && property.features.length > 0 && (
+                    <div className="mt-6">
+                      <h3 className="font-semibold text-gray-900 mb-3">Key Features</h3>
+                      <ul className="space-y-2">
+                        {property.features.slice(0, 5).map((feature: string, index: number) => (
+                          <li key={index} className="flex items-center gap-2 text-sm text-gray-600">
+                            <CheckCircle className="w-4 h-4 text-green-500" />
+                            {feature}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+
+                  {/* Contact */}
+                  <div className="mt-6 p-4 bg-gray-50 rounded-lg">
+                    <p className="text-sm font-medium text-gray-900 mb-2">Need Help?</p>
+                    <p className="text-xs text-gray-600 mb-3">
+                      Our sales team is here to assist you with your reservation.
+                    </p>
+                    <button className="w-full bg-gray-900 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-800 transition-colors">
+                      Contact Sales Team
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ProtectedRoute>
+  );
+}

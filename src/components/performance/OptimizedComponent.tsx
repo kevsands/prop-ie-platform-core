@@ -9,11 +9,11 @@ interface OptimizedComponentWrapperProps {
   /**
    * Component to optimize
    */
-  component: React.ComponentType<any>;
+  component: React.ComponentType<any>\n  );
   /**
    * Props to pass to the component
    */
-  componentProps: Record<string, any>;
+  componentProps: Record<string, any>\n  );
   /**
    * Whether to memoize the component
    */
@@ -57,12 +57,11 @@ export const OptimizedComponentWrapper: React.FC<OptimizedComponentWrapperProps>
   excludeProps = [],
   includeProps = [],
   displayName,
-  showMetrics = process.env.NODE_ENV === 'development',
-}) => {
-  const [renderCount, setRenderCount] = useState(0);
-  const [renderTime, setRenderTime] = useState<number | null>(null);
-  const [lastRenderAt, setLastRenderAt] = useState<Date | null>(null);
-  
+  showMetrics = process.env.NODE_ENV === 'development'}) => {
+  const [renderCountsetRenderCount] = useState(0);
+  const [renderTimesetRenderTime] = useState<number | null>(null);
+  const [lastRenderAtsetLastRenderAt] = useState<Date | null>(null);
+
   // Create optimized component
   const OptimizedComponent = React.useMemo(() => {
     return optimizeComponent(Component, {
@@ -71,10 +70,9 @@ export const OptimizedComponentWrapper: React.FC<OptimizedComponentWrapperProps>
       includeProps,
       trackPerformance,
       logRenders,
-      displayName,
-    });
-  }, [Component, memoize, excludeProps, includeProps, trackPerformance, logRenders, displayName]);
-  
+      displayName});
+  }, [Component, memoize, excludeProps, includeProps, trackPerformance, logRendersdisplayName]);
+
   // Use the performance hook to measure render time
   const { measureRender } = usePerformanceMonitoring(
     displayName || Component.displayName || Component.name || 'Component',
@@ -82,28 +80,28 @@ export const OptimizedComponentWrapper: React.FC<OptimizedComponentWrapperProps>
       trackReRenders: true
     }
   );
-  
+
   // Increment render count on each render
   useEffect(() => {
     const startTime = performance.now();
-    
+
     setRenderCount(prev => prev + 1);
     setLastRenderAt(new Date());
-    
+
     return () => {
       const endTime = performance.now();
       setRenderTime(endTime - startTime);
     };
   }, [componentProps]);
-  
+
   // Measure render performance
   measureRender();
-  
+
   return (
     <div className="relative">
       {/* Render the optimized component */}
       <OptimizedComponent {...componentProps} />
-      
+
       {/* Show metrics overlay if enabled */}
       {showMetrics && (
         <div className="absolute top-0 right-0 bg-black/80 text-white text-xs p-2 rounded-bl-md z-10">
@@ -123,7 +121,7 @@ export const OptimizedButton = withMemo(
   ({ children, onClick, className, ...props }: React.ButtonHTMLAttributes<HTMLButtonElement>) => {
     const { measureRender } = usePerformanceMonitoring('OptimizedButton');
     measureRender();
-    
+
     return (
       <button 
         onClick={onClick} 
@@ -137,8 +135,7 @@ export const OptimizedButton = withMemo(
   {
     name: 'OptimizedButton',
     includeProps: ['onClick', 'disabled', 'children', 'className'],
-    trackPerformance: true,
-  }
+    trackPerformance: true}
 );
 
 /**
@@ -148,7 +145,7 @@ export const OptimizedCard = withMemo(
   ({ children, className, ...props }: React.HTMLAttributes<HTMLDivElement>) => {
     const { measureRender } = usePerformanceMonitoring('OptimizedCard');
     measureRender();
-    
+
     return (
       <div 
         className={`p-4 border rounded-lg shadow-sm bg-white ${className || ''}`}
@@ -161,8 +158,7 @@ export const OptimizedCard = withMemo(
   {
     name: 'OptimizedCard',
     includeProps: ['children', 'className'],
-    trackPerformance: true,
-  }
+    trackPerformance: true}
 );
 
 export default {

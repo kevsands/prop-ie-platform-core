@@ -1,0 +1,40 @@
+import { NextResponse } from 'next/server';
+import type { NextRequest } from 'next/server';
+
+// Simplified middleware for development
+export async function middleware(request: NextRequest) {
+  const pathname = request.nextUrl.pathname;
+  
+  // Skip middleware for static assets and API routes
+  if (
+    pathname.includes('_next') ||
+    pathname.includes('api') ||
+    pathname.includes('.') // files with extensions
+  ) {
+    return NextResponse.next();
+  }
+  
+  // For development: check if user has mock auth
+  const mockAuth = request.cookies.get('mockAuth');
+  
+  // Protected routes
+  const protectedRoutes = ['/developer', '/buyer', '/solicitor', '/agent', '/admin'];
+  const isProtectedRoute = protectedRoutes.some(route => pathname.startsWith(route));
+  
+  if (isProtectedRoute && !mockAuth) {
+    return NextResponse.redirect(new URL('/login', request.url));
+  }
+  
+  return NextResponse.next();
+}
+
+export const config = {
+  matcher: [
+    /*
+     * Match all request paths except for the ones starting with:
+     * - api (API routes)
+     * - _next/static (static files)
+     * - _next/image (image optimization files)
+     * - favicon.ico (favicon file)
+     */
+    '/((?!api|_next/static|_next/image|favicon.ico).*)']};

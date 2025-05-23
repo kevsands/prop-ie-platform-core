@@ -1,0 +1,364 @@
+"use client";
+
+import React, { useState, useRef } from 'react';
+import { FiUpload, FiX, FiAlertCircle, FiImage, FiFile, FiFileText, FiEdit2 } from 'react-icons/fi';
+import type { IconBaseProps } from 'react-icons';
+import dynamic from 'next/dynamic';
+
+// Dynamically import ImagePreview to reduce initial load time
+const ImagePreview = dynamic(() => import('./ImagePreview'), {
+  loading: () => <div className="text-center p-4">Loading image editor...</div>,
+  ssr: false
+});
+
+export interface MediaFile extends File {
+  preview?: string;
+  id?: string;
+}
+
+export interface MediaUploadProps {
+  onFilesChange: (files: MediaFile[]) => void;
+  files: MediaFile[];
+  maxFiles?: number;
+  maxSizeInMB?: number;
+  allowedTypes?: string[];
+  label?: string;
+  helpText?: string;
+  error?: string;
+  showPreview?: boolean;
+  previewSize?: 'sm' | 'md' | 'lg';
+  multiple?: boolean;
+  className?: string;
+}
+
+const MediaUpload: React.FC<MediaUploadProps> = ({
+  onFilesChange,
+  files = [],
+  maxFiles = 10,
+  maxSizeInMB = 10,
+  allowedTypes = ['image/jpeg', 'image/png', 'image/jpg', 'application/pdf'],
+  label = 'Upload Media',
+  helpText = 'JPG, PNG, PDF up to 10MB each',
+  error,
+  showPreview = true,
+  previewSize = 'md',
+  multiple = true,
+  className = ''}) => {
+  const [uploadErrorsetUploadError] = useState<string>(error || '');
+  const [editingFilesetEditingFile] = useState<MediaFile | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // Generate human-readable size string
+  const formatFileSize = (sizeInBytes: number): string => {
+    if (sizeInBytes <1024) {
+      return `${sizeInBytes} B`;
+    } else if (sizeInBytes <1024 * 1024) {
+      return `${(sizeInBytes / 1024).toFixed(1)} KB`;
+    } else {
+      return `${(sizeInBytes / (1024 * 1024)).toFixed(1)} MB`;
+    }
+  };
+
+  // File validation
+  const validateFiles = (fileList: File[]): { valid: boolean; message: string } => {
+    if (fileList.length + files.length> maxFiles) {
+      return { valid: false, message: `You can upload a maximum of ${maxFiles} files.` };
+    }
+
+    for (const file of fileList) {
+      if (file.size> maxSizeInMB * 1024 * 1024) {
+        return { valid: false, message: `File ${file.name} exceeds the ${maxSizeInMB}MB size limit.` };
+      }
+
+      if (!allowedTypes.includes(file.type)) {
+        return { valid: false, message: `File type ${file.type} is not supported.` };
+      }
+    }
+
+    return { valid: true, message: '' };
+  };
+
+  // Handle file selection
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setUploadError('');
+
+    if (e.target.files && e.target.files.length> 0) {
+      const fileArray = Array.from(e.target.files);
+      const validation = validateFiles(fileArray);
+
+      if (!validation.valid) {
+        setUploadError(validation.message);
+        return;
+      }
+
+      // Create MediaFile objects with preview URLs for images
+      const mediaFiles: MediaFile[] = fileArray.map(file => {
+        const mediaFile = file as MediaFile;
+
+        // Add preview URL for images
+        if (file.type.startsWith('image/')) {
+          mediaFile.preview = URL.createObjectURL(file);
+        }
+
+        // Add unique ID
+        mediaFile.id = `${file.name}-${Date.now()}-${Math.random().toString(36).substring(29)}`;
+
+        return mediaFile;
+      });
+
+      onFilesChange([...files, ...mediaFiles]);
+
+      // Reset the input value to allow selecting the same file again
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
+    }
+  };
+
+  // Handle file removal
+  const removeFile = (idToRemove: string) => {
+    const newFiles = files.filter(file => file.id !== idToRemove);
+
+    // Revoke object URL to prevent memory leaks
+    const removedFile = files.find(file => file.id === idToRemove);
+    if (removedFile?.preview) {
+      URL.revokeObjectURL(removedFile.preview);
+    }
+
+    onFilesChange(newFiles);
+  };
+
+  // Handle opening the editor for an image
+  const handleEditImage = (file: MediaFile) => {
+    if (file.type.startsWith('image/')) {
+      setEditingFile(file);
+    }
+  };
+
+  // Handle saving edited image
+  const handleSaveEditedImage = (editedFile: MediaFile) => {
+    const newFiles = files.map(file => 
+      file.id === editedFile.id ? editedFile : file
+    );
+
+    onFilesChange(newFiles);
+    setEditingFile(null);
+  };
+
+  // Handle canceling image edit
+  const handleCancelEdit = () => {
+    setEditingFile(null);
+  };
+
+  // Get appropriate icon based on file type
+  const getFileIcon = (file: MediaFile) => {
+    const props: IconBaseProps = {
+      className: file.type === 'application/pdf' ? 'text-red-500' : 
+               file.type.startsWith('image/') ? 'text-blue-500' : 'text-gray-500',
+      size: 20
+    };
+
+    if (file.type === 'application/pdf') {
+      return <FiFileText {...props} />\n  );
+    } else if (file.type.startsWith('image/')) {
+      return <FiImage {...props} />\n  );
+    } else {
+      return <FiFile {...props} />\n  );
+    }
+  };
+
+  // Determine preview size classes
+  const getPreviewSizeClass = () => {
+    switch (previewSize) {
+      case 'sm': return 'h-16 w-16';
+      case 'lg': return 'h-32 w-32';
+      case 'md':
+      default: return 'h-24 w-24';
+    }
+  };
+
+  // Handle drag and drop
+  const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+  };
+
+  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (e.dataTransfer.files && e.dataTransfer.files.length> 0) {
+      const fileArray = Array.from(e.dataTransfer.files);
+      const validation = validateFiles(fileArray);
+
+      if (!validation.valid) {
+        setUploadError(validation.message);
+        return;
+      }
+
+      // Create MediaFile objects with preview URLs for images
+      const mediaFiles: MediaFile[] = fileArray.map(file => {
+        const mediaFile = file as MediaFile;
+
+        // Add preview URL for images
+        if (file.type.startsWith('image/')) {
+          mediaFile.preview = URL.createObjectURL(file);
+        }
+
+        // Add unique ID
+        mediaFile.id = `${file.name}-${Date.now()}-${Math.random().toString(36).substring(29)}`;
+
+        return mediaFile;
+      });
+
+      onFilesChange([...files, ...mediaFiles]);
+    }
+  };
+
+  return (
+    <div className={`media-upload ${className}`}>
+      <label className="block text-sm font-medium text-gray-700 mb-2">
+        {label}
+      </label>
+
+      <div 
+        className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md"
+        onDragOver={handleDragOver}
+        onDrop={handleDrop}
+      >
+        <div className="space-y-1 text-center">
+          <FiUpload className="mx-auto h-12 w-12 text-gray-400" />
+          <div className="flex text-sm text-gray-600">
+            <label htmlFor="file-upload" className="relative cursor-pointer bg-white rounded-md font-medium text-[#2B5273] hover:text-[#1E3142]">
+              <span>Upload files</span>
+              <input
+                id="file-upload"
+                name="file-upload"
+                type="file"
+                className="sr-only"
+                multiple={multiple}
+                accept={allowedTypes.join(',')}
+                onChange={handleFileChange}
+                ref={fileInputRef}
+              />
+            </label>
+            <p className="pl-1">or drag and drop</p>
+          </div>
+          <p className="text-xs text-gray-500">
+            {helpText}
+          </p>
+          {files.length> 0 && (
+            <p className="text-xs text-gray-500">
+              {files.length} of {maxFiles} files uploaded
+            </p>
+          )}
+        </div>
+      </div>
+
+      {(uploadError || error) && (
+        <div className="mt-2 flex items-center text-sm text-red-600">
+          <FiAlertCircle className="mr-1" />
+          {uploadError || error}
+        </div>
+      )}
+
+      {/* File Preview Section */}
+      {showPreview && files.length> 0 && !editingFile && (
+        <div className="mt-4">
+          <h3 className="text-sm font-medium text-gray-700 mb-2">Uploaded Files:</h3>
+
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            {files.map((file) => (
+              <div key={file.id} className="relative border border-gray-200 rounded-md p-2">
+                {file.type.startsWith('image/') && file.preview ? (
+                  <div className="flex flex-col items-center">
+                    <div className={`relative ${getPreviewSizeClass()} overflow-hidden rounded-md mb-2`}>
+                      <img 
+                        src={file.preview} 
+                        alt={file.name} 
+                        className="object-cover h-full w-full"
+                      />
+                      <div className="absolute inset-0 bg-black bg-opacity-0 hover:bg-opacity-20 transition-opacity flex items-center justify-center opacity-0 hover:opacity-100">
+                        <button
+                          type="button"
+                          onClick={() => handleEditImage(file)}
+                          className="p-2 bg-white rounded-full shadow-md text-gray-700 hover:text-blue-600"
+                          aria-label="Edit image"
+                        >
+                          <FiEdit2 size={16} />
+                        </button>
+                      </div>
+                    </div>
+                    <div className="w-full truncate text-xs text-center">{file.name}</div>
+                    <div className="text-xs text-gray-500 mt-1">{formatFileSize(file.size)}</div>
+                  </div>
+                ) : (
+                  <div className="flex flex-col items-center">
+                    <div className={`relative ${getPreviewSizeClass()} flex items-center justify-center bg-gray-100 rounded-md mb-2`}>
+                      {getFileIcon(file)}
+                    </div>
+                    <div className="w-full truncate text-xs text-center">{file.name}</div>
+                    <div className="text-xs text-gray-500 mt-1">{formatFileSize(file.size)}</div>
+                  </div>
+                )}
+
+                <button
+                  type="button"
+                  onClick={() => removeFile(file.id as string)}
+                  className="absolute top-1 right-1 bg-white rounded-full p-1 shadow-sm hover:bg-gray-100 text-red-500"
+                  aria-label="Remove file"
+                >
+                  <FiX size={16} />
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Image Editor */}
+      {editingFile && (
+        <div className="mt-4 p-4 border border-gray-200 rounded-lg">
+          <h3 className="text-sm font-medium text-gray-700 mb-2">Edit Image</h3>
+          <ImagePreview
+            file={editingFile}
+            onSave={handleSaveEditedImage}
+            onCancel={handleCancelEdit}
+            maxWidth={800}
+            maxHeight={500}
+            showControls={true}
+          />
+        </div>
+      )}
+
+      {/* Simple List View (Alternative to Preview Grid) */}
+      {!showPreview && files.length> 0 && (
+        <div className="mt-4">
+          <h3 className="text-sm font-medium text-gray-700 mb-2">Uploaded Files:</h3>
+          <ul className="divide-y divide-gray-200 border border-gray-200 rounded-md">
+            {files.map((file) => (
+              <li key={file.id} className="pl-3 pr-4 py-3 flex items-center justify-between text-sm">
+                <div className="flex items-center">
+                  {getFileIcon(file)}
+                  <span className="ml-2 truncate">{file.name}</span>
+                  <span className="ml-2 text-gray-500">{formatFileSize(file.size)}</span>
+                </div>
+                <div className="ml-4 flex-shrink-0">
+                  <button
+                    type="button"
+                    className="font-medium text-red-600 hover:text-red-500"
+                    onClick={() => removeFile(file.id as string)}
+                  >
+                    <FiX />
+                  </button>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default MediaUpload;

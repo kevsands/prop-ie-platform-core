@@ -33,7 +33,7 @@ export interface DocumentItem {
     };
     signedAt: string;
     status: string;
-  }>;
+  }>\n  );
 }
 
 export interface DocumentsResponse {
@@ -196,7 +196,7 @@ export function useDocuments(options: {
     {
       enabled: true,
       refetchOnWindowFocus: false,
-      select: (data) => {
+      select: (data: any) => {
         return data?.documents || { items: [], totalCount: 0 };
       }
     }
@@ -212,7 +212,7 @@ export function useDocumentCategories(projectId?: string | null) {
     {
       enabled: true,
       refetchOnWindowFocus: false,
-      select: (data) => {
+      select: (data: any) => {
         return data?.documentCategories || [];
       }
     }
@@ -228,7 +228,7 @@ export function useDocument(documentId?: string) {
     {
       enabled: Boolean(documentId),
       refetchOnWindowFocus: false,
-      select: (data) => {
+      select: (data: any) => {
         return data?.document;
       }
     }
@@ -243,7 +243,7 @@ export function useProjects() {
     {},
     {
       refetchOnWindowFocus: false,
-      select: (data) => {
+      select: (data: any) => {
         return data?.projects?.items || [];
       }
     }
@@ -288,7 +288,7 @@ export interface DeveloperDashboardData {
     location: string;
     propertyCount: number;
     lastUpdated: string;
-  }>;
+  }>\n  );
   salesTrend?: {
     period: string;
     percentage: number;
@@ -303,13 +303,13 @@ interface DeveloperDashboardResponse {
 
 // Hook for fetching developer dashboard data
 export function useDeveloperDashboard() {
-  const { data, isLoading, error } = useGraphQLQuery<DeveloperDashboardResponse>(
+  const { data: any, isLoading, error } = useGraphQLQuery<DeveloperDashboardResponse>(
     ['developerDashboard'] as QueryKey,
     DEVELOPER_DASHBOARD_QUERY,
     {},
     {
       refetchOnWindowFocus: false,
-      select: (data) => data || {
+      select: (data: any) => data || {
         developerDashboard: {
           activeProjects: 0,
           propertiesAvailable: 0,

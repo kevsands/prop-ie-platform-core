@@ -14,13 +14,13 @@ type HTBErrorWrapperProps = {
  * This avoids TypeScript issues with class components
  */
 export function HTBErrorWrapper({ children }: HTBErrorWrapperProps) {
-  const [hasError, setHasError] = useState(false);
-  
+  const [hasErrorsetHasError] = useState(false);
+
   // Reset error state on component mount
   useEffect(() => {
     setHasError(false);
   }, []);
-  
+
   // Handle errors in a way that doesn't break the page
   if (hasError) {
     return (
@@ -33,7 +33,7 @@ export function HTBErrorWrapper({ children }: HTBErrorWrapperProps) {
       </div>
     );
   }
-  
+
   // Wrap children in error handling
   return (
     <React.Fragment>
@@ -56,13 +56,13 @@ function ErrorEventHandler({ onError }: { onError: () => void }) {
         event.preventDefault();
       }
     };
-    
+
     window.addEventListener('error', handleError);
-    
+
     return () => {
       window.removeEventListener('error', handleError);
     };
   }, [onError]);
-  
+
   return null;
 }

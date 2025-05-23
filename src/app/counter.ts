@@ -29,12 +29,11 @@ export async function incrementAndLog() {
   // Store updated count in cookie (expires in 1 year)
   cookieStore.set("page_views", currentCount.toString(), {
     expires: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000),
-    path: "/",
-  });
+    path: "/");
 
   // Log this access in memory (will be lost on restart)
   const accessTime = new Date().toISOString();
-  
+
   // Use a safe parsing approach with validation
   let recentAccessList: Array<{accessed_at: string}> = [];
   try {
@@ -44,37 +43,36 @@ export async function incrementAndLog() {
     if (Array.isArray(parsed)) {
       recentAccessList = parsed;
     } else {
-      console.error("Invalid recent_access format - expected array");
+
       // Reset to empty array if invalid
       recentAccessList = [];
     }
   } catch (error) {
-    console.error("Failed to parse recent_access cookie:", error);
+
     // Reset to empty array on parse error
     recentAccessList = [];
   }
-  
+
   recentAccessList.unshift({ accessed_at: accessTime });
 
   // Keep only the 5 most recent accesses
-  while (recentAccessList.length > 5) {
+  while (recentAccessList.length> 5) {
     recentAccessList.pop();
   }
 
   // Store recent access list in cookie
   cookieStore.set("recent_access", JSON.stringify(recentAccessList), {
     expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 1 week
-    path: "/",
-  });
+    path: "/");
 
   // Database operation example (commented out):
   // const { results: countResults } = await cf.env.DB.prepare(
-  //   'INSERT INTO counters (name, value) VALUES (?, 1) ON CONFLICT (name) DO UPDATE SET value = value + 1 RETURNING value'
+  //   'INSERT INTO counters (namevalue) VALUES (?, 1) ON CONFLICT (name) DO UPDATE SET value = value + 1 RETURNING value'
   // )
   //   .bind('page_views')
   //   .all()
 
-  // await cf.env.DB.prepare('INSERT INTO access_logs (ip, path, accessed_at) VALUES (?, ?, datetime())')
+  // await cf.env.DB.prepare('INSERT INTO access_logs (ip, pathaccessed_at) VALUES (?, ?, datetime())')
   //   .bind(
   //     headersList.get('x-forwarded-for') || headersList.get('x-real-ip') || 'unknown',
   //     headersList.get('x-forwarded-host') || '/'
@@ -85,8 +83,7 @@ export async function incrementAndLog() {
 
   return {
     count: currentCount,
-    recentAccess: recentAccessList,
-  };
+    recentAccess: recentAccessList};
 }
 
 /**
@@ -112,12 +109,12 @@ export async function getStats() {
     if (Array.isArray(parsed)) {
       recentAccessList = parsed;
     } else {
-      console.error("Invalid recent_access format - expected array");
+
       // Reset to empty array if invalid
       recentAccessList = [];
     }
   } catch (error) {
-    console.error("Failed to parse recent_access cookie:", error);
+
     // Reset to empty array on parse error
     recentAccessList = [];
   }
@@ -134,6 +131,5 @@ export async function getStats() {
 
   return {
     count: currentCount,
-    recentAccess: recentAccessList,
-  };
+    recentAccess: recentAccessList};
 }

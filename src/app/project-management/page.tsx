@@ -71,13 +71,13 @@ const mockProjects = [
 ];
 
 export default function ProjectManagementPage() {
-  const [activeTab, setActiveTab] = useState('all');
-  
+  const [activeTabsetActiveTab] = useState('all');
+
   // Filter projects based on active tab
   const filteredProjects = activeTab === 'all' 
     ? mockProjects 
     : mockProjects.filter(project => project.status === activeTab);
-  
+
   return (
     <div className="container mx-auto py-8 px-4">
       <div className="flex justify-between items-center mb-6">
@@ -89,7 +89,7 @@ export default function ProjectManagementPage() {
           </Button>
         </Link>
       </div>
-      
+
       <Tabs defaultValue="all" className="mb-8" onValueChange={setActiveTab}>
         <TabsList className="mb-4">
           <TabsTrigger value="all">All Projects</TabsTrigger>
@@ -97,7 +97,7 @@ export default function ProjectManagementPage() {
           <TabsTrigger value="planning">Planning</TabsTrigger>
           <TabsTrigger value="completed">Completed</TabsTrigger>
         </TabsList>
-        
+
         <TabsContent value={activeTab} className="space-y-4">
           <Card>
             <CardHeader className="pb-2">
@@ -131,7 +131,7 @@ export default function ProjectManagementPage() {
                       </TableCell>
                       <TableCell className="text-right">
                         {project.unitsSold}/{project.unitsTotal} sold
-                        {project.unitsReserved > 0 && `, ${project.unitsReserved} reserved`}
+                        {project.unitsReserved> 0 && `, ${project.unitsReserved} reserved`}
                       </TableCell>
                       <TableCell className="text-right">
                         <div className="flex justify-end space-x-2">
@@ -157,7 +157,7 @@ export default function ProjectManagementPage() {
           </Card>
         </TabsContent>
       </Tabs>
-      
+
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
         <Card>
           <CardHeader className="pb-2">
@@ -177,7 +177,7 @@ export default function ProjectManagementPage() {
             </Link>
           </CardFooter>
         </Card>
-        
+
         <Card>
           <CardHeader className="pb-2">
             <CardTitle className="text-lg">Team Management</CardTitle>
@@ -196,7 +196,7 @@ export default function ProjectManagementPage() {
             </Link>
           </CardFooter>
         </Card>
-        
+
         <Card>
           <CardHeader className="pb-2">
             <CardTitle className="text-lg">Unit Management</CardTitle>
@@ -215,7 +215,7 @@ export default function ProjectManagementPage() {
             </Link>
           </CardFooter>
         </Card>
-        
+
         <Card>
           <CardHeader className="pb-2">
             <CardTitle className="text-lg">Project Analytics</CardTitle>

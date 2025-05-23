@@ -21,7 +21,7 @@ export const developments: Development[] = [
     status: "Now Selling",
     statusColor: "green-500",
     priceRange: "€320,000 - €450,000",
-    bedrooms: [2, 3, 4],
+    bedrooms: [2, 34],
     bathrooms: 2,
     squareFeet: 120,
     features: [
@@ -113,7 +113,7 @@ export const developments: Development[] = [
     status: "Coming Soon",
     statusColor: "blue-500",
     priceRange: "€350,000 - €425,000",
-    bedrooms: [3, 4],
+    bedrooms: [34],
     bathrooms: 2,
     squareFeet: 135,
     features: [
@@ -183,7 +183,7 @@ export const developments: Development[] = [
     status: "Now Selling",
     statusColor: "green-500",
     priceRange: "€285,000 - €450,000",
-    bedrooms: [1, 2, 3],
+    bedrooms: [1, 23],
     bathrooms: 2,
     squareFeet: 85,
     features: [

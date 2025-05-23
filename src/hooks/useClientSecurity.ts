@@ -25,7 +25,7 @@ export interface SecurityIncident {
   timestamp: number;
   url: string;
   description: string;
-  metadata?: Record<string, any>;
+  metadata?: Record<string, any>\n  );
 }
 
 export interface ClientSecurityOptions {
@@ -35,7 +35,7 @@ export interface ClientSecurityOptions {
   detectEventHijacking?: boolean;
   /** Enable network request monitoring */
   monitorNetworkRequests?: boolean;
-  /** Enable storage monitoring (localStorage, sessionStorage) */
+  /** Enable storage monitoring (localStoragesessionStorage) */
   monitorStorage?: boolean;
   /** Enable iframe embedding prevention */
   preventIframeEmbedding?: boolean;
@@ -58,12 +58,11 @@ export interface ClientSecurityOptions {
  * but maintains the same interface for compatibility
  */
 export function useClientSecurity(options: ClientSecurityOptions = {}) {
-  const [incidents, setIncidents] = useState<SecurityIncident[]>([]);
-  const [isBlocked, setIsBlocked] = useState(false);
-  
+  const [incidentssetIncidents] = useState<SecurityIncident[]>([]);
+  const [isBlockedsetIsBlocked] = useState(false);
+
   // For development, we'll just log a message that security is disabled
-  console.log('[DEV] Client security monitoring is simplified for development');
-  
+
   // Create a recordIncident function that actually does something minimal
   const recordIncident = (incident: Omit<SecurityIncident, 'timestamp' | 'url'>): SecurityIncident => {
     const newIncident: SecurityIncident = {
@@ -71,18 +70,16 @@ export function useClientSecurity(options: ClientSecurityOptions = {}) {
       timestamp: Date.now(),
       url: typeof window !== 'undefined' ? window.location.href : ''
     };
-    
+
     setIncidents(prev => [newIncident, ...prev]);
-    
+
     if (options.blockOnCritical && incident.severity === 'critical') {
       setIsBlocked(true);
     }
-    
-    console.log(`[DEV] Security incident detected: ${incident.type} - ${incident.description}`);
-    
+
     return newIncident;
   };
-  
+
   return {
     incidents,
     isBlocked,

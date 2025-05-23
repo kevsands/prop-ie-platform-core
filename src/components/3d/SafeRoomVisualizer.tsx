@@ -21,14 +21,14 @@ export default function SafeRoomVisualizer({
   height?: number;
   onError?: (error: Error) => void;
 }) {
-  const [isClient, setIsClient] = useState(false);
-  const [is3DSupported, setIs3DSupported] = useState(true);
-  const [error, setError] = useState<Error | null>(null);
+  const [isClientsetIsClient] = useState(false);
+  const [is3DSupportedsetIs3DSupported] = useState(true);
+  const [errorsetError] = useState<Error | null>(null);
 
   // Only enable on client side
   useEffect(() => {
     setIsClient(true);
-    
+
     // Check for WebGL support
     try {
       const canvas = document.createElement('canvas');
@@ -47,7 +47,7 @@ export default function SafeRoomVisualizer({
     return (
       <div 
         className="w-full bg-gray-100 rounded-lg flex items-center justify-center" 
-        style={{ height: `${height}px` }}
+        style={ height: `${height}px` }
       >
         <div className="text-center p-4">
           <div className="w-12 h-12 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
@@ -62,7 +62,7 @@ export default function SafeRoomVisualizer({
     return (
       <div 
         className="w-full bg-gray-100 rounded-lg flex items-center justify-center" 
-        style={{ height: `${height}px` }}
+        style={ height: `${height}px` }
       >
         <div className="text-center p-8">
           <svg 
@@ -96,7 +96,7 @@ export default function SafeRoomVisualizer({
     <Suspense fallback={
       <div 
         className="w-full bg-gray-100 rounded-lg flex items-center justify-center" 
-        style={{ height: `${height}px` }}
+        style={ height: `${height}px` }
       >
         <div className="text-center p-4">
           <div className="w-12 h-12 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>

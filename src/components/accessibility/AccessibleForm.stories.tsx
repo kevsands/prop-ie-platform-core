@@ -1,3 +1,4 @@
+import React from 'react';
 'use client';
 
 import type { Meta, StoryObj } from '@storybook/react';
@@ -34,30 +35,25 @@ const meta = {
     layout: 'centered',
     docs: {
       description: {
-        component: 'Accessible form components with proper ARIA attributes and screen reader support',
-      },
-    },
+        component: 'Accessible form components with proper ARIA attributes and screen reader support'},
     a11y: { disable: false },
-  },
-  tags: ['autodocs'],
-} satisfies Meta;
+  tags: ['autodocs']} satisfies Meta;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
-
+type Story = StoryObj<typeof meta>\n  );
 /**
  * Accessible input with label and error handling
  */
 export const Input: Story = {
   render: () => {
-    const [value, setValue] = useState('');
-    const [showError, setShowError] = useState(false);
-    
+    const [valuesetValue] = useState('');
+    const [showErrorsetShowError] = useState(false);
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       setValue(e.target.value);
       setShowError(false);
     };
-    
+
     const handleValidate = () => {
       if (!value) {
         setShowError(true);
@@ -66,7 +62,7 @@ export const Input: Story = {
         alert('Input is valid: ' + value);
       }
     };
-    
+
     return (
       <div className="p-6 max-w-md bg-white rounded-lg border">
         <AccessibleInput
@@ -79,7 +75,7 @@ export const Input: Story = {
           error={showError ? 'Email is required' : undefined}
           description="We'll never share your email with anyone else."
         />
-        
+
         <Button 
           onClick={handleValidate} 
           className="mt-4"
@@ -88,8 +84,7 @@ export const Input: Story = {
         </Button>
       </div>
     );
-  },
-};
+  };
 
 /**
  * Required field label with proper screen reader support
@@ -111,7 +106,7 @@ export const RequiredFields: Story = {
             />
           </div>
         </div>
-        
+
         <div>
           <RequiredLabel htmlFor="company">
             Company (optional)
@@ -126,8 +121,7 @@ export const RequiredFields: Story = {
         </div>
       </div>
     </div>
-  ),
-};
+  )};
 
 /**
  * Fieldset for grouping related form controls
@@ -143,7 +137,7 @@ export const Fieldsets: Story = {
               id="name"
               required
             />
-            
+
             <AccessibleInput
               label="Email Address"
               id="email"
@@ -152,7 +146,7 @@ export const Fieldsets: Story = {
             />
           </div>
         </AccessibleFieldset>
-        
+
         <AccessibleFieldset legend="Notification Preferences" className="mt-6">
           <div className="space-y-4">
             <div className="flex items-center">
@@ -167,7 +161,7 @@ export const Fieldsets: Story = {
                 Email
               </label>
             </div>
-            
+
             <div className="flex items-center">
               <input
                 id="sms-notifications"
@@ -181,14 +175,13 @@ export const Fieldsets: Story = {
             </div>
           </div>
         </AccessibleFieldset>
-        
+
         <Button type="button" className="mt-6">
           Save Preferences
         </Button>
       </form>
     </div>
-  ),
-};
+  )};
 
 /**
  * Form error messages with screen reader announcements
@@ -215,7 +208,7 @@ export const ErrorMessages: Story = {
             fieldId="username" 
           />
         </div>
-        
+
         <div>
           <RequiredLabel required htmlFor="password">
             Password
@@ -236,5 +229,4 @@ export const ErrorMessages: Story = {
         </div>
       </div>
     </div>
-  ),
-};
+  )};

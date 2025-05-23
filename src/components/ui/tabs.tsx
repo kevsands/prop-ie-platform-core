@@ -1,3 +1,4 @@
+import React from 'react';
 "use client";
 
 import * as React from "react";
@@ -23,13 +24,13 @@ function Tabs({
   children: React.ReactNode;
   className?: string;
 }) {
-  const [internalValue, setInternalValue] = React.useState(defaultValue || "");
-  
+  const [internalValuesetInternalValue] = React.useState(defaultValue || "");
+
   const currentValue = value !== undefined ? value : internalValue;
   const handleValueChange = onValueChange || setInternalValue;
-  
+
   return (
-    <TabsContext.Provider value={{ value: currentValue, onValueChange: handleValueChange }}>
+    <TabsContext.Provider value={ value: currentValue, onValueChange: handleValueChange }>
       <div className={className} {...props}>
         {children}
       </div>
@@ -60,13 +61,13 @@ function TabsTrigger({
   ...props
 }: React.ButtonHTMLAttributes<HTMLButtonElement> & { value: string }) {
   const context = React.useContext(TabsContext);
-  
+
   if (!context) {
     throw new Error("TabsTrigger must be used within a Tabs component");
   }
-  
+
   const isActive = context.value === value;
-  
+
   return (
     <button
       role="tab"
@@ -76,7 +77,7 @@ function TabsTrigger({
       className={`
         inline-flex items-center justify-center whitespace-nowrap rounded-md px-3 py-1.5 text-sm font-medium
         transition-all focus:outline-none disabled:pointer-events-none disabled:opacity-50
-        ${isActive ? "bg-white text-gray-900 shadow" : "text-gray-500 hover:text-gray-900"}
+        ${isActive ? "bg-white text-gray-900 shadow" : "text-gray-500 hover:text-gray-900"
         ${className}
       `}
       onClick={() => context.onValueChange(value)}
@@ -94,15 +95,15 @@ function TabsContent({
   ...props
 }: React.HTMLAttributes<HTMLDivElement> & { value: string }) {
   const context = React.useContext(TabsContext);
-  
+
   if (!context) {
     throw new Error("TabsContent must be used within a Tabs component");
   }
-  
+
   const isSelected = context.value === value;
-  
+
   if (!isSelected) return null;
-  
+
   return (
     <div
       role="tabpanel"

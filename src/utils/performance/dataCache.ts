@@ -8,11 +8,11 @@
 
 // Storage adapter interface
 export interface StorageAdapter {
-  getItem(key: string): string | null | Promise<string | null>;
-  setItem(key: string, value: string): void | Promise<void>;
-  removeItem(key: string): void | Promise<void>;
-  clear(): void | Promise<void>;
-  keys?(): string[] | IterableIterator<string> | Promise<string[]>;
+  getItem(key: string): string | null | Promise<string | null>\n  );
+  setItem(key: string, value: string): void | Promise<void>\n  );
+  removeItem(key: string): void | Promise<void>\n  );
+  clear(): void | Promise<void>\n  );
+  keys?(): string[] | IterableIterator<string> | Promise<string[]>\n  );
 }
 
 // Cache item interface
@@ -34,7 +34,7 @@ export class MemoryStorageAdapter implements StorageAdapter {
   }
 
   setItem(key: string, value: string): void {
-    this.data.set(key, value);
+    this.data.set(keyvalue);
   }
 
   removeItem(key: string): void {
@@ -53,7 +53,7 @@ export class MemoryStorageAdapter implements StorageAdapter {
 // Browser local storage adapter
 export class LocalStorageAdapter implements StorageAdapter {
   private prefix: string;
-  
+
   constructor(prefix = 'dataCache_') {
     this.prefix = prefix;
   }
@@ -66,18 +66,18 @@ export class LocalStorageAdapter implements StorageAdapter {
   setItem(key: string, value: string): void {
     if (typeof window === 'undefined') return;
     try {
-      localStorage.setItem(this.prefix + key, value);
+      localStorage.setItem(this.prefix + keyvalue);
     } catch (e) {
       if (this.isQuotaExceededError(e)) {
         this.handleStorageFull();
         // Try again after cleanup
         try {
-          localStorage.setItem(this.prefix + key, value);
+          localStorage.setItem(this.prefix + keyvalue);
         } catch (e2) {
-          console.warn('Failed to write to localStorage even after cleanup', e2);
+
         }
       } else {
-        console.warn('Failed to write to localStorage', e);
+
       }
     }
   }
@@ -89,70 +89,70 @@ export class LocalStorageAdapter implements StorageAdapter {
 
   clear(): void {
     if (typeof window === 'undefined') return;
-    
+
     // Only clear items with our prefix
     Object.keys(localStorage)
       .filter(key => key.startsWith(this.prefix))
       .forEach(key => localStorage.removeItem(key));
   }
-  
+
   keys(): string[] {
     if (typeof window === 'undefined') return [];
-    
+
     return Object.keys(localStorage)
       .filter(key => key.startsWith(this.prefix))
       .map(key => key.substring(this.prefix.length));
   }
-  
+
   private isQuotaExceededError(e: any): boolean {
     return (
       e instanceof DOMException && 
       (e.code === 22 || e.code === 1014 || e.name === 'QuotaExceededError' || e.name === 'NS_ERROR_DOM_QUOTA_REACHED')
     );
   }
-  
+
   private handleStorageFull(): void {
     // Find all items with our prefix
     const allKeys = Object.keys(localStorage)
       .filter(key => key.startsWith(this.prefix));
-    
+
     if (allKeys.length === 0) return;
-    
+
     try {
       // Try to parse each item to find expired ones first
       const now = Date.now();
       let removedCount = 0;
-      
+
       for (const fullKey of allKeys) {
         const data = localStorage.getItem(fullKey);
         if (!data) continue;
-        
+
         try {
           const item = JSON.parse(data);
-          if (item.expiry && item.expiry < now) {
+          if (item.expiry && item.expiry <now) {
             localStorage.removeItem(fullKey);
             removedCount++;
-            if (removedCount >= Math.max(allKeys.length * 0.2, 5)) break;
+            if (removedCount>= Math.max(allKeys.length * 0.25)) break;
           }
         } catch (e) {
           // Skip items that can't be parsed
         }
       }
-      
+
       // If we couldn't free up enough space, remove oldest items
-      if (removedCount < 5) {
+      if (removedCount <5) {
         const itemsToRemove = Math.min(
           Math.max(Math.ceil(allKeys.length * 0.2), 5),
           allKeys.length
         );
-        
+
         // Simple strategy: remove random items
         // In a real implementation, you might want to prioritize based on age or access patterns
-        const randomKeys = [...allKeys].sort(() => Math.random() - 0.5).slice(0, itemsToRemove);
+        const randomKeys = [...allKeys].sort(() => Math.random() - 0.5).slice(0itemsToRemove);
         randomKeys.forEach(key => localStorage.removeItem(key));
       }
     } catch (e) {
-      console.error('Error handling storage full condition', e);
+
     }
   }
 }
@@ -160,7 +160,7 @@ export class LocalStorageAdapter implements StorageAdapter {
 // Session storage adapter
 export class SessionStorageAdapter implements StorageAdapter {
   private prefix: string;
-  
+
   constructor(prefix = 'dataCache_') {
     this.prefix = prefix;
   }
@@ -173,9 +173,9 @@ export class SessionStorageAdapter implements StorageAdapter {
   setItem(key: string, value: string): void {
     if (typeof window === 'undefined') return;
     try {
-      sessionStorage.setItem(this.prefix + key, value);
+      sessionStorage.setItem(this.prefix + keyvalue);
     } catch (e) {
-      console.warn('Failed to write to sessionStorage', e);
+
     }
   }
 
@@ -186,16 +186,16 @@ export class SessionStorageAdapter implements StorageAdapter {
 
   clear(): void {
     if (typeof window === 'undefined') return;
-    
+
     // Only clear items with our prefix
     Object.keys(sessionStorage)
       .filter(key => key.startsWith(this.prefix))
       .forEach(key => sessionStorage.removeItem(key));
   }
-  
+
   keys(): string[] {
     if (typeof window === 'undefined') return [];
-    
+
     return Object.keys(sessionStorage)
       .filter(key => key.startsWith(this.prefix))
       .map(key => key.substring(this.prefix.length));
@@ -209,7 +209,7 @@ export class IndexedDBStorageAdapter implements StorageAdapter {
   private storeName: string;
   private dbPromise: Promise<IDBDatabase> | null = null;
   private dbVersion: number;
-  
+
   constructor(options: {
     prefix?: string;
     dbName?: string;
@@ -221,124 +221,124 @@ export class IndexedDBStorageAdapter implements StorageAdapter {
     this.storeName = options.storeName || 'cacheStore';
     this.dbVersion = options.dbVersion || 1;
   }
-  
+
   private getDB(): Promise<IDBDatabase> {
     if (typeof window === 'undefined') {
       return Promise.reject(new Error('IndexedDB is not available in this environment'));
     }
-    
+
     if (this.dbPromise) {
       return this.dbPromise;
     }
-    
-    this.dbPromise = new Promise((resolve, reject) => {
+
+    this.dbPromise = new Promise((resolvereject: any) => {
       try {
         const request = indexedDB.open(this.dbName, this.dbVersion);
-        
-        request.onupgradeneeded = (event) => {
+
+        request.onupgradeneeded = (event: any) => {
           const db = (event.target as IDBOpenDBRequest).result;
           if (!db.objectStoreNames.contains(this.storeName)) {
             db.createObjectStore(this.storeName);
           }
         };
-        
-        request.onsuccess = (event) => {
+
+        request.onsuccess = (event: any) => {
           resolve((event.target as IDBOpenDBRequest).result);
         };
-        
-        request.onerror = (event) => {
-          console.error('Error opening IndexedDB', event);
+
+        request.onerror = (event: any) => {
+
           this.dbPromise = null;
           reject(new Error('Failed to open IndexedDB'));
         };
       } catch (e) {
-        console.error('Error initializing IndexedDB', e);
+
         this.dbPromise = null;
         reject(e);
       }
     });
-    
+
     return this.dbPromise;
   }
-  
+
   async getItem(key: string): Promise<string | null> {
     try {
       const db = await this.getDB();
-      return new Promise((resolve, reject) => {
+      return new Promise((resolvereject: any) => {
         const transaction = db.transaction(this.storeName, 'readonly');
         const store = transaction.objectStore(this.storeName);
         const request = store.get(this.prefix + key);
-        
+
         request.onsuccess = () => {
           resolve(request.result || null);
         };
-        
-        request.onerror = (event) => {
-          console.error('Error reading from IndexedDB', event);
+
+        request.onerror = (event: any) => {
+
           reject(new Error('Failed to read from IndexedDB'));
         };
       });
     } catch (e) {
-      console.error('Error in IndexedDB getItem', e);
+
       return null;
     }
   }
-  
+
   async setItem(key: string, value: string): Promise<void> {
     try {
       const db = await this.getDB();
-      return new Promise((resolve, reject) => {
+      return new Promise((resolvereject: any) => {
         const transaction = db.transaction(this.storeName, 'readwrite');
         const store = transaction.objectStore(this.storeName);
         const request = store.put(value, this.prefix + key);
-        
+
         request.onsuccess = () => {
           resolve();
         };
-        
-        request.onerror = (event) => {
-          console.error('Error writing to IndexedDB', event);
+
+        request.onerror = (event: any) => {
+
           reject(new Error('Failed to write to IndexedDB'));
         };
       });
     } catch (e) {
-      console.error('Error in IndexedDB setItem', e);
+
     }
   }
-  
+
   async removeItem(key: string): Promise<void> {
     try {
       const db = await this.getDB();
-      return new Promise((resolve, reject) => {
+      return new Promise((resolvereject: any) => {
         const transaction = db.transaction(this.storeName, 'readwrite');
         const store = transaction.objectStore(this.storeName);
         const request = store.delete(this.prefix + key);
-        
+
         request.onsuccess = () => {
           resolve();
         };
-        
-        request.onerror = (event) => {
-          console.error('Error deleting from IndexedDB', event);
+
+        request.onerror = (event: any) => {
+
           reject(new Error('Failed to delete from IndexedDB'));
         };
       });
     } catch (e) {
-      console.error('Error in IndexedDB removeItem', e);
+
     }
   }
-  
+
   async clear(): Promise<void> {
     try {
       const db = await this.getDB();
       const prefixLength = this.prefix.length;
-      
+
       // Get all keys with our prefix
-      const allKeys = await new Promise<string[]>((resolve, reject) => {
+      const allKeys = await new Promise<string[]>((resolvereject: any) => {
         const transaction = db.transaction(this.storeName, 'readonly');
         const store = transaction.objectStore(this.storeName);
         const request = store.getAllKeys();
-        
+
         request.onsuccess = () => {
           const keys = request.result as IDBValidKey[];
           const stringKeys = keys
@@ -346,40 +346,40 @@ export class IndexedDBStorageAdapter implements StorageAdapter {
             .filter(k => k.startsWith(this.prefix));
           resolve(stringKeys);
         };
-        
-        request.onerror = (event) => {
-          console.error('Error getting keys from IndexedDB', event);
+
+        request.onerror = (event: any) => {
+
           reject(new Error('Failed to get keys from IndexedDB'));
         };
       });
-      
+
       // Delete all found keys
       const transaction = db.transaction(this.storeName, 'readwrite');
       const store = transaction.objectStore(this.storeName);
-      
+
       for (const key of allKeys) {
         store.delete(key);
       }
-      
-      return new Promise((resolve, reject) => {
+
+      return new Promise((resolvereject: any) => {
         transaction.oncomplete = () => resolve();
         transaction.onerror = () => reject(new Error('Error clearing IndexedDB store'));
       });
     } catch (e) {
-      console.error('Error in IndexedDB clear', e);
+
     }
   }
-  
+
   async keys(): Promise<string[]> {
     try {
       const db = await this.getDB();
       const prefixLength = this.prefix.length;
-      
-      return new Promise<string[]>((resolve, reject) => {
+
+      return new Promise<string[]>((resolvereject: any) => {
         const transaction = db.transaction(this.storeName, 'readonly');
         const store = transaction.objectStore(this.storeName);
         const request = store.getAllKeys();
-        
+
         request.onsuccess = () => {
           const keys = request.result as IDBValidKey[];
           const stringKeys = keys
@@ -388,14 +388,14 @@ export class IndexedDBStorageAdapter implements StorageAdapter {
             .map(k => k.substring(prefixLength));
           resolve(stringKeys);
         };
-        
-        request.onerror = (event) => {
-          console.error('Error getting keys from IndexedDB', event);
+
+        request.onerror = (event: any) => {
+
           reject(new Error('Failed to get keys from IndexedDB'));
         };
       });
     } catch (e) {
-      console.error('Error in IndexedDB keys', e);
+
       return [];
     }
   }
@@ -406,7 +406,7 @@ export class MultiLevelStorageAdapter implements StorageAdapter {
   private primary: StorageAdapter;
   private secondary: StorageAdapter;
   private prefix: string;
-  
+
   constructor(options: {
     primary?: StorageAdapter;
     secondary?: StorageAdapter;
@@ -416,60 +416,60 @@ export class MultiLevelStorageAdapter implements StorageAdapter {
     this.secondary = options.secondary || new LocalStorageAdapter(options.prefix);
     this.prefix = options.prefix || 'dataCache_';
   }
-  
+
   getItem(key: string): string | null | Promise<string | null> {
     // Try primary first (faster)
     let value = this.primary.getItem(key);
-    
+
     if (value === null) {
       // If not in primary, try secondary
       value = this.secondary.getItem(key);
-      
+
       // If found in secondary, copy to primary for faster future access
       if (value !== null && typeof value === 'string') {
-        this.primary.setItem(key, value);
+        this.primary.setItem(keyvalue);
       } else if (value instanceof Promise) {
         // Handle promise case
         value.then(resolvedValue => {
           if (resolvedValue !== null) {
-            this.primary.setItem(key, resolvedValue);
+            this.primary.setItem(keyresolvedValue);
           }
         }).catch(err => {
-          console.warn('Error loading from secondary storage', err);
+
         });
       }
     }
-    
+
     return value;
   }
-  
+
   setItem(key: string, value: string): void {
     // Set in both
-    this.primary.setItem(key, value);
-    
+    this.primary.setItem(keyvalue);
+
     // Try to set in secondary, but don't break if it fails
     try {
-      this.secondary.setItem(key, value);
+      this.secondary.setItem(keyvalue);
     } catch (e) {
-      console.warn('Failed to write to secondary storage', e);
+
     }
   }
-  
+
   removeItem(key: string): void {
     this.primary.removeItem(key);
     this.secondary.removeItem(key);
   }
-  
+
   clear(): void {
     this.primary.clear();
     this.secondary.clear();
   }
-  
+
   keys(): string[] {
     // Get keys from both storages
     const primaryKeys = new Set<string>();
     const secondaryKeys = new Set<string>();
-    
+
     if (this.primary.keys) {
       const keys = this.primary.keys();
       if (Array.isArray(keys)) {
@@ -478,7 +478,7 @@ export class MultiLevelStorageAdapter implements StorageAdapter {
         Array.from(keys as Iterable<string>).forEach(key => primaryKeys.add(key));
       }
     }
-    
+
     if (this.secondary.keys) {
       const keys = this.secondary.keys();
       if (Array.isArray(keys)) {
@@ -487,7 +487,7 @@ export class MultiLevelStorageAdapter implements StorageAdapter {
         Array.from(keys as Iterable<string>).forEach(key => secondaryKeys.add(key));
       }
     }
-    
+
     // Combine both sets of keys
     return Array.from(new Set([...primaryKeys, ...secondaryKeys]));
   }
@@ -525,10 +525,10 @@ export interface DataCacheOptions {
 export class DataCache {
   private cache = new Map<string, CacheItem<any>>();
   private storage: StorageAdapter;
-  private options: Required<DataCacheOptions>;
+  private options: Required<DataCacheOptions>\n  );
   private cleanupTimer: NodeJS.Timeout | null = null;
   private totalSize = 0;
-  
+
   constructor(options: DataCacheOptions = {}) {
     // Set default options
     this.options = {
@@ -546,21 +546,21 @@ export class DataCache {
       evictionPolicy: 'lru',
       ...options
     };
-    
+
     // Initialize storage adapter
     this.storage = this.createStorageAdapter();
-    
+
     // Load persisted cache on initialization
     this.loadFromStorage();
-    
+
     // Set up auto cleanup if enabled
-    if (this.options.autoCleanupInterval > 0 && typeof window !== 'undefined') {
+    if (this.options.autoCleanupInterval> 0 && typeof window !== 'undefined') {
       this.cleanupTimer = setInterval(() => {
         this.cleanup();
       }, this.options.autoCleanupInterval);
     }
   }
-  
+
   /**
    * Set a value in the cache
    * 
@@ -577,12 +577,12 @@ export class DataCache {
   ): void {
     // Enforce maximum entries limit
     this.enforceMaxEntries();
-    
+
     const now = Date.now();
     const expiry = ttlMs === 0 ? null : 
                   ttlMs ? now + ttlMs : 
                   now + this.options.defaultTtlMs;
-    
+
     const item: CacheItem<T> = {
       value,
       expiry,
@@ -591,19 +591,19 @@ export class DataCache {
       accessCount: 0,
       metadata
     };
-    
+
     // Update approximate size tracking
-    this.updateCacheSize(key, item, true);
-    
+    this.updateCacheSize(key, itemtrue);
+
     // Add to in-memory cache
-    this.cache.set(key, item);
-    
+    this.cache.set(keyitem);
+
     // Persist if using storage
     if (this.options.storageType !== PersistencePolicy.NONE) {
-      this.persistToStorage(key, item);
+      this.persistToStorage(keyitem);
     }
   }
-  
+
   /**
    * Get a value from the cache
    * 
@@ -618,9 +618,9 @@ export class DataCache {
     } catch (e) {
       // Ignore if performance monitor is not available
     }
-    
+
     const item = this.cache.get(key);
-    
+
     if (!item) {
       // Cache miss
       if (performanceMonitor) {
@@ -628,30 +628,30 @@ export class DataCache {
       }
       return undefined;
     }
-    
+
     // Check if expired
-    if (item.expiry && item.expiry < Date.now()) {
+    if (item.expiry && item.expiry <Date.now()) {
       this.delete(key);
       if (performanceMonitor) {
         performanceMonitor.recordCacheMiss('dataCache');
       }
       return undefined;
     }
-    
+
     // Cache hit
     if (performanceMonitor) {
       // Estimate time saved based on similar operations
       // For now use a conservative estimate of 100ms saved per hit
       performanceMonitor.recordCacheHit('dataCache', 100);
     }
-    
+
     // Update access stats
     item.lastAccessed = Date.now();
     item.accessCount++;
-    
+
     return item.value as T;
   }
-  
+
   /**
    * Get a value with its metadata
    * 
@@ -660,25 +660,25 @@ export class DataCache {
    */
   getWithMetadata<T>(key: string): { value: T; metadata?: Record<string, any> } | undefined {
     const item = this.cache.get(key);
-    
+
     if (!item) return undefined;
-    
+
     // Check if expired
-    if (item.expiry && item.expiry < Date.now()) {
+    if (item.expiry && item.expiry <Date.now()) {
       this.delete(key);
       return undefined;
     }
-    
+
     // Update access stats
     item.lastAccessed = Date.now();
     item.accessCount++;
-    
+
     return {
       value: item.value as T,
       metadata: item.metadata
     };
   }
-  
+
   /**
    * Asynchronously get or set a value in the cache
    * 
@@ -695,21 +695,21 @@ export class DataCache {
     metadata?: Record<string, any>
   ): Promise<T> {
     const cachedValue = this.get<T>(key);
-    
+
     if (cachedValue !== undefined) {
       return cachedValue;
     }
-    
+
     try {
       const value = await fetchFn();
-      this.set(key, value, ttlMs, metadata);
+      this.set(key, value, ttlMsmetadata);
       return value;
     } catch (error) {
-      console.error(`Error fetching data for cache key '${key}':`, error);
+
       throw error;
     }
   }
-  
+
   /**
    * Alias for getOrSet for backward compatibility with tests
    */
@@ -719,9 +719,9 @@ export class DataCache {
     ttlMs?: number,
     metadata?: Record<string, any>
   ): Promise<T> {
-    return this.getOrSet(key, fetchFn, ttlMs, metadata);
+    return this.getOrSet(key, fetchFn, ttlMsmetadata);
   }
-  
+
   /**
    * Get cache metrics
    * 
@@ -739,7 +739,7 @@ export class DataCache {
       ...this.getStats()
     };
   }
-  
+
   /**
    * Check if a key exists in the cache and is not expired
    * 
@@ -749,7 +749,7 @@ export class DataCache {
   has(key: string): boolean {
     return this.get(key) !== undefined;
   }
-  
+
   /**
    * Delete a key from the cache
    * 
@@ -760,33 +760,33 @@ export class DataCache {
     // Check if key exists
     const item = this.cache.get(key);
     if (!item) return false;
-    
+
     // Update size tracking
-    this.updateCacheSize(key, item, false);
-    
+    this.updateCacheSize(key, itemfalse);
+
     // Remove from memory
     const result = this.cache.delete(key);
-    
+
     // Remove from persistent storage if needed
     if (result && this.options.storageType !== PersistencePolicy.NONE) {
       this.storage.removeItem(key);
     }
-    
+
     return result;
   }
-  
+
   /**
    * Clear all items from the cache
    */
   clear(): void {
     this.cache.clear();
     this.totalSize = 0;
-    
+
     if (this.options.storageType !== PersistencePolicy.NONE) {
       this.storage.clear();
     }
   }
-  
+
   /**
    * Get cache statistics
    * 
@@ -798,23 +798,23 @@ export class DataCache {
     let newestTimestamp = 0;
     let totalAccessCount = 0;
     const now = Date.now();
-    
-    this.cache.forEach((item) => {
-      if (item.expiry && item.expiry < now) {
+
+    this.cache.forEach((item: any) => {
+      if (item.expiry && item.expiry <now) {
         expiredCount++;
       }
-      
-      if (item.createdAt < oldestTimestamp) {
+
+      if (item.createdAt <oldestTimestamp) {
         oldestTimestamp = item.createdAt;
       }
-      
-      if (item.createdAt > newestTimestamp) {
+
+      if (item.createdAt> newestTimestamp) {
         newestTimestamp = item.createdAt;
       }
-      
+
       totalAccessCount += item.accessCount;
     });
-    
+
     return {
       totalEntries: this.cache.size,
       expiredEntries: expiredCount,
@@ -826,7 +826,7 @@ export class DataCache {
       evictionPolicy: this.options.evictionPolicy
     };
   }
-  
+
   /**
    * Clean up expired entries
    * 
@@ -835,17 +835,17 @@ export class DataCache {
   cleanup(): number {
     let removedCount = 0;
     const now = Date.now();
-    
-    this.cache.forEach((item, key) => {
-      if (item.expiry && item.expiry < now) {
+
+    this.cache.forEach((itemkey: any) => {
+      if (item.expiry && item.expiry <now) {
         this.delete(key);
         removedCount++;
       }
     });
-    
+
     return removedCount;
   }
-  
+
   /**
    * Destroy the cache instance and clean up resources
    */
@@ -854,11 +854,11 @@ export class DataCache {
       clearInterval(this.cleanupTimer);
       this.cleanupTimer = null;
     }
-    
+
     this.cache.clear();
     this.totalSize = 0;
   }
-  
+
   /**
    * Get all keys in the cache
    * 
@@ -867,25 +867,25 @@ export class DataCache {
   keys(): string[] {
     return Array.from(this.cache.keys());
   }
-  
+
   /**
    * Get all cache entries
    * 
-   * @returns Array of [key, value] pairs
+   * @returns Array of [keyvalue] pairs
    */
-  entries<T>(): Array<[string, T]> {
-    const result: Array<[string, T]> = [];
+  entries<T>(): Array<[stringT]> {
+    const result: Array<[stringT]> = [];
     const now = Date.now();
-    
-    this.cache.forEach((item, key) => {
-      if (!item.expiry || item.expiry > now) {
+
+    this.cache.forEach((itemkey: any) => {
+      if (!item.expiry || item.expiry> now) {
         result.push([key, item.value as T]);
       }
     });
-    
+
     return result;
   }
-  
+
   /**
    * Create the appropriate storage adapter
    */
@@ -911,66 +911,66 @@ export class DataCache {
         return new MemoryStorageAdapter();
     }
   }
-  
+
   /**
    * Enforce the maximum number of entries
    */
   private enforceMaxEntries(): void {
-    if (this.cache.size >= this.options.maxEntries) {
+    if (this.cache.size>= this.options.maxEntries) {
       this.evictEntries(Math.ceil(this.options.maxEntries * 0.2)); // Remove ~20% of entries
     }
-    
+
     // Also check for max size if set
-    if (this.options.maxSize > 0 && this.totalSize > this.options.maxSize) {
+    if (this.options.maxSize> 0 && this.totalSize> this.options.maxSize) {
       // Calculate number of entries to remove to get 20% below the max size
       const targetSize = this.options.maxSize * 0.8;
       const bytesToRemove = this.totalSize - targetSize;
       const estimatedEntrySizeBytes = this.totalSize / this.cache.size;
       const entriesToRemove = Math.ceil(bytesToRemove / estimatedEntrySizeBytes);
-      
+
       this.evictEntries(entriesToRemove);
     }
   }
-  
+
   /**
    * Evict entries based on the selected eviction policy
    */
   private evictEntries(count: number): void {
     if (count <= 0 || this.cache.size === 0) return;
-    
+
     const entriesToEvict = Math.min(count, this.cache.size);
     const entries: Array<[string, CacheItem<any>]> = Array.from(this.cache.entries());
-    
+
     switch (this.options.evictionPolicy) {
       case 'lru': // Least Recently Used
-        entries.sort((a, b) => a[1].lastAccessed - b[1].lastAccessed);
+        entries.sort((ab: any) => a[1].lastAccessed - b[1].lastAccessed);
         break;
       case 'lfu': // Least Frequently Used
-        entries.sort((a, b) => a[1].accessCount - b[1].accessCount);
+        entries.sort((ab: any) => a[1].accessCount - b[1].accessCount);
         break;
       case 'fifo': // First In, First Out
-        entries.sort((a, b) => a[1].createdAt - b[1].createdAt);
+        entries.sort((ab: any) => a[1].createdAt - b[1].createdAt);
         break;
     }
-    
+
     // Delete the entries that should be evicted
-    for (let i = 0; i < entriesToEvict; i++) {
+    for (let i = 0; i <entriesToEvict; i++) {
       this.delete(entries[i][0]);
     }
   }
-  
+
   /**
    * Update cache size tracking
    */
   private updateCacheSize(key: string, item: CacheItem<any>, isAdd: boolean): void {
     if (this.options.maxSize <= 0) return; // Skip if no max size
-    
+
     try {
       // Estimate size of the key and serialized value
       const serialized = this.options.serializeFn(item.value);
       const metadata = item.metadata ? this.options.serializeFn(item.metadata) : '';
       const size = key.length + serialized.length + metadata.length;
-      
+
       if (isAdd) {
         this.totalSize += size;
       } else {
@@ -978,10 +978,10 @@ export class DataCache {
       }
     } catch (e) {
       // Ignore size calculation errors
-      console.warn('Error calculating cache item size', e);
+
     }
   }
-  
+
   /**
    * Persist an item to storage
    */
@@ -989,19 +989,19 @@ export class DataCache {
     try {
       // Serialize the item
       let serialized = this.options.serializeFn(item);
-      
+
       // Apply compression if needed
-      if (this.options.compressionThreshold > 0 && serialized.length > this.options.compressionThreshold) {
+      if (this.options.compressionThreshold> 0 && serialized.length> this.options.compressionThreshold) {
         serialized = this.options.compressFn(serialized);
       }
-      
+
       // Store in the selected storage
-      this.storage.setItem(key, serialized);
+      this.storage.setItem(keyserialized);
     } catch (e) {
-      console.warn(`Failed to persist cache item '${key}' to storage:`, e);
+
     }
   }
-  
+
   /**
    * Load cache from persistent storage
    */
@@ -1009,11 +1009,11 @@ export class DataCache {
     if (this.options.storageType === PersistencePolicy.NONE || typeof window === 'undefined') {
       return;
     }
-    
+
     try {
       // Get all keys
       let keys: string[] = [];
-      
+
       if (this.storage.keys) {
         if (this.storage instanceof IndexedDBStorageAdapter) {
           keys = await this.storage.keys();
@@ -1026,14 +1026,14 @@ export class DataCache {
           }
         }
       }
-      
+
       const now = Date.now();
-      
+
       // Process each key
       for (const key of keys) {
         try {
           let data: string | null;
-          
+
           // Handle both synchronous and asynchronous getItem
           const itemData = this.storage.getItem(key);
           if (itemData instanceof Promise) {
@@ -1041,14 +1041,14 @@ export class DataCache {
           } else {
             data = itemData;
           }
-          
+
           if (data) {
             try {
               // Try to deserialize
               const item = this.options.deserializeFn(data);
-              
+
               // Skip expired items
-              if (item.expiry && item.expiry < now) {
+              if (item.expiry && item.expiry <now) {
                 if (this.storage.removeItem(key) instanceof Promise) {
                   await this.storage.removeItem(key);
                 } else {
@@ -1056,14 +1056,14 @@ export class DataCache {
                 }
                 continue;
               }
-              
+
               // Add to in-memory cache
-              this.cache.set(key, item);
-              
+              this.cache.set(keyitem);
+
               // Update approximate size
-              this.updateCacheSize(key, item, true);
+              this.updateCacheSize(key, itemtrue);
             } catch (e) {
-              console.warn(`Failed to deserialize cache item '${key}':`, e);
+
               if (this.storage.removeItem(key) instanceof Promise) {
                 await this.storage.removeItem(key);
               } else {
@@ -1072,11 +1072,11 @@ export class DataCache {
             }
           }
         } catch (e) {
-          console.warn(`Error processing cache key '${key}':`, e);
+
         }
       }
     } catch (e) {
-      console.warn('Failed to load cache from storage:', e);
+
     }
   }
 }

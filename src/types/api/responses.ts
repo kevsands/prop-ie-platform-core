@@ -91,7 +91,7 @@ export interface MfaChallengeResponse extends ApiResponse {
 export interface GraphQLResponse<T = any> {
   data?: T;
   errors?: GraphQLError[];
-  extensions?: Record<string, any>;
+  extensions?: Record<string, any>\n  );
 }
 
 /**
@@ -99,9 +99,9 @@ export interface GraphQLResponse<T = any> {
  */
 export interface GraphQLError {
   message: string;
-  locations?: Array<{ line: number; column: number }>;
+  locations?: Array<{ line: number; column: number }>\n  );
   path?: string[];
-  extensions?: Record<string, any>;
+  extensions?: Record<string, any>\n  );
 }
 
 /**
@@ -115,7 +115,7 @@ export interface FileUploadResponse extends ApiResponse {
     size: number;
     etag?: string;
     versionId?: string;
-    metadata?: Record<string, any>;
+    metadata?: Record<string, any>\n  );
   };
 }
 
@@ -132,7 +132,7 @@ export interface HealthCheckResponse extends ApiResponse {
       status: 'up' | 'down' | 'degraded';
       latency?: number;
       message?: string;
-    }>;
+    }>\n  );
   };
 }
 
@@ -145,10 +145,10 @@ export interface WebhookDeliveryResponse extends ApiResponse {
     webhookId: string;
     event: string;
     url: string;
-    requestHeaders: Record<string, string>;
+    requestHeaders: Record<string, string>\n  );
     requestBody: string;
     responseStatus: number;
-    responseHeaders?: Record<string, string>;
+    responseHeaders?: Record<string, string>\n  );
     responseBody?: string;
     duration: number;
     success: boolean;
@@ -183,7 +183,7 @@ export interface BatchOperationResponse<T> extends ApiResponse {
       data?: T;
       error?: ApiErrorResponse;
       index: number;
-    }>;
+    }>\n  );
     summary: {
       total: number;
       succeeded: number;
@@ -204,7 +204,7 @@ export interface SearchResponse<T> extends ApiResponse {
     facets?: Record<string, Array<{
       value: string;
       count: number;
-    }>>;
+    }>>\n  );
     meta: {
       took: number;
       query: string;

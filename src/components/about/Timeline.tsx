@@ -8,20 +8,20 @@ import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
 const Timeline = () => {
   const timelineRef = useRef<HTMLDivElement>(null);
   const lineRef = useRef<HTMLDivElement>(null);
-  
+
   // Register ScrollTrigger plugin
   useEffect(() => {
     if (typeof window !== 'undefined') {
       gsap.registerPlugin(ScrollTrigger);
     }
   }, []);
-  
+
   // Set up the timeline animation with GSAP
   useEffect(() => {
     if (!timelineRef.current || !lineRef.current) return;
-    
+
     const timelineElements = timelineRef.current.querySelectorAll('.timeline-item');
-    
+
     // Animate the progress line
     gsap.to(lineRef.current, {
       height: '100%',
@@ -30,12 +30,11 @@ const Timeline = () => {
         trigger: timelineRef.current,
         start: 'top 75%',
         end: 'bottom 75%',
-        scrub: 0.5,
-      }
+        scrub: 0.5}
     });
-    
+
     // Animate each timeline item
-    timelineElements.forEach((element, index) => {
+    timelineElements.forEach((elementindex: any) => {
       gsap.from(element, {
         opacity: 0,
         x: index % 2 === 0 ? -50 : 50,
@@ -43,11 +42,10 @@ const Timeline = () => {
           trigger: element,
           start: 'top 80%',
           end: 'top 70%',
-          scrub: 0.5,
-        }
+          scrub: 0.5}
       });
     });
-    
+
     return () => {
       // Clean up ScrollTrigger instances
       ScrollTrigger.getAll().forEach(trigger => trigger.kill());
@@ -58,49 +56,41 @@ const Timeline = () => {
     {
       year: '2018',
       title: 'Company Founded',
-      description: 'Prop was established with a vision to transform the property development and purchase experience in Ireland.',
-    },
+      description: 'Prop was established with a vision to transform the property development and purchase experience in Ireland.'},
     {
       year: '2019',
       title: 'First Platform Launch',
-      description: 'The initial version of our property development platform was released, connecting developers with potential buyers.',
-    },
+      description: 'The initial version of our property development platform was released, connecting developers with potential buyers.'},
     {
       year: '2020',
       title: 'Virtual Property Tours',
-      description: 'We integrated 3D virtual tours, allowing buyers to explore properties remotely during the pandemic.',
-    },
+      description: 'We integrated 3D virtual tours, allowing buyers to explore properties remotely during the pandemic.'},
     {
       year: '2021',
       title: 'Customization Tools',
-      description: 'Introduced our innovative property customization features, enabling buyers to personalize their future homes.',
-    },
+      description: 'Introduced our innovative property customization features, enabling buyers to personalize their future homes.'},
     {
       year: '2022',
       title: 'Developer Dashboard',
-      description: 'Launched comprehensive analytics and project management tools for property developers.',
-    },
+      description: 'Launched comprehensive analytics and project management tools for property developers.'},
     {
       year: '2023',
       title: 'National Expansion',
-      description: 'Expanded our services to cover all major metropolitan areas across Ireland.',
-    },
+      description: 'Expanded our services to cover all major metropolitan areas across Ireland.'},
     {
       year: '2024',
       title: 'Looking Forward',
-      description: 'Continuing to innovate with AI-powered recommendations and sustainability features.',
-    },
-  ];
+      description: 'Continuing to innovate with AI-powered recommendations and sustainability features.'}];
 
   return (
     <section className="py-20 bg-gray-50">
       <div className="container mx-auto px-4">
         <motion.div 
           className="text-center mb-16"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          initial={ opacity: 0, y: 20 }
+          whileInView={ opacity: 1, y: 0 }
+          viewport={ once: true }
+          transition={ duration: 0.6 }
         >
           <h2 className="text-sm uppercase tracking-wider text-blue-600 font-semibold mb-2">
             Our Journey
@@ -122,9 +112,9 @@ const Timeline = () => {
               className="bg-blue-600 w-full h-0 origin-top"
             ></div>
           </div>
-          
+
           {/* Timeline items */}
-          {timelineItems.map((item, index) => (
+          {timelineItems.map((itemindex: any) => (
             <div 
               key={index}
               className={`timeline-item relative flex items-center mb-12 ${
@@ -137,7 +127,7 @@ const Timeline = () => {
                   {item.year.substring(2)}
                 </div>
               </div>
-              
+
               {/* Content box */}
               <div 
                 className={`w-5/12 bg-white p-6 rounded-lg shadow-sm border border-gray-100 ${

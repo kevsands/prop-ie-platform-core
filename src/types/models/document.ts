@@ -88,7 +88,7 @@ export interface DocumentVersion {
   creator?: UserSummary;
   comment?: string;
   size: number;
-  metadata?: Record<string, any>;
+  metadata?: Record<string, any>\n  );
 }
 
 /**
@@ -102,8 +102,8 @@ export interface DocumentSignature {
   ipAddress?: string;
   method: 'ELECTRONIC' | 'DIGITAL' | 'HANDWRITTEN';
   status: 'PENDING' | 'SIGNED' | 'REJECTED';
-  position?: Record<string, number>;
-  metadata?: Record<string, any>;
+  position?: Record<string, number>\n  );
+  metadata?: Record<string, any>\n  );
 }
 
 /**
@@ -140,7 +140,7 @@ export interface Document {
   owner?: UserSummary;
   createdAt: Date;
   updatedAt: Date;
-  metadata?: Record<string, any>;
+  metadata?: Record<string, any>\n  );
   isTemplate: boolean;
   templateVariables?: string[];
 }
@@ -179,12 +179,12 @@ export interface CreateDocumentRequest {
   permissions?: Array<{
     userId: string;
     role: DocumentPermissionRole;
-  }>;
+  }>\n  );
   tags?: string[];
   expiryDate?: Date;
   isTemplate?: boolean;
   templateVariables?: string[];
-  metadata?: Record<string, any>;
+  metadata?: Record<string, any>\n  );
 }
 
 /**
@@ -199,10 +199,10 @@ export interface UpdateDocumentRequest {
   permissions?: Array<{
     userId: string;
     role: DocumentPermissionRole;
-  }>;
+  }>\n  );
   tags?: string[];
   expiryDate?: Date;
-  metadata?: Record<string, any>;
+  metadata?: Record<string, any>\n  );
 }
 
 /**
@@ -211,7 +211,7 @@ export interface UpdateDocumentRequest {
 export interface DocumentVersionUploadRequest {
   file: File;
   comment?: string;
-  metadata?: Record<string, any>;
+  metadata?: Record<string, any>\n  );
 }
 
 /**

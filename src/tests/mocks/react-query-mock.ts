@@ -71,7 +71,7 @@ const mockDocuments = [
 
 // Function to generate mock data based on query key
 const getMockDataByQueryKey = (queryKey: Array<string | object>) => {
-  const [type, params] = queryKey;
+  const [typeparams] = queryKey;
   
   // Handle common query types
   switch(type) {
@@ -107,17 +107,12 @@ const getMockDataByQueryKey = (queryKey: Array<string | object>) => {
 };
 
 // Create a mock QueryClient for testing
-export const createMockQueryClient = () => new QueryClient({
-  defaultOptions: {
-    queries: {
+export const createMockQueryClient = () => new QueryClient({ defaultOptions: { queries: {
       retry: false,
       // Use new property names from @tanstack/react-query
       cacheTime: 0, // replaces cacheTime
       staleTime: 0,
-      refetchOnWindowFocus: false,
-    },
-  },
-} as QueryClientConfig);
+      refetchOnWindowFocus: false}} as QueryClientConfig);
 
 // Mock implementation of useQuery
 export const mockUseQuery = jest.fn().mockImplementation((queryKey, queryFn, options = {}) => {
@@ -130,8 +125,7 @@ export const mockUseQuery = jest.fn().mockImplementation((queryKey, queryFn, opt
     error: null,
     status: 'success',
     isFetching: false,
-    refetch: jest.fn().mockResolvedValue({ data }),
-  };
+    refetch: jest.fn().mockResolvedValue({ data })};
 });
 
 // Mock implementation for different result states
@@ -142,8 +136,7 @@ export const mockUseQueryLoading = jest.fn().mockImplementation(() => ({
   error: null,
   status: 'loading',
   isFetching: true,
-  refetch: jest.fn(),
-}));
+  refetch: jest.fn()}));
 
 export const mockUseQueryError = jest.fn().mockImplementation(() => ({
   data: undefined,
@@ -152,19 +145,18 @@ export const mockUseQueryError = jest.fn().mockImplementation(() => ({
   error: new Error('Mock error'),
   status: 'error',
   isFetching: false,
-  refetch: jest.fn(),
-}));
+  refetch: jest.fn()}));
 
 // Mock implementation of useMutation
 export const mockUseMutation = jest.fn().mockImplementation((mutationFn, options = {}) => {
   return {
-    mutate: jest.fn().mockImplementation((variables) => {
+    mutate: jest.fn().mockImplementation((variables: any) => {
       if (options.onSuccess) {
         options.onSuccess(variables, variables, {});
       }
       return Promise.resolve(variables);
     }),
-    mutateAsync: jest.fn().mockImplementation((variables) => {
+    mutateAsync: jest.fn().mockImplementation((variables: any) => {
       if (options.onSuccess) {
         options.onSuccess(variables, variables, {});
       }
@@ -174,19 +166,17 @@ export const mockUseMutation = jest.fn().mockImplementation((mutationFn, options
     isError: false,
     error: null,
     reset: jest.fn(),
-    status: 'idle',
-  };
+    status: 'idle'};
 });
 
 // Mock implementation for useInfiniteQuery
-export const mockUseInfiniteQuery = jest.fn().mockImplementation((queryKey) => {
+export const mockUseInfiniteQuery = jest.fn().mockImplementation((queryKey: any) => {
   const data = getMockDataByQueryKey(Array.isArray(queryKey) ? queryKey : [queryKey]);
   
   return {
     data: {
       pages: [data],
-      pageParams: [0],
-    },
+      pageParams: [0]},
     isLoading: false,
     isError: false,
     error: null,
@@ -197,8 +187,7 @@ export const mockUseInfiniteQuery = jest.fn().mockImplementation((queryKey) => {
     fetchNextPage: jest.fn().mockResolvedValue({}),
     fetchPreviousPage: jest.fn().mockResolvedValue({}),
     hasNextPage: false,
-    hasPreviousPage: false,
-  };
+    hasPreviousPage: false};
 });
 
 // Export the mock implementation for all React Query hooks
@@ -225,6 +214,4 @@ export const reactQueryMocks = {
     }),
     getQueryCache: jest.fn().mockReturnValue({
       getAll: jest.fn().mockReturnValue([])
-    }),
-  })),
-};
+    })}))};

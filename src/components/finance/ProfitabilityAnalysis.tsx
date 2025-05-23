@@ -1,3 +1,4 @@
+import React from 'react';
 'use client';
 
 import { useState, useMemo } from 'react';
@@ -22,8 +23,7 @@ import {
   SelectItem,
   SelectLabel,
   SelectTrigger,
-  SelectValue, 
-} from '@/components/ui/select';
+  SelectValue} from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
 import { 
   PieChart, 
@@ -35,7 +35,7 @@ import {
   XAxis, 
   YAxis, 
   CartesianGrid, 
-  Tooltip, 
+  Tooltip as RechartsTooltip, 
   Legend,
   LineChart,
   Line
@@ -47,8 +47,7 @@ import {
   TableCell,
   TableHead,
   TableHeader,
-  TableRow,
-} from '@/components/ui/table';
+  TableRow} from '@/components/ui/table';
 import { 
   ChevronDown,
   TrendingUp,
@@ -62,20 +61,17 @@ import {
   Tooltip as UITooltip,
   TooltipContent,
   TooltipProvider,
-  TooltipTrigger,
-} from '@/components/ui/tooltip';
+  TooltipTrigger} from '@/components/ui/tooltip';
 import { cn } from '@/lib/utils';
 import {
   Collapsible,
   CollapsibleContent,
-  CollapsibleTrigger,
-} from '@/components/ui/collapsible';
+  CollapsibleTrigger} from '@/components/ui/collapsible';
 import { Badge } from '@/components/ui/badge';
 import {
   HoverCard,
   HoverCardContent,
-  HoverCardTrigger,
-} from '@/components/ui/hover-card';
+  HoverCardTrigger} from '@/components/ui/hover-card';
 
 // Types
 interface CostBreakdown {
@@ -126,11 +122,11 @@ export default function ProfitabilityAnalysis({
   className
 }: ProfitabilityAnalysisProps) {
   // State for time period filter
-  const [period, setPeriod] = useState<'monthly' | 'quarterly' | 'yearly'>(initialPeriod);
-  
+  const [periodsetPeriod] = useState<'monthly' | 'quarterly' | 'yearly'>(initialPeriod);
+
   // State for expanded cost categories
-  const [expandedCategories, setExpandedCategories] = useState<Record<string, boolean>>({});
-  
+  const [expandedCategoriessetExpandedCategories] = useState<Record<string, boolean>>({});
+
   // Toggle category expansion
   const toggleCategory = (category: string) => {
     setExpandedCategories(prev => ({
@@ -238,7 +234,7 @@ export default function ProfitabilityAnalysis({
 
   // Calculate margin variance from target
   const marginVariance = profitabilityData.margin - profitabilityData.targetMargin;
-  
+
   // Format currency with locale
   const formatCurrency = (value: number) => {
     return new Intl.NumberFormat('en-US', {
@@ -248,7 +244,7 @@ export default function ProfitabilityAnalysis({
       maximumFractionDigits: 0
     }).format(value);
   };
-  
+
   // Format percentage
   const formatPercentage = (value: number) => {
     return `${value.toFixed(2)}%`;
@@ -286,7 +282,7 @@ export default function ProfitabilityAnalysis({
           <div className="flex items-center gap-2">
             <Select 
               value={period} 
-              onValueChange={(value) => setPeriod(value as 'monthly' | 'quarterly' | 'yearly')}
+              onValueChange={(value: any) => setPeriod(value as 'monthly' | 'quarterly' | 'yearly')}
             >
               <SelectTrigger className="w-32">
                 <SelectValue placeholder="Select period" />
@@ -315,7 +311,7 @@ export default function ProfitabilityAnalysis({
           </div>
         </div>
       </CardHeader>
-      
+
       <CardContent className="space-y-6">
         {/* Summary Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
@@ -336,7 +332,7 @@ export default function ProfitabilityAnalysis({
               </div>
             </CardContent>
           </Card>
-          
+
           {/* Costs Card */}
           <Card>
             <CardContent className="p-4">
@@ -354,7 +350,7 @@ export default function ProfitabilityAnalysis({
               </div>
             </CardContent>
           </Card>
-          
+
           {/* Profit Card */}
           <Card>
             <CardContent className="p-4">
@@ -372,7 +368,7 @@ export default function ProfitabilityAnalysis({
               </div>
             </CardContent>
           </Card>
-          
+
           {/* Margin Card */}
           <Card>
             <CardContent className="p-4">
@@ -400,7 +396,7 @@ export default function ProfitabilityAnalysis({
                   <p className="text-2xl font-bold mt-1">{formatPercentage(profitabilityData.margin)}</p>
                 </div>
                 <div className="h-10 w-10 rounded-full bg-purple-100 dark:bg-purple-900 flex items-center justify-center">
-                  {marginVariance >= 0 ? (
+                  {marginVariance>= 0 ? (
                     <TrendingUp className="h-5 w-5 text-purple-600 dark:text-purple-400" />
                   ) : (
                     <TrendingDown className="h-5 w-5 text-red-600 dark:text-red-400" />
@@ -408,7 +404,7 @@ export default function ProfitabilityAnalysis({
                 </div>
               </div>
               <div className="mt-2 text-xs text-muted-foreground">
-                {marginVariance >= 0 ? (
+                {marginVariance>= 0 ? (
                   <span className="text-green-600 dark:text-green-400">
                     ↑ {formatPercentage(Math.abs(marginVariance))}
                   </span>
@@ -421,7 +417,7 @@ export default function ProfitabilityAnalysis({
             </CardContent>
           </Card>
         </div>
-        
+
         {/* Charts and Breakdown */}
         <Tabs defaultValue="overview" className="space-y-4">
           <TabsList>
@@ -429,7 +425,7 @@ export default function ProfitabilityAnalysis({
             <TabsTrigger value="costs">Cost Breakdown</TabsTrigger>
             <TabsTrigger value="trends">Trends</TabsTrigger>
           </TabsList>
-          
+
           {/* Overview Tab */}
           <TabsContent value="overview" className="space-y-4">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -469,18 +465,18 @@ export default function ProfitabilityAnalysis({
                           }
                         ]}
                         layout="vertical"
-                        margin={{ top: 20, right: 30, left: 40, bottom: 20 }}
+                        margin={ top: 20, right: 30, left: 40, bottom: 20 }
                       >
                         <CartesianGrid strokeDasharray="3 3" horizontal={true} vertical={false} />
-                        <XAxis type="number" tickFormatter={(value) => formatCurrency(value)} />
+                        <XAxis type="number" tickFormatter={(value: any) => formatCurrency(value)} />
                         <YAxis type="category" dataKey="name" />
-                        <Tooltip 
-                          formatter={(value, name) => {
+                        <RechartsTooltip 
+                          formatter={(valuename: any) => {
                             if (name === 'margin') {
                               return [`${value.toFixed(2)}%`, 'Margin'];
                             }
                             return [formatCurrency(value as number), name.charAt(0).toUpperCase() + name.slice(1)];
-                          }}
+                          }
                         />
                         <Legend />
                         <Bar dataKey="costs" stackId="a" fill="#FFBB28" name="Costs" />
@@ -490,7 +486,7 @@ export default function ProfitabilityAnalysis({
                   </div>
                 </CardContent>
               </Card>
-              
+
               {/* Cost Breakdown Pie Chart */}
               <Card>
                 <CardHeader>
@@ -513,12 +509,12 @@ export default function ProfitabilityAnalysis({
                           fill="#8884d8"
                           dataKey="value"
                         >
-                          {costPieData.map((entry, index) => (
+                          {costPieData.map((entryindex: any) => (
                             <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                           ))}
                         </Pie>
-                        <Tooltip
-                          formatter={(value) => [formatCurrency(value as number), 'Amount']}
+                        <RechartsTooltip
+                          formatter={(value: any) => [formatCurrency(value as number), 'Amount']}
                         />
                         <Legend />
                       </PieChart>
@@ -528,7 +524,7 @@ export default function ProfitabilityAnalysis({
               </Card>
             </div>
           </TabsContent>
-          
+
           {/* Cost Breakdown Tab */}
           <TabsContent value="costs" className="space-y-4">
             <Card>
@@ -551,7 +547,7 @@ export default function ProfitabilityAnalysis({
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {profitabilityData.costBreakdown.map((category) => (
+                    {profitabilityData.costBreakdown.map((category: any) => (
                       <>
                         <TableRow key={category.category} className="group">
                           <TableCell>
@@ -585,12 +581,12 @@ export default function ProfitabilityAnalysis({
                           </TableCell>
                           <TableCell className="text-right">
                             <span className={cn(
-                              category.variance > 0 ? "text-red-600 dark:text-red-400" : 
-                              category.variance < 0 ? "text-green-600 dark:text-green-400" : 
+                              category.variance> 0 ? "text-red-600 dark:text-red-400" : 
+                              category.variance <0 ? "text-green-600 dark:text-green-400" : 
                               "text-muted-foreground"
                             )}>
-                              {category.variance > 0 ? `↑ ${category.variance}%` : 
-                               category.variance < 0 ? `↓ ${Math.abs(category.variance)}%` : 
+                              {category.variance> 0 ? `↑ ${category.variance}%` : 
+                               category.variance <0 ? `↓ ${Math.abs(category.variance)}%` : 
                                `${category.variance}%`}
                             </span>
                           </TableCell>
@@ -599,7 +595,7 @@ export default function ProfitabilityAnalysis({
                         {expandedCategories[category.category] && category.subcategories && (
                           <CollapsibleContent asChild forceMount>
                             <>
-                              {category.subcategories.map((sub) => (
+                              {category.subcategories.map((sub: any) => (
                                 <TableRow key={`${category.category}-${sub.name}`} className="bg-muted/50">
                                   <TableCell className="pl-10">
                                     {sub.name}
@@ -612,12 +608,12 @@ export default function ProfitabilityAnalysis({
                                   </TableCell>
                                   <TableCell className="text-right">
                                     <span className={cn(
-                                      sub.variance > 0 ? "text-red-600 dark:text-red-400" : 
-                                      sub.variance < 0 ? "text-green-600 dark:text-green-400" : 
+                                      sub.variance> 0 ? "text-red-600 dark:text-red-400" : 
+                                      sub.variance <0 ? "text-green-600 dark:text-green-400" : 
                                       "text-muted-foreground"
                                     )}>
-                                      {sub.variance > 0 ? `↑ ${sub.variance}%` : 
-                                       sub.variance < 0 ? `↓ ${Math.abs(sub.variance)}%` : 
+                                      {sub.variance> 0 ? `↑ ${sub.variance}%` : 
+                                       sub.variance <0 ? `↓ ${Math.abs(sub.variance)}%` : 
                                        `${sub.variance}%`}
                                     </span>
                                   </TableCell>
@@ -635,8 +631,8 @@ export default function ProfitabilityAnalysis({
                       <TableCell className="text-right">100.00%</TableCell>
                       <TableCell className="text-right">
                         <span className={cn(
-                          0.4 > 0 ? "text-red-600 dark:text-red-400" : 
-                          0.4 < 0 ? "text-green-600 dark:text-green-400" : 
+                          0.4> 0 ? "text-red-600 dark:text-red-400" : 
+                          0.4 <0 ? "text-green-600 dark:text-green-400" : 
                           "text-muted-foreground"
                         )}>
                           ↑ 0.4%
@@ -653,7 +649,7 @@ export default function ProfitabilityAnalysis({
               </CardContent>
             </Card>
           </TabsContent>
-          
+
           {/* Trends Tab */}
           <TabsContent value="trends" className="space-y-4">
             <Card>
@@ -685,19 +681,19 @@ export default function ProfitabilityAnalysis({
                   <ResponsiveContainer width="100%" height="100%">
                     <LineChart
                       data={profitabilityData.monthlyTrends}
-                      margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+                      margin={ top: 20, right: 30, left: 20, bottom: 5 }
                     >
                       <CartesianGrid strokeDasharray="3 3" />
                       <XAxis dataKey="month" />
-                      <YAxis yAxisId="left" tickFormatter={(value) => `$${value / 1000}k`} />
-                      <YAxis yAxisId="right" orientation="right" tickFormatter={(value) => `${value}%`} />
-                      <Tooltip 
-                        formatter={(value, name) => {
+                      <YAxis yAxisId="left" tickFormatter={(value: any) => `$${value / 1000}k`} />
+                      <YAxis yAxisId="right" orientation="right" tickFormatter={(value: any) => `${value}%`} />
+                      <RechartsTooltip 
+                        formatter={(valuename: any) => {
                           if (name === 'margin') {
                             return [`${value}%`, 'Margin'];
                           }
                           return [formatCurrency(value as number), name.charAt(0).toUpperCase() + name.slice(1)];
-                        }}
+                        }
                       />
                       <Legend />
                       <Line 
@@ -707,8 +703,8 @@ export default function ProfitabilityAnalysis({
                         stroke="#0088FE" 
                         name="Revenue" 
                         strokeWidth={2}
-                        dot={{ r: 3 }}
-                        activeDot={{ r: 5 }}
+                        dot={ r: 3 }
+                        activeDot={ r: 5 }
                       />
                       <Line 
                         yAxisId="left"
@@ -717,8 +713,8 @@ export default function ProfitabilityAnalysis({
                         stroke="#FFBB28" 
                         name="Costs" 
                         strokeWidth={2}
-                        dot={{ r: 3 }}
-                        activeDot={{ r: 5 }}
+                        dot={ r: 3 }
+                        activeDot={ r: 5 }
                       />
                       <Line 
                         yAxisId="left"
@@ -727,8 +723,8 @@ export default function ProfitabilityAnalysis({
                         stroke="#00C49F" 
                         name="Profit" 
                         strokeWidth={2}
-                        dot={{ r: 3 }}
-                        activeDot={{ r: 5 }}
+                        dot={ r: 3 }
+                        activeDot={ r: 5 }
                       />
                       <Line 
                         yAxisId="right"
@@ -737,8 +733,8 @@ export default function ProfitabilityAnalysis({
                         stroke="#FF8042" 
                         name="Margin" 
                         strokeWidth={2}
-                        dot={{ r: 3 }}
-                        activeDot={{ r: 5 }}
+                        dot={ r: 3 }
+                        activeDot={ r: 5 }
                       />
                     </LineChart>
                   </ResponsiveContainer>
@@ -748,7 +744,7 @@ export default function ProfitabilityAnalysis({
           </TabsContent>
         </Tabs>
       </CardContent>
-      
+
       <CardFooter className="border-t p-4">
         <div className="flex flex-col xs:flex-row justify-between w-full text-sm text-muted-foreground gap-2">
           <div className="flex items-center">

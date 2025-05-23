@@ -29,7 +29,7 @@ export async function GET(request: NextRequest) {
     const page = parseInt(url.searchParams.get('page') || '1', 10);
     const limit = parseInt(url.searchParams.get('limit') || '20', 10);
     const skip = (page - 1) * limit;
-    
+
     // Create filter object with proper Prisma types
     const filter: Prisma.DevelopmentWhereInput = {
       ...(status && { status }),
@@ -37,13 +37,12 @@ export async function GET(request: NextRequest) {
       ...(search && {
         OR: [
           { name: { contains: search, mode: Prisma.QueryMode.insensitive } },
-          { description: { contains: search, mode: Prisma.QueryMode.insensitive } },
-        ]
+          { description: { contains: search, mode: Prisma.QueryMode.insensitive } }]
       })
     };
-    
+
     // Get developments with pagination
-    const [developments, total] = await Promise.all([
+    const [developmentstotal] = await Promise.all([
       prisma.development.findMany({
         where: filter,
         skip,
@@ -63,7 +62,7 @@ export async function GET(request: NextRequest) {
       }),
       prisma.development.count({ where: filter })
     ]);
-    
+
     // Format response
     const result = {
       data: developments,
@@ -74,7 +73,7 @@ export async function GET(request: NextRequest) {
         pages: Math.ceil(total / limit)
       }
     };
-    
+
     return NextResponse.json(result);
   } catch (error) {
     logger.error('Error fetching developments:', { error });
@@ -115,7 +114,7 @@ export async function POST(request: NextRequest) {
       features?: string[];
       amenities?: string[];
     };
-    
+
     // Validate required fields
     const requiredFields = ['name', 'developerId', 'location', 'description', 'mainImage', 'totalUnits', 'status'];
     for (const field of requiredFields) {
@@ -126,7 +125,7 @@ export async function POST(request: NextRequest) {
         );
       }
     }
-    
+
     // Validate location fields
     const locationRequiredFields = ['address', 'city', 'county'];
     for (const field of locationRequiredFields) {
@@ -137,11 +136,11 @@ export async function POST(request: NextRequest) {
         );
       }
     }
-    
+
     // Set defaults for optional fields
     body.features = body.features || [];
     body.amenities = body.amenities || [];
-    
+
     // Format data for Prisma
     const developmentData: Prisma.DevelopmentCreateInput = {
       name: body.name,
@@ -156,8 +155,7 @@ export async function POST(request: NextRequest) {
           eircode: body.location.eircode,
           longitude: body.location.longitude,
           latitude: body.location.latitude,
-          country: 'Ireland',
-        }
+          country: 'Ireland'}
       },
       description: body.description,
       mainImage: body.mainImage,
@@ -178,26 +176,23 @@ export async function POST(request: NextRequest) {
         salesVelocity: 0,
         targetPriceAverage: 0,
         actualPriceAverage: 0,
-        projectedSelloutDate: new Date(),
-      },
+        projectedSelloutDate: new Date()},
       constructionStatus: {
         currentStage: 'not_started',
         percentageComplete: 0,
         inspections: [],
-        certifications: [],
-      },
+        certifications: []},
       complianceStatus: {
         planningConditions: [],
         buildingRegulations: [],
-        environmentalRequirements: [],
-      }
+        environmentalRequirements: []}
     };
-    
+
     // Create development
     const development = await prisma.development.create({
       data: developmentData
     });
-    
+
     return NextResponse.json({ data: development });
   } catch (error) {
     logger.error('Error creating development:', { error });
@@ -208,13 +203,7 @@ export async function POST(request: NextRequest) {
   }
 }
 
-// Helper function to fetch development by ID (not exported as a route handler)
-// This is for internal use only and should be imported where needed
-// Not using export here to avoid Next.js trying to register it as a route handler
-async function getDevelopmentById(id: string) {
-  try {
-    // Get development with related data
-    const development = await prisma.development.findUnique({
+// Helper async function toprisma.development.findUnique({
       where: { id },
       include: {
         location: true,
@@ -232,14 +221,14 @@ async function getDevelopmentById(id: string) {
             outdoorSpaces: true
           }
         },
-        documents: true
+        DevelopmentDocument: true
       }
     });
-    
+
     if (!development) {
       return { error: 'Development not found', status: 404 };
     }
-    
+
     return { data: development, status: 200 };
   } catch (error) {
     logger.error('Error fetching development details:', { error });

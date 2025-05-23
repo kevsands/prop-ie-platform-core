@@ -16,12 +16,12 @@ const getDevelopmentById = (id: string): Development | undefined => {
 // Helper function to map statusColor string to a Tailwind class
 const getStatusColorClass = (statusColor: Development['statusColor']) => {
   if (!statusColor) return 'bg-gray-500';
-  
+
   // Handle both formats: 'green' and 'green-500'
   if (statusColor.includes('-')) {
     return `bg-${statusColor}`;
   }
-  
+
   switch (statusColor) {
     case 'green': return 'bg-green-500';
     case 'blue': return 'bg-blue-500';
@@ -35,7 +35,7 @@ const getStatusColorClass = (statusColor: Development['statusColor']) => {
 export default function DevelopmentDetailPage() {
   const params = useParams();
   const router = useRouter();
-  
+
   // Ensure id is treated as a string, as useParams can return string or string[]
   const developmentId = Array.isArray(params?.id) ? params.id[0] : params?.id as string | undefined;
 
@@ -44,8 +44,8 @@ export default function DevelopmentDetailPage() {
   const development: Development | undefined = getDevelopmentById(developmentId || '');
 
   // State for managing the active tab
-  const [activeTab, setActiveTab] = useState('overview');
-  
+  const [activeTabsetActiveTab] = useState('overview');
+
   // Prefetch related/similar developments and units
   useEffect(() => {
     if (development) {
@@ -55,21 +55,21 @@ export default function DevelopmentDetailPage() {
           dev.id !== developmentId && 
           (dev.location === development.location || dev.type === development.type)
         )
-        .slice(0, 3);
-      
+        .slice(03);
+
       // Prefetch similar development pages
       similarDevelopments.forEach(dev => {
         router.prefetch(`/developments/${dev.id}`);
       });
-      
+
       // Prefetch unit pages for the current development
-      if (development.units && development.units.length > 0) {
-        development.units.slice(0, 5).forEach(unit => {
+      if (development.units && development.units.length> 0) {
+        development.units.slice(05).forEach(unit => {
           router.prefetch(`/projects/${developmentId}/units/${unit.id}`);
         });
       }
     }
-  }, [developmentId, development, router]);
+  }, [developmentId, developmentrouter]);
 
   // Handle development not found case
   if (!development) {
@@ -100,7 +100,6 @@ export default function DevelopmentDetailPage() {
       return `${bedrooms} bed`;
   };
 
-
   return (
     <main className="bg-gray-50">
       {/* Hero Section */}
@@ -110,7 +109,7 @@ export default function DevelopmentDetailPage() {
           src={development.image}
           alt={development.name}
           fill
-          style={{ objectFit: 'cover' }}
+          style={ objectFit: 'cover' }
           priority // Prioritize loading the hero image
         />
         {/* Overlay */}
@@ -222,7 +221,6 @@ export default function DevelopmentDetailPage() {
         </div>
       </div>
 
-
       {/* Tab Content Area */}
       <div className="py-12 md:py-16 bg-gray-50 min-h-screen-content"> {/* min-h-screen-content is a custom class example */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -241,7 +239,7 @@ export default function DevelopmentDetailPage() {
                      <p className="mb-4">
                        Each home is built with exceptional quality and attention to detail, incorporating sustainable features for energy efficiency and reduced running costs. Our goal is to create not just houses, but thriving communities where residents feel at home from day one.
                      </p>
-                      {development.features && development.features.length > 0 && (
+                      {development.features && development.features.length> 0 && (
                        <>
                           <h3 className="text-xl font-bold text-gray-900 mt-8 mb-4">Key Features</h3>
                            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4 list-none p-0"> {/* Removed default list style */}
@@ -257,7 +255,6 @@ export default function DevelopmentDetailPage() {
                         </>
                       )}
                   </div>
-
 
                   <div className="mt-10 border-t border-gray-200 pt-8">
                     <h3 className="text-xl font-bold text-gray-900 mb-5">Home Specifications</h3>
@@ -353,13 +350,12 @@ export default function DevelopmentDetailPage() {
                      {development.availability !== 'Fully Sold' && development.availability !== 'Future Phase' && ( // Only show viewing button if relevant
                       <a
                          href="#contact" // Link to the contact section/tab
-                         onClick={(e) => { e.preventDefault(); setActiveTab('contact'); }} // Smooth scroll + switch tab
+                         onClick={(e: any) => { e.preventDefault(); setActiveTab('contact'); } // Smooth scroll + switch tab
                          className="block w-full bg-[#2B5273] text-center text-white font-medium py-3 rounded-md hover:bg-[#1E3A52] transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#2B5273]"
                          >
                          Schedule a Viewing
                        </a>
                      )}
-
 
                     {development.brochureUrl && (
                       <a
@@ -401,7 +397,7 @@ export default function DevelopmentDetailPage() {
                 <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-6">Features & Amenities</h2>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 mb-12">
-                  {development.features && development.features.length > 0 && (
+                  {development.features && development.features.length> 0 && (
                      <div>
                        <h3 className="text-xl font-bold text-gray-900 mb-4">Property Features Included</h3>
                        <div className="bg-white rounded-lg shadow-md p-6 h-full"> {/* Added h-full */}
@@ -419,12 +415,12 @@ export default function DevelopmentDetailPage() {
                      </div>
                   )}
 
-                  {development.amenities && development.amenities.length > 0 && (
+                  {development.Amenity && development.Amenity.length> 0 && (
                      <div>
                        <h3 className="text-xl font-bold text-gray-900 mb-4">Development & Area Amenities</h3>
                        <div className="bg-white rounded-lg shadow-md p-6 h-full"> {/* Added h-full */}
                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-gray-700">
-                           {development.amenities.map((amenity: string, index: number) => (
+                           {development.Amenity.map((amenity: string, index: number) => (
                              <div key={index} className="flex items-start">
                                <svg className="h-5 w-5 text-blue-500 mt-0.5 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path> {/* Example icon, change as needed */}
@@ -471,7 +467,7 @@ export default function DevelopmentDetailPage() {
                            {/* Replace with dynamic data loop for actual properties */}
                            <div className="flex items-center space-x-6">
                                 <div className="flex-shrink-0 w-24 h-24 bg-gray-200 rounded-md overflow-hidden">
-                                   <Image src="/images/property-type-placeholder.jpg" alt="Property Type" width={96} height={96} style={{ objectFit: "cover" }} />
+                                   <Image src="/images/property-type-placeholder.jpg" alt="Property Type" width={96} height={96} style={ objectFit: "cover" } />
                                 </div>
                                <div>
                                    <h4 className="text-lg font-semibold text-gray-900">3 Bed Semi-Detached</h4>
@@ -484,7 +480,7 @@ export default function DevelopmentDetailPage() {
                            </div>
                             <div className="flex items-center space-x-6">
                                 <div className="flex-shrink-0 w-24 h-24 bg-gray-200 rounded-md overflow-hidden">
-                                   <Image src="/images/property-type-placeholder-2.jpg" alt="Property Type" width={96} height={96} style={{ objectFit: "cover" }} />
+                                   <Image src="/images/property-type-placeholder-2.jpg" alt="Property Type" width={96} height={96} style={ objectFit: "cover" } />
                                 </div>
                                <div>
                                    <h4 className="text-lg font-semibold text-gray-900">4 Bed Detached</h4>
@@ -514,7 +510,6 @@ export default function DevelopmentDetailPage() {
                </div>
            )}
 
-
           {/* Location Tab Content */}
           {activeTab === 'location' && (
             <div id="tab-panel-location" role="tabpanel" aria-labelledby="tab-location">
@@ -525,7 +520,7 @@ export default function DevelopmentDetailPage() {
                   <h3 className="text-xl font-bold text-gray-900 mb-4">Interactive Map</h3>
                   <div className="rounded-lg overflow-hidden h-80 md:h-96 bg-gray-200 flex items-center justify-center">
                     {/* Replace with a real map component */}
-                    <p className="text-gray-500 text-center p-4">Map placeholder - would integrate with Google Maps, Mapbox, or similar using the development&apos;s coordinates.</p>
+                    <p className="text-gray-500 text-center p-4">Map placeholder - would integrate with Google Maps, Mapbox, or similar using the development's coordinates.</p>
                   </div>
                 </div>
 
@@ -596,7 +591,7 @@ export default function DevelopmentDetailPage() {
                 <div className="bg-white rounded-lg shadow-md p-6 h-fit"> {/* Added h-fit */}
                   <h3 className="text-xl font-bold text-gray-900 mb-4">Schedule a Viewing</h3>
 
-                  {development.showingDates && development.showingDates.length > 0 && (
+                  {development.showingDates && development.showingDates.length> 0 && (
                     <div className="mb-6 border-b border-gray-200 pb-6"> {/* Added border/padding */}
                       <h4 className="font-semibold text-gray-900 mb-3">Upcoming Open House Dates</h4>
                       <div className="space-y-3">
@@ -679,7 +674,6 @@ export default function DevelopmentDetailPage() {
                        </select>
                      </div>
 
-
                     <div>
                       <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">Message</label>
                       <textarea
@@ -745,7 +739,7 @@ export default function DevelopmentDetailPage() {
                         <div className="flex items-center">
                           <div className="h-12 w-12 rounded-full bg-gray-200 mr-3 overflow-hidden flex-shrink-0">
                             {/* Replace with agent image */}
-                            <Image src="/images/agents/agent1.jpg" alt="Sarah Johnson" width={48} height={48} style={{ objectFit: "cover" }} className="object-cover w-full h-full"/>
+                            <Image src="/images/agents/agent1.jpg" alt="Sarah Johnson" width={48} height={48} style={ objectFit: "cover" } className="object-cover w-full h-full"/>
                           </div>
                           <div>
                             <p className="font-medium text-gray-900 text-sm">Sarah Johnson</p>
@@ -756,7 +750,7 @@ export default function DevelopmentDetailPage() {
                         <div className="flex items-center">
                           <div className="h-12 w-12 rounded-full bg-gray-200 mr-3 overflow-hidden flex-shrink-0">
                              {/* Replace with agent image */}
-                            <Image src="/images/agents/agent2.jpg" alt="John Murphy" width={48} height={48} style={{ objectFit: "cover" }} className="object-cover w-full h-full"/>
+                            <Image src="/images/agents/agent2.jpg" alt="John Murphy" width={48} height={48} style={ objectFit: "cover" } className="object-cover w-full h-full"/>
                           </div>
                           <div>
                             <p className="font-medium text-gray-900 text-sm">John Murphy</p>
@@ -794,10 +788,8 @@ export default function DevelopmentDetailPage() {
                </div>
             )} */}
 
-
         </div> {/* End of max-w-7xl div */}
       </div> {/* End of Tab Content Area */}
-
 
       {/* Footer (Placeholder - use your main layout's Footer component) */}
       {/* In a real app, the Footer would be part of the layout, not on individual pages */}

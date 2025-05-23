@@ -38,16 +38,14 @@ const mockQueryData = {
   item: {
     id: 'test-id',
     name: 'Test Item',
-    description: 'This is a test item',
-  }
+    description: 'This is a test item'}
 };
 
 const mockMutationData = {
   updateItem: {
     id: 'test-id',
     name: 'Updated Item',
-    description: 'This item has been updated',
-  }
+    description: 'This item has been updated'}
 };
 
 describe('useGraphQL Hooks', () => {
@@ -55,14 +53,9 @@ describe('useGraphQL Hooks', () => {
 
   beforeEach(() => {
     // Create a fresh QueryClient for each test
-    queryClient = new QueryClient({
-      defaultOptions: {
-        queries: {
+    queryClient = new QueryClient({ defaultOptions: { queries: {
           retry: false,
-          cacheTime: 0,
-        },
-      },
-    });
+          cacheTime: 0}});
     
     // Create a GraphQL mock instance
     const graphqlMock = createGraphQLMock();
@@ -87,7 +80,7 @@ describe('useGraphQL Hooks', () => {
 
       // Render the hook with our custom provider wrapper
       const { result } = renderHookWithProviders(
-        () => useGraphQLQuery(['testQuery', variables], TEST_QUERY, variables),
+        () => useGraphQLQuery(['testQuery', variables], TEST_QUERYvariables),
         { queryClient }
       );
 

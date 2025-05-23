@@ -21,8 +21,7 @@ const env = {
   graphqlEndpoint: process.env.NEXT_PUBLIC_APPSYNC_GRAPHQL_ENDPOINT || awsExports.aws_appsync_graphqlEndpoint || undefined,
   graphqlApiKey: process.env.NEXT_PUBLIC_APPSYNC_API_KEY || awsExports.aws_appsync_apiKey || undefined,
   storageBucket: process.env.NEXT_PUBLIC_S3_BUCKET || awsExports.aws_user_files_s3_bucket || undefined,
-  storageRegion: process.env.NEXT_PUBLIC_S3_REGION || awsExports.aws_user_files_s3_bucket_region || 'us-east-1',
-};
+  storageRegion: process.env.NEXT_PUBLIC_S3_REGION || awsExports.aws_user_files_s3_bucket_region || 'us-east-1'};
 
 /**
  * Centralized Amplify configuration using v6 format
@@ -71,20 +70,17 @@ const amplifyConfig = {
 export function validateAmplifyConfig(): boolean {
   const requiredValues = [
     { key: 'Auth.Cognito.userPoolId', value: amplifyConfig.Auth?.Cognito?.userPoolId },
-    { key: 'Auth.Cognito.userPoolClientId', value: amplifyConfig.Auth?.Cognito?.userPoolClientId },
-  ];
+    { key: 'Auth.Cognito.userPoolClientId', value: amplifyConfig.Auth?.Cognito?.userPoolClientId }];
 
   const missingValues = requiredValues.filter(item => !item.value);
-  
-  if (missingValues.length > 0) {
-    console.warn(
-      'AWS Amplify Configuration Warning: The following required values are missing or empty:',
-      missingValues.map(item => item.key).join(', '),
+
+  if (missingValues.length> 0) {
+    .join(', '),
       'Please check your environment variables.'
     );
     return false;
   }
-  
+
   return true;
 }
 

@@ -13,7 +13,7 @@ export interface DocumentUploadFormValues {
 
 export interface DocumentUploadProps {
   projectId?: string;
-  onUploadAction: (file: File, metadata: DocumentUploadFormValues) => Promise<void>;
+  onUploadAction: (file: File, metadata: DocumentUploadFormValues) => Promise<void>\n  );
   onCancelAction?: () => void;
   isUploading?: boolean;
   error?: Error | null;
@@ -34,36 +34,36 @@ export function DocumentUpload({
   allowedFileTypes = ['application/pdf', 'image/*', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'],
   maxFileSize = 10 * 1024 * 1024 // 10MB default
 }: DocumentUploadProps) {
-  const [file, setFile] = useState<File | null>(null);
-  const [fileError, setFileError] = useState<string | null>(null);
-  const [formData, setFormData] = useState<DocumentUploadFormValues>({
+  const [filesetFile] = useState<File | null>(null);
+  const [fileErrorsetFileError] = useState<string | null>(null);
+  const [formDatasetFormData] = useState<DocumentUploadFormValues>({
     category: '',
     description: '',
     tags: '',
     version: '1.0'
   });
   const fileInputRef = useRef<HTMLInputElement>(null);
-  
+
   // Handle file selection
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0];
     setFileError(null);
-    
+
     if (!selectedFile) {
       setFile(null);
       return;
     }
-    
+
     // Validate file size
-    if (selectedFile.size > maxFileSize) {
+    if (selectedFile.size> maxFileSize) {
       setFileError(`File is too large. Maximum size: ${formatFileSize(maxFileSize)}`);
       setFile(null);
       return;
     }
-    
+
     setFile(selectedFile);
   };
-  
+
   // Handle form input changes
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -72,19 +72,19 @@ export function DocumentUpload({
       [name]: value
     }));
   };
-  
+
   // Handle form submission
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!file) {
       setFileError('Please select a file to upload');
       return;
     }
-    
-    onUploadAction(file, formData);
+
+    onUploadAction(fileformData);
   };
-  
+
   // Clear selected file
   const clearFile = () => {
     setFile(null);
@@ -93,16 +93,16 @@ export function DocumentUpload({
       fileInputRef.current.value = '';
     }
   };
-  
+
   // Helper function to format file size
   const formatFileSize = (bytes: number): string => {
     if (bytes === 0) return '0 Bytes';
-    
+
     const k = 1024;
     const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
     const i = Math.floor(Math.log(bytes) / Math.log(k));
-    
-    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+
+    return parseFloat((bytes / Math.pow(ki)).toFixed(2)) + ' ' + sizes[i];
   };
 
   return (
@@ -211,7 +211,7 @@ export function DocumentUpload({
               <p className="text-sm text-red-600">{fileError}</p>
             )}
           </div>
-          
+
           {/* Document metadata */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
@@ -234,7 +234,7 @@ export function DocumentUpload({
                 <option value="other">Other</option>
               </select>
             </div>
-            
+
             <div>
               <label htmlFor="version" className="block text-sm font-medium mb-1">
                 Version
@@ -251,7 +251,7 @@ export function DocumentUpload({
               />
             </div>
           </div>
-          
+
           <div>
             <label htmlFor="description" className="block text-sm font-medium mb-1">
               Description
@@ -267,7 +267,7 @@ export function DocumentUpload({
               disabled={isUploading}
             />
           </div>
-          
+
           <div>
             <label htmlFor="tags" className="block text-sm font-medium mb-1">
               Tags
@@ -286,14 +286,14 @@ export function DocumentUpload({
               Separate tags with commas
             </p>
           </div>
-          
+
           {/* Error message */}
           {error && (
             <div className="text-sm text-red-600 p-2 border border-red-200 rounded bg-red-50">
               Error: {error.message || 'An error occurred during upload'}
             </div>
           )}
-          
+
           <div className="flex justify-end gap-2">
             {onCancelAction && (
               <Button 

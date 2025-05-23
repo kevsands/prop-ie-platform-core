@@ -23,8 +23,7 @@ export class UserRepository extends BaseRepository<User, UserCreateInput, UserUp
    */
   async findByEmail(email: string): Promise<User | null> {
     return this.model.findUnique({
-      where: { email },
-    });
+      where: { email });
   }
 
   /**
@@ -34,9 +33,7 @@ export class UserRepository extends BaseRepository<User, UserCreateInput, UserUp
     return this.model.findUnique({
       where: { id },
       include: {
-        permissions: true,
-      },
-    });
+        permissions: true});
   }
 
   /**
@@ -46,10 +43,7 @@ export class UserRepository extends BaseRepository<User, UserCreateInput, UserUp
     return this.model.findMany({
       where: {
         roles: {
-          has: role,
-        },
-      },
-    });
+          has: role}});
   }
 
   /**
@@ -60,12 +54,9 @@ export class UserRepository extends BaseRepository<User, UserCreateInput, UserUp
       data: {
         user: {
           connect: { id: userId },
-        },
         resource,
         action,
-        conditions,
-      },
-    });
+        conditions});
   }
 
   /**
@@ -73,8 +64,7 @@ export class UserRepository extends BaseRepository<User, UserCreateInput, UserUp
    */
   async removePermission(permissionId: string): Promise<any> {
     return this.prisma.userPermission.delete({
-      where: { id: permissionId },
-    });
+      where: { id: permissionId });
   }
 
   /**
@@ -84,9 +74,7 @@ export class UserRepository extends BaseRepository<User, UserCreateInput, UserUp
     return this.model.update({
       where: { id },
       data: {
-        lastLogin: new Date(),
-      },
-    });
+        lastLogin: new Date()});
   }
 
   /**
@@ -96,8 +84,6 @@ export class UserRepository extends BaseRepository<User, UserCreateInput, UserUp
     return this.model.update({
       where: { id },
       data: {
-        kycStatus: status,
-      },
-    });
+        kycStatus: status});
   }
 }

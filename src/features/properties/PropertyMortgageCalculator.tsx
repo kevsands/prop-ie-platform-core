@@ -44,16 +44,16 @@ interface AmortizationEntry {
 }
 
 export default function PropertyMortgageCalculator({ propertyPrice }: PropertyMortgageCalculatorProps) {
-  const [deposit, setDeposit] = useState(propertyPrice * 0.1); // 10% default
-  const [loanAmount, setLoanAmount] = useState(propertyPrice - deposit);
-  const [interestRate, setInterestRate] = useState(4.5);
-  const [loanTerm, setLoanTerm] = useState(30);
-  const [monthlyIncome, setMonthlyIncome] = useState(5000);
-  const [monthlyExpenses, setMonthlyExpenses] = useState(1500);
-  const [propertyTax, setPropertyTax] = useState(200);
-  const [homeInsurance, setHomeInsurance] = useState(100);
-  const [isFirstTimeBuyer, setIsFirstTimeBuyer] = useState(true);
-  const [showAmortization, setShowAmortization] = useState(false);
+  const [depositsetDeposit] = useState(propertyPrice * 0.1); // 10% default
+  const [loanAmountsetLoanAmount] = useState(propertyPrice - deposit);
+  const [interestRatesetInterestRate] = useState(4.5);
+  const [loanTermsetLoanTerm] = useState(30);
+  const [monthlyIncomesetMonthlyIncome] = useState(5000);
+  const [monthlyExpensessetMonthlyExpenses] = useState(1500);
+  const [propertyTaxsetPropertyTax] = useState(200);
+  const [homeInsurancesetHomeInsurance] = useState(100);
+  const [isFirstTimeBuyersetIsFirstTimeBuyer] = useState(true);
+  const [showAmortizationsetShowAmortization] = useState(false);
 
   // Calculate mortgage details
   const calculation = useMemo((): MortgageCalculation => {
@@ -63,8 +63,8 @@ export default function PropertyMortgageCalculator({ propertyPrice }: PropertyMo
 
     // Monthly payment calculation (P&I)
     const monthlyPayment = principal * 
-      (monthlyRate * Math.pow(1 + monthlyRate, numberOfPayments)) / 
-      (Math.pow(1 + monthlyRate, numberOfPayments) - 1);
+      (monthlyRate * Math.pow(1 + monthlyRatenumberOfPayments)) / 
+      (Math.pow(1 + monthlyRatenumberOfPayments) - 1);
 
     const totalPayment = monthlyPayment * numberOfPayments;
     const totalInterest = totalPayment - principal;
@@ -80,7 +80,7 @@ export default function PropertyMortgageCalculator({ propertyPrice }: PropertyMo
     const loanToValue = (loanAmount / propertyPrice) * 100;
 
     // Effective annual rate
-    const effectiveRate = (Math.pow(1 + monthlyRate, 12) - 1) * 100;
+    const effectiveRate = (Math.pow(1 + monthlyRate12) - 1) * 100;
 
     return {
       monthlyPayment: totalMonthlyPayment,
@@ -90,7 +90,7 @@ export default function PropertyMortgageCalculator({ propertyPrice }: PropertyMo
       loanToValue,
       effectiveRate
     };
-  }, [loanAmount, interestRate, loanTerm, propertyTax, homeInsurance, monthlyIncome, monthlyExpenses, propertyPrice]);
+  }, [loanAmount, interestRate, loanTerm, propertyTax, homeInsurance, monthlyIncome, monthlyExpensespropertyPrice]);
 
   // Generate amortization schedule
   const amortizationSchedule = useMemo((): AmortizationEntry[] => {
@@ -101,10 +101,10 @@ export default function PropertyMortgageCalculator({ propertyPrice }: PropertyMo
     const numberOfPayments = loanTerm * 12;
 
     const monthlyPayment = loanAmount * 
-      (monthlyRate * Math.pow(1 + monthlyRate, numberOfPayments)) / 
-      (Math.pow(1 + monthlyRate, numberOfPayments) - 1);
+      (monthlyRate * Math.pow(1 + monthlyRatenumberOfPayments)) / 
+      (Math.pow(1 + monthlyRatenumberOfPayments) - 1);
 
-    for (let month = 1; month <= Math.min(numberOfPayments, 60); month++) {
+    for (let month = 1; month <= Math.min(numberOfPayments60); month++) {
       const interestPayment = balance * monthlyRate;
       const principalPayment = monthlyPayment - interestPayment;
       balance -= principalPayment;
@@ -114,13 +114,13 @@ export default function PropertyMortgageCalculator({ propertyPrice }: PropertyMo
         month,
         principal: principalPayment,
         interest: interestPayment,
-        balance: Math.max(0, balance),
+        balance: Math.max(0balance),
         cumulativeInterest
       });
     }
 
     return schedule;
-  }, [loanAmount, interestRate, loanTerm]);
+  }, [loanAmount, interestRateloanTerm]);
 
   const handleDepositChange = (value: number[]) => {
     const newDeposit = value[0];
@@ -129,8 +129,8 @@ export default function PropertyMortgageCalculator({ propertyPrice }: PropertyMo
   };
 
   const getAffordabilityStatus = () => {
-    if (calculation.affordabilityRatio < 35) return { status: 'Comfortable', color: 'green' };
-    if (calculation.affordabilityRatio < 50) return { status: 'Manageable', color: 'yellow' };
+    if (calculation.affordabilityRatio <35) return { status: 'Comfortable', color: 'green' };
+    if (calculation.affordabilityRatio <50) return { status: 'Manageable', color: 'yellow' };
     return { status: 'Stretched', color: 'red' };
   };
 
@@ -187,7 +187,7 @@ export default function PropertyMortgageCalculator({ propertyPrice }: PropertyMo
               </div>
               <Slider
                 value={[interestRate]}
-                onValueChange={(value) => setInterestRate(value[0])}
+                onValueChange={(value: any) => setInterestRate(value[0])}
                 max={8}
                 min={2}
                 step={0.1}
@@ -202,7 +202,7 @@ export default function PropertyMortgageCalculator({ propertyPrice }: PropertyMo
             {/* Loan Term */}
             <div className="space-y-2">
               <Label>Loan Term</Label>
-              <Select value={loanTerm.toString()} onValueChange={(value) => setLoanTerm(parseInt(value))}>
+              <Select value={loanTerm.toString()} onValueChange={(value: any) => setLoanTerm(parseInt(value))}>
                 <SelectTrigger>
                   <SelectValue />
                 </SelectTrigger>
@@ -223,7 +223,7 @@ export default function PropertyMortgageCalculator({ propertyPrice }: PropertyMo
                 <Input
                   type="number"
                   value={propertyTax}
-                  onChange={(e) => setPropertyTax(parseFloat(e.target.value) || 0)}
+                  onChange={(e: any) => setPropertyTax(parseFloat(e.target.value) || 0)}
                   prefix="€"
                 />
               </div>
@@ -232,7 +232,7 @@ export default function PropertyMortgageCalculator({ propertyPrice }: PropertyMo
                 <Input
                   type="number"
                   value={homeInsurance}
-                  onChange={(e) => setHomeInsurance(parseFloat(e.target.value) || 0)}
+                  onChange={(e: any) => setHomeInsurance(parseFloat(e.target.value) || 0)}
                   prefix="€"
                 />
               </div>
@@ -266,7 +266,7 @@ export default function PropertyMortgageCalculator({ propertyPrice }: PropertyMo
                 </div>
                 <div className="flex justify-between">
                   <span className="text-gray-600">Loan-to-Value (LTV)</span>
-                  <Badge variant={calculation.loanToValue > 80 ? 'destructive' : 'secondary'}>
+                  <Badge variant={calculation.loanToValue> 80 ? 'destructive' : 'secondary'}>
                     {calculation.loanToValue.toFixed(1)}%
                   </Badge>
                 </div>
@@ -286,7 +286,7 @@ export default function PropertyMortgageCalculator({ propertyPrice }: PropertyMo
                 <Input
                   type="number"
                   value={monthlyIncome}
-                  onChange={(e) => setMonthlyIncome(parseFloat(e.target.value) || 0)}
+                  onChange={(e: any) => setMonthlyIncome(parseFloat(e.target.value) || 0)}
                   prefix="€"
                 />
               </div>
@@ -295,7 +295,7 @@ export default function PropertyMortgageCalculator({ propertyPrice }: PropertyMo
                 <Input
                   type="number"
                   value={monthlyExpenses}
-                  onChange={(e) => setMonthlyExpenses(parseFloat(e.target.value) || 0)}
+                  onChange={(e: any) => setMonthlyExpenses(parseFloat(e.target.value) || 0)}
                   prefix="€"
                 />
               </div>
@@ -307,7 +307,7 @@ export default function PropertyMortgageCalculator({ propertyPrice }: PropertyMo
                 type="checkbox"
                 id="firstTimeBuyer"
                 checked={isFirstTimeBuyer}
-                onChange={(e) => setIsFirstTimeBuyer(e.target.checked)}
+                onChange={(e: any) => setIsFirstTimeBuyer(e.target.checked)}
                 className="rounded border-gray-300"
               />
               <Label htmlFor="firstTimeBuyer">I'm a first-time buyer</Label>
@@ -324,7 +324,7 @@ export default function PropertyMortgageCalculator({ propertyPrice }: PropertyMo
             {/* Affordability Analysis */}
             <div className="border-t pt-6">
               <h3 className="font-semibold mb-4">Affordability Analysis</h3>
-              
+
               <div className="grid grid-cols-2 gap-4 mb-6">
                 <div className={`p-4 rounded-lg ${
                   affordabilityStatus.color === 'green' ? 'bg-green-50' :
@@ -363,7 +363,7 @@ export default function PropertyMortgageCalculator({ propertyPrice }: PropertyMo
                         affordabilityStatus.color === 'yellow' ? 'bg-yellow-600' :
                         'bg-red-600'
                       }`}
-                      style={{ width: `${Math.min(calculation.affordabilityRatio, 100)}%` }}
+                      style={ width: `${Math.min(calculation.affordabilityRatio100)}%` }
                     />
                   </div>
                 </div>
@@ -372,17 +372,17 @@ export default function PropertyMortgageCalculator({ propertyPrice }: PropertyMo
                   <p className="text-sm text-blue-900 mb-2">
                     <strong>Recommendation:</strong>
                   </p>
-                  {calculation.affordabilityRatio < 35 && (
+                  {calculation.affordabilityRatio <35 && (
                     <p className="text-sm text-blue-800">
                       Your mortgage payment is well within your budget. You have room for additional savings or investments.
                     </p>
                   )}
-                  {calculation.affordabilityRatio >= 35 && calculation.affordabilityRatio < 50 && (
+                  {calculation.affordabilityRatio>= 35 && calculation.affordabilityRatio <50 && (
                     <p className="text-sm text-blue-800">
                       Your mortgage payment is manageable, but consider maintaining an emergency fund for unexpected expenses.
                     </p>
                   )}
-                  {calculation.affordabilityRatio >= 50 && (
+                  {calculation.affordabilityRatio>= 50 && (
                     <p className="text-sm text-blue-800">
                       Your mortgage payment may strain your budget. Consider a larger deposit or a longer loan term to reduce monthly payments.
                     </p>
@@ -408,13 +408,13 @@ export default function PropertyMortgageCalculator({ propertyPrice }: PropertyMo
             <div className="h-64">
               <ResponsiveContainer width="100%" height="100%">
                 <LineChart
-                  data={amortizationSchedule.filter((_, index) => index % 3 === 0)}
-                  margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+                  data={amortizationSchedule.filter((_index: any) => index % 3 === 0)}
+                  margin={ top: 5, right: 30, left: 20, bottom: 5 }
                 >
                   <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="month" label={{ value: 'Month', position: 'insideBottom', offset: -5 }} />
-                  <YAxis label={{ value: 'Amount (€)', angle: -90, position: 'insideLeft' }} />
-                  <Tooltip formatter={(value) => `€${Math.round(value).toLocaleString()}`} />
+                  <XAxis dataKey="month" label={ value: 'Month', position: 'insideBottom', offset: -5 } />
+                  <YAxis label={ value: 'Amount (€)', angle: -90, position: 'insideLeft' } />
+                  <Tooltip formatter={(value: any) => `€${Math.round(value).toLocaleString()}`} />
                   <Legend />
                   <Line type="monotone" dataKey="principal" stroke="#3B82F6" strokeWidth={2} name="Principal" />
                   <Line type="monotone" dataKey="interest" stroke="#EF4444" strokeWidth={2} name="Interest" />
@@ -435,7 +435,7 @@ export default function PropertyMortgageCalculator({ propertyPrice }: PropertyMo
                     </tr>
                   </thead>
                   <tbody>
-                    {amortizationSchedule.slice(0, 12).map((entry) => (
+                    {amortizationSchedule.slice(012).map((entry: any) => (
                       <tr key={entry.month} className="border-b">
                         <td className="py-2">{entry.month}</td>
                         <td className="text-right py-2">€{Math.round(entry.principal).toLocaleString()}</td>

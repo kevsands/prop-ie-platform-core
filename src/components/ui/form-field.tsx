@@ -9,8 +9,7 @@ import {
   FormLabel,
   FormControl,
   FormDescription,
-  FormMessage,
-} from '@/components/ui/form';
+  FormMessage} from '@/components/ui/form';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/components/ui/input-otp';
@@ -25,8 +24,7 @@ import {
   SelectTrigger,
   SelectValue,
   SelectGroup,
-  SelectLabel,
-} from '@/components/ui/select';
+  SelectLabel} from '@/components/ui/select';
 
 // Types
 type Option = { 
@@ -41,7 +39,7 @@ type FormFieldComponentProps<
   TFieldValues extends FieldValues = FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
 > = {
-  form: UseFormReturn<TFieldValues>;
+  form: UseFormReturn<TFieldValues>\n  );
   name: TName;
   label?: string;
   description?: string;
@@ -128,11 +126,11 @@ export function FormFieldComponent<
   const fieldId = customId || `field-${name}`;
   const helpId = `${fieldId}-help`;
   const errorId = `${fieldId}-error`;
-  
+
   // Group options by their group property if present
   const groupedOptions: Record<string, Option[]> = {};
   const ungroupedOptions: Option[] = [];
-  
+
   options.forEach(option => {
     if (option.group) {
       if (!groupedOptions[option.group]) {
@@ -143,7 +141,7 @@ export function FormFieldComponent<
       ungroupedOptions.push(option);
     }
   });
-  
+
   // Render different form controls based on type
   const renderFormControl = ({ field }: { field: any }) => {
     switch (type) {
@@ -162,7 +160,7 @@ export function FormFieldComponent<
             {...props}
           />
         );
-      
+
       case 'checkbox':
         return (
           <div className="flex items-center space-x-2">
@@ -186,7 +184,7 @@ export function FormFieldComponent<
             )}
           </div>
         );
-      
+
       case 'switch':
         return (
           <div className="flex items-center space-x-2">
@@ -210,7 +208,7 @@ export function FormFieldComponent<
             )}
           </div>
         );
-      
+
       case 'select':
         return (
           <div className="relative">
@@ -229,11 +227,11 @@ export function FormFieldComponent<
                 <SelectValue placeholder={placeholder} />
               </SelectTrigger>
               <SelectContent>
-                {Object.keys(groupedOptions).length > 0 ? (
-                  Object.entries(groupedOptions).map(([groupName, groupOptions]) => (
+                {Object.keys(groupedOptions).length> 0 ? (
+                  Object.entries(groupedOptions).map(([groupNamegroupOptions]) => (
                     <SelectGroup key={groupName}>
                       <SelectLabel>{groupName}</SelectLabel>
-                      {groupOptions.map((option) => (
+                      {groupOptions.map((option: any) => (
                         <SelectItem 
                           key={option.value} 
                           value={option.value}
@@ -245,8 +243,8 @@ export function FormFieldComponent<
                     </SelectGroup>
                   ))
                 ) : null}
-                
-                {ungroupedOptions.map((option) => (
+
+                {ungroupedOptions.map((option: any) => (
                   <SelectItem 
                     key={option.value} 
                     value={option.value}
@@ -259,7 +257,7 @@ export function FormFieldComponent<
             </Select>
           </div>
         );
-      
+
       case 'radio':
         return (
           <RadioGroup
@@ -270,7 +268,7 @@ export function FormFieldComponent<
             aria-describedby={description ? helpId : undefined}
             aria-required={ariaRequired}
           >
-            {options.map((option) => (
+            {options.map((option: any) => (
               <div className="flex items-center space-x-2" key={option.value}>
                 <RadioGroupItem 
                   value={option.value} 
@@ -300,7 +298,7 @@ export function FormFieldComponent<
             min={min}
             max={max}
             step={step}
-            onValueChange={(values) => field.onChange(values[0])}
+            onValueChange={(values: any) => field.onChange(values[0])}
             disabled={disabled}
             aria-describedby={description ? helpId : undefined}
             aria-labelledby={label ? fieldId : undefined}
@@ -310,7 +308,7 @@ export function FormFieldComponent<
             })}
           />
         );
-      
+
       case 'otp':
         return (
           <InputOTP 
@@ -320,7 +318,7 @@ export function FormFieldComponent<
             disabled={disabled}
             render={({ slots }) => (
               <InputOTPGroup className="gap-2">
-                {slots.map((slot, index) => (
+                {slots.map((slotindex: any) => (
                   <InputOTPSlot 
                     key={index} 
                     {...slot} 
@@ -332,7 +330,7 @@ export function FormFieldComponent<
             )}
           />
         );
-      
+
       default:
         return (
           <div className="relative">

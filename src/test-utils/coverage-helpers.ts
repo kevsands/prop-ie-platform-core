@@ -101,23 +101,20 @@ export function createTestCoverageData(options: {
   
   // Base test cases that ensure good coverage
   const baseTestCases = [
-    { id: 1, name: 'Standard case', value: 'normal' },
-  ];
+    { id: 1, name: 'Standard case', value: 'normal' }];
   
   // Edge cases for better branch coverage
   const edgeCases = includeEdgeCases ? [
     { id: 2, name: 'Empty case', value: '' },
     { id: 3, name: 'Null case', value: null },
     { id: 4, name: 'Undefined case', value: undefined },
-    { id: 5, name: 'Boundary case', value: Number.MAX_SAFE_INTEGER },
-  ] : [];
+    { id: 5, name: 'Boundary case', value: Number.MAX_SAFE_INTEGER }] : [];
   
   // Error states to test error handling code paths
   const errorStates = includeErrorStates ? [
     { id: 6, name: 'Error case', value: 'error', error: new Error('Test error') },
     { id: 7, name: 'Network error', value: 'network-error', error: new Error('Network error') },
-    { id: 8, name: 'Timeout error', value: 'timeout', error: new Error('Timeout') },
-  ] : [];
+    { id: 8, name: 'Timeout error', value: 'timeout', error: new Error('Timeout') }] : [];
   
   // Permutations for exhaustive testing
   const permutations = includeAllPermutations ? [
@@ -126,22 +123,16 @@ export function createTestCoverageData(options: {
     { id: 11, name: 'Number zero', value: 0 },
     { id: 12, name: 'Negative number', value: -1 },
     { id: 13, name: 'Array empty', value: [] },
-    { id: 14, name: 'Array with values', value: [1, 2, 3] },
+    { id: 14, name: 'Array with values', value: [1, 23] },
     { id: 15, name: 'Object empty', value: {} },
-    { id: 16, name: 'Object with values', value: { key: 'value' } },
-  ] : [];
+    { id: 16, name: 'Object with values', value: { key: 'value' } }] : [];
   
   return [...baseTestCases, ...edgeCases, ...errorStates, ...permutations];
 }
 
 /**
- * Helper function to confirm all branches of an async function are covered
- * 
- * Usage:
- * ```
- * it('covers all branches', async () => {
- *   await testAsyncBranches(
- *     async (input) => myFunction(input),
+ * Helper async function totestAsyncBranches(
+ *     async (input: any) => myFunction(input),
  *     ['success', 'error', 'empty']
  *   );
  * });

@@ -1,0 +1,558 @@
+'use client';
+
+import { useState } from 'react';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Progress } from '@/components/ui/progress';
+import {
+  Home,
+  Palette,
+  Sofa,
+  Bath,
+  Lightbulb,
+  DollarSign,
+  Check,
+  Info,
+  AlertCircle,
+  ShoppingCart,
+  Calendar,
+  Save,
+  ChevronRight,
+  ChevronLeft,
+  Eye
+} from 'lucide-react';
+import Image from 'next/image';
+
+interface CustomizationOption {
+  id: string;
+  name: string;
+  description: string;
+  category: string;
+  price: number;
+  image: string;
+  standard: boolean;
+  available: boolean;
+  specifications?: string[];
+}
+
+interface CustomizationCategory {
+  id: string;
+  name: string;
+  icon: any;
+  description: string;
+  options: CustomizationOption[];
+}
+
+const customizationCategories: CustomizationCategory[] = [
+  {
+    id: 'flooring',
+    name: 'Flooring',
+    icon: Home,
+    description: 'Choose from our premium flooring options',
+    options: [
+      {
+        id: 'floor-1',
+        name: 'Oak Engineered Flooring',
+        description: 'Premium oak with natural grain pattern',
+        category: 'flooring',
+        price: 0,
+        image: '/images/customization/flooring-oak.svg',
+        standard: true,
+        available: true,
+        specifications: ['14mm thickness', 'Natural finish', 'Lifetime warranty']
+      },
+      {
+        id: 'floor-2',
+        name: 'Walnut Engineered Flooring',
+        description: 'Rich walnut with contemporary finish',
+        category: 'flooring',
+        price: 1500,
+        image: '/images/customization/flooring-walnut.svg',
+        standard: false,
+        available: true,
+        specifications: ['14mm thickness', 'Matte finish', '25 year warranty']
+      },
+      {
+        id: 'floor-3',
+        name: 'Herringbone Pattern Oak',
+        description: 'Classic herringbone pattern installation',
+        category: 'flooring',
+        price: 2500,
+        image: '/images/customization/flooring-herringbone.svg',
+        standard: false,
+        available: true,
+        specifications: ['12mm thickness', 'Herringbone pattern', 'Professional installation']
+      }
+    ]
+  },
+  {
+    id: 'kitchen',
+    name: 'Kitchen',
+    icon: Sofa,
+    description: 'Upgrade your kitchen finishes',
+    options: [
+      {
+        id: 'kitchen-1',
+        name: 'Standard Worktop',
+        description: 'Quartz composite worktop',
+        category: 'kitchen',
+        price: 0,
+        image: '/images/customization/kitchen-standard.svg',
+        standard: true,
+        available: true,
+        specifications: ['20mm thickness', 'Stain resistant', '10 year warranty']
+      },
+      {
+        id: 'kitchen-2',
+        name: 'Marble Worktop',
+        description: 'Carrara marble worktop',
+        category: 'kitchen',
+        price: 3500,
+        image: '/images/customization/kitchen-marble.svg',
+        standard: false,
+        available: true,
+        specifications: ['30mm thickness', 'Natural stone', 'Sealed finish']
+      },
+      {
+        id: 'kitchen-3',
+        name: 'Integrated Appliances',
+        description: 'Built-in coffee machine and wine cooler',
+        category: 'kitchen',
+        price: 4000,
+        image: '/images/customization/kitchen-appliances.svg',
+        standard: false,
+        available: true,
+        specifications: ['Bosch appliances', 'Energy A++ rating', 'Touch controls']
+      }
+    ]
+  },
+  {
+    id: 'bathroom',
+    name: 'Bathroom',
+    icon: Bath,
+    description: 'Luxury bathroom upgrades',
+    options: [
+      {
+        id: 'bath-1',
+        name: 'Standard Fixtures',
+        description: 'Chrome fixtures and fittings',
+        category: 'bathroom',
+        price: 0,
+        image: '/images/customization/fixtures-standard.svg',
+        standard: true,
+        available: true,
+        specifications: ['Chrome finish', '5 year warranty', 'Water efficient']
+      },
+      {
+        id: 'bath-2',
+        name: 'Black Matte Fixtures',
+        description: 'Contemporary black matte finish',
+        category: 'bathroom',
+        price: 800,
+        image: '/images/customization/fixtures-black.svg',
+        standard: false,
+        available: true,
+        specifications: ['Matte black finish', 'Anti-fingerprint', 'Premium quality']
+      },
+      {
+        id: 'bath-3',
+        name: 'Rainfall Shower System',
+        description: 'Luxury rainfall shower head with hand shower',
+        category: 'bathroom',
+        price: 1200,
+        image: '/images/customization/shower-rainfall.svg',
+        standard: false,
+        available: true,
+        specifications: ['300mm head', 'Thermostatic mixer', 'Dual function']
+      }
+    ]
+  },
+  {
+    id: 'electrical',
+    name: 'Electrical',
+    icon: Lightbulb,
+    description: 'Smart home and electrical upgrades',
+    options: [
+      {
+        id: 'elec-1',
+        name: 'Standard Switches',
+        description: 'White plastic switches and sockets',
+        category: 'electrical',
+        price: 0,
+        image: '/images/customization/switches-standard.svg',
+        standard: true,
+        available: true
+      },
+      {
+        id: 'elec-2',
+        name: 'Brushed Steel Switches',
+        description: 'Premium brushed steel finish',
+        category: 'electrical',
+        price: 500,
+        image: '/images/customization/switches-steel.svg',
+        standard: false,
+        available: true
+      },
+      {
+        id: 'elec-3',
+        name: 'Smart Home System',
+        description: 'Complete home automation system',
+        category: 'electrical',
+        price: 5000,
+        image: '/images/customization/smart-home.svg',
+        standard: false,
+        available: true,
+        specifications: ['App control', 'Voice activation', 'Energy monitoring']
+      }
+    ]
+  },
+  {
+    id: 'finishes',
+    name: 'Paint & Finishes',
+    icon: Palette,
+    description: 'Interior paint colors and finishes',
+    options: [
+      {
+        id: 'paint-1',
+        name: 'Neutral Palette',
+        description: 'Standard neutral color scheme',
+        category: 'finishes',
+        price: 0,
+        image: '/images/customization/paint-neutral.svg',
+        standard: true,
+        available: true
+      },
+      {
+        id: 'paint-2',
+        name: 'Designer Color Scheme',
+        description: 'Curated designer color palette',
+        category: 'finishes',
+        price: 1000,
+        image: '/images/customization/paint-designer.svg',
+        standard: false,
+        available: true
+      },
+      {
+        id: 'paint-3',
+        name: 'Feature Wall Package',
+        description: 'Accent walls in living areas',
+        category: 'finishes',
+        price: 750,
+        image: '/images/customization/paint-feature.svg',
+        standard: false,
+        available: true
+      }
+    ]
+  }
+];
+
+export default function PropChoicePage() {
+  const [selectedOptions, setSelectedOptions] = useState<Record<string, string>>({});
+  const [activeCategory, setActiveCategory] = useState('flooring');
+  const [showSummary, setShowSummary] = useState(false);
+
+  // Calculate total cost
+  const calculateTotal = () => {
+    return Object.values(selectedOptions).reduce((total, optionId) => {
+      const option = customizationCategories
+        .flatMap(cat => cat.options)
+        .find(opt => opt.id === optionId);
+      return total + (option?.price || 0);
+    }, 0);
+  };
+
+  // Get selected options details
+  const getSelectedOptions = () => {
+    return Object.entries(selectedOptions).map(([categoryId, optionId]) => {
+      const category = customizationCategories.find(cat => cat.id === categoryId);
+      const option = category?.options.find(opt => opt.id === optionId);
+      return { category, option };
+    }).filter(item => item.option);
+  };
+
+  const handleOptionSelect = (categoryId: string, optionId: string) => {
+    setSelectedOptions(prev => ({
+      ...prev,
+      [categoryId]: optionId
+    }));
+  };
+
+  const currentCategory = customizationCategories.find(cat => cat.id === activeCategory);
+  const totalCost = calculateTotal();
+
+  // Mock property details
+  const property = {
+    development: 'Fitzgerald Gardens',
+    unit: 'Block A - Unit 23',
+    type: '2 Bed Apartment',
+    basePrice: 385000
+  };
+
+  return (
+    <div className="container mx-auto p-6">
+      {/* Header */}
+      <div className="mb-8">
+        <div className="flex justify-between items-start">
+          <div>
+            <h1 className="text-3xl font-bold mb-2">Prop Choice</h1>
+            <p className="text-muted-foreground">
+              Customize your new home at {property.development}
+            </p>
+          </div>
+          <div className="text-right">
+            <p className="text-sm text-muted-foreground">{property.unit}</p>
+            <p className="font-medium">{property.type}</p>
+          </div>
+        </div>
+      </div>
+
+      {/* Deadline Alert */}
+      <Alert className="mb-6">
+        <Calendar className="h-4 w-4" />
+        <AlertDescription>
+          Your customization window closes on <strong>April 30, 2024</strong>. 
+          All selections must be finalized by this date.
+        </AlertDescription>
+      </Alert>
+
+      {/* Main Content */}
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+        {/* Categories Sidebar */}
+        <div className="lg:col-span-1">
+          <Card>
+            <CardHeader>
+              <CardTitle>Categories</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-2">
+                {customizationCategories.map(category => {
+                  const Icon = category.icon;
+                  const hasSelection = selectedOptions[category.id];
+                  return (
+                    <button
+                      key={category.id}
+                      onClick={() => setActiveCategory(category.id)}
+                      className={`w-full flex items-center gap-3 p-3 rounded-lg transition-colors ${
+                        activeCategory === category.id
+                          ? 'bg-primary text-primary-foreground'
+                          : 'hover:bg-muted'
+                      }`}
+                    >
+                      <Icon className="h-5 w-5" />
+                      <span className="flex-1 text-left">{category.name}</span>
+                      {hasSelection && (
+                        <Check className="h-4 w-4" />
+                      )}
+                    </button>
+                  );
+                })}
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Cost Summary */}
+          <Card className="mt-6">
+            <CardHeader>
+              <CardTitle>Cost Summary</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-3">
+                <div className="flex justify-between">
+                  <span className="text-muted-foreground">Base Price</span>
+                  <span className="font-medium">€{property.basePrice.toLocaleString()}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-muted-foreground">Customizations</span>
+                  <span className="font-medium">€{totalCost.toLocaleString()}</span>
+                </div>
+                <div className="border-t pt-3">
+                  <div className="flex justify-between">
+                    <span className="font-semibold">Total Price</span>
+                    <span className="font-bold text-lg">
+                      €{(property.basePrice + totalCost).toLocaleString()}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+            <CardFooter>
+              <Button 
+                className="w-full" 
+                onClick={() => setShowSummary(true)}
+              >
+                Review Selections
+              </Button>
+            </CardFooter>
+          </Card>
+        </div>
+
+        {/* Options Display */}
+        <div className="lg:col-span-3">
+          {!showSummary ? (
+            <Card>
+              <CardHeader>
+                <div className="flex items-center justify-between">
+                  <div>
+                    <CardTitle>{currentCategory?.name}</CardTitle>
+                    <CardDescription>{currentCategory?.description}</CardDescription>
+                  </div>
+                  <Badge variant="outline">
+                    {currentCategory?.options.length} Options
+                  </Badge>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {currentCategory?.options.map(option => {
+                    const isSelected = selectedOptions[currentCategory.id] === option.id;
+                    
+                    return (
+                      <Card 
+                        key={option.id}
+                        className={`cursor-pointer transition-all ${
+                          isSelected ? 'ring-2 ring-primary' : 'hover:shadow-lg'
+                        }`}
+                        onClick={() => handleOptionSelect(currentCategory.id, option.id)}
+                      >
+                        <CardHeader>
+                          <div className="flex justify-between items-start">
+                            <div>
+                              <CardTitle className="text-lg">{option.name}</CardTitle>
+                              {option.standard && (
+                                <Badge variant="secondary" className="mt-1">
+                                  Standard
+                                </Badge>
+                              )}
+                            </div>
+                            {isSelected && (
+                              <div className="w-6 h-6 bg-primary rounded-full flex items-center justify-center">
+                                <Check className="h-4 w-4 text-primary-foreground" />
+                              </div>
+                            )}
+                          </div>
+                        </CardHeader>
+                        <CardContent>
+                          <div className="aspect-video bg-gray-100 rounded-lg mb-4 flex items-center justify-center">
+                            <Image
+                              src={option.image}
+                              alt={option.name}
+                              width={300}
+                              height={200}
+                              className="object-cover rounded-lg"
+                            />
+                          </div>
+                          <p className="text-sm text-muted-foreground mb-4">
+                            {option.description}
+                          </p>
+                          
+                          {option.specifications && (
+                            <ul className="text-sm text-muted-foreground space-y-1 mb-4">
+                              {option.specifications.map((spec, index) => (
+                                <li key={index} className="flex items-center gap-2">
+                                  <Check className="h-3 w-3" />
+                                  {spec}
+                                </li>
+                              ))}
+                            </ul>
+                          )}
+                          
+                          <div className="flex justify-between items-center">
+                            <span className="font-semibold text-lg">
+                              {option.price === 0 ? 'Included' : `+€${option.price.toLocaleString()}`}
+                            </span>
+                            {!option.available && (
+                              <Badge variant="destructive">Unavailable</Badge>
+                            )}
+                          </div>
+                        </CardContent>
+                      </Card>
+                    );
+                  })}
+                </div>
+              </CardContent>
+            </Card>
+          ) : (
+            /* Summary View */
+            <Card>
+              <CardHeader>
+                <div className="flex items-center justify-between">
+                  <CardTitle>Your Selections</CardTitle>
+                  <Button 
+                    variant="outline" 
+                    onClick={() => setShowSummary(false)}
+                  >
+                    <ChevronLeft className="mr-2 h-4 w-4" />
+                    Back to Options
+                  </Button>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-6">
+                  {getSelectedOptions().map(({ category, option }) => (
+                    <div key={option.id} className="flex items-start gap-4 p-4 border rounded-lg">
+                      <div className="w-24 h-24 bg-gray-100 rounded-lg flex items-center justify-center">
+                        <Image
+                          src={option.image}
+                          alt={option.name}
+                          width={80}
+                          height={80}
+                          className="object-cover rounded-lg"
+                        />
+                      </div>
+                      <div className="flex-1">
+                        <div className="flex items-start justify-between">
+                          <div>
+                            <h3 className="font-semibold">{option.name}</h3>
+                            <p className="text-sm text-muted-foreground">{category?.name}</p>
+                            <p className="text-sm mt-1">{option.description}</p>
+                          </div>
+                          <span className="font-semibold">
+                            {option.price === 0 ? 'Included' : `+€${option.price.toLocaleString()}`}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+
+                  {Object.keys(selectedOptions).length === 0 && (
+                    <div className="text-center py-8 text-muted-foreground">
+                      No customizations selected. All standard options will be included.
+                    </div>
+                  )}
+                </div>
+              </CardContent>
+              <CardFooter className="flex justify-between">
+                <div>
+                  <p className="text-sm text-muted-foreground">Total Customization Cost</p>
+                  <p className="text-2xl font-bold">€{totalCost.toLocaleString()}</p>
+                </div>
+                <div className="flex gap-4">
+                  <Button variant="outline">
+                    <Save className="mr-2 h-4 w-4" />
+                    Save Draft
+                  </Button>
+                  <Button>
+                    Confirm Selections
+                    <ChevronRight className="ml-2 h-4 w-4" />
+                  </Button>
+                </div>
+              </CardFooter>
+            </Card>
+          )}
+        </div>
+      </div>
+
+      {/* Important Information */}
+      <Alert className="mt-6">
+        <Info className="h-4 w-4" />
+        <AlertDescription>
+          <strong>Important:</strong> Once confirmed, customization selections cannot be changed. 
+          Our team will contact you within 24 hours to review your selections and discuss installation timelines.
+        </AlertDescription>
+      </Alert>
+    </div>
+  );
+}

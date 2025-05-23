@@ -139,7 +139,7 @@ export const isIconRegistered = (name: string): name is keyof typeof iconRegistr
 // Hook to get icon metadata
 export const useIconMetadata = (name: string) => {
   if (!isIconRegistered(name)) {
-    console.warn(`Icon "${name}" is not registered in the icon registry`);
+
     return null;
   }
   return iconRegistry[name].metadata;
@@ -170,7 +170,7 @@ export const useIconsByTag = (tag: string) => {
 // Component to display icon documentation
 export const IconDocumentation: React.FC<{ name: string }> = ({ name }) => {
   const metadata = useIconMetadata(name);
-  
+
   if (!metadata) {
     return (
       <div className="p-4 bg-red-50 text-red-700 rounded">

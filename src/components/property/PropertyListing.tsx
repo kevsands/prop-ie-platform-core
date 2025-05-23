@@ -27,30 +27,29 @@ const PropertyListing: React.FC<PropertyListingProps> = ({
   properties: propProperties,
   initialLoading = false
 }) => {
-  const [properties, setProperties] = useState<Property[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [propertiessetProperties] = useState<Property[]>([]);
+  const [loadingsetLoading] = useState(true);
+  const [errorsetError] = useState<string | null>(null);
 
   // Filters
-  const [filters, setFilters] = useState({
+  const [filterssetFilters] = useState({
     location: "",
     minPrice: "",
     maxPrice: "",
     bedrooms: "",
-    status: "",
-  });
+    status: "");
 
   useEffect(() => {
     // Initialize loading state using the prop if provided
     setLoading(initialLoading);
-    
+
     // If properties are passed as props, use those
     if (propProperties) {
       setProperties(propProperties);
       setLoading(false);
       return;
     }
-    
+
     // Otherwise fetch properties from API
     const fetchProperties = async () => {
       try {
@@ -68,7 +67,7 @@ const PropertyListing: React.FC<PropertyListingProps> = ({
             bathrooms: property.bathrooms,
             area: property.area || property.floorArea || 0,
             imageUrl:
-              (property.images && property.images.length > 0)
+              (property.images && property.images.length> 0)
                 ? property.images[0]
                 : property.image || "/placeholder-property.jpg",
             status: property.status || "available",
@@ -79,34 +78,33 @@ const PropertyListing: React.FC<PropertyListingProps> = ({
         }
       } catch (err: any) {
         setError(err.message || "Failed to fetch properties");
-        console.error("Error fetching properties:", err);
+
       } finally {
         setLoading(false);
       }
     };
 
     fetchProperties();
-  }, [propProperties, initialLoading]); // Added initialLoading as dependency
+  }, [propPropertiesinitialLoading]); // Added initialLoading as dependency
 
   const handleFilterChange = (
     e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>,
   ) => {
     const { name, value } = e.target;
-    setFilters((prev) => ({
+    setFilters((prev: any) => ({
       ...prev,
-      [name]: value,
-    }));
+      [name]: value}));
   };
 
   // Apply filters
-  const filteredProperties = properties.filter((property) => {
+  const filteredProperties = properties.filter((property: any) => {
     if (filters.location && !property.location.includes(filters.location))
       return false;
-    if (filters.minPrice && property.price < parseInt(filters.minPrice))
+    if (filters.minPrice && property.price <parseInt(filters.minPrice))
       return false;
-    if (filters.maxPrice && property.price > parseInt(filters.maxPrice))
+    if (filters.maxPrice && property.price> parseInt(filters.maxPrice))
       return false;
-    if (filters.bedrooms && property.bedrooms < parseInt(filters.bedrooms))
+    if (filters.bedrooms && property.bedrooms <parseInt(filters.bedrooms))
       return false;
     if (filters.status && property.status !== filters.status) return false;
     return true;
@@ -246,7 +244,7 @@ const PropertyListing: React.FC<PropertyListingProps> = ({
       {/* Property Grid */}
       {!loading && !error && (
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {filteredProperties.map((property) => (
+          {filteredProperties.map((property: any) => (
             <PropertyCard
               key={property.id}
               id={property.id}
@@ -258,7 +256,7 @@ const PropertyListing: React.FC<PropertyListingProps> = ({
               floorArea={property.area} // Changed from area to floorArea
               images={property.imageUrl ? [property.imageUrl] : []} // Convert imageUrl to images array
               status={property.status}
-              type={property.type || "house"} // Default type if not available
+              type={property.type || "house" // Default type if not available
             />
           ))}
         </div>

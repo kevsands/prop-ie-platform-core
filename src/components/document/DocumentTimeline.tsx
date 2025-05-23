@@ -1,3 +1,4 @@
+import React from 'react';
 'use client';
 
 import { useMemo } from 'react';
@@ -11,8 +12,7 @@ import {
   CheckCircle2,
   Clock,
   FileQuestion,
-  XCircle,
-} from 'lucide-react';
+  XCircle} from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { DocumentItem, DocumentStatus } from './DocumentComplianceTracker';
 
@@ -70,46 +70,46 @@ export default function DocumentTimeline({
     const now = new Date();
     const thirtyDaysLater = new Date();
     thirtyDaysLater.setDate(now.getDate() + 30);
-    
+
     return documents
       .filter(doc => {
         if (doc.status === 'APPROVED') return false;
-        
+
         const deadlineDate = new Date(doc.deadline);
-        return deadlineDate >= now && deadlineDate <= thirtyDaysLater;
+        return deadlineDate>= now && deadlineDate <= thirtyDaysLater;
       })
-      .sort((a, b) => new Date(a.deadline).getTime() - new Date(b.deadline).getTime());
+      .sort((ab: any) => new Date(a.deadline).getTime() - new Date(b.deadline).getTime());
   }, [documents]);
 
   // Group documents by date (e.g., "Apr 15")
   const groupedDocuments = useMemo(() => {
     const grouped: Record<string, DocumentItem[]> = {};
-    
+
     upcomingDocuments.forEach(doc => {
       const date = new Date(doc.deadline);
       const monthDay = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-      
+
       if (!grouped[monthDay]) {
         grouped[monthDay] = [];
       }
-      
+
       grouped[monthDay].push(doc);
     });
-    
+
     return grouped;
   }, [upcomingDocuments]);
 
   // Calculate days from now
   const getDaysFromNow = (dateString: string) => {
     const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    
+    today.setHours(0, 0, 00);
+
     const targetDate = new Date(dateString);
-    targetDate.setHours(0, 0, 0, 0);
-    
+    targetDate.setHours(0, 0, 00);
+
     const diffTime = targetDate.getTime() - today.getTime();
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-    
+
     if (diffDays === 0) return 'Today';
     if (diffDays === 1) return 'Tomorrow';
     return `In ${diffDays} days`;
@@ -136,13 +136,13 @@ export default function DocumentTimeline({
 
   return (
     <div className={cn("space-y-6", className)}>
-      {Object.entries(groupedDocuments).map(([date, docs]) => (
+      {Object.entries(groupedDocuments).map(([datedocs]) => (
         <div key={date} className="relative pl-8 border-l pb-6">
           {/* Date marker */}
           <div className="absolute -left-2.5 top-0 bg-background border-4 border-background rounded-full">
             <div className="h-5 w-5 rounded-full bg-primary"></div>
           </div>
-          
+
           {/* Date header */}
           <div className="mb-4">
             <div className="flex items-center gap-2">
@@ -155,13 +155,13 @@ export default function DocumentTimeline({
               {docs.length} document{docs.length !== 1 ? 's' : ''}
             </p>
           </div>
-          
+
           {/* Document cards */}
           <div className="space-y-2">
             {docs.map(doc => {
               const statusDetails = getStatusDetails(doc.status);
-              const isPastDue = new Date(doc.deadline) < new Date() && doc.status !== 'APPROVED';
-              
+              const isPastDue = new Date(doc.deadline) <new Date() && doc.status !== 'APPROVED';
+
               return (
                 <Card key={doc.id} className="overflow-hidden hover:border-primary/50 transition-colors">
                   <CardContent className="p-0">
@@ -186,7 +186,7 @@ export default function DocumentTimeline({
                           </div>
                         </div>
                       </div>
-                      
+
                       {/* Action button */}
                       <Button 
                         size="sm" 
@@ -197,7 +197,7 @@ export default function DocumentTimeline({
                         <ChevronRight className="h-4 w-4" />
                       </Button>
                     </div>
-                    
+
                     {/* Status indicator strip */}
                     <div 
                       className={cn(

@@ -46,7 +46,7 @@ const SnagListItem: React.FC<SnagListItemProps> = ({
         return 'bg-gray-100 text-gray-800';
     }
   };
-  
+
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'open':
@@ -61,12 +61,12 @@ const SnagListItem: React.FC<SnagListItemProps> = ({
         return 'bg-gray-100 text-gray-800';
     }
   };
-  
+
   const getStatusIcon = (status: string) => {
     const renderIcon = (Icon: IconType, className: string) => (
       React.createElement(Icon, { className })
     );
-    
+
     switch (status) {
       case 'open':
         return renderIcon(FiAlertCircle, "h-5 w-5 text-red-600");
@@ -80,16 +80,16 @@ const SnagListItem: React.FC<SnagListItemProps> = ({
         return null;
     }
   };
-  
+
   const isOverdue = () => {
     if (!snag.dueDate || snag.status === 'verified' || snag.status === 'fixed') return false;
-    
+
     const now = new Date();
     const dueDate = new Date(snag.dueDate);
-    
-    return dueDate < now;
+
+    return dueDate <now;
   };
-  
+
   return (
     <div className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow">
       <div className="flex justify-between items-start">
@@ -114,7 +114,7 @@ const SnagListItem: React.FC<SnagListItemProps> = ({
             </div>
           </div>
         </div>
-        
+
         <button
           onClick={onView}
           className="text-[#2B5273] hover:text-[#1E3142] text-sm"
@@ -122,13 +122,13 @@ const SnagListItem: React.FC<SnagListItemProps> = ({
           View Details
         </button>
       </div>
-      
+
       <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4 text-sm text-gray-600">
         <div>
           <span className="block text-xs text-gray-500">Location</span>
           <span>{snag.location}</span>
         </div>
-        
+
         {snag.assignedToName && (
           <div>
             <span className="block text-xs text-gray-500">Assigned To</span>
@@ -138,12 +138,12 @@ const SnagListItem: React.FC<SnagListItemProps> = ({
             </span>
           </div>
         )}
-        
+
         <div>
           <span className="block text-xs text-gray-500">Created</span>
           <span>{new Date(snag.createdAt).toLocaleDateString()}</span>
         </div>
-        
+
         {snag.dueDate && (
           <div>
             <span className="block text-xs text-gray-500">Due Date</span>
@@ -153,7 +153,7 @@ const SnagListItem: React.FC<SnagListItemProps> = ({
             </span>
           </div>
         )}
-        
+
         {snag.completedDate && (
           <div>
             <span className="block text-xs text-gray-500">Completed</span>
@@ -161,7 +161,7 @@ const SnagListItem: React.FC<SnagListItemProps> = ({
           </div>
         )}
       </div>
-      
+
       <div className="mt-4 flex items-center gap-4 text-sm text-gray-600">
         {snag.hasImages && (
           <div className="flex items-center">
@@ -169,7 +169,7 @@ const SnagListItem: React.FC<SnagListItemProps> = ({
             <span>Has photos</span>
           </div>
         )}
-        
+
         {snag.hasNotes && (
           <div className="flex items-center">
             {React.createElement(FiFileText, { className: "mr-1" })}
@@ -177,7 +177,7 @@ const SnagListItem: React.FC<SnagListItemProps> = ({
           </div>
         )}
       </div>
-      
+
       {(onAssign || onMarkFixed || onVerify) && (
         <div className="mt-4 pt-4 border-t border-gray-200 flex gap-3 justify-end">
           {snag.status === 'open' && onAssign && (
@@ -188,7 +188,7 @@ const SnagListItem: React.FC<SnagListItemProps> = ({
               Assign
             </button>
           )}
-          
+
           {snag.status === 'assigned' && onMarkFixed && (
             <button
               onClick={onMarkFixed}
@@ -197,7 +197,7 @@ const SnagListItem: React.FC<SnagListItemProps> = ({
               Mark as Fixed
             </button>
           )}
-          
+
           {snag.status === 'fixed' && onVerify && (
             <button
               onClick={onVerify}

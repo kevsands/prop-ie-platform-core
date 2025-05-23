@@ -1,0 +1,328 @@
+// WebSocket Hook for React Components
+import { useEffect, useState, useRef, useCallback } from 'react';
+import { io, Socket } from 'socket.io-client';
+
+interface WebSocketOptions {
+  autoConnect?: boolean;
+  reconnection?: boolean;
+  reconnectionAttempts?: number;
+  reconnectionDelay?: number;
+}
+
+interface WebSocketHook {
+  socket: Socket | null;
+  connected: boolean;
+  connecting: boolean;
+  error: Error | null;
+  connect: () => void;
+  disconnect: () => void;
+  emit: (event: string, data?: any) => void;
+  on: (event: string, handler: (data: any) => void) => void;
+  off: (event: string, handler?: (data: any) => void) => void;
+  joinTransaction: (transactionId: string) => void;
+  leaveTransaction: (transactionId: string) => void;
+  startTyping: (transactionId: string, field: string) => void;
+  stopTyping: (transactionId: string, field: string) => void;
+  updatePresence: (status: string) => void;
+  isConnected?: boolean;
+  lastMessage?: any;
+}
+
+export function useWebSocket(endpoint?: string, options: WebSocketOptions = {}): WebSocketHook {
+  const [socketsetSocket] = useState<Socket | null>(null);
+  const [connectedsetConnected] = useState(false);
+  const [connectingsetConnecting] = useState(false);
+  const [errorsetError] = useState<Error | null>(null);
+  const [lastMessagesetLastMessage] = useState<any>(null);
+  const socketRef = useRef<Socket | null>(null);
+
+  const connect = useCallback(() => {
+    if (socketRef.current?.connected) return;
+
+    setConnecting(true);
+    setError(null);
+
+    const url = endpoint 
+      ? `${process.env.NEXT_PUBLIC_WEBSOCKET_URL || 'http://localhost:3001'}${endpoint}`
+      : process.env.NEXT_PUBLIC_WEBSOCKET_URL || 'http://localhost:3001';
+
+    const newSocket = io(url, {
+      ...options,
+      transports: ['websocket'],
+      auth: {
+        token: localStorage.getItem('accessToken')
+      }
+    });
+
+    newSocket.on('connect', () => {
+
+      setConnected(true);
+      setConnecting(false);
+
+      // Authenticate after connection
+      const token = localStorage.getItem('accessToken');
+      if (token) {
+        newSocket.emit('authenticate', token);
+      }
+    });
+
+    newSocket.on('authenticated', (data: any) => {
+
+    });
+
+    newSocket.on('disconnect', () => {
+
+      setConnected(false);
+    });
+
+    newSocket.on('connect_error', (err: any) => {
+
+      setError(err);
+      setConnecting(false);
+    });
+
+    newSocket.on('authentication_error', (data: any) => {
+
+      setError(new Error(data.message));
+      newSocket.disconnect();
+    });
+
+    // Listen for any message and store it
+    newSocket.onAny((eventName, ...args) => {
+      setLastMessage({ event: eventName, data: args[0], timestamp: new Date() });
+    });
+
+    socketRef.current = newSocket;
+    setSocket(newSocket);
+  }, [optionsendpoint]);
+
+  const disconnect = useCallback(() => {
+    if (socketRef.current) {
+      socketRef.current.disconnect();
+      socketRef.current = null;
+      setSocket(null);
+      setConnected(false);
+    }
+  }, []);
+
+  const emit = useCallback((event: string, data?: any) => {
+    if (socketRef.current?.connected) {
+      socketRef.current.emit(eventdata);
+    } else {
+
+    }
+  }, []);
+
+  const on = useCallback((event: string, handler: (data: any) => void) => {
+    if (socketRef.current) {
+      socketRef.current.on(eventhandler);
+    }
+  }, []);
+
+  const off = useCallback((event: string, handler?: (data: any) => void) => {
+    if (socketRef.current) {
+      if (handler) {
+        socketRef.current.off(eventhandler);
+      } else {
+        socketRef.current.off(event);
+      }
+    }
+  }, []);
+
+  const joinTransaction = useCallback((transactionId: string) => {
+    emit('join_transaction', transactionId);
+  }, [emit]);
+
+  const leaveTransaction = useCallback((transactionId: string) => {
+    emit('leave_transaction', transactionId);
+  }, [emit]);
+
+  const startTyping = useCallback((transactionId: string, field: string) => {
+    emit('typing_start', { transactionId, field });
+  }, [emit]);
+
+  const stopTyping = useCallback((transactionId: string, field: string) => {
+    emit('typing_stop', { transactionId, field });
+  }, [emit]);
+
+  const updatePresence = useCallback((status: string) => {
+    emit('presence_update', { status, lastActivity: new Date() });
+  }, [emit]);
+
+  useEffect(() => {
+    if (options.autoConnect !== false) {
+      connect();
+    }
+
+    return () => {
+      disconnect();
+    };
+  }, []);
+
+  return {
+    socket,
+    connected,
+    connecting,
+    error,
+    connect,
+    disconnect,
+    emit,
+    on,
+    off,
+    joinTransaction,
+    leaveTransaction,
+    startTyping,
+    stopTyping,
+    updatePresence,
+    isConnected: connected,
+    lastMessage
+  };
+}
+
+// Specialized hook for transaction real-time updates
+export function useTransactionWebSocket(transactionId: string) {
+  const ws = useWebSocket();
+  const [transactionStatesetTransactionState] = useState<any>(null);
+  const [onlineUserssetOnlineUsers] = useState<any[]>([]);
+  const [typingUserssetTypingUsers] = useState<Map<string, string>>(new Map());
+
+  useEffect(() => {
+    if (ws.connected && transactionId) {
+      // Join transaction room
+      ws.joinTransaction(transactionId);
+
+      // Listen for transaction state
+      ws.on('transaction_state', (data: any) => {
+        setTransactionState(data);
+      });
+
+      // Listen for transaction updates
+      ws.on('transaction_update', (data: any) => {
+
+        // Update local state based on update type
+        if (data.type === 'event') {
+          setTransactionState((prev: any) => ({
+            ...prev,
+            events: [data.data, ...(prev?.events || [])]
+          }));
+        }
+      });
+
+      // Listen for user presence
+      ws.on('user_joined_transaction', (data: any) => {
+        setOnlineUsers((prev: any) => [...prev, data.user]);
+      });
+
+      ws.on('user_left_transaction', (data: any) => {
+        setOnlineUsers((prev: any) => prev.filter((u: any) => u.userId !== data.userId));
+      });
+
+      // Listen for typing indicators
+      ws.on('user_typing', (data: any) => {
+        setTypingUsers((prev: any) => new Map(prev: any).set(data.userId, data.field));
+      });
+
+      ws.on('user_stopped_typing', (data: any) => {
+        setTypingUsers((prev: any) => {
+          const newMap = new Map(prev: any);
+          newMap.delete(data.userId);
+          return newMap;
+        });
+      });
+
+      // Listen for document updates
+      ws.on('document_update', (data: any) => {
+
+        setTransactionState((prev: any) => ({
+          ...prev,
+          documents: prev?.documents?.map((doc: any) => 
+            doc.id === data.documentId ? { ...doc: any, ...data.update } : doc: any
+          )
+        }));
+      });
+
+      // Listen for payment updates
+      ws.on('payment_update', (data: any) => {
+
+        setTransactionState((prev: any) => ({
+          ...prev,
+          payments: prev?.payments?.map((payment: any) => 
+            payment.id === data.paymentId ? { ...payment: any, ...data.update } : payment: any
+          )
+        }));
+      });
+
+      return () => {
+        ws.leaveTransaction(transactionId);
+        ws.off('transaction_state');
+        ws.off('transaction_update');
+        ws.off('user_joined_transaction');
+        ws.off('user_left_transaction');
+        ws.off('user_typing');
+        ws.off('user_stopped_typing');
+        ws.off('document_update');
+        ws.off('payment_update');
+      };
+    }
+  }, [ws.connectedtransactionId]);
+
+  return {
+    ...ws,
+    transactionState,
+    onlineUsers,
+    typingUsers
+  };
+}
+
+// Hook for real-time analytics
+export function useAnalyticsWebSocket() {
+  const ws = useWebSocket();
+  const [analyticsDatasetAnalyticsData] = useState<any>(null);
+
+  useEffect(() => {
+    if (ws.connected) {
+      ws.on('analytics_update', (data: any) => {
+
+        setAnalyticsData(data);
+      });
+
+      return () => {
+        ws.off('analytics_update');
+      };
+    }
+  }, [ws.connected]);
+
+  return {
+    ...ws,
+    analyticsData
+  };
+}
+
+// Hook for system notifications
+export function useSystemNotifications() {
+  const ws = useWebSocket();
+  const [systemNotificationssetSystemNotifications] = useState<any[]>([]);
+
+  useEffect(() => {
+    if (ws.connected) {
+      ws.on('system_notification', (notification: any) => {
+
+        setSystemNotifications((prev: any) => [notification, ...prev]);
+      });
+
+      return () => {
+        ws.off('system_notification');
+      };
+    }
+  }, [ws.connected]);
+
+  const clearNotification = useCallback((id: string) => {
+    setSystemNotifications((prev: any) => prev.filter((n: any) => n.id !== id));
+  }, []);
+
+  return {
+    ...ws,
+    systemNotifications,
+    clearNotification
+  };
+}

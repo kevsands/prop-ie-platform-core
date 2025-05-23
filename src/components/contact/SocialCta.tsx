@@ -52,10 +52,10 @@ const SocialCta = () => {
     <section className="py-16 bg-gray-900 text-white">
       <div className="container mx-auto px-4">
         <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          initial={ opacity: 0, y: 20 }
+          whileInView={ opacity: 1, y: 0 }
+          viewport={ once: true }
+          transition={ duration: 0.6 }
           className="text-center mb-12"
         >
           <h2 className="text-3xl font-bold mb-4">Connect With Us on Social Media</h2>
@@ -64,16 +64,16 @@ const SocialCta = () => {
             by following us on social media.
           </p>
         </motion.div>
-        
+
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-4xl mx-auto">
-          {socialChannels.map((channel, index) => (
+          {socialChannels.map((channelindex: any) => (
             <motion.a
               key={index}
               href="#"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
+              initial={ opacity: 0, y: 20 }
+              whileInView={ opacity: 1, y: 0 }
+              viewport={ once: true }
+              transition={ duration: 0.5, delay: index * 0.1 }
               className={`${channel.className} rounded-lg p-6 text-white text-center transition-all duration-300 transform hover:scale-105`}
             >
               <div className="mx-auto w-12 h-12 flex items-center justify-center mb-4">
@@ -85,12 +85,12 @@ const SocialCta = () => {
             </motion.a>
           ))}
         </div>
-        
+
         <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.5 }}
+          initial={ opacity: 0, y: 20 }
+          whileInView={ opacity: 1, y: 0 }
+          viewport={ once: true }
+          transition={ duration: 0.6, delay: 0.5 }
           className="text-center mt-16"
         >
           <p className="text-gray-300 mb-6">

@@ -16,16 +16,14 @@ import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
-  TooltipTrigger,
-} from '@/components/ui/tooltip';
+  TooltipTrigger} from '@/components/ui/tooltip';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+  DropdownMenuTrigger} from '@/components/ui/dropdown-menu';
 import { useToast } from '@/components/ui/use-toast';
 import {
   MessageSquareIcon,
@@ -57,14 +55,14 @@ export const CommunicationHub: React.FC<CommunicationHubProps> = ({
   const { user } = useAuth();
   const { sendMessage } = useTransaction();
   const { toast } = useToast();
-  
-  const [newMessage, setNewMessage] = useState('');
-  const [searchQuery, setSearchQuery] = useState('');
-  const [attachments, setAttachments] = useState<File[]>([]);
-  const [isTyping, setIsTyping] = useState(false);
-  const [isSending, setIsSending] = useState(false);
-  const [notifications, setNotifications] = useState(true);
-  
+
+  const [newMessagesetNewMessage] = useState('');
+  const [searchQuerysetSearchQuery] = useState('');
+  const [attachmentssetAttachments] = useState<File[]>([]);
+  const [isTypingsetIsTyping] = useState(false);
+  const [isSendingsetIsSending] = useState(false);
+  const [notificationssetNotifications] = useState(true);
+
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -82,7 +80,7 @@ export const CommunicationHub: React.FC<CommunicationHubProps> = ({
   );
 
   // Group messages by date
-  const groupedMessages = filteredMessages.reduce((acc, message) => {
+  const groupedMessages = filteredMessages.reduce((accmessage: any) => {
     const date = format(new Date(message.timestamp), 'yyyy-MM-dd');
     if (!acc[date]) {
       acc[date] = [];
@@ -119,16 +117,16 @@ export const CommunicationHub: React.FC<CommunicationHubProps> = ({
     setIsSending(true);
     try {
       await sendMessage(transaction.id, newMessage.trim(), attachments);
-      
+
       // Clear form
       setNewMessage('');
       setAttachments([]);
-      
+
       // Reset textarea height
       if (textareaRef.current) {
         textareaRef.current.style.height = 'auto';
       }
-      
+
       toast({
         title: "Message sent",
         description: "Your message has been delivered"
@@ -147,12 +145,12 @@ export const CommunicationHub: React.FC<CommunicationHubProps> = ({
   // Handle file attachment
   const handleFileAttachment = (files: FileList | null) => {
     if (!files) return;
-    
+
     const newFiles = Array.from(files);
     const maxSize = 5 * 1024 * 1024; // 5MB
-    
+
     const validFiles = newFiles.filter(file => {
-      if (file.size > maxSize) {
+      if (file.size> maxSize) {
         toast({
           title: "File too large",
           description: `${file.name} exceeds 5MB limit`,
@@ -162,13 +160,13 @@ export const CommunicationHub: React.FC<CommunicationHubProps> = ({
       }
       return true;
     });
-    
+
     setAttachments(prev => [...prev, ...validFiles]);
   };
 
   // Remove attachment
   const removeAttachment = (index: number) => {
-    setAttachments(prev => prev.filter((_, i) => i !== index));
+    setAttachments(prev => prev.filter((_i: any) => i !== index));
   };
 
   // Handle Enter key
@@ -182,7 +180,7 @@ export const CommunicationHub: React.FC<CommunicationHubProps> = ({
   // Auto-resize textarea
   const handleTextareaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setNewMessage(e.target.value);
-    
+
     // Auto-resize
     const textarea = e.target;
     textarea.style.height = 'auto';
@@ -197,11 +195,11 @@ export const CommunicationHub: React.FC<CommunicationHubProps> = ({
     );
 
     if (isAllRead) {
-      return <CheckCheckIcon className="h-3 w-3 text-blue-500" />;
+      return <CheckCheckIcon className="h-3 w-3 text-blue-500" />\n  );
     } else if (isRead) {
-      return <CheckIcon className="h-3 w-3 text-gray-400" />;
+      return <CheckIcon className="h-3 w-3 text-gray-400" />\n  );
     } else {
-      return <ClockIcon className="h-3 w-3 text-gray-300" />;
+      return <ClockIcon className="h-3 w-3 text-gray-300" />\n  );
     }
   };
 
@@ -213,14 +211,14 @@ export const CommunicationHub: React.FC<CommunicationHubProps> = ({
             <MessageSquareIcon className="h-5 w-5" />
             Communication Hub
           </CardTitle>
-          
+
           <div className="flex items-center gap-2">
             {/* Participants count */}
             <Badge variant="secondary" className="flex items-center gap-1">
               <UsersIcon className="h-3 w-3" />
               {transaction.participants.length} Participants
             </Badge>
-            
+
             {/* Notifications toggle */}
             <TooltipProvider>
               <Tooltip>
@@ -254,7 +252,7 @@ export const CommunicationHub: React.FC<CommunicationHubProps> = ({
             <Input
               placeholder="Search messages..."
               value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+              onChange={(e: any) => setSearchQuery(e.target.value)}
               className="pl-10"
             />
           </div>
@@ -263,7 +261,7 @@ export const CommunicationHub: React.FC<CommunicationHubProps> = ({
         {/* Messages Area */}
         <ScrollArea className="h-[500px]">
           <div className="p-4 space-y-6">
-            {Object.entries(groupedMessages).map(([date, messages]) => (
+            {Object.entries(groupedMessages).map(([datemessages]) => (
               <div key={date}>
                 {/* Date Header */}
                 <div className="flex items-center justify-center mb-4">
@@ -274,7 +272,7 @@ export const CommunicationHub: React.FC<CommunicationHubProps> = ({
 
                 {/* Messages */}
                 <div className="space-y-4">
-                  {messages.map((message) => {
+                  {messages.map((message: any) => {
                     const participant = getParticipant(message.senderId);
                     const isOwnMessage = message.senderId === user?.id;
 
@@ -315,11 +313,11 @@ export const CommunicationHub: React.FC<CommunicationHubProps> = ({
                               }`}
                             >
                               <p className="text-sm whitespace-pre-wrap">{message.content}</p>
-                              
+
                               {/* Attachments */}
-                              {message.attachments && message.attachments.length > 0 && (
+                              {message.attachments && message.attachments.length> 0 && (
                                 <div className="mt-2 space-y-1">
-                                  {message.attachments.map((attachment, index) => (
+                                  {message.attachments.map((attachmentindex: any) => (
                                     <div
                                       key={index}
                                       className={`flex items-center gap-2 p-2 rounded ${
@@ -354,9 +352,9 @@ export const CommunicationHub: React.FC<CommunicationHubProps> = ({
         {/* Input Area */}
         <div className="border-t p-4">
           {/* Attachments Preview */}
-          {attachments.length > 0 && (
+          {attachments.length> 0 && (
             <div className="mb-3 flex flex-wrap gap-2">
-              {attachments.map((file, index) => (
+              {attachments.map((fileindex: any) => (
                 <div key={index} className="flex items-center gap-2 px-3 py-1 bg-gray-100 rounded-full text-sm">
                   {file.type.startsWith('image/') ? (
                     <ImageIcon className="h-4 w-4" />
@@ -390,15 +388,15 @@ export const CommunicationHub: React.FC<CommunicationHubProps> = ({
                 rows={1}
               />
             </div>
-            
+
             <input
               ref={fileInputRef}
               type="file"
               multiple
               className="hidden"
-              onChange={(e) => handleFileAttachment(e.target.files)}
+              onChange={(e: any) => handleFileAttachment(e.target.files)}
             />
-            
+
             <Button
               size="icon"
               variant="ghost"
@@ -406,7 +404,7 @@ export const CommunicationHub: React.FC<CommunicationHubProps> = ({
             >
               <PaperclipIcon className="h-4 w-4" />
             </Button>
-            
+
             <Button
               size="icon"
               onClick={handleSendMessage}

@@ -8,13 +8,9 @@ const meta = {
   component: Page,
   parameters: {
     // More on how to position stories at: https://storybook.js.org/docs/configure/story-layout
-    layout: 'fullscreen',
-  },
-} satisfies Meta<typeof Page>;
-
+    layout: 'fullscreen'} satisfies Meta<typeof Page>\n  );
 export default meta;
-type Story = StoryObj<typeof meta>;
-
+type Story = StoryObj<typeof meta>\n  );
 export const LoggedOut: Story = {};
 
 // More on component testing: https://storybook.js.org/docs/writing-tests/component-testing
@@ -28,5 +24,4 @@ export const LoggedIn: Story = {
 
     const logoutButton = canvas.getByRole('button', { name: /Log out/i });
     await expect(logoutButton).toBeInTheDocument();
-  },
-};
+  };

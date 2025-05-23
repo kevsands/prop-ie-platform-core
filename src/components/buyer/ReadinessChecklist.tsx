@@ -55,7 +55,7 @@ export default function ReadinessChecklist({
   editable = false
 }: ReadinessChecklistProps) {
   const { toast } = useToast();
-  
+
   // Initialize default checklist items
   const defaultItems: ChecklistItem[] = [
     // Financial category
@@ -239,20 +239,20 @@ export default function ReadinessChecklist({
   };
 
   // State for checklist items
-  const [items, setItems] = useState<ChecklistItem[]>(initialItems || defaultItems);
-  const [expandedCategories, setExpandedCategories] = useState<ChecklistCategory[]>(['financial']);
-  const [categoryProgress, setCategoryProgress] = useState<Record<ChecklistCategory, number>>({
+  const [itemssetItems] = useState<ChecklistItem[]>(initialItems || defaultItems);
+  const [expandedCategoriessetExpandedCategories] = useState<ChecklistCategory[]>(['financial']);
+  const [categoryProgresssetCategoryProgress] = useState<Record<ChecklistCategory, number>>({
     financial: 0,
     documents: 0,
     research: 0,
     preparation: 0
   });
-  const [overallProgress, setOverallProgress] = useState(0);
-  const [newTaskCategory, setNewTaskCategory] = useState<ChecklistCategory>('financial');
-  const [newTaskTitle, setNewTaskTitle] = useState('');
-  const [newTaskDescription, setNewTaskDescription] = useState('');
-  const [newTaskImportance, setNewTaskImportance] = useState<'high' | 'medium' | 'low'>('medium');
-  const [isAddingTask, setIsAddingTask] = useState(false);
+  const [overallProgresssetOverallProgress] = useState(0);
+  const [newTaskCategorysetNewTaskCategory] = useState<ChecklistCategory>('financial');
+  const [newTaskTitlesetNewTaskTitle] = useState('');
+  const [newTaskDescriptionsetNewTaskDescription] = useState('');
+  const [newTaskImportancesetNewTaskImportance] = useState<'high' | 'medium' | 'low'>('medium');
+  const [isAddingTasksetIsAddingTask] = useState(false);
 
   // Calculate progress whenever items change
   useEffect(() => {
@@ -262,27 +262,26 @@ export default function ReadinessChecklist({
   // Calculate progress for each category and overall
   const calculateProgress = () => {
     const categories = Object.keys(categoryMeta) as ChecklistCategory[];
-    const newCategoryProgress: Record<ChecklistCategory, number> = {} as Record<ChecklistCategory, number>;
-    
+    const newCategoryProgress: Record<ChecklistCategory, number> = {} as Record<ChecklistCategory, number>\n  );
     categories.forEach(category => {
       const categoryItems = items.filter(item => item.category === category);
       const completedCount = categoryItems.filter(item => item.completed).length;
       const progress = categoryItems.length ? Math.round((completedCount / categoryItems.length) * 100) : 0;
-      
+
       newCategoryProgress[category] = progress;
-      
+
       if (onCategoryProgressChange) {
-        onCategoryProgressChange(category, progress);
+        onCategoryProgressChange(categoryprogress);
       }
     });
-    
+
     setCategoryProgress(newCategoryProgress);
-    
+
     // Calculate overall progress
     const completedCount = items.filter(item => item.completed).length;
     const newOverallProgress = items.length ? Math.round((completedCount / items.length) * 100) : 0;
     setOverallProgress(newOverallProgress);
-    
+
     if (onProgressChange) {
       onProgressChange(newOverallProgress);
     }
@@ -293,7 +292,7 @@ export default function ReadinessChecklist({
     if (expandedCategories.includes(category)) {
       setExpandedCategories(expandedCategories.filter(c => c !== category));
     } else {
-      setExpandedCategories([...expandedCategories, category]);
+      setExpandedCategories([...expandedCategoriescategory]);
     }
   };
 
@@ -304,16 +303,15 @@ export default function ReadinessChecklist({
         ? { ...item, completed: !item.completed }
         : item
     );
-    
+
     setItems(newItems);
-    
+
     const item = items.find(item => item.id === id);
     if (item) {
       toast({
         title: item.completed ? "Item marked as incomplete" : "Item completed!",
         description: item.title,
-        variant: item.completed ? "default" : "success",
-      });
+        variant: item.completed ? "default" : "success");
     }
   };
 
@@ -323,11 +321,10 @@ export default function ReadinessChecklist({
       toast({
         title: "Task title required",
         description: "Please enter a title for your new task.",
-        variant: "destructive",
-      });
+        variant: "destructive");
       return;
     }
-    
+
     const newItem: ChecklistItem = {
       id: `custom-${Date.now()}`,
       category: newTaskCategory,
@@ -336,21 +333,20 @@ export default function ReadinessChecklist({
       completed: false,
       importance: newTaskImportance
     };
-    
-    setItems([...items, newItem]);
+
+    setItems([...itemsnewItem]);
     setNewTaskTitle('');
     setNewTaskDescription('');
     setIsAddingTask(false);
-    
+
     toast({
       title: "Task added",
       description: `Added "${newTaskTitle}" to your checklist.`,
-      variant: "success",
-    });
-    
+      variant: "success");
+
     // Make sure the category is expanded
     if (!expandedCategories.includes(newTaskCategory)) {
-      setExpandedCategories([...expandedCategories, newTaskCategory]);
+      setExpandedCategories([...expandedCategoriesnewTaskCategory]);
     }
   };
 
@@ -358,7 +354,7 @@ export default function ReadinessChecklist({
   const getCategoryItemCount = (category: ChecklistCategory) => {
     return items.filter(item => item.category === category).length;
   };
-  
+
   // Count completed items by category
   const getCategoryCompletedCount = (category: ChecklistCategory) => {
     return items.filter(item => item.category === category && item.completed).length;
@@ -373,31 +369,31 @@ export default function ReadinessChecklist({
   const generateShareableList = () => {
     const categories = Object.keys(categoryMeta) as ChecklistCategory[];
     let shareableText = "MY HOME BUYING READINESS CHECKLIST\n\n";
-    
+
     categories.forEach(category => {
       const meta = categoryMeta[category];
       const categoryItems = getCategoryItems(category);
       const completedCount = getCategoryCompletedCount(category);
-      
+
       shareableText += `${meta.name.toUpperCase()} (${completedCount}/${categoryItems.length})\n`;
-      
+
       categoryItems.forEach(item => {
-        shareableText += `${item.completed ? "✅" : "⬜"} ${item.title}\n`;
+        shareableText += `${item.completed ? "✅" : "⬜" ${item.title}\n`;
       });
-      
+
       shareableText += "\n";
     });
-    
+
     shareableText += `Overall Progress: ${overallProgress}%\n`;
     shareableText += "Generated from PropIE First-Time Buyer Platform";
-    
+
     return shareableText;
   };
 
   // Share checklist
   const shareChecklist = () => {
     const shareableText = generateShareableList();
-    
+
     if (navigator.share) {
       navigator.share({
         title: "My Home Buying Checklist",
@@ -407,12 +403,10 @@ export default function ReadinessChecklist({
         toast({
           title: "Checklist shared",
           description: "Your checklist has been shared successfully.",
-          variant: "success",
-        });
+          variant: "success");
       })
       .catch(error => {
-        console.error("Error sharing checklist:", error);
-        
+
         // Fallback to clipboard
         copyToClipboard();
       });
@@ -425,22 +419,20 @@ export default function ReadinessChecklist({
   // Copy checklist to clipboard
   const copyToClipboard = () => {
     const shareableText = generateShareableList();
-    
+
     navigator.clipboard.writeText(shareableText)
       .then(() => {
         toast({
           title: "Copied to clipboard",
           description: "Your checklist has been copied to the clipboard.",
-          variant: "success",
-        });
+          variant: "success");
       })
       .catch(error => {
-        console.error("Error copying to clipboard:", error);
+
         toast({
           title: "Could not copy to clipboard",
           description: "Please try again or use the download option.",
-          variant: "destructive",
-        });
+          variant: "destructive");
       });
   };
 
@@ -456,12 +448,11 @@ export default function ReadinessChecklist({
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
-    
+
     toast({
       title: "Checklist downloaded",
       description: "Your checklist has been downloaded as a text file.",
-      variant: "success",
-    });
+      variant: "success");
   };
 
   // Helper function to get dynamic color classes safely
@@ -482,7 +473,7 @@ export default function ReadinessChecklist({
           Track your progress towards buying your first home
         </p>
       </div>
-      
+
       <div className="p-6">
         {/* Overall Progress */}
         <div className="mb-8">
@@ -491,14 +482,14 @@ export default function ReadinessChecklist({
             <span className="text-lg font-bold">{overallProgress}%</span>
           </div>
           <Progress value={overallProgress} className="h-2" />
-          
+
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-4">
             {(Object.keys(categoryMeta) as ChecklistCategory[]).map(category => {
               const meta = categoryMeta[category];
               const progress = categoryProgress[category] || 0;
               const bgColorClass = getCategoryColorClass(category, 'bg');
               const borderColorClass = getCategoryColorClass(category, 'border');
-              
+
               return (
                 <div 
                   key={category}
@@ -522,7 +513,7 @@ export default function ReadinessChecklist({
             })}
           </div>
         </div>
-        
+
         {/* Checklist Categories */}
         <div className="mb-8">
           {(Object.keys(categoryMeta) as ChecklistCategory[]).map(category => {
@@ -532,7 +523,7 @@ export default function ReadinessChecklist({
             const completedCount = getCategoryCompletedCount(category);
             const bgColorClass = getCategoryColorClass(category, 'bg');
             const borderColorClass = getCategoryColorClass(category, 'border');
-            
+
             return (
               <div key={category} className="mb-4 border rounded-lg overflow-hidden">
                 <div 
@@ -560,7 +551,7 @@ export default function ReadinessChecklist({
                     }
                   </div>
                 </div>
-                
+
                 {isExpanded && (
                   <div className="divide-y">
                     {getCategoryItems(category).map(item => (
@@ -582,7 +573,7 @@ export default function ReadinessChecklist({
                             }
                           </button>
                         </div>
-                        
+
                         <div className="flex-grow">
                           <div className="flex items-center">
                             <h4 className={`font-medium ${item.completed ? 'text-gray-500 line-through' : 'text-gray-900'}`}>
@@ -598,11 +589,11 @@ export default function ReadinessChecklist({
                                'Low Priority'}
                             </div>
                           </div>
-                          
+
                           <p className={`text-sm mt-1 ${item.completed ? 'text-gray-400' : 'text-gray-600'}`}>
                             {item.description}
                           </p>
-                          
+
                           {item.helpLink && (
                             <a 
                               href={item.helpLink} 
@@ -622,7 +613,7 @@ export default function ReadinessChecklist({
             );
           })}
         </div>
-        
+
         {/* Add Custom Task */}
         {editable && (
           <div className="mb-8">
@@ -637,25 +628,25 @@ export default function ReadinessChecklist({
                     <input 
                       type="text" 
                       value={newTaskTitle}
-                      onChange={(e) => setNewTaskTitle(e.target.value)}
+                      onChange={(e: any) => setNewTaskTitle(e.target.value)}
                       className="w-full px-3 py-2 border border-gray-300 rounded-md" 
                       placeholder="e.g., Research property taxes"
                     />
                   </div>
-                  
+
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
                       Description (Optional)
                     </label>
                     <textarea 
                       value={newTaskDescription}
-                      onChange={(e) => setNewTaskDescription(e.target.value)}
+                      onChange={(e: any) => setNewTaskDescription(e.target.value)}
                       className="w-full px-3 py-2 border border-gray-300 rounded-md" 
                       placeholder="Add more details about this task"
                       rows={2}
                     ></textarea>
                   </div>
-                  
+
                   <div className="grid grid-cols-2 gap-4">
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -663,7 +654,7 @@ export default function ReadinessChecklist({
                       </label>
                       <select 
                         value={newTaskCategory}
-                        onChange={(e) => setNewTaskCategory(e.target.value as ChecklistCategory)}
+                        onChange={(e: any) => setNewTaskCategory(e.target.value as ChecklistCategory)}
                         className="w-full px-3 py-2 border border-gray-300 rounded-md"
                       >
                         {(Object.keys(categoryMeta) as ChecklistCategory[]).map(category => (
@@ -673,14 +664,14 @@ export default function ReadinessChecklist({
                         ))}
                       </select>
                     </div>
-                    
+
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-1">
                         Priority
                       </label>
                       <select 
                         value={newTaskImportance}
-                        onChange={(e) => setNewTaskImportance(e.target.value as 'high' | 'medium' | 'low')}
+                        onChange={(e: any) => setNewTaskImportance(e.target.value as 'high' | 'medium' | 'low')}
                         className="w-full px-3 py-2 border border-gray-300 rounded-md"
                       >
                         <option value="high">High Priority</option>
@@ -689,7 +680,7 @@ export default function ReadinessChecklist({
                       </select>
                     </div>
                   </div>
-                  
+
                   <div className="flex justify-end space-x-2">
                     <Button variant="outline" onClick={() => setIsAddingTask(false)}>
                       Cancel
@@ -711,7 +702,7 @@ export default function ReadinessChecklist({
             )}
           </div>
         )}
-        
+
         {/* Tips and Share */}
         <div className="grid md:grid-cols-2 gap-6">
           <div className="bg-blue-50 rounded-lg p-4">
@@ -739,7 +730,7 @@ export default function ReadinessChecklist({
               </li>
             </ul>
           </div>
-          
+
           <div className="border rounded-lg p-4">
             <h3 className="text-lg font-medium mb-3">Share Your Progress</h3>
             <p className="text-sm text-gray-600 mb-4">

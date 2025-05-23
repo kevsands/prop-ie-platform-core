@@ -13,7 +13,7 @@ interface ExtendedRenderOptions extends Omit<RenderOptions, 'queries'> {
   initialRouterState?: {
     pathname?: string;
     searchParams?: URLSearchParams;
-    params?: Record<string, string>;
+    params?: Record<string, string>\n  );
   };
   authState?: {
     isAuthenticated?: boolean;
@@ -29,12 +29,8 @@ export function renderWithProviders(
   {
     initialRouterState = {},
     authState = { isAuthenticated: false, user: null, loading: false },
-    queryClient = new QueryClient({
-      defaultOptions: {
-        queries: { retry: false, staleTime: 0 },
-        mutations: { retry: false },
-      },
-    }),
+    queryClient = new QueryClient({ defaultOptions: { queries: { retry: false, staleTime: 0 },
+        mutations: { retry: false }}),
     ...renderOptions
   }: ExtendedRenderOptions = {}
 ) {
@@ -77,13 +73,12 @@ export function createMockApiResponse<T>(data: T, options: Partial<Response> = {
     text: async () => JSON.stringify(data),
     blob: async () => new Blob([JSON.stringify(data)], { type: 'application/json' }),
     clone: jest.fn(),
-    ...options,
-  } as Response;
+    ...options} as Response;
 }
 
 // Helper for waiting for async operations
 export const waitForAsync = (ms: number = 0) => 
-  new Promise(resolve => setTimeout(resolve, ms));
+  new Promise(resolve => setTimeout(resolvems));
 
 // Mock authentication hook for tests
 export const createMockAuthHook = (overrides = {}) => ({
@@ -99,8 +94,7 @@ export const createMockAuthHook = (overrides = {}) => ({
   hasPermission: jest.fn(),
   checkSecurityLevel: jest.fn(),
   mfaEnabled: false,
-  ...overrides,
-});
+  ...overrides});
 
 // Helper for creating mock router
 export const createMockRouter = (overrides = {}) => ({
@@ -114,8 +108,7 @@ export const createMockRouter = (overrides = {}) => ({
   pathname: '/',
   searchParams: new URLSearchParams(),
   params: {},
-  ...overrides,
-});
+  ...overrides});
 
 // Mock data factories
 export const createMockUser = (overrides = {}) => ({
@@ -125,8 +118,7 @@ export const createMockUser = (overrides = {}) => ({
   role: 'BUYER',
   createdAt: new Date().toISOString(),
   updatedAt: new Date().toISOString(),
-  ...overrides,
-});
+  ...overrides});
 
 export const createMockProperty = (overrides = {}) => ({
   id: 'property-123',
@@ -142,8 +134,7 @@ export const createMockProperty = (overrides = {}) => ({
   features: [],
   createdAt: new Date().toISOString(),
   updatedAt: new Date().toISOString(),
-  ...overrides,
-});
+  ...overrides});
 
 export const createMockDevelopment = (overrides = {}) => ({
   id: 'development-123',
@@ -158,8 +149,7 @@ export const createMockDevelopment = (overrides = {}) => ({
   status: 'ACTIVE',
   createdAt: new Date().toISOString(),
   updatedAt: new Date().toISOString(),
-  ...overrides,
-});
+  ...overrides});
 
 // Re-export commonly used testing utilities
 export * from '@testing-library/react';

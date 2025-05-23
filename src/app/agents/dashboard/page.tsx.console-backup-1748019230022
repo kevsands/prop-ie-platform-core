@@ -1,0 +1,84 @@
+'use client';
+
+import React, { useState } from 'react';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Icons } from '@/components/ui/icons';
+import LeadManagement from '@/components/crm/LeadManagement';
+import ViewingScheduler from '@/components/crm/ViewingScheduler';
+import PropertyMatching from '@/components/crm/PropertyMatching';
+import AgentPerformance from '@/components/crm/AgentPerformance';
+import AutomatedFollowUp from '@/components/crm/AutomatedFollowUp';
+import CommissionTracking from '@/components/crm/CommissionTracking';
+import { useAuth } from '@/hooks/useAuth';
+
+export default function EstateAgentDashboard() {
+  const { user } = useAuth();
+  const [activeTab, setActiveTab] = useState('leads');
+  
+  // Mock agent ID - in real app, this would come from auth context
+  const agentId = user?.id || 'agent-123';
+
+  return (
+    <div className="container mx-auto px-4 py-8">
+      <div className="mb-8">
+        <h1 className="text-3xl font-bold">Estate Agent CRM Dashboard</h1>
+        <p className="text-gray-600 mt-2">
+          Manage your leads, viewings, and sales performance
+        </p>
+      </div>
+
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+        <TabsList className="grid grid-cols-6 w-full mb-8">
+          <TabsTrigger value="leads" className="flex items-center gap-2">
+            <Icons.Users className="h-4 w-4" />
+            Leads
+          </TabsTrigger>
+          <TabsTrigger value="viewings" className="flex items-center gap-2">
+            <Icons.Calendar className="h-4 w-4" />
+            Viewings
+          </TabsTrigger>
+          <TabsTrigger value="matching" className="flex items-center gap-2">
+            <Icons.Search className="h-4 w-4" />
+            Matching
+          </TabsTrigger>
+          <TabsTrigger value="performance" className="flex items-center gap-2">
+            <Icons.TrendingUp className="h-4 w-4" />
+            Performance
+          </TabsTrigger>
+          <TabsTrigger value="automation" className="flex items-center gap-2">
+            <Icons.Zap className="h-4 w-4" />
+            Automation
+          </TabsTrigger>
+          <TabsTrigger value="commissions" className="flex items-center gap-2">
+            <Icons.DollarSign className="h-4 w-4" />
+            Commissions
+          </TabsTrigger>
+        </TabsList>
+
+        <TabsContent value="leads" className="mt-0">
+          <LeadManagement />
+        </TabsContent>
+
+        <TabsContent value="viewings" className="mt-0">
+          <ViewingScheduler />
+        </TabsContent>
+
+        <TabsContent value="matching" className="mt-0">
+          <PropertyMatching />
+        </TabsContent>
+
+        <TabsContent value="performance" className="mt-0">
+          <AgentPerformance agentId={agentId} />
+        </TabsContent>
+
+        <TabsContent value="automation" className="mt-0">
+          <AutomatedFollowUp agentId={agentId} />
+        </TabsContent>
+
+        <TabsContent value="commissions" className="mt-0">
+          <CommissionTracking agentId={agentId} />
+        </TabsContent>
+      </Tabs>
+    </div>
+  );
+}

@@ -18,7 +18,7 @@ const MAX_RESPONSE_TIME_WARNING = 3000; // 3 seconds
  */
 function getEndpointCategory(endpoint: string): 'auth' | 'api' | 'mutation' | 'query' | 'default' {
   const path = endpoint.toLowerCase();
-  
+
   if (path.includes('/auth') || path.includes('/login') || path.includes('/register')) {
     return 'auth';
   } else if (path.includes('/graphql') && path.includes('mutation')) {
@@ -35,10 +35,10 @@ function getEndpointCategory(endpoint: string): 'auth' | 'api' | 'mutation' | 'q
  */
 function sanitizeRequestData(data: any): any {
   if (!data) return data;
-  
+
   if (typeof data === 'object' && data !== null) {
     const sanitized = { ...data };
-    
+
     for (const key in sanitized) {
       if (SENSITIVE_PARAMS.some(param => key.toLowerCase().includes(param.toLowerCase()))) {
         sanitized[key] = '[REDACTED]';
@@ -46,10 +46,10 @@ function sanitizeRequestData(data: any): any {
         sanitized[key] = sanitizeRequestData(sanitized[key]);
       }
     }
-    
+
     return sanitized;
   }
-  
+
   return data;
 }
 
@@ -61,13 +61,13 @@ export async function requestInterceptor(request: any): Promise<any> {
   const endpoint = request.path || 'graphql';
   const method = request.method || 'POST';
   const isGraphQL = endpoint.includes('graphql');
-  
+
   // Store the start time for performance tracking
   request.metadata = {
     ...request.metadata,
     startTime
   };
-  
+
   try {
     // Validate session fingerprint
     const fingerprintCheck = await SessionFingerprint.validate();
@@ -85,14 +85,14 @@ export async function requestInterceptor(request: any): Promise<any> {
           reason: fingerprintCheck.reason
         }
       });
-      
+
       throw new Error('Security check failed: invalid session fingerprint');
     }
-    
+
     // Check rate limits
     const category = getEndpointCategory(endpoint);
-    const rateLimitCheck = RateLimiter.checkRateLimit(endpoint, category);
-    
+    const rateLimitCheck = RateLimiter.checkRateLimit(endpointcategory);
+
     if (!rateLimitCheck.allowed) {
       // Rate limit exceeded
       await AuditLogger.log({
@@ -108,20 +108,20 @@ export async function requestInterceptor(request: any): Promise<any> {
           retryAfter: rateLimitCheck.retryAfter
         }
       });
-      
+
       throw new Error(`Rate limit exceeded. Please try again in ${rateLimitCheck.retryAfter} seconds.`);
     }
-    
+
     // Audit log API request (for important operations)
     if (category === 'auth' || category === 'mutation') {
       let operationName = '';
       let variables = {};
-      
+
       if (isGraphQL && request.body) {
         operationName = request.body.operationName || '';
         variables = request.body.variables || {};
       }
-      
+
       await AuditLogger.logApi(
         operationName || method,
         endpoint,
@@ -133,7 +133,7 @@ export async function requestInterceptor(request: any): Promise<any> {
         }
       );
     }
-    
+
     // Continue with the request
     return request;
   } catch (error) {
@@ -143,9 +143,9 @@ export async function requestInterceptor(request: any): Promise<any> {
          error.message.includes('Security check'))) {
       throw error;
     }
-    
+
     // Otherwise log and continue
-    console.error('Error in request interceptor:', error);
+
     return request;
   }
 }
@@ -157,13 +157,13 @@ export async function responseInterceptor(response: any, request: any): Promise<
   const endTime = Date.now();
   const startTime = request.metadata?.startTime || endTime;
   const responseTime = endTime - startTime;
-  
+
   const endpoint = request.path || 'graphql';
   const method = request.method || 'POST';
   const statusCode = response.statusCode || 200;
-  const isError = statusCode >= 400;
+  const isError = statusCode>= 400;
   const isGraphQL = endpoint.includes('graphql');
-  
+
   try {
     // Track request for rate limiting and abuse detection
     RateLimiter.trackRequest({
@@ -173,28 +173,28 @@ export async function responseInterceptor(response: any, request: any): Promise<
       statusCode,
       responseTime
     });
-    
+
     // Log slow responses
-    if (responseTime > MAX_RESPONSE_TIME_WARNING) {
-      console.warn(`Slow API response: ${endpoint} took ${responseTime}ms`);
+    if (responseTime> MAX_RESPONSE_TIME_WARNING) {
+
     }
-    
+
     // Audit log errors
     if (isError) {
       const category = getEndpointCategory(endpoint);
       let operationName = '';
       let errorInfo = {};
-      
+
       if (isGraphQL && request.body) {
         operationName = request.body.operationName || '';
       }
-      
+
       if (response.errors) {
         errorInfo = {
           errors: response.errors
         };
       }
-      
+
       await AuditLogger.logApi(
         operationName || method,
         endpoint,
@@ -209,11 +209,11 @@ export async function responseInterceptor(response: any, request: any): Promise<
         response.errorMessage || 'Unknown error'
       );
     }
-    
+
     // Continue with the response
     return response;
   } catch (error) {
-    console.error('Error in response interceptor:', error);
+
     return response;
   }
 }
@@ -223,23 +223,22 @@ export async function responseInterceptor(response: any, request: any): Promise<
  */
 export function applyInterceptors(apiClient: any): void {
   if (!apiClient || !apiClient.middleware) {
-    console.warn('Cannot apply interceptors: API client does not support middleware');
+
     return;
   }
-  
+
   try {
     // Add request interceptor
     apiClient.middleware.beforeRequest = async (request: any) => {
       return await requestInterceptor(request);
     };
-    
+
     // Add response interceptor
     apiClient.middleware.afterResponse = async (response: any, request: any) => {
-      return await responseInterceptor(response, request);
+      return await responseInterceptor(responserequest);
     };
-    
-    console.log('API interceptors applied successfully');
+
   } catch (error) {
-    console.error('Error applying API interceptors:', error);
+
   }
 }

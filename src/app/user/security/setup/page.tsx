@@ -6,13 +6,13 @@ import { useRouter } from 'next/navigation';
 
 export default function SecuritySetupPage() {
   const router = useRouter();
-  const [setupComplete, setSetupComplete] = useState(false);
-  
+  const [setupCompletesetSetupComplete] = useState(false);
+
   const handleComplete = () => {
     setSetupComplete(true);
     router.push('/user/security');
   };
-  
+
   return (
     <div className="container mx-auto py-8">
       <div className="max-w-2xl mx-auto">

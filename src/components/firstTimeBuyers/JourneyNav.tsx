@@ -8,8 +8,7 @@ const stages = [
   { id: 'customising', label: 'Customising', icon: '🎨' },
   { id: 'legal', label: 'Legal & Contracts', icon: '📜' },
   { id: 'moving', label: 'Moving In', icon: '🏠' },
-  { id: 'aftercare', label: 'Aftercare', icon: '🔧' },
-];
+  { id: 'aftercare', label: 'Aftercare', icon: '🔧' }];
 
 export default function JourneyNav() {
   return (

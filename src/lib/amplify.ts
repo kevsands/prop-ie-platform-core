@@ -12,10 +12,6 @@ import { generateClient } from 'aws-amplify/api';
 import { initialize as initializeAmplify, initializeAsync } from './amplify/index';
 
 // Display deprecation warning
-console.warn(
-  'Warning: The amplify.ts file is deprecated and will be removed in a future version. ' +
-  'Please use the new modules in src/lib/amplify/ instead.'
-);
 
 /**
  * Centralized Amplify configuration module
@@ -39,9 +35,9 @@ export function configureAmplify() {
       // Configure Amplify using the centralized initialization
       initializeAmplify();
       isAmplifyConfigured = true;
-      console.log('Amplify configured successfully on the client-side.');
+
     } catch (error) {
-      console.error('Error configuring Amplify on the client-side:', error);
+
     }
   }
 }
@@ -88,10 +84,10 @@ export async function getAuthenticatedUser(): Promise<AuthUser | null> {
   try {
     const cognitoUser = await getCurrentUser();
     const attributes = await fetchUserAttributes();
-    
+
     // Safely parse the cognito:groups attribute
     let roles: string[] = [];
-    
+
     // Check if the attribute exists and properly parse it
     if (attributes["cognito:groups"]) {
       // If the attribute is already an array, use it directly
@@ -109,17 +105,16 @@ export async function getAuthenticatedUser(): Promise<AuthUser | null> {
         }
       }
     }
-    
+
     // Map Cognito user data to our application's user model
     return {
       userId: cognitoUser.userId,
       username: cognitoUser.username,
       email: attributes.email,
-      roles: roles,
-    };
+      roles: roles};
   } catch (error) {
     // User is not authenticated
-    console.log('User not authenticated:', error);
+
     return null;
   }
 }
@@ -132,9 +127,9 @@ export async function getAuthenticatedUser(): Promise<AuthUser | null> {
 export async function signOutUser(): Promise<void> {
   try {
     await signOut();
-    console.log('User signed out successfully');
+
   } catch (error) {
-    console.error('Error signing out user:', error);
+
     throw error;
   }
 }

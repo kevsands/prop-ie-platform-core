@@ -1,3 +1,4 @@
+import React from 'react';
 'use client';
 
 import type { Meta, StoryObj } from '@storybook/react';
@@ -31,7 +32,7 @@ import { Button } from './button';
  *   count={3} 
  *   isLoading={isLoading}
  *   layout="grid"
- *   layoutProps={{ cols: 'grid-cols-1 md:grid-cols-3' }}
+ *   layoutProps={ cols: 'grid-cols-1 md:grid-cols-3' }
  * >
  *   <ProductList products={products} />
  * </LoadingSkeleton>
@@ -44,36 +45,25 @@ const meta = {
     layout: 'centered',
     docs: {
       description: {
-        component: 'Loading skeleton components for improved UX during data fetching',
-      },
-    },
-  },
+        component: 'Loading skeleton components for improved UX during data fetching'}},
   tags: ['autodocs'],
   argTypes: {
     variant: {
       control: 'select',
       options: ['text', 'card', 'table', 'form', 'list'],
-      description: 'The type of skeleton to display',
-    },
+      description: 'The type of skeleton to display'},
     count: {
       control: { type: 'number', min: 1, max: 10 },
-      description: 'Number of skeleton items to display',
-    },
+      description: 'Number of skeleton items to display'},
     layout: {
       control: 'select',
       options: ['grid', 'flex', 'block'],
-      description: 'Layout for multiple skeleton items',
-    },
+      description: 'Layout for multiple skeleton items'},
     isLoading: {
       control: 'boolean',
-      description: 'Whether to show the skeleton or children',
-    },
-  },
-} satisfies Meta<typeof LoadingSkeleton>;
-
+      description: 'Whether to show the skeleton or children'}} satisfies Meta<typeof LoadingSkeleton>\n  );
 export default meta;
-type Story = StoryObj<typeof LoadingSkeleton>;
-
+type Story = StoryObj<typeof LoadingSkeleton>\n  );
 /**
  * Text skeleton placeholder
  */
@@ -81,9 +71,7 @@ export const TextSkeleton: Story = {
   args: {
     variant: 'text',
     count: 1,
-    isLoading: true,
-  },
-};
+    isLoading: true};
 
 /**
  * Card skeleton placeholder
@@ -92,9 +80,7 @@ export const CardSkeleton: Story = {
   args: {
     variant: 'card',
     count: 1,
-    isLoading: true,
-  },
-};
+    isLoading: true};
 
 /**
  * Multiple card skeletons in a grid
@@ -106,13 +92,9 @@ export const GridCardSkeletons: Story = {
     isLoading: true,
     layout: 'grid',
     layoutProps: { cols: 'grid-cols-1 md:grid-cols-3 gap-6' },
-  },
   parameters: {
     viewport: {
-      defaultViewport: 'desktop',
-    },
-  },
-};
+      defaultViewport: 'desktop'}};
 
 /**
  * Table skeleton placeholder
@@ -121,9 +103,7 @@ export const TableSkeleton: Story = {
   args: {
     variant: 'table',
     count: 1,
-    isLoading: true,
-  },
-};
+    isLoading: true};
 
 /**
  * Form skeleton placeholder
@@ -132,9 +112,7 @@ export const FormSkeleton: Story = {
   args: {
     variant: 'form',
     count: 1,
-    isLoading: true,
-  },
-};
+    isLoading: true};
 
 /**
  * List skeleton placeholder
@@ -143,33 +121,30 @@ export const ListSkeleton: Story = {
   args: {
     variant: 'list',
     count: 1,
-    isLoading: true,
-  },
-};
+    isLoading: true};
 
 /**
  * Demo with loading toggle
  */
 export const LoadingDemo: Story = {
-  render: (args) => {
-    const [isLoading, setIsLoading] = useState(true);
-    
+  render: (args: any) => {
+    const [isLoadingsetIsLoading] = useState(true);
+
     // Toggle loading state automatically for demo
     useEffect(() => {
       const timer = setTimeout(() => {
         setIsLoading(false);
       }, 3000);
-      
+
       return () => clearTimeout(timer);
     }, []);
-    
+
     // Mock data that would be loaded from an API
     const items = [
       { id: 1, title: 'Property in Dublin', description: 'Beautiful 3-bedroom house in Dublin', price: '€450,000' },
       { id: 2, title: 'Apartment in Cork', description: 'Modern 2-bedroom apartment in Cork city', price: '€320,000' },
-      { id: 3, title: 'Cottage in Galway', description: 'Charming cottage in Galway countryside', price: '€280,000' },
-    ];
-    
+      { id: 3, title: 'Cottage in Galway', description: 'Charming cottage in Galway countryside', price: '€280,000' }];
+
     return (
       <div className="w-full max-w-4xl p-4">
         <div className="mb-4 flex justify-between items-center">
@@ -178,13 +153,13 @@ export const LoadingDemo: Story = {
             {isLoading ? 'Show Content' : 'Show Skeleton'}
           </Button>
         </div>
-        
+
         <LoadingSkeleton
           variant="card"
           count={3}
           isLoading={isLoading}
           layout="grid"
-          layoutProps={{ cols: 'grid-cols-1 md:grid-cols-3 gap-6' }}
+          layoutProps={ cols: 'grid-cols-1 md:grid-cols-3 gap-6' }
         >
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {items.map(item => (
@@ -207,7 +182,4 @@ export const LoadingDemo: Story = {
   },
   parameters: {
     viewport: {
-      defaultViewport: 'desktop',
-    },
-  },
-};
+      defaultViewport: 'desktop'}};

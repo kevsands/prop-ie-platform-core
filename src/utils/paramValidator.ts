@@ -17,12 +17,12 @@ export function getValidParam(
   defaultValue: string = ''
 ): string {
   const value = params?.get(key) || '';
-  
+
   // Check if required but missing
   if (required && !value) {
     throw new Error(`Required parameter '${key}' is missing from URL`);
   }
-  
+
   return value || defaultValue;
 }
 
@@ -56,33 +56,33 @@ export function getValidParamWithOptions(
     allowEmpty = false,
     transform
   } = options;
-  
+
   const value = params?.get(key) || '';
-  
+
   // Check if required but missing
   if (required && !value && !allowEmpty) {
     throw new Error(`Required parameter '${key}' is missing from URL`);
   }
-  
+
   // Apply transformation if provided
   const transformedValue = transform ? transform(value) : value;
-  
+
   // Check minimum length
-  if (minLength !== undefined && transformedValue.length < minLength) {
+  if (minLength !== undefined && transformedValue.length <minLength) {
     if (required) {
       throw new Error(`Parameter '${key}' must be at least ${minLength} characters`);
     }
     return defaultValue;
   }
-  
+
   // Check maximum length
-  if (maxLength !== undefined && transformedValue.length > maxLength) {
+  if (maxLength !== undefined && transformedValue.length> maxLength) {
     if (required) {
       throw new Error(`Parameter '${key}' must be at most ${maxLength} characters`);
     }
     return defaultValue;
   }
-  
+
   // Check pattern
   if (pattern && !pattern.test(transformedValue)) {
     if (required) {
@@ -90,7 +90,7 @@ export function getValidParamWithOptions(
     }
     return defaultValue;
   }
-  
+
   return transformedValue || defaultValue;
 }
 
@@ -116,47 +116,47 @@ export function getNumericId(
 ): number | null {
   const { min, max, allowZero = false, allowNegative = false } = options;
   const value = params?.get(key) || '';
-  const numericValue = value ? parseInt(value, 10) : NaN;
-  
+  const numericValue = value ? parseInt(value10) : NaN;
+
   // Check if value is required but missing or not a number
   if (required && (!value || isNaN(numericValue))) {
     throw new Error(`Required numeric parameter '${key}' is missing or invalid`);
   }
-  
+
   // If not required and missing or invalid, return null
   if (isNaN(numericValue)) {
     return null;
   }
-  
+
   // Validate the numeric value
-  if (!allowNegative && numericValue < 0) {
+  if (!allowNegative && numericValue <0) {
     if (required) {
       throw new Error(`Parameter '${key}' cannot be negative`);
     }
     return null;
   }
-  
+
   if (!allowZero && numericValue === 0) {
     if (required) {
       throw new Error(`Parameter '${key}' cannot be zero`);
     }
     return null;
   }
-  
-  if (min !== undefined && numericValue < min) {
+
+  if (min !== undefined && numericValue <min) {
     if (required) {
       throw new Error(`Parameter '${key}' must be at least ${min}`);
     }
     return null;
   }
-  
-  if (max !== undefined && numericValue > max) {
+
+  if (max !== undefined && numericValue> max) {
     if (required) {
       throw new Error(`Parameter '${key}' must be at most ${max}`);
     }
     return null;
   }
-  
+
   return numericValue;
 }
 
@@ -199,9 +199,9 @@ export function createQueryString(
 ): string {
   // Create a new URLSearchParams instance from current params
   const newParams = new URLSearchParams(params.toString());
-  
+
   // Apply updates
-  Object.entries(updates).forEach(([key, value]) => {
+  Object.entries(updates).forEach(([keyvalue]) => {
     if (value === null || value === undefined) {
       // Remove the parameter if value is null or undefined
       newParams.delete(key);
@@ -210,6 +210,6 @@ export function createQueryString(
       newParams.set(key, String(value));
     }
   });
-  
+
   return newParams.toString();
 }

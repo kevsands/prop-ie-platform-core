@@ -5,14 +5,14 @@ import { useRouter } from 'next/navigation';
 
 const HeroSection = () => {
   const router = useRouter();
-  
+
   return (
     <div className="relative bg-gray-900 h-[70vh]">
       {/* Background gradient overlay */}
       <div className="absolute inset-0 bg-gradient-to-r from-[#1E3142]/80 to-[#2B5273]/50">
         <div className="absolute inset-0 bg-black/30"></div>
       </div>
-      
+
       {/* Hero Content */}
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center">
         <div className="max-w-3xl">

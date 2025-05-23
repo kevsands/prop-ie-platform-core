@@ -27,7 +27,7 @@ export class ApiDataService implements DataService {
   async getProperties(filters?: any): Promise<Property[]> {
     const queryParams = new URLSearchParams();
     if (filters) {
-      Object.entries(filters).forEach(([key, value]) => {
+      Object.entries(filters).forEach(([keyvalue]) => {
         if (value !== undefined && value !== null) {
           queryParams.append(key, String(value));
         }

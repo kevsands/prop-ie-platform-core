@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Transaction Data Viewer</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    pre {
+      background-color: #f5f5f5;
+      padding: 1rem;
+      border-radius: 0.5rem;
+      overflow: auto;
+      max-height: 80vh;
+    }
+    .phase {
+      margin-bottom: 1.5rem;
+      padding: 1rem;
+      border-radius: 0.5rem;
+    }
+    .completed {
+      background-color: #d1fae5;
+      border: 1px solid #10b981;
+    }
+    .active {
+      background-color: #dbeafe;
+      border: 1px solid #3b82f6;
+    }
+    .pending {
+      background-color: #f3f4f6;
+      border: 1px solid #9ca3af;
+    }
+    .milestone {
+      margin: 0.75rem 0;
+      padding: 0.75rem;
+      border-radius: 0.25rem;
+      background-color: white;
+      border: 1px solid #e5e7eb;
+    }
+    .milestone.completed {
+      border-left: 4px solid #10b981;
+    }
+    .milestone.in_progress {
+      border-left: 4px solid #3b82f6;
+    }
+    .milestone.pending {
+      border-left: 4px solid #9ca3af;
+    }
+  </style>
+</head>
+<body class="bg-gray-100 min-h-screen">
+  <div class="container mx-auto p-8">
+    <h1 class="text-3xl font-bold mb-6">Transaction Data Viewer</h1>
+    
+    <div class="bg-white rounded-lg shadow-sm p-6 mb-8">
+      <h2 class="text-2xl font-bold text-gray-900 mb-4">Transaction Data</h2>
+      <div id="transaction-data">Loading...</div>
+    </div>
+
+    <div class="bg-white rounded-lg shadow-sm p-6">
+      <h2 class="text-2xl font-bold text-gray-900 mb-4">Visual Timeline</h2>
+      <div id="transaction-timeline" class="mt-4">Loading...</div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      try {
+        const response = await fetch('./transaction-data.json');
+        if (!response.ok) throw new Error('Failed to load transaction data');
+        const transaction = await response.json();
+        
+        // Display raw data
+        document.getElementById('transaction-data').innerHTML = `
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <p class="font-semibold">ID:</p>
+              <p>${transaction.id}</p>
+            </div>
+            <div>
+              <p class="font-semibold">Reference:</p>
+              <p>${transaction.referenceNumber}</p>
+            </div>
+            <div>
+              <p class="font-semibold">Status:</p>
+              <p>${transaction.status}</p>
+            </div>
+            <div>
+              <p class="font-semibold">Property:</p>
+              <p>${transaction.unit.name}</p>
+            </div>
+            <div>
+              <p class="font-semibold">Development:</p>
+              <p>${transaction.unit.development.name}</p>
+            </div>
+            <div>
+              <p class="font-semibold">Completion:</p>
+              <p>${transaction.completionPercentage}%</p>
+            </div>
+          </div>
+
+          <div class="mt-4">
+            <p class="font-semibold">Next Actions:</p>
+            <ul class="list-disc ml-5 mt-2">
+              ${transaction.nextActions.map(action => `<li>${action}</li>`).join('')}
+            </ul>
+          </div>
+        `;
+        
+        // Display visual timeline
+        const timelineHtml = transaction.timeline.phases.map(phase => {
+          const milestoneHtml = phase.milestones.map(milestone => {
+            const tasksHtml = milestone.tasks.length > 0 
+              ? `<div class="mt-2">
+                  <p class="font-semibold text-sm">Tasks:</p>
+                  <ul class="list-disc ml-5 mt-1">
+                    ${milestone.tasks.map(task => `
+                      <li class="${task.status === 'completed' ? 'text-green-600' : 'text-gray-600'}">
+                        ${task.title} - Due: ${new Date(task.dueDate).toLocaleDateString()}
+                      </li>
+                    `).join('')}
+                  </ul>
+                </div>`
+              : '';
+              
+            const docsHtml = milestone.documentsRequired.length > 0
+              ? `<div class="mt-2">
+                  <p class="font-semibold text-sm">Documents Required:</p>
+                  <ul class="list-disc ml-5 mt-1">
+                    ${milestone.documentsRequired.map(doc => `<li>${doc}</li>`).join('')}
+                  </ul>
+                </div>`
+              : '';
+              
+            return `
+              <div class="milestone ${milestone.status}">
+                <div class="flex items-start">
+                  <div class="flex-1">
+                    <h5 class="font-medium text-gray-900">${milestone.name}</h5>
+                    <p class="text-xs text-gray-500">Status: ${milestone.status}</p>
+                    
+                    <div class="mt-2">
+                      <p class="font-semibold text-sm">Requirements:</p>
+                      <ul class="list-disc ml-5 mt-1">
+                        ${milestone.completionCriteria.map(criteria => `<li>${criteria}</li>`).join('')}
+                      </ul>
+                    </div>
+                    
+                    ${docsHtml}
+                    ${tasksHtml}
+                  </div>
+                </div>
+              </div>
+            `;
+          }).join('');
+          
+          return `
+            <div class="phase ${phase.status}">
+              <h4 class="text-lg font-bold">${phase.phase}</h4>
+              <p class="text-sm text-gray-600">Status: ${phase.status}</p>
+              ${phase.completedDate ? `<p class="text-xs text-gray-500">Completed: ${new Date(phase.completedDate).toLocaleDateString()}</p>` : ''}
+              
+              <div class="mt-4">
+                ${phase.milestones.length > 0 ? milestoneHtml : '<p class="text-sm text-gray-500">No milestones defined</p>'}
+              </div>
+            </div>
+          `;
+        }).join('');
+        
+        document.getElementById('transaction-timeline').innerHTML = timelineHtml;
+      } catch (error) {
+        console.error('Error loading transaction data:', error);
+        document.getElementById('transaction-data').innerHTML = `<p class="text-red-600">Error loading transaction data: ${error.message}</p>`;
+        document.getElementById('transaction-timeline').innerHTML = `<p class="text-red-600">Error loading transaction timeline: ${error.message}</p>`;
+      }
+    });
+  </script>
+</body>
+</html>

@@ -61,7 +61,7 @@ export function configureApiMonitoring(userOptions: Partial<ApiMonitoringOptions
  * Determine if this request should be sampled
  */
 function shouldSample(): boolean {
-  return Math.random() < options.sampleRate;
+  return Math.random() <options.sampleRate;
 }
 
 /**
@@ -75,11 +75,8 @@ export function recordApiMetric(metric: ApiMetric): void {
   metricsCache.push(metric);
 
   // Log slow requests
-  if (options.consoleLogging && metric.duration > options.slowThreshold) {
-    console.warn(
-      `Slow API request: ${metric.method} ${metric.endpoint} took ${metric.duration}ms`,
-      metric
-    );
+  if (options.consoleLogging && metric.duration> options.slowThreshold) {
+
   }
 
   // Track cache status in performance monitor if available
@@ -92,7 +89,7 @@ export function recordApiMetric(metric: ApiMetric): void {
         // For cache hits, we can estimate time saved as the typical time for this endpoint
         const typicalDuration = estimateTypicalDuration(metric.endpoint, metric.method);
         const timeSaved = Math.max(0, typicalDuration - metric.duration);
-        performanceMonitor.recordCacheHit(cacheName, timeSaved);
+        performanceMonitor.recordCacheHit(cacheNametimeSaved);
       } else if (metric.cacheStatus === 'miss') {
         performanceMonitor.recordCacheMiss(cacheName, metric.duration);
       }
@@ -126,7 +123,7 @@ function estimateTypicalDuration(endpoint: string, method: string): number {
   }
 
   // Calculate median duration (more robust than average)
-  const durations = relevantMetrics.map(m => m.duration).sort((a, b) => a - b);
+  const durations = relevantMetrics.map(m => m.duration).sort((ab: any) => a - b);
   const midIndex = Math.floor(durations.length / 2);
 
   return durations.length % 2 === 0
@@ -142,7 +139,7 @@ function scheduleMetricsReport(): void {
 
   // Only schedule a report if one isn't already scheduled
   if (reportTimeout === null) {
-    reportTimeout = setTimeout(reportMetrics, 5000);
+    reportTimeout = setTimeout(reportMetrics5000);
   }
 }
 
@@ -165,11 +162,10 @@ async function reportMetrics(): Promise<void> {
         { requiresAuth: false }
       );
     } catch (error) {
-      console.error('Failed to report API metrics:', error);
 
       // Re-add metrics to the cache if the report failed
       // but limit the cache size to prevent memory leaks
-      if (metricsCache.length < 100) {
+      if (metricsCache.length <100) {
         metricsCache.push(...metricsToReport);
       }
     }
@@ -177,23 +173,7 @@ async function reportMetrics(): Promise<void> {
 }
 
 /**
- * Create a wrapped version of a function that measures its performance
- */
-export function withPerformanceTracking<T extends (...args: any[]) => Promise<any>>(
-  fn: T,
-  name: string,
-  method: string
-): T {
-  return (async (...args: Parameters<T>): Promise<ReturnType<T>> => {
-    if (!options.enabled) return fn(...args);
-
-    const startTime = performance.now();
-    let status: 'success' | 'error' = 'success';
-    let statusCode: number | undefined = undefined;
-    let errorType: string | undefined = undefined;
-
-    try {
-      const result = await fn(...args);
+ * Create a wrapped version of a async function thatfn(...args);
       return result;
     } catch (error) {
       status = 'error';
@@ -221,8 +201,7 @@ export function withPerformanceTracking<T extends (...args: any[]) => Promise<an
         status,
         timestamp: Date.now(),
         statusCode,
-        errorType,
-      });
+        errorType});
     }
   }) as T;
 }
@@ -235,33 +214,32 @@ export function createMonitoredApi(baseApi: typeof api) {
     get: <T>(endpoint: string, options?: any) =>
       withPerformanceTracking(
         baseApi.get<T>, endpoint, 'GET'
-      )(endpoint, options),
+      )(endpointoptions),
 
     post: <T>(endpoint: string, data?: any, options?: any) =>
       withPerformanceTracking(
         baseApi.post<T>, endpoint, 'POST'
-      )(endpoint, data, options),
+      )(endpoint, dataoptions),
 
     put: <T>(endpoint: string, data?: any, options?: any) =>
       withPerformanceTracking(
         baseApi.put<T>, endpoint, 'PUT'
-      )(endpoint, data, options),
+      )(endpoint, dataoptions),
 
     delete: <T>(endpoint: string, options?: any) =>
       withPerformanceTracking(
         baseApi.delete<T>, endpoint, 'DELETE'
-      )(endpoint, options),
+      )(endpointoptions),
 
     patch: <T>(endpoint: string, data?: any, options?: any) =>
       withPerformanceTracking(
         baseApi.patch<T>, endpoint, 'PATCH'
-      )(endpoint, data, options),
+      )(endpoint, dataoptions),
 
     graphql: <T>(query: string, variables?: any, options?: any) =>
       withPerformanceTracking(
         baseApi.graphql<T>, 'GraphQL', 'POST'
-      )(query, variables, options),
-  };
+      )(query, variablesoptions)};
 }
 
 // Create a monitored version of the API
@@ -287,16 +265,16 @@ export function getPerformanceSummary() {
   }
 
   const totalRequests = metricsCache.length;
-  const totalDuration = metricsCache.reduce((sum, metric) => sum + metric.duration, 0);
+  const totalDuration = metricsCache.reduce((summetric: any) => sum + metric.duration0);
   const averageDuration = totalDuration / totalRequests;
   const successCount = metricsCache.filter(metric => metric.status === 'success').length;
   const successRate = successCount / totalRequests;
-  const slowRequests = metricsCache.filter(metric => metric.duration > options.slowThreshold).length;
+  const slowRequests = metricsCache.filter(metric => metric.duration> options.slowThreshold).length;
 
   // Calculate cache statistics
   const cacheHits = metricsCache.filter(metric => metric.cached && metric.cacheStatus === 'hit').length;
   const cacheMisses = metricsCache.filter(metric => metric.cached && metric.cacheStatus === 'miss').length;
-  const cacheHitRate = cacheHits + cacheMisses > 0 ? cacheHits / (cacheHits + cacheMisses) : 0;
+  const cacheHitRate = cacheHits + cacheMisses> 0 ? cacheHits / (cacheHits + cacheMisses) : 0;
 
   // Estimate time saved by caching
   // For each cache hit, we estimate time saved as typical uncached duration - actual cached duration
@@ -328,16 +306,16 @@ export function getPerformanceSummary() {
   });
 
   // Calculate stats for each endpoint
-  Object.entries(endpointMetrics).forEach(([endpoint, metrics]) => {
+  Object.entries(endpointMetrics).forEach(([endpointmetrics]) => {
     const hits = metrics.filter(m => m.cached && m.cacheStatus === 'hit').length;
     const misses = metrics.filter(m => m.cached && m.cacheStatus === 'miss').length;
-    const totalDuration = metrics.reduce((sum, m) => sum + m.duration, 0);
+    const totalDuration = metrics.reduce((summ: any) => sum + m.duration0);
 
     endpointStats[endpoint] = {
       hits,
       misses,
-      hitRate: hits + misses > 0 ? hits / (hits + misses) : 0,
-      avgDuration: metrics.length > 0 ? totalDuration / metrics.length : 0
+      hitRate: hits + misses> 0 ? hits / (hits + misses) : 0,
+      avgDuration: metrics.length> 0 ? totalDuration / metrics.length : 0
     };
   });
 
@@ -362,5 +340,4 @@ export default {
   withPerformanceTracking,
   createMonitoredApi,
   monitoredApi,
-  getPerformanceSummary,
-};
+  getPerformanceSummary};

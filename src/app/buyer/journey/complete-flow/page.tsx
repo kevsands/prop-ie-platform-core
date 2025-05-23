@@ -16,8 +16,7 @@ import {
   BriefcaseIcon,
   ClipboardDocumentCheckIcon,
   SparklesIcon,
-  TruckIcon,
-} from '@heroicons/react/24/outline';
+  TruckIcon} from '@heroicons/react/24/outline';
 import { useBuyerJourney } from '@/hooks/useBuyerJourney';
 import { BuyerPhase } from '@/types/buyer-journey';
 
@@ -34,14 +33,11 @@ const journeySteps = [
       'Get mortgage pre-approval',
       'Research government schemes',
       'Find a solicitor',
-      'Set your budget',
-    ],
+      'Set your budget'],
     actions: [
       { label: 'Affordability Calculator', href: '/buyer/calculator' },
       { label: 'Government Schemes', href: '/buyer/htb' },
-      { label: 'Find Solicitor', href: '/solicitors' },
-    ],
-  },
+      { label: 'Find Solicitor', href: '/solicitors' }]},
   {
     phase: BuyerPhase.FINANCING,
     title: 'Secure Financing',
@@ -53,14 +49,11 @@ const journeySteps = [
       'Apply for Help to Buy',
       'Get mortgage approval',
       'Finalize deposit amount',
-      'Review loan offer',
-    ],
+      'Review loan offer'],
     actions: [
       { label: 'Apply for Mortgage', href: '/buyer/mortgage' },
       { label: 'HTB Application', href: '/buyer/htb/new' },
-      { label: 'Document Upload', href: '/buyer/documents' },
-    ],
-  },
+      { label: 'Document Upload', href: '/buyer/documents' }]},
   {
     phase: BuyerPhase.PROPERTY_SEARCH,
     title: 'Find Your Home',
@@ -72,14 +65,11 @@ const journeySteps = [
       'Schedule viewings',
       'Compare properties',
       'Select preferred unit',
-      'Review development details',
-    ],
+      'Review development details'],
     actions: [
       { label: 'Browse Properties', href: '/properties' },
       { label: 'Book Viewing', href: '/buyer/viewings' },
-      { label: 'Compare Units', href: '/buyer/saved-properties' },
-    ],
-  },
+      { label: 'Compare Units', href: '/buyer/saved-properties' }]},
   {
     phase: BuyerPhase.RESERVATION,
     title: 'Reserve Your Home',
@@ -91,14 +81,11 @@ const journeySteps = [
       'Sign reservation agreement',
       'Receive reservation confirmation',
       'Submit customization choices',
-      'Review timeline',
-    ],
+      'Review timeline'],
     actions: [
       { label: 'Pay Deposit', href: '/buyer/payment-methods' },
       { label: 'Customize Unit', href: '/buyer/customization' },
-      { label: 'View Timeline', href: '/buyer/purchase/timeline' },
-    ],
-  },
+      { label: 'View Timeline', href: '/buyer/purchase/timeline' }]},
   {
     phase: BuyerPhase.LEGAL_PROCESS,
     title: 'Legal Process',
@@ -110,14 +97,11 @@ const journeySteps = [
       'Complete legal searches',
       'Review title documents',
       'Finalize mortgage drawdown',
-      'Schedule closing date',
-    ],
+      'Schedule closing date'],
     actions: [
       { label: 'Sign Contracts', href: '/buyer/contracts' },
       { label: 'Legal Documents', href: '/buyer/documents' },
-      { label: 'Contact Solicitor', href: '/buyer/messages' },
-    ],
-  },
+      { label: 'Contact Solicitor', href: '/buyer/messages' }]},
   {
     phase: BuyerPhase.CONSTRUCTION,
     title: 'Construction Progress',
@@ -129,14 +113,11 @@ const journeySteps = [
       'Review progress photos',
       'Schedule site visits',
       'Confirm customizations',
-      'Prepare for handover',
-    ],
+      'Prepare for handover'],
     actions: [
       { label: 'View Progress', href: '/buyer/purchase/progress' },
       { label: 'Construction Updates', href: '/buyer/purchase/updates' },
-      { label: 'Schedule Visit', href: '/buyer/appointments' },
-    ],
-  },
+      { label: 'Schedule Visit', href: '/buyer/appointments' }]},
   {
     phase: BuyerPhase.COMPLETION,
     title: 'Closing & Handover',
@@ -148,29 +129,25 @@ const journeySteps = [
       'Sign closing documents',
       'Transfer funds',
       'Receive keys',
-      'Complete snagging list',
-    ],
+      'Complete snagging list'],
     actions: [
       { label: 'Schedule Walkthrough', href: '/buyer/appointments' },
       { label: 'Closing Checklist', href: '/buyer/checklists' },
-      { label: 'Snagging List', href: '/buyer/purchase/snagging' },
-    ],
-  },
-];
+      { label: 'Snagging List', href: '/buyer/purchase/snagging' }]}];
 
 export default function CompleteBuyerFlowPage() {
   const router = useRouter();
   const { journey, updateJourneyPhase } = useBuyerJourney();
-  const [selectedPhase, setSelectedPhase] = useState(journey?.currentPhase || BuyerPhase.PLANNING);
-  
+  const [selectedPhasesetSelectedPhase] = useState(journey?.currentPhase || BuyerPhase.PLANNING);
+
   const currentStepIndex = journeySteps.findIndex(step => step.phase === selectedPhase);
   const progress = ((currentStepIndex + 1) / journeySteps.length) * 100;
 
   const getPhaseStatus = (phase: BuyerPhase) => {
     const stepIndex = journeySteps.findIndex(step => step.phase === phase);
     const currentIndex = journeySteps.findIndex(step => step.phase === journey?.currentPhase);
-    
-    if (stepIndex < currentIndex) return 'complete';
+
+    if (stepIndex <currentIndex) return 'complete';
     if (stepIndex === currentIndex) return 'active';
     return 'pending';
   };
@@ -200,13 +177,13 @@ export default function CompleteBuyerFlowPage() {
           </div>
           <Progress value={progress} className="h-3" />
           <div className="grid grid-cols-7 mt-6 relative">
-            {journeySteps.map((step, index) => {
+            {journeySteps.map((stepindex: any) => {
               const status = getPhaseStatus(step.phase);
               const Icon = step.icon;
-              
+
               return (
                 <div key={step.phase} className="relative">
-                  {index > 0 && (
+                  {index> 0 && (
                     <div
                       className={`absolute top-6 -left-1/2 right-1/2 h-0.5 ${
                         status === 'complete' ? 'bg-green-500' : 'bg-gray-300'
@@ -249,12 +226,12 @@ export default function CompleteBuyerFlowPage() {
       <div className="grid gap-8 lg:grid-cols-3">
         {/* Current Phase Card */}
         <div className="lg:col-span-2">
-          {journeySteps.map((step) => {
+          {journeySteps.map((step: any) => {
             if (step.phase !== selectedPhase) return null;
-            
+
             const Icon = step.icon;
             const status = getPhaseStatus(step.phase);
-            
+
             return (
               <Card key={step.phase} className="border-2">
                 <CardHeader>
@@ -287,7 +264,7 @@ export default function CompleteBuyerFlowPage() {
                     <div>
                       <h3 className="font-semibold text-lg mb-4">Tasks to Complete</h3>
                       <div className="space-y-3">
-                        {step.tasks.map((task, index) => (
+                        {step.tasks.map((taskindex: any) => (
                           <div key={index} className="flex items-center space-x-3">
                             <div
                               className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
@@ -312,7 +289,7 @@ export default function CompleteBuyerFlowPage() {
                     <div>
                       <h3 className="font-semibold text-lg mb-4">Take Action</h3>
                       <div className="grid gap-3 sm:grid-cols-2">
-                        {step.actions.map((action, index) => (
+                        {step.actions.map((actionindex: any) => (
                           <Button
                             key={index}
                             variant="outline"

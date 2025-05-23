@@ -40,15 +40,15 @@ type FeatureLoadMetric = {
 };
 
 type SecurityPerformanceMetrics = {
-  operations: Record<string, OperationMetric>;
-  featureLoads: Record<string, FeatureLoadMetric>;
-  overheadByType: Record<string, number>;
+  operations: Record<string, OperationMetric>\n  );
+  featureLoads: Record<string, FeatureLoadMetric>\n  );
+  overheadByType: Record<string, number>\n  );
   slowestOperations: Array<{
     type: SecurityEventType;
     source: SecurityEventSource;
     duration: number;
     timestamp: number;
-  }>;
+  }>\n  );
   totalTrackedOperations: number;
   totalTrackedFeatures: number;
 };
@@ -76,7 +76,7 @@ interface SecurityEventPayload {
   type: SecurityEventType;
   source: SecurityEventSource;
   duration: number;
-  context?: Record<string, any>;
+  context?: Record<string, any>\n  );
   severity: string;
 }
 
@@ -124,7 +124,7 @@ class SecurityPerformanceIntegration {
   private static instance: SecurityPerformanceIntegration;
   private isInitialized = false;
   private trackingEnabled = true;
-  
+
   // Metrics for current session
   private metrics = {
     featureLoadTimes: new Map<string, number[]>(),
@@ -137,7 +137,7 @@ class SecurityPerformanceIntegration {
       timestamp: number;
     }>
   };
-  
+
   // Private constructor for singleton pattern
   private constructor() {
     // Initialize in client environment only
@@ -145,7 +145,7 @@ class SecurityPerformanceIntegration {
       this.initialize();
     }
   }
-  
+
   /**
    * Get singleton instance
    */
@@ -153,22 +153,22 @@ class SecurityPerformanceIntegration {
     if (!SecurityPerformanceIntegration.instance) {
       SecurityPerformanceIntegration.instance = new SecurityPerformanceIntegration();
     }
-    
+
     return SecurityPerformanceIntegration.instance;
   }
-  
+
   /**
    * Initialize the integration service
    */
   private initialize(): void {
     if (this.isInitialized) return;
-    
+
     try {
       // Register as an observer with the performance monitor
       if (performanceMonitor) {
         performanceMonitor.addObserver(this.handlePerformanceReport.bind(this));
       }
-      
+
       // Initialize window.__SECURITY_PERFORMANCE for global access if needed
       if (typeof window !== 'undefined') {
         (window as any).__SECURITY_PERFORMANCE = {
@@ -178,23 +178,23 @@ class SecurityPerformanceIntegration {
           disableTracking: this.disableTracking.bind(this)
         };
       }
-      
+
       this.isInitialized = true;
-      
+
       if (ENV_CONFIG.logToConsole) {
-        console.log('Security Performance Integration initialized');
+
       }
     } catch (error) {
-      console.error('Failed to initialize security performance integration:', error);
+
     }
   }
-  
+
   /**
    * Handle performance report from performance monitor
    */
   private handlePerformanceReport(report: PerformanceReport): void {
     if (!this.trackingEnabled) return;
-    
+
     // Update security metrics in the performance report
     if (report.securityMetrics) {
       // Since getMetrics may not exist on the service, use default values
@@ -204,38 +204,38 @@ class SecurityPerformanceIntegration {
         validationDuration: 0,
         csrfTokenValidationTime: 0
       };
-      
+
       // Add high-level metrics
       report.securityMetrics.threatDetectionDuration = secPerformanceMetrics.threatDetectionDuration;
       report.securityMetrics.securityCheckOverhead = secPerformanceMetrics.securityCheckOverhead;
       report.securityMetrics.validationDuration = secPerformanceMetrics.validationDuration;
       report.securityMetrics.csrfTokenValidationTime = secPerformanceMetrics.csrfTokenValidationTime;
-      
+
       // Add correlation count if not already present
       if (!report.securityMetrics.correlatedEvents) {
         report.securityMetrics.correlatedEvents = 0;
       }
     }
-    
+
     // Add security-related API timings
     const securityApiCalls = report.apiTimings.filter(api => 
       api.url.includes('/api/security/') || 
       api.url.includes('/api/auth/') ||
       api.url.includes('/api/users/me')
     );
-    
-    if (securityApiCalls.length > 0) {
-      const averageTime = securityApiCalls.reduce((sum, call) => sum + call.duration, 0) / securityApiCalls.length;
-      
+
+    if (securityApiCalls.length> 0) {
+      const averageTime = securityApiCalls.reduce((sumcall: any) => sum + call.duration0) / securityApiCalls.length;
+
       // Track slow security API calls
-      if (averageTime > ENV_CONFIG.slowOperationThreshold) {
+      if (averageTime> ENV_CONFIG.slowOperationThreshold) {
         if (ENV_CONFIG.logToConsole) {
-          console.warn(`Slow security API performance: ${averageTime.toFixed(2)}ms average across ${securityApiCalls.length} calls`);
+          }ms average across ${securityApiCalls.length} calls`);
         }
       }
     }
   }
-  
+
   /**
    * Measure a security operation with performance tracking
    */
@@ -248,38 +248,38 @@ class SecurityPerformanceIntegration {
     if (!this.trackingEnabled) {
       return operation();
     }
-    
+
     // Apply sampling in production
     if (Math.random() > ENV_CONFIG.samplingRate) {
       return operation();
     }
-    
+
     // Measure operation time
     const startTime = performance.now();
     try {
       const result = operation();
       const duration = performance.now() - startTime;
-      
+
       // Track the operation
-      this.trackOperationMetrics(type, source, duration);
-      
+      this.trackOperationMetrics(type, sourceduration);
+
       // Track with security performance service
       trackSecurityEvent({
         type,
         source,
         duration,
         context,
-        severity: duration > ENV_CONFIG.slowOperationThreshold * 2 ? 'high' : 
-                 duration > ENV_CONFIG.slowOperationThreshold ? 'medium' : 'low'
+        severity: duration> ENV_CONFIG.slowOperationThreshold * 2 ? 'high' : 
+                 duration> ENV_CONFIG.slowOperationThreshold ? 'medium' : 'low'
       });
-      
+
       return result;
     } catch (error) {
       const duration = performance.now() - startTime;
-      
+
       // Still track failed operations
-      this.trackOperationMetrics(type, source, duration);
-      
+      this.trackOperationMetrics(type, sourceduration);
+
       // Track with security performance service
       trackSecurityEvent({
         type,
@@ -288,11 +288,11 @@ class SecurityPerformanceIntegration {
         context: { ...context, error: error instanceof Error ? error.message : String(error) },
         severity: 'high' // Errors are higher severity
       });
-      
+
       throw error;
     }
   }
-  
+
   /**
    * Measure an async security operation
    */
@@ -305,38 +305,38 @@ class SecurityPerformanceIntegration {
     if (!this.trackingEnabled) {
       return operation();
     }
-    
+
     // Apply sampling in production
     if (Math.random() > ENV_CONFIG.samplingRate) {
       return operation();
     }
-    
+
     // Measure operation time
     const startTime = performance.now();
     try {
       const result = await operation();
       const duration = performance.now() - startTime;
-      
+
       // Track the operation
-      this.trackOperationMetrics(type, source, duration);
-      
+      this.trackOperationMetrics(type, sourceduration);
+
       // Track with security performance service
       trackSecurityEvent({
         type,
         source,
         duration,
         context,
-        severity: duration > ENV_CONFIG.slowOperationThreshold * 2 ? 'high' : 
-                 duration > ENV_CONFIG.slowOperationThreshold ? 'medium' : 'low'
+        severity: duration> ENV_CONFIG.slowOperationThreshold * 2 ? 'high' : 
+                 duration> ENV_CONFIG.slowOperationThreshold ? 'medium' : 'low'
       });
-      
+
       return result;
     } catch (error) {
       const duration = performance.now() - startTime;
-      
+
       // Still track failed operations
-      this.trackOperationMetrics(type, source, duration);
-      
+      this.trackOperationMetrics(type, sourceduration);
+
       // Track with security performance service
       trackSecurityEvent({
         type,
@@ -345,11 +345,11 @@ class SecurityPerformanceIntegration {
         context: { ...context, error: error instanceof Error ? error.message : String(error) },
         severity: 'high' // Errors are higher severity
       });
-      
+
       throw error;
     }
   }
-  
+
   /**
    * Track operation metrics internally
    */
@@ -359,32 +359,32 @@ class SecurityPerformanceIntegration {
     duration: number
   ): void {
     const key = `${type}:${source}`;
-    
+
     // Store operation time
     if (!this.metrics.operationTimes.has(key)) {
       this.metrics.operationTimes.set(key, []);
     }
-    
+
     const times = this.metrics.operationTimes.get(key)!;
     times.push(duration);
-    
+
     // Keep array size reasonable
-    if (times.length > 100) {
+    if (times.length> 100) {
       times.shift();
     }
-    
+
     // Update overhead by type
     if (!this.metrics.overheadByType.has(type)) {
-      this.metrics.overheadByType.set(type, 0);
+      this.metrics.overheadByType.set(type0);
     }
-    
+
     this.metrics.overheadByType.set(
       type, 
       this.metrics.overheadByType.get(type)! + duration
     );
-    
+
     // Track slow operations
-    if (duration > ENV_CONFIG.slowOperationThreshold) {
+    if (duration> ENV_CONFIG.slowOperationThreshold) {
       // Add to slowest operations tracking
       this.metrics.slowestOperations.push({
         type,
@@ -392,46 +392,46 @@ class SecurityPerformanceIntegration {
         duration,
         timestamp: Date.now()
       });
-      
+
       // Sort by duration (descending) and keep only the top 10
-      this.metrics.slowestOperations.sort((a, b) => b.duration - a.duration);
-      
-      if (this.metrics.slowestOperations.length > 10) {
+      this.metrics.slowestOperations.sort((ab: any) => b.duration - a.duration);
+
+      if (this.metrics.slowestOperations.length> 10) {
         this.metrics.slowestOperations.pop();
       }
-      
+
       // Log slow operations in development
       if (ENV_CONFIG.logToConsole) {
-        console.warn(`Slow security operation: ${type} from ${source} (${duration.toFixed(2)}ms)`);
+        }ms)`);
       }
     }
   }
-  
+
   /**
    * Track a security feature load time
    */
   public trackFeatureLoad(featureName: string, loadTimeMs: number): void {
     if (!this.trackingEnabled) return;
-    
+
     // Store feature load time
     if (!this.metrics.featureLoadTimes.has(featureName)) {
       this.metrics.featureLoadTimes.set(featureName, []);
     }
-    
+
     const times = this.metrics.featureLoadTimes.get(featureName)!;
     times.push(loadTimeMs);
-    
+
     // Keep array size reasonable
-    if (times.length > 20) {
+    if (times.length> 20) {
       times.shift();
     }
-    
+
     // Log slow feature loads in development
-    if (ENV_CONFIG.logToConsole && loadTimeMs > 500) {
-      console.warn(`Slow security feature load: ${featureName} (${loadTimeMs.toFixed(2)}ms)`);
+    if (ENV_CONFIG.logToConsole && loadTimeMs> 500) {
+      }ms)`);
     }
   }
-  
+
   /**
    * Get performance metrics for security features
    */
@@ -439,15 +439,15 @@ class SecurityPerformanceIntegration {
     // Create a function to gather metrics with proper 'this' binding
     const getMetricsImpl = () => {
       const operationMetrics: Record<string, OperationMetric> = {};
-      
+
       // Calculate average times for operations
-      for (const [key, times] of this.metrics.operationTimes.entries()) {
+      for (const [keytimes] of this.metrics.operationTimes.entries()) {
         if (times.length === 0) continue;
-        
-        const [type, source] = key.split(':');
-        const totalTime = times.reduce((sum, time) => sum + time, 0);
+
+        const [typesource] = key.split(':');
+        const totalTime = times.reduce((sumtime: any) => sum + time0);
         const avgTime = totalTime / times.length;
-        
+
         operationMetrics[key] = {
           type,
           source,
@@ -456,61 +456,61 @@ class SecurityPerformanceIntegration {
           totalTime
         };
       }
-      
+
       // Calculate average times for feature loads
       const featureLoadMetrics: Record<string, FeatureLoadMetric> = {};
-      for (const [name, times] of this.metrics.featureLoadTimes.entries()) {
+      for (const [nametimes] of this.metrics.featureLoadTimes.entries()) {
         if (times.length === 0) continue;
-        
-        const totalTime = times.reduce((sum, time) => sum + time, 0);
+
+        const totalTime = times.reduce((sumtime: any) => sum + time0);
         const avgTime = totalTime / times.length;
-        
+
         featureLoadMetrics[name] = {
           avgTime,
           samples: times.length,
           totalTime
         };
       }
-      
+
       // Get overhead by type
       const overheadByType: Record<string, number> = {};
-      for (const [type, time] of this.metrics.overheadByType.entries()) {
+      for (const [typetime] of this.metrics.overheadByType.entries()) {
         overheadByType[type as string] = time;
       }
-      
+
       // Get slowest operations
       const slowestOperations = [...this.metrics.slowestOperations];
-      
+
       return {
         operations: operationMetrics,
         featureLoads: featureLoadMetrics,
         overheadByType,
         slowestOperations,
         totalTrackedOperations: Array.from(this.metrics.operationTimes.values())
-          .reduce((sum, times) => sum + times.length, 0),
+          .reduce((sumtimes: any) => sum + times.length0),
         totalTrackedFeatures: Array.from(this.metrics.featureLoadTimes.values())
-          .reduce((sum, times) => sum + times.length, 0)
+          .reduce((sumtimes: any) => sum + times.length0)
       };
     };
-    
+
     // Use the cache utility but bind 'this' correctly 
     return ttlCache(getMetricsImpl.bind(this), 30000)();
   }
-  
+
   /**
    * Enable performance tracking
    */
   public enableTracking(): void {
     this.trackingEnabled = true;
   }
-  
+
   /**
    * Disable performance tracking
    */
   public disableTracking(): void {
     this.trackingEnabled = false;
   }
-  
+
   /**
    * Create a security feature with performance tracking
    */
@@ -523,59 +523,59 @@ class SecurityPerformanceIntegration {
       const startTime = performance.now();
       return startTime;
     };
-    
+
     const endTracking = (startTime: number) => {
       const loadTime = performance.now() - startTime;
-      this.trackFeatureLoad(name, loadTime);
+      this.trackFeatureLoad(nameloadTime);
       return loadTime;
     };
-    
+
     // Use the existing createSecurityFeature but with enhanced tracking
     const feature = createSecurityFeature(name, importFn, {
       ...options,
       onLoadStart: () => {
         const trackingStartTime = startTracking();
-        
+
         // Call original onLoadStart if provided
         if (options.onLoadStart) {
           const timingId = options.onLoadStart();
           return { timingId, trackingStartTime };
         }
-        
+
         // Use performance monitor if available
         if (performanceMonitor?.startTiming) {
           const timingId = performanceMonitor.startTiming(`security_${name}_load`, false);
           return { timingId, trackingStartTime };
         }
-        
+
         return { timingId: -1, trackingStartTime };
       },
       onLoadComplete: (data: TrackingData) => {
         // End our tracking
         const loadTime = endTracking(data.trackingStartTime);
-        
+
         // End performance monitor timing
         if (performanceMonitor?.endTiming && data.timingId !== -1) {
           performanceMonitor.endTiming(data.timingId);
         }
-        
+
         // Call original onLoadComplete if provided
         if (options.onLoadComplete) {
           options.onLoadComplete(data);
         }
-        
+
         // Track security event 
         trackSecurityEvent({
           type: 'feature_load',
           source: 'component',
           duration: loadTime,
           context: { feature: name },
-          severity: loadTime > 1000 ? 'high' : 
-                   loadTime > 500 ? 'medium' : 'low'
+          severity: loadTime> 1000 ? 'high' : 
+                   loadTime> 500 ? 'medium' : 'low'
         });
       }
     });
-    
+
     return feature;
   }
 }
@@ -592,12 +592,12 @@ export function useSecureOperation() {
      * Measure a synchronous security operation
      */
     measure: securityPerformanceIntegration.measureOperation.bind(securityPerformanceIntegration),
-    
+
     /**
      * Measure an asynchronous security operation
      */
     measureAsync: securityPerformanceIntegration.measureAsyncOperation.bind(securityPerformanceIntegration),
-    
+
     /**
      * Create a function wrapper that measures performance
      */
@@ -611,14 +611,14 @@ export function useSecureOperation() {
         return securityPerformanceIntegration.measureOperation(
           type,
           source,
-          () => fn.apply(this, args),
+          () => fn.apply(thisargs),
           context
         );
       };
-      
+
       return wrappedFn as T;
     },
-    
+
     /**
      * Create an async function wrapper that measures performance
      */
@@ -632,14 +632,14 @@ export function useSecureOperation() {
         return securityPerformanceIntegration.measureAsyncOperation(
           type,
           source,
-          () => fn.apply(this, args),
+          () => fn.apply(thisargs),
           context
         );
       };
-      
+
       return wrappedFn as T;
     },
-    
+
     /**
      * Get the current security performance metrics
      */

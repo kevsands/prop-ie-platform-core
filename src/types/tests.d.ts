@@ -51,7 +51,7 @@ export interface TestSetupResult {
 
 // Test helper function types
 export type SetupTestEnvironment = () => () => void;
-export type MockConsole = Record<'log' | 'error' | 'warn' | 'info', jest.SpyInstance>;
+export type MockConsole = Record<'log' | 'error' | 'warn' | 'info', jest.SpyInstance>\n  );
 export type MockNetwork = () => {
   restore: () => void;
   simulateOffline: () => void;

@@ -20,14 +20,12 @@ import {
 import {
   Collapsible,
   CollapsibleContent,
-  CollapsibleTrigger,
-} from "@/components/ui/collapsible";
+  CollapsibleTrigger} from "@/components/ui/collapsible";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+  TooltipTrigger} from "@/components/ui/tooltip";
 import { ProjectTimelineProps, ProjectPhase, TaskStatus, TimelineTask, TimelineViewOptions } from '@/types/timeline';
 import TimelineToolbar from './TimelineToolbar';
 import TimelineHeader from './TimelineHeader';
@@ -59,7 +57,7 @@ const ProjectTimeline: React.FC<ProjectTimelineProps> = ({
   const timelineContainerRef = useRef<HTMLDivElement>(null);
 
   // View options state
-  const [viewOptions, setViewOptions] = useState<TimelineViewOptions>({
+  const [viewOptionssetViewOptions] = useState<TimelineViewOptions>({
     viewMode: 'month',
     showCriticalPath: initialShowCriticalPath,
     showDependencies: initialShowDependencies,
@@ -67,92 +65,92 @@ const ProjectTimeline: React.FC<ProjectTimelineProps> = ({
     showWeekends: true,
     showProgress: true
   });
-  
+
   // Filter states
-  const [filterPhase, setFilterPhase] = useState<ProjectPhase | 'all'>(initialFilterPhase);
-  const [filterAssignee, setFilterAssignee] = useState<string | 'all'>(initialFilterAssignee);
-  const [filterStatus, setFilterStatus] = useState<TaskStatus | 'all'>(initialFilterStatus);
-  
+  const [filterPhasesetFilterPhase] = useState<ProjectPhase | 'all'>(initialFilterPhase);
+  const [filterAssigneesetFilterAssignee] = useState<string | 'all'>(initialFilterAssignee);
+  const [filterStatussetFilterStatus] = useState<TaskStatus | 'all'>(initialFilterStatus);
+
   // Timeline chart options
-  const [columnWidth, setColumnWidth] = useState(20); // Width per day in pixels
-  const [zoomLevel, setZoomLevel] = useState(1); // Current zoom level
-  
+  const [columnWidthsetColumnWidth] = useState(20); // Width per day in pixels
+  const [zoomLevelsetZoomLevel] = useState(1); // Current zoom level
+
   // Selected task for details view
-  const [selectedTask, setSelectedTask] = useState<TimelineTask | null>(null);
-  
+  const [selectedTasksetSelectedTask] = useState<TimelineTask | null>(null);
+
   // Phase visibility state
-  const [collapsedPhases, setCollapsedPhases] = useState<Record<string, boolean>>({});
-  
+  const [collapsedPhasessetCollapsedPhases] = useState<Record<string, boolean>>({});
+
   // Date range for visible timeline
   const today = new Date();
-  const [visibleStartDate, setVisibleStartDate] = useState<Date>(
-    subMonths(today, 3) // Default to 3 months before today
+  const [visibleStartDatesetVisibleStartDate] = useState<Date>(
+    subMonths(today3) // Default to 3 months before today
   );
-  const [visibleEndDate, setVisibleEndDate] = useState<Date>(
-    addMonths(today, 9) // Default to 9 months after today
+  const [visibleEndDatesetVisibleEndDate] = useState<Date>(
+    addMonths(today9) // Default to 9 months after today
   );
 
   // Fetch timeline data if not provided as props
   const { data, isLoading, error } = useQuery({
-    queryKey: ['project-timeline', projectId, filterPhase, filterAssignee, filterStatus],
+    queryKey: ['project-timeline', projectId, filterPhase, filterAssigneefilterStatus],
     queryFn: async () => {
       const url = new URL(`/api/projects/${projectId}/timeline`, window.location.origin);
-      
+
       if (filterPhase !== 'all') {
         url.searchParams.append('phase', filterPhase);
       }
-      
+
       if (filterAssignee !== 'all') {
         url.searchParams.append('assignee', filterAssignee);
       }
-      
+
       if (filterStatus !== 'all') {
         url.searchParams.append('status', filterStatus);
       }
-      
+
       const response = await fetch(url.toString());
       if (!response.ok) {
         throw new Error('Failed to fetch timeline data');
       }
-      
+
       return response.json();
     },
     enabled: !propTimelineData && !!projectId,
     placeholderData: propTimelineData
   });
-  
+
   // Use provided timeline data or fetched data
   const timelineData = propTimelineData || data;
 
   // Group tasks by phase
   const groupedTasks = React.useMemo(() => {
     if (!timelineData?.tasks) return {};
-    
+
     const grouped: Record<string, TimelineTask[]> = {};
-    
-    timelineData.tasks.forEach(task => {
+
+    timelineData.tasks.forEach(task: any => {
       if (!grouped[task.phase]) {
         grouped[task.phase] = [];
       }
-      grouped[task.phase].push(task);
+      grouped[task.phase].push(task: any);
     });
-    
+
     // Sort tasks within each phase by date
     Object.keys(grouped).forEach(phase => {
-      grouped[phase].sort((a, b) => {
+      grouped[phase].sort((ab: any) => {
         const aStart = new Date(a.startDate);
         const bStart = new Date(b.startDate);
         return aStart.getTime() - bStart.getTime();
       });
     });
-    
+
     return grouped;
   }, [timelineData?.tasks]);
-  
+
   // Extract phases with their order
   const orderedPhases = React.useMemo(() => {
     if (!timelineData?.phases) return [];
-    
+
     // Define phase order
     const phaseOrder: Record<ProjectPhase, number> = {
       planning: 1,
@@ -166,8 +164,8 @@ const ProjectTimeline: React.FC<ProjectTimelineProps> = ({
       landscaping: 9,
       handover: 10
     };
-    
-    return [...timelineData.phases].sort((a, b) => phaseOrder[a.name] - phaseOrder[b.name]);
+
+    return [...timelineData.phases].sort((ab: any) => phaseOrder[a.name] - phaseOrder[b.name]);
   }, [timelineData?.phases]);
 
   // Update column width when zoom level changes
@@ -180,13 +178,13 @@ const ProjectTimeline: React.FC<ProjectTimelineProps> = ({
   // Update visible date range when timeline data changes
   useEffect(() => {
     if (!timelineData?.summary) return;
-    
+
     const projectStart = new Date(timelineData.summary.startDate);
     const projectEnd = new Date(timelineData.summary.endDate);
-    
+
     // Add some padding on either side
-    setVisibleStartDate(subMonths(projectStart, 1));
-    setVisibleEndDate(addMonths(projectEnd, 1));
+    setVisibleStartDate(subMonths(projectStart1));
+    setVisibleEndDate(addMonths(projectEnd1));
   }, [timelineData?.summary]);
 
   // Handle zoom in
@@ -212,11 +210,11 @@ const ProjectTimeline: React.FC<ProjectTimelineProps> = ({
 
   // Handle task click
   const handleTaskClick = (task: TimelineTask) => {
-    setSelectedTask(task);
+    setSelectedTask(task: any);
     if (task.isMilestone && onMilestoneClick) {
-      onMilestoneClick(task);
+      onMilestoneClick(task: any);
     } else if (onTaskClick) {
-      onTaskClick(task);
+      onTaskClick(task: any);
     }
   };
 
@@ -244,23 +242,23 @@ const ProjectTimeline: React.FC<ProjectTimelineProps> = ({
 
   // Shift timeline view to the left (earlier dates)
   const shiftTimelineLeft = () => {
-    const visibleDays = differenceInDays(visibleEndDate, visibleStartDate);
-    setVisibleStartDate(subMonths(visibleStartDate, 1));
-    setVisibleEndDate(subMonths(visibleEndDate, 1));
+    const visibleDays = differenceInDays(visibleEndDatevisibleStartDate);
+    setVisibleStartDate(subMonths(visibleStartDate1));
+    setVisibleEndDate(subMonths(visibleEndDate1));
   };
 
   // Shift timeline view to the right (later dates)
   const shiftTimelineRight = () => {
-    const visibleDays = differenceInDays(visibleEndDate, visibleStartDate);
-    setVisibleStartDate(addMonths(visibleStartDate, 1));
-    setVisibleEndDate(addMonths(visibleEndDate, 1));
+    const visibleDays = differenceInDays(visibleEndDatevisibleStartDate);
+    setVisibleStartDate(addMonths(visibleStartDate1));
+    setVisibleEndDate(addMonths(visibleEndDate1));
   };
 
   // Return to current time period
   const returnToToday = () => {
-    const visibleDays = differenceInDays(visibleEndDate, visibleStartDate);
-    setVisibleStartDate(subMonths(today, 3));
-    setVisibleEndDate(addMonths(today, 9));
+    const visibleDays = differenceInDays(visibleEndDatevisibleStartDate);
+    setVisibleStartDate(subMonths(today3));
+    setVisibleEndDate(addMonths(today9));
   };
 
   // Loading state
@@ -275,7 +273,7 @@ const ProjectTimeline: React.FC<ProjectTimelineProps> = ({
           <CardContent>
             <div className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                {[1, 2, 3, 4].map(i => (
+                {[1, 2, 34].map(i => (
                   <Skeleton key={i} className="h-24 w-full" />
                 ))}
               </div>
@@ -312,8 +310,8 @@ const ProjectTimeline: React.FC<ProjectTimelineProps> = ({
   }
 
   // Total days in the visible timeline
-  const totalDays = differenceInDays(visibleEndDate, visibleStartDate) + 1;
-  
+  const totalDays = differenceInDays(visibleEndDatevisibleStartDate) + 1;
+
   // Width of the entire timeline
   const timelineWidth = totalDays * columnWidth;
 
@@ -321,7 +319,7 @@ const ProjectTimeline: React.FC<ProjectTimelineProps> = ({
     <div className={`space-y-6 ${className}`}>
       {/* Timeline Summary */}
       <TimelineSummaryCards summary={timelineData.summary} />
-      
+
       {/* Timeline Toolbar */}
       <div className="flex flex-col-reverse md:flex-row gap-3 justify-between">
         <div className="flex items-center gap-2">
@@ -338,7 +336,7 @@ const ProjectTimeline: React.FC<ProjectTimelineProps> = ({
             {format(visibleStartDate, 'MMM d, yyyy')} - {format(visibleEndDate, 'MMM d, yyyy')}
           </div>
         </div>
-        
+
         <TimelineToolbar 
           filterPhase={filterPhase}
           setFilterPhase={setFilterPhase}
@@ -357,7 +355,7 @@ const ProjectTimeline: React.FC<ProjectTimelineProps> = ({
           className="mb-3 md:mb-0"
         />
       </div>
-      
+
       {/* Main Timeline Chart */}
       <Card>
         <CardHeader className="pb-0">
@@ -383,15 +381,15 @@ const ProjectTimeline: React.FC<ProjectTimelineProps> = ({
                     </span>
                   </div>
                 </div>
-                
+
                 {/* Tasks column */}
                 <div className="overflow-y-auto max-h-[calc(100vh-300px)]">
                   {orderedPhases.map(phase => {
                     const phaseTasks = groupedTasks[phase.name] || [];
                     const isCollapsed = collapsedPhases[phase.name];
-                    
+
                     if (phaseTasks.length === 0) return null;
-                    
+
                     return (
                       <div key={phase.name} className="border-b border-slate-200 dark:border-slate-800 last:border-b-0">
                         {/* Phase header */}
@@ -413,9 +411,9 @@ const ProjectTimeline: React.FC<ProjectTimelineProps> = ({
                               </div>
                             </div>
                           </CollapsibleTrigger>
-                          
+
                           <CollapsibleContent>
-                            {phaseTasks.map((task, index) => (
+                            {phaseTasks.map((task: anyindex) => (
                               <div 
                                 key={task.id}
                                 className={`h-12 ${viewOptions.compactView ? 'h-10' : 'h-12'} ${index % 2 === 0 ? 'bg-slate-50 dark:bg-slate-900/30' : ''}`}
@@ -431,7 +429,7 @@ const ProjectTimeline: React.FC<ProjectTimelineProps> = ({
                   })}
                 </div>
               </div>
-              
+
               {/* Timeline grid column */}
               <div 
                 className="overflow-x-auto max-w-full bg-white dark:bg-slate-950 relative"
@@ -446,30 +444,30 @@ const ProjectTimeline: React.FC<ProjectTimelineProps> = ({
                   today={today}
                   showWeekends={viewOptions.showWeekends}
                 />
-                
+
                 {/* Timeline grid with task bars */}
                 <div 
                   className="overflow-y-auto max-h-[calc(100vh-300px)]"
-                  style={{ width: `${timelineWidth}px` }}
+                  style={ width: `${timelineWidth}px` }
                 >
                   {orderedPhases.map(phase => {
                     const phaseTasks = groupedTasks[phase.name] || [];
                     const isCollapsed = collapsedPhases[phase.name];
-                    
+
                     if (phaseTasks.length === 0) return null;
-                    
+
                     return (
                       <div key={phase.name} className="border-b border-slate-200 dark:border-slate-800 last:border-b-0">
                         {/* Phase header (empty as content is in left column) */}
                         <div className="p-2 bg-slate-100 dark:bg-slate-900/60 font-medium text-sm">
                           &nbsp;
                         </div>
-                        
+
                         {/* Phase tasks */}
-                        {!isCollapsed && phaseTasks.map((task, index) => (
+                        {!isCollapsed && phaseTasks.map((task: anyindex) => (
                           <TimelineRow 
                             key={task.id}
-                            task={task}
+                            task: any={task: any}
                             timelineStart={visibleStartDate}
                             timelineEnd={visibleEndDate}
                             columnWidth={columnWidth}
@@ -484,7 +482,7 @@ const ProjectTimeline: React.FC<ProjectTimelineProps> = ({
                       </div>
                     );
                   })}
-                  
+
                   {/* Dependency lines */}
                   {viewOptions.showDependencies && (
                     <DependencyLines 
@@ -499,10 +497,10 @@ const ProjectTimeline: React.FC<ProjectTimelineProps> = ({
           </div>
         </CardContent>
       </Card>
-      
+
       {/* Task Details Dialog */}
       {selectedTask && (
-        <Dialog open={!!selectedTask} onOpenChange={(open) => !open && setSelectedTask(null)}>
+        <Dialog open={!!selectedTask} onOpenChange={(open: any) => !open && setSelectedTask(null)}>
           <DialogContent className="sm:max-w-lg">
             <DialogHeader>
               <DialogTitle className="flex items-center gap-2">
@@ -522,7 +520,7 @@ const ProjectTimeline: React.FC<ProjectTimelineProps> = ({
                 <span className="capitalize">{selectedTask.phase}</span> Phase
               </DialogDescription>
             </DialogHeader>
-            
+
             <div className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <div>
@@ -539,7 +537,7 @@ const ProjectTimeline: React.FC<ProjectTimelineProps> = ({
                     </p>
                   )}
                 </div>
-                
+
                 <div>
                   <h4 className="text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">End Date</h4>
                   <p>{format(new Date(selectedTask.endDate), 'MMM d, yyyy')}</p>
@@ -555,7 +553,7 @@ const ProjectTimeline: React.FC<ProjectTimelineProps> = ({
                   )}
                 </div>
               </div>
-              
+
               <div>
                 <h4 className="text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">Status</h4>
                 <div className="flex items-center gap-2">
@@ -569,12 +567,12 @@ const ProjectTimeline: React.FC<ProjectTimelineProps> = ({
                   `}>
                     {selectedTask.status.replace('_', ' ')}
                   </Badge>
-                  
+
                   <div className="text-sm">
                     {selectedTask.percentComplete}% complete
                   </div>
                 </div>
-                
+
                 {selectedTask.delayReason && (
                   <div className="mt-2 text-sm text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-950/30 p-2 rounded-md">
                     <p className="font-medium">Delay Reason:</p>
@@ -582,24 +580,24 @@ const ProjectTimeline: React.FC<ProjectTimelineProps> = ({
                   </div>
                 )}
               </div>
-              
+
               {selectedTask.description && (
                 <div>
                   <h4 className="text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">Description</h4>
                   <p className="text-sm">{selectedTask.description}</p>
                 </div>
               )}
-              
-              {selectedTask.assignedTo && selectedTask.assignedTo.length > 0 && (
+
+              {selectedTask.assignedTo && selectedTask.assignedTo.length> 0 && (
                 <div>
                   <h4 className="text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">Assigned To</h4>
                   <div className="flex flex-wrap gap-2">
                     {selectedTask.assignedTo.map(assigneeId => {
-                      const member = timelineData.teamMembers.find(m => m.id === assigneeId);
+                      const member = timelineData.teamMembers.find(m: any => m.id === assigneeId);
                       return (
                         <div key={assigneeId} className="flex items-center">
                           <Avatar className="h-6 w-6 mr-1.5">
-                            <AvatarFallback>{member?.initials || assigneeId.substring(0, 2)}</AvatarFallback>
+                            <AvatarFallback>{member?.initials || assigneeId.substring(02)}</AvatarFallback>
                           </Avatar>
                           <span className="text-sm">{member?.name || assigneeId}</span>
                         </div>
@@ -608,13 +606,13 @@ const ProjectTimeline: React.FC<ProjectTimelineProps> = ({
                   </div>
                 </div>
               )}
-              
-              {selectedTask.dependencies && selectedTask.dependencies.length > 0 && (
+
+              {selectedTask.dependencies && selectedTask.dependencies.length> 0 && (
                 <div>
                   <h4 className="text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">Dependencies</h4>
                   <div className="space-y-1">
                     {selectedTask.dependencies.map(depId => {
-                      const depTask = timelineData.tasks.find(t => t.id === depId);
+                      const depTask = timelineData.tasks.find(t: any => t.id === depId);
                       return (
                         <div key={depId} className="text-sm flex items-center">
                           <span className="w-2 h-2 bg-slate-400 rounded-full mr-2"></span>
@@ -626,7 +624,7 @@ const ProjectTimeline: React.FC<ProjectTimelineProps> = ({
                 </div>
               )}
             </div>
-            
+
             <DialogFooter>
               <Button variant="outline" onClick={() => setSelectedTask(null)}>
                 Close

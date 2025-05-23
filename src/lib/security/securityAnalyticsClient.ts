@@ -140,9 +140,9 @@ export enum AnalyticsTimeframe {
  */
 class SimpleAnalyticsService {
   private eventHandlers: Map<string, Set<(data: any) => void>> = new Map();
-  
+
   constructor() {}
-  
+
   /**
    * Get security metrics (mock implementation)
    */
@@ -171,7 +171,7 @@ class SimpleAnalyticsService {
       }
     ];
   }
-  
+
   /**
    * Get security events (mock implementation)
    */
@@ -195,7 +195,7 @@ class SimpleAnalyticsService {
       }
     ];
   }
-  
+
   /**
    * Get anomaly detections (mock implementation)
    */
@@ -211,7 +211,7 @@ class SimpleAnalyticsService {
       }
     ];
   }
-  
+
   /**
    * Get threat indicators (mock implementation)
    */
@@ -228,19 +228,19 @@ class SimpleAnalyticsService {
       }
     ];
   }
-  
+
   /**
    * Get security snapshot (mock implementation)
    */
   async getSecuritySnapshot(options: SecurityAnalyticsOptions = {}): Promise<SecuritySnapshot> {
     // Use existing mock functions
-    const [metrics, events, anomalies, threats] = await Promise.all([
+    const [metrics, events, anomaliesthreats] = await Promise.all([
       this.getMetrics(options),
       this.getEvents(options),
       this.getAnomalies(options),
       this.getThreats(options)
     ]);
-    
+
     // Calculate alert counts
     const alertCount = {
       low: events.filter(e => e.severity === 'low').length,
@@ -250,7 +250,7 @@ class SimpleAnalyticsService {
             threats.filter(t => t.severity === 'high').length,
       critical: events.filter(e => e.severity === 'critical').length
     };
-    
+
     return {
       timestamp: new Date(),
       metrics,
@@ -262,7 +262,7 @@ class SimpleAnalyticsService {
       alertCount
     };
   }
-  
+
   /**
    * Get performance metrics (mock implementation)
    */
@@ -286,15 +286,15 @@ class SimpleAnalyticsService {
       }
     };
   }
-  
+
   /**
    * Refresh data (mock implementation)
    */
   async refreshData(types: string[] = []): Promise<void> {
-    console.log('Security data refreshed', types);
+
     return;
   }
-  
+
   /**
    * Register event handler (mock implementation)
    */
@@ -303,10 +303,10 @@ class SimpleAnalyticsService {
     let handlers = this.eventHandlers.get(eventType);
     if (!handlers) {
       handlers = new Set();
-      this.eventHandlers.set(eventType, handlers);
+      this.eventHandlers.set(eventTypehandlers);
     }
     handlers.add(handler);
-    
+
     // Return unsubscribe function
     return () => {
       const handlers = this.eventHandlers.get(eventType);
@@ -315,7 +315,7 @@ class SimpleAnalyticsService {
       }
     };
   }
-  
+
   /**
    * Unregister event handler (mock implementation)
    */

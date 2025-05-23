@@ -106,7 +106,7 @@ export default function ProjectDetailPage() {
   const params = useParams();
   const router = useRouter();
   const projectId = params.id as string;
-  
+
   // Get project details or redirect if not found
   const project = mockProjects[projectId];
   if (!project) {
@@ -114,22 +114,22 @@ export default function ProjectDetailPage() {
     router.push('/project-management');
     return null;
   }
-  
+
   // Calculate progress percentages
   const salesProgress = Math.round((project.unitsSold / project.unitsTotal) * 100);
   const reservationProgress = Math.round((project.unitsReserved / project.unitsTotal) * 100);
   const availableProgress = Math.round(((project.unitsTotal - project.unitsSold - project.unitsReserved) / project.unitsTotal) * 100);
-  
+
   // Format dates
-  const formatDate = (dateString) => {
-    if (!dateString) return 'N/A';
-    return new Date(dateString).toLocaleDateString('en-IE', {
+  const formatDate = (dateString: any) => {
+    if (!dateString: any) return 'N/A';
+    return new Date(dateString: any).toLocaleDateString('en-IE', {
       day: 'numeric',
       month: 'short',
       year: 'numeric'
     });
   };
-  
+
   return (
     <div className="container mx-auto py-8 px-4">
       <div className="mb-6">
@@ -137,19 +137,19 @@ export default function ProjectDetailPage() {
           <ArrowLeft className="h-4 w-4 mr-1" />
           Back to Projects
         </Link>
-        
+
         <div className="flex justify-between items-center mt-2">
           <div>
             <h1 className="text-3xl font-bold">{project.name}</h1>
             <div className="flex items-center mt-1 text-gray-500">
               <MapPin className="h-4 w-4 mr-1" />
               <span>{project.location}</span>
-              
+
               <span className="mx-2">•</span>
-              
+
               <User className="h-4 w-4 mr-1" />
               <span>Developer: {project.developerName}</span>
-              
+
               {project.status && (
                 <>
                   <span className="mx-2">•</span>
@@ -161,7 +161,7 @@ export default function ProjectDetailPage() {
               )}
             </div>
           </div>
-          
+
           <Link href={`/project-management/${projectId}/edit`}>
             <Button variant="outline">
               <Edit className="mr-2 h-4 w-4" />
@@ -170,7 +170,7 @@ export default function ProjectDetailPage() {
           </Link>
         </div>
       </div>
-      
+
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
         {/* Project Details Card */}
         <Card className="lg:col-span-2">
@@ -180,14 +180,14 @@ export default function ProjectDetailPage() {
           </CardHeader>
           <CardContent className="space-y-4">
             <p className="text-gray-700">{project.description}</p>
-            
+
             {project.address && (
               <div className="mt-4">
                 <h3 className="font-semibold mb-1">Address</h3>
                 <p className="text-gray-700">{project.address}</p>
               </div>
             )}
-            
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
               <div>
                 <h3 className="font-semibold mb-1">Project Timeline</h3>
@@ -210,7 +210,7 @@ export default function ProjectDetailPage() {
                   </div>
                 </div>
               </div>
-              
+
               <div>
                 <h3 className="font-semibold mb-1">Unit Summary</h3>
                 <div className="space-y-2">
@@ -233,12 +233,12 @@ export default function ProjectDetailPage() {
                 </div>
               </div>
             </div>
-            
+
             {project.unitsByType && (
               <div className="mt-4">
                 <h3 className="font-semibold mb-2">Units by Type</h3>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                  {Object.entries(project.unitsByType).map(([type, count]) => (
+                  {Object.entries(project.unitsByType).map(([typecount]) => (
                     <Card key={type} className="p-3 bg-gray-50 border">
                       <div className="text-center">
                         <p className="text-xl font-semibold">{count}</p>
@@ -251,7 +251,7 @@ export default function ProjectDetailPage() {
             )}
           </CardContent>
         </Card>
-        
+
         {/* Project Status Card */}
         <Card>
           <CardHeader className="pb-2">
@@ -269,18 +269,18 @@ export default function ProjectDetailPage() {
               <div className="flex justify-between items-center mt-2">
                 <Badge variant="outline" className="flex items-center">
                   <FileCheck className="h-3 w-3 mr-1" />
-                  <span className="text-xs">{project.slpProgress < 100 ? 'In Progress' : 'Complete'}</span>
+                  <span className="text-xs">{project.slpProgress <100 ? 'In Progress' : 'Complete'}</span>
                 </Badge>
                 <Link href={`/project-management/${projectId}/slp`} className="text-xs text-blue-600 hover:text-blue-800">
                   View SLP Details
                 </Link>
               </div>
             </div>
-            
+
             {/* Sales Status */}
             <div className="mt-4">
               <h3 className="font-semibold text-sm mb-3">Unit Status</h3>
-              
+
               <div className="space-y-3">
                 <div>
                   <div className="flex justify-between text-xs mb-1">
@@ -292,7 +292,7 @@ export default function ProjectDetailPage() {
                   </div>
                   <Progress value={salesProgress} className="h-1.5 bg-gray-100" indicatorColor="bg-green-600" />
                 </div>
-                
+
                 <div>
                   <div className="flex justify-between text-xs mb-1">
                     <span className="flex items-center">
@@ -303,7 +303,7 @@ export default function ProjectDetailPage() {
                   </div>
                   <Progress value={reservationProgress} className="h-1.5 bg-gray-100" indicatorColor="bg-amber-500" />
                 </div>
-                
+
                 <div>
                   <div className="flex justify-between text-xs mb-1">
                     <span className="flex items-center">
@@ -316,7 +316,7 @@ export default function ProjectDetailPage() {
                 </div>
               </div>
             </div>
-            
+
             {/* Document Status */}
             <div className="mt-4">
               <h3 className="font-semibold text-sm mb-2">Document Status</h3>
@@ -346,7 +346,7 @@ export default function ProjectDetailPage() {
           </CardFooter>
         </Card>
       </div>
-      
+
       <Tabs defaultValue="units" className="mb-8">
         <TabsList className="mb-6">
           <TabsTrigger value="units">
@@ -366,7 +366,7 @@ export default function ProjectDetailPage() {
             Timeline
           </TabsTrigger>
         </TabsList>
-        
+
         <TabsContent value="units">
           <Card>
             <CardHeader>
@@ -383,7 +383,7 @@ export default function ProjectDetailPage() {
                   <Button size="sm">Add Unit</Button>
                 </Link>
               </div>
-              
+
               <div className="text-center py-12">
                 <Building className="h-16 w-16 mx-auto text-gray-300 mb-4" />
                 <h3 className="text-lg font-medium mb-2">Unit Management Coming Soon</h3>
@@ -403,7 +403,7 @@ export default function ProjectDetailPage() {
             </CardFooter>
           </Card>
         </TabsContent>
-        
+
         <TabsContent value="documents">
           <Card>
             <CardHeader>
@@ -420,7 +420,7 @@ export default function ProjectDetailPage() {
                   <Button size="sm">Upload Document</Button>
                 </Link>
               </div>
-              
+
               <div className="text-center py-12">
                 <FileText className="h-16 w-16 mx-auto text-gray-300 mb-4" />
                 <h3 className="text-lg font-medium mb-2">Document Management Coming Soon</h3>
@@ -437,7 +437,7 @@ export default function ProjectDetailPage() {
             </CardFooter>
           </Card>
         </TabsContent>
-        
+
         <TabsContent value="team">
           <Card>
             <CardHeader>
@@ -454,7 +454,7 @@ export default function ProjectDetailPage() {
                   <Button size="sm">Invite Member</Button>
                 </Link>
               </div>
-              
+
               <div className="text-center py-12">
                 <Users className="h-16 w-16 mx-auto text-gray-300 mb-4" />
                 <h3 className="text-lg font-medium mb-2">Team Management Coming Soon</h3>
@@ -471,7 +471,7 @@ export default function ProjectDetailPage() {
             </CardFooter>
           </Card>
         </TabsContent>
-        
+
         <TabsContent value="timeline">
           <Card>
             <CardHeader>
@@ -488,10 +488,10 @@ export default function ProjectDetailPage() {
                   <Button size="sm">Add Event</Button>
                 </Link>
               </div>
-              
-              {project.events && project.events.length > 0 ? (
+
+              {project.events && project.events.length> 0 ? (
                 <div className="space-y-6">
-                  {project.events.map((event) => (
+                  {project.events.map((event: React.ChangeEvent<HTMLInputElement>) => (
                     <div key={event.id} className="flex items-start space-x-4">
                       <div className="bg-gray-100 rounded-full p-2 mt-1">
                         <CalendarDays className="h-5 w-5 text-gray-700" />

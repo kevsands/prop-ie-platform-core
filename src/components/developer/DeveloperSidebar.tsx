@@ -76,7 +76,7 @@ export default function DeveloperSidebar({ isOpen, onCloseAction }: DeveloperSid
         onClick={onCloseAction}
         aria-hidden="true"
       />
-      
+
       <aside className="fixed inset-y-0 left-0 z-50 w-64 bg-white border-r border-gray-200 shadow-sm transform transition-transform duration-200 ease-in-out lg:translate-x-0 lg:static lg:z-auto">
         <div className="flex flex-col h-full">
           {/* Logo and close button for mobile */}
@@ -100,11 +100,11 @@ export default function DeveloperSidebar({ isOpen, onCloseAction }: DeveloperSid
               </svg>
             </button>
           </div>
-          
+
           {/* Sidebar content */}
           <div className="flex-1 px-4 py-4 overflow-y-auto">
             <nav className="space-y-1">
-              {navItems.map((item) => (
+              {navItems.map((item: any) => (
                 <Link
                   key={item.name}
                   href={item.href}

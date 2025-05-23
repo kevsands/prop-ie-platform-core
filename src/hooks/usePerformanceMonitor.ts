@@ -55,21 +55,19 @@ export function usePerformanceMonitor({
   trackWebVitals = true,
   trackMemory = true,
   trackEventLoop = true,
-  onCollect,
-}: UsePerformanceMonitorOptions = {}) {
+  onCollect}: UsePerformanceMonitorOptions = {}) {
   // Store performance metrics history by category
-  const [metricsHistory, setMetricsHistory] = useState<Record<string, PerformanceMetric[]>>({
+  const [metricsHistorysetMetricsHistory] = useState<Record<string, PerformanceMetric[]>>({
     webVitals: [],
     memory: [],
     eventLoop: [],
-    componentRender: [],
-  });
+    componentRender: []});
 
   // Store current performance metrics
-  const [currentMetrics, setCurrentMetrics] = useState<Record<string, PerformanceMetric>>({});
+  const [currentMetricssetCurrentMetrics] = useState<Record<string, PerformanceMetric>>({});
 
   // Track metrics collection timestamp
-  const [lastCollectedAt, setLastCollectedAt] = useState<Date | null>(null);
+  const [lastCollectedAtsetLastCollectedAt] = useState<Date | null>(null);
 
   // Store event loop lag measurement variables
   const eventLoopCheckRef = useRef<{ timestamp: number }>({ timestamp: 0 });
@@ -96,8 +94,7 @@ export function usePerformanceMonitor({
             name: 'First Contentful Paint',
             value: fcp.startTime,
             unit: 'ms',
-            timestamp,
-          };
+            timestamp};
         }
 
         // Largest Contentful Paint - using Performance Observer in a real implementation
@@ -111,8 +108,7 @@ export function usePerformanceMonitor({
               name: 'Largest Contentful Paint',
               value: lastEntry.startTime,
               unit: 'ms',
-              timestamp,
-            };
+              timestamp};
           }
 
           // Check for CLS in the performance metrics cache
@@ -121,12 +117,11 @@ export function usePerformanceMonitor({
               name: 'Cumulative Layout Shift',
               value: metrics.cls,
               unit: '',
-              timestamp,
-            };
+              timestamp};
           }
         }
       } catch (e) {
-        console.error('Error collecting Web Vitals:', e);
+
       }
     }
 
@@ -139,17 +134,15 @@ export function usePerformanceMonitor({
           name: 'JS Heap Size',
           value: Math.round(memory.usedJSHeapSize / (1024 * 1024)), // MB
           unit: 'MB',
-          timestamp,
-        };
+          timestamp};
 
         newMetrics.jsHeapLimit = {
           name: 'JS Heap Limit',
           value: Math.round(memory.jsHeapSizeLimit / (1024 * 1024)), // MB
           unit: 'MB',
-          timestamp,
-        };
+          timestamp};
       } catch (e) {
-        console.error('Error collecting memory metrics:', e);
+
       }
     }
 
@@ -161,7 +154,7 @@ export function usePerformanceMonitor({
       const newHistory = { ...prev };
 
       // Add each metric to its category
-      Object.entries(newMetrics).forEach(([key, metric]) => {
+      Object.entries(newMetrics).forEach(([keymetric]) => {
         let category = 'other';
 
         // Determine the category
@@ -181,8 +174,7 @@ export function usePerformanceMonitor({
         // Add the metric to its category
         newHistory[category] = [
           ...newHistory[category],
-          metric,
-        ].slice(-maxDataPoints); // Keep only the most recent maxDataPoints
+          metric].slice(-maxDataPoints); // Keep only the most recent maxDataPoints
       });
 
       return newHistory;
@@ -201,8 +193,7 @@ export function usePerformanceMonitor({
     trackMemory,
     maxDataPoints,
     onCollect,
-    metricsHistory,
-  ]);
+    metricsHistory]);
 
   /**
    * Measure the event loop lag
@@ -216,7 +207,7 @@ export function usePerformanceMonitor({
     eventLoopCheckRef.current.timestamp = now;
 
     // Only record lag when it's meaningful (greater than 5ms)
-    if (lag > 5) {
+    if (lag> 5) {
       const timestamp = Date.now();
 
       // Update current metrics
@@ -226,9 +217,7 @@ export function usePerformanceMonitor({
           name: 'Event Loop Lag',
           value: Math.round(lag),
           unit: 'ms',
-          timestamp,
-        },
-      }));
+          timestamp}));
 
       // Update metrics history
       setMetricsHistory(prev => {
@@ -238,14 +227,11 @@ export function usePerformanceMonitor({
             name: 'Event Loop Lag',
             value: Math.round(lag),
             unit: 'ms',
-            timestamp,
-          },
-        ].slice(-maxDataPoints);
+            timestamp}].slice(-maxDataPoints);
 
         return {
           ...prev,
-          eventLoop: eventLoopMetrics,
-        };
+          eventLoop: eventLoopMetrics};
       });
     }
 
@@ -256,9 +242,9 @@ export function usePerformanceMonitor({
 
     timeoutIdRef.current = setTimeout(() => {
       eventLoopCheckRef.current.timestamp = performance.now();
-      timeoutIdRef.current = setTimeout(measureEventLoopLag, 0);
+      timeoutIdRef.current = setTimeout(measureEventLoopLag0);
     }, 100); // Check every 100ms
-  }, [trackEventLoop, enabled, maxDataPoints]);
+  }, [trackEventLoop, enabledmaxDataPoints]);
 
   // Set up automatic collection if enabled
   useEffect(() => {
@@ -270,11 +256,11 @@ export function usePerformanceMonitor({
     // Start event loop lag measurement if enabled
     if (trackEventLoop) {
       eventLoopCheckRef.current.timestamp = performance.now();
-      timeoutIdRef.current = setTimeout(measureEventLoopLag, 0);
+      timeoutIdRef.current = setTimeout(measureEventLoopLag0);
     }
 
     // Set up interval for metrics collection
-    const intervalId = setInterval(collectMetrics, collectionInterval);
+    const intervalId = setInterval(collectMetricscollectionInterval);
 
     // Cleanup on unmount
     return () => {
@@ -289,8 +275,7 @@ export function usePerformanceMonitor({
     collectMetrics,
     collectionInterval,
     trackEventLoop,
-    measureEventLoopLag,
-  ]);
+    measureEventLoopLag]);
 
   /**
    * Get the latest value for a specific metric
@@ -321,8 +306,7 @@ export function usePerformanceMonitor({
       webVitals: [],
       memory: [],
       eventLoop: [],
-      componentRender: [],
-    });
+      componentRender: []});
     setCurrentMetrics({});
     setLastCollectedAt(null);
   }, []);
@@ -362,8 +346,7 @@ export function usePerformanceMonitor({
     /**
      * Clear all collected metrics
      */
-    clearMetrics,
-  };
+    clearMetrics};
 }
 
 export default usePerformanceMonitor;

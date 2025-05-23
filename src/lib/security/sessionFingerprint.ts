@@ -103,17 +103,17 @@ class SessionFingerprintService {
       if (storedDevices) {
         this.trustedDevices = JSON.parse(storedDevices);
       }
-      
+
       // Load existing fingerprint if available
       const storedFingerprint = localStorage.getItem(FINGERPRINT_STORAGE_KEY);
       const storedTimestamp = localStorage.getItem(FINGERPRINT_TIMESTAMP_KEY);
-      
+
       if (storedFingerprint && storedTimestamp) {
-        const timestamp = parseInt(storedTimestamp, 10);
+        const timestamp = parseInt(storedTimestamp10);
         const now = Date.now();
-        
+
         // Check if fingerprint is still valid
-        if (now - timestamp < FINGERPRINT_EXPIRY) {
+        if (now - timestamp <FINGERPRINT_EXPIRY) {
           const fingerprintData = JSON.parse(storedFingerprint);
           this.currentFingerprint = fingerprintData;
         } else {
@@ -121,10 +121,10 @@ class SessionFingerprintService {
           this.clear();
         }
       }
-      
+
       this.isInitialized = true;
     } catch (error) {
-      console.error('Error initializing session fingerprint service:', error);
+
     }
   }
 
@@ -136,11 +136,11 @@ class SessionFingerprintService {
       if (!this.isInitialized) {
         await this.initialize();
       }
-      
+
       // Get client info and location
       const clientInfo = this.collectClientInfo();
       const location = await this.getGeoLocation();
-      
+
       // Get user ID if authenticated
       let userId: string | undefined;
       try {
@@ -149,7 +149,7 @@ class SessionFingerprintService {
       } catch (error) {
         // User not authenticated, continue without user ID
       }
-      
+
       // Create fingerprint hash
       const fingerprintData = {
         clientInfo,
@@ -157,10 +157,10 @@ class SessionFingerprintService {
         userId,
         timestamp: Date.now()
       };
-      
+
       const fingerprintString = JSON.stringify(fingerprintData);
       const fingerprint = SHA256(fingerprintString).toString();
-      
+
       // Store fingerprint data
       const fullFingerprintData: FingerprintData = {
         fingerprint,
@@ -169,18 +169,18 @@ class SessionFingerprintService {
         location,
         userId
       };
-      
+
       localStorage.setItem(FINGERPRINT_STORAGE_KEY, JSON.stringify(fullFingerprintData));
       localStorage.setItem(FINGERPRINT_TIMESTAMP_KEY, Date.now().toString());
-      
+
       this.currentFingerprint = fullFingerprintData;
-      
+
       // Update device profiles
       this.updateDeviceProfiles(fullFingerprintData);
-      
+
       return fingerprint;
     } catch (error) {
-      console.error('Error generating session fingerprint:', error);
+
       return null;
     }
   }
@@ -193,11 +193,11 @@ class SessionFingerprintService {
       if (!this.isInitialized) {
         this.initialize();
       }
-      
+
       // Check if fingerprint exists
       const storedFingerprint = localStorage.getItem(FINGERPRINT_STORAGE_KEY);
       const storedTimestamp = localStorage.getItem(FINGERPRINT_TIMESTAMP_KEY);
-      
+
       if (!storedFingerprint || !storedTimestamp) {
         return { 
           valid: false, 
@@ -206,12 +206,12 @@ class SessionFingerprintService {
           riskScore: 1.0
         };
       }
-      
+
       // Check fingerprint expiry
-      const timestamp = parseInt(storedTimestamp, 10);
+      const timestamp = parseInt(storedTimestamp10);
       const now = Date.now();
-      
-      if (now - timestamp > FINGERPRINT_EXPIRY) {
+
+      if (now - timestamp> FINGERPRINT_EXPIRY) {
         this.clear();
         return { 
           valid: false, 
@@ -220,22 +220,22 @@ class SessionFingerprintService {
           riskScore: 0.7
         };
       }
-      
+
       // Get current client info and stored fingerprint data
       const currentClientInfo = this.collectClientInfo();
       const storedFingerprintData: FingerprintData = JSON.parse(storedFingerprint);
-      
+
       // Compare fingerprints
       const similarityScore = this.calculateSimilarity(
         currentClientInfo, 
         storedFingerprintData.clientInfo
       );
-      
+
       // Validate location if available
       let locationChanged = false;
       let locationDistance = 0;
       let locationRiskScore = 0;
-      
+
       if (storedFingerprintData.location) {
         const currentLocation = this.getGeoLocationSync();
         if (currentLocation && storedFingerprintData.location) {
@@ -243,30 +243,30 @@ class SessionFingerprintService {
             currentLocation, 
             storedFingerprintData.location
           );
-          
+
           // Flag significant location changes (> 50km) as suspicious
-          locationChanged = locationDistance > 50;
+          locationChanged = locationDistance> 50;
           locationRiskScore = this.calculateLocationRiskScore(locationDistance);
         }
       }
-      
+
       // Calculate overall risk score
       const overallRiskScore = Math.max(
         1 - similarityScore, 
         locationRiskScore
       );
-      
+
       // Check if this is a trusted device
       const isTrustedDevice = this.isTrustedDevice(storedFingerprintData.fingerprint);
-      
+
       // Determine validation result
-      if (similarityScore >= ACCURACY_THRESHOLD && !locationChanged) {
+      if (similarityScore>= ACCURACY_THRESHOLD && !locationChanged) {
         // Valid session, no significant changes
         return { 
           valid: true,
           riskScore: overallRiskScore
         };
-      } else if (similarityScore >= 0.7 && !locationChanged) {
+      } else if (similarityScore>= 0.7 && !locationChanged) {
         // Minor changes detected, but still acceptable
         return { 
           valid: true,
@@ -278,7 +278,7 @@ class SessionFingerprintService {
         return { 
           valid: true,
           reason: 'Changes detected on trusted device',
-          requiresVerification: overallRiskScore > 0.5,
+          requiresVerification: overallRiskScore> 0.5,
           riskScore: overallRiskScore
         };
       } else if (locationChanged) {
@@ -299,7 +299,7 @@ class SessionFingerprintService {
         };
       }
     } catch (error) {
-      console.error('Error validating session fingerprint:', error);
+
       return { 
         valid: false, 
         reason: 'Error validating session fingerprint',
@@ -316,26 +316,26 @@ class SessionFingerprintService {
     if (this.currentFingerprint) {
       return this.currentFingerprint.fingerprint;
     }
-    
+
     try {
       // Check if fingerprint exists in storage
       const storedFingerprint = localStorage.getItem(FINGERPRINT_STORAGE_KEY);
       const storedTimestamp = localStorage.getItem(FINGERPRINT_TIMESTAMP_KEY);
-      
+
       if (storedFingerprint && storedTimestamp) {
-        const timestamp = parseInt(storedTimestamp, 10);
+        const timestamp = parseInt(storedTimestamp10);
         const now = Date.now();
-        
-        if (now - timestamp < FINGERPRINT_EXPIRY) {
+
+        if (now - timestamp <FINGERPRINT_EXPIRY) {
           const fingerprintData: FingerprintData = JSON.parse(storedFingerprint);
           this.currentFingerprint = fingerprintData;
           return fingerprintData.fingerprint;
         }
       }
-      
+
       return null;
     } catch (error) {
-      console.error('Error getting current fingerprint:', error);
+
       return null;
     }
   }
@@ -365,13 +365,13 @@ class SessionFingerprintService {
       if (!this.currentFingerprint) {
         return false;
       }
-      
+
       // Check if device is already trusted
       const existingIndex = this.trustedDevices.findIndex(
         d => d.fingerprint === this.currentFingerprint?.fingerprint
       );
-      
-      if (existingIndex >= 0) {
+
+      if (existingIndex>= 0) {
         // Update existing trusted device
         this.trustedDevices[existingIndex].lastSeen = Date.now();
         if (name) {
@@ -389,21 +389,21 @@ class SessionFingerprintService {
           lastSeen: Date.now(),
           riskScore: 0
         };
-        
+
         this.trustedDevices.push(newTrustedDevice);
       }
-      
+
       // Save trusted devices
       localStorage.setItem(TRUSTED_DEVICES_KEY, JSON.stringify(this.trustedDevices));
-      
+
       // Log the event
       if (AuditLogger) {
         AuditLogger.logAuth('device_trust', 'success', 'Device marked as trusted');
       }
-      
+
       return true;
     } catch (error) {
-      console.error('Error trusting device:', error);
+
       return false;
     }
   }
@@ -414,22 +414,22 @@ class SessionFingerprintService {
   untrustDevice(fingerprint: string): boolean {
     try {
       const deviceIndex = this.trustedDevices.findIndex(d => d.fingerprint === fingerprint);
-      
-      if (deviceIndex >= 0) {
-        this.trustedDevices.splice(deviceIndex, 1);
+
+      if (deviceIndex>= 0) {
+        this.trustedDevices.splice(deviceIndex1);
         localStorage.setItem(TRUSTED_DEVICES_KEY, JSON.stringify(this.trustedDevices));
-        
+
         // Log the event
         if (AuditLogger) {
           AuditLogger.logAuth('device_untrust', 'success', 'Device trust removed');
         }
-        
+
         return true;
       }
-      
+
       return false;
     } catch (error) {
-      console.error('Error untrusting device:', error);
+
       return false;
     }
   }
@@ -455,17 +455,17 @@ class SessionFingerprintService {
     const existingDeviceIndex = this.trustedDevices.findIndex(
       d => d.fingerprint === fingerprintData.fingerprint
     );
-    
-    if (existingDeviceIndex >= 0) {
+
+    if (existingDeviceIndex>= 0) {
       // Update existing device profile
       this.trustedDevices[existingDeviceIndex].lastSeen = Date.now();
-      
+
       // Update location if available
       if (fingerprintData.location) {
         this.trustedDevices[existingDeviceIndex].location = fingerprintData.location;
       }
     }
-    
+
     // Save trusted devices
     localStorage.setItem(TRUSTED_DEVICES_KEY, JSON.stringify(this.trustedDevices));
   }
@@ -476,7 +476,7 @@ class SessionFingerprintService {
   private collectClientInfo(): ClientInfo {
     const nav = window.navigator;
     const screen = window.screen;
-    
+
     // Collect basic client info
     const clientInfo: ClientInfo = {
       userAgent: nav.userAgent,
@@ -485,18 +485,17 @@ class SessionFingerprintService {
       screenResolution: `${screen.width}x${screen.height}`,
       timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
       platform: nav.platform,
-      hasTouch: 'ontouchstart' in window || navigator.maxTouchPoints > 0,
+      hasTouch: 'ontouchstart' in window || navigator.maxTouchPoints> 0,
       hasWebGL: this.hasWebGL(),
       hasStorage: !!window.localStorage,
       hasIndexDB: !!window.indexedDB,
-      cpuCores: nav.hardwareConcurrency || 1,
-    };
-    
+      cpuCores: nav.hardwareConcurrency || 1};
+
     // Add memory if available
     if ('deviceMemory' in nav) {
       clientInfo.deviceMemory = (nav as any).deviceMemory;
     }
-    
+
     // Add network info if available
     if ('connection' in nav) {
       const conn = (nav as any).connection;
@@ -505,7 +504,7 @@ class SessionFingerprintService {
         clientInfo.networkDownlink = conn.downlink;
       }
     }
-    
+
     return clientInfo;
   }
 
@@ -533,7 +532,7 @@ class SessionFingerprintService {
       }
       return undefined;
     } catch (error) {
-      console.warn('Error fetching geolocation:', error);
+
       return undefined;
     }
   }
@@ -546,7 +545,7 @@ class SessionFingerprintService {
     if (this.currentFingerprint?.location) {
       return this.currentFingerprint.location;
     }
-    
+
     // Return mock location for demonstration purposes
     return {
       ip: '192.168.1.1',
@@ -579,15 +578,15 @@ class SessionFingerprintService {
       hasStorage: 0.025,
       hasIndexDB: 0.025
     };
-    
+
     let totalScore = 0;
     let maxScore = 0;
-    
+
     // Compare string attributes
     for (const attr of ['userAgent', 'language', 'screenResolution', 'timezone', 'platform'] as const) {
       const weight = weights[attr];
       maxScore += weight;
-      
+
       if (current[attr] === stored[attr]) {
         totalScore += weight;
       } else if (attr === 'userAgent' && current[attr].includes(stored[attr])) {
@@ -595,46 +594,46 @@ class SessionFingerprintService {
         totalScore += weight * 0.7;
       }
     }
-    
+
     // Compare numeric attributes
     for (const attr of ['colorDepth', 'cpuCores'] as const) {
       const weight = weights[attr];
       maxScore += weight;
-      
+
       if (current[attr] === stored[attr]) {
         totalScore += weight;
       }
     }
-    
+
     // Compare boolean attributes
     for (const attr of ['hasTouch', 'hasWebGL', 'hasStorage', 'hasIndexDB'] as const) {
       const weight = weights[attr];
       maxScore += weight;
-      
+
       if (current[attr] === stored[attr]) {
         totalScore += weight;
       }
     }
-    
+
     // Handle optional attributes
     if ('deviceMemory' in current && 'deviceMemory' in stored) {
       const weight = 0.05;
       maxScore += weight;
-      
+
       if (current.deviceMemory === stored.deviceMemory) {
         totalScore += weight;
       }
     }
-    
+
     if ('networkType' in current && 'networkType' in stored) {
       const weight = 0.05;
       maxScore += weight;
-      
+
       if (current.networkType === stored.networkType) {
         totalScore += weight;
       }
     }
-    
+
     return totalScore / maxScore;
   }
 
@@ -645,15 +644,15 @@ class SessionFingerprintService {
     const R = 6371; // Earth's radius in km
     const dLat = this.deg2rad(loc2.latitude - loc1.latitude);
     const dLon = this.deg2rad(loc2.longitude - loc1.longitude);
-    
+
     const a = 
       Math.sin(dLat/2) * Math.sin(dLat/2) +
       Math.cos(this.deg2rad(loc1.latitude)) * Math.cos(this.deg2rad(loc2.latitude)) * 
       Math.sin(dLon/2) * Math.sin(dLon/2);
-    
+
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
     const distance = R * c;
-    
+
     return distance;
   }
 
@@ -670,19 +669,19 @@ class SessionFingerprintService {
   private calculateLocationRiskScore(distance: number): number {
     // No distance = no risk
     if (distance === 0) return 0;
-    
-    // Local movement (< 5km) = very low risk
-    if (distance < 5) return 0.1;
-    
+
+    // Local movement (<5km) = very low risk
+    if (distance <5) return 0.1;
+
     // Near location (5-50km) = low risk
-    if (distance < 50) return 0.3;
-    
+    if (distance <50) return 0.3;
+
     // Regional change (50-300km) = medium risk
-    if (distance < 300) return 0.6;
-    
+    if (distance <300) return 0.6;
+
     // Long distance (300-1000km) = high risk
-    if (distance < 1000) return 0.8;
-    
+    if (distance <1000) return 0.8;
+
     // Very long distance (>1000km) = very high risk
     return 0.95;
   }

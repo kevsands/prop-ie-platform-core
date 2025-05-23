@@ -256,7 +256,7 @@ export interface DashboardWidget {
     x: number;
     y: number;
   };
-  settings?: Record<string, any>;
+  settings?: Record<string, any>\n  );
 }
 
 // Dashboard layout settings
@@ -264,7 +264,7 @@ export interface DashboardLayout {
   widgets: string[]; // Array of widget IDs
   layout: 'grid' | 'list' | 'custom';
   columns?: number;
-  customPositions?: Record<string, { x: number; y: number; w: number; h: number }>;
+  customPositions?: Record<string, { x: number; y: number; w: number; h: number }>\n  );
 }
 
 // User dashboard preferences

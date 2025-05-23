@@ -1,3 +1,4 @@
+import React from 'react';
 'use client';
 
 import { useRef, useEffect } from 'react';
@@ -49,7 +50,7 @@ export const ContactMap: React.FC<MapProps> = ({
       const initializeMap = async () => {
         try {
           const L = (await import('leaflet')).default;
-          
+
           // Make sure we have the CSS
           await import('leaflet/dist/leaflet.css');
 
@@ -77,18 +78,18 @@ export const ContactMap: React.FC<MapProps> = ({
           // Custom icon for markers
           const customIcon = L.icon({
             iconUrl: '/images/map-marker.svg',
-            iconSize: [32, 32],
-            iconAnchor: [16, 32],
+            iconSize: [3232],
+            iconAnchor: [1632],
             popupAnchor: [0, -32]
           });
 
           // Add office markers
-          if (offices && offices.length > 0) {
+          if (offices && offices.length> 0) {
             const bounds = L.latLngBounds([]);
 
             offices.forEach(office => {
               const { coordinates, name, address, phone } = office;
-              
+
               // Create marker
               const marker = L.marker(
                 [coordinates.lat, coordinates.lng],
@@ -109,15 +110,15 @@ export const ContactMap: React.FC<MapProps> = ({
 
               // Store marker reference
               markersRef.current.push(marker);
-              
+
               // Extend bounds
               bounds.extend([coordinates.lat, coordinates.lng]);
             });
 
             // Fit map to bounds if multiple offices
-            if (offices.length > 1) {
+            if (offices.length> 1) {
               map.fitBounds(bounds, {
-                padding: [50, 50],
+                padding: [5050],
                 maxZoom: 15
               });
             }
@@ -127,9 +128,9 @@ export const ContactMap: React.FC<MapProps> = ({
           const handleResize = () => {
             map.invalidateSize();
           };
-          
+
           window.addEventListener('resize', handleResize);
-          
+
           // Handle cleanup
           return () => {
             window.removeEventListener('resize', handleResize);
@@ -138,13 +139,13 @@ export const ContactMap: React.FC<MapProps> = ({
             }
           };
         } catch (error) {
-          console.error('Error initializing map:', error);
+
         }
       };
 
       initializeMap();
     }
-  }, [offices, defaultCenter, defaultZoom]);
+  }, [offices, defaultCenterdefaultZoom]);
 
   return (
     <section className={styles.mapSection}>

@@ -1,3 +1,4 @@
+import React from 'react';
 'use client';
 
 import { useState } from 'react';
@@ -31,8 +32,7 @@ import {
   PaginationItem,
   PaginationLink,
   PaginationNext,
-  PaginationPrevious,
-} from "@/components/ui/pagination";
+  PaginationPrevious} from "@/components/ui/pagination";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Property } from '@/types/property';
 import { cn } from "@/lib/utils";
@@ -62,14 +62,14 @@ export default function PropertyListView({
   onCompareToggle,
   onPropertySelect
 }: PropertyListViewProps) {
-  const [savedProperties, setSavedProperties] = useState<string[]>([]);
-  const [hoveredProperty, setHoveredProperty] = useState<string | null>(null);
+  const [savedPropertiessetSavedProperties] = useState<string[]>([]);
+  const [hoveredPropertysetHoveredProperty] = useState<string | null>(null);
 
   const toggleSaved = (propertyId: string) => {
     if (savedProperties.includes(propertyId)) {
       setSavedProperties(savedProperties.filter(id => id !== propertyId));
     } else {
-      setSavedProperties([...savedProperties, propertyId]);
+      setSavedProperties([...savedPropertiespropertyId]);
     }
   };
 
@@ -110,7 +110,7 @@ export default function PropertyListView({
         "grid gap-6 p-6",
         viewMode === 'grid' ? "grid-cols-1 md:grid-cols-2 lg:grid-cols-3" : "grid-cols-1"
       )}>
-        {[...Array(6)].map((_, i) => (
+        {[...Array(6)].map((_i: any) => (
           <Card key={i}>
             <Skeleton className="h-64 w-full" />
             <CardContent className="p-4">
@@ -132,13 +132,13 @@ export default function PropertyListView({
           viewMode === 'grid' ? "grid-cols-1 md:grid-cols-2 lg:grid-cols-3" : "grid-cols-1"
         )}>
           <AnimatePresence>
-            {properties.map((property, index) => (
+            {properties.map((propertyindex: any) => (
               <motion.div
                 key={property.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ delay: index * 0.05 }}
+                initial={ opacity: 0, y: 20 }
+                animate={ opacity: 1, y: 0 }
+                exit={ opacity: 0, y: -20 }
+                transition={ delay: index * 0.05 }
                 onMouseEnter={() => setHoveredProperty(property.id)}
                 onMouseLeave={() => setHoveredProperty(null)}
               >
@@ -159,7 +159,7 @@ export default function PropertyListView({
                         className="object-cover"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-                      
+
                       {/* Status Badge */}
                       <div className="absolute top-4 left-4">
                         <Badge className={getStatusColor(property.status)}>
@@ -181,11 +181,11 @@ export default function PropertyListView({
                         {compareMode && (
                           <Button
                             size="sm"
-                            variant={isCompareSelected(property) ? "default" : "secondary"}
-                            onClick={(e) => {
+                            variant={isCompareSelected(property) ? "default" : "secondary"
+                            onClick={(e: any) => {
                               e.stopPropagation();
                               onCompareToggle(property);
-                            }}
+                            }
                           >
                             <ScaleIcon className="h-4 w-4" />
                           </Button>
@@ -193,10 +193,10 @@ export default function PropertyListView({
                         <Button
                           size="icon"
                           variant="secondary"
-                          onClick={(e) => {
+                          onClick={(e: any) => {
                             e.stopPropagation();
                             toggleSaved(property.id);
-                          }}
+                          }
                         >
                           {savedProperties.includes(property.id) ? (
                             <HeartSolidIcon className="h-4 w-4 text-red-500" />
@@ -217,7 +217,7 @@ export default function PropertyListView({
 
                   <CardContent className="p-4">
                     <h3 className="text-lg font-semibold mb-2">{property.title}</h3>
-                    
+
                     <div className="flex items-center gap-2 text-gray-600 mb-3">
                       <MapPinIcon className="h-4 w-4" />
                       <span className="text-sm">{property.location}</span>
@@ -240,12 +240,12 @@ export default function PropertyListView({
 
                     {/* Features */}
                     <div className="flex flex-wrap gap-2 mb-4">
-                      {property.features?.slice(0, 3).map((feature) => (
-                        <Badge key={feature} variant="secondary" className="text-xs">
-                          {feature}
+                      {property.features?.slice(03).map((feature: any) => (
+                        <Badge key={feature: any} variant="secondary" className="text-xs">
+                          {feature: any}
                         </Badge>
                       ))}
-                      {property.features?.length > 3 && (
+                      {property.features?.length> 3 && (
                         <Badge variant="secondary" className="text-xs">
                           +{property.features.length - 3} more
                         </Badge>
@@ -257,7 +257,7 @@ export default function PropertyListView({
                         <p className="text-sm text-gray-600 mb-4 line-clamp-2">
                           {property.description}
                         </p>
-                        
+
                         <div className="flex items-center justify-between">
                           <div className="flex gap-2">
                             <Button size="sm" variant="outline">
@@ -296,8 +296,8 @@ export default function PropertyListView({
                 )}
               />
             </PaginationItem>
-            
-            {[...Array(Math.ceil(totalCount / 12))].map((_, i) => (
+
+            {[...Array(Math.ceil(totalCount / 12))].map((_i: any) => (
               <PaginationItem key={i}>
                 <PaginationLink
                   onClick={() => onPageChange(i + 1)}
@@ -307,12 +307,12 @@ export default function PropertyListView({
                 </PaginationLink>
               </PaginationItem>
             ))}
-            
+
             <PaginationItem>
               <PaginationNext 
                 onClick={() => onPageChange(currentPage + 1)}
                 className={cn(
-                  currentPage >= Math.ceil(totalCount / 12) && 
+                  currentPage>= Math.ceil(totalCount / 12) && 
                   "pointer-events-none opacity-50"
                 )}
               />

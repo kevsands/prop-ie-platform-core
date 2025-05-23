@@ -1,0 +1,231 @@
+import { NextRequest, NextResponse } from 'next/server';
+import { gzip, brotliCompress } from 'zlib';
+import { promisify } from 'util';
+
+const gzipAsync = promisify(gzip);
+const brotliAsync = promisify(brotliCompress);
+
+/**
+ * Compression middleware for API responses
+ */
+export async function compressionMiddleware(
+  request: NextRequest,
+  handler: () => Promise<Response>
+): Promise<Response> {
+  const acceptEncoding = request.headers.get('accept-encoding') || '';
+  const response = await handler();
+  
+  // Skip compression for small responses or non-text content
+  const contentType = response.headers.get('content-type') || '';
+  const contentLength = response.headers.get('content-length');
+  
+  if (
+    !contentType.includes('application/json') &&
+    !contentType.includes('text/') &&
+    !contentType.includes('application/javascript')
+  ) {
+    return response;
+  }
+  
+  if (contentLength && parseInt(contentLength) < 1024) {
+    return response;
+  }
+  
+  // Get response body
+  const originalBody = await response.text();
+  
+  // Choose compression algorithm
+  let compressedBody: Buffer;
+  let encoding: string;
+  
+  if (acceptEncoding.includes('br')) {
+    compressedBody = await brotliAsync(originalBody);
+    encoding = 'br';
+  } else if (acceptEncoding.includes('gzip')) {
+    compressedBody = await gzipAsync(originalBody);
+    encoding = 'gzip';
+  } else {
+    // No compression supported
+    return response;
+  }
+  
+  // Create new response with compressed body
+  const compressedResponse = new NextResponse(compressedBody, {
+    status: response.status,
+    statusText: response.statusText,
+    headers: new Headers(response.headers)});
+  
+  // Update headers
+  compressedResponse.headers.set('content-encoding', encoding);
+  compressedResponse.headers.set('content-length', String(compressedBody.length));
+  compressedResponse.headers.delete('content-length'); // Let the browser handle it
+  compressedResponse.headers.set('vary', 'accept-encoding');
+  
+  return compressedResponse;
+}
+
+/**
+ * Compress JSON data
+ */
+export async function compressJSON(data: any): Promise<{
+  compressed: Buffer;
+  original: number;
+  compressed: number;
+  ratio: number;
+}> {
+  const json = JSON.stringify(data);
+  const original = Buffer.byteLength(json);
+  const compressed = await gzipAsync(json);
+  
+  return {
+    compressed,
+    original,
+    compressed: compressed.length,
+    ratio: compressed.length / original};
+}
+
+/**
+ * Streaming compression for large responses
+ */
+export function createCompressionStream(
+  encoding: 'gzip' | 'br' = 'gzip'
+): TransformStream {
+  if (typeof CompressionStream !== 'undefined') {
+    return new CompressionStream(encoding);
+  }
+  
+  // Fallback for environments without CompressionStream
+  throw new Error('CompressionStream not supported');
+}
+
+/**
+ * Compress static assets middleware
+ */
+export function compressStaticAssets(
+  contentType: string,
+  content: Buffer
+): { compressed: Buffer; encoding: string } | null {
+  // List of compressible content types
+  const compressibleTypes = [
+    'text/html',
+    'text/css',
+    'text/javascript',
+    'application/javascript',
+    'application/json',
+    'image/svg+xml',
+    'application/xml',
+    'text/xml'];
+  
+  if (!compressibleTypes.some(type => contentType.includes(type))) {
+    return null;
+  }
+  
+  // Use gzip for static assets
+  const compressed = gzipAsync(content);
+  
+  return {
+    compressed: compressed as any,
+    encoding: 'gzip'};
+}
+
+/**
+ * Optimize API payload size
+ */
+export function optimizePayload(data: any): any {
+  // Remove null and undefined values
+  const cleaned = JSON.parse(
+    JSON.stringify(data, (key, value) => {
+      if (value === null || value === undefined) {
+        return undefined;
+      }
+      // Remove empty arrays and objects
+      if (Array.isArray(value) && value.length === 0) {
+        return undefined;
+      }
+      if (typeof value === 'object' && Object.keys(value).length === 0) {
+        return undefined;
+      }
+      return value;
+    })
+  );
+  
+  return cleaned;
+}
+
+/**
+ * Batch API responses
+ */
+export class ResponseBatcher {
+  private batch: Map<string, Promise<any>> = new Map();
+  private timeout: NodeJS.Timeout | null = null;
+  private readonly delay: number;
+  
+  constructor(delay: number = 50) {
+    this.delay = delay;
+  }
+  
+  async add<T>(key: string, fetcher: () => Promise<T>): Promise<T> {
+    // Check if request already in batch
+    if (this.batch.has(key)) {
+      return this.batch.get(key) as Promise<T>;
+    }
+    
+    // Add to batch
+    const promise = fetcher();
+    this.batch.set(key, promise);
+    
+    // Schedule batch processing
+    if (!this.timeout) {
+      this.timeout = setTimeout(() => this.processBatch(), this.delay);
+    }
+    
+    // Clean up after completion
+    promise.finally(() => {
+      this.batch.delete(key);
+    });
+    
+    return promise;
+  }
+  
+  private processBatch(): void {
+    this.timeout = null;
+    // Batch is already being processed via individual promises
+  }
+}
+
+/**
+ * CDN cache headers
+ */
+export function setCDNHeaders(response: NextResponse, options: {
+  maxAge?: number;
+  sMaxAge?: number;
+  staleWhileRevalidate?: number;
+  staleIfError?: number;
+  private?: boolean;
+  immutable?: boolean;
+} = {}): void {
+  const {
+    maxAge = 300, // 5 minutes
+    sMaxAge = 86400, // 24 hours
+    staleWhileRevalidate = 86400, // 24 hours
+    staleIfError = 604800, // 7 days
+    private: isPrivate = false,
+    immutable = false} = options;
+  
+  const directives = [
+    isPrivate ? 'private' : 'public',
+    `max-age=${maxAge}`,
+    `s-maxage=${sMaxAge}`,
+    `stale-while-revalidate=${staleWhileRevalidate}`,
+    `stale-if-error=${staleIfError}`];
+  
+  if (immutable) {
+    directives.push('immutable');
+  }
+  
+  response.headers.set('cache-control', directives.join(', '));
+  
+  // Add CDN-specific headers
+  response.headers.set('cdn-cache-control', `max-age=${sMaxAge}`);
+  response.headers.set('surrogate-control', `max-age=${sMaxAge}`);
+}

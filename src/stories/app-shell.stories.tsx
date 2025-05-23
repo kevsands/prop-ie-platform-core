@@ -27,18 +27,14 @@ const meta: Meta<typeof AppShell> = {
   title: 'Layout/AppShell',
   component: AppShell,
   parameters: {
-    layout: 'fullscreen',
-  },
-  tags: ['autodocs'],
-};
+    layout: 'fullscreen'},
+  tags: ['autodocs']};
 
 export default meta;
-type Story = StoryObj<typeof AppShell>;
-
+type Story = StoryObj<typeof AppShell>\n  );
 // Sample metrics data
-const metricTrendData = Array.from({ length: 7 }, (_, i) => ({
-  value: 10 + Math.random() * 50,
-}));
+const metricTrendData = Array.from({ length: 7 }, (_i: any) => ({
+  value: 10 + Math.random() * 50}));
 
 // Sample chart data
 const barChartData = [
@@ -47,8 +43,7 @@ const barChartData = [
   { name: 'Mar', revenue: 18000, expenses: 12000, profit: 6000 },
   { name: 'Apr', revenue: 21000, expenses: 13000, profit: 8000 },
   { name: 'May', revenue: 23000, expenses: 14000, profit: 9000 },
-  { name: 'Jun', revenue: 26000, expenses: 16000, profit: 10000 },
-];
+  { name: 'Jun', revenue: 26000, expenses: 16000, profit: 10000 }];
 
 // Custom header with search
 const CustomHeader = () => (
@@ -170,8 +165,7 @@ export const Default: Story = {
         </div>
       </div>
     </AppShell>
-  ),
-};
+  )};
 
 // Enhanced dashboard with advanced UI components
 export const EnhancedDashboard: Story = {
@@ -253,11 +247,10 @@ export const EnhancedDashboard: Story = {
                   series={[
                     { dataKey: 'revenue', name: 'Revenue' },
                     { dataKey: 'expenses', name: 'Expenses' },
-                    { dataKey: 'profit', name: 'Profit' },
-                  ]}
+                    { dataKey: 'profit', name: 'Profit' }]}
                   xAxisKey="name"
                   height={300}
-                  formatYAxis={(value) => `€${value / 1000}k`}
+                  formatYAxis={(value: any) => `€${value / 1000}k`}
                 />
               </CardContent>
             </Card>
@@ -309,7 +302,7 @@ export const EnhancedDashboard: Story = {
               </CardHeader>
               <CardContent className="max-h-80 overflow-auto">
                 <div className="space-y-4">
-                  {Array.from({ length: 6 }).map((_, i) => (
+                  {Array.from({ length: 6 }).map((_i: any) => (
                     <div key={i} className="flex gap-4 border-b pb-4 last:border-0">
                       <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary/10">
                         {[<Home />, <Users />, <FileText />, <MessageSquare />][i % 4]}
@@ -352,14 +345,14 @@ export const EnhancedDashboard: Story = {
               </CardHeader>
               <CardContent className="max-h-80 overflow-auto">
                 <div className="space-y-4">
-                  {Array.from({ length: 4 }).map((_, i) => (
+                  {Array.from({ length: 4 }).map((_i: any) => (
                     <div key={i} className="flex gap-4 border-b pb-4 last:border-0">
                       <div className="grid gap-1 text-center">
                         <p className="text-xs text-muted-foreground">
                           {["Mon", "Tue", "Wed", "Thu"][i]}
                         </p>
                         <div className="flex h-10 w-10 items-center justify-center rounded-md border">
-                          <p className="text-base tabular-nums">{[12, 13, 14, 15][i]}</p>
+                          <p className="text-base tabular-nums">{[12, 13, 1415][i]}</p>
                         </div>
                       </div>
                       <div className="grid gap-1">
@@ -389,8 +382,7 @@ export const EnhancedDashboard: Story = {
         </div>
       </div>
     </AppShell>
-  ),
-};
+  )};
 
 // Mobile and responsive variants
 export const MobileVariant: Story = {
@@ -418,7 +410,7 @@ export const MobileVariant: Story = {
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
-                {Array.from({ length: 3 }).map((_, i) => (
+                {Array.from({ length: 3 }).map((_i: any) => (
                   <div key={i} className="flex gap-4 border-b pb-4 last:border-0">
                     <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary/10">
                       {[<Home />, <Users />, <FileText />][i]}
@@ -443,8 +435,7 @@ export const MobileVariant: Story = {
         </div>
       </div>
     </AppShell>
-  ),
-};
+  )};
 
 // Without sidebar
 export const WithoutSidebar: Story = {
@@ -487,8 +478,7 @@ export const WithoutSidebar: Story = {
         </div>
       </div>
     </AppShell>
-  ),
-};
+  )};
 
 // Compact layout with collapsed sidebar
 export const CompactLayout: Story = {
@@ -534,5 +524,4 @@ export const CompactLayout: Story = {
         </div>
       </div>
     </AppShell>
-  ),
-};
+  )};

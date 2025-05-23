@@ -1,3 +1,4 @@
+import React from 'react';
 "use client";
 
 import * as React from "react";
@@ -44,44 +45,37 @@ export function ProgressWidget({
   target,
   showTargetIndicator = false,
   onClick,
-  onStatusClick,
-}: ProgressWidgetProps) {
+  onStatusClick}: ProgressWidgetProps) {
   // Calculate percentage
   const percentage = Math.min(Math.max(0, (value / maxValue) * 100), 100);
-  
+
   // Status badge configuration
   const statusConfig = {
     inProgress: { label: "In Progress", color: "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300" },
     completed: { label: "Completed", color: "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300" },
     overdue: { label: "Overdue", color: "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300" },
-    blocked: { label: "Blocked", color: "bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-300" },
-  };
-  
+    blocked: { label: "Blocked", color: "bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-300" };
+
   // Progress bar color
   const progressColorClassMap = {
     default: "bg-primary",
     success: "bg-green-600 dark:bg-green-500",
     warning: "bg-amber-500",
     danger: "bg-red-600",
-    info: "bg-blue-500",
-  };
-  
+    info: "bg-blue-500";
+
   // Adjust size
   const sizeClasses = {
     sm: {
       progressHeight: "h-1.5",
       paddingY: "py-3",
-    },
     md: {
       progressHeight: "h-2",
       paddingY: "py-4",
-    },
     lg: {
       progressHeight: "h-3",
-      paddingY: "py-6",
-    },
-  };
-  
+      paddingY: "py-6"};
+
   return (
     <Card 
       className={cn(
@@ -108,10 +102,10 @@ export function ProgressWidget({
                 "rounded-sm font-normal text-xs", 
                 statusConfig[status].color
               )}
-              onClick={(e) => {
+              onClick={(e: any) => {
                 e.stopPropagation();
                 onStatusClick?.(status);
-              }}
+              }
             >
               {statusConfig[status].label}
             </Badge>
@@ -127,8 +121,7 @@ export function ProgressWidget({
         {loading ? (
           <>
             <Skeleton className="h-2 w-full mb-2" />
-            <Skeleton className="h-4 w-16" />
-          </>
+            <Skeleton className="h-4 w-16" / />
         ) : (
           <>
             <div className="relative">
@@ -136,18 +129,18 @@ export function ProgressWidget({
                 value={percentage} 
                 className={cn("w-full", sizeClasses[size].progressHeight)}
               />
-              
+
               {showTargetIndicator && target !== undefined && (
                 <div 
                   className="absolute top-0 w-px h-4 bg-black dark:bg-white"
-                  style={{ 
+                  style={ 
                     left: `${Math.min(Math.max(0, (target / maxValue) * 100), 100)}%`,
                     transform: 'translateX(-50%)'
-                  }}
+                  }
                 />
               )}
             </div>
-            
+
             <div className="flex justify-between items-center mt-2">
               <div className="text-sm font-medium">
                 {primaryLabel || `${value} / ${maxValue}`}

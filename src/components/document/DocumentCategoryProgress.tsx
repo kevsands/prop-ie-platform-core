@@ -1,10 +1,10 @@
+import React from 'react';
 'use client';
 
 import { useState } from 'react';
 import {
   Card,
-  CardContent,
-} from '@/components/ui/card';
+  CardContent} from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { 
@@ -41,17 +41,17 @@ export default function DocumentCategoryProgress({
 }: DocumentCategoryProgressProps) {
   // Format category name for display
   const categoryDisplay = category.charAt(0) + category.slice(1).toLowerCase();
-  
+
   // Calculate progress percentage
-  const progressPercentage = stats.total > 0 
+  const progressPercentage = stats.total> 0 
     ? Math.round((stats.approved / stats.total) * 100) 
     : 0;
 
   // Status breakdown percentages
-  const approvedPercentage = stats.total > 0 ? (stats.approved / stats.total) * 100 : 0;
-  const pendingPercentage = stats.total > 0 ? (stats.pending / stats.total) * 100 : 0;
-  const draftPercentage = stats.total > 0 ? (stats.draft / stats.total) * 100 : 0;
-  const missingPercentage = stats.total > 0 ? (stats.missing / stats.total) * 100 : 0;
+  const approvedPercentage = stats.total> 0 ? (stats.approved / stats.total) * 100 : 0;
+  const pendingPercentage = stats.total> 0 ? (stats.pending / stats.total) * 100 : 0;
+  const draftPercentage = stats.total> 0 ? (stats.draft / stats.total) * 100 : 0;
+  const missingPercentage = stats.total> 0 ? (stats.missing / stats.total) * 100 : 0;
 
   return (
     <Card 
@@ -65,35 +65,34 @@ export default function DocumentCategoryProgress({
       <CardContent className="p-4">
         <div className="flex justify-between items-start mb-2">
           <h3 className="font-medium">{categoryDisplay}</h3>
-          <Badge variant={progressPercentage === 100 ? "default" : "outline"}>
+          <Badge variant={progressPercentage === 100 ? "default" : "outline">
             {stats.approved}/{stats.total}
           </Badge>
         </div>
-        
+
         {/* Color-segmented progress bar */}
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>
               <div className="h-2 w-full bg-muted rounded-full mb-2 overflow-hidden flex">
-                {stats.total > 0 && (
+                {stats.total> 0 && (
                   <>
                     <div 
                       className="h-full bg-green-500" 
-                      style={{ width: `${approvedPercentage}%` }}
+                      style={ width: `${approvedPercentage}%` }
                     />
                     <div 
                       className="h-full bg-amber-500" 
-                      style={{ width: `${pendingPercentage}%` }}
+                      style={ width: `${pendingPercentage}%` }
                     />
                     <div 
                       className="h-full bg-blue-500" 
-                      style={{ width: `${draftPercentage}%` }}
+                      style={ width: `${draftPercentage}%` }
                     />
                     <div 
                       className="h-full bg-red-500" 
-                      style={{ width: `${missingPercentage}%` }}
-                    />
-                  </>
+                      style={ width: `${missingPercentage}%` }
+                    / />
                 )}
               </div>
             </TooltipTrigger>

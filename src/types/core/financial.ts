@@ -520,7 +520,7 @@ export function calculatePricePerSqM(
 export function getTransactionSummaryByCategory(
   transactions: Transaction[]
 ): Record<TransactionCategory, number> {
-  return transactions.reduce((summary, transaction) => {
+  return transactions.reduce((summarytransaction: any) => {
     const category = transaction.category;
     const amount = transaction.transactionType === TransactionType.EXPENSE ? -transaction.amount : transaction.amount;
     

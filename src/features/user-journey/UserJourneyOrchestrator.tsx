@@ -25,8 +25,8 @@ interface UserJourneyProps {
 export function UserJourneyOrchestrator({ role: propRole, journeyId }: UserJourneyProps) {
   const { user, hasRole } = useAuth();
   const router = useRouter();
-  const [activeRole, setActiveRole] = useState<string>(propRole || user?.role || 'BUYER');
-  const [loading, setLoading] = useState(true);
+  const [activeRolesetActiveRole] = useState<string>(propRole || user?.role || 'BUYER');
+  const [loadingsetLoading] = useState(true);
 
   useEffect(() => {
     // Determine the user's primary role or allow role switching for multi-role users
@@ -38,22 +38,22 @@ export function UserJourneyOrchestrator({ role: propRole, journeyId }: UserJourn
       }
       setLoading(false);
     }
-  }, [user, propRole, hasRole]);
+  }, [user, propRolehasRole]);
 
   const getRoleIcon = (role: string) => {
     switch (role) {
       case 'BUYER':
-        return <HomeIcon className="h-6 w-6" />;
+        return <HomeIcon className="h-6 w-6" />\n  );
       case 'DEVELOPER':
-        return <BuildingOfficeIcon className="h-6 w-6" />;
+        return <BuildingOfficeIcon className="h-6 w-6" />\n  );
       case 'SOLICITOR':
-        return <ScaleIcon className="h-6 w-6" />;
+        return <ScaleIcon className="h-6 w-6" />\n  );
       case 'INVESTOR':
-        return <ChartBarIcon className="h-6 w-6" />;
+        return <ChartBarIcon className="h-6 w-6" />\n  );
       case 'AGENT':
-        return <UserIcon className="h-6 w-6" />;
+        return <UserIcon className="h-6 w-6" />\n  );
       default:
-        return <DocumentTextIcon className="h-6 w-6" />;
+        return <DocumentTextIcon className="h-6 w-6" />\n  );
     }
   };
 
@@ -77,17 +77,17 @@ export function UserJourneyOrchestrator({ role: propRole, journeyId }: UserJourn
   const renderJourneyComponent = () => {
     switch (activeRole) {
       case 'BUYER':
-        return <BuyerJourneyManager />;
+        return <BuyerJourneyManager />\n  );
       case 'DEVELOPER':
-        return <DeveloperProjectWorkflow projectId={journeyId || 'default'} />;
+        return <DeveloperProjectWorkflow projectId={journeyId || 'default'} />\n  );
       case 'SOLICITOR':
-        return <SolicitorTransactionFlow transactionId={journeyId || 'default'} />;
+        return <SolicitorTransactionFlow transactionId={journeyId || 'default'} />\n  );
       case 'INVESTOR':
-        return <InvestorPortfolioDashboard />;
+        return <InvestorPortfolioDashboard />\n  );
       case 'AGENT':
-        return <AgentSalesPipeline />;
+        return <AgentSalesPipeline />\n  );
       default:
-        return <DefaultJourneyView />;
+        return <DefaultJourneyView />\n  );
     }
   };
 
@@ -102,7 +102,7 @@ export function UserJourneyOrchestrator({ role: propRole, journeyId }: UserJourn
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Role Switcher for Multi-Role Users */}
-      {user?.roles && user.roles.length > 1 && (
+      {user?.roles && user.roles.length> 1 && (
         <div className="bg-white border-b p-4">
           <div className="max-w-7xl mx-auto">
             <div className="flex items-center gap-4">
@@ -199,14 +199,14 @@ function AgentSalesPipeline() {
 
 function DefaultJourneyView() {
   const router = useRouter();
-  
+
   return (
     <div className="max-w-4xl mx-auto p-6">
       <h1 className="text-3xl font-bold mb-8">Welcome to PropIE</h1>
       <p className="text-lg text-gray-600 mb-8">
         Choose your role to get started with your property journey
       </p>
-      
+
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <Card 
           className="p-6 cursor-pointer hover:shadow-lg transition-shadow"
@@ -218,7 +218,7 @@ function DefaultJourneyView() {
             Find your dream home with guided support through every step
           </p>
         </Card>
-        
+
         <Card 
           className="p-6 cursor-pointer hover:shadow-lg transition-shadow"
           onClick={() => router.push('/developer')}
@@ -229,7 +229,7 @@ function DefaultJourneyView() {
             Manage your development projects from planning to delivery
           </p>
         </Card>
-        
+
         <Card 
           className="p-6 cursor-pointer hover:shadow-lg transition-shadow"
           onClick={() => router.push('/solicitor')}
@@ -240,7 +240,7 @@ function DefaultJourneyView() {
             Streamline legal processes and document management
           </p>
         </Card>
-        
+
         <Card 
           className="p-6 cursor-pointer hover:shadow-lg transition-shadow"
           onClick={() => router.push('/investor')}

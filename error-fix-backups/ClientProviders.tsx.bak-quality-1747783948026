@@ -1,0 +1,145 @@
+'use client';
+
+import React, { ReactNode } from 'react';
+import { QueryClient, QueryClientProvider as ReactQueryClientProvider } from '@tanstack/react-query';
+import { SessionProvider } from 'next-auth/react';
+import AmplifyProvider from '@/components/AmplifyProvider';
+import { AuthProvider } from '@/context/AuthContext';
+import { CustomizationProvider } from '@/context/CustomizationContext';
+import { BuyerJourneyProvider } from '@/context/BuyerJourneyContext';
+import { NotificationProvider } from '@/context/NotificationContext';
+import { TransactionProvider } from '@/context/TransactionContext';
+import { DashboardPreferenceProvider } from '@/context/DashboardPreferenceContext';
+import { UserRoleProvider } from '@/context/UserRoleContext';
+
+interface ClientProvidersProps {
+  children: ReactNode;
+  includeQuery?: boolean;
+  includeAuth?: boolean;
+  includeCustomization?: boolean;
+  includeBuyerJourney?: boolean;
+  includeNotification?: boolean;
+  includeTransaction?: boolean;
+  includeDashboard?: boolean;
+  includeUserRole?: boolean;
+  includeAll?: boolean;
+  showDevtools?: boolean;
+}
+
+const queryClient = new QueryClient({ defaultOptions: { queries: {
+      staleTime: 60 * 1000,
+      retry: false, // Disable retries in development
+    },
+  },
+});
+
+function ClientProviders({
+  children,
+  includeQuery = true,
+  includeAuth = true,
+  includeCustomization = false,
+  includeBuyerJourney = false,
+  includeNotification = false,
+  includeTransaction = false,
+  includeDashboard = false,
+  includeUserRole = false,
+  includeAll = false,
+  showDevtools = false,
+}: ClientProvidersProps) {
+  // Helper function to determine if a provider should be included
+  const shouldInclude = (provider: string) => {
+    if (includeAll) return true;
+    const propMap: { [key: string]: boolean } = {
+      query: includeQuery,
+      auth: includeAuth,
+      customization: includeCustomization,
+      buyerJourney: includeBuyerJourney,
+      notification: includeNotification,
+      transaction: includeTransaction,
+      dashboard: includeDashboard,
+      userRole: includeUserRole,
+    };
+    return propMap[provider] || false;
+  };
+
+  let wrappedChildren = children;
+
+  // Providers that depend on auth must go inside auth
+  if (shouldInclude('notification')) {
+    wrappedChildren = (
+      <NotificationProvider>
+        {wrappedChildren}
+      </NotificationProvider>
+    );
+  }
+
+  if (shouldInclude('userRole')) {
+    wrappedChildren = (
+      <UserRoleProvider>
+        {wrappedChildren}
+      </UserRoleProvider>
+    );
+  }
+
+  if (shouldInclude('dashboard')) {
+    wrappedChildren = (
+      <DashboardPreferenceProvider>
+        {wrappedChildren}
+      </DashboardPreferenceProvider>
+    );
+  }
+
+  if (shouldInclude('customization')) {
+    wrappedChildren = (
+      <CustomizationProvider>
+        {wrappedChildren}
+      </CustomizationProvider>
+    );
+  }
+
+  if (shouldInclude('buyerJourney')) {
+    wrappedChildren = (
+      <BuyerJourneyProvider>
+        {wrappedChildren}
+      </BuyerJourneyProvider>
+    );
+  }
+
+  // Transaction provider needs auth
+  if (shouldInclude('transaction')) {
+    wrappedChildren = (
+      <TransactionProvider>
+        {wrappedChildren}
+      </TransactionProvider>
+    );
+  }
+
+  // Auth provider must wrap providers that depend on it
+  if (shouldInclude('auth')) {
+    wrappedChildren = (
+      <AuthProvider>
+        {wrappedChildren}
+      </AuthProvider>
+    );
+  }
+
+  // Query provider wraps everything that might need data fetching
+  if (shouldInclude('query')) {
+    wrappedChildren = (
+      <ReactQueryClientProvider client={queryClient}>
+        {wrappedChildren}
+      </ReactQueryClientProvider>
+    );
+  }
+
+  // Session and Amplify providers are the outermost
+  return (
+    <SessionProvider>
+      <AmplifyProvider>
+        {wrappedChildren}
+      </AmplifyProvider>
+    </SessionProvider>
+  );
+}
+
+export default ClientProviders;

@@ -93,7 +93,7 @@ export async function developmentRepositoryExample() {
     // Find developments with filtering
     const filteredDevelopments = await developmentRepository.findByFilters({
       status: 'PLANNING'
-    }, 1, 10);
+    }, 110);
     console.log('Filtered developments:', filteredDevelopments);
 
     // Get development timelines
@@ -201,7 +201,7 @@ export async function financialRepositoryExample(developmentId: string) {
 export async function transactionExample() {
   try {
     // Execute a transaction with unified repositories
-    const result = await prisma.$transaction(async (tx) => {
+    const result = await prisma.$transaction(async (tx: any) => {
       // Create repositories with transaction context
       const userRepo = new (repositoryFactory.getUserRepository().constructor)(tx);
       const devRepo = new (repositoryFactory.getDevelopmentRepository().constructor)(tx);

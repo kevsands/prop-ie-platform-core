@@ -23,8 +23,7 @@ import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
-  TooltipTrigger,
-} from "../ui/tooltip";
+  TooltipTrigger} from "../ui/tooltip";
 import { ProjectPhase, TaskStatus, TimelineToolbarProps } from '@/types/timeline';
 
 /**
@@ -56,8 +55,7 @@ const TimelineToolbar: React.FC<TimelineToolbarProps> = ({
     not_started: 'bg-slate-100 text-slate-800 border-slate-200 dark:bg-slate-900/40 dark:text-slate-400 dark:border-slate-800',
     delayed: 'bg-red-100 text-red-800 border-red-200 dark:bg-red-900/20 dark:text-red-400 dark:border-red-800',
     at_risk: 'bg-amber-100 text-amber-800 border-amber-200 dark:bg-amber-900/20 dark:text-amber-400 dark:border-amber-800',
-    cancelled: 'bg-slate-100 text-slate-800 border-slate-200 dark:bg-slate-800 dark:text-slate-400 dark:border-slate-700',
-  };
+    cancelled: 'bg-slate-100 text-slate-800 border-slate-200 dark:bg-slate-800 dark:text-slate-400 dark:border-slate-700'};
 
   return (
     <div className={`p-3 border rounded-md bg-white dark:bg-slate-950 shadow-sm ${className}`}>
@@ -66,10 +64,10 @@ const TimelineToolbar: React.FC<TimelineToolbarProps> = ({
         <div className="flex items-center gap-3">
           <Select 
             value={viewOptions.viewMode} 
-            onValueChange={(value) => {
+            onValueChange={(value: any) => {
               setViewOptions({...viewOptions, viewMode: value as 'day' | 'week' | 'month' | 'quarter'});
               onViewModeChange(value as 'day' | 'week' | 'month' | 'quarter');
-            }}
+            }
           >
             <SelectTrigger className="w-[120px]">
               <CalendarDays className="h-4 w-4 mr-2" />
@@ -97,7 +95,7 @@ const TimelineToolbar: React.FC<TimelineToolbarProps> = ({
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>
-            
+
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
@@ -110,7 +108,7 @@ const TimelineToolbar: React.FC<TimelineToolbarProps> = ({
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>
-            
+
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
@@ -128,7 +126,7 @@ const TimelineToolbar: React.FC<TimelineToolbarProps> = ({
 
         {/* Filters */}
         <div className="flex items-center gap-3">
-          <Select value={filterPhase} onValueChange={(value) => setFilterPhase(value as ProjectPhase | 'all')}>
+          <Select value={filterPhase} onValueChange={(value: any) => setFilterPhase(value as ProjectPhase | 'all')}>
             <SelectTrigger className="w-[140px]">
               <Filter className="h-4 w-4 mr-2" />
               <SelectValue placeholder="Phase" />
@@ -148,7 +146,7 @@ const TimelineToolbar: React.FC<TimelineToolbarProps> = ({
             </SelectContent>
           </Select>
 
-          <Select value={filterAssignee} onValueChange={(value) => setFilterAssignee(value)}>
+          <Select value={filterAssignee} onValueChange={(value: any) => setFilterAssignee(value)}>
             <SelectTrigger className="w-[160px]">
               <Users className="h-4 w-4 mr-2" />
               <SelectValue placeholder="Assignee" />
@@ -163,7 +161,7 @@ const TimelineToolbar: React.FC<TimelineToolbarProps> = ({
             </SelectContent>
           </Select>
 
-          <Select value={filterStatus} onValueChange={(value) => setFilterStatus(value as TaskStatus | 'all')}>
+          <Select value={filterStatus} onValueChange={(value: any) => setFilterStatus(value as TaskStatus | 'all')}>
             <SelectTrigger className="w-[140px]">
               <ArrowUpDown className="h-4 w-4 mr-2" />
               <SelectValue placeholder="Status" />
@@ -205,7 +203,7 @@ const TimelineToolbar: React.FC<TimelineToolbarProps> = ({
             <Switch 
               id="critical-path" 
               checked={viewOptions.showCriticalPath}
-              onCheckedChange={(checked) => setViewOptions({...viewOptions, showCriticalPath: checked})}
+              onCheckedChange={(checked: any) => setViewOptions({...viewOptions, showCriticalPath: checked})}
             />
             <label htmlFor="critical-path" className="text-sm flex items-center gap-1 cursor-pointer">
               <Eye className="h-3.5 w-3.5" />
@@ -217,7 +215,7 @@ const TimelineToolbar: React.FC<TimelineToolbarProps> = ({
             <Switch 
               id="dependencies" 
               checked={viewOptions.showDependencies}
-              onCheckedChange={(checked) => setViewOptions({...viewOptions, showDependencies: checked})}
+              onCheckedChange={(checked: any) => setViewOptions({...viewOptions, showDependencies: checked})}
             />
             <label htmlFor="dependencies" className="text-sm flex items-center gap-1 cursor-pointer">
               <Link className="h-3.5 w-3.5" />
@@ -229,7 +227,7 @@ const TimelineToolbar: React.FC<TimelineToolbarProps> = ({
             <Switch 
               id="progress" 
               checked={viewOptions.showProgress}
-              onCheckedChange={(checked) => setViewOptions({...viewOptions, showProgress: checked})}
+              onCheckedChange={(checked: any) => setViewOptions({...viewOptions, showProgress: checked})}
             />
             <label htmlFor="progress" className="text-sm flex items-center gap-1 cursor-pointer">
               Progress

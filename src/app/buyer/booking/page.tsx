@@ -101,9 +101,9 @@ const LegislativeSection = () => {
     <section ref={ref} className="py-16 bg-gradient-to-br from-blue-50 to-purple-50">
       <div className="max-w-7xl mx-auto px-4">
         <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8 }}
+          initial={ opacity: 0, y: 50 }
+          animate={isInView ? { opacity: 1, y: 0 } : {}
+          transition={ duration: 0.8 }
           className="text-center mb-12"
         >
           <h2 className="text-4xl font-bold mb-4 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
@@ -115,12 +115,12 @@ const LegislativeSection = () => {
         </motion.div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {legislation.map((law, index) => (
+          {legislation.map((lawindex: any) => (
             <motion.div
               key={index}
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={isInView ? { opacity: 1, scale: 1 } : {}}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
+              initial={ opacity: 0, scale: 0.8 }
+              animate={isInView ? { opacity: 1, scale: 1 } : {}
+              transition={ duration: 0.5, delay: index * 0.1 }
               className="bg-white rounded-2xl shadow-lg p-6 hover:shadow-xl transition-all"
             >
               <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-4">
@@ -139,9 +139,9 @@ const LegislativeSection = () => {
         </div>
 
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, delay: 0.6 }}
+          initial={ opacity: 0, y: 30 }
+          animate={isInView ? { opacity: 1, y: 0 } : {}
+          transition={ duration: 0.8, delay: 0.6 }
           className="mt-12 p-6 bg-blue-900 text-white rounded-2xl text-center"
         >
           <Shield className="w-12 h-12 mx-auto mb-4" />
@@ -160,7 +160,7 @@ const LegislativeSection = () => {
 const BookingProcessSection = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true });
-  const [activeStep, setActiveStep] = useState(0);
+  const [activeStepsetActiveStep] = useState(0);
 
   const steps = [
     {
@@ -217,9 +217,9 @@ const BookingProcessSection = () => {
     <section ref={ref} className="py-16 bg-white">
       <div className="max-w-7xl mx-auto px-4">
         <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8 }}
+          initial={ opacity: 0, y: 50 }
+          animate={isInView ? { opacity: 1, y: 0 } : {}
+          transition={ duration: 0.8 }
           className="text-center mb-12"
         >
           <h2 className="text-4xl font-bold mb-4">
@@ -233,12 +233,12 @@ const BookingProcessSection = () => {
         <div className="grid lg:grid-cols-2 gap-12">
           {/* Steps */}
           <div className="space-y-6">
-            {steps.map((step, index) => (
+            {steps.map((stepindex: any) => (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, x: -50 }}
-                animate={isInView ? { opacity: 1, x: 0 } : {}}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
+                initial={ opacity: 0, x: -50 }
+                animate={isInView ? { opacity: 1, x: 0 } : {}
+                transition={ duration: 0.5, delay: index * 0.1 }
                 onClick={() => setActiveStep(index)}
                 className={`p-6 rounded-2xl cursor-pointer transition-all ${
                   activeStep === index
@@ -276,10 +276,10 @@ const BookingProcessSection = () => {
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeStep}
-                initial={{ opacity: 0, x: 50 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -50 }}
-                transition={{ duration: 0.3 }}
+                initial={ opacity: 0, x: 50 }
+                animate={ opacity: 1, x: 0 }
+                exit={ opacity: 0, x: -50 }
+                transition={ duration: 0.3 }
                 className="bg-gradient-to-br from-blue-600 to-purple-600 text-white rounded-2xl p-8"
               >
                 <div className="flex items-center gap-3 mb-6">
@@ -292,12 +292,12 @@ const BookingProcessSection = () => {
                 </div>
 
                 <ul className="space-y-4 mb-6">
-                  {steps[activeStep].details.map((detail, idx) => (
+                  {steps[activeStep].details.map((detailidx: any) => (
                     <motion.li
                       key={idx}
-                      initial={{ opacity: 0, x: 20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: idx * 0.1 }}
+                      initial={ opacity: 0, x: 20 }
+                      animate={ opacity: 1, x: 0 }
+                      transition={ delay: idx * 0.1 }
                       className="flex items-start gap-3"
                     >
                       <CheckCircle2 className="w-6 h-6 text-green-400 flex-shrink-0" />
@@ -372,9 +372,9 @@ const TrustSection = () => {
     <section ref={ref} className="py-16 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4">
         <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8 }}
+          initial={ opacity: 0, y: 50 }
+          animate={isInView ? { opacity: 1, y: 0 } : {}
+          transition={ duration: 0.8 }
           className="text-center mb-12"
         >
           <h2 className="text-4xl font-bold mb-4">
@@ -386,12 +386,12 @@ const TrustSection = () => {
         </motion.div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {trustFactors.map((factor, index) => (
+          {trustFactors.map((factorindex: any) => (
             <motion.div
               key={index}
-              initial={{ opacity: 0, y: 50 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
+              initial={ opacity: 0, y: 50 }
+              animate={isInView ? { opacity: 1, y: 0 } : {}
+              transition={ duration: 0.5, delay: index * 0.1 }
               className="bg-white rounded-2xl shadow-lg p-6 hover:shadow-xl transition-all"
             >
               <div className="flex items-start gap-4">
@@ -413,9 +413,9 @@ const TrustSection = () => {
 
         {/* Trust Stats */}
         <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, delay: 0.6 }}
+          initial={ opacity: 0, y: 50 }
+          animate={isInView ? { opacity: 1, y: 0 } : {}
+          transition={ duration: 0.8, delay: 0.6 }
           className="mt-16 grid grid-cols-1 md:grid-cols-4 gap-8"
         >
           <div className="text-center">
@@ -444,17 +444,17 @@ const TrustSection = () => {
 const FeeBreakdownSection = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true });
-  const [selectedProperty, setSelectedProperty] = useState(350000);
+  const [selectedPropertysetSelectedProperty] = useState(350000);
 
   const calculateFees = (price: number) => {
     const bookingDeposit = 5000;
     const standardDeposit = price * 0.1;
     const remainingDeposit = standardDeposit - bookingDeposit;
-    const stampDuty = price > 500000 ? (price - 500000) * 0.01 : 0;
+    const stampDuty = price> 500000 ? (price - 500000) * 0.01 : 0;
     const legalFees = 2500;
     const surveyFees = 500;
     const totalUpfront = bookingDeposit + remainingDeposit + stampDuty + legalFees + surveyFees;
-    
+
     return {
       price,
       bookingDeposit,
@@ -464,8 +464,8 @@ const FeeBreakdownSection = () => {
       legalFees,
       surveyFees,
       totalUpfront,
-      htbBenefit: Math.min(price * 0.1, 30000),
-      netRequired: totalUpfront - Math.min(price * 0.1, 30000)
+      htbBenefit: Math.min(price * 0.130000),
+      netRequired: totalUpfront - Math.min(price * 0.130000)
     };
   };
 
@@ -475,9 +475,9 @@ const FeeBreakdownSection = () => {
     <section ref={ref} className="py-16 bg-white">
       <div className="max-w-7xl mx-auto px-4">
         <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8 }}
+          initial={ opacity: 0, y: 50 }
+          animate={isInView ? { opacity: 1, y: 0 } : {}
+          transition={ duration: 0.8 }
           className="text-center mb-12"
         >
           <h2 className="text-4xl font-bold mb-4">
@@ -493,7 +493,7 @@ const FeeBreakdownSection = () => {
           <div className="mb-8 p-6 bg-gray-50 rounded-2xl">
             <h3 className="text-lg font-bold mb-4">Select Property Price</h3>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              {[295000, 350000, 425000, 500000].map((price) => (
+              {[295000, 350000, 425000500000].map((price: any) => (
                 <button
                   key={price}
                   onClick={() => setSelectedProperty(price)}
@@ -512,13 +512,13 @@ const FeeBreakdownSection = () => {
           {/* Fee Breakdown */}
           <div className="grid lg:grid-cols-2 gap-8">
             <motion.div
-              initial={{ opacity: 0, x: -50 }}
-              animate={isInView ? { opacity: 1, x: 0 } : {}}
-              transition={{ duration: 0.8 }}
+              initial={ opacity: 0, x: -50 }
+              animate={isInView ? { opacity: 1, x: 0 } : {}
+              transition={ duration: 0.8 }
               className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl p-8"
             >
               <h3 className="text-2xl font-bold mb-6">Cost Breakdown</h3>
-              
+
               <div className="space-y-4">
                 <div className="flex justify-between items-center p-4 bg-white rounded-xl">
                   <div className="flex items-center gap-3">
@@ -572,9 +572,9 @@ const FeeBreakdownSection = () => {
             </motion.div>
 
             <motion.div
-              initial={{ opacity: 0, x: 50 }}
-              animate={isInView ? { opacity: 1, x: 0 } : {}}
-              transition={{ duration: 0.8 }}
+              initial={ opacity: 0, x: 50 }
+              animate={isInView ? { opacity: 1, x: 0 } : {}
+              transition={ duration: 0.8 }
               className="space-y-6"
             >
               {/* HTB Benefit */}
@@ -582,7 +582,7 @@ const FeeBreakdownSection = () => {
                 <h3 className="text-2xl font-bold mb-6 text-green-800">
                   First-Time Buyer Benefits
                 </h3>
-                
+
                 <div className="space-y-4">
                   <div className="flex justify-between items-center">
                     <div className="flex items-center gap-3">
@@ -618,7 +618,7 @@ const FeeBreakdownSection = () => {
               {/* Timeline */}
               <div className="bg-white rounded-2xl shadow-lg p-8">
                 <h3 className="text-xl font-bold mb-6">Payment Timeline</h3>
-                
+
                 <div className="space-y-4">
                   <div className="flex items-start gap-4">
                     <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold">
@@ -673,7 +673,7 @@ const FeeBreakdownSection = () => {
 const FAQSection = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true });
-  const [openFaq, setOpenFaq] = useState<number | null>(0);
+  const [openFaqsetOpenFaq] = useState<number | null>(0);
 
   const faqs = [
     {
@@ -706,9 +706,9 @@ const FAQSection = () => {
     <section ref={ref} className="py-16 bg-gray-50">
       <div className="max-w-4xl mx-auto px-4">
         <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8 }}
+          initial={ opacity: 0, y: 50 }
+          animate={isInView ? { opacity: 1, y: 0 } : {}
+          transition={ duration: 0.8 }
           className="text-center mb-12"
         >
           <h2 className="text-4xl font-bold mb-4">
@@ -720,12 +720,12 @@ const FAQSection = () => {
         </motion.div>
 
         <div className="space-y-4">
-          {faqs.map((faq, index) => (
+          {faqs.map((faqindex: any) => (
             <motion.div
               key={index}
-              initial={{ opacity: 0, y: 30 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
+              initial={ opacity: 0, y: 30 }
+              animate={isInView ? { opacity: 1, y: 0 } : {}
+              transition={ duration: 0.5, delay: index * 0.1 }
               className="bg-white rounded-2xl shadow-md overflow-hidden"
             >
               <button
@@ -739,14 +739,14 @@ const FAQSection = () => {
                   }`} 
                 />
               </button>
-              
+
               <AnimatePresence>
                 {openFaq === index && (
                   <motion.div
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: 'auto', opacity: 1 }}
-                    exit={{ height: 0, opacity: 0 }}
-                    transition={{ duration: 0.3 }}
+                    initial={ height: 0, opacity: 0 }
+                    animate={ height: 'auto', opacity: 1 }
+                    exit={ height: 0, opacity: 0 }
+                    transition={ duration: 0.3 }
                     className="px-6 pb-6"
                   >
                     <p className="text-gray-600 leading-relaxed">
@@ -760,9 +760,9 @@ const FAQSection = () => {
         </div>
 
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, delay: 0.6 }}
+          initial={ opacity: 0, y: 30 }
+          animate={isInView ? { opacity: 1, y: 0 } : {}
+          transition={ duration: 0.8, delay: 0.6 }
           className="mt-12 text-center"
         >
           <p className="text-gray-600 mb-4">Still have questions?</p>
@@ -779,7 +779,7 @@ const FAQSection = () => {
 // Main Component
 function BuyerBookingContent() {
   const router = useRouter();
-  const [loading, setLoading] = useState(false);
+  const [loadingsetLoading] = useState(false);
 
   return (
     <ProtectedRoute requiredRole={['buyer', 'admin']}>
@@ -787,16 +787,16 @@ function BuyerBookingContent() {
         {/* Hero Section */}
         <section className="relative min-h-[60vh] flex items-center justify-center overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900" />
-          
+
           <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
+            initial={ opacity: 0, y: 50 }
+            animate={ opacity: 1, y: 0 }
+            transition={ duration: 0.8 }
             className="relative z-10 max-w-4xl mx-auto px-4 text-center text-white"
           >
             <motion.div
-              animate={{ scale: [1, 1.05, 1] }}
-              transition={{ duration: 2, repeat: Infinity }}
+              animate={ scale: [1, 1.051] }
+              transition={ duration: 2, repeat: Infinity }
               className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-md rounded-full mb-8"
             >
               <Shield className="w-5 h-5" />
@@ -812,17 +812,17 @@ function BuyerBookingContent() {
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+                whileHover={ scale: 1.05 }
+                whileTap={ scale: 0.95 }
                 onClick={() => router.push('/properties')}
                 className="px-8 py-4 bg-white text-blue-900 rounded-xl font-bold text-lg shadow-lg hover:shadow-xl transition-all"
               >
                 Start Browsing Properties
               </motion.button>
-              
+
               <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+                whileHover={ scale: 1.05 }
+                whileTap={ scale: 0.95 }
                 className="px-8 py-4 bg-transparent text-white rounded-xl font-bold text-lg border-2 border-white hover:bg-white hover:text-blue-900 transition-all"
               >
                 <Play className="inline-block mr-2" />
@@ -864,20 +864,20 @@ function BuyerBookingContent() {
             <p className="text-xl mb-8 text-blue-100">
               Join hundreds of buyers who have successfully purchased their dream home through PROP
             </p>
-            
+
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+                whileHover={ scale: 1.05 }
+                whileTap={ scale: 0.95 }
                 onClick={() => router.push('/buyer/calculator')}
                 className="px-8 py-4 bg-white text-blue-900 rounded-xl font-bold text-lg shadow-lg hover:shadow-xl transition-all"
               >
                 Calculate Your Budget
               </motion.button>
-              
+
               <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+                whileHover={ scale: 1.05 }
+                whileTap={ scale: 0.95 }
                 onClick={() => router.push('/buyer/advisor')}
                 className="px-8 py-4 bg-transparent text-white rounded-xl font-bold text-lg border-2 border-white hover:bg-white hover:text-blue-900 transition-all"
               >

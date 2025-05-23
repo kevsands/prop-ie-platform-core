@@ -10,7 +10,6 @@ export const mockUnitsService = {
   updateUnit: jest.fn(),
   deleteUnit: jest.fn(),
   updateUnitStatus: jest.fn(),
-  searchUnits: jest.fn(),
-};
+  searchUnits: jest.fn()};
 
 export default mockUnitsService;

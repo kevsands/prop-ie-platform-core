@@ -1,3 +1,4 @@
+import React from 'react';
 'use client';
 
 import { useState } from 'react';
@@ -28,10 +29,10 @@ interface TicketItem {
 }
 
 export default function SupportPage() {
-  const [searchQuery, setSearchQuery] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('all');
-  const [showTicketForm, setShowTicketForm] = useState(false);
-  
+  const [searchQuerysetSearchQuery] = useState('');
+  const [selectedCategorysetSelectedCategory] = useState('all');
+  const [showTicketFormsetShowTicketForm] = useState(false);
+
   // Mock FAQ data
   const faqItems: FAQItem[] = [
     {
@@ -65,7 +66,7 @@ export default function SupportPage() {
       category: 'viewing'
     }
   ];
-  
+
   // Mock guides data
   const guides: GuideItem[] = [
     {
@@ -90,7 +91,7 @@ export default function SupportPage() {
       readTime: 20
     }
   ];
-  
+
   // Mock tickets data
   const tickets: TicketItem[] = [
     {
@@ -108,7 +109,7 @@ export default function SupportPage() {
       priority: 'high'
     }
   ];
-  
+
   // Filter FAQs based on search and category
   const filteredFAQs = faqItems.filter(item => {
     const matchesSearch = item.question.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -116,7 +117,7 @@ export default function SupportPage() {
     const matchesCategory = selectedCategory === 'all' || item.category === selectedCategory;
     return matchesSearch && matchesCategory;
   });
-  
+
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'open': return 'text-green-600 bg-green-100';
@@ -125,7 +126,7 @@ export default function SupportPage() {
       default: return 'text-gray-600 bg-gray-100';
     }
   };
-  
+
   const getPriorityColor = (priority: string) => {
     switch (priority) {
       case 'high': return 'text-red-600';
@@ -134,7 +135,7 @@ export default function SupportPage() {
       default: return 'text-gray-600';
     }
   };
-  
+
   return (
     <div className="flex-1 p-8">
       <div className="max-w-7xl mx-auto">
@@ -143,7 +144,7 @@ export default function SupportPage() {
           <h1 className="text-3xl font-bold text-gray-900">Help & Support</h1>
           <p className="text-gray-600 mt-1">Find answers, guides, and contact our support team</p>
         </div>
-        
+
         {/* Quick Actions */}
         <div className="grid md:grid-cols-4 gap-4 mb-8">
           <button
@@ -156,7 +157,7 @@ export default function SupportPage() {
               <p className="text-sm opacity-90">Get personalized help</p>
             </div>
           </button>
-          
+
           <a href="tel:+353-1-234-5678" className="bg-white border border-gray-200 rounded-lg p-4 flex items-center gap-3 hover:bg-gray-50 transition-colors">
             <Phone className="h-6 w-6 text-gray-600" />
             <div className="text-left">
@@ -164,7 +165,7 @@ export default function SupportPage() {
               <p className="text-sm text-gray-600">Mon-Fri 9am-6pm</p>
             </div>
           </a>
-          
+
           <a href="mailto:support@prop.ie" className="bg-white border border-gray-200 rounded-lg p-4 flex items-center gap-3 hover:bg-gray-50 transition-colors">
             <Mail className="h-6 w-6 text-gray-600" />
             <div className="text-left">
@@ -172,7 +173,7 @@ export default function SupportPage() {
               <p className="text-sm text-gray-600">support@prop.ie</p>
             </div>
           </a>
-          
+
           <button className="bg-white border border-gray-200 rounded-lg p-4 flex items-center gap-3 hover:bg-gray-50 transition-colors">
             <Video className="h-6 w-6 text-gray-600" />
             <div className="text-left">
@@ -181,7 +182,7 @@ export default function SupportPage() {
             </div>
           </button>
         </div>
-        
+
         {/* Search */}
         <div className="mb-8">
           <div className="relative">
@@ -189,13 +190,13 @@ export default function SupportPage() {
             <input
               type="text"
               value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+              onChange={(e: any) => setSearchQuery(e.target.value)}
               placeholder="Search for help..."
               className="w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             />
           </div>
         </div>
-        
+
         <div className="grid md:grid-cols-3 gap-8">
           {/* Main Content */}
           <div className="md:col-span-2 space-y-8">
@@ -205,7 +206,7 @@ export default function SupportPage() {
                 <h2 className="text-xl font-semibold text-gray-900">Frequently Asked Questions</h2>
                 <select
                   value={selectedCategory}
-                  onChange={(e) => setSelectedCategory(e.target.value)}
+                  onChange={(e: any) => setSelectedCategory(e.target.value)}
                   className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
                 >
                   <option value="all">All Categories</option>
@@ -215,9 +216,9 @@ export default function SupportPage() {
                   <option value="process">Buying Process</option>
                 </select>
               </div>
-              
+
               <div className="space-y-4">
-                {filteredFAQs.map((faq) => (
+                {filteredFAQs.map((faq: any) => (
                   <div key={faq.id} className="bg-white rounded-lg border p-6">
                     <h3 className="font-semibold text-gray-900 mb-2">{faq.question}</h3>
                     <p className="text-gray-600">{faq.answer}</p>
@@ -229,12 +230,12 @@ export default function SupportPage() {
                 ))}
               </div>
             </div>
-            
+
             {/* Guides Section */}
             <div>
               <h2 className="text-xl font-semibold text-gray-900 mb-6">Helpful Guides</h2>
               <div className="grid gap-4">
-                {guides.map((guide) => (
+                {guides.map((guide: any) => (
                   <div key={guide.id} className="bg-white rounded-lg border p-6 hover:shadow-lg transition-all cursor-pointer">
                     <div className="flex items-start justify-between">
                       <div className="flex items-start gap-3">
@@ -254,7 +255,7 @@ export default function SupportPage() {
               </div>
             </div>
           </div>
-          
+
           {/* Sidebar */}
           <div className="space-y-6">
             {/* Recent Tickets */}
@@ -268,10 +269,10 @@ export default function SupportPage() {
                   View All
                 </button>
               </div>
-              
-              {tickets.length > 0 ? (
+
+              {tickets.length> 0 ? (
                 <div className="space-y-3">
-                  {tickets.map((ticket) => (
+                  {tickets.map((ticket: any) => (
                     <div key={ticket.id} className="p-3 bg-gray-50 rounded-lg">
                       <div className="flex items-start justify-between mb-2">
                         <h4 className="font-medium text-gray-900">{ticket.subject}</h4>
@@ -290,7 +291,7 @@ export default function SupportPage() {
                 <p className="text-gray-500">No active tickets</p>
               )}
             </div>
-            
+
             {/* Contact Information */}
             <div className="bg-blue-50 rounded-lg border border-blue-200 p-6">
               <h3 className="text-lg font-semibold text-blue-900 mb-4">Need More Help?</h3>
@@ -319,7 +320,7 @@ export default function SupportPage() {
                 </div>
               </div>
             </div>
-            
+
             {/* Emergency Contact */}
             <div className="bg-red-50 rounded-lg border border-red-200 p-6">
               <div className="flex items-start gap-3">
@@ -335,7 +336,7 @@ export default function SupportPage() {
             </div>
           </div>
         </div>
-        
+
         {/* Support Ticket Modal */}
         {showTicketForm && (
           <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
@@ -353,7 +354,7 @@ export default function SupportPage() {
                   </button>
                 </div>
               </div>
-              
+
               <form className="p-6 space-y-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">Category</label>
@@ -365,7 +366,7 @@ export default function SupportPage() {
                     <option>Other</option>
                   </select>
                 </div>
-                
+
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">Subject</label>
                   <input
@@ -374,7 +375,7 @@ export default function SupportPage() {
                     placeholder="Brief description of your issue"
                   />
                 </div>
-                
+
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">Priority</label>
                   <select className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
@@ -383,7 +384,7 @@ export default function SupportPage() {
                     <option>High</option>
                   </select>
                 </div>
-                
+
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">Description</label>
                   <textarea
@@ -392,7 +393,7 @@ export default function SupportPage() {
                     placeholder="Please provide as much detail as possible..."
                   />
                 </div>
-                
+
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">Attachments</label>
                   <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center">
@@ -402,7 +403,7 @@ export default function SupportPage() {
                     <p className="text-sm text-gray-500 mt-1">or drag and drop</p>
                   </div>
                 </div>
-                
+
                 <div className="flex gap-3 pt-4">
                   <button
                     type="submit"

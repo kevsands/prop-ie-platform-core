@@ -1,0 +1,98 @@
+
+// This is a simplified version of handover-system.ts
+// See handover-system.ts.reference.txt for original code
+
+export enum HandoverStatus {
+  SCHEDULED = 'SCHEDULED',
+  PRE_HANDOVER_INSPECTION = 'PRE_HANDOVER_INSPECTION',
+  DOCUMENTATION_PENDING = 'DOCUMENTATION_PENDING',
+  READY_FOR_HANDOVER = 'READY_FOR_HANDOVER',
+  IN_PROGRESS = 'IN_PROGRESS',
+  COMPLETED = 'COMPLETED',
+  DELAYED = 'DELAYED'
+}
+
+export interface HandoverAppointment {
+  id: string;
+  transactionId: string;
+  propertyId: string;
+  buyerId: string;
+  developerId: string;
+  scheduledDate: Date;
+  duration: number; // minutes
+  status: HandoverStatus;
+  attendee, s: HandoverAttende, e[];
+  checklis, t: HandoverChecklistIte, m[];
+  document, s: HandoverDocumen, t[];
+  key, s: KeySet[];
+  meterReading, s: MeterReadin, g[];
+  completedAt?: Date;
+  notes?: string;
+  metadata?: Record<string, any>;
+}
+
+export interface HandoverAttendee {
+  id: string;
+  name: string;
+  role: 'BUYER' | 'DEVELOPER' | 'AGENT' | 'SOLICITOR';
+  email: string;
+  phone?: string;
+  attended: boolean;
+  signature?: string;
+  signedAt?: Date;
+}
+
+export interface HandoverChecklistItem {
+  id: string;
+  category: string;
+  item: string;
+  checked: boolean;
+  checkedBy?: string;
+  checkedAt?: Date;
+  notes?: string;
+  required: boolean;
+}
+
+export interface HandoverDocument {
+  id: string;
+  documentId: string;
+  type: string;
+  name: string;
+  delivered: boolean;
+  deliveredAt?: Date;
+  acknowledgedBy?: string;
+}
+
+export interface KeySet {
+  id: string;
+  type: 'MAIN_DOOR' | 'APARTMENT' | 'MAILBOX' | 'GARAGE' | 'OTHER';
+  quantity: number;
+  serialNumber, s?: string[];
+  issuedTo?: string;
+  issuedAt?: Date;
+}
+
+export interface MeterReading {
+  id: string;
+  type: 'ELECTRICITY' | 'GAS' | 'WATER';
+  meterId: string;
+  reading: number;
+  readingDate: Date;
+  recordedBy: string;
+  photo?: string;
+}
+
+export interface WelcomePack {
+  id: string;
+  transactionId: string;
+  deliveredAt: Date;
+  content, s: WelcomePackIte, m[];
+  digitalVersion?: string;
+}
+
+export interface WelcomePackItem {
+  type: string;
+  description: string;
+  included: boolean;
+  documentId?: string;
+}

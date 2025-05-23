@@ -247,7 +247,7 @@ export default function DeveloperHTBPage() {
           </button>
         </div>
       </div>
-      
+
       <div className="bg-amber-100 p-3 mt-6 rounded-md text-amber-800">
         Note: UI components temporarily simplified for build testing - full functionality will be restored later.
       </div>

@@ -1,0 +1,1746 @@
+'use client';
+
+import React, { useState, useEffect, useMemo } from 'react';
+import { 
+  FileText, Brain, TrendingUp, AlertTriangle, DollarSign,
+  Calendar, Users, CheckCircle, Clock, XCircle, 
+  Plus, Search, Filter, Download, Eye, Edit, Copy,
+  BarChart3, Target, Award, Zap, ChevronRight,
+  Scale, ShieldCheck, AlertCircle, Star, RefreshCw,
+  ArrowUpDown, ChevronDown, Briefcase, Building,
+  Globe
+} from 'lucide-react';
+import Link from 'next/link';
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+import dynamic from 'next/dynamic';
+import {
+  useTenders,
+  useTenderStats,
+  useCreateTender,
+  useAwardTender,
+  useGenerateAIAnalysis,
+  formatCurrency,
+  formatDate,
+  calculateDaysLeft,
+  getStatusColor,
+  getStatusText,
+  TENDER_CATEGORIES,
+  CERTIFICATIONS,
+  INSURANCE_OPTIONS,
+  type Tender,
+  type Bid,
+  type TenderFilters
+} from '@/services/TenderService';
+
+// UI Components
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Badge } from '@/components/ui/badge';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Switch } from '@/components/ui/switch';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger, DialogFooter } from '@/components/ui/dialog';
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/ui/accordion';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
+
+// Dynamic imports for charts
+const AreaChart = dynamic(() => import('recharts').then(mod => mod.AreaChart), { ssr: false });
+const LineChart = dynamic(() => import('recharts').then(mod => mod.LineChart), { ssr: false });
+const BarChart = dynamic(() => import('recharts').then(mod => mod.BarChart), { ssr: false });
+const PieChart = dynamic(() => import('recharts').then(mod => mod.PieChart), { ssr: false });
+const RadarChart = dynamic(() => import('recharts').then(mod => mod.RadarChart), { ssr: false });
+const ResponsiveContainer = dynamic(() => import('recharts').then(mod => mod.ResponsiveContainer), { ssr: false });
+const Area = dynamic(() => import('recharts').then(mod => mod.Area), { ssr: false });
+const Line = dynamic(() => import('recharts').then(mod => mod.Line), { ssr: false });
+const Bar = dynamic(() => import('recharts').then(mod => mod.Bar), { ssr: false });
+const Pie = dynamic(() => import('recharts').then(mod => mod.Pie), { ssr: false });
+const PolarGrid = dynamic(() => import('recharts').then(mod => mod.PolarGrid), { ssr: false });
+const PolarAngleAxis = dynamic(() => import('recharts').then(mod => mod.PolarAngleAxis), { ssr: false });
+const PolarRadiusAxis = dynamic(() => import('recharts').then(mod => mod.PolarRadiusAxis), { ssr: false });
+const Radar = dynamic(() => import('recharts').then(mod => mod.Radar), { ssr: false });
+const ChartTooltip = dynamic(() => import('recharts').then(mod => mod.Tooltip), { ssr: false });
+const Legend = dynamic(() => import('recharts').then(mod => mod.Legend), { ssr: false });
+const Cell = dynamic(() => import('recharts').then(mod => mod.Cell), { ssr: false });
+const XAxis = dynamic(() => import('recharts').then(mod => mod.XAxis), { ssr: false });
+const YAxis = dynamic(() => import('recharts').then(mod => mod.YAxis), { ssr: false });
+const CartesianGrid = dynamic(() => import('recharts').then(mod => mod.CartesianGrid), { ssr: false });
+
+export default function TenderManagementPage() {
+  const router = useRouter();
+  const [activeTab, setActiveTab] = useState('active');
+  const [selectedTender, setSelectedTender] = useState<Tender | null>(null);
+  const [showAIAnalysis, setShowAIAnalysis] = useState(false);
+  const [showCreateTenderDialog, setShowCreateTenderDialog] = useState(false);
+  const [filters, setFilters] = useState<TenderFilters>({});
+  const [searchQuery, setSearchQuery] = useState('');
+  const [showAdvancedFilters, setShowAdvancedFilters] = useState(false);
+
+  // API Hooks
+  const { data: tenders = [], isLoading: isLoadingTenders } = useTenders(filters);
+  const { data: stats } = useTenderStats();
+  const { mutate: awardTender, isPending: isAwarding } = useAwardTender();
+  const { mutate: generateAnalysis, isPending: isGeneratingAnalysis } = useGenerateAIAnalysis();
+
+  // Filter tenders based on active tab
+  const filteredTenders = useMemo(() => {
+    switch (activeTab) {
+      case 'active':
+        return tenders.filter(t: any => t.status === 'open');
+      case 'evaluating':
+        return tenders.filter(t: any => t.status === 'evaluating');
+      case 'awarded':
+        return tenders.filter(t: any => t.status === 'awarded');
+      case 'drafts':
+        return tenders.filter(t: any => t.status === 'draft');
+      case 'closed':
+        return tenders.filter(t: any => t.status === 'closed');
+      default:
+        return tenders;
+    }
+  }, [tenders, activeTab]);
+
+  // Apply search query
+  const searchedTenders = useMemo(() => {
+    if (!searchQuery) return filteredTenders;
+    
+    const query = searchQuery.toLowerCase();
+    return filteredTenders.filter(tender: any => 
+      tender.title.toLowerCase().includes(query) ||
+      tender.project.toLowerCase().includes(query) ||
+      tender.description.toLowerCase().includes(query) ||
+      tender.categories.some(cat: any => cat.toLowerCase().includes(query))
+    );
+  }, [filteredTenders, searchQuery]);
+
+  // Handle search
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    setFilters(prev => ({ ...prev, search: searchQuery }));
+  };
+
+  // Handle filter changes
+  const handleFilterChange = (key: keyof TenderFilters, value: any) => {
+    setFilters(prev => ({ ...prev, [key]: value }));
+  };
+
+  // Generate mock trend data
+  const trendData = useMemo(() => {
+    return [
+      { month: 'Jan', tenders: 8, bids: 32, value: 4500000 },
+      { month: 'Feb', tenders: 10, bids: 45, value: 5200000 },
+      { month: 'Mar', tenders: 12, bids: 58, value: 6100000 },
+      { month: 'Apr', tenders: 9, bids: 40, value: 4800000 },
+      { month: 'May', tenders: 14, bids: 62, value: 7200000 }
+    ];
+  }, []);
+
+  return (
+    <div className="p-6 space-y-8">
+      {/* Header */}
+      <div className="space-y-4">
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-3xl font-bold text-gray-900">Tender Management</h1>
+            <p className="text-gray-600">Manage tenders, evaluate bids, and track contractor performance</p>
+          </div>
+          <div className="flex items-center space-x-3">
+            <Button variant="outline" onClick={() => router.push('/developer/tenders/templates')}>
+              <FileText className="h-4 w-4 mr-2" />
+              Templates
+            </Button>
+            <Button onClick={() => setShowCreateTenderDialog(true)}>
+              <Plus className="h-4 w-4 mr-2" />
+              Create Tender
+            </Button>
+          </div>
+        </div>
+
+        {/* AI Assistant Banner */}
+        <div className="bg-gradient-to-r from-indigo-600 to-purple-600 rounded-xl p-6 text-white mb-6">
+          <div className="flex items-start md:items-center justify-between flex-col md:flex-row gap-4">
+            <div className="flex items-center space-x-4">
+              <div className="p-3 bg-white/20 rounded-lg backdrop-blur-sm">
+                <Brain className="w-8 h-8" />
+              </div>
+              <div>
+                <p className="font-semibold text-xl">AI Bid Analysis Engine</p>
+                <p className="opacity-90 max-w-2xl">
+                  Our AI assistant analyzes bids across 24 criteria, evaluates contractor reliability, 
+                  and provides actionable insights based on 1,250+ historical tenders.
+                </p>
+              </div>
+            </div>
+            <Button size="lg" variant="secondary" className="whitespace-nowrap">
+              <Zap className="h-4 w-4 mr-2" />
+              Enterprise Analytics
+            </Button>
+          </div>
+        </div>
+
+        {/* Summary Stats */}
+        <div className="grid grid-cols-2 md:grid-cols-6 gap-4">
+          <StatsCard
+            title="Active Tenders"
+            value={stats?.active || 0}
+            icon={<FileText className="w-4 h-4 text-blue-600" />}
+            trend="+4% vs. last month"
+            positive={true}
+          />
+          <StatsCard
+            title="Evaluating"
+            value={stats?.evaluating || 0}
+            icon={<Clock className="w-4 h-4 text-yellow-600" />}
+            trend="On track"
+          />
+          <StatsCard
+            title="Total Value"
+            value={formatCurrency(stats?.totalValue || 0)}
+            icon={<DollarSign className="w-4 h-4 text-green-600" />}
+            trend="+12% year to date"
+            positive={true}
+          />
+          <StatsCard
+            title="Average Bids"
+            value={stats?.avgBids || 0}
+            icon={<Users className="w-4 h-4 text-purple-600" />}
+            trend="+1.3 vs. last quarter"
+            positive={true}
+          />
+          <StatsCard
+            title="Average Savings"
+            value={`${stats?.avgSavings || 0}%`}
+            icon={<Target className="w-4 h-4 text-green-600" />}
+            trend="+2.1% vs. target"
+            positive={true}
+          />
+          <StatsCard
+            title="Completion Rate"
+            value={`${stats?.avgCompletionRate || 0}%`}
+            icon={<CheckCircle className="w-4 h-4 text-green-600" />}
+            trend="-0.3% vs. last quarter"
+            positive={false}
+          />
+        </div>
+
+        {/* Search and Filters */}
+        <div className="flex flex-col md:flex-row gap-4">
+          <form onSubmit={handleSearch} className="flex-1">
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 h-4 w-4 text-gray-400 -translate-y-1/2" />
+              <Input
+                type="text"
+                placeholder="Search tenders by title, description, or category..."
+                className="pl-10 pr-16"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+              <Button
+                type="submit"
+                size="sm"
+                className="absolute right-1 top-1/2 -translate-y-1/2 h-8"
+              >
+                Search
+              </Button>
+            </div>
+          </form>
+
+          <div className="flex gap-2">
+            <Button
+              variant="outline"
+              onClick={() => setShowAdvancedFilters(!showAdvancedFilters)}
+            >
+              <Filter className="h-4 w-4 mr-2" />
+              Filters
+              <ChevronDown className={`ml-2 h-4 w-4 transition-transform ${showAdvancedFilters ? 'rotate-180' : ''}`} />
+            </Button>
+            
+            <Select onValueChange={(value) => setActiveTab(value)} value={activeTab}>
+              <SelectTrigger className="w-[180px]">
+                <SelectValue placeholder="Status" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectLabel>Tender Status</SelectLabel>
+                  <SelectItem value="active">Active Tenders</SelectItem>
+                  <SelectItem value="evaluating">Under Evaluation</SelectItem>
+                  <SelectItem value="awarded">Awarded</SelectItem>
+                  <SelectItem value="drafts">Drafts</SelectItem>
+                  <SelectItem value="closed">Closed</SelectItem>
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+          </div>
+        </div>
+
+        {/* Advanced Filters */}
+        {showAdvancedFilters && (
+          <Card className="p-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div>
+                <Label htmlFor="project-filter">Project</Label>
+                <Select 
+                  onValueChange={(value) => handleFilterChange('project', value)}
+                  value={filters.project || ''}
+                >
+                  <SelectTrigger id="project-filter">
+                    <SelectValue placeholder="All Projects" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="">All Projects</SelectItem>
+                    <SelectItem value="Fitzgerald Gardens">Fitzgerald Gardens</SelectItem>
+                    <SelectItem value="Riverside Manor">Riverside Manor</SelectItem>
+                    <SelectItem value="Ellwood">Ellwood</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              
+              <div>
+                <Label htmlFor="category-filter">Category</Label>
+                <Select 
+                  onValueChange={(value) => handleFilterChange('category', [value])}
+                  value={filters.category?.[0] || ''}
+                >
+                  <SelectTrigger id="category-filter">
+                    <SelectValue placeholder="All Categories" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="">All Categories</SelectItem>
+                    {TENDER_CATEGORIES.map(category => (
+                      <SelectItem key={category} value={category}>{category}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              
+              <div>
+                <Label htmlFor="budget-filter">Budget Range</Label>
+                <Select
+                  onValueChange={(value) => {
+                    if (value === '') {
+                      handleFilterChange('budget', {});
+                    } else {
+                      const [min, max] = value.split('-').map(Number);
+                      handleFilterChange('budget', { min, max });
+                    }
+                  }}
+                  value={
+                    !filters.budget ? '' :
+                    `${filters.budget.min || 0}-${filters.budget.max || ''}`
+                  }
+                >
+                  <SelectTrigger id="budget-filter">
+                    <SelectValue placeholder="Any Budget" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="">Any Budget</SelectItem>
+                    <SelectItem value="0-250000">Up to €250k</SelectItem>
+                    <SelectItem value="250000-500000">€250k - €500k</SelectItem>
+                    <SelectItem value="500000-1000000">€500k - €1M</SelectItem>
+                    <SelectItem value="1000000-">Over €1M</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+            
+            <div className="flex justify-end mt-4">
+              <Button 
+                variant="outline" 
+                onClick={() => {
+                  setFilters({});
+                  setSearchQuery('');
+                }}
+              >
+                Reset Filters
+              </Button>
+            </div>
+          </Card>
+        )}
+
+        {/* Tabs */}
+        <Tabs defaultValue="active" value={activeTab} onValueChange={setActiveTab}>
+          <TabsList className="grid grid-cols-5 w-full md:w-auto">
+            <TabsTrigger value="active" className="relative">
+              Active
+              <Badge className="ml-1 bg-green-500">{stats?.active || 0}</Badge>
+            </TabsTrigger>
+            <TabsTrigger value="evaluating" className="relative">
+              Evaluating
+              <Badge className="ml-1 bg-yellow-500">{stats?.evaluating || 0}</Badge>
+            </TabsTrigger>
+            <TabsTrigger value="awarded">Awarded</TabsTrigger>
+            <TabsTrigger value="drafts">Drafts</TabsTrigger>
+            <TabsTrigger value="closed">Closed</TabsTrigger>
+          </TabsList>
+        </Tabs>
+      </div>
+
+      {/* Dashboard Overview (only shown for 'active' tab) */}
+      {activeTab === 'active' && (
+        <div className="grid grid-cols-3 gap-4">
+          <Card className="col-span-2">
+            <CardHeader className="pb-2">
+              <CardTitle className="text-lg font-semibold">Tender Activity</CardTitle>
+            </CardHeader>
+            <CardContent className="h-[250px]">
+              <ResponsiveContainer width="100%" height="100%">
+                <AreaChart data={trendData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+                  <defs>
+                    <linearGradient id="colorTenders" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor="#2563EB" stopOpacity={0.8}/>
+                      <stop offset="95%" stopColor="#2563EB" stopOpacity={0}/>
+                    </linearGradient>
+                    <linearGradient id="colorBids" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor="#7C3AED" stopOpacity={0.8}/>
+                      <stop offset="95%" stopColor="#7C3AED" stopOpacity={0}/>
+                    </linearGradient>
+                  </defs>
+                  <XAxis dataKey="month" />
+                  <YAxis yAxisId="left" orientation="left" />
+                  <YAxis yAxisId="right" orientation="right" />
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <ChartTooltip />
+                  <Area 
+                    type="monotone" 
+                    dataKey="tenders" 
+                    stroke="#2563EB" 
+                    fillOpacity={1} 
+                    fill="url(#colorTenders)" 
+                    yAxisId="left"
+                  />
+                  <Area 
+                    type="monotone" 
+                    dataKey="bids" 
+                    stroke="#7C3AED" 
+                    fillOpacity={1} 
+                    fill="url(#colorBids)" 
+                    yAxisId="right"
+                  />
+                </AreaChart>
+              </ResponsiveContainer>
+            </CardContent>
+          </Card>
+          
+          <Card>
+            <CardHeader className="pb-2">
+              <CardTitle className="text-lg font-semibold">Categories Distribution</CardTitle>
+            </CardHeader>
+            <CardContent className="h-[250px]">
+              <ResponsiveContainer width="100%" height="100%">
+                <PieChart>
+                  <Pie
+                    data={stats?.trendingCategories || []}
+                    cx="50%"
+                    cy="50%"
+                    labelLine={false}
+                    label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
+                    outerRadius={80}
+                    fill="#8884d8"
+                    dataKey="count"
+                  >
+                    {stats?.trendingCategories?.map((entry: any, index: any) => (
+                      <Cell key={`cell-${index}`} fill={`hsl(${index * 45}, 70%, 50%)`} />
+                    ))}
+                  </Pie>
+                  <ChartTooltip />
+                </PieChart>
+              </ResponsiveContainer>
+            </CardContent>
+          </Card>
+        </div>
+      )}
+
+      {/* Tender List */}
+      <div className="space-y-4">
+        {isLoadingTenders ? (
+          // Loading state
+          <div className="py-12">
+            <div className="flex justify-center items-center">
+              <RefreshCw className="w-8 h-8 text-blue-600 animate-spin" />
+              <span className="ml-2 text-xl font-medium text-gray-700">Loading tenders...</span>
+            </div>
+          </div>
+        ) : searchedTenders.length > 0 ? (
+          // Tenders list
+          searchedTenders.map(tender: any => (
+            <TenderCard 
+              key={tender.id} 
+              tender={tender} 
+              onAnalyze={() => {
+                setSelectedTender(tender);
+                setShowAIAnalysis(true);
+              }}
+              onAward={(bidId) => awardTender({ tenderId: tender.id, bidId })}
+              onGenerateAnalysis={() => generateAnalysis(tender.id)}
+              isGeneratingAnalysis={isGeneratingAnalysis}
+              isAwarding={isAwarding}
+            />
+          ))
+        ) : (
+          // No tenders found
+          <Card className="py-12">
+            <div className="text-center">
+              <FileText className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+              <h3 className="text-xl font-medium text-gray-700 mb-2">No tenders found</h3>
+              <p className="text-gray-500 mb-6">
+                {activeTab === 'drafts' ? 
+                  "You haven't created any draft tenders yet." :
+                  `There are no ${activeTab} tenders matching your search criteria.`
+                }
+              </p>
+              {activeTab === 'drafts' && (
+                <Button onClick={() => setShowCreateTenderDialog(true)}>
+                  <Plus className="h-4 w-4 mr-2" />
+                  Create New Tender
+                </Button>
+              )}
+            </div>
+          </Card>
+        )}
+      </div>
+
+      {/* Create Tender Dialog */}
+      <CreateTenderDialog 
+        open={showCreateTenderDialog} 
+        onOpenChange={setShowCreateTenderDialog} 
+      />
+
+      {/* AI Analysis Modal */}
+      {showAIAnalysis && selectedTender && (
+        <Dialog open={showAIAnalysis} onOpenChange={setShowAIAnalysis}>
+          <DialogContent className="max-w-6xl h-[90vh] flex flex-col p-0">
+            <DialogHeader className="p-6 border-b">
+              <DialogTitle className="text-2xl">AI Bid Analysis</DialogTitle>
+              <DialogDescription>
+                Comprehensive analysis for "{selectedTender.title}"
+              </DialogDescription>
+            </DialogHeader>
+            <div className="flex-grow overflow-auto p-6">
+              <AIBidAnalysis tender={selectedTender} />
+            </div>
+            <DialogFooter className="p-4 border-t">
+              <Button variant="outline" onClick={() => setShowAIAnalysis(false)}>
+                Close
+              </Button>
+              <Button 
+                onClick={() => {
+                  // In a real app, navigate to detailed view
+                  router.push(`/developer/tenders/${selectedTender.id}`);
+                  setShowAIAnalysis(false);
+                }}
+              >
+                View Full Tender Details
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+      )}
+    </div>
+  );
+}
+
+// Stats Card Component
+function StatsCard({ title, value, icon, trend, positive }: { 
+  title: string; 
+  value: string | number; 
+  icon: React.ReactNode;
+  trend?: string;
+  positive?: boolean;
+}) {
+  return (
+    <Card>
+      <CardContent className="p-6">
+        <div className="flex items-center justify-between mb-2">
+          <span className="text-sm text-gray-600">{title}</span>
+          <div className="text-gray-400">{icon}</div>
+        </div>
+        <p className="text-2xl font-bold">{value}</p>
+        {trend && (
+          <div className={`text-xs mt-1 ${positive ? 'text-green-600' : positive === false ? 'text-red-600' : 'text-gray-500'}`}>
+            {trend}
+          </div>
+        )}
+      </CardContent>
+    </Card>
+  );
+}
+
+// Tender Card Component
+function TenderCard({ 
+  tender, 
+  onAnalyze,
+  onAward,
+  onGenerateAnalysis,
+  isGeneratingAnalysis,
+  isAwarding
+}: { 
+  tender: Tender; 
+  onAnalyze: () => void;
+  onAward: (bidId: string) => void;
+  onGenerateAnalysis: () => void;
+  isGeneratingAnalysis: boolean;
+  isAwarding: boolean;
+}) {
+  const statusColors = {
+    draft: 'bg-gray-100 text-gray-700',
+    open: 'bg-green-100 text-green-700',
+    evaluating: 'bg-yellow-100 text-yellow-700',
+    awarded: 'bg-blue-100 text-blue-700',
+    closed: 'bg-gray-100 text-gray-700'
+  };
+
+  return (
+    <Card className="overflow-hidden">
+      <CardContent className="p-0">
+        {/* Header */}
+        <div className="bg-gray-50 p-6 border-b">
+          <div className="flex items-start justify-between">
+            <div className="flex-1">
+              <div className="flex items-center flex-wrap gap-2">
+                <h3 className="font-semibold text-xl text-gray-900">{tender.title}</h3>
+                <span className={`px-3 py-1 text-sm font-medium rounded-full ${statusColors[tender.status]}`}>
+                  {getStatusText(tender.status)}
+                </span>
+                {tender.daysLeft <= 7 && tender.status === 'open' && (
+                  <span className="px-3 py-1 text-sm font-medium rounded-full bg-orange-100 text-orange-700">
+                    {tender.daysLeft} days left
+                  </span>
+                )}
+              </div>
+              <p className="text-sm text-gray-600 mt-1.5">
+                {tender.project} • Created {formatDate(tender.createdAt)}
+              </p>
+            </div>
+            
+            <div className="flex gap-2">
+              <Link href={`/developer/tenders/${tender.id}`} legacyBehavior>
+                <Button variant="outline" size="sm" asChild>
+                  <a>
+                    <Eye className="h-4 w-4 mr-1.5" />
+                    View
+                  </a>
+                </Button>
+              </Link>
+              
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="outline" size="sm">
+                    <ChevronDown className="h-4 w-4" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                  <DropdownMenuItem onClick={() => window.location.href = `/developer/tenders/${tender.id}/edit`}>
+                    <Edit className="h-4 w-4 mr-2" />
+                    Edit
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => window.location.href = `/developer/tenders/${tender.id}/duplicate`}>
+                    <Copy className="h-4 w-4 mr-2" />
+                    Duplicate
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  {tender.status === 'draft' && (
+                    <DropdownMenuItem onClick={() => window.location.href = `/developer/tenders/${tender.id}/publish`}>
+                      <Globe className="h-4 w-4 mr-2" />
+                      Publish
+                    </DropdownMenuItem>
+                  )}
+                  {tender.status === 'open' && (
+                    <DropdownMenuItem onClick={() => window.location.href = `/developer/tenders/${tender.id}/close`}>
+                      <XCircle className="h-4 w-4 mr-2" />
+                      Close
+                    </DropdownMenuItem>
+                  )}
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
+          </div>
+        </div>
+
+        {/* Content */}
+        <div className="p-6">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-6">
+            <div>
+              <p className="text-xs text-gray-500">Budget Range</p>
+              <p className="font-medium">{formatCurrency(tender.budget.min)} - {formatCurrency(tender.budget.max)}</p>
+            </div>
+            <div>
+              <p className="text-xs text-gray-500">Deadline</p>
+              <p className="font-medium">{formatDate(tender.deadline)}</p>
+            </div>
+            <div>
+              <p className="text-xs text-gray-500">Bids Received</p>
+              <p className="font-medium">{tender.bidsReceived}</p>
+            </div>
+            <div>
+              <p className="text-xs text-gray-500">Categories</p>
+              <div className="flex flex-wrap gap-1 mt-1">
+                {tender.categories.map((cat, index) => (
+                  <span key={index} className="px-2 py-1 text-xs bg-gray-100 text-gray-700 rounded-full">
+                    {cat}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Description */}
+          <div className="mb-6">
+            <p className="text-sm text-gray-700 line-clamp-2">{tender.description}</p>
+          </div>
+
+          {/* Bids */}
+          {tender.bids.length > 0 && (
+            <div className="mb-6">
+              <div className="flex items-center justify-between mb-3">
+                <h4 className="font-medium text-gray-900">Top Bids</h4>
+                {tender.aiRecommendation && (
+                  <div className="flex items-center text-purple-600 text-sm">
+                    <Brain className="h-4 w-4 mr-1.5" />
+                    <span>AI recommendation available</span>
+                  </div>
+                )}
+              </div>
+              
+              <div className="space-y-3">
+                {tender.bids.slice(0, 2).map(bid => (
+                  <div key={bid.id} className="rounded-lg border border-gray-200 p-4">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center">
+                        <div className="flex items-center justify-center w-10 h-10 bg-blue-50 rounded-full mr-3">
+                          {bid.contractor.logo ? (
+                            <div className="relative w-10 h-10">
+                              <Image 
+                                src={bid.contractor.logo} 
+                                alt={bid.contractor.name}
+                                fill
+                                className="rounded-full object-cover"
+                              />
+                            </div>
+                          ) : (
+                            <Building className="h-5 w-5 text-blue-600" />
+                          )}
+                        </div>
+                        <div>
+                          <div className="flex items-center">
+                            <p className="font-medium text-gray-900">{bid.contractor.name}</p>
+                            {bid.contractor.verificationStatus === 'verified' && (
+                              <TooltipProvider>
+                                <Tooltip>
+                                  <TooltipTrigger asChild>
+                                    <div className="ml-1.5">
+                                      <ShieldCheck className="h-4 w-4 text-green-600" />
+                                    </div>
+                                  </TooltipTrigger>
+                                  <TooltipContent>
+                                    <p>Verified Contractor</p>
+                                  </TooltipContent>
+                                </Tooltip>
+                              </TooltipProvider>
+                            )}
+                          </div>
+                          <div className="flex items-center gap-3 text-sm text-gray-600">
+                            <span>{formatCurrency(bid.amount)}</span>
+                            <span>•</span>
+                            <span>{bid.timeline} days</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div>
+                        {bid.aiAnalysis && (
+                          <div className="flex flex-col items-end">
+                            <Badge variant="outline" className="bg-purple-50">
+                              <div className="flex items-center">
+                                <Brain className="h-3.5 w-3.5 mr-1 text-purple-600" />
+                                <span>Score: <span className="font-semibold">{bid.score}/100</span></span>
+                              </div>
+                            </Badge>
+                            <div className="mt-1 flex gap-2">
+                              {bid.status === 'shortlisted' && tender.status === 'evaluating' && (
+                                <Button 
+                                  size="sm" 
+                                  variant="default" 
+                                  onClick={() => onAward(bid.id)}
+                                  disabled={isAwarding}
+                                >
+                                  <Award className="h-3.5 w-3.5 mr-1" />
+                                  Award
+                                </Button>
+                              )}
+                              {bid.status === 'awarded' && (
+                                <Badge className="bg-blue-100 text-blue-700 hover:bg-blue-100">
+                                  Awarded
+                                </Badge>
+                              )}
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Footer Actions */}
+          <div className="flex items-center justify-between pt-4 border-t border-gray-200">
+            <div className="flex items-center space-x-4">
+              <Link href={`/developer/tenders/${tender.id}`} className="text-blue-600 hover:text-blue-700 font-medium text-sm">
+                View Details
+              </Link>
+              
+              {tender.bids.length > 0 && tender.status === 'evaluating' && (
+                <button onClick={onAnalyze} className="text-purple-600 hover:text-purple-700 font-medium text-sm flex items-center">
+                  <Brain className="w-4 h-4 mr-1.5" />
+                  View AI Analysis
+                </button>
+              )}
+              
+              {tender.bids.length > 0 && tender.status === 'open' && (
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  onClick={onGenerateAnalysis}
+                  disabled={isGeneratingAnalysis}
+                >
+                  {isGeneratingAnalysis ? (
+                    <>
+                      <RefreshCw className="w-3.5 h-3.5 mr-1.5 animate-spin" />
+                      Analyzing
+                    </>
+                  ) : (
+                    <>
+                      <Brain className="w-3.5 h-3.5 mr-1.5" />
+                      Generate Analysis
+                    </>
+                  )}
+                </Button>
+              )}
+            </div>
+            
+            <div className="flex items-center space-x-2">
+              {tender.attachments.length > 0 && (
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Button variant="outline" size="sm">
+                        <Download className="h-4 w-4" />
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>Download Tender Documents</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+              )}
+            </div>
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
+
+// Create Tender Dialog
+function CreateTenderDialog({ 
+  open, 
+  onOpenChange 
+}: { 
+  open: boolean; 
+  onOpenChange: (open: boolean) => void; 
+}) {
+  const { mutate: createTender, isPending: isCreating } = useCreateTender();
+  const [formData, setFormData] = useState({
+    title: '',
+    project: '',
+    description: '',
+    budget: {
+      min: 0,
+      max: 0
+    },
+    deadline: '',
+    categories: [] as string[],
+    requirements: {
+      experience: '',
+      certifications: [] as string[],
+      insurance: '',
+      documentation: [] as string[]
+    }
+  });
+  const [step, setStep] = useState(1);
+  const [files, setFiles] = useState<File[]>([]);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleBudgetChange = (type: 'min' | 'max', value: string) => {
+    const numValue = value ? parseInt(value) : 0;
+    setFormData(prev => ({
+      ...prev,
+      budget: {
+        ...prev.budget,
+        [type]: numValue
+      }
+    }));
+  };
+
+  const handleCategoryChange = (category: string, checked: boolean) => {
+    if (checked) {
+      setFormData(prev => ({
+        ...prev,
+        categories: [...prev.categories, category]
+      }));
+    } else {
+      setFormData(prev => ({
+        ...prev,
+        categories: prev.categories.filter(c => c !== category)
+      }));
+    }
+  };
+
+  const handleCertificationChange = (cert: string, checked: boolean) => {
+    if (checked) {
+      setFormData(prev => ({
+        ...prev,
+        requirements: {
+          ...prev.requirements,
+          certifications: [...prev.requirements.certifications, cert]
+        }
+      }));
+    } else {
+      setFormData(prev => ({
+        ...prev,
+        requirements: {
+          ...prev.requirements,
+          certifications: prev.requirements.certifications.filter(c => c !== cert)
+        }
+      }));
+    }
+  };
+
+  const handleDocumentTypeChange = (docType: string, checked: boolean) => {
+    if (checked) {
+      setFormData(prev => ({
+        ...prev,
+        requirements: {
+          ...prev.requirements,
+          documentation: [...prev.requirements.documentation, docType]
+        }
+      }));
+    } else {
+      setFormData(prev => ({
+        ...prev,
+        requirements: {
+          ...prev.requirements,
+          documentation: prev.requirements.documentation.filter(d => d !== docType)
+        }
+      }));
+    }
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      const fileArray = Array.from(e.target.files);
+      setFiles(prev => [...prev, ...fileArray]);
+    }
+  };
+
+  const handleSubmit = () => {
+    createTender(formData);
+    onOpenChange(false);
+  };
+
+  const nextStep = () => setStep(step + 1);
+  const prevStep = () => setStep(step - 1);
+
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className="max-w-4xl max-h-[90vh] overflow-hidden flex flex-col p-0">
+        <DialogHeader className="p-6 border-b">
+          <DialogTitle className="text-2xl">Create New Tender</DialogTitle>
+          <DialogDescription>
+            Define tender details, requirements, and documentation
+          </DialogDescription>
+        </DialogHeader>
+        <div className="flex-grow overflow-auto p-6">
+          {/* Step 1: Basic Information */}
+          {step === 1 && (
+            <div className="space-y-6">
+              <div>
+                <Label htmlFor="title" className="text-base font-medium">Tender Title</Label>
+                <Input
+                  id="title"
+                  name="title"
+                  value={formData.title}
+                  onChange={handleInputChange}
+                  placeholder="e.g., Electrical Installation - Phase 3"
+                  className="mt-1"
+                />
+              </div>
+              
+              <div>
+                <Label htmlFor="project" className="text-base font-medium">Project</Label>
+                <Select 
+                  value={formData.project} 
+                  onValueChange={(value) => setFormData(prev => ({ ...prev, project: value }))}
+                >
+                  <SelectTrigger id="project">
+                    <SelectValue placeholder="Select project" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Fitzgerald Gardens">Fitzgerald Gardens</SelectItem>
+                    <SelectItem value="Riverside Manor">Riverside Manor</SelectItem>
+                    <SelectItem value="Ellwood">Ellwood</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              
+              <div>
+                <Label htmlFor="description" className="text-base font-medium">Description</Label>
+                <Textarea
+                  id="description"
+                  name="description"
+                  value={formData.description}
+                  onChange={handleInputChange}
+                  placeholder="Detailed description of the tender..."
+                  className="mt-1"
+                  rows={4}
+                />
+              </div>
+              
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <Label htmlFor="budget-min" className="text-base font-medium">Budget Minimum (€)</Label>
+                  <Input
+                    id="budget-min"
+                    type="number"
+                    value={formData.budget.min || ''}
+                    onChange={(e) => handleBudgetChange('min', e.target.value)}
+                    placeholder="0"
+                    className="mt-1"
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="budget-max" className="text-base font-medium">Budget Maximum (€)</Label>
+                  <Input
+                    id="budget-max"
+                    type="number"
+                    value={formData.budget.max || ''}
+                    onChange={(e) => handleBudgetChange('max', e.target.value)}
+                    placeholder="0"
+                    className="mt-1"
+                  />
+                </div>
+              </div>
+              
+              <div>
+                <Label htmlFor="deadline" className="text-base font-medium">Submission Deadline</Label>
+                <Input
+                  id="deadline"
+                  name="deadline"
+                  type="date"
+                  value={formData.deadline}
+                  onChange={handleInputChange}
+                  className="mt-1"
+                />
+              </div>
+              
+              <div>
+                <Label className="text-base font-medium">Categories</Label>
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-2 mt-2">
+                  {TENDER_CATEGORIES.slice(0, 9).map(category => (
+                    <div key={category} className="flex items-center space-x-2">
+                      <Checkbox 
+                        id={`category-${category}`}
+                        checked={formData.categories.includes(category)}
+                        onCheckedChange={(checked) => 
+                          handleCategoryChange(category, checked as boolean)
+                        }
+                      />
+                      <Label 
+                        htmlFor={`category-${category}`}
+                        className="text-sm font-normal cursor-pointer"
+                      >
+                        {category}
+                      </Label>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
+          
+          {/* Step 2: Requirements */}
+          {step === 2 && (
+            <div className="space-y-6">
+              <div>
+                <Label htmlFor="experience" className="text-base font-medium">Experience Required</Label>
+                <Select 
+                  value={formData.requirements.experience} 
+                  onValueChange={(value) => 
+                    setFormData(prev => ({
+                      ...prev,
+                      requirements: {
+                        ...prev.requirements,
+                        experience: value
+                      }
+                    }))
+                  }
+                >
+                  <SelectTrigger id="experience">
+                    <SelectValue placeholder="Select experience level" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="1+ years">1+ years</SelectItem>
+                    <SelectItem value="3+ years">3+ years</SelectItem>
+                    <SelectItem value="5+ years">5+ years</SelectItem>
+                    <SelectItem value="5+ years commercial">5+ years commercial</SelectItem>
+                    <SelectItem value="10+ years">10+ years</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              
+              <div>
+                <Label className="text-base font-medium">Required Certifications</Label>
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-2 mt-2">
+                  {CERTIFICATIONS.slice(0, 9).map(cert => (
+                    <div key={cert} className="flex items-center space-x-2">
+                      <Checkbox 
+                        id={`cert-${cert}`}
+                        checked={formData.requirements.certifications.includes(cert)}
+                        onCheckedChange={(checked) => 
+                          handleCertificationChange(cert, checked as boolean)
+                        }
+                      />
+                      <Label 
+                        htmlFor={`cert-${cert}`}
+                        className="text-sm font-normal cursor-pointer"
+                      >
+                        {cert}
+                      </Label>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              
+              <div>
+                <Label htmlFor="insurance" className="text-base font-medium">Insurance Requirements</Label>
+                <Select 
+                  value={formData.requirements.insurance} 
+                  onValueChange={(value) => 
+                    setFormData(prev => ({
+                      ...prev,
+                      requirements: {
+                        ...prev.requirements,
+                        insurance: value
+                      }
+                    }))
+                  }
+                >
+                  <SelectTrigger id="insurance">
+                    <SelectValue placeholder="Select insurance requirement" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {INSURANCE_OPTIONS.map(option => (
+                      <SelectItem key={option} value={option}>{option}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              
+              <div>
+                <Label className="text-base font-medium">Required Documentation</Label>
+                <div className="grid grid-cols-2 gap-2 mt-2">
+                  {[
+                    'Company Profile',
+                    'Financial Statements',
+                    'Safety Statement',
+                    'Quality Assurance Plan',
+                    'Project Portfolio',
+                    'Equipment List',
+                    'Staff Qualifications',
+                    'References'
+                  ].map(doc => (
+                    <div key={doc} className="flex items-center space-x-2">
+                      <Checkbox 
+                        id={`doc-${doc}`}
+                        checked={formData.requirements.documentation.includes(doc)}
+                        onCheckedChange={(checked) => 
+                          handleDocumentTypeChange(doc, checked as boolean)
+                        }
+                      />
+                      <Label 
+                        htmlFor={`doc-${doc}`}
+                        className="text-sm font-normal cursor-pointer"
+                      >
+                        {doc}
+                      </Label>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
+          
+          {/* Step 3: Attachments */}
+          {step === 3 && (
+            <div className="space-y-6">
+              <div>
+                <Label className="text-base font-medium">Tender Documents</Label>
+                <div className="mt-2 p-6 border-2 border-dashed rounded-lg bg-gray-50">
+                  <div className="text-center">
+                    <FileText className="h-10 w-10 text-gray-400 mx-auto mb-2" />
+                    <p className="text-gray-600 mb-2">
+                      Drop files here or click to upload
+                    </p>
+                    <p className="text-sm text-gray-500 mb-4">
+                      Accept PDF, Word, Excel, DWG, and image files up to 25MB
+                    </p>
+                    <div>
+                      <label className="cursor-pointer">
+                        <Button variant="outline" onClick={() => {}}>
+                          Select Files
+                        </Button>
+                        <input 
+                          type="file" 
+                          multiple 
+                          className="hidden" 
+                          onChange={handleFileChange}
+                        />
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              {files.length > 0 && (
+                <div>
+                  <h4 className="font-medium mb-2">Selected Files ({files.length})</h4>
+                  <div className="space-y-2">
+                    {files.map((file, index) => (
+                      <div key={index} className="flex items-center justify-between p-2 bg-gray-50 rounded">
+                        <div className="flex items-center">
+                          <FileText className="h-4 w-4 text-gray-500 mr-2" />
+                          <span className="text-sm truncate max-w-xs">{file.name}</span>
+                        </div>
+                        <span className="text-xs text-gray-500">
+                          {(file.size / 1024 / 1024).toFixed(2)} MB
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+              
+              <div>
+                <div className="p-4 bg-blue-50 rounded-lg flex items-start">
+                  <Brain className="h-5 w-5 text-blue-600 mt-0.5 mr-3" />
+                  <div>
+                    <h4 className="font-medium text-blue-900 mb-1">AI Tender Assistant</h4>
+                    <p className="text-sm text-blue-700">
+                      Our AI will analyze your tender requirements, suggest improvements, 
+                      and help identify qualified contractors. It also provides bid evaluation 
+                      assistance and contract risk assessment.
+                    </p>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="flex items-center space-x-2">
+                <Switch id="ai-integration" defaultChecked />
+                <Label htmlFor="ai-integration">Enable AI-powered bid analysis</Label>
+              </div>
+              
+              <div className="flex items-center space-x-2">
+                <Switch id="auto-verification" defaultChecked />
+                <Label htmlFor="auto-verification">Automatic contractor verification</Label>
+              </div>
+            </div>
+          )}
+        </div>
+        <DialogFooter className="p-4 border-t flex-shrink-0">
+          {step > 1 && (
+            <Button variant="outline" onClick={prevStep}>
+              Previous
+            </Button>
+          )}
+          
+          {step < 3 ? (
+            <Button onClick={nextStep}>
+              Next
+            </Button>
+          ) : (
+            <Button onClick={handleSubmit} disabled={isCreating}>
+              {isCreating ? 'Creating...' : 'Create Tender'}
+            </Button>
+          )}
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+// AI Bid Analysis Component
+function AIBidAnalysis({ tender }: { tender: Tender }) {
+  const topBids = tender.bids.slice(0, 2);
+
+  // Format data for radar chart
+  const radarData = tender.bids.map(bid => ({
+    subject: 'Price',
+    A: bid.aiAnalysis.priceScore,
+    B: bid.aiAnalysis.experienceScore,
+    C: 100 - bid.aiAnalysis.riskScore,
+    D: bid.aiAnalysis.valueScore,
+    E: bid.aiAnalysis.qualityMetrics.previousWorkQuality,
+    fullMark: 100,
+  }));
+
+  // Colors for each bid
+  const bidColors = ['#3B82F6', '#8B5CF6'];
+
+  return (
+    <div className="space-y-8">
+      {/* AI Recommendation Summary */}
+      <Card>
+        <CardContent className="p-6">
+          <div className="flex items-start gap-4">
+            <div className="bg-purple-100 p-3 rounded-full">
+              <Brain className="w-6 h-6 text-purple-600" />
+            </div>
+            <div>
+              <h3 className="font-semibold text-lg mb-2">AI Recommendation</h3>
+              <div className="p-4 bg-blue-50 rounded-lg text-blue-800">
+                {tender.aiRecommendation || `Based on comprehensive analysis of all submissions, ${topBids[0]?.contractor.name} presents the best overall value with superior experience and quality metrics.`}
+              </div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Comparative Analysis */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Bid Comparison</CardTitle>
+          <CardDescription>
+            Side-by-side analysis of the top {topBids.length} bids
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="h-80">
+              <ResponsiveContainer width="100%" height="100%">
+                <RadarChart outerRadius={90} data={[
+                  { name: 'Price', A: topBids[0]?.aiAnalysis.priceScore, B: topBids[1]?.aiAnalysis.priceScore },
+                  { name: 'Experience', A: topBids[0]?.aiAnalysis.experienceScore, B: topBids[1]?.aiAnalysis.experienceScore },
+                  { name: 'Quality', A: topBids[0]?.aiAnalysis.qualityMetrics.previousWorkQuality, B: topBids[1]?.aiAnalysis.qualityMetrics.previousWorkQuality },
+                  { name: 'Timeline', A: 90, B: 85 },
+                  { name: 'Risk', A: 100 - topBids[0]?.aiAnalysis.riskScore, B: 100 - topBids[1]?.aiAnalysis.riskScore },
+                  { name: 'Value', A: topBids[0]?.aiAnalysis.valueScore, B: topBids[1]?.aiAnalysis.valueScore },
+                ]}>
+                  <PolarGrid />
+                  <PolarAngleAxis dataKey="name" />
+                  <PolarRadiusAxis angle={30} domain={[0, 100]} />
+                  <Radar name={topBids[0]?.contractor.name} dataKey="A" stroke={bidColors[0]} fill={bidColors[0]} fillOpacity={0.5} />
+                  {topBids.length > 1 && (
+                    <Radar name={topBids[1]?.contractor.name} dataKey="B" stroke={bidColors[1]} fill={bidColors[1]} fillOpacity={0.5} />
+                  )}
+                  <Legend />
+                </RadarChart>
+              </ResponsiveContainer>
+            </div>
+            
+            <div className="space-y-4">
+              <h4 className="font-medium text-lg">Key Metrics Comparison</h4>
+              
+              <div className="space-y-3">
+                <div className="space-y-1">
+                  <div className="flex justify-between text-sm">
+                    <span>Price Competitiveness</span>
+                    <div className="space-x-2">
+                      {topBids.map((bid, idx) => (
+                        <Badge 
+                          key={idx} 
+                          variant="outline" 
+                          style={{ color: bidColors[idx], borderColor: bidColors[idx] }}
+                        >
+                          {bid.aiAnalysis.priceScore}/100
+                        </Badge>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
+                    {topBids.map((bid, idx) => (
+                      <div
+                        key={idx}
+                        className="h-full rounded-full"
+                        style={{ 
+                          width: `${bid.aiAnalysis.priceScore}%`, 
+                          backgroundColor: bidColors[idx],
+                          opacity: 0.8 - (idx * 0.3)
+                        }}
+                      />
+                    ))}
+                  </div>
+                </div>
+                
+                <div className="space-y-1">
+                  <div className="flex justify-between text-sm">
+                    <span>Experience</span>
+                    <div className="space-x-2">
+                      {topBids.map((bid, idx) => (
+                        <Badge 
+                          key={idx} 
+                          variant="outline" 
+                          style={{ color: bidColors[idx], borderColor: bidColors[idx] }}
+                        >
+                          {bid.aiAnalysis.experienceScore}/100
+                        </Badge>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
+                    {topBids.map((bid, idx) => (
+                      <div
+                        key={idx}
+                        className="h-full rounded-full"
+                        style={{ 
+                          width: `${bid.aiAnalysis.experienceScore}%`, 
+                          backgroundColor: bidColors[idx],
+                          opacity: 0.8 - (idx * 0.3)
+                        }}
+                      />
+                    ))}
+                  </div>
+                </div>
+                
+                <div className="space-y-1">
+                  <div className="flex justify-between text-sm">
+                    <span>Risk Assessment</span>
+                    <div className="space-x-2">
+                      {topBids.map((bid, idx) => (
+                        <Badge 
+                          key={idx} 
+                          variant="outline" 
+                          style={{ color: bidColors[idx], borderColor: bidColors[idx] }}
+                        >
+                          {100 - bid.aiAnalysis.riskScore}/100
+                        </Badge>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
+                    {topBids.map((bid, idx) => (
+                      <div
+                        key={idx}
+                        className="h-full rounded-full"
+                        style={{ 
+                          width: `${100 - bid.aiAnalysis.riskScore}%`, 
+                          backgroundColor: bidColors[idx],
+                          opacity: 0.8 - (idx * 0.3)
+                        }}
+                      />
+                    ))}
+                  </div>
+                </div>
+                
+                <div className="space-y-1">
+                  <div className="flex justify-between text-sm">
+                    <span>Overall Value</span>
+                    <div className="space-x-2">
+                      {topBids.map((bid, idx) => (
+                        <Badge 
+                          key={idx} 
+                          variant="outline" 
+                          style={{ color: bidColors[idx], borderColor: bidColors[idx] }}
+                        >
+                          {bid.aiAnalysis.valueScore}/100
+                        </Badge>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
+                    {topBids.map((bid, idx) => (
+                      <div
+                        key={idx}
+                        className="h-full rounded-full"
+                        style={{ 
+                          width: `${bid.aiAnalysis.valueScore}%`, 
+                          backgroundColor: bidColors[idx],
+                          opacity: 0.8 - (idx * 0.3)
+                        }}
+                      />
+                    ))}
+                  </div>
+                </div>
+              </div>
+              
+              <div className="pt-4">
+                <div className="p-3 bg-gray-50 rounded-lg">
+                  <div className="flex items-start">
+                    <Scale className="h-4 w-4 text-gray-500 mt-0.5 mr-2" />
+                    <div>
+                      <p className="text-sm font-medium">Pricing Analysis</p>
+                      <p className="text-xs text-gray-600">
+                        {topBids[0].amount > topBids[1]?.amount ?
+                          `${topBids[0].contractor.name}'s bid is ${((topBids[0].amount - topBids[1]?.amount) / topBids[1]?.amount * 100).toFixed(1)}% higher than ${topBids[1]?.contractor.name}, but offers superior quality metrics and lower risk.` :
+                          `${topBids[0].contractor.name}'s bid is ${((topBids[1]?.amount - topBids[0].amount) / topBids[0].amount * 100).toFixed(1)}% lower than ${topBids[1]?.contractor.name} while maintaining high quality standards.`
+                        }
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Detailed Bid Analysis */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {topBids.map((bid, idx) => (
+          <BidAnalysisCard 
+            key={bid.id} 
+            bid={bid} 
+            index={idx} 
+            color={bidColors[idx]} 
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// Bid Analysis Card
+function BidAnalysisCard({ bid, index, color }: { bid: Bid; index: number; color: string }) {
+  return (
+    <Card>
+      <CardHeader className="pb-3">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center">
+            {bid.contractor.logo ? (
+              <div className="relative w-10 h-10 mr-3">
+                <Image 
+                  src={bid.contractor.logo} 
+                  alt={bid.contractor.name}
+                  fill
+                  className="rounded-full object-cover"
+                />
+              </div>
+            ) : (
+              <div className={`w-10 h-10 rounded-full flex items-center justify-center mr-3`} style={{ backgroundColor: `${color}20` }}>
+                <Building className="h-5 w-5" style={{ color }} />
+              </div>
+            )}
+            <div>
+              <CardTitle className="text-lg">{bid.contractor.name}</CardTitle>
+              <CardDescription>
+                {bid.contractor.previousProjects} previous projects • Founded {bid.contractor.foundedYear}
+              </CardDescription>
+            </div>
+          </div>
+          <div className="flex flex-col items-end">
+            <div className="text-xl font-bold" style={{ color }}>
+              {formatCurrency(bid.amount)}
+            </div>
+            <div className="text-sm text-gray-500">
+              {bid.timeline} days
+            </div>
+          </div>
+        </div>
+      </CardHeader>
+      <CardContent className="space-y-4">
+        <Accordion type="single" collapsible className="w-full">
+          <AccordionItem value="strengths">
+            <AccordionTrigger className="text-sm font-medium">
+              Strengths & Concerns
+            </AccordionTrigger>
+            <AccordionContent>
+              <div className="space-y-3 pt-2">
+                <div>
+                  <h4 className="text-sm font-medium text-gray-900 mb-1">Strengths</h4>
+                  <ul className="space-y-1">
+                    {bid.aiAnalysis.strengths.map((strength, index) => (
+                      <li key={index} className="text-sm text-green-600 flex items-start">
+                        <CheckCircle className="w-4 h-4 mr-1 mt-0.5 flex-shrink-0" />
+                        <span>{strength}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <div>
+                  <h4 className="text-sm font-medium text-gray-900 mb-1">Concerns</h4>
+                  <ul className="space-y-1">
+                    {bid.aiAnalysis.concerns.map((concern, index) => (
+                      <li key={index} className="text-sm text-orange-600 flex items-start">
+                        <AlertTriangle className="w-4 h-4 mr-1 mt-0.5 flex-shrink-0" />
+                        <span>{concern}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </AccordionContent>
+          </AccordionItem>
+          
+          <AccordionItem value="quality">
+            <AccordionTrigger className="text-sm font-medium">
+              Quality Assessment
+            </AccordionTrigger>
+            <AccordionContent>
+              <div className="space-y-3 pt-2">
+                <div className="flex justify-between items-center">
+                  <span className="text-sm">Previous Work Quality</span>
+                  <span className="font-medium">{bid.aiAnalysis.qualityMetrics.previousWorkQuality}/100</span>
+                </div>
+                <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
+                  <div
+                    className="h-full rounded-full"
+                    style={{ 
+                      width: `${bid.aiAnalysis.qualityMetrics.previousWorkQuality}%`, 
+                      backgroundColor: color
+                    }}
+                  />
+                </div>
+                
+                <div className="flex justify-between items-center">
+                  <span className="text-sm">Material Quality</span>
+                  <span className="font-medium">{bid.aiAnalysis.qualityMetrics.materialQuality}/100</span>
+                </div>
+                <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
+                  <div
+                    className="h-full rounded-full"
+                    style={{ 
+                      width: `${bid.aiAnalysis.qualityMetrics.materialQuality}%`, 
+                      backgroundColor: color
+                    }}
+                  />
+                </div>
+                
+                <div className="flex justify-between items-center">
+                  <span className="text-sm">Workmanship Warranty</span>
+                  <span className="font-medium">{bid.aiAnalysis.qualityMetrics.workmanshipWarranty} years</span>
+                </div>
+              </div>
+            </AccordionContent>
+          </AccordionItem>
+          
+          <AccordionItem value="financial">
+            <AccordionTrigger className="text-sm font-medium">
+              Financial Assessment
+            </AccordionTrigger>
+            <AccordionContent>
+              <div className="space-y-3 pt-2">
+                <div className="flex justify-between items-center">
+                  <span className="text-sm">Financial Stability</span>
+                  <span className="font-medium">{bid.aiAnalysis.financialHealth.stabilityScore}/100</span>
+                </div>
+                <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
+                  <div
+                    className="h-full rounded-full"
+                    style={{ 
+                      width: `${bid.aiAnalysis.financialHealth.stabilityScore}%`, 
+                      backgroundColor: color
+                    }}
+                  />
+                </div>
+                
+                <div className="flex justify-between items-center">
+                  <span className="text-sm">Cashflow Risk</span>
+                  <Badge className={`
+                    ${bid.aiAnalysis.financialHealth.cashflowRisk === 'Low' ? 'bg-green-100 text-green-700' : ''}
+                    ${bid.aiAnalysis.financialHealth.cashflowRisk === 'Medium' ? 'bg-yellow-100 text-yellow-700' : ''}
+                    ${bid.aiAnalysis.financialHealth.cashflowRisk === 'High' ? 'bg-red-100 text-red-700' : ''}
+                  `}>
+                    {bid.aiAnalysis.financialHealth.cashflowRisk}
+                  </Badge>
+                </div>
+                
+                <div className="flex justify-between items-center">
+                  <span className="text-sm">Payment History</span>
+                  <span className="font-medium text-sm">
+                    {bid.aiAnalysis.financialHealth.paymentHistory}
+                  </span>
+                </div>
+              </div>
+            </AccordionContent>
+          </AccordionItem>
+          
+          <AccordionItem value="compliance">
+            <AccordionTrigger className="text-sm font-medium">
+              Compliance Status
+            </AccordionTrigger>
+            <AccordionContent>
+              <div className="space-y-3 pt-2">
+                <div className="flex justify-between items-center">
+                  <span className="text-sm">Certifications</span>
+                  <Badge className={bid.aiAnalysis.complianceStatus.certifications ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}>
+                    {bid.aiAnalysis.complianceStatus.certifications ? 'Verified' : 'Missing'}
+                  </Badge>
+                </div>
+                
+                <div className="flex justify-between items-center">
+                  <span className="text-sm">Insurance</span>
+                  <Badge className={bid.aiAnalysis.complianceStatus.insurance ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}>
+                    {bid.aiAnalysis.complianceStatus.insurance ? 'Verified' : 'Missing'}
+                  </Badge>
+                </div>
+                
+                <div className="flex justify-between items-center">
+                  <span className="text-sm">Licenses</span>
+                  <Badge className={bid.aiAnalysis.complianceStatus.licenses ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}>
+                    {bid.aiAnalysis.complianceStatus.licenses ? 'Verified' : 'Missing'}
+                  </Badge>
+                </div>
+              </div>
+            </AccordionContent>
+          </AccordionItem>
+        </Accordion>
+        
+        <div className="pt-3 border-t">
+          <h4 className="text-sm font-medium mb-2">AI Recommendation</h4>
+          <p className="text-sm text-gray-600">
+            {bid.aiAnalysis.recommendation}
+          </p>
+          <div className="mt-3">
+            <div className="text-sm flex items-center">
+              <span className="font-medium mr-2">Timeline Assessment:</span>
+              <span className="text-gray-600">{bid.aiAnalysis.timelineAssessment}</span>
+            </div>
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  );
+}

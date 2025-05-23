@@ -21,7 +21,7 @@ export class DataClient {
 
   async query<T = any>(options: {
     query: string;
-    variables?: Record<string, any>;
+    variables?: Record<string, any>\n  );
     authMode?: 'userPool' | 'iam' | 'apiKey' | 'oidc';
     errorPolicy?: 'none' | 'all' | 'ignore';
     transform?: (data: any) => T;
@@ -36,53 +36,46 @@ export class DataClient {
       const response = await this.client.graphql({
         query,
         variables,
-        authMode,
-      });
+        authMode});
 
       const transformedData = transform ? transform(response.data) : response.data;
 
       this.metrics.recordQueryMetrics({
         operation: query,
         duration: performance.now() - startTime,
-        success: true,
-      });
+        success: true});
 
       return {
         data: transformedData,
-        error: null,
-      };
-    } catch (err) {
+        error: null};
+    } catch (err: any) {
       const error = err as Error;
       this.logger.error('Query error', { error, query, variables });
       this.errorReporter.captureError(error, {
         query,
-        variables,
-      });
+        variables});
 
       this.metrics.recordQueryMetrics({
         operation: query,
         duration: performance.now() - startTime,
         success: false,
-        error,
-      });
+        error});
 
       if (options.errorPolicy === 'ignore') {
         return {
           data: null,
-          error: null,
-        };
+          error: null};
       }
 
       return {
         data: null,
-        error,
-      };
+        error};
     }
   }
 
   async mutate<T = any>(options: {
     mutation: string;
-    variables?: Record<string, any>;
+    variables?: Record<string, any>\n  );
     authMode?: 'userPool' | 'iam' | 'apiKey' | 'oidc';
     optimisticResponse?: T;
     transform?: (data: any) => T;
@@ -97,46 +90,40 @@ export class DataClient {
       const response = await this.client.graphql({
         query: mutation,
         variables,
-        authMode,
-      });
+        authMode});
 
       const transformedData = transform ? transform(response.data) : response.data;
 
       this.metrics.recordMutationMetrics({
         operation: mutation,
         duration: performance.now() - startTime,
-        success: true,
-      });
+        success: true});
 
       return {
         data: transformedData,
-        error: null,
-      };
-    } catch (err) {
+        error: null};
+    } catch (err: any) {
       const error = err as Error;
       this.logger.error('Mutation error', { error, mutation, variables });
       this.errorReporter.captureError(error, {
         mutation,
-        variables,
-      });
+        variables});
 
       this.metrics.recordMutationMetrics({
         operation: mutation,
         duration: performance.now() - startTime,
         success: false,
-        error,
-      });
+        error});
 
       return {
         data: null,
-        error,
-      };
+        error};
     }
   }
 
   async subscribe<T = any>(options: {
     subscription: string;
-    variables?: Record<string, any>;
+    variables?: Record<string, any>\n  );
     authMode?: 'userPool' | 'iam' | 'apiKey' | 'oidc';
     onData: (data: T) => void;
     onError: (error: Error) => void;
@@ -148,35 +135,31 @@ export class DataClient {
       const sub = this.client.graphql({
         query: subscription,
         variables,
-        authMode,
-      });
+        authMode});
 
       const unsubscribe = sub.subscribe({
         next: ({ data }) => {
           const transformedData = transform ? transform(data) : data;
           onData(transformedData);
         },
-        error: (err) => {
+        error: (err: any) => {
           const error = err as Error;
           this.logger.error('Subscription error', { error, subscription });
           this.errorReporter.captureError(error, {
             subscription,
-            variables,
-          });
+            variables});
           onError(error);
-        },
-      });
+        });
 
       return () => {
         unsubscribe.unsubscribe();
       };
-    } catch (err) {
+    } catch (err: any) {
       const error = err as Error;
       this.logger.error('Subscription setup error', { error, subscription });
       this.errorReporter.captureError(error, {
         subscription,
-        variables,
-      });
+        variables});
       throw error;
     }
   }

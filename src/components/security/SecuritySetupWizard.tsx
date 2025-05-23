@@ -34,10 +34,10 @@ export function SecuritySetupWizard({
   onComplete, 
   initialStep = 0 
 }: SecuritySetupWizardProps) {
-  const [activeStep, setActiveStep] = useState(initialStep);
-  const [completed, setCompleted] = useState<Record<string, boolean>>({});
-  const [isRegistering, setIsRegistering] = useState(false);
-  
+  const [activeStepsetActiveStep] = useState(initialStep);
+  const [completedsetCompleted] = useState<Record<string, boolean>>({});
+  const [isRegisteringsetIsRegistering] = useState(false);
+
   // Define the setup steps
   const steps: Step[] = [
     {
@@ -96,7 +96,7 @@ export function SecuritySetupWizard({
             while maintaining security. We'll remember this device and
             require less verification in the future.
           </p>
-          
+
           <Alert className="mb-4">
             <AlertTitle>Only trust devices you use regularly</AlertTitle>
             <AlertDescription>
@@ -104,7 +104,7 @@ export function SecuritySetupWizard({
               Don't register shared or public computers.
             </AlertDescription>
           </Alert>
-          
+
           <div className="mb-6">
             <div className="flex justify-between mb-2">
               <label htmlFor="deviceName" className="text-sm font-medium">
@@ -122,14 +122,14 @@ export function SecuritySetupWizard({
               Enter a name to help you identify this device
             </p>
           </div>
-          
+
           <div className="flex justify-between">
             <Button 
               variant="outline"
               onClick={() => {
                 // Skip this step
                 handleComplete('trusted-device');
-              }}
+              }
               disabled={isRegistering}
             >
               Skip
@@ -138,23 +138,23 @@ export function SecuritySetupWizard({
               onClick={async () => {
                 const deviceNameInput = document.getElementById('deviceName') as HTMLInputElement;
                 const deviceName = deviceNameInput?.value || 'My Device';
-                
+
                 setIsRegistering(true);
-                
+
                 try {
                   // Register device as trusted
                   if (SessionFingerprint && typeof SessionFingerprint.trustCurrentDevice === 'function') {
                     await SessionFingerprint.trustCurrentDevice(deviceName);
                   }
-                  
+
                   // Mark as completed
                   handleComplete('trusted-device');
                 } catch (error) {
-                  console.error('Error registering device:', error);
+
                 } finally {
                   setIsRegistering(false);
                 }
-              }}
+              }
               disabled={isRegistering}
             >
               {isRegistering ? 'Registering...' : 'Register Device'}
@@ -174,7 +174,7 @@ export function SecuritySetupWizard({
           <p className="mb-6">
             Customize how we protect your account and notify you about security events.
           </p>
-          
+
           <div className="space-y-6 mb-8">
             <div className="flex items-start space-x-3">
               <input
@@ -192,7 +192,7 @@ export function SecuritySetupWizard({
                 </p>
               </div>
             </div>
-            
+
             <div className="flex items-start space-x-3">
               <input
                 type="checkbox"
@@ -209,7 +209,7 @@ export function SecuritySetupWizard({
                 </p>
               </div>
             </div>
-            
+
             <div className="flex items-start space-x-3">
               <input
                 type="checkbox"
@@ -227,7 +227,7 @@ export function SecuritySetupWizard({
               </div>
             </div>
           </div>
-          
+
           <div className="flex justify-end">
             <Button onClick={() => handleComplete('security-preferences')}>
               Save Preferences
@@ -246,12 +246,12 @@ export function SecuritySetupWizard({
           <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
             <CheckCircle className="h-10 w-10 text-green-600" />
           </div>
-          
+
           <h3 className="text-xl font-semibold mb-2">Security Setup Complete!</h3>
           <p className="mb-6 text-gray-600">
             Your account is now protected with enhanced security features.
           </p>
-          
+
           <h4 className="font-medium mb-2">Security Features Enabled:</h4>
           <ul className="mb-8 inline-block text-left">
             {Object.keys(completed).includes('mfa') && (
@@ -273,7 +273,7 @@ export function SecuritySetupWizard({
               </li>
             )}
           </ul>
-          
+
           <Button 
             className="min-w-[200px]" 
             onClick={() => {
@@ -281,7 +281,7 @@ export function SecuritySetupWizard({
               if (onComplete) {
                 onComplete();
               }
-            }}
+            }
           >
             Go to Security Dashboard
           </Button>
@@ -289,34 +289,34 @@ export function SecuritySetupWizard({
       )
     }
   ];
-  
+
   // Handle completing a step
   const handleComplete = (stepId: string) => {
     const newCompleted = { ...completed };
     newCompleted[stepId] = true;
     setCompleted(newCompleted);
-    
+
     // Find the index of the completed step
     const completedStepIndex = steps.findIndex(step => step.id === stepId);
-    
+
     // Move to the next step
-    if (completedStepIndex < steps.length - 1) {
+    if (completedStepIndex <steps.length - 1) {
       setActiveStep(completedStepIndex + 1);
     }
   };
-  
+
   // Calculate progress percentage
   const calculateProgress = () => {
     // Count required steps
     const requiredSteps = steps.filter(step => step.required);
-    
+
     // Count completed required steps
     const completedRequiredSteps = requiredSteps.filter(step => completed[step.id]);
-    
+
     // Calculate percentage
-    return (completedRequiredSteps.length / Math.max(requiredSteps.length, 1)) * 100;
+    return (completedRequiredSteps.length / Math.max(requiredSteps.length1)) * 100;
   };
-  
+
   return (
     <Card className="max-w-2xl mx-auto">
       <CardHeader>
@@ -342,15 +342,15 @@ export function SecuritySetupWizard({
         <Button
           variant="outline"
           onClick={() => {
-            if (activeStep > 0) {
+            if (activeStep> 0) {
               setActiveStep(activeStep - 1);
             }
-          }}
+          }
           disabled={activeStep === 0}
         >
           Back
         </Button>
-        
+
         <div className="text-xs text-gray-500">
           {steps[activeStep].required ? (
             <span className="text-red-500">* Required step</span>
@@ -358,20 +358,20 @@ export function SecuritySetupWizard({
             <span>Optional step</span>
           )}
         </div>
-        
+
         <Button
           onClick={() => {
-            if (activeStep < steps.length - 1) {
+            if (activeStep <steps.length - 1) {
               // Skip this step
               handleComplete(steps[activeStep].id);
             } else if (onComplete) {
               onComplete();
             }
-          }}
-          variant={activeStep < steps.length - 1 ? 'ghost' : 'default'}
+          }
+          variant={activeStep <steps.length - 1 ? 'ghost' : 'default'}
           disabled={steps[activeStep].required && !completed[steps[activeStep].id]}
         >
-          {activeStep < steps.length - 1 ? 'Skip' : 'Finish'}
+          {activeStep <steps.length - 1 ? 'Skip' : 'Finish'}
         </Button>
       </CardFooter>
     </Card>

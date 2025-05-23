@@ -1,0 +1,656 @@
+// Developer-Focused Platform Schema for Prop
+
+model Developer {
+  id          String        @id @default(cuid())
+  name        String
+  companyName String
+  email       String        @unique
+  phone       String
+  address     String
+  website     String?
+  logo        String?
+  
+  developments Development[]
+  users        User[]        @relation("DeveloperUsers")
+  
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+}
+
+model Development {
+  id                String            @id @default(cuid())
+  name              String
+  slug              String            @unique
+  developerId       String
+  developer         Developer         @relation(fields: [developerId], references: [id])
+  
+  // Location
+  address           String
+  county            String
+  city              String
+  postcode          String
+  latitude          Float?
+  longitude         Float?
+  
+  // Development Details
+  description       String            @db.Text
+  totalUnits        Int
+  phases            Int               @default(1)
+  currentPhase      Int               @default(1)
+  status            DevelopmentStatus @default(PLANNING)
+  
+  // Key Information
+  plannedCompletion DateTime
+  actualCompletion  DateTime?
+  launchDate        DateTime?
+  
+  // Media
+  heroImage         String?
+  galleryImages     String[]
+  sitePlanImage     String?
+  brochureUrl       String?
+  virtualTourUrl    String?
+  
+  // Features & Amenities
+  features          String[]
+  nearbyAmenities   Json?            // Schools, transport, shopping etc
+  
+  // Sales Information
+  salesCenterAddress String?
+  openingHours      Json?
+  
+  // Related Data
+  phases            DevelopmentPhase[]
+  units             Unit[]
+  floorPlans        FloorPlan[]
+  documents         DevelopmentDocument[]
+  salesFunnel       SalesFunnel[]
+  
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+}
+
+model DevelopmentPhase {
+  id                String           @id @default(cuid())
+  developmentId     String
+  development       Development      @relation(fields: [developmentId], references: [id])
+  
+  phaseNumber       Int
+  name              String
+  totalUnits        Int
+  
+  plannedStart      DateTime
+  plannedCompletion DateTime
+  actualStart       DateTime?
+  actualCompletion  DateTime?
+  
+  status            PhaseStatus      @default(PLANNING)
+  
+  units             Unit[]
+  
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+}
+
+model Unit {
+  id                String           @id @default(cuid())
+  developmentId     String
+  development       Development      @relation(fields: [developmentId], references: [id])
+  phaseId           String?
+  phase             DevelopmentPhase? @relation(fields: [phaseId], references: [id])
+  
+  // Unit Identification
+  unitNumber        String
+  block             String?
+  floor             Int?
+  unitCode          String           @unique // e.g., "FG-A-101"
+  
+  // Unit Details
+  type              UnitType
+  subType           UnitSubType
+  bedrooms          Int
+  bathrooms         Float            // 1.5, 2, 2.5 etc
+  
+  // Schedule of Accommodation
+  totalArea         Float            // sq meters
+  livingArea        Float
+  balconyArea       Float?
+  terraceArea       Float?
+  gardenArea        Float?
+  
+  rooms             Room[]
+  
+  // Pricing
+  basePrice         Float
+  currentPrice      Float
+  pricePerSqM       Float?
+  parkingSpaces     Int              @default(0)
+  parkingPrice      Float?
+  
+  // Orientation & Position
+  orientation       String?          // North, South, East, West etc
+  views             String[]
+  
+  // Status
+  status            UnitStatus       @default(AVAILABLE)
+  isShowUnit        Boolean          @default(false)
+  htbEligible       Boolean          @default(true)
+  
+  // Sales Data
+  reservedAt        DateTime?
+  soldAt            DateTime?
+  completedAt       DateTime?
+  
+  // Related Data
+  floorPlanId       String?
+  floorPlan         FloorPlan?       @relation(fields: [floorPlanId], references: [id])
+  
+  images            UnitImage[]
+  customizations    UnitCustomization[]
+  offers            Offer[]
+  transactions      Transaction[]
+  viewings          Viewing[]
+  reservations      Reservation[]
+  
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+  
+  @@unique([developmentId, unitNumber])
+}
+
+model Room {
+  id                String           @id @default(cuid())
+  unitId            String
+  unit              Unit             @relation(fields: [unitId], references: [id])
+  
+  name              String           // Living Room, Master Bedroom, Kitchen etc
+  type              RoomType
+  area              Float            // sq meters
+  dimensions        String?          // "4.2m x 3.8m"
+  
+  features          String[]
+  
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+}
+
+model FloorPlan {
+  id                String           @id @default(cuid())
+  developmentId     String
+  development       Development      @relation(fields: [developmentId], references: [id])
+  
+  name              String           // e.g., "Type A - 2 Bed Apartment"
+  code              String           // e.g., "2BA-01"
+  
+  type              UnitType
+  subType           UnitSubType
+  bedrooms          Int
+  bathrooms         Float
+  
+  totalArea         Float
+  imageUrl          String
+  pdfUrl            String?
+  
+  units             Unit[]
+  
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+}
+
+model UnitImage {
+  id                String           @id @default(cuid())
+  unitId            String
+  unit              Unit             @relation(fields: [unitId], references: [id])
+  
+  url               String
+  type              ImageType
+  caption           String?
+  order             Int              @default(0)
+  
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+}
+
+model SalesFunnel {
+  id                String           @id @default(cuid())
+  developmentId     String
+  development       Development      @relation(fields: [developmentId], references: [id])
+  
+  stage             SalesFunnelStage
+  count             Int
+  value             Float            // Total value of units at this stage
+  
+  date              DateTime         @default(now())
+  
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+  
+  @@unique([developmentId, stage, date])
+}
+
+model Buyer {
+  id                String           @id @default(cuid())
+  userId            String?
+  user              User?            @relation(fields: [userId], references: [id])
+  
+  // Personal Details
+  firstName         String
+  lastName          String
+  email             String           @unique
+  phone             String
+  
+  // Address
+  currentAddress    String
+  city              String
+  county            String
+  postcode          String
+  
+  // Status
+  type              BuyerType        @default(PURCHASER)
+  isFirstTimeBuyer  Boolean
+  htbApproved       Boolean          @default(false)
+  
+  // Financial
+  mortgageApproved  Boolean          @default(false)
+  proofOfFunds      Boolean          @default(false)
+  
+  // Related Data
+  offers            Offer[]
+  viewings          Viewing[]
+  reservations      Reservation[]
+  transactions      Transaction[]
+  documents         BuyerDocument[]
+  
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+}
+
+model Reservation {
+  id                String           @id @default(cuid())
+  unitId            String
+  unit              Unit             @relation(fields: [unitId], references: [id])
+  buyerId           String
+  buyer             Buyer            @relation(fields: [buyerId], references: [id])
+  
+  reservationRef    String           @unique
+  reservationDate   DateTime
+  expiryDate        DateTime
+  
+  depositAmount     Float
+  depositPaid       Boolean          @default(false)
+  depositPaidDate   DateTime?
+  
+  status            ReservationStatus @default(ACTIVE)
+  
+  notes             String?
+  
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+}
+
+model Transaction {
+  id                String           @id @default(cuid())
+  unitId            String
+  unit              Unit             @relation(fields: [unitId], references: [id])
+  buyerId           String
+  buyer             Buyer            @relation(fields: [buyerId], references: [id])
+  
+  transactionRef    String           @unique
+  
+  // Pricing
+  agreedPrice       Float
+  depositAmount     Float
+  balanceAmount     Float
+  
+  // Key Dates
+  saleAgreedDate    DateTime
+  contractDate      DateTime?
+  completionDate    DateTime?
+  
+  // Status
+  status            TransactionStatus @default(SALE_AGREED)
+  
+  // Legal
+  solicitorId       String?
+  solicitor         User?            @relation(fields: [solicitorId], references: [id])
+  
+  // HTB
+  htbApplication    HTBApplication?
+  
+  // Customizations
+  customizations    TransactionCustomization[]
+  
+  // Documents
+  documents         TransactionDocument[]
+  
+  // Payments
+  payments          Payment[]
+  
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+}
+
+model HTBApplication {
+  id                String           @id @default(cuid())
+  transactionId     String           @unique
+  transaction       Transaction      @relation(fields: [transactionId], references: [id])
+  
+  applicationRef    String           @unique
+  status            HTBStatus        @default(PENDING)
+  
+  submittedDate     DateTime
+  approvedDate      DateTime?
+  amount            Float?
+  
+  documents         HTBDocument[]
+  
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+}
+
+model Payment {
+  id                String           @id @default(cuid())
+  transactionId     String
+  transaction       Transaction      @relation(fields: [transactionId], references: [id])
+  
+  type              PaymentType
+  amount            Float
+  dueDate           DateTime
+  paidDate          DateTime?
+  
+  status            PaymentStatus    @default(PENDING)
+  
+  method            PaymentMethod?
+  reference         String?
+  
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+}
+
+model Offer {
+  id                String           @id @default(cuid())
+  unitId            String
+  unit              Unit             @relation(fields: [unitId], references: [id])
+  buyerId           String
+  buyer             Buyer            @relation(fields: [buyerId], references: [id])
+  
+  offerAmount       Float
+  conditions        String[]
+  expiryDate        DateTime
+  
+  status            OfferStatus      @default(PENDING)
+  
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+}
+
+model Viewing {
+  id                String           @id @default(cuid())
+  unitId            String
+  unit              Unit             @relation(fields: [unitId], references: [id])
+  buyerId           String
+  buyer             Buyer            @relation(fields: [buyerId], references: [id])
+  
+  scheduledDate     DateTime
+  duration          Int              @default(30) // minutes
+  type              ViewingType      @default(IN_PERSON)
+  
+  status            ViewingStatus    @default(SCHEDULED)
+  
+  notes             String?
+  feedback          String?
+  rating            Int?
+  
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+}
+
+model UnitCustomization {
+  id                String           @id @default(cuid())
+  unitId            String
+  unit              Unit             @relation(fields: [unitId], references: [id])
+  
+  category          String           // Kitchen, Bathroom, Flooring etc
+  item              String           // Specific customization
+  standardOption    String
+  upgradeCost       Float            @default(0)
+  
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+}
+
+model TransactionCustomization {
+  id                String           @id @default(cuid())
+  transactionId     String
+  transaction       Transaction      @relation(fields: [transactionId], references: [id])
+  
+  customizationId   String
+  selectedOption    String
+  additionalCost    Float
+  
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+}
+
+// Supporting Documents
+model DevelopmentDocument {
+  id                String           @id @default(cuid())
+  developmentId     String
+  development       Development      @relation(fields: [developmentId], references: [id])
+  
+  name              String
+  type              DocumentType
+  url               String
+  
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+}
+
+model BuyerDocument {
+  id                String           @id @default(cuid())
+  buyerId           String
+  buyer             Buyer            @relation(fields: [buyerId], references: [id])
+  
+  name              String
+  type              DocumentType
+  url               String
+  verified          Boolean          @default(false)
+  
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+}
+
+model TransactionDocument {
+  id                String           @id @default(cuid())
+  transactionId     String
+  transaction       Transaction      @relation(fields: [transactionId], references: [id])
+  
+  name              String
+  type              DocumentType
+  url               String
+  
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+}
+
+model HTBDocument {
+  id                String           @id @default(cuid())
+  applicationId     String
+  application       HTBApplication   @relation(fields: [applicationId], references: [id])
+  
+  name              String
+  type              DocumentType
+  url               String
+  
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+}
+
+// Enums
+enum DevelopmentStatus {
+  PLANNING
+  APPROVED
+  UNDER_CONSTRUCTION
+  LAUNCHED
+  SELLING
+  SOLD_OUT
+  COMPLETED
+}
+
+enum PhaseStatus {
+  PLANNING
+  APPROVED
+  CONSTRUCTION
+  SELLING
+  COMPLETED
+}
+
+enum UnitType {
+  HOUSE
+  APARTMENT
+  DUPLEX
+  PENTHOUSE
+  STUDIO
+}
+
+enum UnitSubType {
+  TERRACED
+  SEMI_DETACHED
+  DETACHED
+  END_TERRACE
+  GROUND_FLOOR
+  MID_FLOOR
+  TOP_FLOOR
+}
+
+enum UnitStatus {
+  AVAILABLE
+  RESERVED
+  SOLD
+  COMPLETED
+  NOT_RELEASED
+}
+
+enum RoomType {
+  LIVING_ROOM
+  KITCHEN
+  DINING_ROOM
+  MASTER_BEDROOM
+  BEDROOM
+  BATHROOM
+  EN_SUITE
+  UTILITY
+  STORAGE
+  HALLWAY
+  BALCONY
+  TERRACE
+  GARDEN
+}
+
+enum ImageType {
+  INTERIOR
+  EXTERIOR
+  FLOOR_PLAN
+  SITE_PLAN
+  AERIAL
+  STREET_VIEW
+  AMENITY
+}
+
+enum SalesFunnelStage {
+  INQUIRY
+  VIEWING_SCHEDULED
+  VIEWING_COMPLETED
+  OFFER_MADE
+  RESERVATION
+  SALE_AGREED
+  CONTRACTS_SIGNED
+  COMPLETED
+}
+
+enum BuyerType {
+  PURCHASER
+  INVESTOR
+  FIRST_TIME_BUYER
+}
+
+enum ReservationStatus {
+  ACTIVE
+  EXPIRED
+  CANCELLED
+  CONVERTED
+}
+
+enum TransactionStatus {
+  RESERVATION
+  SALE_AGREED
+  CONTRACTS_ISSUED
+  CONTRACTS_SIGNED
+  DEPOSIT_PAID
+  MORTGAGE_APPROVED
+  COMPLETED
+  CANCELLED
+}
+
+enum HTBStatus {
+  PENDING
+  SUBMITTED
+  APPROVED
+  REJECTED
+  EXPIRED
+}
+
+enum PaymentType {
+  BOOKING_DEPOSIT
+  CONTRACT_DEPOSIT
+  STAGE_PAYMENT
+  BALANCE
+  CUSTOMIZATION
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  OVERDUE
+  REFUNDED
+}
+
+enum PaymentMethod {
+  BANK_TRANSFER
+  CREDIT_CARD
+  DEBIT_CARD
+  CHEQUE
+}
+
+enum OfferStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
+  EXPIRED
+  WITHDRAWN
+}
+
+enum ViewingType {
+  IN_PERSON
+  VIRTUAL
+  SHOW_HOME
+}
+
+enum ViewingStatus {
+  SCHEDULED
+  COMPLETED
+  CANCELLED
+  NO_SHOW
+}
+
+enum DocumentType {
+  BROCHURE
+  FLOOR_PLAN
+  PRICE_LIST
+  CONTRACT
+  PROOF_OF_FUNDS
+  MORTGAGE_APPROVAL
+  ID_VERIFICATION
+  HTB_APPLICATION
+  COMPLETION_NOTICE
+}

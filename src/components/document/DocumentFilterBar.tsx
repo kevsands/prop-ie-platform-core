@@ -1,3 +1,4 @@
+import React from 'react';
 'use client';
 
 import { useState } from 'react';
@@ -8,8 +9,7 @@ import {
   SelectItem,
   SelectLabel,
   SelectTrigger,
-  SelectValue, 
-} from '@/components/ui/select';
+  SelectValue} from '@/components/ui/select';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { DocumentCategory, DocumentStatus } from './DocumentComplianceTracker';
@@ -35,8 +35,8 @@ export default function DocumentFilterBar({
   searchQuery,
   className
 }: DocumentFilterBarProps) {
-  const [expanded, setExpanded] = useState(false);
-  
+  const [expandedsetExpanded] = useState(false);
+
   // Calculate if any filters are active
   const hasActiveFilters = categoryFilter !== 'ALL' || statusFilter !== 'ALL' || searchQuery.trim() !== '';
 
@@ -65,7 +65,7 @@ export default function DocumentFilterBar({
             </span>
           )}
         </Button>
-        
+
         {hasActiveFilters && (
           <Button
             variant="ghost"
@@ -87,7 +87,7 @@ export default function DocumentFilterBar({
           <div className="w-full md:w-auto">
             <Select 
               value={categoryFilter} 
-              onValueChange={(value) => onCategoryChangeAction(value as any)}
+              onValueChange={(value: any) => onCategoryChangeAction(value as any)}
             >
               <SelectTrigger className="w-full md:w-[180px]">
                 <SelectValue placeholder="Category Filter" />
@@ -108,7 +108,7 @@ export default function DocumentFilterBar({
           <div className="w-full md:w-auto">
             <Select 
               value={statusFilter} 
-              onValueChange={(value) => onStatusChangeAction(value as any)}
+              onValueChange={(value: any) => onStatusChangeAction(value as any)}
             >
               <SelectTrigger className="w-full md:w-[180px]">
                 <SelectValue placeholder="Status Filter" />
@@ -132,7 +132,7 @@ export default function DocumentFilterBar({
           <Input
             placeholder="Search documents..."
             value={searchQuery}
-            onChange={(e) => onSearchChangeAction(e.target.value)}
+            onChange={(e: any) => onSearchChangeAction(e.target.value)}
             className="pl-8 pr-8"
           />
           {searchQuery && (

@@ -1,0 +1,280 @@
+/**
+ * Unit tests for properties API endpoint
+ */
+
+import { GET, POST } from '../route';
+import { createMockAppRequest, testApiRoute, expectApiSuccess, expectApiError } from '@/test-utils/api-test-helpers';
+import { createMockProperty, createMockProperties } from '@/test-utils/test-factories';
+import { prismaMock } from '@/test-utils/test-db';
+
+// Mock NextAuth
+jest.mock('next-auth', () => ({
+  getServerSession: jest.fn(),
+}));
+
+// Mock Prisma
+jest.mock('@/lib/db', () => ({
+  prisma: prismaMock,
+}));
+
+describe('Properties API Route', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  describe('GET /api/properties', () => {
+    it('should return paginated properties list', async () => {
+      const mockProperties = createMockProperties(10);
+      prismaMock.property.findMany.mockResolvedValue(mockProperties);
+      prismaMock.property.count.mockResolvedValue(25);
+
+      const response = await testApiRoute(GET, {
+        url: '/api/properties?page=1&limit=10',
+      });
+
+      expectApiSuccess(response);
+      expect(response.data).toMatchObject({
+        properties: expect.arrayContaining(mockProperties),
+        total: 25,
+        page: 1,
+        limit: 10,
+        totalPages: 3,
+      });
+
+      expect(prismaMock.property.findMany).toHaveBeenCalledWith({
+        skip: 0,
+        take: 10,
+        include: {
+          development: true,
+          unit: true,
+        },
+      });
+    });
+
+    it('should filter properties by location', async () => {
+      const dublinProperties = createMockProperties(5, { location: 'Dublin' });
+      prismaMock.property.findMany.mockResolvedValue(dublinProperties);
+      prismaMock.property.count.mockResolvedValue(5);
+
+      const response = await testApiRoute(GET, {
+        url: '/api/properties?location=Dublin',
+      });
+
+      expectApiSuccess(response);
+      expect(response.data.properties).toHaveLength(5);
+      expect(prismaMock.property.findMany).toHaveBeenCalledWith(
+        expect.objectContaining({
+          where: {
+            location: {
+              contains: 'Dublin',
+              mode: 'insensitive',
+            },
+          },
+        })
+      );
+    });
+
+    it('should filter properties by price range', async () => {
+      const response = await testApiRoute(GET, {
+        url: '/api/properties?minPrice=200000&maxPrice=400000',
+      });
+
+      expect(prismaMock.property.findMany).toHaveBeenCalledWith(
+        expect.objectContaining({
+          where: {
+            price: {
+              gte: 200000,
+              lte: 400000,
+            },
+          },
+        })
+      );
+    });
+
+    it('should filter by property type and features', async () => {
+      const response = await testApiRoute(GET, {
+        url: '/api/properties?type=apartment&bedrooms=2&bathrooms=1',
+      });
+
+      expect(prismaMock.property.findMany).toHaveBeenCalledWith(
+        expect.objectContaining({
+          where: {
+            type: 'apartment',
+            bedrooms: 2,
+            bathrooms: 1,
+          },
+        })
+      );
+    });
+
+    it('should handle database errors', async () => {
+      prismaMock.property.findMany.mockRejectedValue(new Error('Database error'));
+
+      const response = await testApiRoute(GET, {
+        url: '/api/properties',
+      });
+
+      expectApiError(response, 500, 'Failed to fetch properties');
+    });
+  });
+
+  describe('POST /api/properties', () => {
+    const mockSession = {
+      user: {
+        id: 'user-123',
+        email: 'developer@test.com',
+        roles: ['developer'],
+      },
+    };
+
+    beforeEach(() => {
+      const { getServerSession } = require('next-auth');
+      getServerSession.mockResolvedValue(mockSession);
+    });
+
+    it('should create a new property listing', async () => {
+      const newProperty = {
+        title: 'Modern 2-bed apartment',
+        price: 350000,
+        location: 'Dublin 2',
+        bedrooms: 2,
+        bathrooms: 1,
+        size: 85,
+        type: 'apartment',
+        description: 'Beautiful apartment in city center with modern finishes',
+        developmentId: 'dev-123',
+        unitId: 'unit-456',
+      };
+
+      const createdProperty = createMockProperty({ ...newProperty, id: 'prop-789' });
+      prismaMock.property.create.mockResolvedValue(createdProperty);
+
+      const response = await testApiRoute(POST, {
+        method: 'POST',
+        body: newProperty,
+      });
+
+      expectApiSuccess(response);
+      expect(response.data).toMatchObject(createdProperty);
+      expect(prismaMock.property.create).toHaveBeenCalledWith({
+        data: {
+          ...newProperty,
+          listedBy: mockSession.user.id,
+        },
+      });
+    });
+
+    it('should validate required fields', async () => {
+      const invalidProperty = {
+        title: '',
+        price: -1000,
+        bedrooms: 0,
+      };
+
+      const response = await testApiRoute(POST, {
+        method: 'POST',
+        body: invalidProperty,
+      });
+
+      expectApiError(response, 400);
+      expect(response.data.errors).toBeDefined();
+    });
+
+    it('should require authentication', async () => {
+      const { getServerSession } = require('next-auth');
+      getServerSession.mockResolvedValue(null);
+
+      const response = await testApiRoute(POST, {
+        method: 'POST',
+        body: { title: 'Test' },
+      });
+
+      expectApiError(response, 401, 'Unauthorized');
+    });
+
+    it('should require developer role', async () => {
+      const { getServerSession } = require('next-auth');
+      getServerSession.mockResolvedValue({
+        user: {
+          id: 'user-123',
+          email: 'buyer@test.com',
+          roles: ['buyer'], // Not a developer
+        },
+      });
+
+      const response = await testApiRoute(POST, {
+        method: 'POST',
+        body: { title: 'Test' },
+      });
+
+      expectApiError(response, 403, 'Insufficient permissions');
+    });
+
+    it('should handle duplicate property listings', async () => {
+      prismaMock.property.create.mockRejectedValue({
+        code: 'P2002',
+        message: 'Unique constraint failed',
+      });
+
+      const response = await testApiRoute(POST, {
+        method: 'POST',
+        body: {
+          title: 'Test Property',
+          unitId: 'existing-unit',
+        },
+      });
+
+      expectApiError(response, 409, 'Property already listed for this unit');
+    });
+  });
+
+  describe('Search functionality', () => {
+    it('should search properties by keyword', async () => {
+      const response = await testApiRoute(GET, {
+        url: '/api/properties?search=garden',
+      });
+
+      expect(prismaMock.property.findMany).toHaveBeenCalledWith(
+        expect.objectContaining({
+          where: {
+            OR: [
+              { title: { contains: 'garden', mode: 'insensitive' } },
+              { description: { contains: 'garden', mode: 'insensitive' } },
+              { features: { has: 'garden' } },
+            ],
+          },
+        })
+      );
+    });
+
+    it('should sort properties by price', async () => {
+      const response = await testApiRoute(GET, {
+        url: '/api/properties?sortBy=price&sortOrder=asc',
+      });
+
+      expect(prismaMock.property.findMany).toHaveBeenCalledWith(
+        expect.objectContaining({
+          orderBy: {
+            price: 'asc',
+          },
+        })
+      );
+    });
+
+    it('should filter by multiple amenities', async () => {
+      const response = await testApiRoute(GET, {
+        url: '/api/properties?amenities=parking,gym,security',
+      });
+
+      expect(prismaMock.property.findMany).toHaveBeenCalledWith(
+        expect.objectContaining({
+          where: {
+            amenities: {
+              hasEvery: ['parking', 'gym', 'security'],
+            },
+          },
+        })
+      );
+    });
+  });
+});

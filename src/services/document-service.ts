@@ -18,7 +18,7 @@ export class DocumentService {
     if (!prismaDocument) return null;
     return mapPrismaDocumentToDocument(prismaDocument);
   }
-  
+
   /**
    * List documents with filtering
    * @param options Filter options
@@ -44,7 +44,7 @@ export class DocumentService {
   }> {
     const { page = 1, limit = 50, ...filterOptions } = options || {};
     const offset = (page - 1) * limit;
-    
+
     // Convert enum values to strings for the database
     const dbOptions = {
       ...filterOptions,
@@ -54,9 +54,9 @@ export class DocumentService {
       limit,
       offset
     };
-    
+
     const result = await documentDb.list(dbOptions);
-    
+
     return {
       documents: result.documents.map(mapPrismaDocumentToDocument),
       totalCount: result.totalCount,
@@ -65,7 +65,7 @@ export class DocumentService {
       limit
     };
   }
-  
+
   /**
    * Upload a new document
    * @param data Document upload data
@@ -94,11 +94,11 @@ export class DocumentService {
       type: data.type.toString(),
       category: data.category.toString()
     };
-    
+
     const prismaDocument = await documentDb.create(dbData);
     return mapPrismaDocumentToDocument(prismaDocument);
   }
-  
+
   /**
    * Update document status
    * @param id Document ID
@@ -115,14 +115,14 @@ export class DocumentService {
     if (!document) {
       throw new Error(`Document with ID ${id} not found`);
     }
-    
+
     // In a real implementation, this would update the database
     // This is a placeholder for demonstration purposes
     document.status = status;
-    
+
     return document;
   }
-  
+
   /**
    * Create a new document version
    * @param documentId Original document ID
@@ -143,14 +143,14 @@ export class DocumentService {
     if (!document) {
       throw new Error(`Document with ID ${documentId} not found`);
     }
-    
+
     // In a real implementation, this would update the database
     // This is a placeholder for demonstration purposes
     document.version += 1;
-    
+
     return document;
   }
-  
+
   /**
    * Generate a pre-signed upload URL
    * This would typically integrate with cloud storage like S3
@@ -168,19 +168,19 @@ export class DocumentService {
   }> {
     // In a real implementation, this would generate a pre-signed URL
     // This is a placeholder for demonstration purposes
-    
+
     // Generate a unique file path
     const timestamp = Date.now();
-    const uniqueId = Math.random().toString(36).substring(2, 15);
+    const uniqueId = Math.random().toString(36).substring(215);
     const filePath = `uploads/${timestamp}-${uniqueId}-${fileName}`;
-    
+
     return {
       uploadUrl: `https://example.com/upload?file=${filePath}`,
       fileUrl: `https://example.com/files/${filePath}`,
       expiresIn: 3600 // 1 hour
     };
   }
-  
+
   /**
    * Get document templates
    * @param type Optional document type to filter

@@ -1,0 +1,398 @@
+'use client';
+
+import { useState } from 'react';
+import Link from 'next/link';
+import { motion } from 'framer-motion';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import {
+  Building,
+  Scale,
+  Ruler,
+  Users,
+  FileText,
+  Home,
+  TrendingUp,
+  Shield,
+  Zap,
+  Globe,
+  ChevronRight,
+  ArrowRight,
+  CheckCircle,
+  Star,
+  Award,
+  BarChart3,
+  Lock,
+  Clock,
+  MessageSquare,
+  Briefcase,
+  Package
+} from 'lucide-react';
+
+export default function HomePage() {
+  const [hoveredFeaturesetHoveredFeature] = useState<string | null>(null);
+
+  const platforms = [
+    {
+      id: 'estate',
+      title: 'Estate Agency CRM',
+      description: 'Complete property management and client relationship platform',
+      icon: Building,
+      color: 'blue',
+      features: [
+        'Lead Management & Conversion',
+        'Property Matching AI',
+        'Viewing Scheduler',
+        'Offer Tracking'
+      ],
+      href: '/agent/dashboard'
+    },
+    {
+      id: 'legal',
+      title: 'Legal Services',
+      description: 'Streamlined conveyancing and compliance management',
+      icon: Scale,
+      color: 'green',
+      features: [
+        'Case Management',
+        'Document Automation',
+        'AML Compliance',
+        'Fee Tracking'
+      ],
+      href: '/solicitor/dashboard'
+    },
+    {
+      id: 'architect',
+      title: 'Architecture Hub',
+      description: 'Collaborative design and project management tools',
+      icon: Ruler,
+      color: 'purple',
+      features: [
+        'Drawing Management',
+        '3D Model Viewer',
+        'Task Boards',
+        'Real-time Comments'
+      ],
+      href: '/architect/dashboard'
+    }
+  ];
+
+  const stats = [
+    { value: '2.4M+', label: 'Transactions Processed', icon: TrendingUp },
+    { value: '98%', label: 'Client Satisfaction', icon: Star },
+    { value: '500+', label: 'Partner Firms', icon: Briefcase },
+    { value: '24/7', label: 'Platform Availability', icon: Clock }
+  ];
+
+  const testimonials = [
+    {
+      name: 'Sarah O\'Connor',
+      role: 'Managing Director, Premier Estates',
+      content: 'The platform has transformed how we manage properties and clients. Our efficiency has increased by 40%.',
+      rating: 5
+    },
+    {
+      name: 'Michael Murphy',
+      role: 'Senior Partner, Murphy & Associates',
+      content: 'Conveyancing that used to take weeks now takes days. The automation is incredible.',
+      rating: 5
+    },
+    {
+      name: 'Emma Walsh',
+      role: 'Lead Architect, Walsh Design Studio',
+      content: 'Collaboration with clients and contractors has never been easier. A game-changer for our practice.',
+      rating: 5
+    }
+  ];
+
+  const features = [
+    {
+      title: 'Unified Platform',
+      description: 'All stakeholders connected in one ecosystem',
+      icon: Globe
+    },
+    {
+      title: 'Bank-Level Security',
+      description: 'Enterprise-grade security and compliance',
+      icon: Shield
+    },
+    {
+      title: 'Real-time Updates',
+      description: 'Instant notifications and live collaboration',
+      icon: Zap
+    },
+    {
+      title: 'AI-Powered',
+      description: 'Smart automation and intelligent matching',
+      icon: BarChart3
+    }
+  ];
+
+  return (
+    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
+      {/* Navigation */}
+      <nav className="fixed top-0 w-full bg-white/80 backdrop-blur-md z-50 border-b border-gray-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-16">
+            <div className="flex items-center space-x-3">
+              <div className="w-10 h-10 bg-[#2B5273] rounded-lg flex items-center justify-center">
+                <span className="text-white font-bold text-xl">P</span>
+              </div>
+              <h1 className="text-xl font-bold text-gray-900">PropPlatform</h1>
+            </div>
+            <div className="flex items-center space-x-4">
+              <Link href="/platform">
+                <Button variant="ghost">Platform</Button>
+              </Link>
+              <Link href="/demo/platform-overview">
+                <Button variant="ghost">Demo</Button>
+              </Link>
+              <Link href="/login">
+                <Button>Sign In</Button>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      {/* Hero Section */}
+      <section className="pt-32 pb-16 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto text-center">
+          <motion.div
+            initial={ opacity: 0, y: 20 }
+            animate={ opacity: 1, y: 0 }
+            transition={ duration: 0.5 }
+          >
+            <Badge className="mb-4" variant="secondary">
+              The Future of Property Transactions
+            </Badge>
+            <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6">
+              One Platform.<br />Every Transaction.
+            </h1>
+            <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
+              Connect estate agents, solicitors, and architects in a unified ecosystem. 
+              Streamline property transactions from listing to completion.
+            </p>
+            <div className="flex gap-4 justify-center">
+              <Link href="/platform">
+                <Button size="lg" className="bg-[#2B5273] hover:bg-[#1E3142]">
+                  Access Platform
+                  <ArrowRight className="ml-2 h-5 w-5" />
+                </Button>
+              </Link>
+              <Link href="/demo/platform-overview">
+                <Button size="lg" variant="outline">
+                  View Demo
+                </Button>
+              </Link>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Stats Section */}
+      <section className="py-16 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            {stats.map((statindex) => (
+              <motion.div
+                key={index}
+                initial={ opacity: 0, y: 20 }
+                animate={ opacity: 1, y: 0 }
+                transition={ delay: index * 0.1 }
+                className="text-center"
+              >
+                <stat.icon className="h-8 w-8 text-[#2B5273] mx-auto mb-2" />
+                <div className="text-3xl font-bold text-gray-900">{stat.value}</div>
+                <div className="text-sm text-gray-600">{stat.label}</div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Platform Modules */}
+      <section className="py-16 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">
+              Integrated Platform Modules
+            </h2>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              Three powerful platforms working seamlessly together to revolutionize property transactions
+            </p>
+          </div>
+          <div className="grid gap-8 md:grid-cols-3">
+            {platforms.map((platform) => (
+              <motion.div
+                key={platform.id}
+                whileHover={ y: -5 }
+                onHoverStart={() => setHoveredFeature(platform.id)}
+                onHoverEnd={() => setHoveredFeature(null)}
+              >
+                <Card className="h-full cursor-pointer hover:shadow-xl transition-shadow">
+                  <CardHeader>
+                    <platform.icon className={`h-12 w-12 text-${platform.color}-500 mb-4`} />
+                    <CardTitle className="text-2xl">{platform.title}</CardTitle>
+                    <CardDescription className="text-base">
+                      {platform.description}
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <ul className="space-y-2 mb-6">
+                      {platform.features.map((featureindex) => (
+                        <li key={index} className="flex items-start gap-2">
+                          <CheckCircle className="h-5 w-5 text-green-500 flex-shrink-0 mt-0.5" />
+                          <span className="text-sm text-gray-700">{feature}</span>
+                        </li>
+                      ))}
+                    </ul>
+                    <Link href={platform.href}>
+                      <Button className="w-full" variant="outline">
+                        Explore {platform.title}
+                        <ChevronRight className="ml-2 h-4 w-4" />
+                      </Button>
+                    </Link>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Features Grid */}
+      <section className="py-16 bg-gray-50 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">
+              Why Choose PropPlatform?
+            </h2>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              Built for the modern property industry with cutting-edge technology
+            </p>
+          </div>
+          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+            {features.map((featureindex) => (
+              <motion.div
+                key={index}
+                initial={ opacity: 0, y: 20 }
+                animate={ opacity: 1, y: 0 }
+                transition={ delay: index * 0.1 }
+                className="text-center"
+              >
+                <div className="inline-flex items-center justify-center w-16 h-16 bg-[#2B5273] rounded-full mb-4">
+                  <feature.icon className="h-8 w-8 text-white" />
+                </div>
+                <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                  {feature.title}
+                </h3>
+                <p className="text-gray-600">{feature.description}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonials */}
+      <section className="py-16 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">
+              Trusted by Industry Leaders
+            </h2>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              See what our clients say about transforming their business with PropPlatform
+            </p>
+          </div>
+          <div className="grid gap-8 md:grid-cols-3">
+            {testimonials.map((testimonialindex) => (
+              <Card key={index} className="h-full">
+                <CardContent className="pt-6">
+                  <div className="flex mb-4">
+                    {[...Array(testimonial.rating)].map((_i) => (
+                      <Star key={i} className="h-5 w-5 text-yellow-400 fill-current" />
+                    ))}
+                  </div>
+                  <p className="text-gray-700 mb-4 italic">"{testimonial.content}"</p>
+                  <div className="mt-auto">
+                    <p className="font-semibold text-gray-900">{testimonial.name}</p>
+                    <p className="text-sm text-gray-600">{testimonial.role}</p>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-16 bg-[#2B5273] px-4 sm:px-6 lg:px-8">
+        <div className="max-w-4xl mx-auto text-center">
+          <h2 className="text-3xl font-bold text-white mb-4">
+            Ready to Transform Your Property Business?
+          </h2>
+          <p className="text-xl text-gray-200 mb-8">
+            Join hundreds of firms already using PropPlatform to streamline their operations
+          </p>
+          <div className="flex gap-4 justify-center">
+            <Link href="/platform">
+              <Button size="lg" variant="secondary">
+                Get Started
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Button>
+            </Link>
+            <Button size="lg" variant="outline" className="bg-transparent text-white border-white hover:bg-white/10">
+              <MessageSquare className="mr-2 h-5 w-5" />
+              Contact Sales
+            </Button>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="py-12 px-4 sm:px-6 lg:px-8 bg-gray-900">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            <div>
+              <h3 className="text-white font-semibold mb-4">Platform</h3>
+              <ul className="space-y-2">
+                <li><Link href="/agent/dashboard" className="text-gray-400 hover:text-white">Estate Agency</Link></li>
+                <li><Link href="/solicitor/dashboard" className="text-gray-400 hover:text-white">Legal Services</Link></li>
+                <li><Link href="/architect/dashboard" className="text-gray-400 hover:text-white">Architecture</Link></li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="text-white font-semibold mb-4">Company</h3>
+              <ul className="space-y-2">
+                <li><Link href="/about" className="text-gray-400 hover:text-white">About Us</Link></li>
+                <li><Link href="/careers" className="text-gray-400 hover:text-white">Careers</Link></li>
+                <li><Link href="/contact" className="text-gray-400 hover:text-white">Contact</Link></li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="text-white font-semibold mb-4">Resources</h3>
+              <ul className="space-y-2">
+                <li><Link href="/docs" className="text-gray-400 hover:text-white">Documentation</Link></li>
+                <li><Link href="/api" className="text-gray-400 hover:text-white">API Reference</Link></li>
+                <li><Link href="/support" className="text-gray-400 hover:text-white">Support</Link></li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="text-white font-semibold mb-4">Legal</h3>
+              <ul className="space-y-2">
+                <li><Link href="/privacy" className="text-gray-400 hover:text-white">Privacy Policy</Link></li>
+                <li><Link href="/terms" className="text-gray-400 hover:text-white">Terms of Service</Link></li>
+                <li><Link href="/security" className="text-gray-400 hover:text-white">Security</Link></li>
+              </ul>
+            </div>
+          </div>
+          <div className="mt-8 pt-8 border-t border-gray-800 text-center">
+            <p className="text-gray-400">© 2024 PropPlatform. All rights reserved.</p>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+}

@@ -25,69 +25,63 @@ export default function BuyerRegistrationFlow({
   developmentName,
   onComplete 
 }: BuyerRegistrationFlowProps) {
-  const [currentStep, setCurrentStep] = useState(0);
-  const [acceptedTerms, setAcceptedTerms] = useState(false);
-  const [proofOfFundsUrl, setProofOfFundsUrl] = useState('');
-  
+  const [currentStepsetCurrentStep] = useState(0);
+  const [acceptedTermssetAcceptedTerms] = useState(false);
+  const [proofOfFundsUrlsetProofOfFundsUrl] = useState('');
+
   const steps: Step[] = [
     {
       id: 'register',
       title: 'Create Account',
       description: 'Register and verify your email',
       icon: <Lock className="w-5 h-5" />,
-      status: currentStep > 0 ? 'completed' : currentStep === 0 ? 'active' : 'pending',
-    },
+      status: currentStep> 0 ? 'completed' : currentStep === 0 ? 'active' : 'pending'},
     {
       id: 'kyc',
       title: 'KYC Verification',
       description: 'Upload identity documents',
       icon: <FileCheck className="w-5 h-5" />,
-      status: currentStep > 1 ? 'completed' : currentStep === 1 ? 'active' : 'pending',
-    },
+      status: currentStep> 1 ? 'completed' : currentStep === 1 ? 'active' : 'pending'},
     {
       id: 'funds',
       title: 'Proof of Funds',
       description: 'Verify financial capacity',
       icon: <Euro className="w-5 h-5" />,
-      status: currentStep > 2 ? 'completed' : currentStep === 2 ? 'active' : 'pending',
-    },
+      status: currentStep> 2 ? 'completed' : currentStep === 2 ? 'active' : 'pending'},
     {
       id: 'terms',
       title: 'Legal Agreement',
       description: 'Accept purchase terms',
       icon: <Shield className="w-5 h-5" />,
-      status: currentStep > 3 ? 'completed' : currentStep === 3 ? 'active' : 'pending',
-    },
-  ];
+      status: currentStep> 3 ? 'completed' : currentStep === 3 ? 'active' : 'pending'}];
 
   const handleNextStep = () => {
-    if (currentStep < steps.length - 1) {
+    if (currentStep <steps.length - 1) {
       setCurrentStep(currentStep + 1);
     } else {
       onComplete({
         acceptedTerms,
         proofOfFundsUrl,
-        developmentId,
-      });
+        developmentId});
     }
   };
 
   const renderStepContent = () => {
     switch (currentStep) {
       case 0:
-        return <RegistrationStep onNext={handleNextStep} />;
+        return <RegistrationStep onNext={handleNextStep} />\n  );
       case 1:
-        return <KYCStep onNext={handleNextStep} />;
+        return <KYCStep onNext={handleNextStep} />\n  );
       case 2:
-        return <ProofOfFundsStep onNext={handleNextStep} onUpload={setProofOfFundsUrl} />;
+        return <ProofOfFundsStep onNext={handleNextStep} onUpload={setProofOfFundsUrl} />\n  );
       case 3:
         return <LegalAgreementStep 
           developmentName={developmentName}
-          onAccept={(accepted) => {
+          onAccept={(accepted: any) => {
             setAcceptedTerms(accepted);
             if (accepted) handleNextStep();
-          }} 
-        />;
+          } 
+        />\n  );
       default:
         return null;
     }
@@ -98,7 +92,7 @@ export default function BuyerRegistrationFlow({
       {/* Progress Steps */}
       <div className="mb-8">
         <div className="flex items-center justify-between relative">
-          {steps.map((step, index) => (
+          {steps.map((stepindex: any) => (
             <div key={step.id} className="flex flex-col items-center relative z-10">
               <div className={`
                 w-12 h-12 rounded-full flex items-center justify-center
@@ -115,7 +109,7 @@ export default function BuyerRegistrationFlow({
           <div className="absolute top-6 left-0 right-0 h-0.5 bg-gray-200 -z-10" />
           <div 
             className="absolute top-6 left-0 h-0.5 bg-blue-600 -z-10 transition-all duration-300"
-            style={{ width: `${(currentStep / (steps.length - 1)) * 100}%` }}
+            style={ width: `${(currentStep / (steps.length - 1)) * 100}%` }
           />
         </div>
       </div>
@@ -130,15 +124,14 @@ export default function BuyerRegistrationFlow({
 
 // Individual Step Components
 function RegistrationStep({ onNext }: { onNext: () => void }) {
-  const [formData, setFormData] = useState({
+  const [formDatasetFormData] = useState({
     email: '',
     password: '',
     confirmPassword: '',
     firstName: '',
     lastName: '',
     phone: '',
-    acceptMarketing: false,
-  });
+    acceptMarketing: false});
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -149,7 +142,7 @@ function RegistrationStep({ onNext }: { onNext: () => void }) {
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       <h3 className="text-2xl font-bold mb-6">Create Your Account</h3>
-      
+
       <div className="grid grid-cols-2 gap-4">
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -160,7 +153,7 @@ function RegistrationStep({ onNext }: { onNext: () => void }) {
             required
             className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             value={formData.firstName}
-            onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
+            onChange={(e: any) => setFormData({ ...formData, firstName: e.target.value })}
           />
         </div>
         <div>
@@ -172,7 +165,7 @@ function RegistrationStep({ onNext }: { onNext: () => void }) {
             required
             className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             value={formData.lastName}
-            onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
+            onChange={(e: any) => setFormData({ ...formData, lastName: e.target.value })}
           />
         </div>
       </div>
@@ -186,7 +179,7 @@ function RegistrationStep({ onNext }: { onNext: () => void }) {
           required
           className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           value={formData.email}
-          onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+          onChange={(e: any) => setFormData({ ...formData, email: e.target.value })}
         />
       </div>
 
@@ -199,7 +192,7 @@ function RegistrationStep({ onNext }: { onNext: () => void }) {
           required
           className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           value={formData.phone}
-          onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+          onChange={(e: any) => setFormData({ ...formData, phone: e.target.value })}
         />
       </div>
 
@@ -213,7 +206,7 @@ function RegistrationStep({ onNext }: { onNext: () => void }) {
           minLength={8}
           className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           value={formData.password}
-          onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+          onChange={(e: any) => setFormData({ ...formData, password: e.target.value })}
         />
       </div>
 
@@ -226,7 +219,7 @@ function RegistrationStep({ onNext }: { onNext: () => void }) {
           required
           className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           value={formData.confirmPassword}
-          onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
+          onChange={(e: any) => setFormData({ ...formData, confirmPassword: e.target.value })}
         />
       </div>
 
@@ -235,7 +228,7 @@ function RegistrationStep({ onNext }: { onNext: () => void }) {
           type="checkbox"
           className="mr-2"
           checked={formData.acceptMarketing}
-          onChange={(e) => setFormData({ ...formData, acceptMarketing: e.target.checked })}
+          onChange={(e: any) => setFormData({ ...formData, acceptMarketing: e.target.checked })}
         />
         <label className="text-sm text-gray-600">
           Send me updates about new properties and offers
@@ -253,10 +246,9 @@ function RegistrationStep({ onNext }: { onNext: () => void }) {
 }
 
 function KYCStep({ onNext }: { onNext: () => void }) {
-  const [documents, setDocuments] = useState({
+  const [documentssetDocuments] = useState({
     identity: null,
-    address: null,
-  });
+    address: null});
 
   const handleUpload = (docType: string, file: File) => {
     setDocuments({ ...documents, [docType]: file });
@@ -265,7 +257,7 @@ function KYCStep({ onNext }: { onNext: () => void }) {
   return (
     <div className="space-y-6">
       <h3 className="text-2xl font-bold mb-6">Verify Your Identity</h3>
-      
+
       <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
         <div className="flex items-start">
           <AlertCircle className="w-5 h-5 text-yellow-600 flex-shrink-0 mt-0.5" />
@@ -289,7 +281,7 @@ function KYCStep({ onNext }: { onNext: () => void }) {
           <input
             type="file"
             accept="image/*,.pdf"
-            onChange={(e) => e.target.files && handleUpload('identity', e.target.files[0])}
+            onChange={(e: any) => e.target.files && handleUpload('identity', e.target.files[0])}
             className="w-full px-4 py-2 border border-dashed rounded-md"
           />
         </div>
@@ -304,7 +296,7 @@ function KYCStep({ onNext }: { onNext: () => void }) {
           <input
             type="file"
             accept="image/*,.pdf"
-            onChange={(e) => e.target.files && handleUpload('address', e.target.files[0])}
+            onChange={(e: any) => e.target.files && handleUpload('address', e.target.files[0])}
             className="w-full px-4 py-2 border border-dashed rounded-md"
           />
         </div>
@@ -322,7 +314,7 @@ function KYCStep({ onNext }: { onNext: () => void }) {
 }
 
 function ProofOfFundsStep({ onNext, onUpload }: { onNext: () => void; onUpload: (url: string) => void }) {
-  const [fundDocument, setFundDocument] = useState<File | null>(null);
+  const [fundDocumentsetFundDocument] = useState<File | null>(null);
 
   const handleUpload = (file: File) => {
     setFundDocument(file);
@@ -332,7 +324,7 @@ function ProofOfFundsStep({ onNext, onUpload }: { onNext: () => void; onUpload: 
   return (
     <div className="space-y-6">
       <h3 className="text-2xl font-bold mb-6">Proof of Funds</h3>
-      
+
       <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
         <div className="flex items-start">
           <Euro className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
@@ -361,7 +353,7 @@ function ProofOfFundsStep({ onNext, onUpload }: { onNext: () => void; onUpload: 
         <input
           type="file"
           accept="image/*,.pdf"
-          onChange={(e) => e.target.files && handleUpload(e.target.files[0])}
+          onChange={(e: any) => e.target.files && handleUpload(e.target.files[0])}
           className="w-full px-4 py-2 border border-dashed rounded-md"
         />
       </div>
@@ -384,19 +376,18 @@ function LegalAgreementStep({
   developmentName: string; 
   onAccept: (accepted: boolean) => void;
 }) {
-  const [checkedBoxes, setCheckedBoxes] = useState({
+  const [checkedBoxessetCheckedBoxes] = useState({
     nonRefundable: false,
     purchaseObligation: false,
     priceAgreement: false,
-    termsAccepted: false,
-  });
+    termsAccepted: false});
 
   const allChecked = Object.values(checkedBoxes).every(v => v);
 
   return (
     <div className="space-y-6">
       <h3 className="text-2xl font-bold mb-6">Legal Agreement</h3>
-      
+
       <div className="bg-red-50 border border-red-200 rounded-lg p-4">
         <div className="flex items-start">
           <AlertCircle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
@@ -415,7 +406,7 @@ function LegalAgreementStep({
             type="checkbox"
             className="mr-3 mt-1"
             checked={checkedBoxes.nonRefundable}
-            onChange={(e) => setCheckedBoxes({ ...checkedBoxes, nonRefundable: e.target.checked })}
+            onChange={(e: any) => setCheckedBoxes({ ...checkedBoxes, nonRefundable: e.target.checked })}
           />
           <span className="text-sm text-gray-700">
             I understand that the reservation deposit is <strong>NON-REFUNDABLE</strong> and will be forfeited if I do not complete the purchase.
@@ -427,7 +418,7 @@ function LegalAgreementStep({
             type="checkbox"
             className="mr-3 mt-1"
             checked={checkedBoxes.purchaseObligation}
-            onChange={(e) => setCheckedBoxes({ ...checkedBoxes, purchaseObligation: e.target.checked })}
+            onChange={(e: any) => setCheckedBoxes({ ...checkedBoxes, purchaseObligation: e.target.checked })}
           />
           <span className="text-sm text-gray-700">
             I acknowledge that by reserving this property, I am entering into a <strong>legal obligation to purchase</strong> and am removing it from the market, preventing other potential buyers from purchasing it.
@@ -439,7 +430,7 @@ function LegalAgreementStep({
             type="checkbox"
             className="mr-3 mt-1"
             checked={checkedBoxes.priceAgreement}
-            onChange={(e) => setCheckedBoxes({ ...checkedBoxes, priceAgreement: e.target.checked })}
+            onChange={(e: any) => setCheckedBoxes({ ...checkedBoxes, priceAgreement: e.target.checked })}
           />
           <span className="text-sm text-gray-700">
             I agree to the purchase price as advertised for {developmentName} and understand this price is final and non-negotiable.
@@ -451,7 +442,7 @@ function LegalAgreementStep({
             type="checkbox"
             className="mr-3 mt-1"
             checked={checkedBoxes.termsAccepted}
-            onChange={(e) => setCheckedBoxes({ ...checkedBoxes, termsAccepted: e.target.checked })}
+            onChange={(e: any) => setCheckedBoxes({ ...checkedBoxes, termsAccepted: e.target.checked })}
           />
           <span className="text-sm text-gray-700">
             I have read and accept the full <Link href="/terms/property-purchase" className="text-blue-600 underline">Terms and Conditions</Link> and <Link href="/privacy" className="text-blue-600 underline">Privacy Policy</Link>.

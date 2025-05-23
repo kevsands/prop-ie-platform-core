@@ -1,0 +1,497 @@
+"use client";
+
+import React, { useState, useRef, useEffect } from 'react';
+import { FiSettings, FiCheck, FiX, FiRefreshCw, FiImage, FiType, FiAlignCenter } from 'react-icons/fi';
+import type { MediaFile } from './MediaUpload';
+
+interface WatermarkImageProps {
+  file: MediaFile;
+  onSave: (watermarkedFile: MediaFile) => void;
+  onCancel: () => void;
+  watermarkText?: string;
+  watermarkImage?: string;
+  defaultOpacity?: number;
+  position?: 'center' | 'bottom-right' | 'bottom-left' | 'top-right' | 'top-left';
+  maxWidth?: number;
+  maxHeight?: number;
+}
+
+const WatermarkImage: React.FC<WatermarkImageProps> = ({
+  file,
+  onSave,
+  onCancel,
+  watermarkText = 'Property Name',
+  watermarkImage,
+  defaultOpacity = 0.5,
+  position = 'bottom-right',
+  maxWidth = 800,
+  maxHeight = 600,
+}) => {
+  const [text, setText] = useState(watermarkText);
+  const [opacity, setOpacity] = useState(defaultOpacity);
+  const [textColor, setTextColor] = useState('#ffffff');
+  const [fontSize, setFontSize] = useState(24);
+  const [watermarkPosition, setWatermarkPosition] = useState(position);
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [preview, setPreview] = useState<string>(file.preview || '');
+  const [useTextWatermark, setUseTextWatermark] = useState(!watermarkImage);
+  
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const imageRef = useRef<HTMLImageElement>(null);
+  const watermarkImageRef = useRef<HTMLImageElement | null>(null);
+  
+  // Set up watermark image if provided
+  useEffect(() => {
+    if (watermarkImage) {
+      const img = new Image();
+      img.src = watermarkImage;
+      img.onload = () => {
+        watermarkImageRef.current = img;
+      };
+    }
+  }, [watermarkImage]);
+  
+  // Create image preview if not already available
+  useEffect(() => {
+    if (!file.preview && file.type.startsWith('image/')) {
+      const objectUrl = URL.createObjectURL(file);
+      setPreview(objectUrl);
+      
+      return () => {
+        URL.revokeObjectURL(objectUrl);
+      };
+    }
+  }, [file]);
+  
+  // Get coordinates for watermark based on position
+  const getWatermarkCoordinates = (
+    canvas: HTMLCanvasElement, 
+    textWidth: number, 
+    textHeight: number, 
+    padding = 20
+  ) => {
+    switch (watermarkPosition) {
+      case 'center':
+        return {
+          x: canvas.width / 2 - textWidth / 2,
+          y: canvas.height / 2 + textHeight / 4
+        };
+      case 'bottom-right':
+        return {
+          x: canvas.width - textWidth - padding,
+          y: canvas.height - padding
+        };
+      case 'bottom-left':
+        return {
+          x: padding,
+          y: canvas.height - padding
+        };
+      case 'top-right':
+        return {
+          x: canvas.width - textWidth - padding,
+          y: padding + textHeight
+        };
+      case 'top-left':
+        return {
+          x: padding,
+          y: padding + textHeight
+        };
+      default:
+        return {
+          x: canvas.width - textWidth - padding,
+          y: canvas.height - padding
+        };
+    }
+  };
+  
+  // Apply watermark and save the image
+  const handleApplyWatermark = async () => {
+    if (!imageRef.current || !canvasRef.current) return;
+    
+    setIsProcessing(true);
+    
+    try {
+      const canvas = canvasRef.current;
+      const ctx = canvas.getContext('2d');
+      
+      if (!ctx) {
+        throw new Error('Could not get canvas context');
+      }
+      
+      const img = imageRef.current;
+      
+      // Set canvas dimensions to match the image
+      canvas.width = img.naturalWidth;
+      canvas.height = img.naturalHeight;
+      
+      // Draw the original image
+      ctx.drawImage(img, 0, 0);
+      
+      // Apply watermark
+      if (useTextWatermark) {
+        // Text watermark
+        ctx.globalAlpha = opacity;
+        ctx.fillStyle = textColor;
+        ctx.font = `${fontSize}px Arial, sans-serif`;
+        
+        // Measure text width for positioning
+        const textWidth = ctx.measureText(text).width;
+        const textHeight = fontSize;
+        
+        const { x, y } = getWatermarkCoordinates(canvas, textWidth, textHeight);
+        
+        // Add text shadow for better visibility
+        ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
+        ctx.shadowBlur = 4;
+        ctx.shadowOffsetX = 2;
+        ctx.shadowOffsetY = 2;
+        
+        // Draw the text
+        ctx.fillText(text, x, y);
+      } else if (watermarkImageRef.current) {
+        // Image watermark
+        const watermarkImg = watermarkImageRef.current;
+        ctx.globalAlpha = opacity;
+        
+        // Scale watermark image (max 1/4 of the main image)
+        const maxWidth = canvas.width / 4;
+        const maxHeight = canvas.height / 4;
+        
+        let watermarkWidth = watermarkImg.width;
+        let watermarkHeight = watermarkImg.height;
+        
+        // Scale down if needed
+        if (watermarkWidth > maxWidth) {
+          const ratio = maxWidth / watermarkWidth;
+          watermarkWidth = maxWidth;
+          watermarkHeight = watermarkHeight * ratio;
+        }
+        
+        if (watermarkHeight > maxHeight) {
+          const ratio = maxHeight / watermarkHeight;
+          watermarkHeight = maxHeight;
+          watermarkWidth = watermarkWidth * ratio;
+        }
+        
+        // Get coordinates based on position
+        const { x, y } = getWatermarkCoordinates(
+          canvas, 
+          watermarkWidth, 
+          watermarkHeight
+        );
+        
+        // Draw the watermark image
+        ctx.drawImage(
+          watermarkImg, 
+          x, 
+          y - watermarkHeight, 
+          watermarkWidth, 
+          watermarkHeight
+        );
+      }
+      
+      // Reset transparency
+      ctx.globalAlpha = 1.0;
+      
+      // Convert canvas to blob
+      const blob = await new Promise<Blob | null>((resolve) => 
+        canvas.toBlob(resolve, file.type)
+      );
+      
+      if (!blob) {
+        throw new Error('Could not create image blob');
+      }
+      
+      // Create a new file with the watermarked image
+      const watermarkedFile = new File([blob], file.name, { type: file.type }) as MediaFile;
+      
+      // Create a new preview URL
+      watermarkedFile.preview = URL.createObjectURL(blob);
+      watermarkedFile.id = file.id; // Preserve the original ID
+      
+      // Pass the watermarked file back
+      onSave(watermarkedFile);
+    } catch (error) {
+      console.error('Error applying watermark:', error);
+    } finally {
+      setIsProcessing(false);
+    }
+  };
+  
+  if (!file.type.startsWith('image/')) {
+    return (
+      <div className="p-8 text-center bg-gray-50 rounded-lg">
+        <FiImage className="mx-auto h-12 w-12 text-gray-400 mb-4" />
+        <p className="text-gray-600">Watermarking is only available for image files.</p>
+        <div className="mt-4 flex justify-center space-x-4">
+          <button
+            type="button"
+            onClick={onCancel}
+            className="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300"
+          >
+            Close
+          </button>
+        </div>
+      </div>
+    );
+  }
+  
+  return (
+    <div className="watermark-tool flex flex-col">
+      {/* Hidden canvas for processing */}
+      <canvas ref={canvasRef} className="hidden" />
+      
+      {/* Image preview */}
+      <div className="flex-1 overflow-hidden flex items-center justify-center bg-gray-100 rounded-lg mb-4 p-4">
+        {preview ? (
+          <div className="relative inline-block">
+            <img
+              ref={imageRef}
+              src={preview}
+              alt={file.name}
+              style={{
+                maxWidth: `${maxWidth}px`,
+                maxHeight: `${maxHeight}px`,
+                objectFit: 'contain',
+              }}
+              className="transition-transform duration-200"
+            />
+            {/* Watermark preview overlay */}
+            {useTextWatermark && (
+              <div 
+                className={`absolute pointer-events-none ${
+                  watermarkPosition === 'center' ? 'inset-0 flex items-center justify-center' :
+                  watermarkPosition === 'bottom-right' ? 'bottom-2 right-2' :
+                  watermarkPosition === 'bottom-left' ? 'bottom-2 left-2' :
+                  watermarkPosition === 'top-right' ? 'top-2 right-2' :
+                  'top-2 left-2'
+                }`}
+                style={{
+                  opacity: opacity,
+                  textShadow: '2px 2px 4px rgba(0, 0, 0, 0.5)',
+                  color: textColor,
+                  fontSize: `${fontSize * 0.5}px`, // Scale down for preview
+                }}
+              >
+                {text}
+              </div>
+            )}
+          </div>
+        ) : (
+          <div className="text-center p-4">
+            <FiRefreshCw className="animate-spin h-8 w-8 text-gray-400 mx-auto mb-2" />
+            <p className="text-gray-500">Loading image...</p>
+          </div>
+        )}
+      </div>
+      
+      {/* Controls */}
+      <div className="flex flex-col space-y-4 bg-gray-50 p-4 rounded-lg">
+        {/* Watermark type */}
+        <div className="flex items-center justify-between">
+          <label className="text-sm font-medium text-gray-700">Watermark Type</label>
+          <div className="flex space-x-2">
+            <button
+              type="button"
+              onClick={() => setUseTextWatermark(true)}
+              className={`p-2 border rounded-md ${
+                useTextWatermark 
+                  ? 'bg-blue-50 border-blue-300 text-blue-700'
+                  : 'bg-white border-gray-300 text-gray-700'
+              }`}
+              title="Text watermark"
+            >
+              <FiType size={16} />
+            </button>
+            <button
+              type="button"
+              onClick={() => setUseTextWatermark(false)}
+              className={`p-2 border rounded-md ${
+                !useTextWatermark 
+                  ? 'bg-blue-50 border-blue-300 text-blue-700'
+                  : 'bg-white border-gray-300 text-gray-700'
+              }`}
+              title="Image watermark"
+              disabled={!watermarkImage}
+            >
+              <FiImage size={16} />
+            </button>
+          </div>
+        </div>
+        
+        {/* Text watermark options */}
+        {useTextWatermark && (
+          <>
+            <div className="space-y-1">
+              <label htmlFor="watermark-text" className="block text-sm font-medium text-gray-700">
+                Watermark Text
+              </label>
+              <input
+                type="text"
+                id="watermark-text"
+                value={text}
+                onChange={(e) => setText(e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="Enter watermark text"
+              />
+            </div>
+            
+            <div className="space-y-1">
+              <label htmlFor="font-size" className="block text-sm font-medium text-gray-700">
+                Font Size: {fontSize}px
+              </label>
+              <input
+                type="range"
+                id="font-size"
+                min={12}
+                max={72}
+                value={fontSize}
+                onChange={(e) => setFontSize(Number(e.target.value))}
+                className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
+              />
+            </div>
+            
+            <div className="space-y-1">
+              <label htmlFor="text-color" className="block text-sm font-medium text-gray-700">
+                Text Color
+              </label>
+              <div className="flex items-center space-x-2">
+                <input
+                  type="color"
+                  id="text-color"
+                  value={textColor}
+                  onChange={(e) => setTextColor(e.target.value)}
+                  className="w-8 h-8 p-0 border-0 rounded cursor-pointer"
+                />
+                <input
+                  type="text"
+                  value={textColor}
+                  onChange={(e) => setTextColor(e.target.value)}
+                  className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+            </div>
+          </>
+        )}
+        
+        {/* Common options */}
+        <div className="space-y-1">
+          <div className="flex items-center justify-between">
+            <label htmlFor="opacity" className="text-sm font-medium text-gray-700">
+              Opacity: {Math.round(opacity * 100)}%
+            </label>
+          </div>
+          <input
+            type="range"
+            id="opacity"
+            min={0.1}
+            max={1}
+            step={0.05}
+            value={opacity}
+            onChange={(e) => setOpacity(Number(e.target.value))}
+            className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
+          />
+        </div>
+        
+        <div className="space-y-1">
+          <label className="block text-sm font-medium text-gray-700">
+            Position
+          </label>
+          <div className="grid grid-cols-3 gap-2">
+            <button
+              type="button"
+              onClick={() => setWatermarkPosition('top-left')}
+              className={`p-2 border rounded-md ${
+                watermarkPosition === 'top-left'
+                  ? 'bg-blue-50 border-blue-300 text-blue-700'
+                  : 'bg-white border-gray-300 text-gray-700'
+              }`}
+            >
+              Top Left
+            </button>
+            <button
+              type="button"
+              onClick={() => setWatermarkPosition('top-right')}
+              className={`p-2 border rounded-md ${
+                watermarkPosition === 'top-right'
+                  ? 'bg-blue-50 border-blue-300 text-blue-700'
+                  : 'bg-white border-gray-300 text-gray-700'
+              }`}
+            >
+              Top Right
+            </button>
+            <button
+              type="button"
+              onClick={() => setWatermarkPosition('center')}
+              className={`p-2 border rounded-md ${
+                watermarkPosition === 'center'
+                  ? 'bg-blue-50 border-blue-300 text-blue-700'
+                  : 'bg-white border-gray-300 text-gray-700'
+              }`}
+            >
+              Center
+            </button>
+            <button
+              type="button"
+              onClick={() => setWatermarkPosition('bottom-left')}
+              className={`p-2 border rounded-md ${
+                watermarkPosition === 'bottom-left'
+                  ? 'bg-blue-50 border-blue-300 text-blue-700'
+                  : 'bg-white border-gray-300 text-gray-700'
+              }`}
+            >
+              Bottom Left
+            </button>
+            <button
+              type="button"
+              onClick={() => setWatermarkPosition('bottom-right')}
+              className={`p-2 border rounded-md ${
+                watermarkPosition === 'bottom-right'
+                  ? 'bg-blue-50 border-blue-300 text-blue-700'
+                  : 'bg-white border-gray-300 text-gray-700'
+              }`}
+            >
+              Bottom Right
+            </button>
+          </div>
+        </div>
+        
+        {/* Action buttons */}
+        <div className="flex items-center justify-between pt-2">
+          <button
+            type="button"
+            onClick={onCancel}
+            className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 flex items-center"
+          >
+            <FiX className="mr-1" />
+            Cancel
+          </button>
+          <button
+            type="button"
+            onClick={handleApplyWatermark}
+            disabled={isProcessing || !text.trim()}
+            className={`px-4 py-2 rounded-md text-white flex items-center ${
+              isProcessing || !text.trim() 
+                ? 'bg-gray-400 cursor-not-allowed' 
+                : 'bg-blue-600 hover:bg-blue-700'
+            }`}
+          >
+            {isProcessing ? (
+              <>
+                <FiRefreshCw className="animate-spin mr-1" />
+                Processing...
+              </>
+            ) : (
+              <>
+                <FiCheck className="mr-1" />
+                Apply Watermark
+              </>
+            )}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default WatermarkImage;

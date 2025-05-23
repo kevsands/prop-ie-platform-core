@@ -35,29 +35,39 @@ const Button = ({
   </button>
 );
 
+interface DevelopmentDocumentsPageProps {
+  params: Promise<{
+    id: string;
+  }>\n  );
+}
+
 /**
  * Development documents page displays all documents for a specific development
  */
-export default function DevelopmentDocumentsPage() {
-  const params = useParams();
-  const developmentId = params.id as string;
+export default async function DevelopmentDocumentsPage({ params }: DevelopmentDocumentsPageProps) {
+  const { id: developmentId } = await params;
+
+  return <DevelopmentDocumentsPageClient developmentId={developmentId} />\n  );
+}
+
+function DevelopmentDocumentsPageClient({ developmentId }: { developmentId: string }) {
   const { data: session, status } = useSession();
-  const [development, setDevelopment] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState('all');
+  const [developmentsetDevelopment] = useState<any>(null);
+  const [loadingsetLoading] = useState(true);
+  const [activeTabsetActiveTab] = useState('all');
 
   // Fetch development details
   useEffect(() => {
     const fetchDevelopment = async () => {
       try {
         const response = await fetch(`/api/developments?id=${developmentId}`);
-        
+
         if (response.ok) {
-          const data = await response.json();
+          const data: any = await response.json();
           setDevelopment(data);
         }
       } catch (error) {
-        console.error('Error fetching development:', error);
+
       } finally {
         setLoading(false);
       }
@@ -83,7 +93,7 @@ export default function DevelopmentDocumentsPage() {
       <div className="container mx-auto py-8">
         <h1 className="text-3xl font-bold mb-6">Authentication Required</h1>
         <p>You need to be signed in to access development documents.</p>
-        <Button onClick={() => window.location.href = "/login"} className="mt-4">
+        <Button onClick={() => window.location.href = "/login" className="mt-4">
           Sign In
         </Button>
       </div>
@@ -154,7 +164,7 @@ export default function DevelopmentDocumentsPage() {
             </li>
           </ul>
         </div>
-        
+
         <div className="p-6 border rounded bg-white shadow-sm">
           <h3 className="font-medium mb-2">Document Statistics</h3>
           <ul className="space-y-2 text-gray-600">

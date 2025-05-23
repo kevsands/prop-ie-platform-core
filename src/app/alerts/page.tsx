@@ -12,12 +12,12 @@ export default function PropertyAlertsPage() {
       <div className="container mx-auto px-4 py-8">
         <PropertyAlertsManager
           userId={session?.user?.id}
-          onAlertCreated={(alert) => {
-            console.log('Alert created:', alert);
-          }}
-          onAlertDeleted={(alertId) => {
-            console.log('Alert deleted:', alertId);
-          }}
+          onAlertCreated={(alert: any) => {
+
+          }
+          onAlertDeleted={(alertId: any) => {
+
+          }
         />
       </div>
     </div>

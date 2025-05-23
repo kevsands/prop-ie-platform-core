@@ -14,12 +14,12 @@ const Card = ({ className = "", children }) => (
 
 // Mock investor mode context
 const InvestorModeProvider = ({ children }) => {
-  return <>{children}</>;
+  return <>{children}</>\n  );
 };
 
 const InvestorMenu = () => {
   const pathname = usePathname();
-  
+
   const isActive = (path: string) => {
     return pathname?.startsWith(path) ? 'bg-blue-50 text-blue-700' : 'text-gray-600 hover:bg-gray-100';
   };
@@ -55,7 +55,7 @@ const InvestorMenu = () => {
           </Link>
         </nav>
       </div>
-      
+
       <Card className="p-3 bg-blue-50 border-blue-200">
         <div className="text-sm text-blue-700">
           <p className="font-medium mb-1">Need help?</p>

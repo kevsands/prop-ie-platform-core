@@ -33,10 +33,10 @@ const Offices = () => {
     <section className="py-16 bg-gray-50">
       <div className="container mx-auto px-4">
         <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          initial={ opacity: 0, y: 20 }
+          whileInView={ opacity: 1, y: 0 }
+          viewport={ once: true }
+          transition={ duration: 0.6 }
           className="text-center mb-12"
         >
           <h2 className="text-3xl font-bold text-gray-900 mb-4">Our Offices</h2>
@@ -44,15 +44,15 @@ const Offices = () => {
             Visit us at any of our offices across Ireland to discuss your property needs in person.
           </p>
         </motion.div>
-        
+
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {offices.map((office, index) => (
+          {offices.map((officeindex: any) => (
             <motion.div 
               key={index}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
+              initial={ opacity: 0, y: 20 }
+              whileInView={ opacity: 1, y: 0 }
+              viewport={ once: true }
+              transition={ duration: 0.5, delay: index * 0.1 }
               className="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow"
             >
               <div className="relative h-48 w-full">
@@ -60,7 +60,7 @@ const Offices = () => {
                   src={office.image}
                   alt={office.name}
                   fill
-                  style={{ objectFit: 'cover' }}
+                  style={ objectFit: 'cover' }
                 />
               </div>
               <div className="p-6">

@@ -1,0 +1,291 @@
+/**
+ * Unit tests for validation utilities
+ */
+
+describe('Validation Utilities', () => {
+  describe('Email Validation', () => {
+    it('should validate correct email formats', () => {
+      const validEmails = [
+        'user@example.com',
+        'john.doe@company.co.uk',
+        'test+tag@email.com',
+        'user123@test-domain.com',
+      ];
+
+      validEmails.forEach(email => {
+        expect(isValidEmail(email)).toBe(true);
+      });
+    });
+
+    it('should reject invalid email formats', () => {
+      const invalidEmails = [
+        'notanemail',
+        '@example.com',
+        'user@',
+        'user @example.com',
+        'user@.com',
+        '',
+        null,
+        undefined,
+      ];
+
+      invalidEmails.forEach(email => {
+        expect(isValidEmail(email as any)).toBe(false);
+      });
+    });
+  });
+
+  describe('Phone Number Validation', () => {
+    it('should validate Irish phone numbers', () => {
+      const validNumbers = [
+        '+353851234567',
+        '0851234567',
+        '+353 85 123 4567',
+        '085-123-4567',
+      ];
+
+      validNumbers.forEach(number => {
+        expect(isValidIrishPhone(number)).toBe(true);
+      });
+    });
+
+    it('should reject invalid phone numbers', () => {
+      const invalidNumbers = [
+        '1234567',
+        '+44851234567', // UK number
+        'notaphone',
+        '',
+      ];
+
+      invalidNumbers.forEach(number => {
+        expect(isValidIrishPhone(number)).toBe(false);
+      });
+    });
+  });
+
+  describe('Eircode Validation', () => {
+    it('should validate correct Eircode formats', () => {
+      const validEircodes = [
+        'D02 X285',
+        'A65 F4E2',
+        'T12 Y4E5',
+        'd02x285', // Case insensitive
+      ];
+
+      validEircodes.forEach(eircode => {
+        expect(isValidEircode(eircode)).toBe(true);
+      });
+    });
+
+    it('should reject invalid Eircode formats', () => {
+      const invalidEircodes = [
+        'D02X285', // Missing space
+        'D02 X28', // Too short
+        'D02 X2856', // Too long
+        '123 4567',
+        '',
+      ];
+
+      invalidEircodes.forEach(eircode => {
+        expect(isValidEircode(eircode)).toBe(false);
+      });
+    });
+  });
+
+  describe('Password Validation', () => {
+    it('should validate strong passwords', () => {
+      const validPasswords = [
+        'StrongP@ss123',
+        'C0mpl3x!Pass',
+        'Secure#2024',
+      ];
+
+      validPasswords.forEach(password => {
+        const result = validatePassword(password);
+        expect(result.isValid).toBe(true);
+        expect(result.errors).toHaveLength(0);
+      });
+    });
+
+    it('should reject weak passwords', () => {
+      const testCases = [
+        { password: 'short', error: 'Password must be at least 8 characters' },
+        { password: 'nouppercase123!', error: 'Password must contain uppercase letter' },
+        { password: 'NOLOWERCASE123!', error: 'Password must contain lowercase letter' },
+        { password: 'NoNumbers!', error: 'Password must contain number' },
+        { password: 'NoSpecial123', error: 'Password must contain special character' },
+      ];
+
+      testCases.forEach(({ password, error }) => {
+        const result = validatePassword(password);
+        expect(result.isValid).toBe(false);
+        expect(result.errors).toContain(error);
+      });
+    });
+  });
+
+  describe('IBAN Validation', () => {
+    it('should validate Irish IBANs', () => {
+      const validIBANs = [
+        'IE29 AIBK 9311 5212 3456 78',
+        'IE29AIBK93115212345678', // Without spaces
+      ];
+
+      validIBANs.forEach(iban => {
+        expect(isValidIrishIBAN(iban)).toBe(true);
+      });
+    });
+
+    it('should reject invalid IBANs', () => {
+      const invalidIBANs = [
+        'IE29 AIBK 9311 5212 3456', // Too short
+        'GB29 NWBK 6016 1331 9268 19', // UK IBAN
+        'NOTANIBAN',
+        '',
+      ];
+
+      invalidIBANs.forEach(iban => {
+        expect(isValidIrishIBAN(iban)).toBe(false);
+      });
+    });
+  });
+
+  describe('Form Validation', () => {
+    it('should validate property listing form', () => {
+      const validForm = {
+        title: 'Beautiful 3-bed apartment',
+        price: 350000,
+        bedrooms: 3,
+        bathrooms: 2,
+        size: 120,
+        location: 'Dublin 2',
+        eircode: 'D02 X285',
+        description: 'Spacious apartment in city center',
+      };
+
+      const result = validatePropertyForm(validForm);
+      expect(result.isValid).toBe(true);
+      expect(result.errors).toEqual({});
+    });
+
+    it('should catch property form errors', () => {
+      const invalidForm = {
+        title: '', // Empty
+        price: -1000, // Negative
+        bedrooms: 0, // Zero
+        bathrooms: 10, // Too many
+        size: -50, // Negative
+        location: 'D', // Too short
+        eircode: 'invalid',
+        description: 'Short', // Too short
+      };
+
+      const result = validatePropertyForm(invalidForm);
+      expect(result.isValid).toBe(false);
+      expect(result.errors.title).toBe('Title is required');
+      expect(result.errors.price).toBe('Price must be positive');
+      expect(result.errors.bedrooms).toBe('Bedrooms must be between 1 and 6');
+      expect(result.errors.bathrooms).toBe('Bathrooms must be between 1 and 4');
+      expect(result.errors.size).toBe('Size must be positive');
+      expect(result.errors.location).toBe('Location must be at least 3 characters');
+      expect(result.errors.eircode).toBe('Invalid Eircode format');
+      expect(result.errors.description).toBe('Description must be at least 20 characters');
+    });
+  });
+
+  describe('Date Validation', () => {
+    it('should validate future dates', () => {
+      const tomorrow = new Date();
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      
+      expect(isFutureDate(tomorrow)).toBe(true);
+      expect(isFutureDate(new Date())).toBe(false);
+      expect(isFutureDate(new Date('2020-01-01'))).toBe(false);
+    });
+
+    it('should validate date ranges', () => {
+      const start = new Date('2024-01-01');
+      const end = new Date('2024-12-31');
+      
+      expect(isValidDateRange(start, end)).toBe(true);
+      expect(isValidDateRange(end, start)).toBe(false);
+    });
+  });
+});
+
+// Mock implementations
+function isValidEmail(email: string): boolean {
+  if (!email) return false;
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+}
+
+function isValidIrishPhone(phone: string): boolean {
+  if (!phone) return false;
+  const cleaned = phone.replace(/[\s-]/g, '');
+  const phoneRegex = /^(\+353|0)[0-9]{9}$/;
+  return phoneRegex.test(cleaned);
+}
+
+function isValidEircode(eircode: string): boolean {
+  if (!eircode) return false;
+  const eircodeRegex = /^[A-Za-z]\d{2}\s?[A-Za-z0-9]{4}$/;
+  return eircodeRegex.test(eircode);
+}
+
+function validatePassword(password: string) {
+  const errors = [];
+  
+  if (password.length < 8) {
+    errors.push('Password must be at least 8 characters');
+  }
+  if (!/[A-Z]/.test(password)) {
+    errors.push('Password must contain uppercase letter');
+  }
+  if (!/[a-z]/.test(password)) {
+    errors.push('Password must contain lowercase letter');
+  }
+  if (!/[0-9]/.test(password)) {
+    errors.push('Password must contain number');
+  }
+  if (!/[!@#$%^&*]/.test(password)) {
+    errors.push('Password must contain special character');
+  }
+  
+  return {
+    isValid: errors.length === 0,
+    errors,
+  };
+}
+
+function isValidIrishIBAN(iban: string): boolean {
+  if (!iban) return false;
+  const cleaned = iban.replace(/\s/g, '');
+  return /^IE\d{2}[A-Z]{4}\d{14}$/.test(cleaned);
+}
+
+function validatePropertyForm(form: any) {
+  const errors: any = {};
+  
+  if (!form.title) errors.title = 'Title is required';
+  if (form.price <= 0) errors.price = 'Price must be positive';
+  if (form.bedrooms < 1 || form.bedrooms > 6) errors.bedrooms = 'Bedrooms must be between 1 and 6';
+  if (form.bathrooms < 1 || form.bathrooms > 4) errors.bathrooms = 'Bathrooms must be between 1 and 4';
+  if (form.size <= 0) errors.size = 'Size must be positive';
+  if (form.location.length < 3) errors.location = 'Location must be at least 3 characters';
+  if (!isValidEircode(form.eircode)) errors.eircode = 'Invalid Eircode format';
+  if (form.description.length < 20) errors.description = 'Description must be at least 20 characters';
+  
+  return {
+    isValid: Object.keys(errors).length === 0,
+    errors,
+  };
+}
+
+function isFutureDate(date: Date): boolean {
+  return date > new Date();
+}
+
+function isValidDateRange(start: Date, end: Date): boolean {
+  return start < end;
+}

@@ -127,8 +127,8 @@ const useDevelopmentBySlug = (slug?: string, options?: { enabled: boolean }) => 
  * Simplified GraphQL Tester component for build testing
  */
 export default function GraphQLTester() {
-  const [developmentId, setDevelopmentId] = useState<string>('');
-  const [developmentSlug, setDevelopmentSlug] = useState<string>('');
+  const [developmentIdsetDevelopmentId] = useState<string>('');
+  const [developmentSlugsetDevelopmentSlug] = useState<string>('');
 
   // Mock GraphQL queries using the simplified hooks above
   const { 
@@ -164,7 +164,7 @@ export default function GraphQLTester() {
       </div>
 
       <h1 className="text-2xl font-bold mb-6">GraphQL Connection Tester</h1>
-      
+
       {/* Test Controls */}
       <div className="bg-white p-4 rounded shadow-md mb-6">
         <h2 className="text-lg font-semibold mb-2">Test Controls</h2>
@@ -175,7 +175,7 @@ export default function GraphQLTester() {
               <input
                 type="text"
                 value={developmentId}
-                onChange={(e) => setDevelopmentId(e.target.value)}
+                onChange={(e: any) => setDevelopmentId(e.target.value)}
                 className="flex-1 px-3 py-2 border border-gray-300 rounded-l-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
                 placeholder="Enter development ID"
               />
@@ -188,14 +188,14 @@ export default function GraphQLTester() {
               </button>
             </div>
           </div>
-          
+
           <div className="flex-1">
             <label className="block text-sm font-medium text-gray-700 mb-1">Development Slug</label>
             <div className="flex">
               <input
                 type="text"
                 value={developmentSlug}
-                onChange={(e) => setDevelopmentSlug(e.target.value)}
+                onChange={(e: any) => setDevelopmentSlug(e.target.value)}
                 className="flex-1 px-3 py-2 border border-gray-300 rounded-l-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
                 placeholder="Enter development slug"
               />
@@ -208,7 +208,7 @@ export default function GraphQLTester() {
               </button>
             </div>
           </div>
-          
+
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">All Developments</label>
             <button
@@ -220,14 +220,14 @@ export default function GraphQLTester() {
           </div>
         </div>
       </div>
-      
+
       {/* Developments List */}
       <div className="mb-8">
         <h2 className="text-xl font-semibold mb-4">All Developments</h2>
-        
+
         <div>
           <p className="mb-4 text-gray-600">Found {developmentsData.developments?.length || 0} developments</p>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {developmentsData.developments?.map(development => (
               <DevelopmentCardConnected 
@@ -238,18 +238,18 @@ export default function GraphQLTester() {
           </div>
         </div>
       </div>
-      
+
       {/* Development Detail by ID */}
       {developmentId && developmentData && (
         <div className="mb-8">
           <h2 className="text-xl font-semibold mb-4">Development by ID: {developmentId}</h2>
-          
+
           <div className="bg-white rounded-lg shadow-md p-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <h3 className="text-lg font-bold text-gray-900">{developmentData.name}</h3>
                 <p className="text-gray-600 mt-2">{developmentData.description}</p>
-                
+
                 {developmentData.location && (
                   <div className="mt-4">
                     <p className="text-sm font-medium text-gray-500">Location</p>
@@ -258,12 +258,12 @@ export default function GraphQLTester() {
                     </p>
                   </div>
                 )}
-                
+
                 <div className="mt-4">
                   <p className="text-sm font-medium text-gray-500">Status</p>
                   <p className="text-gray-800">{developmentData.status}</p>
                 </div>
-                
+
                 <div className="mt-4">
                   <p className="text-sm font-medium text-gray-500">Units</p>
                   <p className="text-gray-800">
@@ -271,7 +271,7 @@ export default function GraphQLTester() {
                   </p>
                 </div>
               </div>
-              
+
               <div>
                 {developmentData.mainImage && (
                   <div className="aspect-w-16 aspect-h-9 rounded-lg overflow-hidden">
@@ -282,7 +282,7 @@ export default function GraphQLTester() {
                     />
                   </div>
                 )}
-                
+
                 {developmentData.priceRange && (
                   <div className="mt-4">
                     <p className="text-sm font-medium text-gray-500">Price Range</p>

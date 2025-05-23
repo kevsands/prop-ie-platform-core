@@ -13,15 +13,15 @@ import {
 
 export default function NavigationDemoPage() {
   const { user, signIn, signOut, isAuthenticated } = useAuth();
-  
-  const [selectedRole, setSelectedRole] = useState<string>('BUYER');
+
+  const [selectedRolesetSelectedRole] = useState<string>('BUYER');
   const [mockTransactionCount] = useState(0);
-  
+
   // Mock login for different roles
   const loginAs = async (role: string) => {
     await signIn(`${role.toLowerCase()}@demo.com`, 'demo123');
   };
-  
+
   const roleCards = [
     {
       role: 'BUYER',
@@ -130,7 +130,7 @@ export default function NavigationDemoPage() {
                   /demo/navigation
                 </div>
               </div>
-              
+
               <div>
                 <div className="text-sm text-gray-500 mb-1">Breadcrumbs</div>
                 <Breadcrumbs />
@@ -143,7 +143,7 @@ export default function NavigationDemoPage() {
         <div className="mb-8">
           <h2 className="text-2xl font-semibold mb-4">Select a Role</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            {roleCards.map((roleCard) => (
+            {roleCards.map((roleCard: any) => (
               <Card 
                 key={roleCard.role}
                 className={`cursor-pointer transition-all hover:shadow-lg ${
@@ -160,7 +160,7 @@ export default function NavigationDemoPage() {
                 </CardHeader>
                 <CardContent>
                   <ul className="text-sm space-y-1">
-                    {roleCard.features.map((feature, idx) => (
+                    {roleCard.features.map((featureidx: any) => (
                       <li key={idx} className="flex items-center">
                         <ChevronRight className="h-3 w-3 mr-1 text-gray-400" />
                         {feature}
@@ -172,10 +172,10 @@ export default function NavigationDemoPage() {
                   <Button
                     className="w-full"
                     variant={selectedRole === roleCard.role ? 'default' : 'outline'}
-                    onClick={(e) => {
+                    onClick={(e: any) => {
                       e.stopPropagation();
                       loginAs(roleCard.role);
-                    }}
+                    }
                   >
                     Login as {roleCard.title}
                   </Button>

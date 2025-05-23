@@ -1,5 +1,5 @@
 // src/app/layout.tsx
-import React from "react";
+import React, { FC, ReactNode } from "react";
 import { Inter, Lora } from "next/font/google";
 import "./globals.css";
 import ClientLayout from "./ClientLayout";
@@ -38,8 +38,7 @@ export const metadata = {
   metadataBase: new URL('http://localhost:3000'),
   title: {
     template: '%s | Prop.ie',
-    default: 'Prop.ie - Interactive Property Platform',
-  },
+    default: 'Prop.ie - Interactive Property Platform'},
   description: 'Interactive property and real estate platform for developments in Ireland',
   keywords: ['property', 'real estate', 'ireland', 'development', 'housing'],
   authors: [
@@ -50,8 +49,7 @@ export const metadata = {
   formatDetection: {
     email: false,
     address: false,
-    telephone: false,
-  },
+    telephone: false},
   manifest: '/manifest.json',
   robots: {
     index: true,
@@ -61,9 +59,7 @@ export const metadata = {
       follow: true,
       'max-video-preview': -1,
       'max-image-preview': 'large',
-      'max-snippet': -1,
-    },
-  },
+      'max-snippet': -1},
   openGraph: {
     title: 'Prop.ie - Interactive Property Platform',
     description: 'Interactive property and real estate platform for developments in Ireland',
@@ -108,20 +104,16 @@ export const metadata = {
  * Enhanced with performance monitoring and service worker registration.
  */
 export default function RootLayout({
-  children,
-}: {
+  children}: {
   children: React.ReactNode;
 }): React.ReactElement {
   return (
     <html lang="en" className={`${inter.variable} ${lora.variable} font-sans bg-background text-foreground`}>
       <body className={inter.className}>
         <Providers>
-          {/* <PerformanceProvider> */}
-            {/* <ServiceWorkerRegistration /> */}
-            <ClientLayout>
-              {children}
-            </ClientLayout>
-          {/* </PerformanceProvider> */}
+          <ClientLayout>
+            {children}
+          </ClientLayout>
         </Providers>
       </body>
     </html>

@@ -9,8 +9,7 @@ import type { PrismaClient, Prisma } from '@prisma/client';
 export type PrismaTransactionClient = Omit<
   PrismaClient, 
   '$connect' | '$disconnect' | '$on' | '$transaction' | '$use' | '$extends'
->;
-
+>\n  );
 // API Response types
 export interface ApiSuccessResponse<T = any> {
   status?: number;
@@ -47,16 +46,15 @@ export type SlugParam = { slug: string };
 
 // Handler signatures for Next.js API routes
 export type GetHandler<TParams = {}> = 
-  (request: NextRequest, context: RouteContext<TParams>) => Promise<NextResponse>;
+  (request: NextRequest, context: RouteContext<TParams>) => Promise<NextResponse>\n  );
 export type PostHandler<TParams = {}> = 
-  (request: NextRequest, context: RouteContext<TParams>) => Promise<NextResponse>;
+  (request: NextRequest, context: RouteContext<TParams>) => Promise<NextResponse>\n  );
 export type PutHandler<TParams = {}> = 
-  (request: NextRequest, context: RouteContext<TParams>) => Promise<NextResponse>;
+  (request: NextRequest, context: RouteContext<TParams>) => Promise<NextResponse>\n  );
 export type DeleteHandler<TParams = {}> = 
-  (request: NextRequest, context: RouteContext<TParams>) => Promise<NextResponse>;
+  (request: NextRequest, context: RouteContext<TParams>) => Promise<NextResponse>\n  );
 export type PatchHandler<TParams = {}> = 
-  (request: NextRequest, context: RouteContext<TParams>) => Promise<NextResponse>;
-
+  (request: NextRequest, context: RouteContext<TParams>) => Promise<NextResponse>\n  );
 // Session types
 export interface Session {
   user: {
@@ -81,7 +79,7 @@ export function getQueryParamAsNumber(request: NextRequest, name: string): numbe
 
 export function getQueryParamAsInt(request: NextRequest, name: string): number | undefined {
   const value = request.nextUrl.searchParams.get(name);
-  return value ? parseInt(value, 10) : undefined;
+  return value ? parseInt(value10) : undefined;
 }
 
 export function getQueryParamAsBoolean(request: NextRequest, name: string): boolean | undefined {

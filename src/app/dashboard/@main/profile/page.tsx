@@ -35,36 +35,35 @@ const useAuth = () => {
  */
 export default function UserProfile() {
   const { user } = useAuth();
-  const [isEditing, setIsEditing] = useState(false);
-  const [formData, setFormData] = useState({
+  const [isEditingsetIsEditing] = useState(false);
+  const [formDatasetFormData] = useState({
     firstName: user?.firstName || '',
     lastName: user?.lastName || '',
     email: user?.email || '',
     phone: '',
     address: ''
   });
-  
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
+    setFormData((prev: any) => ({
       ...prev,
       [name]: value
     }));
   };
-  
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     // In a real app, this would save the profile data
-    console.log('Profile data to save:', formData);
-    
+
     // Simulating API call
     setTimeout(() => {
       setIsEditing(false);
       // Would update auth context with new user data here
     }, 1000);
   };
-  
+
   return (
     <div className="p-6">
       <header className="mb-8">
@@ -73,7 +72,7 @@ export default function UserProfile() {
           View and update your personal information
         </p>
       </header>
-      
+
       <div className="bg-white rounded-lg shadow overflow-hidden">
         <div className="px-6 py-4 border-b flex justify-between items-center">
           <h3 className="font-medium text-gray-900">Personal Information</h3>
@@ -84,7 +83,7 @@ export default function UserProfile() {
             {isEditing ? 'Cancel' : 'Edit'}
           </button>
         </div>
-        
+
         <div className="p-6">
           {isEditing ? (
             <form onSubmit={handleSubmit} className="space-y-6">
@@ -102,7 +101,7 @@ export default function UserProfile() {
                     className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
                   />
                 </div>
-                
+
                 <div>
                   <label htmlFor="lastName" className="block text-sm font-medium text-gray-700">
                     Last name
@@ -116,7 +115,7 @@ export default function UserProfile() {
                     className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
                   />
                 </div>
-                
+
                 <div>
                   <label htmlFor="email" className="block text-sm font-medium text-gray-700">
                     Email address
@@ -131,7 +130,7 @@ export default function UserProfile() {
                     disabled
                   />
                 </div>
-                
+
                 <div>
                   <label htmlFor="phone" className="block text-sm font-medium text-gray-700">
                     Phone number
@@ -146,7 +145,7 @@ export default function UserProfile() {
                   />
                 </div>
               </div>
-              
+
               <div>
                 <label htmlFor="address" className="block text-sm font-medium text-gray-700">
                   Address
@@ -160,7 +159,7 @@ export default function UserProfile() {
                   className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
                 />
               </div>
-              
+
               <div className="flex justify-end">
                 <button
                   type="button"
@@ -187,28 +186,28 @@ export default function UserProfile() {
                     : 'Not provided'}
                 </dd>
               </div>
-              
+
               <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4">
                 <dt className="text-sm font-medium text-gray-500">Email address</dt>
                 <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                   {user?.email || 'Not provided'}
                 </dd>
               </div>
-              
+
               <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4">
                 <dt className="text-sm font-medium text-gray-500">Phone number</dt>
                 <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                   {formData.phone || 'Not provided'}
                 </dd>
               </div>
-              
+
               <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4">
                 <dt className="text-sm font-medium text-gray-500">Address</dt>
                 <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                   {formData.address || 'Not provided'}
                 </dd>
               </div>
-              
+
               <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4">
                 <dt className="text-sm font-medium text-gray-500">Account type</dt>
                 <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
@@ -225,7 +224,7 @@ export default function UserProfile() {
           )}
         </div>
       </div>
-      
+
       <div className="mt-6 bg-white rounded-lg shadow overflow-hidden">
         <div className="px-6 py-4 border-b">
           <h3 className="font-medium text-gray-900">Security</h3>

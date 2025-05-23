@@ -41,9 +41,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
  * - Data filtering
  */
 export function DocumentGraphQLExample() {
-  const [projectId, setProjectId] = useState<string | null>(null);
-  const [selectedDocumentId, setSelectedDocumentId] = useState<string | null>(null);
-  const [filters, setFilters] = useState<DocumentFilterInput>({});
+  const [projectIdsetProjectId] = useState<string | null>(null);
+  const [selectedDocumentIdsetSelectedDocumentId] = useState<string | null>(null);
+  const [filterssetFilters] = useState<DocumentFilterInput>({});
   
   // Example query hooks
   const { 
@@ -143,7 +143,7 @@ export function DocumentGraphQLExample() {
             <label className="block text-sm font-medium mb-2">Project</label>
             <Select 
               value={projectId || ''} 
-              onValueChange={(value) => setProjectId(value || null)}
+              onValueChange={(value: any) => setProjectId(value || null)}
             >
               <SelectTrigger className="w-full md:w-72">
                 <SelectValue placeholder="Select a project" />
@@ -161,12 +161,12 @@ export function DocumentGraphQLExample() {
             <label className="block text-sm font-medium mb-2">Filter by Status</label>
             <Select 
               value={filters.status?.[0] || ''} 
-              onValueChange={(value) => {
+              onValueChange={(value: any) => {
                 setFilters(prev => ({
                   ...prev,
                   status: value ? [value as DocumentStatus] : undefined
                 }));
-              }}
+              }
             >
               <SelectTrigger className="w-full md:w-72">
                 <SelectValue placeholder="All Statuses" />
@@ -186,7 +186,7 @@ export function DocumentGraphQLExample() {
             <Input 
               placeholder="Search documents..." 
               value={filters.search || ''} 
-              onChange={(e) => setFilters(prev => ({ ...prev, search: e.target.value }))}
+              onChange={(e: any) => setFilters(prev => ({ ...prev, search: e.target.value }))}
             />
           </div>
           
@@ -195,7 +195,7 @@ export function DocumentGraphQLExample() {
             <h3 className="text-lg font-medium mb-4">Documents</h3>
             {documents?.items?.length ? (
               <div className="space-y-4">
-                {documents.items.map((doc) => (
+                {documents.items.map((doc: any) => (
                   <Card key={doc.id} className="p-4">
                     <div className="flex justify-between items-center">
                       <div>
@@ -277,16 +277,16 @@ export function DocumentGraphQLExample() {
                     <p>{documentDetails.description}</p>
                   </div>
                 )}
-                {documentDetails.tags && documentDetails.tags.length > 0 && (
+                {documentDetails.tags && documentDetails.tags.length> 0 && (
                   <div>
                     <h3 className="text-sm font-medium text-gray-500">Tags</h3>
                     <div className="flex flex-wrap gap-2 mt-1">
-                      {documentDetails.tags.map((tag, index) => (
+                      {documentDetails.tags.map((tag: any, index: any) => (
                         <span 
-                          key={index} 
+                          key={index: any} 
                           className="px-2 py-1 bg-gray-100 rounded-md text-sm"
                         >
-                          {tag}
+                          {tag: any}
                         </span>
                       ))}
                     </div>

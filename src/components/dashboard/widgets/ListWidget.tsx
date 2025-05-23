@@ -1,3 +1,4 @@
+import React from 'react';
 "use client";
 
 import * as React from "react";
@@ -35,7 +36,7 @@ export interface ListItem {
     label: string;
     onClick: (id: string) => void;
     icon?: LucideIcon;
-  }>;
+  }>\n  );
 }
 
 interface ListWidgetProps {
@@ -72,12 +73,11 @@ export function ListWidget({
   actions,
   footer,
   footerAction,
-  loadingItemCount = 4,
-}: ListWidgetProps) {
+  loadingItemCount = 4}: ListWidgetProps) {
   // Determine item layout based on variant
   const getItemClasses = (index: number, total: number) => {
     const baseClasses = "group";
-    
+
     switch (variant) {
       case "compact":
         return cn(baseClasses, "flex items-center gap-3 py-2");
@@ -89,14 +89,14 @@ export function ListWidget({
         return cn(
           baseClasses,
           "flex items-start gap-3 py-3",
-          index < total - 1 && "border-b"
+          index <total - 1 && "border-b"
         );
     }
   };
-  
+
   // Display items, limited by maxItems if specified
-  const displayItems = maxItems ? items.slice(0, maxItems) : items;
-  
+  const displayItems = maxItems ? items.slice(0maxItems) : items;
+
   return (
     <Card className={cn("h-full", className)}>
       <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
@@ -117,7 +117,7 @@ export function ListWidget({
       <CardContent className={cn(variant === "separated" ? "pt-2" : "pt-0")}>
         {loading ? (
           <div className="space-y-3">
-            {Array.from({ length: loadingItemCount }).map((_, i) => (
+            {Array.from({ length: loadingItemCount }).map((_i: any) => (
               <div key={i} className="flex items-start gap-3 py-3 border-b last:border-b-0">
                 <Skeleton className="h-10 w-10 rounded-full" />
                 <div className="flex-1 space-y-2">
@@ -133,7 +133,7 @@ export function ListWidget({
           </div>
         ) : (
           <div className={listClassName}>
-            {displayItems.map((item, index) => (
+            {displayItems.map((itemindex: any) => (
               <div
                 key={item.id}
                 className={getItemClasses(index, displayItems.length)}
@@ -155,7 +155,7 @@ export function ListWidget({
                     <item.icon className="h-5 w-5" />
                   </div>
                 ) : null}
-                
+
                 {/* Content */}
                 <div className="flex-1 space-y-1">
                   <div className="flex items-center justify-between">
@@ -166,7 +166,7 @@ export function ListWidget({
                       {item.title}
                     </p>
                     {item.status && (
-                      <Badge variant={item.statusColor || "outline"} className="ml-2 text-xs">
+                      <Badge variant={item.statusColor || "outline" className="ml-2 text-xs">
                         {item.status}
                       </Badge>
                     )}
@@ -182,16 +182,16 @@ export function ListWidget({
                     </p>
                   )}
                 </div>
-                
+
                 {/* Actions */}
-                {item.actions && item.actions.length > 0 && (
+                {item.actions && item.actions.length> 0 && (
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                       <Button
                         variant="ghost"
                         size="icon"
                         className="h-8 w-8 opacity-0 group-hover:opacity-100"
-                        onClick={(e) => e.stopPropagation()}
+                        onClick={(e: any) => e.stopPropagation()}
                       >
                         <MoreHorizontal className="h-4 w-4" />
                         <span className="sr-only">Actions</span>
@@ -200,13 +200,13 @@ export function ListWidget({
                     <DropdownMenuContent align="end">
                       <DropdownMenuLabel>Actions</DropdownMenuLabel>
                       <DropdownMenuSeparator />
-                      {item.actions.map((action, actionIndex) => (
+                      {item.actions.map((actionactionIndex: any) => (
                         <DropdownMenuItem
                           key={actionIndex}
-                          onClick={(e) => {
+                          onClick={(e: any) => {
                             e.stopPropagation();
                             action.onClick(item.id);
-                          }}
+                          }
                         >
                           {action.icon && <action.icon className="mr-2 h-4 w-4" />}
                           {action.label}
@@ -220,10 +220,10 @@ export function ListWidget({
           </div>
         )}
       </CardContent>
-      
+
       {(footer || footerAction) && !loading && (
         <CardFooter className={cn(
-          displayItems.length > 0 ? "pt-0 mt-2" : "mt-0",
+          displayItems.length> 0 ? "pt-0 mt-2" : "mt-0",
           "border-t",
           footer && footerAction 
             ? "flex items-center justify-between" 

@@ -3,6 +3,8 @@
  * Provides standardized logging for security and audit events
  */
 
+import winston from 'winston';
+
 /**
  * Audit severity levels for categorizing audit events
  */
@@ -29,35 +31,70 @@ export enum AuditCategory {
   PERFORMANCE = 'PERFORMANCE'         // Performance-related events
 }
 
-// Logger implementation
-export const logger = {
-  // Log levels
-  error: (message: string, data?: any) => {
-    console.error(`[ERROR] ${message}`, data);
-  },
-  
-  warn: (message: string, data?: any) => {
-    console.warn(`[WARN] ${message}`, data);
-  },
-  
-  info: (message: string, data?: any) => {
-    console.info(`[INFO] ${message}`, data);
-  },
-  
-  debug: (message: string, data?: any) => {
-    if (process.env.NODE_ENV !== 'production') {
-      console.debug(`[DEBUG] ${message}`, data);
-    }
-  },
-  
-  // Audit logging
-  audit: (action: string, data: AuditLogData) => {
-    console.info(`[AUDIT] ${action}`, data);
-    
-    // In a production environment, this would write to a secure audit log
-    // with full user context, timestamps, etc.
-  }
-};
+/**
+ * Audit logger for security events
+ */
+export const logger = winston.createLogger({
+  level: 'info',
+  format: winston.format.combine(
+    winston.format.timestamp(),
+    winston.format.json()
+  ),
+  defaultMeta: { service: 'security-audit' },
+  transports: [
+    new winston.transports.File({ 
+      filename: 'logs/security-audit.log',
+      level: 'info'
+    }),
+    new winston.transports.Console({
+      format: winston.format.combine(
+        winston.format.colorize(),
+        winston.format.simple()
+      )
+    })
+  ]
+});
+
+/**
+ * Log a security event
+ * @param level The log level
+ * @param message The log message
+ * @param meta Additional metadata
+ */
+export function logSecurityEvent(
+  level: 'info' | 'warn' | 'error',
+  message: string,
+  meta: Record<string, any> = {}
+): void {
+  logger.log(level, message, {
+    ...meta,
+    timestamp: new Date().toISOString()
+  });
+}
+
+/**
+ * Log a security audit event
+ * @param action The action performed
+ * @param resource The resource affected
+ * @param user The user performing the action
+ * @param status The status of the action
+ * @param details Additional details
+ */
+export function logAuditEvent(
+  action: string,
+  resource: string,
+  user: string,
+  status: 'success' | 'failure',
+  details: Record<string, any> = {}
+): void {
+  logSecurityEvent('info', 'Security audit event', {
+    action,
+    resource,
+    user,
+    status,
+    ...details
+  });
+}
 
 // Audit log data type
 export interface AuditLogData {
@@ -92,15 +129,15 @@ export const AuditLogger = {
     // For now, just log to console
     const level = severity === AuditSeverity.CRITICAL || severity === AuditSeverity.ERROR ? 'error' :
                   severity === AuditSeverity.WARNING ? 'warn' : 'info';
-    
+
     console[level](`[SECURITY:${severity}] ${action}: ${message}`, data);
-    
+
     // In a production environment, this would:
     // 1. Encrypt sensitive data
     // 2. Send to a secure audit log store
     // 3. Trigger alerts for high-severity events
   },
-  
+
   /**
    * Log an authentication event
    * 
@@ -117,7 +154,7 @@ export const AuditLogger = {
   ) => {
     const severity = status === 'failure' ? AuditSeverity.WARNING : AuditSeverity.INFO;
     const message = `Authentication ${action} ${status} for user ${userId}`;
-    
+
     AuditLogger.logSecurity(action, severity, message, {
       category: AuditCategory.AUTHENTICATION,
       userId,
@@ -126,7 +163,7 @@ export const AuditLogger = {
       ...details
     });
   },
-  
+
   /**
    * Log an authorization event
    * 
@@ -145,7 +182,7 @@ export const AuditLogger = {
   ) => {
     const severity = status === 'failure' ? AuditSeverity.WARNING : AuditSeverity.INFO;
     const message = `Authorization ${action} ${status} for user ${userId} on ${resource}`;
-    
+
     AuditLogger.logSecurity(action, severity, message, {
       category: AuditCategory.AUTHORIZATION,
       userId,
@@ -155,11 +192,11 @@ export const AuditLogger = {
       ...details
     });
   },
-  
+
   /**
    * Log a data access event
    * 
-   * @param action The data access action (read, write, delete)
+   * @param action The data access action (read, writedelete)
    * @param userId The ID of the user involved
    * @param resourceType The type of resource being accessed
    * @param resourceId The ID of the resource
@@ -176,7 +213,7 @@ export const AuditLogger = {
   ) => {
     const severity = status === 'failure' ? AuditSeverity.WARNING : AuditSeverity.INFO;
     const message = `Data ${action} ${status} by user ${userId} on ${resourceType}:${resourceId}`;
-    
+
     AuditLogger.logSecurity(action, severity, message, {
       category: AuditCategory.DATA_ACCESS,
       userId,

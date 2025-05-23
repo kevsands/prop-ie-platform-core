@@ -16,13 +16,11 @@ const resolvers = {
     ...baseResolvers.Query,
     ...userResolvers.Query,
     ...developmentResolvers.Query,
-    ...buyerResolvers.Query,
-  },
+    ...buyerResolvers.Query},
   Mutation: {
     ...userResolvers.Mutation,
     ...developmentResolvers.Mutation,
-    ...buyerResolvers.Mutation,
-  },
+    ...buyerResolvers.Mutation},
   User: userResolvers.User,
   Development: developmentResolvers.Development,
   BuyerProfile: buyerResolvers.BuyerProfile,
@@ -30,7 +28,6 @@ const resolvers = {
   MortgageTracking: buyerResolvers.MortgageTracking,
   SnagList: buyerResolvers.SnagList,
   SnagItem: buyerResolvers.SnagItem,
-  HomePackItem: buyerResolvers.HomePackItem,
-};
+  HomePackItem: buyerResolvers.HomePackItem};
 
 export default resolvers;

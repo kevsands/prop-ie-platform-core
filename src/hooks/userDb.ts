@@ -13,7 +13,7 @@ export const userDb = {
     const result = await query('SELECT * FROM users WHERE id = $1', [id]);
     return result.rows[0] || null;
   },
-  
+
   /**
    * Get user by email
    * @param email User email
@@ -23,7 +23,7 @@ export const userDb = {
     const result = await query('SELECT * FROM users WHERE email = $1', [email]);
     return result.rows[0] || null;
   },
-  
+
   /**
    * Create a new user
    * @param userData User data
@@ -31,15 +31,15 @@ export const userDb = {
    */
   async create(userData: any): Promise<any> {
     const { email, first_name, last_name, phone, role, status } = userData;
-    
+
     const result = await query(
-      'INSERT INTO users (email, first_name, last_name, phone, role, status) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
-      [email, first_name, last_name, phone, role, status]
+      'INSERT INTO users (email, first_name, last_name, phone, rolestatus) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
+      [email, first_name, last_name, phone, rolestatus]
     );
-    
+
     return result.rows[0];
   },
-  
+
   /**
    * Update a user
    * @param id User ID
@@ -49,18 +49,18 @@ export const userDb = {
   async update(id: string, userData: any): Promise<any> {
     const keys = Object.keys(userData);
     const values = Object.values(userData);
-    
+
     if (keys.length === 0) {
       return this.getById(id);
     }
-    
-    const setClause = keys.map((key, i) => `${key} = $${i + 2}`).join(', ');
+
+    const setClause = keys.map((keyi: any) => `${key} = $${i + 2}`).join(', ');
     const queryText = `UPDATE users SET ${setClause} WHERE id = $1 RETURNING *`;
-    
+
     const result = await query(queryText, [id, ...values]);
     return result.rows[0];
   },
-  
+
   /**
    * Get user permissions
    * @param userId User ID
@@ -75,9 +75,9 @@ export const userDb = {
       JOIN users u ON rp.role = u.role
       WHERE u.id = $1
     `, [userId]);
-    
-    const rolePermissions = roleResult.rows.map(row => row.name);
-    
+
+    const rolePermissions = roleResult.rows.map(row: any => row.name);
+
     // Get user-specific permission overrides
     const userResult = await query(`
       SELECT p.name, up.granted
@@ -85,7 +85,7 @@ export const userDb = {
       JOIN user_permissions up ON p.id = up.permission_id
       WHERE up.user_id = $1
     `, [userId]);
-    
+
     // Apply overrides (add granted permissions, remove non-granted)
     const userPermissions = new Set(rolePermissions);
     for (const row of userResult.rows) {
@@ -95,10 +95,10 @@ export const userDb = {
         userPermissions.delete(row.name);
       }
     }
-    
+
     return Array.from(userPermissions);
   },
-  
+
   /**
    * List users with filtering and pagination
    * @param options Filter options
@@ -108,21 +108,21 @@ export const userDb = {
     const { 
       status, role, search, limit = 20, offset = 0
     } = options;
-    
+
     let whereClause = '1=1';
     const params: any[] = [];
     let paramIndex = 1;
-    
+
     if (status) {
       whereClause += ` AND status = $${paramIndex++}`;
       params.push(status);
     }
-    
+
     if (role) {
       whereClause += ` AND role = $${paramIndex++}`;
       params.push(role);
     }
-    
+
     if (search) {
       whereClause += ` AND (
         email ILIKE $${paramIndex} OR
@@ -133,20 +133,20 @@ export const userDb = {
       params.push(`%${search}%`);
       paramIndex++;
     }
-    
+
     // Count total matching users
     const countResult = await query(`
       SELECT COUNT(*) AS total
       FROM users
       WHERE ${whereClause}
     `, params);
-    
+
     const totalCount = parseInt(countResult.rows[0]?.total || '0');
-    
+
     // Get users with pagination
     params.push(limit);
     params.push(offset);
-    
+
     const result = await query(`
       SELECT *
       FROM users
@@ -154,7 +154,7 @@ export const userDb = {
       ORDER BY created_at DESC
       LIMIT $${paramIndex++} OFFSET $${paramIndex++}
     `, params);
-    
+
     return {
       users: result.rows,
       totalCount

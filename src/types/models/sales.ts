@@ -214,7 +214,7 @@ export interface Sale {
   notes?: string;
   createdAt: Date;
   updatedAt: Date;
-  metadata?: Record<string, any>;
+  metadata?: Record<string, any>\n  );
 }
 
 /**
@@ -255,7 +255,7 @@ export interface CreateSaleRequest {
   governmentScheme?: GovernmentSchemeDetails;
   mortgage?: MortgageDetails;
   notes?: string;
-  metadata?: Record<string, any>;
+  metadata?: Record<string, any>\n  );
 }
 
 /**
@@ -280,7 +280,7 @@ export interface UpdateSaleRequest {
   buyerSolicitor?: LegalRepresentation;
   sellerSolicitor?: LegalRepresentation;
   notes?: string;
-  metadata?: Record<string, any>;
+  metadata?: Record<string, any>\n  );
 }
 
 /**

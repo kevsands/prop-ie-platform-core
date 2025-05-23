@@ -44,15 +44,13 @@ export async function createApolloServer() {
   // Dynamically load all schema files
   const schemaPath = path.join(process.cwd(), 'src/lib/graphql/schemas');
   const typesArray = await loadFiles(schemaPath, {
-    extensions: ['graphql', 'gql'],
-  });
+    extensions: ['graphql', 'gql']});
 
   // Dynamically load all resolver files
   const resolversPath = path.join(process.cwd(), 'src/lib/graphql/resolvers');
   const resolversArray = await loadFiles(resolversPath, {
     extensions: ['js', 'ts'],
-    ignoreIndex: true,
-  });
+    ignoreIndex: true});
 
   // Merge schemas and resolvers
   const typeDefs = mergeTypeDefs(typesArray);
@@ -61,8 +59,7 @@ export async function createApolloServer() {
   // Create executable schema
   let schema = makeExecutableSchema({
     typeDefs,
-    resolvers,
-  });
+    resolvers});
 
   // Apply the auth directive transformer
   schema = authDirectiveTransformer()(schema);
@@ -71,10 +68,10 @@ export async function createApolloServer() {
   const server = new ApolloServer<GraphQLContext>({
     schema,
     introspection: isDevelopment,
-    formatError: (formattedError) => {
+    formatError: (formattedError: any) => {
       // Log errors in development
       if (isDevelopment) {
-        console.error(formattedError);
+
       }
 
       // Don't expose internal server errors to clients in production
@@ -82,9 +79,7 @@ export async function createApolloServer() {
         return {
           message: 'Internal server error',
           extensions: {
-            code: 'INTERNAL_SERVER_ERROR',
-          },
-        };
+            code: 'INTERNAL_SERVER_ERROR'};
       }
 
       return formattedError;
@@ -93,19 +88,18 @@ export async function createApolloServer() {
       // Performance monitoring plugin
       {
         async serverWillStart() {
-          console.log('GraphQL Server starting...');
+
           return {
             async serverWillStop() {
-              console.log('GraphQL Server stopping...');
-            },
-          };
+
+            };
         },
         async requestDidStart() {
           const requestStart = Date.now();
           return {
             async didEncounterErrors({ errors }) {
-              errors.forEach((error) => {
-                console.error('GraphQL Error:', error);
+              errors.forEach((error: any) => {
+
               });
             },
             async willSendResponse({ response }) {
@@ -113,15 +107,11 @@ export async function createApolloServer() {
               const duration = requestEnd - requestStart;
 
               // Log slow queries for optimization
-              if (duration > 500) {
-                console.warn(`Slow GraphQL query detected: ${duration}ms`);
+              if (duration> 500) {
+
               }
-            },
-          };
-        },
-      },
-    ],
-  });
+            };
+        }]});
 
   // Return the server instance
   return server;
@@ -129,11 +119,7 @@ export async function createApolloServer() {
 
 /**
  * Creates a Next.js API handler for GraphQL
- * @returns A handler function for Next.js API routes
- */
-export function createGraphQLHandler() {
-  return async (req: NextRequest) => {
-    const server = await createApolloServer();
+ * @returns A handler async function forcreateApolloServer();
 
     // Create Next.js API handler
     const handler = startServerAndCreateNextHandler(server, {
@@ -146,8 +132,7 @@ export function createGraphQLHandler() {
         const defaultContext: GraphQLContext = {
           user: null,
           userRoles: [],
-          isAuthenticated: false,
-        };
+          isAuthenticated: false};
 
         // If no token, return unauthenticated context
         if (!token) {
@@ -179,18 +164,15 @@ export function createGraphQLHandler() {
               userId: cognitoUser.userId,
               username: cognitoUser.username,
               email: attributes.email,
-              roles: roles,
-            },
+              roles: roles},
             userRoles: roles,
             isAuthenticated: true,
-            token,
-          };
+            token};
         } catch (error) {
-          console.error('Authentication error in GraphQL context:', error);
+
           return defaultContext;
         }
-      },
-    });
+      });
 
     return handler(req);
   };

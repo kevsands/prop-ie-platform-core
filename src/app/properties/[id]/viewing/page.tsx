@@ -39,8 +39,8 @@ export default function PropertyViewingPage() {
   const params = useParams();
   const router = useRouter();
   const propertyId = params.id as string;
-  const [activeTab, setActiveTab] = useState('schedule');
-  const [isFavorite, setIsFavorite] = useState(false);
+  const [activeTabsetActiveTab] = useState('schedule');
+  const [isFavoritesetIsFavorite] = useState(false);
 
   // Fetch property details
   const { data: property, isLoading, error } = useQuery<Property>({
@@ -77,7 +77,7 @@ export default function PropertyViewingPage() {
         // Show toast notification
       }
     } catch (error) {
-      console.error('Share failed:', error);
+
     }
   };
 
@@ -201,9 +201,9 @@ export default function PropertyViewingPage() {
                   <div className="pt-4 border-t">
                     <h3 className="font-semibold mb-2">Key Features</h3>
                     <div className="flex flex-wrap gap-2">
-                      {property.features?.slice(0, 6).map((feature, index) => (
-                        <Badge key={index} variant="secondary">
-                          {feature}
+                      {property.features?.slice(06).map((feature: any, index: any) => (
+                        <Badge key={index: any} variant="secondary">
+                          {feature: any}
                         </Badge>
                       ))}
                     </div>
@@ -248,23 +248,23 @@ export default function PropertyViewingPage() {
               <div className="mt-6">
                 <TabsContent value="schedule">
                   <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
+                    initial={ opacity: 0, y: 20 }
+                    animate={ opacity: 1, y: 0 }
                   >
                     <ViewingScheduler
                       property={property}
-                      onScheduled={(viewing) => {
-                        console.log('Viewing scheduled:', viewing);
+                      onScheduled={(viewing: any) => {
+
                         // Handle post-scheduling actions
-                      }}
+                      }
                     />
                   </motion.div>
                 </TabsContent>
 
                 <TabsContent value="virtual">
                   <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
+                    initial={ opacity: 0, y: 20 }
+                    animate={ opacity: 1, y: 0 }
                   >
                     <VirtualViewing property={property} />
                   </motion.div>
@@ -272,8 +272,8 @@ export default function PropertyViewingPage() {
 
                 <TabsContent value="history">
                   <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
+                    initial={ opacity: 0, y: 20 }
+                    animate={ opacity: 1, y: 0 }
                   >
                     <ViewingHistory propertyId={property.id} />
                   </motion.div>

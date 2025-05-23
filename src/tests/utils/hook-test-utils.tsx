@@ -11,26 +11,20 @@ import { server } from '../mocks/msw-setup';
  * Creates a new QueryClient for tests
  */
 export function createTestQueryClient() {
-  return new QueryClient({
-    defaultOptions: {
-      queries: {
+  return new QueryClient({ defaultOptions: { queries: {
         retry: false,
         cacheTime: 0,
         staleTime: 0,
         refetchOnMount: false,
         refetchOnWindowFocus: false,
-        refetchOnReconnect: false,
-      },
+        refetchOnReconnect: false},
       mutations: {
-        retry: false,
-      },
-    },
+        retry: false},
     logger: {
       log: console.log,
       warn: console.warn,
       error: () => {}, // Silent error logs in tests
-    },
-  });
+    });
 }
 
 /**
@@ -43,8 +37,7 @@ interface TestProvidersProps {
 
 export function TestProviders({
   children,
-  queryClient = createTestQueryClient(),
-}: TestProvidersProps) {
+  queryClient = createTestQueryClient()}: TestProvidersProps) {
   return (
     <QueryClientProvider client={queryClient}>
       {children}
@@ -69,8 +62,7 @@ export function renderWithProviders(
         {children}
       </TestProviders>
     ),
-    ...renderOptions,
-  });
+    ...renderOptions});
 }
 
 /**
@@ -90,8 +82,7 @@ export function renderHookWithProviders<TProps, TResult>(
         {children}
       </TestProviders>
     ),
-    ...renderOptions,
-  });
+    ...renderOptions});
 }
 
 /**
@@ -100,8 +91,7 @@ export function renderHookWithProviders<TProps, TResult>(
 export function createGraphQLResponse<T>(data: T, errors?: any[]) {
   return {
     data,
-    errors,
-  };
+    errors};
 }
 
 /**
@@ -121,8 +111,7 @@ export function createGraphQLQueryHandler<TData, TVariables = Record<string, any
   return graphql.query(operationName, ({ variables }) => {
     const data = resolver(variables as TVariables);
     return HttpResponse.json({
-      data,
-    });
+      data});
   });
 }
 
@@ -136,8 +125,7 @@ export function createGraphQLMutationHandler<TData, TVariables = Record<string, 
   return graphql.mutation(operationName, ({ variables }) => {
     const data = resolver(variables as TVariables);
     return HttpResponse.json({
-      data,
-    });
+      data});
   });
 }
 

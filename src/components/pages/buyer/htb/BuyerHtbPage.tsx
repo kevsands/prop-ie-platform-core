@@ -8,18 +8,18 @@ import { useRouter } from "next/navigation";
 import { AppLayout } from 'src/components/layout/AppLayout';
 
 export default function HTBClaim() {
-  const [propertyId, setPropertyId] = useState("1"); // Default to first property
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
-  const [ppsNumber, setPpsNumber] = useState("");
-  const [propertyAddress, setPropertyAddress] = useState("");
-  const [claimAmount, setClaimAmount] = useState(30000);
-  const [isFirstTimeBuyer, setIsFirstTimeBuyer] = useState(true);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState(false);
+  const [propertyIdsetPropertyId] = useState("1"); // Default to first property
+  const [firstNamesetFirstName] = useState("");
+  const [lastNamesetLastName] = useState("");
+  const [emailsetEmail] = useState("");
+  const [phonesetPhone] = useState("");
+  const [ppsNumbersetPpsNumber] = useState("");
+  const [propertyAddresssetPropertyAddress] = useState("");
+  const [claimAmountsetClaimAmount] = useState(30000);
+  const [isFirstTimeBuyersetIsFirstTimeBuyer] = useState(true);
+  const [isLoadingsetIsLoading] = useState(false);
+  const [errorsetError] = useState("");
+  const [successsetSuccess] = useState(false);
 
   const { submitClaim } = useHTB();
   const router = useRouter();
@@ -55,15 +55,14 @@ export default function HTBClaim() {
       // Only pass propertyId and requestedAmount to submitClaim
       await submitClaim({
         propertyId,
-        requestedAmount: claimAmount,
-      });
+        requestedAmount: claimAmount});
       setSuccess(true);
       setTimeout(() => {
         router.push("/buyer/htb/status");
       }, 2000);
     } catch (err) {
       setError("An error occurred while submitting your claim");
-      console.error(err);
+
     } finally {
       setIsLoading(false);
     }
@@ -81,7 +80,7 @@ export default function HTBClaim() {
             first-time buyers.
           </p>
         </div>
-        
+
         {/* Navigation Pills for HTB Functionality */}
         <div className="mb-8 bg-white rounded-lg shadow-sm p-4">
           <div className="flex flex-wrap gap-2">
@@ -195,7 +194,7 @@ export default function HTBClaim() {
                       id="propertyId"
                       name="propertyId"
                       value={propertyId}
-                      onChange={(e) => setPropertyId(e.target.value)}
+                      onChange={(e: any) => setPropertyId(e.target.value)}
                       className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md"
                     >
                       <option value="1">Maple Heights - Unit 101</option>
@@ -217,7 +216,7 @@ export default function HTBClaim() {
                       name="propertyAddress"
                       id="propertyAddress"
                       value={propertyAddress}
-                      onChange={(e) => setPropertyAddress(e.target.value)}
+                      onChange={(e: any) => setPropertyAddress(e.target.value)}
                       className="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                     />
                   </div>
@@ -236,7 +235,7 @@ export default function HTBClaim() {
                       min="0"
                       max="30000"
                       value={claimAmount}
-                      onChange={(e) => setClaimAmount(parseInt(e.target.value))}
+                      onChange={(e: any) => setClaimAmount(parseInt(e.target.value))}
                       className="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                     />
                     <p className="mt-2 text-sm text-gray-500">
@@ -260,7 +259,7 @@ export default function HTBClaim() {
                           name="isFirstTimeBuyer"
                           type="checkbox"
                           checked={isFirstTimeBuyer}
-                          onChange={(e) =>
+                          onChange={(e: any) =>
                             setIsFirstTimeBuyer(e.target.checked)
                           }
                           className="focus:ring-blue-500 h-4 w-4 text-blue-600 border-gray-300 rounded"
@@ -307,7 +306,7 @@ export default function HTBClaim() {
                       name="firstName"
                       id="firstName"
                       value={firstName}
-                      onChange={(e) => setFirstName(e.target.value)}
+                      onChange={(e: any) => setFirstName(e.target.value)}
                       className="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                     />
                   </div>
@@ -324,7 +323,7 @@ export default function HTBClaim() {
                       name="lastName"
                       id="lastName"
                       value={lastName}
-                      onChange={(e) => setLastName(e.target.value)}
+                      onChange={(e: any) => setLastName(e.target.value)}
                       className="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                     />
                   </div>
@@ -341,7 +340,7 @@ export default function HTBClaim() {
                       name="email"
                       id="email"
                       value={email}
-                      onChange={(e) => setEmail(e.target.value)}
+                      onChange={(e: any) => setEmail(e.target.value)}
                       className="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                     />
                   </div>
@@ -358,7 +357,7 @@ export default function HTBClaim() {
                       name="phone"
                       id="phone"
                       value={phone}
-                      onChange={(e) => setPhone(e.target.value)}
+                      onChange={(e: any) => setPhone(e.target.value)}
                       className="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                     />
                   </div>
@@ -375,7 +374,7 @@ export default function HTBClaim() {
                       name="ppsNumber"
                       id="ppsNumber"
                       value={ppsNumber}
-                      onChange={(e) => setPpsNumber(e.target.value)}
+                      onChange={(e: any) => setPpsNumber(e.target.value)}
                       className="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                       placeholder="1234567T"
                     />
@@ -402,9 +401,9 @@ export default function HTBClaim() {
                   <button
                     type="submit"
                     disabled={isLoading}
-                    className={`inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 ${isLoading ? "opacity-70 cursor-not-allowed" : ""}`}
+                    className={`inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 ${isLoading ? "opacity-70 cursor-not-allowed" : ""`}
                   >
-                    {isLoading ? "Submitting..." : "Submit Help-to-Buy Claim"}
+                    {isLoading ? "Submitting..." : "Submit Help-to-Buy Claim"
                   </button>
                 </div>
               </div>

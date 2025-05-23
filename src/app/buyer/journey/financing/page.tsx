@@ -13,7 +13,7 @@ export default function FinancingPage() {
       <p className="text-gray-600 mb-8">
         Secure your mortgage approval and manage your home financing.
       </p>
-      
+
       <div className="grid gap-6 md:grid-cols-2">
         <div className="bg-white p-6 rounded-lg border">
           <h2 className="text-xl font-semibold mb-4">Mortgage Application</h2>
@@ -29,7 +29,7 @@ export default function FinancingPage() {
                 </p>
               </div>
             </div>
-            
+
             <div className="p-4 border rounded-lg">
               <h3 className="font-medium mb-2">Required Documents</h3>
               <ul className="space-y-2 text-sm">
@@ -58,7 +58,7 @@ export default function FinancingPage() {
             </div>
           </div>
         </div>
-        
+
         <div className="bg-white p-6 rounded-lg border">
           <h2 className="text-xl font-semibold mb-4">Help to Buy Scheme</h2>
           <div className="space-y-4">
@@ -66,7 +66,7 @@ export default function FinancingPage() {
               The Help to Buy (HTB) incentive is a scheme for first-time property buyers. It helps you with the deposit 
               needed to buy or build a new house or apartment.
             </p>
-            
+
             <div className="p-4 bg-blue-50 rounded-lg border border-blue-100">
               <h3 className="font-medium mb-2 text-blue-800">Eligibility Check</h3>
               <div className="space-y-2 text-sm">
@@ -93,7 +93,7 @@ export default function FinancingPage() {
                 </p>
               </div>
             </div>
-            
+
             <div className="flex space-x-3">
               <Link href="/buyer/htb/calculator" className="flex-1">
                 <button className="w-full px-4 py-2 bg-white border border-blue-600 text-blue-600 rounded hover:bg-blue-50">
@@ -109,7 +109,7 @@ export default function FinancingPage() {
           </div>
         </div>
       </div>
-      
+
       <div className="mt-8 bg-white p-6 rounded-lg border">
         <h2 className="text-xl font-semibold mb-4">Next Steps</h2>
         <div className="grid md:grid-cols-3 gap-4">

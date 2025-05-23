@@ -11,31 +11,24 @@ const graphqlMock = createGraphQLMock();
 
 // Mock response data
 const mockDashboardData = {
-  developerDashboard: createMockDeveloperDashboard(),
-};
+  developerDashboard: createMockDeveloperDashboard()};
 
 const mockDocumentsData = {
   documents: {
     items: [
       createMockDocument({ id: 'doc1', name: 'Document 1' }),
-      createMockDocument({ id: 'doc2', name: 'Document 2' }),
-    ],
-    totalCount: 2,
-  },
-};
+      createMockDocument({ id: 'doc2', name: 'Document 2' })],
+    totalCount: 2};
 
 const mockDocumentData = {
-  document: createMockDocument({ id: 'doc1', name: 'Document 1' }),
-};
+  document: createMockDocument({ id: 'doc1', name: 'Document 1' })};
 
 describe('GraphQL Query Hooks', () => {
   // Setup mock for the Amplify GraphQL client
   beforeAll(() => {
     jest.mock('aws-amplify/api', () => ({
       generateClient: jest.fn(() => ({
-        graphql: jest.fn(),
-      })),
-    }));
+        graphql: jest.fn()}))}));
   });
 
   // Clean up mocks after each test
@@ -84,8 +77,7 @@ describe('GraphQL Query Hooks', () => {
         activeProjects: 0,
         propertiesAvailable: 0,
         totalSales: 0,
-        projects: [],
-      });
+        projects: []});
       expect(result.current.error).toBeDefined();
     });
   });
@@ -98,8 +90,7 @@ describe('GraphQL Query Hooks', () => {
       // Create test filters
       const filters = {
         category: 'test-category',
-        status: 'active',
-      };
+        status: 'active'};
 
       // Render the hook with our custom provider wrapper and filters
       const { result } = renderHookWithProviders(() => 

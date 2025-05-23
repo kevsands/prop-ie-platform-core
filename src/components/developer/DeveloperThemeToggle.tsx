@@ -1,3 +1,4 @@
+import React from 'react';
 'use client';
 
 import { Moon, Sun } from 'lucide-react';
@@ -8,8 +9,7 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+  DropdownMenuTrigger} from '@/components/ui/dropdown-menu';
 
 export function DeveloperThemeToggle() {
   const { setTheme } = useTheme();

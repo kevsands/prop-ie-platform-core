@@ -30,8 +30,7 @@ function mapDocumentToGraphQL(document: any): any {
       fullName: `${document.createdBy.firstName || ''} ${document.createdBy.lastName || ''}`.trim(),
       email: document.createdBy.email,
       avatar: document.createdBy.avatar,
-      roles: document.createdBy.roles || [],
-    } : null,
+      roles: document.createdBy.roles || []} : null,
     uploadedByName: document.uploadedByName,
     uploadDate: document.createdAt || document.uploadDate,
     expiryDate: document.expiryDate,
@@ -50,14 +49,12 @@ function mapDocumentToGraphQL(document: any): any {
         fullName: `${version.createdBy.firstName || ''} ${version.createdBy.lastName || ''}`.trim(),
         email: version.createdBy.email,
         avatar: version.createdBy.avatar,
-        roles: version.createdBy.roles || [],
-      } : null,
+        roles: version.createdBy.roles || []} : null,
       created: version.createdAt,
       notes: version.notes,
       changes: version.changes,
       size: version.size,
-      checksum: version.checksum,
-    })),
+      checksum: version.checksum})),
     signatures: (document.signatures || []).map((signature: any) => ({
       id: signature.id,
       signerId: signature.signerId,
@@ -69,9 +66,7 @@ function mapDocumentToGraphQL(document: any): any {
       ipAddress: signature.ipAddress,
       verified: !!signature.verified,
       verificationMethod: signature.verificationMethod,
-      certificateUrl: signature.certificateUrl,
-    })),
-  };
+      certificateUrl: signature.certificateUrl}))};
 }
 
 // Map to a summary version for lists
@@ -89,12 +84,10 @@ function mapToDocumentSummary(document: any): any {
       fullName: `${document.createdBy.firstName || ''} ${document.createdBy.lastName || ''}`.trim(),
       email: document.createdBy.email,
       avatar: document.createdBy.avatar,
-      roles: document.createdBy.roles || [],
-    } : null,
+      roles: document.createdBy.roles || []} : null,
     uploadDate: document.createdAt || document.uploadDate,
     version: document.version || 1,
-    signatureRequired: !!document.signatureRequired,
-  };
+    signatureRequired: !!document.signatureRequired};
 }
 
 export const documentResolvers = {
@@ -104,18 +97,18 @@ export const documentResolvers = {
      */
     document: async (_: any, { id }: { id: string }, context: GraphQLContext) => {
       requireAuth(context);
-      
+
       try {
         const documentRepository = getRepository('document');
         const document = await documentRepository.findWithDetails(id);
-        
+
         if (!document) {
           throw new NotFoundError('Document', id);
         }
-        
+
         // TODO: Check permissions - implement based on business rules
         // For example, check if user is associated with the document via development, unit, or sale
-        
+
         return mapDocumentToGraphQL(document);
       } catch (error: any) {
         logger.error('Error fetching document by ID:', { 
@@ -126,7 +119,7 @@ export const documentResolvers = {
         throw error;
       }
     },
-    
+
     /**
      * List documents with filtering and pagination
      */
@@ -159,80 +152,79 @@ export const documentResolvers = {
       context: GraphQLContext
     ) => {
       requireAuth(context);
-      
+
       try {
         const { limit, offset } = processPaginationInput(pagination);
         const documentRepository = getRepository('document');
-        
+
         // Build the Prisma where clause
         const where: any = {};
-        
+
         if (filter?.developmentId) {
           where.developmentId = filter.developmentId;
         }
-        
+
         if (filter?.unitId) {
           where.unitId = filter.unitId;
         }
-        
+
         if (filter?.saleId) {
           where.saleId = filter.saleId;
         }
-        
+
         if (filter?.uploadedById) {
           where.createdById = filter.uploadedById;
         }
-        
-        if (filter?.types && filter.types.length > 0) {
+
+        if (filter?.types && filter.types.length> 0) {
           where.type = {
             in: filter.types
           };
         }
-        
-        if (filter?.categories && filter.categories.length > 0) {
+
+        if (filter?.categories && filter.categories.length> 0) {
           where.category = {
             in: filter.categories
           };
         }
-        
-        if (filter?.status && filter.status.length > 0) {
+
+        if (filter?.status && filter.status.length> 0) {
           where.status = {
             in: filter.status
           };
         }
-        
+
         if (filter?.search) {
           where.OR = [
             { title: { contains: filter.search, mode: 'insensitive' } },
             { name: { contains: filter.search, mode: 'insensitive' } },
-            { description: { contains: filter.search, mode: 'insensitive' } },
-          ];
+            { description: { contains: filter.search, mode: 'insensitive' } }];
         }
-        
-        if (filter?.tags && filter.tags.length > 0) {
+
+        if (filter?.tags && filter.tags.length> 0) {
           where.tags = {
             hasSome: filter.tags
           };
         }
-        
+
         if (filter?.fromDate) {
           where.createdAt = {
             ...(where.createdAt || {}),
             gte: filter.fromDate
           };
         }
-        
+
         if (filter?.toDate) {
           where.createdAt = {
             ...(where.createdAt || {}),
             lte: filter.toDate
           };
         }
-        
+
         if (filter?.signatureRequired !== undefined) {
           where.signatureRequired = filter.signatureRequired;
         }
-        
+
         // Fetch documents with the filter
         const documents = await documentRepository.findAll({
           where,
@@ -242,19 +234,18 @@ export const documentResolvers = {
             createdAt: 'desc'
           }
         });
-        
+
         // Get total count for pagination
         const totalCount = await documentRepository.count(where);
-        
+
         // Map to summaries and apply cursor-based pagination
         const summaries = documents.map(mapToDocumentSummary);
         const { items, pageInfo } = paginateResults(summaries, pagination || {});
-        
+
         return {
           documents: items,
           totalCount,
-          pageInfo,
-        };
+          pageInfo};
       } catch (error: any) {
         logger.error('Error fetching documents:', { 
           error: error.message, 
@@ -264,7 +255,7 @@ export const documentResolvers = {
         throw error;
       }
     },
-    
+
     /**
      * Get documents for a specific development
      */
@@ -281,7 +272,7 @@ export const documentResolvers = {
       context: GraphQLContext
     ) => {
       requireAuth(context);
-      
+
       // Delegate to the documents resolver with the development ID in the filter
       return documentResolvers.Query.documents(
         _,
@@ -295,7 +286,7 @@ export const documentResolvers = {
         context
       );
     },
-    
+
     /**
      * Get documents for a specific unit
      */
@@ -312,7 +303,7 @@ export const documentResolvers = {
       context: GraphQLContext
     ) => {
       requireAuth(context);
-      
+
       // Delegate to the documents resolver with the unit ID in the filter
       return documentResolvers.Query.documents(
         _,
@@ -326,7 +317,7 @@ export const documentResolvers = {
         context
       );
     },
-    
+
     /**
      * Get documents for a specific sale
      */
@@ -343,7 +334,7 @@ export const documentResolvers = {
       context: GraphQLContext
     ) => {
       requireAuth(context);
-      
+
       // Delegate to the documents resolver with the sale ID in the filter
       return documentResolvers.Query.documents(
         _,
@@ -357,13 +348,13 @@ export const documentResolvers = {
         context
       );
     },
-    
+
     /**
      * Get documents uploaded by the current user
      */
     myDocuments: async (_: any, { filter, pagination }: any, context: GraphQLContext) => {
       requireAuth(context);
-      
+
       // Delegate to the documents resolver with the current user's ID in the filter
       return documentResolvers.Query.documents(
         _,
@@ -377,17 +368,17 @@ export const documentResolvers = {
         context
       );
     },
-    
+
     /**
      * Get documents requiring signature by the current user
      */
     documentsRequiringMySignature: async (_: any, { pagination }: any, context: GraphQLContext) => {
       requireAuth(context);
-      
+
       try {
         const { limit, offset } = processPaginationInput(pagination);
         const documentRepository = getRepository('document');
-        
+
         // Custom query to find documents requiring signature by this user
         // This would typically be a custom method in the document repository
         const documents = await documentRepository.findAll({
@@ -408,7 +399,7 @@ export const documentResolvers = {
             createdAt: 'desc'
           }
         });
-        
+
         // Count for pagination
         const totalCount = await documentRepository.count({
           signatureRequired: true,
@@ -419,16 +410,15 @@ export const documentResolvers = {
             }
           }
         });
-        
+
         // Map to summaries
         const summaries = documents.map(mapToDocumentSummary);
         const { items, pageInfo } = paginateResults(summaries, pagination || {});
-        
+
         return {
           documents: items,
           totalCount,
-          pageInfo,
-        };
+          pageInfo};
       } catch (error: any) {
         logger.error('Error fetching documents requiring signature:', { 
           error: error.message, 
@@ -437,8 +427,7 @@ export const documentResolvers = {
         throw error;
       }
     },
-  },
-  
+
   Mutation: {
     /**
      * Create a new document
@@ -472,13 +461,13 @@ export const documentResolvers = {
       context: GraphQLContext
     ) => {
       requireAuth(context);
-      
+
       try {
         // Validation
         if (!input.name || !input.type || !input.category || !input.fileUrl || !input.fileType) {
           throw new ValidationError('Missing required document fields');
         }
-        
+
         // Prepare the document data for the repository
         const documentData = {
           id: uuidv4(),
@@ -497,8 +486,7 @@ export const documentResolvers = {
           relatedTo: input.relatedTo ? {
             type: input.relatedTo.type,
             id: input.relatedTo.id,
-            name: input.relatedTo.name,
-          } : undefined,
+            name: input.relatedTo.name} : undefined,
           metadata: input.metadata || {},
           signatureRequired: input.signatureRequired || false,
           signatureStatus: input.signatureRequired ? 'PENDING' : 'NOT_REQUIRED',
@@ -508,13 +496,12 @@ export const documentResolvers = {
             connect: { id: context.user!.userId }
           },
           createdAt: new Date(),
-          updatedAt: new Date(),
-        };
-        
+          updatedAt: new Date()};
+
         // Use transaction for consistency
         const documentRepository = getRepository('document');
         const document = await documentRepository.create(documentData);
-        
+
         // Log the creation
         logger.info('Document created:', {
           documentId: document.id,
@@ -522,7 +509,7 @@ export const documentResolvers = {
           documentType: input.type,
           documentCategory: input.category
         });
-        
+
         return mapDocumentToGraphQL(document);
       } catch (error: any) {
         logger.error('Error creating document:', { 
@@ -534,7 +521,7 @@ export const documentResolvers = {
         throw error;
       }
     },
-    
+
     /**
      * Update an existing document
      */
@@ -556,18 +543,18 @@ export const documentResolvers = {
       context: GraphQLContext
     ) => {
       requireAuth(context);
-      
+
       try {
         // Get document repository
         const documentRepository = getRepository('document');
-        
+
         // Check if document exists
         const existingDocument = await documentRepository.findById(id);
-        
+
         if (!existingDocument) {
           throw new NotFoundError('Document', id);
         }
-        
+
         // Check permissions - basic check, can be enhanced
         // Only the creator or admins can update
         if (
@@ -576,49 +563,49 @@ export const documentResolvers = {
         ) {
           throw new Error('You do not have permission to update this document');
         }
-        
+
         // Prepare update data
         const updateData: any = {
           updatedAt: new Date()
         };
-        
+
         if (input.name) {
           updateData.title = input.name;
         }
-        
+
         if (input.description !== undefined) {
           updateData.description = input.description;
         }
-        
+
         if (input.category) {
           updateData.category = input.category;
         }
-        
+
         if (input.tags) {
           updateData.tags = input.tags;
         }
-        
+
         if (input.expiryDate !== undefined) {
           updateData.expiryDate = input.expiryDate;
         }
-        
+
         if (input.metadata) {
           updateData.metadata = {
             ...(existingDocument.metadata || {}),
             ...input.metadata
           };
         }
-        
+
         // Update the document
-        const updatedDocument = await documentRepository.update(id, updateData);
-        
+        const updatedDocument = await documentRepository.update(idupdateData);
+
         // Log the update
         logger.info('Document updated:', {
           documentId: id,
           userId: context.user?.userId,
           fields: Object.keys(updateData).filter(k => k !== 'updatedAt')
         });
-        
+
         return mapDocumentToGraphQL(updatedDocument);
       } catch (error: any) {
         logger.error('Error updating document:', { 
@@ -629,7 +616,7 @@ export const documentResolvers = {
         throw error;
       }
     },
-    
+
     /**
      * Change a document's status
      */
@@ -644,21 +631,21 @@ export const documentResolvers = {
       context: GraphQLContext
     ) => {
       requireRole(context, [UserRole.DEVELOPER, UserRole.ADMIN]);
-      
+
       try {
         // Get document repository
         const documentRepository = getRepository('document');
-        
+
         // Check if document exists
         const existingDocument = await documentRepository.findById(id);
-        
+
         if (!existingDocument) {
           throw new NotFoundError('Document', id);
         }
-        
+
         // Update the status
-        const updatedDocument = await documentRepository.updateStatus(id, status);
-        
+        const updatedDocument = await documentRepository.updateStatus(idstatus);
+
         // Log the status change
         logger.info('Document status changed:', {
           documentId: id,
@@ -666,7 +653,7 @@ export const documentResolvers = {
           oldStatus: existingDocument.status,
           newStatus: status
         });
-        
+
         return mapDocumentToGraphQL(updatedDocument);
       } catch (error: any) {
         logger.error('Error changing document status:', { 
@@ -678,7 +665,7 @@ export const documentResolvers = {
         throw error;
       }
     },
-    
+
     /**
      * Create a new version of a document
      */
@@ -698,18 +685,18 @@ export const documentResolvers = {
       context: GraphQLContext
     ) => {
       requireAuth(context);
-      
+
       try {
         // Get document repository
         const documentRepository = getRepository('document');
-        
+
         // Check if document exists
         const existingDocument = await documentRepository.findWithDetails(input.documentId);
-        
+
         if (!existingDocument) {
           throw new NotFoundError('Document', input.documentId);
         }
-        
+
         // Check permissions - basic check, can be enhanced
         // Only the creator, admins, or collaborators can update
         // In a real implementation, check for additional roles
@@ -719,13 +706,13 @@ export const documentResolvers = {
         ) {
           throw new Error('You do not have permission to version this document');
         }
-        
+
         // Calculate new version number
         const newVersionNumber = (existingDocument.version || 1) + 1;
-        
+
         // Create new version using transaction
         const tx = await createTransactionContext();
-        
+
         try {
           // Create version record and update document
           const newVersion = await documentRepository.addVersion(
@@ -736,14 +723,14 @@ export const documentResolvers = {
             input.size,
             input.notes
           );
-          
+
           // Log the version creation
           logger.info('Document version created:', {
             documentId: input.documentId,
             userId: context.user?.userId,
             versionNumber: newVersionNumber
           });
-          
+
           return {
             id: newVersion.id,
             versionNumber: newVersion.versionNumber,
@@ -752,14 +739,12 @@ export const documentResolvers = {
               id: context.user?.userId,
               fullName: context.user?.username || 'Unknown',
               email: context.user?.email || '',
-              roles: context.userRoles || [],
-            },
+              roles: context.userRoles || []},
             created: newVersion.createdAt,
             notes: newVersion.notes,
             changes: input.changes,
             size: newVersion.size,
-            checksum: input.checksum,
-          };
+            checksum: input.checksum};
         } catch (error) {
           // Transaction will automatically roll back
           throw error;
@@ -773,7 +758,7 @@ export const documentResolvers = {
         throw error;
       }
     },
-    
+
     /**
      * Sign a document
      */
@@ -791,28 +776,28 @@ export const documentResolvers = {
       context: GraphQLContext
     ) => {
       requireAuth(context);
-      
+
       try {
         // Get repository and transaction context
         const tx = await createTransactionContext();
-        
+
         try {
           // Find the document
           const document = await tx.documents.findById(input.documentId);
-          
+
           if (!document) {
             throw new NotFoundError('Document', input.documentId);
           }
-          
+
           // Verify document requires signature
           if (!document.signatureRequired) {
             throw new ValidationError('This document does not require a signature');
           }
-          
+
           // Verify user is a valid signer
           // This would be more complex in a real implementation
           // with a proper signers relationship
-          
+
           // Create signature record
           const signature = await tx.prisma.documentSignature.create({
             data: {
@@ -830,33 +815,32 @@ export const documentResolvers = {
               verified: true,
               verificationMethod: 'authenticated-session',
               createdAt: new Date(),
-              updatedAt: new Date(),
-            }
+              updatedAt: new Date()}
           });
-          
+
           // Check if all required signatures are complete
           // This would be more complex in a real implementation
           // For now, we'll just check if there's at least one signature
           const allSignatures = await tx.prisma.documentSignature.findMany({
             where: { documentId: input.documentId }
           });
-          
+
           // Update document signature status if needed
-          if (allSignatures.length > 0) {
+          if (allSignatures.length> 0) {
             await tx.documents.update(input.documentId, {
               signatureStatus: 'COMPLETED',
               status: 'APPROVED',
               updatedAt: new Date()
             });
           }
-          
+
           // Log the signature
           logger.info('Document signed:', {
             documentId: input.documentId,
             userId: context.user?.userId,
             signatureMethod: input.signatureMethod
           });
-          
+
           return {
             id: signature.id,
             signerId: signature.signerId,
@@ -883,24 +867,24 @@ export const documentResolvers = {
         throw error;
       }
     },
-    
+
     /**
      * Archive a document (soft delete)
      */
     archiveDocument: async (_: any, { id }: { id: string }, context: GraphQLContext) => {
       requireAuth(context);
-      
+
       try {
         // Get document repository
         const documentRepository = getRepository('document');
-        
+
         // Check if document exists
         const existingDocument = await documentRepository.findById(id);
-        
+
         if (!existingDocument) {
           throw new NotFoundError('Document', id);
         }
-        
+
         // Check permissions - basic check, can be enhanced
         if (
           existingDocument.createdById !== context.user?.userId && 
@@ -908,16 +892,16 @@ export const documentResolvers = {
         ) {
           throw new Error('You do not have permission to archive this document');
         }
-        
+
         // Update the document status to ARCHIVED
         const updatedDocument = await documentRepository.updateStatus(id, DocumentStatus.ARCHIVED);
-        
+
         // Log the archival
         logger.info('Document archived:', {
           documentId: id,
           userId: context.user?.userId
         });
-        
+
         return mapDocumentToGraphQL(updatedDocument);
       } catch (error: any) {
         logger.error('Error archiving document:', { 
@@ -927,8 +911,7 @@ export const documentResolvers = {
         });
         throw error;
       }
-    },
-  }
+    }
 };
 
 export default documentResolvers;

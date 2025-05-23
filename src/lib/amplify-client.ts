@@ -18,10 +18,6 @@ import { API } from './amplify/api';
 import { Storage } from './amplify/storage';
 
 // Display deprecation warning
-console.warn(
-  'Warning: The amplify-client.ts file is deprecated and will be removed in a future version. ' +
-  'Please use the new modules in src/lib/amplify/ instead.'
-);
 
 /**
  * Centralized Amplify configuration module for client-side

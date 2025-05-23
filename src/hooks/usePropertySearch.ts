@@ -41,15 +41,15 @@ interface SavedSearch {
 export const usePropertySearch = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
-  
-  const [properties, setProperties] = useState<Property[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [totalCount, setTotalCount] = useState(0);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [savedSearches, setSavedSearches] = useState<SavedSearch[]>([]);
-  const [sortBy, setSortBy] = useState('price_asc');
-  
-  const [filters, setFilters] = useState<PropertyFilters>({
+
+  const [propertiessetProperties] = useState<Property[]>([]);
+  const [loadingsetLoading] = useState(false);
+  const [totalCountsetTotalCount] = useState(0);
+  const [currentPagesetCurrentPage] = useState(1);
+  const [savedSearchessetSavedSearches] = useState<SavedSearch[]>([]);
+  const [sortBysetSortBy] = useState('price_asc');
+
+  const [filterssetFilters] = useState<PropertyFilters>({
     propertyTypes: [],
     locations: [],
     features: [],
@@ -73,13 +73,12 @@ export const usePropertySearch = () => {
       berRating: searchParams.get('berRating')?.split(',') || [],
       developmentStage: searchParams.get('developmentStage')?.split(',') || [],
       orientation: searchParams.get('orientation')?.split(',') || [],
-      floor: searchParams.get('floor')?.split(',') || [],
-    };
-    
+      floor: searchParams.get('floor')?.split(',') || []};
+
     setFilters(urlFilters);
     const page = searchParams.get('page');
     if (page) setCurrentPage(parseInt(page));
-    
+
     const sort = searchParams.get('sort');
     if (sort) setSortBy(sort);
   }, [searchParams]);
@@ -87,20 +86,20 @@ export const usePropertySearch = () => {
   // Update URL when filters change
   const updateURL = useCallback((newFilters: PropertyFilters, page: number, sort: string) => {
     const params = new URLSearchParams();
-    
+
     if (newFilters.priceMin) params.set('priceMin', newFilters.priceMin.toString());
     if (newFilters.priceMax) params.set('priceMax', newFilters.priceMax.toString());
     if (newFilters.bedroomsMin) params.set('bedroomsMin', newFilters.bedroomsMin.toString());
     if (newFilters.bedroomsMax) params.set('bedroomsMax', newFilters.bedroomsMax.toString());
     if (newFilters.bathroomsMin) params.set('bathroomsMin', newFilters.bathroomsMin.toString());
-    if (newFilters.propertyTypes.length > 0) params.set('propertyTypes', newFilters.propertyTypes.join(','));
-    if (newFilters.locations.length > 0) params.set('locations', newFilters.locations.join(','));
-    if (newFilters.features.length > 0) params.set('features', newFilters.features.join(','));
-    if (newFilters.berRating?.length > 0) params.set('berRating', newFilters.berRating.join(','));
-    
+    if (newFilters.propertyTypes.length> 0) params.set('propertyTypes', newFilters.propertyTypes.join(','));
+    if (newFilters.locations.length> 0) params.set('locations', newFilters.locations.join(','));
+    if (newFilters.features.length> 0) params.set('features', newFilters.features.join(','));
+    if (newFilters.berRating?.length> 0) params.set('berRating', newFilters.berRating.join(','));
+
     params.set('page', page.toString());
     params.set('sort', sort);
-    
+
     router.push(`/properties/search?${params.toString()}`);
   }, [router]);
 
@@ -110,7 +109,7 @@ export const usePropertySearch = () => {
     try {
       const response = await fetch('/api/properties?' + new URLSearchParams({
         ...Object.fromEntries(
-          Object.entries(filters).map(([key, value]) => [
+          Object.entries(filters).map(([keyvalue]) => [
             key,
             Array.isArray(value) ? value.join(',') : value?.toString() || ''
           ])
@@ -119,16 +118,16 @@ export const usePropertySearch = () => {
         limit: '12',
         sort: sortBy
       }));
-      
+
       const data = await response.json();
       setProperties(data.properties);
       setTotalCount(data.totalCount);
     } catch (error) {
-      console.error('Error fetching properties:', error);
+
     } finally {
       setLoading(false);
     }
-  }, [filters, currentPage, sortBy]);
+  }, [filters, currentPagesortBy]);
 
   // Fetch properties when filters change
   useEffect(() => {
@@ -139,19 +138,19 @@ export const usePropertySearch = () => {
   const updateFilters = (newFilters: PropertyFilters) => {
     setFilters(newFilters);
     setCurrentPage(1); // Reset to first page
-    updateURL(newFilters, 1, sortBy);
+    updateURL(newFilters, 1sortBy);
   };
 
   // Update page
   const updatePage = (page: number) => {
     setCurrentPage(page);
-    updateURL(filters, page, sortBy);
+    updateURL(filters, pagesortBy);
   };
 
   // Update sort
   const updateSort = (sort: string) => {
     setSortBy(sort);
-    updateURL(filters, currentPage, sort);
+    updateURL(filters, currentPagesort);
   };
 
   // Save current search
@@ -164,7 +163,7 @@ export const usePropertySearch = () => {
       createdAt: new Date(),
       notificationEnabled: enableNotifications || false
     };
-    
+
     // In production, save to API
     const savedSearches = JSON.parse(localStorage.getItem('savedSearches') || '[]');
     savedSearches.push(newSearch);
@@ -176,8 +175,8 @@ export const usePropertySearch = () => {
   const loadSavedSearch = (search: SavedSearch) => {
     setFilters(search.filters);
     setCurrentPage(1);
-    updateURL(search.filters, 1, sortBy);
-    
+    updateURL(search.filters, 1sortBy);
+
     // Update last used
     const searches = savedSearches.map(s => 
       s.id === search.id ? { ...s, lastUsed: new Date() } : s

@@ -1,3 +1,4 @@
+import React from 'react';
 'use client';
 
 import { useRef, useEffect } from 'react';
@@ -114,7 +115,7 @@ export const AboutTeam: React.FC<AboutTeamProps> = ({ members }) => {
       <div className={styles.container}>
         <h2 className={styles.sectionTitle} ref={titleRef}>Our Team</h2>
         <div className={styles.teamGrid}>
-          {members.map((member, index) => (
+          {members.map((memberindex: any) => (
             <TeamMemberCard key={member.id} member={member} index={index} />
           ))}
         </div>

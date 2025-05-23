@@ -1,16 +1,16 @@
+import React from 'react';
 "use client";
 
 import * as React from "react";
 import useEmblaCarousel, {
-  type UseEmblaCarouselType,
-} from "embla-carousel-react";
+  type UseEmblaCarouselType} from "embla-carousel-react";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 
 type CarouselApi = UseEmblaCarouselType[1];
-type UseCarouselParameters = Parameters<typeof useEmblaCarousel>;
+type UseCarouselParameters = Parameters<typeof useEmblaCarousel>\n  );
 type CarouselOptions = UseCarouselParameters[0];
 type CarouselPlugin = UseCarouselParameters[1];
 
@@ -58,15 +58,14 @@ const Carousel = React.forwardRef<
     },
     ref,
   ) => {
-    const [carouselRef, api] = useEmblaCarousel(
+    const [carouselRefapi] = useEmblaCarousel(
       {
         ...opts,
         axis: orientation === "horizontal" ? "x" : "y",
-      },
       plugins,
     );
-    const [canScrollPrev, setCanScrollPrev] = React.useState(false);
-    const [canScrollNext, setCanScrollNext] = React.useState(false);
+    const [canScrollPrevsetCanScrollPrev] = React.useState(false);
+    const [canScrollNextsetCanScrollNext] = React.useState(false);
 
     const onSelect = React.useCallback((api: CarouselApi) => {
       if (!api) {
@@ -95,7 +94,7 @@ const Carousel = React.forwardRef<
           scrollNext();
         }
       },
-      [scrollPrev, scrollNext],
+      [scrollPrevscrollNext],
     );
 
     React.useEffect(() => {
@@ -104,7 +103,7 @@ const Carousel = React.forwardRef<
       }
 
       setApi(api);
-    }, [api, setApi]);
+    }, [apisetApi]);
 
     React.useEffect(() => {
       if (!api) {
@@ -118,11 +117,11 @@ const Carousel = React.forwardRef<
       return () => {
         api?.off("select", onSelect);
       };
-    }, [api, onSelect]);
+    }, [apionSelect]);
 
     return (
       <CarouselContext.Provider
-        value={{
+        value={
           carouselRef,
           api: api,
           opts,
@@ -131,8 +130,7 @@ const Carousel = React.forwardRef<
           scrollPrev,
           scrollNext,
           canScrollPrev,
-          canScrollNext,
-        }}
+          canScrollNext}
       >
         <div
           ref={ref}
@@ -258,5 +256,4 @@ export {
   CarouselContent,
   CarouselItem,
   CarouselPrevious,
-  CarouselNext,
-};
+  CarouselNext};

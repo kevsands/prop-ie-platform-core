@@ -14,7 +14,7 @@ import {
 } from 'lucide-react';
 
 export default function HomeBuyersPage() {
-  const [activeTab, setActiveTab] = useState('search');
+  const [activeTabsetActiveTab] = useState('search');
 
   return (
     <div className="min-h-screen bg-white">
@@ -144,7 +144,7 @@ export default function HomeBuyersPage() {
 
           {/* Tab Navigation */}
           <div className="flex flex-wrap justify-center mb-8 border-b">
-            {['search', 'finance', 'insights', 'support', 'legal'].map((tab) => (
+            {['search', 'finance', 'insights', 'support', 'legal'].map((tab: any) => (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
@@ -702,7 +702,7 @@ function FinanceTab() {
           Understand your buying power and get mortgage-ready with our comprehensive financial tools
         </p>
       </div>
-      
+
       <div className="grid md:grid-cols-3 gap-8">
         <FinanceFeature 
           icon={<Calculator />}
@@ -748,7 +748,7 @@ function InsightsTab() {
           Make informed decisions with real-time market data and professional insights
         </p>
       </div>
-      
+
       <div className="grid md:grid-cols-2 gap-8">
         <InsightFeature 
           icon={<TrendingUp />}
@@ -784,7 +784,7 @@ function SupportTab() {
           From first search to moving in, our team of experts is here to help
         </p>
       </div>
-      
+
       <div className="grid md:grid-cols-3 gap-8">
         <SupportFeature 
           icon={<Users />}
@@ -830,7 +830,7 @@ function LegalTab() {
           Navigate the legal aspects of buying with confidence
         </p>
       </div>
-      
+
       <div className="grid md:grid-cols-2 gap-12">
         <div className="space-y-6">
           <LegalFeature 
@@ -889,7 +889,7 @@ function ProgramCard({ title, description, icon, benefits, cta, ctaLink, feature
       <h3 className="text-2xl font-bold mb-2">{title}</h3>
       <p className={`mb-6 ${featured ? 'text-blue-100' : 'text-gray-600'}`}>{description}</p>
       <ul className="space-y-3 mb-8">
-        {benefits.map((benefit, index) => (
+        {benefits.map((benefitindex: any) => (
           <li key={index} className="flex items-center">
             <CheckCircle className={`h-5 w-5 mr-3 ${featured ? 'text-blue-300' : 'text-green-500'}`} />
             <span>{benefit}</span>
@@ -922,7 +922,7 @@ function SuccessStoryCard({ quote, author, role, location, image, development }:
     <div className="bg-white rounded-xl shadow-lg overflow-hidden">
       <div className="p-6">
         <div className="flex items-center mb-4">
-          {[...Array(5)].map((_, i) => (
+          {[...Array(5)].map((_i: any) => (
             <Star key={i} className="h-5 w-5 text-yellow-400 fill-current" />
           ))}
         </div>
@@ -1000,8 +1000,8 @@ function LegalFeature({ icon, title, description }: { icon: React.ReactNode; tit
 }
 
 function FAQItem({ question, answer }: { question: string; answer: string }) {
-  const [isOpen, setIsOpen] = useState(false);
-  
+  const [isOpensetIsOpen] = useState(false);
+
   return (
     <div className="border-b border-gray-200 pb-6">
       <button
@@ -1030,7 +1030,7 @@ function CustomizationCard({ icon, title, description, features }: {
       <h3 className="text-xl font-bold mb-2">{title}</h3>
       <p className="text-purple-100 mb-4">{description}</p>
       <ul className="space-y-2">
-        {features.map((feature, index) => (
+        {features.map((featureindex: any) => (
           <li key={index} className="flex items-center">
             <CheckCircle className="h-4 w-4 text-purple-300 mr-2" />
             <span className="text-sm">{feature}</span>

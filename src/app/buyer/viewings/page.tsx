@@ -49,7 +49,7 @@ interface Viewing {
   reminders?: Array<{
     type: 'email' | 'sms' | 'push';
     time: number; // minutes before viewing
-  }>;
+  }>\n  );
   feedback?: {
     rating: number;
     comments: string;
@@ -68,17 +68,17 @@ const BuyerViewingsPageContent = () => {
   const searchParams = useSearchParams();
   const propertyId = searchParams.get('property');
 
-  const [viewings, setViewings] = useState<Viewing[]>([]);
-  const [filteredViewings, setFilteredViewings] = useState<Viewing[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [showScheduler, setShowScheduler] = useState(false);
-  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
-  const [selectedTime, setSelectedTime] = useState<string>('');
-  const [viewingType, setViewingType] = useState<'in-person' | 'virtual'>('in-person');
-  const [filter, setFilter] = useState<'all' | 'upcoming' | 'past' | 'cancelled'>('all');
-  const [selectedViewing, setSelectedViewing] = useState<Viewing | null>(null);
-  const [showFeedback, setShowFeedback] = useState(false);
-  const [showReschedule, setShowReschedule] = useState(false);
+  const [viewingssetViewings] = useState<Viewing[]>([]);
+  const [filteredViewingssetFilteredViewings] = useState<Viewing[]>([]);
+  const [loadingsetLoading] = useState(true);
+  const [showSchedulersetShowScheduler] = useState(false);
+  const [selectedDatesetSelectedDate] = useState<Date | null>(null);
+  const [selectedTimesetSelectedTime] = useState<string>('');
+  const [viewingTypesetViewingType] = useState<'in-person' | 'virtual'>('in-person');
+  const [filtersetFilter] = useState<'all' | 'upcoming' | 'past' | 'cancelled'>('all');
+  const [selectedViewingsetSelectedViewing] = useState<Viewing | null>(null);
+  const [showFeedbacksetShowFeedback] = useState(false);
+  const [showReschedulesetShowReschedule] = useState(false);
 
   // Protect the route
   useEffect(() => {
@@ -87,7 +87,7 @@ const BuyerViewingsPageContent = () => {
     } else if (user.role !== 'buyer') {
       router.push('/unauthorized');
     }
-  }, [user, router]);
+  }, [userrouter]);
 
   // Fetch viewings
   useEffect(() => {
@@ -99,7 +99,7 @@ const BuyerViewingsPageContent = () => {
   // Filter viewings
   useEffect(() => {
     let filtered = [...viewings];
-    
+
     switch (filter) {
       case 'upcoming':
         filtered = filtered.filter(v => 
@@ -115,12 +115,12 @@ const BuyerViewingsPageContent = () => {
         filtered = filtered.filter(v => v.status === 'cancelled');
         break;
     }
-    
+
     // Sort by date
-    filtered.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
-    
+    filtered.sort((ab: any) => new Date(a.date).getTime() - new Date(b.date).getTime());
+
     setFilteredViewings(filtered);
-  }, [viewings, filter]);
+  }, [viewingsfilter]);
 
   // Handle property-specific viewing
   useEffect(() => {
@@ -213,7 +213,7 @@ const BuyerViewingsPageContent = () => {
       ];
       setViewings(mockViewings);
     } catch (error) {
-      console.error('Error fetching viewings:', error);
+
     } finally {
       setLoading(false);
     }
@@ -249,13 +249,13 @@ const BuyerViewingsPageContent = () => {
           { type: 'sms', time: 60 }
         ]
       };
-      
-      setViewings([...viewings, newViewing]);
+
+      setViewings([...viewingsnewViewing]);
       setShowScheduler(false);
       setSelectedDate(null);
       setSelectedTime('');
     } catch (error) {
-      console.error('Error scheduling viewing:', error);
+
     }
   };
 
@@ -268,7 +268,7 @@ const BuyerViewingsPageContent = () => {
           : v
       ));
     } catch (error) {
-      console.error('Error cancelling viewing:', error);
+
     }
   };
 
@@ -291,7 +291,7 @@ const BuyerViewingsPageContent = () => {
       }
       setShowReschedule(false);
     } catch (error) {
-      console.error('Error rescheduling viewing:', error);
+
     }
   };
 
@@ -305,7 +305,7 @@ const BuyerViewingsPageContent = () => {
       ));
       setShowFeedback(false);
     } catch (error) {
-      console.error('Error submitting feedback:', error);
+
     }
   };
 
@@ -334,7 +334,7 @@ const BuyerViewingsPageContent = () => {
             onClick={() => {
               setSelectedViewing(viewing);
               setShowFeedback(true);
-            }}
+            }
             className="btn btn-secondary"
           >
             Leave Feedback
@@ -351,7 +351,7 @@ const BuyerViewingsPageContent = () => {
             onClick={() => {
               setSelectedViewing(viewing);
               setShowReschedule(true);
-            }}
+            }
             className="btn btn-secondary"
           >
             Reschedule
@@ -376,7 +376,7 @@ const BuyerViewingsPageContent = () => {
           <div className="animate-pulse">
             <div className="h-8 bg-gray-200 rounded w-1/4 mb-8"></div>
             <div className="space-y-4">
-              {[1, 2, 3].map((i) => (
+              {[1, 23].map((i: any) => (
                 <div key={i} className="bg-white rounded-lg shadow-sm p-6">
                   <div className="h-4 bg-gray-200 rounded w-1/3 mb-4"></div>
                   <div className="h-4 bg-gray-200 rounded w-1/2"></div>
@@ -395,7 +395,7 @@ const BuyerViewingsPageContent = () => {
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-900 mb-4">My Viewings</h1>
-          
+
           {/* Action Buttons */}
           <div className="flex flex-wrap gap-4 mb-6">
             <button
@@ -405,10 +405,10 @@ const BuyerViewingsPageContent = () => {
               <CalendarPlus className="w-4 h-4 mr-2" />
               Schedule New Viewing
             </button>
-            
+
             {/* Filter Buttons */}
             <div className="flex gap-2">
-              {['all', 'upcoming', 'past', 'cancelled'].map((f) => (
+              {['all', 'upcoming', 'past', 'cancelled'].map((f: any) => (
                 <button
                   key={f}
                   onClick={() => setFilter(f as any)}
@@ -500,11 +500,11 @@ const BuyerViewingsPageContent = () => {
               </button>
             </div>
           ) : (
-            filteredViewings.map((viewing) => (
+            filteredViewings.map((viewing: any) => (
               <motion.div
                 key={viewing.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
+                initial={ opacity: 0, y: 20 }
+                animate={ opacity: 1, y: 0 }
                 className="bg-white rounded-lg shadow-sm p-6"
               >
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -520,7 +520,7 @@ const BuyerViewingsPageContent = () => {
                       <MapPin className="w-4 h-4" />
                       {viewing.propertyAddress}
                     </p>
-                    
+
                     {/* Status Badge */}
                     <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium mt-3 ${getStatusColor(viewing.status)}`}>
                       {viewing.status}
@@ -568,7 +568,7 @@ const BuyerViewingsPageContent = () => {
                         </div>
                       </div>
                     </div>
-                    
+
                     <div className="mt-4">
                       {getActionButton(viewing)}
                     </div>
@@ -607,7 +607,7 @@ const BuyerViewingsPageContent = () => {
                     <p className="text-sm font-medium text-gray-600 mb-2">Your Feedback</p>
                     <div className="flex items-center gap-2 mb-2">
                       <div className="flex">
-                        {[1, 2, 3, 4, 5].map((star) => (
+                        {[1, 2, 3, 45].map((star: any) => (
                           <span
                             key={star}
                             className={`text-lg ${star <= viewing.feedback.rating ? 'text-yellow-400' : 'text-gray-300'}`}
@@ -629,7 +629,7 @@ const BuyerViewingsPageContent = () => {
         </div>
 
         {/* Viewing Tips */}
-        {filteredViewings.length > 0 && (
+        {filteredViewings.length> 0 && (
           <div className="bg-white rounded-lg shadow-sm p-6">
             <h3 className="text-lg font-semibold mb-4">Viewing Tips</h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -675,12 +675,12 @@ const BuyerViewingsPageContent = () => {
       {showScheduler && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
+            initial={ opacity: 0, scale: 0.95 }
+            animate={ opacity: 1, scale: 1 }
             className="bg-white rounded-lg shadow-lg p-6 max-w-md w-full"
           >
             <h2 className="text-xl font-semibold mb-4">Schedule Viewing</h2>
-            
+
             <div className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -689,19 +689,19 @@ const BuyerViewingsPageContent = () => {
                 <input
                   type="date"
                   value={selectedDate ? format(selectedDate, 'yyyy-MM-dd') : ''}
-                  onChange={(e) => setSelectedDate(new Date(e.target.value))}
+                  onChange={(e: any) => setSelectedDate(new Date(e.target.value))}
                   className="input w-full"
                   min={format(new Date(), 'yyyy-MM-dd')}
                 />
               </div>
-              
+
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Time
                 </label>
                 <select 
                   value={selectedTime}
-                  onChange={(e) => setSelectedTime(e.target.value)}
+                  onChange={(e: any) => setSelectedTime(e.target.value)}
                   className="input w-full"
                 >
                   <option value="">Select a time</option>
@@ -710,7 +710,7 @@ const BuyerViewingsPageContent = () => {
                   ))}
                 </select>
               </div>
-              
+
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Viewing Type
@@ -721,7 +721,7 @@ const BuyerViewingsPageContent = () => {
                       type="radio"
                       value="in-person"
                       checked={viewingType === 'in-person'}
-                      onChange={(e) => setViewingType(e.target.value as any)}
+                      onChange={(e: any) => setViewingType(e.target.value as any)}
                       className="mr-2"
                     />
                     In-Person
@@ -731,7 +731,7 @@ const BuyerViewingsPageContent = () => {
                       type="radio"
                       value="virtual"
                       checked={viewingType === 'virtual'}
-                      onChange={(e) => setViewingType(e.target.value as any)}
+                      onChange={(e: any) => setViewingType(e.target.value as any)}
                       className="mr-2"
                     />
                     Virtual
@@ -739,7 +739,7 @@ const BuyerViewingsPageContent = () => {
                 </div>
               </div>
             </div>
-            
+
             <div className="flex gap-3 mt-6">
               <button
                 onClick={() => setShowScheduler(false)}
@@ -763,12 +763,12 @@ const BuyerViewingsPageContent = () => {
       {showReschedule && selectedViewing && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
+            initial={ opacity: 0, scale: 0.95 }
+            animate={ opacity: 1, scale: 1 }
             className="bg-white rounded-lg shadow-lg p-6 max-w-md w-full"
           >
             <h2 className="text-xl font-semibold mb-4">Reschedule Viewing</h2>
-            
+
             <div className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -777,19 +777,19 @@ const BuyerViewingsPageContent = () => {
                 <input
                   type="date"
                   value={selectedDate ? format(selectedDate, 'yyyy-MM-dd') : ''}
-                  onChange={(e) => setSelectedDate(new Date(e.target.value))}
+                  onChange={(e: any) => setSelectedDate(new Date(e.target.value))}
                   className="input w-full"
                   min={format(new Date(), 'yyyy-MM-dd')}
                 />
               </div>
-              
+
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   New Time
                 </label>
                 <select 
                   value={selectedTime}
-                  onChange={(e) => setSelectedTime(e.target.value)}
+                  onChange={(e: any) => setSelectedTime(e.target.value)}
                   className="input w-full"
                 >
                   <option value="">Select a time</option>
@@ -799,7 +799,7 @@ const BuyerViewingsPageContent = () => {
                 </select>
               </div>
             </div>
-            
+
             <div className="flex gap-3 mt-6">
               <button
                 onClick={() => {
@@ -807,7 +807,7 @@ const BuyerViewingsPageContent = () => {
                   setSelectedViewing(null);
                   setSelectedDate(null);
                   setSelectedTime('');
-                }}
+                }
                 className="flex-1 btn btn-secondary"
               >
                 Cancel
@@ -815,9 +815,9 @@ const BuyerViewingsPageContent = () => {
               <button
                 onClick={() => {
                   if (selectedDate && selectedTime) {
-                    rescheduleViewing(selectedViewing.id, selectedDate, selectedTime);
+                    rescheduleViewing(selectedViewing.id, selectedDateselectedTime);
                   }
-                }}
+                }
                 disabled={!selectedDate || !selectedTime}
                 className="flex-1 btn btn-primary"
               >
@@ -832,19 +832,19 @@ const BuyerViewingsPageContent = () => {
       {showFeedback && selectedViewing && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
+            initial={ opacity: 0, scale: 0.95 }
+            animate={ opacity: 1, scale: 1 }
             className="bg-white rounded-lg shadow-lg p-6 max-w-md w-full"
           >
             <h2 className="text-xl font-semibold mb-4">Leave Feedback</h2>
-            
+
             <div className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   How was your viewing?
                 </label>
                 <div className="flex gap-2">
-                  {[1, 2, 3, 4, 5].map((star) => (
+                  {[1, 2, 3, 45].map((star: any) => (
                     <button
                       key={star}
                       className="text-2xl text-gray-300 hover:text-yellow-400 transition-colors"
@@ -854,7 +854,7 @@ const BuyerViewingsPageContent = () => {
                   ))}
                 </div>
               </div>
-              
+
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Are you interested in this property?
@@ -880,7 +880,7 @@ const BuyerViewingsPageContent = () => {
                   </label>
                 </div>
               </div>
-              
+
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Comments
@@ -892,13 +892,13 @@ const BuyerViewingsPageContent = () => {
                 ></textarea>
               </div>
             </div>
-            
+
             <div className="flex gap-3 mt-6">
               <button
                 onClick={() => {
                   setShowFeedback(false);
                   setSelectedViewing(null);
-                }}
+                }
                 className="flex-1 btn btn-secondary"
               >
                 Cancel
@@ -910,7 +910,7 @@ const BuyerViewingsPageContent = () => {
                     comments: 'Great property!',
                     interestedInProperty: true
                   });
-                }}
+                }
                 className="flex-1 btn btn-primary"
               >
                 Submit Feedback
@@ -932,7 +932,7 @@ const BuyerViewingsPage = () => {
           <div className="animate-pulse">
             <div className="h-8 bg-gray-200 rounded w-1/4 mb-8"></div>
             <div className="space-y-4">
-              {[1, 2, 3].map((i) => (
+              {[1, 23].map((i: any) => (
                 <div key={i} className="bg-white rounded-lg shadow-sm p-6">
                   <div className="h-4 bg-gray-200 rounded w-1/3 mb-4"></div>
                   <div className="h-4 bg-gray-200 rounded w-1/2"></div>

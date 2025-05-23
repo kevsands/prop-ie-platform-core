@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #0070f3;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0051cc;
+        }
+        .error {
+            color: red;
+            margin-top: 10px;
+        }
+        .success {
+            color: green;
+            margin-top: 10px;
+        }
+        .info {
+            background-color: #f0f0f0;
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Test Login Page</h1>
+    
+    <div class="info">
+        <h3>Test Credentials:</h3>
+        <p>Email: test@buyer.com<br>Password: password123</p>
+    </div>
+
+    <form id="loginForm">
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" value="test@buyer.com" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" value="password123" required>
+        </div>
+        
+        <button type="submit">Login</button>
+    </form>
+    
+    <div id="message"></div>
+
+    <script>
+        const form = document.getElementById('loginForm');
+        const message = document.getElementById('message');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            try {
+                // First, try the API login endpoint
+                const response = await fetch('http://localhost:3000/api/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email, password }),
+                    credentials: 'include',
+                });
+
+                const data = await response.json();
+                
+                if (response.ok) {
+                    message.innerHTML = '<div class="success">Login successful! Redirecting...</div>';
+                    
+                    // Based on email, redirect to appropriate dashboard
+                    if (email.includes('buyer')) {
+                        window.location.href = 'http://localhost:3000/buyer';
+                    } else {
+                        window.location.href = 'http://localhost:3000/dashboard';
+                    }
+                } else {
+                    message.innerHTML = `<div class="error">Login failed: ${data.error || 'Unknown error'}</div>`;
+                }
+            } catch (error) {
+                message.innerHTML = `<div class="error">Network error: ${error.message}</div>`;
+                console.error('Login error:', error);
+            }
+        });
+    </script>
+</body>
+</html>

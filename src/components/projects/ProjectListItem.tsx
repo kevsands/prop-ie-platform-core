@@ -85,7 +85,7 @@ const ProjectListItem: React.FC<ProjectListItemProps> = ({ project, orgSlug, onS
         <Link
           href={`/${orgSlug}/projects/${project.slug}`}
           className="text-[#2B5273] hover:text-[#1E3142] flex items-center justify-end"
-          onClick={(e) => e.stopPropagation()}
+          onClick={(e: any) => e.stopPropagation()}
         >
           Details <FiArrowRight className="ml-1" />
         </Link>

@@ -21,8 +21,7 @@ import {
   SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
+  SelectValue} from '@/components/ui/select';
 import { 
   isFeatureEnabled, 
   getAllFeatureFlags,
@@ -141,42 +140,21 @@ const SAMPLE_FEATURE_FLAGS: FeatureFlag[] = [
 /**
  * Feature Flag Admin component for managing feature flags
  */
-export function FeatureFlagAdmin() {
-  const [featureFlags, setFeatureFlags] = useState<FeatureFlag[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [activeTab, setActiveTab] = useState<string>('all');
-  const [searchQuery, setSearchQuery] = useState<string>('');
-  const [selectedFlag, setSelectedFlag] = useState<FeatureFlag | null>(null);
-  const [showEditDialog, setShowEditDialog] = useState<boolean>(false);
-  
-  // Load feature flags on mount
-  useEffect(() => {
-    async function loadFeatureFlags() {
-      try {
-        setLoading(true);
-        
-        // For a real implementation, we would fetch flags from the server
-        // getAllFeatureFlags() is a function from the featureFlags module
-        
-        // For now, we'll use sample data with actual enabled states
-        const enhancedFlags = await Promise.all(
-          SAMPLE_FEATURE_FLAGS.map(async (flag) => ({
-            ...flag,
-            enabled: await isFeatureEnabled(flag.id)
+export async function FeatureFlagAdminisFeatureEnabled(flag.id)
           }))
         );
-        
+
         setFeatureFlags(enhancedFlags);
       } catch (error) {
-        console.error('Error loading feature flags:', error);
+
       } finally {
         setLoading(false);
       }
     }
-    
+
     loadFeatureFlags();
   }, []);
-  
+
   // Filter flags based on search and tab
   const filteredFlags = featureFlags.filter(flag => {
     // Filter by search query
@@ -185,16 +163,16 @@ export function FeatureFlagAdmin() {
       flag.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       flag.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
       flag.id.toLowerCase().includes(searchQuery.toLowerCase());
-    
+
     // Filter by tab
     if (activeTab === 'all') return matchesSearch;
     if (activeTab === 'enabled') return flag.enabled && matchesSearch;
     if (activeTab === 'disabled') return !flag.enabled && matchesSearch;
     if (activeTab === flag.type) return matchesSearch;
-    
+
     return false;
   });
-  
+
   // Toggle a boolean feature flag
   const toggleFeatureFlag = async (id: string, enabled: boolean) => {
     try {
@@ -204,10 +182,10 @@ export function FeatureFlagAdmin() {
           flag.id === id ? { ...flag, enabled } : flag
         )
       );
-      
+
       // In a real implementation, we would update the server
       // For now, we'll just simulate a request
-      
+
       // Log the feature flag change
       AuditLogger.log({
         category: AuditCategory.CONFIGURATION,
@@ -218,20 +196,19 @@ export function FeatureFlagAdmin() {
         resource: 'feature_flag',
         resourceId: id
       });
-      
+
       // Refresh feature flags to ensure consistency
       await initializeFeatureFlags();
-      
+
     } catch (error) {
-      console.error(`Error toggling feature flag "${id}":`, error);
-      
+
       // Revert the change in UI if server update fails
       setFeatureFlags(flags => 
         flags.map(flag => 
           flag.id === id ? { ...flag, enabled: !enabled } : flag
         )
       );
-      
+
       // Log the failure
       AuditLogger.log({
         category: AuditCategory.CONFIGURATION,
@@ -245,27 +222,27 @@ export function FeatureFlagAdmin() {
       });
     }
   };
-  
+
   // Edit a feature flag
   const handleEditFlag = (flag: FeatureFlag) => {
     setSelectedFlag(flag);
     setShowEditDialog(true);
   };
-  
+
   // Save feature flag changes
   const handleSaveFlag = async () => {
     if (!selectedFlag) return;
-    
+
     try {
       // In a real implementation, we would update the server
       // For now, we'll just update local state
-      
+
       setFeatureFlags(flags => 
         flags.map(flag => 
           flag.id === selectedFlag.id ? selectedFlag : flag
         )
       );
-      
+
       // Log the feature flag update
       AuditLogger.log({
         category: AuditCategory.CONFIGURATION,
@@ -277,16 +254,15 @@ export function FeatureFlagAdmin() {
         resourceId: selectedFlag.id,
         metadata: { flagType: selectedFlag.type }
       });
-      
+
       setShowEditDialog(false);
       setSelectedFlag(null);
-      
+
       // Refresh feature flags
       await initializeFeatureFlags();
-      
+
     } catch (error) {
-      console.error(`Error updating feature flag "${selectedFlag.id}":`, error);
-      
+
       // Log the failure
       AuditLogger.log({
         category: AuditCategory.CONFIGURATION,
@@ -300,11 +276,11 @@ export function FeatureFlagAdmin() {
       });
     }
   };
-  
+
   // Update selected flag for percentage rollout
   const handlePercentageChange = (value: number[]) => {
     if (!selectedFlag) return;
-    
+
     setSelectedFlag({
       ...selectedFlag,
       config: {
@@ -313,11 +289,11 @@ export function FeatureFlagAdmin() {
       }
     });
   };
-  
+
   // Update selected flag for environment configuration
   const handleEnvironmentToggle = (env: string, enabled: boolean) => {
     if (!selectedFlag) return;
-    
+
     setSelectedFlag({
       ...selectedFlag,
       config: {
@@ -329,11 +305,11 @@ export function FeatureFlagAdmin() {
       }
     });
   };
-  
+
   // Render UI for editing different feature flag types
   const renderFlagEditor = () => {
     if (!selectedFlag) return null;
-    
+
     switch (selectedFlag.type) {
       case 'boolean':
         return (
@@ -343,7 +319,7 @@ export function FeatureFlagAdmin() {
               <Switch 
                 id="flag-enabled" 
                 checked={selectedFlag.enabled}
-                onCheckedChange={(checked) => {
+                onCheckedChange={(checked: any) => {
                   setSelectedFlag({
                     ...selectedFlag,
                     enabled: checked,
@@ -352,12 +328,12 @@ export function FeatureFlagAdmin() {
                       enabled: checked
                     }
                   });
-                }}
+                }
               />
             </div>
           </div>
         );
-        
+
       case 'percentage':
         return (
           <div className="space-y-4">
@@ -371,13 +347,13 @@ export function FeatureFlagAdmin() {
                 onValueChange={handlePercentageChange}
               />
             </div>
-            
+
             <div className="space-y-2">
               <Label htmlFor="seed">Seed (for consistent hashing)</Label>
               <Input 
                 id="seed" 
                 value={selectedFlag.config.seed || ''}
-                onChange={(e) => {
+                onChange={(e: any) => {
                   setSelectedFlag({
                     ...selectedFlag,
                     config: {
@@ -385,19 +361,19 @@ export function FeatureFlagAdmin() {
                       seed: e.target.value
                     }
                   });
-                }}
+                }
               />
             </div>
           </div>
         );
-        
+
       case 'environment':
         const environments = selectedFlag.config.environments || {};
         return (
           <div className="space-y-4">
             <h3 className="text-sm font-medium">Enable in Environments</h3>
-            
-            {Object.entries(environments).map(([env, enabled]) => (
+
+            {Object.entries(environments).map(([envenabled]) => (
               <div key={env} className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <Label htmlFor={`env-${env}`}>{env}</Label>
@@ -408,13 +384,13 @@ export function FeatureFlagAdmin() {
                 <Switch 
                   id={`env-${env}`} 
                   checked={!!enabled}
-                  onCheckedChange={(checked) => handleEnvironmentToggle(env, checked)}
+                  onCheckedChange={(checked: any) => handleEnvironmentToggle(envchecked)}
                 />
               </div>
             ))}
           </div>
         );
-        
+
       case 'userSegment':
         return (
           <div className="space-y-4">
@@ -423,7 +399,7 @@ export function FeatureFlagAdmin() {
               <Switch 
                 id="default-enabled" 
                 checked={selectedFlag.config.defaultEnabled}
-                onCheckedChange={(checked) => {
+                onCheckedChange={(checked: any) => {
                   setSelectedFlag({
                     ...selectedFlag,
                     config: {
@@ -431,25 +407,25 @@ export function FeatureFlagAdmin() {
                       defaultEnabled: checked
                     }
                   });
-                }}
+                }
               />
             </div>
-            
+
             <h3 className="text-sm font-medium mt-4">User Segments</h3>
-            
+
             {selectedFlag.config.segments.map((segment: any, index: number) => (
               <div key={index} className="border p-3 rounded-md space-y-2">
                 <div className="flex justify-between items-center">
                   <span className="font-medium">{segment.segmentName}</span>
                   <Switch 
                     checked={segment.enabled}
-                    onCheckedChange={(checked) => {
+                    onCheckedChange={(checked: any) => {
                       const newSegments = [...selectedFlag.config.segments];
                       newSegments[index] = {
                         ...segment,
                         enabled: checked
                       };
-                      
+
                       setSelectedFlag({
                         ...selectedFlag,
                         config: {
@@ -457,10 +433,10 @@ export function FeatureFlagAdmin() {
                           segments: newSegments
                         }
                       });
-                    }}
+                    }
                   />
                 </div>
-                
+
                 <div className="flex gap-2 text-sm">
                   <span className="text-muted-foreground">{segment.segmentType}:</span>
                   <span>
@@ -473,7 +449,7 @@ export function FeatureFlagAdmin() {
             ))}
           </div>
         );
-        
+
       default:
         return (
           <div className="text-center text-muted-foreground py-4">
@@ -482,23 +458,23 @@ export function FeatureFlagAdmin() {
         );
     }
   };
-  
+
   // Render the feature flag type badge
   const renderFlagTypeBadge = (type: FeatureFlagType) => {
     switch (type) {
       case 'boolean':
-        return <Badge variant="outline" className="bg-blue-50">Boolean</Badge>;
+        return <Badge variant="outline" className="bg-blue-50">Boolean</Badge>\n  );
       case 'percentage':
-        return <Badge variant="outline" className="bg-purple-50">Percentage</Badge>;
+        return <Badge variant="outline" className="bg-purple-50">Percentage</Badge>\n  );
       case 'userSegment':
-        return <Badge variant="outline" className="bg-yellow-50">User Segment</Badge>;
+        return <Badge variant="outline" className="bg-yellow-50">User Segment</Badge>\n  );
       case 'environment':
-        return <Badge variant="outline" className="bg-green-50">Environment</Badge>;
+        return <Badge variant="outline" className="bg-green-50">Environment</Badge>\n  );
       default:
-        return <Badge variant="outline">Unknown</Badge>;
+        return <Badge variant="outline">Unknown</Badge>\n  );
     }
   };
-  
+
   if (loading) {
     return (
       <div className="flex justify-center items-center h-64">
@@ -506,7 +482,7 @@ export function FeatureFlagAdmin() {
       </div>
     );
   }
-  
+
   return (
     <div className="space-y-4">
       <Card>
@@ -521,11 +497,11 @@ export function FeatureFlagAdmin() {
             <Input
               placeholder="Search feature flags..."
               value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+              onChange={(e: any) => setSearchQuery(e.target.value)}
               className="w-full max-w-sm"
             />
           </div>
-          
+
           <Tabs value={activeTab} onValueChange={setActiveTab}>
             <TabsList className="mb-4">
               <TabsTrigger value="all">All</TabsTrigger>
@@ -536,7 +512,7 @@ export function FeatureFlagAdmin() {
               <TabsTrigger value="environment">Environment</TabsTrigger>
               <TabsTrigger value="userSegment">User Segment</TabsTrigger>
             </TabsList>
-            
+
             <TabsContent value={activeTab} className="mt-0">
               <div className="space-y-4">
                 {filteredFlags.length === 0 ? (
@@ -562,12 +538,12 @@ export function FeatureFlagAdmin() {
                             ID: {flag.id}
                           </div>
                         </div>
-                        
+
                         <div className="flex items-center gap-2">
                           {flag.type === 'boolean' ? (
                             <Switch
                               checked={flag.enabled}
-                              onCheckedChange={(checked) => toggleFeatureFlag(flag.id, checked)}
+                              onCheckedChange={(checked: any) => toggleFeatureFlag(flag.idchecked)}
                             />
                           ) : (
                             <Button
@@ -588,7 +564,7 @@ export function FeatureFlagAdmin() {
           </Tabs>
         </CardContent>
       </Card>
-      
+
       {/* Edit Dialog */}
       {showEditDialog && selectedFlag && (
         <div className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4">

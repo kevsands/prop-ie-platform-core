@@ -1,3 +1,4 @@
+import React from 'react';
 'use client';
 
 import { useState } from 'react';
@@ -32,10 +33,10 @@ interface SavedProperty {
 
 export default function SavedPropertiesPage() {
   const router = useRouter();
-  const [filterType, setFilterType] = useState('all');
-  const [sortBy, setSortBy] = useState('newest');
-  const [priceRange, setPriceRange] = useState({ min: '', max: '' });
-  
+  const [filterTypesetFilterType] = useState('all');
+  const [sortBysetSortBy] = useState('newest');
+  const [priceRangesetPriceRange] = useState({ min: '', max: '' });
+
   // Mock saved properties data
   const [savedProperties] = useState<SavedProperty[]>([
     {
@@ -97,19 +98,19 @@ export default function SavedPropertiesPage() {
       features: ['Rooftop Terrace', 'City Views', 'Concierge']
     }
   ]);
-  
+
   // Filter and sort properties
   const filteredProperties = savedProperties
     .filter(property => {
       if (filterType !== 'all' && property.type !== filterType) return false;
-      
+
       const minPrice = priceRange.min ? parseInt(priceRange.min) : 0;
       const maxPrice = priceRange.max ? parseInt(priceRange.max) : Infinity;
-      if (property.price < minPrice || property.price > maxPrice) return false;
-      
+      if (property.price <minPrice || property.price> maxPrice) return false;
+
       return true;
     })
-    .sort((a, b) => {
+    .sort((ab: any) => {
       switch (sortBy) {
         case 'newest': return b.savedDate.getTime() - a.savedDate.getTime();
         case 'oldest': return a.savedDate.getTime() - b.savedDate.getTime();
@@ -118,17 +119,17 @@ export default function SavedPropertiesPage() {
         default: return 0;
       }
     });
-  
+
   const getPropertyIcon = (type: string) => {
     switch (type) {
-      case 'house': return <Home className="h-5 w-5 text-blue-600" />;
+      case 'house': return <Home className="h-5 w-5 text-blue-600" />\n  );
       case 'apartment': 
       case 'studio':
-      case 'duplex': return <Building className="h-5 w-5 text-blue-600" />;
-      default: return <Home className="h-5 w-5 text-gray-600" />;
+      case 'duplex': return <Building className="h-5 w-5 text-blue-600" />\n  );
+      default: return <Home className="h-5 w-5 text-gray-600" />\n  );
     }
   };
-  
+
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'available': return 'text-green-600 bg-green-100';
@@ -137,7 +138,7 @@ export default function SavedPropertiesPage() {
       default: return 'text-gray-600 bg-gray-100';
     }
   };
-  
+
   return (
     <div className="flex-1 p-8">
       <div className="max-w-7xl mx-auto">
@@ -146,7 +147,7 @@ export default function SavedPropertiesPage() {
           <h1 className="text-3xl font-bold text-gray-900">Saved Properties</h1>
           <p className="text-gray-600 mt-1">Properties you've saved and are tracking</p>
         </div>
-        
+
         {/* Filters */}
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-8">
           <div className="grid md:grid-cols-4 gap-4">
@@ -154,7 +155,7 @@ export default function SavedPropertiesPage() {
               <label className="block text-sm font-medium text-gray-700 mb-2">Property Type</label>
               <select
                 value={filterType}
-                onChange={(e) => setFilterType(e.target.value)}
+                onChange={(e: any) => setFilterType(e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               >
                 <option value="all">All Types</option>
@@ -164,12 +165,12 @@ export default function SavedPropertiesPage() {
                 <option value="studio">Studio</option>
               </select>
             </div>
-            
+
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">Sort By</label>
               <select
                 value={sortBy}
-                onChange={(e) => setSortBy(e.target.value)}
+                onChange={(e: any) => setSortBy(e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               >
                 <option value="newest">Newest First</option>
@@ -178,31 +179,31 @@ export default function SavedPropertiesPage() {
                 <option value="price-high">Price: High to Low</option>
               </select>
             </div>
-            
+
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">Min Price</label>
               <input
                 type="number"
                 value={priceRange.min}
-                onChange={(e) => setPriceRange({ ...priceRange, min: e.target.value })}
+                onChange={(e: any) => setPriceRange({ ...priceRange, min: e.target.value })}
                 placeholder="€0"
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
-            
+
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">Max Price</label>
               <input
                 type="number"
                 value={priceRange.max}
-                onChange={(e) => setPriceRange({ ...priceRange, max: e.target.value })}
+                onChange={(e: any) => setPriceRange({ ...priceRange, max: e.target.value })}
                 placeholder="€1,000,000"
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
           </div>
         </div>
-        
+
         {/* Stats */}
         <div className="grid md:grid-cols-4 gap-4 mb-8">
           <div className="bg-white rounded-lg p-4 border">
@@ -214,7 +215,7 @@ export default function SavedPropertiesPage() {
               <Heart className="h-8 w-8 text-red-500 fill-current" />
             </div>
           </div>
-          
+
           <div className="bg-white rounded-lg p-4 border">
             <div className="flex items-center justify-between">
               <div>
@@ -226,19 +227,19 @@ export default function SavedPropertiesPage() {
               <Calendar className="h-8 w-8 text-blue-600" />
             </div>
           </div>
-          
+
           <div className="bg-white rounded-lg p-4 border">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-gray-600">Price Drops</p>
                 <p className="text-2xl font-bold text-gray-900">
-                  {savedProperties.filter(p => p.priceChange && p.priceChange.amount < 0).length}
+                  {savedProperties.filter(p => p.priceChange && p.priceChange.amount <0).length}
                 </p>
               </div>
               <TrendingUp className="h-8 w-8 text-green-600 rotate-180" />
             </div>
           </div>
-          
+
           <div className="bg-white rounded-lg p-4 border">
             <div className="flex items-center justify-between">
               <div>
@@ -251,11 +252,11 @@ export default function SavedPropertiesPage() {
             </div>
           </div>
         </div>
-        
+
         {/* Properties Grid */}
-        {filteredProperties.length > 0 ? (
+        {filteredProperties.length> 0 ? (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredProperties.map((property) => (
+            {filteredProperties.map((property: any) => (
               <div key={property.id} className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-lg transition-all">
                 <div className="relative">
                   <img
@@ -271,11 +272,11 @@ export default function SavedPropertiesPage() {
                   </span>
                   {property.priceChange && (
                     <div className="absolute bottom-3 left-3 bg-black bg-opacity-75 text-white px-2 py-1 rounded text-sm">
-                      {property.priceChange.amount < 0 ? '↓' : '↑'} {property.priceChange.percentage}%
+                      {property.priceChange.amount <0 ? '↓' : '↑'} {property.priceChange.percentage}%
                     </div>
                   )}
                 </div>
-                
+
                 <div className="p-6">
                   <div className="flex items-start justify-between mb-2">
                     <div>
@@ -287,7 +288,7 @@ export default function SavedPropertiesPage() {
                     </div>
                     {getPropertyIcon(property.type)}
                   </div>
-                  
+
                   <div className="flex items-center gap-4 mb-4 text-sm text-gray-600">
                     <span className="flex items-center gap-1">
                       <Bed className="h-4 w-4" />
@@ -304,7 +305,7 @@ export default function SavedPropertiesPage() {
                       </span>
                     )}
                   </div>
-                  
+
                   <div className="flex items-center justify-between mb-4">
                     <div>
                       <div className="flex items-center gap-2">
@@ -318,15 +319,15 @@ export default function SavedPropertiesPage() {
                       <p className="text-sm text-gray-600">Completion: {property.completionDate}</p>
                     </div>
                   </div>
-                  
+
                   <div className="flex flex-wrap gap-2 mb-4">
-                    {property.features.slice(0, 3).map((feature, index) => (
+                    {property.features.slice(03).map((featureindex: any) => (
                       <span key={index} className="px-2 py-1 bg-gray-100 text-gray-700 rounded-full text-xs">
                         {feature}
                       </span>
                     ))}
                   </div>
-                  
+
                   <div className="space-y-2">
                     {property.viewingDate && (
                       <div className="flex items-center gap-2 text-sm text-blue-600">
@@ -338,7 +339,7 @@ export default function SavedPropertiesPage() {
                       Saved {format(property.savedDate, 'MMM d, yyyy')}
                     </div>
                   </div>
-                  
+
                   <div className="flex gap-2 mt-4 pt-4 border-t">
                     <button
                       onClick={() => router.push(`/property/${property.id}`)}

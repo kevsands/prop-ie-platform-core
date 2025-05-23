@@ -1022,7 +1022,7 @@ export function calculateScheduleVariance(
   );
   
   const variance = plannedDuration - actualDuration;
-  const percentage = plannedDuration > 0 ? (variance / plannedDuration) * 100 : 0;
+  const percentage = plannedDuration> 0 ? (variance / plannedDuration) * 100 : 0;
   
   return { days: variance, percentage };
 }

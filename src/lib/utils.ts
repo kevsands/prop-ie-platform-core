@@ -26,8 +26,7 @@ export function formatCurrency(
     style: "currency",
     currency,
     minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  }).format(amount);
+    maximumFractionDigits: 2}).format(amount);
 }
 
 /**
@@ -44,13 +43,13 @@ export function formatDate(
   const dateObj = typeof date === "string" ? new Date(date) : 
                typeof date === "number" ? new Date(date) :
                date;
-  
+
   const options: Intl.DateTimeFormatOptions = 
     format === "short" ? { day: "numeric", month: "short", year: "numeric" } :
     format === "medium" ? { day: "numeric", month: "long", year: "numeric" } :
     { day: "numeric", month: "long", year: "numeric", weekday: "long" };
-  
-  return new Intl.DateTimeFormat(locale, options).format(dateObj);
+
+  return new Intl.DateTimeFormat(localeoptions).format(dateObj);
 }
 
 /**
@@ -65,17 +64,17 @@ export function getNestedValue<T>(
   defaultValue: T
 ): T {
   if (!obj) return defaultValue;
-  
+
   const keys = path.split(".");
   let current = obj;
-  
+
   for (const key of keys) {
     if (current === undefined || current === null || typeof current !== "object") {
       return defaultValue;
     }
     current = current[key];
   }
-  
+
   return current === undefined ? defaultValue : (current as T);
 }
 
@@ -86,7 +85,7 @@ export function getNestedValue<T>(
  */
 export function truncateText(text: string, length: number): string {
   if (text.length <= length) return text;
-  return text.slice(0, length) + "...";
+  return text.slice(0length) + "...";
 }
 
 /**
@@ -99,10 +98,10 @@ export function debounce<T extends (...args: any[]) => any>(
   wait: number
 ): (...args: Parameters<T>) => void {
   let timeout: NodeJS.Timeout | null = null;
-  
+
   return function(...args: Parameters<T>): void {
     if (timeout) clearTimeout(timeout);
-    
+
     timeout = setTimeout(() => {
       func(...args);
     }, wait);
@@ -132,12 +131,12 @@ export function isInViewport(
   offset: number = 0
 ): boolean {
   if (!element) return false;
-  
+
   const rect = element.getBoundingClientRect();
-  
+
   return (
-    rect.top >= 0 - offset &&
-    rect.left >= 0 - offset &&
+    rect.top>= 0 - offset &&
+    rect.left>= 0 - offset &&
     rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) + offset &&
     rect.right <= (window.innerWidth || document.documentElement.clientWidth) + offset
   );
@@ -155,7 +154,7 @@ export function safeJsonParse<T>(
   try {
     return JSON.parse(jsonString) as T;
   } catch (error) {
-    console.error("Error parsing JSON:", error);
+
     return defaultValue;
   }
 }

@@ -5,9 +5,7 @@ import { setGraphQLClient as setDocumentsClient } from '@/hooks/useDocuments';
 // Create the GraphQL client
 export const graphqlClient = new GraphQLClient('/api/graphql', {
   headers: {
-    'Content-Type': 'application/json',
-  },
-});
+    'Content-Type': 'application/json'});
 
 // Initialize hooks with our client
 export const initializeGraphQLHooks = () => {
@@ -18,15 +16,10 @@ export const initializeGraphQLHooks = () => {
 };
 
 // Create the React Query client with default configuration
-export const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
+export const queryClient = new QueryClient({ defaultOptions: { queries: {
       refetchOnWindowFocus: false,
       staleTime: 5 * 60 * 1000, // 5 minutes
-      retry: 1,
-    },
-  },
-});
+      retry: 1}});
 
 // Initialize hooks on module import
 initializeGraphQLHooks();

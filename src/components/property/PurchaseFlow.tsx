@@ -15,8 +15,7 @@ const PurchaseStep: React.FC<PurchaseStepProps> = ({
   totalSteps,
   stepName,
   stepDescription,
-  children,
-}) => {
+  children}) => {
   return (
     <div className="bg-white shadow rounded-lg overflow-hidden">
       <div className="p-6 border-b border-gray-200">
@@ -44,19 +43,18 @@ interface PurchaseFlowProps {
 
 const PurchaseFlow: React.FC<PurchaseFlowProps> = ({
   propertyId,
-  propertyName,
-}) => {
-  const [currentStep, setCurrentStep] = useState(1);
+  propertyName}) => {
+  const [currentStepsetCurrentStep] = useState(1);
   const totalSteps = 5;
 
   const handleNextStep = () => {
-    if (currentStep < totalSteps) {
+    if (currentStep <totalSteps) {
       setCurrentStep(currentStep + 1);
     }
   };
 
   const handlePreviousStep = () => {
-    if (currentStep > 1) {
+    if (currentStep> 1) {
       setCurrentStep(currentStep - 1);
     }
   };
@@ -651,7 +649,7 @@ const PurchaseFlow: React.FC<PurchaseFlowProps> = ({
         <div className="relative">
           <div className="overflow-hidden h-2 mb-4 text-xs flex rounded bg-gray-200">
             <div
-              style={{ width: `${(currentStep / totalSteps) * 100}%` }}
+              style={ width: `${(currentStep / totalSteps) * 100}%` }
               className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-blue-500"
             ></div>
           </div>

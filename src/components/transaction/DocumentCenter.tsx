@@ -14,8 +14,7 @@ import {
   SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
+  SelectValue} from '@/components/ui/select';
 import {
   Dialog,
   DialogContent,
@@ -23,16 +22,14 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
-} from '@/components/ui/dialog';
+  DialogTrigger} from '@/components/ui/dialog';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+  DropdownMenuTrigger} from '@/components/ui/dropdown-menu';
 import { Progress } from '@/components/ui/progress';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useToast } from '@/components/ui/use-toast';
@@ -80,14 +77,14 @@ export const DocumentCenter: React.FC<DocumentCenterProps> = ({
   const { user } = useAuth();
   const { addDocument } = useTransaction();
   const { toast } = useToast();
-  
-  const [isUploadDialogOpen, setIsUploadDialogOpen] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState<DocumentCategory>('CONTRACT');
-  const [searchQuery, setSearchQuery] = useState('');
-  const [filterCategory, setFilterCategory] = useState<DocumentCategory | 'ALL'>('ALL');
-  const [filterStatus, setFilterStatus] = useState<DocumentStatus | 'ALL'>('ALL');
-  const [uploadingFiles, setUploadingFiles] = useState<UploadingFile[]>([]);
-  const [dragActive, setDragActive] = useState(false);
+
+  const [isUploadDialogOpensetIsUploadDialogOpen] = useState(false);
+  const [selectedCategorysetSelectedCategory] = useState<DocumentCategory>('CONTRACT');
+  const [searchQuerysetSearchQuery] = useState('');
+  const [filterCategorysetFilterCategory] = useState<DocumentCategory | 'ALL'>('ALL');
+  const [filterStatussetFilterStatus] = useState<DocumentStatus | 'ALL'>('ALL');
+  const [uploadingFilessetUploadingFiles] = useState<UploadingFile[]>([]);
+  const [dragActivesetDragActive] = useState(false);
 
   // Document categories configuration
   const documentCategories = {
@@ -130,7 +127,7 @@ export const DocumentCenter: React.FC<DocumentCenterProps> = ({
   });
 
   // Group documents by category
-  const groupedDocuments = filteredDocuments.reduce((acc, doc) => {
+  const groupedDocuments = filteredDocuments.reduce((accdoc: any) => {
     if (!acc[doc.category]) {
       acc[doc.category] = [];
     }
@@ -141,7 +138,7 @@ export const DocumentCenter: React.FC<DocumentCenterProps> = ({
   // Handle file upload
   const handleFileUpload = useCallback(async (files: FileList | File[]) => {
     const fileArray = Array.from(files);
-    
+
     // Validate files
     const maxSize = 10 * 1024 * 1024; // 10MB
     const allowedTypes = [
@@ -153,7 +150,7 @@ export const DocumentCenter: React.FC<DocumentCenterProps> = ({
     ];
 
     const validFiles = fileArray.filter(file => {
-      if (file.size > maxSize) {
+      if (file.size> maxSize) {
         toast({
           title: "File too large",
           description: `${file.name} exceeds 10MB limit`,
@@ -174,7 +171,7 @@ export const DocumentCenter: React.FC<DocumentCenterProps> = ({
 
     // Create upload entries
     const newUploads: UploadingFile[] = validFiles.map(file => ({
-      id: Math.random().toString(36).substr(2, 9),
+      id: Math.random().toString(36).substr(29),
       file,
       category: selectedCategory,
       progress: 0,
@@ -190,7 +187,7 @@ export const DocumentCenter: React.FC<DocumentCenterProps> = ({
         const progressInterval = setInterval(() => {
           setUploadingFiles(prev => 
             prev.map(u => 
-              u.id === upload.id && u.progress < 90
+              u.id === upload.id && u.progress <90
                 ? { ...u, progress: u.progress + 10 }
                 : u
             )
@@ -218,8 +215,7 @@ export const DocumentCenter: React.FC<DocumentCenterProps> = ({
 
         toast({
           title: "Success",
-          description: `${upload.file.name} uploaded successfully`,
-        });
+          description: `${upload.file.name} uploaded successfully`});
 
         // Remove from uploading list after a delay
         setTimeout(() => {
@@ -231,7 +227,7 @@ export const DocumentCenter: React.FC<DocumentCenterProps> = ({
           description: `Failed to upload ${upload.file.name}`,
           variant: "destructive"
         });
-        
+
         setUploadingFiles(prev => 
           prev.map(u => 
             u.id === upload.id 
@@ -241,7 +237,7 @@ export const DocumentCenter: React.FC<DocumentCenterProps> = ({
         );
       }
     }
-  }, [selectedCategory, user, transaction.id, addDocument, toast]);
+  }, [selectedCategory, user, transaction.id, addDocumenttoast]);
 
   // Handle drag and drop
   const handleDrag = (e: React.DragEvent) => {
@@ -258,7 +254,7 @@ export const DocumentCenter: React.FC<DocumentCenterProps> = ({
     e.preventDefault();
     e.stopPropagation();
     setDragActive(false);
-    
+
     if (e.dataTransfer.files && e.dataTransfer.files[0]) {
       handleFileUpload(e.dataTransfer.files);
     }
@@ -275,21 +271,19 @@ export const DocumentCenter: React.FC<DocumentCenterProps> = ({
         // TODO: Implement document approval/rejection
         toast({
           title: "Success",
-          description: `Document ${action}d successfully`,
-        });
+          description: `Document ${action}d successfully`});
         break;
-      
+
       case 'download':
         // TODO: Implement document download
         window.open(document.url, '_blank');
         break;
-      
+
       case 'share':
         // TODO: Implement document sharing
         toast({
           title: "Coming soon",
-          description: "Document sharing will be available soon",
-        });
+          description: "Document sharing will be available soon");
         break;
     }
   };
@@ -317,7 +311,7 @@ export const DocumentCenter: React.FC<DocumentCenterProps> = ({
                 <span className="text-gray-500">Total:</span>
                 <span className="ml-1 font-medium">{documentStats.total}</span>
               </div>
-              {documentStats.pending > 0 && (
+              {documentStats.pending> 0 && (
                 <div className="text-sm">
                   <span className="text-yellow-600">Pending:</span>
                   <span className="ml-1 font-medium">{documentStats.pending}</span>
@@ -341,17 +335,17 @@ export const DocumentCenter: React.FC<DocumentCenterProps> = ({
                       Upload documents related to this transaction. Supported formats: PDF, JPEG, PNG, DOC, DOCX (Max 10MB)
                     </DialogDescription>
                   </DialogHeader>
-                  
+
                   <div className="grid gap-4 py-4">
                     {/* Category Selection */}
                     <div className="grid gap-2">
                       <Label>Document Category</Label>
-                      <Select value={selectedCategory} onValueChange={(v) => setSelectedCategory(v as DocumentCategory)}>
+                      <Select value={selectedCategory} onValueChange={(v: any) => setSelectedCategory(v as DocumentCategory)}>
                         <SelectTrigger>
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
-                          {Object.entries(documentCategories).map(([key, config]) => (
+                          {Object.entries(documentCategories).map(([keyconfig]) => (
                             <SelectItem key={key} value={key}>
                               <div className="flex items-center gap-2">
                                 {config.icon}
@@ -383,7 +377,7 @@ export const DocumentCenter: React.FC<DocumentCenterProps> = ({
                       <Input
                         type="file"
                         multiple
-                        onChange={(e) => e.target.files && handleFileUpload(e.target.files)}
+                        onChange={(e: any) => e.target.files && handleFileUpload(e.target.files)}
                         className="hidden"
                         id="file-upload"
                         accept=".pdf,.jpg,.jpeg,.png,.doc,.docx"
@@ -396,7 +390,7 @@ export const DocumentCenter: React.FC<DocumentCenterProps> = ({
                     </div>
 
                     {/* Upload Progress */}
-                    {uploadingFiles.length > 0 && (
+                    {uploadingFiles.length> 0 && (
                       <div className="space-y-2">
                         <Label>Uploading Files</Label>
                         {uploadingFiles.map(upload => (
@@ -433,18 +427,18 @@ export const DocumentCenter: React.FC<DocumentCenterProps> = ({
             <Input
               placeholder="Search documents..."
               value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+              onChange={(e: any) => setSearchQuery(e.target.value)}
               className="pl-10"
             />
           </div>
-          
-          <Select value={filterCategory} onValueChange={(v) => setFilterCategory(v as DocumentCategory | 'ALL')}>
+
+          <Select value={filterCategory} onValueChange={(v: any) => setFilterCategory(v as DocumentCategory | 'ALL')}>
             <SelectTrigger className="w-[150px]">
               <SelectValue placeholder="Category" />
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="ALL">All Categories</SelectItem>
-              {Object.entries(documentCategories).map(([key, config]) => (
+              {Object.entries(documentCategories).map(([keyconfig]) => (
                 <SelectItem key={key} value={key}>
                   <div className="flex items-center gap-2">
                     {config.icon}
@@ -455,7 +449,7 @@ export const DocumentCenter: React.FC<DocumentCenterProps> = ({
             </SelectContent>
           </Select>
 
-          <Select value={filterStatus} onValueChange={(v) => setFilterStatus(v as DocumentStatus | 'ALL')}>
+          <Select value={filterStatus} onValueChange={(v: any) => setFilterStatus(v as DocumentStatus | 'ALL')}>
             <SelectTrigger className="w-[150px]">
               <SelectValue placeholder="Status" />
             </SelectTrigger>
@@ -472,10 +466,10 @@ export const DocumentCenter: React.FC<DocumentCenterProps> = ({
         <Tabs defaultValue="all" className="w-full">
           <TabsList>
             <TabsTrigger value="all">All Documents</TabsTrigger>
-            {Object.entries(documentCategories).map(([key, config]) => (
+            {Object.entries(documentCategories).map(([keyconfig]) => (
               <TabsTrigger key={key} value={key}>
                 {config.label}
-                {groupedDocuments[key as DocumentCategory]?.length > 0 && (
+                {groupedDocuments[key as DocumentCategory]?.length> 0 && (
                   <Badge className="ml-2" variant="secondary">
                     {groupedDocuments[key as DocumentCategory].length}
                   </Badge>
@@ -492,7 +486,7 @@ export const DocumentCenter: React.FC<DocumentCenterProps> = ({
               </div>
             ) : (
               <div className="space-y-3">
-                {filteredDocuments.map((document) => (
+                {filteredDocuments.map((document: any) => (
                   <DocumentItem
                     key={document.id}
                     document={document}
@@ -505,7 +499,7 @@ export const DocumentCenter: React.FC<DocumentCenterProps> = ({
             )}
           </TabsContent>
 
-          {Object.entries(documentCategories).map(([key, config]) => (
+          {Object.entries(documentCategories).map(([keyconfig]) => (
             <TabsContent key={key} value={key} className="space-y-4">
               {(!groupedDocuments[key as DocumentCategory] || groupedDocuments[key as DocumentCategory].length === 0) ? (
                 <div className="text-center py-8">
@@ -514,7 +508,7 @@ export const DocumentCenter: React.FC<DocumentCenterProps> = ({
                 </div>
               ) : (
                 <div className="space-y-3">
-                  {groupedDocuments[key as DocumentCategory].map((document) => (
+                  {groupedDocuments[key as DocumentCategory].map((document: any) => (
                     <DocumentItem
                       key={document.id}
                       document={document}
@@ -584,7 +578,7 @@ const DocumentItem: React.FC<DocumentItemProps> = ({ document, userRole, canAppr
         >
           <DownloadIcon className="h-4 w-4" />
         </Button>
-        
+
         {document.status === 'PENDING' && canApprove && (
           <>
             <Button

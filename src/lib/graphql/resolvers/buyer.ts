@@ -110,8 +110,7 @@ interface PaginatedReservations {
 const getUserId = (context: GraphQLContext): string => {
   if (!context.user?.userId) {
     throw new GraphQLError('Unauthorized', {
-      extensions: { code: 'UNAUTHORIZED' },
-    });
+      extensions: { code: 'UNAUTHORIZED' });
   }
   return context.user.userId;
 };
@@ -125,9 +124,7 @@ const buyerProfileResolvers = {
       return prisma.buyerProfile.findUnique({
         where: { userId },
         include: {
-          user: true,
-        },
-      });
+          user: true});
     }),
 
     // Get buyer profile by ID
@@ -135,9 +132,7 @@ const buyerProfileResolvers = {
       return prisma.buyerProfile.findUnique({
         where: { id },
         include: {
-          user: true,
-        },
-      });
+          user: true});
     }),
 
     // List buyer profiles with filtering and pagination
@@ -146,43 +141,37 @@ const buyerProfileResolvers = {
         const { filter = {}, pagination = {} } = args;
         const { userId, currentJourneyPhase } = filter;
         const { first = 10, after } = pagination;
-        
+
         // Build the where clause based on filters
         const where = {
           ...(userId && { userId }),
-          ...(currentJourneyPhase && { currentJourneyPhase }),
-        };
-        
+          ...(currentJourneyPhase && { currentJourneyPhase })};
+
         // Get total count for pagination
         const totalCount = await prisma.buyerProfile.count({ where });
-        
+
         // Get buyer profiles with cursor-based pagination
         const buyerProfiles = await prisma.buyerProfile.findMany({
           where,
           take: first,
           ...(after && { skip: 1, cursor: { id: after } }),
           include: {
-            user: true,
-          },
-          orderBy: { createdAt: 'desc' },
-        });
-        
+            user: true},
+          orderBy: { createdAt: 'desc' });
+
         // Build pageInfo
         const pageInfo = {
           hasNextPage: buyerProfiles.length === first,
           hasPreviousPage: !!after,
-          startCursor: buyerProfiles.length > 0 ? buyerProfiles[0].id : null,
-          endCursor: buyerProfiles.length > 0 ? buyerProfiles[buyerProfiles.length - 1].id : null,
-        };
-        
+          startCursor: buyerProfiles.length> 0 ? buyerProfiles[0].id : null,
+          endCursor: buyerProfiles.length> 0 ? buyerProfiles[buyerProfiles.length - 1].id : null};
+
         return {
           buyerProfiles,
           totalCount,
-          pageInfo,
-        };
+          pageInfo};
       }
-    ),
-  },
+    )},
 
   Mutation: {
     // Create a new buyer profile
@@ -193,13 +182,11 @@ const buyerProfileResolvers = {
 
         // Check if profile already exists
         const existingProfile = await prisma.buyerProfile.findUnique({
-          where: { userId },
-        });
+          where: { userId });
 
         if (existingProfile) {
           throw new GraphQLError('Buyer profile already exists for this user', {
-            extensions: { code: 'BAD_USER_INPUT' },
-          });
+            extensions: { code: 'BAD_USER_INPUT' });
         }
 
         // Create new profile
@@ -209,12 +196,9 @@ const buyerProfileResolvers = {
             currentJourneyPhase: input.currentJourneyPhase || BuyerJourneyPhase.PLANNING,
             financialDetails: input.financialDetails || Prisma.JsonNull,
             preferences: input.preferences || Prisma.JsonNull,
-            governmentSchemes: input.governmentSchemes || Prisma.JsonNull,
-          },
+            governmentSchemes: input.governmentSchemes || Prisma.JsonNull},
           include: {
-            user: true,
-          },
-        });
+            user: true});
       }
     ),
 
@@ -226,19 +210,16 @@ const buyerProfileResolvers = {
 
         // Verify ownership
         const existingProfile = await prisma.buyerProfile.findUnique({
-          where: { id },
-        });
+          where: { id });
 
         if (!existingProfile) {
           throw new GraphQLError('Buyer profile not found', {
-            extensions: { code: 'NOT_FOUND' },
-          });
+            extensions: { code: 'NOT_FOUND' });
         }
 
         if (existingProfile.userId !== userId) {
           throw new GraphQLError('Not authorized to update this profile', {
-            extensions: { code: 'FORBIDDEN' },
-          });
+            extensions: { code: 'FORBIDDEN' });
         }
 
         // Update profile
@@ -248,12 +229,9 @@ const buyerProfileResolvers = {
             currentJourneyPhase: input.currentJourneyPhase,
             financialDetails: input.financialDetails,
             preferences: input.preferences,
-            governmentSchemes: input.governmentSchemes,
-          },
+            governmentSchemes: input.governmentSchemes},
           include: {
-            user: true,
-          },
-        });
+            user: true});
       }
     ),
 
@@ -264,60 +242,47 @@ const buyerProfileResolvers = {
 
         // Verify ownership
         const existingProfile = await prisma.buyerProfile.findUnique({
-          where: { id },
-        });
+          where: { id });
 
         if (!existingProfile) {
           throw new GraphQLError('Buyer profile not found', {
-            extensions: { code: 'NOT_FOUND' },
-          });
+            extensions: { code: 'NOT_FOUND' });
         }
 
         if (existingProfile.userId !== userId) {
           throw new GraphQLError('Not authorized to delete this profile', {
-            extensions: { code: 'FORBIDDEN' },
-          });
+            extensions: { code: 'FORBIDDEN' });
         }
 
         // Delete profile
         return prisma.buyerProfile.delete({
           where: { id },
           include: {
-            user: true,
-          },
-        });
+            user: true});
       }
-    ),
-  },
+    )},
 
   // Add field resolvers
   BuyerProfile: {
     user: async (parent: BuyerProfile) => {
       return prisma.user.findUnique({
-        where: { id: parent.userId },
-      });
+        where: { id: parent.userId });
     },
     reservations: async (parent: BuyerProfile) => {
       return prisma.reservation.findMany({
         where: { userId: parent.userId },
         include: {
           user: true,
-          property: true,
-        },
-      });
+          property: true});
     },
     snagLists: async (parent: BuyerProfile) => {
       return prisma.snagList.findMany({
-        where: { userId: parent.userId },
-      });
+        where: { userId: parent.userId });
     },
     mortgageTracking: async (parent: BuyerProfile) => {
       return prisma.mortgageTracking.findUnique({
-        where: { userId: parent.userId },
-      });
-    },
-  },
-};
+        where: { userId: parent.userId });
+    }};
 
 // Reservation Resolvers
 const reservationResolvers = {
@@ -330,10 +295,8 @@ const reservationResolvers = {
           where: { userId },
           include: {
             user: true,
-            property: true,
-          },
-          orderBy: { createdAt: 'desc' },
-        });
+            property: true},
+          orderBy: { createdAt: 'desc' });
       }
     ),
 
@@ -344,9 +307,7 @@ const reservationResolvers = {
           where: { id },
           include: {
             user: true,
-            property: true,
-          },
-        });
+            property: true});
       }
     ),
 
@@ -356,7 +317,7 @@ const reservationResolvers = {
         const { filter = {}, pagination = {} } = args;
         const { propertyId, userId, status, dateFrom, dateTo } = filter;
         const { first = 10, after } = pagination;
-        
+
         // Build the where clause based on filters
         const where = {
           ...(propertyId && { propertyId }),
@@ -365,14 +326,11 @@ const reservationResolvers = {
           ...(dateFrom && dateTo && {
             createdAt: {
               gte: dateFrom,
-              lte: dateTo,
-            },
-          }),
-        };
-        
+              lte: dateTo})};
+
         // Get total count for pagination
         const totalCount = await prisma.reservation.count({ where });
-        
+
         // Get reservations with cursor-based pagination
         const reservations = await prisma.reservation.findMany({
           where,
@@ -380,27 +338,22 @@ const reservationResolvers = {
           ...(after && { skip: 1, cursor: { id: after } }),
           include: {
             user: true,
-            property: true,
-          },
-          orderBy: { createdAt: 'desc' },
-        });
-        
+            property: true},
+          orderBy: { createdAt: 'desc' });
+
         // Build pageInfo
         const pageInfo = {
           hasNextPage: reservations.length === first,
           hasPreviousPage: !!after,
-          startCursor: reservations.length > 0 ? reservations[0].id : null,
-          endCursor: reservations.length > 0 ? reservations[reservations.length - 1].id : null,
-        };
-        
+          startCursor: reservations.length> 0 ? reservations[0].id : null,
+          endCursor: reservations.length> 0 ? reservations[reservations.length - 1].id : null};
+
         return {
           reservations,
           totalCount,
-          pageInfo,
-        };
+          pageInfo};
       }
-    ),
-  },
+    )},
 
   Mutation: {
     // Create a new reservation
@@ -409,35 +362,29 @@ const reservationResolvers = {
         const { input } = args;
         const { propertyId } = input;
         const userId = getUserId(context);
-        
+
         // Check if the property exists
         const property = await prisma.unit.findUnique({
-          where: { id: propertyId },
-        });
-        
+          where: { id: propertyId });
+
         if (!property) {
           throw new GraphQLError('Property not found', {
-            extensions: { code: 'NOT_FOUND' },
-          });
+            extensions: { code: 'NOT_FOUND' });
         }
-        
+
         // Check if the user already has a reservation for this property
         const existingReservation = await prisma.reservation.findFirst({
           where: {
             propertyId,
             userId,
             status: {
-              not: ReservationStatus.CANCELLED,
-            },
-          },
-        });
-        
+              not: ReservationStatus.CANCELLED}});
+
         if (existingReservation) {
           throw new GraphQLError('You already have a reservation for this property', {
-            extensions: { code: 'BAD_USER_INPUT' },
-          });
+            extensions: { code: 'BAD_USER_INPUT' });
         }
-        
+
         return prisma.reservation.create({
           data: {
             propertyId,
@@ -445,13 +392,10 @@ const reservationResolvers = {
             status: ReservationStatus.PENDING,
             depositAmount: 0,
             depositPaid: false,
-            agreementSigned: false,
-          },
+            agreementSigned: false},
           include: {
             property: true,
-            user: true,
-          },
-        });
+            user: true});
       }
     ),
 
@@ -460,29 +404,24 @@ const reservationResolvers = {
       async (_parent: unknown, args: { id: string; status: ReservationStatus }, context: AuthContext) => {
         const { id, status } = args;
         const userId = getUserId(context);
-        
+
         // Check if the reservation exists and belongs to the user
         const reservation = await prisma.reservation.findFirst({
           where: {
             id,
-            userId,
-          },
-        });
-        
+            userId});
+
         if (!reservation) {
           throw new GraphQLError('Reservation not found', {
-            extensions: { code: 'NOT_FOUND' },
-          });
+            extensions: { code: 'NOT_FOUND' });
         }
-        
+
         return prisma.reservation.update({
           where: { id },
           data: { status },
           include: {
             property: true,
-            user: true,
-          },
-        });
+            user: true});
       }
     ),
 
@@ -491,76 +430,61 @@ const reservationResolvers = {
       async (_parent: unknown, args: { id: string; reason: string }, context: AuthContext) => {
         const { id, reason } = args;
         const userId = getUserId(context);
-        
+
         // Check if the reservation exists and belongs to the user
         const reservation = await prisma.reservation.findFirst({
           where: {
             id,
-            userId,
-          },
-        });
-        
+            userId});
+
         if (!reservation) {
           throw new GraphQLError('Reservation not found', {
-            extensions: { code: 'NOT_FOUND' },
-          });
+            extensions: { code: 'NOT_FOUND' });
         }
-        
+
         // First check if cancellationReason exists in the schema
         // If it does not, we need a workaround
         // Since cancellationReason is in the prisma schema (line 152), but TypeScript doesn't recognize it
         // We need to use a type assertion to bypass the error
-        
+
         // Create the update data using type assertion
         const updateData: any = {
           status: ReservationStatus.CANCELLED,
-          cancellationReason: reason,
-        };
-        
+          cancellationReason: reason};
+
         return prisma.reservation.update({
           where: { id },
           data: updateData,
           include: {
             property: true,
-            user: true,
-          },
-        });
+            user: true});
       }
-    ),
-  },
+    )},
 
   // Field resolvers
   Reservation: {
     property: async (parent: Reservation) => {
       return prisma.unit.findUnique({
-        where: { id: parent.propertyId },
-      });
+        where: { id: parent.propertyId });
     },
     user: async (parent: Reservation) => {
       return prisma.user.findUnique({
-        where: { id: parent.userId },
-      });
+        where: { id: parent.userId });
     },
     documents: async (parent: Reservation) => {
       return prisma.document.findMany({
-        where: { reservationId: parent.id },
-      });
-    },
-  },
-};
+        where: { reservationId: parent.id });
+    }};
 
 // Combine all resolver objects
 const buyerResolvers = {
   Query: {
     ...buyerProfileResolvers.Query,
-    ...reservationResolvers.Query,
-  },
+    ...reservationResolvers.Query},
   Mutation: {
     ...buyerProfileResolvers.Mutation,
-    ...reservationResolvers.Mutation,
-  },
+    ...reservationResolvers.Mutation},
   BuyerProfile: buyerProfileResolvers.BuyerProfile,
-  Reservation: reservationResolvers.Reservation,
-};
+  Reservation: reservationResolvers.Reservation};
 
 export default buyerResolvers;

@@ -47,13 +47,13 @@ export class MFAService {
 
       // Set up TOTP for the user
       const totpSetup = await setUpTOTP();
-      
+
       return {
         secretCode: totpSetup.secretKey,
         qrCode: totpSetup.getSetupUri(true) // Get QR code URI
       };
     } catch (error) {
-      console.error('Error setting up TOTP:', error);
+
       throw error;
     }
   }
@@ -69,7 +69,7 @@ export class MFAService {
       await confirmTOTPSetup({ challengeAnswer: code });
       return true;
     } catch (error) {
-      console.error('Error verifying TOTP:', error);
+
       throw error;
     }
   }
@@ -90,10 +90,10 @@ export class MFAService {
           ...challengeResponse
         }
       });
-      
+
       return result;
     } catch (error) {
-      console.error('Error confirming MFA code:', error);
+
       throw error;
     }
   }
@@ -106,17 +106,17 @@ export class MFAService {
     try {
       const user = await getCurrentUser();
       if (!user) return false;
-      
+
       // Get user attributes to check MFA settings
       const attributes = await fetchUserAttributes();
-      
+
       // Check if MFA is enabled based on the attributes
       // The exact attribute name may vary depending on your Cognito setup
       return attributes['custom:mfa_enabled'] === 'true' || 
              attributes['phone_number_verified'] === 'true' || 
              !!attributes['preferred_mfa_setting'];
     } catch (error) {
-      console.error('Error checking MFA status:', error);
+
       return false;
     }
   }
@@ -129,22 +129,22 @@ export class MFAService {
     try {
       const user = await getCurrentUser();
       if (!user) return null;
-      
+
       const attributes = await fetchUserAttributes();
-      
+
       // Check preferred MFA type
       const preferredMFA = attributes['preferred_mfa_setting'];
-      
+
       if (preferredMFA === 'SMS_MFA') {
         return MFAChallengeType.SMS;
       } else if (preferredMFA === 'SOFTWARE_TOKEN_MFA') {
         return MFAChallengeType.TOTP;
       }
-      
+
       // Default to null if no preference is set
       return null;
     } catch (error) {
-      console.error('Error getting preferred MFA type:', error);
+
       return null;
     }
   }

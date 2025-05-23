@@ -1,0 +1,145 @@
+import { NextRequest } from 'next/server';
+import crypto from 'crypto';
+import { config } from '@/config/env';
+
+const CSRF_TOKEN_LENGTH = 32;
+const CSRF_HEADER = 'x-csrf-token';
+const CSRF_COOKIE = 'csrf-token';
+
+/**
+ * Generate a CSRF token
+ */
+export function generateCSRFToken(): string {
+  return crypto.randomBytes(CSRF_TOKEN_LENGTH).toString('hex');
+}
+
+/**
+ * Verify CSRF token
+ */
+export function verifyCSRFToken(token: string, storedToken: string): boolean {
+  if (!token || !storedToken) {
+    return false;
+  }
+  
+  // Use timing-safe comparison to prevent timing attacks
+  return crypto.timingSafeEqual(
+    Buffer.from(token),
+    Buffer.from(storedToken)
+  );
+}
+
+/**
+ * CSRF protection middleware
+ */
+export async function csrfProtection(req: NextRequest): Promise<boolean> {
+  // Skip CSRF for safe methods
+  if (['GET', 'HEAD', 'OPTIONS'].includes(req.method)) {
+    return true;
+  }
+
+  // Get token from header
+  const headerToken = req.headers.get(CSRF_HEADER);
+  
+  // Get token from cookie
+  const cookieToken = req.cookies.get(CSRF_COOKIE)?.value;
+  
+  if (!headerToken || !cookieToken) {
+    return false;
+  }
+  
+  return verifyCSRFToken(headerToken, cookieToken);
+}
+
+/**
+ * Add CSRF token to response
+ */
+export function addCSRFToken(response: Response): Response {
+  const token = generateCSRFToken();
+  
+  // Clone response to modify headers
+  const newResponse = new Response(response.body, response);
+  
+  // Add token to cookie
+  newResponse.headers.append(
+    'Set-Cookie',
+    `${CSRF_COOKIE}=${token}; Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age=86400`
+  );
+  
+  // Add token to response header for client to read
+  newResponse.headers.set('X-CSRF-Token', token);
+  
+  return newResponse;
+}
+
+/**
+ * CSRF token management for client-side
+ */
+export class CSRFTokenManager {
+  private token: string | null = null;
+
+  /**
+   * Get CSRF token from meta tag or cookie
+   */
+  getToken(): string | null {
+    if (typeof window === 'undefined') {
+      return null;
+    }
+
+    // Try to get from meta tag first
+    const metaTag = document.querySelector('meta[name="csrf-token"]');
+    if (metaTag) {
+      this.token = metaTag.getAttribute('content');
+      return this.token;
+    }
+
+    // Try to get from response header after API call
+    return this.token;
+  }
+
+  /**
+   * Set token from response header
+   */
+  setTokenFromResponse(response: Response): void {
+    const token = response.headers.get('X-CSRF-Token');
+    if (token) {
+      this.token = token;
+    }
+  }
+
+  /**
+   * Add CSRF token to request headers
+   */
+  addToHeaders(headers: HeadersInit = {}): HeadersInit {
+    const token = this.getToken();
+    if (token) {
+      return {
+        ...headers,
+        [CSRF_HEADER]: token};
+    }
+    return headers;
+  }
+}
+
+// Global CSRF token manager instance
+export const csrfTokenManager = new CSRFTokenManager();
+
+/**
+ * Fetch wrapper with CSRF protection
+ */
+export async function secureFetch(
+  url: string,
+  options: RequestInit = {}
+): Promise<Response> {
+  const headers = csrfTokenManager.addToHeaders(options.headers);
+  
+  const response = await fetch(url, {
+    ...options,
+    headers,
+    credentials: 'same-origin', // Include cookies
+  });
+  
+  // Update token from response
+  csrfTokenManager.setTokenFromResponse(response);
+  
+  return response;
+}

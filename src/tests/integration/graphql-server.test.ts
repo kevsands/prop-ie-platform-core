@@ -47,7 +47,7 @@ const typeDefs = `
   type Query {
     me: User @auth
     user(id: ID!): User @auth(requires: [ADMIN])
-    users: UsersResponse @auth(requires: [ADMIN, DEVELOPER])
+    users: UsersResponse @auth(requires: [ADMINDEVELOPER])
   }
 
   type Mutation {
@@ -158,8 +158,7 @@ async function createTestServer(context?: any) {
   
   // Create server with schema
   const server = new ApolloServer({
-    schema,
-  });
+    schema});
   
   return server;
 }

@@ -1,0 +1,32 @@
+'use client';
+
+import React, { useEffect, ReactNode } from 'react';
+import { initialize } from '../lib/amplify/index';
+
+interface AmplifyProviderProps {
+  children: ReactNode;
+}
+
+/**
+ * AmplifyProvider Component
+ * 
+ * This component ensures AWS Amplify is properly initialized on the client side.
+ * It should wrap any components that need to use Amplify services.
+ * 
+ * Usage:
+ * ```tsx
+ * <AmplifyProvider>
+ *   <YourComponent />
+ * </AmplifyProvider>
+ * ```
+ */
+export function AmplifyProvider({ children }: AmplifyProviderProps): JSX.Element {
+  useEffect(() => {
+    // Initialize Amplify when the component mounts
+    initialize();
+  }, []);
+
+  return <>{children}</>;
+}
+
+export default AmplifyProvider;

@@ -1,0 +1,431 @@
+import React from 'react';
+'use client';
+
+import { useState } from 'react';
+import { 
+  Plus, 
+  Search, 
+  Filter,
+  Users,
+  Shield,
+  Clock,
+  Calendar,
+  Mail,
+  Phone,
+  MoreVertical,
+  Edit2,
+  Trash2,
+  CheckCircle,
+  XCircle,
+  UserPlus,
+  Download,
+  Upload
+} from 'lucide-react';
+
+interface TeamMember {
+  id: string;
+  name: string;
+  email: string;
+  phone: string;
+  role: string;
+  department: string;
+  status: 'active' | 'inactive' | 'invited';
+  joinDate: string;
+  lastActive: string;
+  avatar: string;
+  permissions: string[];
+  projects: number;
+}
+
+export default function TeamMembersPage() {
+  const [searchTermsetSearchTerm] = useState('');
+  const [filterStatussetFilterStatus] = useState('all');
+  const [filterRolesetFilterRole] = useState('all');
+  const [showInviteModalsetShowInviteModal] = useState(false);
+
+  // Mock data for demonstration
+  const [teamMembers] = useState<TeamMember[]>([
+    {
+      id: '1',
+      name: 'Emma Thompson',
+      email: 'emma@proptech.ie',
+      phone: '+353 86 123 4567',
+      role: 'Project Manager',
+      department: 'Operations',
+      status: 'active',
+      joinDate: '2023-03-15',
+      lastActive: '2 hours ago',
+      avatar: '/api/placeholder/40/40',
+      permissions: ['projects', 'financial', 'team'],
+      projects: 5
+    },
+    {
+      id: '2',
+      name: 'Michael Chen',
+      email: 'michael@proptech.ie',
+      phone: '+353 87 234 5678',
+      role: 'Lead Architect',
+      department: 'Design',
+      status: 'active',
+      joinDate: '2023-05-20',
+      lastActive: '30 minutes ago',
+      avatar: '/api/placeholder/40/40',
+      permissions: ['projects', 'design', 'documents'],
+      projects: 3
+    },
+    {
+      id: '3',
+      name: 'Sarah O\'Brien',
+      email: 'sarah@proptech.ie',
+      phone: '+353 85 345 6789',
+      role: 'Financial Controller',
+      department: 'Finance',
+      status: 'active',
+      joinDate: '2023-01-10',
+      lastActive: '1 hour ago',
+      avatar: '/api/placeholder/40/40',
+      permissions: ['financial', 'reports', 'analytics'],
+      projects: 8
+    },
+    {
+      id: '4',
+      name: 'James Murphy',
+      email: 'james@proptech.ie',
+      phone: '+353 86 456 7890',
+      role: 'Site Manager',
+      department: 'Construction',
+      status: 'active',
+      joinDate: '2023-06-01',
+      lastActive: '5 hours ago',
+      avatar: '/api/placeholder/40/40',
+      permissions: ['projects', 'team', 'contractors'],
+      projects: 2
+    },
+    {
+      id: '5',
+      name: 'Lisa Walsh',
+      email: 'lisa@proptech.ie',
+      phone: '',
+      role: 'Sales Director',
+      department: 'Sales',
+      status: 'invited',
+      joinDate: '2024-01-15',
+      lastActive: 'Never',
+      avatar: '/api/placeholder/40/40',
+      permissions: ['sales', 'customers', 'reports'],
+      projects: 0
+    }
+  ]);
+
+  const filteredMembers = teamMembers.filter(member => {
+    const matchesSearch = member.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         member.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         member.role.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesStatus = filterStatus === 'all' || member.status === filterStatus;
+    const matchesRole = filterRole === 'all' || member.department === filterRole;
+
+    return matchesSearch && matchesStatus && matchesRole;
+  });
+
+  const InviteModal = () => (
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+      <div className="bg-white rounded-xl p-6 w-full max-w-md">
+        <h3 className="text-lg font-semibold mb-4">Invite Team Member</h3>
+
+        <div className="space-y-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+            <input
+              type="email"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="colleague@company.com"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+            <input
+              type="text"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="John Doe"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Role</label>
+            <select className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+              <option>Project Manager</option>
+              <option>Architect</option>
+              <option>Site Manager</option>
+              <option>Financial Controller</option>
+              <option>Sales Manager</option>
+              <option>Administrator</option>
+            </select>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Department</label>
+            <select className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+              <option>Operations</option>
+              <option>Design</option>
+              <option>Construction</option>
+              <option>Finance</option>
+              <option>Sales</option>
+              <option>Administration</option>
+            </select>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Permissions</label>
+            <div className="space-y-2">
+              {['Projects', 'Financial', 'Team Management', 'Documents', 'Analytics', 'Sales'].map(permission => (
+                <label key={permission} className="flex items-center space-x-2">
+                  <input type="checkbox" className="rounded border-gray-300" />
+                  <span className="text-sm">{permission}</span>
+                </label>
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Personal Message (Optional)</label>
+            <textarea
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              rows={3}
+              placeholder="Welcome to the team! Looking forward to working with you..."
+            />
+          </div>
+        </div>
+
+        <div className="mt-6 flex space-x-3">
+          <button
+            onClick={() => setShowInviteModal(false)}
+            className="flex-1 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+          >
+            Cancel
+          </button>
+          <button
+            onClick={() => setShowInviteModal(false)}
+            className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+          >
+            Send Invitation
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+
+  return (
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      {/* Header */}
+      <div className="flex items-center justify-between mb-8">
+        <div>
+          <h1 className="text-3xl font-bold text-gray-900">Team Members</h1>
+          <p className="text-gray-600 mt-1">Manage your team and their permissions</p>
+        </div>
+        <div className="flex space-x-3">
+          <button className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors flex items-center space-x-2">
+            <Upload className="w-4 h-4" />
+            <span>Import CSV</span>
+          </button>
+          <button className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors flex items-center space-x-2">
+            <Download className="w-4 h-4" />
+            <span>Export</span>
+          </button>
+          <button
+            onClick={() => setShowInviteModal(true)}
+            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center space-x-2"
+          >
+            <UserPlus className="w-4 h-4" />
+            <span>Invite Member</span>
+          </button>
+        </div>
+      </div>
+
+      {/* Stats */}
+      <div className="grid grid-cols-4 gap-6 mb-8">
+        <div className="bg-white rounded-lg border border-gray-200 p-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm text-gray-600">Total Members</p>
+              <p className="text-2xl font-bold text-gray-900">{teamMembers.length}</p>
+            </div>
+            <Users className="w-8 h-8 text-blue-600" />
+          </div>
+        </div>
+
+        <div className="bg-white rounded-lg border border-gray-200 p-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm text-gray-600">Active</p>
+              <p className="text-2xl font-bold text-green-600">
+                {teamMembers.filter(m => m.status === 'active').length}
+              </p>
+            </div>
+            <CheckCircle className="w-8 h-8 text-green-600" />
+          </div>
+        </div>
+
+        <div className="bg-white rounded-lg border border-gray-200 p-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm text-gray-600">Pending</p>
+              <p className="text-2xl font-bold text-yellow-600">
+                {teamMembers.filter(m => m.status === 'invited').length}
+              </p>
+            </div>
+            <Clock className="w-8 h-8 text-yellow-600" />
+          </div>
+        </div>
+
+        <div className="bg-white rounded-lg border border-gray-200 p-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm text-gray-600">Departments</p>
+              <p className="text-2xl font-bold text-gray-900">
+                {new Set(teamMembers.map(m => m.department)).size}
+              </p>
+            </div>
+            <Shield className="w-8 h-8 text-purple-600" />
+          </div>
+        </div>
+      </div>
+
+      {/* Filters */}
+      <div className="bg-white rounded-lg border border-gray-200 p-4 mb-6">
+        <div className="flex items-center space-x-4">
+          <div className="flex-1">
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+              <input
+                type="text"
+                placeholder="Search by name, email, or role..."
+                value={searchTerm}
+                onChange={(e: any) => setSearchTerm(e.target.value)}
+                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+          </div>
+
+          <div className="flex items-center space-x-2">
+            <Filter className="w-5 h-5 text-gray-400" />
+            <select
+              value={filterStatus}
+              onChange={(e: any) => setFilterStatus(e.target.value)}
+              className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+              <option value="all">All Status</option>
+              <option value="active">Active</option>
+              <option value="invited">Invited</option>
+              <option value="inactive">Inactive</option>
+            </select>
+
+            <select
+              value={filterRole}
+              onChange={(e: any) => setFilterRole(e.target.value)}
+              className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+              <option value="all">All Departments</option>
+              <option value="Operations">Operations</option>
+              <option value="Design">Design</option>
+              <option value="Construction">Construction</option>
+              <option value="Finance">Finance</option>
+              <option value="Sales">Sales</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      {/* Team Members List */}
+      <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
+        <table className="w-full">
+          <thead className="bg-gray-50 border-b border-gray-200">
+            <tr>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Member
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Role & Department
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Contact
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Status
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Activity
+              </th>
+              <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Actions
+              </th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-gray-200">
+            {filteredMembers.map((member: any) => (
+              <tr key={member.id} className="hover:bg-gray-50">
+                <td className="px-6 py-4 whitespace-nowrap">
+                  <div className="flex items-center">
+                    <img
+                      src={member.avatar}
+                      alt={member.name}
+                      className="w-10 h-10 rounded-full"
+                    />
+                    <div className="ml-4">
+                      <div className="text-sm font-medium text-gray-900">{member.name}</div>
+                      <div className="text-sm text-gray-500">Joined {member.joinDate}</div>
+                    </div>
+                  </div>
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap">
+                  <div>
+                    <div className="text-sm font-medium text-gray-900">{member.role}</div>
+                    <div className="text-sm text-gray-500">{member.department}</div>
+                  </div>
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap">
+                  <div className="text-sm">
+                    <div className="flex items-center space-x-1 text-gray-900">
+                      <Mail className="w-4 h-4" />
+                      <span>{member.email}</span>
+                    </div>
+                    {member.phone && (
+                      <div className="flex items-center space-x-1 text-gray-500 mt-1">
+                        <Phone className="w-4 h-4" />
+                        <span>{member.phone}</span>
+                      </div>
+                    )}
+                  </div>
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap">
+                  <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                    member.status === 'active' ? 'bg-green-100 text-green-800' :
+                    member.status === 'invited' ? 'bg-yellow-100 text-yellow-800' :
+                    'bg-gray-100 text-gray-800'
+                  }`}>
+                    {member.status.charAt(0).toUpperCase() + member.status.slice(1)}
+                  </span>
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap">
+                  <div className="text-sm">
+                    <div className="text-gray-900">{member.projects} projects</div>
+                    <div className="text-gray-500">{member.lastActive}</div>
+                  </div>
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                  <div className="relative inline-block text-left">
+                    <button className="text-gray-400 hover:text-gray-600">
+                      <MoreVertical className="w-5 h-5" />
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      {showInviteModal && <InviteModal />}
+    </div>
+  );
+}

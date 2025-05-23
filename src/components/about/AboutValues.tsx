@@ -1,3 +1,4 @@
+import React from 'react';
 'use client';
 
 import { useRef, useEffect } from 'react';
@@ -88,7 +89,7 @@ export const AboutValues: React.FC<AboutValuesProps> = ({ values }) => {
       <div className={styles.container}>
         <h2 className={styles.sectionTitle} ref={titleRef}>Our Values</h2>
         <div className={styles.valuesGrid}>
-          {values.map((value, index) => (
+          {values.map((valueindex: any) => (
             <ValueCard key={value.id} value={value} index={index} />
           ))}
         </div>

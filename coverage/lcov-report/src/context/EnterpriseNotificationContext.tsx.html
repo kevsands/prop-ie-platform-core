@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">28% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/25</span>
+                <span class='fraction'>7/25</span>
             </div>
         
             
@@ -37,16 +37,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">6.25% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/16</span>
+                <span class='fraction'>1/16</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">26.31% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/19</span>
+                <span class='fraction'>5/19</span>
             </div>
         
             
@@ -150,7 +150,7 @@
 <a name='L85'></a><a href='#L85'>85</a>
 <a name='L86'></a><a href='#L86'>86</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -170,7 +170,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -179,11 +179,11 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -235,7 +235,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">'use client';
 &nbsp;
-import React, { createContext, useState, useContext, ReactNode } from <span class="cstat-no" title="statement not covered" >'react';</span>
+import React, { createContext, useState, useContext, ReactNode } from 'react';
 &nbsp;
 interface Notification {
   id: string;
@@ -255,7 +255,7 @@ interface EnterpriseNotificationContextType {
   clearNotifications: () =&gt; void;
 }
 &nbsp;
-const defaultContext: EnterpriseNotificationContextType = <span class="cstat-no" title="statement not covered" >{</span>
+const defaultContext: EnterpriseNotificationContextType = {
   notifications: [],
   unreadCount: 0,
   addNotification: <span class="fstat-no" title="function not covered" >() =&gt; {}</span>,
@@ -264,11 +264,11 @@ const defaultContext: EnterpriseNotificationContextType = <span class="cstat-no"
   clearNotifications: <span class="fstat-no" title="function not covered" >() =&gt; {}</span>,
 };
 &nbsp;
-const EnterpriseNotificationContext = <span class="cstat-no" title="statement not covered" >createContext&lt;EnterpriseNotificationContextType&gt;(defaultContext);</span>
+const EnterpriseNotificationContext = createContext&lt;EnterpriseNotificationContextType&gt;(defaultContext);
 &nbsp;
-export const <span class="cstat-no" title="statement not covered" >useEnterpriseNotifications </span>= <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; <span class="cstat-no" title="statement not covered" >u</span>seContext(EnterpriseNotificationContext);</span></span>
+export const useEnterpriseNotifications = () =&gt; useContext(EnterpriseNotificationContext);
 &nbsp;
-export const <span class="cstat-no" title="statement not covered" >EnterpriseNotificationProvider:</span> React.FC&lt;{ children: ReactNode }&gt; = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >({</span> children }) =&gt; {</span>
+export const <span class="cstat-no" title="statement not covered" >EnterpriseNotificationProvider:</span> React.FC&lt;{ children: ReactNode }&gt; = <span class="fstat-no" title="function not covered" >({</span> children }) =&gt; {
   const [notifications, setNotifications] = <span class="cstat-no" title="statement not covered" >useState&lt;Notification[]&gt;([]);</span>
 &nbsp;
   const unreadCount = <span class="cstat-no" title="statement not covered" >notifications.filter(<span class="fstat-no" title="function not covered" >n =&gt; <span class="cstat-no" title="statement not covered" >!</span>n.read)</span>.length;</span>
@@ -325,7 +325,7 @@ export const <span class="cstat-no" title="statement not covered" >EnterpriseNot
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-15T16:23:22.212Z
+                at 2025-05-22T22:15:25.812Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

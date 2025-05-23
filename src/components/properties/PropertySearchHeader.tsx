@@ -1,3 +1,4 @@
+import React from 'react';
 'use client';
 
 import { useState } from 'react';
@@ -19,8 +20,7 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-  DropdownMenuSeparator,
-} from "@/components/ui/dropdown-menu";
+  DropdownMenuSeparator} from "@/components/ui/dropdown-menu";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 
@@ -69,8 +69,7 @@ export default function PropertySearchHeader({
     { value: 'date_asc', label: 'Oldest First' },
     { value: 'size_desc', label: 'Size: Largest First' },
     { value: 'size_asc', label: 'Size: Smallest First' },
-    { value: 'relevance', label: 'Most Relevant' },
-  ];
+    { value: 'relevance', label: 'Most Relevant' }];
 
   const currentSort = sortOptions.find(opt => opt.value === sortBy);
 
@@ -82,13 +81,13 @@ export default function PropertySearchHeader({
             <h1 className="text-xl font-semibold text-gray-900">
               {totalCount} Properties Found
             </h1>
-            {compareMode && compareCount > 0 && (
+            {compareMode && compareCount> 0 && (
               <Badge className="bg-blue-100 text-blue-700">
                 {compareCount} selected
               </Badge>
             )}
           </div>
-          
+
           <div className="flex items-center gap-2">
             <Button
               variant="ghost"
@@ -112,10 +111,10 @@ export default function PropertySearchHeader({
                 <DropdownMenuItem onClick={onSaveSearch}>
                   <span className="font-medium">Save Current Search</span>
                 </DropdownMenuItem>
-                {savedSearches.length > 0 && (
+                {savedSearches.length> 0 && (
                   <>
                     <DropdownMenuSeparator />
-                    {savedSearches.map((search) => (
+                    {savedSearches.map((search: any) => (
                       <DropdownMenuItem
                         key={search.id}
                         onClick={() => onLoadSearch(search)}
@@ -144,7 +143,7 @@ export default function PropertySearchHeader({
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              {sortOptions.map((option) => (
+              {sortOptions.map((option: any) => (
                 <DropdownMenuItem
                   key={option.value}
                   onClick={() => setSortBy(option.value)}
@@ -160,7 +159,7 @@ export default function PropertySearchHeader({
           </DropdownMenu>
 
           <Button
-            variant={compareMode ? "default" : "outline"}
+            variant={compareMode ? "default" : "outline"
             size="sm"
             onClick={() => setCompareMode(!compareMode)}
             className="flex items-center gap-2"

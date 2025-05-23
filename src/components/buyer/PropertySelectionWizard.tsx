@@ -55,8 +55,8 @@ interface AvailableProperty {
 
 export default function PropertySelectionWizard() {
   const router = useRouter();
-  const [currentStep, setCurrentStep] = useState(0);
-  const [criteria, setCriteria] = useState<PropertyCriteria>({
+  const [currentStepsetCurrentStep] = useState(0);
+  const [criteriasetCriteria] = useState<PropertyCriteria>({
     priceRange: { min: 250000, max: 450000 },
     propertyTypes: [],
     bedrooms: { min: 2, max: 4 },
@@ -111,13 +111,13 @@ export default function PropertySelectionWizard() {
   ];
 
   const handleNext = () => {
-    if (currentStep < steps.length - 1) {
+    if (currentStep <steps.length - 1) {
       setCurrentStep(currentStep + 1);
     }
   };
 
   const handleBack = () => {
-    if (currentStep > 0) {
+    if (currentStep> 0) {
       setCurrentStep(currentStep - 1);
     }
   };
@@ -137,7 +137,7 @@ export default function PropertySelectionWizard() {
                   <input
                     type="number"
                     value={criteria.priceRange.min}
-                    onChange={(e) => setCriteria({
+                    onChange={(e: any) => setCriteria({
                       ...criteria,
                       priceRange: { ...criteria.priceRange, min: parseInt(e.target.value) }
                     })}
@@ -151,7 +151,7 @@ export default function PropertySelectionWizard() {
                   <input
                     type="number"
                     value={criteria.priceRange.max}
-                    onChange={(e) => setCriteria({
+                    onChange={(e: any) => setCriteria({
                       ...criteria,
                       priceRange: { ...criteria.priceRange, max: parseInt(e.target.value) }
                     })}
@@ -193,16 +193,16 @@ export default function PropertySelectionWizard() {
             <div>
               <h3 className="text-lg font-semibold mb-4">Property Type Preferences</h3>
               <div className="grid grid-cols-2 gap-4">
-                {['Semi-Detached', 'Detached', 'Terraced', 'Apartment', 'Duplex', 'Townhouse'].map((type) => (
+                {['Semi-Detached', 'Detached', 'Terraced', 'Apartment', 'Duplex', 'Townhouse'].map((type: any) => (
                   <label key={type} className="flex items-center p-4 border rounded-lg cursor-pointer hover:bg-gray-50">
                     <input
                       type="checkbox"
                       checked={criteria.propertyTypes.includes(type)}
-                      onChange={(e) => {
+                      onChange={(e: any) => {
                         if (e.target.checked) {
                           setCriteria({
                             ...criteria,
-                            propertyTypes: [...criteria.propertyTypes, type]
+                            propertyTypes: [...criteria.propertyTypestype]
                           });
                         } else {
                           setCriteria({
@@ -210,7 +210,7 @@ export default function PropertySelectionWizard() {
                             propertyTypes: criteria.propertyTypes.filter(t => t !== type)
                           });
                         }
-                      }}
+                      }
                       className="mr-3"
                     />
                     <span>{type}</span>
@@ -228,13 +228,13 @@ export default function PropertySelectionWizard() {
                   </label>
                   <select
                     value={criteria.bedrooms.min}
-                    onChange={(e) => setCriteria({
+                    onChange={(e: any) => setCriteria({
                       ...criteria,
                       bedrooms: { ...criteria.bedrooms, min: parseInt(e.target.value) }
                     })}
                     className="w-full px-4 py-2 border rounded-lg"
                   >
-                    {[1, 2, 3, 4, 5].map(num => (
+                    {[1, 2, 3, 45].map(num => (
                       <option key={num} value={num}>{num}</option>
                     ))}
                   </select>
@@ -245,13 +245,13 @@ export default function PropertySelectionWizard() {
                   </label>
                   <select
                     value={criteria.bedrooms.max}
-                    onChange={(e) => setCriteria({
+                    onChange={(e: any) => setCriteria({
                       ...criteria,
                       bedrooms: { ...criteria.bedrooms, max: parseInt(e.target.value) }
                     })}
                     className="w-full px-4 py-2 border rounded-lg"
                   >
-                    {[1, 2, 3, 4, 5].map(num => (
+                    {[1, 2, 3, 45].map(num => (
                       <option key={num} value={num}>{num}</option>
                     ))}
                   </select>
@@ -270,16 +270,16 @@ export default function PropertySelectionWizard() {
                 {[
                   'Dublin City', 'Dublin South', 'Dublin North', 'Dublin West',
                   'Kildare', 'Meath', 'Wicklow', 'Louth', 'Cork', 'Galway'
-                ].map((location) => (
+                ].map((location: any) => (
                   <label key={location} className="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-gray-50">
                     <input
                       type="checkbox"
                       checked={criteria.locations.includes(location)}
-                      onChange={(e) => {
+                      onChange={(e: any) => {
                         if (e.target.checked) {
                           setCriteria({
                             ...criteria,
-                            locations: [...criteria.locations, location]
+                            locations: [...criteria.locationslocation]
                           });
                         } else {
                           setCriteria({
@@ -287,7 +287,7 @@ export default function PropertySelectionWizard() {
                             locations: criteria.locations.filter(l => l !== location)
                           });
                         }
-                      }}
+                      }
                       className="mr-3"
                     />
                     <span>{location}</span>
@@ -306,7 +306,7 @@ export default function PropertySelectionWizard() {
                   <input
                     type="text"
                     value={criteria.commute.workplace || ''}
-                    onChange={(e) => setCriteria({
+                    onChange={(e: any) => setCriteria({
                       ...criteria,
                       commute: { ...criteria.commute, workplace: e.target.value }
                     })}
@@ -321,7 +321,7 @@ export default function PropertySelectionWizard() {
                   <input
                     type="number"
                     value={criteria.commute.maxTime || ''}
-                    onChange={(e) => setCriteria({
+                    onChange={(e: any) => setCriteria({
                       ...criteria,
                       commute: { ...criteria.commute, maxTime: parseInt(e.target.value) }
                     })}
@@ -343,13 +343,13 @@ export default function PropertySelectionWizard() {
                         <input
                           type="checkbox"
                           checked={criteria.commute.transportModes.includes(name)}
-                          onChange={(e) => {
+                          onChange={(e: any) => {
                             if (e.target.checked) {
                               setCriteria({
                                 ...criteria,
                                 commute: {
                                   ...criteria.commute,
-                                  transportModes: [...criteria.commute.transportModes, name]
+                                  transportModes: [...criteria.commute.transportModesname]
                                 }
                               });
                             } else {
@@ -361,7 +361,7 @@ export default function PropertySelectionWizard() {
                                 }
                               });
                             }
-                          }}
+                          }
                           className="mr-2"
                         />
                         <Icon size={20} className="mr-2" />
@@ -384,16 +384,16 @@ export default function PropertySelectionWizard() {
                 {[
                   'Private Garden', 'Parking Space', 'En-suite Bathroom', 'Home Office',
                   'Storage Room', 'South-Facing Garden', 'Walk-in Wardrobe', 'Garage'
-                ].map((feature) => (
+                ].map((feature: any) => (
                   <label key={feature} className="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-gray-50">
                     <input
                       type="checkbox"
                       checked={criteria.mustHaves.includes(feature)}
-                      onChange={(e) => {
+                      onChange={(e: any) => {
                         if (e.target.checked) {
                           setCriteria({
                             ...criteria,
-                            mustHaves: [...criteria.mustHaves, feature]
+                            mustHaves: [...criteria.mustHavesfeature]
                           });
                         } else {
                           setCriteria({
@@ -401,7 +401,7 @@ export default function PropertySelectionWizard() {
                             mustHaves: criteria.mustHaves.filter(f => f !== feature)
                           });
                         }
-                      }}
+                      }
                       className="mr-3"
                     />
                     <span>{feature}</span>
@@ -416,16 +416,16 @@ export default function PropertySelectionWizard() {
                 {[
                   'Near Schools', 'Near Shopping', 'Near Parks', 'Quiet Area',
                   'Public Transport', 'New Development', 'Mature Area', 'Good Investment'
-                ].map((feature) => (
+                ].map((feature: any) => (
                   <label key={feature} className="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-gray-50">
                     <input
                       type="checkbox"
                       checked={criteria.niceToHaves.includes(feature)}
-                      onChange={(e) => {
+                      onChange={(e: any) => {
                         if (e.target.checked) {
                           setCriteria({
                             ...criteria,
-                            niceToHaves: [...criteria.niceToHaves, feature]
+                            niceToHaves: [...criteria.niceToHavesfeature]
                           });
                         } else {
                           setCriteria({
@@ -433,7 +433,7 @@ export default function PropertySelectionWizard() {
                             niceToHaves: criteria.niceToHaves.filter(f => f !== feature)
                           });
                         }
-                      }}
+                      }
                       className="mr-3"
                     />
                     <span>{feature}</span>
@@ -454,7 +454,7 @@ export default function PropertySelectionWizard() {
               </span>
             </div>
 
-            {matchingProperties.map((property) => (
+            {matchingProperties.map((property: any) => (
               <div key={property.id} className="border rounded-lg overflow-hidden hover:shadow-lg transition-shadow">
                 <div className="flex">
                   <div className="w-1/3">
@@ -504,7 +504,7 @@ export default function PropertySelectionWizard() {
                     </div>
 
                     <div className="flex flex-wrap gap-2 mb-4">
-                      {property.features.map((feature, i) => (
+                      {property.features.map((featurei: any) => (
                         <span key={i} className="px-2 py-1 bg-gray-100 text-gray-700 text-xs rounded">
                           {feature}
                         </span>
@@ -563,10 +563,10 @@ export default function PropertySelectionWizard() {
       {/* Progress Bar */}
       <div className="mb-8">
         <div className="flex items-center justify-between mb-4">
-          {steps.map((step, index) => (
+          {steps.map((stepindex: any) => (
             <div key={index} className="flex items-center">
               <div className={`flex items-center justify-center w-10 h-10 rounded-full ${
-                index < currentStep
+                index <currentStep
                   ? 'bg-green-600 text-white'
                   : index === currentStep
                   ? 'bg-blue-600 text-white'
@@ -574,9 +574,9 @@ export default function PropertySelectionWizard() {
               }`}>
                 <step.icon size={20} />
               </div>
-              {index < steps.length - 1 && (
+              {index <steps.length - 1 && (
                 <div className={`w-full h-1 mx-2 ${
-                  index < currentStep ? 'bg-green-600' : 'bg-gray-200'
+                  index <currentStep ? 'bg-green-600' : 'bg-gray-200'
                 }`} />
               )}
             </div>

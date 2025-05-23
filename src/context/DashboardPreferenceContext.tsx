@@ -28,7 +28,7 @@ export interface DashboardWidget {
   order: number;
   configurable?: boolean;
   removable?: boolean;
-  config?: Record<string, any>;
+  config?: Record<string, any>\n  );
 }
 
 // Layout configuration
@@ -46,7 +46,7 @@ export interface UserDashboardPreferences {
   layouts: DashboardLayout[];
   theme: 'light' | 'dark' | 'system';
   refreshInterval: number;
-  filters: Record<string, any>;
+  filters: Record<string, any>\n  );
   compactView: boolean;
 }
 
@@ -97,7 +97,7 @@ const DashboardPreferenceContext = createContext<DashboardPreferenceContextType 
 
 export const DashboardPreferenceProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   // Initial state from localStorage or default
-  const [preferences, setPreferences] = useState<UserDashboardPreferences>(() => {
+  const [preferencessetPreferences] = useState<UserDashboardPreferences>(() => {
     if (typeof localStorage !== 'undefined') {
       const savedPrefs = localStorage.getItem('dashboardPreferences');
       if (savedPrefs) {
@@ -189,7 +189,7 @@ export const DashboardPreferenceProvider: React.FC<{ children: React.ReactNode }
       const existingLayoutIndex = prev.layouts.findIndex(l => l.id === layout.id);
       const layouts = [...prev.layouts];
 
-      if (existingLayoutIndex >= 0) {
+      if (existingLayoutIndex>= 0) {
         layouts[existingLayoutIndex] = layout;
       } else {
         layouts.push(layout);
@@ -272,5 +272,5 @@ export const useCurrentDashboardLayout = () => {
 // Helper hook for widget visibility
 export const useVisibleWidgets = () => {
   const layout = useCurrentDashboardLayout();
-  return layout.widgets.filter(widget => widget.visible).sort((a, b) => a.order - b.order);
+  return layout.widgets.filter(widget => widget.visible).sort((ab: any) => a.order - b.order);
 };

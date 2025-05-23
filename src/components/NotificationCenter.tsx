@@ -1,224 +1,392 @@
+import React from 'react';
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Bell, X, Check, AlertCircle, Info, Home, Calendar, Mail, TrendingUp } from 'lucide-react';
-import { format } from 'date-fns';
+import { useQueryClient, useQuery, useMutation } from '@tanstack/react-query';
+import { Bell, X, Settings, Check, AlertTriangle, Info, Home, Calendar, Mail, TrendingUp } from 'lucide-react';
+import { formatDistanceToNow, format } from 'date-fns';
 
 interface Notification {
   id: string;
-  type: 'info' | 'success' | 'warning' | 'property' | 'appointment' | 'message' | 'price';
+  type: string;
   title: string;
   message: string;
-  timestamp: Date;
+  priority: 'LOW' | 'MEDIUM' | 'HIGH' | 'URGENT';
   isRead: boolean;
-  actionUrl?: string;
-  actionText?: string;
+  readAt?: Date;
+  createdAt: Date;
+  relatedEntityId?: string;
+  relatedEntityType?: string;
+  metadata?: any;
+}
+
+interface NotificationPreferences {
+  pushNotifications: boolean;
+  transactionAlerts: boolean;
+  paymentReminders: boolean;
+  documentUpdates: boolean;
+  marketingCommunications: boolean;
 }
 
 export default function NotificationCenter() {
-  const [showNotifications, setShowNotifications] = useState(false);
-  const [notifications, setNotifications] = useState<Notification[]>([
-    {
-      id: '1',
-      type: 'property',
-      title: 'New Property Match',
-      message: 'A new property matching your criteria has been listed in Blackrock',
-      timestamp: new Date(Date.now() - 3600000),
-      isRead: false,
-      actionUrl: '/properties/new-listing',
-      actionText: 'View Property'
+  const [isOpensetIsOpen] = useState(false);
+  const [showSettingssetShowSettings] = useState(false);
+  const [preferencessetPreferences] = useState<NotificationPreferences>({
+    pushNotifications: true,
+    transactionAlerts: true,
+    paymentReminders: true,
+    documentUpdates: true,
+    marketingCommunications: false
+  });
+
+  const queryClient = useQueryClient();
+
+  // Fetch notifications
+  const { data: notifications, isLoading } = useQuery<Notification[]>({
+    queryKey: ['notifications'],
+    queryFn: async () => {
+      const response = await fetch('/api/notifications', {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to fetch notifications');
+      }
+
+      const result = await response.json();
+      return result.data;
     },
-    {
-      id: '2',
-      type: 'appointment',
-      title: 'Viewing Reminder',
-      message: 'Your viewing at Riverside Manor is tomorrow at 2:00 PM',
-      timestamp: new Date(Date.now() - 7200000),
-      isRead: false,
-      actionUrl: '/buyer/appointments',
-      actionText: 'View Details'
+    refetchInterval: 30000 // Refetch every 30 seconds
+  });
+
+  // Mark notifications as read
+  const markAsReadMutation = useMutation({
+    mutationFn: async (notificationIds: string[]) => {
+      const response = await fetch('/api/notifications', {
+        method: 'PATCH',
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          action: 'mark-read',
+          notificationIds
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to mark notifications as read');
+      }
+
+      return response.json();
     },
-    {
-      id: '3',
-      type: 'price',
-      title: 'Price Drop Alert',
-      message: 'A property you saved has reduced in price by €10,000',
-      timestamp: new Date(Date.now() - 86400000),
-      isRead: true,
-      actionUrl: '/buyer/saved-properties',
-      actionText: 'View Property'
-    },
-    {
-      id: '4',
-      type: 'message',
-      title: 'New Message',
-      message: 'Your solicitor has sent you a message about contract review',
-      timestamp: new Date(Date.now() - 172800000),
-      isRead: true,
-      actionUrl: '/buyer/messages',
-      actionText: 'Read Message'
+    onSuccess: () => {
+      queryClient.invalidateQueries(['notifications']);
     }
-  ]);
+  });
 
-  const unreadCount = notifications.filter(n => !n.isRead).length;
+  // Update notification preferences
+  const updatePreferencesMutation = useMutation({
+    mutationFn: async (newPreferences: NotificationPreferences) => {
+      const response = await fetch('/api/notifications', {
+        method: 'PATCH',
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          action: 'update-preferences',
+          ...newPreferences
+        })
+      });
 
-  const markAsRead = (id: string) => {
-    setNotifications(prev => 
-      prev.map(n => n.id === id ? { ...n, isRead: true } : n)
-    );
+      if (!response.ok) {
+        throw new Error('Failed to update preferences');
+      }
+
+      return response.json();
+    },
+    onSuccess: () => {
+      setShowSettings(false);
+    }
+  });
+
+  // Delete notification
+  const deleteNotificationMutation = useMutation({
+    mutationFn: async (notificationId: string) => {
+      const response = await fetch(`/api/notifications?id=${notificationId}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to delete notification');
+      }
+
+      return response.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries(['notifications']);
+    }
+  });
+
+  const unreadCount = notifications?.filter(n: any => !n.isRead).length || 0;
+
+  const handleMarkAsRead = (notificationIds: string[]) => {
+    markAsReadMutation.mutate(notificationIds);
   };
 
-  const markAllAsRead = () => {
-    setNotifications(prev => 
-      prev.map(n => ({ ...n, isRead: true }))
-    );
+  const handleMarkAllAsRead = () => {
+    if (notifications) {
+      const unreadIds = notifications
+        .filter(n: any => !n.isRead)
+        .map(n: any => n.id);
+
+      if (unreadIds.length> 0) {
+        handleMarkAsRead(unreadIds);
+      }
+    }
   };
 
-  const clearNotification = (id: string) => {
-    setNotifications(prev => prev.filter(n => n.id !== id));
+  const handleDeleteNotification = (notificationId: string) => {
+    deleteNotificationMutation.mutate(notificationId);
+  };
+
+  const handleUpdatePreferences = () => {
+    updatePreferencesMutation.mutate(preferences);
   };
 
   const getNotificationIcon = (type: string) => {
     switch (type) {
-      case 'property': return <Home className="h-5 w-5 text-blue-600" />;
-      case 'appointment': return <Calendar className="h-5 w-5 text-green-600" />;
-      case 'message': return <Mail className="h-5 w-5 text-purple-600" />;
-      case 'price': return <TrendingUp className="h-5 w-5 text-orange-600" />;
-      case 'success': return <Check className="h-5 w-5 text-green-600" />;
-      case 'warning': return <AlertCircle className="h-5 w-5 text-yellow-600" />;
-      default: return <Info className="h-5 w-5 text-blue-600" />;
+      case 'TRANSACTION_UPDATE':
+      case 'transaction':
+        return <Home className="h-5 w-5 text-blue-600" />\n  );
+      case 'DOCUMENT_UPDATE':
+      case 'document':
+        return <Mail className="h-5 w-5 text-purple-600" />\n  );
+      case 'PAYMENT_UPDATE':
+      case 'payment':
+        return <TrendingUp className="h-5 w-5 text-green-600" />\n  );
+      case 'APPOINTMENT':
+      case 'appointment':
+        return <Calendar className="h-5 w-5 text-orange-600" />\n  );
+      default:
+        return <Info className="h-5 w-5 text-gray-600" />\n  );
     }
   };
 
-  const getNotificationColor = (type: string) => {
-    switch (type) {
-      case 'property': return 'bg-blue-50';
-      case 'appointment': return 'bg-green-50';
-      case 'message': return 'bg-purple-50';
-      case 'price': return 'bg-orange-50';
-      case 'success': return 'bg-green-50';
-      case 'warning': return 'bg-yellow-50';
-      default: return 'bg-blue-50';
+  const getPriorityIcon = (priority: string) => {
+    switch (priority) {
+      case 'URGENT':
+        return <AlertTriangle className="h-4 w-4 text-red-500" />\n  );
+      case 'HIGH':
+        return <AlertTriangle className="h-4 w-4 text-orange-500" />\n  );
+      default:
+        return null;
     }
   };
+
+  const getNotificationLink = (notification: Notification) => {
+    if (notification.relatedEntityType === 'TRANSACTION' && notification.relatedEntityId) {
+      return `/transactions/${notification.relatedEntityId}`;
+    }
+    if (notification.relatedEntityType === 'DOCUMENT' && notification.relatedEntityId) {
+      return `/documents/${notification.relatedEntityId}`;
+    }
+    if (notification.relatedEntityType === 'PAYMENT' && notification.relatedEntityId) {
+      return `/payments/${notification.relatedEntityId}`;
+    }
+    return null;
+  };
+
+  useEffect(() => {
+    // Mark notifications as read when opened
+    if (isOpen && notifications) {
+      const unreadIds = notifications
+        .filter(n: any => !n.isRead)
+        .map(n: any => n.id);
+
+      if (unreadIds.length> 0) {
+        setTimeout(() => {
+          handleMarkAsRead(unreadIds);
+        }, 1000);
+      }
+    }
+  }, [isOpennotifications]);
 
   // Close notifications when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       const target = event.target as HTMLElement;
       if (!target.closest('.notification-center')) {
-        setShowNotifications(false);
+        setIsOpen(false);
       }
     };
 
-    if (showNotifications) {
+    if (isOpen) {
       document.addEventListener('mousedown', handleClickOutside);
     }
 
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [showNotifications]);
+  }, [isOpen]);
 
   return (
     <div className="relative notification-center">
       {/* Notification Bell */}
       <button
-        onClick={() => setShowNotifications(!showNotifications)}
+        onClick={() => setIsOpen(!isOpen)}
         className="relative p-2 rounded-lg hover:bg-gray-100 transition-colors"
       >
         <Bell className="h-5 w-5 text-gray-600" />
-        {unreadCount > 0 && (
+        {unreadCount> 0 && (
           <span className="absolute -top-1 -right-1 h-5 w-5 bg-red-500 text-white rounded-full text-xs flex items-center justify-center">
             {unreadCount}
           </span>
         )}
       </button>
 
-      {/* Notification Dropdown */}
-      {showNotifications && (
+      {/* Notification Panel */}
+      {isOpen && (
         <div className="absolute right-0 mt-2 w-96 bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden z-50">
-          {/* Header */}
-          <div className="p-4 border-b flex items-center justify-between">
-            <h3 className="font-semibold text-gray-900">Notifications</h3>
-            <div className="flex items-center gap-2">
-              {unreadCount > 0 && (
+          <div className="p-4 border-b">
+            <div className="flex items-center justify-between">
+              <h3 className="text-lg font-semibold">Notifications</h3>
+              <div className="flex items-center gap-2">
+                {unreadCount> 0 && (
+                  <button
+                    onClick={handleMarkAllAsRead}
+                    className="text-sm text-blue-600 hover:underline"
+                  >
+                    Mark all as read
+                  </button>
+                )}
                 <button
-                  onClick={markAllAsRead}
-                  className="text-sm text-blue-600 hover:underline"
+                  onClick={() => setShowSettings(!showSettings)}
+                  className="p-1 hover:bg-gray-100 rounded"
                 >
-                  Mark all as read
+                  <Settings className="h-4 w-4 text-gray-500" />
                 </button>
-              )}
-              <button
-                onClick={() => setShowNotifications(false)}
-                className="p-1 hover:bg-gray-100 rounded"
-              >
-                <X className="h-4 w-4 text-gray-500" />
-              </button>
+                <button
+                  onClick={() => setIsOpen(false)}
+                  className="p-1 hover:bg-gray-100 rounded"
+                >
+                  <X className="h-4 w-4 text-gray-500" />
+                </button>
+              </div>
             </div>
           </div>
 
-          {/* Notifications List */}
-          <div className="max-h-96 overflow-y-auto">
-            {notifications.length > 0 ? (
-              notifications.map((notification) => (
-                <div
-                  key={notification.id}
-                  className={`p-4 border-b hover:bg-gray-50 transition-colors ${
-                    !notification.isRead ? 'bg-blue-50' : ''
-                  }`}
+          {showSettings ? (
+            <div className="p-4">
+              <h4 className="font-medium mb-4">Notification Preferences</h4>
+              <div className="space-y-3">
+                {Object.entries(preferences).map(([keyvalue]) => (
+                  <label key={key} className="flex items-center justify-between">
+                    <span className="text-sm">
+                      {key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}
+                    </span>
+                    <input
+                      type="checkbox"
+                      checked={value}
+                      onChange={(e: any) => setPreferences({
+                        ...preferences,
+                        [key]: e.target.checked
+                      })}
+                      className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                    />
+                  </label>
+                ))}
+              </div>
+              <div className="mt-4 flex space-x-2">
+                <button
+                  onClick={handleUpdatePreferences}
+                  className="flex-1 bg-blue-600 text-white px-3 py-2 rounded-md text-sm hover:bg-blue-700"
                 >
-                  <div className="flex items-start gap-3">
-                    <div className={`p-2 rounded-lg ${getNotificationColor(notification.type)}`}>
-                      {getNotificationIcon(notification.type)}
-                    </div>
-                    <div className="flex-1">
+                  Save Preferences
+                </button>
+                <button
+                  onClick={() => setShowSettings(false)}
+                  className="flex-1 bg-gray-200 text-gray-800 px-3 py-2 rounded-md text-sm hover:bg-gray-300"
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          ) : (
+            <div className="max-h-96 overflow-y-auto">
+              {isLoading ? (
+                <div className="p-4 text-center text-gray-500">
+                  Loading notifications...
+                </div>
+              ) : notifications && notifications.length> 0 ? (
+                <div className="divide-y divide-gray-200">
+                  {notifications.map((notification: any) => (
+                    <div
+                      key={notification.id}
+                      className={`p-4 hover:bg-gray-50 ${!notification.isRead ? 'bg-blue-50' : ''}`}
+                    >
                       <div className="flex items-start justify-between">
-                        <div className="flex-1">
-                          <h4 className={`font-medium text-gray-900 ${
-                            !notification.isRead ? 'font-semibold' : ''
-                          }`}>
-                            {notification.title}
-                          </h4>
-                          <p className="text-sm text-gray-600 mt-1">{notification.message}</p>
-                          <p className="text-xs text-gray-500 mt-2">
-                            {format(notification.timestamp, 'MMM d, h:mm a')}
-                          </p>
-                          {notification.actionUrl && (
-                            <a
-                              href={notification.actionUrl}
-                              className="text-sm text-blue-600 hover:underline mt-2 inline-block"
-                              onClick={() => markAsRead(notification.id)}
-                            >
-                              {notification.actionText || 'View'} →
-                            </a>
-                          )}
+                        <div className="flex items-start space-x-3 flex-1">
+                          <div>
+                            {getNotificationIcon(notification.type)}
+                            {getPriorityIcon(notification.priority) && (
+                              <div className="mt-1">
+                                {getPriorityIcon(notification.priority)}
+                              </div>
+                            )}
+                          </div>
+                          <div className="flex-1">
+                            <h4 className={`font-medium text-gray-900 ${
+                              !notification.isRead ? 'font-semibold' : ''
+                            }`}>
+                              {notification.title}
+                            </h4>
+                            <p className="text-sm text-gray-600 mt-1">
+                              {notification.message}
+                            </p>
+                            <p className="text-xs text-gray-400 mt-2">
+                              {formatDistanceToNow(new Date(notification.createdAt), { addSuffix: true })}
+                            </p>
+                            {getNotificationLink(notification: any) && (
+                              <a
+                                href={getNotificationLink(notification: any)}
+                                className="text-xs text-blue-600 hover:text-blue-800 mt-2 inline-block"
+                              >
+                                View Details →
+                              </a>
+                            )}
+                          </div>
                         </div>
                         <button
-                          onClick={() => clearNotification(notification.id)}
-                          className="p-1 hover:bg-gray-200 rounded ml-2"
+                          onClick={() => handleDeleteNotification(notification.id)}
+                          className="p-1 hover:bg-gray-200 rounded"
                         >
                           <X className="h-4 w-4 text-gray-400" />
                         </button>
                       </div>
                     </div>
-                  </div>
+                  ))}
                 </div>
-              ))
-            ) : (
-              <div className="p-8 text-center text-gray-500">
-                <Bell className="h-12 w-12 text-gray-300 mx-auto mb-3" />
-                <p>No notifications</p>
-              </div>
-            )}
-          </div>
+              ) : (
+                <div className="p-8 text-center text-gray-500">
+                  <Bell className="h-12 w-12 text-gray-300 mx-auto mb-3" />
+                  <p>No notifications</p>
+                </div>
+              )}
+            </div>
+          )}
 
           {/* Footer */}
-          {notifications.length > 0 && (
+          {!showSettings && notifications && notifications.length> 0 && (
             <div className="p-4 border-t">
               <a
-                href="/buyer/notifications"
+                href="/notifications"
                 className="text-sm text-blue-600 hover:underline block text-center"
               >
                 View all notifications

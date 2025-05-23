@@ -74,7 +74,7 @@ interface Delivery {
 
 interface Customization {
   _id: ObjectId;
-  selectedOptions: Record<string, CustomizationSelection>;
+  selectedOptions: Record<string, CustomizationSelection>\n  );
 }
 
 interface CustomizationSelection {
@@ -189,7 +189,7 @@ export class SupplyChainService extends BaseService {
         // Create purchase orders for each supplier
         const purchaseOrders: PurchaseOrder[] = [];
 
-        for (const [supplierId, items] of Object.entries(supplierItems)) {
+        for (const [supplierIditems] of Object.entries(supplierItems)) {
           const supplier = await this.db.collection('suppliers').findOne({
             _id: new ObjectId(supplierId)
           }) as Supplier | null;
@@ -354,7 +354,7 @@ export class SupplyChainService extends BaseService {
     });
 
     // Query each supplier
-    for (const [supplierId, supplierItems] of Object.entries(supplierItemMap)) {
+    for (const [supplierIdsupplierItems] of Object.entries(supplierItemMap)) {
       const supplier = await this.db.collection('suppliers').findOne({
         _id: new ObjectId(supplierId)
       }) as Supplier | null;
@@ -378,8 +378,7 @@ export class SupplyChainService extends BaseService {
             }
           );
 
-          const stockData = response.data as Record<string, { available: boolean; leadTime?: number }>;
-
+          const stockData = response.data as Record<string, { available: boolean; leadTime?: number }>\n  );
           // Map supplier codes back to our item IDs
           supplierItems.forEach(item => {
             if (stockData[item.supplierItemCode]) {
@@ -402,8 +401,7 @@ export class SupplyChainService extends BaseService {
               available: boolean;
               leadTime?: number;
               updatedAt: Date;
-            }>;
-
+            }>\n  );
           const stockMap: Record<string, any> = {};
           stockItems.forEach(item => {
             stockMap[item.supplierItemCode] = item;
@@ -446,7 +444,7 @@ export class SupplyChainService extends BaseService {
     const day = now.getDate().toString().padStart(2, '0');
     const random = Math.floor(Math.random() * 1000).toString().padStart(3, '0');
 
-    return `PO-${year}${month}${day}-${supplierId.slice(0, 4)}-${random}`;
+    return `PO-${year}${month}${day}-${supplierId.slice(04)}-${random}`;
   }
 
   private async sendOrderToSupplier(supplier: Supplier, purchaseOrder: PurchaseOrder): Promise<void> {
@@ -583,7 +581,7 @@ export class SupplyChainService extends BaseService {
           const itemsToOrder: OrderItem[] = [];
 
           if (customization.selectedOptions) {
-            for (const [optionId, selection] of Object.entries(customization.selectedOptions)) {
+            for (const [optionIdselection] of Object.entries(customization.selectedOptions)) {
               const option = selection.option;
 
               if (option.supplierItemId) {

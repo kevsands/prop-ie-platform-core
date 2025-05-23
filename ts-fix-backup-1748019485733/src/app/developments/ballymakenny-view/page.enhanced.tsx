@@ -1,0 +1,741 @@
+'use client';
+
+import { useState, useEffect } from 'react';
+import Image from 'next/image';
+import { 
+  ChevronRight, 
+  MapPin, 
+  Bed, 
+  Bath, 
+  Square, 
+  Calendar, 
+  Check, 
+  Download,
+  X,
+  Home,
+  CreditCard,
+  User,
+  Shield,
+  FileText
+} from 'lucide-react';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Badge } from '@/components/ui/badge';
+import { Progress } from '@/components/ui/progress';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { useAuth } from '@/context/AuthContext';
+import { useToast } from '@/hooks/useToast';
+
+interface Unit {
+  id: string;
+  number: string;
+  type: string;
+  bedrooms: number;
+  bathrooms: number;
+  price: number;
+  area: number;
+  status: 'available' | 'reserved' | 'sold';
+  floor: number;
+  orientation: string;
+  features: string[];
+  mainImage: string;
+}
+
+// Mock unit data - in real implementation, this would come from API
+const mockUnits: Unit[] = [
+  {
+    id: '1',
+    number: 'A101',
+    type: '2 Bed Apartment',
+    bedrooms: 2,
+    bathrooms: 2,
+    price: 395000,
+    area: 85,
+    status: 'available',
+    floor: 1,
+    orientation: 'North-East',
+    features: ['Sea views', 'Corner balcony', 'Master en-suite', 'Underground parking'],
+    mainImage: '/images/ballymakenny-view/2bed.jpg'
+  },
+  {
+    id: '2',
+    number: 'A102',
+    type: '2 Bed Apartment',
+    bedrooms: 2,
+    bathrooms: 2,
+    price: 410000,
+    area: 85,
+    status: 'available',
+    floor: 1,
+    orientation: 'South-West',
+    features: ['Sea views', 'Large balcony', 'Master en-suite', 'Underground parking'],
+    mainImage: '/images/ballymakenny-view/2bed.jpg'
+  },
+  {
+    id: '3',
+    number: 'B201',
+    type: '3 Bed Duplex',
+    bedrooms: 3,
+    bathrooms: 2.5,
+    price: 525000,
+    area: 125,
+    status: 'available',
+    floor: 2,
+    orientation: 'South',
+    features: ['Panoramic views', 'Roof terrace', 'Two bathrooms', 'Study area'],
+    mainImage: '/images/ballymakenny-view/3bed.jpg'
+  },
+  {
+    id: '4',
+    number: 'B202',
+    type: '3 Bed Duplex',
+    bedrooms: 3,
+    bathrooms: 2.5,
+    price: 540000,
+    area: 125,
+    status: 'reserved',
+    floor: 2,
+    orientation: 'North',
+    features: ['Panoramic views', 'Roof terrace', 'Two bathrooms', 'Study area'],
+    mainImage: '/images/ballymakenny-view/3bed.jpg'
+  },
+  {
+    id: '5',
+    number: 'C301',
+    type: '4 Bed Penthouse',
+    bedrooms: 4,
+    bathrooms: 3,
+    price: 795000,
+    area: 165,
+    status: 'available',
+    floor: 3,
+    orientation: 'All aspects',
+    features: ['360° views', 'Wraparound terrace', 'Three bathrooms', 'Wine room'],
+    mainImage: '/images/ballymakenny-view/4bed.jpg'
+  }
+];
+
+// Side Panel Component
+const ReservationSidePanel = ({ 
+  isOpen, 
+  onClose, 
+  unit, 
+  isAuthenticated 
+}: {
+  isOpen: boolean;
+  onClose: () => void;
+  unit: Unit | null;
+  isAuthenticated: boolean;
+}) => {
+  const [stagesetStage] = useState(isAuthenticated ? 'reservation' : 'auth');
+  const [authModesetAuthMode] = useState<'login' | 'register'>('login');
+  const [isLoadingsetIsLoading] = useState(false);
+  const { signIn, signUp } = useAuth();
+  const { toast } = useToast();
+
+  const [authFormsetAuthForm] = useState({
+    email: '',
+    password: '',
+    name: ''
+  });
+
+  const [reservationFormsetReservationForm] = useState({
+    depositAmount: unit ? unit.price * 0.05 : 0,
+    depositMethod: 'bank-transfer' as 'bank-transfer' | 'credit-card' | 'debit-card',
+    termsAccepted: false
+  });
+
+  useEffect(() => {
+    if (unit) {
+      setReservationForm(prev => ({
+        ...prev,
+        depositAmount: unit.price * 0.05
+      }));
+    }
+  }, [unit]);
+
+  const handleAuthSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+
+    try {
+      if (authMode === 'login') {
+        await signIn(authForm.email, authForm.password);
+        toast({
+          title: "Login Successful",
+          description: "Welcome back! Proceeding to reservation.");
+      } else {
+        await signUp(authForm.email, authForm.password, {
+          name: authForm.name,
+          role: 'BUYER'
+        });
+        toast({
+          title: "Account Created",
+          description: "Your account has been created successfully.");
+      }
+      setStage('verification');
+    } catch (error) {
+      toast({
+        title: "Authentication Failed",
+        description: error instanceof Error ? error.message : "Please try again.",
+        variant: "destructive"
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleReservationSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!reservationForm.termsAccepted) {
+      toast({
+        title: "Terms Required",
+        description: "Please accept the terms and conditions to proceed.",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    setIsLoading(true);
+
+    // Simulate reservation process
+    setTimeout(() => {
+      setIsLoading(false);
+      toast({
+        title: "Reservation Successful!",
+        description: `Unit ${unit?.number} has been reserved. Check your email for confirmation.`});
+      setStage('success');
+    }, 2000);
+  };
+
+  const formatCurrency = (amount: number) => {
+    return new Intl.NumberFormat('en-IE', {
+      style: 'currency',
+      currency: 'EUR',
+      maximumFractionDigits: 0}).format(amount);
+  };
+
+  if (!isOpen || !unit) return null;
+
+  return (
+    <div className="fixed inset-0 z-50 flex">
+      {/* Backdrop */}
+      <div 
+        className="flex-1 bg-black bg-opacity-50" 
+        onClick={onClose}
+      />
+
+      {/* Side Panel */}
+      <div className="w-full max-w-md bg-white shadow-xl overflow-y-auto">
+        <div className="p-6">
+          {/* Header */}
+          <div className="flex justify-between items-center mb-6">
+            <h2 className="text-2xl font-bold">Reserve Your Home</h2>
+            <Button variant="ghost" size="sm" onClick={onClose}>
+              <X className="h-5 w-5" />
+            </Button>
+          </div>
+
+          {/* Unit Summary */}
+          <Card className="mb-6">
+            <CardContent className="p-4">
+              <div className="flex gap-4">
+                <Image
+                  src={unit.mainImage}
+                  alt={unit.type}
+                  width={80}
+                  height={60}
+                  className="rounded object-cover"
+                />
+                <div className="flex-1">
+                  <h3 className="font-semibold">{unit.type}</h3>
+                  <p className="text-sm text-gray-600">Unit {unit.number}</p>
+                  <p className="text-lg font-bold text-blue-600">
+                    {formatCurrency(unit.price)}
+                  </p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Authentication Stage */}
+          {stage === 'auth' && (
+            <div>
+              <div className="flex mb-4">
+                <Button
+                  variant={authMode === 'login' ? 'default' : 'outline'}
+                  onClick={() => setAuthMode('login')}
+                  className="flex-1 mr-2"
+                >
+                  Sign In
+                </Button>
+                <Button
+                  variant={authMode === 'register' ? 'default' : 'outline'}
+                  onClick={() => setAuthMode('register')}
+                  className="flex-1"
+                >
+                  Register
+                </Button>
+              </div>
+
+              <form onSubmit={handleAuthSubmit} className="space-y-4">
+                {authMode === 'register' && (
+                  <div>
+                    <Label htmlFor="name">Full Name</Label>
+                    <Input
+                      id="name"
+                      value={authForm.name}
+                      onChange={(e) => setAuthForm({...authForm, name: e.target.value})}
+                      required
+                    />
+                  </div>
+                )}
+
+                <div>
+                  <Label htmlFor="email">Email</Label>
+                  <Input
+                    id="email"
+                    type="email"
+                    value={authForm.email}
+                    onChange={(e) => setAuthForm({...authForm, email: e.target.value})}
+                    required
+                  />
+                </div>
+
+                <div>
+                  <Label htmlFor="password">Password</Label>
+                  <Input
+                    id="password"
+                    type="password"
+                    value={authForm.password}
+                    onChange={(e) => setAuthForm({...authForm, password: e.target.value})}
+                    required
+                  />
+                </div>
+
+                <Button type="submit" className="w-full" disabled={isLoading}>
+                  {isLoading ? 'Processing...' : authMode === 'login' ? 'Sign In' : 'Create Account'}
+                </Button>
+              </form>
+            </div>
+          )}
+
+          {/* Verification Stage */}
+          {stage === 'verification' && (
+            <div className="space-y-4">
+              <div className="text-center">
+                <Shield className="h-12 w-12 mx-auto text-blue-600 mb-4" />
+                <h3 className="text-lg font-semibold mb-2">Quick Verification</h3>
+                <p className="text-gray-600 mb-4">
+                  We need to verify your identity before proceeding with the reservation.
+                </p>
+              </div>
+
+              <div className="space-y-3">
+                <div className="flex items-center p-3 bg-green-50 rounded-lg">
+                  <Check className="h-5 w-5 text-green-600 mr-3" />
+                  <span className="text-sm">Account created successfully</span>
+                </div>
+                <div className="flex items-center p-3 bg-blue-50 rounded-lg">
+                  <User className="h-5 w-5 text-blue-600 mr-3" />
+                  <span className="text-sm">Identity verification (simplified for demo)</span>
+                </div>
+              </div>
+
+              <Button 
+                onClick={() => setStage('reservation')} 
+                className="w-full"
+              >
+                Continue to Reservation
+              </Button>
+            </div>
+          )}
+
+          {/* Reservation Stage */}
+          {stage === 'reservation' && (
+            <form onSubmit={handleReservationSubmit} className="space-y-4">
+              <h3 className="text-lg font-semibold mb-4">Reservation Details</h3>
+
+              <div>
+                <Label htmlFor="deposit">Reservation Deposit</Label>
+                <Input
+                  id="deposit"
+                  type="number"
+                  value={reservationForm.depositAmount}
+                  onChange={(e) => setReservationForm({
+                    ...reservationForm,
+                    depositAmount: parseFloat(e.target.value)
+                  })}
+                  min={unit.price * 0.03}
+                  max={unit.price * 0.1}
+                />
+                <p className="text-xs text-gray-500 mt-1">
+                  Minimum: {formatCurrency(unit.price * 0.03)} (3% of property price)
+                </p>
+              </div>
+
+              <div>
+                <Label>Payment Method</Label>
+                <div className="grid grid-cols-1 gap-2 mt-2">
+                  {[
+                    { value: 'bank-transfer', label: 'Bank Transfer' },
+                    { value: 'credit-card', label: 'Credit Card' },
+                    { value: 'debit-card', label: 'Debit Card' }
+                  ].map((method) => (
+                    <button
+                      key={method.value}
+                      type="button"
+                      onClick={() => setReservationForm({
+                        ...reservationForm,
+                        depositMethod: method.value as any
+                      })}
+                      className={`p-3 text-left border rounded-lg ${
+                        reservationForm.depositMethod === method.value
+                          ? 'border-blue-500 bg-blue-50'
+                          : 'border-gray-200 hover:bg-gray-50'
+                      }`}
+                    >
+                      <div className="flex items-center">
+                        <div className={`w-4 h-4 rounded-full border mr-3 ${
+                          reservationForm.depositMethod === method.value
+                            ? 'border-blue-500 bg-blue-500'
+                            : 'border-gray-300'
+                        }`}>
+                          {reservationForm.depositMethod === method.value && (
+                            <div className="w-2 h-2 bg-white rounded-full mx-auto mt-0.5" />
+                          )}
+                        </div>
+                        <span className="text-sm">{method.label}</span>
+                      </div>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="bg-gray-50 p-4 rounded-lg">
+                <h4 className="font-medium mb-2">Reservation Summary</h4>
+                <div className="space-y-1 text-sm">
+                  <div className="flex justify-between">
+                    <span>Property Price:</span>
+                    <span>{formatCurrency(unit.price)}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Deposit Amount:</span>
+                    <span className="font-semibold">{formatCurrency(reservationForm.depositAmount)}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Reservation Expires:</span>
+                    <span>14 days</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex items-start">
+                <input
+                  type="checkbox"
+                  id="terms"
+                  checked={reservationForm.termsAccepted}
+                  onChange={(e) => setReservationForm({
+                    ...reservationForm,
+                    termsAccepted: e.target.checked
+                  })}
+                  className="mt-1 mr-2"
+                />
+                <Label htmlFor="terms" className="text-sm">
+                  I accept the terms and conditions and understand that this deposit secures the property for 14 days.
+                </Label>
+              </div>
+
+              <Button 
+                type="submit" 
+                className="w-full" 
+                disabled={isLoading || !reservationForm.termsAccepted}
+              >
+                {isLoading ? 'Processing Reservation...' : `Reserve for ${formatCurrency(reservationForm.depositAmount)}`}
+              </Button>
+            </form>
+          )}
+
+          {/* Success Stage */}
+          {stage === 'success' && (
+            <div className="text-center space-y-4">
+              <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto">
+                <Check className="h-8 w-8 text-green-600" />
+              </div>
+              <h3 className="text-xl font-semibold">Reservation Confirmed!</h3>
+              <p className="text-gray-600">
+                Unit {unit.number} has been successfully reserved. Our team will contact you within 24 hours.
+              </p>
+              <div className="bg-gray-50 p-4 rounded-lg text-left">
+                <h4 className="font-medium mb-2">Next Steps:</h4>
+                <ul className="text-sm space-y-1">
+                  <li>• Check email for confirmation details</li>
+                  <li>• Mortgage application guidance</li>
+                  <li>• Solicitor appointment scheduling</li>
+                  <li>• Property customization options</li>
+                </ul>
+              </div>
+              <Button onClick={onClose} className="w-full">
+                View Dashboard
+              </Button>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// Unit Card Component
+const UnitCard = ({ 
+  unit, 
+  onReserveClick 
+}: { 
+  unit: Unit; 
+  onReserveClick: (unit: Unit) => void; 
+}) => {
+  const formatCurrency = (amount: number) => {
+    return new Intl.NumberFormat('en-IE', {
+      style: 'currency',
+      currency: 'EUR',
+      maximumFractionDigits: 0}).format(amount);
+  };
+
+  return (
+    <Card className="overflow-hidden hover:shadow-lg transition-shadow">
+      <div className="relative">
+        <Image
+          src={unit.mainImage}
+          alt={unit.type}
+          width={400}
+          height={250}
+          className="w-full h-48 object-cover"
+        />
+        <Badge 
+          className={`absolute top-2 right-2 ${
+            unit.status === 'available' ? 'bg-green-600' :
+            unit.status === 'reserved' ? 'bg-orange-600' : 'bg-gray-600'
+          }`}
+        >
+          {unit.status === 'available' ? 'Available' :
+           unit.status === 'reserved' ? 'Reserved' : 'Sold'}
+        </Badge>
+      </div>
+
+      <CardContent className="p-4">
+        <div className="flex justify-between items-start mb-2">
+          <h3 className="font-semibold">{unit.type}</h3>
+          <span className="text-sm text-gray-600">Unit {unit.number}</span>
+        </div>
+
+        <p className="text-2xl font-bold text-blue-600 mb-2">
+          {formatCurrency(unit.price)}
+        </p>
+
+        <div className="flex items-center gap-4 text-sm text-gray-600 mb-3">
+          <div className="flex items-center">
+            <Bed className="h-4 w-4 mr-1" />
+            {unit.bedrooms}
+          </div>
+          <div className="flex items-center">
+            <Bath className="h-4 w-4 mr-1" />
+            {unit.bathrooms}
+          </div>
+          <div className="flex items-center">
+            <Square className="h-4 w-4 mr-1" />
+            {unit.area}m²
+          </div>
+        </div>
+
+        <div className="space-y-1 mb-4">
+          <p className="text-xs text-gray-500">Floor {unit.floor} • {unit.orientation}</p>
+          <div className="flex flex-wrap gap-1">
+            {unit.features.slice(02).map((featureindex) => (
+              <Badge key={index} variant="secondary" className="text-xs">
+                {feature}
+              </Badge>
+            ))}
+            {unit.features.length> 2 && (
+              <Badge variant="secondary" className="text-xs">
+                +{unit.features.length - 2} more
+              </Badge>
+            )}
+          </div>
+        </div>
+      </CardContent>
+
+      <CardFooter className="p-4 pt-0">
+        <Button 
+          onClick={() => onReserveClick(unit)}
+          disabled={unit.status !== 'available'}
+          className="w-full"
+          variant={unit.status === 'available' ? 'default' : 'secondary'}
+        >
+          {unit.status === 'available' ? 'Reserve Now' :
+           unit.status === 'reserved' ? 'Reserved' : 'Sold'}
+        </Button>
+      </CardFooter>
+    </Card>
+  );
+};
+
+export default function EnhancedBallymakennyViewPage() {
+  const [selectedUnitsetSelectedUnit] = useState<Unit | null>(null);
+  const [showReservationPanelsetShowReservationPanel] = useState(false);
+  const [unitFiltersetUnitFilter] = useState<'all' | 'available' | '2bed' | '3bed' | '4bed'>('all');
+  const { isAuthenticated } = useAuth();
+
+  const handleReserveClick = (unit: Unit) => {
+    setSelectedUnit(unit);
+    setShowReservationPanel(true);
+  };
+
+  const filteredUnits = mockUnits.filter(unit => {
+    if (unitFilter === 'all') return true;
+    if (unitFilter === 'available') return unit.status === 'available';
+    if (unitFilter === '2bed') return unit.bedrooms === 2;
+    if (unitFilter === '3bed') return unit.bedrooms === 3;
+    if (unitFilter === '4bed') return unit.bedrooms === 4;
+    return true;
+  });
+
+  const development = {
+    name: 'Ballymakenny View',
+    location: 'Drogheda',
+    county: 'Co. Louth',
+    totalUnits: 40,
+    unitsAvailable: mockUnits.filter(u => u.status === 'available').length,
+    completion: 'Q1 2025',
+    description: 'Premium coastal living with stunning views of the Irish Sea. Ballymakenny View offers luxury homes in a prime location, combining modern design with the beauty of coastal Ireland.'};
+
+  return (
+    <div className="min-h-screen bg-slate-50">
+      {/* Hero Section */}
+      <section className="relative h-[600px] overflow-hidden">
+        <Image
+          src="/images/ballymakenny-view/hero.jpg"
+          alt={development.name}
+          width={1920}
+          height={600}
+          className="object-cover w-full h-full"
+          priority
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-slate-900/80 to-slate-900/40" />
+        <div className="absolute inset-0 flex items-center">
+          <div className="container mx-auto px-4">
+            <div className="max-w-2xl">
+              <Badge className="mb-4" variant="secondary">
+                {development.unitsAvailable} Available Units - {development.completion} Completion
+              </Badge>
+              <h1 className="text-5xl font-bold text-white mb-4">
+                {development.name}
+              </h1>
+              <p className="text-xl text-white/90 mb-6 flex items-center">
+                <MapPin className="mr-2" />
+                {development.location}, {development.county}
+              </p>
+              <p className="text-lg text-white/80 mb-8">
+                {development.description}
+              </p>
+              <div className="flex gap-4">
+                <Button size="lg" className="text-lg" onClick={() => {
+                  document.getElementById('available-units')?.scrollIntoView({ behavior: 'smooth' });
+                }>
+                  View Available Homes
+                </Button>
+                <Button size="lg" variant="outline" className="text-lg text-white border-white hover:bg-white hover:text-slate-900">
+                  Download Brochure
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Quick Stats */}
+      <section className="py-8 bg-white border-b">
+        <div className="container mx-auto px-4">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            <div className="text-center">
+              <p className="text-3xl font-bold text-blue-600">{development.totalUnits}</p>
+              <p className="text-sm text-slate-600">Total Homes</p>
+            </div>
+            <div className="text-center">
+              <p className="text-3xl font-bold text-green-600">{development.unitsAvailable}</p>
+              <p className="text-sm text-slate-600">Available Now</p>
+            </div>
+            <div className="text-center">
+              <p className="text-3xl font-bold text-amber-600">€395k</p>
+              <p className="text-sm text-slate-600">Starting Price</p>
+            </div>
+            <div className="text-center">
+              <p className="text-3xl font-bold text-purple-600">{development.completion}</p>
+              <p className="text-sm text-slate-600">Completion</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Available Units Section */}
+      <section id="available-units" className="py-12">
+        <div className="container mx-auto px-4">
+          <div className="flex justify-between items-center mb-8">
+            <div>
+              <h2 className="text-3xl font-bold mb-2">Available Units</h2>
+              <p className="text-gray-600">Choose from our selection of luxury coastal homes</p>
+            </div>
+
+            {/* Unit Filters */}
+            <div className="flex gap-2">
+              {[
+                { key: 'all', label: 'All Units' },
+                { key: 'available', label: 'Available' },
+                { key: '2bed', label: '2 Bed' },
+                { key: '3bed', label: '3 Bed' },
+                { key: '4bed', label: '4 Bed' }
+              ].map((filter) => (
+                <Button
+                  key={filter.key}
+                  variant={unitFilter === filter.key ? 'default' : 'outline'}
+                  size="sm"
+                  onClick={() => setUnitFilter(filter.key as any)}
+                >
+                  {filter.label}
+                </Button>
+              ))}
+            </div>
+          </div>
+
+          {/* Units Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {filteredUnits.map((unit) => (
+              <UnitCard
+                key={unit.id}
+                unit={unit}
+                onReserveClick={handleReserveClick}
+              />
+            ))}
+          </div>
+
+          {filteredUnits.length === 0 && (
+            <div className="text-center py-12">
+              <Home className="h-16 w-16 mx-auto text-gray-400 mb-4" />
+              <h3 className="text-xl font-semibold text-gray-600 mb-2">No units match your filter</h3>
+              <p className="text-gray-500">Try adjusting your search criteria</p>
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* Reservation Side Panel */}
+      <ReservationSidePanel
+        isOpen={showReservationPanel}
+        onClose={() => setShowReservationPanel(false)}
+        unit={selectedUnit}
+        isAuthenticated={isAuthenticated}
+      />
+    </div>
+  );
+}

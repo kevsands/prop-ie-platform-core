@@ -1,0 +1,366 @@
+'use client';
+
+import React, { useState, useEffect } from 'react';
+import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Progress } from '@/components/ui/progress';
+import {
+  BarChart,
+  Bar,
+  LineChart,
+  Line,
+  PieChart,
+  Pie,
+  Cell,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer
+} from 'recharts';
+import { Icons } from '@/components/ui/icons';
+import { EstateAgentCRMService } from '@/lib/estate-agent-crm';
+import {
+  AgentPerformanceMetrics,
+  PerformanceTarget,
+  Commission
+} from '@/types/crm';
+
+interface AgentPerformanceProps {
+  agentId: string;
+  dateRange?: {
+    start: Date;
+    end: Date;
+  };
+}
+
+const AgentPerformance: React.FC<AgentPerformanceProps> = ({
+  agentId,
+  dateRange = {
+    start: new Date(new Date().setMonth(new Date().getMonth() - 1)),
+    end: new Date()
+  }
+}) => {
+  const crmService = new EstateAgentCRMService();
+  
+  const [metrics, setMetrics] = useState<AgentPerformanceMetrics | null>(null);
+  const [targets, setTargets] = useState<PerformanceTarget[]>([]);
+  const [commissions, setCommissions] = useState<Commission[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [selectedPeriod, setSelectedPeriod] = useState('month');
+
+  useEffect(() => {
+    loadPerformanceData();
+  }, [agentId, dateRange]);
+
+  const loadPerformanceData = async () => {
+    setLoading(true);
+    try {
+      const [performanceData, targetData, commissionData] = await Promise.all([
+        crmService.getAgentPerformance(agentId, dateRange.start, dateRange.end),
+        crmService.getPerformanceTargets(agentId),
+        crmService.getCommissions(agentId, dateRange.start, dateRange.end)
+      ]);
+      
+      setMetrics(performanceData);
+      setTargets(targetData);
+      setCommissions(commissionData);
+    } catch (error) {
+      console.error('Failed to load performance data:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const calculateConversionRate = () => {
+    if (!metrics) return 0;
+    return (metrics.closedDeals / metrics.totalLeads) * 100;
+  };
+
+  const calculateTargetProgress = (target: PerformanceTarget) => {
+    if (!metrics) return 0;
+    switch (target.metric) {
+      case 'deals':
+        return (metrics.closedDeals / target.targetValue) * 100;
+      case 'revenue':
+        return (metrics.totalRevenue / target.targetValue) * 100;
+      case 'viewings':
+        return (metrics.viewingsConducted / target.targetValue) * 100;
+      default:
+        return 0;
+    }
+  };
+
+  const formatCurrency = (amount: number) => {
+    return new Intl.NumberFormat('en-IE', {
+      style: 'currency',
+      currency: 'EUR'
+    }).format(amount);
+  };
+
+  const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884D8'];
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-64">
+        <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-primary"></div>
+      </div>
+    );
+  }
+
+  if (!metrics) {
+    return (
+      <div className="text-center py-8">
+        <p className="text-gray-600">No performance data available</p>
+      </div>
+    );
+  }
+
+  const performanceOverTime = metrics.performanceHistory?.map(item => ({
+    ...item,
+    conversionRate: (item.deals / item.leads) * 100
+  })) || [];
+
+  const dealsBySource = Object.entries(metrics.dealsBySource || {}).map(([source, count]) => ({
+    name: source,
+    value: count
+  }));
+
+  return (
+    <div className="space-y-6">
+      {/* Key Metrics */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm text-gray-600">Total Leads</p>
+                <p className="text-2xl font-bold">{metrics.totalLeads}</p>
+              </div>
+              <Icons.Users className="h-8 w-8 text-blue-500" />
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm text-gray-600">Closed Deals</p>
+                <p className="text-2xl font-bold">{metrics.closedDeals}</p>
+              </div>
+              <Icons.CheckCircle className="h-8 w-8 text-green-500" />
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm text-gray-600">Total Revenue</p>
+                <p className="text-2xl font-bold">{formatCurrency(metrics.totalRevenue)}</p>
+              </div>
+              <Icons.DollarSign className="h-8 w-8 text-yellow-500" />
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm text-gray-600">Conversion Rate</p>
+                <p className="text-2xl font-bold">{calculateConversionRate().toFixed(1)}%</p>
+              </div>
+              <Icons.TrendingUp className="h-8 w-8 text-purple-500" />
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Performance Targets */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Performance Targets</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-4">
+            {targets.map((target) => {
+              const progress = calculateTargetProgress(target);
+              return (
+                <div key={target.id} className="space-y-2">
+                  <div className="flex justify-between items-center">
+                    <span className="font-medium capitalize">{target.metric} Target</span>
+                    <span className="text-sm text-gray-600">
+                      {target.currentValue} / {target.targetValue}
+                    </span>
+                  </div>
+                  <Progress value={Math.min(progress, 100)} />
+                  <div className="flex justify-between items-center text-sm">
+                    <span className="text-gray-600">{progress.toFixed(1)}% complete</span>
+                    {progress >= 100 ? (
+                      <Badge className="bg-green-500">Target Met</Badge>
+                    ) : progress >= 75 ? (
+                      <Badge className="bg-yellow-500">On Track</Badge>
+                    ) : (
+                      <Badge className="bg-red-500">Behind Target</Badge>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Performance Over Time */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Performance Trends</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="h-80">
+            <ResponsiveContainer width="100%" height="100%">
+              <LineChart data={performanceOverTime}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="period" />
+                <YAxis yAxisId="left" />
+                <YAxis yAxisId="right" orientation="right" />
+                <Tooltip />
+                <Legend />
+                <Line 
+                  yAxisId="left"
+                  type="monotone" 
+                  dataKey="deals" 
+                  stroke="#0088FE" 
+                  name="Closed Deals"
+                />
+                <Line 
+                  yAxisId="right"
+                  type="monotone" 
+                  dataKey="conversionRate" 
+                  stroke="#00C49F" 
+                  name="Conversion Rate %"
+                />
+              </LineChart>
+            </ResponsiveContainer>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Deal Sources */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <Card>
+          <CardHeader>
+            <CardTitle>Deals by Source</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="h-80">
+              <ResponsiveContainer width="100%" height="100%">
+                <PieChart>
+                  <Pie
+                    data={dealsBySource}
+                    dataKey="value"
+                    nameKey="name"
+                    cx="50%"
+                    cy="50%"
+                    outerRadius={80}
+                    label
+                  >
+                    {dealsBySource.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                    ))}
+                  </Pie>
+                  <Tooltip />
+                  <Legend />
+                </PieChart>
+              </ResponsiveContainer>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Commission Summary */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Commission Summary</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              <div className="flex justify-between items-center">
+                <span className="text-gray-600">Total Commissions</span>
+                <span className="font-bold text-lg">
+                  {formatCurrency(commissions.reduce((sum, c) => sum + c.amount, 0))}
+                </span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-gray-600">Pending</span>
+                <span className="font-medium">
+                  {formatCurrency(
+                    commissions
+                      .filter(c => c.status === 'pending')
+                      .reduce((sum, c) => sum + c.amount, 0)
+                  )}
+                </span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-gray-600">Paid</span>
+                <span className="font-medium text-green-600">
+                  {formatCurrency(
+                    commissions
+                      .filter(c => c.status === 'paid')
+                      .reduce((sum, c) => sum + c.amount, 0)
+                  )}
+                </span>
+              </div>
+              <div className="pt-4 border-t">
+                <h4 className="font-medium mb-2">Recent Commissions</h4>
+                <div className="space-y-2">
+                  {commissions.slice(0, 5).map((commission) => (
+                    <div key={commission.id} className="flex justify-between items-center text-sm">
+                      <span>{commission.dealId}</span>
+                      <span className={commission.status === 'paid' ? 'text-green-600' : 'text-yellow-600'}>
+                        {formatCurrency(commission.amount)}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Activity Summary */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Activity Summary</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+            <div>
+              <p className="text-2xl font-bold">{metrics.viewingsConducted}</p>
+              <p className="text-sm text-gray-600">Viewings Conducted</p>
+            </div>
+            <div>
+              <p className="text-2xl font-bold">{metrics.propertiesListed}</p>
+              <p className="text-sm text-gray-600">Properties Listed</p>
+            </div>
+            <div>
+              <p className="text-2xl font-bold">{metrics.averageResponseTime}h</p>
+              <p className="text-sm text-gray-600">Avg Response Time</p>
+            </div>
+            <div>
+              <p className="text-2xl font-bold">{metrics.customerSatisfaction}/5</p>
+              <p className="text-sm text-gray-600">Customer Satisfaction</p>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  );
+};
+
+export default AgentPerformance;

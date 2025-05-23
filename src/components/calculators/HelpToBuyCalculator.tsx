@@ -10,97 +10,97 @@ import { Info, Calculator, CheckCircle, AlertCircle, Euro } from 'lucide-react';
  */
 export const HelpToBuyCalculator = () => {
   // State for form inputs
-  const [propertyPrice, setPropertyPrice] = useState<number>(350000);
-  const [isFirstTimeBuyer, setIsFirstTimeBuyer] = useState<boolean>(true);
-  const [isNewBuild, setIsNewBuild] = useState<boolean>(true);
-  const [taxYear1, setTaxYear1] = useState<number>(8000);
-  const [taxYear2, setTaxYear2] = useState<number>(8000);
-  const [taxYear3, setTaxYear3] = useState<number>(8000);
-  const [taxYear4, setTaxYear4] = useState<number>(8000);
-  const [uscYear1, setUscYear1] = useState<number>(1600);
-  const [uscYear2, setUscYear2] = useState<number>(1600);
-  const [uscYear3, setUscYear3] = useState<number>(1600);
-  const [uscYear4, setUscYear4] = useState<number>(1600);
-  const [dirtPaid, setDirtPaid] = useState<number>(0);
-  const [depositAmount, setDepositAmount] = useState<number>(35000);
-  
+  const [propertyPricesetPropertyPrice] = useState<number>(350000);
+  const [isFirstTimeBuyersetIsFirstTimeBuyer] = useState<boolean>(true);
+  const [isNewBuildsetIsNewBuild] = useState<boolean>(true);
+  const [taxYear1setTaxYear1] = useState<number>(8000);
+  const [taxYear2setTaxYear2] = useState<number>(8000);
+  const [taxYear3setTaxYear3] = useState<number>(8000);
+  const [taxYear4setTaxYear4] = useState<number>(8000);
+  const [uscYear1setUscYear1] = useState<number>(1600);
+  const [uscYear2setUscYear2] = useState<number>(1600);
+  const [uscYear3setUscYear3] = useState<number>(1600);
+  const [uscYear4setUscYear4] = useState<number>(1600);
+  const [dirtPaidsetDirtPaid] = useState<number>(0);
+  const [depositAmountsetDepositAmount] = useState<number>(35000);
+
   // State for calculation results
-  const [htbAmount, setHtbAmount] = useState<number>(0);
-  const [eligibility, setEligibility] = useState<boolean>(true);
-  const [eligibilityWarnings, setEligibilityWarnings] = useState<string[]>([]);
-  const [eligibilityErrors, setEligibilityErrors] = useState<string[]>([]);
-  const [loanAmount, setLoanAmount] = useState<number>(0);
-  const [totalTaxPaid, setTotalTaxPaid] = useState<number>(0);
-  
+  const [htbAmountsetHtbAmount] = useState<number>(0);
+  const [eligibilitysetEligibility] = useState<boolean>(true);
+  const [eligibilityWarningssetEligibilityWarnings] = useState<string[]>([]);
+  const [eligibilityErrorssetEligibilityErrors] = useState<string[]>([]);
+  const [loanAmountsetLoanAmount] = useState<number>(0);
+  const [totalTaxPaidsetTotalTaxPaid] = useState<number>(0);
+
   // Constants for Irish Help-to-Buy scheme (2025)
   const HTB_MAX_PROPERTY_VALUE = 500000;
   const HTB_MAX_RELIEF = 30000;
   const HTB_RELIEF_PERCENTAGE = 0.10; // 10% of purchase price
   const HTB_MIN_PROPERTY_VALUE = 100000; // Minimum property value for HTB
-  
+
   // Calculate the Help-to-Buy amount and eligibility
   useEffect(() => {
     setEligibilityWarnings([]);
     setEligibilityErrors([]);
     let isEligible = true;
-    
+
     // Check eligibility criteria
     if (!isFirstTimeBuyer) {
       isEligible = false;
       setEligibilityErrors(prev => [...prev, 'You must be a first-time buyer to qualify for the Help-to-Buy scheme.']);
     }
-    
+
     if (!isNewBuild) {
       isEligible = false;
       setEligibilityErrors(prev => [...prev, 'The property must be a new build or self-build to qualify for HTB.']);
     }
-    
-    if (propertyPrice > HTB_MAX_PROPERTY_VALUE) {
+
+    if (propertyPrice> HTB_MAX_PROPERTY_VALUE) {
       isEligible = false;
       setEligibilityErrors(prev => [...prev, `The property value must not exceed €${HTB_MAX_PROPERTY_VALUE.toLocaleString()}.`]);
     }
-    
-    if (propertyPrice < HTB_MIN_PROPERTY_VALUE) {
+
+    if (propertyPrice <HTB_MIN_PROPERTY_VALUE) {
       isEligible = false;
       setEligibilityErrors(prev => [...prev, `The property value must be at least €${HTB_MIN_PROPERTY_VALUE.toLocaleString()}.`]);
     }
-    
+
     // Calculate total taxes paid in last 4 years (Irish rules)
     const totalIncomeTax = taxYear1 + taxYear2 + taxYear3 + taxYear4;
     const totalUSC = uscYear1 + uscYear2 + uscYear3 + uscYear4;
     const totalTaxes = totalIncomeTax + totalUSC + dirtPaid;
     setTotalTaxPaid(totalTaxes);
-    
+
     // Calculate HTB relief according to Irish rules
-    let calculatedRelief = Math.min(
+    const calculatedRelief = Math.min(
       propertyPrice * HTB_RELIEF_PERCENTAGE,  // 10% of property price
       totalTaxes,                              // Can't exceed taxes paid
       HTB_MAX_RELIEF                           // Maximum relief amount
     );
-    
+
     // Warnings for low tax paid
-    if (totalTaxes < propertyPrice * HTB_RELIEF_PERCENTAGE && isEligible) {
+    if (totalTaxes <propertyPrice * HTB_RELIEF_PERCENTAGE && isEligible) {
       setEligibilityWarnings(prev => [...prev, 
         `Your HTB amount is limited by the taxes you've paid (€${totalTaxes.toLocaleString()}). The maximum possible would be €${(propertyPrice * HTB_RELIEF_PERCENTAGE).toLocaleString()}.`
       ]);
     }
-    
+
     setEligibility(isEligible);
     setHtbAmount(isEligible ? calculatedRelief : 0);
-    
+
     // Calculate loan amount
     const totalDownPayment = depositAmount + (isEligible ? calculatedRelief : 0);
     const calculatedLoanAmount = propertyPrice - totalDownPayment;
-    setLoanAmount(calculatedLoanAmount > 0 ? calculatedLoanAmount : 0);
-    
+    setLoanAmount(calculatedLoanAmount> 0 ? calculatedLoanAmount : 0);
+
   }, [propertyPrice, isFirstTimeBuyer, isNewBuild, taxYear1, taxYear2, taxYear3, taxYear4, 
-      uscYear1, uscYear2, uscYear3, uscYear4, dirtPaid, depositAmount]);
-  
+      uscYear1, uscYear2, uscYear3, uscYear4, dirtPaiddepositAmount]);
+
   // Format currency in Euro
   const formatCurrency = (amount: number): string => {
     return `€${amount.toLocaleString('en-IE', { maximumFractionDigits: 0 })}`;
   };
-  
+
   return (
     <div className="bg-white rounded-lg shadow-lg p-6 max-w-5xl mx-auto">
       <div className="mb-6">
@@ -111,12 +111,12 @@ export const HelpToBuyCalculator = () => {
           Calculate your Help-to-Buy refund under Irish Revenue rules (2025)
         </p>
       </div>
-      
+
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {/* Input form */}
         <div>
           <h3 className="text-xl font-semibold mb-4 text-gray-900">Property & Buyer Details</h3>
-          
+
           <div className="space-y-4">
             {/* Property price */}
             <div>
@@ -130,7 +130,7 @@ export const HelpToBuyCalculator = () => {
                 <input
                   type="number"
                   value={propertyPrice}
-                  onChange={(e) => setPropertyPrice(Number(e.target.value))}
+                  onChange={(e: any) => setPropertyPrice(Number(e.target.value))}
                   className="border border-gray-300 rounded-md pl-10 py-2 pr-3 w-full focus:ring-blue-500 focus:border-blue-500"
                   placeholder="350000"
                   min="0"
@@ -138,13 +138,13 @@ export const HelpToBuyCalculator = () => {
                   step="1000"
                 />
               </div>
-              {propertyPrice > HTB_MAX_PROPERTY_VALUE && (
+              {propertyPrice> HTB_MAX_PROPERTY_VALUE && (
                 <p className="mt-1 text-sm text-red-600">
                   Exceeds HTB maximum of €{HTB_MAX_PROPERTY_VALUE.toLocaleString()}
                 </p>
               )}
             </div>
-            
+
             {/* Deposit amount */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -157,7 +157,7 @@ export const HelpToBuyCalculator = () => {
                 <input
                   type="number"
                   value={depositAmount}
-                  onChange={(e) => setDepositAmount(Number(e.target.value))}
+                  onChange={(e: any) => setDepositAmount(Number(e.target.value))}
                   className="border border-gray-300 rounded-md pl-10 py-2 pr-3 w-full focus:ring-blue-500 focus:border-blue-500"
                   placeholder="35000"
                   min="0"
@@ -168,7 +168,7 @@ export const HelpToBuyCalculator = () => {
                 Your cash contribution (excluding HTB)
               </p>
             </div>
-            
+
             {/* Checkboxes */}
             <div className="space-y-3">
               <div className="flex items-center">
@@ -176,20 +176,20 @@ export const HelpToBuyCalculator = () => {
                   id="first-time-buyer"
                   type="checkbox"
                   checked={isFirstTimeBuyer}
-                  onChange={(e) => setIsFirstTimeBuyer(e.target.checked)}
+                  onChange={(e: any) => setIsFirstTimeBuyer(e.target.checked)}
                   className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
                 />
                 <label htmlFor="first-time-buyer" className="ml-2 block text-sm text-gray-700">
                   I am a first-time buyer
                 </label>
               </div>
-              
+
               <div className="flex items-center">
                 <input
                   id="new-build"
                   type="checkbox"
                   checked={isNewBuild}
-                  onChange={(e) => setIsNewBuild(e.target.checked)}
+                  onChange={(e: any) => setIsNewBuild(e.target.checked)}
                   className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
                 />
                 <label htmlFor="new-build" className="ml-2 block text-sm text-gray-700">
@@ -197,7 +197,7 @@ export const HelpToBuyCalculator = () => {
                 </label>
               </div>
             </div>
-            
+
             {/* Tax paid section */}
             <div className="mt-6">
               <h4 className="text-lg font-medium text-gray-900 mb-3">
@@ -206,14 +206,13 @@ export const HelpToBuyCalculator = () => {
               <p className="text-sm text-gray-500 mb-4">
                 Enter Income Tax, USC, and DIRT paid to Revenue
               </p>
-              
+
               {/* Tax years */}
               {[
                 { year: 1, tax: taxYear1, setTax: setTaxYear1, usc: uscYear1, setUsc: setUscYear1 },
                 { year: 2, tax: taxYear2, setTax: setTaxYear2, usc: uscYear2, setUsc: setUscYear2 },
                 { year: 3, tax: taxYear3, setTax: setTaxYear3, usc: uscYear3, setUsc: setUscYear3 },
-                { year: 4, tax: taxYear4, setTax: setTaxYear4, usc: uscYear4, setUsc: setUscYear4 },
-              ].map(({ year, tax, setTax, usc, setUsc }) => (
+                { year: 4, tax: taxYear4, setTax: setTaxYear4, usc: uscYear4, setUsc: setUscYear4 }].map(({ year, tax, setTax, usc, setUsc }) => (
                 <div key={year} className="grid grid-cols-2 gap-2 mb-3">
                   <div>
                     <label className="block text-xs font-medium text-gray-600 mb-1">
@@ -226,7 +225,7 @@ export const HelpToBuyCalculator = () => {
                       <input
                         type="number"
                         value={tax}
-                        onChange={(e) => setTax(Number(e.target.value))}
+                        onChange={(e: any) => setTax(Number(e.target.value))}
                         className="border border-gray-300 rounded-md pl-6 py-1 pr-2 w-full text-sm focus:ring-blue-500 focus:border-blue-500"
                         min="0"
                         step="100"
@@ -244,7 +243,7 @@ export const HelpToBuyCalculator = () => {
                       <input
                         type="number"
                         value={usc}
-                        onChange={(e) => setUsc(Number(e.target.value))}
+                        onChange={(e: any) => setUsc(Number(e.target.value))}
                         className="border border-gray-300 rounded-md pl-6 py-1 pr-2 w-full text-sm focus:ring-blue-500 focus:border-blue-500"
                         min="0"
                         step="100"
@@ -253,7 +252,7 @@ export const HelpToBuyCalculator = () => {
                   </div>
                 </div>
               ))}
-              
+
               {/* DIRT */}
               <div className="mt-3">
                 <label className="block text-xs font-medium text-gray-600 mb-1">
@@ -266,14 +265,14 @@ export const HelpToBuyCalculator = () => {
                   <input
                     type="number"
                     value={dirtPaid}
-                    onChange={(e) => setDirtPaid(Number(e.target.value))}
+                    onChange={(e: any) => setDirtPaid(Number(e.target.value))}
                     className="border border-gray-300 rounded-md pl-6 py-1 pr-2 w-full text-sm focus:ring-blue-500 focus:border-blue-500"
                     min="0"
                     step="10"
                   />
                 </div>
               </div>
-              
+
               <div className="mt-4 p-3 bg-blue-50 rounded-md">
                 <p className="text-sm font-medium text-blue-900">
                   Total Taxes: {formatCurrency(totalTaxPaid)}
@@ -282,11 +281,11 @@ export const HelpToBuyCalculator = () => {
             </div>
           </div>
         </div>
-        
+
         {/* Results */}
         <div>
           <h3 className="text-xl font-semibold mb-4 text-gray-900">Your HTB Calculation</h3>
-          
+
           {/* Eligibility status */}
           <div className={`p-4 rounded-lg mb-6 ${
             eligibility ? 'bg-green-50 border border-green-200' : 'bg-red-50 border border-red-200'
@@ -301,18 +300,18 @@ export const HelpToBuyCalculator = () => {
                 <h4 className={`font-semibold ${eligibility ? 'text-green-700' : 'text-red-700'}`}>
                   {eligibility ? 'You are eligible for the Help-to-Buy scheme' : 'You are not eligible for the Help-to-Buy scheme'}
                 </h4>
-                
-                {eligibilityErrors.length > 0 && (
+
+                {eligibilityErrors.length> 0 && (
                   <ul className="mt-2 space-y-1">
-                    {eligibilityErrors.map((error, index) => (
+                    {eligibilityErrors.map((errorindex: any) => (
                       <li key={index} className="text-sm text-red-600">{error}</li>
                     ))}
                   </ul>
                 )}
-                
-                {eligibilityWarnings.length > 0 && eligibility && (
+
+                {eligibilityWarnings.length> 0 && eligibility && (
                   <ul className="mt-2 space-y-1">
-                    {eligibilityWarnings.map((warning, index) => (
+                    {eligibilityWarnings.map((warningindex: any) => (
                       <li key={index} className="text-sm text-yellow-700">{warning}</li>
                     ))}
                   </ul>
@@ -320,50 +319,50 @@ export const HelpToBuyCalculator = () => {
               </div>
             </div>
           </div>
-          
+
           {/* HTB calculation breakdown */}
           <div className="bg-gray-50 rounded-lg p-4">
             <h4 className="font-semibold mb-4 text-blue-900">Purchase Breakdown</h4>
-            
+
             <div className="space-y-3">
               <div className="flex justify-between">
                 <span className="text-gray-600">Property Price:</span>
                 <span className="font-medium">{formatCurrency(propertyPrice)}</span>
               </div>
-              
+
               <div className="flex justify-between">
                 <span className="text-gray-600">Your Cash Deposit:</span>
                 <span className="font-medium">{formatCurrency(depositAmount)}</span>
               </div>
-              
+
               <div className={`flex justify-between pb-3 border-b ${!eligibility ? 'opacity-50' : ''}`}>
                 <span className="text-gray-600">Help-to-Buy Refund:</span>
                 <span className={`font-medium ${eligibility ? 'text-green-600' : 'text-gray-400'}`}>
                   {formatCurrency(htbAmount)}
                 </span>
               </div>
-              
+
               <div className="flex justify-between pt-3">
                 <span className="text-gray-700 font-medium">Total Deposit:</span>
                 <span className="font-bold text-blue-900">
                   {formatCurrency(depositAmount + htbAmount)}
                 </span>
               </div>
-              
+
               <div className="flex justify-between">
                 <span className="text-gray-600">Deposit Percentage:</span>
                 <span className="font-medium">
                   {((depositAmount + htbAmount) / propertyPrice * 100).toFixed(1)}%
                 </span>
               </div>
-              
+
               <div className="flex justify-between pt-3 border-t">
                 <span className="text-gray-700 font-medium">Mortgage Required:</span>
                 <span className="font-bold text-blue-900">{formatCurrency(loanAmount)}</span>
               </div>
             </div>
           </div>
-          
+
           {/* How HTB is calculated */}
           <div className="mt-6 bg-blue-50 rounded-lg p-4">
             <h4 className="font-semibold text-blue-900 mb-2">How HTB is Calculated</h4>
@@ -379,7 +378,7 @@ export const HelpToBuyCalculator = () => {
               Your HTB amount: {formatCurrency(htbAmount)}
             </p>
           </div>
-          
+
           {/* Next steps */}
           {eligibility && (
             <div className="mt-6">
@@ -390,7 +389,7 @@ export const HelpToBuyCalculator = () => {
                 <li>Share your HTB number with your solicitor</li>
                 <li>HTB will be paid directly to your solicitor at closing</li>
               </ol>
-              
+
               <div className="mt-4 space-y-2">
                 <a 
                   href="https://www.revenue.ie/en/property/help-to-buy-incentive/index.aspx" 
@@ -418,7 +417,7 @@ export const HelpToBuyCalculator = () => {
           )}
         </div>
       </div>
-      
+
       {/* Legal disclaimer */}
       <div className="mt-8 p-4 bg-gray-100 rounded-lg">
         <div className="flex items-start">

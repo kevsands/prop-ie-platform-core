@@ -931,7 +931,7 @@
 &nbsp;
 import { useGraphQLQuery } from <span class="cstat-no" title="statement not covered" >'./useGraphQL';</span>
 import type { UseQueryOptions } from '@tanstack/react-query';
-import type { QueryKey } from '@tanstack/query-core';
+import type { QueryKey } from '@tanstack/react-query';
 import {
   GET_DEVELOPER_DASHBOARD,
   GET_DEVELOPER_DASHBOARD_FOR_PROJECT,
@@ -1234,7 +1234,7 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
     {
       refetchOnWindowFocus: false,
       ...options,
-      select: <span class="fstat-no" title="function not covered" >(d</span>ata) =&gt; <span class="cstat-no" title="statement not covered" >data?.developerDashboard</span>
+      select: <span class="fstat-no" title="function not covered" >(d</span>ata: any) =&gt; <span class="cstat-no" title="statement not covered" >data?.developerDashboard</span>
     }
   );
 }
@@ -1249,7 +1249,7 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
       enabled: Boolean(projectId),
       refetchOnWindowFocus: false,
       ...options,
-      select: <span class="fstat-no" title="function not covered" >(d</span>ata) =&gt; <span class="cstat-no" title="statement not covered" >data?.developmentDashboard</span>
+      select: <span class="fstat-no" title="function not covered" >(d</span>ata: any) =&gt; <span class="cstat-no" title="statement not covered" >data?.developmentDashboard</span>
     }
   );
 }
@@ -1263,7 +1263,7 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
     {
       refetchOnWindowFocus: false,
       ...options,
-      select: <span class="fstat-no" title="function not covered" >(d</span>ata) =&gt; <span class="cstat-no" title="statement not covered" >data?.projects</span>
+      select: <span class="fstat-no" title="function not covered" >(d</span>ata: any) =&gt; <span class="cstat-no" title="statement not covered" >data?.projects</span>
     }
   );
 }
@@ -1277,7 +1277,7 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
     {
       refetchOnWindowFocus: false,
       ...options,
-      select: <span class="fstat-no" title="function not covered" >(d</span>ata) =&gt; <span class="cstat-no" title="statement not covered" >data?.projectAlerts</span>
+      select: <span class="fstat-no" title="function not covered" >(d</span>ata: any) =&gt; <span class="cstat-no" title="statement not covered" >data?.projectAlerts</span>
     }
   );
 }
@@ -1291,7 +1291,7 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
     {
       refetchOnWindowFocus: false,
       ...options,
-      select: <span class="fstat-no" title="function not covered" >(d</span>ata) =&gt; <span class="cstat-no" title="statement not covered" >data?.dashboardActivities</span>
+      select: <span class="fstat-no" title="function not covered" >(d</span>ata: any) =&gt; <span class="cstat-no" title="statement not covered" >data?.dashboardActivities</span>
     }
   );
 }
@@ -1309,7 +1309,7 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
     {
       refetchOnWindowFocus: false,
       ...options,
-      select: <span class="fstat-no" title="function not covered" >(d</span>ata) =&gt; <span class="cstat-no" title="statement not covered" >data?.dashboardEvents</span>
+      select: <span class="fstat-no" title="function not covered" >(d</span>ata: any) =&gt; <span class="cstat-no" title="statement not covered" >data?.dashboardEvents</span>
     }
   );
 }
@@ -1323,7 +1323,7 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
     {
       refetchOnWindowFocus: false,
       ...options,
-      select: <span class="fstat-no" title="function not covered" >(d</span>ata) =&gt; <span class="cstat-no" title="statement not covered" >data?.dashboardPreferences</span>
+      select: <span class="fstat-no" title="function not covered" >(d</span>ata: any) =&gt; <span class="cstat-no" title="statement not covered" >data?.dashboardPreferences</span>
     }
   );
 }
@@ -1337,7 +1337,7 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
     {
       refetchOnWindowFocus: false,
       ...options,
-      select: <span class="fstat-no" title="function not covered" >(d</span>ata) =&gt; <span class="cstat-no" title="statement not covered" >data?.documentsRequiringAttention</span>
+      select: <span class="fstat-no" title="function not covered" >(d</span>ata: any) =&gt; <span class="cstat-no" title="statement not covered" >data?.documentsRequiringAttention</span>
     }
   );
 }
@@ -1356,7 +1356,7 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
     {
       refetchOnWindowFocus: false,
       ...options,
-      select: <span class="fstat-no" title="function not covered" >(d</span>ata) =&gt; <span class="cstat-no" title="statement not covered" >data?.salesStatistics</span>
+      select: <span class="fstat-no" title="function not covered" >(d</span>ata: any) =&gt; <span class="cstat-no" title="statement not covered" >data?.salesStatistics</span>
     }
   );
 }</pre></td></tr></table></pre>
@@ -1366,7 +1366,7 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-15T16:23:22.212Z
+                at 2025-05-22T22:15:25.812Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

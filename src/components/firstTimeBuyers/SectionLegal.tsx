@@ -20,7 +20,7 @@ export default function SectionLegal() {
           <ul className="list-disc list-inside text-gray-700 space-y-2">
             <li>All legal documents exchanged via Prop platform</li>
             <li>Real-time status tracker for every step</li>
-            <li>All parties (buyers, sellers, solicitors) on-platform</li>
+            <li>All parties (buyers, sellerssolicitors) on-platform</li>
             <li>Instant notifications and full transparency</li>
           </ul>
         </div>

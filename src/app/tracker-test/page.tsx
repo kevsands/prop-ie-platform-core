@@ -1,0 +1,17 @@
+'use client';
+
+import React from 'react';
+
+export default function TrackerTestPage() {
+  return (
+    <div className="p-8">
+      <h1 className="text-3xl font-bold mb-6">Transaction Tracker Test</h1>
+      <p className="mb-4">This is a simple test page to check if routing is working correctly.</p>
+
+      <div className="p-4 bg-blue-100 rounded-lg">
+        <p>If you can see this page, Next.js routing is working properly.</p>
+        <p className="mt-2">We can now try to include the TransactionTracker component.</p>
+      </div>
+    </div>
+  );
+}

@@ -25,38 +25,38 @@ const GraphQLTester: React.FC = () => {
       </div>
 
       <h1 className="text-2xl font-bold mb-6">GraphQL Connection Tester</h1>
-      
+
       <div className="bg-white p-4 rounded shadow-md mb-6">
         <h2 className="text-lg font-semibold mb-2">Test Controls</h2>
         <p className="text-gray-600 mb-4">Here you would see controls to test different GraphQL queries.</p>
-        
+
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="border p-3 rounded">
             <h3 className="font-medium">Development ID Query</h3>
             <p className="mt-1 text-sm text-gray-600">Query a development by ID</p>
           </div>
-          
+
           <div className="border p-3 rounded">
             <h3 className="font-medium">Development Slug Query</h3>
             <p className="mt-1 text-sm text-gray-600">Query a development by slug</p>
           </div>
-          
+
           <div className="border p-3 rounded">
             <h3 className="font-medium">All Developments Query</h3>
             <p className="mt-1 text-sm text-gray-600">Query all developments</p>
           </div>
         </div>
       </div>
-      
+
       <div className="bg-white p-4 rounded shadow-md">
         <h2 className="text-lg font-semibold mb-2">Mock Data Display</h2>
         <p className="text-gray-600 mb-4">
           In this section, you would see the results of GraphQL queries displayed.
           For build testing, we're showing a simplified version.
         </p>
-        
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
-          {[1, 2].map(id => (
+          {[12].map(id => (
             <div key={id} className="border p-4 rounded">
               <h3 className="text-lg font-bold">Sample Development {id}</h3>
               <p className="mt-2 text-gray-600">This is a sample development for build testing.</p>

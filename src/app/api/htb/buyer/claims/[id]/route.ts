@@ -1,9 +1,14 @@
+type Props = {
+  params: Promise<{ id: string }>
+}
+
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
+  const params = await context.params;
   // Mock HTB claim data
   const mockClaim = {
     id: params.id,
@@ -17,7 +22,7 @@ export async function GET(
     accessCode: 'HTB-1234-ABCD-5678',
     applicationDate: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString(),
     lastUpdatedDate: new Date().toISOString(),
-    documents: [],
+    DevelopmentDocument: [],
     notes: [],
     statusHistory: [
       {

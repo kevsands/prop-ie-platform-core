@@ -83,7 +83,7 @@ const MarketInsight = ({
     : trend === 'down' 
       ? 'text-red-600' 
       : 'text-gray-500';
-      
+
   return (
     <div className="bg-white p-4 rounded-lg shadow-sm">
       <h3 className="text-sm font-medium text-gray-500 mb-1">{title}</h3>
@@ -111,8 +111,8 @@ const MarketInsight = ({
 };
 
 export default function MarketReportsPage() {
-  const [activeFilter, setActiveFilter] = useState('all');
-  
+  const [activeFiltersetActiveFilter] = useState('all');
+
   // Market reports data
   const reports = [
     {
@@ -196,12 +196,12 @@ export default function MarketReportsPage() {
       type: 'analysis'
     }
   ];
-  
+
   // Filter reports based on active filter
   const filteredReports = activeFilter === 'all' 
     ? reports 
     : reports.filter(report => report.type === activeFilter);
-    
+
   // Latest market insights
   const marketInsights = [
     {
@@ -279,9 +279,9 @@ export default function MarketReportsPage() {
           <h2 className="text-2xl font-bold text-gray-900">Latest Market Insights</h2>
           <span className="text-sm text-gray-500">Last updated: April 15, 2024</span>
         </div>
-        
+
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-          {marketInsights.map((insight, index) => (
+          {marketInsights.map((insightindex: any) => (
             <MarketInsight
               key={index}
               title={insight.title}
@@ -358,7 +358,7 @@ export default function MarketReportsPage() {
 
       {/* Reports grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
-        {filteredReports.map((report) => (
+        {filteredReports.map((report: any) => (
           <ReportCard 
             key={report.id}
             title={report.title}

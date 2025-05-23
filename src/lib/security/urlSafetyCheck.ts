@@ -60,30 +60,27 @@ export function isUrlSafe(
   const {
     allowRelative = true,
     checkForShorteners = true,
-    onlyAllowTrustedDomains = false,
-  } = options;
+    onlyAllowTrustedDomains = false} = options;
 
   // Handle relative URLs (they're generally safe)
   if (url.startsWith('/') && !url.startsWith('//')) {
     return {
       isSafe: allowRelative,
       reason: allowRelative ? undefined : 'Relative URLs are not allowed in this context',
-      severity: 'low',
-    };
+      severity: 'low'};
   }
 
   try {
     // Determine base for relative URLs
     const base = typeof window !== 'undefined' ? window.location.origin : 'https://example.com';
-    const urlObj = new URL(url, base);
+    const urlObj = new URL(urlbase);
 
     // Check for javascript: or data: URLs
     if (['javascript:', 'data:', 'vbscript:', 'file:'].includes(urlObj.protocol)) {
       return {
         isSafe: false,
         reason: `Potentially malicious protocol: ${urlObj.protocol}`,
-        severity: 'critical',
-      };
+        severity: 'critical'};
     }
 
     // Check for known malicious domains
@@ -91,8 +88,7 @@ export function isUrlSafe(
       return {
         isSafe: false,
         reason: `URL contains known malicious domain: ${urlObj.hostname}`,
-        severity: 'critical',
-      };
+        severity: 'critical'};
     }
 
     // Check for URL shorteners if enabled
@@ -101,26 +97,24 @@ export function isUrlSafe(
         'bit.ly', 'tinyurl.com', 'goo.gl', 't.co', 'is.gd', 'cli.gs', 'ow.ly',
         'buff.ly', 'adf.ly', 'j.mp', 'rebrand.ly', 'short.io'
       ];
-      
+
       if (knownShorteners.some(shortener => urlObj.hostname.includes(shortener))) {
         return {
           isSafe: false,
           reason: `URL uses a shortener service which could hide malicious destinations: ${urlObj.hostname}`,
-          severity: 'high',
-        };
+          severity: 'high'};
       }
     }
 
     // Enforce trusted domains if enabled
     if (onlyAllowTrustedDomains) {
       const isTrustedDomain = TRUSTED_DOMAINS.some(domain => urlObj.hostname.includes(domain));
-      
+
       if (!isTrustedDomain) {
         return {
           isSafe: false,
           reason: `URL domain is not in the trusted domains list: ${urlObj.hostname}`,
-          severity: 'medium',
-        };
+          severity: 'medium'};
       }
     }
 
@@ -130,39 +124,35 @@ export function isUrlSafe(
       /\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}/, // IP addresses
       /[^\w\-.:%]/, // URLs with unusual characters
     ];
-    
+
     for (const pattern of suspiciousPatterns) {
       if (pattern.test(urlObj.hostname)) {
         return {
           isSafe: false,
           reason: `URL contains suspicious pattern: ${urlObj.hostname}`,
-          severity: 'medium',
-        };
+          severity: 'medium'};
       }
     }
 
     // Check for excessive subdomains (potential DNS tunneling or evasion)
     const subdomainCount = urlObj.hostname.split('.').length - 2;
-    if (subdomainCount > 3) {
+    if (subdomainCount> 3) {
       return {
         isSafe: false,
         reason: `URL contains excessive subdomains: ${urlObj.hostname}`,
-        severity: 'medium',
-      };
+        severity: 'medium'};
     }
 
     // URL passed all safety checks
     return {
       isSafe: true,
-      severity: 'low',
-    };
+      severity: 'low'};
   } catch (error) {
     // Invalid URL format
     return {
       isSafe: false,
       reason: `Invalid URL format: ${error instanceof Error ? error.message : String(error)}`,
-      severity: 'high',
-    };
+      severity: 'high'};
   }
 }
 
@@ -194,15 +184,13 @@ export function safeNavigate(
     addReferrerPolicy = true,
     addNoopener = true,
     addNoreferrer = true,
-    confirmExternalNavigation = false,
-  } = options;
+    confirmExternalNavigation = false} = options;
 
-  return new Promise((resolve, reject) => {
+  return new Promise((resolvereject: any) => {
     const safetyCheck = isUrlSafe(url, {
       allowRelative,
       checkForShorteners,
-      onlyAllowTrustedDomains,
-    });
+      onlyAllowTrustedDomains});
 
     if (!safetyCheck.isSafe) {
       reject(new Error(`Unsafe URL blocked: ${safetyCheck.reason}`));
@@ -222,7 +210,7 @@ export function safeNavigate(
           const urlObj = new URL(url, window.location.origin);
           return urlObj.hostname !== window.location.hostname;
         }
-        
+
         return false;
       })();
 
@@ -232,7 +220,7 @@ export function safeNavigate(
         const confirmed = window.confirm(
           `You are navigating to an external site: ${urlObj.hostname}. Do you wish to continue?`
         );
-        
+
         if (!confirmed) {
           resolve(false);
           return;
@@ -244,13 +232,13 @@ export function safeNavigate(
         if (openInNewTab || isExternal) {
           // Construct safety attributes for the window.open
           const features = [];
-          
+
           if (addNoopener) features.push('noopener');
           if (addNoreferrer) features.push('noreferrer');
-          
+
           // Open in a new tab with security attributes
           const newWindow = window.open(url, '_blank', features.join(','));
-          
+
           // Apply referrer policy if possible
           if (newWindow && addReferrerPolicy) {
             try {
@@ -262,7 +250,7 @@ export function safeNavigate(
               // Ignore errors from cross-origin frames
             }
           }
-          
+
           resolve(true);
         } else {
           // Navigate in the same window
@@ -303,8 +291,7 @@ export function createSafeAnchor(
     id = '',
     target = '_self',
     title = '',
-    ariaLabel = '',
-  } = options;
+    ariaLabel = ''} = options;
 
   // Check URL safety
   const safetyCheck = isUrlSafe(url);
@@ -314,18 +301,18 @@ export function createSafeAnchor(
 
   // Determine if external link
   const isExternal = !url.startsWith('/') || url.startsWith('//');
-  
+
   // Add security attributes for external links
   const securityAttrs = isExternal
     ? 'rel="noopener noreferrer" referrerpolicy="no-referrer"'
     : '';
-  
+
   // Add other attributes if provided
   const classAttr = className ? `class="${className}"` : '';
   const idAttr = id ? `id="${id}"` : '';
   const titleAttr = title ? `title="${title}"` : '';
   const ariaLabelAttr = ariaLabel ? `aria-label="${ariaLabel}"` : '';
-  
+
   return `<a href="${url}" ${target ? `target="${target}"` : ''} ${securityAttrs} ${classAttr} ${idAttr} ${titleAttr} ${ariaLabelAttr}>${text}</a>`;
 }
 

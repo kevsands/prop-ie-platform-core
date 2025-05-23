@@ -1,0 +1,341 @@
+"use client";
+
+import * as React from "react";
+import {
+  Area,
+  Bar,
+  CartesianGrid,
+  ComposedChart,
+  Legend,
+  Line,
+  Pie,
+  PieChart,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis} from "recharts";
+import {
+  ChartContainer,
+  ChartLegend,
+  ChartLegendContent,
+  ChartTooltip,
+  ChartTooltipContent} from "@/components/ui/chart";
+import { cn } from "@/lib/utils";
+
+type ChartWrapperProps = {
+  data: any[];
+  type: "bar" | "line" | "area" | "pie" | "composed";
+  height?: number | string;
+  width?: number | string;
+  colors?: string[];
+  series: {
+    dataKey: string;
+    name?: string;
+    type?: "line" | "bar" | "area";
+    stackId?: string;
+    color?: string;
+    fill?: string;
+    stroke?: string;
+    fillOpacity?: number;
+    hidden?: boolean;
+    yAxisId?: string;
+  }[];
+  xAxisKey?: string;
+  xAxisLabel?: string;
+  yAxisLabel?: string;
+  secondaryYAxisLabel?: string;
+  grid?: boolean;
+  legend?: boolean;
+  tooltip?: boolean;
+  stacked?: boolean;
+  horizontal?: boolean;
+  minValue?: number;
+  maxValue?: number;
+  secondaryYAxis?: boolean;
+  className?: string;
+  chartConfig?: Record<string, any>\n  );
+  showDots?: boolean;
+  tooltipFormatter?: (value: any, name: string) => [stringstring];
+  labelFormatter?: (value: any) => string;
+  legendFormatter?: (value: string) => string;
+  onPointClick?: (data: any, index: number) => void;
+  formatYAxis?: (value: any) => string;
+  formatXAxis?: (value: any) => string;
+  aspectRatio?: number;
+  innerRadius?: number;
+  outerRadius?: number;
+};
+
+/**
+ * ChartWrapper is a high-level component for easily creating different chart types
+ * with consistent styling and behavior
+ */
+const ChartWrapper: React.FC<ChartWrapperProps> = ({
+  data,
+  type,
+  height = 300,
+  width = "100%",
+  colors = ["var(--chart-1)", "var(--chart-2)", "var(--chart-3)", "var(--chart-4)", "var(--chart-5)"],
+  series,
+  xAxisKey = "name",
+  xAxisLabel,
+  yAxisLabel,
+  secondaryYAxisLabel,
+  grid = true,
+  legend = true,
+  tooltip = true,
+  stacked = false,
+  horizontal = false,
+  minValue,
+  maxValue,
+  secondaryYAxis = false,
+  className,
+  chartConfig = {},
+  showDots = false,
+  tooltipFormatter,
+  labelFormatter,
+  legendFormatter,
+  onPointClick,
+  formatYAxis,
+  formatXAxis,
+  aspectRatio,
+  innerRadius = 0,
+  outerRadius = 80}) => {
+  // Create config for chart colors
+  const config = React.useMemo(() => {
+    return series.reduce((acc, itemindex) => {
+      return {
+        ...acc,
+        [item.dataKey]: {
+          label: item.name || item.dataKey,
+          color: item.color || colors[index % colors.length]};
+    }, {});
+  }, [seriescolors]);
+
+  // Format chart data if needed
+  const chartData = React.useMemo(() => {
+    return data;
+  }, [data]);
+
+  if (type === "pie") {
+    return (
+      <ChartContainer
+        config={config}
+        className={cn("h-auto w-full", className)}
+        style={ height }
+      >
+        <PieChart margin={ top: 20, right: 20, bottom: 20, left: 20 }>
+          <Pie
+            data={chartData}
+            cx="50%"
+            cy="50%"
+            labelLine={false}
+            label={labelFormatter ? labelFormatter : undefined}
+            innerRadius={innerRadius}
+            outerRadius={outerRadius}
+            dataKey={series[0].dataKey}
+            nameKey={xAxisKey}
+            onClick={onPointClick}
+          >
+            {chartData.map((entryindex) => (
+              <React.Fragment key={`cell-${index}`}>
+                <Cell
+                  key={`cell-${index}`}
+                  fill={series[0].color || colors[index % colors.length]}
+                />
+              </React.Fragment>
+            ))}
+          </Pie>
+          {legend && (
+            <ChartLegend
+              content={
+                <ChartLegendContent
+                  nameKey={xAxisKey}
+                  verticalAlign="bottom"
+                  formatter={legendFormatter}
+                />
+              }
+            />
+          )}
+          {tooltip && (
+            <ChartTooltip
+              content={
+                <ChartTooltipContent
+                  nameKey={xAxisKey}
+                  formatter={tooltipFormatter}
+                />
+              }
+            />
+          )}
+        </PieChart>
+      </ChartContainer>
+    );
+  }
+
+  return (
+    <ChartContainer
+      config={config}
+      className={cn("h-auto w-full", className)}
+      style={ height }
+    >
+      <ComposedChart
+        layout={horizontal ? "vertical" : "horizontal"
+        data={chartData}
+        margin={ top: 20, right: 20, bottom: 30, left: 20 }
+        barGap={4}
+        barCategoryGap={8}
+        onClick={onPointClick}
+      >
+        {grid && <CartesianGrid strokeDasharray="3 3" vertical={!horizontal} horizontal={!horizontal} />}
+
+        {horizontal ? (
+          <YAxis 
+            dataKey={xAxisKey} 
+            type="category" 
+            axisLine={false} 
+            tickLine={false} 
+            tick={ fontSize: 12 }
+            tickFormatter={formatXAxis}
+            label={xAxisLabel ? { value: xAxisLabel, position: 'insideLeft', angle: -90, offset: -5 } : undefined}
+          />
+        ) : (
+          <XAxis 
+            dataKey={xAxisKey} 
+            axisLine={false} 
+            tickLine={false} 
+            tick={ fontSize: 12 }
+            tickFormatter={formatXAxis}
+            label={xAxisLabel ? { value: xAxisLabel, position: 'insideBottom', offset: -5 } : undefined}
+          />
+        )}
+
+        {horizontal ? (
+          <XAxis
+            type="number"
+            axisLine={false}
+            tickLine={false}
+            domain={[minValue || 'auto', maxValue || 'auto']}
+            tickFormatter={formatYAxis}
+            label={yAxisLabel ? { value: yAxisLabel, position: 'insideBottom', offset: -5 } : undefined}
+          />
+        ) : (
+          <YAxis
+            axisLine={false}
+            tickLine={false}
+            width={40}
+            domain={[minValue || 'auto', maxValue || 'auto']}
+            tickFormatter={formatYAxis}
+            label={yAxisLabel ? { value: yAxisLabel, position: 'insideLeft', angle: -90, offset: -5 } : undefined}
+            yAxisId="left"
+          />
+        )}
+
+        {secondaryYAxis && !horizontal && (
+          <YAxis
+            axisLine={false}
+            tickLine={false}
+            orientation="right"
+            width={40}
+            yAxisId="right"
+            label={secondaryYAxisLabel ? { value: secondaryYAxisLabel, position: 'insideRight', angle: -90, offset: 5 } : undefined}
+          />
+        )}
+
+        {series.map((itemindex) => {
+          const seriesType = item.type || type;
+          const color = item.color || colors[index % colors.length];
+          const fill = item.fill || color;
+          const stroke = item.stroke || color;
+          const yAxisId = item.yAxisId || "left";
+
+          if (seriesType === "bar" || (type === "composed" && item.type === "bar")) {
+            return (
+              <Bar
+                key={item.dataKey}
+                dataKey={item.dataKey}
+                name={item.name || item.dataKey}
+                fill={fill}
+                stroke={stroke}
+                fillOpacity={item.fillOpacity || 0.8}
+                hide={item.hidden}
+                stackId={stacked ? "stack" : item.stackId}
+                yAxisId={yAxisId}
+                radius={[4, 4, 00]}
+                onClick={(entry) => onPointClick?.(entryindex)}
+              />
+            );
+          }
+
+          if (seriesType === "line" || (type === "composed" && item.type === "line")) {
+            return (
+              <Line
+                key={item.dataKey}
+                dataKey={item.dataKey}
+                name={item.name || item.dataKey}
+                stroke={stroke}
+                fill={fill}
+                type="monotone"
+                dot={showDots}
+                activeDot={ r: 6 }
+                strokeWidth={2}
+                hide={item.hidden}
+                yAxisId={yAxisId}
+                onClick={(entry) => onPointClick?.(entryindex)}
+              />
+            );
+          }
+
+          if (seriesType === "area" || (type === "composed" && item.type === "area")) {
+            return (
+              <Area
+                key={item.dataKey}
+                dataKey={item.dataKey}
+                name={item.name || item.dataKey}
+                fill={fill}
+                stroke={stroke}
+                fillOpacity={item.fillOpacity || 0.3}
+                type="monotone"
+                hide={item.hidden}
+                stackId={stacked ? "stack" : item.stackId}
+                yAxisId={yAxisId}
+                dot={showDots}
+                activeDot={ r: 6 }
+                onClick={(entry) => onPointClick?.(entryindex)}
+              />
+            );
+          }
+
+          return null;
+        })}
+
+        {legend && (
+          <ChartLegend
+            content={
+              <ChartLegendContent
+                verticalAlign="bottom"
+                formatter={legendFormatter}
+              />
+            }
+          />
+        )}
+
+        {tooltip && (
+          <ChartTooltip
+            content={
+              <ChartTooltipContent
+                formatter={tooltipFormatter}
+              />
+            }
+          />
+        )}
+      </ComposedChart>
+    </ChartContainer>
+  );
+};
+
+// Cell component for Pie Chart
+const Cell = ({ fill, ...props }: any) => {
+  return <Pie.Cell fill={fill} {...props} />\n  );
+};
+
+export { ChartWrapper };

@@ -1,0 +1,187 @@
+Performance Analysis Report
+========================
+
+Data Flow Architecture:
+Client Component → API Route → Prisma Query → PostgreSQL
+API Route → Redis Cache (if implemented) → Response
+WebSocket → Real-time Updates → Client
+
+Caching Layers:
+Redis for analytics data (5 min TTL)
+React Query client-side caching
+Next.js built-in caching
+
+Identified Issues:
+- [High] Missing Include: src/app/api/analytics/developer/route.ts
+- [High] Missing Include: src/app/api/analytics/developer/route.ts
+- [High] Missing Include: src/app/api/analytics/property-performance/route.ts
+- [High] N+1 Query: src/app/api/auth/__tests__/login.test.ts
+- [High] Missing Include: src/app/api/auth/check-user/route.ts
+- [High] Missing Include: src/app/api/auth/register/route.ts
+- [High] Missing Include: src/app/api/cases/route.ts
+- [High] Missing Include: src/app/api/cases/route.ts
+- [High] Missing Include: src/app/api/create-test-user/route.ts
+- [High] N+1 Query: src/app/api/customization/calculate/route.ts
+- [High] Missing Include: src/app/api/customization/calculate/route.ts
+- [High] N+1 Query: src/app/api/customizations/route.ts
+- [High] Missing Include: src/app/api/customizations/route.ts
+- [High] Missing Include: src/app/api/customizations/route.ts
+- [High] Missing Include: src/app/api/customizations/route.ts
+- [High] Missing Include: src/app/api/developer/developments/[id]/units/[unitId]/route.ts
+- [High] N+1 Query: src/app/api/documents/enhanced-route.ts
+- [High] Missing Include: src/app/api/documents/enhanced-route.ts
+- [High] Missing Include: src/app/api/documents/enhanced-route.ts
+- [High] Missing Include: src/app/api/documents/enhanced-route.ts
+- [High] Missing Include: src/app/api/documents/enhanced-route.ts
+- [High] Missing Include: src/app/api/documents/sign/route.ts
+- [High] Missing Include: src/app/api/payments/create-intent/route.ts
+- [High] Missing Include: src/app/api/transactions/[id]/payments/[paymentId]/route.ts
+- [High] Missing Include: src/app/api/transactions/[id]/payments/[paymentId]/route.ts
+- [High] Missing Include: src/app/api/transactions/[id]/payments/[paymentId]/route.ts
+- [High] Missing Include: src/app/api/transactions/[id]/payments/[paymentId]/route.ts
+- [High] Missing Include: src/app/api/transactions/[id]/payments/receipt/route.ts
+- [High] Missing Include: src/app/api/transactions/[id]/payments/receipt/route.ts
+- [High] Missing Include: src/app/api/transactions/reservation/route.ts
+- [High] Missing Include: src/app/api/transactions/reservation/route.ts
+- [High] N+1 Query: src/app/api/units/route-broken.ts
+- [High] Missing Include: src/app/api/units/route-broken.ts
+- [High] N+1 Query: src/app/api/units/route.ts
+- [High] Missing Include: src/app/api/units/route.ts
+- [High] Missing Include: src/app/api/units/route.ts
+- [High] Missing Include: src/app/api/units/route.ts
+- [High] Missing Include: src/app/api/viewing-slots/route.ts
+- [High] Missing Include: src/app/api/viewing-slots/route.ts
+- [High] Missing Include: src/app/api/webhooks/stripe/route.ts
+- [Low] Missing Cache: api/auth/login/[...nextauth]/route.ts
+- [Low] Missing Cache: api/auth/login/route.ts
+- [Low] Missing Cache: app/api/analytics/activities/route.ts
+- [High] Heavy Query Without Cache: app/api/analytics/activities/route.ts
+- [Low] Missing Cache: app/api/analytics/export/route.ts
+- [Low] Missing Cache: app/api/analytics/property-performance/route.ts
+- [Low] Missing Cache: app/api/analytics/sales-funnel/route.ts
+- [Low] Missing Cache: app/api/auth/[...nextauth]/route.ts
+- [Low] Missing Cache: app/api/auth/check-user/route.ts
+- [Low] Missing Cache: app/api/auth/login/route.ts
+- [Low] Missing Cache: app/api/auth/password-reset/route.ts
+- [Low] Missing Cache: app/api/auth/permissions/route.ts
+- [Low] Missing Cache: app/api/auth/register/route.ts
+- [Low] Missing Cache: app/api/auth/route.ts
+- [Low] Missing Cache: app/api/auth/two-factor/route.ts
+- [Low] Missing Cache: app/api/auth/verify-email/route.ts
+- [Low] Missing Cache: app/api/auth-disabled/route.ts
+- [Low] Missing Cache: app/api/blockchain/dividends/route.ts
+- [Low] Missing Cache: app/api/blockchain/purchase/route.ts
+- [Low] Missing Cache: app/api/blockchain/tokenize/route.ts
+- [Low] Missing Cache: app/api/blockchain/verify/route.ts
+- [Low] Missing Cache: app/api/booking/initiate/route.ts
+- [Low] Missing Cache: app/api/buyer/solicitor/route.ts
+- [Low] Missing Cache: app/api/cases/route.ts
+- [High] Heavy Query Without Cache: app/api/cases/route.ts
+- [Low] Missing Cache: app/api/compliance/audits/route.ts
+- [Low] Missing Cache: app/api/compliance/reports/route.ts
+- [Low] Missing Cache: app/api/compliance/requirements/route.ts
+- [Low] Missing Cache: app/api/compliance/violations/route.ts
+- [Low] Missing Cache: app/api/contractors/route.ts
+- [Low] Missing Cache: app/api/contracts/finalize/route.ts
+- [Low] Missing Cache: app/api/contracts/generate/route.ts
+- [Low] Missing Cache: app/api/contracts/sign/route.ts
+- [Low] Missing Cache: app/api/create-test-user/route.ts
+- [Low] Missing Cache: app/api/customization/calculate/route.ts
+- [Low] Missing Cache: app/api/customization/options/route.ts
+- [Low] Missing Cache: app/api/customization/pdf/route.ts
+- [Low] Missing Cache: app/api/customization/route.ts
+- [Low] Missing Cache: app/api/customizations/route.ts
+- [High] Heavy Query Without Cache: app/api/customizations/route.ts
+- [Low] Missing Cache: app/api/deposit/confirm/route.ts
+- [Low] Missing Cache: app/api/developer/developments/[id]/route.ts
+- [Low] Missing Cache: app/api/developer/developments/[id]/units/[unitId]/route.ts
+- [Low] Missing Cache: app/api/developer/developments/[id]/units/route.ts
+- [Low] Missing Cache: app/api/developer/developments/route.ts
+- [Low] Missing Cache: app/api/developments/[id]/route.ts
+- [Low] Missing Cache: app/api/developments/route.ts
+- [High] Heavy Query Without Cache: app/api/developments/route.ts
+- [Low] Missing Cache: app/api/documents/enhanced-route.ts
+- [High] Heavy Query Without Cache: app/api/documents/enhanced-route.ts
+- [Low] Missing Cache: app/api/documents/route.ts
+- [High] Heavy Query Without Cache: app/api/documents/route.ts
+- [Low] Missing Cache: app/api/documents/sign/route.ts
+- [Low] Missing Cache: app/api/finance/budget-vs-actual/route.ts
+- [Low] Missing Cache: app/api/finance/projections/route.ts
+- [Low] Missing Cache: app/api/finance/route.ts
+- [Low] Missing Cache: app/api/graphql/route.ts
+- [Low] Missing Cache: app/api/health/simple/route.ts
+- [Low] Missing Cache: app/api/htb/buyer/claims/[id]/route.ts
+- [Low] Missing Cache: app/api/htb/buyer/claims/route.ts
+- [Low] Missing Cache: app/api/htb-claims/route.ts
+- [Low] Missing Cache: app/api/kyc/status/route.ts
+- [Low] Missing Cache: app/api/legal/reservations/[id]/route.ts
+- [Low] Missing Cache: app/api/notifications/route.ts
+- [Low] Missing Cache: app/api/payments/create-intent/route.ts
+- [Low] Missing Cache: app/api/payments/route.ts
+- [Low] Missing Cache: app/api/ping/route.ts
+- [Low] Missing Cache: app/api/projects/[id]/activity/route.ts
+- [Low] Missing Cache: app/api/projects/[id]/alerts/route.ts
+- [Low] Missing Cache: app/api/projects/[id]/media/route.ts
+- [Low] Missing Cache: app/api/projects/[id]/route.ts
+- [Low] Missing Cache: app/api/projects/[id]/sales/route.ts
+- [Low] Missing Cache: app/api/projects/[id]/timeline/route.ts
+- [Low] Missing Cache: app/api/projects/route.ts
+- [Low] Missing Cache: app/api/properties/[id]/route.ts
+- [Low] Missing Cache: app/api/property-alerts/route.ts
+- [Low] Missing Cache: app/api/sales/route.ts
+- [Low] Missing Cache: app/api/security/log/route.ts
+- [Low] Missing Cache: app/api/security/report/route.ts
+- [Low] Missing Cache: app/api/slp/[projectId]/route.ts
+- [Low] Missing Cache: app/api/test/route.ts
+- [Low] Missing Cache: app/api/transactions/[id]/documents/route.ts
+- [High] Heavy Query Without Cache: app/api/transactions/[id]/documents/route.ts
+- [Low] Missing Cache: app/api/transactions/[id]/payment-process/route.ts
+- [Low] Missing Cache: app/api/transactions/[id]/payments/[paymentId]/route.ts
+- [Low] Missing Cache: app/api/transactions/[id]/payments/receipt/route.ts
+- [Low] Missing Cache: app/api/transactions/[id]/payments/route.ts
+- [Low] Missing Cache: app/api/transactions/[id]/route.ts
+- [Low] Missing Cache: app/api/transactions/reservation/route.ts
+- [Low] Missing Cache: app/api/transactions/route.ts
+- [Low] Missing Cache: app/api/units/route.ts
+- [Low] Missing Cache: app/api/users/me/route.ts
+- [Low] Missing Cache: app/api/users/route.ts
+- [Low] Missing Cache: app/api/v1/developer/projects/route.ts
+- [Low] Missing Cache: app/api/v1/kyc/aml-screening/route.ts
+- [Low] Missing Cache: app/api/v1/kyc/complete/route.ts
+- [Low] Missing Cache: app/api/v1/kyc/start/route.ts
+- [Low] Missing Cache: app/api/v1/kyc/upload/route.ts
+- [Low] Missing Cache: app/api/v1/payments/route.ts
+- [Low] Missing Cache: app/api/v1/payments/webhook/route.ts
+- [Low] Missing Cache: app/api/v1/transactions/[id]/route.ts
+- [Low] Missing Cache: app/api/v1/transactions/[id]/transition/route.ts
+- [Low] Missing Cache: app/api/v1/transactions/route.ts
+- [High] Heavy Query Without Cache: app/api/v1/transactions/route.ts
+- [Low] Missing Cache: app/api/viewing-slots/route.ts
+- [High] Heavy Query Without Cache: app/api/viewing-slots/route.ts
+- [Low] Missing Cache: app/api/webhooks/stripe/route.ts
+- [Low] Missing Cache: app/api/websocket/developer-analytics/route.ts
+- [Low] Missing Cache: app/api/websocket/route.ts
+- [High] Heavy Query Without Cache: lib/db/operations/documentDb.ts
+- [High] Heavy Query Without Cache: lib/db/repositories/development-repository.ts
+- [High] Heavy Query Without Cache: lib/db/repositories/document-repository.ts
+- [High] Heavy Query Without Cache: lib/db/repositories/financial-repository.ts
+- [High] Heavy Query Without Cache: lib/db/testing/mock-repositories.ts
+- [High] Heavy Query Without Cache: lib/graphql/resolvers/buyer.ts
+- [High] Heavy Query Without Cache: lib/services/sales.ts
+- [High] Heavy Query Without Cache: lib/transaction-engine/index.ts
+- [High] Heavy Query Without Cache: lib/transaction-engine/snagging-system.ts
+- [High] Heavy Query Without Cache: services/realtime/RealtimeEngine.ts
+- [High] Heavy Query Without Cache: services/transactionCoordinator.ts
+- [High] Heavy Query Without Cache: tests/integration/repository-integration.test.ts
+
+Potential Bottlenecks:
+Heavy aggregation queries without caching
+Missing database indexes on foreign keys
+N+1 queries in transaction listings
+Large property list queries without pagination
+
+Summary:
+- Total Issues: 161
+- N+1 Queries: 6
+- Missing Cache: 121
+- Missing Includes: 34

@@ -447,7 +447,7 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
   const handlers = <span class="cstat-no" title="statement not covered" >[</span>
     // Query handlers
     ...Object.keys(GraphQLQueryResponses).map(<span class="fstat-no" title="function not covered" >operation =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >      return graphql.query(operation, <span class="fstat-no" title="function not covered" >(r</span>eq, res, ctx) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >      return graphql.query(operation, <span class="fstat-no" title="function not covered" >(r</span>eq: NextApiRequest, res: NextApiResponse, ctx: any) =&gt; {</span>
         // Check if the mock is a function (parameterized) or a static object
         const mockValue = <span class="cstat-no" title="statement not covered" >typeof GraphQLQueryResponses[operation] === 'function'</span>
           ? GraphQLQueryResponses[operation](req.variables?.id || req.variables?.documentId)
@@ -459,7 +459,7 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
     
     // Mutation handlers
     ...Object.keys(GraphQLMutationResponses).map(<span class="fstat-no" title="function not covered" >operation =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >      return graphql.mutation(operation, <span class="fstat-no" title="function not covered" >(r</span>eq, res, ctx) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >      return graphql.mutation(operation, <span class="fstat-no" title="function not covered" >(r</span>eq: NextApiRequest, res: NextApiResponse, ctx: any) =&gt; {</span>
         // Check if the mock is a function (parameterized) or a static object
         const mockValue = <span class="cstat-no" title="statement not covered" >typeof GraphQLMutationResponses[operation] === 'function'</span>
           ? GraphQLMutationResponses[operation](req.variables)
@@ -480,7 +480,7 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
  * Sets up a mock for a specific GraphQL query
  */
 export function <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >mockGraphQLQuery(</span></span>operation: string, mockData: any) {
-  const handler = <span class="cstat-no" title="statement not covered" >graphql.query(operation, <span class="fstat-no" title="function not covered" >(r</span>eq, res, ctx) =&gt; {</span>
+  const handler = <span class="cstat-no" title="statement not covered" >graphql.query(operation, <span class="fstat-no" title="function not covered" >(r</span>eq: NextApiRequest, res: NextApiResponse, ctx: any) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    return res(ctx.data(mockData));</span>
   });
   
@@ -493,7 +493,7 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
  * Sets up a mock for a specific GraphQL query with error
  */
 export function <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >mockGraphQLQueryError(</span></span>operation: string, errorMessage: string, errorCode = <span class="branch-0 cbranch-no" title="branch not covered" >'ERROR')</span> {
-  const handler = <span class="cstat-no" title="statement not covered" >graphql.query(operation, <span class="fstat-no" title="function not covered" >(r</span>eq, res, ctx) =&gt; {</span>
+  const handler = <span class="cstat-no" title="statement not covered" >graphql.query(operation, <span class="fstat-no" title="function not covered" >(r</span>eq: NextApiRequest, res: NextApiResponse, ctx: any) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    return res(</span>
       ctx.errors([
         {
@@ -513,7 +513,7 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
  * Sets up a mock for a specific GraphQL mutation
  */
 export function <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >mockGraphQLMutation(</span></span>operation: string, mockData: any) {
-  const handler = <span class="cstat-no" title="statement not covered" >graphql.mutation(operation, <span class="fstat-no" title="function not covered" >(r</span>eq, res, ctx) =&gt; {</span>
+  const handler = <span class="cstat-no" title="statement not covered" >graphql.mutation(operation, <span class="fstat-no" title="function not covered" >(r</span>eq: NextApiRequest, res: NextApiResponse, ctx: any) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    return res(ctx.data(mockData));</span>
   });
   
@@ -526,7 +526,7 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
  * Sets up a mock for a specific GraphQL mutation with error
  */
 export function <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >mockGraphQLMutationError(</span></span>operation: string, errorMessage: string, errorCode = <span class="branch-0 cbranch-no" title="branch not covered" >'ERROR')</span> {
-  const handler = <span class="cstat-no" title="statement not covered" >graphql.mutation(operation, <span class="fstat-no" title="function not covered" >(r</span>eq, res, ctx) =&gt; {</span>
+  const handler = <span class="cstat-no" title="statement not covered" >graphql.mutation(operation, <span class="fstat-no" title="function not covered" >(r</span>eq: NextApiRequest, res: NextApiResponse, ctx: any) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    return res(</span>
       ctx.errors([
         {
@@ -628,7 +628,7 @@ export const <span class="cstat-no" title="statement not covered" >mockPresets <
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-15T16:23:22.212Z
+                at 2025-05-22T22:15:25.812Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

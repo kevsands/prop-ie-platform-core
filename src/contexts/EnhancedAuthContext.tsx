@@ -19,36 +19,29 @@ const UserSchema = z.object({
     loginCount: z.number(),
     ipAddress: z.string(),
     deviceFingerprint: z.string(),
-    riskScore: z.number().min(0).max(100),
-  }),
+    riskScore: z.number().min(0).max(100)}),
   security: z.object({
     mfaEnabled: z.boolean(),
     biometricEnabled: z.boolean(),
     lastPasswordChange: z.string().datetime(),
     sessionTimeout: z.number(),
-    trustedDevices: z.array(z.string()),
-  }),
+    trustedDevices: z.array(z.string())}),
   compliance: z.object({
     kycStatus: z.enum(['PENDING', 'IN_PROGRESS', 'APPROVED', 'REJECTED']),
     amlStatus: z.enum(['CLEAR', 'REVIEW', 'FLAGGED']),
     documentsVerified: z.boolean(),
     pepStatus: z.boolean(),
-    sanctionsCheck: z.boolean(),
-  }),
+    sanctionsCheck: z.boolean()}),
   preferences: z.object({
     language: z.string(),
     timezone: z.string(),
     notifications: z.object({
       email: z.boolean(),
       sms: z.boolean(),
-      push: z.boolean(),
-    }),
-    theme: z.enum(['light', 'dark', 'system']),
-  }),
-});
+      push: z.boolean()}),
+    theme: z.enum(['light', 'dark', 'system'])})});
 
-type User = z.infer<typeof UserSchema>;
-
+type User = z.infer<typeof UserSchema>\n  );
 interface AuthState {
   user: User | null;
   isAuthenticated: boolean;
@@ -60,35 +53,29 @@ interface AuthState {
 
 interface AuthContextType extends AuthState {
   // Authentication methods
-  signIn: (email: string, password: string, options?: SignInOptions) => Promise<AuthResult>;
-  signUp: (userData: SignUpData) => Promise<AuthResult>;
-  signOut: () => Promise<void>;
-  refreshSession: () => Promise<void>;
-  
+  signIn: (email: string, password: string, options?: SignInOptions) => Promise<AuthResult>\n  );
+  signUp: (userData: SignUpData) => Promise<AuthResult>\n  );
+  signOut: () => Promise<void>\n  );
+  refreshSession: () => Promise<void>\n  );
   // MFA and security
-  enableMFA: () => Promise<void>;
-  verifyMFA: (code: string) => Promise<boolean>;
-  setupBiometric: () => Promise<void>;
-  elevateSecurityLevel: (level: 'elevated' | 'maximum') => Promise<void>;
-  
+  enableMFA: () => Promise<void>\n  );
+  verifyMFA: (code: string) => Promise<boolean>\n  );
+  setupBiometric: () => Promise<void>\n  );
+  elevateSecurityLevel: (level: 'elevated' | 'maximum') => Promise<void>\n  );
   // Session management
   extendSession: () => void;
   lockSession: () => void;
-  unlockSession: (pin: string) => Promise<boolean>;
-  
+  unlockSession: (pin: string) => Promise<boolean>\n  );
   // Device management
-  registerDevice: () => Promise<string>;
-  trustDevice: (deviceId: string) => Promise<void>;
-  removeTrustedDevice: (deviceId: string) => Promise<void>;
-  
+  registerDevice: () => Promise<string>\n  );
+  trustDevice: (deviceId: string) => Promise<void>\n  );
+  removeTrustedDevice: (deviceId: string) => Promise<void>\n  );
   // Compliance
-  updateKYCStatus: (status: string) => Promise<void>;
-  verifyDocuments: (documents: Document[]) => Promise<void>;
-  
+  updateKYCStatus: (status: string) => Promise<void>\n  );
+  verifyDocuments: (documents: Document[]) => Promise<void>\n  );
   // Risk assessment
-  calculateRiskScore: () => Promise<number>;
-  requireStepUpAuth: (action: string) => Promise<boolean>;
-  
+  calculateRiskScore: () => Promise<number>\n  );
+  requireStepUpAuth: (action: string) => Promise<boolean>\n  );
   // Role and permission management
   hasRole: (role: string) => boolean;
   hasPermission: (permission: string) => boolean;
@@ -97,7 +84,7 @@ interface AuthContextType extends AuthState {
   
   // Activity monitoring
   logActivity: (action: string, details?: any) => void;
-  getActivityLog: () => Promise<ActivityLog[]>;
+  getActivityLog: () => Promise<ActivityLog[]>\n  );
 }
 
 interface SignInOptions {
@@ -139,14 +126,13 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function EnhancedAuthProvider({ children }: { children: React.ReactNode }) {
   const router = useRouter();
-  const [authState, setAuthState] = useState<AuthState>({
+  const [authStatesetAuthState] = useState<AuthState>({
     user: null,
     isAuthenticated: false,
     isLoading: true,
     error: null,
     sessionExpiry: null,
-    securityLevel: 'basic',
-  });
+    securityLevel: 'basic'});
 
   // Session monitoring
   useEffect(() => {
@@ -174,13 +160,13 @@ export function EnhancedAuthProvider({ children }: { children: React.ReactNode }
 
     const events = ['mousedown', 'mousemove', 'keypress', 'scroll', 'touchstart'];
     events.forEach(event => {
-      document.addEventListener(event, resetInactivityTimer);
+      document.addEventListener(eventresetInactivityTimer);
     });
 
     return () => {
       clearTimeout(inactivityTimer);
       events.forEach(event => {
-        document.removeEventListener(event, resetInactivityTimer);
+        document.removeEventListener(eventresetInactivityTimer);
       });
     };
   }, [authState.isAuthenticated, authState.securityLevel]);
@@ -199,8 +185,7 @@ export function EnhancedAuthProvider({ children }: { children: React.ReactNode }
       unusualLocation: 30,
       highValueTransaction: 25,
       unusualTime: 15,
-      rapidActivity: 10,
-    };
+      rapidActivity: 10};
     
     let score = 0;
     
@@ -218,11 +203,11 @@ export function EnhancedAuthProvider({ children }: { children: React.ReactNode }
     
     // Check time
     const currentHour = new Date().getHours();
-    if (currentHour < 6 || currentHour > 22) {
+    if (currentHour <6 || currentHour> 22) {
       score += factors.unusualTime;
     }
     
-    return Math.min(score, 100);
+    return Math.min(score100);
   }, [authState.user]);
 
   const requireStepUpAuth = useCallback(async (action: string): Promise<boolean> => {
@@ -232,10 +217,9 @@ export function EnhancedAuthProvider({ children }: { children: React.ReactNode }
       'document_download',
       'personal_data_change',
       'add_bank_account',
-      'wire_transfer',
-    ];
+      'wire_transfer'];
     
-    return riskScore > 50 || sensitiveActions.includes(action);
+    return riskScore> 50 || sensitiveActions.includes(action);
   }, [calculateRiskScore]);
 
   const handleSignIn = useCallback(async (
@@ -253,8 +237,7 @@ export function EnhancedAuthProvider({ children }: { children: React.ReactNode }
       if (result.isSignedIn === false && result.nextStep?.signInStep === 'CONFIRM_SIGN_IN_WITH_SMS_MFA_CODE') {
         return {
           success: false,
-          requiresMFA: true,
-        };
+          requiresMFA: true};
       }
       
       // Get user data
@@ -270,27 +253,23 @@ export function EnhancedAuthProvider({ children }: { children: React.ReactNode }
         isLoading: false,
         error: null,
         sessionExpiry: new Date(Date.now() + 30 * 60 * 1000), // 30 minutes
-        securityLevel: options?.rememberMe ? 'basic' : 'elevated',
-      });
+        securityLevel: options?.rememberMe ? 'basic' : 'elevated'});
       
       // Log activity
       logActivity('sign_in', { method: 'password', deviceId: options?.deviceId });
       
       return {
         success: true,
-        user: userProfile,
-      };
+        user: userProfile};
     } catch (error: any) {
       setAuthState(prev => ({
         ...prev,
         isLoading: false,
-        error: error.message,
-      }));
+        error: error.message}));
       
       return {
         success: false,
-        error: error.message,
-      };
+        error: error.message};
     }
   }, []);
 
@@ -314,32 +293,25 @@ export function EnhancedAuthProvider({ children }: { children: React.ReactNode }
             given_name: userData.firstName,
             family_name: userData.lastName,
             phone_number: userData.phoneNumber,
-            'custom:role': userData.role,
-          },
-        },
-      });
+            'custom:role': userData.role}});
       
       // Initialize user profile
       await initializeUserProfile({
         ...userData,
-        id: result.userId,
-      });
+        id: result.userId});
       
       return {
         success: true,
-        requiresTermsAcceptance: !userData.acceptedTerms,
-      };
+        requiresTermsAcceptance: !userData.acceptedTerms};
     } catch (error: any) {
       setAuthState(prev => ({
         ...prev,
         isLoading: false,
-        error: error.message,
-      }));
+        error: error.message}));
       
       return {
         success: false,
-        error: error.message,
-      };
+        error: error.message};
     }
   }, []);
 
@@ -352,8 +324,7 @@ export function EnhancedAuthProvider({ children }: { children: React.ReactNode }
         isLoading: false,
         error: null,
         sessionExpiry: null,
-        securityLevel: 'basic',
-      });
+        securityLevel: 'basic'});
       
       router.push('/login');
     } catch (error: any) {
@@ -364,8 +335,7 @@ export function EnhancedAuthProvider({ children }: { children: React.ReactNode }
   const lockSession = useCallback(() => {
     setAuthState(prev => ({
       ...prev,
-      securityLevel: 'maximum',
-    }));
+      securityLevel: 'maximum'}));
     
     router.push('/session-locked');
   }, [router]);
@@ -381,9 +351,8 @@ export function EnhancedAuthProvider({ children }: { children: React.ReactNode }
     
     setAuthState(prev => ({
       ...prev,
-      securityLevel: level,
-    }));
-  }, [requireStepUpAuth, router]);
+      securityLevel: level}));
+  }, [requireStepUpAuthrouter]);
 
   const hasRole = useCallback((role: string): boolean => {
     return authState.user?.role === role;
@@ -412,9 +381,7 @@ export function EnhancedAuthProvider({ children }: { children: React.ReactNode }
         details,
         timestamp: new Date().toISOString(),
         ipAddress: window.location.hostname,
-        userAgent: navigator.userAgent,
-      }),
-    }).catch(console.error);
+        userAgent: navigator.userAgent})}).catch(console.error);
   }, [authState.user]);
 
   // Initialize auth state
@@ -430,13 +397,11 @@ export function EnhancedAuthProvider({ children }: { children: React.ReactNode }
           isLoading: false,
           error: null,
           sessionExpiry: new Date(Date.now() + 30 * 60 * 1000),
-          securityLevel: 'basic',
-        });
+          securityLevel: 'basic'});
       } catch (error) {
         setAuthState(prev => ({
           ...prev,
-          isLoading: false,
-        }));
+          isLoading: false}));
       }
     };
     
@@ -465,8 +430,7 @@ export function EnhancedAuthProvider({ children }: { children: React.ReactNode }
     extendSession: () => {
       setAuthState(prev => ({
         ...prev,
-        sessionExpiry: new Date(Date.now() + 30 * 60 * 1000),
-      }));
+        sessionExpiry: new Date(Date.now() + 30 * 60 * 1000)}));
     },
     lockSession,
     unlockSession: async (pin: string) => {
@@ -499,8 +463,7 @@ export function EnhancedAuthProvider({ children }: { children: React.ReactNode }
     getActivityLog: async () => {
       // Implement activity log retrieval
       return [];
-    },
-  };
+    };
 
   return (
     <AuthContext.Provider value={value}>
@@ -527,8 +490,7 @@ async function initializeUserProfile(userData: any): Promise<void> {
   await fetch('/api/users/profile', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(userData),
-  });
+    body: JSON.stringify(userData)});
 }
 
 async function getDeviceFingerprint(): Promise<string> {
@@ -558,5 +520,4 @@ const SignUpSchema = z.object({
   lastName: z.string().min(1),
   phoneNumber: z.string().optional(),
   role: z.string(),
-  acceptedTerms: z.boolean().refine(val => val === true),
-});
+  acceptedTerms: z.boolean().refine(val => val === true)});

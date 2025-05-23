@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 export interface RequestHandler {
-  (req: NextRequest, res: NextResponse, next?: () => void): Promise<void>;
+  (req: NextRequest, res: NextResponse, next?: () => void): Promise<void>\n  );
 }
 
 export interface User {
@@ -31,12 +31,11 @@ export interface CustomResponse extends NextResponse {
 export type ApiHandler = (
   req: NextRequest,
   context?: { params: Record<string, string> }
-) => Promise<NextResponse>;
-
+) => Promise<NextResponse>\n  );
 // Type for API request options
 export interface ApiRequestOptions {
   method?: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
-  headers?: Record<string, string>;
+  headers?: Record<string, string>\n  );
   body?: any;
   cache?: RequestCache;
   next?: NextFetchRequestConfig;
@@ -66,16 +65,15 @@ export interface SuccessResponse<T = any> {
 export interface MongoDbOptions {
   collection: string;
   database?: string;
-  query?: Record<string, any>;
-  projection?: Record<string, any>;
-  sort?: Record<string, any>;
+  query?: Record<string, any>\n  );
+  projection?: Record<string, any>\n  );
+  sort?: Record<string, any>\n  );
   limit?: number;
   skip?: number;
 }
 
 // Type helper for service functions
-export type ServiceFunction<T = any, R = any> = (params: T) => Promise<R>;
-
+export type ServiceFunction<T = any, R = any> = (params: T) => Promise<R>\n  );
 // Authentication response interface
 export interface AuthResponse {
   success: boolean;

@@ -6,13 +6,11 @@ import type { UseQueryOptions, UseMutationOptions } from '@tanstack/react-query'
 import type {
   QueryKey,
   QueryObserverOptions,
-  MutationObserverOptions,
-} from '@tanstack/react-query';
+  MutationObserverOptions} from '@tanstack/react-query';
 import { useCallback } from 'react';
 import type {
   GraphQLOperationContext,
-  GraphQLOperationOptions,
-} from '../types/graphql';
+  GraphQLOperationOptions} from '../types/graphql';
 import { createGraphQLResult, GraphQLErrorHandler } from '../types/graphql';
 import type { GraphQLResult as CommonGraphQLResult } from '../types/common';
 import { Logger } from '../utils/logger';
@@ -36,10 +34,10 @@ interface GraphQLResponse<T> {
     locations?: Array<{
       line: number;
       column: number;
-    }>;
-    path?: Array<string | number>;
-    extensions?: Record<string, unknown>;
-  }>;
+    }>\n  );
+    path?: Array<string | number>\n  );
+    extensions?: Record<string, unknown>\n  );
+  }>\n  );
 }
 
 interface GraphQLResult<T> extends CommonGraphQLResult<T> {
@@ -58,7 +56,7 @@ export function useGraphQLQuery<TData = unknown, TError = Error>(
   const queryFn = useCallback(async () => {
     const startTime = performance.now();
     const cacheKey = JSON.stringify({ query, variables });
-    
+
     try {
       // Check cache first
       const cachedData = await cacheManager.get(cacheKey);
@@ -72,8 +70,7 @@ export function useGraphQLQuery<TData = unknown, TError = Error>(
         operationType: 'query',
         operationName: query.split('{')[0].trim(),
         variables,
-        timestamp: new Date().toISOString(),
-      };
+        timestamp: new Date().toISOString()};
 
       // Execute query with timeout and retry logic
       const response = await Promise.race([
@@ -82,20 +79,18 @@ export function useGraphQLQuery<TData = unknown, TError = Error>(
           variables,
           authMode: 'userPool'
         }),
-        new Promise((_, reject) => 
+        new Promise((_reject: any) => 
           setTimeout(() => reject(new Error('Query timeout')), 30000)
-        ),
-      ]);
+        )]);
 
-      const result = createGraphQLResult(response, context, errorHandler);
+      const result = createGraphQLResult(response, contexterrorHandler);
 
       // Handle errors with proper context
       if (result.error) {
         errorReporter.captureError(result.error, {
           context,
           query,
-          variables,
-        });
+          variables});
 
         if (options?.throwOnError) {
           throw result.error;
@@ -104,7 +99,7 @@ export function useGraphQLQuery<TData = unknown, TError = Error>(
 
       // Cache successful results
       if (result.data) {
-        await cacheManager.set(cacheKey, result);
+        await cacheManager.set(cacheKeyresult);
       }
 
       // Track metrics
@@ -113,8 +108,7 @@ export function useGraphQLQuery<TData = unknown, TError = Error>(
         operation: context.operationName,
         duration,
         success: !result.error,
-        cacheHit: false,
-      });
+        cacheHit: false});
 
       if (result.error) {
         options?.onError?.(result.error);
@@ -129,31 +123,28 @@ export function useGraphQLQuery<TData = unknown, TError = Error>(
       errorReporter.captureError(error, {
         query,
         variables,
-        stack: (error as Error).stack,
-      });
+        stack: (error as Error).stack});
 
       metrics.recordQueryMetrics({
         operation: query.split('{')[0].trim(),
         duration: performance.now() - startTime,
         success: false,
-        error: error as Error,
-      });
+        error: error as Error});
 
       throw error;
     }
-  }, [query, variables, options]);
+  }, [query, variablesoptions]);
 
   return useQuery({
     queryKey,
     queryFn,
     retry: (failureCount: number, error: unknown) => {
       // Implement smart retry logic
-      if (error instanceof NetworkError) return failureCount < 3;
+      if (error instanceof NetworkError) return failureCount <3;
       if (error instanceof ValidationError) return false;
-      return failureCount < 2;
+      return failureCount <2;
     },
-    ...options,
-  });
+    ...options});
 }
 
 /**
@@ -171,8 +162,7 @@ export function useGraphQLMutation<TData = unknown, TVariables extends Record<st
         operationType: 'mutation',
         operationName: mutation.split('{')[0].trim(),
         variables,
-        timestamp: new Date().toISOString(),
-      };
+        timestamp: new Date().toISOString()};
 
       // Execute mutation with timeout
       const response = await Promise.race([
@@ -181,19 +171,17 @@ export function useGraphQLMutation<TData = unknown, TVariables extends Record<st
           variables,
           authMode: 'userPool'
         }),
-        new Promise((_, reject) => 
+        new Promise((_reject: any) => 
           setTimeout(() => reject(new Error('Mutation timeout')), 30000)
-        ),
-      ]);
+        )]);
 
-      const result = createGraphQLResult(response, context, errorHandler);
+      const result = createGraphQLResult(response, contexterrorHandler);
 
       if (result.error) {
         errorReporter.captureError(result.error, {
           context,
           mutation,
-          variables,
-        });
+          variables});
 
         if (options?.throwOnError) {
           throw result.error;
@@ -207,8 +195,7 @@ export function useGraphQLMutation<TData = unknown, TVariables extends Record<st
       metrics.recordMutationMetrics({
         operation: context.operationName,
         duration: performance.now() - startTime,
-        success: !result.error,
-      });
+        success: !result.error});
 
       if (result.error) {
         options?.onError?.(result.error);
@@ -223,30 +210,27 @@ export function useGraphQLMutation<TData = unknown, TVariables extends Record<st
       errorReporter.captureError(error, {
         mutation,
         variables,
-        stack: (error as Error).stack,
-      });
+        stack: (error as Error).stack});
 
       metrics.recordMutationMetrics({
         operation: mutation.split('{')[0].trim(),
         duration: performance.now() - startTime,
         success: false,
-        error: error as Error,
-      });
+        error: error as Error});
 
       throw error;
     }
-  }, [mutation, options]);
+  }, [mutationoptions]);
 
   return useMutation({
     mutationFn,
     retry: (failureCount: number, error: unknown) => {
       // Implement smart retry logic
-      if (error instanceof NetworkError) return failureCount < 2;
+      if (error instanceof NetworkError) return failureCount <2;
       if (error instanceof ValidationError) return false;
       return false;
     },
-    ...options,
-  });
+    ...options});
 }
 
 // Error classes for better error handling
@@ -266,5 +250,4 @@ class ValidationError extends Error {
 
 export default {
   useGraphQLQuery,
-  useGraphQLMutation,
-};
+  useGraphQLMutation};

@@ -1,3 +1,4 @@
+import React from 'react';
 "use client";
 
 import { useAuth } from "@/context/AuthContext";
@@ -38,11 +39,11 @@ type TransactionType = "all" | "buyer" | "vendor";
 
 export default function SolicitorDashboard() {
   const { user } = useAuth();
-  const [activeTab, setActiveTab] = useState("overview");
-  const [transactionType, setTransactionType] = useState<TransactionType>("all");
-  const [transactions, setTransactions] = useState<Transaction[]>([]);
-  const [documents, setDocuments] = useState<Document[]>([]);
-  const [notifications, setNotifications] = useState<Notification[]>([]);
+  const [activeTabsetActiveTab] = useState("overview");
+  const [transactionTypesetTransactionType] = useState<TransactionType>("all");
+  const [transactionssetTransactions] = useState<Transaction[]>([]);
+  const [documentssetDocuments] = useState<Document[]>([]);
+  const [notificationssetNotifications] = useState<Notification[]>([]);
 
   useEffect(() => {
     // In a real app, this would fetch data from the API
@@ -197,7 +198,7 @@ export default function SolicitorDashboard() {
 
   // Count unread notifications
   const unreadNotificationsCount = notifications.filter(n => !n.read).length;
-  
+
   // Count active transactions by type with explicit type definition
   const activeTransactionsCount: Record<TransactionType, number> = {
     all: transactions.filter(t => t.status === "In Progress").length,
@@ -332,13 +333,13 @@ export default function SolicitorDashboard() {
                     <h3 className="text-sm font-medium">
                       {transactionType === "buyer" 
                         ? "Buyer-Side Transactions" 
-                        : "Vendor-Side Transactions"}
+                        : "Vendor-Side Transactions"
                     </h3>
                     <div className="mt-2 text-sm">
                       <p>
                         {transactionType === "buyer" 
                           ? "You are viewing transactions where you represent the purchaser. These transactions typically involve reviewing contracts, conducting title searches, arranging financing, and ensuring the buyer's interests are protected."
-                          : "You are viewing transactions where you represent the property seller or developer. These transactions typically involve preparing contracts, addressing purchaser enquiries, and ensuring all regulatory requirements are met."}
+                          : "You are viewing transactions where you represent the property seller or developer. These transactions typically involve preparing contracts, addressing purchaser enquiries, and ensuring all regulatory requirements are met."
                       </p>
                     </div>
                   </div>
@@ -500,7 +501,7 @@ export default function SolicitorDashboard() {
               </h2>
               <div className="mt-4 bg-white shadow overflow-hidden sm:rounded-md">
                 <ul className="divide-y divide-gray-200">
-                  {filteredTransactions.map((transaction) => (
+                  {filteredTransactions.map((transaction: any) => (
                     <li key={transaction.id}>
                       <div className="px-4 py-4 sm:px-6">
                         <div className="flex items-center justify-between">
@@ -513,7 +514,7 @@ export default function SolicitorDashboard() {
                                 ? "bg-blue-100 text-blue-800" 
                                 : "bg-indigo-100 text-indigo-800"
                             }`}>
-                              {transaction.type === "buyer" ? "Buyer" : "Vendor"}
+                              {transaction.type === "buyer" ? "Buyer" : "Vendor"
                             </span>
                           </div>
                           <div className="ml-2 flex-shrink-0 flex">
@@ -541,7 +542,7 @@ export default function SolicitorDashboard() {
                           </div>
                         </div>
                         <div className="mt-2 text-sm text-gray-500">
-                          <p>{transaction.type === "buyer" ? "Vendor" : "Purchaser"}: {transaction.otherParty} ({transaction.otherPartySolicitor})</p>
+                          <p>{transaction.type === "buyer" ? "Vendor" : "Purchaser": {transaction.otherParty} ({transaction.otherPartySolicitor})</p>
                         </div>
                       </div>
                     </li>
@@ -588,7 +589,7 @@ export default function SolicitorDashboard() {
                 </Link>
               </div>
             </div>
-            
+
             {/* Transaction type explanation */}
             {transactionType !== "all" && (
               <div className={`p-4 mb-6 rounded-md ${
@@ -599,7 +600,7 @@ export default function SolicitorDashboard() {
                 <h3 className="text-sm font-medium mb-1 text-gray-900">
                   {transactionType === "buyer" 
                     ? "Buyer-Side Transaction Requirements" 
-                    : "Vendor-Side Transaction Requirements"}
+                    : "Vendor-Side Transaction Requirements"
                 </h3>
                 <div className="mt-1 text-sm text-gray-600">
                   <ul className="list-disc pl-5 space-y-1">
@@ -631,7 +632,7 @@ export default function SolicitorDashboard() {
 
             <div className="bg-white shadow overflow-hidden sm:rounded-md">
               <ul className="divide-y divide-gray-200">
-                {filteredTransactions.map((transaction) => (
+                {filteredTransactions.map((transaction: any) => (
                   <li key={transaction.id}>
                     <Link
                       href={`/solicitor/transactions/${transaction.id}`}
@@ -648,7 +649,7 @@ export default function SolicitorDashboard() {
                                 ? "bg-blue-100 text-blue-800" 
                                 : "bg-indigo-100 text-indigo-800"
                             }`}>
-                              {transaction.type === "buyer" ? "Buyer" : "Vendor"}
+                              {transaction.type === "buyer" ? "Buyer" : "Vendor"
                             </span>
                           </div>
                           <div className="ml-2 flex-shrink-0 flex">
@@ -678,7 +679,7 @@ export default function SolicitorDashboard() {
                           </div>
                         </div>
                         <div className="mt-2 text-sm text-gray-500">
-                          <p>{transaction.type === "buyer" ? "Vendor" : "Purchaser"}: {transaction.otherParty} ({transaction.otherPartySolicitor})</p>
+                          <p>{transaction.type === "buyer" ? "Vendor" : "Purchaser": {transaction.otherParty} ({transaction.otherPartySolicitor})</p>
                         </div>
                       </div>
                     </Link>
@@ -734,7 +735,7 @@ export default function SolicitorDashboard() {
                 <h3 className="text-sm font-medium mb-1 text-gray-900">
                   {transactionType === "buyer" 
                     ? "Required Buyer-Side Documents" 
-                    : "Required Vendor-Side Documents"}
+                    : "Required Vendor-Side Documents"
                 </h3>
                 <div className="mt-1 text-sm text-gray-600">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-1">
@@ -791,7 +792,7 @@ export default function SolicitorDashboard() {
 
             <div className="bg-white shadow overflow-hidden sm:rounded-md">
               <ul className="divide-y divide-gray-200">
-                {filteredDocuments.map((document) => (
+                {filteredDocuments.map((document: any) => (
                   <li key={document.id}>
                     <Link
                       href={`/solicitor/documents/${document.id}`}
@@ -808,7 +809,7 @@ export default function SolicitorDashboard() {
                                 ? "bg-blue-100 text-blue-800" 
                                 : "bg-indigo-100 text-indigo-800"
                             }`}>
-                              {document.transactionType === "buyer" ? "Buyer" : "Vendor"}
+                              {document.transactionType === "buyer" ? "Buyer" : "Vendor"
                             </span>
                           </div>
                           <div className="ml-2 flex-shrink-0 flex">
@@ -860,7 +861,7 @@ export default function SolicitorDashboard() {
                 New Verification
               </Link>
             </div>
-            
+
             {/* KYC Requirements based on transaction type */}
             <div className="mb-6 grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="bg-blue-50 border border-blue-200 p-4 rounded-md">
@@ -878,7 +879,7 @@ export default function SolicitorDashboard() {
                   </ul>
                 </div>
               </div>
-              
+
               <div className="bg-indigo-50 border border-indigo-200 p-4 rounded-md">
                 <h3 className="text-sm font-medium mb-1 text-gray-900">
                   Vendor-Side KYC Requirements
@@ -895,7 +896,7 @@ export default function SolicitorDashboard() {
                 </div>
               </div>
             </div>
-            
+
             <div className="bg-white shadow overflow-hidden sm:rounded-lg">
               <div className="px-4 py-5 sm:px-6">
                 <h3 className="text-lg leading-6 font-medium text-gray-900">
@@ -1041,7 +1042,7 @@ export default function SolicitorDashboard() {
             </div>
           </div>
         )}
-        
+
         {/* Transaction Guides Tab (New) */}
         {activeTab === "guides" && (
           <div>
@@ -1072,7 +1073,7 @@ export default function SolicitorDashboard() {
                 </button>
               </div>
             </div>
-           
+
             {transactionType === "buyer" && (
               <div className="space-y-6">
                 <div className="bg-white overflow-hidden shadow rounded-lg">
@@ -1132,7 +1133,7 @@ export default function SolicitorDashboard() {
                     </div>
                   </div>
                 </div>
-                
+
                 <div className="bg-white overflow-hidden shadow rounded-lg">
                   <div className="px-4 py-5 sm:p-6">
                     <h3 className="text-lg leading-6 font-medium text-gray-900">New Build Buyer: Essential Checklist</h3>
@@ -1187,7 +1188,7 @@ export default function SolicitorDashboard() {
                 </div>
               </div>
             )}
-            
+
             {transactionType === "vendor" && (
               <div className="space-y-6">
                 <div className="bg-white overflow-hidden shadow rounded-lg">
@@ -1247,7 +1248,7 @@ export default function SolicitorDashboard() {
                     </div>
                   </div>
                 </div>
-                
+
                 <div className="bg-white overflow-hidden shadow rounded-lg">
                   <div className="px-4 py-5 sm:p-6">
                     <h3 className="text-lg leading-6 font-medium text-gray-900">Developer's Documentation Guide</h3>
@@ -1303,7 +1304,7 @@ export default function SolicitorDashboard() {
                 </div>
               </div>
             )}
-            
+
             {transactionType === "all" && (
               <div className="py-10 text-center text-gray-500">
                 <svg className="mx-auto h-12 w-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">

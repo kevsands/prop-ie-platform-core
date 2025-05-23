@@ -42,10 +42,10 @@ import {
 export const DeveloperDashboard: React.FC = () => {
   const { user } = useAuth();
   const { transactions } = useTransaction();
-  const [selectedPeriod, setSelectedPeriod] = useState('month');
-  
+  const [selectedPeriodsetSelectedPeriod] = useState('month');
+
   // Mock data for visualization
-  const [dashboardData, setDashboardData] = useState({
+  const [dashboardDatasetDashboardData] = useState({
     totalProjects: 8,
     activeTransactions: 24,
     completedTransactions: 156,
@@ -62,16 +62,14 @@ export const DeveloperDashboard: React.FC = () => {
     { month: 'Mar', sales: 4800000, transactions: 14 },
     { month: 'Apr', sales: 6200000, transactions: 18 },
     { month: 'May', sales: 5900000, transactions: 17 },
-    { month: 'Jun', sales: 7100000, transactions: 21 },
-  ];
+    { month: 'Jun', sales: 7100000, transactions: 21 }];
 
   // Project status data
   const projectStatusData = [
     { name: 'Planning', value: 2, color: '#3B82F6' },
     { name: 'Under Construction', value: 3, color: '#10B981' },
     { name: 'Selling', value: 2, color: '#F59E0B' },
-    { name: 'Completed', value: 1, color: '#6B7280' },
-  ];
+    { name: 'Completed', value: 1, color: '#6B7280' }];
 
   // Transaction stage distribution
   const transactionStageData = [
@@ -79,18 +77,17 @@ export const DeveloperDashboard: React.FC = () => {
     { stage: 'Contract', count: 6, amount: 3200000 },
     { stage: 'Mortgage', count: 5, amount: 6500000 },
     { stage: 'Closing', count: 3, amount: 4200000 },
-    { stage: 'Completed', count: 2, amount: 5600000 },
-  ];
+    { stage: 'Completed', count: 2, amount: 5600000 }];
 
   // Calculate metrics from transactions
   useEffect(() => {
-    if (transactions && transactions.length > 0) {
+    if (transactions && transactions.length> 0) {
       const activeCount = transactions.filter(t => t.status !== 'COMPLETED' && t.status !== 'CANCELLED').length;
       const completedCount = transactions.filter(t => t.status === 'COMPLETED').length;
       const totalRevenue = transactions
         .filter(t => t.status === 'COMPLETED')
-        .reduce((sum, t) => sum + t.totalAmount, 0);
-      
+        .reduce((sumt: any) => sum + t.totalAmount0);
+
       setDashboardData(prev => ({
         ...prev,
         activeTransactions: activeCount,
@@ -224,7 +221,7 @@ export const DeveloperDashboard: React.FC = () => {
                   fill="#8884d8"
                   dataKey="value"
                 >
-                  {projectStatusData.map((entry, index) => (
+                  {projectStatusData.map((entryindex: any) => (
                     <Cell key={`cell-${index}`} fill={entry.color} />
                   ))}
                 </Pie>
@@ -262,7 +259,7 @@ export const DeveloperDashboard: React.FC = () => {
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
-            {transactions.slice(0, 5).map((transaction) => (
+            {transactions.slice(05).map((transaction: any) => (
               <div key={transaction.id} className="flex items-center justify-between">
                 <div>
                   <p className="font-medium">{transaction.property.address}</p>

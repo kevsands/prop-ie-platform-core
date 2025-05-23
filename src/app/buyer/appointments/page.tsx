@@ -1,3 +1,4 @@
+import React from 'react';
 'use client';
 
 import { useState } from 'react';
@@ -24,11 +25,11 @@ interface Appointment {
 }
 
 export default function AppointmentsPage() {
-  const [selectedDate, setSelectedDate] = useState(new Date());
-  const [viewMode, setViewMode] = useState<'calendar' | 'list'>('calendar');
-  const [filterType, setFilterType] = useState<string>('all');
-  const [showNewAppointment, setShowNewAppointment] = useState(false);
-  
+  const [selectedDatesetSelectedDate] = useState(new Date());
+  const [viewModesetViewMode] = useState<'calendar' | 'list'>('calendar');
+  const [filterTypesetFilterType] = useState<string>('all');
+  const [showNewAppointmentsetShowNewAppointment] = useState(false);
+
   // Mock appointments data
   const appointments: Appointment[] = [
     {
@@ -89,7 +90,7 @@ export default function AppointmentsPage() {
       status: 'completed'
     }
   ];
-  
+
   // Filter appointments
   const filteredAppointments = appointments.filter(apt => {
     if (filterType === 'all') return true;
@@ -97,43 +98,43 @@ export default function AppointmentsPage() {
     if (filterType === 'completed') return apt.status === 'completed';
     return apt.type === filterType;
   });
-  
+
   // Get appointments for selected date
   const selectedDateAppointments = filteredAppointments.filter(apt => 
-    isSameDay(apt.date, selectedDate)
+    isSameDay(apt.dateselectedDate)
   );
-  
+
   // Get upcoming appointments
   const upcomingAppointments = filteredAppointments
-    .filter(apt => apt.status === 'upcoming' && apt.date > new Date())
-    .sort((a, b) => a.date.getTime() - b.date.getTime())
-    .slice(0, 5);
-  
+    .filter(apt => apt.status === 'upcoming' && apt.date> new Date())
+    .sort((ab: any) => a.date.getTime() - b.date.getTime())
+    .slice(05);
+
   const getAppointmentIcon = (type: string) => {
     switch (type) {
-      case 'viewing': return <Home className="h-5 w-5 text-blue-600" />;
-      case 'meeting': return <Building className="h-5 w-5 text-purple-600" />;
-      case 'call': return <Phone className="h-5 w-5 text-green-600" />;
-      case 'video': return <Video className="h-5 w-5 text-orange-600" />;
-      default: return <Calendar className="h-5 w-5 text-gray-600" />;
+      case 'viewing': return <Home className="h-5 w-5 text-blue-600" />\n  );
+      case 'meeting': return <Building className="h-5 w-5 text-purple-600" />\n  );
+      case 'call': return <Phone className="h-5 w-5 text-green-600" />\n  );
+      case 'video': return <Video className="h-5 w-5 text-orange-600" />\n  );
+      default: return <Calendar className="h-5 w-5 text-gray-600" />\n  );
     }
   };
-  
+
   const renderCalendarView = () => {
     const startDate = startOfWeek(selectedDate);
     const days = [];
-    
-    for (let i = 0; i < 7; i++) {
-      const date = addDays(startDate, i);
+
+    for (let i = 0; i <7; i++) {
+      const date = addDays(startDatei);
       const dayAppointments = filteredAppointments.filter(apt => 
-        isSameDay(apt.date, date)
+        isSameDay(apt.datedate)
       );
-      
+
       days.push(
         <div 
           key={i}
           className={`border rounded-lg p-4 cursor-pointer transition-colors ${
-            isSameDay(date, selectedDate) 
+            isSameDay(dateselectedDate) 
               ? 'bg-blue-50 border-blue-300' 
               : 'hover:bg-gray-50'
           }`}
@@ -146,12 +147,12 @@ export default function AppointmentsPage() {
             {format(date, 'd')}
           </p>
           <div className="mt-2 space-y-1">
-            {dayAppointments.slice(0, 3).map((apt) => (
+            {dayAppointments.slice(03).map((apt: any) => (
               <div key={apt.id} className="text-xs p-1 bg-blue-100 rounded truncate">
                 {format(apt.date, 'HH:mm')} - {apt.title}
               </div>
             ))}
-            {dayAppointments.length > 3 && (
+            {dayAppointments.length> 3 && (
               <p className="text-xs text-gray-500">
                 +{dayAppointments.length - 3} more
               </p>
@@ -160,10 +161,10 @@ export default function AppointmentsPage() {
         </div>
       );
     }
-    
+
     return days;
   };
-  
+
   return (
     <div className="flex-1 p-8">
       <div className="max-w-7xl mx-auto">
@@ -181,7 +182,7 @@ export default function AppointmentsPage() {
             New Appointment
           </button>
         </div>
-        
+
         {/* View Toggle and Filters */}
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-2">
@@ -206,12 +207,12 @@ export default function AppointmentsPage() {
               List
             </button>
           </div>
-          
+
           <div className="flex items-center gap-2">
             <Filter className="h-5 w-5 text-gray-500" />
             <select
               value={filterType}
-              onChange={(e) => setFilterType(e.target.value)}
+              onChange={(e: any) => setFilterType(e.target.value)}
               className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             >
               <option value="all">All Appointments</option>
@@ -224,7 +225,7 @@ export default function AppointmentsPage() {
             </select>
           </div>
         </div>
-        
+
         <div className="grid lg:grid-cols-3 gap-6">
           {/* Main Content */}
           <div className="lg:col-span-2 space-y-6">
@@ -245,20 +246,20 @@ export default function AppointmentsPage() {
                       </button>
                     </div>
                   </div>
-                  
+
                   <div className="grid grid-cols-7 gap-4">
                     {renderCalendarView()}
                   </div>
                 </div>
-                
+
                 {/* Selected Date Appointments */}
                 <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
                   <h3 className="text-lg font-semibold text-gray-900 mb-4">
                     {format(selectedDate, 'EEEE, MMMM d')}
                   </h3>
-                  {selectedDateAppointments.length > 0 ? (
+                  {selectedDateAppointments.length> 0 ? (
                     <div className="space-y-4">
-                      {selectedDateAppointments.map((apt) => (
+                      {selectedDateAppointments.map((apt: any) => (
                         <div 
                           key={apt.id}
                           className="border rounded-lg p-4 hover:bg-gray-50 transition-colors cursor-pointer"
@@ -302,7 +303,7 @@ export default function AppointmentsPage() {
                   All Appointments
                 </h3>
                 <div className="space-y-4">
-                  {filteredAppointments.map((apt) => (
+                  {filteredAppointments.map((apt: any) => (
                     <div 
                       key={apt.id}
                       className="border rounded-lg p-4 hover:bg-gray-50 transition-colors cursor-pointer"
@@ -350,7 +351,7 @@ export default function AppointmentsPage() {
               </div>
             )}
           </div>
-          
+
           {/* Sidebar */}
           <div className="space-y-6">
             {/* Upcoming Appointments */}
@@ -358,9 +359,9 @@ export default function AppointmentsPage() {
               <h3 className="text-lg font-semibold text-gray-900 mb-4">
                 Upcoming Appointments
               </h3>
-              {upcomingAppointments.length > 0 ? (
+              {upcomingAppointments.length> 0 ? (
                 <div className="space-y-3">
-                  {upcomingAppointments.map((apt) => (
+                  {upcomingAppointments.map((apt: any) => (
                     <div 
                       key={apt.id}
                       className="p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer"
@@ -383,7 +384,7 @@ export default function AppointmentsPage() {
                 <p className="text-gray-500 text-sm">No upcoming appointments</p>
               )}
             </div>
-            
+
             {/* Quick Actions */}
             <div className="bg-blue-50 rounded-xl p-6 border border-blue-200">
               <h3 className="text-lg font-semibold text-blue-900 mb-4">

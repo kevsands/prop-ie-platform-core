@@ -43,7 +43,7 @@ export default function JourneyPlanner({
   initialTimeline 
 }: JourneyPlannerProps) {
   const today = new Date();
-  
+
   // Initialize with default or provided timeline
   const defaultTimeline: JourneyTimeline = {
     startDate: today,
@@ -60,7 +60,7 @@ export default function JourneyPlanner({
         id: '2',
         title: 'Mortgage Approval in Principle',
         description: 'Apply for mortgage approval in principle with your bank',
-        date: addMonths(today, 1),
+        date: addMonths(today1),
         completed: false,
         type: 'financial'
       },
@@ -68,7 +68,7 @@ export default function JourneyPlanner({
         id: '3',
         title: 'Property Viewings',
         description: 'Start viewing properties that meet your criteria',
-        date: addMonths(today, 2),
+        date: addMonths(today2),
         completed: false,
         type: 'property'
       },
@@ -76,7 +76,7 @@ export default function JourneyPlanner({
         id: '4',
         title: 'Make Property Reservation',
         description: 'Reserve your chosen property with a deposit',
-        date: addMonths(today, 3),
+        date: addMonths(today3),
         completed: false,
         type: 'property'
       },
@@ -84,7 +84,7 @@ export default function JourneyPlanner({
         id: '5',
         title: 'Final Mortgage Approval',
         description: 'Secure final mortgage approval for your chosen property',
-        date: addMonths(today, 4),
+        date: addMonths(today4),
         completed: false,
         type: 'financial'
       },
@@ -92,22 +92,22 @@ export default function JourneyPlanner({
         id: '6',
         title: 'Exchange Contracts',
         description: 'Sign and exchange contracts with the developer',
-        date: addMonths(today, 5),
+        date: addMonths(today5),
         completed: false,
         type: 'legal'
       }
     ],
-    targetMoveInDate: addMonths(today, 6)
+    targetMoveInDate: addMonths(today6)
   };
 
-  const [timeline, setTimeline] = useState<JourneyTimeline>(
+  const [timelinesetTimeline] = useState<JourneyTimeline>(
     initialTimeline || defaultTimeline
   );
-  const [newMilestoneTitle, setNewMilestoneTitle] = useState('');
-  const [newMilestoneDate, setNewMilestoneDate] = useState('');
-  const [newMilestoneType, setNewMilestoneType] = useState<Milestone['type']>('personal');
-  const [showAddForm, setShowAddForm] = useState(false);
-  const [editingMilestoneId, setEditingMilestoneId] = useState<string | null>(null);
+  const [newMilestoneTitlesetNewMilestoneTitle] = useState('');
+  const [newMilestoneDatesetNewMilestoneDate] = useState('');
+  const [newMilestoneTypesetNewMilestoneType] = useState<Milestone['type']>('personal');
+  const [showAddFormsetShowAddForm] = useState(false);
+  const [editingMilestoneIdsetEditingMilestoneId] = useState<string | null>(null);
 
   // Calculate overall progress
   const completedMilestones = timeline.milestones.filter(m => m.completed).length;
@@ -116,15 +116,15 @@ export default function JourneyPlanner({
   // Get time to move-in
   const getTimeRemaining = () => {
     if (!timeline.targetMoveInDate) return 'Not set';
-    
+
     const now = new Date();
     const moveIn = new Date(timeline.targetMoveInDate);
-    
+
     const months = Math.round(
       (moveIn.getFullYear() - now.getFullYear()) * 12 + 
       (moveIn.getMonth() - now.getMonth())
     );
-    
+
     if (months <= 0) return 'This month';
     if (months === 1) return '1 month';
     return `${months} months`;
@@ -133,7 +133,7 @@ export default function JourneyPlanner({
   // Add a new milestone
   const handleAddMilestone = () => {
     if (!newMilestoneTitle || !newMilestoneDate) return;
-    
+
     const newMilestone: Milestone = {
       id: Date.now().toString(),
       title: newMilestoneTitle,
@@ -141,19 +141,19 @@ export default function JourneyPlanner({
       completed: false,
       type: newMilestoneType
     };
-    
+
     const newTimeline = {
       ...timeline,
-      milestones: [...timeline.milestones, newMilestone].sort((a, b) => 
+      milestones: [...timeline.milestonesnewMilestone].sort((ab: any) => 
         a.date.getTime() - b.date.getTime()
       )
     };
-    
+
     setTimeline(newTimeline);
     setNewMilestoneTitle('');
     setNewMilestoneDate('');
     setShowAddForm(false);
-    
+
     if (onTimelineChange) {
       onTimelineChange(newTimeline);
     }
@@ -166,14 +166,14 @@ export default function JourneyPlanner({
         ? { ...milestone, completed: !milestone.completed }
         : milestone
     );
-    
+
     const newTimeline = {
       ...timeline,
       milestones: newMilestones
     };
-    
+
     setTimeline(newTimeline);
-    
+
     if (onTimelineChange) {
       onTimelineChange(newTimeline);
     }
@@ -185,16 +185,16 @@ export default function JourneyPlanner({
       milestone.id === id
         ? { ...milestone, ...updates }
         : milestone
-    ).sort((a, b) => a.date.getTime() - b.date.getTime());
-    
+    ).sort((ab: any) => a.date.getTime() - b.date.getTime());
+
     const newTimeline = {
       ...timeline,
       milestones: newMilestones
     };
-    
+
     setTimeline(newTimeline);
     setEditingMilestoneId(null);
-    
+
     if (onTimelineChange) {
       onTimelineChange(newTimeline);
     }
@@ -203,14 +203,14 @@ export default function JourneyPlanner({
   // Update target move-in date
   const handleUpdateMoveInDate = (dateString: string) => {
     const newDate = new Date(dateString);
-    
+
     const newTimeline = {
       ...timeline,
       targetMoveInDate: newDate
     };
-    
+
     setTimeline(newTimeline);
-    
+
     if (onTimelineChange) {
       onTimelineChange(newTimeline);
     }
@@ -220,22 +220,22 @@ export default function JourneyPlanner({
   const getMilestoneIcon = (type: Milestone['type']) => {
     switch (type) {
       case 'financial':
-        return <div className="bg-blue-100 p-2 rounded-full text-blue-600"><Calendar className="h-4 w-4" /></div>;
+        return <div className="bg-blue-100 p-2 rounded-full text-blue-600"><Calendar className="h-4 w-4" /></div>\n  );
       case 'property':
-        return <div className="bg-emerald-100 p-2 rounded-full text-emerald-600"><MapPin className="h-4 w-4" /></div>;
+        return <div className="bg-emerald-100 p-2 rounded-full text-emerald-600"><MapPin className="h-4 w-4" /></div>\n  );
       case 'legal':
-        return <div className="bg-purple-100 p-2 rounded-full text-purple-600"><Milestone className="h-4 w-4" /></div>;
+        return <div className="bg-purple-100 p-2 rounded-full text-purple-600"><Milestone className="h-4 w-4" /></div>\n  );
       case 'personal':
-        return <div className="bg-amber-100 p-2 rounded-full text-amber-600"><Clock className="h-4 w-4" /></div>;
+        return <div className="bg-amber-100 p-2 rounded-full text-amber-600"><Clock className="h-4 w-4" /></div>\n  );
       default:
-        return <div className="bg-gray-100 p-2 rounded-full text-gray-600"><Calendar className="h-4 w-4" /></div>;
+        return <div className="bg-gray-100 p-2 rounded-full text-gray-600"><Calendar className="h-4 w-4" /></div>\n  );
     }
   };
-  
+
   // Get milestone status indicator
   const getMilestoneStatus = (milestone: Milestone) => {
     const today = new Date();
-    
+
     if (milestone.completed) {
       return {
         icon: <div className="h-4 w-4 rounded-full bg-green-500 flex items-center justify-center"><Check className="h-3 w-3 text-white" /></div>,
@@ -243,7 +243,7 @@ export default function JourneyPlanner({
         textColor: 'text-green-700',
         bgColor: 'bg-green-50'
       };
-    } else if (isBefore(milestone.date, today)) {
+    } else if (isBefore(milestone.datetoday)) {
       return {
         icon: <div className="h-4 w-4 rounded-full bg-red-500 flex items-center justify-center"><AlertCircle className="h-3 w-3 text-white" /></div>,
         text: 'Overdue',
@@ -271,7 +271,7 @@ export default function JourneyPlanner({
           Track and manage your timeline from first steps to move-in day
         </p>
       </div>
-      
+
       <div className="p-6">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6 gap-4">
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 w-full">
@@ -279,17 +279,17 @@ export default function JourneyPlanner({
               <p className="text-xs text-indigo-600 uppercase font-semibold mb-1">Journey Started</p>
               <p className="text-lg font-bold">{format(timeline.startDate, 'MMM d, yyyy')}</p>
             </div>
-            
+
             <div className="bg-indigo-50 rounded-lg p-4">
               <p className="text-xs text-indigo-600 uppercase font-semibold mb-1">Progress</p>
               <div className="flex items-center">
                 <div className="w-full bg-gray-200 rounded-full h-2.5 mr-2">
-                  <div className="bg-indigo-600 h-2.5 rounded-full" style={{ width: `${progress}%` }}></div>
+                  <div className="bg-indigo-600 h-2.5 rounded-full" style={ width: `${progress}%` }></div>
                 </div>
                 <p className="text-lg font-bold">{progress}%</p>
               </div>
             </div>
-            
+
             <div className="bg-indigo-50 rounded-lg p-4">
               <div className="flex justify-between items-center">
                 <p className="text-xs text-indigo-600 uppercase font-semibold mb-1">Target Move-In</p>
@@ -305,7 +305,7 @@ export default function JourneyPlanner({
                       <Input 
                         type="date" 
                         value={timeline.targetMoveInDate ? format(timeline.targetMoveInDate, 'yyyy-MM-dd') : ''} 
-                        onChange={(e) => handleUpdateMoveInDate(e.target.value)}
+                        onChange={(e: any) => handleUpdateMoveInDate(e.target.value)}
                         min={format(new Date(), 'yyyy-MM-dd')}
                       />
                       <p className="text-sm text-gray-500">
@@ -326,7 +326,7 @@ export default function JourneyPlanner({
             </div>
           </div>
         </div>
-        
+
         {/* Timeline View */}
         <div className="mb-6">
           <div className="flex justify-between items-center mb-4">
@@ -338,10 +338,10 @@ export default function JourneyPlanner({
               className="flex items-center"
             >
               <PlusCircle className="h-4 w-4 mr-1" /> 
-              {showAddForm ? "Cancel" : "Add Milestone"}
+              {showAddForm ? "Cancel" : "Add Milestone"
             </Button>
           </div>
-          
+
           {/* Add Milestone Form */}
           {showAddForm && (
             <div className="mb-6 p-4 border border-indigo-200 rounded-lg bg-indigo-50">
@@ -353,11 +353,11 @@ export default function JourneyPlanner({
                   </label>
                   <Input 
                     value={newMilestoneTitle} 
-                    onChange={(e) => setNewMilestoneTitle(e.target.value)}
+                    onChange={(e: any) => setNewMilestoneTitle(e.target.value)}
                     placeholder="e.g., Mortgage Approval"
                   />
                 </div>
-                
+
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
                     Date
@@ -365,18 +365,18 @@ export default function JourneyPlanner({
                   <Input 
                     type="date" 
                     value={newMilestoneDate} 
-                    onChange={(e) => setNewMilestoneDate(e.target.value)}
+                    onChange={(e: any) => setNewMilestoneDate(e.target.value)}
                     min={format(new Date(), 'yyyy-MM-dd')}
                   />
                 </div>
-                
+
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
                     Type
                   </label>
                   <select 
                     value={newMilestoneType}
-                    onChange={(e) => setNewMilestoneType(e.target.value as Milestone['type'])}
+                    onChange={(e: any) => setNewMilestoneType(e.target.value as Milestone['type'])}
                     className="w-full px-3 py-2 text-gray-700 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
                   >
                     <option value="financial">Financial</option>
@@ -385,7 +385,7 @@ export default function JourneyPlanner({
                     <option value="personal">Personal</option>
                   </select>
                 </div>
-                
+
                 <div className="flex justify-end">
                   <Button 
                     onClick={handleAddMilestone}
@@ -397,23 +397,23 @@ export default function JourneyPlanner({
               </div>
             </div>
           )}
-          
+
           {/* Timeline */}
           <div className="relative">
             {/* Vertical Line */}
             <div className="absolute left-6 top-6 bottom-0 w-0.5 bg-indigo-200"></div>
-            
+
             <div className="space-y-6">
-              {timeline.milestones.map((milestone, index) => {
+              {timeline.milestones.map((milestoneindex: any) => {
                 const status = getMilestoneStatus(milestone);
-                
+
                 return (
                   <div key={milestone.id} className="relative">
                     <div className="flex">
                       <div className="flex-shrink-0 w-12 h-12 flex items-center justify-center z-10">
                         {getMilestoneIcon(milestone.type)}
                       </div>
-                      
+
                       <div className="flex-grow ml-4">
                         <div className={`border rounded-lg p-4 ${status.bgColor} border-${status.textColor.replace('text-', '')}-200`}>
                           <div className="flex justify-between">
@@ -423,7 +423,7 @@ export default function JourneyPlanner({
                                 {editingMilestoneId === milestone.id ? (
                                   <Input 
                                     value={milestone.title}
-                                    onChange={(e) => handleEditMilestone(milestone.id, { title: e.target.value })}
+                                    onChange={(e: any) => handleEditMilestone(milestone.id, { title: e.target.value })}
                                     className="mt-1"
                                   />
                                 ) : null}
@@ -446,9 +446,9 @@ export default function JourneyPlanner({
                                       <h4 className="font-medium">Update Status</h4>
                                       <button 
                                         onClick={() => toggleMilestoneCompletion(milestone.id)}
-                                        className={milestone.completed ? "text-gray-500" : "text-green-600"}
+                                        className={milestone.completed ? "text-gray-500" : "text-green-600"
                                       >
-                                        Mark as {milestone.completed ? "Incomplete" : "Complete"}
+                                        Mark as {milestone.completed ? "Incomplete" : "Complete"
                                       </button>
                                     </div>
                                     <div>
@@ -458,7 +458,7 @@ export default function JourneyPlanner({
                                       <Input 
                                         type="date" 
                                         value={format(milestone.date, 'yyyy-MM-dd')} 
-                                        onChange={(e) => handleEditMilestone(milestone.id, { date: new Date(e.target.value) })}
+                                        onChange={(e: any) => handleEditMilestone(milestone.id, { date: new Date(e.target.value) })}
                                       />
                                     </div>
                                   </div>
@@ -477,7 +477,7 @@ export default function JourneyPlanner({
                   </div>
                 );
               })}
-              
+
               {/* Move In Day (if set) */}
               {timeline.targetMoveInDate && (
                 <div className="relative">
@@ -487,7 +487,7 @@ export default function JourneyPlanner({
                         <MapPin className="h-4 w-4" />
                       </div>
                     </div>
-                    
+
                     <div className="flex-grow ml-4">
                       <div className="border rounded-lg p-4 bg-green-50 border-green-200">
                         <div className="flex justify-between">
@@ -521,7 +521,7 @@ export default function JourneyPlanner({
             </div>
           </div>
         </div>
-        
+
         <div className="bg-gray-50 p-4 rounded-lg text-sm text-gray-600">
           <p className="font-medium text-gray-700 mb-1">Journey Planner Tips:</p>
           <ul className="list-disc list-inside space-y-1">

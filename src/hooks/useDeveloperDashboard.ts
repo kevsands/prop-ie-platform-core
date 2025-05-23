@@ -116,7 +116,7 @@ const DASHBOARD_PREFERENCES_KEY = 'developer_dashboard_preferences';
  * Hook for managing dashboard preferences
  */
 export function useDashboardPreferences() {
-  const [preferences, setPreferencesState] = useState<DashboardPreferences>(DEFAULT_PREFERENCES);
+  const [preferencessetPreferencesState] = useState<DashboardPreferences>(DEFAULT_PREFERENCES);
 
   // Load preferences from localStorage on initial render
   useEffect(() => {
@@ -126,7 +126,7 @@ export function useDashboardPreferences() {
         setPreferencesState(JSON.parse(savedPreferences));
       }
     } catch (error) {
-      console.error('Error loading dashboard preferences:', error);
+
     }
   }, []);
 
@@ -137,7 +137,7 @@ export function useDashboardPreferences() {
       try {
         localStorage.setItem(DASHBOARD_PREFERENCES_KEY, JSON.stringify(updatedPreferences));
       } catch (error) {
-        console.error('Error saving dashboard preferences:', error);
+
       }
       return updatedPreferences;
     });
@@ -220,7 +220,7 @@ export function useDeveloperDashboardOverview(
   `;
 
   return useGraphQLQuery<{ developerDashboard: DeveloperDashboardData }, Error>(
-    ['developerDashboard', filter, dateRange],
+    ['developerDashboard', filterdateRange],
     query,
     { filter, dateRange },
     { refetchOnWindowFocus: false, staleTime: 5 * 60 * 1000, ...options }
@@ -290,7 +290,7 @@ export function useFinancialDashboard(
   `;
 
   return useGraphQLQuery<{ financialDashboard: FinancialSummary }, Error>(
-    ['financialDashboard', filter, dateRange],
+    ['financialDashboard', filterdateRange],
     query,
     { filter, dateRange },
     { refetchOnWindowFocus: false, staleTime: 5 * 60 * 1000, ...options }

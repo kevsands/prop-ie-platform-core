@@ -33,12 +33,12 @@ const CustomizationSummary: React.FC<CustomizationSummaryProps> = () => {
   return (
     <div className="customization-summary p-4 border rounded-lg shadow-sm bg-white">
       <h3 className="text-xl font-semibold mb-4 border-b pb-2">Your Customization Summary</h3>
-      
+
       {optionsByRoom.length === 0 ? (
         <p className="text-gray-600">No options selected yet.</p>
       ) : (
         <div className="space-y-4">
-          {optionsByRoom.map(([room, options]) => (
+          {optionsByRoom.map(([roomoptions]) => (
             <div key={room}>
               <h4 className="text-lg font-medium capitalize mb-2">{room.replace('-', ' ')}</h4>
               <ul className="list-disc list-inside space-y-1 pl-4 text-sm">
@@ -60,7 +60,7 @@ const CustomizationSummary: React.FC<CustomizationSummaryProps> = () => {
           <span>€{totalCost.toFixed(2)}</span>
         </p>
       </div>
-      
+
       {/* Optional: Add buttons for actions like Edit or Proceed */}
       {/* 
       <div className="mt-4 flex justify-end space-x-2">

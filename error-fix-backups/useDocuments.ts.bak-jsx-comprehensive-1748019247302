@@ -1,0 +1,486 @@
+import { 
+  useQuery,
+  useMutation,
+  useQueryClient,
+  UseQueryResult,
+  UseMutationResult
+} from '@tanstack/react-query';
+import { GraphQLClient } from 'graphql-request';
+import { 
+  GET_DOCUMENTS, 
+  GET_DOCUMENT_BY_ID, 
+  GET_DOCUMENT_CATEGORIES,
+  GET_DOCUMENT_STATS,
+  GET_DOCUMENT_COMPLIANCE
+} from '../lib/graphql/documents/queries';
+import {
+  CREATE_DOCUMENT,
+  UPDATE_DOCUMENT,
+  CHANGE_DOCUMENT_STATUS,
+  CREATE_DOCUMENT_VERSION,
+  SIGN_DOCUMENT,
+  ARCHIVE_DOCUMENT,
+  REQUEST_DOCUMENT_UPLOAD_URL
+} from '../lib/graphql/documents/mutations';
+
+// Type definitions based on GraphQL schema
+export interface DocumentSummary {
+  id: string;
+  name: string;
+  type: string;
+  status: DocumentStatus;
+  category: DocumentCategoryType;
+  fileUrl: string;
+  fileType: string;
+  uploadedBy: {
+    id: string;
+    name: string;
+    email: string;
+  };
+  uploadDate: string;
+  version: number;
+  signatureRequired: boolean;
+}
+
+export interface Document extends DocumentSummary {
+  description?: string;
+  fileSize: number;
+  expiryDate?: string;
+  tags: string[];
+  relatedTo?: {
+    type: string;
+    id: string;
+    name: string;
+  };
+  metadata?: any;
+  signatureStatus?: string;
+  previousVersions: DocumentVersion[];
+  signatures: DocumentSignature[];
+}
+
+export interface DocumentVersion {
+  id: string;
+  versionNumber: number;
+  fileUrl: string;
+  createdBy: {
+    id: string;
+    name: string;
+    email: string;
+  };
+  created: string;
+  notes?: string;
+  changes?: string;
+  size: number;
+  checksum?: string;
+}
+
+export interface DocumentSignature {
+  id: string;
+  signerId: string;
+  signerName: string;
+  signatureDate: string;
+  signatureImageUrl?: string;
+  signaturePosition?: any;
+  signatureMethod: string;
+  ipAddress?: string;
+  verified: boolean;
+  verificationMethod?: string;
+  certificateUrl?: string;
+}
+
+export interface DocumentCategory {
+  id: string;
+  name: string;
+  description?: string;
+  required: boolean;
+  documentCount: number;
+  completionStatus: string;
+}
+
+export interface DocumentStats {
+  totalCount: number;
+  byStatus: Array<{ status: DocumentStatus; count: number }>;
+  byCategory: Array<{ category: DocumentCategory; count: number }>;
+  completionRate: number;
+  recentActivity: Array<{
+    documentId: string;
+    action: string;
+    timestamp: string;
+    user: {
+      id: string;
+      name: string;
+    };
+  }>;
+}
+
+export interface DocumentCompliance {
+  overallComplianceRate: number;
+  requiredDocuments: Array<{
+    categoryId: string;
+    categoryName: string;
+    documentsRequired: number;
+    documentsSubmitted: number;
+    complianceRate: number;
+    status: string;
+  }>;
+  upcomingDeadlines: Array<{
+    documentType: string;
+    deadline: string;
+    daysRemaining: number;
+    status: string;
+  }>;
+}
+
+// Change enum to type to avoid declaration conflicts
+export type DocumentStatus = 
+  | 'DRAFT'
+  | 'PENDING_REVIEW'
+  | 'APPROVED'
+  | 'REJECTED'
+  | 'EXPIRED'
+  | 'REVOKED'
+  | 'ARCHIVED';
+
+export const DocumentStatus = {
+  DRAFT: 'DRAFT' as DocumentStatus,
+  PENDING_REVIEW: 'PENDING_REVIEW' as DocumentStatus,
+  APPROVED: 'APPROVED' as DocumentStatus,
+  REJECTED: 'REJECTED' as DocumentStatus,
+  EXPIRED: 'EXPIRED' as DocumentStatus,
+  REVOKED: 'REVOKED' as DocumentStatus,
+  ARCHIVED: 'ARCHIVED' as DocumentStatus
+} as const;
+
+export type DocumentCategoryType = 
+  | 'CONTRACT'
+  | 'PLANNING'
+  | 'LEGAL'
+  | 'MARKETING'
+  | 'FINANCIAL'
+  | 'TECHNICAL'
+  | 'WARRANTY'
+  | 'CERTIFICATE'
+  | 'COMPLIANCE'
+  | 'PERSONAL'
+  | 'KYC'
+  | 'OTHER';
+
+export const DocumentCategory = {
+  CONTRACT: 'CONTRACT' as DocumentCategoryType,
+  PLANNING: 'PLANNING' as DocumentCategoryType,
+  LEGAL: 'LEGAL' as DocumentCategoryType,
+  MARKETING: 'MARKETING' as DocumentCategoryType,
+  FINANCIAL: 'FINANCIAL' as DocumentCategoryType,
+  TECHNICAL: 'TECHNICAL' as DocumentCategoryType,
+  WARRANTY: 'WARRANTY' as DocumentCategoryType,
+  CERTIFICATE: 'CERTIFICATE' as DocumentCategoryType,
+  COMPLIANCE: 'COMPLIANCE' as DocumentCategoryType,
+  PERSONAL: 'PERSONAL' as DocumentCategoryType,
+  KYC: 'KYC' as DocumentCategoryType,
+  OTHER: 'OTHER' as DocumentCategoryType
+} as const;
+
+export interface DocumentFilterInput {
+  developmentId?: string;
+  unitId?: string;
+  saleId?: string;
+  uploadedById?: string;
+  types?: string[];
+  categories?: DocumentCategoryType[];
+  status?: DocumentStatus[];
+  search?: string;
+  tags?: string[];
+  fromDate?: string;
+  toDate?: string;
+  signatureRequired?: boolean;
+}
+
+export interface DocumentsResponse {
+  items: DocumentSummary[];
+  totalCount: number;
+  pageInfo?: {
+    hasNextPage: boolean;
+    endCursor?: string;
+  };
+}
+
+export interface CreateDocumentInput {
+  name: string;
+  description?: string;
+  type: string;
+  category: DocumentCategoryType;
+  fileUrl: string;
+  fileType: string;
+  fileSize: number;
+  tags?: string[];
+  expiryDate?: string;
+  developmentId?: string;
+  unitId?: string;
+  saleId?: string;
+  relatedTo?: {
+    type: string;
+    id: string;
+    name: string;
+  };
+  metadata?: any;
+  signatureRequired?: boolean;
+}
+
+export interface UpdateDocumentInput {
+  name?: string;
+  description?: string;
+  category?: DocumentCategoryType;
+  tags?: string[];
+  expiryDate?: string;
+  metadata?: any;
+}
+
+export interface CreateDocumentVersionInput {
+  documentId: string;
+  fileUrl: string;
+  size: number;
+  notes?: string;
+  changes?: string;
+  checksum?: string;
+}
+
+export interface SignDocumentInput {
+  documentId: string;
+  signatureImageUrl?: string;
+  signaturePosition?: any;
+  signatureMethod: string;
+}
+
+export interface UploadUrlResponse {
+  uploadUrl: string;
+  fileKey: string;
+  expiresIn: number;
+}
+
+// GraphQL client instance (should be initialized elsewhere and passed in)
+let client: GraphQLClient;
+
+export const setGraphQLClient = (newClient: GraphQLClient) => {
+  client = newClient;
+};
+
+// Document Query Hooks
+export const useDocuments = (
+  filters?: DocumentFilterInput, 
+  options?: { enabled?: boolean }
+): UseQueryResult<DocumentsResponse, Error> => {
+  return useQuery<DocumentsResponse, Error>(['documents', filters], {
+    queryFn: async () => {
+      const response = await client.request(GET_DOCUMENTS, { filters });
+      return response.documents as DocumentsResponse;
+    },
+    ...options
+  });
+};
+
+export const useDocumentById = (
+  documentId?: string
+): UseQueryResult<Document, Error> => {
+  return useQuery<Document, Error>(['document', documentId], {
+    queryFn: async () => {
+      if (!documentId) throw new Error('Document ID is required');
+      const response = await client.request(GET_DOCUMENT_BY_ID, { id: documentId });
+      return response.document as Document;
+    },
+    enabled: !!documentId
+  });
+};
+
+export const useDocumentCategories = (
+  projectId?: string
+): UseQueryResult<DocumentCategory[], Error> => {
+  return useQuery<DocumentCategory[], Error>(['documentCategories', projectId], {
+    queryFn: async () => {
+      const response = await client.request(GET_DOCUMENT_CATEGORIES, { projectId });
+      return response.documentCategories as DocumentCategory[];
+    },
+    enabled: !!projectId
+  });
+};
+
+export const useDocumentStats = (
+  projectId?: string
+): UseQueryResult<DocumentStats, Error> => {
+  return useQuery<DocumentStats, Error>(['documentStats', projectId], {
+    queryFn: async () => {
+      if (!projectId) throw new Error('Project ID is required');
+      const response = await client.request(GET_DOCUMENT_STATS, { projectId });
+      return response.documentStats as DocumentStats;
+    },
+    enabled: !!projectId
+  });
+};
+
+export const useDocumentCompliance = (
+  projectId?: string
+): UseQueryResult<DocumentCompliance, Error> => {
+  return useQuery<DocumentCompliance, Error>(['documentCompliance', projectId], {
+    queryFn: async () => {
+      if (!projectId) throw new Error('Project ID is required');
+      const response = await client.request(GET_DOCUMENT_COMPLIANCE, { projectId });
+      return response.documentCompliance as DocumentCompliance;
+    },
+    enabled: !!projectId
+  });
+};
+
+// Document Mutation Hooks
+export const useCreateDocument = (): UseMutationResult<Document, Error, CreateDocumentInput> => {
+  const queryClient = useQueryClient();
+  return useMutation<Document, Error, CreateDocumentInput>(
+    async (input: CreateDocumentInput) => {
+      const response = await client.request(CREATE_DOCUMENT, { input });
+      return response.createDocument as Document;
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(['documents']);
+      }
+    }
+  );
+};
+
+export const useUpdateDocument = (): UseMutationResult<Document, Error, { id: string; input: UpdateDocumentInput }> => {
+  const queryClient = useQueryClient();
+  return useMutation<Document, Error, { id: string; input: UpdateDocumentInput }>(
+    async ({ id, input }) => {
+      const response = await client.request(UPDATE_DOCUMENT, { id, input });
+      return response.updateDocument as Document;
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(['documents']);
+      }
+    }
+  );
+};
+
+export const useChangeDocumentStatus = (): UseMutationResult<Document, Error, { id: string; status: DocumentStatus }> => {
+  const queryClient = useQueryClient();
+  return useMutation<Document, Error, { id: string; status: DocumentStatus }>(
+    async ({ id, status }) => {
+      const response = await client.request(CHANGE_DOCUMENT_STATUS, { id, status });
+      return response.changeDocumentStatus as Document;
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(['documents']);
+      }
+    }
+  );
+};
+
+export const useCreateDocumentVersion = (): UseMutationResult<DocumentVersion, Error, CreateDocumentVersionInput> => {
+  const queryClient = useQueryClient();
+  return useMutation<DocumentVersion, Error, CreateDocumentVersionInput>(
+    async (input: CreateDocumentVersionInput) => {
+      const response = await client.request(CREATE_DOCUMENT_VERSION, { input });
+      return response.createDocumentVersion as DocumentVersion;
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(['documents']);
+      }
+    }
+  );
+};
+
+export const useSignDocument = (): UseMutationResult<DocumentSignature, Error, SignDocumentInput> => {
+  const queryClient = useQueryClient();
+  return useMutation<DocumentSignature, Error, SignDocumentInput>(
+    async (input: SignDocumentInput) => {
+      const response = await client.request(SIGN_DOCUMENT, { input });
+      return response.signDocument as DocumentSignature;
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(['documents']);
+      }
+    }
+  );
+};
+
+export const useArchiveDocument = (): UseMutationResult<Document, Error, string> => {
+  const queryClient = useQueryClient();
+  return useMutation<Document, Error, string>(
+    async (id: string) => {
+      const response = await client.request(ARCHIVE_DOCUMENT, { id });
+      return response.archiveDocument as Document;
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(['documents']);
+      }
+    }
+  );
+};
+
+export const useRequestDocumentUploadUrl = (): UseMutationResult<UploadUrlResponse, Error, { filename: string; contentType: string }> => {
+  return useMutation<UploadUrlResponse, Error, { filename: string; contentType: string }>(
+    async (input: { filename: string; contentType: string }) => {
+      const response = await client.request(REQUEST_DOCUMENT_UPLOAD_URL, input);
+      return response.requestDocumentUploadUrl as UploadUrlResponse;
+    }
+  );
+};
+
+// Helper function for file upload
+export const uploadFileToPresignedUrl = async (
+  file: File, 
+  uploadUrl: string
+): Promise<boolean> => {
+  try {
+    const response = await fetch(uploadUrl, {
+      method: 'PUT',
+      body: file,
+      headers: {
+        'Content-Type': file.type}});
+
+    return response.ok;
+  } catch (error) {
+
+    return false;
+  }
+};
+
+// Combined hook for document upload workflow
+export const useDocumentUpload = () => {
+  const requestUploadUrlMutation = useRequestDocumentUploadUrl();
+  const createDocumentMutation = useCreateDocument();
+
+  const uploadDocument = async (file: File, documentDetails: Omit<CreateDocumentInput, 'fileUrl' | 'fileType' | 'fileSize'>) => {
+    try {
+      // Step 1: Get presigned URL
+      const { uploadUrl, fileKey } = await requestUploadUrlMutation.mutateAsync({
+        filename: file.name,
+        contentType: file.type});
+
+      // Step 2: Upload file to S3
+      const uploadSuccess = await uploadFileToPresignedUrl(file, uploadUrl);
+
+      if (!uploadSuccess) {
+        throw new Error('Failed to upload file to storage');
+      }
+
+      // Step 3: Create document record
+      return await createDocumentMutation.mutateAsync({
+        ...documentDetails,
+        fileUrl: fileKey, // This will be the S3 key
+        fileType: file.type,
+        fileSize: file.size});
+    } catch (error) {
+
+      throw error;
+    }
+  };
+
+  return {
+    uploadDocument,
+    isLoading: requestUploadUrlMutation.isPending || createDocumentMutation.isPending,
+    error: requestUploadUrlMutation.error || createDocumentMutation.error};
+};

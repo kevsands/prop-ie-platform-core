@@ -20,7 +20,7 @@ export function EnhancedDeveloperDashboard({ userId }: EnhancedDeveloperDashboar
           <h2 className="text-2xl font-semibold text-gray-800">Developer Dashboard</h2>
           <p className="text-gray-600">Overview of your development projects and sales</p>
         </div>
-        
+
         <div className="flex items-center gap-2">
           <button className="px-3 py-1 text-sm bg-gray-100 hover:bg-gray-200 rounded flex items-center gap-2">
             <svg className="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -33,7 +33,7 @@ export function EnhancedDeveloperDashboard({ userId }: EnhancedDeveloperDashboar
           </button>
         </div>
       </div>
-      
+
       {/* Filters */}
       <div className="mb-6">
         <div className="flex flex-wrap gap-2 p-3 bg-gray-50 border rounded-md">
@@ -45,7 +45,7 @@ export function EnhancedDeveloperDashboard({ userId }: EnhancedDeveloperDashboar
               <option>This Year</option>
             </select>
           </div>
-          
+
           <div className="flex items-center gap-2">
             <span className="text-sm font-medium">Status:</span>
             <select className="text-sm border rounded p-1">
@@ -88,7 +88,7 @@ export function EnhancedDeveloperDashboard({ userId }: EnhancedDeveloperDashboar
             <span>+2 vs last month</span>
           </div>
         </div>
-        
+
         <div className="bg-white border rounded-lg p-4 shadow-sm">
           <div className="flex justify-between">
             <div>
@@ -103,7 +103,7 @@ export function EnhancedDeveloperDashboard({ userId }: EnhancedDeveloperDashboar
             </div>
           </div>
         </div>
-        
+
         <div className="bg-white border rounded-lg p-4 shadow-sm">
           <div className="flex justify-between">
             <div>
@@ -138,7 +138,7 @@ export function EnhancedDeveloperDashboard({ userId }: EnhancedDeveloperDashboar
                 { id: '1', name: 'Riverside Manor', location: 'Dublin', propertyCount: 24, completionPercentage: 68 },
                 { id: '2', name: 'Fitzgerald Gardens', location: 'Cork', propertyCount: 16, completionPercentage: 42 },
                 { id: '3', name: 'Ballymakenny View', location: 'Drogheda', propertyCount: 32, completionPercentage: 89 }
-              ].map((project) => (
+              ].map((project: any) => (
                 <div key={project.id} className="py-3 flex items-center justify-between">
                   <div>
                     <h3 className="font-medium">{project.name}</h3>
@@ -152,7 +152,7 @@ export function EnhancedDeveloperDashboard({ userId }: EnhancedDeveloperDashboar
               ))}
             </div>
           </div>
-          
+
           <div className="mt-4">
             <button className="w-full py-2 border rounded text-sm text-gray-700 hover:bg-gray-50">
               View All Projects
@@ -167,7 +167,7 @@ export function EnhancedDeveloperDashboard({ userId }: EnhancedDeveloperDashboar
             {[
               { id: '1', name: 'Riverside Manor', progress: 68, status: 'on_track', phase: 'Construction', endDate: '2025-12-01' },
               { id: '2', name: 'Fitzgerald Gardens', progress: 42, status: 'delayed', phase: 'Foundation', endDate: '2026-03-15' }
-            ].map((project) => (
+            ].map((project: any) => (
               <div key={project.id} className="space-y-1">
                 <div className="flex justify-between items-center">
                   <span className="text-sm font-medium">{project.name}</span>
@@ -180,7 +180,7 @@ export function EnhancedDeveloperDashboard({ userId }: EnhancedDeveloperDashboar
                       project.status === 'delayed' ? "h-2 rounded-full bg-amber-500" :
                       "h-2 rounded-full bg-gray-400"
                     }
-                    style={{ width: `${project.progress}%` }}
+                    style={ width: `${project.progress}%` }
                   />
                 </div>
                 <div className="flex justify-between items-center text-xs text-gray-500">
@@ -200,7 +200,7 @@ export function EnhancedDeveloperDashboard({ userId }: EnhancedDeveloperDashboar
               { key: 'revenue', label: 'Total Revenue', formattedValue: '€8.2M', change: 15, changeDirection: 'up' },
               { key: 'costs', label: 'Construction Costs', formattedValue: '€3.7M', change: 7, changeDirection: 'up' },
               { key: 'profit', label: 'Projected Profit', formattedValue: '€4.5M', change: 22, changeDirection: 'up' }
-            ].map((metric) => (
+            ].map((metric: any) => (
               <div key={metric.key} className="flex justify-between items-center py-1 border-b border-gray-100">
                 <span className="text-sm">{metric.label}</span>
                 <div className="flex items-center gap-2">

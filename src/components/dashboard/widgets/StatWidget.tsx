@@ -1,3 +1,4 @@
+import React from 'react';
 "use client";
 
 import * as React from "react";
@@ -36,16 +37,14 @@ export function StatWidget({
   iconClassName,
   valueClassName,
   onClick,
-  variant = "default",
-}: StatWidgetProps) {
+  variant = "default": StatWidgetProps) {
   const variantClassMap = {
     default: "",
     outline: "border-2 bg-transparent",
     success: "bg-green-50 text-green-900 dark:bg-green-900/20 dark:text-green-100",
     warning: "bg-amber-50 text-amber-900 dark:bg-amber-900/20 dark:text-amber-100",
     danger: "bg-red-50 text-red-900 dark:bg-red-900/20 dark:text-red-100",
-    info: "bg-blue-50 text-blue-900 dark:bg-blue-900/20 dark:text-blue-100",
-  };
+    info: "bg-blue-50 text-blue-900 dark:bg-blue-900/20 dark:text-blue-100";
 
   const getTrendColor = () => {
     if (trend?.positive) {
@@ -108,7 +107,7 @@ export function StatWidget({
                         </svg>
                       )}
                       <span>
-                        {trend.positive ? "+" : "-"}
+                        {trend.positive ? "+" : "-"
                         {Math.abs(trend.value)}%
                         {trend.label && <span className="ml-1">{trend.label}</span>}
                       </span>

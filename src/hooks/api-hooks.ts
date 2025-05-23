@@ -206,7 +206,7 @@ const MOCK_DEVELOPMENTS: MockDevelopment[] = [
     statusColor: 'green',
     availabilityStatus: 'Limited Availability',
     priceRange: '€350,000 - €550,000',
-    bedrooms: [1, 2, 3],
+    bedrooms: [1, 23],
     bathrooms: 2,
     buildingType: 'Apartment',
     totalUnits: 72,
@@ -274,7 +274,7 @@ const MOCK_DEVELOPMENTS: MockDevelopment[] = [
     statusColor: 'blue',
     availabilityStatus: 'Available Now',
     priceRange: '€450,000 - €650,000',
-    bedrooms: [3, 4],
+    bedrooms: [34],
     bathrooms: 3,
     buildingType: 'House',
     totalUnits: 48,
@@ -341,7 +341,7 @@ const MOCK_DEVELOPMENTS: MockDevelopment[] = [
     statusColor: 'yellow',
     availabilityStatus: 'Coming Soon',
     priceRange: 'From €395,000',
-    bedrooms: [2, 3, 4],
+    bedrooms: [2, 34],
     bathrooms: 2,
     buildingType: 'House',
     totalUnits: 60,
@@ -400,9 +400,9 @@ const MOCK_SALES = {
 
 // Document hook implementation
 export const useDocuments = (params?: DocumentFilterParams) => {
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<Error | null>(null);
-  const [data, setData] = useState<DocumentsResponse | null>(null);
+  const [isLoadingsetIsLoading] = useState(true);
+  const [errorsetError] = useState<Error | null>(null);
+  const [datasetData] = useState<DocumentsResponse | null>(null);
 
   useEffect(() => {
     // Simulate API request delay
@@ -428,7 +428,7 @@ export const useDocuments = (params?: DocumentFilterParams) => {
         }
 
         // Sort by deadline
-        filteredDocs.sort((a, b) => new Date(a.deadline).getTime() - new Date(b.deadline).getTime());
+        filteredDocs.sort((ab: any) => new Date(a.deadline).getTime() - new Date(b.deadline).getTime());
 
         setData({
           data: filteredDocs,
@@ -480,9 +480,9 @@ interface DevelopmentsResponse {
  * Hook to fetch developments with optional filtering
  */
 export const useDevelopments = (params?: DevelopmentFilterParams) => {
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<Error | null>(null);
-  const [data, setData] = useState<DevelopmentsResponse | null>(null);
+  const [isLoadingsetIsLoading] = useState(true);
+  const [errorsetError] = useState<Error | null>(null);
+  const [datasetData] = useState<DevelopmentsResponse | null>(null);
 
   useEffect(() => {
     // Simulate API request delay
@@ -535,10 +535,10 @@ export const useDevelopments = (params?: DevelopmentFilterParams) => {
             const prices = priceText.match(/\d+/g)?.map(Number) || [];
             const minDevPrice = Math.min(...prices);
             const maxDevPrice = Math.max(...prices);
-            
-            const satisfiesMinPrice = params?.minPrice ? minDevPrice >= params.minPrice : true;
+
+            const satisfiesMinPrice = params?.minPrice ? minDevPrice>= params.minPrice : true;
             const satisfiesMaxPrice = params?.maxPrice ? maxDevPrice <= params.maxPrice : true;
-            
+
             return satisfiesMinPrice && satisfiesMaxPrice;
           });
         }
@@ -588,15 +588,15 @@ export const useDevelopments = (params?: DevelopmentFilterParams) => {
 interface SalesData {
   totalSales: number;
   targetSales: number;
-  salesByMonth: Array<{ month: string; sales: number }>;
+  salesByMonth: Array<{ month: string; sales: number }>\n  );
   upcomingAppointments: number;
   leadConversionRate: number;
 }
 
 export const useSales = () => {
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<Error | null>(null);
-  const [data, setData] = useState<SalesData | null>(null);
+  const [isLoadingsetIsLoading] = useState(true);
+  const [errorsetError] = useState<Error | null>(null);
+  const [datasetData] = useState<SalesData | null>(null);
 
   useEffect(() => {
     // Simulate API request delay
@@ -648,7 +648,7 @@ export const useDeleteDevelopment = () => {
       // Simulate API request
       setTimeout(() => {
         // In a real app, this would call an API endpoint to delete the development
-        console.log(`Development ${id} deleted`);
+
         if (options?.onSuccess) {
           options.onSuccess();
         }

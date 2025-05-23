@@ -71,43 +71,43 @@ export async function GET(request: NextRequest) {
   const type = searchParams.get('type');
   const startDate = searchParams.get('startDate');
   const endDate = searchParams.get('endDate');
-  
+
   let filtered = [...complianceAudits];
-  
+
   if (status) {
     filtered = filtered.filter(audit => audit.status === status);
   }
-  
+
   if (type) {
     filtered = filtered.filter(audit => audit.type === type);
   }
-  
+
   if (startDate) {
     const start = new Date(startDate);
-    filtered = filtered.filter(audit => audit.startDate >= start);
+    filtered = filtered.filter(audit => audit.startDate>= start);
   }
-  
+
   if (endDate) {
     const end = new Date(endDate);
     filtered = filtered.filter(audit => audit.startDate <= end);
   }
-  
+
   return NextResponse.json(filtered);
 }
 
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json();
-    const newAudit = {
+    const body: any = await request.json();
+    const newAudit: any = {
       id: `audit-${Date.now()}`,
-      ...body,
+      ...(body as Record<string, any>),
       findings: [],
       overallScore: null,
       riskLevel: null
     };
-    
+
     complianceAudits.push(newAudit);
-    
+
     return NextResponse.json(newAudit, { status: 201 });
   } catch (error) {
     return NextResponse.json(
@@ -119,9 +119,9 @@ export async function POST(request: NextRequest) {
 
 export async function PUT(request: NextRequest) {
   try {
-    const body = await request.json();
+    const body = await request.json() as any;
     const { id, ...updates } = body;
-    
+
     const auditIndex = complianceAudits.findIndex(audit => audit.id === id);
     if (auditIndex === -1) {
       return NextResponse.json(
@@ -129,12 +129,12 @@ export async function PUT(request: NextRequest) {
         { status: 404 }
       );
     }
-    
+
     complianceAudits[auditIndex] = {
       ...complianceAudits[auditIndex],
       ...updates
     };
-    
+
     return NextResponse.json(complianceAudits[auditIndex]);
   } catch (error) {
     return NextResponse.json(

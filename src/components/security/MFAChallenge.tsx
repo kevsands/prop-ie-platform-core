@@ -39,29 +39,29 @@ export function MFAChallenge({
   title = 'Security Verification',
   description = 'Please verify your identity to continue'
 }: MFAChallengeProps) {
-  const [tab, setTab] = useState<string>('totp');
-  const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string | null>(null);
-  
+  const [tabsetTab] = useState<string>('totp');
+  const [loadingsetLoading] = useState<boolean>(false);
+  const [errorsetError] = useState<string | null>(null);
+
   // Verification codes
-  const [totpCode, setTotpCode] = useState<string>('');
-  const [smsCode, setSmsCode] = useState<string>('');
-  const [recoveryCode, setRecoveryCode] = useState<string>('');
-  
+  const [totpCodesetTotpCode] = useState<string>('');
+  const [smsCodesetSmsCode] = useState<string>('');
+  const [recoveryCodesetRecoveryCode] = useState<string>('');
+
   // Handle TOTP verification
   const handleVerifyTOTP = async () => {
     if (!totpCode) {
       setError('Please enter the verification code');
       return;
     }
-    
+
     try {
       setLoading(true);
       setError(null);
-      
+
       // Complete the challenge
       const success = await MFAService.completeMFAChallenge(totpCode);
-      
+
       // Log successful verification
       if (success) {
         AuditLogger.logSecurity(
@@ -71,9 +71,9 @@ export function MFAChallenge({
           { method: 'TOTP' }
         );
       }
-      
+
       onCompleteAction(success);
-      
+
     } catch (err) {
       // Log failed verification
       AuditLogger.logSecurity(
@@ -85,26 +85,26 @@ export function MFAChallenge({
           error: err instanceof Error ? err.message : String(err)
         }
       );
-      
+
       setError(err instanceof Error ? err.message : 'Verification failed. Please try again.');
       setLoading(false);
     }
   };
-  
+
   // Handle SMS verification
   const handleVerifySMS = async () => {
     if (!smsCode) {
       setError('Please enter the verification code');
       return;
     }
-    
+
     try {
       setLoading(true);
       setError(null);
-      
+
       // Complete the challenge with SMS code
       const success = await MFAService.completeMFAChallenge(smsCode);
-      
+
       // Log successful verification
       if (success) {
         AuditLogger.logSecurity(
@@ -114,9 +114,9 @@ export function MFAChallenge({
           { method: 'SMS' }
         );
       }
-      
+
       onCompleteAction(success);
-      
+
     } catch (err) {
       // Log failed verification
       AuditLogger.logSecurity(
@@ -128,26 +128,26 @@ export function MFAChallenge({
           error: err instanceof Error ? err.message : String(err)
         }
       );
-      
+
       setError(err instanceof Error ? err.message : 'Verification failed. Please try again.');
       setLoading(false);
     }
   };
-  
+
   // Handle recovery code verification
   const handleVerifyRecoveryCode = async () => {
     if (!recoveryCode) {
       setError('Please enter a recovery code');
       return;
     }
-    
+
     try {
       setLoading(true);
       setError(null);
-      
+
       // Verify the recovery code
       const success = await MFAService.verifyRecoveryCode(recoveryCode);
-      
+
       // Log successful verification
       if (success) {
         AuditLogger.logSecurity(
@@ -162,9 +162,9 @@ export function MFAChallenge({
         setLoading(false);
         return;
       }
-      
+
       onCompleteAction(success);
-      
+
     } catch (err) {
       // Log failed verification
       AuditLogger.logSecurity(
@@ -176,37 +176,37 @@ export function MFAChallenge({
           error: err instanceof Error ? err.message : String(err)
         }
       );
-      
+
       setError(err instanceof Error ? err.message : 'Recovery code verification failed. Please try again.');
       setLoading(false);
     }
   };
-  
+
   // Request a new SMS code
   const handleRequestNewSMSCode = async () => {
     try {
       setLoading(true);
       setError(null);
-      
+
       // Get MFA service from the Security module
       const MFAService = Security.getMFA();
-      
+
       // Request a new SMS code to be sent
       // This is placeholder code assuming the Security module has a resendVerificationCode function
       // You would need to implement this in your MFA service
       try {
         // If your MFA service has a specific method for this, you'd use:
         // await MFAService.resendVerificationCode('sms');
-        
+
         // For now, we'll use a placeholder message
-        
+
         AuditLogger.logSecurity(
           'mfa_new_code_requested',
           AuditSeverity.INFO,
           'New MFA verification code requested',
           { method: 'SMS' }
         );
-        
+
         setLoading(false);
         // Show success message
         setError('A new verification code has been sent to your phone.');
@@ -224,33 +224,33 @@ export function MFAChallenge({
           error: err instanceof Error ? err.message : String(err)
         }
       );
-      
+
       setError(err instanceof Error ? err.message : 'Failed to send new code. Please try again.');
       setLoading(false);
     }
   };
-  
+
   return (
     <Card className="w-full max-w-md mx-auto">
       <CardHeader>
         <CardTitle>{title}</CardTitle>
         <CardDescription>{description}</CardDescription>
       </CardHeader>
-      
+
       <CardContent>
         {error && (
           <Alert variant={error.includes('has been sent') ? 'default' : 'destructive'} className="mb-4">
             <AlertDescription>{error}</AlertDescription>
           </Alert>
         )}
-        
+
         <Tabs value={tab} onValueChange={setTab}>
           <TabsList className="grid w-full grid-cols-3">
             <TabsTrigger value="totp">Authenticator</TabsTrigger>
             <TabsTrigger value="sms">SMS</TabsTrigger>
             <TabsTrigger value="recovery">Recovery</TabsTrigger>
           </TabsList>
-          
+
           <TabsContent value="totp" className="space-y-4 mt-4">
             <div className="space-y-2">
               <Label htmlFor="totp-code">Enter the 6-digit code from your authenticator app</Label>
@@ -258,11 +258,11 @@ export function MFAChallenge({
                 id="totp-code"
                 placeholder="123456"
                 value={totpCode}
-                onChange={(e) => setTotpCode(e.target.value.replace(/\D/g, '').substring(0, 6))}
+                onChange={(e: any) => setTotpCode(e.target.value.replace(/\D/g, '').substring(06))}
                 maxLength={6}
               />
             </div>
-            
+
             <Button 
               onClick={handleVerifyTOTP} 
               disabled={loading || totpCode.length !== 6}
@@ -272,7 +272,7 @@ export function MFAChallenge({
               Verify
             </Button>
           </TabsContent>
-          
+
           <TabsContent value="sms" className="space-y-4 mt-4">
             <div className="space-y-2">
               <Label htmlFor="sms-code">Enter the 6-digit code sent to your phone</Label>
@@ -280,11 +280,11 @@ export function MFAChallenge({
                 id="sms-code"
                 placeholder="123456"
                 value={smsCode}
-                onChange={(e) => setSmsCode(e.target.value.replace(/\D/g, '').substring(0, 6))}
+                onChange={(e: any) => setSmsCode(e.target.value.replace(/\D/g, '').substring(06))}
                 maxLength={6}
               />
             </div>
-            
+
             <div className="flex space-x-2">
               <Button 
                 onClick={handleVerifySMS} 
@@ -294,7 +294,7 @@ export function MFAChallenge({
                 {loading ? <LoadingSpinner className="mr-2" /> : null}
                 Verify
               </Button>
-              
+
               <Button 
                 variant="outline" 
                 onClick={handleRequestNewSMSCode}
@@ -304,7 +304,7 @@ export function MFAChallenge({
               </Button>
             </div>
           </TabsContent>
-          
+
           <TabsContent value="recovery" className="space-y-4 mt-4">
             <div className="space-y-2">
               <Label htmlFor="recovery-code">Enter one of your recovery codes</Label>
@@ -312,30 +312,30 @@ export function MFAChallenge({
                 id="recovery-code"
                 placeholder="XXXX-XXXX-XX"
                 value={recoveryCode}
-                onChange={(e) => setRecoveryCode(e.target.value.toUpperCase())}
+                onChange={(e: any) => setRecoveryCode(e.target.value.toUpperCase())}
                 maxLength={12}
               />
               <p className="text-xs text-gray-500">
                 Recovery codes are in the format XXXX-XXXX-XX
               </p>
             </div>
-            
+
             <Button 
               onClick={handleVerifyRecoveryCode} 
-              disabled={loading || recoveryCode.length < 10}
+              disabled={loading || recoveryCode.length <10}
               className="w-full"
             >
               {loading ? <LoadingSpinner className="mr-2" /> : null}
               Verify
             </Button>
-            
+
             <p className="text-xs text-center text-gray-500 mt-2">
               Note: Each recovery code can only be used once
             </p>
           </TabsContent>
         </Tabs>
       </CardContent>
-      
+
       {onCancel && (
         <CardFooter>
           <Button variant="ghost" onClick={onCancel} className="w-full">

@@ -1,0 +1,295 @@
+"use client";
+
+import React, { useState } from "react";
+import { X, CalendarIcon, CheckIcon, ChevronDown } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
+import { Calendar } from "@/components/ui/calendar";
+import { Badge } from "@/components/ui/badge";
+import { DashboardFilter } from "@/types/dashboard";
+import { cn } from "@/lib/utils";
+import { format } from "date-fns";
+
+interface DashboardFiltersProps {
+  filters: DashboardFilter;
+  onFiltersChangeAction: (filters: DashboardFilter) => void;
+  availableFilters: {
+    projectStatuses: string[];
+    projectTypes: string[];
+    locations: string[];
+  };
+  className?: string;
+}
+
+export function DashboardFilters({
+  filters,
+  onFiltersChangeAction,
+  availableFilters,
+  className}: DashboardFiltersProps) {
+  // Local state for date range
+  const [fromDate, setFromDate] = useState<Date | undefined>(
+    filters.customDateRange?.startDate ? new Date(filters.customDateRange.startDate) : undefined
+  );
+
+  const [toDate, setToDate] = useState<Date | undefined>(
+    filters.customDateRange?.endDate ? new Date(filters.customDateRange.endDate) : undefined
+  );
+
+  // Handle time range selection
+  const handleTimeRangeSelect = (value: string) => {
+    onFiltersChangeAction({
+      ...filters,
+      timeRange: value as "week" | "month" | "quarter" | "year" | "custom",
+      // Reset custom date range if not selecting "custom"
+      customDateRange: value === "custom" ? filters.customDateRange : undefined});
+  };
+
+  // Handle custom date range changes
+  const handleDateRangeChange = () => {
+    if (fromDate && toDate) {
+      onFiltersChangeAction({
+        ...filters,
+        timeRange: "custom",
+        customDateRange: {
+          startDate: fromDate.toISOString(),
+          endDate: toDate.toISOString()}});
+    }
+  };
+
+  // Handle multiple selection filters
+  const toggleFilter = (type: "projectStatus" | "projectTypes" | "locations", value: string) => {
+    const currentValues = filters[type] || [];
+    const newValues = currentValues.includes(value)
+      ? currentValues.filter((item) => item !== value)
+      : [...currentValues, value];
+
+    onFiltersChangeAction({
+      ...filters,
+      [type]: newValues});
+  };
+
+  // Handle clearing all filters
+  const handleClearFilters = () => {
+    onFiltersChangeAction({
+      timeRange: "month",
+      projectStatus: [],
+      projectTypes: [],
+      locations: []});
+    setFromDate(undefined);
+    setToDate(undefined);
+  };
+
+  // Count active filters
+  const activeFilterCount =
+    (filters.projectStatus?.length || 0) +
+    (filters.projectTypes?.length || 0) +
+    (filters.locations?.length || 0) +
+    (filters.timeRange !== "month" ? 1 : 0);
+
+  return (
+    <div className={cn("flex flex-wrap gap-2", className)}>
+      {/* Time Range Filter */}
+      <Popover>
+        <PopoverTrigger asChild>
+          <Button variant="outline" size="sm">
+            {filters.timeRange === "custom" && filters.customDateRange
+              ? `${format(new Date(filters.customDateRange.startDate), "MMM d")} - ${format(new Date(filters.customDateRange.endDate), "MMM d")}`
+              : filters.timeRange === "week"
+              ? "This Week"
+              : filters.timeRange === "month"
+              ? "This Month"
+              : filters.timeRange === "quarter"
+              ? "This Quarter"
+              : filters.timeRange === "year"
+              ? "This Year"
+              : "Time Range"}
+            <ChevronDown className="ml-2 h-4 w-4" />
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent className="p-0" align="start">
+          <Command>
+            <CommandList>
+              <CommandGroup heading="Select Time Range">
+                <CommandItem
+                  onSelect={() => handleTimeRangeSelect("week")}
+                  className="flex items-center justify-between"
+                >
+                  <span>This Week</span>
+                  {filters.timeRange === "week" && <CheckIcon className="h-4 w-4" />}
+                </CommandItem>
+                <CommandItem
+                  onSelect={() => handleTimeRangeSelect("month")}
+                  className="flex items-center justify-between"
+                >
+                  <span>This Month</span>
+                  {filters.timeRange === "month" && <CheckIcon className="h-4 w-4" />}
+                </CommandItem>
+                <CommandItem
+                  onSelect={() => handleTimeRangeSelect("quarter")}
+                  className="flex items-center justify-between"
+                >
+                  <span>This Quarter</span>
+                  {filters.timeRange === "quarter" && <CheckIcon className="h-4 w-4" />}
+                </CommandItem>
+                <CommandItem
+                  onSelect={() => handleTimeRangeSelect("year")}
+                  className="flex items-center justify-between"
+                >
+                  <span>This Year</span>
+                  {filters.timeRange === "year" && <CheckIcon className="h-4 w-4" />}
+                </CommandItem>
+              </CommandGroup>
+              <CommandGroup heading="Custom Range">
+                <div className="p-3 border-t">
+                  <div className="flex space-x-2 mb-2">
+                    <div className="grid gap-1">
+                      <label className="text-xs">From</label>
+                      <Calendar
+                        mode="single"
+                        selected={fromDate}
+                        onSelect={setFromDate}
+                        disabled={(date) => toDate ? date > toDate : false}
+                        initialFocus
+                      />
+                    </div>
+                    <div className="grid gap-1">
+                      <label className="text-xs">To</label>
+                      <Calendar
+                        mode="single"
+                        selected={toDate}
+                        onSelect={setToDate}
+                        disabled={(date) => fromDate ? date < fromDate : false}
+                        initialFocus
+                      />
+                    </div>
+                  </div>
+                  <Button 
+                    onClick={handleDateRangeChange} 
+                    className="w-full"
+                    disabled={!fromDate || !toDate}
+                  >
+                    Apply Range
+                  </Button>
+                </div>
+              </CommandGroup>
+            </CommandList>
+          </Command>
+        </PopoverContent>
+      </Popover>
+
+      {/* Project Status Filter */}
+      <Popover>
+        <PopoverTrigger asChild>
+          <Button variant="outline" size="sm">
+            Status
+            {filters.projectStatus && filters.projectStatus.length > 0 && (
+              <Badge className="ml-2 bg-primary/20 text-primary" variant="secondary">
+                {filters.projectStatus.length}
+              </Badge>
+            )}
+            <ChevronDown className="ml-2 h-4 w-4" />
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent className="p-0 w-60" align="start">
+          <Command>
+            <CommandInput placeholder="Search statuses..." />
+            <CommandList>
+              <CommandEmpty>No statuses found</CommandEmpty>
+              <CommandGroup heading="Project Status">
+                {availableFilters.projectStatuses.map((status) => (
+                  <CommandItem
+                    key={status}
+                    onSelect={() => toggleFilter("projectStatus", status)}
+                    className="flex items-center justify-between"
+                  >
+                    <span>{status}</span>
+                    {filters.projectStatus?.includes(status) && <CheckIcon className="h-4 w-4" />}
+                  </CommandItem>
+                ))}
+              </CommandGroup>
+            </CommandList>
+          </Command>
+        </PopoverContent>
+      </Popover>
+
+      {/* Project Type Filter */}
+      <Popover>
+        <PopoverTrigger asChild>
+          <Button variant="outline" size="sm">
+            Project Type
+            {filters.projectTypes && filters.projectTypes.length > 0 && (
+              <Badge className="ml-2 bg-primary/20 text-primary" variant="secondary">
+                {filters.projectTypes.length}
+              </Badge>
+            )}
+            <ChevronDown className="ml-2 h-4 w-4" />
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent className="p-0 w-60" align="start">
+          <Command>
+            <CommandInput placeholder="Search project types..." />
+            <CommandList>
+              <CommandEmpty>No project types found</CommandEmpty>
+              <CommandGroup heading="Project Type">
+                {availableFilters.projectTypes.map((type) => (
+                  <CommandItem
+                    key={type}
+                    onSelect={() => toggleFilter("projectTypes", type)}
+                    className="flex items-center justify-between"
+                  >
+                    <span>{type}</span>
+                    {filters.projectTypes?.includes(type) && <CheckIcon className="h-4 w-4" />}
+                  </CommandItem>
+                ))}
+              </CommandGroup>
+            </CommandList>
+          </Command>
+        </PopoverContent>
+      </Popover>
+
+      {/* Location Filter */}
+      <Popover>
+        <PopoverTrigger asChild>
+          <Button variant="outline" size="sm">
+            Location
+            {filters.locations && filters.locations.length > 0 && (
+              <Badge className="ml-2 bg-primary/20 text-primary" variant="secondary">
+                {filters.locations.length}
+              </Badge>
+            )}
+            <ChevronDown className="ml-2 h-4 w-4" />
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent className="p-0 w-60" align="start">
+          <Command>
+            <CommandInput placeholder="Search locations..." />
+            <CommandList>
+              <CommandEmpty>No locations found</CommandEmpty>
+              <CommandGroup heading="Location">
+                {availableFilters.locations.map((location) => (
+                  <CommandItem
+                    key={location}
+                    onSelect={() => toggleFilter("locations", location)}
+                    className="flex items-center justify-between"
+                  >
+                    <span>{location}</span>
+                    {filters.locations?.includes(location) && <CheckIcon className="h-4 w-4" />}
+                  </CommandItem>
+                ))}
+              </CommandGroup>
+            </CommandList>
+          </Command>
+        </PopoverContent>
+      </Popover>
+
+      {/* Clear Filters Button - only shown when filters are active */}
+      {activeFilterCount > 0 && (
+        <Button variant="ghost" size="sm" onClick={handleClearFilters} className="ml-2">
+          <X className="mr-2 h-4 w-4" />
+          Clear Filters
+        </Button>
+      )}
+    </div>
+  );
+}

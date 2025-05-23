@@ -1,50 +1,33 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
+import { transactionService } from '@/services/transactionService';
 import { z } from 'zod';
-import { transactionCoordinator } from '@/services/transactionCoordinator';
-// import { PrismaClient } from '@prisma/slp-client';
-import { prisma } from '@/lib/prisma';
-// Use regular Prisma client for now
 
-// const prisma = new PrismaClient(); // Already imported above
-
-// Schema for creating a new transaction
-const CreateTransactionSchema = z.object({
-  propertyId: z.string(),
+// Validation schemas
+const createTransactionSchema = z.object({
   buyerId: z.string(),
-  developerId: z.string(),
+  developmentId: z.string(),
   unitId: z.string(),
-  totalAmount: z.number().positive(),
-  initialDeposit: z.number().positive(),
+  agentId: z.string().optional(),
+  agreedPrice: z.number().optional(),
+  mortgageRequired: z.boolean().optional(),
+  helpToBuyUsed: z.boolean().optional(),
+  referralSource: z.string().optional(),
+  notes: z.string().optional()
 });
 
-// Schema for updating transaction status
-const UpdateStatusSchema = z.object({
-  transactionId: z.string(),
-  status: z.enum(['INITIATED', 'OFFER_MADE', 'OFFER_ACCEPTED', 'CONTRACTS_EXCHANGED', 'COMPLETED', 'CANCELLED']),
-  performedBy: z.string(),
-  notes: z.string().optional(),
+const filterSchema = z.object({
+  buyerId: z.string().optional(),
+  developmentId: z.string().optional(),
+  unitId: z.string().optional(),
+  status: z.string().optional(),
+  stage: z.string().optional(),
+  page: z.coerce.number().optional().default(1),
+  limit: z.coerce.number().optional().default(10)
 });
 
-// Schema for payment processing
-const ProcessPaymentSchema = z.object({
-  transactionId: z.string(),
-  amount: z.number().positive(),
-  paymentType: z.enum(['BOOKING_DEPOSIT', 'CONTRACT_DEPOSIT', 'STAGE_PAYMENT', 'FINAL_PAYMENT']),
-  paymentMethod: z.enum(['bank_transfer', 'credit_card', 'debit_card']),
-  reference: z.string(),
-  notes: z.string().optional(),
-});
-
-/**
- * GET handler for transactions
- * Supports query parameters:
- * - id: Get specific transaction
- * - buyerId: Filter by buyer
- * - developerId: Filter by developer
- * - status: Filter by status
- */
+// GET /api/transactions
 export async function GET(request: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
@@ -56,140 +39,50 @@ export async function GET(request: NextRequest) {
     }
 
     const { searchParams } = new URL(request.url);
-    const id = searchParams.get('id');
-    const buyerId = searchParams.get('buyerId');
-    const developerId = searchParams.get('developerId');
-    const status = searchParams.get('status');
+    const params = Object.fromEntries(searchParams.entries());
 
-    if (id) {
-      // Get specific transaction
-      const transaction = await prisma.transaction.findUnique({
-        where: { id },
-        include: {
-          project: true,
-          milestones: true,
-          participants: true,
-        },
-      });
+    // Validate filter parameters
+    const validatedParams = filterSchema.parse(params);
+    const { page, limit, ...filter } = validatedParams;
 
-      if (!transaction) {
-        return NextResponse.json(
-          { error: 'Transaction not found' },
-          { status: 404 }
-        );
-      }
-
-      // Transform to match TransactionContext interface
-      const transformedTransaction = {
-        id: transaction.id,
-        reference: `TX-${transaction.id.substring(0, 6).toUpperCase()}`,
-        property: {
-          id: transaction.project.id,
-          developmentId: transaction.project.developerId,
-          developmentName: transaction.project.name,
-          address: transaction.project.description || '',
-          type: 'APARTMENT' as const,
-          bedrooms: 2, // Mock data
-          bathrooms: 1, // Mock data
-          price: 350000, // Mock data
-          status: 'RESERVED' as const,
-          images: [],
-          features: [],
-        },
-        status: mapTransactionStatus(transaction.status),
-        participants: transaction.participants.map(p => ({
-          id: p.id,
-          role: p.role,
-          userId: p.userId,
-          name: `User ${p.userId}`, // Would need to fetch user details
-          email: `user${p.userId}@example.com`, // Would need to fetch user details
-          joinedAt: p.joinedAt.toISOString(),
-          status: 'ACTIVE' as const,
-        })),
-        documents: [], // Would need to fetch from document service
-        messages: [], // Would need to fetch from messaging service
-        timeline: [], // Would need to fetch timeline events
-        payments: await getTransactionPayments(transaction.id),
-        totalAmount: 350000, // Would need to calculate from unit price
-        currentStage: getCurrentStage(transaction.status),
-        createdAt: transaction.startedAt.toISOString(),
-        updatedAt: transaction.startedAt.toISOString(),
-        completionDate: transaction.completedAt?.toISOString(),
-        metadata: {},
-      };
-
-      return NextResponse.json(transformedTransaction);
+    // Apply role-based filtering
+    if (session.user?.role === 'BUYER') {
+      filter.buyerId = session.user.id;
+    } else if (session.user?.role === 'AGENT') {
+      // Agents can see transactions they're involved in
+      // TODO: Add agent filtering logic
     }
 
-    // List transactions with filters
-    const where: any = {};
-    if (buyerId) where.buyerId = buyerId;
-    if (status) where.status = status;
+    // Get transactions
+    const transactions = await transactionService.getTransactions(filter);
 
-    const transactions = await prisma.transaction.findMany({
-      where,
-      include: {
-        project: true,
-        milestones: true,
-        participants: true,
-      },
-      orderBy: { startedAt: 'desc' },
+    // Paginate results
+    const startIndex = (page - 1) * limit;
+    const endIndex = startIndex + limit;
+    const paginatedTransactions = transactions.slice(startIndexendIndex);
+
+    return NextResponse.json({
+      success: true,
+      data: {
+        transactions: paginatedTransactions,
+        pagination: {
+          page,
+          limit,
+          total: transactions.length,
+          totalPages: Math.ceil(transactions.length / limit)
+        }
+      }
     });
-
-    // Transform all transactions
-    const transformedTransactions = await Promise.all(
-      transactions.map(async (t) => ({
-        id: t.id,
-        reference: `TX-${t.id.substring(0, 6).toUpperCase()}`,
-        property: {
-          id: t.project.id,
-          developmentId: t.project.developerId,
-          developmentName: t.project.name,
-          address: t.project.description || '',
-          type: 'APARTMENT' as const,
-          bedrooms: 2,
-          bathrooms: 1,
-          price: 350000,
-          status: 'RESERVED' as const,
-          images: [],
-          features: [],
-        },
-        status: mapTransactionStatus(t.status),
-        participants: t.participants.map(p => ({
-          id: p.id,
-          role: p.role,
-          userId: p.userId,
-          name: `User ${p.userId}`,
-          email: `user${p.userId}@example.com`,
-          joinedAt: p.joinedAt.toISOString(),
-          status: 'ACTIVE' as const,
-        })),
-        documents: [],
-        messages: [],
-        timeline: [],
-        payments: await getTransactionPayments(t.id),
-        totalAmount: 350000,
-        currentStage: getCurrentStage(t.status),
-        createdAt: t.startedAt.toISOString(),
-        updatedAt: t.startedAt.toISOString(),
-        completionDate: t.completedAt?.toISOString(),
-        metadata: {},
-      }))
-    );
-
-    return NextResponse.json(transformedTransactions);
   } catch (error) {
-    console.error('Error fetching transactions:', error);
+
     return NextResponse.json(
-      { error: 'Failed to fetch transactions' },
+      { success: false, error: 'Failed to fetch transactions' },
       { status: 500 }
     );
   }
 }
 
-/**
- * POST handler for creating transactions
- */
+// POST /api/transactions
 export async function POST(request: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
@@ -200,43 +93,54 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const body = await request.json();
-    const validationResult = CreateTransactionSchema.safeParse(body);
-
-    if (!validationResult.success) {
+    // Only buyers, agents, and admins can create transactions
+    if (!['BUYER', 'AGENT', 'ADMIN'].includes(session.user?.role || '')) {
       return NextResponse.json(
-        { error: 'Invalid request data', details: validationResult.error.format() },
+        { error: 'Unauthorized to create transactions' },
+        { status: 403 }
+      );
+    }
+
+    const body = await request.json();
+
+    // Validate request body
+    const validatedData = createTransactionSchema.parse(body);
+
+    // If buyer is creating their own transaction
+    if (session.user?.role === 'BUYER') {
+      validatedData.buyerId = session.user.id;
+    }
+
+    // If agent is creating, ensure they're the agent
+    if (session.user?.role === 'AGENT' && !validatedData.agentId) {
+      validatedData.agentId = session.user.id;
+    }
+
+    // Create transaction
+    const transaction = await transactionService.createTransaction(validatedData);
+
+    return NextResponse.json({
+      success: true,
+      data: transaction
+    });
+  } catch (error) {
+
+    if (error instanceof z.ZodError) {
+      return NextResponse.json(
+        { success: false, error: 'Invalid request data', details: error.errors },
         { status: 400 }
       );
     }
 
-    const { propertyId, buyerId, developerId, unitId, totalAmount, initialDeposit } = validationResult.data;
-
-    // Create transaction
-    const transaction = await transactionCoordinator.initiatePropertyPurchase(buyerId, propertyId);
-
-    // Create initial payment record
-    const payment = await createPaymentRecord({
-      transactionId: transaction.id,
-      amount: initialDeposit,
-      type: 'BOOKING_DEPOSIT',
-      dueDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 days from now
-    });
-
-    return NextResponse.json({ transaction, payment }, { status: 201 });
-  } catch (error) {
-    console.error('Error creating transaction:', error);
     return NextResponse.json(
-      { error: 'Failed to create transaction' },
+      { success: false, error: 'Failed to create transaction' },
       { status: 500 }
     );
   }
 }
 
-/**
- * PUT handler for updating transactions
- */
-export async function PUT(request: NextRequest) {
+// PATCH /api/transactions
+export async function PATCH(request: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
     if (!session) {
@@ -247,145 +151,126 @@ export async function PUT(request: NextRequest) {
     }
 
     const body = await request.json();
+    const { transactionId, updates } = body;
 
-    // Handle status updates
-    if (body.status) {
-      const validationResult = UpdateStatusSchema.safeParse(body);
-      if (!validationResult.success) {
-        return NextResponse.json(
-          { error: 'Invalid status update data', details: validationResult.error.format() },
-          { status: 400 }
-        );
-      }
-
-      const { transactionId, status, performedBy, notes } = validationResult.data;
-      const updatedTransaction = await transactionCoordinator.handleStateChange(
-        transactionId,
-        status,
-        performedBy
+    if (!transactionId) {
+      return NextResponse.json(
+        { success: false, error: 'Transaction ID is required' },
+        { status: 400 }
       );
-
-      return NextResponse.json(updatedTransaction);
     }
 
-    // Handle payment processing
-    if (body.paymentType) {
-      const validationResult = ProcessPaymentSchema.safeParse(body);
-      if (!validationResult.success) {
-        return NextResponse.json(
-          { error: 'Invalid payment data', details: validationResult.error.format() },
-          { status: 400 }
-        );
-      }
-
-      const paymentResult = await processPayment(validationResult.data);
-      return NextResponse.json(paymentResult);
+    // Check permissions
+    const transaction = await transactionService.getTransaction(transactionId);
+    if (!transaction) {
+      return NextResponse.json(
+        { success: false, error: 'Transaction not found' },
+        { status: 404 }
+      );
     }
 
-    return NextResponse.json(
-      { error: 'Invalid update request' },
-      { status: 400 }
+    // Role-based access control
+    const canUpdate = 
+      session.user?.role === 'ADMIN' ||
+      (session.user?.role === 'BUYER' && transaction.buyerId === session.user.id) ||
+      (session.user?.role === 'AGENT' && transaction.agentId === session.user.id) ||
+      (session.user?.role === 'DEVELOPER' && transaction.development?.developerId === session.user.id);
+
+    if (!canUpdate) {
+      return NextResponse.json(
+        { error: 'Unauthorized to update this transaction' },
+        { status: 403 }
+      );
+    }
+
+    // Update transaction
+    const updatedTransaction = await transactionService.updateTransaction(
+      transactionId,
+      updates,
+      session.user?.id || 'system'
     );
+
+    return NextResponse.json({
+      success: true,
+      data: updatedTransaction
+    });
   } catch (error) {
-    console.error('Error updating transaction:', error);
+
     return NextResponse.json(
-      { error: 'Failed to update transaction' },
+      { success: false, error: 'Failed to update transaction' },
       { status: 500 }
     );
   }
 }
 
-// Helper functions
+// DELETE /api/transactions
+export async function DELETE(request: NextRequest) {
+  try {
+    const session = await getServerSession(authOptions);
+    if (!session) {
+      return NextResponse.json(
+        { error: 'Authentication required' },
+        { status: 401 }
+      );
+    }
 
-/**
- * Map database transaction status to UI status
- */
-function mapTransactionStatus(dbStatus: string): string {
-  const statusMap: Record<string, string> = {
-    'INITIATED': 'DRAFT',
-    'OFFER_MADE': 'RESERVED',
-    'OFFER_ACCEPTED': 'DEPOSIT_PAID',
-    'CONTRACTS_EXCHANGED': 'CONTRACTED',
-    'COMPLETED': 'COMPLETED',
-    'CANCELLED': 'CANCELLED',
-  };
-  return statusMap[dbStatus] || dbStatus;
-}
+    const { searchParams } = new URL(request.url);
+    const transactionId = searchParams.get('id');
 
-/**
- * Get current stage based on status
- */
-function getCurrentStage(status: string): string {
-  const stageMap: Record<string, string> = {
-    'INITIATED': 'Property Discovery',
-    'OFFER_MADE': 'Offer Submitted',
-    'OFFER_ACCEPTED': 'Processing Deposits',
-    'CONTRACTS_EXCHANGED': 'Legal Process',
-    'COMPLETED': 'Transaction Complete',
-    'CANCELLED': 'Transaction Cancelled',
-  };
-  return stageMap[status] || status;
-}
+    if (!transactionId) {
+      return NextResponse.json(
+        { success: false, error: 'Transaction ID is required' },
+        { status: 400 }
+      );
+    }
 
-/**
- * Get transaction payments
- */
-async function getTransactionPayments(transactionId: string) {
-  // Mock payment data - would be fetched from payment service
-  return [
-    {
-      id: `payment-${transactionId}-1`,
-      amount: 5000,
-      currency: 'EUR',
-      type: 'BOOKING_DEPOSIT' as const,
-      status: 'COMPLETED' as const,
-      dueDate: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString(),
-      paidDate: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString(),
-      reference: 'REF-001',
-    },
-    {
-      id: `payment-${transactionId}-2`,
-      amount: 35000,
-      currency: 'EUR',
-      type: 'CONTRACT_DEPOSIT' as const,
-      status: 'PENDING' as const,
-      dueDate: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toISOString(),
-    },
-  ];
-}
+    // Check permissions
+    const transaction = await transactionService.getTransaction(transactionId);
+    if (!transaction) {
+      return NextResponse.json(
+        { success: false, error: 'Transaction not found' },
+        { status: 404 }
+      );
+    }
 
-/**
- * Create payment record
- */
-async function createPaymentRecord(data: {
-  transactionId: string;
-  amount: number;
-  type: string;
-  dueDate: Date;
-}) {
-  // Mock implementation - would integrate with payment service
-  return {
-    id: `payment-${Date.now()}`,
-    transactionId: data.transactionId,
-    amount: data.amount,
-    currency: 'EUR',
-    type: data.type,
-    status: 'PENDING',
-    dueDate: data.dueDate.toISOString(),
-    createdAt: new Date().toISOString(),
-  };
-}
+    // Only allow cancellation, not deletion
+    if (['COMPLETED', 'HANDED_OVER'].includes(transaction.status)) {
+      return NextResponse.json(
+        { error: 'Cannot cancel completed transactions' },
+        { status: 400 }
+      );
+    }
 
-/**
- * Process payment
- */
-async function processPayment(data: z.infer<typeof ProcessPaymentSchema>) {
-  // Mock implementation - would integrate with payment gateway
-  return {
-    success: true,
-    paymentId: `payment-${Date.now()}`,
-    status: 'PROCESSING',
-    message: 'Payment is being processed',
-    processingTime: '1-2 business days',
-  };
+    // Role-based access control
+    const canCancel = 
+      session.user?.role === 'ADMIN' ||
+      (session.user?.role === 'BUYER' && transaction.buyerId === session.user.id) ||
+      (session.user?.role === 'DEVELOPER' && transaction.development?.developerId === session.user.id);
+
+    if (!canCancel) {
+      return NextResponse.json(
+        { error: 'Unauthorized to cancel this transaction' },
+        { status: 403 }
+      );
+    }
+
+    // Cancel transaction
+    const cancelledTransaction = await transactionService.updateTransaction(
+      transactionId,
+      { status: 'CANCELLED' },
+      session.user?.id || 'system'
+    );
+
+    return NextResponse.json({
+      success: true,
+      message: 'Transaction cancelled successfully',
+      data: cancelledTransaction
+    });
+  } catch (error) {
+
+    return NextResponse.json(
+      { success: false, error: 'Failed to cancel transaction' },
+      { status: 500 }
+    );
+  }
 }

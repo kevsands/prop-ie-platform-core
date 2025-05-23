@@ -68,7 +68,7 @@ export interface SecurityEvent {
   action?: string;
   status: 'SUCCESS' | 'FAILURE' | 'BLOCKED' | 'WARNING';
   description: string;
-  metadata?: Record<string, any>;
+  metadata?: Record<string, any>\n  );
   relatedEvents?: string[];
 }
 
@@ -82,7 +82,7 @@ export interface MFAOption {
   lastUsed?: Date;
   enrolledAt: Date;
   verifiedAt?: Date;
-  metadata?: Record<string, any>;
+  metadata?: Record<string, any>\n  );
 }
 
 /**
@@ -144,7 +144,7 @@ export interface SecurityAlert {
   resolvedBy?: string;
   resolution?: string;
   relatedEvents?: SecurityEvent[];
-  metadata?: Record<string, any>;
+  metadata?: Record<string, any>\n  );
 }
 
 /**

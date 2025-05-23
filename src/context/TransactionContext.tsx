@@ -38,420 +38,426 @@ export interface TransactionDocument {
   visibleTo: string[]; // User IDs who can see this document
 }
 
+export interface TransactionMilestone {
+  id: string;
+  name: string;
+  description: string;
+  order: number;
+  status: 'PENDING' | 'IN_PROGRESS' | 'COMPLETED' | 'SKIPPED';
+  completedAt?: string;
+  completedBy?: string;
+  dueDate?: string;
+  requirements: string[];
+  documents: string[]; // Document IDs required for this milestone
+}
+
 export interface TransactionMessage {
   id: string;
   senderId: string;
   senderName: string;
+  senderRole: string;
   content: string;
   timestamp: string;
-  readBy: string[];
-  attachments?: string[];
-}
-
-export interface TransactionPayment {
-  id: string;
-  amount: number;
-  currency: string;
-  type: 'BOOKING_DEPOSIT' | 'CONTRACT_DEPOSIT' | 'STAGE_PAYMENT' | 'FINAL_PAYMENT';
-  status: 'PENDING' | 'PROCESSING' | 'COMPLETED' | 'FAILED' | 'REFUNDED';
-  dueDate: string;
-  paidDate?: string;
-  paidBy?: string;
-  reference?: string;
-}
-
-export interface TimelineEvent {
-  id: string;
-  type: string;
-  title: string;
-  description: string;
-  timestamp: string;
-  userId: string;
-  userName: string;
-  metadata?: Record<string, any>;
-}
-
-export interface Property {
-  id: string;
-  developmentId: string;
-  developmentName: string;
-  address: string;
-  type: 'APARTMENT' | 'HOUSE' | 'TOWNHOUSE';
-  bedrooms: number;
-  bathrooms: number;
-  price: number;
-  status: 'AVAILABLE' | 'RESERVED' | 'SOLD';
-  images: string[];
-  features: string[];
+  readBy: string[]; // User IDs who have read this message
+  attachments?: TransactionDocument[];
 }
 
 export interface Transaction {
   id: string;
-  reference: string;
-  property: Property;
+  propertyId: string;
+  buyerId: string;
+  developerId: string;
+  agentId?: string;
   status: TransactionStatus;
-  participants: TransactionParticipant[];
-  documents: TransactionDocument[];
-  messages: TransactionMessage[];
-  timeline: TimelineEvent[];
-  payments: TransactionPayment[];
-  totalAmount: number;
-  currentStage: string;
+  priceInCents: number;
+  depositAmountInCents: number;
+  depositPaidAt?: string;
   createdAt: string;
   updatedAt: string;
-  completionDate?: string;
-  metadata: Record<string, any>;
+  participants: TransactionParticipant[];
+  documents: TransactionDocument[];
+  milestones: TransactionMilestone[];
+  messages: TransactionMessage[];
+  metadata: {
+    propertyAddress: string;
+    propertyType: string;
+    developmentName: string;
+    unitNumber?: string;
+    bedrooms: number;
+    bathrooms: number;
+  };
 }
 
 interface TransactionContextType {
-  // Current transaction
   currentTransaction: Transaction | null;
-  setCurrentTransaction: (transaction: Transaction | null) => void;
-  
-  // Transaction list for user
   transactions: Transaction[];
-  loadingTransactions: boolean;
+  loading: boolean;
+  error: string | null;
   
   // Actions
-  updateTransactionStatus: (transactionId: string, status: TransactionStatus) => Promise<void>;
-  addDocument: (transactionId: string, document: File, metadata: Partial<TransactionDocument>) => Promise<void>;
-  sendMessage: (transactionId: string, content: string, attachments?: File[]) => Promise<void>;
-  addParticipant: (transactionId: string, participant: Omit<TransactionParticipant, 'id' | 'joinedAt'>) => Promise<void>;
-  removeParticipant: (transactionId: string, participantId: string) => Promise<void>;
-  updatePaymentStatus: (transactionId: string, paymentId: string, status: string) => Promise<void>;
-  addTimelineEvent: (transactionId: string, event: Omit<TimelineEvent, 'id' | 'timestamp'>) => Promise<void>;
-  
-  // Queries
-  fetchTransaction: (transactionId: string) => Promise<void>;
-  fetchUserTransactions: () => Promise<void>;
-  searchTransactions: (query: string) => Promise<Transaction[]>;
-  
-  // Real-time updates
-  subscribeToTransaction: (transactionId: string) => () => void;
-  subscribeToUserTransactions: () => () => void;
-  
-  // Helper methods
-  getTransactionCount: (status: string) => number;
+  loadTransaction: (transactionId: string) => Promise<void>\n  );
+  loadTransactions: () => Promise<void>\n  );
+  createTransaction: (data: Partial<Transaction>) => Promise<Transaction>\n  );
+  updateTransaction: (transactionId: string, updates: Partial<Transaction>) => Promise<void>\n  );
+  updateTransactionStatus: (transactionId: string, status: TransactionStatus) => Promise<void>\n  );
+  // Document management
+  uploadDocument: (transactionId: string, file: File, metadata: Partial<TransactionDocument>) => Promise<void>\n  );
+  deleteDocument: (transactionId: string, documentId: string) => Promise<void>\n  );
+  updateDocumentStatus: (transactionId: string, documentId: string, status: TransactionDocument['status']) => Promise<void>\n  );
+  // Messaging
+  sendMessage: (transactionId: string, content: string, attachments?: File[]) => Promise<void>\n  );
+  markMessageAsRead: (transactionId: string, messageId: string) => Promise<void>\n  );
+  // Milestone management
+  updateMilestoneStatus: (transactionId: string, milestoneId: string, status: TransactionMilestone['status']) => Promise<void>\n  );
+  // Participant management
+  inviteParticipant: (transactionId: string, participant: Partial<TransactionParticipant>) => Promise<void>\n  );
+  removeParticipant: (transactionId: string, participantId: string) => Promise<void>\n  );
 }
 
 const TransactionContext = createContext<TransactionContextType | undefined>(undefined);
 
-export const useTransaction = () => {
-  const context = useContext(TransactionContext);
-  if (!context) {
-    throw new Error('useTransaction must be used within a TransactionProvider');
+export const TransactionProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+  const [currentTransactionsetCurrentTransaction] = useState<Transaction | null>(null);
+  const [transactionssetTransactions] = useState<Transaction[]>([]);
+  const [loadingsetLoading] = useState(false);
+  const [errorsetError] = useState<string | null>(null);
+  
+  // Try to use auth context if available
+  let user = null;
+  try {
+    const authContext = useContext(AuthContext);
+    user = authContext?.user || null;
+  } catch (error) {
+    // Auth context not available, continue without user
+    console.debug('AuthContext not available in TransactionProvider');
   }
-  return context;
-};
 
-interface TransactionProviderProps {
-  children: ReactNode;
-}
-
-export const TransactionProvider: React.FC<TransactionProviderProps> = ({ children }) => {
-  const { user } = useAuth();
-  const [currentTransaction, setCurrentTransaction] = useState<Transaction | null>(null);
-  const [transactions, setTransactions] = useState<Transaction[]>([]);
-  const [loadingTransactions, setLoadingTransactions] = useState(false);
-
-  // Fetch transaction by ID
-  const fetchTransaction = async (transactionId: string) => {
+  // Load transactions for the current user
+  const loadTransactions = async () => {
+    if (!user) return;
+    
+    setLoading(true);
+    setError(null);
+    
     try {
-      const transaction = await api.get<Transaction>(`/transactions/${transactionId}`);
-      setCurrentTransaction(transaction);
-      
-      // Update in transactions list if exists
-      setTransactions(prev => 
-        prev.map(t => t.id === transaction.id ? transaction : t)
-      );
-    } catch (error) {
-      console.error('Error fetching transaction:', error);
-      throw error;
+      const response = await api.get('/transactions');
+      setTransactions(response.data);
+    } catch (err: any) {
+      setError(err.message || 'Failed to load transactions');
+    } finally {
+      setLoading(false);
     }
   };
 
-  // Fetch all transactions for current user
-  const fetchUserTransactions = async () => {
-    if (!user) return;
+  // Load a specific transaction
+  const loadTransaction = async (transactionId: string) => {
+    setLoading(true);
+    setError(null);
     
-    setLoadingTransactions(true);
     try {
-      const userTransactions = await api.get<Transaction[]>('/transactions');
-      setTransactions(userTransactions);
-    } catch (error) {
-      console.error('Error fetching user transactions:', error);
+      const response = await api.get(`/transactions/${transactionId}`);
+      setCurrentTransaction(response.data);
+    } catch (err: any) {
+      setError(err.message || 'Failed to load transaction');
     } finally {
-      setLoadingTransactions(false);
+      setLoading(false);
+    }
+  };
+
+  // Create a new transaction
+  const createTransaction = async (data: Partial<Transaction>): Promise<Transaction> => {
+    setLoading(true);
+    setError(null);
+    
+    try {
+      const response = await api.post('/transactions', data);
+      const newTransaction = response.data;
+      setTransactions([...transactionsnewTransaction]);
+      return newTransaction;
+    } catch (err: any) {
+      setError(err.message || 'Failed to create transaction');
+      throw err;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Update a transaction
+  const updateTransaction = async (transactionId: string, updates: Partial<Transaction>) => {
+    setLoading(true);
+    setError(null);
+    
+    try {
+      const response = await api.patch(`/transactions/${transactionId}`, updates);
+      const updated = response.data;
+      
+      setTransactions(transactions.map(t => t.id === transactionId ? updated : t));
+      if (currentTransaction?.id === transactionId) {
+        setCurrentTransaction(updated);
+      }
+    } catch (err: any) {
+      setError(err.message || 'Failed to update transaction');
+      throw err;
+    } finally {
+      setLoading(false);
     }
   };
 
   // Update transaction status
   const updateTransactionStatus = async (transactionId: string, status: TransactionStatus) => {
-    try {
-      const updated = await api.put<Transaction>(`/transactions/${transactionId}/status`, { status });
-      
-      if (currentTransaction?.id === transactionId) {
-        setCurrentTransaction(updated);
-      }
-      
-      setTransactions(prev => 
-        prev.map(t => t.id === transactionId ? updated : t)
-      );
-      
-      // Add timeline event
-      await addTimelineEvent(transactionId, {
-        type: 'STATUS_CHANGE',
-        title: 'Status Updated',
-        description: `Transaction status changed to ${status}`,
-        userId: user!.id,
-        userName: user!.name
-      });
-    } catch (error) {
-      console.error('Error updating transaction status:', error);
-      throw error;
-    }
+    await updateTransaction(transactionId, { status });
   };
 
-  // Add document to transaction
-  const addDocument = async (transactionId: string, document: File, metadata: Partial<TransactionDocument>) => {
+  // Upload a document
+  const uploadDocument = async (
+    transactionId: string, 
+    file: File, 
+    metadata: Partial<TransactionDocument>
+  ) => {
+    setLoading(true);
+    setError(null);
+    
     try {
       const formData = new FormData();
-      formData.append('file', document);
+      formData.append('file', file);
       formData.append('metadata', JSON.stringify(metadata));
       
-      const newDocument = await api.post<TransactionDocument>(
+      const response = await api.post(
         `/transactions/${transactionId}/documents`,
-        formData
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data'}
       );
       
-      // Update local state
+      const updatedTransaction = response.data;
+      setTransactions(transactions.map(t => t.id === transactionId ? updatedTransaction : t));
       if (currentTransaction?.id === transactionId) {
-        setCurrentTransaction({
-          ...currentTransaction,
-          documents: [...currentTransaction.documents, newDocument]
-        });
+        setCurrentTransaction(updatedTransaction);
       }
-      
-      // Add timeline event
-      await addTimelineEvent(transactionId, {
-        type: 'DOCUMENT_UPLOAD',
-        title: 'Document Uploaded',
-        description: `${metadata.name || document.name} uploaded`,
-        userId: user!.id,
-        userName: user!.name,
-        metadata: { documentId: newDocument.id }
-      });
-    } catch (error) {
-      console.error('Error adding document:', error);
-      throw error;
+    } catch (err: any) {
+      setError(err.message || 'Failed to upload document');
+      throw err;
+    } finally {
+      setLoading(false);
     }
   };
 
-  // Send message in transaction
-  const sendMessage = async (transactionId: string, content: string, attachments?: File[]) => {
+  // Delete a document
+  const deleteDocument = async (transactionId: string, documentId: string) => {
+    setLoading(true);
+    setError(null);
+    
+    try {
+      const response = await api.delete(`/transactions/${transactionId}/documents/${documentId}`);
+      const updatedTransaction = response.data;
+      
+      setTransactions(transactions.map(t => t.id === transactionId ? updatedTransaction : t));
+      if (currentTransaction?.id === transactionId) {
+        setCurrentTransaction(updatedTransaction);
+      }
+    } catch (err: any) {
+      setError(err.message || 'Failed to delete document');
+      throw err;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Update document status
+  const updateDocumentStatus = async (
+    transactionId: string, 
+    documentId: string, 
+    status: TransactionDocument['status']
+  ) => {
+    setLoading(true);
+    setError(null);
+    
+    try {
+      const response = await api.patch(
+        `/transactions/${transactionId}/documents/${documentId}`,
+        { status }
+      );
+      const updatedTransaction = response.data;
+      
+      setTransactions(transactions.map(t => t.id === transactionId ? updatedTransaction : t));
+      if (currentTransaction?.id === transactionId) {
+        setCurrentTransaction(updatedTransaction);
+      }
+    } catch (err: any) {
+      setError(err.message || 'Failed to update document status');
+      throw err;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Send a message
+  const sendMessage = async (
+    transactionId: string, 
+    content: string, 
+    attachments?: File[]
+  ) => {
+    setLoading(true);
+    setError(null);
+    
     try {
       const formData = new FormData();
       formData.append('content', content);
       
       if (attachments) {
-        attachments.forEach(file => formData.append('attachments', file));
-      }
-      
-      const message = await api.post<TransactionMessage>(
-        `/transactions/${transactionId}/messages`,
-        formData
-      );
-      
-      // Update local state
-      if (currentTransaction?.id === transactionId) {
-        setCurrentTransaction({
-          ...currentTransaction,
-          messages: [...currentTransaction.messages, message]
+        attachments.forEach((fileindex: any) => {
+          formData.append(`attachments[${index}]`, file);
         });
       }
-    } catch (error) {
-      console.error('Error sending message:', error);
-      throw error;
+      
+      const response = await api.post(
+        `/transactions/${transactionId}/messages`,
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data'}
+      );
+      
+      const updatedTransaction = response.data;
+      setTransactions(transactions.map(t => t.id === transactionId ? updatedTransaction : t));
+      if (currentTransaction?.id === transactionId) {
+        setCurrentTransaction(updatedTransaction);
+      }
+    } catch (err: any) {
+      setError(err.message || 'Failed to send message');
+      throw err;
+    } finally {
+      setLoading(false);
     }
   };
 
-  // Add participant to transaction
-  const addParticipant = async (
-    transactionId: string, 
-    participant: Omit<TransactionParticipant, 'id' | 'joinedAt'>
-  ) => {
+  // Mark message as read
+  const markMessageAsRead = async (transactionId: string, messageId: string) => {
+    setLoading(true);
+    setError(null);
+    
     try {
-      const newParticipant = await api.post<TransactionParticipant>(
+      const response = await api.patch(
+        `/transactions/${transactionId}/messages/${messageId}/read`
+      );
+      const updatedTransaction = response.data;
+      
+      setTransactions(transactions.map(t => t.id === transactionId ? updatedTransaction : t));
+      if (currentTransaction?.id === transactionId) {
+        setCurrentTransaction(updatedTransaction);
+      }
+    } catch (err: any) {
+      setError(err.message || 'Failed to mark message as read');
+      throw err;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Update milestone status
+  const updateMilestoneStatus = async (
+    transactionId: string, 
+    milestoneId: string, 
+    status: TransactionMilestone['status']
+  ) => {
+    setLoading(true);
+    setError(null);
+    
+    try {
+      const response = await api.patch(
+        `/transactions/${transactionId}/milestones/${milestoneId}`,
+        { status }
+      );
+      const updatedTransaction = response.data;
+      
+      setTransactions(transactions.map(t => t.id === transactionId ? updatedTransaction : t));
+      if (currentTransaction?.id === transactionId) {
+        setCurrentTransaction(updatedTransaction);
+      }
+    } catch (err: any) {
+      setError(err.message || 'Failed to update milestone status');
+      throw err;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Invite a participant
+  const inviteParticipant = async (
+    transactionId: string, 
+    participant: Partial<TransactionParticipant>
+  ) => {
+    setLoading(true);
+    setError(null);
+    
+    try {
+      const response = await api.post(
         `/transactions/${transactionId}/participants`,
         participant
       );
+      const updatedTransaction = response.data;
       
-      // Update local state
+      setTransactions(transactions.map(t => t.id === transactionId ? updatedTransaction : t));
       if (currentTransaction?.id === transactionId) {
-        setCurrentTransaction({
-          ...currentTransaction,
-          participants: [...currentTransaction.participants, newParticipant]
-        });
+        setCurrentTransaction(updatedTransaction);
       }
-      
-      // Add timeline event
-      await addTimelineEvent(transactionId, {
-        type: 'PARTICIPANT_ADDED',
-        title: 'Participant Added',
-        description: `${participant.name} joined as ${participant.role}`,
-        userId: user!.id,
-        userName: user!.name
-      });
-    } catch (error) {
-      console.error('Error adding participant:', error);
-      throw error;
+    } catch (err: any) {
+      setError(err.message || 'Failed to invite participant');
+      throw err;
+    } finally {
+      setLoading(false);
     }
   };
 
-  // Remove participant from transaction
+  // Remove a participant
   const removeParticipant = async (transactionId: string, participantId: string) => {
-    try {
-      await api.delete(`/transactions/${transactionId}/participants/${participantId}`);
-      
-      // Update local state
-      if (currentTransaction?.id === transactionId) {
-        setCurrentTransaction({
-          ...currentTransaction,
-          participants: currentTransaction.participants.filter(p => p.id !== participantId)
-        });
-      }
-    } catch (error) {
-      console.error('Error removing participant:', error);
-      throw error;
-    }
-  };
-
-  // Update payment status
-  const updatePaymentStatus = async (transactionId: string, paymentId: string, status: string) => {
-    try {
-      const updated = await api.put<TransactionPayment>(
-        `/transactions/${transactionId}/payments/${paymentId}`,
-        { status }
-      );
-      
-      // Update local state
-      if (currentTransaction?.id === transactionId) {
-        setCurrentTransaction({
-          ...currentTransaction,
-          payments: currentTransaction.payments.map(p => 
-            p.id === paymentId ? updated : p
-          )
-        });
-      }
-      
-      // Add timeline event
-      await addTimelineEvent(transactionId, {
-        type: 'PAYMENT_UPDATE',
-        title: 'Payment Updated',
-        description: `Payment status changed to ${status}`,
-        userId: user!.id,
-        userName: user!.name,
-        metadata: { paymentId, status }
-      });
-    } catch (error) {
-      console.error('Error updating payment status:', error);
-      throw error;
-    }
-  };
-
-  // Add timeline event
-  const addTimelineEvent = async (
-    transactionId: string, 
-    event: Omit<TimelineEvent, 'id' | 'timestamp'>
-  ) => {
-    try {
-      const newEvent = await api.post<TimelineEvent>(
-        `/transactions/${transactionId}/timeline`,
-        event
-      );
-      
-      // Update local state
-      if (currentTransaction?.id === transactionId) {
-        setCurrentTransaction({
-          ...currentTransaction,
-          timeline: [...currentTransaction.timeline, newEvent]
-        });
-      }
-    } catch (error) {
-      console.error('Error adding timeline event:', error);
-      throw error;
-    }
-  };
-
-  // Search transactions
-  const searchTransactions = async (query: string): Promise<Transaction[]> => {
-    try {
-      return await api.get<Transaction[]>(`/transactions/search?q=${encodeURIComponent(query)}`);
-    } catch (error) {
-      console.error('Error searching transactions:', error);
-      return [];
-    }
-  };
-
-  // Subscribe to transaction updates (WebSocket or SSE)
-  const subscribeToTransaction = (transactionId: string) => {
-    // TODO: Implement WebSocket subscription
-    console.log('Subscribing to transaction:', transactionId);
+    setLoading(true);
+    setError(null);
     
-    // Return unsubscribe function
-    return () => {
-      console.log('Unsubscribing from transaction:', transactionId);
-    };
+    try {
+      const response = await api.delete(
+        `/transactions/${transactionId}/participants/${participantId}`
+      );
+      const updatedTransaction = response.data;
+      
+      setTransactions(transactions.map(t => t.id === transactionId ? updatedTransaction : t));
+      if (currentTransaction?.id === transactionId) {
+        setCurrentTransaction(updatedTransaction);
+      }
+    } catch (err: any) {
+      setError(err.message || 'Failed to remove participant');
+      throw err;
+    } finally {
+      setLoading(false);
+    }
   };
 
-  // Subscribe to user's transactions updates
-  const subscribeToUserTransactions = () => {
-    // TODO: Implement WebSocket subscription
-    console.log('Subscribing to user transactions');
-    
-    // Return unsubscribe function
-    return () => {
-      console.log('Unsubscribing from user transactions');
-    };
-  };
-
-  // Load user transactions on mount
+  // Load transactions when user changes
   useEffect(() => {
     if (user) {
-      fetchUserTransactions();
+      loadTransactions();
     }
   }, [user]);
 
-  // Get count of transactions with specific status
-  const getTransactionCount = (status: string): number => {
-    if (status === 'DOCUMENTS_PENDING') {
-      return transactions.filter(t => 
-        t.documents.some(doc => doc.status === 'PENDING')
-      ).length;
-    }
-    
-    return transactions.filter(t => t.status === status as TransactionStatus).length;
-  };
-
   const value: TransactionContextType = {
     currentTransaction,
-    setCurrentTransaction,
     transactions,
-    loadingTransactions,
+    loading,
+    error,
+    loadTransaction,
+    loadTransactions,
+    createTransaction,
+    updateTransaction,
     updateTransactionStatus,
-    addDocument,
+    uploadDocument,
+    deleteDocument,
+    updateDocumentStatus,
     sendMessage,
-    addParticipant,
-    removeParticipant,
-    updatePaymentStatus,
-    addTimelineEvent,
-    fetchTransaction,
-    fetchUserTransactions,
-    searchTransactions,
-    subscribeToTransaction,
-    subscribeToUserTransactions,
-    getTransactionCount
-  };
+    markMessageAsRead,
+    updateMilestoneStatus,
+    inviteParticipant,
+    removeParticipant};
 
   return (
     <TransactionContext.Provider value={value}>
@@ -460,4 +466,10 @@ export const TransactionProvider: React.FC<TransactionProviderProps> = ({ childr
   );
 };
 
-export default TransactionContext;
+export const useTransaction = () => {
+  const context = useContext(TransactionContext);
+  if (context === undefined) {
+    throw new Error('useTransaction must be used within a TransactionProvider');
+  }
+  return context;
+};

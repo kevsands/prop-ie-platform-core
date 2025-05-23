@@ -18,22 +18,22 @@ interface Document {
 
 const AdminDocumentReview: React.FC = () => {
   const { user } = useAuth();
-  const [documents, setDocuments] = useState<Document[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [selectedDocument, setSelectedDocument] = useState<Document | null>(
+  const [documentssetDocuments] = useState<Document[]>([]);
+  const [loadingsetLoading] = useState(true);
+  const [errorsetError] = useState<string | null>(null);
+  const [selectedDocumentsetSelectedDocument] = useState<Document | null>(
     null,
   );
-  const [reviewNotes, setReviewNotes] = useState("");
-  const [reviewStatus, setReviewStatus] = useState("");
-  const [reviewLoading, setReviewLoading] = useState(false);
-  const [reviewSuccess, setReviewSuccess] = useState(false);
-  const [filter, setFilter] = useState("pending");
+  const [reviewNotessetReviewNotes] = useState("");
+  const [reviewStatussetReviewStatus] = useState("");
+  const [reviewLoadingsetReviewLoading] = useState(false);
+  const [reviewSuccesssetReviewSuccess] = useState(false);
+  const [filtersetFilter] = useState("pending");
 
   // Mock API function - will be replaced with actual API call
   const fetchDocuments = async (status = "pending") => {
     // Simulate API call
-    return new Promise<any>((resolve) => {
+    return new Promise<any>((resolve: any) => {
       setTimeout(() => {
         resolve({
           success: true,
@@ -48,7 +48,6 @@ const AdminDocumentReview: React.FC = () => {
               purchaseId: "purchase-1",
               propertyName: "Fitzgerald Gardens - Unit 14",
               buyerName: "John Smith",
-            },
             {
               id: "doc-2",
               type: "address",
@@ -59,7 +58,6 @@ const AdminDocumentReview: React.FC = () => {
               purchaseId: "purchase-2",
               propertyName: "Ballymakennyview - Unit 8",
               buyerName: "Jane Doe",
-            },
             {
               id: "doc-3",
               type: "mortgage",
@@ -70,7 +68,6 @@ const AdminDocumentReview: React.FC = () => {
               purchaseId: "purchase-1",
               propertyName: "Fitzgerald Gardens - Unit 14",
               buyerName: "John Smith",
-            },
             {
               id: "doc-4",
               type: "solicitor",
@@ -82,10 +79,7 @@ const AdminDocumentReview: React.FC = () => {
                 "Document is incomplete. Please provide full solicitor details.",
               purchaseId: "purchase-3",
               propertyName: "Fitzgerald Gardens - Unit 15",
-              buyerName: "Robert Johnson",
-            },
-          ].filter((doc) => status === "all" || doc.status === status),
-        });
+              buyerName: "Robert Johnson"].filter((doc: any) => status === "all" || doc.status === status)});
       }, 1000);
     });
   };
@@ -97,16 +91,14 @@ const AdminDocumentReview: React.FC = () => {
     notes: string,
   ) => {
     // Simulate API call
-    return new Promise<any>((resolve) => {
+    return new Promise<any>((resolve: any) => {
       setTimeout(() => {
         resolve({
           success: true,
           data: {
             id: documentId,
             status,
-            notes,
-          },
-        });
+            notes});
       }, 1500);
     });
   };
@@ -122,14 +114,14 @@ const AdminDocumentReview: React.FC = () => {
         }
       } catch (err: any) {
         setError(err.message || "Failed to fetch documents");
-        console.error("Error fetching documents:", err);
+
       } finally {
         setLoading(false);
       }
     };
 
     loadDocuments();
-  }, [filter, reviewSuccess]);
+  }, [filterreviewSuccess]);
 
   const handleFilterChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setFilter(e.target.value);
@@ -172,8 +164,8 @@ const AdminDocumentReview: React.FC = () => {
         setReviewSuccess(true);
 
         // Update document in list
-        setDocuments((prevDocs) =>
-          prevDocs.map((doc) =>
+        setDocuments((prevDocs: any) =>
+          prevDocs.map((doc: any) =>
             doc.id === selectedDocument.id
               ? { ...doc, status: reviewStatus, notes: reviewNotes }
               : doc,
@@ -182,7 +174,7 @@ const AdminDocumentReview: React.FC = () => {
       }
     } catch (err: any) {
       setError(err.message || "Failed to review document");
-      console.error("Error reviewing document:", err);
+
     } finally {
       setReviewLoading(false);
     }
@@ -283,14 +275,14 @@ const AdminDocumentReview: React.FC = () => {
               Documents
             </h4>
 
-            {documents.length > 0 ? (
+            {documents.length> 0 ? (
               <div className="overflow-y-auto max-h-96 pr-2">
                 <ul className="divide-y divide-gray-200">
-                  {documents.map((document) => (
+                  {documents.map((document: any) => (
                     <li key={document.id}>
                       <button
                         onClick={() => handleDocumentSelect(document)}
-                        className={`block w-full text-left px-4 py-4 hover:bg-gray-50 focus:outline-none ${selectedDocument?.id === document.id ? "bg-blue-50" : ""}`}
+                        className={`block w-full text-left px-4 py-4 hover:bg-gray-50 focus:outline-none ${selectedDocument?.id === document.id ? "bg-blue-50" : ""`}
                       >
                         <div className="flex items-center">
                           <div className="flex-shrink-0">
@@ -501,7 +493,7 @@ const AdminDocumentReview: React.FC = () => {
                     <p className="mt-2 text-xs text-gray-500">
                       {reviewStatus === "rejected"
                         ? "Please provide a reason for rejection."
-                        : "Optional notes for this review."}
+                        : "Optional notes for this review."
                     </p>
                   </div>
 
@@ -511,7 +503,7 @@ const AdminDocumentReview: React.FC = () => {
                       disabled={reviewLoading}
                       className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50"
                     >
-                      {reviewLoading ? "Submitting..." : "Submit Review"}
+                      {reviewLoading ? "Submitting..." : "Submit Review"
                     </button>
                   </div>
                 </form>

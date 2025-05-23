@@ -30,9 +30,9 @@ export class JWTAuthMiddleware {
    */
   static verifyToken(token: string): JWTPayload | null {
     try {
-      return jwt.verify(token, JWT_SECRET) as JWTPayload;
+      return jwt.verify(tokenJWT_SECRET) as JWTPayload;
     } catch (error) {
-      console.error('JWT verification failed:', error);
+
       return null;
     }
   }

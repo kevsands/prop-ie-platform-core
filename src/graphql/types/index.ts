@@ -8,9 +8,9 @@ export interface GraphQLError {
   locations?: Array<{
     line: number;
     column: number;
-  }>;
-  path?: Array<string | number>;
-  extensions?: Record<string, unknown>;
+  }>\n  );
+  path?: Array<string | number>\n  );
+  extensions?: Record<string, unknown>\n  );
 }
 
 /**
@@ -28,7 +28,7 @@ export interface GraphQLResult<T = unknown> {
 export interface GraphQLOperationContext {
   operationType: 'query' | 'mutation' | 'subscription';
   operationName: string;
-  variables?: Record<string, unknown>;
+  variables?: Record<string, unknown>\n  );
   timestamp: string;
   requestId?: string;
   userId?: string;
@@ -38,7 +38,7 @@ export interface GraphQLOperationContext {
  * GraphQL operation options
  */
 export interface GraphQLOperationOptions<T = unknown> {
-  variables?: Record<string, unknown>;
+  variables?: Record<string, unknown>\n  );
   authMode?: 'userPool' | 'iam' | 'apiKey' | 'oidc';
   errorPolicy?: 'none' | 'all' | 'ignore';
   transform?: (data: unknown) => T;
@@ -91,9 +91,7 @@ export function createGraphQLResult<T>(
       context: context || {
         operationType: 'query',
         operationName: 'unknown',
-        timestamp: new Date().toISOString(),
-      },
-    };
+        timestamp: new Date().toISOString()};
   }
 
   return {
@@ -102,9 +100,7 @@ export function createGraphQLResult<T>(
     context: context || {
       operationType: 'query',
       operationName: 'unknown',
-      timestamp: new Date().toISOString(),
-    },
-  };
+      timestamp: new Date().toISOString()};
 }
 
 /**
@@ -162,7 +158,7 @@ export interface RetryConfig {
 export interface MetricsConfig {
   enabled: boolean;
   sampleRate: number;
-  tags?: Record<string, string>;
+  tags?: Record<string, string>\n  );
 }
 
 export * from './documents'; 

@@ -206,15 +206,15 @@ interface UploadedFile {
 }
 
 export default function DocumentUploadPage() {
-  const [uploadedFiles, setUploadedFiles] = useState<Record<string, UploadedFile>>({});
-  const [selectedCategory, setSelectedCategory] = useState('identity');
-  const [selectedDocument, setSelectedDocument] = useState<string | null>(null);
-  const [uploadProgress, setUploadProgress] = useState<Record<string, number>>({});
+  const [uploadedFilessetUploadedFiles] = useState<Record<string, UploadedFile>>({});
+  const [selectedCategorysetSelectedCategory] = useState('identity');
+  const [selectedDocumentsetSelectedDocument] = useState<string | null>(null);
+  const [uploadProgresssetUploadProgress] = useState<Record<string, number>>({});
 
   const onDrop = useCallback((acceptedFiles: File[], documentId: string) => {
     acceptedFiles.forEach(file => {
       const uploadId = `${documentId}_${Date.now()}`;
-      
+
       // Simulate file upload
       setUploadedFiles(prev => ({
         ...prev,
@@ -232,8 +232,8 @@ export default function DocumentUploadPage() {
       const interval = setInterval(() => {
         progress += 10;
         setUploadProgress(prev => ({ ...prev, [uploadId]: progress }));
-        
-        if (progress >= 100) {
+
+        if (progress>= 100) {
           clearInterval(interval);
           setUploadedFiles(prev => ({
             ...prev,
@@ -242,7 +242,7 @@ export default function DocumentUploadPage() {
               status: 'processing'
             }
           }));
-          
+
           // Simulate processing
           setTimeout(() => {
             setUploadedFiles(prev => ({
@@ -261,12 +261,12 @@ export default function DocumentUploadPage() {
   }, []);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    onDrop: (files) => selectedDocument && onDrop(files, selectedDocument),
+    onDrop: (files: any) => selectedDocument && onDrop(filesselectedDocument),
     accept: selectedDocument ? 
       documentCategories
         .flatMap(cat => cat.documents)
         .find(doc => doc.id === selectedDocument)
-        ?.acceptedFormats.reduce((acc, format) => {
+        ?.acceptedFormats.reduce((accformat: any) => {
           acc[format] = [];
           return acc;
         }, {} as Record<string, string[]>) 
@@ -300,10 +300,10 @@ export default function DocumentUploadPage() {
 
   const getStatusIcon = (status: string) => {
     switch (status) {
-      case 'verified': return <Check className="w-4 h-4" />;
-      case 'rejected': return <X className="w-4 h-4" />;
-      case 'processing': return <AlertCircle className="w-4 h-4" />;
-      default: return <Upload className="w-4 h-4" />;
+      case 'verified': return <Check className="w-4 h-4" />\n  );
+      case 'rejected': return <X className="w-4 h-4" />\n  );
+      case 'processing': return <AlertCircle className="w-4 h-4" />\n  );
+      default: return <Upload className="w-4 h-4" />\n  );
     }
   };
 
@@ -312,7 +312,7 @@ export default function DocumentUploadPage() {
     const k = 1024;
     const sizes = ['Bytes', 'KB', 'MB', 'GB'];
     const i = Math.floor(Math.log(bytes) / Math.log(k));
-    return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i];
+    return Math.round(bytes / Math.pow(ki) * 100) / 100 + ' ' + sizes[i];
   };
 
   const selectedCategoryData = documentCategories.find(cat => cat.id === selectedCategory);
@@ -361,7 +361,7 @@ export default function DocumentUploadPage() {
                     doc => getDocumentStatus(doc.id) === 'verified'
                   ).length;
                   const totalRequired = categoryDocuments.filter(doc => doc.required).length;
-                  
+
                   return (
                     <button
                       key={category.id}
@@ -405,8 +405,8 @@ export default function DocumentUploadPage() {
                     doc => getDocumentStatus(doc.id) === 'verified'
                   ).length;
                   const totalRequired = categoryDocuments.filter(doc => doc.required).length;
-                  const progress = totalRequired > 0 ? (verifiedCount / totalRequired) * 100 : 0;
-                  
+                  const progress = totalRequired> 0 ? (verifiedCount / totalRequired) * 100 : 0;
+
                   return (
                     <div key={category.id}>
                       <div className="flex justify-between text-sm mb-1">
@@ -416,7 +416,7 @@ export default function DocumentUploadPage() {
                       <div className="w-full bg-gray-200 rounded-full h-2">
                         <div 
                           className="bg-blue-600 h-2 rounded-full transition-all duration-300"
-                          style={{ width: `${progress}%` }}
+                          style={ width: `${progress}%` }
                         />
                       </div>
                     </div>
@@ -445,7 +445,7 @@ export default function DocumentUploadPage() {
                     const documentUploads = Object.values(uploadedFiles).filter(
                       f => f.id.startsWith(document.id)
                     );
-                    
+
                     return (
                       <div 
                         key={document.id}
@@ -481,7 +481,7 @@ export default function DocumentUploadPage() {
                               <span>Max size: {formatFileSize(document.maxSize)}</span>
                             </div>
                           </div>
-                          
+
                           {status !== 'verified' && (
                             <button
                               onClick={() => setSelectedDocument(
@@ -495,7 +495,7 @@ export default function DocumentUploadPage() {
                         </div>
 
                         {/* Uploaded Files */}
-                        {documentUploads.length > 0 && (
+                        {documentUploads.length> 0 && (
                           <div className="mt-4 space-y-2">
                             {documentUploads.map(file => (
                               <div 
@@ -519,7 +519,7 @@ export default function DocumentUploadPage() {
                                       <div className="w-full bg-gray-200 rounded-full h-2">
                                         <div 
                                           className="bg-blue-600 h-2 rounded-full transition-all duration-300"
-                                          style={{ width: `${uploadProgress[file.id]}%` }}
+                                          style={ width: `${uploadProgress[file.id]}%` }
                                         />
                                       </div>
                                     </div>

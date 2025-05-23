@@ -23,22 +23,22 @@ interface PerformanceDashboardProps {
    * Whether to automatically refresh data
    */
   autoRefresh?: boolean;
-  
+
   /**
    * Refresh interval in milliseconds (default: 10000)
    */
   refreshInterval?: number;
-  
+
   /**
    * Whether to start minimized
    */
   defaultMinimized?: boolean;
-  
+
   /**
    * Position of the dashboard
    */
   position?: 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left';
-  
+
   /**
    * Whether to show position controls
    */
@@ -53,76 +53,72 @@ function PerformanceDashboard({
   refreshInterval = 10000,
   defaultMinimized = false,
   position = 'bottom-right',
-  showPositionControls = true,
-}: PerformanceDashboardProps) {
-  const [minimized, setMinimized] = useState(defaultMinimized);
-  const [activeTab, setActiveTab] = useState('metrics');
-  const [dashboardPosition, setDashboardPosition] = useState(position);
-  const [componentFilter, setComponentFilter] = useState('all');
-  
+  showPositionControls = true}: PerformanceDashboardProps) {
+  const [minimizedsetMinimized] = useState(defaultMinimized);
+  const [activeTabsetActiveTab] = useState('metrics');
+  const [dashboardPositionsetDashboardPosition] = useState(position);
+  const [componentFiltersetComponentFilter] = useState('all');
+
   // Use the performance monitor hook
   const {
     metrics,
     metricsHistory,
     refreshMetrics,
-    getMetricHistory,
-  } = usePerformanceMonitor({
+    getMetricHistory} = usePerformanceMonitor({
     enabled: true,
     collectionInterval: autoRefresh ? refreshInterval : 0,
     trackWebVitals: true,
     trackMemory: true,
-    trackEventLoop: true,
-  });
-  
+    trackEventLoop: true});
+
   // Get component performance data
   const componentPerformance = useMemo(() => {
     const timings = performanceMonitor.getComponentTimings();
-    
+
     // Group by component name and calculate stats
-    const grouped = timings.reduce<Record<string, ComponentPerformance>>((acc, timing) => {
+    const grouped = timings.reduce<Record<string, ComponentPerformance>>((acctiming: any) => {
       const name = timing.componentName;
-      
+
       if (!acc[name]) {
         acc[name] = {
           name,
           renderTime: 0,
           rerenders: 0,
-          lastRender: new Date(timing.endTime || timing.startTime),
-        };
+          lastRender: new Date(timing.endTime || timing.startTime)};
       }
-      
+
       // Update stats
       acc[name].renderTime = Math.max(acc[name].renderTime, timing.duration);
       acc[name].rerenders += 1;
-      
+
       // Update last render time if this is more recent
       const renderTime = new Date(timing.endTime || timing.startTime);
-      if (renderTime > acc[name].lastRender) {
+      if (renderTime> acc[name].lastRender) {
         acc[name].lastRender = renderTime;
       }
-      
+
       return acc;
     }, {});
-    
+
     // Convert to array and sort by render time (descending)
     return Object.values(grouped)
       .filter(comp => {
         if (componentFilter === 'all') return true;
-        if (componentFilter === 'slow') return comp.renderTime > 16; // More than one frame
-        if (componentFilter === 'frequent') return comp.rerenders > 5;
+        if (componentFilter === 'slow') return comp.renderTime> 16; // More than one frame
+        if (componentFilter === 'frequent') return comp.rerenders> 5;
         return true;
       })
-      .sort((a, b) => b.renderTime - a.renderTime);
+      .sort((ab: any) => b.renderTime - a.renderTime);
   }, [performanceMonitor.getComponentTimings(), componentFilter]);
-  
+
   // Get memory metrics
   const memoryMetrics = useMemo(() => {
     return getMetricHistory('memory').slice(-20).map(metric => ({
       ...metric,
       value: metric || 0
     }));
-  }, [getMetricHistory, metricsHistory]);
-  
+  }, [getMetricHistorymetricsHistory]);
+
   // Get web vitals metrics with status
   const webVitals = useMemo(() => {
     const vitals: WebVitalMetric[] = [
@@ -153,48 +149,46 @@ function PerformanceDashboard({
         unit: 'ms', 
         target: 100,
         timestamp: metrics.fid?.timestamp || Date.now()
-      },
-    ].filter(vital => vital.value !== undefined);
-    
+      }].filter(vital => vital.value !== undefined);
+
     // Add status based on targets
     return vitals.map(vital => {
       let status: 'good' | 'warning' | 'critical' = 'good';
-      
+
       if (vital.name.includes('CLS')) {
         // CLS has different thresholds
-        status = vital.value < 0.1 ? 'good' : 
-                 vital.value < 0.25 ? 'warning' : 'critical';
+        status = vital.value <0.1 ? 'good' : 
+                 vital.value <0.25 ? 'warning' : 'critical';
       } else {
         // Time-based metrics
-        status = vital.value < vital.target ? 'good' : 
-                 vital.value < vital.target * 1.5 ? 'warning' : 'critical';
+        status = vital.value <vital.target ? 'good' : 
+                 vital.value <vital.target * 1.5 ? 'warning' : 'critical';
       }
-      
+
       return { ...vital, status };
     });
   }, [metrics]);
-  
+
   // Position classes
   const positionClasses = {
     'top-right': 'top-4 right-4',
     'top-left': 'top-4 left-4',
     'bottom-right': 'bottom-4 right-4',
-    'bottom-left': 'bottom-4 left-4',
-  };
-  
+    'bottom-left': 'bottom-4 left-4'};
+
   // Format time for display
   const formatTime = (time: number | undefined): string => {
     if (time === undefined) return 'N/A';
     return `${time.toFixed(2)} ms`;
   };
-  
+
   // Get severity for render time
   const getRenderTimeSeverity = (time: number): string => {
-    if (time > 50) return 'text-red-500';
-    if (time > 16) return 'text-yellow-500'; // 1 frame at 60fps
+    if (time> 50) return 'text-red-500';
+    if (time> 16) return 'text-yellow-500'; // 1 frame at 60fps
     return 'text-green-500';
   };
-  
+
   // Format memory value
   const formatMemory = (bytes: number): string => {
     const mb = bytes / (1024 * 1024);
@@ -208,19 +202,18 @@ function PerformanceDashboard({
 
   // Get memory status
   const getMemoryStatus = (usage: number): 'good' | 'warning' | 'critical' => {
-    if (usage < 70) return 'good';
-    if (usage < 85) return 'warning';
+    if (usage <70) return 'good';
+    if (usage <85) return 'warning';
     return 'critical';
   };
-  
+
   return (
     <div 
       className={`fixed ${positionClasses[dashboardPosition]} z-50 bg-white dark:bg-slate-800 shadow-lg rounded-lg overflow-hidden transition-all duration-300 border border-gray-200 dark:border-slate-700`}
-      style={{ 
+      style={ 
         width: minimized ? '280px' : '500px',
         height: minimized ? '60px' : '600px',
-        opacity: 0.95,
-      }}
+        opacity: 0.95}
     >
       {/* Header */}
       <div 
@@ -250,20 +243,20 @@ function PerformanceDashboard({
               size="sm" 
               variant="ghost" 
               className="h-8 text-white hover:bg-blue-700 dark:hover:bg-blue-900" 
-              onClick={(e) => {
+              onClick={(e: any) => {
                 e.stopPropagation();
                 refreshMetrics();
-              }}
+              }
             >
               Refresh
             </Button>
           )}
           <button
             className="text-white hover:bg-blue-700 dark:hover:bg-blue-900 rounded-full p-1"
-            onClick={(e) => {
+            onClick={(e: any) => {
               e.stopPropagation();
               setMinimized(!minimized);
-            }}
+            }
           >
             <svg 
               xmlns="http://www.w3.org/2000/svg" 
@@ -283,7 +276,7 @@ function PerformanceDashboard({
           </button>
         </div>
       </div>
-      
+
       {/* Body - only shown when not minimized */}
       {!minimized && (
         <div className="overflow-y-auto h-[calc(100%-60px)]">
@@ -294,7 +287,7 @@ function PerformanceDashboard({
               <TabsTrigger value="memory">Memory</TabsTrigger>
               <TabsTrigger value="settings">Settings</TabsTrigger>
             </TabsList>
-            
+
             {/* Metrics Tab */}
             <TabsContent value="metrics" className="space-y-4">
               <Card>
@@ -303,9 +296,9 @@ function PerformanceDashboard({
                   <CardDescription>Core Web Vitals metrics</CardDescription>
                 </CardHeader>
                 <CardContent>
-                  {webVitals.length > 0 ? (
+                  {webVitals.length> 0 ? (
                     <div className="space-y-4">
-                      {webVitals.map((vital) => (
+                      {webVitals.map((vital: any) => (
                         <div key={vital.name} className="space-y-1">
                           <div className="flex justify-between items-center">
                             <span className="text-sm font-medium">{vital.name}</span>
@@ -328,9 +321,9 @@ function PerformanceDashboard({
                                 vital.status === 'good' ? 'bg-green-500' : 
                                 vital.status === 'warning' ? 'bg-yellow-500' : 'bg-red-500'
                               }`}
-                              style={{ 
+                              style={ 
                                 width: `${Math.min(100, (vital.value / vital.target) * 100)}%`
-                              }}
+                              }
                             />
                           </div>
                           <p className="text-xs text-slate-500 dark:text-slate-400">
@@ -346,7 +339,7 @@ function PerformanceDashboard({
                   )}
                 </CardContent>
               </Card>
-              
+
               <Card>
                 <CardHeader className="pb-2">
                   <CardTitle>Event Loop</CardTitle>
@@ -359,12 +352,12 @@ function PerformanceDashboard({
                         <span className="text-sm font-medium">Event Loop Lag</span>
                         <Badge 
                           variant={
-                            (metrics.eventLoopLag?.value || 0) < 10 ? 'default' : 
-                            (metrics.eventLoopLag?.value || 0) < 50 ? 'outline' : 'destructive'
+                            (metrics.eventLoopLag?.value || 0) <10 ? 'default' : 
+                            (metrics.eventLoopLag?.value || 0) <50 ? 'outline' : 'destructive'
                           }
                           className={
-                            (metrics.eventLoopLag?.value || 0) < 10 ? 'bg-green-500' : 
-                            (metrics.eventLoopLag?.value || 0) < 50 ? 'bg-yellow-500 text-white' : ''
+                            (metrics.eventLoopLag?.value || 0) <10 ? 'bg-green-500' : 
+                            (metrics.eventLoopLag?.value || 0) <50 ? 'bg-yellow-500 text-white' : ''
                           }
                         >
                           {(metrics.eventLoopLag?.value || 0).toFixed(2)} ms
@@ -372,9 +365,9 @@ function PerformanceDashboard({
                       </div>
                       <p className="text-xs text-slate-500 dark:text-slate-400">
                         Event loop lag indicates how responsive the UI is. 
-                        {(metrics.eventLoopLag?.value || 0) < 10
+                        {(metrics.eventLoopLag?.value || 0) <10
                           ? ' Your application is running smoothly.'
-                          : (metrics.eventLoopLag?.value || 0) < 50
+                          : (metrics.eventLoopLag?.value || 0) <50
                           ? ' There might be some heavy operations affecting UI responsiveness.'
                           : ' UI might feel laggy due to heavy operations on the main thread.'}
                       </p>
@@ -386,7 +379,7 @@ function PerformanceDashboard({
                   )}
                 </CardContent>
               </Card>
-              
+
               {/* Performance Recommendations */}
               <Card>
                 <CardHeader className="pb-2">
@@ -395,7 +388,7 @@ function PerformanceDashboard({
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-2">
-                    {componentPerformance.some(comp => comp.renderTime > 50) && (
+                    {componentPerformance.some(comp => comp.renderTime> 50) && (
                       <Alert variant="destructive">
                         <AlertTitle>Slow Component Renders</AlertTitle>
                         <AlertDescription>
@@ -403,8 +396,8 @@ function PerformanceDashboard({
                         </AlertDescription>
                       </Alert>
                     )}
-                    
-                    {componentPerformance.some(comp => comp.rerenders > 10) && (
+
+                    {componentPerformance.some(comp => comp.rerenders> 10) && (
                       <Alert variant="destructive">
                         <AlertTitle>Frequent Re-renders</AlertTitle>
                         <AlertDescription>
@@ -412,7 +405,7 @@ function PerformanceDashboard({
                         </AlertDescription>
                       </Alert>
                     )}
-                    
+
                     {metrics.jsHeapSize?.value && (
                       <Alert>
                         <AlertTitle>High Memory Usage</AlertTitle>
@@ -422,7 +415,7 @@ function PerformanceDashboard({
                         </AlertDescription>
                       </Alert>
                     )}
-                    
+
                     {(!webVitals.length || !metrics.eventLoopLag) && (
                       <Alert>
                         <AlertTitle>Insufficient Data</AlertTitle>
@@ -435,7 +428,7 @@ function PerformanceDashboard({
                 </CardContent>
               </Card>
             </TabsContent>
-            
+
             {/* Components Tab */}
             <TabsContent value="components" className="space-y-4">
               <div className="flex justify-between items-center">
@@ -454,7 +447,7 @@ function PerformanceDashboard({
                   </SelectContent>
                 </Select>
               </div>
-              
+
               <div className="overflow-x-auto">
                 <table className="w-full">
                   <thead>
@@ -466,8 +459,8 @@ function PerformanceDashboard({
                     </tr>
                   </thead>
                   <tbody>
-                    {componentPerformance.length > 0 ? (
-                      componentPerformance.map((comp) => (
+                    {componentPerformance.length> 0 ? (
+                      componentPerformance.map((comp: any) => (
                         <tr key={comp.name} className="border-b hover:bg-slate-50 dark:hover:bg-slate-800">
                           <td className="p-2 text-sm">
                             <div className="font-medium">{comp.name}</div>
@@ -493,7 +486,7 @@ function PerformanceDashboard({
                   </tbody>
                 </table>
               </div>
-              
+
               <Card>
                 <CardHeader className="pb-2">
                   <CardTitle>Performance Tips</CardTitle>
@@ -520,7 +513,7 @@ function PerformanceDashboard({
                 </CardContent>
               </Card>
             </TabsContent>
-            
+
             {/* Memory Tab */}
             <TabsContent value="memory" className="space-y-4">
               <Card>
@@ -536,7 +529,7 @@ function PerformanceDashboard({
                           <div className="text-sm text-slate-500 dark:text-slate-400">Heap Used</div>
                           <div className="text-2xl font-bold">{metrics.jsHeapSize.value} MB</div>
                         </div>
-                        
+
                         {metrics.jsHeapLimit?.value && (
                           <div className="bg-slate-100 dark:bg-slate-800 p-4 rounded-lg">
                             <div className="text-sm text-slate-500 dark:text-slate-400">Heap Limit</div>
@@ -544,7 +537,7 @@ function PerformanceDashboard({
                           </div>
                         )}
                       </div>
-                      
+
                       {metrics.jsHeapLimit && (
                         <div className="space-y-1">
                           <div className="flex justify-between text-sm">
@@ -556,18 +549,18 @@ function PerformanceDashboard({
                           <div className="h-2 w-full bg-slate-200 dark:bg-slate-700 rounded">
                             <div 
                               className={`h-full rounded ${
-                                (metrics.jsHeapSize.value || 0) / (metrics.jsHeapLimit.value || 1) < 0.5 ? 'bg-green-500' : 
-                                (metrics.jsHeapSize.value || 0) / (metrics.jsHeapLimit.value || 1) < 0.8 ? 'bg-yellow-500' : 
+                                (metrics.jsHeapSize.value || 0) / (metrics.jsHeapLimit.value || 1) <0.5 ? 'bg-green-500' : 
+                                (metrics.jsHeapSize.value || 0) / (metrics.jsHeapLimit.value || 1) <0.8 ? 'bg-yellow-500' : 
                                 'bg-red-500'
                               }`}
-                              style={{ 
+                              style={ 
                                 width: `${Math.min(100, ((metrics.jsHeapSize.value || 0) / (metrics.jsHeapLimit.value || 1)) * 100)}%`
-                              }}
+                              }
                             />
                           </div>
                         </div>
                       )}
-                      
+
                       <div className="text-sm text-slate-500 dark:text-slate-400">
                         <p>Memory metrics help identify potential memory leaks and high memory usage.</p>
                         {(metrics.jsHeapSize.value || 0) > 100 && (
@@ -584,7 +577,7 @@ function PerformanceDashboard({
                   )}
                 </CardContent>
               </Card>
-              
+
               <Card>
                 <CardHeader className="pb-2">
                   <CardTitle>Memory Optimization Tips</CardTitle>
@@ -604,7 +597,7 @@ function PerformanceDashboard({
                 </CardContent>
               </Card>
             </TabsContent>
-            
+
             {/* Settings Tab */}
             <TabsContent value="settings" className="space-y-4">
               <Card>
@@ -649,7 +642,7 @@ function PerformanceDashboard({
                       </div>
                     </div>
                   )}
-                  
+
                   <div className="mt-4 space-y-2">
                     <Button
                       variant="outline"
@@ -657,18 +650,18 @@ function PerformanceDashboard({
                       onClick={() => {
                         performanceMonitor.clearTimings();
                         refreshMetrics();
-                      }}
+                      }
                     >
                       Clear Performance Data
                     </Button>
-                    
+
                     <p className="text-sm text-slate-500 dark:text-slate-400 mt-2">
                       Performance monitoring tools are only available in development mode and will be disabled in production.
                     </p>
                   </div>
                 </CardContent>
               </Card>
-              
+
               <Card>
                 <CardHeader className="pb-2">
                   <CardTitle>Performance Documentation</CardTitle>
@@ -700,5 +693,4 @@ export default withMemo(PerformanceDashboard, {
   // Only re-render when specific props change
   includeProps: ['autoRefresh', 'refreshInterval', 'position'],
   // Don't track performance of the performance dashboard itself to avoid recursion
-  trackPerformance: false,
-});
+  trackPerformance: false});

@@ -18,8 +18,8 @@ interface ProjectFormData {
 
 const NewProjectPage: React.FC = () => {
   const router = useRouter();
-  const [currentStep, setCurrentStep] = useState(1);
-  const [formData, setFormData] = useState<ProjectFormData>({
+  const [currentStepsetCurrentStep] = useState(1);
+  const [formDatasetFormData] = useState<ProjectFormData>({
     name: '',
     location: '',
     description: '',
@@ -29,9 +29,8 @@ const NewProjectPage: React.FC = () => {
     constructionCost: 0,
     financingCost: 0,
     developerMargin: 15,
-    vatRate: 13.5,
-  });
-  const [files, setFiles] = useState<{
+    vatRate: 13.5});
+  const [filessetFiles] = useState<{
     sitePlan: File | null;
     floorPlans: File[] | null;
     images: File[] | null;
@@ -40,11 +39,10 @@ const NewProjectPage: React.FC = () => {
     sitePlan: null,
     floorPlans: null,
     images: null,
-    documents: null,
-  });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  
+    documents: null});
+  const [isSubmittingsetIsSubmitting] = useState(false);
+  const [errorsetError] = useState<string | null>(null);
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({
@@ -54,10 +52,10 @@ const NewProjectPage: React.FC = () => {
         : value
     }));
   };
-  
+
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>, type: 'sitePlan' | 'floorPlans' | 'images' | 'documents') => {
     if (!e.target.files) return;
-    
+
     if (type === 'sitePlan') {
       setFiles(prev => ({
         ...prev,
@@ -71,40 +69,38 @@ const NewProjectPage: React.FC = () => {
       }));
     }
   };
-  
+
   const nextStep = () => {
     setCurrentStep(prev => prev + 1);
   };
-  
+
   const prevStep = () => {
     setCurrentStep(prev => prev - 1);
   };
-  
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
     setError(null);
-    
+
     try {
       // Here you would implement the API call to save the project
       // For now, we'll just simulate a successful submission
-      console.log('Form Data:', formData);
-      console.log('Files:', files);
-      
+
       // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      
+      await new Promise(resolve => setTimeout(resolve2000));
+
       // Redirect to project dashboard or success page
       alert('Project created successfully!');
       router.push('/developer/projects');
     } catch (err) {
       setError('Failed to create project. Please try again.');
-      console.error('Error creating project:', err);
+
     } finally {
       setIsSubmitting(false);
     }
   };
-  
+
   // Calculate project financials
   const calculateFinancials = () => {
     const totalConstructionCost = formData.constructionCost;
@@ -112,8 +108,8 @@ const NewProjectPage: React.FC = () => {
     const developerMargin = (formData.constructionCost + formData.financingCost) * (formData.developerMargin / 100);
     const vatAmount = (formData.constructionCost + developerMargin) * (formData.vatRate / 100);
     const totalProjectCost = totalConstructionCost + totalFinancingCost + developerMargin + vatAmount;
-    const costPerUnit = formData.totalUnits > 0 ? totalProjectCost / formData.totalUnits : 0;
-    
+    const costPerUnit = formData.totalUnits> 0 ? totalProjectCost / formData.totalUnits : 0;
+
     return {
       totalConstructionCost,
       totalFinancingCost,
@@ -123,55 +119,55 @@ const NewProjectPage: React.FC = () => {
       costPerUnit
     };
   };
-  
+
   const financials = calculateFinancials();
-  
+
   return (
     <div className="bg-gray-50 min-h-screen py-12">
       <div className="max-w-4xl mx-auto px-4">
         <h1 className="text-3xl font-bold text-[#2B5273] mb-2">Create New Development Project</h1>
         <p className="text-gray-600 mb-8">Complete the form below to set up a new property development project.</p>
-        
+
         {/* Progress Steps */}
         <div className="mb-8">
           <div className="flex items-center justify-between">
-            <div className={`flex flex-col items-center ${currentStep >= 1 ? 'text-[#2B5273]' : 'text-gray-400'}`}>
-              <div className={`w-10 h-10 rounded-full flex items-center justify-center border-2 ${currentStep >= 1 ? 'border-[#2B5273] bg-[#2B5273] text-white' : 'border-gray-300'}`}>
+            <div className={`flex flex-col items-center ${currentStep>= 1 ? 'text-[#2B5273]' : 'text-gray-400'}`}>
+              <div className={`w-10 h-10 rounded-full flex items-center justify-center border-2 ${currentStep>= 1 ? 'border-[#2B5273] bg-[#2B5273] text-white' : 'border-gray-300'}`}>
                 1
               </div>
               <span className="text-sm mt-1">Basic Info</span>
             </div>
-            <div className={`flex-1 h-1 mx-2 ${currentStep >= 2 ? 'bg-[#2B5273]' : 'bg-gray-300'}`}></div>
-            <div className={`flex flex-col items-center ${currentStep >= 2 ? 'text-[#2B5273]' : 'text-gray-400'}`}>
-              <div className={`w-10 h-10 rounded-full flex items-center justify-center border-2 ${currentStep >= 2 ? 'border-[#2B5273] bg-[#2B5273] text-white' : 'border-gray-300'}`}>
+            <div className={`flex-1 h-1 mx-2 ${currentStep>= 2 ? 'bg-[#2B5273]' : 'bg-gray-300'}`}></div>
+            <div className={`flex flex-col items-center ${currentStep>= 2 ? 'text-[#2B5273]' : 'text-gray-400'}`}>
+              <div className={`w-10 h-10 rounded-full flex items-center justify-center border-2 ${currentStep>= 2 ? 'border-[#2B5273] bg-[#2B5273] text-white' : 'border-gray-300'}`}>
                 2
               </div>
               <span className="text-sm mt-1">Files</span>
             </div>
-            <div className={`flex-1 h-1 mx-2 ${currentStep >= 3 ? 'bg-[#2B5273]' : 'bg-gray-300'}`}></div>
-            <div className={`flex flex-col items-center ${currentStep >= 3 ? 'text-[#2B5273]' : 'text-gray-400'}`}>
-              <div className={`w-10 h-10 rounded-full flex items-center justify-center border-2 ${currentStep >= 3 ? 'border-[#2B5273] bg-[#2B5273] text-white' : 'border-gray-300'}`}>
+            <div className={`flex-1 h-1 mx-2 ${currentStep>= 3 ? 'bg-[#2B5273]' : 'bg-gray-300'}`}></div>
+            <div className={`flex flex-col items-center ${currentStep>= 3 ? 'text-[#2B5273]' : 'text-gray-400'}`}>
+              <div className={`w-10 h-10 rounded-full flex items-center justify-center border-2 ${currentStep>= 3 ? 'border-[#2B5273] bg-[#2B5273] text-white' : 'border-gray-300'}`}>
                 3
               </div>
               <span className="text-sm mt-1">Financials</span>
             </div>
-            <div className={`flex-1 h-1 mx-2 ${currentStep >= 4 ? 'bg-[#2B5273]' : 'bg-gray-300'}`}></div>
-            <div className={`flex flex-col items-center ${currentStep >= 4 ? 'text-[#2B5273]' : 'text-gray-400'}`}>
-              <div className={`w-10 h-10 rounded-full flex items-center justify-center border-2 ${currentStep >= 4 ? 'border-[#2B5273] bg-[#2B5273] text-white' : 'border-gray-300'}`}>
+            <div className={`flex-1 h-1 mx-2 ${currentStep>= 4 ? 'bg-[#2B5273]' : 'bg-gray-300'}`}></div>
+            <div className={`flex flex-col items-center ${currentStep>= 4 ? 'text-[#2B5273]' : 'text-gray-400'}`}>
+              <div className={`w-10 h-10 rounded-full flex items-center justify-center border-2 ${currentStep>= 4 ? 'border-[#2B5273] bg-[#2B5273] text-white' : 'border-gray-300'}`}>
                 4
               </div>
               <span className="text-sm mt-1">Review</span>
             </div>
           </div>
         </div>
-        
+
         {/* Form */}
         <form onSubmit={handleSubmit}>
           {/* Step 1: Basic Information */}
           {currentStep === 1 && (
             <div className="bg-white rounded-lg shadow-md p-6 mb-6">
               <h2 className="text-xl font-semibold text-[#2B5273] mb-4">Basic Information</h2>
-              
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                 <div>
                   <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
@@ -188,7 +184,7 @@ const NewProjectPage: React.FC = () => {
                     placeholder="e.g., Fitzgerald Gardens"
                   />
                 </div>
-                
+
                 <div>
                   <label htmlFor="location" className="block text-sm font-medium text-gray-700 mb-1">
                     Location *
@@ -205,7 +201,7 @@ const NewProjectPage: React.FC = () => {
                   />
                 </div>
               </div>
-              
+
               <div className="mb-6">
                 <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-1">
                   Description *
@@ -221,7 +217,7 @@ const NewProjectPage: React.FC = () => {
                   placeholder="Provide a detailed description of the development..."
                 ></textarea>
               </div>
-              
+
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
                 <div>
                   <label htmlFor="totalUnits" className="block text-sm font-medium text-gray-700 mb-1">
@@ -238,7 +234,7 @@ const NewProjectPage: React.FC = () => {
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#2B5273]"
                   />
                 </div>
-                
+
                 <div>
                   <label htmlFor="startDate" className="block text-sm font-medium text-gray-700 mb-1">
                     Start Date *
@@ -253,7 +249,7 @@ const NewProjectPage: React.FC = () => {
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#2B5273]"
                   />
                 </div>
-                
+
                 <div>
                   <label htmlFor="completionDate" className="block text-sm font-medium text-gray-700 mb-1">
                     Estimated Completion *
@@ -269,7 +265,7 @@ const NewProjectPage: React.FC = () => {
                   />
                 </div>
               </div>
-              
+
               <div className="flex justify-end">
                 <button
                   type="button"
@@ -281,12 +277,12 @@ const NewProjectPage: React.FC = () => {
               </div>
             </div>
           )}
-          
+
           {/* Step 2: File Uploads */}
           {currentStep === 2 && (
             <div className="bg-white rounded-lg shadow-md p-6 mb-6">
               <h2 className="text-xl font-semibold text-[#2B5273] mb-4">Upload Files</h2>
-              
+
               <div className="mb-6">
                 <label htmlFor="sitePlan" className="block text-sm font-medium text-gray-700 mb-1">
                   Site Plan *
@@ -301,7 +297,7 @@ const NewProjectPage: React.FC = () => {
                     type="file"
                     id="sitePlan"
                     name="sitePlan"
-                    onChange={(e) => handleFileChange(e, 'sitePlan')}
+                    onChange={(e: any) => handleFileChange(e, 'sitePlan')}
                     accept=".pdf,.png,.jpg,.jpeg"
                     className="hidden"
                   />
@@ -319,7 +315,7 @@ const NewProjectPage: React.FC = () => {
                   )}
                 </div>
               </div>
-              
+
               <div className="mb-6">
                 <label htmlFor="floorPlans" className="block text-sm font-medium text-gray-700 mb-1">
                   Floor Plans
@@ -334,7 +330,7 @@ const NewProjectPage: React.FC = () => {
                     type="file"
                     id="floorPlans"
                     name="floorPlans"
-                    onChange={(e) => handleFileChange(e, 'floorPlans')}
+                    onChange={(e: any) => handleFileChange(e, 'floorPlans')}
                     accept=".pdf,.png,.jpg,.jpeg"
                     multiple
                     className="hidden"
@@ -346,14 +342,14 @@ const NewProjectPage: React.FC = () => {
                   >
                     Browse Files
                   </button>
-                  {files.floorPlans && files.floorPlans.length > 0 && (
+                  {files.floorPlans && files.floorPlans.length> 0 && (
                     <div className="mt-4 text-sm text-green-600">
                       {files.floorPlans.length} file(s) selected
                     </div>
                   )}
                 </div>
               </div>
-              
+
               <div className="mb-6">
                 <label htmlFor="images" className="block text-sm font-medium text-gray-700 mb-1">
                   Development Images
@@ -368,7 +364,7 @@ const NewProjectPage: React.FC = () => {
                     type="file"
                     id="images"
                     name="images"
-                    onChange={(e) => handleFileChange(e, 'images')}
+                    onChange={(e: any) => handleFileChange(e, 'images')}
                     accept=".png,.jpg,.jpeg"
                     multiple
                     className="hidden"
@@ -380,14 +376,14 @@ const NewProjectPage: React.FC = () => {
                   >
                     Browse Files
                   </button>
-                  {files.images && files.images.length > 0 && (
+                  {files.images && files.images.length> 0 && (
                     <div className="mt-4 text-sm text-green-600">
                       {files.images.length} file(s) selected
                     </div>
                   )}
                 </div>
               </div>
-              
+
               <div className="mb-6">
                 <label htmlFor="documents" className="block text-sm font-medium text-gray-700 mb-1">
                   Additional Documents
@@ -402,7 +398,7 @@ const NewProjectPage: React.FC = () => {
                     type="file"
                     id="documents"
                     name="documents"
-                    onChange={(e) => handleFileChange(e, 'documents')}
+                    onChange={(e: any) => handleFileChange(e, 'documents')}
                     accept=".pdf,.doc,.docx"
                     multiple
                     className="hidden"
@@ -414,14 +410,14 @@ const NewProjectPage: React.FC = () => {
                   >
                     Browse Files
                   </button>
-                  {files.documents && files.documents.length > 0 && (
+                  {files.documents && files.documents.length> 0 && (
                     <div className="mt-4 text-sm text-green-600">
                       {files.documents.length} file(s) selected
                     </div>
                   )}
                 </div>
               </div>
-              
+
               <div className="flex justify-between">
                 <button
                   type="button"
@@ -441,12 +437,12 @@ const NewProjectPage: React.FC = () => {
               </div>
             </div>
           )}
-          
+
           {/* Step 3: Financials */}
           {currentStep === 3 && (
             <div className="bg-white rounded-lg shadow-md p-6 mb-6">
               <h2 className="text-xl font-semibold text-[#2B5273] mb-4">Financial Information</h2>
-              
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                 <div>
                   <label htmlFor="constructionCost" className="block text-sm font-medium text-gray-700 mb-1">
@@ -463,7 +459,7 @@ const NewProjectPage: React.FC = () => {
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#2B5273]"
                   />
                 </div>
-                
+
                 <div>
                   <label htmlFor="financingCost" className="block text-sm font-medium text-gray-700 mb-1">
                     Financing Cost (€) *
@@ -480,7 +476,7 @@ const NewProjectPage: React.FC = () => {
                   />
                 </div>
               </div>
-              
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                 <div>
                   <label htmlFor="developerMargin" className="block text-sm font-medium text-gray-700 mb-1">
@@ -498,7 +494,7 @@ const NewProjectPage: React.FC = () => {
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#2B5273]"
                   />
                 </div>
-                
+
                 <div>
                   <label htmlFor="vatRate" className="block text-sm font-medium text-gray-700 mb-1">
                     VAT Rate (%) *
@@ -516,7 +512,7 @@ const NewProjectPage: React.FC = () => {
                   />
                 </div>
               </div>
-              
+
               <div className="bg-gray-50 p-4 rounded-md mb-6">
                 <h3 className="text-md font-medium text-gray-900 mb-3">Financial Summary</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -546,7 +542,7 @@ const NewProjectPage: React.FC = () => {
                   </div>
                 </div>
               </div>
-              
+
               <div className="flex justify-between">
                 <button
                   type="button"
@@ -565,12 +561,12 @@ const NewProjectPage: React.FC = () => {
               </div>
             </div>
           )}
-          
+
           {/* Step 4: Review */}
           {currentStep === 4 && (
             <div className="bg-white rounded-lg shadow-md p-6 mb-6">
               <h2 className="text-xl font-semibold text-[#2B5273] mb-4">Review Project Details</h2>
-              
+
               <div className="mb-6">
                 <h3 className="text-md font-medium text-gray-900 mb-2">Basic Information</h3>
                 <div className="bg-gray-50 p-4 rounded-md">
@@ -600,7 +596,7 @@ const NewProjectPage: React.FC = () => {
                   </dl>
                 </div>
               </div>
-              
+
               <div className="mb-6">
                 <h3 className="text-md font-medium text-gray-900 mb-2">Uploaded Files</h3>
                 <div className="bg-gray-50 p-4 rounded-md">
@@ -614,7 +610,7 @@ const NewProjectPage: React.FC = () => {
                     <div>
                       <dt className="text-sm font-medium text-gray-500">Floor Plans</dt>
                       <dd className="mt-1 text-sm text-gray-900">
-                        {files.floorPlans && files.floorPlans.length > 0
+                        {files.floorPlans && files.floorPlans.length> 0
                           ? `${files.floorPlans.length} file(s) uploaded`
                           : 'No files uploaded'}
                       </dd>
@@ -622,7 +618,7 @@ const NewProjectPage: React.FC = () => {
                     <div>
                       <dt className="text-sm font-medium text-gray-500">Development Images</dt>
                       <dd className="mt-1 text-sm text-gray-900">
-                        {files.images && files.images.length > 0
+                        {files.images && files.images.length> 0
                           ? `${files.images.length} file(s) uploaded`
                           : 'No files uploaded'}
                       </dd>
@@ -630,7 +626,7 @@ const NewProjectPage: React.FC = () => {
                     <div>
                       <dt className="text-sm font-medium text-gray-500">Additional Documents</dt>
                       <dd className="mt-1 text-sm text-gray-900">
-                        {files.documents && files.documents.length > 0
+                        {files.documents && files.documents.length> 0
                           ? `${files.documents.length} file(s) uploaded`
                           : 'No files uploaded'}
                       </dd>
@@ -638,7 +634,7 @@ const NewProjectPage: React.FC = () => {
                   </dl>
                 </div>
               </div>
-              
+
               <div className="mb-6">
                 <h3 className="text-md font-medium text-gray-900 mb-2">Financial Information</h3>
                 <div className="bg-gray-50 p-4 rounded-md">
@@ -670,13 +666,13 @@ const NewProjectPage: React.FC = () => {
                   </dl>
                 </div>
               </div>
-              
+
               {error && (
                 <div className="mb-6 p-4 bg-red-50 text-red-700 rounded-md">
                   {error}
                 </div>
               )}
-              
+
               <div className="flex justify-between">
                 <button
                   type="button"

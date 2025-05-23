@@ -1,0 +1,246 @@
+{
+  "summary": {
+    "totalComponents": 847,
+    "uniqueComponents": 724,
+    "duplicateGroups": 31,
+    "brokenComponents": 12,
+    "deprecatedComponents": 45
+  },
+  "componentsByCategory": {
+    "navigation": {
+      "total": 19,
+      "duplicates": 16,
+      "components": [
+        "MainNavigation",
+        "MainNavbar",
+        "Navbar",
+        "EnhancedMainNavigation",
+        "EnhancedNavigation",
+        "NextGenNavigation",
+        "RevolutionaryNavigation",
+        "UltraModernNavigation",
+        "ConsistentNavigation",
+        "ConversionFocusedNavigation",
+        "CleanProfessionalNav",
+        "SimpleWorkingNav",
+        "SmartNav",
+        "TestNavigation",
+        "SafeNextGenNavigation",
+        "MainNavigationFixed",
+        "EnterpriseNavigation",
+        "JourneyNav",
+        "layout/MainNavigation"
+      ]
+    },
+    "dashboards": {
+      "total": 42,
+      "duplicates": 15,
+      "variants": {
+        "BuyerDashboard": 4,
+        "DeveloperDashboard": 3,
+        "InvestorDashboard": 2,
+        "SecurityDashboard": 5,
+        "FinancialDashboard": 4,
+        "AdminDashboard": 3
+      }
+    },
+    "propertyComponents": {
+      "total": 38,
+      "duplicates": 5,
+      "keyComponents": [
+        "PropertyCard",
+        "PropertyDetail",
+        "PropertyListView",
+        "PropertySearch",
+        "PropertyFilter",
+        "PropertyMap",
+        "PropertyGallery",
+        "PropertyCustomizer"
+      ]
+    },
+    "documentManagement": {
+      "total": 22,
+      "duplicates": 12,
+      "systems": [
+        "src/components/document/",
+        "src/components/documents/"
+      ]
+    },
+    "uiLibrary": {
+      "total": 74,
+      "custom": 68,
+      "external": 6,
+      "components": [
+        "Button",
+        "Card",
+        "Dialog",
+        "Form",
+        "Input",
+        "Select",
+        "Table",
+        "Toast",
+        "Badge",
+        "Avatar",
+        "Tooltip",
+        "Dropdown",
+        "Modal",
+        "Tabs",
+        "Accordion",
+        "Alert",
+        "Progress",
+        "Skeleton",
+        "Spinner"
+      ]
+    },
+    "authentication": {
+      "total": 15,
+      "components": [
+        "LoginForm",
+        "RegisterForm",
+        "AuthProvider",
+        "ProtectedRoute",
+        "TwoFactorAuth",
+        "PasswordReset",
+        "UserProfile"
+      ]
+    },
+    "forms": {
+      "total": 47,
+      "categories": {
+        "property": 8,
+        "payment": 6,
+        "authentication": 5,
+        "kyc": 4,
+        "contact": 3,
+        "transaction": 7,
+        "other": 14
+      }
+    },
+    "layouts": {
+      "total": 12,
+      "components": [
+        "MainLayout",
+        "DashboardLayout",
+        "AuthLayout",
+        "PublicLayout",
+        "AdminLayout"
+      ]
+    }
+  },
+  "duplicateAnalysis": {
+    "criticalDuplicates": [
+      {
+        "component": "Navigation",
+        "count": 19,
+        "impact": "high",
+        "locations": [
+          "src/components/navigation/",
+          "src/components/layout/",
+          "src/components/"
+        ]
+      },
+      {
+        "component": "DocumentManager",
+        "count": 4,
+        "impact": "high",
+        "locations": [
+          "src/components/buyer/",
+          "src/components/conveyancing/",
+          "src/components/document/",
+          "src/components/documents/"
+        ]
+      },
+      {
+        "component": "PropertyCard",
+        "count": 3,
+        "impact": "medium",
+        "locations": [
+          "src/components/properties/",
+          "src/components/property/"
+        ]
+      }
+    ]
+  },
+  "designSystem": {
+    "hasTheme": true,
+    "themeProvider": "src/components/ui/theme-provider.tsx",
+    "darkModeSupport": true,
+    "colorScheme": {
+      "primary": "blue",
+      "secondary": "gray",
+      "accent": "green",
+      "error": "red",
+      "warning": "yellow",
+      "success": "green"
+    },
+    "spacing": {
+      "unit": "rem",
+      "scale": [0.25, 0.5, 1, 1.5, 2, 3, 4, 6, 8, 12, 16]
+    },
+    "typography": {
+      "fontFamily": "Inter, system-ui, sans-serif",
+      "sizes": ["xs", "sm", "base", "lg", "xl", "2xl", "3xl", "4xl", "5xl"]
+    }
+  },
+  "accessibility": {
+    "ariaSupport": "partial",
+    "keyboardNavigation": "partial",
+    "screenReaderSupport": "needs improvement",
+    "colorContrast": "mostly compliant",
+    "focusManagement": "inconsistent"
+  },
+  "responsive": {
+    "breakpoints": {
+      "sm": "640px",
+      "md": "768px",
+      "lg": "1024px",
+      "xl": "1280px",
+      "2xl": "1536px"
+    },
+    "mobileFirst": true,
+    "componentsWithIssues": [
+      "DeveloperDashboard",
+      "PropertyCustomizer",
+      "TransactionTimeline",
+      "FinancialCharts"
+    ]
+  },
+  "dependencies": {
+    "uiLibraries": [
+      "@/components/ui (custom)",
+      "lucide-react (icons)",
+      "@radix-ui/react-* (headless components)",
+      "react-icons (legacy icons)"
+    ],
+    "stateManagement": [
+      "React Context",
+      "@tanstack/react-query",
+      "Local state (useState)"
+    ],
+    "styling": [
+      "Tailwind CSS",
+      "CSS Modules (legacy)",
+      "Inline styles (minimal)"
+    ]
+  },
+  "recommendations": {
+    "immediate": [
+      "Consolidate 19 navigation components into 1-2 variants",
+      "Merge duplicate document management systems",
+      "Standardize PropertyCard component",
+      "Remove test and demo components from production"
+    ],
+    "shortTerm": [
+      "Create unified dashboard system with role-based views",
+      "Implement consistent error boundary usage",
+      "Add loading states to all async components",
+      "Standardize form validation across all forms"
+    ],
+    "longTerm": [
+      "Build comprehensive design system documentation",
+      "Implement visual regression testing",
+      "Create component library with Storybook",
+      "Improve accessibility to WCAG 2.1 AA standard"
+    ]
+  }
+}

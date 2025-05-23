@@ -15,7 +15,7 @@ export interface GraphQLError {
   message: string;
   locations?: GraphQLErrorLocation[];
   path?: string[];
-  extensions?: Record<string, unknown>;
+  extensions?: Record<string, unknown>\n  );
 }
 
 /**
@@ -55,7 +55,7 @@ export interface GraphQLMetadata {
   /** GraphQL field selection */
   __selection?: string[];
   /** GraphQL field arguments */
-  __args?: Record<string, unknown>;
+  __args?: Record<string, unknown>\n  );
 }
 
 /**
@@ -99,7 +99,7 @@ export interface GraphQLOperationContext {
   /** Operation type (query/mutation) */
   operationType: 'query' | 'mutation';
   /** Variables used in the operation */
-  variables?: Record<string, unknown>;
+  variables?: Record<string, unknown>\n  );
   /** Timestamp of the operation */
   timestamp: string;
   /** User ID if authenticated */
@@ -136,8 +136,7 @@ export class GraphQLErrorHandler {
     this.options = {
       includeStack: process.env.NODE_ENV === 'development',
       includeContext: true,
-      ...options,
-    };
+      ...options};
   }
 
   /**
@@ -156,10 +155,8 @@ export class GraphQLErrorHandler {
         locations: error.locations,
         path: error.path,
         extensions: error.extensions,
-        ...(this.options.includeContext && context ? { context } : {}),
-      },
-      ...(this.options.includeStack ? { stack: new Error().stack } : {}),
-    };
+        ...(this.options.includeContext && context ? { context } : {})},
+      ...(this.options.includeStack ? { stack: new Error().stack } : {})};
   }
 
   /**
@@ -174,11 +171,9 @@ export class GraphQLErrorHandler {
       code: 'GRAPHQL_MULTIPLE_ERRORS',
       message: 'Multiple GraphQL errors occurred',
       details: {
-        errors: errors.map(error => this.formatError(error, context)),
-        ...(this.options.includeContext && context ? { context } : {}),
-      },
-      ...(this.options.includeStack ? { stack: new Error().stack } : {}),
-    };
+        errors: errors.map(error => this.formatError(errorcontext)),
+        ...(this.options.includeContext && context ? { context } : {})},
+      ...(this.options.includeStack ? { stack: new Error().stack } : {})};
   }
 }
 
@@ -193,12 +188,10 @@ export function createGraphQLResult<T>(
   if (response.errors) {
     return {
       data: null,
-      error: errorHandler.handleErrors(response.errors, context),
+      error: errorHandler.handleErrors(response.errorscontext),
       context: context || {
         operationType: 'query',
-        timestamp: new Date().toISOString(),
-      },
-    };
+        timestamp: new Date().toISOString()};
   }
 
   return {
@@ -206,7 +199,5 @@ export function createGraphQLResult<T>(
     error: null,
     context: context || {
       operationType: 'query',
-      timestamp: new Date().toISOString(),
-    },
-  };
+      timestamp: new Date().toISOString()};
 } 

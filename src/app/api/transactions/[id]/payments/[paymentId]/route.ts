@@ -1,16 +1,23 @@
+type Props = {
+  params: Promise<{ id: string; paymentId: string }>
+}
+
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '../../../../auth/[...nextauth]/auth.config';
 import { z } from 'zod';
+import { PrismaClient, TransactionPaymentStatus } from '@prisma/client';
+import { canAccessTransaction } from '../../../../../../utils/auth-utils';
 
 // Payment update schema
 const PaymentUpdateSchema = z.object({
-  status: z.enum(['PENDING', 'PROCESSING', 'COMPLETED', 'FAILED', 'REFUNDED']).optional(),
+  status: z.enum(['PENDING', 'PROCESSING', 'COMPLETED', 'FAILED', 'CANCELLED', 'REFUNDED']).optional(),
   paidDate: z.string().datetime().optional(),
   reference: z.string().optional(),
-  paymentMethod: z.enum(['bank_transfer', 'credit_card', 'debit_card', 'cash']).optional(),
-  notes: z.string().optional(),
-});
+  method: z.enum(['BANK_TRANSFER', 'CREDIT_CARD', 'DEBIT_CARD', 'CASH', 'CHEQUE', 'MORTGAGE_DRAWDOWN']).optional(),
+  description: z.string().optional()});
+
+const prisma = new PrismaClient();
 
 /**
  * GET /api/transactions/[id]/payments/[paymentId]
@@ -18,7 +25,7 @@ const PaymentUpdateSchema = z.object({
  */
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string; paymentId: string } }
+  context: { params: Promise<{ id: string; paymentId: string }> }
 ) {
   try {
     const session = await getServerSession(authOptions);
@@ -29,25 +36,35 @@ export async function GET(
       );
     }
 
-    // Mock payment retrieval - would fetch from database
-    const payment = {
-      id: params.paymentId,
-      transactionId: params.id,
-      amount: 5000,
-      currency: 'EUR',
-      type: 'BOOKING_DEPOSIT',
-      status: 'COMPLETED',
-      dueDate: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString(),
-      paidDate: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString(),
-      paidBy: session.user?.id,
-      reference: 'REF-001',
-      paymentMethod: 'bank_transfer',
-      receiptUrl: '/api/transactions/payments/receipt/REF-001',
-    };
+    const params = await context.params;
+
+    // Check if user can access this transaction
+    const canAccess = await canAccessTransaction(session, params.id);
+    if (!canAccess) {
+      return NextResponse.json(
+        { error: 'You do not have permission to access this transaction' },
+        { status: 403 }
+      );
+    }
+
+    // Get the specific payment
+    const payment = await prisma.transactionPayment.findUnique({
+      where: {
+        id: params.paymentId,
+        transactionId: params.id
+      }
+    });
+
+    if (!payment) {
+      return NextResponse.json(
+        { error: 'Payment not found' },
+        { status: 404 }
+      );
+    }
 
     return NextResponse.json(payment);
   } catch (error) {
-    console.error('Error fetching payment:', error);
+
     return NextResponse.json(
       { error: 'Failed to fetch payment' },
       { status: 500 }
@@ -61,7 +78,7 @@ export async function GET(
  */
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string; paymentId: string } }
+  context: { params: Promise<{ id: string; paymentId: string }> }
 ) {
   try {
     const session = await getServerSession(authOptions);
@@ -72,7 +89,18 @@ export async function PUT(
       );
     }
 
-    const body = await request.json();
+    const params = await context.params;
+
+    // Check if user can access this transaction
+    const canAccess = await canAccessTransaction(session, params.id);
+    if (!canAccess) {
+      return NextResponse.json(
+        { error: 'You do not have permission to access this transaction' },
+        { status: 403 }
+      );
+    }
+
+    const body: any = await request.json();
     const validationResult = PaymentUpdateSchema.safeParse(body);
 
     if (!validationResult.success) {
@@ -84,33 +112,77 @@ export async function PUT(
 
     const updateData = validationResult.data;
 
-    // Mock payment update - would update in database
-    const updatedPayment = {
-      id: params.paymentId,
-      transactionId: params.id,
-      amount: 5000,
-      currency: 'EUR',
-      type: 'BOOKING_DEPOSIT',
-      status: updateData.status || 'COMPLETED',
-      dueDate: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString(),
-      paidDate: updateData.paidDate || new Date().toISOString(),
-      paidBy: session.user?.id,
-      reference: updateData.reference || 'REF-001',
-      paymentMethod: updateData.paymentMethod || 'bank_transfer',
-      updatedAt: new Date().toISOString(),
-      updatedBy: session.user?.id,
-    };
+    // Check if payment exists
+    const existingPayment = await prisma.transactionPayment.findUnique({
+      where: {
+        id: params.paymentId,
+        transactionId: params.id
+      }
+    });
 
-    // If payment is marked as completed, trigger notifications
-    if (updateData.status === 'COMPLETED') {
-      // TODO: Notify relevant parties
-      // TODO: Update transaction milestones
-      // TODO: Generate receipt
+    if (!existingPayment) {
+      return NextResponse.json(
+        { error: 'Payment not found' },
+        { status: 404 }
+      );
+    }
+
+    // Prepare updates
+    const updates: any = {};
+    if (updateData.status) updates.status = updateData.status as TransactionPaymentStatus;
+    if (updateData.paidDate) updates.paidDate = new Date(updateData.paidDate);
+    if (updateData.reference) updates.reference = updateData.reference;
+    if (updateData.method) updates.method = updateData.method;
+    if (updateData.description) updates.description = updateData.description;
+
+    // If marking as completed, set clearedDate if not already set
+    if (updateData.status === 'COMPLETED' && !existingPayment.clearedDate) {
+      updates.clearedDate = new Date();
+    }
+
+    // Update the payment
+    const updatedPayment = await prisma.transactionPayment.update({
+      where: {
+        id: params.paymentId
+      },
+      data: updates
+    });
+
+    // If payment is marked as completed, update transaction totals
+    if (updateData.status === 'COMPLETED' && existingPayment.status !== 'COMPLETED') {
+      const transaction = await prisma.transaction.findUnique({
+        where: { id: params.id }
+      });
+
+      if (transaction) {
+        const totalPaid = (transaction.totalPaid || 0) + existingPayment.amount;
+        const outstandingBalance = (transaction.agreedPrice || 0) - totalPaid;
+
+        await prisma.transaction.update({
+          where: { id: params.id },
+          data: { totalPaid, outstandingBalance }
+        });
+
+        // Log event
+        await prisma.transactionEvent.create({
+          data: {
+            transactionId: params.id,
+            eventType: 'PAYMENT_RECEIVED',
+            description: `Payment of ${existingPayment.amount} ${existingPayment.currency} received for ${existingPayment.type}`,
+            metadata: {
+              paymentId: params.paymentId,
+              amount: existingPayment.amount,
+              method: existingPayment.method
+            },
+            performedBy: session.user.id
+          }
+        });
+      }
     }
 
     return NextResponse.json(updatedPayment);
   } catch (error) {
-    console.error('Error updating payment:', error);
+
     return NextResponse.json(
       { error: 'Failed to update payment' },
       { status: 500 }
@@ -124,7 +196,7 @@ export async function PUT(
  */
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string; paymentId: string } }
+  context: { params: Promise<{ id: string; paymentId: string }> }
 ) {
   try {
     const session = await getServerSession(authOptions);
@@ -135,24 +207,70 @@ export async function DELETE(
       );
     }
 
-    // Check if payment can be cancelled (only pending payments)
-    // Mock implementation - would check in database
-    const paymentStatus = 'PENDING';
+    const params = await context.params;
 
-    if (paymentStatus !== 'PENDING') {
+    // Check if user can access this transaction
+    const canAccess = await canAccessTransaction(session, params.id);
+    if (!canAccess) {
       return NextResponse.json(
-        { error: 'Only pending payments can be cancelled' },
+        { error: 'You do not have permission to access this transaction' },
+        { status: 403 }
+      );
+    }
+
+    // Get the payment
+    const payment = await prisma.transactionPayment.findUnique({
+      where: {
+        id: params.paymentId,
+        transactionId: params.id
+      }
+    });
+
+    if (!payment) {
+      return NextResponse.json(
+        { error: 'Payment not found' },
+        { status: 404 }
+      );
+    }
+
+    // Check if payment can be cancelled (only pending or processing payments)
+    if (payment.status !== 'PENDING' && payment.status !== 'PROCESSING') {
+      return NextResponse.json(
+        { error: 'Only pending or processing payments can be cancelled' },
         { status: 400 }
       );
     }
 
-    // Mock cancellation
+    // Update payment status to cancelled
+    await prisma.transactionPayment.update({
+      where: {
+        id: params.paymentId
+      },
+      data: {
+        status: 'CANCELLED'
+      }
+    });
+
+    // Log event
+    await prisma.transactionEvent.create({
+      data: {
+        transactionId: params.id,
+        eventType: 'PAYMENT_CANCELLED',
+        description: `Payment of ${payment.amount} ${payment.currency} for ${payment.type} was cancelled`,
+        metadata: {
+          paymentId: params.paymentId,
+          amount: payment.amount,
+          method: payment.method
+        },
+        performedBy: session.user.id
+      }
+    });
+
     return NextResponse.json({
       message: 'Payment cancelled successfully',
-      paymentId: params.paymentId,
-    });
+      paymentId: params.paymentId});
   } catch (error) {
-    console.error('Error cancelling payment:', error);
+
     return NextResponse.json(
       { error: 'Failed to cancel payment' },
       { status: 500 }

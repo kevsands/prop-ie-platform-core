@@ -24,16 +24,16 @@ function TransactionFlowContent() {
           connecting all stakeholders in a seamless digital experience.
         </p>
       </div>
-      
+
       {/* Transaction Flow Visualization - Conditionally render */}
       {typeof window !== 'undefined' && (
         <TransactionFlow />
       )}
-      
+
       {/* Value Proposition */}
       <div className="mt-16 bg-[#f8fafc] rounded-lg p-8 shadow-sm">
         <h2 className="text-2xl font-bold mb-6 text-center text-[#2B5273]">Why Prop.ie?</h2>
-        
+
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div className="bg-white p-6 rounded-lg shadow-md">
             <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mb-4">
@@ -47,7 +47,7 @@ function TransactionFlowContent() {
               automated processes that eliminate traditional bottlenecks.
             </p>
           </div>
-          
+
           <div className="bg-white p-6 rounded-lg shadow-md">
             <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mb-4">
               <svg className="w-6 h-6 text-[#2B5273]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -60,7 +60,7 @@ function TransactionFlowContent() {
               eliminating uncertainty and improving trust throughout the process.
             </p>
           </div>
-          
+
           <div className="bg-white p-6 rounded-lg shadow-md">
             <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mb-4">
               <svg className="w-6 h-6 text-[#2B5273]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -75,11 +75,11 @@ function TransactionFlowContent() {
           </div>
         </div>
       </div>
-      
+
       {/* Platform Features */}
       <div className="mt-16">
         <h2 className="text-2xl font-bold mb-6 text-center text-[#2B5273]">Platform Features</h2>
-        
+
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           <div className="bg-white border rounded-lg p-6">
             <div className="text-blue-600 mb-4">
@@ -92,7 +92,7 @@ function TransactionFlowContent() {
               Browse and customize new homes directly from developers
             </p>
           </div>
-          
+
           <div className="bg-white border rounded-lg p-6">
             <div className="text-blue-600 mb-4">
               <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -104,7 +104,7 @@ function TransactionFlowContent() {
               Secure digital document storage and sharing
             </p>
           </div>
-          
+
           <div className="bg-white border rounded-lg p-6">
             <div className="text-blue-600 mb-4">
               <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -116,7 +116,7 @@ function TransactionFlowContent() {
               Integrated booking deposits and milestone payments
             </p>
           </div>
-          
+
           <div className="bg-white border rounded-lg p-6">
             <div className="text-blue-600 mb-4">
               <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">

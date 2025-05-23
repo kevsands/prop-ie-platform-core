@@ -23,7 +23,7 @@ export default function BuyerProfileSetupPage() {
                 <h2 className="text-xl font-semibold">Your Buying Journey</h2>
                 <p className="text-gray-500 text-sm">Select the phase of your home buying journey</p>
               </div>
-              
+
               <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
                 <div className="flex flex-col items-center space-y-2 border rounded-md p-4 bg-blue-50 border-blue-200">
                   <div className="w-5 h-5 rounded-full border-2 border-blue-600 flex items-center justify-center">
@@ -32,25 +32,25 @@ export default function BuyerProfileSetupPage() {
                   <label className="font-medium">Planning</label>
                   <p className="text-xs text-center text-gray-500">Starting to consider buying a home</p>
                 </div>
-                
+
                 <div className="flex flex-col items-center space-y-2 border rounded-md p-4 hover:bg-gray-50">
                   <div className="w-5 h-5 rounded-full border-2 border-gray-300"></div>
                   <label className="font-medium">Financing</label>
                   <p className="text-xs text-center text-gray-500">Arranging mortgage or savings</p>
                 </div>
-                
+
                 <div className="flex flex-col items-center space-y-2 border rounded-md p-4 hover:bg-gray-50">
                   <div className="w-5 h-5 rounded-full border-2 border-gray-300"></div>
                   <label className="font-medium">Searching</label>
                   <p className="text-xs text-center text-gray-500">Actively viewing properties</p>
                 </div>
-                
+
                 <div className="flex flex-col items-center space-y-2 border rounded-md p-4 hover:bg-gray-50">
                   <div className="w-5 h-5 rounded-full border-2 border-gray-300"></div>
                   <label className="font-medium">Buying</label>
                   <p className="text-xs text-center text-gray-500">Made an offer or completing</p>
                 </div>
-                
+
                 <div className="flex flex-col items-center space-y-2 border rounded-md p-4 hover:bg-gray-50">
                   <div className="w-5 h-5 rounded-full border-2 border-gray-300"></div>
                   <label className="font-medium">Moved In</label>
@@ -65,7 +65,7 @@ export default function BuyerProfileSetupPage() {
                 <h2 className="text-xl font-semibold">Financial Information</h2>
                 <p className="text-gray-500 text-sm">This helps us calculate what you can afford</p>
               </div>
-              
+
               <div className="space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
@@ -76,7 +76,7 @@ export default function BuyerProfileSetupPage() {
                       placeholder="e.g. 60000"
                     />
                   </div>
-                  
+
                   <div className="space-y-2">
                     <label className="block text-sm font-medium">Available Deposit/Savings (€)</label>
                     <input
@@ -86,7 +86,7 @@ export default function BuyerProfileSetupPage() {
                     />
                   </div>
                 </div>
-                
+
                 <div className="space-y-2">
                   <div className="flex justify-between">
                     <label className="block text-sm font-medium">Credit Score Estimate</label>
@@ -102,7 +102,7 @@ export default function BuyerProfileSetupPage() {
                     <span>Excellent</span>
                   </div>
                 </div>
-                
+
                 <div className="space-y-2">
                   <label className="block text-sm font-medium">Maximum Budget (€)</label>
                   <input
@@ -120,7 +120,7 @@ export default function BuyerProfileSetupPage() {
                 <h2 className="text-xl font-semibold">Your Preferences</h2>
                 <p className="text-gray-500 text-sm">Tell us what you're looking for</p>
               </div>
-              
+
               <div className="space-y-4">
                 <div className="space-y-2">
                   <label className="block text-sm font-medium">Property Types (select all that apply)</label>
@@ -143,7 +143,7 @@ export default function BuyerProfileSetupPage() {
                     </div>
                   </div>
                 </div>
-                
+
                 <div className="space-y-2">
                   <label className="block text-sm font-medium">Bedrooms Needed</label>
                   <select className="w-full p-2 border rounded">
@@ -153,7 +153,7 @@ export default function BuyerProfileSetupPage() {
                     <option>4+ Bedrooms</option>
                   </select>
                 </div>
-                
+
                 <div className="space-y-2">
                   <label className="block text-sm font-medium">Preferred Locations</label>
                   <input
@@ -172,7 +172,7 @@ export default function BuyerProfileSetupPage() {
                 <h2 className="text-xl font-semibold">Government Schemes</h2>
                 <p className="text-gray-500 text-sm">Select any schemes you're interested in or eligible for</p>
               </div>
-              
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="flex items-start space-x-2">
                   <input type="checkbox" checked className="mt-1" />
@@ -181,7 +181,7 @@ export default function BuyerProfileSetupPage() {
                     <p className="text-xs text-gray-500">Tax rebate for first-time buyers of newly built homes</p>
                   </div>
                 </div>
-                
+
                 <div className="flex items-start space-x-2">
                   <input type="checkbox" className="mt-1" />
                   <div>
@@ -189,7 +189,7 @@ export default function BuyerProfileSetupPage() {
                     <p className="text-xs text-gray-500">Helps bridge the gap between your mortgage and the price of your new home</p>
                   </div>
                 </div>
-                
+
                 <div className="flex items-start space-x-2">
                   <input type="checkbox" className="mt-1" />
                   <div>
@@ -197,7 +197,7 @@ export default function BuyerProfileSetupPage() {
                     <p className="text-xs text-gray-500">Buy a share of a property and pay rent on the remaining share</p>
                   </div>
                 </div>
-                
+
                 <div className="flex items-start space-x-2">
                   <input type="checkbox" className="mt-1" />
                   <div>

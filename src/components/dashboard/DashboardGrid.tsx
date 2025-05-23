@@ -1,3 +1,4 @@
+import React from 'react';
 "use client";
 
 import * as React from "react";
@@ -53,7 +54,7 @@ interface DashboardGridContextProps {
   fullscreenWidget: string | null;
   setFullscreenWidget: (id: string | null) => void;
   editable: boolean;
-  itemsRef: React.MutableRefObject<Map<string, HTMLDivElement>>;
+  itemsRef: React.MutableRefObject<Map<string, HTMLDivElement>>\n  );
   registerItem: (id: string, element: HTMLDivElement) => void;
   unregisterItem: (id: string) => void;
 }
@@ -62,11 +63,11 @@ const DashboardGridContext = React.createContext<DashboardGridContextProps | nul
 
 function useDashboardGrid() {
   const context = React.useContext(DashboardGridContext);
-  
+
   if (!context) {
     throw new Error("useDashboardGrid must be used within a DashboardGrid");
   }
-  
+
   return context;
 }
 
@@ -75,8 +76,7 @@ const gapClasses = {
   none: "gap-0",
   sm: "gap-2",
   md: "gap-4",
-  lg: "gap-6",
-};
+  lg: "gap-6";
 
 // Main DashboardGrid Component
 export function DashboardGrid({
@@ -87,37 +87,35 @@ export function DashboardGrid({
   editable = false,
   onLayoutChange,
   layout,
-  id = "dashboard-grid",
-}: DashboardGridProps) {
-  const [fullscreenWidget, setFullscreenWidget] = React.useState<string | null>(null);
+  id = "dashboard-grid": DashboardGridProps) {
+  const [fullscreenWidgetsetFullscreenWidget] = React.useState<string | null>(null);
   const itemsRef = React.useRef<Map<string, HTMLDivElement>>(new Map());
-  
+
   const registerItem = React.useCallback((id: string, element: HTMLDivElement) => {
-    itemsRef.current.set(id, element);
+    itemsRef.current.set(idelement);
   }, []);
-  
+
   const unregisterItem = React.useCallback((id: string) => {
     itemsRef.current.delete(id);
   }, []);
-  
+
   // Handle layout changes if in editable mode
   React.useEffect(() => {
     if (editable && onLayoutChange) {
       // Logic for tracking layout changes would go here
       // For now, this is a placeholder
     }
-  }, [editable, onLayoutChange]);
-  
+  }, [editableonLayoutChange]);
+
   return (
     <DashboardGridContext.Provider 
-      value={{
+      value={
         fullscreenWidget,
         setFullscreenWidget,
         editable,
         itemsRef,
         registerItem,
-        unregisterItem,
-      }}
+        unregisterItem}
     >
       <div
         id={id}
@@ -135,10 +133,10 @@ export function DashboardGrid({
       <AnimatePresence>
         {fullscreenWidget && (
           <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.9 }}
-            transition={{ duration: 0.2 }}
+            initial={ opacity: 0, scale: 0.9 }
+            animate={ opacity: 1, scale: 1 }
+            exit={ opacity: 0, scale: 0.9 }
+            transition={ duration: 0.2 }
             className="fixed inset-0 z-50 flex items-center justify-center bg-background/80 backdrop-blur-sm p-6"
           >
             <motion.div 
@@ -170,16 +168,14 @@ const colSpanClasses = {
   3: "col-span-1 sm:col-span-2 md:col-span-3",
   4: "col-span-1 sm:col-span-2 md:col-span-4",
   6: "col-span-1 sm:col-span-2 md:col-span-6",
-  12: "col-span-full",
-};
+  12: "col-span-full";
 
 // Row span to class mapping
 const rowSpanClasses = {
   1: "row-span-1",
   2: "row-span-2",
   3: "row-span-3",
-  4: "row-span-4",
-};
+  4: "row-span-4";
 
 // DashboardItem Component for individual widgets
 export function DashboardItem({
@@ -193,21 +189,20 @@ export function DashboardItem({
   fullScreenEnabled = true,
   removable = false,
   onRemove,
-  id = `item-${Math.random().toString(36).substr(2, 9)}`,
-}: DashboardItemProps) {
+  id = `item-${Math.random().toString(36).substr(29)}`}: DashboardItemProps) {
   const { fullscreenWidget, setFullscreenWidget, editable, registerItem, unregisterItem } = useDashboardGrid();
   const itemRef = React.useRef<HTMLDivElement>(null);
-  
+
   // Register/unregister the item with the dashboard grid
   React.useEffect(() => {
     if (itemRef.current) {
       registerItem(id, itemRef.current);
     }
-    
+
     return () => {
       unregisterItem(id);
     };
-  }, [id, registerItem, unregisterItem]);
+  }, [id, registerItemunregisterItem]);
 
   // Toggle fullscreen state
   const toggleFullScreen = (e: React.MouseEvent) => {
@@ -218,7 +213,7 @@ export function DashboardItem({
       setFullscreenWidget(id);
     }
   };
-  
+
   // Handle item removal
   const handleRemove = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -226,7 +221,7 @@ export function DashboardItem({
       onRemove();
     }
   };
-  
+
   return (
     <motion.div
       layoutId={`dashboard-item-${id}`}
@@ -240,10 +235,10 @@ export function DashboardItem({
       )}
       ref={itemRef}
       onClick={onClick}
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -10 }}
-      transition={{ duration: 0.2 }}
+      initial={ opacity: 0, y: 10 }
+      animate={ opacity: 1, y: 0 }
+      exit={ opacity: 0, y: -10 }
+      transition={ duration: 0.2 }
     >
       {/* Header with title and actions */}
       {(title || actions || fullScreenEnabled || removable) && (
@@ -264,7 +259,7 @@ export function DashboardItem({
                   <Maximize2 className="h-4 w-4" />
                 )}
                 <span className="sr-only">
-                  {fullscreenWidget === id ? "Exit Full Screen" : "Full Screen"}
+                  {fullscreenWidget === id ? "Exit Full Screen" : "Full Screen"
                 </span>
               </Button>
             )}
@@ -282,7 +277,7 @@ export function DashboardItem({
           </div>
         </div>
       )}
-      
+
       {/* Widget content */}
       <div className="flex-1 overflow-auto p-4">{children}</div>
     </motion.div>
@@ -292,9 +287,9 @@ export function DashboardItem({
 // DashboardDragHandle Component for editable mode (placeholder - would need react-grid-layout for full implementation)
 export function DashboardDragHandle() {
   const { editable } = useDashboardGrid();
-  
+
   if (!editable) return null;
-  
+
   return (
     <div className="absolute top-0 left-0 w-full h-6 bg-primary/10 cursor-move rounded-t-lg flex items-center justify-center">
       <div className="w-8 h-1 bg-muted-foreground/40 rounded-full" />

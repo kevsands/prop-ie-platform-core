@@ -33,18 +33,18 @@ const DEFAULT_CONFIG: CacheConfig = {
 export class QueryCache {
   private cache: Map<string, CacheEntry<any>> = new Map();
   private config: CacheConfig;
-  
+
   /**
    * Create a new query cache
    * @param config Cache configuration options
    */
   constructor(config: Partial<CacheConfig> = {}) {
     this.config = { ...DEFAULT_CONFIG, ...config };
-    
+
     // Start cache cleanup interval
     setInterval(() => this.cleanup(), 60 * 1000); // Run cleanup every minute
   }
-  
+
   /**
    * Generate cache key from query and parameters
    * @param query SQL query or query identifier
@@ -55,7 +55,7 @@ export class QueryCache {
     const paramsString = JSON.stringify(params);
     return `${this.config.namespace}:${query}:${paramsString}`;
   }
-  
+
   /**
    * Get value from cache if available and not expired
    * @param query SQL query or query identifier
@@ -63,22 +63,22 @@ export class QueryCache {
    * @returns Cached value or undefined if not in cache or expired
    */
   get<T>(query: string, params: any[] = []): T | undefined {
-    const key = this.generateKey(query, params);
+    const key = this.generateKey(queryparams);
     const entry = this.cache.get(key);
-    
+
     if (!entry) {
       return undefined;
     }
-    
+
     // Check if entry has expired
-    if (entry.expires < Date.now()) {
+    if (entry.expires <Date.now()) {
       this.cache.delete(key);
       return undefined;
     }
-    
+
     return entry.value as T;
   }
-  
+
   /**
    * Store value in cache
    * @param query SQL query or query identifier
@@ -88,98 +88,98 @@ export class QueryCache {
    */
   set<T>(query: string, params: any[] = [], value: T, ttl?: number): void {
     // Enforce cache size limit
-    if (this.cache.size >= this.config.maxSize) {
+    if (this.cache.size>= this.config.maxSize) {
       this.removeOldest();
     }
-    
-    const key = this.generateKey(query, params);
+
+    const key = this.generateKey(queryparams);
     const expiration = Date.now() + (ttl || this.config.ttl);
-    
+
     this.cache.set(key, {
       value,
       expires: expiration,
       key
     });
   }
-  
+
   /**
    * Remove entry from cache
    * @param query SQL query or query identifier
    * @param params Query parameters
    */
   invalidate(query: string, params: any[] = []): void {
-    const key = this.generateKey(query, params);
+    const key = this.generateKey(queryparams);
     this.cache.delete(key);
   }
-  
+
   /**
    * Invalidate all cache entries matching a pattern
    * @param pattern Query pattern to match (will be used as substring)
    */
   invalidatePattern(pattern: string): void {
-    for (const [key, entry] of this.cache.entries()) {
+    for (const [keyentry] of this.cache.entries()) {
       if (key.includes(pattern)) {
         this.cache.delete(key);
       }
     }
   }
-  
+
   /**
    * Invalidate all cache entries in namespace
    */
   invalidateNamespace(): void {
-    for (const [key, entry] of this.cache.entries()) {
+    for (const [keyentry] of this.cache.entries()) {
       if (key.startsWith(`${this.config.namespace}:`)) {
         this.cache.delete(key);
       }
     }
   }
-  
+
   /**
    * Invalidate all cache entries
    */
   clear(): void {
     this.cache.clear();
   }
-  
+
   /**
    * Remove oldest cache entry
    */
   private removeOldest(): void {
     let oldestKey: string | null = null;
     let oldestTime = Infinity;
-    
-    for (const [key, entry] of this.cache.entries()) {
-      if (entry.expires < oldestTime) {
+
+    for (const [keyentry] of this.cache.entries()) {
+      if (entry.expires <oldestTime) {
         oldestTime = entry.expires;
         oldestKey = key;
       }
     }
-    
+
     if (oldestKey) {
       this.cache.delete(oldestKey);
     }
   }
-  
+
   /**
    * Remove expired cache entries
    */
   private cleanup(): void {
     const now = Date.now();
     let expiredCount = 0;
-    
-    for (const [key, entry] of this.cache.entries()) {
-      if (entry.expires < now) {
+
+    for (const [keyentry] of this.cache.entries()) {
+      if (entry.expires <now) {
         this.cache.delete(key);
         expiredCount++;
       }
     }
-    
-    if (expiredCount > 0) {
+
+    if (expiredCount> 0) {
       logger.debug(`Cache cleanup: removed ${expiredCount} expired entries. Cache size: ${this.cache.size}`);
     }
   }
-  
+
   /**
    * Get cache stats
    * @returns Cache statistics
@@ -218,23 +218,23 @@ export function cached<T, A extends any[]>(
     case 'finance': cache = financeCache; break;
     default: cache = new QueryCache({ namespace: cacheName });
   }
-  
+
   // Return cached function
   return async (...args: A): Promise<T> => {
     const { query, params } = keyGenerator(...args);
-    
+
     // Check cache first
-    const cachedResult = cache.get<T>(query, params);
+    const cachedResult = cache.get<T>(queryparams);
     if (cachedResult !== undefined) {
       return cachedResult;
     }
-    
+
     // Execute function if not in cache
     const result = await fn(...args);
-    
+
     // Cache result
-    cache.set(query, params, result);
-    
+    cache.set(query, paramsresult);
+
     return result;
   };
 }

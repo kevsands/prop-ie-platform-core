@@ -25,7 +25,7 @@ interface CustomizationOption {
 
 interface CustomizationOptionsProps {
   options: CustomizationOption[];
-  selectedOptions: Record<string, string>;
+  selectedOptions: Record<string, string>\n  );
   onSelectOption: (optionId: string, selectionId: string) => void;
 }
 
@@ -34,37 +34,37 @@ const CustomizationOptions: React.FC<CustomizationOptionsProps> = ({
   selectedOptions, 
   onSelectOption 
 }) => {
-  const [activeCategory, setActiveCategory] = useState<string | null>(null);
-  
+  const [activeCategorysetActiveCategory] = useState<string | null>(null);
+
   const categories = Array.from(new Set(options.map(option => option.category)));
-  
+
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('en-IE', { style: 'currency', currency: 'EUR' }).format(amount);
   };
-  
+
   const getDeadlineStatus = (deadline: string) => {
     const now = new Date();
     const deadlineDate = new Date(deadline);
-    
+
     if (isNaN(deadlineDate.getTime())) {
       // If deadline is not a valid date, it might be a stage name
       return { valid: true, message: `Available until ${deadline} stage` };
     }
-    
-    if (deadlineDate < now) {
+
+    if (deadlineDate <now) {
       return { valid: false, message: 'Deadline passed' };
     }
-    
+
     // Calculate days remaining
     const daysRemaining = Math.ceil((deadlineDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
-    
+
     if (daysRemaining <= 7) {
       return { valid: true, urgent: true, message: `${daysRemaining} days remaining` };
     }
-    
+
     return { valid: true, message: `Available until ${deadlineDate.toLocaleDateString()}` };
   };
-  
+
   return (
     <div>
       {/* Category Tabs */}
@@ -95,7 +95,7 @@ const CustomizationOptions: React.FC<CustomizationOptionsProps> = ({
           </button>
         </div>
       </div>
-      
+
       {/* Customization Options */}
       <div className="space-y-8">
         {options
@@ -108,7 +108,7 @@ const CustomizationOptions: React.FC<CustomizationOptionsProps> = ({
                     <h3 className="text-lg font-semibold text-gray-900">{option.name}</h3>
                     <p className="text-sm text-gray-600 mt-1">{option.description}</p>
                   </div>
-                  
+
                   {option.isEnabled ? (
                     <div className="flex items-center">
                       {(() => {
@@ -141,7 +141,7 @@ const CustomizationOptions: React.FC<CustomizationOptionsProps> = ({
                   )}
                 </div>
               </div>
-              
+
               <div className="p-6">
                 {option.isEnabled ? (
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -170,7 +170,7 @@ const CustomizationOptions: React.FC<CustomizationOptionsProps> = ({
                                 <span className="px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded-full">Standard</span>
                               ) : (
                                 <span className="font-medium text-[#2B5273]">
-                                  {selection.additionalCost > 0 ? `+${formatCurrency(selection.additionalCost)}` : ''}
+                                  {selection.additionalCost> 0 ? `+${formatCurrency(selection.additionalCost)}` : ''}
                                 </span>
                               )}
                             </div>

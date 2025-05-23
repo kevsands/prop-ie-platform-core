@@ -16,8 +16,8 @@ interface ResourceTiming {
 }
 
 export function usePerformanceOptimization() {
-  const [metrics, setMetrics] = useState<PerformanceMetrics>({});
-  const [resources, setResources] = useState<ResourceTiming[]>([]);
+  const [metricssetMetrics] = useState<PerformanceMetrics>({});
+  const [resourcessetResources] = useState<ResourceTiming[]>([]);
   const observerRef = useRef<PerformanceObserver | null>(null);
 
   useEffect(() => {
@@ -27,18 +27,18 @@ export function usePerformanceOptimization() {
 
     try {
       // Observe Core Web Vitals
-      observerRef.current = new PerformanceObserver((list) => {
+      observerRef.current = new PerformanceObserver((list: any) => {
         const entries = list.getEntries();
-        
+
         entries.forEach((entry: any) => {
           if (entry.entryType === 'largest-contentful-paint') {
             setMetrics(prev => ({ ...prev, lcp: entry.renderTime || entry.loadTime }));
           }
-          
+
           if (entry.entryType === 'first-input') {
             setMetrics(prev => ({ ...prev, fid: entry.processingStart - entry.startTime }));
           }
-          
+
           if (entry.entryType === 'layout-shift' && !entry.hadRecentInput) {
             setMetrics(prev => ({ ...prev, cls: (prev.cls || 0) + entry.value }));
           }
@@ -77,7 +77,7 @@ export function usePerformanceOptimization() {
       setResources(resourceTimings);
 
     } catch (error) {
-      console.error('Performance monitoring error:', error);
+
     }
 
     return () => {
@@ -118,7 +118,7 @@ export function usePerformanceOptimization() {
         value: Math.round(value),
         metric_value: value,
         metric_delta: value,
-        metric_rating: value < 2500 ? 'good' : value < 4000 ? 'needs-improvement' : 'poor'
+        metric_rating: value <2500 ? 'good' : value <4000 ? 'needs-improvement' : 'poor'
       });
     }
   }, []);

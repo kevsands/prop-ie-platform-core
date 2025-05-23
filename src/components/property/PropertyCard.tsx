@@ -1,163 +1,351 @@
-// src/components/property/PropertyCard.tsx
-"use client";
+'use client';
 
-import React from "react";
-import Link from "next/link";
-import Image from "next/image";
-import { Property } from "@/types/models"; // Updated import path
-import { PropertyStatus, getStatusColor } from '../../types/enums'; // Import enum and helper
+import React from 'react';
+import Link from 'next/link';
+import Image from 'next/image';
+import { Property } from '@/types/models/property';
+import { PropertyStatus, PropertyType } from '@/types/enums';
+import { getStatusColor } from '@/types/enums';
+import { formatPrice } from '@/utils/format';
+import { usePropertyAnalytics } from '@/hooks/usePropertyAnalytics';
+import { Card, CardContent } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { 
+  Bed, 
+  Bath, 
+  Square, 
+  MapPin, 
+  Eye,
+  Camera,
+  Video
+} from 'lucide-react';
+import clsx from 'clsx';
 
-interface PropertyIndividualProps {
-  // Core identification
-  id: string;
-  name: string;
-  title?: string;
-  
-  // Location
-  location?: string;
-  
-  // Unit details
-  price?: number;
-  status: PropertyStatus | string;
-  bedrooms?: number;
-  bathrooms?: number;
-  area?: number;
-  floorArea?: number;
-  type?: string;
-  
-  // Media
-  image?: string;
-  images?: string[];
-  imageUrl?: string; // For backward compatibility
-  
-  // Development information
-  developmentName?: string;
-  projectName?: string;
-  
-  // Status flags
-  isNew?: boolean;
-  isReduced?: boolean;
+interface PropertyCardProps {
+  property: Property;
+  variant?: 'default' | 'minimal' | 'detailed' | 'horizontal';
+  className?: string;
+  onViewDetails?: () => void;
+  priority?: boolean;
+  showDevelopmentName?: boolean;
 }
 
-// Support both property object and individual props
-export type PropertyCardProps = {
-  formatPrice?: (price: number | undefined | null) => string;
-  showDevelopmentName?: boolean;
-} & (
-  | { property: Property }
-  | PropertyIndividualProps
-);
+export const PropertyCard: React.FC<PropertyCardProps> = React.memo(({
+  property,
+  variant = 'default',
+  className,
+  onViewDetails,
+  priority = false,
+  showDevelopmentName = true}) => {
+  const analytics = usePropertyAnalytics();
 
-const PropertyCard: React.FC<PropertyCardProps> = React.memo((props) => {
-  // Default values
-  const formatPrice = props.formatPrice || ((price) => `€${price?.toLocaleString() || 'Price TBC'}`);
-  const showDevelopmentName = props.showDevelopmentName !== false;
+  // Get primary image
+  const primaryImage = property.images?.find(img => img.isPrimary) || property.images?.[0];
+  const imageUrl = primaryImage?.url || '/images/placeholder-property.jpg';
+  const imageCount = property.images?.length || 0;
 
-  // Extract properties - either from property object or direct props
-  const {
-    id,
-    title,
-    name,
-    price,
-    status,
-    bedrooms,
-    bathrooms,
-    area,
-    floorArea,
-    image,
-    images = [],
-    developmentName,
-    projectName,
-    isNew,
-    isReduced,
-  } = 'property' in props 
-    ? props.property 
-    : props;
-    
-  // Handle imageUrl separately since TypeScript doesn't see it in destructuring
-  const imageUrl = 'property' in props 
-    ? props.property.imageUrl 
-    : ('imageUrl' in props ? props.imageUrl : undefined);
-    
-  // Determine location from property object or direct props
-  const location = 'property' in props 
-    ? (props.property.address?.city || (props.property as any).location || '')
-    : (props.location || '');
-  // Use provided image or imageUrl (for backward compatibility)
-  const actualImage = image || imageUrl;
+  // Handle property click
+  const handleClick = (e: React.MouseEvent) => {
+    e.preventDefault();
 
-  // Get display name, using title as fallback
-  const displayName = title || name;
-  
-  // Get main image to display
-  const mainImage = actualImage || (images.length > 0 ? images[0] : null);
-  
-  // Calculate area to display - use floorArea with area as fallback
-  const displayArea = floorArea || area;
-  
-  // Get development name with fallbacks
-  const displayDevelopment = developmentName || projectName || "Development TBC";
+    // Track analytics
+    analytics.trackPropertyViewed({
+      id: property.id,
+      name: property.name,
+      type: property.type,
+      price: property.price,
+      bedrooms: property.bedrooms,
+      bathrooms: property.bathrooms,
+      developmentId: property.developmentId,
+      developmentName: property.development?.name,
+      status: property.status}, 'property_card');
 
+    if (onViewDetails) {
+      onViewDetails();
+    }
+  };
+
+  // Format location
+  const location = property.location
+    ? `${property.location.city}, ${property.location.county}`
+    : property.development?.location || 'Location TBC';
+
+  // Check for special features
+  const hasVirtualTour = !!property.virtualTourUrl;
+  const hasParking = property.specifications?.parkingSpaces && property.specifications.parkingSpaces> 0;
+  const isReduced = property.originalPrice && property.price <property.originalPrice;
+  const reductionPercentage = isReduced
+    ? Math.round((1 - property.price / property.originalPrice!) * 100)
+    : 0;
+
+  if (variant === 'horizontal') {
+    return (
+      <Card className={clsx('overflow-hidden hover:shadow-lg transition-all duration-300', className)}>
+        <div className="flex flex-col md:flex-row">
+          {/* Image Section */}
+          <div className="relative w-full md:w-1/3 h-48 md:h-auto">
+            <Link href={`/properties/${property.id}`} onClick={handleClick}>
+              <Image
+                src={imageUrl}
+                alt={property.name}
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, 33vw"
+                priority={priority}
+              />
+              {imageCount> 1 && (
+                <div className="absolute bottom-2 right-2 bg-black/70 text-white px-2 py-1 rounded flex items-center gap-1 text-sm">
+                  <Camera className="h-3 w-3" />
+                  {imageCount}
+                </div>
+              )}
+              {hasVirtualTour && (
+                <div className="absolute top-2 right-2 bg-black/70 text-white p-1.5 rounded">
+                  <Video className="h-4 w-4" />
+                </div>
+              )}
+            </Link>
+          </div>
+
+          {/* Content Section */}
+          <CardContent className="flex-1 p-4 md:p-6">
+            <div className="flex justify-between items-start mb-2">
+              <div className="flex-1">
+                <Link href={`/properties/${property.id}`} onClick={handleClick}>
+                  <h3 className="text-xl font-semibold text-gray-900 hover:text-blue-600 transition-colors line-clamp-1">
+                    {property.name}
+                  </h3>
+                </Link>
+                {showDevelopmentName && property.development && (
+                  <p className="text-sm text-gray-600 mt-1">{property.development.name}</p>
+                )}
+                <div className="flex items-center gap-1 text-sm text-gray-500 mt-1">
+                  <MapPin className="h-3 w-3" />
+                  {location}
+                </div>
+              </div>
+              <Badge className={clsx('ml-2', getStatusColor(property.status))}>
+                {property.status.replace(/_/g, ' ')}
+              </Badge>
+            </div>
+
+            {/* Price */}
+            <div className="mb-3">
+              <span className="text-2xl font-bold text-gray-900">{formatPrice(property.price)}</span>
+              {isReduced && property.originalPrice && (
+                <span className="ml-2">
+                  <Badge variant="destructive" className="text-xs">
+                    {reductionPercentage}% OFF
+                  </Badge>
+                  <span className="text-sm text-gray-500 line-through ml-2">
+                    {formatPrice(property.originalPrice)}
+                  </span>
+                </span>
+              )}
+            </div>
+
+            {/* Features */}
+            <div className="flex flex-wrap gap-4 text-sm text-gray-600 mb-3">
+              <span className="flex items-center gap-1">
+                <Bed className="h-4 w-4" />
+                {property.bedrooms} Bed{property.bedrooms !== 1 ? 's' : ''}
+              </span>
+              <span className="flex items-center gap-1">
+                <Bath className="h-4 w-4" />
+                {property.bathrooms} Bath{property.bathrooms !== 1 ? 's' : ''}
+              </span>
+              <span className="flex items-center gap-1">
+                <Square className="h-4 w-4" />
+                {property.size} sq ft
+              </span>
+              <span className="text-gray-500">• {property.type.replace(/_/g, ' ')}</span>
+            </div>
+
+            {/* Description */}
+            {property.description && (
+              <p className="text-sm text-gray-600 line-clamp-2 mb-3">{property.description}</p>
+            )}
+
+            {/* Action Buttons */}
+            <div className="flex gap-2">
+              <Button
+                variant="default"
+                size="sm"
+                className="flex-1"
+                onClick={handleClick}
+              >
+                <Eye className="h-4 w-4 mr-1" />
+                View Details
+              </Button>
+              {property.status === PropertyStatus.Available && (
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="flex-1"
+                  asChild
+                >
+                  <Link href={`/properties/${property.id}/reserve`}>
+                    Reserve Now
+                  </Link>
+                </Button>
+              )}
+            </div>
+          </CardContent>
+        </div>
+      </Card>
+    );
+  }
+
+  // Default vertical card variant
   return (
-    <Link 
-      key={id} 
-      href={`/properties/${id}`} 
-      prefetch={true}
-      className="group block bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#2B5273]"
-      aria-label={`View details for ${displayName}`}
-    >
+    <Card className={clsx(
+      'overflow-hidden hover:shadow-lg transition-all duration-300 group',
+      className
+    )}>
+      {/* Image Section */}
       <div className="relative h-56 w-full">
-        {mainImage ? (
+        <Link href={`/properties/${property.id}`} onClick={handleClick}>
           <Image
-            src={mainImage}
-            alt={`Exterior view of ${displayName}`}
+            src={imageUrl}
+            alt={property.name}
             fill
-            style={{ objectFit: "cover" }}
+            className="object-cover group-hover:scale-105 transition-transform duration-300"
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-            onError={(e) => {
-              // Fallback to placeholder on error
-              const target = e.target as HTMLImageElement;
-              target.src = '/images/placeholder-property.jpg';
-            }}
+            priority={priority}
           />
-        ) : (
-          <div className="h-full w-full bg-gray-200 flex items-center justify-center text-gray-500">No Image Available</div>
-        )}
-        <div className="absolute top-2 left-2 flex space-x-1">
-          {isNew && <span className="px-2 py-0.5 text-xs font-semibold text-white bg-blue-500 rounded">New</span>}
-          {isReduced && <span className="px-2 py-0.5 text-xs font-semibold text-white bg-red-500 rounded">Reduced</span>}
-        </div>
-        <div className="absolute top-2 right-2">
-          <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusColor(status)}`}>
-            {typeof status === 'string' 
-              ? status.replace(/_/g, ' ')
-                .split(' ')
-                .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-                .join(' ')
-              : status}
-          </span>
-        </div>
+          {/* Badges */}
+          <div className="absolute top-2 left-2 flex flex-wrap gap-1">
+            {isReduced && (
+              <Badge variant="destructive" className="text-xs">
+                {reductionPercentage}% OFF
+              </Badge>
+            )}
+            {property.features?.includes('New Build') && (
+              <Badge variant="default" className="text-xs bg-blue-600">
+                New
+              </Badge>
+            )}
+          </div>
+
+          {/* Status Badge */}
+          <div className="absolute top-2 right-2">
+            <Badge className={getStatusColor(property.status)}>
+              {property.status.replace(/_/g, ' ')}
+            </Badge>
+          </div>
+
+          {/* Image Count & Virtual Tour */}
+          <div className="absolute bottom-2 right-2 flex gap-2">
+            {imageCount> 1 && (
+              <div className="bg-black/70 text-white px-2 py-1 rounded flex items-center gap-1 text-sm">
+                <Camera className="h-3 w-3" />
+                {imageCount}
+              </div>
+            )}
+            {hasVirtualTour && (
+              <div className="bg-black/70 text-white p-1.5 rounded">
+                <Video className="h-4 w-4" />
+              </div>
+            )}
+          </div>
+        </Link>
       </div>
-      <div className="p-4">
-        <h3 className="text-lg font-semibold text-gray-900 truncate group-hover:text-[#2B5273] transition-colors">
-          {displayName}
-        </h3>
-        {showDevelopmentName && (
-          <p className="text-sm text-gray-600 mt-1">
-            {displayDevelopment}
+
+      {/* Content Section */}
+      <CardContent className="p-4">
+        {/* Title & Development */}
+        <Link href={`/properties/${property.id}`} onClick={handleClick}>
+          <h3 className="text-lg font-semibold text-gray-900 group-hover:text-blue-600 transition-colors line-clamp-1">
+            {property.name}
+          </h3>
+        </Link>
+
+        {showDevelopmentName && property.development && (
+          <p className="text-sm text-gray-600 mt-1 line-clamp-1">
+            {property.development.name}
           </p>
         )}
-        <p className="text-xl font-bold text-[#2B5273] mt-2">{formatPrice(price)}</p>
-        <div className="flex justify-between text-sm text-gray-600 mt-2">
-          <span>{bedrooms ? `${bedrooms} Bed` : ""}</span>
-          <span>{bathrooms ? `${bathrooms} Bath` : ""}</span>
-          <span>{displayArea ? `${displayArea} sq m` : ""}</span>
+
+        {/* Location */}
+        <div className="flex items-center gap-1 text-sm text-gray-500 mt-1">
+          <MapPin className="h-3 w-3" />
+          {location}
         </div>
-      </div>
-    </Link>
+
+        {/* Price */}
+        <div className="mt-3">
+          <span className="text-xl font-bold text-gray-900">{formatPrice(property.price)}</span>
+          {isReduced && property.originalPrice && (
+            <span className="text-sm text-gray-500 line-through ml-2">
+              {formatPrice(property.originalPrice)}
+            </span>
+          )}
+        </div>
+
+        {/* Features */}
+        <div className="flex justify-between text-sm text-gray-600 mt-3 pt-3 border-t">
+          <span className="flex items-center gap-1">
+            <Bed className="h-4 w-4" />
+            {property.bedrooms} Bed
+          </span>
+          <span className="flex items-center gap-1">
+            <Bath className="h-4 w-4" />
+            {property.bathrooms} Bath
+          </span>
+          <span className="flex items-center gap-1">
+            <Square className="h-4 w-4" />
+            {property.size} sq ft
+          </span>
+        </div>
+
+        {/* Additional Features for detailed variant */}
+        {variant === 'detailed' && (
+          <>
+            {property.amenities && property.amenities.length> 0 && (
+              <div className="mt-3 pt-3 border-t">
+                <div className="flex flex-wrap gap-1">
+                  {property.amenities.slice(03).map((amenity: any) => (
+                    <Badge key={amenity} variant="secondary" className="text-xs">
+                      {amenity}
+                    </Badge>
+                  ))}
+                  {property.amenities.length> 3 && (
+                    <Badge variant="secondary" className="text-xs">
+                      +{property.amenities.length - 3} more
+                    </Badge>
+                  )}
+                </div>
+              </div>
+            )}
+
+            {/* Quick Actions */}
+            <div className="flex gap-2 mt-4">
+              <Button
+                variant="default"
+                size="sm"
+                className="flex-1"
+                onClick={handleClick}
+              >
+                View Details
+              </Button>
+              {property.status === PropertyStatus.Available && (
+                <Button
+                  variant="outline"
+                  size="sm"
+                  asChild
+                >
+                  <Link href={`/properties/${property.id}/viewing`}>
+                    Book Viewing
+                  </Link>
+                </Button>
+              )}
+            </div>
+          </>
+        )}
+      </CardContent>
+    </Card>
   );
 });
 
-PropertyCard.displayName = "PropertyCard"; // Add display name for better debugging
-
-export default PropertyCard;
+PropertyCard.displayName = 'PropertyCard';

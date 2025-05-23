@@ -1,0 +1,98 @@
+{
+  "timestamp": "2025-01-19T12:00:00Z",
+  "scanDate": "2025-01-19",
+  "summary": {
+    "total": 14,
+    "critical": 3,
+    "high": 3,
+    "moderate": 6,
+    "low": 2
+  },
+  "vulnerabilities": [
+    {
+      "severity": "CRITICAL",
+      "type": "EXPOSED_API_KEY",
+      "cwe": "CWE-798",
+      "description": "Anthropic API key exposed in repository",
+      "locations": [
+        ".env:51",
+        "claude-test.sh",
+        "claude-focused-security.sh",
+        "claude-review-auth.sh",
+        "claude-code-quickstart.sh"
+      ],
+      "impact": "API key can be used by attackers to make unauthorized API calls",
+      "remediation": "Revoke exposed key immediately and use environment variables or secrets manager"
+    },
+    {
+      "severity": "CRITICAL",
+      "package": "libxmljs2",
+      "version": "<=0.35.0",
+      "vulnerability": "Type confusion when parsing specially crafted XML",
+      "cve": "CVE-2024-XXXXX",
+      "fixAvailable": "@cyclonedx/cyclonedx-npm@1.10.0"
+    },
+    {
+      "severity": "HIGH",
+      "package": "lodash.set",
+      "vulnerability": "Prototype Pollution",
+      "cve": "CVE-2020-8203",
+      "fixAvailable": "lighthouse-ci@1.10.0"
+    },
+    {
+      "severity": "MODERATE",
+      "type": "WEAK_ENCRYPTION",
+      "description": "Weak development secrets in .env file",
+      "locations": [".env"],
+      "recommendations": "Use cryptographically strong secrets even in development"
+    },
+    {
+      "severity": "LOW",
+      "type": "MISSING_SECURITY_HEADERS",
+      "description": "Some API routes don't apply security headers",
+      "impact": "Potential for clickjacking, XSS attacks"
+    }
+  ],
+  "dependencies": {
+    "total": 3049,
+    "outdated": 247,
+    "withVulnerabilities": 14
+  },
+  "codeAnalysis": {
+    "hardcodedSecrets": 5,
+    "sqlInjection": {
+      "risk": "LOW",
+      "reason": "Using Prisma ORM with parameterized queries"
+    },
+    "xss": {
+      "risk": "LOW", 
+      "reason": "DOMPurify used for HTML sanitization"
+    },
+    "csrf": {
+      "risk": "MEDIUM",
+      "reason": "CSRF protection implemented but not consistently applied"
+    }
+  },
+  "recommendations": [
+    {
+      "priority": 1,
+      "action": "Immediately revoke and rotate exposed Anthropic API key"
+    },
+    {
+      "priority": 2,
+      "action": "Update vulnerable dependencies: npm audit fix"
+    },
+    {
+      "priority": 3,
+      "action": "Remove all hardcoded secrets from codebase"
+    },
+    {
+      "priority": 4,
+      "action": "Implement secrets scanning in CI/CD pipeline"
+    },
+    {
+      "priority": 5,
+      "action": "Apply security headers to all API routes consistently"
+    }
+  ]
+}

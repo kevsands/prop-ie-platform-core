@@ -1,0 +1,158 @@
+'use client';
+
+import { BuyerJourney, BuyerPhase, AffordabilityCheck, MortgageApplication } from '@/types/buyer-journey';
+
+// This service would connect to your backend API in a real application
+// For now, we'll implement mock data for demonstration purposes
+
+class JourneyService {
+  // Get the buyer's journey data
+  async getBuyerJourney(buyerId: string): Promise<BuyerJourney> {
+    // This would make an API call in production
+    // return fetch(`/api/buyer/${buyerId}/journey`).then(res => res.json());
+
+    // Mock data for demonstration
+    return {
+      id: 'journey-123',
+      buyerId,
+      currentPhase: 'FINANCING' as BuyerPhase,
+      startDate: new Date('2025-05-01').toISOString(),
+      lastUpdated: new Date('2025-05-03').toISOString(),
+      targetMoveInDate: new Date('2025-08-15').toISOString(),
+      phaseHistory: [
+        {
+          id: 'phase-1',
+          journeyId: 'journey-123',
+          phase: 'PLANNING' as BuyerPhase,
+          startDate: new Date('2025-05-01').toISOString(),
+          endDate: new Date('2025-05-03').toISOString(),
+          completedTasks: {
+            profileCompleted: true,
+            budgetCalculated: true,
+            preferencesSet: true
+          }
+        },
+        {
+          id: 'phase-2',
+          journeyId: 'journey-123',
+          phase: 'FINANCING' as BuyerPhase,
+          startDate: new Date('2025-05-03').toISOString(),
+          completedTasks: {
+            lendersResearched: true,
+            htbChecked: true
+          }
+        }
+      ]
+    };
+  }
+
+  // Update the buyer's current phase
+  async updateBuyerPhase(journeyId: string, phase: BuyerPhase): Promise<BuyerJourney> {
+    // This would make an API call in production
+    // return fetch(`/api/buyer/journey/${journeyId}/phase`, {
+    //   method: 'PUT',
+    //   headers: { 'Content-Type': 'application/json' },
+    //   body: JSON.stringify({ phase })
+    // }).then(res => res.json());
+
+    // Mock response
+    return {
+      id: journeyId,
+      buyerId: 'user-123',
+      currentPhase: phase,
+      startDate: new Date('2025-05-01').toISOString(),
+      lastUpdated: new Date().toISOString(),
+      targetMoveInDate: new Date('2025-08-15').toISOString()
+    };
+  }
+
+  // Add an affordability check
+  async addAffordabilityCheck(check: Omit<AffordabilityCheck, 'id' | 'created'>): Promise<AffordabilityCheck> {
+    // Mock response
+    return {
+      ...check,
+      id: 'check-' + Math.random().toString(36).substr(2, 9),
+      created: new Date().toISOString()
+    };
+  }
+
+  // Add a mortgage application
+  async addMortgageApplication(application: Omit<MortgageApplication, 'id' | 'created' | 'updated'>): Promise<MortgageApplication> {
+    // Mock response
+    return {
+      ...application,
+      id: 'mortgage-' + Math.random().toString(36).substr(2, 9),
+      created: new Date().toISOString(),
+      updated: new Date().toISOString()
+    };
+  }
+
+  // Get completed tasks for a specific phase
+  async getPhaseCompletedTasks(journeyId: string, phase: BuyerPhase): Promise<string[]> {
+    // Mock data
+    const mockTasksByPhase: Record<BuyerPhase, string[]> = {
+      'PLANNING': ['Create account', 'Complete initial assessment'],
+      'FINANCING': ['Research mortgage options', 'Calculate affordability'],
+      'PROPERTY_SEARCH': [],
+      'RESERVATION': [],
+      'LEGAL_PROCESS': [],
+      'CONSTRUCTION': [],
+      'COMPLETION': [],
+      'POST_PURCHASE': []
+    };
+
+    return mockTasksByPhase[phase] || [];
+  }
+
+  // Get next steps for a specific phase
+  async getPhaseNextSteps(journeyId: string, phase: BuyerPhase): Promise<string[]> {
+    // Mock data
+    const mockNextStepsByPhase: Record<BuyerPhase, string[]> = {
+      'PLANNING': [
+        'Complete your financial profile',
+        'Set your budget and preferences',
+        'Learn about the home buying process'
+      ],
+      'FINANCING': [
+        'Submit mortgage application',
+        'Gather supporting financial documents',
+        'Apply for Help-to-Buy scheme'
+      ],
+      'PROPERTY_SEARCH': [
+        'Schedule property viewings',
+        'Compare developments and units',
+        'Explore customization options'
+      ],
+      'RESERVATION': [
+        'Pay reservation fee',
+        'Confirm property details',
+        'Review customization options'
+      ],
+      'LEGAL_PROCESS': [
+        'Appoint a solicitor',
+        'Review and sign contracts',
+        'Complete legal checks'
+      ],
+      'CONSTRUCTION': [
+        'Track building progress',
+        'Attend site inspections',
+        'Prepare for snagging'
+      ],
+      'COMPLETION': [
+        'Prepare final payment',
+        'Schedule move-in date',
+        'Plan your move'
+      ],
+      'POST_PURCHASE': [
+        'Complete snagging list',
+        'Set up utilities',
+        'Register for local services'
+      ]
+    };
+
+    return mockNextStepsByPhase[phase] || [];
+  }
+}
+
+// Export as a singleton
+export const journeyService = new JourneyService();

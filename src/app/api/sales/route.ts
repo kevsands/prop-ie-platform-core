@@ -32,7 +32,7 @@ export async function GET(request: NextRequest) {
     const filters: Record<string, string> = {};
 
     // Collect all query parameters
-    for (const [key, value] of searchParams.entries()) {
+    for (const [keyvalue] of searchParams.entries()) {
       if (value) {
         filters[key] = value;
       }
@@ -40,18 +40,18 @@ export async function GET(request: NextRequest) {
 
     // Get ID parameter if it exists (for single sale retrieval)
     const id = searchParams.get('id');
-    
+
     if (id) {
       // Get a specific sale by ID
       const sale = await salesService.getSaleById(id);
-      
+
       if (!sale) {
         return NextResponse.json(
           { error: 'Sale not found' },
           { status: 404 }
         );
       }
-      
+
       return NextResponse.json(sale);
     } else {
       // Get all sales with optional filters
@@ -59,13 +59,12 @@ export async function GET(request: NextRequest) {
         status: filters.status as any,
         developmentId: filters.developmentId,
         buyerId: filters.buyerId,
-        sellingAgentId: filters.sellingAgentId,
-      });
-      
+        sellingAgentId: filters.sellingAgentId});
+
       return NextResponse.json(sales);
     }
   } catch (error) {
-    console.error('Error in sales GET handler:', error);
+
     return NextResponse.json(
       { error: 'Failed to fetch sales data' },
       { status: 500 }
@@ -113,7 +112,7 @@ export async function POST(request: NextRequest) {
     const sale = await salesService.createSale(data);
     return NextResponse.json(sale, { status: 201 });
   } catch (error) {
-    console.error('Error in sales POST handler:', error);
+
     return NextResponse.json(
       { error: 'Failed to create sale' },
       { status: 500 }
@@ -156,11 +155,10 @@ export async function PUT(request: NextRequest) {
         previousStatus: z.nativeEnum(SaleStatus).optional(),
         updatedById: z.string(),
         notes: z.string().optional(),
-        timelineUpdates: z.record(z.string(), z.coerce.date()).optional(),
-      });
+        timelineUpdates: z.record(z.string(), z.coerce.date()).optional()});
 
       const validationResult = StatusUpdateSchema.safeParse(updateData);
-      
+
       if (!validationResult.success) {
         return NextResponse.json(
           { error: 'Invalid status update data', details: validationResult.error.format() },
@@ -184,11 +182,10 @@ export async function PUT(request: NextRequest) {
         totalPaid: z.number().nonnegative(),
         status: z.nativeEnum(SaleStatus),
         paymentMethod: z.string().optional(),
-        receiptDocumentIds: z.array(z.string()).optional(),
-      });
+        receiptDocumentIds: z.array(z.string()).optional()});
 
       const validationResult = DepositSchema.safeParse(updateData);
-      
+
       if (!validationResult.success) {
         return NextResponse.json(
           { error: 'Invalid deposit data', details: validationResult.error.format() },
@@ -206,11 +203,10 @@ export async function PUT(request: NextRequest) {
         authorId: z.string(),
         content: z.string(),
         isPrivate: z.boolean().optional(),
-        category: z.string().optional(),
-      });
+        category: z.string().optional()});
 
       const validationResult = NoteSchema.safeParse(updateData);
-      
+
       if (!validationResult.success) {
         return NextResponse.json(
           { error: 'Invalid note data', details: validationResult.error.format() },
@@ -220,8 +216,7 @@ export async function PUT(request: NextRequest) {
 
       const newNote = await salesService.addNote({
         saleId: id,
-        ...validationResult.data,
-      });
+        ...validationResult.data});
       return NextResponse.json(newNote);
     }
     // Check if this is a task update
@@ -236,11 +231,10 @@ export async function PUT(request: NextRequest) {
         priority: z.string(),
         assignedToId: z.string(),
         createdById: z.string(),
-        notifyBeforeDays: z.number().optional(),
-      });
+        notifyBeforeDays: z.number().optional()});
 
       const validationResult = TaskSchema.safeParse(updateData);
-      
+
       if (!validationResult.success) {
         return NextResponse.json(
           { error: 'Invalid task data', details: validationResult.error.format() },
@@ -252,8 +246,7 @@ export async function PUT(request: NextRequest) {
       const task = await salesService.upsertTask({
         id: taskId,
         saleId: id,
-        ...taskData,
-      });
+        ...taskData});
       return NextResponse.json(task);
     }
 
@@ -263,7 +256,7 @@ export async function PUT(request: NextRequest) {
       { status: 400 }
     );
   } catch (error) {
-    console.error('Error in sales PUT handler:', error);
+
     return NextResponse.json(
       { error: 'Failed to update sale' },
       { status: 500 }
@@ -306,14 +299,13 @@ export async function DELETE(request: NextRequest) {
     }
 
     // Soft delete the sale
-    const result = await salesService.deleteSale(id, updatedById, reason);
-    
+    const result = await salesService.deleteSale(id, updatedByIdreason);
+
     return NextResponse.json({
       message: 'Sale cancelled successfully',
-      id: result.id,
-    });
+      id: result.id});
   } catch (error) {
-    console.error('Error in sales DELETE handler:', error);
+
     return NextResponse.json(
       { error: 'Failed to delete sale' },
       { status: 500 }

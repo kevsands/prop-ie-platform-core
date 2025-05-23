@@ -24,8 +24,8 @@ export function ProjectList({
   description,
   emptyMessage = 'No projects found'
 }: ProjectListProps): React.ReactElement {
-  const [sortField, setSortField] = useState<keyof DeveloperProject>('name');
-  const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
+  const [sortFieldsetSortField] = useState<keyof DeveloperProject>('name');
+  const [sortDirectionsetSortDirection] = useState<'asc' | 'desc'>('asc');
 
   // Handle column header click for sorting
   const handleSort = (field: keyof DeveloperProject) => {
@@ -38,29 +38,29 @@ export function ProjectList({
   };
 
   // Sort projects based on current sort settings
-  const sortedProjects = projects && projects.length > 0 
-    ? [...projects].sort((a, b) => {
+  const sortedProjects = projects && projects.length> 0 
+    ? [...projects].sort((ab: any) => {
         const valueA = a[sortField];
         const valueB = b[sortField];
-        
+
         // Handle string comparison
         if (typeof valueA === 'string' && typeof valueB === 'string') {
           return sortDirection === 'asc' 
             ? valueA.localeCompare(valueB) 
             : valueB.localeCompare(valueA);
         }
-        
+
         // Handle number comparison
         if (typeof valueA === 'number' && typeof valueB === 'number') {
           return sortDirection === 'asc' 
             ? valueA - valueB 
             : valueB - valueA;
         }
-        
+
         return 0;
       })
     : [];
-  
+
   if (!projects?.length) {
     return (
       <Card className={className}>
@@ -74,7 +74,7 @@ export function ProjectList({
       </Card>
     );
   }
-  
+
   return (
     <Card className={className}>
       <CardHeader>
@@ -120,7 +120,7 @@ export function ProjectList({
             </TableRow>
           </TableHeader>
           <TableBody>
-            {sortedProjects.map((project) => (
+            {sortedProjects.map((project: any) => (
               <TableRow key={project.id}>
                 <TableCell className="font-medium">
                   <Link 
@@ -147,7 +147,7 @@ export function ProjectList({
                     <div className="w-full bg-gray-200 rounded-full h-2">
                       <div 
                         className="bg-primary h-2 rounded-full" 
-                        style={{ width: `${project.completionPercentage}%` }}
+                        style={ width: `${project.completionPercentage}%` }
                       />
                     </div>
                     <span className="ml-2 text-xs text-muted-foreground">

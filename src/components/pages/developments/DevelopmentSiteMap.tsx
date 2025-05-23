@@ -34,8 +34,8 @@ interface DevelopmentSiteMapProps {
 }
 
 export default function DevelopmentSiteMap({ development }: DevelopmentSiteMapProps) {
-  const [selectedUnit, setSelectedUnit] = useState<Unit | null>(null);
-  const [hoveredUnit, setHoveredUnit] = useState<string | null>(null);
+  const [selectedUnitsetSelectedUnit] = useState<Unit | null>(null);
+  const [hoveredUnitsetHoveredUnit] = useState<string | null>(null);
 
   const formatPrice = (price: number): string => {
     return new Intl.NumberFormat('en-IE', {
@@ -81,7 +81,7 @@ export default function DevelopmentSiteMap({ development }: DevelopmentSiteMapPr
             height="100%" 
             viewBox="0 0 800 600" 
             className="border border-gray-200 rounded-md"
-            style={{ minHeight: '400px' }}
+            style={ minHeight: '400px' }
           >
             {/* Site boundaries or roads */}
             <path 
@@ -90,9 +90,9 @@ export default function DevelopmentSiteMap({ development }: DevelopmentSiteMapPr
               stroke="#CBD5E0" 
               strokeWidth="2"
             />
-            
+
             {/* Units */}
-            {development.units.map((unit) => (
+            {development.units.map((unit: any) => (
               <g key={unit.id}>
                 <rect
                   x={unit.coordinates.x}
@@ -120,27 +120,27 @@ export default function DevelopmentSiteMap({ development }: DevelopmentSiteMapPr
                 </text>
               </g>
             ))}
-            
+
             {/* Legend */}
-            <g transform="translate(650, 50)">
+            <g transform="translate(65050)">
               <rect x="0" y="0" width="20" height="20" className="fill-green-500" />
               <text x="25" y="15" fill="#333" className="text-xs">Available</text>
-              
+
               <rect x="0" y="30" width="20" height="20" className="fill-yellow-500" />
               <text x="25" y="45" fill="#333" className="text-xs">Reserved</text>
-              
+
               <rect x="0" y="60" width="20" height="20" className="fill-red-500" />
               <text x="25" y="75" fill="#333" className="text-xs">Sold</text>
             </g>
           </svg>
         </div>
-        
+
         {/* Unit details panel */}
         <div className="md:w-1/4">
           <h3 className="text-lg font-semibold text-[#2B5273] mb-4">
             {selectedUnit ? `Unit ${selectedUnit.number} Details` : 'Select a Unit'}
           </h3>
-          
+
           {selectedUnit ? (
             <div>
               <div className={`inline-block px-2 py-1 rounded text-sm font-semibold mb-4 ${
@@ -152,7 +152,7 @@ export default function DevelopmentSiteMap({ development }: DevelopmentSiteMapPr
               }`}>
                 {selectedUnit.status.charAt(0).toUpperCase() + selectedUnit.status.slice(1)}
               </div>
-              
+
               <div className="space-y-4">
                 <div>
                   <p className="text-sm text-gray-500">Type</p>
@@ -175,7 +175,7 @@ export default function DevelopmentSiteMap({ development }: DevelopmentSiteMapPr
                   <p className="font-semibold text-[#2B5273] text-lg">{formatPrice(selectedUnit.price)}</p>
                 </div>
               </div>
-              
+
               {selectedUnit.status === 'available' && (
                 <button
                   className="mt-6 w-full bg-[#2B5273] text-white font-medium py-2 px-4 rounded-lg hover:bg-[#1E3142] transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#2B5273]"

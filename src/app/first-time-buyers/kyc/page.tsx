@@ -66,11 +66,11 @@ interface FormData {
   ppsNumber: string;
   nationality: string;
   occupation: string;
-  
+
   // Contact Information
   email: string;
   phone: string;
-  
+
   // Current Address
   addressLine1: string;
   addressLine2: string;
@@ -78,21 +78,21 @@ interface FormData {
   county: string;
   eircode: string;
   yearsAtAddress: string;
-  
+
   // Previous Address (if less than 3 years)
   previousAddressLine1: string;
   previousAddressLine2: string;
   previousCity: string;
   previousCounty: string;
   previousEircode: string;
-  
+
   // Source of Funds
   employmentStatus: string;
   employerName: string;
   annualIncome: string;
   sourceOfDeposit: string;
   sourceOfDepositDetails: string;
-  
+
   // PEP Declaration
   isPEP: boolean;
   pepDetails: string;
@@ -102,8 +102,8 @@ interface FormData {
 
 export default function KYCCompliancePage() {
   const router = useRouter();
-  const [currentStep, setCurrentStep] = useState('personal-info');
-  const [formData, setFormData] = useState<FormData>({
+  const [currentStepsetCurrentStep] = useState('personal-info');
+  const [formDatasetFormData] = useState<FormData>({
     firstName: '',
     lastName: '',
     dateOfBirth: '',
@@ -133,8 +133,8 @@ export default function KYCCompliancePage() {
     familyPEP: false,
     familyPEPDetails: ''
   });
-  
-  const [verificationStatus, setVerificationStatus] = useState({
+
+  const [verificationStatussetVerificationStatus] = useState({
     identityVerified: false,
     addressVerified: false,
     fundsVerified: false,
@@ -151,7 +151,7 @@ export default function KYCCompliancePage() {
 
   const handleStepComplete = () => {
     const stepIndex = kycSteps.findIndex(step => step.id === currentStep);
-    if (stepIndex < kycSteps.length - 1) {
+    if (stepIndex <kycSteps.length - 1) {
       setCurrentStep(kycSteps[stepIndex + 1].id);
     }
   };
@@ -162,7 +162,7 @@ export default function KYCCompliancePage() {
         return (
           <div className="space-y-6">
             <h3 className="text-lg font-semibold text-gray-900">Personal Information</h3>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -177,7 +177,7 @@ export default function KYCCompliancePage() {
                   required
                 />
               </div>
-              
+
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Last Name
@@ -191,7 +191,7 @@ export default function KYCCompliancePage() {
                   required
                 />
               </div>
-              
+
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Date of Birth
@@ -205,7 +205,7 @@ export default function KYCCompliancePage() {
                   required
                 />
               </div>
-              
+
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   PPS Number
@@ -220,7 +220,7 @@ export default function KYCCompliancePage() {
                   required
                 />
               </div>
-              
+
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Nationality
@@ -238,7 +238,7 @@ export default function KYCCompliancePage() {
                   <option value="Other">Other</option>
                 </select>
               </div>
-              
+
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Occupation
@@ -252,7 +252,7 @@ export default function KYCCompliancePage() {
                   required
                 />
               </div>
-              
+
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Email Address
@@ -266,7 +266,7 @@ export default function KYCCompliancePage() {
                   required
                 />
               </div>
-              
+
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Phone Number
@@ -284,12 +284,12 @@ export default function KYCCompliancePage() {
             </div>
           </div>
         );
-        
+
       case 'identity-verification':
         return (
           <div className="space-y-6">
             <h3 className="text-lg font-semibold text-gray-900">Identity Verification</h3>
-            
+
             <div className="bg-blue-50 rounded-lg p-4">
               <div className="flex items-start">
                 <Info className="w-5 h-5 text-blue-600 mr-3 flex-shrink-0" />
@@ -301,7 +301,7 @@ export default function KYCCompliancePage() {
                 </div>
               </div>
             </div>
-            
+
             <div className="space-y-4">
               <div className="border rounded-lg p-6">
                 <h4 className="font-medium text-gray-900 mb-4">Upload Identity Document</h4>
@@ -313,7 +313,7 @@ export default function KYCCompliancePage() {
                   <li>Irish driving license (both sides)</li>
                   <li>Irish Public Services Card</li>
                 </ul>
-                
+
                 <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center">
                   <Upload className="w-12 h-12 text-gray-400 mx-auto mb-4" />
                   <button className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
@@ -324,13 +324,13 @@ export default function KYCCompliancePage() {
                   </p>
                 </div>
               </div>
-              
+
               <div className="border rounded-lg p-6">
                 <h4 className="font-medium text-gray-900 mb-4">Selfie Verification</h4>
                 <p className="text-sm text-gray-600 mb-4">
                   Take a selfie holding your ID document to verify it's really you
                 </p>
-                
+
                 <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center">
                   <Camera className="w-12 h-12 text-gray-400 mx-auto mb-4" />
                   <button className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
@@ -344,15 +344,15 @@ export default function KYCCompliancePage() {
             </div>
           </div>
         );
-        
+
       case 'address-verification':
         return (
           <div className="space-y-6">
             <h3 className="text-lg font-semibold text-gray-900">Address Verification</h3>
-            
+
             <div className="space-y-4">
               <h4 className="font-medium text-gray-900">Current Address</h4>
-              
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="md:col-span-2">
                   <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -367,7 +367,7 @@ export default function KYCCompliancePage() {
                     required
                   />
                 </div>
-                
+
                 <div className="md:col-span-2">
                   <label className="block text-sm font-medium text-gray-700 mb-1">
                     Address Line 2 (optional)
@@ -380,7 +380,7 @@ export default function KYCCompliancePage() {
                     className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-blue-500 focus:border-blue-500"
                   />
                 </div>
-                
+
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
                     City
@@ -394,7 +394,7 @@ export default function KYCCompliancePage() {
                     required
                   />
                 </div>
-                
+
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
                     County
@@ -415,7 +415,7 @@ export default function KYCCompliancePage() {
                     {/* Add all Irish counties */}
                   </select>
                 </div>
-                
+
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
                     Eircode
@@ -430,7 +430,7 @@ export default function KYCCompliancePage() {
                     required
                   />
                 </div>
-                
+
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
                     Years at this address
@@ -449,14 +449,14 @@ export default function KYCCompliancePage() {
                   </select>
                 </div>
               </div>
-              
+
               {formData.yearsAtAddress === '0-1' || formData.yearsAtAddress === '1-3' ? (
                 <div className="mt-6">
                   <h4 className="font-medium text-gray-900 mb-4">Previous Address</h4>
                   <p className="text-sm text-gray-600 mb-4">
                     Please provide your previous address as you've been at your current address for less than 3 years
                   </p>
-                  
+
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="md:col-span-2">
                       <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -471,7 +471,7 @@ export default function KYCCompliancePage() {
                         required
                       />
                     </div>
-                    
+
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-1">
                         Previous City
@@ -485,7 +485,7 @@ export default function KYCCompliancePage() {
                         required
                       />
                     </div>
-                    
+
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-1">
                         Previous County
@@ -507,19 +507,19 @@ export default function KYCCompliancePage() {
                   </div>
                 </div>
               ) : null}
-              
+
               <div className="mt-6 border rounded-lg p-6">
                 <h4 className="font-medium text-gray-900 mb-4">Upload Proof of Address</h4>
                 <p className="text-sm text-gray-600 mb-4">
                   Please upload one of the following (dated within last 3 months):
                 </p>
                 <ul className="list-disc list-inside text-sm text-gray-600 mb-4">
-                  <li>Utility bill (electricity, gas, water)</li>
+                  <li>Utility bill (electricity, gaswater)</li>
                   <li>Bank statement</li>
                   <li>Internet/phone bill</li>
                   <li>Local council/revenue correspondence</li>
                 </ul>
-                
+
                 <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center">
                   <Upload className="w-12 h-12 text-gray-400 mx-auto mb-4" />
                   <button className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
@@ -533,12 +533,12 @@ export default function KYCCompliancePage() {
             </div>
           </div>
         );
-        
+
       case 'source-of-funds':
         return (
           <div className="space-y-6">
             <h3 className="text-lg font-semibold text-gray-900">Source of Funds</h3>
-            
+
             <div className="bg-yellow-50 rounded-lg p-4">
               <div className="flex items-start">
                 <AlertTriangle className="w-5 h-5 text-yellow-600 mr-3 flex-shrink-0" />
@@ -550,7 +550,7 @@ export default function KYCCompliancePage() {
                 </div>
               </div>
             </div>
-            
+
             <div className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -570,7 +570,7 @@ export default function KYCCompliancePage() {
                   <option value="other">Other</option>
                 </select>
               </div>
-              
+
               {(formData.employmentStatus === 'employed' || formData.employmentStatus === 'self-employed') && (
                 <>
                   <div>
@@ -586,7 +586,7 @@ export default function KYCCompliancePage() {
                       required
                     />
                   </div>
-                  
+
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
                       Annual Income (€)
@@ -602,7 +602,7 @@ export default function KYCCompliancePage() {
                   </div>
                 </>
               )}
-              
+
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Source of Deposit
@@ -623,7 +623,7 @@ export default function KYCCompliancePage() {
                   <option value="other">Other</option>
                 </select>
               </div>
-              
+
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Please provide details about your deposit source
@@ -638,13 +638,13 @@ export default function KYCCompliancePage() {
                   required
                 />
               </div>
-              
+
               <div className="border rounded-lg p-6">
                 <h4 className="font-medium text-gray-900 mb-4">Required Documentation</h4>
                 <p className="text-sm text-gray-600 mb-4">
                   Based on your selections, please upload the following:
                 </p>
-                
+
                 <div className="space-y-4">
                   <div className="flex items-center justify-between p-3 bg-gray-50 rounded">
                     <div>
@@ -655,7 +655,7 @@ export default function KYCCompliancePage() {
                       Upload
                     </button>
                   </div>
-                  
+
                   {formData.sourceOfDeposit === 'gift' && (
                     <div className="flex items-center justify-between p-3 bg-gray-50 rounded">
                       <div>
@@ -667,7 +667,7 @@ export default function KYCCompliancePage() {
                       </button>
                     </div>
                   )}
-                  
+
                   {(formData.employmentStatus === 'employed' || formData.employmentStatus === 'self-employed') && (
                     <>
                       <div className="flex items-center justify-between p-3 bg-gray-50 rounded">
@@ -679,7 +679,7 @@ export default function KYCCompliancePage() {
                           Upload
                         </button>
                       </div>
-                      
+
                       <div className="flex items-center justify-between p-3 bg-gray-50 rounded">
                         <div>
                           <p className="font-medium text-gray-900">Payslips (3 months)</p>
@@ -696,12 +696,12 @@ export default function KYCCompliancePage() {
             </div>
           </div>
         );
-        
+
       case 'pep-check':
         return (
           <div className="space-y-6">
             <h3 className="text-lg font-semibold text-gray-900">PEP & Sanctions Check</h3>
-            
+
             <div className="bg-blue-50 rounded-lg p-4">
               <div className="flex items-start">
                 <Info className="w-5 h-5 text-blue-600 mr-3 flex-shrink-0" />
@@ -714,7 +714,7 @@ export default function KYCCompliancePage() {
                 </div>
               </div>
             </div>
-            
+
             <div className="space-y-4">
               <div className="border rounded-lg p-4">
                 <label className="flex items-start">
@@ -734,7 +734,7 @@ export default function KYCCompliancePage() {
                     </p>
                   </div>
                 </label>
-                
+
                 {formData.isPEP && (
                   <div className="mt-4">
                     <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -752,7 +752,7 @@ export default function KYCCompliancePage() {
                   </div>
                 )}
               </div>
-              
+
               <div className="border rounded-lg p-4">
                 <label className="flex items-start">
                   <input
@@ -771,7 +771,7 @@ export default function KYCCompliancePage() {
                     </p>
                   </div>
                 </label>
-                
+
                 {formData.familyPEP && (
                   <div className="mt-4">
                     <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -789,7 +789,7 @@ export default function KYCCompliancePage() {
                   </div>
                 )}
               </div>
-              
+
               <div className="bg-gray-50 rounded-lg p-4">
                 <h4 className="font-medium text-gray-900 mb-2">Declaration</h4>
                 <p className="text-sm text-gray-700">
@@ -797,7 +797,7 @@ export default function KYCCompliancePage() {
                   knowledge. I understand that providing false or misleading information is a criminal 
                   offense under Irish law.
                 </p>
-                
+
                 <label className="flex items-center mt-4">
                   <input
                     type="checkbox"
@@ -812,7 +812,7 @@ export default function KYCCompliancePage() {
             </div>
           </div>
         );
-        
+
       default:
         return null;
     }
@@ -840,10 +840,10 @@ export default function KYCCompliancePage() {
       <div className="bg-white py-6 border-b">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between overflow-x-auto">
-            {kycSteps.map((step, index) => {
+            {kycSteps.map((stepindex: any) => {
               const isActive = step.id === currentStep;
               const isComplete = kycSteps.findIndex(s => s.id === currentStep) > index;
-              
+
               return (
                 <div key={step.id} className="flex items-center">
                   <div className="flex flex-col items-center">
@@ -873,7 +873,7 @@ export default function KYCCompliancePage() {
                       <p className="text-xs text-gray-500">{step.description}</p>
                     </div>
                   </div>
-                  {index < kycSteps.length - 1 && (
+                  {index <kycSteps.length - 1 && (
                     <div className={`w-20 h-0.5 mx-4 ${
                       isComplete ? 'bg-green-500' : 'bg-gray-300'
                     }`} />
@@ -890,21 +890,21 @@ export default function KYCCompliancePage() {
         <div className="max-w-3xl mx-auto">
           <div className="bg-white rounded-lg shadow-md p-6">
             {renderStepContent()}
-            
+
             <div className="mt-8 flex justify-between">
               <button
                 onClick={() => {
                   const stepIndex = kycSteps.findIndex(step => step.id === currentStep);
-                  if (stepIndex > 0) {
+                  if (stepIndex> 0) {
                     setCurrentStep(kycSteps[stepIndex - 1].id);
                   }
-                }}
+                }
                 className="px-6 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition"
                 disabled={currentStep === kycSteps[0].id}
               >
                 Previous
               </button>
-              
+
               <button
                 onClick={handleStepComplete}
                 className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition flex items-center"

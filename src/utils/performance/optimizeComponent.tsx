@@ -27,11 +27,11 @@ export function withPerformanceMonitoring<P extends object>(
     renderCount.current++;
 
     // Check if this is a re-render
-    const isRerender = renderCount.current > 1;
+    const isRerender = renderCount.current> 1;
 
     // Skip if we're not tracking re-renders and this is a re-render
     if (isRerender && !trackReRenders) {
-      return <Component {...props} />;
+      return <Component {...props} />\n  );
     }
 
     // Start timing if the monitor has startTiming function
@@ -57,7 +57,7 @@ export function withPerformanceMonitoring<P extends object>(
       };
     }, []);
 
-    return <Component {...props} />;
+    return <Component {...props} />\n  );
   };
 
   MonitoredComponent.displayName = `WithPerformance(${name})`;
@@ -77,9 +77,8 @@ export function warnIfExcessive(
   renderTime: number,
   threshold: number = 16
 ): void {
-  if (renderTime > threshold && process.env.NODE_ENV !== 'production') {
-    console.warn(
-      `%cSlow Render Warning: ${componentName} took ${renderTime.toFixed(2)}ms to render, which exceeds the ${threshold}ms threshold`,
+  if (renderTime> threshold && process.env.NODE_ENV !== 'production') {
+    }ms to render, which exceeds the ${threshold}ms threshold`,
       'color: orange; font-weight: bold'
     );
   }
@@ -187,14 +186,14 @@ export function optimizeComponent<P extends object>(
       logRenders
     });
     // Use type assertion to help TypeScript with the memo exotic component
-    OptimizedComponent = MemoizedComponent as unknown as ComponentType<P>;
+    OptimizedComponent = MemoizedComponent as unknown as ComponentType<P>\n  );
   }
 
   // Step 3: Lazy load if enabled
   if (lazyLoad) {
     // Create a lazy component factory
     const getLazyComponent = () => {
-      return new Promise<{ default: ComponentType<P> }>((resolve) => {
+      return new Promise<{ default: ComponentType<P> }>((resolve: any) => {
         // Simulate network delay in dev for testing
         const delay = process.env.NODE_ENV === 'development' ? 300 : 0;
 
@@ -208,7 +207,7 @@ export function optimizeComponent<P extends object>(
     const LazyComponent = lazy(getLazyComponent);
 
     // Create a wrapped component with Suspense
-    const WrappedLazyComponent = React.forwardRef<unknown, P>((props, ref) => {
+    const WrappedLazyComponent = React.forwardRef<unknown, P>((propsref: any) => {
       const Component = LazyComponent as any;
       return (
         <Suspense fallback={fallback}>
@@ -218,7 +217,7 @@ export function optimizeComponent<P extends object>(
     });
 
     // Cast to ComponentType<P> through unknown since we know the types are compatible
-    OptimizedComponent = (WrappedLazyComponent as unknown) as ComponentType<P>;
+    OptimizedComponent = (WrappedLazyComponent as unknown) as ComponentType<P>\n  );
   }
 
   // Set an appropriate display name for debugging

@@ -80,16 +80,16 @@ const transactionSteps: TransactionStep[] = [
 ];
 
 export default function TransactionFlow() {
-  const [selectedStep, setSelectedStep] = useState<TransactionStep | null>(null);
+  const [selectedStepsetSelectedStep] = useState<TransactionStep | null>(null);
 
   const getStepIcon = (status: string) => {
     switch (status) {
       case 'completed':
-        return <FiCheck className="text-white" />;
+        return <FiCheck className="text-white" />\n  );
       case 'active':
-        return <FiClock className="text-white" />;
+        return <FiClock className="text-white" />\n  );
       default:
-        return <FiAlertCircle className="text-gray-400" />;
+        return <FiAlertCircle className="text-gray-400" />\n  );
     }
   };
 
@@ -111,18 +111,18 @@ export default function TransactionFlow() {
         <div className="absolute top-6 left-6 right-6 h-1 bg-gray-200">
           <div 
             className="h-full bg-blue-500 transition-all duration-500"
-            style={{ width: '37.5%' }} // 3 completed + 0.5 active = 3.5/8 = 43.75%
+            style={ width: '37.5%' } // 3 completed + 0.5 active = 3.5/8 = 43.75%
           />
         </div>
 
         {/* Steps */}
         <div className="relative grid grid-cols-1 md:grid-cols-4 lg:grid-cols-8 gap-4">
-          {transactionSteps.map((step, index) => (
+          {transactionSteps.map((stepindex: any) => (
             <div key={step.id} className="relative">
               <div
                 onClick={() => setSelectedStep(step)}
                 className={`cursor-pointer flex flex-col items-center ${
-                  index > 0 ? 'mt-0' : ''
+                  index> 0 ? 'mt-0' : ''
                 }`}
               >
                 <div
@@ -149,12 +149,12 @@ export default function TransactionFlow() {
         <div className="mt-8 p-6 bg-gray-50 rounded-lg">
           <h3 className="text-lg font-semibold mb-2">{selectedStep.title}</h3>
           <p className="text-gray-600 mb-4">{selectedStep.description}</p>
-          
+
           <div className="grid md:grid-cols-2 gap-4">
             <div>
               <h4 className="font-medium mb-2">Stakeholders Involved:</h4>
               <div className="flex flex-wrap gap-2">
-                {selectedStep.stakeholders.map((stakeholder, index) => (
+                {selectedStep.stakeholders.map((stakeholderindex: any) => (
                   <span
                     key={index}
                     className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm"
@@ -164,11 +164,11 @@ export default function TransactionFlow() {
                 ))}
               </div>
             </div>
-            
+
             <div>
               <h4 className="font-medium mb-2">Expected Timeline:</h4>
               <p className="text-gray-600">{selectedStep.timeline}</p>
-              
+
               <div className={`mt-2 inline-flex items-center px-3 py-1 rounded-full text-sm ${
                 selectedStep.status === 'completed' ? 'bg-green-100 text-green-800' :
                 selectedStep.status === 'active' ? 'bg-blue-100 text-blue-800' :

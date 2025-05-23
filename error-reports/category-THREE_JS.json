@@ -1,0 +1,42 @@
+[
+  {
+    "filePath": "src/types/three-extensions.d.ts",
+    "lineNum": 122,
+    "colNum": 2,
+    "errorMessage": "error TS1110: Type expected.",
+    "errorCode": "TS1110",
+    "category": "THREE_JS"
+  },
+  {
+    "filePath": "src/types/three-extensions.d.ts",
+    "lineNum": 122,
+    "colNum": 30,
+    "errorMessage": "error TS1110: Type expected.",
+    "errorCode": "TS1110",
+    "category": "THREE_JS"
+  },
+  {
+    "filePath": "src/types/three-extensions.d.ts",
+    "lineNum": 122,
+    "colNum": 58,
+    "errorMessage": "error TS1110: Type expected.",
+    "errorCode": "TS1110",
+    "category": "THREE_JS"
+  },
+  {
+    "filePath": "src/types/three-extensions.d.ts",
+    "lineNum": 122,
+    "colNum": 86,
+    "errorMessage": "error TS1110: Type expected.",
+    "errorCode": "TS1110",
+    "category": "THREE_JS"
+  },
+  {
+    "filePath": "src/types/three-extensions.d.ts",
+    "lineNum": 122,
+    "colNum": 113,
+    "errorMessage": "error TS1109: Expression expected.",
+    "errorCode": "TS1109",
+    "category": "THREE_JS"
+  }
+]

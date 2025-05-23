@@ -25,8 +25,7 @@ import {
   ListCategoriesResponse,
   GetCustomizationResponse,
   CreateMutationResponse,
-  UpdateMutationResponse,
-} from "@/types";
+  UpdateMutationResponse} from "@/types";
 
 // Define missing Customization type
 export interface Customization {
@@ -36,7 +35,7 @@ export interface Customization {
   selectedOptions: Record<string, any>; // Ideally replace with SelectedOption type
   totalCost: number;
   status?: string;
-  userPreferences?: Record<string, any>;
+  userPreferences?: Record<string, any>\n  );
   createdAt?: string;
   updatedAt?: string;
 }
@@ -87,8 +86,7 @@ class Cache {
     this.cache[key] = {
       data,
       timestamp: Date.now(),
-      ttl,
-    };
+      ttl};
   }
 
   get<T>(key: string): T | null {
@@ -96,7 +94,7 @@ class Cache {
     if (!item) return null;
 
     // Check if item has expired
-    if (Date.now() - item.timestamp > item.ttl) {
+    if (Date.now() - item.timestamp> item.ttl) {
       delete this.cache[key];
       return null;
     }
@@ -139,42 +137,39 @@ export const DataService = {
     skipCache = false
   }: { 
     query: string; 
-    variables?: Record<string, any>;
+    variables?: Record<string, any>\n  );
     operationName?: string;
     cacheKey?: string;
     cacheTTL?: number;
     skipCache?: boolean;
   }): Promise<ServiceResult<T>> {
     const effectiveOperationName = operationName || query.split("{")[0].trim();
-    
+
     // Try to get from cache first if we have a cache key and skipCache is false
     if (cacheKey && !skipCache) {
       const cachedResult = cache.get<T>(cacheKey);
       if (cachedResult) {
-        console.log(`${effectiveOperationName}: Using cached result`);
+
         return { success: true, data: cachedResult };
       }
     }
-    
-    console.log(`Executing GraphQL: ${effectiveOperationName}...`);
-    
+
     try {
       // Use the client to make GraphQL request
       const response = await amplifyApiClient.graphql({
         query: query,
         variables: variables
-      }) as GraphQLResult<T>;
-      
+      }) as GraphQLResult<T>\n  );
       // Check for GraphQL errors within the response
       if (response.errors) {
         const errorMessage = response.errors.map((e: { message: string }) => e.message).join(', ');
-        console.error(`GraphQL errors in ${effectiveOperationName}:`, errorMessage);
+
         return { 
           success: false, 
           error: new Error(`GraphQL operation failed: ${errorMessage}`) 
         };
       }
-      
+
       // Ensure data exists before returning
       if (!response.data) {
         return { 
@@ -182,15 +177,15 @@ export const DataService = {
           error: new Error(`GraphQL response for ${effectiveOperationName} missing data`) 
         };
       }
-      
+
       // Cache the result if we have a cache key
       if (cacheKey && !skipCache) {
-        cache.set(cacheKey, response.data, cacheTTL);
+        cache.set(cacheKey, response.datacacheTTL);
       }
-      
+
       return { success: true, data: response.data };
     } catch (error) {
-      console.error(`GraphQL operation failed: ${effectiveOperationName}`, error);
+
       return { 
         success: false, 
         error: error instanceof Error ? error : new Error(String(error)) 
@@ -203,7 +198,7 @@ export const DataService = {
    */
   async getFeaturedDevelopments(limit: number = 4): Promise<Development[]> {
     const cacheKey = `featured-developments-${limit}`;
-    
+
     const query = `
       query ListFeaturedDevelopments($limit: Int) {
         listDevelopments(limit: $limit, sortDirection: DESC, sortField: "createdAt") {
@@ -214,17 +209,16 @@ export const DataService = {
       }
     `;
     const variables = { limit };
-    
+
     const result = await this._callGraphQL({ 
       query, 
       variables,
       operationName: "ListFeaturedDevelopments",
       cacheKey,
       cacheTTL: 30 * 60 * 1000 // 30 minutes cache for featured developments
-    }) as ServiceResult<ListDevelopmentsResponse>;
-    
+    }) as ServiceResult<ListDevelopmentsResponse>\n  );
     if (!result.success || !result.data) {
-      console.error("Error fetching featured developments:", result.error);
+
       // Try to fetch from REST API as fallback
       try {
         const apiDevelopments = await api.get<Development[]>("/developments", { 
@@ -233,11 +227,11 @@ export const DataService = {
         });
         return apiDevelopments || [];
       } catch (apiError) {
-        console.error("REST API fallback also failed:", apiError);
+
         return [];
       }
     }
-    
+
     return result.data.listDevelopments?.items || [];
   },
 
@@ -246,7 +240,7 @@ export const DataService = {
    */
   async getFeaturedProperties(limit: number = 6): Promise<Property[]> {
     const cacheKey = `featured-properties-${limit}`;
-    
+
     const query = `
       query ListFeaturedProperties($limit: Int, $filter: ModelPropertyFilterInput) {
         listProperties(limit: $limit, filter: $filter, sortDirection: DESC, sortField: "createdAt") {
@@ -260,17 +254,16 @@ export const DataService = {
         limit,
         filter: { isFeatured: { eq: true } }
     };
-    
+
     const result = await this._callGraphQL({ 
       query, 
       variables,
       operationName: "ListFeaturedProperties",
       cacheKey,
       cacheTTL: 15 * 60 * 1000 // 15 minutes cache for featured properties
-    }) as ServiceResult<ListPropertiesResponse>;
-    
+    }) as ServiceResult<ListPropertiesResponse>\n  );
     if (!result.success || !result.data) {
-      console.error("Error fetching featured properties:", result.error);
+
       try {
         // Try REST API fallback
         const apiProperties = await api.get<Property[]>("/properties", {
@@ -278,18 +271,18 @@ export const DataService = {
         });
         return apiProperties || [];
       } catch (apiError) {
-        console.error("REST API fallback also failed:", apiError);
+
         return [];
       }
     }
-    
+
     let properties = result.data.listProperties?.items || [];
-    
+
     // Fallback to latest properties if not enough featured ones
-    if (properties.length < limit) {
-      console.log("Not enough featured properties found, fetching latest properties as fallback...");
+    if (properties.length <limit) {
+
       const fallbackCacheKey = `latest-properties-${limit}`;
-      
+
       const fallbackQuery = `
         query ListLatestProperties($limit: Int) {
           listProperties(limit: $limit, sortDirection: DESC, sortField: "createdAt") {
@@ -305,13 +298,12 @@ export const DataService = {
         operationName: "ListLatestProperties",
         cacheKey: fallbackCacheKey,
         cacheTTL: 10 * 60 * 1000 // 10 minutes cache for latest properties
-      }) as ServiceResult<ListPropertiesResponse>;
-      
+      }) as ServiceResult<ListPropertiesResponse>\n  );
       if (fallbackResult.success && fallbackResult.data) {
         properties = fallbackResult.data.listProperties?.items || [];
       }
     }
-    
+
     return properties;
   },
 
@@ -324,7 +316,7 @@ export const DataService = {
     retryCount = 0
   ): Promise<Record<string, CustomizationOption[]>> {
     const cacheKey = `customization-options-${room}-${category}`;
-    
+
     const query = `
       query GetCustomizationOptions($filter: ModelCustomizationOptionFilterInput) {
         listCustomizationOptions(filter: $filter) {
@@ -343,7 +335,7 @@ export const DataService = {
         ] 
       }
     };
-    
+
     try {
       const result = await this._callGraphQL({ 
         query, 
@@ -351,40 +343,38 @@ export const DataService = {
         operationName: "GetCustomizationOptions",
         cacheKey,
         cacheTTL: 60 * 60 * 1000 // 1 hour cache for customization options (more static data)
-      }) as ServiceResult<ListCustomizationOptionsResponse>;
-      
+      }) as ServiceResult<ListCustomizationOptionsResponse>\n  );
       if (!result.success) {
         throw result.error;
       }
-      
+
       const options = result.data?.listCustomizationOptions?.items || [];
       const resultObj: Record<string, CustomizationOption[]> = {};
       resultObj[category] = options;
       return resultObj;
-      
+
     } catch (error) {
-      console.error("Error fetching customization options:", error);
-      
+
       // Implement retry logic with exponential backoff
-      if (retryCount < 3) {
-        const delay = Math.min(Math.pow(2, retryCount) * 500, 5000);
-        console.log(`Retrying getCustomizationOptions in ${delay}ms (attempt ${retryCount + 1})...`);
-        await new Promise(resolve => setTimeout(resolve, delay));
+      if (retryCount <3) {
+        const delay = Math.min(Math.pow(2retryCount) * 5005000);
+        ...`);
+        await new Promise(resolve => setTimeout(resolvedelay));
         return this.getCustomizationOptions(room, category, retryCount + 1);
       }
-      
+
       // After retries, try REST API as last resort
       try {
-        console.log("Trying REST API fallback for customization options...");
+
         const apiOptions = await api.get<CustomizationOption[]>("/customization/options", {
           searchParams: { room, category, active: true }
         });
-        
+
         const fallbackResult: Record<string, CustomizationOption[]> = {};
         fallbackResult[category] = apiOptions || [];
         return fallbackResult;
       } catch (apiError) {
-        console.error("All fallbacks failed for customization options:", apiError);
+
         const emptyResult: Record<string, CustomizationOption[]> = {};
         emptyResult[category] = [];
         return emptyResult;
@@ -397,7 +387,7 @@ export const DataService = {
    */
   async getRooms(): Promise<Room[]> {
     const cacheKey = "rooms-list";
-    
+
     const query = `
       query ListRooms {
         listRooms(sortDirection: ASC, sortField: "displayOrder") {
@@ -405,26 +395,25 @@ export const DataService = {
         }
       }
     `;
-    
+
     const result = await this._callGraphQL({ 
       query,
       operationName: "ListRooms",
       cacheKey,
       cacheTTL: 24 * 60 * 60 * 1000 // 24 hours cache for rooms (very static data)
-    }) as ServiceResult<ListRoomsResponse>;
-    
+    }) as ServiceResult<ListRoomsResponse>\n  );
     if (!result.success || !result.data) {
-      console.error("Error fetching rooms:", result.error);
+
       // Try REST API fallback
       try {
         const apiRooms = await api.get<Room[]>("/rooms");
         return apiRooms || [];
       } catch (apiError) {
-        console.error("REST API fallback also failed for rooms:", apiError);
+
         return [];
       }
     }
-    
+
     return result.data.listRooms?.items || [];
   },
 
@@ -433,7 +422,7 @@ export const DataService = {
    */
   async getCategories(): Promise<Category[]> {
     const cacheKey = "categories-list";
-    
+
     const query = `
       query ListCategories {
         listCategories(sortDirection: ASC, sortField: "displayOrder") {
@@ -441,26 +430,25 @@ export const DataService = {
         }
       }
     `;
-    
+
     const result = await this._callGraphQL({ 
       query,
       operationName: "ListCategories",
       cacheKey,
       cacheTTL: 24 * 60 * 60 * 1000 // 24 hours cache for categories (very static data)
-    }) as ServiceResult<ListCategoriesResponse>;
-    
+    }) as ServiceResult<ListCategoriesResponse>\n  );
     if (!result.success || !result.data) {
-      console.error("Error fetching categories:", result.error);
+
       // Try REST API fallback
       try {
         const apiCategories = await api.get<Category[]>("/categories");
         return apiCategories || [];
       } catch (apiError) {
-        console.error("REST API fallback also failed for categories:", apiError);
+
         return [];
       }
     }
-    
+
     return result.data.listCategories?.items || [];
   },
 
@@ -471,35 +459,35 @@ export const DataService = {
     if (!customizationData) {
       throw new Error("Invalid customization data: Data is required");
     }
-    
+
     try {
       const userInfo = await getAuthenticatedUser();
       if (!userInfo) {
         throw new Error("Authentication required to save customization.");
       }
-      
+
       // Validate required fields
       if (!customizationData.propertyId) {
         throw new Error("Property ID is required for customization");
       }
-      
+
       if (!customizationData.selectedOptions || Object.keys(customizationData.selectedOptions).length === 0) {
         throw new Error("Selected options are required for customization");
       }
-      
+
       // Ensure totalCost is a valid number
       if (typeof customizationData.totalCost !== 'number' || isNaN(customizationData.totalCost)) {
         customizationData.totalCost = 0;
-        console.warn("Total cost was invalid, defaulting to 0");
+
       }
-      
+
       const now = new Date().toISOString();
       const input = { 
         ...customizationData, 
         userId: userInfo.userId, 
         updatedAt: now 
       };
-      
+
       let mutation: string;
       let operationName: string;
       let responsePath: string;
@@ -536,45 +524,43 @@ export const DataService = {
         variables: { input },
         operationName,
         skipCache: true
-      }) as ServiceResult<MutationResponse>;
-      
+      }) as ServiceResult<MutationResponse>\n  );
       if (!result.success || !result.data) {
         throw result.error || new Error("Failed to save customization: No response data");
       }
-      
+
       const resultId = result.data[responsePath]?.id;
       if (!resultId) {
-        throw new Error(`Failed to ${customizationData.id ? "update" : "create"} customization: No ID returned.`);
+        throw new Error(`Failed to ${customizationData.id ? "update" : "create" customization: No ID returned.`);
       }
-      
+
       // Clear any related cache items
       cache.clearPattern(`customization-${customizationData.propertyId}`);
-      
+
       return { customizationId: resultId };
-      
+
     } catch (error) {
-      console.error("Error saving customization:", error);
-      
+
       // Try REST API fallback for creating/updating customization
       try {
         if (!customizationData.propertyId) {
           throw new Error("Property ID is required for customization");
         }
-        
+
         const method = customizationData.id ? 'put' : 'post';
         const endpoint = customizationData.id 
           ? `/customizations/${customizationData.id}` 
           : '/customizations';
-          
-        const apiResponse = await api[method](endpoint, customizationData);
-        
+
+        const apiResponse = await api[method](endpointcustomizationData);
+
         if (apiResponse && apiResponse !== null && typeof apiResponse === 'object' && 'id' in apiResponse) {
           return { customizationId: apiResponse.id as string };
         }
-        
+
         throw new Error("API fallback failed to save customization");
       } catch (apiError) {
-        console.error("REST API fallback also failed:", apiError);
+
         return null;
       }
     }
@@ -587,9 +573,9 @@ export const DataService = {
     if (!customizationId) {
       throw new Error("Customization ID is required");
     }
-    
+
     const cacheKey = `customization-${customizationId}`;
-    
+
     const query = `
       query GetCustomization($id: ID!) {
         getCustomization(id: $id) {
@@ -598,28 +584,26 @@ export const DataService = {
       }
     `;
     const variables = { id: customizationId };
-    
+
     const result = await this._callGraphQL({ 
       query, 
       variables,
       operationName: "GetCustomization",
       cacheKey,
       cacheTTL: 5 * 60 * 1000 // 5 minutes cache for customization data
-    }) as ServiceResult<GetCustomizationResponse>;
-    
+    }) as ServiceResult<GetCustomizationResponse>\n  );
     if (!result.success || !result.data?.getCustomization) {
-      console.error(`Error fetching customization ${customizationId}:`, result.error);
-      
+
       // Try REST API fallback
       try {
         const apiCustomization = await api.get<Customization>(`/customizations/${customizationId}`);
         return apiCustomization;
       } catch (apiError) {
-        console.error("REST API fallback also failed:", apiError);
+
         return null;
       }
     }
-    
+
     return result.data.getCustomization as Customization;
   },
 
@@ -630,16 +614,16 @@ export const DataService = {
     if (!propertyId) {
       throw new Error("Property ID is required");
     }
-    
+
     try {
       const userInfo = await getAuthenticatedUser();
       if (!userInfo) {
-        console.warn("No authenticated user found for getLatestCustomization");
+
         return null;
       }
-      
+
       const cacheKey = `customization-latest-${propertyId}-${userInfo.userId}`;
-      
+
       const query = `
         query ListCustomizations($filter: ModelCustomizationFilterInput, $limit: Int, $sortDirection: ModelSortDirection) {
           listCustomizations(filter: $filter, limit: $limit, sortDirection: $sortDirection, sortField: "updatedAt") {
@@ -657,40 +641,37 @@ export const DataService = {
           ] 
         },
         limit: 1,
-        sortDirection: "DESC",
-      };
-      
+        sortDirection: "DESC";
+
       const result = await this._callGraphQL({ 
         query, 
         variables,
         operationName: "ListCustomizations",
         cacheKey
-      }) as ServiceResult<ListCustomizationsResponse>;
-      
+      }) as ServiceResult<ListCustomizationsResponse>\n  );
       if (!result.success || !result.data) {
         throw result.error || new Error("Failed to fetch customizations");
       }
-      
+
       const items = result.data.listCustomizations?.items || [];
-      return items.length > 0 ? items[0] : null;
-      
+      return items.length> 0 ? items[0] : null;
+
     } catch (error) {
-      console.error(`Error fetching latest customization for property ${propertyId}:`, error);
-      
+
       // Try REST API fallback
       try {
         const userInfo = await getAuthenticatedUser();
         if (!userInfo) return null;
-        
+
         const apiCustomizations = await api.get<Customization[]>(`/customizations`, {
           searchParams: { propertyId, userId: userInfo.userId, limit: 1, sort: 'updatedAt:desc' }
         });
-        
-        return apiCustomizations && apiCustomizations.length > 0 
+
+        return apiCustomizations && apiCustomizations.length> 0 
           ? apiCustomizations[0] 
           : null;
       } catch (apiError) {
-        console.error("REST API fallback also failed:", apiError);
+
         return null;
       }
     }
@@ -707,18 +688,18 @@ export const DataService = {
     if (!propertyId) throw new Error("Property ID is required");
     if (!customizationId) throw new Error("Customization ID is required");
     if (!consultationData) throw new Error("Consultation details are required");
-    
+
     try {
       const userInfo = await getAuthenticatedUser();
       if (!userInfo) {
         throw new Error("Authentication required to request consultation");
       }
-      
+
       // Validate essential consultation data
       if (!consultationData.preferredDate) {
         throw new Error("Preferred consultation date is required");
       }
-      
+
       // Ensure consultationData has required fields with defaults
       const sanitizedData = {
         ...consultationData,
@@ -727,16 +708,15 @@ export const DataService = {
         notes: consultationData.notes || '',
         status: 'REQUESTED'
       };
-      
+
       const input = {
         propertyId, 
         customizationId, 
         userId: userInfo.userId,
         status: "REQUESTED", 
         details: JSON.stringify(sanitizedData),
-        createdAt: new Date().toISOString(),
-      };
-      
+        createdAt: new Date().toISOString()};
+
       const mutation = `
         mutation CreateConsultation($input: CreateConsultationInput!) {
           createConsultation(input: $input) { 
@@ -744,42 +724,39 @@ export const DataService = {
           }
         }
       `;
-      
+
       const result = await this._callGraphQL({ 
         query: mutation, 
         variables: { input },
         operationName: "CreateConsultation",
         skipCache: true
-      }) as ServiceResult<CreateConsultationResponse>;
-      
+      }) as ServiceResult<CreateConsultationResponse>\n  );
       if (!result.success || !result.data?.createConsultation) {
         throw result.error || new Error("Failed to create consultation: No response data");
       }
-      
+
       return result.data.createConsultation as Consultation;
-      
+
     } catch (error) {
-      console.error("Error requesting consultation:", error);
-      
+
       // Try REST API fallback
       try {
         const userInfo = await getAuthenticatedUser();
         if (!userInfo) {
           throw new Error("Authentication required");
         }
-        
+
         const consultationRequest = {
           propertyId,
           customizationId,
           userId: userInfo.userId,
           status: "REQUESTED",
-          details: JSON.stringify(consultationData),
-        };
-        
+          details: JSON.stringify(consultationData)};
+
         const apiConsultation = await api.post<Consultation>('/consultations', consultationRequest);
         return apiConsultation;
       } catch (apiError) {
-        console.error("REST API fallback also failed:", apiError);
+
         return null;
       }
     }
@@ -792,7 +769,7 @@ export const DataService = {
     try {
       const user = await getAuthenticatedUser();
       if (!user) return null;
-      
+
       return {
         userId: user.userId,
         username: user.username,
@@ -800,8 +777,7 @@ export const DataService = {
         roles: user.roles
       };
     } catch (error) {
-      console.log("No authenticated user found or error fetching user:", error);
-      
+
       // Try getting user info from API as fallback
       try {
         const apiUser = await api.get<UserInfo>('/auth/user');
@@ -812,13 +788,13 @@ export const DataService = {
       }
     }
   },
-  
+
   /**
    * Clear all cached data
    */
   clearCache: () => {
     cache.clear();
-    console.log("All cache cleared");
+
   },
 
   /**
@@ -826,15 +802,15 @@ export const DataService = {
    */
   clearCacheItem: (key: string) => {
     cache.remove(key);
-    console.log(`Cache cleared for: ${key}`);
+
   },
-  
+
   /**
    * Clear cache matching a pattern
    */
   clearCachePattern: (pattern: string) => {
     cache.clearPattern(pattern);
-    console.log(`Cache cleared for pattern: ${pattern}`);
+
   }
 };
 

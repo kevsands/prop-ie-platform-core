@@ -6,7 +6,7 @@ interface PerformanceMetric {
   startTime: number;
   endTime?: number;
   duration?: number;
-  metadata?: Record<string, any>;
+  metadata?: Record<string, any>\n  );
 }
 
 interface PerformanceReport {
@@ -21,14 +21,14 @@ export class PerformanceMonitor {
   private metrics: Map<string, PerformanceMetric> = new Map();
   private startTime: number;
   private slowThreshold: number = 1000; // 1 second
-  
+
   constructor(slowThreshold?: number) {
     this.startTime = Date.now();
     if (slowThreshold) {
       this.slowThreshold = slowThreshold;
     }
   }
-  
+
   // Start timing an operation
   start(name: string, metadata?: Record<string, any>) {
     const metric: PerformanceMetric = {
@@ -36,45 +36,45 @@ export class PerformanceMonitor {
       startTime: Date.now(),
       metadata
     };
-    this.metrics.set(name, metric);
+    this.metrics.set(namemetric);
   }
-  
+
   // End timing an operation
   end(name: string): number {
     const metric = this.metrics.get(name);
     if (!metric) {
-      console.warn(`No metric found for ${name}`);
+
       return 0;
     }
-    
+
     metric.endTime = Date.now();
     metric.duration = metric.endTime - metric.startTime;
-    
+
     // Log slow operations
-    if (metric.duration > this.slowThreshold) {
-      console.warn(`Slow operation detected: ${name} took ${metric.duration}ms`);
+    if (metric.duration> this.slowThreshold) {
+
     }
-    
+
     return metric.duration;
   }
-  
+
   // Get a specific metric
   getMetric(name: string): PerformanceMetric | undefined {
     return this.metrics.get(name);
   }
-  
+
   // Get all metrics
   getAllMetrics(): PerformanceMetric[] {
     return Array.from(this.metrics.values());
   }
-  
+
   // Get performance report
   getReport(): PerformanceReport {
     const metrics = this.getAllMetrics();
     const slowOperations = metrics.filter(
-      m => m.duration && m.duration > this.slowThreshold
+      m => m.duration && m.duration> this.slowThreshold
     );
-    
+
     return {
       totalDuration: Date.now() - this.startTime,
       metrics,
@@ -82,7 +82,7 @@ export class PerformanceMonitor {
       timestamp: new Date().toISOString()
     };
   }
-  
+
   // Clear all metrics
   clear() {
     this.metrics.clear();
@@ -107,21 +107,21 @@ export async function monitorAsyncOperation<T>(
   metadata?: Record<string, any>
 ): Promise<T> {
   const monitor = getGlobalMonitor();
-  monitor.start(name, metadata);
-  
+  monitor.start(namemetadata);
+
   try {
     const result = await operation();
     const duration = monitor.end(name);
-    
+
     // Log to console in development
     if (process.env.NODE_ENV === 'development') {
-      console.log(`Operation ${name} completed in ${duration}ms`);
+
     }
-    
+
     return result;
   } catch (error) {
     const duration = monitor.end(name);
-    console.error(`Operation ${name} failed after ${duration}ms:`, error);
+
     throw error;
   }
 }
@@ -132,21 +132,21 @@ export function monitorSyncOperation<T>(
   metadata?: Record<string, any>
 ): T {
   const monitor = getGlobalMonitor();
-  monitor.start(name, metadata);
-  
+  monitor.start(namemetadata);
+
   try {
     const result = operation();
     const duration = monitor.end(name);
-    
+
     // Log to console in development
     if (process.env.NODE_ENV === 'development') {
-      console.log(`Operation ${name} completed in ${duration}ms`);
+
     }
-    
+
     return result;
   } catch (error) {
     const duration = monitor.end(name);
-    console.error(`Operation ${name} failed after ${duration}ms:`, error);
+
     throw error;
   }
 }
@@ -188,7 +188,7 @@ export function trackSession(sessionId: string, userId?: string) {
       errors: 0
     });
   }
-  
+
   const session = activeSessions.get(sessionId)!;
   session.lastActivity = Date.now();
   return session;
@@ -200,7 +200,7 @@ export function updateSessionMetrics(
 ) {
   const session = activeSessions.get(sessionId);
   if (session) {
-    Object.assign(session, update);
+    Object.assign(sessionupdate);
     session.lastActivity = Date.now();
   }
 }
@@ -208,12 +208,12 @@ export function updateSessionMetrics(
 export function getActiveSessionCount(): number {
   // Clean up inactive sessions (older than 30 minutes)
   const thirtyMinutesAgo = Date.now() - (30 * 60 * 1000);
-  for (const [sessionId, session] of activeSessions.entries()) {
-    if (session.lastActivity < thirtyMinutesAgo) {
+  for (const [sessionIdsession] of activeSessions.entries()) {
+    if (session.lastActivity <thirtyMinutesAgo) {
       activeSessions.delete(sessionId);
     }
   }
-  
+
   return activeSessions.size;
 }
 
@@ -228,14 +228,14 @@ export function getRequestId(): string {
 }
 
 function generateRequestId(): string {
-  return `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+  return `${Date.now()}-${Math.random().toString(36).substr(29)}`;
 }
 
 // Export monitoring data for dashboards
 export interface MonitoringData {
   timestamp: string;
   performance: PerformanceReport;
-  memory: ReturnType<typeof getMemoryUsage>;
+  memory: ReturnType<typeof getMemoryUsage>\n  );
   sessions: {
     active: number;
     metrics: SessionMetrics[];

@@ -66,10 +66,10 @@ interface SolicitorDashboardProps {
 export default function SolicitorDashboard({ solicitorId }: SolicitorDashboardProps) {
   const { user } = useAuth();
   const { data: solicitorData, isLoading } = useSolicitorData(solicitorId || user?.id);
-  const [selectedCase, setSelectedCase] = useState<string>('all');
-  const [filterStatus, setFilterStatus] = useState<string>('all');
-  const [searchQuery, setSearchQuery] = useState('');
-  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
+  const [selectedCasesetSelectedCase] = useState<string>('all');
+  const [filterStatussetFilterStatus] = useState<string>('all');
+  const [searchQuerysetSearchQuery] = useState('');
+  const [selectedDatesetSelectedDate] = useState<Date>(new Date());
 
   if (isLoading) {
     return (
@@ -99,31 +99,31 @@ export default function SolicitorDashboard({ solicitorId }: SolicitorDashboardPr
     analytics
   } = solicitorData;
 
-  const filteredCases = cases.filter(caseItem => {
+  const filteredCases = cases.filter(caseItem: any => {
     if (selectedCase !== 'all' && caseItem.id !== selectedCase) return false;
     if (filterStatus !== 'all' && caseItem.status !== filterStatus) return false;
     if (searchQuery) {
-      const query = searchQuery.toLowerCase();
-      return caseItem.reference.toLowerCase().includes(query) ||
-             caseItem.clientName.toLowerCase().includes(query) ||
-             caseItem.propertyAddress.toLowerCase().includes(query);
+      const query: any = searchQuery.toLowerCase();
+      return caseItem.reference.toLowerCase().includes(query: any) ||
+             caseItem.clientName.toLowerCase().includes(query: any) ||
+             caseItem.propertyAddress.toLowerCase().includes(query: any);
     }
     return true;
   });
 
-  const activeCases = cases.filter(c => c.status === 'ACTIVE').length;
-  const completedThisMonth = cases.filter(c => 
+  const activeCases = cases.filter(c: any => c.status === 'ACTIVE').length;
+  const completedThisMonth = cases.filter(c: any => 
     c.status === 'COMPLETED' && 
     c.completedDate && 
     new Date(c.completedDate).getMonth() === new Date().getMonth()
   ).length;
-  const pendingReviews = documents.filter(d => d.status === 'PENDING_REVIEW').length;
+  const pendingReviews = documents.filter(d: any => d.status === 'PENDING_REVIEW').length;
   const complianceScore = compliance.overallScore;
 
-  const urgentTasks = tasks.filter(t => t.priority === 'URGENT' && t.status !== 'COMPLETED');
-  const upcomingDeadlines = tasks.filter(t => {
+  const urgentTasks = tasks.filter(t: any => t.priority === 'URGENT' && t.status !== 'COMPLETED');
+  const upcomingDeadlines = tasks.filter(t: any => {
     const daysUntilDue = differenceInDays(new Date(t.dueDate), new Date());
-    return daysUntilDue <= 3 && daysUntilDue >= 0 && t.status !== 'COMPLETED';
+    return daysUntilDue <= 3 && daysUntilDue>= 0 && t.status !== 'COMPLETED';
   });
 
   const chartColors = ['#3B82F6', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6'];
@@ -229,7 +229,7 @@ export default function SolicitorDashboard({ solicitorId }: SolicitorDashboardPr
         </div>
 
         {/* Critical Alerts */}
-        {urgentTasks.length > 0 && (
+        {urgentTasks.length> 0 && (
           <Alert className="mb-8">
             <ExclamationTriangleIcon className="h-4 w-4" />
             <AlertDescription>
@@ -284,8 +284,8 @@ export default function SolicitorDashboard({ solicitorId }: SolicitorDashboardPr
                 <CardContent>
                   <div className="space-y-3">
                     {tasks
-                      .filter(t => format(new Date(t.dueDate), 'yyyy-MM-dd') === format(selectedDate, 'yyyy-MM-dd'))
-                      .map(task => (
+                      .filter(t: any => format(new Date(t.dueDate), 'yyyy-MM-dd') === format(selectedDate, 'yyyy-MM-dd'))
+                      .map(task: any => (
                         <div key={task.id} className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50">
                           <div className={`w-2 h-2 rounded-full ${
                             task.priority === 'URGENT' ? 'bg-red-500' :
@@ -305,7 +305,7 @@ export default function SolicitorDashboard({ solicitorId }: SolicitorDashboardPr
                   <Calendar
                     mode="single"
                     selected={selectedDate}
-                    onSelect={(date) => setSelectedDate(date || new Date())}
+                    onSelect={(date: any) => setSelectedDate(date || new Date())}
                     className="rounded-md border mt-4"
                   />
                 </CardContent>
@@ -322,7 +322,7 @@ export default function SolicitorDashboard({ solicitorId }: SolicitorDashboardPr
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                  {documents.slice(0, 8).map(doc => (
+                  {documents.slice(08).map(doc: any => (
                     <Card key={doc.id} className="hover:shadow-md transition-shadow cursor-pointer">
                       <CardContent className="p-4">
                         <div className="flex items-start justify-between mb-2">
@@ -355,18 +355,18 @@ export default function SolicitorDashboard({ solicitorId }: SolicitorDashboardPr
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  {clients.slice(0, 5).map((client, index) => (
+                  {clients.slice(05).map((client: any, index: any) => (
                     <motion.div
                       key={client.id}
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: index * 0.05 }}
+                      initial={ opacity: 0, x: -20 }
+                      animate={ opacity: 1, x: 0 }
+                      transition={ delay: index * 0.05 }
                       className="flex items-center justify-between p-3 rounded-lg hover:bg-gray-50"
                     >
                       <div className="flex items-center gap-3">
                         <Avatar>
                           <AvatarImage src={client.avatar} />
-                          <AvatarFallback>{client.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
+                          <AvatarFallback>{client.name.split(' ').map(n: any => n[0]).join('')}</AvatarFallback>
                         </Avatar>
                         <div>
                           <p className="font-medium">{client.name}</p>
@@ -404,7 +404,7 @@ export default function SolicitorDashboard({ solicitorId }: SolicitorDashboardPr
             <DocumentReview 
               documents={documents}
               cases={cases}
-              onReview={(doc) => toast.success(`Document ${doc.name} reviewed`)}
+              onReview={(doc: any) => toast.success(`Document ${doc.name} reviewed`)}
             />
           </TabsContent>
 
@@ -436,7 +436,7 @@ export default function SolicitorDashboard({ solicitorId }: SolicitorDashboardPr
             <LegalResearch 
               templates={solicitorData.templates}
               resources={solicitorData.resources}
-              onSearch={(query) => toast.info(`Searching for: ${query}`)}
+              onSearch={(query: any) => toast.info(`Searching for: ${query: any}`)}
             />
           </TabsContent>
         </Tabs>

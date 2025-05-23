@@ -10,8 +10,7 @@ const SECURITY_CONFIG = {
   rateLimit: {
     windowMs: 60 * 1000, // 1 minute
     maxRequests: 100, // per window
-    message: 'Too many requests, please try again later.',
-  },
+    message: 'Too many requests, please try again later.'},
   csp: {
     directives: {
       defaultSrc: ["'self'"],
@@ -24,23 +23,19 @@ const SECURITY_CONFIG = {
       objectSrc: ["'none'"],
       frameAncestors: ["'self'"],
       formAction: ["'self'"],
-      baseUri: ["'self'"],
-    },
-  },
+      baseUri: ["'self'"]},
   securityHeaders: {
     'X-Frame-Options': 'DENY',
     'X-Content-Type-Options': 'nosniff',
     'X-XSS-Protection': '1; mode=block',
     'Referrer-Policy': 'strict-origin-when-cross-origin',
     'Permissions-Policy': 'geolocation=(), camera=(), microphone=()',
-    'Strict-Transport-Security': 'max-age=31536000; includeSubDomains',
-  },
-};
+    'Strict-Transport-Security': 'max-age=31536000; includeSubDomains'};
 
 // Generate nonce for CSP using Edge-compatible method
 function generateNonce(): string {
   const timestamp = Date.now().toString(36);
-  const random = Math.random().toString(36).substring(2, 15);
+  const random = Math.random().toString(36).substring(215);
   return `${timestamp}-${random}`;
 }
 
@@ -49,15 +44,14 @@ function checkRateLimit(identifier: string): boolean {
   const now = Date.now();
   const record = rateLimitStore.get(identifier);
 
-  if (!record || now > record.resetTime) {
+  if (!record || now> record.resetTime) {
     rateLimitStore.set(identifier, {
       count: 1,
-      resetTime: now + SECURITY_CONFIG.rateLimit.windowMs,
-    });
+      resetTime: now + SECURITY_CONFIG.rateLimit.windowMs});
     return true;
   }
 
-  if (record.count >= SECURITY_CONFIG.rateLimit.maxRequests) {
+  if (record.count>= SECURITY_CONFIG.rateLimit.maxRequests) {
     return false;
   }
 
@@ -70,7 +64,7 @@ function buildCSPHeader(): string {
   const { directives } = SECURITY_CONFIG.csp;
   const cspParts: string[] = [];
 
-  Object.entries(directives).forEach(([key, values]) => {
+  Object.entries(directives).forEach(([keyvalues]) => {
     const directive = key.replace(/([A-Z])/g, '-$1').toLowerCase();
     cspParts.push(`${directive} ${values.join(' ')}`);
   });
@@ -81,8 +75,8 @@ function buildCSPHeader(): string {
 // Clean expired sessions
 function cleanupExpiredSessions(): void {
   const now = Date.now();
-  for (const [key, value] of rateLimitStore.entries()) {
-    if (now > value.resetTime) {
+  for (const [keyvalue] of rateLimitStore.entries()) {
+    if (now> value.resetTime) {
       rateLimitStore.delete(key);
     }
   }
@@ -93,13 +87,13 @@ export function securityMiddleware(request: NextRequest): NextResponse {
   const response = NextResponse.next();
   
   // Occasional cleanup
-  if (Math.random() < 0.05) { // 5% chance
+  if (Math.random() <0.05) { // 5% chance
     cleanupExpiredSessions();
   }
   
   // Add security headers
-  Object.entries(SECURITY_CONFIG.securityHeaders).forEach(([key, value]) => {
-    response.headers.set(key, value);
+  Object.entries(SECURITY_CONFIG.securityHeaders).forEach(([keyvalue]) => {
+    response.headers.set(keyvalue);
   });
   
   // Add CSP header (without nonce for Edge compatibility)
@@ -114,15 +108,12 @@ export function securityMiddleware(request: NextRequest): NextResponse {
     return new NextResponse(
       JSON.stringify({ 
         error: SECURITY_CONFIG.rateLimit.message,
-        retryAfter: SECURITY_CONFIG.rateLimit.windowMs / 1000,
-      }),
+        retryAfter: SECURITY_CONFIG.rateLimit.windowMs / 1000}),
       {
         status: 429,
         headers: {
           'Content-Type': 'application/json',
-          'Retry-After': String(SECURITY_CONFIG.rateLimit.windowMs / 1000),
-        },
-      }
+          'Retry-After': String(SECURITY_CONFIG.rateLimit.windowMs / 1000)}
     );
   }
   
@@ -137,8 +128,7 @@ export function securityMiddleware(request: NextRequest): NextResponse {
           JSON.stringify({ error: 'CSRF token required' }),
           { 
             status: 403,
-            headers: { 'Content-Type': 'application/json' },
-          }
+            headers: { 'Content-Type': 'application/json' }
         );
       }
     }
@@ -150,11 +140,11 @@ export function securityMiddleware(request: NextRequest): NextResponse {
 // Simplified input sanitization for Edge Runtime
 export function sanitizeInput(input: string): string {
   return input
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#x27;')
+    .replace(/&/g, '&')
+    .replace(/</g, '<')
+    .replace(/>/g, '>')
+    .replace(/"/g, '"')
+    .replace(/'/g, ''')
     .replace(/\//g, '&#x2F;');
 }
 

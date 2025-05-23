@@ -10,8 +10,7 @@ import { Toaster } from "sonner";
  * when the main layout encounters errors. This avoids complete UI breakdown.
  */
 export function FallbackCustomizationLayout({
-  children,
-}: {
+  children}: {
   children: React.ReactNode;
 }) {
   return (
@@ -23,9 +22,9 @@ export function FallbackCustomizationLayout({
             Some features may be limited.
           </p>
         </div>
-        
+
         {children}
-        
+
         <Toaster position="top-right" />
       </div>
     </div>

@@ -50,19 +50,19 @@ const MainNavigationFixed: React.FC<MainNavigationProps> = ({
   isTransparent = false,
   isHomePageHeader = false
 }) => {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [searchOpen, setSearchOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [mobileMenuOpensetMobileMenuOpen] = useState(false);
+  const [searchOpensetSearchOpen] = useState(false);
+  const [searchQuerysetSearchQuery] = useState('');
   const { role, setRole } = useUserRole();
   const pathname = usePathname();
-  
+
   // State to track which dropdown is open
-  const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
-  
+  const [activeDropdownsetActiveDropdown] = useState<string | null>(null);
+
   // Use a ref for tracking timeout to clear it if needed
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const dropdownRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
-  
+
   // Function to handle mouse enter on a dropdown
   const handleDropdownEnter = (dropdown: string) => {
     // Clear any existing timeout to prevent closing
@@ -70,15 +70,15 @@ const MainNavigationFixed: React.FC<MainNavigationProps> = ({
       clearTimeout(timeoutRef.current);
       timeoutRef.current = null;
     }
-    console.log('Opening dropdown:', dropdown); // Debug log
+     // Debug log
     setActiveDropdown(dropdown);
   };
-  
+
   // Function to handle mouse leave on a dropdown
   const handleDropdownLeave = () => {
     // Set a small delay before closing to allow mouse movement between elements
     timeoutRef.current = setTimeout(() => {
-      console.log('Closing dropdown'); // Debug log
+       // Debug log
       setActiveDropdown(null);
     }, 200); // Increased delay for better UX
   };
@@ -93,17 +93,17 @@ const MainNavigationFixed: React.FC<MainNavigationProps> = ({
   }, []);
 
   // Handle scroll state change for transparent navigation
-  const [scrolled, setScrolled] = useState(false);
-  
+  const [scrolledsetScrolled] = useState(false);
+
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 20) {
+      if (window.scrollY> 20) {
         setScrolled(true);
       } else {
         setScrolled(false);
       }
     };
-    
+
     window.addEventListener('scroll', handleScroll);
     return () => {
       window.removeEventListener('scroll', handleScroll);
@@ -118,16 +118,16 @@ const MainNavigationFixed: React.FC<MainNavigationProps> = ({
         ? 'bg-white shadow-md backdrop-blur-sm bg-white/95'
         : 'bg-white shadow-sm'
   }`;
-  
+
   // Text color based on theme and transparency
   const textColorClass = (isTransparent && !scrolled && theme === 'dark') 
     ? 'text-white' 
     : 'text-gray-800';
-  
+
   const logoColor = (isTransparent && !scrolled && theme === 'dark')
     ? 'text-white' 
     : 'text-[#2B5273]';
-  
+
   const buttonColorClass = (isTransparent && !scrolled && theme === 'dark') 
     ? 'bg-white text-[#2B5273]' 
     : 'bg-[#2B5273] text-white';
@@ -161,7 +161,7 @@ const MainNavigationFixed: React.FC<MainNavigationProps> = ({
                   PropIE
                 </Link>
               </div>
-              
+
               {/* Desktop Navigation with Megamenus */}
               <div className="hidden lg:ml-8 lg:flex lg:space-x-6">
                 <DesktopDropdownFixed 
@@ -171,7 +171,7 @@ const MainNavigationFixed: React.FC<MainNavigationProps> = ({
                   isActive={activeDropdown === 'properties'}
                   onMouseEnter={() => handleDropdownEnter('properties')}
                   onMouseLeave={handleDropdownLeave}
-                  dropdownRef={(el: HTMLDivElement | null) => { dropdownRefs.current['properties'] = el; }}
+                  dropdownRef={(el: HTMLDivElement | null) => { dropdownRefs.current['properties'] = el; }
                   items={[
                     { section: "Find Your Home", links: [
                       { href: "/properties/search", label: "Search All Properties", tag: "Find your perfect home", icon: <Search size={18} /> },
@@ -189,14 +189,14 @@ const MainNavigationFixed: React.FC<MainNavigationProps> = ({
                       { href: "/properties/house-types/new-builds", label: "New Builds", tag: "Brand new properties", icon: <Building size={18} /> }
                     ]}
                   ]}
-                  featuredContent={{
+                  featuredContent={
                     title: "Latest Development",
                     description: "Fitzgerald Gardens - New phase just released in Drogheda",
                     image: "/images/developments/fitzgerald-gardens.jpg",
                     href: "/developments/fitzgerald-gardens"
-                  }}
+                  }
                 />
-                
+
                 <DesktopDropdownFixed 
                   title="Solutions" 
                   dropdownKey="solutions"
@@ -204,7 +204,7 @@ const MainNavigationFixed: React.FC<MainNavigationProps> = ({
                   isActive={activeDropdown === 'solutions'}
                   onMouseEnter={() => handleDropdownEnter('solutions')}
                   onMouseLeave={handleDropdownLeave}
-                  dropdownRef={(el: HTMLDivElement | null) => { dropdownRefs.current['solutions'] = el; }}
+                  dropdownRef={(el: HTMLDivElement | null) => { dropdownRefs.current['solutions'] = el; }
                   items={[
                     { section: "Home Buyers", links: [
                       { href: "/solutions/first-time-buyers", label: "First-Time Buyers", tag: "Find your first home with ease", icon: <Home size={18} /> },
@@ -227,14 +227,14 @@ const MainNavigationFixed: React.FC<MainNavigationProps> = ({
                       { href: "/solutions/architects", label: "Architects & Engineers", tag: "Design and planning resources", icon: <Compass size={18} /> }
                     ]}
                   ]}
-                  featuredContent={{
+                  featuredContent={
                     title: "Developer Hub",
                     description: "Comprehensive platform for property developers to manage developments, sales, and buyer interactions",
                     image: "/images/solutions/developer-hub.jpg",
                     href: "/solutions/developers"
-                  }}
+                  }
                 />
-                
+
                 <DesktopDropdownFixed 
                   title="Resources" 
                   dropdownKey="resources"
@@ -242,7 +242,7 @@ const MainNavigationFixed: React.FC<MainNavigationProps> = ({
                   isActive={activeDropdown === 'resources'}
                   onMouseEnter={() => handleDropdownEnter('resources')}
                   onMouseLeave={handleDropdownLeave}
-                  dropdownRef={(el: HTMLDivElement | null) => { dropdownRefs.current['resources'] = el; }}
+                  dropdownRef={(el: HTMLDivElement | null) => { dropdownRefs.current['resources'] = el; }
                   items={[
                     { section: "Guides & Tools", links: [
                       { href: "/resources/calculators", label: "Calculators & Tools", tag: "All property calculators in one place", icon: <Calculator size={18} /> },
@@ -254,14 +254,14 @@ const MainNavigationFixed: React.FC<MainNavigationProps> = ({
                       { href: "/resources/property-guides/first-time-buyer-guide", label: "First-Time Buyer Guide", tag: "Complete guidance for new buyers", icon: <HelpCircle size={18} /> }
                     ]}
                   ]}
-                  featuredContent={{
+                  featuredContent={
                     title: "Latest Market Report",
                     description: "Q1 2024 Property Market Analysis - Price trends and forecasts",
                     image: "/images/resources/q1-market-review.jpg",
                     href: "/resources/market-reports/q1-2024-market-review"
-                  }}
+                  }
                 />
-                
+
                 <DesktopDropdownFixed 
                   title="Company" 
                   dropdownKey="company"
@@ -269,7 +269,7 @@ const MainNavigationFixed: React.FC<MainNavigationProps> = ({
                   isActive={activeDropdown === 'company'}
                   onMouseEnter={() => handleDropdownEnter('company')}
                   onMouseLeave={handleDropdownLeave}
-                  dropdownRef={(el: HTMLDivElement | null) => { dropdownRefs.current['company'] = el; }}
+                  dropdownRef={(el: HTMLDivElement | null) => { dropdownRefs.current['company'] = el; }
                   items={[
                     { section: "About Us", links: [
                       { href: "/company/about", label: "Our Story", tag: "Learn about PropIE", icon: <Users size={18} /> },
@@ -282,7 +282,7 @@ const MainNavigationFixed: React.FC<MainNavigationProps> = ({
                     ]}
                   ]}
                 />
-                
+
                 {/* Dashboard link for logged-in users */}
                 {role !== 'guest' && (
                   <Link 
@@ -298,7 +298,7 @@ const MainNavigationFixed: React.FC<MainNavigationProps> = ({
                 )}
               </div>
             </div>
-            
+
             <div className="hidden md:flex md:items-center md:space-x-4">
               {/* Search Trigger */}
               <button 
@@ -308,10 +308,10 @@ const MainNavigationFixed: React.FC<MainNavigationProps> = ({
               >
                 <Search className="h-5 w-5" />
               </button>
-              
+
               {/* Notification Center */}
               <NotificationCenter />
-                
+
               {/* Role Switcher for demo/development - can be hidden in production */}
               <select
                 value={role}
@@ -328,7 +328,7 @@ const MainNavigationFixed: React.FC<MainNavigationProps> = ({
                 <option value="admin">Admin View</option>
                 <option value="guest">Guest View</option>
               </select>
-                
+
               {role !== 'guest' ? (
                 <div className="flex items-center">
                   <div className="flex flex-col mr-2 items-end">
@@ -360,7 +360,7 @@ const MainNavigationFixed: React.FC<MainNavigationProps> = ({
                 </div>
               )}
             </div>
-            
+
             {/* Mobile menu button */}
             <div className="flex items-center lg:hidden">
               {/* Mobile Search Button */}
@@ -370,7 +370,7 @@ const MainNavigationFixed: React.FC<MainNavigationProps> = ({
               >
                 <Search className="h-5 w-5" />
               </button>
-              
+
               <button
                 type="button"
                 className={`ml-2 inline-flex items-center justify-center p-2 rounded-md ${textColorClass} hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-[#2B5273]`}
@@ -402,27 +402,27 @@ const MainNavigationFixed: React.FC<MainNavigationProps> = ({
                 <MobileNavLink href="/properties/buying-guide">Buying Guide</MobileNavLink>
                 <MobileNavLink href="/properties/mortgage-calculator">Mortgage Calculator</MobileNavLink>
               </MobileNavSection>
-              
+
               <MobileNavSection title="Our Developments">
                 <MobileNavLink href="/developments/fitzgerald-gardens">Fitzgerald Gardens</MobileNavLink>
                 <MobileNavLink href="/developments/ellwood">Ellwood</MobileNavLink>
                 <MobileNavLink href="/developments/ballymakenny-view">Ballymakenny View</MobileNavLink>
               </MobileNavSection>
-              
+
               <MobileNavSection title="House Types">
                 <MobileNavLink href="/properties/house-types/apartments">Apartments</MobileNavLink>
                 <MobileNavLink href="/properties/house-types/houses">Houses</MobileNavLink>
                 <MobileNavLink href="/properties/house-types/new-builds">New Builds</MobileNavLink>
               </MobileNavSection>
             </MobileNavSection>
-            
+
             <MobileNavSection title="Solutions">
               <MobileNavSection title="Home Buyers">
                 <MobileNavLink href="/solutions/first-time-buyers">First-Time Buyers</MobileNavLink>
                 <MobileNavLink href="/customisation/how-it-works">PROP Choice</MobileNavLink>
                 <MobileNavLink href="/resources/buy-off-plan">Buy Off-Plan Online</MobileNavLink>
               </MobileNavSection>
-              
+
               <MobileNavLink href="/solutions/professional-investors">Professional Investors</MobileNavLink>
               <MobileNavLink href="/solutions/institutional">Institutional Investors</MobileNavLink>
               <MobileNavLink href="/solutions/developers">Developer Platform</MobileNavLink>
@@ -430,7 +430,7 @@ const MainNavigationFixed: React.FC<MainNavigationProps> = ({
               <MobileNavLink href="/solutions/solicitors">Solicitors</MobileNavLink>
               <MobileNavLink href="/solutions/architects">Architects & Engineers</MobileNavLink>
             </MobileNavSection>
-            
+
             <MobileNavSection title="Resources">
               <MobileNavLink href="/resources/calculators">Calculators & Tools</MobileNavLink>
               <MobileNavLink href="/resources/property-guides">Property Guides</MobileNavLink>
@@ -438,14 +438,14 @@ const MainNavigationFixed: React.FC<MainNavigationProps> = ({
               <MobileNavLink href="/resources/templates">Document Templates</MobileNavLink>
               <MobileNavLink href="/resources/market-reports">Market Reports</MobileNavLink>
             </MobileNavSection>
-            
+
             <MobileNavSection title="Company">
               <MobileNavLink href="/company/about">About Us</MobileNavLink>
               <MobileNavLink href="/contact">Contact Us</MobileNavLink>
               <MobileNavLink href="/company/careers">Careers</MobileNavLink>
             </MobileNavSection>
           </div>
-          
+
           <div className="pt-4 pb-6 border-t border-gray-200 px-4">
             <div className="flex flex-col space-y-3">
               {role !== 'guest' ? (
@@ -478,7 +478,7 @@ const MainNavigationFixed: React.FC<MainNavigationProps> = ({
           </div>
         </div>
       </nav>
-      
+
       {/* Global Search Overlay */}
       <div 
         className={`fixed inset-0 bg-black z-[10000] flex items-start justify-center transition-opacity duration-300 ${
@@ -488,10 +488,10 @@ const MainNavigationFixed: React.FC<MainNavigationProps> = ({
       >
         <div 
           className="bg-white w-full max-w-3xl mt-20 rounded-lg shadow-xl overflow-hidden transition-all duration-300 transform"
-          style={{ 
+          style={ 
             transform: searchOpen ? 'translateY(0)' : 'translateY(-50px)',
             opacity: searchOpen ? 1 : 0
-          }}
+          }
           onClick={(e: React.MouseEvent) => e.stopPropagation()}
         >
           <div className="p-4 border-b border-gray-200 flex items-center">
@@ -617,23 +617,23 @@ function DesktopDropdownFixed({
   dropdownRef
 }: DropdownPropsFixed) {
   const pathname = usePathname();
-  const [isHovered, setIsHovered] = useState(false);
-  
+  const [isHoveredsetIsHovered] = useState(false);
+
   // Determine if any links in this dropdown match current path
   const isActivePath = items.some(section => 
     section.links.some(link => pathname === link.href || pathname?.startsWith(link.href + '/'))
   );
-  
+
   const handleMouseEnter = () => {
     setIsHovered(true);
     onMouseEnter();
   };
-  
+
   const handleMouseLeave = () => {
     setIsHovered(false);
     onMouseLeave();
   };
-  
+
   return (
     <div 
       className="relative" 
@@ -648,7 +648,7 @@ function DesktopDropdownFixed({
         {title}
         <ChevronDown className={`ml-1 h-4 w-4 transition-transform duration-200 ${isActive ? 'rotate-180' : ''}`} />
       </button>
-      
+
       <div 
         ref={dropdownRef}
         className={`absolute mt-2 w-screen max-w-5xl rounded-xl shadow-xl bg-white ring-1 ring-black/5 overflow-hidden left-1/2 transform -translate-x-1/2 transition-all duration-200 ${
@@ -656,18 +656,18 @@ function DesktopDropdownFixed({
             ? 'opacity-100 translate-y-0 pointer-events-auto' 
             : 'opacity-0 translate-y-[-10px] pointer-events-none'
         }`}
-        style={{ zIndex: 99999 }}
+        style={ zIndex: 99999 }
       >
         <div className="flex">
           <div className="flex-1 bg-white p-6">
             <div className="grid grid-cols-2 gap-x-8 gap-y-10">
-              {items.map((section, idx) => (
+              {items.map((sectionidx: any) => (
                 <div key={idx}>
                   <h3 className="text-sm font-semibold text-gray-900 uppercase tracking-wider">
                     {section.section}
                   </h3>
                   <div className="mt-4 space-y-4">
-                    {section.links.map((link, linkIdx) => (
+                    {section.links.map((linklinkIdx: any) => (
                       <Link
                         key={linkIdx}
                         href={link.href}
@@ -695,7 +695,7 @@ function DesktopDropdownFixed({
               ))}
             </div>
           </div>
-          
+
           {/* Featured content area */}
           {featuredContent && (
             <div className="w-96 bg-gray-50 p-6">
@@ -724,7 +724,7 @@ function DesktopDropdownFixed({
             </div>
           )}
         </div>
-        
+
         {/* Bottom quick links */}
         <div className="bg-gray-50 px-6 py-3 flex justify-between">
           <p className="text-sm text-gray-500">
@@ -744,8 +744,8 @@ function DesktopDropdownFixed({
 
 // Enhanced mobile navigation section
 function MobileNavSection({ title, children }: { title: string, children: React.ReactNode }) {
-  const [isOpen, setIsOpen] = useState(false);
-  
+  const [isOpensetIsOpen] = useState(false);
+
   return (
     <div className="border-b border-gray-100 last:border-0">
       <button
@@ -755,7 +755,7 @@ function MobileNavSection({ title, children }: { title: string, children: React.
         {title}
         <ChevronDown className={`h-5 w-5 text-gray-400 transform transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} />
       </button>
-      
+
       <div 
         className={`pl-4 bg-gray-50 overflow-hidden transition-all duration-200 ${
           isOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'

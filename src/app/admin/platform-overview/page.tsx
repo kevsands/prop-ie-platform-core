@@ -13,8 +13,7 @@ import {
   ArrowsRightLeftIcon,
   BellIcon,
   ShieldCheckIcon,
-  ChartBarIcon,
-} from '@heroicons/react/24/outline';
+  ChartBarIcon} from '@heroicons/react/24/outline';
 
 // Define stakeholder interactions
 const stakeholders = [
@@ -24,41 +23,35 @@ const stakeholders = [
     icon: UserGroupIcon,
     color: 'bg-blue-500',
     description: 'First-time buyers & investors',
-    connections: ['developer', 'solicitor', 'bank', 'government'],
-  },
+    connections: ['developer', 'solicitor', 'bank', 'government']},
   {
     id: 'developer',
     name: 'Developers',
     icon: BuildingOfficeIcon,
     color: 'bg-green-500',
     description: 'Property developers & builders',
-    connections: ['buyer', 'solicitor', 'government'],
-  },
+    connections: ['buyer', 'solicitor', 'government']},
   {
     id: 'solicitor',
     name: 'Solicitors',
     icon: ScaleIcon,
     color: 'bg-purple-500',
     description: 'Legal representatives',
-    connections: ['buyer', 'developer', 'bank'],
-  },
+    connections: ['buyer', 'developer', 'bank']},
   {
     id: 'bank',
     name: 'Banks',
     icon: BanknotesIcon,
     color: 'bg-orange-500',
     description: 'Mortgage providers',
-    connections: ['buyer', 'solicitor'],
-  },
+    connections: ['buyer', 'solicitor']},
   {
     id: 'government',
     name: 'Government',
     icon: ShieldCheckIcon,
     color: 'bg-red-500',
     description: 'HTB scheme provider',
-    connections: ['buyer', 'developer'],
-  },
-];
+    connections: ['buyer', 'developer']}];
 
 // Define interaction flows
 const interactions = [
@@ -66,45 +59,37 @@ const interactions = [
     from: 'buyer',
     to: 'developer',
     label: 'Property Selection',
-    type: 'primary',
-  },
+    type: 'primary'},
   {
     from: 'buyer',
     to: 'solicitor',
     label: 'Legal Process',
-    type: 'primary',
-  },
+    type: 'primary'},
   {
     from: 'buyer',
     to: 'bank',
     label: 'Mortgage Application',
-    type: 'primary',
-  },
+    type: 'primary'},
   {
     from: 'buyer',
     to: 'government',
     label: 'HTB Application',
-    type: 'secondary',
-  },
+    type: 'secondary'},
   {
     from: 'developer',
     to: 'solicitor',
     label: 'Contracts',
-    type: 'primary',
-  },
+    type: 'primary'},
   {
     from: 'bank',
     to: 'solicitor',
     label: 'Fund Transfer',
-    type: 'primary',
-  },
+    type: 'primary'},
   {
     from: 'government',
     to: 'developer',
     label: 'HTB Payment',
-    type: 'secondary',
-  },
-];
+    type: 'secondary'}];
 
 // Define key features
 const features = [
@@ -112,39 +97,32 @@ const features = [
     title: 'Real-time Sync',
     description: 'All stakeholders see updates instantly',
     icon: ArrowsRightLeftIcon,
-    color: 'text-blue-600',
-  },
+    color: 'text-blue-600'},
   {
     title: 'Document Hub',
     description: 'Centralized document management',
     icon: DocumentTextIcon,
-    color: 'text-green-600',
-  },
+    color: 'text-green-600'},
   {
     title: 'Smart Notifications',
     description: 'Automated alerts and reminders',
     icon: BellIcon,
-    color: 'text-purple-600',
-  },
+    color: 'text-purple-600'},
   {
     title: 'Secure Transactions',
     description: 'End-to-end encrypted data',
     icon: ShieldCheckIcon,
-    color: 'text-orange-600',
-  },
+    color: 'text-orange-600'},
   {
     title: 'Analytics Dashboard',
     description: 'Real-time business insights',
     icon: ChartBarIcon,
-    color: 'text-red-600',
-  },
+    color: 'text-red-600'},
   {
     title: 'Multi-party Workflow',
     description: 'Coordinated process management',
     icon: UserGroupIcon,
-    color: 'text-indigo-600',
-  },
-];
+    color: 'text-indigo-600'}];
 
 export default function PlatformOverviewPage() {
   return (
@@ -172,7 +150,7 @@ export default function PlatformOverviewPage() {
             </div>
 
             {/* Stakeholder nodes */}
-            {stakeholders.map((stakeholder, index) => {
+            {stakeholders.map((stakeholderindex: any) => {
               const angle = (index * 2 * Math.PI) / stakeholders.length;
               const radius = 200;
               const x = Math.cos(angle) * radius;
@@ -183,11 +161,10 @@ export default function PlatformOverviewPage() {
                 <div
                   key={stakeholder.id}
                   className="absolute transform -translate-x-1/2 -translate-y-1/2"
-                  style={{
+                  style={
                     top: `50%`,
                     left: `50%`,
-                    transform: `translate(${x}px, ${y}px) translate(-50%, -50%)`,
-                  }}
+                    transform: `translate(${x}px, ${y}px) translate(-50%, -50%)`}
                 >
                   <div className="text-center">
                     <div
@@ -207,12 +184,12 @@ export default function PlatformOverviewPage() {
             {/* Connection lines */}
             <svg
               className="absolute inset-0 w-full h-full"
-              style={{ zIndex: -1 }}
+              style={ zIndex: -1 }
             >
-              {interactions.map((interaction, index) => {
+              {interactions.map((interactionindex: any) => {
                 const fromStakeholder = stakeholders.find(s => s.id === interaction.from);
                 const toStakeholder = stakeholders.find(s => s.id === interaction.to);
-                
+
                 if (!fromStakeholder || !toStakeholder) return null;
 
                 const fromAngle = (stakeholders.indexOf(fromStakeholder) * 2 * Math.PI) / stakeholders.length;
@@ -245,7 +222,7 @@ export default function PlatformOverviewPage() {
 
       {/* Key Features Grid */}
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 mb-8">
-        {features.map((feature) => {
+        {features.map((feature: any) => {
           const Icon = feature.icon;
           return (
             <Card key={feature.title}>

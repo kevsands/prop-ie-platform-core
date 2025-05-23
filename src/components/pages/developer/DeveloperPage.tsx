@@ -1,3 +1,4 @@
+import React from 'react';
 "use client";
 
 import { useState, useEffect } from "react";
@@ -26,14 +27,13 @@ interface SalesData {
 }
 
 export default function DeveloperDashboard() {
-  const [activeTab, setActiveTab] = useState("overview");
-  const [contractors, setContractors] = useState<Contractor[]>([]);
-  const [properties, setProperties] = useState<Property[]>([]);
-  const [salesData, setSalesData] = useState<SalesData>({
+  const [activeTabsetActiveTab] = useState("overview");
+  const [contractorssetContractors] = useState<Contractor[]>([]);
+  const [propertiessetProperties] = useState<Property[]>([]);
+  const [salesDatasetSalesData] = useState<SalesData>({
     totalSales: 0,
     pendingSales: 0,
-    completedSales: 0,
-  });
+    completedSales: 0});
 
   useEffect(() => {
     // In a real app, this would fetch data from the API
@@ -44,69 +44,57 @@ export default function DeveloperDashboard() {
         name: "Dublin Builders Ltd",
         type: "Construction",
         status: "Active",
-        projects: 3,
-      },
+        projects: 3},
       {
         id: 2,
         name: "Cork Electrical Services",
         type: "Electrical",
         status: "Active",
-        projects: 2,
-      },
+        projects: 2},
       {
         id: 3,
         name: "Galway Plumbing Co.",
         type: "Plumbing",
         status: "Inactive",
-        projects: 0,
-      },
+        projects: 0},
       {
         id: 4,
         name: "Limerick Interiors",
         type: "Interior Design",
         status: "Active",
-        projects: 1,
-      },
-    ]);
+        projects: 1}]);
 
     setProperties([
       {
         id: 1,
         name: "Maple Heights - Unit 101",
         status: "Available",
-        price: 320000,
-      },
+        price: 320000},
       {
         id: 2,
         name: "Maple Heights - Unit 102",
         status: "Reserved",
-        price: 325000,
-      },
+        price: 325000},
       {
         id: 3,
         name: "Maple Heights - Unit 103",
         status: "Sold",
-        price: 330000,
-      },
+        price: 330000},
       {
         id: 4,
         name: "Oak Residences - Unit A1",
         status: "Available",
-        price: 450000,
-      },
+        price: 450000},
       {
         id: 5,
         name: "Oak Residences - Unit A2",
         status: "Reserved",
-        price: 460000,
-      },
-    ]);
+        price: 460000}]);
 
     setSalesData({
       totalSales: 3,
       pendingSales: 2,
-      completedSales: 1,
-    });
+      completedSales: 1});
   }, []);
 
   return (
@@ -293,7 +281,7 @@ export default function DeveloperDashboard() {
                         <dd>
                           <div className="text-lg font-medium text-gray-900">
                             {
-                              contractors.filter((c) => c.status === "Active")
+                              contractors.filter((c: any) => c.status === "Active")
                                 .length
                             }
                           </div>
@@ -417,7 +405,7 @@ export default function DeveloperDashboard() {
             </div>
             <div className="bg-white shadow overflow-hidden sm:rounded-md">
               <ul className="divide-y divide-gray-200">
-                {contractors.map((contractor) => (
+                {contractors.map((contractor: any) => (
                   <li key={contractor.id}>
                     <div className="px-4 py-4 sm:px-6">
                       <div className="flex items-center justify-between">
@@ -468,7 +456,7 @@ export default function DeveloperDashboard() {
             </div>
             <div className="bg-white shadow overflow-hidden sm:rounded-md">
               <ul className="divide-y divide-gray-200">
-                {properties.map((property) => (
+                {properties.map((property: any) => (
                   <li key={property.id}>
                     <div className="px-4 py-4 sm:px-6">
                       <div className="flex items-center justify-between">

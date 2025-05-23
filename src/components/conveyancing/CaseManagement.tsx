@@ -1,0 +1,93 @@
+'use client';
+
+import React, { useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { FileText, Clock, AlertCircle } from 'lucide-react';
+
+export interface ConveyancingCase {
+  id: string;
+  caseReference: string;
+  propertyAddress: string;
+  clientName: string;
+  status: 'new' | 'in-progress' | 'searches' | 'exchange' | 'completion' | 'completed';
+  priority: 'low' | 'medium' | 'high';
+  solicitor: string;
+  createdDate: Date;
+  targetDate: Date;
+  tasks: number;
+  tasksCompleted: number;
+}
+
+export function CaseManagement() {
+  const [casessetCases] = useState<ConveyancingCase[]>([]);
+  const [filterStatussetFilterStatus] = useState<string>('all');
+
+  const filteredCases = cases.filter(case_ => 
+    filterStatus === 'all' || case_.status === filterStatus
+  );
+
+  return (
+    <div className="p-6">
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-2xl font-bold">Case Management</h1>
+        <Button variant="default">
+          <FileText className="mr-2 h-4 w-4" />
+          New Case
+        </Button>
+      </div>
+
+      <div className="mb-4">
+        <select
+          className="px-4 py-2 border rounded-lg"
+          value={filterStatus}
+          onChange={(e: any) => setFilterStatus(e.target.value)}
+        >
+          <option value="all">All Cases</option>
+          <option value="new">New</option>
+          <option value="in-progress">In Progress</option>
+          <option value="searches">Searches</option>
+          <option value="exchange">Exchange</option>
+          <option value="completion">Completion</option>
+          <option value="completed">Completed</option>
+        </select>
+      </div>
+
+      <div className="grid gap-4">
+        {filteredCases.map((case_: any) => (
+          <Card key={case_.id} className="p-4">
+            <div className="flex justify-between items-start">
+              <div>
+                <div className="flex items-center gap-2 mb-2">
+                  <h3 className="font-semibold">{case_.caseReference}</h3>
+                  <Badge variant={case_.priority === 'high' ? 'destructive' : 'secondary'}>
+                    {case_.priority}
+                  </Badge>
+                </div>
+                <p className="text-sm text-gray-600">{case_.propertyAddress}</p>
+                <p className="text-sm text-gray-600">{case_.clientName}</p>
+                <div className="flex items-center gap-4 mt-2 text-sm">
+                  <span className="flex items-center">
+                    <Clock className="h-4 w-4 mr-1" />
+                    Target: {new Date(case_.targetDate).toLocaleDateString()}
+                  </span>
+                  <span className="flex items-center">
+                    <FileText className="h-4 w-4 mr-1" />
+                    Tasks: {case_.tasksCompleted}/{case_.tasks}
+                  </span>
+                </div>
+              </div>
+              <div className="text-right">
+                <Badge>{case_.status}</Badge>
+                <div className="mt-2">
+                  <Button variant="outline" size="sm">View Case</Button>
+                </div>
+              </div>
+            </div>
+          </Card>
+        ))}
+      </div>
+    </div>
+  );
+}

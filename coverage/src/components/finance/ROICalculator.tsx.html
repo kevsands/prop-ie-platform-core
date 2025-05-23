@@ -3319,7 +3319,7 @@ import {
   XAxis, 
   YAxis, 
   CartesianGrid, 
-  Tooltip, 
+  Tooltip as RechartsTooltip, 
   Legend, 
   ResponsiveContainer,
   LineChart,
@@ -4021,7 +4021,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                         &lt;CartesianGrid strokeDasharray="3 3" /&gt;
                         &lt;XAxis type="number" tickFormatter={<span class="fstat-no" title="function not covered" >(v</span>alue) =&gt; <span class="cstat-no" title="statement not covered" >`${value}%`}</span> /&gt;
                         &lt;YAxis type="category" dataKey="name" width={100} /&gt;
-                        &lt;Tooltip formatter={<span class="fstat-no" title="function not covered" >(v</span>alue) =&gt; <span class="cstat-no" title="statement not covered" >[`${value.toFixed(2)}%`, '']} /&gt;</span>
+                        &lt;RechartsTooltip formatter={<span class="fstat-no" title="function not covered" >(v</span>alue) =&gt; <span class="cstat-no" title="statement not covered" >[`${value.toFixed(2)}%`, '']} /&gt;</span>
                         &lt;Legend /&gt;
                         &lt;Bar dataKey="cashOnCash" stackId="a" name="Cash on Cash Return" fill="#0088FE"&gt;
                           {activeOptions.map(<span class="fstat-no" title="function not covered" >(o</span>ption, index) =&gt; (
@@ -4396,7 +4396,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                               &lt;Cell key="cell-principal" fill="#0088FE" /&gt;
                               &lt;Cell key="cell-interest" fill="#FF8042" /&gt;
                             &lt;/Pie&gt;
-                            &lt;Tooltip formatter={<span class="fstat-no" title="function not covered" >(v</span>alue) =&gt; <span class="cstat-no" title="statement not covered" >[formatCurrency(value as number), '']} /&gt;</span>
+                            &lt;RechartsTooltip formatter={<span class="fstat-no" title="function not covered" >(v</span>alue) =&gt; <span class="cstat-no" title="statement not covered" >[formatCurrency(value as number), '']} /&gt;</span>
                           &lt;/PieChart&gt;
                         &lt;/ResponsiveContainer&gt;
                       &lt;/div&gt;
@@ -4490,7 +4490,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                             &lt;CartesianGrid strokeDasharray="3 3" /&gt;
                             &lt;XAxis type="number" tickFormatter={<span class="fstat-no" title="function not covered" >(v</span>alue) =&gt; <span class="cstat-no" title="statement not covered" >`${value}%`}</span> /&gt;
                             &lt;YAxis type="category" dataKey="name" tick={false} /&gt;
-                            &lt;Tooltip formatter={<span class="fstat-no" title="function not covered" >(v</span>alue) =&gt; <span class="cstat-no" title="statement not covered" >[`${value.toFixed(2)}%`, '']} /&gt;</span>
+                            &lt;RechartsTooltip formatter={<span class="fstat-no" title="function not covered" >(v</span>alue) =&gt; <span class="cstat-no" title="statement not covered" >[`${value.toFixed(2)}%`, '']} /&gt;</span>
                             &lt;Legend /&gt;
                             &lt;Bar dataKey="cashFlow" stackId="a" name="Cash Flow Return" fill="#0088FE" /&gt;
                             &lt;Bar dataKey="appreciation" stackId="a" name="Appreciation Return" fill="#00C49F" /&gt;
@@ -4689,7 +4689,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                         &lt;CartesianGrid strokeDasharray="3 3" /&gt;
                         &lt;XAxis dataKey="year" label={{ value: 'Year', position: 'insideBottom', offset: -5 }} /&gt;
                         &lt;YAxis tickFormatter={<span class="fstat-no" title="function not covered" >(v</span>alue) =&gt; <span class="cstat-no" title="statement not covered" >`$${(value / 1000).toFixed(0)}k`}</span> /&gt;
-                        &lt;Tooltip formatter={<span class="fstat-no" title="function not covered" >(v</span>alue) =&gt; <span class="cstat-no" title="statement not covered" >[formatCurrency(value as number), '']} /&gt;</span>
+                        &lt;RechartsTooltip formatter={<span class="fstat-no" title="function not covered" >(v</span>alue) =&gt; <span class="cstat-no" title="statement not covered" >[formatCurrency(value as number), '']} /&gt;</span>
                         &lt;Legend /&gt;
                         &lt;Bar dataKey="principal" stackId="a" name="Principal" fill="#0088FE" /&gt;
                         &lt;Bar dataKey="interest" stackId="a" name="Interest" fill="#FF8042" /&gt;
@@ -4714,7 +4714,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                         &lt;CartesianGrid strokeDasharray="3 3" /&gt;
                         &lt;XAxis dataKey="year" label={{ value: 'Year', position: 'insideBottom', offset: -5 }} /&gt;
                         &lt;YAxis tickFormatter={<span class="fstat-no" title="function not covered" >(v</span>alue) =&gt; <span class="cstat-no" title="statement not covered" >`$${(value / 1000000).toFixed(1)}M`}</span> /&gt;
-                        &lt;Tooltip formatter={<span class="fstat-no" title="function not covered" >(v</span>alue) =&gt; <span class="cstat-no" title="statement not covered" >[formatCurrency(value as number), '']} /&gt;</span>
+                        &lt;RechartsTooltip formatter={<span class="fstat-no" title="function not covered" >(v</span>alue) =&gt; <span class="cstat-no" title="statement not covered" >[formatCurrency(value as number), '']} /&gt;</span>
                         &lt;Legend /&gt;
                         &lt;Line 
                           type="monotone" 
@@ -4912,7 +4912,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-15T16:23:25.168Z
+                at 2025-05-22T22:15:28.100Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

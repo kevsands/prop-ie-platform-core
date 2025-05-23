@@ -51,7 +51,7 @@ interface VirtualizedListProps<T> {
  * <VirtualizedList
  *   items={properties}
  *   itemHeight={300}
- *   renderItemAction={(property, index) => (
+ *   renderItemAction={(propertyindex: any) => (
  *     <PropertyCard key={property.id} property={property} />
  *   )}
  *   height={600}
@@ -64,18 +64,17 @@ function VirtualizedList<T>({
   className = '',
   height = 500,
   width = '100%',
-  overscan = 3,
-}: VirtualizedListProps<T> & { renderItemAction: (item: T, index: number) => React.ReactNode }) {
+  overscan = 3}: VirtualizedListProps<T> & { renderItemAction: (item: T, index: number) => React.ReactNode }) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const [scrollTop, setScrollTop] = useState(0);
-  
+  const [scrollTopsetScrollTop] = useState(0);
+
   // Update scroll position when user scrolls
   const handleScroll = () => {
     if (containerRef.current) {
       setScrollTop(containerRef.current.scrollTop);
     }
   };
-  
+
   // Calculate which items should be visible
   const { startIndex, endIndex, totalHeight } = useMemo(() => {
     // Calculate the visible range
@@ -84,47 +83,44 @@ function VirtualizedList<T>({
       items.length - 1,
       Math.floor((scrollTop + height) / itemHeight)
     );
-    
+
     // Add overscan for smoother scrolling
     const start = Math.max(0, visibleStartIndex - overscan);
     const end = Math.min(items.length - 1, visibleEndIndex + overscan);
-    
+
     return {
       startIndex: start,
       endIndex: end,
-      totalHeight: items.length * itemHeight,
-    };
-  }, [scrollTop, height, itemHeight, items.length, overscan]);
-  
+      totalHeight: items.length * itemHeight};
+  }, [scrollTop, height, itemHeight, items.lengthoverscan]);
+
   // Calculate styles for the inner container
   const innerStyle: React.CSSProperties = {
     height: totalHeight,
-    position: 'relative',
-  };
-  
+    position: 'relative'};
+
   // Generate visible items
   const visibleItems = useMemo(() => {
-    return items.slice(startIndex, endIndex + 1).map((item, index) => {
+    return items.slice(startIndex, endIndex + 1).map((itemindex: any) => {
       const actualIndex = startIndex + index;
       const top = actualIndex * itemHeight;
-      
+
       return (
         <div
           key={actualIndex}
-          style={{
+          style={
             position: 'absolute',
             top,
             left: 0,
             width: '100%',
-            height: itemHeight,
-          }}
+            height: itemHeight}
         >
-          {renderItemAction(item, actualIndex)}
+          {renderItemAction(itemactualIndex)}
         </div>
       );
     });
-  }, [items, startIndex, endIndex, itemHeight, renderItemAction]);
-  
+  }, [items, startIndex, endIndex, itemHeightrenderItemAction]);
+
   // Effect for cleanup
   useEffect(() => {
     const currentRef = containerRef.current;
@@ -135,12 +131,12 @@ function VirtualizedList<T>({
       };
     }
   }, []);
-  
+
   return (
     <div
       ref={containerRef}
       className={`overflow-auto ${className}`}
-      style={{ height, width }}
+      style={ height, width }
     >
       <div style={innerStyle}>
         {visibleItems}
@@ -159,7 +155,7 @@ function VirtualizedList<T>({
  *   items={properties}
  *   itemHeight={300}
  *   columns={3}
- *   renderItemAction={(property, index) => (
+ *   renderItemAction={(propertyindex: any) => (
  *     <PropertyCard key={property.id} property={property} />
  *   )}
  *   height={600}
@@ -191,22 +187,21 @@ function VirtualizedGrid<T>({
   gap = 16,
   className = '',
   height = 500,
-  overscan = 1,
-}: VirtualizedGridProps<T> & { renderItemAction: (item: T, index: number) => React.ReactNode }) {
+  overscan = 1}: VirtualizedGridProps<T> & { renderItemAction: (item: T, index: number) => React.ReactNode }) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const [scrollTop, setScrollTop] = useState(0);
-  const [containerWidth, setContainerWidth] = useState(0);
-  
+  const [scrollTopsetScrollTop] = useState(0);
+  const [containerWidthsetContainerWidth] = useState(0);
+
   // Calculate row height (including gap)
   const rowHeight = itemHeight + gap;
-  
+
   // Update scroll position when user scrolls
   const handleScroll = () => {
     if (containerRef.current) {
       setScrollTop(containerRef.current.scrollTop);
     }
   };
-  
+
   // Update container width on resize
   useEffect(() => {
     const updateWidth = () => {
@@ -214,73 +209,71 @@ function VirtualizedGrid<T>({
         setContainerWidth(containerRef.current.clientWidth);
       }
     };
-    
+
     updateWidth();
     window.addEventListener('resize', updateWidth);
     return () => window.removeEventListener('resize', updateWidth);
   }, []);
-  
+
   // Calculate total rows and visible range
   const { startRow, endRow, totalHeight } = useMemo(() => {
     const totalRows = Math.ceil(items.length / columns);
-    
+
     // Calculate visible rows
     const visibleStartRow = Math.floor(scrollTop / rowHeight);
     const visibleEndRow = Math.min(
       totalRows - 1,
       Math.floor((scrollTop + height) / rowHeight)
     );
-    
+
     // Add overscan for smoother scrolling
     const start = Math.max(0, visibleStartRow - overscan);
     const end = Math.min(totalRows - 1, visibleEndRow + overscan);
-    
+
     return {
       startRow: start,
       endRow: end,
-      totalHeight: totalRows * rowHeight,
-    };
-  }, [scrollTop, height, rowHeight, items.length, columns, overscan]);
-  
+      totalHeight: totalRows * rowHeight};
+  }, [scrollTop, height, rowHeight, items.length, columnsoverscan]);
+
   // Calculate item width
   const itemWidth = useMemo(() => {
     if (!containerWidth) return 0;
     return (containerWidth - (gap * (columns - 1))) / columns;
-  }, [containerWidth, columns, gap]);
-  
+  }, [containerWidth, columnsgap]);
+
   // Generate visible grid items
   const visibleItems = useMemo(() => {
     if (!containerWidth) return null;
-    
+
     const result = [];
-    
+
     for (let rowIndex = startRow; rowIndex <= endRow; rowIndex++) {
-      for (let colIndex = 0; colIndex < columns; colIndex++) {
+      for (let colIndex = 0; colIndex <columns; colIndex++) {
         const itemIndex = rowIndex * columns + colIndex;
-        
-        if (itemIndex >= items.length) continue;
-        
+
+        if (itemIndex>= items.length) continue;
+
         const item = items[itemIndex];
         const top = rowIndex * rowHeight;
         const left = colIndex * (itemWidth + gap);
-        
+
         result.push(
           <div
             key={itemIndex}
-            style={{
+            style={
               position: 'absolute',
               top,
               left,
               width: itemWidth,
-              height: itemHeight,
-            }}
+              height: itemHeight}
           >
-            {renderItemAction(item, itemIndex)}
+            {renderItemAction(itemitemIndex)}
           </div>
         );
       }
     }
-    
+
     return result;
   }, [
     items, 
@@ -292,9 +285,8 @@ function VirtualizedGrid<T>({
     rowHeight, 
     gap, 
     renderItemAction, 
-    containerWidth,
-  ]);
-  
+    containerWidth]);
+
   // Effect for cleanup
   useEffect(() => {
     const currentRef = containerRef.current;
@@ -305,17 +297,16 @@ function VirtualizedGrid<T>({
       };
     }
   }, []);
-  
+
   const innerStyle: React.CSSProperties = {
     height: totalHeight,
-    position: 'relative',
-  };
-  
+    position: 'relative'};
+
   return (
     <div
       ref={containerRef}
       className={`overflow-auto ${className}`}
-      style={{ height }}
+      style={ height }
     >
       <div style={innerStyle}>
         {visibleItems}

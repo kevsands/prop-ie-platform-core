@@ -1,3 +1,4 @@
+import React from 'react';
 'use client';
 
 import { useState } from 'react';
@@ -20,12 +21,12 @@ interface Message {
 }
 
 export default function MessagesPage() {
-  const [selectedMessage, setSelectedMessage] = useState<Message | null>(null);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [filterType, setFilterType] = useState<string>('all');
-  const [replyText, setReplyText] = useState('');
-  const [showCompose, setShowCompose] = useState(false);
-  
+  const [selectedMessagesetSelectedMessage] = useState<Message | null>(null);
+  const [searchQuerysetSearchQuery] = useState('');
+  const [filterTypesetFilterType] = useState<string>('all');
+  const [replyTextsetReplyText] = useState('');
+  const [showComposesetShowCompose] = useState(false);
+
   // Mock messages data
   const messages: Message[] = [
     {
@@ -152,7 +153,7 @@ PROP Support Team`,
       propertyRef: 'BV-7C'
     }
   ];
-  
+
   // Filter messages based on search and filter
   const filteredMessages = messages.filter(message => {
     const matchesSearch = message.subject.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -161,25 +162,25 @@ PROP Support Team`,
     const matchesFilter = filterType === 'all' || message.type === filterType;
     return matchesSearch && matchesFilter;
   });
-  
+
   const getMessageIcon = (type: string) => {
     switch (type) {
-      case 'agent': return <User className="h-5 w-5 text-blue-600" />;
-      case 'solicitor': return <Building className="h-5 w-5 text-purple-600" />;
-      case 'developer': return <Home className="h-5 w-5 text-green-600" />;
-      case 'support': return <Building className="h-5 w-5 text-orange-600" />;
-      default: return <User className="h-5 w-5 text-gray-600" />;
+      case 'agent': return <User className="h-5 w-5 text-blue-600" />\n  );
+      case 'solicitor': return <Building className="h-5 w-5 text-purple-600" />\n  );
+      case 'developer': return <Home className="h-5 w-5 text-green-600" />\n  );
+      case 'support': return <Building className="h-5 w-5 text-orange-600" />\n  );
+      default: return <User className="h-5 w-5 text-gray-600" />\n  );
     }
   };
-  
+
   const handleReply = () => {
     if (replyText.trim() && selectedMessage) {
       // Handle reply submission
-      console.log('Sending reply:', replyText);
+
       setReplyText('');
     }
   };
-  
+
   return (
     <div className="flex-1 h-screen flex">
       {/* Messages List */}
@@ -187,19 +188,19 @@ PROP Support Team`,
         {/* Header */}
         <div className="p-4 border-b">
           <h1 className="text-2xl font-bold text-gray-900 mb-4">Messages</h1>
-          
+
           {/* Search */}
           <div className="relative mb-4">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
             <input
               type="text"
               value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+              onChange={(e: any) => setSearchQuery(e.target.value)}
               placeholder="Search messages..."
               className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             />
           </div>
-          
+
           {/* Filters */}
           <div className="flex gap-2">
             <button
@@ -244,10 +245,10 @@ PROP Support Team`,
             </button>
           </div>
         </div>
-        
+
         {/* Messages List */}
         <div className="flex-1 overflow-y-auto">
-          {filteredMessages.map((message) => (
+          {filteredMessages.map((message: any) => (
             <div
               key={message.id}
               onClick={() => setSelectedMessage(message)}
@@ -284,7 +285,7 @@ PROP Support Team`,
           ))}
         </div>
       </div>
-      
+
       {/* Message Detail */}
       <div className="flex-1 flex flex-col bg-gray-50">
         {selectedMessage ? (
@@ -311,7 +312,7 @@ PROP Support Team`,
                     onClick={() => {
                       const updatedMessage = {...selectedMessage, isStarred: !selectedMessage.isStarred};
                       setSelectedMessage(updatedMessage);
-                    }}
+                    }
                     className={`p-2 rounded-lg hover:bg-gray-100 ${selectedMessage.isStarred ? 'text-yellow-500' : 'text-gray-500'}`}
                   >
                     <Star className={`h-5 w-5 ${selectedMessage.isStarred ? 'fill-current' : ''}`} />
@@ -325,7 +326,7 @@ PROP Support Team`,
                 </div>
               </div>
             </div>
-            
+
             {/* Message Content */}
             <div className="flex-1 overflow-y-auto p-6">
               <div className="bg-white rounded-lg p-6 shadow-sm">
@@ -334,13 +335,13 @@ PROP Support Team`,
                     {selectedMessage.fullContent}
                   </pre>
                 </div>
-                
+
                 {/* Attachments */}
-                {selectedMessage.attachments && selectedMessage.attachments.length > 0 && (
+                {selectedMessage.attachments && selectedMessage.attachments.length> 0 && (
                   <div className="mt-6 pt-6 border-t">
                     <h3 className="text-sm font-medium text-gray-900 mb-3">Attachments</h3>
                     <div className="space-y-2">
-                      {selectedMessage.attachments.map((attachment, index) => (
+                      {selectedMessage.attachments.map((attachmentindex: any) => (
                         <div 
                           key={index} 
                           className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer"
@@ -355,13 +356,13 @@ PROP Support Team`,
                 )}
               </div>
             </div>
-            
+
             {/* Reply Box */}
             <div className="bg-white p-4 border-t">
               <div className="flex gap-3">
                 <textarea
                   value={replyText}
-                  onChange={(e) => setReplyText(e.target.value)}
+                  onChange={(e: any) => setReplyText(e.target.value)}
                   placeholder="Type your reply..."
                   className="flex-1 px-4 py-2 border border-gray-300 rounded-lg resize-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                   rows={3}

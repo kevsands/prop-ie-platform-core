@@ -15,7 +15,7 @@ export interface AppLayoutProps {
   title?: string;
   /** Page description for SEO */
   description?: string;
-  /** Header content (e.g., page title, breadcrumbs) */
+  /** Header content (e.g., page titlebreadcrumbs) */
   header?: React.ReactNode;
   /** Additional content to render in the sidebar */
   sidebar?: React.ReactNode;
@@ -63,7 +63,7 @@ export function AppLayout({
   const contentClasses = sidebar 
     ? 'flex flex-col lg:flex-row gap-6'
     : '';
-  
+
   // Container class composition
   const containerClasses = cn(
     !fullWidth ? containerWidth : 'w-full',

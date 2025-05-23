@@ -67,7 +67,7 @@ interface Milestone {
   notifications: MilestoneNotification[];
   automations: Automation[];
   history: HistoryEntry[];
-  customFields?: Record<string, any>;
+  customFields?: Record<string, any>\n  );
 }
 
 interface Dependency {
@@ -137,7 +137,7 @@ interface Automation {
   actions: string[];
   enabled: boolean;
   lastRun?: Date;
-  config?: Record<string, any>;
+  config?: Record<string, any>\n  );
 }
 
 interface HistoryEntry {
@@ -147,7 +147,7 @@ interface HistoryEntry {
   userName: string;
   timestamp: Date;
   details: string;
-  changes?: Record<string, any>;
+  changes?: Record<string, any>\n  );
 }
 
 interface TransactionMilestonesProps {
@@ -188,13 +188,13 @@ export default function TransactionMilestones({
   onCreateMilestone 
 }: TransactionMilestonesProps) {
   const { user } = useAuth();
-  const [viewMode, setViewMode] = useState<'kanban' | 'timeline' | 'gantt' | 'list'>('kanban');
-  const [filterStage, setFilterStage] = useState<string>('all');
-  const [filterStatus, setFilterStatus] = useState<string>('all');
-  const [selectedMilestone, setSelectedMilestone] = useState<Milestone | null>(null);
-  const [showCreateModal, setShowCreateModal] = useState(false);
-  const [showRiskAnalysis, setShowRiskAnalysis] = useState(false);
-  const [expandedMilestones, setExpandedMilestones] = useState<Set<string>>(new Set());
+  const [viewModesetViewMode] = useState<'kanban' | 'timeline' | 'gantt' | 'list'>('kanban');
+  const [filterStagesetFilterStage] = useState<string>('all');
+  const [filterStatussetFilterStatus] = useState<string>('all');
+  const [selectedMilestonesetSelectedMilestone] = useState<Milestone | null>(null);
+  const [showCreateModalsetShowCreateModal] = useState(false);
+  const [showRiskAnalysissetShowRiskAnalysis] = useState(false);
+  const [expandedMilestonessetExpandedMilestones] = useState<Set<string>>(new Set());
 
   const filteredMilestones = useMemo(() => {
     return milestones.filter(milestone => {
@@ -202,7 +202,7 @@ export default function TransactionMilestones({
       if (filterStatus !== 'all' && milestone.status !== filterStatus) return false;
       return true;
     });
-  }, [milestones, filterStage, filterStatus]);
+  }, [milestones, filterStagefilterStatus]);
 
   const milestoneStats = useMemo(() => {
     const stats = {
@@ -212,7 +212,7 @@ export default function TransactionMilestones({
       overdue: milestones.filter(m => m.status === 'OVERDUE').length,
       blocked: milestones.filter(m => m.status === 'BLOCKED').length,
       criticalPath: milestones.filter(m => m.dependencies.some(d => d.isCritical)).length,
-      averageProgress: milestones.reduce((sum, m) => sum + m.progress, 0) / milestones.length
+      averageProgress: milestones.reduce((summ: any) => sum + m.progress0) / milestones.length
     };
 
     return stats;
@@ -222,7 +222,7 @@ export default function TransactionMilestones({
     if (!result.destination) return;
 
     const { source, destination, draggableId } = result;
-    
+
     // Find the milestone being moved
     const milestone = milestones.find(m => m.id === draggableId);
     if (!milestone) return;
@@ -235,7 +235,7 @@ export default function TransactionMilestones({
         status: newStatus,
         progress: newStatus === 'COMPLETED' ? 100 : milestone.progress
       };
-      
+
       onUpdateMilestone?.(updatedMilestone);
       toast.success(`Milestone moved to ${newStatus}`);
     }
@@ -258,7 +258,7 @@ export default function TransactionMilestones({
       const isOverdue = m.status === 'OVERDUE';
       const isBlocked = m.status === 'BLOCKED';
       const hasHighPriority = m.priority === 'HIGH' || m.priority === 'CRITICAL';
-      
+
       return hasNoCriticalDependencies || isOverdue || isBlocked || hasHighPriority;
     });
 
@@ -267,7 +267,7 @@ export default function TransactionMilestones({
 
   const renderMilestoneCard = (milestone: Milestone, isDragging: boolean = false) => {
     const daysUntilDue = differenceInDays(milestone.dueDate, new Date());
-    const isOverdue = milestone.status !== 'COMPLETED' && daysUntilDue < 0;
+    const isOverdue = milestone.status !== 'COMPLETED' && daysUntilDue <0;
     const isExpanded = expandedMilestones.has(milestone.id);
 
     return (
@@ -321,7 +321,7 @@ export default function TransactionMilestones({
               </div>
             </div>
 
-            {milestone.blockers.filter(b => b.status === 'ACTIVE').length > 0 && (
+            {milestone.blockers.filter(b => b.status === 'ACTIVE').length> 0 && (
               <Alert className="p-2">
                 <ExclamationTriangleIcon className="h-4 w-4" />
                 <AlertDescription className="text-xs">
@@ -332,13 +332,13 @@ export default function TransactionMilestones({
 
             {isExpanded && (
               <motion.div
-                initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: 'auto' }}
-                exit={{ opacity: 0, height: 0 }}
+                initial={ opacity: 0, height: 0 }
+                animate={ opacity: 1, height: 'auto' }
+                exit={ opacity: 0, height: 0 }
                 className="pt-3 border-t space-y-3"
               >
                 {/* Tasks */}
-                {milestone.tasks.length > 0 && (
+                {milestone.tasks.length> 0 && (
                   <div>
                     <p className="text-sm font-medium mb-2">Tasks</p>
                     <div className="space-y-1">
@@ -361,7 +361,7 @@ export default function TransactionMilestones({
                 )}
 
                 {/* Dependencies */}
-                {milestone.dependencies.length > 0 && (
+                {milestone.dependencies.length> 0 && (
                   <div>
                     <p className="text-sm font-medium mb-2">Dependencies</p>
                     <div className="space-y-1">
@@ -385,7 +385,7 @@ export default function TransactionMilestones({
                 )}
 
                 {/* Risks */}
-                {milestone.risks.length > 0 && (
+                {milestone.risks.length> 0 && (
                   <div>
                     <p className="text-sm font-medium mb-2">Risks</p>
                     <div className="space-y-1">
@@ -419,20 +419,20 @@ export default function TransactionMilestones({
                   <Button
                     size="sm"
                     variant="outline"
-                    onClick={(e) => {
+                    onClick={(e: any) => {
                       e.stopPropagation();
                       setSelectedMilestone(milestone);
-                    }}
+                    }
                   >
                     View Details
                   </Button>
                   <Button
                     size="sm"
                     variant="outline"
-                    onClick={(e) => {
+                    onClick={(e: any) => {
                       e.stopPropagation();
                       toast.success(`Milestone ${milestone.name} updated`);
-                    }}
+                    }
                   >
                     Quick Update
                   </Button>
@@ -460,7 +460,7 @@ export default function TransactionMilestones({
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="all">All Stages</SelectItem>
-              {Object.entries(stageColors).map(([key, color]) => (
+              {Object.entries(stageColors).map(([keycolor]) => (
                 <SelectItem key={key} value={key}>
                   {key.replace(/_/g, ' ')}
                 </SelectItem>
@@ -596,9 +596,9 @@ export default function TransactionMilestones({
                     {filteredMilestones.filter(m => m.status === status).length}
                   </Badge>
                 </div>
-                
+
                 <Droppable droppableId={status}>
-                  {(provided, snapshot) => (
+                  {(provided: any, snapshot: any) => (
                     <div
                       ref={provided.innerRef}
                       {...provided.droppableProps}
@@ -608,13 +608,13 @@ export default function TransactionMilestones({
                     >
                       {filteredMilestones
                         .filter(milestone => milestone.status === status)
-                        .map((milestone, index) => (
+                        .map((milestoneindex: any) => (
                           <Draggable
                             key={milestone.id}
                             draggableId={milestone.id}
                             index={index}
                           >
-                            {(provided, snapshot) => (
+                            {(provided: any, snapshot: any) => (
                               <div
                                 ref={provided.innerRef}
                                 {...provided.draggableProps}
@@ -641,15 +641,15 @@ export default function TransactionMilestones({
             <div className="relative">
               {/* Timeline line */}
               <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-gray-200" />
-              
+
               {/* Timeline events */}
               <div className="space-y-8">
                 {filteredMilestones
-                  .sort((a, b) => a.dueDate.getTime() - b.dueDate.getTime())
-                  .map((milestone, index) => {
+                  .sort((ab: any) => a.dueDate.getTime() - b.dueDate.getTime())
+                  .map((milestoneindex: any) => {
                     const daysUntilDue = differenceInDays(milestone.dueDate, new Date());
-                    const isOverdue = milestone.status !== 'COMPLETED' && daysUntilDue < 0;
-                    
+                    const isOverdue = milestone.status !== 'COMPLETED' && daysUntilDue <0;
+
                     return (
                       <div key={milestone.id} className="relative flex items-start">
                         {/* Timeline dot */}
@@ -661,7 +661,7 @@ export default function TransactionMilestones({
                         }`}>
                           <FlagIcon className="h-4 w-4 text-white absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />
                         </div>
-                        
+
                         {/* Content */}
                         <div className="ml-16 flex-1">
                           <div className="bg-white border rounded-lg p-4 shadow-sm">
@@ -674,7 +674,7 @@ export default function TransactionMilestones({
                                 {milestone.status}
                               </Badge>
                             </div>
-                            
+
                             <div className="flex items-center gap-4 text-sm text-gray-600 mt-3">
                               <span>{format(milestone.dueDate, 'MMM dd, yyyy')}</span>
                               {isOverdue && (
@@ -736,8 +736,8 @@ export default function TransactionMilestones({
               <tbody className="bg-white divide-y divide-gray-200">
                 {filteredMilestones.map(milestone => {
                   const daysUntilDue = differenceInDays(milestone.dueDate, new Date());
-                  const isOverdue = milestone.status !== 'COMPLETED' && daysUntilDue < 0;
-                  
+                  const isOverdue = milestone.status !== 'COMPLETED' && daysUntilDue <0;
+
                   return (
                     <tr key={milestone.id} className="hover:bg-gray-50">
                       <td className="px-6 py-4">
@@ -774,12 +774,12 @@ export default function TransactionMilestones({
                       </td>
                       <td className="px-6 py-4">
                         <div className="flex -space-x-2">
-                          {milestone.responsible.slice(0, 3).map((person, idx) => (
+                          {milestone.responsible.slice(03).map((personidx: any) => (
                             <Avatar key={idx} className="h-8 w-8 border-2 border-white">
                               <AvatarFallback>{person.charAt(0)}</AvatarFallback>
                             </Avatar>
                           ))}
-                          {milestone.responsible.length > 3 && (
+                          {milestone.responsible.length> 3 && (
                             <div className="h-8 w-8 rounded-full bg-gray-200 border-2 border-white flex items-center justify-center">
                               <span className="text-xs">+{milestone.responsible.length - 3}</span>
                             </div>
@@ -800,7 +800,7 @@ export default function TransactionMilestones({
                             variant="ghost"
                             onClick={() => {
                               toast.success(`Updated ${milestone.name}`);
-                            }}
+                            }
                           >
                             Update
                           </Button>

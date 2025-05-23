@@ -8,11 +8,11 @@ import { getFeaturedProperties } from '@/data/properties';
 
 export default function Home() {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState('buyers');
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  
+  const [activeTabsetActiveTab] = useState('buyers');
+  const [isMenuOpensetIsMenuOpen] = useState(false);
+
   const featuredProperties = getFeaturedProperties();
-  
+
   const formatPrice = (price: number): string => {
     return new Intl.NumberFormat('en-IE', {
       style: 'currency',
@@ -20,7 +20,7 @@ export default function Home() {
       maximumFractionDigits: 0
     }).format(price);
   };
-  
+
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
@@ -29,7 +29,7 @@ export default function Home() {
         <div className="absolute inset-0 bg-gradient-to-r from-[#1E3142]/80 to-[#2B5273]/50">
           <div className="absolute inset-0 bg-black/30"></div>
         </div>
-        
+
         {/* Navigation */}
         <div className="relative z-10">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -37,7 +37,7 @@ export default function Home() {
               <div className="flex items-center">
                 <div className="text-white font-bold text-2xl">Prop.ie</div>
               </div>
-              
+
               {/* Desktop Navigation */}
               <div className="hidden md:flex items-center space-x-8">
                 <Link href="/properties" className="text-white hover:text-gray-200">Properties</Link>
@@ -52,7 +52,7 @@ export default function Home() {
                   Register
                 </Link>
               </div>
-              
+
               {/* Mobile Navigation Button */}
               <div className="md:hidden">
                 <button 
@@ -67,7 +67,7 @@ export default function Home() {
               </div>
             </div>
           </div>
-          
+
           {/* Mobile Navigation Menu */}
           {isMenuOpen && (
             <div className="md:hidden bg-white shadow-lg absolute top-16 inset-x-0 z-20">
@@ -118,7 +118,7 @@ export default function Home() {
             </div>
           )}
         </div>
-        
+
         {/* Hero Content */}
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center">
           <div className="max-w-3xl">
@@ -145,7 +145,7 @@ export default function Home() {
           </div>
         </div>
       </div>
-      
+
       {/* Featured Properties Section */}
       <div className="py-16 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -155,9 +155,9 @@ export default function Home() {
               Discover our selection of premium properties at Fitzgerald Gardens
             </p>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {featuredProperties.map((property) => (
+            {featuredProperties.map((property: any) => (
               <div 
                 key={property.id}
                 className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow"
@@ -211,7 +211,7 @@ export default function Home() {
               </div>
             ))}
           </div>
-          
+
           <div className="mt-12 text-center">
             <Link 
               href="/properties"
@@ -225,7 +225,7 @@ export default function Home() {
           </div>
         </div>
       </div>
-      
+
       {/* User Type Tabs Section */}
       <div className="py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -235,7 +235,7 @@ export default function Home() {
               Tailored solutions for every stakeholder in the property journey
             </p>
           </div>
-          
+
           {/* Tabs */}
           <div className="flex justify-center mb-8">
             <div className="border border-gray-200 rounded-lg flex">
@@ -281,7 +281,7 @@ export default function Home() {
               </button>
             </div>
           </div>
-          
+
           {/* Tab Content */}
           <div className="bg-white rounded-xl shadow-md overflow-hidden">
             {activeTab === 'buyers' && (
@@ -337,7 +337,7 @@ export default function Home() {
                 </div>
               </div>
             )}
-            
+
             {activeTab === 'investors' && (
               <div className="md:flex">
                 <div className="md:flex-shrink-0 relative h-64 md:h-auto md:w-1/2">
@@ -391,7 +391,7 @@ export default function Home() {
                 </div>
               </div>
             )}
-            
+
             {activeTab === 'developers' && (
               <div className="md:flex">
                 <div className="md:flex-shrink-0 relative h-64 md:h-auto md:w-1/2">
@@ -445,7 +445,7 @@ export default function Home() {
                 </div>
               </div>
             )}
-            
+
             {activeTab === 'agents' && (
               <div className="md:flex">
                 <div className="md:flex-shrink-0 relative h-64 md:h-auto md:w-1/2">

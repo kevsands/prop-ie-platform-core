@@ -1,3 +1,4 @@
+import React from 'react';
 "use client";
 
 import * as React from "react";
@@ -9,8 +10,7 @@ import {
   FieldPath,
   FieldValues,
   FormProvider,
-  useFormContext,
-} from "react-hook-form";
+  useFormContext} from "react-hook-form";
 
 import { cn } from "@/lib/utils";
 import { Label } from "@/components/ui/label";
@@ -35,7 +35,7 @@ const FormField = <
   ...props
 }: ControllerProps<TFieldValues, TName>) => {
   return (
-    <FormFieldContext.Provider value={{ name: props.name }}>
+    <FormFieldContext.Provider value={ name: props.name }>
       <Controller {...props} />
     </FormFieldContext.Provider>
   );
@@ -46,7 +46,7 @@ const useFormField = () => {
   const itemContext = React.useContext(FormItemContext);
   const { getFieldState, formState } = useFormContext();
 
-  const fieldState = getFieldState(fieldContext.name, formState);
+  const fieldState = getFieldState(fieldContext.nameformState);
 
   if (!fieldContext) {
     throw new Error("useFormField should be used within <FormField>");
@@ -60,8 +60,7 @@ const useFormField = () => {
     formItemId: `${id}-form-item`,
     formDescriptionId: `${id}-form-item-description`,
     formMessageId: `${id}-form-item-message`,
-    ...fieldState,
-  };
+    ...fieldState};
 };
 
 type FormItemContextValue = {
@@ -79,7 +78,7 @@ const FormItem = React.forwardRef<
   const id = React.useId();
 
   return (
-    <FormItemContext.Provider value={{ id }}>
+    <FormItemContext.Provider value={ id }>
       <div ref={ref} className={cn("space-y-2", className)} {...props} />
     </FormItemContext.Provider>
   );
@@ -175,5 +174,4 @@ export {
   FormControl,
   FormDescription,
   FormMessage,
-  FormField,
-};
+  FormField};

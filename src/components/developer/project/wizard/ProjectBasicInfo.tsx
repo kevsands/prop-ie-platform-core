@@ -44,7 +44,7 @@ const ProjectBasicInfo: React.FC<ProjectBasicInfoProps> = ({ onSubmit, initialDa
   return (
     <div className="bg-white rounded-lg shadow-md p-6">
       <h2 className="text-xl font-semibold text-gray-900 mb-6">Project Basic Information</h2>
-      
+
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Project Name */}
@@ -70,7 +70,7 @@ const ProjectBasicInfo: React.FC<ProjectBasicInfoProps> = ({ onSubmit, initialDa
               <p className="mt-1 text-sm text-red-600">{errors.name.message}</p>
             )}
           </div>
-          
+
           {/* Project Location */}
           <div>
             <label htmlFor="location" className="block text-sm font-medium text-gray-700 mb-1">
@@ -94,7 +94,7 @@ const ProjectBasicInfo: React.FC<ProjectBasicInfoProps> = ({ onSubmit, initialDa
               <p className="mt-1 text-sm text-red-600">{errors.location.message}</p>
             )}
           </div>
-          
+
           {/* Project Type */}
           <div>
             <label htmlFor="type" className="block text-sm font-medium text-gray-700 mb-1">
@@ -122,7 +122,7 @@ const ProjectBasicInfo: React.FC<ProjectBasicInfoProps> = ({ onSubmit, initialDa
               <p className="mt-1 text-sm text-red-600">{errors.type.message}</p>
             )}
           </div>
-          
+
           {/* Project Manager */}
           <div>
             <label htmlFor="projectManager" className="block text-sm font-medium text-gray-700 mb-1">
@@ -141,7 +141,7 @@ const ProjectBasicInfo: React.FC<ProjectBasicInfoProps> = ({ onSubmit, initialDa
               />
             </div>
           </div>
-          
+
           {/* Estimated Start Date */}
           <div>
             <label htmlFor="estimatedStartDate" className="block text-sm font-medium text-gray-700 mb-1">
@@ -159,7 +159,7 @@ const ProjectBasicInfo: React.FC<ProjectBasicInfoProps> = ({ onSubmit, initialDa
               />
             </div>
           </div>
-          
+
           {/* Estimated Completion Date */}
           <div>
             <label htmlFor="estimatedCompletionDate" className="block text-sm font-medium text-gray-700 mb-1">
@@ -178,7 +178,7 @@ const ProjectBasicInfo: React.FC<ProjectBasicInfoProps> = ({ onSubmit, initialDa
             </div>
           </div>
         </div>
-        
+
         {/* Project Description */}
         <div>
           <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-1">
@@ -197,7 +197,7 @@ const ProjectBasicInfo: React.FC<ProjectBasicInfoProps> = ({ onSubmit, initialDa
             ></textarea>
           </div>
         </div>
-        
+
         <div className="flex justify-end">
           <button
             type="submit"

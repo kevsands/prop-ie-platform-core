@@ -169,8 +169,8 @@ const testimonials = [
 ];
 
 export default function DeveloperMarketingPage() {
-  const [activeTab, setActiveTab] = useState('ai-agents');
-  const [selectedAgent, setSelectedAgent] = useState(0);
+  const [activeTabsetActiveTab] = useState('ai-agents');
+  const [selectedAgentsetSelectedAgent] = useState(0);
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
@@ -180,23 +180,23 @@ export default function DeveloperMarketingPage() {
         <div className="absolute inset-0 opacity-10">
           <div className="absolute inset-0 bg-grid-white/10"></div>
         </div>
-        
+
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <div className="inline-flex items-center px-4 py-2 bg-white/20 backdrop-blur-sm rounded-full text-white mb-6">
               <Sparkles className="w-4 h-4 mr-2" />
               <span className="text-sm font-medium">AI-Powered Marketing Platform</span>
             </div>
-            
+
             <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">
               Revolutionize Your Property Marketing
             </h1>
-            
+
             <p className="text-xl text-white/90 mb-8 max-w-3xl mx-auto">
               Harness the power of AI agents and automation to streamline your sales process, 
               reduce costs, and maximize conversions. All from one centralized platform.
             </p>
-            
+
             <div className="flex flex-col sm:flex-row justify-center gap-4">
               <Link
                 href="/demo/marketing"
@@ -214,7 +214,7 @@ export default function DeveloperMarketingPage() {
               </Link>
             </div>
           </div>
-          
+
           {/* Key Metrics */}
           <div className="mt-16 grid grid-cols-1 md:grid-cols-4 gap-8">
             {[
@@ -222,7 +222,7 @@ export default function DeveloperMarketingPage() {
               { label: 'Faster Sales Cycle', value: '3x', icon: <Clock className="w-6 h-6" /> },
               { label: 'Lead Conversion', value: '45%', icon: <TrendingUp className="w-6 h-6" /> },
               { label: 'ROI Increase', value: '320%', icon: <BarChart3 className="w-6 h-6" /> }
-            ].map((metric, index) => (
+            ].map((metricindex: any) => (
               <div key={index} className="text-center">
                 <div className="inline-flex items-center justify-center w-12 h-12 bg-white/20 rounded-full mb-3 text-white">
                   {metric.icon}
@@ -247,7 +247,7 @@ export default function DeveloperMarketingPage() {
               and close deals - at a fraction of the cost of traditional sales teams.
             </p>
           </div>
-          
+
           {/* Tab Navigation */}
           <div className="flex justify-center mb-12">
             <div className="inline-flex bg-gray-100 rounded-lg p-1">
@@ -283,12 +283,12 @@ export default function DeveloperMarketingPage() {
               </button>
             </div>
           </div>
-          
+
           {/* AI Agents Content */}
           {activeTab === 'ai-agents' && (
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
               <div className="space-y-6">
-                {aiAgents.map((agent, index) => (
+                {aiAgents.map((agentindex: any) => (
                   <div
                     key={index}
                     onClick={() => setSelectedAgent(index)}
@@ -320,37 +320,37 @@ export default function DeveloperMarketingPage() {
                   </div>
                 ))}
               </div>
-              
+
               <div className="sticky top-8">
                 <div className="bg-white rounded-xl shadow-xl p-8">
                   <div className={`inline-flex p-4 rounded-xl bg-gradient-to-r ${aiAgents[selectedAgent].color} text-white mb-6`}>
                     {aiAgents[selectedAgent].icon}
                   </div>
-                  
+
                   <h3 className="text-2xl font-bold text-gray-900 mb-4">
                     {aiAgents[selectedAgent].name}
                   </h3>
-                  
+
                   <p className="text-lg text-gray-600 mb-6">
                     {aiAgents[selectedAgent].description}
                   </p>
-                  
+
                   <div className="space-y-3 mb-8">
-                    {aiAgents[selectedAgent].features.map((feature, idx) => (
+                    {aiAgents[selectedAgent].features.map((featureidx: any) => (
                       <div key={idx} className="flex items-center gap-3">
                         <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0" />
                         <span className="text-gray-700">{feature}</span>
                       </div>
                     ))}
                   </div>
-                  
+
                   <div className="p-4 bg-blue-50 rounded-lg mb-6">
                     <div className="text-sm text-blue-600 mb-1">Annual Savings</div>
                     <div className="text-2xl font-bold text-blue-900">
                       {aiAgents[selectedAgent].savings}
                     </div>
                   </div>
-                  
+
                   <button className="w-full py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-colors">
                     Learn More
                   </button>
@@ -358,36 +358,36 @@ export default function DeveloperMarketingPage() {
               </div>
             </div>
           )}
-          
+
           {/* Automation Content */}
           {activeTab === 'automation' && (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {automationFeatures.map((feature, index) => (
+              {automationFeatures.map((featureindex: any) => (
                 <div key={index} className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
                   <div className="p-8">
                     <div className="inline-flex items-center justify-center w-12 h-12 bg-blue-100 text-blue-600 rounded-lg mb-4">
                       {feature.icon}
                     </div>
-                    
+
                     <h3 className="text-xl font-semibold text-gray-900 mb-3">
                       {feature.title}
                     </h3>
-                    
+
                     <p className="text-gray-600 mb-6">
                       {feature.description}
                     </p>
-                    
+
                     <div className="space-y-2 mb-6">
-                      {feature.features.map((item, idx) => (
+                      {feature.features.map((itemidx: any) => (
                         <div key={idx} className="flex items-center gap-2">
                           <CheckCircle className="w-4 h-4 text-green-500" />
                           <span className="text-sm text-gray-700">{item}</span>
                         </div>
                       ))}
                     </div>
-                    
+
                     <div className="grid grid-cols-3 gap-4 pt-6 border-t border-gray-100">
-                      {Object.entries(feature.metrics).map(([key, value]) => (
+                      {Object.entries(feature.metrics).map(([keyvalue]) => (
                         <div key={key} className="text-center">
                           <div className="text-lg font-semibold text-gray-900">{value}</div>
                           <div className="text-xs text-gray-500 capitalize">{key}</div>
@@ -399,7 +399,7 @@ export default function DeveloperMarketingPage() {
               ))}
             </div>
           )}
-          
+
           {/* Analytics Content */}
           {activeTab === 'analytics' && (
             <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
@@ -408,13 +408,13 @@ export default function DeveloperMarketingPage() {
                   <h3 className="text-2xl font-bold text-gray-900 mb-6">
                     Real-Time Performance Dashboard
                   </h3>
-                  
+
                   <p className="text-lg text-gray-600 mb-8">
                     Get instant insights into your marketing performance with our 
                     comprehensive analytics dashboard. Track ROI, conversion rates, 
                     and customer behavior in real-time.
                   </p>
-                  
+
                   <div className="space-y-6">
                     {[
                       {
@@ -437,7 +437,7 @@ export default function DeveloperMarketingPage() {
                         description: 'AI-powered forecasting for sales and inventory',
                         icon: <Brain className="w-6 h-6" />
                       }
-                    ].map((item, index) => (
+                    ].map((itemindex: any) => (
                       <div key={index} className="flex gap-4">
                         <div className="flex-shrink-0 w-12 h-12 bg-purple-100 text-purple-600 rounded-lg flex items-center justify-center">
                           {item.icon}
@@ -450,7 +450,7 @@ export default function DeveloperMarketingPage() {
                     ))}
                   </div>
                 </div>
-                
+
                 <div className="bg-gradient-to-br from-gray-900 to-gray-800 p-8 lg:p-12 flex items-center justify-center">
                   <div className="w-full max-w-md">
                     <Image
@@ -477,12 +477,12 @@ export default function DeveloperMarketingPage() {
                 <h2 className="text-3xl font-bold text-gray-900 mb-6">
                   Calculate Your ROI
                 </h2>
-                
+
                 <p className="text-lg text-gray-600 mb-8">
                   See how much you could save by switching to PropIE's AI-powered 
                   marketing platform. Input your current costs to get a personalized estimate.
                 </p>
-                
+
                 <div className="space-y-6">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -494,7 +494,7 @@ export default function DeveloperMarketingPage() {
                       placeholder="e.g., 10"
                     />
                   </div>
-                  
+
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
                       Average Annual Marketing Spend
@@ -505,7 +505,7 @@ export default function DeveloperMarketingPage() {
                       placeholder="e.g., €500,000"
                     />
                   </div>
-                  
+
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
                       Properties Sold Annually
@@ -516,38 +516,38 @@ export default function DeveloperMarketingPage() {
                       placeholder="e.g., 200"
                     />
                   </div>
-                  
+
                   <button className="w-full py-4 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-colors">
                     Calculate Savings
                   </button>
                 </div>
               </div>
-              
+
               <div className="bg-gradient-to-br from-blue-600 to-purple-700 p-8 lg:p-12 text-white">
                 <h3 className="text-2xl font-bold mb-6">Your Estimated Savings</h3>
-                
+
                 <div className="space-y-6">
                   <div className="p-4 bg-white/10 rounded-lg backdrop-blur-sm">
                     <div className="text-sm text-white/80 mb-1">Annual Cost Reduction</div>
                     <div className="text-3xl font-bold">€245,000</div>
                   </div>
-                  
+
                   <div className="p-4 bg-white/10 rounded-lg backdrop-blur-sm">
                     <div className="text-sm text-white/80 mb-1">Increased Revenue</div>
                     <div className="text-3xl font-bold">€380,000</div>
                   </div>
-                  
+
                   <div className="p-4 bg-white/10 rounded-lg backdrop-blur-sm">
                     <div className="text-sm text-white/80 mb-1">Total Annual Benefit</div>
                     <div className="text-3xl font-bold">€625,000</div>
                   </div>
-                  
+
                   <div className="p-4 bg-white/10 rounded-lg backdrop-blur-sm">
                     <div className="text-sm text-white/80 mb-1">ROI in First Year</div>
                     <div className="text-3xl font-bold">385%</div>
                   </div>
                 </div>
-                
+
                 <div className="mt-8 text-sm text-white/80">
                   * Based on average customer results. Your actual results may vary.
                 </div>
@@ -568,9 +568,9 @@ export default function DeveloperMarketingPage() {
               See how leading developers are transforming their sales with PropIE
             </p>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {testimonials.map((testimonial, index) => (
+            {testimonials.map((testimonialindex: any) => (
               <div key={index} className="bg-white rounded-xl shadow-lg p-8">
                 <div className="flex items-start gap-4 mb-6">
                   <div className="w-16 h-16 bg-gray-200 rounded-full flex items-center justify-center">
@@ -583,11 +583,11 @@ export default function DeveloperMarketingPage() {
                     <p className="text-gray-600">{testimonial.role}</p>
                   </div>
                 </div>
-                
+
                 <blockquote className="text-lg text-gray-700 mb-6">
                   "{testimonial.quote}"
                 </blockquote>
-                
+
                 <div className="flex items-center justify-between pt-6 border-t border-gray-100">
                   <span className="text-sm text-gray-500">Key Result</span>
                   <span className="font-semibold text-blue-600">{testimonial.metrics}</span>
@@ -604,12 +604,12 @@ export default function DeveloperMarketingPage() {
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
             Ready to Transform Your Property Marketing?
           </h2>
-          
+
           <p className="text-xl text-white/90 mb-10 max-w-3xl mx-auto">
             Join hundreds of developers who are already saving millions with our 
             AI-powered marketing platform. Start your free trial today.
           </p>
-          
+
           <div className="flex flex-col sm:flex-row justify-center gap-4">
             <Link
               href="/signup"
@@ -626,7 +626,7 @@ export default function DeveloperMarketingPage() {
               Request Demo
             </Link>
           </div>
-          
+
           <div className="mt-12 flex flex-wrap justify-center gap-8 text-white/80">
             <div className="flex items-center gap-2">
               <Shield className="w-5 h-5" />

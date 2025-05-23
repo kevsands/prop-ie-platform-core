@@ -93,7 +93,7 @@ export interface User extends BaseEntity {
   /** Whether the user's phone is verified */
   phoneVerified?: boolean;
   /** AWS Cognito-specific attributes */
-  cognitoAttributes?: Record<string, any>;
+  cognitoAttributes?: Record<string, any>\n  );
 }
 
 /**
@@ -292,7 +292,7 @@ export interface UserSession {
   /** Last active timestamp */
   lastActive?: string;
   /** Device information */
-  device?: Partial<TrustedDevice>;
+  device?: Partial<TrustedDevice>\n  );
   /** IP address */
   ipAddress?: string;
   /** Location information */
@@ -322,9 +322,9 @@ export interface SecurityAuditEvent {
   /** IP address */
   ipAddress?: string;
   /** Device information */
-  device?: Partial<TrustedDevice>;
+  device?: Partial<TrustedDevice>\n  );
   /** Event details */
-  details?: Record<string, any>;
+  details?: Record<string, any>\n  );
   /** Risk level */
   riskLevel?: 'LOW' | 'MEDIUM' | 'HIGH' | 'CRITICAL';
   /** Whether the event requires attention */
@@ -383,7 +383,7 @@ export interface UserActionLog {
   /** Action type */
   actionType: string;
   /** Action details */
-  details?: Record<string, any>;
+  details?: Record<string, any>\n  );
   /** Timestamp */
   timestamp: string;
   /** IP address */

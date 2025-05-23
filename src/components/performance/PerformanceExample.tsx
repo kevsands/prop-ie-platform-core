@@ -13,21 +13,19 @@ import { OptimizedButton, OptimizedCard } from './OptimizedComponent';
  * Example component demonstrating various performance optimizations
  */
 export const PerformanceExample: React.FC = () => {
-  const [count, setCount] = useState(0);
-  const [showPerformanceMonitor, setShowPerformanceMonitor] = useState(false);
-  const [items, setItems] = useState(() => Array.from({ length: 1000 }, (_, i) => ({
+  const [countsetCount] = useState(0);
+  const [showPerformanceMonitorsetShowPerformanceMonitor] = useState(false);
+  const [itemssetItems] = useState(() => Array.from({ length: 1000 }, (_i: any) => ({
     id: i,
     name: `Item ${i}`,
-    description: `This is item number ${i} in the list.`,
-  })));
+    description: `This is item number ${i} in the list.`})));
 
   // Use performance monitor hook to track metrics
   const { metrics, refreshMetrics } = usePerformanceMonitor({
     enabled: true,
     trackWebVitals: true,
     trackMemory: true,
-    trackEventLoop: true,
-  });
+    trackEventLoop: true});
 
   // Use the performance hook for this component
   const { measureRender } = usePerformanceMonitoring('PerformanceExample', { trackReRenders: true });
@@ -35,9 +33,9 @@ export const PerformanceExample: React.FC = () => {
 
   // Create an expensive calculation that will be memoized
   const expensiveCalculation = React.useMemo(() => {
-    console.log('Running expensive calculation');
+
     let result = 0;
-    for (let i = 0; i < 1000000; i++) {
+    for (let i = 0; i <1000000; i++) {
       result += Math.random();
     }
     return result / 1000000;
@@ -49,10 +47,8 @@ export const PerformanceExample: React.FC = () => {
       {
         id: prev.length,
         name: `Item ${prev.length}`,
-        description: `This is a new item that was just added.`,
-      },
-      ...prev,
-    ]);
+        description: `This is a new item that was just added.`},
+      ...prev]);
   };
 
   // Render function for virtualized list items
@@ -73,7 +69,7 @@ export const PerformanceExample: React.FC = () => {
       <div className="mb-6">
         <h2 className="text-xl font-semibold mb-2">Current Metrics</h2>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
-          {Object.entries(metrics).map(([key, metric]) => (
+          {Object.entries(metrics).map(([keymetric]) => (
             <div key={key} className="bg-white shadow rounded-lg p-3">
               <div className="text-xs text-gray-500">{metric.name}</div>
               <div className="text-lg font-bold">
@@ -172,5 +168,4 @@ export const PerformanceExample: React.FC = () => {
 export default optimizeComponent(PerformanceExample, {
   memoize: true,
   trackPerformance: true,
-  displayName: 'PerformanceExample',
-});
+  displayName: 'PerformanceExample'});

@@ -1,0 +1,1690 @@
+[
+  {
+    "filePath": "src/app/api/transactions/[id]/documents/route.ts",
+    "lineNum": 6,
+    "colNum": 24,
+    "errorMessage": "error TS2305: Module '\"@prisma/client\"' has no exported member 'DocumentCategory'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/app/api/transactions/[id]/documents/route.ts",
+    "lineNum": 6,
+    "colNum": 42,
+    "errorMessage": "error TS2305: Module '\"@prisma/client\"' has no exported member 'DocumentStatus'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/app/architect/dashboard/page.tsx",
+    "lineNum": 6,
+    "colNum": 3,
+    "errorMessage": "error TS2305: Module '\"lucide-react\"' has no exported member 'DraftingCompass'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/app/buyer/booking/page.tsx",
+    "lineNum": 4,
+    "colNum": 18,
+    "errorMessage": "error TS2305: Module '\"framer-motion\"' has no exported member 'AnimatePresence'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/app/buyer/booking/page.tsx",
+    "lineNum": 4,
+    "colNum": 35,
+    "errorMessage": "error TS2305: Module '\"framer-motion\"' has no exported member 'useScroll'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/app/buyer/booking/page.tsx",
+    "lineNum": 4,
+    "colNum": 46,
+    "errorMessage": "error TS2305: Module '\"framer-motion\"' has no exported member 'useTransform'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/app/buyer/booking/page.tsx",
+    "lineNum": 4,
+    "colNum": 60,
+    "errorMessage": "error TS2305: Module '\"framer-motion\"' has no exported member 'useInView'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/app/buyer/contracts/page.tsx",
+    "lineNum": 6,
+    "colNum": 18,
+    "errorMessage": "error TS2305: Module '\"framer-motion\"' has no exported member 'AnimatePresence'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/app/buyer/mortgage/page.tsx",
+    "lineNum": 6,
+    "colNum": 18,
+    "errorMessage": "error TS2305: Module '\"framer-motion\"' has no exported member 'AnimatePresence'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/app/buyer/offers/page.tsx",
+    "lineNum": 6,
+    "colNum": 18,
+    "errorMessage": "error TS2305: Module '\"framer-motion\"' has no exported member 'AnimatePresence'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/app/buyer/profile/page.tsx",
+    "lineNum": 4,
+    "colNum": 18,
+    "errorMessage": "error TS2305: Module '\"framer-motion\"' has no exported member 'AnimatePresence'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/app/buyer/viewings/page.tsx",
+    "lineNum": 6,
+    "colNum": 18,
+    "errorMessage": "error TS2305: Module '\"framer-motion\"' has no exported member 'AnimatePresence'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/app/demo/transaction-flow/page.tsx",
+    "lineNum": 26,
+    "colNum": 10,
+    "errorMessage": "error TS2614: Module '\"@/services/notificationService\"' has no exported member 'notificationService'. Did you mean to use 'import notificationService from \"@/services/notificationService\"' instead?",
+    "errorCode": "TS2614",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/app/developer/analytics/page.tsx",
+    "lineNum": 12,
+    "colNum": 3,
+    "errorMessage": "error TS2305: Module '\"lucide-react\"' has no exported member 'ChartBar'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/app/developer/onboarding/team-setup/page.tsx",
+    "lineNum": 5,
+    "colNum": 18,
+    "errorMessage": "error TS2305: Module '\"framer-motion\"' has no exported member 'AnimatePresence'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/app/project-management/[id]/slp/page.tsx",
+    "lineNum": 37,
+    "colNum": 20,
+    "errorMessage": "error TS2305: Module '\"@tanstack/react-query\"' has no exported member 'useMutation'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/app/project-management/[id]/slp/page.tsx",
+    "lineNum": 37,
+    "colNum": 33,
+    "errorMessage": "error TS2305: Module '\"@tanstack/react-query\"' has no exported member 'useQueryClient'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/app/project-management/page.tsx",
+    "lineNum": 17,
+    "colNum": 3,
+    "errorMessage": "error TS2305: Module '\"@/components/ui/table\"' has no exported member 'TableCaption'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/app/properties/[id]/reserve/page.tsx",
+    "lineNum": 5,
+    "colNum": 20,
+    "errorMessage": "error TS2305: Module '\"@tanstack/react-query\"' has no exported member 'useMutation'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/app/properties/[id]/viewing/page.tsx",
+    "lineNum": 13,
+    "colNum": 10,
+    "errorMessage": "error TS2305: Module '\"@/types/property\"' has no exported member 'Property'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/app/Providers.tsx",
+    "lineNum": 4,
+    "colNum": 10,
+    "errorMessage": "error TS2305: Module '\"@tanstack/react-query\"' has no exported member 'QueryClient'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/app/Providers.tsx",
+    "lineNum": 4,
+    "colNum": 23,
+    "errorMessage": "error TS2305: Module '\"@tanstack/react-query\"' has no exported member 'QueryClientProvider'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/app/register/investor/page.tsx",
+    "lineNum": 13,
+    "colNum": 18,
+    "errorMessage": "error TS2305: Module '\"framer-motion\"' has no exported member 'AnimatePresence'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/app/register/professional/page.tsx",
+    "lineNum": 13,
+    "colNum": 18,
+    "errorMessage": "error TS2305: Module '\"framer-motion\"' has no exported member 'AnimatePresence'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/app/resources/buy-off-plan/page.tsx",
+    "lineNum": 15,
+    "colNum": 18,
+    "errorMessage": "error TS2305: Module '\"framer-motion\"' has no exported member 'AnimatePresence'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/app/solutions/developers/sales/page.tsx",
+    "lineNum": 140,
+    "colNum": 3,
+    "errorMessage": "error TS2305: Module '\"lucide-react\"' has no exported member 'Handshake'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/app/solutions/estate-agents/page.tsx",
+    "lineNum": 14,
+    "colNum": 18,
+    "errorMessage": "error TS2305: Module '\"framer-motion\"' has no exported member 'AnimatePresence'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/app/solutions/professional-investors/page.tsx",
+    "lineNum": 15,
+    "colNum": 18,
+    "errorMessage": "error TS2305: Module '\"framer-motion\"' has no exported member 'AnimatePresence'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/app/test-deployment/page.tsx",
+    "lineNum": 6,
+    "colNum": 55,
+    "errorMessage": "error TS2305: Module '\"lucide-react\"' has no exported member 'LockKeyhole'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/components/3d/RoomVisualizer.old.tsx",
+    "lineNum": 6,
+    "colNum": 38,
+    "errorMessage": "error TS2305: Module '\"@react-three/fiber\"' has no exported member 'ThreeElements'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/components/3d/RoomVisualizer.old.tsx",
+    "lineNum": 6,
+    "colNum": 53,
+    "errorMessage": "error TS2305: Module '\"@react-three/fiber\"' has no exported member 'extend'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/components/about/Hero.tsx",
+    "lineNum": 5,
+    "colNum": 18,
+    "errorMessage": "error TS2305: Module '\"framer-motion\"' has no exported member 'MotionStyle'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/components/about/Hero.tsx",
+    "lineNum": 5,
+    "colNum": 31,
+    "errorMessage": "error TS2305: Module '\"framer-motion\"' has no exported member 'Variants'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/components/about/Hero.tsx",
+    "lineNum": 5,
+    "colNum": 41,
+    "errorMessage": "error TS2305: Module '\"framer-motion\"' has no exported member 'Transition'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/components/about/Timeline.tsx",
+    "lineNum": 4,
+    "colNum": 18,
+    "errorMessage": "error TS2305: Module '\"framer-motion\"' has no exported member 'useInView'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/components/about/Timeline.tsx",
+    "lineNum": 4,
+    "colNum": 29,
+    "errorMessage": "error TS2305: Module '\"framer-motion\"' has no exported member 'useAnimation'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/components/ai/PlatformAssistant.tsx",
+    "lineNum": 4,
+    "colNum": 18,
+    "errorMessage": "error TS2305: Module '\"framer-motion\"' has no exported member 'AnimatePresence'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/components/AppProvider.tsx",
+    "lineNum": 4,
+    "colNum": 10,
+    "errorMessage": "error TS2305: Module '\"@tanstack/react-query\"' has no exported member 'QueryClientProvider'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/components/AuthProvider.tsx",
+    "lineNum": 5,
+    "colNum": 10,
+    "errorMessage": "error TS2305: Module '\"../lib/auth\"' has no exported member 'authService'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/components/AuthProvider.tsx",
+    "lineNum": 5,
+    "colNum": 23,
+    "errorMessage": "error TS2305: Module '\"../lib/auth\"' has no exported member 'User'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/components/AuthProvider.tsx",
+    "lineNum": 5,
+    "colNum": 29,
+    "errorMessage": "error TS2305: Module '\"../lib/auth\"' has no exported member 'AuthResponse'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/components/ClientProviders.tsx",
+    "lineNum": 4,
+    "colNum": 10,
+    "errorMessage": "error TS2305: Module '\"@tanstack/react-query\"' has no exported member 'QueryClient'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/components/ClientProviders.tsx",
+    "lineNum": 4,
+    "colNum": 23,
+    "errorMessage": "error TS2305: Module '\"@tanstack/react-query\"' has no exported member 'QueryClientProvider'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/components/collaboration/DrawingManager.tsx",
+    "lineNum": 12,
+    "colNum": 10,
+    "errorMessage": "error TS2305: Module '\"@/types/collaboration\"' has no exported member 'DialogDrawing'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/components/collaboration/ModelViewer.tsx",
+    "lineNum": 24,
+    "colNum": 25,
+    "errorMessage": "error TS2305: Module '\"@react-three/drei\"' has no exported member 'Grid'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/components/collaboration/ModelViewer.tsx",
+    "lineNum": 24,
+    "colNum": 44,
+    "errorMessage": "error TS2305: Module '\"@react-three/drei\"' has no exported member 'Box'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/components/collaboration/ProjectDashboard.tsx",
+    "lineNum": 9,
+    "colNum": 10,
+    "errorMessage": "error TS2305: Module '\"@/types/collaboration\"' has no exported member 'DialogCollaborationProject'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/components/collaboration/ProjectDashboard.tsx",
+    "lineNum": 9,
+    "colNum": 38,
+    "errorMessage": "error TS2305: Module '\"@/types/collaboration\"' has no exported member 'DialogTask'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/components/collaboration/ProjectDashboard.tsx",
+    "lineNum": 9,
+    "colNum": 50,
+    "errorMessage": "error TS2305: Module '\"@/types/collaboration\"' has no exported member 'DialogDrawing'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/components/collaboration/TaskBoard.tsx",
+    "lineNum": 14,
+    "colNum": 10,
+    "errorMessage": "error TS2305: Module '\"@/types/collaboration\"' has no exported member 'DialogTask'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/components/dashboard/DashboardGrid.tsx",
+    "lineNum": 4,
+    "colNum": 18,
+    "errorMessage": "error TS2305: Module '\"framer-motion\"' has no exported member 'AnimatePresence'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/components/dashboard/DeveloperDashboard.tsx",
+    "lineNum": 27,
+    "colNum": 3,
+    "errorMessage": "error TS2305: Module '\"@heroicons/react/24/outline\"' has no exported member 'BuildingIcon'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/components/dashboard/UnifiedDashboard.tsx",
+    "lineNum": 6,
+    "colNum": 10,
+    "errorMessage": "error TS2614: Module '\"@/components/transaction/TransactionFlow\"' has no exported member 'TransactionFlow'. Did you mean to use 'import TransactionFlow from \"@/components/transaction/TransactionFlow\"' instead?",
+    "errorCode": "TS2614",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/components/developer/projects/create/AIProjectAssistant.tsx",
+    "lineNum": 10,
+    "colNum": 18,
+    "errorMessage": "error TS2305: Module '\"framer-motion\"' has no exported member 'AnimatePresence'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/components/document/DocumentManager.tsx",
+    "lineNum": 11,
+    "colNum": 10,
+    "errorMessage": "error TS2305: Module '\"../ui/spinner\"' has no exported member 'LoadingSpinner'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/components/EnterpriseNavigation.tsx",
+    "lineNum": 21,
+    "colNum": 18,
+    "errorMessage": "error TS2305: Module '\"framer-motion\"' has no exported member 'AnimatePresence'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/components/examples/GraphQLExample.tsx",
+    "lineNum": 15,
+    "colNum": 10,
+    "errorMessage": "error TS2305: Module '\"@tanstack/react-query\"' has no exported member 'useQueryClient'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/components/examples/GraphQLExample.tsx",
+    "lineNum": 16,
+    "colNum": 10,
+    "errorMessage": "error TS2305: Module '\"@tanstack/react-query\"' has no exported member 'useMutation'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/components/finance/ProfitabilityAnalysis.tsx",
+    "lineNum": 46,
+    "colNum": 3,
+    "errorMessage": "error TS2305: Module '\"@/components/ui/table\"' has no exported member 'TableCaption'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/components/layout/Header.tsx",
+    "lineNum": 4,
+    "colNum": 10,
+    "errorMessage": "error TS2614: Module '\"../ui/NotificationCenter\"' has no exported member 'NotificationCenter'. Did you mean to use 'import NotificationCenter from \"../ui/NotificationCenter\"' instead?",
+    "errorCode": "TS2614",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/components/layout/PlatformShell.tsx",
+    "lineNum": 6,
+    "colNum": 18,
+    "errorMessage": "error TS2305: Module '\"framer-motion\"' has no exported member 'AnimatePresence'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/components/liquidity-pools/IrishPropertyPools.tsx",
+    "lineNum": 4,
+    "colNum": 18,
+    "errorMessage": "error TS2305: Module '\"framer-motion\"' has no exported member 'AnimatePresence'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/components/navigation/RevolutionaryNavigation.tsx",
+    "lineNum": 13,
+    "colNum": 18,
+    "errorMessage": "error TS2305: Module '\"framer-motion\"' has no exported member 'AnimatePresence'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/components/navigation/UltraModernNavigation.tsx",
+    "lineNum": 14,
+    "colNum": 18,
+    "errorMessage": "error TS2305: Module '\"framer-motion\"' has no exported member 'AnimatePresence'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/components/navigation/UltraModernNavigation.tsx",
+    "lineNum": 14,
+    "colNum": 35,
+    "errorMessage": "error TS2305: Module '\"framer-motion\"' has no exported member 'useScroll'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/components/navigation/UltraModernNavigation.tsx",
+    "lineNum": 14,
+    "colNum": 46,
+    "errorMessage": "error TS2305: Module '\"framer-motion\"' has no exported member 'useTransform'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/components/NotificationCenter.tsx",
+    "lineNum": 4,
+    "colNum": 10,
+    "errorMessage": "error TS2305: Module '\"@tanstack/react-query\"' has no exported member 'useQueryClient'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/components/NotificationCenter.tsx",
+    "lineNum": 4,
+    "colNum": 36,
+    "errorMessage": "error TS2305: Module '\"@tanstack/react-query\"' has no exported member 'useMutation'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/components/performance/PerformanceMonitor.tsx",
+    "lineNum": 4,
+    "colNum": 10,
+    "errorMessage": "error TS2305: Module '\"../ui/chart\"' has no exported member 'Chart'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/components/properties/ComparePropertiesPanel.tsx",
+    "lineNum": 5,
+    "colNum": 18,
+    "errorMessage": "error TS2305: Module '\"framer-motion\"' has no exported member 'AnimatePresence'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/components/properties/ComparePropertiesPanel.tsx",
+    "lineNum": 28,
+    "colNum": 10,
+    "errorMessage": "error TS2305: Module '\"@/types/property\"' has no exported member 'Property'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/components/properties/PropertyListView.tsx",
+    "lineNum": 4,
+    "colNum": 18,
+    "errorMessage": "error TS2305: Module '\"framer-motion\"' has no exported member 'AnimatePresence'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/components/properties/PropertyListView.tsx",
+    "lineNum": 15,
+    "colNum": 3,
+    "errorMessage": "error TS2305: Module '\"@heroicons/react/24/outline\"' has no exported member 'CarIcon'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/components/properties/PropertyListView.tsx",
+    "lineNum": 37,
+    "colNum": 10,
+    "errorMessage": "error TS2305: Module '\"@/types/property\"' has no exported member 'Property'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/components/properties/PropertyMapView.tsx",
+    "lineNum": 4,
+    "colNum": 10,
+    "errorMessage": "error TS2305: Module '\"@/types/property\"' has no exported member 'Property'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/components/security/SecurityMonitoringDashboard.tsx",
+    "lineNum": 13,
+    "colNum": 28,
+    "errorMessage": "error TS2305: Module '\"../ui/table\"' has no exported member 'TableCaption'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/components/ui/GraphQLProvider.tsx",
+    "lineNum": 4,
+    "colNum": 10,
+    "errorMessage": "error TS2305: Module '\"@tanstack/react-query\"' has no exported member 'QueryClient'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/components/ui/GraphQLProvider.tsx",
+    "lineNum": 4,
+    "colNum": 23,
+    "errorMessage": "error TS2305: Module '\"@tanstack/react-query\"' has no exported member 'QueryClientProvider'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/components/ui/toast.tsx",
+    "lineNum": 5,
+    "colNum": 18,
+    "errorMessage": "error TS2305: Module '\"framer-motion\"' has no exported member 'AnimatePresence'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/examples/component-graphql-integration.tsx",
+    "lineNum": 6,
+    "colNum": 10,
+    "errorMessage": "error TS2614: Module '\"@/components/finance/FinancialChart\"' has no exported member 'FinancialChart'. Did you mean to use 'import FinancialChart from \"@/components/finance/FinancialChart\"' instead?",
+    "errorCode": "TS2614",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/examples/component-graphql-integration.tsx",
+    "lineNum": 7,
+    "colNum": 10,
+    "errorMessage": "error TS2614: Module '\"@/components/finance/CashFlowSummaryCard\"' has no exported member 'CashFlowSummaryCard'. Did you mean to use 'import CashFlowSummaryCard from \"@/components/finance/CashFlowSummaryCard\"' instead?",
+    "errorCode": "TS2614",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/examples/component-graphql-integration.tsx",
+    "lineNum": 8,
+    "colNum": 10,
+    "errorMessage": "error TS2614: Module '\"@/components/finance/BudgetVsActualCard\"' has no exported member 'BudgetVsActualCard'. Did you mean to use 'import BudgetVsActualCard from \"@/components/finance/BudgetVsActualCard\"' instead?",
+    "errorCode": "TS2614",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/examples/component-graphql-integration.tsx",
+    "lineNum": 9,
+    "colNum": 10,
+    "errorMessage": "error TS2614: Module '\"@/components/finance/FinancialMetricCard\"' has no exported member 'FinancialMetricCard'. Did you mean to use 'import FinancialMetricCard from \"@/components/finance/FinancialMetricCard\"' instead?",
+    "errorCode": "TS2614",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/examples/document-graphql-integration.tsx",
+    "lineNum": 4,
+    "colNum": 10,
+    "errorMessage": "error TS2305: Module '\"@tanstack/react-query\"' has no exported member 'QueryClientProvider'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/examples/performance-optimization-examples.tsx",
+    "lineNum": 12,
+    "colNum": 20,
+    "errorMessage": "error TS2305: Module '\"@tanstack/react-query\"' has no exported member 'useMutation'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/examples/performance-optimization-examples.tsx",
+    "lineNum": 14,
+    "colNum": 23,
+    "errorMessage": "error TS2614: Module '\"../utils/queryClient\"' has no exported member 'QUERY_KEYS'. Did you mean to use 'import QUERY_KEYS from \"../utils/queryClient\"' instead?",
+    "errorCode": "TS2614",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/examples/performance-optimization-examples.tsx",
+    "lineNum": 14,
+    "colNum": 35,
+    "errorMessage": "error TS2614: Module '\"../utils/queryClient\"' has no exported member 'createOptimisticHelpers'. Did you mean to use 'import createOptimisticHelpers from \"../utils/queryClient\"' instead?",
+    "errorCode": "TS2614",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/examples/typed-component-example.tsx",
+    "lineNum": 10,
+    "colNum": 3,
+    "errorMessage": "error TS2305: Module '\"../types/models\"' has no exported member 'User'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/examples/typed-component-example.tsx",
+    "lineNum": 11,
+    "colNum": 3,
+    "errorMessage": "error TS2305: Module '\"../types/models\"' has no exported member 'UserStatus'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/examples/typed-component-example.tsx",
+    "lineNum": 12,
+    "colNum": 3,
+    "errorMessage": "error TS2305: Module '\"../types/models\"' has no exported member 'UserRole'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/examples/typed-component-example.tsx",
+    "lineNum": 15,
+    "colNum": 3,
+    "errorMessage": "error TS2305: Module '\"../types/models\"' has no exported member 'isUser'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/examples/typed-component-example.tsx",
+    "lineNum": 16,
+    "colNum": 3,
+    "errorMessage": "error TS2305: Module '\"../types/models\"' has no exported member 'assertUser'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/examples/typed-component-example.tsx",
+    "lineNum": 19,
+    "colNum": 3,
+    "errorMessage": "error TS2305: Module '\"../types/api\"' has no exported member 'ApiResponse'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/examples/typed-component-example.tsx",
+    "lineNum": 20,
+    "colNum": 3,
+    "errorMessage": "error TS2305: Module '\"../types/api\"' has no exported member 'GraphQLResponse'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/examples/typed-component-example.tsx",
+    "lineNum": 21,
+    "colNum": 3,
+    "errorMessage": "error TS2305: Module '\"../types/api\"' has no exported member 'ApiError'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/examples/typed-component-example.tsx",
+    "lineNum": 22,
+    "colNum": 3,
+    "errorMessage": "error TS2305: Module '\"../types/api\"' has no exported member 'isApiError'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/examples/typed-component-example.tsx",
+    "lineNum": 23,
+    "colNum": 3,
+    "errorMessage": "error TS2305: Module '\"../types/api\"' has no exported member 'ErrorCode'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/examples/typed-hook-example.ts",
+    "lineNum": 10,
+    "colNum": 3,
+    "errorMessage": "error TS2305: Module '\"../types/models\"' has no exported member 'User'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/examples/typed-hook-example.ts",
+    "lineNum": 12,
+    "colNum": 3,
+    "errorMessage": "error TS2305: Module '\"../types/models\"' has no exported member 'PropertySearchParams'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/examples/typed-hook-example.ts",
+    "lineNum": 16,
+    "colNum": 3,
+    "errorMessage": "error TS2305: Module '\"../types/api\"' has no exported member 'ApiResponse'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/examples/typed-hook-example.ts",
+    "lineNum": 18,
+    "colNum": 3,
+    "errorMessage": "error TS2305: Module '\"../types/api\"' has no exported member 'isApiError'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/examples/typed-hook-example.ts",
+    "lineNum": 19,
+    "colNum": 3,
+    "errorMessage": "error TS2305: Module '\"../types/api\"' has no exported member 'ErrorCode'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/features/auth/AuthenticationFlow.tsx",
+    "lineNum": 4,
+    "colNum": 18,
+    "errorMessage": "error TS2305: Module '\"framer-motion\"' has no exported member 'AnimatePresence'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/features/buyer-journey/BuyerJourneyManager.tsx",
+    "lineNum": 12,
+    "colNum": 10,
+    "errorMessage": "error TS2305: Module '\"@/types/buyer-journey\"' has no exported member 'JourneyStage'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/features/compliance/RegulatoryReportingSystem.tsx",
+    "lineNum": 20,
+    "colNum": 18,
+    "errorMessage": "error TS2305: Module '\"framer-motion\"' has no exported member 'AnimatePresence'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/features/messaging/MessagingCenter.tsx",
+    "lineNum": 4,
+    "colNum": 18,
+    "errorMessage": "error TS2305: Module '\"framer-motion\"' has no exported member 'AnimatePresence'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/features/mortgage-calculator/MortgageCalculator.tsx",
+    "lineNum": 57,
+    "colNum": 18,
+    "errorMessage": "error TS2305: Module '\"framer-motion\"' has no exported member 'AnimatePresence'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/features/notifications/NotificationCenter.tsx",
+    "lineNum": 4,
+    "colNum": 18,
+    "errorMessage": "error TS2305: Module '\"framer-motion\"' has no exported member 'AnimatePresence'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/features/properties/PropertyDetailView.tsx",
+    "lineNum": 4,
+    "colNum": 18,
+    "errorMessage": "error TS2305: Module '\"framer-motion\"' has no exported member 'AnimatePresence'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/features/properties/PropertyDocuments.tsx",
+    "lineNum": 4,
+    "colNum": 18,
+    "errorMessage": "error TS2305: Module '\"framer-motion\"' has no exported member 'AnimatePresence'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/features/properties/PropertyImageGallery.tsx",
+    "lineNum": 4,
+    "colNum": 18,
+    "errorMessage": "error TS2305: Module '\"framer-motion\"' has no exported member 'AnimatePresence'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/features/properties/PropertyListingGrid.tsx",
+    "lineNum": 4,
+    "colNum": 18,
+    "errorMessage": "error TS2305: Module '\"framer-motion\"' has no exported member 'AnimatePresence'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/features/properties/PropertyMap.tsx",
+    "lineNum": 7,
+    "colNum": 3,
+    "errorMessage": "error TS2305: Module '\"@heroicons/react/24/outline\"' has no exported member 'TrainIcon'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/features/property-alerts/PropertyAlertsManager.tsx",
+    "lineNum": 17,
+    "colNum": 20,
+    "errorMessage": "error TS2305: Module '\"@tanstack/react-query\"' has no exported member 'useMutation'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/features/property-alerts/PropertyAlertsManager.tsx",
+    "lineNum": 17,
+    "colNum": 33,
+    "errorMessage": "error TS2305: Module '\"@tanstack/react-query\"' has no exported member 'useQueryClient'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/features/property-alerts/PropertyAlertsManager.tsx",
+    "lineNum": 64,
+    "colNum": 18,
+    "errorMessage": "error TS2305: Module '\"framer-motion\"' has no exported member 'AnimatePresence'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/features/property-analytics/PropertyAnalyticsDashboard.tsx",
+    "lineNum": 76,
+    "colNum": 18,
+    "errorMessage": "error TS2305: Module '\"framer-motion\"' has no exported member 'AnimatePresence'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/features/security/AccessControlManagement.tsx",
+    "lineNum": 56,
+    "colNum": 3,
+    "errorMessage": "error TS2305: Module '\"recharts\"' has no exported member 'TreeDataNode'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/features/security/AccessControlManagement.tsx",
+    "lineNum": 57,
+    "colNum": 3,
+    "errorMessage": "error TS2305: Module '\"recharts\"' has no exported member 'Tree'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/features/security/AccessControlManagement.tsx",
+    "lineNum": 58,
+    "colNum": 3,
+    "errorMessage": "error TS2305: Module '\"recharts\"' has no exported member 'Sunburst'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/features/security/RuntimeSecurityMonitor.tsx",
+    "lineNum": 4,
+    "colNum": 18,
+    "errorMessage": "error TS2305: Module '\"framer-motion\"' has no exported member 'AnimatePresence'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/features/transactions/TransactionCoordinator.tsx",
+    "lineNum": 4,
+    "colNum": 18,
+    "errorMessage": "error TS2305: Module '\"framer-motion\"' has no exported member 'AnimatePresence'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/features/transactions/TransactionDocuments.tsx",
+    "lineNum": 4,
+    "colNum": 18,
+    "errorMessage": "error TS2305: Module '\"framer-motion\"' has no exported member 'AnimatePresence'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/features/viewing-history/ViewingHistory.tsx",
+    "lineNum": 44,
+    "colNum": 18,
+    "errorMessage": "error TS2305: Module '\"framer-motion\"' has no exported member 'AnimatePresence'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/features/viewing-scheduler/ViewingScheduler.tsx",
+    "lineNum": 40,
+    "colNum": 10,
+    "errorMessage": "error TS2305: Module '\"@/types/property\"' has no exported member 'Property'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/features/viewing-scheduler/ViewingScheduler.tsx",
+    "lineNum": 41,
+    "colNum": 18,
+    "errorMessage": "error TS2305: Module '\"framer-motion\"' has no exported member 'AnimatePresence'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/features/virtual-viewing/VirtualViewing.tsx",
+    "lineNum": 10,
+    "colNum": 10,
+    "errorMessage": "error TS2305: Module '\"@/types/property\"' has no exported member 'Property'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/features/virtual-viewing/VirtualViewing.tsx",
+    "lineNum": 11,
+    "colNum": 18,
+    "errorMessage": "error TS2305: Module '\"framer-motion\"' has no exported member 'AnimatePresence'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/hooks/api/useAuth.ts",
+    "lineNum": 17,
+    "colNum": 10,
+    "errorMessage": "error TS2305: Module '\"@tanstack/react-query\"' has no exported member 'useQueryClient'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/hooks/api/useDeveloperDashboard.ts",
+    "lineNum": 13,
+    "colNum": 15,
+    "errorMessage": "error TS2305: Module '\"@tanstack/react-query\"' has no exported member 'QueryOptions'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/hooks/api/useDeveloperDashboardData.ts",
+    "lineNum": 11,
+    "colNum": 15,
+    "errorMessage": "error TS2305: Module '\"@tanstack/react-query\"' has no exported member 'QueryOptions'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/hooks/api/useDevelopmentMutations.ts",
+    "lineNum": 4,
+    "colNum": 10,
+    "errorMessage": "error TS2305: Module '\"@tanstack/react-query\"' has no exported member 'useQueryClient'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/hooks/api/useDevelopmentMutations.ts",
+    "lineNum": 5,
+    "colNum": 15,
+    "errorMessage": "error TS2305: Module '\"@tanstack/react-query\"' has no exported member 'MutationOptions'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/hooks/api/useDevelopments.ts",
+    "lineNum": 4,
+    "colNum": 15,
+    "errorMessage": "error TS2305: Module '\"@tanstack/react-query\"' has no exported member 'QueryOptions'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/hooks/api/useGraphQLMutations.ts",
+    "lineNum": 10,
+    "colNum": 15,
+    "errorMessage": "error TS2305: Module '\"@tanstack/react-query\"' has no exported member 'UseMutationOptions'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/hooks/api/useGraphQLQueries.ts",
+    "lineNum": 10,
+    "colNum": 10,
+    "errorMessage": "error TS2305: Module '\"@tanstack/react-query\"' has no exported member 'UseQueryOptions'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/hooks/api/useGraphQLQueries.ts",
+    "lineNum": 11,
+    "colNum": 27,
+    "errorMessage": "error TS2614: Module '\"../useGraphQL\"' has no exported member 'GraphQLResult'. Did you mean to use 'import GraphQLResult from \"../useGraphQL\"' instead?",
+    "errorCode": "TS2614",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/hooks/use-query-example.tsx",
+    "lineNum": 12,
+    "colNum": 10,
+    "errorMessage": "error TS2305: Module '\"@tanstack/react-query\"' has no exported member 'useQueryClient'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/hooks/use-query-example.tsx",
+    "lineNum": 13,
+    "colNum": 20,
+    "errorMessage": "error TS2305: Module '\"@tanstack/react-query\"' has no exported member 'useMutation'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/hooks/useBuyerAPI.ts",
+    "lineNum": 8,
+    "colNum": 10,
+    "errorMessage": "error TS2305: Module '\"@tanstack/react-query\"' has no exported member 'useMutation'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/hooks/useBuyerAPI.ts",
+    "lineNum": 9,
+    "colNum": 15,
+    "errorMessage": "error TS2305: Module '\"@tanstack/react-query\"' has no exported member 'UseMutationOptions'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/hooks/useBuyerAPI.ts",
+    "lineNum": 9,
+    "colNum": 35,
+    "errorMessage": "error TS2305: Module '\"@tanstack/react-query\"' has no exported member 'UseQueryOptions'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/hooks/useBuyerJourney.ts",
+    "lineNum": 7,
+    "colNum": 25,
+    "errorMessage": "error TS2305: Module '\"../types/models\"' has no exported member 'Offer'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/hooks/useDashboard.ts",
+    "lineNum": 4,
+    "colNum": 15,
+    "errorMessage": "error TS2305: Module '\"@tanstack/react-query\"' has no exported member 'UseQueryOptions'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/hooks/useDashboard.ts",
+    "lineNum": 5,
+    "colNum": 15,
+    "errorMessage": "error TS2305: Module '\"@tanstack/react-query\"' has no exported member 'QueryKey'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/hooks/useDeveloperDashboard.ts",
+    "lineNum": 4,
+    "colNum": 10,
+    "errorMessage": "error TS2305: Module '\"@tanstack/react-query\"' has no exported member 'QueryOptions'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/hooks/useDocuments.ts",
+    "lineNum": 3,
+    "colNum": 3,
+    "errorMessage": "error TS2305: Module '\"@tanstack/react-query\"' has no exported member 'useMutation'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/hooks/useDocuments.ts",
+    "lineNum": 4,
+    "colNum": 3,
+    "errorMessage": "error TS2305: Module '\"@tanstack/react-query\"' has no exported member 'useQueryClient'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/hooks/useDocuments.ts",
+    "lineNum": 5,
+    "colNum": 3,
+    "errorMessage": "error TS2305: Module '\"@tanstack/react-query\"' has no exported member 'UseQueryResult'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/hooks/useDocuments.ts",
+    "lineNum": 6,
+    "colNum": 3,
+    "errorMessage": "error TS2305: Module '\"@tanstack/react-query\"' has no exported member 'UseMutationResult'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/hooks/useGraphQL.ts",
+    "lineNum": 4,
+    "colNum": 20,
+    "errorMessage": "error TS2305: Module '\"@tanstack/react-query\"' has no exported member 'useMutation'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/hooks/useGraphQL.ts",
+    "lineNum": 5,
+    "colNum": 15,
+    "errorMessage": "error TS2305: Module '\"@tanstack/react-query\"' has no exported member 'UseQueryOptions'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/hooks/useGraphQL.ts",
+    "lineNum": 5,
+    "colNum": 32,
+    "errorMessage": "error TS2305: Module '\"@tanstack/react-query\"' has no exported member 'UseMutationOptions'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/hooks/useGraphQL.ts",
+    "lineNum": 7,
+    "colNum": 3,
+    "errorMessage": "error TS2305: Module '\"@tanstack/react-query\"' has no exported member 'QueryKey'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/hooks/useGraphQL.ts",
+    "lineNum": 8,
+    "colNum": 3,
+    "errorMessage": "error TS2305: Module '\"@tanstack/react-query\"' has no exported member 'QueryObserverOptions'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/hooks/useGraphQL.ts",
+    "lineNum": 9,
+    "colNum": 3,
+    "errorMessage": "error TS2305: Module '\"@tanstack/react-query\"' has no exported member 'MutationObserverOptions'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/hooks/useGraphQLMutations.ts",
+    "lineNum": 4,
+    "colNum": 10,
+    "errorMessage": "error TS2305: Module '\"@tanstack/react-query\"' has no exported member 'QueryClient'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/hooks/useGraphQLQueries.ts",
+    "lineNum": 4,
+    "colNum": 15,
+    "errorMessage": "error TS2305: Module '\"@tanstack/react-query\"' has no exported member 'QueryKey'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/hooks/usePropertyAlerts.ts",
+    "lineNum": 2,
+    "colNum": 20,
+    "errorMessage": "error TS2305: Module '\"@tanstack/react-query\"' has no exported member 'useMutation'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/hooks/usePropertyAlerts.ts",
+    "lineNum": 2,
+    "colNum": 33,
+    "errorMessage": "error TS2305: Module '\"@tanstack/react-query\"' has no exported member 'useQueryClient'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/hooks/usePropertySearch.ts",
+    "lineNum": 5,
+    "colNum": 10,
+    "errorMessage": "error TS2305: Module '\"@/types/property\"' has no exported member 'Property'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/hooks/useViewingSchedule.ts",
+    "lineNum": 2,
+    "colNum": 20,
+    "errorMessage": "error TS2305: Module '\"@tanstack/react-query\"' has no exported member 'useMutation'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/hooks/useViewingSchedule.ts",
+    "lineNum": 2,
+    "colNum": 33,
+    "errorMessage": "error TS2305: Module '\"@tanstack/react-query\"' has no exported member 'useQueryClient'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/lib/amplify-client.ts",
+    "lineNum": 18,
+    "colNum": 10,
+    "errorMessage": "error TS2614: Module '\"./amplify/storage\"' has no exported member 'Storage'. Did you mean to use 'import Storage from \"./amplify/storage\"' instead?",
+    "errorCode": "TS2614",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/lib/amplify/analytics-adapter.ts",
+    "lineNum": 13,
+    "colNum": 3,
+    "errorMessage": "error TS2305: Module '\"aws-amplify/analytics\"' has no exported member 'updateEndpoint'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/lib/amplify/auth.ts",
+    "lineNum": 17,
+    "colNum": 10,
+    "errorMessage": "error TS2305: Module '\"@aws-amplify/core\"' has no exported member 'AuthError'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/lib/amplify/auth/mfa.ts",
+    "lineNum": 10,
+    "colNum": 3,
+    "errorMessage": "error TS2305: Module '\"aws-amplify/auth\"' has no exported member 'setUpTOTP'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/lib/amplify/auth/mfa.ts",
+    "lineNum": 11,
+    "colNum": 3,
+    "errorMessage": "error TS2305: Module '\"aws-amplify/auth\"' has no exported member 'confirmTOTPSetup'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/lib/amplify/server-helpers.ts",
+    "lineNum": 12,
+    "colNum": 10,
+    "errorMessage": "error TS2305: Module '\"@/lib/utils/safeCache\"' has no exported member 'asyncTTLCache'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/lib/contractor-management/index.ts",
+    "lineNum": 4,
+    "colNum": 3,
+    "errorMessage": "error TS2305: Module '\"@prisma/client\"' has no exported member 'Contractor'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/lib/contractor-management/index.ts",
+    "lineNum": 5,
+    "colNum": 3,
+    "errorMessage": "error TS2305: Module '\"@prisma/client\"' has no exported member 'ContractorStatus'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/lib/contractor-management/index.ts",
+    "lineNum": 6,
+    "colNum": 3,
+    "errorMessage": "error TS2305: Module '\"@prisma/client\"' has no exported member 'WorkPackage'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/lib/contractor-management/index.ts",
+    "lineNum": 7,
+    "colNum": 3,
+    "errorMessage": "error TS2305: Module '\"@prisma/client\"' has no exported member 'WorkPackageStatus'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/lib/contractor-management/index.ts",
+    "lineNum": 8,
+    "colNum": 3,
+    "errorMessage": "error TS2305: Module '\"@prisma/client\"' has no exported member 'TenderPackage'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/lib/contractor-management/index.ts",
+    "lineNum": 9,
+    "colNum": 3,
+    "errorMessage": "error TS2305: Module '\"@prisma/client\"' has no exported member 'TenderSubmission'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/lib/contractor-management/index.ts",
+    "lineNum": 10,
+    "colNum": 3,
+    "errorMessage": "error TS2305: Module '\"@prisma/client\"' has no exported member 'InsuranceType'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/lib/graphql/client.ts",
+    "lineNum": 2,
+    "colNum": 10,
+    "errorMessage": "error TS2305: Module '\"@tanstack/react-query\"' has no exported member 'QueryClient'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/lib/graphql/resolvers/development.ts",
+    "lineNum": 10,
+    "colNum": 10,
+    "errorMessage": "error TS2614: Module '\"@/lib/db/mappers\"' has no exported member 'mapPrismaDocumentToDocument'. Did you mean to use 'import mapPrismaDocumentToDocument from \"@/lib/db/mappers\"' instead?",
+    "errorCode": "TS2614",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/lib/graphql/resolvers/document.ts",
+    "lineNum": 10,
+    "colNum": 25,
+    "errorMessage": "error TS2614: Module '\"@/lib/db/repositories\"' has no exported member 'createTransactionContext'. Did you mean to use 'import createTransactionContext from \"@/lib/db/repositories\"' instead?",
+    "errorCode": "TS2614",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/lib/react-query-config.ts",
+    "lineNum": 8,
+    "colNum": 10,
+    "errorMessage": "error TS2305: Module '\"@tanstack/react-query\"' has no exported member 'QueryClient'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/lib/security/validation.ts",
+    "lineNum": 20,
+    "colNum": 10,
+    "errorMessage": "error TS2305: Module '\"@/lib/utils/safeCache\"' has no exported member 'asyncTTLCache'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/lib/services/document-service.ts",
+    "lineNum": 7,
+    "colNum": 25,
+    "errorMessage": "error TS2614: Module '\"@/lib/db/repositories\"' has no exported member 'createTransactionContext'. Did you mean to use 'import createTransactionContext from \"@/lib/db/repositories\"' instead?",
+    "errorCode": "TS2614",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/lib/services/units.ts",
+    "lineNum": 7,
+    "colNum": 10,
+    "errorMessage": "error TS2305: Module '\"../../types/properties\"' has no exported member 'UnitStatus'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/lib/services/units.ts",
+    "lineNum": 7,
+    "colNum": 22,
+    "errorMessage": "error TS2305: Module '\"../../types/properties\"' has no exported member 'UnitType'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/lib/three-types.ts",
+    "lineNum": 23,
+    "colNum": 3,
+    "errorMessage": "error TS2305: Module '\"three\"' has no exported member 'Light'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/lib/three-types.ts",
+    "lineNum": 27,
+    "colNum": 3,
+    "errorMessage": "error TS2305: Module '\"three\"' has no exported member 'Loader'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/middleware.orig.ts",
+    "lineNum": 4,
+    "colNum": 10,
+    "errorMessage": "error TS2305: Module '\"@/lib/auth\"' has no exported member 'requireRoles'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/middleware/monitoring.ts",
+    "lineNum": 2,
+    "colNum": 10,
+    "errorMessage": "error TS2305: Module '\"@/app/api/metrics/route\"' has no exported member 'recordMetric'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/services/ai/property-valuation.ts",
+    "lineNum": 2,
+    "colNum": 10,
+    "errorMessage": "error TS2305: Module '\"@/types/property\"' has no exported member 'Property'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/services/blockchain/property-tokenization.ts",
+    "lineNum": 11,
+    "colNum": 15,
+    "errorMessage": "error TS2305: Module '\"@/types/property\"' has no exported member 'Property'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/services/document-service.ts",
+    "lineNum": 7,
+    "colNum": 10,
+    "errorMessage": "error TS2614: Module '\"@/lib/db/mappers\"' has no exported member 'mapPrismaDocumentToDocument'. Did you mean to use 'import mapPrismaDocumentToDocument from \"@/lib/db/mappers\"' instead?",
+    "errorCode": "TS2614",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/services/sales-service.ts",
+    "lineNum": 7,
+    "colNum": 10,
+    "errorMessage": "error TS2614: Module '\"@/lib/db/mappers\"' has no exported member 'mapPrismaSaleToSale'. Did you mean to use 'import mapPrismaSaleToSale from \"@/lib/db/mappers\"' instead?",
+    "errorCode": "TS2614",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/services/TenderService.ts",
+    "lineNum": 3,
+    "colNum": 20,
+    "errorMessage": "error TS2305: Module '\"@tanstack/react-query\"' has no exported member 'useMutation'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/services/TenderService.ts",
+    "lineNum": 3,
+    "colNum": 33,
+    "errorMessage": "error TS2305: Module '\"@tanstack/react-query\"' has no exported member 'useQueryClient'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/stories/card.stories.tsx",
+    "lineNum": 24,
+    "colNum": 3,
+    "errorMessage": "error TS2305: Module '\"../components/ui/card\"' has no exported member 'CardMedia'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/stories/card.stories.tsx",
+    "lineNum": 25,
+    "colNum": 3,
+    "errorMessage": "error TS2305: Module '\"../components/ui/card\"' has no exported member 'CardBadge'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/test-utils.tsx",
+    "lineNum": 3,
+    "colNum": 10,
+    "errorMessage": "error TS2305: Module '\"@tanstack/react-query\"' has no exported member 'QueryClient'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/test-utils.tsx",
+    "lineNum": 3,
+    "colNum": 23,
+    "errorMessage": "error TS2305: Module '\"@tanstack/react-query\"' has no exported member 'QueryClientProvider'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/tests/mocks/react-query-mock.ts",
+    "lineNum": 7,
+    "colNum": 10,
+    "errorMessage": "error TS2305: Module '\"@tanstack/react-query\"' has no exported member 'QueryClient'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/tests/mocks/react-query-mock.ts",
+    "lineNum": 7,
+    "colNum": 23,
+    "errorMessage": "error TS2305: Module '\"@tanstack/react-query\"' has no exported member 'QueryClientConfig'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/tests/utils/data-layer-test-utils.ts",
+    "lineNum": 10,
+    "colNum": 10,
+    "errorMessage": "error TS2305: Module '\"msw\"' has no exported member 'rest'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/tests/utils/hook-test-utils.tsx",
+    "lineNum": 3,
+    "colNum": 10,
+    "errorMessage": "error TS2305: Module '\"@tanstack/react-query\"' has no exported member 'QueryClient'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/tests/utils/hook-test-utils.tsx",
+    "lineNum": 3,
+    "colNum": 23,
+    "errorMessage": "error TS2305: Module '\"@tanstack/react-query\"' has no exported member 'QueryClientProvider'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/tests/utils/query-test-utils.tsx",
+    "lineNum": 10,
+    "colNum": 10,
+    "errorMessage": "error TS2305: Module '\"@tanstack/react-query\"' has no exported member 'QueryClient'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/tests/utils/query-test-utils.tsx",
+    "lineNum": 10,
+    "colNum": 23,
+    "errorMessage": "error TS2305: Module '\"@tanstack/react-query\"' has no exported member 'QueryClientProvider'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/tests/utils/query-test-utils.tsx",
+    "lineNum": 10,
+    "colNum": 44,
+    "errorMessage": "error TS2305: Module '\"@tanstack/react-query\"' has no exported member 'QueryClientConfig'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/types/graphql/index.ts",
+    "lineNum": 1,
+    "colNum": 15,
+    "errorMessage": "error TS2305: Module '\"../common\"' has no exported member 'AppError'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/utils/apiClient.ts",
+    "lineNum": 15,
+    "colNum": 23,
+    "errorMessage": "error TS2614: Module '\"./queryClient\"' has no exported member 'QUERY_KEYS'. Did you mean to use 'import QUERY_KEYS from \"./queryClient\"' instead?",
+    "errorCode": "TS2614",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/utils/queryClient-simplified.ts",
+    "lineNum": 10,
+    "colNum": 10,
+    "errorMessage": "error TS2305: Module '\"@tanstack/react-query\"' has no exported member 'QueryClient'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/utils/queryClient-simplified.ts",
+    "lineNum": 11,
+    "colNum": 15,
+    "errorMessage": "error TS2305: Module '\"@tanstack/react-query\"' has no exported member 'DefaultOptions'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  },
+  {
+    "filePath": "src/utils/queryClient.ts",
+    "lineNum": 1,
+    "colNum": 10,
+    "errorMessage": "error TS2305: Module '\"@tanstack/react-query\"' has no exported member 'QueryClient'.",
+    "errorCode": "TS2305",
+    "category": "MODULE_IMPORT"
+  }
+]

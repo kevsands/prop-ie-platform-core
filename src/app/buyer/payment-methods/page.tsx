@@ -1,3 +1,4 @@
+import React from 'react';
 'use client';
 
 import { useState } from 'react';
@@ -19,12 +20,12 @@ interface PaymentMethod {
 }
 
 export default function PaymentMethodsPage() {
-  const [showAddCard, setShowAddCard] = useState(false);
-  const [showAddBank, setShowAddBank] = useState(false);
-  const [selectedMethod, setSelectedMethod] = useState<PaymentMethod | null>(null);
-  
+  const [showAddCardsetShowAddCard] = useState(false);
+  const [showAddBanksetShowAddBank] = useState(false);
+  const [selectedMethodsetSelectedMethod] = useState<PaymentMethod | null>(null);
+
   // Mock payment methods
-  const [paymentMethods, setPaymentMethods] = useState<PaymentMethod[]>([
+  const [paymentMethodssetPaymentMethods] = useState<PaymentMethod[]>([
     {
       id: '1',
       type: 'card',
@@ -60,12 +61,12 @@ export default function PaymentMethodsPage() {
       createdAt: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)
     }
   ]);
-  
+
   const getCardIcon = (brand: string) => {
     // In a real app, you'd have actual card brand icons
-    return <CreditCard className="h-8 w-8 text-gray-600" />;
+    return <CreditCard className="h-8 w-8 text-gray-600" />\n  );
   };
-  
+
   const setDefaultMethod = (id: string) => {
     setPaymentMethods(methods => 
       methods.map(method => ({
@@ -74,14 +75,14 @@ export default function PaymentMethodsPage() {
       }))
     );
   };
-  
+
   const deleteMethod = (id: string) => {
     setPaymentMethods(methods => 
       methods.filter(method => method.id !== id)
     );
     setSelectedMethod(null);
   };
-  
+
   return (
     <div className="flex-1 p-8">
       <div className="max-w-7xl mx-auto">
@@ -108,7 +109,7 @@ export default function PaymentMethodsPage() {
             </button>
           </div>
         </div>
-        
+
         {/* Security Notice */}
         <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-8">
           <div className="flex items-start gap-3">
@@ -122,10 +123,10 @@ export default function PaymentMethodsPage() {
             </div>
           </div>
         </div>
-        
+
         {/* Payment Methods Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-          {paymentMethods.map((method) => (
+          {paymentMethods.map((method: any) => (
             <div 
               key={method.id}
               onClick={() => setSelectedMethod(method)}
@@ -154,7 +155,7 @@ export default function PaymentMethodsPage() {
                   </span>
                 )}
               </div>
-              
+
               <div className="space-y-2">
                 {method.type === 'card' && method.expiryMonth && method.expiryYear && (
                   <div className="flex items-center gap-2 text-sm text-gray-600">
@@ -162,7 +163,7 @@ export default function PaymentMethodsPage() {
                     Expires {method.expiryMonth}/{method.expiryYear}
                   </div>
                 )}
-                
+
                 <div className="flex items-center gap-2">
                   {method.isVerified ? (
                     <div className="flex items-center gap-1 text-sm text-green-600">
@@ -176,14 +177,14 @@ export default function PaymentMethodsPage() {
                     </div>
                   )}
                 </div>
-                
+
                 <div className="text-sm text-gray-500">
                   Added {format(method.createdAt, 'MMM d, yyyy')}
                 </div>
               </div>
             </div>
           ))}
-          
+
           {/* Add New Card */}
           <button
             onClick={() => setShowAddCard(true)}
@@ -193,7 +194,7 @@ export default function PaymentMethodsPage() {
             <span className="text-gray-600 font-medium">Add New Payment Method</span>
           </button>
         </div>
-        
+
         {/* Recent Transactions */}
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
           <h3 className="text-lg font-semibold text-gray-900 mb-4">Recent Transactions</h3>
@@ -213,7 +214,7 @@ export default function PaymentMethodsPage() {
                 <p className="text-sm text-gray-600">Dec 10, 2023</p>
               </div>
             </div>
-            
+
             <div className="flex items-center justify-between py-3 border-b">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 bg-yellow-100 rounded-full flex items-center justify-center">
@@ -229,7 +230,7 @@ export default function PaymentMethodsPage() {
                 <p className="text-sm text-gray-600">Dec 8, 2023</p>
               </div>
             </div>
-            
+
             <div className="flex items-center justify-between py-3">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
@@ -247,7 +248,7 @@ export default function PaymentMethodsPage() {
             </div>
           </div>
         </div>
-        
+
         {/* Selected Method Detail */}
         {selectedMethod && (
           <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
@@ -265,7 +266,7 @@ export default function PaymentMethodsPage() {
                   </button>
                 </div>
               </div>
-              
+
               <div className="p-6">
                 <div className="flex items-center gap-4 mb-6">
                   {selectedMethod.type === 'card' ? (
@@ -283,7 +284,7 @@ export default function PaymentMethodsPage() {
                     </p>
                   </div>
                 </div>
-                
+
                 <div className="space-y-4 mb-6">
                   {selectedMethod.type === 'card' && selectedMethod.expiryMonth && selectedMethod.expiryYear && (
                     <div className="flex items-center justify-between">
@@ -293,21 +294,21 @@ export default function PaymentMethodsPage() {
                       </span>
                     </div>
                   )}
-                  
+
                   <div className="flex items-center justify-between">
                     <span className="text-gray-600">Status</span>
                     <span className="font-medium text-gray-900">
                       {selectedMethod.isVerified ? 'Verified' : 'Verification Pending'}
                     </span>
                   </div>
-                  
+
                   <div className="flex items-center justify-between">
                     <span className="text-gray-600">Added</span>
                     <span className="font-medium text-gray-900">
                       {format(selectedMethod.createdAt, 'MMMM d, yyyy')}
                     </span>
                   </div>
-                  
+
                   <div className="flex items-center justify-between">
                     <span className="text-gray-600">Default Method</span>
                     <span className="font-medium text-gray-900">
@@ -315,14 +316,14 @@ export default function PaymentMethodsPage() {
                     </span>
                   </div>
                 </div>
-                
+
                 <div className="flex gap-3">
                   {!selectedMethod.isDefault && (
                     <button
                       onClick={() => {
                         setDefaultMethod(selectedMethod.id);
                         setSelectedMethod(null);
-                      }}
+                      }
                       className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
                     >
                       Set as Default

@@ -1,0 +1,188 @@
+name: Claude Code Integration
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  code-review:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      
+      - name: Install Claude Code
+        run: npm install -g @anthropic-ai/claude-code
+      
+      - name: Code Review
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            # Review PR changes
+            git diff origin/${{ github.base_ref }}...${{ github.sha }} | \
+            claude -p "Review these changes for:
+            - Code quality and best practices
+            - Security vulnerabilities
+            - Performance issues
+            - TypeScript type safety
+            - Missing tests
+            Format as GitHub PR comment with severity levels"
+          else
+            # Review recent commits on main
+            git log -1 --pretty=format:"%H" | xargs git show | \
+            claude -p "Review this commit for potential issues"
+          fi
+      
+      - name: Security Audit
+        if: github.event_name == 'pull_request'
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          # Check for security issues in changed files
+          git diff --name-only origin/${{ github.base_ref }}...${{ github.sha }} | \
+          xargs cat 2>/dev/null | \
+          claude -p "Security audit these files for:
+          - Exposed secrets or API keys
+          - SQL injection vulnerabilities
+          - XSS risks
+          - Authentication bypass
+          - Insecure data handling
+          Report only high and critical issues"
+      
+      - name: Test Coverage Analysis
+        if: github.event_name == 'pull_request'
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          # Install dependencies first
+          npm ci
+          
+          # Generate coverage report
+          npm test -- --coverage --json > coverage.json || true
+          
+          # Analyze coverage
+          cat coverage.json | claude -p "Analyze test coverage:
+          - Identify files with low coverage
+          - Suggest specific test cases for changed files
+          - Highlight critical paths lacking tests"
+      
+      - name: Documentation Check
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          # Check if documentation needs updates
+          git diff --name-only origin/${{ github.base_ref }}...${{ github.sha }} | \
+          grep -E "\.(ts|tsx|js|jsx)$" | \
+          xargs cat 2>/dev/null | \
+          claude -p "Check if these code changes require documentation updates:
+          - API documentation
+          - README updates
+          - Type definitions
+          - JSDoc comments
+          Suggest specific documentation additions"
+
+  automated-fixes:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      
+      - name: Install Dependencies
+        run: |
+          npm ci
+          npm install -g @anthropic-ai/claude-code
+      
+      - name: Auto-Fix Issues
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          # Fix ESLint issues
+          npm run lint 2>&1 | \
+          claude -p "Generate fixes for these ESLint errors. 
+          Output only the fixed code blocks with file paths"
+          
+          # Fix TypeScript errors
+          npm run type-check 2>&1 | \
+          claude -p "Generate fixes for these TypeScript errors.
+          Output only the fixed code blocks with file paths"
+      
+      - name: Create Fix Commit
+        run: |
+          if [ -n "$(git status --porcelain)" ]; then
+            git config user.name "Claude Code Bot"
+            git config user.email "claude-bot@example.com"
+            git add .
+            git commit -m "🤖 Auto-fix: Apply Claude Code suggestions"
+            git push
+          fi
+
+  performance-analysis:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      
+      - name: Install Dependencies
+        run: |
+          npm ci
+          npm install -g @anthropic-ai/claude-code
+      
+      - name: Build Analysis
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          # Analyze build output
+          npm run build 2>&1 | \
+          claude -p "Analyze this build output for:
+          - Bundle size optimization opportunities
+          - Unused dependencies
+          - Code splitting recommendations
+          - Performance bottlenecks
+          Create a performance report"
+      
+      - name: Lighthouse Analysis
+        uses: treosh/lighthouse-ci-action@v10
+        with:
+          urls: |
+            http://localhost:3000
+            http://localhost:3000/developer
+            http://localhost:3000/buyer
+          uploadArtifacts: true
+      
+      - name: Performance Report
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          # Analyze Lighthouse results
+          cat .lighthouseci/*.json | \
+          claude -p "Analyze these Lighthouse results and provide:
+          - Performance improvement recommendations
+          - Accessibility fixes
+          - SEO optimizations
+          - Best practice violations
+          Format as actionable tasks with priority"

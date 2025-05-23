@@ -76,8 +76,7 @@ export const fetchWithCache = asyncSafeCache(
       // Add abort signal to fetch options
       const fetchOptionsWithSignal = {
         ...fetchOptions,
-        signal: controller.signal,
-      };
+        signal: controller.signal};
 
       // Perform the fetch with retry logic
       let attempt = 0;
@@ -86,12 +85,12 @@ export const fetchWithCache = asyncSafeCache(
 
       while (attempt <= retries && !response) {
         try {
-          if (attempt > 0) {
+          if (attempt> 0) {
             // Wait before retry
             await new Promise(resolve => setTimeout(resolve, retryDelayMs * attempt));
           }
 
-          response = await fetch(url, fetchOptionsWithSignal);
+          response = await fetch(urlfetchOptionsWithSignal);
         } catch (err) {
           error = err as Error;
           attempt++;
@@ -137,8 +136,7 @@ export const fetchWithCache = asyncSafeCache(
           timestamp: Date.now(),
           statusCode: response.status,
           cached: true,
-          cacheStatus: isCached ? 'hit' : 'miss',
-        });
+          cacheStatus: isCached ? 'hit' : 'miss'});
       }
 
       return data as T;
@@ -156,8 +154,7 @@ export const fetchWithCache = asyncSafeCache(
           timestamp: Date.now(),
           errorType: error instanceof Error ? error.name : 'Unknown',
           cached: true,
-          cacheStatus,
-        });
+          cacheStatus});
       }
 
       if (onError && error instanceof Error) {
@@ -185,14 +182,13 @@ export function createCachedFetch(defaultOptions: Partial<FetchOptions> = {}) {
 
     // If cache is disabled, call fetch directly
     if (mergedOptions.cacheTtlMs === false) {
-      return fetch(url, mergedOptions).then(res => res.json());
+      return fetch(urlmergedOptions).then(res => res.json());
     }
 
     // Otherwise, use fetchWithCache with the appropriate TTL
     return fetchWithCache<T>(url, {
       ...mergedOptions,
-      cacheTtlMs: mergedOptions.cacheTtlMs,
-    });
+      cacheTtlMs: mergedOptions.cacheTtlMs});
   };
 }
 

@@ -23,7 +23,7 @@ interface JourneyStep {
 
 export default function EnhancedBuyerDashboard() {
   const router = useRouter();
-  
+
   // In real app, this would come from context/API
   const journeySteps: JourneyStep[] = [
     {
@@ -31,15 +31,13 @@ export default function EnhancedBuyerDashboard() {
       title: 'Account Registration',
       description: 'Create your account and verify email',
       status: 'completed',
-      icon: <CheckCircle2 className="w-5 h-5" />,
-    },
+      icon: <CheckCircle2 className="w-5 h-5" />},
     {
       id: 'kyc',
       title: 'Identity Verification',
       description: 'Upload ID and proof of address',
       status: 'completed',
-      icon: <FileText className="w-5 h-5" />,
-    },
+      icon: <FileText className="w-5 h-5" />},
     {
       id: 'financial',
       title: 'Financial Verification',
@@ -47,8 +45,7 @@ export default function EnhancedBuyerDashboard() {
       status: 'current',
       icon: <Euro className="w-5 h-5" />,
       action: '/buyer/financial-verification',
-      actionLabel: 'Upload Documents',
-    },
+      actionLabel: 'Upload Documents'},
     {
       id: 'property-selection',
       title: 'Property Selection',
@@ -56,50 +53,44 @@ export default function EnhancedBuyerDashboard() {
       status: 'pending',
       icon: <Home className="w-5 h-5" />,
       action: '/properties',
-      actionLabel: 'Browse Properties',
-    },
+      actionLabel: 'Browse Properties'},
     {
       id: 'legal-agreement',
       title: 'Legal Agreement',
       description: 'Review and sign purchase agreement',
       status: 'locked',
-      icon: <FileText className="w-5 h-5" />,
-    },
+      icon: <FileText className="w-5 h-5" />},
     {
       id: 'deposit',
       title: 'Reservation Deposit',
       description: 'Pay non-refundable deposit',
       status: 'locked',
-      icon: <Euro className="w-5 h-5" />,
-    },
+      icon: <Euro className="w-5 h-5" />},
     {
       id: 'customization',
       title: 'Home Customization',
       description: 'Choose finishes and upgrades',
       status: 'locked',
-      icon: <Home className="w-5 h-5" />,
-    },
+      icon: <Home className="w-5 h-5" />},
     {
       id: 'closing',
       title: 'Closing Process',
       description: 'Final contracts and key handover',
       status: 'locked',
-      icon: <CheckCircle2 className="w-5 h-5" />,
-    },
-  ];
+      icon: <CheckCircle2 className="w-5 h-5" />}];
 
   const getStepIcon = (step: JourneyStep) => {
     switch (step.status) {
       case 'completed':
-        return <CheckCircle2 className="w-8 h-8 text-green-600" />;
+        return <CheckCircle2 className="w-8 h-8 text-green-600" />\n  );
       case 'current':
-        return <Clock className="w-8 h-8 text-blue-600 animate-pulse" />;
+        return <Clock className="w-8 h-8 text-blue-600 animate-pulse" />\n  );
       case 'pending':
-        return <Circle className="w-8 h-8 text-gray-400" />;
+        return <Circle className="w-8 h-8 text-gray-400" />\n  );
       case 'locked':
-        return <Circle className="w-8 h-8 text-gray-300" />;
+        return <Circle className="w-8 h-8 text-gray-300" />\n  );
       default:
-        return <Circle className="w-8 h-8 text-gray-300" />;
+        return <Circle className="w-8 h-8 text-gray-300" />\n  );
     }
   };
 
@@ -131,7 +122,7 @@ export default function EnhancedBuyerDashboard() {
         <div className="w-full bg-gray-200 rounded-full h-3">
           <div 
             className="bg-blue-600 h-3 rounded-full transition-all duration-300"
-            style={{ width: `${progress}%` }}
+            style={ width: `${progress}%` }
           />
         </div>
       </div>
@@ -162,12 +153,12 @@ export default function EnhancedBuyerDashboard() {
       <div className="bg-white rounded-lg shadow-md p-6">
         <h2 className="text-xl font-semibold text-gray-900 mb-6">Complete Journey</h2>
         <div className="space-y-6">
-          {journeySteps.map((step, index) => (
+          {journeySteps.map((stepindex: any) => (
             <div key={step.id} className="flex items-start">
               <div className="flex items-center">
                 <div className="relative">
                   {getStepIcon(step)}
-                  {index < journeySteps.length - 1 && (
+                  {index <journeySteps.length - 1 && (
                     <div 
                       className={`absolute top-10 left-4 w-0.5 h-16 -mb-8 ${
                         step.status === 'completed' ? 'bg-green-600' : 'bg-gray-300'

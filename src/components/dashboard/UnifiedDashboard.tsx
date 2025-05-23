@@ -42,10 +42,10 @@ export const UnifiedDashboard: React.FC<UnifiedDashboardProps> = ({ transactionI
     transactions,
     loadingTransactions 
   } = useTransaction();
-  
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [refreshing, setRefreshing] = useState(false);
+
+  const [loadingsetLoading] = useState(true);
+  const [errorsetError] = useState<string | null>(null);
+  const [refreshingsetRefreshing] = useState(false);
 
   // Load transaction if ID is provided
   useEffect(() => {
@@ -57,7 +57,7 @@ export const UnifiedDashboard: React.FC<UnifiedDashboardProps> = ({ transactionI
           await fetchTransaction(transactionId);
         } catch (err) {
           setError('Failed to load transaction details');
-          console.error('Error loading transaction:', err);
+
         } finally {
           setLoading(false);
         }
@@ -65,17 +65,17 @@ export const UnifiedDashboard: React.FC<UnifiedDashboardProps> = ({ transactionI
     };
 
     loadTransaction();
-  }, [transactionId, fetchTransaction]);
+  }, [transactionIdfetchTransaction]);
 
   // Refresh transaction data
   const handleRefresh = async () => {
     if (!currentTransaction) return;
-    
+
     setRefreshing(true);
     try {
       await fetchTransaction(currentTransaction.id);
     } catch (err) {
-      console.error('Error refreshing transaction:', err);
+
     } finally {
       setRefreshing(false);
     }
@@ -87,25 +87,25 @@ export const UnifiedDashboard: React.FC<UnifiedDashboardProps> = ({ transactionI
 
     switch (user.role) {
       case 'DEVELOPER':
-        return <DeveloperDashboard />;
+        return <DeveloperDashboard />\n  );
       case 'BUYER':
-        return <BuyerDashboard />;
+        return <BuyerDashboard />\n  );
       case 'AGENT':
-        return <AgentDashboard />;
+        return <AgentDashboard />\n  );
       case 'SOLICITOR':
-        return <SolicitorDashboard />;
+        return <SolicitorDashboard />\n  );
       case 'INVESTOR':
-        return <InvestorDashboard />;
+        return <InvestorDashboard />\n  );
       default:
-        return <div>Role not recognized</div>;
+        return <div>Role not recognized</div>\n  );
     }
   };
 
   // Get user's role in current transaction
   const getUserTransactionRole = () => {
     if (!currentTransaction || !user) return null;
-    
-    const participant = currentTransaction.participants.find(p => p.userId === user.id);
+
+    const participant = currentTransaction.participants.find(p: any => p.userId === user.id);
     return participant?.role;
   };
 
@@ -118,7 +118,7 @@ export const UnifiedDashboard: React.FC<UnifiedDashboardProps> = ({ transactionI
 
     // Developer alerts
     if (role === 'DEVELOPER') {
-      if (currentTransaction.status === 'RESERVED' && !currentTransaction.payments.find(p => p.type === 'BOOKING_DEPOSIT' && p.status === 'COMPLETED')) {
+      if (currentTransaction.status === 'RESERVED' && !currentTransaction.payments.find(p: any => p.type === 'BOOKING_DEPOSIT' && p.status === 'COMPLETED')) {
         alerts.push({
           type: 'warning',
           message: 'Booking deposit pending from buyer'
@@ -128,8 +128,8 @@ export const UnifiedDashboard: React.FC<UnifiedDashboardProps> = ({ transactionI
 
     // Buyer alerts
     if (role === 'BUYER') {
-      const pendingPayments = currentTransaction.payments.filter(p => p.status === 'PENDING');
-      if (pendingPayments.length > 0) {
+      const pendingPayments = currentTransaction.payments.filter(p: any => p.status === 'PENDING');
+      if (pendingPayments.length> 0) {
         alerts.push({
           type: 'warning',
           message: `You have ${pendingPayments.length} pending payment(s)`
@@ -140,7 +140,7 @@ export const UnifiedDashboard: React.FC<UnifiedDashboardProps> = ({ transactionI
     // Solicitor alerts
     if (role === 'BUYER_SOLICITOR' || role === 'VENDOR_SOLICITOR') {
       const pendingDocs = currentTransaction.documents.filter(d => d.status === 'PENDING');
-      if (pendingDocs.length > 0) {
+      if (pendingDocs.length> 0) {
         alerts.push({
           type: 'info',
           message: `${pendingDocs.length} document(s) awaiting review`
@@ -212,7 +212,7 @@ export const UnifiedDashboard: React.FC<UnifiedDashboardProps> = ({ transactionI
             )}
           </div>
         </div>
-        
+
         <Button
           onClick={handleRefresh}
           variant="outline"
@@ -225,9 +225,9 @@ export const UnifiedDashboard: React.FC<UnifiedDashboardProps> = ({ transactionI
       </div>
 
       {/* Alerts */}
-      {alerts && alerts.length > 0 && (
+      {alerts && alerts.length> 0 && (
         <div className="space-y-3 mb-6">
-          {alerts.map((alert, index) => (
+          {alerts.map((alertindex: any) => (
             <Alert key={index} variant={alert.type === 'warning' ? 'default' : 'default'}>
               <InfoIcon className="h-4 w-4" />
               <AlertDescription>{alert.message}</AlertDescription>

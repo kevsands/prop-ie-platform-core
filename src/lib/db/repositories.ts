@@ -29,6 +29,77 @@ import {
 import { DocumentRepository } from './repositories/document-repository';
 import { FinancialRepository } from './repositories/financial-repository';
 
+import { z } from 'zod'; // Add zod for runtime type validation
+import { sanitizeSqlIdentifier, sanitizeSqlValue, sanitizeSqlQuery } from '../security/sqlSanitizer';
+import { rateLimiter } from '../security/rateLimiter';
+import { logAuditEvent } from '../security/auditLogger';
+
+// Add these utility functions at the top of the file after imports
+const VALID_TABLE_NAMES = new Set([
+  'users',
+  'developments',
+  'units',
+  'sales',
+  'documents',
+  'finance',
+  'transactions',
+  'customizations',
+  'rooms'
+]);
+
+function validateTableName(tableName: string): void {
+  if (!VALID_TABLE_NAMES.has(tableName)) {
+    throw new Error(`Invalid table name: ${tableName}`);
+  }
+}
+
+function validateColumnName(columnName: string): void {
+  // Only allow alphanumeric characters and underscores
+  if (!/^[a-zA-Z0-9_]+$/.test(columnName)) {
+    throw new Error(`Invalid column name: ${columnName}`);
+  }
+}
+
+function validateColumnNames(columnNames: string[]): void {
+  columnNames.forEach(validateColumnName);
+}
+
+// Add input validation schemas
+const paginationSchema = z.object({
+  page: z.number().int().min(1).default(1),
+  limit: z.number().int().min(1).max(100).default(10)
+});
+
+const idSchema = z.string().uuid();
+
+// Add query sanitization function
+function sanitizeQuery(query: string, params: any[]): { query: string; params: any[] } {
+  // Remove comments
+  query = query.replace(/--.*$/gm, '');
+  
+  // Remove multiple spaces
+  query = query.replace(/\s+/g, ' ').trim();
+  
+  // Ensure parameters are properly escaped
+  params = params.map(param => {
+    if (typeof param === 'string') {
+      return sanitizeSqlIdentifier(param);
+    }
+    return param;
+  });
+
+  return { query, params };
+}
+
+// Add rate limiting configuration
+const RATE_LIMITS = {
+  findById: { max: 100, windowMs: 60000 }, // 100 requests per minute
+  findAll: { max: 50, windowMs: 60000 },   // 50 requests per minute
+  create: { max: 20, windowMs: 60000 },    // 20 requests per minute
+  update: { max: 20, windowMs: 60000 },    // 20 requests per minute
+  delete: { max: 10, windowMs: 60000 }     // 10 requests per minute
+};
+
 /**
  * Repository pattern implementation for PropIE AWS database
  * Provides type-safe, domain-specific database access with caching
@@ -37,58 +108,65 @@ import { FinancialRepository } from './repositories/financial-repository';
 /**
  * Base repository class with common CRUD operations
  */
-abstract class BaseRepository<T> {
+export abstract class BaseRepository<T> {
   protected abstract tableName: string;
   protected abstract cacheNamespace: string;
-  protected abstract mapToEntity(dbRecord: any): T;
+  protected abstract mapToEntity(row: Record<string, unknown>): T;
   protected abstract mapToDatabaseRecord(entity: T): any;
+
+  protected async validateTableName(): Promise<void> {
+    const sanitized = sanitizeSqlIdentifier(this.tableName);
+    if (sanitized !== this.tableName) {
+      throw new Error(`Invalid table name: ${this.tableName}`);
+    }
+  }
+
+  protected async validateInput<T>(schema: z.ZodSchema<T>, data: unknown): Promise<T> {
+    try {
+      return await schema.parseAsync(data);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        throw new Error(`Validation error: ${error.errors.map(e => e.message).join(', ')}`);
+      }
+      throw error;
+    }
+  }
+
+  protected async checkRateLimit(operation: keyof typeof RATE_LIMITS, userId: string): Promise<void> {
+    const { max, windowMs } = RATE_LIMITS[operation];
+    const key = `${this.tableName}:${operation}:${userId}`;
+    
+    const allowed = await rateLimiter.check(key, max, windowMs);
+    if (!allowed) {
+      throw new Error(`Rate limit exceeded for ${operation} operation`);
+    }
+  }
 
   /**
    * Find entity by ID
    * @param id Entity ID
    * @returns Entity or null if not found
    */
-  async findById(id: string): Promise<T | null> {
-    // Check cache first
-    const cacheKey = `${this.cacheNamespace}:id:${id}`;
-    let cache: any;
+  async findById(id: string, userId: string): Promise<T | null> {
+    await this.validateTableName();
+    await this.validateInput(idSchema, id);
+    await this.checkRateLimit('findById', userId);
 
-    switch (this.cacheNamespace) {
-      case 'users': cache = userCache; break;
-      case 'developments': cache = developmentCache; break;
-      case 'units': cache = unitCache; break;
-      case 'sales': cache = salesCache; break;
-      case 'documents': cache = documentCache; break;
-      case 'finance': cache = financeCache; break;
-      default: cache = null;
+    const query = sanitizeSqlQuery(`
+      SELECT * FROM ${sanitizeSqlIdentifier(this.tableName)}
+      WHERE id = ${sanitizeSqlValue(id)}
+      LIMIT 1
+    `);
+
+    const result = await query(query);
+    const row = result.rows[0];
+
+    if (!row) {
+      return null;
     }
 
-    if (cache) {
-      const cached = cache.get(cacheKey, []) as T;
-      if (cached) {
-        return cached;
-      }
-    }
-
-    try {
-      const result = await query(`SELECT * FROM ${this.tableName} WHERE id = $1`, [id]);
-
-      if (result.rows.length === 0) {
-        return null;
-      }
-
-      const entity = this.mapToEntity(result.rows[0]);
-
-      // Store in cache
-      if (cache) {
-        cache.set(cacheKey, [], entity);
-      }
-
-      return entity;
-    } catch (error) {
-      logger.error(`Error finding ${this.tableName} by ID`, { error, id });
-      throw error;
-    }
+    logAuditEvent('findById', this.tableName, userId, 'success', { id });
+    return this.mapToEntity(row);
   }
 
   /**
@@ -97,35 +175,24 @@ abstract class BaseRepository<T> {
    * @param pageSize Number of items per page
    * @returns Paginated result with entities
    */
-  async findAll(page: number = 1, pageSize: number = 20): Promise<PaginatedResult<T>> {
-    try {
-      // Get total count
-      const countResult = await query(`SELECT COUNT(*) FROM ${this.tableName}`);
-      const total = parseInt(countResult.rows[0].count);
+  async findAll(userId: string, options: { page?: number; limit?: number } = {}): Promise<T[]> {
+    await this.validateTableName();
+    const { page, limit } = await this.validateInput(paginationSchema, options);
+    await this.checkRateLimit('findAll', userId);
 
-      // Calculate pagination
-      const offset = (page - 1) * pageSize;
-      const totalPages = Math.ceil(total / pageSize);
+    const offset = (page - 1) * limit;
+    const query = sanitizeSqlQuery(`
+      SELECT * FROM ${sanitizeSqlIdentifier(this.tableName)}
+      ORDER BY created_at DESC
+      LIMIT ${sanitizeSqlValue(limit)}
+      OFFSET ${sanitizeSqlValue(offset)}
+    `);
 
-      // Get entities
-      const result = await query(
-        `SELECT * FROM ${this.tableName} ORDER BY created_at DESC LIMIT $1 OFFSET $2`,
-        [pageSize, offset]
-      );
+    const result = await query(query);
+    const rows = result.rows;
 
-      const items = result.rows.map((row: Record<string, unknown>) => this.mapToEntity(row));
-
-      return {
-        items,
-        total,
-        page,
-        pageSize,
-        totalPages
-      };
-    } catch (error) {
-      logger.error(`Error finding all ${this.tableName}`, { error, page, pageSize });
-      throw error;
-    }
+    logAuditEvent('findAll', this.tableName, userId, 'success', { page, limit });
+    return rows.map(row => this.mapToEntity(row));
   }
 
   /**
@@ -133,31 +200,25 @@ abstract class BaseRepository<T> {
    * @param entity Entity to create
    * @returns Created entity
    */
-  async create(entity: Omit<T, 'id' | 'createdAt' | 'updatedAt'>): Promise<T> {
-    try {
-      const dbRecord = this.mapToDatabaseRecord(entity as T);
+  async create(data: Partial<T>, userId: string): Promise<T> {
+    await this.validateTableName();
+    await this.checkRateLimit('create', userId);
 
-      // Remove id, createdAt, and updatedAt as they will be generated by the database
-      delete dbRecord.id;
-      delete dbRecord.created_at;
-      delete dbRecord.updated_at;
+    const columns = Object.keys(data);
+    const values = Object.values(data);
 
-      // Build query
-      const keys = Object.keys(dbRecord);
-      const values = Object.values(dbRecord);
-      const placeholders = keys.map((_, index) => `$${index + 1}`).join(', ');
-      const columns = keys.join(', ');
+    const query = sanitizeSqlQuery(`
+      INSERT INTO ${sanitizeSqlIdentifier(this.tableName)}
+      (${columns.map(col => sanitizeSqlIdentifier(col)).join(', ')})
+      VALUES (${values.map(val => sanitizeSqlValue(val)).join(', ')})
+      RETURNING *
+    `);
 
-      const result = await query(
-        `INSERT INTO ${this.tableName} (${columns}) VALUES (${placeholders}) RETURNING *`,
-        values
-      );
+    const result = await query(query);
+    const row = result.rows[0];
 
-      return this.mapToEntity(result.rows[0]);
-    } catch (error) {
-      logger.error(`Error creating ${this.tableName}`, { error, entity });
-      throw error;
-    }
+    logAuditEvent('create', this.tableName, userId, 'success', { data });
+    return this.mapToEntity(row);
   }
 
   /**
@@ -166,40 +227,31 @@ abstract class BaseRepository<T> {
    * @param entity Entity data to update
    * @returns Updated entity
    */
-  async update(id: string, entity: Partial<T>): Promise<T> {
-    try {
-      const dbRecord = this.mapToDatabaseRecord(entity as T);
+  async update(id: string, data: Partial<T>, userId: string): Promise<T> {
+    await this.validateTableName();
+    await this.validateInput(idSchema, id);
+    await this.checkRateLimit('update', userId);
 
-      // Remove id, createdAt, and updatedAt as they should not be updated
-      delete dbRecord.id;
-      delete dbRecord.created_at;
-      delete dbRecord.updated_at;
+    const updates = Object.entries(data)
+      .map(([key, value]) => `${sanitizeSqlIdentifier(key)} = ${sanitizeSqlValue(value)}`)
+      .join(', ');
 
-      // Build query
-      const keys = Object.keys(dbRecord);
-      const values = Object.values(dbRecord);
+    const query = sanitizeSqlQuery(`
+      UPDATE ${sanitizeSqlIdentifier(this.tableName)}
+      SET ${updates}
+      WHERE id = ${sanitizeSqlValue(id)}
+      RETURNING *
+    `);
 
-      if (keys.length === 0) {
-        // Nothing to update
-        const currentEntity = await this.findById(id);
-        return currentEntity as T;
-      }
+    const result = await query(query);
+    const row = result.rows[0];
 
-      const setClause = keys.map((key, index) => `${key} = $${index + 2}`).join(', ');
-
-      const result = await query(
-        `UPDATE ${this.tableName} SET ${setClause} WHERE id = $1 RETURNING *`,
-        [id, ...values]
-      );
-
-      // Invalidate cache
-      this.invalidateCache(id);
-
-      return this.mapToEntity(result.rows[0]);
-    } catch (error) {
-      logger.error(`Error updating ${this.tableName}`, { error, id, entity });
-      throw error;
+    if (!row) {
+      throw new Error(`Entity not found with id: ${id}`);
     }
+
+    logAuditEvent('update', this.tableName, userId, 'success', { id, data });
+    return this.mapToEntity(row);
   }
 
   /**
@@ -207,18 +259,23 @@ abstract class BaseRepository<T> {
    * @param id Entity ID
    * @returns True if entity was deleted, false if not found
    */
-  async delete(id: string): Promise<boolean> {
-    try {
-      const result = await query(`DELETE FROM ${this.tableName} WHERE id = $1 RETURNING id`, [id]);
+  async delete(id: string, userId: string): Promise<void> {
+    await this.validateTableName();
+    await this.validateInput(idSchema, id);
+    await this.checkRateLimit('delete', userId);
 
-      // Invalidate cache
-      this.invalidateCache(id);
+    const query = sanitizeSqlQuery(`
+      DELETE FROM ${sanitizeSqlIdentifier(this.tableName)}
+      WHERE id = ${sanitizeSqlValue(id)}
+    `);
 
-      return result.rows.length > 0;
-    } catch (error) {
-      logger.error(`Error deleting ${this.tableName}`, { error, id });
-      throw error;
+    const result = await query(query);
+
+    if (result.rowCount === 0) {
+      throw new Error(`Entity not found with id: ${id}`);
     }
+
+    logAuditEvent('delete', this.tableName, userId, 'success', { id });
   }
 
   /**
@@ -276,7 +333,12 @@ class UserRepository extends BaseRepository<User> {
    * @returns User or null if not found
    */
   async findByEmail(email: string): Promise<User | null> {
-    const cacheKey = `${this.cacheNamespace}:email:${email}`;
+    await this.checkRateLimit('findById', email);
+    
+    // Validate email format
+    const validatedEmail = await this.validateInput(z.string().email(), email);
+
+    const cacheKey = `${this.cacheNamespace}:email:${validatedEmail}`;
     const cached = userCache.get<User>(cacheKey, []);
 
     if (cached) {
@@ -284,7 +346,7 @@ class UserRepository extends BaseRepository<User> {
     }
 
     try {
-      const dbUser = await userDb.getByEmail(email);
+      const dbUser = await userDb.getByEmail(validatedEmail);
 
       if (!dbUser) {
         return null;
@@ -297,7 +359,7 @@ class UserRepository extends BaseRepository<User> {
 
       return user;
     } catch (error) {
-      logger.error('Error finding user by email', { error, email });
+      logAuditEvent('findByEmail', this.tableName, email, 'error', { error });
       throw error;
     }
   }
@@ -323,7 +385,7 @@ class UserRepository extends BaseRepository<User> {
 
       return permissions;
     } catch (error) {
-      logger.error('Error getting user permissions', { error, userId });
+      logAuditEvent('getUserPermissions', this.tableName, userId, 'error', { error });
       throw error;
     }
   }
@@ -397,7 +459,7 @@ class DevelopmentRepository extends BaseRepository<Development> {
         totalPages
       };
     } catch (error) {
-      logger.error('Error finding developments by filters', { error, filters });
+      logAuditEvent('findByFilters', this.tableName, filters, 'error', { error });
       throw error;
     }
   }
@@ -425,7 +487,7 @@ class DevelopmentRepository extends BaseRepository<Development> {
 
       return mappedDevelopments;
     } catch (error) {
-      logger.error('Error finding developments by developer ID', { error, developerId });
+      logAuditEvent('findByDeveloperId', this.tableName, developerId, 'error', { error });
       throw error;
     }
   }
@@ -451,7 +513,7 @@ class DevelopmentRepository extends BaseRepository<Development> {
 
       return timelines;
     } catch (error) {
-      logger.error('Error getting development timelines', { error, developmentId });
+      logAuditEvent('getTimelines', this.tableName, developmentId, 'error', { error });
       throw error;
     }
   }
@@ -489,25 +551,15 @@ class UnitRepository extends BaseRepository<Unit> {
    * @returns Array of units
    */
   async findByDevelopment(developmentId: string, filters?: UnitFilter): Promise<Unit[]> {
-    const filterKey = JSON.stringify(filters || {});
-    const cacheKey = `${this.cacheNamespace}:development:${developmentId}:${filterKey}`;
-    const cached = unitCache.get<Unit[]>(cacheKey, []);
-
-    if (cached) {
-      return cached;
-    }
-
+    this.validateTableName();
     try {
-      const units = await unitDb.getByDevelopment(developmentId, filters);
-
-      const mappedUnits = units.map(unit => this.mapToEntity(unit));
-
-      // Store in cache
-      unitCache.set(cacheKey, [], mappedUnits);
-
-      return mappedUnits;
+      const result = await query(
+        'SELECT * FROM ?? WHERE development_id = $1',
+        [this.tableName, developmentId]
+      );
+      return result.rows.map((row: Record<string, unknown>) => this.mapToEntity(row));
     } catch (error) {
-      logger.error('Error finding units by development ID', { error, developmentId, filters });
+      logAuditEvent('findByDevelopment', this.tableName, { developmentId, filters }, 'error', { error });
       throw error;
     }
   }
@@ -533,7 +585,7 @@ class UnitRepository extends BaseRepository<Unit> {
 
       return rooms;
     } catch (error) {
-      logger.error('Error getting unit rooms', { error, unitId });
+      logAuditEvent('getRooms', this.tableName, unitId, 'error', { error });
       throw error;
     }
   }
@@ -545,24 +597,15 @@ class UnitRepository extends BaseRepository<Unit> {
    * @returns Array of customization options
    */
   async getCustomizationOptions(unitId: string, categoryFilter?: string): Promise<CustomizationOption[]> {
-    const cacheKey = `${this.cacheNamespace}:customization:${unitId}:${categoryFilter || 'all'}`;
-    const cached = unitCache.get<CustomizationOption[]>(cacheKey, []);
-
-    if (cached) {
-      return cached;
-    }
-
+    this.validateTableName();
     try {
-      const options = await unitDb.getCustomizationOptions(unitId, categoryFilter);
-
-      const mappedOptions = options.map(option => mappers.mapCustomizationOption(option));
-
-      // Store in cache
-      unitCache.set(cacheKey, [], mappedOptions);
-
-      return mappedOptions;
+      const result = await query(
+        'SELECT * FROM customizations WHERE unit_id = $1 AND ($2::text IS NULL OR category = $2)',
+        [unitId, categoryFilter]
+      );
+      return result.rows.map((row: Record<string, unknown>) => this.mapToEntity(row));
     } catch (error) {
-      logger.error('Error getting customization options', { error, unitId, categoryFilter });
+      logAuditEvent('getCustomizationOptions', this.tableName, { unitId, categoryFilter }, 'error', { error });
       throw error;
     }
   }

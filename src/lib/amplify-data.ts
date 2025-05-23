@@ -34,7 +34,7 @@ export const DataService = {
       { id: 'bathroom', name: 'Bathroom', icon: '🚿' }
     ];
   },
-  
+
   // Get categories
   getCategories: async () => {
     return [
@@ -44,7 +44,7 @@ export const DataService = {
       { id: 'furniture', name: 'Furniture' }
     ];
   },
-  
+
   // Get customization options
   getCustomizationOptions: async (roomId: string, categoryId?: string) => {
     // Default response structure with explicit return type
@@ -60,29 +60,29 @@ export const DataService = {
       fixtures: [],
       furniture: []
     };
-    
+
     // Check if we have options for this room
     if (roomId && customizationOptions[roomId as keyof typeof customizationOptions]) {
       // Add available categories
       const roomOptions = customizationOptions[roomId as keyof typeof customizationOptions];
-      
+
       Object.keys(roomOptions).forEach(cat => {
         response[cat] = roomOptions[cat as keyof typeof roomOptions];
       });
     }
-    
+
     return response;
   },
-  
+
   // Save customization data
   saveCustomization: async (data: any) => {
-    console.log('Saving customization data:', data);
+
     return {
       success: true,
       customizationId: `custom-${Date.now()}`
     };
   },
-  
+
   // Get saved customization
   getCustomization: async (id?: string) => {
     // Mock response

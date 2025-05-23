@@ -199,28 +199,28 @@ const integrations = [
 ];
 
 export default function PropertyProfessionalsSolutionPage() {
-  const [selectedCategory, setSelectedCategory] = useState('design');
-  const [showDemo, setShowDemo] = useState(false);
+  const [selectedCategorysetSelectedCategory] = useState('design');
+  const [showDemosetShowDemo] = useState(false);
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
       {/* Hero Section */}
       <section className="relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-[#2B5273] to-[#1E3142] opacity-5" />
-        
+
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-16">
           <div className="text-center mb-16">
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
+              initial={ opacity: 0, y: 20 }
+              animate={ opacity: 1, y: 0 }
+              transition={ duration: 0.6 }
             >
               <div className="flex justify-center mb-6">
                 <div className="h-16 w-16 bg-[#2B5273] rounded-xl flex items-center justify-center">
                   <Building2 className="h-8 w-8 text-white" />
                 </div>
               </div>
-              
+
               <h1 className="text-5xl font-bold text-gray-900 mb-6">
                 Property Service Providers Platform
               </h1>
@@ -229,7 +229,7 @@ export default function PropertyProfessionalsSolutionPage() {
                 contractors, and all property service providers. Streamline your workflow 
                 from concept to completion.
               </p>
-              
+
               <div className="mt-8 flex flex-wrap justify-center gap-4">
                 <button
                   onClick={() => setShowDemo(true)}
@@ -249,14 +249,14 @@ export default function PropertyProfessionalsSolutionPage() {
 
           {/* Hero Stats */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            {heroStats.map((stat, index) => {
+            {heroStats.map((statindex: any) => {
               const Icon = stat.icon;
               return (
                 <motion.div
                   key={index}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: index * 0.1 }}
+                  initial={ opacity: 0, y: 20 }
+                  animate={ opacity: 1, y: 0 }
+                  transition={ duration: 0.6, delay: index * 0.1 }
                   className="text-center"
                 >
                   <Icon className="h-8 w-8 text-[#2B5273] mx-auto mb-3" />
@@ -282,7 +282,7 @@ export default function PropertyProfessionalsSolutionPage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {professionalCategories.map((category) => {
+            {professionalCategories.map((category: any) => {
               const Icon = category.icon;
               return (
                 <button
@@ -297,7 +297,7 @@ export default function PropertyProfessionalsSolutionPage() {
                   <Icon className="h-10 w-10 text-[#2B5273] mb-4" />
                   <h3 className="text-xl font-bold text-gray-900 mb-2">{category.name}</h3>
                   <ul className="text-sm text-gray-600 space-y-1">
-                    {category.roles.map((role, index) => (
+                    {category.roles.map((roleindex: any) => (
                       <li key={index}>• {role}</li>
                     ))}
                   </ul>
@@ -321,14 +321,14 @@ export default function PropertyProfessionalsSolutionPage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {coreFeatures.map((feature, index) => {
+            {coreFeatures.map((featureindex: any) => {
               const Icon = feature.icon;
               return (
                 <motion.div
                   key={index}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: index * 0.1 }}
+                  initial={ opacity: 0, y: 20 }
+                  animate={ opacity: 1, y: 0 }
+                  transition={ duration: 0.6, delay: index * 0.1 }
                   className="bg-white rounded-xl p-8 shadow-sm hover:shadow-md transition-all"
                 >
                   <Icon className="h-12 w-12 text-[#2B5273] mb-6" />
@@ -339,7 +339,7 @@ export default function PropertyProfessionalsSolutionPage() {
                     {feature.description}
                   </p>
                   <ul className="space-y-2">
-                    {feature.features.map((item, idx) => (
+                    {feature.features.map((itemidx: any) => (
                       <li key={idx} className="flex items-start gap-2">
                         <CheckCircle className="h-5 w-5 text-green-500 mt-0.5" />
                         <span className="text-sm text-gray-700">{item}</span>
@@ -366,7 +366,7 @@ export default function PropertyProfessionalsSolutionPage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-5 gap-8">
-            {workflowSteps.map((step, index) => {
+            {workflowSteps.map((stepindex: any) => {
               const Icon = step.icon;
               return (
                 <div key={index} className="text-center">
@@ -374,7 +374,7 @@ export default function PropertyProfessionalsSolutionPage() {
                     <div className="h-20 w-20 bg-[#2B5273] rounded-full flex items-center justify-center mx-auto mb-4">
                       <Icon className="h-10 w-10 text-white" />
                     </div>
-                    {index < workflowSteps.length - 1 && (
+                    {index <workflowSteps.length - 1 && (
                       <div className="hidden md:block absolute top-10 left-full w-full h-0.5 bg-gray-300">
                         <ChevronRight className="absolute -top-2.5 right-0 h-5 w-5 text-gray-400" />
                       </div>
@@ -406,7 +406,7 @@ export default function PropertyProfessionalsSolutionPage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {successStories.map((story, index) => (
+            {successStories.map((storyindex: any) => (
               <div key={index} className="bg-white rounded-xl p-8 shadow-sm">
                 <div className="mb-6">
                   <h3 className="text-xl font-bold text-gray-900">{story.company}</h3>
@@ -447,7 +447,7 @@ export default function PropertyProfessionalsSolutionPage() {
                     </p>
                   </div>
                 </div>
-                
+
                 <div className="flex items-start gap-4">
                   <div className="h-10 w-10 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0">
                     <Zap className="h-5 w-5 text-green-600" />
@@ -462,7 +462,7 @@ export default function PropertyProfessionalsSolutionPage() {
                     </p>
                   </div>
                 </div>
-                
+
                 <div className="flex items-start gap-4">
                   <div className="h-10 w-10 bg-purple-100 rounded-lg flex items-center justify-center flex-shrink-0">
                     <Shield className="h-5 w-5 text-purple-600" />
@@ -477,7 +477,7 @@ export default function PropertyProfessionalsSolutionPage() {
                     </p>
                   </div>
                 </div>
-                
+
                 <div className="flex items-start gap-4">
                   <div className="h-10 w-10 bg-orange-100 rounded-lg flex items-center justify-center flex-shrink-0">
                     <TrendingUp className="h-5 w-5 text-orange-600" />
@@ -494,12 +494,12 @@ export default function PropertyProfessionalsSolutionPage() {
                 </div>
               </div>
             </div>
-            
+
             <div className="bg-gray-50 rounded-xl p-8">
               <h3 className="text-xl font-bold text-gray-900 mb-6">
                 Platform Dashboard Preview
               </h3>
-              
+
               {/* Mock Dashboard */}
               <div className="bg-white rounded-lg p-6 shadow-sm space-y-4">
                 <div className="flex items-center justify-between mb-4">
@@ -510,7 +510,7 @@ export default function PropertyProfessionalsSolutionPage() {
                     View All →
                   </span>
                 </div>
-                
+
                 <div className="space-y-3">
                   <div className="flex items-center justify-between p-3 bg-gray-50 rounded">
                     <div>
@@ -521,7 +521,7 @@ export default function PropertyProfessionalsSolutionPage() {
                       On Track
                     </span>
                   </div>
-                  
+
                   <div className="flex items-center justify-between p-3 bg-gray-50 rounded">
                     <div>
                       <p className="font-medium text-gray-900">City Center Plaza</p>
@@ -531,7 +531,7 @@ export default function PropertyProfessionalsSolutionPage() {
                       In Review
                     </span>
                   </div>
-                  
+
                   <div className="flex items-center justify-between p-3 bg-gray-50 rounded">
                     <div>
                       <p className="font-medium text-gray-900">Harbour View Apartments</p>
@@ -542,7 +542,7 @@ export default function PropertyProfessionalsSolutionPage() {
                     </span>
                   </div>
                 </div>
-                
+
                 <div className="pt-4 border-t">
                   <div className="grid grid-cols-3 gap-4 text-center">
                     <div>
@@ -578,7 +578,7 @@ export default function PropertyProfessionalsSolutionPage() {
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8">
-            {integrations.map((integration, index) => (
+            {integrations.map((integrationindex: any) => (
               <div
                 key={index}
                 className="bg-white rounded-lg p-6 text-center hover:shadow-md transition-all"
@@ -602,7 +602,7 @@ export default function PropertyProfessionalsSolutionPage() {
             Join thousands of property professionals already using Prop.ie 
             to deliver exceptional projects
           </p>
-          
+
           <div className="flex flex-wrap justify-center gap-4">
             <button
               onClick={() => setShowDemo(true)}
@@ -617,7 +617,7 @@ export default function PropertyProfessionalsSolutionPage() {
               Start Free Trial
             </Link>
           </div>
-          
+
           <p className="text-sm text-white/60 mt-6">
             No credit card required • 14-day free trial • Full feature access
           </p>
@@ -634,7 +634,7 @@ export default function PropertyProfessionalsSolutionPage() {
             <p className="text-gray-600 mb-6">
               See how Prop.ie can transform your property services business
             </p>
-            
+
             <form className="space-y-4">
               <input
                 type="text"
@@ -662,7 +662,7 @@ export default function PropertyProfessionalsSolutionPage() {
                 <option value="designer">Interior Designer</option>
                 <option value="other">Other Professional</option>
               </select>
-              
+
               <div className="flex gap-4">
                 <button
                   type="submit"

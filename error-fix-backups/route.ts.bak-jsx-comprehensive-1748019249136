@@ -1,0 +1,276 @@
+import { NextRequest, NextResponse } from 'next/server';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/lib/auth';
+import { transactionService } from '@/services/transactionService';
+import { z } from 'zod';
+
+// Validation schemas
+const createTransactionSchema = z.object({
+  buyerId: z.string(),
+  developmentId: z.string(),
+  unitId: z.string(),
+  agentId: z.string().optional(),
+  agreedPrice: z.number().optional(),
+  mortgageRequired: z.boolean().optional(),
+  helpToBuyUsed: z.boolean().optional(),
+  referralSource: z.string().optional(),
+  notes: z.string().optional()
+});
+
+const filterSchema = z.object({
+  buyerId: z.string().optional(),
+  developmentId: z.string().optional(),
+  unitId: z.string().optional(),
+  status: z.string().optional(),
+  stage: z.string().optional(),
+  page: z.coerce.number().optional().default(1),
+  limit: z.coerce.number().optional().default(10)
+});
+
+// GET /api/transactions
+export async function GET(request: NextRequest) {
+  try {
+    const session = await getServerSession(authOptions);
+    if (!session) {
+      return NextResponse.json(
+        { error: 'Authentication required' },
+        { status: 401 }
+      );
+    }
+
+    const { searchParams } = new URL(request.url);
+    const params = Object.fromEntries(searchParams.entries());
+
+    // Validate filter parameters
+    const validatedParams = filterSchema.parse(params);
+    const { page, limit, ...filter } = validatedParams;
+
+    // Apply role-based filtering
+    if (session.user?.role === 'BUYER') {
+      filter.buyerId = session.user.id;
+    } else if (session.user?.role === 'AGENT') {
+      // Agents can see transactions they're involved in
+      // TODO: Add agent filtering logic
+    }
+
+    // Get transactions
+    const transactions = await transactionService.getTransactions(filter);
+
+    // Paginate results
+    const startIndex = (page - 1) * limit;
+    const endIndex = startIndex + limit;
+    const paginatedTransactions = transactions.slice(startIndex, endIndex);
+
+    return NextResponse.json({
+      success: true,
+      data: {
+        transactions: paginatedTransactions,
+        pagination: {
+          page,
+          limit,
+          total: transactions.length,
+          totalPages: Math.ceil(transactions.length / limit)
+        }
+      }
+    });
+  } catch (error) {
+
+    return NextResponse.json(
+      { success: false, error: 'Failed to fetch transactions' },
+      { status: 500 }
+    );
+  }
+}
+
+// POST /api/transactions
+export async function POST(request: NextRequest) {
+  try {
+    const session = await getServerSession(authOptions);
+    if (!session) {
+      return NextResponse.json(
+        { error: 'Authentication required' },
+        { status: 401 }
+      );
+    }
+
+    // Only buyers, agents, and admins can create transactions
+    if (!['BUYER', 'AGENT', 'ADMIN'].includes(session.user?.role || '')) {
+      return NextResponse.json(
+        { error: 'Unauthorized to create transactions' },
+        { status: 403 }
+      );
+    }
+
+    const body = await request.json();
+
+    // Validate request body
+    const validatedData = createTransactionSchema.parse(body);
+
+    // If buyer is creating their own transaction
+    if (session.user?.role === 'BUYER') {
+      validatedData.buyerId = session.user.id;
+    }
+
+    // If agent is creating, ensure they're the agent
+    if (session.user?.role === 'AGENT' && !validatedData.agentId) {
+      validatedData.agentId = session.user.id;
+    }
+
+    // Create transaction
+    const transaction = await transactionService.createTransaction(validatedData);
+
+    return NextResponse.json({
+      success: true,
+      data: transaction
+    });
+  } catch (error) {
+
+    if (error instanceof z.ZodError) {
+      return NextResponse.json(
+        { success: false, error: 'Invalid request data', details: error.errors },
+        { status: 400 }
+      );
+    }
+
+    return NextResponse.json(
+      { success: false, error: 'Failed to create transaction' },
+      { status: 500 }
+    );
+  }
+}
+
+// PATCH /api/transactions
+export async function PATCH(request: NextRequest) {
+  try {
+    const session = await getServerSession(authOptions);
+    if (!session) {
+      return NextResponse.json(
+        { error: 'Authentication required' },
+        { status: 401 }
+      );
+    }
+
+    const body = await request.json();
+    const { transactionId, updates } = body;
+
+    if (!transactionId) {
+      return NextResponse.json(
+        { success: false, error: 'Transaction ID is required' },
+        { status: 400 }
+      );
+    }
+
+    // Check permissions
+    const transaction = await transactionService.getTransaction(transactionId);
+    if (!transaction) {
+      return NextResponse.json(
+        { success: false, error: 'Transaction not found' },
+        { status: 404 }
+      );
+    }
+
+    // Role-based access control
+    const canUpdate = 
+      session.user?.role === 'ADMIN' ||
+      (session.user?.role === 'BUYER' && transaction.buyerId === session.user.id) ||
+      (session.user?.role === 'AGENT' && transaction.agentId === session.user.id) ||
+      (session.user?.role === 'DEVELOPER' && transaction.development?.developerId === session.user.id);
+
+    if (!canUpdate) {
+      return NextResponse.json(
+        { error: 'Unauthorized to update this transaction' },
+        { status: 403 }
+      );
+    }
+
+    // Update transaction
+    const updatedTransaction = await transactionService.updateTransaction(
+      transactionId,
+      updates,
+      session.user?.id || 'system'
+    );
+
+    return NextResponse.json({
+      success: true,
+      data: updatedTransaction
+    });
+  } catch (error) {
+
+    return NextResponse.json(
+      { success: false, error: 'Failed to update transaction' },
+      { status: 500 }
+    );
+  }
+}
+
+// DELETE /api/transactions
+export async function DELETE(request: NextRequest) {
+  try {
+    const session = await getServerSession(authOptions);
+    if (!session) {
+      return NextResponse.json(
+        { error: 'Authentication required' },
+        { status: 401 }
+      );
+    }
+
+    const { searchParams } = new URL(request.url);
+    const transactionId = searchParams.get('id');
+
+    if (!transactionId) {
+      return NextResponse.json(
+        { success: false, error: 'Transaction ID is required' },
+        { status: 400 }
+      );
+    }
+
+    // Check permissions
+    const transaction = await transactionService.getTransaction(transactionId);
+    if (!transaction) {
+      return NextResponse.json(
+        { success: false, error: 'Transaction not found' },
+        { status: 404 }
+      );
+    }
+
+    // Only allow cancellation, not deletion
+    if (['COMPLETED', 'HANDED_OVER'].includes(transaction.status)) {
+      return NextResponse.json(
+        { error: 'Cannot cancel completed transactions' },
+        { status: 400 }
+      );
+    }
+
+    // Role-based access control
+    const canCancel = 
+      session.user?.role === 'ADMIN' ||
+      (session.user?.role === 'BUYER' && transaction.buyerId === session.user.id) ||
+      (session.user?.role === 'DEVELOPER' && transaction.development?.developerId === session.user.id);
+
+    if (!canCancel) {
+      return NextResponse.json(
+        { error: 'Unauthorized to cancel this transaction' },
+        { status: 403 }
+      );
+    }
+
+    // Cancel transaction
+    const cancelledTransaction = await transactionService.updateTransaction(
+      transactionId,
+      { status: 'CANCELLED' },
+      session.user?.id || 'system'
+    );
+
+    return NextResponse.json({
+      success: true,
+      message: 'Transaction cancelled successfully',
+      data: cancelledTransaction
+    });
+  } catch (error) {
+
+    return NextResponse.json(
+      { success: false, error: 'Failed to cancel transaction' },
+      { status: 500 }
+    );
+  }
+}

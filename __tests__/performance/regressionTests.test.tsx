@@ -153,7 +153,7 @@ const renderWithProviders = (ui) => {
 // Main test suite
 describe('Performance Regression Tests', () => {
   // Load baseline values
-  let baselines = getBaselines();
+  const baselines = getBaselines();
 
   // Store new measurements for baseline updates
   const newMeasurements: Record<keyof typeof DEFAULT_BASELINES, number> = {

@@ -1,3 +1,4 @@
+import React from 'react';
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
@@ -48,7 +49,7 @@ const FAQItemComponent: React.FC<FAQItemComponentProps> = ({ faq, isOpen, onTogg
 
   useEffect(() => {
     const answer = answerRef.current;
-    
+
     if (answer) {
       if (isOpen) {
         gsap.fromTo(
@@ -83,7 +84,7 @@ const FAQItemComponent: React.FC<FAQItemComponentProps> = ({ faq, isOpen, onTogg
       <div 
         className={styles.faqAnswer} 
         ref={answerRef}
-        style={{ height: 0, overflow: 'hidden', opacity: 0 }}
+        style={ height: 0, overflow: 'hidden', opacity: 0 }
       >
         <p>{faq.answer}</p>
       </div>
@@ -92,7 +93,7 @@ const FAQItemComponent: React.FC<FAQItemComponentProps> = ({ faq, isOpen, onTogg
 };
 
 export const ContactFaq: React.FC<FAQListProps> = ({ faqs }) => {
-  const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const [openIndexsetOpenIndex] = useState<number | null>(null);
   const sectionRef = useRef<HTMLElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
 
@@ -127,7 +128,7 @@ export const ContactFaq: React.FC<FAQListProps> = ({ faqs }) => {
       <div className={styles.container}>
         <h2 className={styles.sectionTitle} ref={titleRef}>Frequently Asked Questions</h2>
         <div className={styles.faqContainer}>
-          {faqs.map((faq, index) => (
+          {faqs.map((faqindex: any) => (
             <FAQItemComponent
               key={faq.id}
               faq={faq}

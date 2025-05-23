@@ -18,44 +18,44 @@ import { useRouter, usePathname } from 'next/navigation';
 
 // AI-powered command palette for quick actions
 const CommandPalette = ({ isOpen, onClose, userActions }) => {
-  const [query, setQuery] = useState('');
-  const [suggestions, setSuggestions] = useState([]);
-  
+  const [querysetQuery] = useState('');
+  const [suggestionssetSuggestions] = useState([]);
+
   // AI-powered search with natural language processing
-  const searchActions = (searchQuery) => {
+  const searchActions = (searchQuery: any) => {
     // This would connect to an AI service for natural language understanding
-    const filtered = userActions.filter(action => 
+    const filtered = userActions.filter(action: any => 
       action.label.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      action.keywords?.some(keyword => keyword.includes(searchQuery.toLowerCase()))
+      action.keywords?.some(keyword: any => keyword.includes(searchQuery.toLowerCase()))
     );
-    
-    return filtered.slice(0, 5);
+
+    return filtered.slice(05);
   };
-  
+
   useEffect(() => {
     if (query) {
       setSuggestions(searchActions(query));
     } else {
-      setSuggestions(userActions.slice(0, 5));
+      setSuggestions(userActions.slice(05));
     }
-  }, [query, userActions]);
-  
+  }, [queryuserActions]);
+
   return (
     <AnimatePresence>
       {isOpen && (
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
+          initial={ opacity: 0 }
+          animate={ opacity: 1 }
+          exit={ opacity: 0 }
           className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center"
           onClick={onClose}
         >
           <motion.div
-            initial={{ scale: 0.95, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            exit={{ scale: 0.95, opacity: 0 }}
+            initial={ scale: 0.95, opacity: 0 }
+            animate={ scale: 1, opacity: 1 }
+            exit={ scale: 0.95, opacity: 0 }
             className="bg-white rounded-2xl shadow-2xl w-[90%] max-w-2xl max-h-[70vh] overflow-hidden"
-            onClick={(e) => e.stopPropagation()}
+            onClick={(e: React.MouseEvent) => e.stopPropagation()}
           >
             <div className="p-6">
               <div className="flex items-center space-x-3 mb-6">
@@ -67,23 +67,23 @@ const CommandPalette = ({ isOpen, onClose, userActions }) => {
                   placeholder="What would you like to do?"
                   className="flex-1 text-lg outline-none"
                   value={query}
-                  onChange={(e) => setQuery(e.target.value)}
+                  onChange={(e: React.MouseEvent) => setQuery(e.target.value)}
                   autoFocus
                 />
                 <button onClick={onClose} className="text-gray-400 hover:text-gray-600">
                   <X className="h-6 w-6" />
                 </button>
               </div>
-              
+
               <div className="space-y-2">
-                {suggestions.map((action, index) => (
+                {suggestions.map((action: anyindex) => (
                   <motion.a
                     key={action.id}
                     href={action.href}
                     className="flex items-center justify-between p-4 rounded-xl hover:bg-gray-50 transition-colors group"
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: index * 0.05 }}
+                    initial={ opacity: 0, y: 10 }
+                    animate={ opacity: 1, y: 0 }
+                    transition={ delay: index * 0.05 }
                   >
                     <div className="flex items-center space-x-4">
                       <div className={`p-2 rounded-lg ${action.color} text-white group-hover:scale-110 transition-transform`}>
@@ -98,7 +98,7 @@ const CommandPalette = ({ isOpen, onClose, userActions }) => {
                   </motion.a>
                 ))}
               </div>
-              
+
               <div className="mt-6 flex items-center justify-between text-sm text-gray-500">
                 <div className="flex items-center space-x-4">
                   <kbd className="px-2 py-1 bg-gray-100 rounded">⌘K</kbd>
@@ -119,9 +119,9 @@ const CommandPalette = ({ isOpen, onClose, userActions }) => {
 
 // Smart notification center with AI-powered insights
 const SmartNotificationCenter = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpensetIsOpen] = useState(false);
   const { notifications } = useNotifications(); // Custom hook
-  
+
   return (
     <div className="relative">
       <button
@@ -129,23 +129,23 @@ const SmartNotificationCenter = () => {
         className="relative p-2 rounded-full hover:bg-gray-100 transition-colors"
       >
         <Bell className="h-5 w-5" />
-        {notifications.unread > 0 && (
+        {notifications.unread> 0 && (
           <motion.span
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
+            initial={ scale: 0 }
+            animate={ scale: 1 }
             className="absolute -top-1 -right-1 h-5 w-5 bg-red-500 text-white rounded-full text-xs flex items-center justify-center"
           >
             {notifications.unread}
           </motion.span>
         )}
       </button>
-      
+
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
+            initial={ opacity: 0, y: -10 }
+            animate={ opacity: 1, y: 0 }
+            exit={ opacity: 0, y: -10 }
             className="absolute right-0 mt-2 w-96 bg-white rounded-2xl shadow-2xl overflow-hidden"
           >
             <div className="p-4 border-b bg-gradient-to-r from-indigo-50 to-purple-50">
@@ -154,9 +154,9 @@ const SmartNotificationCenter = () => {
                 AI-Powered Insights
               </h3>
             </div>
-            
+
             <div className="max-h-96 overflow-y-auto">
-              {notifications.items.map((notification) => (
+              {notifications.items.map((notification: any) => (
                 <div
                   key={notification.id}
                   className="p-4 border-b hover:bg-gray-50 transition-colors cursor-pointer"
@@ -183,15 +183,15 @@ const SmartNotificationCenter = () => {
 
 // Main Revolutionary Navigation Component
 export const RevolutionaryNavigation: React.FC<{ theme?: 'light' | 'dark' }> = ({ theme = 'light' }) => {
-  const [isCommandPaletteOpen, setCommandPaletteOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isCommandPaletteOpensetCommandPaletteOpen] = useState(false);
+  const [scrolledsetScrolled] = useState(false);
+  const [mobileMenuOpensetMobileMenuOpen] = useState(false);
   const { user, isAuthenticated } = useAuth();
   const { role } = useUserRole();
   const { transactions } = useTransaction();
   const pathname = usePathname();
   const router = useRouter();
-  
+
   // Adaptive user actions based on behavior analysis
   const userActions = useMemo(() => {
     const baseActions = [
@@ -223,7 +223,7 @@ export const RevolutionaryNavigation: React.FC<{ theme?: 'light' | 'dark' }> = (
         keywords: ['ai', 'advisor', 'recommendation', 'help']
       }
     ];
-    
+
     // Add role-specific actions
     if (role === 'BUYER') {
       baseActions.push({
@@ -236,30 +236,30 @@ export const RevolutionaryNavigation: React.FC<{ theme?: 'light' | 'dark' }> = (
         keywords: ['journey', 'progress', 'track']
       });
     }
-    
+
     return baseActions;
   }, [role]);
-  
+
   // Handle scroll effect
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 20);
+    const handleScroll = () => setScrolled(window.scrollY> 20);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-  
+
   // Keyboard shortcut for command palette
   useEffect(() => {
-    const handleKeyPress = (e) => {
+    const handleKeyPress = (e: React.MouseEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
         e.preventDefault();
         setCommandPaletteOpen(true);
       }
     };
-    
+
     window.addEventListener('keydown', handleKeyPress);
     return () => window.removeEventListener('keydown', handleKeyPress);
   }, []);
-  
+
   const navClasses = `fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
     scrolled 
       ? 'bg-white/95 backdrop-blur-lg shadow-lg' 
@@ -267,14 +267,14 @@ export const RevolutionaryNavigation: React.FC<{ theme?: 'light' | 'dark' }> = (
         ? 'bg-transparent' 
         : 'bg-white shadow-sm'
   }`;
-  
+
   return (
     <>
       <motion.nav 
         className={navClasses}
-        initial={{ y: -100 }}
-        animate={{ y: 0 }}
-        transition={{ type: "spring", stiffness: 100 }}
+        initial={ y: -100 }
+        animate={ y: 0 }
+        transition={ type: "spring", stiffness: 100 }
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16">
@@ -282,8 +282,8 @@ export const RevolutionaryNavigation: React.FC<{ theme?: 'light' | 'dark' }> = (
             <div className="flex items-center">
               <Link href="/" className="flex items-center space-x-3 group">
                 <motion.div
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
+                  whileHover={ scale: 1.05 }
+                  whileTap={ scale: 0.95 }
                   className="relative h-10 w-32"
                 >
                   <Image 
@@ -294,7 +294,7 @@ export const RevolutionaryNavigation: React.FC<{ theme?: 'light' | 'dark' }> = (
                   />
                 </motion.div>
               </Link>
-              
+
               {/* Primary Navigation */}
               <nav className="hidden lg:ml-8 lg:flex lg:space-x-6">
                 <NavItem href="/properties" label="Properties" icon={<Home className="h-4 w-4" />} />
@@ -303,7 +303,7 @@ export const RevolutionaryNavigation: React.FC<{ theme?: 'light' | 'dark' }> = (
                 <NavItem href="/solutions" label="Solutions" icon={<Layers className="h-4 w-4" />} />
               </nav>
             </div>
-            
+
             {/* Right side actions */}
             <div className="flex items-center space-x-4">
               {/* Command palette trigger */}
@@ -315,15 +315,15 @@ export const RevolutionaryNavigation: React.FC<{ theme?: 'light' | 'dark' }> = (
                 <span className="text-sm text-gray-600">Quick Actions</span>
                 <kbd className="text-xs bg-white px-1.5 py-0.5 rounded">⌘K</kbd>
               </button>
-              
+
               {/* AI Chat Assistant */}
               <button className="p-2 rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 text-white hover:shadow-lg transition-shadow">
                 <MessageSquare className="h-5 w-5" />
               </button>
-              
+
               {/* Smart Notifications */}
               <SmartNotificationCenter />
-              
+
               {/* User Profile */}
               {isAuthenticated ? (
                 <UserMenu user={user} />
@@ -343,7 +343,7 @@ export const RevolutionaryNavigation: React.FC<{ theme?: 'light' | 'dark' }> = (
                   </Link>
                 </div>
               )}
-              
+
               {/* Mobile menu button */}
               <button
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -354,22 +354,22 @@ export const RevolutionaryNavigation: React.FC<{ theme?: 'light' | 'dark' }> = (
             </div>
           </div>
         </div>
-        
+
         {/* Progress indicator */}
         <motion.div
           className="absolute bottom-0 left-0 h-1 bg-gradient-to-r from-indigo-500 to-purple-600"
-          initial={{ width: "0%" }}
-          animate={{ width: `${scrollProgress}%` }}
+          initial={ width: "0%" }
+          animate={ width: `${scrollProgress}%` }
         />
       </motion.nav>
-      
+
       {/* Command Palette */}
       <CommandPalette
         isOpen={isCommandPaletteOpen}
         onClose={() => setCommandPaletteOpen(false)}
         userActions={userActions}
       />
-      
+
       {/* Mobile Menu */}
       <MobileMenu isOpen={mobileMenuOpen} onClose={() => setMobileMenuOpen(false)} />
     </>
@@ -380,7 +380,7 @@ export const RevolutionaryNavigation: React.FC<{ theme?: 'light' | 'dark' }> = (
 const NavItem = ({ href, label, icon, isNew = false }) => {
   const pathname = usePathname();
   const isActive = pathname === href || pathname?.startsWith(href + '/');
-  
+
   return (
     <Link
       href={href}
@@ -401,9 +401,9 @@ const NavItem = ({ href, label, icon, isNew = false }) => {
 
 // User Menu Component
 const UserMenu = ({ user }) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpensetIsOpen] = useState(false);
   const { signOut } = useAuth();
-  
+
   return (
     <div className="relative">
       <button
@@ -415,20 +415,20 @@ const UserMenu = ({ user }) => {
         </div>
         <ChevronRight className={`h-4 w-4 text-gray-600 transition-transform ${isOpen ? 'rotate-90' : ''}`} />
       </button>
-      
+
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
+            initial={ opacity: 0, y: -10 }
+            animate={ opacity: 1, y: 0 }
+            exit={ opacity: 0, y: -10 }
             className="absolute right-0 mt-2 w-64 bg-white rounded-2xl shadow-2xl overflow-hidden"
           >
             <div className="p-4 bg-gradient-to-r from-indigo-50 to-purple-50">
               <h3 className="font-semibold text-gray-800">{user?.name}</h3>
               <p className="text-sm text-gray-600">{user?.email}</p>
             </div>
-            
+
             <div className="p-2">
               <Link
                 href="/dashboard"
@@ -437,7 +437,7 @@ const UserMenu = ({ user }) => {
                 <BarChart2 className="h-5 w-5 text-gray-600" />
                 <span>Dashboard</span>
               </Link>
-              
+
               <Link
                 href="/settings"
                 className="flex items-center space-x-3 px-3 py-2 rounded-lg hover:bg-gray-100 transition-colors"
@@ -445,7 +445,7 @@ const UserMenu = ({ user }) => {
                 <Settings className="h-5 w-5 text-gray-600" />
                 <span>Settings</span>
               </Link>
-              
+
               <button
                 onClick={signOut}
                 className="w-full flex items-center space-x-3 px-3 py-2 rounded-lg hover:bg-gray-100 transition-colors text-left"
@@ -467,9 +467,9 @@ const MobileMenu = ({ isOpen, onClose }) => {
     <AnimatePresence>
       {isOpen && (
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
+          initial={ opacity: 0 }
+          animate={ opacity: 1 }
+          exit={ opacity: 0 }
           className="fixed inset-0 bg-white z-50 lg:hidden"
         >
           <div className="p-4">
@@ -485,7 +485,7 @@ const MobileMenu = ({ isOpen, onClose }) => {
                 <X className="h-6 w-6" />
               </button>
             </div>
-            
+
             <nav className="space-y-4">
               <MobileNavItem href="/properties" label="Properties" icon={<Home className="h-5 w-5" />} />
               <MobileNavItem href="/developments" label="Developments" icon={<Building className="h-5 w-5" />} />

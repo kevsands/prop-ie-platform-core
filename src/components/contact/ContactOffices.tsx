@@ -1,3 +1,4 @@
+import React from 'react';
 'use client';
 
 import { useRef, useEffect, useState } from 'react';
@@ -56,12 +57,12 @@ const OfficeItemComponent: React.FC<OfficeItemComponentProps> = ({ office, index
     >
       <h3 className={styles.officeName}>{office.name}</h3>
       <p className={styles.officeAddress}>{office.address}</p>
-      
+
       <div className={styles.officeContact}>
         <p>Phone: {office.phone}</p>
         <p>Email: {office.email}</p>
       </div>
-      
+
       {office.hours && (
         <p className={styles.officeHours}>{office.hours}</p>
       )}
@@ -72,9 +73,9 @@ const OfficeItemComponent: React.FC<OfficeItemComponentProps> = ({ office, index
 export const ContactOffices: React.FC<OfficesListProps> = ({ offices }) => {
   const sectionRef = useRef<HTMLElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
-  
+
   // State for active office can be added if needed for map integration
-  const [activeOffice, setActiveOffice] = useState<Office | null>(null);
+  const [activeOfficesetActiveOffice] = useState<Office | null>(null);
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -108,7 +109,7 @@ export const ContactOffices: React.FC<OfficesListProps> = ({ offices }) => {
       <div className={styles.container}>
         <h2 className={styles.sectionTitle} ref={titleRef}>Our Offices</h2>
         <div className={styles.officesGrid}>
-          {offices.map((office, index) => (
+          {offices.map((officeindex: any) => (
             <OfficeItemComponent
               key={office.id}
               office={office}

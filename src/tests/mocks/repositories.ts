@@ -27,11 +27,11 @@ export enum UserStatus {
 
 // Base repository interface
 export interface BaseRepository<T> {
-  findById: (id: string) => Promise<T | null>;
-  findAll: () => Promise<T[]>;
-  create: (data: Partial<T>) => Promise<T>;
-  update: (id: string, data: Partial<T>) => Promise<T | null>;
-  delete: (id: string) => Promise<boolean>;
+  findById: (id: string) => Promise<T | null>\n  );
+  findAll: () => Promise<T[]>\n  );
+  create: (data: Partial<T>) => Promise<T>\n  );
+  update: (id: string, data: Partial<T>) => Promise<T | null>\n  );
+  delete: (id: string) => Promise<boolean>\n  );
 }
 
 // Mock user entity
@@ -114,8 +114,7 @@ export class UserRepository implements BaseRepository<User> {
         roles: [UserRole.BUYER],
         status: UserStatus.ACTIVE,
         createdAt: new Date(),
-        updatedAt: new Date(),
-      },
+        updatedAt: new Date()},
       {
         id: 'user-2',
         email: 'user2@example.com',
@@ -124,9 +123,7 @@ export class UserRepository implements BaseRepository<User> {
         roles: [UserRole.DEVELOPER],
         status: UserStatus.ACTIVE,
         createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-    ];
+        updatedAt: new Date()}];
   }
 
   async findById(id: string): Promise<User | null> {
@@ -154,8 +151,7 @@ export class UserRepository implements BaseRepository<User> {
       roles: data.roles || [UserRole.BUYER],
       status: data.status || UserStatus.PENDING,
       createdAt: new Date(),
-      updatedAt: new Date(),
-    };
+      updatedAt: new Date()};
 
     this.users.push(newUser);
     return newUser;
@@ -174,7 +170,7 @@ export class UserRepository implements BaseRepository<User> {
     const index = this.users.findIndex(user => user.id === id);
     if (index === -1) return false;
 
-    this.users.splice(index, 1);
+    this.users.splice(index1);
     return true;
   }
 }
@@ -194,9 +190,7 @@ export class DevelopmentRepository implements BaseRepository<Development> {
         status: 'ACTIVE',
         createdAt: new Date(),
         updatedAt: new Date(),
-        createdBy: 'user-1',
-      },
-    ];
+        createdBy: 'user-1'}];
   }
 
   async findById(id: string): Promise<Development | null> {
@@ -220,8 +214,7 @@ export class DevelopmentRepository implements BaseRepository<Development> {
       status: data.status || 'ACTIVE',
       createdAt: new Date(),
       updatedAt: new Date(),
-      createdBy: data.createdBy || 'user-1',
-    };
+      createdBy: data.createdBy || 'user-1'};
 
     this.developments.push(newDevelopment);
     return newDevelopment;
@@ -244,7 +237,7 @@ export class DevelopmentRepository implements BaseRepository<Development> {
     const index = this.developments.findIndex(dev => dev.id === id);
     if (index === -1) return false;
 
-    this.developments.splice(index, 1);
+    this.developments.splice(index1);
     return true;
   }
 }
@@ -267,9 +260,7 @@ export class UnitRepository implements BaseRepository<Unit> {
         bathrooms: 1,
         floorArea: 85,
         createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-    ];
+        updatedAt: new Date()}];
   }
 
   async findById(id: string): Promise<Unit | null> {
@@ -296,8 +287,7 @@ export class UnitRepository implements BaseRepository<Unit> {
       bathrooms: data.bathrooms || 1,
       floorArea: data.floorArea || 85,
       createdAt: new Date(),
-      updatedAt: new Date(),
-    };
+      updatedAt: new Date()};
 
     this.units.push(newUnit);
     return newUnit;
@@ -316,7 +306,7 @@ export class UnitRepository implements BaseRepository<Unit> {
     const index = this.units.findIndex(unit => unit.id === id);
     if (index === -1) return false;
 
-    this.units.splice(index, 1);
+    this.units.splice(index1);
     return true;
   }
 }
@@ -337,9 +327,7 @@ export class DocumentRepository implements BaseRepository<Document> {
         status: 'ACTIVE',
         uploadedBy: 'user-1',
         createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-    ];
+        updatedAt: new Date()}];
   }
 
   async findById(id: string): Promise<Document | null> {
@@ -364,8 +352,7 @@ export class DocumentRepository implements BaseRepository<Document> {
       status: data.status || 'ACTIVE',
       uploadedBy: data.uploadedBy || 'user-1',
       createdAt: new Date(),
-      updatedAt: new Date(),
-    };
+      updatedAt: new Date()};
 
     this.documents.push(newDocument);
     return newDocument;
@@ -388,7 +375,7 @@ export class DocumentRepository implements BaseRepository<Document> {
     const index = this.documents.findIndex(doc => doc.id === id);
     if (index === -1) return false;
 
-    this.documents.splice(index, 1);
+    this.documents.splice(index1);
     return true;
   }
 }
@@ -407,9 +394,7 @@ export class FinancialRepository implements BaseRepository<Financial> {
         spentToDate: 2500000,
         projectedProfit: 1000000,
         createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-    ];
+        updatedAt: new Date()}];
   }
 
   async findById(id: string): Promise<Financial | null> {
@@ -432,8 +417,7 @@ export class FinancialRepository implements BaseRepository<Financial> {
       spentToDate: data.spentToDate || 0,
       projectedProfit: data.projectedProfit || 1000000,
       createdAt: new Date(),
-      updatedAt: new Date(),
-    };
+      updatedAt: new Date()};
 
     this.financials.push(newFinancial);
     return newFinancial;
@@ -456,7 +440,7 @@ export class FinancialRepository implements BaseRepository<Financial> {
     const index = this.financials.findIndex(fin => fin.id === id);
     if (index === -1) return false;
 
-    this.financials.splice(index, 1);
+    this.financials.splice(index1);
     return true;
   }
 }

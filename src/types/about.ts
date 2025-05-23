@@ -52,20 +52,20 @@ export interface AboutPageData {
       id: string;
       title: string;
       organization: string;
-    }>;
+    }>\n  );
   };
   partnerships: Array<{
     id: string;
     name: string;
     logo: string;
-  }>;
+  }>\n  );
   testimonials: Array<{
     id: string;
     name: string;
     role: string;
     content: string;
     image: string;
-  }>;
+  }>\n  );
   cta: {
     title: string;
     description: string;

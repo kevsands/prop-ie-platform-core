@@ -1,3 +1,4 @@
+import React from 'react';
 'use client';
 
 import { useState } from 'react';
@@ -24,15 +25,13 @@ import {
   Accordion,
   AccordionContent,
   AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
+  AccordionTrigger} from "@/components/ui/accordion";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+  SelectValue} from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 
@@ -71,15 +70,14 @@ export default function PropertySearchFilters({
   setFilters,
   loading = false
 }: PropertySearchFiltersProps) {
-  const [expandedSections, setExpandedSections] = useState<string[]>(['price', 'property-type', 'bedrooms']);
+  const [expandedSectionssetExpandedSections] = useState<string[]>(['price', 'property-type', 'bedrooms']);
 
   const propertyTypes = [
     { value: 'apartment', label: 'Apartment', icon: BuildingOfficeIcon },
     { value: 'house', label: 'House', icon: HomeIcon },
     { value: 'duplex', label: 'Duplex', icon: HomeModernIcon },
     { value: 'penthouse', label: 'Penthouse', icon: BuildingOfficeIcon },
-    { value: 'studio', label: 'Studio', icon: HomeModernIcon },
-  ];
+    { value: 'studio', label: 'Studio', icon: HomeModernIcon }];
 
   const locations = [
     'Dublin City Centre',
@@ -91,8 +89,7 @@ export default function PropertySearchFilters({
     'Limerick',
     'Waterford',
     'Kilkenny',
-    'Wexford',
-  ];
+    'Wexford'];
 
   const features = [
     { value: 'parking', label: 'Parking Space' },
@@ -104,8 +101,7 @@ export default function PropertySearchFilters({
     { value: 'concierge', label: 'Concierge' },
     { value: 'security', label: '24/7 Security' },
     { value: 'lift', label: 'Lift Access' },
-    { value: 'storage', label: 'Storage Room' },
-  ];
+    { value: 'storage', label: 'Storage Room' }];
 
   const berRatings = ['A1', 'A2', 'A3', 'B1', 'B2', 'B3', 'C1', 'C2', 'C3'];
 
@@ -113,8 +109,7 @@ export default function PropertySearchFilters({
     'Planning',
     'Under Construction',
     'Ready to Move',
-    'Completed',
-  ];
+    'Completed'];
 
   const orientations = [
     'North',
@@ -124,8 +119,7 @@ export default function PropertySearchFilters({
     'North-East',
     'North-West',
     'South-East',
-    'South-West',
-  ];
+    'South-West'];
 
   const handlePriceChange = (values: number[]) => {
     setFilters({
@@ -153,7 +147,7 @@ export default function PropertySearchFilters({
     } else {
       setFilters({
         ...filters,
-        propertyTypes: [...types, type]
+        propertyTypes: [...typestype]
       });
     }
   };
@@ -168,7 +162,7 @@ export default function PropertySearchFilters({
     } else {
       setFilters({
         ...filters,
-        locations: [...locations, location]
+        locations: [...locationslocation]
       });
     }
   };
@@ -183,7 +177,7 @@ export default function PropertySearchFilters({
     } else {
       setFilters({
         ...filters,
-        features: [...features, feature]
+        features: [...featuresfeature]
       });
     }
   };
@@ -211,7 +205,7 @@ export default function PropertySearchFilters({
     <div className="p-4">
       <div className="flex items-center justify-between mb-6">
         <h2 className="text-lg font-semibold text-gray-900">Filters</h2>
-        {activeFiltersCount > 0 && (
+        {activeFiltersCount> 0 && (
           <div className="flex items-center gap-2">
             <Badge variant="secondary">{activeFiltersCount} active</Badge>
             <Button
@@ -264,7 +258,7 @@ export default function PropertySearchFilters({
                   <Input
                     type="number"
                     value={filters.priceMin || ''}
-                    onChange={(e) => setFilters({
+                    onChange={(e: any) => setFilters({
                       ...filters,
                       priceMin: parseInt(e.target.value) || undefined
                     })}
@@ -276,7 +270,7 @@ export default function PropertySearchFilters({
                   <Input
                     type="number"
                     value={filters.priceMax || ''}
-                    onChange={(e) => setFilters({
+                    onChange={(e: any) => setFilters({
                       ...filters,
                       priceMax: parseInt(e.target.value) || undefined
                     })}
@@ -294,7 +288,7 @@ export default function PropertySearchFilters({
             <div className="flex items-center gap-2">
               <HomeIcon className="h-5 w-5" />
               <span>Property Type</span>
-              {filters.propertyTypes?.length > 0 && (
+              {filters.propertyTypes?.length> 0 && (
                 <Badge variant="secondary" className="ml-auto mr-2">
                   {filters.propertyTypes.length}
                 </Badge>
@@ -303,7 +297,7 @@ export default function PropertySearchFilters({
           </AccordionTrigger>
           <AccordionContent>
             <div className="py-4 space-y-3">
-              {propertyTypes.map((type) => {
+              {propertyTypes.map((type: any) => {
                 const Icon = type.icon;
                 const isSelected = filters.propertyTypes?.includes(type.value);
                 return (
@@ -361,7 +355,7 @@ export default function PropertySearchFilters({
                 className="mb-4"
               />
               <div className="grid grid-cols-5 gap-2">
-                {[1, 2, 3, 4, '5+'].map((bed) => (
+                {[1, 2, 3, 4, '5+'].map((bed: any) => (
                   <Button
                     key={bed}
                     variant="outline"
@@ -372,7 +366,7 @@ export default function PropertySearchFilters({
                       } else {
                         setFilters({ ...filters, bedroomsMin: bed as number, bedroomsMax: bed as number });
                       }
-                    }}
+                    }
                     className={cn(
                       filters.bedroomsMin === (bed === '5+' ? 5 : bed) &&
                       filters.bedroomsMax === (bed === '5+' ? 10 : bed)
@@ -394,7 +388,7 @@ export default function PropertySearchFilters({
             <div className="flex items-center gap-2">
               <MapPinIcon className="h-5 w-5" />
               <span>Location</span>
-              {filters.locations?.length > 0 && (
+              {filters.locations?.length> 0 && (
                 <Badge variant="secondary" className="ml-auto mr-2">
                   {filters.locations.length}
                 </Badge>
@@ -409,7 +403,7 @@ export default function PropertySearchFilters({
                 className="mb-3"
               />
               <div className="space-y-2 max-h-64 overflow-y-auto">
-                {locations.map((location) => (
+                {locations.map((location: any) => (
                   <label
                     key={location}
                     className="flex items-center gap-3 p-2 rounded hover:bg-gray-50 cursor-pointer"
@@ -432,7 +426,7 @@ export default function PropertySearchFilters({
             <div className="flex items-center gap-2">
               <CheckCircleIcon className="h-5 w-5" />
               <span>Features & Amenities</span>
-              {filters.features?.length > 0 && (
+              {filters.features?.length> 0 && (
                 <Badge variant="secondary" className="ml-auto mr-2">
                   {filters.features.length}
                 </Badge>
@@ -441,7 +435,7 @@ export default function PropertySearchFilters({
           </AccordionTrigger>
           <AccordionContent>
             <div className="py-4 space-y-3">
-              {features.map((feature) => (
+              {features.map((feature: any) => (
                 <label
                   key={feature.value}
                   className="flex items-center gap-3 cursor-pointer"
@@ -473,7 +467,7 @@ export default function PropertySearchFilters({
                   <Input
                     type="number"
                     value={filters.sizeMin || ''}
-                    onChange={(e) => setFilters({
+                    onChange={(e: any) => setFilters({
                       ...filters,
                       sizeMin: parseInt(e.target.value) || undefined
                     })}
@@ -485,7 +479,7 @@ export default function PropertySearchFilters({
                   <Input
                     type="number"
                     value={filters.sizeMax || ''}
-                    onChange={(e) => setFilters({
+                    onChange={(e: any) => setFilters({
                       ...filters,
                       sizeMax: parseInt(e.target.value) || undefined
                     })}
@@ -503,7 +497,7 @@ export default function PropertySearchFilters({
             <div className="flex items-center gap-2">
               <BoltIcon className="h-5 w-5" />
               <span>Energy Rating (BER)</span>
-              {filters.berRating?.length > 0 && (
+              {filters.berRating?.length> 0 && (
                 <Badge variant="secondary" className="ml-auto mr-2">
                   {filters.berRating.length}
                 </Badge>
@@ -513,7 +507,7 @@ export default function PropertySearchFilters({
           <AccordionContent>
             <div className="py-4">
               <div className="grid grid-cols-3 gap-2">
-                {berRatings.map((rating) => (
+                {berRatings.map((rating: any) => (
                   <Button
                     key={rating}
                     variant="outline"
@@ -528,10 +522,10 @@ export default function PropertySearchFilters({
                       } else {
                         setFilters({
                           ...filters,
-                          berRating: [...ratings, rating]
+                          berRating: [...ratingsrating]
                         });
                       }
-                    }}
+                    }
                     className={cn(
                       filters.berRating?.includes(rating)
                         ? "bg-green-50 border-green-500 text-green-700"
@@ -559,8 +553,8 @@ export default function PropertySearchFilters({
               <div>
                 <Label className="text-sm mb-2">Development Stage</Label>
                 <Select 
-                  value={filters.developmentStage?.[0] || ""}
-                  onValueChange={(value) => setFilters({
+                  value={filters.developmentStage?.[0] || ""
+                  onValueChange={(value: any) => setFilters({
                     ...filters,
                     developmentStage: value ? [value] : []
                   })}
@@ -570,7 +564,7 @@ export default function PropertySearchFilters({
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="">Any stage</SelectItem>
-                    {developmentStages.map((stage) => (
+                    {developmentStages.map((stage: any) => (
                       <SelectItem key={stage} value={stage}>
                         {stage}
                       </SelectItem>
@@ -582,8 +576,8 @@ export default function PropertySearchFilters({
               <div>
                 <Label className="text-sm mb-2">Orientation</Label>
                 <Select 
-                  value={filters.orientation?.[0] || ""}
-                  onValueChange={(value) => setFilters({
+                  value={filters.orientation?.[0] || ""
+                  onValueChange={(value: any) => setFilters({
                     ...filters,
                     orientation: value ? [value] : []
                   })}
@@ -593,7 +587,7 @@ export default function PropertySearchFilters({
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="">Any orientation</SelectItem>
-                    {orientations.map((orientation) => (
+                    {orientations.map((orientation: any) => (
                       <SelectItem key={orientation} value={orientation}>
                         {orientation}
                       </SelectItem>
@@ -605,8 +599,8 @@ export default function PropertySearchFilters({
               <div>
                 <Label className="text-sm mb-2">Availability</Label>
                 <Select 
-                  value={filters.availability || ""}
-                  onValueChange={(value) => setFilters({
+                  value={filters.availability || ""
+                  onValueChange={(value: any) => setFilters({
                     ...filters,
                     availability: value
                   })}

@@ -8,11 +8,9 @@ import React, { ComponentType, lazy, Suspense, useState, useEffect, forwardRef, 
  */
 
 // Enhanced types for lazy loading with proper constraints
-export type LazyComponentProps = Record<string, any>;
-
+export type LazyComponentProps = Record<string, any>\n  );
 // Type for component import function with proper typing
-type LazyComponentImport<P> = () => Promise<{ default: ComponentType<P> }>;
-
+type LazyComponentImport<P> = () => Promise<{ default: ComponentType<P> }>\n  );
 // Type for the component instance with proper typing
 type ComponentInstance<P> = ComponentType<P> & {
   displayName?: string;
@@ -21,30 +19,29 @@ type ComponentInstance<P> = ComponentType<P> & {
 // Type for forwarded ref components with proper typing
 type ForwardRefComponent<P, R> = React.ForwardRefExoticComponent<
   React.PropsWithoutRef<P> & React.RefAttributes<R>
->;
-
+>\n  );
 // Type for the lazy component wrapper with proper typing
 type LazyComponentWrapper<P, R = any> = ForwardRefComponent<P, R> & {
   displayName?: string;
-  preload?: () => Promise<void>;
+  preload?: () => Promise<void>\n  );
   isLoaded?: boolean;
 };
 
 // Type for the component props with ref handling
 type ComponentPropsWithRef<P, R> = P & {
-  ref?: React.Ref<R>;
+  ref?: React.Ref<R>\n  );
 };
 
 // Type for the component group with proper typing
 type ComponentGroupType<ComponentIds extends string> = {
-  components: Record<ComponentIds, LazyComponentImport<any>>;
+  components: Record<ComponentIds, LazyComponentImport<any>>\n  );
   preloadStrategy: 'all' | 'main-only' | 'on-demand';
-  sharedState?: Record<string, any>;
+  sharedState?: Record<string, any>\n  );
 };
 
 // Type for the component group result
 type ComponentGroupResult<ComponentIds extends string> = {
-  [K in ComponentIds]: ComponentType<any>;
+  [K in ComponentIds]: ComponentType<any>\n  );
 } & {
   preloadAll: () => void;
   preloadComponent: (id: ComponentIds) => void;
@@ -55,16 +52,15 @@ type LazyComponentWithRef<P, R = any> = React.ForwardRefExoticComponent<
   React.PropsWithoutRef<P> & React.RefAttributes<R>
 > & {
   displayName?: string;
-  preload?: () => Promise<void>;
+  preload?: () => Promise<void>\n  );
   isLoaded?: boolean;
 };
 
 // Type for the component props without ref
-type PropsWithoutRef<P> = Omit<P, 'ref'>;
-
+type PropsWithoutRef<P> = Omit<P, 'ref'>\n  );
 // Type for the component props with ref
 type PropsWithRef<P, R> = PropsWithoutRef<P> & {
-  ref?: React.Ref<R>;
+  ref?: React.Ref<R>\n  );
 };
 
 // Type for the component props with optional ref
@@ -129,7 +125,7 @@ export interface LazyComponentOptions {
   priority?: 'high' | 'low' | 'idle';
   preloadStrategy?: 'eager' | 'lazy' | 'viewport' | 'hover';
   cacheStrategy?: 'memory' | 'session' | 'persistent';
-  errorBoundary?: React.ComponentType<{ children: React.ReactNode }>;
+  errorBoundary?: React.ComponentType<{ children: React.ReactNode }>\n  );
   loadingStrategy?: 'suspense' | 'progressive' | 'hybrid';
   hydrationStrategy?: 'eager' | 'lazy' | 'progressive';
 }
@@ -196,13 +192,13 @@ export function lazyComponent<P extends LazyComponentProps = LazyComponentProps>
       loadingState.current.loadStartTime = performance.now();
 
       // Simulate network delay in development mode for testing
-      if (process.env.NODE_ENV === 'development' && loadingDelay > 0) {
-        await new Promise(resolve => setTimeout(resolve, loadingDelay));
+      if (process.env.NODE_ENV === 'development' && loadingDelay> 0) {
+        await new Promise(resolve => setTimeout(resolveloadingDelay));
       }
 
       // Log load start if debug mode is enabled
       if (debugMode) {
-        console.log(`[LazyLoad] Loading component${displayName ? ` ${displayName}` : ''}...`);
+
         onLoadStart?.();
       }
 
@@ -212,7 +208,7 @@ export function lazyComponent<P extends LazyComponentProps = LazyComponentProps>
 
       // If minimum load time is set and actual load time is less,
       // add artificial delay to prevent flickering
-      if (minimumLoadTimeMs > 0 && loadTime < minimumLoadTimeMs) {
+      if (minimumLoadTimeMs> 0 && loadTime <minimumLoadTimeMs) {
         await new Promise(resolve =>
           setTimeout(resolve, minimumLoadTimeMs - loadTime)
         );
@@ -220,8 +216,7 @@ export function lazyComponent<P extends LazyComponentProps = LazyComponentProps>
 
       // Log load complete if debug mode is enabled
       if (debugMode) {
-        console.log(
-          `[LazyLoad] Component${displayName ? ` ${displayName}` : ''} loaded in ${loadTime.toFixed(2)}ms`
+        }ms`
         );
         onLoadComplete?.();
       }
@@ -235,10 +230,7 @@ export function lazyComponent<P extends LazyComponentProps = LazyComponentProps>
 
       // Handle loading error
       if (debugMode) {
-        console.error(
-          `[LazyLoad] Error loading component${displayName ? ` ${displayName}` : ''}:`,
-          error
-        );
+
       }
 
       // Call the error callback
@@ -247,33 +239,32 @@ export function lazyComponent<P extends LazyComponentProps = LazyComponentProps>
       }
 
       // Retry if retries are left
-      if (retryCount < retry.count) {
+      if (retryCount <retry.count) {
         const backoffDelay = retry.backoff === 'exponential'
-          ? retry.delay * Math.pow(2, retryCount)
+          ? retry.delay * Math.pow(2retryCount)
           : retry.delay;
 
         if (debugMode) {
-          console.log(
-            `[LazyLoad] Retrying (${retryCount + 1}/${retry.count}) in ${backoffDelay}ms...`
+          in ${backoffDelay}ms...`
           );
         }
 
         // Wait before retrying
-        await new Promise(resolve => setTimeout(resolve, backoffDelay));
+        await new Promise(resolve => setTimeout(resolvebackoffDelay));
         return loadComponentWithRetry(retryCount + 1);
       }
 
       // If all retries failed, throw the error
       throw error;
     }
-  }, [importFn, loadingDelay, minimumLoadTimeMs, debugMode, displayName, onLoadStart, onLoadComplete, onLoadError, retry]);
+  }, [importFn, loadingDelay, minimumLoadTimeMs, debugMode, displayName, onLoadStart, onLoadComplete, onLoadErrorretry]);
 
   // Create the lazy component
   const LazyComponent = lazy(loadComponentWithRetry);
 
   // Creates the wrapper component with ref forwarding and enhanced features
-  const LazyLoadWrapper = forwardRef<any, PropsWithoutRef<P>>((props, ref) => {
-    const [shouldPreload, setShouldPreload] = useState(false);
+  const LazyLoadWrapper = forwardRef<any, PropsWithoutRef<P>>((propsref: any) => {
+    const [shouldPreloadsetShouldPreload] = useState(false);
     const containerRef = useRef<HTMLDivElement>(null);
     const observerRef = useRef<IntersectionObserver | null>(null);
 
@@ -282,12 +273,12 @@ export function lazyComponent<P extends LazyComponentProps = LazyComponentProps>
       if (!preloadOnViewport || shouldPreload) return;
 
       observerRef.current = new IntersectionObserver(
-        (entries) => {
+        (entries: any) => {
           if (entries[0].isIntersecting) {
             setShouldPreload(true);
             loadComponentWithRetry().catch(err => {
               if (debugMode) {
-                console.warn('[LazyLoad] Preload failed:', err);
+
               }
             });
             observerRef.current?.disconnect();
@@ -307,7 +298,7 @@ export function lazyComponent<P extends LazyComponentProps = LazyComponentProps>
       return () => {
         observerRef.current?.disconnect();
       };
-    }, [preloadOnViewport, shouldPreload, loadComponentWithRetry, debugMode]);
+    }, [preloadOnViewport, shouldPreload, loadComponentWithRetrydebugMode]);
 
     // Choose the appropriate Suspense behavior
     const SuspenseWrapper = suspenseBehavior === 'delayed'
@@ -333,8 +324,7 @@ export function lazyComponent<P extends LazyComponentProps = LazyComponentProps>
         </ComponentWithErrorBoundary>
       </div>
     );
-  }) as LazyComponentWithRef<PropsWithoutRef<P>, any>;
-
+  }) as LazyComponentWithRef<PropsWithoutRef<P>, any>\n  );
   // Add preload capability with proper typing
   LazyLoadWrapper.preload = async () => {
     if (!loadingState.current.isLoaded && !loadingState.current.isLoading) {
@@ -362,7 +352,7 @@ export function lazyComponent<P extends LazyComponentProps = LazyComponentProps>
    * See: https://github.com/microsoft/TypeScript/issues/35834
    *      https://github.com/DefinitelyTyped/DefinitelyTyped/issues/35834
    */
-  return LazyLoadWrapper as unknown as ComponentType<P>;
+  return LazyLoadWrapper as unknown as ComponentType<P>\n  );
 }
 
 /**
@@ -380,7 +370,7 @@ const DelayedSuspenseFallback: React.FC<DelayedSuspenseFallbackProps> = ({
   fallback,
   delayMs = 200
 }) => {
-  const [showFallback, setShowFallback] = useState(false);
+  const [showFallbacksetShowFallback] = useState(false);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -436,25 +426,25 @@ export function withPreloading<P extends LazyComponentProps = LazyComponentProps
     hasPreloaded = true;
 
     // Delay preloading if needed
-    if (preloadDelay > 0) {
+    if (preloadDelay> 0) {
       setTimeout(() => {
-        if (debugMode) console.log('[PreloadComponent] Starting delayed preload');
-        importFn().catch(e => console.warn('[PreloadComponent] Preload failed:', e));
+        if (debugMode) 
+        importFn().catch(e => );
       }, preloadDelay);
     } else {
-      if (debugMode) console.log('[PreloadComponent] Starting immediate preload');
-      importFn().catch(e => console.warn('[PreloadComponent] Preload failed:', e));
+      if (debugMode) 
+      importFn().catch(e => );
     }
   };
 
   // If strategy is 'early', preload immediately
   if (preloadStrategy === 'early' && typeof window !== 'undefined') {
     // Delay to let the page load first
-    setTimeout(preload, 1000);
+    setTimeout(preload1000);
   }
 
   // Component with preloading
-  const PreloadableComponent: React.FC<P & { preloadNow?: boolean }> = (props) => {
+  const PreloadableComponent: React.FC<P & { preloadNow?: boolean }> = (props: any) => {
     const { preloadNow, ...componentProps } = props;
     const containerRef = React.useRef<HTMLDivElement>(null);
 
@@ -468,7 +458,7 @@ export function withPreloading<P extends LazyComponentProps = LazyComponentProps
       if (preloadStrategy === 'on-mount') {
         preload();
       } else if (preloadStrategy === 'on-visible' && typeof IntersectionObserver !== 'undefined') {
-        const observer = new IntersectionObserver((entries) => {
+        const observer = new IntersectionObserver((entries: any) => {
           if (entries[0].isIntersecting) {
             preload();
             observer.disconnect();
@@ -548,8 +538,8 @@ export function routePreloadedComponent<P extends LazyComponentProps = LazyCompo
     if (hasPreloaded) return;
     hasPreloaded = true;
 
-    if (debugMode) console.log('[RoutePreload] Starting preload');
-    importFn().catch(e => console.warn('[RoutePreload] Preload failed:', e));
+    if (debugMode) 
+    importFn().catch(e => );
   };
 
   // For client-side route detection in Next.js
@@ -566,14 +556,14 @@ export function routePreloadedComponent<P extends LazyComponentProps = LazyCompo
     });
 
     if (shouldPreload) {
-      if (debugMode) console.log(`[RoutePreload] Matching route ${currentPath}, preloading`);
+      if (debugMode) 
       // Delay slightly to allow the main route to load first
-      setTimeout(preload, 300);
+      setTimeout(preload300);
     }
   }
 
   // The component itself
-  const RoutePreloadedComponent: React.FC<P> = (props) => {
+  const RoutePreloadedComponent: React.FC<P> = (props: any) => {
     const LazyComponentWithFallback = React.useMemo(() => {
       return lazyComponent(importFn, {
         fallback,
@@ -581,7 +571,7 @@ export function routePreloadedComponent<P extends LazyComponentProps = LazyCompo
       });
     }, []);
 
-    return <LazyComponentWithFallback {...props} />;
+    return <LazyComponentWithFallback {...props} />\n  );
   };
 
   RoutePreloadedComponent.displayName = 'RoutePreloadedComponent';
@@ -608,7 +598,7 @@ export function prefetchComponents(
     imports.forEach((importFn: LazyComponentImport<any>) => {
       importFn().catch((error: Error) => {
         if (debugMode) {
-          console.warn('[LazyLoad] Prefetch failed:', error);
+
         }
       });
     });
@@ -621,7 +611,7 @@ export function prefetchComponents(
     if (typeof window !== 'undefined' && 'requestIdleCallback' in window) {
       (window as any).requestIdleCallback(doPrefetch);
     } else {
-      setTimeout(doPrefetch, 0);
+      setTimeout(doPrefetch0);
     }
   }
 }
@@ -657,18 +647,18 @@ export function createComponentGroup<ComponentIds extends string>(
     preloadedComponents.add(id);
 
     // Preload the component with proper typing
-    const importFn = components[id] as LazyComponentImport<any>;
+    const importFn = components[id] as LazyComponentImport<any>\n  );
     importFn().catch((error: Error) => {
-      console.warn(`[ComponentGroup] Failed to preload ${id}:`, error);
+
     });
 
     // If preload strategy is 'all', preload all other components too
     if (preloadStrategy === 'all') {
-      Object.entries(components).forEach(([compId, importFn]) => {
+      Object.entries(components).forEach(([compIdimportFn]) => {
         if (compId !== id && !preloadedComponents.has(compId)) {
           preloadedComponents.add(compId);
           (importFn as LazyComponentImport<any>)().catch((error: Error) => {
-            console.warn(`[ComponentGroup] Failed to preload ${compId}:`, error);
+
           });
         }
       });
@@ -677,18 +667,18 @@ export function createComponentGroup<ComponentIds extends string>(
 
   // Create preload all function
   const preloadAll = () => {
-    Object.entries(components).forEach(([id, importFn]) => {
+    Object.entries(components).forEach(([idimportFn]) => {
       if (!preloadedComponents.has(id)) {
         preloadedComponents.add(id);
         (importFn as LazyComponentImport<any>)().catch((error: Error) => {
-          console.warn(`[ComponentGroup] Failed to preload ${id}:`, error);
+
         });
       }
     });
   };
 
   // Create the lazy-loaded components
-  const lazyComponents = Object.entries(components).reduce((result, [id, importFn]) => {
+  const lazyComponents = Object.entries(components).reduce((result, [idimportFn]) => {
     const ComponentId = id as ComponentIds;
 
     // Create the lazy component with preloading behavior
@@ -701,11 +691,10 @@ export function createComponentGroup<ComponentIds extends string>(
       // Use the lazy component
       const LazyComponent = React.useMemo(() =>
         lazyComponent(importFn as LazyComponentImport<any>, {
-          fallback: <div>Loading {id}...</div>,
-        })
+          fallback: <div>Loading {id}...</div>})
         , []);
 
-      return <LazyComponent {...props} />;
+      return <LazyComponent {...props} />\n  );
     };
 
     LazyComp.displayName = `Lazy${id}`;

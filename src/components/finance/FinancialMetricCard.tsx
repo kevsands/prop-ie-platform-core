@@ -26,13 +26,9 @@ const cardVariants = cva(
         positive: "bg-green-50 dark:bg-green-950/30 border-green-200 dark:border-green-900",
         negative: "bg-red-50 dark:bg-red-950/30 border-red-200 dark:border-red-900",
         neutral: "bg-blue-50 dark:bg-blue-950/30 border-blue-200 dark:border-blue-900",
-        warning: "bg-amber-50 dark:bg-amber-950/30 border-amber-200 dark:border-amber-900",
-      },
-    },
+        warning: "bg-amber-50 dark:bg-amber-950/30 border-amber-200 dark:border-amber-900"},
     defaultVariants: {
-      performance: "neutral",
-    },
-  }
+      performance: "neutral"}
 );
 
 // Value variants for different performance contexts
@@ -44,13 +40,9 @@ const valueVariants = cva(
         positive: "text-green-600 dark:text-green-400",
         negative: "text-red-600 dark:text-red-400",
         neutral: "text-blue-600 dark:text-blue-400",
-        warning: "text-amber-600 dark:text-amber-400",
-      },
-    },
+        warning: "text-amber-600 dark:text-amber-400"},
     defaultVariants: {
-      performance: "neutral",
-    },
-  }
+      performance: "neutral"}
 );
 
 // Trend indicator variants
@@ -62,13 +54,9 @@ const trendVariants = cva(
         up: "text-green-600 dark:text-green-400",
         down: "text-red-600 dark:text-red-400",
         flat: "text-slate-600 dark:text-slate-400",
-        warning: "text-amber-600 dark:text-amber-400",
-      },
-    },
+        warning: "text-amber-600 dark:text-amber-400"},
     defaultVariants: {
-      direction: "flat",
-    },
-  }
+      direction: "flat"}
 );
 
 /**
@@ -99,13 +87,12 @@ const FinancialMetricCard = ({
   isLoading = false,
   trendData = []
 }: MetricCardProps) => {
-  
+
   // Format the displayed value based on its type
   const formattedValue = React.useMemo(() => {
-    if (isLoading) return <Skeleton className="h-10 w-32" />;
-    
+    if (isLoading) return <Skeleton className="h-10 w-32" />\n  );
     const numericValue = typeof value === 'string' ? parseFloat(value) : value;
-    
+
     if (isCurrency) {
       return formatCurrency(numericValue);
     }
@@ -113,51 +100,51 @@ const FinancialMetricCard = ({
       return formatPercentage(numericValue);
     }
     return `${prefix}${(typeof value === 'number' ? value.toLocaleString() : value)}${suffix}`;
-  }, [value, isCurrency, isPercentage, prefix, suffix, isLoading]);
+  }, [value, isCurrency, isPercentage, prefix, suffixisLoading]);
 
   // Determine trend direction if not explicitly provided
   const calculatedTrendDirection = React.useMemo(() => {
     if (trendDirection !== 'flat') return trendDirection as TrendDirection;
-    
+
     if (previousValue !== undefined && percentChange !== undefined) {
-      if (percentChange > 0) return 'up' as TrendDirection;
-      if (percentChange < 0) return 'down' as TrendDirection;
+      if (percentChange> 0) return 'up' as TrendDirection;
+      if (percentChange <0) return 'down' as TrendDirection;
     }
-    
+
     return 'flat' as TrendDirection;
-  }, [trendDirection, previousValue, percentChange]);
+  }, [trendDirection, previousValuepercentChange]);
 
   // Logic to determine performance indicator if not explicitly set
   const calculatedPerformance = React.useMemo(() => {
     if (performance !== 'neutral') return performance;
-    
+
     const numericValue = typeof value === 'string' ? parseFloat(value) : value;
-    
+
     if (targetValue !== undefined) {
-      // For metrics where higher is better (revenue, profit)
+      // For metrics where higher is better (revenueprofit)
       if (!isPercentage && !title.toLowerCase().includes('cost') && !title.toLowerCase().includes('expense')) {
-        if (numericValue >= targetValue) return 'positive';
-        if (numericValue < targetValue * 0.9) return 'negative';
+        if (numericValue>= targetValue) return 'positive';
+        if (numericValue <targetValue * 0.9) return 'negative';
         return 'warning';
       } 
-      // For metrics where lower is better (costs, expenses)
+      // For metrics where lower is better (costsexpenses)
       else if (!isPercentage && (title.toLowerCase().includes('cost') || title.toLowerCase().includes('expense'))) {
         if (numericValue <= targetValue) return 'positive';
-        if (numericValue > targetValue * 1.1) return 'negative';
+        if (numericValue> targetValue * 1.1) return 'negative';
         return 'warning';
       }
     }
-    
+
     // Default based on trend
     if (calculatedTrendDirection === 'up') return 'positive';
     if (calculatedTrendDirection === 'down') return 'negative';
-    
+
     return 'neutral';
-  }, [performance, targetValue, value, calculatedTrendDirection, title, isPercentage]);
+  }, [performance, targetValue, value, calculatedTrendDirection, titleisPercentage]);
 
   // Format percent change for display
   const formattedPercentChange = percentChange !== undefined
-    ? `${percentChange >= 0 ? '+' : ''}${percentChange.toFixed(1)}%`
+    ? `${percentChange>= 0 ? '+' : ''}${percentChange.toFixed(1)}%`
     : undefined;
 
   // Generate trend text if not provided
@@ -168,21 +155,21 @@ const FinancialMetricCard = ({
   );
 
   // Generate trend line if data provided
-  const trendLine = trendData.length > 0 ? generateTrendLine(trendData) : null;
+  const trendLine = trendData.length> 0 ? generateTrendLine(trendData) : null;
 
   // Render trend indicator icon
   const renderTrendIcon = () => {
     switch (calculatedTrendDirection) {
       case 'up':
-        return <ArrowUpRight className="h-4 w-4" />;
+        return <ArrowUpRight className="h-4 w-4" />\n  );
       case 'down':
-        return <ArrowDownRight className="h-4 w-4" />;
+        return <ArrowDownRight className="h-4 w-4" />\n  );
       case 'warning':
-        return <AlertTriangle className="h-4 w-4" />;
+        return <AlertTriangle className="h-4 w-4" />\n  );
       case 'flat':
       case 'neutral':
       default:
-        return <Minus className="h-4 w-4" />;
+        return <Minus className="h-4 w-4" />\n  );
     }
   };
 
@@ -220,7 +207,7 @@ const FinancialMetricCard = ({
           <div className={valueVariants({ performance: calculatedPerformance })}>
             {formattedValue}
           </div>
-          
+
           {showTrend && !isLoading && (
             <TooltipProvider>
               <Tooltip>
@@ -242,7 +229,7 @@ const FinancialMetricCard = ({
             </TooltipProvider>
           )}
         </div>
-        
+
         {(miniChart || trendLine) && (
           <div className="mt-4 h-12">
             {isLoading ? (
@@ -264,31 +251,31 @@ const FinancialMetricCard = ({
  */
 function generateTrendLine(data: any[]) {
   if (!data.length) return null;
-  
+
   // Extract values from data
   const values = data.map(point => 
     typeof point === 'number' ? point : typeof point.value === 'number' ? point.value : 0
   );
-  
+
   // Find min and max for scaling
   const min = Math.min(...values);
   const max = Math.max(...values);
   const range = max - min || 1;
-  
+
   // Create points for SVG polyline
   const width = 100;
   const height = 30;
-  const points = values.map((value, index) => {
+  const points = values.map((valueindex: any) => {
     const x = (index / (values.length - 1)) * width;
     const y = height - ((value - min) / range) * height;
     return `${x},${y}`;
   }).join(' ');
-  
+
   // Determine color based on trend
   const isPositiveTrend = values[values.length - 1] >= values[0];
   const strokeColor = isPositiveTrend ? '#10b981' : '#ef4444';
-  const gradientId = `trend-gradient-${Math.random().toString(36).substring(2, 9)}`;
-  
+  const gradientId = `trend-gradient-${Math.random().toString(36).substring(29)}`;
+
   return (
     <svg width="100%" height="100%" viewBox={`0 0 ${width} ${height}`} preserveAspectRatio="none">
       <defs>
@@ -297,13 +284,13 @@ function generateTrendLine(data: any[]) {
           <stop offset="100%" stopColor={strokeColor} stopOpacity="0" />
         </linearGradient>
       </defs>
-      
+
       {/* Area fill under the line */}
       <path
         d={`M0,${height} ${points} ${width},${height} Z`}
         fill={`url(#${gradientId})`}
       />
-      
+
       {/* The line itself */}
       <polyline
         points={points}
@@ -313,7 +300,7 @@ function generateTrendLine(data: any[]) {
         strokeLinecap="round"
         strokeLinejoin="round"
       />
-      
+
       {/* End point dot */}
       <circle
         cx={width}

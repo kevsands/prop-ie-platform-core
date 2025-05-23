@@ -1,0 +1,150 @@
+import { Metadata } from 'next'
+
+export const defaultMetadata: Metadata = {
+  metadataBase: new URL('https://prop.ie'),
+  title: {
+    default: 'Prop.ie - Ireland\'s Premier Property Platform',
+    template: '%s | Prop.ie'
+  },
+  description: 'Discover your dream property in Ireland. Browse new developments, connect with developers, and manage your property journey seamlessly.',
+  keywords: ['property', 'real estate', 'ireland', 'new homes', 'property development', 'first time buyer'],
+  authors: [{ name: 'Prop.ie' }],
+  creator: 'Prop.ie',
+  publisher: 'Prop.ie',
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
+  openGraph: {
+    type: 'website',
+    locale: 'en_IE',
+    url: 'https://prop.ie',
+    siteName: 'Prop.ie',
+    title: 'Prop.ie - Ireland\'s Premier Property Platform',
+    description: 'Discover your dream property in Ireland',
+    images: [
+      {
+        url: '/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'Prop.ie - Property Platform',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Prop.ie - Ireland\'s Premier Property Platform',
+    description: 'Discover your dream property in Ireland',
+    images: ['/twitter-image.png'],
+    creator: '@propie',
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+  icons: {
+    icon: '/favicon.ico',
+    shortcut: '/favicon-16x16.png',
+    apple: '/apple-touch-icon.png',
+  },
+  manifest: '/site.webmanifest',
+}
+
+export function generatePageMetadata(
+  title: string,
+  description: string,
+  path: string,
+  image?: string
+): Metadata {
+  const url = `https://prop.ie${path}`
+  
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      url,
+      images: image ? [image] : undefined,
+    },
+    twitter: {
+      title,
+      description,
+      images: image ? [image] : undefined,
+    },
+    alternates: {
+      canonical: url,
+    },
+  }
+}
+
+// Structured data helpers
+export function generatePropertySchema(property: any) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'RealEstateListing',
+    name: property.title,
+    description: property.description,
+    url: `https://prop.ie/properties/${property.id}`,
+    image: property.images?.[0],
+    price: {
+      '@type': 'PriceSpecification',
+      price: property.price,
+      priceCurrency: 'EUR',
+    },
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: property.address,
+      addressLocality: property.city,
+      addressRegion: property.county,
+      addressCountry: 'IE',
+    },
+    geo: {
+      '@type': 'GeoCoordinates',
+      latitude: property.latitude,
+      longitude: property.longitude,
+    },
+  }
+}
+
+export function generateOrganizationSchema() {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: 'Prop.ie',
+    url: 'https://prop.ie',
+    logo: 'https://prop.ie/logo.png',
+    sameAs: [
+      'https://www.facebook.com/propie',
+      'https://twitter.com/propie',
+      'https://www.linkedin.com/company/propie',
+    ],
+    contactPoint: {
+      '@type': 'ContactPoint',
+      telephone: '+353-1-234-5678',
+      contactType: 'customer service',
+      availableLanguage: ['en'],
+    },
+  }
+}
+
+export function generateBreadcrumbSchema(items: Array<{ name: string; url: string }>) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: items.map((item, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: item.name,
+      item: `https://prop.ie${item.url}`,
+    })),
+  }
+}

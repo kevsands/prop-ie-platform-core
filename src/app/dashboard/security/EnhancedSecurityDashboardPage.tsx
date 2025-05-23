@@ -1,3 +1,4 @@
+import React from 'react';
 import { Suspense } from 'react';
 import { getSecurityMetrics, getSecurityEvents, getAnomalyDetections, getThreatIndicators, getSecuritySnapshot } from '@/lib/security/securityAnalyticsServer';
 import { SecurityMetricsSkeleton } from '@/components/security/SecurityMetricsSkeleton';
@@ -26,14 +27,14 @@ export default async function EnhancedSecurityDashboardPage() {
     includeResolved: false,
     withRecommendations: true
   });
-  
+
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-2">Security Dashboard</h1>
       <p className="text-gray-600 mb-8">
         Monitor and respond to security events with real-time analytics.
       </p>
-      
+
       <Suspense fallback={<SecurityMetricsSkeleton showCharts={true} showTimeline={true} />}>
         <SecurityDashboardClient 
           initialMetrics={securitySnapshot.metrics}
@@ -52,5 +53,4 @@ export default async function EnhancedSecurityDashboardPage() {
 export const metadata: Metadata = {
   title: 'Security Dashboard | PropIE AWS Platform',
   description: 'Monitor and respond to security events and threats in real-time with comprehensive analytics.',
-  keywords: 'security, monitoring, threat detection, analytics, dashboard',
-};
+  keywords: 'security, monitoring, threat detection, analytics, dashboard'};

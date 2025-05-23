@@ -1,3 +1,4 @@
+import React from 'react';
 'use client';
 
 import { useEffect, useState } from 'react';
@@ -37,15 +38,13 @@ const salesData = [
   { name: 'Sep', value: 6 },
   { name: 'Oct', value: 10 },
   { name: 'Nov', value: 12 },
-  { name: 'Dec', value: 15 },
-];
+  { name: 'Dec', value: 15 }];
 
 const statusData = [
   { name: 'Available', value: 30, color: '#4ade80' },
   { name: 'Reserved', value: 15, color: '#facc15' },
   { name: 'Sold', value: 25, color: '#3b82f6' },
-  { name: 'Under Offer', value: 10, color: '#ec4899' },
-];
+  { name: 'Under Offer', value: 10, color: '#ec4899' }];
 
 const COLORS = ['#4ade80', '#facc15', '#3b82f6', '#ec4899'];
 
@@ -55,7 +54,7 @@ export default function DeveloperDashboard() {
     limit: 5
   });
 
-  const [projectMetrics, setProjectMetrics] = useState({
+  const [projectMetricssetProjectMetrics] = useState({
     totalProjects: 0,
     activeProjects: 0,
     completedProjects: 0,
@@ -71,12 +70,12 @@ export default function DeveloperDashboard() {
       const totalProjects = developments.data.length;
       const activeProjects = developments.data.filter(d => d.status === 'CONSTRUCTION').length;
       const completedProjects = developments.data.filter(d => d.status === 'COMPLETED').length;
-      
-      const totalUnits = developments.data.reduce((acc, dev) => acc + dev.totalUnits, 0);
-      const soldUnits = developments.data.reduce((acc, dev) => acc + dev.soldUnits, 0);
-      const availableUnits = developments.data.reduce((acc, dev) => acc + dev.availableUnits, 0);
-      const reservedUnits = developments.data.reduce((acc, dev) => acc + dev.reservedUnits, 0);
-      
+
+      const totalUnits = developments.data.reduce((accdev: any) => acc + dev.totalUnits0);
+      const soldUnits = developments.data.reduce((accdev: any) => acc + dev.soldUnits0);
+      const availableUnits = developments.data.reduce((accdev: any) => acc + dev.availableUnits0);
+      const reservedUnits = developments.data.reduce((accdev: any) => acc + dev.reservedUnits0);
+
       setProjectMetrics({
         totalProjects,
         activeProjects,
@@ -172,7 +171,7 @@ export default function DeveloperDashboard() {
           <TabsTrigger value="sales">Sales</TabsTrigger>
           <TabsTrigger value="projects">Projects</TabsTrigger>
         </TabsList>
-        
+
         <TabsContent value="overview" className="space-y-4">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
             {/* Sales Trends */}
@@ -184,7 +183,7 @@ export default function DeveloperDashboard() {
               <CardContent>
                 <div className="h-80">
                   <ResponsiveContainer width="100%" height="100%">
-                    <BarChart data={salesData} margin={{ top: 20, right: 30, left: 0, bottom: 5 }}>
+                    <BarChart data={salesData} margin={ top: 20, right: 30, left: 0, bottom: 5 }>
                       <CartesianGrid strokeDasharray="3 3" />
                       <XAxis dataKey="name" />
                       <YAxis />
@@ -217,7 +216,7 @@ export default function DeveloperDashboard() {
                         fill="#8884d8"
                         dataKey="value"
                       >
-                        {statusData.map((entry, index) => (
+                        {statusData.map((entryindex: any) => (
                           <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                         ))}
                       </Pie>
@@ -230,7 +229,7 @@ export default function DeveloperDashboard() {
             </Card>
           </div>
         </TabsContent>
-        
+
         <TabsContent value="sales" className="space-y-4">
           <Card>
             <CardHeader>
@@ -240,20 +239,20 @@ export default function DeveloperDashboard() {
             <CardContent>
               <div className="h-96">
                 <ResponsiveContainer width="100%" height="100%">
-                  <LineChart data={salesData} margin={{ top: 20, right: 30, left: 0, bottom: 5 }}>
+                  <LineChart data={salesData} margin={ top: 20, right: 30, left: 0, bottom: 5 }>
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis dataKey="name" />
                     <YAxis />
                     <Tooltip />
                     <Legend />
-                    <Line type="monotone" dataKey="value" stroke="#3b82f6" activeDot={{ r: 8 }} name="Units Sold" />
+                    <Line type="monotone" dataKey="value" stroke="#3b82f6" activeDot={ r: 8 } name="Units Sold" />
                   </LineChart>
                 </ResponsiveContainer>
               </div>
             </CardContent>
           </Card>
         </TabsContent>
-        
+
         <TabsContent value="projects" className="space-y-4">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
             <Card className="col-span-1 lg:col-span-2">
@@ -270,9 +269,8 @@ export default function DeveloperDashboard() {
                         { name: 'Planning', value: 2 },
                         { name: 'Construction', value: 3 },
                         { name: 'Completed', value: 4 },
-                        { name: 'Sold Out', value: 1 },
-                      ]}
-                      margin={{ top: 20, right: 30, left: 30, bottom: 5 }}
+                        { name: 'Sold Out', value: 1 }]}
+                      margin={ top: 20, right: 30, left: 30, bottom: 5 }
                     >
                       <CartesianGrid strokeDasharray="3 3" />
                       <XAxis type="number" />
@@ -343,7 +341,7 @@ export default function DeveloperDashboard() {
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
           {isLoadingDevelopments ? (
-            Array(3).fill(0).map((_, i) => (
+            Array(3).fill(0).map((_i: any) => (
               <Card key={i}>
                 <CardHeader className="pb-2">
                   <Skeleton className="h-5 w-32" />
@@ -363,7 +361,7 @@ export default function DeveloperDashboard() {
               </Card>
             ))
           ) : (
-            developments?.data.slice(0, 3).map((development) => (
+            developments?.data.slice(03).map((development: any) => (
               <Card key={development.id}>
                 <CardHeader className="pb-2">
                   <CardTitle className="text-base">{development.name}</CardTitle>
@@ -371,7 +369,7 @@ export default function DeveloperDashboard() {
                 </CardHeader>
                 <CardContent>
                   <div className="relative h-24 mb-4">
-                    {development.images && development.images.length > 0 ? (
+                    {development.images && development.images.length> 0 ? (
                       <img
                         src={development.images[0]}
                         alt={development.name}

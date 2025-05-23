@@ -2,7 +2,7 @@
  * Server-side security analytics functions.
  * This module provides server-compatible functions for fetching security data.
  */
- 
+
 import { generateClient } from 'aws-amplify/api';
 import { safeCacheFunction } from '../../utils/performance/safeCache';
 import { API } from '../amplify/api';
@@ -35,7 +35,7 @@ function getDateRangeFromTimeframe(
   const now = new Date();
   const end = endDate || now;
   let start: Date;
-  
+
   switch (timeframe) {
     case AnalyticsTimeframe.LAST_HOUR:
       start = new Date(now.getTime() - 60 * 60 * 1000);
@@ -45,7 +45,7 @@ function getDateRangeFromTimeframe(
       break;
     case AnalyticsTimeframe.YESTERDAY:
       start = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 1);
-      end.setHours(23, 59, 59, 999);
+      end.setHours(23, 59, 59999);
       break;
     case AnalyticsTimeframe.LAST_7_DAYS:
       start = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
@@ -62,7 +62,7 @@ function getDateRangeFromTimeframe(
     default:
       start = new Date(now.getTime() - 24 * 60 * 60 * 1000); // Default to last 24 hours
   }
-  
+
   return { start, end };
 }
 
@@ -76,10 +76,10 @@ function optionsToParams(options: SecurityAnalyticsOptions = {}): Record<string,
     options.startDate,
     options.endDate
   );
-  
+
   params.start = start.toISOString();
   params.end = end.toISOString();
-  
+
   if (options.limit) params.limit = options.limit.toString();
   if (options.category) params.category = options.category;
   if (options.severity?.length) params.severity = options.severity.join(',');
@@ -88,7 +88,7 @@ function optionsToParams(options: SecurityAnalyticsOptions = {}): Record<string,
   if (options.page) params.page = options.page.toString();
   if (options.withCorrelation) params.withCorrelation = 'true';
   if (options.withRecommendations) params.withRecommendations = 'true';
-  
+
   return params;
 }
 
@@ -102,11 +102,11 @@ function calculateSecurityScore(
 ): number {
   // Start with perfect score and subtract based on issues
   let score = 100;
-  
+
   // Reduce score based on anomalies (weighted by severity)
   for (const anomaly of anomalies) {
     if (anomaly.status === 'false_positive') continue;
-    
+
     switch (anomaly.severity) {
       case 'low':
         score -= 1;
@@ -122,12 +122,12 @@ function calculateSecurityScore(
         break;
     }
   }
-  
+
   // Reduce score based on threats (weighted by severity and confidence)
   for (const threat of threats) {
     const confidenceFactor = threat.confidence / 100;
     let severityImpact = 0;
-    
+
     switch (threat.severity) {
       case 'low':
         severityImpact = 2;
@@ -142,17 +142,17 @@ function calculateSecurityScore(
         severityImpact = 12;
         break;
     }
-    
+
     score -= severityImpact * confidenceFactor;
   }
-  
+
   // Use relevant metrics to adjust score
   const securityScoreMetric = metrics.find(m => m.name === 'Security Score');
   if (securityScoreMetric) {
     // Blend calculated score with reported score (70/30 split)
     score = 0.7 * score + 0.3 * securityScoreMetric.value;
   }
-  
+
   // Ensure score is between 0-100
   return Math.max(0, Math.min(100, Math.round(score)));
 }
@@ -164,12 +164,12 @@ function calculateSecurityScore(
 export const getSecurityMetrics = safeCacheFunction<(options?: SecurityAnalyticsOptions) => Promise<SecurityMetric[]>>(
   async (options: SecurityAnalyticsOptions = {}): Promise<SecurityMetric[]> => {
     const queryParams = optionsToParams(options);
-    
+
     try {
       const metrics = await API.get<SecurityMetric[]>('/api/security/metrics', queryParams);
       return metrics;
     } catch (error) {
-      console.error('Error fetching security metrics:', error);
+
       return [];
     }
   }
@@ -182,12 +182,12 @@ export const getSecurityMetrics = safeCacheFunction<(options?: SecurityAnalytics
 export const getSecurityEvents = safeCacheFunction<(options?: SecurityAnalyticsOptions) => Promise<SecurityEvent[]>>(
   async (options: SecurityAnalyticsOptions = {}): Promise<SecurityEvent[]> => {
     const queryParams = optionsToParams(options);
-    
+
     try {
       const events = await API.get<SecurityEvent[]>('/api/security/events', queryParams);
       return events;
     } catch (error) {
-      console.error('Error fetching security events:', error);
+
       return [];
     }
   }
@@ -200,12 +200,12 @@ export const getSecurityEvents = safeCacheFunction<(options?: SecurityAnalyticsO
 export const getAnomalyDetections = safeCacheFunction<(options?: SecurityAnalyticsOptions) => Promise<AnomalyDetection[]>>(
   async (options: SecurityAnalyticsOptions = {}): Promise<AnomalyDetection[]> => {
     const queryParams = optionsToParams(options);
-    
+
     try {
       const anomalies = await API.get<AnomalyDetection[]>('/api/security/anomalies', queryParams);
       return anomalies;
     } catch (error) {
-      console.error('Error fetching anomaly detections:', error);
+
       return [];
     }
   }
@@ -218,12 +218,12 @@ export const getAnomalyDetections = safeCacheFunction<(options?: SecurityAnalyti
 export const getThreatIndicators = safeCacheFunction<(options?: SecurityAnalyticsOptions) => Promise<ThreatIndicator[]>>(
   async (options: SecurityAnalyticsOptions = {}): Promise<ThreatIndicator[]> => {
     const queryParams = optionsToParams(options);
-    
+
     try {
       const threats = await API.get<ThreatIndicator[]>('/api/security/threats', queryParams);
       return threats;
     } catch (error) {
-      console.error('Error fetching threat indicators:', error);
+
       return [];
     }
   }
@@ -237,7 +237,7 @@ export const getSecuritySnapshot = safeCacheFunction<(options?: SecurityAnalytic
   async (options: SecurityAnalyticsOptions = {}): Promise<SecuritySnapshot> => {
     try {
       // Fetch all data in parallel for performance
-      const [metrics, events, anomalies, threats] = await Promise.all([
+      const [metrics, events, anomaliesthreats] = await Promise.all([
         getSecurityMetrics(options),
         getSecurityEvents({...options, limit: 10}), // Limit recent events
         getAnomalyDetections({
@@ -246,7 +246,7 @@ export const getSecuritySnapshot = safeCacheFunction<(options?: SecurityAnalytic
         }),
         getThreatIndicators(options)
       ]);
-      
+
       // Calculate alert counts
       const alertCount = {
         low: 0,
@@ -254,7 +254,7 @@ export const getSecuritySnapshot = safeCacheFunction<(options?: SecurityAnalytic
         high: 0,
         critical: 0
       };
-      
+
       // Count active anomalies by severity
       for (const anomaly of anomalies) {
         if (anomaly.status !== 'false_positive') {
@@ -262,31 +262,31 @@ export const getSecuritySnapshot = safeCacheFunction<(options?: SecurityAnalytic
           alertCount[severity]++;
         }
       }
-      
+
       // Count active threats by severity
       for (const threat of threats) {
         const severity = threat.severity as keyof typeof alertCount;
         alertCount[severity]++;
       }
-      
+
       // Calculate security score
       const securityScore = calculateSecurityScore(
         metrics as SecurityMetric[], 
         anomalies as AnomalyDetection[], 
         threats as ThreatIndicator[]
       );
-      
+
       // Determine overall security status
       let securityStatus: 'normal' | 'elevated' | 'high_alert' | 'critical' = 'normal';
-      
-      if (alertCount.critical > 0) {
+
+      if (alertCount.critical> 0) {
         securityStatus = 'critical';
-      } else if (alertCount.high > 0) {
+      } else if (alertCount.high> 0) {
         securityStatus = 'high_alert';
-      } else if (alertCount.medium > 0) {
+      } else if (alertCount.medium> 0) {
         securityStatus = 'elevated';
       }
-      
+
       return {
         timestamp: new Date(),
         metrics: metrics as SecurityMetric[],
@@ -298,8 +298,7 @@ export const getSecuritySnapshot = safeCacheFunction<(options?: SecurityAnalytic
         alertCount
       };
     } catch (error) {
-      console.error('Error fetching security snapshot:', error);
-      
+
       // Return a default snapshot in case of error
       return {
         timestamp: new Date(),
@@ -336,17 +335,16 @@ export async function correlateSecurityEvents(
       recommendations: []
     };
   }
-  
+
   try {
     const queryParams = {
       ...optionsToParams(options),
       ids: eventIds.join(',')
     };
-    
+
     return await API.get<CorrelationResult>('/api/security/correlate', queryParams);
   } catch (error) {
-    console.error('Error correlating security events:', error);
-    
+
     return {
       correlationId: 'error',
       relatedEvents: [],

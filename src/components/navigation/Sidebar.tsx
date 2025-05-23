@@ -55,45 +55,37 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
 
 const Sidebar: React.FC<SidebarProps> = ({ orgSlug, projectSlug }) => {
   const pathname = usePathname();
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpensetIsOpen] = useState(true);
 
   const navigation = [
     {
       name: 'Dashboard',
       href: `/${orgSlug}/dashboard`,
-      icon: FiHome,
-    },
+      icon: FiHome},
     {
       name: 'Projects',
       href: `/${orgSlug}/projects`,
-      icon: FiLayers,
-    },
+      icon: FiLayers},
     {
       name: 'Users',
       href: `/${orgSlug}/users`,
-      icon: FiUsers,
-    },
+      icon: FiUsers},
     {
       name: 'Documents',
       href: `/${orgSlug}/documents`,
-      icon: FiFileText,
-    },
+      icon: FiFileText},
     {
       name: 'Tools',
       href: `/${orgSlug}/tools`,
-      icon: FiTool,
-    },
+      icon: FiTool},
     {
       name: 'Analytics',
       href: `/${orgSlug}/analytics`,
-      icon: FiBarChart2,
-    },
+      icon: FiBarChart2},
     {
       name: 'Settings',
       href: `/${orgSlug}/settings`,
-      icon: FiSettings,
-    },
-  ];
+      icon: FiSettings}];
 
   return (
     <div className={`bg-white border-r border-gray-200 ${isOpen ? 'w-64' : 'w-20'} transition-all duration-300`}>
@@ -112,7 +104,7 @@ const Sidebar: React.FC<SidebarProps> = ({ orgSlug, projectSlug }) => {
         </div>
 
         <nav className="flex-1 px-2 py-4 space-y-1">
-          {navigation.map((item) => {
+          {navigation.map((item: any) => {
             const isActive = pathname === item.href;
             return (
               <Link

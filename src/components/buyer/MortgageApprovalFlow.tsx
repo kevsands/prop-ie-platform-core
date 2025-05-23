@@ -50,11 +50,11 @@ const mortgageSteps: MortgageStep[] = [
 
 export default function MortgageApprovalFlow() {
   const { user } = useAuth();
-  const [currentStep, setCurrentStep] = useState(0);
-  const [uploadedDocuments, setUploadedDocuments] = useState<{[key: string]: File[]}>({});
-  const [mortgageAmount, setMortgageAmount] = useState('');
-  const [deposit, setDeposit] = useState('');
-  const [monthlyIncome, setMonthlyIncome] = useState('');
+  const [currentStepsetCurrentStep] = useState(0);
+  const [uploadedDocumentssetUploadedDocuments] = useState<{[key: string]: File[]}>({});
+  const [mortgageAmountsetMortgageAmount] = useState('');
+  const [depositsetDeposit] = useState('');
+  const [monthlyIncomesetMonthlyIncome] = useState('');
 
   const handleDocumentUpload = (stepId: number, files: FileList) => {
     const newFiles = Array.from(files);
@@ -69,7 +69,7 @@ export default function MortgageApprovalFlow() {
     const maxLoan = income * 3.5; // Standard Irish multiplier
     const depositAmount = parseFloat(deposit);
     const maxPurchasePrice = maxLoan + depositAmount;
-    
+
     return {
       maxLoan: maxLoan.toFixed(0),
       maxPurchase: maxPurchasePrice.toFixed(0),
@@ -91,23 +91,23 @@ export default function MortgageApprovalFlow() {
         {/* Progress Indicator */}
         <div className="p-6 border-b bg-gray-50">
           <div className="flex items-center justify-between mb-4">
-            {mortgageSteps.map((step, index) => (
+            {mortgageSteps.map((stepindex: any) => (
               <div key={step.id} className="flex items-center">
                 <div
                   className={`w-10 h-10 rounded-full flex items-center justify-center ${
-                    index < currentStep
+                    index <currentStep
                       ? 'bg-green-600 text-white'
                       : index === currentStep
                       ? 'bg-blue-600 text-white'
                       : 'bg-gray-300 text-gray-600'
                   }`}
                 >
-                  {index < currentStep ? <Check size={20} /> : step.id}
+                  {index <currentStep ? <Check size={20} /> : step.id}
                 </div>
-                {index < mortgageSteps.length - 1 && (
+                {index <mortgageSteps.length - 1 && (
                   <div
                     className={`w-24 h-1 ${
-                      index < currentStep ? 'bg-green-600' : 'bg-gray-300'
+                      index <currentStep ? 'bg-green-600' : 'bg-gray-300'
                     }`}
                   />
                 )}
@@ -139,7 +139,7 @@ export default function MortgageApprovalFlow() {
                 <input
                   type="number"
                   value={monthlyIncome}
-                  onChange={(e) => setMonthlyIncome(e.target.value)}
+                  onChange={(e: any) => setMonthlyIncome(e.target.value)}
                   className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-green-500"
                   placeholder="4,000"
                 />
@@ -151,7 +151,7 @@ export default function MortgageApprovalFlow() {
                 <input
                   type="number"
                   value={deposit}
-                  onChange={(e) => setDeposit(e.target.value)}
+                  onChange={(e: any) => setDeposit(e.target.value)}
                   className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-green-500"
                   placeholder="50,000"
                 />
@@ -163,7 +163,7 @@ export default function MortgageApprovalFlow() {
                 <input
                   type="number"
                   value={mortgageAmount}
-                  onChange={(e) => setMortgageAmount(e.target.value)}
+                  onChange={(e: any) => setMortgageAmount(e.target.value)}
                   className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-green-500"
                   placeholder="250,000"
                 />
@@ -202,14 +202,14 @@ export default function MortgageApprovalFlow() {
         )}
 
         {/* Document Upload Section */}
-        {currentStep > 0 && (
+        {currentStep> 0 && (
           <div className="p-6">
             <h4 className="text-xl font-semibold mb-4 flex items-center">
               <FileText className="mr-2 text-blue-600" />
               Required Documents
             </h4>
             <div className="space-y-4">
-              {mortgageSteps[currentStep].documents.map((doc, index) => (
+              {mortgageSteps[currentStep].documents.map((docindex: any) => (
                 <div key={index} className="border rounded-lg p-4">
                   <div className="flex items-center justify-between mb-2">
                     <h5 className="font-medium">{doc}</h5>
@@ -231,12 +231,12 @@ export default function MortgageApprovalFlow() {
                       <input
                         type="file"
                         className="hidden"
-                        onChange={(e) => e.target.files && handleDocumentUpload(currentStep, e.target.files)}
+                        onChange={(e: any) => e.target.files && handleDocumentUpload(currentStep, e.target.files)}
                         accept=".pdf,.jpg,.jpeg,.png"
                       />
                     </label>
                   </div>
-                  {uploadedDocuments[currentStep]?.filter(f => f.name.includes(doc)).map((file, fileIndex) => (
+                  {uploadedDocuments[currentStep]?.filter(f => f.name.includes(doc)).map((filefileIndex: any) => (
                     <div key={fileIndex} className="mt-2 text-sm text-gray-600">
                       {file.name}
                     </div>
@@ -272,13 +272,13 @@ export default function MortgageApprovalFlow() {
           </button>
           <button
             onClick={() => {
-              if (currentStep < mortgageSteps.length - 1) {
+              if (currentStep <mortgageSteps.length - 1) {
                 setCurrentStep(currentStep + 1);
               } else {
                 // Submit application
                 alert('Application submitted for review');
               }
-            }}
+            }
             className="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700"
           >
             {currentStep === mortgageSteps.length - 1 ? 'Submit Application' : 'Next Step'}

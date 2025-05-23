@@ -12,7 +12,7 @@ export default function TrustedDevicesPage() {
           Manage the devices you use to access your account. Trusted devices help improve 
           your security by verifying familiar devices during sign-in.
         </p>
-        
+
         <TrustedDevices />
       </div>
     </div>

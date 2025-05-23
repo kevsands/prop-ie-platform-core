@@ -97,16 +97,16 @@ interface FeaturedPropertiesResult {
 
 // Custom hook for fetching featured properties
 export function useFeaturedProperties(): FeaturedPropertiesResult {
-  const [properties, setProperties] = useState<Property[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
+  const [propertiessetProperties] = useState<Property[]>([]);
+  const [loadingsetLoading] = useState<boolean>(true);
+  const [errorsetError] = useState<string | null>(null);
   const { data: session } = useSession();
 
   useEffect(() => {
     const fetchProperties = async () => {
       try {
         setLoading(true);
-        
+
         // In a real app, you'd make an API call here
         // const response = await fetch('/api/properties/featured', {
         //   headers: {
@@ -115,7 +115,7 @@ export function useFeaturedProperties(): FeaturedPropertiesResult {
         // });
         // if (!response.ok) throw new Error('Failed to fetch properties');
         // const data = await response.json();
-        
+
         // For now, using mock data
         setTimeout(() => {
           setProperties(mockProperties);
@@ -141,16 +141,16 @@ interface ProjectPropertiesResult {
 
 // Custom hook for fetching properties by project slug
 export function useProjectProperties(projectSlug: string): ProjectPropertiesResult {
-  const [properties, setProperties] = useState<Property[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
+  const [propertiessetProperties] = useState<Property[]>([]);
+  const [loadingsetLoading] = useState<boolean>(true);
+  const [errorsetError] = useState<string | null>(null);
   const { data: session } = useSession();
 
   useEffect(() => {
     const fetchProjectProperties = async () => {
       try {
         setLoading(true);
-        
+
         // In a real app, you'd make an API call here
         // const response = await fetch(`/api/projects/${projectSlug}/properties`, {
         //   headers: {
@@ -159,7 +159,7 @@ export function useProjectProperties(projectSlug: string): ProjectPropertiesResu
         // });
         // if (!response.ok) throw new Error('Failed to fetch project properties');
         // const data = await response.json();
-        
+
         // For now, filter mock data by project slug
         setTimeout(() => {
           const filteredProperties = mockProperties.filter(
@@ -175,7 +175,7 @@ export function useProjectProperties(projectSlug: string): ProjectPropertiesResu
     };
 
     fetchProjectProperties();
-  }, [projectSlug, session]);
+  }, [projectSlugsession]);
 
   return { properties, loading, error };
 }
@@ -188,16 +188,16 @@ interface PropertyDetailsResult {
 
 // Custom hook for fetching property details by ID
 export function usePropertyDetails(projectSlug: string, propertyId: string): PropertyDetailsResult {
-  const [property, setProperty] = useState<Property | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
+  const [propertysetProperty] = useState<Property | null>(null);
+  const [loadingsetLoading] = useState<boolean>(true);
+  const [errorsetError] = useState<string | null>(null);
   const { data: session } = useSession();
 
   useEffect(() => {
     const fetchPropertyDetails = async () => {
       try {
         setLoading(true);
-        
+
         // In a real app, you'd make an API call here
         // const response = await fetch(`/api/projects/${projectSlug}/properties/${propertyId}`, {
         //   headers: {
@@ -206,19 +206,19 @@ export function usePropertyDetails(projectSlug: string, propertyId: string): Pro
         // });
         // if (!response.ok) throw new Error('Failed to fetch property details');
         // const data = await response.json();
-        
+
         // For now, find in mock data
         setTimeout(() => {
           const foundProperty = mockProperties.find(
             property => property.id === propertyId && property.projectSlug === projectSlug
           );
-          
+
           if (foundProperty) {
             setProperty(foundProperty);
           } else {
             setError('Property not found');
           }
-          
+
           setLoading(false);
         }, 500);
       } catch (err) {
@@ -228,7 +228,7 @@ export function usePropertyDetails(projectSlug: string, propertyId: string): Pro
     };
 
     fetchPropertyDetails();
-  }, [projectSlug, propertyId, session]);
+  }, [projectSlug, propertyIdsession]);
 
   return { property, loading, error };
 }
@@ -240,24 +240,24 @@ interface SearchPropertiesResult extends PropertyListResponse {
 
 // Custom hook for searching properties with filters
 export function useSearchProperties(params: PropertySearchParams): SearchPropertiesResult {
-  const [result, setResult] = useState<PropertyListResponse>({
+  const [resultsetResult] = useState<PropertyListResponse>({
     properties: [],
     totalCount: 0,
     currentPage: 1,
     totalPages: 0
   });
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
+  const [loadingsetLoading] = useState<boolean>(true);
+  const [errorsetError] = useState<string | null>(null);
   const { data: session } = useSession();
 
   useEffect(() => {
     const searchProperties = async () => {
       try {
         setLoading(true);
-        
+
         // In a real app, you'd make an API call here
         // const queryParams = new URLSearchParams();
-        // Object.entries(params).forEach(([key, value]) => {
+        // Object.entries(params).forEach(([keyvalue]) => {
         //   if (value !== undefined) queryParams.set(key, value.toString());
         // });
         // const response = await fetch(`/api/properties/search?${queryParams}`, {
@@ -267,48 +267,48 @@ export function useSearchProperties(params: PropertySearchParams): SearchPropert
         // });
         // if (!response.ok) throw new Error('Failed to search properties');
         // const data = await response.json();
-        
+
         // For now, filter mock data
         setTimeout(() => {
           let filteredProperties = [...mockProperties];
-          
+
           // Apply filters
           if (params.projectSlug) {
             filteredProperties = filteredProperties.filter(
               property => property.projectSlug === params.projectSlug
             );
           }
-          
+
           if (params.minPrice) {
             filteredProperties = filteredProperties.filter(
-              property => property.price >= params.minPrice!
+              property => property.price>= params.minPrice!
             );
           }
-          
+
           if (params.maxPrice) {
             filteredProperties = filteredProperties.filter(
               property => property.price <= params.maxPrice!
             );
           }
-          
+
           if (params.minBedrooms) {
             filteredProperties = filteredProperties.filter(
-              property => property.bedrooms >= params.minBedrooms!
+              property => property.bedrooms>= params.minBedrooms!
             );
           }
-          
+
           if (params.type?.length) {
             filteredProperties = filteredProperties.filter(
               property => params.type?.includes(property.type)
             );
           }
-          
+
           if (params.status?.length) {
             filteredProperties = filteredProperties.filter(
               property => params.status?.includes(property.status)
             );
           }
-          
+
           // Apply query search
           if (params.query) {
             const query = params.query.toLowerCase();
@@ -319,11 +319,11 @@ export function useSearchProperties(params: PropertySearchParams): SearchPropert
                 || addressStr.includes(query);
             });
           }
-          
+
           // Sort
           if (params.sort) {
             const key = params.sort as keyof Property;
-            filteredProperties.sort((a, b) => {
+            filteredProperties.sort((ab: any) => {
               const aVal = a[key];
               const bVal = b[key];
               if (typeof aVal === 'string' && typeof bVal === 'string') {
@@ -339,23 +339,23 @@ export function useSearchProperties(params: PropertySearchParams): SearchPropert
               return 0;
             });
           }
-          
+
           const page = params.page || 1;
           const limit = params.limit || 10;
           const totalCount = filteredProperties.length;
           const totalPages = Math.ceil(totalCount / limit);
-          
+
           const startIndex = (page - 1) * limit;
           const endIndex = startIndex + limit;
-          const paginatedProperties = filteredProperties.slice(startIndex, endIndex);
-          
+          const paginatedProperties = filteredProperties.slice(startIndexendIndex);
+
           setResult({ 
             properties: paginatedProperties, 
             totalCount, 
             currentPage: page, 
             totalPages 
           });
-          
+
           setLoading(false);
         }, 500);
       } catch (err) {
@@ -365,7 +365,7 @@ export function useSearchProperties(params: PropertySearchParams): SearchPropert
     };
 
     searchProperties();
-  }, [params, session]);
+  }, [paramssession]);
 
   return { ...result, loading, error };
 }

@@ -1,0 +1,299 @@
+// Contractor Management Schema
+
+model Contractor {
+  id                String                @id @default(cuid())
+  companyName       String
+  registrationNumber String               @unique
+  vatNumber         String?
+  email             String                @unique
+  phone             String
+  website           String?
+  description       String?
+  address           Json
+  logo              String?
+  
+  // Capabilities
+  trades            Trade[]
+  certifications    Certification[]
+  insurances        Insurance[]
+  
+  // Relationships
+  projects          ProjectContractor[]
+  workPackages      WorkPackage[]
+  tenderSubmissions TenderSubmission[]
+  ratings           ContractorRating[]
+  documents         ContractorDocument[]
+  
+  // Performance metrics
+  averageRating     Float                @default(0)
+  completedProjects Int                  @default(0)
+  onTimeDelivery    Float                @default(100)
+  
+  // Compliance
+  status            ContractorStatus     @default(PENDING)
+  verifiedAt        DateTime?
+  approvedBy        String?
+  
+  createdAt         DateTime             @default(now())
+  updatedAt         DateTime             @updatedAt
+}
+
+enum ContractorStatus {
+  PENDING
+  APPROVED
+  SUSPENDED
+  BLACKLISTED
+}
+
+model Trade {
+  id          String      @id @default(cuid())
+  name        String      @unique
+  description String?
+  contractors Contractor[]
+}
+
+model Certification {
+  id             String      @id @default(cuid())
+  contractor     Contractor  @relation(fields: [contractorId], references: [id])
+  contractorId   String
+  type           String
+  issuer         String
+  certificateNumber String
+  issueDate      DateTime
+  expiryDate     DateTime
+  documentUrl    String
+  verified       Boolean     @default(false)
+  createdAt      DateTime    @default(now())
+}
+
+model Insurance {
+  id             String      @id @default(cuid())
+  contractor     Contractor  @relation(fields: [contractorId], references: [id])
+  contractorId   String
+  type           InsuranceType
+  provider       String
+  policyNumber   String
+  coverageAmount Float
+  startDate      DateTime
+  endDate        DateTime
+  documentUrl    String
+  verified       Boolean     @default(false)
+  createdAt      DateTime    @default(now())
+}
+
+enum InsuranceType {
+  PUBLIC_LIABILITY
+  EMPLOYERS_LIABILITY
+  PROFESSIONAL_INDEMNITY
+  CONTRACTORS_ALL_RISK
+}
+
+model WorkPackage {
+  id             String          @id @default(cuid())
+  project        Project         @relation(fields: [projectId], references: [id])
+  projectId      String
+  contractor     Contractor?     @relation(fields: [contractorId], references: [id])
+  contractorId   String?
+  
+  name           String
+  description    String
+  category       String
+  
+  // Timeline
+  plannedStart   DateTime
+  plannedEnd     DateTime
+  actualStart    DateTime?
+  actualEnd      DateTime?
+  
+  // Financials
+  budgetAmount   Float
+  actualCost     Float           @default(0)
+  paymentTerms   String?
+  
+  // Progress
+  status         WorkPackageStatus @default(DRAFT)
+  progress       Float           @default(0)
+  milestones     Milestone[]
+  
+  // Documents
+  specifications Json?
+  drawings       String[]
+  documents      WorkPackageDocument[]
+  
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+}
+
+enum WorkPackageStatus {
+  DRAFT
+  TENDERING
+  AWARDED
+  IN_PROGRESS
+  COMPLETED
+  ON_HOLD
+  CANCELLED
+}
+
+model Milestone {
+  id             String      @id @default(cuid())
+  workPackage    WorkPackage @relation(fields: [workPackageId], references: [id])
+  workPackageId  String
+  
+  name           String
+  description    String?
+  dueDate        DateTime
+  completedDate  DateTime?
+  paymentTrigger Boolean     @default(false)
+  paymentAmount  Float?
+  
+  status         MilestoneStatus @default(PENDING)
+  createdAt      DateTime    @default(now())
+}
+
+enum MilestoneStatus {
+  PENDING
+  IN_PROGRESS
+  COMPLETED
+  OVERDUE
+  CANCELLED
+}
+
+model TenderPackage {
+  id            String            @id @default(cuid())
+  project       Project           @relation(fields: [projectId], references: [id])
+  projectId     String
+  
+  name          String
+  description   String
+  category      String
+  
+  // Timeline
+  issueDate     DateTime
+  dueDate       DateTime
+  awardDate     DateTime?
+  
+  // Requirements
+  requirements  Json
+  specifications Json
+  drawings      String[]
+  
+  // Scoring criteria
+  scoringCriteria Json
+  
+  status        TenderStatus      @default(DRAFT)
+  submissions   TenderSubmission[]
+  
+  createdAt     DateTime          @default(now())
+  updatedAt     DateTime          @updatedAt
+}
+
+enum TenderStatus {
+  DRAFT
+  PUBLISHED
+  CLOSED
+  EVALUATING
+  AWARDED
+  CANCELLED
+}
+
+model TenderSubmission {
+  id               String        @id @default(cuid())
+  tenderPackage    TenderPackage @relation(fields: [tenderPackageId], references: [id])
+  tenderPackageId  String
+  contractor       Contractor    @relation(fields: [contractorId], references: [id])
+  contractorId     String
+  
+  // Submission details
+  submittedAt      DateTime      @default(now())
+  proposedAmount   Float
+  proposedTimeline Int          // days
+  methodology      Json
+  
+  // Documents
+  documents        Json
+  
+  // Evaluation
+  scores           Json?
+  totalScore       Float?
+  ranking          Int?
+  notes            String?
+  
+  status           SubmissionStatus @default(SUBMITTED)
+  
+  // AI Analysis
+  aiAnalysis       Json?
+  riskAssessment   Json?
+}
+
+enum SubmissionStatus {
+  SUBMITTED
+  UNDER_REVIEW
+  SHORTLISTED
+  ACCEPTED
+  REJECTED
+}
+
+model ContractorRating {
+  id             String      @id @default(cuid())
+  contractor     Contractor  @relation(fields: [contractorId], references: [id])
+  contractorId   String
+  project        Project     @relation(fields: [projectId], references: [id])
+  projectId      String
+  
+  quality        Int         // 1-5
+  timeliness     Int         // 1-5
+  communication  Int         // 1-5
+  value          Int         // 1-5
+  safety         Int         // 1-5
+  
+  overallRating  Float
+  comment        String?
+  
+  ratedBy        String
+  createdAt      DateTime    @default(now())
+}
+
+model ContractorDocument {
+  id             String      @id @default(cuid())
+  contractor     Contractor  @relation(fields: [contractorId], references: [id])
+  contractorId   String
+  
+  name           String
+  type           String
+  url            String
+  size           Int
+  uploadedBy     String
+  
+  createdAt      DateTime    @default(now())
+}
+
+model WorkPackageDocument {
+  id             String      @id @default(cuid())
+  workPackage    WorkPackage @relation(fields: [workPackageId], references: [id])
+  workPackageId  String
+  
+  name           String
+  type           String
+  url            String
+  size           Int
+  uploadedBy     String
+  
+  createdAt      DateTime    @default(now())
+}
+
+model ProjectContractor {
+  id             String      @id @default(cuid())
+  project        Project     @relation(fields: [projectId], references: [id])
+  projectId      String
+  contractor     Contractor  @relation(fields: [contractorId], references: [id])
+  contractorId   String
+  
+  role           String
+  startDate      DateTime
+  endDate        DateTime?
+  status         String
+  
+  createdAt      DateTime    @default(now())
+  
+  @@unique([projectId, contractorId])
+}

@@ -13,16 +13,16 @@ export {
   query,
   transaction,
   prisma,
-  
+
   // Database operations
   userDb,
   developmentDb,
   unitDb,
   documentDb,
-  
+
   // Mappers for data conversion
   mappers,
-  
+
   // Migration manager
   getMigrationManager
 };
@@ -32,24 +32,24 @@ if (typeof window === 'undefined') {
   import('./migrations').then(({ getMigrationManager }) => {
     const pool = getPool();
     const migrationManager = getMigrationManager(pool);
-    
+
     // Apply migrations
     migrationManager.runMigrations()
       .then(appliedMigrations => {
-        if (appliedMigrations.length > 0) {
-          console.log(`Applied ${appliedMigrations.length} migrations: ${appliedMigrations.join(', ')}`);
+        if (appliedMigrations.length> 0) {
+          }`);
         }
-        
+
         // Only generate seed data in development environment
         if (process.env.NODE_ENV === 'development') {
           return migrationManager.generateSeedData();
         }
       })
       .catch(error => {
-        console.error('Migration initialization failed', error);
+
       });
   }).catch(error => {
-    console.error('Failed to load migration manager', error);
+
   });
 }
 

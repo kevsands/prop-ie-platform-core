@@ -1,3 +1,4 @@
+import React from 'react';
 'use client';
 
 import { useState } from 'react';
@@ -27,9 +28,9 @@ import { toast } from 'sonner';
 
 export default function DevelopmentList() {
   const router = useRouter();
-  const [search, setSearch] = useState('');
-  const [status, setStatus] = useState<DevelopmentStatus | ''>('');
-  const [page, setPage] = useState(1);
+  const [searchsetSearch] = useState('');
+  const [statussetStatus] = useState<DevelopmentStatus | ''>('');
+  const [pagesetPage] = useState(1);
   const limit = 10;
 
   // Fetch developments with React Query
@@ -47,8 +48,7 @@ export default function DevelopmentList() {
     },
     {
       // Keep previous data while loading new data (prevents UI jumps)
-      keepPreviousData: true,
-    }
+      keepPreviousData: true}
   );
 
   // Delete development mutation
@@ -61,10 +61,9 @@ export default function DevelopmentList() {
         onSuccess: () => {
           toast.success('Development deleted successfully');
         },
-        onError: (error) => {
+        onError: (error: any) => {
           toast.error(`Failed to delete development: ${error.message}`);
-        },
-      });
+        });
     }
   };
 
@@ -99,14 +98,14 @@ export default function DevelopmentList() {
           <Input
             placeholder="Search developments..."
             value={search}
-            onChange={(e) => setSearch(e.target.value)}
+            onChange={(e: any) => setSearch(e.target.value)}
             className="w-full"
           />
         </div>
         <div className="w-full sm:w-1/2">
           <Select
             value={status}
-            onValueChange={(value) => setStatus(value as DevelopmentStatus | '')}
+            onValueChange={(value: any) => setStatus(value as DevelopmentStatus | '')}
           >
             <SelectTrigger>
               <SelectValue placeholder="Filter by status" />
@@ -132,7 +131,7 @@ export default function DevelopmentList() {
       {/* Loading state */}
       {isLoading && !data && (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {Array.from({ length: 6 }).map((_, i) => (
+          {Array.from({ length: 6 }).map((_i: any) => (
             <Card key={i} className="animate-pulse">
               <CardHeader className="h-20 bg-gray-100 rounded-t-lg" />
               <CardContent className="pt-4 space-y-4">
@@ -153,13 +152,13 @@ export default function DevelopmentList() {
         </div>
       )}
 
-      {data && data.data.length > 0 && (
+      {data && data.data.length> 0 && (
         <>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {data.data.map((development) => (
+            {data.data.map((development: any) => (
               <Card key={development.id} className="overflow-hidden">
                 <div className="relative h-40 bg-gray-100">
-                  {development.images && development.images.length > 0 ? (
+                  {development.images && development.images.length> 0 ? (
                     <img
                       src={development.images[0]}
                       alt={development.name}
@@ -185,8 +184,8 @@ export default function DevelopmentList() {
                 <CardContent>
                   <div className="space-y-2">
                     <p className="text-sm text-gray-500">
-                      {development.description.length > 120
-                        ? `${development.description.substring(0, 120)}...`
+                      {development.description.length> 120
+                        ? `${development.description.substring(0120)}...`
                         : development.description}
                     </p>
                     <div className="grid grid-cols-2 gap-2 text-sm">
@@ -227,12 +226,12 @@ export default function DevelopmentList() {
           </div>
 
           {/* Pagination */}
-          {data.pagination && data.pagination.pages > 1 && (
+          {data.pagination && data.pagination.pages> 1 && (
             <div className="flex justify-center items-center space-x-2 mt-8">
               <Button
                 variant="outline"
                 size="sm"
-                onClick={() => setPage((p) => Math.max(p - 1, 1))}
+                onClick={() => setPage((p: any) => Math.max(p - 11))}
                 disabled={page === 1 || isLoading}
               >
                 Previous
@@ -243,7 +242,7 @@ export default function DevelopmentList() {
               <Button
                 variant="outline"
                 size="sm"
-                onClick={() => setPage((p) => Math.min(p + 1, data.pagination.pages))}
+                onClick={() => setPage((p: any) => Math.min(p + 1, data.pagination.pages))}
                 disabled={page === data.pagination.pages || isLoading}
               >
                 Next

@@ -27,7 +27,7 @@ export class MetricsCollector {
 
     // In development, just log to console
     if (process.env.NODE_ENV === 'development') {
-      console.debug('Query metrics:', data);
+
     }
 
     // In production, would send to metrics service
@@ -50,7 +50,7 @@ export class MetricsCollector {
 
     // In development, just log to console
     if (process.env.NODE_ENV === 'development') {
-      console.debug('Mutation metrics:', data);
+
     }
 
     // In production, would send to metrics service

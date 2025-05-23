@@ -17,24 +17,19 @@ const columns: ColumnDef<TestData>[] = [
   {
     accessorKey: 'name',
     header: 'Name',
-    accessorFn: (row) => row.name,
-  },
+    accessorFn: (row: any) => row.name},
   {
     accessorKey: 'email',
     header: 'Email',
-    accessorFn: (row) => row.email,
-  },
+    accessorFn: (row: any) => row.email},
   {
     accessorKey: 'status',
     header: 'Status',
-    accessorFn: (row) => row.status,
-  },
+    accessorFn: (row: any) => row.status},
   {
     accessorKey: 'role',
     header: 'Role',
-    accessorFn: (row) => row.role,
-  },
-];
+    accessorFn: (row: any) => row.role}];
 
 const testData = generateTestData<TestData>(
   {
@@ -42,8 +37,7 @@ const testData = generateTestData<TestData>(
     name: 'John Doe',
     email: 'john@example.com',
     status: 'active',
-    role: 'admin',
-  },
+    role: 'admin'},
   10
 );
 
@@ -53,9 +47,7 @@ const statusFilter = {
   options: [
     { id: 'active', label: 'Active', value: 'active', icon: Filter },
     { id: 'inactive', label: 'Inactive', value: 'inactive', icon: Filter },
-    { id: 'pending', label: 'Pending', value: 'pending', icon: Filter },
-  ],
-};
+    { id: 'pending', label: 'Pending', value: 'pending', icon: Filter }]};
 
 const roleFilter = {
   columnId: 'role',
@@ -63,9 +55,7 @@ const roleFilter = {
   options: [
     { id: 'admin', label: 'Admin', value: 'admin', icon: Filter },
     { id: 'user', label: 'User', value: 'user', icon: Filter },
-    { id: 'guest', label: 'Guest', value: 'guest', icon: Filter },
-  ],
-};
+    { id: 'guest', label: 'Guest', value: 'guest', icon: Filter }]};
 
 describe('DataTable Filtering', () => {
   it('renders search input when searchColumn is provided', () => {
@@ -103,7 +93,7 @@ describe('DataTable Filtering', () => {
       <DataTable
         columns={columns}
         data={testData}
-        filters={[statusFilter, roleFilter]}
+        filters={[statusFilterroleFilter]}
       />
     );
     
@@ -164,7 +154,7 @@ describe('DataTable Filtering', () => {
       <DataTable
         columns={columns}
         data={testData}
-        filters={[statusFilter, roleFilter]}
+        filters={[statusFilterroleFilter]}
       />
     );
     
@@ -252,8 +242,7 @@ describe('DataTable Filtering', () => {
       name: 'New User',
       email: 'new@example.com',
       status: 'inactive',
-      role: 'user',
-    }];
+      role: 'user'}];
     
     rerender(
       <DataTable

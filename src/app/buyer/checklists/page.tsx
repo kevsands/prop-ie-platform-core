@@ -1,3 +1,4 @@
+import React from 'react';
 'use client';
 
 import { useState } from 'react';
@@ -29,12 +30,12 @@ interface Checklist {
 }
 
 export default function ChecklistsPage() {
-  const [selectedChecklist, setSelectedChecklist] = useState<Checklist | null>(null);
-  const [showCreateModal, setShowCreateModal] = useState(false);
-  const [filterType, setFilterType] = useState<string>('all');
-  
+  const [selectedChecklistsetSelectedChecklist] = useState<Checklist | null>(null);
+  const [showCreateModalsetShowCreateModal] = useState(false);
+  const [filterTypesetFilterType] = useState<string>('all');
+
   // Mock checklists data
-  const [checklists, setChecklists] = useState<Checklist[]>([
+  const [checklistssetChecklists] = useState<Checklist[]>([
     {
       id: '1',
       name: 'First-Time Buyer\'s Essential Checklist',
@@ -182,7 +183,7 @@ export default function ChecklistsPage() {
       ]
     }
   ]);
-  
+
   // Filter checklists
   const filteredChecklists = checklists.filter(checklist => {
     if (filterType === 'all') return true;
@@ -190,13 +191,13 @@ export default function ChecklistsPage() {
     if (filterType === 'custom') return !checklist.isTemplate;
     return checklist.type === filterType;
   });
-  
+
   const getProgressColor = (progress: number) => {
-    if (progress >= 80) return 'bg-green-600';
-    if (progress >= 50) return 'bg-yellow-600';
+    if (progress>= 80) return 'bg-green-600';
+    if (progress>= 50) return 'bg-yellow-600';
     return 'bg-gray-400';
   };
-  
+
   const getPriorityColor = (priority: string) => {
     switch (priority) {
       case 'high': return 'text-red-600 bg-red-100';
@@ -205,7 +206,7 @@ export default function ChecklistsPage() {
       default: return 'text-gray-600 bg-gray-100';
     }
   };
-  
+
   const toggleItem = (checklistId: string, itemId: string) => {
     setChecklists(prevChecklists => 
       prevChecklists.map(checklist => {
@@ -226,7 +227,7 @@ export default function ChecklistsPage() {
       })
     );
   };
-  
+
   return (
     <div className="flex-1 p-8">
       <div className="max-w-7xl mx-auto">
@@ -244,7 +245,7 @@ export default function ChecklistsPage() {
             Create Checklist
           </button>
         </div>
-        
+
         {/* Filters */}
         <div className="mb-6 flex items-center gap-4 overflow-x-auto pb-2">
           <button
@@ -298,7 +299,7 @@ export default function ChecklistsPage() {
             Moving
           </button>
         </div>
-        
+
         {/* Checklists Grid */}
         {selectedChecklist ? (
           /* Checklist Detail View */
@@ -323,7 +324,7 @@ export default function ChecklistsPage() {
                   </svg>
                 </button>
               </div>
-              
+
               {/* Progress Bar */}
               <div className="mt-6">
                 <div className="flex items-center justify-between mb-2">
@@ -333,12 +334,12 @@ export default function ChecklistsPage() {
                 <div className="w-full bg-gray-200 rounded-full h-3">
                   <div 
                     className={`h-3 rounded-full transition-all duration-300 ${getProgressColor(selectedChecklist.progress)}`}
-                    style={{ width: `${selectedChecklist.progress}%` }}
+                    style={ width: `${selectedChecklist.progress}%` }
                   />
                 </div>
               </div>
             </div>
-            
+
             {/* Action Buttons */}
             <div className="p-4 border-b bg-gray-50 flex items-center gap-3">
               <button className="flex items-center gap-2 px-3 py-1.5 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors text-sm">
@@ -354,20 +355,20 @@ export default function ChecklistsPage() {
                 Save as Template
               </button>
             </div>
-            
+
             {/* Checklist Items */}
             <div className="p-6">
               {Object.entries(
-                selectedChecklist.items.reduce((acc, item) => {
+                selectedChecklist.items.reduce((accitem: any) => {
                   if (!acc[item.category]) acc[item.category] = [];
                   acc[item.category].push(item);
                   return acc;
                 }, {} as Record<string, ChecklistItem[]>)
-              ).map(([category, items]) => (
+              ).map(([categoryitems]) => (
                 <div key={category} className="mb-6">
                   <h3 className="text-lg font-semibold text-gray-900 mb-3">{category}</h3>
                   <div className="space-y-3">
-                    {items.map((item) => (
+                    {items.map((item: any) => (
                       <div 
                         key={item.id}
                         className={`border rounded-lg p-4 transition-colors ${
@@ -389,7 +390,7 @@ export default function ChecklistsPage() {
                               <Circle className="h-5 w-5" />
                             )}
                           </button>
-                          
+
                           <div className="flex-1">
                             <div className="flex items-start justify-between">
                               <div>
@@ -404,14 +405,14 @@ export default function ChecklistsPage() {
                                   {item.description}
                                 </p>
                               </div>
-                              
+
                               <span className={`ml-2 px-2 py-1 text-xs font-medium rounded-full ${
                                 getPriorityColor(item.priority)
                               }`}>
                                 {item.priority}
                               </span>
                             </div>
-                            
+
                             <div className="flex items-center gap-4 mt-2">
                               {item.dueDate && (
                                 <div className="flex items-center gap-1 text-sm text-gray-500">
@@ -444,7 +445,7 @@ export default function ChecklistsPage() {
         ) : (
           /* Checklists Grid View */
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredChecklists.map((checklist) => (
+            {filteredChecklists.map((checklist: any) => (
               <div 
                 key={checklist.id}
                 onClick={() => setSelectedChecklist(checklist)}
@@ -461,7 +462,7 @@ export default function ChecklistsPage() {
                     </span>
                   )}
                 </div>
-                
+
                 {/* Progress */}
                 <div className="mb-4">
                   <div className="flex items-center justify-between mb-2">
@@ -471,11 +472,11 @@ export default function ChecklistsPage() {
                   <div className="w-full bg-gray-200 rounded-full h-2">
                     <div 
                       className={`h-2 rounded-full transition-all duration-300 ${getProgressColor(checklist.progress)}`}
-                      style={{ width: `${checklist.progress}%` }}
+                      style={ width: `${checklist.progress}%` }
                     />
                   </div>
                 </div>
-                
+
                 {/* Stats */}
                 <div className="flex items-center justify-between text-sm text-gray-500">
                   <div className="flex items-center gap-1">

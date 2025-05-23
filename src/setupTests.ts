@@ -4,8 +4,7 @@ import { expect } from '@jest/globals';
 
 // Configure testing-library
 configure({
-  testIdAttribute: 'data-testid',
-});
+  testIdAttribute: 'data-testid'});
 
 // Extend expect with additional matchers
 expect.extend({
@@ -14,18 +13,15 @@ expect.extend({
     return {
       pass,
       message: () =>
-        `expected ${received} ${pass ? 'not ' : ''}to contain all items in ${expected}`,
-    };
+        `expected ${received} ${pass ? 'not ' : ''}to contain all items in ${expected}`};
   },
   objectContaining: (received: any, expected: any) => {
-    const pass = Object.entries(expected).every(([key, value]) => received[key] === value);
+    const pass = Object.entries(expected).every(([keyvalue]) => received[key] === value);
     return {
       pass,
       message: () =>
-        `expected ${JSON.stringify(received)} ${pass ? 'not ' : ''}to contain ${JSON.stringify(expected)}`,
-    };
-  },
-});
+        `expected ${JSON.stringify(received)} ${pass ? 'not ' : ''}to contain ${JSON.stringify(expected)}`};
+  });
 
 // Mock ResizeObserver
 class ResizeObserver {
@@ -65,9 +61,7 @@ Object.defineProperty(window, 'matchMedia', {
     removeListener: jest.fn(),
     addEventListener: jest.fn(),
     removeEventListener: jest.fn(),
-    dispatchEvent: jest.fn(),
-  })),
-});
+    dispatchEvent: jest.fn()}))});
 
 // Mock URL.createObjectURL
 window.URL.createObjectURL = jest.fn();

@@ -127,7 +127,7 @@ const GET_FINANCIAL_METRICS = /* GraphQL */ `
       }
       trendData {
         metric
-        data {
+        data: any {
           date
           value
           isProjected
@@ -142,14 +142,14 @@ const GET_FINANCIAL_METRICS = /* GraphQL */ `
  */
 export function useCashFlowData(developmentId: string, timeRange: 'week' | 'month' | 'quarter' | 'year' | 'all' = 'month') {
   return useGraphQLQuery<{ getDevelopmentCashFlow: CashFlowSummaryDashboardProps }>(
-    ['cashFlow', developmentId, timeRange],
+    ['cashFlow', developmentIdtimeRange],
     GET_CASH_FLOW_DATA,
     { developmentId, timeRange },
     {
       // Default React Query options
       staleTime: 5 * 60 * 1000, // 5 minutes
       refetchOnWindowFocus: false,
-      select: (data) => data?.getDevelopmentCashFlow
+      select: (data: any) => data?.getDevelopmentCashFlow
     }
   );
 }
@@ -166,7 +166,7 @@ export function useBudgetVsActualData(developmentId: string) {
       // Default React Query options
       staleTime: 5 * 60 * 1000, // 5 minutes
       refetchOnWindowFocus: false,
-      select: (data) => data?.getDevelopmentBudgetVsActual
+      select: (data: any) => data?.getDevelopmentBudgetVsActual
     }
   );
 }
@@ -183,22 +183,22 @@ export function useFinancialMetrics(developmentId: string) {
       // Default React Query options
       staleTime: 5 * 60 * 1000, // 5 minutes
       refetchOnWindowFocus: false,
-      select: (data) => {
+      select: (data: any) => {
         const metrics = data?.getDevelopmentFinancialMetrics;
         if (!metrics) return null;
-        
+
         // Transform trend data into the format expected by the FinancialChart component
         const transformTrendData = (metricName: string): FinancialMetricDataPoint[] => {
-          const trendData = metrics.trendData.find(t => t.metric === metricName);
+          const trendData = metrics.trendData.find(t: any => t.metric === metricName);
           if (!trendData) return [];
-          
-          return trendData.data.map(point => ({
+
+          return trendData.data.map(point: any => ({
             date: point.date,
             value: point.value,
             isProjected: point.isProjected
           }));
         };
-        
+
         return {
           roi: metrics.roi,
           profitMargin: metrics.profitMargin,

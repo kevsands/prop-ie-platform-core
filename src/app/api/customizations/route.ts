@@ -16,7 +16,7 @@ const prisma = new PrismaClient();
 // Logger implementation
 const logger = {
   error: (message: string, data?: any) => {
-    console.error(`[ERROR] ${message}`, data);
+
   }
 };
 
@@ -33,11 +33,9 @@ interface Session {
   user: SessionUser;
 }
 
-// Helper function to get session with proper typing
-async function getSession(): Promise<Session | null> {
-  const session = await getServerSession();
+// Helper async function togetServerSession();
   if (!session?.user) return null;
-  
+
   return {
     user: {
       id: session.user.id || '',
@@ -59,7 +57,7 @@ export async function GET(request: NextRequest) {
     const unitId = url.searchParams.get('unitId');
     const saleId = url.searchParams.get('saleId');
     const userId = url.searchParams.get('userId');
-    
+
     if (!unitId && !saleId && !userId) {
       return NextResponse.json(
         { error: 'At least one filter parameter is required: unitId, saleId, or userId' },
@@ -68,7 +66,7 @@ export async function GET(request: NextRequest) {
     }
 
     let customizations;
-    
+
     // Use direct Prisma queries instead of repositories
     if (unitId) {
       // Get customization options for unit
@@ -102,14 +100,14 @@ export async function GET(request: NextRequest) {
         }
       });
     }
-    
+
     return NextResponse.json({ data: customizations });
   } catch (error: any) {
     logger.error('Error fetching customizations:', { 
       error: error.message,
       stack: error.stack 
     });
-    
+
     return NextResponse.json(
       { error: 'Failed to fetch customizations' },
       { status: 500 }
@@ -124,7 +122,7 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const session = await getSession();
-    
+
     // Check authorization
     if (!session) {
       return NextResponse.json(
@@ -144,9 +142,9 @@ export async function POST(request: NextRequest) {
         notes?: string;
         quantity?: number;
         additionalCost?: number;
-      }>;
+      }>\n  );
     };
-    
+
     // Validate required fields
     if (!body.saleId || !body.unitId || !body.selections || !Array.isArray(body.selections)) {
       return NextResponse.json(
@@ -154,7 +152,7 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-    
+
     // Validate that the selections array has items
     if (body.selections.length === 0) {
       return NextResponse.json(
@@ -162,23 +160,23 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-    
+
     // Execute in a transaction
     try {
       // Use a Prisma transaction
-      return await prisma.$transaction(async (prismaClient) => {
+      return await prisma.$transaction(async (prismaClient: any) => {
         // First, verify the sale exists and belongs to the user
         const sale = await prismaClient.sale.findUnique({
           where: { id: body.saleId }
         });
-        
+
         if (!sale) {
           return NextResponse.json(
             { error: 'Sale not found' },
             { status: 404 }
           );
         }
-        
+
         // Verify the user has permission (buyer or agent for the sale)
         if (sale.buyerId !== session.user.id && 
             sale.sellingAgentId !== session.user.id && 
@@ -188,19 +186,19 @@ export async function POST(request: NextRequest) {
             { status: 403 }
           );
         }
-        
+
         // Verify the unit exists
         const unit = await prismaClient.unit.findUnique({
           where: { id: body.unitId }
         });
-        
+
         if (!unit) {
           return NextResponse.json(
             { error: 'Unit not found' },
             { status: 404 }
           );
         }
-        
+
         // Verify the unit is associated with the sale
         if (sale.unitId !== body.unitId) {
           return NextResponse.json(
@@ -208,7 +206,7 @@ export async function POST(request: NextRequest) {
             { status: 400 }
           );
         }
-        
+
         // Create a customization selection to group all selections
         const customizationSelection = await prismaClient.customizationSelection.create({
           data: {
@@ -225,27 +223,27 @@ export async function POST(request: NextRequest) {
             meetingDate: null
           }
         });
-        
+
         // Process each selection and calculate total cost
         let totalCost = 0;
         const createdSelections = [];
-        
+
         for (const selection of body.selections) {
           // Verify the customization option exists
           const option = await prismaClient.unitCustomizationOption.findUnique({
             where: { id: selection.customizationOptionId }
           });
-          
+
           if (!option) {
             throw new Error(`Customization option not found: ${selection.customizationOptionId}`);
           }
-          
+
           // Calculate additional cost
           const additionalCost = selection.additionalCost || 
                               (option.additionalCost * (selection.quantity || 1));
-          
+
           totalCost += additionalCost;
-          
+
           // Create the selection record
           const createdSelection = await prismaClient.selectedOption.create({
             data: {
@@ -258,10 +256,10 @@ export async function POST(request: NextRequest) {
               quantity: selection.quantity || 1
             }
           });
-          
+
           createdSelections.push(createdSelection);
         }
-        
+
         // Update the total cost of the selection
         const updatedSelection = await prismaClient.customizationSelection.update({
           where: { id: customizationSelection.id },
@@ -270,7 +268,7 @@ export async function POST(request: NextRequest) {
             status: CustomizationStatus.SUBMITTED
           }
         });
-        
+
         // Create a document record for the customization
         const document = await prismaClient.document.create({
           data: {
@@ -296,7 +294,7 @@ export async function POST(request: NextRequest) {
             }
           }
         });
-        
+
         // Return the created package with selections
         return NextResponse.json({
           data: {
@@ -315,7 +313,7 @@ export async function POST(request: NextRequest) {
         saleId: body.saleId,
         unitId: body.unitId
       });
-      
+
       return NextResponse.json(
         { error: `Failed to create customizations: ${error.message}` },
         { status: 500 }
@@ -326,7 +324,7 @@ export async function POST(request: NextRequest) {
       error: error.message,
       stack: error.stack
     });
-    
+
     return NextResponse.json(
       { error: 'Failed to create customizations' },
       { status: 500 }
@@ -340,7 +338,7 @@ export async function POST(request: NextRequest) {
 export async function PUT(request: NextRequest) {
   try {
     const session = await getSession();
-    
+
     if (!session) {
       return NextResponse.json(
         { error: 'Unauthorized' },
@@ -358,7 +356,7 @@ export async function PUT(request: NextRequest) {
         material?: string;
         quantity?: number;
         notes?: string;
-      }>;
+      }>\n  );
     };
 
     // Find the customization selection

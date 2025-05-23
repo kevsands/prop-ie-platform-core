@@ -1,0 +1,254 @@
+import { NextRequest, NextResponse } from 'next/server';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '../[...nextauth]/auth-server';
+import { PrismaClient } from '@prisma/client';
+import { z } from 'zod';
+import archiver from 'archiver';
+import { Readable } from 'stream';
+
+const prisma = new PrismaClient();
+
+const exportRequestSchema = z.object({
+  format: z.enum(['json', 'csv', 'zip']).default('json'),
+  includeDocuments: z.boolean().default(false),
+});
+
+/**
+ * GDPR Data Export Endpoint
+ * Allows users to export all their personal data
+ */
+export async function POST(request: NextRequest) {
+  try {
+    // Check authentication
+    const session = await getServerSession(authOptions);
+    if (!session?.user?.id) {
+      return NextResponse.json(
+        { error: 'Unauthorized' },
+        { status: 401 }
+      );
+    }
+
+    // Validate request
+    const body = await request.json();
+    const { format, includeDocuments } = exportRequestSchema.parse(body);
+
+    // Collect all user data
+    const userData = await collectUserData(session.user.id);
+
+    // Log data export request for compliance
+    await prisma.auditLog.create({
+      data: {
+        userId: session.user.id,
+        action: 'DATA_EXPORT_REQUEST',
+        resourceType: 'USER_DATA',
+        resourceId: session.user.id,
+        details: JSON.stringify({ format, includeDocuments }),
+        ipAddress: request.headers.get('x-forwarded-for') || '',
+        userAgent: request.headers.get('user-agent') || '',
+      },
+    });
+
+    // Return data in requested format
+    switch (format) {
+      case 'json':
+        return NextResponse.json({
+          success: true,
+          data: userData,
+          exportDate: new Date().toISOString(),
+          notice: 'This export contains all your personal data stored in our system.',
+        });
+
+      case 'csv':
+        const csv = await convertToCSV(userData);
+        return new NextResponse(csv, {
+          headers: {
+            'Content-Type': 'text/csv',
+            'Content-Disposition': `attachment; filename="my-data-${Date.now()}.csv"`,
+          },
+        });
+
+      case 'zip':
+        const zipBuffer = await createZipArchive(userData, includeDocuments);
+        return new NextResponse(zipBuffer, {
+          headers: {
+            'Content-Type': 'application/zip',
+            'Content-Disposition': `attachment; filename="my-data-${Date.now()}.zip"`,
+          },
+        });
+
+      default:
+        return NextResponse.json({ error: 'Invalid format' }, { status: 400 });
+    }
+  } catch (error) {
+    console.error('Data export error:', error);
+    return NextResponse.json(
+      { error: 'Failed to export data' },
+      { status: 500 }
+    );
+  }
+}
+
+/**
+ * Collect all user data from various tables
+ */
+async function collectUserData(userId: string) {
+  const [
+    user,
+    properties,
+    transactions,
+    documents,
+    viewings,
+    searches,
+    communications,
+    consents,
+  ] = await Promise.all([
+    // User profile
+    prisma.user.findUnique({
+      where: { id: userId },
+      include: {
+        roles: true,
+        address: true,
+        bankDetails: true,
+      },
+    }),
+    
+    // Properties
+    prisma.property.findMany({
+      where: { 
+        OR: [
+          { developerId: userId },
+          { viewings: { some: { userId } } },
+        ],
+      },
+    }),
+    
+    // Transactions
+    prisma.transaction.findMany({
+      where: {
+        OR: [
+          { buyerId: userId },
+          { sellerId: userId },
+        ],
+      },
+      include: {
+        documents: true,
+        payments: true,
+      },
+    }),
+    
+    // Documents
+    prisma.document.findMany({
+      where: { uploadedById: userId },
+    }),
+    
+    // Property viewings
+    prisma.propertyViewing.findMany({
+      where: { userId },
+    }),
+    
+    // Search history
+    prisma.searchHistory.findMany({
+      where: { userId },
+    }),
+    
+    // Communications
+    prisma.communication.findMany({
+      where: {
+        OR: [
+          { senderId: userId },
+          { recipientId: userId },
+        ],
+      },
+    }),
+    
+    // Consent records
+    prisma.consentRecord.findMany({
+      where: { userId },
+    }),
+  ]);
+
+  // Remove sensitive fields
+  if (user) {
+    delete (user as any).password;
+    delete (user as any).twoFactorSecret;
+    delete (user as any).refreshToken;
+  }
+
+  return {
+    profile: user,
+    properties,
+    transactions,
+    documents: documents.map(doc => ({
+      ...doc,
+      fileUrl: '[Available in ZIP export]',
+    })),
+    viewings,
+    searchHistory: searches,
+    communications,
+    consents,
+    exportMetadata: {
+      exportDate: new Date().toISOString(),
+      dataRetentionPolicy: 'Data is retained for 2 years after account closure',
+      rightsNotice: 'You have the right to rectification, erasure, and portability of this data',
+    },
+  };
+}
+
+/**
+ * Convert data to CSV format
+ */
+async function convertToCSV(data: any): Promise<string> {
+  // Simple CSV conversion - in production use a proper CSV library
+  const sections = [];
+  
+  // Profile section
+  sections.push('PROFILE DATA');
+  sections.push('Field,Value');
+  if (data.profile) {
+    Object.entries(data.profile).forEach(([key, value]) => {
+      if (typeof value !== 'object') {
+        sections.push(`${key},"${value}"`);
+      }
+    });
+  }
+  
+  // Add other sections similarly...
+  
+  return sections.join('\n');
+}
+
+/**
+ * Create ZIP archive with all data and documents
+ */
+async function createZipArchive(data: any, includeDocuments: boolean): Promise<Buffer> {
+  return new Promise((resolve, reject) => {
+    const chunks: Buffer[] = [];
+    const archive = archiver('zip', {
+      zlib: { level: 9 },
+    });
+
+    archive.on('data', (chunk) => chunks.push(chunk));
+    archive.on('end', () => resolve(Buffer.concat(chunks)));
+    archive.on('error', reject);
+
+    // Add JSON data
+    archive.append(JSON.stringify(data, null, 2), {
+      name: 'my-data.json',
+    });
+
+    // Add CSV version
+    convertToCSV(data).then(csv => {
+      archive.append(csv, { name: 'my-data.csv' });
+    });
+
+    // Add documents if requested
+    if (includeDocuments && data.documents) {
+      // In production, fetch actual files from S3
+      archive.append('Document files would be included here', {
+        name: 'documents/README.txt',
+      });
+    }
+
+    archive.finalize();
+  });
+}

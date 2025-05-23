@@ -1,0 +1,499 @@
+'use client';
+
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Icons } from '@/components/ui/icons';
+import { Progress } from '@/components/ui/progress';
+import Link from 'next/link';
+import { z } from 'zod';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { signIn } from 'next-auth/react';
+
+// Password strength checker
+function checkPasswordStrength(password: string): {
+  score: number;
+  feedback: string[];
+} {
+  const feedback: string[] = [];
+  let score = 0;
+
+  if (password.length >= 8) score++;
+  if (password.length >= 12) score++;
+  if (/[a-z]/.test(password) && /[A-Z]/.test(password)) {
+    score++;
+  } else {
+    feedback.push('Use both uppercase and lowercase letters');
+  }
+  if (/\d/.test(password)) {
+    score++;
+  } else {
+    feedback.push('Include at least one number');
+  }
+  if (/[^a-zA-Z0-9]/.test(password)) {
+    score++;
+  } else {
+    feedback.push('Include at least one special character');
+  }
+
+  return { score, feedback };
+}
+
+// Validation schema
+const registerSchema = z.object({
+  firstName: z.string().min(2, 'First name must be at least 2 characters'),
+  lastName: z.string().min(2, 'Last name must be at least 2 characters'),
+  email: z.string().email('Invalid email address'),
+  password: z.string()
+    .min(8, 'Password must be at least 8 characters')
+    .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/, 
+      'Password must contain uppercase, lowercase, number and special character'),
+  confirmPassword: z.string(),
+  role: z.enum(['BUYER', 'DEVELOPER', 'SOLICITOR', 'AGENT', 'ARCHITECT', 'CONTRACTOR', 'INVESTOR']),
+  organization: z.string().optional(),
+  phone: z.string().optional(),
+  termsAccepted: z.boolean().refine(val => val === true, {
+    message: 'You must accept the terms and conditions'
+  }),
+  marketingOptIn: z.boolean().optional()
+}).refine((data) => data.password === data.confirmPassword, {
+  message: "Passwords don't match",
+  path: ["confirmPassword"],
+});
+
+type RegisterForm = z.infer<typeof registerSchema>;
+
+export default function EnhancedRegisterPage() {
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
+  const [registerError, setRegisterError] = useState<string | null>(null);
+  const [passwordStrength, setPasswordStrength] = useState({ score: 0, feedback: [] as string[] });
+  const [step, setStep] = useState(1);
+
+  const form = useForm<RegisterForm>({
+    resolver: zodResolver(registerSchema),
+    defaultValues: {
+      firstName: '',
+      lastName: '',
+      email: '',
+      password: '',
+      confirmPassword: '',
+      role: 'BUYER',
+      organization: '',
+      phone: '',
+      termsAccepted: false,
+      marketingOptIn: false
+    }
+  });
+
+  const watchPassword = form.watch('password');
+  const watchRole = form.watch('role');
+
+  // Update password strength when password changes
+  useState(() => {
+    const subscription = form.watch((value, { name }) => {
+      if (name === 'password' && value.password) {
+        setPasswordStrength(checkPasswordStrength(value.password));
+      }
+    });
+    return () => subscription.unsubscribe();
+  });
+
+  const handleSubmit = async (data: RegisterForm) => {
+    setIsLoading(true);
+    setRegisterError(null);
+
+    try {
+      const response = await fetch('/api/auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          firstName: data.firstName,
+          lastName: data.lastName,
+          email: data.email,
+          password: data.password,
+          role: data.role,
+          organization: data.organization,
+          phone: data.phone,
+          marketingOptIn: data.marketingOptIn
+        })
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.error || 'Registration failed');
+      }
+
+      // Auto sign in after registration
+      const signInResult = await signIn('credentials', {
+        redirect: false,
+        email: data.email,
+        password: data.password
+      });
+
+      if (signInResult?.ok) {
+        // Redirect based on role
+        const redirectMap: Record<string, string> = {
+          BUYER: '/buyer/onboarding',
+          DEVELOPER: '/developer/onboarding',
+          SOLICITOR: '/solicitor/onboarding',
+          AGENT: '/agent/onboarding',
+          ARCHITECT: '/architect/onboarding',
+          CONTRACTOR: '/contractor/onboarding',
+          INVESTOR: '/investor/onboarding'
+        };
+        
+        router.push(redirectMap[data.role] || '/');
+      } else {
+        router.push('/auth/login?registered=true');
+      }
+    } catch (error) {
+      setRegisterError(error instanceof Error ? error.message : 'An error occurred');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Handle OAuth registration
+  const handleOAuthRegister = async (provider: 'google' | 'azure-ad') => {
+    setIsLoading(true);
+    try {
+      await signIn(provider, { callbackUrl: '/auth/complete-profile' });
+    } catch (error) {
+      setRegisterError('OAuth registration failed');
+      setIsLoading(false);
+    }
+  };
+
+  const roleDescriptions = {
+    BUYER: 'Looking to purchase property',
+    DEVELOPER: 'Building and selling properties',
+    SOLICITOR: 'Legal professional handling conveyancing',
+    AGENT: 'Estate agent or property professional',
+    ARCHITECT: 'Design and planning professional',
+    CONTRACTOR: 'Construction and building services',
+    INVESTOR: 'Property investment professional'
+  };
+
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100 py-12 px-4 sm:px-6 lg:px-8">
+      <Card className="w-full max-w-2xl shadow-xl">
+        <CardHeader className="space-y-1">
+          <CardTitle className="text-center text-2xl font-bold">Create your account</CardTitle>
+          <CardDescription className="text-center">
+            Join Ireland's premier property platform
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <Tabs defaultValue="form" className="w-full">
+            <TabsList className="grid w-full grid-cols-2">
+              <TabsTrigger value="form">Create Account</TabsTrigger>
+              <TabsTrigger value="oauth">Quick Sign Up</TabsTrigger>
+            </TabsList>
+
+            <TabsContent value="form" className="space-y-4">
+              {/* Progress indicator */}
+              <div className="space-y-2">
+                <div className="flex justify-between text-sm text-gray-600">
+                  <span>Step {step} of 3</span>
+                  <span>{step === 1 ? 'Account Type' : step === 2 ? 'Personal Info' : 'Security'}</span>
+                </div>
+                <Progress value={step * 33.33} className="h-2" />
+              </div>
+
+              <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4">
+                {registerError && (
+                  <Alert variant="destructive">
+                    <AlertDescription>{registerError}</AlertDescription>
+                  </Alert>
+                )}
+
+                {/* Step 1: Role Selection */}
+                {step === 1 && (
+                  <div className="space-y-4">
+                    <div className="space-y-2">
+                      <Label>I am a...</Label>
+                      <Select
+                        value={form.watch('role')}
+                        onValueChange={(value) => form.setValue('role', value as any)}
+                      >
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select your role" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {Object.entries(roleDescriptions).map(([role, description]) => (
+                            <SelectItem key={role} value={role}>
+                              <div>
+                                <div className="font-medium">{role.charAt(0) + role.slice(1).toLowerCase()}</div>
+                                <div className="text-sm text-gray-500">{description}</div>
+                              </div>
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+
+                    {['DEVELOPER', 'SOLICITOR', 'AGENT', 'ARCHITECT', 'CONTRACTOR'].includes(watchRole) && (
+                      <div className="space-y-2">
+                        <Label htmlFor="organization">Organization Name</Label>
+                        <Input
+                          id="organization"
+                          placeholder="Your company or firm name"
+                          {...form.register('organization')}
+                        />
+                      </div>
+                    )}
+
+                    <Button
+                      type="button"
+                      className="w-full"
+                      onClick={() => setStep(2)}
+                      disabled={!watchRole}
+                    >
+                      Continue
+                    </Button>
+                  </div>
+                )}
+
+                {/* Step 2: Personal Information */}
+                {step === 2 && (
+                  <div className="space-y-4">
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="space-y-2">
+                        <Label htmlFor="firstName">First Name</Label>
+                        <Input
+                          id="firstName"
+                          placeholder="John"
+                          {...form.register('firstName')}
+                          className={form.formState.errors.firstName ? 'border-red-500' : ''}
+                        />
+                        {form.formState.errors.firstName && (
+                          <p className="text-sm text-red-500">{form.formState.errors.firstName.message}</p>
+                        )}
+                      </div>
+
+                      <div className="space-y-2">
+                        <Label htmlFor="lastName">Last Name</Label>
+                        <Input
+                          id="lastName"
+                          placeholder="Doe"
+                          {...form.register('lastName')}
+                          className={form.formState.errors.lastName ? 'border-red-500' : ''}
+                        />
+                        {form.formState.errors.lastName && (
+                          <p className="text-sm text-red-500">{form.formState.errors.lastName.message}</p>
+                        )}
+                      </div>
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="email">Email Address</Label>
+                      <Input
+                        id="email"
+                        type="email"
+                        placeholder="john.doe@example.com"
+                        {...form.register('email')}
+                        className={form.formState.errors.email ? 'border-red-500' : ''}
+                      />
+                      {form.formState.errors.email && (
+                        <p className="text-sm text-red-500">{form.formState.errors.email.message}</p>
+                      )}
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="phone">Phone Number (Optional)</Label>
+                      <Input
+                        id="phone"
+                        type="tel"
+                        placeholder="+353 1 234 5678"
+                        {...form.register('phone')}
+                      />
+                    </div>
+
+                    <div className="flex gap-2">
+                      <Button
+                        type="button"
+                        variant="outline"
+                        className="w-full"
+                        onClick={() => setStep(1)}
+                      >
+                        Back
+                      </Button>
+                      <Button
+                        type="button"
+                        className="w-full"
+                        onClick={() => {
+                          const isValid = form.trigger(['firstName', 'lastName', 'email']);
+                          if (isValid) setStep(3);
+                        }}
+                      >
+                        Continue
+                      </Button>
+                    </div>
+                  </div>
+                )}
+
+                {/* Step 3: Password and Terms */}
+                {step === 3 && (
+                  <div className="space-y-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="password">Password</Label>
+                      <Input
+                        id="password"
+                        type="password"
+                        placeholder="••••••••"
+                        {...form.register('password')}
+                        className={form.formState.errors.password ? 'border-red-500' : ''}
+                      />
+                      {watchPassword && (
+                        <div className="space-y-2">
+                          <div className="flex items-center gap-2">
+                            <Progress 
+                              value={passwordStrength.score * 20} 
+                              className="h-2"
+                            />
+                            <span className="text-sm text-gray-600">
+                              {passwordStrength.score === 5 ? 'Strong' : 
+                               passwordStrength.score >= 3 ? 'Good' : 'Weak'}
+                            </span>
+                          </div>
+                          {passwordStrength.feedback.length > 0 && (
+                            <ul className="text-xs text-gray-600 list-disc list-inside">
+                              {passwordStrength.feedback.map((tip, i) => (
+                                <li key={i}>{tip}</li>
+                              ))}
+                            </ul>
+                          )}
+                        </div>
+                      )}
+                      {form.formState.errors.password && (
+                        <p className="text-sm text-red-500">{form.formState.errors.password.message}</p>
+                      )}
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="confirmPassword">Confirm Password</Label>
+                      <Input
+                        id="confirmPassword"
+                        type="password"
+                        placeholder="••••••••"
+                        {...form.register('confirmPassword')}
+                        className={form.formState.errors.confirmPassword ? 'border-red-500' : ''}
+                      />
+                      {form.formState.errors.confirmPassword && (
+                        <p className="text-sm text-red-500">{form.formState.errors.confirmPassword.message}</p>
+                      )}
+                    </div>
+
+                    <div className="space-y-3">
+                      <div className="flex items-start space-x-2">
+                        <Checkbox 
+                          id="terms" 
+                          {...form.register('termsAccepted')}
+                          className="mt-1"
+                        />
+                        <Label htmlFor="terms" className="text-sm font-normal">
+                          I agree to the{' '}
+                          <Link href="/terms" className="text-blue-600 hover:underline">
+                            Terms of Service
+                          </Link>{' '}
+                          and{' '}
+                          <Link href="/privacy" className="text-blue-600 hover:underline">
+                            Privacy Policy
+                          </Link>
+                        </Label>
+                      </div>
+                      {form.formState.errors.termsAccepted && (
+                        <p className="text-sm text-red-500">{form.formState.errors.termsAccepted.message}</p>
+                      )}
+
+                      <div className="flex items-start space-x-2">
+                        <Checkbox 
+                          id="marketing" 
+                          {...form.register('marketingOptIn')}
+                          className="mt-1"
+                        />
+                        <Label htmlFor="marketing" className="text-sm font-normal">
+                          Send me updates about new properties and platform features
+                        </Label>
+                      </div>
+                    </div>
+
+                    <div className="flex gap-2">
+                      <Button
+                        type="button"
+                        variant="outline"
+                        className="w-full"
+                        onClick={() => setStep(2)}
+                      >
+                        Back
+                      </Button>
+                      <Button
+                        type="submit"
+                        className="w-full"
+                        disabled={isLoading || !form.formState.isValid}
+                      >
+                        {isLoading ? (
+                          <>
+                            <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+                            Creating account...
+                          </>
+                        ) : (
+                          'Create Account'
+                        )}
+                      </Button>
+                    </div>
+                  </div>
+                )}
+              </form>
+
+              <div className="text-center text-sm">
+                <span className="text-gray-600">Already have an account? </span>
+                <Link href="/auth/login" className="text-blue-600 hover:text-blue-500 font-medium">
+                  Sign in
+                </Link>
+              </div>
+            </TabsContent>
+
+            <TabsContent value="oauth" className="space-y-4 pt-6">
+              <div className="space-y-3">
+                <Button
+                  variant="outline"
+                  className="w-full"
+                  onClick={() => handleOAuthRegister('google')}
+                  disabled={isLoading}
+                >
+                  <Icons.google className="mr-2 h-4 w-4" />
+                  Sign up with Google
+                </Button>
+                
+                <Button
+                  variant="outline"
+                  className="w-full"
+                  onClick={() => handleOAuthRegister('azure-ad')}
+                  disabled={isLoading}
+                >
+                  <Icons.microsoft className="mr-2 h-4 w-4" />
+                  Sign up with Microsoft
+                </Button>
+              </div>
+
+              <p className="text-center text-sm text-gray-600">
+                You'll be able to set your role and complete your profile after signing up
+              </p>
+            </TabsContent>
+          </Tabs>
+        </CardContent>
+      </Card>
+    </div>
+  );
+}

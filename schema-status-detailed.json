@@ -1,0 +1,835 @@
+{
+  "summary": {
+    "totalModels": 129,
+    "totalIndexes": 51,
+    "modelsWithMissingIndexes": 110,
+    "totalMissingIndexes": 220
+  },
+  "models": [
+    {
+      "name": "User",
+      "missingIndexes": [
+        "locationId"
+      ]
+    },
+    {
+      "name": "MfaSettings",
+      "missingIndexes": [
+        "userId"
+      ]
+    },
+    {
+      "name": "UserPermission",
+      "missingIndexes": [
+        "userId"
+      ]
+    },
+    {
+      "name": "TeamMember",
+      "missingIndexes": [
+        "teamId",
+        "userId"
+      ]
+    },
+    {
+      "name": "BuyerProfile",
+      "missingIndexes": [
+        "userId"
+      ]
+    },
+    {
+      "name": "Reservation",
+      "missingIndexes": [
+        "propertyId",
+        "userId"
+      ]
+    },
+    {
+      "name": "MortgageTracking",
+      "missingIndexes": [
+        "userId"
+      ]
+    },
+    {
+      "name": "SnagList",
+      "missingIndexes": [
+        "propertyId",
+        "userId"
+      ]
+    },
+    {
+      "name": "SnagItem",
+      "missingIndexes": [
+        "snagListId",
+        "saleId"
+      ]
+    },
+    {
+      "name": "HomePackItem",
+      "missingIndexes": [
+        "propertyId"
+      ]
+    },
+    {
+      "name": "Development",
+      "missingIndexes": [
+        "developerId",
+        "locationId",
+        "financialsId"
+      ]
+    },
+    {
+      "name": "ProjectMilestone",
+      "missingIndexes": [
+        "timelineId"
+      ]
+    },
+    {
+      "name": "ProjectMilestoneDependency",
+      "missingIndexes": [
+        "milestoneId",
+        "dependsOnId"
+      ]
+    },
+    {
+      "name": "Unit",
+      "missingIndexes": [
+        "developmentId"
+      ]
+    },
+    {
+      "name": "UnitOutdoorSpace",
+      "missingIndexes": [
+        "unitId"
+      ]
+    },
+    {
+      "name": "UnitRoom",
+      "missingIndexes": [
+        "unitId"
+      ]
+    },
+    {
+      "name": "UnitCustomizationOption",
+      "missingIndexes": [
+        "unitId"
+      ]
+    },
+    {
+      "name": "UnitCustomizationOptionAlternative",
+      "missingIndexes": [
+        "optionId",
+        "alternativeOptionId"
+      ]
+    },
+    {
+      "name": "UnitCustomizationOptionRequirement",
+      "missingIndexes": [
+        "optionId",
+        "requiredOptionId"
+      ]
+    },
+    {
+      "name": "UnitCustomizationOptionIncompatibility",
+      "missingIndexes": [
+        "optionId",
+        "incompatibleOptionId"
+      ]
+    },
+    {
+      "name": "CustomizationSelection",
+      "missingIndexes": [
+        "unitId",
+        "transactionId"
+      ]
+    },
+    {
+      "name": "SelectedOption",
+      "missingIndexes": [
+        "selectionId",
+        "optionId"
+      ]
+    },
+    {
+      "name": "Document",
+      "missingIndexes": [
+        "uploadedById",
+        "organizationId",
+        "developmentId",
+        "unitId",
+        "saleId",
+        "approvedById",
+        "reservationId",
+        "mortgageTrackingId"
+      ]
+    },
+    {
+      "name": "DocumentVersion",
+      "missingIndexes": [
+        "documentId",
+        "createdById"
+      ]
+    },
+    {
+      "name": "DocumentWorkflowStage",
+      "missingIndexes": [
+        "workflowId"
+      ]
+    },
+    {
+      "name": "ApproverConfig",
+      "missingIndexes": [
+        "approverId",
+        "stageId"
+      ]
+    },
+    {
+      "name": "DocumentCustomField",
+      "missingIndexes": [
+        "stageId"
+      ]
+    },
+    {
+      "name": "DocumentWorkflowInstance",
+      "missingIndexes": [
+        "documentId",
+        "workflowId",
+        "currentStageId"
+      ]
+    },
+    {
+      "name": "DocumentWorkflowHistory",
+      "missingIndexes": [
+        "instanceId",
+        "stageId"
+      ]
+    },
+    {
+      "name": "DocumentApproval",
+      "missingIndexes": [
+        "historyId",
+        "approverId",
+        "delegatedToId"
+      ]
+    },
+    {
+      "name": "DocumentSignature",
+      "missingIndexes": [
+        "documentId",
+        "signerId"
+      ]
+    },
+    {
+      "name": "Sale",
+      "missingIndexes": [
+        "unitId",
+        "buyerId",
+        "sellingAgentId",
+        "solicitorId",
+        "buyerSolicitorId",
+        "developmentId"
+      ]
+    },
+    {
+      "name": "SaleStatusHistory",
+      "missingIndexes": [
+        "saleId",
+        "updatedById"
+      ]
+    },
+    {
+      "name": "SaleTimeline",
+      "missingIndexes": [
+        "saleId"
+      ]
+    },
+    {
+      "name": "Deposit",
+      "missingIndexes": [
+        "saleId"
+      ]
+    },
+    {
+      "name": "MortgageDetails",
+      "missingIndexes": [
+        "saleId"
+      ]
+    },
+    {
+      "name": "HTBDetails",
+      "missingIndexes": [
+        "saleId"
+      ]
+    },
+    {
+      "name": "SaleNote",
+      "missingIndexes": [
+        "saleId",
+        "authorId"
+      ]
+    },
+    {
+      "name": "SaleTask",
+      "missingIndexes": [
+        "saleId",
+        "assignedToId",
+        "createdById",
+        "completedById"
+      ]
+    },
+    {
+      "name": "Professional",
+      "missingIndexes": [
+        "userId"
+      ]
+    },
+    {
+      "name": "ServiceArea",
+      "missingIndexes": [
+        "companyId"
+      ]
+    },
+    {
+      "name": "Qualification",
+      "missingIndexes": [
+        "professionalId",
+        "certificateDocumentId"
+      ]
+    },
+    {
+      "name": "ProfessionalDocument",
+      "missingIndexes": [
+        "professionalId",
+        "documentId"
+      ]
+    },
+    {
+      "name": "ProfessionalAppointment",
+      "missingIndexes": [
+        "developmentId",
+        "professionalId",
+        "contractDocumentId"
+      ]
+    },
+    {
+      "name": "ProfessionalAssignment",
+      "missingIndexes": [
+        "professionalId",
+        "saleId"
+      ]
+    },
+    {
+      "name": "ProfessionalReview",
+      "missingIndexes": [
+        "professionalId",
+        "reviewerId",
+        "developmentId",
+        "saleId"
+      ]
+    },
+    {
+      "name": "Project",
+      "missingIndexes": [
+        "developmentId",
+        "projectManagerId",
+        "assignedCertifierId"
+      ]
+    },
+    {
+      "name": "ProjectPhase",
+      "missingIndexes": [
+        "projectId"
+      ]
+    },
+    {
+      "name": "ProjectPhaseDependency",
+      "missingIndexes": [
+        "phaseId",
+        "dependsOnId"
+      ]
+    },
+    {
+      "name": "ProjectMilestone2",
+      "missingIndexes": [
+        "projectId",
+        "phaseId",
+        "responsiblePartyId"
+      ]
+    },
+    {
+      "name": "ProjectMilestoneDependency2",
+      "missingIndexes": [
+        "milestoneId",
+        "dependsOnId"
+      ]
+    },
+    {
+      "name": "ProjectTask",
+      "missingIndexes": [
+        "projectId",
+        "phaseId",
+        "assignedToId",
+        "createdById"
+      ]
+    },
+    {
+      "name": "ProjectTaskDependency",
+      "missingIndexes": [
+        "taskId",
+        "dependsOnId"
+      ]
+    },
+    {
+      "name": "TaskComment",
+      "missingIndexes": [
+        "taskId",
+        "userId",
+        "conveyancingTaskId"
+      ]
+    },
+    {
+      "name": "ProjectRisk",
+      "missingIndexes": [
+        "projectId",
+        "ownerId",
+        "identifiedById"
+      ]
+    },
+    {
+      "name": "ProjectIssue",
+      "missingIndexes": [
+        "projectId",
+        "reportedById",
+        "assignedToId",
+        "escalatedToId"
+      ]
+    },
+    {
+      "name": "IssueComment",
+      "missingIndexes": [
+        "issueId",
+        "userId"
+      ]
+    },
+    {
+      "name": "ConstructionLog",
+      "missingIndexes": [
+        "projectId",
+        "authorId",
+        "approvedById"
+      ]
+    },
+    {
+      "name": "Inspection",
+      "missingIndexes": [
+        "projectId",
+        "inspectorId",
+        "unitId",
+        "followUpInspectionId",
+        "previousInspectionId",
+        "createdById"
+      ]
+    },
+    {
+      "name": "InspectionFinding",
+      "missingIndexes": [
+        "inspectionId",
+        "assignedToId",
+        "closedById",
+        "verifiedById"
+      ]
+    },
+    {
+      "name": "ProjectUpdate",
+      "missingIndexes": [
+        "projectId",
+        "authorId"
+      ]
+    },
+    {
+      "name": "Meeting",
+      "missingIndexes": [
+        "projectId",
+        "organizerId"
+      ]
+    },
+    {
+      "name": "MeetingAttendee",
+      "missingIndexes": [
+        "meetingId",
+        "userId"
+      ]
+    },
+    {
+      "name": "AgendaItem",
+      "missingIndexes": [
+        "meetingId",
+        "presenterId"
+      ]
+    },
+    {
+      "name": "MeetingMinutes",
+      "missingIndexes": [
+        "meetingId",
+        "approvedById"
+      ]
+    },
+    {
+      "name": "MeetingActionItem",
+      "missingIndexes": [
+        "minutesId",
+        "assignedToId",
+        "relatedTaskId"
+      ]
+    },
+    {
+      "name": "HealthAndSafetyPlan",
+      "missingIndexes": [
+        "projectId",
+        "responsiblePersonId"
+      ]
+    },
+    {
+      "name": "EmergencyContact",
+      "missingIndexes": [
+        "planId"
+      ]
+    },
+    {
+      "name": "SafetyInspection",
+      "missingIndexes": [
+        "planId",
+        "inspectorId"
+      ]
+    },
+    {
+      "name": "SafetyIncident",
+      "missingIndexes": [
+        "planId",
+        "reportedById"
+      ]
+    },
+    {
+      "name": "TrainingRecord",
+      "missingIndexes": [
+        "planId"
+      ]
+    },
+    {
+      "name": "ToolboxTalk",
+      "missingIndexes": [
+        "planId",
+        "presenterId"
+      ]
+    },
+    {
+      "name": "Investment",
+      "missingIndexes": [
+        "investorId",
+        "developmentId",
+        "investmentVehicleId",
+        "termSheetId"
+      ]
+    },
+    {
+      "name": "Distribution",
+      "missingIndexes": [
+        "investmentId"
+      ]
+    },
+    {
+      "name": "InvestmentUpdate",
+      "missingIndexes": [
+        "investmentId",
+        "authorId"
+      ]
+    },
+    {
+      "name": "InvestmentOpportunity",
+      "missingIndexes": [
+        "developmentId"
+      ]
+    },
+    {
+      "name": "InvestorWatchlistUnit",
+      "missingIndexes": [
+        "investorId",
+        "unitId"
+      ]
+    },
+    {
+      "name": "MarketingCampaign",
+      "missingIndexes": [
+        "developmentId",
+        "approvedById"
+      ]
+    },
+    {
+      "name": "MarketingChannel",
+      "missingIndexes": [
+        "campaignId"
+      ]
+    },
+    {
+      "name": "MarketingActivity",
+      "missingIndexes": [
+        "campaignId",
+        "channelId"
+      ]
+    },
+    {
+      "name": "CreativeAsset",
+      "missingIndexes": [
+        "approvedById"
+      ]
+    },
+    {
+      "name": "Lead",
+      "missingIndexes": [
+        "campaignId",
+        "assignedToId"
+      ]
+    },
+    {
+      "name": "LeadStatusHistory",
+      "missingIndexes": [
+        "leadId",
+        "userId"
+      ]
+    },
+    {
+      "name": "LeadInteraction",
+      "missingIndexes": [
+        "leadId",
+        "userId",
+        "followUpAssignedToId"
+      ]
+    },
+    {
+      "name": "Viewing",
+      "missingIndexes": [
+        "leadId",
+        "developmentId"
+      ]
+    },
+    {
+      "name": "UserRoleMapping",
+      "missingIndexes": [
+        "userId"
+      ]
+    },
+    {
+      "name": "Transaction",
+      "missingIndexes": [
+        "agentId",
+        "solicitorId",
+        "buyerSolicitorId"
+      ]
+    },
+    {
+      "name": "TransactionCommunication",
+      "missingIndexes": [
+        "externalId"
+      ]
+    },
+    {
+      "name": "TransactionTimeline",
+      "missingIndexes": [
+        "transactionId"
+      ]
+    },
+    {
+      "name": "ConveyancingCase",
+      "missingIndexes": [
+        "sellerId",
+        "agentId"
+      ]
+    },
+    {
+      "name": "ConveyancingTask",
+      "missingIndexes": [
+        "caseId"
+      ]
+    },
+    {
+      "name": "ConveyancingDocument",
+      "missingIndexes": [
+        "caseId",
+        "taskId"
+      ]
+    },
+    {
+      "name": "ConveyancingNote",
+      "missingIndexes": [
+        "caseId"
+      ]
+    },
+    {
+      "name": "AMLCheck",
+      "missingIndexes": [
+        "caseId",
+        "clientId"
+      ]
+    },
+    {
+      "name": "SourceOfFunds",
+      "missingIndexes": [
+        "caseId"
+      ]
+    },
+    {
+      "name": "LegalFee",
+      "missingIndexes": [
+        "caseId"
+      ]
+    },
+    {
+      "name": "ConveyancingInvoice",
+      "missingIndexes": [
+        "caseId"
+      ]
+    },
+    {
+      "name": "UnitType",
+      "missingIndexes": [
+        "developmentId"
+      ]
+    },
+    {
+      "name": "ScheduleOfAccommodation",
+      "missingIndexes": [
+        "unitTypeId"
+      ]
+    },
+    {
+      "name": "FloorPlan",
+      "missingIndexes": [
+        "unitTypeId"
+      ]
+    },
+    {
+      "name": "DevelopmentMedia",
+      "missingIndexes": [
+        "developmentId"
+      ]
+    },
+    {
+      "name": "DevelopmentDocument",
+      "missingIndexes": [
+        "developmentId"
+      ]
+    },
+    {
+      "name": "Amenity",
+      "missingIndexes": [
+        "developmentId"
+      ]
+    },
+    {
+      "name": "Customization",
+      "missingIndexes": [
+        "unitId"
+      ]
+    },
+    {
+      "name": "DevelopmentUnit",
+      "missingIndexes": [
+        "developmentId",
+        "unitTypeId"
+      ]
+    },
+    {
+      "name": "DevelopmentAmenity",
+      "missingIndexes": [
+        "developmentId"
+      ]
+    },
+    {
+      "name": "DevelopmentViewing",
+      "missingIndexes": [
+        "developmentId",
+        "unitId",
+        "viewerId",
+        "agentId"
+      ]
+    },
+    {
+      "name": "DevelopmentReservation",
+      "missingIndexes": [
+        "developmentId",
+        "unitId",
+        "buyerId"
+      ]
+    },
+    {
+      "name": "DevelopmentSale",
+      "missingIndexes": [
+        "developmentId",
+        "unitId",
+        "buyerId"
+      ]
+    },
+    {
+      "name": "PropertyView",
+      "missingIndexes": [
+        "userId",
+        "sessionId"
+      ]
+    }
+  ],
+  "largestModels": [
+    {
+      "name": "Transaction",
+      "fields": 76
+    },
+    {
+      "name": "User",
+      "fields": 64
+    },
+    {
+      "name": "Development",
+      "fields": 61
+    },
+    {
+      "name": "Unit",
+      "fields": 57
+    },
+    {
+      "name": "Document",
+      "fields": 50
+    },
+    {
+      "name": "Lead",
+      "fields": 49
+    },
+    {
+      "name": "Investment",
+      "fields": 48
+    },
+    {
+      "name": "InvestmentOpportunity",
+      "fields": 47
+    },
+    {
+      "name": "ProjectIssue",
+      "fields": 45
+    },
+    {
+      "name": "DevelopmentUnit",
+      "fields": 45
+    }
+  ],
+  "relationshipIssues": [
+    {
+      "type": "Self-referential",
+      "model": "agent",
+      "field": "agent"
+    }
+  ],
+  "recommendations": [
+    "Add indexes to all foreign key fields for better query performance",
+    "Consider splitting large models (>20 fields) into smaller, focused models",
+    "Review self-referential relationships for potential circular dependency issues",
+    "Add composite indexes for commonly queried field combinations"
+  ]
+}

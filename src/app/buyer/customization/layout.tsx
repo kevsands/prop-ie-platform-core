@@ -37,8 +37,7 @@ const ErrorFallback = ({ error }: FallbackProps) => (
 import { FallbackCustomizationLayout } from './fallback-layout';
 
 export default function CustomizationLayout({
-  children,
-}: {
+  children}: {
   children: React.ReactNode;
 }) {
   // Only wrap with CustomizationProvider, ErrorBoundary, and Toaster
@@ -52,7 +51,7 @@ export default function CustomizationLayout({
       </CustomizationProvider>
     );
   } catch (renderError) {
-    console.error("Fatal render error in layout:", renderError);
+
     return (
       <div className="container mx-auto p-8">
         <div className="bg-red-50 border border-red-300 rounded-lg p-6">

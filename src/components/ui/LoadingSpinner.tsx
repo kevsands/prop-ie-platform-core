@@ -17,16 +17,14 @@ export function LoadingSpinner({
     sm: 'w-4 h-4',
     md: 'w-6 h-6',
     lg: 'w-10 h-10',
-    xl: 'w-16 h-16',
-  };
-  
+    xl: 'w-16 h-16'};
+
   // Color mapping
   const colorClasses = {
     primary: 'text-blue-600',
     secondary: 'text-gray-600',
-    white: 'text-white',
-  };
-  
+    white: 'text-white'};
+
   return (
     <div className={`flex items-center justify-center ${className}`}>
       <svg

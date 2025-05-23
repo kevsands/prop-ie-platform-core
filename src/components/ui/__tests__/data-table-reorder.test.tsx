@@ -14,25 +14,20 @@ interface TestData {
 const columns: ColumnDef<TestData>[] = [
   {
     accessorKey: 'name',
-    header: 'Name',
-  },
+    header: 'Name'},
   {
     accessorKey: 'email',
-    header: 'Email',
-  },
+    header: 'Email'},
   {
     accessorKey: 'status',
-    header: 'Status',
-  },
-];
+    header: 'Status'}];
 
 const testData = generateTestData<TestData>(
   {
     id: '1',
     name: 'John Doe',
     email: 'john@example.com',
-    status: 'Active',
-  },
+    status: 'Active'},
   10
 );
 
@@ -71,8 +66,7 @@ describe('DataTable Column Order', () => {
       id: '11',
       name: 'New User',
       email: 'new@example.com',
-      status: 'Inactive',
-    }];
+      status: 'Inactive'}];
     
     rerender(
       <DataTable

@@ -1,0 +1,92 @@
+'use server';
+
+import { NextRequest, NextResponse } from 'next/server';
+import { prisma } from '@/lib/prisma';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/lib/auth';
+import { z } from 'zod';
+
+const signDocumentSchema = z.object({
+  documentId: z.string(),
+  signatureType: z.enum(['ESIGN', 'DIGITAL', 'WET']),
+  signatureData: z.string()});
+
+export async function POST(request: NextRequest) {
+  try {
+    // Get authenticated user
+    const session = await getServerSession(authOptions);
+    if (!session?.user?.id) {
+      return NextResponse.json(
+        { error: 'Authentication required' },
+        { status: 401 }
+      );
+    }
+
+    // Parse request body
+    const body: any = await request.json();
+    const { documentId, signatureType, signatureData } = signDocumentSchema.parse(body);
+    const userId = session.user.id;
+
+    // Get user details
+    const user = await prisma.user.findUnique({
+      where: { id: userId }});
+
+    if (!user) {
+      return NextResponse.json(
+        { error: 'User not found' },
+        { status: 404 }
+      );
+    }
+
+    const signature = await prisma.$transaction(async (tx) => {
+      // Get document
+      const document = await tx.document.findUnique({
+        where: { id: documentId },
+        include: {
+          signatures: true}});
+
+      if (!document) {
+        throw new Error('Document not found');
+      }
+
+      // Check if user already signed
+      const existingSignature = document.signatures.find(
+        (sig) => sig.signerId === userId
+      );
+
+      if (existingSignature) {
+        throw new Error('User has already signed this document');
+      }
+
+      // Create a new signature 
+      return await tx.documentSignature.create({
+        data: {
+          documentId,
+          signerId: userId,
+          signatureMethod: signatureType,
+          signatureImageUrl: signatureData,
+          signatureDate: new Date(),
+          verified: true,
+          ipAddress: request.headers.get('x-forwarded-for') || null,
+          signaturePosition: {},
+          verificationMethod: 'EMAIL'}});
+    });
+
+    return NextResponse.json({
+      success: true,
+      signature});
+  } catch (error) {
+
+    if (error instanceof z.ZodError) {
+      return NextResponse.json(
+        { error: 'Invalid request data', details: error.format() },
+        { status: 400 }
+      );
+    }
+
+    return NextResponse.json(
+      { error: error instanceof Error ? error.message : 'Failed to sign document' },
+      { status: 500 }
+    );
+  }
+}

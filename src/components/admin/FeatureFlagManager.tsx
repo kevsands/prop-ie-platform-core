@@ -35,35 +35,22 @@ function isUserSegmentFlag(config: FeatureFlagConfig): config is { type: 'userSe
 /**
  * Feature Flag Manager Component
  */
-export function FeatureFlagManager() {
-  const [featureFlags, setFeatureFlags] = useState<FeatureFlagItem[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [editingFlag, setEditingFlag] = useState<string | null>(null);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [filter, setFilter] = useState<'all' | 'enabled' | 'disabled'>('all');
-
-  useEffect(() => {
-    async function loadFeatureFlags() {
-      setIsLoading(true);
-      setError(null);
-      try {
-        const allFlags = await getAllFeatureFlags();
+export async function FeatureFlagManagergetAllFeatureFlags();
         const flagArray = Object.entries(allFlags).map(([name, { config, enabled }]) => ({
           name,
           config,
           enabled
         }));
-        
+
         setFeatureFlags(flagArray);
       } catch (err) {
-        console.error('Error loading feature flags:', err);
+
         setError('Failed to load feature flags');
       } finally {
         setIsLoading(false);
       }
     }
-    
+
     loadFeatureFlags();
   }, []);
 
@@ -79,11 +66,11 @@ export function FeatureFlagManager() {
           enabled: !featureFlags.find(flag => flag.name === name)?.enabled
         })
       });
-      
+
       if (!response.ok) {
         throw new Error('Failed to update feature flag');
       }
-      
+
       // Update local state
       setFeatureFlags(prev => 
         prev.map(flag => 
@@ -93,7 +80,7 @@ export function FeatureFlagManager() {
         )
       );
     } catch (err) {
-      console.error('Error toggling feature flag:', err);
+
       setError('Failed to update feature flag');
     }
   };
@@ -111,22 +98,22 @@ export function FeatureFlagManager() {
           enabled: flag.enabled
         })
       });
-      
+
       if (!response.ok) {
         throw new Error('Failed to update feature flag');
       }
-      
+
       // Update local state
       setFeatureFlags(prev => 
         prev.map(f => 
           f.name === flag.name ? flag : f
         )
       );
-      
+
       // Close edit mode
       setEditingFlag(null);
     } catch (err) {
-      console.error('Error saving feature flag:', err);
+
       setError('Failed to save feature flag configuration');
     }
   };
@@ -135,25 +122,25 @@ export function FeatureFlagManager() {
   const filteredFlags = featureFlags.filter(flag => {
     const matchesSearch = flag.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       flag.config.description?.toLowerCase().includes(searchTerm.toLowerCase());
-      
+
     const matchesFilter = 
       filter === 'all' || 
       (filter === 'enabled' && flag.enabled) || 
       (filter === 'disabled' && !flag.enabled);
-      
+
     return matchesSearch && matchesFilter;
   });
 
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-2xl font-bold mb-4">Feature Flag Management</h1>
-      
+
       {error && (
         <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
           {error}
         </div>
       )}
-      
+
       <div className="flex flex-col md:flex-row gap-4 mb-6">
         <div className="flex-grow">
           <input
@@ -161,15 +148,15 @@ export function FeatureFlagManager() {
             placeholder="Search feature flags..."
             className="w-full px-4 py-2 border rounded"
             value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
+            onChange={(e: any) => setSearchTerm(e.target.value)}
           />
         </div>
-        
+
         <div className="flex">
           <select
             className="px-4 py-2 border rounded"
             value={filter}
-            onChange={(e) => setFilter(e.target.value as any)}
+            onChange={(e: any) => setFilter(e.target.value as any)}
           >
             <option value="all">All Flags</option>
             <option value="enabled">Enabled Only</option>
@@ -177,7 +164,7 @@ export function FeatureFlagManager() {
           </select>
         </div>
       </div>
-      
+
       {isLoading ? (
         <div className="flex justify-center p-8">
           <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
@@ -195,7 +182,7 @@ export function FeatureFlagManager() {
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
-              {filteredFlags.map((flag) => (
+              {filteredFlags.map((flag: any) => (
                 <tr key={flag.name}>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="font-medium text-gray-900">{flag.name}</div>
@@ -229,7 +216,7 @@ export function FeatureFlagManager() {
                   </td>
                 </tr>
               ))}
-              
+
               {filteredFlags.length === 0 && (
                 <tr>
                   <td colSpan={5} className="px-6 py-4 text-center text-sm text-gray-500">
@@ -241,7 +228,7 @@ export function FeatureFlagManager() {
           </table>
         </div>
       )}
-      
+
       {/* Edit Modal */}
       {editingFlag && (
         <FeatureFlagEditor
@@ -261,12 +248,12 @@ interface FeatureFlagEditorProps {
 }
 
 function FeatureFlagEditor({ flag, onSave, onCancel }: FeatureFlagEditorProps) {
-  const [editedFlag, setEditedFlag] = useState<FeatureFlagItem>({ ...flag });
-  
+  const [editedFlagsetEditedFlag] = useState<FeatureFlagItem>({ ...flag });
+
   // Handle different form fields based on flag type
   const renderConfigEditor = () => {
     const config = editedFlag.config;
-    
+
     if (isBooleanFlag(config)) {
       return (
         <div className="mb-4">
@@ -288,7 +275,7 @@ function FeatureFlagEditor({ flag, onSave, onCancel }: FeatureFlagEditorProps) {
         </div>
       );
     }
-    
+
     if (isPercentageFlag(config)) {
       return (
         <div className="mb-4">
@@ -304,7 +291,7 @@ function FeatureFlagEditor({ flag, onSave, onCancel }: FeatureFlagEditorProps) {
               ...editedFlag,
               config: {
                 ...config,
-                percentage: parseInt(e.target.value, 10)
+                percentage: parseInt(e.target.value10)
               }
             })}
             className="shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md"
@@ -312,14 +299,14 @@ function FeatureFlagEditor({ flag, onSave, onCancel }: FeatureFlagEditorProps) {
         </div>
       );
     }
-    
+
     if (isEnvironmentFlag(config)) {
       return (
         <div className="mb-4">
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Environments
           </label>
-          {Object.entries(config.environments).map(([env, value]) => (
+          {Object.entries(config.environments).map(([envvalue]) => (
             <div key={env} className="flex items-center mb-2">
               <input
                 type="checkbox"
@@ -336,7 +323,7 @@ function FeatureFlagEditor({ flag, onSave, onCancel }: FeatureFlagEditorProps) {
                       environments: newEnvironments
                     }
                   });
-                }}
+                }
                 className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded mr-2"
               />
               <span>{env}</span>
@@ -345,7 +332,7 @@ function FeatureFlagEditor({ flag, onSave, onCancel }: FeatureFlagEditorProps) {
         </div>
       );
     }
-    
+
     if (isUserSegmentFlag(config)) {
       // This would be more complex, for now just showing a basic version
       return (
@@ -371,19 +358,19 @@ function FeatureFlagEditor({ flag, onSave, onCancel }: FeatureFlagEditorProps) {
         </div>
       );
     }
-    
+
     return (
       <p className="text-gray-500 italic">
         This flag type cannot be edited through this interface.
       </p>
     );
   };
-  
+
   return (
     <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center">
       <div className="bg-white rounded-lg shadow-xl p-6 w-full max-w-md">
         <h2 className="text-xl font-bold mb-4">Edit Feature Flag: {editedFlag.name}</h2>
-        
+
         <div className="mb-4">
           <label className="block text-sm font-medium text-gray-700 mb-1">
             Description
@@ -401,9 +388,9 @@ function FeatureFlagEditor({ flag, onSave, onCancel }: FeatureFlagEditorProps) {
             className="shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md"
           />
         </div>
-        
+
         {renderConfigEditor()}
-        
+
         <div className="mt-6 flex justify-end space-x-3">
           <button
             onClick={onCancel}

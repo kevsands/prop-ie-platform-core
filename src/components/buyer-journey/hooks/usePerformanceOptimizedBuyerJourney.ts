@@ -1,0 +1,363 @@
+'use client';
+
+import { useState, useMemo, useCallback, useTransition, useRef, useEffect } from 'react';
+import { useBuyerJourneyManager } from '@/hooks/useBuyerJourney';
+import { useAuth } from '@/context/AuthContext';
+import { BuyerJourneyError } from '@/lib/errors/buyer-journey-errors';
+import { Transaction } from '@/lib/api/buyer-journey-api';
+import { useSearchParams, useRouter } from 'next/navigation';
+
+type JourneyStep = 'authentication' | 'kyc-verification' | 'unit-reservation' | 'payment' | 'complete';
+const JOURNEY_STEPS: JourneyStep[] = ['authentication', 'kyc-verification', 'unit-reservation', 'payment', 'complete'];
+
+/**
+ * Performance optimized hook for buyer journey state management
+ * Implements advanced techniques for reducing renders and load times
+ */
+export function usePerformanceOptimizedBuyerJourney(options: {
+  developmentId: string;
+  unitId?: string;
+  onComplete?: (transactionId: string) => void;
+}) {
+  const { developmentId, unitId, onComplete } = options;
+  const { user, isAuthenticated } = useAuth();
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  // Store component mount time for metrics
+  const mountTimeRef = useRef(Date.now());
+
+  // Use transition to avoid blocking UI during complex state updates
+  const [isPendingstartTransition] = useTransition();
+
+  // Core journey state management
+  const [currentStepsetCurrentStep] = useState<JourneyStep>(() => {
+    // Initialize from URL if present (for deep linking)
+    const stepParam = searchParams.get('step');
+    if (stepParam && JOURNEY_STEPS.includes(stepParam as JourneyStep)) {
+      return stepParam as JourneyStep;
+    }
+    return 'authentication';
+  });
+
+  const [isVerifiedsetIsVerified] = useState(false);
+  const [errorsetError] = useState<string | null>(null);
+  const [transactionIdsetTransactionId] = useState<string | null>(null);
+  const [transactionDatasetTransactionData] = useState<Transaction | null>(null);
+
+  // React Query hooks
+  const {
+    useKYCStatus,
+    useUnit,
+    useTransaction,
+    useCreateReservation,
+    useStartKYCVerification,
+    useCompleteKYCVerification,
+    useProcessDeposit
+  } = useBuyerJourneyManager({
+    developmentId,
+    onError: (error: BuyerJourneyError) => {
+      setError(error.userMessage);
+
+      // Log errors for analytics
+
+      // Performance metrics for errors
+      if (window.performance && 'measure' in window.performance) {
+        window.performance.measure(
+          `buyer-journey-error-${error.code}`, 
+          'buyer-journey-start'
+        );
+      }
+    }
+  });
+
+  // Query data
+  const { data: kycStatus, isLoading: isLoadingKYC } = useKYCStatus(user?.id);
+  const { data: unitData, isLoading: isLoadingUnit } = useUnit(unitId || '');
+  const { 
+    data: transaction, 
+    isLoading: isLoadingTransaction 
+  } = useTransaction(transactionId || '');
+
+  // Mutations
+  const createReservationMutation = useCreateReservation();
+  const startKYCMutation = useStartKYCVerification();
+  const completeKYCMutation = useCompleteKYCVerification();
+  const processDepositMutation = useProcessDeposit();
+
+  // Update URL when step changes (for deep linking)
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const newParams = new URLSearchParams(searchParams.toString());
+
+      if (currentStep === 'authentication') {
+        newParams.delete('step');
+      } else {
+        newParams.set('step', currentStep);
+      }
+
+      // Update URL without full page reload
+      const newUrl = `${window.location.pathname}?${newParams.toString()}`;
+      window.history.pushState({}, '', newUrl);
+    }
+  }, [currentStepsearchParams]);
+
+  // Performance metrics
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.performance && 'mark' in window.performance) {
+      window.performance.mark('buyer-journey-start');
+
+      return () => {
+        const mountDuration = Date.now() - mountTimeRef.current;
+
+        // Log mount time for analytics
+
+        window.performance.measure(
+          'buyer-journey-total-mount-time', 
+          'buyer-journey-start'
+        );
+      };
+    }
+  }, []);
+
+  // Memoize computed values to prevent unnecessary re-renders
+  const progressPercentage = useMemo(() => {
+    const stepIndex = JOURNEY_STEPS.indexOf(currentStep);
+    return (stepIndex / (JOURNEY_STEPS.length - 1)) * 100;
+  }, [currentStep]);
+
+  const journeySteps = useMemo(() => {
+    return JOURNEY_STEPS.map(step => {
+      const currentIndex = JOURNEY_STEPS.indexOf(currentStep);
+      const stepIndex = JOURNEY_STEPS.indexOf(step);
+
+      return {
+        id: step,
+        label: getStepLabel(step),
+        status: step === currentStep 
+          ? 'active' 
+          : stepIndex <currentIndex 
+            ? 'completed' 
+            : 'pending'
+      };
+    });
+  }, [currentStep]);
+
+  const isLoading = useMemo(() => {
+    return (
+      isPending ||
+      isLoadingKYC ||
+      isLoadingUnit ||
+      isLoadingTransaction ||
+      createReservationMutation.isPending ||
+      startKYCMutation.isPending ||
+      completeKYCMutation.isPending ||
+      processDepositMutation.isPending
+    );
+  }, [
+    isPending,
+    isLoadingKYC,
+    isLoadingUnit,
+    isLoadingTransaction,
+    createReservationMutation.isPending,
+    startKYCMutation.isPending,
+    completeKYCMutation.isPending,
+    processDepositMutation.isPending
+  ]);
+
+  // Memoize handlers to prevent unnecessary re-renders
+  const moveToStep = useCallback((step: JourneyStep) => {
+    startTransition(() => {
+      setCurrentStep(step);
+
+      if (window.performance && 'measure' in window.performance) {
+        window.performance.measure(
+          `buyer-journey-step-${step}`, 
+          'buyer-journey-start'
+        );
+      }
+    });
+  }, []);
+
+  const handleLogin = useCallback(() => {
+    const returnUrl = encodeURIComponent(
+      `${window.location.pathname}?step=kyc-verification`
+    );
+    router.push(`/login?redirect=${returnUrl}`);
+  }, [router]);
+
+  const handleRegister = useCallback(() => {
+    const returnUrl = encodeURIComponent(
+      `${window.location.pathname}?step=kyc-verification`
+    );
+    router.push(`/register?redirect=${returnUrl}`);
+  }, [router]);
+
+  const handleKYCComplete = useCallback(async () => {
+    if (!transactionId) return;
+
+    try {
+      await completeKYCMutation.mutateAsync(transactionId);
+
+      setIsVerified(true);
+      moveToStep('unit-reservation');
+    } catch (err) {
+      // Error handled by error handler
+    }
+  }, [transactionId, completeKYCMutationmoveToStep]);
+
+  const handleReserveUnit = useCallback(async () => {
+    if (!unitId) {
+      setError('No unit selected');
+      return;
+    }
+
+    setError(null);
+
+    try {
+      // Extract numeric price from string (e.g., "€385,000" -> 385000)
+      const agreedPrice = unitData?.basePrice || 0;
+
+      const result = await createReservationMutation.mutateAsync({
+        unitId,
+        developmentId,
+        agreedPrice,
+        mortgageRequired: false,
+        helpToBuyUsed: false
+      });
+
+      setTransactionId(result.id);
+      setTransactionData(result);
+      moveToStep('payment');
+    } catch (err) {
+      // Error handled by error handler
+    }
+  }, [
+    unitId,
+    unitData?.basePrice,
+    developmentId,
+    createReservationMutation,
+    moveToStep
+  ]);
+
+  const handleMakePayment = useCallback(async () => {
+    if (!transactionId && !transactionData) {
+      setError('No transaction found');
+      return;
+    }
+
+    setError(null);
+
+    try {
+      const paymentData = {
+        transactionId: transactionId || '',
+        amount: 1000, // €1,000 deposit
+        paymentMethod: 'credit_card' as const,
+        billingDetails: {
+          name: user?.name || '',
+          email: user?.email || '',
+          addressLine1: '123 Main St',
+          city: 'Dublin',
+          postalCode: 'D01 ABC1',
+          country: 'Ireland'
+        }
+      };
+
+      await processDepositMutation.mutateAsync(paymentData);
+
+      moveToStep('complete');
+
+      // Capture completion metrics
+      if (window.performance && 'measure' in window.performance) {
+        window.performance.measure(
+          'buyer-journey-complete',
+          'buyer-journey-start'
+        );
+      }
+
+      onComplete?.(transactionId || '');
+    } catch (err) {
+      // Error handled by error handler
+    }
+  }, [
+    transactionId, 
+    transactionData, 
+    user, 
+    processDepositMutation, 
+    moveToStep, 
+    onComplete
+  ]);
+
+  // Initialize KYC verification when appropriate
+  useEffect(() => {
+    if (
+      isAuthenticated && 
+      currentStep === 'kyc-verification' && 
+      !isVerified && 
+      !startKYCMutation.isPending && 
+      !kycStatus?.verified
+    ) {
+      startKYCMutation.mutate({ 
+        transactionId: transactionId || `temp-${user?.id}-${Date.now()}`
+      });
+    }
+  }, [
+    isAuthenticated, 
+    currentStep, 
+    isVerified, 
+    kycStatus?.verified, 
+    startKYCMutation, 
+    transactionId, 
+    user?.id
+  ]);
+
+  // Check KYC status on auth change
+  useEffect(() => {
+    if (isAuthenticated) {
+      if (currentStep === 'authentication') {
+        if (kycStatus?.verified) {
+          setIsVerified(true);
+          moveToStep('unit-reservation');
+        } else {
+          moveToStep('kyc-verification');
+        }
+      }
+    }
+  }, [isAuthenticated, currentStep, kycStatus?.verifiedmoveToStep]);
+
+  // Helper function for step labels
+  function getStepLabel(step: JourneyStep): string {
+    switch (step) {
+      case 'authentication': return 'Authentication';
+      case 'kyc-verification': return 'Identity Verification';
+      case 'unit-reservation': return 'Reserve Unit';
+      case 'payment': return 'Deposit Payment';
+      case 'complete': return 'Complete';
+      default: return step;
+    }
+  }
+
+  return {
+    // State
+    currentStep,
+    isVerified,
+    error,
+    transactionId,
+    transaction: transactionData || transaction,
+    isLoading,
+    progressPercentage,
+    journeySteps,
+
+    // Actions
+    moveToStep,
+    handleLogin,
+    handleRegister,
+    handleKYCComplete,
+    handleReserveUnit,
+    handleMakePayment,
+
+    // Raw data
+    kycStatus,
+    unitData
+  };
+}

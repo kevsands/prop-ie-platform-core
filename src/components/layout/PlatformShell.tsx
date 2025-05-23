@@ -1,0 +1,356 @@
+'use client';
+
+import React, { useState } from 'react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { motion, AnimatePresence } from 'framer-motion';
+import {
+  Home,
+  Building,
+  Scale,
+  Ruler,
+  Package,
+  BarChart3,
+  Settings,
+  Bell,
+  User,
+  LogOut,
+  Menu,
+  X,
+  ChevronDown,
+  FileText,
+  Calendar,
+  MessageSquare,
+  Users,
+  Briefcase,
+  TrendingUp
+} from 'lucide-react';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger} from '@/components/ui/dropdown-menu';
+
+interface NavItem {
+  label: string;
+  href: string;
+  icon: any;
+  badge?: number;
+  subItems?: Array<{
+    label: string;
+    href: string;
+    icon?: any;
+  }>\n  );
+}
+
+export default function PlatformShell({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname();
+  const [isSidebarOpensetIsSidebarOpen] = useState(true);
+  const [expandedItemssetExpandedItems] = useState<string[]>([]);
+
+  // User context (would come from auth)
+  const user = {
+    name: 'John Doe',
+    email: 'john@property.ie',
+    role: 'admin',
+    avatar: '/api/placeholder/40/40'
+  };
+
+  const navigation: NavItem[] = [
+    {
+      label: 'Dashboard',
+      href: '/dashboard',
+      icon: Home,
+      badge: 3
+    },
+    {
+      label: 'Estate Agency',
+      href: '/agent',
+      icon: Building,
+      subItems: [
+        { label: 'CRM Dashboard', href: '/agent/dashboard', icon: BarChart3 },
+        { label: 'Leads', href: '/agent/leads', icon: Users },
+        { label: 'Properties', href: '/agent/properties', icon: Building },
+        { label: 'Viewings', href: '/agent/viewings', icon: Calendar },
+        { label: 'Offers', href: '/agent/offers', icon: FileText }
+      ]
+    },
+    {
+      label: 'Legal Services',
+      href: '/solicitor',
+      icon: Scale,
+      subItems: [
+        { label: 'Dashboard', href: '/solicitor/dashboard', icon: BarChart3 },
+        { label: 'Conveyancing', href: '/solicitor/conveyancing-dashboard', icon: Briefcase },
+        { label: 'Cases', href: '/solicitor/cases', icon: FileText },
+        { label: 'Documents', href: '/solicitor/documents', icon: FileText },
+        { label: 'Compliance', href: '/solicitor/compliance', icon: Scale }
+      ]
+    },
+    {
+      label: 'Architecture',
+      href: '/architect',
+      icon: Ruler,
+      subItems: [
+        { label: 'Dashboard', href: '/architect/dashboard', icon: BarChart3 },
+        { label: 'Collaboration', href: '/architect/collaboration', icon: Users },
+        { label: 'Projects', href: '/architect/projects', icon: Briefcase },
+        { label: 'Drawings', href: '/architect/drawings', icon: FileText },
+        { label: '3D Models', href: '/architect/models', icon: Package }
+      ]
+    },
+    {
+      label: 'Analytics',
+      href: '/analytics',
+      icon: TrendingUp,
+      badge: 2
+    },
+    {
+      label: 'Integrations',
+      href: '/integrations',
+      icon: Package
+    },
+    {
+      label: 'Settings',
+      href: '/settings',
+      icon: Settings
+    }
+  ];
+
+  const toggleExpanded = (label: string) => {
+    setExpandedItems(prev =>
+      prev.includes(label)
+        ? prev.filter(item => item !== label)
+        : [...prevlabel]
+    );
+  };
+
+  const isActive = (href: string) => pathname.startsWith(href);
+
+  return (
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex">
+      {/* Sidebar */}
+      <AnimatePresence>
+        {isSidebarOpen && (
+          <motion.aside
+            initial={ x: -280 }
+            animate={ x: 0 }
+            exit={ x: -280 }
+            transition={ duration: 0.3 }
+            className="fixed inset-y-0 left-0 z-50 w-72 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 shadow-lg"
+          >
+            {/* Logo */}
+            <div className="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700">
+              <Link href="/" className="flex items-center space-x-3">
+                <div className="w-10 h-10 bg-[#2B5273] rounded-lg flex items-center justify-center">
+                  <span className="text-white font-bold text-xl">P</span>
+                </div>
+                <div>
+                  <h1 className="text-xl font-bold text-gray-900 dark:text-white">PropPlatform</h1>
+                  <p className="text-xs text-gray-500">Transaction Ecosystem</p>
+                </div>
+              </Link>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => setIsSidebarOpen(false)}
+                className="lg:hidden"
+              >
+                <X className="h-5 w-5" />
+              </Button>
+            </div>
+
+            {/* Navigation */}
+            <nav className="flex-1 px-4 py-6 space-y-1 overflow-y-auto">
+              {navigation.map((item: any) => (
+                <div key={item.label}>
+                  {item.subItems ? (
+                    <>
+                      <button
+                        onClick={() => toggleExpanded(item.label)}
+                        className={`w-full flex items-center justify-between px-4 py-2.5 text-sm font-medium rounded-lg transition-colors ${
+                          isActive(item.href)
+                            ? 'bg-[#2B5273] text-white'
+                            : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
+                        }`}
+                      >
+                        <div className="flex items-center space-x-3">
+                          <item.icon className="h-5 w-5" />
+                          <span>{item.label}</span>
+                        </div>
+                        <ChevronDown
+                          className={`h-4 w-4 transition-transform ${
+                            expandedItems.includes(item.label) ? 'rotate-180' : ''
+                          }`}
+                        />
+                      </button>
+                      {expandedItems.includes(item.label) && (
+                        <div className="ml-4 mt-1 space-y-1">
+                          {item.subItems.map((subItem: any) => (
+                            <Link
+                              key={subItem.href}
+                              href={subItem.href}
+                              className={`flex items-center space-x-3 px-4 py-2 text-sm rounded-lg transition-colors ${
+                                pathname === subItem.href
+                                  ? 'bg-gray-100 dark:bg-gray-700 text-[#2B5273] dark:text-white font-medium'
+                                  : 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700/50'
+                              }`}
+                            >
+                              {subItem.icon && <subItem.icon className="h-4 w-4" />}
+                              <span>{subItem.label}</span>
+                            </Link>
+                          ))}
+                        </div>
+                      )}
+                    </>
+                  ) : (
+                    <Link
+                      href={item.href}
+                      className={`flex items-center justify-between px-4 py-2.5 text-sm font-medium rounded-lg transition-colors ${
+                        isActive(item.href)
+                          ? 'bg-[#2B5273] text-white'
+                          : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
+                      }`}
+                    >
+                      <div className="flex items-center space-x-3">
+                        <item.icon className="h-5 w-5" />
+                        <span>{item.label}</span>
+                      </div>
+                      {item.badge && (
+                        <Badge className="ml-auto" variant="secondary">
+                          {item.badge}
+                        </Badge>
+                      )}
+                    </Link>
+                  )}
+                </div>
+              ))}
+            </nav>
+
+            {/* User Menu */}
+            <div className="p-4 border-t border-gray-200 dark:border-gray-700">
+              <div className="flex items-center space-x-3 mb-4">
+                <Avatar>
+                  <AvatarImage src={user.avatar} />
+                  <AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
+                </Avatar>
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-medium text-gray-900 dark:text-white truncate">
+                    {user.name}
+                  </p>
+                  <p className="text-xs text-gray-500 truncate">{user.email}</p>
+                </div>
+              </div>
+              <Button variant="ghost" className="w-full justify-start" size="sm">
+                <LogOut className="h-4 w-4 mr-2" />
+                Sign Out
+              </Button>
+            </div>
+          </motion.aside>
+        )}
+      </AnimatePresence>
+
+      {/* Main Content */}
+      <div className={`flex-1 ${isSidebarOpen ? 'lg:ml-72' : ''}`}>
+        {/* Top Bar */}
+        <header className="sticky top-0 z-40 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+          <div className="flex items-center justify-between px-6 py-4">
+            <div className="flex items-center space-x-4">
+              {!isSidebarOpen && (
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => setIsSidebarOpen(true)}
+                >
+                  <Menu className="h-5 w-5" />
+                </Button>
+              )}
+              <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
+                {navigation.find(item => isActive(item.href))?.label || 'Dashboard'}
+              </h2>
+            </div>
+
+            <div className="flex items-center space-x-4">
+              {/* Notifications */}
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" size="icon" className="relative">
+                    <Bell className="h-5 w-5" />
+                    <span className="absolute top-0 right-0 h-2 w-2 bg-red-500 rounded-full"></span>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-80">
+                  <DropdownMenuLabel>Notifications</DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem>
+                    <div className="space-y-1">
+                      <p className="text-sm font-medium">New offer received</p>
+                      <p className="text-xs text-gray-500">Property: 123 Main St - €450,000</p>
+                    </div>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem>
+                    <div className="space-y-1">
+                      <p className="text-sm font-medium">Document requires signature</p>
+                      <p className="text-xs text-gray-500">Contract for Riverside Development</p>
+                    </div>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem>
+                    <div className="space-y-1">
+                      <p className="text-sm font-medium">Task completed</p>
+                      <p className="text-xs text-gray-500">Site inspection report uploaded</p>
+                    </div>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+
+              {/* Messages */}
+              <Button variant="ghost" size="icon" className="relative">
+                <MessageSquare className="h-5 w-5" />
+                <span className="absolute top-0 right-0 h-2 w-2 bg-blue-500 rounded-full"></span>
+              </Button>
+
+              {/* User Profile */}
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" size="icon">
+                    <Avatar>
+                      <AvatarImage src={user.avatar} />
+                      <AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
+                    </Avatar>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-56">
+                  <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem>
+                    <User className="h-4 w-4 mr-2" />
+                    Profile
+                  </DropdownMenuItem>
+                  <DropdownMenuItem>
+                    <Settings className="h-4 w-4 mr-2" />
+                    Settings
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem>
+                    <LogOut className="h-4 w-4 mr-2" />
+                    Sign Out
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
+          </div>
+        </header>
+
+        {/* Page Content */}
+        <main className="flex-1 p-6">
+          {children}
+        </main>
+      </div>
+    </div>
+  );
+}

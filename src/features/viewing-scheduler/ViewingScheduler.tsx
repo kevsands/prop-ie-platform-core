@@ -136,29 +136,29 @@ export default function ViewingScheduler({
     error
   } = useViewingSchedule(property.id);
 
-  const [selectedDate, setSelectedDate] = useState<Date>(initialDate);
-  const [selectedType, setSelectedType] = useState<ViewingType>(viewingTypes[0]);
-  const [selectedSlot, setSelectedSlot] = useState<ViewingSlot | null>(null);
-  const [contactInfo, setContactInfo] = useState({
+  const [selectedDatesetSelectedDate] = useState<Date>(initialDate);
+  const [selectedTypesetSelectedType] = useState<ViewingType>(viewingTypes[0]);
+  const [selectedSlotsetSelectedSlot] = useState<ViewingSlot | null>(null);
+  const [contactInfosetContactInfo] = useState({
     name: '',
     email: '',
     phone: '',
     message: ''
   });
-  const [showConfirmation, setShowConfirmation] = useState(false);
-  const [schedulingProgress, setSchedulingProgress] = useState(0);
+  const [showConfirmationsetShowConfirmation] = useState(false);
+  const [schedulingProgresssetSchedulingProgress] = useState(0);
 
   // Filter available time slots for selected date
-  const daySlots = availableSlots.filter(slot => {
+  const daySlots = availableSlots.filter(slot: any => {
     const slotStart = new Date(slot.startTime);
-    return slotStart >= startOfDay(selectedDate) && slotStart <= endOfDay(selectedDate);
+    return slotStart>= startOfDay(selectedDate) && slotStart <= endOfDay(selectedDate);
   });
 
   // Group slots by hour
-  const slotsByHour = daySlots.reduce((acc, slot) => {
+  const slotsByHour = daySlots.reduce((acc: any, slot: any) => {
     const hour = format(new Date(slot.startTime), 'HH:00');
     if (!acc[hour]) acc[hour] = [];
-    acc[hour].push(slot);
+    acc[hour].push(slot: any);
     return acc;
   }, {} as Record<string, ViewingSlot[]>);
 
@@ -169,7 +169,7 @@ export default function ViewingScheduler({
 
   const handleSlotSelect = (slot: ViewingSlot) => {
     if (slot.available) {
-      setSelectedSlot(slot);
+      setSelectedSlot(slot: any);
     }
   };
 
@@ -185,7 +185,7 @@ export default function ViewingScheduler({
 
     setSchedulingProgress(0);
     const progressInterval = setInterval(() => {
-      setSchedulingProgress(prev => Math.min(prev + 10, 90));
+      setSchedulingProgress(prev => Math.min(prev + 1090));
     }, 200);
 
     try {
@@ -256,7 +256,7 @@ export default function ViewingScheduler({
         });
       }
     } catch (error) {
-      console.error('Share failed:', error);
+
     }
   };
 
@@ -313,15 +313,15 @@ END:VCALENDAR`;
               <Calendar
                 mode="single"
                 selected={selectedDate}
-                onSelect={(date) => date && setSelectedDate(date)}
-                disabled={(date) => isBefore(date, new Date())}
+                onSelect={(date: any) => date && setSelectedDate(date)}
+                disabled={(date: any) => isBefore(date, new Date())}
                 className="rounded-md border"
               />
             </div>
 
             <div className="space-y-4">
               <h3 className="font-semibold text-lg">Available Times</h3>
-              
+
               {loading ? (
                 <div className="flex items-center justify-center py-8">
                   <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary" />
@@ -334,18 +334,18 @@ END:VCALENDAR`;
                 </div>
               ) : (
                 <div className="space-y-3 max-h-[400px] overflow-y-auto">
-                  {Object.entries(slotsByHour).map(([hour, slots]) => (
+                  {Object.entries(slotsByHour).map(([hourslots]) => (
                     <div key={hour}>
                       <h4 className="text-sm font-medium text-muted-foreground mb-2">
                         {hour}
                       </h4>
                       <div className="grid grid-cols-2 gap-2">
-                        {slots.map((slot) => (
+                        {slots.map((slot: any) => (
                           <Button
                             key={slot.id}
                             variant={selectedSlot?.id === slot.id ? 'default' : 'outline'}
                             size="sm"
-                            onClick={() => handleSlotSelect(slot)}
+                            onClick={() => handleSlotSelect(slot: any)}
                             disabled={!slot.available}
                             className="justify-start"
                           >
@@ -381,16 +381,16 @@ END:VCALENDAR`;
           <CardContent>
             <RadioGroup 
               value={selectedType.id} 
-              onValueChange={(value) => {
+              onValueChange={(value: any) => {
                 const type = viewingTypes.find(t => t.id === value);
                 if (type) handleTypeSelect(type);
-              }}
+              }
             >
-              {viewingTypes.map((type) => (
+              {viewingTypes.map((type: any) => (
                 <motion.div
                   key={type.id}
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
+                  whileHover={ scale: 1.02 }
+                  whileTap={ scale: 0.98 }
                   className="mb-4"
                 >
                   <Label
@@ -409,7 +409,7 @@ END:VCALENDAR`;
                           {type.description}
                         </p>
                         <div className="space-y-1">
-                          {type.features.map((feature, index) => (
+                          {type.features.map((featureindex: any) => (
                             <div key={index} className="flex items-center text-sm">
                               <CheckCircle2 size={16} className="mr-2 text-green-500" />
                               {feature}
@@ -418,7 +418,7 @@ END:VCALENDAR`;
                         </div>
                         {type.requirements && (
                           <div className="mt-3 pt-3 border-t">
-                            {type.requirements.map((req, index) => (
+                            {type.requirements.map((reqindex: any) => (
                               <div key={index} className="flex items-center text-sm text-muted-foreground">
                                 <AlertCircle size={16} className="mr-2" />
                                 {req}
@@ -438,8 +438,8 @@ END:VCALENDAR`;
         {/* Contact Information */}
         {selectedSlot && (
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={ opacity: 0, y: 20 }
+            animate={ opacity: 1, y: 0 }
           >
             <Card>
               <CardHeader>
@@ -454,7 +454,7 @@ END:VCALENDAR`;
                   <Input
                     id="name"
                     value={contactInfo.name}
-                    onChange={(e) => setContactInfo({ ...contactInfo, name: e.target.value })}
+                    onChange={(e: React.MouseEvent) => setContactInfo({ ...contactInfo, name: e.target.value })}
                     placeholder="John Smith"
                   />
                 </div>
@@ -464,7 +464,7 @@ END:VCALENDAR`;
                     id="email"
                     type="email"
                     value={contactInfo.email}
-                    onChange={(e) => setContactInfo({ ...contactInfo, email: e.target.value })}
+                    onChange={(e: React.MouseEvent) => setContactInfo({ ...contactInfo, email: e.target.value })}
                     placeholder="john@example.com"
                   />
                 </div>
@@ -474,7 +474,7 @@ END:VCALENDAR`;
                     id="phone"
                     type="tel"
                     value={contactInfo.phone}
-                    onChange={(e) => setContactInfo({ ...contactInfo, phone: e.target.value })}
+                    onChange={(e: React.MouseEvent) => setContactInfo({ ...contactInfo, phone: e.target.value })}
                     placeholder="+353 1234567"
                   />
                 </div>
@@ -483,7 +483,7 @@ END:VCALENDAR`;
                   <Textarea
                     id="message"
                     value={contactInfo.message}
-                    onChange={(e) => setContactInfo({ ...contactInfo, message: e.target.value })}
+                    onChange={(e: React.MouseEvent) => setContactInfo({ ...contactInfo, message: e.target.value })}
                     placeholder="Any specific questions or requirements?"
                     rows={3}
                   />
@@ -497,8 +497,8 @@ END:VCALENDAR`;
       {/* Summary & Actions */}
       {selectedSlot && (
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
+          initial={ opacity: 0, y: 20 }
+          animate={ opacity: 1, y: 0 }
           className="lg:col-span-3"
         >
           <Card>
@@ -518,7 +518,7 @@ END:VCALENDAR`;
                   <p className="font-semibold">{property.title}</p>
                   <p className="text-sm text-muted-foreground">{property.address}</p>
                 </div>
-                
+
                 <div>
                   <div className="flex items-center text-sm text-muted-foreground mb-1">
                     <CalendarIcon size={16} className="mr-2" />
@@ -532,7 +532,7 @@ END:VCALENDAR`;
                     {format(new Date(selectedSlot.endTime), 'p')}
                   </p>
                 </div>
-                
+
                 <div>
                   <div className="flex items-center text-sm text-muted-foreground mb-1">
                     {selectedType.icon}
@@ -543,7 +543,7 @@ END:VCALENDAR`;
                     {selectedType.duration} minutes
                   </p>
                 </div>
-                
+
                 {selectedSlot.agent && (
                   <div>
                     <div className="flex items-center text-sm text-muted-foreground mb-1">
@@ -559,7 +559,7 @@ END:VCALENDAR`;
               </div>
 
               {/* Progress Bar */}
-              {schedulingProgress > 0 && schedulingProgress < 100 && (
+              {schedulingProgress> 0 && schedulingProgress <100 && (
                 <div className="mb-6">
                   <Progress value={schedulingProgress} className="h-2" />
                   <p className="text-sm text-center mt-2 text-muted-foreground">
@@ -572,13 +572,13 @@ END:VCALENDAR`;
                 <Button
                   size="lg"
                   onClick={handleSchedule}
-                  disabled={schedulingProgress > 0 && schedulingProgress < 100}
+                  disabled={schedulingProgress> 0 && schedulingProgress <100}
                   className="flex-1 md:flex-initial"
                 >
                   <CheckCircle2 size={20} className="mr-2" />
                   Confirm Viewing
                 </Button>
-                
+
                 <Button
                   variant="outline"
                   size="lg"
@@ -587,7 +587,7 @@ END:VCALENDAR`;
                   <Share2 size={20} className="mr-2" />
                   Share
                 </Button>
-                
+
                 <Button
                   variant="outline"
                   size="lg"
@@ -606,17 +606,17 @@ END:VCALENDAR`;
       <AnimatePresence>
         {showConfirmation && (
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
+            initial={ opacity: 0 }
+            animate={ opacity: 1 }
+            exit={ opacity: 0 }
             className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
             onClick={() => setShowConfirmation(false)}
           >
             <motion.div
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
-              onClick={(e) => e.stopPropagation()}
+              initial={ scale: 0.9, opacity: 0 }
+              animate={ scale: 1, opacity: 1 }
+              exit={ scale: 0.9, opacity: 0 }
+              onClick={(e: React.MouseEvent) => e.stopPropagation()}
               className="bg-white rounded-xl p-6 max-w-md w-full"
             >
               <div className="text-center">
@@ -628,31 +628,31 @@ END:VCALENDAR`;
                   Your {selectedType.name} has been scheduled. We've sent confirmation
                   details to your email and phone.
                 </p>
-                
+
                 <div className="space-y-3">
                   <Button
                     className="w-full"
                     onClick={() => {
                       setShowConfirmation(false);
                       handleDownloadCalendar();
-                    }}
+                    }
                   >
                     <Download size={20} className="mr-2" />
                     Download Calendar Event
                   </Button>
-                  
+
                   <Button
                     variant="outline"
                     className="w-full"
                     onClick={() => {
                       setShowConfirmation(false);
                       handleShare();
-                    }}
+                    }
                   >
                     <Share2 size={20} className="mr-2" />
                     Share Details
                   </Button>
-                  
+
                   <Button
                     variant="ghost"
                     className="w-full"

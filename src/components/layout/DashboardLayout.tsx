@@ -20,7 +20,7 @@ export function DashboardLayout({
   return (
     <div className={`container mx-auto px-4 py-6 ${className}`}>
       {header && <header className="mb-6">{header}</header>}
-      
+
       <div className="flex flex-col md:flex-row gap-6">
         {sidebar && (
           <aside className="w-full md:w-64 md:flex-shrink-0">
@@ -31,7 +31,7 @@ export function DashboardLayout({
           {children}
         </main>
       </div>
-      
+
       {footer && <footer className="mt-6">{footer}</footer>}
     </div>
   );

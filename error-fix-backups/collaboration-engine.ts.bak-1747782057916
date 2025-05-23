@@ -1,0 +1,443 @@
+import { EventEmitter } from 'events';
+import { WebSocket, WebSocketServer } from 'ws';
+import { RedisClient } from 'redis';
+import * as Y from 'yjs';
+import { v4 as uuidv4 } from 'uuid';
+
+interface User {
+  id: string;
+  name: string;
+  email: string;
+  avatar?: string;
+  role: string;
+}
+
+interface Room {
+  id: string;
+  type: 'document' | 'property' | 'transaction' | 'meeting';
+  participants: Map<string, User>;
+  state: Y.Doc;
+  metadata: any;
+}
+
+interface Message {
+  id: string;
+  roomId: string;
+  userId: string;
+  type: 'cursor' | 'selection' | 'presence' | 'change' | 'message' | 'notification';
+  payload: any;
+  timestamp: number;
+}
+
+export class CollaborationEngine extends EventEmitter {
+  private wss: WebSocketServer;
+  private redis: RedisClient;
+  private rooms: Map<string, Room>;
+  private connections: Map<string, WebSocket>;
+  private userSessions: Map<string, User>;
+  
+  constructor(config: {
+    port: number;
+    redis: RedisClient;
+  }) {
+    super();
+    this.redis = config.redis;
+    this.rooms = new Map();
+    this.connections = new Map();
+    this.userSessions = new Map();
+    
+    // Initialize WebSocket server
+    this.wss = new WebSocketServer({ port: config.port });
+    this.setupWebSocketServer();
+  }
+  
+  private setupWebSocketServer(): void {
+    this.wss.on('connection', (ws: WebSocket, req: any) => {
+      const connectionId = uuidv4();
+      this.connections.set(connectionId, ws);
+      
+      ws.on('message', (data: string) => {
+        try {
+          const message = JSON.parse(data);
+          this.handleMessage(connectionId, message);
+        } catch (error) {
+          console.error('Invalid message format:', error);
+          ws.send(JSON.stringify({
+            type: 'error',
+            payload: { message: 'Invalid message format' }
+          }));
+        }
+      });
+      
+      ws.on('close', () => {
+        this.handleDisconnection(connectionId);
+      });
+      
+      ws.on('error', (error) => {
+        console.error('WebSocket error:', error);
+      });
+    });
+  }
+  
+  private async handleMessage(connectionId: string, message: any): Promise<void> {
+    const ws = this.connections.get(connectionId);
+    if (!ws) return;
+    
+    switch (message.type) {
+      case 'auth':
+        await this.handleAuthentication(connectionId, message.payload);
+        break;
+        
+      case 'join':
+        await this.handleJoinRoom(connectionId, message.payload);
+        break;
+        
+      case 'leave':
+        await this.handleLeaveRoom(connectionId, message.payload);
+        break;
+        
+      case 'update':
+        await this.handleUpdate(connectionId, message.payload);
+        break;
+        
+      case 'cursor':
+        await this.handleCursorUpdate(connectionId, message.payload);
+        break;
+        
+      case 'selection':
+        await this.handleSelectionUpdate(connectionId, message.payload);
+        break;
+        
+      case 'message':
+        await this.handleChatMessage(connectionId, message.payload);
+        break;
+        
+      default:
+        ws.send(JSON.stringify({
+          type: 'error',
+          payload: { message: 'Unknown message type' }
+        }));
+    }
+  }
+  
+  private async handleAuthentication(connectionId: string, payload: any): Promise<void> {
+    const { token } = payload;
+    const ws = this.connections.get(connectionId);
+    if (!ws) return;
+    
+    try {
+      // Verify JWT token and get user info
+      const user = await this.verifyToken(token);
+      this.userSessions.set(connectionId, user);
+      
+      ws.send(JSON.stringify({
+        type: 'auth:success',
+        payload: { user }
+      }));
+    } catch (error) {
+      ws.send(JSON.stringify({
+        type: 'auth:error',
+        payload: { message: 'Authentication failed' }
+      }));
+      ws.close();
+    }
+  }
+  
+  private async handleJoinRoom(connectionId: string, payload: any): Promise<void> {
+    const { roomId, roomType } = payload;
+    const user = this.userSessions.get(connectionId);
+    const ws = this.connections.get(connectionId);
+    
+    if (!user || !ws) return;
+    
+    // Check permissions
+    if (!await this.canJoinRoom(user, roomId)) {
+      ws.send(JSON.stringify({
+        type: 'error',
+        payload: { message: 'Access denied' }
+      }));
+      return;
+    }
+    
+    // Get or create room
+    let room = this.rooms.get(roomId);
+    if (!room) {
+      room = {
+        id: roomId,
+        type: roomType,
+        participants: new Map(),
+        state: new Y.Doc(),
+        metadata: {}
+      };
+      this.rooms.set(roomId, room);
+    }
+    
+    // Add user to room
+    room.participants.set(connectionId, user);
+    
+    // Send room state to new participant
+    ws.send(JSON.stringify({
+      type: 'room:joined',
+      payload: {
+        roomId,
+        state: Y.encodeStateAsUpdate(room.state),
+        participants: Array.from(room.participants.values()),
+        metadata: room.metadata
+      }
+    }));
+    
+    // Notify other participants
+    this.broadcastToRoom(roomId, {
+      type: 'user:joined',
+      payload: { user }
+    }, connectionId);
+  }
+  
+  private async handleLeaveRoom(connectionId: string, payload: any): Promise<void> {
+    const { roomId } = payload;
+    const room = this.rooms.get(roomId);
+    const user = this.userSessions.get(connectionId);
+    
+    if (!room || !user) return;
+    
+    // Remove user from room
+    room.participants.delete(connectionId);
+    
+    // Notify other participants
+    this.broadcastToRoom(roomId, {
+      type: 'user:left',
+      payload: { user }
+    });
+    
+    // Clean up empty rooms
+    if (room.participants.size === 0) {
+      this.rooms.delete(roomId);
+    }
+  }
+  
+  private async handleUpdate(connectionId: string, payload: any): Promise<void> {
+    const { roomId, update } = payload;
+    const room = this.rooms.get(roomId);
+    const user = this.userSessions.get(connectionId);
+    
+    if (!room || !user) return;
+    
+    // Apply update to room state
+    Y.applyUpdate(room.state, new Uint8Array(update));
+    
+    // Broadcast update to other participants
+    this.broadcastToRoom(roomId, {
+      type: 'update',
+      payload: { update, userId: user.id }
+    }, connectionId);
+    
+    // Save state to Redis for persistence
+    await this.saveRoomState(roomId, room.state);
+  }
+  
+  private async handleCursorUpdate(connectionId: string, payload: any): Promise<void> {
+    const { roomId, position } = payload;
+    const user = this.userSessions.get(connectionId);
+    
+    if (!user) return;
+    
+    // Broadcast cursor position to other participants
+    this.broadcastToRoom(roomId, {
+      type: 'cursor',
+      payload: {
+        userId: user.id,
+        position,
+        user: {
+          name: user.name,
+          avatar: user.avatar
+        }
+      }
+    }, connectionId);
+  }
+  
+  private async handleSelectionUpdate(connectionId: string, payload: any): Promise<void> {
+    const { roomId, selection } = payload;
+    const user = this.userSessions.get(connectionId);
+    
+    if (!user) return;
+    
+    // Broadcast selection to other participants
+    this.broadcastToRoom(roomId, {
+      type: 'selection',
+      payload: {
+        userId: user.id,
+        selection,
+        user: {
+          name: user.name,
+          avatar: user.avatar
+        }
+      }
+    }, connectionId);
+  }
+  
+  private async handleChatMessage(connectionId: string, payload: any): Promise<void> {
+    const { roomId, message } = payload;
+    const user = this.userSessions.get(connectionId);
+    
+    if (!user) return;
+    
+    const chatMessage = {
+      id: uuidv4(),
+      userId: user.id,
+      user: {
+        name: user.name,
+        avatar: user.avatar
+      },
+      message,
+      timestamp: Date.now()
+    };
+    
+    // Broadcast message to all participants
+    this.broadcastToRoom(roomId, {
+      type: 'message',
+      payload: chatMessage
+    });
+    
+    // Save message to Redis for history
+    await this.saveChatMessage(roomId, chatMessage);
+  }
+  
+  private handleDisconnection(connectionId: string): void {
+    const user = this.userSessions.get(connectionId);
+    
+    if (user) {
+      // Remove user from all rooms
+      this.rooms.forEach((room, roomId) => {
+        if (room.participants.has(connectionId)) {
+          room.participants.delete(connectionId);
+          
+          // Notify other participants
+          this.broadcastToRoom(roomId, {
+            type: 'user:left',
+            payload: { user }
+          });
+          
+          // Clean up empty rooms
+          if (room.participants.size === 0) {
+            this.rooms.delete(roomId);
+          }
+        }
+      });
+    }
+    
+    // Clean up connections and sessions
+    this.connections.delete(connectionId);
+    this.userSessions.delete(connectionId);
+  }
+  
+  private broadcastToRoom(roomId: string, message: any, excludeConnectionId?: string): void {
+    const room = this.rooms.get(roomId);
+    if (!room) return;
+    
+    const messageStr = JSON.stringify(message);
+    
+    room.participants.forEach((user, connectionId) => {
+      if (connectionId !== excludeConnectionId) {
+        const ws = this.connections.get(connectionId);
+        if (ws && ws.readyState === WebSocket.OPEN) {
+          ws.send(messageStr);
+        }
+      }
+    });
+  }
+  
+  private async verifyToken(token: string): Promise<User> {
+    // Implement JWT verification
+    // This is a placeholder
+    return {
+      id: '123',
+      name: 'John Doe',
+      email: 'john@example.com',
+      role: 'developer'
+    };
+  }
+  
+  private async canJoinRoom(user: User, roomId: string): Promise<boolean> {
+    // Implement permission checking
+    return true;
+  }
+  
+  private async saveRoomState(roomId: string, state: Y.Doc): Promise<void> {
+    const stateVector = Y.encodeStateAsUpdate(state);
+    await this.redis.set(`room:${roomId}:state`, Buffer.from(stateVector));
+  }
+  
+  private async loadRoomState(roomId: string): Promise<Y.Doc | null> {
+    const stateData = await this.redis.get(`room:${roomId}:state`);
+    if (!stateData) return null;
+    
+    const doc = new Y.Doc();
+    Y.applyUpdate(doc, new Uint8Array(stateData));
+    return doc;
+  }
+  
+  private async saveChatMessage(roomId: string, message: any): Promise<void> {
+    const key = `room:${roomId}:messages`;
+    await this.redis.lpush(key, JSON.stringify(message));
+    await this.redis.ltrim(key, 0, 999); // Keep last 1000 messages
+  }
+  
+  // Public API methods
+  
+  public async createRoom(type: string, metadata: any): Promise<string> {
+    const roomId = uuidv4();
+    const room: Room = {
+      id: roomId,
+      type: type as any,
+      participants: new Map(),
+      state: new Y.Doc(),
+      metadata
+    };
+    
+    this.rooms.set(roomId, room);
+    return roomId;
+  }
+  
+  public async getRoomParticipants(roomId: string): Promise<User[]> {
+    const room = this.rooms.get(roomId);
+    if (!room) return [];
+    
+    return Array.from(room.participants.values());
+  }
+  
+  public async getRoomState(roomId: string): Promise<any> {
+    const room = this.rooms.get(roomId);
+    if (!room) {
+      // Try to load from Redis
+      const state = await this.loadRoomState(roomId);
+      if (state) {
+        return Y.encodeStateAsUpdate(state);
+      }
+      return null;
+    }
+    
+    return Y.encodeStateAsUpdate(room.state);
+  }
+  
+  public async shutdown(): Promise<void> {
+    // Gracefully shutdown
+    this.rooms.forEach((room, roomId) => {
+      this.saveRoomState(roomId, room.state);
+    });
+    
+    this.connections.forEach((ws) => {
+      ws.close();
+    });
+    
+    this.wss.close();
+  }
+}
+
+// Export singleton instance
+export const collaborationEngine = new CollaborationEngine({
+  port: parseInt(process.env.COLLAB_WS_PORT || '3001'),
+  redis: new RedisClient({
+    host: process.env.REDIS_HOST || 'localhost',
+    port: parseInt(process.env.REDIS_PORT || '6379')
+  })
+});

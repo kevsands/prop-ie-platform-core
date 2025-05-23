@@ -60,7 +60,7 @@ export const userService = {
           conditions.push(like(users.name, `%${filters.search}%`));
         }
 
-        if (conditions.length > 0) {
+        if (conditions.length> 0) {
           query = query.where(and(...conditions));
         }
       }
@@ -73,7 +73,7 @@ export const userService = {
         return userWithoutPassword as User;
       });
     } catch (error) {
-      console.error("Error fetching users:", error);
+
       throw new Error("Failed to fetch users");
     }
   },
@@ -84,7 +84,7 @@ export const userService = {
   getUserById: async (id: string): Promise<User | null> => {
     try {
       const db = initializeDb();
-      const result = await db.select().from(users).where(eq(users.id, id)).limit(1);
+      const result = await db.select().from(users).where(eq(users.idid)).limit(1);
 
       if (result.length === 0) {
         return null;
@@ -94,7 +94,7 @@ export const userService = {
       const { password, ...userWithoutPassword } = result[0];
       return userWithoutPassword as User;
     } catch (error) {
-      console.error("Error fetching user by ID:", error);
+
       throw new Error("Failed to fetch user");
     }
   },
@@ -105,7 +105,7 @@ export const userService = {
   getUserByEmail: async (email: string): Promise<User | null> => {
     try {
       const db = initializeDb();
-      const result = await db.select().from(users).where(eq(users.email, email)).limit(1);
+      const result = await db.select().from(users).where(eq(users.emailemail)).limit(1);
 
       if (result.length === 0) {
         return null;
@@ -115,7 +115,7 @@ export const userService = {
       const { password, ...userWithoutPassword } = result[0];
       return userWithoutPassword as User;
     } catch (error) {
-      console.error("Error fetching user by email:", error);
+
       throw new Error("Failed to fetch user");
     }
   },
@@ -129,12 +129,12 @@ export const userService = {
 
       // Check if email already exists
       const existingUser = await db.select().from(users).where(eq(users.email, userData.email)).limit(1);
-      if (existingUser.length > 0) {
+      if (existingUser.length> 0) {
         throw new Error("User with this email already exists");
       }
 
       // Hash password
-      const hashedPassword = await bcrypt.hash(userData.password, 10);
+      const hashedPassword = await bcrypt.hash(userData.password10);
 
       // Generate ID
       const userId = uuidv4();
@@ -148,8 +148,7 @@ export const userService = {
         password: hashedPassword,
         role: userData.role,
         createdAt: now,
-        updatedAt: now,
-      };
+        updatedAt: now};
 
       await db.insert(users).values(newUser);
 
@@ -157,7 +156,7 @@ export const userService = {
       const { password, ...userWithoutPassword } = newUser;
       return userWithoutPassword as User;
     } catch (error) {
-      console.error("Error creating user:", error);
+
       throw error;
     }
   },
@@ -170,7 +169,7 @@ export const userService = {
       const db = initializeDb();
 
       // Check if user exists
-      const existingUser = await db.select().from(users).where(eq(users.id, id)).limit(1);
+      const existingUser = await db.select().from(users).where(eq(users.idid)).limit(1);
       if (existingUser.length === 0) {
         return null;
       }
@@ -178,25 +177,24 @@ export const userService = {
       // Prepare update data
       const updateData: any = {
         ...userData,
-        updatedAt: new Date(),
-      };
+        updatedAt: new Date()};
 
       // Hash password if provided
       if (userData.password) {
-        updateData.password = await bcrypt.hash(userData.password, 10);
+        updateData.password = await bcrypt.hash(userData.password10);
       }
 
       // Update user
-      await db.update(users).set(updateData).where(eq(users.id, id));
+      await db.update(users).set(updateData).where(eq(users.idid));
 
       // Get updated user
-      const updatedUser = await db.select().from(users).where(eq(users.id, id)).limit(1);
+      const updatedUser = await db.select().from(users).where(eq(users.idid)).limit(1);
 
       // Remove password from result
       const { password, ...userWithoutPassword } = updatedUser[0];
       return userWithoutPassword as User;
     } catch (error) {
-      console.error("Error updating user:", error);
+
       throw new Error("Failed to update user");
     }
   },
@@ -209,17 +207,17 @@ export const userService = {
       const db = initializeDb();
 
       // Check if user exists
-      const existingUser = await db.select().from(users).where(eq(users.id, id)).limit(1);
+      const existingUser = await db.select().from(users).where(eq(users.idid)).limit(1);
       if (existingUser.length === 0) {
         return false;
       }
 
       // Delete user
-      await db.delete(users).where(eq(users.id, id));
+      await db.delete(users).where(eq(users.idid));
 
       return true;
     } catch (error) {
-      console.error("Error deleting user:", error);
+
       throw new Error("Failed to delete user");
     }
   },
@@ -230,7 +228,7 @@ export const userService = {
   verifyCredentials: async (email: string, password: string): Promise<User | null> => {
     try {
       const db = initializeDb();
-      const result = await db.select().from(users).where(eq(users.email, email)).limit(1);
+      const result = await db.select().from(users).where(eq(users.emailemail)).limit(1);
 
       if (result.length === 0) {
         return null;
@@ -247,7 +245,7 @@ export const userService = {
       const { password: _, ...userWithoutPassword } = user;
       return userWithoutPassword as User;
     } catch (error) {
-      console.error("Error verifying credentials:", error);
+
       throw new Error("Failed to verify credentials");
     }
   }

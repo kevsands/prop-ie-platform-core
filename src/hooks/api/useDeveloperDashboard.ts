@@ -142,7 +142,7 @@ export function useDeveloperDashboardOverview(
   `;
 
   return useGraphQLQuery<{ developerDashboard: DeveloperDashboardData }, Error>(
-    ['developerDashboard', filter, dateRange],
+    ['developerDashboard', filterdateRange],
     query,
     { filter, dateRange },
     {
@@ -262,19 +262,19 @@ export function useDashboardPreferences() {
     if (typeof window === 'undefined') {
       return getDefaultPreferences();
     }
-    
+
     const saved = localStorage.getItem('dashboardPreferences');
     if (saved) {
       try {
         return JSON.parse(saved);
       } catch (e) {
-        console.error('Failed to parse dashboard preferences', e);
+
       }
     }
-    
+
     return getDefaultPreferences();
   };
-  
+
   const getDefaultPreferences = (): DashboardPreferences => ({
     defaultDateRange: 'month',
     visibleWidgets: [
@@ -303,10 +303,10 @@ export function useDashboardPreferences() {
     dashboardLayout: 'default',
     refreshInterval: 300 // 5 minutes in seconds
   });
-  
+
   // State for preferences
-  const [preferences, setPreferences] = useState<DashboardPreferences>(getInitialPreferences);
-  
+  const [preferencessetPreferences] = useState<DashboardPreferences>(getInitialPreferences);
+
   // Function to update preferences
   const updatePreferences = useCallback((newPrefs: Partial<DashboardPreferences>) => {
     setPreferences(prev => {
@@ -318,7 +318,7 @@ export function useDashboardPreferences() {
       return updated;
     });
   }, []);
-  
+
   // Function to reset preferences to default
   const resetPreferences = useCallback(() => {
     const defaults = getDefaultPreferences();
@@ -327,7 +327,7 @@ export function useDashboardPreferences() {
       localStorage.setItem('dashboardPreferences', JSON.stringify(defaults));
     }
   }, []);
-  
+
   // Return the preferences and update functions
   return { 
     preferences, 

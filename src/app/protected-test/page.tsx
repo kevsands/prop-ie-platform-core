@@ -46,7 +46,7 @@ const useAuth = () => {
  */
 export default function ProtectedTestPage() {
   const { user, mfaEnabled, securityLevel } = useAuth();
-  
+
   return (
     <div className="container mx-auto p-6">
       <div className="bg-amber-50 p-3 mb-4 rounded text-amber-800 text-sm">
@@ -55,7 +55,7 @@ export default function ProtectedTestPage() {
       </div>
 
       <h1 className="text-3xl font-bold mb-8">Protected Route Testing</h1>
-      
+
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Basic Protection (Authentication Only) */}
         <ProtectedRoute>
@@ -65,7 +65,7 @@ export default function ProtectedTestPage() {
             <p className="text-sm text-gray-600">No special roles or permissions required.</p>
           </div>
         </ProtectedRoute>
-        
+
         {/* Role-Based Protection (Admin Only) */}
         <ProtectedRoute 
           requiredRole="ADMIN"
@@ -77,7 +77,7 @@ export default function ProtectedTestPage() {
             <p className="text-sm text-gray-600">Only visible to administrators.</p>
           </div>
         </ProtectedRoute>
-        
+
         {/* Role-Based Protection (Developer Only) */}
         <ProtectedRoute 
           requiredRole="DEVELOPER"
@@ -89,7 +89,7 @@ export default function ProtectedTestPage() {
             <p className="text-sm text-gray-600">Only visible to developers.</p>
           </div>
         </ProtectedRoute>
-        
+
         {/* Permission-Based Protection */}
         <ProtectedRoute 
           requiredPermission="read:all"
@@ -101,7 +101,7 @@ export default function ProtectedTestPage() {
             <p className="text-sm text-gray-600">Requires specific permissions.</p>
           </div>
         </ProtectedRoute>
-        
+
         {/* MFA Protection */}
         <ProtectedRoute 
           enforceMFA={true}
@@ -113,7 +113,7 @@ export default function ProtectedTestPage() {
             <p className="text-sm text-gray-600">Requires multi-factor authentication.</p>
           </div>
         </ProtectedRoute>
-        
+
         {/* Security Level Protection */}
         <ProtectedRoute 
           securityLevel="medium"
@@ -126,11 +126,11 @@ export default function ProtectedTestPage() {
           </div>
         </ProtectedRoute>
       </div>
-      
+
       {/* User Information Panel */}
       <div className="mt-8 p-6 bg-gray-50 border border-gray-200 rounded-lg">
         <h2 className="text-2xl font-semibold mb-4">Your Authentication Status</h2>
-        
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <h3 className="font-medium text-gray-700">User Information</h3>
@@ -141,7 +141,7 @@ export default function ProtectedTestPage() {
               <li><span className="font-medium">ID:</span> {user?.id || 'Not available'}</li>
             </ul>
           </div>
-          
+
           <div>
             <h3 className="font-medium text-gray-700">Security Status</h3>
             <ul className="mt-2 space-y-1 text-sm">
@@ -159,9 +159,9 @@ export default function ProtectedTestPage() {
               </li>
               <li>
                 <span className="font-medium">Permissions:</span> 
-                {user?.permissions && user.permissions.length > 0 ? (
+                {user?.permissions && user.permissions.length> 0 ? (
                   <ul className="ml-4 mt-1">
-                    {user.permissions.map((perm, i) => (
+                    {user.permissions.map((permi: any) => (
                       <li key={i} className="text-xs">{perm}</li>
                     ))}
                   </ul>

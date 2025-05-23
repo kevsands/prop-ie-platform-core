@@ -1,0 +1,92 @@
+import { NextRequest, NextResponse } from 'next/server';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/lib/auth';
+import { z } from 'zod';
+
+const initiateBookingSchema = z.object({
+  unitId: z.string(),
+  buyerId: z.string()
+});
+
+export async function POST(request: NextRequest) {
+  try {
+    const session = await getServerSession(authOptions);
+    if (!session) {
+      return NextResponse.json(
+        { error: 'Authentication required' },
+        { status: 401 }
+      );
+    }
+
+    const body = await request.json();
+    const { unitId, buyerId } = initiateBookingSchema.parse(body);
+
+    // Check unit availability
+    const unitStatus = await checkUnitAvailability(unitId);
+    if (!unitStatus.available) {
+      return NextResponse.json(
+        { error: 'Unit is no longer available' },
+        { status: 400 }
+      );
+    }
+
+    // Create reservation session
+    const reservationId = await createReservationSession({
+      unitId,
+      buyerId,
+      status: 'INITIATED',
+      expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000) // 24 hours
+    });
+
+    return NextResponse.json({
+      success: true,
+      reservationId,
+      unitDetails: unitStatus.unit,
+      bookingDepositAmount: unitStatus.unit.bookingDeposit,
+      expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000)
+    });
+
+  } catch (error) {
+
+    if (error instanceof z.ZodError) {
+      return NextResponse.json(
+        { error: 'Invalid request data', details: error.errors },
+        { status: 400 }
+      );
+    }
+
+    return NextResponse.json(
+      { error: 'Failed to initiate booking' },
+      { status: 500 }
+    );
+  }
+}
+
+async function checkUnitAvailability(unitId: string) {
+  // Integration with your existing database/Prisma setup
+  // This would check against your actual units table
+  return {
+    available: true,
+    unit: {
+      id: unitId,
+      name: "Unit 12, Fitzgerald Gardens",
+      address: "Ashbourne, Co. Meath",
+      price: 350000,
+      bookingDeposit: 5000,
+      bedrooms: 3,
+      bathrooms: 2,
+      type: 'APARTMENT'
+    }
+  };
+}
+
+async function createReservationSession(data: any) {
+  // This would integrate with your existing transaction service
+  // and create a reservation record in your database
+  const reservationId = `res_${Date.now()}_${Math.random().toString(36).substr(29)}`;
+
+  // Store in database using your existing patterns
+  // await prisma.reservation.create({ data: { ...data, id: reservationId } });
+
+  return reservationId;
+}

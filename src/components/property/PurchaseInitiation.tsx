@@ -12,13 +12,13 @@ const PurchaseInitiation: React.FC = () => {
   const id = getNumericId(searchParams); // Will throw error if missing/invalid
   const { isAuthenticated, user } = useAuth();
 
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState(false);
-  const [purchaseId, setPurchaseId] = useState<string | null>(null);
+  const [loadingsetLoading] = useState(false);
+  const [errorsetError] = useState<string | null>(null);
+  const [successsetSuccess] = useState(false);
+  const [purchaseIdsetPurchaseId] = useState<string | null>(null);
 
-  const [depositAmount, setDepositAmount] = useState(10000);
-  const [termsAccepted, setTermsAccepted] = useState(false);
+  const [depositAmountsetDepositAmount] = useState(10000);
+  const [termsAcceptedsetTermsAccepted] = useState(false);
 
   const handleDepositChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setDepositAmount(parseInt(e.target.value));
@@ -47,8 +47,7 @@ const PurchaseInitiation: React.FC = () => {
 
       const response = await purchaseAPI.createPurchase({
         propertyId: id.toString(),
-        bookingDeposit: depositAmount,
-      });
+        bookingDeposit: depositAmount});
 
       if (response.success) {
         setSuccess(true);
@@ -61,7 +60,7 @@ const PurchaseInitiation: React.FC = () => {
       }
     } catch (err: any) {
       setError(err.message || "Failed to initiate purchase. Please try again.");
-      console.error("Error initiating purchase:", err);
+
     } finally {
       setLoading(false);
     }
@@ -103,7 +102,7 @@ const PurchaseInitiation: React.FC = () => {
                 </h3>
                 <div className="mt-2 text-sm text-green-700">
                   <p>
-                    Your purchase has been initiated. Your booking reference is:{" "}
+                    Your purchase has been initiated. Your booking reference is:{" "
                     <strong>{purchaseId}</strong>
                   </p>
                   <p className="mt-2">
@@ -202,7 +201,7 @@ const PurchaseInitiation: React.FC = () => {
                     disabled={loading || !termsAccepted}
                     className="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50"
                   >
-                    {loading ? "Processing..." : "Initiate Purchase"}
+                    {loading ? "Processing..." : "Initiate Purchase"
                   </button>
                 </div>
               </div>

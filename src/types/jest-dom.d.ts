@@ -44,10 +44,10 @@ declare global {
       toContainValues(values: any[]): R;
       toContainAllValues(values: any[]): R;
       toContainAnyValues(values: any[]): R;
-      toContainEntry(entry: [string, any]): R;
-      toContainEntries(entries: [string, any][]): R;
-      toContainAllEntries(entries: [string, any][]): R;
-      toContainAnyEntries(entries: [string, any][]): R;
+      toContainEntry(entry: [stringany]): R;
+      toContainEntries(entries: [stringany][]): R;
+      toContainAllEntries(entries: [stringany][]): R;
+      toContainAnyEntries(entries: [stringany][]): R;
       toBeExtensible(): R;
       toBeFrozen(): R;
       toBeSealed(): R;
@@ -162,10 +162,10 @@ declare global {
       toContainValues(values: any[]): Assertion;
       toContainAllValues(values: any[]): Assertion;
       toContainAnyValues(values: any[]): Assertion;
-      toContainEntry(entry: [string, any]): Assertion;
-      toContainEntries(entries: [string, any][]): Assertion;
-      toContainAllEntries(entries: [string, any][]): Assertion;
-      toContainAnyEntries(entries: [string, any][]): Assertion;
+      toContainEntry(entry: [stringany]): Assertion;
+      toContainEntries(entries: [stringany][]): Assertion;
+      toContainAllEntries(entries: [stringany][]): Assertion;
+      toContainAnyEntries(entries: [stringany][]): Assertion;
       
       // Object property matchers
       toHaveProperty(propertyPath: string, value?: any): Assertion;

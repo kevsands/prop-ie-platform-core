@@ -21,23 +21,22 @@ interface FormErrorMessageProps {
 export const FormErrorMessage: React.FC<FormErrorMessageProps> = ({
   message,
   fieldId,
-  announce = true,
-}) => {
+  announce = true}) => {
   // Don't render anything if no message
   if (!message) return null;
-  
+
   const errorId = `${fieldId}-error`;
-  
+
   return (
     <>
       <div 
         id={errorId}
         className="mt-1 text-sm text-red-600" 
-        aria-live={announce ? "assertive" : "off"}
+        aria-live={announce ? "assertive" : "off"
       >
         {message}
       </div>
-      
+
       {/* Ensure immediate announcement for screen readers */}
       {announce && (
         <LiveRegion politeness="assertive">
@@ -69,8 +68,7 @@ export const RequiredLabel: React.FC<RequiredLabelProps> = ({
   required = false,
   children,
   className = '',
-  htmlFor,
-}) => {
+  htmlFor}) => {
   return (
     <label 
       htmlFor={htmlFor} 
@@ -108,8 +106,7 @@ export const AccessibleFieldset: React.FC<AccessibleFieldsetProps> = ({
   legend,
   hideLegend = false,
   children,
-  className = '',
-}) => {
+  className = ''}) => {
   return (
     <fieldset className={`border-0 p-0 m-0 ${className}`}>
       {hideLegend ? (
@@ -158,26 +155,25 @@ export const AccessibleInput: React.FC<AccessibleInputProps> = ({
   const id = propId || `input-${generatedId}`;
   const descriptionId = description ? `${id}-description` : undefined;
   const errorId = error ? `${id}-error` : undefined;
-  
+
   // ARIA attributes based on error state
   const ariaAttributes = {
     'aria-invalid': !!error,
     'aria-required': required,
-    'aria-describedby': [descriptionId, errorId].filter(Boolean).join(' ') || undefined,
-  };
-  
+    'aria-describedby': [descriptionIderrorId].filter(Boolean).join(' ') || undefined};
+
   return (
     <div className={`${wrapperClassName}`}>
       <RequiredLabel required={required} htmlFor={id}>
         {label}
       </RequiredLabel>
-      
+
       {description && (
         <p id={descriptionId} className="mt-1 text-sm text-gray-500">
           {description}
         </p>
       )}
-      
+
       <div className="mt-1">
         <input
           id={id}
@@ -192,7 +188,7 @@ export const AccessibleInput: React.FC<AccessibleInputProps> = ({
           {...inputProps}
         />
       </div>
-      
+
       <FormErrorMessage message={error} fieldId={id} />
     </div>
   );
@@ -202,5 +198,4 @@ export default {
   FormErrorMessage,
   RequiredLabel,
   AccessibleFieldset,
-  AccessibleInput,
-};
+  AccessibleInput};

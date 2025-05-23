@@ -29,11 +29,11 @@ export class FinancialRepository extends BaseRepository<DevelopmentFinance, Fina
         finances: true
       }
     });
-    
+
     if (!development || !development.finances) {
       return null;
     }
-    
+
     return development.finances as unknown as DevelopmentFinance;
   }
 
@@ -53,11 +53,11 @@ export class FinancialRepository extends BaseRepository<DevelopmentFinance, Fina
         }
       }
     });
-    
+
     if (!development || !development.finances) {
       return null;
     }
-    
+
     return development.finances as unknown as DevelopmentFinance;
   }
 
@@ -66,8 +66,7 @@ export class FinancialRepository extends BaseRepository<DevelopmentFinance, Fina
    */
   async createTransaction(data: Prisma.TransactionCreateInput): Promise<any> {
     return this.prisma.transaction.create({
-      data,
-    });
+      data});
   }
 
   /**
@@ -75,8 +74,7 @@ export class FinancialRepository extends BaseRepository<DevelopmentFinance, Fina
    */
   async findTransactionsByFinanceId(financeId: string): Promise<any[]> {
     return this.prisma.transaction.findMany({
-      where: { developmentId: financeId },
-    });
+      where: { developmentId: financeId });
   }
 
   /**
@@ -92,10 +90,7 @@ export class FinancialRepository extends BaseRepository<DevelopmentFinance, Fina
         developmentId: financeId,
         transactionDate: {
           gte: startDate,
-          lte: endDate,
-        },
-      },
-    });
+          lte: endDate}});
   }
 
   /**
@@ -150,8 +145,7 @@ export class FinancialRepository extends BaseRepository<DevelopmentFinance, Fina
     // Implement based on your Prisma schema
     return this.prisma.budget.update({
       where: { id: budgetId },
-      data,
-    });
+      data});
   }
 
   /**
@@ -163,15 +157,15 @@ export class FinancialRepository extends BaseRepository<DevelopmentFinance, Fina
     // This would be a complex implementation based on business requirements
     // Placeholder for now
     const finance = await this.findWithFullDetails(financeId);
-    
+
     // Calculate totals, revenues, costs, etc.
     let totalRevenue = 0;
     let totalCost = 0;
     let totalProfit = 0;
-    
+
     // Get transactions for calculations
     const transactions = await this.findTransactionsByFinanceId(financeId);
-    
+
     // Example basic calculation
     for (const transaction of transactions) {
       if (transaction.type === 'INCOME') {
@@ -180,9 +174,9 @@ export class FinancialRepository extends BaseRepository<DevelopmentFinance, Fina
         totalCost += Number(transaction.amount);
       }
     }
-    
+
     totalProfit = totalRevenue - totalCost;
-    
+
     // Update the finance record with calculated values
     return this.prisma.development.update({
       where: { id: financeId },
@@ -191,9 +185,8 @@ export class FinancialRepository extends BaseRepository<DevelopmentFinance, Fina
           update: {
             totalRevenue,
             totalCost,
-            profitMargin: totalRevenue > 0 ? (totalProfit / totalRevenue) * 100 : 0,
-            lastCalculated: new Date(),
-          }
+            profitMargin: totalRevenue> 0 ? (totalProfit / totalRevenue) * 100 : 0,
+            lastCalculated: new Date()}
         }
       }
     });

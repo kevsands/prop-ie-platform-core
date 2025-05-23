@@ -82,61 +82,48 @@ const ENVIRONMENT_CONFIGS: Record<Environment, Partial<AppConfig>> = {
       endpoint: env?.apiUrl || 'http://localhost:3000/api',
       name: 'PropAPI',
       version: 'v1',
-      region: AWS_REGION,
-    },
+      region: AWS_REGION},
     features: {
       enableAnalytics: false,
       showDebugTools: true,
       enableRealTimeUpdates: false,
-      enableOfflineMode: true,
-    },
-  },
+      enableOfflineMode: true},
   
   development: {
     api: {
       endpoint: env?.apiUrl || 'https://dev-api.prop.ie/api',
       name: 'PropAPI',
       version: 'v1',
-      region: AWS_REGION,
-    },
+      region: AWS_REGION},
     features: {
       enableAnalytics: true,
       showDebugTools: true,
       enableRealTimeUpdates: true,
-      enableOfflineMode: true,
-    },
-  },
+      enableOfflineMode: true},
   
   staging: {
     api: {
       endpoint: env?.apiUrl || 'https://staging-api.prop.ie/api',
       name: 'PropAPI',
       version: 'v1',
-      region: AWS_REGION,
-    },
+      region: AWS_REGION},
     features: {
       enableAnalytics: true,
       showDebugTools: false,
       enableRealTimeUpdates: true,
-      enableOfflineMode: true,
-    },
-  },
+      enableOfflineMode: true},
   
   production: {
     api: {
       endpoint: env?.apiUrl || 'https://prop-ie-backend-prod.eba-cnkmbqkm.eu-west-1.elasticbeanstalk.com/api',
       name: 'PropAPI',
       version: 'v1',
-      region: AWS_REGION,
-    },
+      region: AWS_REGION},
     features: {
       enableAnalytics: true,
       showDebugTools: false,
       enableRealTimeUpdates: true,
-      enableOfflineMode: false,
-    },
-  },
-};
+      enableOfflineMode: false}};
 
 // Default configuration that applies to all environments
 const DEFAULT_CONFIG: AppConfig = {
@@ -146,47 +133,39 @@ const DEFAULT_CONFIG: AppConfig = {
     endpoint: 'http://localhost:3000/api',
     name: 'PropAPI',
     version: 'v1',
-    region: AWS_REGION,
-  },
+    region: AWS_REGION},
   
   auth: {
     cognito: {
       region: awsExports.aws_cognito_region || AWS_REGION,
       userPoolId: USER_POOL_ID,
       userPoolWebClientId: USER_POOL_WEB_CLIENT_ID,
-      identityPoolId: awsExports.aws_cognito_identity_pool_id,
-    },
+      identityPoolId: awsExports.aws_cognito_identity_pool_id},
     token: {
       name: 'auth_token',
       expiryThreshold: 300, // 5 minutes in seconds
     },
     authority: env?.authConfig?.authority || '',
-    clientId: env?.authConfig?.clientId || USER_POOL_WEB_CLIENT_ID,
-  },
+    clientId: env?.authConfig?.clientId || USER_POOL_WEB_CLIENT_ID},
   
   storage: {
     bucket: S3_BUCKET,
-    region: S3_REGION,
-  },
+    region: S3_REGION},
   
   appSync: awsExports.aws_appsync_graphqlEndpoint ? {
     endpoint: awsExports.aws_appsync_graphqlEndpoint,
     region: awsExports.aws_appsync_region || AWS_REGION,
     authenticationType: awsExports.aws_appsync_authenticationType || 'API_KEY',
-    apiKey: awsExports.aws_appsync_apiKey,
-  } : undefined,
+    apiKey: awsExports.aws_appsync_apiKey} : undefined,
   
   features: {
     enableAnalytics: env?.featureFlags?.enableAnalytics || false,
     showDebugTools: env?.featureFlags?.showDebugTools || false,
     enableRealTimeUpdates: false,
-    enableOfflineMode: false,
-  },
+    enableOfflineMode: false},
   
   aws: {
-    region: AWS_REGION,
-  },
-};
+    region: AWS_REGION};
 
 /**
  * Determines the current environment based on various signals
@@ -204,8 +183,7 @@ function determineEnvironment(): Environment {
       'http://localhost:3000': 'local',
       'https://dev-api.prop.ie': 'development',
       'https://staging-api.prop.ie': 'staging',
-      'https://prop-ie-backend-prod.eba-cnkmbqkm.eu-west-1.elasticbeanstalk.com': 'production',
-    };
+      'https://prop-ie-backend-prod.eba-cnkmbqkm.eu-west-1.elasticbeanstalk.com': 'production'};
     
     if (env.apiUrl && envMapping[env.apiUrl]) {
       return envMapping[env.apiUrl];
@@ -260,8 +238,7 @@ export const config: AppConfig = deepMerge(
   DEFAULT_CONFIG, 
   {
     environment: currentEnvironment,
-    ...ENVIRONMENT_CONFIGS[currentEnvironment],
-  }
+    ...ENVIRONMENT_CONFIGS[currentEnvironment]}
 );
 
 /**
@@ -277,7 +254,7 @@ if (typeof window !== 'undefined' && process.env.NODE_ENV === 'development') {
     const localConfigOverride = safeJsonParse(localStorage.getItem('dev_config_override') || '{}');
     if (localConfigOverride && typeof localConfigOverride === 'object') {
       console.log('🔧 Using local config overrides:', localConfigOverride);
-      Object.assign(config, deepMerge(config, localConfigOverride));
+      Object.assign(config, deepMerge(configlocalConfigOverride));
     }
   } catch (error) {
     console.warn('Failed to parse local config override:', error);

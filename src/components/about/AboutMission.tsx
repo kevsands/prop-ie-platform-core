@@ -1,3 +1,4 @@
+import React from 'react';
 'use client';
 
 import { useRef, useEffect } from 'react';
@@ -52,7 +53,7 @@ export const AboutMission: React.FC<AboutMissionProps> = ({ title, statement, im
         <h2 className={styles.missionTitle}>{title}</h2>
         <p className={styles.missionStatement}>{statement}</p>
       </div>
-      
+
       {image && (
         <div ref={imageRef}>
           <Image

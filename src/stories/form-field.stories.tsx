@@ -12,34 +12,27 @@ import { FormFieldComponent } from '../components/ui/form-field';
 // Form schema with zod
 const formSchema = z.object({
   username: z.string().min(2, {
-    message: "Username must be at least 2 characters.",
-  }),
+    message: "Username must be at least 2 characters."),
   email: z.string().email({
-    message: "Please enter a valid email address.",
-  }),
+    message: "Please enter a valid email address."),
   password: z.string().min(8, {
-    message: "Password must be at least 8 characters.",
-  }),
+    message: "Password must be at least 8 characters."),
   confirmPassword: z.string(),
   bio: z.string().max(200).optional(),
   age: z.number().min(18, {
-    message: "You must be at least 18 years old.",
-  }).max(120),
+    message: "You must be at least 18 years old.").max(120),
   birthDate: z.string().optional(),
   agreeToTerms: z.boolean().refine(val => val === true, {
-    message: "You must agree to the terms and conditions.",
-  }),
+    message: "You must agree to the terms and conditions."),
   notificationPreference: z.enum(["email", "sms", "push", "none"]),
   timezone: z.string(),
   privacyLevel: z.number().min(1).max(5),
   verificationCode: z.string().length(6, {
     message: "Verification code must be 6 digits."
   }),
-  darkMode: z.boolean().optional(),
-}).refine((data) => data.password === data.confirmPassword, {
+  darkMode: z.boolean().optional()}).refine((data: any) => data.password === data.confirmPassword, {
   message: "Passwords must match",
-  path: ["confirmPassword"],
-});
+  path: ["confirmPassword"]});
 
 // Component for wrapping form fields in a story
 const FormExample = ({ children, onSubmit }: { children: React.ReactNode, onSubmit?: (values: any) => void }) => {
@@ -58,9 +51,7 @@ const FormExample = ({ children, onSubmit }: { children: React.ReactNode, onSubm
       timezone: "",
       privacyLevel: 3,
       verificationCode: "",
-      darkMode: false,
-    },
-  });
+      darkMode: false});
 
   // Function to handle form submission
   function handleFormSubmit(values: z.infer<typeof formSchema>) {
@@ -71,7 +62,7 @@ const FormExample = ({ children, onSubmit }: { children: React.ReactNode, onSubm
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(handleFormSubmit)} className="space-y-6 w-full max-w-md mx-auto">
-        {React.Children.map(children, (child) => {
+        {React.Children.map(children, (child: any) => {
           // @ts-ignore
           if (child?.type === FormFieldComponent) {
             return React.cloneElement(child as React.ReactElement, { form });
@@ -88,26 +79,21 @@ const meta: Meta<typeof FormFieldComponent> = {
   title: 'UI/FormField',
   component: FormFieldComponent,
   parameters: {
-    layout: 'centered',
-  },
+    layout: 'centered'},
   tags: ['autodocs'],
   decorators: [
-    (Story) => (
+    (Story: any) => (
       <div className="p-6 max-w-md mx-auto">
         <Story />
       </div>
-    ),
-  ],
-};
+    )]};
 
 export default meta;
-type Story = StoryObj<typeof FormFieldComponent>;
-
+type Story = StoryObj<typeof FormFieldComponent>\n  );
 // Create a mock form for Storybook stories
 const mockForm = {
   control: {},
-  formState: { errors: {} },
-} as any;
+  formState: { errors: {} } as any;
 
 export const TextInput: Story = {
   render: () => (
@@ -122,8 +108,7 @@ export const TextInput: Story = {
         autoComplete="username"
       />
     </FormExample>
-  ),
-};
+  )};
 
 export const TextInputWithIcons: Story = {
   render: () => (
@@ -138,8 +123,7 @@ export const TextInputWithIcons: Story = {
         leadingIcon={<User size={16} />}
       />
     </FormExample>
-  ),
-};
+  )};
 
 export const EmailInput: Story = {
   render: () => (
@@ -155,8 +139,7 @@ export const EmailInput: Story = {
         autoComplete="email"
       />
     </FormExample>
-  ),
-};
+  )};
 
 export const PasswordInput: Story = {
   render: () => (
@@ -172,8 +155,7 @@ export const PasswordInput: Story = {
         autoComplete="new-password"
       />
     </FormExample>
-  ),
-};
+  )};
 
 export const NumberInput: Story = {
   render: () => (
@@ -189,8 +171,7 @@ export const NumberInput: Story = {
         max={120}
       />
     </FormExample>
-  ),
-};
+  )};
 
 export const DateInput: Story = {
   render: () => (
@@ -204,8 +185,7 @@ export const DateInput: Story = {
         leadingIcon={<Calendar size={16} />}
       />
     </FormExample>
-  ),
-};
+  )};
 
 export const TextArea: Story = {
   render: () => (
@@ -219,8 +199,7 @@ export const TextArea: Story = {
         rows={4}
       />
     </FormExample>
-  ),
-};
+  )};
 
 export const CheckboxInput: Story = {
   render: () => (
@@ -233,8 +212,7 @@ export const CheckboxInput: Story = {
         required
       />
     </FormExample>
-  ),
-};
+  )};
 
 export const SwitchInput: Story = {
   render: () => (
@@ -246,8 +224,7 @@ export const SwitchInput: Story = {
         type="switch"
       />
     </FormExample>
-  ),
-};
+  )};
 
 export const RadioInput: Story = {
   render: () => (
@@ -261,12 +238,10 @@ export const RadioInput: Story = {
           { label: "Email", value: "email", description: "Get notified via email" },
           { label: "SMS", value: "sms", description: "Get notified via text message" },
           { label: "Push", value: "push", description: "Get notified via app" },
-          { label: "None", value: "none", description: "Don't receive notifications", disabled: true },
-        ]}
+          { label: "None", value: "none", description: "Don't receive notifications", disabled: true }]}
       />
     </FormExample>
-  ),
-};
+  )};
 
 export const SelectInput: Story = {
   render: () => (
@@ -287,12 +262,10 @@ export const SelectInput: Story = {
           { label: "Central European Time", value: "cet", group: "Europe" },
           { label: "Eastern European Time", value: "eet", group: "Europe" },
           { label: "Japan Standard Time", value: "jst", group: "Asia" },
-          { label: "Australian Eastern Time", value: "aet", group: "Australia" },
-        ]}
+          { label: "Australian Eastern Time", value: "aet", group: "Australia" }]}
       />
     </FormExample>
-  ),
-};
+  )};
 
 export const SliderInput: Story = {
   render: () => (
@@ -305,12 +278,11 @@ export const SliderInput: Story = {
         min={1}
         max={5}
         step={1}
-        sliderSteps={[1, 2, 3, 4, 5]}
+        sliderSteps={[1, 2, 3, 45]}
         description="Choose your privacy level from 1 (Public) to 5 (Private)"
       />
     </FormExample>
-  ),
-};
+  )};
 
 export const OtpInput: Story = {
   render: () => (
@@ -324,8 +296,7 @@ export const OtpInput: Story = {
         description="Enter the 6-digit code sent to your phone"
       />
     </FormExample>
-  ),
-};
+  )};
 
 export const WithDescription: Story = {
   render: () => (
@@ -341,8 +312,7 @@ export const WithDescription: Story = {
         required
       />
     </FormExample>
-  ),
-};
+  )};
 
 export const WithHelpText: Story = {
   render: () => (
@@ -358,8 +328,7 @@ export const WithHelpText: Story = {
         required
       />
     </FormExample>
-  ),
-};
+  )};
 
 export const WithError: Story = {
   render: () => (
@@ -376,8 +345,7 @@ export const WithError: Story = {
         required
       />
     </FormExample>
-  ),
-};
+  )};
 
 export const CompleteRegistrationForm: Story = {
   render: () => (
@@ -469,8 +437,7 @@ export const CompleteRegistrationForm: Story = {
             { label: "Pacific Time (PT)", value: "pt" },
             { label: "Mountain Time (MT)", value: "mt" },
             { label: "Central Time (CT)", value: "ct" },
-            { label: "Eastern Time (ET)", value: "et" },
-          ]}
+            { label: "Eastern Time (ET)", value: "et" }]}
         />
         
         <FormFieldComponent
@@ -481,8 +448,7 @@ export const CompleteRegistrationForm: Story = {
           options={[
             { label: "Email", value: "email" },
             { label: "SMS", value: "sms" },
-            { label: "Push Notifications", value: "push" },
-          ]}
+            { label: "Push Notifications", value: "push" }]}
         />
         
         <FormFieldComponent
@@ -505,5 +471,4 @@ export const CompleteRegistrationForm: Story = {
         />
       </FormExample>
     </div>
-  ),
-};
+  )};

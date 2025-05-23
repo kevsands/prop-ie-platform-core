@@ -22,15 +22,15 @@ interface PerformanceChartProps {
 }
 
 const PerformanceChart: React.FC<PerformanceChartProps> = ({ data }) => {
-  const [timeRange, setTimeRange] = useState<'30d' | '90d' | '1y' | 'all'>('30d');
-  
+  const [timeRangesetTimeRange] = useState<'30d' | '90d' | '1y' | 'all'>('30d');
+
   // Filter data based on time range
   const filteredData = (() => {
     if (timeRange === 'all') return data;
-    
+
     const now = new Date();
     const cutoffDate = new Date();
-    
+
     switch (timeRange) {
       case '30d':
         cutoffDate.setDate(now.getDate() - 30);
@@ -42,10 +42,10 @@ const PerformanceChart: React.FC<PerformanceChartProps> = ({ data }) => {
         cutoffDate.setFullYear(now.getFullYear() - 1);
         break;
     }
-    
+
     return data.filter(item => new Date(item.date) >= cutoffDate);
   })();
-  
+
   const CustomTooltip = ({ active, payload, label }: any) => {
     if (active && payload && payload.length) {
       return (
@@ -53,7 +53,7 @@ const PerformanceChart: React.FC<PerformanceChartProps> = ({ data }) => {
           <p className="text-sm font-medium text-gray-900">{label}</p>
           <div className="mt-2 space-y-1">
             {payload.map((entry: any, index: number) => (
-              <p key={`item-${index}`} className="text-sm" style={{ color: entry.color }}>
+              <p key={`item-${index}`} className="text-sm" style={ color: entry.color }>
                 {entry.name}: {entry.value}
               </p>
             ))}
@@ -61,10 +61,10 @@ const PerformanceChart: React.FC<PerformanceChartProps> = ({ data }) => {
         </div>
       );
     }
-    
+
     return null;
   };
-  
+
   return (
     <div>
       <div className="flex justify-end mb-4">
@@ -111,13 +111,13 @@ const PerformanceChart: React.FC<PerformanceChartProps> = ({ data }) => {
           </button>
         </div>
       </div>
-      
+
       <ResponsiveContainer width="100%" height={300}>
-        <LineChart data={filteredData} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
+        <LineChart data={filteredData} margin={ top: 5, right: 20, bottom: 5, left: 0 }>
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis 
             dataKey="date" 
-            tick={{ fontSize: 12 }}
+            tick={ fontSize: 12 }
           />
           <YAxis />
           <Tooltip content={<CustomTooltip />} />
@@ -126,7 +126,7 @@ const PerformanceChart: React.FC<PerformanceChartProps> = ({ data }) => {
             type="monotone" 
             dataKey="sales" 
             stroke="#2B5273" 
-            activeDot={{ r: 8 }} 
+            activeDot={ r: 8 } 
             strokeWidth={2}
           />
           <Line 

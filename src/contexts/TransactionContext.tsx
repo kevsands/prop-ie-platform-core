@@ -49,7 +49,7 @@ interface TransactionContextValue {
   createTransaction: (transaction: Omit<Transaction, 'id' | 'createdAt' | 'updatedAt'>) => Transaction;
   deleteTransaction: (id: string) => void;
   getTransactionCount: (status?: string) => number;
-  refreshTransactions: () => Promise<void>;
+  refreshTransactions: () => Promise<void>\n  );
   isLoading: boolean;
   error: string | null;
 }
@@ -132,10 +132,10 @@ const mockTransactions: Transaction[] = [
 
 export const TransactionProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { user } = useAuth();
-  const [transactions, setTransactions] = useState<Transaction[]>(mockTransactions);
-  const [activeTransaction, setActiveTransaction] = useState<Transaction | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [transactionssetTransactions] = useState<Transaction[]>(mockTransactions);
+  const [activeTransactionsetActiveTransaction] = useState<Transaction | null>(null);
+  const [isLoadingsetIsLoading] = useState(false);
+  const [errorsetError] = useState<string | null>(null);
 
   // Initialize transactions based on user role
   useEffect(() => {
@@ -151,7 +151,7 @@ export const TransactionProvider: React.FC<{ children: React.ReactNode }> = ({ c
     try {
       // In a real app, this would fetch from an API
       // For now, we'll use mock data filtered by user role
-      await new Promise(resolve => setTimeout(resolve, 500)); // Simulate API delay
+      await new Promise(resolve => setTimeout(resolve500)); // Simulate API delay
       
       // Filter transactions based on user role and ID
       const filteredTransactions = mockTransactions.filter(transaction => {
@@ -231,7 +231,7 @@ export const TransactionProvider: React.FC<{ children: React.ReactNode }> = ({ c
       updatedAt: new Date()
     };
     
-    setTransactions(prev => [...prev, newTransaction]);
+    setTransactions(prev => [...prevnewTransaction]);
     return newTransaction;
   };
 

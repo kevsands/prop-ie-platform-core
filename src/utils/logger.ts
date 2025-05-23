@@ -10,20 +10,20 @@ export class Logger {
 
   public debug(message: string, data?: any): void {
     if (process.env.NODE_ENV === 'development') {
-      console.debug(`[${this.context}] ${message}`, data ? data : '');
+
     }
   }
 
   public info(message: string, data?: any): void {
-    console.info(`[${this.context}] ${message}`, data ? data : '');
+
   }
 
   public warn(message: string, data?: any): void {
-    console.warn(`[${this.context}] ${message}`, data ? data : '');
+
   }
 
   public error(message: string, data?: any): void {
-    console.error(`[${this.context}] ${message}`, data ? data : '');
+
   }
 }
 

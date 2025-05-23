@@ -1,0 +1,168 @@
+/**
+ * AWS Amplify Server Module
+ * 
+ * This module provides server-safe methods for using AWS Amplify in server components.
+ * IMPORTANT: This file is specifically designed to be imported in server components and
+ * does not use any browser APIs or client-side functionality.
+ */
+
+// Define ResourcesConfig type since it's not exported from aws-amplify
+interface ResourcesConfig {
+  API?: {
+    GraphQL?: {
+      endpoint?: string;
+      region?: string;
+      [key: string]: any;
+    };
+    REST?: {
+      [key: string]: {
+        endpoint?: string;
+        region?: string;
+        [key: string]: any;
+      };
+    };
+  };
+  [key: string]: any;
+}
+
+import amplifyConfig from './config';
+
+// Import response types
+type AmplifyResponse<T = any> = {
+  data?: T;
+  errors?: any[];
+  statusCode?: number;
+  message?: string;
+};
+
+type PaginatedResponse<T = any> = {
+  items: T[];
+  nextToken?: string;
+  startedAt?: number;
+  total?: number;
+};
+// Define REST related types
+interface RestOptions {
+  path: string;
+  headers?: Record<string, string>;
+  queryParams?: Record<string, string | number | boolean | null>;
+  body?: any;
+  method?: string;
+  apiName?: string;
+  [key: string]: any;
+}
+
+interface ApiError {
+  message: string;
+  code?: string;
+  statusCode?: number;
+  name?: string;
+  [key: string]: any;
+}
+
+/**
+ * Server-side configuration for AWS services
+ * This only includes the minimal configuration needed for server-side operations
+ */
+const serverConfig: ResourcesConfig = {
+  API: {
+    REST: amplifyConfig.API?.REST,
+    GraphQL: amplifyConfig.API?.GraphQL
+  }
+};
+
+/**
+ * Optimized SSR-safe fetch function that can be used in server components
+ * @param path API path to fetch from
+ * @param options Fetch options
+ * @returns Response data
+ */
+export async function serverFetch<T>(path: string, options: Omit<RestOptions, 'path'> = {}): Promise<T> {
+  const {
+    method = 'GET',
+    headers = {},
+    body,
+    apiName = 'PropAPI'
+  } = options;
+
+  // Get the base URL from the configuration
+  const endpoint = serverConfig.API?.REST?.[apiName]?.endpoint;
+  
+  if (!endpoint) {
+    throw new Error(`API endpoint not found for ${apiName}. Check your environment variables.`);
+  }
+
+  // Build the URL
+  const url = path.startsWith('http') ? path : `${endpoint}${path.startsWith('/') ? path : `/${path}`}`;
+
+  // Prepare fetch options
+  const fetchOptions: RequestInit = {
+    method,
+    headers: {
+      'Content-Type': 'application/json',
+      ...headers
+    },
+    body: body ? JSON.stringify(body) : undefined,
+  };
+  
+  // Add Next.js specific options if in a Next.js environment
+  const fetchOptionsWithNext = {
+    ...fetchOptions,
+    // @ts-ignore - Next.js specific option
+    next: {
+      revalidate: 10 // Cache for 10 seconds
+    }
+  };
+
+  // Make the fetch request
+  const response = await fetch(url, fetchOptionsWithNext);
+
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(`API request failed: ${response.status} ${response.statusText}. ${errorText}`);
+  }
+
+  // Parse the response
+  return await response.json() as T;
+}
+
+/**
+ * Server-side helper to get API endpoint for a given API name
+ * @param apiName API name from the configuration
+ * @returns API endpoint URL
+ */
+export function getServerApiEndpoint(apiName: string = 'PropAPI'): string | null {
+  return serverConfig.API?.REST?.[apiName]?.endpoint || null;
+}
+
+/**
+ * Server-side helper to get GraphQL endpoint
+ * @returns GraphQL endpoint URL
+ */
+export function getServerGraphQLEndpoint(): string | null {
+  return serverConfig.API?.GraphQL?.endpoint || null;
+}
+
+/**
+ * Server-safe utility to check if a particular feature is enabled in the config
+ * @param featureName Name of the feature to check
+ * @returns boolean indicating if the feature is enabled
+ */
+export function isFeatureEnabled(featureName: string): boolean {
+  // This would typically check against a server-side feature flag service
+  // For now, we'll use environment variables
+  const envVar = `NEXT_PUBLIC_FEATURE_${featureName.toUpperCase()}`;
+  return process.env[envVar] === 'true';
+}
+
+/**
+ * Server-side utilities for working with Amplify
+ */
+export const ServerAmplify = {
+  fetch: serverFetch,
+  getApiEndpoint: getServerApiEndpoint,
+  getGraphQLEndpoint: getServerGraphQLEndpoint,
+  isFeatureEnabled
+};
+
+export default ServerAmplify;

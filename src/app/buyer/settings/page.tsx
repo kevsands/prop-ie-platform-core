@@ -1,3 +1,4 @@
+import React from 'react';
 'use client';
 
 import { useState } from 'react';
@@ -11,9 +12,9 @@ interface SettingSection {
 }
 
 export default function SettingsPage() {
-  const [selectedSection, setSelectedSection] = useState<string>('profile');
-  const [darkMode, setDarkMode] = useState(false);
-  const [notifications, setNotifications] = useState({
+  const [selectedSectionsetSelectedSection] = useState<string>('profile');
+  const [darkModesetDarkMode] = useState(false);
+  const [notificationssetNotifications] = useState({
     email: {
       newProperties: true,
       priceChanges: true,
@@ -34,7 +35,7 @@ export default function SettingsPage() {
       messages: false
     }
   });
-  
+
   const settingSections: SettingSection[] = [
     {
       id: 'profile',
@@ -61,7 +62,7 @@ export default function SettingsPage() {
       icon: Globe
     }
   ];
-  
+
   const handleNotificationToggle = (type: string, setting: string) => {
     setNotifications(prev => ({
       ...prev,
@@ -71,14 +72,14 @@ export default function SettingsPage() {
       }
     }));
   };
-  
+
   const renderContent = () => {
     switch (selectedSection) {
       case 'profile':
         return (
           <div className="space-y-6">
             <h2 className="text-xl font-semibold text-gray-900">Profile Information</h2>
-            
+
             <div className="bg-white rounded-lg border p-6 space-y-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
@@ -88,7 +89,7 @@ export default function SettingsPage() {
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 />
               </div>
-              
+
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
                 <input
@@ -97,7 +98,7 @@ export default function SettingsPage() {
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 />
               </div>
-              
+
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
                 <input
@@ -106,7 +107,7 @@ export default function SettingsPage() {
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 />
               </div>
-              
+
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">Address</label>
                 <textarea
@@ -115,12 +116,12 @@ export default function SettingsPage() {
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 />
               </div>
-              
+
               <button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
                 Save Changes
               </button>
             </div>
-            
+
             <div className="bg-white rounded-lg border p-6">
               <h3 className="text-lg font-semibold text-gray-900 mb-4">Buyer Preferences</h3>
               <div className="space-y-4">
@@ -133,7 +134,7 @@ export default function SettingsPage() {
                     <option>Limerick</option>
                   </select>
                 </div>
-                
+
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">Budget Range</label>
                   <div className="grid grid-cols-2 gap-4">
@@ -151,7 +152,7 @@ export default function SettingsPage() {
                     />
                   </div>
                 </div>
-                
+
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">Property Type</label>
                   <div className="space-y-2">
@@ -173,12 +174,12 @@ export default function SettingsPage() {
             </div>
           </div>
         );
-        
+
       case 'notifications':
         return (
           <div className="space-y-6">
             <h2 className="text-xl font-semibold text-gray-900">Notification Preferences</h2>
-            
+
             {/* Email Notifications */}
             <div className="bg-white rounded-lg border p-6">
               <div className="flex items-center gap-3 mb-4">
@@ -186,7 +187,7 @@ export default function SettingsPage() {
                 <h3 className="text-lg font-semibold text-gray-900">Email Notifications</h3>
               </div>
               <div className="space-y-3">
-                {Object.entries(notifications.email).map(([key, value]) => (
+                {Object.entries(notifications.email).map(([keyvalue]) => (
                   <label key={key} className="flex items-center justify-between">
                     <span className="text-gray-700">
                       {key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}
@@ -207,7 +208,7 @@ export default function SettingsPage() {
                 ))}
               </div>
             </div>
-            
+
             {/* Push Notifications */}
             <div className="bg-white rounded-lg border p-6">
               <div className="flex items-center gap-3 mb-4">
@@ -215,7 +216,7 @@ export default function SettingsPage() {
                 <h3 className="text-lg font-semibold text-gray-900">Push Notifications</h3>
               </div>
               <div className="space-y-3">
-                {Object.entries(notifications.push).map(([key, value]) => (
+                {Object.entries(notifications.push).map(([keyvalue]) => (
                   <label key={key} className="flex items-center justify-between">
                     <span className="text-gray-700">
                       {key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}
@@ -236,7 +237,7 @@ export default function SettingsPage() {
                 ))}
               </div>
             </div>
-            
+
             {/* SMS Notifications */}
             <div className="bg-white rounded-lg border p-6">
               <div className="flex items-center gap-3 mb-4">
@@ -244,7 +245,7 @@ export default function SettingsPage() {
                 <h3 className="text-lg font-semibold text-gray-900">SMS Notifications</h3>
               </div>
               <div className="space-y-3">
-                {Object.entries(notifications.sms).map(([key, value]) => (
+                {Object.entries(notifications.sms).map(([keyvalue]) => (
                   <label key={key} className="flex items-center justify-between">
                     <span className="text-gray-700">
                       {key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}
@@ -267,12 +268,12 @@ export default function SettingsPage() {
             </div>
           </div>
         );
-        
+
       case 'security':
         return (
           <div className="space-y-6">
             <h2 className="text-xl font-semibold text-gray-900">Security & Privacy</h2>
-            
+
             <div className="bg-white rounded-lg border p-6">
               <h3 className="text-lg font-semibold text-gray-900 mb-4">Password</h3>
               <button className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
@@ -280,7 +281,7 @@ export default function SettingsPage() {
                 Change Password
               </button>
             </div>
-            
+
             <div className="bg-white rounded-lg border p-6">
               <h3 className="text-lg font-semibold text-gray-900 mb-4">Two-Factor Authentication</h3>
               <p className="text-gray-600 mb-4">Add an extra layer of security to your account</p>
@@ -289,7 +290,7 @@ export default function SettingsPage() {
                 Enable 2FA
               </button>
             </div>
-            
+
             <div className="bg-white rounded-lg border p-6">
               <h3 className="text-lg font-semibold text-gray-900 mb-4">Privacy Settings</h3>
               <div className="space-y-3">
@@ -307,7 +308,7 @@ export default function SettingsPage() {
                 </label>
               </div>
             </div>
-            
+
             <div className="bg-white rounded-lg border p-6">
               <h3 className="text-lg font-semibold text-gray-900 mb-4">Connected Accounts</h3>
               <div className="space-y-3">
@@ -327,12 +328,12 @@ export default function SettingsPage() {
             </div>
           </div>
         );
-        
+
       case 'preferences':
         return (
           <div className="space-y-6">
             <h2 className="text-xl font-semibold text-gray-900">Preferences</h2>
-            
+
             <div className="bg-white rounded-lg border p-6">
               <h3 className="text-lg font-semibold text-gray-900 mb-4">Appearance</h3>
               <div className="space-y-4">
@@ -356,7 +357,7 @@ export default function SettingsPage() {
                 </div>
               </div>
             </div>
-            
+
             <div className="bg-white rounded-lg border p-6">
               <h3 className="text-lg font-semibold text-gray-900 mb-4">Language & Region</h3>
               <div className="space-y-4">
@@ -368,7 +369,7 @@ export default function SettingsPage() {
                     <option>Irish (Gaeilge)</option>
                   </select>
                 </div>
-                
+
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">Currency</label>
                   <select className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
@@ -377,7 +378,7 @@ export default function SettingsPage() {
                     <option>USD ($)</option>
                   </select>
                 </div>
-                
+
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">Date Format</label>
                   <select className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
@@ -388,7 +389,7 @@ export default function SettingsPage() {
                 </div>
               </div>
             </div>
-            
+
             <div className="bg-white rounded-lg border p-6">
               <h3 className="text-lg font-semibold text-gray-900 mb-4">Communication Preferences</h3>
               <div className="space-y-3">
@@ -408,23 +409,23 @@ export default function SettingsPage() {
             </div>
           </div>
         );
-        
+
       default:
         return null;
     }
   };
-  
+
   return (
     <div className="flex-1 p-8">
       <div className="max-w-7xl mx-auto">
         <h1 className="text-3xl font-bold text-gray-900 mb-8">Settings</h1>
-        
+
         <div className="grid md:grid-cols-4 gap-6">
           {/* Sidebar */}
           <div className="md:col-span-1">
             <div className="bg-white rounded-lg border p-4">
               <nav className="space-y-1">
-                {settingSections.map((section) => {
+                {settingSections.map((section: any) => {
                   const Icon = section.icon;
                   return (
                     <button
@@ -445,7 +446,7 @@ export default function SettingsPage() {
                   );
                 })}
               </nav>
-              
+
               <div className="mt-6 pt-6 border-t">
                 <button className="w-full flex items-center gap-3 px-3 py-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors">
                   <LogOut className="h-5 w-5" />
@@ -454,7 +455,7 @@ export default function SettingsPage() {
               </div>
             </div>
           </div>
-          
+
           {/* Content */}
           <div className="md:col-span-3">
             {renderContent()}

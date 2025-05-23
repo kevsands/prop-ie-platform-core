@@ -1,0 +1,155 @@
+import { z } from 'zod';
+
+// Environment variable schema
+const envSchema = z.object({
+  // Application
+  NODE_ENV: z.enum(['development', 'staging', 'production', 'test']),
+  APP_URL: z.string().url(),
+  PORT: z.string().default('3000'),
+  
+  // Database
+  DATABASE_URL: z.string(),
+  DATABASE_POOL_MIN: z.string().default('2'),
+  DATABASE_POOL_MAX: z.string().default('10'),
+  
+  // Authentication
+  NEXTAUTH_URL: z.string().url(),
+  NEXTAUTH_SECRET: z.string().min(32),
+  JWT_SECRET: z.string().min(32),
+  
+  // AWS
+  AWS_REGION: z.string().default('eu-west-1'),
+  AWS_ACCESS_KEY_ID: z.string(),
+  AWS_SECRET_ACCESS_KEY: z.string(),
+  AWS_S3_BUCKET: z.string(),
+  AWS_CLOUDFRONT_URL: z.string().url().optional(),
+  
+  // Redis
+  REDIS_URL: z.string(),
+  REDIS_PASSWORD: z.string().optional(),
+  
+  // Monitoring
+  SENTRY_DSN: z.string().optional(),
+  SENTRY_ENVIRONMENT: z.string().optional(),
+  DATADOG_API_KEY: z.string().optional(),
+  
+  // Email
+  SMTP_HOST: z.string(),
+  SMTP_PORT: z.string(),
+  SMTP_USER: z.string(),
+  SMTP_PASSWORD: z.string(),
+  EMAIL_FROM: z.string().email(),
+  
+  // Third-party APIs
+  STRIPE_SECRET_KEY: z.string().optional(),
+  STRIPE_WEBHOOK_SECRET: z.string().optional(),
+  GOOGLE_CLIENT_ID: z.string().optional(),
+  GOOGLE_CLIENT_SECRET: z.string().optional(),
+  
+  // Feature Flags
+  FEATURE_BLOCKCHAIN_ENABLED: z.string().transform(val => val === 'true').default('false'),
+  FEATURE_AI_SEARCH_ENABLED: z.string().transform(val => val === 'true').default('false'),
+  FEATURE_ADVANCED_ANALYTICS_ENABLED: z.string().transform(val => val === 'true').default('true'),
+  
+  // Security
+  RATE_LIMIT_WINDOW_MS: z.string().default('900000'), // 15 minutes
+  RATE_LIMIT_MAX_REQUESTS: z.string().default('100'),
+  ENCRYPTION_KEY: z.string().min(32),
+  
+  // Logging
+  LOG_LEVEL: z.enum(['debug', 'info', 'warn', 'error']).default('info'),
+  LOG_FORMAT: z.enum(['json', 'pretty']).default('json')});
+
+// Parse and validate environment variables
+const parseEnv = () => {
+  try {
+    return envSchema.parse(process.env);
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      console.error('❌ Invalid environment variables:');
+      error.issues.forEach(issue => {
+        console.error(`   ${issue.path.join('.')}: ${issue.message}`);
+      });
+      throw new Error('Failed to parse environment variables');
+    }
+    throw error;
+  }
+};
+
+// Export validated environment variables
+export const env = parseEnv();
+
+// Environment-specific configurations
+export const config = {
+  isDevelopment: env.NODE_ENV === 'development',
+  isStaging: env.NODE_ENV === 'staging',
+  isProduction: env.NODE_ENV === 'production',
+  isTest: env.NODE_ENV === 'test',
+  
+  app: {
+    url: env.APP_URL,
+    port: parseInt(env.PORT10)},
+  
+  database: {
+    url: env.DATABASE_URL,
+    pool: {
+      min: parseInt(env.DATABASE_POOL_MIN10),
+      max: parseInt(env.DATABASE_POOL_MAX10)},
+  
+  auth: {
+    nextAuthUrl: env.NEXTAUTH_URL,
+    nextAuthSecret: env.NEXTAUTH_SECRET,
+    jwtSecret: env.JWT_SECRET},
+  
+  aws: {
+    region: env.AWS_REGION,
+    accessKeyId: env.AWS_ACCESS_KEY_ID,
+    secretAccessKey: env.AWS_SECRET_ACCESS_KEY,
+    s3Bucket: env.AWS_S3_BUCKET,
+    cloudfrontUrl: env.AWS_CLOUDFRONT_URL},
+  
+  redis: {
+    url: env.REDIS_URL,
+    password: env.REDIS_PASSWORD},
+  
+  monitoring: {
+    sentryDsn: env.SENTRY_DSN,
+    sentryEnvironment: env.SENTRY_ENVIRONMENT || env.NODE_ENV,
+    datadogApiKey: env.DATADOG_API_KEY},
+  
+  email: {
+    smtp: {
+      host: env.SMTP_HOST,
+      port: parseInt(env.SMTP_PORT10),
+      auth: {
+        user: env.SMTP_USER,
+        pass: env.SMTP_PASSWORD},
+    from: env.EMAIL_FROM},
+  
+  stripe: {
+    secretKey: env.STRIPE_SECRET_KEY,
+    webhookSecret: env.STRIPE_WEBHOOK_SECRET},
+  
+  google: {
+    clientId: env.GOOGLE_CLIENT_ID,
+    clientSecret: env.GOOGLE_CLIENT_SECRET},
+  
+  features: {
+    blockchain: env.FEATURE_BLOCKCHAIN_ENABLED,
+    aiSearch: env.FEATURE_AI_SEARCH_ENABLED,
+    advancedAnalytics: env.FEATURE_ADVANCED_ANALYTICS_ENABLED},
+  
+  security: {
+    rateLimit: {
+      windowMs: parseInt(env.RATE_LIMIT_WINDOW_MS10),
+      maxRequests: parseInt(env.RATE_LIMIT_MAX_REQUESTS10)},
+    encryptionKey: env.ENCRYPTION_KEY},
+  
+  logging: {
+    level: env.LOG_LEVEL,
+    format: env.LOG_FORMAT};
+
+// Feature flags helper
+export const isFeatureEnabled = (feature: keyof typeof config.features): boolean => {
+  return config.features[feature];
+};

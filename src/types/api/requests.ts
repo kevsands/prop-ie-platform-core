@@ -34,7 +34,7 @@ export interface FilterRequest<T> extends PaginatedRequest {
 export interface GraphQLOperationOptions {
   fetchPolicy?: 'cache-first' | 'network-only' | 'cache-only' | 'no-cache';
   errorPolicy?: 'none' | 'ignore' | 'all';
-  context?: Record<string, any>;
+  context?: Record<string, any>\n  );
   notifyOnNetworkStatusChange?: boolean;
   pollInterval?: number;
   clientId?: string;
@@ -55,7 +55,7 @@ export interface GraphQLQueryRequest<V = Record<string, any>> extends GraphQLOpe
 export interface GraphQLMutationRequest<V = Record<string, any>> extends GraphQLOperationOptions {
   mutation: string;
   variables?: V;
-  optimisticResponse?: Record<string, any>;
+  optimisticResponse?: Record<string, any>\n  );
   refetchQueries?: string[];
 }
 
@@ -75,7 +75,7 @@ export interface FileUploadRequest extends BaseRequest {
   contentType?: string;
   fileName?: string;
   path?: string;
-  metadata?: Record<string, any>;
+  metadata?: Record<string, any>\n  );
   public?: boolean;
 }
 
@@ -93,7 +93,7 @@ export interface BatchOperationRequest<T> extends BaseRequest {
 export interface SearchRequest extends PaginatedRequest {
   query: string;
   fields?: string[];
-  filters?: Record<string, any>;
+  filters?: Record<string, any>\n  );
   facets?: string[];
 }
 
@@ -144,7 +144,7 @@ export interface RegistrationRequest {
   lastName: string;
   phoneNumber?: string;
   userType?: string;
-  metadata?: Record<string, any>;
+  metadata?: Record<string, any>\n  );
 }
 
 /**

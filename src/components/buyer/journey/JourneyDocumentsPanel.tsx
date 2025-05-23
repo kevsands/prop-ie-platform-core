@@ -24,43 +24,42 @@ export default function JourneyDocumentsPanel({
   maxItems = 3,
   showProgress = true,
   showAll = false,
-  className = '',
-}: JourneyDocumentsPanelProps) {
+  className = ''}: JourneyDocumentsPanelProps) {
   const { phaseProgress, documentStatuses, uploadDocument, refreshDocuments } = useBuyerDocuments();
   const { journey } = useBuyerJourney();
-  
+
   const currentPhase = journey?.currentPhase || BuyerPhase.PLANNING;
   const currentPhaseProgress = phaseProgress[currentPhase as keyof typeof phaseProgress];
-  
+
   // Get required documents for the current phase
   const requiredDocs = getRequiredDocumentsForPhase(currentPhase);
-  
+
   // Sort documents by required first, then by not uploaded
   const sortedDocuments = [...documentStatuses]
     .filter(doc => 
       showAll ? true : 
       requiredDocs.some(rd => rd.id === doc.requiredDocumentId)
     )
-    .sort((a, b) => {
+    .sort((ab: any) => {
       const aDoc = requiredDocs.find(d => d.id === a.requiredDocumentId);
       const bDoc = requiredDocs.find(d => d.id === b.requiredDocumentId);
-      
+
       // Sort by required status
       if (aDoc?.isRequired && !bDoc?.isRequired) return -1;
       if (!aDoc?.isRequired && bDoc?.isRequired) return 1;
-      
+
       // Then sort by upload status
       if (!a.uploaded && b.uploaded) return -1;
       if (a.uploaded && !b.uploaded) return 1;
-      
+
       return 0;
     })
-    .slice(0, maxItems);
-  
+    .slice(0maxItems);
+
   const handleUploadDocument = async (file: File, metadata: any, docId: string) => {
     const reqDoc = requiredDocs.find(d => d.id === docId);
     if (!reqDoc) return { success: false, message: 'Document type not found' };
-    
+
     try {
       const result = await uploadDocument(file, {
         requiredDocumentId: reqDoc.id,
@@ -68,21 +67,21 @@ export default function JourneyDocumentsPanel({
         description: reqDoc.description,
         type: reqDoc.type as string
       });
-      
+
       if (result.success) {
         await refreshDocuments();
       }
-      
+
       return result;
     } catch (error) {
-      console.error('Error uploading document:', error);
+
       return { 
         success: false, 
         message: error instanceof Error ? error.message : 'An error occurred'
       };
     }
   };
-  
+
   return (
     <Card className={className}>
       <CardHeader className="pb-3">
@@ -91,7 +90,7 @@ export default function JourneyDocumentsPanel({
           Documents needed for your current phase
         </CardDescription>
       </CardHeader>
-      
+
       <CardContent>
         {showProgress && currentPhaseProgress && (
           <div className="mb-4">
@@ -104,9 +103,9 @@ export default function JourneyDocumentsPanel({
             <Progress value={currentPhaseProgress.percentage} className="h-2" />
           </div>
         )}
-        
+
         <div className="space-y-3 mt-4">
-          {sortedDocuments.length > 0 ? (
+          {sortedDocuments.length> 0 ? (
             sortedDocuments.map(doc => {
               const reqDoc = requiredDocs.find(d => d.id === doc.requiredDocumentId);
               return (
@@ -141,7 +140,7 @@ export default function JourneyDocumentsPanel({
                       </div>
                     </div>
                   </div>
-                  
+
                   <Dialog>
                     <DialogTrigger asChild>
                       <Button variant={doc.uploaded ? 'outline' : 'default'} size="sm">
@@ -152,12 +151,12 @@ export default function JourneyDocumentsPanel({
                       <DialogHeader>
                         <DialogTitle>Upload {doc.name}</DialogTitle>
                       </DialogHeader>
-                      
+
                       <DocumentUploader
-                        onUpload={async (file, metadata) => {
+                        onUpload={async (filemetadata: any) => {
                           const result = await handleUploadDocument(file, metadata, doc.requiredDocumentId);
                           return;
-                        }}
+                        }
                         loading={false}
                       />
                     </DialogContent>
@@ -172,8 +171,8 @@ export default function JourneyDocumentsPanel({
             </div>
           )}
         </div>
-        
-        {sortedDocuments.length > 0 && (
+
+        {sortedDocuments.length> 0 && (
           <div className="mt-4 text-center">
             <Button 
               variant="outline" 

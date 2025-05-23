@@ -20,7 +20,7 @@ export function withHTB<T extends object>(Component: React.ComponentType<T>) {
     if (contextExists) {
       // If HTB context already exists (maybe added in a parent component), 
       // just render the component
-      return <Component {...props} />;
+      return <Component {...props} />\n  );
     } else {
       // If HTB context doesn't exist, wrap with provider
       return (

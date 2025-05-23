@@ -9,7 +9,7 @@ const Button = ({ children, asChild, ...props }) => {
   if (asChild) {
     return children;
   }
-  
+
   return (
     <button 
       className="inline-flex items-center justify-center rounded-md font-medium transition-colors bg-blue-600 text-white hover:bg-blue-700 h-10 py-2 px-4" 
@@ -48,7 +48,7 @@ export default function InvestorFinancialPage() {
   return (
     <div className="container mx-auto py-8 px-4">
       <h1 className="text-3xl font-bold text-gray-900 mb-6">Financial Analysis</h1>
-      
+
       <div className="bg-white p-6 rounded-lg border shadow-sm mb-8">
         <div className="flex items-center justify-center min-h-[300px]">
           <div className="text-center">

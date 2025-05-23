@@ -39,6 +39,7 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Input } from '@/components/ui/input';
 import { DatePickerWithRange } from '@/components/ui/date-range-picker';
+import { DateRange } from 'react-day-picker';
 import { Calendar } from '@/components/ui/calendar';
 import {
   LineChart, Line, BarChart, Bar, PieChart, Pie, Cell, AreaChart, Area,
@@ -67,12 +68,22 @@ interface DeveloperDashboardProps {
 export default function DeveloperDashboard({ developerId }: DeveloperDashboardProps) {
   const { user } = useAuth();
   const { data: developerData, isLoading } = useDeveloperData(developerId || user?.id);
-  const [selectedProject, setSelectedProject] = useState<string>('all');
-  const [dateRange, setDateRange] = useState<{ from: Date; to: Date }>({
+  const [selectedProjectsetSelectedProject] = useState<string>('all');
+  const [dateRangesetDateRange] = useState<{ from: Date; to: Date }>({
     from: addMonths(new Date(), -3),
     to: new Date()
   });
-  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
+
+  // Wrapper function to handle DateRange type conversion
+  const handleDateRangeChange = (date: DateRange | undefined) => {
+    if (date?.from && date?.to) {
+      setDateRange({
+        from: date.from,
+        to: date.to});
+    }
+  };
+
+  const [viewModesetViewMode] = useState<'grid' | 'list'>('grid');
 
   if (isLoading) {
     return (
@@ -105,13 +116,13 @@ export default function DeveloperDashboard({ developerId }: DeveloperDashboardPr
 
   const filteredProjects = selectedProject === 'all' 
     ? projects 
-    : projects.filter(p => p.id === selectedProject);
+    : projects.filter(p: any => p.id === selectedProject);
 
-  const activeProjects = projects.filter(p => p.status === 'ACTIVE');
+  const activeProjects = projects.filter(p: any => p.status: any === 'ACTIVE');
   const totalProperties = properties.length;
-  const soldProperties = properties.filter(p => p.status === 'SOLD').length;
-  const availableProperties = properties.filter(p => p.status === 'AVAILABLE').length;
-  const underConstruction = properties.filter(p => p.status === 'UNDER_CONSTRUCTION').length;
+  const soldProperties = properties.filter(p: any => p.status: any === 'SOLD').length;
+  const availableProperties = properties.filter(p: any => p.status: any === 'AVAILABLE').length;
+  const underConstruction = properties.filter(p: any => p.status: any === 'UNDER_CONSTRUCTION').length;
 
   const totalRevenue = finances.totalRevenue;
   const projectedRevenue = finances.projectedRevenue;
@@ -120,7 +131,7 @@ export default function DeveloperDashboard({ developerId }: DeveloperDashboardPr
   const profitMargin = (profit / totalRevenue) * 100;
 
   const complianceScore = compliance.overallScore;
-  const complianceIssues = compliance.issues.filter(i => i.status === 'OPEN').length;
+  const complianceIssues = compliance.issues.filter(i: any => i.status: any === 'OPEN').length;
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -134,8 +145,8 @@ export default function DeveloperDashboard({ developerId }: DeveloperDashboardPr
             </div>
             <div className="flex items-center gap-4">
               <DatePickerWithRange 
-                date={dateRange}
-                onDateChange={setDateRange}
+                initialDate={dateRange}
+                onDateChange={handleDateRangeChange}
               />
               <Select value={selectedProject} onValueChange={setSelectedProject}>
                 <SelectTrigger className="w-[200px]">
@@ -143,7 +154,7 @@ export default function DeveloperDashboard({ developerId }: DeveloperDashboardPr
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="all">All Projects</SelectItem>
-                  {projects.map(project => (
+                  {projects.map(project: any => (
                     <SelectItem key={project.id} value={project.id}>
                       {project.name}
                     </SelectItem>
@@ -221,7 +232,7 @@ export default function DeveloperDashboard({ developerId }: DeveloperDashboardPr
                 <div>
                   <p className="text-sm text-gray-600">Compliance Score</p>
                   <p className="text-2xl font-bold">{complianceScore}%</p>
-                  {complianceIssues > 0 && (
+                  {complianceIssues> 0 && (
                     <p className="text-sm text-red-600 mt-2">
                       {complianceIssues} issues pending
                     </p>
@@ -236,7 +247,7 @@ export default function DeveloperDashboard({ developerId }: DeveloperDashboardPr
         </div>
 
         {/* Critical Alerts */}
-        {compliance.criticalIssues.length > 0 && (
+        {compliance.criticalIssues.length> 0 && (
           <Alert className="mb-8">
             <ExclamationTriangleIcon className="h-4 w-4" />
             <AlertDescription>
@@ -311,8 +322,8 @@ export default function DeveloperDashboard({ developerId }: DeveloperDashboardPr
                           paddingAngle={5}
                           dataKey="value"
                         >
-                          {analytics.projectStatus.map((entry, index) => (
-                            <Cell key={`cell-${index}`} fill={entry.color} />
+                          {analytics.projectStatus.map((entry: any, index: any) => (
+                            <Cell key={`cell-${index: any}`} fill={entry.color} />
                           ))}
                         </Pie>
                         <Tooltip />
@@ -320,12 +331,12 @@ export default function DeveloperDashboard({ developerId }: DeveloperDashboardPr
                     </ResponsiveContainer>
                   </div>
                   <div className="mt-4 space-y-2">
-                    {analytics.projectStatus.map((status, index) => (
-                      <div key={index} className="flex items-center justify-between">
+                    {analytics.projectStatus.map((status: any, index: any) => (
+                      <div key={index: any} className="flex items-center justify-between">
                         <div className="flex items-center gap-2">
                           <div 
                             className="w-3 h-3 rounded-full" 
-                            style={{ backgroundColor: status.color }}
+                            style={ backgroundColor: status.color }
                           />
                           <span className="text-sm">{status.name}</span>
                         </div>
@@ -347,8 +358,8 @@ export default function DeveloperDashboard({ developerId }: DeveloperDashboardPr
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {projects.slice(0, 3).map(project => (
-                    <ProjectOverview key={project.id} project={project} />
+                  {projects.slice(03).map(project: any => (
+                    <ProjectOverview key={project.id} project: any={project: any} />
                   ))}
                 </div>
               </CardContent>
@@ -443,11 +454,11 @@ export default function DeveloperDashboard({ developerId }: DeveloperDashboardPr
                           <YAxis />
                           <Tooltip />
                           <Legend />
-                          {analytics.areas.map((area, index) => (
+                          {analytics.areas.map((area: any, index: any) => (
                             <Line 
-                              key={area}
+                              key={area: any}
                               type="monotone" 
-                              dataKey={area} 
+                              dataKey={area: any} 
                               stroke={['#3B82F6', '#10B981', '#F59E0B', '#EF4444'][index % 4]}
                               strokeWidth={2}
                             />
@@ -464,7 +475,7 @@ export default function DeveloperDashboard({ developerId }: DeveloperDashboardPr
                         <RadarChart data={analytics.demandByType}>
                           <PolarGrid />
                           <PolarAngleAxis dataKey="type" />
-                          <PolarRadiusAxis angle={30} domain={[0, 100]} />
+                          <PolarRadiusAxis angle={30} domain={[0100]} />
                           <Radar 
                             name="Current Demand" 
                             dataKey="demand" 

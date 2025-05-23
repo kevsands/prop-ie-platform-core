@@ -74,11 +74,11 @@ const Button = ({
  */
 export default function FallbackCustomizationPage() {
   const router = useRouter();
-  
+
   // Basic state for room and category selection
-  const [activeRoom, setActiveRoom] = React.useState("livingRoom");
-  const [activeCategory, setActiveCategory] = React.useState("flooring");
-  
+  const [activeRoomsetActiveRoom] = React.useState("livingRoom");
+  const [activeCategorysetActiveCategory] = React.useState("flooring");
+
   // Simple dummy data
   const rooms = [
     { id: 'livingRoom', name: 'Living Room', icon: '🛋️' },
@@ -86,14 +86,14 @@ export default function FallbackCustomizationPage() {
     { id: 'bedroom', name: 'Bedroom', icon: '🛏️' },
     { id: 'bathroom', name: 'Bathroom', icon: '🚿' }
   ];
-  
+
   const categories = [
     { id: 'flooring', name: 'Flooring' },
     { id: 'paint', name: 'Paint' },
     { id: 'fixtures', name: 'Fixtures' },
     { id: 'furniture', name: 'Furniture' }
   ];
-  
+
   return (
     <div className="min-h-screen bg-gray-50 pb-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -106,7 +106,7 @@ export default function FallbackCustomizationPage() {
               This is a simplified version of the customization interface.
             </p>
           </div>
-          
+
           <Button 
             variant="outline" 
             onClick={() => router.back()}
@@ -116,7 +116,7 @@ export default function FallbackCustomizationPage() {
             Back
           </Button>
         </div>
-        
+
         {/* Room Navigation */}
         <Card className="mb-8">
           <CardHeader>
@@ -130,7 +130,7 @@ export default function FallbackCustomizationPage() {
               className="mb-8"
             >
               <TabsList className="flex overflow-x-auto pb-1 mb-2">
-                {rooms.map((room) => (
+                {rooms.map((room: any) => (
                   <TabsTrigger 
                     key={room.id} 
                     value={room.id}
@@ -144,7 +144,7 @@ export default function FallbackCustomizationPage() {
             </Tabs>
           </CardContent>
         </Card>
-        
+
         {/* Category Selection */}
         <Card className="mb-8">
           <CardHeader>
@@ -157,7 +157,7 @@ export default function FallbackCustomizationPage() {
               onValueChange={setActiveCategory}
             >
               <TabsList className="flex mb-6">
-                {categories.map((category) => (
+                {categories.map((category: any) => (
                   <TabsTrigger key={category.id} value={category.id}>
                     {getCategoryIcon(category.id)}
                     <span className="ml-2">{category.name}</span>
@@ -165,7 +165,7 @@ export default function FallbackCustomizationPage() {
                 ))}
               </TabsList>
             </Tabs>
-            
+
             <div className="mt-6 p-8 bg-gray-100 rounded-lg text-center">
               <p className="text-gray-500">
                 Customization options would appear here. The full interface is currently unavailable.
@@ -173,7 +173,7 @@ export default function FallbackCustomizationPage() {
             </div>
           </CardContent>
         </Card>
-        
+
         {/* Summary and Actions */}
         <Card className="mt-8">
           <CardHeader>
@@ -203,13 +203,13 @@ export default function FallbackCustomizationPage() {
 function getCategoryIcon(categoryId: string) {
   switch (categoryId) {
     case 'flooring':
-      return <Home className="h-4 w-4" />;
+      return <Home className="h-4 w-4" />\n  );
     case 'paint':
-      return <Brush className="h-4 w-4" />;
+      return <Brush className="h-4 w-4" />\n  );
     case 'fixtures':
-      return <Lightbulb className="h-4 w-4" />;
+      return <Lightbulb className="h-4 w-4" />\n  );
     case 'furniture':
-      return <Home className="h-4 w-4" />;
+      return <Home className="h-4 w-4" />\n  );
     default:
       return null;
   }

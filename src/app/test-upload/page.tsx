@@ -4,7 +4,7 @@ import React, { useState, useRef } from 'react';
 import { Upload, X, FileText } from 'lucide-react';
 
 export default function TestUploadPage() {
-  const [file, setFile] = useState<File | null>(null);
+  const [filesetFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleFileUpload = (uploadedFile: File | null) => {
@@ -17,7 +17,7 @@ export default function TestUploadPage() {
       }
 
       // Validate file size (10MB max)
-      if (uploadedFile.size > 10 * 1024 * 1024) {
+      if (uploadedFile.size> 10 * 1024 * 1024) {
         alert('File size must be less than 10MB');
         return;
       }
@@ -37,12 +37,12 @@ export default function TestUploadPage() {
     <div className="min-h-screen bg-gray-50 p-8">
       <div className="max-w-2xl mx-auto">
         <h1 className="text-3xl font-bold mb-8">Test Document Upload</h1>
-        
+
         <div className="bg-white p-6 rounded-lg shadow">
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Upload Test Document
           </label>
-          
+
           <div className="relative">
             {file ? (
               <div className="border-2 border-green-500 bg-green-50 rounded-lg p-6">
@@ -81,13 +81,13 @@ export default function TestUploadPage() {
                 </p>
               </div>
             )}
-            
+
             <input
               ref={fileInputRef}
               type="file"
               accept=".pdf,.jpg,.jpeg,.png"
               className="hidden"
-              onChange={(e) => handleFileUpload(e.target.files?.[0] || null)}
+              onChange={(e: any) => handleFileUpload(e.target.files?.[0] || null)}
             />
           </div>
         </div>

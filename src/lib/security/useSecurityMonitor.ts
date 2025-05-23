@@ -9,7 +9,7 @@ export interface SecurityViolation {
   description: string;
   timestamp: number;
   url: string;
-  metadata?: Record<string, any>;
+  metadata?: Record<string, any>\n  );
 }
 
 interface UseSecurityMonitorOptions {
@@ -47,28 +47,26 @@ export function useSecurityMonitor(options: UseSecurityMonitorOptions = {}) {
     reportViolationsToBackend = true,
     reportEndpoint = '/api/security/report',
     maximumViolationsToStore = 50,
-    blockOnCriticalViolations = true,
-  } = options;
+    blockOnCriticalViolations = true} = options;
 
-  const [violations, setViolations] = useState<SecurityViolation[]>([]);
-  const [isBlocked, setIsBlocked] = useState(false);
+  const [violationssetViolations] = useState<SecurityViolation[]>([]);
+  const [isBlockedsetIsBlocked] = useState(false);
   const router = useRouter();
   const originalLocationRef = useRef<string>('');
   const formsObservedRef = useRef<Set<HTMLFormElement>>(new Set());
   const inlineScriptsCheckedRef = useRef<Set<HTMLScriptElement>>(new Set());
   const csrfTokensRef = useRef<Map<string, string>>(new Map());
-  
+
   // Record a security violation
   const recordViolation = (violation: Omit<SecurityViolation, 'timestamp' | 'url'>) => {
     const fullViolation: SecurityViolation = {
       ...violation,
       timestamp: Date.now(),
-      url: typeof window !== 'undefined' ? window.location.href : '',
-    };
+      url: typeof window !== 'undefined' ? window.location.href : ''};
 
     setViolations(prev => {
-      const updated = [fullViolation, ...prev].slice(0, maximumViolationsToStore);
-      
+      const updated = [fullViolation, ...prev].slice(0maximumViolationsToStore);
+
       // Report to backend if enabled
       if (reportViolationsToBackend) {
         try {
@@ -79,11 +77,11 @@ export function useSecurityMonitor(options: UseSecurityMonitorOptions = {}) {
             body: JSON.stringify({ violation: fullViolation }),
             credentials: 'same-origin'
           }).catch((err: Error) => {
-            console.error('Failed to report security violation:', err);
+
             // No additional fallback needed
           });
         } catch (error) {
-          console.error('Error reporting security violation:', error);
+
         }
       }
 
@@ -95,11 +93,11 @@ export function useSecurityMonitor(options: UseSecurityMonitorOptions = {}) {
       return updated;
     });
   };
-  
+
   // Listen for CSP violations
   useEffect(() => {
     if (!enableCSPReporting || typeof window === 'undefined') return;
-    
+
     const handleCSPViolation = (e: SecurityPolicyViolationEvent) => {
       recordViolation({
         type: 'csp',
@@ -112,13 +110,12 @@ export function useSecurityMonitor(options: UseSecurityMonitorOptions = {}) {
           disposition: e.disposition,
           sourceFile: e.sourceFile,
           lineNumber: e.lineNumber,
-          columnNumber: e.columnNumber,
-        }
+          columnNumber: e.columnNumber}
       });
     };
 
     document.addEventListener('securitypolicyviolation', handleCSPViolation);
-    
+
     return () => {
       document.removeEventListener('securitypolicyviolation', handleCSPViolation);
     };
@@ -127,12 +124,12 @@ export function useSecurityMonitor(options: UseSecurityMonitorOptions = {}) {
   // Monitor for XSS and DOM tampering
   useEffect(() => {
     if (!enableXSSDetection || typeof window === 'undefined') return;
-    
+
     // Store original document.write and innerHTML setters
     const originalDocWrite = document.write;
     const originalDocWriteln = document.writeln;
     const originalCreateElement = document.createElement;
-    
+
     // XSS detection patterns
     const xssPatterns = [
       /<script[^>]*>[^<]*<\/script>/i,
@@ -146,54 +143,53 @@ export function useSecurityMonitor(options: UseSecurityMonitorOptions = {}) {
       /alert\s*\(/i,
       /prompt\s*\(/i,
       /confirm\s*\(/i,
-      /Function\s*\(/i,
-    ];
-    
+      /Function\s*\(/i];
+
     // Check content for XSS patterns
     const detectXSSInString = (content: string, source: string) => {
       if (!content) return false;
-      
+
       for (const pattern of xssPatterns) {
         if (pattern.test(content)) {
           recordViolation({
             type: 'xss',
             severity: 'high',
             description: `Potential XSS detected in ${source}: matched pattern ${pattern}`,
-            metadata: { content: content.substring(0, 200), pattern: pattern.toString() }
+            metadata: { content: content.substring(0200), pattern: pattern.toString() }
           });
           return true;
         }
       }
       return false;
     };
-    
+
     // Overrides for dangerous methods
     document.write = function(...args: string[]) {
       const content = args.join('');
       const isXSS = detectXSSInString(content, 'document.write');
-      
+
       if (isXSS && blockOnCriticalViolations) {
         throw new Error('document.write blocked due to security violation');
       } else {
-        originalDocWrite.apply(document, args);
+        originalDocWrite.apply(documentargs);
       }
     };
-    
+
     document.writeln = function(...args: string[]) {
       const content = args.join('');
       const isXSS = detectXSSInString(content, 'document.writeln');
-      
+
       if (isXSS && blockOnCriticalViolations) {
         throw new Error('document.writeln blocked due to security violation');
       } else {
-        originalDocWriteln.apply(document, args);
+        originalDocWriteln.apply(documentargs);
       }
     };
-    
+
     // Monitor createElement to detect dynamic script creation
     document.createElement = function(tagName: string, options?: ElementCreationOptions) {
-      const element = originalCreateElement.call(document, tagName, options);
-      
+      const element = originalCreateElement.call(document, tagNameoptions);
+
       if (tagName.toLowerCase() === 'script') {
         // Observe script attributes
         const originalSetAttribute = element.setAttribute;
@@ -208,7 +204,7 @@ export function useSecurityMonitor(options: UseSecurityMonitorOptions = {}) {
               /pastebin\.com/i,
               /\.(tk|ml|ga|cf|gq|top)\//, // Common free domains used for malicious hosting
             ];
-            
+
             for (const pattern of suspiciousURLPatterns) {
               if (pattern.test(value)) {
                 recordViolation({
@@ -217,18 +213,18 @@ export function useSecurityMonitor(options: UseSecurityMonitorOptions = {}) {
                   description: `Blocked suspicious script src: ${value}`,
                   metadata: { src: value, pattern: pattern.toString() }
                 });
-                
+
                 if (blockOnCriticalViolations) {
                   throw new Error(`Suspicious script URL blocked: ${value}`);
                 }
               }
             }
           }
-          
-          originalSetAttribute.call(element, name, value);
+
+          originalSetAttribute.call(element, namevalue);
         };
       }
-      
+
       return element;
     };
 
@@ -238,21 +234,21 @@ export function useSecurityMonitor(options: UseSecurityMonitorOptions = {}) {
       document.writeln = originalDocWriteln;
       document.createElement = originalCreateElement;
     };
-  }, [enableXSSDetection, blockOnCriticalViolations]);
+  }, [enableXSSDetectionblockOnCriticalViolations]);
 
   // Monitor for suspicious redirects
   useEffect(() => {
     if (!enableRedirectProtection || typeof window === 'undefined') return;
-    
+
     originalLocationRef.current = window.location.href;
-    
+
     // Track original history methods
     const originalPushState = history.pushState;
     const originalReplaceState = history.replaceState;
     const originalAssign = window.location.assign;
     const originalReplace = window.location.replace;
     const originalOpen = window.open;
-    
+
     // Suspicious domains to check for in redirects
     const suspiciousDomains = [
       'coaufu.com', // The previously identified malicious domain
@@ -269,15 +265,15 @@ export function useSecurityMonitor(options: UseSecurityMonitorOptions = {}) {
       'cutt.ly',
       'shorturl.at'
     ];
-    
+
     // Check if URL is suspicious
     const isSuspiciousURL = (url: string): boolean => {
       // Don't inspect internal links
       if (url.startsWith('/') && !url.startsWith('//')) return false;
-      
+
       try {
         const urlObj = new URL(url, window.location.origin);
-        
+
         // Check for suspicious hostname
         for (const domain of suspiciousDomains) {
           if (urlObj.hostname.includes(domain)) {
@@ -290,7 +286,7 @@ export function useSecurityMonitor(options: UseSecurityMonitorOptions = {}) {
             return true;
           }
         }
-        
+
         // Check if it differs from expected hostname
         if (window.location.hostname && urlObj.hostname !== window.location.hostname) {
           // Only report if it's not an expected external domain
@@ -300,11 +296,10 @@ export function useSecurityMonitor(options: UseSecurityMonitorOptions = {}) {
             'google.com',
             'google-analytics.com',
             'microsoft.com',
-            'azure.com',
-          ];
-          
+            'azure.com'];
+
           const isAllowedDomain = allowedDomains.some(domain => urlObj.hostname.includes(domain));
-          
+
           if (!isAllowedDomain) {
             recordViolation({
               type: 'redirect',
@@ -315,7 +310,7 @@ export function useSecurityMonitor(options: UseSecurityMonitorOptions = {}) {
             return false; // Don't block medium severity redirects
           }
         }
-        
+
       } catch (e) {
         // Malformed URL
         recordViolation({
@@ -326,40 +321,40 @@ export function useSecurityMonitor(options: UseSecurityMonitorOptions = {}) {
         });
         return true;
       }
-      
+
       return false;
     };
-    
+
     // Override history methods
     history.pushState = function(...args) {
-      const [state, title, url] = args;
-      
+      const [state, titleurl] = args;
+
       if (url && typeof url === 'string' && isSuspiciousURL(url)) {
         if (blockOnCriticalViolations) {
           throw new Error('Suspicious navigation blocked');
         }
       }
-      
-      originalPushState.apply(history, args);
+
+      originalPushState.apply(historyargs);
     };
-    
+
     history.replaceState = function(...args) {
-      const [state, title, url] = args;
-      
+      const [state, titleurl] = args;
+
       if (url && typeof url === 'string' && isSuspiciousURL(url)) {
         if (blockOnCriticalViolations) {
           throw new Error('Suspicious navigation blocked');
         }
       }
-      
-      originalReplaceState.apply(history, args);
+
+      originalReplaceState.apply(historyargs);
     };
-    
+
     // Override location methods
     const locationHandler = {
       get(target: Location, prop: string) {
         const value = target[prop as keyof Location];
-        
+
         if (prop === 'assign' || prop === 'replace') {
           return function(url: string) {
             if (isSuspiciousURL(url)) {
@@ -367,17 +362,17 @@ export function useSecurityMonitor(options: UseSecurityMonitorOptions = {}) {
                 throw new Error('Suspicious navigation blocked');
               }
             }
-            
+
             return prop === 'assign' 
-              ? originalAssign.call(target, url)
-              : originalReplace.call(target, url);
+              ? originalAssign.call(targeturl)
+              : originalReplace.call(targeturl);
           };
         }
-        
+
         return typeof value === 'function' ? value.bind(target) : value;
       }
     };
-    
+
     // Override window.open
     window.open = function(url?: string | URL, target?: string, features?: string) {
       if (url && typeof url === 'string' && isSuspiciousURL(url)) {
@@ -385,28 +380,28 @@ export function useSecurityMonitor(options: UseSecurityMonitorOptions = {}) {
           throw new Error('Suspicious window.open blocked');
         }
       }
-      
-      return originalOpen.call(window, url, target, features);
+
+      return originalOpen.call(window, url, targetfeatures);
     };
-    
+
     // NOTE: Proxying window.location is not possible in a standard way
     // This is a type safety issue, not a runtime issue
     // The following code won't be executed, but TypeScript requires casting
     try {
       // @ts-ignore - This is not actually possible in JavaScript
-      // window.location = new Proxy(window.location, locationHandler);
-      console.log('Location monitoring enabled');
+      // window.location = new Proxy(window.locationlocationHandler);
+
     } catch (error) {
-      console.error('Failed to proxy location object:', error);
+
     }
-    
+
     // Detect changed window.location.href
     const checkLocationInterval = setInterval(() => {
       if (window.location.href !== originalLocationRef.current) {
         originalLocationRef.current = window.location.href;
       }
     }, 1000);
-    
+
     return () => {
       clearInterval(checkLocationInterval);
       history.pushState = originalPushState;
@@ -414,29 +409,29 @@ export function useSecurityMonitor(options: UseSecurityMonitorOptions = {}) {
       window.open = originalOpen;
       // location proxies can't be completely undone
     };
-  }, [enableRedirectProtection, blockOnCriticalViolations]);
+  }, [enableRedirectProtectionblockOnCriticalViolations]);
 
   // Monitor for form tampering (CSRF protection)
   useEffect(() => {
     if (!enableFormProtection || typeof window === 'undefined') return;
-    
+
     const observeForm = (form: HTMLFormElement) => {
       if (formsObservedRef.current.has(form)) return;
       formsObservedRef.current.add(form);
-      
+
       // Ensure CSRF token is present in all forms
       if (form.method.toLowerCase() === 'post') {
         let hasCSRFToken = false;
-        
+
         // Check for existing CSRF token
-        for (let i = 0; i < form.elements.length; i++) {
+        for (let i = 0; i <form.elements.length; i++) {
           const element = form.elements[i] as HTMLInputElement;
           if (element.name === '_csrf' || element.name === 'csrf_token' || element.name === 'csrfToken') {
             hasCSRFToken = true;
             break;
           }
         }
-        
+
         // If no token found, record a violation
         if (!hasCSRFToken) {
           recordViolation({
@@ -452,18 +447,18 @@ export function useSecurityMonitor(options: UseSecurityMonitorOptions = {}) {
           });
         }
       }
-      
+
       // Monitor for form submission
-      form.addEventListener('submit', (e) => {
+      form.addEventListener('submit', (e: any) => {
         // Check if the form has been modified unexpectedly
-        const formId = form.id || `form_${Math.random().toString(36).substr(2, 9)}`;
-        
+        const formId = form.id || `form_${Math.random().toString(36).substr(29)}`;
+
         // Create a checksum/fingerprint of the form to detect tampering
         // This is a simple example - a real implementation would be more robust
         const formFingerprint = Array.from(form.elements)
           .map(el => `${(el as HTMLInputElement).name}:${(el as HTMLInputElement).type}`)
           .join('|');
-        
+
         // If we have a stored fingerprint, compare it
         const storedFingerprint = sessionStorage.getItem(`form_fingerprint_${formId}`);
         if (storedFingerprint && storedFingerprint !== formFingerprint) {
@@ -477,7 +472,7 @@ export function useSecurityMonitor(options: UseSecurityMonitorOptions = {}) {
               actual: formFingerprint
             }
           });
-          
+
           if (blockOnCriticalViolations) {
             e.preventDefault();
             e.stopPropagation();
@@ -487,14 +482,14 @@ export function useSecurityMonitor(options: UseSecurityMonitorOptions = {}) {
           try {
             sessionStorage.setItem(`form_fingerprint_${formId}`, formFingerprint);
           } catch (err) {
-            console.error('Failed to store form fingerprint:', err);
+
           }
         }
       });
     };
-    
+
     // Observer for new forms added to the DOM
-    const formObserver = new MutationObserver((mutations) => {
+    const formObserver = new MutationObserver((mutations: any) => {
       for (const mutation of mutations) {
         if (mutation.type === 'childList') {
           // Check added nodes for forms
@@ -510,33 +505,33 @@ export function useSecurityMonitor(options: UseSecurityMonitorOptions = {}) {
         }
       }
     });
-    
+
     // Observe all forms already in the DOM
     document.querySelectorAll('form').forEach(form => observeForm(form));
-    
+
     // Start observing the document for new forms
     formObserver.observe(document.body, { 
       childList: true, 
       subtree: true 
     });
-    
+
     return () => {
       formObserver.disconnect();
       formsObservedRef.current.clear();
     };
-  }, [enableFormProtection, blockOnCriticalViolations]);
+  }, [enableFormProtectionblockOnCriticalViolations]);
 
   // Check for suspicious inline scripts
   useEffect(() => {
     if (!enableInlineScriptChecking || typeof window === 'undefined') return;
-    
+
     const checkForSuspiciousInlineScripts = () => {
       document.querySelectorAll('script:not([src])').forEach((script: Element) => {
         if (inlineScriptsCheckedRef.current.has(script as HTMLScriptElement)) return;
         inlineScriptsCheckedRef.current.add(script as HTMLScriptElement);
-        
+
         const content = script.textContent || '';
-        
+
         // Check for obfuscated code patterns
         const obfuscationPatterns = [
           /eval\s*\(/i,
@@ -546,11 +541,11 @@ export function useSecurityMonitor(options: UseSecurityMonitorOptions = {}) {
           /unescape/i,
           /\\x[0-9a-f]{2}/i,
           /\\u[0-9a-f]{4}/i,
-          /=\s*["']([^"']{100,}|[\x00-\x1F\x7F-\xFF]{20,})["']/i, // Long strings or non-printable chars
+          /=\s*["']([^"']{100}|[\x00-\x1F\x7F-\xFF]{20})["']/i, // Long strings or non-printable chars
           /\)\s*\(["'][^"']+["']\)/i, // Self-executing functions with string args
-          /\b(Number|parseInt|String)\(['"]([^'"]{20,})['"]\)/i, // Type conversions of long strings
+          /\b(Number|parseInt|String)\(['"]([^'"]{20})['"]\)/i, // Type conversions of long strings
         ];
-        
+
         for (const pattern of obfuscationPatterns) {
           if (pattern.test(content)) {
             recordViolation({
@@ -559,13 +554,13 @@ export function useSecurityMonitor(options: UseSecurityMonitorOptions = {}) {
               description: 'Potentially obfuscated inline script detected',
               metadata: { 
                 pattern: pattern.toString(),
-                scriptExcerpt: content.substring(0, 150)
+                scriptExcerpt: content.substring(0150)
               }
             });
             break;
           }
         }
-        
+
         // Check for suspicious network access patterns
         const networkPatterns = [
           /new\s+XMLHttpRequest\(\)/i,
@@ -577,7 +572,7 @@ export function useSecurityMonitor(options: UseSecurityMonitorOptions = {}) {
           /navigator\.sendBeacon/i,
           /WebSocket/i
         ];
-        
+
         for (const pattern of networkPatterns) {
           if (pattern.test(content)) {
             // This is a medium severity because these are legitimate in many cases
@@ -587,13 +582,13 @@ export function useSecurityMonitor(options: UseSecurityMonitorOptions = {}) {
               description: 'Inline script with network access detected',
               metadata: { 
                 pattern: pattern.toString(),
-                scriptExcerpt: content.substring(0, 150)
+                scriptExcerpt: content.substring(0150)
               }
             });
             break;
           }
         }
-        
+
         // Check for sensitive data access
         const sensitiveDataPatterns = [
           /password/i,
@@ -610,39 +605,38 @@ export function useSecurityMonitor(options: UseSecurityMonitorOptions = {}) {
           /personalid/i,
           /personal[\s_-]?id/i
         ];
-        
+
         const inputElements = document.querySelectorAll('input');
         const sensitiveInputs = Array.from(inputElements).filter(input => {
           const inputName = (input.name || '').toLowerCase();
           const inputId = (input.id || '').toLowerCase();
           const inputType = (input.type || '').toLowerCase();
-          
+
           if (inputType === 'password') return true;
-          
+
           return sensitiveDataPatterns.some(pattern => 
             pattern.test(inputName) || pattern.test(inputId)
           );
         });
-        
+
         // If we have sensitive inputs and the script accesses their values
-        if (sensitiveInputs.length > 0) {
+        if (sensitiveInputs.length> 0) {
           const inputAccessPatterns = sensitiveInputs.map(input => {
             const inputId = input.id ? `document\\.getElementById\\(['"]${input.id}['"]\\)` : '';
             const inputName = input.name ? `getElementsByName\\(['"]${input.name}['"]\\)` : '';
             const querySelectors = [
               input.id ? `querySelector\\(['"]#${input.id}['"]\\)` : '',
-              input.name ? `querySelector\\(['"]\\[name=["']${input.name}["']\\]['"]\\)` : '',
-            ].filter(Boolean);
-            
+              input.name ? `querySelector\\(['"]\\[name=["']${input.name}["']\\]['"]\\)` : ''].filter(Boolean);
+
             const patterns = [
               inputId, 
               inputName,
               ...querySelectors
             ].filter(Boolean);
-            
-            return patterns.length > 0 ? new RegExp(patterns.join('|'), 'i') : null;
+
+            return patterns.length> 0 ? new RegExp(patterns.join('|'), 'i') : null;
           }).filter(Boolean) as RegExp[];
-          
+
           for (const pattern of inputAccessPatterns) {
             if (pattern && pattern.test(content)) {
               recordViolation({
@@ -651,7 +645,7 @@ export function useSecurityMonitor(options: UseSecurityMonitorOptions = {}) {
                 description: 'Inline script accessing sensitive input data',
                 metadata: { 
                   pattern: pattern.toString(),
-                  scriptExcerpt: content.substring(0, 150)
+                  scriptExcerpt: content.substring(0150)
                 }
               });
               break;
@@ -660,14 +654,14 @@ export function useSecurityMonitor(options: UseSecurityMonitorOptions = {}) {
         }
       });
     };
-    
+
     // Initial check
     checkForSuspiciousInlineScripts();
-    
+
     // Set up an observer for new inline scripts
     const scriptObserver = new MutationObserver(mutations => {
       let shouldCheck = false;
-      
+
       for (const mutation of mutations) {
         if (mutation.type === 'childList') {
           // Check if any scripts were added
@@ -675,24 +669,24 @@ export function useSecurityMonitor(options: UseSecurityMonitorOptions = {}) {
             if (node.nodeName === 'SCRIPT') {
               shouldCheck = true;
             } else if (node.nodeType === Node.ELEMENT_NODE) {
-              if ((node as Element).getElementsByTagName('script').length > 0) {
+              if ((node as Element).getElementsByTagName('script').length> 0) {
                 shouldCheck = true;
               }
             }
           });
         }
       }
-      
+
       if (shouldCheck) {
         checkForSuspiciousInlineScripts();
       }
     });
-    
+
     scriptObserver.observe(document.documentElement, {
       childList: true,
       subtree: true
     });
-    
+
     return () => {
       scriptObserver.disconnect();
     };

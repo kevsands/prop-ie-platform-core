@@ -1,0 +1,478 @@
+'use client';
+
+import React, { useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import {
+  CheckCircle,
+  Circle,
+  Clock,
+  AlertCircle,
+  Home,
+  FileText,
+  CreditCard,
+  Shield,
+  Calendar,
+  Users,
+  Key,
+  Truck,
+  Receipt,
+  ChevronDown,
+  ChevronUp,
+  Info,
+  Bell,
+  Mail,
+  MessageSquare,
+  Phone
+} from 'lucide-react';
+
+interface TimelineEvent {
+  id: string;
+  stage: string;
+  title: string;
+  description: string;
+  status: 'completed' | 'current' | 'upcoming' | 'delayed';
+  date?: string;
+  estimatedDate?: string;
+  completedDate?: string;
+  icon: React.ComponentType<any>\n  );
+  subtasks?: Array<{
+    id: string;
+    title: string;
+    status: 'completed' | 'pending' | 'in_progress';
+    completedDate?: string;
+  }>\n  );
+  notifications?: Array<{
+    id: string;
+    type: 'email' | 'sms' | 'app';
+    sentAt: string;
+    subject: string;
+  }>\n  );
+  documents?: Array<{
+    id: string;
+    name: string;
+    type: string;
+    uploadedAt?: string;
+  }>\n  );
+}
+
+interface TransactionTimelineProps {
+  transactionId: string;
+  onStageClick?: (stage: string) => void;
+}
+
+export default function TransactionTimeline({ transactionId, onStageClick }: TransactionTimelineProps) {
+  const [expandedStagessetExpandedStages] = useState<Set<string>>(new Set(['current']));
+  const [showNotificationssetShowNotifications] = useState(true);
+
+  // Fetch timeline data
+  const { data: timeline, isLoading } = useQuery({
+    queryKey: ['transaction-timeline', transactionId],
+    queryFn: async () => {
+      const response = await fetch(`/api/transactions/${transactionId}/timeline`, {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+      });
+      if (!response.ok) throw new Error('Failed to fetch timeline');
+      return response.json();
+    }
+  });
+
+  const timelineStages: TimelineEvent[] = [
+    {
+      id: 'enquiry',
+      stage: 'INITIAL_ENQUIRY',
+      title: 'Initial Enquiry',
+      description: 'Property viewing and initial interest',
+      status: timeline?.currentStage>= 0 ? 'completed' : 'upcoming',
+      completedDate: timeline?.stages?.enquiry?.completedDate,
+      icon: Home,
+      subtasks: [
+        { id: 'viewing', title: 'Property Viewing', status: 'completed' },
+        { id: 'interest', title: 'Express Interest', status: 'completed' }
+      ]
+    },
+    {
+      id: 'reservation',
+      stage: 'RESERVATION',
+      title: 'Reservation',
+      description: 'Reserve property with booking deposit',
+      status: timeline?.currentStage === 1 ? 'current' : timeline?.currentStage> 1 ? 'completed' : 'upcoming',
+      completedDate: timeline?.stages?.reservation?.completedDate,
+      estimatedDate: timeline?.stages?.reservation?.estimatedDate,
+      icon: Receipt,
+      subtasks: [
+        { id: 'kyc', title: 'KYC Verification', status: timeline?.kycCompleted ? 'completed' : 'in_progress' },
+        { id: 'deposit', title: 'Booking Deposit', status: timeline?.depositPaid ? 'completed' : 'pending' },
+        { id: 'agreement', title: 'Reservation Agreement', status: timeline?.reservationSigned ? 'completed' : 'pending' }
+      ],
+      documents: timeline?.documents?.filter((d: any) => d.stage === 'reservation')
+    },
+    {
+      id: 'legal',
+      stage: 'LEGAL_PROCESSING',
+      title: 'Legal Processing',
+      description: 'Contract preparation and signing',
+      status: timeline?.currentStage === 2 ? 'current' : timeline?.currentStage> 2 ? 'completed' : 'upcoming',
+      completedDate: timeline?.stages?.legal?.completedDate,
+      estimatedDate: timeline?.stages?.legal?.estimatedDate,
+      icon: FileText,
+      subtasks: [
+        { id: 'contract_draft', title: 'Contract Drafting', status: 'pending' },
+        { id: 'legal_review', title: 'Legal Review', status: 'pending' },
+        { id: 'contract_sign', title: 'Contract Signing', status: 'pending' }
+      ]
+    },
+    {
+      id: 'mortgage',
+      stage: 'MORTGAGE_APPLICATION',
+      title: 'Mortgage Application',
+      description: 'Secure financing for purchase',
+      status: timeline?.currentStage === 3 ? 'current' : timeline?.currentStage> 3 ? 'completed' : 'upcoming',
+      completedDate: timeline?.stages?.mortgage?.completedDate,
+      estimatedDate: timeline?.stages?.mortgage?.estimatedDate,
+      icon: CreditCard,
+      subtasks: [
+        { id: 'application', title: 'Submit Application', status: 'pending' },
+        { id: 'valuation', title: 'Property Valuation', status: 'pending' },
+        { id: 'approval', title: 'Mortgage Approval', status: 'pending' }
+      ]
+    },
+    {
+      id: 'exchange',
+      stage: 'CONTRACT_EXCHANGE',
+      title: 'Contract Exchange',
+      description: 'Exchange contracts and pay deposit',
+      status: timeline?.currentStage === 4 ? 'current' : timeline?.currentStage> 4 ? 'completed' : 'upcoming',
+      completedDate: timeline?.stages?.exchange?.completedDate,
+      estimatedDate: timeline?.stages?.exchange?.estimatedDate,
+      icon: Users,
+      subtasks: [
+        { id: 'deposit_10', title: '10% Deposit Payment', status: 'pending' },
+        { id: 'exchange', title: 'Exchange Contracts', status: 'pending' },
+        { id: 'insurance', title: 'Building Insurance', status: 'pending' }
+      ]
+    },
+    {
+      id: 'completion',
+      stage: 'COMPLETION',
+      title: 'Completion',
+      description: 'Final payment and property transfer',
+      status: timeline?.currentStage === 5 ? 'current' : timeline?.currentStage> 5 ? 'completed' : 'upcoming',
+      completedDate: timeline?.stages?.completion?.completedDate,
+      estimatedDate: timeline?.stages?.completion?.estimatedDate,
+      icon: Key,
+      subtasks: [
+        { id: 'final_payment', title: 'Final Payment', status: 'pending' },
+        { id: 'completion', title: 'Legal Completion', status: 'pending' },
+        { id: 'registration', title: 'Land Registration', status: 'pending' }
+      ]
+    },
+    {
+      id: 'handover',
+      stage: 'POST_COMPLETION',
+      title: 'Handover',
+      description: 'Property inspection and key collection',
+      status: timeline?.currentStage === 6 ? 'current' : timeline?.currentStage> 6 ? 'completed' : 'upcoming',
+      completedDate: timeline?.stages?.handover?.completedDate,
+      estimatedDate: timeline?.stages?.handover?.estimatedDate,
+      icon: Truck,
+      subtasks: [
+        { id: 'inspection', title: 'Final Inspection', status: 'pending' },
+        { id: 'snagging', title: 'Snagging List', status: 'pending' },
+        { id: 'keys', title: 'Key Collection', status: 'pending' }
+      ]
+    }
+  ];
+
+  const toggleStage = (stageId: string) => {
+    const newExpanded = new Set(expandedStages);
+    if (newExpanded.has(stageId)) {
+      newExpanded.delete(stageId);
+    } else {
+      newExpanded.add(stageId);
+    }
+    setExpandedStages(newExpanded);
+  };
+
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case 'completed':
+        return 'text-green-600 bg-green-100';
+      case 'current':
+        return 'text-blue-600 bg-blue-100';
+      case 'delayed':
+        return 'text-red-600 bg-red-100';
+      default:
+        return 'text-gray-400 bg-gray-100';
+    }
+  };
+
+  const getStatusIcon = (status: string) => {
+    switch (status) {
+      case 'completed':
+        return CheckCircle;
+      case 'current':
+        return Clock;
+      case 'delayed':
+        return AlertCircle;
+      default:
+        return Circle;
+    }
+  };
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center p-8">
+        <div className="text-center">
+          <Clock className="w-8 h-8 text-gray-400 animate-pulse mx-auto mb-2" />
+          <p className="text-gray-600">Loading timeline...</p>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="max-w-4xl mx-auto">
+      {/* Header */}
+      <div className="bg-white rounded-xl shadow-sm p-6 mb-6">
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-2xl font-bold text-gray-900">Transaction Timeline</h2>
+          <div className="flex items-center gap-4">
+            <button
+              onClick={() => setShowNotifications(!showNotifications)}
+              className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+                showNotifications
+                  ? 'bg-blue-100 text-blue-700'
+                  : 'bg-gray-100 text-gray-700'
+              }`}
+            >
+              <Bell className="w-4 h-4" />
+              Notifications
+            </button>
+          </div>
+        </div>
+
+        {/* Progress Bar */}
+        <div className="relative">
+          <div className="absolute inset-0 flex items-center">
+            <div className="w-full bg-gray-200 rounded-full h-2">
+              <div
+                className="bg-blue-600 h-2 rounded-full transition-all duration-500"
+                style={ width: `${((timeline?.currentStage || 0) / 6) * 100}%` }
+              />
+            </div>
+          </div>
+          <div className="relative flex justify-between">
+            {timelineStages.map((stageindex: any) => {
+              const StatusIcon = getStatusIcon(stage.status);
+              return (
+                <div
+                  key={stage.id}
+                  className="bg-white px-2"
+                >
+                  <div
+                    className={`w-8 h-8 rounded-full flex items-center justify-center ${
+                      getStatusColor(stage.status)
+                    }`}
+                  >
+                    <StatusIcon className="w-5 h-5" />
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Current Stage Summary */}
+        {timeline?.currentStageDetails && (
+          <div className="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+            <div className="flex items-start gap-3">
+              <Info className="w-5 h-5 text-blue-600 mt-0.5" />
+              <div>
+                <h3 className="font-medium text-blue-900">Current Stage: {timeline.currentStageDetails.title}</h3>
+                <p className="text-sm text-blue-800 mt-1">
+                  {timeline.currentStageDetails.description}
+                </p>
+                {timeline.currentStageDetails.nextAction && (
+                  <p className="text-sm text-blue-700 mt-2">
+                    <strong>Next Action:</strong> {timeline.currentStageDetails.nextAction}
+                  </p>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Timeline Details */}
+      <div className="space-y-4">
+        {timelineStages.map((stageindex: any) => {
+          const isExpanded = expandedStages.has(stage.id) || stage.status === 'current';
+          const StatusIcon = getStatusIcon(stage.status);
+
+          return (
+            <div
+              key={stage.id}
+              className={`bg-white rounded-xl shadow-sm overflow-hidden transition-all ${
+                stage.status === 'current' ? 'ring-2 ring-blue-500' : ''
+              }`}
+            >
+              {/* Stage Header */}
+              <button
+                onClick={() => toggleStage(stage.id)}
+                className="w-full px-6 py-4 flex items-center justify-between hover:bg-gray-50 transition-colors"
+              >
+                <div className="flex items-center gap-4">
+                  <div className={`p-3 rounded-lg ${getStatusColor(stage.status)}`}>
+                    <stage.icon className="w-6 h-6" />
+                  </div>
+                  <div className="text-left">
+                    <h3 className="font-semibold text-gray-900">{stage.title}</h3>
+                    <p className="text-sm text-gray-600">{stage.description}</p>
+                    {stage.completedDate && (
+                      <p className="text-xs text-green-600 mt-1">
+                        Completed: {new Date(stage.completedDate).toLocaleDateString()}
+                      </p>
+                    )}
+                    {stage.status === 'upcoming' && stage.estimatedDate && (
+                      <p className="text-xs text-gray-500 mt-1">
+                        Estimated: {new Date(stage.estimatedDate).toLocaleDateString()}
+                      </p>
+                    )}
+                  </div>
+                </div>
+                <div className="flex items-center gap-3">
+                  <StatusIcon className={`w-5 h-5 ${
+                    stage.status === 'completed' ? 'text-green-600' :
+                    stage.status === 'current' ? 'text-blue-600' :
+                    stage.status === 'delayed' ? 'text-red-600' :
+                    'text-gray-400'
+                  }`} />
+                  {isExpanded ? (
+                    <ChevronUp className="w-5 h-5 text-gray-400" />
+                  ) : (
+                    <ChevronDown className="w-5 h-5 text-gray-400" />
+                  )}
+                </div>
+              </button>
+
+              {/* Stage Details */}
+              {isExpanded && (
+                <div className="px-6 pb-6 border-t">
+                  {/* Subtasks */}
+                  {stage.subtasks && stage.subtasks.length> 0 && (
+                    <div className="mt-4">
+                      <h4 className="font-medium text-gray-900 mb-3">Tasks</h4>
+                      <div className="space-y-2">
+                        {stage.subtasks.map((task: any) => (
+                          <div key={task.id} className="flex items-center gap-3">
+                            {task.status === 'completed' ? (
+                              <CheckCircle className="w-4 h-4 text-green-600" />
+                            ) : task.status === 'in_progress' ? (
+                              <Clock className="w-4 h-4 text-yellow-600" />
+                            ) : (
+                              <Circle className="w-4 h-4 text-gray-400" />
+                            )}
+                            <span className={`text-sm ${
+                              task.status === 'completed' ? 'text-gray-600 line-through' : 'text-gray-900'
+                            }`}>
+                              {task.title}
+                            </span>
+                            {task.completedDate && (
+                              <span className="text-xs text-gray-500">
+                                ({new Date(task.completedDate).toLocaleDateString()})
+                              </span>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Documents */}
+                  {stage.documents && stage.documents.length> 0 && (
+                    <div className="mt-4">
+                      <h4 className="font-medium text-gray-900 mb-3">Documents</h4>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                        {stage.documents.map((doc: any) => (
+                          <div
+                            key={doc.id}
+                            className="flex items-center gap-2 p-2 bg-gray-50 rounded-lg"
+                          >
+                            <FileText className="w-4 h-4 text-gray-600" />
+                            <span className="text-sm text-gray-700">{doc.name}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Notifications */}
+                  {showNotifications && stage.notifications && stage.notifications.length> 0 && (
+                    <div className="mt-4">
+                      <h4 className="font-medium text-gray-900 mb-3">Recent Notifications</h4>
+                      <div className="space-y-2">
+                        {stage.notifications.map((notif: any) => (
+                          <div
+                            key={notif.id}
+                            className="flex items-start gap-3 p-2 bg-gray-50 rounded-lg"
+                          >
+                            {notif.type === 'email' ? (
+                              <Mail className="w-4 h-4 text-gray-600 mt-0.5" />
+                            ) : notif.type === 'sms' ? (
+                              <Phone className="w-4 h-4 text-gray-600 mt-0.5" />
+                            ) : (
+                              <MessageSquare className="w-4 h-4 text-gray-600 mt-0.5" />
+                            )}
+                            <div className="flex-1">
+                              <p className="text-sm text-gray-700">{notif.subject}</p>
+                              <p className="text-xs text-gray-500">
+                                {new Date(notif.sentAt).toLocaleString()}
+                              </p>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Action Button */}
+                  {stage.status === 'current' && onStageClick && (
+                    <div className="mt-4">
+                      <button
+                        onClick={() => onStageClick(stage.stage)}
+                        className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors"
+                      >
+                        View Details & Take Action
+                      </button>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Milestone Notifications */}
+      {timeline?.upcomingMilestones && timeline.upcomingMilestones.length> 0 && (
+        <div className="mt-6 bg-yellow-50 border border-yellow-200 rounded-xl p-4">
+          <div className="flex items-start gap-3">
+            <Calendar className="w-5 h-5 text-yellow-600 mt-0.5" />
+            <div>
+              <h3 className="font-medium text-yellow-900">Upcoming Milestones</h3>
+              <ul className="mt-2 space-y-1">
+                {timeline.upcomingMilestones.map((milestone: any, index: number) => (
+                  <li key={index} className="text-sm text-yellow-800">
+                    • {milestone.title} - {new Date(milestone.date).toLocaleDateString()}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}

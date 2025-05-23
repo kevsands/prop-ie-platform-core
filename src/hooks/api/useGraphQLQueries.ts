@@ -59,7 +59,7 @@ export function useDevelopments(
   `;
 
   return useGraphQLQuery<{ developments: DevelopmentsResponse }, Error>(
-    ['developments', filter, pagination],
+    ['developments', filterpagination],
     query,
     { filter, pagination },
     options
@@ -145,7 +145,7 @@ export function useMyDevelopments(
   `;
 
   return useGraphQLQuery<{ myDevelopments: DevelopmentsResponse }, Error>(
-    ['myDevelopments', filter, pagination],
+    ['myDevelopments', filterpagination],
     query,
     { filter, pagination },
     options
@@ -285,7 +285,7 @@ export function useUsers(
   `;
 
   return useGraphQLQuery<{ users: UsersResponse }, Error>(
-    ['users', filter, pagination],
+    ['users', filterpagination],
     query,
     { filter, pagination },
     options
@@ -321,7 +321,7 @@ export function useSearchUsers(
   `;
 
   return useGraphQLQuery<{ searchUsers: UsersResponse }, Error>(
-    ['searchUsers', query, roles, pagination],
+    ['searchUsers', query, rolespagination],
     gqlQuery,
     { query, roles, pagination },
     options

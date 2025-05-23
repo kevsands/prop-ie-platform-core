@@ -13,15 +13,13 @@ const contactFormSchema = z.object({
   email: z.string().email({ message: 'Please enter a valid email address' }),
   phone: z.string().optional(),
   subject: z.string().min(5, { message: 'Subject must be at least 5 characters' }),
-  message: z.string().min(10, { message: 'Message must be at least 10 characters' }),
-});
+  message: z.string().min(10, { message: 'Message must be at least 10 characters' })});
 
-type ContactFormValues = z.infer<typeof contactFormSchema>;
-
+type ContactFormValues = z.infer<typeof contactFormSchema>\n  );
 const ContactForm: React.FC<ContactFormProps> = ({ onSubmit }) => {
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [formSubmitted, setFormSubmitted] = useState(false);
-  
+  const [isSubmittingsetIsSubmitting] = useState(false);
+  const [formSubmittedsetFormSubmitted] = useState(false);
+
   const { 
     register, 
     handleSubmit, 
@@ -34,13 +32,12 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSubmit }) => {
       email: '',
       phone: '',
       subject: '',
-      message: '',
-    }
+      message: ''}
   });
-  
+
   const handleFormSubmit = async (data: ContactFormValues) => {
     setIsSubmitting(true);
-    
+
     try {
       if (onSubmit) {
         await onSubmit(data);
@@ -48,7 +45,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSubmit }) => {
       setFormSubmitted(true);
       reset();
     } catch (error) {
-      console.error('Error submitting form:', error);
+
     } finally {
       setIsSubmitting(false);
     }
@@ -56,18 +53,18 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSubmit }) => {
 
   return (
     <motion.div 
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.5, delay: 0.1 }}
+      initial={ opacity: 0, y: 20 }
+      whileInView={ opacity: 1, y: 0 }
+      viewport={ once: true }
+      transition={ duration: 0.5, delay: 0.1 }
       className="bg-white p-8 rounded-lg shadow-sm"
     >
       <h2 className="text-2xl font-bold mb-6 text-gray-900">Send Us a Message</h2>
-      
+
       {formSubmitted ? (
         <motion.div 
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
+          initial={ opacity: 0 }
+          animate={ opacity: 1 }
           className="bg-green-50 border border-green-200 rounded-md p-6 text-center"
         >
           <svg className="w-12 h-12 text-green-500 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -100,7 +97,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSubmit }) => {
                 <p className="mt-1 text-sm text-red-600">{errors.name.message}</p>
               )}
             </div>
-            
+
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
                 Email Address <span className="text-red-500">*</span>
@@ -117,7 +114,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSubmit }) => {
               )}
             </div>
           </div>
-          
+
           <div>
             <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
               Phone Number (optional)
@@ -130,7 +127,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSubmit }) => {
               {...register('phone')}
             />
           </div>
-          
+
           <div>
             <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-1">
               Subject <span className="text-red-500">*</span>
@@ -146,7 +143,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSubmit }) => {
               <p className="mt-1 text-sm text-red-600">{errors.subject.message}</p>
             )}
           </div>
-          
+
           <div>
             <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">
               Message <span className="text-red-500">*</span>
@@ -162,7 +159,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSubmit }) => {
               <p className="mt-1 text-sm text-red-600">{errors.message.message}</p>
             )}
           </div>
-          
+
           <div>
             <button
               type="submit"

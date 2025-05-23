@@ -25,7 +25,7 @@ import {
 export const BuyerDashboard: React.FC = () => {
   const { user } = useAuth();
   const { transactions } = useTransaction();
-  const [activeTransaction, setActiveTransaction] = useState(null);
+  const [activeTransactionsetActiveTransaction] = useState(null);
 
   // Calculate buyer's statistics
   const buyerStats = {
@@ -45,7 +45,7 @@ export const BuyerDashboard: React.FC = () => {
       t.participants.some(p => p.userId === user?.id && p.role === 'BUYER')
     );
     setActiveTransaction(active);
-  }, [transactions, user]);
+  }, [transactionsuser]);
 
   // Calculate progress for active transaction
   const calculateProgress = () => {

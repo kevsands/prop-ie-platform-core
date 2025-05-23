@@ -1,0 +1,296 @@
+import React from 'react';
+'use client';
+
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { motion, AnimatePresence } from 'framer-motion';
+import { FiPlus, FiTrash2, FiMail, FiUser, FiShield, FiCheck, FiX, FiSend } from 'react-icons/fi';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Card } from '@/components/ui/card';
+import { Progress } from '@/components/ui/progress';
+import { Badge } from '@/components/ui/badge';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue} from '@/components/ui/select';
+import { toast } from 'sonner';
+
+interface TeamMember {
+  id: string;
+  name: string;
+  email: string;
+  role: string;
+  status: 'pending' | 'accepted' | 'declined';
+}
+
+const rolePermissions = {
+  admin: ['Full Access', 'Manage Team', 'Financial Reports', 'Project Management'],
+  manager: ['Project Management', 'View Reports', 'Manage Properties'],
+  developer: ['Code Access', 'API Keys', 'Technical Documentation'],
+  sales: ['Property Listing', 'Customer Management', 'Sales Reports'],
+  marketing: ['Content Management', 'Analytics', 'Campaign Management']};
+
+export default function TeamSetup() {
+  const router = useRouter();
+  const [teamMemberssetTeamMembers] = useState<TeamMember[]>([]);
+  const [newMembersetNewMember] = useState({ name: '', email: '', role: '' });
+  const [isInvitingsetIsInviting] = useState(false);
+  const [isContinuingsetIsContinuing] = useState(false);
+
+  const addTeamMember = async () => {
+    if (!newMember.name || !newMember.email || !newMember.role) {
+      toast.error('Please fill in all fields');
+      return;
+    }
+
+    setIsInviting(true);
+
+    // Simulate API call
+    setTimeout(() => {
+      const member: TeamMember = {
+        id: Math.random().toString(36).substr(29),
+        ...newMember,
+        status: 'pending'};
+
+      setTeamMembers([...teamMembersmember]);
+      setNewMember({ name: '', email: '', role: '' });
+      setIsInviting(false);
+      toast.success(`Invitation sent to ${member.email}`);
+    }, 1500);
+  };
+
+  const removeMember = (id: string) => {
+    setTeamMembers(teamMembers.filter(member => member.id !== id));
+    toast.success('Team member removed');
+  };
+
+  const handleContinue = async () => {
+    setIsContinuing(true);
+
+    // Save team data
+    localStorage.setItem('teamData', JSON.stringify(teamMembers));
+
+    // Simulate API call
+    setTimeout(() => {
+      toast.success('Team setup complete');
+      router.push('/developer/onboarding/subscription');
+    }, 1500);
+  };
+
+  const progressValue = 50; // Step 2 of 4
+
+  return (
+    <div className="min-h-screen px-4 sm:px-6 lg:px-8 py-12">
+      <div className="max-w-4xl mx-auto">
+        {/* Progress Bar */}
+        <div className="mb-8">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-2xl font-bold text-gray-900">Team Setup</h2>
+            <span className="text-sm text-gray-600">Step 2 of 4</span>
+          </div>
+          <Progress value={progressValue} className="h-2" />
+        </div>
+
+        <motion.div
+          initial={ opacity: 0, y: 20 }
+          animate={ opacity: 1, y: 0 }
+          transition={ duration: 0.5 }
+        >
+          <Card className="p-8">
+            <div className="mb-8">
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                Invite Your Team
+              </h3>
+              <p className="text-gray-600">
+                Add team members and define their roles. They'll receive an invitation to join.
+              </p>
+            </div>
+
+            {/* Add Team Member Form */}
+            <div className="bg-gray-50 rounded-lg p-6 mb-8">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div>
+                  <Label htmlFor="name">Full Name</Label>
+                  <div className="relative mt-1">
+                    <FiUser className="absolute left-3 top-3 text-gray-400" />
+                    <Input
+                      id="name"
+                      value={newMember.name}
+                      onChange={(e: any) => setNewMember({ ...newMember, name: e.target.value })}
+                      placeholder="John Doe"
+                      className="pl-10"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <Label htmlFor="email">Email Address</Label>
+                  <div className="relative mt-1">
+                    <FiMail className="absolute left-3 top-3 text-gray-400" />
+                    <Input
+                      id="email"
+                      type="email"
+                      value={newMember.email}
+                      onChange={(e: any) => setNewMember({ ...newMember, email: e.target.value })}
+                      placeholder="john@example.com"
+                      className="pl-10"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <Label htmlFor="role">Role</Label>
+                  <Select 
+                    value={newMember.role}
+                    onValueChange={(value: any) => setNewMember({ ...newMember, role: value })}
+                  >
+                    <SelectTrigger className="mt-1">
+                      <SelectValue placeholder="Select role" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="admin">Administrator</SelectItem>
+                      <SelectItem value="manager">Project Manager</SelectItem>
+                      <SelectItem value="developer">Developer</SelectItem>
+                      <SelectItem value="sales">Sales</SelectItem>
+                      <SelectItem value="marketing">Marketing</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+
+              {newMember.role && (
+                <motion.div
+                  initial={ opacity: 0, height: 0 }
+                  animate={ opacity: 1, height: 'auto' }
+                  transition={ duration: 0.3 }
+                  className="mt-4"
+                >
+                  <p className="text-sm text-gray-600 mb-2">Permissions for {newMember.role}:</p>
+                  <div className="flex flex-wrap gap-2">
+                    {rolePermissions[newMember.role as keyof typeof rolePermissions]?.map((permissionindex: any) => (
+                      <Badge key={index} variant="secondary" className="text-xs">
+                        {permission}
+                      </Badge>
+                    ))}
+                  </div>
+                </motion.div>
+              )}
+
+              <Button
+                onClick={addTeamMember}
+                disabled={isInviting}
+                className="mt-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white"
+              >
+                {isInviting ? (
+                  <span className="flex items-center gap-2">
+                    <motion.div
+                      animate={ rotate: 360 }
+                      transition={ duration: 1, repeat: Infinity, ease: "linear" }
+                      className="w-4 h-4 border-2 border-white border-t-transparent rounded-full"
+                    />
+                    Sending...
+                  </span>
+                ) : (
+                  <span className="flex items-center gap-2">
+                    <FiPlus />
+                    Add Team Member
+                  </span>
+                )}
+              </Button>
+            </div>
+
+            {/* Team Members List */}
+            <div className="space-y-4">
+              <h4 className="font-medium text-gray-900">Team Members ({teamMembers.length})</h4>
+
+              <AnimatePresence>
+                {teamMembers.length === 0 ? (
+                  <motion.div
+                    initial={ opacity: 0 }
+                    animate={ opacity: 1 }
+                    exit={ opacity: 0 }
+                    className="text-center py-8 text-gray-500"
+                  >
+                    <FiUser className="w-12 h-12 mx-auto mb-4 text-gray-300" />
+                    <p>No team members added yet</p>
+                  </motion.div>
+                ) : (
+                  teamMembers.map((member: any) => (
+                    <motion.div
+                      key={member.id}
+                      initial={ opacity: 0, x: -20 }
+                      animate={ opacity: 1, x: 0 }
+                      exit={ opacity: 0, x: 20 }
+                      transition={ duration: 0.3 }
+                      className="flex items-center justify-between bg-white border rounded-lg p-4"
+                    >
+                      <div className="flex items-center gap-4">
+                        <div className="w-10 h-10 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white flex items-center justify-center font-semibold">
+                          {member.name.charAt(0).toUpperCase()}
+                        </div>
+                        <div>
+                          <h5 className="font-medium text-gray-900">{member.name}</h5>
+                          <p className="text-sm text-gray-600">{member.email}</p>
+                        </div>
+                        <Badge variant="outline" className="capitalize">
+                          {member.role}
+                        </Badge>
+                        {member.status === 'pending' && (
+                          <Badge className="bg-yellow-100 text-yellow-800">
+                            <FiSend className="w-3 h-3 mr-1" />
+                            Invited
+                          </Badge>
+                        )}
+                        {member.status === 'accepted' && (
+                          <Badge className="bg-green-100 text-green-800">
+                            <FiCheck className="w-3 h-3 mr-1" />
+                            Accepted
+                          </Badge>
+                        )}
+                        {member.status === 'declined' && (
+                          <Badge className="bg-red-100 text-red-800">
+                            <FiX className="w-3 h-3 mr-1" />
+                            Declined
+                          </Badge>
+                        )}
+                      </div>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => removeMember(member.id)}
+                        className="text-red-600 hover:text-red-700"
+                      >
+                        <FiTrash2 className="w-4 h-4" />
+                      </Button>
+                    </motion.div>
+                  ))
+                )}
+              </AnimatePresence>
+            </div>
+
+            {/* Continue Button */}
+            <div className="flex justify-between mt-8">
+              <Button
+                variant="outline"
+                onClick={() => router.push('/developer/onboarding/company-setup')}
+              >
+                Back
+              </Button>
+              <Button
+                onClick={handleContinue}
+                disabled={isContinuing}
+                className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white"
+              >
+                {isContinuing ? 'Saving...' : 'Continue'}
+              </Button>
+            </div>
+          </Card>
+        </motion.div>
+      </div>
+    </div>
+  );
+}

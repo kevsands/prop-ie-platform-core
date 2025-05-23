@@ -19,8 +19,8 @@ import { ensureAmplifyInitialized } from './index';
  */
 export interface AnalyticsEventParams {
   name: string;
-  attributes?: Record<string, string>;
-  metrics?: Record<string, number>;
+  attributes?: Record<string, string>\n  );
+  metrics?: Record<string, number>\n  );
 }
 
 /**
@@ -28,7 +28,7 @@ export interface AnalyticsEventParams {
  */
 export interface AnalyticsUserAttributes {
   userId: string;
-  userAttributes?: Record<string, string[] | string>;
+  userAttributes?: Record<string, string[] | string>\n  );
 }
 
 /**
@@ -36,7 +36,7 @@ export interface AnalyticsUserAttributes {
  */
 export interface AnalyticsEndpointAttributes {
   address?: string;
-  attributes?: Record<string, string[]>;
+  attributes?: Record<string, string[]>\n  );
   demographic?: {
     appVersion?: string;
     locale?: string;
@@ -55,7 +55,7 @@ export interface AnalyticsEndpointAttributes {
     postalCode?: string;
     region?: string;
   };
-  metrics?: Record<string, number>;
+  metrics?: Record<string, number>\n  );
   optOut?: string;
   userId?: string;
 }
@@ -78,7 +78,7 @@ export class AnalyticsService {
         metrics: params.metrics
       });
     } catch (error) {
-      console.error(`Error recording analytics event '${params.name}':`, error);
+
     }
   }
 
@@ -93,7 +93,7 @@ export class AnalyticsService {
         userAttributes: params.userAttributes
       });
     } catch (error) {
-      console.error(`Error identifying user for analytics '${params.userId}':`, error);
+
     }
   }
 
@@ -113,7 +113,7 @@ export class AnalyticsService {
         userId: params.userId
       });
     } catch (error) {
-      console.error('Error updating endpoint for analytics:', error);
+
     }
   }
 

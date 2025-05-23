@@ -14,8 +14,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
-} from '@/components/ui/form';
+  FormMessage} from '@/components/ui/form';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -35,15 +34,13 @@ const loginSchema = z.object({
     .min(1, 'Password is required')
     .min(8, 'Password must be at least 8 characters')
     .max(100, 'Password is too long'),
-  rememberMe: z.boolean().default(false),
-});
+  rememberMe: z.boolean().default(false)});
 
 // Infer the type from the schema
-type LoginFormValues = z.infer<typeof loginSchema>;
-
+type LoginFormValues = z.infer<typeof loginSchema>\n  );
 // Define props for the LoginForm component
 interface LoginFormProps {
-  onSubmit?: (data: LoginFormValues) => Promise<void>;
+  onSubmit?: (data: LoginFormValues) => Promise<void>\n  );
 }
 
 const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
@@ -51,13 +48,13 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
   const searchParams = useSearchParams();
   const registered = searchParams?.get('registered');
   const returnTo = searchParams?.get('returnTo') || '/dashboard';
-  
+
   const { signIn, error: authError, clearError } = useAuth();
-  
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [showRegistrationSuccess, setShowRegistrationSuccess] = useState(false);
-  const [generalError, setGeneralError] = useState<string | null>(null);
-  const [attemptCount, setAttemptCount] = useState(0);
+
+  const [isSubmittingsetIsSubmitting] = useState(false);
+  const [showRegistrationSuccesssetShowRegistrationSuccess] = useState(false);
+  const [generalErrorsetGeneralError] = useState<string | null>(null);
+  const [attemptCountsetAttemptCount] = useState(0);
 
   // Initialize form with react-hook-form and zod resolver
   const form = useForm<LoginFormValues>({
@@ -65,9 +62,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
     defaultValues: {
       email: '',
       password: '',
-      rememberMe: false,
-    },
-  });
+      rememberMe: false});
 
   // Handle auth error passed from provider
   useEffect(() => {
@@ -102,9 +97,9 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
         clearError();
       }
     });
-    
+
     return () => subscription.unsubscribe();
-  }, [form, generalError, clearError]);
+  }, [form, generalErrorclearError]);
 
   // Submit handler with validation
   const handleSubmit = async (data: LoginFormValues) => {
@@ -112,27 +107,27 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
     setGeneralError(null);
     clearError();
     setIsSubmitting(true);
-    
+
     // Update attempt count for rate limiting feedback
     setAttemptCount(prev => prev + 1);
-    
+
     try {
       // If custom onSubmit is provided, use it (for MFA flow)
       if (onSubmit) {
         await onSubmit(data);
         return;
       }
-      
+
       // Otherwise use the default sign in flow
       const response = await signIn(data.email, data.password);
-      
+
       // Store remember me preference
       if (data.rememberMe) {
         localStorage.setItem('remember_email', data.email);
       } else {
         localStorage.removeItem('remember_email');
       }
-      
+
       // Check if MFA verification is needed
       if (response.nextStep && 
           (response.nextStep.signInStep === 'CONFIRM_SIGN_IN_WITH_SMS_CODE' || 
@@ -140,15 +135,15 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
         // This would be handled by the parent component (LoginPage)
         return;
       }
-      
+
       // Redirect based on user role
       if (response && response.isSignedIn) {
         // Load user data and determine redirection
         const userData = await router.refresh();
-        
+
         // This will use the router effect in the parent component for redirection
       }
-      
+
     } catch (err: any) {
       setGeneralError(err.message || 'Login failed. Please check your credentials.');
       form.setFocus('email'); // Return focus to email field
@@ -179,7 +174,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
           </Alert>
         )}
 
-        {attemptCount >= 3 && (
+        {attemptCount>= 3 && (
           <Alert className="mb-6 border-amber-500 bg-amber-50">
             <AlertCircle className="h-4 w-4 text-amber-500" />
             <AlertDescription className="text-amber-700">
@@ -270,7 +265,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
 
         <div className="mt-6 text-center">
           <p className="text-sm text-gray-600">
-            Don't have an account?{" "}
+            Don't have an account?{" "
             <Link
               href="/register"
               className="font-medium text-blue-600 hover:text-blue-500"

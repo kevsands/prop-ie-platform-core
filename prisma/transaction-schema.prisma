@@ -1,0 +1,1312 @@
+// Comprehensive Transaction Management Schema
+
+datasource db {
+  provider     = "postgresql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// Core user management
+model User {
+  id                    String                  @id @default(cuid())
+  email                 String                  @unique
+  name                  String?
+  role                  UserRole
+  phoneNumber           String?
+  address               String?
+  kycStatus             KYCStatus               @default(PENDING)
+  kycCompletedAt        DateTime?
+  preferredLanguage     String                  @default("en")
+  dateOfBirth           DateTime?
+  nationality          String?
+  occupation           String?
+  employmentStatus     EmploymentStatus?
+  annualIncome         Float?
+  sourceOfFunds        String?
+  maritalStatus        MaritalStatus?
+  createdAt            DateTime                @default(now())
+  updatedAt            DateTime                @updatedAt
+  transactions         Transaction[]           @relation("buyer")
+  documents            Document[]
+  notifications        Notification[]
+  buyerProfiles        BuyerProfile[]
+  viewingSchedules     ViewingSchedule[]
+  htbApplications      HTBApplication[]
+  customizationSelections CustomizationSelection[]
+  signatures           DocumentSignature[]
+  verifications        KYCVerification[]
+  communicationPrefs   CommunicationPreference?
+  bankDetails          BankDetails[]
+  
+  @@index([email])
+  @@index([role])
+  @@index([kycStatus])
+}
+
+enum UserRole {
+  BUYER
+  DEVELOPER
+  SOLICITOR
+  AGENT
+  ARCHITECT
+  CONTRACTOR
+  ADMIN
+  SURVEYOR
+  MORTGAGE_BROKER
+  FINANCIAL_ADVISOR
+}
+
+enum KYCStatus {
+  PENDING
+  IN_PROGRESS
+  VERIFIED
+  FAILED
+  EXPIRED
+}
+
+enum EmploymentStatus {
+  EMPLOYED
+  SELF_EMPLOYED
+  UNEMPLOYED
+  RETIRED
+  STUDENT
+  OTHER
+}
+
+enum MaritalStatus {
+  SINGLE
+  MARRIED
+  DIVORCED
+  WIDOWED
+  SEPARATED
+  CIVIL_PARTNERSHIP
+}
+
+model BuyerProfile {
+  id               String    @id @default(cuid())
+  userId           String
+  user             User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  isFirstTimeBuyer Boolean   @default(true)
+  hasHelpToBuy     Boolean   @default(false)
+  hasApprovedMortgage Boolean @default(false)
+  mortgageProvider String?
+  mortgageAmount   Float?
+  depositAmount    Float?
+  preferredLocation String?
+  minBudget        Float?
+  maxBudget        Float?
+  bedrooms         Int?
+  propertyType     PropertyType?
+  moveInTimeline   String?
+  specialRequirements String? @db.Text
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  @@unique([userId])
+  @@index([userId])
+}
+
+// Development and unit management
+model Development {
+  id                String              @id @default(cuid())
+  name              String
+  slug              String              @unique
+  developerId       String
+  location          String
+  description       String              @db.Text
+  status            DevelopmentStatus   @default(PLANNING)
+  phase             String?
+  totalUnits        Int
+  
+  // Location details
+  address           String
+  county            String
+  eircode           String?
+  latitude          Float?
+  longitude         Float?
+  
+  // Project timeline
+  plannedStartDate  DateTime?
+  actualStartDate   DateTime?
+  phase1Completion  DateTime?
+  phase2Completion  DateTime?
+  expectedCompletion DateTime?
+  actualCompletion  DateTime?
+  
+  // Financial
+  totalProjectValue Float?
+  projectedRevenue  Float?
+  actualRevenue     Float?
+  projectROI        Float?
+  
+  // Features and amenities
+  features          Json?               // Array of features
+  amenities         Json?               // Array of amenities
+  energyRating      String?
+  transportLinks    Json?               // Array of transport options
+  
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime            @updatedAt
+  
+  units             Unit[]
+  media             DevelopmentMedia[]
+  documents         DevelopmentDocument[]
+  team              DevelopmentTeam[]
+  marketingMaterials MarketingMaterial[]
+  transactions      Transaction[]
+  
+  @@index([slug])
+  @@index([developerId])
+  @@index([status])
+}
+
+enum DevelopmentStatus {
+  PLANNING
+  UNDER_CONSTRUCTION
+  SELLING
+  SOLD_OUT
+  COMPLETED
+  ON_HOLD
+}
+
+enum PropertyType {
+  APARTMENT
+  SEMI_DETACHED
+  DETACHED
+  TERRACED
+  PENTHOUSE
+  STUDIO
+  DUPLEX
+  BUNGALOW
+}
+
+model Unit {
+  id                  String              @id @default(cuid())
+  developmentId       String
+  development         Development         @relation(fields: [developmentId], references: [id], onDelete: Cascade)
+  unitNumber          String
+  block               String?
+  floor               Int?
+  unitType            PropertyType
+  bedrooms            Int
+  bathrooms           Int
+  parkingSpaces       Int                 @default(0)
+  hasBalcony          Boolean             @default(false)
+  hasGarden           Boolean             @default(false)
+  gardenSize          Float?
+  internalArea        Float
+  externalArea        Float?
+  totalArea           Float
+  
+  // Pricing
+  listPrice           Float
+  currentPrice        Float
+  priceHistory        Json?               // Array of price changes
+  
+  // Status
+  status              UnitStatus          @default(AVAILABLE)
+  availableFrom       DateTime?
+  
+  // Orientation and views
+  orientation         String?
+  views               Json?               // Array of view descriptions
+  
+  // Specifications
+  floorPlan           String?             // URL to floor plan
+  specifications      Json?               // Detailed specifications
+  
+  createdAt           DateTime            @default(now())
+  updatedAt           DateTime            @updatedAt
+  
+  transactions        Transaction[]
+  reservations        Reservation[]
+  viewings           ViewingSchedule[]
+  customizations     UnitCustomization[]
+  
+  @@unique([developmentId, unitNumber])
+  @@index([developmentId])
+  @@index([status])
+  @@index([unitType])
+}
+
+enum UnitStatus {
+  AVAILABLE
+  RESERVED
+  SOLD
+  UNDER_OFFER
+  NOT_FOR_SALE
+  HOLD
+}
+
+// Transaction management
+model Transaction {
+  id                    String                @id @default(cuid())
+  buyerId               String
+  buyer                 User                  @relation("buyer", fields: [buyerId], references: [id])
+  unitId                String
+  unit                  Unit                  @relation(fields: [unitId], references: [id])
+  developmentId         String
+  development           Development           @relation(fields: [developmentId], references: [id])
+  
+  // Transaction details
+  status                TransactionStatus     @default(ENQUIRY)
+  stage                 TransactionStage      @default(INITIAL_ENQUIRY)
+  transactionType       TransactionType       @default(PURCHASE)
+  
+  // Financial
+  agreedPrice           Float?
+  depositPaid           Float                 @default(0)
+  totalPaid             Float                 @default(0)
+  outstandingBalance    Float?
+  
+  // Important dates
+  enquiryDate           DateTime              @default(now())
+  reservationDate       DateTime?
+  contractDate          DateTime?
+  completionDate        DateTime?
+  
+  // Legal
+  solicitorId           String?
+  buyerSolicitorDetails Json?
+  vendorSolicitorDetails Json?
+  contractsSent         Boolean               @default(false)
+  contractsSigned       Boolean               @default(false)
+  
+  // Mortgage
+  mortgageRequired      Boolean               @default(true)
+  mortgageApproved      Boolean               @default(false)
+  mortgageProvider      String?
+  mortgageAmount        Float?
+  mortgageReference     String?
+  
+  // HTB
+  helpToBuyUsed         Boolean               @default(false)
+  htbAmount             Float?
+  htbReference          String?
+  
+  // Flags and metadata
+  isGDPRConsent         Boolean               @default(false)
+  marketingOptIn        Boolean               @default(false)
+  referralSource        String?
+  notes                 String?               @db.Text
+  internalNotes         String?               @db.Text
+  
+  createdAt             DateTime              @default(now())
+  updatedAt             DateTime              @updatedAt
+  
+  // Relations
+  events                TransactionEvent[]
+  documents             Document[]
+  communications        Communication[]
+  customizations        CustomizationSelection[]
+  payments              Payment[]
+  tasks                 TransactionTask[]
+  issues                TransactionIssue[]
+  
+  @@index([buyerId])
+  @@index([unitId])
+  @@index([developmentId])
+  @@index([status])
+  @@index([stage])
+}
+
+enum TransactionStatus {
+  ENQUIRY
+  VIEWING_SCHEDULED
+  OFFER_MADE
+  OFFER_ACCEPTED
+  RESERVATION_PAID
+  SALE_AGREED
+  CONTRACTS_ISSUED
+  CONTRACTS_SIGNED
+  MORTGAGE_APPROVED
+  COMPLETION_PENDING
+  COMPLETED
+  WITHDRAWN
+  CANCELLED
+  FALLEN_THROUGH
+}
+
+enum TransactionStage {
+  INITIAL_ENQUIRY
+  VIEWING
+  NEGOTIATION
+  RESERVATION
+  LEGAL_REVIEW
+  MORTGAGE_APPLICATION
+  CONTRACT_EXCHANGE
+  COMPLETION
+  POST_COMPLETION
+}
+
+enum TransactionType {
+  PURCHASE
+  RESERVATION
+  ASSIGNMENT
+  PART_EXCHANGE
+}
+
+model TransactionEvent {
+  id              String              @id @default(cuid())
+  transactionId   String
+  transaction     Transaction         @relation(fields: [transactionId], references: [id], onDelete: Cascade)
+  eventType       TransactionEventType
+  description     String
+  metadata        Json?
+  performedBy     String?
+  performedAt     DateTime            @default(now())
+  
+  @@index([transactionId])
+  @@index([eventType])
+  @@index([performedAt])
+}
+
+enum TransactionEventType {
+  STATUS_CHANGE
+  DOCUMENT_UPLOADED
+  PAYMENT_RECEIVED
+  VIEWING_COMPLETED
+  OFFER_MADE
+  OFFER_ACCEPTED
+  CONTRACT_ISSUED
+  CONTRACT_SIGNED
+  MORTGAGE_UPDATE
+  ISSUE_RAISED
+  ISSUE_RESOLVED
+  NOTE_ADDED
+  EMAIL_SENT
+  TASK_COMPLETED
+}
+
+// Document management
+model Document {
+  id              String              @id @default(cuid())
+  transactionId   String?
+  transaction     Transaction?        @relation(fields: [transactionId], references: [id], onDelete: Cascade)
+  userId          String?
+  user            User?               @relation(fields: [userId], references: [id])
+  
+  name            String
+  type            DocumentType
+  category        DocumentCategory
+  status          DocumentStatus      @default(DRAFT)
+  
+  // File details
+  fileName        String
+  fileSize        Int
+  mimeType        String
+  fileUrl         String
+  
+  // Metadata
+  version         Int                 @default(1)
+  description     String?
+  tags            String[]            @default([])
+  
+  // Security
+  isEncrypted     Boolean             @default(true)
+  accessControl   Json?               // Who can access this document
+  expiresAt       DateTime?
+  
+  // Workflow
+  requiresSignature Boolean           @default(false)
+  signatureStatus SignatureStatus     @default(NOT_REQUIRED)
+  
+  createdAt       DateTime            @default(now())
+  updatedAt       DateTime            @updatedAt
+  uploadedBy      String
+  
+  signatures      DocumentSignature[]
+  activities      DocumentActivity[]
+  
+  @@index([transactionId])
+  @@index([userId])
+  @@index([type])
+  @@index([category])
+  @@index([status])
+}
+
+enum DocumentType {
+  CONTRACT
+  AGREEMENT
+  IDENTIFICATION
+  PROOF_OF_ADDRESS
+  PROOF_OF_INCOME
+  BANK_STATEMENT
+  MORTGAGE_APPROVAL
+  VALUATION_REPORT
+  SURVEY_REPORT
+  TITLE_DEED
+  PLANNING_PERMISSION
+  BER_CERTIFICATE
+  SNAG_LIST
+  INVOICE
+  RECEIPT
+  LEGAL_PACK
+  BROCHURE
+  FLOOR_PLAN
+  OTHER
+}
+
+enum DocumentCategory {
+  LEGAL
+  FINANCIAL
+  IDENTIFICATION
+  PROPERTY
+  MORTGAGE
+  INSURANCE
+  TAX
+  COMPLIANCE
+  MARKETING
+  INTERNAL
+}
+
+enum DocumentStatus {
+  DRAFT
+  PENDING_REVIEW
+  APPROVED
+  REJECTED
+  SIGNED
+  ARCHIVED
+  EXPIRED
+}
+
+enum SignatureStatus {
+  NOT_REQUIRED
+  PENDING
+  PARTIALLY_SIGNED
+  COMPLETED
+  EXPIRED
+  REJECTED
+}
+
+model DocumentSignature {
+  id              String          @id @default(cuid())
+  documentId      String
+  document        Document        @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  userId          String
+  user            User            @relation(fields: [userId], references: [id])
+  
+  signatureType   SignatureType
+  signedAt        DateTime?
+  ipAddress       String?
+  userAgent       String?
+  
+  // Digital signature data
+  signatureData   String?         @db.Text
+  certificateData String?         @db.Text
+  
+  status          SignatureStatus
+  
+  createdAt       DateTime        @default(now())
+  
+  @@index([documentId])
+  @@index([userId])
+}
+
+enum SignatureType {
+  ELECTRONIC
+  DIGITAL
+  WET_INK
+  TYPED
+}
+
+// Payment tracking
+model Payment {
+  id              String          @id @default(cuid())
+  transactionId   String
+  transaction     Transaction     @relation(fields: [transactionId], references: [id], onDelete: Cascade)
+  
+  type            PaymentType
+  amount          Float
+  currency        String          @default("EUR")
+  status          PaymentStatus   @default(PENDING)
+  
+  // Payment details
+  method          PaymentMethod
+  reference       String          @unique
+  
+  // Banking details
+  fromAccount     String?
+  toAccount       String?
+  bankReference   String?
+  
+  // Important dates
+  dueDate         DateTime?
+  paidDate        DateTime?
+  clearedDate     DateTime?
+  
+  // Metadata
+  description     String?
+  invoiceNumber   String?
+  receiptNumber   String?
+  
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+  
+  @@index([transactionId])
+  @@index([status])
+  @@index([reference])
+}
+
+enum PaymentType {
+  BOOKING_DEPOSIT
+  CONTRACT_DEPOSIT
+  STAGE_PAYMENT
+  FINAL_PAYMENT
+  CUSTOMIZATION_PAYMENT
+  LEGAL_FEE
+  STAMP_DUTY
+  OTHER_FEE
+  REFUND
+}
+
+enum PaymentStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
+  CANCELLED
+  REFUNDED
+  PARTIALLY_REFUNDED
+}
+
+enum PaymentMethod {
+  BANK_TRANSFER
+  CREDIT_CARD
+  DEBIT_CARD
+  CHEQUE
+  CASH
+  MORTGAGE_DRAWDOWN
+  OTHER
+}
+
+// Communication tracking
+model Communication {
+  id              String              @id @default(cuid())
+  transactionId   String?
+  transaction     Transaction?        @relation(fields: [transactionId], references: [id], onDelete: Cascade)
+  
+  type            CommunicationType
+  channel         CommunicationChannel
+  direction       CommunicationDirection
+  
+  // Participants
+  fromId          String?
+  toId            String?
+  ccIds           String[]            @default([])
+  
+  // Content
+  subject         String?
+  content         String              @db.Text
+  attachments     Json?               // Array of attachment details
+  
+  // Status
+  status          CommunicationStatus @default(SENT)
+  readAt          DateTime?
+  
+  // Metadata
+  tags            String[]            @default([])
+  threadId        String?             // For grouping related communications
+  externalId      String?             // External system reference
+  
+  createdAt       DateTime            @default(now())
+  
+  @@index([transactionId])
+  @@index([type])
+  @@index([threadId])
+  @@index([createdAt])
+}
+
+enum CommunicationType {
+  EMAIL
+  SMS
+  PHONE_CALL
+  VIDEO_CALL
+  MEETING
+  NOTE
+  LETTER
+  INTERNAL_NOTE
+}
+
+enum CommunicationChannel {
+  EMAIL
+  SMS
+  PHONE
+  VIDEO
+  IN_PERSON
+  PORTAL
+  POST
+}
+
+enum CommunicationDirection {
+  INBOUND
+  OUTBOUND
+  INTERNAL
+}
+
+enum CommunicationStatus {
+  DRAFT
+  SENT
+  DELIVERED
+  READ
+  REPLIED
+  BOUNCED
+  FAILED
+}
+
+// HTB (Help to Buy) management
+model HTBApplication {
+  id                  String          @id @default(cuid())
+  userId              String
+  user                User            @relation(fields: [userId], references: [id])
+  transactionId       String?
+  
+  status              HTBStatus       @default(NOT_STARTED)
+  applicationNumber   String?         @unique
+  
+  // Applicant details
+  employmentDetails   Json?
+  incomeDetails       Json?
+  
+  // Property details
+  propertyPrice       Float?
+  htbAmount           Float?
+  mortgageAmount      Float?
+  depositAmount       Float?
+  
+  // Important dates
+  applicationDate     DateTime?
+  approvalDate        DateTime?
+  expiryDate          DateTime?
+  drawdownDate        DateTime?
+  
+  // Documents
+  documentsRequired   Json?           // List of required documents
+  documentsSubmitted  Json?           // List of submitted documents
+  
+  createdAt           DateTime        @default(now())
+  updatedAt           DateTime        @updatedAt
+  
+  @@index([userId])
+  @@index([status])
+  @@index([applicationNumber])
+}
+
+enum HTBStatus {
+  NOT_STARTED
+  IN_PROGRESS
+  SUBMITTED
+  UNDER_REVIEW
+  APPROVED
+  REJECTED
+  EXPIRED
+  WITHDRAWN
+  COMPLETED
+}
+
+// Customization management
+model CustomizationSelection {
+  id              String              @id @default(cuid())
+  transactionId   String
+  transaction     Transaction         @relation(fields: [transactionId], references: [id], onDelete: Cascade)
+  userId          String
+  user            User                @relation(fields: [userId], references: [id])
+  
+  category        CustomizationCategory
+  itemCode        String
+  itemName        String
+  description     String?
+  
+  // Pricing
+  basePrice       Float               @default(0)
+  upgradePrice    Float               @default(0)
+  totalPrice      Float
+  
+  // Status
+  status          CustomizationStatus @default(SELECTED)
+  approvedAt      DateTime?
+  approvedBy      String?
+  
+  // BOQ impact
+  boqVariance     Float               @default(0)
+  boqNotes        String?
+  
+  createdAt       DateTime            @default(now())
+  updatedAt       DateTime            @updatedAt
+  
+  @@index([transactionId])
+  @@index([userId])
+  @@index([category])
+  @@index([status])
+}
+
+enum CustomizationCategory {
+  FLOORING
+  KITCHEN
+  BATHROOM
+  ELECTRICAL
+  FINISHES
+  FIXTURES
+  APPLIANCES
+  GARDEN
+  SMART_HOME
+  OTHER
+}
+
+enum CustomizationStatus {
+  SELECTED
+  PENDING_APPROVAL
+  APPROVED
+  REJECTED
+  INSTALLED
+  CANCELLED
+}
+
+// Notification management
+model Notification {
+  id              String          @id @default(cuid())
+  userId          String
+  user            User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  type            NotificationType
+  category        NotificationCategory
+  priority        NotificationPriority @default(NORMAL)
+  
+  title           String
+  message         String          @db.Text
+  actionUrl       String?
+  
+  // Status
+  isRead          Boolean         @default(false)
+  readAt          DateTime?
+  isDismissed     Boolean         @default(false)
+  dismissedAt     DateTime?
+  
+  // Delivery
+  channels        String[]        @default(["IN_APP"])
+  emailSent       Boolean         @default(false)
+  smsSent         Boolean         @default(false)
+  pushSent        Boolean         @default(false)
+  
+  // Metadata
+  metadata        Json?
+  expiresAt       DateTime?
+  
+  createdAt       DateTime        @default(now())
+  
+  @@index([userId])
+  @@index([isRead])
+  @@index([createdAt])
+}
+
+enum NotificationType {
+  TRANSACTION_UPDATE
+  DOCUMENT_REQUEST
+  PAYMENT_REMINDER
+  VIEWING_REMINDER
+  TASK_ASSIGNED
+  MILESTONE_REACHED
+  ISSUE_RAISED
+  SYSTEM_ALERT
+  MARKETING
+  OTHER
+}
+
+enum NotificationCategory {
+  TRANSACTION
+  PAYMENT
+  DOCUMENT
+  VIEWING
+  TASK
+  SYSTEM
+  MARKETING
+}
+
+enum NotificationPriority {
+  LOW
+  NORMAL
+  HIGH
+  URGENT
+}
+
+// Additional supporting models
+model ViewingSchedule {
+  id              String          @id @default(cuid())
+  unitId          String
+  unit            Unit            @relation(fields: [unitId], references: [id])
+  userId          String
+  user            User            @relation(fields: [userId], references: [id])
+  
+  scheduledDate   DateTime
+  duration        Int             @default(30) // minutes
+  status          ViewingStatus   @default(SCHEDULED)
+  
+  // Viewing details
+  viewingType     ViewingType     @default(IN_PERSON)
+  meetingPoint    String?
+  specialRequests String?
+  
+  // Agent details
+  agentName       String?
+  agentPhone      String?
+  agentEmail      String?
+  
+  // Follow up
+  feedback        String?         @db.Text
+  rating          Int?
+  interestedInUnit Boolean?
+  
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+  
+  @@index([unitId])
+  @@index([userId])
+  @@index([scheduledDate])
+  @@index([status])
+}
+
+enum ViewingStatus {
+  SCHEDULED
+  CONFIRMED
+  COMPLETED
+  CANCELLED
+  NO_SHOW
+  RESCHEDULED
+}
+
+enum ViewingType {
+  IN_PERSON
+  VIRTUAL
+  SELF_GUIDED
+  OPEN_HOUSE
+}
+
+model KYCVerification {
+  id              String          @id @default(cuid())
+  userId          String
+  user            User            @relation(fields: [userId], references: [id])
+  
+  verificationType KYCVerificationType
+  status          KYCStatus       @default(IN_PROGRESS)
+  
+  // Verification details
+  documentType    String?
+  documentNumber  String?
+  documentExpiry  DateTime?
+  
+  // Verification results
+  verificationData Json?
+  score           Float?
+  riskLevel       String?
+  
+  // Third party verification
+  providerId      String?
+  providerRef     String?
+  
+  performedAt     DateTime        @default(now())
+  expiresAt       DateTime?
+  
+  @@index([userId])
+  @@index([status])
+  @@index([verificationType])
+}
+
+enum KYCVerificationType {
+  IDENTITY
+  ADDRESS
+  INCOME
+  EMPLOYMENT
+  AML_CHECK
+  CREDIT_CHECK
+  SANCTIONS_CHECK
+}
+
+model TransactionTask {
+  id              String          @id @default(cuid())
+  transactionId   String
+  transaction     Transaction     @relation(fields: [transactionId], references: [id], onDelete: Cascade)
+  
+  title           String
+  description     String?         @db.Text
+  category        TaskCategory
+  priority        TaskPriority    @default(NORMAL)
+  
+  // Assignment
+  assignedTo      String?
+  assignedBy      String?
+  
+  // Status
+  status          TaskStatus      @default(PENDING)
+  dueDate         DateTime?
+  completedAt     DateTime?
+  
+  // Dependencies
+  dependsOn       String[]        @default([])
+  blockedBy       String[]        @default([])
+  
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+  
+  @@index([transactionId])
+  @@index([status])
+  @@index([assignedTo])
+  @@index([dueDate])
+}
+
+enum TaskCategory {
+  LEGAL
+  FINANCIAL
+  DOCUMENTATION
+  INSPECTION
+  CUSTOMER_SERVICE
+  ADMINISTRATIVE
+  TECHNICAL
+}
+
+enum TaskPriority {
+  LOW
+  NORMAL
+  HIGH
+  URGENT
+  CRITICAL
+}
+
+enum TaskStatus {
+  PENDING
+  IN_PROGRESS
+  ON_HOLD
+  COMPLETED
+  CANCELLED
+  OVERDUE
+}
+
+model TransactionIssue {
+  id              String          @id @default(cuid())
+  transactionId   String
+  transaction     Transaction     @relation(fields: [transactionId], references: [id], onDelete: Cascade)
+  
+  title           String
+  description     String          @db.Text
+  category        IssueCategory
+  severity        IssueSeverity   @default(MEDIUM)
+  status          IssueStatus     @default(OPEN)
+  
+  // Tracking
+  reportedBy      String
+  assignedTo      String?
+  resolvedBy      String?
+  
+  // Dates
+  reportedAt      DateTime        @default(now())
+  resolvedAt      DateTime?
+  dueDate         DateTime?
+  
+  // Resolution
+  resolution      String?         @db.Text
+  rootCause       String?
+  
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+  
+  @@index([transactionId])
+  @@index([status])
+  @@index([category])
+  @@index([severity])
+}
+
+enum IssueCategory {
+  LEGAL
+  FINANCIAL
+  TECHNICAL
+  QUALITY
+  COMMUNICATION
+  DOCUMENTATION
+  COMPLIANCE
+  OTHER
+}
+
+enum IssueSeverity {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+}
+
+enum IssueStatus {
+  OPEN
+  IN_PROGRESS
+  RESOLVED
+  CLOSED
+  REOPENED
+  CANCELLED
+}
+
+// Supporting models for development management
+model DevelopmentTeam {
+  id              String          @id @default(cuid())
+  developmentId   String
+  development     Development     @relation(fields: [developmentId], references: [id], onDelete: Cascade)
+  
+  role            String
+  name            String
+  company         String?
+  email           String?
+  phone           String?
+  
+  startDate       DateTime?
+  endDate         DateTime?
+  isActive        Boolean         @default(true)
+  
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+  
+  @@index([developmentId])
+  @@index([role])
+}
+
+model DevelopmentMedia {
+  id              String          @id @default(cuid())
+  developmentId   String
+  development     Development     @relation(fields: [developmentId], references: [id], onDelete: Cascade)
+  
+  type            MediaType
+  title           String
+  description     String?
+  fileUrl         String
+  thumbnailUrl    String?
+  
+  // Metadata
+  fileSize        Int?
+  mimeType        String?
+  dimensions      Json?           // width, height for images/videos
+  duration        Int?            // for videos in seconds
+  
+  tags            String[]        @default([])
+  isPublic        Boolean         @default(true)
+  order           Int             @default(0)
+  
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+  
+  @@index([developmentId])
+  @@index([type])
+  @@index([isPublic])
+}
+
+enum MediaType {
+  IMAGE
+  VIDEO
+  VIRTUAL_TOUR
+  FLOOR_PLAN
+  SITE_PLAN
+  BROCHURE
+  PRESENTATION
+  DOCUMENT
+}
+
+model DevelopmentDocument {
+  id              String          @id @default(cuid())
+  developmentId   String
+  development     Development     @relation(fields: [developmentId], references: [id], onDelete: Cascade)
+  
+  name            String
+  type            DevelopmentDocType
+  fileUrl         String
+  version         String?
+  
+  isPublic        Boolean         @default(false)
+  isCurrentVersion Boolean        @default(true)
+  
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+  
+  @@index([developmentId])
+  @@index([type])
+  @@index([isPublic])
+}
+
+enum DevelopmentDocType {
+  PLANNING_PERMISSION
+  BUILDING_REGULATIONS
+  SITE_PLAN
+  ENVIRONMENTAL_REPORT
+  STRUCTURAL_REPORT
+  SALES_BROCHURE
+  TECHNICAL_SPECS
+  WARRANTY_INFO
+  MANAGEMENT_AGREEMENT
+  OTHER
+}
+
+// Preferences and settings
+model CommunicationPreference {
+  id              String          @id @default(cuid())
+  userId          String          @unique
+  user            User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  emailNotifications Boolean       @default(true)
+  smsNotifications Boolean         @default(false)
+  pushNotifications Boolean        @default(true)
+  
+  // Specific notification preferences
+  transactionUpdates Boolean       @default(true)
+  paymentReminders Boolean         @default(true)
+  documentRequests Boolean         @default(true)
+  viewingReminders Boolean         @default(true)
+  marketingEmails Boolean          @default(false)
+  
+  // Frequency preferences
+  digestFrequency DigestFrequency @default(DAILY)
+  quietHoursStart String?         // e.g., "22:00"
+  quietHoursEnd   String?         // e.g., "08:00"
+  
+  updatedAt       DateTime        @updatedAt
+  
+  @@index([userId])
+}
+
+enum DigestFrequency {
+  REAL_TIME
+  HOURLY
+  DAILY
+  WEEKLY
+  MONTHLY
+  NEVER
+}
+
+model BankDetails {
+  id              String          @id @default(cuid())
+  userId          String
+  user            User            @relation(fields: [userId], references: [id])
+  
+  accountName     String
+  bankName        String
+  iban            String
+  bic             String?
+  
+  isVerified      Boolean         @default(false)
+  verifiedAt      DateTime?
+  
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+  
+  @@index([userId])
+}
+
+model Reservation {
+  id              String          @id @default(cuid())
+  unitId          String
+  unit            Unit            @relation(fields: [unitId], references: [id])
+  
+  reservedBy      String
+  reservationFee  Float
+  expiryDate      DateTime
+  status          ReservationStatus @default(ACTIVE)
+  
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+  
+  @@index([unitId])
+  @@index([status])
+  @@index([expiryDate])
+}
+
+enum ReservationStatus {
+  ACTIVE
+  EXPIRED
+  CONVERTED_TO_SALE
+  CANCELLED
+  RELEASED
+}
+
+model UnitCustomization {
+  id              String          @id @default(cuid())
+  unitId          String
+  unit            Unit            @relation(fields: [unitId], references: [id])
+  
+  customizations  Json            // Available customizations for this unit
+  deadline        DateTime?       // Deadline for customization selections
+  allowedCategories String[]      @default([])
+  
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+  
+  @@unique([unitId])
+  @@index([unitId])
+}
+
+model MarketingMaterial {
+  id              String          @id @default(cuid())
+  developmentId   String
+  development     Development     @relation(fields: [developmentId], references: [id])
+  
+  name            String
+  type            MarketingType
+  fileUrl         String
+  
+  // Campaign info
+  campaignName    String?
+  targetAudience  String?
+  
+  // Performance metrics
+  views           Int             @default(0)
+  downloads       Int             @default(0)
+  conversions     Int             @default(0)
+  
+  isActive        Boolean         @default(true)
+  
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+  
+  @@index([developmentId])
+  @@index([type])
+  @@index([isActive])
+}
+
+enum MarketingType {
+  BROCHURE
+  FLYER
+  EMAIL_TEMPLATE
+  SOCIAL_MEDIA
+  WEBSITE_BANNER
+  VIDEO_AD
+  PRINT_AD
+  BILLBOARD
+  OTHER
+}
+
+model DocumentActivity {
+  id              String          @id @default(cuid())
+  documentId      String
+  document        Document        @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  
+  activityType    DocActivityType
+  performedBy     String
+  details         String?
+  ipAddress       String?
+  userAgent       String?
+  
+  createdAt       DateTime        @default(now())
+  
+  @@index([documentId])
+  @@index([activityType])
+  @@index([createdAt])
+}
+
+enum DocActivityType {
+  VIEWED
+  DOWNLOADED
+  UPLOADED
+  EDITED
+  SIGNED
+  SHARED
+  DELETED
+  RESTORED
+  VERSION_CREATED
+  ACCESS_GRANTED
+  ACCESS_REVOKED
+}

@@ -1,0 +1,10 @@
+[
+  {
+    "filePath": "src/components/buyer/BuyerDashboardLayout.tsx",
+    "lineNum": 21,
+    "colNum": 67,
+    "errorMessage": "error TS2345: Argument of type 'string | null' is not assignable to parameter of type 'string'.",
+    "errorCode": "TS2345",
+    "category": "NEXTJS_ROUTES"
+  }
+]

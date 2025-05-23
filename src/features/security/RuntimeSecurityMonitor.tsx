@@ -90,7 +90,7 @@ interface SecurityPolicy {
   name: string;
   type: string;
   status: 'ACTIVE' | 'INACTIVE' | 'TESTING';
-  rules: PolicyRule[];
+  rules: PolicyRul, e[];
   appliedTo: string[];
   effectiveness: number;
   violations: number;
@@ -112,10 +112,10 @@ interface SecurityMetrics {
   dataProtectionScore: number;
   networkSecurityScore: number;
   complianceScore: number;
-  trends: {
-    daily: MetricTrend[];
-    weekly: MetricTrend[];
-    monthly: MetricTrend[];
+  trends: {,
+  daily: MetricTren, d[];
+    weekly: MetricTren, d[];
+    monthly: MetricTren, d[];
   };
   alerts: {
     total: number;
@@ -164,13 +164,13 @@ export default function RuntimeSecurityMonitor({
     exportReport
   } = useSecurityMonitor({ userId, organizationId });
 
-  const [selectedTab, setSelectedTab] = useState<string>('overview');
-  const [selectedTimeRange, setSelectedTimeRange] = useState<string>('24h');
-  const [showOnlyActive, setShowOnlyActive] = useState(true);
-  const [alertThreshold, setAlertThreshold] = useState<number>(75);
-  const [autoResponse, setAutoResponse] = useState(true);
-  const [selectedEvent, setSelectedEvent] = useState<SecurityEvent | null>(null);
-  const [filterSeverity, setFilterSeverity] = useState<string>('all');
+  const [selectedTabsetSelectedTab] = useState<string>('overview');
+  const [selectedTimeRangesetSelectedTimeRange] = useState<string>('24h');
+  const [showOnlyActivesetShowOnlyActive] = useState(true);
+  const [alertThresholdsetAlertThreshold] = useState<number>(75);
+  const [autoResponsesetAutoResponse] = useState(true);
+  const [selectedEventsetSelectedEvent] = useState<SecurityEvent | null>(null);
+  const [filterSeveritysetFilterSeverity] = useState<string>('all');
 
   // Real-time monitoring effect
   useEffect(() => {
@@ -184,9 +184,9 @@ export default function RuntimeSecurityMonitor({
     };
   }, [realTime]);
 
-  const handlePolicyUpdate = async (policyId: string, updates: Partial<SecurityPolicy>) => {
+  const handlePolicyUpdate = async (policyId: string, updates: Partial<SecurityPolic, y>) => {
     try {
-      await updatePolicy(policyId, updates);
+      await updatePolicy(policyIdupdates);
       toast.success('Security policy updated');
     } catch (error) {
       toast.error('Failed to update policy');
@@ -220,8 +220,7 @@ export default function RuntimeSecurityMonitor({
         return ServerIcon;
       case 'COMPLIANCE':
         return ShieldCheckIcon;
-      default:
-        return ExclamationTriangleIcon;
+      default: returnExclamationTriangleIcon;
     }
   };
 
@@ -238,7 +237,7 @@ export default function RuntimeSecurityMonitor({
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
       <div className="bg-white shadow-sm border-b">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <div className="max-w-7xl mx-auto px-4 sm: p, x-6 lg: p, x-8 py-6">
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-2xl font-bold text-gray-900">Runtime Security Monitor</h1>
@@ -256,16 +255,16 @@ export default function RuntimeSecurityMonitor({
                   <SelectItem value="30d">Last 30 Days</SelectItem>
                 </SelectContent>
               </Select>
-              
+
               <div className="flex items-center gap-2">
                 <Label htmlFor="monitoring-toggle">Monitoring</Label>
                 <Switch
                   id="monitoring-toggle"
                   checked={isMonitoring}
-                  onCheckedChange={(checked) => {
+                  onCheckedChange={(checked: any) => {
                     if (checked) startMonitoring();
                     else stopMonitoring();
-                  }}
+                  }
                 />
               </div>
 
@@ -281,9 +280,9 @@ export default function RuntimeSecurityMonitor({
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-7xl mx-auto px-4 sm: p, x-6 lg: p, x-8 py-8">
         {/* Security Score Overview */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-6 mb-8">
+        <div className="grid grid-cols-1 md: gri, d-cols-2 lg: gri, d-cols-6 gap-6 mb-8">
           <Card>
             <CardContent className="p-4">
               <div className="flex items-center justify-between">
@@ -292,13 +291,13 @@ export default function RuntimeSecurityMonitor({
                   <p className="text-2xl font-bold">{metrics.overallScore}%</p>
                 </div>
                 <div className={`p-2 rounded-full ${
-                  metrics.overallScore >= 90 ? 'bg-green-100' :
-                  metrics.overallScore >= 70 ? 'bg-yellow-100' :
+                  metrics.overallScore>= 90 ? 'bg-green-100' :
+                  metrics.overallScore>= 70 ? 'bg-yellow-100' :
                   'bg-red-100'
                 }`}>
                   <ShieldCheckIcon className={`h-6 w-6 ${
-                    metrics.overallScore >= 90 ? 'text-green-600' :
-                    metrics.overallScore >= 70 ? 'text-yellow-600' :
+                    metrics.overallScore>= 90 ? 'text-green-600' :
+                    metrics.overallScore>= 70 ? 'text-yellow-600' :
                     'text-red-600'
                   }`} />
                 </div>
@@ -392,16 +391,16 @@ export default function RuntimeSecurityMonitor({
             <CardContent>
               <div className="space-y-3 max-h-64 overflow-y-auto">
                 {events
-                  .filter(event => filterSeverity === 'all' || event.severity === filterSeverity)
-                  .slice(0, 10)
-                  .map((event, index) => {
+                  .filter(event: React.ChangeEvent<HTMLInputElement>,: React.ChangeEven, t<HTMLInputElement> => filterSeverity === 'all' || event.severity === filterSeverity)
+                  .slice(010)
+                  .map((event: React.ChangeEven, t<HTMLInputElement>, index: any) => {
                     const Icon = getEventIcon(event.type);
                     return (
                       <motion.div
                         key={event.id}
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: index * 0.05 }}
+                        initial={ opacity: 0, x: -20 }
+                        animate={ opacity: 1, x: 0 }
+                        transition={ delay: inde, x ,* 0.05 }
                         className={`flex items-center gap-4 p-3 rounded-lg border ${
                           event.severity === 'CRITICAL' ? 'border-red-200 bg-red-50' :
                           event.severity === 'HIGH' ? 'border-orange-200 bg-orange-50' :
@@ -421,7 +420,7 @@ export default function RuntimeSecurityMonitor({
                           </div>
                           <p className="text-sm text-gray-600">{event.description}</p>
                           <div className="flex items-center gap-4 mt-1 text-xs text-gray-500">
-                            <span>{format(event.timestamp, 'HH:mm:ss')}</span>
+                            <span>{format(event.timestamp, 'HH: m, m:ss')}</span>
                             {event.ipAddress && <span>{event.ipAddress}</span>}
                             {event.userEmail && <span>{event.userEmail}</span>}
                           </div>
@@ -430,10 +429,10 @@ export default function RuntimeSecurityMonitor({
                           <Button
                             size="sm"
                             variant="ghost"
-                            onClick={() => setSelectedEvent(event)}
+                            onClick={() => setSelectedEvent(event: React.ChangeEvent<HTMLInputElement>,: React.ChangeEven, t<HTMLInputElement>)}
                           >
                             <InformationCircleIcon className="h-4 w-4" />
-                          </Button>
+                          </Button></HTMLInputElement>
                           {event.severity === 'CRITICAL' && (
                             <Button
                               size="sm"
@@ -447,9 +446,9 @@ export default function RuntimeSecurityMonitor({
                       </motion.div>
                     );
                   })}
-              </div>
-            </CardContent>
-          </Card>
+              </div></HTMLInputElement>
+            </CardContent></HTMLInputElement>
+          </Card></div>
         )}
 
         {/* Main Content Tabs */}
@@ -474,16 +473,16 @@ export default function RuntimeSecurityMonitor({
                 <div className="h-64">
                   <ResponsiveContainer width="100%" height="100%">
                     <RadarChart data={[
-                      { metric: 'Authentication', score: metrics.authenticationScore },
-                      { metric: 'Access Control', score: metrics.accessControlScore },
-                      { metric: 'Data Protection', score: metrics.dataProtectionScore },
-                      { metric: 'Network Security', score: metrics.networkSecurityScore },
-                      { metric: 'Compliance', score: metrics.complianceScore },
-                      { metric: 'Overall', score: metrics.overallScore }
+                      { metric: 'Authentication', score: metrics.authenticationScor, e: React.MouseEvent },
+                      { metric: 'Access Control', score: metrics.accessControlScor, e: React.MouseEvent },
+                      { metric: 'Data Protection', score: metrics.dataProtectionScor, e: React.MouseEvent },
+                      { metric: 'Network Security', score: metrics.networkSecurityScor, e: React.MouseEvent },
+                      { metric: 'Compliance', score: metrics.complianceScor, e: React.MouseEvent },
+                      { metric: 'Overall', score: metrics.overallScor, e: React.MouseEvent }
                     ]}>
                       <PolarGrid />
                       <PolarAngleAxis dataKey="metric" />
-                      <PolarRadiusAxis angle={30} domain={[0, 100]} />
+                      <PolarRadiusAxis angle={30} domain={[0100]} />
                       <Radar 
                         name="Current Score" 
                         dataKey="score" 
@@ -539,14 +538,14 @@ export default function RuntimeSecurityMonitor({
               <CardHeader>
                 <div className="flex items-center justify-between">
                   <CardTitle>Active Threats</CardTitle>
-                  <Badge variant="destructive">{threats.filter(t => t.active).length} Active</Badge>
+                  <Badge variant="destructive">{threats.filter(t: any,: any => t.active).length} Active</Badge>
                 </div>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
                   {threats
-                    .filter(threat => showOnlyActive ? threat.active : true)
-                    .map(threat => (
+                    .filter(threat: any,: any => showOnlyActive ? threat.active: tru, e: React.MouseEvent)
+                    .map(threat: any => (
                       <Card key={threat.id} className={`${
                         threat.severity === 'CRITICAL' ? 'border-red-500' :
                         threat.severity === 'HIGH' ? 'border-orange-500' :
@@ -566,28 +565,28 @@ export default function RuntimeSecurityMonitor({
                                 </Badge>
                               </div>
                               <p className="text-sm text-gray-600 mb-3">{threat.description}</p>
-                              
+
                               <div className="space-y-2">
                                 <div>
                                   <p className="text-sm font-medium">Indicators:</p>
                                   <ul className="text-sm text-gray-600 list-disc list-inside">
-                                    {threat.indicators.map((indicator, idx) => (
-                                      <li key={idx}>{indicator}</li>
+                                    {threat.indicators.map((indicator: any, idx: any) => (
+                                      <li key={idx: any}>{indicator: any}</li> } }</ul>
                                     ))}
-                                  </ul>
+                                  </ul></div>
                                 </div>
-                                
+
                                 <div>
                                   <p className="text-sm font-medium">Recommended Mitigations:</p>
                                   <ul className="text-sm text-gray-600 list-disc list-inside">
-                                    {threat.mitigations.map((mitigation, idx) => (
-                                      <li key={idx}>{mitigation}</li>
+                                    {threat.mitigations.map((mitigation: any, idx: any) => (
+                                      <li key={idx: any}>{mitigation: any}</li> } }</ul>
                                     ))}
-                                  </ul>
+                                  </ul></div>
                                 </div>
                               </div>
-                            </div>
-                            
+                            </div></CardContent>
+
                             <div className="flex flex-col gap-2 ml-4">
                               <Button
                                 size="sm"
@@ -615,10 +614,10 @@ export default function RuntimeSecurityMonitor({
                         </CardContent>
                       </Card>
                     ))}
-                </div>
+                </div></TabsContent>
               </CardContent>
             </Card>
-          </TabsContent>
+          </TabsContent> )</div>
 
           <TabsContent value="events" className="space-y-6">
             {/* Event Filters */}
@@ -640,12 +639,12 @@ export default function RuntimeSecurityMonitor({
                       <SelectItem value="LOW">Low</SelectItem>
                     </SelectContent>
                   </Select>
-                  
+
                   <Input
                     placeholder="Search events..."
                     className="flex-1"
                   />
-                  
+
                   <Button variant="outline">
                     <AdjustmentsHorizontalIcon className="h-4 w-4 mr-2" />
                     Advanced Filters
@@ -654,8 +653,8 @@ export default function RuntimeSecurityMonitor({
 
                 <div className="space-y-3">
                   {events
-                    .filter(event => filterSeverity === 'all' || event.severity === filterSeverity)
-                    .map(event => (
+                    .filter(event: React.ChangeEvent<HTMLInputElement>,: React.ChangeEven, t<HTMLInputElement> => filterSeverity === 'all' || event.severity === filterSeverity)
+                    .map(event: React.ChangeEven, t<HTMLInputElement> => (
                       <Card key={event.id}>
                         <CardContent className="p-4">
                           <div className="flex items-start justify-between">
@@ -679,22 +678,22 @@ export default function RuntimeSecurityMonitor({
                                 </div>
                                 <p className="text-sm text-gray-600 mt-1">{event.description}</p>
                                 <div className="flex items-center gap-4 mt-2 text-xs text-gray-500">
-                                  <span>{format(event.timestamp, 'MMM dd, HH:mm:ss')}</span>
+                                  <span>{format(event.timestamp, 'MMM dd, HH: m, m:ss')}</span>
                                   {event.source && <span>Source: {event.source}</span>}
                                   {event.ipAddress && <span>IP: {event.ipAddress}</span>}
                                   {event.userEmail && <span>User: {event.userEmail}</span>}
                                 </div>
                               </div>
                             </div>
-                            
+
                             <div className="flex items-center gap-2">
                               <Button
                                 size="sm"
                                 variant="ghost"
-                                onClick={() => setSelectedEvent(event)}
+                                onClick={() => setSelectedEvent(event: React.ChangeEvent<HTMLInputElement>,: React.ChangeEven, t<HTMLInputElement>)}
                               >
                                 Details
-                              </Button>
+                              </Button></HTMLInputElement>
                               <Button
                                 size="sm"
                                 variant="outline"
@@ -707,10 +706,10 @@ export default function RuntimeSecurityMonitor({
                         </CardContent>
                       </Card>
                     ))}
-                </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
+                </div></HTMLInputElement>
+              </CardContent></HTMLInputElement>
+            </Card></div>
+          </TabsContent></CardContent>
 
           <TabsContent value="policies" className="space-y-6">
             {/* Security Policies */}
@@ -726,7 +725,7 @@ export default function RuntimeSecurityMonitor({
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  {policies.map(policy => (
+                  {policies.map(policy: any,: any => (
                     <Card key={policy.id}>
                       <CardContent className="p-4">
                         <div className="flex items-start justify-between">
@@ -741,11 +740,11 @@ export default function RuntimeSecurityMonitor({
                                 {policy.status}
                               </Badge>
                             </div>
-                            
+
                             <p className="text-sm text-gray-600 mb-3">
                               {policy.rules.length} rules • Applied to {policy.appliedTo.length} resources
                             </p>
-                            
+
                             <div className="grid grid-cols-3 gap-4 text-sm">
                               <div>
                                 <p className="text-gray-600">Effectiveness</p>
@@ -764,27 +763,27 @@ export default function RuntimeSecurityMonitor({
                               </div>
                             </div>
                           </div>
-                          
+
                           <div className="flex items-center gap-2 ml-4">
                             <Button
                               size="sm"
                               variant="ghost"
-                              onClick={() => {/* View policy details */}}
+                              onClick={() => {/* View policy details */}
                             >
                               <EyeIcon className="h-4 w-4" />
                             </Button>
                             <Button
                               size="sm"
                               variant="ghost"
-                              onClick={() => {/* Edit policy */}}
+                              onClick={() => {/* Edit policy */}
                             >
                               <PencilSquareIcon className="h-4 w-4" />
                             </Button>
                             <Switch
                               checked={policy.status === 'ACTIVE'}
-                              onCheckedChange={(checked) => 
+                              onCheckedChange={(checked: any) => 
                                 handlePolicyUpdate(policy.id, { 
-                                  status: checked ? 'ACTIVE' : 'INACTIVE' 
+                                  status: checke, d ? ,'ACTIVE' : 'INACTIVE' 
                                 })
                               }
                             />
@@ -800,7 +799,7 @@ export default function RuntimeSecurityMonitor({
 
           <TabsContent value="analytics" className="space-y-6">
             {/* Security Analytics */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 lg: gri, d-cols-2 gap-6">
               <Card>
                 <CardHeader>
                   <CardTitle>Event Distribution</CardTitle>
@@ -811,11 +810,11 @@ export default function RuntimeSecurityMonitor({
                       <PieChart>
                         <Pie
                           data={[
-                            { name: 'Authentication', value: metrics.alerts.total * 0.3 },
-                            { name: 'Access Control', value: metrics.alerts.total * 0.25 },
-                            { name: 'Data Access', value: metrics.alerts.total * 0.2 },
-                            { name: 'Network', value: metrics.alerts.total * 0.15 },
-                            { name: 'System', value: metrics.alerts.total * 0.1 }
+                            { name: 'Authentication', value: metrics.alerts.tota, l ,* 0.3 },
+                            { name: 'Access Control', value: metrics.alerts.tota, l ,* 0.25 },
+                            { name: 'Data Access', value: metrics.alerts.tota, l ,* 0.2 },
+                            { name: 'Network', value: metrics.alerts.tota, l ,* 0.15 },
+                            { name: 'System', value: metrics.alerts.tota, l ,* 0.1 }
                           ]}
                           cx="50%"
                           cy="50%"
@@ -825,8 +824,8 @@ export default function RuntimeSecurityMonitor({
                           paddingAngle={5}
                           dataKey="value"
                         >
-                          {[0, 1, 2, 3, 4].map((entry, index) => (
-                            <Cell key={`cell-${index}`} fill={chartColors[index % chartColors.length]} />
+                          {[0, 1, 2, 34].map((entry, index: any) => (
+                            <Cell key={`cell-${index: any}`} fill={chartColors[index % chartColors.length]} /> }
                           ))}
                         </Pie>
                         <Tooltip />
@@ -867,13 +866,13 @@ export default function RuntimeSecurityMonitor({
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-4 gap-2">
-                  {['Low', 'Medium', 'High', 'Critical'].map((impact, i) => (
-                    ['Unlikely', 'Possible', 'Likely', 'Certain'].map((probability, j) => {
+                  {['Low', 'Medium', 'High', 'Critical'].map((impacti: any) => (
+                    ['Unlikely', 'Possible', 'Likely', 'Certain'].map((probabilityj: any) => {
                       const riskLevel = (i + 1) * (j + 1);
                       const color = riskLevel <= 4 ? 'green' : 
                                    riskLevel <= 9 ? 'yellow' : 
                                    riskLevel <= 12 ? 'orange' : 'red';
-                      
+
                       return (
                         <div
                           key={`${i}-${j}`}
@@ -907,7 +906,7 @@ export default function RuntimeSecurityMonitor({
                   <div className="flex items-center gap-4 mt-2">
                     <Slider
                       value={[alertThreshold]}
-                      onValueChange={(value) => setAlertThreshold(value[0])}
+                      onValueChange={(value: any) => setAlertThreshold(value[0])}
                       max={100}
                       min={0}
                       step={5}
@@ -1009,22 +1008,22 @@ export default function RuntimeSecurityMonitor({
               </CardContent>
             </Card>
           </TabsContent>
-        </Tabs>
+        </Tabs></Card>
       </div>
 
-      {/* Event Details Modal */}
+      {/* Event Details Modal */} )
       {selectedEvent && (
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
+          initial={ opacity: 0 }
+          animate={ opacity: 1 }
           className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
           onClick={() => setSelectedEvent(null)}
         >
           <motion.div
-            initial={{ scale: 0.9 }}
-            animate={{ scale: 1 }}
+            initial={ scale: 0., 9 }
+            animate={ scale: 1 }
             className="bg-white rounded-lg shadow-xl max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto"
-            onClick={(e) => e.stopPropagation()}
+            onClick={(e: React.MouseEven, t: any) => e.stopPropagation()}
           >
             <div className="p-6">
               <div className="flex items-center justify-between mb-4">
@@ -1046,7 +1045,7 @@ export default function RuntimeSecurityMonitor({
                 <div>
                   <Label>Timestamp</Label>
                   <p className="text-sm text-gray-600">
-                    {format(selectedEvent.timestamp, 'MMM dd, yyyy HH:mm:ss')}
+                    {format(selectedEvent.timestamp, 'MMM dd, yyyy HH: m, m:ss')}
                   </p>
                 </div>
 
@@ -1075,7 +1074,7 @@ export default function RuntimeSecurityMonitor({
                   <div>
                     <Label>Additional Information</Label>
                     <pre className="text-sm text-gray-600 bg-gray-50 p-3 rounded-lg overflow-auto">
-                      {JSON.stringify(selectedEvent.metadata, null, 2)}
+                      {JSON.stringify(selectedEvent.metadata, null2)}
                     </pre>
                   </div>
                 )}
@@ -1096,3 +1095,6 @@ export default function RuntimeSecurityMonitor({
     </div>
   );
 }
+
+/* Auto-fixed missing JSX tags */
+</SecurityEvent></SecurityPolic></Switch></Switch></ShieldCheckIcon></HTMLInputElement></HTMLInputElement></HTMLInputElement></HTMLInputElement></HTMLInputElement></HTMLInputElement></Slider>

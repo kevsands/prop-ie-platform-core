@@ -1,8 +1,9 @@
+import React from 'react';
 'use client';
 
 export default function SimpleTest() {
   return (
-    <div style={{ padding: '2rem' }}>
+    <div style={ padding: '2rem' }>
       <h1>Simple Test Page</h1>
       <p>If you can see this, the app is working!</p>
       <ul>

@@ -1,0 +1,411 @@
+// Conveyancing Schema
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model ConveyancingCase {
+  id                    String                @id @default(cuid())
+  caseReference         String                @unique
+  propertyId            String
+  status                ConveyancingStatus    @default(NEW)
+  type                  ConveyancingType      @default(PURCHASE)
+  
+  // Parties
+  solicitorId           String
+  buyerId               String?
+  sellerId              String?
+  agentId               String?
+  
+  // Property Details
+  propertyAddress       String
+  purchasePrice         Float
+  depositAmount         Float
+  stampDuty             Float?
+  
+  // Key Dates
+  instructionDate       DateTime              @default(now())
+  proposedCompletion    DateTime?
+  actualCompletion      DateTime?
+  
+  // Tasks & Documents
+  tasks                 ConveyancingTask[]
+  documents             Document[]
+  notes                 Note[]
+  
+  // Financials
+  fees                  LegalFee[]
+  invoices              Invoice[]
+  
+  // Compliance
+  amlCheck              AMLCheck?
+  sourceOfFunds         SourceOfFunds[]
+  
+  createdAt             DateTime              @default(now())
+  updatedAt             DateTime              @updatedAt
+}
+
+enum ConveyancingStatus {
+  NEW
+  INSTRUCTION_RECEIVED
+  DUE_DILIGENCE
+  CONTRACT_PREP
+  CONTRACT_ISSUED
+  CONTRACT_NEGOTIATION
+  CONTRACT_SIGNED
+  DEPOSIT_RECEIVED
+  COMPLETION_PENDING
+  COMPLETED
+  ABORTED
+}
+
+enum ConveyancingType {
+  PURCHASE
+  SALE
+  REMORTGAGE
+  TRANSFER
+}
+
+model ConveyancingTask {
+  id                    String                @id @default(cuid())
+  caseId                String
+  case                  ConveyancingCase      @relation(fields: [caseId], references: [id])
+  
+  title                 String
+  description           String?
+  category              TaskCategory
+  priority              Priority              @default(MEDIUM)
+  status                TaskStatus            @default(PENDING)
+  
+  assignedTo            String?
+  dueDate               DateTime?
+  completedDate         DateTime?
+  
+  dependsOn             String[]              // Task IDs this task depends on
+  blockedBy             String[]              // Task IDs blocking this task
+  
+  documents             Document[]
+  comments              TaskComment[]
+  
+  createdAt             DateTime              @default(now())
+  updatedAt             DateTime              @updatedAt
+}
+
+enum TaskCategory {
+  DUE_DILIGENCE
+  CONTRACT_PREPARATION
+  SEARCHES
+  FINANCIAL
+  COMPLIANCE
+  COMMUNICATION
+  COMPLETION
+}
+
+enum TaskStatus {
+  PENDING
+  IN_PROGRESS
+  BLOCKED
+  COMPLETED
+  CANCELLED
+}
+
+enum Priority {
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
+}
+
+model Document {
+  id                    String                @id @default(cuid())
+  caseId                String
+  case                  ConveyancingCase      @relation(fields: [caseId], references: [id])
+  taskId                String?
+  task                  ConveyancingTask?     @relation(fields: [taskId], references: [id])
+  
+  name                  String
+  type                  DocumentType
+  fileName              String
+  fileUrl               String
+  fileSize              Int
+  mimeType              String
+  
+  status                DocumentStatus        @default(DRAFT)
+  version               Int                   @default(1)
+  
+  uploadedBy            String
+  uploadedAt            DateTime              @default(now())
+  
+  // Document metadata
+  metadata              Json?
+  
+  // Security
+  isConfidential        Boolean               @default(false)
+  accessControl         Json?                 // Who can access this document
+  
+  createdAt             DateTime              @default(now())
+  updatedAt             DateTime              @updatedAt
+}
+
+enum DocumentType {
+  CONTRACT
+  TITLE_DEED
+  SEARCH_RESULT
+  AML_CHECK
+  PROOF_OF_FUNDS
+  IDENTITY_VERIFICATION
+  MORTGAGE_OFFER
+  BUILDING_REPORT
+  PLANNING_PERMISSION
+  CORRESPONDENCE
+  OTHER
+}
+
+enum DocumentStatus {
+  DRAFT
+  PENDING_REVIEW
+  APPROVED
+  REJECTED
+  FINAL
+}
+
+model Note {
+  id                    String                @id @default(cuid())
+  caseId                String
+  case                  ConveyancingCase      @relation(fields: [caseId], references: [id])
+  
+  content               String
+  type                  NoteType              @default(GENERAL)
+  isPrivate             Boolean               @default(false)
+  
+  createdBy             String
+  createdAt             DateTime              @default(now())
+  updatedAt             DateTime              @updatedAt
+}
+
+enum NoteType {
+  GENERAL
+  LEGAL
+  CLIENT_COMMUNICATION
+  INTERNAL
+  WARNING
+}
+
+model AMLCheck {
+  id                    String                @id @default(cuid())
+  caseId                String                @unique
+  case                  ConveyancingCase      @relation(fields: [caseId], references: [id])
+  
+  clientId              String
+  status                AMLStatus             @default(PENDING)
+  
+  // ID Verification
+  idVerificationStatus  VerificationStatus    @default(PENDING)
+  idDocuments           Json[]
+  
+  // Address Verification
+  addressVerificationStatus VerificationStatus @default(PENDING)
+  addressDocuments      Json[]
+  
+  // PEP & Sanctions
+  pepCheckStatus        CheckStatus           @default(PENDING)
+  sanctionsCheckStatus  CheckStatus           @default(PENDING)
+  
+  // Risk Assessment
+  riskLevel             RiskLevel             @default(MEDIUM)
+  riskFactors           Json?
+  
+  completedBy           String?
+  completedAt           DateTime?
+  
+  createdAt             DateTime              @default(now())
+  updatedAt             DateTime              @updatedAt
+}
+
+enum AMLStatus {
+  PENDING
+  IN_PROGRESS
+  COMPLETED
+  FAILED
+  REFERRED
+}
+
+enum VerificationStatus {
+  PENDING
+  VERIFIED
+  FAILED
+  MANUAL_REVIEW
+}
+
+enum CheckStatus {
+  PENDING
+  CLEAR
+  HIT
+  REVIEW_REQUIRED
+}
+
+enum RiskLevel {
+  LOW
+  MEDIUM
+  HIGH
+  UNACCEPTABLE
+}
+
+model SourceOfFunds {
+  id                    String                @id @default(cuid())
+  caseId                String
+  case                  ConveyancingCase      @relation(fields: [caseId], references: [id])
+  
+  source                FundSource
+  amount                Float
+  currency              String                @default("EUR")
+  
+  verificationStatus    VerificationStatus    @default(PENDING)
+  documents             Json[]
+  notes                 String?
+  
+  createdAt             DateTime              @default(now())
+  updatedAt             DateTime              @updatedAt
+}
+
+enum FundSource {
+  SALARY
+  SAVINGS
+  INVESTMENT
+  INHERITANCE
+  GIFT
+  PROPERTY_SALE
+  BUSINESS_INCOME
+  LOAN
+  OTHER
+}
+
+model LegalFee {
+  id                    String                @id @default(cuid())
+  caseId                String
+  case                  ConveyancingCase      @relation(fields: [caseId], references: [id])
+  
+  description           String
+  category              FeeCategory
+  amount                Float
+  vatRate               Float                 @default(0.23)
+  vatAmount             Float
+  totalAmount           Float
+  
+  status                FeeStatus             @default(PENDING)
+  
+  createdAt             DateTime              @default(now())
+  updatedAt             DateTime              @updatedAt
+}
+
+enum FeeCategory {
+  PROFESSIONAL_FEE
+  DISBURSEMENT
+  SEARCH_FEE
+  REGISTRATION_FEE
+  STAMP_DUTY
+  OTHER
+}
+
+enum FeeStatus {
+  PENDING
+  INVOICED
+  PAID
+  WAIVED
+}
+
+model Invoice {
+  id                    String                @id @default(cuid())
+  caseId                String
+  case                  ConveyancingCase      @relation(fields: [caseId], references: [id])
+  
+  invoiceNumber         String                @unique
+  clientId              String
+  
+  subtotal              Float
+  vatAmount             Float
+  totalAmount           Float
+  
+  status                InvoiceStatus         @default(DRAFT)
+  
+  issuedDate            DateTime?
+  dueDate               DateTime?
+  paidDate              DateTime?
+  
+  lineItems             Json[]
+  
+  createdAt             DateTime              @default(now())
+  updatedAt             DateTime              @updatedAt
+}
+
+enum InvoiceStatus {
+  DRAFT
+  ISSUED
+  SENT
+  VIEWED
+  PAID
+  OVERDUE
+  CANCELLED
+}
+
+model TaskComment {
+  id                    String                @id @default(cuid())
+  taskId                String
+  task                  ConveyancingTask      @relation(fields: [taskId], references: [id])
+  
+  content               String
+  createdBy             String
+  
+  createdAt             DateTime              @default(now())
+  updatedAt             DateTime              @updatedAt
+}
+
+// Standard legal document templates
+model DocumentTemplate {
+  id                    String                @id @default(cuid())
+  name                  String
+  category              DocumentType
+  version               String
+  content               String                // Template content with variables
+  variables             Json[]                // Available variables for the template
+  
+  isActive              Boolean               @default(true)
+  
+  createdBy             String
+  createdAt             DateTime              @default(now())
+  updatedAt             DateTime              @updatedAt
+}
+
+// Workflow automation for standard conveyancing processes
+model ConveyancingWorkflow {
+  id                    String                @id @default(cuid())
+  name                  String
+  description           String?
+  type                  ConveyancingType
+  
+  stages                WorkflowStage[]
+  isActive              Boolean               @default(true)
+  
+  createdAt             DateTime              @default(now())
+  updatedAt             DateTime              @updatedAt
+}
+
+model WorkflowStage {
+  id                    String                @id @default(cuid())
+  workflowId            String
+  workflow              ConveyancingWorkflow  @relation(fields: [workflowId], references: [id])
+  
+  name                  String
+  description           String?
+  order                 Int
+  
+  tasks                 Json[]                // Task templates for this stage
+  expectedDuration      Int?                  // Expected duration in days
+  
+  createdAt             DateTime              @default(now())
+  updatedAt             DateTime              @updatedAt
+}

@@ -1,3 +1,4 @@
+import React from 'react';
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -100,34 +101,24 @@ interface MetricsData {
     count: number;
     averageTime: number;
     errorRate: number;
-  }>;
+  }>\n  );
 }
 
-export default function MonitoringDashboard() {
-  const [healthData, setHealthData] = useState<HealthData | null>(null);
-  const [metricsData, setMetricsData] = useState<MetricsData | null>(null);
-  const [historicalData, setHistoricalData] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  
-  // Fetch data
-  const fetchData = async () => {
-    try {
-      const [healthResponse, metricsResponse] = await Promise.all([
+export default async function MonitoringDashboardPromise.all([
         fetch('/api/health'),
         fetch('/api/metrics')
       ]);
-      
+
       if (!healthResponse.ok || !metricsResponse.ok) {
         throw new Error('Failed to fetch monitoring data');
       }
-      
+
       const health = await healthResponse.json();
       const metrics = await metricsResponse.json();
-      
+
       setHealthData(health);
       setMetricsData(metrics);
-      
+
       // Update historical data
       setHistoricalData(prev => {
         const newEntry = {
@@ -138,25 +129,25 @@ export default function MonitoringDashboard() {
           cpuUsage: metrics.resources.cpu.usage,
           memoryUsage: metrics.resources.memory.percentUsed
         };
-        
-        const updated = [...prev, newEntry];
+
+        const updated = [...prevnewEntry];
         return updated.slice(-20); // Keep last 20 entries
       });
-      
+
       setLoading(false);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Unknown error');
       setLoading(false);
     }
   };
-  
+
   useEffect(() => {
     fetchData();
-    const interval = setInterval(fetchData, 5000); // Refresh every 5 seconds
-    
+    const interval = setInterval(fetchData5000); // Refresh every 5 seconds
+
     return () => clearInterval(interval);
   }, []);
-  
+
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
@@ -167,7 +158,7 @@ export default function MonitoringDashboard() {
       </div>
     );
   }
-  
+
   if (error) {
     return (
       <div className="flex items-center justify-center min-h-screen">
@@ -178,7 +169,7 @@ export default function MonitoringDashboard() {
       </div>
     );
   }
-  
+
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'healthy':
@@ -194,21 +185,21 @@ export default function MonitoringDashboard() {
         return '#6b7280';
     }
   };
-  
+
   const formatBytes = (bytes: number) => {
     const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
     if (bytes === 0) return '0 Bytes';
     const i = Math.floor(Math.log(bytes) / Math.log(1024));
-    return Math.round(bytes / Math.pow(1024, i) * 100) / 100 + ' ' + sizes[i];
+    return Math.round(bytes / Math.pow(1024i) * 100) / 100 + ' ' + sizes[i];
   };
-  
+
   const formatUptime = (seconds: number) => {
     const days = Math.floor(seconds / 86400);
     const hours = Math.floor((seconds % 86400) / 3600);
     const minutes = Math.floor((seconds % 3600) / 60);
     return `${days}d ${hours}h ${minutes}m`;
   };
-  
+
   return (
     <div className="container mx-auto p-6 space-y-6">
       {/* Header */}
@@ -218,7 +209,7 @@ export default function MonitoringDashboard() {
           Last updated: {new Date().toLocaleString()}
         </div>
       </div>
-      
+
       {/* System Status */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <Card className="p-6">
@@ -226,7 +217,7 @@ export default function MonitoringDashboard() {
           <div className="flex items-center">
             <div 
               className="h-4 w-4 rounded-full mr-2" 
-              style={{ backgroundColor: getStatusColor(healthData?.status || 'unknown') }}
+              style={ backgroundColor: getStatusColor(healthData?.status || 'unknown') }
             ></div>
             <span className="text-xl font-medium capitalize">{healthData?.status}</span>
           </div>
@@ -234,7 +225,7 @@ export default function MonitoringDashboard() {
             Uptime: {formatUptime(healthData?.uptime || 0)}
           </p>
         </Card>
-        
+
         <Card className="p-6">
           <h3 className="text-lg font-semibold mb-2">Performance</h3>
           <div className="space-y-2">
@@ -248,7 +239,7 @@ export default function MonitoringDashboard() {
             </div>
           </div>
         </Card>
-        
+
         <Card className="p-6">
           <h3 className="text-lg font-semibold mb-2">Error Rate</h3>
           <div className="text-2xl font-bold">
@@ -259,17 +250,17 @@ export default function MonitoringDashboard() {
           </p>
         </Card>
       </div>
-      
+
       {/* Service Health Checks */}
       <Card className="p-6">
         <h3 className="text-xl font-semibold mb-4">Service Health Checks</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {healthData && Object.entries(healthData.checks).map(([service, check]) => (
+          {healthData && Object.entries(healthData.checks).map(([servicecheck]) => (
             <div key={service} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
               <div className="flex items-center">
                 <div 
                   className="h-3 w-3 rounded-full mr-2" 
-                  style={{ backgroundColor: getStatusColor(check.status) }}
+                  style={ backgroundColor: getStatusColor(check.status) }
                 ></div>
                 <span className="font-medium capitalize">{service}</span>
               </div>
@@ -283,7 +274,7 @@ export default function MonitoringDashboard() {
           ))}
         </div>
       </Card>
-      
+
       {/* Performance Charts */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <Card className="p-6">
@@ -304,7 +295,7 @@ export default function MonitoringDashboard() {
             </LineChart>
           </ResponsiveContainer>
         </Card>
-        
+
         <Card className="p-6">
           <h3 className="text-lg font-semibold mb-4">Request Rate</h3>
           <ResponsiveContainer width="100%" height={200}>
@@ -325,7 +316,7 @@ export default function MonitoringDashboard() {
           </ResponsiveContainer>
         </Card>
       </div>
-      
+
       {/* Resource Usage */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <Card className="p-6">
@@ -354,7 +345,7 @@ export default function MonitoringDashboard() {
             </LineChart>
           </ResponsiveContainer>
         </Card>
-        
+
         <Card className="p-6">
           <h3 className="text-lg font-semibold mb-4">Current Resource Usage</h3>
           <div className="space-y-4">
@@ -366,7 +357,7 @@ export default function MonitoringDashboard() {
               <div className="w-full bg-gray-200 rounded-full h-2">
                 <div 
                   className="bg-blue-600 h-2 rounded-full" 
-                  style={{ width: `${healthData?.system.cpu.percentUsed}%` }}
+                  style={ width: `${healthData?.system.cpu.percentUsed}%` }
                 ></div>
               </div>
             </div>
@@ -378,7 +369,7 @@ export default function MonitoringDashboard() {
               <div className="w-full bg-gray-200 rounded-full h-2">
                 <div 
                   className="bg-purple-600 h-2 rounded-full" 
-                  style={{ width: `${healthData?.system.memory.percentUsed}%` }}
+                  style={ width: `${healthData?.system.memory.percentUsed}%` }
                 ></div>
               </div>
               <p className="text-xs text-gray-600 mt-1">
@@ -388,7 +379,7 @@ export default function MonitoringDashboard() {
           </div>
         </Card>
       </div>
-      
+
       {/* Database & Cache */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <Card className="p-6">
@@ -412,7 +403,7 @@ export default function MonitoringDashboard() {
             </div>
           </div>
         </Card>
-        
+
         <Card className="p-6">
           <h3 className="text-lg font-semibold mb-4">Cache Performance</h3>
           <div className="space-y-3">
@@ -439,7 +430,7 @@ export default function MonitoringDashboard() {
           </div>
         </Card>
       </div>
-      
+
       {/* Top Endpoints */}
       <Card className="p-6">
         <h3 className="text-xl font-semibold mb-4">Top Endpoints</h3>
@@ -455,14 +446,14 @@ export default function MonitoringDashboard() {
               </tr>
             </thead>
             <tbody>
-              {metricsData?.endpoints.map((endpoint, index) => (
+              {metricsData?.endpoints.map((endpointindex: any) => (
                 <tr key={index} className="border-b">
                   <td className="py-2">{endpoint.path}</td>
                   <td className="py-2">{endpoint.method}</td>
                   <td className="text-right py-2">{endpoint.count}</td>
                   <td className="text-right py-2">{endpoint.averageTime.toFixed(2)}</td>
                   <td className="text-right py-2">
-                    <span className={endpoint.errorRate > 0.05 ? 'text-red-600' : ''}>
+                    <span className={endpoint.errorRate> 0.05 ? 'text-red-600' : ''}>
                       {(endpoint.errorRate * 100).toFixed(2)}%
                     </span>
                   </td>

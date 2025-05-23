@@ -27,8 +27,7 @@ const OptimizedSecurityDashboard: React.FC<OptimizedSecurityDashboardProps> = ({
   includeMetricsChart = true,
   includeTimeline = true,
   showPerformanceStats = false,
-  securityScore = 75,
-}) => {
+  securityScore = 75}) => {
   return (
     <div className="space-y-6">
       {/* Dashboard header */}
@@ -39,7 +38,7 @@ const OptimizedSecurityDashboard: React.FC<OptimizedSecurityDashboardProps> = ({
             Optimized for performance
           </p>
         </div>
-        
+
         <div className="flex items-center gap-2">
           <select 
             className="bg-white border rounded px-2 py-1 text-sm"
@@ -47,7 +46,7 @@ const OptimizedSecurityDashboard: React.FC<OptimizedSecurityDashboardProps> = ({
             <option value="60">Refresh: 1m</option>
             <option value="300">Refresh: 5m</option>
           </select>
-          
+
           <button 
             className="bg-blue-600 text-white px-3 py-1 rounded text-sm hover:bg-blue-700"
           >
@@ -55,7 +54,7 @@ const OptimizedSecurityDashboard: React.FC<OptimizedSecurityDashboardProps> = ({
           </button>
         </div>
       </div>
-      
+
       {/* Security score highlight */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <div className="p-4 border rounded-lg border-l-4 border-l-green-500">
@@ -64,7 +63,7 @@ const OptimizedSecurityDashboard: React.FC<OptimizedSecurityDashboardProps> = ({
             <span className="text-2xl font-bold">{securityScore}/100</span>
           </div>
         </div>
-        
+
         {/* Additional metric cards */}
         <div className="p-4 border rounded-lg">
           <div className="text-sm font-medium text-gray-500 mb-2">Cache Status</div>
@@ -73,7 +72,7 @@ const OptimizedSecurityDashboard: React.FC<OptimizedSecurityDashboardProps> = ({
             Events: 16, Metrics: 8
           </div>
         </div>
-        
+
         <div className="p-4 border rounded-lg">
           <div className="text-sm font-medium text-gray-500 mb-2">Connection Status</div>
           <div className="flex items-center">
@@ -81,7 +80,7 @@ const OptimizedSecurityDashboard: React.FC<OptimizedSecurityDashboardProps> = ({
             <span className="text-lg font-semibold">Connected</span>
           </div>
         </div>
-        
+
         <div className="p-4 border rounded-lg">
           <div className="text-sm font-medium text-gray-500 mb-2">API Latency</div>
           <div className="text-2xl font-bold">85ms</div>
@@ -90,11 +89,11 @@ const OptimizedSecurityDashboard: React.FC<OptimizedSecurityDashboardProps> = ({
           </div>
         </div>
       </div>
-      
+
       {/* Main dashboard content */}
       <div className="border-b border-gray-200">
         <nav className="flex -mb-px space-x-8">
-          {['overview', 'events', 'threats'].map((tab) => (
+          {['overview', 'events', 'threats'].map((tab: any) => (
             <button
               key={tab}
               className={`py-4 px-1 font-medium text-sm capitalize border-b-2 ${
@@ -108,11 +107,11 @@ const OptimizedSecurityDashboard: React.FC<OptimizedSecurityDashboardProps> = ({
           ))}
         </nav>
       </div>
-      
+
       {/* Main content panel - Overview tab */}
       <div className="border rounded-lg p-4">
         <h2 className="text-lg font-semibold mb-4">Security Overview</h2>
-        
+
         <div className="space-y-4">
           {/* Recent events preview */}
           <div>
@@ -149,7 +148,7 @@ const OptimizedSecurityDashboard: React.FC<OptimizedSecurityDashboardProps> = ({
               </table>
             </div>
           </div>
-          
+
           {/* Security metrics visualization placeholder */}
           {includeMetricsChart && (
             <div>
@@ -159,7 +158,7 @@ const OptimizedSecurityDashboard: React.FC<OptimizedSecurityDashboardProps> = ({
               </div>
             </div>
           )}
-          
+
           {/* Threat visualization placeholder */}
           {includeThreatVisualization && (
             <div>
@@ -171,7 +170,7 @@ const OptimizedSecurityDashboard: React.FC<OptimizedSecurityDashboardProps> = ({
           )}
         </div>
       </div>
-      
+
       {/* Performance information footer */}
       {showPerformanceStats && (
         <div className="text-xs text-gray-400 border-t pt-2">

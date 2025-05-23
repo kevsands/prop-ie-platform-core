@@ -11,7 +11,7 @@ export default function CompanyPage() {
         Learn more about Prop.ie, our mission, our team, and how we're transforming 
         the property industry in Ireland.
       </p>
-      
+
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-10">
         <div className="bg-white rounded-lg shadow-md p-6">
           <h2 className="text-xl font-semibold text-gray-900 mb-3">About Us</h2>
@@ -28,7 +28,7 @@ export default function CompanyPage() {
             </svg>
           </Link>
         </div>
-        
+
         <div className="bg-white rounded-lg shadow-md p-6">
           <h2 className="text-xl font-semibold text-gray-900 mb-3">Contact Us</h2>
           <p className="text-gray-600 mb-4">
@@ -44,7 +44,7 @@ export default function CompanyPage() {
             </svg>
           </Link>
         </div>
-        
+
         <div className="bg-white rounded-lg shadow-md p-6">
           <h2 className="text-xl font-semibold text-gray-900 mb-3">Careers</h2>
           <p className="text-gray-600 mb-4">
@@ -60,7 +60,7 @@ export default function CompanyPage() {
             </svg>
           </Link>
         </div>
-        
+
         <div className="bg-white rounded-lg shadow-md p-6">
           <h2 className="text-xl font-semibold text-gray-900 mb-3">Testimonials</h2>
           <p className="text-gray-600 mb-4">

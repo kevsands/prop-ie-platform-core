@@ -13,18 +13,18 @@ const Hero = () => {
           src="/images/contact/hero-bg.jpg" 
           alt="Prop.ie contact"
           fill
-          style={{ objectFit: 'cover' }}
+          style={ objectFit: 'cover' }
           priority
         />
         <div className="absolute inset-0 bg-black/40 z-10"></div>
       </div>
-      
+
       {/* Content */}
       <div className="relative z-20 container mx-auto px-4 h-full flex flex-col justify-center">
         <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+          initial={ opacity: 0, y: 20 }
+          animate={ opacity: 1, y: 0 }
+          transition={ duration: 0.8 }
           className="max-w-3xl"
         >
           <h1 className="text-4xl md:text-5xl font-bold mb-4">

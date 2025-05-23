@@ -1,0 +1,590 @@
+'use client';
+
+import React, { useState } from 'react';
+import { 
+  Dialog, 
+  DialogContent, 
+  DialogHeader, 
+  DialogTitle,
+  DialogDescription,
+  DialogFooter 
+} from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { 
+  Select, 
+  SelectContent, 
+  SelectItem, 
+  SelectTrigger, 
+  SelectValue 
+} from '@/components/ui/select';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Badge } from '@/components/ui/badge';
+import { Progress } from '@/components/ui/progress';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { Checkbox } from '@/components/ui/checkbox';
+import {
+  FileText,
+  Download,
+  Eye,
+  Send,
+  Package,
+  CheckCircle,
+  AlertCircle,
+  Loader2,
+  FileSearch,
+  Calendar,
+  Building,
+  Home,
+  Users,
+  Shield,
+  ClipboardCheck
+} from 'lucide-react';
+import { format } from 'date-fns';
+
+interface SLPTemplate {
+  id: string;
+  name: string;
+  description: string;
+  category: 'residential' | 'commercial' | 'mixed';
+  requiredDocuments: string[];
+  optionalDocuments: string[];
+  lastUpdated: Date;
+  version: string;
+}
+
+interface PropertyData {
+  id: string;
+  address: string;
+  eircode: string;
+  type: string;
+  bedrooms?: number;
+  bathrooms?: number;
+  berRating?: string;
+  yearBuilt?: number;
+  developmentId?: string;
+  unitNumber?: string;
+}
+
+interface SLPDocument {
+  id: string;
+  name: string;
+  category: string;
+  required: boolean;
+  status: 'pending' | 'available' | 'missing' | 'expired';
+  fileUrl?: string;
+  expiryDate?: Date;
+  uploadDate?: Date;
+}
+
+interface SLPGeneratorProps {
+  propertyData: PropertyData;
+  existingDocuments?: SLPDocument[];
+  onGenerate: (slpData: any) => Promise<void>;
+  onClose: () => void;
+}
+
+const defaultTemplates: SLPTemplate[] = [
+  {
+    id: '1',
+    name: 'Residential Property SLP',
+    description: 'Standard SLP for residential properties',
+    category: 'residential',
+    requiredDocuments: [
+      'Title Deeds',
+      'Planning Permission',
+      'Building Energy Rating (BER) Certificate',
+      'Property Tax Clearance',
+      'NPPR Certificate',
+      'Household Charge Receipt',
+      'Management Company Details',
+      'Service Charge Statement'
+    ],
+    optionalDocuments: [
+      'Architect Certificate',
+      'Engineer Report',
+      'Warranty Documentation',
+      'Appliance Manuals'
+    ],
+    lastUpdated: new Date('2024-01-15'),
+    version: '2.1'
+  },
+  {
+    id: '2',
+    name: 'New Build SLP',
+    description: 'SLP template for newly constructed properties',
+    category: 'residential',
+    requiredDocuments: [
+      'Title Deeds',
+      'Planning Permission',
+      'Commencement Notice',
+      'Building Control Amendment Regulations (BCAR) Certificate',
+      'Certificate of Compliance on Completion',
+      'Building Energy Rating (BER) Certificate',
+      'HomeBond/Premier Guarantee',
+      'Snag List Completion Certificate'
+    ],
+    optionalDocuments: [
+      'Developer Warranties',
+      'Mechanical & Electrical Certificates',
+      'Fire Safety Certificate'
+    ],
+    lastUpdated: new Date('2024-02-01'),
+    version: '1.3'
+  }
+];
+
+const SLPGenerator: React.FC<SLPGeneratorProps> = ({
+  propertyData,
+  existingDocuments = [],
+  onGenerate,
+  onClose
+}) => {
+  const [selectedTemplate, setSelectedTemplate] = useState<SLPTemplate | null>(null);
+  const [isGenerating, setIsGenerating] = useState(false);
+  const [generationProgress, setGenerationProgress] = useState(0);
+  const [selectedDocuments, setSelectedDocuments] = useState<Set<string>>(new Set());
+  const [batchMode, setBatchMode] = useState(false);
+  const [complianceCheckResults, setComplianceCheckResults] = useState<any>(null);
+  const [previewMode, setPreviewMode] = useState(false);
+
+  // Initialize selected documents based on template
+  React.useEffect(() => {
+    if (selectedTemplate) {
+      const initialSelected = new Set(selectedTemplate.requiredDocuments);
+      setSelectedDocuments(initialSelected);
+    }
+  }, [selectedTemplate]);
+
+  const handleTemplateSelect = (templateId: string) => {
+    const template = defaultTemplates.find(t => t.id === templateId);
+    setSelectedTemplate(template || null);
+  };
+
+  const getDocumentStatus = (docName: string): SLPDocument['status'] => {
+    const existingDoc = existingDocuments.find(d => d.name === docName);
+    if (!existingDoc) return 'missing';
+
+    if (existingDoc.expiryDate && new Date(existingDoc.expiryDate) < new Date()) {
+      return 'expired';
+    }
+
+    return existingDoc.status || 'available';
+  };
+
+  const performComplianceCheck = async () => {
+    setIsGenerating(true);
+    setGenerationProgress(10);
+
+    // Simulate compliance checking
+    await new Promise(resolve => setTimeout(resolve, 1000));
+
+    const results = {
+      overallCompliance: 85,
+      issues: [
+        { document: 'BER Certificate', issue: 'Expires in 30 days', severity: 'warning' },
+        { document: 'Property Tax Clearance', issue: 'Missing document', severity: 'error' }
+      ],
+      recommendations: [
+        'Update BER Certificate before expiry',
+        'Obtain Property Tax Clearance Certificate'
+      ]
+    };
+
+    setComplianceCheckResults(results);
+    setGenerationProgress(30);
+    setIsGenerating(false);
+  };
+
+  const generateSLP = async () => {
+    if (!selectedTemplate) return;
+
+    setIsGenerating(true);
+    setGenerationProgress(0);
+
+    try {
+      // Step 1: Validate documents
+      setGenerationProgress(20);
+      await new Promise(resolve => setTimeout(resolve, 500));
+
+      // Step 2: Compile documents
+      setGenerationProgress(40);
+      await new Promise(resolve => setTimeout(resolve, 1000));
+
+      // Step 3: Generate cover page and index
+      setGenerationProgress(60);
+      await new Promise(resolve => setTimeout(resolve, 800));
+
+      // Step 4: Apply watermarks if needed
+      setGenerationProgress(80);
+      await new Promise(resolve => setTimeout(resolve, 600));
+
+      // Step 5: Create final PDF
+      setGenerationProgress(100);
+
+      const slpData = {
+        templateId: selectedTemplate.id,
+        propertyData,
+        includedDocuments: Array.from(selectedDocuments),
+        generatedDate: new Date(),
+        complianceScore: complianceCheckResults?.overallCompliance || 100,
+        format: 'pdf',
+        options: {
+          includeIndex: true,
+          includeCoverPage: true,
+          applyWatermark: false,
+          enableDownloadProtection: true
+        }
+      };
+
+      await onGenerate(slpData);
+
+    } catch (error) {
+
+    } finally {
+      setIsGenerating(false);
+    }
+  };
+
+  const getComplianceColor = (score: number) => {
+    if (score >= 90) return 'text-green-600';
+    if (score >= 70) return 'text-yellow-600';
+    return 'text-red-600';
+  };
+
+  return (
+    <Dialog open={true} onOpenChange={onClose}>
+      <DialogContent className="max-w-4xl max-h-[90vh] overflow-hidden">
+        <DialogHeader>
+          <DialogTitle>Generate Seller's Legal Pack (SLP)</DialogTitle>
+          <DialogDescription>
+            Create a comprehensive legal pack for {propertyData.address}
+          </DialogDescription>
+        </DialogHeader>
+
+        <Tabs defaultValue="template" className="flex-1">
+          <TabsList className="grid w-full grid-cols-4">
+            <TabsTrigger value="template">Template</TabsTrigger>
+            <TabsTrigger value="documents">Documents</TabsTrigger>
+            <TabsTrigger value="compliance">Compliance</TabsTrigger>
+            <TabsTrigger value="preview">Preview</TabsTrigger>
+          </TabsList>
+
+          <ScrollArea className="h-[500px] mt-4">
+            <TabsContent value="template" className="space-y-4">
+              <div className="grid gap-4">
+                {defaultTemplates.map((template) => (
+                  <Card 
+                    key={template.id}
+                    className={`cursor-pointer transition-colors ${
+                      selectedTemplate?.id === template.id 
+                        ? 'border-primary bg-primary/5' 
+                        : 'hover:border-primary/50'
+                    }`}
+                    onClick={() => handleTemplateSelect(template.id)}
+                  >
+                    <CardHeader>
+                      <div className="flex items-center justify-between">
+                        <CardTitle className="text-lg">{template.name}</CardTitle>
+                        <div className="flex items-center space-x-2">
+                          <Badge variant="outline">{template.category}</Badge>
+                          <Badge variant="secondary">v{template.version}</Badge>
+                        </div>
+                      </div>
+                      <CardDescription>{template.description}</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="grid grid-cols-2 gap-4 text-sm">
+                        <div>
+                          <p className="font-medium">Required Documents:</p>
+                          <p className="text-muted-foreground">
+                            {template.requiredDocuments.length} documents
+                          </p>
+                        </div>
+                        <div>
+                          <p className="font-medium">Last Updated:</p>
+                          <p className="text-muted-foreground">
+                            {format(template.lastUpdated, 'dd MMM yyyy')}
+                          </p>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+
+              {/* Batch Mode Option */}
+              <Card className="mt-4">
+                <CardHeader>
+                  <CardTitle className="text-base">Batch Generation</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="flex items-center space-x-2">
+                    <Checkbox 
+                      id="batch-mode"
+                      checked={batchMode}
+                      onCheckedChange={(checked) => setBatchMode(checked as boolean)}
+                    />
+                    <Label htmlFor="batch-mode" className="text-sm">
+                      Enable batch generation for multiple properties
+                    </Label>
+                  </div>
+                </CardContent>
+              </Card>
+            </TabsContent>
+
+            <TabsContent value="documents" className="space-y-4">
+              {selectedTemplate ? (
+                <>
+                  <Card>
+                    <CardHeader>
+                      <CardTitle className="text-base">Required Documents</CardTitle>
+                      <CardDescription>
+                        Select documents to include in the SLP
+                      </CardDescription>
+                    </CardHeader>
+                    <CardContent className="space-y-2">
+                      {selectedTemplate.requiredDocuments.map((doc) => {
+                        const status = getDocumentStatus(doc);
+                        return (
+                          <div key={doc} className="flex items-center justify-between p-2 rounded-lg hover:bg-gray-50">
+                            <div className="flex items-center space-x-3">
+                              <Checkbox
+                                checked={selectedDocuments.has(doc)}
+                                onCheckedChange={(checked) => {
+                                  const newSelected = new Set(selectedDocuments);
+                                  if (checked) {
+                                    newSelected.add(doc);
+                                  } else {
+                                    newSelected.delete(doc);
+                                  }
+                                  setSelectedDocuments(newSelected);
+                                }}
+                              />
+                              <FileText className="h-4 w-4 text-gray-500" />
+                              <span className="text-sm">{doc}</span>
+                            </div>
+                            <div className="flex items-center space-x-2">
+                              {status === 'available' && (
+                                <Badge variant="outline" className="text-green-600">
+                                  <CheckCircle className="h-3 w-3 mr-1" />
+                                  Available
+                                </Badge>
+                              )}
+                              {status === 'missing' && (
+                                <Badge variant="outline" className="text-red-600">
+                                  <AlertCircle className="h-3 w-3 mr-1" />
+                                  Missing
+                                </Badge>
+                              )}
+                              {status === 'expired' && (
+                                <Badge variant="outline" className="text-yellow-600">
+                                  <AlertCircle className="h-3 w-3 mr-1" />
+                                  Expired
+                                </Badge>
+                              )}
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </CardContent>
+                  </Card>
+
+                  <Card>
+                    <CardHeader>
+                      <CardTitle className="text-base">Optional Documents</CardTitle>
+                    </CardHeader>
+                    <CardContent className="space-y-2">
+                      {selectedTemplate.optionalDocuments.map((doc) => {
+                        const status = getDocumentStatus(doc);
+                        return (
+                          <div key={doc} className="flex items-center justify-between p-2 rounded-lg hover:bg-gray-50">
+                            <div className="flex items-center space-x-3">
+                              <Checkbox
+                                checked={selectedDocuments.has(doc)}
+                                onCheckedChange={(checked) => {
+                                  const newSelected = new Set(selectedDocuments);
+                                  if (checked) {
+                                    newSelected.add(doc);
+                                  } else {
+                                    newSelected.delete(doc);
+                                  }
+                                  setSelectedDocuments(newSelected);
+                                }}
+                              />
+                              <FileText className="h-4 w-4 text-gray-400" />
+                              <span className="text-sm text-gray-600">{doc}</span>
+                            </div>
+                            <div className="flex items-center space-x-2">
+                              {status === 'available' && (
+                                <Badge variant="outline" className="text-gray-500">
+                                  Available
+                                </Badge>
+                              )}
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </CardContent>
+                  </Card>
+                </>
+              ) : (
+                <Alert>
+                  <AlertCircle className="h-4 w-4" />
+                  <AlertDescription>
+                    Please select a template first
+                  </AlertDescription>
+                </Alert>
+              )}
+            </TabsContent>
+
+            <TabsContent value="compliance" className="space-y-4">
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-base">Compliance Check</CardTitle>
+                  <CardDescription>
+                    Verify all required documents meet legal requirements
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  {!complianceCheckResults ? (
+                    <div className="text-center py-8">
+                      <Shield className="h-12 w-12 mx-auto text-gray-400 mb-4" />
+                      <p className="text-sm text-gray-600 mb-4">
+                        Run compliance check to verify document completeness
+                      </p>
+                      <Button onClick={performComplianceCheck} disabled={!selectedTemplate}>
+                        <ClipboardCheck className="mr-2 h-4 w-4" />
+                        Run Compliance Check
+                      </Button>
+                    </div>
+                  ) : (
+                    <div className="space-y-4">
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm font-medium">Overall Compliance Score</span>
+                        <div className="flex items-center space-x-2">
+                          <span className={`text-2xl font-bold ${getComplianceColor(complianceCheckResults.overallCompliance)}`}>
+                            {complianceCheckResults.overallCompliance}%
+                          </span>
+                        </div>
+                      </div>
+
+                      <Progress value={complianceCheckResults.overallCompliance} className="h-2" />
+
+                      {complianceCheckResults.issues.length > 0 && (
+                        <div className="space-y-2">
+                          <p className="text-sm font-medium">Issues Found:</p>
+                          {complianceCheckResults.issues.map((issue: any, index: number) => (
+                            <Alert key={index} variant={issue.severity === 'error' ? 'destructive' : 'default'}>
+                              <AlertCircle className="h-4 w-4" />
+                              <AlertDescription>
+                                <strong>{issue.document}:</strong> {issue.issue}
+                              </AlertDescription>
+                            </Alert>
+                          ))}
+                        </div>
+                      )}
+
+                      {complianceCheckResults.recommendations.length > 0 && (
+                        <div className="space-y-2">
+                          <p className="text-sm font-medium">Recommendations:</p>
+                          <ul className="list-disc list-inside space-y-1">
+                            {complianceCheckResults.recommendations.map((rec: string, index: number) => (
+                              <li key={index} className="text-sm text-gray-600">{rec}</li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            </TabsContent>
+
+            <TabsContent value="preview" className="space-y-4">
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-base">SLP Preview</CardTitle>
+                  <CardDescription>
+                    Preview how the final document will look
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="border rounded-lg p-6 bg-gray-50">
+                    <div className="text-center mb-6">
+                      <h2 className="text-2xl font-bold mb-2">Seller's Legal Pack</h2>
+                      <p className="text-gray-600">{propertyData.address}</p>
+                      <p className="text-sm text-gray-500">Generated on {format(new Date(), 'dd MMMM yyyy')}</p>
+                    </div>
+
+                    <div className="space-y-4">
+                      <div>
+                        <h3 className="font-semibold mb-2">Property Details</h3>
+                        <div className="grid grid-cols-2 gap-2 text-sm">
+                          <div>
+                            <span className="text-gray-600">Type:</span> {propertyData.type}
+                          </div>
+                          <div>
+                            <span className="text-gray-600">Eircode:</span> {propertyData.eircode}
+                          </div>
+                          {propertyData.bedrooms && (
+                            <div>
+                              <span className="text-gray-600">Bedrooms:</span> {propertyData.bedrooms}
+                            </div>
+                          )}
+                          {propertyData.berRating && (
+                            <div>
+                              <span className="text-gray-600">BER Rating:</span> {propertyData.berRating}
+                            </div>
+                          )}
+                        </div>
+                      </div>
+
+                      <div>
+                        <h3 className="font-semibold mb-2">Document Index</h3>
+                        <ol className="list-decimal list-inside space-y-1 text-sm">
+                          {Array.from(selectedDocuments).map((doc, index) => (
+                            <li key={doc} className="text-gray-600">
+                              {doc} {getDocumentStatus(doc) === 'available' && '✓'}
+                            </li>
+                          ))}
+                        </ol>
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </TabsContent>
+          </ScrollArea>
+        </Tabs>
+
+        <DialogFooter>
+          <Button variant="outline" onClick={onClose}>
+            Cancel
+          </Button>
+          <Button 
+            onClick={generateSLP}
+            disabled={!selectedTemplate || selectedDocuments.size === 0 || isGenerating}
+          >
+            {isGenerating ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Generating... {generationProgress}%
+              </>
+            ) : (
+              <>
+                <Package className="mr-2 h-4 w-4" />
+                Generate SLP
+              </>
+            )}
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+};
+
+export default SLPGenerator;

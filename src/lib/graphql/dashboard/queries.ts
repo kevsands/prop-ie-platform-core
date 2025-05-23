@@ -14,14 +14,14 @@ export const GET_DEVELOPER_DASHBOARD = /* GraphQL */ `
       unitsAvailable
       unitsSold
       salesValue
-      
+
       # Financial statistics
       totalRevenue
       projectedRevenue
       costToDate
       projectedProfit
       profitMargin
-      
+
       # Timeline statistics
       inProgressDevelopments
       completedDevelopments
@@ -35,12 +35,12 @@ export const GET_DEVELOPER_DASHBOARD = /* GraphQL */ `
         type
         description
       }
-      
+
       # Sales statistics
       salesVelocity
       reservationsThisMonth
       completionsThisMonth
-      
+
       # Document statistics
       pendingDocuments
       expiringDocuments
@@ -60,26 +60,26 @@ export const GET_DEVELOPER_DASHBOARD_FOR_PROJECT = /* GraphQL */ `
       startDate
       projectedCompletionDate
       actualCompletionDate
-      
+
       # Unit info
       totalUnits
       availableUnits
       reservedUnits
       soldUnits
-      
+
       # Financial info
       totalBudget
       currentSpend
       projectedRevenue
       actualRevenue
       profitMargin
-      
+
       # Progress info
       overallProgress
       constructionProgress
       salesProgress
       documentCompleteness
-      
+
       # Timeline
       timeline {
         milestones {
@@ -94,7 +94,7 @@ export const GET_DEVELOPER_DASHBOARD_FOR_PROJECT = /* GraphQL */ `
         nextMilestoneDate
         delayedMilestones
       }
-      
+
       # Sales data
       salesData {
         monthlySales {
@@ -106,7 +106,7 @@ export const GET_DEVELOPER_DASHBOARD_FOR_PROJECT = /* GraphQL */ `
         completionsThisMonth
         salesVelocity
       }
-      
+
       # Document stats
       documents {
         pending

@@ -1,0 +1,801 @@
+'use client';
+
+import React, { useState, useEffect } from 'react';
+import { 
+  Card, 
+  CardContent, 
+  CardDescription, 
+  CardHeader, 
+  CardTitle 
+} from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { 
+  Select, 
+  SelectContent, 
+  SelectItem, 
+  SelectTrigger, 
+  SelectValue 
+} from '@/components/ui/select';
+import { Switch } from '@/components/ui/switch';
+import { Badge } from '@/components/ui/badge';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { Separator } from '@/components/ui/separator';
+import {
+  Shield,
+  Lock,
+  Unlock,
+  Key,
+  FileCheck,
+  AlertTriangle,
+  CheckCircle,
+  XCircle,
+  Download,
+  Eye,
+  EyeOff,
+  UserCheck,
+  Users,
+  Calendar,
+  Clock,
+  Database,
+  Fingerprint,
+  ShieldCheck,
+  ShieldAlert,
+  FileWarning,
+  Info,
+  Settings,
+  RefreshCw
+} from 'lucide-react';
+import { Document } from '@/hooks/useDocuments';
+import { format } from 'date-fns';
+
+interface DocumentSecurityProps {
+  document?: Document;
+  onSecurityUpdate?: (settings: SecuritySettings) => void;
+}
+
+interface SecuritySettings {
+  encryption: {
+    enabled: boolean;
+    algorithm: string;
+    keyRotation: boolean;
+  };
+  access: {
+    requireAuthentication: boolean;
+    allowedRoles: string[];
+    ipWhitelist: string[];
+    timeBasedAccess: {
+      enabled: boolean;
+      startDate?: Date;
+      endDate?: Date;
+    };
+  };
+  audit: {
+    logAccess: boolean;
+    logDownloads: boolean;
+    logModifications: boolean;
+    retentionDays: number;
+  };
+  gdpr: {
+    dataRetentionDays: number;
+    allowDataExport: boolean;
+    allowDataDeletion: boolean;
+    anonymizeOnDelete: boolean;
+    consentRequired: boolean;
+  };
+  watermark: {
+    enabled: boolean;
+    text: string;
+    position: string;
+    opacity: number;
+  };
+  downloadProtection: {
+    enabled: boolean;
+    maxDownloads?: number;
+    requireReason: boolean;
+    notifyOnDownload: boolean;
+  };
+}
+
+interface AuditLogEntry {
+  id: string;
+  action: string;
+  userId: string;
+  userName: string;
+  timestamp: Date;
+  ipAddress: string;
+  details?: any;
+}
+
+interface ComplianceCheck {
+  category: string;
+  requirement: string;
+  status: 'pass' | 'fail' | 'warning';
+  message: string;
+}
+
+const DocumentSecurity: React.FC<DocumentSecurityProps> = ({
+  document,
+  onSecurityUpdate
+}) => {
+  const [securitySettingssetSecuritySettings] = useState<SecuritySettings>({
+    encryption: {
+      enabled: true,
+      algorithm: 'AES-256',
+      keyRotation: true
+    },
+    access: {
+      requireAuthentication: true,
+      allowedRoles: ['ADMIN', 'DEVELOPER', 'AGENT'],
+      ipWhitelist: [],
+      timeBasedAccess: {
+        enabled: false
+      }
+    },
+    audit: {
+      logAccess: true,
+      logDownloads: true,
+      logModifications: true,
+      retentionDays: 365
+    },
+    gdpr: {
+      dataRetentionDays: 730, // 2 years
+      allowDataExport: true,
+      allowDataDeletion: true,
+      anonymizeOnDelete: true,
+      consentRequired: true
+    },
+    watermark: {
+      enabled: false,
+      text: 'CONFIDENTIAL',
+      position: 'diagonal',
+      opacity: 0.3
+    },
+    downloadProtection: {
+      enabled: false,
+      requireReason: false,
+      notifyOnDownload: false
+    }
+  });
+
+  const [auditLogssetAuditLogs] = useState<AuditLogEntry[]>([]);
+  const [complianceCheckssetComplianceChecks] = useState<ComplianceCheck[]>([]);
+  const [isScanningsetIsScanning] = useState(false);
+
+  // Mock audit logs
+  useEffect(() => {
+    if (document) {
+      setAuditLogs([
+        {
+          id: '1',
+          action: 'DOCUMENT_VIEWED',
+          userId: 'user-123',
+          userName: 'John Doe',
+          timestamp: new Date(),
+          ipAddress: '192.168.1.1',
+          details: { duration: '2m 15s' }
+        },
+        {
+          id: '2',
+          action: 'DOCUMENT_DOWNLOADED',
+          userId: 'user-456',
+          userName: 'Jane Smith',
+          timestamp: new Date(Date.now() - 86400000),
+          ipAddress: '192.168.1.2',
+          details: { format: 'PDF' }
+        }
+      ]);
+    }
+  }, [document]);
+
+  const performSecurityScan = async () => {
+    setIsScanning(true);
+    setComplianceChecks([]);
+
+    // Simulate security scanning
+    await new Promise(resolve => setTimeout(resolve1000));
+
+    const checks: ComplianceCheck[] = [
+      {
+        category: 'Encryption',
+        requirement: 'Data at rest encryption',
+        status: securitySettings.encryption.enabled ? 'pass' : 'fail',
+        message: securitySettings.encryption.enabled 
+          ? 'Document is encrypted using AES-256'
+          : 'Document is not encrypted'
+      },
+      {
+        category: 'Access Control',
+        requirement: 'Authentication required',
+        status: securitySettings.access.requireAuthentication ? 'pass' : 'warning',
+        message: securitySettings.access.requireAuthentication
+          ? 'Authentication is enforced'
+          : 'Document can be accessed without authentication'
+      },
+      {
+        category: 'GDPR',
+        requirement: 'Data retention policy',
+        status: securitySettings.gdpr.dataRetentionDays <= 730 ? 'pass' : 'warning',
+        message: `Data retention set to ${securitySettings.gdpr.dataRetentionDays} days`
+      },
+      {
+        category: 'GDPR',
+        requirement: 'Right to erasure',
+        status: securitySettings.gdpr.allowDataDeletion ? 'pass' : 'fail',
+        message: securitySettings.gdpr.allowDataDeletion
+          ? 'Users can request data deletion'
+          : 'Data deletion not enabled'
+      },
+      {
+        category: 'Audit',
+        requirement: 'Access logging',
+        status: securitySettings.audit.logAccess ? 'pass' : 'warning',
+        message: securitySettings.audit.logAccess
+          ? 'All access is logged'
+          : 'Access logging is disabled'
+      },
+      {
+        category: 'Security',
+        requirement: 'Download protection',
+        status: document?.category === 'CONFIDENTIAL' && !securitySettings.downloadProtection.enabled ? 'warning' : 'pass',
+        message: securitySettings.downloadProtection.enabled
+          ? 'Download protection is active'
+          : 'Consider enabling download protection for sensitive documents'
+      }
+    ];
+
+    setComplianceChecks(checks);
+    setIsScanning(false);
+  };
+
+  const updateSetting = (category: keyof SecuritySettings, key: string, value: any) => {
+    setSecuritySettings(prev => {
+      const updated = { ...prev };
+      (updated[category] as any)[key] = value;
+      if (onSecurityUpdate) {
+        onSecurityUpdate(updated);
+      }
+      return updated;
+    });
+  };
+
+  const getComplianceScore = () => {
+    if (complianceChecks.length === 0) return 0;
+    const passCount = complianceChecks.filter(c => c.status === 'pass').length;
+    return Math.round((passCount / complianceChecks.length) * 100);
+  };
+
+  const getStatusIcon = (status: ComplianceCheck['status']) => {
+    switch (status) {
+      case 'pass':
+        return <CheckCircle className="h-4 w-4 text-green-600" />\n  );
+      case 'fail':
+        return <XCircle className="h-4 w-4 text-red-600" />\n  );
+      case 'warning':
+        return <AlertTriangle className="h-4 w-4 text-yellow-600" />\n  );
+    }
+  };
+
+  return (
+    <div className="space-y-6">
+      {/* Security Overview */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center space-x-2">
+            <Shield className="h-5 w-5" />
+            <span>Security & Compliance</span>
+          </CardTitle>
+          <CardDescription>
+            Configure security settings and ensure GDPR compliance
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="text-center p-4 border rounded-lg">
+              <ShieldCheck className="h-8 w-8 mx-auto mb-2 text-green-600" />
+              <p className="text-sm font-medium">Encryption</p>
+              <p className="text-2xl font-bold">
+                {securitySettings.encryption.enabled ? 'Active' : 'Inactive'}
+              </p>
+            </div>
+            <div className="text-center p-4 border rounded-lg">
+              <UserCheck className="h-8 w-8 mx-auto mb-2 text-blue-600" />
+              <p className="text-sm font-medium">Access Control</p>
+              <p className="text-2xl font-bold">
+                {securitySettings.access.allowedRoles.length} Roles
+              </p>
+            </div>
+            <div className="text-center p-4 border rounded-lg">
+              <FileCheck className="h-8 w-8 mx-auto mb-2 text-purple-600" />
+              <p className="text-sm font-medium">Compliance Score</p>
+              <p className="text-2xl font-bold">{getComplianceScore()}%</p>
+            </div>
+          </div>
+
+          <div className="mt-4">
+            <Button 
+              onClick={performSecurityScan} 
+              disabled={isScanning}
+              className="w-full"
+            >
+              {isScanning ? (
+                <>
+                  <RefreshCw className="mr-2 h-4 w-4 animate-spin" />
+                  Scanning...
+                </>
+              ) : (
+                <>
+                  <Shield className="mr-2 h-4 w-4" />
+                  Run Security Scan
+                </>
+              )}
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Compliance Results */}
+      {complianceChecks.length> 0 && (
+        <Card>
+          <CardHeader>
+            <CardTitle>Compliance Check Results</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-3">
+              {complianceChecks.map((checkindex: any) => (
+                <div key={index} className="flex items-start space-x-3 p-3 border rounded-lg">
+                  {getStatusIcon(check.status)}
+                  <div className="flex-1">
+                    <div className="flex items-center justify-between">
+                      <p className="font-medium text-sm">{check.requirement}</p>
+                      <Badge variant="outline" className="text-xs">
+                        {check.category}
+                      </Badge>
+                    </div>
+                    <p className="text-sm text-gray-600 mt-1">{check.message}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
+      {/* Security Settings */}
+      <Tabs defaultValue="encryption" className="space-y-4">
+        <TabsList className="grid w-full grid-cols-6">
+          <TabsTrigger value="encryption">Encryption</TabsTrigger>
+          <TabsTrigger value="access">Access</TabsTrigger>
+          <TabsTrigger value="audit">Audit</TabsTrigger>
+          <TabsTrigger value="gdpr">GDPR</TabsTrigger>
+          <TabsTrigger value="watermark">Watermark</TabsTrigger>
+          <TabsTrigger value="protection">Protection</TabsTrigger>
+        </TabsList>
+
+        <TabsContent value="encryption">
+          <Card>
+            <CardHeader>
+              <CardTitle>Encryption Settings</CardTitle>
+              <CardDescription>
+                Configure document encryption and key management
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="flex items-center justify-between">
+                <div className="space-y-0.5">
+                  <Label>Enable Encryption</Label>
+                  <p className="text-sm text-gray-600">
+                    Encrypt document at rest using AES-256
+                  </p>
+                </div>
+                <Switch
+                  checked={securitySettings.encryption.enabled}
+                  onCheckedChange={(checked: any) => updateSetting('encryption', 'enabled', checked)}
+                />
+              </div>
+
+              <div>
+                <Label>Encryption Algorithm</Label>
+                <Select 
+                  value={securitySettings.encryption.algorithm}
+                  onValueChange={(value: any) => updateSetting('encryption', 'algorithm', value)}
+                  disabled={!securitySettings.encryption.enabled}
+                >
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="AES-256">AES-256 (Recommended)</SelectItem>
+                    <SelectItem value="AES-128">AES-128</SelectItem>
+                    <SelectItem value="RSA-2048">RSA-2048</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div className="flex items-center justify-between">
+                <div className="space-y-0.5">
+                  <Label>Automatic Key Rotation</Label>
+                  <p className="text-sm text-gray-600">
+                    Rotate encryption keys every 90 days
+                  </p>
+                </div>
+                <Switch
+                  checked={securitySettings.encryption.keyRotation}
+                  onCheckedChange={(checked: any) => updateSetting('encryption', 'keyRotation', checked)}
+                  disabled={!securitySettings.encryption.enabled}
+                />
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="access">
+          <Card>
+            <CardHeader>
+              <CardTitle>Access Control</CardTitle>
+              <CardDescription>
+                Define who can access this document
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="flex items-center justify-between">
+                <div className="space-y-0.5">
+                  <Label>Require Authentication</Label>
+                  <p className="text-sm text-gray-600">
+                    Users must be logged in to access
+                  </p>
+                </div>
+                <Switch
+                  checked={securitySettings.access.requireAuthentication}
+                  onCheckedChange={(checked: any) => updateSetting('access', 'requireAuthentication', checked)}
+                />
+              </div>
+
+              <div>
+                <Label>Allowed Roles</Label>
+                <div className="flex flex-wrap gap-2 mt-2">
+                  {['ADMIN', 'DEVELOPER', 'AGENT', 'BUYER', 'SOLICITOR'].map(role => (
+                    <Badge
+                      key={role}
+                      variant={securitySettings.access.allowedRoles.includes(role) ? 'default' : 'outline'}
+                      className="cursor-pointer"
+                      onClick={() => {
+                        const roles = securitySettings.access.allowedRoles.includes(role)
+                          ? securitySettings.access.allowedRoles.filter(r => r !== role)
+                          : [...securitySettings.access.allowedRolesrole];
+                        updateSetting('access', 'allowedRoles', roles);
+                      }
+                    >
+                      {role}
+                    </Badge>
+                  ))}
+                </div>
+              </div>
+
+              <div className="flex items-center justify-between">
+                <div className="space-y-0.5">
+                  <Label>Time-based Access</Label>
+                  <p className="text-sm text-gray-600">
+                    Restrict access to specific time period
+                  </p>
+                </div>
+                <Switch
+                  checked={securitySettings.access.timeBasedAccess.enabled}
+                  onCheckedChange={(checked: any) => updateSetting('access', 'timeBasedAccess', {
+                    ...securitySettings.access.timeBasedAccess,
+                    enabled: checked
+                  })}
+                />
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="audit">
+          <Card>
+            <CardHeader>
+              <CardTitle>Audit Logging</CardTitle>
+              <CardDescription>
+                Track and monitor document activities
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <Label>Log Access Events</Label>
+                  <Switch
+                    checked={securitySettings.audit.logAccess}
+                    onCheckedChange={(checked: any) => updateSetting('audit', 'logAccess', checked)}
+                  />
+                </div>
+                <div className="flex items-center justify-between">
+                  <Label>Log Downloads</Label>
+                  <Switch
+                    checked={securitySettings.audit.logDownloads}
+                    onCheckedChange={(checked: any) => updateSetting('audit', 'logDownloads', checked)}
+                  />
+                </div>
+                <div className="flex items-center justify-between">
+                  <Label>Log Modifications</Label>
+                  <Switch
+                    checked={securitySettings.audit.logModifications}
+                    onCheckedChange={(checked: any) => updateSetting('audit', 'logModifications', checked)}
+                  />
+                </div>
+              </div>
+
+              <div>
+                <Label>Log Retention Period</Label>
+                <Select 
+                  value={securitySettings.audit.retentionDays.toString()}
+                  onValueChange={(value: any) => updateSetting('audit', 'retentionDays', parseInt(value))}
+                >
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="30">30 days</SelectItem>
+                    <SelectItem value="90">90 days</SelectItem>
+                    <SelectItem value="180">180 days</SelectItem>
+                    <SelectItem value="365">1 year</SelectItem>
+                    <SelectItem value="730">2 years</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              {auditLogs.length> 0 && (
+                <div>
+                  <Label className="mb-2 block">Recent Activity</Label>
+                  <ScrollArea className="h-48 border rounded-lg p-2">
+                    {auditLogs.map(log => (
+                      <div key={log.id} className="flex items-center justify-between py-2 px-2 hover:bg-gray-50">
+                        <div className="flex items-center space-x-3">
+                          <Badge variant="outline" className="text-xs">
+                            {log.action}
+                          </Badge>
+                          <span className="text-sm">{log.userName}</span>
+                        </div>
+                        <span className="text-xs text-gray-500">
+                          {format(log.timestamp, 'MMM d, HH:mm')}
+                        </span>
+                      </div>
+                    ))}
+                  </ScrollArea>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="gdpr">
+          <Card>
+            <CardHeader>
+              <CardTitle>GDPR Compliance</CardTitle>
+              <CardDescription>
+                Ensure compliance with data protection regulations
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <Alert>
+                <Info className="h-4 w-4" />
+                <AlertTitle>GDPR Requirements</AlertTitle>
+                <AlertDescription>
+                  These settings ensure compliance with EU General Data Protection Regulation
+                </AlertDescription>
+              </Alert>
+
+              <div>
+                <Label>Data Retention Period</Label>
+                <Select 
+                  value={securitySettings.gdpr.dataRetentionDays.toString()}
+                  onValueChange={(value: any) => updateSetting('gdpr', 'dataRetentionDays', parseInt(value))}
+                >
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="365">1 year</SelectItem>
+                    <SelectItem value="730">2 years</SelectItem>
+                    <SelectItem value="1095">3 years</SelectItem>
+                    <SelectItem value="1825">5 years</SelectItem>
+                    <SelectItem value="2555">7 years</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <div className="space-y-0.5">
+                    <Label>Right to Data Portability</Label>
+                    <p className="text-sm text-gray-600">
+                      Allow users to export their data
+                    </p>
+                  </div>
+                  <Switch
+                    checked={securitySettings.gdpr.allowDataExport}
+                    onCheckedChange={(checked: any) => updateSetting('gdpr', 'allowDataExport', checked)}
+                  />
+                </div>
+
+                <div className="flex items-center justify-between">
+                  <div className="space-y-0.5">
+                    <Label>Right to Erasure</Label>
+                    <p className="text-sm text-gray-600">
+                      Allow users to request data deletion
+                    </p>
+                  </div>
+                  <Switch
+                    checked={securitySettings.gdpr.allowDataDeletion}
+                    onCheckedChange={(checked: any) => updateSetting('gdpr', 'allowDataDeletion', checked)}
+                  />
+                </div>
+
+                <div className="flex items-center justify-between">
+                  <div className="space-y-0.5">
+                    <Label>Anonymize on Delete</Label>
+                    <p className="text-sm text-gray-600">
+                      Replace personal data with anonymous identifiers
+                    </p>
+                  </div>
+                  <Switch
+                    checked={securitySettings.gdpr.anonymizeOnDelete}
+                    onCheckedChange={(checked: any) => updateSetting('gdpr', 'anonymizeOnDelete', checked)}
+                  />
+                </div>
+
+                <div className="flex items-center justify-between">
+                  <div className="space-y-0.5">
+                    <Label>Explicit Consent Required</Label>
+                    <p className="text-sm text-gray-600">
+                      Require consent before processing personal data
+                    </p>
+                  </div>
+                  <Switch
+                    checked={securitySettings.gdpr.consentRequired}
+                    onCheckedChange={(checked: any) => updateSetting('gdpr', 'consentRequired', checked)}
+                  />
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="watermark">
+          <Card>
+            <CardHeader>
+              <CardTitle>Watermark Settings</CardTitle>
+              <CardDescription>
+                Add watermarks to protect document content
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="flex items-center justify-between">
+                <Label>Enable Watermark</Label>
+                <Switch
+                  checked={securitySettings.watermark.enabled}
+                  onCheckedChange={(checked: any) => updateSetting('watermark', 'enabled', checked)}
+                />
+              </div>
+
+              <div>
+                <Label>Watermark Text</Label>
+                <Input
+                  value={securitySettings.watermark.text}
+                  onChange={(e: any) => updateSetting('watermark', 'text', e.target.value)}
+                  disabled={!securitySettings.watermark.enabled}
+                />
+              </div>
+
+              <div>
+                <Label>Position</Label>
+                <Select 
+                  value={securitySettings.watermark.position}
+                  onValueChange={(value: any) => updateSetting('watermark', 'position', value)}
+                  disabled={!securitySettings.watermark.enabled}
+                >
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="diagonal">Diagonal</SelectItem>
+                    <SelectItem value="center">Center</SelectItem>
+                    <SelectItem value="top-left">Top Left</SelectItem>
+                    <SelectItem value="top-right">Top Right</SelectItem>
+                    <SelectItem value="bottom-left">Bottom Left</SelectItem>
+                    <SelectItem value="bottom-right">Bottom Right</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div>
+                <Label>Opacity ({Math.round(securitySettings.watermark.opacity * 100)}%)</Label>
+                <Input
+                  type="range"
+                  min="0"
+                  max="1"
+                  step="0.1"
+                  value={securitySettings.watermark.opacity}
+                  onChange={(e: any) => updateSetting('watermark', 'opacity', parseFloat(e.target.value))}
+                  disabled={!securitySettings.watermark.enabled}
+                  className="mt-2"
+                />
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="protection">
+          <Card>
+            <CardHeader>
+              <CardTitle>Download Protection</CardTitle>
+              <CardDescription>
+                Control how documents can be downloaded and shared
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="flex items-center justify-between">
+                <div className="space-y-0.5">
+                  <Label>Enable Download Protection</Label>
+                  <p className="text-sm text-gray-600">
+                    Restrict document downloads
+                  </p>
+                </div>
+                <Switch
+                  checked={securitySettings.downloadProtection.enabled}
+                  onCheckedChange={(checked: any) => updateSetting('downloadProtection', 'enabled', checked)}
+                />
+              </div>
+
+              {securitySettings.downloadProtection.enabled && (
+                <>
+                  <div>
+                    <Label>Maximum Downloads</Label>
+                    <Input
+                      type="number"
+                      value={securitySettings.downloadProtection.maxDownloads || ''}
+                      onChange={(e: any) => updateSetting('downloadProtection', 'maxDownloads', 
+                        e.target.value ? parseInt(e.target.value) : undefined
+                      )}
+                      placeholder="Unlimited"
+                    />
+                  </div>
+
+                  <div className="flex items-center justify-between">
+                    <div className="space-y-0.5">
+                      <Label>Require Download Reason</Label>
+                      <p className="text-sm text-gray-600">
+                        Users must provide a reason to download
+                      </p>
+                    </div>
+                    <Switch
+                      checked={securitySettings.downloadProtection.requireReason}
+                      onCheckedChange={(checked: any) => updateSetting('downloadProtection', 'requireReason', checked)}
+                    />
+                  </div>
+
+                  <div className="flex items-center justify-between">
+                    <div className="space-y-0.5">
+                      <Label>Notify on Download</Label>
+                      <p className="text-sm text-gray-600">
+                        Send notification when document is downloaded
+                      </p>
+                    </div>
+                    <Switch
+                      checked={securitySettings.downloadProtection.notifyOnDownload}
+                      onCheckedChange={(checked: any) => updateSetting('downloadProtection', 'notifyOnDownload', checked)}
+                    />
+                  </div>
+                </>
+              )}
+            </CardContent>
+          </Card>
+        </TabsContent>
+      </Tabs>
+    </div>
+  );
+};
+
+export default DocumentSecurity;

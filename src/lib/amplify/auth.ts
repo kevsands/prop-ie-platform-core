@@ -68,8 +68,7 @@ export class Auth {
    * Sign in a user
    */
   static async signIn({ username, password }: SignInParams): Promise<SignInResultType> {
-    console.log('[MOCK] signIn:', { username });
-    
+
     // Simulate MFA for specific test account
     if (username === 'mfa@example.com') {
       return {
@@ -77,7 +76,7 @@ export class Auth {
         nextStep: { signInStep: 'CONFIRM_SIGN_IN_WITH_SMS_CODE' }
       };
     }
-    
+
     // Normal sign in
     return {
       isSignedIn: true,
@@ -89,8 +88,7 @@ export class Auth {
    * Sign up a new user
    */
   static async signUp({ username, password, email, firstName, lastName, phoneNumber }: SignUpParams) {
-    console.log('[MOCK] signUp:', { username, email, firstName, lastName });
-    
+
     return {
       isSignUpComplete: false,
       nextStep: { signUpStep: 'CONFIRM_SIGN_UP' },
@@ -102,8 +100,7 @@ export class Auth {
    * Confirm user sign up with verification code
    */
   static async confirmSignUp(username: string, confirmationCode: string) {
-    console.log('[MOCK] confirmSignUp:', { username, confirmationCode });
-    
+
     return {
       isSignUpComplete: true,
       userId: 'new-user-id'
@@ -114,8 +111,7 @@ export class Auth {
    * Complete multi-factor authentication or custom challenge
    */
   static async confirmSignIn(challengeResponse: string) {
-    console.log('[MOCK] confirmSignIn:', { challengeResponse });
-    
+
     return {
       isSignedIn: true,
       challengeName: null
@@ -126,15 +122,14 @@ export class Auth {
    * Sign out the current user
    */
   static async signOut(options?: { global?: boolean }) {
-    console.log('[MOCK] signOut:', options);
+
   }
 
   /**
    * Start password reset flow
    */
   static async resetPassword(username: string) {
-    console.log('[MOCK] resetPassword:', { username });
-    
+
     return {
       nextStep: { resetPasswordStep: 'CONFIRM_RESET_PASSWORD' }
     };
@@ -148,8 +143,7 @@ export class Auth {
     confirmationCode: string,
     newPassword: string
   ) {
-    console.log('[MOCK] confirmResetPassword:', { username, confirmationCode });
-    
+
     return { success: true };
   }
 
@@ -157,8 +151,7 @@ export class Auth {
    * Get the current authenticated user with complete profile
    */
   static async getCurrentUser(): Promise<AuthUser | null> {
-    console.log('[MOCK] getCurrentUser');
-    
+
     return {
       userId: 'mock-user-id',
       username: 'mockuser',
@@ -176,7 +169,7 @@ export class Auth {
    * Check if the current user has a specific role
    */
   static async hasRole(role: string): Promise<boolean> {
-    console.log('[MOCK] hasRole:', { role });
+
     return true;
   }
 
@@ -184,7 +177,7 @@ export class Auth {
    * Get the current authentication token
    */
   static async getAccessToken(): Promise<string | null> {
-    console.log('[MOCK] getAccessToken');
+
     return 'mock-access-token';
   }
 
@@ -192,7 +185,7 @@ export class Auth {
    * Delete the current user (for testing purposes)
    */
   static async deleteUser() {
-    console.log('[MOCK] deleteUser');
+
   }
 
   static async signInUser(username: string, password: string): Promise<SignInResultType> {
@@ -252,7 +245,7 @@ export class Auth {
     try {
       await signOut();
     } catch (error) {
-      console.error('Error signing out:', error);
+
       if (error instanceof Error) {
         throw error;
       }
@@ -265,7 +258,7 @@ export class Auth {
       const user = await getCurrentUser();
       return user;
     } catch (error) {
-      console.error('Error getting current user:', error);
+
       if (error instanceof Error) {
         throw error;
       }

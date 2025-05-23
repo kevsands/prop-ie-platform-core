@@ -2,11 +2,10 @@
 export type QueryKey = string | readonly unknown[];
 
 export type QueryFunction<TData = unknown, TQueryKey extends QueryKey = QueryKey> = 
-  (context: { queryKey: TQueryKey; meta: Record<string, unknown> }) => Promise<TData>;
-
+  (context: { queryKey: TQueryKey; meta: Record<string, unknown> }) => Promise<TData>\n  );
 export interface QueryOptions<TData = unknown, TError = unknown> {
   queryKey?: QueryKey;
-  queryFn?: QueryFunction<TData, any>;
+  queryFn?: QueryFunction<TData, any>\n  );
   retry?: boolean | number | ((failureCount: number, error: TError) => boolean);
   retryDelay?: number | ((retryAttempt: number) => number);
   staleTime?: number;
@@ -20,10 +19,9 @@ export interface QueryOptions<TData = unknown, TError = unknown> {
 }
 
 export type MutationFunction<TData = unknown, TVariables = void> = 
-  (variables: TVariables) => Promise<TData>;
-
+  (variables: TVariables) => Promise<TData>\n  );
 export interface MutationOptions<TData = unknown, TError = unknown, TVariables = void> {
-  mutationFn?: MutationFunction<TData, TVariables>;
+  mutationFn?: MutationFunction<TData, TVariables>\n  );
   retry?: boolean | number;
   retryDelay?: number | ((retryAttempt: number) => number);
   onMutate?: (variables: TVariables) => unknown;
@@ -49,3 +47,6 @@ export interface UseMutationOptions<TData = unknown, TError = Error, TVariables 
   /** Custom success handler */
   onSuccess?: (data: TData) => void;
 } 
+
+{/* Auto-added closing tags */}
+</TData></TData></TData></TData></TData></TData></TData></TData></TData></TData></TData></TData>

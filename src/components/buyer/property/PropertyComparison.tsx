@@ -42,7 +42,7 @@ interface Property {
   developmentName?: string;
   readyDate?: string;
   energyRating?: string;
-  specifications?: Record<string, string>;
+  specifications?: Record<string, string>\n  );
 }
 
 interface PropertyComparisonProps {
@@ -58,17 +58,16 @@ export default function PropertyComparison({
   onRemoveProperty,
   onSelectProperty
 }: PropertyComparisonProps) {
-  const [viewMode, setViewMode] = useState<'basic' | 'detailed'>('basic');
-  
+  const [viewModesetViewMode] = useState<'basic' | 'detailed'>('basic');
+
   // Format currency for display
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('en-IE', {
       style: 'currency',
       currency: 'EUR',
-      maximumFractionDigits: 0,
-    }).format(amount);
+      maximumFractionDigits: 0}).format(amount);
   };
-  
+
   // Common specifications to compare
   const commonSpecifications = [
     { key: 'floorArea', label: 'Floor Area' },
@@ -81,7 +80,7 @@ export default function PropertyComparison({
     { key: 'flooring', label: 'Flooring' },
     { key: 'security', label: 'Security' }
   ];
-  
+
   // Common features to compare
   const commonFeatures = [
     'South-facing garden',
@@ -95,11 +94,11 @@ export default function PropertyComparison({
     'Walk-in wardrobe',
     'High-speed broadband ready'
   ];
-  
+
   // Generate mock specifications for properties that don't have them
   const generateMockSpecifications = (property: Property): Record<string, string> => {
     if (property.specifications) return property.specifications;
-    
+
     // Default specifications based on property type
     return {
       floorArea: `${property.area} m²`,
@@ -113,20 +112,20 @@ export default function PropertyComparison({
       security: 'Alarm system & smart locks'
     };
   };
-  
+
   // Check if a feature is included in a property
   const hasFeature = (property: Property, feature: string): boolean => {
     return property.features.some(f => 
       f.toLowerCase().includes(feature.toLowerCase()));
   };
-  
+
   // Handle property selection
   const handlePropertySelect = (property: Property) => {
     if (onSelectProperty) {
       onSelectProperty(property);
     }
   };
-  
+
   // Handle property removal
   const handleRemoveProperty = (propertyId: string) => {
     if (onRemoveProperty) {
@@ -142,7 +141,7 @@ export default function PropertyComparison({
             <ArrowUpDown className="h-5 w-5 mr-2" />
             <h2 className="text-lg md:text-xl font-semibold">Property Comparison</h2>
           </div>
-          
+
           <div className="flex items-center space-x-2">
             <button
               onClick={() => setViewMode('basic')}
@@ -175,7 +174,7 @@ export default function PropertyComparison({
         <ScrollArea className="w-full whitespace-nowrap">
           <div className="flex p-4">
             {/* Property columns */}
-            {properties.map((property, index) => (
+            {properties.map((propertyindex: any) => (
               <div key={property.id} className="flex-shrink-0 w-[280px] md:w-[320px] border-r last:border-r-0 pr-3 mr-3 last:pr-0 last:mr-0">
                 {/* Property Card */}
                 <div className="relative">
@@ -184,7 +183,7 @@ export default function PropertyComparison({
                     alt={property.name}
                     className="w-full h-40 object-cover rounded-lg mb-3"
                   />
-                  
+
                   {/* Remove button */}
                   <button
                     onClick={() => handleRemoveProperty(property.id)}
@@ -192,7 +191,7 @@ export default function PropertyComparison({
                   >
                     <X className="h-4 w-4 text-gray-600" />
                   </button>
-                  
+
                   {/* Status badge */}
                   {property.status !== 'available' && (
                     <div className={`absolute top-2 left-2 px-3 py-1 rounded-full text-xs font-medium ${
@@ -201,13 +200,13 @@ export default function PropertyComparison({
                       {property.status === 'reserved' ? 'Reserved' : 'Sold'}
                     </div>
                   )}
-                  
+
                   <h3 className="font-semibold text-lg mb-1 truncate">{property.name}</h3>
                   <div className="flex items-center text-gray-600 mb-2">
                     <MapPin className="h-4 w-4 flex-shrink-0 mr-1" />
                     <p className="text-sm truncate">{property.location}</p>
                   </div>
-                  
+
                   <div className="flex items-center justify-between mb-3">
                     <div className="flex items-center space-x-3 text-gray-600">
                       <div className="flex items-center">
@@ -224,9 +223,9 @@ export default function PropertyComparison({
                       </div>
                     </div>
                   </div>
-                  
+
                   <div className="text-lg font-bold mb-3">{formatCurrency(property.price)}</div>
-                  
+
                   <div className="mb-3">
                     <span className="inline-block bg-gray-100 text-gray-800 px-2 py-1 rounded text-xs">
                       {property.type.charAt(0).toUpperCase() + property.type.slice(1)}
@@ -242,7 +241,7 @@ export default function PropertyComparison({
                       </span>
                     )}
                   </div>
-                  
+
                   <Button
                     onClick={() => handlePropertySelect(property)}
                     className="w-full"
@@ -253,9 +252,9 @@ export default function PropertyComparison({
                 </div>
               </div>
             ))}
-            
+
             {/* Add Property Card */}
-            {properties.length < 4 && (
+            {properties.length <4 && (
               <div className="flex-shrink-0 w-[280px] md:w-[320px]">
                 <div 
                   className="h-[360px] border-2 border-dashed border-gray-200 rounded-lg flex flex-col items-center justify-center p-6 cursor-pointer hover:bg-gray-50 transition-colors"
@@ -275,13 +274,13 @@ export default function PropertyComparison({
           <ScrollBar orientation="horizontal" />
         </ScrollArea>
       </div>
-      
+
       {viewMode === 'basic' ? (
         <div className="px-4 pb-4">
           {/* Basic comparison table */}
           <div className="border-t mt-4 pt-4">
             <h3 className="font-medium text-gray-900 mb-4">Key Comparison</h3>
-            
+
             <div className="grid gap-2">
               <div className="grid grid-cols-5 gap-3">
                 <div className="font-medium text-gray-700">Feature</div>
@@ -291,7 +290,7 @@ export default function PropertyComparison({
                   </div>
                 ))}
               </div>
-              
+
               <div className="grid grid-cols-5 gap-3 py-2 border-b border-gray-100">
                 <div className="text-gray-700 flex items-center">
                   <Euro className="h-4 w-4 mr-2 text-gray-400" />
@@ -303,7 +302,7 @@ export default function PropertyComparison({
                   </div>
                 ))}
               </div>
-              
+
               <div className="grid grid-cols-5 gap-3 py-2 border-b border-gray-100">
                 <div className="text-gray-700 flex items-center">
                   <Home className="h-4 w-4 mr-2 text-gray-400" />
@@ -315,7 +314,7 @@ export default function PropertyComparison({
                   </div>
                 ))}
               </div>
-              
+
               <div className="grid grid-cols-5 gap-3 py-2 border-b border-gray-100">
                 <div className="text-gray-700 flex items-center">
                   <Bed className="h-4 w-4 mr-2 text-gray-400" />
@@ -327,7 +326,7 @@ export default function PropertyComparison({
                   </div>
                 ))}
               </div>
-              
+
               <div className="grid grid-cols-5 gap-3 py-2 border-b border-gray-100">
                 <div className="text-gray-700 flex items-center">
                   <Bath className="h-4 w-4 mr-2 text-gray-400" />
@@ -339,7 +338,7 @@ export default function PropertyComparison({
                   </div>
                 ))}
               </div>
-              
+
               <div className="grid grid-cols-5 gap-3 py-2 border-b border-gray-100">
                 <div className="text-gray-700 flex items-center">
                   <Square className="h-4 w-4 mr-2 text-gray-400" />
@@ -351,7 +350,7 @@ export default function PropertyComparison({
                   </div>
                 ))}
               </div>
-              
+
               <div className="grid grid-cols-5 gap-3 py-2 border-b border-gray-100">
                 <div className="text-gray-700 flex items-center">
                   <Zap className="h-4 w-4 mr-2 text-gray-400" />
@@ -363,7 +362,7 @@ export default function PropertyComparison({
                   </div>
                 ))}
               </div>
-              
+
               <div className="grid grid-cols-5 gap-3 py-2 border-b border-gray-100">
                 <div className="text-gray-700 flex items-center">
                   <Calendar className="h-4 w-4 mr-2 text-gray-400" />
@@ -386,7 +385,7 @@ export default function PropertyComparison({
           {/* Detailed comparison table */}
           <div className="border-t mt-4 pt-4">
             <h3 className="font-medium text-gray-900 mb-4">Detailed Comparison</h3>
-            
+
             <div className="grid gap-6">
               {/* Basic info section */}
               <div>
@@ -400,7 +399,7 @@ export default function PropertyComparison({
                       </div>
                     ))}
                   </div>
-                  
+
                   <div className="grid grid-cols-5 gap-3 py-2 border-b border-gray-100">
                     <div className="text-gray-700">Price</div>
                     {properties.map(property => (
@@ -409,7 +408,7 @@ export default function PropertyComparison({
                       </div>
                     ))}
                   </div>
-                  
+
                   <div className="grid grid-cols-5 gap-3 py-2 border-b border-gray-100">
                     <div className="text-gray-700">Type</div>
                     {properties.map(property => (
@@ -418,7 +417,7 @@ export default function PropertyComparison({
                       </div>
                     ))}
                   </div>
-                  
+
                   <div className="grid grid-cols-5 gap-3 py-2 border-b border-gray-100">
                     <div className="text-gray-700">Location</div>
                     {properties.map(property => (
@@ -427,7 +426,7 @@ export default function PropertyComparison({
                       </div>
                     ))}
                   </div>
-                  
+
                   <div className="grid grid-cols-5 gap-3 py-2 border-b border-gray-100">
                     <div className="text-gray-700">Development</div>
                     {properties.map(property => (
@@ -438,7 +437,7 @@ export default function PropertyComparison({
                   </div>
                 </div>
               </div>
-              
+
               {/* Specifications section */}
               <div>
                 <h4 className="text-sm font-medium uppercase text-gray-500 mb-3">Specifications</h4>
@@ -458,7 +457,7 @@ export default function PropertyComparison({
                   ))}
                 </div>
               </div>
-              
+
               {/* Features section */}
               <div>
                 <h4 className="text-sm font-medium uppercase text-gray-500 mb-3">Features</h4>
@@ -468,7 +467,7 @@ export default function PropertyComparison({
                       <div className="text-gray-700">{feature}</div>
                       {properties.map(property => (
                         <div key={`${feature}-${property.id}`} className="text-center">
-                          {hasFeature(property, feature) ? (
+                          {hasFeature(propertyfeature) ? (
                             <span className="inline-flex items-center justify-center w-6 h-6 bg-green-100 rounded-full">
                               <Check className="h-4 w-4 text-green-600" />
                             </span>

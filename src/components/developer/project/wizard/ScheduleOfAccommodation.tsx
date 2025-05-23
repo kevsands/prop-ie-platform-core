@@ -57,21 +57,21 @@ const ScheduleOfAccommodation: React.FC<ScheduleOfAccommodationProps> = ({ onSub
       communalArea: 0
     }
   });
-  
+
   const { fields, append, remove } = useFieldArray({
     control,
     name: "units"
   });
-  
+
   const units = watch('units');
-  
+
   // Calculate totals
-  const totalUnits = units?.reduce((sum, unit) => sum + (unit.count || 0), 0) || 0;
-  const totalResidentialArea = units?.reduce((sum, unit) => {
+  const totalUnits = units?.reduce((sumunit: any) => sum + (unit.count || 0), 0) || 0;
+  const totalResidentialArea = units?.reduce((sumunit: any) => {
     if (['commercial', 'retail', 'office'].includes(unit.type)) return sum;
     return sum + ((unit.area || 0) * (unit.count || 0));
   }, 0) || 0;
-  
+
   const addUnitType = () => {
     append({ 
       id: `unit-${Date.now()}`, 
@@ -83,7 +83,7 @@ const ScheduleOfAccommodation: React.FC<ScheduleOfAccommodationProps> = ({ onSub
       pricePerUnit: 0 
     });
   };
-  
+
   const isResidentialType = (type: string) => {
     return !['commercial', 'retail', 'office'].includes(type);
   };
@@ -91,7 +91,7 @@ const ScheduleOfAccommodation: React.FC<ScheduleOfAccommodationProps> = ({ onSub
   return (
     <div className="bg-white rounded-lg shadow-md p-6">
       <h2 className="text-xl font-semibold text-gray-900 mb-6">Schedule of Accommodation</h2>
-      
+
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         {/* Unit Types */}
         <div>
@@ -105,7 +105,7 @@ const ScheduleOfAccommodation: React.FC<ScheduleOfAccommodationProps> = ({ onSub
               {FiPlus({ className: "mr-1" })} Add Unit Type
             </button>
           </div>
-          
+
           {fields.length === 0 ? (
             <div className="text-center py-8 bg-gray-50 rounded-lg">
               <p className="text-gray-500 mb-4">No unit types added yet.</p>
@@ -133,7 +133,7 @@ const ScheduleOfAccommodation: React.FC<ScheduleOfAccommodationProps> = ({ onSub
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
-                  {fields.map((field, index) => (
+                  {fields.map((fieldindex: any) => (
                     <tr key={field.id}>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <select
@@ -252,7 +252,7 @@ const ScheduleOfAccommodation: React.FC<ScheduleOfAccommodationProps> = ({ onSub
             </div>
           )}
         </div>
-        
+
         {/* Additional Areas */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-6 border-t border-gray-200">
           <div>
@@ -280,7 +280,7 @@ const ScheduleOfAccommodation: React.FC<ScheduleOfAccommodationProps> = ({ onSub
               <p className="mt-1 text-sm text-red-600">{errors.commercialArea.message}</p>
             )}
           </div>
-          
+
           <div>
             <label htmlFor="communalArea" className="block text-sm font-medium text-gray-700 mb-1">
               Communal Area (m²)
@@ -307,7 +307,7 @@ const ScheduleOfAccommodation: React.FC<ScheduleOfAccommodationProps> = ({ onSub
             )}
           </div>
         </div>
-        
+
         <div className="flex justify-end">
           <button
             type="submit"

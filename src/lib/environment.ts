@@ -10,10 +10,10 @@ const REQUIRED_ENV_VARS = [
     'NEXT_PUBLIC_COGNITO_USER_POOL_ID',
     'NEXT_PUBLIC_COGNITO_CLIENT_ID'
   ];
-  
+
   // Check if we're in a production environment
   const isProduction = process.env.NODE_ENV === 'production';
-  
+
   /**
    * Gets an environment variable with a default fallback
    * @param name The name of the environment variable
@@ -32,28 +32,27 @@ const REQUIRED_ENV_VARS = [
   export function validateEnvironment(): boolean {
     let isValid = true;
     const missingVars: string[] = [];
-  
+
     REQUIRED_ENV_VARS.forEach(varName => {
       if (!process.env[varName]) {
         isValid = false;
         missingVars.push(varName);
       }
     });
-  
+
     if (!isValid) {
       const message = `Missing required environment variables: ${missingVars.join(', ')}`;
-      
+
       if (isProduction) {
         throw new Error(message);
       } else {
-        console.warn(`⚠️ ${message}`);
-        console.warn('Application may not function correctly without these variables.');
+
       }
     }
-  
+
     return isValid;
   }
-  
+
   /**
    * Initialize application environment
    * Call this during application startup
@@ -61,22 +60,21 @@ const REQUIRED_ENV_VARS = [
   export function initializeEnvironment() {
     // Validate environment variables
     validateEnvironment();
-    
+
     // Log environment info for debugging (never in production)
     if (process.env.NODE_ENV !== 'production') {
-      console.log('Environment:', process.env.NODE_ENV);
-      console.log('API URL:', process.env.NEXT_PUBLIC_API_URL);
+
     }
-    
+
     // Initialize global error handler
     if (typeof window !== 'undefined') {
-      window.addEventListener('error', (event) => {
-        console.error('Global error caught:', event.error);
+      window.addEventListener('error', (event: any) => {
+
         // Could send to error reporting service here
       });
     }
-    
+
     return true;
   }
-  
+
   export default { validateEnvironment, initializeEnvironment, getEnvironmentVariable };

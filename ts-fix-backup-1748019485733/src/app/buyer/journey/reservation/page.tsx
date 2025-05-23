@@ -1,0 +1,407 @@
+'use client';
+
+import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
+import {
+  CheckCircle,
+  Clock,
+  FileText,
+  Euro,
+  Calendar,
+  MapPin,
+  Users,
+  Receipt,
+  ChevronRight,
+  Info,
+  Download,
+  MessageSquare,
+  Phone,
+  Shield,
+  AlertCircle,
+  Home,
+  Briefcase,
+  CreditCard,
+  Target,
+  TrendingUp,
+  Heart,
+  Calculator,
+  Building
+} from 'lucide-react';
+
+/**
+ * Reservation Page - Complete reservation management system
+ */
+export default function ReservationPage() {
+  const router = useRouter();
+  const [activeTabsetActiveTab] = useState('overview');
+
+  // Mock reservation data
+  const reservation = {
+    id: 'RES-123456',
+    status: 'active',
+    type: 'booking', // or 'exclusivity'
+    property: {
+      id: 'fg-45',
+      title: '3 Bed Semi-Detached House',
+      development: 'Fitzgerald Gardens',
+      address: 'Plot 45, Fitzgerald Gardens, Drogheda, Co. Louth',
+      price: 375000,
+      image: '/images/developments/fitzgerald-gardens/3bed-House.jpeg',
+      completionDate: 'Q3 2025'
+    },
+    deposit: {
+      initial: 500,
+      paid: 500,
+      total: 5000,
+      remaining: 4500,
+      dueDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+      status: 'partially_paid'
+    },
+    dates: {
+      created: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000),
+      expires: new Date(Date.now() + 28 * 24 * 60 * 60 * 1000),
+      lastUpdated: new Date()
+    },
+    documents: [
+      { id: 1, name: 'Reservation Agreement', date: '05/05/2025', status: 'signed' },
+      { id: 2, name: 'Property Brochure', date: '05/05/2025', status: 'available' },
+      { id: 3, name: 'Floor Plans', date: '05/05/2025', status: 'available' },
+      { id: 4, name: 'Development Specifications', date: '05/05/2025', status: 'available' }
+    ],
+    timeline: [
+      { date: '05/05/2025', event: 'Initial reservation placed', status: 'completed' },
+      { date: '05/05/2025', event: '€500 payment received', status: 'completed' },
+      { date: '12/05/2025', event: 'Remaining deposit due', status: 'upcoming' },
+      { date: '15/05/2025', event: 'Property viewing scheduled', status: 'scheduled' },
+      { date: '04/06/2025', event: 'Reservation period ends', status: 'future' }
+    ]
+  };
+
+  // Calculate days remaining
+  const daysRemaining = Math.ceil((reservation.dates.expires.getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24));
+  const depositDaysRemaining = Math.ceil((reservation.deposit.dueDate.getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24));
+
+  return (
+    <div className="min-h-screen bg-gray-50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Header */}
+        <div className="mb-8">
+          <div className="flex items-center justify-between mb-4">
+            <h1 className="text-3xl font-bold text-gray-900">Your Property Reservation</h1>
+            <span className="px-4 py-2 bg-green-100 text-green-800 rounded-full font-medium">
+              Active Reservation
+            </span>
+          </div>
+          <p className="text-gray-600">
+            Reference: {reservation.id}
+          </p>
+        </div>
+
+        {/* Alert Banner for Deposit Due */}
+        {depositDaysRemaining <= 7 && (
+          <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-6">
+            <div className="flex items-start gap-3">
+              <AlertCircle className="w-5 h-5 text-yellow-600 flex-shrink-0" />
+              <div className="flex-1">
+                <h3 className="font-semibold text-yellow-900">Payment Reminder</h3>
+                <p className="text-yellow-800 text-sm mt-1">
+                  Your remaining deposit of €{reservation.deposit.remaining.toLocaleString()} is due in {depositDaysRemaining} days.
+                  Complete the payment to secure your booking.
+                </p>
+                <button className="mt-2 px-4 py-2 bg-yellow-600 text-white rounded-md hover:bg-yellow-700 transition-colors text-sm font-medium">
+                  Pay Now
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Main Content Grid */}
+        <div className="grid lg:grid-cols-3 gap-6">
+          {/* Left Column - Property Details */}
+          <div className="lg:col-span-2 space-y-6">
+            {/* Property Card */}
+            <div className="bg-white rounded-lg shadow-sm overflow-hidden">
+              <div className="aspect-video relative">
+                <img
+                  src={reservation.property.image}
+                  alt={reservation.property.title}
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute top-4 right-4 bg-white px-3 py-1 rounded-full shadow-md">
+                  <span className="text-sm font-medium">{reservation.property.completionDate}</span>
+                </div>
+              </div>
+              <div className="p-6">
+                <h2 className="text-2xl font-bold mb-2">{reservation.property.title}</h2>
+                <p className="text-gray-600 mb-4 flex items-center">
+                  <MapPin className="w-4 h-4 mr-2" />
+                  {reservation.property.address}
+                </p>
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-3xl font-bold text-blue-600">
+                      €{reservation.property.price.toLocaleString()}
+                    </p>
+                    <p className="text-sm text-gray-600">Purchase Price</p>
+                  </div>
+                  <Link
+                    href={`/properties/${reservation.property.id}`}
+                    className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                  >
+                    View Property
+                  </Link>
+                </div>
+              </div>
+            </div>
+
+            {/* Tabs */}
+            <div className="bg-white rounded-lg shadow-sm">
+              <div className="flex border-b">
+                {['overview', 'documents', 'timeline'].map((tab) => (
+                  <button
+                    key={tab}
+                    onClick={() => setActiveTab(tab)}
+                    className={`flex-1 px-6 py-3 font-medium transition-colors ${
+                      activeTab === tab
+                        ? 'text-blue-600 border-b-2 border-blue-600 bg-blue-50'
+                        : 'text-gray-600 hover:text-gray-900'
+                    }`}
+                  >
+                    {tab.charAt(0).toUpperCase() + tab.slice(1)}
+                  </button>
+                ))}
+              </div>
+
+              <div className="p-6">
+                {activeTab === 'overview' && (
+                  <div className="space-y-6">
+                    <div>
+                      <h3 className="font-semibold mb-4">Reservation Details</h3>
+                      <dl className="space-y-3">
+                        <div className="flex justify-between">
+                          <dt className="text-gray-600">Reservation Type</dt>
+                          <dd className="font-medium">
+                            {reservation.type === 'booking' ? '30-Day Booking' : '7-Day Exclusivity'}
+                          </dd>
+                        </div>
+                        <div className="flex justify-between">
+                          <dt className="text-gray-600">Created Date</dt>
+                          <dd className="font-medium">{reservation.dates.created.toLocaleDateString()}</dd>
+                        </div>
+                        <div className="flex justify-between">
+                          <dt className="text-gray-600">Expires</dt>
+                          <dd className="font-medium">{reservation.dates.expires.toLocaleDateString()}</dd>
+                        </div>
+                        <div className="flex justify-between">
+                          <dt className="text-gray-600">Days Remaining</dt>
+                          <dd className="font-medium text-green-600">{daysRemaining} days</dd>
+                        </div>
+                      </dl>
+                    </div>
+
+                    <div>
+                      <h3 className="font-semibold mb-4">Next Steps</h3>
+                      <ul className="space-y-3">
+                        <li className="flex items-start gap-3">
+                          <div className="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
+                            <span className="text-xs font-bold text-blue-600">1</span>
+                          </div>
+                          <div>
+                            <p className="font-medium">Complete Deposit Payment</p>
+                            <p className="text-sm text-gray-600">Pay remaining €4,500 by {reservation.deposit.dueDate.toLocaleDateString()}</p>
+                          </div>
+                        </li>
+                        <li className="flex items-start gap-3">
+                          <div className="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
+                            <span className="text-xs font-bold text-blue-600">2</span>
+                          </div>
+                          <div>
+                            <p className="font-medium">Schedule Property Viewing</p>
+                            <p className="text-sm text-gray-600">Visit the property with our sales team</p>
+                          </div>
+                        </li>
+                        <li className="flex items-start gap-3">
+                          <div className="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
+                            <span className="text-xs font-bold text-blue-600">3</span>
+                          </div>
+                          <div>
+                            <p className="font-medium">Appoint Your Solicitor</p>
+                            <p className="text-sm text-gray-600">Begin the legal review process</p>
+                          </div>
+                        </li>
+                        <li className="flex items-start gap-3">
+                          <div className="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
+                            <span className="text-xs font-bold text-blue-600">4</span>
+                          </div>
+                          <div>
+                            <p className="font-medium">Finalize Mortgage</p>
+                            <p className="text-sm text-gray-600">Complete financing arrangements</p>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                )}
+
+                {activeTab === 'documents' && (
+                  <div className="space-y-4">
+                    <h3 className="font-semibold mb-4">Your Documents</h3>
+                    {reservation.documents.map((doc) => (
+                      <div key={doc.id} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                        <div className="flex items-center gap-3">
+                          <FileText className="w-5 h-5 text-blue-600" />
+                          <div>
+                            <p className="font-medium">{doc.name}</p>
+                            <p className="text-sm text-gray-600">{doc.date}</p>
+                          </div>
+                        </div>
+                        <button className="flex items-center gap-2 px-4 py-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors">
+                          <Download className="w-4 h-4" />
+                          Download
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                {activeTab === 'timeline' && (
+                  <div className="space-y-4">
+                    <h3 className="font-semibold mb-4">Reservation Timeline</h3>
+                    <div className="space-y-4">
+                      {reservation.timeline.map((eventindex) => (
+                        <div key={index} className="flex items-start gap-4">
+                          <div className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 ${
+                            event.status === 'completed' ? 'bg-green-100 text-green-600' :
+                            event.status === 'upcoming' ? 'bg-yellow-100 text-yellow-600' :
+                            event.status === 'scheduled' ? 'bg-blue-100 text-blue-600' :
+                            'bg-gray-100 text-gray-600'
+                          }`}>
+                            {event.status === 'completed' ? (
+                              <CheckCircle className="w-5 h-5" />
+                            ) : event.status === 'upcoming' || event.status === 'scheduled' ? (
+                              <Clock className="w-5 h-5" />
+                            ) : (
+                              <Calendar className="w-5 h-5" />
+                            )}
+                          </div>
+                          <div className="flex-1">
+                            <p className="font-medium">{event.event}</p>
+                            <p className="text-sm text-gray-600">{event.date}</p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+
+          {/* Right Column - Quick Actions & Summary */}
+          <div className="space-y-6">
+            {/* Payment Summary */}
+            <div className="bg-white rounded-lg shadow-sm p-6">
+              <h3 className="font-semibold mb-4">Payment Summary</h3>
+              <dl className="space-y-3">
+                <div className="flex justify-between">
+                  <dt className="text-gray-600">Total Deposit</dt>
+                  <dd className="font-medium">€{reservation.deposit.total.toLocaleString()}</dd>
+                </div>
+                <div className="flex justify-between">
+                  <dt className="text-gray-600">Paid</dt>
+                  <dd className="font-medium text-green-600">€{reservation.deposit.paid.toLocaleString()}</dd>
+                </div>
+                <div className="flex justify-between">
+                  <dt className="text-gray-600">Remaining</dt>
+                  <dd className="font-medium text-orange-600">€{reservation.deposit.remaining.toLocaleString()}</dd>
+                </div>
+                <div className="flex justify-between text-sm">
+                  <dt className="text-gray-600">Due Date</dt>
+                  <dd className="font-medium">{reservation.deposit.dueDate.toLocaleDateString()}</dd>
+                </div>
+              </dl>
+
+              <button className="w-full mt-6 px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium">
+                Pay Remaining Deposit
+              </button>
+            </div>
+
+            {/* Quick Actions */}
+            <div className="bg-white rounded-lg shadow-sm p-6">
+              <h3 className="font-semibold mb-4">Quick Actions</h3>
+              <div className="space-y-3">
+                <button className="w-full flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+                  <div className="flex items-center gap-3">
+                    <Calendar className="w-5 h-5 text-blue-600" />
+                    <span className="font-medium">Schedule Viewing</span>
+                  </div>
+                  <ChevronRight className="w-4 h-4 text-gray-400" />
+                </button>
+
+                <button className="w-full flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+                  <div className="flex items-center gap-3">
+                    <MessageSquare className="w-5 h-5 text-blue-600" />
+                    <span className="font-medium">Contact Sales Team</span>
+                  </div>
+                  <ChevronRight className="w-4 h-4 text-gray-400" />
+                </button>
+
+                <button className="w-full flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+                  <div className="flex items-center gap-3">
+                    <Calculator className="w-5 h-5 text-blue-600" />
+                    <span className="font-medium">Mortgage Calculator</span>
+                  </div>
+                  <ChevronRight className="w-4 h-4 text-gray-400" />
+                </button>
+
+                <button className="w-full flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+                  <div className="flex items-center gap-3">
+                    <Briefcase className="w-5 h-5 text-blue-600" />
+                    <span className="font-medium">Find a Solicitor</span>
+                  </div>
+                  <ChevronRight className="w-4 h-4 text-gray-400" />
+                </button>
+              </div>
+            </div>
+
+            {/* Legal Protection */}
+            <div className="bg-blue-50 rounded-lg p-6">
+              <h3 className="font-semibold text-blue-900 mb-3">Your Protection</h3>
+              <ul className="space-y-2 text-sm text-blue-800">
+                <li className="flex items-start">
+                  <Shield className="w-4 h-4 mr-2 flex-shrink-0 mt-0.5" />
+                  <span>14-day cooling-off period</span>
+                </li>
+                <li className="flex items-start">
+                  <Shield className="w-4 h-4 mr-2 flex-shrink-0 mt-0.5" />
+                  <span>Client account protection</span>
+                </li>
+                <li className="flex items-start">
+                  <Shield className="w-4 h-4 mr-2 flex-shrink-0 mt-0.5" />
+                  <span>Law Society contracts</span>
+                </li>
+              </ul>
+            </div>
+
+            {/* Need Help */}
+            <div className="bg-gray-50 rounded-lg p-6">
+              <h3 className="font-semibold mb-3">Need Help?</h3>
+              <div className="space-y-3">
+                <a href="tel:+35318123456" className="flex items-center text-blue-600 hover:text-blue-700">
+                  <Phone className="w-4 h-4 mr-2" />
+                  <span>Call 01 812 3456</span>
+                </a>
+                <button className="flex items-center text-blue-600 hover:text-blue-700">
+                  <MessageSquare className="w-4 h-4 mr-2" />
+                  <span>Chat with advisor</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}

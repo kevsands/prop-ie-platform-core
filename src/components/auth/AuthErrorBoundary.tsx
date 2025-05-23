@@ -34,11 +34,9 @@ class AuthErrorBoundary extends Component<AuthErrorBoundaryProps, AuthErrorBound
   componentDidCatch(error: Error, errorInfo: ErrorInfo): void {
     // Store errorInfo for better debugging
     this.setState({ errorInfo });
-    
+
     // Log the error to console and potentially to monitoring service
-    console.error('Authentication Error:', error);
-    console.error('Component Stack:', errorInfo.componentStack);
-    
+
     // You could also log to an error monitoring service like Sentry here
     // If configured - e.g. Sentry.captureException(error, { extra: errorInfo });
   }
@@ -49,10 +47,10 @@ class AuthErrorBoundary extends Component<AuthErrorBoundaryProps, AuthErrorBound
       localStorage.removeItem('auth_token');
       sessionStorage.removeItem('auth_state');
     }
-    
+
     // Reset the error state
     this.setState({ hasError: false, error: undefined, errorInfo: undefined });
-    
+
     // Call the parent-provided reset handler if available
     if (this.props.onReset) {
       this.props.onReset();
@@ -64,21 +62,21 @@ class AuthErrorBoundary extends Component<AuthErrorBoundaryProps, AuthErrorBound
    */
   getErrorMessage(): string {
     const error = this.state.error;
-    
+
     if (!error) return 'An unknown authentication error occurred';
-    
+
     if (error.message.includes('token') && error.message.includes('expired')) {
       return 'Your session has expired. Please sign in again.';
     }
-    
+
     if (error.message.includes('network') || error.message.includes('fetch')) {
       return 'Network error. Please check your internet connection.';
     }
-    
+
     if (error.message.includes('permission') || error.message.includes('access')) {
       return 'Access denied. You may not have permission to view this content.';
     }
-    
+
     return `Authentication error: ${error.message}`;
   }
 
@@ -103,11 +101,11 @@ class AuthErrorBoundary extends Component<AuthErrorBoundaryProps, AuthErrorBound
             </svg>
             <h2 className="text-lg font-semibold text-red-800">Authentication Error</h2>
           </div>
-          
+
           <p className="mb-4 text-red-600">
             {this.getErrorMessage()}
           </p>
-          
+
           <div className="flex flex-col space-y-2">
             <button
               onClick={this.handleReset}
@@ -115,7 +113,7 @@ class AuthErrorBoundary extends Component<AuthErrorBoundaryProps, AuthErrorBound
             >
               Try Again
             </button>
-            
+
             <a 
               href="/login"
               className="bg-gray-100 hover:bg-gray-200 text-gray-800 py-2 px-4 rounded text-center transition-colors"
@@ -123,7 +121,7 @@ class AuthErrorBoundary extends Component<AuthErrorBoundaryProps, AuthErrorBound
               Return to Login
             </a>
           </div>
-          
+
           {process.env.NODE_ENV === 'development' && this.state.errorInfo && (
             <details className="mt-4 p-2 bg-gray-100 rounded">
               <summary className="cursor-pointer text-sm font-medium text-gray-700">

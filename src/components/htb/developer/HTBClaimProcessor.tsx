@@ -32,42 +32,42 @@ export function HTBClaimProcessor({ claimId }: { claimId: string }) {
     isLoading, 
     error 
   } = useHTB();
-  
-  const [activeTab, setActiveTab] = useState<TabType>("details");
-  const [actionError, setActionError] = useState<string | null>(null);
-  const [actionSuccess, setActionSuccess] = useState<string | null>(null);
-  
+
+  const [activeTabsetActiveTab] = useState<TabType>("details");
+  const [actionErrorsetActionError] = useState<string | null>(null);
+  const [actionSuccesssetActionSuccess] = useState<string | null>(null);
+
   useEffect(() => {
     if (claimId) {
       fetchClaimById(claimId, "developer");
     }
-  }, [claimId, fetchClaimById]);
-  
+  }, [claimIdfetchClaimById]);
+
   const handleTabChange = (tab: TabType) => {
     setActiveTab(tab);
     // Clear any action messages when changing tabs
     setActionError(null);
     setActionSuccess(null);
   };
-  
+
   const handleActionSuccess = (message: string) => {
     setActionSuccess(message);
     setActionError(null);
     // Refresh claim data
     fetchClaimById(claimId, "developer");
   };
-  
+
   const handleActionError = (error: string) => {
     setActionError(error);
     setActionSuccess(null);
   };
-  
+
   // Determine available actions based on claim status
   const getAvailableActions = () => {
     if (!selectedDeveloperClaim) return {};
-    
+
     const status = selectedDeveloperClaim.status;
-    
+
     return {
       canProcessAccessCode: status === HTBClaimStatus.SUBMITTED,
       canUpdateClaimCode: status === HTBClaimStatus.ACCESS_CODE_APPROVED,
@@ -79,7 +79,7 @@ export function HTBClaimProcessor({ claimId }: { claimId: string }) {
       canUploadDocument: true, // Always available
     };
   };
-  
+
   if (isLoading) {
     return (
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -90,7 +90,7 @@ export function HTBClaimProcessor({ claimId }: { claimId: string }) {
       </div>
     );
   }
-  
+
   if (error) {
     return (
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -119,7 +119,7 @@ export function HTBClaimProcessor({ claimId }: { claimId: string }) {
       </div>
     );
   }
-  
+
   if (!selectedDeveloperClaim) {
     return (
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -148,9 +148,9 @@ export function HTBClaimProcessor({ claimId }: { claimId: string }) {
       </div>
     );
   }
-  
+
   const availableActions = getAvailableActions();
-  
+
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div className="mb-6 flex justify-between items-center">
@@ -169,10 +169,10 @@ export function HTBClaimProcessor({ claimId }: { claimId: string }) {
           Back to Claims
         </button>
       </div>
-      
+
       {/* Tab Navigation */}
       <ClaimTabs activeTab={activeTab} onTabChange={handleTabChange} />
-      
+
       {/* Action Notifications */}
       {actionSuccess && (
         <div className="mt-4 mb-6 bg-green-50 border-l-4 border-green-400 p-4 rounded">
@@ -188,7 +188,7 @@ export function HTBClaimProcessor({ claimId }: { claimId: string }) {
           </div>
         </div>
       )}
-      
+
       {actionError && (
         <div className="mt-4 mb-6 bg-red-50 border-l-4 border-red-400 p-4 rounded">
           <div className="flex">
@@ -203,19 +203,19 @@ export function HTBClaimProcessor({ claimId }: { claimId: string }) {
           </div>
         </div>
       )}
-      
+
       {/* Tab Content */}
       <div className="mt-6">
         {/* Details Tab */}
         {activeTab === "details" && (
           <ClaimDetails claim={selectedDeveloperClaim} />
         )}
-        
+
         {/* Documents Tab */}
         {activeTab === "documents" && (
           <div className="space-y-6">
             <ClaimDocuments documents={selectedDeveloperClaim.documents || []} />
-            
+
             <div className="bg-white shadow sm:rounded-lg">
               <div className="px-4 py-5 sm:p-6">
                 <h3 className="text-lg leading-6 font-medium text-gray-900">
@@ -235,12 +235,12 @@ export function HTBClaimProcessor({ claimId }: { claimId: string }) {
             </div>
           </div>
         )}
-        
+
         {/* Notes Tab */}
         {activeTab === "notes" && (
           <div className="space-y-6">
             <ClaimNotes notes={selectedDeveloperClaim.notes || []} />
-            
+
             <div className="bg-white shadow sm:rounded-lg">
               <div className="px-4 py-5 sm:p-6">
                 <h3 className="text-lg leading-6 font-medium text-gray-900">
@@ -260,7 +260,7 @@ export function HTBClaimProcessor({ claimId }: { claimId: string }) {
             </div>
           </div>
         )}
-        
+
         {/* Actions Tab */}
         {activeTab === "actions" && (
           <div className="space-y-6">
@@ -284,7 +284,7 @@ export function HTBClaimProcessor({ claimId }: { claimId: string }) {
                 </div>
               </div>
             )}
-            
+
             {/* Update Claim Code */}
             {availableActions.canUpdateClaimCode && (
               <div className="bg-white overflow-hidden shadow rounded-lg divide-y divide-gray-200">
@@ -305,7 +305,7 @@ export function HTBClaimProcessor({ claimId }: { claimId: string }) {
                 </div>
               </div>
             )}
-            
+
             {/* Request Funds */}
             {availableActions.canRequestFunds && (
               <div className="bg-white overflow-hidden shadow rounded-lg divide-y divide-gray-200">
@@ -326,7 +326,7 @@ export function HTBClaimProcessor({ claimId }: { claimId: string }) {
                 </div>
               </div>
             )}
-            
+
             {/* Mark Funds Received */}
             {availableActions.canMarkFundsReceived && (
               <div className="bg-white overflow-hidden shadow rounded-lg divide-y divide-gray-200">
@@ -348,7 +348,7 @@ export function HTBClaimProcessor({ claimId }: { claimId: string }) {
                 </div>
               </div>
             )}
-            
+
             {/* Mark Deposit Applied */}
             {availableActions.canMarkDepositApplied && (
               <div className="bg-white overflow-hidden shadow rounded-lg divide-y divide-gray-200">
@@ -369,7 +369,7 @@ export function HTBClaimProcessor({ claimId }: { claimId: string }) {
                 </div>
               </div>
             )}
-            
+
             {/* Complete Claim */}
             {availableActions.canCompleteClaim && (
               <div className="bg-white overflow-hidden shadow rounded-lg divide-y divide-gray-200">
@@ -390,7 +390,7 @@ export function HTBClaimProcessor({ claimId }: { claimId: string }) {
                 </div>
               </div>
             )}
-            
+
             {/* No Actions Available */}
             {!Object.values(availableActions).some(value => value === true) && (
               <div className="bg-white overflow-hidden shadow rounded-lg">

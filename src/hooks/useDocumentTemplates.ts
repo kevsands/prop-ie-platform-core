@@ -23,21 +23,21 @@ export interface DocumentTemplate {
     options?: string[];
     placeholder?: string;
     helpText?: string;
-  }>;
+  }>\n  );
 }
 
 interface UseDocumentTemplatesResult {
   templates: DocumentTemplate[];
   isLoading: boolean;
   error: Error | null;
-  refetch: () => Promise<void>;
+  refetch: () => Promise<void>\n  );
 }
 
 export function useDocumentTemplates(orgSlug: string): UseDocumentTemplatesResult {
   const { accessToken, isAuthenticated } = useAuth();
-  const [templates, setTemplates] = useState<DocumentTemplate[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [error, setError] = useState<Error | null>(null);
+  const [templatessetTemplates] = useState<DocumentTemplate[]>([]);
+  const [isLoadingsetIsLoading] = useState<boolean>(true);
+  const [errorsetError] = useState<Error | null>(null);
 
   const fetchTemplates = async () => {
     if (!isAuthenticated || !accessToken || !orgSlug) {
@@ -71,7 +71,7 @@ export function useDocumentTemplates(orgSlug: string): UseDocumentTemplatesResul
 
   useEffect(() => {
     fetchTemplates();
-  }, [orgSlug, accessToken, isAuthenticated]);
+  }, [orgSlug, accessTokenisAuthenticated]);
 
   return { templates, isLoading, error, refetch: fetchTemplates };
 }
@@ -84,7 +84,7 @@ export function getMockDocumentTemplates(): DocumentTemplate[] {
       name: "Sales Contract",
       description: "Standard contract for property sales with customizable terms",
       category: "sales",
-      contentHtml: "<h1>Sales Contract</h1><p>This agreement dated {{date}} between {{sellerName}} and {{buyerName}}...</p>",
+      contentHtml: "<h1>Sales Contract</h1><p>This agreement dated {date} between {sellerName} and {buyerName}...</p>",
       tags: ["contract", "sales", "legal"],
       usageCount: 24,
       createdAt: "2024-12-01T08:30:00Z",
@@ -118,7 +118,7 @@ export function getMockDocumentTemplates(): DocumentTemplate[] {
       name: "Construction Schedule",
       description: "Template for creating construction schedules with milestones",
       category: "construction",
-      contentHtml: "<h1>Construction Schedule</h1><p>Project: {{projectName}}</p><p>Start Date: {{startDate}}</p>...",
+      contentHtml: "<h1>Construction Schedule</h1><p>Project: {projectName}</p><p>Start Date: {startDate}</p>...",
       tags: ["schedule", "construction", "planning"],
       usageCount: 18,
       createdAt: "2025-01-10T10:15:00Z",
@@ -145,7 +145,7 @@ export function getMockDocumentTemplates(): DocumentTemplate[] {
       name: "Property Handover Checklist",
       description: "Comprehensive checklist for property handover to owners",
       category: "handover",
-      contentHtml: "<h1>Property Handover Checklist</h1><p>Property: {{propertyAddress}}</p>...",
+      contentHtml: "<h1>Property Handover Checklist</h1><p>Property: {propertyAddress}</p>...",
       tags: ["checklist", "handover", "inspection"],
       usageCount: 31,
       createdAt: "2024-11-05T14:30:00Z",

@@ -21,7 +21,7 @@ import {
 
 // Custom implementations for missing functions
 async function generateTotp() {
-  console.warn('Using stub implementation of generateTotp');
+
   return {
     secretKey: "ABCDEFGHIJKLMNOP",
     qrCodeUrl: "data:image/png;base64,..."
@@ -29,7 +29,7 @@ async function generateTotp() {
 }
 
 async function getMFAPreference() {
-  console.warn('Using stub implementation of getMFAPreference');
+
   return {
     enabled: false,
     preferred: 'NONE' as const
@@ -41,7 +41,7 @@ async function confirmVerifiedContactAttribute(params: {
   userAttributeKey: string; 
   confirmationCode: string;
 }): Promise<boolean> {
-  console.warn('Using stub implementation of confirmVerifiedContactAttribute');
+
   if (params.confirmationCode === '000000') {
     throw new Error('Invalid verification code');
   }
@@ -56,24 +56,24 @@ import { Hub } from 'aws-amplify/utils';
  * This replaces the dependency on the external cache module
  */
 function createClientCache<T>(fetcher: () => Promise<T>): {
-  (): Promise<T>;
+  (): Promise<T>\n  );
   clear: () => void;
   invalidate: () => void;
 } {
   let cachedValue: T | null = null;
   let fetchPromise: Promise<T> | null = null;
-  
+
   const cache = async (): Promise<T> => {
     // Return cached value if available
     if (cachedValue !== null) {
       return cachedValue;
     }
-    
+
     // If already fetching, return that promise to avoid duplicate requests
     if (fetchPromise !== null) {
       return fetchPromise;
     }
-    
+
     // Fetch new value
     fetchPromise = fetcher().then(value => {
       cachedValue = value;
@@ -83,26 +83,26 @@ function createClientCache<T>(fetcher: () => Promise<T>): {
       fetchPromise = null;
       throw error;
     });
-    
+
     return fetchPromise;
   };
-  
+
   // Add additional methods to the cache function
   const cacheWithMethods = cache as typeof cache & {
     clear: () => void;
     invalidate: () => void;
   };
-  
+
   // Add method to clear the cache
   cacheWithMethods.clear = () => {
     cachedValue = null;
   };
-  
+
   // Add method to invalidate the cache (alias for clear)
   cacheWithMethods.invalidate = () => {
     cachedValue = null;
   };
-  
+
   return cacheWithMethods;
 }
 
@@ -135,7 +135,7 @@ const mfaStatusCache = createClientCache(async () => {
     const status = await getMFAStatus();
     return status;
   } catch (error) {
-    console.warn('Failed to fetch MFA status:', error);
+
     // Return default status
     return {
       enabled: false,
@@ -161,11 +161,11 @@ export async function getMFAStatus(): Promise<MFAStatus> {
 
     // Get MFA preferences from Cognito
     const userMFA = await getMFAPreference();
-    
+
     // Get user attributes to check phone verification
     const attributes = await fetchUserAttributes();
     const phoneVerified = Boolean(attributes?.phone_number_verified === 'true');
-    
+
     // Map Amplify MFA types to our MFA types
     let preferredMfa: MFAType = 'NONE';
     const preferred = userMFA.preferred as string;
@@ -187,7 +187,7 @@ export async function getMFAStatus(): Promise<MFAStatus> {
 
     return mfaStatus;
   } catch (error) {
-    console.error('Error getting MFA status:', error);
+
     throw error;
   }
 }
@@ -201,7 +201,7 @@ async function getRecoveryCodesRemaining(): Promise<number> {
     // as Cognito doesn't directly expose recovery codes count
     return 0; // Placeholder until implemented with backend
   } catch (error) {
-    console.error('Error getting recovery codes remaining:', error);
+
     return 0;
   }
 }
@@ -219,7 +219,7 @@ export async function setupTOTPMFA(): Promise<MFASetupResponse> {
 
     // Generate TOTP with Cognito (v6 API)
     const totpSetup = await generateTotp();
-    
+
     // Return setup info for QR code generation
     return {
       qrCode: totpSetup.qrCodeUrl || '',
@@ -227,7 +227,7 @@ export async function setupTOTPMFA(): Promise<MFASetupResponse> {
       setupStatus: 'PENDING_VERIFICATION'
     };
   } catch (error) {
-    console.error('Error setting up TOTP MFA:', error);
+
     return {
       setupStatus: 'ERROR',
       errorMessage: error instanceof Error ? error.message : 'Unknown error'
@@ -242,19 +242,19 @@ export async function verifyTOTPSetupWithCode(code: string): Promise<boolean> {
   try {
     // Verify TOTP setup with Cognito
     await verifyTOTPSetup({ totpCode: code });
-    
+
     // Update MFA preference to TOTP
     await updateMFAPreference({
       preferredMFA: 'TOTP',
       enabled: true
     });
-    
+
     // Invalidate the MFA status cache
     invalidateMFACache();
-    
+
     return true;
   } catch (error) {
-    console.error('Error verifying TOTP setup:', error);
+
     throw error;
   }
 }
@@ -274,7 +274,7 @@ export async function setupSMSMFA(phoneNumber: string): Promise<boolean> {
 
     return true;
   } catch (error) {
-    console.error('Error setting up SMS MFA:', error);
+
     throw error;
   }
 }
@@ -289,19 +289,19 @@ export async function verifySMSSetup(code: string): Promise<boolean> {
       userAttributeKey: 'phone_number',
       confirmationCode: code
     });
-    
+
     // Update MFA preference to SMS
     await updateMFAPreference({
       preferredMFA: 'SMS',
       enabled: true
     });
-    
+
     // Invalidate the MFA status cache
     invalidateMFACache();
-    
+
     return true;
   } catch (error) {
-    console.error('Error verifying SMS setup:', error);
+
     throw error;
   }
 }
@@ -316,13 +316,13 @@ export async function disableMFA(): Promise<boolean> {
       preferredMFA: 'NONE',
       enabled: false
     });
-    
+
     // Invalidate the MFA status cache
     invalidateMFACache();
-    
+
     return true;
   } catch (error) {
-    console.error('Error disabling MFA:', error);
+
     throw error;
   }
 }
@@ -334,22 +334,22 @@ export async function generateRecoveryCodes(): Promise<RecoveryCode[]> {
   try {
     // This would require a custom implementation or backend support
     // as Cognito doesn't have native recovery codes
-    
+
     // Placeholder for backend call to generate recovery codes
     const recoveryCodes: RecoveryCode[] = [];
-    
+
     // Generate 8 random recovery codes
-    for (let i = 0; i < 8; i++) {
-      const code = Math.random().toString(36).substring(2, 12).toUpperCase();
-      recoveryCodes.push(`${code.substring(0, 4)}-${code.substring(4, 8)}`);
+    for (let i = 0; i <8; i++) {
+      const code = Math.random().toString(36).substring(212).toUpperCase();
+      recoveryCodes.push(`${code.substring(04)}-${code.substring(48)}`);
     }
-    
+
     // In a real implementation, these would be stored securely,
     // hashed in the backend or as a user attribute
-    
+
     return recoveryCodes;
   } catch (error) {
-    console.error('Error generating recovery codes:', error);
+
     throw error;
   }
 }
@@ -366,7 +366,7 @@ export async function verifyRecoveryCode(code: string): Promise<boolean> {
     }
     return true;
   } catch (error) {
-    console.error('Error verifying recovery code:', error);
+
     throw error;
   }
 }
@@ -377,10 +377,10 @@ export async function verifyRecoveryCode(code: string): Promise<boolean> {
 export function shouldEnforceMFA(user: { role?: string; roles?: string[] }): boolean {
   // Get roles from user
   const roles = user.roles || (user.role ? [user.role] : []);
-  
+
   // Roles that require MFA
   const mfaRequiredRoles = ['admin', 'developer', 'financial'];
-  
+
   // Check if any user role requires MFA
   return roles.some(role => mfaRequiredRoles.includes(role.toLowerCase()));
 }
@@ -393,7 +393,7 @@ export async function completeMFAChallenge(code: string): Promise<boolean> {
     await confirmSignIn({ challengeResponse: code });
     return true;
   } catch (error) {
-    console.error('Error completing MFA challenge:', error);
+
     throw error;
   }
 }
@@ -416,7 +416,7 @@ export async function resetAllMFAMethods(): Promise<boolean> {
 
     return true;
   } catch (error) {
-    console.error('Error resetting MFA methods:', error);
+
     throw error;
   }
 }
@@ -456,29 +456,29 @@ export function initializeMFA(): void {
 
 // Add missing function implementations
 async function verifyTOTPSetup(params: { totpCode: string }): Promise<void> {
-  console.warn('Using stub implementation of verifyTOTPSetup');
+
   if (params.totpCode.length !== 6) {
     throw new Error('Invalid TOTP code format');
   }
 }
 
 async function updateMFAPreference(params: { preferredMFA: MFAType; enabled: boolean }): Promise<void> {
-  console.warn('Using stub implementation of updateMFAPreference');
+
   // In a real implementation, this would update the MFA preference in Cognito
 }
 
 async function updateUserAttributes(attributes: Record<string, string>): Promise<void> {
-  console.warn('Using stub implementation of updateUserAttributes');
+
   // In a real implementation, this would update user attributes in Cognito
 }
 
 async function sendUserAttributeVerificationCode(attributeKey: string): Promise<void> {
-  console.warn('Using stub implementation of sendUserAttributeVerificationCode');
+
   // In a real implementation, this would send a verification code for the specified attribute
 }
 
 async function deleteUserAttributes(attributeKeys: string[]): Promise<void> {
-  console.warn('Using stub implementation of deleteUserAttributes');
+
   // In a real implementation, this would delete the specified attributes from the user
 }
 

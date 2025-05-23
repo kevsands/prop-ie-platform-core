@@ -225,11 +225,11 @@ const mockCases: LegalCase[] = [
 ];
 
 export default function SolicitorCases() {
-  const [selectedCase, setSelectedCase] = useState<LegalCase | null>(null);
-  const [statusFilter, setStatusFilter] = useState<'all' | LegalCase['status']>('all');
-  const [searchTerm, setSearchTerm] = useState('');
-  const [showDocumentModal, setShowDocumentModal] = useState(false);
-  const [selectedDocument, setSelectedDocument] = useState<Document | null>(null);
+  const [selectedCasesetSelectedCase] = useState<LegalCase | null>(null);
+  const [statusFiltersetStatusFilter] = useState<'all' | LegalCase['status']>('all');
+  const [searchTermsetSearchTerm] = useState('');
+  const [showDocumentModalsetShowDocumentModal] = useState(false);
+  const [selectedDocumentsetSelectedDocument] = useState<Document | null>(null);
 
   // Handle opening a case
   const handleOpenCase = (legalCase: LegalCase) => {
@@ -317,14 +317,14 @@ export default function SolicitorCases() {
                 placeholder="Search cases..."
                 className="pl-10 pr-4 py-2 border rounded-md w-full"
                 value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
+                onChange={(e: any) => setSearchTerm(e.target.value)}
               />
               <FiSearch className="absolute left-3 top-3 text-gray-400" />
             </div>
-            
+
             <select
               value={statusFilter}
-              onChange={(e) => setStatusFilter(e.target.value as 'all' | LegalCase['status'])}
+              onChange={(e: any) => setStatusFilter(e.target.value as 'all' | LegalCase['status'])}
               className="pl-4 pr-10 py-2 border rounded-md w-full sm:w-40"
             >
               <option value="all">All Cases</option>
@@ -343,7 +343,7 @@ export default function SolicitorCases() {
             <div className="space-y-3">
               {filteredCases.map(legalCase => {
                 const statusInfo = getCaseStatusInfo(legalCase.status);
-                
+
                 return (
                   <div 
                     key={legalCase.id}
@@ -360,7 +360,7 @@ export default function SolicitorCases() {
                     </div>
                     <p className="text-sm text-gray-600 mb-1">{legalCase.propertyAddress}</p>
                     <p className="text-sm text-gray-500 mb-3">Agent: {legalCase.agentName}</p>
-                    
+
                     <div className="flex justify-between text-sm">
                       <div className="flex items-center text-gray-500">
                         <FiCalendar className="mr-1" size={14} />
@@ -399,7 +399,7 @@ export default function SolicitorCases() {
                 Back to cases
               </button>
             </div>
-            
+
             <div className="bg-white rounded-lg shadow overflow-hidden">
               <div className="p-6 border-b">
                 <div className="flex justify-between items-start">
@@ -411,7 +411,7 @@ export default function SolicitorCases() {
                     {getCaseStatusInfo(selectedCase.status).label}
                   </span>
                 </div>
-                
+
                 <div className="mt-4 grid grid-cols-2 md:grid-cols-4 gap-x-4 gap-y-2 text-sm">
                   <div>
                     <p className="text-gray-500">Developer</p>
@@ -431,13 +431,13 @@ export default function SolicitorCases() {
                   </div>
                 </div>
               </div>
-              
+
               <div className="px-6 py-4 border-b bg-gray-50">
                 <h3 className="text-lg font-semibold mb-2">Documents</h3>
                 <div className="space-y-2">
                   {selectedCase.documents.map(document => {
                     const docStatusInfo = getDocumentStatusInfo(document.status);
-                    
+
                     return (
                       <div 
                         key={document.id}
@@ -459,14 +459,14 @@ export default function SolicitorCases() {
                       </div>
                     );
                   })}
-                  
+
                   <button className="mt-2 px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded-md flex items-center text-sm w-full justify-center">
                     <FiPaperclip className="mr-2" />
                     Upload Document
                   </button>
                 </div>
               </div>
-              
+
               <div className="p-6 border-b">
                 <h3 className="text-lg font-semibold mb-2">Tasks</h3>
                 <div className="space-y-2">
@@ -503,14 +503,14 @@ export default function SolicitorCases() {
                       </div>
                     </div>
                   ))}
-                  
+
                   <button className="mt-2 px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded-md flex items-center text-sm w-full justify-center">
                     <FiFilePlus className="mr-2" />
                     Add Task
                   </button>
                 </div>
               </div>
-              
+
               <div className="p-6 flex justify-between">
                 <Link 
                   href={`/solicitors/cases/${selectedCase.id}/details`}
@@ -518,7 +518,7 @@ export default function SolicitorCases() {
                 >
                   View Full Details
                 </Link>
-                
+
                 <div className="space-x-2">
                   <Link
                     href={`/solicitors/cases/${selectedCase.id}/chat`}
@@ -527,7 +527,7 @@ export default function SolicitorCases() {
                     <FiMessageCircle className="mr-2" />
                     Message Client
                   </Link>
-                  
+
                   <button
                     className="px-4 py-2 bg-[#2B5273] text-white rounded-md flex items-center text-sm"
                   >
@@ -556,20 +556,20 @@ export default function SolicitorCases() {
                 </svg>
               </button>
             </div>
-            
+
             <div className="flex-1 overflow-auto p-4 bg-gray-100 flex items-center justify-center">
               <div className="bg-white shadow-lg w-full max-w-md aspect-[3/4] flex items-center justify-center">
                 <p className="text-gray-500">Document preview would appear here</p>
               </div>
             </div>
-            
+
             <div className="p-4 border-t flex justify-between">
               <div>
                 <span className={`px-2 py-1 rounded-full text-xs font-medium ${getDocumentStatusInfo(selectedDocument.status).color}`}>
                   {getDocumentStatusInfo(selectedDocument.status).label}
                 </span>
               </div>
-              
+
               <div className="space-x-2">
                 <button
                   className="px-4 py-2 bg-white border border-red-500 text-red-500 rounded-md text-sm"

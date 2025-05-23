@@ -116,7 +116,7 @@ export class SalesService {
     sale.status = status;
 
     // Handle side effects of status changes
-    await this.handleStatusChangeEffects(sale, status);
+    await this.handleStatusChangeEffects(salestatus);
 
     return sale;
   }
@@ -159,7 +159,7 @@ export class SalesService {
    */
   private async updateUnitStatus(unitId: string, status: UnitStatus): Promise<void> {
     // In a real implementation, this would update the database
-    console.log(`Updating unit ${unitId} status to ${status}`);
+
   }
 
   /**
@@ -185,7 +185,6 @@ export class SalesService {
       }
     ];
 
-    console.log(`Creating ${tasks.length} tasks for sale ${sale.id}`);
   }
 
   /**
@@ -266,7 +265,7 @@ export class SalesService {
   async getSalesDashboardMetrics(developmentId?: string): Promise<{
     totalSales: number;
     totalRevenue: number;
-    salesByStatus: Record<string, number>;
+    salesByStatus: Record<string, number>\n  );
     recentSales: Sale[];
   }> {
     // In a real implementation, this would query the database

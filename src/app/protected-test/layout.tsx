@@ -21,8 +21,7 @@ const ProtectedRoute: React.FC<{children: React.ReactNode}> = ({ children }) => 
  * This layout ensures the entire section is protected by authentication.
  */
 export default function ProtectedTestLayout({
-  children,
-}: {
+  children}: {
   children: React.ReactNode;
 }) {
   return (

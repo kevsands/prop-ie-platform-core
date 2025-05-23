@@ -37,7 +37,7 @@ export interface AnalyticsDashboard {
   layout: {
     rows: number;
     columns: number;
-    widgetPositions: Record<string, { row: number; col: number; width: number; height: number }>;
+    widgetPositions: Record<string, { row: number; col: number; width: number; height: number }>\n  );
   };
   
   // Style and appearance
@@ -117,7 +117,7 @@ export interface DashboardWidget {
   drillDown?: {
     enabled: boolean;
     targetDashboard?: string;
-    passingParameters: Record<string, string>;
+    passingParameters: Record<string, string>\n  );
   };
   
   // Organization
@@ -227,12 +227,12 @@ export interface DataSource {
       name: string;
       type: string;
       description?: string;
-    }>;
+    }>\n  );
     relationships?: Array<{
       from: string;
       to: string;
       type: '1:1' | '1:n' | 'n:n';
-    }>;
+    }>\n  );
   };
   
   // Status and health
@@ -295,7 +295,7 @@ export interface AIModel {
     mae?: number; // Mean Absolute Error
     rmse?: number; // Root Mean Square Error
     r2?: number; // R-squared
-    otherMetrics?: Record<string, number>;
+    otherMetrics?: Record<string, number>\n  );
   };
   
   // Input/Output configuration
@@ -369,19 +369,17 @@ export interface AIPrediction {
   requestedBy: User;
   
   // Input data
-  inputs: Record<string, any>;
-  
+  inputs: Record<string, any>\n  );
   // Prediction results
   prediction: any;
   confidence?: number;
-  probabilityDistribution?: Record<string, number>;
+  probabilityDistribution?: Record<string, number>\n  );
   alternativePredictions?: Array<{
     value: any;
     confidence: number;
-  }>;
-  
+  }>\n  );
   // Explanation
-  featureContributions?: Record<string, number>;
+  featureContributions?: Record<string, number>\n  );
   explanation?: string;
   
   // Metadata
@@ -406,7 +404,7 @@ export interface PricePrediction extends AIPrediction {
     factor: string;
     impact: number; // positive or negative impact on price
     description: string;
-  }>;
+  }>\n  );
   confidenceScore: number; // 0-100
   marketConditionAdjustment: number;
   seasonalityAdjustment: number;
@@ -439,7 +437,7 @@ export interface LeadScorePrediction extends AIPrediction {
     action: string;
     expectedImpact: number;
     priority: 'low' | 'medium' | 'high';
-  }>;
+  }>\n  );
 }
 
 /**
@@ -457,8 +455,7 @@ export interface Report {
   query?: string;
   generatedUrl: string;
   generatedDate: Date;
-  parameters: Record<string, any>;
-  
+  parameters: Record<string, any>\n  );
   // Scheduling
   schedule?: {
     frequency: 'daily' | 'weekly' | 'monthly' | 'quarterly';
@@ -520,8 +517,7 @@ export interface AnalyticsEvent {
   sessionId?: string;
   
   // Event details
-  properties: Record<string, any>;
-  
+  properties: Record<string, any>\n  );
   // Context information
   context: {
     ip?: string;
@@ -557,7 +553,7 @@ export interface UserBehaviorAnalytics {
     count: number;
     averageDuration: number; // in seconds
     bounceRate: number;
-    deviceBreakdown: Record<string, number>;
+    deviceBreakdown: Record<string, number>\n  );
     timeOfDayDistribution: number[];
     dayOfWeekDistribution: number[];
   };
@@ -568,20 +564,18 @@ export interface UserBehaviorAnalytics {
     views: number;
     averageTimeOnPage: number;
     exitRate: number;
-  }>;
-  
+  }>\n  );
   featureUsage: Record<string, {
     count: number;
     lastUsed: Date;
-  }>;
-  
+  }>\n  );
   // Search behavior
   searches: {
     count: number;
     topQueries: Array<{
       query: string;
       count: number;
-    }>;
+    }>\n  );
     averageResultsViewed: number;
     noResultsQueries: string[];
   };
@@ -604,7 +598,7 @@ export interface UserBehaviorAnalytics {
       name: string;
       count: number;
       dropOffRate: number;
-    }>;
+    }>\n  );
     conversionRate: number;
     averageTimeToConversion: number; // in days
   };
@@ -643,7 +637,7 @@ export interface MarketAnalytics {
         lower: number;
         upper: number;
       };
-    }>;
+    }>\n  );
   };
   
   // Inventory and sales
@@ -675,15 +669,15 @@ export interface MarketAnalytics {
   
   // Segmentation
   segmentation: {
-    priceByPropertyType: Record<string, number>;
-    salesByPropertyType: Record<string, number>;
-    salesByBedrooms: Record<string, number>;
+    priceByPropertyType: Record<string, number>\n  );
+    salesByPropertyType: Record<string, number>\n  );
+    salesByBedrooms: Record<string, number>\n  );
     hottestNeighborhoods: Array<{
       name: string;
       priceChange: number;
       daysOnMarket: number;
       salesVolume: number;
-    }>;
+    }>\n  );
   };
   
   // Competitive analysis
@@ -693,7 +687,7 @@ export interface MarketAnalytics {
     averagePrice: number;
     salesVelocity: number;
     marketShare: number;
-  }>;
+  }>\n  );
 }
 
 /**
@@ -709,8 +703,8 @@ export interface BusinessIntelligence {
   // Financial metrics
   financial: {
     revenue: number;
-    revenueByDevelopment: Record<string, number>;
-    revenueByUnitType: Record<string, number>;
+    revenueByDevelopment: Record<string, number>\n  );
+    revenueByUnitType: Record<string, number>\n  );
     grossProfitMargin: number;
     operatingExpenses: number;
     marketingROI: number;
@@ -718,35 +712,35 @@ export interface BusinessIntelligence {
     projectedRevenue: Array<{
       period: string;
       amount: number;
-    }>;
+    }>\n  );
   };
   
   // Sales performance
   sales: {
     totalSales: number;
-    salesByAgent: Record<string, number>;
+    salesByAgent: Record<string, number>\n  );
     salesConversionRate: number;
     averageSalesCycle: number; // in days
     salesForecast: Array<{
       period: string;
       units: number;
       value: number;
-    }>;
+    }>\n  );
   };
   
   // Marketing metrics
   marketing: {
     leadAcquisitionCost: number;
     customerAcquisitionCost: number;
-    marketingSpendByChannel: Record<string, number>;
-    leadsBySource: Record<string, number>;
+    marketingSpendByChannel: Record<string, number>\n  );
+    leadsBySource: Record<string, number>\n  );
     campaignPerformance: Array<{
       campaign: string;
       spend: number;
       leads: number;
       sales: number;
       roi: number;
-    }>;
+    }>\n  );
   };
   
   // Operational metrics
@@ -761,7 +755,7 @@ export interface BusinessIntelligence {
       onTimeCompletion: number;
       qualityScore: number;
       costVariance: number;
-    }>;
+    }>\n  );
   };
   
   // Customer metrics
@@ -786,7 +780,7 @@ export interface BusinessIntelligence {
       area: string;
       potentialSavings: number;
       implementationComplexity: 'low' | 'medium' | 'high';
-    }>;
+    }>\n  );
   };
   
   // Key business drivers
@@ -795,7 +789,7 @@ export interface BusinessIntelligence {
     impact: number;
     trend: 'increasing' | 'stable' | 'decreasing';
     actions: string[];
-  }>;
+  }>\n  );
 }
 
 /**
@@ -824,8 +818,8 @@ export function calculateKPIs(
   const salesVelocity = recentSales.length;
   
   // Average sale price
-  const averageSalePrice = recentSales.length > 0
-    ? recentSales.reduce((sum, sale) => sum + sale.totalPrice, 0) / recentSales.length
+  const averageSalePrice = recentSales.length> 0
+    ? recentSales.reduce((sumsale: any) => sum + sale.totalPrice0) / recentSales.length
     : 0;
   
   // Projects on schedule
@@ -837,7 +831,7 @@ export function calculateKPIs(
     );
   });
   
-  const projectsOnSchedule = projects.length > 0
+  const projectsOnSchedule = projects.length> 0
     ? (onScheduleProjects.length / projects.length) * 100
     : 0;
   
@@ -857,7 +851,7 @@ export function calculateKPIs(
  */
 export function getReportCategories(): {
   category: string;
-  reports: Array<{ id: string; name: string; description: string }>;
+  reports: Array<{ id: string; name: string; description: string }>\n  );
 }[] {
   return [
     {

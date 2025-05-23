@@ -27,8 +27,8 @@ interface Scheme {
 }
 
 export default function GovernmentSchemeInfo() {
-  const [expandedScheme, setExpandedScheme] = useState<string | null>('htb');
-  
+  const [expandedSchemesetExpandedScheme] = useState<string | null>('htb');
+
   const schemes: Scheme[] = [
     {
       id: 'htb',
@@ -130,7 +130,7 @@ export default function GovernmentSchemeInfo() {
           Financial assistance programs to help first-time buyers get on the property ladder
         </p>
       </div>
-      
+
       <div className="p-6">
         <Tabs defaultValue="overview">
           <TabsList className="mb-4">
@@ -138,7 +138,7 @@ export default function GovernmentSchemeInfo() {
             <TabsTrigger value="compare">Compare Schemes</TabsTrigger>
             <TabsTrigger value="eligibility">Eligibility Check</TabsTrigger>
           </TabsList>
-          
+
           <TabsContent value="overview" className="space-y-4">
             <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 mb-4">
               <div className="flex items-start">
@@ -149,7 +149,7 @@ export default function GovernmentSchemeInfo() {
                 </div>
               </div>
             </div>
-            
+
             <div className="space-y-4">
               {schemes.map(scheme => (
                 <div 
@@ -177,16 +177,16 @@ export default function GovernmentSchemeInfo() {
                       }`} 
                     />
                   </div>
-                  
+
                   {expandedScheme === scheme.id && (
                     <div className="px-4 pb-4 pt-2 border-t">
                       <p className="text-gray-700 mb-4">{scheme.description}</p>
-                      
+
                       <div className="grid md:grid-cols-2 gap-4 mb-4">
                         <div>
                           <h4 className="text-sm font-medium text-gray-900 mb-2">Eligibility Criteria</h4>
                           <ul className="space-y-1">
-                            {scheme.eligibility.map((item, index) => (
+                            {scheme.eligibility.map((itemindex: any) => (
                               <li key={index} className="flex items-start text-sm">
                                 <CheckCircle className="h-4 w-4 text-green-600 mr-2 flex-shrink-0 mt-0.5" />
                                 <span>{item}</span>
@@ -194,11 +194,11 @@ export default function GovernmentSchemeInfo() {
                             ))}
                           </ul>
                         </div>
-                        
+
                         <div>
                           <h4 className="text-sm font-medium text-gray-900 mb-2">Benefits</h4>
                           <ul className="space-y-1">
-                            {scheme.benefits.map((item, index) => (
+                            {scheme.benefits.map((itemindex: any) => (
                               <li key={index} className="flex items-start text-sm">
                                 <CheckCircle className="h-4 w-4 text-green-600 mr-2 flex-shrink-0 mt-0.5" />
                                 <span>{item}</span>
@@ -207,7 +207,7 @@ export default function GovernmentSchemeInfo() {
                           </ul>
                         </div>
                       </div>
-                      
+
                       <div className="flex flex-wrap gap-4 text-sm mb-4">
                         <div className="bg-blue-50 px-3 py-1 rounded-full text-blue-700">
                           Max Amount: {scheme.maxAmount}
@@ -218,7 +218,7 @@ export default function GovernmentSchemeInfo() {
                           </div>
                         )}
                       </div>
-                      
+
                       <div className="flex justify-between items-center">
                         <a 
                           href={scheme.website} 
@@ -228,7 +228,7 @@ export default function GovernmentSchemeInfo() {
                         >
                           Visit Official Website <ExternalLink className="h-4 w-4 ml-1" />
                         </a>
-                        
+
                         <Button variant="outline" size="sm">
                           <FileText className="h-4 w-4 mr-1" /> Download Guide
                         </Button>
@@ -239,7 +239,7 @@ export default function GovernmentSchemeInfo() {
               ))}
             </div>
           </TabsContent>
-          
+
           <TabsContent value="compare">
             <div className="overflow-x-auto">
               <table className="min-w-full divide-y divide-gray-200">
@@ -335,7 +335,7 @@ export default function GovernmentSchemeInfo() {
               </table>
             </div>
           </TabsContent>
-          
+
           <TabsContent value="eligibility">
             <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
               <div className="flex items-start">
@@ -346,7 +346,7 @@ export default function GovernmentSchemeInfo() {
                 </div>
               </div>
             </div>
-            
+
             <div className="grid md:grid-cols-2 gap-6">
               <div className="space-y-4">
                 <div>
@@ -364,7 +364,7 @@ export default function GovernmentSchemeInfo() {
                     </label>
                   </div>
                 </div>
-                
+
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
                     Are you interested in a new build property?
@@ -380,7 +380,7 @@ export default function GovernmentSchemeInfo() {
                     </label>
                   </div>
                 </div>
-                
+
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
                     What is your approximate annual household income?
@@ -392,7 +392,7 @@ export default function GovernmentSchemeInfo() {
                     <option>Over €100,000</option>
                   </select>
                 </div>
-                
+
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
                     What price range are you considering?
@@ -404,18 +404,18 @@ export default function GovernmentSchemeInfo() {
                     <option>Over €500,000</option>
                   </select>
                 </div>
-                
+
                 <div className="pt-4">
                   <Button className="w-full">
                     Check My Eligibility
                   </Button>
                 </div>
               </div>
-              
+
               <div className="bg-gray-50 p-6 rounded-lg">
                 <h3 className="text-lg font-medium text-gray-900 mb-4">Your Potential Eligibility</h3>
                 <p className="text-gray-500 text-sm mb-6">Complete the form to see which schemes you might qualify for.</p>
-                
+
                 <div className="space-y-3">
                   <div className="flex items-center opacity-50">
                     <div className="w-6 h-6 rounded-full bg-gray-200 flex items-center justify-center mr-3">
@@ -423,21 +423,21 @@ export default function GovernmentSchemeInfo() {
                     </div>
                     <span className="text-gray-400">Help to Buy (HTB)</span>
                   </div>
-                  
+
                   <div className="flex items-center opacity-50">
                     <div className="w-6 h-6 rounded-full bg-gray-200 flex items-center justify-center mr-3">
                       <span className="text-xs font-medium text-gray-500">?</span>
                     </div>
                     <span className="text-gray-400">First Home Scheme</span>
                   </div>
-                  
+
                   <div className="flex items-center opacity-50">
                     <div className="w-6 h-6 rounded-full bg-gray-200 flex items-center justify-center mr-3">
                       <span className="text-xs font-medium text-gray-500">?</span>
                     </div>
                     <span className="text-gray-400">Local Authority Affordable Purchase</span>
                   </div>
-                  
+
                   <div className="flex items-center opacity-50">
                     <div className="w-6 h-6 rounded-full bg-gray-200 flex items-center justify-center mr-3">
                       <span className="text-xs font-medium text-gray-500">?</span>
@@ -449,11 +449,11 @@ export default function GovernmentSchemeInfo() {
             </div>
           </TabsContent>
         </Tabs>
-        
+
         <div className="mt-6 border-t pt-6">
           <h3 className="text-sm font-medium text-gray-900 mb-2">Need Help Understanding These Schemes?</h3>
           <p className="text-sm text-gray-600 mb-4">Our team can guide you through the various government schemes and help you determine which ones are right for your situation.</p>
-          
+
           <div className="flex space-x-4">
             <Button variant="outline">
               Schedule Consultation

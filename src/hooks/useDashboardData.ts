@@ -5,17 +5,17 @@ import { mockTasks, mockAlerts, TaskItem, AlertItem } from '@/lib/mock';
 
 // Custom hook for fetching dashboard data
 export function useDashboardData() {
-  const [tasks, setTasks] = useState<TaskItem[]>([]);
-  const [alerts, setAlerts] = useState<AlertItem[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
+  const [taskssetTasks] = useState<TaskItem[]>([]);
+  const [alertssetAlerts] = useState<AlertItem[]>([]);
+  const [isLoadingsetIsLoading] = useState<boolean>(true);
+  const [errorsetError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchDashboardData = async () => {
       try {
         setIsLoading(true);
         setError(null);
-        
+
         // In production, these would be API calls
         // Use setTimeout to simulate network delay
         setTimeout(() => {
@@ -24,7 +24,7 @@ export function useDashboardData() {
           setIsLoading(false);
         }, 500);
       } catch (err) {
-        console.error('Error fetching dashboard data:', err);
+
         setError('Failed to load dashboard data');
         setIsLoading(false);
       }
@@ -49,13 +49,13 @@ export function useDashboardData() {
     const now = new Date();
     const diffTime = due.getTime() - now.getTime();
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-    return diffDays >= 0 && diffDays <= 3; // Due within next 3 days
+    return diffDays>= 0 && diffDays <= 3; // Due within next 3 days
   };
 
   const isOverdue = (dueDate: string) => {
     const due = new Date(dueDate);
     const now = new Date();
-    return due < now;
+    return due <now;
   };
 
   // Mark an alert as read

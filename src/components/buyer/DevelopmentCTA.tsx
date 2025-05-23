@@ -22,8 +22,8 @@ export default function DevelopmentCTA({
   startingPrice 
 }: DevelopmentCTAProps) {
   const router = useRouter();
-  const [showRegistration, setShowRegistration] = useState(false);
-  
+  const [showRegistrationsetShowRegistration] = useState(false);
+
   // Determine CTA based on status
   if (status === 'Sold Out') {
     return (
@@ -142,10 +142,10 @@ export default function DevelopmentCTA({
         <BuyerRegistrationFlow
           developmentId={developmentId}
           developmentName={developmentName}
-          onComplete={(data) => {
+          onComplete={(data: any) => {
             // In real app, would process payment and create reservation
             router.push(`/buyer/dashboard?reservation=${developmentId}`);
-          }}
+          }
         />
       )}
     </>

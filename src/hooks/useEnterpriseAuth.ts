@@ -23,7 +23,7 @@ type AccountStatus = 'ACTIVE' | 'PENDING' | 'SUSPENDED' | 'LOCKED';
 interface Permission {
   resource: string;
   actions: string[];
-  constraints?: Record<string, any>;
+  constraints?: Record<string, any>\n  );
 }
 
 interface SecuritySettings {
@@ -128,14 +128,13 @@ type RequiredAction = 'VERIFY_EMAIL' | 'SETUP_MFA' | 'UPDATE_PASSWORD' | 'COMPLE
 
 export function useEnterpriseAuth() {
   const router = useRouter();
-  const [authState, setAuthState] = useState<AuthState>({
+  const [authStatesetAuthState] = useState<AuthState>({
     user: null,
     isAuthenticated: false,
     isLoading: true,
     error: null,
     authStep: 'IDLE',
-    securityLevel: 'BASIC',
-  });
+    securityLevel: 'BASIC'});
 
   // Initialize authentication state
   useEffect(() => {
@@ -159,7 +158,7 @@ export function useEnterpriseAuth() {
     try {
       const cognitoUser = await getCurrentUser();
       const userProfile = await fetchUserProfile(cognitoUser.username);
-      
+
       setAuthState({
         user: userProfile,
         isAuthenticated: true,
@@ -167,14 +166,12 @@ export function useEnterpriseAuth() {
         error: null,
         authStep: 'COMPLETE',
         securityLevel: determineSecurityLevel(userProfile),
-        sessionExpiry: calculateSessionExpiry(userProfile),
-      });
+        sessionExpiry: calculateSessionExpiry(userProfile)});
     } catch (error) {
       setAuthState(prev => ({
         ...prev,
         isLoading: false,
-        isAuthenticated: false,
-      }));
+        isAuthenticated: false}));
     }
   };
 
@@ -188,7 +185,7 @@ export function useEnterpriseAuth() {
 
       // Check user status first
       const userCheck = await checkUser(email);
-      
+
       if (!userCheck.exists) {
         throw new Error('User not found');
       }
@@ -197,8 +194,7 @@ export function useEnterpriseAuth() {
         setAuthState(prev => ({
           ...prev,
           authStep: 'CREDENTIALS',
-          securityLevel: 'ELEVATED',
-        }));
+          securityLevel: 'ELEVATED'}));
       }
 
       // Attempt sign in
@@ -206,17 +202,14 @@ export function useEnterpriseAuth() {
         username: email,
         password,
         options: {
-          authFlowType: 'USER_PASSWORD_AUTH',
-        },
-      });
+          authFlowType: 'USER_PASSWORD_AUTH'});
 
       // Handle MFA requirement
       if (signInResult.nextStep?.signInStep === 'CONFIRM_SIGN_IN_WITH_SMS_MFA_CODE') {
         setAuthState(prev => ({
           ...prev,
           authStep: 'MFA',
-          isLoading: false,
-        }));
+          isLoading: false}));
         return { requiresMFA: true };
       }
 
@@ -225,21 +218,19 @@ export function useEnterpriseAuth() {
         setAuthState(prev => ({
           ...prev,
           requiresAction: 'UPDATE_PASSWORD',
-          isLoading: false,
-        }));
+          isLoading: false}));
         return { requiresNewPassword: true };
       }
 
       // Success - fetch full user profile
       const userProfile = await fetchUserProfile(signInResult.userId!);
-      
+
       // Check compliance status
       if (!isCompliant(userProfile)) {
         setAuthState(prev => ({
           ...prev,
           requiresAction: 'COMPLETE_KYC',
-          user: userProfile,
-        }));
+          user: userProfile}));
         return { requiresCompliance: true };
       }
 
@@ -251,15 +242,13 @@ export function useEnterpriseAuth() {
         error: null,
         authStep: 'COMPLETE',
         securityLevel: determineSecurityLevel(userProfile),
-        sessionExpiry: calculateSessionExpiry(userProfile),
-      });
+        sessionExpiry: calculateSessionExpiry(userProfile)});
 
       // Log activity
       await logAuthActivity('LOGIN_SUCCESS', {
         userId: userProfile.id,
         method: 'password',
-        deviceTrust: options.deviceTrust,
-      });
+        deviceTrust: options.deviceTrust});
 
       // Navigate to appropriate dashboard
       navigateToDashboard(userProfile.role);
@@ -269,14 +258,12 @@ export function useEnterpriseAuth() {
       setAuthState(prev => ({
         ...prev,
         isLoading: false,
-        error: error.message,
-      }));
+        error: error.message}));
 
       // Log failed attempt
       await logAuthActivity('LOGIN_FAILED', {
         email,
-        error: error.message,
-      });
+        error: error.message});
 
       return { success: false, error: error.message };
     }
@@ -287,7 +274,7 @@ export function useEnterpriseAuth() {
       setAuthState(prev => ({ ...prev, isLoading: true }));
 
       const result = await confirmSignIn({ challengeResponse: code });
-      
+
       if (result.isSignedIn) {
         await checkAuthStatus();
         return { success: true };
@@ -298,8 +285,7 @@ export function useEnterpriseAuth() {
       setAuthState(prev => ({
         ...prev,
         isLoading: false,
-        error: error.message,
-      }));
+        error: error.message}));
       return { success: false, error: error.message };
     }
   };
@@ -335,10 +321,7 @@ export function useEnterpriseAuth() {
             phone_number: userData.phoneNumber,
             'custom:role': userData.role,
             'custom:accepted_terms': userData.acceptedTerms.toString(),
-            'custom:marketing_consent': userData.marketingConsent?.toString() || 'false',
-          },
-        },
-      });
+            'custom:marketing_consent': userData.marketingConsent?.toString() || 'false'}});
 
       // Create user profile in database
       await createUserProfile({
@@ -351,8 +334,7 @@ export function useEnterpriseAuth() {
           documentsVerified: false,
           riskScore: 0,
           pepStatus: false,
-          sanctionsChecked: false,
-        },
+          sanctionsChecked: false},
         security: {
           mfaEnabled: false,
           biometricEnabled: false,
@@ -360,8 +342,7 @@ export function useEnterpriseAuth() {
           lastPasswordChange: new Date(),
           sessionTimeout: 1800, // 30 minutes
           trustedDevices: [],
-          loginNotifications: true,
-        },
+          loginNotifications: true},
         metadata: {
           createdAt: new Date(),
           loginCount: 0,
@@ -376,24 +357,18 @@ export function useEnterpriseAuth() {
               inApp: true,
               marketing: userData.marketingConsent || false,
               security: true,
-              transactions: true,
-            },
+              transactions: true},
             privacy: {
               dataSharing: false,
               analytics: true,
               marketing: userData.marketingConsent || false,
-              publicProfile: false,
-            },
-          },
-        },
-      });
+              publicProfile: false}});
 
       if (nextStep.signUpStep === 'CONFIRM_SIGN_UP') {
         setAuthState(prev => ({
           ...prev,
           requiresAction: 'VERIFY_EMAIL',
-          isLoading: false,
-        }));
+          isLoading: false}));
         return { success: true, requiresVerification: true };
       }
 
@@ -402,8 +377,7 @@ export function useEnterpriseAuth() {
       setAuthState(prev => ({
         ...prev,
         isLoading: false,
-        error: error.message,
-      }));
+        error: error.message}));
       return { success: false, error: error.message };
     }
   };
@@ -413,17 +387,16 @@ export function useEnterpriseAuth() {
       setAuthState(prev => ({ ...prev, isLoading: true }));
 
       await confirmSignUp({ username: email, confirmationCode: code });
-      
+
       // Auto sign in after confirmation
       await authenticateUser(email, ''); // Password will be prompted
-      
+
       return { success: true };
     } catch (error: any) {
       setAuthState(prev => ({
         ...prev,
         isLoading: false,
-        error: error.message,
-      }));
+        error: error.message}));
       return { success: false, error: error.message };
     }
   };
@@ -431,24 +404,23 @@ export function useEnterpriseAuth() {
   const logoutUser = async () => {
     try {
       await signOut();
-      
+
       // Log activity
       if (authState.user) {
         await logAuthActivity('LOGOUT', { userId: authState.user.id });
       }
-      
+
       setAuthState({
         user: null,
         isAuthenticated: false,
         isLoading: false,
         error: null,
         authStep: 'IDLE',
-        securityLevel: 'BASIC',
-      });
-      
+        securityLevel: 'BASIC'});
+
       router.push('/');
     } catch (error: any) {
-      console.error('Logout error:', error);
+
     }
   };
 
@@ -458,8 +430,7 @@ export function useEnterpriseAuth() {
     setAuthState(prev => ({
       ...prev,
       securityLevel: level,
-      sessionExpiry: calculateSessionExpiry(prev.user!, level),
-    }));
+      sessionExpiry: calculateSessionExpiry(prev.user!, level)}));
 
     // May require re-authentication
     if (level === 'MAXIMUM') {
@@ -492,8 +463,7 @@ export function useEnterpriseAuth() {
     const response = await fetch('/api/auth/check-user', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email }),
-    });
+      body: JSON.stringify({ email })});
     return response.json();
   };
 
@@ -507,8 +477,7 @@ export function useEnterpriseAuth() {
     const response = await fetch('/api/users/profile', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(userData),
-    });
+      body: JSON.stringify(userData)});
     if (!response.ok) throw new Error('Failed to create user profile');
     return response.json();
   };
@@ -522,11 +491,9 @@ export function useEnterpriseAuth() {
           action,
           details,
           timestamp: new Date().toISOString(),
-          deviceInfo: getDeviceInfo(),
-        }),
-      });
+          deviceInfo: getDeviceInfo()})});
     } catch (error) {
-      console.error('Failed to log activity:', error);
+
     }
   };
 
@@ -535,13 +502,12 @@ export function useEnterpriseAuth() {
     platform: navigator.platform,
     language: navigator.language,
     screenResolution: `${window.screen.width}x${window.screen.height}`,
-    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-  });
+    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone});
 
   const calculatePasswordStrength = (password: string): number => {
     let strength = 0;
-    if (password.length >= 8) strength += 25;
-    if (password.length >= 12) strength += 25;
+    if (password.length>= 8) strength += 25;
+    if (password.length>= 12) strength += 25;
     if (/[a-z]/.test(password)) strength += 12.5;
     if (/[A-Z]/.test(password)) strength += 12.5;
     if (/[0-9]/.test(password)) strength += 12.5;
@@ -551,20 +517,19 @@ export function useEnterpriseAuth() {
 
   const determineSecurityLevel = (user: User): SecurityLevel => {
     if (user.role === 'ADMIN' || user.role === 'DEVELOPER') return 'MAXIMUM';
-    if (user.role === 'SOLICITOR' || user.compliance.riskScore > 50) return 'ELEVATED';
+    if (user.role === 'SOLICITOR' || user.compliance.riskScore> 50) return 'ELEVATED';
     return 'BASIC';
   };
 
   const calculateSessionExpiry = (user: User, level?: SecurityLevel): Date => {
     const baseTimeout = user.security.sessionTimeout || 1800; // 30 minutes default
     const actualLevel = level || authState.securityLevel;
-    
+
     const multipliers = {
       BASIC: 1,
       ELEVATED: 0.5,
-      MAXIMUM: 0.25,
-    };
-    
+      MAXIMUM: 0.25};
+
     const timeout = baseTimeout * multipliers[actualLevel];
     return new Date(Date.now() + timeout * 1000);
   };
@@ -582,9 +547,8 @@ export function useEnterpriseAuth() {
       AGENT: '/agent/dashboard',
       SOLICITOR: '/solicitor/dashboard',
       INVESTOR: '/investor/dashboard',
-      ADMIN: '/admin/dashboard',
-    };
-    
+      ADMIN: '/admin/dashboard'};
+
     router.push(dashboards[role] || '/dashboard');
   };
 
@@ -595,8 +559,7 @@ export function useEnterpriseAuth() {
       firstName: z.string().min(1),
       lastName: z.string().min(1),
       role: z.enum(['BUYER', 'SELLER', 'DEVELOPER', 'AGENT', 'SOLICITOR', 'INVESTOR']),
-      acceptedTerms: z.boolean().refine(val => val === true),
-    });
+      acceptedTerms: z.boolean().refine(val => val === true)});
 
     try {
       schema.parse(userData);
@@ -617,6 +580,5 @@ export function useEnterpriseAuth() {
     hasPermission,
     hasRole,
     isCompliant,
-    refreshSession: checkAuthStatus,
-  };
+    refreshSession: checkAuthStatus};
 }

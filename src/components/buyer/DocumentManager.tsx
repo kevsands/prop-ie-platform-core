@@ -10,7 +10,7 @@ const MOCK_USER_ID = 'user-123';
 
 export function DocumentManager() {
   const { user } = useAuth();
-  
+
   // Use the authenticated user's ID if available, otherwise use mock ID
   const buyerId = user?.id || MOCK_USER_ID;
 
@@ -22,7 +22,7 @@ export function DocumentManager() {
           Upload and manage all the documents needed for your home buying journey
         </p>
       </div>
-      
+
       <BuyerDocumentProvider buyerId={buyerId}>
         <BuyerDocumentRepository />
       </BuyerDocumentProvider>

@@ -93,7 +93,7 @@ interface Contract {
     url: string;
     requiresSignature: boolean;
     signedBy?: string[];
-  }>;
+  }>\n  );
   signatures: Array<{
     party: 'buyer' | 'seller' | 'buyer-solicitor' | 'seller-solicitor';
     name: string;
@@ -101,7 +101,7 @@ interface Contract {
     status: 'pending' | 'signed' | 'declined';
     ipAddress?: string;
     method: 'electronic' | 'wet-ink';
-  }>;
+  }>\n  );
   amendments: Array<{
     id: string;
     date: Date;
@@ -109,13 +109,13 @@ interface Contract {
     proposedBy: string;
     status: 'proposed' | 'accepted' | 'rejected';
     document?: string;
-  }>;
+  }>\n  );
   timeline: Array<{
     event: string;
     date: Date;
     description?: string;
     user?: string;
-  }>;
+  }>\n  );
   tasks: Array<{
     id: string;
     title: string;
@@ -124,7 +124,7 @@ interface Contract {
     dueDate?: Date;
     status: 'pending' | 'in-progress' | 'completed' | 'overdue';
     priority: 'low' | 'medium' | 'high';
-  }>;
+  }>\n  );
   communications: Array<{
     id: string;
     date: Date;
@@ -133,7 +133,7 @@ interface Contract {
     subject: string;
     message: string;
     attachments?: string[];
-  }>;
+  }>\n  );
   issues?: Array<{
     id: string;
     title: string;
@@ -142,21 +142,21 @@ interface Contract {
     status: 'open' | 'resolved';
     raisedDate: Date;
     resolvedDate?: Date;
-  }>;
+  }>\n  );
 }
 
 const BuyerContractsPage = () => {
   const { user } = useAuth();
   const router = useRouter();
-  const [contracts, setContracts] = useState<Contract[]>([]);
-  const [filteredContracts, setFilteredContracts] = useState<Contract[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [filter, setFilter] = useState<'all' | 'active' | 'completed' | 'requires-action'>('all');
-  const [selectedContract, setSelectedContract] = useState<Contract | null>(null);
-  const [showDocumentViewer, setShowDocumentViewer] = useState(false);
-  const [selectedDocument, setSelectedDocument] = useState<Contract['documents'][0] | null>(null);
-  const [showSignatureModal, setShowSignatureModal] = useState(false);
-  const [expandedContract, setExpandedContract] = useState<string | null>(null);
+  const [contractssetContracts] = useState<Contract[]>([]);
+  const [filteredContractssetFilteredContracts] = useState<Contract[]>([]);
+  const [loadingsetLoading] = useState(true);
+  const [filtersetFilter] = useState<'all' | 'active' | 'completed' | 'requires-action'>('all');
+  const [selectedContractsetSelectedContract] = useState<Contract | null>(null);
+  const [showDocumentViewersetShowDocumentViewer] = useState(false);
+  const [selectedDocumentsetSelectedDocument] = useState<Contract['documents'][0] | null>(null);
+  const [showSignatureModalsetShowSignatureModal] = useState(false);
+  const [expandedContractsetExpandedContract] = useState<string | null>(null);
 
   // Protect the route
   useEffect(() => {
@@ -165,7 +165,7 @@ const BuyerContractsPage = () => {
     } else if (user.role !== 'buyer') {
       router.push('/unauthorized');
     }
-  }, [user, router]);
+  }, [userrouter]);
 
   // Fetch contracts
   useEffect(() => {
@@ -197,9 +197,9 @@ const BuyerContractsPage = () => {
         break;
     }
 
-    filtered.sort((a, b) => b.lastModifiedDate.getTime() - a.lastModifiedDate.getTime());
+    filtered.sort((ab: any) => b.lastModifiedDate.getTime() - a.lastModifiedDate.getTime());
     setFilteredContracts(filtered);
-  }, [contracts, filter]);
+  }, [contractsfilter]);
 
   const fetchContracts = async () => {
     setLoading(true);
@@ -517,7 +517,7 @@ const BuyerContractsPage = () => {
       ];
       setContracts(mockContracts);
     } catch (error) {
-      console.error('Error fetching contracts:', error);
+
     } finally {
       setLoading(false);
     }
@@ -551,7 +551,7 @@ const BuyerContractsPage = () => {
       );
       setShowSignatureModal(false);
     } catch (error) {
-      console.error('Error signing contract:', error);
+
     }
   };
 
@@ -560,7 +560,7 @@ const BuyerContractsPage = () => {
     const pendingSignatures = contract.signatures.filter(s => s.status === 'pending').length;
     const pendingTasks = contract.tasks.filter(t => t.status === 'pending' || t.status === 'overdue').length;
     const openIssues = contract.issues?.filter(i => i.status === 'open').length || 0;
-    
+
     const getStatusColor = (status: Contract['status']) => {
       switch (status) {
         case 'completed':
@@ -596,12 +596,12 @@ const BuyerContractsPage = () => {
       }
     };
 
-    const requiresAction = pendingSignatures > 0 || pendingTasks > 0 || openIssues > 0;
+    const requiresAction = pendingSignatures> 0 || pendingTasks> 0 || openIssues> 0;
 
     return (
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
+        initial={ opacity: 0, y: 20 }
+        animate={ opacity: 1, y: 0 }
         className={`bg-white border rounded-lg overflow-hidden hover:shadow-lg transition-all ${
           requiresAction ? 'ring-2 ring-[#7C3AED]' : ''
         }`}
@@ -654,7 +654,7 @@ const BuyerContractsPage = () => {
                 <p className="text-lg font-medium">
                   {contract.signatures.filter(s => s.status === 'signed').length}/{contract.signatures.length}
                 </p>
-                {pendingSignatures > 0 && (
+                {pendingSignatures> 0 && (
                   <span className="text-sm text-orange-600">
                     ({pendingSignatures} pending)
                   </span>
@@ -667,27 +667,27 @@ const BuyerContractsPage = () => {
             <div className="bg-[#7C3AED]/10 rounded-lg p-4 mb-4">
               <h4 className="font-medium text-[#7C3AED] mb-2">Action Required</h4>
               <div className="space-y-2">
-                {pendingSignatures > 0 && (
+                {pendingSignatures> 0 && (
                   <div className="flex items-center gap-2">
                     <FileSignature className="w-4 h-4 text-[#7C3AED]" />
                     <span className="text-sm text-[#7C3AED]">
-                      {pendingSignatures} document{pendingSignatures > 1 ? 's' : ''} awaiting signature
+                      {pendingSignatures} document{pendingSignatures> 1 ? 's' : ''} awaiting signature
                     </span>
                   </div>
                 )}
-                {pendingTasks > 0 && (
+                {pendingTasks> 0 && (
                   <div className="flex items-center gap-2">
                     <AlertCircle className="w-4 h-4 text-orange-600" />
                     <span className="text-sm text-orange-600">
-                      {pendingTasks} pending task{pendingTasks > 1 ? 's' : ''}
+                      {pendingTasks} pending task{pendingTasks> 1 ? 's' : ''}
                     </span>
                   </div>
                 )}
-                {openIssues > 0 && (
+                {openIssues> 0 && (
                   <div className="flex items-center gap-2">
                     <AlertTriangle className="w-4 h-4 text-red-600" />
                     <span className="text-sm text-red-600">
-                      {openIssues} open issue{openIssues > 1 ? 's' : ''}
+                      {openIssues} open issue{openIssues> 1 ? 's' : ''}
                     </span>
                   </div>
                 )}
@@ -719,9 +719,9 @@ const BuyerContractsPage = () => {
         <AnimatePresence>
           {isExpanded && (
             <motion.div
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: 'auto', opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
+              initial={ height: 0, opacity: 0 }
+              animate={ height: 'auto', opacity: 1 }
+              exit={ height: 0, opacity: 0 }
               className="border-t"
             >
               <div className="p-6">
@@ -771,7 +771,7 @@ const BuyerContractsPage = () => {
                     <div>
                       <p className="text-sm font-medium text-gray-700 mb-2">Standard Conditions</p>
                       <ul className="space-y-1">
-                        {contract.keyTerms.conditions.map((condition, index) => (
+                        {contract.keyTerms.conditions.map((conditionindex: any) => (
                           <li key={index} className="flex items-start gap-2">
                             <CheckCircle className="w-4 h-4 text-green-600 mt-0.5" />
                             <span className="text-sm text-gray-600">{condition}</span>
@@ -779,11 +779,11 @@ const BuyerContractsPage = () => {
                         ))}
                       </ul>
                     </div>
-                    {contract.keyTerms.specialConditions.length > 0 && (
+                    {contract.keyTerms.specialConditions.length> 0 && (
                       <div>
                         <p className="text-sm font-medium text-gray-700 mb-2">Special Conditions</p>
                         <ul className="space-y-1">
-                          {contract.keyTerms.specialConditions.map((condition, index) => (
+                          {contract.keyTerms.specialConditions.map((conditionindex: any) => (
                             <li key={index} className="flex items-start gap-2">
                               <Info className="w-4 h-4 text-blue-600 mt-0.5" />
                               <span className="text-sm text-gray-600">{condition}</span>
@@ -798,7 +798,7 @@ const BuyerContractsPage = () => {
                 <div className="mb-6">
                   <h4 className="font-medium text-gray-900 mb-3">Documents</h4>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    {contract.documents.map((doc) => (
+                    {contract.documents.map((doc: any) => (
                       <div
                         key={doc.id}
                         className="flex items-center justify-between p-3 bg-gray-50 rounded-lg"
@@ -828,7 +828,7 @@ const BuyerContractsPage = () => {
                             onClick={() => {
                               setSelectedDocument(doc);
                               setShowDocumentViewer(true);
-                            }}
+                            }
                             className="text-[#7C3AED] hover:text-[#6B21A8]"
                           >
                             <Eye className="w-4 h-4" />
@@ -845,7 +845,7 @@ const BuyerContractsPage = () => {
                 <div className="mb-6">
                   <h4 className="font-medium text-gray-900 mb-3">Signatures</h4>
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                    {contract.signatures.map((sig, index) => (
+                    {contract.signatures.map((sigindex: any) => (
                       <div
                         key={index}
                         className={`p-3 rounded-lg border ${
@@ -875,11 +875,11 @@ const BuyerContractsPage = () => {
                   </div>
                 </div>
 
-                {contract.tasks.length > 0 && (
+                {contract.tasks.length> 0 && (
                   <div className="mb-6">
                     <h4 className="font-medium text-gray-900 mb-3">Tasks</h4>
                     <div className="space-y-3">
-                      {contract.tasks.map((task) => (
+                      {contract.tasks.map((task: any) => (
                         <div key={task.id} className={`p-3 rounded-lg ${
                           task.status === 'overdue'
                             ? 'bg-red-50'
@@ -895,7 +895,7 @@ const BuyerContractsPage = () => {
                                 className="mt-0.5"
                                 onChange={() => {
                                   // TODO: Update task status
-                                }}
+                                }
                               />
                               <div>
                                 <p className="font-medium text-sm">{task.title}</p>
@@ -923,11 +923,11 @@ const BuyerContractsPage = () => {
                   </div>
                 )}
 
-                {contract.timeline.length > 0 && (
+                {contract.timeline.length> 0 && (
                   <div className="mb-6">
                     <h4 className="font-medium text-gray-900 mb-3">Activity Timeline</h4>
                     <div className="space-y-3">
-                      {contract.timeline.slice(-5).reverse().map((event, index) => (
+                      {contract.timeline.slice(-5).reverse().map((eventindex: any) => (
                         <div key={index} className="flex gap-3">
                           <div className="w-2 h-2 bg-[#7C3AED] rounded-full mt-2"></div>
                           <div className="flex-1">
@@ -952,7 +952,7 @@ const BuyerContractsPage = () => {
                       onClick={() => {
                         setSelectedContract(contract);
                         setShowSignatureModal(true);
-                      }}
+                      }
                       className="btn btn-primary"
                     >
                       <FileSignature className="w-4 h-4 mr-2" />
@@ -963,7 +963,7 @@ const BuyerContractsPage = () => {
                     onClick={() => {
                       setSelectedContract(contract);
                       setShowDocumentViewer(true);
-                    }}
+                    }
                     className="btn btn-outline"
                   >
                     <Eye className="w-4 h-4 mr-2" />
@@ -987,14 +987,14 @@ const BuyerContractsPage = () => {
   };
 
   const SignatureModal = () => {
-    const [agreed, setAgreed] = useState(false);
-    const [pin, setPin] = useState('');
+    const [agreedsetAgreed] = useState(false);
+    const [pinsetPin] = useState('');
 
     return (
       <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
         <motion.div
-          initial={{ scale: 0.9, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
+          initial={ scale: 0.9, opacity: 0 }
+          animate={ scale: 1, opacity: 1 }
           className="bg-white rounded-lg p-6 max-w-lg w-full mx-4"
         >
           <div className="flex items-center gap-3 mb-6">
@@ -1029,7 +1029,7 @@ const BuyerContractsPage = () => {
                   <input
                     type="checkbox"
                     checked={agreed}
-                    onChange={(e) => setAgreed(e.target.checked)}
+                    onChange={(e: any) => setAgreed(e.target.checked)}
                     className="mt-0.5"
                   />
                   <span className="text-sm text-gray-700">
@@ -1046,7 +1046,7 @@ const BuyerContractsPage = () => {
                 <input
                   type="password"
                   value={pin}
-                  onChange={(e) => setPin(e.target.value)}
+                  onChange={(e: any) => setPin(e.target.value)}
                   placeholder="Enter 4-digit PIN"
                   maxLength={4}
                   className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-[#7C3AED] focus:border-transparent"
@@ -1067,7 +1067,7 @@ const BuyerContractsPage = () => {
                 if (selectedContract) {
                   signContract(selectedContract.id);
                 }
-              }}
+              }
               disabled={!agreed || pin.length !== 4}
               className="flex-1 btn btn-primary"
             >
@@ -1099,7 +1099,7 @@ const BuyerContractsPage = () => {
           </div>
 
           <div className="flex flex-wrap gap-3 mb-6">
-            {(['all', 'active', 'completed', 'requires-action'] as const).map((status) => {
+            {(['all', 'active', 'completed', 'requires-action'] as const).map((status: any) => {
               const count = contracts.filter(c => {
                 switch (status) {
                   case 'all':
@@ -1162,14 +1162,14 @@ const BuyerContractsPage = () => {
             </div>
           ) : (
             <div className="space-y-6">
-              {filteredContracts.map((contract) => (
+              {filteredContracts.map((contract: any) => (
                 <ContractCard key={contract.id} contract={contract} />
               ))}
             </div>
           )}
         </div>
 
-        {filteredContracts.length > 0 && (
+        {filteredContracts.length> 0 && (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="bg-white rounded-lg shadow-sm p-6">
               <div className="flex items-center gap-3 mb-4">
@@ -1208,13 +1208,13 @@ const BuyerContractsPage = () => {
                 <div className="flex items-center justify-between">
                   <span className="text-sm text-gray-600">Total Documents</span>
                   <span className="font-medium">
-                    {contracts.reduce((acc, c) => acc + c.documents.length, 0)}
+                    {contracts.reduce((accc: any) => acc + c.documents.length0)}
                   </span>
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-sm text-gray-600">Awaiting Signature</span>
                   <span className="font-medium text-orange-600">
-                    {contracts.reduce((acc, c) => 
+                    {contracts.reduce((accc: any) => 
                       acc + c.signatures.filter(s => s.status === 'pending' && s.party === 'buyer').length, 0
                     )}
                   </span>
@@ -1271,8 +1271,8 @@ const BuyerContractsPage = () => {
       {showDocumentViewer && selectedDocument && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
           <motion.div
-            initial={{ scale: 0.9, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
+            initial={ scale: 0.9, opacity: 0 }
+            animate={ scale: 1, opacity: 1 }
             className="bg-white rounded-lg p-6 max-w-4xl w-full h-[90vh] mx-4 flex flex-col"
           >
             <div className="flex items-center justify-between mb-4">
@@ -1301,7 +1301,7 @@ const BuyerContractsPage = () => {
                   onClick={() => {
                     setShowDocumentViewer(false);
                     setShowSignatureModal(true);
-                  }}
+                  }
                   className="btn btn-primary"
                 >
                   <FileSignature className="w-4 h-4 mr-2" />

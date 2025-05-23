@@ -30,7 +30,7 @@ interface CustomizationData extends Record<string, any> {
   customizationId?: string;
   propertyId: string;
   userId: string;
-  selectedOptions?: Record<string, any>;
+  selectedOptions?: Record<string, any>\n  );
   totalCost?: number;
   status?: string;
   version?: number;
@@ -165,8 +165,7 @@ export class CustomizationService extends BaseService {
           propertyId: customizationData.propertyId || '',
           createdAt: new Date(),
           updatedAt: new Date(),
-          status: customizationData.status || 'draft',
-        };
+          status: customizationData.status || 'draft'};
 
         // Check if this is an update to existing customization
         let result;
@@ -323,14 +322,14 @@ export class CustomizationService extends BaseService {
           .toArray();
 
         // Check stock levels if configured
-        if (options.length > 0 && process.env.CHECK_STOCK_LEVELS === 'true') {
+        if (options.length> 0 && process.env.CHECK_STOCK_LEVELS === 'true') {
           try {
             // Get supplier item IDs that have them
             const supplierItemIds = options
               .filter((opt: CustomizationOption) => !!opt.supplierItemId)
               .map((opt: CustomizationOption) => opt.supplierItemId as string);
 
-            if (supplierItemIds.length > 0) {
+            if (supplierItemIds.length> 0) {
               // Call supplier service
               const stockResponse = await axios.post(
                 `${process.env.SUPPLIER_SERVICE_URL}/api/stock/check`,

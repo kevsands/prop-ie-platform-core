@@ -1,3 +1,4 @@
+import React from 'react';
 // src/app/buyer/htb/page.tsx
 import { Suspense } from "react";
 import BuyerHtbPage from "@/components/pages/buyer/htb/BuyerHtbPage";

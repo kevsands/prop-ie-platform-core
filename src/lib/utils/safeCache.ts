@@ -28,24 +28,24 @@ export function getCachedData<T>(key: string, fallback?: T): T | undefined {
   try {
     // Check memory cache first
     const cachedItem = memoryCache[key];
-    
+
     if (cachedItem) {
       const now = Date.now();
-      if (now - cachedItem.timestamp < cachedItem.expiry) {
+      if (now - cachedItem.timestamp <cachedItem.expiry) {
         return cachedItem.data as T;
       } else {
         // Expired, remove from cache
         delete memoryCache[key];
       }
     }
-    
+
     // Try localStorage if memory cache doesn't have it
     const storedItem = localStorage.getItem(`cache_${key}`);
     if (storedItem) {
       const { data, timestamp, expiry } = JSON.parse(storedItem);
       const now = Date.now();
-      
-      if (now - timestamp < expiry) {
+
+      if (now - timestamp <expiry) {
         // Add to memory cache and return
         memoryCache[key] = { data, timestamp, expiry };
         return data as T;
@@ -55,9 +55,9 @@ export function getCachedData<T>(key: string, fallback?: T): T | undefined {
       }
     }
   } catch (error) {
-    console.error('Error accessing cache:', error);
+
   }
-  
+
   return fallback;
 }
 
@@ -72,18 +72,18 @@ export function setCachedData<T>(
   if (typeof window === 'undefined') {
     return;
   }
-  
+
   try {
     const timestamp = Date.now();
     const cacheItem = { data, timestamp, expiry };
-    
+
     // Store in memory cache
     memoryCache[key] = cacheItem;
-    
+
     // Store in localStorage
     localStorage.setItem(`cache_${key}`, JSON.stringify(cacheItem));
   } catch (error) {
-    console.error('Error caching data:', error);
+
   }
 }
 
@@ -94,15 +94,15 @@ export function removeCachedData(key: string): void {
   if (typeof window === 'undefined') {
     return;
   }
-  
+
   try {
     // Remove from memory cache
     delete memoryCache[key];
-    
+
     // Remove from localStorage
     localStorage.removeItem(`cache_${key}`);
   } catch (error) {
-    console.error('Error removing cached data:', error);
+
   }
 }
 
@@ -113,13 +113,13 @@ export function clearCache(): void {
   if (typeof window === 'undefined') {
     return;
   }
-  
+
   try {
     // Clear memory cache
     Object.keys(memoryCache).forEach(key => {
       delete memoryCache[key];
     });
-    
+
     // Clear localStorage cache items
     Object.keys(localStorage).forEach(key => {
       if (key.startsWith('cache_')) {
@@ -127,7 +127,7 @@ export function clearCache(): void {
       }
     });
   } catch (error) {
-    console.error('Error clearing cache:', error);
+
   }
 }
 
@@ -137,15 +137,15 @@ export function clearCache(): void {
 export function createCachedFetch(defaultExpiry: number = CACHE_DURATIONS.MEDIUM) {
   return async <T>(url: string, options?: RequestInit, expiry?: number): Promise<T> => {
     const cacheKey = `fetch_${url}_${JSON.stringify(options?.headers || {})}`;
-    
+
     // Try to get from cache first
     const cachedData = getCachedData<T>(cacheKey);
     if (cachedData) {
       return cachedData;
     }
-    
+
     // Not in cache, make the fetch request
-    console.log('[MOCK] Fetching:', url);
+
     return Promise.resolve({} as T);
   };
 }
@@ -158,12 +158,7 @@ export const cachedFetch = createCachedFetch();
  * This is a simplified version for build testing
  * 
  * @param fn The async function to cache
- * @returns A wrapped function that uses caching
- */
-export function serverCache<T extends (...args: any[]) => Promise<any>>(fn: T): T {
-  return (async (...args: Parameters<T>): Promise<ReturnType<T>> => {
-    // Just call the function directly in this simplified implementation
-    return await fn(...args);
+ * @returns A wrapped async function thatfn(...args);
   }) as T;
 }
 
@@ -196,24 +191,22 @@ export function asyncSafeCache<T extends (...args: any[]) => Promise<any>>(
     const cacheKey = keyFn 
       ? keyFn(...args) 
       : `fn_${fn.name}_${JSON.stringify(args)}`;
-    
+
     // Try to get from cache first
     const cachedData = getCachedData<ReturnType<T>>(cacheKey);
     if (cachedData) {
       return cachedData;
     }
-    
-    // Not in cache, execute the function
-    try {
-      const result = await fn(...args);
-      
+
+    // Not in cache, execute the async function tryfn(...args);
+
       // Cache the result
-      setCachedData(cacheKey, result, expiryMs);
-      
+      setCachedData(cacheKey, resultexpiryMs);
+
       return result;
     } catch (error) {
       // Don't cache errors
-      console.error(`Error in cached function ${fn.name}:`, error);
+
       throw error;
     }
   };

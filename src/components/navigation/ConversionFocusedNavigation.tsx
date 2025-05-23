@@ -36,18 +36,18 @@ export const ConversionFocusedNavigation: React.FC<ConversionFocusedNavigationPr
   theme = 'light', 
   isTransparent = false 
 }) => {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [searchOpen, setSearchOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [mobileMenuOpensetMobileMenuOpen] = useState(false);
+  const [searchOpensetSearchOpen] = useState(false);
+  const [searchQuerysetSearchQuery] = useState('');
   const { role, setRole } = useUserRole();
   const pathname = usePathname();
   const router = useRouter();
   const { user, isAuthenticated, signOut } = useAuth();
   const { transactions, getTransactionCount } = useTransaction();
-  
-  const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+
+  const [activeDropdownsetActiveDropdown] = useState<string | null>(null);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const [scrolled, setScrolled] = useState(false);
+  const [scrolledsetScrolled] = useState(false);
 
   // Developments data
   const developments: Development[] = [
@@ -91,9 +91,9 @@ export const ConversionFocusedNavigation: React.FC<ConversionFocusedNavigationPr
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
+      setScrolled(window.scrollY> 20);
     };
-    
+
     window.addEventListener('scroll', handleScroll);
     return () => {
       window.removeEventListener('scroll', handleScroll);
@@ -110,7 +110,7 @@ export const ConversionFocusedNavigation: React.FC<ConversionFocusedNavigationPr
         ? 'bg-transparent' 
         : 'bg-white shadow-sm'
   }`;
-  
+
   const textColorClass = 
     scrolled 
       ? 'text-gray-800'
@@ -125,7 +125,7 @@ export const ConversionFocusedNavigation: React.FC<ConversionFocusedNavigationPr
     }
     setActiveDropdown(dropdown);
   };
-  
+
   const handleDropdownLeave = () => {
     timeoutRef.current = setTimeout(() => {
       setActiveDropdown(null);
@@ -182,10 +182,10 @@ export const ConversionFocusedNavigation: React.FC<ConversionFocusedNavigationPr
                   />
                 </div>
               </Link>
-              
+
               <div className="hidden lg:ml-8 lg:flex lg:space-x-6">
                 {/* Main consumer-focused navigation */}
-                
+
                 {/* Developments - Primary Focus */}
                 <div 
                   className="relative" 
@@ -198,13 +198,13 @@ export const ConversionFocusedNavigation: React.FC<ConversionFocusedNavigationPr
                     Our Developments
                     <ChevronDown className={`ml-1 h-4 w-4 transition-transform ${activeDropdown === 'developments' ? 'rotate-180' : ''}`} />
                   </button>
-                  
+
                   <div className={`absolute z-10 mt-2 w-screen max-w-4xl rounded-xl shadow-xl bg-white left-1/2 transform -translate-x-1/2 transition-all duration-200 ${
                     activeDropdown === 'developments' ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-[-10px] pointer-events-none'
                   }`}>
                     <div className="p-6">
                       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        {developments.map((dev) => (
+                        {developments.map((dev: any) => (
                           <Link
                             key={dev.id}
                             href={`/developments/${dev.id}`}
@@ -241,7 +241,7 @@ export const ConversionFocusedNavigation: React.FC<ConversionFocusedNavigationPr
                           </Link>
                         ))}
                       </div>
-                      
+
                       {/* Quick Actions */}
                       <div className="mt-6 pt-6 border-t border-gray-200">
                         <div className="grid grid-cols-3 gap-4">
@@ -292,7 +292,7 @@ export const ConversionFocusedNavigation: React.FC<ConversionFocusedNavigationPr
                     Buyer Journey
                     <ChevronDown className={`ml-1 h-4 w-4 transition-transform ${activeDropdown === 'buyer-journey' ? 'rotate-180' : ''}`} />
                   </button>
-                  
+
                   <div className={`absolute z-10 mt-2 w-96 rounded-xl shadow-xl bg-white right-0 transition-all duration-200 ${
                     activeDropdown === 'buyer-journey' ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-[-10px] pointer-events-none'
                   }`}>
@@ -307,7 +307,7 @@ export const ConversionFocusedNavigation: React.FC<ConversionFocusedNavigationPr
                             <p className="text-sm text-gray-600">Our simple 5-step buying process</p>
                           </div>
                         </Link>
-                        
+
                         <Link href="/help-to-buy" className="flex items-center p-3 rounded-lg hover:bg-gray-50">
                           <div className="h-10 w-10 rounded-lg bg-green-100 text-green-600 flex items-center justify-center mr-3">
                             <Heart className="h-5 w-5" />
@@ -317,7 +317,7 @@ export const ConversionFocusedNavigation: React.FC<ConversionFocusedNavigationPr
                             <p className="text-sm text-gray-600">Government schemes & assistance</p>
                           </div>
                         </Link>
-                        
+
                         <Link href="/mortgage-calculator" className="flex items-center p-3 rounded-lg hover:bg-gray-50">
                           <div className="h-10 w-10 rounded-lg bg-purple-100 text-purple-600 flex items-center justify-center mr-3">
                             <Calculator className="h-5 w-5" />
@@ -327,7 +327,7 @@ export const ConversionFocusedNavigation: React.FC<ConversionFocusedNavigationPr
                             <p className="text-sm text-gray-600">Calculate your monthly payments</p>
                           </div>
                         </Link>
-                        
+
                         <Link href="/buyer-guide" className="flex items-center p-3 rounded-lg hover:bg-gray-50">
                           <div className="h-10 w-10 rounded-lg bg-orange-100 text-orange-600 flex items-center justify-center mr-3">
                             <BedDouble className="h-5 w-5" />
@@ -374,7 +374,7 @@ export const ConversionFocusedNavigation: React.FC<ConversionFocusedNavigationPr
                 )}
               </div>
             </div>
-            
+
             <div className="hidden md:flex md:items-center md:space-x-4">
               {/* Call to Action */}
               <Link
@@ -384,7 +384,7 @@ export const ConversionFocusedNavigation: React.FC<ConversionFocusedNavigationPr
                 <Calendar className="h-4 w-4 mr-2" />
                 Book a Viewing
               </Link>
-              
+
               {/* Phone */}
               <a
                 href="tel:+353123456789"
@@ -393,7 +393,7 @@ export const ConversionFocusedNavigation: React.FC<ConversionFocusedNavigationPr
                 <Phone className="h-4 w-4 mr-2" />
                 Call Us
               </a>
-              
+
               {/* Search */}
               <button 
                 onClick={() => setSearchOpen(true)}
@@ -401,7 +401,7 @@ export const ConversionFocusedNavigation: React.FC<ConversionFocusedNavigationPr
               >
                 <Search className="h-5 w-5" />
               </button>
-              
+
               {/* User Menu */}
               {isAuthenticated ? (
                 <div className="flex items-center space-x-3">
@@ -435,7 +435,7 @@ export const ConversionFocusedNavigation: React.FC<ConversionFocusedNavigationPr
                 </div>
               )}
             </div>
-            
+
             {/* Mobile menu button */}
             <div className="flex items-center lg:hidden">
               <button
@@ -459,7 +459,7 @@ export const ConversionFocusedNavigation: React.FC<ConversionFocusedNavigationPr
         }`}>
           <div className="pt-2 pb-3 space-y-1 overflow-y-auto">
             <MobileNavSection title="Our Developments">
-              {developments.map((dev) => (
+              {developments.map((dev: any) => (
                 <MobileNavLink key={dev.id} href={`/developments/${dev.id}`}>
                   <div className="flex items-center justify-between">
                     <span>{dev.name}</span>
@@ -468,19 +468,19 @@ export const ConversionFocusedNavigation: React.FC<ConversionFocusedNavigationPr
                 </MobileNavLink>
               ))}
             </MobileNavSection>
-            
+
             <MobileNavLink href="/properties">Find Your Home</MobileNavLink>
-            
+
             <MobileNavSection title="Buyer Journey">
               <MobileNavLink href="/how-it-works">How It Works</MobileNavLink>
               <MobileNavLink href="/help-to-buy">Help to Buy</MobileNavLink>
               <MobileNavLink href="/mortgage-calculator">Mortgage Calculator</MobileNavLink>
               <MobileNavLink href="/buyer-guide">First-Time Buyer Guide</MobileNavLink>
             </MobileNavSection>
-            
+
             <MobileNavLink href="/about">About Us</MobileNavLink>
             <MobileNavLink href="/contact">Contact</MobileNavLink>
-            
+
             {/* Mobile CTAs */}
             <div className="px-4 py-3 space-y-2">
               <Link
@@ -499,12 +499,12 @@ export const ConversionFocusedNavigation: React.FC<ConversionFocusedNavigationPr
           </div>
         </div>
       </nav>
-      
+
       {/* Search Overlay */}
       <div className={`fixed inset-0 bg-black z-50 flex items-start justify-center transition-opacity duration-300 ${
         searchOpen ? 'bg-opacity-50 opacity-100' : 'bg-opacity-0 opacity-0 pointer-events-none'
       }`} onClick={() => setSearchOpen(false)}>
-        <div className="bg-white w-full max-w-3xl mt-20 rounded-lg shadow-xl overflow-hidden" onClick={(e) => e.stopPropagation()}>
+        <div className="bg-white w-full max-w-3xl mt-20 rounded-lg shadow-xl overflow-hidden" onClick={(e: any) => e.stopPropagation()}>
           <div className="p-4 border-b border-gray-200 flex items-center">
             <Search className="h-5 w-5 text-gray-400 mr-3" />
             <input
@@ -519,12 +519,12 @@ export const ConversionFocusedNavigation: React.FC<ConversionFocusedNavigationPr
               <X className="h-5 w-5" />
             </button>
           </div>
-          
+
           {/* Quick Search Links */}
           <div className="p-4">
             <div className="text-sm text-gray-500 mb-3">Popular Searches</div>
             <div className="grid grid-cols-2 gap-3">
-              {developments.map((dev) => (
+              {developments.map((dev: any) => (
                 <Link
                   key={dev.id}
                   href={`/developments/${dev.id}`}
@@ -570,8 +570,8 @@ export const ConversionFocusedNavigation: React.FC<ConversionFocusedNavigationPr
 
 // Mobile navigation components
 function MobileNavSection({ title, children }: { title: string, children: React.ReactNode }) {
-  const [isOpen, setIsOpen] = useState(false);
-  
+  const [isOpensetIsOpen] = useState(false);
+
   return (
     <div className="border-b border-gray-100">
       <button

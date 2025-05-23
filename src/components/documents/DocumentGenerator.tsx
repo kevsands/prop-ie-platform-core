@@ -10,10 +10,10 @@ import { useParams } from 'next/navigation';
 // MOCK: useToast hook
 const useToast = () => {
   const toast = ({ title, description, variant }: { title: string; description: string; variant: 'success' | 'destructive' | 'default' }) => {
-    console.log(`Toast: ${title} - ${description} (${variant})`);
+    `);
     // In a real implementation, this would show a toast notification
   };
-  
+
   return { toast };
 };
 
@@ -51,7 +51,7 @@ const VariablesPanel: React.FC<VariablesPanelProps> = ({ fields, onInsert }) => 
   return (
     <div className="border border-gray-200 rounded-md p-4">
       <h3 className="font-medium text-gray-900 mb-3">Available Variables</h3>
-      
+
       {fields.length === 0 ? (
         <p className="text-sm text-gray-500">No fields defined yet. Add fields to use them as variables.</p>
       ) : (
@@ -60,7 +60,7 @@ const VariablesPanel: React.FC<VariablesPanelProps> = ({ fields, onInsert }) => 
             <div key={field.id} className="flex justify-between items-center py-2 border-b border-gray-100">
                               <div>
                   <p className="font-medium text-sm">{field.label}</p>
-                  <p className="text-xs text-gray-500">{`{{${field.name}}}`}</p>
+                  <p className="text-xs text-gray-500">{`{${field.name}}`}</p>
                 </div>
               <button
                 onClick={() => onInsert(field.name)}
@@ -72,7 +72,7 @@ const VariablesPanel: React.FC<VariablesPanelProps> = ({ fields, onInsert }) => 
           ))}
         </div>
       )}
-      
+
       <div className="mt-4 pt-4 border-t border-gray-200">
         <h4 className="font-medium text-sm mb-2">Standard Variables</h4>
         <div className="space-y-2">
@@ -127,7 +127,7 @@ export default function DocumentGenerator({ template: initialTemplate, mode, onS
   const { toast } = useToast();
   const { accessToken, isAuthenticated } = useAuth();
   const { organisation } = useOrganisation();
-  
+
   // Default template structure with validation
   const defaultTemplate: Template = {
     name: '',
@@ -136,31 +136,31 @@ export default function DocumentGenerator({ template: initialTemplate, mode, onS
     contentHtml: '',
     fields: []
   };
-  
-  const [template, setTemplate] = useState<Template>(initialTemplate || defaultTemplate);
-  const [showVariablesPanel, setShowVariablesPanel] = useState(false);
-  const [isSaving, setIsSaving] = useState(false);
-  const [errors, setErrors] = useState<Record<string, string>>({});
-  
+
+  const [templatesetTemplate] = useState<Template>(initialTemplate || defaultTemplate);
+  const [showVariablesPanelsetShowVariablesPanel] = useState(false);
+  const [isSavingsetIsSaving] = useState(false);
+  const [errorssetErrors] = useState<Record<string, string>>({});
+
   // Redirect if not authenticated
   useEffect(() => {
     if (!isAuthenticated && !accessToken) {
       router.push('/login');
     }
-  }, [isAuthenticated, accessToken, router]);
+  }, [isAuthenticated, accessTokenrouter]);
 
   // Validate the form
   const validateForm = (): boolean => {
     const newErrors: Record<string, string> = {};
-    
+
     if (!template.name.trim()) {
       newErrors.name = 'Document name is required';
     }
-    
+
     if (!template.description.trim()) {
       newErrors.description = 'Description is required';
     }
-    
+
     // Validate fields have unique names
     const fieldNames = new Set<string>();
     template.fields.forEach(field => {
@@ -171,12 +171,12 @@ export default function DocumentGenerator({ template: initialTemplate, mode, onS
       } else {
         fieldNames.add(field.name);
       }
-      
+
       if (!field.label.trim()) {
         newErrors[`field-${field.id}-label`] = 'Field label is required';
       }
     });
-    
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -187,7 +187,7 @@ export default function DocumentGenerator({ template: initialTemplate, mode, onS
       contentHtml: content
     }));
   };
-  
+
   const handleFieldChange = (fieldId: string, key: string, value: any) => {
     setTemplate(prev => ({
       ...prev,
@@ -195,7 +195,7 @@ export default function DocumentGenerator({ template: initialTemplate, mode, onS
         field.id === fieldId ? { ...field, [key]: value } : field
       )
     }));
-    
+
     // Clear any errors for this field
     if (errors[`field-${fieldId}-${key}`]) {
       setErrors(prev => {
@@ -205,7 +205,7 @@ export default function DocumentGenerator({ template: initialTemplate, mode, onS
       });
     }
   };
-  
+
   const handleAddField = () => {
     const newField: Field = {
       id: `field-${Date.now()}`,
@@ -214,19 +214,19 @@ export default function DocumentGenerator({ template: initialTemplate, mode, onS
       type: 'text',
       required: false
     };
-    
+
     setTemplate(prev => ({
       ...prev,
-      fields: [...prev.fields, newField]
+      fields: [...prev.fieldsnewField]
     }));
   };
-  
+
   const handleRemoveField = (fieldId: string) => {
     setTemplate(prev => ({
       ...prev,
       fields: prev.fields.filter(field => field.id !== fieldId)
     }));
-    
+
     // Remove any errors for this field
     const newErrors = { ...errors };
     Object.keys(newErrors).forEach(key => {
@@ -236,7 +236,7 @@ export default function DocumentGenerator({ template: initialTemplate, mode, onS
     });
     setErrors(newErrors);
   };
-  
+
   const handleSave = async () => {
     // Validate the form before submitting
     if (!validateForm()) {
@@ -247,9 +247,9 @@ export default function DocumentGenerator({ template: initialTemplate, mode, onS
       });
       return;
     }
-    
+
     setIsSaving(true);
-    
+
     try {
       if (!accessToken) {
         throw new Error('Not authenticated');
@@ -263,35 +263,34 @@ export default function DocumentGenerator({ template: initialTemplate, mode, onS
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${accessToken}`
         },
-        body: JSON.stringify(template),
-      });
-      
+        body: JSON.stringify(template)});
+
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({ message: 'Failed to save template' }));
         throw new Error(typeof errorData === 'object' && errorData !== null && 'message' in errorData 
           ? String(errorData.message) 
           : 'Failed to save template');
       }
-      
+
       // Fix for TypeScript error by explicitly typing the API response
       const responseData = await response.json();
       const data = responseData as Template;
-      
+
       if (onSave) {
         onSave(data);
       }
-      
+
       toast({
         title: 'Success',
         description: `Template ${mode === 'edit' ? 'updated' : 'created'} successfully`,
         variant: 'success'
       });
-      
+
       if (mode === 'create' && data.id) {
         router.push(`/${orgSlug}/templates/${data.id}`);
       }
     } catch (error) {
-      console.error('Error saving template:', error);
+
       toast({
         title: 'Error',
         description: error instanceof Error ? error.message : `Failed to ${mode === 'edit' ? 'update' : 'create'} template`,
@@ -301,7 +300,7 @@ export default function DocumentGenerator({ template: initialTemplate, mode, onS
       setIsSaving(false);
     }
   };
-  
+
   const fieldTypes = [
     { value: 'text', label: 'Text' },
     { value: 'textarea', label: 'Text Area' },
@@ -313,7 +312,7 @@ export default function DocumentGenerator({ template: initialTemplate, mode, onS
     { value: 'email', label: 'Email' },
     { value: 'tel', label: 'Phone' }
   ];
-  
+
   const categories = [
     { value: 'sales', label: 'Sales Documents' },
     { value: 'legal', label: 'Legal Documents' },
@@ -330,7 +329,7 @@ export default function DocumentGenerator({ template: initialTemplate, mode, onS
       </div>
     );
   }
-  
+
   return (
     <div className="bg-white rounded-lg shadow-md">
       <div className="p-6 border-b">
@@ -343,11 +342,11 @@ export default function DocumentGenerator({ template: initialTemplate, mode, onS
           </p>
         )}
       </div>
-      
+
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 p-6">
         <div className="md:col-span-1">
           <h3 className="text-lg font-medium text-gray-900 mb-4">Document Details</h3>
-          
+
           <div className="space-y-4">
             <div>
               <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
@@ -357,7 +356,7 @@ export default function DocumentGenerator({ template: initialTemplate, mode, onS
                 type="text"
                 id="name"
                 value={template.name}
-                onChange={(e) => {
+                onChange={(e: any) => {
                   setTemplate(prev => ({ ...prev, name: e.target.value }));
                   if (errors.name) {
                     setErrors(prev => {
@@ -366,13 +365,13 @@ export default function DocumentGenerator({ template: initialTemplate, mode, onS
                       return newErrors;
                     });
                   }
-                }}
+                }
                 className={`w-full px-3 py-2 border ${errors.name ? 'border-red-500' : 'border-gray-300'} rounded-md focus:outline-none focus:ring-2 focus:ring-[#2B5273]`}
                 placeholder="Enter document name"
               />
               {errors.name && <p className="mt-1 text-xs text-red-500">{errors.name}</p>}
             </div>
-            
+
             <div>
               <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-1">
                 Description <span className="text-red-500">*</span>
@@ -380,7 +379,7 @@ export default function DocumentGenerator({ template: initialTemplate, mode, onS
               <textarea
                 id="description"
                 value={template.description}
-                onChange={(e) => {
+                onChange={(e: any) => {
                   setTemplate(prev => ({ ...prev, description: e.target.value }));
                   if (errors.description) {
                     setErrors(prev => {
@@ -389,14 +388,14 @@ export default function DocumentGenerator({ template: initialTemplate, mode, onS
                       return newErrors;
                     });
                   }
-                }}
+                }
                 className={`w-full px-3 py-2 border ${errors.description ? 'border-red-500' : 'border-gray-300'} rounded-md focus:outline-none focus:ring-2 focus:ring-[#2B5273]`}
                 placeholder="Enter document description"
                 rows={3}
               ></textarea>
               {errors.description && <p className="mt-1 text-xs text-red-500">{errors.description}</p>}
             </div>
-            
+
             <div>
               <label htmlFor="category" className="block text-sm font-medium text-gray-700 mb-1">
                 Category <span className="text-red-500">*</span>
@@ -404,7 +403,7 @@ export default function DocumentGenerator({ template: initialTemplate, mode, onS
               <select
                 id="category"
                 value={template.category}
-                onChange={(e) => setTemplate(prev => ({ ...prev, category: e.target.value }))}
+                onChange={(e: any) => setTemplate(prev => ({ ...prev, category: e.target.value }))}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#2B5273]"
               >
                 {categories.map(category => (
@@ -415,9 +414,9 @@ export default function DocumentGenerator({ template: initialTemplate, mode, onS
               </select>
             </div>
           </div>
-          
+
           <h3 className="text-lg font-medium text-gray-900 mt-8 mb-4">Document Fields</h3>
-          
+
           <div className="space-y-6">
             {template.fields.map(field => (
               <div key={field.id} className="border border-gray-200 rounded-md p-4">
@@ -432,7 +431,7 @@ export default function DocumentGenerator({ template: initialTemplate, mode, onS
                     {FiTrash2({ className: "text-red-500" })}
                   </button>
                 </div>
-                
+
                 <div className="space-y-4">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -441,15 +440,15 @@ export default function DocumentGenerator({ template: initialTemplate, mode, onS
                     <input
                       type="text"
                       value={field.name}
-                      onChange={(e) => handleFieldChange(field.id, 'name', e.target.value)}
+                      onChange={(e: any) => handleFieldChange(field.id, 'name', e.target.value)}
                       className={`w-full px-3 py-2 border ${errors[`field-${field.id}-name`] ? 'border-red-500' : 'border-gray-300'} rounded-md focus:outline-none focus:ring-2 focus:ring-[#2B5273]`}
                     />
                     {errors[`field-${field.id}-name`] && (
                       <p className="mt-1 text-xs text-red-500">{errors[`field-${field.id}-name`]}</p>
                     )}
-                    <p className="mt-1 text-xs text-gray-500">Use this name in your template: {`{{${field.name}}}`}</p>
+                    <p className="mt-1 text-xs text-gray-500">Use this name in your template: {`{${field.name}}`}</p>
                   </div>
-                  
+
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
                       Label <span className="text-red-500">*</span>
@@ -457,21 +456,21 @@ export default function DocumentGenerator({ template: initialTemplate, mode, onS
                     <input
                       type="text"
                       value={field.label}
-                      onChange={(e) => handleFieldChange(field.id, 'label', e.target.value)}
+                      onChange={(e: any) => handleFieldChange(field.id, 'label', e.target.value)}
                       className={`w-full px-3 py-2 border ${errors[`field-${field.id}-label`] ? 'border-red-500' : 'border-gray-300'} rounded-md focus:outline-none focus:ring-2 focus:ring-[#2B5273]`}
                     />
                     {errors[`field-${field.id}-label`] && (
                       <p className="mt-1 text-xs text-red-500">{errors[`field-${field.id}-label`]}</p>
                     )}
                   </div>
-                  
+
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
                       Field Type
                     </label>
                     <select
                       value={field.type}
-                      onChange={(e) => handleFieldChange(field.id, 'type', e.target.value)}
+                      onChange={(e: any) => handleFieldChange(field.id, 'type', e.target.value)}
                       className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#2B5273]"
                     >
                       {fieldTypes.map(type => (
@@ -481,7 +480,7 @@ export default function DocumentGenerator({ template: initialTemplate, mode, onS
                       ))}
                     </select>
                   </div>
-                  
+
                   {(field.type === 'select' || field.type === 'radio') && (
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -490,7 +489,7 @@ export default function DocumentGenerator({ template: initialTemplate, mode, onS
                       <input
                         type="text"
                         value={field.options?.join(',') || ''}
-                        onChange={(e) => handleFieldChange(field.id, 'options', e.target.value.split(',').map(o => o.trim()))}
+                        onChange={(e: any) => handleFieldChange(field.id, 'options', e.target.value.split(',').map(o => o.trim()))}
                         className={`w-full px-3 py-2 border ${errors[`field-${field.id}-options`] ? 'border-red-500' : 'border-gray-300'} rounded-md focus:outline-none focus:ring-2 focus:ring-[#2B5273]`}
                       />
                       {errors[`field-${field.id}-options`] && (
@@ -498,20 +497,20 @@ export default function DocumentGenerator({ template: initialTemplate, mode, onS
                       )}
                     </div>
                   )}
-                  
+
                   <div className="flex items-center">
                     <input
                       type="checkbox"
                       id={`required-${field.id}`}
                       checked={field.required}
-                      onChange={(e) => handleFieldChange(field.id, 'required', e.target.checked)}
+                      onChange={(e: any) => handleFieldChange(field.id, 'required', e.target.checked)}
                       className="h-4 w-4 text-[#2B5273] focus:ring-[#2B5273] border-gray-300 rounded"
                     />
                     <label htmlFor={`required-${field.id}`} className="ml-2 block text-sm text-gray-700">
                       Required field
                     </label>
                   </div>
-                  
+
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
                       Help Text (optional)
@@ -519,14 +518,14 @@ export default function DocumentGenerator({ template: initialTemplate, mode, onS
                     <input
                       type="text"
                       value={field.helpText || ''}
-                      onChange={(e) => handleFieldChange(field.id, 'helpText', e.target.value)}
+                      onChange={(e: any) => handleFieldChange(field.id, 'helpText', e.target.value)}
                       className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#2B5273]"
                     />
                   </div>
                 </div>
               </div>
             ))}
-            
+
             <button
               onClick={handleAddField}
               className="w-full px-4 py-2 flex items-center justify-center border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50"
@@ -536,11 +535,11 @@ export default function DocumentGenerator({ template: initialTemplate, mode, onS
             </button>
           </div>
         </div>
-        
+
         <div className="md:col-span-2">
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-lg font-medium text-gray-900">Document Content</h3>
-            
+
             <div className="flex items-center space-x-2">
               <button
                 onClick={() => setShowVariablesPanel(!showVariablesPanel)}
@@ -550,7 +549,7 @@ export default function DocumentGenerator({ template: initialTemplate, mode, onS
                 {FiHelpCircle({ className: "text-gray-400" })} 
                 {showVariablesPanel ? 'Hide Variables' : 'Show Variables'}
               </button>
-              
+
               <button
                 onClick={handleSave}
                 disabled={isSaving}
@@ -564,34 +563,34 @@ export default function DocumentGenerator({ template: initialTemplate, mode, onS
               </button>
             </div>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className={showVariablesPanel ? 'md:col-span-2' : 'md:col-span-3'}>
               <div className="border border-gray-300 rounded-md min-h-[500px] relative">
                 {/* Rich Text Editor would go here */}
                 <textarea
                   value={template.contentHtml}
-                  onChange={(e) => handleContentChange(e.target.value)}
+                  onChange={(e: any) => handleContentChange(e.target.value)}
                   className="w-full h-full min-h-[500px] p-4 focus:outline-none focus:ring-2 focus:ring-[#2B5273] rounded-md"
                   placeholder="Enter your document content here..."
                 ></textarea>
               </div>
               <p className="mt-2 text-xs text-gray-500">
-                Use variables in your content by inserting them with curly braces, for example: {`{{variableName}}`}
+                Use variables in your content by inserting them with curly braces, for example: {`{variableName}`}
               </p>
             </div>
-            
+
             {showVariablesPanel && (
               <div className="md:col-span-1">
                 <VariablesPanel 
                   fields={template.fields}
                   onInsert={(variable: string) => {
-                    const insertion = `{{${variable}}}`;
+                    const insertion = `{${variable}}`;
                     setTemplate(prev => ({
                       ...prev,
                       contentHtml: prev.contentHtml + insertion
                     }));
-                  }}
+                  }
                 />
               </div>
             )}

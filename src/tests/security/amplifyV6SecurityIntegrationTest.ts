@@ -223,7 +223,7 @@ async function testAuthFlow() {
 
     // Verify audit logs were created
     const authLogs = testContext.getSecurityAuditLogs('auth');
-    console.log(`Auth audit logs created: ${authLogs.length > 0 ? 'YES' : 'NO'}`);
+    console.log(`Auth audit logs created: ${authLogs.length> 0 ? 'YES' : 'NO'}`);
 
     // Verify session fingerprint was generated
     const fingerprintGenerated = testContext.wasSessionFingerprintGenerated();

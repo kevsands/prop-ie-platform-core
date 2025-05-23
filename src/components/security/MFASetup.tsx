@@ -22,7 +22,7 @@ export function MFASetup({ onComplete, onCancel }: MFASetupProps) {
           Enhance your account security with a second factor of authentication.
         </p>
       </div>
-      
+
       <div className="border-t border-b py-4 my-4">
         <div className="space-y-4">
           <div>
@@ -40,7 +40,7 @@ export function MFASetup({ onComplete, onCancel }: MFASetupProps) {
           </div>
         </div>
       </div>
-      
+
       <div className="flex justify-between mt-4">
         <button 
           className="px-4 py-2 border rounded text-gray-700 hover:bg-gray-50 transition"

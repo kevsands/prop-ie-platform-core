@@ -20,8 +20,8 @@ const PropertyReservation: React.FC<PropertyReservationProps> = ({
   propertyImage,
   onReserve
 }) => {
-  const [step, setStep] = useState<number>(1);
-  const [formData, setFormData] = useState({
+  const [stepsetStep] = useState<number>(1);
+  const [formDatasetFormData] = useState({
     preferredViewingDate: '',
     preferredViewingTime: '',
     additionalNotes: '',
@@ -34,19 +34,19 @@ const PropertyReservation: React.FC<PropertyReservationProps> = ({
     solicitorEmail: '',
     solicitorPhone: ''
   });
-  
-  const [errors, setErrors] = useState<Record<string, string>>({});
-  const [reservationStatus, setReservationStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
-  
+
+  const [errorssetErrors] = useState<Record<string, string>>({});
+  const [reservationStatussetReservationStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value, type } = e.target;
     const checked = type === 'checkbox' ? (e.target as HTMLInputElement).checked : undefined;
-    
+
     setFormData({
       ...formData,
       [name]: type === 'checkbox' ? checked : value
     });
-    
+
     // Clear error when field is edited
     if (errors[name]) {
       setErrors({
@@ -55,10 +55,10 @@ const PropertyReservation: React.FC<PropertyReservationProps> = ({
       });
     }
   };
-  
+
   const validateStep = (stepNumber: number): boolean => {
     const newErrors: Record<string, string> = {};
-    
+
     if (stepNumber === 1) {
       if (!formData.preferredViewingDate) {
         newErrors.preferredViewingDate = 'Please select a preferred viewing date';
@@ -73,7 +73,7 @@ const PropertyReservation: React.FC<PropertyReservationProps> = ({
         } else if (isNaN(Number(formData.preApprovalAmount))) {
           newErrors.preApprovalAmount = 'Please enter a valid amount';
         }
-        
+
         if (!formData.lenderName) {
           newErrors.lenderName = 'Please enter your lender name';
         }
@@ -83,27 +83,27 @@ const PropertyReservation: React.FC<PropertyReservationProps> = ({
         newErrors.agreeTerms = 'You must agree to the reservation terms';
       }
     }
-    
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
-  
+
   const handleNextStep = () => {
     if (validateStep(step)) {
       setStep(step + 1);
     }
   };
-  
+
   const handlePrevStep = () => {
     setStep(step - 1);
   };
-  
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (validateStep(step)) {
       setReservationStatus('submitting');
-      
+
       // Simulate API call
       setTimeout(() => {
         if (onReserve) {
@@ -114,13 +114,13 @@ const PropertyReservation: React.FC<PropertyReservationProps> = ({
             status: 'pending'
           });
         }
-        
+
         setReservationStatus('success');
         setStep(4);
       }, 1500);
     }
   };
-  
+
   // Format currency
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('en-IE', {
@@ -128,14 +128,14 @@ const PropertyReservation: React.FC<PropertyReservationProps> = ({
       currency: 'EUR'
     }).format(amount);
   };
-  
+
   return (
     <div className="bg-white rounded-lg shadow-md overflow-hidden">
       <div className="p-6 border-b">
         <h2 className="text-2xl font-bold text-[#2B5273]">Reserve Your Property</h2>
         <p className="text-gray-500">Complete this form to reserve {propertyName}</p>
       </div>
-      
+
       {/* Property Summary */}
       <div className="p-6 border-b bg-gray-50">
         <div className="flex flex-col md:flex-row">
@@ -166,46 +166,46 @@ const PropertyReservation: React.FC<PropertyReservationProps> = ({
           </div>
         </div>
       </div>
-      
+
       {/* Progress Steps */}
       <div className="p-6 border-b">
         <div className="flex items-center justify-between">
           <div className="flex flex-col items-center">
             <div className={`h-10 w-10 rounded-full flex items-center justify-center ${
-              step >= 1 ? 'bg-[#2B5273] text-white' : 'bg-gray-200 text-gray-500'
+              step>= 1 ? 'bg-[#2B5273] text-white' : 'bg-gray-200 text-gray-500'
             }`}>
               {FiCalendar({ className: "h-5 w-5" })}
             </div>
             <span className="text-xs mt-2 font-medium">Viewing</span>
           </div>
-          
-          <div className={`flex-1 h-1 mx-2 ${step >= 2 ? 'bg-[#2B5273]' : 'bg-gray-200'}`}></div>
-          
+
+          <div className={`flex-1 h-1 mx-2 ${step>= 2 ? 'bg-[#2B5273]' : 'bg-gray-200'}`}></div>
+
           <div className="flex flex-col items-center">
             <div className={`h-10 w-10 rounded-full flex items-center justify-center ${
-              step >= 2 ? 'bg-[#2B5273] text-white' : 'bg-gray-200 text-gray-500'
+              step>= 2 ? 'bg-[#2B5273] text-white' : 'bg-gray-200 text-gray-500'
             }`}>
               {FiHome({ className: "h-5 w-5" })}
             </div>
             <span className="text-xs mt-2 font-medium">Financing</span>
           </div>
-          
-          <div className={`flex-1 h-1 mx-2 ${step >= 3 ? 'bg-[#2B5273]' : 'bg-gray-200'}`}></div>
-          
+
+          <div className={`flex-1 h-1 mx-2 ${step>= 3 ? 'bg-[#2B5273]' : 'bg-gray-200'}`}></div>
+
           <div className="flex flex-col items-center">
             <div className={`h-10 w-10 rounded-full flex items-center justify-center ${
-              step >= 3 ? 'bg-[#2B5273] text-white' : 'bg-gray-200 text-gray-500'
+              step>= 3 ? 'bg-[#2B5273] text-white' : 'bg-gray-200 text-gray-500'
             }`}>
               {FiCheck({ className: "h-5 w-5" })}
             </div>
             <span className="text-xs mt-2 font-medium">Confirmation</span>
           </div>
-          
-          <div className={`flex-1 h-1 mx-2 ${step >= 4 ? 'bg-[#2B5273]' : 'bg-gray-200'}`}></div>
-          
+
+          <div className={`flex-1 h-1 mx-2 ${step>= 4 ? 'bg-[#2B5273]' : 'bg-gray-200'}`}></div>
+
           <div className="flex flex-col items-center">
             <div className={`h-10 w-10 rounded-full flex items-center justify-center ${
-              step >= 4 ? 'bg-[#2B5273] text-white' : 'bg-gray-200 text-gray-500'
+              step>= 4 ? 'bg-[#2B5273] text-white' : 'bg-gray-200 text-gray-500'
             }`}>
               {FiCheck({ className: "h-5 w-5" })}
             </div>
@@ -213,13 +213,13 @@ const PropertyReservation: React.FC<PropertyReservationProps> = ({
           </div>
         </div>
       </div>
-      
+
       <form onSubmit={handleSubmit}>
         {/* Step 1: Viewing Preferences */}
         {step === 1 && (
           <div className="p-6">
             <h3 className="text-lg font-semibold text-[#2B5273] mb-4">Viewing Preferences</h3>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
               <div>
                 <label htmlFor="preferredViewingDate" className="block text-sm font-medium text-gray-700 mb-1">
@@ -240,7 +240,7 @@ const PropertyReservation: React.FC<PropertyReservationProps> = ({
                   <p className="mt-1 text-sm text-red-600">{errors.preferredViewingDate}</p>
                 )}
               </div>
-              
+
               <div>
                 <label htmlFor="preferredViewingTime" className="block text-sm font-medium text-gray-700 mb-1">
                   Preferred Viewing Time *
@@ -271,7 +271,7 @@ const PropertyReservation: React.FC<PropertyReservationProps> = ({
                 )}
               </div>
             </div>
-            
+
             <div className="mb-6">
               <label htmlFor="additionalNotes" className="block text-sm font-medium text-gray-700 mb-1">
                 Additional Notes
@@ -286,7 +286,7 @@ const PropertyReservation: React.FC<PropertyReservationProps> = ({
                 placeholder="Any specific questions or requirements for your viewing?"
               ></textarea>
             </div>
-            
+
             <div className="mt-6 flex justify-end">
               <button
                 type="button"
@@ -298,12 +298,12 @@ const PropertyReservation: React.FC<PropertyReservationProps> = ({
             </div>
           </div>
         )}
-        
+
         {/* Step 2: Financing Information */}
         {step === 2 && (
           <div className="p-6">
             <h3 className="text-lg font-semibold text-[#2B5273] mb-4">Financing Information</h3>
-            
+
             <div className="mb-6">
               <label htmlFor="financingMethod" className="block text-sm font-medium text-gray-700 mb-1">
                 How do you plan to finance this purchase?
@@ -321,7 +321,7 @@ const PropertyReservation: React.FC<PropertyReservationProps> = ({
                 <option value="other">Other</option>
               </select>
             </div>
-            
+
             {formData.financingMethod === 'mortgage' && (
               <div className="mb-6">
                 <div className="flex items-center mb-4">
@@ -337,7 +337,7 @@ const PropertyReservation: React.FC<PropertyReservationProps> = ({
                     I have mortgage pre-approval
                   </label>
                 </div>
-                
+
                 {formData.hasPreApproval && (
                   <div className="pl-6 border-l-2 border-gray-200">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
@@ -365,7 +365,7 @@ const PropertyReservation: React.FC<PropertyReservationProps> = ({
                           <p className="mt-1 text-sm text-red-600">{errors.preApprovalAmount}</p>
                         )}
                       </div>
-                      
+
                       <div>
                         <label htmlFor="lenderName" className="block text-sm font-medium text-gray-700 mb-1">
                           Lender Name *
@@ -390,7 +390,7 @@ const PropertyReservation: React.FC<PropertyReservationProps> = ({
                 )}
               </div>
             )}
-            
+
             <div className="mb-6">
               <h4 className="text-md font-medium text-gray-700 mb-3">Solicitor Information (Optional)</h4>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -407,7 +407,7 @@ const PropertyReservation: React.FC<PropertyReservationProps> = ({
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#2B5273]"
                   />
                 </div>
-                
+
                 <div>
                   <label htmlFor="solicitorEmail" className="block text-sm font-medium text-gray-700 mb-1">
                     Solicitor Email
@@ -423,7 +423,7 @@ const PropertyReservation: React.FC<PropertyReservationProps> = ({
                 </div>
               </div>
             </div>
-            
+
             <div className="mt-6 flex justify-between">
               <button
                 type="button"
@@ -442,12 +442,12 @@ const PropertyReservation: React.FC<PropertyReservationProps> = ({
             </div>
           </div>
         )}
-        
+
         {/* Step 3: Terms and Submit */}
         {step === 3 && (
           <div className="p-6">
             <h3 className="text-lg font-semibold text-[#2B5273] mb-4">Confirm Reservation</h3>
-            
+
             <div className="p-4 border border-gray-200 rounded-md mb-6 bg-gray-50">
               <h4 className="font-medium text-gray-900 mb-2">Reservation Summary</h4>
               <ul className="space-y-2 text-sm text-gray-600">
@@ -477,7 +477,7 @@ const PropertyReservation: React.FC<PropertyReservationProps> = ({
                 </li>
               </ul>
             </div>
-            
+
             <div className="mb-6">
               <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6">
                 <div className="flex">
@@ -489,7 +489,7 @@ const PropertyReservation: React.FC<PropertyReservationProps> = ({
                   </div>
                 </div>
               </div>
-              
+
               <div className="flex items-start mb-4">
                 <div className="flex items-center h-5">
                   <input
@@ -510,7 +510,7 @@ const PropertyReservation: React.FC<PropertyReservationProps> = ({
                 </div>
               </div>
             </div>
-            
+
             <div className="mt-6 flex justify-between">
               <button
                 type="button"
@@ -536,7 +536,7 @@ const PropertyReservation: React.FC<PropertyReservationProps> = ({
             </div>
           </div>
         )}
-        
+
         {/* Step 4: Success */}
         {step === 4 && (
           <div className="p-6 text-center">

@@ -125,29 +125,29 @@ export const DevelopmentFinancialDashboard: React.FC<{ developmentId: string }> 
 
   // Handle error state
   if (error) {
-    return <div>Error loading financial data: {error.toString()}</div>;
+    return <div>Error loading financial data: {error.toString()}</div>\n  );
   }
 
   // Extract data from the query results
   const financialData = data?.getDevelopmentFinancialMetrics;
   if (!financialData) {
-    return <div>No financial data available</div>;
+    return <div>No financial data available</div>\n  );
   }
 
   // Transform the data for the trend chart
-  const cashFlowChartData: FinancialMetricDataPoint[] = financialData.trendData.cashFlow.map(item => ({
+  const cashFlowChartData: FinancialMetricDataPoint[] = financialData.trendData.cashFlow.map(item: any => ({
     date: new Date(item.date).toISOString(),
     value: item.netFlow,
     category: 'Net Cash Flow'
   }));
 
-  const budgetChartData: FinancialMetricDataPoint[] = financialData.trendData.budget.map(item => ({
+  const budgetChartData: FinancialMetricDataPoint[] = financialData.trendData.budget.map(item: any => ({
     date: new Date(item.date).toISOString(),
     value: item.actual,
     category: 'Actual',
     isProjected: false
   })).concat(
-    financialData.trendData.budget.map(item => ({
+    financialData.trendData.budget.map(item: any => ({
       date: new Date(item.date).toISOString(),
       value: item.planned,
       category: 'Planned',
@@ -180,7 +180,7 @@ export const DevelopmentFinancialDashboard: React.FC<{ developmentId: string }> 
           value={formatCurrency(financialData.totalSpent.amount, financialData.totalSpent.currency)}
           trendValue={financialData.budgetVsActual.completionPercentage}
           trendLabel="of budget"
-          variant={financialData.budgetVsActual.totalVariancePercentage > 0 ? "danger" : "success"}
+          variant={financialData.budgetVsActual.totalVariancePercentage> 0 ? "danger" : "success"
         />
         
         <FinancialMetricCard 

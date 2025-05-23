@@ -1,0 +1,298 @@
+import { NextRequest, NextResponse } from 'next/server';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/lib/auth';
+import { z } from 'zod';
+
+const finalizeContractSchema = z.object({
+  reservationId: z.string(),
+  envelopeId: z.string(),
+  signedContractUrl: z.string().optional()
+});
+
+export async function POST(request: NextRequest) {
+  try {
+    const session = await getServerSession(authOptions);
+    if (!session) {
+      return NextResponse.json(
+        { error: 'Authentication required' },
+        { status: 401 }
+      );
+    }
+
+    const body = await request.json();
+    const { reservationId, envelopeId, signedContractUrl } = finalizeContractSchema.parse(body);
+
+    // Verify DocuSign completion
+    const signatureStatus = await verifyDocuSignCompletion(envelopeId);
+    
+    if (!signatureStatus.completed) {
+      return NextResponse.json(
+        { error: 'Contract not fully executed', details: signatureStatus },
+        { status: 400 }
+      );
+    }
+
+    // Get reservation details for finalization
+    const reservation = await getReservationDetails(reservationId);
+    if (!reservation) {
+      return NextResponse.json(
+        { error: 'Reservation not found' },
+        { status: 404 }
+      );
+    }
+
+    // Update reservation to legally bound status
+    const finalizedReservation = await finalizeReservation(reservationId, {
+      status: 'LEGALLY_BOUND',
+      signedContractUrl: signedContractUrl || signatureStatus.documentUrl,
+      executedAt: new Date(),
+      signatures: signatureStatus.signatures,
+      envelopeId: envelopeId
+    });
+
+    // Make booking deposit non-refundable
+    await updateDepositStatus(reservationId, 'NON_REFUNDABLE');
+
+    // Update transaction to final stage
+    await updateTransactionFinal(reservationId, {
+      status: 'LEGALLY_BOUND',
+      stage: 'DUE_DILIGENCE',
+      contractExecuted: true
+    });
+
+    // Calculate next payment details
+    const balanceDepositAmount = Math.round(reservation.unit.price * 0.1); // 10%
+    const balanceDepositDeadline = new Date();
+    balanceDepositDeadline.setDate(balanceDepositDeadline.getDate() + 14); // 14 days
+
+    const completionDate = new Date();
+    completionDate.setMonth(completionDate.getMonth() + 18); // 18 months
+
+    // Send completion notifications to all parties
+    await sendContractCompletionNotifications(finalizedReservation);
+
+    // Create compliance and next steps reminders
+    await scheduleNextStepReminders(reservationId, {
+      balanceDepositDeadline,
+      completionDate
+    });
+
+    return NextResponse.json({
+      success: true,
+      status: 'EXECUTED',
+      message: 'Contract successfully executed and legally binding',
+      nextSteps: {
+        balanceDepositDue: balanceDepositAmount,
+        balanceDepositDeadline: balanceDepositDeadline.toISOString(),
+        completionDate: completionDate.toISOString(),
+        actions: [
+          'Balance deposit payment due within 14 days',
+          'Mortgage approval process (if applicable)',
+          'Property inspection and snagging',
+          'Final completion arrangements'
+        ]
+      },
+      legalStatus: {
+        contractExecuted: true,
+        bindingDate: new Date().toISOString(),
+        depositStatus: 'NON_REFUNDABLE',
+        complianceRequired: ['KYC', 'AML', 'Mortgage_Approval']
+      }
+    });
+
+  } catch (error) {
+    console.error('Contract finalization error:', error);
+    
+    if (error instanceof z.ZodError) {
+      return NextResponse.json(
+        { error: 'Invalid request data', details: error.errors },
+        { status: 400 }
+      );
+    }
+
+    return NextResponse.json(
+      { error: 'Failed to finalize contract' },
+      { status: 500 }
+    );
+  }
+}
+
+async function verifyDocuSignCompletion(envelopeId: string) {
+  // Integration with DocuSign API to verify completion
+  // In production, this would make actual DocuSign API calls
+  
+  try {
+    // const docusign = require('docusign-esign');
+    // const apiClient = new docusign.ApiClient();
+    // const envelopesApi = new docusign.EnvelopesApi(apiClient);
+    // const envelope = await envelopesApi.getEnvelope(accountId, envelopeId);
+    // const recipients = await envelopesApi.listRecipients(accountId, envelopeId);
+    
+    // Mock successful completion
+    return {
+      completed: true,
+      status: 'completed',
+      documentUrl: `https://secure.docusign.com/documents/${envelopeId}/combined`,
+      signatures: [
+        { 
+          signer: 'buyer', 
+          signedAt: new Date(),
+          ipAddress: '192.168.1.1',
+          signatureId: 'sig_buyer_123'
+        },
+        { 
+          signer: 'developer', 
+          signedAt: new Date(),
+          ipAddress: '192.168.1.2',
+          signatureId: 'sig_dev_123'
+        }
+      ],
+      completedAt: new Date()
+    };
+  } catch (error) {
+    console.error('DocuSign verification error:', error);
+    return {
+      completed: false,
+      error: 'Failed to verify signature completion'
+    };
+  }
+}
+
+async function getReservationDetails(reservationId: string) {
+  // Integration with your existing database
+  return {
+    id: reservationId,
+    unit: {
+      id: 'unit_123',
+      name: 'Unit 12, Fitzgerald Gardens',
+      price: 350000,
+      bookingDeposit: 5000
+    },
+    buyer: {
+      id: 'buyer_123',
+      name: 'John Doe',
+      email: 'john.doe@example.com'
+    },
+    solicitor: {
+      name: 'Mary Smith',
+      email: 'mary@smithlaw.ie',
+      firm: 'Smith & Associates'
+    }
+  };
+}
+
+async function finalizeReservation(reservationId: string, updateData: any) {
+  // Integration with your existing database
+  const finalizedData = {
+    id: reservationId,
+    ...updateData,
+    legallyBinding: true,
+    finalizedAt: new Date()
+  };
+
+  console.log('Finalizing reservation:', finalizedData);
+  
+  // await prisma.reservation.update({
+  //   where: { id: reservationId },
+  //   data: updateData
+  // });
+
+  return finalizedData;
+}
+
+async function updateDepositStatus(reservationId: string, status: string) {
+  // Integration with your existing financial/escrow system
+  console.log(`Updating deposit status to ${status} for reservation ${reservationId}`);
+  
+  // This would integrate with your payment/escrow management system
+  // await escrowService.updateDepositStatus(reservationId, status);
+  
+  // Log for audit trail
+  await logFinancialEvent(reservationId, 'DEPOSIT_STATUS_UPDATE', {
+    newStatus: status,
+    timestamp: new Date(),
+    reason: 'Contract execution completed'
+  });
+}
+
+async function updateTransactionFinal(reservationId: string, updateData: any) {
+  // Integration with your existing transaction service
+  console.log('Updating transaction to final status:', updateData);
+  
+  // await transactionService.updateTransaction(transactionId, {
+  //   ...updateData,
+  //   milestones: {
+  //     contractSigned: new Date(),
+  //     legallyBinding: true
+  //   }
+  // });
+}
+
+async function sendContractCompletionNotifications(reservation: any) {
+  // Integration with your existing notification system
+  const notifications = [
+    {
+      to: reservation.buyer.email,
+      subject: 'Contract Executed - Important Next Steps',
+      template: 'buyer-contract-completed',
+      data: { 
+        buyerName: reservation.buyer.name,
+        unitName: reservation.unit.name,
+        nextSteps: 'Balance deposit due within 14 days'
+      }
+    },
+    {
+      to: reservation.solicitor.email,
+      subject: 'Client Contract Executed - Action Required',
+      template: 'solicitor-contract-completed',
+      data: { 
+        clientName: reservation.buyer.name,
+        solicitorName: reservation.solicitor.name
+      }
+    },
+    {
+      to: 'legal@prop.ie',
+      subject: 'Contract Execution Complete - Compliance Check Required',
+      template: 'internal-contract-completed',
+      data: { 
+        reservationId: reservation.id,
+        executedAt: new Date()
+      }
+    }
+  ];
+
+  // await Promise.all(notifications.map(notification => emailService.send(notification)));
+  console.log('Contract completion notifications queued:', notifications.length);
+}
+
+async function scheduleNextStepReminders(reservationId: string, dates: any) {
+  // Integration with your existing reminder/scheduling system
+  const reminders = [
+    {
+      type: 'BALANCE_DEPOSIT_REMINDER',
+      scheduledFor: new Date(dates.balanceDepositDeadline.getTime() - 3 * 24 * 60 * 60 * 1000), // 3 days before
+      data: { reservationId, amount: 'Balance deposit payment' }
+    },
+    {
+      type: 'COMPLETION_REMINDER',
+      scheduledFor: new Date(dates.completionDate.getTime() - 30 * 24 * 60 * 60 * 1000), // 30 days before
+      data: { reservationId, type: 'Completion preparation' }
+    }
+  ];
+
+  // await reminderService.scheduleReminders(reminders);
+  console.log('Scheduled reminders:', reminders.length);
+}
+
+async function logFinancialEvent(reservationId: string, event: string, data: any) {
+  // Integration with your existing audit system
+  console.log('Financial audit log:', { reservationId, event, data });
+  
+  // await auditService.logEvent({
+  //   type: 'FINANCIAL',
+  //   reservationId,
+  //   event,
+  //   data,
+  //   timestamp: new Date()
+  // });
+}

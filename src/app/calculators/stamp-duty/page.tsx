@@ -1,3 +1,4 @@
+import React from 'react';
 'use client';
 
 import { useState } from 'react';
@@ -6,21 +7,21 @@ import { FiArrowLeft } from 'react-icons/fi';
 import Footer from '@/components/layout/Footer/Footer';
 
 export default function StampDutyCalculatorPage() {
-  const [purchasePrice, setPurchasePrice] = useState('');
-  const [buyerType, setBuyerType] = useState<'first-time' | 'other'>('first-time');
-  const [results, setResults] = useState<any>(null);
+  const [purchasePricesetPurchasePrice] = useState('');
+  const [buyerTypesetBuyerType] = useState<'first-time' | 'other'>('first-time');
+  const [resultssetResults] = useState<any>(null);
 
   const calculateStampDuty = () => {
     const price = parseFloat(purchasePrice);
-    
+
     // Irish stamp duty rates as of 2024
     // First-time buyers: 0% up to €500,000, 10% on balance
     // Other buyers: 1% up to €1,000,000, 2% on balance
-    
+
     let stampDuty = 0;
-    
+
     if (buyerType === 'first-time') {
-      if (price > 500000) {
+      if (price> 500000) {
         stampDuty = (price - 500000) * 0.10; // 10% on amount over €500,000
       }
     } else {
@@ -32,7 +33,7 @@ export default function StampDutyCalculatorPage() {
     }
 
     const effectiveRate = (stampDuty / price) * 100;
-    
+
     // Calculate total purchase cost
     const legalFees = 2500; // Approximate legal fees
     const registryFees = 800; // Property Registration Authority fees
@@ -58,8 +59,7 @@ export default function StampDutyCalculatorPage() {
       style: 'currency',
       currency: 'EUR',
       minimumFractionDigits: 0,
-      maximumFractionDigits: 0,
-    }).format(amount);
+      maximumFractionDigits: 0}).format(amount);
   };
 
   return (
@@ -82,14 +82,14 @@ export default function StampDutyCalculatorPage() {
               <div className="grid md:grid-cols-2 gap-8">
                 <div>
                   <h2 className="text-2xl font-bold mb-6">Property Details</h2>
-                  
+
                   <div className="mb-6">
                     <label className="block text-sm font-medium mb-2">
                       Buyer Type
                     </label>
                     <select
                       value={buyerType}
-                      onChange={(e) => setBuyerType(e.target.value as 'first-time' | 'other')}
+                      onChange={(e: any) => setBuyerType(e.target.value as 'first-time' | 'other')}
                       className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-teal-600"
                     >
                       <option value="first-time">First-Time Buyer</option>
@@ -104,7 +104,7 @@ export default function StampDutyCalculatorPage() {
                     <input
                       type="number"
                       value={purchasePrice}
-                      onChange={(e) => setPurchasePrice(e.target.value)}
+                      onChange={(e: any) => setPurchasePrice(e.target.value)}
                       className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-teal-600"
                       placeholder="450000"
                     />
@@ -142,43 +142,43 @@ export default function StampDutyCalculatorPage() {
                 {results && (
                   <div>
                     <h2 className="text-2xl font-bold mb-6">Cost Breakdown</h2>
-                    
+
                     <div className="space-y-3">
                       <div className="flex justify-between py-2 border-b">
                         <span className="text-gray-600">Purchase Price</span>
                         <span className="font-medium">{formatCurrency(results.purchasePrice)}</span>
                       </div>
-                      
+
                       <div className="flex justify-between py-2 border-b">
                         <span className="text-gray-600">Stamp Duty</span>
                         <span className="font-medium text-red-600">{formatCurrency(results.stampDuty)}</span>
                       </div>
-                      
+
                       <div className="flex justify-between py-2 border-b text-sm">
                         <span className="text-gray-500">Effective Rate</span>
                         <span className="text-gray-500">{results.effectiveRate.toFixed(2)}%</span>
                       </div>
-                      
+
                       <div className="flex justify-between py-2 border-b">
                         <span className="text-gray-600">Legal Fees (est.)</span>
                         <span className="font-medium">{formatCurrency(results.legalFees)}</span>
                       </div>
-                      
+
                       <div className="flex justify-between py-2 border-b">
                         <span className="text-gray-600">Registry Fees</span>
                         <span className="font-medium">{formatCurrency(results.registryFees)}</span>
                       </div>
-                      
+
                       <div className="flex justify-between py-2 border-b">
                         <span className="text-gray-600">Valuation Fee</span>
                         <span className="font-medium">{formatCurrency(results.valuationFee)}</span>
                       </div>
-                      
+
                       <div className="flex justify-between py-3 border-b-2 border-gray-300">
                         <span className="font-bold">Total Purchase Cost</span>
                         <span className="font-bold text-lg">{formatCurrency(results.totalCosts)}</span>
                       </div>
-                      
+
                       <div className="mt-6 p-4 bg-yellow-50 rounded-lg">
                         <h3 className="font-bold text-yellow-900 mb-2">Cash Required at Closing</h3>
                         <div className="space-y-2 text-sm">

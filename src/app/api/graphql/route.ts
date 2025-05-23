@@ -176,7 +176,7 @@ const MOCK_DEVELOPMENTS = [
       'Private balconies',
       'Secure parking'
     ],
-    amenities: [
+    Amenity: [
       'Fitness center',
       'Resident lounge',
       'Landscaped gardens',
@@ -184,7 +184,7 @@ const MOCK_DEVELOPMENTS = [
       'Bike storage',
       'Electric car charging'
     ],
-    bedrooms: [1, 2, 3],
+    bedrooms: [1, 23],
     bathrooms: 2,
     squareFeet: 1200,
     energyRating: 'A2',
@@ -297,7 +297,7 @@ const MOCK_DEVELOPMENTS = [
       'Electric car charging points',
       'Smart home ready'
     ],
-    amenities: [
+    Amenity: [
       'Community park',
       'Children\'s playground',
       'Walking trails',
@@ -305,7 +305,7 @@ const MOCK_DEVELOPMENTS = [
       'Local shopping center',
       'Transport links'
     ],
-    bedrooms: [2, 3, 4],
+    bedrooms: [2, 34],
     bathrooms: 2.5,
     squareFeet: 1500,
     energyRating: 'A1',
@@ -412,7 +412,7 @@ const MOCK_DEVELOPMENTS = [
       'Parking for two cars',
       'A-rated energy efficiency'
     ],
-    amenities: [
+    Amenity: [
       'Local schools nearby',
       'Shopping centers within 10 minutes',
       'Parks and recreation',
@@ -420,7 +420,7 @@ const MOCK_DEVELOPMENTS = [
       'Easy M1 motorway access',
       'Dublin Airport - 30 mins'
     ],
-    bedrooms: [3, 4],
+    bedrooms: [34],
     bathrooms: 3,
     squareFeet: 1650,
     energyRating: 'A3',
@@ -521,7 +521,7 @@ const MOCK_DEVELOPMENTS = [
       'Home office space',
       'Private gardens/balconies'
     ],
-    amenities: [
+    Amenity: [
       'Central location',
       'Riverside walks',
       'City center 10 min walk',
@@ -529,7 +529,7 @@ const MOCK_DEVELOPMENTS = [
       'Bicycle storage',
       'Electric car charging'
     ],
-    bedrooms: [2, 3],
+    bedrooms: [23],
     bathrooms: 2,
     squareFeet: 1100,
     energyRating: 'A2',
@@ -635,14 +635,14 @@ const MOCK_DASHBOARD_DATA_SIMPLE: DeveloperDashboardData = {
  */
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json();
+    const body: any = await request.json();
     const { query, variables } = body;
 
     // Development queries
     if (query.includes('GetDevelopment') || query.includes('development(id:')) {
       const id = variables?.id;
       const development = MOCK_DEVELOPMENTS.find(dev => dev.id === id);
-      
+
       if (development) {
         return NextResponse.json({
           data: {
@@ -655,11 +655,11 @@ export async function POST(request: NextRequest) {
         }, { status: 404 });
       }
     }
-    
+
     if (query.includes('GetDevelopmentBySlug') || query.includes('developmentBySlug(slug:')) {
       const slug = variables?.slug;
       const development = MOCK_DEVELOPMENTS.find(dev => dev.slug === slug);
-      
+
       if (development) {
         return NextResponse.json({
           data: {
@@ -672,14 +672,14 @@ export async function POST(request: NextRequest) {
         }, { status: 404 });
       }
     }
-    
+
     if (query.includes('GetDevelopments') || query.includes('developments(')) {
       const filter = variables?.filter || {};
       const pagination = variables?.pagination || {};
-      
+
       // Apply basic filtering - would be more complex in a real implementation
       let filteredDevelopments = [...MOCK_DEVELOPMENTS];
-      
+
       if (filter.search) {
         const searchLower = filter.search.toLowerCase();
         filteredDevelopments = filteredDevelopments.filter(dev => 
@@ -689,72 +689,72 @@ export async function POST(request: NextRequest) {
           (dev.location.county && dev.location.county.toLowerCase().includes(searchLower))
         );
       }
-      
-      if (filter.status && filter.status.length > 0) {
+
+      if (filter.status && filter.status.length> 0) {
         filteredDevelopments = filteredDevelopments.filter(dev => 
           filter.status.includes(dev.status)
         );
       }
-      
+
       // Apply pagination
       const limit = pagination.first || 10;
-      
+
       // Create response with proper format
-      const slicedDevelopments = filteredDevelopments.slice(0, limit);
+      const slicedDevelopments = filteredDevelopments.slice(0limit);
       const response = {
         developments: slicedDevelopments,
         totalCount: filteredDevelopments.length,
         pageInfo: {
-          hasNextPage: filteredDevelopments.length > limit,
+          hasNextPage: filteredDevelopments.length> limit,
           hasPreviousPage: false,
-          startCursor: slicedDevelopments.length > 0 ? slicedDevelopments[0].id : null,
-          endCursor: slicedDevelopments.length > 0 ? slicedDevelopments[slicedDevelopments.length - 1].id : null
+          startCursor: slicedDevelopments.length> 0 ? slicedDevelopments[0].id : null,
+          endCursor: slicedDevelopments.length> 0 ? slicedDevelopments[slicedDevelopments.length - 1].id : null
         }
       };
-      
+
       return NextResponse.json({
         data: {
           developments: response
         }
       });
     }
-    
+
     if (query.includes('GetMyDevelopments') || query.includes('myDevelopments(')) {
       // In a real implementation, this would filter based on the authenticated user
       // For mock purposes, we'll return the same data as GetDevelopments
       const filter = variables?.filter || {};
       const pagination = variables?.pagination || {};
-      
+
       // Apply basic filtering
       const filteredDevelopments = [...MOCK_DEVELOPMENTS];
-      
+
       // Apply pagination
       const limit = pagination.first || 10;
-      
+
       // Create response with proper format
-      const slicedDevelopments = filteredDevelopments.slice(0, limit);
+      const slicedDevelopments = filteredDevelopments.slice(0limit);
       const response = {
         developments: slicedDevelopments,
         totalCount: filteredDevelopments.length,
         pageInfo: {
-          hasNextPage: filteredDevelopments.length > limit,
+          hasNextPage: filteredDevelopments.length> limit,
           hasPreviousPage: false,
-          startCursor: slicedDevelopments.length > 0 ? slicedDevelopments[0].id : null,
-          endCursor: slicedDevelopments.length > 0 ? slicedDevelopments[slicedDevelopments.length - 1].id : null
+          startCursor: slicedDevelopments.length> 0 ? slicedDevelopments[0].id : null,
+          endCursor: slicedDevelopments.length> 0 ? slicedDevelopments[slicedDevelopments.length - 1].id : null
         }
       };
-      
+
       return NextResponse.json({
         data: {
           myDevelopments: response
         }
       });
     }
-    
+
     if (query.includes('developmentStatistics')) {
       const id = variables?.id;
       const development = MOCK_DEVELOPMENTS.find(dev => dev.id === id);
-      
+
       if (development) {
         // Mock statistics for the development
         const stats = {
@@ -763,7 +763,7 @@ export async function POST(request: NextRequest) {
           websiteVisits: 456,
           inquiriesLastMonth: 28,
           pricePerSquareFoot: Math.round(development.salesStatus.actualPriceAverage / development.squareFeet),
-          popularUnitTypes: development.units.slice(0, 2).map(u => u.type),
+          popularUnitTypes: development.units.slice(02).map(u => u.type),
           projectedCompletionDate: development.timeline.constructionEndDate,
           reservationConversionRate: 65,
           similarDevelopmentsPricing: [{
@@ -774,7 +774,7 @@ export async function POST(request: NextRequest) {
             pricePerSqFt: Math.round(development.salesStatus.actualPriceAverage / development.squareFeet) * 1.05
           }]
         };
-        
+
         return NextResponse.json({
           data: {
             developmentStatistics: stats
@@ -801,7 +801,7 @@ export async function POST(request: NextRequest) {
       const limit = variables?.limit || 5;
       return NextResponse.json({
         data: {
-          recentProjects: MOCK_PROJECTS.slice(0, limit)
+          recentProjects: MOCK_PROJECTS.slice(0limit)
         }
       });
     }
@@ -832,7 +832,7 @@ export async function POST(request: NextRequest) {
       errors: [{ message: 'Query not supported' }]
     }, { status: 400 });
   } catch (error) {
-    console.error('GraphQL error:', error);
+
     return NextResponse.json({
       errors: [{ message: 'Internal server error' }]
     }, { status: 500 });

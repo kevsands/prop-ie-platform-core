@@ -51,9 +51,9 @@ const ChatComponent: React.FC<ChatComponentProps> = ({
   showParticipants = true,
   className = ''
 }) => {
-  const [newMessage, setNewMessage] = useState('');
-  const [attachments, setAttachments] = useState<File[]>([]);
-  const [isTyping, setIsTyping] = useState(false);
+  const [newMessagesetNewMessage] = useState('');
+  const [attachmentssetAttachments] = useState<File[]>([]);
+  const [isTypingsetIsTyping] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -76,7 +76,7 @@ const ChatComponent: React.FC<ChatComponentProps> = ({
   const formatMessageDate = (timestamp: string) => {
     const date = new Date(timestamp);
     const today = new Date();
-    
+
     if (
       date.getDate() === today.getDate() &&
       date.getMonth() === today.getMonth() &&
@@ -84,7 +84,7 @@ const ChatComponent: React.FC<ChatComponentProps> = ({
     ) {
       return 'Today';
     }
-    
+
     return date.toLocaleDateString('en-IE', { 
       day: 'numeric', 
       month: 'long', 
@@ -93,7 +93,7 @@ const ChatComponent: React.FC<ChatComponentProps> = ({
   };
 
   // Group messages by date
-  const groupedMessages: { [date: string]: ChatMessage[] } = messages.reduce((groups, message) => {
+  const groupedMessages: { [date: string]: ChatMessage[] } = messages.reduce((groupsmessage: any) => {
     const date = formatMessageDate(message.timestamp);
     if (!groups[date]) {
       groups[date] = [];
@@ -112,13 +112,13 @@ const ChatComponent: React.FC<ChatComponentProps> = ({
 
   // Remove attachment
   const removeAttachment = (index: number) => {
-    setAttachments(attachments.filter((_, i) => i !== index));
+    setAttachments(attachments.filter((_i: any) => i !== index));
   };
 
   // Send message
   const handleSendMessage = () => {
-    if (newMessage.trim() || attachments.length > 0) {
-      onSendMessage(newMessage, attachments);
+    if (newMessage.trim() || attachments.length> 0) {
+      onSendMessage(newMessageattachments);
       setNewMessage('');
       setAttachments([]);
     }
@@ -135,11 +135,11 @@ const ChatComponent: React.FC<ChatComponentProps> = ({
   // Get CSS class based on sender's role for styling messages
   const getMessageStyles = (message: ChatMessage) => {
     const isMine = message.sender.id === currentUser.id;
-    
+
     if (isMine) {
       return 'ml-auto bg-[#2B5273] text-white';
     }
-    
+
     switch (message.sender.role) {
       case 'agent':
         return 'bg-blue-100 text-gray-800';
@@ -181,14 +181,14 @@ const ChatComponent: React.FC<ChatComponentProps> = ({
         />
       );
     }
-    
+
     const initials = participant.name
       .split(' ')
       .map(n => n[0])
       .join('')
       .toUpperCase()
-      .slice(0, 2);
-    
+      .slice(02);
+
     return (
       <div className={`w-8 h-8 rounded-full ${getAvatarColor(participant.role)} flex items-center justify-center text-white text-sm font-medium`}>
         {initials}
@@ -211,19 +211,19 @@ const ChatComponent: React.FC<ChatComponentProps> = ({
             </div>
           )}
         </div>
-        
+
         {showParticipants && (
           <div className="flex">
-            {participants.slice(0, 3).map((participant, index) => (
+            {participants.slice(03).map((participantindex: any) => (
               <div 
                 key={participant.id} 
                 className="inline-block -ml-2 first:ml-0 border-2 border-white"
-                style={{ zIndex: participants.length - index }}
+                style={ zIndex: participants.length - index }
               >
                 {renderAvatar(participant)}
               </div>
             ))}
-            {participants.length > 3 && (
+            {participants.length> 3 && (
               <div className="inline-block -ml-2 w-8 h-8 rounded-full bg-gray-200 border-2 border-white flex items-center justify-center text-xs text-gray-600">
                 +{participants.length - 3}
               </div>
@@ -231,21 +231,21 @@ const ChatComponent: React.FC<ChatComponentProps> = ({
           </div>
         )}
       </div>
-      
+
       {/* Messages Container */}
       <div className="flex-1 p-4 overflow-y-auto bg-gray-50">
-        {Object.entries(groupedMessages).map(([date, dateMessages]) => (
+        {Object.entries(groupedMessages).map(([datedateMessages]) => (
           <div key={date} className="mb-4">
             <div className="text-center mb-4">
               <span className="text-xs bg-gray-200 text-gray-600 px-2 py-1 rounded-full">
                 {date}
               </span>
             </div>
-            
-            {dateMessages.map((message, index) => {
+
+            {dateMessages.map((messageindex: any) => {
               const isMine = message.sender.id === currentUser.id;
               const showSender = index === 0 || dateMessages[index - 1].sender.id !== message.sender.id;
-              
+
               return (
                 <div key={message.id} className={`mb-4 max-w-[75%] ${isMine ? 'ml-auto' : ''}`}>
                   {showSender && !isMine && (
@@ -256,11 +256,11 @@ const ChatComponent: React.FC<ChatComponentProps> = ({
                       <span className="text-sm font-medium">{message.sender.name}</span>
                     </div>
                   )}
-                  
+
                   <div className={`rounded-lg p-3 ${getMessageStyles(message)}`}>
                     <div className="mb-1">{message.content}</div>
-                    
-                    {message.attachments && message.attachments.length > 0 && (
+
+                    {message.attachments && message.attachments.length> 0 && (
                       <div className="mt-2 space-y-2">
                         {message.attachments.map(attachment => (
                           <div 
@@ -288,7 +288,7 @@ const ChatComponent: React.FC<ChatComponentProps> = ({
                         ))}
                       </div>
                     )}
-                    
+
                     <div className="text-xs opacity-80 mt-1 text-right">
                       {formatTime(message.timestamp)}
                       {isMine && (
@@ -303,7 +303,7 @@ const ChatComponent: React.FC<ChatComponentProps> = ({
             })}
           </div>
         ))}
-        
+
         {isTyping && (
           <div className="flex items-center mb-4">
             <div className="w-12 h-6 bg-gray-200 rounded-full px-2 flex items-center">
@@ -315,14 +315,14 @@ const ChatComponent: React.FC<ChatComponentProps> = ({
             </div>
           </div>
         )}
-        
+
         <div ref={messagesEndRef} />
       </div>
-      
+
       {/* Attachments Preview */}
-      {attachments.length > 0 && (
+      {attachments.length> 0 && (
         <div className="p-2 border-t border-gray-200 bg-gray-50 flex flex-wrap gap-2">
-          {attachments.map((file, index) => (
+          {attachments.map((fileindex: any) => (
             <div 
               key={index}
               className="bg-white border rounded p-2 flex items-center text-sm"
@@ -339,7 +339,7 @@ const ChatComponent: React.FC<ChatComponentProps> = ({
           ))}
         </div>
       )}
-      
+
       {/* Input Area */}
       <div className="p-3 border-t bg-white">
         <div className="flex items-end gap-2">
@@ -356,7 +356,7 @@ const ChatComponent: React.FC<ChatComponentProps> = ({
               onChange={handleFileSelect}
             />
           </button>
-          
+
           <textarea
             className="flex-1 border rounded-lg p-2 resize-none focus:outline-none focus:ring-1 focus:ring-[#2B5273]"
             placeholder="Type a message..."
@@ -365,7 +365,7 @@ const ChatComponent: React.FC<ChatComponentProps> = ({
             onChange={e => setNewMessage(e.target.value)}
             onKeyDown={handleKeyPress}
           />
-          
+
           <button
             className="p-2 bg-[#2B5273] text-white rounded-full disabled:opacity-50"
             disabled={!newMessage.trim() && attachments.length === 0}
@@ -375,14 +375,14 @@ const ChatComponent: React.FC<ChatComponentProps> = ({
           </button>
         </div>
       </div>
-      
+
       {/* CSS for typing animation */}
       <style jsx>{`
         .typing-animation {
           display: flex;
           align-items: center;
         }
-        
+
         .typing-animation span {
           height: 4px;
           width: 4px;
@@ -392,15 +392,15 @@ const ChatComponent: React.FC<ChatComponentProps> = ({
           display: inline-block;
           animation: bounce 1.3s linear infinite;
         }
-        
+
         .typing-animation span:nth-child(2) {
           animation-delay: 0.16s;
         }
-        
+
         .typing-animation span:nth-child(3) {
           animation-delay: 0.32s;
         }
-        
+
         @keyframes bounce {
           0%, 60%, 100% {
             transform: translateY(0);

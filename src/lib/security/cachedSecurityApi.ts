@@ -71,11 +71,11 @@ export const getSecurityEvents = asyncSafeCache(async (
   options: SecurityEventOptions = {}
 ): Promise<SecurityEvent[]> => {
   const cacheKey = `security_events:${userId}:${JSON.stringify(options)}`;
-  
+
   // Check cache first
   const cached = dataCache.get<SecurityEvent[]>(cacheKey);
   if (cached) return cached;
-  
+
   try {
     // Fetch data
     const queryParams = new URLSearchParams();
@@ -85,7 +85,7 @@ export const getSecurityEvents = asyncSafeCache(async (
     if (options.status) queryParams.append('status', options.status);
     if (options.startDate) queryParams.append('startDate', options.startDate.toString());
     if (options.endDate) queryParams.append('endDate', options.endDate.toString());
-    
+
     // Handle severity filter
     if (options.severity) {
       if (Array.isArray(options.severity)) {
@@ -94,27 +94,24 @@ export const getSecurityEvents = asyncSafeCache(async (
         queryParams.append('severity', options.severity.toString());
       }
     }
-    
+
     const response = await fetch(`/api/security/events/${userId}?${queryParams.toString()}`, {
       headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-    
+        'Content-Type': 'application/json'});
+
     if (!response.ok) {
       throw new Error(`Failed to fetch security events: ${response.status}`);
     }
-    
+
     const data = await response.json();
-    
+
     // Cache with 5-minute TTL
     const typedData = data as SecurityEvent[];
     dataCache.set(cacheKey, typedData, 5 * 60 * 1000);
-    
+
     return typedData;
   } catch (error) {
-    console.error('Error fetching security events:', error);
-    
+
     // Return empty array on error
     return [];
   }
@@ -127,33 +124,30 @@ export const getSecurityEvents = asyncSafeCache(async (
  */
 export const getSecurityStats = asyncSafeCache(async (): Promise<SecurityStats> => {
   const cacheKey = 'security_stats';
-  
+
   // Check cache first
   const cached = dataCache.get<SecurityStats>(cacheKey);
   if (cached) return cached;
-  
+
   try {
     // Fetch data
     const response = await fetch('/api/security/stats', {
       headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-    
+        'Content-Type': 'application/json'});
+
     if (!response.ok) {
       throw new Error(`Failed to fetch security stats: ${response.status}`);
     }
-    
+
     const data = await response.json();
-    
+
     // Cache with 15-minute TTL (stats change less frequently)
     const typedData = data as SecurityStats;
     dataCache.set(cacheKey, typedData, 15 * 60 * 1000);
-    
+
     return typedData;
   } catch (error) {
-    console.error('Error fetching security stats:', error);
-    
+
     // Return default stats on error
     return {
       usersMfaEnabled: 0,
@@ -163,8 +157,7 @@ export const getSecurityStats = asyncSafeCache(async (): Promise<SecurityStats> 
       criticalEvents: 0,
       warningEvents: 0,
       avgRiskScore: 0,
-      securityScore: 0,
-    };
+      securityScore: 0};
   }
 });
 
@@ -175,33 +168,30 @@ export const getSecurityStats = asyncSafeCache(async (): Promise<SecurityStats> 
  */
 export const getFeatureFlags = asyncSafeCache(async (): Promise<FeatureFlag[]> => {
   const cacheKey = 'security_feature_flags';
-  
+
   // Check cache first
   const cached = dataCache.get<FeatureFlag[]>(cacheKey);
   if (cached) return cached;
-  
+
   try {
     // Fetch data
     const response = await fetch('/api/security/features', {
       headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-    
+        'Content-Type': 'application/json'});
+
     if (!response.ok) {
       throw new Error(`Failed to fetch feature flags: ${response.status}`);
     }
-    
+
     const data = await response.json();
-    
+
     // Cache with 30-minute TTL (flags change infrequently)
     const typedData = data as FeatureFlag[];
     dataCache.set(cacheKey, typedData, 30 * 60 * 1000);
-    
+
     return typedData;
   } catch (error) {
-    console.error('Error fetching feature flags:', error);
-    
+
     // Return empty array on error
     return [];
   }
@@ -223,23 +213,21 @@ export const toggleFeatureFlag = async (
     const response = await fetch(`/api/security/features/${flagId}`, {
       method: 'PATCH',
       headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ enabled }),
-    });
-    
+        'Content-Type': 'application/json'},
+      body: JSON.stringify({ enabled })});
+
     if (!response.ok) {
       throw new Error(`Failed to toggle feature flag: ${response.status}`);
     }
-    
+
     const updatedFlag = await response.json();
-    
+
     // Invalidate the feature flags cache
     dataCache.delete('security_feature_flags');
-    
+
     return updatedFlag as FeatureFlag;
   } catch (error) {
-    console.error('Error toggling feature flag:', error);
+
     throw error;
   }
 };
@@ -264,32 +252,30 @@ export interface MFASetupData {
  */
 export const getMFASetupData = asyncSafeCache(async (userId: string): Promise<MFASetupData> => {
   const cacheKey = `mfa_setup:${userId}`;
-  
+
   // Check cache first
   const cached = dataCache.get<MFASetupData>(cacheKey);
   if (cached) return cached;
-  
+
   try {
     // Fetch data
     const response = await fetch(`/api/security/mfa/${userId}/setup`, {
       headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-    
+        'Content-Type': 'application/json'});
+
     if (!response.ok) {
       throw new Error(`Failed to fetch MFA setup data: ${response.status}`);
     }
-    
+
     const data = await response.json();
-    
+
     // Cache with 5-minute TTL
     const typedData = data as MFASetupData;
     dataCache.set(cacheKey, typedData, 5 * 60 * 1000);
-    
+
     return typedData;
   } catch (error) {
-    console.error('Error fetching MFA setup data:', error);
+
     throw error;
   }
 });
@@ -317,32 +303,30 @@ export interface TrustedDevice {
  */
 export const getTrustedDevices = asyncSafeCache(async (userId: string): Promise<TrustedDevice[]> => {
   const cacheKey = `trusted_devices:${userId}`;
-  
+
   // Check cache first
   const cached = dataCache.get<TrustedDevice[]>(cacheKey);
   if (cached) return cached;
-  
+
   try {
     // Fetch data
     const response = await fetch(`/api/security/devices/${userId}`, {
       headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-    
+        'Content-Type': 'application/json'});
+
     if (!response.ok) {
       throw new Error(`Failed to fetch trusted devices: ${response.status}`);
     }
-    
+
     const data = await response.json();
-    
+
     // Cache with 5-minute TTL
     const typedData = data as TrustedDevice[];
     dataCache.set(cacheKey, typedData, 5 * 60 * 1000);
-    
+
     return typedData;
   } catch (error) {
-    console.error('Error fetching trusted devices:', error);
+
     return []; // Return empty array on error
   }
 });
@@ -360,20 +344,18 @@ export const removeTrustedDevice = async (userId: string, deviceId: string) => {
     const response = await fetch(`/api/security/devices/${userId}/${deviceId}`, {
       method: 'DELETE',
       headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-    
+        'Content-Type': 'application/json'});
+
     if (!response.ok) {
       throw new Error(`Failed to remove trusted device: ${response.status}`);
     }
-    
+
     // Invalidate the trusted devices cache
     dataCache.delete(`trusted_devices:${userId}`);
-    
+
     return true;
   } catch (error) {
-    console.error('Error removing trusted device:', error);
+
     throw error;
   }
 };

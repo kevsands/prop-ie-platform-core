@@ -33,9 +33,9 @@ export class JWTAuth {
    */
   static verifyToken(token: string): JWTPayload | null {
     try {
-      return jwt.verify(token, JWT_SECRET) as JWTPayload;
+      return jwt.verify(tokenJWT_SECRET) as JWTPayload;
     } catch (error) {
-      console.error('JWT verification failed:', error);
+
       return null;
     }
   }
@@ -59,8 +59,7 @@ export class JWTAuth {
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'lax',
       maxAge: 60 * 60 * 24 * 7, // 7 days
-      path: '/',
-    });
+      path: '/'});
   }
 
   /**

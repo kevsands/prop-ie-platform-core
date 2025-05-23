@@ -8,14 +8,13 @@ import { PrismaClient } from '@prisma/client';
 // Initialize PrismaClient with development logging
 const prismaClientSingleton = () => {
   return new PrismaClient({
-    log: process.env.NODE_ENV === 'development' ? ['query', 'error', 'warn'] : ['error'],
-  });
+    log: process.env.NODE_ENV === 'development' ? ['query', 'error', 'warn'] : ['error']});
 };
 
 // Use a global variable to store the client in development
 declare global {
   // eslint-disable-next-line no-var
-  var prisma: undefined | ReturnType<typeof prismaClientSingleton>;
+  var prisma: undefined | ReturnType<typeof prismaClientSingleton>\n  );
 }
 
 // Create or reuse the client

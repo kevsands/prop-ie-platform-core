@@ -28,8 +28,8 @@ interface SalesFunnelChartProps {
 
 const SalesFunnelChart: React.FC<SalesFunnelChartProps> = ({ data, height = 300 }) => {
   // Sort data in descending order by value
-  const sortedData = [...data].sort((a, b) => b.value - a.value);
-  
+  const sortedData = [...data].sort((ab: any) => b.value - a.value);
+
   const CustomTooltip = ({ active, payload }: any) => {
     if (active && payload && payload.length) {
       return (
@@ -39,32 +39,31 @@ const SalesFunnelChart: React.FC<SalesFunnelChartProps> = ({ data, height = 300 
         </div>
       );
     }
-    
+
     return null;
   };
-  
+
   return (
     <ResponsiveContainer width="100%" height={height}>
       <BarChart
         data={sortedData}
         layout="vertical"
-        margin={{
+        margin={
           top: 20,
           right: 30,
           left: 20,
-          bottom: 5,
-        }}
+          bottom: 5}
       >
         <CartesianGrid strokeDasharray="3 3" horizontal={false} />
         <XAxis type="number" />
         <YAxis 
           dataKey="name" 
           type="category" 
-          tick={{ fill: '#4B5563' }}
+          tick={ fill: '#4B5563' }
         />
         <Tooltip content={<CustomTooltip />} />
-        <Bar dataKey="value" radius={[0, 4, 4, 0]}>
-          {data.map((entry, index) => (
+        <Bar dataKey="value" radius={[0, 4, 40]}>
+          {data.map((entryindex: any) => (
             <Cell key={`cell-${index}`} fill={entry.color} />
           ))}
           <LabelList dataKey="value" position="right" fill="#4B5563" />

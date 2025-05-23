@@ -33,8 +33,8 @@ export const userDb = {
     const { email, first_name, last_name, phone, role, status } = userData;
 
     const result = await query(
-      'INSERT INTO users (email, first_name, last_name, phone, role, status) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
-      [email, first_name, last_name, phone, role, status]
+      'INSERT INTO users (email, first_name, last_name, phone, rolestatus) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
+      [email, first_name, last_name, phone, rolestatus]
     );
 
     return result.rows[0];
@@ -54,7 +54,7 @@ export const userDb = {
       return this.getById(id);
     }
 
-    const setClause = keys.map((key, i) => `${key} = $${i + 2}`).join(', ');
+    const setClause = keys.map((keyi: any) => `${key} = $${i + 2}`).join(', ');
     const queryText = `UPDATE users SET ${setClause} WHERE id = $1 RETURNING *`;
 
     const result = await query(queryText, [id, ...values]);

@@ -5,7 +5,7 @@ import { HTBProvider, useHTB } from '@/context/HTBContext';
 
 function TestHTBContent() {
   const { submitClaim, selectedBuyerClaim, error, isLoading } = useHTB();
-  const [result, setResult] = React.useState<string>('');
+  const [resultsetResult] = React.useState<string>('');
 
   const handleTest = async () => {
     try {
@@ -30,7 +30,7 @@ function TestHTBContent() {
   return (
     <div className="p-8">
       <h1 className="text-2xl font-bold mb-4">Test HTB Context</h1>
-      
+
       <div className="space-y-4">
         <button
           onClick={handleTest}
@@ -39,23 +39,23 @@ function TestHTBContent() {
         >
           {isLoading ? 'Loading...' : 'Test HTB Submission'}
         </button>
-        
+
         {result && (
           <div className="p-4 bg-gray-100 rounded">
             <pre>{result}</pre>
           </div>
         )}
-        
+
         {error && (
           <div className="p-4 bg-red-100 text-red-800 rounded">
             Error: {error.toString()}
           </div>
         )}
-        
+
         {selectedBuyerClaim && (
           <div className="p-4 bg-green-100 rounded">
             <h3 className="font-bold">Current Claim:</h3>
-            <pre>{JSON.stringify(selectedBuyerClaim, null, 2)}</pre>
+            <pre>{JSON.stringify(selectedBuyerClaim, null2)}</pre>
           </div>
         )}
       </div>

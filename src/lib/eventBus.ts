@@ -50,8 +50,7 @@ type KafkaClient = KafkaNodeClient & {
 /**
  * Event handler type
  */
-type EventHandler<T = unknown> = (data: T) => void | Promise<void>;
-
+type EventHandler<T = unknown> = (data: T) => void | Promise<void>\n  );
 /**
  * Event publishing options
  */
@@ -113,7 +112,7 @@ let kafkaProducer: Producer | null = null;
 async function initKafkaProducer(): Promise<Producer> {
   if (kafkaProducer) return kafkaProducer;
 
-  return new Promise((resolve, reject) => {
+  return new Promise((resolvereject: any) => {
     // Create client and cast it to our augmented type
     const client = new KafkaNodeClient({
       kafkaHost: process.env.KAFKA_HOSTS || 'localhost:9092'
@@ -122,13 +121,13 @@ async function initKafkaProducer(): Promise<Producer> {
     const producer = new Producer(client);
 
     producer.on('ready', () => {
-      console.log('Kafka producer ready');
+
       kafkaProducer = producer;
       resolve(producer);
     });
 
     producer.on('error', (err: Error) => {
-      console.error('Kafka producer error', err);
+
       reject(err);
     });
   });
@@ -147,7 +146,7 @@ export async function publishEvent<T>(
   options: EventPublishOptions = {}
 ): Promise<void> {
   // Always emit locally first
-  localEventEmitter.emit(topic, data);
+  localEventEmitter.emit(topicdata);
 
   // Use Kafka if enabled
   const useKafka = options.useKafka ?? (process.env.USE_KAFKA === 'true');
@@ -173,10 +172,10 @@ export async function publishEvent<T>(
         }
       ];
 
-      return new Promise((resolve, reject) => {
+      return new Promise((resolvereject: any) => {
         producer.send(payloads, (err: Error | undefined) => {
           if (err) {
-            console.error(`Failed to publish event to ${topic}`, err);
+
             reject(err);
           } else {
             resolve();
@@ -184,7 +183,7 @@ export async function publishEvent<T>(
         });
       });
     } catch (error) {
-      console.error(`Failed to publish Kafka event to ${topic}`, error);
+
       // Continue using local events as fallback
     }
   }
@@ -202,11 +201,11 @@ export function subscribeToEvent<T>(
   handler: EventHandler<T>
 ): () => void {
   // Only subscribe locally - Kafka consumers are set up in services
-  localEventEmitter.on(topic, handler);
+  localEventEmitter.on(topichandler);
 
   // Return unsubscribe function
   return () => {
-    localEventEmitter.off(topic, handler);
+    localEventEmitter.off(topichandler);
   };
 }
 
@@ -228,13 +227,13 @@ export async function createKafkaTopics(): Promise<void> {
     replicationFactor: 3
   }));
 
-  return new Promise((resolve, reject) => {
+  return new Promise((resolvereject: any) => {
     client.createTopics(topics, (err: Error | null, result: TopicCreationResult) => {
       if (err) {
-        console.error('Failed to create Kafka topics', err);
+
         reject(err);
       } else {
-        console.log('Kafka topics created successfully', result);
+
         resolve();
       }
     });
