@@ -20,10 +20,10 @@ import { useBuyerAPI } from '@/hooks/useBuyerAPI';
 import { useAuth } from '@/context/AuthContext';
 import { formatDate, formatCurrency } from '@/utils/formatting';
 
-import { 
+import {
   BuyerJourneyPhase,
   BuyerProfile,
-  Reservation, 
+  Reservation,
   ReservationStatus,
   MortgageTracking,
   MortgageStatus,
@@ -54,13 +54,13 @@ const BuyerJourneyPhaseDisplay = ({ phase }: BuyerJourneyPhaseDisplayProps) => {
       <div className="flex justify-between">
         {phases.map((pindex: any) => (
           <div key={p.id} className="text-center">
-            <div 
+            <div
               className={`w-8 h-8 rounded-full mx-auto flex items-center justify-center 
-              ${currentPhaseIndex>= index ? p.color : 'bg-gray-200'}`}
+              ${currentPhaseIndex >= index ? p.color : 'bg-gray-200'}`}
             >
               <span className="text-white text-xs">{index + 1}</span>
             </div>
-            <p className={`text-xs mt-1 ${currentPhaseIndex>= index ? 'font-medium' : 'text-gray-500'}`}>
+            <p className={`text-xs mt-1 ${currentPhaseIndex >= index ? 'font-medium' : 'text-gray-500'}`}>
               {p.label}
             </p>
           </div>
@@ -92,7 +92,8 @@ const ReservationCard = ({ reservation }: ReservationCardProps) => {
     PENDING: 'bg-yellow-200 text-yellow-800',
     CONFIRMED: 'bg-blue-200 text-blue-800',
     CANCELLED: 'bg-red-200 text-red-800',
-    COMPLETED: 'bg-green-200 text-green-800'};
+    COMPLETED: 'bg-green-200 text-green-800'
+  };
 
   return (
     <Card className="mb-4">
@@ -152,7 +153,8 @@ const MortgageTrackingCard = ({ mortgageTracking }: MortgageTrackingCardProps) =
     AIP_RECEIVED: { label: 'AIP Received', color: 'bg-blue-200 text-blue-800' },
     AIP_EXPIRED: { label: 'AIP Expired', color: 'bg-red-200 text-red-800' },
     MORTGAGE_OFFERED: { label: 'Mortgage Offered', color: 'bg-green-200 text-green-800' },
-    MORTGAGE_COMPLETED: { label: 'Mortgage Completed', color: 'bg-green-200 text-green-800' };
+    MORTGAGE_COMPLETED: { label: 'Mortgage Completed', color: 'bg-green-200 text-green-800' }
+  };
 
   const status = statusDisplay[mortgageTracking.status];
 
@@ -195,11 +197,11 @@ const MortgageTrackingCard = ({ mortgageTracking }: MortgageTrackingCardProps) =
           )}
         </div>
 
-        {mortgageTracking.conditions && mortgageTracking.conditions.length> 0 && (
+        {mortgageTracking.conditions && mortgageTracking.conditions.length > 0 && (
           <div className="mt-4">
             <p className="text-sm font-medium mb-2">Conditions:</p>
             <ul className="list-disc pl-5 text-sm">
-              {mortgageTracking.conditions.map((conditionindex: any) => (
+              {mortgageTracking.conditions.map((condition: any, index: any) => (
                 <li key={index}>{condition}</li>
               ))}
             </ul>
@@ -249,7 +251,7 @@ const SnagListCard = ({ snagList }: SnagListCardProps) => {
 
           <div className="space-y-2">
             <p className="text-sm font-medium">Recent items:</p>
-            {snagList.items.slice(03).map((item: SnagItem) => (
+            {snagList.items.slice(0, 3).map((item: SnagItem) => (
               <div key={item.id} className="flex justify-between items-center bg-gray-50 p-2 rounded text-sm">
                 <div className="truncate flex-1">
                   <p className="font-medium truncate">{item.description}</p>
@@ -257,9 +259,9 @@ const SnagListCard = ({ snagList }: SnagListCardProps) => {
                 </div>
                 <Badge className={
                   item.status === SnagItemStatus.FIXED ? 'bg-green-200 text-green-800' :
-                  item.status === SnagItemStatus.ACKNOWLEDGED ? 'bg-blue-200 text-blue-800' :
-                  item.status === SnagItemStatus.DISPUTED ? 'bg-red-200 text-red-800' :
-                  'bg-yellow-200 text-yellow-800'
+                    item.status === SnagItemStatus.ACKNOWLEDGED ? 'bg-blue-200 text-blue-800' :
+                      item.status === SnagItemStatus.DISPUTED ? 'bg-red-200 text-red-800' :
+                        'bg-yellow-200 text-yellow-800'
                 }>
                   {item.status}
                 </Badge>
@@ -297,7 +299,7 @@ const HomePackItemsList = ({ items }: HomePackItemsListProps) => {
 
   return (
     <div className="space-y-4">
-      {Object.entries(groupedItems).map(([categorycategoryItems]) => (
+      {Object.entries(groupedItems).map(([category, categoryItems]) => (
         <div key={category}>
           <h3 className="text-lg font-medium mb-2">{category}</h3>
           <div className="space-y-2">
@@ -332,43 +334,43 @@ export default function FirstTimeBuyerDashboard() {
   const { user } = useAuth();
   const router = useRouter();
   const { toast } = useToast();
-  const { 
-    useMyBuyerProfile, 
-    useMyReservations, 
+  const {
+    useMyBuyerProfile,
+    useMyReservations,
     useMyMortgageTracking,
     useMySnagLists,
-    useHomePackItems} = useBuyerAPI();
+    useHomePackItems } = useBuyerAPI();
 
   // Fetch buyer data
-  const { 
-    data: buyerProfile, 
-    isLoading: isLoadingProfile, 
-    error: profileError 
+  const {
+    data: buyerProfile,
+    isLoading: isLoadingProfile,
+    error: profileError
   } = useMyBuyerProfile();
 
-  const { 
-    data: reservations, 
-    isLoading: isLoadingReservations 
+  const {
+    data: reservations,
+    isLoading: isLoadingReservations
   } = useMyReservations();
 
-  const { 
+  const {
     data: mortgageTracking,
     isLoading: isLoadingMortgage
   } = useMyMortgageTracking();
 
-  const { 
+  const {
     data: snagLists,
-    isLoading: isLoadingSnagLists 
+    isLoading: isLoadingSnagLists
   } = useMySnagLists();
 
   // We'll fetch home pack items only if there's a property (from a reservation)
-  const activeProperty = reservations && reservations.length> 0 
+  const activeProperty = reservations && reservations.length > 0
     ? reservations.find((r: Reservation) => r.status === ReservationStatus.CONFIRMED || r.status === ReservationStatus.COMPLETED)?.property
     : null;
 
-  const { 
+  const {
     data: homePackItems,
-    isLoading: isLoadingHomePackItems 
+    isLoading: isLoadingHomePackItems
   } = useHomePackItems(activeProperty?.id);
 
   // Handle errors
@@ -379,14 +381,14 @@ export default function FirstTimeBuyerDashboard() {
         description: "Failed to load your buyer profile"
       });
     }
-  }, [profileErrortoast]);
+  }, [profileError, toast]);
 
   // Redirect if user is not logged in
   useEffect(() => {
     if (!user) {
       router.push('/login');
     }
-  }, [userrouter]);
+  }, [user, router]);
 
   // Loading state
   if (isLoadingProfile || isLoadingReservations || isLoadingMortgage || isLoadingSnagLists) {
@@ -435,7 +437,7 @@ export default function FirstTimeBuyerDashboard() {
                   <div>
                     <h3 className="text-sm font-medium text-gray-500">Your Preferences</h3>
                     <div className="text-sm">
-                      {Object.entries(buyerProfile.preferences).map(([keyvalue]) => (
+                      {Object.entries(buyerProfile.preferences).map(([key, value]) => (
                         <div key={key} className="flex justify-between py-1 border-b border-gray-100">
                           <span className="capitalize">{key.replace(/([A-Z])/g, ' $1').trim()}</span>
                           <span className="font-medium">{String(value)}</span>
@@ -445,12 +447,12 @@ export default function FirstTimeBuyerDashboard() {
                   </div>
                 )}
 
-                {buyerProfile.governmentSchemes && Object.keys(buyerProfile.governmentSchemes).length> 0 && (
+                {buyerProfile.governmentSchemes && Object.keys(buyerProfile.governmentSchemes).length > 0 && (
                   <div>
                     <h3 className="text-sm font-medium text-gray-500">Government Schemes</h3>
                     <div className="flex flex-wrap gap-2 mt-1">
                       {Object.entries(buyerProfile.governmentSchemes)
-                        .filter(([_value]) => value === true)
+                        .filter(([_, value]) => value === true)
                         .map(([key]) => (
                           <Badge key={key} variant="outline">
                             {key.replace(/([A-Z])/g, ' $1').trim()}
@@ -479,7 +481,7 @@ export default function FirstTimeBuyerDashboard() {
 
               <TabsContent value="reservations" className="space-y-4">
                 <h2 className="text-2xl font-bold">Your Reservations</h2>
-                {reservations && reservations.length> 0 ? (
+                {reservations && reservations.length > 0 ? (
                   reservations.map((reservation: Reservation) => (
                     <ReservationCard key={reservation.id} reservation={reservation} />
                   ))
@@ -503,7 +505,7 @@ export default function FirstTimeBuyerDashboard() {
 
               <TabsContent value="snags">
                 <h2 className="text-2xl font-bold mb-4">Snag Lists</h2>
-                {snagLists && snagLists.length> 0 ? (
+                {snagLists && snagLists.length > 0 ? (
                   snagLists.map((snagList: SnagList) => (
                     <SnagListCard key={snagList.id} snagList={snagList} />
                   ))
@@ -548,7 +550,7 @@ export default function FirstTimeBuyerDashboard() {
         <div className="bg-white p-8 rounded-lg border shadow-sm">
           <h2 className="text-2xl font-bold mb-4">Welcome to First-Time Buyer Services</h2>
           <p className="mb-6 text-gray-600">
-            It looks like you haven't set up your buyer profile yet. Let's get started with creating your profile to 
+            It looks like you haven't set up your buyer profile yet. Let's get started with creating your profile to
             help you track your home buying journey.
           </p>
           <Button onClick={() => router.push('/buyer/setup')}>Set Up Your Buyer Profile</Button>

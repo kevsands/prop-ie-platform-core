@@ -19,7 +19,8 @@ const API_DEFAULTS = {
   baseUrl: process.env.NEXT_PUBLIC_API_URL || '/api',
   timeout: 30000,
   retries: 2,
-  deduplicate: true};
+  deduplicate: true
+};
 
 // Cache tag constants for more precise invalidation
 export const CACHE_TAGS = {
@@ -29,7 +30,8 @@ export const CACHE_TAGS = {
   DOCUMENTS: 'documents',
   CUSTOMIZATIONS: 'customizations',
   FINANCIAL: 'financial',
-  SETTINGS: 'settings'};
+  SETTINGS: 'settings'
+};
 
 // Error types for better error handling
 export enum ApiErrorType {
@@ -40,7 +42,8 @@ export enum ApiErrorType {
   NOT_FOUND = 'not_found',
   VALIDATION = 'validation',
   SERVER = 'server',
-  UNKNOWN = 'unknown'}
+  UNKNOWN = 'unknown'
+}
 
 // API error structure
 export class ApiError extends Error {
@@ -63,7 +66,7 @@ export class ApiError extends Error {
     return (
       this.type === ApiErrorType.NETWORK ||
       this.type === ApiErrorType.TIMEOUT ||
-      (this.type === ApiErrorType.SERVER && this.status>= 500)
+      (this.type === ApiErrorType.SERVER && this.status >= 500)
     );
   }
 }
@@ -83,11 +86,13 @@ export interface ApiRequestOptions {
   /**
    * Query parameters
    */
-  params?: Record<string, string | number | boolean | undefined>\n  );
+  params?: Record<string, string | number | boolean | undefined>;
+
   /**
    * Additional headers
    */
-  headers?: Record<string, string>\n  );
+  headers?: Record<string, string>;
+
   /**
    * Request timeout in milliseconds
    */
@@ -157,7 +162,8 @@ export class ApiClient {
       retries: API_DEFAULTS.retries,
       deduplicate: API_DEFAULTS.deduplicate,
       cacheTags: [],
-      ...options.defaultOptions};
+      ...options.defaultOptions
+    };
   }
 
   /**
@@ -170,7 +176,7 @@ export class ApiClient {
 
     // Add query parameters
     if (params) {
-      Object.entries(params).forEach(([keyvalue]) => {
+      Object.entries(params).forEach(([key, value]) => {
         if (value !== undefined) {
           url.searchParams.append(key, String(value));
         }
@@ -217,7 +223,7 @@ export class ApiClient {
       errorType = ApiErrorType.NOT_FOUND;
     } else if (response.status === 422) {
       errorType = ApiErrorType.VALIDATION;
-    } else if (response.status>= 500) {
+    } else if (response.status >= 500) {
       errorType = ApiErrorType.SERVER;
     }
 
@@ -236,7 +242,8 @@ export class ApiClient {
     // Merge with default options
     const mergedOptions: ApiRequestOptions = {
       ...this.defaultOptions,
-      ...options};
+      ...options
+    };
 
     const {
       method = 'GET',
@@ -251,10 +258,10 @@ export class ApiClient {
       batchKey,
       noCache,
       transformRequest,
-      transformResponse} = mergedOptions;
+      transformResponse } = mergedOptions;
 
-    const url = this.buildUrl(pathparams);
-    const cacheKey = this.generateCacheKey(url, methodbody);
+    const url = this.buildUrl(path, params);
+    const cacheKey = this.generateCacheKey(url, method, body);
 
     // Try to get from cache first for GET requests
     if (method === 'GET' && !noCache) {
@@ -272,11 +279,13 @@ export class ApiClient {
         body,
         headers: {
           'Content-Type': 'application/json',
-          ...headers},
+          ...headers
+        },
         priority: mergedOptions.priority,
         timeout,
         batchKey,
-        maxRetries: retries});
+        maxRetries: retries
+      });
     }
 
     // Standard request function
@@ -286,8 +295,10 @@ export class ApiClient {
         method,
         headers: {
           'Content-Type': 'application/json',
-          ...headers},
-        body: body ? JSON.stringify(body) : undefined};
+          ...headers
+        },
+        body: body ? JSON.stringify(body) : undefined
+      };
 
       // Apply custom request transformer if provided
       if (transformRequest) {
@@ -301,14 +312,15 @@ export class ApiClient {
       try {
         const response = await fetch(url, {
           ...requestInit,
-          signal: controller.signal});
+          signal: controller.signal
+        });
 
         // Clean up timeout
         if (timeoutId) clearTimeout(timeoutId);
 
         // Handle error responses
         if (!response.ok) {
-          throw await this.createError(responseurl);
+          throw await this.createError(response, url);
         }
 
         // Parse response based on content type
@@ -328,7 +340,7 @@ export class ApiClient {
 
         // Cache successful GET responses
         if (method === 'GET' && !noCache && cacheTtl !== 0) {
-          apiCache.set(cacheKey, responseData, cacheTtlcacheTags);
+          apiCache.set(cacheKey, responseData, cacheTtl, cacheTags);
         }
 
         return responseData;
@@ -384,7 +396,8 @@ export class ApiClient {
     return this.request<T>(path, {
       method: 'GET',
       params,
-      ...options});
+      ...options
+    });
   }
 
   /**
@@ -398,7 +411,8 @@ export class ApiClient {
     return this.request<T>(path, {
       method: 'POST',
       body,
-      ...options});
+      ...options
+    });
   }
 
   /**
@@ -412,7 +426,8 @@ export class ApiClient {
     return this.request<T>(path, {
       method: 'PUT',
       body,
-      ...options});
+      ...options
+    });
   }
 
   /**
@@ -426,7 +441,8 @@ export class ApiClient {
     return this.request<T>(path, {
       method: 'PATCH',
       body,
-      ...options});
+      ...options
+    });
   }
 
   /**
@@ -438,7 +454,8 @@ export class ApiClient {
   ): Promise<T> {
     return this.request<T>(path, {
       method: 'DELETE',
-      ...options});
+      ...options
+    });
   }
 
   /**
@@ -469,7 +486,8 @@ export class ApiClient {
       [CACHE_TAGS.USER]: QUERY_KEYS.USER,
       [CACHE_TAGS.PROPERTIES]: QUERY_KEYS.PROPERTIES,
       [CACHE_TAGS.DEVELOPMENTS]: QUERY_KEYS.DEVELOPMENTS,
-      [CACHE_TAGS.DOCUMENTS]: QUERY_KEYS.DOCUMENTS};
+      [CACHE_TAGS.DOCUMENTS]: QUERY_KEYS.DOCUMENTS
+    };
 
     return tagToQueryKeyMap[tag] || null;
   }
@@ -480,20 +498,21 @@ export class ApiClient {
   async batchGet<T = any[]>(
     requests: Array<{
       path: string;
-      params?: Record<string, string | number | boolean | undefined>\n  );
-      options?: Omit<ApiRequestOptions, 'method' | 'params' | 'batchKey'>\n  );
+      params?: Record<string, string | number | boolean | undefined>;
+      options?: Omit<ApiRequestOptions, 'method' | 'params' | 'batchKey'>;
     }>,
     batchKey = 'default_batch'
   ): Promise<T[]> {
     // Create an array of promises
-    const promises = requests.map(({ path, params, options = {} }) => 
+    const promises = requests.map(({ path, params, options = {} }) =>
       this.get(path, params, {
         ...options,
-        batchKey})
+        batchKey
+      })
     );
 
     // Execute all promises in parallel
-    return Promise.all(promises) as Promise<T[]>\n  );
+    return Promise.all(promises) as Promise<T[]>;
   }
 }
 
