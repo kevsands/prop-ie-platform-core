@@ -237,11 +237,11 @@ export const getSecuritySnapshot = safeCacheFunction<(options?: SecurityAnalytic
   async (options: SecurityAnalyticsOptions = {}): Promise<SecuritySnapshot> => {
     try {
       // Fetch all data in parallel for performance
-      const [metrics, events, anomaliesthreats] = await Promise.all([
+      const [metrics, events, anomalies, threats] = await Promise.all([
         getSecurityMetrics(options),
-        getSecurityEvents({...options, limit: 10}), // Limit recent events
+        getSecurityEvents({ ...options, limit: 10 }), // Limit recent events
         getAnomalyDetections({
-          ...options, 
+          ...options,
           includeResolved: false // Only include active anomalies
         }),
         getThreatIndicators(options)
@@ -271,19 +271,19 @@ export const getSecuritySnapshot = safeCacheFunction<(options?: SecurityAnalytic
 
       // Calculate security score
       const securityScore = calculateSecurityScore(
-        metrics as SecurityMetric[], 
-        anomalies as AnomalyDetection[], 
+        metrics as SecurityMetric[],
+        anomalies as AnomalyDetection[],
         threats as ThreatIndicator[]
       );
 
       // Determine overall security status
       let securityStatus: 'normal' | 'elevated' | 'high_alert' | 'critical' = 'normal';
 
-      if (alertCount.critical> 0) {
+      if (alertCount.critical > 0) {
         securityStatus = 'critical';
-      } else if (alertCount.high> 0) {
+      } else if (alertCount.high > 0) {
         securityStatus = 'high_alert';
-      } else if (alertCount.medium> 0) {
+      } else if (alertCount.medium > 0) {
         securityStatus = 'elevated';
       }
 
