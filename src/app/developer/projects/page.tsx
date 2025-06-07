@@ -2,8 +2,8 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { 
-  Calendar, CheckCircle, Clock, AlertTriangle, Users, 
+import {
+  Calendar, CheckCircle, Clock, AlertTriangle, Users,
   FileText, DollarSign, Target, GitBranch, BarChart2,
   Plus, Search, Filter, Download, Eye, Edit, Archive,
   Zap, Bot, TrendingUp, AlertCircle, ChevronRight,
@@ -15,9 +15,9 @@ import dynamic from 'next/dynamic';
 // const GanttChart = dynamic(() => import('@/components/developer/GanttChart'), { ssr: false });
 
 export default function ProjectManagementPage() {
-  const [activeTabsetActiveTab] = useState('overview');
-  const [selectedProjectsetSelectedProject] = useState('all');
-  const [showGanttsetShowGantt] = useState(false);
+  const [activeTab, setActiveTab] = useState('overview');
+  const [selectedProject, setSelectedProject] = useState('all');
+  const [showGantt, setShowGantt] = useState(false);
 
   // Mock project data
   const projects = [
@@ -129,9 +129,8 @@ export default function ProjectManagementPage() {
 
             <button
               onClick={() => setShowGantt(!showGantt)}
-              className={`px-3 py-2 border rounded-lg text-sm flex items-center ${
-                showGantt ? 'bg-blue-50 border-blue-300 text-blue-700' : 'border-gray-300 hover:bg-gray-50'
-              }`}
+              className={`px-3 py-2 border rounded-lg text-sm flex items-center ${showGantt ? 'bg-blue-50 border-blue-300 text-blue-700' : 'border-gray-300 hover:bg-gray-50'
+                }`}
             >
               <GitBranch className="w-4 h-4 mr-2" />
               Gantt View
@@ -179,52 +178,47 @@ export default function ProjectManagementPage() {
         <nav className="-mb-px flex space-x-6">
           <button
             onClick={() => setActiveTab('overview')}
-            className={`py-2 px-1 border-b-2 font-medium text-sm transition-colors ${
-              activeTab === 'overview' 
-                ? 'border-blue-500 text-blue-600' 
-                : 'border-transparent text-gray-500 hover:text-gray-700'
-            }`}
+            className={`py-2 px-1 border-b-2 font-medium text-sm transition-colors ${activeTab === 'overview'
+              ? 'border-blue-500 text-blue-600'
+              : 'border-transparent text-gray-500 hover:text-gray-700'
+              }`}
           >
             Overview
           </button>
           <button
             onClick={() => setActiveTab('timeline')}
-            className={`py-2 px-1 border-b-2 font-medium text-sm transition-colors ${
-              activeTab === 'timeline' 
-                ? 'border-blue-500 text-blue-600' 
-                : 'border-transparent text-gray-500 hover:text-gray-700'
-            }`}
+            className={`py-2 px-1 border-b-2 font-medium text-sm transition-colors ${activeTab === 'timeline'
+              ? 'border-blue-500 text-blue-600'
+              : 'border-transparent text-gray-500 hover:text-gray-700'
+              }`}
           >
             Timeline
           </button>
           <button
             onClick={() => setActiveTab('tasks')}
-            className={`py-2 px-1 border-b-2 font-medium text-sm transition-colors flex items-center ${
-              activeTab === 'tasks' 
-                ? 'border-blue-500 text-blue-600' 
-                : 'border-transparent text-gray-500 hover:text-gray-700'
-            }`}
+            className={`py-2 px-1 border-b-2 font-medium text-sm transition-colors flex items-center ${activeTab === 'tasks'
+              ? 'border-blue-500 text-blue-600'
+              : 'border-transparent text-gray-500 hover:text-gray-700'
+              }`}
           >
             Tasks
             <span className="ml-2 bg-gray-200 text-gray-700 text-xs rounded-full px-2 py-0.5">103</span>
           </button>
           <button
             onClick={() => setActiveTab('resources')}
-            className={`py-2 px-1 border-b-2 font-medium text-sm transition-colors ${
-              activeTab === 'resources' 
-                ? 'border-blue-500 text-blue-600' 
-                : 'border-transparent text-gray-500 hover:text-gray-700'
-            }`}
+            className={`py-2 px-1 border-b-2 font-medium text-sm transition-colors ${activeTab === 'resources'
+              ? 'border-blue-500 text-blue-600'
+              : 'border-transparent text-gray-500 hover:text-gray-700'
+              }`}
           >
             Resources
           </button>
           <button
             onClick={() => setActiveTab('risks')}
-            className={`py-2 px-1 border-b-2 font-medium text-sm transition-colors flex items-center ${
-              activeTab === 'risks' 
-                ? 'border-blue-500 text-blue-600' 
-                : 'border-transparent text-gray-500 hover:text-gray-700'
-            }`}
+            className={`py-2 px-1 border-b-2 font-medium text-sm transition-colors flex items-center ${activeTab === 'risks'
+              ? 'border-blue-500 text-blue-600'
+              : 'border-transparent text-gray-500 hover:text-gray-700'
+              }`}
           >
             Risks & Issues
             <span className="ml-2 bg-red-100 text-red-700 text-xs rounded-full px-2 py-0.5">6</span>
@@ -343,7 +337,7 @@ function ProjectCard({ project }: { project: any }) {
         <div className="w-full bg-gray-200 rounded-full h-2">
           <div
             className="bg-blue-600 h-2 rounded-full"
-            style={ width: `${project.progress}%` }
+            style={{ width: `${project.progress}%` }}
           />
         </div>
       </div>
@@ -383,21 +377,19 @@ function ProjectCard({ project }: { project: any }) {
         <div className="grid grid-cols-2 gap-3 text-sm">
           <div>
             <span className="text-gray-600">Delay Risk:</span>
-            <span className={`ml-2 font-medium ${
-              project.aiInsights.delayRisk === 'Low' ? 'text-green-600' :
+            <span className={`ml-2 font-medium ${project.aiInsights.delayRisk === 'Low' ? 'text-green-600' :
               project.aiInsights.delayRisk === 'Medium' ? 'text-yellow-600' :
-              'text-red-600'
-            }`}>
+                'text-red-600'
+              }`}>
               {project.aiInsights.delayRisk}
             </span>
           </div>
           <div>
             <span className="text-gray-600">Cost Overrun:</span>
-            <span className={`ml-2 font-medium ${
-              project.aiInsights.costOverrun === 'Low' ? 'text-green-600' :
+            <span className={`ml-2 font-medium ${project.aiInsights.costOverrun === 'Low' ? 'text-green-600' :
               project.aiInsights.costOverrun === 'Medium' ? 'text-yellow-600' :
-              'text-red-600'
-            }`}>
+                'text-red-600'
+              }`}>
               {project.aiInsights.costOverrun}
             </span>
           </div>
@@ -408,8 +400,8 @@ function ProjectCard({ project }: { project: any }) {
       <div className="mb-4">
         <h4 className="text-sm font-medium text-gray-900 mb-2">Next Milestones</h4>
         <div className="space-y-2">
-          {project.milestones.slice(02).map((milestone: any, index: number) => (
-            <div key={index: any} className="flex items-center text-sm">
+          {project.milestones.slice(0, 2).map((milestone: any, index: number) => (
+            <div key={index} className="flex items-center text-sm">
               {milestone.status === 'completed' ? (
                 <CheckCircle className="w-4 h-4 text-green-600 mr-2" />
               ) : milestone.status === 'in-progress' ? (
@@ -427,15 +419,15 @@ function ProjectCard({ project }: { project: any }) {
       </div>
 
       {/* Alerts */}
-      {(project.risks> 0 || project.issues> 0) && (
+      {(project.risks > 0 || project.issues > 0) && (
         <div className="flex items-center space-x-4 mb-4 text-sm">
-          {project.risks> 0 && (
+          {project.risks > 0 && (
             <div className="flex items-center text-yellow-600">
               <AlertTriangle className="w-4 h-4 mr-1" />
               {project.risks} risks
             </div>
           )}
-          {project.issues> 0 && (
+          {project.issues > 0 && (
             <div className="flex items-center text-red-600">
               <AlertCircle className="w-4 h-4 mr-1" />
               {project.issues} issues

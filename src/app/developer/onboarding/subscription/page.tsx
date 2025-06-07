@@ -25,7 +25,7 @@ interface PricingTier {
   color: string;
 }
 
-const pricingTiers: PricingTier[] = {
+const pricingTiers: Record<string, PricingTier> = {
   starter: {
     id: 'starter',
     name: 'Starter',
@@ -38,9 +38,11 @@ const pricingTiers: PricingTier[] = {
       'Standard support (48hr)',
       'Document storage (10GB)',
       'API access (10k calls/month)',
-      'Team members (up to 5)'],
+      'Team members (up to 5)'
+    ],
     icon: FiZap,
-    color: 'blue'},
+    color: 'blue'
+  },
   professional: {
     id: 'professional',
     name: 'Professional',
@@ -56,11 +58,13 @@ const pricingTiers: PricingTier[] = {
       'Team members (up to 20)',
       'Custom branding',
       'Automated marketing tools',
-      'Financial modeling'],
+      'Financial modeling'
+    ],
     highlighted: true,
     badge: 'Most Popular',
     icon: FiTrendingUp,
-    color: 'indigo'},
+    color: 'indigo'
+  },
   enterprise: {
     id: 'enterprise',
     name: 'Enterprise',
@@ -78,15 +82,18 @@ const pricingTiers: PricingTier[] = {
       'Custom integrations',
       'On-premise deployment option',
       'SLA guarantee (99.99%)',
-      'Dedicated account manager'],
+      'Dedicated account manager'
+    ],
     icon: FiGlobe,
-    color: 'purple'};
+    color: 'purple'
+  }
+};
 
 export default function SubscriptionPage() {
   const router = useRouter();
-  const [selectedTiersetSelectedTier] = useState<string>('professional');
-  const [isYearlysetIsYearly] = useState(true);
-  const [isProcessingsetIsProcessing] = useState(false);
+  const [selectedTier, setSelectedTier] = useState<string>('professional');
+  const [isYearly, setIsYearly] = useState(true);
+  const [isProcessing, setIsProcessing] = useState(false);
 
   const handleSubscribe = async () => {
     setIsProcessing(true);
@@ -96,12 +103,13 @@ export default function SubscriptionPage() {
       const subscriptionData = {
         tier: selectedTier,
         billing: isYearly ? 'yearly' : 'monthly',
-        price: isYearly ? pricingTiers[selectedTier as keyof typeof pricingTiers].yearlyPrice : pricingTiers[selectedTier as keyof typeof pricingTiers].monthlyPrice};
+        price: isYearly ? pricingTiers[selectedTier as keyof typeof pricingTiers].yearlyPrice : pricingTiers[selectedTier as keyof typeof pricingTiers].monthlyPrice
+      };
 
       localStorage.setItem('subscriptionData', JSON.stringify(subscriptionData));
 
       // Simulate API call
-      await new Promise(resolve => setTimeout(resolve2000));
+      await new Promise(resolve => setTimeout(resolve, 2000));
 
       toast.success('Subscription selected successfully');
       router.push('/developer/onboarding/verification');
@@ -126,9 +134,9 @@ export default function SubscriptionPage() {
         </div>
 
         <motion.div
-          initial={ opacity: 0, y: 20 }
-          animate={ opacity: 1, y: 0 }
-          transition={ duration: 0.5 }
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
           className="text-center mb-12"
         >
           <h3 className="text-3xl font-bold text-gray-900 mb-4">
@@ -157,17 +165,16 @@ export default function SubscriptionPage() {
 
         {/* Pricing Cards */}
         <div className="grid md:grid-cols-3 gap-8 mb-12">
-          {Object.entries(pricingTiers).map(([keytier], index) => (
+          {Object.entries(pricingTiers).map(([key, tier], index) => (
             <motion.div
               key={key}
-              initial={ opacity: 0, y: 20 }
-              animate={ opacity: 1, y: 0 }
-              transition={ duration: 0.5, delay: index * 0.1 }
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
             >
               <Card
-                className={`relative p-8 h-full ${
-                  selectedTier === key ? 'ring-2 ring-blue-600' : ''
-                } ${tier.highlighted ? 'border-blue-600' : ''}`}
+                className={`relative p-8 h-full ${selectedTier === key ? 'ring-2 ring-blue-600' : ''
+                  } ${tier.highlighted ? 'border-blue-600' : ''}`}
                 onClick={() => setSelectedTier(key)}
               >
                 {tier.badge && (
@@ -196,7 +203,7 @@ export default function SubscriptionPage() {
                 </div>
 
                 <ul className="space-y-3 mb-8">
-                  {tier.features.map((featurefeatureIndex: any) => (
+                  {tier.features.map((feature, featureIndex: any) => (
                     <li key={featureIndex} className="flex items-start gap-3">
                       <FiCheck className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
                       <span className="text-gray-700">{feature}</span>
@@ -205,11 +212,10 @@ export default function SubscriptionPage() {
                 </ul>
 
                 <Button
-                  className={`w-full ${
-                    selectedTier === key
-                      ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white'
-                      : 'bg-gray-100 text-gray-900 hover:bg-gray-200'
-                  }`}
+                  className={`w-full ${selectedTier === key
+                    ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white'
+                    : 'bg-gray-100 text-gray-900 hover:bg-gray-200'
+                    }`}
                   onClick={() => setSelectedTier(key)}
                 >
                   {selectedTier === key ? 'Selected' : 'Select Plan'}
@@ -221,9 +227,9 @@ export default function SubscriptionPage() {
 
         {/* Enterprise CTA */}
         <motion.div
-          initial={ opacity: 0, y: 20 }
-          animate={ opacity: 1, y: 0 }
-          transition={ duration: 0.5, delay: 0.4 }
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.4 }}
           className="text-center bg-gradient-to-r from-purple-600 to-indigo-600 rounded-2xl p-8 text-white mb-12"
         >
           <FiShield className="w-12 h-12 mx-auto mb-4" />
@@ -256,8 +262,8 @@ export default function SubscriptionPage() {
             {isProcessing ? (
               <span className="flex items-center gap-2">
                 <motion.div
-                  animate={ rotate: 360 }
-                  transition={ duration: 1, repeat: Infinity, ease: "linear" }
+                  animate={{ rotate: 360 }}
+                  transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
                   className="w-5 h-5 border-2 border-white border-t-transparent rounded-full"
                 />
                 Processing...

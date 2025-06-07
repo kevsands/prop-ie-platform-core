@@ -9,11 +9,11 @@ import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { DatePickerWithRange } from '@/components/ui/date-range-picker';
-import { 
-  Building2, 
-  Users, 
-  FileText, 
-  TrendingUp, 
+import {
+  Building2,
+  Users,
+  FileText,
+  TrendingUp,
   Calendar,
   DollarSign,
   Plus,
@@ -53,10 +53,10 @@ import { cn } from '@/lib/utils';
 const COLORS = ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#ec4899', '#06b6d4', '#84cc16'];
 
 export default function DeveloperDashboard() {
-  const [selectedDevelopmentsetSelectedDevelopment] = useState<string | null>(null);
-  const [dateRangesetDateRange] = useState<{ from: Date; to: Date } | undefined>();
-  const [refreshingsetRefreshing] = useState(false);
-  const [comparisonPeriodsetComparisonPeriod] = useState<'day' | 'week' | 'month' | 'year'>('month');
+  const [selectedDevelopment, setSelectedDevelopment] = useState<string | null>(null);
+  const [dateRange, setDateRange] = useState<{ from: Date; to: Date } | undefined>();
+  const [refreshing, setRefreshing] = useState(false);
+  const [comparisonPeriod, setComparisonPeriod] = useState<'day' | 'week' | 'month' | 'year'>('month');
 
   // WebSocket for real-time updates
   const { isConnected, lastMessage } = useWebSocket('/api/websocket/developer-analytics');
@@ -122,7 +122,7 @@ export default function DeveloperDashboard() {
       refetchAnalytics();
       refetchDevelopments();
     }
-  }, [lastMessage, refetchAnalyticsrefetchDevelopments]);
+  }, [lastMessage, refetchAnalytics, refetchDevelopments]);
 
   const handleRefresh = async () => {
     setRefreshing(true);
@@ -151,7 +151,7 @@ export default function DeveloperDashboard() {
   };
 
   if (isLoading) {
-    return <div>Loading dashboard...</div>\n  );
+    return <div>Loading dashboard...</div>;
   }
 
   return (
@@ -230,14 +230,14 @@ export default function DeveloperDashboard() {
             <CardContent>
               <div className="text-2xl font-bold">€{analytics?.totalSales?.toLocaleString() || 0}</div>
               <div className="flex items-center text-xs">
-                {analytics?.salesChange> 0 ? (
+                {analytics?.salesChange > 0 ? (
                   <ArrowUpRight className="mr-1 h-3 w-3 text-green-600" />
                 ) : (
                   <ArrowDownRight className="mr-1 h-3 w-3 text-red-600" />
                 )}
                 <span className={cn(
                   "font-medium",
-                  analytics?.salesChange> 0 ? "text-green-600" : "text-red-600"
+                  analytics?.salesChange > 0 ? "text-green-600" : "text-red-600"
                 )}>
                   {Math.abs(analytics?.salesChange || 0)}%
                 </span>
@@ -256,14 +256,14 @@ export default function DeveloperDashboard() {
                 €{analytics?.totalRevenue?.toLocaleString() || 0}
               </div>
               <div className="flex items-center text-xs">
-                {analytics?.revenueChange> 0 ? (
+                {analytics?.revenueChange > 0 ? (
                   <ArrowUpRight className="mr-1 h-3 w-3 text-green-600" />
                 ) : (
                   <ArrowDownRight className="mr-1 h-3 w-3 text-red-600" />
                 )}
                 <span className={cn(
                   "font-medium",
-                  analytics?.revenueChange> 0 ? "text-green-600" : "text-red-600"
+                  analytics?.revenueChange > 0 ? "text-green-600" : "text-red-600"
                 )}>
                   {Math.abs(analytics?.revenueChange || 0)}%
                 </span>
@@ -294,14 +294,14 @@ export default function DeveloperDashboard() {
             <CardContent>
               <div className="text-2xl font-bold">{analytics?.avgTimeToSale || 0} days</div>
               <div className="flex items-center text-xs">
-                {analytics?.timeToSaleChange <0 ? (
+                {analytics?.timeToSaleChange < 0 ? (
                   <ArrowUpRight className="mr-1 h-3 w-3 text-green-600" />
                 ) : (
                   <ArrowDownRight className="mr-1 h-3 w-3 text-red-600" />
                 )}
                 <span className={cn(
                   "font-medium",
-                  analytics?.timeToSaleChange <0 ? "text-green-600" : "text-red-600"
+                  analytics?.timeToSaleChange < 0 ? "text-green-600" : "text-red-600"
                 )}>
                   {Math.abs(analytics?.timeToSaleChange || 0)} days
                 </span>
@@ -341,7 +341,7 @@ export default function DeveloperDashboard() {
             </CardHeader>
             <CardContent>
               <div className="space-y-2">
-                {recentActivities?.activities?.slice(05).map((activity: any, index: number) => (
+                {recentActivities?.activities?.slice(0, 5).map((activity: any, index: number) => (
                   <div key={index} className="flex items-start gap-2 text-sm">
                     <div className="mt-1 h-2 w-2 rounded-full bg-blue-500" />
                     <div className="flex-1">
@@ -371,7 +371,7 @@ export default function DeveloperDashboard() {
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
               {developments?.map((dev: any) => (
                 <Card key={dev.id} className="cursor-pointer hover:shadow-lg transition-shadow"
-                      onClick={() => setSelectedDevelopment(dev.id)}>
+                  onClick={() => setSelectedDevelopment(dev.id)}>
                   <CardHeader>
                     <div className="flex justify-between items-start">
                       <div>
@@ -475,20 +475,20 @@ export default function DeveloperDashboard() {
                     <AreaChart data={analytics?.revenueData || []}>
                       <defs>
                         <linearGradient id="colorRevenue" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.8}/>
-                          <stop offset="95%" stopColor="#3b82f6" stopOpacity={0}/>
+                          <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.8} />
+                          <stop offset="95%" stopColor="#3b82f6" stopOpacity={0} />
                         </linearGradient>
                       </defs>
                       <CartesianGrid strokeDasharray="3 3" />
                       <XAxis dataKey="date" />
                       <YAxis />
                       <Tooltip formatter={(value: any) => `€${value.toLocaleString()}`} />
-                      <Area 
-                        type="monotone" 
-                        dataKey="revenue" 
-                        stroke="#3b82f6" 
-                        fillOpacity={1} 
-                        fill="url(#colorRevenue)" 
+                      <Area
+                        type="monotone"
+                        dataKey="revenue"
+                        stroke="#3b82f6"
+                        fillOpacity={1}
+                        fill="url(#colorRevenue)"
                       />
                     </AreaChart>
                   </ResponsiveContainer>
@@ -528,7 +528,7 @@ export default function DeveloperDashboard() {
               <CardHeader>
                 <div className="flex items-center justify-between">
                   <CardTitle>Property Performance</CardTitle>
-                  <Select value={selectedDevelopment || "all" onValueChange={setSelectedDevelopment}>
+                  <Select value={selectedDevelopment || "all"} onValueChange={setSelectedDevelopment}>
                     <SelectTrigger className="w-[200px]">
                       <SelectValue placeholder="All Developments" />
                     </SelectTrigger>

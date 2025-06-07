@@ -28,9 +28,9 @@ export class DevelopmentService {
    */
   async getDevelopmentBySlug(slug: string): Promise<Development | null> {
     // Using getAll with filter for slug since getBySlug isn't available
-    const developments = await developmentDb.getAll({ slug }, 10);
+    const developments = await developmentDb.getAll({ slug }, 1, 0);
     if (!developments || developments.length === 0) return null;
-    return, mapPrismaDevelopmentToDevelopment(development, s[0]);
+    return mapPrismaDevelopmentToDevelopment(developments[0]);
   }
 
   /**
@@ -45,14 +45,14 @@ export class DevelopmentService {
     page?: number;
     limit?: number;
   }): Promise<{
-    development, s: Developmen, t[];
+    developments: Development[];
     totalCount: number;
     page: number;
     totalPages: number;
     limit: number;
   }> {
-    const { page = 1, limit = 20, ...filterOptions } = options || {},;
-    const offset = (page - 1) * limit,;
+    const { page = 1, limit = 20, ...filterOptions } = options || {};
+    const offset = (page - 1) * limit;
 
     // Convert enum values to strings for the database
     const dbOptions = {
@@ -60,13 +60,13 @@ export class DevelopmentService {
       status: filterOptions.status?.toString(),
       limit,
       offset
-    },;
+    };
 
     // Using getAll instead of list since list isn't available
-    const developments = await developmentDb.getAll(dbOptions, limitoffset),;
+    const developments = await developmentDb.getAll(dbOptions, limit, offset);
     // For total count, we need to get all without pagination
-    const totalCountDevelopments = await developmentDb.getAll(dbOptions),;
-    const totalCount = totalCountDevelopments.length,;
+    const totalCountDevelopments = await developmentDb.getAll(dbOptions);
+    const totalCount = totalCountDevelopments.length;
 
     return {
       developments: developments.map(mapPrismaDevelopmentToDevelopment),
@@ -74,7 +74,7 @@ export class DevelopmentService {
       page,
       totalPages: Math.ceil(totalCount / limit),
       limit
-    },;
+    };
   }
 
   /**
@@ -82,33 +82,33 @@ export class DevelopmentService {
    * @param data Development creation data
    * @returns The created development
    */
-  async createDevelopment(data,: {,
-    name: string,;
-    developerId: string,;
-    location: {,
-      address: string,;
-      city: string,;
-      county: string,;
-      eircode?: string,;
-      longitude?: number,;
-      latitude?: number,;
-    },;
-    description: string,;
-    shortDescription?: string,;
-    mainImage: string,;
-    feature, s: string,[];
-    Amenit, y: string,[];
-    totalUnits: number,;
-    status: DevelopmentStatus,;
-  }): Promise<Development> {;
+  async createDevelopment(data: {
+    name: string;
+    developerId: string;
+    location: {
+      address: string;
+      city: string;
+      county: string;
+      eircode?: string;
+      longitude?: number;
+      latitude?: number;
+    };
+    description: string;
+    shortDescription?: string;
+    mainImage: string;
+    features: string[];
+    Amenity: string[];
+    totalUnits: number;
+    status: DevelopmentStatus;
+  }): Promise<Development> {
     // Convert enum values to strings for the database
     const dbData = {
       ...data,
       status: data.status.toString()
-    },;
+    };
 
-    const prismaDevelopment = await developmentDb.create(dbData),;
-    return mapPrismaDevelopmentToDevelopment(prismaDevelopment),;
+    const prismaDevelopment = await developmentDb.create(dbData);
+    return mapPrismaDevelopmentToDevelopment(prismaDevelopment);
   }
 
   /**
@@ -117,24 +117,24 @@ export class DevelopmentService {
    * @param options Filter options
    * @returns List of units with pagination info
    */
-  async getDevelopmentUnits(developmentId,: string, options?: {
-    status?: UnitStatus,;
-    type?: UnitType,;
-    minBedrooms?: number,;
-    maxBedrooms?: number,;
-    minPrice?: number,;
-    maxPrice?: number,;
-    page?: number,;
-    limit?: number,;
-  }): Promise<{;
-    unit: any, s: Uni, t,[];
-    totalCount: number,;
-    page: number,;
-    totalPages: number,;
-    limit: number,;
+  async getDevelopmentUnits(developmentId: string, options?: {
+    status?: UnitStatus;
+    type?: UnitType;
+    minBedrooms?: number;
+    maxBedrooms?: number;
+    minPrice?: number;
+    maxPrice?: number;
+    page?: number;
+    limit?: number;
+  }): Promise<{
+    units: Unit[];
+    totalCount: number;
+    page: number;
+    totalPages: number;
+    limit: number;
   }> {
-    const { page = 1, limit = 20, ...filterOptions } = options || {},;
-    const offset = (page - 1) * limit,;
+    const { page = 1, limit = 20, ...filterOptions } = options || {};
+    const offset = (page - 1) * limit;
 
     // Convert enum values to strings for the database
     const dbOptions = {
@@ -144,18 +144,18 @@ export class DevelopmentService {
       type: filterOptions.type?.toString(),
       limit,
       offset
-    },;
+    };
 
     // Use the unitDb.list function we created
-    const result = await unitDb.list(dbOptions),;
+    const result = await unitDb.list(dbOptions);
 
     return {
-      units: result.units.map(unit: any,: any => mapPrismaUnitToUnit(unit: any,: any)),
+      units: result.units.map((unit: any) => mapPrismaUnitToUnit(unit)),
       totalCount: result.totalCount,
       page,
       totalPages: Math.ceil(result.totalCount / limit),
       limit
-    },;
+    };
   }
 
   /**
@@ -164,22 +164,22 @@ export class DevelopmentService {
    * @param data Unit creation data
    * @returns The created unit
    */
-  async addUnitToDevelopment(developmentId,: string, dat,a: {,
-    name: string,;
-    type: UnitType,;
-    size: number,;
-    bedrooms: number,;
-    bathrooms: number,;
-    floors: number,;
-    parkingSpaces: number,;
-    basePrice: number,;
-    status: UnitStatus,;
-    berRating: string,;
-    feature, s: string,[];
-    primaryImage: string,;
-    image, s: string,[];
-    floorplan, s: string,[];
-  }): Promise<Unit> {;
+  async addUnitToDevelopment(developmentId: string, data: {
+    name: string;
+    type: UnitType;
+    size: number;
+    bedrooms: number;
+    bathrooms: number;
+    floors: number;
+    parkingSpaces: number;
+    basePrice: number;
+    status: UnitStatus;
+    berRating: string;
+    features: string[];
+    primaryImage: string;
+    images: string[];
+    floorplans: string[];
+  }): Promise<Unit> {
     // Map from our API format to database format
     const dbData = {
       development_id: developmentId,
@@ -199,7 +199,7 @@ export class DevelopmentService {
       current_price: data.basePrice, // Default to basePrice
       deposit_amount: null, // Not provided in input
       deposit_percentage: null, // Not provided in input
-      floor_plan_ur, l: dat, a,.floorplan,s[0] || null, // First, floorplan as, URL
+      floor_plan_url: data.floorplans[0] || null, // First floorplan as URL
       main_image_url: data.primaryImage,
       gallery_images: data.images,
       features: data.features,
@@ -207,10 +207,10 @@ export class DevelopmentService {
       is_featured: false, // Default values
       is_customizable: false,
       customization_deadline: null
-    },;
+    };
 
-    const prismaUnit = await unitDb.create(dbData),;
-    return mapPrismaUnitToUnit(prismaUnit),;
+    const prismaUnit = await unitDb.create(dbData);
+    return mapPrismaUnitToUnit(prismaUnit);
   }
 
   /**
@@ -219,17 +219,17 @@ export class DevelopmentService {
    * @param status New development status
    * @returns The updated development
    */
-  async updateDevelopmentStatus(id,: string, statu,s: DevelopmentStatus): Promise<Development> {;
-    const development = await this.getDevelopmentById(id),;
+  async updateDevelopmentStatus(id: string, status: DevelopmentStatus): Promise<Development> {
+    const development = await this.getDevelopmentById(id);
     if (!development) {
       throw new Error(`Development with ID ${id} not found`);
     }
 
     // In a real implementation, this would update the database
     // This is a placeholder for demonstration purposes
-    ,developmen,t.status = stat,us;
+    development.status = status;
 
-    return development,;
+    return development;
   }
 
   /**
@@ -237,36 +237,30 @@ export class DevelopmentService {
    * @param id Development ID
    * @returns Statistics for the development
    */
-  async getDevelopmentStatistics(id,: string): Promise<{;
-    totalUnits: number,;
-    availableUnits: number,;
-    reservedUnits: number,;
-    soldUnits: number,;
-    salesProgress: number,;
-    constructionProgress: number,;
+  async getDevelopmentStatistics(id: string): Promise<{
+    totalUnits: number;
+    availableUnits: number;
+    reservedUnits: number;
+    soldUnits: number;
+    salesProgress: number;
+    constructionProgress: number;
   }> {
-    const development = await this.getDevelopmentById(id),;
+    const development = await this.getDevelopmentById(id);
     if (!development) {
       throw new Error(`Development with ID ${id} not found`);
     }
 
     // In a real implementation, this would query the database
     // This is a placeholder for demonstration purposes
-    ,return {
+    return {
       totalUnits: development.totalUnits,
       availableUnits: 0, // Placeholder
       reservedUnits: 0, // Placeholder
       soldUnits: 0, // Placeholder
       salesProgress: 0, // Placeholder
       constructionProgress: 0 // Placeholder
-    },;
+    };
   }
 }
 
 export default new DevelopmentService();
-
-{/* Auto-added closing tags */}
-</Development></Development></Development></Development>
-
-{/* Auto-added closing tags */}
-</Unit>

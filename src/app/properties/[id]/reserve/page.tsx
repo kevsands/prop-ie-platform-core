@@ -90,7 +90,7 @@ export default function PropertyReservationPage() {
             {/* Main Content - Reservation Form */}
             <div className="lg:col-span-2">
               <ReservationForm
-                property={
+                property={{
                   id: property.id,
                   title: property.name,
                   price: property.price,
@@ -98,11 +98,11 @@ export default function PropertyReservationPage() {
                   developmentId: property.developmentId,
                   unitId: property.id,
                   image: property.images?.[0]
-                }
+                }}
                 onSuccess={(reservationId: any) => {
                   // Navigate to transaction confirmation page
                   router.push(`/buyer/transactions/${reservationId}/confirmation`);
-                }
+                }}
               />
             </div>
 
@@ -187,11 +187,11 @@ export default function PropertyReservationPage() {
                   )}
 
                   {/* Features */}
-                  {property.features && property.features.length> 0 && (
+                  {property.features && property.features.length > 0 && (
                     <div className="mt-6">
                       <h3 className="font-semibold text-gray-900 mb-3">Key Features</h3>
                       <ul className="space-y-2">
-                        {property.features.slice(05).map((feature: string, index: number) => (
+                        {property.features.slice(0, 5).map((feature: string, index: number) => (
                           <li key={index} className="flex items-center gap-2 text-sm text-gray-600">
                             <CheckCircle className="w-4 h-4 text-green-500" />
                             {feature}
