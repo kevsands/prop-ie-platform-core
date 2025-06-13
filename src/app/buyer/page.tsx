@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import ProtectedRoute from '@/components/auth/ProtectedRoute';
+import { transactionCoordinator } from '@/services/transactionCoordinator';
 import {
   Home,
   TrendingUp,
@@ -73,14 +74,89 @@ interface Notification {
   };
 }
 
+interface Transaction {
+  id: string;
+  status: string;
+  projectId: string;
+  buyerId: string;
+  createdAt: Date;
+  milestones?: Array<{
+    id: string;
+    name: string;
+    description: string;
+    status: string;
+    dueDate?: Date;
+  }>;
+  participants?: Array<{
+    id: string;
+    userId: string;
+    role: string;
+  }>;
+}
+
 export default function BuyerOverviewPage() {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
   const [userData, setUserData] = useState<any>(null);
+  const [activeTransactions, setActiveTransactions] = useState<Transaction[]>([]);
 
   useEffect(() => {
+    // Check for recent transactions from purchase flow
+    const checkForRecentTransactions = () => {
+      // Check localStorage for recent transaction completion
+      const recentPurchase = localStorage.getItem('recentTransactionCompleted');
+      const transactionData = localStorage.getItem('lastTransactionData');
+      
+      let activeReservation = null;
+      let transactions: Transaction[] = [];
+      
+      if (recentPurchase === 'true' && transactionData) {
+        try {
+          const transaction = JSON.parse(transactionData);
+          transactions.push(transaction);
+          
+          // Create active reservation from transaction data
+          activeReservation = {
+            id: transaction.id,
+            property: 'Fitzgerald Gardens - 3 Bed Semi-Detached House',
+            price: 375000,
+            depositPaid: 500,
+            depositRemaining: 4500,
+            daysRemaining: 28,
+            nextPaymentDue: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+            transactionId: transaction.id,
+            status: transaction.status
+          };
+          
+          // Add success notification
+          const successNotification = {
+            id: 'transaction-success',
+            type: 'success' as const,
+            title: 'Property Reserved Successfully!',
+            message: `Transaction ${transaction.id} created. Your property has been secured.`,
+            time: 'Just now',
+            read: false,
+            action: {
+              label: 'View Transaction',
+              href: `/buyer/transactions/${transaction.id}`
+            }
+          };
+          
+          // Clear the flag so it doesn't show again
+          localStorage.removeItem('recentTransactionCompleted');
+        } catch (error) {
+          console.error('Error parsing transaction data:', error);
+        }
+      }
+      
+      return { activeReservation, transactions };
+    };
+    
     // Simulate loading user data
     setTimeout(() => {
+      const { activeReservation, transactions } = checkForRecentTransactions();
+      
+      setActiveTransactions(transactions);
       setUserData({
         name: 'John Doe',
         budget: 380000,
@@ -91,21 +167,13 @@ export default function BuyerOverviewPage() {
         viewingsScheduled: 2,
         preApprovalAmount: 350000,
         monthlyPayment: 1650,
-        journeyProgress: 75,
+        journeyProgress: activeReservation ? 85 : 75, // Higher progress if they have an active reservation
         nextAppointment: {
-          type: 'Mortgage Consultation',
+          type: activeReservation ? 'Property Viewing' : 'Mortgage Consultation',
           date: 'Tomorrow at 2:00 PM',
-          location: 'Bank of Ireland, O\'Connell Street'
+          location: activeReservation ? 'Fitzgerald Gardens Sales Office' : 'Bank of Ireland, O\'Connell Street'
         },
-        activeReservation: {
-          id: 'RES-123456',
-          property: 'Fitzgerald Gardens - Type A',
-          price: 375000,
-          depositPaid: 500,
-          depositRemaining: 4500,
-          daysRemaining: 28,
-          nextPaymentDue: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
-        }
+        activeReservation
       });
       setLoading(false);
     }, 1000);
@@ -307,10 +375,15 @@ export default function BuyerOverviewPage() {
                 </div>
                 <div className="flex-1">
                   <h3 className="font-bold text-green-900 mb-1">Active Property Reservation</h3>
-                  <p className="text-green-800 text-sm mb-3">
+                  <p className="text-green-800 text-sm mb-1">
                     {userData.activeReservation.property} • {userData.activeReservation.daysRemaining} days remaining
                   </p>
-                  <div className="grid sm:grid-cols-3 gap-4 mb-4">
+                  {userData.activeReservation.transactionId && (
+                    <p className="text-green-700 text-xs mb-3 font-mono">
+                      Transaction ID: {userData.activeReservation.transactionId}
+                    </p>
+                  )}
+                  <div className="grid sm:grid-cols-4 gap-4 mb-4">
                     <div>
                       <p className="text-xs text-green-700">Deposit Paid</p>
                       <p className="font-semibold text-green-900">€{userData.activeReservation.depositPaid}</p>
@@ -323,19 +396,32 @@ export default function BuyerOverviewPage() {
                       <p className="text-xs text-green-700">Next Payment</p>
                       <p className="font-semibold text-green-900">{userData.activeReservation.nextPaymentDue.toLocaleDateString()}</p>
                     </div>
+                    <div>
+                      <p className="text-xs text-green-700">Status</p>
+                      <p className="font-semibold text-blue-600 capitalize">
+                        {userData.activeReservation.status?.toLowerCase().replace('_', ' ') || 'Active'}
+                      </p>
+                    </div>
                   </div>
                   <div className="flex flex-wrap gap-3">
                     <button
                       onClick={() => router.push('/buyer/journey/reservation')}
                       className="bg-green-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-green-700 transition-colors text-sm flex items-center gap-2"
                     >
-                      <Receipt className="w-4 h-4" />
-                      View Reservation
+                      <FileText className="w-4 h-4" />
+                      View Transaction Details
                     </button>
                     <button
                       className="bg-white text-green-800 border border-green-300 px-4 py-2 rounded-lg font-semibold hover:bg-green-50 transition-colors text-sm"
                     >
                       Pay Remaining Deposit
+                    </button>
+                    <button
+                      onClick={() => router.push('/buyer/journey/reservation#milestones')}
+                      className="bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors text-sm flex items-center gap-2"
+                    >
+                      <CheckCircle className="w-4 h-4" />
+                      View Milestones
                     </button>
                   </div>
                 </div>
