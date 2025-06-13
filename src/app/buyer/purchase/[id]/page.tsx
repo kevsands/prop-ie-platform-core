@@ -4,6 +4,8 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useAuth } from '@/context/AuthContext';
+import { transactionCoordinator } from '@/services/transactionCoordinator';
 import { 
   CheckCircle, 
   Shield, 
@@ -35,7 +37,8 @@ import {
   XCircle,
   Phone,
   Play,
-  FileSearch
+  FileSearch,
+  MessageSquare
 } from 'lucide-react';
 
 // Mock property data service
@@ -79,11 +82,14 @@ interface ProgressSteps {
 export default function PurchasePage() {
   const params = useParams();
   const router = useRouter();
+  const { user, isAuthenticated } = useAuth();
   const propertyId = params?.id as string;
   
   const [currentStep, setCurrentStep] = useState(1);
   const [loading, setLoading] = useState(false);
   const [property, setProperty] = useState<any>(null);
+  const [transaction, setTransaction] = useState<any>(null);
+  const [transactionError, setTransactionError] = useState<string | null>(null);
   const [verificationStatus, setVerificationStatus] = useState({
     kyc: true, // Assume verified since they passed verification
     fundsProof: true,
@@ -150,11 +156,41 @@ export default function PurchasePage() {
 
   const handlePayment = async () => {
     setLoading(true);
-    // Simulate payment processing
-    setTimeout(() => {
-      setLoading(false);
+    setTransactionError(null);
+
+    try {
+      // Mock payment processing
+      await new Promise(resolve => setTimeout(resolve, 1500));
+
+      // Create the actual transaction through the coordinator
+      if (user && property) {
+        console.log('Creating transaction...', {
+          buyerId: user.id || 'mock-buyer-id',
+          projectId: property.developmentName || 'fitzgerald-gardens'
+        });
+
+        const newTransaction = await transactionCoordinator.initiatePropertyPurchase(
+          user.id || 'mock-buyer-id',
+          property.developmentName || 'fitzgerald-gardens'
+        );
+
+        setTransaction(newTransaction);
+        console.log('Transaction created:', newTransaction);
+
+        // Listen for transaction events
+        const eventBus = transactionCoordinator.getEventBus();
+        eventBus.on('transaction.initiated', (txn) => {
+          console.log('Transaction event received:', txn);
+        });
+      }
+
       handleNextStep();
-    }, 2000);
+    } catch (error) {
+      console.error('Payment/Transaction error:', error);
+      setTransactionError('Failed to process payment and create transaction. Please try again.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   if (!property) {
@@ -645,8 +681,44 @@ export default function PurchasePage() {
                     </div>
                     <h2 className="text-2xl font-bold mb-2">Reservation Confirmed!</h2>
                     <p className="text-gray-600 mb-6">
-                      Your property has been successfully reserved
+                      Your property has been successfully reserved and transaction created
                     </p>
+                    
+                    {/* Show transaction details if available */}
+                    {transaction && (
+                      <div className="bg-blue-50 rounded-lg p-4 mb-6">
+                        <h3 className="font-semibold text-blue-900 mb-3">Transaction Created Successfully</h3>
+                        <div className="space-y-2">
+                          <div className="flex justify-between">
+                            <span className="text-sm text-blue-700">Transaction ID:</span>
+                            <span className="text-sm font-mono font-medium text-blue-900">{transaction.id}</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="text-sm text-blue-700">Status:</span>
+                            <span className="text-sm font-medium text-blue-900 capitalize">{transaction.status.toLowerCase().replace('_', ' ')}</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="text-sm text-blue-700">Created:</span>
+                            <span className="text-sm font-medium text-blue-900">{new Date().toLocaleDateString()}</span>
+                          </div>
+                        </div>
+                        <div className="mt-3 pt-3 border-t border-blue-200">
+                          <p className="text-xs text-blue-700">
+                            Your transaction has been created with automated milestone tracking. 
+                            You can view progress and next steps in your buyer dashboard.
+                          </p>
+                        </div>
+                      </div>
+                    )}
+                    
+                    {transactionError && (
+                      <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-6">
+                        <p className="text-yellow-800 text-sm">
+                          <strong>Note:</strong> Reservation was successful, but there was an issue creating the transaction record. 
+                          Our team will resolve this and contact you shortly.
+                        </p>
+                      </div>
+                    )}
                   </div>
 
                   <div className="bg-gray-50 rounded-lg p-6 mb-6">

@@ -24,7 +24,7 @@ import {
   ResponsiveContainer
 } from 'recharts';
 import {
-  BuildingIcon,
+  BuildingOfficeIcon as BuildingIcon,
   ChartBarIcon,
   CurrencyDollarIcon,
   UserGroupIcon,

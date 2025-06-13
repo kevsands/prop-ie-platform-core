@@ -44,7 +44,7 @@ import {
   ShieldCheckIcon,
   ClockIcon,
   AlertCircleIcon,
-  BuildingIcon,
+  BuildingOfficeIcon as BuildingIcon,
   BriefcaseIcon,
   ScaleIcon,
   HomeIcon,

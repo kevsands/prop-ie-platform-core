@@ -298,19 +298,134 @@ export function useFinancialDashboard(
 }
 
 /**
- * Hook that leverages existing hooks for backward compatibility
+ * Hook that provides comprehensive developer dashboard data
  */
 export function useDeveloperDashboard() {
   const { data: developmentsData, isLoading: isDevelopmentsLoading, error: developmentsError } =
     useDeveloperDashboardOverview();
 
-  // Format and transform the data to match the expected structure
-  const transformedData = {
-    activeProjects: developmentsData?.developerDashboard.stats.activeProjects || 0,
-    propertiesAvailable: developmentsData?.developerDashboard.stats.availableUnits || 0,
-    totalSales: developmentsData?.developerDashboard.financialSummary.totalSales || 0,
-    projects: developmentsData?.developerDashboard.recentProjects || []
-  };
+  // Create comprehensive mock data structure that matches DeveloperDashboard expectations
+  const transformedData = developmentsData ? {
+    developer: {
+      id: 'dev-001',
+      companyName: 'Premier Property Developments',
+      email: 'info@premierproperty.ie',
+      phone: '+353 1 234 5678',
+      address: 'Dublin 2, Ireland'
+    },
+    projects: developmentsData.developerDashboard.recentProjects || [],
+    properties: [
+      {
+        id: 'prop-001',
+        name: 'Riverside Commons Unit 1A',
+        address: 'Liffey Quay, Dublin 2',
+        type: 'Apartment',
+        status: 'AVAILABLE',
+        price: 450000,
+        bedrooms: 2,
+        bathrooms: 2,
+        area: 85
+      },
+      {
+        id: 'prop-002', 
+        name: 'Phoenix Gardens Unit 2B',
+        address: 'Phoenix Park, Dublin 8',
+        type: 'Apartment',
+        status: 'SOLD',
+        price: 520000,
+        bedrooms: 3,
+        bathrooms: 2,
+        area: 95
+      }
+    ],
+    finances: {
+      totalRevenue: developmentsData.developerDashboard.financialSummary.totalRevenue || 0,
+      projectedRevenue: developmentsData.developerDashboard.financialSummary.projectedRevenue || 0,
+      totalCosts: (developmentsData.developerDashboard.financialSummary.totalRevenue || 0) * 0.7,
+      monthlyRevenue: developmentsData.developerDashboard.financialSummary.monthlySales || []
+    },
+    sales: {
+      totalSales: developmentsData.developerDashboard.financialSummary.totalSales || 0,
+      averageSalePrice: developmentsData.developerDashboard.salesMetrics.averageSalePrice || 0,
+      conversionRate: developmentsData.developerDashboard.salesMetrics.conversionRate || 0
+    },
+    compliance: {
+      overallScore: 94,
+      issues: [
+        {
+          id: 'comp-001',
+          title: 'Planning Permission Update Required',
+          severity: 'medium',
+          status: 'OPEN',
+          dueDate: '2024-07-15'
+        }
+      ],
+      criticalIssues: []
+    },
+    team: [
+      {
+        id: 'team-001',
+        name: 'Sarah Mitchell',
+        role: 'Project Manager',
+        email: 'sarah@premierproperty.ie'
+      }
+    ],
+    tasks: [
+      {
+        id: 'task-001',
+        title: 'Review architectural plans',
+        status: 'pending',
+        assignee: 'team-001',
+        dueDate: '2024-06-20'
+      }
+    ],
+    notifications: [
+      {
+        id: 'notif-001',
+        type: 'info',
+        title: 'New planning application approved',
+        message: 'Phoenix Gardens Phase 2 approved',
+        timestamp: '2024-06-13T10:00:00Z'
+      }
+    ],
+    analytics: {
+      monthlyPerformance: developmentsData.developerDashboard.financialSummary.monthlySales || [],
+      projectStatus: [
+        { name: 'Active', value: 5, color: '#10B981' },
+        { name: 'Planning', value: 2, color: '#F59E0B' },
+        { name: 'Completed', value: 8, color: '#3B82F6' }
+      ],
+      priceTrends: [
+        { month: 'Jan', dublin: 450000, cork: 320000, galway: 280000 },
+        { month: 'Feb', dublin: 465000, cork: 325000, galway: 285000 },
+        { month: 'Mar', dublin: 470000, cork: 330000, galway: 290000 }
+      ],
+      areas: ['dublin', 'cork', 'galway'],
+      demandByType: [
+        { type: 'Apartments', demand: 85, supply: 65 },
+        { type: 'Houses', demand: 75, supply: 80 },
+        { type: 'Commercial', demand: 60, supply: 70 }
+      ],
+      averageTimeToSale: 45,
+      customerSatisfaction: 92,
+      roi: 18.5,
+      projections: [
+        { month: 'Jul', pessimistic: 2000000, realistic: 2500000, optimistic: 3200000 },
+        { month: 'Aug', pessimistic: 2100000, realistic: 2700000, optimistic: 3500000 },
+        { month: 'Sep', pessimistic: 2200000, realistic: 2900000, optimistic: 3800000 }
+      ],
+      salesMetrics: developmentsData.developerDashboard.salesMetrics,
+      constructionMilestones: [
+        {
+          id: 'milestone-001',
+          projectId: 'proj-001',
+          name: 'Foundation Complete',
+          status: 'completed',
+          completedDate: '2024-05-15'
+        }
+      ]
+    }
+  } : null;
 
   return {
     data: transformedData,

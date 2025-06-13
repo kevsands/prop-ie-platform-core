@@ -46,7 +46,7 @@ import {
   ScatterChart, Scatter, ComposedChart, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar
 } from 'recharts';
 import { useAuth } from '@/hooks/useAuth';
-import { useDeveloperData } from '@/hooks/useDeveloperData';
+import { useDeveloperDashboard } from '@/hooks/useDeveloperDashboard';
 import { format, differenceInDays, addMonths } from 'date-fns';
 import ProjectOverview from '@/components/projects/ProjectOverview';
 import PropertyManagement from '@/components/properties/PropertyManagement';
@@ -66,7 +66,7 @@ interface DeveloperDashboardProps {
 
 export default function DeveloperDashboard({ developerId }: DeveloperDashboardProps) {
   const { user } = useAuth();
-  const { data: developerData, isLoading } = useDeveloperData(developerId || user?.id);
+  const { data: developerData, loading: isLoading } = useDeveloperDashboard();
   const [selectedProject, setSelectedProject] = useState<string>('all');
   const [dateRange, setDateRange] = useState<{ from: Date; to: Date }>({
     from: addMonths(new Date(), -3),
@@ -392,7 +392,11 @@ export default function DeveloperDashboard({ developerId }: DeveloperDashboardPr
           </TabsContent>
 
           <TabsContent value="projects" className="space-y-6">
-            <ProjectManagement projects={filteredProjects} />
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {filteredProjects.map(project => (
+                <ProjectOverview key={project.id} project={project} />
+              ))}
+            </div>
           </TabsContent>
 
           <TabsContent value="sales" className="space-y-6">

@@ -4,7 +4,7 @@ import { Inter, Lora } from "next/font/google";
 import "./globals.css";
 import ClientLayout from "./ClientLayout";
 import Providers from "./Providers";
-import PerformanceProvider from "@/components/performance/PerformanceProvider";
+// import PerformanceProvider from "@/components/performance/PerformanceProvider";
 // import ServiceWorkerRegistration from "@/components/performance/ServiceWorkerRegistration";
 
 // Initialize fonts with performance optimizations

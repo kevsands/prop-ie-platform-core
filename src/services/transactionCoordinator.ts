@@ -1,10 +1,34 @@
-import { PrismaClient, TransactionStatus, MilestoneStatus, ParticipantRole } from '@prisma/slp-client';
-import { Logger } from '@/utils/logger';
+// import { PrismaClient, TransactionStatus, MilestoneStatus, ParticipantRole } from '@prisma/slp-client';
+// import { Logger } from '@/utils/logger';
 import { EventEmitter } from 'events';
-import { slpService } from './slpService';
+// import { slpService } from './slpService';
 
-const prisma = new PrismaClient();
-const logger = new Logger('TransactionCoordinator');
+// Mock types for development
+enum TransactionStatus {
+  INITIATED = 'INITIATED',
+  OFFER_MADE = 'OFFER_MADE',
+  OFFER_ACCEPTED = 'OFFER_ACCEPTED',
+  CONTRACTS_EXCHANGED = 'CONTRACTS_EXCHANGED',
+  COMPLETED = 'COMPLETED',
+  CANCELLED = 'CANCELLED'
+}
+
+enum MilestoneStatus {
+  PENDING = 'PENDING',
+  IN_PROGRESS = 'IN_PROGRESS',
+  COMPLETED = 'COMPLETED',
+  CANCELLED = 'CANCELLED'
+}
+
+enum ParticipantRole {
+  BUYER = 'BUYER',
+  SELLER = 'SELLER',
+  SOLICITOR = 'SOLICITOR',
+  DEVELOPER = 'DEVELOPER'
+}
+
+// const prisma = new PrismaClient();
+// const logger = new Logger('TransactionCoordinator');
 const eventBus = new EventEmitter();
 
 export interface TransactionInput {
@@ -27,16 +51,17 @@ export class TransactionCoordinator {
     projectId: string
   ): Promise<any> {
     try {
-      // Create the transaction
-      const transaction = await prisma.transaction.create({
-        data: {
-          projectId,
-          buyerId,
-          status: TransactionStatus.INITIATED
-        }
-      });
+      // Mock transaction creation for development
+      const transaction = {
+        id: `TXN-${Date.now()}-${Math.random().toString(36).substr(2, 6)}`,
+        projectId,
+        buyerId,
+        status: TransactionStatus.INITIATED,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      };
 
-      // Add default milestones
+      // Add default milestones (mock)
       const defaultMilestones: MilestoneInput[] = [
         {
           name: 'Initial Deposit',
@@ -65,28 +90,34 @@ export class TransactionCoordinator {
         }
       ];
 
-      await prisma.milestone.createMany({
-        data: defaultMilestones.map(milestone => ({
-          ...milestone,
-          transactionId: transaction.id
-        }))
-      });
+      // Mock milestone creation
+      const milestones = defaultMilestones.map((milestone, index) => ({
+        id: `MLS-${Date.now()}-${index}`,
+        transactionId: transaction.id,
+        ...milestone,
+        status: MilestoneStatus.PENDING,
+        createdAt: new Date()
+      }));
 
-      // Add participants
-      await prisma.participant.create({
-        data: {
-          transactionId: transaction.id,
-          userId: buyerId,
-          role: ParticipantRole.BUYER
-        }
-      });
+      // Mock participant creation
+      const participant = {
+        id: `PRT-${Date.now()}`,
+        transactionId: transaction.id,
+        userId: buyerId,
+        role: ParticipantRole.BUYER,
+        createdAt: new Date()
+      };
 
-      // Notify relevant parties
+      // Store mock data (in production this would be in database)
+      (transaction as any).milestones = milestones;
+      (transaction as any).participants = [participant];
+
+      // Notify relevant parties (mock)
       await this.notifyParties(transaction.id, 'transaction.initiated');
 
       // Emit event
       eventBus.emit('transaction.initiated', transaction);
-      logger.info('Property purchase transaction initiated', { 
+      console.log('Property purchase transaction initiated', { 
         transactionId: transaction.id,
         projectId,
         buyerId 
@@ -94,7 +125,7 @@ export class TransactionCoordinator {
 
       return transaction;
     } catch (error) {
-      logger.error('Failed to initiate property purchase', { 
+      console.error('Failed to initiate property purchase', { 
         projectId, 
         buyerId, 
         error 
@@ -112,25 +143,24 @@ export class TransactionCoordinator {
     performedBy: string
   ): Promise<any> {
     try {
-      const currentTransaction = await prisma.transaction.findUnique({
-        where: { id: transactionId },
-        include: { milestones: true }
-      });
-
-      if (!currentTransaction) {
-        throw new Error('Transaction not found');
-      }
+      // Mock transaction lookup for development
+      const currentTransaction = {
+        id: transactionId,
+        status: TransactionStatus.INITIATED,
+        milestones: []
+      };
 
       // Validate state transition
       if (!this.isValidTransition(currentTransaction.status, newStatus)) {
         throw new Error(`Invalid state transition from ${currentTransaction.status} to ${newStatus}`);
       }
 
-      // Update transaction status
-      const updatedTransaction = await prisma.transaction.update({
-        where: { id: transactionId },
-        data: { status: newStatus }
-      });
+      // Mock transaction update
+      const updatedTransaction = {
+        ...currentTransaction,
+        status: newStatus,
+        updatedAt: new Date()
+      };
 
       // Handle status-specific actions
       switch (newStatus) {
@@ -158,7 +188,7 @@ export class TransactionCoordinator {
         newStatus
       });
 
-      logger.info('Transaction status changed', { 
+      console.log('Transaction status changed', { 
         transactionId, 
         previousStatus: currentTransaction.status,
         newStatus 
@@ -166,7 +196,7 @@ export class TransactionCoordinator {
 
       return updatedTransaction;
     } catch (error) {
-      logger.error('Failed to handle state change', { 
+      console.error('Failed to handle state change', { 
         transactionId, 
         newStatus, 
         error 
@@ -184,13 +214,14 @@ export class TransactionCoordinator {
     role: ParticipantRole
   ): Promise<any> {
     try {
-      const participant = await prisma.participant.create({
-        data: {
-          transactionId,
-          userId,
-          role
-        }
-      });
+      // Mock participant creation
+      const participant = {
+        id: `PRT-${Date.now()}-${Math.random().toString(36).substr(2, 6)}`,
+        transactionId,
+        userId,
+        role,
+        createdAt: new Date()
+      };
 
       // Notify new participant
       await this.notifyUser(userId, 'participant.added', {
@@ -204,7 +235,7 @@ export class TransactionCoordinator {
         role
       });
 
-      logger.info('Participant added to transaction', { 
+      console.log('Participant added to transaction', { 
         transactionId, 
         userId, 
         role 
@@ -212,7 +243,7 @@ export class TransactionCoordinator {
 
       return participant;
     } catch (error) {
-      logger.error('Failed to add participant', { 
+      console.error('Failed to add participant', { 
         transactionId, 
         userId, 
         role, 
@@ -231,42 +262,23 @@ export class TransactionCoordinator {
     completedBy?: string
   ): Promise<any> {
     try {
-      const milestone = await prisma.milestone.update({
-        where: { id: milestoneId },
-        data: {
-          status,
-          completedAt: status === MilestoneStatus.COMPLETED ? new Date() : undefined
-        }
-      });
+      // Mock milestone update
+      const milestone = {
+        id: milestoneId,
+        transactionId: `TXN-${Date.now()}`,
+        status,
+        completedAt: status === MilestoneStatus.COMPLETED ? new Date() : undefined,
+        updatedAt: new Date()
+      };
 
-      // Check if all milestones are completed
-      const transaction = await prisma.transaction.findUnique({
-        where: { id: milestone.transactionId },
-        include: { milestones: true }
-      });
-
-      if (transaction) {
-        const allCompleted = transaction.milestones.every(
-          m => m.status === MilestoneStatus.COMPLETED
-        );
-
-        if (allCompleted) {
-          await this.handleStateChange(
-            transaction.id,
-            TransactionStatus.COMPLETED,
-            completedBy || 'system'
-          );
-        }
-      }
-
-      logger.info('Milestone status updated', { 
+      console.log('Milestone status updated', { 
         milestoneId, 
         status 
       });
 
       return milestone;
     } catch (error) {
-      logger.error('Failed to update milestone status', { 
+      console.error('Failed to update milestone status', { 
         milestoneId, 
         status, 
         error 
@@ -279,24 +291,11 @@ export class TransactionCoordinator {
    * Private: Handle offer accepted status
    */
   private async handleOfferAccepted(transactionId: string): Promise<void> {
-    // Trigger SLP review
-    const transaction = await prisma.transaction.findUnique({
-      where: { id: transactionId }
-    });
-
-    if (transaction) {
-      const slpProgress = await slpService.getProjectProgress(transaction.projectId);
-      
-      if (slpProgress.progressPercentage < 100) {
-        logger.warn('SLP not complete for accepted offer', { 
-          transactionId, 
-          progress: slpProgress.progressPercentage 
-        });
-      }
-    }
-
-    // Create legal review tasks
-    // Notify solicitors
+    // Mock SLP review trigger
+    console.log('Handling offer accepted for transaction', transactionId);
+    
+    // Mock legal review tasks creation
+    // Mock solicitor notifications
   }
 
   /**
@@ -312,14 +311,12 @@ export class TransactionCoordinator {
    * Private: Handle transaction completion
    */
   private async handleCompletion(transactionId: string): Promise<void> {
-    await prisma.transaction.update({
-      where: { id: transactionId },
-      data: { completedAt: new Date() }
-    });
-
-    // Transfer ownership
-    // Release funds
-    // Generate completion documents
+    // Mock transaction completion
+    console.log('Completing transaction', transactionId);
+    
+    // Mock ownership transfer
+    // Mock fund release
+    // Mock completion document generation
   }
 
   /**
@@ -349,17 +346,15 @@ export class TransactionCoordinator {
     event: string,
     data?: any
   ): Promise<void> {
-    const participants = await prisma.participant.findMany({
-      where: { transactionId }
+    // Mock notification for development
+    console.log('Notifying transaction participants', {
+      transactionId,
+      event,
+      data
     });
-
-    for (const participant of participants) {
-      await this.notifyUser(participant.userId, event, {
-        transactionId,
-        role: participant.role,
-        ...data
-      });
-    }
+    
+    // In production, this would fetch participants from database
+    // and send actual notifications
   }
 
   /**

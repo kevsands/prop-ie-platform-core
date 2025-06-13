@@ -27,7 +27,7 @@ import {
 import { cn } from '@/lib/utils';
 import {
   HomeIcon,
-  BuildingIcon,
+  BuildingOfficeIcon as BuildingIcon,
   FileTextIcon,
   UsersIcon,
   BarChart3Icon,

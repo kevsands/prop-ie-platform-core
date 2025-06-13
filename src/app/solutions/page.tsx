@@ -47,7 +47,7 @@ export default function SolutionsPage() {
         <h2 className="text-lg font-bold mb-4">DEVELOPERS</h2>
         <ul className="space-y-3 mb-8">
           <li>
-            <Link href="/solutions/developers" className="font-semibold text-blue-900 hover:text-blue-600">Developer Platform</Link>
+            <Link href="/solutions/developer-platform" className="font-semibold text-blue-900 hover:text-blue-600">Developer Platform</Link>
             <div className="text-gray-600 text-sm">End-to-end development management, sales, and analytics</div>
           </li>
         </ul>

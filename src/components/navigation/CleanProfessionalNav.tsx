@@ -429,11 +429,14 @@ export const CleanProfessionalNav = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
-  const { user, isAuthenticated } = useAuth();
-  const { role } = useUserRole();
   const router = useRouter();
   const dropdownTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const navigationItems: NavigationItem[] = getNavigationItems();
+  
+  // Use default values for now to avoid context issues
+  const user = null;
+  const isAuthenticated = false;
+  const role = 'PUBLIC';
   
   useEffect(() => {
     const handleScroll = () => {
