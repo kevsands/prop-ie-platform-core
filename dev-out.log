@@ -1,0 +1,546 @@
+   ▲ Next.js 15.3.1
+   - Local:        http://localhost:3000
+   - Network:      http://192.168.0.41:3000
+   - Environments: .env.local, .env
+
+ ✓ Starting...
+ ✓ Ready in 2.9s
+ ✓ Compiled /middleware in 245ms (108 modules)
+ ○ Compiling / ...
+ ✓ Compiled / in 4.7s (1009 modules)
+ HEAD / 200 in 5370ms
+ ○ Compiling /login ...
+ ✓ Compiled /login in 508ms (998 modules)
+ HEAD /login 200 in 787ms
+ ○ Compiling /developer ...
+ ✓ Compiled /developer in 1754ms (2220 modules)
+ HEAD /developer 200 in 2025ms
+ ✓ Compiled in 405ms (1062 modules)
+ ✓ Compiled in 370ms (1062 modules)
+ ✓ Compiled in 323ms (1062 modules)
+ ✓ Compiled in 355ms (1062 modules)
+ ✓ Compiled in 368ms (1062 modules)
+ ○ Compiling /solutions/solicitors ...
+ ✓ Compiled /solutions/solicitors in 883ms (1628 modules)
+ GET /solutions/solicitors 200 in 1172ms
+ ✓ Compiled /_not-found in 163ms (1618 modules)
+ GET /_next/static/css/app/layout.css?v=1747690798641 404 in 375ms
+ GET /_next/static/chunks/vendor-node_modules_i.js?v=1747690798641 404 in 338ms
+ GET /_next/static/chunks/vendor-node_modules_b.js?v=1747690798641 404 in 343ms
+ GET /_next/static/chunks/vendor-node_modules_d.js?v=1747690798641 404 in 342ms
+ GET /_next/static/chunks/vendor-node_modules_fast-equals_dist_esm_index_mjs-cf9d70bb.js?v=1747690798641 404 in 340ms
+ GET /_next/static/chunks/vendor-node_modules_lodash_g.js?v=1747690798641 404 in 403ms
+ GET /_next/static/chunks/vendor-node_modules_next-.js?v=1747690798641 404 in 72ms
+ GET /_next/static/chunks/vendor-node_modules_next_dist_client_ad.js?v=1747690798641 404 in 441ms
+ GET /_next/static/chunks/vendor-node_modules_next_dist_client_components_m.js?v=1747690798641 404 in 442ms
+ GET /_next/static/chunks/vendor-node_modules_next_dist_client_components_react-dev-overlay_ui_components_ca.js?v=1747690798641 404 in 442ms
+ GET /_next/static/chunks/vendor-node_modules_next_dist_client_components_react-dev-overlay_ui_components_dialog_d.js?v=1747690798641 404 in 221ms
+ GET /_next/static/chunks/vendor-node_modules_next_dist_client_components_react-dev-overlay_ui_components_errors_c.js?v=1747690798641 404 in 221ms
+ GET /_next/static/chunks/vendor-node_modules_next_dist_client_components_react-dev-overlay_ui_components_errors_d.js?v=1747690798641 404 in 455ms
+ GET /_next/static/chunks/vendor-node_modules_next_dist_client_components_react-dev-overlay_ui_components_t.js?v=1747690798641 404 in 266ms
+ GET /_next/static/chunks/vendor-node_modules_next_dist_client_components_react-dev-overlay_ui_components_f.js?v=1747690798641 404 in 269ms
+ GET /_next/static/chunks/vendor-node_modules_next_dist_client_components_react-dev-overlay_ui_container_b.js?v=1747690798641 404 in 276ms
+ GET /_next/static/chunks/vendor-node_modules_next_dist_client_components_react-dev-overlay_ui_d.js?v=1747690798641 404 in 45ms
+ GET /_next/static/chunks/vendor-node_modules_next_dist_client_components_react-dev-overlay_ui_s.js?v=1747690798641 404 in 44ms
+ GET /_next/static/chunks/vendor-node_modules_next_dist_client_components_react-dev-overlay_utils_c.js?v=1747690798641 404 in 50ms
+ GET /_next/static/chunks/vendor-node_modules_next_dist_client_components_redirect-.js?v=1747690798641 404 in 56ms
+ GET /_next/static/chunks/vendor-node_modules_next_dist_client_components_re.js?v=1747690798641 404 in 55ms
+ GET /_next/static/chunks/vendor-node_modules_next_dist_client_components_r.js?v=1747690798641 404 in 55ms
+ GET /_next/static/chunks/vendor-node_modules_next_dist_client_components_un.js?v=1747690798641 404 in 40ms
+ GET /_next/static/chunks/vendor-node_modules_next_dist_client_d.js?v=1747690798641 404 in 40ms
+ GET /_next/static/chunks/vendor-node_modules_next_dist_client_i.js?v=1747690798641 404 in 49ms
+ GET /_next/static/chunks/vendor-node_modules_next_dist_compiled_a.js?v=1747690798641 404 in 60ms
+ GET /_next/static/chunks/vendor-node_modules_next_dist_client_n.js?v=1747690798641 404 in 68ms
+ GET /_next/static/chunks/vendor-node_modules_next_dist_compiled_react-dom_cjs_react-dom-client_development_js-3139057c.js?v=1747690798641 404 in 60ms
+ GET /_next/static/chunks/vendor-node_modules_next_dist_c.js?v=1747690798641 404 in 61ms
+ GET /_next/static/chunks/vendor-node_modules_next_dist_l.js?v=1747690798641 404 in 61ms
+ GET /_next/static/chunks/vendor-node_modules_next_d.js?v=1747690798641 404 in 52ms
+ GET /_next/static/chunks/vendor-node_modules_proc.js?v=1747690798641 404 in 50ms
+ GET /_next/static/chunks/vendor-node_modules_react-smooth_es6_A.js?v=1747690798641 404 in 51ms
+ GET /_next/static/chunks/vendor-node_modules_rea.js?v=1747690798641 404 in 41ms
+ GET /_next/static/chunks/vendor-node_modules_recharts_es6_cartesian_A.js?v=1747690798641 404 in 75ms
+ GET /_next/static/chunks/vendor-node_modules_recharts_es6_cartesian_L.js?v=1747690798641 404 in 75ms
+ GET /_next/static/chunks/vendor-node_modules_recharts_es6_i.js?v=1747690798641 404 in 44ms
+ GET /_next/static/chunks/vendor-node_modules_recharts_es6_s.js?v=1747690798641 404 in 42ms
+ GET /_next/static/chunks/vendor-node_modules_recharts_es6_chart_A.js?v=1747690798641 404 in 45ms
+ GET /_next/static/chunks/vendor-node_modules_recharts_es6_com.js?v=1747690798641 404 in 44ms
+ GET /_next/static/chunks/vendor-node_modules_r.js?v=1747690798641 404 in 229ms
+ GET /_next/static/chunks/common-_app-pages-browser_src_app_ClientLayout_tsx.js 404 in 227ms
+ GET /_next/static/chunks/common-_app-pages-browser_src_context_AuthContext_tsx-_app-pages-browser_src_context_Enterpri-a2b2db.js 404 in 226ms
+ ✓ Compiled /favicon.ico in 194ms (569 modules)
+ GET /favicon.ico 200 in 387ms
+ ✓ Compiled in 389ms (1079 modules)
+ ✓ Compiled in 453ms (1076 modules)
+ ✓ Compiled in 410ms (1076 modules)
+ ✓ Compiled in 390ms (1076 modules)
+ ✓ Compiled in 413ms (1076 modules)
+ ✓ Compiled in 402ms (1076 modules)
+ ✓ Compiled in 437ms (1076 modules)
+ ✓ Compiled in 493ms (1076 modules)
+ ⨯ Error: Cannot find module './5363.js'
+Require stack:
+- /Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/webpack-runtime.js
+- /Users/kevin/Downloads/awsready/prop-ie-aws-app/.next/server/app/favicon.ico/route.js
+- /Users/kevin/Downloads/awsready/prop-ie-aws-app/node_modules/next/dist/server/require.js
+- /Users/kevin/Downloads/awsready/prop-ie-aws-app/node_modules/next/dist/server/load-components.js
+- /Users/kevin/Downloads/awsready/prop-ie-aws-app/node_modules/next/dist/build/utils.js
+- /Users/kevin/Downloads/awsready/prop-ie-aws-app/node_modules/next/dist/build/swc/options.js
+- /Users/kevin/Downloads/awsready/prop-ie-aws-app/node_modules/next/dist/build/swc/index.js
+- /Users/kevin/Downloads/awsready/prop-ie-aws-app/node_modules/next/dist/build/analysis/parse-module.js
+- /Users/kevin/Downloads/awsready/prop-ie-aws-app/node_modules/next/dist/build/analysis/get-page-static-info.js
+- /Users/kevin/Downloads/awsready/prop-ie-aws-app/node_modules/next/dist/server/lib/router-utils/setup-dev-bundler.js
+- /Users/kevin/Downloads/awsready/prop-ie-aws-app/node_modules/next/dist/server/lib/router-server.js
+- /Users/kevin/Downloads/awsready/prop-ie-aws-app/node_modules/next/dist/server/lib/start-server.js
+    at __webpack_require__.f.require (.next/server/webpack-runtime.js:203:28)
+    at <unknown> (.next/server/webpack-runtime.js:116:40)
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (.next/server/webpack-runtime.js:115:67)
+    at Array.map (<anonymous>)
+    at __webpack_require__.X (.next/server/webpack-runtime.js:167:22)
+    at <unknown> (.next/server/app/solutions/solicitors/page.js:1:46684)
+    at Object.<anonymous> (.next/server/app/solutions/solicitors/page.js:1:47251) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array],
+  page: '/solutions/solicitors'
+}
+ ○ Compiling /_error ...
+ ✓ Compiled /_error in 960ms (1945 modules)
+ GET /solutions/solicitors 500 in 1382ms
+ ✓ Compiled /_not-found in 257ms (1949 modules)
+ GET /_next/static/chunks/vendor-node_modules_d.js 404 in 631ms
+ GET /_next/static/chunks/vendor-node_modules_lodash_g.js 404 in 629ms
+ GET /_next/static/chunks/vendor-node_modules_fast-equals_dist_esm_index_mjs-cf9d70bb.js 404 in 630ms
+ GET /_next/static/chunks/vendor-node_modules_i.js 404 in 629ms
+ GET /_next/static/chunks/vendor-node_modules_b.js 404 in 815ms
+ GET /_next/static/chunks/vendor-node_modules_lo.js 404 in 629ms
+ GET /_next/static/chunks/vendor-node_modules_next_dist_client_components_m.js 404 in 71ms
+ GET /_next/static/chunks/vendor-node_modules_next_dist_client_components_re.js 404 in 179ms
+ GET /_next/static/chunks/vendor-node_modules_next_dist_client_components_r.js 404 in 178ms
+ GET /_next/static/chunks/vendor-node_modules_next_dist_client_components_un.js 404 in 36ms
+ GET /_next/static/chunks/vendor-node_modules_next_dist_compiled_react-dom_cjs_react-dom-client_development_js-3139057c.js 404 in 20ms
+ GET /_next/static/chunks/vendor-node_modules_proc.js 404 in 46ms
+ GET /_next/static/chunks/vendor-node_modules_recharts_es6_cartesian_L.js 404 in 30ms
+ GET /_next/static/chunks/vendor-node_modules_recharts_es6_chart_A.js 404 in 40ms
+ GET /_next/static/chunks/vendor-node_modules_recharts_es6_com.js 404 in 42ms
+ GET /_next/static/chunks/vendor-node_modules_recharts_es6_i.js 404 in 31ms
+ GET /_next/static/chunks/vendor-node_modules_recharts_es6_s.js 404 in 30ms
+ ✓ Compiled in 697ms (1387 modules)
+ ✓ Compiled in 403ms (1333 modules)
+ ✓ Compiled in 407ms (1333 modules)
+ ✓ Compiled in 293ms (1333 modules)
+ ✓ Compiled in 288ms (1333 modules)
+ ✓ Compiled in 333ms (1333 modules)
+ ✓ Compiled /solutions/solicitors in 348ms (611 modules)
+ GET /solutions/solicitors 200 in 722ms
+ ✓ Compiled /_not-found in 232ms (1934 modules)
+ GET /_next/static/chunks/vendor-node_modules_b.js?v=1747692124407 404 in 730ms
+ GET /_next/static/chunks/vendor-node_modules_i.js?v=1747692124407 404 in 721ms
+ GET /_next/static/chunks/vendor-node_modules_d.js?v=1747692124407 404 in 722ms
+ GET /_next/static/chunks/vendor-node_modules_fast-equals_dist_esm_index_mjs-cf9d70bb.js?v=1747692124407 404 in 721ms
+ GET /_next/static/chunks/vendor-node_modules_lodash_g.js?v=1747692124407 404 in 792ms
+ GET /_next/static/chunks/vendor-node_modules_next_dist_client_components_m.js?v=1747692124407 404 in 88ms
+ GET /_next/static/chunks/vendor-node_modules_next_dist_client_components_re.js?v=1747692124407 404 in 243ms
+ GET /_next/static/chunks/vendor-node_modules_next_dist_client_components_r.js?v=1747692124407 404 in 243ms
+ GET /_next/static/chunks/vendor-node_modules_next_dist_client_components_un.js?v=1747692124407 404 in 243ms
+ GET /_next/static/chunks/vendor-node_modules_next_dist_compiled_react-dom_cjs_react-dom-client_development_js-3139057c.js?v=1747692124407 404 in 87ms
+ GET /_next/static/chunks/vendor-node_modules_proc.js?v=1747692124407 404 in 227ms
+ GET /_next/static/chunks/vendor-node_modules_recharts_es6_cartesian_L.js?v=1747692124407 404 in 145ms
+ GET /_next/static/chunks/vendor-node_modules_recharts_es6_chart_A.js?v=1747692124407 404 in 144ms
+ GET /_next/static/chunks/vendor-node_modules_recharts_es6_com.js?v=1747692124407 404 in 36ms
+ GET /_next/static/chunks/vendor-node_modules_recharts_es6_i.js?v=1747692124407 404 in 19ms
+ ⚠ The "images.domains" configuration is deprecated. Please use "images.remotePatterns" configuration instead.
+ GET /_next/static/chunks/common-_app-pages-browser_src_context_AuthContext_tsx-_app-pages-browser_src_context_Enterpri-a2b2db.js 404 in 41ms
+ GET /_next/static/chunks/app/solutions/solicitors/page-_app-pages-browser-68649d80.js 404 in 26ms
+ ⨯ The requested resource "/images/solutions/developer-hub.jpg" has type "image/svg+xml" but dangerouslyAllowSVG is disabled
+ ⨯ The requested resource "/images/resources/q1-market-review.jpg" has type "image/svg+xml" but dangerouslyAllowSVG is disabled
+ ✓ Compiled /favicon.ico in 108ms (628 modules)
+ GET /favicon.ico 200 in 240ms
+ ✓ Compiled /solutions/developers in 446ms (1997 modules)
+ GET /solutions/developers 200 in 696ms
+ GET /_next/static/chunks/vendor-node_modules_fast-equals_dist_esm_index_mjs-cf9d70bb.js?v=1747692127909 404 in 378ms
+ GET /_next/static/chunks/vendor-node_modules_b.js?v=1747692127909 404 in 378ms
+ GET /_next/static/chunks/vendor-node_modules_d.js?v=1747692127909 404 in 379ms
+ GET /_next/static/chunks/vendor-node_modules_i.js?v=1747692127909 404 in 378ms
+ GET /_next/static/chunks/vendor-node_modules_lodash_g.js?v=1747692127909 404 in 377ms
+ GET /_next/static/chunks/vendor-node_modules_next_dist_client_components_m.js?v=1747692127909 404 in 87ms
+ GET /_next/static/chunks/vendor-node_modules_next_dist_client_components_re.js?v=1747692127909 404 in 62ms
+ GET /_next/static/chunks/vendor-node_modules_next_dist_client_components_r.js?v=1747692127909 404 in 61ms
+ GET /_next/static/chunks/vendor-node_modules_next_dist_client_components_un.js?v=1747692127909 404 in 62ms
+ GET /_next/static/chunks/vendor-node_modules_next_dist_compiled_react-dom_cjs_react-dom-client_development_js-3139057c.js?v=1747692127909 404 in 20ms
+ GET /_next/static/chunks/vendor-node_modules_proc.js?v=1747692127909 404 in 43ms
+ ✓ Compiled in 490ms (1997 modules)
+ GET /_next/static/chunks/vendor-node_modules_recharts_es6_chart_A.js?v=1747692127909 404 in 880ms
+ GET /_next/static/chunks/vendor-node_modules_recharts_es6_cartesian_L.js?v=1747692127909 404 in 884ms
+ GET /_next/static/chunks/vendor-node_modules_recharts_es6_com.js?v=1747692127909 404 in 641ms
+ GET /_next/static/chunks/vendor-node_modules_recharts_es6_i.js?v=1747692127909 404 in 639ms
+ ⨯ The requested resource "/images/resources/q1-market-review.jpg" has type "image/svg+xml" but dangerouslyAllowSVG is disabled
+ ⨯ The requested resource "/images/solutions/developer-hub.jpg" has type "image/svg+xml" but dangerouslyAllowSVG is disabled
+ GET /_next/static/chunks/common-_app-pages-browser_src_context_AuthContext_tsx-_app-pages-browser_src_context_Enterpri-a2b2db.js 404 in 92ms
+ GET /favicon.ico 200 in 100ms
+ ✓ Compiled /developer/developments/[id] in 244ms (2015 modules)
+ GET /developer/developments/1 200 in 1333ms
+ GET /_next/static/chunks/vendor-node_modules_d.js?v=1747692132042 404 in 388ms
+ GET /_next/static/chunks/vendor-node_modules_lodash_g.js?v=1747692132042 404 in 387ms
+ GET /_next/static/chunks/vendor-node_modules_b.js?v=1747692132042 404 in 389ms
+ GET /_next/static/chunks/vendor-node_modules_fast-equals_dist_esm_index_mjs-cf9d70bb.js?v=1747692132042 404 in 388ms
+ GET /_next/static/chunks/vendor-node_modules_i.js?v=1747692132042 404 in 388ms
+ GET /_next/static/chunks/vendor-node_modules_next_dist_client_components_m.js?v=1747692132042 404 in 77ms
+ GET /_next/static/chunks/vendor-node_modules_next_dist_client_components_un.js?v=1747692132042 404 in 76ms
+ GET /_next/static/chunks/vendor-node_modules_next_dist_client_components_re.js?v=1747692132042 404 in 77ms
+ GET /_next/static/chunks/vendor-node_modules_next_dist_client_components_r.js?v=1747692132042 404 in 76ms
+ GET /_next/static/chunks/vendor-node_modules_next_dist_compiled_react-dom_cjs_react-dom-client_development_js-3139057c.js?v=1747692132042 404 in 29ms
+ GET /_next/static/chunks/vendor-node_modules_proc.js?v=1747692132042 404 in 85ms
+ GET /_next/static/chunks/vendor-node_modules_recharts_es6_cartesian_L.js?v=1747692132042 404 in 46ms
+ GET /_next/static/chunks/vendor-node_modules_recharts_es6_chart_A.js?v=1747692132042 404 in 45ms
+ GET /_next/static/chunks/vendor-node_modules_recharts_es6_com.js?v=1747692132042 404 in 45ms
+ GET /_next/static/chunks/vendor-node_modules_recharts_es6_i.js?v=1747692132042 404 in 86ms
+ GET /_next/static/chunks/common-_app-pages-browser_src_context_AuthContext_tsx-_app-pages-browser_src_context_Enterpri-a2b2db.js 404 in 83ms
+ ⨯ The requested resource "/images/solutions/developer-hub.jpg" has type "image/svg+xml" but dangerouslyAllowSVG is disabled
+ ⨯ The requested resource "/images/resources/q1-market-review.jpg" has type "image/svg+xml" but dangerouslyAllowSVG is disabled
+ GET /favicon.ico 200 in 25ms
+ ✓ Compiled in 488ms (2029 modules)
+ ✓ Compiled in 611ms (2029 modules)
+ ○ Compiling /solutions/developers/analytics ...
+ ✓ Compiled /solutions/developers/analytics in 1258ms (2743 modules)
+ ⨯ ReferenceError: FileText is not defined
+    at DeveloperAnalyticsPage (src/app/solutions/developers/analytics/page.tsx:608:17)
+  606 |               </button>
+  607 |               <button className="flex items-center justify-center gap-3 p-4 border border-gray-300 rounded-lg hover:bg-gray-50 transition-all">
+> 608 |                 <FileText className="h-5 w-5 text-gray-600" />
+      |                 ^
+  609 |                 <span>Excel Export</span>
+  610 |               </button>
+  611 |               <button className="flex items-center justify-center gap-3 p-4 border border-gray-300 rounded-lg hover:bg-gray-50 transition-all"> {
+  digest: '2475872384'
+}
+ GET /solutions/developers/analytics 500 in 1536ms
+ GET /_next/static/chunks/vendor-node_modules_b.js 404 in 263ms
+ GET /_next/static/chunks/vendor-node_modules_fast-equals_dist_esm_index_mjs-cf9d70bb.js 404 in 261ms
+ GET /_next/static/chunks/vendor-node_modules_d.js 404 in 262ms
+ ⨯ ReferenceError: FileText is not defined
+    at DeveloperAnalyticsPage (src/app/solutions/developers/analytics/page.tsx:608:17)
+  606 |               </button>
+  607 |               <button className="flex items-center justify-center gap-3 p-4 border border-gray-300 rounded-lg hover:bg-gray-50 transition-all">
+> 608 |                 <FileText className="h-5 w-5 text-gray-600" />
+      |                 ^
+  609 |                 <span>Excel Export</span>
+  610 |               </button>
+  611 |               <button className="flex items-center justify-center gap-3 p-4 border border-gray-300 rounded-lg hover:bg-gray-50 transition-all"> {
+  digest: '2475872384'
+}
+ GET /_next/static/chunks/vendor-node_modules_i.js 404 in 165ms
+ GET /solutions/developers/analytics 500 in 187ms
+ GET /_next/static/chunks/vendor-node_modules_d.js 404 in 258ms
+ GET /_next/static/chunks/vendor-node_modules_fast-equals_dist_esm_index_mjs-cf9d70bb.js 404 in 257ms
+ GET /_next/static/chunks/vendor-node_modules_b.js 404 in 258ms
+ GET /_next/static/chunks/vendor-node_modules_i.js 404 in 161ms
+ GET /_next/static/chunks/vendor-node_modules_next_dist_client_components_m.js 404 in 84ms
+ GET /_next/static/chunks/vendor-node_modules_next_dist_client_components_re.js 404 in 238ms
+ GET /_next/static/chunks/vendor-node_modules_next_dist_client_components_r.js 404 in 233ms
+ GET /_next/static/chunks/vendor-node_modules_next_dist_client_components_un.js 404 in 232ms
+ GET /_next/static/chunks/vendor-node_modules_next_dist_compiled_react-dom_cjs_react-dom-client_development_js-3139057c.js 404 in 20ms
+ GET /_next/static/chunks/vendor-node_modules_proc.js 404 in 30ms
+ GET /_next/static/chunks/vendor-node_modules_recharts_es6_cartesian_L.js 404 in 42ms
+ GET /_next/static/chunks/vendor-node_modules_recharts_es6_chart_A.js 404 in 33ms
+ GET /_next/static/chunks/vendor-node_modules_recharts_es6_com.js 404 in 32ms
+ GET /_next/static/chunks/vendor-node_modules_recharts_es6_i.js 404 in 19ms
+ GET /favicon.ico 200 in 27ms
+ ✓ Compiled in 476ms (2757 modules)
+ ✓ Compiled in 523ms (2759 modules)
+ ✓ Compiled in 394ms (1720 modules)
+ ⨯ ReferenceError: FileText is not defined
+    at DeveloperAnalyticsPage (src/app/solutions/developers/analytics/page.tsx:608:17)
+  606 |               </button>
+  607 |               <button className="flex items-center justify-center gap-3 p-4 border border-gray-300 rounded-lg hover:bg-gray-50 transition-all">
+> 608 |                 <FileText className="h-5 w-5 text-gray-600" />
+      |                 ^
+  609 |                 <span>Excel Export</span>
+  610 |               </button>
+  611 |               <button className="flex items-center justify-center gap-3 p-4 border border-gray-300 rounded-lg hover:bg-gray-50 transition-all"> {
+  digest: '2475872384'
+}
+ GET /solutions/developers/analytics 500 in 274ms
+ GET /_next/static/chunks/vendor-node_modules_b.js 404 in 250ms
+ GET /_next/static/chunks/vendor-node_modules_d.js 404 in 251ms
+ GET /_next/static/chunks/vendor-node_modules_fast-equals_dist_esm_index_mjs-cf9d70bb.js 404 in 250ms
+ GET /_next/static/chunks/vendor-node_modules_i.js 404 in 81ms
+ GET /_next/static/chunks/vendor-node_modules_next_dist_client_components_m.js 404 in 76ms
+ GET /_next/static/chunks/vendor-node_modules_next_dist_client_components_re.js 404 in 152ms
+ GET /_next/static/chunks/vendor-node_modules_next_dist_client_components_r.js 404 in 151ms
+ GET /_next/static/chunks/vendor-node_modules_next_dist_client_components_un.js 404 in 152ms
+ GET /_next/static/chunks/vendor-node_modules_next_dist_compiled_react-dom_cjs_react-dom-client_development_js-3139057c.js 404 in 21ms
+ GET /_next/static/chunks/vendor-node_modules_proc.js 404 in 47ms
+ GET /_next/static/chunks/vendor-node_modules_recharts_es6_cartesian_L.js 404 in 29ms
+ GET /_next/static/chunks/vendor-node_modules_recharts_es6_chart_A.js 404 in 29ms
+ GET /_next/static/chunks/vendor-node_modules_recharts_es6_com.js 404 in 32ms
+ GET /_next/static/chunks/vendor-node_modules_recharts_es6_i.js 404 in 23ms
+ GET /favicon.ico 200 in 26ms
+ ○ Compiling /dashboard/security ...
+ ✓ Compiled /dashboard/security in 3s (4587 modules)
+Error fetching security metrics: Error: Cannot access performanceMonitor.recordCacheMiss on the server. You cannot dot into a client module from a server component. You can only pass the imported name through.
+    at eval (src/lib/amplify/api.ts:115:27)
+    at API.eval [as queryCache] (src/lib/amplify/cache.ts:68:23)
+    at API.rest (src/lib/amplify/api.ts:448:24)
+    at API.get (src/lib/amplify/api.ts:553:16)
+    at eval (src/lib/security/securityAnalyticsServer.ts:169:32)
+    at wrappedFn (src/utils/performance/safeCache.ts:123:24)
+    at SecurityDashboardPage (src/app/dashboard/security/page.tsx:21:23)
+  113 |       // Cache miss
+  114 |       if (performanceMonitor) {
+> 115 |         performanceMonitor.recordCacheMiss(cacheName);
+      |                           ^
+  116 |       }
+  117 |       
+  118 |       // Record operation time to help improve future time saved estimates
+Error fetching security events: Error: Cannot access performanceMonitor.recordCacheMiss on the server. You cannot dot into a client module from a server component. You can only pass the imported name through.
+    at eval (src/lib/amplify/api.ts:115:27)
+    at API.eval [as queryCache] (src/lib/amplify/cache.ts:68:23)
+    at API.rest (src/lib/amplify/api.ts:448:24)
+    at API.get (src/lib/amplify/api.ts:553:16)
+    at eval (src/lib/security/securityAnalyticsServer.ts:187:31)
+    at wrappedFn (src/utils/performance/safeCache.ts:123:24)
+    at SecurityDashboardPage (src/app/dashboard/security/page.tsx:22:22)
+  113 |       // Cache miss
+  114 |       if (performanceMonitor) {
+> 115 |         performanceMonitor.recordCacheMiss(cacheName);
+      |                           ^
+  116 |       }
+  117 |       
+  118 |       // Record operation time to help improve future time saved estimates
+Error fetching anomaly detections: Error: Cannot access performanceMonitor.recordCacheMiss on the server. You cannot dot into a client module from a server component. You can only pass the imported name through.
+    at eval (src/lib/amplify/api.ts:115:27)
+    at API.eval [as queryCache] (src/lib/amplify/cache.ts:68:23)
+    at API.rest (src/lib/amplify/api.ts:448:24)
+    at API.get (src/lib/amplify/api.ts:553:16)
+    at eval (src/lib/security/securityAnalyticsServer.ts:205:34)
+    at wrappedFn (src/utils/performance/safeCache.ts:123:24)
+    at SecurityDashboardPage (src/app/dashboard/security/page.tsx:23:25)
+  113 |       // Cache miss
+  114 |       if (performanceMonitor) {
+> 115 |         performanceMonitor.recordCacheMiss(cacheName);
+      |                           ^
+  116 |       }
+  117 |       
+  118 |       // Record operation time to help improve future time saved estimates
+ GET /dashboard/security 200 in 3657ms
+ ⨯ The requested resource "/images/solutions/developer-hub.jpg" has type "image/svg+xml" but dangerouslyAllowSVG is disabled
+ ⨯ The requested resource "/images/resources/q1-market-review.jpg" has type "image/svg+xml" but dangerouslyAllowSVG is disabled
+ GET /_next/static/chunks/vendor-node_modules_d.js?v=1747692240580 404 in 232ms
+ GET /_next/static/chunks/vendor-node_modules_fast-equals_dist_esm_index_mjs-cf9d70bb.js?v=1747692240580 404 in 83ms
+ GET /_next/static/chunks/vendor-node_modules_next_dist_client_components_m.js?v=1747692240580 404 in 85ms
+ GET /_next/static/chunks/vendor-node_modules_next_dist_client_components_re.js?v=1747692240580 404 in 157ms
+ GET /_next/static/chunks/vendor-node_modules_next_dist_client_components_r.js?v=1747692240580 404 in 166ms
+ GET /_next/static/chunks/vendor-node_modules_next_dist_client_components_un.js?v=1747692240580 404 in 87ms
+ GET /_next/static/chunks/vendor-node_modules_next_dist_compiled_react-dom_cjs_react-dom-client_development_js-3139057c.js?v=1747692240580 404 in 90ms
+ GET /_next/static/chunks/vendor-node_modules_proc.js?v=1747692240580 404 in 87ms
+ GET /_next/static/chunks/vendor-node_modules_recharts_es6_cartesian_L.js?v=1747692240580 404 in 80ms
+ GET /_next/static/chunks/vendor-node_modules_recharts_es6_chart_A.js?v=1747692240580 404 in 80ms
+ GET /_next/static/chunks/vendor-node_modules_recharts_es6_com.js?v=1747692240580 404 in 28ms
+ GET /_next/static/chunks/vendor-node_modules_recharts_es6_i.js?v=1747692240580 404 in 27ms
+ GET /_next/static/chunks/common-_app-pages-browser_src_context_AuthContext_tsx-_app-pages-browser_src_context_Enterpri-a2b2db.js 404 in 17ms
+ GET /favicon.ico 200 in 24ms
+ ○ Compiling /dashboard/profile ...
+ ✓ Compiled /dashboard/profile in 544ms (4596 modules)
+ GET /dashboard/profile 404 in 769ms
+ GET /_next/static/chunks/vendor-node_modules_d.js 404 in 191ms
+ GET /_next/static/chunks/vendor-node_modules_fast-equals_dist_esm_index_mjs-cf9d70bb.js 404 in 191ms
+ GET /_next/static/chunks/vendor-node_modules_next_dist_client_components_m.js 404 in 92ms
+ GET /_next/static/chunks/vendor-node_modules_next_dist_client_components_re.js 404 in 257ms
+ GET /_next/static/chunks/vendor-node_modules_next_dist_client_components_r.js 404 in 255ms
+ GET /_next/static/chunks/vendor-node_modules_next_dist_client_components_un.js 404 in 168ms
+ GET /_next/static/chunks/vendor-node_modules_next_dist_compiled_react-dom_cjs_react-dom-client_development_js-3139057c.js 404 in 54ms
+ GET /_next/static/chunks/vendor-node_modules_proc.js 404 in 83ms
+ GET /_next/static/chunks/vendor-node_modules_recharts_es6_cartesian_L.js 404 in 256ms
+ GET /_next/static/chunks/vendor-node_modules_recharts_es6_chart_A.js 404 in 253ms
+ GET /_next/static/chunks/vendor-node_modules_recharts_es6_com.js 404 in 252ms
+ GET /_next/static/chunks/vendor-node_modules_recharts_es6_i.js 404 in 95ms
+ GET /favicon.ico 200 in 52ms
+ ○ Compiling /buyer/first-time-buyers/welcome ...
+ ✓ Compiled /buyer/first-time-buyers/welcome in 846ms (4630 modules)
+ GET /buyer/first-time-buyers/welcome 200 in 1120ms
+ GET /_next/static/chunks/vendor-node_modules_d.js?v=1747692260592 404 in 184ms
+ GET /_next/static/chunks/vendor-node_modules_fast-equals_dist_esm_index_mjs-cf9d70bb.js?v=1747692260592 404 in 95ms
+ GET /_next/static/chunks/vendor-node_modules_next_dist_client_components_m.js?v=1747692260592 404 in 108ms
+ GET /_next/static/chunks/vendor-node_modules_next_dist_client_components_re.js?v=1747692260592 404 in 259ms
+ GET /_next/static/chunks/vendor-node_modules_next_dist_client_components_un.js?v=1747692260592 404 in 257ms
+ GET /_next/static/chunks/vendor-node_modules_next_dist_client_components_r.js?v=1747692260592 404 in 257ms
+ GET /_next/static/chunks/vendor-node_modules_next_dist_compiled_react-dom_cjs_react-dom-client_development_js-3139057c.js?v=1747692260592 404 in 90ms
+ GET /_next/static/chunks/vendor-node_modules_proc.js?v=1747692260592 404 in 94ms
+ GET /_next/static/chunks/vendor-node_modules_recharts_es6_cartesian_L.js?v=1747692260592 404 in 254ms
+ GET /_next/static/chunks/vendor-node_modules_recharts_es6_chart_A.js?v=1747692260592 404 in 253ms
+ GET /_next/static/chunks/vendor-node_modules_recharts_es6_com.js?v=1747692260592 404 in 87ms
+ GET /_next/static/chunks/vendor-node_modules_recharts_es6_i.js?v=1747692260592 404 in 98ms
+ ⨯ The requested resource "/images/resources/q1-market-review.jpg" has type "image/svg+xml" but dangerouslyAllowSVG is disabled
+ ⨯ The requested resource "/images/solutions/developer-hub.jpg" has type "image/svg+xml" but dangerouslyAllowSVG is disabled
+ GET /favicon.ico 200 in 34ms
+ ○ Compiling /api/auth/[...nextauth] ...
+ ✓ Compiled /api/auth/[...nextauth] in 1168ms (2694 modules)
+[next-auth][warn][DEBUG_ENABLED] 
+https://next-auth.js.org/warnings#debug_enabled
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 1867ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 21ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 20ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 17ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 19ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 23ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 19ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 18ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 19ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 18ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 20ms
+JWT Callback - User: false Account: false Token: true
+Session Callback - Token: true Session: true
+ GET /api/auth/session 200 in 18ms
+ ○ Compiling /developer ...
+ ✓ Compiled /developer in 648ms (1512 modules)
+ GET /developer 200 in 846ms
+ ✓ Compiled /_not-found in 273ms (3789 modules)
+ GET /icon-144x144.png 404 in 478ms
+ ○ Compiling /developer/sales ...
+ ✓ Compiled /developer/sales in 569ms (3806 modules)
+ GET /developer/sales 200 in 645ms
+ GET /icon-144x144.png 404 in 144ms
+ ✓ Compiled /developer/documents in 320ms (3827 modules)
+ GET /developer/documents 200 in 548ms
+ GET /_next/static/chunks/vendor-node_modules_d.js?v=1747692387970 404 in 182ms
+ GET /_next/static/chunks/vendor-node_modules_fast-equals_dist_esm_index_mjs-cf9d70bb.js?v=1747692387970 404 in 102ms
+ GET /_next/static/chunks/vendor-node_modules_next_dist_client_components_m.js?v=1747692387970 404 in 87ms
+ GET /_next/static/chunks/vendor-node_modules_next_dist_client_components_re.js?v=1747692387970 404 in 251ms
+ GET /_next/static/chunks/vendor-node_modules_next_dist_client_components_r.js?v=1747692387970 404 in 249ms
+ GET /_next/static/chunks/vendor-node_modules_next_dist_client_components_un.js?v=1747692387970 404 in 250ms
+ GET /_next/static/chunks/vendor-node_modules_next_dist_compiled_react-dom_cjs_react-dom-client_development_js-3139057c.js?v=1747692387970 404 in 41ms
+ GET /_next/static/chunks/vendor-node_modules_proc.js?v=1747692387970 404 in 295ms
+ GET /_next/static/chunks/vendor-node_modules_recharts_es6_cartesian_L.js?v=1747692387970 404 in 203ms
+ GET /_next/static/chunks/vendor-node_modules_recharts_es6_chart_A.js?v=1747692387970 404 in 202ms
+ GET /_next/static/chunks/vendor-node_modules_recharts_es6_com.js?v=1747692387970 404 in 187ms
+ GET /_next/static/chunks/vendor-node_modules_recharts_es6_i.js?v=1747692387970 404 in 181ms
+ ✓ Compiled /properties in 356ms (3845 modules)
+ GET /properties 200 in 544ms
+ GET /_next/static/chunks/vendor-node_modules_fast-equals_dist_esm_index_mjs-cf9d70bb.js?v=1747692391459 404 in 178ms
+ GET /_next/static/chunks/vendor-node_modules_d.js?v=1747692391459 404 in 183ms
+ GET /_next/static/chunks/vendor-node_modules_next_dist_client_components_m.js?v=1747692391459 404 in 100ms
+ GET /_next/static/chunks/vendor-node_modules_next_dist_client_components_re.js?v=1747692391459 404 in 244ms
+ GET /_next/static/chunks/vendor-node_modules_next_dist_client_components_r.js?v=1747692391459 404 in 243ms
+ GET /_next/static/chunks/vendor-node_modules_next_dist_client_components_un.js?v=1747692391459 404 in 90ms
+ GET /_next/static/chunks/vendor-node_modules_next_dist_compiled_react-dom_cjs_react-dom-client_development_js-3139057c.js?v=1747692391459 404 in 63ms
+ GET /_next/static/chunks/vendor-node_modules_proc.js?v=1747692391459 404 in 84ms
+ GET /_next/static/chunks/vendor-node_modules_recharts_es6_cartesian_L.js?v=1747692391459 404 in 243ms
+ GET /_next/static/chunks/vendor-node_modules_recharts_es6_com.js?v=1747692391459 404 in 242ms
+ GET /_next/static/chunks/vendor-node_modules_recharts_es6_chart_A.js?v=1747692391459 404 in 242ms
+ GET /_next/static/chunks/vendor-node_modules_recharts_es6_i.js?v=1747692391459 404 in 83ms
+ ○ Compiling /solicitors/cases ...
+ ✓ Compiled /solicitors/cases in 510ms (3864 modules)
+ GET /solicitors/cases 200 in 695ms
+ GET /_next/static/chunks/vendor-node_modules_d.js?v=1747692396515 404 in 188ms
+ GET /_next/static/chunks/vendor-node_modules_fast-equals_dist_esm_index_mjs-cf9d70bb.js?v=1747692396515 404 in 184ms
+ GET /_next/static/chunks/vendor-node_modules_next_dist_client_components_m.js?v=1747692396515 404 in 82ms
+ GET /_next/static/chunks/vendor-node_modules_next_dist_client_components_re.js?v=1747692396515 404 in 242ms
+ GET /_next/static/chunks/vendor-node_modules_next_dist_client_components_r.js?v=1747692396515 404 in 236ms
+ GET /_next/static/chunks/vendor-node_modules_next_dist_client_components_un.js?v=1747692396515 404 in 163ms
+ GET /_next/static/chunks/vendor-node_modules_next_dist_compiled_react-dom_cjs_react-dom-client_development_js-3139057c.js?v=1747692396515 404 in 64ms
+ GET /_next/static/chunks/vendor-node_modules_proc.js?v=1747692396515 404 in 88ms
+ GET /_next/static/chunks/vendor-node_modules_recharts_es6_cartesian_L.js?v=1747692396515 404 in 168ms
+ GET /_next/static/chunks/vendor-node_modules_recharts_es6_chart_A.js?v=1747692396515 404 in 168ms
+ GET /_next/static/chunks/vendor-node_modules_recharts_es6_com.js?v=1747692396515 404 in 173ms
+ GET /_next/static/chunks/vendor-node_modules_recharts_es6_i.js?v=1747692396515 404 in 172ms
+ ○ Compiling /agents/listings ...
+ ✓ Compiled /agents/listings in 671ms (3887 modules)
+ GET /agents/listings 200 in 873ms
+ GET /_next/static/chunks/vendor-node_modules_d.js?v=1747692399267 404 in 101ms
+ GET /_next/static/chunks/vendor-node_modules_fast-equals_dist_esm_index_mjs-cf9d70bb.js?v=1747692399267 404 in 118ms
+ ⨯ The requested resource "/images/properties/10-maple-ave-2.jpg" has type "image/svg+xml" but dangerouslyAllowSVG is disabled
+ ⨯ The requested resource "/images/properties/10-maple-ave-3.jpg" has type "image/svg+xml" but dangerouslyAllowSVG is disabled
+ GET /_next/static/chunks/vendor-node_modules_next_dist_client_components_m.js?v=1747692399267 404 in 87ms
+ GET /_next/static/chunks/vendor-node_modules_next_dist_client_components_re.js?v=1747692399267 404 in 254ms
+ GET /_next/static/chunks/vendor-node_modules_next_dist_client_components_r.js?v=1747692399267 404 in 253ms
+ GET /_next/static/chunks/vendor-node_modules_next_dist_client_components_un.js?v=1747692399267 404 in 253ms
+ GET /_next/static/chunks/vendor-node_modules_next_dist_compiled_react-dom_cjs_react-dom-client_development_js-3139057c.js?v=1747692399267 404 in 47ms
+ GET /_next/static/chunks/vendor-node_modules_proc.js?v=1747692399267 404 in 87ms
+ GET /_next/static/chunks/vendor-node_modules_recharts_es6_cartesian_L.js?v=1747692399267 404 in 171ms
+ GET /_next/static/chunks/vendor-node_modules_recharts_es6_chart_A.js?v=1747692399267 404 in 169ms
+ GET /_next/static/chunks/vendor-node_modules_recharts_es6_i.js?v=1747692399267 404 in 168ms
+ GET /_next/static/chunks/vendor-node_modules_recharts_es6_com.js?v=1747692399267 404 in 169ms
+ ✓ Compiled /solutions/architects in 360ms (3895 modules)
+ GET /solutions/architects 200 in 523ms
+ GET /_next/static/chunks/vendor-node_modules_d.js?v=1747692402092 404 in 201ms
+ GET /_next/static/chunks/vendor-node_modules_fast-equals_dist_esm_index_mjs-cf9d70bb.js?v=1747692402092 404 in 197ms
+ GET /_next/static/chunks/vendor-node_modules_next_dist_client_components_m.js?v=1747692402092 404 in 90ms
+ GET /_next/static/chunks/vendor-node_modules_next_dist_client_components_re.js?v=1747692402092 404 in 255ms
+ GET /_next/static/chunks/vendor-node_modules_next_dist_client_components_r.js?v=1747692402092 404 in 255ms
+ GET /_next/static/chunks/vendor-node_modules_next_dist_client_components_un.js?v=1747692402092 404 in 161ms
+ GET /_next/static/chunks/vendor-node_modules_next_dist_compiled_react-dom_cjs_react-dom-client_development_js-3139057c.js?v=1747692402092 404 in 73ms
+ GET /_next/static/chunks/vendor-node_modules_proc.js?v=1747692402092 404 in 91ms
+ GET /_next/static/chunks/vendor-node_modules_recharts_es6_cartesian_L.js?v=1747692402092 404 in 256ms
+ GET /_next/static/chunks/vendor-node_modules_recharts_es6_chart_A.js?v=1747692402092 404 in 170ms
+ GET /_next/static/chunks/vendor-node_modules_recharts_es6_com.js?v=1747692402092 404 in 169ms
+ GET /_next/static/chunks/vendor-node_modules_recharts_es6_i.js?v=1747692402092 404 in 91ms
+ ✓ Compiled /login in 195ms (1591 modules)
+ GET /login 200 in 435ms
+ GET /_next/static/chunks/vendor-node_modules_d.js?v=1747692404896 404 in 190ms
+ GET /_next/static/chunks/vendor-node_modules_fast-equals_dist_esm_index_mjs-cf9d70bb.js?v=1747692404896 404 in 187ms
+ GET /_next/static/chunks/vendor-node_modules_next_dist_client_components_m.js?v=1747692404896 404 in 87ms
+ GET /_next/static/chunks/vendor-node_modules_next_dist_client_components_re.js?v=1747692404896 404 in 239ms
+ GET /_next/static/chunks/vendor-node_modules_next_dist_client_components_r.js?v=1747692404896 404 in 239ms
+ GET /_next/static/chunks/vendor-node_modules_next_dist_client_components_un.js?v=1747692404896 404 in 237ms
+ GET /_next/static/chunks/vendor-node_modules_next_dist_compiled_react-dom_cjs_react-dom-client_development_js-3139057c.js?v=1747692404896 404 in 17ms
+ GET /_next/static/chunks/vendor-node_modules_proc.js?v=1747692404896 404 in 87ms
+ GET /_next/static/chunks/vendor-node_modules_recharts_es6_cartesian_L.js?v=1747692404896 404 in 169ms
+ GET /_next/static/chunks/vendor-node_modules_recharts_es6_chart_A.js?v=1747692404896 404 in 169ms
+ GET /_next/static/chunks/vendor-node_modules_recharts_es6_com.js?v=1747692404896 404 in 181ms
+ GET /_next/static/chunks/vendor-node_modules_recharts_es6_i.js?v=1747692404896 404 in 91ms
+ GET /login 200 in 192ms
+ GET /_next/static/chunks/vendor-node_modules_d.js?v=1747692413801 404 in 207ms
+ GET /_next/static/chunks/vendor-node_modules_fast-equals_dist_esm_index_mjs-cf9d70bb.js?v=1747692413801 404 in 203ms
+ GET /_next/static/chunks/vendor-node_modules_next_dist_client_components_m.js?v=1747692413801 404 in 93ms
+ GET /_next/static/chunks/vendor-node_modules_next_dist_client_components_re.js?v=1747692413801 404 in 246ms
+ GET /_next/static/chunks/vendor-node_modules_next_dist_client_components_r.js?v=1747692413801 404 in 245ms
+ GET /_next/static/chunks/vendor-node_modules_next_dist_client_components_un.js?v=1747692413801 404 in 244ms
+ GET /_next/static/chunks/vendor-node_modules_next_dist_compiled_react-dom_cjs_react-dom-client_development_js-3139057c.js?v=1747692413801 404 in 20ms
+ GET /_next/static/chunks/vendor-node_modules_proc.js?v=1747692413801 404 in 17ms
+ GET /_next/static/chunks/vendor-node_modules_recharts_es6_cartesian_L.js?v=1747692413801 404 in 33ms
+ GET /_next/static/chunks/vendor-node_modules_recharts_es6_chart_A.js?v=1747692413801 404 in 33ms
+ GET /_next/static/chunks/vendor-node_modules_recharts_es6_com.js?v=1747692413801 404 in 33ms
+ GET /_next/static/chunks/vendor-node_modules_recharts_es6_i.js?v=1747692413801 404 in 31ms
+ ⨯ The requested resource "/images/solutions/developer-hub.jpg" has type "image/svg+xml" but dangerouslyAllowSVG is disabled
+ ⨯ The requested resource "/images/resources/q1-market-review.jpg" has type "image/svg+xml" but dangerouslyAllowSVG is disabled
+ ✓ Compiled /favicon.ico in 249ms (1605 modules)
+ GET /favicon.ico 200 in 371ms
+ GET /login 200 in 583ms
+ GET /_next/static/chunks/vendor-node_modules_d.js?v=1747692431578 404 in 181ms
+ GET /_next/static/chunks/vendor-node_modules_fast-equals_dist_esm_index_mjs-cf9d70bb.js?v=1747692431578 404 in 180ms
+ GET /_next/static/chunks/vendor-node_modules_next_dist_client_components_m.js?v=1747692431578 404 in 88ms
+ GET /_next/static/chunks/vendor-node_modules_next_dist_client_components_re.js?v=1747692431578 404 in 239ms
+ GET /_next/static/chunks/vendor-node_modules_next_dist_client_components_r.js?v=1747692431578 404 in 238ms
+ GET /_next/static/chunks/vendor-node_modules_next_dist_client_components_un.js?v=1747692431578 404 in 238ms
+ GET /_next/static/chunks/vendor-node_modules_next_dist_compiled_react-dom_cjs_react-dom-client_development_js-3139057c.js?v=1747692431578 404 in 22ms
+ GET /_next/static/chunks/vendor-node_modules_proc.js?v=1747692431578 404 in 21ms
+ GET /_next/static/chunks/vendor-node_modules_recharts_es6_cartesian_L.js?v=1747692431578 404 in 261ms
+ GET /_next/static/chunks/vendor-node_modules_recharts_es6_chart_A.js?v=1747692431578 404 in 177ms
+ GET /_next/static/chunks/vendor-node_modules_recharts_es6_com.js?v=1747692431578 404 in 175ms
+ GET /_next/static/chunks/vendor-node_modules_recharts_es6_i.js?v=1747692431578 404 in 91ms
+ GET /favicon.ico 200 in 21ms
+ ⨯ The requested resource "/images/solutions/developer-hub.jpg" has type "image/svg+xml" but dangerouslyAllowSVG is disabled
+ ⨯ The requested resource "/images/resources/q1-market-review.jpg" has type "image/svg+xml" but dangerouslyAllowSVG is disabled
+[?25h
