@@ -3,6 +3,8 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import ProtectedRoute from '@/components/auth/ProtectedRoute';
+import { transactionCoordinator } from '@/services/transactionCoordinator';
+import { notificationService, NotificationData } from '@/services/notificationService';
 import {
   Home,
   TrendingUp,
@@ -31,9 +33,7 @@ import {
   Info,
   Download,
   ChevronUp,
-  ChevronRight,
-  MessageSquare,
-  Receipt
+  MessageSquare
 } from 'lucide-react';
 
 interface Task {
@@ -43,7 +43,7 @@ interface Task {
   status: 'pending' | 'in-progress' | 'completed';
   priority: 'high' | 'medium' | 'low';
   dueDate?: string;
-  icon: React.ComponentType<any>\n  );
+  icon: React.ComponentType<any>;
   progress?: number;
 }
 
@@ -75,14 +75,115 @@ interface Notification {
   };
 }
 
+interface Transaction {
+  id: string;
+  status: string;
+  projectId: string;
+  buyerId: string;
+  createdAt: Date;
+  milestones?: Array<{
+    id: string;
+    name: string;
+    description: string;
+    status: string;
+    dueDate?: Date;
+  }>;
+  participants?: Array<{
+    id: string;
+    userId: string;
+    role: string;
+  }>;
+}
+
 export default function BuyerOverviewPage() {
   const router = useRouter();
-  const [loadingsetLoading] = useState(true);
-  const [userDatasetUserData] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+  const [userData, setUserData] = useState<any>(null);
+  const [activeTransactions, setActiveTransactions] = useState<Transaction[]>([]);
+  const [realTimeNotifications, setRealTimeNotifications] = useState<NotificationData[]>([]);
 
   useEffect(() => {
+    // Load real-time notifications for this user
+    const loadNotifications = () => {
+      // Mock buyer ID - in production this would come from auth context
+      const buyerId = 'mock-buyer-id';
+      
+      // Load existing notifications
+      const userNotifications = notificationService.getUserNotifications(buyerId);
+      setRealTimeNotifications(userNotifications);
+      
+      // Subscribe to new notifications
+      const handleNewNotification = (notification: NotificationData) => {
+        if (notification.recipient === buyerId) {
+          setRealTimeNotifications(prev => [notification, ...prev]);
+        }
+      };
+      
+      notificationService.onNewNotification(handleNewNotification);
+      
+      return () => {
+        notificationService.removeListener('notification', handleNewNotification);
+      };
+    };
+    
+    loadNotifications();
+    
+    // Check for recent transactions from purchase flow
+    const checkForRecentTransactions = () => {
+      // Check localStorage for recent transaction completion
+      const recentPurchase = localStorage.getItem('recentTransactionCompleted');
+      const transactionData = localStorage.getItem('lastTransactionData');
+      
+      let activeReservation = null;
+      let transactions: Transaction[] = [];
+      
+      if (recentPurchase === 'true' && transactionData) {
+        try {
+          const transaction = JSON.parse(transactionData);
+          transactions.push(transaction);
+          
+          // Create active reservation from transaction data
+          activeReservation = {
+            id: transaction.id,
+            property: 'Fitzgerald Gardens - 3 Bed Semi-Detached House',
+            price: 375000,
+            depositPaid: 500,
+            depositRemaining: 4500,
+            daysRemaining: 28,
+            nextPaymentDue: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+            transactionId: transaction.id,
+            status: transaction.status
+          };
+          
+          // Add success notification
+          const successNotification = {
+            id: 'transaction-success',
+            type: 'success' as const,
+            title: 'Property Reserved Successfully!',
+            message: `Transaction ${transaction.id} created. Your property has been secured.`,
+            time: 'Just now',
+            read: false,
+            action: {
+              label: 'View Transaction',
+              href: `/buyer/transactions/${transaction.id}`
+            }
+          };
+          
+          // Clear the flag so it doesn't show again
+          localStorage.removeItem('recentTransactionCompleted');
+        } catch (error) {
+          console.error('Error parsing transaction data:', error);
+        }
+      }
+      
+      return { activeReservation, transactions };
+    };
+    
     // Simulate loading user data
     setTimeout(() => {
+      const { activeReservation, transactions } = checkForRecentTransactions();
+      
+      setActiveTransactions(transactions);
       setUserData({
         name: 'John Doe',
         budget: 380000,
@@ -93,21 +194,13 @@ export default function BuyerOverviewPage() {
         viewingsScheduled: 2,
         preApprovalAmount: 350000,
         monthlyPayment: 1650,
-        journeyProgress: 75,
+        journeyProgress: activeReservation ? 85 : 75, // Higher progress if they have an active reservation
         nextAppointment: {
-          type: 'Mortgage Consultation',
+          type: activeReservation ? 'Property Viewing' : 'Mortgage Consultation',
           date: 'Tomorrow at 2:00 PM',
-          location: 'Bank of Ireland, O\'Connell Street'
+          location: activeReservation ? 'Fitzgerald Gardens Sales Office' : 'Bank of Ireland, O\'Connell Street'
         },
-        activeReservation: {
-          id: 'RES-123456',
-          property: 'Fitzgerald Gardens - Type A',
-          price: 375000,
-          depositPaid: 500,
-          depositRemaining: 4500,
-          daysRemaining: 28,
-          nextPaymentDue: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
-        }
+        activeReservation
       });
       setLoading(false);
     }, 1000);
@@ -309,10 +402,15 @@ export default function BuyerOverviewPage() {
                 </div>
                 <div className="flex-1">
                   <h3 className="font-bold text-green-900 mb-1">Active Property Reservation</h3>
-                  <p className="text-green-800 text-sm mb-3">
+                  <p className="text-green-800 text-sm mb-1">
                     {userData.activeReservation.property} • {userData.activeReservation.daysRemaining} days remaining
                   </p>
-                  <div className="grid sm:grid-cols-3 gap-4 mb-4">
+                  {userData.activeReservation.transactionId && (
+                    <p className="text-green-700 text-xs mb-3 font-mono">
+                      Transaction ID: {userData.activeReservation.transactionId}
+                    </p>
+                  )}
+                  <div className="grid sm:grid-cols-4 gap-4 mb-4">
                     <div>
                       <p className="text-xs text-green-700">Deposit Paid</p>
                       <p className="font-semibold text-green-900">€{userData.activeReservation.depositPaid}</p>
@@ -325,19 +423,32 @@ export default function BuyerOverviewPage() {
                       <p className="text-xs text-green-700">Next Payment</p>
                       <p className="font-semibold text-green-900">{userData.activeReservation.nextPaymentDue.toLocaleDateString()}</p>
                     </div>
+                    <div>
+                      <p className="text-xs text-green-700">Status</p>
+                      <p className="font-semibold text-blue-600 capitalize">
+                        {userData.activeReservation.status?.toLowerCase().replace('_', ' ') || 'Active'}
+                      </p>
+                    </div>
                   </div>
                   <div className="flex flex-wrap gap-3">
                     <button
                       onClick={() => router.push('/buyer/journey/reservation')}
                       className="bg-green-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-green-700 transition-colors text-sm flex items-center gap-2"
                     >
-                      <Receipt className="w-4 h-4" />
-                      View Reservation
+                      <FileText className="w-4 h-4" />
+                      View Transaction Details
                     </button>
                     <button
                       className="bg-white text-green-800 border border-green-300 px-4 py-2 rounded-lg font-semibold hover:bg-green-50 transition-colors text-sm"
                     >
                       Pay Remaining Deposit
+                    </button>
+                    <button
+                      onClick={() => router.push('/buyer/journey/reservation#milestones')}
+                      className="bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors text-sm flex items-center gap-2"
+                    >
+                      <CheckCircle className="w-4 h-4" />
+                      View Milestones
                     </button>
                   </div>
                 </div>
@@ -385,9 +496,9 @@ export default function BuyerOverviewPage() {
                   Welcome back, {userData.name}!
                 </h1>
                 <p className="text-blue-100 mb-4">
-                  You're <span className="font-semibold text-white">{userData.journeyProgress}%</span> through your home buying journey
+                  You&apos;re <span className="font-semibold text-white">{userData.journeyProgress}%</span> through your home buying journey
                 </p>
-
+                
                 <div className="flex flex-wrap gap-3">
                   <button
                     onClick={() => router.push('/buyer/calculator')}
@@ -403,7 +514,7 @@ export default function BuyerOverviewPage() {
                   </button>
                 </div>
               </div>
-
+              
               {userData.nextAppointment && (
                 <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4">
                   <h3 className="font-semibold mb-2 flex items-center gap-2">
@@ -423,7 +534,7 @@ export default function BuyerOverviewPage() {
 
           {/* Key Metrics */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-            {metrics.map((metric: any) => (
+            {metrics.map((metric) => (
               <div key={metric.title} className="bg-white rounded-xl shadow-sm p-4 hover:shadow-md transition-shadow">
                 <div className="flex items-center justify-between mb-3">
                   <div className={`${metric.color} text-white rounded-lg p-2`}>
@@ -470,7 +581,7 @@ export default function BuyerOverviewPage() {
 
                 <div className="p-4 md:p-6">
                   <div className="space-y-3">
-                    {tasks.map((task: any) => (
+                    {tasks.map((task) => (
                       <div
                         key={task.id}
                         className={`border rounded-lg p-3 md:p-4 hover:shadow-md transition-all cursor-pointer group ${
@@ -483,7 +594,7 @@ export default function BuyerOverviewPage() {
                           } else {
                             router.push(`/buyer/tasks/${task.id}`);
                           }
-                        }
+                        }}
                       >
                         <div className="flex items-start justify-between">
                           <div className="flex items-start gap-3">
@@ -524,7 +635,7 @@ export default function BuyerOverviewPage() {
                                     <div className="flex-1 bg-gray-200 rounded-full h-1.5">
                                       <div 
                                         className="bg-blue-600 h-1.5 rounded-full"
-                                        style={ width: `${task.progress}%` }
+                                        style={{ width: `${task.progress}%` }}
                                       />
                                     </div>
                                     <span className="text-xs text-gray-600">
@@ -543,6 +654,66 @@ export default function BuyerOverviewPage() {
                 </div>
               </div>
 
+              {/* Transaction Milestones */}
+              {activeTransactions.length > 0 && (
+                <div className="bg-white rounded-xl shadow-sm mt-6">
+                  <div className="p-4 md:p-6 border-b">
+                    <h2 className="text-lg md:text-xl font-bold text-gray-900">Transaction Progress</h2>
+                    <p className="text-sm text-gray-600">Track your property purchase milestones</p>
+                  </div>
+                  
+                  <div className="p-4 md:p-6">
+                    {activeTransactions.map((transaction) => (
+                      <div key={transaction.id} className="mb-6 last:mb-0">
+                        <div className="flex items-center justify-between mb-4">
+                          <h3 className="font-semibold text-gray-900">Transaction {transaction.id}</h3>
+                          <span className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-medium capitalize">
+                            {transaction.status.toLowerCase().replace('_', ' ')}
+                          </span>
+                        </div>
+                        
+                        {transaction.milestones && transaction.milestones.length > 0 && (
+                          <div className="space-y-3">
+                            {transaction.milestones.map((milestone, index) => (
+                              <div key={milestone.id} className="flex items-center gap-4 p-3 bg-gray-50 rounded-lg">
+                                <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
+                                  milestone.status === 'COMPLETED' ? 'bg-green-600 text-white' :
+                                  milestone.status === 'IN_PROGRESS' ? 'bg-blue-600 text-white' :
+                                  'bg-gray-300 text-gray-600'
+                                }`}>
+                                  {milestone.status === 'COMPLETED' ? (
+                                    <CheckCircle className="w-4 h-4" />
+                                  ) : (
+                                    <span className="text-xs font-bold">{index + 1}</span>
+                                  )}
+                                </div>
+                                <div className="flex-1">
+                                  <h4 className="font-medium text-gray-900">{milestone.name}</h4>
+                                  <p className="text-sm text-gray-600">{milestone.description}</p>
+                                  {milestone.dueDate && (
+                                    <p className="text-xs text-gray-500 mt-1">
+                                      Due: {new Date(milestone.dueDate).toLocaleDateString()}
+                                    </p>
+                                  )}
+                                </div>
+                                <div className={`px-2 py-1 rounded text-xs font-medium ${
+                                  milestone.status === 'COMPLETED' ? 'bg-green-100 text-green-800' :
+                                  milestone.status === 'IN_PROGRESS' ? 'bg-blue-100 text-blue-800' :
+                                  'bg-gray-100 text-gray-600'
+                                }`}>
+                                  {milestone.status === 'COMPLETED' ? 'Complete' :
+                                   milestone.status === 'IN_PROGRESS' ? 'In Progress' : 'Pending'}
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
               {/* Saved Properties */}
               <div className="bg-white rounded-xl shadow-sm mt-6">
                 <div className="p-4 md:p-6 border-b">
@@ -559,7 +730,7 @@ export default function BuyerOverviewPage() {
 
                 <div className="p-4 md:p-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {savedProperties.map((property: any) => (
+                    {savedProperties.map((property) => (
                       <div
                         key={property.id}
                         className="border rounded-lg overflow-hidden hover:shadow-lg transition-all cursor-pointer"
@@ -612,11 +783,11 @@ export default function BuyerOverviewPage() {
               {/* Journey Progress */}
               <div className="bg-white rounded-xl shadow-sm p-4 md:p-6">
                 <h2 className="text-lg md:text-xl font-bold text-gray-900 mb-4">Journey Progress</h2>
-
+                
                 <div className="space-y-4">
                   <div className="relative">
                     <div className="absolute left-4 top-6 bottom-0 w-0.5 bg-gray-200"></div>
-
+                    
                     <div className="space-y-6">
                       <div className="relative flex items-start">
                         <div className="absolute left-0 w-8 h-8 bg-green-600 rounded-full flex items-center justify-center">
@@ -689,7 +860,7 @@ export default function BuyerOverviewPage() {
                           strokeDasharray={`${2 * Math.PI * 20}`}
                           strokeDashoffset={`${2 * Math.PI * 20 * (1 - userData.journeyProgress / 100)}`}
                           className="transition-all duration-500"
-                          style={ transform: 'rotate(-90deg)', transformOrigin: '50% 50%' }
+                          style={{ transform: 'rotate(-90deg)', transformOrigin: '50% 50%' }}
                         />
                       </svg>
                       <div className="absolute inset-0 flex items-center justify-center">
@@ -711,12 +882,68 @@ export default function BuyerOverviewPage() {
                 <div className="flex items-center justify-between mb-4">
                   <h2 className="text-lg md:text-xl font-bold text-gray-900">Notifications</h2>
                   <span className="bg-red-500 text-white text-xs px-2 py-1 rounded-full">
-                    {notifications.filter(n => !n.read).length} new
+                    {[...realTimeNotifications, ...notifications].filter(n => !n.read).length} new
                   </span>
                 </div>
-
+                
                 <div className="space-y-3">
-                  {notifications.map((notification: any) => (
+                  {/* Real-time notifications first */}
+                  {realTimeNotifications.slice(0, 3).map((notification) => (
+                    <div
+                      key={notification.id}
+                      className={`p-3 rounded-lg border ${
+                        notification.read ? 'bg-gray-50 border-gray-200' : 'bg-green-50 border-green-200'
+                      }`}
+                    >
+                      <div className="flex items-start gap-3">
+                        <div className={`rounded-full p-1.5 ${
+                          notification.type === 'transaction' ? 'bg-blue-100 text-blue-600' :
+                          notification.type === 'milestone' ? 'bg-purple-100 text-purple-600' :
+                          notification.type === 'payment' ? 'bg-green-100 text-green-600' :
+                          'bg-gray-100 text-gray-600'
+                        }`}>
+                          {notification.type === 'transaction' ? <Home className="w-4 h-4" /> :
+                           notification.type === 'milestone' ? <CheckCircle className="w-4 h-4" /> :
+                           notification.type === 'payment' ? <Euro className="w-4 h-4" /> :
+                           <Bell className="w-4 h-4" />}
+                        </div>
+                        <div className="flex-1">
+                          <h3 className="font-semibold text-sm text-gray-900">{notification.title}</h3>
+                          <p className="text-xs text-gray-600 mt-0.5">{notification.message}</p>
+                          <div className="flex items-center justify-between mt-2">
+                            <span className="text-xs text-gray-500">
+                              {new Date(notification.timestamp).toLocaleString()}
+                            </span>
+                            {notification.actions && notification.actions.length > 0 && (
+                              <div className="flex gap-2">
+                                {notification.actions.slice(0, 2).map((action, idx) => (
+                                  <button
+                                    key={idx}
+                                    onClick={() => {
+                                      if (action.action === 'view_transaction') {
+                                        router.push(`/buyer/transactions/${notification.transactionId}`);
+                                      } else if (action.action === 'contact_developer') {
+                                        alert('Contact feature coming soon!');
+                                      }
+                                    }}
+                                    className={`text-xs px-2 py-1 rounded font-medium ${
+                                      action.variant === 'primary' ? 'bg-blue-600 text-white hover:bg-blue-700' :
+                                      'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                                    }`}
+                                  >
+                                    {action.label}
+                                  </button>
+                                ))}
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                  
+                  {/* Traditional notifications */}
+                  {notifications.slice(0, 2).map((notification) => (
                     <div
                       key={notification.id}
                       className={`p-3 rounded-lg border ${
@@ -756,79 +983,8 @@ export default function BuyerOverviewPage() {
                 </div>
 
                 <button className="mt-3 w-full text-center py-2 text-sm text-blue-600 hover:underline">
-                  View All Notifications
+                  View All Notifications ({[...realTimeNotifications, ...notifications].length})
                 </button>
-              </div>
-
-              {/* Active Transactions */}
-              <div className="bg-white rounded-xl shadow-sm p-4 md:p-6 mt-6">
-                <div className="flex items-center justify-between mb-4">
-                  <h2 className="text-lg font-bold text-gray-900">Active Transactions</h2>
-                  <button 
-                    onClick={() => router.push('/buyer/transactions')}
-                    className="text-blue-600 hover:underline text-sm font-medium"
-                  >
-                    View All
-                  </button>
-                </div>
-
-                {/* Mock transaction data - replace with real data */}
-                <div className="space-y-3">
-                  <div 
-                    className="p-3 border rounded-lg hover:bg-gray-50 cursor-pointer"
-                    onClick={() => router.push('/buyer/transactions/mock-id-1')}
-                  >
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-3">
-                        <div className="bg-blue-100 rounded-full p-2">
-                          <Home className="w-4 h-4 text-blue-600" />
-                        </div>
-                        <div>
-                          <p className="font-medium text-sm text-gray-900">Unit 3A - Riverside Manor</p>
-                          <p className="text-xs text-gray-600">Contract Issued - Review Required</p>
-                        </div>
-                      </div>
-                      <ChevronRight className="w-4 h-4 text-gray-400" />
-                    </div>
-                    <div className="mt-2">
-                      <div className="bg-gray-200 rounded-full h-1.5">
-                        <div className="bg-blue-600 h-1.5 rounded-full" style={ width: '50%' }></div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div 
-                    className="p-3 border rounded-lg hover:bg-gray-50 cursor-pointer"
-                    onClick={() => router.push('/buyer/transactions/mock-id-2')}
-                  >
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-3">
-                        <div className="bg-yellow-100 rounded-full p-2">
-                          <Calendar className="w-4 h-4 text-yellow-600" />
-                        </div>
-                        <div>
-                          <p className="font-medium text-sm text-gray-900">Plot 15 - Fitzgerald Gardens</p>
-                          <p className="text-xs text-gray-600">Viewing Scheduled - Tomorrow 2PM</p>
-                        </div>
-                      </div>
-                      <ChevronRight className="w-4 h-4 text-gray-400" />
-                    </div>
-                    <div className="mt-2">
-                      <div className="bg-gray-200 rounded-full h-1.5">
-                        <div className="bg-yellow-600 h-1.5 rounded-full" style={ width: '20%' }></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="mt-4 text-center">
-                  <button
-                    onClick={() => router.push('/properties')}
-                    className="text-blue-600 hover:underline text-sm font-medium"
-                  >
-                    Start New Transaction →
-                  </button>
-                </div>
               </div>
 
               {/* Quick Actions */}

@@ -4,6 +4,8 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useAuth } from '@/context/AuthContext';
+import { transactionCoordinator } from '@/services/transactionCoordinator';
 import { 
   CheckCircle, 
   Shield, 
@@ -35,7 +37,8 @@ import {
   XCircle,
   Phone,
   Play,
-  FileSearch
+  FileSearch,
+  MessageSquare
 } from 'lucide-react';
 
 // Mock property data service
@@ -79,18 +82,21 @@ interface ProgressSteps {
 export default function PurchasePage() {
   const params = useParams();
   const router = useRouter();
+  const { user, isAuthenticated } = useAuth();
   const propertyId = params?.id as string;
-
-  const [currentStepsetCurrentStep] = useState(1);
-  const [loadingsetLoading] = useState(false);
-  const [propertysetProperty] = useState<any>(null);
-  const [verificationStatussetVerificationStatus] = useState({
+  
+  const [currentStep, setCurrentStep] = useState(1);
+  const [loading, setLoading] = useState(false);
+  const [property, setProperty] = useState<any>(null);
+  const [transaction, setTransaction] = useState<any>(null);
+  const [transactionError, setTransactionError] = useState<string | null>(null);
+  const [verificationStatus, setVerificationStatus] = useState({
     kyc: true, // Assume verified since they passed verification
     fundsProof: true,
     solicitAppointed: false
   });
-
-  const [purchaseDatasetPurchaseData] = useState({
+  
+  const [purchaseData, setPurchaseData] = useState({
     acceptedTerms: false,
     reservationAmount: 500,
     agreementType: null as null | 'booking' | 'exclusivity',
@@ -113,19 +119,19 @@ export default function PurchasePage() {
     {
       id: 'verify',
       title: 'Verification Check',
-      status: currentStep> 1 ? 'completed' : currentStep === 1 ? 'current' : 'pending',
+      status: currentStep > 1 ? 'completed' : currentStep === 1 ? 'current' : 'pending',
       description: 'Confirm your KYC and funds verification'
     },
     {
       id: 'reservation',
       title: 'Reservation Terms',
-      status: currentStep> 2 ? 'completed' : currentStep === 2 ? 'current' : 'pending',
+      status: currentStep > 2 ? 'completed' : currentStep === 2 ? 'current' : 'pending',
       description: 'Review and accept reservation terms'
     },
     {
       id: 'payment',
       title: 'Payment',
-      status: currentStep> 3 ? 'completed' : currentStep === 3 ? 'current' : 'pending',
+      status: currentStep > 3 ? 'completed' : currentStep === 3 ? 'current' : 'pending',
       description: 'Secure with €500 refundable fee'
     },
     {
@@ -137,24 +143,58 @@ export default function PurchasePage() {
   ];
 
   const handleNextStep = () => {
-    if (currentStep <4) {
+    if (currentStep < 4) {
       setCurrentStep(currentStep + 1);
     }
   };
 
   const handlePreviousStep = () => {
-    if (currentStep> 1) {
+    if (currentStep > 1) {
       setCurrentStep(currentStep - 1);
     }
   };
 
   const handlePayment = async () => {
     setLoading(true);
-    // Simulate payment processing
-    setTimeout(() => {
-      setLoading(false);
+    setTransactionError(null);
+
+    try {
+      // Mock payment processing
+      await new Promise(resolve => setTimeout(resolve, 1500));
+
+      // Create the actual transaction through the coordinator
+      if (user && property) {
+        console.log('Creating transaction...', {
+          buyerId: user.id || 'mock-buyer-id',
+          projectId: property.developmentName || 'fitzgerald-gardens'
+        });
+
+        const newTransaction = await transactionCoordinator.initiatePropertyPurchase(
+          user.id || 'mock-buyer-id',
+          property.developmentName || 'fitzgerald-gardens'
+        );
+
+        setTransaction(newTransaction);
+        console.log('Transaction created:', newTransaction);
+        
+        // Store transaction data for dashboard to pick up
+        localStorage.setItem('lastTransactionData', JSON.stringify(newTransaction));
+        localStorage.setItem('recentTransactionCompleted', 'true');
+
+        // Listen for transaction events
+        const eventBus = transactionCoordinator.getEventBus();
+        eventBus.on('transaction.initiated', (txn) => {
+          console.log('Transaction event received:', txn);
+        });
+      }
+
       handleNextStep();
-    }, 2000);
+    } catch (error) {
+      console.error('Payment/Transaction error:', error);
+      setTransactionError('Failed to process payment and create transaction. Please try again.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   if (!property) {
@@ -190,10 +230,10 @@ export default function PurchasePage() {
       <div className="bg-white border-b">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex items-center justify-between">
-            {progressSteps.map((stepindex: any) => (
+            {progressSteps.map((step, index) => (
               <div key={step.id} className="flex-1">
                 <div className="relative">
-                  {index <progressSteps.length - 1 && (
+                  {index < progressSteps.length - 1 && (
                     <div
                       className={`absolute top-5 left-8 right-0 h-0.5 ${
                         step.status === 'completed' ? 'bg-green-600' : 'bg-gray-200'
@@ -278,7 +318,7 @@ export default function PurchasePage() {
               {currentStep === 1 && (
                 <div className="p-6">
                   <h2 className="text-2xl font-bold mb-6">Verification Status</h2>
-
+                  
                   <div className="space-y-4">
                     <div className="flex items-start gap-4 p-4 bg-green-50 rounded-lg border border-green-200">
                       <CheckCircle className="w-6 h-6 text-green-600 flex-shrink-0 mt-0.5" />
@@ -308,7 +348,7 @@ export default function PurchasePage() {
                           You can appoint a solicitor now or during the 30-day exclusivity period
                         </p>
                         <button 
-                          onClick={() => setPurchaseData({...purchaseData, solicitorDetails: {...purchaseData.solicitorDetails, appointed: true})}
+                          onClick={() => setPurchaseData({...purchaseData, solicitorDetails: {...purchaseData.solicitorDetails, appointed: true}})}
                           className="mt-2 text-sm text-yellow-700 hover:text-yellow-800 underline"
                         >
                           I have appointed a solicitor
@@ -326,7 +366,7 @@ export default function PurchasePage() {
                           placeholder="Solicitor Name"
                           className="w-full px-4 py-2 border rounded-lg"
                           value={purchaseData.solicitorDetails.name}
-                          onChange={(e: any) => setPurchaseData({
+                          onChange={(e) => setPurchaseData({
                             ...purchaseData,
                             solicitorDetails: {...purchaseData.solicitorDetails, name: e.target.value}
                           })}
@@ -336,7 +376,7 @@ export default function PurchasePage() {
                           placeholder="Firm Name"
                           className="w-full px-4 py-2 border rounded-lg"
                           value={purchaseData.solicitorDetails.firm}
-                          onChange={(e: any) => setPurchaseData({
+                          onChange={(e) => setPurchaseData({
                             ...purchaseData,
                             solicitorDetails: {...purchaseData.solicitorDetails, firm: e.target.value}
                           })}
@@ -346,7 +386,7 @@ export default function PurchasePage() {
                           placeholder="Contact Email/Phone"
                           className="w-full px-4 py-2 border rounded-lg"
                           value={purchaseData.solicitorDetails.contact}
-                          onChange={(e: any) => setPurchaseData({
+                          onChange={(e) => setPurchaseData({
                             ...purchaseData,
                             solicitorDetails: {...purchaseData.solicitorDetails, contact: e.target.value}
                           })}
@@ -367,7 +407,7 @@ export default function PurchasePage() {
               {currentStep === 2 && (
                 <div className="p-6">
                   <h2 className="text-2xl font-bold mb-6">Reservation Options</h2>
-
+                  
                   <div className="space-y-4">
                     <div 
                       onClick={() => setPurchaseData({...purchaseData, agreementType: 'booking'})}
@@ -469,7 +509,7 @@ export default function PurchasePage() {
                         <input
                           type="checkbox"
                           checked={purchaseData.acceptedTerms}
-                          onChange={(e: any) => setPurchaseData({...purchaseData, acceptedTerms: e.target.checked})}
+                          onChange={(e) => setPurchaseData({...purchaseData, acceptedTerms: e.target.checked})}
                           className="mt-1 mr-3"
                         />
                         <span className="text-sm text-gray-700">
@@ -497,7 +537,7 @@ export default function PurchasePage() {
               {currentStep === 3 && (
                 <div className="p-6">
                   <h2 className="text-2xl font-bold mb-6">Payment Details</h2>
-
+                  
                   <div className="mb-6 p-4 bg-blue-50 rounded-lg">
                     <div className="flex items-center justify-between">
                       <div>
@@ -514,7 +554,7 @@ export default function PurchasePage() {
 
                   <div className="space-y-4">
                     <h3 className="font-semibold">Select Payment Method</h3>
-
+                    
                     <div 
                       onClick={() => setPurchaseData({...purchaseData, paymentMethod: 'card'})}
                       className={`p-4 rounded-lg border-2 cursor-pointer transition-all ${
@@ -645,8 +685,44 @@ export default function PurchasePage() {
                     </div>
                     <h2 className="text-2xl font-bold mb-2">Reservation Confirmed!</h2>
                     <p className="text-gray-600 mb-6">
-                      Your property has been successfully reserved
+                      Your property has been successfully reserved and transaction created
                     </p>
+                    
+                    {/* Show transaction details if available */}
+                    {transaction && (
+                      <div className="bg-blue-50 rounded-lg p-4 mb-6">
+                        <h3 className="font-semibold text-blue-900 mb-3">Transaction Created Successfully</h3>
+                        <div className="space-y-2">
+                          <div className="flex justify-between">
+                            <span className="text-sm text-blue-700">Transaction ID:</span>
+                            <span className="text-sm font-mono font-medium text-blue-900">{transaction.id}</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="text-sm text-blue-700">Status:</span>
+                            <span className="text-sm font-medium text-blue-900 capitalize">{transaction.status.toLowerCase().replace('_', ' ')}</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="text-sm text-blue-700">Created:</span>
+                            <span className="text-sm font-medium text-blue-900">{new Date().toLocaleDateString()}</span>
+                          </div>
+                        </div>
+                        <div className="mt-3 pt-3 border-t border-blue-200">
+                          <p className="text-xs text-blue-700">
+                            Your transaction has been created with automated milestone tracking. 
+                            You can view progress and next steps in your buyer dashboard.
+                          </p>
+                        </div>
+                      </div>
+                    )}
+                    
+                    {transactionError && (
+                      <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-6">
+                        <p className="text-yellow-800 text-sm">
+                          <strong>Note:</strong> Reservation was successful, but there was an issue creating the transaction record. 
+                          Our team will resolve this and contact you shortly.
+                        </p>
+                      </div>
+                    )}
                   </div>
 
                   <div className="bg-gray-50 rounded-lg p-6 mb-6">
@@ -748,7 +824,7 @@ export default function PurchasePage() {
 
                   <div className="flex gap-4">
                     <Link
-                      href="/buyer/dashboard"
+                      href={`/buyer?transaction=${transaction?.id || ''}`}
                       className="flex-1 text-center px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium"
                     >
                       Go to Dashboard
@@ -778,7 +854,7 @@ export default function PurchasePage() {
                     Previous
                   </button>
 
-                  {currentStep <4 ? (
+                  {currentStep < 4 ? (
                     <button
                       onClick={currentStep === 3 ? handlePayment : handleNextStep}
                       disabled={
@@ -806,7 +882,7 @@ export default function PurchasePage() {
                     </button>
                   ) : (
                     <Link
-                      href="/buyer/dashboard"
+                      href={`/buyer?transaction=${transaction?.id || ''}`}
                       className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium"
                     >
                       View in Dashboard
@@ -822,7 +898,7 @@ export default function PurchasePage() {
             {/* Order Summary */}
             <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
               <h3 className="font-semibold text-lg mb-4">Order Summary</h3>
-
+              
               <div className="space-y-3 mb-6">
                 <div className="flex justify-between items-start">
                   <div>
@@ -841,14 +917,14 @@ export default function PurchasePage() {
                 {property.htbEligible && (
                   <div className="flex justify-between text-green-600">
                     <span>HTB Benefit</span>
-                    <span>-€{Math.min(property.price * 0.130000).toLocaleString()}</span>
+                    <span>-€{Math.min(property.price * 0.1, 30000).toLocaleString()}</span>
                   </div>
                 )}
                 <div className="flex justify-between">
                   <span className="text-gray-600">Deposit Required (10%)</span>
                   <span>€{(property.price * 0.1).toLocaleString()}</span>
                 </div>
-
+                
                 <div className="border-t pt-3">
                   <div className="flex justify-between font-semibold">
                     <span>Due Today</span>

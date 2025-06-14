@@ -1,493 +1,722 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import Link from 'next/link';
 import { 
-  Building, Users, FileText, CheckCircle, Clock, Shield, 
-  Calendar, MessageSquare, BarChart3, Smartphone, Eye, 
-  ArrowRight, DollarSign, Home, UserCheck, ChevronRight,
-  Briefcase, TrendingUp, Target, Award, Zap, Phone,
-  Package, ClipboardCheck, LineChart, MapPin, Key,
-  AlertCircle, Settings, Video, HeadphonesIcon, 
-  BookOpen, Calculator, Scale, Timer, Mail, FileCheck
+  TrendingUp, 
+  Shield, 
+  Building2, 
+  Euro, 
+  BarChart3, 
+  Target, 
+  Users, 
+  Award,
+  ArrowRight,
+  CheckCircle,
+  Calendar,
+  Globe,
+  PieChart,
+  Briefcase,
+  Clock,
+  Zap,
+  FileText,
+  Database,
+  Lock,
+  Phone,
+  Mail,
+  MapPin,
+  Star,
+  Home,
+  MessageSquare,
+  Camera,
+  Share,
+  Calculator,
+  Search,
+  Bell,
+  CreditCard,
+  Download,
+  UserPlus,
+  HeadphonesIcon,
+  BookOpen,
+  Smartphone
 } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
 
 export default function EstateAgentsPage() {
-  const [activeFeaturesetActiveFeature] = useState('transaction');
-
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-b from-slate-900 to-blue-900 text-white overflow-hidden">
-        <div className="absolute inset-0 bg-[url('/patterns/grid.svg')] opacity-10" />
+      <section className="relative overflow-hidden bg-gradient-to-br from-green-900 via-emerald-800 to-teal-900">
+        <div className="absolute inset-0 bg-black/20"></div>
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
-          <div className="text-center mb-12">
-            <motion.div
-              initial={ opacity: 0, y: 20 }
-              animate={ opacity: 1, y: 0 }
-              className="inline-flex items-center px-6 py-3 bg-blue-600/20 backdrop-blur-sm border border-blue-400/30 rounded-full mb-6"
-            >
-              <Briefcase className="h-5 w-5 mr-2 text-blue-300" />
-              <span className="text-blue-300 font-medium">Estate Agent Solutions</span>
-            </motion.div>
-
-            <motion.h1 
-              initial={ opacity: 0, y: 20 }
-              animate={ opacity: 1, y: 0 }
-              transition={ delay: 0.1 }
-              className="text-5xl md:text-6xl font-bold mb-6"
-            >
-              Streamline Every Sale from
-              <span className="block text-blue-400">Launch to Handover</span>
-            </motion.h1>
-
-            <motion.p 
-              initial={ opacity: 0, y: 20 }
-              animate={ opacity: 1, y: 0 }
-              transition={ delay: 0.2 }
-              className="text-xl text-gray-300 max-w-3xl mx-auto mb-8"
-            >
-              Complete digital platform for estate agents to manage developer sales, 
-              coordinate transactions, and deliver exceptional buyer experiences
-            </motion.p>
-
-            <motion.div 
-              initial={ opacity: 0, y: 20 }
-              animate={ opacity: 1, y: 0 }
-              transition={ delay: 0.3 }
-              className="flex flex-col sm:flex-row gap-4 justify-center"
-            >
+          <div className="text-center">
+            <div className="inline-flex items-center bg-green-100 text-green-800 px-4 py-2 rounded-full text-sm font-medium mb-6">
+              <Award className="w-4 h-4 mr-2" />
+              Ireland's Leading Agent Platform
+            </div>
+            <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">
+              Estate Agent
+              <span className="text-green-300 block">Solutions</span>
+            </h1>
+            <p className="text-xl text-green-100 mb-8 max-w-3xl mx-auto">
+              Comprehensive technology platform and business solutions designed specifically for 
+              modern estate agents to grow their business and serve clients better.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link 
-                href="/demo"
-                className="inline-flex items-center px-8 py-4 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-all transform hover:scale-105 shadow-xl"
+                href="/agents"
+                className="bg-green-600 hover:bg-green-700 text-white px-8 py-4 rounded-lg font-semibold flex items-center justify-center transition-colors"
               >
-                Book Platform Demo
-                <ChevronRight className="ml-2 h-5 w-5" />
+                Access Agent Portal
+                <ArrowRight className="ml-2 w-5 h-5" />
               </Link>
               <Link 
-                href="/contact"
-                className="inline-flex items-center px-8 py-4 bg-white/10 backdrop-blur-sm text-white font-semibold rounded-lg hover:bg-white/20 transition-all border border-white/30"
+                href="/contact?type=agent-demo"
+                className="bg-white/10 backdrop-blur-sm border border-white/20 text-white px-8 py-4 rounded-lg font-semibold hover:bg-white/20 transition-colors"
               >
-                Talk to Our Team
-                <MessageSquare className="ml-2 h-5 w-5" />
+                Book Demo
               </Link>
-            </motion.div>
-          </div>
-
-          {/* Key Metrics */}
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mt-16">
-            {[
-              {
-                icon: <Timer className="h-8 w-8" />,
-                value: "75%",
-                label: "Faster Completions",
-                description: "Reduce closing time"
-              },
-              {
-                icon: <TrendingUp className="h-8 w-8" />,
-                value: "40%",
-                label: "Higher Conversion",
-                description: "From viewing to sale"
-              },
-              {
-                icon: <Users className="h-8 w-8" />,
-                value: "200+",
-                label: "Agents Using PROP",
-                description: "Nationwide network"
-              },
-              {
-                icon: <DollarSign className="h-8 w-8" />,
-                value: "€500M+",
-                label: "Sales Managed",
-                description: "Total transaction value"
-              }
-            ].map((metricindex: any) => (
-              <motion.div
-                key={index}
-                initial={ opacity: 0, y: 20 }
-                animate={ opacity: 1, y: 0 }
-                transition={ delay: 0.4 + index * 0.1 }
-                className="bg-white/10 backdrop-blur-sm rounded-xl p-6 text-center"
-              >
-                <div className="text-blue-400 mb-3 flex justify-center">{metric.icon}</div>
-                <div className="text-3xl font-bold text-white mb-1">{metric.value}</div>
-                <div className="text-lg font-semibold text-white">{metric.label}</div>
-                <div className="text-sm text-gray-300">{metric.description}</div>
-              </motion.div>
-            ))}
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Core Features Tabs */}
-      <section className="py-20">
+      {/* Success Metrics */}
+      <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            <div className="text-center">
+              <div className="text-3xl font-bold text-green-600 mb-2">2,400+</div>
+              <div className="text-gray-600">Partner Agents</div>
+            </div>
+            <div className="text-center">
+              <div className="text-3xl font-bold text-blue-600 mb-2">€890M</div>
+              <div className="text-gray-600">Properties Sold</div>
+            </div>
+            <div className="text-center">
+              <div className="text-3xl font-bold text-purple-600 mb-2">15.2%</div>
+              <div className="text-gray-600">Average Commission Increase</div>
+            </div>
+            <div className="text-center">
+              <div className="text-3xl font-bold text-orange-600 mb-2">96%</div>
+              <div className="text-gray-600">Agent Satisfaction</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Agent Solutions */}
+      <section className="py-20 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              Complete Sales & Transaction Management
+              Complete Agent Business Solutions
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Everything you need to manage developer sales from initial viewing to final handover
+              Everything you need to run a successful estate agency - from lead generation 
+              to transaction completion, all in one integrated platform.
             </p>
           </div>
 
-          {/* Feature Navigation */}
-          <div className="flex flex-wrap justify-center mb-12 border-b">
-            {[
-              { id: 'transaction', label: 'Transaction Management', icon: FileText },
-              { id: 'viewing', label: 'Viewing Coordination', icon: Calendar },
-              { id: 'completion', label: 'Completion Process', icon: CheckCircle },
-              { id: 'communication', label: 'Client Communication', icon: MessageSquare },
-              { id: 'analytics', label: 'Sales Analytics', icon: BarChart3 }
-            ].map((tab: any) => (
-              <button
-                key={tab.id}
-                onClick={() => setActiveFeature(tab.id)}
-                className={`flex items-center gap-2 px-6 py-3 font-semibold transition-all ${
-                  activeFeature === tab.id
-                    ? 'text-blue-600 border-b-2 border-blue-600'
-                    : 'text-gray-500 hover:text-gray-700'
-                }`}
-              >
-                <tab.icon className="h-5 w-5" />
-                {tab.label}
-              </button>
-            ))}
-          </div>
-
-          {/* Feature Content */}
-          <div className="mt-12">
-            {activeFeature === 'transaction' && <TransactionManagement />}
-            {activeFeature === 'viewing' && <ViewingCoordination />}
-            {activeFeature === 'completion' && <CompletionProcess />}
-            {activeFeature === 'communication' && <ClientCommunication />}
-            {activeFeature === 'analytics' && <SalesAnalytics />}
-          </div>
-        </div>
-      </section>
-
-      {/* Workflow Visualization */}
-      <section className="py-16 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              End-to-End Sales Process
-            </h2>
-            <p className="text-xl text-gray-600">
-              Seamless workflow from lead to handover
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-6 gap-4">
-            {[
-              { icon: Target, label: "Lead Capture", color: "blue" },
-              { icon: Calendar, label: "Viewing", color: "purple" },
-              { icon: FileText, label: "Offer", color: "green" },
-              { icon: Scale, label: "Contracts", color: "yellow" },
-              { icon: Building, label: "Completion", color: "orange" },
-              { icon: Key, label: "Handover", color: "red" }
-            ].map((stepindex: any) => (
-              <div key={index} className="relative">
-                <div className="text-center">
-                  <div className={`w-16 h-16 bg-${step.color}-100 rounded-full flex items-center justify-center mx-auto mb-3`}>
-                    <step.icon className={`h-8 w-8 text-${step.color}-600`} />
-                  </div>
-                  <p className="font-medium text-gray-900">{step.label}</p>
-                </div>
-                {index <5 && (
-                  <ChevronRight className="hidden md:block absolute top-8 -right-8 h-6 w-6 text-gray-400" />
-                )}
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {/* Lead Management */}
+            <div className="bg-white rounded-xl p-8 shadow-sm hover:shadow-lg transition-shadow">
+              <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-6">
+                <Target className="w-6 h-6 text-blue-600" />
               </div>
-            ))}
+              <h3 className="text-xl font-semibold mb-4">Lead Management & CRM</h3>
+              <p className="text-gray-600 mb-6">
+                Advanced CRM system with automated lead nurturing, contact management, and conversion tracking.
+              </p>
+              <ul className="space-y-2 text-sm text-gray-600">
+                <li className="flex items-center">
+                  <CheckCircle className="w-4 h-4 text-green-500 mr-2" />
+                  Automated lead capture
+                </li>
+                <li className="flex items-center">
+                  <CheckCircle className="w-4 h-4 text-green-500 mr-2" />
+                  Smart lead scoring
+                </li>
+                <li className="flex items-center">
+                  <CheckCircle className="w-4 h-4 text-green-500 mr-2" />
+                  Email & SMS automation
+                </li>
+                <li className="flex items-center">
+                  <CheckCircle className="w-4 h-4 text-green-500 mr-2" />
+                  Activity tracking
+                </li>
+              </ul>
+            </div>
+
+            {/* Property Marketing */}
+            <div className="bg-white rounded-xl p-8 shadow-sm hover:shadow-lg transition-shadow">
+              <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-6">
+                <Camera className="w-6 h-6 text-green-600" />
+              </div>
+              <h3 className="text-xl font-semibold mb-4">Property Marketing Suite</h3>
+              <p className="text-gray-600 mb-6">
+                Professional marketing tools including virtual tours, premium listings, and social media automation.
+              </p>
+              <ul className="space-y-2 text-sm text-gray-600">
+                <li className="flex items-center">
+                  <CheckCircle className="w-4 h-4 text-green-500 mr-2" />
+                  3D virtual tours
+                </li>
+                <li className="flex items-center">
+                  <CheckCircle className="w-4 h-4 text-green-500 mr-2" />
+                  Professional photography
+                </li>
+                <li className="flex items-center">
+                  <CheckCircle className="w-4 h-4 text-green-500 mr-2" />
+                  Social media automation
+                </li>
+                <li className="flex items-center">
+                  <CheckCircle className="w-4 h-4 text-green-500 mr-2" />
+                  Premium portal listings
+                </li>
+              </ul>
+            </div>
+
+            {/* Transaction Management */}
+            <div className="bg-white rounded-xl p-8 shadow-sm hover:shadow-lg transition-shadow">
+              <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mb-6">
+                <FileText className="w-6 h-6 text-purple-600" />
+              </div>
+              <h3 className="text-xl font-semibold mb-4">Transaction Management</h3>
+              <p className="text-gray-600 mb-6">
+                End-to-end transaction management with automated workflows, document management, and progress tracking.
+              </p>
+              <ul className="space-y-2 text-sm text-gray-600">
+                <li className="flex items-center">
+                  <CheckCircle className="w-4 h-4 text-green-500 mr-2" />
+                  Digital contract management
+                </li>
+                <li className="flex items-center">
+                  <CheckCircle className="w-4 h-4 text-green-500 mr-2" />
+                  Milestone tracking
+                </li>
+                <li className="flex items-center">
+                  <CheckCircle className="w-4 h-4 text-green-500 mr-2" />
+                  Client portal access
+                </li>
+                <li className="flex items-center">
+                  <CheckCircle className="w-4 h-4 text-green-500 mr-2" />
+                  Automated reminders
+                </li>
+              </ul>
+            </div>
+
+            {/* Market Analytics */}
+            <div className="bg-white rounded-xl p-8 shadow-sm hover:shadow-lg transition-shadow">
+              <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mb-6">
+                <BarChart3 className="w-6 h-6 text-orange-600" />
+              </div>
+              <h3 className="text-xl font-semibold mb-4">Market Analytics & Insights</h3>
+              <p className="text-gray-600 mb-6">
+                Comprehensive market data, comparable sales analysis, and performance reporting to stay ahead.
+              </p>
+              <ul className="space-y-2 text-sm text-gray-600">
+                <li className="flex items-center">
+                  <CheckCircle className="w-4 h-4 text-green-500 mr-2" />
+                  Real-time market data
+                </li>
+                <li className="flex items-center">
+                  <CheckCircle className="w-4 h-4 text-green-500 mr-2" />
+                  Comparable sales analysis
+                </li>
+                <li className="flex items-center">
+                  <CheckCircle className="w-4 h-4 text-green-500 mr-2" />
+                  Performance dashboards
+                </li>
+                <li className="flex items-center">
+                  <CheckCircle className="w-4 h-4 text-green-500 mr-2" />
+                  Predictive pricing
+                </li>
+              </ul>
+            </div>
+
+            {/* Client Communication */}
+            <div className="bg-white rounded-xl p-8 shadow-sm hover:shadow-lg transition-shadow">
+              <div className="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center mb-6">
+                <MessageSquare className="w-6 h-6 text-red-600" />
+              </div>
+              <h3 className="text-xl font-semibold mb-4">Client Communication Hub</h3>
+              <p className="text-gray-600 mb-6">
+                Integrated communication platform with video calls, messaging, and client portal for seamless interaction.
+              </p>
+              <ul className="space-y-2 text-sm text-gray-600">
+                <li className="flex items-center">
+                  <CheckCircle className="w-4 h-4 text-green-500 mr-2" />
+                  Video calling & tours
+                </li>
+                <li className="flex items-center">
+                  <CheckCircle className="w-4 h-4 text-green-500 mr-2" />
+                  Instant messaging
+                </li>
+                <li className="flex items-center">
+                  <CheckCircle className="w-4 h-4 text-green-500 mr-2" />
+                  Client portal access
+                </li>
+                <li className="flex items-center">
+                  <CheckCircle className="w-4 h-4 text-green-500 mr-2" />
+                  Appointment scheduling
+                </li>
+              </ul>
+            </div>
+
+            {/* Financial Tools */}
+            <div className="bg-white rounded-xl p-8 shadow-sm hover:shadow-lg transition-shadow">
+              <div className="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center mb-6">
+                <Calculator className="w-6 h-6 text-indigo-600" />
+              </div>
+              <h3 className="text-xl font-semibold mb-4">Financial Tools & Reporting</h3>
+              <p className="text-gray-600 mb-6">
+                Commission tracking, expense management, and comprehensive financial reporting for your business.
+              </p>
+              <ul className="space-y-2 text-sm text-gray-600">
+                <li className="flex items-center">
+                  <CheckCircle className="w-4 h-4 text-green-500 mr-2" />
+                  Commission tracking
+                </li>
+                <li className="flex items-center">
+                  <CheckCircle className="w-4 h-4 text-green-500 mr-2" />
+                  Expense management
+                </li>
+                <li className="flex items-center">
+                  <CheckCircle className="w-4 h-4 text-green-500 mr-2" />
+                  Revenue forecasting
+                </li>
+                <li className="flex items-center">
+                  <CheckCircle className="w-4 h-4 text-green-500 mr-2" />
+                  Tax reporting
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Integration Section */}
-      <section className="py-16">
+      {/* Agent Platform Features */}
+      <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+              Modern Agent Platform
+            </h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Built for the modern estate agent with mobile-first design, 
+              AI-powered insights, and seamless integrations.
+            </p>
+          </div>
+
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
-              <h2 className="text-3xl font-bold text-gray-900 mb-6">
-                Seamless Integration with Developer Systems
-              </h2>
-              <p className="text-lg text-gray-600 mb-8">
-                Work directly with developers' project data, pricing, and inventory in real-time. 
-                Coordinate with solicitors, manage documentation, and track every transaction milestone.
-              </p>
-
-              <div className="space-y-4">
-                <div className="flex items-start gap-4">
-                  <Building className="h-6 w-6 text-blue-600 mt-0.5" />
+              <div className="space-y-8">
+                <div className="flex items-start space-x-4">
+                  <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <Smartphone className="w-4 h-4 text-blue-600" />
+                  </div>
                   <div>
-                    <h3 className="font-semibold text-gray-900">Developer Dashboard Access</h3>
-                    <p className="text-gray-600">Real-time unit availability, pricing, and project updates</p>
+                    <h3 className="text-lg font-semibold mb-2">Mobile-First Design</h3>
+                    <p className="text-gray-600">Manage your business on the go with our native mobile apps for iOS and Android.</p>
                   </div>
                 </div>
 
-                <div className="flex items-start gap-4">
-                  <Scale className="h-6 w-6 text-green-600 mt-0.5" />
+                <div className="flex items-start space-x-4">
+                  <div className="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <Zap className="w-4 h-4 text-green-600" />
+                  </div>
                   <div>
-                    <h3 className="font-semibold text-gray-900">Solicitor Coordination</h3>
-                    <p className="text-gray-600">Automated document sharing and milestone tracking</p>
+                    <h3 className="text-lg font-semibold mb-2">AI-Powered Insights</h3>
+                    <p className="text-gray-600">Get intelligent recommendations for pricing, marketing strategies, and lead prioritization.</p>
                   </div>
                 </div>
 
-                <div className="flex items-start gap-4">
-                  <FileCheck className="h-6 w-6 text-purple-600 mt-0.5" />
+                <div className="flex items-start space-x-4">
+                  <div className="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <Share className="w-4 h-4 text-purple-600" />
+                  </div>
                   <div>
-                    <h3 className="font-semibold text-gray-900">Document Management</h3>
-                    <p className="text-gray-600">Centralized storage for contracts, agreements, and compliance</p>
+                    <h3 className="text-lg font-semibold mb-2">Seamless Integrations</h3>
+                    <p className="text-gray-600">Connect with Daft.ie, MyHome.ie, Property.ie, and all major Irish property portals.</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start space-x-4">
+                  <div className="w-8 h-8 bg-orange-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <Clock className="w-4 h-4 text-orange-600" />
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-semibold mb-2">24/7 Support</h3>
+                    <p className="text-gray-600">Round-the-clock support from our expert team to help you succeed.</p>
                   </div>
                 </div>
               </div>
             </div>
 
-            <div className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl p-8">
-              <img src="/api/placeholder/600/400" alt="Platform Integration" className="rounded-xl shadow-lg" />
-            </div>
-          </div>
-        </div>
-      </section>
+            <div className="bg-gradient-to-br from-green-50 to-emerald-100 rounded-2xl p-8">
+              <div className="bg-white rounded-xl p-6 shadow-lg">
+                <div className="flex items-center justify-between mb-6">
+                  <h3 className="text-lg font-semibold">Agent Dashboard</h3>
+                  <span className="text-green-600 font-semibold">Live Data</span>
+                </div>
+                
+                <div className="space-y-4">
+                  <div className="flex justify-between items-center">
+                    <span className="text-gray-600">Active Listings</span>
+                    <span className="font-semibold">24</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-gray-600">This Month Sales</span>
+                    <span className="text-green-600 font-semibold">7</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-gray-600">Pipeline Value</span>
+                    <span className="font-semibold">€2.1M</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-gray-600">Commission Earned</span>
+                    <span className="font-semibold">€18,450</span>
+                  </div>
+                </div>
 
-      {/* Benefits Section */}
-      <section className="py-16 bg-gradient-to-br from-blue-50 to-purple-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              Why Top Agents Choose PROP
-            </h2>
-            <p className="text-xl text-gray-600">
-              Transform your agency operations with cutting-edge technology
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="bg-white rounded-xl p-8 shadow-lg">
-              <div className="w-14 h-14 bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl flex items-center justify-center text-white mb-6">
-                <Zap className="h-8 w-8" />
+                <div className="mt-6 pt-4 border-t">
+                  <div className="flex justify-between text-sm text-gray-600 mb-2">
+                    <span>Recent Activity</span>
+                  </div>
+                  <div className="space-y-2">
+                    <div className="flex justify-between text-sm">
+                      <span>New viewing booked</span>
+                      <span className="text-green-600">2 min ago</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span>Offer received</span>
+                      <span className="text-blue-600">1 hour ago</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span>Property listed</span>
+                      <span className="text-gray-500">3 hours ago</span>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-4">Accelerated Sales Cycle</h3>
-              <p className="text-gray-600 mb-4">
-                Reduce time from viewing to completion by up to 75% with automated workflows
-              </p>
-              <ul className="space-y-2">
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="h-5 w-5 text-green-500" />
-                  <span className="text-gray-700">Digital offer management</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="h-5 w-5 text-green-500" />
-                  <span className="text-gray-700">Instant document generation</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="h-5 w-5 text-green-500" />
-                  <span className="text-gray-700">Automated compliance checks</span>
-                </li>
-              </ul>
-            </div>
-
-            <div className="bg-white rounded-xl p-8 shadow-lg">
-              <div className="w-14 h-14 bg-gradient-to-r from-green-500 to-blue-500 rounded-xl flex items-center justify-center text-white mb-6">
-                <UserCheck className="h-8 w-8" />
-              </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-4">Enhanced Client Experience</h3>
-              <p className="text-gray-600 mb-4">
-                Provide buyers with a premium digital experience from first contact to keys
-              </p>
-              <ul className="space-y-2">
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="h-5 w-5 text-green-500" />
-                  <span className="text-gray-700">Virtual viewings & 3D tours</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="h-5 w-5 text-green-500" />
-                  <span className="text-gray-700">Real-time status updates</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="h-5 w-5 text-green-500" />
-                  <span className="text-gray-700">Mobile-first buyer portal</span>
-                </li>
-              </ul>
-            </div>
-
-            <div className="bg-white rounded-xl p-8 shadow-lg">
-              <div className="w-14 h-14 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl flex items-center justify-center text-white mb-6">
-                <LineChart className="h-8 w-8" />
-              </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-4">Performance Analytics</h3>
-              <p className="text-gray-600 mb-4">
-                Data-driven insights to optimize your sales strategy and commissions
-              </p>
-              <ul className="space-y-2">
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="h-5 w-5 text-green-500" />
-                  <span className="text-gray-700">Conversion tracking</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="h-5 w-5 text-green-500" />
-                  <span className="text-gray-700">Commission calculator</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="h-5 w-5 text-green-500" />
-                  <span className="text-gray-700">Lead source analysis</span>
-                </li>
-              </ul>
             </div>
           </div>
         </div>
       </section>
 
       {/* Success Stories */}
-      <section className="py-16">
+      <section className="py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
+          <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              Agency Success Stories
+              Agent Success Stories
             </h2>
-            <p className="text-xl text-gray-600">
-              See how leading agencies transform their operations with PROP
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              See how estate agents across Ireland are growing their business with our platform.
             </p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
-            {[
-              {
-                agency: "Dublin Property Partners",
-                quote: "PROP has revolutionized how we manage developer sales. We've cut our transaction time in half while providing a much better experience for buyers.",
-                author: "Sarah Murphy",
-                role: "Sales Director",
-                metric: "50% faster completions"
-              },
-              {
-                agency: "Cork Estate Solutions",
-                quote: "The integration with solicitors and developers saves us hours every week. Everything is in one place, and our clients love the transparency.",
-                author: "Michael O'Brien",
-                role: "Managing Partner",
-                metric: "200% ROI increase"
-              },
-              {
-                agency: "Galway Premier Estates",
-                quote: "We've seen a 40% increase in conversion rates since using PROP. The automated follow-ups and digital documentation make a huge difference.",
-                author: "Emma Walsh",
-                role: "Senior Agent",
-                metric: "40% higher conversions"
-              }
-            ].map((storyindex: any) => (
-              <motion.div
-                key={index}
-                initial={ opacity: 0, y: 20 }
-                animate={ opacity: 1, y: 0 }
-                transition={ delay: index * 0.1 }
-                className="bg-white rounded-xl p-8 shadow-lg"
-              >
-                <Award className="h-8 w-8 text-yellow-500 mb-4" />
-                <p className="text-gray-700 mb-6 italic">"{story.quote}"</p>
-                <div className="flex items-center gap-4 mb-4">
-                  <div className="w-12 h-12 bg-gray-200 rounded-full"></div>
-                  <div>
-                    <p className="font-semibold text-gray-900">{story.author}</p>
-                    <p className="text-sm text-gray-600">{story.role}, {story.agency}</p>
-                  </div>
+            <div className="bg-white rounded-xl p-8 shadow-sm">
+              <div className="flex items-center mb-6">
+                <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                  <Home className="w-6 h-6 text-blue-600" />
                 </div>
-                <div className="bg-blue-50 rounded-lg p-3 text-center">
-                  <p className="font-bold text-blue-900">{story.metric}</p>
+                <div className="ml-4">
+                  <h3 className="font-semibold">Sarah O'Brien</h3>
+                  <p className="text-gray-600 text-sm">Dublin South</p>
                 </div>
-              </motion.div>
-            ))}
+              </div>
+              <blockquote className="text-gray-700 mb-6">
+                "Since joining PROP, my sales have increased 40% and I've cut my admin time in half. The CRM system has transformed how I manage my clients."
+              </blockquote>
+              <div className="flex items-center">
+                <div className="flex text-yellow-400">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className="w-4 h-4 fill-current" />
+                  ))}
+                </div>
+                <span className="ml-2 text-sm text-gray-600">Top Performer 2024</span>
+              </div>
+            </div>
+
+            <div className="bg-white rounded-xl p-8 shadow-sm">
+              <div className="flex items-center mb-6">
+                <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+                  <TrendingUp className="w-6 h-6 text-green-600" />
+                </div>
+                <div className="ml-4">
+                  <h3 className="font-semibold">Michael Murphy</h3>
+                  <p className="text-gray-600 text-sm">Cork City</p>
+                </div>
+              </div>
+              <blockquote className="text-gray-700 mb-6">
+                "The marketing tools are incredible. My listings get 3x more views and the virtual tours have helped me close deals remotely."
+              </blockquote>
+              <div className="flex items-center">
+                <div className="flex text-yellow-400">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className="w-4 h-4 fill-current" />
+                  ))}
+                </div>
+                <span className="ml-2 text-sm text-gray-600">Rising Star Agent</span>
+              </div>
+            </div>
+
+            <div className="bg-white rounded-xl p-8 shadow-sm">
+              <div className="flex items-center mb-6">
+                <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
+                  <Award className="w-6 h-6 text-purple-600" />
+                </div>
+                <div className="ml-4">
+                  <h3 className="font-semibold">Emma Walsh</h3>
+                  <p className="text-gray-600 text-sm">Galway</p>
+                </div>
+              </div>
+              <blockquote className="text-gray-700 mb-6">
+                "The transaction management system is a game-changer. My clients love the transparency and I never miss a deadline anymore."
+              </blockquote>
+              <div className="flex items-center">
+                <div className="flex text-yellow-400">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className="w-4 h-4 fill-current" />
+                  ))}
+                </div>
+                <span className="ml-2 text-sm text-gray-600">Client Choice Award</span>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* FAQ Section */}
-      <section className="py-16 bg-gray-50">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
+      {/* Pricing Plans */}
+      <section className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              Frequently Asked Questions
+              Choose Your Plan
             </h2>
-            <p className="text-xl text-gray-600">
-              Everything you need to know about using PROP for your agency
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Flexible pricing plans designed to grow with your business, from solo agents to large agencies.
             </p>
           </div>
 
-          <div className="space-y-8">
-            {[
-              {
-                question: "How does PROP integrate with developer systems?",
-                answer: "PROP seamlessly connects with developer project management systems, providing real-time access to unit availability, pricing, and project updates. Your agency gets a dedicated dashboard with all relevant information."
-              },
-              {
-                question: "Can we manage multiple developer clients?",
-                answer: "Yes, PROP allows you to manage unlimited developer relationships. Each developer has their own project space, and you can switch between them easily while maintaining separate workflows and documentation."
-              },
-              {
-                question: "How does the solicitor coordination work?",
-                answer: "PROP includes built-in communication channels with solicitors. Documents are automatically shared at the right stages, and all parties can track progress in real-time, eliminating email chains and phone tag."
-              },
-              {
-                question: "What training is provided?",
-                answer: "We offer comprehensive onboarding including video tutorials, live training sessions, and ongoing support. Most agents are fully operational within 48 hours of starting."
-              },
-              {
-                question: "How does commission tracking work?",
-                answer: "PROP automatically calculates commissions based on your agreed rates with each developer. You can track pending, earned, and paid commissions with detailed reporting."
-              }
-            ].map((faqindex: any) => (
-              <motion.div
-                key={index}
-                initial={ opacity: 0, y: 20 }
-                animate={ opacity: 1, y: 0 }
-                transition={ delay: index * 0.1 }
-                className="bg-white rounded-xl p-6 shadow-lg"
+          <div className="grid md:grid-cols-3 gap-8">
+            {/* Starter Plan */}
+            <div className="bg-white border-2 border-gray-200 rounded-xl p-8">
+              <div className="text-center mb-8">
+                <h3 className="text-xl font-bold mb-2">Starter</h3>
+                <div className="text-3xl font-bold text-green-600 mb-2">€79/mo</div>
+                <p className="text-gray-600">Perfect for solo agents</p>
+              </div>
+              <ul className="space-y-3 mb-8">
+                <li className="flex items-center">
+                  <CheckCircle className="w-5 h-5 text-green-500 mr-3" />
+                  <span>Up to 25 active listings</span>
+                </li>
+                <li className="flex items-center">
+                  <CheckCircle className="w-5 h-5 text-green-500 mr-3" />
+                  <span>Basic CRM & lead management</span>
+                </li>
+                <li className="flex items-center">
+                  <CheckCircle className="w-5 h-5 text-green-500 mr-3" />
+                  <span>Standard property marketing</span>
+                </li>
+                <li className="flex items-center">
+                  <CheckCircle className="w-5 h-5 text-green-500 mr-3" />
+                  <span>Mobile app access</span>
+                </li>
+                <li className="flex items-center">
+                  <CheckCircle className="w-5 h-5 text-green-500 mr-3" />
+                  <span>Email support</span>
+                </li>
+              </ul>
+              <Link 
+                href="/agents/signup?plan=starter"
+                className="w-full bg-green-600 text-white text-center py-3 rounded-lg font-semibold hover:bg-green-700 transition-colors block"
               >
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">{faq.question}</h3>
-                <p className="text-gray-600">{faq.answer}</p>
-              </motion.div>
-            ))}
+                Start Free Trial
+              </Link>
+            </div>
+
+            {/* Professional Plan */}
+            <div className="bg-gradient-to-b from-green-50 to-white border-2 border-green-500 rounded-xl p-8 relative">
+              <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
+                <span className="bg-green-500 text-white px-4 py-2 rounded-full text-sm font-medium">
+                  Most Popular
+                </span>
+              </div>
+              <div className="text-center mb-8">
+                <h3 className="text-xl font-bold mb-2">Professional</h3>
+                <div className="text-3xl font-bold text-green-600 mb-2">€149/mo</div>
+                <p className="text-gray-600">For growing agents</p>
+              </div>
+              <ul className="space-y-3 mb-8">
+                <li className="flex items-center">
+                  <CheckCircle className="w-5 h-5 text-green-500 mr-3" />
+                  <span>Up to 100 active listings</span>
+                </li>
+                <li className="flex items-center">
+                  <CheckCircle className="w-5 h-5 text-green-500 mr-3" />
+                  <span>Advanced CRM & automation</span>
+                </li>
+                <li className="flex items-center">
+                  <CheckCircle className="w-5 h-5 text-green-500 mr-3" />
+                  <span>Premium marketing suite</span>
+                </li>
+                <li className="flex items-center">
+                  <CheckCircle className="w-5 h-5 text-green-500 mr-3" />
+                  <span>Virtual tours & 3D photography</span>
+                </li>
+                <li className="flex items-center">
+                  <CheckCircle className="w-5 h-5 text-green-500 mr-3" />
+                  <span>Priority support</span>
+                </li>
+              </ul>
+              <Link 
+                href="/agents/signup?plan=professional"
+                className="w-full bg-green-600 text-white text-center py-3 rounded-lg font-semibold hover:bg-green-700 transition-colors block"
+              >
+                Start Free Trial
+              </Link>
+            </div>
+
+            {/* Agency Plan */}
+            <div className="bg-white border-2 border-gray-200 rounded-xl p-8">
+              <div className="text-center mb-8">
+                <h3 className="text-xl font-bold mb-2">Agency</h3>
+                <div className="text-3xl font-bold text-green-600 mb-2">€299/mo</div>
+                <p className="text-gray-600">For teams & agencies</p>
+              </div>
+              <ul className="space-y-3 mb-8">
+                <li className="flex items-center">
+                  <CheckCircle className="w-5 h-5 text-green-500 mr-3" />
+                  <span>Unlimited listings</span>
+                </li>
+                <li className="flex items-center">
+                  <CheckCircle className="w-5 h-5 text-green-500 mr-3" />
+                  <span>Team management tools</span>
+                </li>
+                <li className="flex items-center">
+                  <CheckCircle className="w-5 h-5 text-green-500 mr-3" />
+                  <span>White-label solutions</span>
+                </li>
+                <li className="flex items-center">
+                  <CheckCircle className="w-5 h-5 text-green-500 mr-3" />
+                  <span>Advanced analytics & reporting</span>
+                </li>
+                <li className="flex items-center">
+                  <CheckCircle className="w-5 h-5 text-green-500 mr-3" />
+                  <span>Dedicated account manager</span>
+                </li>
+              </ul>
+              <Link 
+                href="/contact?plan=agency"
+                className="w-full bg-green-600 text-white text-center py-3 rounded-lg font-semibold hover:bg-green-700 transition-colors block"
+              >
+                Contact Sales
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Features Comparison */}
+      <section className="py-20 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+              Why Choose PROP for Your Agency?
+            </h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Built specifically for Irish estate agents with local expertise and global technology.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div className="text-center">
+              <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Globe className="w-8 h-8 text-green-600" />
+              </div>
+              <h3 className="font-semibold mb-2">Irish Market Expert</h3>
+              <p className="text-gray-600 text-sm">Built for Irish property market with local compliance and integrations.</p>
+            </div>
+
+            <div className="text-center">
+              <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Zap className="w-8 h-8 text-blue-600" />
+              </div>
+              <h3 className="font-semibold mb-2">Lightning Fast</h3>
+              <p className="text-gray-600 text-sm">Cloud-based platform with instant updates and real-time synchronization.</p>
+            </div>
+
+            <div className="text-center">
+              <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <HeadphonesIcon className="w-8 h-8 text-purple-600" />
+              </div>
+              <h3 className="font-semibold mb-2">24/7 Support</h3>
+              <p className="text-gray-600 text-sm">Round-the-clock support from our Irish-based customer success team.</p>
+            </div>
+
+            <div className="text-center">
+              <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <BookOpen className="w-8 h-8 text-orange-600" />
+              </div>
+              <h3 className="font-semibold mb-2">Training Included</h3>
+              <p className="text-gray-600 text-sm">Comprehensive training program and ongoing education resources.</p>
+            </div>
           </div>
         </div>
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-r from-blue-900 to-purple-900 text-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-6">
-            Ready to Transform Your Agency?
+      <section className="py-20 bg-gradient-to-r from-green-900 to-emerald-900">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
+            Ready to Transform Your Estate Agency?
           </h2>
-          <p className="text-xl mb-8">
-            Join Ireland's leading estate agents using PROP to streamline their operations
+          <p className="text-xl text-green-100 mb-8 max-w-3xl mx-auto">
+            Join over 2,400 Irish estate agents who have already transformed their business with PROP. 
+            Start your free trial today.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link
-              href="/demo"
-              className="inline-flex items-center px-8 py-4 bg-white text-blue-900 font-bold rounded-lg hover:bg-gray-100 transition-all"
+            <Link 
+              href="/agents/signup"
+              className="bg-white text-green-900 px-8 py-4 rounded-lg font-semibold hover:bg-green-50 transition-colors inline-flex items-center justify-center"
             >
-              Book a Demo
-              <ArrowRight className="ml-2 h-5 w-5" />
+              Start Free 14-Day Trial
+              <ArrowRight className="ml-2 w-5 h-5" />
             </Link>
-            <Link
-              href="/contact"
-              className="inline-flex items-center px-8 py-4 bg-transparent border-2 border-white text-white font-bold rounded-lg hover:bg-white/10 transition-all"
+            <Link 
+              href="/contact?type=agent-demo"
+              className="bg-green-700 text-white px-8 py-4 rounded-lg font-semibold hover:bg-green-600 transition-colors inline-flex items-center justify-center"
             >
-              Contact Sales
-              <Phone className="ml-2 h-5 w-5" />
+              <Phone className="mr-2 w-5 h-5" />
+              Book Live Demo
             </Link>
           </div>
-
-          <div className="mt-12 flex flex-col sm:flex-row gap-8 justify-center items-center">
-            <div className="flex items-center gap-2">
-              <HeadphonesIcon className="h-6 w-6" />
-              <span>24/7 Support</span>
+          
+          <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
+            <div className="bg-white/10 rounded-lg p-6">
+              <div className="flex items-center mb-3">
+                <Mail className="w-5 h-5 text-green-300 mr-2" />
+                <span className="text-white font-medium">Email</span>
+              </div>
+              <p className="text-green-100">agents@prop.ie</p>
             </div>
-            <div className="flex items-center gap-2">
-              <BookOpen className="h-6 w-6" />
-              <span>Free Training</span>
+            <div className="bg-white/10 rounded-lg p-6">
+              <div className="flex items-center mb-3">
+                <Phone className="w-5 h-5 text-green-300 mr-2" />
+                <span className="text-white font-medium">Agent Hotline</span>
+              </div>
+              <p className="text-green-100">+353 1 800 PROP</p>
             </div>
-            <div className="flex items-center gap-2">
-              <Shield className="h-6 w-6" />
-              <span>Secure Platform</span>
+            <div className="bg-white/10 rounded-lg p-6">
+              <div className="flex items-center mb-3">
+                <MapPin className="w-5 h-5 text-green-300 mr-2" />
+                <span className="text-white font-medium">Training Centre</span>
+              </div>
+              <p className="text-green-100">Dublin 2, Ireland</p>
             </div>
           </div>
         </div>
@@ -495,317 +724,3 @@ export default function EstateAgentsPage() {
     </div>
   );
 }
-
-// Feature Components
-function TransactionManagement() {
-  return (
-    <div className="space-y-12">
-      <div className="text-center">
-        <h3 className="text-3xl font-bold mb-4">Complete Transaction Management</h3>
-        <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-          Manage every aspect of the sales process from initial offer to final completion
-        </p>
-      </div>
-
-      <div className="grid md:grid-cols-2 gap-8">
-        <div className="space-y-6">
-          <div className="bg-white rounded-xl p-6 shadow-lg">
-            <FileText className="h-10 w-10 text-blue-600 mb-4" />
-            <h4 className="text-xl font-semibold mb-2">Digital Offer Management</h4>
-            <p className="text-gray-600 mb-4">
-              Create, submit, and track offers digitally with instant developer approval workflows
-            </p>
-            <ul className="space-y-2">
-              <li className="flex items-center gap-2">
-                <CheckCircle className="h-5 w-5 text-green-500" />
-                <span className="text-gray-700">Pre-populated offer forms</span>
-              </li>
-              <li className="flex items-center gap-2">
-                <CheckCircle className="h-5 w-5 text-green-500" />
-                <span className="text-gray-700">Automated compliance checks</span>
-              </li>
-              <li className="flex items-center gap-2">
-                <CheckCircle className="h-5 w-5 text-green-500" />
-                <span className="text-gray-700">Real-time status tracking</span>
-              </li>
-            </ul>
-          </div>
-
-          <div className="bg-white rounded-xl p-6 shadow-lg">
-            <Scale className="h-10 w-10 text-green-600 mb-4" />
-            <h4 className="text-xl font-semibold mb-2">Solicitor Coordination</h4>
-            <p className="text-gray-600 mb-4">
-              Seamless integration with buyer and vendor solicitors for smooth transactions
-            </p>
-            <ul className="space-y-2">
-              <li className="flex items-center gap-2">
-                <CheckCircle className="h-5 w-5 text-green-500" />
-                <span className="text-gray-700">Automated document sharing</span>
-              </li>
-              <li className="flex items-center gap-2">
-                <CheckCircle className="h-5 w-5 text-green-500" />
-                <span className="text-gray-700">Milestone notifications</span>
-              </li>
-              <li className="flex items-center gap-2">
-                <CheckCircle className="h-5 w-5 text-green-500" />
-                <span className="text-gray-700">Query management system</span>
-              </li>
-            </ul>
-          </div>
-        </div>
-
-        <div className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl p-8">
-          <h4 className="text-xl font-semibold mb-6">Transaction Dashboard</h4>
-          <div className="space-y-4">
-            <div className="bg-white rounded-lg p-4">
-              <div className="flex items-center justify-between mb-2">
-                <span className="font-medium">Active Transactions</span>
-                <span className="text-2xl font-bold text-blue-600">24</span>
-              </div>
-              <div className="w-full bg-gray-200 rounded-full h-2">
-                <div className="bg-blue-600 h-2 rounded-full" style={ width: '65%' }></div>
-              </div>
-            </div>
-
-            <div className="bg-white rounded-lg p-4">
-              <div className="flex items-center justify-between mb-2">
-                <span className="font-medium">This Month's Completions</span>
-                <span className="text-2xl font-bold text-green-600">8</span>
-              </div>
-              <div className="w-full bg-gray-200 rounded-full h-2">
-                <div className="bg-green-600 h-2 rounded-full" style={ width: '80%' }></div>
-              </div>
-            </div>
-
-            <div className="bg-white rounded-lg p-4">
-              <div className="flex items-center justify-between mb-2">
-                <span className="font-medium">Pending Commission</span>
-                <span className="text-2xl font-bold text-purple-600">€142,500</span>
-              </div>
-              <p className="text-sm text-gray-600">Across 12 transactions</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function ViewingCoordination() {
-  return (
-    <div className="space-y-12">
-      <div className="text-center">
-        <h3 className="text-3xl font-bold mb-4">Smart Viewing Management</h3>
-        <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-          Coordinate viewings efficiently with automated scheduling and follow-ups
-        </p>
-      </div>
-
-      <div className="grid md:grid-cols-3 gap-8">
-        <div className="bg-white rounded-xl p-6 shadow-lg">
-          <Calendar className="h-10 w-10 text-purple-600 mb-4" />
-          <h4 className="text-xl font-semibold mb-2">Online Booking</h4>
-          <p className="text-gray-600 mb-4">
-            Buyers can book viewings directly through the platform
-          </p>
-          <ul className="space-y-2">
-            <li className="text-sm text-gray-700">• Real-time availability</li>
-            <li className="text-sm text-gray-700">• Automated confirmations</li>
-            <li className="text-sm text-gray-700">• SMS reminders</li>
-          </ul>
-        </div>
-
-        <div className="bg-white rounded-xl p-6 shadow-lg">
-          <Video className="h-10 w-10 text-blue-600 mb-4" />
-          <h4 className="text-xl font-semibold mb-2">Virtual Tours</h4>
-          <p className="text-gray-600 mb-4">
-            Offer 3D tours and live video viewings for remote buyers
-          </p>
-          <ul className="space-y-2">
-            <li className="text-sm text-gray-700">• HD video streaming</li>
-            <li className="text-sm text-gray-700">• Interactive 3D models</li>
-            <li className="text-sm text-gray-700">• Recording capabilities</li>
-          </ul>
-        </div>
-
-        <div className="bg-white rounded-xl p-6 shadow-lg">
-          <ClipboardCheck className="h-10 w-10 text-green-600 mb-4" />
-          <h4 className="text-xl font-semibold mb-2">Follow-up Automation</h4>
-          <p className="text-gray-600 mb-4">
-            Never miss a follow-up with automated sequences
-          </p>
-          <ul className="space-y-2">
-            <li className="text-sm text-gray-700">• Post-viewing surveys</li>
-            <li className="text-sm text-gray-700">• Interest tracking</li>
-            <li className="text-sm text-gray-700">• Next step prompts</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function CompletionProcess() {
-  return (
-    <div className="space-y-12">
-      <div className="text-center">
-        <h3 className="text-3xl font-bold mb-4">Streamlined Completion Process</h3>
-        <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-          Guide buyers through completion with clear milestones and automated workflows
-        </p>
-      </div>
-
-      <div className="bg-white rounded-2xl shadow-xl p-8">
-        <h4 className="text-xl font-semibold mb-6">Completion Timeline</h4>
-        <div className="space-y-6">
-          {[
-            { title: "Offer Accepted", status: "complete", date: "Jan 15" },
-            { title: "Contracts Issued", status: "complete", date: "Jan 22" },
-            { title: "Survey Complete", status: "complete", date: "Feb 5" },
-            { title: "Mortgage Approved", status: "complete", date: "Feb 12" },
-            { title: "Contracts Signed", status: "current", date: "Feb 20" },
-            { title: "Deposit Paid", status: "upcoming", date: "Mar 1" },
-            { title: "Completion", status: "upcoming", date: "Mar 15" },
-            { title: "Keys Handover", status: "upcoming", date: "Mar 15" }
-          ].map((milestoneindex: any) => (
-            <div key={index} className="flex items-center gap-4">
-              <div className={`w-12 h-12 rounded-full flex items-center justify-center ${
-                milestone.status === 'complete' ? 'bg-green-100' :
-                milestone.status === 'current' ? 'bg-blue-100' :
-                'bg-gray-100'
-              }`}>
-                {milestone.status === 'complete' ? (
-                  <CheckCircle className="h-6 w-6 text-green-600" />
-                ) : milestone.status === 'current' ? (
-                  <Clock className="h-6 w-6 text-blue-600" />
-                ) : (
-                  <Circle className="h-6 w-6 text-gray-400" />
-                )}
-              </div>
-              <div className="flex-1">
-                <h5 className="font-semibold text-gray-900">{milestone.title}</h5>
-                <p className="text-sm text-gray-600">{milestone.date}</p>
-              </div>
-              {milestone.status === 'current' && (
-                <span className="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm font-medium">
-                  In Progress
-                </span>
-              )}
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function ClientCommunication() {
-  return (
-    <div className="space-y-12">
-      <div className="text-center">
-        <h3 className="text-3xl font-bold mb-4">Multi-Channel Communication</h3>
-        <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-          Keep all parties informed with automated updates and centralized messaging
-        </p>
-      </div>
-
-      <div className="grid md:grid-cols-2 gap-8">
-        <div className="space-y-6">
-          <div className="bg-white rounded-xl p-6 shadow-lg">
-            <MessageSquare className="h-10 w-10 text-blue-600 mb-4" />
-            <h4 className="text-xl font-semibold mb-2">Centralized Messaging</h4>
-            <p className="text-gray-600">
-              All communication in one place - buyers, solicitors, developers
-            </p>
-          </div>
-
-          <div className="bg-white rounded-xl p-6 shadow-lg">
-            <Mail className="h-10 w-10 text-green-600 mb-4" />
-            <h4 className="text-xl font-semibold mb-2">Automated Updates</h4>
-            <p className="text-gray-600">
-              Status changes trigger automatic notifications to all parties
-            </p>
-          </div>
-        </div>
-
-        <div className="bg-white rounded-xl p-6 shadow-lg">
-          <h4 className="text-xl font-semibold mb-4">Recent Activity</h4>
-          <div className="space-y-4">
-            {[
-              { type: "message", from: "John Smith", content: "Query about parking space", time: "2 min ago" },
-              { type: "update", content: "Survey report uploaded", time: "1 hour ago" },
-              { type: "notification", content: "Contract review complete", time: "3 hours ago" },
-              { type: "message", from: "Solicitor", content: "Mortgage approval received", time: "1 day ago" }
-            ].map((activityindex: any) => (
-              <div key={index} className="flex items-start gap-3 p-3 bg-gray-50 rounded-lg">
-                <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
-                  activity.type === 'message' ? 'bg-blue-100' :
-                  activity.type === 'update' ? 'bg-green-100' :
-                  'bg-purple-100'
-                }`}>
-                  {activity.type === 'message' ? <MessageSquare className="h-4 w-4 text-blue-600" /> :
-                   activity.type === 'update' ? <File className="h-4 w-4 text-green-600" /> :
-                   <Bell className="h-4 w-4 text-purple-600" />}
-                </div>
-                <div className="flex-1">
-                  {activity.from && <p className="font-medium text-gray-900">{activity.from}</p>}
-                  <p className="text-sm text-gray-600">{activity.content}</p>
-                  <p className="text-xs text-gray-500 mt-1">{activity.time}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function SalesAnalytics() {
-  return (
-    <div className="space-y-12">
-      <div className="text-center">
-        <h3 className="text-3xl font-bold mb-4">Performance Analytics</h3>
-        <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-          Track your performance, optimize your strategy, and maximize commissions
-        </p>
-      </div>
-
-      <div className="grid md:grid-cols-4 gap-6">
-        <div className="bg-white rounded-xl p-6 shadow-lg text-center">
-          <TrendingUp className="h-8 w-8 text-green-600 mx-auto mb-3" />
-          <p className="text-3xl font-bold text-gray-900">€3.2M</p>
-          <p className="text-sm text-gray-600">YTD Sales Volume</p>
-        </div>
-
-        <div className="bg-white rounded-xl p-6 shadow-lg text-center">
-          <Target className="h-8 w-8 text-blue-600 mx-auto mb-3" />
-          <p className="text-3xl font-bold text-gray-900">42%</p>
-          <p className="text-sm text-gray-600">Conversion Rate</p>
-        </div>
-
-        <div className="bg-white rounded-xl p-6 shadow-lg text-center">
-          <Clock className="h-8 w-8 text-purple-600 mx-auto mb-3" />
-          <p className="text-3xl font-bold text-gray-900">21 days</p>
-          <p className="text-sm text-gray-600">Avg Time to Close</p>
-        </div>
-
-        <div className="bg-white rounded-xl p-6 shadow-lg text-center">
-          <DollarSign className="h-8 w-8 text-yellow-600 mx-auto mb-3" />
-          <p className="text-3xl font-bold text-gray-900">€156K</p>
-          <p className="text-sm text-gray-600">Total Commission</p>
-        </div>
-      </div>
-
-      <div className="bg-white rounded-2xl shadow-xl p-8">
-        <h4 className="text-xl font-semibold mb-6">Monthly Performance</h4>
-        <div className="h-64 flex items-center justify-center bg-gray-50 rounded-lg">
-          <p className="text-gray-500">Interactive Chart Placeholder</p>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-// Add these missing icon imports at the top
-import { Circle, Bell, File } from 'lucide-react';

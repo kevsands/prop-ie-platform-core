@@ -1,388 +1,838 @@
 'use client';
 
-import React, { useState } from 'react';
-import { 
-  Activity, TrendingUp, Target, Clock, AlertCircle, CheckCircle,
-  Calendar, DollarSign, Users, Building, Package, BarChart3,
-  MessageSquare, FileText, Award, Zap, ChevronRight, Plus,
-  ArrowUpRight, ArrowDownRight, Filter, Download, Share2, Calculator
-} from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Building, CreditCard, Home, TrendingUp, Calendar, BarChart3, FileText, Shield, ArrowUpDown, ChevronRight, Users, Clock, CheckCircle, AlertCircle } from 'lucide-react';
 import Link from 'next/link';
-import dynamic from 'next/dynamic';
+import { formatDistance } from 'date-fns';
+import { transactionCoordinator } from '@/services/transactionCoordinator';
+import { notificationService, NotificationData } from '@/services/notificationService';
 
-// Dynamic imports for charts
-const LineChart = dynamic(() => import('recharts').then(mod => mod.LineChart), { ssr: false });
-const AreaChart = dynamic(() => import('recharts').then(mod => mod.AreaChart), { ssr: false });
-const BarChart = dynamic(() => import('recharts').then(mod => mod.BarChart), { ssr: false });
-const PieChart = dynamic(() => import('recharts').then(mod => mod.PieChart), { ssr: false });
-const ResponsiveContainer = dynamic(() => import('recharts').then(mod => mod.ResponsiveContainer), { ssr: false });
-const XAxis = dynamic(() => import('recharts').then(mod => mod.XAxis), { ssr: false });
-const YAxis = dynamic(() => import('recharts').then(mod => mod.YAxis), { ssr: false });
-const CartesianGrid = dynamic(() => import('recharts').then(mod => mod.CartesianGrid), { ssr: false });
-const Tooltip = dynamic(() => import('recharts').then(mod => mod.Tooltip), { ssr: false });
-const Legend = dynamic(() => import('recharts').then(mod => mod.Legend), { ssr: false });
-const Line = dynamic(() => import('recharts').then(mod => mod.Line), { ssr: false });
-const Area = dynamic(() => import('recharts').then(mod => mod.Area), { ssr: false });
-const Bar = dynamic(() => import('recharts').then(mod => mod.Bar), { ssr: false });
-const Pie = dynamic(() => import('recharts').then(mod => mod.Pie), { ssr: false });
-const Cell = dynamic(() => import('recharts').then(mod => mod.Cell), { ssr: false });
+// Define simplified Card components for local use
+const Card = ({ className = "", children }) => (
+  <div className={`rounded-lg border bg-white shadow-sm ${className}`}>
+    {children}
+  </div>
+);
 
-export default function DeveloperDashboard() {
-  const [timeRangesetTimeRange] = useState('7d');
-  const [selectedMetricsetSelectedMetric] = useState('revenue');
+const CardHeader = ({ className = "", children }) => (
+  <div className={`flex flex-col space-y-1.5 p-6 ${className}`}>
+    {children}
+  </div>
+);
 
-  // Mock data for charts
-  const salesData = [
-    { month: 'Jan', sales: 4500000, units: 12, conversions: 68 },
-    { month: 'Feb', sales: 5200000, units: 15, conversions: 72 },
-    { month: 'Mar', sales: 4800000, units: 13, conversions: 70 },
-    { month: 'Apr', sales: 6100000, units: 18, conversions: 75 },
-    { month: 'May', sales: 7300000, units: 22, conversions: 78 },
-    { month: 'Jun', sales: 8500000, units: 25, conversions: 82 }];
+const CardTitle = ({ className = "", children }) => (
+  <h3 className={`text-lg font-semibold leading-none tracking-tight ${className}`}>
+    {children}
+  </h3>
+);
 
-  const projectPhases = [
-    { name: 'Planning', value: 3, color: '#3B82F6' },
-    { name: 'Foundation', value: 5, color: '#10B981' },
-    { name: 'Construction', value: 8, color: '#F59E0B' },
-    { name: 'Finishing', value: 4, color: '#8B5CF6' },
-    { name: 'Complete', value: 2, color: '#6B7280' }];
+const CardContent = ({ className = "", children }) => (
+  <div className={`p-6 pt-0 ${className}`}>
+    {children}
+  </div>
+);
 
-  const performanceMetrics = [
-    { metric: 'Sales Velocity', value: 2.3, target: 2.0, unit: 'units/week' },
-    { metric: 'Lead Conversion', value: 72, target: 70, unit: '%' },
-    { metric: 'Construction Time', value: 14.5, target: 16, unit: 'months' },
-    { metric: 'Cost Efficiency', value: 94, target: 90, unit: '%' }];
+// Simple table components
+const Table = ({ className = "", children, ...props }) => (
+  <div className="relative w-full overflow-auto">
+    <table className={`w-full caption-bottom text-sm ${className}`} {...props}>
+      {children}
+    </table>
+  </div>
+);
+
+const TableHeader = ({ children, ...props }) => (
+  <thead className="[&_tr]:border-b" {...props}>
+    {children}
+  </thead>
+);
+
+const TableBody = ({ children, ...props }) => (
+  <tbody className="[&_tr:last-child]:border-0" {...props}>
+    {children}
+  </tbody>
+);
+
+const TableRow = ({ className = "", children, ...props }) => (
+  <tr className={`border-b transition-colors hover:bg-gray-50 ${className}`} {...props}>
+    {children}
+  </tr>
+);
+
+const TableHead = ({ className = "", children, ...props }) => (
+  <th className={`h-10 px-2 text-left align-middle font-medium text-gray-500 ${className}`} {...props}>
+    {children}
+  </th>
+);
+
+const TableCell = ({ className = "", children, ...props }) => (
+  <td className={`p-2 align-middle ${className}`} {...props}>
+    {children}
+  </td>
+);
+
+// Simple ProjectList component
+const ProjectList = ({ projects, title, description }) => {
+  if (!projects?.length) {
+    return (
+      <Card>
+        <CardHeader>
+          <CardTitle>{title}</CardTitle>
+          {description && <p className="text-sm text-gray-500">{description}</p>}
+        </CardHeader>
+        <CardContent>
+          <p className="text-center text-gray-500 py-6">No projects found</p>
+        </CardContent>
+      </Card>
+    );
+  }
+  
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>{title}</CardTitle>
+        {description && <p className="text-sm text-gray-500">{description}</p>}
+      </CardHeader>
+      <CardContent>
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>
+                <div className="flex items-center">
+                  Name
+                  <ArrowUpDown className="ml-2 h-4 w-4" />
+                </div>
+              </TableHead>
+              <TableHead>
+                <div className="flex items-center">
+                  Status
+                  <ArrowUpDown className="ml-2 h-4 w-4" />
+                </div>
+              </TableHead>
+              <TableHead>
+                <div className="flex items-center">
+                  Completion
+                  <ArrowUpDown className="ml-2 h-4 w-4" />
+                </div>
+              </TableHead>
+              <TableHead>
+                <div className="flex items-center">
+                  Location
+                  <ArrowUpDown className="ml-2 h-4 w-4" />
+                </div>
+              </TableHead>
+              <TableHead>
+                <div className="flex items-center">
+                  Properties
+                  <ArrowUpDown className="ml-2 h-4 w-4" />
+                </div>
+              </TableHead>
+              <TableHead>Last Updated</TableHead>
+              <TableHead className="text-right">Actions</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {projects.map((project) => (
+              <TableRow key={project.id}>
+                <TableCell className="font-medium">
+                  <div>
+                    <Link 
+                      href={`/developer/projects/${project.id}`}
+                      className="text-blue-600 hover:underline font-semibold"
+                    >
+                      {project.name}
+                    </Link>
+                    {project.phase && (
+                      <div className="text-xs text-gray-500 mt-1">{project.phase}</div>
+                    )}
+                  </div>
+                </TableCell>
+                <TableCell>
+                  <span
+                    className={`px-2 py-1 rounded-full text-xs font-medium ${
+                      project.status === 'Active' || project.status === 'Now Selling' ? 'bg-green-100 text-green-800' :
+                      project.status === 'Launching Soon' ? 'bg-blue-100 text-blue-800' :
+                      project.status === 'Completed' ? 'bg-gray-100 text-gray-800' :
+                      'bg-yellow-100 text-yellow-800'
+                    }`}
+                  >
+                    {project.status}
+                  </span>
+                </TableCell>
+                <TableCell>
+                  <div className="flex items-center">
+                    <div className="w-full bg-gray-200 rounded-full h-2">
+                      <div 
+                        className="bg-blue-600 h-2 rounded-full" 
+                        style={{ width: `${project.completionPercentage}%` }}
+                      />
+                    </div>
+                    <span className="ml-2 text-xs text-gray-500">
+                      {project.completionPercentage}%
+                    </span>
+                  </div>
+                </TableCell>
+                <TableCell>{project.location}</TableCell>
+                <TableCell>
+                  <div>
+                    <div className="font-medium">{project.propertyCount} units</div>
+                    {project.sold !== undefined && (
+                      <div className="text-xs text-gray-500">
+                        {project.sold} sold • {project.reserved} reserved • {project.available} available
+                      </div>
+                    )}
+                  </div>
+                </TableCell>
+                <TableCell>
+                  <div>
+                    <div className="text-sm">{formatDistance(new Date(project.lastUpdated), new Date(), { addSuffix: true })}</div>
+                    {project.totalValue && (
+                      <div className="text-xs text-gray-500">{project.totalValue}</div>
+                    )}
+                  </div>
+                </TableCell>
+                <TableCell className="text-right">
+                  <Link 
+                    href={`/developer/projects/${project.id}`}
+                    className="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors h-8 px-3 border border-gray-300 bg-white text-gray-700 hover:bg-gray-50"
+                  >
+                    Manage
+                    <ChevronRight className="ml-1 h-4 w-4" />
+                  </Link>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </CardContent>
+    </Card>
+  );
+};
+
+interface DeveloperTransaction {
+  id: string;
+  buyerId: string;
+  projectId: string;
+  status: string;
+  createdAt: Date;
+  propertyDetails: {
+    name: string;
+    price: number;
+    address: string;
+  };
+  buyerDetails: {
+    name: string;
+    email: string;
+  };
+  milestones: Array<{
+    name: string;
+    status: string;
+    dueDate?: Date;
+  }>;
+}
+
+export default function Page(): React.ReactElement {
+  const [activeTransactions, setActiveTransactions] = useState<DeveloperTransaction[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [developerNotifications, setDeveloperNotifications] = useState<NotificationData[]>([]);
+  
+  // Helper function to get property details for Prop's developments
+  const getPropPropertyDetails = (projectId: string) => {
+    const propDevelopments = {
+      'fitzgerald-gardens': {
+        name: 'Fitzgerald Gardens - 3 Bed Semi-Detached House',
+        price: 375000,
+        address: 'Plot 45, Fitzgerald Gardens, Drogheda, Co. Louth'
+      },
+      'ballymakenny-view': {
+        name: 'Ballymakenny View - 3 Bed House',
+        price: 420000,
+        address: 'Ballymakenny View, Drogheda, Co. Louth'
+      },
+      'ellwood': {
+        name: 'Ellwood - 2 Bed Apartment',
+        price: 295000,
+        address: 'Ellwood, Celbridge, Co. Kildare'
+      }
+    };
+    
+    return propDevelopments[projectId] || {
+      name: 'Prop Development Property',
+      price: 350000,
+      address: 'Prop Development, Ireland'
+    };
+  };
+
+  // Check for active transactions for this developer
+  useEffect(() => {
+    // Load developer notifications
+    const loadDeveloperNotifications = () => {
+      const developerId = 'prop-developer';
+      
+      // Load existing notifications
+      const notifications = notificationService.getUserNotifications(developerId);
+      setDeveloperNotifications(notifications);
+      
+      // Subscribe to new notifications
+      const handleNewNotification = (notification: NotificationData) => {
+        if (notification.recipient === developerId) {
+          setDeveloperNotifications(prev => [notification, ...prev]);
+        }
+      };
+      
+      notificationService.onNewNotification(handleNewNotification);
+      
+      return () => {
+        notificationService.removeListener('notification', handleNewNotification);
+      };
+    };
+    
+    loadDeveloperNotifications();
+    
+    const loadDeveloperTransactions = () => {
+      // Check localStorage for recent transactions from this developer's projects
+      const allTransactions: DeveloperTransaction[] = [];
+      
+      // Check for recent completed transactions
+      const recentTransactionData = localStorage.getItem('lastTransactionData');
+      if (recentTransactionData) {
+        try {
+          const transaction = JSON.parse(recentTransactionData);
+          
+          // Create developer transaction record for Prop's developments
+          const propertyDetails = getPropPropertyDetails(transaction.projectId);
+          
+          const developerTransaction: DeveloperTransaction = {
+            id: transaction.id,
+            buyerId: transaction.buyerId,
+            projectId: transaction.projectId,
+            status: transaction.status,
+            createdAt: new Date(transaction.createdAt),
+            propertyDetails,
+            buyerDetails: {
+              name: 'John Doe',
+              email: 'john.doe@email.com'
+            },
+            milestones: transaction.milestones || []
+          };
+          
+          allTransactions.push(developerTransaction);
+        } catch (error) {
+          console.error('Error parsing transaction data:', error);
+        }
+      }
+      
+      setActiveTransactions(allTransactions);
+      setLoading(false);
+    };
+    
+    loadDeveloperTransactions();
+  }, []);
+
+  // Enhanced mock data for Prop Ireland's three flagship developments
+  const mockData = {
+    activeProjects: 3,
+    propertiesAvailable: 127,
+    totalSales: 47500000, // €47.5M across all three developments
+    projects: [
+      { 
+        id: 'fitzgerald-gardens', 
+        name: 'Fitzgerald Gardens', 
+        status: 'Active', 
+        completionPercentage: 85,
+        location: 'Drogheda, Co. Louth',
+        propertyCount: 97,
+        lastUpdated: new Date(2025, 5, 13).toISOString(),
+        sold: 12,
+        reserved: 15,
+        available: 70,
+        totalValue: '€31.2M',
+        phase: 'Phase 3 - Final Release'
+      },
+      { 
+        id: 'ballymakenny-view', 
+        name: 'Ballymakenny View', 
+        status: 'Launching Soon', 
+        completionPercentage: 95,
+        location: 'Ballymakenny, Drogheda',
+        propertyCount: 45,
+        lastUpdated: new Date(2025, 5, 10).toISOString(),
+        sold: 0,
+        reserved: 8,
+        available: 37,
+        totalValue: '€18.5M',
+        phase: 'Phase 1 - Pre-Launch'
+      },
+      { 
+        id: 'ellwood', 
+        name: 'Ellwood', 
+        status: 'Now Selling', 
+        completionPercentage: 75,
+        location: 'Celbridge, Co. Kildare',
+        propertyCount: 63,
+        lastUpdated: new Date(2025, 5, 12).toISOString(),
+        sold: 18,
+        reserved: 12,
+        available: 33,
+        totalValue: '€29.8M',
+        phase: 'Phase 2 - Premium Release'
+      }
+    ]
+  };
 
   return (
-    <div className="p-6">
-      {/* Header */}
+    <div className="p-4">
       <div className="mb-6">
-        <div className="flex items-center justify-between mb-4">
-          <div>
-            <h1 className="text-2xl font-bold text-gray-900">Developer Dashboard</h1>
-            <p className="text-gray-600">Welcome back! Here's your portfolio overview.</p>
-          </div>
-          <div className="flex items-center space-x-3">
-            <select
-              value={timeRange}
-              onChange={(e: any) => setTimeRange(e.target.value)}
-              className="px-3 py-2 border border-gray-300 rounded-lg text-sm"
-            >
-              <option value="7d">Last 7 Days</option>
-              <option value="30d">Last 30 Days</option>
-              <option value="90d">Last 3 Months</option>
-              <option value="1y">Last Year</option>
-            </select>
-            <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors">
-              <Filter className="w-5 h-5 text-gray-600" />
-            </button>
-            <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors">
-              <Download className="w-5 h-5 text-gray-600" />
-            </button>
-            <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors">
-              <Share2 className="w-5 h-5 text-gray-600" />
-            </button>
-          </div>
-        </div>
+        <h1 className="text-2xl font-bold mb-2">Prop Ireland - Developer Dashboard</h1>
+        <p className="text-gray-600">Manage your flagship developments: Fitzgerald Gardens, Ballymakenny View & Ellwood</p>
+      </div>
 
-        {/* AI Assistant Banner */}
-        <div className="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-xl p-4 text-white mb-6">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-3">
-              <div className="p-2 bg-white/20 rounded-lg backdrop-blur-sm">
-                <Zap className="w-5 h-5" />
-              </div>
-              <div>
-                <p className="font-medium">AI Insights Available</p>
-                <p className="text-sm opacity-90">3 new optimization opportunities identified</p>
+      {/* KPI widgets row */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+        {/* Active Projects */}
+        <Card className="border shadow-sm">
+          <CardContent className="p-4">
+            <div className="flex justify-between items-start mb-2">
+              <h3 className="text-sm font-medium text-gray-500">Active Projects</h3>
+              <div className="p-2 rounded-full bg-blue-100">
+                <Building className="h-4 w-4 text-blue-600" />
               </div>
             </div>
-            <button className="px-4 py-2 bg-white/20 hover:bg-white/30 rounded-lg backdrop-blur-sm transition-colors">
-              View Insights
-            </button>
-          </div>
-        </div>
+            <div className="flex items-baseline">
+              <span className="text-2xl font-semibold mr-2">{mockData.activeProjects}</span>
+              <span className="text-sm bg-green-100 text-green-800 px-2 py-0.5 rounded-full">+5.2%</span>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Properties Available */}
+        <Card className="border shadow-sm">
+          <CardContent className="p-4">
+            <div className="flex justify-between items-start mb-2">
+              <h3 className="text-sm font-medium text-gray-500">Properties Available</h3>
+              <div className="p-2 rounded-full bg-green-100">
+                <Home className="h-4 w-4 text-green-600" />
+              </div>
+            </div>
+            <div className="flex items-baseline">
+              <span className="text-2xl font-semibold">{mockData.propertiesAvailable}</span>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Total Sales */}
+        <Card className="border shadow-sm">
+          <CardContent className="p-4">
+            <div className="flex justify-between items-start mb-2">
+              <h3 className="text-sm font-medium text-gray-500">Total Sales</h3>
+              <div className="p-2 rounded-full bg-indigo-100">
+                <TrendingUp className="h-4 w-4 text-indigo-600" />
+              </div>
+            </div>
+            <div className="flex items-baseline">
+              <span className="text-2xl font-semibold mr-2">€{(mockData.totalSales / 1000000).toFixed(1)}M</span>
+              <span className="text-sm bg-green-100 text-green-800 px-2 py-0.5 rounded-full">+15.2%</span>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Revenue */}
+        <Card className="border shadow-sm">
+          <CardContent className="p-4">
+            <div className="flex justify-between items-start mb-2">
+              <h3 className="text-sm font-medium text-gray-500">Revenue</h3>
+              <div className="p-2 rounded-full bg-purple-100">
+                <CreditCard className="h-4 w-4 text-purple-600" />
+              </div>
+            </div>
+            <div className="flex items-baseline">
+              <span className="text-2xl font-semibold mr-2">€12.4M</span>
+              <span className="text-sm bg-green-100 text-green-800 px-2 py-0.5 rounded-full">+18.7%</span>
+            </div>
+          </CardContent>
+        </Card>
       </div>
 
-      {/* Key Metrics Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-        <MetricCard
-          title="Portfolio Value"
-          value="€142.5M"
-          change={+12.3}
-          icon={<DollarSign className="w-5 h-5" />}
-          color="blue"
-          subtext="Total development value"
-        />
-        <MetricCard
-          title="Active Projects"
-          value="8"
-          change={+2}
-          icon={<Building className="w-5 h-5" />}
-          color="green"
-          subtext="Across 5 locations"
-        />
-        <MetricCard
-          title="Units Sold"
-          value="156"
-          change={+23}
-          icon={<Package className="w-5 h-5" />}
-          color="purple"
-          subtext="Last 30 days"
-        />
-        <MetricCard
-          title="Sales Velocity"
-          value="2.3/week"
-          change={+15}
-          icon={<TrendingUp className="w-5 h-5" />}
-          color="orange"
-          subtext="Units per week"
-        />
-      </div>
-
-      {/* Main Charts Row */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-        {/* Sales Performance Chart */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="font-semibold text-gray-900">Sales Performance</h3>
-            <select
-              value={selectedMetric}
-              onChange={(e: any) => setSelectedMetric(e.target.value)}
-              className="text-sm border border-gray-300 rounded-lg px-3 py-1"
-            >
-              <option value="revenue">Revenue</option>
-              <option value="units">Units Sold</option>
-              <option value="conversions">Conversion Rate</option>
-            </select>
-          </div>
-          <div className="h-64">
-            <ResponsiveContainer width="100%" height="100%">
-              <AreaChart data={salesData}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="month" />
-                <YAxis />
-                <Tooltip />
-                <Area
-                  type="monotone"
-                  dataKey={selectedMetric === 'revenue' ? 'sales' : selectedMetric === 'units' ? 'units' : 'conversions'}
-                  stroke="#3B82F6"
-                  fill="#3B82F6"
-                  fillOpacity={0.2}
-                />
-              </AreaChart>
-            </ResponsiveContainer>
-          </div>
-        </div>
-
-        {/* Project Status Distribution */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="font-semibold text-gray-900">Project Status Distribution</h3>
-            <Link href="/developer/projects" className="text-sm text-blue-600 hover:text-blue-700">
-              View All
-            </Link>
-          </div>
-          <div className="h-64">
-            <ResponsiveContainer width="100%" height="100%">
-              <PieChart>
-                <Pie
-                  data={projectPhases}
-                  cx="50%"
-                  cy="50%"
-                  outerRadius={80}
-                  dataKey="value"
-                  label={({ name, value }) => `${name}: ${value}`}
-                >
-                  {projectPhases.map((entryindex: any) => (
-                    <Cell key={`cell-${index}`} fill={entry.color} />
-                  ))}
-                </Pie>
-                <Tooltip />
-              </PieChart>
-            </ResponsiveContainer>
-          </div>
-        </div>
-      </div>
-
-      {/* Performance Metrics */}
-      <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
-        <h3 className="font-semibold text-gray-900 mb-4">Performance vs Targets</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          {performanceMetrics.map((metric: any) => (
-            <div key={metric.metric} className="text-center">
-              <p className="text-sm text-gray-600 mb-2">{metric.metric}</p>
-              <div className="relative h-32 flex items-center justify-center">
-                <div className="relative w-24 h-24">
-                  <svg className="w-24 h-24 transform -rotate-90">
-                    <circle
-                      cx="48"
-                      cy="48"
-                      r="36"
-                      stroke="#E5E7EB"
-                      strokeWidth="8"
-                      fill="none"
-                    />
-                    <circle
-                      cx="48"
-                      cy="48"
-                      r="36"
-                      stroke={metric.value>= metric.target ? '#10B981' : '#F59E0B'}
-                      strokeWidth="8"
-                      fill="none"
-                      strokeDasharray={`${(metric.value / 100) * 226} 226`}
-                    />
-                  </svg>
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div>
-                      <p className="text-2xl font-bold">{metric.value}</p>
-                      <p className="text-xs text-gray-500">{metric.unit}</p>
+      {/* Active Transactions Section */}
+      {activeTransactions.length > 0 && (
+        <div className="mb-6">
+          <Card className="border">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Users className="h-5 w-5 text-blue-600" />
+                Active Transactions
+              </CardTitle>
+              <p className="text-sm text-gray-500">Recent property purchases from your developments</p>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                {activeTransactions.map((transaction) => (
+                  <div key={transaction.id} className="border rounded-lg p-4 bg-gradient-to-r from-green-50 to-blue-50">
+                    <div className="flex items-start justify-between mb-3">
+                      <div className="flex-1">
+                        <h3 className="font-semibold text-gray-900 mb-1">
+                          {transaction.propertyDetails.name}
+                        </h3>
+                        <p className="text-sm text-gray-600 mb-1">
+                          {transaction.propertyDetails.address}
+                        </p>
+                        <p className="text-sm text-gray-500">
+                          Transaction ID: <span className="font-mono text-blue-600">{transaction.id}</span>
+                        </p>
+                      </div>
+                      <div className="text-right">
+                        <div className="text-lg font-bold text-green-600">
+                          €{transaction.propertyDetails.price.toLocaleString()}
+                        </div>
+                        <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                          transaction.status === 'INITIATED' ? 'bg-blue-100 text-blue-800' :
+                          transaction.status === 'COMPLETED' ? 'bg-green-100 text-green-800' :
+                          'bg-yellow-100 text-yellow-800'
+                        }`}>
+                          {transaction.status.toLowerCase().replace('_', ' ')}
+                        </span>
+                      </div>
+                    </div>
+                    
+                    <div className="grid md:grid-cols-2 gap-4 mb-4">
+                      <div className="bg-white rounded p-3">
+                        <h4 className="font-medium text-gray-900 mb-2 flex items-center gap-2">
+                          <Users className="h-4 w-4" />
+                          Buyer Information
+                        </h4>
+                        <p className="text-sm text-gray-700">{transaction.buyerDetails.name}</p>
+                        <p className="text-sm text-gray-500">{transaction.buyerDetails.email}</p>
+                        <p className="text-xs text-gray-500 mt-1">
+                          Transaction initiated: {formatDistance(transaction.createdAt, new Date(), { addSuffix: true })}
+                        </p>
+                      </div>
+                      
+                      <div className="bg-white rounded p-3">
+                        <h4 className="font-medium text-gray-900 mb-2 flex items-center gap-2">
+                          <Clock className="h-4 w-4" />
+                          Transaction Progress
+                        </h4>
+                        {transaction.milestones.length > 0 ? (
+                          <div className="space-y-1">
+                            {transaction.milestones.slice(0, 3).map((milestone, index) => (
+                              <div key={index} className="flex items-center gap-2 text-sm">
+                                {milestone.status === 'COMPLETED' ? (
+                                  <CheckCircle className="h-3 w-3 text-green-600" />
+                                ) : milestone.status === 'IN_PROGRESS' ? (
+                                  <Clock className="h-3 w-3 text-blue-600" />
+                                ) : (
+                                  <div className="h-3 w-3 rounded-full border border-gray-300" />
+                                )}
+                                <span className={`${
+                                  milestone.status === 'COMPLETED' ? 'text-green-700' :
+                                  milestone.status === 'IN_PROGRESS' ? 'text-blue-700' :
+                                  'text-gray-500'
+                                }`}>
+                                  {milestone.name}
+                                </span>
+                              </div>
+                            ))}
+                            {transaction.milestones.length > 3 && (
+                              <p className="text-xs text-gray-500">
+                                +{transaction.milestones.length - 3} more milestones
+                              </p>
+                            )}
+                          </div>
+                        ) : (
+                          <p className="text-sm text-gray-500">Milestones being set up...</p>
+                        )}
+                      </div>
+                    </div>
+                    
+                    <div className="flex gap-3">
+                      <button
+                        onClick={() => alert(`Contact buyer: ${transaction.buyerDetails.email}`)}
+                        className="flex-1 bg-blue-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors text-sm"
+                      >
+                        Contact Buyer
+                      </button>
+                      <button
+                        onClick={() => alert(`View transaction details: ${transaction.id}`)}
+                        className="flex-1 bg-white text-blue-600 border border-blue-300 px-4 py-2 rounded-lg font-medium hover:bg-blue-50 transition-colors text-sm"
+                      >
+                        View Details
+                      </button>
+                      <button
+                        onClick={() => alert(`Update transaction: ${transaction.id}`)}
+                        className="flex-1 bg-green-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-green-700 transition-colors text-sm"
+                      >
+                        Update Status
+                      </button>
                     </div>
                   </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      )}
+
+      {/* Developer Notifications Section */}
+      {developerNotifications.length > 0 && (
+        <div className="mb-6">
+          <Card className="border">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <AlertCircle className="h-5 w-5 text-orange-600" />
+                Developer Notifications
+                <span className="bg-orange-100 text-orange-800 px-2 py-1 rounded-full text-xs font-medium">
+                  {developerNotifications.filter(n => !n.read).length} new
+                </span>
+              </CardTitle>
+              <p className="text-sm text-gray-500">Transaction updates and buyer communications</p>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-3">
+                {developerNotifications.slice(0, 4).map((notification) => (
+                  <div key={notification.id} className={`border rounded-lg p-3 ${
+                    notification.read ? 'bg-gray-50' : 'bg-blue-50 border-blue-200'
+                  }`}>
+                    <div className="flex items-start justify-between mb-2">
+                      <div className="flex-1">
+                        <h3 className="font-semibold text-gray-900 mb-1">
+                          {notification.title}
+                        </h3>
+                        <p className="text-sm text-gray-600 mb-2">
+                          {notification.message}
+                        </p>
+                        <div className="flex items-center gap-4 text-xs text-gray-500">
+                          <span>{new Date(notification.timestamp).toLocaleString()}</span>
+                          {notification.transactionId && (
+                            <span className="font-mono bg-gray-100 px-2 py-1 rounded">
+                              {notification.transactionId}
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                      <div className={`w-3 h-3 rounded-full ${
+                        notification.type === 'transaction' ? 'bg-blue-500' :
+                        notification.type === 'milestone' ? 'bg-purple-500' :
+                        notification.type === 'payment' ? 'bg-green-500' :
+                        'bg-gray-400'
+                      }`} />
+                    </div>
+                    
+                    {notification.actions && notification.actions.length > 0 && (
+                      <div className="flex gap-2 pt-2 border-t">
+                        {notification.actions.map((action, idx) => (
+                          <button
+                            key={idx}
+                            onClick={() => {
+                              if (action.action === 'contact_buyer') {
+                                alert('Contact buyer feature coming soon!');
+                              } else if (action.action === 'view_transaction') {
+                                alert(`View transaction ${notification.transactionId}`);
+                              } else if (action.action === 'update_milestone') {
+                                alert('Milestone update feature coming soon!');
+                              }
+                            }}
+                            className={`text-xs px-3 py-1 rounded font-medium transition-colors ${
+                              action.variant === 'primary' ? 
+                                'bg-blue-600 text-white hover:bg-blue-700' :
+                              action.variant === 'danger' ? 
+                                'bg-red-600 text-white hover:bg-red-700' :
+                                'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                            }`}
+                          >
+                            {action.label}
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+              
+              {developerNotifications.length > 4 && (
+                <div className="mt-4 text-center">
+                  <button className="text-sm text-blue-600 hover:underline">
+                    View all {developerNotifications.length} notifications
+                  </button>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        </div>
+      )}
+
+      {/* Simple tabs navigation */}
+      <div className="border-b mb-6">
+        <div className="flex space-x-6">
+          <button className="px-4 py-2 border-b-2 border-blue-600 text-blue-600 font-medium">Overview</button>
+          <button className="px-4 py-2 text-gray-500 hover:text-gray-700">Projects</button>
+          <button className="px-4 py-2 text-gray-500 hover:text-gray-700">Sales</button>
+          <button className="px-4 py-2 text-gray-500 hover:text-gray-700">Financial</button>
+        </div>
+      </div>
+
+      {/* Projects List */}
+      <div className="mb-6">
+        <ProjectList 
+          projects={mockData.projects}
+          title="Prop Ireland Flagship Developments"
+          description="Monitor and manage Fitzgerald Gardens, Ballymakenny View & Ellwood"
+        />
+      </div>
+
+      {/* Sales Performance Charts */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+        <Card className="border">
+          <CardHeader>
+            <CardTitle>Monthly Sales Performance</CardTitle>
+            <p className="text-sm text-gray-500">Units sold across all developments</p>
+          </CardHeader>
+          <CardContent>
+            <div className="h-64">
+              {/* Placeholder for chart */}
+              <div className="w-full h-full bg-gradient-to-br from-blue-50 to-indigo-100 rounded-lg flex items-center justify-center">
+                <div className="text-center">
+                  <TrendingUp className="h-12 w-12 text-blue-600 mx-auto mb-2" />
+                  <p className="text-blue-600 font-medium">Sales Trending Up 15.2%</p>
+                  <p className="text-sm text-gray-500">47 units sold this quarter</p>
                 </div>
               </div>
-              <p className="text-sm text-gray-500 mt-2">Target: {metric.target}{metric.unit}</p>
             </div>
-          ))}
-        </div>
+          </CardContent>
+        </Card>
+
+        <Card className="border">
+          <CardHeader>
+            <CardTitle>Development Status Overview</CardTitle>
+            <p className="text-sm text-gray-500">Current status of all three developments</p>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <span className="text-sm font-medium">Fitzgerald Gardens (85%)</span>
+                <span className="text-xs text-green-600">Active - Final Release</span>
+              </div>
+              <div className="w-full bg-gray-200 rounded-full h-2">
+                <div className="bg-green-500 h-2 rounded-full" style={{ width: '85%' }}></div>
+              </div>
+              
+              <div className="flex items-center justify-between">
+                <span className="text-sm font-medium">Ballymakenny View (95%)</span>
+                <span className="text-xs text-blue-600">Launching Soon</span>
+              </div>
+              <div className="w-full bg-gray-200 rounded-full h-2">
+                <div className="bg-blue-500 h-2 rounded-full" style={{ width: '95%' }}></div>
+              </div>
+              
+              <div className="flex items-center justify-between">
+                <span className="text-sm font-medium">Ellwood (75%)</span>
+                <span className="text-xs text-green-600">Now Selling</span>
+              </div>
+              <div className="w-full bg-gray-200 rounded-full h-2">
+                <div className="bg-green-500 h-2 rounded-full" style={{ width: '75%' }}></div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
       </div>
 
-      {/* Recent Activity & Actions */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Recent Activity */}
-        <div className="lg:col-span-2 bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-          <h3 className="font-semibold text-gray-900 mb-4">Recent Activity</h3>
-          <div className="space-y-4">
-            <ActivityItem
-              icon={<CheckCircle className="w-5 h-5 text-green-600" />}
-              title="Phase 2 Construction Complete"
-              subtitle="Fitzgerald Gardens - Block A"
-              time="2 hours ago"
-            />
-            <ActivityItem
-              icon={<DollarSign className="w-5 h-5 text-blue-600" />}
-              title="New Sale: Unit 304"
-              subtitle="€450,000 - Riverside Manor"
-              time="5 hours ago"
-            />
-            <ActivityItem
-              icon={<Users className="w-5 h-5 text-purple-600" />}
-              title="Contractor Added"
-              subtitle="ABC Construction Ltd - Electrical Work"
-              time="1 day ago"
-            />
-            <ActivityItem
-              icon={<AlertCircle className="w-5 h-5 text-yellow-600" />}
-              title="Approval Required"
-              subtitle="Planning permission for Phase 3"
-              time="2 days ago"
-            />
-            <ActivityItem
-              icon={<FileText className="w-5 h-5 text-gray-600" />}
-              title="Document Updated"
-              subtitle="Environmental Impact Assessment"
-              time="3 days ago"
-            />
-          </div>
-          <Link href="/developer/activity" className="mt-4 text-sm text-blue-600 hover:text-blue-700 inline-flex items-center">
-            View All Activity
-            <ChevronRight className="w-4 h-4 ml-1" />
-          </Link>
-        </div>
+      {/* Quick Actions Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+        <Card className="border hover:shadow-md transition-shadow cursor-pointer">
+          <CardContent className="p-4">
+            <Link href="/developer/dashboard" className="block">
+              <div className="flex items-center space-x-3">
+                <div className="bg-purple-100 p-2 rounded-full">
+                  <BarChart3 className="h-5 w-5 text-purple-600" />
+                </div>
+                <div>
+                  <p className="font-medium">Advanced Dashboard</p>
+                  <p className="text-xs text-gray-500">Enterprise analytics</p>
+                </div>
+              </div>
+            </Link>
+          </CardContent>
+        </Card>
+        
+        <Card className="border hover:shadow-md transition-shadow cursor-pointer">
+          <CardContent className="p-4">
+            <Link href="/developer/htb" className="block">
+              <div className="flex items-center space-x-3">
+                <div className="bg-green-100 p-2 rounded-full">
+                  <CreditCard className="h-5 w-5 text-green-600" />
+                </div>
+                <div>
+                  <p className="font-medium">HTB Management</p>
+                  <p className="text-xs text-gray-500">Process claims</p>
+                </div>
+              </div>
+            </Link>
+          </CardContent>
+        </Card>
 
-        {/* Quick Actions */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-          <h3 className="font-semibold text-gray-900 mb-4">Quick Actions</h3>
-          <div className="space-y-3">
-            <Link href="/developer/developments/new" className="flex items-center justify-between p-3 hover:bg-gray-50 rounded-lg transition-colors">
+        <Card className="border hover:shadow-md transition-shadow cursor-pointer">
+          <CardContent className="p-4">
+            <Link href="/developer/sales" className="block">
               <div className="flex items-center space-x-3">
-                <div className="p-2 bg-blue-100 rounded-lg">
-                  <Plus className="w-4 h-4 text-blue-600" />
+                <div className="bg-blue-100 p-2 rounded-full">
+                  <TrendingUp className="h-5 w-5 text-blue-600" />
                 </div>
-                <span className="text-sm font-medium">New Development</span>
-              </div>
-              <ChevronRight className="w-4 h-4 text-gray-400" />
-            </Link>
-            <Link href="/developer/tenders/create" className="flex items-center justify-between p-3 hover:bg-gray-50 rounded-lg transition-colors">
-              <div className="flex items-center space-x-3">
-                <div className="p-2 bg-green-100 rounded-lg">
-                  <FileText className="w-4 h-4 text-green-600" />
+                <div>
+                  <p className="font-medium">Sales Analytics</p>
+                  <p className="text-xs text-gray-500">View performance</p>
                 </div>
-                <span className="text-sm font-medium">Create Tender</span>
               </div>
-              <ChevronRight className="w-4 h-4 text-gray-400" />
             </Link>
-            <Link href="/developer/team/add" className="flex items-center justify-between p-3 hover:bg-gray-50 rounded-lg transition-colors">
-              <div className="flex items-center space-x-3">
-                <div className="p-2 bg-purple-100 rounded-lg">
-                  <Users className="w-4 h-4 text-purple-600" />
-                </div>
-                <span className="text-sm font-medium">Add Team Member</span>
-              </div>
-              <ChevronRight className="w-4 h-4 text-gray-400" />
-            </Link>
-            <Link href="/developer/financial/appraisal" className="flex items-center justify-between p-3 hover:bg-gray-50 rounded-lg transition-colors">
-              <div className="flex items-center space-x-3">
-                <div className="p-2 bg-orange-100 rounded-lg">
-                  <Calculator className="w-4 h-4 text-orange-600" />
-                </div>
-                <span className="text-sm font-medium">New Appraisal</span>
-              </div>
-              <ChevronRight className="w-4 h-4 text-gray-400" />
-            </Link>
-            <Link href="/developer/analytics" className="flex items-center justify-between p-3 hover:bg-gray-50 rounded-lg transition-colors">
-              <div className="flex items-center space-x-3">
-                <div className="p-2 bg-indigo-100 rounded-lg">
-                  <BarChart3 className="w-4 h-4 text-indigo-600" />
-                </div>
-                <span className="text-sm font-medium">View Reports</span>
-              </div>
-              <ChevronRight className="w-4 h-4 text-gray-400" />
-            </Link>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
+          </CardContent>
+        </Card>
 
-// Component definitions
-function MetricCard({ title, value, change, icon, color, subtext }) {
-  const colorClasses = {
-    blue: 'bg-blue-100 text-blue-600',
-    green: 'bg-green-100 text-green-600',
-    purple: 'bg-purple-100 text-purple-600',
-    orange: 'bg-orange-100 text-orange-600'};
+        <Card className="border hover:shadow-md transition-shadow cursor-pointer">
+          <CardContent className="p-4">
+            <Link href="/developer/documents" className="block">
+              <div className="flex items-center space-x-3">
+                <div className="bg-purple-100 p-2 rounded-full">
+                  <FileText className="h-5 w-5 text-purple-600" />
+                </div>
+                <div>
+                  <p className="font-medium">Documents</p>
+                  <p className="text-xs text-gray-500">Manage files</p>
+                </div>
+              </div>
+            </Link>
+          </CardContent>
+        </Card>
 
-  return (
-    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-      <div className="flex items-start justify-between mb-4">
-        <div className={`p-2 rounded-lg ${colorClasses[color]}`}>
-          {icon}
-        </div>
-        <div className={`flex items-center text-sm ${change>= 0 ? 'text-green-600' : 'text-red-600'}`}>
-          {change>= 0 ? <ArrowUpRight className="w-4 h-4 mr-1" /> : <ArrowDownRight className="w-4 h-4 mr-1" />}
-          {Math.abs(change)}%
-        </div>
+        <Card className="border hover:shadow-md transition-shadow cursor-pointer">
+          <CardContent className="p-4">
+            <Link href="/developer/finance" className="block">
+              <div className="flex items-center space-x-3">
+                <div className="bg-indigo-100 p-2 rounded-full">
+                  <TrendingUp className="h-5 w-5 text-indigo-600" />
+                </div>
+                <div>
+                  <p className="font-medium">Financial Dashboard</p>
+                  <p className="text-xs text-gray-500">Full financial suite</p>
+                </div>
+              </div>
+            </Link>
+          </CardContent>
+        </Card>
+        
+        <Card className="border hover:shadow-md transition-shadow cursor-pointer">
+          <CardContent className="p-4">
+            <Link href="/admin" className="block">
+              <div className="flex items-center space-x-3">
+                <div className="bg-red-100 p-2 rounded-full">
+                  <Shield className="h-5 w-5 text-red-600" />
+                </div>
+                <div>
+                  <p className="font-medium">Admin Portal</p>
+                  <p className="text-xs text-gray-500">Enterprise admin tools</p>
+                </div>
+              </div>
+            </Link>
+          </CardContent>
+        </Card>
       </div>
-      <h3 className="text-sm text-gray-600 mb-1">{title}</h3>
-      <p className="text-2xl font-bold text-gray-900">{value}</p>
-      <p className="text-xs text-gray-500 mt-1">{subtext}</p>
-    </div>
-  );
-}
-
-function ActivityItem({ icon, title, subtitle, time }) {
-  return (
-    <div className="flex items-start space-x-3">
-      <div className="p-2 bg-gray-50 rounded-lg">
-        {icon}
-      </div>
-      <div className="flex-1">
-        <p className="text-sm font-medium text-gray-900">{title}</p>
-        <p className="text-sm text-gray-600">{subtitle}</p>
-      </div>
-      <span className="text-xs text-gray-500">{time}</span>
     </div>
   );
 }
