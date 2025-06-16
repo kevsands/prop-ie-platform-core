@@ -233,5 +233,21 @@ const aboutPageData: AboutPageData = {
 };
 
 export default function AboutPage() {
-  return <AboutPageClient data={aboutPageData} />;
+  return (
+    <AboutPageClient 
+      heroTitle={aboutPageData.hero.title}
+      heroSubtitle={aboutPageData.hero.subtitle}
+      heroImage={aboutPageData.hero.backgroundImage}
+      missionTitle={aboutPageData.mission.title}
+      missionStatement={aboutPageData.mission.content}
+      missionImage="/images/about/mission.jpg"
+      team={aboutPageData.team}
+      values={aboutPageData.values}
+      timeline={aboutPageData.timeline}
+      ctaTitle={aboutPageData.cta.title}
+      ctaText={aboutPageData.cta.description}
+      ctaButtonText={aboutPageData.cta.primaryButton.text}
+      ctaButtonLink={aboutPageData.cta.primaryButton.link}
+    />
+  );
 }
