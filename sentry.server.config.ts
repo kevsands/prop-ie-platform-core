@@ -66,8 +66,7 @@ Sentry.init({
   
   // Server-side integrations
   integrations: [
-    // Send console.log, console.error, and console.warn calls as logs to Sentry
-    Sentry.consoleLoggingIntegration({ levels: ["log", "error", "warn"] }),
+    // Basic server-side integrations
   ],
   
   // Error filtering for server

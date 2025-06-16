@@ -1,0 +1,33 @@
+
+> prop-ie-aws-app@0.1.0 dev
+> next dev
+
+   ▲ Next.js 15.3.3
+   - Local:        http://localhost:3000
+   - Network:      http://192.168.0.44:3000
+   - Environments: .env.local, .env
+   - Experiments (use with caution):
+     · clientTraceMetadata
+
+ ✓ Starting...
+[@sentry/nextjs] DEPRECATION WARNING: It is recommended renaming your `sentry.client.config.ts` file, or moving its content to `instrumentation-client.ts`. When using Turbopack `sentry.client.config.ts` will no longer work. Read more about the `instrumentation-client.ts` file: https://nextjs.org/docs/app/api-reference/file-conventions/instrumentation-client
+ ✓ Ready in 5.7s
+ ✓ Compiled /middleware in 249ms (301 modules)
+ ○ Compiling /sentry-example-page ...
+ ✓ Compiled /sentry-example-page in 5.4s (5922 modules)
+ HEAD /sentry-example-page 200 in 6168ms
+<w> [webpack.cache.PackFileCacheStrategy] Serializing big strings (253kiB) impacts deserialization performance (consider using Buffer instead and decode when needed)
+ ○ Compiling /api/test-sentry ...
+ ✓ Compiled /api/test-sentry in 1131ms (5941 modules)
+ GET /api/test-sentry 500 in 1362ms
+ GET /api/test-sentry 500 in 31ms
+ ✓ Compiled in 4s (6242 modules)
+ ○ Compiling /api/sentry-debug ...
+ ✓ Compiled /api/sentry-debug in 520ms (5943 modules)
+ GET /api/sentry-debug 200 in 626ms
+ ✓ Compiled in 958ms (3409 modules)
+ ✓ Compiled /api/sentry-network-test in 242ms (3110 modules)
+🔍 Testing Sentry network connectivity...
+📤 Sentry eventId: 4a4a3d4168e5419582470d80b8b1706b
+✅ Sentry flush completed
+ GET /api/sentry-network-test 200 in 428ms

@@ -10,11 +10,6 @@ Sentry.init({
   // Environment configuration
   environment: process.env.NODE_ENV || 'development',
   
-  // Enable logging
-  _experiments: {
-    enableLogs: true,
-  },
-  
   // Performance monitoring
   tracesSampleRate: process.env.NODE_ENV === 'production' ? 0.1 : 1.0,
   
@@ -43,42 +38,6 @@ Sentry.init({
     
     return event;
   },
-  
-  // Integration configuration
-  integrations: [
-    new Sentry.BrowserTracing({
-      // Set sampling rate for performance monitoring
-      routingInstrumentation: Sentry.nextRouterInstrumentation,
-    }),
-    // Send console.log, console.error, and console.warn calls as logs to Sentry
-    Sentry.consoleLoggingIntegration({ levels: ["log", "error", "warn"] }),
-  ],
-  
-  // Error filtering
-  ignoreErrors: [
-    // Browser extensions
-    'top.GLOBALS',
-    'originalCreateNotification',
-    'canvas.contentDocument',
-    'MyApp_RemoveAllHighlights',
-    'http://tt.epicplay.com',
-    "Can't find variable: ZiteReader",
-    'jigsaw is not defined',
-    'ComboSearch is not defined',
-    'http://loading.retry.widdit.com/',
-    'atomicFindClose',
-    // Facebook flakiness
-    'fb_xd_fragment',
-    // ISP "optimizing" proxy - `Cache-Control: no-transform` seems to reduce this. (thanks @acdha)
-    // See http://stackoverflow.com/questions/4113268
-    'bmi_SafeAddOnload',
-    'EBCallBackMessageReceived',
-    // See http://toolbar.conduit.com/Developer/HtmlAndGadget/Methods/JSInjection.aspx
-    'conduitPage',
-    // Generic error boundary fallbacks
-    'Script error.',
-    'Non-Error promise rejection captured',
-  ],
   
   // Additional context for property platform
   initialScope: {

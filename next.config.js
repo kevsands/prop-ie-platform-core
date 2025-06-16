@@ -165,6 +165,7 @@ const sentryWebpackPluginOptions = {
 
 // Export the final config with Sentry and bundle analyzer
 // Only enable Sentry if DSN is configured to avoid build errors
+// Enable Sentry with configured DSN
 const hasSentryDSN = process.env.NEXT_PUBLIC_SENTRY_DSN && 
                      process.env.NEXT_PUBLIC_SENTRY_DSN !== 'https://your-sentry-dsn@sentry.io/project-id';
 

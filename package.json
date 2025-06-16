@@ -83,6 +83,7 @@
     "ci:test": "npm test -- --coverage && npm run coverage:dashboard:save"
   },
   "dependencies": {
+    "@alloc/quick-lru": "5.2.0",
     "@apollo/server": "4.12.0",
     "@as-integrations/next": "3.2.0",
     "@aws-sdk/client-cognito-identity-provider": "3.830.0",
