@@ -29,6 +29,10 @@ const InvestorMenu = () => {
       <div className="mb-8">
         <h2 className="text-lg font-semibold text-gray-900 mb-4">Investor Portal</h2>
         <nav className="space-y-1">
+          <Link href="/investor/overview" className={`flex items-center px-3 py-2 rounded-md text-sm font-medium ${isActive('/investor/overview')}`}>
+            <Home className="mr-3 h-5 w-5" />
+            Overview
+          </Link>
           <Link href="/investor/dashboard" className={`flex items-center px-3 py-2 rounded-md text-sm font-medium ${isActive('/investor/dashboard')}`}>
             <Home className="mr-3 h-5 w-5" />
             Dashboard

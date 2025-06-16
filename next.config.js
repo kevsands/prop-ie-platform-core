@@ -4,6 +4,9 @@
  * Next.js configuration with enhanced build, security, and deployment settings.
  */
 
+// Import Sentry webpack plugin
+const { withSentryConfig } = require('@sentry/nextjs');
+
 // Import security headers configuration
 const { securityHeaders } = require('./security-headers');
 const path = require('path');
@@ -146,5 +149,16 @@ const nextConfig = {
   },
 };
 
-// Export the final config with bundle analyzer if enabled
-module.exports = withBundleAnalyzer(nextConfig);
+// Sentry configuration options
+const sentryWebpackPluginOptions = {
+  // Additional config options for the Sentry webpack plugin
+  silent: true, // Suppresses source map uploading logs during build
+  org: "propchain-solutions-ltd-ta-pro",
+  project: "javascript-nextjs",
+};
+
+// Export the final config with Sentry and bundle analyzer
+module.exports = withSentryConfig(
+  withBundleAnalyzer(nextConfig),
+  sentryWebpackPluginOptions
+);

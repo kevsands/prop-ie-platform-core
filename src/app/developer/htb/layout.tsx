@@ -4,8 +4,7 @@ import React from 'react';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { FileText, Home, PieChart, BookOpen } from 'lucide-react';
-// Temporarily comment out problematic import for build testing
-// import { HTBProvider } from '@/context/HTBContext';
+import { HTBProvider } from '@/context/HTBContextDev';
 
 interface NavLinkProps {
   href: string;
@@ -29,8 +28,8 @@ export default function HTBLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
 
   return (
-    // Removed HTBProvider wrapper temporarily for build testing
-    <div>
+    <HTBProvider>
+      <div>
       <div className="border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex overflow-x-auto py-4 space-x-8">
@@ -66,9 +65,7 @@ export default function HTBLayout({ children }: { children: React.ReactNode }) {
         </div>
       </div>
       <main>{children}</main>
-      <div className="bg-amber-100 p-3 m-4 rounded-md text-amber-800">
-        Note: HTB Provider temporarily disabled for build testing.
       </div>
-    </div>
+    </HTBProvider>
   );
 }

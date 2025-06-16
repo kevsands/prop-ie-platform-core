@@ -4,7 +4,8 @@ import React, { useState, useEffect, useCallback } from "react";
 import { useParams } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { BedDouble, Bath, Maximize, MapPin, CheckCircle } from "lucide-react";
+import { BedDouble, Bath, Maximize, MapPin, CheckCircle, Euro, Calculator, X } from "lucide-react";
+import { HelpToBuyCalculator } from '@/components/calculators/HelpToBuyCalculator';
 
 // Mock DataService for build testing
 const DataService = {
@@ -38,7 +39,9 @@ const DataService = {
       address: {
         city: "Drogheda",
         state: "Co. Louth"
-      }
+      },
+      htbEligible: true,
+      htbAmount: 30000
     };
   }
 };
@@ -71,6 +74,8 @@ interface Property {
   floorPlanUrl?: string;
   floorPlan?: string;
   virtualTourUrl?: string;
+  htbEligible?: boolean;
+  htbAmount?: number;
 }
 
 export default function PropertyDetailPage() {
@@ -81,6 +86,7 @@ export default function PropertyDetailPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+  const [showHTBCalculator, setShowHTBCalculator] = useState(false);
 
   useEffect(() => {
     const fetchProperty = async () => {
@@ -239,6 +245,38 @@ export default function PropertyDetailPage() {
                 </span>
               </div>
             </div>
+
+            {/* Help-to-Buy Section */}
+            {property.htbEligible && (
+              <div className="mb-6 p-4 bg-green-50 rounded-lg border border-green-200">
+                <div className="flex items-center justify-between mb-3">
+                  <div className="flex items-center gap-2">
+                    <Euro className="w-5 h-5 text-green-600" />
+                    <span className="font-semibold text-green-900">Help-to-Buy Eligible</span>
+                  </div>
+                  <button
+                    onClick={() => setShowHTBCalculator(true)}
+                    className="flex items-center gap-1 px-3 py-1 bg-green-600 text-white rounded-md text-sm hover:bg-green-700 transition-colors"
+                  >
+                    <Calculator className="w-4 h-4" />
+                    Calculate
+                  </button>
+                </div>
+                <div className="text-center">
+                  <p className="text-2xl font-bold text-green-700">
+                    €{property.htbAmount?.toLocaleString()} potential refund
+                  </p>
+                  <p className="text-sm text-green-600 mt-1">
+                    Based on maximum 10% of property price
+                  </p>
+                </div>
+                <div className="mt-3 pt-3 border-t border-green-200">
+                  <p className="text-sm text-green-700">
+                    <strong>Effective price after HTB:</strong> {formatPrice((property.price || 0) - (property.htbAmount || 0))}
+                  </p>
+                </div>
+              </div>
+            )}
             
             {/* Action Buttons */} 
             <div className="space-y-3">
@@ -325,6 +363,62 @@ export default function PropertyDetailPage() {
           )}
         </div>
       </div>
+
+      {/* Help-to-Buy Calculator Modal */}
+      {showHTBCalculator && property?.htbEligible && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-xl shadow-2xl max-w-6xl w-full max-h-[90vh] overflow-y-auto">
+            <div className="p-6 border-b border-gray-200">
+              <div className="flex items-center justify-between">
+                <div>
+                  <h2 className="text-2xl font-bold text-gray-900">
+                    Help-to-Buy Calculator
+                  </h2>
+                  <p className="text-gray-600">
+                    Calculate your HTB refund for {property.title || property.name}
+                  </p>
+                </div>
+                <button
+                  onClick={() => setShowHTBCalculator(false)}
+                  className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                >
+                  <X className="w-6 h-6 text-gray-500" />
+                </button>
+              </div>
+            </div>
+            
+            <div className="p-6">
+              <div className="mb-6 p-4 bg-blue-50 rounded-lg">
+                <h3 className="font-semibold text-blue-900 mb-2">Property Details</h3>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <span className="text-sm text-gray-600">Property:</span>
+                    <p className="font-medium">{property.title || property.name}</p>
+                  </div>
+                  <div>
+                    <span className="text-sm text-gray-600">Price:</span>
+                    <p className="font-medium">{formatPrice(property.price)}</p>
+                  </div>
+                  <div>
+                    <span className="text-sm text-gray-600">Development:</span>
+                    <p className="font-medium">{property.developmentName}</p>
+                  </div>
+                  <div>
+                    <span className="text-sm text-gray-600">Location:</span>
+                    <p className="font-medium">
+                      {property.address 
+                        ? `${property.address.city || ''}${property.address.state ? `, ${property.address.state}` : ''}`
+                        : 'Location TBC'}
+                    </p>
+                  </div>
+                </div>
+              </div>
+              
+              <HelpToBuyCalculator />
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

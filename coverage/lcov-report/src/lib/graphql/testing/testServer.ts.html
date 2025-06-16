@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">34.48% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/29</span>
+                <span class='fraction'>10/29</span>
             </div>
         
             
@@ -37,16 +37,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">16.66% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/6</span>
+                <span class='fraction'>1/6</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">34.48% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/29</span>
+                <span class='fraction'>10/29</span>
             </div>
         
             
@@ -189,27 +189,27 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -308,14 +308,14 @@
  * that can be used in automated tests.
  */
 &nbsp;
-import { ApolloServer } from <span class="cstat-no" title="statement not covered" >'@apollo/server';</span>
+import { ApolloServer } from '@apollo/server';
 import { ApolloServerOptions } from '@apollo/server/dist/externalTypes/apollo-server-core';
-import { loadFiles } from <span class="cstat-no" title="statement not covered" >'@graphql-tools/load-files';</span>
-import { mergeTypeDefs, mergeResolvers } from <span class="cstat-no" title="statement not covered" >'@graphql-tools/merge';</span>
-import { makeExecutableSchema } from <span class="cstat-no" title="statement not covered" >'@graphql-tools/schema';</span>
-import path from <span class="cstat-no" title="statement not covered" >'path';</span>
+import { loadFiles } from '@graphql-tools/load-files';
+import { mergeTypeDefs, mergeResolvers } from '@graphql-tools/merge';
+import { makeExecutableSchema } from '@graphql-tools/schema';
+import path from 'path';
 import { GraphQLSchema } from 'graphql';
-import { authDirectiveTransformer } from <span class="cstat-no" title="statement not covered" >'../directives/auth';</span>
+import { authDirectiveTransformer } from '../directives/auth';
 import { GraphQLContext } from '../server';
 &nbsp;
 /**
@@ -323,12 +323,12 @@ import { GraphQLContext } from '../server';
  * @param contextValue Custom context value for testing
  * @returns Apollo Server instance configured for testing
  */
-export async function <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >createTestServer(</span></span>contextValue?: Partial&lt;GraphQLContext&gt;) {
+export async function createTestServer(contextValue?: Partial&lt;GraphQLContext&gt;) {
   // Load schema and resolvers
-  const schemaPath = <span class="cstat-no" title="statement not covered" >path.join(process.cwd(), 'src/lib/graphql/schemas');</span>
-  const resolversPath = <span class="cstat-no" title="statement not covered" >path.join(process.cwd(), 'src/lib/graphql/resolvers');</span>
+  const schemaPath = path.join(process.cwd(), 'src/lib/graphql/schemas');
+  const resolversPath = path.join(process.cwd(), 'src/lib/graphql/resolvers');
   
-  const typesArray = <span class="cstat-no" title="statement not covered" >await loadFiles(schemaPath, {</span>
+  const typesArray = await loadFiles(schemaPath, {
     extensions: ['graphql', 'gql'],
   });
   
@@ -427,7 +427,7 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-15T16:23:22.212Z
+                at 2025-06-15T19:17:58.277Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

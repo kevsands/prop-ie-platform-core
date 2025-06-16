@@ -6,8 +6,8 @@ import { useState, useEffect, useCallback } from 'react';
 // import { SecurityAnalyticsClient } from '@/lib/security/securityAnalyticsClient';
 import SecurityMonitor from '@/components/security/SecurityMonitor';
 import { ShieldAlert, ShieldCheck, RefreshCw, BellRing, AlertTriangle } from 'lucide-react';
-// // Removed import for build testing;
-import { record } from 'aws-amplify/analytics';
+// TODO: Remove Amplify dependency - aws-amplify/analytics import commented out for compilation
+// import { record } from 'aws-amplify/analytics';
 import {
   SecurityMetric, 
   SecurityEvent, 
@@ -92,24 +92,25 @@ export default function SecurityDashboardClient({
   const handleSecurityViolation = useCallback((violation: SecurityViolation) => {
     console.warn('Security violation detected:', violation);
     
-    // Record the violation in AWS Amplify Analytics
+    // TODO: Remove Amplify dependency - Replace with alternative analytics implementation
     try {
-      // Handle the promise correctly
-      record({ 
+      // Alternative analytics implementation (console logging for now)
+      console.log('Security violation detected for analytics:', {
         name: 'SecurityViolationDetected',
         attributes: {
           type: violation.type,
           severity: violation.severity,
           url: violation.url
         }
-      }).then(
-        () => {}, // Success handler (empty)
-        (err: Error) => {
-          console.error('Failed to record security violation to analytics:', err);
-        }
-      );
+      });
+      
+      // TODO: Implement alternative analytics service (e.g., Google Analytics, custom API)
+      // This could be replaced with:
+      // - fetch('/api/analytics/security-violation', { method: 'POST', body: JSON.stringify(violationData) })
+      // - Custom analytics service call
+      // - Third-party analytics library
     } catch (error) {
-      console.error('Error sending security violation to analytics:', error);
+      console.error('Error logging security violation:', error);
     }
     
     // Update security status based on violation severity

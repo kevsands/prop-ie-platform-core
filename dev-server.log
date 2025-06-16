@@ -6,172 +6,176 @@
    - Local:        http://localhost:3000
    - Network:      http://192.168.0.44:3000
    - Environments: .env.local, .env
+   - Experiments (use with caution):
+     · clientTraceMetadata
 
  ✓ Starting...
- ✓ Ready in 1675ms
- ○ Compiling /middleware ...
- ✓ Compiled /middleware in 591ms (291 modules)
- ⨯ Error [TypeError]: Cannot read properties of undefined (reading 'charCodeAt')
-    at (middleware)/./node_modules/redis-errors/index.js (.next/server/middleware.js:2724:1)
-    at __webpack_require__ (.next/server/edge-runtime-webpack.js:37:33)
-    at fn (.next/server/edge-runtime-webpack.js:273:21)
-    at (middleware)/./node_modules/ioredis/built/cluster/index.js (.next/server/middleware.js:256:1)
-    at __webpack_require__ (.next/server/edge-runtime-webpack.js:37:33)
-    at fn (.next/server/edge-runtime-webpack.js:273:21)
-    at (middleware)/./node_modules/ioredis/built/Redis.js (.next/server/middleware.js:146:1)
- ○ Compiling /_error ...
- ✓ Compiled /_error in 699ms (360 modules)
- GET / 404 in 1ms
+ ✓ Ready in 5.3s
+ ✓ Compiled /middleware in 222ms (301 modules)
+ ○ Compiling / ...
+ ✓ Compiled / in 3.5s (4614 modules)
+ HEAD / 200 in 4433ms
+ ○ Compiling /solutions/prop-choice ...
+ ✓ Compiled /solutions/prop-choice in 2.2s (4651 modules)
+ GET /solutions/prop-choice 200 in 2577ms
+ GET /solutions/prop-choice 200 in 19ms
+ GET /solutions/prop-choice 200 in 451ms
+ GET / 200 in 50ms
+ ○ Compiling /buyer/first-time-buyers/welcome ...
+ ✓ Compiled /buyer/first-time-buyers/welcome in 617ms (4704 modules)
+ GET /buyer/first-time-buyers/welcome 200 in 1055ms
+ ○ Compiling /developer/projects/fitzgerald-gardens ...
+ ✓ Compiled /developer/projects/fitzgerald-gardens in 1722ms (5997 modules)
+ GET /developer/projects/fitzgerald-gardens 200 in 2476ms
+ ○ Compiling /api/projects/[id] ...
+ ✓ Compiled /api/projects/[id] in 1293ms (6019 modules)
+ GET /api/projects/fitzgerald-gardens 200 in 2624ms
+ ○ Compiling /developer/agent-communications ...
+ ✓ Compiled /developer/agent-communications in 1017ms (6040 modules)
+ GET /developer/agent-communications 200 in 1219ms
  ○ Compiling /_not-found ...
- ⨯ Error [TypeError]: Cannot read properties of undefined (reading 'charCodeAt')
-    at (middleware)/./node_modules/redis-errors/index.js (.next/server/middleware.js:2724:1)
-    at __webpack_require__ (.next/server/edge-runtime-webpack.js:37:33)
-    at fn (.next/server/edge-runtime-webpack.js:273:21)
-    at (middleware)/./node_modules/ioredis/built/cluster/index.js (.next/server/middleware.js:256:1)
-    at __webpack_require__ (.next/server/edge-runtime-webpack.js:37:33)
-    at fn (.next/server/edge-runtime-webpack.js:273:21)
-    at (middleware)/./node_modules/ioredis/built/Redis.js (.next/server/middleware.js:146:1)
- ⚠ Fast Refresh had to perform a full reload due to a runtime error.
- ⨯ Error [TypeError]: Cannot read properties of undefined (reading 'charCodeAt')
-    at (middleware)/./node_modules/redis-errors/index.js (.next/server/middleware.js:2724:1)
-    at __webpack_require__ (.next/server/edge-runtime-webpack.js:37:33)
-    at fn (.next/server/edge-runtime-webpack.js:273:21)
-    at (middleware)/./node_modules/ioredis/built/cluster/index.js (.next/server/middleware.js:256:1)
-    at __webpack_require__ (.next/server/edge-runtime-webpack.js:37:33)
-    at fn (.next/server/edge-runtime-webpack.js:273:21)
-    at (middleware)/./node_modules/ioredis/built/Redis.js (.next/server/middleware.js:146:1)
- ✓ Compiled /_not-found in 8.3s (1118 modules)
- ⚠ Fast Refresh had to perform a full reload due to a runtime error.
- ⨯ Error [TypeError]: Cannot read properties of undefined (reading 'charCodeAt')
-    at (middleware)/./node_modules/redis-errors/index.js (.next/server/middleware.js:2724:1)
-    at __webpack_require__ (.next/server/edge-runtime-webpack.js:37:33)
-    at fn (.next/server/edge-runtime-webpack.js:273:21)
-    at (middleware)/./node_modules/ioredis/built/cluster/index.js (.next/server/middleware.js:256:1)
-    at __webpack_require__ (.next/server/edge-runtime-webpack.js:37:33)
-    at fn (.next/server/edge-runtime-webpack.js:273:21)
-    at (middleware)/./node_modules/ioredis/built/Redis.js (.next/server/middleware.js:146:1)
- GET / 404 in 1ms
- ✓ Compiled /favicon.ico in 113ms (520 modules)
- GET /favicon.ico 200 in 392ms
- ✓ Compiled in 270ms (207 modules)
- ✓ Compiled / in 501ms (1152 modules)
- ⚠ Fast Refresh had to perform a full reload due to a runtime error.
- GET / 200 in 827ms
- GET / 200 in 114ms
- ✓ Compiled /favicon.ico in 76ms (551 modules)
- GET /favicon.ico 200 in 239ms
- GET /favicon.ico 200 in 36ms
- ○ Compiling /api/auth/[...nextauth] ...
- ⨯ ./src/lib/auth.ts
-Error:   [31mx[0m Expected ',', got ';'
-     ,-[[36;1;4m/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/auth.ts[0m:358:1]
- [2m355[0m |     newUser: "/auth/new-user"
- [2m356[0m |   },
- [2m357[0m |   secret: process.env.NEXTAUTH_SECRET
- [2m358[0m | };
-     : [35;1m ^[0m
- [2m359[0m | 
- [2m360[0m | // Create access token
- [2m361[0m | export function createAccessToken(userId: string, email: string, roles: string[]) {
-     `----
-
-Caused by:
-    Syntax Error
-
-Import trace for requested module:
-./src/lib/auth.ts
-./src/app/api/auth/[...nextauth]/route.ts
- ⨯ ./src/lib/auth.ts
-Error:   [31mx[0m Expected ',', got ';'
-     ,-[[36;1;4m/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/auth.ts[0m:358:1]
- [2m355[0m |     newUser: "/auth/new-user"
- [2m356[0m |   },
- [2m357[0m |   secret: process.env.NEXTAUTH_SECRET
- [2m358[0m | };
-     : [35;1m ^[0m
- [2m359[0m | 
- [2m360[0m | // Create access token
- [2m361[0m | export function createAccessToken(userId: string, email: string, roles: string[]) {
-     `----
-
-Caused by:
-    Syntax Error
-
-Import trace for requested module:
-./src/lib/auth.ts
-./src/app/api/auth/[...nextauth]/route.ts
- GET /api/auth/session 500 in 2344ms
-[AUTH_EVENT] {"timestamp":"2025-06-12T20:56:25.398Z","eventType":"CSRF_ATTEMPT","path":"/api/auth/_log","method":"POST","ip":"::1","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36"}
- ✓ Compiled /_not-found in 42ms (207 modules)
- ⨯ ./src/lib/auth.ts
-Error:   [31mx[0m Expected ',', got ';'
-     ,-[[36;1;4m/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/auth.ts[0m:358:1]
- [2m355[0m |     newUser: "/auth/new-user"
- [2m356[0m |   },
- [2m357[0m |   secret: process.env.NEXTAUTH_SECRET,
- [2m358[0m | };
-     : [35;1m ^[0m
- [2m359[0m | 
- [2m360[0m | // Create access token
- [2m361[0m | export function createAccessToken(userId: string, email: string, roles: string[]) {
-     `----
-
-Caused by:
-    Syntax Error
-
-Import trace for requested module:
-./src/lib/auth.ts
-./src/app/api/auth/[...nextauth]/route.ts
- GET / 404 in 0ms
- GET / 404 in 0ms
- GET /_next/static/chunks/fallback/webpack.js 500 in 14ms
- GET /_next/static/chunks/fallback/main.js 500 in 7ms
- GET /_next/static/chunks/fallback/react-refresh.js 500 in 7ms
- GET /_next/static/chunks/fallback/pages/_app.js 500 in 6ms
- GET /_next/static/chunks/fallback/pages/_error.js 500 in 5ms
- ⨯ ./src/lib/auth.ts
-Error:   [31mx[0m Expected ',', got ';'
-     ,-[[36;1;4m/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/auth.ts[0m:359:1]
- [2m356[0m |     newUser: "/auth/new-user"
- [2m357[0m |   },
- [2m358[0m |   secret: process.env.NEXTAUTH_SECRET,
- [2m359[0m | };
-     : [35;1m ^[0m
- [2m360[0m | 
- [2m361[0m | // Create access token
- [2m362[0m | export function createAccessToken(userId: string, email: string, roles: string[]) {
-     `----
-
-Caused by:
-    Syntax Error
-
-Import trace for requested module:
-./src/lib/auth.ts
-./src/app/api/auth/[...nextauth]/route.ts
- ⨯ ./src/lib/auth.ts
-Error:   [31mx[0m Expected ',', got ';'
-     ,-[[36;1;4m/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/auth.ts[0m:360:1]
- [2m357[0m |     newUser: "/auth/new-user"
- [2m358[0m |   },
- [2m359[0m |   secret: process.env.NEXTAUTH_SECRET,
- [2m360[0m | };
-     : [35;1m ^[0m
- [2m361[0m | 
- [2m362[0m | // Create access token
- [2m363[0m | export function createAccessToken(userId: string, email: string, roles: string[]) {
-     `----
-
-Caused by:
-    Syntax Error
-
-Import trace for requested module:
-./src/lib/auth.ts
-./src/app/api/auth/[...nextauth]/route.ts
- ✓ Compiled in 369ms (1171 modules)
- ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/.next/server/next-font-manifest.json'] {
-  errno: -2,
-  code: 'ENOENT',
-  syscall: 'open',
-  path: '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/.next/server/next-font-manifest.json'
-}
-[?25h
+ ✓ Compiled /_not-found in 771ms (6044 modules)
+ GET /developer/team 404 in 879ms
+ GET /developer/team 404 in 252ms
+✅ Universal Transaction Service initialized with 4 projects
+✅ Agent profiles initialized: 2 agents
+✅ Agent-Developer Communication Service initialized
+ GET /developer/agent-communications 200 in 325ms
+ GET /developer/projects/fitzgerald-gardens 200 in 60ms
+ GET /api/projects/fitzgerald-gardens 200 in 45ms
+ GET /api/projects/fitzgerald-gardens 200 in 17ms
+ ○ Compiling /developer/projects/fitzgerald-gardens/analytics ...
+ ✓ Compiled /developer/projects/fitzgerald-gardens/analytics in 1356ms (6060 modules)
+ GET /developer/projects/fitzgerald-gardens/analytics 200 in 1509ms
+ GET /developer/projects/fitzgerald-gardens 200 in 443ms
+ GET /api/projects/fitzgerald-gardens 200 in 34ms
+ GET /developer/agent-communications 200 in 27ms
+ GET /api/projects/fitzgerald-gardens 200 in 32ms
+ GET /api/projects/fitzgerald-gardens 200 in 32ms
+ GET /developer/projects/fitzgerald-gardens/analytics 200 in 27ms
+ GET /developer/projects/fitzgerald-gardens 200 in 117ms
+ GET /api/projects/fitzgerald-gardens 200 in 25ms
+ GET /developer/projects/fitzgerald-gardens/analytics 200 in 161ms
+ GET /developer/projects/fitzgerald-gardens 200 in 139ms
+ GET /api/projects/fitzgerald-gardens 200 in 25ms
+ ○ Compiling /developer/sales/fitzgerald-gardens ...
+ ✓ Compiled /developer/sales/fitzgerald-gardens in 1586ms (6077 modules)
+ GET /developer/sales/fitzgerald-gardens 200 in 1835ms
+ GET /api/projects/fitzgerald-gardens 200 in 35ms
+ GET /api/projects/fitzgerald-gardens 200 in 22ms
+ ○ Compiling /developer/sales/ellwood ...
+ ✓ Compiled /developer/sales/ellwood in 715ms (6084 modules)
+ GET /developer/sales/ellwood 200 in 947ms
+ GET /api/projects/ellwood 404 in 33ms
+ GET /api/projects/ellwood 404 in 93ms
+ ○ Compiling /developer/sales/ballymakenny-view ...
+ ✓ Compiled /developer/sales/ballymakenny-view in 1110ms (6091 modules)
+ GET /developer/sales/ballymakenny-view 200 in 1356ms
+ GET /api/projects/ballymakenny-view 404 in 143ms
+ GET /api/projects/ballymakenny-view 404 in 68ms
+ ○ Compiling /developer/properties ...
+ ✓ Compiled /developer/properties in 879ms (6100 modules)
+ GET /developer/properties 200 in 1062ms
+ ○ Compiling /developer/sales ...
+ ✓ Compiled /developer/sales in 1202ms (6098 modules)
+ GET /developer/sales 200 in 1366ms
+ GET /api/projects/fitzgerald-gardens 200 in 38ms
+ GET /api/projects/fitzgerald-gardens 200 in 18ms
+ ○ Compiling /developer/finance ...
+ ✓ Compiled /developer/finance in 781ms (5457 modules)
+ GET /developer/finance 200 in 945ms
+ GET /api/projects/fitzgerald-gardens 200 in 104ms
+ GET /api/projects/fitzgerald-gardens 200 in 34ms
+ ○ Compiling /_not-found ...
+ ✓ Compiled /_not-found in 929ms (5456 modules)
+ GET /developer/budget 404 in 1037ms
+ GET /developer/budget 404 in 362ms
+ GET /developer/finance 200 in 161ms
+ GET /api/projects/fitzgerald-gardens 200 in 35ms
+ GET /developer/costs 404 in 17ms
+ GET /developer/costs 404 in 40ms
+ GET /developer/finance 200 in 140ms
+ GET /api/projects/fitzgerald-gardens 200 in 21ms
+ GET /developer/roi 404 in 11ms
+ GET /developer/roi 404 in 28ms
+ GET /developer/finance 200 in 112ms
+ GET /api/projects/fitzgerald-gardens 200 in 22ms
+ ○ Compiling /developer/htb ...
+ ✓ Compiled /developer/htb in 1603ms (5473 modules)
+ GET /developer/htb 200 in 1730ms
+ ○ Compiling /developer/htb/claims ...
+ ✓ Compiled /developer/htb/claims in 1391ms (5485 modules)
+ GET /developer/htb/claims 200 in 1510ms
+ GET /developer/htb/claims 200 in 22ms
+ GET /developer/htb/claims 200 in 35ms
+ ○ Compiling /developer/htb/revenue-guide ...
+ ✓ Compiled /developer/htb/revenue-guide in 924ms (5497 modules)
+ GET /developer/htb/revenue-guide 200 in 1117ms
+ ○ Compiling /developer/htb/analytics ...
+ ✓ Compiled /developer/htb/analytics in 1285ms (6019 modules)
+ GET /developer/htb/analytics 200 in 1437ms
+ GET /developer/htb/revenue 404 in 13ms
+ GET /developer/htb/revenue 404 in 277ms
+ GET /developer/htb/revenue-guide 200 in 168ms
+ GET /developer/team 404 in 6ms
+ GET /developer/team 404 in 26ms
+ GET /developer/team 404 in 113ms
+ GET /developer/team 404 in 47ms
+ GET /developer/team 404 in 98ms
+ ○ Compiling /developments/[id] ...
+ ✓ Compiled /developments/[id] in 3.2s (6006 modules)
+ ○ Compiling /resources/calculators/mortgage-calculator ...
+ ✓ Compiled /resources/calculators/mortgage-calculator in 4.1s (6021 modules)
+ GET /developments/fitzgerald-gardens 200 in 11673ms
+ GET /developments/ballymakenny-view 200 in 10033ms
+ GET /developments/ellwood 200 in 8987ms
+ GET /solutions/developer-platform 404 in 4657ms
+ GET /resources/calculators/mortgage-calculator 200 in 6917ms
+ GET /buyer/first-time-buyers/welcome 200 in 1842ms
+ GET /developments/fitzgerald-gardens 200 in 186ms
+ ○ Compiling /api/projects/[id] ...
+ ✓ Compiled /api/projects/[id] in 3.5s (3563 modules)
+ GET /api/projects/fitzgerald-gardens 200 in 4031ms
+ GET /api/projects/fitzgerald-gardens 200 in 61ms
+ GET /developments/ballymakenny-view 200 in 515ms
+ ○ Compiling /developer ...
+ ✓ Compiled /developer in 2.7s (5506 modules)
+ GET /developer 200 in 3403ms
+ ○ Compiling /api/projects/[id] ...
+ ✓ Compiled /api/projects/[id] in 542ms (3047 modules)
+ GET /api/projects/fitzgerald-gardens 200 in 773ms
+ GET /api/projects/ballymakenny-view 404 in 753ms
+ GET /api/projects/ellwood 404 in 806ms
+ GET /api/projects/fitzgerald-gardens 200 in 29ms
+ GET /api/projects/ballymakenny-view 404 in 37ms
+ GET /api/projects/ellwood 404 in 38ms
+ ○ Compiling /developer/projects/ballymakenny-view ...
+ ✓ Compiled /developer/projects/ballymakenny-view in 1864ms (5545 modules)
+ GET /developer/projects/ballymakenny-view 200 in 2038ms
+ GET /developer/projects/ballymakenny-view 200 in 68ms
+ GET /api/projects/ballymakenny-view 404 in 33ms
+ GET /api/projects/ballymakenny-view 404 in 34ms
+ ○ Compiling /developer/projects/fitzgerald-gardens ...
+ ✓ Compiled /developer/projects/fitzgerald-gardens in 2.5s (3641 modules)
+ GET /developer/projects/fitzgerald-gardens 200 in 2918ms
+ GET /developer/projects/fitzgerald-gardens 200 in 31ms
+ GET /developer/projects/fitzgerald-gardens 200 in 27ms
+ ○ Compiling /api/projects/[id] ...
+ ✓ Compiled /api/projects/[id] in 582ms (3662 modules)
+ GET /api/projects/fitzgerald-gardens 200 in 799ms
+ GET /api/projects/fitzgerald-gardens 200 in 17ms
+ ○ Compiling /_not-found ...
+ ✓ Compiled /_not-found in 2s (6151 modules)
+ GET /.well-known/appspecific/com.chrome.devtools.json 404 in 2486ms
+ ○ Compiling /developer/projects/fitzgerald-gardens/analytics ...
+ ✓ Compiled /developer/projects/fitzgerald-gardens/analytics in 1073ms (3681 modules)
+ GET /developer/projects/fitzgerald-gardens/analytics 200 in 1286ms
+ GET /developer/projects/fitzgerald-gardens 200 in 553ms
+ GET /api/projects/fitzgerald-gardens 200 in 35ms
+ ○ Compiling /developer/projects/ellwood ...
+ ✓ Compiled /developer/projects/ellwood in 1071ms (6165 modules)
+ GET /developer/projects/ellwood 200 in 1255ms
+ GET /api/projects/ellwood 404 in 115ms
+ GET /api/projects/ellwood 404 in 89ms
+ GET /developments/ellwood 200 in 296ms
+ GET /developer/team 404 in 192ms

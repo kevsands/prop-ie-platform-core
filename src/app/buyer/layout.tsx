@@ -25,7 +25,10 @@ import {
   BookOpen,
   Shield,
   CreditCard,
-  Heart
+  Heart,
+  Receipt,
+  Activity,
+  Clock
 } from 'lucide-react';
 
 /**
@@ -38,9 +41,11 @@ export default function BuyerLayout({ children }: { children: React.ReactNode })
 
   const navigation = [
     { name: 'Welcome', href: '/buyer/first-time-buyers/welcome', icon: Sparkles, isNew: true },
-    { name: 'Overview', href: '/buyer', icon: Home },
+    { name: 'Overview', href: '/buyer/overview', icon: Home },
     { name: 'My Journey', href: '/buyer/journey', icon: TrendingUp },
     { name: 'Documents', href: '/buyer/documents', icon: FileText },
+    { name: 'Transaction Status', href: '/buyer/transaction', icon: Activity },
+    { name: 'Payments', href: '/buyer/payments', icon: Receipt },
     { name: 'Messages', href: '/buyer/messages', icon: MessageSquare },
     { name: 'Appointments', href: '/buyer/appointments', icon: Calendar },
     {
@@ -73,10 +78,45 @@ export default function BuyerLayout({ children }: { children: React.ReactNode })
       {/* Main Navigation - Always on top */}
       <MainNavigation />
       
-      {/* Content wrapper with top padding to account for main nav */}
-      <div className="pt-16">
+      {/* User Profile Banner - Full width below navigation */}
+      <div className="bg-white border-b shadow-sm px-6 py-5 mt-16">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center">
+            <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center shadow-sm">
+              <User size={24} className="text-white" />
+            </div>
+            <div className="ml-4">
+              <p className="text-lg font-semibold text-gray-900">John Doe</p>
+              <div className="flex items-center gap-2">
+                <p className="text-sm text-gray-600">First-time Buyer</p>
+                <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                  Verified
+                </span>
+              </div>
+            </div>
+          </div>
+          <div className="flex items-center gap-3">
+            <button className="p-2.5 hover:bg-gray-100 rounded-lg transition-colors relative">
+              <Bell size={20} className="text-gray-600" />
+              <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full" />
+            </button>
+            <Link 
+              href="/buyer/settings"
+              className="p-2.5 hover:bg-gray-100 rounded-lg transition-colors"
+            >
+              <Settings size={20} className="text-gray-600" />
+            </Link>
+            <button className="p-2.5 hover:bg-gray-100 rounded-lg transition-colors">
+              <LogOut size={18} className="text-gray-500" />
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      {/* Content wrapper */}
+      <div className="relative">
         {/* Mobile header with proper spacing to avoid overlap */}
-        <div className="fixed top-16 left-0 right-0 z-40 bg-white border-b md:hidden">
+        <div className="fixed top-28 left-0 right-0 z-40 bg-white border-b md:hidden">
           <div className="flex items-center justify-between p-4">
             <h2 className="text-lg font-bold text-gray-900">Buyer Dashboard</h2>
             <button 
@@ -98,21 +138,22 @@ export default function BuyerLayout({ children }: { children: React.ReactNode })
 
         {/* Sidebar */}
         <div className={`
-          fixed top-16 left-0 z-30 h-full w-64 bg-white border-r transform transition-transform duration-200 ease-in-out
+          fixed top-28 left-0 z-30 h-full w-64 bg-white border-r transform transition-transform duration-200 ease-in-out
           ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}
-          md:translate-x-0 md:static md:transform-none
+          md:translate-x-0 md:fixed md:transform-none
         `}>
           {/* Desktop header */}
-          <div className="hidden md:block p-6 border-b">
+          <div className="hidden md:block p-6 border-b bg-gray-50">
             <h2 className="text-xl font-bold text-gray-900">Buyer Dashboard</h2>
+            <p className="text-sm text-gray-600 mt-1">Manage your property journey</p>
           </div>
 
           {/* Mobile sidebar top spacing */}
           <div className="h-16 md:hidden" />
 
           {/* Navigation */}
-          <nav className="mt-5 px-4">
-            <ul className="space-y-2">
+          <nav className="mt-6 px-4">
+            <ul className="space-y-1">
               {navigation.map((item) => {
                 if (item.isDropdown) {
                   return (
@@ -171,10 +212,10 @@ export default function BuyerLayout({ children }: { children: React.ReactNode })
                     <Link
                       href={item.href || '#'}
                       className={`
-                        flex items-center p-3 rounded-lg transition-colors relative
+                        flex items-center p-3 rounded-lg transition-all duration-200 relative
                         ${active 
-                          ? 'bg-blue-50 text-blue-700 font-medium' 
-                          : 'text-gray-700 hover:bg-gray-100'
+                          ? 'bg-blue-50 text-blue-700 font-medium shadow-sm border border-blue-100' 
+                          : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900'
                         }
                       `}
                       onClick={() => setSidebarOpen(false)}
@@ -231,68 +272,38 @@ export default function BuyerLayout({ children }: { children: React.ReactNode })
           </nav>
 
           {/* Help section */}
-          <div className="mt-8 mx-4 p-4 bg-blue-50 rounded-lg">
+          <div className="mt-8 mx-4 p-4 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl border border-blue-100">
             <div className="flex items-center mb-2">
               <HelpCircle className="text-blue-600 mr-2" size={20} />
-              <span className="font-medium text-blue-900">Need Help?</span>
+              <span className="font-semibold text-blue-900">Need Help?</span>
             </div>
             <p className="text-sm text-blue-700 mb-3">
               Contact our buyer support team
             </p>
             <Link 
               href="/buyer/support"
-              className="block w-full text-center py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition"
+              className="block w-full text-center py-2.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all duration-200 font-medium text-sm shadow-sm"
             >
               Get Support
             </Link>
           </div>
 
-          {/* User section */}
-          <div className="absolute bottom-0 left-0 right-0 p-4 border-t bg-white">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center">
-                <div className="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center">
-                  <User size={20} className="text-gray-600" />
-                </div>
-                <div className="ml-3">
-                  <p className="text-sm font-medium text-gray-900">John Doe</p>
-                  <p className="text-xs text-gray-500">First-time Buyer</p>
-                </div>
-              </div>
-              <button className="p-2 hover:bg-gray-100 rounded-md">
-                <LogOut size={16} className="text-gray-500" />
-              </button>
-            </div>
-          </div>
         </div>
         
         {/* Main content with proper spacing */}
         <div className="flex-1 md:ml-64">
-          {/* Top bar */}
-          <div className="hidden md:block bg-white border-b px-6 py-4">
-            <div className="flex items-center justify-between">
-              <h1 className="text-2xl font-bold text-gray-900">
-                {navigation.find(item => isActive(item.href))?.name || 'Buyer Dashboard'}
-              </h1>
-              <div className="flex items-center gap-4">
-                <button className="p-2 hover:bg-gray-100 rounded-md relative">
-                  <Bell size={20} className="text-gray-600" />
-                  <span className="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full" />
-                </button>
-                <Link 
-                  href="/buyer/settings"
-                  className="p-2 hover:bg-gray-100 rounded-md"
-                >
-                  <Settings size={20} className="text-gray-600" />
-                </Link>
-              </div>
-            </div>
-          </div>
-
           {/* Page content with mobile top padding */}
           <main className="p-4 md:p-6 pt-24 md:pt-6">
-            <div className="max-w-7xl mx-auto">
-              {children}
+            <div className="flex gap-6">
+              {/* Primary content area */}
+              <div className="flex-1">
+                {children}
+              </div>
+              
+              {/* Right side panel placeholder - empty for now */}
+              <div className="hidden xl:block w-80">
+                {/* Future side panel content goes here */}
+              </div>
             </div>
           </main>
         </div>

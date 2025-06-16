@@ -1,8 +1,76 @@
 "use client";
 
 import { useState, useEffect, createContext, useContext } from 'react';
-import { signIn, signOut, getCurrentUser, fetchUserAttributes } from 'aws-amplify/auth';
-import { generateClient } from 'aws-amplify/api';
+// TODO: Remove Amplify dependency - Replace with alternative authentication implementation
+// import { signIn, signOut, getCurrentUser, fetchUserAttributes } from 'aws-amplify/auth';
+// import { generateClient } from 'aws-amplify/api';
+
+// Alternative authentication service - replace with your preferred auth solution
+// This could be NextAuth.js, Auth0, Firebase Auth, or custom implementation
+const authService = {
+  async signIn(credentials: { username: string; password: string }) {
+    // TODO: Implement actual authentication logic
+    // For now, mock successful authentication for compilation
+    console.warn('Mock authentication - replace with actual auth service');
+    
+    // Mock successful login for development
+    if (credentials.username && credentials.password) {
+      // Store mock user data for session persistence
+      localStorage.setItem('mockUser', JSON.stringify({
+        userId: 'mock-user-id',
+        email: credentials.username,
+        loginTime: Date.now()
+      }));
+      
+      return {
+        isSignedIn: true,
+        nextStep: { signInStep: 'DONE' }
+      };
+    }
+    
+    throw new Error('Authentication failed');
+  },
+
+  async signOut() {
+    // TODO: Implement actual sign out logic
+    console.warn('Mock sign out - replace with actual auth service');
+    localStorage.removeItem('mockUser');
+    return Promise.resolve();
+  },
+
+  async getCurrentUser() {
+    // TODO: Implement actual current user retrieval
+    console.warn('Mock getCurrentUser - replace with actual auth service');
+    
+    // Mock user data for development
+    const mockUser = localStorage.getItem('mockUser');
+    if (mockUser) {
+      return {
+        userId: 'mock-user-id',
+        signInDetails: { loginId: 'mock-token' }
+      };
+    }
+    
+    throw new Error('No authenticated user');
+  },
+
+  async fetchUserAttributes() {
+    // TODO: Implement actual user attributes retrieval
+    console.warn('Mock fetchUserAttributes - replace with actual auth service');
+    
+    // Get user data from localStorage for consistency
+    const mockUser = localStorage.getItem('mockUser');
+    const userData = mockUser ? JSON.parse(mockUser) : null;
+    
+    // Mock attributes for development
+    return {
+      name: 'Mock User',
+      email: userData?.email || 'mock@example.com',
+      'custom:role': 'user',
+      'custom:organisationId': 'mock-org-id'
+    };
+  }
+};
 
 // Define types for authentication
 export interface User {
@@ -44,8 +112,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const { userId, signInDetails } = await getCurrentUser();
-        const attributes = await fetchUserAttributes();
+        const { userId, signInDetails } = await authService.getCurrentUser();
+        const attributes = await authService.fetchUserAttributes();
         
         if (userId && attributes) {
           setAuthState({
@@ -90,11 +158,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }));
 
     try {
-      const { isSignedIn, nextStep } = await signIn({ username: email, password });
+      const { isSignedIn, nextStep } = await authService.signIn({ username: email, password });
       
       if (isSignedIn) {
-        const { userId, signInDetails } = await getCurrentUser();
-        const attributes = await fetchUserAttributes();
+        const { userId, signInDetails } = await authService.getCurrentUser();
+        const attributes = await authService.fetchUserAttributes();
         
         setAuthState({
           user: {
@@ -127,7 +195,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   // Logout function
   const logout = async () => {
     try {
-      await signOut();
+      await authService.signOut();
       setAuthState({
         user: null,
         accessToken: null,

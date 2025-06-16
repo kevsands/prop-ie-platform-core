@@ -1,87 +1,117 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { getServerSession } from 'next-auth';
-import { getRepository } from '@/lib/db/repositories/index';
-import { logger } from '@/lib/security/auditLogger';
-import { authOptions } from '@/lib/auth';
-import { Prisma } from '@prisma/client';
-import { GetHandler, PatchHandler, IdParam } from '@/types/next-route-handlers';
-
 /**
- * GET /api/projects/[id]
- * Fetch details for a specific project
+ * API Route: /api/projects/[id]
+ * Handles project-specific data with graceful fallback
  */
-export const GET: GetHandler<IdParam> = async (request, { params }) => {
-  try {
-    // Check authentication
-    const session = await getServerSession(authOptions);
-    if (!session) {
-      return NextResponse.json(
-        { error: 'Unauthorized' },
-        { status: 401 }
-      );
-    }
 
-    const id = params.id;
+import { NextRequest, NextResponse } from 'next/server';
+import { projectDataService } from '@/services/ProjectDataService';
+
+interface Props {
+  params: {
+    id: string;
+  };
+}
+
+export async function GET(
+  request: NextRequest,
+  { params }: Props
+) {
+  try {
+    const resolvedParams = await params;
+    const projectId = resolvedParams.id;
+
+    // For now, use the existing service to get project data
+    // This maintains compatibility with existing frontend code
+    let project = projectDataService.getProject(projectId);
     
-    // Get repository
-    const developmentRepository = getRepository('development');
+    // Initialize Fitzgerald Gardens if it doesn't exist
+    if (!project && projectId === 'fitzgerald-gardens') {
+      project = projectDataService.initializeFitzgeraldGardens();
+    }
     
-    // Get development with related data
-    const development = await developmentRepository.findWithFullDetails(id);
-    
-    if (!development) {
+    if (!project) {
       return NextResponse.json(
-        { error: 'Development not found' },
+        { error: 'Project not found' },
         { status: 404 }
       );
     }
-    
-    return NextResponse.json({ data: development });
+
+    return NextResponse.json({
+      data: project,
+      success: true
+    });
   } catch (error) {
-    logger.error('Error fetching development details:', { error });
+    console.error('Error fetching project:', error);
     return NextResponse.json(
-      { error: 'Failed to fetch development details' },
+      { error: 'Failed to fetch project data' },
       { status: 500 }
     );
   }
 }
 
-/**
- * PATCH /api/projects/[id]
- * Update details for a specific project
- */
-export const PATCH: PatchHandler<IdParam> = async (request, { params }) => {
+export async function PATCH(
+  request: NextRequest,
+  { params }: Props
+) {
   try {
-    // Check authentication
-    const session = await getServerSession(authOptions);
-    if (!session) {
-      return NextResponse.json(
-        { error: 'Unauthorized' },
-        { status: 401 }
-      );
+    const resolvedParams = await params;
+    const projectId = resolvedParams.id;
+    const body = await request.json();
+
+    // Handle unit status updates
+    if (body.type === 'unit_status_update') {
+      const { unitId, status } = body;
+      
+      const success = projectDataService.updateUnitStatus(projectId, unitId, status);
+      
+      if (!success) {
+        return NextResponse.json(
+          { error: 'Failed to update unit status' },
+          { status: 400 }
+        );
+      }
+
+      // Get updated project data
+      const project = projectDataService.getProject(projectId);
+      
+      return NextResponse.json({
+        data: project,
+        success: true,
+        message: 'Unit status updated successfully'
+      });
     }
 
-    const id = params.id;
-    const updates = await request.json() as Prisma.DevelopmentUpdateInput;
-    
-    // Get repository
-    const developmentRepository = getRepository('development');
-    
-    // Update development
-    const updatedDevelopment = await developmentRepository.update(id, updates);
-    
-    if (!updatedDevelopment) {
-      return NextResponse.json(
-        { error: 'Development not found' },
-        { status: 404 }
-      );
+    // Handle unit pricing updates
+    if (body.type === 'unit_price_update') {
+      const { unitId, newPrice } = body;
+      
+      const success = projectDataService.updateUnitPrice(projectId, unitId, newPrice);
+      
+      if (!success) {
+        return NextResponse.json(
+          { error: 'Failed to update unit price' },
+          { status: 400 }
+        );
+      }
+
+      // Get updated project data
+      const project = projectDataService.getProject(projectId);
+      
+      return NextResponse.json({
+        data: project,
+        success: true,
+        message: 'Unit price updated successfully'
+      });
     }
-    
-    return NextResponse.json({ data: updatedDevelopment });
-  } catch (error) {
-    logger.error('Error updating development:', { error });
+
     return NextResponse.json(
-      { error: 'Failed to update development' },
+      { error: 'Unsupported update type' },
+      { status: 400 }
+    );
+  } catch (error) {
+    console.error('Error updating project:', error);
+    return NextResponse.json(
+      { error: 'Failed to update project data' },
       { status: 500 }
     );
   }

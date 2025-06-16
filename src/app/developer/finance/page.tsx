@@ -1,400 +1,370 @@
 'use client';
 
-import React from 'react';
-import { FinancialDashboard } from '../../../components/finance';
-// Removed import for build testing;
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '../../../components/ui/select';
+import React, { useState } from 'react';
+import useProjectData from '@/hooks/useProjectData';
 import { 
-  Building, 
+  Building2, 
   DollarSign, 
   TrendingUp, 
   TrendingDown,
   Wallet,
-  PieChart
+  PieChart,
+  CreditCard,
+  Receipt,
+  FileText,
+  Calendar,
+  AlertTriangle,
+  CheckCircle,
+  Clock,
+  Target,
+  ArrowUpRight,
+  ArrowDownRight,
+  RefreshCw,
+  Download,
+  Filter,
+  Zap
 } from 'lucide-react';
 
-// Simplified component definitions for build testing
+export default function DeveloperFinancePage() {
+  const [selectedTimeframe, setSelectedTimeframe] = useState('monthly');
+  const [selectedProject, setSelectedProject] = useState('fitzgerald-gardens');
 
-// Define interface for Button props
-interface ButtonProps {
-  className?: string;
-  variant?: 'default' | 'outline' | 'secondary';
-  children: React.ReactNode;
-  disabled?: boolean;
-  onClick?: React.MouseEventHandler<HTMLButtonElement>;
-  [key: string]: any; // For additional props
-}
+  // Enterprise data integration with real-time financial metrics
+  const {
+    project,
+    totalRevenue,
+    averageUnitPrice,
+    soldUnits,
+    reservedUnits,
+    totalUnits,
+    isLoading,
+    lastUpdated,
+    teamMembers,
+    invoices,
+    feeProposals
+  } = useProjectData(selectedProject);
 
-// Simplified Button component
-const Button = ({ 
-  className = "", 
-  variant = "default", 
-  children, 
-  disabled = false, 
-  onClick,
-  ...props 
-}: ButtonProps) => (
-  <button
-    className={`inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50 ${
-      variant === "outline" 
-        ? "border border-gray-300 bg-white hover:bg-gray-50 text-gray-700" 
-        : "bg-blue-600 text-white hover:bg-blue-700"
-    } h-10 px-4 py-2 ${className}`}
-    disabled={disabled}
-    onClick={onClick}
-    {...props}
-  >
-    {children}
-  </button>
-);
-
-// Mock data for demonstration
-const DEMO_PROJECTS = [
-  { id: 'proj1', name: 'Fitzgerald Gardens' },
-  { id: 'proj2', name: 'Ballymakenny View' },
-  { id: 'proj3', name: 'Riverside Manor' },
-];
-
-// Sample metric data
-const METRICS = [
-  {
-    title: 'Total Revenue',
-    value: 1250000,
-    previousValue: 1100000,
-    percentChange: 13.64,
-    isCurrency: true,
-    icon: <DollarSign className="h-4 w-4" />,
-    trendData: [
-      { value: 980000 },
-      { value: 1050000 },
-      { value: 1020000 },
-      { value: 1100000 },
-      { value: 1250000 },
-    ]
-  },
-  {
-    title: 'Expenses',
-    value: 780000,
-    previousValue: 740000,
-    percentChange: 5.41,
-    isCurrency: true,
-    icon: <Wallet className="h-4 w-4" />,
-    trendData: [
-      { value: 680000 },
-      { value: 710000 },
-      { value: 750000 },
-      { value: 740000 },
-      { value: 780000 },
-    ],
-    invertTrend: true
-  },
-  {
-    title: 'Profit Margin',
-    value: 37.6,
-    previousValue: 32.7,
-    percentChange: 14.98,
-    isPercentage: true,
-    suffix: '%',
-    icon: <TrendingUp className="h-4 w-4" />,
-    trendData: [
-      { value: 30.6 },
-      { value: 32.4 },
-      { value: 26.5 },
-      { value: 32.7 },
-      { value: 37.6 },
-    ]
-  },
-  {
-    title: 'Units Sold',
-    value: 42,
-    previousValue: 38,
-    percentChange: 10.53,
-    icon: <Building className="h-4 w-4" />,
-    trendData: [
-      { value: 32 },
-      { value: 35 },
-      { value: 40 },
-      { value: 38 },
-      { value: 42 },
-    ]
-  },
-];
-
-// Sample budget vs actual data
-const BUDGET_VS_ACTUALS = [
-  {
-    title: 'Construction Costs',
-    budgetValue: 650000,
-    actualValue: 680000,
-    category: 'Development',
-    invertComparison: true
-  },
-  {
-    title: 'Land Acquisition',
-    budgetValue: 350000,
-    actualValue: 350000,
-    category: 'Development',
-    invertComparison: true
-  },
-  {
-    title: 'Permits & Fees',
-    budgetValue: 45000,
-    actualValue: 42000,
-    category: 'Development',
-    invertComparison: true
-  },
-  {
-    title: 'Marketing Budget',
-    budgetValue: 80000,
-    actualValue: 75000,
-    category: 'Marketing',
-    invertComparison: true
-  },
-  {
-    title: 'Sales Costs',
-    budgetValue: 120000,
-    actualValue: 115000,
-    category: 'Sales',
-    invertComparison: true
-  },
-  {
-    title: 'Administrative Costs',
-    budgetValue: 90000,
-    actualValue: 98000,
-    category: 'Administrative',
-    invertComparison: true
-  },
-  {
-    title: 'Legal Fees',
-    budgetValue: 35000,
-    actualValue: 38000,
-    category: 'Administrative',
-    invertComparison: true
-  },
-  {
-    title: 'Revenue - Phase 1',
-    budgetValue: 800000,
-    actualValue: 850000,
-    category: 'Revenue'
-  },
-  {
-    title: 'Revenue - Phase 2',
-    budgetValue: 450000,
-    actualValue: 400000,
-    category: 'Revenue'
-  },
-];
-
-// Revenue data for charts
-const REVENUE_DATA = {
-  data: [
-    { month: 'Jan', residential: 180000, commercial: 0, land: 0 },
-    { month: 'Feb', residential: 210000, commercial: 0, land: 0 },
-    { month: 'Mar', residential: 250000, commercial: 0, land: 0 },
-    { month: 'Apr', residential: 280000, commercial: 0, land: 0 },
-    { month: 'May', residential: 330000, commercial: 0, land: 0 },
-  ],
-  dataKeys: [
-    { dataKey: 'residential', name: 'Residential' },
-    { dataKey: 'commercial', name: 'Commercial' },
-    { dataKey: 'land', name: 'Land Sales' },
-  ]
-};
-
-// Cost data for charts
-const COST_DATA = {
-  data: [
-    { month: 'Jan', construction: 120000, marketing: 15000, administration: 30000 },
-    { month: 'Feb', construction: 140000, marketing: 18000, administration: 30000 },
-    { month: 'Mar', construction: 150000, marketing: 20000, administration: 32000 },
-    { month: 'Apr', construction: 160000, marketing: 22000, administration: 32000 },
-    { month: 'May', construction: 180000, marketing: 25000, administration: 35000 },
-  ],
-  dataKeys: [
-    { dataKey: 'construction', name: 'Construction' },
-    { dataKey: 'marketing', name: 'Marketing' },
-    { dataKey: 'administration', name: 'Administration' },
-  ]
-};
-
-// Profit data for charts
-const PROFIT_DATA = {
-  data: [
-    { month: 'Jan', profit: 45000, margin: 12.5 },
-    { month: 'Feb', profit: 52000, margin: 14.0 },
-    { month: 'Mar', profit: 68000, margin: 16.7 },
-    { month: 'Apr', profit: 98000, margin: 19.8 },
-    { month: 'May', profit: 120000, margin: 22.4 },
-  ],
-  dataKeys: [
-    { dataKey: 'profit', name: 'Net Profit' },
-    { dataKey: 'margin', name: 'Profit Margin %' },
-  ],
-  // Projections
-  revenueProjection: {
-    data: [
-      { month: 'Jun', baseline: 350000, optimistic: 380000, pessimistic: 320000 },
-      { month: 'Jul', baseline: 370000, optimistic: 400000, pessimistic: 330000 },
-      { month: 'Aug', baseline: 390000, optimistic: 430000, pessimistic: 340000 },
-      { month: 'Sep', baseline: 410000, optimistic: 460000, pessimistic: 350000 },
-      { month: 'Oct', baseline: 430000, optimistic: 490000, pessimistic: 360000 },
-      { month: 'Nov', baseline: 450000, optimistic: 520000, pessimistic: 370000 },
-    ],
-    dataKeys: [
-      { dataKey: 'baseline', name: 'Baseline' },
-      { dataKey: 'optimistic', name: 'Optimistic' },
-      { dataKey: 'pessimistic', name: 'Pessimistic' },
-    ]
-  },
-  profitProjection: {
-    data: [
-      { month: 'Jun', baseline: 105000, optimistic: 120000, pessimistic: 90000 },
-      { month: 'Jul', baseline: 110000, optimistic: 130000, pessimistic: 95000 },
-      { month: 'Aug', baseline: 115000, optimistic: 140000, pessimistic: 100000 },
-      { month: 'Sep', baseline: 120000, optimistic: 150000, pessimistic: 105000 },
-      { month: 'Oct', baseline: 125000, optimistic: 160000, pessimistic: 110000 },
-      { month: 'Nov', baseline: 130000, optimistic: 170000, pessimistic: 115000 },
-    ],
-    dataKeys: [
-      { dataKey: 'baseline', name: 'Baseline' },
-      { dataKey: 'optimistic', name: 'Optimistic' },
-      { dataKey: 'pessimistic', name: 'Pessimistic' },
-    ]
-  },
-  sensitivityAnalysis: {
-    data: [
-      { variable: '-10%', profitMargin: 14, returnOnInvestment: 8 },
-      { variable: '-5%', profitMargin: 18, returnOnInvestment: 12 },
-      { variable: '0%', profitMargin: 22, returnOnInvestment: 16 },
-      { variable: '+5%', profitMargin: 26, returnOnInvestment: 20 },
-      { variable: '+10%', profitMargin: 30, returnOnInvestment: 24 },
-    ],
-    dataKeys: [
-      { dataKey: 'profitMargin', name: 'Profit Margin %' },
-      { dataKey: 'returnOnInvestment', name: 'ROI %' },
-    ]
-  }
-};
-
-// Cash flow data
-const CASH_FLOW_DATA = {
-  summary: {
-    inflows: 1250000,
-    outflows: 780000,
-    netCashFlow: 470000
-  },
-  data: [
-    { date: 'Jan', inflow: 230000, outflow: 170000, netflow: 60000 },
-    { date: 'Feb', inflow: 250000, outflow: 180000, netflow: 70000 },
-    { date: 'Mar', inflow: 270000, outflow: 190000, netflow: 80000 },
-    { date: 'Apr', inflow: 290000, outflow: 200000, netflow: 90000 },
-    { date: 'May', inflow: 310000, outflow: 210000, netflow: 100000 },
-  ],
-  inflowsByCategory: {
-    data: [
-      { month: 'Jan', sales: 220000, investments: 10000 },
-      { month: 'Feb', sales: 240000, investments: 10000 },
-      { month: 'Mar', sales: 260000, investments: 10000 },
-      { month: 'Apr', sales: 280000, investments: 10000 },
-      { month: 'May', sales: 300000, investments: 10000 },
-    ],
-    dataKeys: [
-      { dataKey: 'sales', name: 'Sales Revenue' },
-      { dataKey: 'investments', name: 'Investment Income' },
-    ]
-  },
-  outflowsByCategory: {
-    data: [
-      { month: 'Jan', construction: 120000, marketing: 20000, administration: 30000 },
-      { month: 'Feb', construction: 125000, marketing: 25000, administration: 30000 },
-      { month: 'Mar', construction: 130000, marketing: 30000, administration: 30000 },
-      { month: 'Apr', construction: 135000, marketing: 35000, administration: 30000 },
-      { month: 'May', construction: 140000, marketing: 40000, administration: 30000 },
-    ],
-    dataKeys: [
-      { dataKey: 'construction', name: 'Construction' },
-      { dataKey: 'marketing', name: 'Marketing' },
-      { dataKey: 'administration', name: 'Administration' },
-    ]
-  },
-  projection: {
-    data: [
-      { month: 'Jun', cashPosition: 600000 },
-      { month: 'Jul', cashPosition: 720000 },
-      { month: 'Aug', cashPosition: 840000 },
-      { month: 'Sep', cashPosition: 960000 },
-      { month: 'Oct', cashPosition: 1080000 },
-      { month: 'Nov', cashPosition: 1200000 },
-      { month: 'Dec', cashPosition: 1320000 },
-    ],
-    dataKeys: [
-      { dataKey: 'cashPosition', name: 'Cash Position' },
-    ]
-  }
-};
-
-/**
- * Developer Financial Dashboard Page
- */
-const FinancialDashboardPage = () => {
-  const [selectedProject, setSelectedProject] = React.useState(DEMO_PROJECTS[0].id);
-  const [isLoading, setIsLoading] = React.useState(false);
-  
-  // Handle project change
-  const handleProjectChange = (projectId: string) => {
-    setIsLoading(true);
-    setSelectedProject(projectId);
+  // Enhanced financial calculations from enterprise data
+  const financialMetrics = {
+    totalRevenue: totalRevenue || 0,
+    projectedRevenue: (totalUnits || 96) * (averageUnitPrice || 385000),
+    completedRevenue: (soldUnits || 23) * (averageUnitPrice || 385000),
+    pendingRevenue: (reservedUnits || 15) * (averageUnitPrice || 385000),
+    remainingRevenue: ((totalUnits || 96) - (soldUnits || 23) - (reservedUnits || 15)) * (averageUnitPrice || 385000),
     
-    // Simulate loading
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 800);
+    // Cost calculations
+    totalCosts: invoices.reduce((sum, inv) => sum + inv.amount, 0),
+    pendingInvoices: invoices.filter(inv => inv.status === 'pending').reduce((sum, inv) => sum + inv.amount, 0),
+    paidInvoices: invoices.filter(inv => inv.status === 'paid').reduce((sum, inv) => sum + inv.amount, 0),
+    
+    // Profit calculations
+    grossProfit: (totalRevenue || 0) - invoices.reduce((sum, inv) => sum + inv.amount, 0),
+    profitMargin: (totalRevenue || 0) > 0 ? (((totalRevenue || 0) - invoices.reduce((sum, inv) => sum + inv.amount, 0)) / (totalRevenue || 0)) * 100 : 0,
+    
+    // Cash flow
+    cashInflow: (soldUnits || 23) * (averageUnitPrice || 385000) * 0.3, // 30% deposits received
+    cashOutflow: invoices.filter(inv => inv.status === 'paid').reduce((sum, inv) => sum + inv.amount, 0),
+    netCashFlow: ((soldUnits || 23) * (averageUnitPrice || 385000) * 0.3) - invoices.filter(inv => inv.status === 'paid').reduce((sum, inv) => sum + inv.amount, 0)
   };
-  
-  // Get project name
-  const projectName = DEMO_PROJECTS.find(p => p.id === selectedProject)?.name || '';
-  
-  return (
-    <div className="container mx-auto py-6 space-y-8">
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <h1 className="text-3xl font-bold">Developer Dashboard</h1>
-        
-        <div className="flex items-center gap-2">
-          <Select value={selectedProject} onValueChange={handleProjectChange}>
-            <SelectTrigger className="w-[240px]">
-              <Building className="h-4 w-4 mr-2" />
-              <SelectValue placeholder="Select project" />
-            </SelectTrigger>
-            <SelectContent>
-              {DEMO_PROJECTS.map((project) => (
-                <SelectItem key={project.id} value={project.id}>
-                  {project.name}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-          
-          <Button variant="outline">
-            <PieChart className="h-4 w-4 mr-2" />
-            Reports
-          </Button>
+
+  const formatCurrency = (amount: number) => {
+    return new Intl.NumberFormat('en-IE', {
+      style: 'currency',
+      currency: 'EUR',
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0
+    }).format(amount);
+  };
+
+  const formatCompactCurrency = (amount: number) => {
+    if (amount >= 1000000) {
+      return `€${(amount / 1000000).toFixed(1)}M`;
+    } else if (amount >= 1000) {
+      return `€${(amount / 1000).toFixed(0)}K`;
+    }
+    return formatCurrency(amount);
+  };
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading financial data...</p>
         </div>
       </div>
-      
-      <FinancialDashboard
-        title="Financial Dashboard"
-        description="Financial overview and analysis"
-        developmentName={projectName}
-        metrics={METRICS}
-        budgetVsActuals={BUDGET_VS_ACTUALS}
-        revenueData={REVENUE_DATA}
-        costData={COST_DATA}
-        profitData={PROFIT_DATA}
-        cashFlowData={CASH_FLOW_DATA}
-        isLoading={isLoading}
-      />
+    );
+  }
+
+  return (
+    <div className="space-y-6">
+      {/* Header */}
+      <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
+        <div>
+          <h1 className="text-2xl font-bold text-gray-900">Financial Management</h1>
+          <p className="text-gray-600 mt-1">
+            Real-time financial analytics and cash flow management
+          </p>
+        </div>
+        <div className="flex items-center gap-3">
+          <select
+            value={selectedProject}
+            onChange={(e) => setSelectedProject(e.target.value)}
+            className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          >
+            <option value="fitzgerald-gardens">Fitzgerald Gardens</option>
+            <option value="ellwood">Ellwood</option>
+            <option value="ballymakenny-view">Ballymakenny View</option>
+          </select>
+          <select
+            value={selectedTimeframe}
+            onChange={(e) => setSelectedTimeframe(e.target.value)}
+            className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          >
+            <option value="monthly">Monthly</option>
+            <option value="quarterly">Quarterly</option>
+            <option value="yearly">Yearly</option>
+          </select>
+          <button className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors flex items-center gap-2">
+            <RefreshCw size={16} />
+            Refresh
+          </button>
+          <button className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors flex items-center gap-2">
+            <Download size={16} />
+            Export
+          </button>
+        </div>
+      </div>
+
+      {/* Real-time Data Indicator */}
+      {lastUpdated && (
+        <div className="bg-gradient-to-r from-green-50 to-blue-50 rounded-lg border border-green-200 p-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
+              <span className="text-sm font-medium text-gray-900">Live Financial Data</span>
+              <span className="text-xs text-gray-500">
+                Last updated: {lastUpdated.toLocaleTimeString()}
+              </span>
+            </div>
+            <div className="flex items-center gap-2 text-sm text-green-600">
+              <Zap size={16} />
+              Real-time Sync
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Key Financial Metrics */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="bg-white rounded-lg border shadow-sm p-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm text-gray-600">Total Revenue</p>
+              <p className="text-2xl font-bold text-gray-900">{formatCompactCurrency(financialMetrics.totalRevenue)}</p>
+              <div className="flex items-center gap-1 mt-1">
+                <ArrowUpRight className="h-4 w-4 text-green-600" />
+                <span className="text-sm font-medium text-green-600">+18.5%</span>
+                <span className="text-sm text-gray-500">vs target</span>
+              </div>
+            </div>
+            <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+              <DollarSign size={24} className="text-green-600" />
+            </div>
+          </div>
+        </div>
+
+        <div className="bg-white rounded-lg border shadow-sm p-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm text-gray-600">Gross Profit</p>
+              <p className="text-2xl font-bold text-gray-900">{formatCompactCurrency(financialMetrics.grossProfit)}</p>
+              <div className="flex items-center gap-1 mt-1">
+                <ArrowUpRight className="h-4 w-4 text-green-600" />
+                <span className="text-sm font-medium text-green-600">{financialMetrics.profitMargin.toFixed(1)}%</span>
+                <span className="text-sm text-gray-500">margin</span>
+              </div>
+            </div>
+            <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+              <TrendingUp size={24} className="text-blue-600" />
+            </div>
+          </div>
+        </div>
+
+        <div className="bg-white rounded-lg border shadow-sm p-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm text-gray-600">Net Cash Flow</p>
+              <p className={`text-2xl font-bold ${financialMetrics.netCashFlow >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                {formatCompactCurrency(Math.abs(financialMetrics.netCashFlow))}
+              </p>
+              <div className="flex items-center gap-1 mt-1">
+                {financialMetrics.netCashFlow >= 0 ? (
+                  <ArrowUpRight className="h-4 w-4 text-green-600" />
+                ) : (
+                  <ArrowDownRight className="h-4 w-4 text-red-600" />
+                )}
+                <span className={`text-sm font-medium ${financialMetrics.netCashFlow >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                  {financialMetrics.netCashFlow >= 0 ? 'Positive' : 'Negative'}
+                </span>
+                <span className="text-sm text-gray-500">flow</span>
+              </div>
+            </div>
+            <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+              <Wallet size={24} className="text-purple-600" />
+            </div>
+          </div>
+        </div>
+
+        <div className="bg-white rounded-lg border shadow-sm p-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm text-gray-600">Pending Invoices</p>
+              <p className="text-2xl font-bold text-orange-600">{formatCompactCurrency(financialMetrics.pendingInvoices)}</p>
+              <div className="flex items-center gap-1 mt-1">
+                <Clock className="h-4 w-4 text-orange-600" />
+                <span className="text-sm font-medium text-orange-600">
+                  {invoices.filter(inv => inv.status === 'pending').length}
+                </span>
+                <span className="text-sm text-gray-500">invoices</span>
+              </div>
+            </div>
+            <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center">
+              <Receipt size={24} className="text-orange-600" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Revenue Breakdown */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="bg-white rounded-lg border shadow-sm p-6">
+          <h3 className="text-lg font-semibold text-gray-900 mb-6">Revenue Breakdown</h3>
+          <div className="space-y-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="w-4 h-4 bg-green-500 rounded"></div>
+                <span className="text-sm text-gray-700">Completed Sales</span>
+              </div>
+              <div className="text-right">
+                <p className="text-sm font-medium text-gray-900">{formatCurrency(financialMetrics.completedRevenue)}</p>
+                <p className="text-xs text-gray-500">{soldUnits} units</p>
+              </div>
+            </div>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="w-4 h-4 bg-blue-500 rounded"></div>
+                <span className="text-sm text-gray-700">Reserved Units</span>
+              </div>
+              <div className="text-right">
+                <p className="text-sm font-medium text-gray-900">{formatCurrency(financialMetrics.pendingRevenue)}</p>
+                <p className="text-xs text-gray-500">{reservedUnits} units</p>
+              </div>
+            </div>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="w-4 h-4 bg-gray-300 rounded"></div>
+                <span className="text-sm text-gray-700">Remaining Units</span>
+              </div>
+              <div className="text-right">
+                <p className="text-sm font-medium text-gray-900">{formatCurrency(financialMetrics.remainingRevenue)}</p>
+                <p className="text-xs text-gray-500">{(totalUnits || 96) - (soldUnits || 23) - (reservedUnits || 15)} units</p>
+              </div>
+            </div>
+          </div>
+          
+          <div className="mt-6">
+            <div className="flex justify-between text-sm text-gray-600 mb-2">
+              <span>Revenue Progress</span>
+              <span>{((financialMetrics.completedRevenue + financialMetrics.pendingRevenue) / financialMetrics.projectedRevenue * 100).toFixed(1)}%</span>
+            </div>
+            <div className="w-full bg-gray-200 rounded-full h-3">
+              <div className="flex h-3 rounded-full overflow-hidden">
+                <div 
+                  className="bg-green-500" 
+                  style={{ width: `${(financialMetrics.completedRevenue / financialMetrics.projectedRevenue) * 100}%` }}
+                />
+                <div 
+                  className="bg-blue-500" 
+                  style={{ width: `${(financialMetrics.pendingRevenue / financialMetrics.projectedRevenue) * 100}%` }}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="bg-white rounded-lg border shadow-sm p-6">
+          <h3 className="text-lg font-semibold text-gray-900 mb-6">Recent Invoices</h3>
+          <div className="space-y-4">
+            {invoices.slice(0, 5).map((invoice) => (
+              <div key={invoice.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                <div>
+                  <p className="text-sm font-medium text-gray-900">{invoice.provider}</p>
+                  <p className="text-xs text-gray-500">{invoice.type}</p>
+                  <p className="text-xs text-gray-500">Due: {new Date(invoice.dueDate).toLocaleDateString()}</p>
+                </div>
+                <div className="text-right">
+                  <p className="text-sm font-medium text-gray-900">{formatCurrency(invoice.amount)}</p>
+                  <span className={`inline-flex px-2 py-1 text-xs font-medium rounded-full ${
+                    invoice.status === 'paid' ? 'bg-green-100 text-green-800' :
+                    invoice.status === 'approved' ? 'bg-blue-100 text-blue-800' :
+                    'bg-yellow-100 text-yellow-800'
+                  }`}>
+                    {invoice.status.charAt(0).toUpperCase() + invoice.status.slice(1)}
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
+          
+          {invoices.length > 5 && (
+            <div className="mt-4 text-center">
+              <button className="text-sm text-blue-600 hover:text-blue-700 font-medium">
+                View All Invoices ({invoices.length})
+              </button>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Cash Flow Summary */}
+      <div className="bg-white rounded-lg border shadow-sm p-6">
+        <h3 className="text-lg font-semibold text-gray-900 mb-6">Cash Flow Summary</h3>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="text-center">
+            <div className="flex items-center justify-center w-16 h-16 bg-green-100 rounded-full mx-auto mb-3">
+              <ArrowUpRight className="h-8 w-8 text-green-600" />
+            </div>
+            <p className="text-2xl font-bold text-green-600">{formatCompactCurrency(financialMetrics.cashInflow)}</p>
+            <p className="text-sm text-gray-600">Cash Inflow</p>
+            <p className="text-xs text-gray-500 mt-1">From unit deposits</p>
+          </div>
+          
+          <div className="text-center">
+            <div className="flex items-center justify-center w-16 h-16 bg-red-100 rounded-full mx-auto mb-3">
+              <ArrowDownRight className="h-8 w-8 text-red-600" />
+            </div>
+            <p className="text-2xl font-bold text-red-600">{formatCompactCurrency(financialMetrics.cashOutflow)}</p>
+            <p className="text-sm text-gray-600">Cash Outflow</p>
+            <p className="text-xs text-gray-500 mt-1">Paid invoices</p>
+          </div>
+          
+          <div className="text-center">
+            <div className={`flex items-center justify-center w-16 h-16 rounded-full mx-auto mb-3 ${
+              financialMetrics.netCashFlow >= 0 ? 'bg-blue-100' : 'bg-orange-100'
+            }`}>
+              <Wallet className={`h-8 w-8 ${financialMetrics.netCashFlow >= 0 ? 'text-blue-600' : 'text-orange-600'}`} />
+            </div>
+            <p className={`text-2xl font-bold ${financialMetrics.netCashFlow >= 0 ? 'text-blue-600' : 'text-orange-600'}`}>
+              {formatCompactCurrency(Math.abs(financialMetrics.netCashFlow))}
+            </p>
+            <p className="text-sm text-gray-600">Net Cash Flow</p>
+            <p className={`text-xs mt-1 ${financialMetrics.netCashFlow >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+              {financialMetrics.netCashFlow >= 0 ? 'Positive' : 'Negative'} position
+            </p>
+          </div>
+        </div>
+      </div>
     </div>
   );
-};
-
-export default FinancialDashboardPage;
+}

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { CreditCard, Building, Plus, ChevronRight, Check, AlertCircle, Lock, Calendar, User, Shield } from 'lucide-react';
+import { CreditCard, Building, Plus, ChevronRight, Check, AlertCircle, Lock, Calendar, User, Shield, Clock } from 'lucide-react';
 import { format } from 'date-fns';
 
 interface PaymentMethod {

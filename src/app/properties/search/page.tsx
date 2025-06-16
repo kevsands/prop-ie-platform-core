@@ -29,8 +29,11 @@ import {
   ArrowUp,
   Clock,
   Zap,
-  Award
+  Award,
+  Euro,
+  Calculator
 } from 'lucide-react';
+import { HelpToBuyCalculator } from '@/components/calculators/HelpToBuyCalculator';
 
 // Mock property data with AI scoring
 const mockProperties = [
@@ -60,7 +63,9 @@ const mockProperties = [
       { date: '2024-01', price: 445000 },
       { date: '2024-02', price: 435000 },
       { date: '2024-03', price: 425000 }
-    ]
+    ],
+    htbEligible: true,
+    htbAmount: 30000
   },
   {
     id: 2,
@@ -88,7 +93,9 @@ const mockProperties = [
       { date: '2024-01', price: 310000 },
       { date: '2024-02', price: 300000 },
       { date: '2024-03', price: 295000 }
-    ]
+    ],
+    htbEligible: true,
+    htbAmount: 29500
   },
   {
     id: 3,
@@ -116,7 +123,9 @@ const mockProperties = [
       { date: '2024-01', price: 595000 },
       { date: '2024-02', price: 585000 },
       { date: '2024-03', price: 575000 }
-    ]
+    ],
+    htbEligible: false,
+    htbAmount: 0
   },
   {
     id: 4,
@@ -144,7 +153,9 @@ const mockProperties = [
       { date: '2024-01', price: 285000 },
       { date: '2024-02', price: 280000 },
       { date: '2024-03', price: 275000 }
-    ]
+    ],
+    htbEligible: true,
+    htbAmount: 27500
   }
 ];
 
@@ -183,6 +194,8 @@ export default function PropertySearchPage() {
   const [showAIInsights, setShowAIInsights] = useState(true);
   const [filteredProperties, setFilteredProperties] = useState(mockProperties);
   const [activeProperty, setActiveProperty] = useState<number | null>(null);
+  const [showHTBCalculator, setShowHTBCalculator] = useState(false);
+  const [selectedPropertyForHTB, setSelectedPropertyForHTB] = useState<typeof mockProperties[0] | null>(null);
 
   // Filter properties based on criteria
   useEffect(() => {
@@ -290,6 +303,19 @@ export default function PropertySearchPage() {
             <button className="p-2 bg-white/90 backdrop-blur-sm rounded-full hover:bg-white transition-colors">
               <Share2 className="w-5 h-5 text-gray-600" />
             </button>
+            {property.htbEligible && (
+              <button 
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setSelectedPropertyForHTB(property);
+                  setShowHTBCalculator(true);
+                }}
+                className="p-2 bg-green-600/90 backdrop-blur-sm rounded-full hover:bg-green-700 transition-colors"
+                title="Calculate Help-to-Buy"
+              >
+                <Calculator className="w-5 h-5 text-white" />
+              </button>
+            )}
           </div>
           
           {/* Completion Badge */}
@@ -360,6 +386,33 @@ export default function PropertySearchPage() {
             </div>
           )}
           
+          {/* Help-to-Buy Benefit */}
+          {property.htbEligible && (
+            <div className="mb-4 p-3 bg-green-50 rounded-lg border border-green-200">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-medium text-green-900 flex items-center gap-2">
+                    <Euro className="w-4 h-4" />
+                    Help-to-Buy Eligible
+                  </p>
+                  <p className="text-lg font-bold text-green-700">
+                    €{property.htbAmount.toLocaleString()} potential refund
+                  </p>
+                </div>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setSelectedPropertyForHTB(property);
+                    setShowHTBCalculator(true);
+                  }}
+                  className="px-3 py-1 bg-green-600 text-white rounded-md text-sm hover:bg-green-700 transition-colors"
+                >
+                  Calculate
+                </button>
+              </div>
+            </div>
+          )}
+
           {/* Incentives */}
           {property.incentives.length > 0 && (
             <div className="mb-4">
@@ -675,6 +728,61 @@ export default function PropertySearchPage() {
           <Brain className="w-6 h-6" />
         </button>
       </div>
+
+      {/* Help-to-Buy Calculator Modal */}
+      {showHTBCalculator && selectedPropertyForHTB && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-xl shadow-2xl max-w-6xl w-full max-h-[90vh] overflow-y-auto">
+            <div className="p-6 border-b border-gray-200">
+              <div className="flex items-center justify-between">
+                <div>
+                  <h2 className="text-2xl font-bold text-gray-900">
+                    Help-to-Buy Calculator
+                  </h2>
+                  <p className="text-gray-600">
+                    Calculate your HTB refund for {selectedPropertyForHTB.title}
+                  </p>
+                </div>
+                <button
+                  onClick={() => {
+                    setShowHTBCalculator(false);
+                    setSelectedPropertyForHTB(null);
+                  }}
+                  className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                >
+                  <X className="w-6 h-6 text-gray-500" />
+                </button>
+              </div>
+            </div>
+            
+            <div className="p-6">
+              <div className="mb-6 p-4 bg-blue-50 rounded-lg">
+                <h3 className="font-semibold text-blue-900 mb-2">Property Details</h3>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <span className="text-sm text-gray-600">Property:</span>
+                    <p className="font-medium">{selectedPropertyForHTB.title}</p>
+                  </div>
+                  <div>
+                    <span className="text-sm text-gray-600">Price:</span>
+                    <p className="font-medium">{selectedPropertyForHTB.priceDisplay}</p>
+                  </div>
+                  <div>
+                    <span className="text-sm text-gray-600">Development:</span>
+                    <p className="font-medium">{selectedPropertyForHTB.development}</p>
+                  </div>
+                  <div>
+                    <span className="text-sm text-gray-600">Location:</span>
+                    <p className="font-medium">{selectedPropertyForHTB.location}</p>
+                  </div>
+                </div>
+              </div>
+              
+              <HelpToBuyCalculator />
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

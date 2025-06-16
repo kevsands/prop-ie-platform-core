@@ -2,8 +2,46 @@
 
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
-import { getCurrentUser, signIn, signOut, signUp } from 'aws-amplify/auth';
+// TODO: Remove Amplify dependency - Replace with alternative authentication implementation
+// import { getCurrentUser, signIn, signOut, signUp } from 'aws-amplify/auth';
 import { z } from 'zod';
+
+// Alternative authentication service - replace with your preferred auth solution
+const authService = {
+  async signIn(credentials: { username: string, password: string }) {
+    console.warn('Mock authentication - replace with actual auth service');
+    if (credentials.username && credentials.password) {
+      localStorage.setItem('mockUser', JSON.stringify({
+        userId: 'mock-user-id',
+        username: credentials.username,
+        loginTime: Date.now()
+      }));
+      return { isSignedIn: true, nextStep: { signInStep: 'DONE' } };
+    }
+    throw new Error('Authentication failed');
+  },
+
+  async signOut() {
+    console.warn('Mock sign out - replace with actual auth service');
+    localStorage.removeItem('mockUser');
+    return Promise.resolve();
+  },
+
+  async getCurrentUser() {
+    console.warn('Mock getCurrentUser - replace with actual auth service');
+    const mockUser = localStorage.getItem('mockUser');
+    if (mockUser) {
+      const userData = JSON.parse(mockUser);
+      return { username: userData.username, userId: userData.userId };
+    }
+    throw new Error('No authenticated user');
+  },
+
+  async signUp(data: any) {
+    console.warn('Mock signUp - replace with actual auth service');
+    return { userId: 'mock-new-user-id' };
+  }
+};
 
 // Enhanced user schema with comprehensive role and permission management
 const UserSchema = z.object({
@@ -247,7 +285,7 @@ export function EnhancedAuthProvider({ children }: { children: React.ReactNode }
       setAuthState(prev => ({ ...prev, isLoading: true, error: null }));
       
       // Perform sign in
-      const result = await signIn({ username: email, password });
+      const result = await authService.signIn({ username: email, password });
       
       // Check if MFA is required
       if (result.isSignedIn === false && result.nextStep?.signInStep === 'CONFIRM_SIGN_IN_WITH_SMS_MFA_CODE') {
@@ -258,7 +296,7 @@ export function EnhancedAuthProvider({ children }: { children: React.ReactNode }
       }
       
       // Get user data
-      const cognitoUser = await getCurrentUser();
+      const cognitoUser = await authService.getCurrentUser();
       
       // Fetch enhanced user profile
       const userProfile = await fetchUserProfile(cognitoUser.username);
@@ -305,7 +343,7 @@ export function EnhancedAuthProvider({ children }: { children: React.ReactNode }
       }
       
       // Create account
-      const result = await signUp({
+      const result = await authService.signUp({
         username: userData.email,
         password: userData.password,
         options: {
@@ -345,7 +383,7 @@ export function EnhancedAuthProvider({ children }: { children: React.ReactNode }
 
   const handleSignOut = useCallback(async () => {
     try {
-      await signOut();
+      await authService.signOut();
       setAuthState({
         user: null,
         isAuthenticated: false,
@@ -421,7 +459,7 @@ export function EnhancedAuthProvider({ children }: { children: React.ReactNode }
   useEffect(() => {
     const initializeAuth = async () => {
       try {
-        const cognitoUser = await getCurrentUser();
+        const cognitoUser = await authService.getCurrentUser();
         const userProfile = await fetchUserProfile(cognitoUser.username);
         
         setAuthState({
@@ -519,8 +557,50 @@ export function useEnhancedAuth() {
 
 // Helper functions
 async function fetchUserProfile(userId: string): Promise<User> {
-  const response = await fetch(`/api/users/${userId}/profile`);
-  return response.json();
+  // TODO: Replace with actual user profile API call
+  console.warn('Mock fetchUserProfile - replace with actual API call');
+  
+  // Return mock user profile for development
+  return {
+    id: userId,
+    email: 'mock@example.com',
+    firstName: 'Mock',
+    lastName: 'User',
+    phoneNumber: '+1234567890',
+    role: 'BUYER',
+    permissions: ['read:properties', 'write:profile'],
+    metadata: {
+      lastLogin: new Date().toISOString(),
+      loginCount: 1,
+      ipAddress: '127.0.0.1',
+      deviceFingerprint: 'mock-device',
+      riskScore: 10,
+    },
+    security: {
+      mfaEnabled: false,
+      biometricEnabled: false,
+      lastPasswordChange: new Date().toISOString(),
+      sessionTimeout: 30,
+      trustedDevices: [],
+    },
+    compliance: {
+      kycStatus: 'PENDING',
+      amlStatus: 'CLEAR',
+      documentsVerified: false,
+      pepStatus: false,
+      sanctionsCheck: true,
+    },
+    preferences: {
+      language: 'en',
+      timezone: 'UTC',
+      notifications: {
+        email: true,
+        sms: false,
+        push: true,
+      },
+      theme: 'light',
+    },
+  };
 }
 
 async function initializeUserProfile(userData: any): Promise<void> {

@@ -35,6 +35,7 @@ export const viewport = {
 
 // Define application metadata with enhanced SEO and PWA support
 export const metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'),
   title: {
     template: '%s | Prop.ie',
     default: 'Prop.ie - Interactive Property Platform',

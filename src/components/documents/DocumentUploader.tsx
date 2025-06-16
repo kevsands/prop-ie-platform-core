@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useRef, useEffect } from 'react';
+import * as Sentry from '@sentry/nextjs';
 import { 
   Document as DocumentType, 
   DocumentStatus, 
@@ -59,8 +60,21 @@ const DocumentUploader: React.FC<DocumentUploaderProps> = ({
   const [dragActive, setDragActive] = useState<boolean>(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // Populate form with existing document data if in versioning mode
+  // Initialize Sentry monitoring and populate form data
   useEffect(() => {
+    Sentry.addBreadcrumb({
+      message: 'Document Uploader component initialized',
+      level: 'info',
+      category: 'ui.component'
+    });
+    
+    Sentry.setContext('document_uploader', {
+      isVersionUpload,
+      relatedEntityType,
+      relatedEntityId,
+      existingDocumentId: existingDocument?.id
+    });
+
     if (existingDocument && isVersionUpload) {
       setName(existingDocument.name);
       setDescription(existingDocument.description || '');
@@ -69,8 +83,19 @@ const DocumentUploader: React.FC<DocumentUploaderProps> = ({
       setTags(existingDocument.tags?.join(', ') || '');
       setExpiryDate(existingDocument.expiryDate ? new Date(existingDocument.expiryDate) : undefined);
       setSignatureRequired(existingDocument.signatureRequired || false);
+      
+      Sentry.addBreadcrumb({
+        message: 'Document uploader initialized for version upload',
+        level: 'info',
+        category: 'document.version',
+        data: { 
+          documentId: existingDocument.id,
+          documentName: existingDocument.name,
+          currentVersion: existingDocument.version || 1
+        }
+      });
     }
-  }, [existingDocument, isVersionUpload]);
+  }, [existingDocument, isVersionUpload, relatedEntityType, relatedEntityId]);
 
   // Filter document types by selected category
   const availableDocTypes = useMemo(() => {
@@ -85,21 +110,37 @@ const DocumentUploader: React.FC<DocumentUploaderProps> = ({
     }
   }, [category, type, availableDocTypes]);
 
-  // Handle file selection
+  // Handle file selection with monitoring
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      const selectedFile = e.target.files[0];
-      setFile(selectedFile);
-      
-      // Auto-populate name if empty and not in versioning mode
-      if (!name && !isVersionUpload) {
-        setName(selectedFile.name);
-      }
+    try {
+      if (e.target.files && e.target.files[0]) {
+        const selectedFile = e.target.files[0];
+        setFile(selectedFile);
+        
+        Sentry.addBreadcrumb({
+          message: 'Document file selected for upload',
+          level: 'info',
+          category: 'file.select',
+          data: { 
+            fileName: selectedFile.name,
+            fileSize: selectedFile.size,
+            fileType: selectedFile.type,
+            isVersionUpload
+          }
+        });
+        
+        // Auto-populate name if empty and not in versioning mode
+        if (!name && !isVersionUpload) {
+          setName(selectedFile.name);
+        }
 
-      // Clear file validation error if it exists
-      if (validationErrors.file) {
-        setValidationErrors(prev => ({...prev, file: ''}));
+        // Clear file validation error if it exists
+        if (validationErrors.file) {
+          setValidationErrors(prev => ({...prev, file: ''}));
+        }
       }
+    } catch (error) {
+      Sentry.captureException(error);
     }
   };
 
@@ -165,68 +206,124 @@ const DocumentUploader: React.FC<DocumentUploaderProps> = ({
     return Object.keys(errors).length === 0;
   };
 
-  // Handle form submission
+  // Handle form submission with comprehensive monitoring
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!validateForm()) {
-      return;
-    }
+    const uploadStartTime = Date.now();
     
-    // Prepare metadata
-    const metadata: Partial<DocumentType> = {
-      name: name.trim(),
-      description: description.trim(),
-      type,
-      status: DocumentStatus.DRAFT,
-      category,
-      tags: tags ? tags.split(',').map(tag => tag.trim()).filter(Boolean) : [],
-      expiryDate,
-      signatureRequired
-    };
-    
-    // Add related entity if provided
-    if (relatedEntityType && relatedEntityId) {
-      metadata.relatedTo = {
-        type: relatedEntityType as any,
-        id: relatedEntityId,
-        name: relatedEntityName
+    try {
+      Sentry.addBreadcrumb({
+        message: 'Document upload form submitted',
+        level: 'info',
+        category: 'form.submit',
+        data: { 
+          documentName: name,
+          category,
+          type,
+          isVersionUpload,
+          fileSize: file?.size,
+          relatedEntityType
+        }
+      });
+
+      if (!validateForm()) {
+        Sentry.addBreadcrumb({
+          message: 'Document upload form validation failed',
+          level: 'warning',
+          category: 'validation.error',
+          data: { errors: Object.keys(validationErrors) }
+        });
+        return;
+      }
+      
+      // Prepare metadata
+      const metadata: Partial<DocumentType> = {
+        name: name.trim(),
+        description: description.trim(),
+        type,
+        status: DocumentStatus.DRAFT,
+        category,
+        tags: tags ? tags.split(',').map(tag => tag.trim()).filter(Boolean) : [],
+        expiryDate,
+        signatureRequired
       };
-    }
-    
-    // Add versioning data if this is a version upload
-    if (isVersionUpload && existingDocument) {
-      metadata.version = (existingDocument.version || 0) + 1;
-      metadata.previousVersions = [...(existingDocument.previousVersions || []), existingDocument.id];
+      
+      // Add related entity if provided
+      if (relatedEntityType && relatedEntityId) {
+        metadata.relatedTo = {
+          type: relatedEntityType as any,
+          id: relatedEntityId,
+          name: relatedEntityName
+        };
+      }
+      
+      // Add versioning data if this is a version upload
+      if (isVersionUpload && existingDocument) {
+        metadata.version = (existingDocument.version || 0) + 1;
+        metadata.previousVersions = [...(existingDocument.previousVersions || []), existingDocument.id];
+        metadata.metadata = {
+          ...metadata.metadata,
+          versionNotes: versionNotes.trim()
+        };
+      }
+      
+      // Add permissions
+      metadata.permissions = {
+        canView: [],
+        canEdit: [],
+        canDelete: [],
+        canShare: [],
+        canSign: [],
+        isPublic
+      };
+
+      // Add sensitivity level to metadata
       metadata.metadata = {
         ...metadata.metadata,
-        versionNotes: versionNotes.trim()
+        sensitivity
       };
-    }
-    
-    // Add permissions
-    metadata.permissions = {
-      canView: [],
-      canEdit: [],
-      canDelete: [],
-      canShare: [],
-      canSign: [],
-      isPublic
-    };
 
-    // Add sensitivity level to metadata
-    metadata.metadata = {
-      ...metadata.metadata,
-      sensitivity
-    };
-
-    try {
       if (!file) {
         throw new Error('No file selected');
       }
+      
       await onUpload(file, metadata);
+      
+      const uploadDuration = Date.now() - uploadStartTime;
+      
+      Sentry.addBreadcrumb({
+        message: 'Document upload completed successfully',
+        level: 'info',
+        category: 'upload.success',
+        data: { 
+          documentName: name,
+          uploadDuration,
+          fileSize: file.size,
+          isVersionUpload
+        }
+      });
+      
       resetForm();
+      
     } catch (error) {
+      const uploadDuration = Date.now() - uploadStartTime;
+      
+      Sentry.captureException(error, {
+        tags: {
+          operation: 'document_upload',
+          documentType: type,
+          category: category
+        },
+        extra: {
+          documentName: name,
+          uploadDuration,
+          fileSize: file?.size,
+          isVersionUpload,
+          relatedEntityType
+        }
+      });
+      
       console.error('Error uploading document:', error);
       setValidationErrors(prev => ({
         ...prev,

@@ -269,9 +269,44 @@ export default function FirstTimeBuyerWelcomePage() {
           </div>
         </div>
 
+        {/* Journey Progress - Moved up */}
+        <div className="bg-white rounded-xl shadow-sm p-4 md:p-6 mb-6">
+          <h2 className="text-lg md:text-xl font-bold mb-4">Your Journey</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            {journeyMilestones.map((milestone, index) => (
+              <div key={index} className="flex items-center gap-3 p-3 border border-gray-200 rounded-lg">
+                <div className={`rounded-full p-1.5 flex-shrink-0 ${
+                  milestone.status === 'completed' ? 'bg-green-100' : 'bg-gray-100'
+                }`}>
+                  {milestone.icon}
+                </div>
+                <div className="flex-1 min-w-0">
+                  <h3 className={`font-semibold text-sm ${
+                    milestone.status === 'completed' ? 'text-green-800' : 'text-gray-600'
+                  }`}>
+                    {milestone.title}
+                  </h3>
+                  {milestone.status === 'pending' && milestone.action && (
+                    <button
+                      onClick={() => router.push(milestone.action)}
+                      className="text-xs text-blue-600 hover:underline mt-0.5"
+                    >
+                      Complete now →
+                    </button>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="mt-4 p-3 bg-blue-50 rounded-lg text-center">
+            <div className="text-xl font-bold text-blue-900 mb-0.5">25% Complete</div>
+            <div className="text-xs text-gray-600">Keep going! You're making great progress</div>
+          </div>
+        </div>
+
         {/* Main Content Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Left Column - Next Steps & Journey Progress */}
+          {/* Left Column - Next Steps & Profile */}
           <div className="lg:col-span-2 space-y-6">
             {/* Next Steps */}
             <div className="bg-white rounded-xl shadow-sm p-4 md:p-6">
@@ -386,50 +421,8 @@ export default function FirstTimeBuyerWelcomePage() {
             </div>
           </div>
 
-          {/* Right Column - Journey & Resources */}
+          {/* Right Column - Resources */}
           <div className="space-y-6">
-            {/* Journey Progress */}
-            <div className="bg-white rounded-xl shadow-sm p-4 md:p-6">
-              <h2 className="text-lg md:text-xl font-bold mb-4">Your Journey</h2>
-              <div className="relative">
-                <div className="absolute left-0 top-0 bottom-0 w-0.5 bg-gray-200"></div>
-                <div className="space-y-4">
-                  {journeyMilestones.map((milestone, index) => (
-                    <div key={index} className="flex items-start gap-3 relative">
-                      <div className={`absolute left-0 w-0.5 h-full ${
-                        milestone.status === 'completed' ? 'bg-green-600' : 'bg-gray-200'
-                      }`}></div>
-                      <div className={`relative z-10 rounded-full p-1.5 ${
-                        milestone.status === 'completed' ? 'bg-green-100' : 'bg-gray-100'
-                      }`}>
-                        {milestone.icon}
-                      </div>
-                      <div className="flex-1">
-                        <h3 className={`font-semibold text-sm ${
-                          milestone.status === 'completed' ? 'text-green-800' : 'text-gray-600'
-                        }`}>
-                          {milestone.title}
-                        </h3>
-                        {milestone.status === 'pending' && milestone.action && (
-                          <button
-                            onClick={() => router.push(milestone.action)}
-                            className="text-xs text-blue-600 hover:underline mt-0.5"
-                          >
-                            Complete now →
-                          </button>
-                        )}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div className="mt-4 p-3 bg-blue-50 rounded-lg">
-                <div className="text-xl font-bold text-blue-900 mb-0.5">25% Complete</div>
-                <div className="text-xs text-gray-600">Keep going! You\'re making great progress</div>
-              </div>
-            </div>
-
             {/* Essential Resources */}
             <div className="bg-white rounded-xl shadow-sm p-4 md:p-6">
               <h2 className="text-lg md:text-xl font-bold mb-4">Essential Resources</h2>

@@ -64,6 +64,7 @@ import {
   Lightbulb,
   Brain,
   Workflow,
+  Video,
   LucideIcon
 } from 'lucide-react';
 

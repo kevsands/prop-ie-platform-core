@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import * as Sentry from '@sentry/nextjs';
 import { 
   Search, 
   Sliders, 
@@ -72,10 +73,23 @@ export default function PropertySearch({
   const [showFavoritesOnly, setShowFavoritesOnly] = useState(false);
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   
-  // Mock data for demonstration
+  // Mock data for demonstration with Sentry monitoring
   useEffect(() => {
-    // Simulate API fetch
+    // Initialize component monitoring
+    Sentry.addBreadcrumb({
+      message: 'Property Search component initialized',
+      level: 'info',
+      category: 'ui.component'
+    });
+    
+    Sentry.setContext('property_search', {
+      initialBudget: initialBudget?.totalBudget || 'not_set',
+      journeyId: journeyId || 'not_set'
+    });
+    
+    // Simulate API fetch with error monitoring
     setTimeout(() => {
+      try {
       const mockProperties: Property[] = [
         {
           id: 'prop-1',
@@ -200,13 +214,40 @@ export default function PropertySearch({
           prop => prop.price <= initialBudget.maxTotalPrice
         );
         setProperties(filteredByBudget);
+        
+        Sentry.addBreadcrumb({
+          message: `Property search filtered by budget: ${filteredByBudget.length} properties under €${initialBudget.maxTotalPrice.toLocaleString()}`,
+          level: 'info',
+          category: 'filter.budget',
+          data: { 
+            budget: initialBudget.maxTotalPrice,
+            resultCount: filteredByBudget.length 
+          }
+        });
       } else {
         setProperties(mockProperties);
       }
       
       setIsLoading(false);
+      
+      Sentry.addBreadcrumb({
+        message: `Property search loaded ${mockProperties.length} properties`,
+        level: 'info',
+        category: 'api.success',
+        data: { propertyCount: mockProperties.length }
+      });
+      
+      } catch (error) {
+        Sentry.captureException(error);
+        setIsLoading(false);
+        toast?.({
+          title: 'Error loading properties',
+          description: 'Failed to load property listings. Please try again.',
+          variant: 'destructive'
+        });
+      }
     }, 1000);
-  }, [initialBudget]);
+  }, [initialBudget, toast]);
 
   // Filter properties based on search and filters
   const filteredProperties = properties.filter(property => {

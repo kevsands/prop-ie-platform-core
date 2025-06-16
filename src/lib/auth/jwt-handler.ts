@@ -1,8 +1,42 @@
 import jwt from 'jsonwebtoken';
 import crypto from 'crypto';
 
-const JWT_SECRET = process.env.JWT_SECRET || crypto.randomBytes(32).toString('hex');
-const JWT_REFRESH_SECRET = process.env.JWT_REFRESH_SECRET || crypto.randomBytes(32).toString('hex');
+// Secure JWT secret validation
+const JWT_SECRET = (() => {
+  const secret = process.env.JWT_SECRET;
+  if (!secret) {
+    if (process.env.NODE_ENV === 'production') {
+      throw new Error('JWT_SECRET environment variable is required in production');
+    }
+    // Generate a secure random secret for development
+    return crypto.randomBytes(64).toString('hex');
+  }
+  
+  // Validate secret strength
+  if (secret.length < 32) {
+    throw new Error('JWT_SECRET must be at least 32 characters long');
+  }
+  
+  return secret;
+})();
+
+const JWT_REFRESH_SECRET = (() => {
+  const secret = process.env.JWT_REFRESH_SECRET;
+  if (!secret) {
+    if (process.env.NODE_ENV === 'production') {
+      throw new Error('JWT_REFRESH_SECRET environment variable is required in production');
+    }
+    // Generate a secure random secret for development
+    return crypto.randomBytes(64).toString('hex');
+  }
+  
+  // Validate secret strength
+  if (secret.length < 32) {
+    throw new Error('JWT_REFRESH_SECRET must be at least 32 characters long');
+  }
+  
+  return secret;
+})();
 const JWT_ACCESS_EXPIRY = '15m';
 const JWT_REFRESH_EXPIRY = '7d';
 

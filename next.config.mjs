@@ -202,13 +202,6 @@ const baseConfig = {
             // Only bundle React once
             enforce: true,
           },
-          // AWS Amplify group to properly bundle it
-          amplify: {
-            test: /[\\/]node_modules[\\/](aws-amplify|@aws-amplify)[\\/]/,
-            name: 'amplify',
-            priority: 35,
-            reuseExistingChunk: true,
-          },
           lib: {
             test: /[\\/]node_modules[\\/]/,
             name(module) {

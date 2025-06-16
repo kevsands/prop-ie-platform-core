@@ -85,11 +85,6 @@
   "dependencies": {
     "@apollo/server": "4.12.0",
     "@as-integrations/next": "3.2.0",
-    "@aws-amplify/api": "^6.0.12",
-    "@aws-amplify/auth": "^6.0.12",
-    "@aws-amplify/core": "^6.0.12",
-    "@aws-amplify/storage": "^6.0.12",
-    "@aws-amplify/ui-react": "^6.0.3",
     "@graphql-tools/load-files": "7.0.1",
     "@graphql-tools/merge": "9.0.24",
     "@graphql-tools/schema": "10.0.23",
@@ -125,6 +120,7 @@
     "@radix-ui/react-tooltip": "^1.1.6",
     "@react-three/drei": "^9.122.0",
     "@react-three/fiber": "^8.18.0",
+    "@sentry/nextjs": "9.29.0",
     "@tanstack/query-core": "4.29.19",
     "@tanstack/query-persist-client-core": "5.75.5",
     "@tanstack/query-sync-storage-persister": "5.75.5",
@@ -133,7 +129,7 @@
     "@types/crypto-js": "4.2.2",
     "@types/jsonwebtoken": "9.0.9",
     "autoprefixer": "10.4.21",
-    "aws-amplify": "^6.0.12",
+    "aws-amplify": "6.15.0",
     "axios": "^1.9.0",
     "bcryptjs": "3.0.2",
     "buffer": "6.0.3",
@@ -188,7 +184,6 @@
     "zod": "^3.24.1"
   },
   "devDependencies": {
-    "@aws-cdk/aws-amplify-alpha": "^2.195.0-alpha.0",
     "@axe-core/puppeteer": "4.10.1",
     "@babel/parser": "^7.27.0",
     "@babel/plugin-proposal-class-properties": "7.18.6",
@@ -280,7 +275,7 @@
     "tailwindcss": "3.4.17",
     "ts-jest": "^29.3.2",
     "turbo": "^2.3.3",
-    "typescript": "^5",
+    "typescript": "5.8.3",
     "webpack-bundle-analyzer": "^4.10.1",
     "wrangler": "^3.40.0"
   },
