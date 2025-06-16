@@ -24,7 +24,7 @@ export async function getDevelopments() {
         developer: true,
         location: true
       },
-      orderBy: { createdAt: 'desc' }
+      orderBy: { created: 'desc' }
     });
   } catch (error) {
     console.error('Error fetching developments:', error);
@@ -117,7 +117,7 @@ export async function getFitzgeraldGardensData() {
       include: {
         unit: true
       },
-      orderBy: { createdAt: 'desc' },
+      orderBy: { created: 'desc' },
       take: 10
     });
 
@@ -278,7 +278,7 @@ export async function getBuyerJourneyData(buyerId: string) {
 export async function getAnalyticsEvents(limit = 100) {
   try {
     return await prisma.analyticsEvent.findMany({
-      orderBy: { createdAt: 'desc' },
+      orderBy: { created: 'desc' },
       take: limit
     });
   } catch (error) {

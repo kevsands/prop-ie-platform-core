@@ -37,7 +37,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Calendar } from '@/components/ui/calendar';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { useAuth } from '@/hooks/useAuth';
+import { useCurrentUser } from '@/hooks/api/useAuth';
 import { useBuyerData } from '@/hooks/useBuyerData';
 import { format, addDays, differenceInDays } from 'date-fns';
 import {
@@ -58,7 +58,8 @@ interface BuyerDashboardProps {
 }
 
 export default function BuyerDashboard({ buyerId }: BuyerDashboardProps) {
-  const { user } = useAuth();
+  const { data: userData } = useCurrentUser();
+  const user = userData?.me;
   const { data: buyerData, isLoading } = useBuyerData(buyerId || user?.id);
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
   const [searchQuery, setSearchQuery] = useState('');

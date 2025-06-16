@@ -1,0 +1,88 @@
+
+> prop-ie-aws-app@0.1.0 dev
+> next dev
+
+   ▲ Next.js 15.3.1
+   - Local:        http://localhost:3000
+   - Network:      http://192.168.0.44:3000
+   - Environments: .env.local, .env
+
+ ✓ Starting...
+ ✓ Ready in 1925ms
+ ✓ Compiled /api/projects/[id] in 337ms (362 modules)
+ GET /api/projects/fitzgerald-gardens 200 in 803ms
+ GET /api/projects/fitzgerald-gardens 200 in 16ms
+ PATCH /api/projects/fitzgerald-gardens 200 in 21ms
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app-paths-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app-paths-manifest.json',
+  page: '/api/projects/fitzgerald-gardens'
+}
+ ○ Compiling /_error ...
+ ✓ Compiled /_error in 1063ms (694 modules)
+ ⨯ Error: Cannot find module '../webpack-runtime.js'
+Require stack:
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/pages/_document.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/require.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/load-components.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/utils.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/swc/options.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/swc/index.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/analysis/parse-module.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/analysis/get-page-static-info.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/router-utils/setup-dev-bundler.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/router-server.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/start-server.js
+    at <unknown> (.next/server/pages/_document.js:60:27)
+    at Object.<anonymous> (.next/server/pages/_document.js:66:3) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ GET /api/projects/fitzgerald-gardens 500 in 2338ms
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/api/projects/[id]/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/api/projects/[id]/route.js',
+  page: '/api/projects/fitzgerald-gardens'
+}
+ ⨯ Error: Cannot find module '../webpack-runtime.js'
+Require stack:
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/pages/_document.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/require.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/load-components.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/utils.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/swc/options.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/swc/index.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/analysis/parse-module.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/analysis/get-page-static-info.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/router-utils/setup-dev-bundler.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/router-server.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/start-server.js
+    at <unknown> (.next/server/pages/_document.js:60:27)
+    at Object.<anonymous> (.next/server/pages/_document.js:66:3) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ GET /api/projects/fitzgerald-gardens 500 in 44ms
+ ✓ Compiled /middleware in 88ms (108 modules)
+ ○ Compiling /developer/projects/fitzgerald-gardens ...
+ ✓ Compiled /developer/projects/fitzgerald-gardens in 1575ms (2996 modules)
+ ⚠ metadataBase property in metadata export is not set for resolving social open graph or twitter images, using "http://localhost:3000". See https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase
+ HEAD /developer/projects/fitzgerald-gardens 200 in 1970ms
+ ✓ Compiled in 2.4s (1537 modules)
+ ✓ Compiled /developments/[id] in 256ms (3040 modules)
+ ⚠ metadataBase property in metadata export is not set for resolving social open graph or twitter images, using "http://localhost:3000". See https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase
+ HEAD /developments/fitzgerald-gardens 200 in 976ms
+ ✓ Compiled in 425ms (1547 modules)
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/api/projects/[id]/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/api/projects/[id]/route.js',
+  page: '/api/projects/fitzgerald-gardens'
+}
+ GET /api/projects/fitzgerald-gardens 500 in 279ms
+[?25h

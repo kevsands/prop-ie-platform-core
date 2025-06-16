@@ -9,7 +9,23 @@
  * Note: Persistent caching temporarily removed for v4 compatibility
  */
 
-import { QueryClient, DefaultOptions } from '@tanstack/react-query';
+import { QueryClient } from '@tanstack/react-query';
+
+// Type definitions for React Query v4 compatibility
+interface DefaultOptions {
+  queries?: {
+    staleTime?: number;
+    cacheTime?: number;
+    retry?: number;
+    retryDelay?: (attempt: number) => number;
+    refetchOnWindowFocus?: boolean;
+    refetchOnReconnect?: boolean;
+  };
+  mutations?: {
+    retry?: number;
+    retryDelay?: (attempt: number) => number;
+  };
+}
 
 // Cache durations - these values can be adjusted based on data volatility
 export const STALE_TIMES = {

@@ -1,6 +1,7 @@
 'use client';
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import * as Sentry from '@sentry/nextjs';
 import {
   FiUser,
   FiMail,
@@ -46,6 +47,17 @@ const UserRegistration: React.FC<UserRegistrationProps> = ({ onRegister }) => {
   });
 
   const [errors, setErrors] = useState<Record<string, string>>({});
+
+  // Initialize Sentry monitoring for user registration
+  useEffect(() => {
+    Sentry.addBreadcrumb({
+      message: 'User Registration component initialized',
+      level: 'info',
+      category: 'ui.component'
+    });
+    
+    Sentry.setTag('component', 'UserRegistration');
+  }, []);
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -120,8 +132,26 @@ const UserRegistration: React.FC<UserRegistrationProps> = ({ onRegister }) => {
   };
 
   const handleNextStep = () => {
-    if (validateStep(step)) {
-      setStep(step + 1);
+    try {
+      if (validateStep(step)) {
+        setStep(step + 1);
+        
+        Sentry.addBreadcrumb({
+          message: `User registration step ${step} completed, moving to step ${step + 1}`,
+          level: 'info',
+          category: 'ui.navigation',
+          data: { fromStep: step, toStep: step + 1 }
+        });
+      } else {
+        Sentry.addBreadcrumb({
+          message: `User registration step ${step} validation failed`,
+          level: 'warning',
+          category: 'validation.error',
+          data: { step, errors: Object.keys(errors) }
+        });
+      }
+    } catch (error) {
+      Sentry.captureException(error);
     }
   };
 
@@ -132,14 +162,47 @@ const UserRegistration: React.FC<UserRegistrationProps> = ({ onRegister }) => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (validateStep(step)) {
-      // Submit registration
-      if (onRegister) {
-        onRegister(formData);
-      }
+    try {
+      if (validateStep(step)) {
+        Sentry.addBreadcrumb({
+          message: 'User registration form submitted successfully',
+          level: 'info',
+          category: 'form.submit',
+          data: { 
+            step,
+            userType: {
+              isFirstTimeBuyer: formData.isFirstTimeBuyer,
+              hasHelpToBuy: formData.hasHelpToBuy,
+              isInvestor: formData.isInvestor
+            }
+          }
+        });
 
-      // For demo purposes, show success message
-      setStep(4);
+        // Submit registration
+        if (onRegister) {
+          onRegister(formData);
+        }
+
+        // For demo purposes, show success message
+        setStep(4);
+        
+        Sentry.setTag('registration_status', 'completed');
+      } else {
+        Sentry.addBreadcrumb({
+          message: 'User registration final step validation failed',
+          level: 'error',
+          category: 'validation.error',
+          data: { step, errors: Object.keys(errors) }
+        });
+      }
+    } catch (error) {
+      Sentry.captureException(error);
+      
+      // Show user-friendly error (would typically come from the onRegister callback)
+      setErrors(prev => ({
+        ...prev,
+        submit: 'Registration failed. Please try again.'
+      }));
     }
   };
 

@@ -1,0 +1,20 @@
+
+> prop-ie-aws-app@0.1.0 dev
+> next dev
+
+   ▲ Next.js 15.3.1
+   - Local:        http://localhost:3000
+   - Network:      http://192.168.0.44:3000
+   - Environments: .env.local, .env
+
+ ✓ Starting...
+ ✓ Ready in 2s
+ ○ Compiling /api/projects/[id] ...
+ ✓ Compiled /api/projects/[id] in 825ms (362 modules)
+ GET /api/projects/fitzgerald-gardens 200 in 1300ms
+ GET /api/projects/fitzgerald-gardens 200 in 16ms
+ ✓ Compiled in 73ms (85 modules)
+ ✓ Compiled in 62ms (85 modules)
+ ✓ Compiled in 10ms
+ ✓ Compiled /api/projects/[id] in 33ms (85 modules)
+ PATCH /api/projects/fitzgerald-gardens 400 in 89ms

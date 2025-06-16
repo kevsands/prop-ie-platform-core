@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import { 
@@ -29,8 +30,11 @@ import {
   ArrowUp,
   Clock,
   Zap,
-  Award
+  Award,
+  Euro,
+  Calculator
 } from 'lucide-react';
+import { HelpToBuyCalculator } from '@/components/calculators/HelpToBuyCalculator';
 
 // Mock property data with AI scoring
 const mockProperties = [
@@ -60,7 +64,9 @@ const mockProperties = [
       { date: '2024-01', price: 445000 },
       { date: '2024-02', price: 435000 },
       { date: '2024-03', price: 425000 }
-    ]
+    ],
+    htbEligible: true,
+    htbAmount: 30000
   },
   {
     id: 2,
@@ -88,7 +94,9 @@ const mockProperties = [
       { date: '2024-01', price: 310000 },
       { date: '2024-02', price: 300000 },
       { date: '2024-03', price: 295000 }
-    ]
+    ],
+    htbEligible: true,
+    htbAmount: 29500
   },
   {
     id: 3,
@@ -116,7 +124,9 @@ const mockProperties = [
       { date: '2024-01', price: 595000 },
       { date: '2024-02', price: 585000 },
       { date: '2024-03', price: 575000 }
-    ]
+    ],
+    htbEligible: false,
+    htbAmount: 0
   },
   {
     id: 4,
@@ -144,7 +154,9 @@ const mockProperties = [
       { date: '2024-01', price: 285000 },
       { date: '2024-02', price: 280000 },
       { date: '2024-03', price: 275000 }
-    ]
+    ],
+    htbEligible: true,
+    htbAmount: 27500
   }
 ];
 
@@ -172,6 +184,7 @@ const buyerPreferences = {
 };
 
 export default function PropertySearchPage() {
+  const searchParams = useSearchParams();
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedPriceRange, setSelectedPriceRange] = useState('');
   const [selectedType, setSelectedType] = useState('All');
@@ -183,16 +196,97 @@ export default function PropertySearchPage() {
   const [showAIInsights, setShowAIInsights] = useState(true);
   const [filteredProperties, setFilteredProperties] = useState(mockProperties);
   const [activeProperty, setActiveProperty] = useState<number | null>(null);
+  const [showHTBCalculator, setShowHTBCalculator] = useState(false);
+  const [selectedPropertyForHTB, setSelectedPropertyForHTB] = useState<typeof mockProperties[0] | null>(null);
+
+  // Initialize search state from URL parameters
+  useEffect(() => {
+    const query = searchParams.get('q');
+    const minPrice = searchParams.get('minPrice');
+    const maxPrice = searchParams.get('maxPrice');
+    const beds = searchParams.get('beds');
+    const type = searchParams.get('type');
+    const development = searchParams.get('development');
+    const htbEligible = searchParams.get('htbEligible');
+
+    if (query) {
+      setSearchQuery(query);
+    }
+
+    if (minPrice || maxPrice) {
+      if (maxPrice === '300000') {
+        setSelectedPriceRange('Under €300k');
+      } else if (minPrice === '300000' && maxPrice === '400000') {
+        setSelectedPriceRange('€300k - €400k');
+      } else if (minPrice === '400000' && maxPrice === '500000') {
+        setSelectedPriceRange('€400k - €500k');
+      } else if (minPrice === '500000') {
+        setSelectedPriceRange('€500k+');
+      }
+    }
+
+    if (beds) {
+      setSelectedBeds(beds === '4+' ? '4+' : beds);
+    }
+
+    if (type) {
+      setSelectedType(type.charAt(0).toUpperCase() + type.slice(1));
+    }
+
+    if (development) {
+      const devMap: Record<string, string> = {
+        'fitzgerald-gardens': 'Fitzgerald Gardens',
+        'ellwood': 'Ellwood',
+        'ballymakenny-view': 'Ballymakenny View'
+      };
+      setSelectedDevelopment(devMap[development] || 'All Developments');
+    }
+
+    if (htbEligible === 'true') {
+      // Show AI insights with HTB focus
+      setShowAIInsights(true);
+    }
+  }, [searchParams]);
 
   // Filter properties based on criteria
   useEffect(() => {
     let filtered = [...mockProperties];
 
-    // Apply filters
+    // Apply search query filter
+    if (searchQuery.trim()) {
+      const query = searchQuery.toLowerCase();
+      filtered = filtered.filter(p => 
+        p.title.toLowerCase().includes(query) ||
+        p.development.toLowerCase().includes(query) ||
+        p.location.toLowerCase().includes(query)
+      );
+    }
+
+    // Apply price range filter
+    if (selectedPriceRange) {
+      const priceFilters: Record<string, { min?: number; max?: number }> = {
+        'Under €300k': { max: 300000 },
+        '€300k - €400k': { min: 300000, max: 400000 },
+        '€400k - €500k': { min: 400000, max: 500000 },
+        '€500k+': { min: 500000 }
+      };
+      
+      const filter = priceFilters[selectedPriceRange];
+      if (filter) {
+        filtered = filtered.filter(p => {
+          if (filter.min && p.price < filter.min) return false;
+          if (filter.max && p.price > filter.max) return false;
+          return true;
+        });
+      }
+    }
+
+    // Apply type filter
     if (selectedType !== 'All') {
       filtered = filtered.filter(p => p.type === selectedType);
     }
 
+    // Apply bedroom filter
     if (selectedBeds !== 'Any') {
       filtered = filtered.filter(p => {
         if (selectedBeds === '4+') return p.beds >= 4;
@@ -200,6 +294,7 @@ export default function PropertySearchPage() {
       });
     }
 
+    // Apply development filter
     if (selectedDevelopment !== 'All Developments') {
       filtered = filtered.filter(p => p.development === selectedDevelopment);
     }
@@ -232,7 +327,7 @@ export default function PropertySearchPage() {
     }
 
     setFilteredProperties(filtered);
-  }, [selectedType, selectedBeds, selectedDevelopment, sortBy]);
+  }, [searchQuery, selectedPriceRange, selectedType, selectedBeds, selectedDevelopment, sortBy]);
 
   const PropertyCard = ({ property }: { property: typeof mockProperties[0] }) => {
     const isHot = property.developerPriority === 'urgent' || property.developerPriority === 'high';
@@ -290,6 +385,19 @@ export default function PropertySearchPage() {
             <button className="p-2 bg-white/90 backdrop-blur-sm rounded-full hover:bg-white transition-colors">
               <Share2 className="w-5 h-5 text-gray-600" />
             </button>
+            {property.htbEligible && (
+              <button 
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setSelectedPropertyForHTB(property);
+                  setShowHTBCalculator(true);
+                }}
+                className="p-2 bg-green-600/90 backdrop-blur-sm rounded-full hover:bg-green-700 transition-colors"
+                title="Calculate Help-to-Buy"
+              >
+                <Calculator className="w-5 h-5 text-white" />
+              </button>
+            )}
           </div>
           
           {/* Completion Badge */}
@@ -360,6 +468,33 @@ export default function PropertySearchPage() {
             </div>
           )}
           
+          {/* Help-to-Buy Benefit */}
+          {property.htbEligible && (
+            <div className="mb-4 p-3 bg-green-50 rounded-lg border border-green-200">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-medium text-green-900 flex items-center gap-2">
+                    <Euro className="w-4 h-4" />
+                    Help-to-Buy Eligible
+                  </p>
+                  <p className="text-lg font-bold text-green-700">
+                    €{property.htbAmount.toLocaleString()} potential refund
+                  </p>
+                </div>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setSelectedPropertyForHTB(property);
+                    setShowHTBCalculator(true);
+                  }}
+                  className="px-3 py-1 bg-green-600 text-white rounded-md text-sm hover:bg-green-700 transition-colors"
+                >
+                  Calculate
+                </button>
+              </div>
+            </div>
+          )}
+
           {/* Incentives */}
           {property.incentives.length > 0 && (
             <div className="mb-4">
@@ -675,6 +810,61 @@ export default function PropertySearchPage() {
           <Brain className="w-6 h-6" />
         </button>
       </div>
+
+      {/* Help-to-Buy Calculator Modal */}
+      {showHTBCalculator && selectedPropertyForHTB && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-xl shadow-2xl max-w-6xl w-full max-h-[90vh] overflow-y-auto">
+            <div className="p-6 border-b border-gray-200">
+              <div className="flex items-center justify-between">
+                <div>
+                  <h2 className="text-2xl font-bold text-gray-900">
+                    Help-to-Buy Calculator
+                  </h2>
+                  <p className="text-gray-600">
+                    Calculate your HTB refund for {selectedPropertyForHTB.title}
+                  </p>
+                </div>
+                <button
+                  onClick={() => {
+                    setShowHTBCalculator(false);
+                    setSelectedPropertyForHTB(null);
+                  }}
+                  className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                >
+                  <X className="w-6 h-6 text-gray-500" />
+                </button>
+              </div>
+            </div>
+            
+            <div className="p-6">
+              <div className="mb-6 p-4 bg-blue-50 rounded-lg">
+                <h3 className="font-semibold text-blue-900 mb-2">Property Details</h3>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <span className="text-sm text-gray-600">Property:</span>
+                    <p className="font-medium">{selectedPropertyForHTB.title}</p>
+                  </div>
+                  <div>
+                    <span className="text-sm text-gray-600">Price:</span>
+                    <p className="font-medium">{selectedPropertyForHTB.priceDisplay}</p>
+                  </div>
+                  <div>
+                    <span className="text-sm text-gray-600">Development:</span>
+                    <p className="font-medium">{selectedPropertyForHTB.development}</p>
+                  </div>
+                  <div>
+                    <span className="text-sm text-gray-600">Location:</span>
+                    <p className="font-medium">{selectedPropertyForHTB.location}</p>
+                  </div>
+                </div>
+              </div>
+              
+              <HelpToBuyCalculator />
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import PropertyPaymentForm from '@/components/payments/PropertyPaymentForm';
 import {
   CheckCircle,
   Clock,
@@ -35,6 +36,9 @@ import {
 export default function ReservationPage() {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState('overview');
+  const [showPaymentForm, setShowPaymentForm] = useState(false);
+  const [paymentSuccess, setPaymentSuccess] = useState(false);
+  const [paymentError, setPaymentError] = useState<any>(null);
 
   // Mock reservation data
   const reservation = {
@@ -82,6 +86,20 @@ export default function ReservationPage() {
   const daysRemaining = Math.ceil((reservation.dates.expires.getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24));
   const depositDaysRemaining = Math.ceil((reservation.deposit.dueDate.getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24));
 
+  // Payment handlers
+  const handlePaymentSuccess = (paymentResult: any) => {
+    setPaymentSuccess(true);
+    setShowPaymentForm(false);
+    setPaymentError(null);
+    console.log('Payment successful:', paymentResult);
+    // In a real app, you would update the reservation status here
+  };
+
+  const handlePaymentError = (error: any) => {
+    setPaymentError(error);
+    console.error('Payment failed:', error);
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -109,10 +127,53 @@ export default function ReservationPage() {
                   Your remaining deposit of €{reservation.deposit.remaining.toLocaleString()} is due in {depositDaysRemaining} days.
                   Complete the payment to secure your booking.
                 </p>
-                <button className="mt-2 px-4 py-2 bg-yellow-600 text-white rounded-md hover:bg-yellow-700 transition-colors text-sm font-medium">
-                  Pay Now
+                {!paymentSuccess && !showPaymentForm && (
+                  <button 
+                    onClick={() => setShowPaymentForm(true)}
+                    className="mt-2 px-4 py-2 bg-yellow-600 text-white rounded-md hover:bg-yellow-700 transition-colors text-sm font-medium"
+                  >
+                    Pay Now - €{reservation.deposit.remaining.toLocaleString()}
+                  </button>
+                )}
+                {paymentSuccess && (
+                  <div className="mt-2 flex items-center text-green-600">
+                    <CheckCircle className="h-4 w-4 mr-1" />
+                    <span className="text-sm font-medium">Payment Completed</span>
+                  </div>
+                )}
+                {paymentError && (
+                  <div className="mt-2 text-red-600 text-sm">
+                    Payment failed: {paymentError.message}
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Payment Form Modal */}
+        {showPaymentForm && (
+          <div className="mb-8">
+            <div className="bg-white rounded-lg shadow-lg p-6 border-2 border-blue-200">
+              <div className="flex justify-between items-center mb-6">
+                <h2 className="text-xl font-bold text-gray-900">Complete Deposit Payment</h2>
+                <button
+                  onClick={() => setShowPaymentForm(false)}
+                  className="text-gray-400 hover:text-gray-600"
+                >
+                  ✕
                 </button>
               </div>
+              
+              <PropertyPaymentForm
+                propertyId={reservation.property.id}
+                propertyName={`${reservation.property.development} - ${reservation.property.title}`}
+                amount={reservation.deposit.remaining * 100} // Convert to cents
+                paymentType="reservation_deposit"
+                description={`Remaining deposit payment for ${reservation.property.development}`}
+                onSuccess={handlePaymentSuccess}
+                onError={handlePaymentError}
+              />
             </div>
           </div>
         )}

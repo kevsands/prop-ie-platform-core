@@ -2,176 +2,207 @@
 > prop-ie-aws-app@0.1.0 dev
 > next dev
 
-   ▲ Next.js 15.3.3
+Sentry not available, using default config
+Sentry not available, using default config
+   ▲ Next.js 15.3.1
    - Local:        http://localhost:3000
    - Network:      http://192.168.0.44:3000
    - Environments: .env.local, .env
 
  ✓ Starting...
- ✓ Ready in 1675ms
- ○ Compiling /middleware ...
- ✓ Compiled /middleware in 591ms (291 modules)
- ⨯ Error [TypeError]: Cannot read properties of undefined (reading 'charCodeAt')
-    at (middleware)/./node_modules/redis-errors/index.js (.next/server/middleware.js:2724:1)
-    at __webpack_require__ (.next/server/edge-runtime-webpack.js:37:33)
-    at fn (.next/server/edge-runtime-webpack.js:273:21)
-    at (middleware)/./node_modules/ioredis/built/cluster/index.js (.next/server/middleware.js:256:1)
-    at __webpack_require__ (.next/server/edge-runtime-webpack.js:37:33)
-    at fn (.next/server/edge-runtime-webpack.js:273:21)
-    at (middleware)/./node_modules/ioredis/built/Redis.js (.next/server/middleware.js:146:1)
- ○ Compiling /_error ...
- ✓ Compiled /_error in 699ms (360 modules)
- GET / 404 in 1ms
- ○ Compiling /_not-found ...
- ⨯ Error [TypeError]: Cannot read properties of undefined (reading 'charCodeAt')
-    at (middleware)/./node_modules/redis-errors/index.js (.next/server/middleware.js:2724:1)
-    at __webpack_require__ (.next/server/edge-runtime-webpack.js:37:33)
-    at fn (.next/server/edge-runtime-webpack.js:273:21)
-    at (middleware)/./node_modules/ioredis/built/cluster/index.js (.next/server/middleware.js:256:1)
-    at __webpack_require__ (.next/server/edge-runtime-webpack.js:37:33)
-    at fn (.next/server/edge-runtime-webpack.js:273:21)
-    at (middleware)/./node_modules/ioredis/built/Redis.js (.next/server/middleware.js:146:1)
- ⚠ Fast Refresh had to perform a full reload due to a runtime error.
- ⨯ Error [TypeError]: Cannot read properties of undefined (reading 'charCodeAt')
-    at (middleware)/./node_modules/redis-errors/index.js (.next/server/middleware.js:2724:1)
-    at __webpack_require__ (.next/server/edge-runtime-webpack.js:37:33)
-    at fn (.next/server/edge-runtime-webpack.js:273:21)
-    at (middleware)/./node_modules/ioredis/built/cluster/index.js (.next/server/middleware.js:256:1)
-    at __webpack_require__ (.next/server/edge-runtime-webpack.js:37:33)
-    at fn (.next/server/edge-runtime-webpack.js:273:21)
-    at (middleware)/./node_modules/ioredis/built/Redis.js (.next/server/middleware.js:146:1)
- ✓ Compiled /_not-found in 8.3s (1118 modules)
- ⚠ Fast Refresh had to perform a full reload due to a runtime error.
- ⨯ Error [TypeError]: Cannot read properties of undefined (reading 'charCodeAt')
-    at (middleware)/./node_modules/redis-errors/index.js (.next/server/middleware.js:2724:1)
-    at __webpack_require__ (.next/server/edge-runtime-webpack.js:37:33)
-    at fn (.next/server/edge-runtime-webpack.js:273:21)
-    at (middleware)/./node_modules/ioredis/built/cluster/index.js (.next/server/middleware.js:256:1)
-    at __webpack_require__ (.next/server/edge-runtime-webpack.js:37:33)
-    at fn (.next/server/edge-runtime-webpack.js:273:21)
-    at (middleware)/./node_modules/ioredis/built/Redis.js (.next/server/middleware.js:146:1)
- GET / 404 in 1ms
- ✓ Compiled /favicon.ico in 113ms (520 modules)
- GET /favicon.ico 200 in 392ms
- ✓ Compiled in 270ms (207 modules)
- ✓ Compiled / in 501ms (1152 modules)
- ⚠ Fast Refresh had to perform a full reload due to a runtime error.
- GET / 200 in 827ms
- GET / 200 in 114ms
- ✓ Compiled /favicon.ico in 76ms (551 modules)
- GET /favicon.ico 200 in 239ms
- GET /favicon.ico 200 in 36ms
- ○ Compiling /api/auth/[...nextauth] ...
- ⨯ ./src/lib/auth.ts
-Error:   [31mx[0m Expected ',', got ';'
-     ,-[[36;1;4m/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/auth.ts[0m:358:1]
- [2m355[0m |     newUser: "/auth/new-user"
- [2m356[0m |   },
- [2m357[0m |   secret: process.env.NEXTAUTH_SECRET
- [2m358[0m | };
-     : [35;1m ^[0m
- [2m359[0m | 
- [2m360[0m | // Create access token
- [2m361[0m | export function createAccessToken(userId: string, email: string, roles: string[]) {
-     `----
+ ✓ Ready in 7s
+ ✓ Compiled /middleware in 311ms (108 modules)
+ ○ Compiling / ...
+ ⨯ src/app/layout.tsx
+An error occurred in `next/font`.
 
-Caused by:
-    Syntax Error
+Error: Cannot find module '@alloc/quick-lru'
+Require stack:
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/tailwindcss/lib/lib/setupTrackingContext.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/tailwindcss/lib/plugin.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/tailwindcss/lib/index.js
+- /opt/homebrew/lib/node_modules/next/dist/build/webpack/config/blocks/css/plugins.js
+- /opt/homebrew/lib/node_modules/next/dist/build/webpack/config/blocks/css/index.js
+- /opt/homebrew/lib/node_modules/next/dist/build/webpack/config/index.js
+- /opt/homebrew/lib/node_modules/next/dist/build/webpack-config.js
+- /opt/homebrew/lib/node_modules/next/dist/server/dev/hot-reloader-webpack.js
+- /opt/homebrew/lib/node_modules/next/dist/server/lib/router-utils/setup-dev-bundler.js
+- /opt/homebrew/lib/node_modules/next/dist/server/lib/router-server.js
+- /opt/homebrew/lib/node_modules/next/dist/server/lib/start-server.js
+    at Function.<anonymous> (node:internal/modules/cjs/loader:1405:15)
+    at /opt/homebrew/lib/node_modules/next/dist/server/require-hook.js:55:36
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)
+    at Function._load (node:internal/modules/cjs/loader:1215:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.<anonymous> (node:internal/modules/cjs/loader:1491:12)
+    at mod.require (/opt/homebrew/lib/node_modules/next/dist/server/require-hook.js:65:28)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/tailwindcss/lib/lib/setupTrackingContext.js:17:58)
+    at Module._compile (node:internal/modules/cjs/loader:1734:14)
+    at Object..js (node:internal/modules/cjs/loader:1899:10)
+    at Module.load (node:internal/modules/cjs/loader:1469:32)
+    at Function._load (node:internal/modules/cjs/loader:1286:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.<anonymous> (node:internal/modules/cjs/loader:1491:12)
+    at mod.require (/opt/homebrew/lib/node_modules/next/dist/server/require-hook.js:65:28)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/tailwindcss/lib/plugin.js:5:70)
+    at Module._compile (node:internal/modules/cjs/loader:1734:14)
+    at Object..js (node:internal/modules/cjs/loader:1899:10)
+    at Module.load (node:internal/modules/cjs/loader:1469:32)
+    at Function._load (node:internal/modules/cjs/loader:1286:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.<anonymous> (node:internal/modules/cjs/loader:1491:12)
+    at mod.require (/opt/homebrew/lib/node_modules/next/dist/server/require-hook.js:65:28)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/tailwindcss/lib/index.js:2:18)
+    at Module._compile (node:internal/modules/cjs/loader:1734:14)
+    at Object..js (node:internal/modules/cjs/loader:1899:10)
+    at Module.load (node:internal/modules/cjs/loader:1469:32)
+    at Function._load (node:internal/modules/cjs/loader:1286:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.<anonymous> (node:internal/modules/cjs/loader:1491:12)
+    at mod.require (/opt/homebrew/lib/node_modules/next/dist/server/require-hook.js:65:28)
+    at require (node:internal/modules/helpers:135:16)
+    at /opt/homebrew/lib/node_modules/next/dist/build/webpack/config/blocks/css/plugins.js:64:48
+    at plugin (/opt/homebrew/lib/node_modules/next/dist/build/webpack/config/blocks/css/plugins.js:30:44)
+    at Processor.normalize (/opt/homebrew/lib/node_modules/next/node_modules/postcss/lib/processor.js:18:13)
+    at new Processor (/opt/homebrew/lib/node_modules/next/node_modules/postcss/lib/processor.js:11:25)
+    at postcss (/opt/homebrew/lib/node_modules/next/node_modules/postcss/lib/postcss.js:26:10)
+    at /opt/homebrew/lib/node_modules/next/dist/build/webpack/config/blocks/css/index.js:128:37
+    at async /opt/homebrew/lib/node_modules/next/dist/build/webpack/loaders/next-font-loader/index.js:94:33
+    at async Span.traceAsyncFn (/opt/homebrew/lib/node_modules/next/dist/trace/trace.js:157:20)
+ ⨯ src/app/layout.tsx
+An error occurred in `next/font`.
 
-Import trace for requested module:
-./src/lib/auth.ts
-./src/app/api/auth/[...nextauth]/route.ts
- ⨯ ./src/lib/auth.ts
-Error:   [31mx[0m Expected ',', got ';'
-     ,-[[36;1;4m/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/auth.ts[0m:358:1]
- [2m355[0m |     newUser: "/auth/new-user"
- [2m356[0m |   },
- [2m357[0m |   secret: process.env.NEXTAUTH_SECRET
- [2m358[0m | };
-     : [35;1m ^[0m
- [2m359[0m | 
- [2m360[0m | // Create access token
- [2m361[0m | export function createAccessToken(userId: string, email: string, roles: string[]) {
-     `----
+Error: Cannot find module '@alloc/quick-lru'
+Require stack:
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/tailwindcss/lib/lib/setupTrackingContext.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/tailwindcss/lib/plugin.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/tailwindcss/lib/index.js
+- /opt/homebrew/lib/node_modules/next/dist/build/webpack/config/blocks/css/plugins.js
+- /opt/homebrew/lib/node_modules/next/dist/build/webpack/config/blocks/css/index.js
+- /opt/homebrew/lib/node_modules/next/dist/build/webpack/config/index.js
+- /opt/homebrew/lib/node_modules/next/dist/build/webpack-config.js
+- /opt/homebrew/lib/node_modules/next/dist/server/dev/hot-reloader-webpack.js
+- /opt/homebrew/lib/node_modules/next/dist/server/lib/router-utils/setup-dev-bundler.js
+- /opt/homebrew/lib/node_modules/next/dist/server/lib/router-server.js
+- /opt/homebrew/lib/node_modules/next/dist/server/lib/start-server.js
+    at Function.<anonymous> (node:internal/modules/cjs/loader:1405:15)
+    at /opt/homebrew/lib/node_modules/next/dist/server/require-hook.js:55:36
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)
+    at Function._load (node:internal/modules/cjs/loader:1215:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.<anonymous> (node:internal/modules/cjs/loader:1491:12)
+    at mod.require (/opt/homebrew/lib/node_modules/next/dist/server/require-hook.js:65:28)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/tailwindcss/lib/lib/setupTrackingContext.js:17:58)
+    at Module._compile (node:internal/modules/cjs/loader:1734:14)
+    at Object..js (node:internal/modules/cjs/loader:1899:10)
+    at Module.load (node:internal/modules/cjs/loader:1469:32)
+    at Function._load (node:internal/modules/cjs/loader:1286:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.<anonymous> (node:internal/modules/cjs/loader:1491:12)
+    at mod.require (/opt/homebrew/lib/node_modules/next/dist/server/require-hook.js:65:28)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/tailwindcss/lib/plugin.js:5:70)
+    at Module._compile (node:internal/modules/cjs/loader:1734:14)
+    at Object..js (node:internal/modules/cjs/loader:1899:10)
+    at Module.load (node:internal/modules/cjs/loader:1469:32)
+    at Function._load (node:internal/modules/cjs/loader:1286:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.<anonymous> (node:internal/modules/cjs/loader:1491:12)
+    at mod.require (/opt/homebrew/lib/node_modules/next/dist/server/require-hook.js:65:28)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/tailwindcss/lib/index.js:2:18)
+    at Module._compile (node:internal/modules/cjs/loader:1734:14)
+    at Object..js (node:internal/modules/cjs/loader:1899:10)
+    at Module.load (node:internal/modules/cjs/loader:1469:32)
+    at Function._load (node:internal/modules/cjs/loader:1286:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.<anonymous> (node:internal/modules/cjs/loader:1491:12)
+    at mod.require (/opt/homebrew/lib/node_modules/next/dist/server/require-hook.js:65:28)
+    at require (node:internal/modules/helpers:135:16)
+    at /opt/homebrew/lib/node_modules/next/dist/build/webpack/config/blocks/css/plugins.js:64:48
+    at plugin (/opt/homebrew/lib/node_modules/next/dist/build/webpack/config/blocks/css/plugins.js:30:44)
+    at Processor.normalize (/opt/homebrew/lib/node_modules/next/node_modules/postcss/lib/processor.js:18:13)
+    at new Processor (/opt/homebrew/lib/node_modules/next/node_modules/postcss/lib/processor.js:11:25)
+    at postcss (/opt/homebrew/lib/node_modules/next/node_modules/postcss/lib/postcss.js:26:10)
+    at /opt/homebrew/lib/node_modules/next/dist/build/webpack/config/blocks/css/index.js:128:37
+    at async /opt/homebrew/lib/node_modules/next/dist/build/webpack/loaders/next-font-loader/index.js:94:33
+    at async Span.traceAsyncFn (/opt/homebrew/lib/node_modules/next/dist/trace/trace.js:157:20)
+ ⨯ src/app/layout.tsx
+An error occurred in `next/font`.
 
-Caused by:
-    Syntax Error
-
-Import trace for requested module:
-./src/lib/auth.ts
-./src/app/api/auth/[...nextauth]/route.ts
- GET /api/auth/session 500 in 2344ms
-[AUTH_EVENT] {"timestamp":"2025-06-12T20:56:25.398Z","eventType":"CSRF_ATTEMPT","path":"/api/auth/_log","method":"POST","ip":"::1","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36"}
- ✓ Compiled /_not-found in 42ms (207 modules)
- ⨯ ./src/lib/auth.ts
-Error:   [31mx[0m Expected ',', got ';'
-     ,-[[36;1;4m/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/auth.ts[0m:358:1]
- [2m355[0m |     newUser: "/auth/new-user"
- [2m356[0m |   },
- [2m357[0m |   secret: process.env.NEXTAUTH_SECRET,
- [2m358[0m | };
-     : [35;1m ^[0m
- [2m359[0m | 
- [2m360[0m | // Create access token
- [2m361[0m | export function createAccessToken(userId: string, email: string, roles: string[]) {
-     `----
-
-Caused by:
-    Syntax Error
-
-Import trace for requested module:
-./src/lib/auth.ts
-./src/app/api/auth/[...nextauth]/route.ts
- GET / 404 in 0ms
- GET / 404 in 0ms
- GET /_next/static/chunks/fallback/webpack.js 500 in 14ms
- GET /_next/static/chunks/fallback/main.js 500 in 7ms
- GET /_next/static/chunks/fallback/react-refresh.js 500 in 7ms
- GET /_next/static/chunks/fallback/pages/_app.js 500 in 6ms
- GET /_next/static/chunks/fallback/pages/_error.js 500 in 5ms
- ⨯ ./src/lib/auth.ts
-Error:   [31mx[0m Expected ',', got ';'
-     ,-[[36;1;4m/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/auth.ts[0m:359:1]
- [2m356[0m |     newUser: "/auth/new-user"
- [2m357[0m |   },
- [2m358[0m |   secret: process.env.NEXTAUTH_SECRET,
- [2m359[0m | };
-     : [35;1m ^[0m
- [2m360[0m | 
- [2m361[0m | // Create access token
- [2m362[0m | export function createAccessToken(userId: string, email: string, roles: string[]) {
-     `----
-
-Caused by:
-    Syntax Error
-
-Import trace for requested module:
-./src/lib/auth.ts
-./src/app/api/auth/[...nextauth]/route.ts
- ⨯ ./src/lib/auth.ts
-Error:   [31mx[0m Expected ',', got ';'
-     ,-[[36;1;4m/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/auth.ts[0m:360:1]
- [2m357[0m |     newUser: "/auth/new-user"
- [2m358[0m |   },
- [2m359[0m |   secret: process.env.NEXTAUTH_SECRET,
- [2m360[0m | };
-     : [35;1m ^[0m
- [2m361[0m | 
- [2m362[0m | // Create access token
- [2m363[0m | export function createAccessToken(userId: string, email: string, roles: string[]) {
-     `----
-
-Caused by:
-    Syntax Error
-
-Import trace for requested module:
-./src/lib/auth.ts
-./src/app/api/auth/[...nextauth]/route.ts
- ✓ Compiled in 369ms (1171 modules)
- ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/.next/server/next-font-manifest.json'] {
-  errno: -2,
-  code: 'ENOENT',
-  syscall: 'open',
-  path: '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/.next/server/next-font-manifest.json'
-}
-[?25h
+Error: Cannot find module '@alloc/quick-lru'
+Require stack:
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/tailwindcss/lib/lib/setupTrackingContext.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/tailwindcss/lib/plugin.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/tailwindcss/lib/index.js
+- /opt/homebrew/lib/node_modules/next/dist/build/webpack/config/blocks/css/plugins.js
+- /opt/homebrew/lib/node_modules/next/dist/build/webpack/config/blocks/css/index.js
+- /opt/homebrew/lib/node_modules/next/dist/build/webpack/config/index.js
+- /opt/homebrew/lib/node_modules/next/dist/build/webpack-config.js
+- /opt/homebrew/lib/node_modules/next/dist/server/dev/hot-reloader-webpack.js
+- /opt/homebrew/lib/node_modules/next/dist/server/lib/router-utils/setup-dev-bundler.js
+- /opt/homebrew/lib/node_modules/next/dist/server/lib/router-server.js
+- /opt/homebrew/lib/node_modules/next/dist/server/lib/start-server.js
+    at Function.<anonymous> (node:internal/modules/cjs/loader:1405:15)
+    at /opt/homebrew/lib/node_modules/next/dist/server/require-hook.js:55:36
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)
+    at Function._load (node:internal/modules/cjs/loader:1215:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.<anonymous> (node:internal/modules/cjs/loader:1491:12)
+    at mod.require (/opt/homebrew/lib/node_modules/next/dist/server/require-hook.js:65:28)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/tailwindcss/lib/lib/setupTrackingContext.js:17:58)
+    at Module._compile (node:internal/modules/cjs/loader:1734:14)
+    at Object..js (node:internal/modules/cjs/loader:1899:10)
+    at Module.load (node:internal/modules/cjs/loader:1469:32)
+    at Function._load (node:internal/modules/cjs/loader:1286:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.<anonymous> (node:internal/modules/cjs/loader:1491:12)
+    at mod.require (/opt/homebrew/lib/node_modules/next/dist/server/require-hook.js:65:28)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/tailwindcss/lib/plugin.js:5:70)
+    at Module._compile (node:internal/modules/cjs/loader:1734:14)
+    at Object..js (node:internal/modules/cjs/loader:1899:10)
+    at Module.load (node:internal/modules/cjs/loader:1469:32)
+    at Function._load (node:internal/modules/cjs/loader:1286:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.<anonymous> (node:internal/modules/cjs/loader:1491:12)
+    at mod.require (/opt/homebrew/lib/node_modules/next/dist/server/require-hook.js:65:28)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/tailwindcss/lib/index.js:2:18)
+    at Module._compile (node:internal/modules/cjs/loader:1734:14)
+    at Object..js (node:internal/modules/cjs/loader:1899:10)
+    at Module.load (node:internal/modules/cjs/loader:1469:32)
+    at Function._load (node:internal/modules/cjs/loader:1286:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.<anonymous> (node:internal/modules/cjs/loader:1491:12)
+    at mod.require (/opt/homebrew/lib/node_modules/next/dist/server/require-hook.js:65:28)
+    at require (node:internal/modules/helpers:135:16)
+    at /opt/homebrew/lib/node_modules/next/dist/build/webpack/config/blocks/css/plugins.js:64:48
+    at plugin (/opt/homebrew/lib/node_modules/next/dist/build/webpack/config/blocks/css/plugins.js:30:44)
+    at Processor.normalize (/opt/homebrew/lib/node_modules/next/node_modules/postcss/lib/processor.js:18:13)
+    at new Processor (/opt/homebrew/lib/node_modules/next/node_modules/postcss/lib/processor.js:11:25)
+    at postcss (/opt/homebrew/lib/node_modules/next/node_modules/postcss/lib/postcss.js:26:10)
+    at /opt/homebrew/lib/node_modules/next/dist/build/webpack/config/blocks/css/index.js:128:37
+    at async /opt/homebrew/lib/node_modules/next/dist/build/webpack/loaders/next-font-loader/index.js:94:33
+    at async Span.traceAsyncFn (/opt/homebrew/lib/node_modules/next/dist/trace/trace.js:157:20)
+ HEAD / 500 in 11404ms

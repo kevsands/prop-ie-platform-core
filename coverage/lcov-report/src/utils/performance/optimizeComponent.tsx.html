@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/58</span>
+                <span class='fraction'>0/57</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/54</span>
+                <span class='fraction'>0/53</span>
             </div>
         
             
@@ -297,13 +297,7 @@
 <a name='L232'></a><a href='#L232'>232</a>
 <a name='L233'></a><a href='#L233'>233</a>
 <a name='L234'></a><a href='#L234'>234</a>
-<a name='L235'></a><a href='#L235'>235</a>
-<a name='L236'></a><a href='#L236'>236</a>
-<a name='L237'></a><a href='#L237'>237</a>
-<a name='L238'></a><a href='#L238'>238</a>
-<a name='L239'></a><a href='#L239'>239</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L235'></a><a href='#L235'>235</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -514,15 +508,13 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -539,9 +531,7 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import * as React from <span class="cstat-no" title="statement not covered" >'react';</span>
-const { Suspense, lazy } = <span class="cstat-no" title="statement not covered" >React;</span>
-type ComponentType&lt;P = any&gt; = React.ComponentType&lt;P&gt;;
+<span class="cline-any cline-no">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import React, { Suspense, lazy, ComponentType } from <span class="cstat-no" title="statement not covered" >'react';</span>
 import { withMemo } from <span class="cstat-no" title="statement not covered" >'./withMemo';</span>
 import { performanceMonitor } from <span class="cstat-no" title="statement not covered" >'./index';</span>
 &nbsp;
@@ -561,50 +551,50 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
     trackProps = <span class="branch-0 cbranch-no" title="branch not covered" >false,</span>
     trackReRenders = <span class="branch-0 cbranch-no" title="branch not covered" >true</span>
   } = <span class="cstat-no" title="statement not covered" >options;</span>
-  
+&nbsp;
   const MonitoredComponent = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(p</span>rops: P) =&gt; {</span>
     const renderCount = <span class="cstat-no" title="statement not covered" >React.useRef(0);</span>
     const timingRef = <span class="cstat-no" title="statement not covered" >React.useRef(-1);</span>
-    
+&nbsp;
     // Track render count
 <span class="cstat-no" title="statement not covered" >    renderCount.current++;</span>
-    
+&nbsp;
     // Check if this is a re-render
     const isRerender = <span class="cstat-no" title="statement not covered" >renderCount.current &gt; 1;</span>
-    
+&nbsp;
     // Skip if we're not tracking re-renders and this is a re-render
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (isRerender &amp;&amp; !trackReRenders) {</span>
       return &lt;Component {...props} /&gt;;
     }
-    
-    // Start timing if the monitor has startRenderTiming function
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (typeof performanceMonitor.startRenderTiming === 'function') {</span>
-<span class="cstat-no" title="statement not covered" >      timingRef.current = performanceMonitor.startRenderTiming(</span>
+&nbsp;
+    // Start timing if the monitor has startTiming function
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (typeof performanceMonitor.startTiming === 'function') {</span>
+<span class="cstat-no" title="statement not covered" >      timingRef.current = performanceMonitor.startTiming(</span>
         `${name}${isRerender ? ' (rerender)' : ''}`
       );
     }
-    
+&nbsp;
     // Use layout effect to end timing after render completes
 <span class="cstat-no" title="statement not covered" >    React.useEffect(<span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (timingRef.current !== -1 &amp;&amp; typeof performanceMonitor.endRenderTiming === 'function') {</span>
-<span class="cstat-no" title="statement not covered" >        performanceMonitor.endRenderTiming(timingRef.current);</span>
+<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (timingRef.current !== -1 &amp;&amp; typeof performanceMonitor.endTiming === 'function') {</span>
+<span class="cstat-no" title="statement not covered" >        performanceMonitor.endTiming(timingRef.current);</span>
 <span class="cstat-no" title="statement not covered" >        timingRef.current = -1;</span>
       }
-      
+&nbsp;
       // Cleanup function in case component unmounts
 <span class="cstat-no" title="statement not covered" >      return <span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" >        <span class="missing-if-branch" title="if path not taken" >I</span>if (timingRef.current !== -1 &amp;&amp; typeof performanceMonitor.endRenderTiming === 'function') {</span>
-<span class="cstat-no" title="statement not covered" >          performanceMonitor.endRenderTiming(timingRef.current);</span>
+<span class="cstat-no" title="statement not covered" >        <span class="missing-if-branch" title="if path not taken" >I</span>if (timingRef.current !== -1 &amp;&amp; typeof performanceMonitor.endTiming === 'function') {</span>
+<span class="cstat-no" title="statement not covered" >          performanceMonitor.endTiming(timingRef.current);</span>
 <span class="cstat-no" title="statement not covered" >          timingRef.current = -1;</span>
         }
       };
     }, []);
-    
+&nbsp;
     return &lt;Component {...props} /&gt;;
   };
-  
+&nbsp;
 <span class="cstat-no" title="statement not covered" >  MonitoredComponent.displayName = `WithPerformance(${name})`;</span>
-  
+&nbsp;
 <span class="cstat-no" title="statement not covered" >  return MonitoredComponent;</span>
 }
 &nbsp;
@@ -616,8 +606,8 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
  * @param threshold Warning threshold in ms (default: 16ms which is ~60fps)
  */
 export function <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >warnIfExcessive(</span></span>
-  componentName: string, 
-  renderTime: number, 
+  componentName: string,
+  renderTime: number,
   threshold: number = <span class="branch-0 cbranch-no" title="branch not covered" >16</span>
 ): void {
 <span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (renderTime &gt; threshold &amp;&amp; process.env.NODE_ENV !== 'production') {</span>
@@ -636,37 +626,37 @@ export interface OptimizeComponentOptions {
    * Whether to memoize the component
    */
   memoize?: boolean;
-  
+&nbsp;
   /**
    * Props to exclude from memoization equality check
    */
   excludeProps?: string[];
-  
+&nbsp;
   /**
    * Props to include in memoization equality check
    */
   includeProps?: string[];
-  
+&nbsp;
   /**
    * Whether to track component performance
    */
   trackPerformance?: boolean;
-  
+&nbsp;
   /**
    * Whether to log render decisions
    */
   logRenders?: boolean;
-  
+&nbsp;
   /**
    * Whether to lazy load the component
    */
   lazyLoad?: boolean;
-  
+&nbsp;
   /**
    * Fallback component for lazy loading
    */
   fallback?: React.ReactNode;
-  
+&nbsp;
   /**
    * Custom display name for the optimized component
    */
@@ -702,15 +692,15 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
     fallback = <span class="branch-0 cbranch-no" title="branch not covered" >null,</span>
     displayName
   } = <span class="cstat-no" title="statement not covered" >options;</span>
-  
+&nbsp;
   // Use the provided display name or get it from the component
   const componentName = <span class="cstat-no" title="statement not covered" >displayName || Component.displayName || Component.name || 'Component';</span>
-  
+&nbsp;
   // Start with the original component
   let OptimizedComponent: ComponentType&lt;P&gt; = <span class="cstat-no" title="statement not covered" >Component;</span>
-  
+&nbsp;
   // Apply optimizations in sequence
-  
+&nbsp;
   // Step 1: Wrap with performance monitoring if enabled
 <span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (trackPerformance) {</span>
     const MonitoredComponent = <span class="cstat-no" title="statement not covered" >withPerformanceMonitoring(OptimizedComponent, {</span>
@@ -719,7 +709,7 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
     });
 <span class="cstat-no" title="statement not covered" >    OptimizedComponent = MonitoredComponent;</span>
   }
-  
+&nbsp;
   // Step 2: Memoize if enabled
 <span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (memoize) {</span>
     const MemoizedComponent = <span class="cstat-no" title="statement not covered" >withMemo(OptimizedComponent, {</span>
@@ -732,7 +722,7 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
     // Use type assertion to help TypeScript with the memo exotic component
 <span class="cstat-no" title="statement not covered" >    OptimizedComponent = MemoizedComponent as unknown as ComponentType&lt;P&gt;;</span>
   }
-  
+&nbsp;
   // Step 3: Lazy load if enabled
 <span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (lazyLoad) {</span>
     // Create a lazy component factory
@@ -740,40 +730,38 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
 <span class="cstat-no" title="statement not covered" >      return new Promise&lt;{ default: ComponentType&lt;P&gt; }&gt;(<span class="fstat-no" title="function not covered" >(r</span>esolve) =&gt; {</span>
         // Simulate network delay in dev for testing
         const delay = <span class="cstat-no" title="statement not covered" >process.env.NODE_ENV === 'development' ? 300 : 0;</span>
-        
+&nbsp;
 <span class="cstat-no" title="statement not covered" >        setTimeout(<span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
 <span class="cstat-no" title="statement not covered" >          resolve({ default: OptimizedComponent });</span>
         }, delay);
       });
     };
-    
+&nbsp;
     // Lazy load the component
     const LazyComponent = <span class="cstat-no" title="statement not covered" >lazy(getLazyComponent);</span>
-    
+&nbsp;
     // Create a wrapped component with Suspense
-    const WrappedLazyComponent = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(p</span>rops: P) =&gt; {</span>
+    const WrappedLazyComponent = <span class="cstat-no" title="statement not covered" >React.forwardRef&lt;unknown, P&gt;(<span class="fstat-no" title="function not covered" >(p</span>rops, ref) =&gt; {</span>
+      const Component = <span class="cstat-no" title="statement not covered" >LazyComponent as any;</span>
       return (
         &lt;Suspense fallback={fallback}&gt;
-          &lt;LazyComponent {...props} /&gt;
+          &lt;Component {...props} ref={ref} /&gt;
         &lt;/Suspense&gt;
       );
-    };
-    
-    // Set display name for the lazy wrapper
-<span class="cstat-no" title="statement not covered" >    WrappedLazyComponent.displayName = `LazyWrapper(${componentName})`;</span>
-    
-    // Use the wrapped lazy component
-<span class="cstat-no" title="statement not covered" >    OptimizedComponent = WrappedLazyComponent;</span>
+    });
+&nbsp;
+    // Cast to ComponentType&lt;P&gt; through unknown since we know the types are compatible
+<span class="cstat-no" title="statement not covered" >    OptimizedComponent = (WrappedLazyComponent as unknown) as ComponentType&lt;P&gt;;</span>
   }
-  
+&nbsp;
   // Set an appropriate display name for debugging
   let finalName = <span class="cstat-no" title="statement not covered" >componentName;</span>
 <span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (memoize) <span class="cstat-no" title="statement not covered" >finalName = `Memo(${finalName})`;</span></span>
 <span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (trackPerformance) <span class="cstat-no" title="statement not covered" >finalName = `Monitored(${finalName})`;</span></span>
 <span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (lazyLoad) <span class="cstat-no" title="statement not covered" >finalName = `Lazy(${finalName})`;</span></span>
-  
+&nbsp;
 <span class="cstat-no" title="statement not covered" >  OptimizedComponent.displayName = finalName;</span>
-  
+&nbsp;
 <span class="cstat-no" title="statement not covered" >  return OptimizedComponent;</span>
 }
 &nbsp;
@@ -784,7 +772,7 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-15T16:23:22.212Z
+                at 2025-06-16T20:19:58.948Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

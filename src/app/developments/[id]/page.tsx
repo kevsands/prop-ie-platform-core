@@ -1,87 +1,17 @@
 /**
  * Development Detail Page
  * Shows detailed information about a specific development
+ * Data synchronized with developer portal
  */
 import { Metadata } from 'next';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import DevelopmentCTA from '@/components/buyer/DevelopmentCTA';
+import PublicDevelopmentView from '@/components/public/PublicDevelopmentView';
 
-// Development data matching what's in the listings page
+// Static development data for non-Fitzgerald Gardens developments
+// Fitzgerald Gardens data comes from developer portal via PublicDevelopmentView
 const developmentsData = {
-  'fitzgerald-gardens': {
-    id: 'fitzgerald-gardens',
-    name: 'Fitzgerald Gardens',
-    description: 'Luxurious living with modern comforts in the heart of Finglas',
-    longDescription: `Fitzgerald Gardens represents the pinnacle of modern urban living in Dublin. Located in the vibrant community of Finglas, this development offers a perfect blend of sophisticated design, energy efficiency, and convenience.
-
-Each home has been thoughtfully designed with contemporary families in mind, featuring open-plan living spaces, high-quality finishes, and private outdoor areas. The development includes beautifully landscaped communal gardens, secure parking, and is within walking distance of schools, shops, and public transport links.`,
-    location: 'Finglas, Dublin',
-    address: 'Jamestown Road, Finglas, Dublin 11',
-    status: 'Selling Fast',
-    startingPrice: '€395,000',
-    priceRange: '€395,000 - €575,000',
-    bedrooms: [2, 3, 4],
-    bathrooms: 2,
-    energyRating: 'A2',
-    availability: 'Move in from Winter 2025',
-    mainImage: '/images/developments/fitzgerald-gardens/hero.jpeg',
-    images: [
-      '/images/developments/fitzgerald-gardens/hero.jpeg',
-      '/images/developments/fitzgerald-gardens/1.jpg',
-      '/images/developments/fitzgerald-gardens/2.jpg',
-      '/images/developments/fitzgerald-gardens/3.jpg',
-      '/images/developments/fitzgerald-gardens/2bed-apartment.jpeg',
-      '/images/developments/fitzgerald-gardens/3bed-House.jpeg',
-      '/images/developments/fitzgerald-gardens/HouseTypes Header.jpeg',
-      '/images/developments/fitzgerald-gardens/Vanity-unit.jpeg'
-    ],
-    features: [
-      'Energy Efficient A2 Rating',
-      'Modern Open Plan Design',
-      'Private Outdoor Spaces',
-      'Secure Parking',
-      'Landscaped Gardens',
-      'Near Schools & Shops',
-      'Excellent Transport Links',
-      'High-Quality Finishes'
-    ],
-    unitsAvailable: 12,
-    totalUnits: 48,
-    floorPlans: [
-      { 
-        type: '2 Bed', 
-        size: '75-85 sqm', 
-        price: 'From €395,000',
-        image: '/images/developments/fitzgerald-gardens/House Type 1.png'
-      },
-      { 
-        type: '3 Bed', 
-        size: '95-105 sqm', 
-        price: 'From €450,000',
-        image: '/images/developments/fitzgerald-gardens/House Type 2.png'
-      },
-      { 
-        type: '4 Bed', 
-        size: '110-125 sqm', 
-        price: 'From €525,000',
-        image: '/images/developments/fitzgerald-gardens/House Type 3.png'
-      },
-      {
-        type: 'Duplex',
-        size: '100-110 sqm',
-        price: 'From €475,000',
-        image: '/images/developments/fitzgerald-gardens/Duplex D5.png'
-      }
-    ],
-    transport: {
-      bus: '5 min walk to Dublin Bus routes',
-      luas: '15 min to Luas Green Line',
-      car: '20 min to City Centre',
-      dart: '20 min to DART station'
-    },
-    sitePlan: '/images/developments/fitzgerald-gardens/site-plan.jpg'
-  },
   'ballymakenny-view': {
     id: 'ballymakenny-view',
     name: 'Ballymakenny View',
@@ -234,7 +164,8 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const development = developmentsData[params.id as keyof typeof developmentsData];
+  const resolvedParams = await params;
+  const development = developmentsData[resolvedParams.id as keyof typeof developmentsData];
   
   if (!development) {
     return {
@@ -248,8 +179,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default function DevelopmentDetailPage({ params }: Props) {
-  const development = developmentsData[params.id as keyof typeof developmentsData];
+export default async function DevelopmentDetailPage({ params }: Props) {
+  const resolvedParams = await params;
+  
+  // Special handling for Fitzgerald Gardens - use developer portal data
+  if (resolvedParams.id === 'fitzgerald-gardens') {
+    return <PublicDevelopmentView developmentId="fitzgerald-gardens" />;
+  }
+  
+  const development = developmentsData[resolvedParams.id as keyof typeof developmentsData];
 
   if (!development) {
     notFound();

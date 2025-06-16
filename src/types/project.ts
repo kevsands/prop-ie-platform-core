@@ -1,322 +1,350 @@
 /**
- * Project related types for development and construction management
+ * Enterprise Data Types for Property Development Platform
+ * Provides type-safe contracts for all property and unit management
+ * 
+ * @fileoverview Comprehensive TypeScript definitions for enterprise property management
+ * @version 2.0.0
+ * @author Property Development Platform Team
  */
-import { Location } from './location';
-import { Document, DocumentType } from './document';
-import { DevelopmentStatus } from './graphql';
 
-/**
- * Project team member interface
- */
-export interface ProjectTeamMember {
-  id: string;
-  userId?: string;
-  name: string;
-  role: ProjectRole;
-  organization: string;
-  email: string;
-  phone?: string;
-  address?: string;
-  position?: string;
-  profileImage?: string;
-  documents?: Document[];
-  notes?: string;
-  isActive: boolean;
-  joinedAt: Date;
+// =============================================================================
+// CORE UNIT MANAGEMENT TYPES
+// =============================================================================
+
+export type UnitStatus = 'available' | 'reserved' | 'sold' | 'held' | 'withdrawn';
+export type UnitType = '1 Bed Apartment' | '2 Bed Apartment' | '3 Bed House' | '4 Bed House';
+export type AppointmentType = 'engineer' | 'consultant' | 'solicitor' | 'architect' | 'surveyor';
+export type AppointmentStatus = 'scheduled' | 'completed' | 'cancelled' | 'rescheduled';
+export type InvoiceStatus = 'pending' | 'approved' | 'paid' | 'overdue' | 'disputed';
+export type InvoiceCategory = 'design' | 'construction' | 'legal' | 'marketing' | 'other';
+export type ProposalStatus = 'draft' | 'submitted' | 'under_review' | 'approved' | 'rejected';
+export type TeamMemberStatus = 'active' | 'busy' | 'unavailable' | 'on_leave';
+export type TeamDepartment = 'design' | 'construction' | 'management' | 'sales' | 'legal';
+
+// =============================================================================
+// BUYER AND LEGAL INFORMATION
+// =============================================================================
+
+export interface BuyerInformation {
+  readonly id: string;
+  readonly name: string;
+  readonly email: string;
+  readonly phone: string;
+  readonly address?: string;
+  readonly solicitor: string;
+  readonly solicitorContact?: string;
+  readonly mortgageProvider?: string;
+  readonly mortgageApproved: boolean;
+  readonly depositAmount?: number;
+  readonly notes?: string;
+  readonly createdAt: Date;
+  readonly updatedAt: Date;
 }
 
-/**
- * Project team roles
- */
-export enum ProjectRole {
-  DEVELOPER = 'developer',
-  ARCHITECT = 'architect',
-  ENGINEER = 'engineer',
-  CONSTRUCTION_MANAGER = 'construction_manager',
-  CONTRACTOR = 'contractor',
-  SOLICITOR = 'solicitor',
-  ESTATE_AGENT = 'estate_agent',
-  SALES_AGENT = 'sales_agent',
-  FINANCIAL_ADVISOR = 'financial_advisor',
-  SURVEYOR = 'surveyor',
-  INTERIOR_DESIGNER = 'interior_designer',
-  LANDSCAPE_ARCHITECT = 'landscape_architect',
-  QUANTITY_SURVEYOR = 'quantity_surveyor',
-  PLANNING_CONSULTANT = 'planning_consultant'
+export interface LegalPack {
+  readonly solicitorPackSent: boolean;
+  readonly contractSigned: boolean;
+  readonly depositPaid: boolean;
+  readonly mortgageApproved: boolean;
+  readonly completionDate: Date | null;
+  readonly legalNotes?: string;
+  readonly lastUpdated: Date;
 }
 
-/**
- * Project timeline interface
- */
-export interface ProjectTimeline {
-  id: string;
-  projectId: string;
-  phases: ProjectPhase[];
-  milestones: ProjectMilestone[];
-  createdAt: Date;
-  updatedAt: Date;
+// =============================================================================
+// UNIT DEFINITION AND MANAGEMENT
+// =============================================================================
+
+export interface UnitFeatures {
+  readonly bedrooms: number;
+  readonly bathrooms: number;
+  readonly sqft: number;
+  readonly floor: number;
+  readonly building: number;
+  readonly hasBalcony: boolean;
+  readonly hasGarden: boolean;
+  readonly parkingSpaces: number;
+  readonly features: ReadonlyArray<string>;
+  readonly amenities: ReadonlyArray<string>;
 }
 
-/**
- * Project phase
- */
-export interface ProjectPhase {
-  id: string;
-  name: string;
-  description?: string;
-  status: ProjectPhaseStatus;
-  startDate: Date;
-  endDate: Date;
-  progress: number; // 0-100
-  tasks?: ProjectTask[];
-  dependencies?: string[]; // IDs of phases that must be completed first
-  milestones?: ProjectMilestone[];
-  documents?: Document[];
+export interface UnitLocation {
+  readonly x: number; // Position for site plan (0-100)
+  readonly y: number; // Position for site plan (0-100)
+  readonly building: number;
+  readonly floor: number;
+  readonly unitNumber: string;
 }
 
-/**
- * Project phase status enum
- */
-export enum ProjectPhaseStatus {
-  NOT_STARTED = 'not_started',
-  IN_PROGRESS = 'in_progress',
-  COMPLETED = 'completed',
-  DELAYED = 'delayed',
-  ON_HOLD = 'on_hold',
-  CANCELLED = 'cancelled'
+export interface UnitPricing {
+  readonly basePrice: number;
+  readonly currentPrice: number;
+  readonly priceHistory: ReadonlyArray<{
+    readonly price: number;
+    readonly date: Date;
+    readonly reason: string;
+  }>;
+  readonly htbEligible: boolean;
+  readonly htbAmount?: number;
 }
 
-/**
- * Project milestone
- */
-export interface ProjectMilestone {
-  id: string;
-  name: string;
-  description?: string;
-  date: Date;
-  isCompleted: boolean;
-  completedAt?: Date;
-  phaseId?: string;
-  type: MilestoneType;
-  documents?: Document[];
-  notifications?: boolean; // Whether to send notifications for this milestone
+export interface Unit {
+  readonly id: string;
+  readonly number: string;
+  readonly type: UnitType;
+  readonly status: UnitStatus;
+  readonly pricing: UnitPricing;
+  readonly features: UnitFeatures;
+  readonly location: UnitLocation;
+  readonly buyer: BuyerInformation | null;
+  readonly legalPack: LegalPack;
+  readonly statusHistory: ReadonlyArray<{
+    readonly status: UnitStatus;
+    readonly date: Date;
+    readonly reason: string;
+    readonly updatedBy: string;
+  }>;
+  readonly lastUpdated: Date;
+  readonly createdAt: Date;
 }
 
-/**
- * Milestone type enum
- */
-export enum MilestoneType {
-  PLANNING_PERMISSION = 'planning_permission',
-  CONSTRUCTION_START = 'construction_start',
-  FOUNDATION_COMPLETE = 'foundation_complete',
-  STRUCTURE_COMPLETE = 'structure_complete',
-  INTERIOR_START = 'interior_start',
-  UTILITIES_CONNECTION = 'utilities_connection',
-  HANDOVER = 'handover',
-  SALES_LAUNCH = 'sales_launch',
-  PHASE_COMPLETION = 'phase_completion',
-  PROJECT_COMPLETION = 'project_completion',
-  MARKETING_START = 'marketing_start',
-  FINANCIAL_MILESTONE = 'financial_milestone',
-  LEGAL_MILESTONE = 'legal_milestone',
-  CUSTOM = 'custom'
+// =============================================================================
+// PROJECT MANAGEMENT TYPES
+// =============================================================================
+
+export interface ProjectMetrics {
+  readonly totalUnits: number;
+  readonly soldUnits: number;
+  readonly reservedUnits: number;
+  readonly availableUnits: number;
+  readonly heldUnits: number;
+  readonly withdrawnUnits: number;
+  readonly totalRevenue: number;
+  readonly projectedRevenue: number;
+  readonly averageUnitPrice: number;
+  readonly salesVelocity: number; // units per week
+  readonly conversionRate: number; // percentage
+  readonly lastCalculated: Date;
 }
 
-/**
- * Project task
- */
-export interface ProjectTask {
-  id: string;
-  name: string;
-  description?: string;
-  status: ProjectTaskStatus;
-  priority: TaskPriority;
-  assignedTo?: string[]; // User IDs
-  phaseId?: string;
-  startDate?: Date;
-  dueDate?: Date;
-  completedAt?: Date;
-  estimatedHours?: number;
-  actualHours?: number;
-  progress: number; // 0-100
-  dependencies?: string[]; // IDs of tasks that must be completed first
-  subtasks?: ProjectSubtask[];
-  notes?: string;
-  tags?: string[];
-  attachments?: Document[];
-}
-
-/**
- * Project task status enum
- */
-export enum ProjectTaskStatus {
-  TODO = 'todo',
-  IN_PROGRESS = 'in_progress',
-  REVIEW = 'review',
-  COMPLETED = 'completed',
-  BLOCKED = 'blocked',
-  CANCELLED = 'cancelled'
-}
-
-/**
- * Task priority enum
- */
-export enum TaskPriority {
-  LOW = 'low',
-  MEDIUM = 'medium',
-  HIGH = 'high',
-  URGENT = 'urgent'
-}
-
-/**
- * Project subtask
- */
-export interface ProjectSubtask {
-  id: string;
-  taskId: string;
-  name: string;
-  description?: string;
-  isCompleted: boolean;
-  assignedTo?: string; // User ID
-  dueDate?: Date;
-  completedAt?: Date;
-}
-
-/**
- * Project budget
- */
-export interface ProjectBudget {
-  id: string;
-  projectId: string;
-  name: string;
-  description?: string;
-  totalAmount: number;
-  currency: string;
-  categories: BudgetCategory[];
-  actualSpent: number;
-  projectedSpent: number;
-  variance: number;
-  createdAt: Date;
-  updatedAt: Date;
-}
-
-/**
- * Budget category
- */
-export interface BudgetCategory {
-  id: string;
-  name: string;
-  description?: string;
-  amount: number;
-  actualSpent: number;
-  projectedSpent: number;
-  variance: number;
-  items?: BudgetItem[];
-}
-
-/**
- * Budget item
- */
-export interface BudgetItem {
-  id: string;
-  name: string;
-  description?: string;
-  estimatedAmount: number;
-  actualAmount?: number;
-  quantity?: number;
-  unit?: string;
-  source?: string;
-  notes?: string;
-  invoices?: Document[];
-}
-
-/**
- * Project risk
- */
-export interface ProjectRisk {
-  id: string;
-  projectId: string;
-  name: string;
-  description: string;
-  likelihood: RiskLevel;
-  impact: RiskLevel;
-  status: RiskStatus;
-  mitigationPlan?: string;
-  contingencyPlan?: string;
-  assignedTo?: string; // User ID
-  category: RiskCategory;
-  identifiedAt: Date;
-  resolvedAt?: Date;
-  documents?: Document[];
-}
-
-/**
- * Risk level enum
- */
-export enum RiskLevel {
-  LOW = 'low',
-  MEDIUM = 'medium',
-  HIGH = 'high',
-  SEVERE = 'severe'
-}
-
-/**
- * Risk status enum
- */
-export enum RiskStatus {
-  IDENTIFIED = 'identified',
-  MONITORING = 'monitoring',
-  MITIGATED = 'mitigated',
-  RESOLVED = 'resolved',
-  ACCEPTED = 'accepted'
-}
-
-/**
- * Risk category enum
- */
-export enum RiskCategory {
-  FINANCIAL = 'financial',
-  LEGAL = 'legal',
-  REGULATORY = 'regulatory',
-  CONSTRUCTION = 'construction',
-  ENVIRONMENTAL = 'environmental',
-  SCHEDULE = 'schedule',
-  RESOURCE = 'resource',
-  HEALTH_SAFETY = 'health_safety',
-  QUALITY = 'quality',
-  STAKEHOLDER = 'stakeholder',
-  TECHNICAL = 'technical'
-}
-
-/**
- * Main project interface
- */
-export interface Project {
-  id: string;
-  name: string;
-  description: string;
-  developerId: string; // Organization ID
-  location: Location;
-  status: DevelopmentStatus;
-  startDate: Date;
-  estimatedCompletionDate: Date;
-  actualCompletionDate?: Date;
-  phases: ProjectPhase[];
-  milestones: ProjectMilestone[];
-  team: ProjectTeamMember[];
-  budget?: ProjectBudget;
-  risks?: ProjectRisk[];
-  documents: Document[];
-  planningPermissionRef?: string;
-  planningPermissionStatus?: string;
-  planningPermissionDate?: Date;
-  sitePlanUrl?: string;
-  salesInfo?: {
-    launchDate?: Date;
-    salesTarget?: number;
-    reservationsCount?: number;
-    salesCount?: number;
+export interface UnitTypeBreakdown {
+  readonly type: UnitType;
+  readonly totalCount: number;
+  readonly sold: number;
+  readonly reserved: number;
+  readonly available: number;
+  readonly held: number;
+  readonly withdrawn: number;
+  readonly priceRange: {
+    readonly min: number;
+    readonly max: number;
+    readonly average: number;
   };
-  createdAt: Date;
-  updatedAt: Date;
+  readonly salesPercentage: number;
 }
+
+export interface ProjectTimeline {
+  readonly projectStart: Date;
+  readonly plannedCompletion: Date;
+  readonly currentPhase: string;
+  readonly progressPercentage: number;
+  readonly milestones: ReadonlyArray<{
+    readonly id: string;
+    readonly name: string;
+    readonly date: Date;
+    readonly completed: boolean;
+    readonly critical: boolean;
+  }>;
+}
+
+export interface Project {
+  readonly id: string;
+  readonly name: string;
+  readonly location: string;
+  readonly description: string;
+  readonly metrics: ProjectMetrics;
+  readonly unitBreakdown: ReadonlyArray<UnitTypeBreakdown>;
+  readonly timeline: ProjectTimeline;
+  readonly units: ReadonlyArray<Unit>;
+  readonly lastUpdated: Date;
+  readonly createdAt: Date;
+}
+
+// =============================================================================
+// TEAM MANAGEMENT TYPES
+// =============================================================================
+
+export interface TeamMember {
+  readonly id: string;
+  readonly name: string;
+  readonly role: string;
+  readonly company: string;
+  readonly email: string;
+  readonly phone: string;
+  readonly status: TeamMemberStatus;
+  readonly department: TeamDepartment;
+  readonly specialties: ReadonlyArray<string>;
+  readonly hourlyRate: number;
+  readonly joinDate: Date;
+  readonly lastActivity: Date;
+  readonly currentTasks: number;
+  readonly completedTasks: number;
+  readonly location: string;
+  readonly notes?: string;
+}
+
+// =============================================================================
+// FINANCIAL MANAGEMENT TYPES
+// =============================================================================
+
+export interface Invoice {
+  readonly id: string;
+  readonly invoiceNumber: string;
+  readonly provider: string;
+  readonly providerEmail: string;
+  readonly providerPhone: string;
+  readonly amount: number;
+  readonly netAmount: number;
+  readonly vatAmount: number;
+  readonly date: Date;
+  readonly dueDate: Date;
+  readonly status: InvoiceStatus;
+  readonly type: string;
+  readonly description: string;
+  readonly category: InvoiceCategory;
+  readonly approvedBy?: string;
+  readonly approvedDate?: Date;
+  readonly paymentMethod?: string;
+  readonly paymentDate?: Date;
+  readonly notes?: string;
+}
+
+export interface FeeProposal {
+  readonly id: string;
+  readonly title: string;
+  readonly provider: string;
+  readonly totalAmount: number;
+  readonly status: ProposalStatus;
+  readonly submittedDate: Date;
+  readonly reviewDate?: Date;
+  readonly description: string;
+  readonly breakdownItems: ReadonlyArray<{
+    readonly description: string;
+    readonly quantity: number;
+    readonly rate: number;
+    readonly total: number;
+  }>;
+  readonly terms: string;
+  readonly validUntil: Date;
+  readonly notes?: string;
+}
+
+export interface ProfessionalAppointment {
+  readonly id: string;
+  readonly professional: string;
+  readonly company: string;
+  readonly role: string;
+  readonly appointmentType: AppointmentType;
+  readonly appointmentDate: Date;
+  readonly status: AppointmentStatus;
+  readonly fee: number;
+  readonly description: string;
+  readonly duration: number; // hours
+  readonly location: string;
+  readonly contactEmail: string;
+  readonly contactPhone: string;
+  readonly notes?: string;
+  readonly followUpRequired: boolean;
+  readonly completionNotes?: string;
+}
+
+// =============================================================================
+// STATE MANAGEMENT AND EVENTS
+// =============================================================================
+
+export interface UnitUpdateEvent {
+  readonly unitId: string;
+  readonly previousStatus: UnitStatus;
+  readonly newStatus: UnitStatus;
+  readonly reason: string;
+  readonly updatedBy: string;
+  readonly timestamp: Date;
+  readonly additionalData?: Record<string, unknown>;
+}
+
+export interface ProjectStateUpdate {
+  readonly type: 'UNIT_STATUS_CHANGE' | 'UNIT_PRICE_UPDATE' | 'BUYER_ASSIGNMENT' | 'LEGAL_UPDATE';
+  readonly payload: UnitUpdateEvent;
+  readonly projectId: string;
+  readonly timestamp: Date;
+}
+
+// =============================================================================
+// ANALYTICS AND REPORTING TYPES
+// =============================================================================
+
+export interface SalesAnalytics {
+  readonly totalSales: number;
+  readonly salesGrowth: number;
+  readonly totalRevenue: number;
+  readonly revenueGrowth: number;
+  readonly averageSalePrice: number;
+  readonly priceGrowth: number;
+  readonly salesVelocity: number;
+  readonly velocityChange: number;
+  readonly conversionRate: number;
+  readonly conversionGrowth: number;
+  readonly pipelineValue: number;
+  readonly pipelineGrowth: number;
+  readonly period: string;
+  readonly lastUpdated: Date;
+}
+
+export interface MarketingMetrics {
+  readonly pageViews: number;
+  readonly uniqueVisitors: number;
+  readonly enquiries: number;
+  readonly brochureDownloads: number;
+  readonly virtualTours: number;
+  readonly conversionRate: number;
+  readonly averageTimeOnSite: number;
+  readonly bounceRate: number;
+  readonly period: string;
+  readonly lastUpdated: Date;
+}
+
+// =============================================================================
+// VALIDATION AND BUSINESS RULES
+// =============================================================================
+
+export interface ValidationRule {
+  readonly field: string;
+  readonly rule: string;
+  readonly message: string;
+  readonly severity: 'error' | 'warning' | 'info';
+}
+
+export interface BusinessRules {
+  readonly unitStatusTransitions: Record<UnitStatus, ReadonlyArray<UnitStatus>>;
+  readonly requiredFields: Record<string, ReadonlyArray<string>>;
+  readonly validationRules: ReadonlyArray<ValidationRule>;
+  readonly permissions: Record<string, ReadonlyArray<string>>;
+}
+
+// =============================================================================
+// EXPORT ALL TYPES
+// =============================================================================
+
+export type {
+  Unit,
+  Project,
+  TeamMember,
+  Invoice,
+  FeeProposal,
+  ProfessionalAppointment,
+  UnitUpdateEvent,
+  ProjectStateUpdate,
+  SalesAnalytics,
+  MarketingMetrics,
+  BusinessRules
+};

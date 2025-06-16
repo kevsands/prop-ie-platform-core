@@ -1,5 +1,5 @@
 "use client";
-import React, { createContext, useContext, useReducer, useEffect, ReactNode, useCallback } from 'react';
+import React, { createContext, useContext, useReducer, useEffect, ReactNode, useCallback, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { DataService } from '@/lib/amplify-data'; // Import DataService
 
@@ -152,8 +152,8 @@ function calculateTotalCost(selectedOptions: Record<string, SelectedOption>): nu
   return Object.values(selectedOptions).reduce((total, option) => total + (option.price || 0), 0);
 }
 
-// Provider component
-export function CustomizationProvider({ children }: { children: ReactNode }) {
+// Internal provider component that uses useSearchParams
+function CustomizationProviderInternal({ children }: { children: ReactNode }) {
   const [state, dispatch] = useReducer(customizationReducer, initialState);
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -315,6 +315,19 @@ export function CustomizationProvider({ children }: { children: ReactNode }) {
     <CustomizationContext.Provider value={value}>
       {children}
     </CustomizationContext.Provider>
+  );
+}
+
+// Export the main provider with Suspense boundary
+export function CustomizationProvider({ children }: { children: ReactNode }) {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center">
+      <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+    </div>}>
+      <CustomizationProviderInternal>
+        {children}
+      </CustomizationProviderInternal>
+    </Suspense>
   );
 }
 

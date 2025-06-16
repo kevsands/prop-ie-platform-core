@@ -25,28 +25,28 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/4</span>
+                <span class='fraction'>0/8</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/0</span>
+                <span class='fraction'>0/5</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/1</span>
+                <span class='fraction'>0/3</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/3</span>
+                <span class='fraction'>0/7</span>
             </div>
         
             
@@ -96,7 +96,23 @@
 <a name='L31'></a><a href='#L31'>31</a>
 <a name='L32'></a><a href='#L32'>32</a>
 <a name='L33'></a><a href='#L33'>33</a>
-<a name='L34'></a><a href='#L34'>34</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L34'></a><a href='#L34'>34</a>
+<a name='L35'></a><a href='#L35'>35</a>
+<a name='L36'></a><a href='#L36'>36</a>
+<a name='L37'></a><a href='#L37'>37</a>
+<a name='L38'></a><a href='#L38'>38</a>
+<a name='L39'></a><a href='#L39'>39</a>
+<a name='L40'></a><a href='#L40'>40</a>
+<a name='L41'></a><a href='#L41'>41</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -116,12 +132,10 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -131,34 +145,41 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">'use client';
 &nbsp;
-import { ToastProvider, ToastViewport } from <span class="cstat-no" title="statement not covered" >"@/components/ui/toast";</span>
+import { useToast } from <span class="cstat-no" title="statement not covered" >'./use-toast';</span>
+import { FiX, FiCheckCircle, FiAlertCircle } from <span class="cstat-no" title="statement not covered" >'react-icons/fi';</span>
 &nbsp;
-/**
- * Toaster - Toast notification system component
- * 
- * This component should be included once in your layout
- * to enable toast notifications across your application.
- * 
- * @example
- * // In layout.tsx
- * import { Toaster } from "@/components/ui/toaster"
- * 
- * export default function RootLayout({ children }) {
- *   return (
- *     &lt;html&gt;
- *       &lt;body&gt;
- *         {children}
- *         &lt;Toaster /&gt;
- *       &lt;/body&gt;
- *     &lt;/html&gt;
- *   )
- * }
- */
 export function <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >Toaster(</span></span>) {
+  const { toasts, dismiss } = <span class="cstat-no" title="statement not covered" >useToast();</span>
+&nbsp;
   return (
-    &lt;ToastProvider&gt;
-      &lt;ToastViewport /&gt;
-    &lt;/ToastProvider&gt;
+    &lt;div className="fixed bottom-4 right-4 z-50 space-y-2"&gt;
+      {toasts.map(<span class="fstat-no" title="function not covered" >(t</span>oast) =&gt; (
+<span class="cstat-no" title="statement not covered" >        &lt;div</span>
+          key={toast.id}
+          className={`flex items-center p-4 rounded-lg shadow-lg ${
+            toast.variant === 'destructive' 
+              ? 'bg-red-500 text-white' 
+              : 'bg-green-500 text-white'
+          } animate-slide-in-right`}
+        &gt;
+          {toast.variant === 'destructive' ? (
+<span class="branch-0 cbranch-no" title="branch not covered" >            &lt;FiAlertCircle className="mr-3 h-5 w-5" /&gt;</span>
+          ) : (
+            &lt;FiCheckCircle className="mr-3 h-5 w-5" /&gt;
+          )}
+          &lt;div className="flex-1"&gt;
+            {<span class="branch-0 cbranch-no" title="branch not covered" >toast.title </span>&amp;&amp; &lt;p className="font-medium"&gt;{toast.title}&lt;/p&gt;}
+            {<span class="branch-0 cbranch-no" title="branch not covered" >toast.description </span>&amp;&amp; &lt;p className="text-sm opacity-90"&gt;{toast.description}&lt;/p&gt;}
+          &lt;/div&gt;
+          &lt;button
+            onClick={<span class="fstat-no" title="function not covered" >() =&gt; <span class="cstat-no" title="statement not covered" >d</span>ismiss(toast.id)}</span>
+            className="ml-4 hover:opacity-75"
+          &gt;
+            &lt;FiX className="h-4 w-4" /&gt;
+          &lt;/button&gt;
+        &lt;/div&gt;
+      ))}
+    &lt;/div&gt;
   );
 }
 &nbsp;
@@ -169,7 +190,7 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-15T16:23:25.168Z
+                at 2025-06-16T20:20:01.464Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

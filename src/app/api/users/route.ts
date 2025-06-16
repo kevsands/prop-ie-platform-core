@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-import { userService } from "@/lib/services/users";
+import { userService } from "@/lib/services/users-mock";
 import { getServerSession } from "next-auth";
+import { PrismaClient } from '@prisma/client';
+
+const prisma = new PrismaClient();
 
 /**
  * GET handler for users endpoint

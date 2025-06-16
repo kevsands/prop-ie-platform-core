@@ -33,7 +33,6 @@ export class DevelopmentService {
       });
       return responseData.listDevelopments?.items || [];
     } catch (error) {
-      console.error("Error fetching featured developments:", error);
       return [];
     }
   }
@@ -43,7 +42,6 @@ export class DevelopmentService {
    */
   static async getDevelopmentById(developmentId: string): Promise<Development | null> {
     if (!developmentId) {
-      console.error("getDevelopmentById requires a developmentId");
       return null;
     }
     
@@ -83,7 +81,6 @@ export class DevelopmentService {
       });
       return responseData.getDevelopment || null;
     } catch (error) {
-      console.error(`Error fetching development with ID ${developmentId}:`, error);
       return null;
     }
   }
@@ -93,7 +90,6 @@ export class DevelopmentService {
    */
   static async updateDevelopment(developmentId: string, updateData: Partial<Development>): Promise<Development | null> {
     if (!developmentId) {
-      console.error("updateDevelopment requires a developmentId");
       return null;
     }
     
@@ -123,7 +119,6 @@ export class DevelopmentService {
       });
       return responseData.updateDevelopment || null;
     } catch (error) {
-      console.error(`Error updating development with ID ${developmentId}:`, error);
       return null;
     }
   }
@@ -158,7 +153,6 @@ export class DevelopmentService {
       });
       return responseData.createDevelopment || null;
     } catch (error) {
-      console.error(`Error creating development:`, error);
       return null;
     }
   }

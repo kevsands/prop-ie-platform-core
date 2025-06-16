@@ -1,144 +1,64 @@
 /**
  * First-Time Buyer API Hook
  * 
- * Custom hook for interacting with First-Time Buyer GraphQL operations.
+ * Updated to use REST APIs instead of GraphQL for better integration with newly enabled endpoints.
  */
 
 import { useCallback } from 'react';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import type { UseMutationOptions, UseQueryOptions } from '@tanstack/react-query';
-import { GraphQLClient } from 'graphql-request';
-import { generateClient } from 'aws-amplify/api';
-import { useAuth } from '@/hooks/useAuth';
+import { useAuth } from '@/context/AuthContext';
+import { buyerRestApiService } from '@/services/buyerRestApiService';
 
-// Use a type assertion to handle the GraphQL auth mode
-const AUTH_MODE_USER_POOLS = 'AMAZON_COGNITO_USER_POOLS' as const;
+// Re-export types from the service layer
+export type {
+  BuyerProfile,
+  Reservation,
+  MortgageTracking,
+  SnagList,
+  SnagItem,
+  HomePackItem
+} from '@/services/buyerRestApiService';
 
-// Initialize the GraphQL client
-const amplifyClient = generateClient();
-
-// Import buyer GraphQL operations
-import * as BuyerQueries from '../graphql/buyer-queries';
-import * as BuyerMutations from '../graphql/buyer-mutations';
-
-// Create a GraphQL client for server-side operations
-const client = new GraphQLClient('/api/graphql');
-
-// Type for Amplify GraphQL response
-interface AmplifyGraphQLResult<T = unknown> {
-  data: T | null;
-  errors?: Array<{
-    message: string;
-    locations?: Array<{
-      line: number;
-      column: number;
-    }>;
-    path?: string[];
-  }>;
-}
-
-// Buyer Profile Types
-interface BuyerProfile {
-  id: string;
-  name: string;
-  email: string;
-  phone?: string;
-  address?: string;
-  createdAt: string;
-  updatedAt: string;
-}
-
+// Input types
 interface BuyerProfileInput {
   name?: string;
   email?: string;
   phone?: string;
   address?: string;
-  metadata?: Record<string, unknown>;
-}
-
-// Reservation Types
-interface Reservation {
-  id: string;
-  propertyId: string;
-  unitId?: string;
-  reservationDate: string;
-  status: string;
-  createdAt: string;
-  updatedAt: string;
+  currentJourneyPhase?: string;
+  financialDetails?: Record<string, unknown>;
+  preferences?: Record<string, unknown>;
+  governmentSchemes?: Record<string, unknown>;
 }
 
 interface ReservationInput {
   propertyId: string;
   unitId?: string;
   reservationDate?: string;
-  metadata?: Record<string, unknown>;
-}
-
-// Mortgage Tracking Types
-interface MortgageTracking {
-  id: string;
-  status: string;
-  lender?: string;
-  amount?: number;
-  documents: string[];
-  createdAt: string;
-  updatedAt: string;
 }
 
 interface MortgageTrackingInput {
   status?: string;
   lender?: string;
+  lenderName?: string;
   amount?: number;
-  metadata?: Record<string, unknown>;
-}
-
-// Snag List Types
-interface SnagList {
-  id: string;
-  propertyId: string;
-  title: string;
-  description?: string;
-  items: SnagItem[];
-  createdAt: string;
-  updatedAt: string;
+  notes?: string;
 }
 
 interface SnagListInput {
   propertyId: string;
   title?: string;
   description?: string;
-  metadata?: Record<string, unknown>;
-}
-
-interface SnagItem {
-  id: string;
-  snagListId: string;
-  title: string;
-  description?: string;
-  priority?: string;
-  status?: string;
-  createdAt: string;
-  updatedAt: string;
 }
 
 interface SnagItemInput {
   snagListId: string;
   title: string;
   description?: string;
+  location?: string;
   priority?: string;
   status?: string;
-  metadata?: Record<string, unknown>;
-}
-
-// Home Pack Item Types
-interface HomePackItem {
-  id: string;
-  propertyId: string;
-  name: string;
-  description?: string;
-  category?: string;
-  createdAt: string;
-  updatedAt: string;
 }
 
 interface HomePackItemInput {
@@ -146,383 +66,212 @@ interface HomePackItemInput {
   name: string;
   description?: string;
   category?: string;
-  metadata?: Record<string, unknown>;
 }
 
 export function useBuyerAPI() {
   const { user } = useAuth();
 
   // Buyer Profile Operations
-  const useMyBuyerProfile = (options?: UseQueryOptions<BuyerProfile>) => {
+  const useMyBuyerProfile = (options?: UseQueryOptions<import('@/services/buyerRestApiService').BuyerProfile, Error>) => {
     return useQuery({
       queryKey: ['buyerProfile', user?.id],
-      queryFn: async () => {
-        const result = await amplifyClient.graphql({
-          query: BuyerQueries.getMyBuyerProfile,
-          authMode: AUTH_MODE_USER_POOLS,
-        });
-        const typedResult = result as AmplifyGraphQLResult<{ myBuyerProfile: BuyerProfile }>;
-        if (typedResult.errors) throw new Error(typedResult.errors[0].message);
-        if (!typedResult.data?.myBuyerProfile) throw new Error('No buyer profile found');
-        return typedResult.data.myBuyerProfile;
-      },
+      queryFn: () => buyerRestApiService.getMyBuyerProfile(),
       enabled: !!user,
+      staleTime: 5 * 60 * 1000, // 5 minutes
+      gcTime: 10 * 60 * 1000, // 10 minutes
       ...options,
     });
   };
 
-  const useCreateBuyerProfile = (options?: UseMutationOptions<BuyerProfile, Error, BuyerProfileInput>) => {
+  const useCreateBuyerProfile = (options?: UseMutationOptions<import('@/services/buyerRestApiService').BuyerProfile, Error, BuyerProfileInput>) => {
     return useMutation({
-      mutationFn: async (input: BuyerProfileInput) => {
-        const result = await amplifyClient.graphql({
-          query: BuyerMutations.createBuyerProfile,
-          variables: { input },
-          authMode: AUTH_MODE_USER_POOLS,
-        });
-        const typedResult = result as AmplifyGraphQLResult<{ createBuyerProfile: BuyerProfile }>;
-        if (typedResult.errors) throw new Error(typedResult.errors[0].message);
-        if (!typedResult.data?.createBuyerProfile) throw new Error('Failed to create buyer profile');
-        return typedResult.data.createBuyerProfile;
-      },
+      mutationFn: (input: BuyerProfileInput) => buyerRestApiService.createBuyerProfile(input),
       ...options,
     });
   };
 
-  const useUpdateBuyerProfile = (options?: UseMutationOptions<BuyerProfile, Error, { id: string; input: BuyerProfileInput }>) => {
+  const useUpdateBuyerProfile = (options?: UseMutationOptions<import('@/services/buyerRestApiService').BuyerProfile, Error, { id: string; input: BuyerProfileInput }>) => {
     return useMutation({
-      mutationFn: async ({ id, input }: { id: string; input: BuyerProfileInput }) => {
-        const result = await amplifyClient.graphql({
-          query: BuyerMutations.updateBuyerProfile,
-          variables: { id, input },
-          authMode: AUTH_MODE_USER_POOLS,
-        });
-        const typedResult = result as AmplifyGraphQLResult<{ updateBuyerProfile: BuyerProfile }>;
-        if (typedResult.errors) throw new Error(typedResult.errors[0].message);
-        if (!typedResult.data?.updateBuyerProfile) throw new Error('Failed to update buyer profile');
-        return typedResult.data.updateBuyerProfile;
-      },
+      mutationFn: ({ id, input }: { id: string; input: BuyerProfileInput }) => 
+        buyerRestApiService.updateBuyerProfile(id, input),
       ...options,
     });
   };
 
   // Reservation Operations
-  const useMyReservations = (options?: UseQueryOptions<Reservation[]>) => {
+  const useMyReservations = (options?: UseQueryOptions<import('@/services/buyerRestApiService').Reservation[], Error>) => {
     return useQuery({
       queryKey: ['myReservations', user?.id],
-      queryFn: async () => {
-        const result = await amplifyClient.graphql({
-          query: BuyerQueries.getMyReservations,
-          authMode: AUTH_MODE_USER_POOLS,
-        });
-        const typedResult = result as AmplifyGraphQLResult<{ myReservations: Reservation[] }>;
-        if (typedResult.errors) throw new Error(typedResult.errors[0].message);
-        if (!typedResult.data?.myReservations) throw new Error('No reservations found');
-        return typedResult.data.myReservations;
-      },
+      queryFn: () => buyerRestApiService.getMyReservations(),
       enabled: !!user,
+      staleTime: 2 * 60 * 1000, // 2 minutes
+      gcTime: 5 * 60 * 1000, // 5 minutes
       ...options,
     });
   };
 
-  const useReservation = (id: string, options?: UseQueryOptions<Reservation>) => {
+  const useReservation = (id: string, options?: UseQueryOptions<import('@/services/buyerRestApiService').Reservation, Error>) => {
     return useQuery({
       queryKey: ['reservation', id],
-      queryFn: async () => {
-        const result = await amplifyClient.graphql({
-          query: BuyerQueries.getReservation,
-          variables: { id },
-          authMode: AUTH_MODE_USER_POOLS,
-        });
-        const typedResult = result as AmplifyGraphQLResult<{ reservation: Reservation }>;
-        if (typedResult.errors) throw new Error(typedResult.errors[0].message);
-        if (!typedResult.data?.reservation) throw new Error('No reservation found');
-        return typedResult.data.reservation;
-      },
+      queryFn: () => buyerRestApiService.getReservation(id),
       enabled: !!id,
+      staleTime: 2 * 60 * 1000,
+      gcTime: 5 * 60 * 1000,
       ...options,
     });
   };
 
-  const useCreateReservation = (options?: UseMutationOptions<Reservation, Error, ReservationInput>) => {
+  const useCreateReservation = (options?: UseMutationOptions<import('@/services/buyerRestApiService').Reservation, Error, ReservationInput>) => {
     return useMutation({
-      mutationFn: async (input: ReservationInput) => {
-        const result = await amplifyClient.graphql({
-          query: BuyerMutations.createReservation,
-          variables: { input },
-          authMode: AUTH_MODE_USER_POOLS,
-        });
-        const typedResult = result as AmplifyGraphQLResult<{ createReservation: Reservation }>;
-        if (typedResult.errors) throw new Error(typedResult.errors[0].message);
-        if (!typedResult.data?.createReservation) throw new Error('Failed to create reservation');
-        return typedResult.data.createReservation;
+      mutationFn: (input: ReservationInput) => buyerRestApiService.createReservation(input),
+      ...options,
+    });
+  };
+
+  const useUpdateReservation = (options?: UseMutationOptions<import('@/services/buyerRestApiService').Reservation, Error, { id: string; input: ReservationInput }>) => {
+    return useMutation({
+      mutationFn: ({ id, input }: { id: string; input: ReservationInput }) => {
+        throw new Error('Update reservation not yet implemented');
       },
       ...options,
     });
   };
 
-  const useUpdateReservation = (options?: UseMutationOptions<Reservation, Error, { id: string; input: ReservationInput }>) => {
+  const useCancelReservation = (options?: UseMutationOptions<import('@/services/buyerRestApiService').Reservation, Error, { id: string; reason: string }>) => {
     return useMutation({
-      mutationFn: async ({ id, input }: { id: string; input: ReservationInput }) => {
-        const result = await amplifyClient.graphql({
-          query: BuyerMutations.updateReservation,
-          variables: { id, input },
-          authMode: AUTH_MODE_USER_POOLS,
-        });
-        const typedResult = result as AmplifyGraphQLResult<{ updateReservation: Reservation }>;
-        if (typedResult.errors) throw new Error(typedResult.errors[0].message);
-        if (!typedResult.data?.updateReservation) throw new Error('Failed to update reservation');
-        return typedResult.data.updateReservation;
-      },
-      ...options,
-    });
-  };
-
-  const useCancelReservation = (options?: UseMutationOptions<Reservation, Error, { id: string; reason: string }>) => {
-    return useMutation({
-      mutationFn: async ({ id, reason }: { id: string; reason: string }) => {
-        const result = await amplifyClient.graphql({
-          query: BuyerMutations.cancelReservation,
-          variables: { id, reason },
-          authMode: AUTH_MODE_USER_POOLS,
-        });
-        const typedResult = result as AmplifyGraphQLResult<{ cancelReservation: Reservation }>;
-        if (typedResult.errors) throw new Error(typedResult.errors[0].message);
-        if (!typedResult.data?.cancelReservation) throw new Error('Failed to cancel reservation');
-        return typedResult.data.cancelReservation;
+      mutationFn: ({ id, reason }: { id: string; reason: string }) => {
+        throw new Error('Cancel reservation not yet implemented');
       },
       ...options,
     });
   };
 
   // Mortgage Tracking Operations
-  const useMyMortgageTracking = (options?: UseQueryOptions<MortgageTracking>) => {
+  const useMyMortgageTracking = (options?: UseQueryOptions<import('@/services/buyerRestApiService').MortgageTracking | null, Error>) => {
     return useQuery({
       queryKey: ['mortgageTracking', user?.id],
-      queryFn: async () => {
-        const result = await amplifyClient.graphql({
-          query: BuyerQueries.getMyMortgageTracking,
-          authMode: AUTH_MODE_USER_POOLS,
-        });
-        const typedResult = result as AmplifyGraphQLResult<{ myMortgageTracking: MortgageTracking }>;
-        if (typedResult.errors) throw new Error(typedResult.errors[0].message);
-        if (!typedResult.data?.myMortgageTracking) throw new Error('No mortgage tracking found');
-        return typedResult.data.myMortgageTracking;
-      },
+      queryFn: () => buyerRestApiService.getMyMortgageTracking(),
       enabled: !!user,
+      staleTime: 5 * 60 * 1000, // 5 minutes
+      gcTime: 10 * 60 * 1000,
       ...options,
     });
   };
 
-  const useCreateMortgageTracking = (options?: UseMutationOptions<MortgageTracking, Error, MortgageTrackingInput>) => {
+  const useCreateMortgageTracking = (options?: UseMutationOptions<import('@/services/buyerRestApiService').MortgageTracking, Error, MortgageTrackingInput>) => {
     return useMutation({
-      mutationFn: async (input: MortgageTrackingInput) => {
-        const result = await amplifyClient.graphql({
-          query: BuyerMutations.createMortgageTracking,
-          variables: { input },
-          authMode: AUTH_MODE_USER_POOLS,
-        });
-        const typedResult = result as AmplifyGraphQLResult<{ createMortgageTracking: MortgageTracking }>;
-        if (typedResult.errors) throw new Error(typedResult.errors[0].message);
-        if (!typedResult.data?.createMortgageTracking) throw new Error('Failed to create mortgage tracking');
-        return typedResult.data.createMortgageTracking;
+      mutationFn: (input: MortgageTrackingInput) => buyerRestApiService.createMortgageTracking(input),
+      ...options,
+    });
+  };
+
+  const useUpdateMortgageTracking = (options?: UseMutationOptions<import('@/services/buyerRestApiService').MortgageTracking, Error, { id: string; input: MortgageTrackingInput }>) => {
+    return useMutation({
+      mutationFn: ({ id, input }: { id: string; input: MortgageTrackingInput }) => {
+        throw new Error('Update mortgage tracking not yet implemented');
       },
       ...options,
     });
   };
 
-  const useUpdateMortgageTracking = (options?: UseMutationOptions<MortgageTracking, Error, { id: string; input: MortgageTrackingInput }>) => {
+  const useAddMortgageDocument = (options?: UseMutationOptions<import('@/services/buyerRestApiService').MortgageTracking, Error, { mortgageTrackingId: string; documentId: string }>) => {
     return useMutation({
-      mutationFn: async ({ id, input }: { id: string; input: MortgageTrackingInput }) => {
-        const result = await amplifyClient.graphql({
-          query: BuyerMutations.updateMortgageTracking,
-          variables: { id, input },
-          authMode: AUTH_MODE_USER_POOLS,
-        });
-        const typedResult = result as AmplifyGraphQLResult<{ updateMortgageTracking: MortgageTracking }>;
-        if (typedResult.errors) throw new Error(typedResult.errors[0].message);
-        if (!typedResult.data?.updateMortgageTracking) throw new Error('Failed to update mortgage tracking');
-        return typedResult.data.updateMortgageTracking;
-      },
-      ...options,
-    });
-  };
-
-  const useAddMortgageDocument = (options?: UseMutationOptions<MortgageTracking, Error, { mortgageTrackingId: string; documentId: string }>) => {
-    return useMutation({
-      mutationFn: async ({ mortgageTrackingId, documentId }: { mortgageTrackingId: string; documentId: string }) => {
-        const result = await amplifyClient.graphql({
-          query: BuyerMutations.addMortgageDocument,
-          variables: { mortgageTrackingId, documentId },
-          authMode: AUTH_MODE_USER_POOLS,
-        });
-        const typedResult = result as AmplifyGraphQLResult<{ addMortgageDocument: MortgageTracking }>;
-        if (typedResult.errors) throw new Error(typedResult.errors[0].message);
-        if (!typedResult.data?.addMortgageDocument) throw new Error('Failed to add mortgage document');
-        return typedResult.data.addMortgageDocument;
+      mutationFn: ({ mortgageTrackingId, documentId }: { mortgageTrackingId: string; documentId: string }) => {
+        throw new Error('Add mortgage document not yet implemented');
       },
       ...options,
     });
   };
 
   // Snag List Operations
-  const useMySnagLists = (options?: UseQueryOptions<SnagList[]>) => {
+  const useMySnagLists = (options?: UseQueryOptions<import('@/services/buyerRestApiService').SnagList[], Error>) => {
     return useQuery({
       queryKey: ['snagLists', user?.id],
-      queryFn: async () => {
-        const result = await amplifyClient.graphql({
-          query: BuyerQueries.getMySnagLists,
-          authMode: AUTH_MODE_USER_POOLS,
-        });
-        const typedResult = result as AmplifyGraphQLResult<{ mySnagLists: SnagList[] }>;
-        if (typedResult.errors) throw new Error(typedResult.errors[0].message);
-        if (!typedResult.data?.mySnagLists) throw new Error('No snag lists found');
-        return typedResult.data.mySnagLists;
-      },
+      queryFn: () => buyerRestApiService.getMySnagLists(),
       enabled: !!user,
+      staleTime: 3 * 60 * 1000, // 3 minutes
+      gcTime: 10 * 60 * 1000,
       ...options,
     });
   };
 
-  const useSnagList = (id: string, options?: UseQueryOptions<SnagList>) => {
+  const useSnagList = (id: string, options?: UseQueryOptions<import('@/services/buyerRestApiService').SnagList, Error>) => {
     return useQuery({
       queryKey: ['snagList', id],
-      queryFn: async () => {
-        const result = await amplifyClient.graphql({
-          query: BuyerQueries.getSnagList,
-          variables: { id },
-          authMode: AUTH_MODE_USER_POOLS,
-        });
-        const typedResult = result as AmplifyGraphQLResult<{ snagList: SnagList }>;
-        if (typedResult.errors) throw new Error(typedResult.errors[0].message);
-        if (!typedResult.data?.snagList) throw new Error('No snag list found');
-        return typedResult.data.snagList;
+      queryFn: () => {
+        throw new Error('Get snag list by ID not yet implemented');
       },
       enabled: !!id,
       ...options,
     });
   };
 
-  const useCreateSnagList = (options?: UseMutationOptions<SnagList, Error, SnagListInput>) => {
+  const useCreateSnagList = (options?: UseMutationOptions<import('@/services/buyerRestApiService').SnagList, Error, SnagListInput>) => {
     return useMutation({
-      mutationFn: async (input: SnagListInput) => {
-        const result = await amplifyClient.graphql({
-          query: BuyerMutations.createSnagList,
-          variables: { input },
-          authMode: AUTH_MODE_USER_POOLS,
-        });
-        const typedResult = result as AmplifyGraphQLResult<{ createSnagList: SnagList }>;
-        if (typedResult.errors) throw new Error(typedResult.errors[0].message);
-        if (!typedResult.data?.createSnagList) throw new Error('Failed to create snag list');
-        return typedResult.data.createSnagList;
+      mutationFn: (input: SnagListInput) => {
+        throw new Error('Create snag list not yet implemented');
       },
       ...options,
     });
   };
 
-  const useCreateSnagItem = (options?: UseMutationOptions<SnagItem, Error, SnagItemInput>) => {
+  const useCreateSnagItem = (options?: UseMutationOptions<import('@/services/buyerRestApiService').SnagItem, Error, SnagItemInput>) => {
     return useMutation({
-      mutationFn: async (input: SnagItemInput) => {
-        const result = await amplifyClient.graphql({
-          query: BuyerMutations.createSnagItem,
-          variables: { input },
-          authMode: AUTH_MODE_USER_POOLS,
-        });
-        const typedResult = result as AmplifyGraphQLResult<{ createSnagItem: SnagItem }>;
-        if (typedResult.errors) throw new Error(typedResult.errors[0].message);
-        if (!typedResult.data?.createSnagItem) throw new Error('Failed to create snag item');
-        return typedResult.data.createSnagItem;
+      mutationFn: (input: SnagItemInput) => {
+        throw new Error('Create snag item not yet implemented');
       },
       ...options,
     });
   };
 
-  const useUpdateSnagItem = (options?: UseMutationOptions<SnagItem, Error, { id: string; input: SnagItemInput }>) => {
+  const useUpdateSnagItem = (options?: UseMutationOptions<import('@/services/buyerRestApiService').SnagItem, Error, { id: string; input: SnagItemInput }>) => {
     return useMutation({
-      mutationFn: async ({ id, input }: { id: string; input: SnagItemInput }) => {
-        const result = await amplifyClient.graphql({
-          query: BuyerMutations.updateSnagItem,
-          variables: { id, input },
-          authMode: AUTH_MODE_USER_POOLS,
-        });
-        const typedResult = result as AmplifyGraphQLResult<{ updateSnagItem: SnagItem }>;
-        if (typedResult.errors) throw new Error(typedResult.errors[0].message);
-        if (!typedResult.data?.updateSnagItem) throw new Error('Failed to update snag item');
-        return typedResult.data.updateSnagItem;
+      mutationFn: ({ id, input }: { id: string; input: SnagItemInput }) => {
+        throw new Error('Update snag item not yet implemented');
       },
       ...options,
     });
   };
 
   // Home Pack Item Operations
-  const useHomePackItems = (propertyId: string, options?: UseQueryOptions<HomePackItem[]>) => {
+  const useHomePackItems = (propertyId: string, options?: UseQueryOptions<import('@/services/buyerRestApiService').HomePackItem[], Error>) => {
     return useQuery({
       queryKey: ['homePackItems', propertyId],
-      queryFn: async () => {
-        const result = await amplifyClient.graphql({
-          query: BuyerQueries.getHomePackItems,
-          variables: { propertyId },
-          authMode: AUTH_MODE_USER_POOLS,
-        });
-        const typedResult = result as AmplifyGraphQLResult<{ homePackItems: HomePackItem[] }>;
-        if (typedResult.errors) throw new Error(typedResult.errors[0].message);
-        if (!typedResult.data?.homePackItems) throw new Error('No home pack items found');
-        return typedResult.data.homePackItems;
-      },
+      queryFn: () => buyerRestApiService.getHomePackItems(propertyId),
       enabled: !!propertyId,
+      staleTime: 10 * 60 * 1000, // 10 minutes (documents don't change often)
+      gcTime: 30 * 60 * 1000, // 30 minutes
       ...options,
     });
   };
 
-  const useCreateHomePackItem = (options?: UseMutationOptions<HomePackItem, Error, HomePackItemInput>) => {
+  const useCreateHomePackItem = (options?: UseMutationOptions<import('@/services/buyerRestApiService').HomePackItem, Error, HomePackItemInput>) => {
     return useMutation({
-      mutationFn: async (input: HomePackItemInput) => {
-        const result = await amplifyClient.graphql({
-          query: BuyerMutations.createHomePackItem,
-          variables: { input },
-          authMode: AUTH_MODE_USER_POOLS,
-        });
-        const typedResult = result as AmplifyGraphQLResult<{ createHomePackItem: HomePackItem }>;
-        if (typedResult.errors) throw new Error(typedResult.errors[0].message);
-        if (!typedResult.data?.createHomePackItem) throw new Error('Failed to create home pack item');
-        return typedResult.data.createHomePackItem;
+      mutationFn: (input: HomePackItemInput) => {
+        throw new Error('Create home pack item not yet implemented');
       },
       ...options,
     });
   };
 
-  const useUpdateHomePackItem = (options?: UseMutationOptions<HomePackItem, Error, { id: string; input: HomePackItemInput }>) => {
+  const useUpdateHomePackItem = (options?: UseMutationOptions<import('@/services/buyerRestApiService').HomePackItem, Error, { id: string; input: HomePackItemInput }>) => {
     return useMutation({
-      mutationFn: async ({ id, input }: { id: string; input: HomePackItemInput }) => {
-        const result = await amplifyClient.graphql({
-          query: BuyerMutations.updateHomePackItem,
-          variables: { id, input },
-          authMode: AUTH_MODE_USER_POOLS,
-        });
-        const typedResult = result as AmplifyGraphQLResult<{ updateHomePackItem: HomePackItem }>;
-        if (typedResult.errors) throw new Error(typedResult.errors[0].message);
-        if (!typedResult.data?.updateHomePackItem) throw new Error('Failed to update home pack item');
-        return typedResult.data.updateHomePackItem;
+      mutationFn: ({ id, input }: { id: string; input: HomePackItemInput }) => {
+        throw new Error('Update home pack item not yet implemented');
       },
       ...options,
     });
   };
 
-  const useDeleteHomePackItem = (options?: UseMutationOptions<HomePackItem, Error, string>) => {
+  const useDeleteHomePackItem = (options?: UseMutationOptions<import('@/services/buyerRestApiService').HomePackItem, Error, string>) => {
     return useMutation({
-      mutationFn: async (id: string) => {
-        const result = await amplifyClient.graphql({
-          query: BuyerMutations.deleteHomePackItem,
-          variables: { id },
-          authMode: AUTH_MODE_USER_POOLS,
-        });
-        const typedResult = result as AmplifyGraphQLResult<{ deleteHomePackItem: HomePackItem }>;
-        if (typedResult.errors) throw new Error(typedResult.errors[0].message);
-        if (!typedResult.data?.deleteHomePackItem) throw new Error('Failed to delete home pack item');
-        return typedResult.data.deleteHomePackItem;
+      mutationFn: (id: string) => {
+        throw new Error('Delete home pack item not yet implemented');
       },
       ...options,
     });
   };
+
 
   return {
     // Buyer Profile

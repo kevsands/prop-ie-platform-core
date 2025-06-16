@@ -9,7 +9,8 @@
  * - Integration with React Query for cache updates
  */
 
-import { queryClient } from './queryClient';
+import React from 'react';
+import { getDefaultQueryClient } from './queryClient';
 import { apiCache } from './performance/enhancedCache';
 
 // WebSocket states
@@ -359,6 +360,7 @@ export class SubscriptionManager {
    * Update a single query cache entry
    */
   private updateSingleQueryCache(queryKey: unknown[], data: any) {
+    const queryClient = getDefaultQueryClient();
     const existing = queryClient.getQueryData(queryKey);
     
     if (Array.isArray(existing)) {

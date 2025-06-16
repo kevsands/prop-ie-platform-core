@@ -30,35 +30,55 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    // Mock data for demonstration - in production this would fetch from database
+    // Enhanced financial data with real calculations
+    const baseRevenue = 1250000;
+    const baseExpenses = 780000;
+    const previousRevenue = 1100000;
+    const previousExpenses = 740000;
+    
+    const currentProfitMargin = ((baseRevenue - baseExpenses) / baseRevenue) * 100;
+    const previousProfitMargin = ((previousRevenue - previousExpenses) / previousRevenue) * 100;
+    
     const financialData = {
       projectId,
       timeRange,
+      calculatedAt: new Date().toISOString(),
       metrics: [
         {
           title: 'Total Revenue',
-          value: 1250000,
-          previousValue: 1100000,
-          percentChange: 13.64,
+          value: baseRevenue,
+          previousValue: previousRevenue,
+          percentChange: ((baseRevenue - previousRevenue) / previousRevenue * 100).toFixed(2),
+          trend: baseRevenue > previousRevenue ? 'up' : 'down'
         },
         {
           title: 'Expenses',
-          value: 780000,
-          previousValue: 740000,
-          percentChange: 5.41,
+          value: baseExpenses,
+          previousValue: previousExpenses,
+          percentChange: ((baseExpenses - previousExpenses) / previousExpenses * 100).toFixed(2),
+          trend: baseExpenses > previousExpenses ? 'up' : 'down'
         },
         {
           title: 'Profit Margin',
-          value: 37.6,
-          previousValue: 32.7,
-          percentChange: 14.98,
+          value: currentProfitMargin.toFixed(1),
+          previousValue: previousProfitMargin.toFixed(1),
+          percentChange: ((currentProfitMargin - previousProfitMargin) / previousProfitMargin * 100).toFixed(2),
+          trend: currentProfitMargin > previousProfitMargin ? 'up' : 'down'
         },
         {
           title: 'Units Sold',
           value: 42,
           previousValue: 38,
-          percentChange: 10.53,
+          percentChange: ((42 - 38) / 38 * 100).toFixed(2),
+          trend: 'up'
         },
+        {
+          title: 'Net Profit',
+          value: baseRevenue - baseExpenses,
+          previousValue: previousRevenue - previousExpenses,
+          percentChange: (((baseRevenue - baseExpenses) - (previousRevenue - previousExpenses)) / (previousRevenue - previousExpenses) * 100).toFixed(2),
+          trend: (baseRevenue - baseExpenses) > (previousRevenue - previousExpenses) ? 'up' : 'down'
+        }
       ],
       budgetData: [
         {

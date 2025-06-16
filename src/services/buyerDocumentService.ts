@@ -77,7 +77,6 @@ class BuyerDocumentService {
       
       return result;
     } catch (error) {
-      console.error('Error uploading buyer document:', error);
       return {
         success: false,
         message: error instanceof Error ? error.message : 'An error occurred during upload'
@@ -112,7 +111,6 @@ class BuyerDocumentService {
       
       return response.ok;
     } catch (error) {
-      console.error('Error linking document to journey:', error);
       return false;
     }
   }
@@ -134,7 +132,6 @@ class BuyerDocumentService {
       
       return await documentService.getDocuments(filter);
     } catch (error) {
-      console.error('Error getting buyer documents:', error);
       return [];
     }
   }
@@ -157,7 +154,6 @@ class BuyerDocumentService {
         this.isDocumentForPhase(doc.metadata.requiredDocumentId, phase)
       );
     } catch (error) {
-      console.error('Error getting phase documents:', error);
       return [];
     }
   }
@@ -231,7 +227,6 @@ class BuyerDocumentService {
         documents: documentStatuses
       };
     } catch (error) {
-      console.error('Error getting phase document progress:', error);
       return {
         phase: phase as unknown as BuyerDocumentCategory,
         requiredCount: 0,
@@ -263,7 +258,6 @@ class BuyerDocumentService {
       
       return progress as Record<BuyerPhase, PhaseDocumentProgress>;
     } catch (error) {
-      console.error('Error getting overall document progress:', error);
       return {} as Record<BuyerPhase, PhaseDocumentProgress>;
     }
   }
@@ -286,7 +280,6 @@ class BuyerDocumentService {
       // Use the document service to delete the document
       return await documentService.deleteDocument(documentId);
     } catch (error) {
-      console.error('Error deleting buyer document:', error);
       return {
         success: false,
         message: error instanceof Error ? error.message : 'An error occurred'

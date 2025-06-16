@@ -44,7 +44,6 @@ export const ApiClient = {
       
       return response.data;
     } catch (error) {
-      console.error('Error fetching customization options:', error);
       return {};
     }
   },
@@ -57,8 +56,6 @@ export const ApiClient = {
       const response = await apiClient.get('/api/customization/rooms');
       return response.data;
     } catch (error) {
-      console.error('Error fetching rooms:', error);
-      
       // Return fallback data
       return [
         { id: "livingRoom", name: "Living Room", icon: "🛋️" },
@@ -79,8 +76,6 @@ export const ApiClient = {
       const response = await apiClient.get('/api/customization/categories');
       return response.data;
     } catch (error) {
-      console.error('Error fetching categories:', error);
-      
       // Return fallback data
       return [
         { id: "flooring", name: "Flooring" },
@@ -100,7 +95,6 @@ export const ApiClient = {
       const response = await apiClient.post('/api/customization/save', customizationData);
       return response.data;
     } catch (error) {
-      console.error('Error saving customization:', error);
       throw error;
     }
   },
@@ -113,7 +107,6 @@ export const ApiClient = {
       const response = await apiClient.get(`/api/customization/${customizationId}`);
       return response.data;
     } catch (error) {
-      console.error(`Error fetching customization ${customizationId}:`, error);
       throw error;
     }
   },
@@ -128,7 +121,6 @@ export const ApiClient = {
       });
       return response.data;
     } catch (error) {
-      console.error(`Error fetching latest customization for property ${propertyId}:`, error);
       return null;
     }
   },
@@ -145,7 +137,6 @@ export const ApiClient = {
       });
       return response.data;
     } catch (error) {
-      console.error('Error requesting consultation:', error);
       throw error;
     }
   },
@@ -158,7 +149,6 @@ export const ApiClient = {
       const response = await apiClient.post(`/api/customization/${customizationId}/finalize`);
       return response.data;
     } catch (error) {
-      console.error(`Error finalizing customization ${customizationId}:`, error);
       throw error;
     }
   },
@@ -183,7 +173,6 @@ export const ApiClient = {
       });
       return response.data;
     } catch (error) {
-      console.error('Error calculating mortgage:', error);
       throw error;
     }
   },

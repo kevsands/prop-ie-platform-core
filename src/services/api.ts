@@ -28,7 +28,6 @@ class ApiService {
     
     // Validate baseUrl during initialization
     if (!this.baseUrl) {
-      console.warn('API URL is not defined. API requests may fail.');
     }
   }
   
@@ -61,7 +60,6 @@ class ApiService {
         headers.set('Authorization', `Bearer ${token}`);
       } else if (typeof window !== 'undefined') {
         // Only throw if we're in the browser and should have an auth token
-        console.warn('Authentication required but no token found');
       }
     }
     

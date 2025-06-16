@@ -1,4 +1,4 @@
-import { PrismaClient, TransactionStatus, MilestoneStatus, ParticipantRole } from '@prisma/slp-client';
+import { PrismaClient, SaleStatus, MilestoneStatus } from '@prisma/client';
 import { Logger } from '@/utils/logger';
 import { EventEmitter } from 'events';
 import { slpService } from './slpService';
@@ -7,9 +7,10 @@ const prisma = new PrismaClient();
 const logger = new Logger('TransactionCoordinator');
 const eventBus = new EventEmitter();
 
-export interface TransactionInput {
-  projectId: string;
+export interface SaleInput {
+  unitId: string;
   buyerId: string;
+  sellingAgentId?: string;
 }
 
 export interface MilestoneInput {
@@ -20,19 +21,37 @@ export interface MilestoneInput {
 
 export class TransactionCoordinator {
   /**
-   * Initiate a new property purchase transaction
+   * Initiate a new property purchase sale
    */
   async initiatePropertyPurchase(
     buyerId: string, 
-    projectId: string
+    unitId: string,
+    sellingAgentId?: string
   ): Promise<any> {
     try {
-      // Create the transaction
-      const transaction = await prisma.transaction.create({
+      // Get unit details for pricing
+      const unit = await prisma.unit.findUnique({
+        where: { id: unitId },
+        include: { development: true }
+      });
+
+      if (!unit) {
+        throw new Error('Unit not found');
+      }
+
+      // Create the sale
+      const sale = await prisma.sale.create({
         data: {
-          projectId,
+          unitId,
           buyerId,
-          status: TransactionStatus.INITIATED
+          sellingAgentId,
+          status: SaleStatus.ENQUIRY,
+          contractStatus: "Draft",
+          basePrice: unit.basePrice,
+          customizationCost: 0,
+          totalPrice: unit.basePrice,
+          referenceNumber: `${unit.development.name.replace(/\s+/g, '').toUpperCase()}-${Date.now()}`,
+          developmentId: unit.developmentId
         }
       });
 
@@ -65,37 +84,66 @@ export class TransactionCoordinator {
         }
       ];
 
-      await prisma.milestone.createMany({
-        data: defaultMilestones.map(milestone => ({
-          ...milestone,
-          transactionId: transaction.id
-        }))
-      });
+      // Create sale tasks instead of milestones
+      const defaultTasks = [
+        {
+          title: 'Initial Deposit',
+          description: 'Pay initial deposit to secure property',
+          dueDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+          status: 'PENDING',
+          priority: 'HIGH',
+          assignedToId: buyerId,
+          createdById: sellingAgentId || buyerId,
+          plannedStartDate: new Date(),
+          plannedEndDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+          estimatedHours: 2
+        },
+        {
+          title: 'Document Submission',
+          description: 'Submit all required documents',
+          dueDate: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000),
+          status: 'PENDING',
+          priority: 'HIGH',
+          assignedToId: buyerId,
+          createdById: sellingAgentId || buyerId,
+          plannedStartDate: new Date(),
+          plannedEndDate: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000),
+          estimatedHours: 4
+        }
+      ];
 
-      // Add participants
-      await prisma.participant.create({
+      for (const task of defaultTasks) {
+        await prisma.saleTask.create({
+          data: {
+            ...task,
+            saleId: sale.id
+          }
+        });
+      }
+
+      // Create sale timeline
+      await prisma.saleTimeline.create({
         data: {
-          transactionId: transaction.id,
-          userId: buyerId,
-          role: ParticipantRole.BUYER
+          saleId: sale.id,
+          initialEnquiryDate: new Date()
         }
       });
 
       // Notify relevant parties
-      await this.notifyParties(transaction.id, 'transaction.initiated');
+      await this.notifyParties(sale.id, 'sale.initiated');
 
       // Emit event
-      eventBus.emit('transaction.initiated', transaction);
-      logger.info('Property purchase transaction initiated', { 
-        transactionId: transaction.id,
-        projectId,
+      eventBus.emit('sale.initiated', sale);
+      logger.info('Property purchase sale initiated', { 
+        saleId: sale.id,
+        unitId,
         buyerId 
       });
 
-      return transaction;
+      return sale;
     } catch (error) {
       logger.error('Failed to initiate property purchase', { 
-        projectId, 
+        unitId, 
         buyerId, 
         error 
       });
@@ -104,70 +152,80 @@ export class TransactionCoordinator {
   }
 
   /**
-   * Handle transaction state changes
+   * Handle sale state changes
    */
   async handleStateChange(
-    transactionId: string, 
-    newStatus: TransactionStatus,
+    saleId: string, 
+    newStatus: SaleStatus,
     performedBy: string
   ): Promise<any> {
     try {
-      const currentTransaction = await prisma.transaction.findUnique({
-        where: { id: transactionId },
-        include: { milestones: true }
+      const currentSale = await prisma.sale.findUnique({
+        where: { id: saleId },
+        include: { tasks: true }
       });
 
-      if (!currentTransaction) {
-        throw new Error('Transaction not found');
+      if (!currentSale) {
+        throw new Error('Sale not found');
       }
 
       // Validate state transition
-      if (!this.isValidTransition(currentTransaction.status, newStatus)) {
-        throw new Error(`Invalid state transition from ${currentTransaction.status} to ${newStatus}`);
+      if (!this.isValidTransition(currentSale.status, newStatus)) {
+        throw new Error(`Invalid state transition from ${currentSale.status} to ${newStatus}`);
       }
 
-      // Update transaction status
-      const updatedTransaction = await prisma.transaction.update({
-        where: { id: transactionId },
+      // Update sale status
+      const updatedSale = await prisma.sale.update({
+        where: { id: saleId },
         data: { status: newStatus }
+      });
+
+      // Create status history record
+      await prisma.saleStatusHistory.create({
+        data: {
+          saleId,
+          status: newStatus,
+          previousStatus: currentSale.status,
+          updatedById: performedBy
+        }
       });
 
       // Handle status-specific actions
       switch (newStatus) {
-        case TransactionStatus.OFFER_ACCEPTED:
-          await this.handleOfferAccepted(transactionId);
+        case SaleStatus.RESERVATION:
+          await this.handleReservation(saleId);
           break;
-        case TransactionStatus.CONTRACTS_EXCHANGED:
-          await this.handleContractsExchanged(transactionId);
+        case SaleStatus.CONTRACT_SIGNED:
+          await this.handleContractSigned(saleId);
           break;
-        case TransactionStatus.COMPLETED:
-          await this.handleCompletion(transactionId);
+        case SaleStatus.COMPLETED:
+          await this.handleCompletion(saleId);
           break;
       }
 
       // Notify all participants
-      await this.notifyParties(transactionId, 'transaction.status.changed', {
-        previousStatus: currentTransaction.status,
+      await this.notifyParties(saleId, 'sale.status.changed', {
+        previousStatus: currentSale.status,
         newStatus
       });
 
       // Emit event
-      eventBus.emit('transaction.status.changed', {
-        transactionId,
-        previousStatus: currentTransaction.status,
+      eventBus.emit('sale.status.changed', {
+        saleId,
+        previousStatus: currentSale.status,
         newStatus
       });
 
-      logger.info('Transaction status changed', { 
-        transactionId, 
-        previousStatus: currentTransaction.status,
+      logger.info('Sale status changed', { 
+        saleId, 
+        previousStatus: currentSale.status,
         newStatus 
       });
 
-      return updatedTransaction;
+      return updatedSale;
     } catch (error) {
       logger.error('Failed to handle state change', { 
-        transactionId, 
+        saleId, 
         newStatus, 
         error 
       });
@@ -176,189 +234,253 @@ export class TransactionCoordinator {
   }
 
   /**
-   * Add a participant to the transaction
+   * Add a note to the sale
    */
-  async addParticipant(
-    transactionId: string,
-    userId: string,
-    role: ParticipantRole
+  async addSaleNote(
+    saleId: string,
+    authorId: string,
+    content: string,
+    category?: string,
+    isPrivate: boolean = false
   ): Promise<any> {
     try {
-      const participant = await prisma.participant.create({
+      const note = await prisma.saleNote.create({
         data: {
-          transactionId,
-          userId,
-          role
+          saleId,
+          authorId,
+          content,
+          category,
+          isPrivate
         }
       });
 
-      // Notify new participant
-      await this.notifyUser(userId, 'participant.added', {
-        transactionId,
-        role
+      // Notify relevant parties if not private
+      if (!isPrivate) {
+        await this.notifyParties(saleId, 'sale.note.added', {
+          authorId,
+          content: content.substring(0, 100) + (content.length > 100 ? '...' : '')
+        });
+      }
+
+      logger.info('Sale note added', { 
+        saleId, 
+        authorId,
+        isPrivate 
       });
 
-      // Notify existing participants
-      await this.notifyParties(transactionId, 'participant.added', {
-        userId,
-        role
-      });
-
-      logger.info('Participant added to transaction', { 
-        transactionId, 
-        userId, 
-        role 
-      });
-
-      return participant;
+      return note;
     } catch (error) {
-      logger.error('Failed to add participant', { 
-        transactionId, 
-        userId, 
-        role, 
+      logger.error('Failed to add sale note', { 
+        saleId, 
+        authorId, 
         error 
       });
-      throw new Error('Unable to add participant');
+      throw new Error('Unable to add sale note');
     }
   }
 
   /**
-   * Update milestone status
+   * Update sale task status
    */
-  async updateMilestoneStatus(
-    milestoneId: string,
-    status: MilestoneStatus,
+  async updateTaskStatus(
+    taskId: string,
+    status: string,
     completedBy?: string
   ): Promise<any> {
     try {
-      const milestone = await prisma.milestone.update({
-        where: { id: milestoneId },
+      const task = await prisma.saleTask.update({
+        where: { id: taskId },
         data: {
           status,
-          completedAt: status === MilestoneStatus.COMPLETED ? new Date() : undefined
+          completedAt: status === 'COMPLETED' ? new Date() : undefined,
+          completedById: status === 'COMPLETED' ? completedBy : undefined
         }
       });
 
-      // Check if all milestones are completed
-      const transaction = await prisma.transaction.findUnique({
-        where: { id: milestone.transactionId },
-        include: { milestones: true }
+      // Check if all tasks are completed
+      const sale = await prisma.sale.findUnique({
+        where: { id: task.saleId },
+        include: { tasks: true }
       });
 
-      if (transaction) {
-        const allCompleted = transaction.milestones.every(
-          m => m.status === MilestoneStatus.COMPLETED
+      if (sale) {
+        const allCompleted = sale.tasks.every(
+          t => t.status === 'COMPLETED'
         );
 
-        if (allCompleted) {
+        if (allCompleted && sale.status !== SaleStatus.COMPLETED) {
           await this.handleStateChange(
-            transaction.id,
-            TransactionStatus.COMPLETED,
+            sale.id,
+            SaleStatus.COMPLETED,
             completedBy || 'system'
           );
         }
       }
 
-      logger.info('Milestone status updated', { 
-        milestoneId, 
+      logger.info('Sale task status updated', { 
+        taskId, 
         status 
       });
 
-      return milestone;
+      return task;
     } catch (error) {
-      logger.error('Failed to update milestone status', { 
-        milestoneId, 
+      logger.error('Failed to update task status', { 
+        taskId, 
         status, 
         error 
       });
-      throw new Error('Unable to update milestone status');
+      throw new Error('Unable to update task status');
     }
   }
 
   /**
-   * Private: Handle offer accepted status
+   * Private: Handle reservation status
    */
-  private async handleOfferAccepted(transactionId: string): Promise<void> {
-    // Trigger SLP review
-    const transaction = await prisma.transaction.findUnique({
-      where: { id: transactionId }
+  private async handleReservation(saleId: string): Promise<void> {
+    const sale = await prisma.sale.findUnique({
+      where: { id: saleId },
+      include: { unit: true }
     });
 
-    if (transaction) {
-      const slpProgress = await slpService.getProjectProgress(transaction.projectId);
-      
-      if (slpProgress.progressPercentage < 100) {
-        logger.warn('SLP not complete for accepted offer', { 
-          transactionId, 
-          progress: slpProgress.progressPercentage 
-        });
-      }
-    }
+    if (sale) {
+      // Update unit status to reserved
+      await prisma.unit.update({
+        where: { id: sale.unitId },
+        data: { status: "RESERVED" }
+      });
 
-    // Create legal review tasks
-    // Notify solicitors
+      // Update sale timeline
+      await prisma.saleTimeline.update({
+        where: { saleId },
+        data: { reservationDate: new Date() }
+      });
+
+      logger.info('Sale reservation handled', { saleId });
+    }
   }
 
   /**
-   * Private: Handle contracts exchanged status
+   * Private: Handle contract signed status
    */
-  private async handleContractsExchanged(transactionId: string): Promise<void> {
+  private async handleContractSigned(saleId: string): Promise<void> {
+    // Update sale timeline
+    await prisma.saleTimeline.update({
+      where: { saleId },
+      data: { 
+        contractIssuedDate: new Date(),
+        contractReturnedDate: new Date()
+      }
+    });
+
     // Schedule completion date
     // Set up payment milestones
-    // Notify all parties of exchange
+    logger.info('Contract signed handled', { saleId });
   }
 
   /**
-   * Private: Handle transaction completion
+   * Private: Handle sale completion
    */
-  private async handleCompletion(transactionId: string): Promise<void> {
-    await prisma.transaction.update({
-      where: { id: transactionId },
-      data: { completedAt: new Date() }
+  private async handleCompletion(saleId: string): Promise<void> {
+    const sale = await prisma.sale.findUnique({
+      where: { id: saleId }
     });
 
-    // Transfer ownership
-    // Release funds
-    // Generate completion documents
+    if (sale) {
+      // Update sale timeline
+      await prisma.saleTimeline.update({
+        where: { saleId },
+        data: { 
+          saleCompletedDate: new Date(),
+          handoverDate: new Date()
+        }
+      });
+
+      // Update unit status to sold
+      await prisma.unit.update({
+        where: { id: sale.unitId },
+        data: { status: "SOLD" }
+      });
+
+      // Update sale completion date
+      await prisma.sale.update({
+        where: { id: saleId },
+        data: { 
+          completionDate: new Date(),
+          handoverDate: new Date()
+        }
+      });
+
+      logger.info('Sale completion handled', { saleId });
+    }
   }
 
   /**
    * Private: Validate state transitions
    */
   private isValidTransition(
-    currentStatus: TransactionStatus,
-    newStatus: TransactionStatus
+    currentStatus: SaleStatus,
+    newStatus: SaleStatus
   ): boolean {
-    const validTransitions: Record<TransactionStatus, TransactionStatus[]> = {
-      [TransactionStatus.INITIATED]: [TransactionStatus.OFFER_MADE, TransactionStatus.CANCELLED],
-      [TransactionStatus.OFFER_MADE]: [TransactionStatus.OFFER_ACCEPTED, TransactionStatus.CANCELLED],
-      [TransactionStatus.OFFER_ACCEPTED]: [TransactionStatus.CONTRACTS_EXCHANGED, TransactionStatus.CANCELLED],
-      [TransactionStatus.CONTRACTS_EXCHANGED]: [TransactionStatus.COMPLETED, TransactionStatus.CANCELLED],
-      [TransactionStatus.COMPLETED]: [],
-      [TransactionStatus.CANCELLED]: []
+    const validTransitions: Record<SaleStatus, SaleStatus[]> = {
+      [SaleStatus.ENQUIRY]: [SaleStatus.VIEWING_SCHEDULED, SaleStatus.CANCELLED],
+      [SaleStatus.VIEWING_SCHEDULED]: [SaleStatus.VIEWED, SaleStatus.CANCELLED],
+      [SaleStatus.VIEWED]: [SaleStatus.INTERESTED, SaleStatus.CANCELLED],
+      [SaleStatus.INTERESTED]: [SaleStatus.RESERVATION, SaleStatus.CANCELLED],
+      [SaleStatus.RESERVATION]: [SaleStatus.PENDING_APPROVAL, SaleStatus.CANCELLED],
+      [SaleStatus.PENDING_APPROVAL]: [SaleStatus.RESERVATION_APPROVED, SaleStatus.CANCELLED],
+      [SaleStatus.RESERVATION_APPROVED]: [SaleStatus.CONTRACT_ISSUED, SaleStatus.CANCELLED],
+      [SaleStatus.CONTRACT_ISSUED]: [SaleStatus.CONTRACT_SIGNED, SaleStatus.CANCELLED],
+      [SaleStatus.CONTRACT_SIGNED]: [SaleStatus.DEPOSIT_PAID, SaleStatus.CANCELLED],
+      [SaleStatus.DEPOSIT_PAID]: [SaleStatus.MORTGAGE_APPROVED, SaleStatus.CANCELLED],
+      [SaleStatus.MORTGAGE_APPROVED]: [SaleStatus.CLOSING, SaleStatus.CANCELLED],
+      [SaleStatus.CLOSING]: [SaleStatus.COMPLETED, SaleStatus.CANCELLED],
+      [SaleStatus.COMPLETED]: [SaleStatus.HANDED_OVER],
+      [SaleStatus.HANDED_OVER]: [],
+      [SaleStatus.CANCELLED]: [],
+      [SaleStatus.EXPIRED]: []
     };
 
     return validTransitions[currentStatus]?.includes(newStatus) || false;
   }
 
   /**
-   * Private: Notify all transaction participants
+   * Private: Notify all sale participants
    */
   private async notifyParties(
-    transactionId: string,
+    saleId: string,
     event: string,
     data?: any
   ): Promise<void> {
-    const participants = await prisma.participant.findMany({
-      where: { transactionId }
+    const sale = await prisma.sale.findUnique({
+      where: { id: saleId },
+      include: { unit: { include: { development: true } } }
     });
 
-    for (const participant of participants) {
-      await this.notifyUser(participant.userId, event, {
-        transactionId,
-        role: participant.role,
+    if (sale) {
+      // Notify buyer
+      await this.notifyUser(sale.buyerId, event, {
+        saleId,
+        role: 'buyer',
         ...data
       });
+
+      // Notify selling agent if present
+      if (sale.sellingAgentId) {
+        await this.notifyUser(sale.sellingAgentId, event, {
+          saleId,
+          role: 'agent',
+          ...data
+        });
+      }
+
+      // Notify developer
+      if (sale.unit?.development?.developerId) {
+        await this.notifyUser(sale.unit.development.developerId, event, {
+          saleId,
+          role: 'developer',
+          ...data
+        });
+      }
     }
   }
 
@@ -380,7 +502,7 @@ export class TransactionCoordinator {
   }
 
   /**
-   * Get event bus for subscribing to transaction events
+   * Get event bus for subscribing to sale events
    */
   getEventBus(): EventEmitter {
     return eventBus;

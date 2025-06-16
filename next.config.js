@@ -159,9 +159,15 @@ const nextConfig = {
 const sentryWebpackPluginOptions = {
   // Additional config options for the Sentry webpack plugin
   silent: true, // Suppresses source map uploading logs during build
-  org: "propchain-solutions-ltd-ta-pro",
+  org: "prop-xo",
   project: "javascript-nextjs",
 };
 
-// Export the final config with bundle analyzer (Sentry disabled for now)
-module.exports = withBundleAnalyzer(nextConfig);
+// Export the final config with Sentry and bundle analyzer
+// Only enable Sentry if DSN is configured to avoid build errors
+const hasSentryDSN = process.env.NEXT_PUBLIC_SENTRY_DSN && 
+                     process.env.NEXT_PUBLIC_SENTRY_DSN !== 'https://your-sentry-dsn@sentry.io/project-id';
+
+module.exports = hasSentryDSN 
+  ? withSentryConfig(withBundleAnalyzer(nextConfig), sentryWebpackPluginOptions)
+  : withBundleAnalyzer(nextConfig);

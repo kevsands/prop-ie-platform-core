@@ -60,7 +60,12 @@ const ENVIRONMENT_CONFIGS: Record<Environment, EnvironmentConfig> = {
     },
     authConfig: {
       authority: 'http://localhost:3000/auth',
-      clientId: process.env.NEXT_PUBLIC_AUTH_CLIENT_ID || '74cb9eb7-d97a-4857-857a-de763959ebf4',
+      clientId: process.env.NEXT_PUBLIC_AUTH_CLIENT_ID || (() => {
+        if (typeof window === 'undefined' && process.env.NODE_ENV === 'production') {
+          throw new Error('NEXT_PUBLIC_AUTH_CLIENT_ID is required in production');
+        }
+        return '74cb9eb7-d97a-4857-857a-de763959ebf4'; // Development fallback only
+      })(),
       region: process.env.NEXT_PUBLIC_AWS_REGION || 'eu-west-1',
       userPoolId: process.env.NEXT_PUBLIC_USER_POOL_ID,
       userPoolWebClientId: process.env.NEXT_PUBLIC_USER_POOL_WEB_CLIENT_ID,

@@ -1,15 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { v4 as uuidv4 } from "uuid";
-import { UnitStatus, UnitType, PrismaClient, Prisma, Document } from "@prisma/client";
-// Temporarily comment out circular dependency
-// import { unitRepository } from "@/lib/db/repositories";
-import { logger } from "@/lib/security/auditLogger";
-
-// Import auth helpers specific for server-side use
-import { getServerAuthSession } from "../auth/[...nextauth]/auth-server";
-
-// Create Prisma client instance
-const prisma = new PrismaClient();
+import { getUnitsForDevelopment } from "@/lib/enterprise-data";
+import { prisma } from "@/lib/enterprise-data";
 
 // Temporary local repository
 const unitRepository = {

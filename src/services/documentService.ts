@@ -95,7 +95,6 @@ class DocumentService {
         };
       }
     } catch (error) {
-      console.error('Error uploading document:', error);
       return {
         success: false,
         message: error instanceof Error ? error.message : 'An error occurred during upload'
@@ -154,7 +153,6 @@ class DocumentService {
         message: 'Document version created successfully'
       };
     } catch (error) {
-      console.error('Error creating document version:', error);
       return {
         success: false,
         message: error instanceof Error ? error.message : 'An error occurred while creating version'
@@ -195,7 +193,6 @@ class DocumentService {
         message: 'Document versions retrieved successfully'
       };
     } catch (error) {
-      console.error('Error getting document versions:', error);
       return {
         success: false,
         message: error instanceof Error ? error.message : 'An error occurred while fetching versions'
@@ -245,7 +242,6 @@ class DocumentService {
         expiresIn: result.expiresIn
       };
     } catch (error) {
-      console.error('Error generating upload URL:', error);
       return {
         success: false,
         message: error instanceof Error ? error.message : 'An error occurred'
@@ -283,7 +279,6 @@ class DocumentService {
         success: true
       };
     } catch (error) {
-      console.error('Error uploading file to URL:', error);
       return {
         success: false,
         message: error instanceof Error ? error.message : 'An error occurred'
@@ -340,7 +335,6 @@ class DocumentService {
       const result = await response.json();
       return result as DocumentType[];
     } catch (error) {
-      console.error('Error getting documents:', error);
       throw error;
     }
   }
@@ -369,7 +363,6 @@ class DocumentService {
       const result = await response.json();
       return result as DocumentType;
     } catch (error) {
-      console.error('Error getting document:', error);
       throw error;
     }
   }
@@ -401,7 +394,6 @@ class DocumentService {
       const result = await response.json();
       return result as DocumentType;
     } catch (error) {
-      console.error('Error updating document:', error);
       throw error;
     }
   }
@@ -434,7 +426,6 @@ class DocumentService {
         message: soft ? 'Document archived successfully' : 'Document deleted successfully'
       };
     } catch (error) {
-      console.error('Error deleting document:', error);
       return {
         success: false,
         message: error instanceof Error ? error.message : 'An error occurred'
@@ -474,7 +465,6 @@ class DocumentService {
         message: 'Permissions updated successfully'
       };
     } catch (error) {
-      console.error('Error updating permissions:', error);
       return {
         success: false,
         message: error instanceof Error ? error.message : 'An error occurred'
@@ -521,7 +511,6 @@ class DocumentService {
         message: 'Workflow started successfully'
       };
     } catch (error) {
-      console.error('Error starting workflow:', error);
       return {
         success: false,
         message: error instanceof Error ? error.message : 'An error occurred'
@@ -572,7 +561,6 @@ class DocumentService {
         message: 'Workflow stage approved successfully'
       };
     } catch (error) {
-      console.error('Error approving workflow stage:', error);
       return {
         success: false,
         message: error instanceof Error ? error.message : 'An error occurred'
@@ -623,7 +611,6 @@ class DocumentService {
         message: 'Workflow stage rejected successfully'
       };
     } catch (error) {
-      console.error('Error rejecting workflow stage:', error);
       return {
         success: false,
         message: error instanceof Error ? error.message : 'An error occurred'
@@ -678,7 +665,6 @@ class DocumentService {
         message: 'Workflow history retrieved successfully'
       };
     } catch (error) {
-      console.error('Error getting workflow history:', error);
       return {
         success: false,
         message: error instanceof Error ? error.message : 'An error occurred'

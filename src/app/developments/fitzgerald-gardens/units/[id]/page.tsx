@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { useParams } from 'next/navigation';
-import { FITZGERALD_GARDENS_UNITS } from '@/features/fitzgerald-gardens/data/units';
+import { FITZGERALD_GARDENS_UNITS } from '../../../../../features/fitzgerald-gardens/data/units';
 import PropertyReservation from '@/components/property/PropertyReservation';
 
 export default function UnitDetailPage() {

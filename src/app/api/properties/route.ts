@@ -23,7 +23,9 @@ const mockProperties = [
     availableDate: '2024-03-01',
     serviceCharge: 150,
     development: 'Fitzgerald Gardens',
-    virtualTour: true
+    virtualTour: true,
+    htbEligible: true,
+    htbAmount: 30000
   },
   {
     id: '2',
@@ -43,7 +45,9 @@ const mockProperties = [
     ],
     description: 'Spacious family home with modern finishes throughout.',
     availableDate: '2024-04-01',
-    development: 'Ballymakenny View'
+    development: 'Ballymakenny View',
+    htbEligible: true,
+    htbAmount: 28500
   },
   {
     id: '3',
@@ -64,7 +68,9 @@ const mockProperties = [
     availableDate: '2024-06-01',
     serviceCharge: 300,
     development: 'Ellwood',
-    virtualTour: true
+    virtualTour: true,
+    htbEligible: false,
+    htbAmount: 0
   },
   // Add more mock properties
   {
@@ -81,7 +87,9 @@ const mockProperties = [
     features: ['lift', 'gym', 'security'],
     images: ['/images/properties/apartment1.jpg'],
     description: 'Compact studio apartment perfect for city living.',
-    availableDate: 'Immediate'
+    availableDate: 'Immediate',
+    htbEligible: true,
+    htbAmount: 27500
   },
   {
     id: '5',
@@ -98,7 +106,9 @@ const mockProperties = [
     images: ['/images/properties/villa1.jpg'],
     description: 'Large family home in established neighborhood.',
     availableDate: '2024-05-01',
-    development: 'Riverside Manor'
+    development: 'Riverside Manor',
+    htbEligible: true,
+    htbAmount: 30000
   },
   {
     id: '6',
@@ -114,7 +124,9 @@ const mockProperties = [
     features: ['parking', 'balcony', 'storage'],
     images: ['/images/properties/apartment1.jpg'],
     description: 'Split-level living with modern design.',
-    availableDate: '2024-04-15'
+    availableDate: '2024-04-15',
+    htbEligible: true,
+    htbAmount: 30000
   },
 ];
 

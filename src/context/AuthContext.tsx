@@ -1,6 +1,7 @@
 'use client';
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { authRestApiService } from '@/services/authRestApiService';
 
 // Define User and other types needed for build
 interface User {
@@ -77,6 +78,24 @@ const AuthContext = createContext<AuthContextType>({
 
 export const useAuth = () => useContext(AuthContext);
 
+// Helper function to get role-based permissions
+const getRolePermissions = (role: string): string[] => {
+  switch (role.toLowerCase()) {
+    case 'buyer':
+      return ['view:properties', 'create:offers', 'manage:documents'];
+    case 'developer':
+      return ['manage:developments', 'view:analytics', 'manage:users'];
+    case 'agent':
+      return ['view:properties', 'manage:clients', 'create:offers'];
+    case 'solicitor':
+      return ['manage:documents', 'view:transactions', 'approve:sales'];
+    case 'admin':
+      return ['read:all', 'write:all', 'admin:all'];
+    default:
+      return ['view:properties'];
+  }
+};
+
 // Simplified auth provider with proper authentication flow
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
@@ -86,141 +105,81 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   // Check for stored auth on mount
   useEffect(() => {
-    const storedAuth = localStorage.getItem('authState');
-    if (storedAuth) {
-      const { user: storedUser, isAuthenticated: storedIsAuth } = JSON.parse(storedAuth);
-      setUser(storedUser);
-      setIsAuthenticated(storedIsAuth);
-    }
-    setIsLoading(false);
+    const checkAuth = async () => {
+      setIsLoading(true);
+      try {
+        const { userId, signInDetails } = await authRestApiService.getCurrentUser();
+        const attributes = await authRestApiService.fetchUserAttributes();
+        
+        if (userId && attributes) {
+          const userData: User = {
+            id: userId,
+            username: attributes.email || '',
+            email: attributes.email || '',
+            name: attributes.name || attributes.preferred_username || '',
+            status: 'ACTIVE',
+            role: attributes['custom:role'] || 'user',
+            permissions: getRolePermissions(attributes['custom:role'] || 'user'),
+            onboardingComplete: true,
+            emailVerified: true,
+            mfaEnabled: false,
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString()
+          };
+          
+          setUser(userData);
+          setIsAuthenticated(true);
+        } else {
+          setUser(null);
+          setIsAuthenticated(false);
+        }
+      } catch (error) {
+        console.log('No authenticated user found');
+        setUser(null);
+        setIsAuthenticated(false);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    checkAuth();
   }, []);
 
-  // Mock login function with different user roles
+  // Login function using real authentication API
   const signIn = async (username: string, password: string): Promise<SignInResult> => {
     setIsLoading(true);
     setError(null);
     
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      const { isSignedIn, nextStep } = await authRestApiService.signIn({ username, password });
       
-      let mockUser: User | null = null;
-      
-      // Determine user role based on email domain or username
-      if (username.includes('buyer') || username.includes('@buyer.com')) {
-        mockUser = {
-          id: 'buyer-001',
-          username: username,
-          email: username,
-          name: 'Test Buyer',
+      if (isSignedIn) {
+        // Get user data after successful login
+        const { userId, signInDetails } = await authRestApiService.getCurrentUser();
+        const attributes = await authRestApiService.fetchUserAttributes();
+        
+        const userData: User = {
+          id: userId,
+          username: attributes.email || '',
+          email: attributes.email || '',
+          name: attributes.name || attributes.preferred_username || '',
           status: 'ACTIVE',
-          role: 'buyer',
-          permissions: ['view:properties', 'create:offers', 'manage:documents'],
+          role: attributes['custom:role'] || 'user',
+          permissions: getRolePermissions(attributes['custom:role'] || 'user'),
           onboardingComplete: true,
           emailVerified: true,
           mfaEnabled: false,
           createdAt: new Date().toISOString(),
           updatedAt: new Date().toISOString()
         };
-      } else if (username.includes('developer') || username.includes('@developer.com')) {
-        mockUser = {
-          id: 'dev-001',
-          username: username,
-          email: username,
-          name: 'Test Developer',
-          status: 'ACTIVE',
-          role: 'developer',
-          permissions: ['manage:developments', 'view:analytics', 'manage:users'],
-          onboardingComplete: true,
-          emailVerified: true,
-          mfaEnabled: true,
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString()
-        };
-      } else if (username.includes('agent') || username.includes('@agent.com')) {
-        mockUser = {
-          id: 'agent-001',
-          username: username,
-          email: username,
-          name: 'Test Agent',
-          status: 'ACTIVE',
-          role: 'agent',
-          permissions: ['view:properties', 'manage:clients', 'create:offers'],
-          onboardingComplete: true,
-          emailVerified: true,
-          mfaEnabled: false,
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString()
-        };
-      } else if (username.includes('solicitor') || username.includes('@solicitor.com')) {
-        mockUser = {
-          id: 'solicitor-001',
-          username: username,
-          email: username,
-          name: 'Test Solicitor',
-          status: 'ACTIVE',
-          role: 'solicitor',
-          permissions: ['manage:documents', 'view:transactions', 'approve:sales'],
-          onboardingComplete: true,
-          emailVerified: true,
-          mfaEnabled: false,
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString()
-        };
-      } else if (username.includes('admin') || username.includes('@admin.com')) {
-        mockUser = {
-          id: 'admin-001',
-          username: username,
-          email: username,
-          name: 'Test Admin',
-          status: 'ACTIVE',
-          role: 'admin',
-          permissions: ['read:all', 'write:all', 'admin:all'],
-          onboardingComplete: true,
-          emailVerified: true,
-          mfaEnabled: true,
-          cognitoAttributes: {
-            firstName: 'Admin',
-            lastName: 'User',
-            accessToken: 'admin-token'
-          },
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString()
-        };
+        
+        setUser(userData);
+        setIsAuthenticated(true);
+        
+        return { isSignedIn: true };
       } else {
-        // Default user
-        mockUser = {
-          id: 'user-001',
-          username: username,
-          email: username,
-          name: 'Test User',
-          status: 'ACTIVE',
-          role: 'user',
-          permissions: ['view:properties'],
-          onboardingComplete: true,
-          emailVerified: true,
-          mfaEnabled: false,
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString()
-        };
+        return { isSignedIn: false, nextStep };
       }
-      
-      // Check for MFA requirement
-      if (username === 'mfa@example.com') {
-        return { 
-          isSignedIn: false, 
-          nextStep: { signInStep: 'CONFIRM_SIGN_IN_WITH_SMS_CODE' } 
-        };
-      }
-      
-      // Successful login
-      setUser(mockUser);
-      setIsAuthenticated(true);
-      
-      // Store auth state
-      localStorage.setItem('authState', JSON.stringify({ user: mockUser, isAuthenticated: true }));
-      
-      return { isSignedIn: true };
     } catch (err) {
       setError(err instanceof Error ? err : String(err));
       throw err;
@@ -233,15 +192,17 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const signOut = async () => {
     setIsLoading(true);
     try {
-      // Clear auth state
+      // Call API to sign out
+      await authRestApiService.signOut();
+      
+      // Clear local state
       setUser(null);
       setIsAuthenticated(false);
-      localStorage.removeItem('authState');
-      
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 300));
     } catch (err) {
       setError(err instanceof Error ? err : String(err));
+      // Even if API call fails, clear local state
+      setUser(null);
+      setIsAuthenticated(false);
       throw err;
     } finally {
       setIsLoading(false);

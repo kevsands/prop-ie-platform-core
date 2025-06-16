@@ -1,12 +1,12 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import ClientLayout from '../ClientLayout';
 import { useAuth } from '@/context/AuthContext';
 
-export default function LoginPage() {
+function LoginPageContent() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -160,5 +160,24 @@ export default function LoginPage() {
         </div>
       </div>
     </ClientLayout>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={
+      <ClientLayout>
+        <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+          <div className="max-w-md w-full space-y-8">
+            <div className="text-center">
+              <div className="w-16 h-16 bg-gray-200 rounded animate-pulse mx-auto mb-4"></div>
+              <div className="w-32 h-6 bg-gray-200 rounded animate-pulse mx-auto"></div>
+            </div>
+          </div>
+        </div>
+      </ClientLayout>
+    }>
+      <LoginPageContent />
+    </Suspense>
   );
 }

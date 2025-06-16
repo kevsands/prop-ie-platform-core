@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
+import prisma from '@/lib/prisma';
 
 interface ProjectMilestone {
   title: string;
@@ -52,80 +53,74 @@ export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url);
     const status = searchParams.get('status');
     
-    // Mock data for demonstration - in production this would fetch from database
+    // Fetch real development data from database
+    const developments = await prisma.development.findMany({
+      include: {
+        location: true,
+        totalUnits: {
+          select: {
+            id: true,
+            status: true,
+            basePrice: true
+          }
+        },
+        timeline: {
+          include: {
+            milestones: {
+              orderBy: { plannedDate: 'asc' },
+              take: 1
+            }
+          }
+        }
+      }
+    });
+
+    // Transform database data to API format
+    const transformedProjects = developments.map(dev => {
+      const totalUnits = dev.totalUnits.length;
+      const soldUnits = dev.totalUnits.filter(unit => unit.status === 'SOLD').length;
+      const nextMilestone = dev.timeline?.milestones[0];
+      
+      // Map development status to project status
+      let projectStatus: 'Planning' | 'In Progress' | 'Completed';
+      switch (dev.status) {
+        case 'PLANNING':
+        case 'PRE_CONSTRUCTION':
+          projectStatus = 'Planning';
+          break;
+        case 'COMPLETED':
+        case 'HANDOVER':
+          projectStatus = 'Completed';
+          break;
+        default:
+          projectStatus = 'In Progress';
+      }
+
+      // Calculate progress from construction status
+      const constructionStatus = dev.constructionStatus as any;
+      const progress = constructionStatus?.overallCompletion || 0;
+
+      return {
+        id: dev.slug || dev.id,
+        name: dev.name,
+        status: projectStatus,
+        location: `${dev.location.city}, ${dev.location.county}`,
+        progress: progress,
+        unitsSold: soldUnits,
+        totalUnits: totalUnits,
+        nextMilestone: nextMilestone ? {
+          title: nextMilestone.name,
+          date: nextMilestone.plannedDate.toISOString().split('T')[0],
+          daysRemaining: Math.max(0, Math.ceil((nextMilestone.plannedDate.getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24)))
+        } : null
+      };
+    });
+
+    // Categorize projects by status
     const projects: ProjectsResponse = {
-      active: [
-        {
-          id: 'fitzgerald-gardens',
-          name: 'Fitzgerald Gardens',
-          status: 'In Progress',
-          location: 'Drogheda, Co. Louth',
-          progress: 70,
-          unitsSold: 32,
-          totalUnits: 45,
-          nextMilestone: {
-            title: 'Phase 1 Handover',
-            date: '2023-10-15',
-            daysRemaining: 0
-          }
-        },
-        {
-          id: 'ellwood',
-          name: 'Ellwood',
-          status: 'Planning',
-          location: 'Ashbourne, Co. Meath',
-          progress: 15,
-          unitsSold: 0,
-          totalUnits: 28,
-          nextMilestone: {
-            title: 'Planning Permission Decision',
-            date: '2023-11-22',
-            daysRemaining: 17
-          }
-        },
-        {
-          id: 'ballymakenny-view',
-          name: 'Ballymakenny View',
-          status: 'In Progress',
-          location: 'Drogheda, Co. Louth',
-          progress: 90,
-          unitsSold: 18,
-          totalUnits: 20,
-          nextMilestone: {
-            title: 'Final Handover',
-            date: '2023-10-30',
-            daysRemaining: 0
-          }
-        }
-      ],
-      completed: [
-        {
-          id: 'oakwood-residences',
-          name: 'Oakwood Residences',
-          status: 'Completed',
-          location: 'Swords, Co. Dublin',
-          progress: 100,
-          unitsSold: 15,
-          totalUnits: 15,
-          nextMilestone: null
-        }
-      ],
-      planned: [
-        {
-          id: 'harbour-heights',
-          name: 'Harbour Heights',
-          status: 'Planning',
-          location: 'Bettystown, Co. Meath',
-          progress: 5,
-          unitsSold: 0,
-          totalUnits: 32,
-          nextMilestone: {
-            title: 'Submit Planning Application',
-            date: '2023-12-15',
-            daysRemaining: 40
-          }
-        }
-      ]
+      active: transformedProjects.filter(p => p.status === 'In Progress'),
+      completed: transformedProjects.filter(p => p.status === 'Completed'),
+      planned: transformedProjects.filter(p => p.status === 'Planning')
     };
 
     // Filter by status if specified

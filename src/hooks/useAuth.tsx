@@ -1,8 +1,7 @@
 "use client";
 
 import { useState, useEffect, createContext, useContext } from 'react';
-import { signIn, signOut, getCurrentUser, fetchUserAttributes } from 'aws-amplify/auth';
-import { generateClient } from 'aws-amplify/api';
+import { authRestApiService } from '@/services/authRestApiService';
 
 // Define types for authentication
 export interface User {
@@ -44,8 +43,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const { userId, signInDetails } = await getCurrentUser();
-        const attributes = await fetchUserAttributes();
+        const { userId, signInDetails } = await authRestApiService.getCurrentUser();
+        const attributes = await authRestApiService.fetchUserAttributes();
         
         if (userId && attributes) {
           setAuthState({
@@ -90,11 +89,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }));
 
     try {
-      const { isSignedIn, nextStep } = await signIn({ username: email, password });
+      const { isSignedIn, nextStep } = await authRestApiService.signIn({ username: email, password });
       
       if (isSignedIn) {
-        const { userId, signInDetails } = await getCurrentUser();
-        const attributes = await fetchUserAttributes();
+        const { userId, signInDetails } = await authRestApiService.getCurrentUser();
+        const attributes = await authRestApiService.fetchUserAttributes();
         
         setAuthState({
           user: {
@@ -127,7 +126,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   // Logout function
   const logout = async () => {
     try {
-      await signOut();
+      await authRestApiService.signOut();
       setAuthState({
         user: null,
         accessToken: null,

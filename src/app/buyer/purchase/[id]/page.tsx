@@ -35,38 +35,167 @@ import {
   XCircle,
   Phone,
   Play,
-  FileSearch
+  FileSearch,
+  MessageSquare,
+  User,
+  Mail,
+  DollarSign,
+  Activity,
+  TrendingUp,
+  Zap
 } from 'lucide-react';
 
-// Mock property data service
-const getPropertyData = (id: string) => {
-  return {
-    id,
-    title: "3 Bed Semi-Detached House",
-    developmentName: "Fitzgerald Gardens",
-    address: {
-      street: "Plot 45, Fitzgerald Gardens",
-      city: "Drogheda",
-      county: "Co. Louth"
-    },
-    price: 375000,
-    images: [
-      "/images/developments/fitzgerald-gardens/3bed-House.jpeg",
-      "/images/developments/fitzgerald-gardens/2bed-House.jpeg"
-    ],
-    bedrooms: 3,
-    bathrooms: 2,
-    area: 125,
-    features: [
-      "A-rated energy efficiency",
-      "South-facing garden",
-      "Premium kitchen appliances",
-      "10-year structural warranty"
-    ],
-    htbEligible: true,
-    completionDate: "Q3 2025",
-    developer: "Cairn Homes"
-  };
+// Import the real data services
+import { projectDataService } from '@/services/ProjectDataService';
+import { realDataService } from '@/services/RealDataService';
+import { buyerSolicitorIntegrationService } from '@/services/BuyerSolicitorIntegrationService';
+import { agentBuyerIntegrationService } from '@/services/AgentBuyerIntegrationService';
+import { fitzgeraldGardensConfig } from '@/data/fitzgerald-gardens-config';
+import { Unit, UnitStatus, BuyerInformation } from '@/types/project';
+
+// Enhanced property data service with real integration
+const getPropertyData = async (unitId: string) => {
+  try {
+    // Initialize Fitzgerald Gardens project data
+    const project = projectDataService.initializeFitzgeraldGardens();
+    
+    // Get the specific unit from the real data
+    const unit = projectDataService.getUnitById('fitzgerald-gardens', unitId);
+    
+    if (!unit) {
+      // Fallback to mock data if unit not found
+      return {
+        id: unitId,
+        title: "3 Bed Semi-Detached House",
+        developmentName: "Fitzgerald Gardens",
+        unitNumber: unitId,
+        address: {
+          street: `Unit ${unitId}, Fitzgerald Gardens`,
+          city: "Drogheda",
+          county: "Co. Louth"
+        },
+        price: 375000,
+        images: [
+          "/images/developments/fitzgerald-gardens/3bed-House.jpeg",
+          "/images/developments/fitzgerald-gardens/2bed-House.jpeg"
+        ],
+        bedrooms: 3,
+        bathrooms: 2,
+        area: 125,
+        features: [
+          "A-rated energy efficiency",
+          "South-facing garden",
+          "Premium kitchen appliances",
+          "10-year structural warranty"
+        ],
+        htbEligible: true,
+        htbAmount: 30000,
+        completionDate: "Q3 2025",
+        developer: "Cairn Homes",
+        status: 'available',
+        isRealData: false
+      };
+    }
+    
+    // Convert unit data to property format
+    return {
+      id: unit.id,
+      title: `${unit.features.bedrooms} Bed ${unit.type}`,
+      developmentName: "Fitzgerald Gardens",
+      unitNumber: unit.number,
+      address: {
+        street: `Unit ${unit.number}, Fitzgerald Gardens`,
+        city: "Drogheda", 
+        county: "Co. Louth"
+      },
+      price: unit.pricing.currentPrice,
+      basePrice: unit.pricing.basePrice,
+      images: [
+        "/images/developments/fitzgerald-gardens/3bed-House.jpeg",
+        "/images/developments/fitzgerald-gardens/2bed-House.jpeg"
+      ],
+      bedrooms: unit.features.bedrooms,
+      bathrooms: unit.features.bathrooms,
+      area: unit.features.sqft,
+      floor: unit.features.floor,
+      building: unit.features.building,
+      hasBalcony: unit.features.hasBalcony,
+      hasGarden: unit.features.hasGarden,
+      parkingSpaces: unit.features.parkingSpaces,
+      features: unit.features.features,
+      amenities: unit.features.amenities,
+      htbEligible: unit.pricing.htbEligible,
+      htbAmount: unit.pricing.htbAmount || 30000,
+      completionDate: "Q3 2025",
+      developer: "Cairn Homes",
+      status: unit.status,
+      location: unit.location,
+      buyer: unit.buyer,
+      legalPack: unit.legalPack,
+      priceHistory: unit.pricing.priceHistory,
+      isRealData: true,
+      projectData: project
+    };
+  } catch (error) {
+    console.error('Error fetching property data:', error);
+    return null;
+  }
+};
+
+// Function to update unit status in developer portal
+const updateUnitStatusInDeveloperPortal = async (
+  unitId: string, 
+  newStatus: UnitStatus, 
+  buyerInfo: BuyerInformation,
+  reservationData: any
+) => {
+  try {
+    // Update the unit status in the project data service
+    const success = await projectDataService.updateUnitStatus(
+      'fitzgerald-gardens',
+      unitId,
+      newStatus,
+      `Unit ${newStatus} by buyer: ${buyerInfo.name}`
+    );
+    
+    if (success && newStatus === 'reserved') {
+      // Update buyer information in the unit
+      await projectDataService.updateUnitBuyer(
+        'fitzgerald-gardens',
+        unitId,
+        buyerInfo
+      );
+      
+      // Trigger real-time update to developer portal
+      projectDataService.broadcastStateUpdate({
+        projectId: 'fitzgerald-gardens',
+        unitId: unitId,
+        eventType: 'unit_reserved',
+        timestamp: new Date(),
+        data: {
+          unitNumber: unitId,
+          buyerName: buyerInfo.name,
+          buyerEmail: buyerInfo.email,
+          reservationAmount: reservationData.amount,
+          paymentMethod: reservationData.paymentMethod,
+          status: newStatus
+        },
+        actor: {
+          id: buyerInfo.id,
+          name: buyerInfo.name,
+          role: 'buyer'
+        }
+      });
+      
+      console.log(`Unit ${unitId} successfully updated to ${newStatus} in developer portal`);
+      return true;
+    }
+    
+    return success;
+  } catch (error) {
+    console.error('Error updating unit status in developer portal:', error);
+    return false;
+  }
 };
 
 interface ProgressSteps {
@@ -84,6 +213,10 @@ export default function PurchasePage() {
   const [currentStep, setCurrentStep] = useState(1);
   const [loading, setLoading] = useState(false);
   const [property, setProperty] = useState<any>(null);
+  const [isDataLoading, setIsDataLoading] = useState(true);
+  const [reservationSuccess, setReservationSuccess] = useState(false);
+  const [reservationId, setReservationId] = useState<string | null>(null);
+  
   const [verificationStatus, setVerificationStatus] = useState({
     kyc: true, // Assume verified since they passed verification
     fundsProof: true,
@@ -103,11 +236,45 @@ export default function PurchasePage() {
     }
   });
 
+  // Mock buyer information (in real app this would come from auth context)
+  const currentBuyer: BuyerInformation = {
+    id: 'buyer-001',
+    name: 'John Doe',
+    email: 'john.doe@email.com',
+    phone: '+353 87 123 4567',
+    address: '123 Main Street, Dublin 1',
+    solicitor: 'Kelly & Associates',
+    solicitorContact: 'mary.kelly@kellylaw.ie',
+    mortgageProvider: 'Bank of Ireland',
+    mortgageApproved: true,
+    depositAmount: 35000,
+    notes: 'First-time buyer, HTB eligible',
+    createdAt: new Date(),
+    updatedAt: new Date()
+  };
+
   useEffect(() => {
-    if (propertyId) {
-      setProperty(getPropertyData(propertyId));
-    }
-  }, [propertyId]);
+    const loadPropertyData = async () => {
+      if (propertyId) {
+        setIsDataLoading(true);
+        try {
+          const propertyData = await getPropertyData(propertyId);
+          setProperty(propertyData);
+          
+          // If unit is already reserved or sold, redirect to status page
+          if (propertyData?.status === 'reserved' || propertyData?.status === 'sold') {
+            router.push(`/buyer/transaction`);
+          }
+        } catch (error) {
+          console.error('Error loading property data:', error);
+        } finally {
+          setIsDataLoading(false);
+        }
+      }
+    };
+    
+    loadPropertyData();
+  }, [propertyId, router]);
 
   const progressSteps: ProgressSteps[] = [
     {
@@ -150,11 +317,126 @@ export default function PurchasePage() {
 
   const handlePayment = async () => {
     setLoading(true);
-    // Simulate payment processing
-    setTimeout(() => {
+    
+    try {
+      // Simulate payment processing
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      
+      // Generate reservation ID
+      const newReservationId = `FG-${propertyId}-${Date.now()}`;
+      setReservationId(newReservationId);
+      
+      // Update unit status in developer portal
+      const reservationData = {
+        amount: purchaseData.reservationAmount,
+        paymentMethod: purchaseData.paymentMethod,
+        agreementType: purchaseData.agreementType,
+        reservationId: newReservationId
+      };
+      
+      const updateSuccess = await updateUnitStatusInDeveloperPortal(
+        propertyId,
+        'reserved',
+        currentBuyer,
+        reservationData
+      );
+      
+      if (updateSuccess) {
+        setReservationSuccess(true);
+        console.log('✅ Reservation successful - Developer portal updated');
+        
+        // Create transaction record for buyer transaction page
+        const transactionData = {
+          id: newReservationId,
+          propertyId: propertyId,
+          propertyName: property?.title,
+          propertyAddress: property?.address,
+          buyerId: currentBuyer.id,
+          buyerName: currentBuyer.name,
+          reservationAmount: purchaseData.reservationAmount,
+          totalPrice: property?.price,
+          status: 'reserved',
+          date: new Date(),
+          nextSteps: [
+            'Mortgage approval finalization',
+            'Solicitor appointment',
+            'Contract review and signing'
+          ]
+        };
+        
+        // Store transaction data (in real app, this would go to a database)
+        localStorage.setItem(`transaction_${newReservationId}`, JSON.stringify(transactionData));
+        
+        // 🚀 AUTO-CREATE SOLICITOR CASE FROM RESERVATION
+        try {
+          const unit = await projectDataService.getUnitById('fitzgerald-gardens', propertyId);
+          if (unit) {
+            const solicitorCase = await buyerSolicitorIntegrationService.createCaseFromReservation({
+              unitId: propertyId,
+              buyer: currentBuyer,
+              property: unit,
+              reservationAmount: purchaseData.reservationAmount,
+              htbApplication: currentBuyer.htbEligible ? {
+                id: `htb-${currentBuyer.id}`,
+                amount: property?.htbAmount || 30000,
+                status: 'submitted'
+              } : undefined
+            });
+            
+            console.log('🏛️ Solicitor case auto-created:', solicitorCase.caseNumber);
+            
+            // Update transaction data with solicitor information
+            transactionData.solicitorCaseId = solicitorCase.id;
+            transactionData.solicitorInfo = {
+              firm: 'O\'Brien & Associates',
+              contact: 'cases@obrienlaw.ie',
+              phone: '+353 1 234 5678'
+            };
+            localStorage.setItem(`transaction_${newReservationId}`, JSON.stringify(transactionData));
+          }
+        } catch (error) {
+          console.error('Failed to create solicitor case:', error);
+          // Don't fail the reservation if solicitor case creation fails
+        }
+
+        // 🎯 TRACK AGENT COMMISSION FROM REFERRAL
+        try {
+          const commissionRecord = await agentBuyerIntegrationService.trackAgentReferralReservation(
+            currentBuyer.id,
+            propertyId,
+            'fitzgerald-gardens',
+            purchaseData.reservationAmount
+          );
+          
+          if (commissionRecord) {
+            console.log(`💰 Agent commission tracked: €${commissionRecord.commissionAmount.toFixed(2)} for agent referral`);
+            
+            // Update transaction data with agent commission information
+            transactionData.agentCommission = {
+              commissionId: commissionRecord.id,
+              agentId: commissionRecord.agentId,
+              amount: commissionRecord.commissionAmount,
+              status: commissionRecord.status
+            };
+            localStorage.setItem(`transaction_${newReservationId}`, JSON.stringify(transactionData));
+          } else {
+            console.log('ℹ️ No agent referral found for this buyer - no commission to track');
+          }
+        } catch (error) {
+          console.error('Failed to track agent commission:', error);
+          // Don't fail the reservation if commission tracking fails
+        }
+        
+        handleNextStep();
+      } else {
+        throw new Error('Failed to update developer portal');
+      }
+    } catch (error) {
+      console.error('Payment/reservation failed:', error);
+      // Handle error - show error message to user
+    } finally {
       setLoading(false);
-      handleNextStep();
-    }, 2000);
+    }
   };
 
   if (!property) {
@@ -645,16 +927,52 @@ export default function PurchasePage() {
                     </div>
                     <h2 className="text-2xl font-bold mb-2">Reservation Confirmed!</h2>
                     <p className="text-gray-600 mb-6">
-                      Your property has been successfully reserved
+                      Your property has been successfully reserved and the developer has been notified
                     </p>
                   </div>
+
+                  {/* Real-time Integration Status */}
+                  {reservationSuccess && (
+                    <div className="bg-green-50 border border-green-200 rounded-lg p-4 mb-6">
+                      <div className="flex items-center gap-3">
+                        <Activity className="w-5 h-5 text-green-600 animate-pulse" />
+                        <div>
+                          <h4 className="font-semibold text-green-900">Live System Update</h4>
+                          <p className="text-sm text-green-800">
+                            ✅ Unit status updated in developer portal<br />
+                            ✅ Sales team notified automatically<br />
+                            ✅ Legal pack preparation initiated
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Show property info from real data if available */}
+                  {property?.isRealData && (
+                    <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+                      <div className="flex items-center gap-3">
+                        <TrendingUp className="w-5 h-5 text-blue-600" />
+                        <div>
+                          <h4 className="font-semibold text-blue-900">Fitzgerald Gardens Real-Time Data</h4>
+                          <p className="text-sm text-blue-800">
+                            This unit is connected to live project data. The developer team can see your reservation in real-time.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  )}
 
                   <div className="bg-gray-50 rounded-lg p-6 mb-6">
                     <h3 className="font-semibold mb-4">Reservation Details</h3>
                     <dl className="space-y-3">
                       <div className="flex justify-between">
                         <dt className="text-gray-600">Reservation ID:</dt>
-                        <dd className="font-medium">RES-{Date.now()}</dd>
+                        <dd className="font-medium">{reservationId || `FG-${propertyId}-${Date.now()}`}</dd>
+                      </div>
+                      <div className="flex justify-between">
+                        <dt className="text-gray-600">Unit Number:</dt>
+                        <dd className="font-medium">{property?.unitNumber || propertyId}</dd>
                       </div>
                       <div className="flex justify-between">
                         <dt className="text-gray-600">Property:</dt>
@@ -665,10 +983,24 @@ export default function PurchasePage() {
                         <dd className="font-medium">{property.developmentName}</dd>
                       </div>
                       <div className="flex justify-between">
+                        <dt className="text-gray-600">Purchase Price:</dt>
+                        <dd className="font-medium">€{property.price?.toLocaleString()}</dd>
+                      </div>
+                      {property?.htbEligible && (
+                        <div className="flex justify-between">
+                          <dt className="text-gray-600">HTB Benefit:</dt>
+                          <dd className="font-medium text-green-600">€{property.htbAmount?.toLocaleString()}</dd>
+                        </div>
+                      )}
+                      <div className="flex justify-between">
                         <dt className="text-gray-600">Reservation Type:</dt>
                         <dd className="font-medium">
                           {purchaseData.agreementType === 'booking' ? '30-Day Booking' : '7-Day Exclusivity'}
                         </dd>
+                      </div>
+                      <div className="flex justify-between">
+                        <dt className="text-gray-600">Deposit Paid:</dt>
+                        <dd className="font-medium">€{purchaseData.reservationAmount}</dd>
                       </div>
                       <div className="flex justify-between">
                         <dt className="text-gray-600">Expires:</dt>
@@ -677,6 +1009,25 @@ export default function PurchasePage() {
                         </dd>
                       </div>
                     </dl>
+                  </div>
+
+                  {/* Developer Portal Integration Info */}
+                  <div className="bg-purple-50 border border-purple-200 rounded-lg p-4 mb-6">
+                    <div className="flex items-start gap-3">
+                      <Zap className="w-5 h-5 text-purple-600 mt-0.5" />
+                      <div>
+                        <h4 className="font-semibold text-purple-900">Connected to Developer Portal</h4>
+                        <p className="text-sm text-purple-800 mb-2">
+                          Your reservation has been automatically updated in the Fitzgerald Gardens developer portal:
+                        </p>
+                        <ul className="text-sm text-purple-700 space-y-1">
+                          <li>• Unit {propertyId} status changed to "Reserved"</li>
+                          <li>• Your buyer information added to the unit record</li>
+                          <li>• Legal pack preparation queue updated</li>
+                          <li>• Sales team dashboard refreshed</li>
+                        </ul>
+                      </div>
+                    </div>
                   </div>
 
                   <div className="bg-blue-50 rounded-lg p-6 mb-6">

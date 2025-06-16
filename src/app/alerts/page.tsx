@@ -5,13 +5,21 @@ import PropertyAlertsManager from '@/features/property-alerts/PropertyAlertsMana
 import { useSession } from 'next-auth/react';
 
 export default function PropertyAlertsPage() {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
+
+  if (status === 'loading') {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-center">Loading...</div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-background">
       <div className="container mx-auto px-4 py-8">
         <PropertyAlertsManager
-          userId={session?.user?.id}
+          userId={session?.user?.id || 'demo-user'}
           onAlertCreated={(alert) => {
             console.log('Alert created:', alert);
           }}

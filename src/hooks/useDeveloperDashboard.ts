@@ -1,9 +1,10 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { QueryOptions, useQuery } from '@tanstack/react-query';
-import { useGraphQLQuery } from './useGraphQL';
-import { GraphQLResult } from '@/types/common';
+import { useQuery } from '@tanstack/react-query';
+import type { UseQueryOptions } from '@tanstack/react-query';
+import { useAuth } from '@/hooks/useAuth';
+import { developerRestApiService } from '@/services/developerRestApiService';
 
 // Types for the dashboard data
 export interface DashboardFilterInput {
@@ -152,79 +153,19 @@ export function useDashboardPreferences() {
 export function useDeveloperDashboardOverview(
   filter?: DashboardFilterInput,
   dateRange?: DateRangeInput,
-  options?: Omit<UseQueryOptions<GraphQLResult<{ developerDashboard: DeveloperDashboardData }>, Error>,
-    'queryKey' | 'queryFn'>
+  options?: UseQueryOptions<DeveloperDashboardData, Error>
 ) {
-  const query = /* GraphQL */ `
-    query GetDeveloperDashboard($filter: DashboardFilterInput, $dateRange: DateRangeInput) {
-      developerDashboard(filter: $filter, dateRange: $dateRange) {
-        stats {
-          totalProjects
-          activeProjects
-          completedProjects
-          totalUnits
-          soldUnits
-          availableUnits
-          reservedUnits
-        }
-        recentProjects {
-          id
-          name
-          status
-          location {
-            city
-            county
-          }
-          images
-          description
-          totalUnits
-          availableUnits
-          soldUnits
-          reservedUnits
-          completionDate
-          progressPercentage
-        }
-        recentActivity {
-          id
-          type
-          title
-          description
-          timestamp
-          projectId
-          projectName
-          userId
-          userName
-        }
-        financialSummary {
-          totalSales
-          totalRevenue
-          projectedRevenue
-          monthlySales {
-            month
-            sales
-            revenue
-          }
-        }
-        salesMetrics {
-          conversionRate
-          averageSalePrice
-          upcomingAppointments
-          unitStatusDistribution {
-            status
-            count
-            color
-          }
-        }
-      }
-    }
-  `;
+  const { user } = useAuth();
 
-  return useGraphQLQuery<{ developerDashboard: DeveloperDashboardData }, Error>(
-    ['developerDashboard', filter, dateRange],
-    query,
-    { filter, dateRange },
-    { refetchOnWindowFocus: false, staleTime: 5 * 60 * 1000, ...options }
-  );
+  return useQuery({
+    queryKey: ['developerDashboard', user?.id, filter, dateRange],
+    queryFn: () => developerRestApiService.getDeveloperDashboard(filter, dateRange),
+    enabled: !!user,
+    staleTime: 5 * 60 * 1000, // 5 minutes
+    gcTime: 10 * 60 * 1000, // 10 minutes
+    refetchOnWindowFocus: false,
+    ...options,
+  });
 }
 
 /**
@@ -232,37 +173,22 @@ export function useDeveloperDashboardOverview(
  */
 export function useRecentProjects(
   limit: number = 5,
-  options?: Omit<UseQueryOptions<GraphQLResult<{ recentProjects: Project[] }>, Error>,
-    'queryKey' | 'queryFn'>
+  options?: UseQueryOptions<Project[], Error>
 ) {
-  const query = /* GraphQL */ `
-    query GetRecentProjects($limit: Int) {
-      recentProjects(limit: $limit) {
-        id
-        name
-        status
-        location {
-          city
-          county
-        }
-        images
-        description
-        totalUnits
-        availableUnits
-        soldUnits
-        reservedUnits
-        completionDate
-        progressPercentage
-      }
-    }
-  `;
+  const { user } = useAuth();
 
-  return useGraphQLQuery<{ recentProjects: Project[] }, Error>(
-    ['recentProjects', limit],
-    query,
-    { limit },
-    { refetchOnWindowFocus: false, staleTime: 5 * 60 * 1000, ...options }
-  );
+  return useQuery({
+    queryKey: ['recentProjects', user?.id, limit],
+    queryFn: async () => {
+      const projects = await developerRestApiService.getProjects();
+      return projects.slice(0, limit);
+    },
+    enabled: !!user,
+    staleTime: 5 * 60 * 1000, // 5 minutes
+    gcTime: 10 * 60 * 1000, // 10 minutes
+    refetchOnWindowFocus: false,
+    ...options,
+  });
 }
 
 /**
@@ -271,30 +197,19 @@ export function useRecentProjects(
 export function useFinancialDashboard(
   filter?: DashboardFilterInput,
   dateRange?: DateRangeInput,
-  options?: Omit<UseQueryOptions<GraphQLResult<{ financialDashboard: FinancialSummary }>, Error>,
-    'queryKey' | 'queryFn'>
+  options?: UseQueryOptions<FinancialSummary, Error>
 ) {
-  const query = /* GraphQL */ `
-    query GetFinancialDashboard($filter: DashboardFilterInput, $dateRange: DateRangeInput) {
-      financialDashboard(filter: $filter, dateRange: $dateRange) {
-        totalSales
-        totalRevenue
-        projectedRevenue
-        monthlySales {
-          month
-          sales
-          revenue
-        }
-      }
-    }
-  `;
+  const { user } = useAuth();
 
-  return useGraphQLQuery<{ financialDashboard: FinancialSummary }, Error>(
-    ['financialDashboard', filter, dateRange],
-    query,
-    { filter, dateRange },
-    { refetchOnWindowFocus: false, staleTime: 5 * 60 * 1000, ...options }
-  );
+  return useQuery({
+    queryKey: ['financialDashboard', user?.id, filter, dateRange],
+    queryFn: () => developerRestApiService.getFinancialData(dateRange),
+    enabled: !!user,
+    staleTime: 5 * 60 * 1000, // 5 minutes
+    gcTime: 10 * 60 * 1000, // 10 minutes
+    refetchOnWindowFocus: false,
+    ...options,
+  });
 }
 
 /**
@@ -306,10 +221,10 @@ export function useDeveloperDashboard() {
 
   // Format and transform the data to match the expected structure
   const transformedData = {
-    activeProjects: developmentsData?.developerDashboard.stats.activeProjects || 0,
-    propertiesAvailable: developmentsData?.developerDashboard.stats.availableUnits || 0,
-    totalSales: developmentsData?.developerDashboard.financialSummary.totalSales || 0,
-    projects: developmentsData?.developerDashboard.recentProjects || []
+    activeProjects: developmentsData?.stats.activeProjects || 0,
+    propertiesAvailable: developmentsData?.stats.availableUnits || 0,
+    totalSales: developmentsData?.financialSummary.totalSales || 0,
+    projects: developmentsData?.recentProjects || []
   };
 
   return {

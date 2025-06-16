@@ -40,13 +40,9 @@ export function createFallbackModel(roomType: string = 'default') {
   }
   
   // Create a simple wireframe box as fallback
-  const BoxGeometry = THREE.BoxGeometry;
-  const MeshBasicMaterial = THREE.MeshBasicMaterial;
-  const Mesh = THREE.Mesh;
-  const Group = THREE.Group;
   
-  const geometry = new BoxGeometry(1, 1, 1);
-  const material = new MeshBasicMaterial({ 
+  const geometry = new THREE.BoxGeometry(1, 1, 1);
+  const material = new THREE.MeshBasicMaterial({ 
     color, 
     wireframe: true,
     transparent: true,
@@ -54,10 +50,10 @@ export function createFallbackModel(roomType: string = 'default') {
   });
   
   // Create a mesh
-  const mesh = new Mesh(geometry, material);
+  const mesh = new THREE.Mesh(geometry, material);
   
   // Create a group to match the scene structure
-  const group = new Group();
+  const group = new THREE.Group();
   group.add(mesh);
   
   return {

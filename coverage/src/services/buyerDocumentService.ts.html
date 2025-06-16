@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/65</span>
+                <span class='fraction'>0/58</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/60</span>
+                <span class='fraction'>0/53</span>
             </div>
         
             
@@ -354,14 +354,7 @@
 <a name='L289'></a><a href='#L289'>289</a>
 <a name='L290'></a><a href='#L290'>290</a>
 <a name='L291'></a><a href='#L291'>291</a>
-<a name='L292'></a><a href='#L292'>292</a>
-<a name='L293'></a><a href='#L293'>293</a>
-<a name='L294'></a><a href='#L294'>294</a>
-<a name='L295'></a><a href='#L295'>295</a>
-<a name='L296'></a><a href='#L296'>296</a>
-<a name='L297'></a><a href='#L297'>297</a>
-<a name='L298'></a><a href='#L298'>298</a>
-<a name='L299'></a><a href='#L299'>299</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L292'></a><a href='#L292'>292</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -441,7 +434,6 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -476,7 +468,6 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -497,7 +488,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -520,7 +510,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -595,7 +584,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -627,7 +615,6 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -649,7 +636,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -738,7 +724,6 @@ class BuyerDocumentService {
       
 <span class="cstat-no" title="statement not covered" >      return result;</span>
     } catch (error) {
-<span class="cstat-no" title="statement not covered" >      console.error('Error uploading buyer document:', error);</span>
 <span class="cstat-no" title="statement not covered" >      return {</span>
         success: false,
         message: error instanceof Error ? error.message : 'An error occurred during upload'
@@ -773,7 +758,6 @@ class BuyerDocumentService {
       
 <span class="cstat-no" title="statement not covered" >      return response.ok;</span>
     } catch (error) {
-<span class="cstat-no" title="statement not covered" >      console.error('Error linking document to journey:', error);</span>
 <span class="cstat-no" title="statement not covered" >      return false;</span>
     }
   }
@@ -795,7 +779,6 @@ class BuyerDocumentService {
       
 <span class="cstat-no" title="statement not covered" >      return await documentService.getDocuments(filter);</span>
     } catch (error) {
-<span class="cstat-no" title="statement not covered" >      console.error('Error getting buyer documents:', error);</span>
 <span class="cstat-no" title="statement not covered" >      return [];</span>
     }
   }
@@ -818,7 +801,6 @@ class BuyerDocumentService {
         this.isDocumentForPhase(doc.metadata.requiredDocumentId, phase)
       );
     } catch (error) {
-<span class="cstat-no" title="statement not covered" >      console.error('Error getting phase documents:', error);</span>
 <span class="cstat-no" title="statement not covered" >      return [];</span>
     }
   }
@@ -892,7 +874,6 @@ class BuyerDocumentService {
         documents: documentStatuses
       };
     } catch (error) {
-<span class="cstat-no" title="statement not covered" >      console.error('Error getting phase document progress:', error);</span>
 <span class="cstat-no" title="statement not covered" >      return {</span>
         phase: phase as unknown as BuyerDocumentCategory,
         requiredCount: 0,
@@ -924,7 +905,6 @@ class BuyerDocumentService {
       
 <span class="cstat-no" title="statement not covered" >      return progress as Record&lt;BuyerPhase, PhaseDocumentProgress&gt;;</span>
     } catch (error) {
-<span class="cstat-no" title="statement not covered" >      console.error('Error getting overall document progress:', error);</span>
 <span class="cstat-no" title="statement not covered" >      return {} as Record&lt;BuyerPhase, PhaseDocumentProgress&gt;;</span>
     }
   }
@@ -947,7 +927,6 @@ class BuyerDocumentService {
       // Use the document service to delete the document
 <span class="cstat-no" title="statement not covered" >      return await documentService.deleteDocument(documentId);</span>
     } catch (error) {
-<span class="cstat-no" title="statement not covered" >      console.error('Error deleting buyer document:', error);</span>
 <span class="cstat-no" title="statement not covered" >      return {</span>
         success: false,
         message: error instanceof Error ? error.message : 'An error occurred'
@@ -964,7 +943,7 @@ export const <span class="cstat-no" title="statement not covered" >buyerDocument
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-15T16:23:25.168Z
+                at 2025-06-16T20:20:01.464Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

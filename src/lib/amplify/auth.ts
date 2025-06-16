@@ -13,8 +13,9 @@ import {
   SignInResult as SignInResultType
 } from '../../types/amplify/auth';
 
-import { signIn, signOut, confirmSignIn, getCurrentUser } from 'aws-amplify/auth';
-import { AuthError } from '@aws-amplify/core';
+// TODO: Remove Amplify dependency - Replace with alternative authentication implementation
+// import { signIn, signOut, confirmSignIn, getCurrentUser } from 'aws-amplify/auth';
+// import { AuthError } from '@aws-amplify/core';
 
 // Simplified Auth State
 export enum AuthState {

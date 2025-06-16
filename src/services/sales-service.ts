@@ -159,7 +159,6 @@ export class SalesService {
    */
   private async updateUnitStatus(unitId: string, status: UnitStatus): Promise<void> {
     // In a real implementation, this would update the database
-    console.log(`Updating unit ${unitId} status to ${status}`);
   }
 
   /**
@@ -184,8 +183,6 @@ export class SalesService {
         priority: SaleTaskPriority.MEDIUM
       }
     ];
-
-    console.log(`Creating ${tasks.length} tasks for sale ${sale.id}`);
   }
 
   /**
