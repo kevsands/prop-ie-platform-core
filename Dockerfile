@@ -20,8 +20,8 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-# Build the application
-RUN npm run build
+# Clear any build cache and build the application
+RUN rm -rf .next && npm run build
 
 # Production image, copy all files and run next
 FROM base AS runner
