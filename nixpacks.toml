@@ -1,17 +1,8 @@
-[providers]
-node = "18"
-
-[phases.setup]
-nixPkgs = ["nodejs", "npm"]
-
 [phases.install]
-cmd = "npm ci"
+cmd = "npm install --legacy-peer-deps"
 
 [phases.build]
 cmd = "npm run build"
 
 [start]
 cmd = "npm start"
-
-[variables]
-NODE_ENV = "production"

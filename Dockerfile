@@ -11,7 +11,7 @@ COPY package.json package-lock.json ./
 COPY .npmrc ./
 
 # Install dependencies with npm (not pnpm)
-RUN npm ci --only=production && npm cache clean --force
+RUN npm ci && npm cache clean --force
 
 # Rebuild the source code only when needed
 FROM base AS builder
