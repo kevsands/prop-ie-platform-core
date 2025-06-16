@@ -313,7 +313,7 @@ export default function RiversideManorPage() {
             <section>
               <h2 className="text-3xl font-bold text-gray-900 mb-6">Gallery</h2>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                {[1, 2, 3, 4, 56].map((i: any) => (
+                {[1, 23456].map((i: any) => (
                   <div key={i} className="relative aspect-video rounded-lg overflow-hidden bg-gray-200">
                     <p className="absolute inset-0 flex items-center justify-center text-gray-500">
                       Gallery Image {i}

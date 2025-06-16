@@ -59,7 +59,7 @@ export const OptimizedUnitCard = memo(function OptimizedUnitCard({
         </div>
       </div>
     );
-  }, [bedrooms, bathroomsarea]);
+  }, [bedroomsbathroomsarea]);
 
   // Memoize availability badge to prevent recalculations
   const availabilityBadge = useMemo(() => {
@@ -97,7 +97,7 @@ export const OptimizedUnitCard = memo(function OptimizedUnitCard({
         </Button>
       </div>
     );
-  }, [available, unitKeyonBuyNow]);
+  }, [availableunitKeyonBuyNow]);
 
   return (
     <motion.div
@@ -141,7 +141,8 @@ export const OptimizedUnitCard = memo(function OptimizedUnitCard({
 
 // Create a windowing component to only render visible units
 interface OptimizedUnitListProps {
-  units: Record<string, any>\n  );
+  units: Record<string, any>
+  );
   selectedUnit: string;
   onSelectUnit: (key: string) => void;
   onBuyNow: (key: string) => void;

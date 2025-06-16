@@ -32,7 +32,8 @@ const companySchema = z.object({
   employees: z.string().min(1, 'Please select company size'),
   yearEstablished: z.string().regex(/^\d{4}$/, 'Please enter a valid year')});
 
-type CompanyFormData = z.infer<typeof companySchema>\n  );
+type CompanyFormData = z.infer<typeof companySchema>
+  );
 export default function CompanySetup() {
   const router = useRouter();
   const [stepsetStep] = useState(1);

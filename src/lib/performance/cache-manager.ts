@@ -8,7 +8,8 @@ export interface CacheOptions {
 }
 
 class CacheManager {
-  private caches: Map<string, LRUCache<string, any>>\n  );
+  private caches: Map<string, LRUCache<string, any>>
+  );
   private defaultOptions: CacheOptions;
 
   constructor() {
@@ -57,7 +58,7 @@ class CacheManager {
 
       return;
     }
-    cache.set(key, valueoptions);
+    cache.set(keyvalueoptions);
   }
 
   async delete(cacheName: string, key: string): Promise<boolean> {
@@ -137,7 +138,7 @@ export const withCache = async <T>(
   }
 
   const value = await fetchFn();
-  await cacheManager.set(cacheName, key, valueoptions);
+  await cacheManager.set(cacheNamekeyvalueoptions);
   return value;
 };
 

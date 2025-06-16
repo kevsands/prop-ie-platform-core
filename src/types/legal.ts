@@ -124,7 +124,8 @@ export interface LegalAuditEvent {
   reservationId: string;
   event: string;
   description: string;
-  data?: Record<string, any>\n  );
+  data?: Record<string, any>
+  );
   timestamp: Date;
   userId?: string;
   ipAddress?: string;

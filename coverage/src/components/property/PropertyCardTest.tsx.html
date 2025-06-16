@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">55.55% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>5/9</span>
+                <span class='fraction'>0/9</span>
             </div>
         
             
@@ -37,16 +37,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">33.33% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>1/3</span>
+                <span class='fraction'>0/3</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">55.55% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>5/9</span>
+                <span class='fraction'>0/9</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line high'></div>
+    <div class='status-line low'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -200,9 +200,9 @@
 <a name='L135'></a><a href='#L135'>135</a>
 <a name='L136'></a><a href='#L136'>136</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -256,8 +256,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -335,9 +335,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">"use client";
 &nbsp;
-import React from 'react';
-import PropertyCard from './PropertyCard';
-import { PropertyStatus, PropertyType } from '@/types/search';
+import React from <span class="cstat-no" title="statement not covered" >'react';</span>
+import PropertyCard from <span class="cstat-no" title="statement not covered" >'./PropertyCard';</span>
+import { PropertyStatus, PropertyType } from <span class="cstat-no" title="statement not covered" >'@/types/search';</span>
 import { Property } from '@/types/models';
 &nbsp;
 // Test with individual props
@@ -391,8 +391,8 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
 }
 &nbsp;
 // Test component to demonstrate both usages
-export default function PropertyCardTestPage() {
-  const mockProperty = {
+export default function <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >PropertyCardTestPage() {</span></span>
+  const mockProperty = <span class="cstat-no" title="statement not covered" >{</span>
     id: '1',
     name: 'Test Property',
     title: 'Test Property',
@@ -423,7 +423,7 @@ export default function PropertyCardTestPage() {
   return (
     &lt;div className="p-4 space-y-8"&gt;
       &lt;h1 className="text-2xl font-bold mb-4"&gt;Property Card Test Page&lt;/h1&gt;
-      
+&nbsp;
       {/* Using individual props */}
       &lt;div&gt;
         &lt;h2 className="text-xl font-semibold mb-2"&gt;Using Individual Props&lt;/h2&gt;
@@ -441,7 +441,7 @@ export default function PropertyCardTestPage() {
             type={PropertyType.APARTMENT}
             images={['/images/property1.jpg']}
           /&gt;
-          
+&nbsp;
           &lt;PropertyCard
             id="2"
             name="Modern House"
@@ -457,7 +457,7 @@ export default function PropertyCardTestPage() {
           /&gt;
         &lt;/div&gt;
       &lt;/div&gt;
-      
+&nbsp;
       {/* Using property object */}
       &lt;div&gt;
         &lt;h2 className="text-xl font-semibold mb-2"&gt;Using Property Object&lt;/h2&gt;
@@ -475,7 +475,7 @@ export default function PropertyCardTestPage() {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T22:15:28.100Z
+                at 2025-06-15T18:50:48.918Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

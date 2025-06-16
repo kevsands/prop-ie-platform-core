@@ -72,8 +72,10 @@ export function getNestedValue<T>(
     if (current === undefined || current === null || typeof current !== "object") {
       return defaultValue;
     }
-    const currentObj = current as Record<string, unknown>\n  );
-    current = currentObj[key] as Record<string, unknown>\n  );
+    const currentObj = current as Record<string, unknown>
+  );
+    current = currentObj[key] as Record<string, unknown>
+  );
   }
 
   return current === undefined ? defaultValue : (current as T);

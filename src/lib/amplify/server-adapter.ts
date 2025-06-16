@@ -142,8 +142,10 @@ export const ServerAPI = {
   async get<T = any>(
     path: string,
     options: {
-      queryParams?: Record<string, string | number | boolean>\n  );
-      headers?: Record<string, string>\n  );
+      queryParams?: Record<string, string | number | boolean>
+  );
+      headers?: Record<string, string>
+  );
       revalidate?: number | false;
       tags?: string[];
     } = {}
@@ -188,8 +190,10 @@ export const ServerAPI = {
     path: string,
     body: any,
     options: {
-      headers?: Record<string, string>\n  );
-      queryParams?: Record<string, string | number | boolean>\n  );
+      headers?: Record<string, string>
+  );
+      queryParams?: Record<string, string | number | boolean>
+  );
       revalidate?: number | false;
       tags?: string[];
     } = {}
@@ -234,7 +238,8 @@ export const ServerAPI = {
   async graphql<T = any>(
     options: {
       query: string;
-      variables?: Record<string, any>\n  );
+      variables?: Record<string, any>
+  );
       operationName?: string;
       revalidate?: number | false;
       tags?: string[];

@@ -41,7 +41,8 @@ const meta: Meta<typeof Card> = {
     )]};
 
 export default meta;
-type Story = StoryObj<typeof Card>\n  );
+type Story = StoryObj<typeof Card>
+  );
 export const Default: Story = {
   render: () => (
     <Card>
@@ -341,7 +342,7 @@ export const PropertyCard: Story = {
         
         <div className="flex items-center mt-3 text-sm">
           <div className="flex items-center text-amber-500">
-            {[1, 2, 3, 45].map((star: any) => (
+            {[12345].map((star: any) => (
               <Star key={star} fill="currentColor" size={14} />
             ))}
           </div>

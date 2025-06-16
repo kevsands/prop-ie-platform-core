@@ -82,19 +82,22 @@ interface Offer {
     type: string;
     uploadedDate: Date;
     url: string;
-  }>\n  );
+  }>
+  );
   communications: Array<{
     id: string;
     type: 'note' | 'message' | 'update';
     sender: string;
     content: string;
     date: Date;
-  }>\n  );
+  }>
+  );
   timeline: Array<{
     event: string;
     date: Date;
     details?: string;
-  }>\n  );
+  }>
+  );
   competingOffers?: number;
   propertyDetails: {
     askingPrice: number;

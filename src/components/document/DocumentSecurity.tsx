@@ -345,7 +345,7 @@ const DocumentSecurity: React.FC<DocumentSecurityProps> = ({
           </CardHeader>
           <CardContent>
             <div className="space-y-3">
-              {complianceChecks.map((checkindex: any) => (
+              {complianceChecks.map((check, index: any) => (
                 <div key={index} className="flex items-start space-x-3 p-3 border rounded-lg">
                   {getStatusIcon(check.status)}
                   <div className="flex-1">

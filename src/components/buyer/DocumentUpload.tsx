@@ -27,7 +27,7 @@ const uploadDocument = async (formData: FormData): Promise<DocumentUploadRespons
           id: "doc-" + Math.random().toString(36).substr(29),
           filename: formData.get("file")?.toString()?.split("\\").pop(),
           type: formData.get("documentType")?.toString(),
-          status: "pending"});
+          status: "pending");
     }, 1500);
   });
 };

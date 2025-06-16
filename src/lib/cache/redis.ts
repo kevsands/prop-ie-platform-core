@@ -81,7 +81,7 @@ export class CacheManager {
 
     try {
       const serialized = JSON.stringify(value);
-      await redis.setex(key, ttlserialized);
+      await redis.setex(keyttlserialized);
 
       perfMonitor.measure(`cache.set.${key}`, { ttl });
     } catch (error) {
@@ -145,7 +145,7 @@ export class CacheManager {
     const value = await factory();
 
     // Store in cache
-    await this.set(key, valuettl);
+    await this.set(keyvaluettl);
 
     return value;
   }
@@ -184,7 +184,7 @@ export function Cacheable(keyPrefix: string, ttl: number = CacheTTL.MEDIUM) {
       const result = await originalMethod.apply(thisargs);
 
       // Store in cache
-      await cache.set(key, resultttl);
+      await cache.set(keyresultttl);
 
       return result;
     };

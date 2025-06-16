@@ -1,84 +1,48 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Icons } from '@/components/ui/icons';
-import LeadManagement from '@/components/crm/LeadManagement';
-import ViewingScheduler from '@/components/crm/ViewingScheduler';
-import PropertyMatching from '@/components/crm/PropertyMatching';
-import AgentPerformance from '@/components/crm/AgentPerformance';
-import AutomatedFollowUp from '@/components/crm/AutomatedFollowUp';
-import CommissionTracking from '@/components/crm/CommissionTracking';
-import { useAuth } from '@/hooks/useAuth';
-
-export default function EstateAgentDashboard() {
-  const { user } = useAuth();
-  const [activeTabsetActiveTab] = useState('leads');
-
-  // Mock agent ID - in real app, this would come from auth context
-  const agentId = user?.id || 'agent-123';
-
+export default function AgentsDashboard() {
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold">Estate Agent CRM Dashboard</h1>
-        <p className="text-gray-600 mt-2">
-          Manage your leads, viewings, and sales performance
-        </p>
+    <div className="container mx-auto py-8">
+      <h1 className="text-3xl font-bold mb-8">Estate Agents Dashboard</h1>
+      
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="bg-white p-6 rounded-lg shadow-md">
+          <h2 className="text-xl font-semibold mb-4">Lead Management</h2>
+          <p className="text-gray-600">Track and manage your property leads</p>
+          <div className="mt-4">
+            <div className="text-2xl font-bold text-blue-600">47</div>
+            <div className="text-sm text-gray-500">Active Leads</div>
+          </div>
+        </div>
+        
+        <div className="bg-white p-6 rounded-lg shadow-md">
+          <h2 className="text-xl font-semibold mb-4">Commission Tracking</h2>
+          <p className="text-gray-600">Monitor your commission earnings</p>
+          <div className="mt-4">
+            <div className="text-2xl font-bold text-green-600">€28,500</div>
+            <div className="text-sm text-gray-500">This Month</div>
+          </div>
+        </div>
+        
+        <div className="bg-white p-6 rounded-lg shadow-md">
+          <h2 className="text-xl font-semibold mb-4">Property Matches</h2>
+          <p className="text-gray-600">AI-powered property matching</p>
+          <div className="mt-4">
+            <div className="text-2xl font-bold text-purple-600">12</div>
+            <div className="text-sm text-gray-500">New Matches</div>
+          </div>
+        </div>
       </div>
-
-      <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-        <TabsList className="grid grid-cols-6 w-full mb-8">
-          <TabsTrigger value="leads" className="flex items-center gap-2">
-            <Icons.Users className="h-4 w-4" />
-            Leads
-          </TabsTrigger>
-          <TabsTrigger value="viewings" className="flex items-center gap-2">
-            <Icons.Calendar className="h-4 w-4" />
-            Viewings
-          </TabsTrigger>
-          <TabsTrigger value="matching" className="flex items-center gap-2">
-            <Icons.Search className="h-4 w-4" />
-            Matching
-          </TabsTrigger>
-          <TabsTrigger value="performance" className="flex items-center gap-2">
-            <Icons.TrendingUp className="h-4 w-4" />
-            Performance
-          </TabsTrigger>
-          <TabsTrigger value="automation" className="flex items-center gap-2">
-            <Icons.Zap className="h-4 w-4" />
-            Automation
-          </TabsTrigger>
-          <TabsTrigger value="commissions" className="flex items-center gap-2">
-            <Icons.DollarSign className="h-4 w-4" />
-            Commissions
-          </TabsTrigger>
-        </TabsList>
-
-        <TabsContent value="leads" className="mt-0">
-          <LeadManagement />
-        </TabsContent>
-
-        <TabsContent value="viewings" className="mt-0">
-          <ViewingScheduler />
-        </TabsContent>
-
-        <TabsContent value="matching" className="mt-0">
-          <PropertyMatching />
-        </TabsContent>
-
-        <TabsContent value="performance" className="mt-0">
-          <AgentPerformance agentId={agentId} />
-        </TabsContent>
-
-        <TabsContent value="automation" className="mt-0">
-          <AutomatedFollowUp agentId={agentId} />
-        </TabsContent>
-
-        <TabsContent value="commissions" className="mt-0">
-          <CommissionTracking agentId={agentId} />
-        </TabsContent>
-      </Tabs>
+      
+      <div className="mt-8 bg-blue-50 p-6 rounded-lg">
+        <h3 className="text-lg font-semibold mb-2">Advanced CRM Features Coming Soon</h3>
+        <ul className="space-y-2 text-gray-700">
+          <li>• Automated follow-up campaigns</li>
+          <li>• Advanced lead scoring</li>
+          <li>• Commission automation</li>
+          <li>• Property matching algorithms</li>
+        </ul>
+      </div>
     </div>
   );
 }

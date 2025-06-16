@@ -29,14 +29,14 @@ const CommandPalette = ({ isOpen, onClose, userActions }) => {
       action.keywords?.some(keyword: any => keyword.includes(searchQuery.toLowerCase()))
     );
 
-    return filtered.slice(05);
+    return filtered.slice(0);
   };
 
   useEffect(() => {
     if (query) {
       setSuggestions(searchActions(query));
     } else {
-      setSuggestions(userActions.slice(05));
+      setSuggestions(userActions.slice(0));
     }
   }, [queryuserActions]);
 

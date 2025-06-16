@@ -60,7 +60,7 @@ const VariablesPanel: React.FC<VariablesPanelProps> = ({ fields, onInsert }) => 
             <div key={field.id} className="flex justify-between items-center py-2 border-b border-gray-100">
                               <div>
                   <p className="font-medium text-sm">{field.label}</p>
-                  <p className="text-xs text-gray-500">{`{${field.name}}`}</p>
+                  <p className="text-xs text-gray-500">{`{${field.name}`}</p>
                 </div>
               <button
                 onClick={() => onInsert(field.name)}
@@ -147,7 +147,7 @@ export default function DocumentGenerator({ template: initialTemplate, mode, onS
     if (!isAuthenticated && !accessToken) {
       router.push('/login');
     }
-  }, [isAuthenticated, accessTokenrouter]);
+  }, [isAuthenticatedaccessTokenrouter]);
 
   // Validate the form
   const validateForm = (): boolean => {
@@ -446,7 +446,7 @@ export default function DocumentGenerator({ template: initialTemplate, mode, onS
                     {errors[`field-${field.id}-name`] && (
                       <p className="mt-1 text-xs text-red-500">{errors[`field-${field.id}-name`]}</p>
                     )}
-                    <p className="mt-1 text-xs text-gray-500">Use this name in your template: {`{${field.name}}`}</p>
+                    <p className="mt-1 text-xs text-gray-500">Use this name in your template: {`{${field.name}`}</p>
                   </div>
 
                   <div>
@@ -585,7 +585,7 @@ export default function DocumentGenerator({ template: initialTemplate, mode, onS
                 <VariablesPanel 
                   fields={template.fields}
                   onInsert={(variable: string) => {
-                    const insertion = `{${variable}}`;
+                    const insertion = `{${variable}`;
                     setTemplate(prev => ({
                       ...prev,
                       contentHtml: prev.contentHtml + insertion

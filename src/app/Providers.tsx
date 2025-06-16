@@ -10,7 +10,10 @@ const queryClient = new QueryClient({
   defaultOptions: { 
     queries: {
       staleTime: 60 * 1000,
-      retry: false}});
+      retry: false
+    }
+  }
+});
 
 /**
  * Core Providers component for the application

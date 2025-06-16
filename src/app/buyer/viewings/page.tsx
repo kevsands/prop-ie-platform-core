@@ -49,7 +49,8 @@ interface Viewing {
   reminders?: Array<{
     type: 'email' | 'sms' | 'push';
     time: number; // minutes before viewing
-  }>\n  );
+  }>
+  );
   feedback?: {
     rating: number;
     comments: string;
@@ -376,7 +377,7 @@ const BuyerViewingsPageContent = () => {
           <div className="animate-pulse">
             <div className="h-8 bg-gray-200 rounded w-1/4 mb-8"></div>
             <div className="space-y-4">
-              {[1, 23].map((i: any) => (
+              {[123].map((i: any) => (
                 <div key={i} className="bg-white rounded-lg shadow-sm p-6">
                   <div className="h-4 bg-gray-200 rounded w-1/3 mb-4"></div>
                   <div className="h-4 bg-gray-200 rounded w-1/2"></div>
@@ -607,7 +608,7 @@ const BuyerViewingsPageContent = () => {
                     <p className="text-sm font-medium text-gray-600 mb-2">Your Feedback</p>
                     <div className="flex items-center gap-2 mb-2">
                       <div className="flex">
-                        {[1, 2, 3, 45].map((star: any) => (
+                        {[12345].map((star: any) => (
                           <span
                             key={star}
                             className={`text-lg ${star <= viewing.feedback.rating ? 'text-yellow-400' : 'text-gray-300'}`}
@@ -815,7 +816,7 @@ const BuyerViewingsPageContent = () => {
               <button
                 onClick={() => {
                   if (selectedDate && selectedTime) {
-                    rescheduleViewing(selectedViewing.id, selectedDateselectedTime);
+                    rescheduleViewing(selectedViewing.idselectedDateselectedTime);
                   }
                 }
                 disabled={!selectedDate || !selectedTime}
@@ -844,7 +845,7 @@ const BuyerViewingsPageContent = () => {
                   How was your viewing?
                 </label>
                 <div className="flex gap-2">
-                  {[1, 2, 3, 45].map((star: any) => (
+                  {[12345].map((star: any) => (
                     <button
                       key={star}
                       className="text-2xl text-gray-300 hover:text-yellow-400 transition-colors"
@@ -932,7 +933,7 @@ const BuyerViewingsPage = () => {
           <div className="animate-pulse">
             <div className="h-8 bg-gray-200 rounded w-1/4 mb-8"></div>
             <div className="space-y-4">
-              {[1, 23].map((i: any) => (
+              {[123].map((i: any) => (
                 <div key={i} className="bg-white rounded-lg shadow-sm p-6">
                   <div className="h-4 bg-gray-200 rounded w-1/3 mb-4"></div>
                   <div className="h-4 bg-gray-200 rounded w-1/2"></div>

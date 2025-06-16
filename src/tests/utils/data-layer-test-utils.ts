@@ -157,8 +157,7 @@ export function setupRestApiMocks() {
           email: 'test@example.com',
           firstName: 'Test',
           lastName: 'User',
-          roles: ['BUYER']})
-      );
+          roles: ['BUYER']});
     }),
     
     rest.get('/api/developments', (req: NextApiRequest, res: NextApiResponse, ctx: any) => {

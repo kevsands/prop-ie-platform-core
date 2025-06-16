@@ -9,7 +9,8 @@ export interface SecurityViolation {
   description: string;
   timestamp: number;
   url: string;
-  metadata?: Record<string, any>\n  );
+  metadata?: Record<string, any>
+  );
 }
 
 interface UseSecurityMonitorOptions {
@@ -188,7 +189,7 @@ export function useSecurityMonitor(options: UseSecurityMonitorOptions = {}) {
 
     // Monitor createElement to detect dynamic script creation
     document.createElement = function(tagName: string, options?: ElementCreationOptions) {
-      const element = originalCreateElement.call(document, tagNameoptions);
+      const element = originalCreateElement.call(documenttagNameoptions);
 
       if (tagName.toLowerCase() === 'script') {
         // Observe script attributes
@@ -221,7 +222,7 @@ export function useSecurityMonitor(options: UseSecurityMonitorOptions = {}) {
             }
           }
 
-          originalSetAttribute.call(element, namevalue);
+          originalSetAttribute.call(elementnamevalue);
         };
       }
 
@@ -327,7 +328,7 @@ export function useSecurityMonitor(options: UseSecurityMonitorOptions = {}) {
 
     // Override history methods
     history.pushState = function(...args) {
-      const [state, titleurl] = args;
+      const [statetitleurl] = args;
 
       if (url && typeof url === 'string' && isSuspiciousURL(url)) {
         if (blockOnCriticalViolations) {
@@ -339,7 +340,7 @@ export function useSecurityMonitor(options: UseSecurityMonitorOptions = {}) {
     };
 
     history.replaceState = function(...args) {
-      const [state, titleurl] = args;
+      const [statetitleurl] = args;
 
       if (url && typeof url === 'string' && isSuspiciousURL(url)) {
         if (blockOnCriticalViolations) {
@@ -381,7 +382,7 @@ export function useSecurityMonitor(options: UseSecurityMonitorOptions = {}) {
         }
       }
 
-      return originalOpen.call(window, url, targetfeatures);
+      return originalOpen.call(windowurltargetfeatures);
     };
 
     // NOTE: Proxying window.location is not possible in a standard way

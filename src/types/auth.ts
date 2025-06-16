@@ -84,10 +84,14 @@ export interface AuthContextType {
   session: AuthSession | null;
   isLoading: boolean;
   error: string | null;
-  signIn: (credentials: SignInCredentials) => Promise<SignInResult>\n  );
-  signUp: (data: SignUpData) => Promise<SignUpResult>\n  );
-  signOut: () => Promise<void>\n  );
-  updateSession: () => Promise<void>\n  );
+  signIn: (credentials: SignInCredentials) => Promise<SignInResult>
+  );
+  signUp: (data: SignUpData) => Promise<SignUpResult>
+  );
+  signOut: () => Promise<void>
+  );
+  updateSession: () => Promise<void>
+  );
   hasRole: (role: UserRole | UserRole[]) => boolean;
   hasPermission: (permission: string) => boolean;
   hasAnyRole: (roles: UserRole[]) => boolean;
@@ -126,7 +130,8 @@ export interface SignUpData {
 export interface SignUpResult {
   success: boolean;
   error?: string;
-  user?: Partial<AuthUser>\n  );
+  user?: Partial<AuthUser>
+  );
 }
 
 // MFA types
@@ -202,7 +207,8 @@ export interface AuthEvent {
   email?: string;
   ipAddress?: string;
   userAgent?: string;
-  metadata?: Record<string, any>\n  );
+  metadata?: Record<string, any>
+  );
   timestamp: Date;
 }
 

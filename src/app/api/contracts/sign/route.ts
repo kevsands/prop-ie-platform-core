@@ -117,7 +117,8 @@ async function initiateDocuSign(params: {
     email: string;
     role: string;
     routingOrder: number;
-  }>\n  );
+  }>
+  );
   metadata: any;
 }) {
   // Integration with DocuSign API

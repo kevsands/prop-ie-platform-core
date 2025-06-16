@@ -43,50 +43,55 @@ declare global {
       primitive: React.DetailedHTMLProps<
         React.HTMLAttributes<HTMLElement> & {
           object: Object3D;
-          position?: [number, numbernumber];
-          rotation?: [number, numbernumber];
-          scale?: [number, numbernumber];
+          position?: [numbernumbernumber];
+          rotation?: [numbernumbernumber];
+          scale?: [numbernumbernumber];
         },
         HTMLElement
-      >\n  );
+      >
+  );
       ambientLight: React.DetailedHTMLProps<
         React.HTMLAttributes<HTMLElement> & {
           intensity?: number;
           color?: string | number;
         },
         HTMLElement
-      >\n  );
+      >
+  );
       directionalLight: React.DetailedHTMLProps<
         React.HTMLAttributes<HTMLElement> & {
           intensity?: number;
           color?: string | number;
-          position?: [number, numbernumber];
+          position?: [numbernumbernumber];
           castShadow?: boolean;
           shadow?: any;
         },
         HTMLElement
-      >\n  );
+      >
+  );
       pointLight: React.DetailedHTMLProps<
         React.HTMLAttributes<HTMLElement> & {
           intensity?: number;
           color?: string | number;
-          position?: [number, numbernumber];
+          position?: [numbernumbernumber];
           distance?: number;
           decay?: number;
         },
         HTMLElement
-      >\n  );
+      >
+  );
       spotLight: React.DetailedHTMLProps<
         React.HTMLAttributes<HTMLElement> & {
           intensity?: number;
           color?: string | number;
-          position?: [number, numbernumber];
+          position?: [numbernumbernumber];
           angle?: number;
           penumbra?: number;
           distance?: number;
         },
         HTMLElement
-      >\n  );
+      >
+  );
       hemisphereLight: React.DetailedHTMLProps<
         React.HTMLAttributes<HTMLElement> & {
           intensity?: number;
@@ -94,25 +99,28 @@ declare global {
           groundColor?: string | number;
         },
         HTMLElement
-      >\n  );
+      >
+  );
       group: React.DetailedHTMLProps<
         React.HTMLAttributes<HTMLElement> & {
-          position?: [number, numbernumber];
-          rotation?: [number, numbernumber];
-          scale?: [number, numbernumber];
+          position?: [numbernumbernumber];
+          rotation?: [numbernumbernumber];
+          scale?: [numbernumbernumber];
         },
         HTMLElement
-      >\n  );
+      >
+  );
       mesh: React.DetailedHTMLProps<
         React.HTMLAttributes<HTMLElement> & {
-          position?: [number, numbernumber];
-          rotation?: [number, numbernumber];
-          scale?: [number, numbernumber];
+          position?: [numbernumbernumber];
+          rotation?: [numbernumbernumber];
+          scale?: [numbernumbernumber];
           castShadow?: boolean;
           receiveShadow?: boolean;
         },
         HTMLElement
-      >\n  );
+      >
+  );
     }
   }
 }

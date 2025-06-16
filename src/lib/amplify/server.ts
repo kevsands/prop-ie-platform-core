@@ -44,8 +44,10 @@ type PaginatedResponse<T = any> = {
 // Define REST related types
 interface RestOptions {
   path: string;
-  headers?: Record<string, string>\n  );
-  queryParams?: Record<string, string | number | boolean | null>\n  );
+  headers?: Record<string, string>
+  );
+  queryParams?: Record<string, string | number | boolean | null>
+  );
   body?: any;
   method?: string;
   apiName?: string;

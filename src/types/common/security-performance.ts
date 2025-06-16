@@ -113,7 +113,8 @@ export interface SecurityEvent {
   /** Event category */
   category?: string;
   /** Additional details about the event */
-  details: Record<string, any>\n  );
+  details: Record<string, any>
+  );
   /** Related entities (IDs) */
   relatedEntities?: string[];
   /** Current status of the event */
@@ -169,7 +170,8 @@ export interface ThreatIndicator {
   /** Indicator source */
   source: string;
   /** Additional context */
-  context: Record<string, any>\n  );
+  context: Record<string, any>
+  );
   /** Related event IDs */
   relatedEvents?: string[];
 }
@@ -272,7 +274,8 @@ export interface ComponentRenderTiming {
   /** Whether this was an initial render or a re-render */
   isRerender: boolean;
   /** Optional additional context information */
-  context?: Record<string, any>\n  );
+  context?: Record<string, any>
+  );
 }
 
 /**
@@ -314,7 +317,8 @@ export interface PerformanceMetric {
   /** Metric source */
   source: 'client' | 'server' | 'api' | 'database';
   /** Additional context */
-  context?: Record<string, any>\n  );
+  context?: Record<string, any>
+  );
 }
 
 /**
@@ -334,7 +338,8 @@ export interface ResourceUtilization {
   /** Timestamp when the utilization was recorded */
   timestamp: number;
   /** Additional context */
-  context?: Record<string, any>\n  );
+  context?: Record<string, any>
+  );
 }
 
 // -------------------------------------------------------------------------
@@ -384,7 +389,8 @@ export interface PerformanceCorrelation {
   /** When the correlation was detected */
   detectedAt: number;
   /** Additional context */
-  context?: Record<string, any>\n  );
+  context?: Record<string, any>
+  );
   /** Resources affected by the correlation */
   affectedResources?: string[];
   /** Recommended actions */

@@ -137,7 +137,8 @@ export interface InvestmentDistribution {
     amount: MonetaryAmount;
     status: 'pending' | 'paid' | 'failed';
     transferReference?: string;
-  }>\n  );
+  }>
+  );
   notes?: string;
 }
 
@@ -179,14 +180,16 @@ export interface InvestmentComparison {
       paybackPeriod: number;
       riskRating: RiskRating;
     };
-  }>\n  );
+  }>
+  );
   marketBenchmarks: Array<{
     name: string;
     description: string;
     returns: number; // Percentage
     timeframe: string;
     source: string;
-  }>\n  );
+  }>
+  );
   stockMarketComparison?: {
     indexName: string; // e.g., "S&P 500", "FTSE 100"
     indexReturn: number; // Percentage
@@ -214,9 +217,10 @@ export interface InvestmentSensitivityAnalysis {
   factors: Array<{
     name: string; // e.g., "Occupancy Rate", "Rental Growth"
     baseValue: number;
-    intervals: number[]; // The values to test (e.g., [80, 85, 90, 95100])
+    intervals: number[]; // The values to test (e.g., [80859095100])
     unit: 'percentage' | 'absolute' | 'years' | 'months';
-  }>\n  );
+  }>
+  );
   results: Array<{
     factorName: string;
     values: number[];
@@ -224,7 +228,8 @@ export interface InvestmentSensitivityAnalysis {
     npvResults: number[];
     equityMultipleResults: number[];
     paybackPeriodResults: number[];
-  }>\n  );
+  }>
+  );
   twoFactorAnalysis?: Array<{
     factorX: string;
     factorY: string;
@@ -232,19 +237,22 @@ export interface InvestmentSensitivityAnalysis {
     valuesY: number[];
     irrMatrix: number[][]; // 2D array of IRR results
     npvMatrix: number[][]; // 2D array of NPV results
-  }>\n  );
+  }>
+  );
   breakEvenPoints: Array<{
     factor: string;
     breakEvenValue: number;
     metric: 'irr' | 'npv' | 'equity_multiple' | 'payback_period';
     thresholdValue: number;
-  }>\n  );
+  }>
+  );
   riskFactors: Array<{
     factorName: string;
     impactMagnitude: 'low' | 'medium' | 'high';
     probabilityOfOccurrence: 'low' | 'medium' | 'high';
     overallRiskScore: number;
-  }>\n  );
+  }>
+  );
   analysisDate: Date;
 }
 
@@ -328,7 +336,7 @@ export interface InvestmentAnalysis {
     strategicConsiderations: string[];
   };
   
-  // ESG assessment (Environmental, SocialGovernance)
+  // ESG assessment (EnvironmentalSocialGovernance)
   esgAssessment?: {
     environmentalScore: number; // 0-100
     socialScore: number; // 0-100
@@ -381,7 +389,8 @@ export interface InvestmentPortfolioAnalysis {
     benchmarkReturn: number; // Percentage
     outperformance: number; // Percentage points
     trackingError: number;
-  }>\n  );
+  }>
+  );
   // Cash flow projections
   cashFlowProjections: Array<{
     year: number;
@@ -389,7 +398,8 @@ export interface InvestmentPortfolioAnalysis {
     projectedDistributions: MonetaryAmount;
     projectedCapitalReturns: MonetaryAmount;
     totalCashFlow: MonetaryAmount;
-  }>\n  );
+  }>
+  );
   // Tax analysis
   taxAnalysis?: {
     estimatedTaxLiability: MonetaryAmount;

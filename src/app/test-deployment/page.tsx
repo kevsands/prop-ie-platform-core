@@ -174,7 +174,7 @@ export default function TestDeployment() {
             <div className="bg-white p-4 rounded-lg shadow border">
               <h4 className="font-medium mb-2">Detailed Status:</h4>
               <pre className="text-xs bg-gray-50 p-4 rounded overflow-auto max-h-40">
-                {JSON.stringify(status, null2)}
+                {JSON.stringify(statusnull2)}
               </pre>
             </div>
           </CardContent>

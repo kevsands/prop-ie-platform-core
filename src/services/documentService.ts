@@ -645,7 +645,8 @@ class DocumentService {
       status: string;
       user: { id: string; name: string };
       notes?: string;
-    }>\n  );
+    }>
+  );
     message?: string;
   }> {
     try {

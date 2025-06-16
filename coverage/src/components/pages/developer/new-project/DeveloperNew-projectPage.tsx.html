@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/61</span>
+                <span class='fraction'>0/58</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/53</span>
+                <span class='fraction'>0/50</span>
             </div>
         
             
@@ -772,11 +772,7 @@
 <a name='L707'></a><a href='#L707'>707</a>
 <a name='L708'></a><a href='#L708'>708</a>
 <a name='L709'></a><a href='#L709'>709</a>
-<a name='L710'></a><a href='#L710'>710</a>
-<a name='L711'></a><a href='#L711'>711</a>
-<a name='L712'></a><a href='#L712'>712</a>
-<a name='L713'></a><a href='#L713'>713</a>
-<a name='L714'></a><a href='#L714'>714</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L710'></a><a href='#L710'>710</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -808,9 +804,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -866,8 +860,6 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -877,7 +869,7 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1509,8 +1501,8 @@ interface ProjectFormData {
 &nbsp;
 const NewProjectPage: React.FC = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
   const router = <span class="cstat-no" title="statement not covered" >useRouter();</span>
-  const [currentStep, setCurrentStep] = <span class="cstat-no" title="statement not covered" >useState(1);</span>
-  const [formData, setFormData] = <span class="cstat-no" title="statement not covered" >useState&lt;ProjectFormData&gt;({</span>
+  const [currentStepsetCurrentStep] = <span class="cstat-no" title="statement not covered" >useState(1);</span>
+  const [formDatasetFormData] = <span class="cstat-no" title="statement not covered" >useState&lt;ProjectFormData&gt;({</span>
     name: '',
     location: '',
     description: '',
@@ -1520,9 +1512,8 @@ const NewProjectPage: React.FC = <span class="cstat-no" title="statement not cov
     constructionCost: 0,
     financingCost: 0,
     developerMargin: 15,
-    vatRate: 13.5,
-  });
-  const [files, setFiles] = <span class="cstat-no" title="statement not covered" >useState&lt;{</span>
+    vatRate: 13.5});
+  const [filessetFiles] = <span class="cstat-no" title="statement not covered" >useState&lt;{</span>
     sitePlan: File | null;
     floorPlans: File[] | null;
     images: File[] | null;
@@ -1531,11 +1522,10 @@ const NewProjectPage: React.FC = <span class="cstat-no" title="statement not cov
     sitePlan: null,
     floorPlans: null,
     images: null,
-    documents: null,
-  });
-  const [isSubmitting, setIsSubmitting] = <span class="cstat-no" title="statement not covered" >useState(false);</span>
-  const [error, setError] = <span class="cstat-no" title="statement not covered" >useState&lt;string | null&gt;(null);</span>
-  
+    documents: null});
+  const [isSubmittingsetIsSubmitting] = <span class="cstat-no" title="statement not covered" >useState(false);</span>
+  const [errorsetError] = <span class="cstat-no" title="statement not covered" >useState&lt;string | null&gt;(null);</span>
+&nbsp;
   const handleInputChange = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(e</span>: React.ChangeEvent&lt;HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement&gt;) =&gt; {</span>
     const { name, value } = <span class="cstat-no" title="statement not covered" >e.target;</span>
 <span class="cstat-no" title="statement not covered" >    setFormData(<span class="fstat-no" title="function not covered" >prev =&gt; (<span class="cstat-no" title="statement not covered" >{</span></span></span>
@@ -1545,10 +1535,10 @@ const NewProjectPage: React.FC = <span class="cstat-no" title="statement not cov
         : value
     }));
   };
-  
+&nbsp;
   const handleFileChange = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(e</span>: React.ChangeEvent&lt;HTMLInputElement&gt;, type: 'sitePlan' | 'floorPlans' | 'images' | 'documents') =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!e.target.files) <span class="cstat-no" title="statement not covered" >return;</span></span>
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    if (type === 'sitePlan') {</span>
 <span class="cstat-no" title="statement not covered" >      setFiles(<span class="fstat-no" title="function not covered" >prev =&gt; (<span class="cstat-no" title="statement not covered" >{</span></span></span>
         ...prev,
@@ -1562,40 +1552,38 @@ const NewProjectPage: React.FC = <span class="cstat-no" title="statement not cov
       }));
     }
   };
-  
+&nbsp;
   const nextStep = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
 <span class="cstat-no" title="statement not covered" >    setCurrentStep(<span class="fstat-no" title="function not covered" >prev =&gt; <span class="cstat-no" title="statement not covered" >p</span>rev + 1);</span></span>
   };
-  
+&nbsp;
   const prevStep = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
 <span class="cstat-no" title="statement not covered" >    setCurrentStep(<span class="fstat-no" title="function not covered" >prev =&gt; <span class="cstat-no" title="statement not covered" >p</span>rev - 1);</span></span>
   };
-  
+&nbsp;
   const handleSubmit = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >async (e</span>: React.FormEvent) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    e.preventDefault();</span>
 <span class="cstat-no" title="statement not covered" >    setIsSubmitting(true);</span>
 <span class="cstat-no" title="statement not covered" >    setError(null);</span>
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    try {</span>
       // Here you would implement the API call to save the project
       // For now, we'll just simulate a successful submission
-<span class="cstat-no" title="statement not covered" >      console.log('Form Data:', formData);</span>
-<span class="cstat-no" title="statement not covered" >      console.log('Files:', files);</span>
-      
+&nbsp;
       // Simulate API call
-<span class="cstat-no" title="statement not covered" >      await new Promise(<span class="fstat-no" title="function not covered" >resolve =&gt; <span class="cstat-no" title="statement not covered" >s</span>etTimeout(resolve, 2000));</span></span>
-      
+<span class="cstat-no" title="statement not covered" >      await new Promise(<span class="fstat-no" title="function not covered" >resolve =&gt; <span class="cstat-no" title="statement not covered" >s</span>etTimeout(resolve2000));</span></span>
+&nbsp;
       // Redirect to project dashboard or success page
 <span class="cstat-no" title="statement not covered" >      alert('Project created successfully!');</span>
 <span class="cstat-no" title="statement not covered" >      router.push('/developer/projects');</span>
     } catch (err) {
 <span class="cstat-no" title="statement not covered" >      setError('Failed to create project. Please try again.');</span>
-<span class="cstat-no" title="statement not covered" >      console.error('Error creating project:', err);</span>
+&nbsp;
     } finally {
 <span class="cstat-no" title="statement not covered" >      setIsSubmitting(false);</span>
     }
   };
-  
+&nbsp;
   // Calculate project financials
   const calculateFinancials = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
     const totalConstructionCost = <span class="cstat-no" title="statement not covered" >formData.constructionCost;</span>
@@ -1603,8 +1591,8 @@ const NewProjectPage: React.FC = <span class="cstat-no" title="statement not cov
     const developerMargin = <span class="cstat-no" title="statement not covered" >(formData.constructionCost + formData.financingCost) * (formData.developerMargin / 100);</span>
     const vatAmount = <span class="cstat-no" title="statement not covered" >(formData.constructionCost + developerMargin) * (formData.vatRate / 100);</span>
     const totalProjectCost = <span class="cstat-no" title="statement not covered" >totalConstructionCost + totalFinancingCost + developerMargin + vatAmount;</span>
-    const costPerUnit = <span class="cstat-no" title="statement not covered" >formData.totalUnits &gt; 0 ? totalProjectCost / formData.totalUnits : 0;</span>
-    
+    const costPerUnit = <span class="cstat-no" title="statement not covered" >formData.totalUnits&gt; 0 ? totalProjectCost / formData.totalUnits : 0;</span>
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    return {</span>
       totalConstructionCost,
       totalFinancingCost,
@@ -1614,55 +1602,55 @@ const NewProjectPage: React.FC = <span class="cstat-no" title="statement not cov
       costPerUnit
     };
   };
-  
+&nbsp;
   const financials = <span class="cstat-no" title="statement not covered" >calculateFinancials();</span>
-  
+&nbsp;
   return (
     &lt;div className="bg-gray-50 min-h-screen py-12"&gt;
       &lt;div className="max-w-4xl mx-auto px-4"&gt;
         &lt;h1 className="text-3xl font-bold text-[#2B5273] mb-2"&gt;Create New Development Project&lt;/h1&gt;
         &lt;p className="text-gray-600 mb-8"&gt;Complete the form below to set up a new property development project.&lt;/p&gt;
-        
+&nbsp;
         {/* Progress Steps */}
         &lt;div className="mb-8"&gt;
           &lt;div className="flex items-center justify-between"&gt;
-            &lt;div className={`flex flex-col items-center ${currentStep &gt;= 1 ? 'text-[#2B5273]' : 'text-gray-400'}`}&gt;
-              &lt;div className={`w-10 h-10 rounded-full flex items-center justify-center border-2 ${currentStep &gt;= 1 ? 'border-[#2B5273] bg-[#2B5273] text-white' : 'border-gray-300'}`}&gt;
+            &lt;div className={`flex flex-col items-center ${currentStep&gt;= 1 ? 'text-[#2B5273]' : 'text-gray-400'}`}&gt;
+              &lt;div className={`w-10 h-10 rounded-full flex items-center justify-center border-2 ${currentStep&gt;= 1 ? 'border-[#2B5273] bg-[#2B5273] text-white' : 'border-gray-300'}`}&gt;
                 1
               &lt;/div&gt;
               &lt;span className="text-sm mt-1"&gt;Basic Info&lt;/span&gt;
             &lt;/div&gt;
-            &lt;div className={`flex-1 h-1 mx-2 ${currentStep &gt;= 2 ? 'bg-[#2B5273]' : 'bg-gray-300'}`}&gt;&lt;/div&gt;
-            &lt;div className={`flex flex-col items-center ${currentStep &gt;= 2 ? 'text-[#2B5273]' : 'text-gray-400'}`}&gt;
-              &lt;div className={`w-10 h-10 rounded-full flex items-center justify-center border-2 ${currentStep &gt;= 2 ? 'border-[#2B5273] bg-[#2B5273] text-white' : 'border-gray-300'}`}&gt;
+            &lt;div className={`flex-1 h-1 mx-2 ${currentStep&gt;= 2 ? 'bg-[#2B5273]' : 'bg-gray-300'}`}&gt;&lt;/div&gt;
+            &lt;div className={`flex flex-col items-center ${currentStep&gt;= 2 ? 'text-[#2B5273]' : 'text-gray-400'}`}&gt;
+              &lt;div className={`w-10 h-10 rounded-full flex items-center justify-center border-2 ${currentStep&gt;= 2 ? 'border-[#2B5273] bg-[#2B5273] text-white' : 'border-gray-300'}`}&gt;
                 2
               &lt;/div&gt;
               &lt;span className="text-sm mt-1"&gt;Files&lt;/span&gt;
             &lt;/div&gt;
-            &lt;div className={`flex-1 h-1 mx-2 ${currentStep &gt;= 3 ? 'bg-[#2B5273]' : 'bg-gray-300'}`}&gt;&lt;/div&gt;
-            &lt;div className={`flex flex-col items-center ${currentStep &gt;= 3 ? 'text-[#2B5273]' : 'text-gray-400'}`}&gt;
-              &lt;div className={`w-10 h-10 rounded-full flex items-center justify-center border-2 ${currentStep &gt;= 3 ? 'border-[#2B5273] bg-[#2B5273] text-white' : 'border-gray-300'}`}&gt;
+            &lt;div className={`flex-1 h-1 mx-2 ${currentStep&gt;= 3 ? 'bg-[#2B5273]' : 'bg-gray-300'}`}&gt;&lt;/div&gt;
+            &lt;div className={`flex flex-col items-center ${currentStep&gt;= 3 ? 'text-[#2B5273]' : 'text-gray-400'}`}&gt;
+              &lt;div className={`w-10 h-10 rounded-full flex items-center justify-center border-2 ${currentStep&gt;= 3 ? 'border-[#2B5273] bg-[#2B5273] text-white' : 'border-gray-300'}`}&gt;
                 3
               &lt;/div&gt;
               &lt;span className="text-sm mt-1"&gt;Financials&lt;/span&gt;
             &lt;/div&gt;
-            &lt;div className={`flex-1 h-1 mx-2 ${currentStep &gt;= 4 ? 'bg-[#2B5273]' : 'bg-gray-300'}`}&gt;&lt;/div&gt;
-            &lt;div className={`flex flex-col items-center ${currentStep &gt;= 4 ? 'text-[#2B5273]' : 'text-gray-400'}`}&gt;
-              &lt;div className={`w-10 h-10 rounded-full flex items-center justify-center border-2 ${currentStep &gt;= 4 ? 'border-[#2B5273] bg-[#2B5273] text-white' : 'border-gray-300'}`}&gt;
+            &lt;div className={`flex-1 h-1 mx-2 ${currentStep&gt;= 4 ? 'bg-[#2B5273]' : 'bg-gray-300'}`}&gt;&lt;/div&gt;
+            &lt;div className={`flex flex-col items-center ${currentStep&gt;= 4 ? 'text-[#2B5273]' : 'text-gray-400'}`}&gt;
+              &lt;div className={`w-10 h-10 rounded-full flex items-center justify-center border-2 ${currentStep&gt;= 4 ? 'border-[#2B5273] bg-[#2B5273] text-white' : 'border-gray-300'}`}&gt;
                 4
               &lt;/div&gt;
               &lt;span className="text-sm mt-1"&gt;Review&lt;/span&gt;
             &lt;/div&gt;
           &lt;/div&gt;
         &lt;/div&gt;
-        
+&nbsp;
         {/* Form */}
         &lt;form onSubmit={handleSubmit}&gt;
           {/* Step 1: Basic Information */}
           {<span class="branch-0 cbranch-no" title="branch not covered" >currentStep === 1 &amp;&amp; (</span>
             &lt;div className="bg-white rounded-lg shadow-md p-6 mb-6"&gt;
               &lt;h2 className="text-xl font-semibold text-[#2B5273] mb-4"&gt;Basic Information&lt;/h2&gt;
-              
+&nbsp;
               &lt;div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6"&gt;
                 &lt;div&gt;
                   &lt;label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1"&gt;
@@ -1679,7 +1667,7 @@ const NewProjectPage: React.FC = <span class="cstat-no" title="statement not cov
                     placeholder="e.g., Fitzgerald Gardens"
                   /&gt;
                 &lt;/div&gt;
-                
+&nbsp;
                 &lt;div&gt;
                   &lt;label htmlFor="location" className="block text-sm font-medium text-gray-700 mb-1"&gt;
                     Location *
@@ -1696,7 +1684,7 @@ const NewProjectPage: React.FC = <span class="cstat-no" title="statement not cov
                   /&gt;
                 &lt;/div&gt;
               &lt;/div&gt;
-              
+&nbsp;
               &lt;div className="mb-6"&gt;
                 &lt;label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-1"&gt;
                   Description *
@@ -1712,7 +1700,7 @@ const NewProjectPage: React.FC = <span class="cstat-no" title="statement not cov
                   placeholder="Provide a detailed description of the development..."
                 &gt;&lt;/textarea&gt;
               &lt;/div&gt;
-              
+&nbsp;
               &lt;div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6"&gt;
                 &lt;div&gt;
                   &lt;label htmlFor="totalUnits" className="block text-sm font-medium text-gray-700 mb-1"&gt;
@@ -1729,7 +1717,7 @@ const NewProjectPage: React.FC = <span class="cstat-no" title="statement not cov
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#2B5273]"
                   /&gt;
                 &lt;/div&gt;
-                
+&nbsp;
                 &lt;div&gt;
                   &lt;label htmlFor="startDate" className="block text-sm font-medium text-gray-700 mb-1"&gt;
                     Start Date *
@@ -1744,7 +1732,7 @@ const NewProjectPage: React.FC = <span class="cstat-no" title="statement not cov
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#2B5273]"
                   /&gt;
                 &lt;/div&gt;
-                
+&nbsp;
                 &lt;div&gt;
                   &lt;label htmlFor="completionDate" className="block text-sm font-medium text-gray-700 mb-1"&gt;
                     Estimated Completion *
@@ -1760,7 +1748,7 @@ const NewProjectPage: React.FC = <span class="cstat-no" title="statement not cov
                   /&gt;
                 &lt;/div&gt;
               &lt;/div&gt;
-              
+&nbsp;
               &lt;div className="flex justify-end"&gt;
                 &lt;button
                   type="button"
@@ -1772,12 +1760,12 @@ const NewProjectPage: React.FC = <span class="cstat-no" title="statement not cov
               &lt;/div&gt;
             &lt;/div&gt;
           )}
-          
+&nbsp;
           {/* Step 2: File Uploads */}
           {<span class="branch-0 cbranch-no" title="branch not covered" >currentStep === 2 &amp;&amp; (</span>
             &lt;div className="bg-white rounded-lg shadow-md p-6 mb-6"&gt;
               &lt;h2 className="text-xl font-semibold text-[#2B5273] mb-4"&gt;Upload Files&lt;/h2&gt;
-              
+&nbsp;
               &lt;div className="mb-6"&gt;
                 &lt;label htmlFor="sitePlan" className="block text-sm font-medium text-gray-700 mb-1"&gt;
                   Site Plan *
@@ -1792,7 +1780,7 @@ const NewProjectPage: React.FC = <span class="cstat-no" title="statement not cov
                     type="file"
                     id="sitePlan"
                     name="sitePlan"
-                    onChange={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; <span class="cstat-no" title="statement not covered" >handleFileChange(e, 'sitePlan')}</span>
+                    onChange={<span class="fstat-no" title="function not covered" >(e</span>: any) =&gt; <span class="cstat-no" title="statement not covered" >handleFileChange(e, 'sitePlan')}</span>
                     accept=".pdf,.png,.jpg,.jpeg"
                     className="hidden"
                   /&gt;
@@ -1810,7 +1798,7 @@ const NewProjectPage: React.FC = <span class="cstat-no" title="statement not cov
                   )}
                 &lt;/div&gt;
               &lt;/div&gt;
-              
+&nbsp;
               &lt;div className="mb-6"&gt;
                 &lt;label htmlFor="floorPlans" className="block text-sm font-medium text-gray-700 mb-1"&gt;
                   Floor Plans
@@ -1825,7 +1813,7 @@ const NewProjectPage: React.FC = <span class="cstat-no" title="statement not cov
                     type="file"
                     id="floorPlans"
                     name="floorPlans"
-                    onChange={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; <span class="cstat-no" title="statement not covered" >handleFileChange(e, 'floorPlans')}</span>
+                    onChange={<span class="fstat-no" title="function not covered" >(e</span>: any) =&gt; <span class="cstat-no" title="statement not covered" >handleFileChange(e, 'floorPlans')}</span>
                     accept=".pdf,.png,.jpg,.jpeg"
                     multiple
                     className="hidden"
@@ -1837,14 +1825,14 @@ const NewProjectPage: React.FC = <span class="cstat-no" title="statement not cov
                   &gt;
                     Browse Files
                   &lt;/button&gt;
-                  {files.floorPlans &amp;&amp; files.floorPlans.length &gt; 0 &amp;&amp; (
+                  {files.floorPlans &amp;&amp; files.floorPlans.length&gt; 0 &amp;&amp; (
                     &lt;div className="mt-4 text-sm text-green-600"&gt;
                       {files.floorPlans.length} file(s) selected
                     &lt;/div&gt;
                   )}
                 &lt;/div&gt;
               &lt;/div&gt;
-              
+&nbsp;
               &lt;div className="mb-6"&gt;
                 &lt;label htmlFor="images" className="block text-sm font-medium text-gray-700 mb-1"&gt;
                   Development Images
@@ -1859,7 +1847,7 @@ const NewProjectPage: React.FC = <span class="cstat-no" title="statement not cov
                     type="file"
                     id="images"
                     name="images"
-                    onChange={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; <span class="cstat-no" title="statement not covered" >handleFileChange(e, 'images')}</span>
+                    onChange={<span class="fstat-no" title="function not covered" >(e</span>: any) =&gt; <span class="cstat-no" title="statement not covered" >handleFileChange(e, 'images')}</span>
                     accept=".png,.jpg,.jpeg"
                     multiple
                     className="hidden"
@@ -1871,14 +1859,14 @@ const NewProjectPage: React.FC = <span class="cstat-no" title="statement not cov
                   &gt;
                     Browse Files
                   &lt;/button&gt;
-                  {files.images &amp;&amp; files.images.length &gt; 0 &amp;&amp; (
+                  {files.images &amp;&amp; files.images.length&gt; 0 &amp;&amp; (
                     &lt;div className="mt-4 text-sm text-green-600"&gt;
                       {files.images.length} file(s) selected
                     &lt;/div&gt;
                   )}
                 &lt;/div&gt;
               &lt;/div&gt;
-              
+&nbsp;
               &lt;div className="mb-6"&gt;
                 &lt;label htmlFor="documents" className="block text-sm font-medium text-gray-700 mb-1"&gt;
                   Additional Documents
@@ -1893,7 +1881,7 @@ const NewProjectPage: React.FC = <span class="cstat-no" title="statement not cov
                     type="file"
                     id="documents"
                     name="documents"
-                    onChange={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; <span class="cstat-no" title="statement not covered" >handleFileChange(e, 'documents')}</span>
+                    onChange={<span class="fstat-no" title="function not covered" >(e</span>: any) =&gt; <span class="cstat-no" title="statement not covered" >handleFileChange(e, 'documents')}</span>
                     accept=".pdf,.doc,.docx"
                     multiple
                     className="hidden"
@@ -1905,14 +1893,14 @@ const NewProjectPage: React.FC = <span class="cstat-no" title="statement not cov
                   &gt;
                     Browse Files
                   &lt;/button&gt;
-                  {files.documents &amp;&amp; files.documents.length &gt; 0 &amp;&amp; (
+                  {files.documents &amp;&amp; files.documents.length&gt; 0 &amp;&amp; (
                     &lt;div className="mt-4 text-sm text-green-600"&gt;
                       {files.documents.length} file(s) selected
                     &lt;/div&gt;
                   )}
                 &lt;/div&gt;
               &lt;/div&gt;
-              
+&nbsp;
               &lt;div className="flex justify-between"&gt;
                 &lt;button
                   type="button"
@@ -1932,12 +1920,12 @@ const NewProjectPage: React.FC = <span class="cstat-no" title="statement not cov
               &lt;/div&gt;
             &lt;/div&gt;
           )}
-          
+&nbsp;
           {/* Step 3: Financials */}
           {<span class="branch-0 cbranch-no" title="branch not covered" >currentStep === 3 &amp;&amp; (</span>
             &lt;div className="bg-white rounded-lg shadow-md p-6 mb-6"&gt;
               &lt;h2 className="text-xl font-semibold text-[#2B5273] mb-4"&gt;Financial Information&lt;/h2&gt;
-              
+&nbsp;
               &lt;div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6"&gt;
                 &lt;div&gt;
                   &lt;label htmlFor="constructionCost" className="block text-sm font-medium text-gray-700 mb-1"&gt;
@@ -1954,7 +1942,7 @@ const NewProjectPage: React.FC = <span class="cstat-no" title="statement not cov
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#2B5273]"
                   /&gt;
                 &lt;/div&gt;
-                
+&nbsp;
                 &lt;div&gt;
                   &lt;label htmlFor="financingCost" className="block text-sm font-medium text-gray-700 mb-1"&gt;
                     Financing Cost (€) *
@@ -1971,7 +1959,7 @@ const NewProjectPage: React.FC = <span class="cstat-no" title="statement not cov
                   /&gt;
                 &lt;/div&gt;
               &lt;/div&gt;
-              
+&nbsp;
               &lt;div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6"&gt;
                 &lt;div&gt;
                   &lt;label htmlFor="developerMargin" className="block text-sm font-medium text-gray-700 mb-1"&gt;
@@ -1989,7 +1977,7 @@ const NewProjectPage: React.FC = <span class="cstat-no" title="statement not cov
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#2B5273]"
                   /&gt;
                 &lt;/div&gt;
-                
+&nbsp;
                 &lt;div&gt;
                   &lt;label htmlFor="vatRate" className="block text-sm font-medium text-gray-700 mb-1"&gt;
                     VAT Rate (%) *
@@ -2007,7 +1995,7 @@ const NewProjectPage: React.FC = <span class="cstat-no" title="statement not cov
                   /&gt;
                 &lt;/div&gt;
               &lt;/div&gt;
-              
+&nbsp;
               &lt;div className="bg-gray-50 p-4 rounded-md mb-6"&gt;
                 &lt;h3 className="text-md font-medium text-gray-900 mb-3"&gt;Financial Summary&lt;/h3&gt;
                 &lt;div className="grid grid-cols-1 md:grid-cols-2 gap-4"&gt;
@@ -2037,7 +2025,7 @@ const NewProjectPage: React.FC = <span class="cstat-no" title="statement not cov
                   &lt;/div&gt;
                 &lt;/div&gt;
               &lt;/div&gt;
-              
+&nbsp;
               &lt;div className="flex justify-between"&gt;
                 &lt;button
                   type="button"
@@ -2056,12 +2044,12 @@ const NewProjectPage: React.FC = <span class="cstat-no" title="statement not cov
               &lt;/div&gt;
             &lt;/div&gt;
           )}
-          
+&nbsp;
           {/* Step 4: Review */}
           {<span class="branch-0 cbranch-no" title="branch not covered" >currentStep === 4 &amp;&amp; (</span>
             &lt;div className="bg-white rounded-lg shadow-md p-6 mb-6"&gt;
               &lt;h2 className="text-xl font-semibold text-[#2B5273] mb-4"&gt;Review Project Details&lt;/h2&gt;
-              
+&nbsp;
               &lt;div className="mb-6"&gt;
                 &lt;h3 className="text-md font-medium text-gray-900 mb-2"&gt;Basic Information&lt;/h3&gt;
                 &lt;div className="bg-gray-50 p-4 rounded-md"&gt;
@@ -2091,7 +2079,7 @@ const NewProjectPage: React.FC = <span class="cstat-no" title="statement not cov
                   &lt;/dl&gt;
                 &lt;/div&gt;
               &lt;/div&gt;
-              
+&nbsp;
               &lt;div className="mb-6"&gt;
                 &lt;h3 className="text-md font-medium text-gray-900 mb-2"&gt;Uploaded Files&lt;/h3&gt;
                 &lt;div className="bg-gray-50 p-4 rounded-md"&gt;
@@ -2105,7 +2093,7 @@ const NewProjectPage: React.FC = <span class="cstat-no" title="statement not cov
                     &lt;div&gt;
                       &lt;dt className="text-sm font-medium text-gray-500"&gt;Floor Plans&lt;/dt&gt;
                       &lt;dd className="mt-1 text-sm text-gray-900"&gt;
-                        {files.floorPlans &amp;&amp; files.floorPlans.length &gt; 0
+                        {files.floorPlans &amp;&amp; files.floorPlans.length&gt; 0
                           ? `${files.floorPlans.length} file(s) uploaded`
                           : 'No files uploaded'}
                       &lt;/dd&gt;
@@ -2113,7 +2101,7 @@ const NewProjectPage: React.FC = <span class="cstat-no" title="statement not cov
                     &lt;div&gt;
                       &lt;dt className="text-sm font-medium text-gray-500"&gt;Development Images&lt;/dt&gt;
                       &lt;dd className="mt-1 text-sm text-gray-900"&gt;
-                        {files.images &amp;&amp; files.images.length &gt; 0
+                        {files.images &amp;&amp; files.images.length&gt; 0
                           ? `${files.images.length} file(s) uploaded`
                           : 'No files uploaded'}
                       &lt;/dd&gt;
@@ -2121,7 +2109,7 @@ const NewProjectPage: React.FC = <span class="cstat-no" title="statement not cov
                     &lt;div&gt;
                       &lt;dt className="text-sm font-medium text-gray-500"&gt;Additional Documents&lt;/dt&gt;
                       &lt;dd className="mt-1 text-sm text-gray-900"&gt;
-                        {files.documents &amp;&amp; files.documents.length &gt; 0
+                        {files.documents &amp;&amp; files.documents.length&gt; 0
                           ? `${files.documents.length} file(s) uploaded`
                           : 'No files uploaded'}
                       &lt;/dd&gt;
@@ -2129,7 +2117,7 @@ const NewProjectPage: React.FC = <span class="cstat-no" title="statement not cov
                   &lt;/dl&gt;
                 &lt;/div&gt;
               &lt;/div&gt;
-              
+&nbsp;
               &lt;div className="mb-6"&gt;
                 &lt;h3 className="text-md font-medium text-gray-900 mb-2"&gt;Financial Information&lt;/h3&gt;
                 &lt;div className="bg-gray-50 p-4 rounded-md"&gt;
@@ -2161,13 +2149,13 @@ const NewProjectPage: React.FC = <span class="cstat-no" title="statement not cov
                   &lt;/dl&gt;
                 &lt;/div&gt;
               &lt;/div&gt;
-              
+&nbsp;
               {<span class="branch-0 cbranch-no" title="branch not covered" >error &amp;&amp; (</span>
                 &lt;div className="mb-6 p-4 bg-red-50 text-red-700 rounded-md"&gt;
                   {error}
                 &lt;/div&gt;
               )}
-              
+&nbsp;
               &lt;div className="flex justify-between"&gt;
                 &lt;button
                   type="button"
@@ -2209,7 +2197,7 @@ const NewProjectPage: React.FC = <span class="cstat-no" title="statement not cov
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T22:15:28.100Z
+                at 2025-06-15T18:50:48.918Z
             </div>
         <script src="../../../../../prettify.js"></script>
         <script>

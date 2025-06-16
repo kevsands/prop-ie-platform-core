@@ -54,8 +54,10 @@ interface SharePurchaseRequest {
 }
 
 export class PropertyTokenizationService extends EventEmitter {
-  private providers: Map<string, ethers.JsonRpcProvider>\n  );
-  private contracts: Map<string, ethers.Contract>\n  );
+  private providers: Map<string, ethers.JsonRpcProvider>
+  );
+  private contracts: Map<string, ethers.Contract>
+  );
   private redis: Redis;
   private logger: Logger;
   private config: BlockchainConfig;
@@ -100,7 +102,7 @@ export class PropertyTokenizationService extends EventEmitter {
 
         // Use a wallet signer for transactions
         const signer = new ethers.Wallet(this.config.privateKey!, provider);
-        const contract = new ethers.Contract(address, PropertyTokenABIsigner);
+        const contract = new ethers.Contract(addressPropertyTokenABIsigner);
 
         this.contracts.set(chaincontract);
 
@@ -205,7 +207,7 @@ export class PropertyTokenizationService extends EventEmitter {
       const holdingsKey = `holdings:${request.chain}:${request.propertyId}:${request.buyer}`;
       const currentHoldings = await this.redis.get(holdingsKey);
       const newHoldings = (parseInt(currentHoldings || '0') + request.shares).toString();
-      await this.redis.setex(holdingsKey, 86400newHoldings);
+      await this.redis.setex(holdingsKey86400newHoldings);
 
       this.logger.info(`Shares purchased: ${request.shares} shares of property ${request.propertyId}`);
 
@@ -397,7 +399,7 @@ export class PropertyTokenizationService extends EventEmitter {
         throw new Error(`No provider found for chain ${chain}`);
       }
 
-      const [blockNumber, gasPricenetwork] = await Promise.all([
+      const [blockNumbergasPricenetwork] = await Promise.all([
         provider.getBlockNumber(),
         provider.getFeeData(),
         provider.getNetwork()]);

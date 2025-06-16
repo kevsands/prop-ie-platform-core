@@ -1,0 +1,417 @@
+"use client";
+
+import React, { useState, useRef, useEffect } from 'react';
+import { FiPaperclip, FiSend, FiFile, FiImage, FiDownload } from 'react-icons/fi';
+
+// Define types
+export interface ChatMessage {
+  id: string;
+  content: string;
+  sender: {
+    id: string;
+    name: string;
+    role: 'agent' | 'solicitor' | 'buyer' | 'developer';
+  };
+  timestamp: string;
+  attachments?: Attachment[];
+  status: 'sent' | 'delivered' | 'read';
+}
+
+export interface Attachment {
+  id: string;
+  name: string;
+  type: 'document' | 'image';
+  url: string;
+  size: string;
+}
+
+export interface ChatParticipant {
+  id: string;
+  name: string;
+  role: 'agent' | 'solicitor' | 'buyer' | 'developer';
+  avatar?: string;
+}
+
+export interface ChatComponentProps {
+  messages: ChatMessage[];
+  participants: ChatParticipant[];
+  currentUser: ChatParticipant;
+  onSendMessage: (content: string, attachments?: File[]) => void;
+  title?: string;
+  showParticipants?: boolean;
+  className?: string;
+}
+
+const ChatComponent: React.FC<ChatComponentProps> = ({
+  messages,
+  participants,
+  currentUser,
+  onSendMessage,
+  title,
+  showParticipants = true,
+  className = ''
+}) => {
+  const [newMessagesetNewMessage] = useState('');
+  const [attachmentssetAttachments] = useState<File[]>([]);
+  const [isTypingsetIsTyping] = useState(false);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // Auto-scroll to bottom when messages change
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  // Format timestamp to a readable format
+  const formatTime = (timestamp: string) => {
+    const date = new Date(timestamp);
+    return date.toLocaleTimeString('en-IE', { hour: '2-digit', minute: '2-digit' });
+  };
+
+  // Format date to display full date if not today
+  const formatMessageDate = (timestamp: string) => {
+    const date = new Date(timestamp);
+    const today = new Date();
+
+    if (
+      date.getDate() === today.getDate() &&
+      date.getMonth() === today.getMonth() &&
+      date.getFullYear() === today.getFullYear()
+    ) {
+      return 'Today';
+    }
+
+    return date.toLocaleDateString('en-IE', { 
+      day: 'numeric', 
+      month: 'long', 
+      year: 'numeric' 
+    });
+  };
+
+  // Group messages by date
+  const groupedMessages: { [date: string]: ChatMessage[] } = messages.reduce((groupsmessage: any) => {
+    const date = formatMessageDate(message.timestamp);
+    if (!groups[date]) {
+      groups[date] = [];
+    }
+    groups[date].push(message);
+    return groups;
+  }, {} as { [date: string]: ChatMessage[] });
+
+  // Handle file selection
+  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      const newFiles = Array.from(e.target.files);
+      setAttachments([...attachments, ...newFiles]);
+    }
+  };
+
+  // Remove attachment
+  const removeAttachment = (index: number) => {
+    setAttachments(attachments.filter((_i: any) => i !== index));
+  };
+
+  // Send message
+  const handleSendMessage = () => {
+    if (newMessage.trim() || attachments.length> 0) {
+      onSendMessage(newMessageattachments);
+      setNewMessage('');
+      setAttachments([]);
+    }
+  };
+
+  // Handle key press (Enter to send)
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      handleSendMessage();
+    }
+  };
+
+  // Get CSS class based on sender's role for styling messages
+  const getMessageStyles = (message: ChatMessage) => {
+    const isMine = message.sender.id === currentUser.id;
+
+    if (isMine) {
+      return 'ml-auto bg-[#2B5273] text-white';
+    }
+
+    switch (message.sender.role) {
+      case 'agent':
+        return 'bg-blue-100 text-gray-800';
+      case 'solicitor':
+        return 'bg-purple-100 text-gray-800';
+      case 'buyer':
+        return 'bg-green-100 text-gray-800';
+      case 'developer':
+        return 'bg-yellow-100 text-gray-800';
+      default:
+        return 'bg-gray-100 text-gray-800';
+    }
+  };
+
+  // Get a color for the participant's avatar based on their role
+  const getAvatarColor = (role: ChatParticipant['role']) => {
+    switch (role) {
+      case 'agent':
+        return 'bg-blue-500';
+      case 'solicitor':
+        return 'bg-purple-500';
+      case 'buyer':
+        return 'bg-green-500';
+      case 'developer':
+        return 'bg-yellow-500';
+      default:
+        return 'bg-gray-500';
+    }
+  };
+
+  // Render avatar for user or initials if no avatar provided
+  const renderAvatar = (participant: ChatParticipant) => {
+    if (participant.avatar) {
+      return (
+        <img 
+          src={participant.avatar} 
+          alt={participant.name} 
+          className="w-8 h-8 rounded-full"
+        />
+      );
+    }
+
+    const initials = participant.name
+      .split(' ')
+      .map(n => n[0])
+      .join('')
+      .toUpperCase()
+      .slice(0, 2);
+
+    return (
+      <div className={`w-8 h-8 rounded-full ${getAvatarColor(participant.role)} flex items-center justify-center text-white text-sm font-medium`}>
+        {initials}
+      </div>
+    );
+  };
+
+  return (
+    <div className={`flex flex-col border rounded-lg overflow-hidden h-[600px] bg-white ${className}`}>
+      {/* Chat Header */}
+      <div className="p-3 border-b bg-gray-50 flex justify-between items-center">
+        <div>
+          <h3 className="font-medium">{title || 'Chat'}</h3>
+          {showParticipants && (
+            <div className="flex text-sm text-gray-500">
+              {participants
+                .filter(p => p.id !== currentUser.id)
+                .map(p => p.name)
+                .join(', ')}
+            </div>
+          )}
+        </div>
+
+        {showParticipants && (
+          <div className="flex">
+            {participants.slice(0, 3).map((participantindex: any) => (
+              <div 
+                key={participant.id} 
+                className="inline-block -ml-2 first:ml-0 border-2 border-white"
+                style={ zIndex: participants.length - index }
+              >
+                {renderAvatar(participant)}
+              </div>
+            ))}
+            {participants.length> 3 && (
+              <div className="inline-block -ml-2 w-8 h-8 rounded-full bg-gray-200 border-2 border-white flex items-center justify-center text-xs text-gray-600">
+                +{participants.length - 3}
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+
+      {/* Messages Container */}
+      <div className="flex-1 p-4 overflow-y-auto bg-gray-50">
+        {Object.entries(groupedMessages).map(([datedateMessages]) => (
+          <div key={date} className="mb-4">
+            <div className="text-center mb-4">
+              <span className="text-xs bg-gray-200 text-gray-600 px-2 py-1 rounded-full">
+                {date}
+              </span>
+            </div>
+
+            {dateMessages.map((messageindex: any) => {
+              const isMine = message.sender.id === currentUser.id;
+              const showSender = index === 0 || dateMessages[index - 1].sender.id !== message.sender.id;
+
+              return (
+                <div key={message.id} className={`mb-4 max-w-[75%] ${isMine ? 'ml-auto' : ''}`}>
+                  {showSender && !isMine && (
+                    <div className="flex items-center mb-1">
+                      <div className="mr-2">
+                        {renderAvatar(message.sender)}
+                      </div>
+                      <span className="text-sm font-medium">{message.sender.name}</span>
+                    </div>
+                  )}
+
+                  <div className={`rounded-lg p-3 ${getMessageStyles(message)}`}>
+                    <div className="mb-1">{message.content}</div>
+
+                    {message.attachments && message.attachments.length> 0 && (
+                      <div className="mt-2 space-y-2">
+                        {message.attachments.map(attachment => (
+                          <div 
+                            key={attachment.id} 
+                            className="flex items-center rounded bg-white bg-opacity-20 p-2"
+                          >
+                            {attachment.type === 'image' ? (
+                              <FiImage className="mr-2" />
+                            ) : (
+                              <FiFile className="mr-2" />
+                            )}
+                            <div className="flex-1 overflow-hidden">
+                              <div className="truncate text-sm">{attachment.name}</div>
+                              <div className="text-xs opacity-80">{attachment.size}</div>
+                            </div>
+                            <a 
+                              href={attachment.url} 
+                              download
+                              onClick={e => e.stopPropagation()}
+                              className="p-1 rounded hover:bg-white hover:bg-opacity-20"
+                            >
+                              <FiDownload size={16} />
+                            </a>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+
+                    <div className="text-xs opacity-80 mt-1 text-right">
+                      {formatTime(message.timestamp)}
+                      {isMine && (
+                        <span className="ml-1">
+                          {message.status === 'read' ? '✓✓' : message.status === 'delivered' ? '✓✓' : '✓'}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        ))}
+
+        {isTyping && (
+          <div className="flex items-center mb-4">
+            <div className="w-12 h-6 bg-gray-200 rounded-full px-2 flex items-center">
+              <div className="typing-animation">
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+            </div>
+          </div>
+        )}
+
+        <div ref={messagesEndRef} />
+      </div>
+
+      {/* Attachments Preview */}
+      {attachments.length> 0 && (
+        <div className="p-2 border-t border-gray-200 bg-gray-50 flex flex-wrap gap-2">
+          {attachments.map((fileindex: any) => (
+            <div 
+              key={index}
+              className="bg-white border rounded p-2 flex items-center text-sm"
+            >
+              <FiFile className="mr-2 text-gray-500" />
+              <span className="truncate max-w-[150px]">{file.name}</span>
+              <button 
+                className="ml-2 p-1 text-gray-500 hover:text-gray-700"
+                onClick={() => removeAttachment(index)}
+              >
+                &times;
+              </button>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* Input Area */}
+      <div className="p-3 border-t bg-white">
+        <div className="flex items-end gap-2">
+          <button 
+            className="p-2 text-gray-500 rounded hover:bg-gray-100"
+            onClick={() => fileInputRef.current?.click()}
+          >
+            <FiPaperclip />
+            <input
+              type="file"
+              ref={fileInputRef}
+              className="hidden"
+              multiple
+              onChange={handleFileSelect}
+            />
+          </button>
+
+          <textarea
+            className="flex-1 border rounded-lg p-2 resize-none focus:outline-none focus:ring-1 focus:ring-[#2B5273]"
+            placeholder="Type a message..."
+            rows={1}
+            value={newMessage}
+            onChange={e => setNewMessage(e.target.value)}
+            onKeyDown={handleKeyPress}
+          />
+
+          <button
+            className="p-2 bg-[#2B5273] text-white rounded-full disabled:opacity-50"
+            disabled={!newMessage.trim() && attachments.length === 0}
+            onClick={handleSendMessage}
+          >
+            <FiSend />
+          </button>
+        </div>
+      </div>
+
+      {/* CSS for typing animation */}
+      <style jsx>{`
+        .typing-animation {
+          display: flex;
+          align-items: center;
+        }
+
+        .typing-animation span {
+          height: 4px;
+          width: 4px;
+          background-color: gray;
+          border-radius: 50%;
+          margin: 0 1px;
+          display: inline-block;
+          animation: bounce 1.3s linear infinite;
+        }
+
+        .typing-animation span:nth-child(2) {
+          animation-delay: 0.16s;
+        }
+
+        .typing-animation span:nth-child(3) {
+          animation-delay: 0.32s;
+        }
+
+        @keyframes bounce {
+          0%, 60%, 100% {
+            transform: translateY(0);
+          }
+          30% {
+            transform: translateY(-4px);
+          }
+        }
+      `}</style>
+    </div>
+  );
+};
+
+export default ChatComponent; 

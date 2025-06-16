@@ -45,15 +45,18 @@ export default function AppProvider({
   };
 
   // Wrap children with each provider, in the correct order
-  let content = <>{children}</>\n  );
+  let content = <>{children}</>
+  );
   // Add Security Provider
   if (shouldInclude('security')) {
-    content = <AppSecurityProvider>{content}</AppSecurityProvider>\n  );
+    content = <AppSecurityProvider>{content}</AppSecurityProvider>
+  );
   }
 
   // Add Auth Provider
   if (shouldInclude('auth')) {
-    content = <AuthProvider>{content}</AuthProvider>\n  );
+    content = <AuthProvider>{content}</AuthProvider>
+  );
   }
 
   // Add React Query Provider

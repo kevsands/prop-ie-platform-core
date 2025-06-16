@@ -487,7 +487,7 @@ export default function ROICalculator({
     if (optionId.startsWith('option-') && !Object.keys(optionColors).includes(optionId)) {
       // Generate a color based on the ID to keep it consistent
       const hash = optionId.split('-')[1];
-      const hue = parseInt(hash.slice(04), 16) % 360;
+      const hue = parseInt(hash.slice(0), 16) % 360;
       return `hsl(${hue}, 70%, 50%)`;
     }
     return (optionColors as any)[optionId] || '#8884d8';

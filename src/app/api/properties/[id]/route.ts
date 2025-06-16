@@ -55,7 +55,7 @@ export async function GET(
                 bathrooms: true,
                 size: true,
                 images: true,
-                type: true}},
+                type: true},
         reservations: {
           where: {
             status: 'ACTIVE'},
@@ -63,13 +63,13 @@ export async function GET(
             user: {
               select: {
                 id: true,
-                name: true}},
+                name: true},
         customizations: {
           include: {
             user: {
               select: {
                 id: true,
-                name: true}}});
+                name: true});
 
     if (!unit) {
       return NextResponse.json(
@@ -211,7 +211,7 @@ export async function PUT(
       include: {
         development: {
           include: {
-            developer: true}});
+            developer: true});
 
     return NextResponse.json({
       success: true,

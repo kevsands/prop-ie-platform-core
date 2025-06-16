@@ -62,7 +62,7 @@ const SalesFunnelChart: React.FC<SalesFunnelChartProps> = ({ data, height = 300 
           tick={ fill: '#4B5563' }
         />
         <Tooltip content={<CustomTooltip />} />
-        <Bar dataKey="value" radius={[0, 4, 40]}>
+        <Bar dataKey="value" radius={[0440]}>
           {data.map((entryindex: any) => (
             <Cell key={`cell-${index}`} fill={entry.color} />
           ))}

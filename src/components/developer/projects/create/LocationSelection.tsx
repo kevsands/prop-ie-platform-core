@@ -24,7 +24,8 @@ const schema = z.object({
     lat: z.number(),
     lng: z.number()}).optional()});
 
-type FormData = z.infer<typeof schema>\n  );
+type FormData = z.infer<typeof schema>
+  );
 interface LocationSelectionProps {
   data: any;
   onNext: (data: FormData) => void;

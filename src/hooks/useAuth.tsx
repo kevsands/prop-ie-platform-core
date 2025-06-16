@@ -1,7 +1,6 @@
-import React from 'react';
 "use client";
 
-import { useState, useEffect, createContext, useContext } from 'react';
+import React, { useState, useEffect, createContext, useContext } from 'react';
 import { signIn, signOut, getCurrentUser, fetchUserAttributes } from 'aws-amplify/auth';
 import { generateClient } from 'aws-amplify/api';
 
@@ -13,7 +12,7 @@ export interface User {
   role: string;
   organisationId: string;
   accessToken?: string;
-  permissions?: Array<{ resource: string; action: string }>\n  );
+  permissions?: Array<{ resource: string; action: string }>;
 }
 
 interface AuthState {
@@ -24,8 +23,8 @@ interface AuthState {
 }
 
 interface AuthContextType extends AuthState {
-  login: (email: string, password: string) => Promise<void>\n  );
-  logout: () => Promise<void>\n  );
+  login: (email: string, password: string) => Promise<void>;
+  logout: () => Promise<void>;
   isAuthenticated: boolean;
 }
 
@@ -34,7 +33,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 // Create provider component
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const [authStatesetAuthState] = useState<AuthState>({
+  const [authState, setAuthState] = useState<AuthState>({
     user: null,
     accessToken: null,
     isLoading: true,
@@ -55,7 +54,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
               name: attributes.name || attributes.preferred_username || '',
               email: attributes.email || '',
               role: attributes['custom:role'] || 'user',
-              organisationId: attributes['custom:organisationId'] || ''},
+              organisationId: attributes['custom:organisationId'] || ''
+            },
             accessToken: signInDetails?.loginId || null,
             isLoading: false,
             error: null
@@ -102,7 +102,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
             name: attributes.name || attributes.preferred_username || '',
             email: attributes.email || '',
             role: attributes['custom:role'] || 'user',
-            organisationId: attributes['custom:organisationId'] || ''},
+            organisationId: attributes['custom:organisationId'] || ''
+          },
           accessToken: signInDetails?.loginId || null,
           isLoading: false,
           error: null
@@ -123,7 +124,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
-  // Logout async function constsignOut();
+  // Logout function
+  const logout = async () => {
+    try {
+      await signOut();
       setAuthState({
         user: null,
         accessToken: null,
@@ -140,12 +144,12 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <AuthContext.Provider 
-      value={ 
+      value={{
         ...authState, 
         login, 
         logout, 
         isAuthenticated: !!authState.user 
-      }
+      }}
     >
       {children}
     </AuthContext.Provider>

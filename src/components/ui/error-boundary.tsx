@@ -15,7 +15,8 @@ interface ErrorBoundaryProps {
   resetOnPropsChange?: boolean;
   showReset?: boolean;
   showHomeLink?: boolean;
-  errorComponent?: React.ComponentType<{ error: Error; resetErrorBoundary: () => void }>\n  );
+  errorComponent?: React.ComponentType<{ error: Error; resetErrorBoundary: () => void }>
+  );
 }
 
 interface ErrorBoundaryState {

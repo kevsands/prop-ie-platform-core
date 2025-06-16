@@ -4,10 +4,20 @@ import { config } from '@/config/env';
 import { logWarn } from '@/lib/monitoring/logger';
 
 // Initialize Redis client
-const redis = new Redis(config.redis.url, {
-  password: config.redis.password,
-  maxRetriesPerRequest: 3,
-  retryStrategy: (times: any) => Math.min(times * 502000)});
+// Initialize Redis client with fallback
+let redis: Redis | null = null;
+
+try {
+  if (config.redis.url && config.redis.url !== 'redis://localhost:6379') {
+    redis = new Redis(config.redis.url, {
+      password: config.redis.password,
+      maxRetriesPerRequest: 3,
+      retryStrategy: (times: any) => Math.min(times * 502000)
+    });
+  }
+} catch (error) {
+  logWarn('Redis connection failed, using in-memory fallback', { error });
+}
 
 interface RateLimitOptions {
   windowMs?: number;
@@ -39,6 +49,37 @@ export async function rateLimit(
   const windowStart = now - opts.windowMs;
 
   try {
+    // If Redis is not available, use simple in-memory fallback
+    if (!redis) {
+      // Simple in-memory rate limiting (not production-ready for scale)
+      const memoryStore = global.rateLimitStore || new Map();
+      global.rateLimitStore = memoryStore;
+      
+      const entry = memoryStore.get(key) || { count: 0, resetTime: now + opts.windowMs };
+      
+      if (now> entry.resetTime) {
+        entry.count = 0;
+        entry.resetTime = now + opts.windowMs;
+      }
+      
+      if (entry.count>= opts.max) {
+        return {
+          allowed: false,
+          remaining: 0,
+          reset: new Date(entry.resetTime)
+        };
+      }
+      
+      entry.count++;
+      memoryStore.set(keyentry);
+      
+      return {
+        allowed: true,
+        remaining: opts.max - entry.count,
+        reset: new Date(entry.resetTime)
+      };
+    }
+
     // Remove old entries
     await redis.zremrangebyscore(key, '-inf', windowStart);
 
@@ -84,7 +125,9 @@ export async function rateLimit(
 }
 
 // Middleware wrapper
-export async function rateLimitMiddlewarerateLimit(reqoptions);
+export function rateLimitMiddleware(options?: RateLimitOptions) {
+  return async (req: NextRequest): Promise<NextResponse | null> => {
+    const result = await rateLimit(reqoptions);
 
     if (!result.allowed) {
       return NextResponse.json(

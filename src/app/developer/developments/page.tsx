@@ -42,12 +42,12 @@ export default function DevelopmentsPage() {
       id: '2',
       name: 'Ellwood',
       location: 'Dublin 15',
-      status: 'active',
-      phase: 'Sales Phase',
-      completionRate: 90,
-      totalUnits: 65,
-      soldUnits: 45,
-      availableUnits: 20,
+      status: 'completed',
+      phase: 'Sold Out - Complete',
+      completionRate: 100,
+      totalUnits: 46,
+      soldUnits: 46,
+      availableUnits: 0,
       totalValue: '€35.2M',
       roi: 24.7,
       startDate: '2022-09-01',
@@ -56,7 +56,8 @@ export default function DevelopmentsPage() {
       team: 14,
       contractors: 8,
       lastActivity: '1 hour ago',
-      alerts: 1
+      alerts: 0,
+      projectSlug: 'ellwood'
     },
     {
       id: '3',
@@ -76,7 +77,8 @@ export default function DevelopmentsPage() {
       team: 10,
       contractors: 6,
       lastActivity: '5 hours ago',
-      alerts: 0
+      alerts: 0,
+      projectSlug: 'ballymakenny-view'
     }
   ];
 
@@ -310,7 +312,7 @@ function DevelopmentCard({ development }) {
             </button>
             {menuOpen && (
               <div className="absolute right-0 mt-1 w-48 bg-white rounded-lg shadow-lg border border-gray-200 z-10">
-                <Link href={`/developer/developments/${development.id}`} className="flex items-center px-4 py-2 text-sm hover:bg-gray-50">
+                <Link href={development.projectSlug ? `/developer/projects/${development.projectSlug}` : `/developer/developments/${development.id}`} className="flex items-center px-4 py-2 text-sm hover:bg-gray-50">
                   <Eye className="w-4 h-4 mr-2" />
                   View Details
                 </Link>
@@ -369,7 +371,7 @@ function DevelopmentCard({ development }) {
             {development.lastActivity}
           </div>
           <Link
-            href={`/developer/developments/${development.id}`}
+            href={development.projectSlug ? `/developer/projects/${development.projectSlug}` : `/developer/developments/${development.id}`}
             className="text-sm text-blue-600 hover:text-blue-700 flex items-center"
           >
             View Details

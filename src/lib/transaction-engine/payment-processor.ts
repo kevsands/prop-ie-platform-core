@@ -35,7 +35,8 @@ export interface PaymentIntent {
   currency: string;
   status: PaymentStatus;
   stripePaymentIntentId?: string;
-  metadata: Record<string, any>\n  );
+  metadata: Record<string, any>
+  );
 }
 
 export interface PaymentRequest {
@@ -45,7 +46,8 @@ export interface PaymentRequest {
   currency?: string;
   paymentMethod?: PaymentMethod;
   description?: string;
-  metadata?: Record<string, any>\n  );
+  metadata?: Record<string, any>
+  );
 }
 
 export interface RefundRequest {

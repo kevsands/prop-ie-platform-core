@@ -9,7 +9,8 @@ import type { PrismaClient, Prisma } from '@prisma/client';
 export type PrismaTransactionClient = Omit<
   PrismaClient, 
   '$connect' | '$disconnect' | '$on' | '$transaction' | '$use' | '$extends'
->\n  );
+>
+  );
 // API Response types
 export interface ApiSuccessResponse<T = any> {
   status?: number;
@@ -46,15 +47,20 @@ export type SlugParam = { slug: string };
 
 // Handler signatures for Next.js API routes
 export type GetHandler<TParams = {}> = 
-  (request: NextRequest, context: RouteContext<TParams>) => Promise<NextResponse>\n  );
+  (request: NextRequest, context: RouteContext<TParams>) => Promise<NextResponse>
+  );
 export type PostHandler<TParams = {}> = 
-  (request: NextRequest, context: RouteContext<TParams>) => Promise<NextResponse>\n  );
+  (request: NextRequest, context: RouteContext<TParams>) => Promise<NextResponse>
+  );
 export type PutHandler<TParams = {}> = 
-  (request: NextRequest, context: RouteContext<TParams>) => Promise<NextResponse>\n  );
+  (request: NextRequest, context: RouteContext<TParams>) => Promise<NextResponse>
+  );
 export type DeleteHandler<TParams = {}> = 
-  (request: NextRequest, context: RouteContext<TParams>) => Promise<NextResponse>\n  );
+  (request: NextRequest, context: RouteContext<TParams>) => Promise<NextResponse>
+  );
 export type PatchHandler<TParams = {}> = 
-  (request: NextRequest, context: RouteContext<TParams>) => Promise<NextResponse>\n  );
+  (request: NextRequest, context: RouteContext<TParams>) => Promise<NextResponse>
+  );
 // Session types
 export interface Session {
   user: {

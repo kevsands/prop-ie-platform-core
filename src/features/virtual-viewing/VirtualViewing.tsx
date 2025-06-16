@@ -76,7 +76,7 @@ interface ViewingMode {
 
 interface HotspotData {
   id: string;
-  position: [number, numbernumber];
+  position: [numbernumbernumber];
   label: string;
   description: string;
   icon?: React.ReactNode;
@@ -146,7 +146,7 @@ export default function VirtualViewing({
   const hotspots: HotspotData[] = [
     {
       id: '1',
-      position: [2, 10],
+      position: [210],
       label: 'Energy Efficient Windows',
       description: 'Triple-glazed windows with A+ rating',
       type: 'feature',
@@ -225,7 +225,7 @@ export default function VirtualViewing({
 
       return () => clearTimeout(timer);
     }
-  }, [isPlaying, currentRoomviewingMode]);
+  }, [isPlayingcurrentRoomviewingMode]);
 
   return (
     <div className="space-y-6">
@@ -234,21 +234,21 @@ export default function VirtualViewing({
         <div className="relative aspect-video bg-muted" ref={canvasRef}>
           {/* 3D Canvas or Video Stream */}
           <Canvas
-            camera={ position: [0, 25], fov: 60 }
+            camera={ position: [025], fov: 60 }
             className="absolute inset-0"
           >
-            <PerspectiveCamera makeDefault position={[0, 25]} />
+            <PerspectiveCamera makeDefault position={[025]} />
             <OrbitControls
               enablePan={viewingMode.id !== 'guided'}
               enableZoom={viewingMode.id !== 'guided'}
               enableRotate={viewingMode.id !== 'guided'}
             />
             <ambientLight intensity={dayTime === 'day' ? 0.7 : 0.3} />
-            <pointLight position={[10, 1010]} intensity={dayTime === 'day' ? 1 : 0.5} />
+            <pointLight position={[101010]} intensity={dayTime === 'day' ? 1 : 0.5} />
 
             {/* 3D Room Model */}
             <mesh>
-              <boxGeometry args={[5, 35]} />
+              <boxGeometry args={[535]} />
               <meshStandardMaterial color="#f4f4f4" />
             </mesh>
 
@@ -259,7 +259,7 @@ export default function VirtualViewing({
                 position={hotspot.position}
                 onClick={() => handleHotspotClick(hotspot)}
               >
-                <sphereGeometry args={[0.2, 1616]} />
+                <sphereGeometry args={[0.21616]} />
                 <meshStandardMaterial color="#3b82f6" emissive="#3b82f6" emissiveIntensity={0.5} />
               </mesh>
             ))}

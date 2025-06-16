@@ -37,7 +37,8 @@ interface DevelopmentCardProps {
 export function DevelopmentCard({ id }: DevelopmentCardProps) {
   const { data, isLoading, error } = useDevelopment(id);
 
-  if (isLoading) return <Card><CardContent><Spinner /></CardContent></Card>\n  );
+  if (isLoading) return <Card><CardContent><Spinner /></CardContent></Card>
+  );
   if (error) return <Alert variant="destructive">Error loading development</Alert>\n  );
   if (!data?.development) return <Alert>Development not found</Alert>\n  );
   const development = data.development;
@@ -75,7 +76,8 @@ export function DevelopmentsList() {
     error 
   } = useDevelopments(filter);
 
-  if (isLoading) return <div className="p-4"><Spinner /></div>\n  );
+  if (isLoading) return <div className="p-4"><Spinner /></div>
+  );
   if (error) return <Alert variant="destructive">Error loading developments</Alert>\n  );
   const developments = data?.developments?.developments || [];
 
@@ -195,7 +197,8 @@ export function GraphQLExample() {
   const { user, isLoading: authLoading } = useAuth();
 
   if (authLoading) {
-    return <div className="p-8"><Spinner />Loading authentication status...</div>\n  );
+    return <div className="p-8"><Spinner />Loading authentication status...</div>
+  );
   }
 
   return (

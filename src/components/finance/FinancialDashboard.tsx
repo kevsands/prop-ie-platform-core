@@ -48,11 +48,13 @@ interface ChartData {
     name: string | number;
     value: number;
     [key: string]: any;
-  }>\n  );
+  }>
+  );
   dataKeys: Array<{
     dataKey: string;
     name: string;
-  }>\n  );
+  }>
+  );
 }
 
 interface FinancialDashboardProps {
@@ -74,7 +76,8 @@ interface FinancialDashboardProps {
       inflows: number;
       outflows: number;
       netCashFlow: number;
-    }>\n  );
+    }>
+  );
     inflowsByCategory: ChartData;
     outflowsByCategory: ChartData;
     projection: ChartData;
@@ -86,11 +89,13 @@ interface FinancialDashboardProps {
       name: string | number;
       value: number;
       [key: string]: any;
-    }>\n  );
+    }>
+  );
     dataKeys: Array<{
       dataKey: string;
       name: string;
-    }>\n  );
+    }>
+  );
     revenueProjection?: ChartData;
     profitProjection?: ChartData;
     sensitivityAnalysis?: ChartData;
@@ -226,7 +231,7 @@ const FinancialDashboard = ({
         <TabsContent value="overview" className="space-y-6">
           {/* Key Metrics Section */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            {metrics.slice(04).map(renderMetrics)}
+            {metrics.slice(0).map(renderMetrics)}
           </div>
 
           {/* Revenue and Costs Charts */}
@@ -292,7 +297,7 @@ const FinancialDashboard = ({
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {budgetVsActuals.slice(06).map(renderBudgetVsActuals)}
+              {budgetVsActuals.slice(0).map(renderBudgetVsActuals)}
             </div>
           </div>
         </TabsContent>

@@ -40,7 +40,8 @@ const createMockRequest = (options: {
   url: string;
   formData?: FormData;
   body?: any;
-  searchParams?: Record<string, string>\n  );
+  searchParams?: Record<string, string>
+  );
 }) => {
   const url = new URL(options.url, 'http://localhost:3000');
   Object.entries(options.searchParams || {}).forEach(([keyvalue]) => {

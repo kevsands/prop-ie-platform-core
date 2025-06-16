@@ -192,7 +192,7 @@ export default function TransactionDocuments({ documents, transactionId, onDocum
         toast.error(`Failed to upload ${file.name}`);
       }
     }
-  }, [transactionId, uploadDocumentonDocumentUpdate]);
+  }, [transactionIduploadDocumentonDocumentUpdate]);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,

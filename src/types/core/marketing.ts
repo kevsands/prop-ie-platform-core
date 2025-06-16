@@ -156,7 +156,8 @@ export interface MarketingActivity {
   externalVendors?: string[];
   
   // Performance
-  metrics: Record<string, number>\n  );
+  metrics: Record<string, number>
+  );
   results?: string;
   
   // Notes and metadata
@@ -308,10 +309,13 @@ export interface MarketingPerformance {
     sales: number;
     spend: number;
     roi: number;
-  }>\n  );
+  }>
+  );
   // Demographic insights
-  leadsByDemographic: Record<string, number>\n  );
-  salesByDemographic: Record<string, number>\n  );
+  leadsByDemographic: Record<string, number>
+  );
+  salesByDemographic: Record<string, number>
+  );
   // Time-based analysis
   performanceByDate: Array<{
     date: Date;
@@ -321,7 +325,8 @@ export interface MarketingPerformance {
     leads: number;
     reservations: number;
     sales: number;
-  }>\n  );
+  }>
+  );
   // Benchmarking
   benchmarkComparison?: {
     impressions: number; // percentage above/below benchmark
@@ -586,7 +591,8 @@ export interface SalesDashboard {
       total: number;
       sold: number;
       percentage: number;
-    }>\n  );
+    }>
+  );
   };
   
   // Sales velocity
@@ -599,7 +605,8 @@ export interface SalesDashboard {
       month: string;
       units: number;
       value: number;
-    }>\n  );
+    }>
+  );
   };
   
   // Lead and pipeline metrics
@@ -612,12 +619,14 @@ export interface SalesDashboard {
     viewingsCompleted: number;
     leadConversionRate: number;
     viewingConversionRate: number;
-    leadsBySource: Record<string, number>\n  );
+    leadsBySource: Record<string, number>
+  );
     leadsVsSales: Array<{
       month: string;
       leads: number;
       sales: number;
-    }>\n  );
+    }>
+  );
   };
   
   // Sales team performance
@@ -629,7 +638,8 @@ export interface SalesDashboard {
     salesValue: number;
     conversionRate: number;
     averageDealTime: number; // in days
-  }>\n  );
+  }>
+  );
   // Marketing attribution
   marketingAttribution: Array<{
     campaign: string;
@@ -638,7 +648,8 @@ export interface SalesDashboard {
     salesValue: number;
     spend: number;
     roi: number;
-  }>\n  );
+  }>
+  );
   // Forecasting
   forecast: {
     nextMonthProjected: {
@@ -669,7 +680,8 @@ export interface ConstructionTracking {
   // Overall progress
   overallProgress: {
     percentage: number;
-    phasePercentages: Record<string, number>\n  );
+    phasePercentages: Record<string, number>
+  );
     unitsCompleted: number;
     totalUnits: number;
     estimatedCompletionDate: Date;
@@ -689,12 +701,14 @@ export interface ConstructionTracking {
       category: string;
       amount: number;
       reason: string;
-    }>\n  );
+    }>
+  );
     costSavings: Array<{
       category: string;
       amount: number;
       reason: string;
-    }>\n  );
+    }>
+  );
   };
   
   // Trades and contractors
@@ -708,7 +722,8 @@ export interface ConstructionTracking {
     percentageComplete: number;
     status: 'not_started' | 'in_progress' | 'delayed' | 'completed';
     issues: number;
-  }>\n  );
+  }>
+  );
   // Quality assurance
   qualityAssurance: {
     inspectionsCompleted: number;
@@ -735,7 +750,8 @@ export interface ConstructionTracking {
     area: string;
     photoUrl: string;
     notes?: string;
-  }>\n  );
+  }>
+  );
   // Risk register
   risks: Array<{
     description: string;
@@ -743,7 +759,8 @@ export interface ConstructionTracking {
     probability: 'low' | 'medium' | 'high' | 'very_high';
     status: 'identified' | 'mitigating' | 'resolved';
     mitigation: string;
-  }>\n  );
+  }>
+  );
   // Unit completion status
   unitStatus: Record<string, {
     unit: string;
@@ -751,7 +768,8 @@ export interface ConstructionTracking {
     status: 'not_started' | 'foundation' | 'structure' | 'envelope' | 'interior_rough' | 'interior_finish' | 'completed';
     estimatedCompletionDate: Date;
     snags: number;
-  }>\n  );
+  }>
+  );
 }
 
 /**

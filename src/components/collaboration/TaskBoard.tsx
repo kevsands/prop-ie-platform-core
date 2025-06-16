@@ -121,7 +121,7 @@ export const TaskBoard: React.FC<TaskBoardProps> = ({ projectId }) => {
       fetchTasks();
       setCreateTaskOpen(false);
     } catch (error) {
-
+      console.error('Error creating task:', error);
     }
   };
 
@@ -162,9 +162,9 @@ export const TaskBoard: React.FC<TaskBoardProps> = ({ projectId }) => {
                 <Card
                   key={task.id}
                   draggable
-                  onDragStart={() => handleDragStart(task: any)}
+                  onDragStart={() => handleDragStart(task)}
                   className="cursor-pointer hover:shadow-md transition-shadow"
-                  onClick={() => setSelectedTask(task: any)}
+                  onClick={() => setSelectedTask(task)}
                 >
                   <CardContent className="p-4">
                     <div className="space-y-3">
@@ -315,8 +315,8 @@ export const TaskBoard: React.FC<TaskBoardProps> = ({ projectId }) => {
                 <h4 className="font-medium mb-2">Comments</h4>
                 <div className="space-y-3">
                   {selectedTask.comments?.map((comment: any, index: number) => (
-                    <div key={index: any} className="bg-gray-50 p-3 rounded">
-                      <p className="text-sm">{comment: any}</p>
+                    <div key={index} className="bg-gray-50 p-3 rounded">
+                      <p className="text-sm">{comment}</p>
                     </div>
                   ))}
                   <div className="flex gap-2">

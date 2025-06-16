@@ -22,9 +22,11 @@ export interface GraphQLResponse<T> {
     locations: Array<{
       line: number;
       column: number;
-    }>\n  );
+    }>
+  );
     path: string[];
-  }>\n  );
+  }>
+  );
 }
 
 // Financial Metric Response from GraphQL API
@@ -37,7 +39,8 @@ export interface FinancialMetricResponse {
     date: string;
     value: number;
     isProjected?: boolean;
-  }>\n  );
+  }>
+  );
 }
 
 // Development Financial Metrics Response
@@ -52,8 +55,10 @@ export interface DevelopmentFinancialMetricsResponse {
       date: string;
       value: number;
       isProjected?: boolean;
-    }>\n  );
-  }>\n  );
+    }>
+  );
+  }>
+  );
 }
 
 // Cash Flow Data Response
@@ -66,17 +71,20 @@ export interface CashFlowDataResponse {
     inflows: number;
     outflows: number;
     netCashFlow: number;
-  }>\n  );
+  }>
+  );
   inflowCategories: Array<{
     name: string;
     amount: MonetaryAmount;
     percentage: number;
-  }>\n  );
+  }>
+  );
   outflowCategories: Array<{
     name: string;
     amount: MonetaryAmount;
     percentage: number;
-  }>\n  );
+  }>
+  );
   peakNegativeCashFlow?: MonetaryAmount;
   projectedBreakEvenDate?: string;
 }
@@ -94,12 +102,14 @@ export interface BudgetVsActualDataResponse {
     variance: MonetaryAmount;
     variancePercentage: number;
     isOverBudget: boolean;
-  }>\n  );
+  }>
+  );
   timeSeries?: Array<{
     date: string;
     budget: number;
     actual: number;
-  }>\n  );
+  }>
+  );
   completionPercentage: number;
   timeElapsedPercentage: number;
 }
@@ -176,7 +186,8 @@ export interface DashboardWidgetDefinition {
   title: string;
   width: 1 | 2 | 3 | 4; // Grid width (out of 4)
   height: 1 | 2 | 3; // Grid height
-  props: Record<string, any>\n  );
+  props: Record<string, any>
+  );
 }
 
 // Dashboard Layout Configuration with Widgets
@@ -192,14 +203,16 @@ export interface DashboardLayoutConfig {
     granularity?: boolean;
     forecast?: boolean;
   };
-  defaultFilters?: Record<string, any>\n  );
+  defaultFilters?: Record<string, any>
+  );
 }
 
 // Dashboard State Interface
 export interface DashboardState {
   layouts: DashboardLayoutConfig[];
   activeLayoutId: string;
-  filters: Record<string, any>\n  );
+  filters: Record<string, any>
+  );
   isLoading: boolean;
   isEditing: boolean;
 }

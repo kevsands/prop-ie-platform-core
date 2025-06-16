@@ -91,7 +91,8 @@ const SecureSecurity = {
         code, 
         () => message,
         context || {}
-      ) as Promise<SecurityError>\n  );
+      ) as Promise<SecurityError>
+  );
     }
     return new Error(message);
   },

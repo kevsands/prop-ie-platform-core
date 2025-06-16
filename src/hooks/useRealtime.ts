@@ -30,8 +30,10 @@ interface RealtimeState {
   connected: boolean;
   connecting: boolean;
   error: string | null;
-  rooms: Map<string, RealtimeRoom>\n  );
-  presence: Map<string, any>\n  );
+  rooms: Map<string, RealtimeRoom>
+  );
+  presence: Map<string, any>
+  );
 }
 
 export function useRealtime(config: RealtimeConfig = {}) {
@@ -114,7 +116,7 @@ export function useRealtime(config: RealtimeConfig = {}) {
         connecting: false 
       }));
     }
-  }, [user?.id, url, reconnectAttemptsreconnectInterval]);
+  }, [user?.idurlreconnectAttemptsreconnectInterval]);
 
   const disconnect = useCallback(() => {
     if (reconnectTimeoutRef.current) {
@@ -302,7 +304,7 @@ export function useRealtime(config: RealtimeConfig = {}) {
     return () => {
       disconnect();
     };
-  }, [autoConnect, user?.id, connectdisconnect]);
+  }, [autoConnect, user?.idconnectdisconnect]);
 
   // Clean up on unmount
   useEffect(() => {

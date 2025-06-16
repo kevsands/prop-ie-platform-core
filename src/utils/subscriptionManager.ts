@@ -93,7 +93,8 @@ export interface Subscription<T = any> {
   id: string;
   topic: string;
   status: SubscriptionStatus;
-  options: SubscriptionOptions<T>\n  );
+  options: SubscriptionOptions<T>
+  );
   lastMessage?: T;
   lastUpdated?: Date;
   unsubscribe: () => void;
@@ -104,7 +105,8 @@ export interface Subscription<T = any> {
 // Map of pending batch updates
 interface PendingBatch {
   timeout: NodeJS.Timeout;
-  updates: Map<string, any>\n  );
+  updates: Map<string, any>
+  );
 }
 
 /**

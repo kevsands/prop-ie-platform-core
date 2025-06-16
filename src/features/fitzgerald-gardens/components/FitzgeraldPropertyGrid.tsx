@@ -35,13 +35,13 @@ export const FitzgeraldPropertyGrid: React.FC = () => {
   const unitsToShow: FitzgeraldPropertyUnit[] = FITZGERALD_GARDENS_UNITS;
 
   if (!AppFeatureFlags.showFitzgeraldGardensOnly && unitsToShow.length === 0) {
-    return <p className="text-center text-gray-500 py-8">No properties currently available for Fitzgerald Gardens.</p>;
+    return <p className="text-center text-gray-500 py-8">No properties currently available for Fitzgerald Gardens.</p>\n  );
   }
 
   return (
     <div className="container mx-auto px-4 py-8">
       <h2 className="text-3xl font-bold text-center text-gray-800 mb-8">Fitzgerald Gardens - Available Properties</h2>
-      {unitsToShow.length > 0 ? (
+      {unitsToShow.length> 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {unitsToShow.map((unit) => (
             <PropertyCard key={unit.houseNo} unit={unit} />

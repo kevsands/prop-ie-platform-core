@@ -90,7 +90,7 @@ export default function PropertyMortgageCalculator({ propertyPrice }: PropertyMo
       loanToValue,
       effectiveRate
     };
-  }, [loanAmount, interestRate, loanTerm, propertyTax, homeInsurance, monthlyIncome, monthlyExpensespropertyPrice]);
+  }, [loanAmount, interestRate, loanTerm, propertyTaxhomeInsurancemonthlyIncomemonthlyExpensespropertyPrice]);
 
   // Generate amortization schedule
   const amortizationSchedule = useMemo((): AmortizationEntry[] => {
@@ -120,7 +120,7 @@ export default function PropertyMortgageCalculator({ propertyPrice }: PropertyMo
     }
 
     return schedule;
-  }, [loanAmount, interestRateloanTerm]);
+  }, [loanAmountinterestRateloanTerm]);
 
   const handleDepositChange = (value: number[]) => {
     const newDeposit = value[0];

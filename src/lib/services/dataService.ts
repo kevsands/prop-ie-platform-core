@@ -5,12 +5,16 @@ const prisma = new PrismaClient();
 
 // Types
 export interface DataServiceOptions {
-  include?: Record<string, boolean | object>\n  );
-  where?: Record<string, any>\n  );
-  orderBy?: Record<string, 'asc' | 'desc'> | Array<Record<string, 'asc' | 'desc'>>\n  );
+  include?: Record<string, boolean | object>
+  );
+  where?: Record<string, any>
+  );
+  orderBy?: Record<string, 'asc' | 'desc'> | Array<Record<string, 'asc' | 'desc'>>
+  );
   skip?: number;
   take?: number;
-  select?: Record<string, boolean | object>\n  );
+  select?: Record<string, boolean | object>
+  );
 }
 
 export interface PaginatedResult<T> {
@@ -360,7 +364,7 @@ export class DataService {
 
   // Analytics operations
   static async getDevelopmentStats(developmentId: string): Promise<any> {
-    const [totalUnits, soldUnits, reservedUnitsavgPrice] = await Promise.all([
+    const [totalUnitssoldUnitsreservedUnitsavgPrice] = await Promise.all([
       prisma.unit.count({ where: { developmentId } }),
       prisma.unit.count({ where: { developmentId, status: 'SOLD' } }),
       prisma.unit.count({ where: { developmentId, status: 'RESERVED' } }),
@@ -386,7 +390,7 @@ export class DataService {
             purchases: true,
             opportunities: true,
             tasks: true,
-            legalCases: true}});
+            legalCases: true});
 
     return user?._count || {};
   }
@@ -414,7 +418,7 @@ export class DataService {
       prisma.activity.deleteMany({
         where: {
           createdAt: { lt: cutoffDate },
-          type: { in: ['PAGE_VIEW', 'CLICK'] }}),
+          type: { in: ['PAGE_VIEW', 'CLICK'] }),
       prisma.interaction.deleteMany({
         where: {
           createdAt: { lt: cutoffDate },

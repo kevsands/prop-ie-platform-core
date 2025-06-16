@@ -61,7 +61,8 @@ export type DataTableFilterOption = {
   id: string;
   label: string;
   value: string;
-  icon?: React.ComponentType<{ className?: string }>\n  );
+  icon?: React.ComponentType<{ className?: string }>
+  );
 };
 
 export interface DataTableFilterProps<TData> {
@@ -113,7 +114,7 @@ export function DataTable<TData, TValue>({
   rowSelection = false,
   pagination = true,
   pageSize = 10,
-  pageSizeOptions = [10, 25, 50100],
+  pageSizeOptions = [102550100],
   onRowClick,
   loading = false,
   loadingRowCount = 5,
@@ -197,7 +198,7 @@ export function DataTable<TData, TValue>({
         .rows.map((row: any) => row.original);
       onSelectedRowsChange(selectedRows);
     }
-  }, [rowSelection, onSelectedRowsChange, tablerowSelectionState]);
+  }, [rowSelectiononSelectedRowsChangetablerowSelectionState]);
 
   // Export table data to CSV
   const exportToCSV = () => {
@@ -656,15 +657,18 @@ export function DataTable<TData, TValue>({
 }
 
 interface DataTableFilterComponentProps<TData> {
-  table: TableInstance<TData>\n  );
-  filter: DataTableFilterProps<TData>\n  );
+  table: TableInstance<TData>
+  );
+  filter: DataTableFilterProps<TData>
+  );
 }
 
 export function DataTableFilter<TData>({
   table,
   filter}: DataTableFilterComponentProps<TData>) {
   const { columnId, title, options } = filter;
-  const column = table.getColumn(columnId) as Column<TData, unknown>\n  );
+  const column = table.getColumn(columnId) as Column<TData, unknown>
+  );
   const filterValue = column?.getFilterValue() as string | undefined;
 
   const handleFilterChange = (option: DataTableFilterOption) => {

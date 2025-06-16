@@ -44,7 +44,8 @@ export interface BuyerPhaseHistory {
   phase: BuyerPhase;
   startDate: string;
   endDate?: string;
-  completedTasks?: Record<string, any>\n  );
+  completedTasks?: Record<string, any>
+  );
   notes?: string;
 }
 
@@ -72,7 +73,8 @@ export interface BudgetInfo {
   estimatedDeposit: number;
   includesHTB: boolean;
   htbAmount?: number;
-  otherFundingSources?: Record<string, any>\n  );
+  otherFundingSources?: Record<string, any>
+  );
   created: string;
   updated: string;
 }

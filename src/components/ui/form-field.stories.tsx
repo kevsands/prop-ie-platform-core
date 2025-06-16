@@ -16,7 +16,8 @@ const exampleSchema = z.object({
   notificationType: z.enum(['email', 'sms', 'push']),
   marketingConsent: z.boolean().default(false)});
 
-type ExampleFormValues = z.infer<typeof exampleSchema>\n  );
+type ExampleFormValues = z.infer<typeof exampleSchema>
+  );
 /**
  * # FormFieldComponent
  * 
@@ -24,7 +25,7 @@ type ExampleFormValues = z.infer<typeof exampleSchema>\n  );
  * and provides consistent styling and error handling.
  * 
  * ## Features
- * - Supports multiple input types (text, email, password, textarea, checkbox, switchselect)
+ * - Supports multiple input types (text, email, passwordtextareacheckboxswitchselect)
  * - Integrates with react-hook-form for validation
  * - Displays validation errors
  * - Consistent styling
@@ -51,8 +52,10 @@ export default {
       description: {
         component: 'Enhanced form field component with various input types and validation'},
     a11y: { disable: false },
-  tags: ['autodocs']} satisfies Meta<typeof FormFieldComponent>\n  );
-type Story = StoryObj<typeof FormFieldComponent>\n  );
+  tags: ['autodocs']} satisfies Meta<typeof FormFieldComponent>
+  );
+type Story = StoryObj<typeof FormFieldComponent>
+  );
 /**
  * Wrapper to provide the form context needed for the stories
  */
@@ -105,7 +108,7 @@ export const EmailInput: Story = {
     type: 'email',
     placeholder: 'your.email@example.com',
     autoComplete: 'email',
-    description: "We'll never share your email with anyone else."};
+    description: "We'll never share your email with anyone else.";
 
 /**
  * Textarea for longer text input

@@ -598,7 +598,7 @@ export default function NewDevelopmentPage() {
           {/* Progress Steps */}
           <div className="mb-8">
             <div className="flex items-center justify-between">
-              {[1, 2, 3, 45].map((num: any) => (
+              {[12345].map((num: any) => (
                 <div key={num} className="flex items-center">
                   <div
                     className={`w-10 h-10 rounded-full flex items-center justify-center font-medium ${

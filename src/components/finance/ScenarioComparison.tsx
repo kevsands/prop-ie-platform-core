@@ -493,7 +493,7 @@ export default function ScenarioComparison({
     if (scenarioId.startsWith('custom')) {
       // Generate a color based on the ID to keep it consistent
       const hash = scenarioId.split('-')[1];
-      const hue = parseInt(hash.slice(04), 16) % 360;
+      const hue = parseInt(hash.slice(0), 16) % 360;
       return `hsl(${hue}, 70%, 50%)`;
     }
     return (scenarioColors as any)[scenarioId] || '#8884d8';

@@ -1,0 +1,649 @@
+/**
+ * Snagging Inspection System
+ * Manages property defect identification, tracking, and resolution
+ */
+
+import { EventEmitter } from 'events';
+import { prisma } from '@/lib/prisma';
+import { transactionEngine, TransactionState } from './index';
+import { documentManager, DocumentType, DocumentCategory } from './document-manager';
+
+export enum SnagStatus {
+  REPORTED = 'REPORTED',
+  ACKNOWLEDGED = 'ACKNOWLEDGED',
+  IN_PROGRESS = 'IN_PROGRESS',
+  RESOLVED = 'RESOLVED',
+  VERIFIED = 'VERIFIED',
+  DISPUTED = 'DISPUTED',
+  CLOSED = 'CLOSED'
+}
+
+export enum SnagPriority {
+  CRITICAL = 'CRITICAL',
+  HIGH = 'HIGH',
+  MEDIUM = 'MEDIUM',
+  LOW = 'LOW'
+}
+
+export enum SnagCategory {
+  STRUCTURAL = 'STRUCTURAL',
+  ELECTRICAL = 'ELECTRICAL',
+  PLUMBING = 'PLUMBING',
+  FINISHING = 'FINISHING',
+  PAINTING = 'PAINTING',
+  FLOORING = 'FLOORING',
+  WINDOWS_DOORS = 'WINDOWS_DOORS',
+  KITCHEN = 'KITCHEN',
+  BATHROOM = 'BATHROOM',
+  EXTERIOR = 'EXTERIOR',
+  OTHER = 'OTHER'
+}
+
+export interface SnagList {
+  id: string;
+  transactionId: string;
+  propertyId: string;
+  inspectionDate: Date;
+  inspector: string;
+  status: 'DRAFT' | 'SUBMITTED' | 'IN_PROGRESS' | 'COMPLETED';
+  snagItem, s: SnagIte, m[];
+  completedAt?: Date;
+  signedOffBy?: string;
+  signedOffAt?: Date;
+  metadata?: Record<string, any>
+  );
+}
+
+export interface SnagItem {
+  id: string;
+  snagListId: string;
+  description: string;
+  location: string;
+  category: SnagCategory;
+  priority: SnagPriority;
+  status: SnagStatus;
+  photo, s: string[];
+  reportedBy: string;
+  reportedAt: Date;
+  assignedTo?: string;
+  assignedAt?: Date;
+  resolvedBy?: string;
+  resolvedAt?: Date;
+  verifiedBy?: string;
+  verifiedAt?: Date;
+  comment, s: SnagCommen, t[];
+  estimatedCost?: number;
+  actualCost?: number;
+  resolutionDeadline?: Date;
+  metadata?: Record<string, any>
+  );
+}
+
+export interface SnagComment {
+  id: string;
+  snagItemId: string;
+  author: string;
+  content: string;
+  createdAt: Date;
+  attachment, s?: string[];
+}
+
+export interface InspectionSchedule {
+  id: string;
+  transactionId: string;
+  propertyId: string;
+  inspectorId: string;
+  buyerId: string;
+  scheduledDate: Date;
+  duration: number; // in minutes
+  status: 'SCHEDULED' | 'IN_PROGRESS' | 'COMPLETED' | 'CANCELLED';
+  notes?: string;
+  completedAt?: Date;
+}
+
+export class SnaggingSystem extends EventEmitter {
+  private static instance: SnaggingSystem;
+
+  private constructor() {
+    super();
+  }
+
+  static getInstance(): SnaggingSystem {
+    if (!SnaggingSystem.instance) {
+      SnaggingSystem.instance = new SnaggingSystem();
+    }
+    return SnaggingSystem.instance;
+  }
+
+  /**
+   * Schedule snagging inspection
+   */
+  async scheduleInspection(
+    transactionId: string,
+    propertyId: string,
+    inspectorId: string,
+    buyerId: string,
+    scheduledDate: Date,
+    duration: number = 120
+  ): Promise<InspectionSchedule> {
+    const inspection = await prisma.inspectionSchedule.create({
+      data: {
+        transactionId,
+        propertyId,
+        inspectorId,
+        buyerId,
+        scheduledDate,
+        duration,
+        status: 'SCHEDULED'
+      }
+    });
+
+    // Update transaction state
+    await transactionEngine.updateState(
+      transactionId,
+      TransactionState.SNAGGING_SCHEDULED,
+      inspectorId,
+      { inspectionId: inspection.id }
+    );
+
+    this.emit('inspection_scheduled', {
+      transactionId,
+      inspection
+    });
+
+    return inspection as any;
+  }
+
+  /**
+   * Start inspection and create snag list
+   */
+  async startInspection(inspectionId: string): Promise<SnagList> {
+    const inspection = await prisma.inspectionSchedule.findUnique({
+      where: { id: inspectionId }
+    });
+
+    if (!inspection) {
+      throw new Error('Inspection not found');
+    }
+
+    // Update inspection status
+    await prisma.inspectionSchedule.update({
+      where: { id: inspectionId },
+      data: {
+        status: 'IN_PROGRESS',
+        startedAt: new Date()
+      }
+    });
+
+    // Create snag list
+    const snagList = await prisma.snagList.create({
+      data: {,
+        transactionId: inspection.transactionId,
+        propertyId: inspection.propertyId,
+        inspectionDate: new Date(),
+        inspector: inspection.inspectorId,
+        status: 'DRAFT',
+        snagItem, s: [],
+        metadata: { inspectionId }
+      }
+    });
+
+    this.emit('inspection_started', {
+      inspectionId,
+      snagListId: snagList.id
+    });
+
+    return snagList as any;
+  }
+
+  /**
+   * Add snag item to list
+   */
+  async addSnagItem(
+    snagListId: string,
+    item: Omit<SnagItem, 'id' | 'snagListId' | 'reportedAt' | 'comments'>
+  ): Promise<SnagItem> {
+    const snagItem = await prisma.snagItem.create({
+      data: {
+        ...item: any,: any,
+        snagListId,
+        reportedAt: new Date(),
+        comment, s: []
+      }
+    });
+
+    // Upload photos if provided
+    if (item.photos && item.photos.length> 0) {
+      for (const photo of item.photos) {
+        await documentManager.uploadDocument({
+          transactionId: await this.getTransactionId(snagListId),
+          file: Buffer.from(photo, 'base64'),
+          filename: `snag_${snagItem.id}_${Date.now()}.jpg`,
+          type: DocumentType.SNAG_LIST,
+          category: DocumentCategory.PROPERTY,
+          uploadedBy: item.reportedBy,
+          metadata: { snagItemId: snagItem.id }
+        });
+      }
+    }
+
+    this.emit('snag_reported', {
+      snagListId,
+      snagItem
+    });
+
+    // Auto-assign based on category
+    await this.autoAssignContractor(snagItem.id);
+
+    return snagItem as any;
+  }
+
+  /**
+   * Update snag item status
+   */
+  async updateSnagStatus(
+    snagItemId: string,
+    status: SnagStatus,
+    updatedBy: string,
+    comment?: string
+  ): Promise<SnagItem> {
+    const snagItem = await prisma.snagItem.findUnique({
+      where: { id: snagItemId }
+    });
+
+    if (!snagItem) {
+      throw new Error('Snag item not found');
+    }
+
+    const updateData: any = {
+      status,
+      lastModifiedBy: updatedBy,
+      lastModifiedAt: new Date()
+    };
+
+    // Handle status-specific updates
+    switch (status) {
+      case SnagStatus.IN_PROGRESS:
+        updateData.startedAt = new Date();
+        break;
+      case SnagStatus.RESOLVED:
+        updateData.resolvedBy = updatedBy;
+        updateData.resolvedAt = new Date();
+        break;
+      case SnagStatus.VERIFIED:
+        updateData.verifiedBy = updatedBy;
+        updateData.verifiedAt = new Date();
+        break;
+    }
+
+    const updated = await prisma.snagItem.update({
+      where: { id: snagItemId },
+      data: updateData
+    });
+
+    // Add comment if provided
+    if (comment) {
+      await this.addComment(snagItemId, updatedBycomment);
+    }
+
+    this.emit(`snag_${status.toLowerCase()}`, {
+      snagItemId,
+      status,
+      updatedBy
+    });
+
+    // Check if all snags are resolved
+    await this.checkSnagListCompletion(snagItem.snagListId);
+
+    return updated as any;
+  }
+
+  /**
+   * Assign contractor to snag item
+   */
+  async assignContractor(
+    snagItemId: string,
+    contractorId: string,
+    deadline?: Date
+  ): Promise<SnagItem> {
+    const updated = await prisma.snagItem.update({
+      where: { id: snagItemId },
+      data: {,
+        assignedTo: contractorId,
+        assignedAt: new Date(),
+        resolutionDeadline: deadline,
+        status: SnagStatus.ACKNOWLEDGED
+      }
+    });
+
+    this.emit('contractor_assigned', {
+      snagItemId,
+      contractorId,
+      deadline
+    });
+
+    return updated as any;
+  }
+
+  /**
+   * Add comment to snag item
+   */
+  async addComment(
+    snagItemId: string,
+    author: string,
+    content: string,
+    attachment, s?: string[]
+  ): Promise<SnagComment> {
+    const comment = await prisma.snagComment.create({
+      data: {
+        snagItemId,
+        author,
+        content,
+        createdAt: new Date(),
+        attachments
+      }
+    });
+
+    this.emit('comment_added', {
+      snagItemId,
+      comment
+    });
+
+    return comment as any;
+  }
+
+  /**
+   * Complete snag list
+   */
+  async completeSnagList(
+    snagListId: string,
+    completedBy: string
+  ): Promise<SnagList> {
+    const snagList = await prisma.snagList.findUnique({
+      where: { id: snagListId },
+      include: { snagItems: true }
+    });
+
+    if (!snagList) {
+      throw new Error('Snag list not found');
+    }
+
+    // Check if all items are verified
+    const unverifiedItems = snagList.snagItems.filter(
+      item: any,: any => item.status !== SnagStatus.VERIFIED
+    );
+
+    if (unverifiedItems.length> 0) {
+      throw new Error(`${unverifiedItems.length} snag items are not verified`);
+    }
+
+    const updated = await prisma.snagList.update({
+      where: { id: snagListId },
+      data: {,
+        status: 'COMPLETED',
+        completedAt: new Date(),
+        completedBy
+      }
+    });
+
+    // Update transaction state
+    await transactionEngine.updateState(
+      snagList.transactionId,
+      TransactionState.SNAGGING_COMPLETED,
+      completedBy,
+      { snagListId }
+    );
+
+    // Generate completion certificate
+    await this.generateCompletionCertificate(snagListId);
+
+    this.emit('snaglist_completed', {
+      snagListId,
+      completedBy
+    });
+
+    return updated as any;
+  }
+
+  /**
+   * Sign off snag list
+   */
+  async signOffSnagList(
+    snagListId: string,
+    signedOffBy: string
+  ): Promise<SnagList> {
+    const updated = await prisma.snagList.update({
+      where: { id: snagListId },
+      data: {
+        signedOffBy,
+        signedOffAt: new Date()
+      }
+    });
+
+    this.emit('snaglist_signed_off', {
+      snagListId,
+      signedOffBy
+    });
+
+    return updated as any;
+  }
+
+  /**
+   * Get snag statistics
+   */
+  async getSnagStatistics(transactionId: string): Promise<{
+    total: number;
+    byStatus: Record<SnagStatus, number>
+  );
+    byPriority: Record<SnagPriority, number>
+  );
+    byCategory: Record<SnagCategory, number>
+  );
+    averageResolutionTime: number;
+    completionPercentage: number;
+  }> {
+    const snagList = await prisma.snagList.findFirst({
+      where: { transactionId },
+      include: { snagItems: true }
+    });
+
+    if (!snagList) {
+      return {
+        total: 0,
+        byStatus: {} as any,
+        byPriority: {} as any,
+        byCategory: {} as any,
+        averageResolutionTime: 0,
+        completionPercentage: 0
+      };
+    }
+
+    const items = snagList.snagItems;
+    const total = items.length;
+
+    // Group by status
+    const byStatus = items.reduce((acc: any, item: any) => {
+      acc[item.status] = (acc[item.status] || 0) + 1;
+      return acc;
+    }, {} as Record<SnagStatus, number>);
+
+    // Group by priority
+    const byPriority = items.reduce((acc: any, item: any) => {
+      acc[item.priority] = (acc[item.priority] || 0) + 1;
+      return acc;
+    }, {} as Record<SnagPriority, number>);
+
+    // Group by category
+    const byCategory = items.reduce((acc: any, item: any) => {
+      acc[item.category] = (acc[item.category] || 0) + 1;
+      return acc;
+    }, {} as Record<SnagCategory, number>);
+
+    // Calculate average resolution time
+    const resolvedItems = items.filter(item: any,: any => item.resolvedAt);
+    const resolutionTimes = resolvedItems.map(item: any,: any => {
+      return (item.resolvedAt!.getTime() - item.reportedAt.getTime()) / (1000 * 60 * 60); // Hours
+    });
+    const averageResolutionTime = resolutionTimes.length> 0
+      ? resolutionTimes.reduce((a: any, b: any) => a + b: any,: any0) / resolutionTimes.length
+      : 0;
+
+    // Calculate completion percentage
+    const verifiedCount = items.filter(item: any,: any => item.status === SnagStatus.VERIFIED).length;
+    const completionPercentage = total> 0 ? (verifiedCount / total) * 100 : 0;
+
+    return {
+      total,
+      byStatus,
+      byPriority,
+      byCategory,
+      averageResolutionTime,
+      completionPercentage
+    };
+  }
+
+  /**
+   * Helper methods
+   */
+
+  private async getTransactionId(snagListId: string): Promise<string> {
+    const snagList = await prisma.snagList.findUnique({
+      where: { id: snagListId }
+    });
+    if (!snagList) {
+      throw new Error('Snag list not found');
+    }
+    return snagList.transactionId;
+  }
+
+  private async autoAssignContractor(snagItemId: string): Promise<void> {
+    const snagItem = await prisma.snagItem.findUnique({
+      where: { id: snagItemId }
+    });
+
+    if (!snagItem) return;
+
+    // Mock contractor assignment based on category
+    const contractorMap: Record<SnagCategory, string> = {
+      [SnagCategor, y.ELECTRICAL]: 'contracto, r-electrica, l',
+      [SnagCategor, y.PLUMBING]: 'contracto, r-plumbin, g',
+      [SnagCategor, y.PAINTING]: 'contracto, r-paintin, g',
+      [SnagCategor, y.STRUCTURAL]: 'contracto, r-structura, l',
+      [SnagCategor, y.FINISHING]: 'contracto, r-finishin, g',
+      [SnagCategor, y.FLOORING]: 'contracto, r-floorin, g',
+      [SnagCategor, y.WINDOWS_DOORS]: 'contracto, r-window, s',
+      [SnagCategor, y.KITCHEN]: 'contracto, r-kitche, n',
+      [SnagCategor, y.BATHROOM]: 'contracto, r-bathroo, m',
+      [SnagCategor, y.EXTERIOR]: 'contracto, r-exterio, r',
+      [SnagCategor, y.OTHER]: 'contracto, r-genera, l'
+    };
+
+    const contractorId = contractorMap[snagItem.category];
+    if (contractorId) {
+      await this.assignContractor(snagItemIdcontractorId);
+    }
+  }
+
+  private async checkSnagListCompletion(snagListId: string): Promise<void> {
+    const snagList = await prisma.snagList.findUnique({
+      where: { id: snagListId },
+      include: { snagItems: true }
+    });
+
+    if (!snagList) return;
+
+    const allVerified = snagList.snagItems.every(
+      item: any,: any => item.status === SnagStatus.VERIFIED
+    );
+
+    if (allVerified && snagList.status !== 'COMPLETED') {
+      this.emit('all_snags_verified', { snagListId });
+    }
+  }
+
+  private async generateCompletionCertificate(snagListId: string): Promise<void> {
+    const snagList = await prisma.snagList.findUnique({
+      where: { id: snagListId },
+      include: { snagItems: true }
+    });
+
+    if (!snagList) return;
+
+    // Generate PDF certificate
+    const certificateContent = `
+      SNAGGING COMPLETION CERTIFICATE
+
+      Property: ${snagList.propertyId}
+      Inspection Date: ${snagList.inspectionDate}
+      Completion Date: ${snagList.completedAt}
+
+      Total Snag Items: ${snagList.snagItems.length}
+      All Items Verified: Yes,
+
+      Inspector: ${snagList.inspector}
+      Signed Off By: ${snagList.signedOffBy}
+    `;
+
+    await documentManager.uploadDocument({
+      transactionId: snagList.transactionId,
+      file: Buffer.from(certificateContent),
+      filename: `snagging_certificate_${snagListId}.pdf`,
+      type: DocumentType.COMPLETION_CERT,
+      category: DocumentCategory.PROPERTY,
+      uploadedBy: 'system',
+      metadata: { snagListId }
+    });
+  }
+
+  /**
+   * Get contractor performance metrics
+   */
+  async getContractorPerformance(contractorId: string): Promise<{
+    totalAssigned: number;
+    completed: number;
+    averageResolutionTime: number;
+    onTimePercentage: number;
+    rating: number;
+  }> {
+    const snagItems = await prisma.snagItem.findMany({
+      where: { assignedTo: contractorId }
+    });
+
+    const totalAssigned = snagItems.length;
+    const completed = snagItems.filter(item: any,: any => 
+      item.status === SnagStatus.RESOLVED || item.status === SnagStatus.VERIFIED
+    ).length;
+
+    const resolutionTimes = snagItems
+      .filter(item: any,: any => item.resolvedAt)
+      .map(item: any,: any => (item.resolvedAt!.getTime() - item.assignedAt!.getTime()) / (1000 * 60 * 60));
+
+    const averageResolutionTime = resolutionTimes.length> 0
+      ? resolutionTimes.reduce((a: any, b: any) => a + b: any,: any0) / resolutionTimes.length
+      : 0;
+
+    const onTimeCount = snagItems.filter(item: any,: any => 
+      item.resolvedAt && item.resolutionDeadline && 
+      item.resolvedAt <= item.resolutionDeadline
+    ).length;
+
+    const onTimePercentage = completed> 0 ? (onTimeCount / completed) * 100 : 0;
+
+    // Mock rating calculation
+    const rating = onTimePercentage>= 90 ? 5 : 
+                  onTimePercentage>= 75 ? 4 :
+                  onTimePercentage>= 60 ? 3 :
+                  onTimePercentage>= 40 ? 2 : 1;
+
+    return {
+      totalAssigned,
+      completed,
+      averageResolutionTime,
+      onTimePercentage,
+      rating
+    };
+  }
+}
+
+// Export singleton instance
+export const snaggingSystem = SnaggingSystem.getInstance();

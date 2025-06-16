@@ -17,14 +17,16 @@ interface BuyerData {
     query: string;
     date: Date;
     results: number;
-  }>\n  );
+  }>
+  );
   viewings: Array<{
     id: string;
     propertyId: string;
     propertyName: string;
     date: Date;
     status: 'scheduled' | 'completed' | 'cancelled';
-  }>\n  );
+  }>
+  );
   offers: Array<{
     id: string;
     propertyId: string;
@@ -32,20 +34,23 @@ interface BuyerData {
     amount: number;
     status: 'pending' | 'accepted' | 'rejected' | 'expired';
     date: Date;
-  }>\n  );
+  }>
+  );
   documents: Array<{
     id: string;
     name: string;
     type: string;
     uploadDate: Date;
     status: 'pending' | 'verified' | 'rejected';
-  }>\n  );
+  }>
+  );
   timeline: Array<{
     id: string;
     event: string;
     date: Date;
     type: 'milestone' | 'activity' | 'document';
-  }>\n  );
+  }>
+  );
 }
 
 export function useBuyerData() {

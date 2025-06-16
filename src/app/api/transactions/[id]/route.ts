@@ -4,7 +4,8 @@ import { authOptions } from '@/lib/auth';
 import { transactionService } from '@/services/transactionService';
 
 interface RouteContext {
-  params: Promise<{ id: string }>\n  );
+  params: Promise<{ id: string }>
+  );
 }
 
 /**

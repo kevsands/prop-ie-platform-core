@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/87</span>
+                <span class='fraction'>0/84</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/87</span>
+                <span class='fraction'>0/84</span>
             </div>
         
             
@@ -253,12 +253,7 @@
 <a name='L188'></a><a href='#L188'>188</a>
 <a name='L189'></a><a href='#L189'>189</a>
 <a name='L190'></a><a href='#L190'>190</a>
-<a name='L191'></a><a href='#L191'>191</a>
-<a name='L192'></a><a href='#L192'>192</a>
-<a name='L193'></a><a href='#L193'>193</a>
-<a name='L194'></a><a href='#L194'>194</a>
-<a name='L195'></a><a href='#L195'>195</a>
-<a name='L196'></a><a href='#L196'>196</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<a name='L191'></a><a href='#L191'>191</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -310,7 +305,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -322,8 +317,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -361,7 +354,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -371,7 +363,6 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -385,7 +376,7 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -443,7 +434,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -472,10 +462,10 @@ interface JWTAuthResponse {
 &nbsp;
 export function <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >useSecureJWT() {</span></span>
   const router = <span class="cstat-no" title="statement not covered" >useRouter();</span>
-  const [isAuthenticated, setIsAuthenticated] = <span class="cstat-no" title="statement not covered" >useState(false);</span>
-  const [user, setUser] = <span class="cstat-no" title="statement not covered" >useState(null);</span>
-  const [loading, setLoading] = <span class="cstat-no" title="statement not covered" >useState(true);</span>
-  const [error, setError] = <span class="cstat-no" title="statement not covered" >useState&lt;string | null&gt;(null);</span>
+  const [isAuthenticatedsetIsAuthenticated] = <span class="cstat-no" title="statement not covered" >useState(false);</span>
+  const [usersetUser] = <span class="cstat-no" title="statement not covered" >useState(null);</span>
+  const [loadingsetLoading] = <span class="cstat-no" title="statement not covered" >useState(true);</span>
+  const [errorsetError] = <span class="cstat-no" title="statement not covered" >useState&lt;string | null&gt;(null);</span>
 &nbsp;
   // Check for existing session on mount
 <span class="cstat-no" title="statement not covered" >  useEffect(<span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
@@ -486,7 +476,7 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
 <span class="cstat-no" title="statement not covered" >    try {</span>
       const token = <span class="cstat-no" title="statement not covered" >localStorage.getItem('auth-token');</span>
       const storedUser = <span class="cstat-no" title="statement not covered" >sessionStorage.getItem('user');</span>
-      
+&nbsp;
 <span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (token &amp;&amp; storedUser) {</span>
         // Verify token with backend
         const response = <span class="cstat-no" title="statement not covered" >await fetch('/api/auth/verify', {</span>
@@ -494,7 +484,7 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
             'Authorization': `Bearer ${token}`
           }
         });
-        
+&nbsp;
 <span class="cstat-no" title="statement not covered" >        if (response.ok) {</span>
 <span class="cstat-no" title="statement not covered" >          setUser(JSON.parse(storedUser));</span>
 <span class="cstat-no" title="statement not covered" >          setIsAuthenticated(true);</span>
@@ -505,7 +495,7 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
         }
       }
     } catch (err) {
-<span class="cstat-no" title="statement not covered" >      console.error('Auth check failed:', err);</span>
+&nbsp;
     } finally {
 <span class="cstat-no" title="statement not covered" >      setLoading(false);</span>
     }
@@ -519,10 +509,8 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
       const response = <span class="cstat-no" title="statement not covered" >await fetch('/api/auth/login', {</span>
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, password }),
-      });
+          'Content-Type': 'application/json'},
+        body: JSON.stringify({ email, password })});
 &nbsp;
 <span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (!response.ok) {</span>
         const error = <span class="cstat-no" title="statement not covered" >await response.json();</span>
@@ -535,11 +523,11 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
       // Store auth data
 <span class="cstat-no" title="statement not covered" >      localStorage.setItem('auth-token', token);</span>
 <span class="cstat-no" title="statement not covered" >      sessionStorage.setItem('user', JSON.stringify(user));</span>
-      
+&nbsp;
       // Update state
 <span class="cstat-no" title="statement not covered" >      setUser(user);</span>
 <span class="cstat-no" title="statement not covered" >      setIsAuthenticated(true);</span>
-      
+&nbsp;
       // Setup axios interceptor for API calls
 <span class="cstat-no" title="statement not covered" >      setupAxiosInterceptor(token);</span>
     } catch (err: any) {
@@ -553,10 +541,9 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
   const logout = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >async () =&gt; {</span></span>
 <span class="cstat-no" title="statement not covered" >    try {</span>
 <span class="cstat-no" title="statement not covered" >      await fetch('/api/auth/logout', {</span>
-        method: 'POST',
-      });
+        method: 'POST'});
     } catch (err) {
-<span class="cstat-no" title="statement not covered" >      console.error('Logout error:', err);</span>
+&nbsp;
     } finally {
 <span class="cstat-no" title="statement not covered" >      clearAuth();</span>
 <span class="cstat-no" title="statement not covered" >      router.push('/login');</span>
@@ -566,21 +553,20 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
   const refreshToken = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >async () =&gt; {</span></span>
 <span class="cstat-no" title="statement not covered" >    try {</span>
       const response = <span class="cstat-no" title="statement not covered" >await fetch('/api/auth/refresh', {</span>
-        method: 'POST',
-      });
+        method: 'POST'});
 &nbsp;
 <span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (response.ok) {</span>
         const data: JWTAuthResponse = <span class="cstat-no" title="statement not covered" >await response.json();</span>
         const { user, token } = <span class="cstat-no" title="statement not covered" >data;</span>
-        
+&nbsp;
 <span class="cstat-no" title="statement not covered" >        localStorage.setItem('auth-token', token);</span>
 <span class="cstat-no" title="statement not covered" >        sessionStorage.setItem('user', JSON.stringify(user));</span>
 <span class="cstat-no" title="statement not covered" >        setupAxiosInterceptor(token);</span>
-        
+&nbsp;
 <span class="cstat-no" title="statement not covered" >        return token;</span>
       }
     } catch (err) {
-<span class="cstat-no" title="statement not covered" >      console.error('Token refresh failed:', err);</span>
+&nbsp;
 <span class="cstat-no" title="statement not covered" >      clearAuth();</span>
 <span class="cstat-no" title="statement not covered" >      return null;</span>
     }
@@ -591,7 +577,7 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
 <span class="cstat-no" title="statement not covered" >    sessionStorage.removeItem('user');</span>
 <span class="cstat-no" title="statement not covered" >    setUser(null);</span>
 <span class="cstat-no" title="statement not covered" >    setIsAuthenticated(false);</span>
-    
+&nbsp;
     // Remove axios interceptor
 <span class="cstat-no" title="statement not covered" >    axios.interceptors.request.eject(0);</span>
   };
@@ -599,31 +585,31 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
   const setupAxiosInterceptor = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(t</span>oken: string) =&gt; {</span>
     // Add auth token to all axios requests
 <span class="cstat-no" title="statement not covered" >    axios.interceptors.request.use(</span>
-<span class="fstat-no" title="function not covered" >      (c</span>onfig) =&gt; {
+<span class="fstat-no" title="function not covered" >      (c</span>onfig: any) =&gt; {
 <span class="cstat-no" title="statement not covered" >        config.headers.Authorization = `Bearer ${token}`;</span>
 <span class="cstat-no" title="statement not covered" >        return config;</span>
       },
-<span class="fstat-no" title="function not covered" >      (e</span>rror) =&gt; {
+<span class="fstat-no" title="function not covered" >      (e</span>rror: any) =&gt; {
 <span class="cstat-no" title="statement not covered" >        return Promise.reject(error);</span>
       }
     );
 &nbsp;
     // Handle token refresh on 401
 <span class="cstat-no" title="statement not covered" >    axios.interceptors.response.use(</span>
-<span class="fstat-no" title="function not covered" >      (r</span>esponse) =&gt; <span class="cstat-no" title="statement not covered" >response,</span>
-<span class="fstat-no" title="function not covered" >      async (e</span>rror) =&gt; {
+<span class="fstat-no" title="function not covered" >      (r</span>esponse: any) =&gt; <span class="cstat-no" title="statement not covered" >response,</span>
+<span class="fstat-no" title="function not covered" >      async (e</span>rror: any) =&gt; {
         const originalRequest = <span class="cstat-no" title="statement not covered" >error.config;</span>
-        
+&nbsp;
 <span class="cstat-no" title="statement not covered" >        <span class="missing-if-branch" title="if path not taken" >I</span>if (error.response?.status === 401 &amp;&amp; !originalRequest._retry) {</span>
 <span class="cstat-no" title="statement not covered" >          originalRequest._retry = true;</span>
-          
+&nbsp;
           const newToken = <span class="cstat-no" title="statement not covered" >await refreshToken();</span>
 <span class="cstat-no" title="statement not covered" >          <span class="missing-if-branch" title="if path not taken" >I</span>if (newToken) {</span>
 <span class="cstat-no" title="statement not covered" >            originalRequest.headers.Authorization = `Bearer ${newToken}`;</span>
 <span class="cstat-no" title="statement not covered" >            return axios(originalRequest);</span>
           }
         }
-        
+&nbsp;
 <span class="cstat-no" title="statement not covered" >        return Promise.reject(error);</span>
       }
     );
@@ -646,8 +632,7 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
     logout,
     refreshToken,
     hasRole,
-    hasPermission,
-  };
+    hasPermission};
 }</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
@@ -655,7 +640,7 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T22:15:28.100Z
+                at 2025-06-15T18:50:48.918Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

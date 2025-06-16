@@ -258,7 +258,8 @@ export default function ReadinessChecklist({
   // Calculate progress for each category and overall
   const calculateProgress = () => {
     const categories = Object.keys(categoryMeta) as ChecklistCategory[];
-    const newCategoryProgress: Record<ChecklistCategory, number> = {} as Record<ChecklistCategory, number>\n  );
+    const newCategoryProgress: Record<ChecklistCategory, number> = {} as Record<ChecklistCategory, number>
+  );
     categories.forEach(category => {
       const categoryItems = items.filter(item => item.category === category);
       const completedCount = categoryItems.filter(item => item.completed).length;

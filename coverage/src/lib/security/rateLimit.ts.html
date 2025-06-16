@@ -25,14 +25,14 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/126</span>
+                <span class='fraction'>0/120</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/48</span>
+                <span class='fraction'>0/46</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/116</span>
+                <span class='fraction'>0/110</span>
             </div>
         
             
@@ -502,9 +502,7 @@
 <a name='L437'></a><a href='#L437'>437</a>
 <a name='L438'></a><a href='#L438'>438</a>
 <a name='L439'></a><a href='#L439'>439</a>
-<a name='L440'></a><a href='#L440'>440</a>
-<a name='L441'></a><a href='#L441'>441</a>
-<a name='L442'></a><a href='#L442'>442</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L440'></a><a href='#L440'>440</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -687,7 +685,7 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -860,7 +858,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -888,7 +885,7 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -901,7 +898,6 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -909,7 +905,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -939,7 +935,7 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -982,28 +978,28 @@ const DEFAULT_RATE_LIMITS: Record&lt;string, RateLimitConfig&gt; = <span class="
     maxRequests: 5,          // 5 requests per 5 minutes
     blockDuration: 15 * 60 * 1000 // 15 minute block
   },
-  
+&nbsp;
   // API endpoints - general limits
   'api': {
     windowMs: 60 * 1000,     // 1 minute
     maxRequests: 30,         // 30 requests per minute
     blockDuration: 5 * 60 * 1000 // 5 minute block
   },
-  
+&nbsp;
   // Mutation endpoints - moderately strict
   'mutation': {
     windowMs: 60 * 1000,     // 1 minute
     maxRequests: 10,         // 10 requests per minute
     blockDuration: 5 * 60 * 1000 // 5 minute block
   },
-  
+&nbsp;
   // Query endpoints - more lenient
   'query': {
     windowMs: 60 * 1000,     // 1 minute
     maxRequests: 60,         // 60 requests per minute (1 per second)
     blockDuration: 2 * 60 * 1000 // 2 minute block
   },
-  
+&nbsp;
   // Default fallback
   'default': {
     windowMs: 60 * 1000,     // 1 minute
@@ -1039,53 +1035,53 @@ interface RequestInfo {
 const SUSPICIOUS_PATTERNS: SuspiciousPattern[] = <span class="cstat-no" title="statement not covered" >[</span>
   {
     name: 'rapid-auth-failures',
-    condition: <span class="fstat-no" title="function not covered" >(r</span>equests) =&gt; {
+    condition: <span class="fstat-no" title="function not covered" >(r</span>equests: any) =&gt; {
       // Count auth failures in the last 5 minutes
       const authRequests = <span class="cstat-no" title="statement not covered" >requests.filter(<span class="fstat-no" title="function not covered" >r =&gt; </span></span>
 <span class="cstat-no" title="statement not covered" >        r.endpoint.includes('/auth') &amp;&amp; </span>
-        r.timestamp &gt; Date.now() - 5 * 60 * 1000 &amp;&amp;
-        r.statusCode &amp;&amp; r.statusCode &gt;= 400
+        r.timestamp&gt; Date.now() - 5 * 60 * 1000 &amp;&amp;
+        r.statusCode &amp;&amp; r.statusCode&gt;= 400
       );
-<span class="cstat-no" title="statement not covered" >      return authRequests.length &gt;= 3;</span>
+<span class="cstat-no" title="statement not covered" >      return authRequests.length&gt;= 3;</span>
     },
     action: 'block',
     blockDuration: 30 * 60 * 1000 // 30 minutes
   },
   {
     name: 'api-flooding',
-    condition: <span class="fstat-no" title="function not covered" >(r</span>equests) =&gt; {
+    condition: <span class="fstat-no" title="function not covered" >(r</span>equests: any) =&gt; {
       // Detect very rapid API calls (more than 20 in 10 seconds)
       const recentRequests = <span class="cstat-no" title="statement not covered" >requests.filter(<span class="fstat-no" title="function not covered" >r =&gt; </span></span>
-<span class="cstat-no" title="statement not covered" >        r.timestamp &gt; Date.now() - 10 * 1000</span>
+<span class="cstat-no" title="statement not covered" >        r.timestamp&gt; Date.now() - 10 * 1000</span>
       );
-<span class="cstat-no" title="statement not covered" >      return recentRequests.length &gt; 20;</span>
+<span class="cstat-no" title="statement not covered" >      return recentRequests.length&gt; 20;</span>
     },
     action: 'block',
     blockDuration: 5 * 60 * 1000 // 5 minutes
   },
   {
     name: 'endpoint-scanning',
-    condition: <span class="fstat-no" title="function not covered" >(r</span>equests) =&gt; {
+    condition: <span class="fstat-no" title="function not covered" >(r</span>equests: any) =&gt; {
       // Detect access to many different endpoints in a short time
       const recentRequests = <span class="cstat-no" title="statement not covered" >requests.filter(<span class="fstat-no" title="function not covered" >r =&gt; </span></span>
-<span class="cstat-no" title="statement not covered" >        r.timestamp &gt; Date.now() - 30 * 1000</span>
+<span class="cstat-no" title="statement not covered" >        r.timestamp&gt; Date.now() - 30 * 1000</span>
       );
-      
+&nbsp;
       // Count unique endpoints
       const uniqueEndpoints = <span class="cstat-no" title="statement not covered" >new Set(recentRequests.map(<span class="fstat-no" title="function not covered" >r =&gt; <span class="cstat-no" title="statement not covered" >r</span>.endpoint)</span>);</span>
-<span class="cstat-no" title="statement not covered" >      return uniqueEndpoints.size &gt; 15;</span>
+<span class="cstat-no" title="statement not covered" >      return uniqueEndpoints.size&gt; 15;</span>
     },
     action: 'flag'
   },
   {
     name: 'sequential-errors',
-    condition: <span class="fstat-no" title="function not covered" >(r</span>equests) =&gt; {
+    condition: <span class="fstat-no" title="function not covered" >(r</span>equests: any) =&gt; {
       // Detect sequential error responses
       const recentRequests = <span class="cstat-no" title="statement not covered" >requests.filter(<span class="fstat-no" title="function not covered" >r =&gt; </span></span>
-<span class="cstat-no" title="statement not covered" >        r.timestamp &gt; Date.now() - 60 * 1000 &amp;&amp;</span>
-        r.statusCode &amp;&amp; r.statusCode &gt;= 400
+<span class="cstat-no" title="statement not covered" >        r.timestamp&gt; Date.now() - 60 * 1000 &amp;&amp;</span>
+        r.statusCode &amp;&amp; r.statusCode&gt;= 400
       );
-<span class="cstat-no" title="statement not covered" >      return recentRequests.length &gt;= 5;</span>
+<span class="cstat-no" title="statement not covered" >      return recentRequests.length&gt;= 5;</span>
     },
     action: 'flag'
   }
@@ -1104,13 +1100,13 @@ export class <span class="cstat-no" title="statement not covered" >RateLimiter {
   private static <span class="cstat-no" title="statement not covered" >rateLimitEntries: RateLimitEntry[] = [];</span>
   private static <span class="cstat-no" title="statement not covered" >requestHistory: RequestInfo[] = [];</span>
   private static <span class="cstat-no" title="statement not covered" >isInitialized = false;</span>
-  
+&nbsp;
   /**
    * Initialize the rate limiter
    */
 <span class="fstat-no" title="function not covered" >  static i</span>nitialize(): void {
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (this.isInitialized) <span class="cstat-no" title="statement not covered" >return;</span></span>
-    
+&nbsp;
     // Load stored rate limit entries
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (typeof window !== 'undefined') {</span>
 <span class="cstat-no" title="statement not covered" >      try {</span>
@@ -1118,31 +1114,31 @@ export class <span class="cstat-no" title="statement not covered" >RateLimiter {
 <span class="cstat-no" title="statement not covered" >        <span class="missing-if-branch" title="if path not taken" >I</span>if (storedEntries) {</span>
 <span class="cstat-no" title="statement not covered" >          this.rateLimitEntries = JSON.parse(storedEntries);</span>
         }
-        
+&nbsp;
         const storedHistory = <span class="cstat-no" title="statement not covered" >localStorage.getItem(REQUEST_HISTORY_KEY);</span>
 <span class="cstat-no" title="statement not covered" >        <span class="missing-if-branch" title="if path not taken" >I</span>if (storedHistory) {</span>
 <span class="cstat-no" title="statement not covered" >          this.requestHistory = JSON.parse(storedHistory);</span>
-          
+&nbsp;
           // Clean up old history (older than 1 hour)
           const cutoff = <span class="cstat-no" title="statement not covered" >Date.now() - 60 * 60 * 1000;</span>
-<span class="cstat-no" title="statement not covered" >          this.requestHistory = this.requestHistory.filter(<span class="fstat-no" title="function not covered" >r =&gt; <span class="cstat-no" title="statement not covered" >r</span>.timestamp &gt;= cutoff);</span></span>
+<span class="cstat-no" title="statement not covered" >          this.requestHistory = this.requestHistory.filter(<span class="fstat-no" title="function not covered" >r =&gt; <span class="cstat-no" title="statement not covered" >r</span>.timestamp&gt;= cutoff);</span></span>
         }
       } catch (error) {
-<span class="cstat-no" title="statement not covered" >        console.error('Error loading rate limit data:', error);</span>
+&nbsp;
         // Reset if there's an error
 <span class="cstat-no" title="statement not covered" >        this.rateLimitEntries = [];</span>
 <span class="cstat-no" title="statement not covered" >        this.requestHistory = [];</span>
       }
     }
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    this.isInitialized = true;</span>
   }
-  
+&nbsp;
   /**
    * Check if a request should be allowed based on rate limits
    * 
    * @param endpoint - API endpoint 
-   * @param category - Endpoint category (auth, api, mutation, query)
+   * @param category - Endpoint category (auth, api, mutationquery)
    * @returns Object with allowed status and info
    */
 <span class="fstat-no" title="function not covered" >  static c</span>heckRateLimit(
@@ -1152,13 +1148,13 @@ export class <span class="cstat-no" title="statement not covered" >RateLimiter {
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!this.isInitialized) {</span>
 <span class="cstat-no" title="statement not covered" >      this.initialize();</span>
     }
-    
+&nbsp;
     // Get rate limit config for this category
     const config = <span class="cstat-no" title="statement not covered" >DEFAULT_RATE_LIMITS[category] || DEFAULT_RATE_LIMITS.default;</span>
-    
+&nbsp;
     // Find or create entry for this endpoint
     let entry = <span class="cstat-no" title="statement not covered" >this.rateLimitEntries.find(<span class="fstat-no" title="function not covered" >e =&gt; <span class="cstat-no" title="statement not covered" >e</span>.endpoint === endpoint);</span></span>
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!entry) {</span>
 <span class="cstat-no" title="statement not covered" >      entry = {</span>
         endpoint,
@@ -1169,10 +1165,10 @@ export class <span class="cstat-no" title="statement not covered" >RateLimiter {
       };
 <span class="cstat-no" title="statement not covered" >      this.rateLimitEntries.push(entry);</span>
     }
-    
+&nbsp;
     // Check if endpoint is blocked
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (entry.blocked) {</span>
-<span class="cstat-no" title="statement not covered" >      if (Date.now() &lt; entry.blockedUntil) {</span>
+<span class="cstat-no" title="statement not covered" >      if (Date.now() &lt;entry.blockedUntil) {</span>
         const retryAfter = <span class="cstat-no" title="statement not covered" >Math.ceil((entry.blockedUntil - Date.now()) / 1000);</span>
 <span class="cstat-no" title="statement not covered" >        return { </span>
           allowed: false, 
@@ -1186,24 +1182,24 @@ export class <span class="cstat-no" title="statement not covered" >RateLimiter {
 <span class="cstat-no" title="statement not covered" >        entry.resetAt = Date.now() + config.windowMs;</span>
       }
     }
-    
+&nbsp;
     // Reset counter if window has passed
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (Date.now() &gt; entry.resetAt) {</span>
 <span class="cstat-no" title="statement not covered" >      entry.count = 0;</span>
 <span class="cstat-no" title="statement not covered" >      entry.resetAt = Date.now() + config.windowMs;</span>
     }
-    
+&nbsp;
     // Increment counter
 <span class="cstat-no" title="statement not covered" >    entry.count++;</span>
-    
+&nbsp;
     // Check if rate limit exceeded
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (entry.count &gt; config.maxRequests) {</span>
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (entry.count&gt; config.maxRequests) {</span>
 <span class="cstat-no" title="statement not covered" >      entry.blocked = true;</span>
 <span class="cstat-no" title="statement not covered" >      entry.blockedUntil = Date.now() + config.blockDuration;</span>
-      
+&nbsp;
       // Persist updated entries
 <span class="cstat-no" title="statement not covered" >      this.saveEntries();</span>
-      
+&nbsp;
       const retryAfter = <span class="cstat-no" title="statement not covered" >Math.ceil(config.blockDuration / 1000);</span>
 <span class="cstat-no" title="statement not covered" >      return { </span>
         allowed: false, 
@@ -1211,13 +1207,13 @@ export class <span class="cstat-no" title="statement not covered" >RateLimiter {
         retryAfter 
       };
     }
-    
+&nbsp;
     // Persist updated entries
 <span class="cstat-no" title="statement not covered" >    this.saveEntries();</span>
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    return { allowed: true };</span>
   }
-  
+&nbsp;
   /**
    * Track a completed request
    */
@@ -1225,22 +1221,22 @@ export class <span class="cstat-no" title="statement not covered" >RateLimiter {
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!this.isInitialized) {</span>
 <span class="cstat-no" title="statement not covered" >      this.initialize();</span>
     }
-    
+&nbsp;
     // Add to history
 <span class="cstat-no" title="statement not covered" >    this.requestHistory.push(info);</span>
-    
+&nbsp;
     // Limit history size to prevent excessive storage
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (this.requestHistory.length &gt; 1000) {</span>
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (this.requestHistory.length&gt; 1000) {</span>
 <span class="cstat-no" title="statement not covered" >      this.requestHistory = this.requestHistory.slice(-1000);</span>
     }
-    
+&nbsp;
     // Check for suspicious patterns
 <span class="cstat-no" title="statement not covered" >    this.detectSuspiciousActivity();</span>
-    
+&nbsp;
     // Save history
 <span class="cstat-no" title="statement not covered" >    this.saveHistory();</span>
   }
-  
+&nbsp;
   /**
    * Check if an endpoint is currently blocked
    */
@@ -1248,13 +1244,13 @@ export class <span class="cstat-no" title="statement not covered" >RateLimiter {
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!this.isInitialized) {</span>
 <span class="cstat-no" title="statement not covered" >      this.initialize();</span>
     }
-    
+&nbsp;
     const entry = <span class="cstat-no" title="statement not covered" >this.rateLimitEntries.find(<span class="fstat-no" title="function not covered" >e =&gt; <span class="cstat-no" title="statement not covered" >e</span>.endpoint === endpoint);</span></span>
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!entry) <span class="cstat-no" title="statement not covered" >return false;</span></span>
-    
-<span class="cstat-no" title="statement not covered" >    return entry.blocked &amp;&amp; Date.now() &lt; entry.blockedUntil;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    return entry.blocked &amp;&amp; Date.now() &lt;entry.blockedUntil;</span>
   }
-  
+&nbsp;
   /**
    * Get block information for an endpoint
    */
@@ -1262,20 +1258,20 @@ export class <span class="cstat-no" title="statement not covered" >RateLimiter {
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!this.isInitialized) {</span>
 <span class="cstat-no" title="statement not covered" >      this.initialize();</span>
     }
-    
+&nbsp;
     const entry = <span class="cstat-no" title="statement not covered" >this.rateLimitEntries.find(<span class="fstat-no" title="function not covered" >e =&gt; <span class="cstat-no" title="statement not covered" >e</span>.endpoint === endpoint);</span></span>
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!entry || !entry.blocked) {</span>
 <span class="cstat-no" title="statement not covered" >      return null;</span>
     }
-    
+&nbsp;
     const remainingMs = <span class="cstat-no" title="statement not covered" >Math.max(0, entry.blockedUntil - Date.now());</span>
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    return {</span>
-      blocked: entry.blocked &amp;&amp; remainingMs &gt; 0,
+      blocked: entry.blocked &amp;&amp; remainingMs&gt; 0,
       remainingMs
     };
   }
-  
+&nbsp;
   /**
    * Manually block an endpoint
    */
@@ -1283,9 +1279,9 @@ export class <span class="cstat-no" title="statement not covered" >RateLimiter {
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!this.isInitialized) {</span>
 <span class="cstat-no" title="statement not covered" >      this.initialize();</span>
     }
-    
+&nbsp;
     let entry = <span class="cstat-no" title="statement not covered" >this.rateLimitEntries.find(<span class="fstat-no" title="function not covered" >e =&gt; <span class="cstat-no" title="statement not covered" >e</span>.endpoint === endpoint);</span></span>
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    if (!entry) {</span>
 <span class="cstat-no" title="statement not covered" >      entry = {</span>
         endpoint,
@@ -1299,61 +1295,59 @@ export class <span class="cstat-no" title="statement not covered" >RateLimiter {
 <span class="cstat-no" title="statement not covered" >      entry.blocked = true;</span>
 <span class="cstat-no" title="statement not covered" >      entry.blockedUntil = Date.now() + durationMs;</span>
     }
-    
+&nbsp;
     // Log the block
-<span class="cstat-no" title="statement not covered" >    console.warn(`Endpoint ${endpoint} blocked for ${durationMs / 1000} seconds. Reason: ${reason || 'Manual block'}`);</span>
-    
+&nbsp;
     // Persist updated entries
 <span class="cstat-no" title="statement not covered" >    this.saveEntries();</span>
   }
-  
+&nbsp;
   /**
    * Clear rate limit data
    */
 <span class="fstat-no" title="function not covered" >  static r</span>eset(): void {
 <span class="cstat-no" title="statement not covered" >    this.rateLimitEntries = [];</span>
 <span class="cstat-no" title="statement not covered" >    this.requestHistory = [];</span>
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (typeof window !== 'undefined') {</span>
 <span class="cstat-no" title="statement not covered" >      localStorage.removeItem(RATE_LIMIT_STORAGE_KEY);</span>
 <span class="cstat-no" title="statement not covered" >      localStorage.removeItem(REQUEST_HISTORY_KEY);</span>
     }
   }
-  
+&nbsp;
   /**
    * Save rate limit entries to localStorage
    */
 <span class="fstat-no" title="function not covered" >  private static s</span>aveEntries(): void {
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (typeof window === 'undefined') <span class="cstat-no" title="statement not covered" >return;</span></span>
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    try {</span>
 <span class="cstat-no" title="statement not covered" >      localStorage.setItem(RATE_LIMIT_STORAGE_KEY, JSON.stringify(this.rateLimitEntries));</span>
     } catch (error) {
-<span class="cstat-no" title="statement not covered" >      console.error('Error saving rate limit entries:', error);</span>
+&nbsp;
     }
   }
-  
+&nbsp;
   /**
    * Save request history to localStorage
    */
 <span class="fstat-no" title="function not covered" >  private static s</span>aveHistory(): void {
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (typeof window === 'undefined') <span class="cstat-no" title="statement not covered" >return;</span></span>
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    try {</span>
 <span class="cstat-no" title="statement not covered" >      localStorage.setItem(REQUEST_HISTORY_KEY, JSON.stringify(this.requestHistory));</span>
     } catch (error) {
-<span class="cstat-no" title="statement not covered" >      console.error('Error saving request history:', error);</span>
+&nbsp;
     }
   }
-  
+&nbsp;
   /**
    * Detect suspicious activity patterns
    */
 <span class="fstat-no" title="function not covered" >  private static d</span>etectSuspiciousActivity(): void {
 <span class="cstat-no" title="statement not covered" >    for (const pattern of SUSPICIOUS_PATTERNS) {</span>
 <span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (pattern.condition(this.requestHistory)) {</span>
-<span class="cstat-no" title="statement not covered" >        console.warn(`Suspicious activity detected: ${pattern.name}`);</span>
-        
+&nbsp;
 <span class="cstat-no" title="statement not covered" >        <span class="missing-if-branch" title="if path not taken" >I</span>if (pattern.action === 'block') {</span>
           // Block all API endpoints
 <span class="cstat-no" title="statement not covered" >          this.block(</span>
@@ -1362,7 +1356,7 @@ export class <span class="cstat-no" title="statement not covered" >RateLimiter {
             `Suspicious activity: ${pattern.name}`
           );
         }
-        
+&nbsp;
         // Log the suspicious activity
         // In a real implementation, you would send this to your security monitoring system
 <span class="cstat-no" title="statement not covered" >        <span class="missing-if-branch" title="if path not taken" >I</span>if (typeof window !== 'undefined') {</span>
@@ -1373,14 +1367,14 @@ export class <span class="cstat-no" title="statement not covered" >RateLimiter {
             action: pattern.action,
             requestHistory: this.requestHistory.slice(-20) // Include last 20 requests
           };
-          
+&nbsp;
           // Store security events for review
 <span class="cstat-no" title="statement not covered" >          try {</span>
             const events = <span class="cstat-no" title="statement not covered" >JSON.parse(localStorage.getItem('security_events') || '[]');</span>
 <span class="cstat-no" title="statement not covered" >            events.push(securityEvent);</span>
 <span class="cstat-no" title="statement not covered" >            localStorage.setItem('security_events', JSON.stringify(events.slice(-50)));</span>
           } catch (error) {
-<span class="cstat-no" title="statement not covered" >            console.error('Error storing security event:', error);</span>
+&nbsp;
           }
         }
       }
@@ -1393,7 +1387,7 @@ export class <span class="cstat-no" title="statement not covered" >RateLimiter {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T22:15:28.100Z
+                at 2025-06-15T18:50:48.918Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

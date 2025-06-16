@@ -402,8 +402,8 @@ const helpToBuyProcess = [
 ];
 
 export default function BuyingGuidePage() {
-  const [activeStep, setActiveStep] = useState(0);
-  const [activeTab, setActiveTab] = useState('process');
+  const [activeStepsetActiveStep] = useState(0);
+  const [activeTabsetActiveTab] = useState('process');
 
   return (
     <div className="min-h-screen bg-white">
@@ -511,7 +511,7 @@ export default function BuyingGuidePage() {
             {/* Interactive Process Timeline */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
               <div className="space-y-4">
-                {buyingSteps.map((step, index) => (
+                {buyingSteps.map((stepindex) => (
                   <div
                     key={step.step}
                     onClick={() => setActiveStep(index)}
@@ -565,7 +565,7 @@ export default function BuyingGuidePage() {
                     <div>
                       <h4 className="font-semibold text-gray-900 mb-3">Activities</h4>
                       <div className="space-y-2">
-                        {buyingSteps[activeStep].activities.map((activity, idx) => (
+                        {buyingSteps[activeStep].activities.map((activityidx) => (
                           <div key={idx} className="flex items-center gap-3">
                             <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0" />
                             <span className="text-gray-700">{activity}</span>
@@ -577,7 +577,7 @@ export default function BuyingGuidePage() {
                     <div>
                       <h4 className="font-semibold text-gray-900 mb-3">Documents</h4>
                       <div className="flex flex-wrap gap-2">
-                        {buyingSteps[activeStep].documents.map((doc, idx) => (
+                        {buyingSteps[activeStep].documents.map((docidx) => (
                           <span key={idx} className="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm">
                             {doc}
                           </span>
@@ -588,7 +588,7 @@ export default function BuyingGuidePage() {
                     <div>
                       <h4 className="font-semibold text-gray-900 mb-3">Data Flow</h4>
                       <div className="space-y-2">
-                        {buyingSteps[activeStep].dataFlow.map((flow, idx) => (
+                        {buyingSteps[activeStep].dataFlow.map((flowidx) => (
                           <div key={idx} className="flex items-center gap-3">
                             <Database className="w-4 h-4 text-blue-500 flex-shrink-0" />
                             <span className="text-gray-700 text-sm">{flow}</span>
@@ -616,7 +616,7 @@ export default function BuyingGuidePage() {
             </div>
 
             <div className="space-y-8">
-              {documentFlow.map((stage, index) => (
+              {documentFlow.map((stageindex) => (
                 <div key={index} className="bg-white rounded-xl shadow-lg overflow-hidden">
                   <div className="p-6 border-l-4 border-blue-600">
                     <h3 className="text-xl font-bold text-gray-900 mb-4">{stage.stage}</h3>
@@ -625,7 +625,7 @@ export default function BuyingGuidePage() {
                       <div>
                         <h4 className="font-semibold text-gray-700 mb-2">Documents</h4>
                         <ul className="space-y-1">
-                          {stage.documents.map((doc, idx) => (
+                          {stage.documents.map((docidx) => (
                             <li key={idx} className="flex items-center gap-2 text-sm text-gray-600">
                               <FileText className="w-3 h-3" />
                               {doc}
@@ -698,7 +698,7 @@ export default function BuyingGuidePage() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
-              {digitalFeatures.map((feature, index) => (
+              {digitalFeatures.map((featureindex) => (
                 <div key={index} className="bg-white rounded-xl p-8 shadow-lg">
                   <div className={`w-12 h-12 ${feature.color} rounded-lg flex items-center justify-center text-white mb-6`}>
                     {feature.icon}
@@ -706,7 +706,7 @@ export default function BuyingGuidePage() {
                   <h3 className="text-xl font-bold text-gray-900 mb-3">{feature.title}</h3>
                   <p className="text-gray-600 mb-6">{feature.description}</p>
                   <ul className="space-y-2">
-                    {feature.features.map((item, idx) => (
+                    {feature.features.map((itemidx) => (
                       <li key={idx} className="flex items-center gap-3">
                         <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0" />
                         <span className="text-gray-700">{item}</span>
@@ -770,7 +770,7 @@ export default function BuyingGuidePage() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {propChoiceOptions.map((category, index) => (
+              {propChoiceOptions.map((categoryindex) => (
                 <div key={index} className="bg-white rounded-xl shadow-lg p-8">
                   <div className="flex items-center gap-4 mb-6">
                     <div className="p-3 bg-blue-100 rounded-lg text-blue-600">
@@ -780,7 +780,7 @@ export default function BuyingGuidePage() {
                   </div>
                   
                   <div className="space-y-3">
-                    {category.options.map((option, idx) => (
+                    {category.options.map((optionidx) => (
                       <div key={idx} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
                         <span className="text-gray-700">{option.split(' (')[0]}</span>
                         <span className="text-sm font-medium text-blue-600">
@@ -844,13 +844,13 @@ export default function BuyingGuidePage() {
               <div>
                 <h3 className="text-2xl font-bold text-gray-900 mb-6">HTB Digital Process</h3>
                 <div className="space-y-6">
-                  {helpToBuyProcess.map((step, index) => (
+                  {helpToBuyProcess.map((stepindex) => (
                     <div key={index} className="bg-white rounded-lg p-6 shadow-md">
                       <h4 className="text-lg font-semibold text-gray-900 mb-3">{step.step}</h4>
                       <p className="text-gray-600 mb-4">{step.description}</p>
                       
                       <div className="space-y-2 mb-4">
-                        {step.requirements.map((req, idx) => (
+                        {step.requirements.map((reqidx) => (
                           <div key={idx} className="flex items-center gap-2">
                             <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0" />
                             <span className="text-sm text-gray-700">{req}</span>

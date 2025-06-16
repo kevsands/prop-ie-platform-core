@@ -121,7 +121,7 @@ export default function EnhancedServicesSection() {
 
                   {/* Mobile - Show only 2 features */}
                   <ul className="space-y-1.5 mb-4">
-                    {service.features.slice(02).map((featureidx: any) => (
+                    {service.features.slice(0).map((featureidx: any) => (
                       <li
                         key={idx}
                         className="flex items-start text-xs text-gray-600 group-hover:text-white/80 group-active:text-white/80 transition-colors duration-300"

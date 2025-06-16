@@ -1,0 +1,54 @@
+'use client';
+
+import React, { useEffect } from "react";
+import { usePathname } from "next/navigation";
+import MainNavigation from '@/components/navigation/MainNavigation';
+import { UserRoleProvider } from '@/context/UserRoleContext';
+import { EnterpriseNotificationProvider } from '@/context/EnterpriseNotificationContext';
+import Footer from '@/components/layout/Footer/Footer';
+
+/**
+ * ClientLayout Component
+ * 
+ * This component provides the main layout structure for the application,
+ * including navigation and footer.
+ * 
+ * Note: TransactionProvider has been removed as it depends on AuthContext
+ * which is provided at a higher level in ClientProviders
+ */
+export default function ClientLayout({ children }: { children: React.ReactNode }): React.ReactElement {
+  // Get current pathname for conditional rendering
+  const pathname = usePathname();
+
+  // Check if current page is homepage
+  const isHomePage = pathname === '/';
+
+  // Scroll to top on route change
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+  // Debugging - log when component mounts
+  useEffect(() => {
+
+  }, []);
+
+  return (
+    <UserRoleProvider>
+      <EnterpriseNotificationProvider>
+        <div className="min-h-screen flex flex-col">
+          {/* Use the original MainNavigation component */}
+          <MainNavigation isHomePageHeader={false} />
+
+          {/* Main content - preserve all child content */}
+          <main className="flex-1 pt-16"> {/* Add spacing for fixed navigation */}
+            {children}
+          </main>
+
+          {/* Enhanced Global Footer with comprehensive components */}
+          <Footer className="mt-auto" />
+        </div>
+      </EnterpriseNotificationProvider>
+    </UserRoleProvider>
+  );
+}

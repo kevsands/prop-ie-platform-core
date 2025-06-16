@@ -101,7 +101,8 @@ interface MetricsData {
     count: number;
     averageTime: number;
     errorRate: number;
-  }>\n  );
+  }>
+  );
 }
 
 export default async function MonitoringDashboardPromise.all([

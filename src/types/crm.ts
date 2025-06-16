@@ -124,7 +124,8 @@ export interface AgentPerformanceMetrics {
     leads: number;
     deals: number;
     revenue: number;
-  }>\n  );
+  }>
+  );
 }
 
 export interface PerformanceTarget {

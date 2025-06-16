@@ -1,0 +1,452 @@
+'use client';
+
+import React, { useState } from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
+import { Checkbox } from '@/components/ui/checkbox';
+import { 
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { 
+  X, 
+  Shield, 
+  AlertTriangle, 
+  CheckCircle, 
+  Database,
+  Key,
+  FileText,
+  Settings
+} from 'lucide-react';
+import { DataSource, DataSourceTemplate, SyncFrequency } from '@/types/data-sources';
+
+interface DataSourceSetupModalProps {
+  template: DataSourceTemplate | null;
+  onClose: () => void;
+  onSave: (dataSource: DataSource) => void;
+}
+
+export function DataSourceSetupModal({ template, onClose, onSave }: DataSourceSetupModalProps) {
+  const [stepsetStep] = useState(1);
+  const [formDatasetFormData] = useState({
+    name: template?.name || '',
+    baseUrl: '',
+    apiKey: '',
+    username: '',
+    password: '',
+    connectionString: '',
+    filePath: '',
+    sheetNames: '',
+    syncFrequency: 'daily' as SyncFrequency,
+    autoSync: true,
+    encryption: true,
+    requiresApproval: true
+  });
+
+  const [testResultsetTestResult] = useState<{
+    status: 'testing' | 'success' | 'error';
+    message: string;
+  } | null>(null);
+
+  const handleInputChange = (field: string, value: string | boolean) => {
+    setFormData(prev => ({
+      ...prev,
+      [field]: value
+    }));
+  };
+
+  const handleTestConnection = async () => {
+    setTestResult({ status: 'testing', message: 'Testing connection...' });
+    
+    // Simulate connection test
+    setTimeout(() => {
+      const success = Math.random() > 0.3; // 70% success rate for demo
+      
+      if (success) {
+        setTestResult({
+          status: 'success',
+          message: 'Connection successful! Data source is ready to use.'
+        });
+      } else {
+        setTestResult({
+          status: 'error',
+          message: 'Connection failed. Please check your credentials and try again.'
+        });
+      }
+    }, 2000);
+  };
+
+  const handleSave = () => {
+    if (!template) return;
+
+    const newDataSource: DataSource = {
+      id: Date.now().toString(),
+      name: formData.name,
+      type: template.type,
+      status: 'connected',
+      config: {
+        baseUrl: formData.baseUrl,
+        apiKey: formData.apiKey,
+        username: formData.username,
+        connectionString: formData.connectionString,
+        filePath: formData.filePath,
+        sheetNames: formData.sheetNames ? formData.sheetNames.split(',') : [],
+        fieldMappings: template.defaultConfig.fieldMappings || [],
+        syncFrequency: formData.syncFrequency,
+        autoSync: formData.autoSync,
+        encryption: formData.encryption,
+        requiresApproval: formData.requiresApproval,
+        validationRules: template.defaultConfig.validationRules || []
+      },
+      createdAt: new Date(),
+      updatedAt: new Date()
+    };
+
+    onSave(newDataSource);
+  };
+
+  if (!template) return null;
+
+  const renderStepContent = () => {
+    switch (step) {
+      case 1:
+        return (
+          <div className="space-y-4">
+            <div>
+              <h3 className="text-lg font-semibold mb-2">Basic Information</h3>
+              <p className="text-sm text-muted-foreground mb-4">
+                Configure basic settings for your {template.name} connection
+              </p>
+            </div>
+
+            <div className="space-y-4">
+              <div>
+                <Label htmlFor="name">Data Source Name</Label>
+                <Input
+                  id="name"
+                  value={formData.name}
+                  onChange={(e) => handleInputChange('name', e.target.value)}
+                  placeholder="e.g., Main Project Database"
+                />
+              </div>
+
+              {template.requiredFields.includes('baseUrl') && (
+                <div>
+                  <Label htmlFor="baseUrl">Base URL</Label>
+                  <Input
+                    id="baseUrl"
+                    value={formData.baseUrl}
+                    onChange={(e) => handleInputChange('baseUrl', e.target.value)}
+                    placeholder="https://api.example.com"
+                  />
+                </div>
+              )}
+
+              {template.requiredFields.includes('connectionString') && (
+                <div>
+                  <Label htmlFor="connectionString">Connection String</Label>
+                  <Textarea
+                    id="connectionString"
+                    value={formData.connectionString}
+                    onChange={(e) => handleInputChange('connectionString', e.target.value)}
+                    placeholder="Server=localhost;Database=mydb;User Id=user;Password=pass;"
+                  />
+                </div>
+              )}
+
+              {template.requiredFields.includes('filePath') && (
+                <div>
+                  <Label htmlFor="filePath">File Path</Label>
+                  <Input
+                    id="filePath"
+                    value={formData.filePath}
+                    onChange={(e) => handleInputChange('filePath', e.target.value)}
+                    placeholder="C:\path\to\file.xlsx"
+                  />
+                </div>
+              )}
+
+              {template.requiredFields.includes('sheetNames') && (
+                <div>
+                  <Label htmlFor="sheetNames">Sheet Names (comma-separated)</Label>
+                  <Input
+                    id="sheetNames"
+                    value={formData.sheetNames}
+                    onChange={(e) => handleInputChange('sheetNames', e.target.value)}
+                    placeholder="BOQ, Costs, Revenue"
+                  />
+                </div>
+              )}
+            </div>
+          </div>
+        );
+
+      case 2:
+        return (
+          <div className="space-y-4">
+            <div>
+              <h3 className="text-lg font-semibold mb-2">Authentication</h3>
+              <p className="text-sm text-muted-foreground mb-4">
+                Provide authentication credentials for secure access
+              </p>
+            </div>
+
+            <div className="space-y-4">
+              {template.requiredFields.includes('apiKey') && (
+                <div>
+                  <Label htmlFor="apiKey">API Key</Label>
+                  <div className="relative">
+                    <Key className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                    <Input
+                      id="apiKey"
+                      type="password"
+                      value={formData.apiKey}
+                      onChange={(e) => handleInputChange('apiKey', e.target.value)}
+                      className="pl-10"
+                      placeholder="Enter your API key"
+                    />
+                  </div>
+                </div>
+              )}
+
+              {template.requiredFields.includes('username') && (
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <Label htmlFor="username">Username</Label>
+                    <Input
+                      id="username"
+                      value={formData.username}
+                      onChange={(e) => handleInputChange('username', e.target.value)}
+                      placeholder="Username"
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="password">Password</Label>
+                    <Input
+                      id="password"
+                      type="password"
+                      value={formData.password}
+                      onChange={(e) => handleInputChange('password', e.target.value)}
+                      placeholder="Password"
+                    />
+                  </div>
+                </div>
+              )}
+
+              <div className="bg-amber-50 border border-amber-200 rounded-lg p-4">
+                <div className="flex items-start gap-2">
+                  <Shield className="h-5 w-5 text-amber-600 mt-0.5" />
+                  <div>
+                    <h4 className="font-medium text-amber-800">Security Notice</h4>
+                    <p className="text-sm text-amber-700 mt-1">
+                      All credentials are encrypted and stored securely. They are only used to 
+                      establish connections to your data sources.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+
+      case 3:
+        return (
+          <div className="space-y-4">
+            <div>
+              <h3 className="text-lg font-semibold mb-2">Sync Settings</h3>
+              <p className="text-sm text-muted-foreground mb-4">
+                Configure how often data should be synchronized
+              </p>
+            </div>
+
+            <div className="space-y-4">
+              <div>
+                <Label htmlFor="syncFrequency">Sync Frequency</Label>
+                <Select 
+                  value={formData.syncFrequency} 
+                  onValueChange={(value) => handleInputChange('syncFrequency', value)}
+                >
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="manual">Manual only</SelectItem>
+                    <SelectItem value="hourly">Every hour</SelectItem>
+                    <SelectItem value="daily">Daily</SelectItem>
+                    <SelectItem value="weekly">Weekly</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div className="space-y-3">
+                <div className="flex items-center space-x-2">
+                  <Checkbox
+                    id="autoSync"
+                    checked={formData.autoSync}
+                    onCheckedChange={(checked) => handleInputChange('autoSync', !!checked)}
+                  />
+                  <Label htmlFor="autoSync">Enable automatic synchronization</Label>
+                </div>
+
+                <div className="flex items-center space-x-2">
+                  <Checkbox
+                    id="encryption"
+                    checked={formData.encryption}
+                    onCheckedChange={(checked) => handleInputChange('encryption', !!checked)}
+                  />
+                  <Label htmlFor="encryption">Encrypt data in transit and at rest</Label>
+                </div>
+
+                <div className="flex items-center space-x-2">
+                  <Checkbox
+                    id="requiresApproval"
+                    checked={formData.requiresApproval}
+                    onCheckedChange={(checked) => handleInputChange('requiresApproval', !!checked)}
+                  />
+                  <Label htmlFor="requiresApproval">Require approval for data changes</Label>
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+
+      case 4:
+        return (
+          <div className="space-y-4">
+            <div>
+              <h3 className="text-lg font-semibold mb-2">Test Connection</h3>
+              <p className="text-sm text-muted-foreground mb-4">
+                Verify that the connection works with your settings
+              </p>
+            </div>
+
+            <div className="space-y-4">
+              <Card>
+                <CardContent className="p-4">
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between">
+                      <span className="font-medium">Data Source:</span>
+                      <span>{formData.name}</span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="font-medium">Type:</span>
+                      <span>{template.type.replace('_', ' ')}</span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="font-medium">Sync Frequency:</span>
+                      <span>{formData.syncFrequency}</span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="font-medium">Security:</span>
+                      <div className="flex items-center gap-2">
+                        {formData.encryption && <Shield className="h-4 w-4 text-green-600" />}
+                        <span>{formData.encryption ? 'Encrypted' : 'Not Encrypted'}</span>
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Button 
+                onClick={handleTestConnection}
+                disabled={testResult?.status === 'testing'}
+                className="w-full"
+              >
+                {testResult?.status === 'testing' ? (
+                  <>
+                    <Settings className="h-4 w-4 mr-2 animate-spin" />
+                    Testing Connection...
+                  </>
+                ) : (
+                  <>
+                    <Database className="h-4 w-4 mr-2" />
+                    Test Connection
+                  </>
+                )}
+              </Button>
+
+              {testResult && (
+                <div className={`p-4 rounded-lg border ${
+                  testResult.status === 'success' 
+                    ? 'bg-green-50 border-green-200' 
+                    : testResult.status === 'error'
+                    ? 'bg-red-50 border-red-200'
+                    : 'bg-blue-50 border-blue-200'
+                }`}>
+                  <div className="flex items-center gap-2">
+                    {testResult.status === 'success' && <CheckCircle className="h-5 w-5 text-green-600" />}
+                    {testResult.status === 'error' && <AlertTriangle className="h-5 w-5 text-red-600" />}
+                    {testResult.status === 'testing' && <Settings className="h-5 w-5 text-blue-600 animate-spin" />}
+                    <span className={`font-medium ${
+                      testResult.status === 'success' 
+                        ? 'text-green-800' 
+                        : testResult.status === 'error'
+                        ? 'text-red-800'
+                        : 'text-blue-800'
+                    }`}>
+                      {testResult.message}
+                    </span>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        );
+
+      default:
+        return null;
+    }
+  };
+
+  return (
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+      <Card className="w-full max-w-2xl max-h-[90vh] overflow-hidden">
+        <CardHeader className="flex flex-row items-center justify-between">
+          <div>
+            <CardTitle>Setup {template.name}</CardTitle>
+            <p className="text-sm text-muted-foreground mt-1">
+              Step {step} of 4
+            </p>
+          </div>
+          <Button variant="ghost" size="sm" onClick={onClose}>
+            <X className="h-4 w-4" />
+          </Button>
+        </CardHeader>
+
+        <CardContent className="overflow-y-auto">
+          {renderStepContent()}
+        </CardContent>
+
+        <div className="p-6 border-t flex justify-between">
+          <Button
+            variant="outline"
+            onClick={() => step> 1 ? setStep(step - 1) : onClose()}
+          >
+            {step> 1 ? 'Previous' : 'Cancel'}
+          </Button>
+
+          <div className="flex gap-2">
+            {step <4 ? (
+              <Button onClick={() => setStep(step + 1)}>
+                Next
+              </Button>
+            ) : (
+              <Button 
+                onClick={handleSave}
+                disabled={testResult?.status !== 'success'}
+              >
+                Save Data Source
+              </Button>
+            )}
+          </div>
+        </div>
+      </Card>
+    </div>
+  );
+}

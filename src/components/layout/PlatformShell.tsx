@@ -45,7 +45,8 @@ interface NavItem {
     label: string;
     href: string;
     icon?: any;
-  }>\n  );
+  }>
+  );
 }
 
 export default function PlatformShell({ children }: { children: React.ReactNode }) {

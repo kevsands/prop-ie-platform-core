@@ -46,18 +46,18 @@ const MediaManager: React.FC<MediaManagerProps> = ({
   const [mediaFilessetMediaFiles] = useState<MediaFile[]>([]);
   const [newCategoryNamesetNewCategoryName] = useState<string>('');
   const [showCategoryFormsetShowCategoryForm] = useState<boolean>(false);
-
+  
   // Get active category files
   const getActiveCategoryFiles = (): MediaFile[] => {
     const category = categories.find(cat => cat.id === activeCategory);
     return category?.files || [];
   };
-
+  
   // Handle file upload
   const handleUploadFiles = useCallback((files: MediaFile[]) => {
     setMediaFiles(files);
   }, []);
-
+  
   // Handle save files to category
   const handleSaveFiles = useCallback(() => {
     if (onAddMedia && mediaFiles.length> 0) {
@@ -66,14 +66,14 @@ const MediaManager: React.FC<MediaManagerProps> = ({
       setUploadOpen(false);
     }
   }, [mediaFiles, activeCategoryonAddMedia]);
-
+  
   // Handle remove file
   const handleRemoveFile = useCallback((fileId: string) => {
     if (onRemoveMedia) {
       onRemoveMedia(fileIdactiveCategory);
     }
   }, [activeCategoryonRemoveMedia]);
-
+  
   // Handle add category
   const handleAddCategory = useCallback(() => {
     if (onAddCategory && newCategoryName.trim() !== '') {
@@ -87,14 +87,14 @@ const MediaManager: React.FC<MediaManagerProps> = ({
       setShowCategoryForm(false);
     }
   }, [newCategoryNameonAddCategory]);
-
+  
   return (
     <div className={`media-manager ${className}`}>
       <div className="bg-white rounded-lg shadow-md overflow-hidden">
         <div className="border-b border-gray-200 p-4">
           <h2 className="text-xl font-semibold text-gray-900">{title}</h2>
         </div>
-
+        
         <div className="grid grid-cols-1 md:grid-cols-4 min-h-[500px]">
           {/* Category Sidebar */}
           <div className="md:col-span-1 border-r border-gray-200 bg-gray-50 p-4">
@@ -108,7 +108,7 @@ const MediaManager: React.FC<MediaManagerProps> = ({
                 <FiPlus size={20} />
               </button>
             </div>
-
+            
             {/* Add Category Form */}
             {showCategoryForm && (
               <div className="mb-4 p-3 bg-white rounded-md shadow-sm">
@@ -119,7 +119,7 @@ const MediaManager: React.FC<MediaManagerProps> = ({
                   type="text"
                   id="category-name"
                   value={newCategoryName}
-                  onChange={(e: any) => setNewCategoryName(e.target.value)}
+                  onChange={(e) => setNewCategoryName(e.target.value)}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#2B5273] focus:border-transparent"
                   placeholder="Enter category name"
                 />
@@ -144,10 +144,10 @@ const MediaManager: React.FC<MediaManagerProps> = ({
                 </div>
               </div>
             )}
-
+            
             {/* Category List */}
             <nav className="space-y-1">
-              {categories.map((category: any) => (
+              {categories.map((category) => (
                 <button
                   key={category.id}
                   onClick={() => {
@@ -172,7 +172,7 @@ const MediaManager: React.FC<MediaManagerProps> = ({
               ))}
             </nav>
           </div>
-
+          
           {/* Main Content Area */}
           <div className="md:col-span-3 p-6">
             <div className="flex justify-between items-center mb-6">
@@ -188,7 +188,7 @@ const MediaManager: React.FC<MediaManagerProps> = ({
                 Add Media
               </button>
             </div>
-
+            
             {/* Upload Section */}
             {uploadOpen && (
               <div className="mb-6 p-4 border border-gray-200 rounded-md bg-gray-50">
@@ -200,7 +200,7 @@ const MediaManager: React.FC<MediaManagerProps> = ({
                   allowedTypes={allowedTypes}
                   label={`Upload media to "${categories.find(cat => cat.id === activeCategory)?.name}"`}
                 />
-
+                
                 <div className="mt-4 flex justify-end space-x-3">
                   <button
                     type="button"
@@ -227,7 +227,7 @@ const MediaManager: React.FC<MediaManagerProps> = ({
                 </div>
               </div>
             )}
-
+            
             {/* Gallery Section */}
             <MediaGallery
               files={getActiveCategoryFiles()}

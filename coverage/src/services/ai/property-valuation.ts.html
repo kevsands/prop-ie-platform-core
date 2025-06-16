@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/46</span>
+                <span class='fraction'>0/44</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/43</span>
+                <span class='fraction'>0/41</span>
             </div>
         
             
@@ -338,9 +338,9 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -560,45 +560,45 @@ export interface ValuationResult {
 export class <span class="cstat-no" title="statement not covered" >PropertyValuationAI </span>{
   private <span class="cstat-no" title="statement not covered" >model: tf.LayersModel | null = null;</span>
   private readonly <span class="cstat-no" title="statement not covered" >modelPath = '/models/property-valuation/';</span>
-  
+&nbsp;
 <span class="fstat-no" title="function not covered" >  async i</span>nitialize(): Promise&lt;void&gt; {
 <span class="cstat-no" title="statement not covered" >    try {</span>
       // Load pre-trained model
 <span class="cstat-no" title="statement not covered" >      this.model = await tf.loadLayersModel(`${this.modelPath}model.json`);</span>
-<span class="cstat-no" title="statement not covered" >      console.log('Property valuation AI model loaded successfully');</span>
+&nbsp;
     } catch (error) {
-<span class="cstat-no" title="statement not covered" >      console.error('Failed to load AI model:', error);</span>
+&nbsp;
       // Fallback to traditional valuation
     }
   }
-  
+&nbsp;
 <span class="fstat-no" title="function not covered" >  async p</span>redictValue(property: Property): Promise&lt;ValuationResult&gt; {
     const factors = <span class="cstat-no" title="statement not covered" >await this.extractFactors(property);</span>
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    if (this.model) {</span>
 <span class="cstat-no" title="statement not covered" >      return this.aiBasedValuation(factors);</span>
     } else {
 <span class="cstat-no" title="statement not covered" >      return this.traditionalValuation(factors);</span>
     }
   }
-  
+&nbsp;
 <span class="fstat-no" title="function not covered" >  private async a</span>iBasedValuation(factors: ValuationFactors): Promise&lt;ValuationResult&gt; {
     // Prepare input tensor
     const input = <span class="cstat-no" title="statement not covered" >this.prepareInputTensor(factors);</span>
-    
+&nbsp;
     // Run prediction
     const prediction = <span class="cstat-no" title="statement not covered" >this.model!.predict(input) as tf.Tensor;</span>
     const value = <span class="cstat-no" title="statement not covered" >await prediction.data();</span>
-    
+&nbsp;
     // Calculate confidence based on model certainty
     const confidence = <span class="cstat-no" title="statement not covered" >this.calculateConfidence(prediction);</span>
-    
+&nbsp;
     // Get feature importance
     const featureImportance = <span class="cstat-no" title="statement not covered" >await this.analyzeFeatureImportance(factors);</span>
-    
+&nbsp;
     // Find comparable properties
     const comparables = <span class="cstat-no" title="statement not covered" >await this.findComparables(factors);</span>
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    return {</span>
       estimatedValue: value[0],
       confidence,
@@ -610,16 +610,16 @@ export class <span class="cstat-no" title="statement not covered" >PropertyValua
       comparables
     };
   }
-  
+&nbsp;
 <span class="fstat-no" title="function not covered" >  private async t</span>raditionalValuation(factors: ValuationFactors): Promise&lt;ValuationResult&gt; {
     // Fallback to traditional comp-based valuation
     const comparables = <span class="cstat-no" title="statement not covered" >await this.findComparables(factors);</span>
-    const avgPrice = <span class="cstat-no" title="statement not covered" >comparables.reduce(<span class="fstat-no" title="function not covered" >(s</span>um, comp) =&gt; <span class="cstat-no" title="statement not covered" >sum + comp.price,</span> 0) / comparables.length;</span>
-    
+    const avgPrice = <span class="cstat-no" title="statement not covered" >comparables.reduce(<span class="fstat-no" title="function not covered" >(s</span>umcomp: any) =&gt; <span class="cstat-no" title="statement not covered" >sum + comp.price0)</span> / comparables.length;</span>
+&nbsp;
     // Apply adjustments based on factors
     let adjustedValue = <span class="cstat-no" title="statement not covered" >avgPrice;</span>
     const adjustments: any[] = <span class="cstat-no" title="statement not covered" >[];</span>
-    
+&nbsp;
     // Size adjustment
     const sizeDiff = <span class="cstat-no" title="statement not covered" >factors.property.size - this.getAvgSize(comparables);</span>
     const sizeAdjustment = <span class="cstat-no" title="statement not covered" >sizeDiff * factors.market.avgPricePerSqft;</span>
@@ -629,7 +629,7 @@ export class <span class="cstat-no" title="statement not covered" >PropertyValua
       impact: sizeAdjustment,
       weight: 0.3
     });
-    
+&nbsp;
     // Condition adjustment
     const conditionMultiplier = <span class="cstat-no" title="statement not covered" >0.8 + (factors.property.condition / 10) * 0.4;</span>
     const conditionAdjustment = <span class="cstat-no" title="statement not covered" >adjustedValue * (conditionMultiplier - 1);</span>
@@ -639,7 +639,7 @@ export class <span class="cstat-no" title="statement not covered" >PropertyValua
       impact: conditionAdjustment,
       weight: 0.2
     });
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    return {</span>
       estimatedValue: adjustedValue,
       confidence: 0.75, // Lower confidence for traditional method
@@ -651,7 +651,7 @@ export class <span class="cstat-no" title="statement not covered" >PropertyValua
       comparables
     };
   }
-  
+&nbsp;
 <span class="fstat-no" title="function not covered" >  private async e</span>xtractFactors(property: Property): Promise&lt;ValuationFactors&gt; {
     // Extract all relevant factors from property data
     // This would integrate with various data sources
@@ -672,7 +672,7 @@ export class <span class="cstat-no" title="statement not covered" >PropertyValua
       market: await this.getMarketData(property.location)
     };
   }
-  
+&nbsp;
   private <span class="fstat-no" title="function not covered" >prepareInputTensor(f</span>actors: ValuationFactors): tf.Tensor {
     // Normalize and prepare input data for neural network
     const input = <span class="cstat-no" title="statement not covered" >[</span>
@@ -690,16 +690,16 @@ export class <span class="cstat-no" title="statement not covered" >PropertyValua
       factors.market.demandScore / 10,
       factors.market.supplyScore / 10
     ];
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    return tf.tensor2d([input]);</span>
   }
-  
+&nbsp;
   private <span class="fstat-no" title="function not covered" >calculateConfidence(p</span>rediction: tf.Tensor): number {
     // Calculate confidence based on model's certainty
     // This is a simplified implementation
 <span class="cstat-no" title="statement not covered" >    return 0.85; /</span>/ Placeholder
   }
-  
+&nbsp;
 <span class="fstat-no" title="function not covered" >  private async a</span>nalyzeFeatureImportance(factors: ValuationFactors): Promise&lt;any[]&gt; {
     // SHAP-like analysis for feature importance
     // This would use explainable AI techniques
@@ -711,23 +711,23 @@ export class <span class="cstat-no" title="statement not covered" >PropertyValua
       { name: 'Age', impact: 5000, weight: 0.05 }
     ];
   }
-  
+&nbsp;
 <span class="fstat-no" title="function not covered" >  private async f</span>indComparables(factors: ValuationFactors): Promise&lt;Property[]&gt; {
     // Find similar properties using vector similarity
     // This would query a vector database
 <span class="cstat-no" title="statement not covered" >    return []; /</span>/ Placeholder
   }
-  
+&nbsp;
 <span class="fstat-no" title="function not covered" >  private async g</span>etNeighborhoodScore(location: any): Promise&lt;number&gt; {
     // Calculate neighborhood score based on crime, schools, etc.
 <span class="cstat-no" title="statement not covered" >    return 7.5; /</span>/ Placeholder
   }
-  
+&nbsp;
 <span class="fstat-no" title="function not covered" >  private async c</span>alculateAmenityProximity(location: any): Promise&lt;number&gt; {
     // Calculate proximity to amenities
 <span class="cstat-no" title="statement not covered" >    return 8.0; /</span>/ Placeholder
   }
-  
+&nbsp;
 <span class="fstat-no" title="function not covered" >  private async g</span>etMarketData(location: any): Promise&lt;any&gt; {
     // Get current market data for the area
 <span class="cstat-no" title="statement not covered" >    return {</span>
@@ -737,9 +737,9 @@ export class <span class="cstat-no" title="statement not covered" >PropertyValua
       supplyScore: 6.0
     };
   }
-  
+&nbsp;
   private <span class="fstat-no" title="function not covered" >getAvgSize(c</span>omparables: Property[]): number {
-<span class="cstat-no" title="statement not covered" >    return comparables.reduce(<span class="fstat-no" title="function not covered" >(s</span>um, comp) =&gt; <span class="cstat-no" title="statement not covered" >sum + comp.size,</span> 0) / comparables.length;</span>
+<span class="cstat-no" title="statement not covered" >    return comparables.reduce(<span class="fstat-no" title="function not covered" >(s</span>umcomp: any) =&gt; <span class="cstat-no" title="statement not covered" >sum + comp.size0)</span> / comparables.length;</span>
   }
 }
 &nbsp;
@@ -751,7 +751,7 @@ export const <span class="cstat-no" title="statement not covered" >propertyValua
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T22:15:28.100Z
+                at 2025-06-15T18:50:48.918Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

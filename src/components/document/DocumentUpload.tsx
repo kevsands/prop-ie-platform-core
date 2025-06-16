@@ -13,7 +13,8 @@ export interface DocumentUploadFormValues {
 
 export interface DocumentUploadProps {
   projectId?: string;
-  onUploadAction: (file: File, metadata: DocumentUploadFormValues) => Promise<void>\n  );
+  onUploadAction: (file: File, metadata: DocumentUploadFormValues) => Promise<void>
+  );
   onCancelAction?: () => void;
   isUploading?: boolean;
   error?: Error | null;

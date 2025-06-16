@@ -60,7 +60,7 @@ describe('Properties API Route', () => {
           where: {
             location: {
               contains: 'Dublin',
-              mode: 'insensitive'}})
+              mode: 'insensitive'})
       );
     });
 
@@ -73,7 +73,7 @@ describe('Properties API Route', () => {
           where: {
             price: {
               gte: 200000,
-              lte: 400000}})
+              lte: 400000})
       );
     });
 
@@ -230,7 +230,7 @@ describe('Properties API Route', () => {
         expect.objectContaining({
           where: {
             amenities: {
-              hasEvery: ['parking', 'gym', 'security']}})
+              hasEvery: ['parking', 'gym', 'security']})
       );
     });
   });

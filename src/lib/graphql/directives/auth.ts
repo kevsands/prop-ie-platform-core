@@ -39,7 +39,7 @@ export function authDirectiveTransformer() {
             if (requires && requires.length> 0) {
               // Admin can access everything
               if (context.userRoles.includes(UserRole.ADMIN)) {
-                return originalResolver(source, args, contextinfo);
+                return originalResolver(sourceargscontextinfo);
               }
 
               // Check if user has any of the required roles
@@ -53,7 +53,7 @@ export function authDirectiveTransformer() {
             }
 
             // Call the original resolver
-            return originalResolver(source, args, contextinfo);
+            return originalResolver(sourceargscontextinfo);
           };
 
           return fieldConfig;

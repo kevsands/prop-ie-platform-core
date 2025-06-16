@@ -199,7 +199,7 @@ export function usePropertyAlerts(userId?: string) {
     };
 
     return () => ws.close();
-  }, [userId, queryClienttoast]);
+  }, [userIdqueryClienttoast]);
 
   return {
     alerts,

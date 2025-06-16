@@ -237,7 +237,7 @@ export const DocumentCenter: React.FC<DocumentCenterProps> = ({
         );
       }
     }
-  }, [selectedCategory, user, transaction.id, addDocumenttoast]);
+  }, [selectedCategory, user, transaction.idaddDocumenttoast]);
 
   // Handle drag and drop
   const handleDrag = (e: React.DragEvent) => {

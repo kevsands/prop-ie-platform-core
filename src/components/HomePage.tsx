@@ -121,8 +121,8 @@ const testimonials = [
 
 // Property Provider Component
 export function PropertyProvider({ children }: { children: React.ReactNode }) {
-  const [propertiessetProperties] = useState<Property[]>(mockProperties);
-  const [developmentssetDevelopments] = useState<Development[]>(enhancedDevelopments);
+  const [properties] = useState<Property[]>(mockProperties);
+  const [developments] = useState<Development[]>(enhancedDevelopments);
 
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat('en-IE', {
@@ -150,7 +150,7 @@ export function PropertyProvider({ children }: { children: React.ReactNode }) {
 
   const getFeaturedDevelopments = () => {
     return [...developments]
-      .sort((ab: any) => {
+      .sort((ab) => {
         if (a.priority !== undefined && b.priority !== undefined) {
           return a.priority - b.priority;
         }
@@ -158,17 +158,17 @@ export function PropertyProvider({ children }: { children: React.ReactNode }) {
         if (b.priority !== undefined) return 1;
         return 0;
       })
-      .slice(04);
+      .slice(0);
   };
 
   const getFeaturedProperties = () => {
     const priorityDevelopmentIds = developments
-      .filter(dev => dev.priority !== undefined)
-      .sort((ab: any) => (a.priority || 0) - (b.priority || 0))
-      .map(dev => dev.id);
+      .filter((dev: Development) => dev.priority !== undefined)
+      .sort((ab) => (a.priority || 0) - (b.priority || 0))
+      .map((dev: Development) => dev.id);
 
     return [...properties]
-      .sort((ab: any) => {
+      .sort((ab) => {
         const aIndex = priorityDevelopmentIds.indexOf(a.developmentId);
         const bIndex = priorityDevelopmentIds.indexOf(b.developmentId);
 
@@ -177,7 +177,7 @@ export function PropertyProvider({ children }: { children: React.ReactNode }) {
         if (bIndex !== -1) return 1;
         return 0;
       })
-      .slice(06);
+      .slice(0);
   };
 
   return (
@@ -342,7 +342,7 @@ function HomePage() {
             {/* Quick Links */}
             <div className="mt-4 sm:mt-6 flex flex-wrap gap-2">
               <span className="text-xs sm:text-sm text-gray-600 mr-1">Popular:</span>
-              {['First Time Buyer', 'New Developments', 'Investment Properties', 'Help to Buy'].map((term: any) => (
+              {['First Time Buyer', 'New Developments', 'Investment Properties', 'Help to Buy'].map((term) => (
                 <button
                   key={term}
                   className="px-2 sm:px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-xs sm:text-sm hover:bg-gray-200 transition-all"
@@ -368,7 +368,7 @@ function HomePage() {
           {/* Development Cards - Horizontal scrolling on mobile */}
           <div className="sm:hidden overflow-x-auto pb-6 -mx-4 px-4 hide-scrollbar">
             <div className="flex space-x-4 w-max">
-              {featuredDevelopments.map((development: any) => (
+              {featuredDevelopments.map((development) => (
                 <Link
                   key={development.id}
                   href={`/developments/${development.id}`}
@@ -402,7 +402,7 @@ function HomePage() {
 
           {/* Development Cards - Grid on tablet and desktop */}
           <div className="hidden sm:grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 md:gap-8">
-            {featuredDevelopments.map((development: any) => (
+            {featuredDevelopments.map((development) => (
               <Link
                 key={development.id}
                 href={`/developments/${development.id}`}
@@ -451,7 +451,7 @@ function HomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Mobile version - 2x2 grid */}
           <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
-            {platformStats.map((statindex: any) => (
+            {platformStats.map((statindex) => (
               <div key={index} className="text-center">
                 <div className="inline-flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 bg-white/10 rounded-full mb-3 sm:mb-4 text-white">
                   <div className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8">
@@ -479,7 +479,7 @@ function HomePage() {
           {/* Mobile scrollable row of properties */}
           <div className="sm:hidden overflow-x-auto pb-6 -mx-4 px-4 hide-scrollbar">
             <div className="flex space-x-4 w-max">
-              {featuredProperties.map((property: any) => (
+              {featuredProperties.map((property) => (
                 <div
                   key={property.id}
                   className="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-all group cursor-pointer w-[280px] flex-shrink-0"
@@ -540,7 +540,7 @@ function HomePage() {
 
           {/* Tablet and desktop grid */}
           <div className="hidden sm:grid grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-            {featuredProperties.map((property: any) => (
+            {featuredProperties.map((property) => (
               <div
                 key={property.id}
                 className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all group cursor-pointer"
@@ -606,6 +606,77 @@ function HomePage() {
               View All Properties
               <ArrowRight className="ml-1.5 sm:ml-2 h-4 w-4 sm:h-5 sm:w-5" />
             </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Platform Success Metrics */}
+      <section className="py-10 sm:py-12 md:py-16 bg-gradient-to-r from-green-50 to-blue-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-8 sm:mb-10 md:mb-12">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900">Platform Growth & Success</h2>
+            <p className="mt-3 sm:mt-4 text-base sm:text-lg md:text-xl text-gray-600">
+              Trusted by developers and buyers across Ireland
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+            <div className="text-center bg-white rounded-xl p-4 sm:p-6 shadow-lg">
+              <div className="inline-flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 bg-green-100 rounded-full mb-3 sm:mb-4">
+                <TrendingUp className="w-6 h-6 sm:w-7 sm:h-7 text-green-600" />
+              </div>
+              <div className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 mb-1 sm:mb-2">€127K+</div>
+              <div className="text-xs sm:text-sm text-gray-600">Monthly Platform Revenue</div>
+              <div className="text-xs text-green-600 mt-1">↗ +23.5% growth</div>
+            </div>
+            
+            <div className="text-center bg-white rounded-xl p-4 sm:p-6 shadow-lg">
+              <div className="inline-flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 bg-blue-100 rounded-full mb-3 sm:mb-4">
+                <Users className="w-6 h-6 sm:w-7 sm:h-7 text-blue-600" />
+              </div>
+              <div className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 mb-1 sm:mb-2">342</div>
+              <div className="text-xs sm:text-sm text-gray-600">Successful Transactions</div>
+              <div className="text-xs text-blue-600 mt-1">This month</div>
+            </div>
+            
+            <div className="text-center bg-white rounded-xl p-4 sm:p-6 shadow-lg">
+              <div className="inline-flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 bg-purple-100 rounded-full mb-3 sm:mb-4">
+                <Award className="w-6 h-6 sm:w-7 sm:h-7 text-purple-600" />
+              </div>
+              <div className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 mb-1 sm:mb-2">€18.7K</div>
+              <div className="text-xs sm:text-sm text-gray-600">PROP Choice Revenue</div>
+              <div className="text-xs text-purple-600 mt-1">↗ +31.4% growth</div>
+            </div>
+            
+            <div className="text-center bg-white rounded-xl p-4 sm:p-6 shadow-lg">
+              <div className="inline-flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 bg-orange-100 rounded-full mb-3 sm:mb-4">
+                <Building className="w-6 h-6 sm:w-7 sm:h-7 text-orange-600" />
+              </div>
+              <div className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 mb-1 sm:mb-2">€47.2K</div>
+              <div className="text-xs sm:text-sm text-gray-600">Developer Subscriptions</div>
+              <div className="text-xs text-orange-600 mt-1">Monthly recurring</div>
+            </div>
+          </div>
+          
+          {/* Trust Indicators */}
+          <div className="mt-8 sm:mt-10 md:mt-12 grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
+            <div className="bg-white rounded-xl p-4 sm:p-6 shadow-lg text-center">
+              <CheckCircle className="w-8 h-8 sm:w-10 sm:h-10 text-green-500 mx-auto mb-3" />
+              <h3 className="font-bold text-gray-900 mb-2">Secure Transactions</h3>
+              <p className="text-sm text-gray-600">Bank-level security with encrypted payment processing</p>
+            </div>
+            
+            <div className="bg-white rounded-xl p-4 sm:p-6 shadow-lg text-center">
+              <Shield className="w-8 h-8 sm:w-10 sm:h-10 text-blue-500 mx-auto mb-3" />
+              <h3 className="font-bold text-gray-900 mb-2">Legal Compliance</h3>
+              <p className="text-sm text-gray-600">Full compliance with Irish property regulations</p>
+            </div>
+            
+            <div className="bg-white rounded-xl p-4 sm:p-6 shadow-lg text-center">
+              <Zap className="w-8 h-8 sm:w-10 sm:h-10 text-yellow-500 mx-auto mb-3" />
+              <h3 className="font-bold text-gray-900 mb-2">Instant Processing</h3>
+              <p className="text-sm text-gray-600">Real-time updates and instant transaction confirmations</p>
+            </div>
           </div>
         </div>
       </section>

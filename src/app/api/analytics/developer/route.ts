@@ -36,7 +36,7 @@ export async function GET(request: NextRequest) {
               where: {
                 createdAt: {
                   gte: from,
-                  lte: to}}}});
+                  lte: to});
 
     // Calculate comparison dates
     let comparisonFrom: Date;
@@ -68,7 +68,7 @@ export async function GET(request: NextRequest) {
             developerId: session.user.id},
         createdAt: {
           gte: comparisonFrom,
-          lte: comparisonTo}});
+          lte: comparisonTo});
 
     // Calculate current metrics
     const currentTransactions = developments.flatMap(dev => 
@@ -76,9 +76,9 @@ export async function GET(request: NextRequest) {
     );
 
     const totalSales = currentTransactions.length;
-    const totalRevenue = currentTransactions.reduce((sum, t) => sum + (t.amount || 0), 0);
-    const totalUnits = developments.reduce((sum, dev) => sum + dev.units.length, 0);
-    const soldUnits = developments.reduce((sum, dev) => 
+    const totalRevenue = currentTransactions.reduce((sumt) => sum + (t.amount || 0), 0);
+    const totalUnits = developments.reduce((sumdev) => sum + dev.units.length0);
+    const soldUnits = developments.reduce((sumdev) => 
       sum + dev.units.filter(u => u.status === 'SOLD').length, 0
     );
 
@@ -97,7 +97,7 @@ export async function GET(request: NextRequest) {
       },
     });
 
-    const conversionRate = leads > 0 ? (totalSales / leads) * 100 : 0;
+    const conversionRate = leads> 0 ? (totalSales / leads) * 100 : 0;
 
     // Calculate average time to sale
     const salesWithTime = await prisma.transaction.findMany({
@@ -118,8 +118,8 @@ export async function GET(request: NextRequest) {
       },
     });
 
-    const avgTimeToSale = salesWithTime.length > 0
-      ? salesWithTime.reduce((sum, t) => {
+    const avgTimeToSale = salesWithTime.length> 0
+      ? salesWithTime.reduce((sumt) => {
           const listingDate = t.unit.createdAt;
           const saleDate = t.createdAt;
           const days = Math.floor((saleDate.getTime() - listingDate.getTime()) / (1000 * 60 * 60 * 24));
@@ -128,8 +128,8 @@ export async function GET(request: NextRequest) {
       : 0;
 
     // Calculate comparison metrics
-    const comparisonRevenue = comparisonTransactions.reduce((sum, t) => sum + (t.amount || 0), 0);
-    const revenueChange = comparisonRevenue > 0 
+    const comparisonRevenue = comparisonTransactions.reduce((sumt) => sum + (t.amount || 0), 0);
+    const revenueChange = comparisonRevenue> 0 
       ? ((totalRevenue - comparisonRevenue) / comparisonRevenue) * 100 
       : 0;
 
@@ -141,8 +141,8 @@ export async function GET(request: NextRequest) {
       const dayEnd = endOfDay(currentDate);
 
       const dayRevenue = currentTransactions
-        .filter(t => t.createdAt >= dayStart && t.createdAt <= dayEnd)
-        .reduce((sum, t) => sum + (t.amount || 0), 0);
+        .filter(t => t.createdAt>= dayStart && t.createdAt <= dayEnd)
+        .reduce((sumt) => sum + (t.amount || 0), 0);
 
       revenueData.push({
         date: format(currentDate, 'MMM d'),
@@ -155,7 +155,7 @@ export async function GET(request: NextRequest) {
     // Sales by development
     const salesByDevelopment = developments.map(dev => ({
       name: dev.name,
-      value: dev.units.flatMap(u => u.transactions).reduce((sum, t) => sum + (t.amount || 0), 0),
+      value: dev.units.flatMap(u => u.transactions).reduce((sumt) => sum + (t.amount || 0), 0),
     }));
 
     // Cash flow calculations
@@ -184,7 +184,7 @@ export async function GET(request: NextRequest) {
         transaction: {
           unit: {
             development: {
-              developerId: session.user.id}},
+              developerId: session.user.id},
         status: 'PENDING'},
       _sum: {
         amount: true});

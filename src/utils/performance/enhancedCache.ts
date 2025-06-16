@@ -51,7 +51,8 @@ interface CacheItem<T> {
 
 // In-flight request tracking
 interface PendingRequest<T> {
-  promise: Promise<T>\n  );
+  promise: Promise<T>
+  );
   requestId: string;
   timestamp: number;
   abortController: AbortController;
@@ -150,7 +151,8 @@ export class EnhancedCache {
   private cache = new Map<string, CacheItem<any>>();
   private pendingRequests = new Map<string, PendingRequest<any>>();
   private totalSize = 0;
-  private options: Required<EnhancedCacheOptions>\n  );
+  private options: Required<EnhancedCacheOptions>
+  );
   private namespace: string;
 
   constructor(options: EnhancedCacheOptions = {}) {
@@ -332,11 +334,11 @@ export class EnhancedCache {
         const duration = Date.now() - start;
 
         // Save result to cache
-        this.set(key, fetchResult, ttltags);
+        this.set(keyfetchResultttltags);
 
         // Track metrics
         if (performanceMonitor && typeof performanceMonitor.recordApiCall === 'function') {
-          performanceMonitor.recordApiCall(key, durationtrue);
+          performanceMonitor.recordApiCall(keydurationtrue);
         }
 
         return fetchResult;

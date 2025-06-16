@@ -152,7 +152,7 @@ export default function FirstTimeBuyerCalculatorPage() {
     const affordablePropertyPrice = maxLoanLTI / maxLTV;
 
     // Calculate monthly payment
-    const monthlyPayment = calculateMonthlyPayment(loanAmount, interestRateloanTerm);
+    const monthlyPayment = calculateMonthlyPayment(loanAmountinterestRateloanTerm);
     const totalRepayment = monthlyPayment * loanTerm * 12;
     const totalInterest = totalRepayment - loanAmount;
 
@@ -185,7 +185,7 @@ export default function FirstTimeBuyerCalculatorPage() {
       totalDeposit: totalDepositAmount
     });
   }, [grossIncome, partnerIncome, hasPartner, propertyPrice, deposit, interestRate, 
-      loanTerm, isFirstTimeBuyer, hasHTBhtbApproval]);
+      loanTermisFirstTimeBuyerhasHTBhtbApproval]);
 
   const formatCurrency = (amount: number): string => {
     return `€${amount.toLocaleString('en-IE')}`;

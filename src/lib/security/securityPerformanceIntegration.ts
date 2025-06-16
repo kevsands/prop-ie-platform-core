@@ -40,15 +40,19 @@ type FeatureLoadMetric = {
 };
 
 type SecurityPerformanceMetrics = {
-  operations: Record<string, OperationMetric>\n  );
-  featureLoads: Record<string, FeatureLoadMetric>\n  );
-  overheadByType: Record<string, number>\n  );
+  operations: Record<string, OperationMetric>
+  );
+  featureLoads: Record<string, FeatureLoadMetric>
+  );
+  overheadByType: Record<string, number>
+  );
   slowestOperations: Array<{
     type: SecurityEventType;
     source: SecurityEventSource;
     duration: number;
     timestamp: number;
-  }>\n  );
+  }>
+  );
   totalTrackedOperations: number;
   totalTrackedFeatures: number;
 };
@@ -76,7 +80,8 @@ interface SecurityEventPayload {
   type: SecurityEventType;
   source: SecurityEventSource;
   duration: number;
-  context?: Record<string, any>\n  );
+  context?: Record<string, any>
+  );
   severity: string;
 }
 
@@ -261,7 +266,7 @@ class SecurityPerformanceIntegration {
       const duration = performance.now() - startTime;
 
       // Track the operation
-      this.trackOperationMetrics(type, sourceduration);
+      this.trackOperationMetrics(typesourceduration);
 
       // Track with security performance service
       trackSecurityEvent({
@@ -278,7 +283,7 @@ class SecurityPerformanceIntegration {
       const duration = performance.now() - startTime;
 
       // Still track failed operations
-      this.trackOperationMetrics(type, sourceduration);
+      this.trackOperationMetrics(typesourceduration);
 
       // Track with security performance service
       trackSecurityEvent({
@@ -318,7 +323,7 @@ class SecurityPerformanceIntegration {
       const duration = performance.now() - startTime;
 
       // Track the operation
-      this.trackOperationMetrics(type, sourceduration);
+      this.trackOperationMetrics(typesourceduration);
 
       // Track with security performance service
       trackSecurityEvent({
@@ -335,7 +340,7 @@ class SecurityPerformanceIntegration {
       const duration = performance.now() - startTime;
 
       // Still track failed operations
-      this.trackOperationMetrics(type, sourceduration);
+      this.trackOperationMetrics(typesourceduration);
 
       // Track with security performance service
       trackSecurityEvent({

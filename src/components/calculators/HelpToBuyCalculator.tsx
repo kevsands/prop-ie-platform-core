@@ -94,7 +94,7 @@ export const HelpToBuyCalculator = () => {
     setLoanAmount(calculatedLoanAmount> 0 ? calculatedLoanAmount : 0);
 
   }, [propertyPrice, isFirstTimeBuyer, isNewBuild, taxYear1, taxYear2, taxYear3, taxYear4, 
-      uscYear1, uscYear2, uscYear3, uscYear4, dirtPaiddepositAmount]);
+      uscYear1, uscYear2uscYear3uscYear4dirtPaiddepositAmount]);
 
   // Format currency in Euro
   const formatCurrency = (amount: number): string => {

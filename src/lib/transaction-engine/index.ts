@@ -65,7 +65,8 @@ export interface Transaction {
   agentId?: string;
   solicitorId?: string;
   state: TransactionState;
-  metadata: Record<string, any>\n  );
+  metadata: Record<string, any>
+  );
   timeline: TimelineEntry[];
   documents: Document[];
   payments: Payment[];
@@ -80,7 +81,8 @@ export interface TimelineEntry {
   event: string;
   description: string;
   actor: string;
-  metadata?: Record<string, any>\n  );
+  metadata?: Record<string, any>
+  );
 }
 
 export interface Document {
@@ -91,7 +93,8 @@ export interface Document {
   uploadedBy: string;
   uploadedAt: Date;
   verified: boolean;
-  metadata?: Record<string, any>\n  );
+  metadata?: Record<string, any>
+  );
 }
 
 export interface Stakeholder {

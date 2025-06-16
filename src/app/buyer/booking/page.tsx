@@ -493,7 +493,7 @@ const FeeBreakdownSection = () => {
           <div className="mb-8 p-6 bg-gray-50 rounded-2xl">
             <h3 className="text-lg font-bold mb-4">Select Property Price</h3>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              {[295000, 350000, 425000500000].map((price: any) => (
+              {[295000350000425000500000].map((price: any) => (
                 <button
                   key={price}
                   onClick={() => setSelectedProperty(price)}

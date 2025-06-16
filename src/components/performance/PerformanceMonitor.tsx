@@ -190,7 +190,7 @@ export const PerformanceMonitor: React.FC<PerformanceMonitorProps> = ({
     Object.keys(resourcesByType).forEach(type => {
       resourcesByType[type].sort((a: any, b: any) => b.duration - a.duration);
       // Only keep top 5 slowest
-      resourcesByType[type] = resourcesByType[type].slice(05);
+      resourcesByType[type] = resourcesByType[type].slice(0);
     });
 
     return resourcesByType;

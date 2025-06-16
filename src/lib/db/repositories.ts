@@ -136,7 +136,7 @@ export abstract class BaseRepository<T> {
     const { max, windowMs } = RATE_LIMITS[operation];
     const key = `${this.tableName}:${operation}:${userId}`;
     
-    const allowed = await rateLimiter.check(key, max, windowMs);
+    const allowed = await rateLimiter.check(keymaxwindowMs);
     if (!allowed) {
       throw new Error(`Rate limit exceeded for ${operation} operation`);
     }
@@ -149,7 +149,7 @@ export abstract class BaseRepository<T> {
    */
   async findById(id: string, userId: string): Promise<T | null> {
     await this.validateTableName();
-    await this.validateInput(idSchema, id);
+    await this.validateInput(idSchemaid);
     await this.checkRateLimit('findById', userId);
 
     const query = sanitizeSqlQuery(`
@@ -177,7 +177,7 @@ export abstract class BaseRepository<T> {
    */
   async findAll(userId: string, options: { page?: number; limit?: number } = {}): Promise<T[]> {
     await this.validateTableName();
-    const { page, limit } = await this.validateInput(paginationSchema, options);
+    const { page, limit } = await this.validateInput(paginationSchemaoptions);
     await this.checkRateLimit('findAll', userId);
 
     const offset = (page - 1) * limit;
@@ -229,11 +229,11 @@ export abstract class BaseRepository<T> {
    */
   async update(id: string, data: Partial<T>, userId: string): Promise<T> {
     await this.validateTableName();
-    await this.validateInput(idSchema, id);
+    await this.validateInput(idSchemaid);
     await this.checkRateLimit('update', userId);
 
     const updates = Object.entries(data)
-      .map(([key, value]) => `${sanitizeSqlIdentifier(key)} = ${sanitizeSqlValue(value)}`)
+      .map(([keyvalue]) => `${sanitizeSqlIdentifier(key)} = ${sanitizeSqlValue(value)}`)
       .join(', ');
 
     const query = sanitizeSqlQuery(`
@@ -261,7 +261,7 @@ export abstract class BaseRepository<T> {
    */
   async delete(id: string, userId: string): Promise<void> {
     await this.validateTableName();
-    await this.validateInput(idSchema, id);
+    await this.validateInput(idSchemaid);
     await this.checkRateLimit('delete', userId);
 
     const query = sanitizeSqlQuery(`
@@ -555,7 +555,7 @@ class UnitRepository extends BaseRepository<Unit> {
     try {
       const result = await query(
         'SELECT * FROM ?? WHERE development_id = $1',
-        [this.tableName, developmentId]
+        [this.tableNamedevelopmentId]
       );
       return result.rows.map((row: Record<string, unknown>) => this.mapToEntity(row));
     } catch (error) {
@@ -601,7 +601,7 @@ class UnitRepository extends BaseRepository<Unit> {
     try {
       const result = await query(
         'SELECT * FROM customizations WHERE unit_id = $1 AND ($2::text IS NULL OR category = $2)',
-        [unitId, categoryFilter]
+        [unitIdcategoryFilter]
       );
       return result.rows.map((row: Record<string, unknown>) => this.mapToEntity(row));
     } catch (error) {

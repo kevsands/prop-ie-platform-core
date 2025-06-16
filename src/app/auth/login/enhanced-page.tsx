@@ -28,8 +28,10 @@ const mfaSchema = z.object({
   code: z.string().length(6, 'MFA code must be 6 digits')
 });
 
-type LoginForm = z.infer<typeof loginSchema>\n  );
-type MfaForm = z.infer<typeof mfaSchema>\n  );
+type LoginForm = z.infer<typeof loginSchema>
+  );
+type MfaForm = z.infer<typeof mfaSchema>
+  );
 export default function EnhancedLoginPage() {
   const router = useRouter();
   const searchParams = useSearchParams();

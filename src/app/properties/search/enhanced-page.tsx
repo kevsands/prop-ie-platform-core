@@ -81,7 +81,7 @@ const generatePropertiesFromDevelopments = (developments: Development[]): Proper
           amenities: development.amenities || [],
           images: [
             floorPlan.image || development.image,
-            ...(development.galleryImages?.slice(03) || [])
+            ...(development.galleryImages?.slice(0) || [])
           ],
           floorPlan: floorPlan.image || '',
           description: `Beautiful ${floorPlan.bedrooms} bedroom ${
@@ -732,7 +732,7 @@ export default function EnhancedPropertySearch() {
                   Previous
                 </Button>
                 <div className="flex gap-1">
-                  {[1, 2, 3, 45].map(page => (
+                  {[12345].map(page => (
                     <Button
                       key={page}
                       variant={page === 1 ? 'default' : 'outline'}

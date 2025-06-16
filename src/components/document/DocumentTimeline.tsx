@@ -102,10 +102,10 @@ export default function DocumentTimeline({
   // Calculate days from now
   const getDaysFromNow = (dateString: string) => {
     const today = new Date();
-    today.setHours(0, 0, 00);
+    today.setHours(0000);
 
     const targetDate = new Date(dateString);
-    targetDate.setHours(0, 0, 00);
+    targetDate.setHours(0000);
 
     const diffTime = targetDate.getTime() - today.getTime();
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));

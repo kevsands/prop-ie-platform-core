@@ -93,7 +93,8 @@ interface Contract {
     url: string;
     requiresSignature: boolean;
     signedBy?: string[];
-  }>\n  );
+  }>
+  );
   signatures: Array<{
     party: 'buyer' | 'seller' | 'buyer-solicitor' | 'seller-solicitor';
     name: string;
@@ -101,7 +102,8 @@ interface Contract {
     status: 'pending' | 'signed' | 'declined';
     ipAddress?: string;
     method: 'electronic' | 'wet-ink';
-  }>\n  );
+  }>
+  );
   amendments: Array<{
     id: string;
     date: Date;
@@ -109,13 +111,15 @@ interface Contract {
     proposedBy: string;
     status: 'proposed' | 'accepted' | 'rejected';
     document?: string;
-  }>\n  );
+  }>
+  );
   timeline: Array<{
     event: string;
     date: Date;
     description?: string;
     user?: string;
-  }>\n  );
+  }>
+  );
   tasks: Array<{
     id: string;
     title: string;
@@ -124,7 +128,8 @@ interface Contract {
     dueDate?: Date;
     status: 'pending' | 'in-progress' | 'completed' | 'overdue';
     priority: 'low' | 'medium' | 'high';
-  }>\n  );
+  }>
+  );
   communications: Array<{
     id: string;
     date: Date;
@@ -133,7 +138,8 @@ interface Contract {
     subject: string;
     message: string;
     attachments?: string[];
-  }>\n  );
+  }>
+  );
   issues?: Array<{
     id: string;
     title: string;
@@ -142,7 +148,8 @@ interface Contract {
     status: 'open' | 'resolved';
     raisedDate: Date;
     resolvedDate?: Date;
-  }>\n  );
+  }>
+  );
 }
 
 const BuyerContractsPage = () => {

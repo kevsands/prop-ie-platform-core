@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/57</span>
+                <span class='fraction'>0/56</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/52</span>
+                <span class='fraction'>0/51</span>
             </div>
         
             
@@ -498,7 +498,7 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -839,31 +839,31 @@ const AgentPerformance: React.FC&lt;AgentPerformanceProps&gt; = <span class="cst
   }
 }) =&gt; {
   const crmService = <span class="cstat-no" title="statement not covered" >new EstateAgentCRMService();</span>
-  
-  const [metrics, setMetrics] = <span class="cstat-no" title="statement not covered" >useState&lt;AgentPerformanceMetrics | null&gt;(null);</span>
-  const [targets, setTargets] = <span class="cstat-no" title="statement not covered" >useState&lt;PerformanceTarget[]&gt;([]);</span>
-  const [commissions, setCommissions] = <span class="cstat-no" title="statement not covered" >useState&lt;Commission[]&gt;([]);</span>
-  const [loading, setLoading] = <span class="cstat-no" title="statement not covered" >useState(true);</span>
-  const [selectedPeriod, setSelectedPeriod] = <span class="cstat-no" title="statement not covered" >useState('month');</span>
+&nbsp;
+  const [metricssetMetrics] = <span class="cstat-no" title="statement not covered" >useState&lt;AgentPerformanceMetrics | null&gt;(null);</span>
+  const [targetssetTargets] = <span class="cstat-no" title="statement not covered" >useState&lt;PerformanceTarget[]&gt;([]);</span>
+  const [commissionssetCommissions] = <span class="cstat-no" title="statement not covered" >useState&lt;Commission[]&gt;([]);</span>
+  const [loadingsetLoading] = <span class="cstat-no" title="statement not covered" >useState(true);</span>
+  const [selectedPeriodsetSelectedPeriod] = <span class="cstat-no" title="statement not covered" >useState('month');</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  useEffect(<span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
 <span class="cstat-no" title="statement not covered" >    loadPerformanceData();</span>
-  }, [agentId, dateRange]);
+  }, [agentIddateRange]);
 &nbsp;
   const loadPerformanceData = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >async () =&gt; {</span></span>
 <span class="cstat-no" title="statement not covered" >    setLoading(true);</span>
 <span class="cstat-no" title="statement not covered" >    try {</span>
-      const [performanceData, targetData, commissionData] = <span class="cstat-no" title="statement not covered" >await Promise.all([</span>
+      const [performanceData, targetDatacommissionData] = <span class="cstat-no" title="statement not covered" >await Promise.all([</span>
         crmService.getAgentPerformance(agentId, dateRange.start, dateRange.end),
         crmService.getPerformanceTargets(agentId),
         crmService.getCommissions(agentId, dateRange.start, dateRange.end)
       ]);
-      
+&nbsp;
 <span class="cstat-no" title="statement not covered" >      setMetrics(performanceData);</span>
 <span class="cstat-no" title="statement not covered" >      setTargets(targetData);</span>
 <span class="cstat-no" title="statement not covered" >      setCommissions(commissionData);</span>
     } catch (error) {
-<span class="cstat-no" title="statement not covered" >      console.error('Failed to load performance data:', error);</span>
+&nbsp;
     } finally {
 <span class="cstat-no" title="statement not covered" >      setLoading(false);</span>
     }
@@ -918,7 +918,7 @@ const AgentPerformance: React.FC&lt;AgentPerformanceProps&gt; = <span class="cst
     conversionRate: (item.deals / item.leads) * 100
   })) || [];
 &nbsp;
-  const dealsBySource = <span class="cstat-no" title="statement not covered" >Object.entries(metrics.dealsBySource || {}).map(<span class="fstat-no" title="function not covered" >([</span>source, count]) =&gt; (<span class="cstat-no" title="statement not covered" >{</span></span>
+  const dealsBySource = <span class="cstat-no" title="statement not covered" >Object.entries(metrics.dealsBySource || {}).map(<span class="fstat-no" title="function not covered" >([</span>sourcecount]) =&gt; (<span class="cstat-no" title="statement not covered" >{</span></span>
     name: source,
     value: count
   }));
@@ -983,7 +983,7 @@ const AgentPerformance: React.FC&lt;AgentPerformanceProps&gt; = <span class="cst
         &lt;/CardHeader&gt;
         &lt;CardContent&gt;
           &lt;div className="space-y-4"&gt;
-            {targets.map(<span class="fstat-no" title="function not covered" >(t</span>arget) =&gt; {
+            {targets.map(<span class="fstat-no" title="function not covered" >(t</span>arget: any) =&gt; {
               const progress = <span class="cstat-no" title="statement not covered" >calculateTargetProgress(target);</span>
 <span class="cstat-no" title="statement not covered" >              return (</span>
                 &lt;div key={target.id} className="space-y-2"&gt;
@@ -993,12 +993,12 @@ const AgentPerformance: React.FC&lt;AgentPerformanceProps&gt; = <span class="cst
                       {target.currentValue} / {target.targetValue}
                     &lt;/span&gt;
                   &lt;/div&gt;
-                  &lt;Progress value={Math.min(progress, 100)} /&gt;
+                  &lt;Progress value={Math.min(progress100)} /&gt;
                   &lt;div className="flex justify-between items-center text-sm"&gt;
                     &lt;span className="text-gray-600"&gt;{progress.toFixed(1)}% complete&lt;/span&gt;
-                    {progress &gt;= 100 ? (
+                    {progress&gt;= 100 ? (
 <span class="branch-0 cbranch-no" title="branch not covered" >                      &lt;Badge className="bg-green-500"&gt;Target Met&lt;/Badge&gt;</span>
-                    ) : progress &gt;= 75 ? (
+                    ) : progress&gt;= 75 ? (
 <span class="branch-0 cbranch-no" title="branch not covered" >                      &lt;Badge className="bg-yellow-500"&gt;On Track&lt;/Badge&gt;</span>
                     ) : (
                       &lt;Badge className="bg-red-500"&gt;Behind Target&lt;/Badge&gt;
@@ -1065,7 +1065,7 @@ const AgentPerformance: React.FC&lt;AgentPerformanceProps&gt; = <span class="cst
                     outerRadius={80}
                     label
                   &gt;
-                    {dealsBySource.map(<span class="fstat-no" title="function not covered" >(e</span>ntry, index) =&gt; (
+                    {dealsBySource.map(<span class="fstat-no" title="function not covered" >(e</span>ntryindex: any) =&gt; (
 <span class="cstat-no" title="statement not covered" >                      &lt;Cell key={`cell-${index}`} f</span>ill={COLORS[index % COLORS.length]} /&gt;
                     ))}
                   &lt;/Pie&gt;
@@ -1087,7 +1087,7 @@ const AgentPerformance: React.FC&lt;AgentPerformanceProps&gt; = <span class="cst
               &lt;div className="flex justify-between items-center"&gt;
                 &lt;span className="text-gray-600"&gt;Total Commissions&lt;/span&gt;
                 &lt;span className="font-bold text-lg"&gt;
-                  {formatCurrency(commissions.reduce(<span class="fstat-no" title="function not covered" >(s</span>um, c) =&gt; <span class="cstat-no" title="statement not covered" >sum + c.amount,</span> 0))}
+                  {formatCurrency(commissions.reduce(<span class="fstat-no" title="function not covered" >(s</span>umc: any) =&gt; <span class="cstat-no" title="statement not covered" >sum + c.amount0)</span>)}
                 &lt;/span&gt;
               &lt;/div&gt;
               &lt;div className="flex justify-between items-center"&gt;
@@ -1096,7 +1096,7 @@ const AgentPerformance: React.FC&lt;AgentPerformanceProps&gt; = <span class="cst
                   {formatCurrency(
                     commissions
                       .filter(<span class="fstat-no" title="function not covered" >c =&gt; <span class="cstat-no" title="statement not covered" >c</span>.status === 'pending')</span>
-                      .reduce(<span class="fstat-no" title="function not covered" >(s</span>um, c) =&gt; <span class="cstat-no" title="statement not covered" >sum + c.amount,</span> 0)
+                      .reduce(<span class="fstat-no" title="function not covered" >(s</span>umc: any) =&gt; <span class="cstat-no" title="statement not covered" >sum + c.amount0)</span>
                   )}
                 &lt;/span&gt;
               &lt;/div&gt;
@@ -1106,14 +1106,14 @@ const AgentPerformance: React.FC&lt;AgentPerformanceProps&gt; = <span class="cst
                   {formatCurrency(
                     commissions
                       .filter(<span class="fstat-no" title="function not covered" >c =&gt; <span class="cstat-no" title="statement not covered" >c</span>.status === 'paid')</span>
-                      .reduce(<span class="fstat-no" title="function not covered" >(s</span>um, c) =&gt; <span class="cstat-no" title="statement not covered" >sum + c.amount,</span> 0)
+                      .reduce(<span class="fstat-no" title="function not covered" >(s</span>umc: any) =&gt; <span class="cstat-no" title="statement not covered" >sum + c.amount0)</span>
                   )}
                 &lt;/span&gt;
               &lt;/div&gt;
               &lt;div className="pt-4 border-t"&gt;
                 &lt;h4 className="font-medium mb-2"&gt;Recent Commissions&lt;/h4&gt;
                 &lt;div className="space-y-2"&gt;
-                  {commissions.slice(0, 5).map(<span class="fstat-no" title="function not covered" >(c</span>ommission) =&gt; (
+                  {commissions.slice(0, 5).map(<span class="fstat-no" title="function not covered" >(c</span>ommission: any) =&gt; (
 <span class="cstat-no" title="statement not covered" >                    &lt;div key={commission.id} c</span>lassName="flex justify-between items-center text-sm"&gt;
                       &lt;span&gt;{commission.dealId}&lt;/span&gt;
                       &lt;span className={commission.status === 'paid' ? 'text-green-600' : 'text-yellow-600'}&gt;
@@ -1165,7 +1165,7 @@ const AgentPerformance: React.FC&lt;AgentPerformanceProps&gt; = <span class="cst
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T22:15:28.100Z
+                at 2025-06-15T18:50:48.918Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

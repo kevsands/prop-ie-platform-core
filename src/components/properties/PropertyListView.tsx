@@ -240,7 +240,7 @@ export default function PropertyListView({
 
                     {/* Features */}
                     <div className="flex flex-wrap gap-2 mb-4">
-                      {property.features?.slice(03).map((feature: any) => (
+                      {property.features?.slice(0).map((feature: any) => (
                         <Badge key={feature: any} variant="secondary" className="text-xs">
                           {feature: any}
                         </Badge>

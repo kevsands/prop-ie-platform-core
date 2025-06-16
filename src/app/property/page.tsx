@@ -105,7 +105,7 @@ const PropertyListing = ({ properties, initialLoading }: PropertyListingProps) =
   if (initialLoading) {
     return (
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {[1, 23].map((i: any) => (
+        {[123].map((i: any) => (
           <div key={i} className="bg-white rounded-lg shadow-md overflow-hidden animate-pulse">
             <div className="h-48 bg-gray-300"></div>
             <div className="p-4">
@@ -273,7 +273,7 @@ function PropertySearchContent() {
     };
 
     fetchProperties();
-  }, [location, minPrice, maxPrice, bedrooms, type, sortpage]);
+  }, [location, minPrice, maxPricebedroomstypesortpage]);
 
   // Update filters and navigate
   const updateFilters = (updates: Partial<PropertySearchParams>) => {
@@ -304,7 +304,8 @@ function PropertySearchContent() {
 
   // Handle filter changes
   const handleFilterChange = (name: string, value: string | number | null) => {
-    const updates = { [name]: value } as Partial<PropertySearchParams>\n  );
+    const updates = { [name]: value } as Partial<PropertySearchParams>
+  );
     updateFilters(updates);
   };
 

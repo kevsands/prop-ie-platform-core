@@ -36,9 +36,9 @@ interface Comment {
     size: number;
     type: string;
     url: string;
-  }>\n  );
+  }>
   mentions?: string[];
-  reactions?: Record<string, string[]>\n  );
+  reactions?: Record<string, string[]>;
   isResolved?: boolean;
   isPinned?: boolean;
   parentId?: string;
@@ -335,7 +335,7 @@ export const CommentThread: React.FC<CommentThreadProps> = ({
                   {['👍', '👏', '❤️'].map(emoji => (
                     <button
                       key={emoji}
-                      onClick={() => handleReaction(comment.idemoji)}
+                      onClick={() => handleReaction(comment.idemoji))
                       className={`text-sm px-2 py-1 rounded hover:bg-gray-100 ${
                         comment.reactions?.[emoji]?.includes(currentUserId)
                           ? 'bg-gray-100'

@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/139</span>
+                <span class='fraction'>0/136</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/124</span>
+                <span class='fraction'>0/121</span>
             </div>
         
             
@@ -518,9 +518,7 @@
 <a name='L453'></a><a href='#L453'>453</a>
 <a name='L454'></a><a href='#L454'>454</a>
 <a name='L455'></a><a href='#L455'>455</a>
-<a name='L456'></a><a href='#L456'>456</a>
-<a name='L457'></a><a href='#L457'>457</a>
-<a name='L458'></a><a href='#L458'>458</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L456'></a><a href='#L456'>456</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -659,7 +657,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -691,9 +688,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -955,7 +952,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -1017,7 +1013,7 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
 ) {
   // Check if we should use the enhanced performance integration
   const useEnhancedPerformance = <span class="cstat-no" title="statement not covered" >typeof securityPerformanceIntegration !== 'undefined';</span>
-  
+&nbsp;
   // Create a performance-tracked import function
   const trackedImportFn = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
     const loadStartTime = <span class="cstat-no" title="statement not covered" >performance.now();</span>
@@ -1026,7 +1022,7 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
 <span class="cstat-no" title="statement not covered" >        <span class="missing-if-branch" title="if path not taken" >I</span>if (useEnhancedPerformance) {</span>
           // Track loading time with security performance metrics
           const loadTime = <span class="cstat-no" title="statement not covered" >performance.now() - loadStartTime;</span>
-<span class="cstat-no" title="statement not covered" >          securityPerformanceIntegration.trackFeatureLoad(name, loadTime);</span>
+<span class="cstat-no" title="statement not covered" >          securityPerformanceIntegration.trackFeatureLoad(nameloadTime);</span>
         }
 <span class="cstat-no" title="statement not covered" >        return module;</span>
       })
@@ -1060,12 +1056,12 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
         startTime: performance.now(),
         timingId: -1
       };
-      
+&nbsp;
       // Start timing with performance monitor if available
 <span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (performanceMonitor?.startTiming) {</span>
 <span class="cstat-no" title="statement not covered" >        trackingData.timingId = performanceMonitor.startTiming(`security_${name}_load`, false);</span>
       }
-      
+&nbsp;
 <span class="cstat-no" title="statement not covered" >      return trackingData;</span>
     },
     onLoadComplete: <span class="fstat-no" title="function not covered" >function() {</span>
@@ -1074,11 +1070,11 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
 <span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (performanceMonitor?.endTiming &amp;&amp; trackingData.timingId !== -1) {</span>
 <span class="cstat-no" title="statement not covered" >        performanceMonitor.endTiming(trackingData.timingId);</span>
       }
-      
+&nbsp;
       // Calculate load time for security performance metrics
 <span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (useEnhancedPerformance) {</span>
         const loadTime = <span class="cstat-no" title="statement not covered" >performance.now() - trackingData.startTime;</span>
-<span class="cstat-no" title="statement not covered" >        securityPerformanceIntegration.trackFeatureLoad(name, loadTime);</span>
+<span class="cstat-no" title="statement not covered" >        securityPerformanceIntegration.trackFeatureLoad(nameloadTime);</span>
       }
     },
     onLoadError: <span class="fstat-no" title="function not covered" >(e</span>rror: Error, trackingData?: TrackingData) =&gt; {
@@ -1087,26 +1083,26 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
         const loadTime = <span class="cstat-no" title="statement not covered" >performance.now() - trackingData.startTime;</span>
 <span class="cstat-no" title="statement not covered" >        securityPerformanceIntegration.trackFeatureLoad(`${name}_error`, loadTime);</span>
       }
-      
+&nbsp;
       // Call custom error handler if provided
 <span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (options.onLoadError) {</span>
 <span class="cstat-no" title="statement not covered" >        options.onLoadError(error);</span>
       }
     }
   });
-  
+&nbsp;
   // Return enhanced component with utilities
 <span class="cstat-no" title="statement not covered" >  return {</span>
     Component,
-    
+&nbsp;
     // Preload the component with performance tracking
     preload: <span class="fstat-no" title="function not covered" >() =&gt; {</span>
       // Track preload time
       const preloadStartTime = <span class="cstat-no" title="statement not covered" >performance.now();</span>
-      
+&nbsp;
       // Preload with performance tracking
       const promise = <span class="cstat-no" title="statement not covered" >importFn();</span>
-      
+&nbsp;
       // Track results
 <span class="cstat-no" title="statement not covered" >      promise</span>
         .then(<span class="fstat-no" title="function not covered" >() =&gt; {</span>
@@ -1116,17 +1112,16 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
           }
         })
         .catch(<span class="fstat-no" title="function not covered" >error =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >          console.error(`Failed to preload security feature "${name}":`, error);</span>
-          
+&nbsp;
 <span class="cstat-no" title="statement not covered" >          <span class="missing-if-branch" title="if path not taken" >I</span>if (useEnhancedPerformance) {</span>
             const loadTime = <span class="cstat-no" title="statement not covered" >performance.now() - preloadStartTime;</span>
 <span class="cstat-no" title="statement not covered" >            securityPerformanceIntegration.trackFeatureLoad(`${name}_preload_failed`, loadTime);</span>
           }
         });
-      
+&nbsp;
 <span class="cstat-no" title="statement not covered" >      return promise;</span>
     },
-    
+&nbsp;
     // Check if the component is preloaded
     isPreloaded: <span class="fstat-no" title="function not covered" >() =&gt; {</span>
       // This is a best-effort check - it cannot guarantee the component is fully preloaded
@@ -1143,14 +1138,14 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
                   (module.exports.__esModule || module.exports.default) &amp;&amp;
                   (module.id || '').includes(name.toLowerCase());
           });
-          
+&nbsp;
 <span class="cstat-no" title="statement not covered" >          return foundModule;</span>
         }
       } catch (e) {
         // Ignore errors in checking, just return false
-<span class="cstat-no" title="statement not covered" >        console.debug(`Error checking if ${name} is preloaded:`, e);</span>
+&nbsp;
       }
-      
+&nbsp;
 <span class="cstat-no" title="statement not covered" >      return false;</span>
     }
   };
@@ -1277,20 +1272,20 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
   // Track overall preload operation 
   const startTime = <span class="cstat-no" title="statement not covered" >performance.now();</span>
   let loadedCount = <span class="cstat-no" title="statement not covered" >0;</span>
-  
+&nbsp;
   // Function to track completion of preloading
   const trackPreloadCompletion = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
 <span class="cstat-no" title="statement not covered" >    loadedCount++;</span>
-    
+&nbsp;
     // If we've loaded 2 components (dashboard and enhanced dashboard), log metrics
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (loadedCount === 2) {</span>
       const totalTime = <span class="cstat-no" title="statement not covered" >performance.now() - startTime;</span>
-      
+&nbsp;
       // Track with security performance metrics if available
 <span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (typeof securityPerformanceIntegration !== 'undefined') {</span>
 <span class="cstat-no" title="statement not covered" >        securityPerformanceIntegration.trackFeatureLoad('critical_security_components', totalTime);</span>
       }
-      
+&nbsp;
       // Track with standard performance metrics
 <span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (performanceMonitor &amp;&amp; typeof performanceMonitor.recordCustomMetric === 'function') {</span>
 <span class="cstat-no" title="statement not covered" >        performanceMonitor.recordCustomMetric(</span>
@@ -1304,10 +1299,10 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
       }
     }
   };
-  
+&nbsp;
   // Use optimal scheduling strategy based on environment
   const isLowPriorityPreload = <span class="cstat-no" title="statement not covered" >process.env.NODE_ENV === 'production';</span>
-  
+&nbsp;
   // Use requestIdleCallback if available, otherwise setTimeout
   const schedulePreload = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(f</span>n: () =&gt; void) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (typeof window !== 'undefined') {</span>
@@ -1327,7 +1322,7 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
 <span class="cstat-no" title="statement not covered" >    SecurityDashboard.preload()</span>
       .then(<span class="fstat-no" title="function not covered" >() =&gt; <span class="cstat-no" title="statement not covered" >t</span>rackPreloadCompletion())</span>
       .catch(<span class="fstat-no" title="function not covered" >() =&gt; <span class="cstat-no" title="statement not covered" >t</span>rackPreloadCompletion());</span>
-    
+&nbsp;
     // Preload enhanced dashboard with tracking
 <span class="cstat-no" title="statement not covered" >    EnhancedSecurityDashboard.preload()</span>
       .then(<span class="fstat-no" title="function not covered" >() =&gt; <span class="cstat-no" title="statement not covered" >t</span>rackPreloadCompletion())</span>
@@ -1343,20 +1338,20 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
   // Track overall preload operation
   const startTime = <span class="cstat-no" title="statement not covered" >performance.now();</span>
   let loadedCount = <span class="cstat-no" title="statement not covered" >0;</span>
-  
+&nbsp;
   // Function to track completion of preloading
   const trackPreloadCompletion = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
 <span class="cstat-no" title="statement not covered" >    loadedCount++;</span>
-    
+&nbsp;
     // If we've loaded both components, log metrics
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (loadedCount === 2) {</span>
       const totalTime = <span class="cstat-no" title="statement not covered" >performance.now() - startTime;</span>
-      
+&nbsp;
       // Track with security performance metrics if available
 <span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (typeof securityPerformanceIntegration !== 'undefined') {</span>
 <span class="cstat-no" title="statement not covered" >        securityPerformanceIntegration.trackFeatureLoad('mfa_components', totalTime);</span>
       }
-      
+&nbsp;
       // Track with standard performance metrics
 <span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (performanceMonitor &amp;&amp; typeof performanceMonitor.recordCustomMetric === 'function') {</span>
 <span class="cstat-no" title="statement not covered" >        performanceMonitor.recordCustomMetric(</span>
@@ -1370,12 +1365,12 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
       }
     }
   };
-  
+&nbsp;
   // Preload with tracking
 <span class="cstat-no" title="statement not covered" >  MFASetup.preload()</span>
     .then(<span class="fstat-no" title="function not covered" >() =&gt; <span class="cstat-no" title="statement not covered" >t</span>rackPreloadCompletion())</span>
     .catch(<span class="fstat-no" title="function not covered" >() =&gt; <span class="cstat-no" title="statement not covered" >t</span>rackPreloadCompletion());</span>
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >  MFAChallenge.preload()</span>
     .then(<span class="fstat-no" title="function not covered" >() =&gt; <span class="cstat-no" title="statement not covered" >t</span>rackPreloadCompletion())</span>
     .catch(<span class="fstat-no" title="function not covered" >() =&gt; <span class="cstat-no" title="statement not covered" >t</span>rackPreloadCompletion());</span>
@@ -1388,17 +1383,17 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
 export function <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >preloadSecurityMonitoring(</span></span>) {
   // Track preload operation
   const startTime = <span class="cstat-no" title="statement not covered" >performance.now();</span>
-  
+&nbsp;
   // Preload with tracking
 <span class="cstat-no" title="statement not covered" >  SecurityMonitoringDashboard.preload()</span>
     .then(<span class="fstat-no" title="function not covered" >() =&gt; {</span>
       const loadTime = <span class="cstat-no" title="statement not covered" >performance.now() - startTime;</span>
-      
+&nbsp;
       // Track with security performance metrics if available
 <span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (typeof securityPerformanceIntegration !== 'undefined') {</span>
 <span class="cstat-no" title="statement not covered" >        securityPerformanceIntegration.trackFeatureLoad('security_monitoring', loadTime);</span>
       }
-      
+&nbsp;
       // Track with standard performance metrics
 <span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (performanceMonitor &amp;&amp; typeof performanceMonitor.recordCustomMetric === 'function') {</span>
 <span class="cstat-no" title="statement not covered" >        performanceMonitor.recordCustomMetric(</span>
@@ -1412,8 +1407,7 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
       }
     })
     .catch(<span class="fstat-no" title="function not covered" >error =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >      console.error('Failed to preload security monitoring:', error);</span>
-      
+&nbsp;
       // Track failure with security performance metrics if available
 <span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (typeof securityPerformanceIntegration !== 'undefined') {</span>
         const loadTime = <span class="cstat-no" title="statement not covered" >performance.now() - startTime;</span>
@@ -1441,7 +1435,7 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T22:15:28.100Z
+                at 2025-06-15T18:50:48.918Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

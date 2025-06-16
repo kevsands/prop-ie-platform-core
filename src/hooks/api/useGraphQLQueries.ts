@@ -321,7 +321,7 @@ export function useSearchUsers(
   `;
 
   return useGraphQLQuery<{ searchUsers: UsersResponse }, Error>(
-    ['searchUsers', query, rolespagination],
+    ['searchUsers', queryrolespagination],
     gqlQuery,
     { query, roles, pagination },
     options

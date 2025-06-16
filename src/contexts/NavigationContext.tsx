@@ -124,7 +124,7 @@ export const NavigationProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     };
 
     generateBreadcrumbs();
-  }, [pathname, isAuthenticateduser]);
+  }, [pathnameisAuthenticateduser]);
 
   // Update quick actions based on user role and context
   useEffect(() => {
@@ -217,7 +217,7 @@ export const NavigationProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     };
 
     generateQuickActions();
-  }, [isAuthenticated, useractiveTransaction]);
+  }, [isAuthenticateduseractiveTransaction]);
 
   // Navigation methods
   const navigateTo = useCallback((path: string, options: NavigationOptions = {}) => {
@@ -243,7 +243,7 @@ export const NavigationProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     } else {
       router.back();
     }
-  }, [historyIndex, state.navigationHistory, navigateTorouter]);
+  }, [historyIndex, state.navigationHistorynavigateTorouter]);
 
   const goForward = useCallback(() => {
     if (historyIndex <state.navigationHistory.length - 1) {

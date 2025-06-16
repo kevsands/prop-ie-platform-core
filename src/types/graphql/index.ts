@@ -15,7 +15,8 @@ export interface GraphQLError {
   message: string;
   locations?: GraphQLErrorLocation[];
   path?: string[];
-  extensions?: Record<string, unknown>\n  );
+  extensions?: Record<string, unknown>
+  );
 }
 
 /**
@@ -55,7 +56,8 @@ export interface GraphQLMetadata {
   /** GraphQL field selection */
   __selection?: string[];
   /** GraphQL field arguments */
-  __args?: Record<string, unknown>\n  );
+  __args?: Record<string, unknown>
+  );
 }
 
 /**
@@ -99,7 +101,8 @@ export interface GraphQLOperationContext {
   /** Operation type (query/mutation) */
   operationType: 'query' | 'mutation';
   /** Variables used in the operation */
-  variables?: Record<string, unknown>\n  );
+  variables?: Record<string, unknown>
+  );
   /** Timestamp of the operation */
   timestamp: string;
   /** User ID if authenticated */

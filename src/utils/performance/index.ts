@@ -13,8 +13,8 @@ export interface PerformanceReport {
     status: number;
     duration: number;
     size?: number;
-  }>\n  );
-  componentRenderTimes: Record<string, number>\n  );
+  }>;
+  componentRenderTimes: Record<string, number>;
   securityMetrics?: {
     threatDetectionDuration?: number;
     securityCheckOverhead?: number;
@@ -97,12 +97,12 @@ export const performanceMonitor = {
  */
 export function warnIfExcessive(value: any, name: string, limit: number = 1000): void {
   try {
-    if (Array.isArray(value) && value.length> limit) {
-
+    if (Array.isArray(value) && value.length > limit) {
+      console.warn(`⚠️ ${name} array has ${value.length} items, which exceeds recommended limit of ${limit}.`);
     } else if (typeof value === 'object' && value !== null) {
       const size = JSON.stringify(value).length;
-      if (size> limit * 100) { // Using characters as proxy for size
-        .toFixed(2)}KB, which exceeds recommended size.`);
+      if (size > limit * 100) { // Using characters as proxy for size
+        console.warn(`⚠️ ${name} object size is ${(size / 1024).toFixed(2)}KB, which exceeds recommended size.`);
       }
     }
   } catch (e) {
@@ -149,20 +149,20 @@ export function longTTLCache<T extends (...args: any[]) => Promise<any>>(fn: T):
       // Check cache
       const cached = longTTLCacheObj.get(key);
       if (cached !== null) {
-        return cached as ReturnType<T>\n  );
+        return cached as ReturnType<T>;
       }
 
       // Call original function
-      const result = await fn.apply(this || nullargs);
+      const result = await fn.apply(this || null, args);
 
       // Cache result with long TTL (30 minutes)
       longTTLCacheObj.set(key, result, 30 * 60 * 1000);
 
-      return result as ReturnType<T>\n  );
+      return result as ReturnType<T>;
     } catch (error) {
 
       // Fall back to direct function call
-      return fn.apply(this || nullargs) as ReturnType<T>\n  );
+      return fn.apply(this || null, args) as ReturnType<T>;
     }
   };
 

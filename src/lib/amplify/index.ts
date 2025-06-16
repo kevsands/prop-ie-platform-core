@@ -115,7 +115,7 @@ export async function initializeAsync(options: AmplifyInitOptions = { ssr: true,
 
     // Log success but only in development or if debug mode is on
     if (process.env.NODE_ENV !== 'production' || isDebugMode) {
-      ');
+      console.log('✅ Amplify initialization completed successfully');
     }
 
     return true;

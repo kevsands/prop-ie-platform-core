@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/117</span>
+                <span class='fraction'>0/115</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/116</span>
+                <span class='fraction'>0/114</span>
             </div>
         
             
@@ -425,9 +425,7 @@
 <a name='L360'></a><a href='#L360'>360</a>
 <a name='L361'></a><a href='#L361'>361</a>
 <a name='L362'></a><a href='#L362'>362</a>
-<a name='L363'></a><a href='#L363'>363</a>
-<a name='L364'></a><a href='#L364'>364</a>
-<a name='L365'></a><a href='#L365'>365</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L363'></a><a href='#L363'>363</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -489,7 +487,6 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -541,7 +538,6 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -816,15 +812,15 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
   const { user, isAuthenticated } = <span class="cstat-no" title="statement not covered" >useAuth();</span>
   const router = <span class="cstat-no" title="statement not covered" >useRouter();</span>
   const searchParams = <span class="cstat-no" title="statement not covered" >useSearchParams();</span>
-  
+&nbsp;
   // Store component mount time for metrics
   const mountTimeRef = <span class="cstat-no" title="statement not covered" >useRef(Date.now());</span>
-  
+&nbsp;
   // Use transition to avoid blocking UI during complex state updates
-  const [isPending, startTransition] = <span class="cstat-no" title="statement not covered" >useTransition();</span>
-  
+  const [isPendingstartTransition] = <span class="cstat-no" title="statement not covered" >useTransition();</span>
+&nbsp;
   // Core journey state management
-  const [currentStep, setCurrentStep] = <span class="cstat-no" title="statement not covered" >useState&lt;JourneyStep&gt;(<span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
+  const [currentStepsetCurrentStep] = <span class="cstat-no" title="statement not covered" >useState&lt;JourneyStep&gt;(<span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
     // Initialize from URL if present (for deep linking)
     const stepParam = <span class="cstat-no" title="statement not covered" >searchParams.get('step');</span>
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (stepParam &amp;&amp; JOURNEY_STEPS.includes(stepParam as JourneyStep)) {</span>
@@ -832,12 +828,12 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
     }
 <span class="cstat-no" title="statement not covered" >    return 'authentication';</span>
   });
-  
-  const [isVerified, setIsVerified] = <span class="cstat-no" title="statement not covered" >useState(false);</span>
-  const [error, setError] = <span class="cstat-no" title="statement not covered" >useState&lt;string | null&gt;(null);</span>
-  const [transactionId, setTransactionId] = <span class="cstat-no" title="statement not covered" >useState&lt;string | null&gt;(null);</span>
-  const [transactionData, setTransactionData] = <span class="cstat-no" title="statement not covered" >useState&lt;Transaction | null&gt;(null);</span>
-  
+&nbsp;
+  const [isVerifiedsetIsVerified] = <span class="cstat-no" title="statement not covered" >useState(false);</span>
+  const [errorsetError] = <span class="cstat-no" title="statement not covered" >useState&lt;string | null&gt;(null);</span>
+  const [transactionIdsetTransactionId] = <span class="cstat-no" title="statement not covered" >useState&lt;string | null&gt;(null);</span>
+  const [transactionDatasetTransactionData] = <span class="cstat-no" title="statement not covered" >useState&lt;Transaction | null&gt;(null);</span>
+&nbsp;
   // React Query hooks
   const {
     useKYCStatus,
@@ -851,10 +847,9 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
     developmentId,
     onError: <span class="fstat-no" title="function not covered" >(e</span>rror: BuyerJourneyError) =&gt; {
 <span class="cstat-no" title="statement not covered" >      setError(error.userMessage);</span>
-      
+&nbsp;
       // Log errors for analytics
-<span class="cstat-no" title="statement not covered" >      console.error('[BuyerJourney] Error:', error.code, error.message);</span>
-      
+&nbsp;
       // Performance metrics for errors
 <span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (window.performance &amp;&amp; 'measure' in window.performance) {</span>
 <span class="cstat-no" title="statement not covered" >        window.performance.measure(</span>
@@ -864,7 +859,7 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
       }
     }
   });
-  
+&nbsp;
   // Query data
   const { data: kycStatus, isLoading: isLoadingKYC } = <span class="cstat-no" title="statement not covered" >useKYCStatus(user?.id);</span>
   const { data: unitData, isLoading: isLoadingUnit } = <span class="cstat-no" title="statement not covered" >useUnit(unitId || '');</span>
@@ -872,41 +867,40 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
     data: transaction, 
     isLoading: isLoadingTransaction 
   } = <span class="cstat-no" title="statement not covered" >useTransaction(transactionId || '');</span>
-  
+&nbsp;
   // Mutations
   const createReservationMutation = <span class="cstat-no" title="statement not covered" >useCreateReservation();</span>
   const startKYCMutation = <span class="cstat-no" title="statement not covered" >useStartKYCVerification();</span>
   const completeKYCMutation = <span class="cstat-no" title="statement not covered" >useCompleteKYCVerification();</span>
   const processDepositMutation = <span class="cstat-no" title="statement not covered" >useProcessDeposit();</span>
-  
+&nbsp;
   // Update URL when step changes (for deep linking)
 <span class="cstat-no" title="statement not covered" >  useEffect(<span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (typeof window !== 'undefined') {</span>
       const newParams = <span class="cstat-no" title="statement not covered" >new URLSearchParams(searchParams.toString());</span>
-      
+&nbsp;
 <span class="cstat-no" title="statement not covered" >      if (currentStep === 'authentication') {</span>
 <span class="cstat-no" title="statement not covered" >        newParams.delete('step');</span>
       } else {
 <span class="cstat-no" title="statement not covered" >        newParams.set('step', currentStep);</span>
       }
-      
+&nbsp;
       // Update URL without full page reload
       const newUrl = <span class="cstat-no" title="statement not covered" >`${window.location.pathname}?${newParams.toString()}`;</span>
 <span class="cstat-no" title="statement not covered" >      window.history.pushState({}, '', newUrl);</span>
     }
-  }, [currentStep, searchParams]);
-  
+  }, [currentStepsearchParams]);
+&nbsp;
   // Performance metrics
 <span class="cstat-no" title="statement not covered" >  useEffect(<span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (typeof window !== 'undefined' &amp;&amp; window.performance &amp;&amp; 'mark' in window.performance) {</span>
 <span class="cstat-no" title="statement not covered" >      window.performance.mark('buyer-journey-start');</span>
-      
+&nbsp;
 <span class="cstat-no" title="statement not covered" >      return <span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
         const mountDuration = <span class="cstat-no" title="statement not covered" >Date.now() - mountTimeRef.current;</span>
-        
+&nbsp;
         // Log mount time for analytics
-<span class="cstat-no" title="statement not covered" >        console.log(`[Performance] BuyerJourney mounted in ${mountDuration}ms`);</span>
-        
+&nbsp;
 <span class="cstat-no" title="statement not covered" >        window.performance.measure(</span>
           'buyer-journey-total-mount-time', 
           'buyer-journey-start'
@@ -914,30 +908,30 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
       };
     }
   }, []);
-  
+&nbsp;
   // Memoize computed values to prevent unnecessary re-renders
   const progressPercentage = <span class="cstat-no" title="statement not covered" >useMemo(<span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
     const stepIndex = <span class="cstat-no" title="statement not covered" >JOURNEY_STEPS.indexOf(currentStep);</span>
 <span class="cstat-no" title="statement not covered" >    return (stepIndex / (JOURNEY_STEPS.length - 1)) * 100;</span>
   }, [currentStep]);
-  
+&nbsp;
   const journeySteps = <span class="cstat-no" title="statement not covered" >useMemo(<span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
 <span class="cstat-no" title="statement not covered" >    return JOURNEY_STEPS.map(<span class="fstat-no" title="function not covered" >step =&gt; {</span></span>
       const currentIndex = <span class="cstat-no" title="statement not covered" >JOURNEY_STEPS.indexOf(currentStep);</span>
       const stepIndex = <span class="cstat-no" title="statement not covered" >JOURNEY_STEPS.indexOf(step);</span>
-      
+&nbsp;
 <span class="cstat-no" title="statement not covered" >      return {</span>
         id: step,
         label: getStepLabel(step),
         status: step === currentStep 
           ? 'active' 
-          : stepIndex &lt; currentIndex 
+          : stepIndex &lt;currentIndex 
             ? 'completed' 
             : 'pending'
       };
     });
   }, [currentStep]);
-  
+&nbsp;
   const isLoading = <span class="cstat-no" title="statement not covered" >useMemo(<span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
 <span class="cstat-no" title="statement not covered" >    return (</span>
       isPending ||
@@ -959,12 +953,12 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
     completeKYCMutation.isPending,
     processDepositMutation.isPending
   ]);
-  
+&nbsp;
   // Memoize handlers to prevent unnecessary re-renders
   const moveToStep = <span class="cstat-no" title="statement not covered" >useCallback(<span class="fstat-no" title="function not covered" >(s</span>tep: JourneyStep) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    startTransition(<span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
 <span class="cstat-no" title="statement not covered" >      setCurrentStep(step);</span>
-      
+&nbsp;
 <span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (window.performance &amp;&amp; 'measure' in window.performance) {</span>
 <span class="cstat-no" title="statement not covered" >        window.performance.measure(</span>
           `buyer-journey-step-${step}`, 
@@ -973,46 +967,46 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
       }
     });
   }, []);
-  
+&nbsp;
   const handleLogin = <span class="cstat-no" title="statement not covered" >useCallback(<span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
     const returnUrl = <span class="cstat-no" title="statement not covered" >encodeURIComponent(</span>
       `${window.location.pathname}?step=kyc-verification`
     );
 <span class="cstat-no" title="statement not covered" >    router.push(`/login?redirect=${returnUrl}`);</span>
   }, [router]);
-  
+&nbsp;
   const handleRegister = <span class="cstat-no" title="statement not covered" >useCallback(<span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
     const returnUrl = <span class="cstat-no" title="statement not covered" >encodeURIComponent(</span>
       `${window.location.pathname}?step=kyc-verification`
     );
 <span class="cstat-no" title="statement not covered" >    router.push(`/register?redirect=${returnUrl}`);</span>
   }, [router]);
-  
+&nbsp;
   const handleKYCComplete = <span class="cstat-no" title="statement not covered" >useCallback(<span class="fstat-no" title="function not covered" >async () =&gt; {</span></span>
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!transactionId) <span class="cstat-no" title="statement not covered" >return;</span></span>
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    try {</span>
 <span class="cstat-no" title="statement not covered" >      await completeKYCMutation.mutateAsync(transactionId);</span>
-      
+&nbsp;
 <span class="cstat-no" title="statement not covered" >      setIsVerified(true);</span>
 <span class="cstat-no" title="statement not covered" >      moveToStep('unit-reservation');</span>
     } catch (err) {
       // Error handled by error handler
     }
-  }, [transactionId, completeKYCMutation, moveToStep]);
-  
+  }, [transactionId, completeKYCMutationmoveToStep]);
+&nbsp;
   const handleReserveUnit = <span class="cstat-no" title="statement not covered" >useCallback(<span class="fstat-no" title="function not covered" >async () =&gt; {</span></span>
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!unitId) {</span>
 <span class="cstat-no" title="statement not covered" >      setError('No unit selected');</span>
 <span class="cstat-no" title="statement not covered" >      return;</span>
     }
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    setError(null);</span>
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    try {</span>
       // Extract numeric price from string (e.g., "€385,000" -&gt; 385000)
       const agreedPrice = <span class="cstat-no" title="statement not covered" >unitData?.basePrice || 0;</span>
-      
+&nbsp;
       const result = <span class="cstat-no" title="statement not covered" >await createReservationMutation.mutateAsync({</span>
         unitId,
         developmentId,
@@ -1020,7 +1014,7 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
         mortgageRequired: false,
         helpToBuyUsed: false
       });
-      
+&nbsp;
 <span class="cstat-no" title="statement not covered" >      setTransactionId(result.id);</span>
 <span class="cstat-no" title="statement not covered" >      setTransactionData(result);</span>
 <span class="cstat-no" title="statement not covered" >      moveToStep('payment');</span>
@@ -1034,15 +1028,15 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
     createReservationMutation,
     moveToStep
   ]);
-  
+&nbsp;
   const handleMakePayment = <span class="cstat-no" title="statement not covered" >useCallback(<span class="fstat-no" title="function not covered" >async () =&gt; {</span></span>
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!transactionId &amp;&amp; !transactionData) {</span>
 <span class="cstat-no" title="statement not covered" >      setError('No transaction found');</span>
 <span class="cstat-no" title="statement not covered" >      return;</span>
     }
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    setError(null);</span>
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    try {</span>
       const paymentData = <span class="cstat-no" title="statement not covered" >{</span>
         transactionId: transactionId || '',
@@ -1057,11 +1051,11 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
           country: 'Ireland'
         }
       };
-      
+&nbsp;
 <span class="cstat-no" title="statement not covered" >      await processDepositMutation.mutateAsync(paymentData);</span>
-      
+&nbsp;
 <span class="cstat-no" title="statement not covered" >      moveToStep('complete');</span>
-      
+&nbsp;
       // Capture completion metrics
 <span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (window.performance &amp;&amp; 'measure' in window.performance) {</span>
 <span class="cstat-no" title="statement not covered" >        window.performance.measure(</span>
@@ -1069,7 +1063,7 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
           'buyer-journey-start'
         );
       }
-      
+&nbsp;
 <span class="cstat-no" title="statement not covered" >      onComplete?.(transactionId || '');</span>
     } catch (err) {
       // Error handled by error handler
@@ -1082,7 +1076,7 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
     moveToStep, 
     onComplete
   ]);
-  
+&nbsp;
   // Initialize KYC verification when appropriate
 <span class="cstat-no" title="statement not covered" >  useEffect(<span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (</span>
@@ -1105,7 +1099,7 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
     transactionId, 
     user?.id
   ]);
-  
+&nbsp;
   // Check KYC status on auth change
 <span class="cstat-no" title="statement not covered" >  useEffect(<span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (isAuthenticated) {</span>
@@ -1118,8 +1112,8 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
         }
       }
     }
-  }, [isAuthenticated, currentStep, kycStatus?.verified, moveToStep]);
-  
+  }, [isAuthenticated, currentStep, kycStatus?.verifiedmoveToStep]);
+&nbsp;
   // Helper function for step labels
   function <span class="fstat-no" title="function not covered" >getStepLabel(s</span>tep: JourneyStep): string {
 <span class="cstat-no" title="statement not covered" >    switch (step) {</span>
@@ -1131,7 +1125,7 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
       default: <span class="cstat-no" title="statement not covered" >return step;</span>
     }
   }
-  
+&nbsp;
 <span class="cstat-no" title="statement not covered" >  return {</span>
     // State
     currentStep,
@@ -1142,7 +1136,7 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
     isLoading,
     progressPercentage,
     journeySteps,
-    
+&nbsp;
     // Actions
     moveToStep,
     handleLogin,
@@ -1150,7 +1144,7 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
     handleKYCComplete,
     handleReserveUnit,
     handleMakePayment,
-    
+&nbsp;
     // Raw data
     kycStatus,
     unitData
@@ -1162,7 +1156,7 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T22:15:28.100Z
+                at 2025-06-15T18:50:48.918Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

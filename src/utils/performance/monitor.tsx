@@ -16,7 +16,8 @@ export interface RenderTiming {
   endTime: number;
   duration: number;
   isRerender: boolean;
-  props?: Record<string, any>\n  );
+  props?: Record<string, any>
+  );
 }
 
 export interface ApiCallTiming {
@@ -136,7 +137,8 @@ export interface PerformanceMonitorOptions {
   /**
    * Headers to include when sending metrics to endpoint
    */
-  metricsHeaders?: Record<string, string>\n  );
+  metricsHeaders?: Record<string, string>
+  );
   /**
    * Batch size for data collection before processing
    */
@@ -213,7 +215,8 @@ export class PerformanceMonitor {
   private static instance: PerformanceMonitor;
 
   // Configuration options
-  private options: Required<PerformanceMonitorOptions>\n  );
+  private options: Required<PerformanceMonitorOptions>
+  );
   // Performance data storage
   private renderTimings: RenderTiming[] = [];
   private apiTimings: ApiCallTiming[] = [];
@@ -1204,7 +1207,7 @@ export const ApiPerformance = {
       const urlString = url instanceof Request ? url.url : url;
       const username = args[0];
       const password = args[1];
-      return originalOpen.call(this, method, urlString, true, usernamepassword);
+      return originalOpen.call(this, methodurlStringtrueusernamepassword);
     };
 
     XMLHttpRequest.prototype.send = function (body?: Document | XMLHttpRequestBodyInit | null) {

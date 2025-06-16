@@ -80,8 +80,10 @@ export interface FinancialChartProps {
   minValue?: number;
   maxValue?: number;
   annotations?: {
-    x?: Array<{ value: any; label: string; color?: string }>\n  );
-    y?: Array<{ value: number; label: string; color?: string }>\n  );
+    x?: Array<{ value: any; label: string; color?: string }>
+  );
+    y?: Array<{ value: number; label: string; color?: string }>
+  );
   };
 }
 
@@ -100,17 +102,20 @@ export interface CashFlowSummaryDashboardProps {
     inflows: number;
     outflows: number;
     netCashFlow: number;
-  }>\n  );
+  }>
+  );
   inflowCategories: Array<{
     name: string;
     amount: MonetaryAmount;
     percentage: number;
-  }>\n  );
+  }>
+  );
   outflowCategories: Array<{
     name: string;
     amount: MonetaryAmount;
     percentage: number;
-  }>\n  );
+  }>
+  );
   peakNegativeCashFlow?: MonetaryAmount;
   projectedBreakEvenDate?: Date;
   isLoading?: boolean;
@@ -133,12 +138,14 @@ export interface BudgetVsActualDashboardProps {
     variance: MonetaryAmount;
     variancePercentage: number;
     isOverBudget: boolean;
-  }>\n  );
+  }>
+  );
   timeSeries?: Array<{
     date: Date | string;
     budget: number;
     actual: number;
-  }>\n  );
+  }>
+  );
   completionPercentage: number;
   timeElapsedPercentage: number;
   isLoading?: boolean;
@@ -157,20 +164,23 @@ export interface FundingDistributionDashboardProps {
     amount: MonetaryAmount;
     percentage: number;
     color?: string;
-  }>\n  );
+  }>
+  );
   drawdownProgress: Array<{
     source: string;
     total: MonetaryAmount;
     drawn: MonetaryAmount;
     remaining: MonetaryAmount;
     percentage: number;
-  }>\n  );
+  }>
+  );
   upcomingDrawdowns?: Array<{
     date: Date;
     amount: MonetaryAmount;
     source: string;
     description?: string;
-  }>\n  );
+  }>
+  );
   isLoading?: boolean;
 }
 
@@ -199,17 +209,20 @@ export interface InvestmentReturnsDashboardProps {
     name: string;
     return: number;
     isProjected?: boolean;
-  }>\n  );
+  }>
+  );
   returnByPeriod?: Array<{
     period: string;
     amount: MonetaryAmount;
     percentage: number;
-  }>\n  );
+  }>
+  );
   sensitivityAnalysis?: Array<{
     factor: string;
     values: number[];
     returns: number[];
-  }>\n  );
+  }>
+  );
   isLoading?: boolean;
 }
 
@@ -233,13 +246,15 @@ export interface ProjectFinancialStatusDashboardProps {
     value: number | string;
     target?: number | string;
     status: 'good' | 'warning' | 'danger' | 'neutral';
-  }>\n  );
+  }>
+  );
   risks?: Array<{
     name: string;
     likelihood: 'low' | 'medium' | 'high';
     impact: 'low' | 'medium' | 'high';
     mitigationPlan?: string;
-  }>\n  );
+  }>
+  );
   isLoading?: boolean;
 }
 
@@ -278,7 +293,8 @@ export interface FinancialDashboardProps {
     width: 1 | 2 | 3 | 4; // Grid width (out of 4)
     height: 1 | 2 | 3 | 4; // Grid height
     props: any;
-  }>\n  );
+  }>
+  );
 }
 
 /**
@@ -301,14 +317,16 @@ export interface ProjectedSalesDashboardProps {
     period: string;
     units: number;
     value: number;
-  }>\n  );
+  }>
+  );
   salesByUnitType: Array<{
     unitType: string;
     total: number;
     sold: number;
     reserved: number;
     available: number;
-  }>\n  );
+  }>
+  );
   isLoading?: boolean;
 }
 
@@ -331,13 +349,15 @@ export interface DeveloperPerformanceDashboardProps {
     roi: number;
     budgetVariance: number;
     scheduleVariance: number;
-  }>\n  );
+  }>
+  );
   performanceTrend: Array<{
     period: string;
     margin: number;
     roi: number;
     projectsCompleted: number;
-  }>\n  );
+  }>
+  );
   isLoading?: boolean;
 }
 
@@ -348,7 +368,8 @@ export interface CustomFinancialWidgetProps {
   title: string;
   type: string;
   data: any;
-  config: Record<string, any>\n  );
+  config: Record<string, any>
+  );
   dimensions?: {
     width: number | string;
     height: number | string;
@@ -401,7 +422,8 @@ export interface ChartProps {
     name: string | number;
     value: number;
     [key: string]: any;
-  }>\n  );
+  }>
+  );
   type: 'line' | 'bar' | 'area' | 'pie';
   height?: number;
   width?: number;

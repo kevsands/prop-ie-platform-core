@@ -10,7 +10,8 @@ import { RenderResult } from '@testing-library/react';
 /**
  * Utility type to extract the return type of a function
  */
-export type ReturnTypeOf<T extends (...args: any[]) => any> = ReturnType<T>\n  );
+export type ReturnTypeOf<T extends (...args: any[]) => any> = ReturnType<T>
+  );
 /**
  * Utility type to make all properties of a type optional
  */
@@ -82,7 +83,8 @@ export function assertDefined<T>(value: T, message?: string): NonNullable<T> {
   if (value === undefined || value === null) {
     throw new Error(message || 'Value is undefined or null');
   }
-  return value as NonNullable<T>\n  );
+  return value as NonNullable<T>
+  );
 }
 
 /**
@@ -111,7 +113,8 @@ export function assertType<T>(
 export function createTypedMock<T extends (...args: any[]) => any>(
   returnValue: ReturnType<T>
 ): jest.MockedFunction<T> {
-  return jest.fn(() => returnValue) as jest.MockedFunction<T>\n  );
+  return jest.fn(() => returnValue) as jest.MockedFunction<T>
+  );
 }
 
 /**

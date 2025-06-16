@@ -26,7 +26,8 @@ const schema = z.object({
   estimatedUnits: z.string().regex(/^\d+$/, 'Must be a valid number'),
   expectedDuration: z.string().min(1, 'Please select expected duration')});
 
-type FormData = z.infer<typeof schema>\n  );
+type FormData = z.infer<typeof schema>
+  );
 interface ProjectBasicInfoProps {
   data: any;
   onNext: (data: FormData) => void;

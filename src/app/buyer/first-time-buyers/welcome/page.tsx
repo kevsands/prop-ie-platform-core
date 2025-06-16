@@ -30,6 +30,7 @@ import {
   ChevronRight,
   Loader2
 } from 'lucide-react';
+import Link from 'next/link';
 
 interface UserData {
   firstName: string;
@@ -54,7 +55,7 @@ export default function FirstTimeBuyerWelcomePage() {
   const [currentTimesetCurrentTime] = useState(new Date());
 
   useEffect(() => {
-    // Get user data from localStorage
+    // Get user data from localStorage or use demo data
     const storedData = localStorage.getItem('userRegistration');
     if (storedData) {
       const data = JSON.parse(storedData);
@@ -62,11 +63,27 @@ export default function FirstTimeBuyerWelcomePage() {
 
       // Calculate HTB estimate based on budget
       const budgetValue = data.budget.split('-')[0];
-      const estimate = Math.min(parseInt(budgetValue) * 1000 * 0.130000);
+      const estimate = Math.min(parseInt(budgetValue) * 1000 * 0.1330000);
       setHtbEstimate(estimate);
     } else {
-      // Redirect to registration if no data
-      router.push('/first-time-buyers/register');
+      // Use demo data for the welcome page
+      const demoData: UserData = {
+        firstName: 'John',
+        lastName: 'Doe',
+        email: 'john.doe@example.com',
+        phone: '+353 87 123 4567',
+        budget: '350-400',
+        deposit: '45000',
+        hasHTB: false,
+        hasAIP: true,
+        preferredCounties: ['Dublin', 'Kildare'],
+        propertyType: ['house', 'apartment'],
+        bedrooms: '2-3',
+        moveInTimeframe: '6-12 months',
+        currentStatus: 'first-time-buyer'
+      };
+      setUserData(demoData);
+      setHtbEstimate(30000);
     }
 
     // Update time
@@ -86,7 +103,7 @@ export default function FirstTimeBuyerWelcomePage() {
 
   if (!userData) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
+      <div className="flex items-center justify-center min-h-[calc(100vh-4rem)]">
         <div className="text-center">
           <Loader2 className="w-12 h-12 animate-spin text-blue-600 mx-auto" />
           <p className="mt-4 text-gray-600">Loading your profile...</p>
@@ -217,276 +234,108 @@ export default function FirstTimeBuyerWelcomePage() {
   ];
 
   return (
-    <div className="-mt-6">
-      <div className="">
-        {/* Welcome Hero */}
-        <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-8">
-            <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
-            <div className="flex-1">
-              <h1 className="text-2xl md:text-3xl font-bold mb-2">
-                {greeting()}, {userData.firstName}! 🎉
-              </h1>
-              <p className="text-blue-100 text-base md:text-lg">
-                You\'ve successfully joined Ireland\'s leading digital property platform
-              </p>
-            </div>
-            <div className="text-left lg:text-right">
-              <div className="text-sm text-blue-100">Current time</div>
-              <div className="text-xl md:text-2xl font-mono">{currentTime.toLocaleTimeString()}</div>
-            </div>
+    <div className="space-y-6">
+      {/* Welcome Banner */}
+      <div className="bg-gradient-to-r from-blue-600 to-blue-800 rounded-lg shadow-lg p-6 text-white">
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-2xl font-bold">{greeting()}, {userData.firstName}! 🎉</h1>
+            <p className="mt-2 text-blue-100">You've successfully joined Ireland's leading digital property platform</p>
           </div>
-
-          {/* Personalized Stats */}
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4 mt-6">
-            {personalizedStats.map((statindex: any) => (
-              <div key={index} className="bg-white/20 backdrop-blur-sm rounded-lg p-3 md:p-4">
-                <div className={`w-8 h-8 md:w-10 md:h-10 rounded-lg ${stat.color} flex items-center justify-center mb-2`}>
-                  <stat.icon className="w-5 h-5 md:w-6 md:h-6" />
-                </div>
-                <div className="text-lg md:text-2xl font-bold">{stat.value}</div>
-                <div className="text-xs md:text-sm text-blue-100">{stat.label}</div>
-              </div>
-            ))}
-          </div>
-          </div>
-        </div>
-
-        {/* Special Offer Banner */}
-        <div className="bg-gradient-to-r from-green-600 to-blue-600 p-4 md:p-6 text-white mb-6 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-            <div className="flex items-center gap-3">
-              <Gift className="text-yellow-300" size={28} />
-              <div>
-                <h2 className="text-lg md:text-xl font-bold">Welcome Bonus!</h2>
-                <p className="text-sm text-green-100">Complete your profile today and get €500 off PROP Choice customization</p>
-              </div>
+          <div className="hidden sm:flex items-center space-x-4">
+            <div className="text-right">
+              <div className="text-sm text-blue-100">Your Budget</div>
+              <div className="text-xl font-bold">€{userData.budget}k</div>
             </div>
-            <button
-              onClick={() => router.push('/buyer/profile')}
-              className="px-4 md:px-6 py-2 md:py-3 bg-white text-green-600 rounded-lg font-semibold hover:bg-green-50 transition-colors text-sm md:text-base"
-            >
-              Claim Offer
-            </button>
-          </div>
-        </div>
-
-        {/* Main Content Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-6">
-          {/* Left Column - Next Steps & Journey Progress */}
-          <div className="lg:col-span-2 space-y-6">
-            {/* Next Steps */}
-            <div className="bg-gray-50 rounded-xl shadow-sm p-4 md:p-6">
-              <h2 className="text-lg md:text-xl font-bold mb-4">Your Next Steps</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
-                {nextSteps.map((stepindex: any) => (
-                  <div
-                    key={index}
-                    onClick={() => router.push(step.link)}
-                    className="border border-gray-200 rounded-lg p-3 md:p-4 cursor-pointer hover:shadow-md transition-all group"
-                  >
-                    <div className="flex items-start gap-3">
-                      <div className={`${step.color} text-white rounded-lg p-2 md:p-3 flex-shrink-0`}>
-                        <step.icon className="w-5 h-5 md:w-6 md:h-6" />
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <h3 className="font-semibold text-sm md:text-base mb-1 group-hover:text-blue-600">
-                          {step.title}
-                        </h3>
-                        <p className="text-xs md:text-sm text-gray-600 mb-2">{step.description}</p>
-                        <div className="flex items-center text-blue-600 text-xs md:text-sm">
-                          <span>Get Started</span>
-                          <ArrowRight className="w-3 h-3 md:w-4 md:h-4 ml-1 group-hover:translate-x-1 transition-transform" />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Profile Summary */}
-            <div className="bg-gray-50 rounded-xl shadow-sm p-4 md:p-6">
-              <h2 className="text-lg md:text-xl font-bold mb-4">Your Profile Summary</h2>
-              <div className="grid md:grid-cols-2 gap-4 md:gap-6">
-                <div>
-                  <h3 className="font-semibold text-sm md:text-base mb-3 flex items-center gap-2">
-                    <User className="text-blue-600" size={18} />
-                    Personal Information
-                  </h3>
-                  <div className="space-y-2">
-                    <div className="flex justify-between text-sm">
-                      <span className="text-gray-600">Name:</span>
-                      <span className="font-medium">{userData.firstName} {userData.lastName}</span>
-                    </div>
-                    <div className="flex justify-between text-sm">
-                      <span className="text-gray-600">Email:</span>
-                      <span className="font-medium truncate ml-2">{userData.email}</span>
-                    </div>
-                    <div className="flex justify-between text-sm">
-                      <span className="text-gray-600">Phone:</span>
-                      <span className="font-medium">{userData.phone}</span>
-                    </div>
-                  </div>
-                </div>
-
-                <div>
-                  <h3 className="font-semibold text-sm md:text-base mb-3 flex items-center gap-2">
-                    <Home className="text-blue-600" size={18} />
-                    Property Preferences
-                  </h3>
-                  <div className="space-y-2">
-                    <div className="flex justify-between text-sm">
-                      <span className="text-gray-600">Type:</span>
-                      <span className="font-medium capitalize">{userData.propertyType.join(', ')}</span>
-                    </div>
-                    <div className="flex justify-between text-sm">
-                      <span className="text-gray-600">Bedrooms:</span>
-                      <span className="font-medium">{userData.bedrooms}</span>
-                    </div>
-                    <div className="flex justify-between text-sm">
-                      <span className="text-gray-600">Counties:</span>
-                      <span className="font-medium">{userData.preferredCounties.join(', ')}</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="mt-4 pt-4 border-t">
-                <h3 className="font-semibold text-sm md:text-base mb-3 flex items-center gap-2">
-                  <PiggyBank className="text-blue-600" size={18} />
-                  Financial Readiness
-                </h3>
-                <div className="grid grid-cols-3 gap-3">
-                  <div className="text-center p-2 md:p-3 bg-blue-50 rounded-lg">
-                    <div className="text-base md:text-lg font-bold text-blue-900">€{userData.budget}k</div>
-                    <div className="text-xs text-gray-600">Budget Range</div>
-                  </div>
-                  <div className="text-center p-2 md:p-3 bg-green-50 rounded-lg">
-                    <div className="text-base md:text-lg font-bold text-green-900">€{parseInt(userData.deposit).toLocaleString()}</div>
-                    <div className="text-xs text-gray-600">Saved Deposit</div>
-                  </div>
-                  <div className="text-center p-2 md:p-3 bg-purple-50 rounded-lg">
-                    <div className="text-base md:text-lg font-bold text-purple-900">€{htbEstimate.toLocaleString()}</div>
-                    <div className="text-xs text-gray-600">Est. HTB Benefit</div>
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-2 mt-3">
-                  <div className={`px-2 py-1 rounded-full text-xs font-medium ${
-                    userData.hasHTB ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-600'
-                  }`}>
-                    {userData.hasHTB ? '✓ HTB Registered' : 'HTB Not Started'}
-                  </div>
-                  <div className={`px-2 py-1 rounded-full text-xs font-medium ${
-                    userData.hasAIP ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-600'
-                  }`}>
-                    {userData.hasAIP ? '✓ Has AIP' : 'AIP Not Started'}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Right Column - Journey & Resources */}
-          <div className="space-y-6">
-            {/* Journey Progress */}
-            <div className="bg-gray-50 rounded-xl shadow-sm p-4 md:p-6">
-              <h2 className="text-lg md:text-xl font-bold mb-4">Your Journey</h2>
-              <div className="relative">
-                <div className="absolute left-0 top-0 bottom-0 w-0.5 bg-gray-200"></div>
-                <div className="space-y-4">
-                  {journeyMilestones.map((milestoneindex: any) => (
-                    <div key={index} className="flex items-start gap-3 relative">
-                      <div className={`absolute left-0 w-0.5 h-full ${
-                        milestone.status === 'completed' ? 'bg-green-600' : 'bg-gray-200'
-                      }`}></div>
-                      <div className={`relative z-10 rounded-full p-1.5 ${
-                        milestone.status === 'completed' ? 'bg-green-100' : 'bg-gray-100'
-                      }`}>
-                        {milestone.icon}
-                      </div>
-                      <div className="flex-1">
-                        <h3 className={`font-semibold text-sm ${
-                          milestone.status === 'completed' ? 'text-green-800' : 'text-gray-600'
-                        }`}>
-                          {milestone.title}
-                        </h3>
-                        {milestone.status === 'pending' && milestone.action && (
-                          <button
-                            onClick={() => router.push(milestone.action)}
-                            className="text-xs text-blue-600 hover:underline mt-0.5"
-                          >
-                            Complete now →
-                          </button>
-                        )}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div className="mt-4 p-3 bg-blue-50 rounded-lg">
-                <div className="text-xl font-bold text-blue-900 mb-0.5">25% Complete</div>
-                <div className="text-xs text-gray-600">Keep going! You\'re making great progress</div>
-              </div>
-            </div>
-
-            {/* Essential Resources */}
-            <div className="bg-gray-50 rounded-xl shadow-sm p-4 md:p-6">
-              <h2 className="text-lg md:text-xl font-bold mb-4">Essential Resources</h2>
-              <div className="space-y-3">
-                {resources.map((resourceindex: any) => (
-                  <div
-                    key={index}
-                    onClick={() => router.push(resource.href)}
-                    className="flex items-center justify-between p-3 border border-gray-200 rounded-lg hover:bg-gray-50 cursor-pointer group"
-                  >
-                    <div className="flex items-center gap-3">
-                      <div className="text-blue-600">{resource.icon}</div>
-                      <div>
-                        <h3 className="font-semibold text-sm group-hover:text-blue-600">
-                          {resource.title}
-                        </h3>
-                        <p className="text-xs text-gray-600">{resource.description}</p>
-                      </div>
-                    </div>
-                    <span className="text-xs bg-gray-100 px-2 py-1 rounded-full flex-shrink-0">
-                      {resource.tag}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Quick Help */}
-            <div className="bg-blue-50 rounded-xl p-4 md:p-6">
-              <h3 className="font-semibold text-sm md:text-base mb-2">Need Help?</h3>
-              <p className="text-xs md:text-sm text-gray-600 mb-3">
-                Our first-time buyer specialists are here to support you
-              </p>
-              <button
-                onClick={() => router.push('/buyer/support')}
-                className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-colors text-sm"
-              >
-                Get Support
-              </button>
+            <div className="text-right">
+              <div className="text-sm text-blue-100">HTB Available</div>
+              <div className="text-xl font-bold">€{htbEstimate.toLocaleString()}</div>
             </div>
           </div>
         </div>
+      </div>
 
-        {/* Bottom CTA */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-6">
-          <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl p-6 md:p-8 text-white text-center">
-          <h2 className="text-xl md:text-2xl font-bold mb-3">Ready to Find Your Dream Home?</h2>
-          <p className="text-base md:text-lg mb-5">Start browsing properties that match your preferences</p>
-          <button
-            onClick={() => router.push('/properties')}
-            className="px-6 md:px-8 py-2.5 md:py-3 bg-white text-blue-600 rounded-lg font-bold hover:bg-blue-50 transition-colors text-sm md:text-base"
+      {/* Stats Grid */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        {personalizedStats.map((statindex) => (
+          <div key={index} className="bg-white rounded-lg shadow p-4">
+            <div className={`${stat.color} w-10 h-10 rounded-lg flex items-center justify-center mb-3`}>
+              {React.createElement(stat.icon, { className: 'w-6 h-6' })}
+            </div>
+            <div className="text-sm text-gray-600">{stat.label}</div>
+            <div className="text-lg font-bold text-gray-900">{stat.value}</div>
+          </div>
+        ))}
+      </div>
+
+      {/* Next Steps Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        {nextSteps.map((stepindex) => (
+          <Link 
+            key={index}
+            href={step.link}
+            className="bg-white rounded-lg shadow p-4 hover:shadow-lg transition-shadow group"
           >
-            Browse Properties
-          </button>
-          </div>
+            <div className={`${step.color} w-10 h-10 rounded-lg flex items-center justify-center mb-3 group-hover:scale-110 transition-transform`}>
+              {React.createElement(step.icon, { className: 'w-6 h-6 text-white' })}
+            </div>
+            <h3 className="font-semibold text-gray-900 mb-1">{step.title}</h3>
+            <p className="text-sm text-gray-600">{step.description}</p>
+          </Link>
+        ))}
+      </div>
+
+      {/* Journey Progress */}
+      <div className="bg-white rounded-lg shadow p-6">
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-xl font-bold">Your Journey Progress</h2>
+          <Link href="/buyer/journey" className="text-blue-600 hover:text-blue-700 flex items-center text-sm font-medium">
+            View Full Journey <ArrowRight className="w-4 h-4 ml-1" />
+          </Link>
+        </div>
+        <div className="space-y-4">
+          {journeyMilestones.map((milestoneindex) => (
+            <div key={index} className="flex items-center">
+              <div className="flex-shrink-0">{milestone.icon}</div>
+              <div className="ml-3 flex-grow">
+                <div className="text-sm font-medium text-gray-900">{milestone.title}</div>
+                {milestone.action && milestone.status === 'pending' && (
+                  <Link href={milestone.action} className="text-xs text-blue-600 hover:text-blue-700">
+                    Start Now
+                  </Link>
+                )}
+              </div>
+              {milestone.status === 'completed' && (
+                <span className="text-xs text-green-600">Completed</span>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Resources Grid */}
+      <div className="bg-white rounded-lg shadow p-6">
+        <h2 className="text-xl font-bold mb-4">Essential Resources</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {resources.map((resourceindex) => (
+            <Link
+              key={index}
+              href={resource.href}
+              className="group p-4 border border-gray-200 rounded-lg hover:border-blue-500 transition-colors"
+            >
+              <div className="flex items-start">
+                <div className="flex-shrink-0 text-gray-500 group-hover:text-blue-600">
+                  {resource.icon}
+                </div>
+                <div className="ml-3">
+                  <h3 className="text-sm font-medium text-gray-900 group-hover:text-blue-600">
+                    {resource.title}
+                  </h3>
+                  <p className="mt-1 text-xs text-gray-600">{resource.description}</p>
+                </div>
+              </div>
+            </Link>
+          ))}
         </div>
       </div>
     </div>

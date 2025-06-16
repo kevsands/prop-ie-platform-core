@@ -35,7 +35,8 @@ export interface Customization {
   selectedOptions: Record<string, any>; // Ideally replace with SelectedOption type
   totalCost: number;
   status?: string;
-  userPreferences?: Record<string, any>\n  );
+  userPreferences?: Record<string, any>
+  );
   createdAt?: string;
   updatedAt?: string;
 }
@@ -137,7 +138,8 @@ export const DataService = {
     skipCache = false
   }: { 
     query: string; 
-    variables?: Record<string, any>\n  );
+    variables?: Record<string, any>
+  );
     operationName?: string;
     cacheKey?: string;
     cacheTTL?: number;
@@ -159,7 +161,8 @@ export const DataService = {
       const response = await amplifyApiClient.graphql({
         query: query,
         variables: variables
-      }) as GraphQLResult<T>\n  );
+      }) as GraphQLResult<T>
+  );
       // Check for GraphQL errors within the response
       if (response.errors) {
         const errorMessage = response.errors.map((e: { message: string }) => e.message).join(', ');
@@ -216,7 +219,8 @@ export const DataService = {
       operationName: "ListFeaturedDevelopments",
       cacheKey,
       cacheTTL: 30 * 60 * 1000 // 30 minutes cache for featured developments
-    }) as ServiceResult<ListDevelopmentsResponse>\n  );
+    }) as ServiceResult<ListDevelopmentsResponse>
+  );
     if (!result.success || !result.data) {
 
       // Try to fetch from REST API as fallback
@@ -261,7 +265,8 @@ export const DataService = {
       operationName: "ListFeaturedProperties",
       cacheKey,
       cacheTTL: 15 * 60 * 1000 // 15 minutes cache for featured properties
-    }) as ServiceResult<ListPropertiesResponse>\n  );
+    }) as ServiceResult<ListPropertiesResponse>
+  );
     if (!result.success || !result.data) {
 
       try {
@@ -298,7 +303,8 @@ export const DataService = {
         operationName: "ListLatestProperties",
         cacheKey: fallbackCacheKey,
         cacheTTL: 10 * 60 * 1000 // 10 minutes cache for latest properties
-      }) as ServiceResult<ListPropertiesResponse>\n  );
+      }) as ServiceResult<ListPropertiesResponse>
+  );
       if (fallbackResult.success && fallbackResult.data) {
         properties = fallbackResult.data.listProperties?.items || [];
       }
@@ -343,7 +349,8 @@ export const DataService = {
         operationName: "GetCustomizationOptions",
         cacheKey,
         cacheTTL: 60 * 60 * 1000 // 1 hour cache for customization options (more static data)
-      }) as ServiceResult<ListCustomizationOptionsResponse>\n  );
+      }) as ServiceResult<ListCustomizationOptionsResponse>
+  );
       if (!result.success) {
         throw result.error;
       }
@@ -401,7 +408,8 @@ export const DataService = {
       operationName: "ListRooms",
       cacheKey,
       cacheTTL: 24 * 60 * 60 * 1000 // 24 hours cache for rooms (very static data)
-    }) as ServiceResult<ListRoomsResponse>\n  );
+    }) as ServiceResult<ListRoomsResponse>
+  );
     if (!result.success || !result.data) {
 
       // Try REST API fallback
@@ -436,7 +444,8 @@ export const DataService = {
       operationName: "ListCategories",
       cacheKey,
       cacheTTL: 24 * 60 * 60 * 1000 // 24 hours cache for categories (very static data)
-    }) as ServiceResult<ListCategoriesResponse>\n  );
+    }) as ServiceResult<ListCategoriesResponse>
+  );
     if (!result.success || !result.data) {
 
       // Try REST API fallback
@@ -524,7 +533,8 @@ export const DataService = {
         variables: { input },
         operationName,
         skipCache: true
-      }) as ServiceResult<MutationResponse>\n  );
+      }) as ServiceResult<MutationResponse>
+  );
       if (!result.success || !result.data) {
         throw result.error || new Error("Failed to save customization: No response data");
       }
@@ -591,7 +601,8 @@ export const DataService = {
       operationName: "GetCustomization",
       cacheKey,
       cacheTTL: 5 * 60 * 1000 // 5 minutes cache for customization data
-    }) as ServiceResult<GetCustomizationResponse>\n  );
+    }) as ServiceResult<GetCustomizationResponse>
+  );
     if (!result.success || !result.data?.getCustomization) {
 
       // Try REST API fallback
@@ -648,7 +659,8 @@ export const DataService = {
         variables,
         operationName: "ListCustomizations",
         cacheKey
-      }) as ServiceResult<ListCustomizationsResponse>\n  );
+      }) as ServiceResult<ListCustomizationsResponse>
+  );
       if (!result.success || !result.data) {
         throw result.error || new Error("Failed to fetch customizations");
       }
@@ -730,7 +742,8 @@ export const DataService = {
         variables: { input },
         operationName: "CreateConsultation",
         skipCache: true
-      }) as ServiceResult<CreateConsultationResponse>\n  );
+      }) as ServiceResult<CreateConsultationResponse>
+  );
       if (!result.success || !result.data?.createConsultation) {
         throw result.error || new Error("Failed to create consultation: No response data");
       }

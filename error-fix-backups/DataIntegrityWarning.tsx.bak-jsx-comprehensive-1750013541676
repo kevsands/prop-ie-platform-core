@@ -1,0 +1,206 @@
+'use client';
+
+import React, { useState } from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Checkbox } from '@/components/ui/checkbox';
+import { AlertTriangle, Shield, CheckCircle, X } from 'lucide-react';
+
+interface DataIntegrityWarningProps {
+  isVisible: boolean;
+  onClose: () => void;
+  onProceed: () => void;
+  dataType: 'financial' | 'boq' | 'export' | 'calculation';
+  action: string;
+}
+
+export function DataIntegrityWarning({ 
+  isVisible, 
+  onClose, 
+  onProceed, 
+  dataType, 
+  action 
+}: DataIntegrityWarningProps) {
+  const [acknowledgments, setAcknowledgments] = useState({
+    templateData: false,
+    rateVerification: false,
+    professionalReview: false,
+    noLiability: false
+  });
+
+  const allAcknowledged = Object.values(acknowledgments).every(Boolean);
+
+  const getWarningContent = () => {
+    switch (dataType) {
+      case 'financial':
+        return {
+          title: 'Financial Data Warning',
+          description: 'You are about to work with template financial data',
+          risks: [
+            'Financial figures are examples only',
+            'Market conditions may have changed',
+            'Regional variations not accounted for',
+            'Professional financial review required'
+          ]
+        };
+      case 'boq':
+        return {
+          title: 'BOQ Data Warning',
+          description: 'You are about to work with template BOQ rates',
+          risks: [
+            'All rates require current supplier verification',
+            'Material costs fluctuate frequently',
+            'Labor rates vary by region and availability',
+            'Professional quantity surveyor review required'
+          ]
+        };
+      case 'export':
+        return {
+          title: 'Export Warning',
+          description: 'You are about to export template data',
+          risks: [
+            'Exported data contains unverified rates',
+            'Document may be used for actual project decisions',
+            'Professional liability concerns',
+            'Could result in financial losses if used without verification'
+          ]
+        };
+      default:
+        return {
+          title: 'Data Warning',
+          description: 'You are about to work with template data',
+          risks: ['Data requires verification before use']
+        };
+    }
+  };
+
+  const handleAcknowledgment = (key: string, checked: boolean) => {
+    setAcknowledgments(prev => ({
+      ...prev,
+      [key]: checked
+    }));
+  };
+
+  const handleProceed = () => {
+    if (allAcknowledged) {
+      onProceed();
+      onClose();
+      // Reset acknowledgments
+      setAcknowledgments({
+        templateData: false,
+        rateVerification: false,
+        professionalReview: false,
+        noLiability: false
+      });
+    }
+  };
+
+  if (!isVisible) return null;
+
+  const content = getWarningContent();
+
+  return (
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+      <Card className="max-w-lg mx-4 border-red-200">
+        <CardHeader className="pb-4">
+          <div className="flex items-center gap-3">
+            <div className="bg-red-100 p-2 rounded-full">
+              <AlertTriangle className="h-6 w-6 text-red-600" />
+            </div>
+            <div>
+              <CardTitle className="text-red-800">{content.title}</CardTitle>
+              <p className="text-sm text-red-600 mt-1">{content.description}</p>
+            </div>
+          </div>
+        </CardHeader>
+        
+        <CardContent className="space-y-4">
+          <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+            <h4 className="font-semibold text-red-800 mb-2 flex items-center gap-2">
+              <Shield className="h-4 w-4" />
+              Critical Risks
+            </h4>
+            <ul className="space-y-1">
+              {content.risks.map((risk, index) => (
+                <li key={index} className="text-sm text-red-700 flex items-start gap-2">
+                  <span className="text-red-600 mt-1">•</span>
+                  {risk}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="space-y-3">
+            <h4 className="font-semibold text-gray-800">Required Acknowledgments:</h4>
+            
+            <div className="space-y-2">
+              <label className="flex items-start gap-3 cursor-pointer">
+                <Checkbox
+                  checked={acknowledgments.templateData}
+                  onCheckedChange={(checked) => handleAcknowledgment('templateData', !!checked)}
+                  className="mt-1"
+                />
+                <span className="text-sm">
+                  I understand this is template data only and not actual project data
+                </span>
+              </label>
+
+              <label className="flex items-start gap-3 cursor-pointer">
+                <Checkbox
+                  checked={acknowledgments.rateVerification}
+                  onCheckedChange={(checked) => handleAcknowledgment('rateVerification', !!checked)}
+                  className="mt-1"
+                />
+                <span className="text-sm">
+                  I will verify all rates with current suppliers before use
+                </span>
+              </label>
+
+              <label className="flex items-start gap-3 cursor-pointer">
+                <Checkbox
+                  checked={acknowledgments.professionalReview}
+                  onCheckedChange={(checked) => handleAcknowledgment('professionalReview', !!checked)}
+                  className="mt-1"
+                />
+                <span className="text-sm">
+                  I will have this data reviewed by qualified professionals
+                </span>
+              </label>
+
+              <label className="flex items-start gap-3 cursor-pointer">
+                <Checkbox
+                  checked={acknowledgments.noLiability}
+                  onCheckedChange={(checked) => handleAcknowledgment('noLiability', !!checked)}
+                  className="mt-1"
+                />
+                <span className="text-sm">
+                  I understand the platform accepts no liability for template data accuracy
+                </span>
+              </label>
+            </div>
+          </div>
+
+          <div className="flex justify-between gap-3 pt-4">
+            <Button variant="outline" onClick={onClose}>
+              <X className="h-4 w-4 mr-2" />
+              Cancel
+            </Button>
+            
+            <Button 
+              onClick={handleProceed}
+              disabled={!allAcknowledged}
+              className={allAcknowledged ? 'bg-orange-600 hover:bg-orange-700' : ''}
+            >
+              {allAcknowledged ? (
+                <CheckCircle className="h-4 w-4 mr-2" />
+              ) : (
+                <AlertTriangle className="h-4 w-4 mr-2" />
+              )}
+              {allAcknowledged ? `Proceed with ${action}` : 'Complete Acknowledgments'}
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  );
+}

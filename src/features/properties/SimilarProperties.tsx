@@ -103,7 +103,7 @@ export default function SimilarProperties({
           640: {
             slidesPerView: 2},
           1024: {
-            slidesPerView: 3}}
+            slidesPerView: 3}
         className="pb-10"
       >
         {properties.map((property: SimilarProperty, index: number) => (
@@ -174,7 +174,7 @@ export default function SimilarProperties({
                       <div className="pt-2 border-t">
                         <p className="text-xs text-gray-600 mb-1">Similar because:</p>
                         <div className="flex flex-wrap gap-1">
-                          {property.similarity.reasons.slice(02).map((reasonidx: any) => (
+                          {property.similarity.reasons.slice(0).map((reasonidx: any) => (
                             <Badge key={idx} variant="secondary" className="text-xs">
                               {reason}
                             </Badge>

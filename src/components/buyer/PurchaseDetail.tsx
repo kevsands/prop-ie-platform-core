@@ -29,7 +29,8 @@ interface PurchaseDetail {
     uploadDate: string;
     status: string;
     notes?: string;
-  }>\n  );
+  }>
+  );
   contractIssued: boolean;
   contractIssuedDate?: string;
   contractSigned: boolean;

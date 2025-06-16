@@ -1126,8 +1126,8 @@ interface Scheme {
 }
 &nbsp;
 export default function <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >GovernmentSchemeInfo() {</span></span>
-  const [expandedScheme, setExpandedScheme] = <span class="cstat-no" title="statement not covered" >useState&lt;string | null&gt;('htb');</span>
-  
+  const [expandedSchemesetExpandedScheme] = <span class="cstat-no" title="statement not covered" >useState&lt;string | null&gt;('htb');</span>
+&nbsp;
   const schemes: Scheme[] = <span class="cstat-no" title="statement not covered" >[</span>
     {
       id: 'htb',
@@ -1229,7 +1229,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
           Financial assistance programs to help first-time buyers get on the property ladder
         &lt;/p&gt;
       &lt;/div&gt;
-      
+&nbsp;
       &lt;div className="p-6"&gt;
         &lt;Tabs defaultValue="overview"&gt;
           &lt;TabsList className="mb-4"&gt;
@@ -1237,7 +1237,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
             &lt;TabsTrigger value="compare"&gt;Compare Schemes&lt;/TabsTrigger&gt;
             &lt;TabsTrigger value="eligibility"&gt;Eligibility Check&lt;/TabsTrigger&gt;
           &lt;/TabsList&gt;
-          
+&nbsp;
           &lt;TabsContent value="overview" className="space-y-4"&gt;
             &lt;div className="bg-amber-50 border border-amber-200 rounded-lg p-4 mb-4"&gt;
               &lt;div className="flex items-start"&gt;
@@ -1248,7 +1248,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                 &lt;/div&gt;
               &lt;/div&gt;
             &lt;/div&gt;
-            
+&nbsp;
             &lt;div className="space-y-4"&gt;
               {schemes.map(<span class="fstat-no" title="function not covered" >scheme =&gt; (</span>
 <span class="cstat-no" title="statement not covered" >                &lt;div </span>
@@ -1276,16 +1276,16 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                       }`} 
                     /&gt;
                   &lt;/div&gt;
-                  
+&nbsp;
                   {<span class="branch-0 cbranch-no" title="branch not covered" >expandedScheme === scheme.id </span>&amp;&amp; (
                     &lt;div className="px-4 pb-4 pt-2 border-t"&gt;
                       &lt;p className="text-gray-700 mb-4"&gt;{scheme.description}&lt;/p&gt;
-                      
+&nbsp;
                       &lt;div className="grid md:grid-cols-2 gap-4 mb-4"&gt;
                         &lt;div&gt;
                           &lt;h4 className="text-sm font-medium text-gray-900 mb-2"&gt;Eligibility Criteria&lt;/h4&gt;
                           &lt;ul className="space-y-1"&gt;
-                            {scheme.eligibility.map(<span class="fstat-no" title="function not covered" >(i</span>tem, index) =&gt; (
+                            {scheme.eligibility.map(<span class="fstat-no" title="function not covered" >(i</span>temindex: any) =&gt; (
 <span class="cstat-no" title="statement not covered" >                              &lt;li key={index} c</span>lassName="flex items-start text-sm"&gt;
                                 &lt;CheckCircle className="h-4 w-4 text-green-600 mr-2 flex-shrink-0 mt-0.5" /&gt;
                                 &lt;span&gt;{item}&lt;/span&gt;
@@ -1293,11 +1293,11 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                             ))}
                           &lt;/ul&gt;
                         &lt;/div&gt;
-                        
+&nbsp;
                         &lt;div&gt;
                           &lt;h4 className="text-sm font-medium text-gray-900 mb-2"&gt;Benefits&lt;/h4&gt;
                           &lt;ul className="space-y-1"&gt;
-                            {scheme.benefits.map(<span class="fstat-no" title="function not covered" >(i</span>tem, index) =&gt; (
+                            {scheme.benefits.map(<span class="fstat-no" title="function not covered" >(i</span>temindex: any) =&gt; (
 <span class="cstat-no" title="statement not covered" >                              &lt;li key={index} c</span>lassName="flex items-start text-sm"&gt;
                                 &lt;CheckCircle className="h-4 w-4 text-green-600 mr-2 flex-shrink-0 mt-0.5" /&gt;
                                 &lt;span&gt;{item}&lt;/span&gt;
@@ -1306,7 +1306,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                           &lt;/ul&gt;
                         &lt;/div&gt;
                       &lt;/div&gt;
-                      
+&nbsp;
                       &lt;div className="flex flex-wrap gap-4 text-sm mb-4"&gt;
                         &lt;div className="bg-blue-50 px-3 py-1 rounded-full text-blue-700"&gt;
                           Max Amount: {scheme.maxAmount}
@@ -1317,7 +1317,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                           &lt;/div&gt;
                         )}
                       &lt;/div&gt;
-                      
+&nbsp;
                       &lt;div className="flex justify-between items-center"&gt;
                         &lt;a 
                           href={scheme.website} 
@@ -1327,7 +1327,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                         &gt;
                           Visit Official Website &lt;ExternalLink className="h-4 w-4 ml-1" /&gt;
                         &lt;/a&gt;
-                        
+&nbsp;
                         &lt;Button variant="outline" size="sm"&gt;
                           &lt;FileText className="h-4 w-4 mr-1" /&gt; Download Guide
                         &lt;/Button&gt;
@@ -1338,7 +1338,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
               ))}
             &lt;/div&gt;
           &lt;/TabsContent&gt;
-          
+&nbsp;
           &lt;TabsContent value="compare"&gt;
             &lt;div className="overflow-x-auto"&gt;
               &lt;table className="min-w-full divide-y divide-gray-200"&gt;
@@ -1434,7 +1434,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
               &lt;/table&gt;
             &lt;/div&gt;
           &lt;/TabsContent&gt;
-          
+&nbsp;
           &lt;TabsContent value="eligibility"&gt;
             &lt;div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6"&gt;
               &lt;div className="flex items-start"&gt;
@@ -1445,7 +1445,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                 &lt;/div&gt;
               &lt;/div&gt;
             &lt;/div&gt;
-            
+&nbsp;
             &lt;div className="grid md:grid-cols-2 gap-6"&gt;
               &lt;div className="space-y-4"&gt;
                 &lt;div&gt;
@@ -1463,7 +1463,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                     &lt;/label&gt;
                   &lt;/div&gt;
                 &lt;/div&gt;
-                
+&nbsp;
                 &lt;div&gt;
                   &lt;label className="block text-sm font-medium text-gray-700 mb-1"&gt;
                     Are you interested in a new build property?
@@ -1479,7 +1479,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                     &lt;/label&gt;
                   &lt;/div&gt;
                 &lt;/div&gt;
-                
+&nbsp;
                 &lt;div&gt;
                   &lt;label className="block text-sm font-medium text-gray-700 mb-1"&gt;
                     What is your approximate annual household income?
@@ -1491,7 +1491,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                     &lt;option&gt;Over €100,000&lt;/option&gt;
                   &lt;/select&gt;
                 &lt;/div&gt;
-                
+&nbsp;
                 &lt;div&gt;
                   &lt;label className="block text-sm font-medium text-gray-700 mb-1"&gt;
                     What price range are you considering?
@@ -1503,18 +1503,18 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                     &lt;option&gt;Over €500,000&lt;/option&gt;
                   &lt;/select&gt;
                 &lt;/div&gt;
-                
+&nbsp;
                 &lt;div className="pt-4"&gt;
                   &lt;Button className="w-full"&gt;
                     Check My Eligibility
                   &lt;/Button&gt;
                 &lt;/div&gt;
               &lt;/div&gt;
-              
+&nbsp;
               &lt;div className="bg-gray-50 p-6 rounded-lg"&gt;
                 &lt;h3 className="text-lg font-medium text-gray-900 mb-4"&gt;Your Potential Eligibility&lt;/h3&gt;
                 &lt;p className="text-gray-500 text-sm mb-6"&gt;Complete the form to see which schemes you might qualify for.&lt;/p&gt;
-                
+&nbsp;
                 &lt;div className="space-y-3"&gt;
                   &lt;div className="flex items-center opacity-50"&gt;
                     &lt;div className="w-6 h-6 rounded-full bg-gray-200 flex items-center justify-center mr-3"&gt;
@@ -1522,21 +1522,21 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                     &lt;/div&gt;
                     &lt;span className="text-gray-400"&gt;Help to Buy (HTB)&lt;/span&gt;
                   &lt;/div&gt;
-                  
+&nbsp;
                   &lt;div className="flex items-center opacity-50"&gt;
                     &lt;div className="w-6 h-6 rounded-full bg-gray-200 flex items-center justify-center mr-3"&gt;
                       &lt;span className="text-xs font-medium text-gray-500"&gt;?&lt;/span&gt;
                     &lt;/div&gt;
                     &lt;span className="text-gray-400"&gt;First Home Scheme&lt;/span&gt;
                   &lt;/div&gt;
-                  
+&nbsp;
                   &lt;div className="flex items-center opacity-50"&gt;
                     &lt;div className="w-6 h-6 rounded-full bg-gray-200 flex items-center justify-center mr-3"&gt;
                       &lt;span className="text-xs font-medium text-gray-500"&gt;?&lt;/span&gt;
                     &lt;/div&gt;
                     &lt;span className="text-gray-400"&gt;Local Authority Affordable Purchase&lt;/span&gt;
                   &lt;/div&gt;
-                  
+&nbsp;
                   &lt;div className="flex items-center opacity-50"&gt;
                     &lt;div className="w-6 h-6 rounded-full bg-gray-200 flex items-center justify-center mr-3"&gt;
                       &lt;span className="text-xs font-medium text-gray-500"&gt;?&lt;/span&gt;
@@ -1548,11 +1548,11 @@ export default function <span class="cstat-no" title="statement not covered" ><s
             &lt;/div&gt;
           &lt;/TabsContent&gt;
         &lt;/Tabs&gt;
-        
+&nbsp;
         &lt;div className="mt-6 border-t pt-6"&gt;
           &lt;h3 className="text-sm font-medium text-gray-900 mb-2"&gt;Need Help Understanding These Schemes?&lt;/h3&gt;
           &lt;p className="text-sm text-gray-600 mb-4"&gt;Our team can guide you through the various government schemes and help you determine which ones are right for your situation.&lt;/p&gt;
-          
+&nbsp;
           &lt;div className="flex space-x-4"&gt;
             &lt;Button variant="outline"&gt;
               Schedule Consultation
@@ -1621,7 +1621,7 @@ function <span class="fstat-no" title="function not covered" >Building(p</span>r
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T22:15:28.100Z
+                at 2025-06-15T18:50:48.918Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

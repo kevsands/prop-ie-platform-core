@@ -99,7 +99,8 @@ export interface DevelopmentFinancials {
   estimatedServiceCharge?: number;
   reservationFee?: number;
   governmentSchemes?: string[];
-  investmentInfo?: Record<string, any>\n  );
+  investmentInfo?: Record<string, any>
+  );
 }
 
 /**
@@ -132,7 +133,8 @@ export interface Development {
   updatedAt: Date;
   publishedAt?: Date;
   isPublished: boolean;
-  metadata?: Record<string, any>\n  );
+  metadata?: Record<string, any>
+  );
   tags?: string[];
   featured: boolean;
 }
@@ -189,13 +191,15 @@ export interface UpdateDevelopmentRequest {
   description?: string;
   status?: DevelopmentStatus;
   stage?: DevelopmentStage;
-  location?: Partial<PropertyLocation>\n  );
+  location?: Partial<PropertyLocation>
+  );
   startDate?: Date;
   estimatedCompletionDate?: Date;
   actualCompletionDate?: Date;
   totalUnits?: number;
   amenities?: DevelopmentAmenity[];
-  financials?: Partial<DevelopmentFinancials>\n  );
+  financials?: Partial<DevelopmentFinancials>
+  );
   developerId?: string;
   isPublished?: boolean;
   tags?: string[];

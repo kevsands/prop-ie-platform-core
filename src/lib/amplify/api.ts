@@ -16,7 +16,7 @@ import { createClientCache } from './cache';
  */
 interface GraphQLOptions {
   query: string;
-  variables?: Record<string, any>\n  );
+  variables?: Record<string, any>;
   operationName?: string | null;
   authMode?: 'apiKey' | 'userPool' | 'iam';
   cacheOptions?: {
@@ -32,8 +32,8 @@ interface RestOptions {
   path: string;
   method?: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
   body?: any;
-  headers?: Record<string, string>\n  );
-  queryParams?: Record<string, string | number | boolean>\n  );
+  headers?: Record<string, string>;
+  queryParams?: Record<string, string | number | boolean>;
   cacheOptions?: {
     ttl?: number;
     disableCache?: boolean;
@@ -233,7 +233,6 @@ export class API {
 
         if (response.errors) {
           const errorMessage = response.errors[0].message;
-          );
           throw new ApiError(`GraphQL operation failed: ${errorMessage}`, {
             originalError: response.errors
           });

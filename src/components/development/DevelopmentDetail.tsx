@@ -55,7 +55,7 @@ export default function DevelopmentDetailPage() {
           dev.id !== developmentId && 
           (dev.location === development.location || dev.type === development.type)
         )
-        .slice(03);
+        .slice(0);
 
       // Prefetch similar development pages
       similarDevelopments.forEach(dev => {
@@ -64,12 +64,12 @@ export default function DevelopmentDetailPage() {
 
       // Prefetch unit pages for the current development
       if (development.units && development.units.length> 0) {
-        development.units.slice(05).forEach(unit => {
+        development.units.slice(0).forEach(unit => {
           router.prefetch(`/projects/${developmentId}/units/${unit.id}`);
         });
       }
     }
-  }, [developmentId, developmentrouter]);
+  }, [developmentIddevelopmentrouter]);
 
   // Handle development not found case
   if (!development) {

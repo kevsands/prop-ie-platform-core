@@ -26,7 +26,8 @@ export interface User {
   created: Date;
   lastActive: Date;
   lastLogin?: Date;
-  metadata?: Record<string, any>\n  );
+  metadata?: Record<string, any>
+  );
 }
 
 /**
@@ -78,7 +79,8 @@ export enum KYCStatus {
 export interface UserPermission {
   resource: string;
   action: 'create' | 'read' | 'update' | 'delete';
-  conditions?: Record<string, any>\n  );
+  conditions?: Record<string, any>
+  );
 }
 
 /**
@@ -94,7 +96,8 @@ export interface UserPreferences {
   theme: 'light' | 'dark' | 'system';
   language: string;
   timezone: string;
-  dashboardLayout?: Record<string, any>\n  );
+  dashboardLayout?: Record<string, any>
+  );
 }
 
 /**

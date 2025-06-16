@@ -20,7 +20,8 @@ export interface DocumentCreateInput {
   size?: number;
   status?: string;
   tags?: string[];
-  metadata?: Record<string, any>\n  );
+  metadata?: Record<string, any>
+  );
   expiryDate?: Date;
   signatureRequired?: boolean;
   developmentId?: string;
@@ -35,7 +36,8 @@ export interface DocumentUpdateInput {
   category?: string;
   status?: string;
   tags?: string[];
-  metadata?: Record<string, any>\n  );
+  metadata?: Record<string, any>
+  );
   expiryDate?: Date;
   signatureRequired?: boolean;
 }
@@ -55,7 +57,8 @@ export interface DocumentSignatureInput {
   signerId: string;
   signerName: string;
   signatureImageUrl?: string;
-  signaturePosition?: Record<string, any>\n  );
+  signaturePosition?: Record<string, any>
+  );
   signatureMethod: string;
   ipAddress?: string;
 }

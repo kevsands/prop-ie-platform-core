@@ -88,7 +88,7 @@ export default function PropertiesPage() {
 
   // Fetch properties
   const { data, isLoading, error } = useQuery<PropertyListResponse>({
-    queryKey: ['properties', filters, pagepageSize],
+    queryKey: ['properties', filterspagepageSize],
     queryFn: async () => {
       const params = new URLSearchParams();
 
@@ -144,14 +144,14 @@ export default function PropertiesPage() {
     params.set('pageSize', pageSize.toString());
 
     router.push(`/properties?${params.toString()}`);
-  }, [router, viewpageSize]);
+  }, [routerviewpageSize]);
 
   // Handle search
   const handleSearch = useCallback(() => {
     const newFilters = { ...filters, search: searchQuery };
     setFilters(newFilters);
     updateUrlParams(newFilters1);
-  }, [searchQuery, filtersupdateUrlParams]);
+  }, [searchQueryfiltersupdateUrlParams]);
 
   // Handle filter changes
   const handleFilterChange = (key: keyof PropertyFilters, value: any) => {
@@ -314,7 +314,7 @@ export default function PropertiesPage() {
                   <div>
                     <Label className="text-base font-semibold mb-3 block">Bedrooms</Label>
                     <div className="flex flex-wrap gap-2">
-                      {[1, 2, 3, 45].map(num => (
+                      {[12345].map(num => (
                         <Button
                           key={num}
                           variant={filters.bedrooms?.includes(num) ? 'default' : 'outline'}
@@ -336,7 +336,7 @@ export default function PropertiesPage() {
                   <div>
                     <Label className="text-base font-semibold mb-3 block">Bathrooms</Label>
                     <div className="flex flex-wrap gap-2">
-                      {[1, 2, 34].map(num => (
+                      {[1234].map(num => (
                         <Button
                           key={num}
                           variant={filters.bathrooms?.includes(num) ? 'default' : 'outline'}

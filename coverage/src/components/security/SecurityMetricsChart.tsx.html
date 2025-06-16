@@ -267,9 +267,7 @@
 <a name='L202'></a><a href='#L202'>202</a>
 <a name='L203'></a><a href='#L203'>203</a>
 <a name='L204'></a><a href='#L204'>204</a>
-<a name='L205'></a><a href='#L205'>205</a>
-<a name='L206'></a><a href='#L206'>206</a>
-<a name='L207'></a><a href='#L207'>207</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L205'></a><a href='#L205'>205</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -420,8 +418,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -520,34 +516,34 @@ const SecurityMetricsChart: React.FC&lt;SecurityMetricsChartProps&gt; = <span cl
     // Filter metrics to include only those with historical values
     const metricCategories = <span class="cstat-no" title="statement not covered" >new Set&lt;string&gt;();</span>
     const metricsByName: Record&lt;string, any[]&gt; = <span class="cstat-no" title="statement not covered" >{};</span>
-    
+&nbsp;
     // Group metrics by name and collect categories
 <span class="cstat-no" title="statement not covered" >    metrics.forEach(<span class="fstat-no" title="function not covered" >metric =&gt; {</span></span>
 <span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (!metricsByName[metric.name]) {</span>
 <span class="cstat-no" title="statement not covered" >        metricsByName[metric.name] = [];</span>
       }
-      
+&nbsp;
 <span class="cstat-no" title="statement not covered" >      metricsByName[metric.name].push(metric);</span>
 <span class="cstat-no" title="statement not covered" >      metricCategories.add(metric.category);</span>
     });
-    
+&nbsp;
     // Sort metrics by timestamp for each name
 <span class="cstat-no" title="statement not covered" >    Object.keys(metricsByName).forEach(<span class="fstat-no" title="function not covered" >name =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" >      metricsByName[name].sort(<span class="fstat-no" title="function not covered" >(a</span>, b) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >      metricsByName[name].sort(<span class="fstat-no" title="function not covered" >(a</span>b: any) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >        return new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime();</span>
       });
     });
-    
+&nbsp;
     // Prepare labels (timestamps)
     let labels: string[] = <span class="cstat-no" title="statement not covered" >[];</span>
     const scoreMetrics = <span class="cstat-no" title="statement not covered" >metricsByName['Security Score'] || [];</span>
-    
-<span class="cstat-no" title="statement not covered" >    if (scoreMetrics.length &gt; 0) {</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    if (scoreMetrics.length&gt; 0) {</span>
 <span class="cstat-no" title="statement not covered" >      labels = scoreMetrics.map(<span class="fstat-no" title="function not covered" >m =&gt; {</span></span>
         const date = <span class="cstat-no" title="statement not covered" >new Date(m.timestamp);</span>
 <span class="cstat-no" title="statement not covered" >        return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });</span>
       });
-    } else <span class="cstat-no" title="statement not covered" ><span class="missing-if-branch" title="if path not taken" >I</span>if (Object.keys(metricsByName).length &gt; 0) {</span>
+    } else <span class="cstat-no" title="statement not covered" ><span class="missing-if-branch" title="if path not taken" >I</span>if (Object.keys(metricsByName).length&gt; 0) {</span>
       // Fallback to any available metric's timestamps
       const firstMetricName = <span class="cstat-no" title="statement not covered" >Object.keys(metricsByName)[0];</span>
 <span class="cstat-no" title="statement not covered" >      labels = metricsByName[firstMetricName].map(<span class="fstat-no" title="function not covered" >m =&gt; {</span></span>
@@ -555,28 +551,28 @@ const SecurityMetricsChart: React.FC&lt;SecurityMetricsChartProps&gt; = <span cl
 <span class="cstat-no" title="statement not covered" >        return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });</span>
       });
     }
-    
+&nbsp;
     // Prepare datasets
     const datasets = <span class="cstat-no" title="statement not covered" >[];</span>
-    
+&nbsp;
     // Color palette for different metrics
     const colors = <span class="cstat-no" title="statement not covered" >[</span>
-      { border: 'rgba(75, 192, 192, 1)', background: 'rgba(75, 192, 192, 0.2)' },
-      { border: 'rgba(54, 162, 235, 1)', background: 'rgba(54, 162, 235, 0.2)' },
-      { border: 'rgba(255, 206, 86, 1)', background: 'rgba(255, 206, 86, 0.2)' },
-      { border: 'rgba(255, 99, 132, 1)', background: 'rgba(255, 99, 132, 0.2)' },
-      { border: 'rgba(153, 102, 255, 1)', background: 'rgba(153, 102, 255, 0.2)' }
+      { border: 'rgba(75, 192, 1921)', background: 'rgba(75, 192, 192, 0.2)' },
+      { border: 'rgba(54, 162, 2351)', background: 'rgba(54, 162, 235, 0.2)' },
+      { border: 'rgba(255, 206, 861)', background: 'rgba(255, 206, 86, 0.2)' },
+      { border: 'rgba(255, 99, 1321)', background: 'rgba(255, 99, 132, 0.2)' },
+      { border: 'rgba(153, 102, 2551)', background: 'rgba(153, 102, 255, 0.2)' }
     ];
-    
+&nbsp;
     // Important metrics to always show
     const priorityMetrics = <span class="cstat-no" title="statement not covered" >['Security Score', 'Failed Login Attempts', 'API Rate Limit'];</span>
-    
+&nbsp;
     // Add priority metrics first
-<span class="cstat-no" title="statement not covered" >    priorityMetrics.forEach(<span class="fstat-no" title="function not covered" >(m</span>etricName, index) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (metricsByName[metricName] &amp;&amp; metricsByName[metricName].length &gt; 0) {</span>
+<span class="cstat-no" title="statement not covered" >    priorityMetrics.forEach(<span class="fstat-no" title="function not covered" >(m</span>etricNameindex: any) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (metricsByName[metricName] &amp;&amp; metricsByName[metricName].length&gt; 0) {</span>
         // Get values
         const values = <span class="cstat-no" title="statement not covered" >metricsByName[metricName].map(<span class="fstat-no" title="function not covered" >m =&gt; <span class="cstat-no" title="statement not covered" >m</span>.value)</span>;</span>
-        
+&nbsp;
 <span class="cstat-no" title="statement not covered" >        datasets.push({</span>
           label: metricName,
           data: values,
@@ -589,20 +585,20 @@ const SecurityMetricsChart: React.FC&lt;SecurityMetricsChartProps&gt; = <span cl
         });
       }
     });
-    
+&nbsp;
     // Add other metrics (up to a reasonable limit to avoid clutter)
     let additionalMetricsCount = <span class="cstat-no" title="statement not covered" >0;</span>
-<span class="cstat-no" title="statement not covered" >    Object.keys(metricsByName).forEach(<span class="fstat-no" title="function not covered" >(m</span>etricName, index) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    Object.keys(metricsByName).forEach(<span class="fstat-no" title="function not covered" >(m</span>etricNameindex: any) =&gt; {</span>
       // Skip if it's a priority metric or if we already have enough metrics
-<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (priorityMetrics.includes(metricName) || additionalMetricsCount &gt;= 2) {</span>
+<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (priorityMetrics.includes(metricName) || additionalMetricsCount&gt;= 2) {</span>
 <span class="cstat-no" title="statement not covered" >        return;</span>
       }
-      
+&nbsp;
       const metricsForName = <span class="cstat-no" title="statement not covered" >metricsByName[metricName];</span>
-<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (metricsForName &amp;&amp; metricsForName.length &gt; 0) {</span>
+<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (metricsForName &amp;&amp; metricsForName.length&gt; 0) {</span>
         // Get values
         const values = <span class="cstat-no" title="statement not covered" >metricsForName.map(<span class="fstat-no" title="function not covered" >m =&gt; <span class="cstat-no" title="statement not covered" >m</span>.value)</span>;</span>
-        
+&nbsp;
 <span class="cstat-no" title="statement not covered" >        datasets.push({</span>
           label: metricName,
           data: values,
@@ -613,17 +609,17 @@ const SecurityMetricsChart: React.FC&lt;SecurityMetricsChartProps&gt; = <span cl
           pointRadius: 2,
           borderWidth: 2
         });
-        
+&nbsp;
 <span class="cstat-no" title="statement not covered" >        additionalMetricsCount++;</span>
       }
     });
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    return {</span>
       labels,
       datasets
     };
   }, [metrics]);
-  
+&nbsp;
   // Chart options
   const options: ChartOptions&lt;'line'&gt; = <span class="cstat-no" title="statement not covered" >{</span>
     responsive: true,
@@ -633,12 +629,10 @@ const SecurityMetricsChart: React.FC&lt;SecurityMetricsChartProps&gt; = <span cl
     },
     plugins: {
       legend: {
-        position: 'top' as const,
-      },
+        position: 'top' as const},
       tooltip: {
         mode: 'index',
-        intersect: false,
-      }
+        intersect: false}
     },
     interaction: {
       mode: 'nearest' as const,
@@ -667,7 +661,7 @@ const SecurityMetricsChart: React.FC&lt;SecurityMetricsChartProps&gt; = <span cl
       }
     }
   };
-  
+&nbsp;
   // If no data is available, show a placeholder message
 <span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (!chartData.datasets.length) {</span>
     return (
@@ -676,7 +670,7 @@ const SecurityMetricsChart: React.FC&lt;SecurityMetricsChartProps&gt; = <span cl
       &lt;/div&gt;
     );
   }
-  
+&nbsp;
   // Render the chart with memoized data
   return &lt;Line data={chartData} options={options} /&gt;;
 };
@@ -688,7 +682,7 @@ const SecurityMetricsChart: React.FC&lt;SecurityMetricsChartProps&gt; = <span cl
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T22:15:28.100Z
+                at 2025-06-15T18:50:48.918Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

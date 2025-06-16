@@ -33,7 +33,8 @@ interface FinancialChartProps {
     name: string | number;
     value: number;
     [key: string]: any;
-  }>\n  );
+  }>
+  );
   chartType: 'line' | 'bar' | 'area' | 'pie' | 'composed';
   dataKeys?: DataKey[];
   colors?: string[];

@@ -1,0 +1,661 @@
+/**
+ * Transaction Tracker Component
+ * Visual representation of transaction progress through all phases
+ */
+
+'use client';
+
+import React, { useState, useEffect } from 'react';
+import { 
+  CheckCircle, 
+  Circle, 
+  Clock, 
+  AlertCircle,
+  FileText,
+  Home,
+  Calendar,
+  CreditCard,
+  Banknote,
+  Building2,
+  Key,
+  ChevronRight,
+  ChevronDown,
+  Download,
+  MessageSquare,
+  User,
+  Phone,
+  Mail
+} from 'lucide-react';
+
+interface TransactionTrackerProps {
+  transactionId?: string;
+  userRole: 'buyer' | 'agent' | 'solicitor' | 'developer';
+  mockData?: Transaction;
+}
+
+interface Transaction {
+  id: string;
+  referenceNumber: string;
+  status: string;
+  unit: {
+    name: string;
+    development: {
+      name: string;
+      location: any;
+    };
+  };
+  timeline: any;
+  currentMilestones: any[];
+  completionPercentage: number;
+  nextActions: string[];
+  availableTransitions: string[];
+}
+
+interface Phase {
+  id: string;
+  name: string;
+  icon: React.ReactNode;
+  description: string;
+  milestones: Milestone[];
+  status: 'completed' | 'active' | 'pending';
+  completedDate?: Date;
+}
+
+interface Milestone {
+  id: string;
+  name: string;
+  status: 'completed' | 'in_progress' | 'pending';
+  required: boolean;
+  completionCriteria: string[];
+  documentsRequired: string[];
+  tasks: any[];
+}
+
+const phaseConfig = [
+  {
+    id: 'ENQUIRY',
+    name: 'Initial Enquiry',
+    icon: <MessageSquare className="w-5 h-5" />,
+    description: 'Express interest and share requirements'
+  },
+  {
+    id: 'VIEWING_SCHEDULED',
+    name: 'Viewing Scheduled',
+    icon: <Calendar className="w-5 h-5" />,
+    description: 'Site visit arranged'
+  },
+  {
+    id: 'VIEWED',
+    name: 'Property Viewed',
+    icon: <Home className="w-5 h-5" />,
+    description: 'Completed property viewing'
+  },
+  {
+    id: 'RESERVATION',
+    name: 'Reservation',
+    icon: <FileText className="w-5 h-5" />,
+    description: 'Property reserved with deposit'
+  },
+  {
+    id: 'CONTRACT_ISSUED',
+    name: 'Contract Issued',
+    icon: <FileText className="w-5 h-5" />,
+    description: 'Sales contract prepared'
+  },
+  {
+    id: 'CONTRACT_SIGNED',
+    name: 'Contract Signed',
+    icon: <CheckCircle className="w-5 h-5" />,
+    description: 'Legal agreements executed'
+  },
+  {
+    id: 'DEPOSIT_PAID',
+    name: 'Deposit Paid',
+    icon: <CreditCard className="w-5 h-5" />,
+    description: 'Initial payment completed'
+  },
+  {
+    id: 'MORTGAGE_APPROVED',
+    name: 'Mortgage Approved',
+    icon: <Banknote className="w-5 h-5" />,
+    description: 'Financing secured'
+  },
+  {
+    id: 'CLOSING',
+    name: 'Closing Process',
+    icon: <Building2 className="w-5 h-5" />,
+    description: 'Final steps and payment'
+  },
+  {
+    id: 'COMPLETED',
+    name: 'Sale Completed',
+    icon: <CheckCircle className="w-5 h-5" />,
+    description: 'Ownership transferred'
+  },
+  {
+    id: 'HANDED_OVER',
+    name: 'Keys Handed Over',
+    icon: <Key className="w-5 h-5" />,
+    description: 'Property ready to move in'
+  }
+];
+
+// Example mock data with a complete timeline
+export const mockTransactionData: Transaction = {
+  id: 'tx-20250519-001',
+  referenceNumber: 'FG-2025-0519-001',
+  status: 'RESERVATION',
+  unit: {
+    name: '3 Bed Semi-Detached - Unit 101',
+    development: {
+      name: 'Fitzgerald Gardens',
+      location: 'North Drogheda'
+    }
+  },
+  timeline: {
+    phases: [
+      {
+        phase: 'ENQUIRY',
+        status: 'completed',
+        completedDate: new Date('2025-04-20'),
+        milestones: [
+          {
+            id: 'enq-1',
+            name: 'Initial Contact',
+            status: 'completed',
+            required: true,
+            completionCriteria: ['Contact developer', 'Share requirements'],
+            documentsRequired: [],
+            tasks: []
+          },
+          {
+            id: 'enq-2',
+            name: 'Requirements Confirmed',
+            status: 'completed',
+            required: true,
+            completionCriteria: ['Confirm budget range', 'Confirm property preferences'],
+            documentsRequired: [],
+            tasks: []
+          }
+        ]
+      },
+      {
+        phase: 'VIEWING_SCHEDULED',
+        status: 'completed',
+        completedDate: new Date('2025-04-25'),
+        milestones: [
+          {
+            id: 'view-1',
+            name: 'Site Visit Arranged',
+            status: 'completed',
+            required: true,
+            completionCriteria: ['Schedule viewing date', 'Confirm attendance'],
+            documentsRequired: [],
+            tasks: []
+          }
+        ]
+      },
+      {
+        phase: 'VIEWED',
+        status: 'completed',
+        completedDate: new Date('2025-04-28'),
+        milestones: [
+          {
+            id: 'viewed-1',
+            name: 'Property Viewed',
+            status: 'completed',
+            required: true,
+            completionCriteria: ['Attend viewing', 'View selected properties'],
+            documentsRequired: [],
+            tasks: []
+          },
+          {
+            id: 'viewed-2',
+            name: 'Follow-up Questions Addressed',
+            status: 'completed',
+            required: false,
+            completionCriteria: ['Answer additional questions', 'Provide floor plans if requested'],
+            documentsRequired: [],
+            tasks: []
+          }
+        ]
+      },
+      {
+        phase: 'RESERVATION',
+        status: 'active',
+        milestones: [
+          {
+            id: 'res-1',
+            name: 'Reservation Application',
+            status: 'completed',
+            required: true,
+            completionCriteria: ['Complete reservation form', 'Submit personal details'],
+            documentsRequired: ['Reservation Form', 'Identification'],
+            tasks: [
+              {
+                id: 'task-1',
+                title: 'Submit identification documents',
+                status: 'completed',
+                dueDate: '2025-05-05'
+              }
+            ]
+          },
+          {
+            id: 'res-2',
+            name: 'Reservation Deposit',
+            status: 'in_progress',
+            required: true,
+            completionCriteria: ['Pay reservation fee', 'Receive receipt'],
+            documentsRequired: ['Payment Confirmation'],
+            tasks: [
+              {
+                id: 'task-2',
+                title: 'Process reservation payment',
+                status: 'in_progress',
+                dueDate: '2025-05-25'
+              }
+            ]
+          },
+          {
+            id: 'res-3',
+            name: 'AML Checks',
+            status: 'pending',
+            required: true,
+            completionCriteria: ['Complete AML forms', 'Pass AML verification'],
+            documentsRequired: ['AML Form', 'Proof of Funds'],
+            tasks: [
+              {
+                id: 'task-3',
+                title: 'Submit source of funds documentation',
+                status: 'pending',
+                dueDate: '2025-05-30'
+              }
+            ]
+          }
+        ]
+      },
+      {
+        phase: 'CONTRACT_ISSUED',
+        status: 'pending',
+        milestones: []
+      },
+      {
+        phase: 'CONTRACT_SIGNED',
+        status: 'pending',
+        milestones: []
+      },
+      {
+        phase: 'DEPOSIT_PAID',
+        status: 'pending',
+        milestones: []
+      },
+      {
+        phase: 'MORTGAGE_APPROVED',
+        status: 'pending',
+        milestones: []
+      },
+      {
+        phase: 'CLOSING',
+        status: 'pending',
+        milestones: []
+      },
+      {
+        phase: 'COMPLETED',
+        status: 'pending',
+        milestones: []
+      },
+      {
+        phase: 'HANDED_OVER',
+        status: 'pending',
+        milestones: []
+      }
+    ]
+  },
+  currentMilestones: [
+    {
+      id: 'res-2',
+      name: 'Reservation Deposit',
+      status: 'in_progress'
+    },
+    {
+      id: 'res-3',
+      name: 'AML Checks',
+      status: 'pending'
+    }
+  ],
+  completionPercentage: 32,
+  nextActions: [
+    'Complete reservation deposit payment',
+    'Submit AML documentation',
+    'Prepare for contract review'
+  ],
+  availableTransitions: ['CONTRACT_ISSUED']
+};
+
+export default function TransactionTracker({ transactionId, userRole, mockData }: TransactionTrackerProps) {
+  const [transaction, setTransaction] = useState<Transaction | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [expandedPhase, setExpandedPhase] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (mockData) {
+      setTransaction(mockData);
+      setExpandedPhase(mockData.status);
+      setLoading(false);
+    } else if (transactionId) {
+      fetchTransaction();
+    } else {
+      setError('No transaction ID or mock data provided');
+      setLoading(false);
+    }
+  }, [transactionIdmockData]);
+
+  const fetchTransaction = async () => {
+    if (!transactionId) return;
+
+    try {
+      const response = await fetch(`/api/v1/transactions/${transactionId}`);
+      if (!response.ok) throw new Error('Failed to fetch transaction');
+      const data = await response.json();
+      setTransaction(data.transaction);
+
+      // Auto-expand current phase
+      setExpandedPhase(data.transaction.status);
+    } catch (err) {
+      setError((err as Error).message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleTransition = async (newPhase: string) => {
+    if (!transactionId) return;
+
+    try {
+      const response = await fetch(`/api/v1/transactions/${transactionId}/transition`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ newPhase })
+      });
+
+      if (!response.ok) throw new Error('Failed to transition');
+
+      await fetchTransaction();
+    } catch (err) {
+
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-64">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+      </div>
+    );
+  }
+
+  if (error || !transaction) {
+    return (
+      <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+        <p className="text-red-800">Error: {error || 'Transaction not found'}</p>
+      </div>
+    );
+  }
+
+  const phases = phaseConfig.map(config => {
+    const phaseData = transaction.timeline?.phases?.find((p: any) => p.phase === config.id);
+    return {
+      ...config,
+      status: phaseData?.status || 'pending',
+      milestones: phaseData?.milestones || [],
+      completedDate: phaseData?.completedDate
+    };
+  });
+
+  return (
+    <div className="space-y-6">
+      {/* Header */}
+      <div className="bg-white rounded-lg shadow-sm p-6">
+        <div className="flex items-center justify-between mb-4">
+          <div>
+            <h2 className="text-2xl font-bold text-gray-900">Transaction Progress</h2>
+            <p className="text-gray-600">Reference: {transaction.referenceNumber}</p>
+          </div>
+          <div className="text-right">
+            <div className="text-3xl font-bold text-blue-600">
+              {transaction.completionPercentage}%
+            </div>
+            <p className="text-sm text-gray-600">Complete</p>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
+          <div className="bg-gray-50 rounded-lg p-4">
+            <h3 className="font-semibold text-gray-700 mb-2">Property</h3>
+            <p className="text-gray-900">{transaction.unit.name}</p>
+            <p className="text-sm text-gray-600">{transaction.unit.development.name}</p>
+          </div>
+
+          <div className="bg-gray-50 rounded-lg p-4">
+            <h3 className="font-semibold text-gray-700 mb-2">Current Phase</h3>
+            <p className="text-gray-900">{phaseConfig.find(p => p.id === transaction.status)?.name}</p>
+            <p className="text-sm text-gray-600">
+              {phaseConfig.find(p => p.id === transaction.status)?.description}
+            </p>
+          </div>
+
+          <div className="bg-gray-50 rounded-lg p-4">
+            <h3 className="font-semibold text-gray-700 mb-2">Next Actions</h3>
+            <ul className="space-y-1">
+              {transaction.nextActions.slice(0).map((action: any, idx: any) => (
+                <li key={idx: any} className="text-sm text-gray-600 flex items-start gap-2">
+                  <ChevronRight className="w-3 h-3 mt-0.5 text-gray-400" />
+                  {action}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      {/* Progress Timeline */}
+      <div className="bg-white rounded-lg shadow-sm p-6">
+        <h3 className="text-lg font-semibold text-gray-900 mb-6">Journey Timeline</h3>
+
+        <div className="space-y-4">
+          {phases.map((phaseindex: any) => {
+            const isExpanded = expandedPhase === phase.id;
+            const isLast = index === phases.length - 1;
+
+            return (
+              <div key={phase.id} className="relative">
+                {/* Connector Line */}
+                {!isLast && (
+                  <div 
+                    className={`absolute left-6 top-12 w-0.5 h-full ${
+                      phase.status === 'completed' ? 'bg-green-300' : 'bg-gray-200'
+                    }`}
+                  />
+                )}
+
+                {/* Phase Header */}
+                <div 
+                  className={`relative z-10 p-4 rounded-lg cursor-pointer transition-all ${
+                    phase.status === 'active' 
+                      ? 'bg-blue-50 border-2 border-blue-200' 
+                      : phase.status === 'completed'
+                      ? 'bg-green-50 border border-green-200'
+                      : 'bg-gray-50 border border-gray-200'
+                  }`}
+                  onClick={() => setExpandedPhase(isExpanded ? null : phase.id)}
+                >
+                  <div className="flex items-center gap-4">
+                    {/* Status Icon */}
+                    <div className={`rounded-full p-2 ${
+                      phase.status === 'completed' ? 'bg-green-100 text-green-600' :
+                      phase.status === 'active' ? 'bg-blue-100 text-blue-600' :
+                      'bg-gray-100 text-gray-400'
+                    }`}>
+                      {phase.icon}
+                    </div>
+
+                    {/* Phase Info */}
+                    <div className="flex-1">
+                      <h4 className="font-semibold text-gray-900">{phase.name}</h4>
+                      <p className="text-sm text-gray-600">{phase.description}</p>
+                      {phase.completedDate && (
+                        <p className="text-xs text-gray-500 mt-1">
+                          Completed: {new Date(phase.completedDate).toLocaleDateString()}
+                        </p>
+                      )}
+                    </div>
+
+                    {/* Expand/Collapse */}
+                    <div className="text-gray-400">
+                      {isExpanded ? <ChevronDown /> : <ChevronRight />}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Expanded Content */}
+                {isExpanded && (
+                  <div className="mt-4 ml-12 space-y-4">
+                    {/* Milestones */}
+                    {phase.milestones.map((milestone: any) => (
+                      <div key={milestone.id} className="bg-white border rounded-lg p-4">
+                        <div className="flex items-start gap-3">
+                          <div className={`mt-0.5 ${
+                            milestone.status === 'completed' ? 'text-green-600' :
+                            milestone.status === 'in_progress' ? 'text-blue-600' :
+                            'text-gray-400'
+                          }`}>
+                            {milestone.status === 'completed' ? <CheckCircle className="w-5 h-5" /> :
+                             milestone.status === 'in_progress' ? <Clock className="w-5 h-5" /> :
+                             <Circle className="w-5 h-5" />}
+                          </div>
+
+                          <div className="flex-1">
+                            <h5 className="font-medium text-gray-900">{milestone.name}</h5>
+
+                            {/* Completion Criteria */}
+                            <div className="mt-2">
+                              <p className="text-sm font-medium text-gray-700">Requirements:</p>
+                              <ul className="mt-1 space-y-1">
+                                {milestone.completionCriteria.map((criteria: any, idx: any) => (
+                                  <li key={idx: any} className="text-sm text-gray-600 flex items-start gap-2">
+                                    <span className="text-gray-400">•</span>
+                                    {criteria: any}
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+
+                            {/* Required Documents */}
+                            {milestone.documentsRequired.length> 0 && (
+                              <div className="mt-3">
+                                <p className="text-sm font-medium text-gray-700">Documents Required:</p>
+                                <ul className="mt-1 space-y-1">
+                                  {milestone.documentsRequired.map((doc: any, idx: any) => (
+                                    <li key={idx: any} className="text-sm text-gray-600 flex items-center gap-2">
+                                      <FileText className="w-3 h-3 text-gray-400" />
+                                      {doc: any}
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
+                            )}
+
+                            {/* Tasks */}
+                            {milestone.tasks.length> 0 && (
+                              <div className="mt-3">
+                                <p className="text-sm font-medium text-gray-700">Tasks:</p>
+                                <ul className="mt-1 space-y-1">
+                                  {milestone.tasks.map((task: any) => (
+                                    <li key={task.id} className="text-sm">
+                                      <span className={`${
+                                        task.status === 'completed' ? 'text-green-600' : 'text-gray-600'
+                                      }`}>
+                                        {task.title} - Due: {new Date(task.dueDate).toLocaleDateString()}
+                                      </span>
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+
+                    {/* Action Buttons */}
+                    {phase.status === 'active' && transaction.availableTransitions.length> 0 && (
+                      <div className="flex gap-3">
+                        {transaction.availableTransitions.map((transition: any) => (
+                          <button
+                            key={transition}
+                            onClick={() => handleTransition(transition)}
+                            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                          >
+                            Move to {phaseConfig.find(p => p.id === transition)?.name}
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Key Contacts */}
+      <div className="bg-white rounded-lg shadow-sm p-6">
+        <h3 className="text-lg font-semibold text-gray-900 mb-4">Key Contacts</h3>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="border rounded-lg p-4">
+            <div className="flex items-center gap-3">
+              <div className="bg-gray-100 rounded-full p-2">
+                <User className="w-5 h-5 text-gray-600" />
+              </div>
+              <div>
+                <p className="font-medium text-gray-900">Your Agent</p>
+                <p className="text-sm text-gray-600">John Smith</p>
+                <div className="flex gap-3 mt-2">
+                  <a href="tel:+35312345678" className="text-blue-600 hover:underline text-sm flex items-center gap-1">
+                    <Phone className="w-3 h-3" /> Call
+                  </a>
+                  <a href="mailto:john@agent.com" className="text-blue-600 hover:underline text-sm flex items-center gap-1">
+                    <Mail className="w-3 h-3" /> Email
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="border rounded-lg p-4">
+            <div className="flex items-center gap-3">
+              <div className="bg-gray-100 rounded-full p-2">
+                <Building2 className="w-5 h-5 text-gray-600" />
+              </div>
+              <div>
+                <p className="font-medium text-gray-900">Developer</p>
+                <p className="text-sm text-gray-600">ABC Properties Ltd</p>
+                <div className="flex gap-3 mt-2">
+                  <a href="tel:+35312345678" className="text-blue-600 hover:underline text-sm flex items-center gap-1">
+                    <Phone className="w-3 h-3" /> Call
+                  </a>
+                  <a href="mailto:info@developer.com" className="text-blue-600 hover:underline text-sm flex items-center gap-1">
+                    <Mail className="w-3 h-3" /> Email
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}

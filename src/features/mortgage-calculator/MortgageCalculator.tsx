@@ -249,7 +249,7 @@ export default function MortgageCalculator({
       stressTestResult,
       timeline
     };
-  }, [purchasePrice, deposit, loanTerm, interestRateaffordabilityFactors]);
+  }, [purchasePricedepositloanTerminterestRateaffordabilityFactors]);
 
   // Calculate stamp duty
   useEffect(() => {
@@ -320,7 +320,7 @@ export default function MortgageCalculator({
       }
     };
 
-    const blob = new Blob([JSON.stringify(data, null2)], { type: 'application/json' });
+    const blob = new Blob([JSON.stringify(datanull2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
@@ -405,7 +405,7 @@ export default function MortgageCalculator({
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        {[15, 20, 25, 3035].map((years: any) => (
+                        {[1520253035].map((years: any) => (
                           <SelectItem key={years} value={years.toString()}>
                             {years} years
                           </SelectItem>
@@ -598,14 +598,14 @@ export default function MortgageCalculator({
                             data: mortgageResults.timeline
                               .filter((_index: any) => index % 12 === 0)
                               .map((item: any) => item.principal * 12),
-                            borderColor: 'rgb(59, 130246)',
+                            borderColor: 'rgb(59130246)',
                             backgroundColor: 'rgba(59, 130, 246, 0.5)'},
                           {
                             label: 'Interest',
                             data: mortgageResults.timeline
                               .filter((_index: any) => index % 12 === 0)
                               .map((item: any) => item.interest * 12),
-                            borderColor: 'rgb(239, 6868)',
+                            borderColor: 'rgb(2396868)',
                             backgroundColor: 'rgba(239, 68, 68, 0.5)'}
                         ]
                       }
@@ -730,7 +730,7 @@ export default function MortgageCalculator({
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        {[0, 1, 2, 3, 45].map((num: any) => (
+                        {[0, 12345].map((num: any) => (
                           <SelectItem key={num} value={num.toString()}>
                             {num} {num === 1 ? 'dependent' : 'dependents'}
                           </SelectItem>
@@ -820,11 +820,11 @@ export default function MortgageCalculator({
                                 'rgba(156, 163, 175, 0.8)'
                               ],
                               borderColor: [
-                                'rgb(59, 130246)',
-                                'rgb(239, 6868)',
-                                'rgb(251, 19136)',
-                                'rgb(34, 19794)',
-                                'rgb(156, 163175)'
+                                'rgb(59130246)',
+                                'rgb(2396868)',
+                                'rgb(25119136)',
+                                'rgb(3419794)',
+                                'rgb(156163175)'
                               ],
                               borderWidth: 1
                             }]

@@ -19,8 +19,10 @@ import { ensureAmplifyInitialized } from './index';
  */
 export interface AnalyticsEventParams {
   name: string;
-  attributes?: Record<string, string>\n  );
-  metrics?: Record<string, number>\n  );
+  attributes?: Record<string, string>
+  );
+  metrics?: Record<string, number>
+  );
 }
 
 /**
@@ -28,7 +30,8 @@ export interface AnalyticsEventParams {
  */
 export interface AnalyticsUserAttributes {
   userId: string;
-  userAttributes?: Record<string, string[] | string>\n  );
+  userAttributes?: Record<string, string[] | string>
+  );
 }
 
 /**
@@ -36,7 +39,8 @@ export interface AnalyticsUserAttributes {
  */
 export interface AnalyticsEndpointAttributes {
   address?: string;
-  attributes?: Record<string, string[]>\n  );
+  attributes?: Record<string, string[]>
+  );
   demographic?: {
     appVersion?: string;
     locale?: string;
@@ -55,7 +59,8 @@ export interface AnalyticsEndpointAttributes {
     postalCode?: string;
     region?: string;
   };
-  metrics?: Record<string, number>\n  );
+  metrics?: Record<string, number>
+  );
   optOut?: string;
   userId?: string;
 }

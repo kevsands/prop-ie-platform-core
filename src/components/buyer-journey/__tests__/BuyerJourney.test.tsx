@@ -57,7 +57,7 @@ describe('BuyerJourney', () => {
     queryClient = new QueryClient({
       defaultOptions: {
         queries: {
-          retry: false}});
+          retry: false});
 
     // Reset mocks
     jest.clearAllMocks();

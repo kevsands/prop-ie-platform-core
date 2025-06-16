@@ -167,7 +167,8 @@ export interface BuyerProfile {
     propertyId: string;
     date: string;
     notes?: string;
-  }>\n  );
+  }>
+  );
 }
 
 /**

@@ -23,7 +23,8 @@ export interface TestGraphQLContext extends GraphQLContext {
     hasPermission: (resource: string, action: string) => boolean;
   };
   request: {
-    headers: Record<string, string>\n  );
+    headers: Record<string, string>
+  );
     ip: string;
   };
 }

@@ -433,7 +433,7 @@ interface CacheEntry&lt;T&gt; {
     data: T;
     expires: number | null;
   }
-  
+&nbsp;
   // Cache options
   interface CacheOptions {
     /** Time-to-live in milliseconds. null = no expiration */
@@ -441,14 +441,14 @@ interface CacheEntry&lt;T&gt; {
     /** Whether to bypass the cache and force a fresh fetch */
     bypassCache?: boolean;
   }
-  
+&nbsp;
   /**
    * A generic data cache that can be used to cache any type of data.
    * Uses in-memory storage with optional TTL.
    */
   class DataCache {
     private <span class="cstat-no" title="statement not covered" >cache: Map&lt;string, CacheEntry&lt;any&gt;&gt; = new Map();</span>
-    
+&nbsp;
     /**
      * Get an item from the cache
      * @param key Cache key
@@ -456,20 +456,20 @@ interface CacheEntry&lt;T&gt; {
      */
 <span class="fstat-no" title="function not covered" >    get&lt;T&gt;(k</span>ey: string): T | null {
       const entry = <span class="cstat-no" title="statement not covered" >this.cache.get(key);</span>
-      
+&nbsp;
 <span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (!entry) {</span>
 <span class="cstat-no" title="statement not covered" >        return null;</span>
       }
-      
+&nbsp;
       // Check if entry has expired
-<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (entry.expires !== null &amp;&amp; entry.expires &lt; Date.now()) {</span>
+<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (entry.expires !== null &amp;&amp; entry.expires &lt;Date.now()) {</span>
 <span class="cstat-no" title="statement not covered" >        this.cache.delete(key);</span>
 <span class="cstat-no" title="statement not covered" >        return null;</span>
       }
-      
+&nbsp;
 <span class="cstat-no" title="statement not covered" >      return entry.data as T;</span>
     }
-    
+&nbsp;
     /**
      * Set an item in the cache
      * @param key Cache key
@@ -478,13 +478,13 @@ interface CacheEntry&lt;T&gt; {
      */
 <span class="fstat-no" title="function not covered" >    set&lt;T&gt;(k</span>ey: string, data: T, ttl: number | null = <span class="branch-0 cbranch-no" title="branch not covered" >null)</span>: void {
       const expires = <span class="cstat-no" title="statement not covered" >ttl !== null ? Date.now() + ttl : null;</span>
-      
+&nbsp;
 <span class="cstat-no" title="statement not covered" >      this.cache.set(key, {</span>
         data,
         expires
       });
     }
-    
+&nbsp;
     /**
      * Check if an item exists in the cache and is not expired
      * @param key Cache key
@@ -492,20 +492,20 @@ interface CacheEntry&lt;T&gt; {
      */
 <span class="fstat-no" title="function not covered" >    has(k</span>ey: string): boolean {
       const entry = <span class="cstat-no" title="statement not covered" >this.cache.get(key);</span>
-      
+&nbsp;
 <span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (!entry) {</span>
 <span class="cstat-no" title="statement not covered" >        return false;</span>
       }
-      
+&nbsp;
       // Check if entry has expired
-<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (entry.expires !== null &amp;&amp; entry.expires &lt; Date.now()) {</span>
+<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (entry.expires !== null &amp;&amp; entry.expires &lt;Date.now()) {</span>
 <span class="cstat-no" title="statement not covered" >        this.cache.delete(key);</span>
 <span class="cstat-no" title="statement not covered" >        return false;</span>
       }
-      
+&nbsp;
 <span class="cstat-no" title="statement not covered" >      return true;</span>
     }
-    
+&nbsp;
     /**
      * Remove an item from the cache
      * @param key Cache key
@@ -513,14 +513,14 @@ interface CacheEntry&lt;T&gt; {
 <span class="fstat-no" title="function not covered" >    delete(k</span>ey: string): void {
 <span class="cstat-no" title="statement not covered" >      this.cache.delete(key);</span>
     }
-    
+&nbsp;
     /**
      * Remove all items from the cache
      */
 <span class="fstat-no" title="function not covered" >    clear(): void {</span>
 <span class="cstat-no" title="statement not covered" >      this.cache.clear();</span>
     }
-    
+&nbsp;
     /**
      * Get all cache keys
      * @returns Array of cache keys
@@ -528,7 +528,7 @@ interface CacheEntry&lt;T&gt; {
 <span class="fstat-no" title="function not covered" >    keys(): string[] {</span>
 <span class="cstat-no" title="statement not covered" >      return Array.from(this.cache.keys());</span>
     }
-    
+&nbsp;
     /**
      * Get cache stats
      * @returns Object with cache statistics
@@ -536,45 +536,45 @@ interface CacheEntry&lt;T&gt; {
 <span class="fstat-no" title="function not covered" >    stats(): { size: number; activeTTL: number; expired: number } {</span>
       let activeTTL = <span class="cstat-no" title="statement not covered" >0;</span>
       let expired = <span class="cstat-no" title="statement not covered" >0;</span>
-      
-<span class="cstat-no" title="statement not covered" >      this.cache.forEach(<span class="fstat-no" title="function not covered" >(e</span>ntry) =&gt; {</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >      this.cache.forEach(<span class="fstat-no" title="function not covered" >(e</span>ntry: any) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >        <span class="missing-if-branch" title="if path not taken" >I</span>if (entry.expires !== null) {</span>
-<span class="cstat-no" title="statement not covered" >          if (entry.expires &lt; Date.now()) {</span>
+<span class="cstat-no" title="statement not covered" >          if (entry.expires &lt;Date.now()) {</span>
 <span class="cstat-no" title="statement not covered" >            expired++;</span>
           } else {
 <span class="cstat-no" title="statement not covered" >            activeTTL++;</span>
           }
         }
       });
-      
+&nbsp;
 <span class="cstat-no" title="statement not covered" >      return {</span>
         size: this.cache.size,
         activeTTL,
         expired
       };
     }
-    
+&nbsp;
     /**
      * Remove expired items from the cache
      * @returns Number of items removed
      */
 <span class="fstat-no" title="function not covered" >    cleanup(): number {</span>
       let removed = <span class="cstat-no" title="statement not covered" >0;</span>
-      
-<span class="cstat-no" title="statement not covered" >      this.cache.forEach(<span class="fstat-no" title="function not covered" >(e</span>ntry, key) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >        <span class="missing-if-branch" title="if path not taken" >I</span>if (entry.expires !== null &amp;&amp; entry.expires &lt; Date.now()) {</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >      this.cache.forEach(<span class="fstat-no" title="function not covered" >(e</span>ntrykey: any) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >        <span class="missing-if-branch" title="if path not taken" >I</span>if (entry.expires !== null &amp;&amp; entry.expires &lt;Date.now()) {</span>
 <span class="cstat-no" title="statement not covered" >          this.cache.delete(key);</span>
 <span class="cstat-no" title="statement not covered" >          removed++;</span>
         }
       });
-      
+&nbsp;
 <span class="cstat-no" title="statement not covered" >      return removed;</span>
     }
   }
-  
+&nbsp;
   // Create a singleton instance
   export const <span class="cstat-no" title="statement not covered" >dataCache </span>= <span class="cstat-no" title="statement not covered" >new DataCache();</span>
-  
+&nbsp;
   /**
    * Wrap an async function with caching
    * @param fn Function to cache
@@ -589,7 +589,7 @@ interface CacheEntry&lt;T&gt; {
   ): Promise&lt;T&gt; {
     const args = <span class="cstat-no" title="statement not covered" >Array.from(arguments).slice(3) as Args;</span>
     const key = <span class="cstat-no" title="statement not covered" >keyFn(...args);</span>
-    
+&nbsp;
     // Return from cache if available and not bypassing
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!options.bypassCache) {</span>
       const cached = <span class="cstat-no" title="statement not covered" >dataCache.get&lt;T&gt;(key);</span>
@@ -597,18 +597,18 @@ interface CacheEntry&lt;T&gt; {
 <span class="cstat-no" title="statement not covered" >        return cached;</span>
       }
     }
-    
+&nbsp;
     // Execute the function
     const result = <span class="cstat-no" title="statement not covered" >await fn(...args);</span>
-    
+&nbsp;
     // Cache the result if TTL is set
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (options.ttl !== undefined) {</span>
 <span class="cstat-no" title="statement not covered" >      dataCache.set(key, result, options.ttl);</span>
     }
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    return result;</span>
   }
-  
+&nbsp;
 <span class="cstat-no" title="statement not covered" >  export default <span class="cstat-no" title="statement not covered" >d</span>ataCache;</span></pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
@@ -616,7 +616,7 @@ interface CacheEntry&lt;T&gt; {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T22:15:28.100Z
+                at 2025-06-15T18:50:48.918Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

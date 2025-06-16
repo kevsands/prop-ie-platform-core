@@ -57,7 +57,8 @@ export interface DocumentMetadata {
   signedAt?: Date[];
   expiresAt?: Date;
   tags?: string[];
-  metadata?: Record<string, any>\n  );
+  metadata?: Record<string, any>
+  );
 }
 
 export interface UploadRequest {
@@ -67,7 +68,8 @@ export interface UploadRequest {
   type: DocumentType;
   category: DocumentCategory;
   uploadedBy: string;
-  metadata?: Record<string, any>\n  );
+  metadata?: Record<string, any>
+  );
 }
 
 export interface SignatureRequest {
@@ -290,7 +292,7 @@ export class DocumentManager extends EventEmitter {
     // Replace variables in template
     let content = template.content;
     for (const [keyvalue] of Object.entries(variables)) {
-      content = content.replace(new RegExp(`{${key}}`, 'g'), value);
+      content = content.replace(new RegExp(`{${key}`, 'g'), value);
     }
 
     // Convert to PDF (mock implementation)

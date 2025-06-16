@@ -97,7 +97,7 @@ const CreateProjectPage = () => {
 
       <div className="mb-10">
         <div className="flex items-center">
-          {[1, 2, 34].map((i: any) => (
+          {[1234].map((i: any) => (
             <div key={i} className="flex items-center">
               <div className={`rounded-full h-10 w-10 flex items-center justify-center ${
                 i <= step ? 'bg-[#2B5273] text-white' : 'bg-gray-200 text-gray-600'

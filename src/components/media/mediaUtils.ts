@@ -259,7 +259,7 @@ export const applyWatermark = async (
       canvas.height = img.height;
 
       // Draw the original image
-      ctx.drawImage(img, 00);
+      ctx.drawImage(img00);
 
       // Apply watermark
       ctx.globalAlpha = opacity;
@@ -306,7 +306,7 @@ export const applyWatermark = async (
       ctx.shadowOffsetY = 2;
 
       // Draw the text
-      ctx.fillText(text, xy);
+      ctx.fillText(textxy);
 
       // Reset transparency
       ctx.globalAlpha = 1.0;
@@ -397,7 +397,7 @@ export const applyImageWatermark = async (
       canvas.height = img.height;
 
       // Draw the original image
-      ctx.drawImage(img, 00);
+      ctx.drawImage(img00);
 
       // Apply watermark
       ctx.globalAlpha = opacity;

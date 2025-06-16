@@ -78,12 +78,14 @@ interface MortgageApplication {
     status: 'pending' | 'uploaded' | 'approved' | 'rejected';
     uploadedDate?: Date;
     notes?: string;
-  }>\n  );
+  }>
+  );
   timeline: Array<{
     event: string;
     date: Date;
     details?: string;
-  }>\n  );
+  }>
+  );
   advisor?: {
     name: string;
     company: string;
@@ -103,7 +105,8 @@ interface MortgageApplication {
     description: string;
     status: 'pending' | 'completed';
     dueDate?: Date;
-  }>\n  );
+  }>
+  );
 }
 
 interface MortgageCalculation {
@@ -799,7 +802,7 @@ const BuyerMortgagePage = () => {
   const MortgageCalculatorModal = () => {
     useEffect(() => {
       calculateMortgage();
-    }, [propertyPrice, deposit, interestRate, loanTerm, annualIncomemonthlyExpenses]);
+    }, [propertyPrice, depositinterestRateloanTermannualIncomemonthlyExpenses]);
 
     return (
       <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 overflow-y-auto">

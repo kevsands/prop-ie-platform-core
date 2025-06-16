@@ -55,7 +55,8 @@ export interface UserPreferences {
   theme: string;
   language: string;
   timezone: string;
-  dashboardLayout?: Record<string, any>\n  );
+  dashboardLayout?: Record<string, any>
+  );
 }
 
 /**
@@ -65,7 +66,8 @@ export interface UserPermission {
   id: string;
   resource: string;
   action: string;
-  conditions?: Record<string, any>\n  );
+  conditions?: Record<string, any>
+  );
 }
 
 /**
@@ -88,7 +90,8 @@ export interface User {
   created: Date;
   lastActive: Date;
   lastLogin?: Date;
-  metadata?: Record<string, any>\n  );
+  metadata?: Record<string, any>
+  );
   permissions?: UserPermission[];
 }
 

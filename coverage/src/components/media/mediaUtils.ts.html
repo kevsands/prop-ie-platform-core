@@ -1015,9 +1015,9 @@
  * Format file size in bytes to human-readable format
  */
 export const <span class="cstat-no" title="statement not covered" >formatFileSize </span>= <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(s</span>izeInBytes: number): string =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  if (sizeInBytes &lt; 1024) {</span>
+<span class="cstat-no" title="statement not covered" >  if (sizeInBytes &lt;1024) {</span>
 <span class="cstat-no" title="statement not covered" >    return `${sizeInBytes} B`;</span>
-  } else <span class="cstat-no" title="statement not covered" >if (sizeInBytes &lt; 1024 * 1024) {</span>
+  } else <span class="cstat-no" title="statement not covered" >if (sizeInBytes &lt;1024 * 1024) {</span>
 <span class="cstat-no" title="statement not covered" >    return `${(sizeInBytes / 1024).toFixed(1)} KB`;</span>
   } else {
 <span class="cstat-no" title="statement not covered" >    return `${(sizeInBytes / (1024 * 1024)).toFixed(1)} MB`;</span>
@@ -1061,15 +1061,15 @@ export const <span class="cstat-no" title="statement not covered" >validateFiles
     allowedTypes = <span class="branch-0 cbranch-no" title="branch not covered" >['image/jpeg', 'image/png', 'image/jpg', 'application/pdf']</span>
   } = <span class="cstat-no" title="statement not covered" >options;</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (files.length + existingFiles.length &gt; maxFiles) {</span>
+<span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (files.length + existingFiles.length&gt; maxFiles) {</span>
 <span class="cstat-no" title="statement not covered" >    return { valid: false, message: `You can upload a maximum of ${maxFiles} files.` };</span>
   }
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  for (const file of files) {</span>
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (file.size &gt; maxSizeInMB * 1024 * 1024) {</span>
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (file.size&gt; maxSizeInMB * 1024 * 1024) {</span>
 <span class="cstat-no" title="statement not covered" >      return { valid: false, message: `File ${file.name} exceeds the ${maxSizeInMB}MB size limit.` };</span>
     }
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!allowedTypes.includes(file.type)) {</span>
 <span class="cstat-no" title="statement not covered" >      return { valid: false, message: `File type ${file.type} is not supported.` };</span>
     }
@@ -1084,15 +1084,15 @@ export const <span class="cstat-no" title="statement not covered" >validateFiles
 export const <span class="cstat-no" title="statement not covered" >createMediaFiles </span>= <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(f</span>iles: File[]): MediaFile[] =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >  return files.map(<span class="fstat-no" title="function not covered" >file =&gt; {</span></span>
     const mediaFile = <span class="cstat-no" title="statement not covered" >file as MediaFile;</span>
-    
+&nbsp;
     // Add preview URL for images
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (file.type.startsWith('image/')) {</span>
 <span class="cstat-no" title="statement not covered" >      mediaFile.preview = URL.createObjectURL(file);</span>
     }
-    
+&nbsp;
     // Add unique ID
-<span class="cstat-no" title="statement not covered" >    mediaFile.id = `${file.name}-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`;</span>
-    
+<span class="cstat-no" title="statement not covered" >    mediaFile.id = `${file.name}-${Date.now()}-${Math.random().toString(36).substring(29)}`;</span>
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    return mediaFile;</span>
   });
 };
@@ -1124,7 +1124,7 @@ export const <span class="cstat-no" title="statement not covered" >groupFilesByT
     documents: [],
     other: []
   };
-  
+&nbsp;
 <span class="cstat-no" title="statement not covered" >  files.forEach(<span class="fstat-no" title="function not covered" >file =&gt; {</span></span>
 <span class="cstat-no" title="statement not covered" >    if (isImageFile(file)) {</span>
 <span class="cstat-no" title="statement not covered" >      groups.images.push(file);</span>
@@ -1134,7 +1134,7 @@ export const <span class="cstat-no" title="statement not covered" >groupFilesByT
 <span class="cstat-no" title="statement not covered" >      groups.other.push(file);</span>
     }
   });
-  
+&nbsp;
 <span class="cstat-no" title="statement not covered" >  return groups;</span>
 };
 &nbsp;
@@ -1144,14 +1144,14 @@ export const <span class="cstat-no" title="statement not covered" >groupFilesByT
 export const <span class="cstat-no" title="statement not covered" >downloadFile </span>= <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(f</span>ile: File | MediaFile): void =&gt; {</span>
   const mediaFile = <span class="cstat-no" title="statement not covered" >file as MediaFile;</span>
   const url = <span class="cstat-no" title="statement not covered" >mediaFile.preview || URL.createObjectURL(file);</span>
-  
+&nbsp;
   const a = <span class="cstat-no" title="statement not covered" >document.createElement('a');</span>
 <span class="cstat-no" title="statement not covered" >  a.href = url;</span>
 <span class="cstat-no" title="statement not covered" >  a.download = file.name;</span>
 <span class="cstat-no" title="statement not covered" >  document.body.appendChild(a);</span>
 <span class="cstat-no" title="statement not covered" >  a.click();</span>
 <span class="cstat-no" title="statement not covered" >  document.body.removeChild(a);</span>
-  
+&nbsp;
   // Clean up URL object if we created one
 <span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (!mediaFile.preview) {</span>
 <span class="cstat-no" title="statement not covered" >    URL.revokeObjectURL(url);</span>
@@ -1197,12 +1197,12 @@ export const <span class="cstat-no" title="statement not covered" >autoCategoriz
   categories: string[] = <span class="branch-0 cbranch-no" title="branch not covered" >['development-images', 'floor-plans', 'brochures']</span>
 ): Record&lt;string, MediaFile[]&gt; =&gt; {
   const categorized: Record&lt;string, MediaFile[]&gt; = <span class="cstat-no" title="statement not covered" >{};</span>
-  
+&nbsp;
   // Initialize categories
 <span class="cstat-no" title="statement not covered" >  categories.forEach(<span class="fstat-no" title="function not covered" >category =&gt; {</span></span>
 <span class="cstat-no" title="statement not covered" >    categorized[category] = [];</span>
   });
-  
+&nbsp;
 <span class="cstat-no" title="statement not covered" >  files.forEach(<span class="fstat-no" title="function not covered" >file =&gt; {</span></span>
 <span class="cstat-no" title="statement not covered" >    if (isFloorPlanFile(file)) {</span>
 <span class="cstat-no" title="statement not covered" >      categorized['floor-plans'].push(file);</span>
@@ -1216,7 +1216,7 @@ export const <span class="cstat-no" title="statement not covered" >autoCategoriz
 <span class="cstat-no" title="statement not covered" >      categorized[defaultCategory].push(file);</span>
     }
   });
-  
+&nbsp;
 <span class="cstat-no" title="statement not covered" >  return categorized;</span>
 };
 &nbsp;
@@ -1233,12 +1233,12 @@ export const <span class="cstat-no" title="statement not covered" >applyWatermar
     color?: string;
   }
 ): Promise&lt;MediaFile&gt; =&gt; {
-<span class="cstat-no" title="statement not covered" >  return new Promise(<span class="fstat-no" title="function not covered" >(r</span>esolve, reject) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >  return new Promise(<span class="fstat-no" title="function not covered" >(r</span>esolvereject: any) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!file.type.startsWith('image/')) {</span>
 <span class="cstat-no" title="statement not covered" >      reject(new Error('File is not an image'));</span>
 <span class="cstat-no" title="statement not covered" >      return;</span>
     }
-    
+&nbsp;
     const {
       text,
       position = <span class="branch-0 cbranch-no" title="branch not covered" >'bottom-right',</span>
@@ -1246,47 +1246,47 @@ export const <span class="cstat-no" title="statement not covered" >applyWatermar
       fontSize = <span class="branch-0 cbranch-no" title="branch not covered" >24,</span>
       color = <span class="branch-0 cbranch-no" title="branch not covered" >'#ffffff'</span>
     } = <span class="cstat-no" title="statement not covered" >options;</span>
-    
+&nbsp;
     // Create canvas and context
     const canvas = <span class="cstat-no" title="statement not covered" >document.createElement('canvas');</span>
     const ctx = <span class="cstat-no" title="statement not covered" >canvas.getContext('2d');</span>
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!ctx) {</span>
 <span class="cstat-no" title="statement not covered" >      reject(new Error('Could not get canvas context'));</span>
 <span class="cstat-no" title="statement not covered" >      return;</span>
     }
-    
+&nbsp;
     // Create image element and load the file
     const img = <span class="cstat-no" title="statement not covered" >new Image();</span>
     const reader = <span class="cstat-no" title="statement not covered" >new FileReader();</span>
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    reader.onload = <span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
 <span class="cstat-no" title="statement not covered" >      img.src = reader.result as string;</span>
     };
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    img.onload = <span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
       // Set canvas dimensions to match the image
 <span class="cstat-no" title="statement not covered" >      canvas.width = img.width;</span>
 <span class="cstat-no" title="statement not covered" >      canvas.height = img.height;</span>
-      
+&nbsp;
       // Draw the original image
 <span class="cstat-no" title="statement not covered" >      ctx.drawImage(img, 0, 0);</span>
-      
+&nbsp;
       // Apply watermark
 <span class="cstat-no" title="statement not covered" >      ctx.globalAlpha = opacity;</span>
 <span class="cstat-no" title="statement not covered" >      ctx.fillStyle = color;</span>
 <span class="cstat-no" title="statement not covered" >      ctx.font = `${fontSize}px Arial, sans-serif`;</span>
-      
+&nbsp;
       // Measure text width for positioning
       const textWidth = <span class="cstat-no" title="statement not covered" >ctx.measureText(text).width;</span>
       const textHeight = <span class="cstat-no" title="statement not covered" >fontSize;</span>
-      
+&nbsp;
       // Get coordinates based on position
       let x = <span class="cstat-no" title="statement not covered" >0;</span>
       let y = <span class="cstat-no" title="statement not covered" >0;</span>
-      
+&nbsp;
       const padding = <span class="cstat-no" title="statement not covered" >20;</span>
-      
+&nbsp;
 <span class="cstat-no" title="statement not covered" >      switch (position) {</span>
         case 'center':
 <span class="cstat-no" title="statement not covered" >          x = canvas.width / 2 - textWidth / 2;</span>
@@ -1309,41 +1309,41 @@ export const <span class="cstat-no" title="statement not covered" >applyWatermar
 <span class="cstat-no" title="statement not covered" >          y = padding + textHeight;</span>
 <span class="cstat-no" title="statement not covered" >          break;</span>
       }
-      
+&nbsp;
       // Add text shadow for better visibility
 <span class="cstat-no" title="statement not covered" >      ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';</span>
 <span class="cstat-no" title="statement not covered" >      ctx.shadowBlur = 4;</span>
 <span class="cstat-no" title="statement not covered" >      ctx.shadowOffsetX = 2;</span>
 <span class="cstat-no" title="statement not covered" >      ctx.shadowOffsetY = 2;</span>
-      
+&nbsp;
       // Draw the text
-<span class="cstat-no" title="statement not covered" >      ctx.fillText(text, x, y);</span>
-      
+<span class="cstat-no" title="statement not covered" >      ctx.fillText(text, xy);</span>
+&nbsp;
       // Reset transparency
 <span class="cstat-no" title="statement not covered" >      ctx.globalAlpha = 1.0;</span>
-      
+&nbsp;
       // Convert canvas to blob
-<span class="cstat-no" title="statement not covered" >      canvas.toBlob(<span class="fstat-no" title="function not covered" >(b</span>lob) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >      canvas.toBlob(<span class="fstat-no" title="function not covered" >(b</span>lob: any) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >        <span class="missing-if-branch" title="if path not taken" >I</span>if (!blob) {</span>
 <span class="cstat-no" title="statement not covered" >          reject(new Error('Could not create image blob'));</span>
 <span class="cstat-no" title="statement not covered" >          return;</span>
         }
-        
+&nbsp;
         // Create a new file with the watermarked image
         const watermarkedFile = <span class="cstat-no" title="statement not covered" >new File([blob], file.name, { type: file.type }) as MediaFile;</span>
-        
+&nbsp;
         // Create a new preview URL
 <span class="cstat-no" title="statement not covered" >        watermarkedFile.preview = URL.createObjectURL(blob);</span>
 <span class="cstat-no" title="statement not covered" >        watermarkedFile.id = file.id || `${file.name}-${Date.now()}`; /</span>/ Preserve the original ID
-        
+&nbsp;
 <span class="cstat-no" title="statement not covered" >        resolve(watermarkedFile);</span>
       }, file.type);
     };
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    img.onerror = <span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
 <span class="cstat-no" title="statement not covered" >      reject(new Error('Failed to load image'));</span>
     };
-    
+&nbsp;
     // Start the process by reading the file
 <span class="cstat-no" title="statement not covered" >    reader.readAsDataURL(file);</span>
   });
@@ -1361,68 +1361,68 @@ export const <span class="cstat-no" title="statement not covered" >applyImageWat
     scale?: number; // Scale factor relative to main image (0-1)
   }
 ): Promise&lt;MediaFile&gt; =&gt; {
-<span class="cstat-no" title="statement not covered" >  return new Promise(<span class="fstat-no" title="function not covered" >(r</span>esolve, reject) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >  return new Promise(<span class="fstat-no" title="function not covered" >(r</span>esolvereject: any) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!file.type.startsWith('image/')) {</span>
 <span class="cstat-no" title="statement not covered" >      reject(new Error('File is not an image'));</span>
 <span class="cstat-no" title="statement not covered" >      return;</span>
     }
-    
+&nbsp;
     const {
       position = <span class="branch-0 cbranch-no" title="branch not covered" >'bottom-right',</span>
       opacity = <span class="branch-0 cbranch-no" title="branch not covered" >0.5,</span>
       scale = <span class="branch-0 cbranch-no" title="branch not covered" >0.25,</span> // Default to 25% of main image size
     } = <span class="cstat-no" title="statement not covered" >options;</span>
-    
+&nbsp;
     // Create canvas and context
     const canvas = <span class="cstat-no" title="statement not covered" >document.createElement('canvas');</span>
     const ctx = <span class="cstat-no" title="statement not covered" >canvas.getContext('2d');</span>
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!ctx) {</span>
 <span class="cstat-no" title="statement not covered" >      reject(new Error('Could not get canvas context'));</span>
 <span class="cstat-no" title="statement not covered" >      return;</span>
     }
-    
+&nbsp;
     // Create image elements
     const img = <span class="cstat-no" title="statement not covered" >new Image();</span>
     const watermarkImg = <span class="cstat-no" title="statement not covered" >new Image();</span>
-    
+&nbsp;
     // Load the watermark image
 <span class="cstat-no" title="statement not covered" >    watermarkImg.src = watermarkImageUrl;</span>
 <span class="cstat-no" title="statement not covered" >    watermarkImg.crossOrigin = 'anonymous';</span>
-    
+&nbsp;
     // Create reader for main image
     const reader = <span class="cstat-no" title="statement not covered" >new FileReader();</span>
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    reader.onload = <span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
 <span class="cstat-no" title="statement not covered" >      img.src = reader.result as string;</span>
     };
-    
+&nbsp;
     // Process both images when loaded
 <span class="cstat-no" title="statement not covered" >    Promise.all([</span>
-      new Promise&lt;void&gt;(<span class="fstat-no" title="function not covered" >(r</span>es) =&gt; { <span class="cstat-no" title="statement not covered" >img.onload = <span class="fstat-no" title="function not covered" >() =&gt; <span class="cstat-no" title="statement not covered" >r</span>es(); }</span></span>),
-      new Promise&lt;void&gt;(<span class="fstat-no" title="function not covered" >(r</span>es) =&gt; { <span class="cstat-no" title="statement not covered" >watermarkImg.onload = <span class="fstat-no" title="function not covered" >() =&gt; <span class="cstat-no" title="statement not covered" >r</span>es(); }</span></span>)
+      new Promise&lt;void&gt;(<span class="fstat-no" title="function not covered" >(r</span>es: any) =&gt; { <span class="cstat-no" title="statement not covered" >img.onload = <span class="fstat-no" title="function not covered" >() =&gt; <span class="cstat-no" title="statement not covered" >r</span>es(); }</span></span>),
+      new Promise&lt;void&gt;(<span class="fstat-no" title="function not covered" >(r</span>es: any) =&gt; { <span class="cstat-no" title="statement not covered" >watermarkImg.onload = <span class="fstat-no" title="function not covered" >() =&gt; <span class="cstat-no" title="statement not covered" >r</span>es(); }</span></span>)
     ])
     .then(<span class="fstat-no" title="function not covered" >() =&gt; {</span>
       // Set canvas dimensions to match the image
 <span class="cstat-no" title="statement not covered" >      canvas.width = img.width;</span>
 <span class="cstat-no" title="statement not covered" >      canvas.height = img.height;</span>
-      
+&nbsp;
       // Draw the original image
 <span class="cstat-no" title="statement not covered" >      ctx.drawImage(img, 0, 0);</span>
-      
+&nbsp;
       // Apply watermark
 <span class="cstat-no" title="statement not covered" >      ctx.globalAlpha = opacity;</span>
-      
+&nbsp;
       // Scale watermark image
       const watermarkWidth = <span class="cstat-no" title="statement not covered" >watermarkImg.width * scale;</span>
       const watermarkHeight = <span class="cstat-no" title="statement not covered" >watermarkImg.height * scale;</span>
-      
+&nbsp;
       // Get coordinates based on position
       let x = <span class="cstat-no" title="statement not covered" >0;</span>
       let y = <span class="cstat-no" title="statement not covered" >0;</span>
-      
+&nbsp;
       const padding = <span class="cstat-no" title="statement not covered" >20;</span>
-      
+&nbsp;
 <span class="cstat-no" title="statement not covered" >      switch (position) {</span>
         case 'center':
 <span class="cstat-no" title="statement not covered" >          x = (canvas.width - watermarkWidth) / 2;</span>
@@ -1445,7 +1445,7 @@ export const <span class="cstat-no" title="statement not covered" >applyImageWat
 <span class="cstat-no" title="statement not covered" >          y = padding;</span>
 <span class="cstat-no" title="statement not covered" >          break;</span>
       }
-      
+&nbsp;
       // Draw the watermark image
 <span class="cstat-no" title="statement not covered" >      ctx.drawImage(</span>
         watermarkImg, 
@@ -1454,31 +1454,31 @@ export const <span class="cstat-no" title="statement not covered" >applyImageWat
         watermarkWidth, 
         watermarkHeight
       );
-      
+&nbsp;
       // Reset transparency
 <span class="cstat-no" title="statement not covered" >      ctx.globalAlpha = 1.0;</span>
-      
+&nbsp;
       // Convert canvas to blob
-<span class="cstat-no" title="statement not covered" >      canvas.toBlob(<span class="fstat-no" title="function not covered" >(b</span>lob) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >      canvas.toBlob(<span class="fstat-no" title="function not covered" >(b</span>lob: any) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >        <span class="missing-if-branch" title="if path not taken" >I</span>if (!blob) {</span>
 <span class="cstat-no" title="statement not covered" >          reject(new Error('Could not create image blob'));</span>
 <span class="cstat-no" title="statement not covered" >          return;</span>
         }
-        
+&nbsp;
         // Create a new file with the watermarked image
         const watermarkedFile = <span class="cstat-no" title="statement not covered" >new File([blob], file.name, { type: file.type }) as MediaFile;</span>
-        
+&nbsp;
         // Create a new preview URL
 <span class="cstat-no" title="statement not covered" >        watermarkedFile.preview = URL.createObjectURL(blob);</span>
 <span class="cstat-no" title="statement not covered" >        watermarkedFile.id = file.id || `${file.name}-${Date.now()}`; /</span>/ Preserve the original ID
-        
+&nbsp;
 <span class="cstat-no" title="statement not covered" >        resolve(watermarkedFile);</span>
       }, file.type);
     })
-    .catch(<span class="fstat-no" title="function not covered" >(e</span>rror) =&gt; {
+    .catch(<span class="fstat-no" title="function not covered" >(e</span>rror: any) =&gt; {
 <span class="cstat-no" title="statement not covered" >      reject(error);</span>
     });
-    
+&nbsp;
     // Start the process by reading the file
 <span class="cstat-no" title="statement not covered" >    reader.readAsDataURL(file);</span>
   });
@@ -1489,7 +1489,7 @@ export const <span class="cstat-no" title="statement not covered" >applyImageWat
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T22:15:28.100Z
+                at 2025-06-15T18:50:48.918Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

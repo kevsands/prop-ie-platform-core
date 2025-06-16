@@ -12,6 +12,6 @@ export const queryClient = new QueryClient({
         return failureCount <3;
       },
     mutations: {
-      retry: false}});
+      retry: false});
 
 export default queryClient;

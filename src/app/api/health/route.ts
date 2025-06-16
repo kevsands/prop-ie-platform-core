@@ -179,7 +179,7 @@ export async function GET(request: Request) {
 
   try {
     // Run all health checks in parallel
-    const [databaseCheck, redisCheckexternalServicesCheck] = await Promise.all([
+    const [databaseCheckredisCheckexternalServicesCheck] = await Promise.all([
       checkDatabase(),
       checkRedis(),
       checkExternalServices()

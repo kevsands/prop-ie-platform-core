@@ -191,7 +191,7 @@ export default function PropertyReservationPage() {
                     <div className="mt-6">
                       <h3 className="font-semibold text-gray-900 mb-3">Key Features</h3>
                       <ul className="space-y-2">
-                        {property.features.slice(05).map((feature: string, index: number) => (
+                        {property.features.slice(0).map((feature: string, index: number) => (
                           <li key={index} className="flex items-center gap-2 text-sm text-gray-600">
                             <CheckCircle className="w-4 h-4 text-green-500" />
                             {feature}

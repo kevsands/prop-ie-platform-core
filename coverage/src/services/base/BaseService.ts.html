@@ -488,7 +488,7 @@ export abstract class <span class="cstat-no" title="statement not covered" >Base
 <span class="cstat-no" title="statement not covered" >    this.app = express();</span>
 <span class="cstat-no" title="statement not covered" >    this.router = express.Router();</span>
 <span class="cstat-no" title="statement not covered" >    this.eventBus = new EventEmitter();</span>
-    
+&nbsp;
     // Setup logger
 <span class="cstat-no" title="statement not covered" >    this.logger = winston.createLogger({</span>
       level: process.env.LOG_LEVEL || 'info',
@@ -503,27 +503,27 @@ export abstract class <span class="cstat-no" title="statement not covered" >Base
         new winston.transports.File({ filename: `logs/${this.serviceName}-combined.log` })
       ]
     });
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    this.setupMiddleware();</span>
 <span class="cstat-no" title="statement not covered" >    this.setupRoutes();</span>
 <span class="cstat-no" title="statement not covered" >    this.setupErrorHandling();</span>
   }
-  
+&nbsp;
   private <span class="fstat-no" title="function not covered" >setupMiddleware(): void {</span>
 <span class="cstat-no" title="statement not covered" >    this.app.use(helmet());</span>
 <span class="cstat-no" title="statement not covered" >    this.app.use(cors());</span>
 <span class="cstat-no" title="statement not covered" >    this.app.use(express.json());</span>
 <span class="cstat-no" title="statement not covered" >    this.app.use('/api', this.router);</span>
-    
+&nbsp;
     // Request logging
 <span class="cstat-no" title="statement not covered" >    this.app.use(<span class="fstat-no" title="function not covered" >(r</span>eq: any, res: any, next: Function) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >      this.logger.info(`${req.method} ${req.path}`);</span>
 <span class="cstat-no" title="statement not covered" >      next();</span>
     });
   }
-  
+&nbsp;
   protected abstract setupRoutes(): void;
-  
+&nbsp;
   private <span class="fstat-no" title="function not covered" >setupErrorHandling(): void {</span>
     // Error handling middleware
     const errorHandler: ErrorHandler = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(e</span>rr: ServiceError, req: any, res: any, next: Function) =&gt; {</span>
@@ -532,7 +532,7 @@ export abstract class <span class="cstat-no" title="statement not covered" >Base
         stack: err.stack,
         path: req.path
       });
-      
+&nbsp;
 <span class="cstat-no" title="statement not covered" >      res.status(err.status || 500).json({</span>
         error: {
           message: err.message || 'Internal Server Error',
@@ -540,23 +540,23 @@ export abstract class <span class="cstat-no" title="statement not covered" >Base
         }
       });
     };
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    this.app.use(errorHandler);</span>
   }
-  
+&nbsp;
 <span class="fstat-no" title="function not covered" >  protected async c</span>onnectToDatabase(): Promise&lt;void&gt; {
 <span class="cstat-no" title="statement not covered" >    try {</span>
       const mongoUri = <span class="cstat-no" title="statement not covered" >process.env.MONGODB_URI;</span>
       const dbName = <span class="cstat-no" title="statement not covered" >process.env.MONGODB_DB_NAME;</span>
-      
+&nbsp;
 <span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (!mongoUri) {</span>
 <span class="cstat-no" title="statement not covered" >        throw new Error("MONGODB_URI environment variable is not set");</span>
       }
-      
+&nbsp;
 <span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (!dbName) {</span>
 <span class="cstat-no" title="statement not covered" >        throw new Error("MONGODB_DB_NAME environment variable is not set");</span>
       }
-      
+&nbsp;
       // Use static connect method
       const client = <span class="cstat-no" title="statement not covered" >await MongoClient.connect(mongoUri);</span>
 <span class="cstat-no" title="statement not covered" >      this.db = client.db(dbName);</span>
@@ -566,18 +566,18 @@ export abstract class <span class="cstat-no" title="statement not covered" >Base
 <span class="cstat-no" title="statement not covered" >      throw error;</span>
     }
   }
-  
+&nbsp;
   protected <span class="fstat-no" title="function not covered" >setupKafka(): void {</span>
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (process.env.USE_KAFKA === 'true') {</span>
       const kafkaHosts = <span class="cstat-no" title="statement not covered" >process.env.KAFKA_HOSTS;</span>
-      
+&nbsp;
 <span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (!kafkaHosts) {</span>
 <span class="cstat-no" title="statement not covered" >        this.logger.error('KAFKA_HOSTS environment variable is not set');</span>
 <span class="cstat-no" title="statement not covered" >        return;</span>
       }
-      
+&nbsp;
       const client = <span class="cstat-no" title="statement not covered" >new KafkaClient({ kafkaHost: kafkaHosts });</span>
-      
+&nbsp;
       // Setup producer
 <span class="cstat-no" title="statement not covered" >      this.kafkaProducer = new Producer(client);</span>
 <span class="cstat-no" title="statement not covered" >      this.kafkaProducer.on('ready', <span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
@@ -586,11 +586,11 @@ export abstract class <span class="cstat-no" title="statement not covered" >Base
 <span class="cstat-no" title="statement not covered" >      this.kafkaProducer.on('error', <span class="fstat-no" title="function not covered" >(e</span>rr: Error) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >        this.logger.error('Kafka producer error', err);</span>
       });
-      
+&nbsp;
       // Setup specific consumers in child classes as needed
     }
   }
-  
+&nbsp;
   protected <span class="fstat-no" title="function not covered" >publishEvent(t</span>opic: string, message: Record&lt;string, any&gt;): void {
 <span class="cstat-no" title="statement not covered" >    if (this.kafkaProducer) {</span>
       const payloads: ProduceRequest[] = <span class="cstat-no" title="statement not covered" >[</span>
@@ -605,7 +605,7 @@ export abstract class <span class="cstat-no" title="statement not covered" >Base
           }) 
         }
       ];
-      
+&nbsp;
 <span class="cstat-no" title="statement not covered" >      this.kafkaProducer.send(payloads, <span class="fstat-no" title="function not covered" >(e</span>rr: Error | null, data: any) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >        if (err) {</span>
 <span class="cstat-no" title="statement not covered" >          this.logger.error(`Failed to publish event to ${topic}`, err);</span>
@@ -615,14 +615,14 @@ export abstract class <span class="cstat-no" title="statement not covered" >Base
       });
     } else {
       // Fallback to local event emitter
-<span class="cstat-no" title="statement not covered" >      this.eventBus.emit(topic, message);</span>
+<span class="cstat-no" title="statement not covered" >      this.eventBus.emit(topicmessage);</span>
     }
   }
-  
+&nbsp;
 <span class="fstat-no" title="function not covered" >  public async s</span>tart(): Promise&lt;void&gt; {
 <span class="cstat-no" title="statement not covered" >    await this.connectToDatabase();</span>
 <span class="cstat-no" title="statement not covered" >    this.setupKafka();</span>
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    this.app.listen(this.port, <span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
 <span class="cstat-no" title="statement not covered" >      this.logger.info(`${this.serviceName} listening on port ${this.port}`);</span>
     });
@@ -634,7 +634,7 @@ export abstract class <span class="cstat-no" title="statement not covered" >Base
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T22:15:28.100Z
+                at 2025-06-15T18:50:48.918Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

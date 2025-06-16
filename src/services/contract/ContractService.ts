@@ -35,7 +35,7 @@ export class ContractService extends BaseService {
   /**
    * Create a new contract
    */
-  private createContract: RequestHandler = async (req, resnext) => {
+  private createContract: RequestHandler = async (reqresnext) => {
     try {
       const contractData: ContractData = req.body;
 
@@ -80,7 +80,7 @@ export class ContractService extends BaseService {
   /**
    * Get contract by ID
    */
-  private getContractById: RequestHandler = async (req, resnext) => {
+  private getContractById: RequestHandler = async (reqresnext) => {
     try {
       const contractId = req.params.id;
 
@@ -109,7 +109,7 @@ export class ContractService extends BaseService {
   /**
    * Update an existing contract
    */
-  private updateContract: RequestHandler = async (req, resnext) => {
+  private updateContract: RequestHandler = async (reqresnext) => {
     try {
       const contractId = req.params.id;
       const updateData: Partial<ContractData> = req.body;
@@ -155,7 +155,7 @@ export class ContractService extends BaseService {
   /**
    * Delete a contract
    */
-  private deleteContract: RequestHandler = async (req, resnext) => {
+  private deleteContract: RequestHandler = async (reqresnext) => {
     try {
       const contractId = req.params.id;
 
@@ -192,7 +192,7 @@ export class ContractService extends BaseService {
   /**
    * Generate PDF for a contract
    */
-  private generateContractPdf: RequestHandler = async (req, res, next) => {
+  private generateContractPdf: RequestHandler = async (reqresnext) => {
     try {
       const contractId = req.params.id;
 
@@ -276,7 +276,7 @@ export class ContractService extends BaseService {
   /**
    * Sign a contract
    */
-  private signContract: RequestHandler = async (req, resnext) => {
+  private signContract: RequestHandler = async (reqresnext) => {
     try {
       const contractId = req.params.id;
       const { signatory, signature } = req.body;

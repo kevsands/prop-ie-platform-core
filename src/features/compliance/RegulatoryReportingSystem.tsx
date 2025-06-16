@@ -459,7 +459,7 @@ export default function RegulatoryReportingSystem({ organizationId }: Regulatory
   const upcomingDeadlines = filings
     .filter(filing => filing.status !== 'OVERDUE')
     .sort((ab: any) => a.filingDeadline.getTime() - b.filingDeadline.getTime())
-    .slice(05);
+    .slice(0);
 
   const overdueFilings = filings.filter(filing => filing.status === 'OVERDUE');
 

@@ -58,7 +58,7 @@ const AgentPerformance: React.FC<AgentPerformanceProps> = ({
   const loadPerformanceData = async () => {
     setLoading(true);
     try {
-      const [performanceData, targetDatacommissionData] = await Promise.all([
+      const [performanceDatatargetDatacommissionData] = await Promise.all([
         crmService.getAgentPerformance(agentId, dateRange.start, dateRange.end),
         crmService.getPerformanceTargets(agentId),
         crmService.getCommissions(agentId, dateRange.start, dateRange.end)
@@ -318,7 +318,7 @@ const AgentPerformance: React.FC<AgentPerformanceProps> = ({
               <div className="pt-4 border-t">
                 <h4 className="font-medium mb-2">Recent Commissions</h4>
                 <div className="space-y-2">
-                  {commissions.slice(05).map((commission: any) => (
+                  {commissions.slice(0).map((commission: any) => (
                     <div key={commission.id} className="flex justify-between items-center text-sm">
                       <span>{commission.dealId}</span>
                       <span className={commission.status === 'paid' ? 'text-green-600' : 'text-yellow-600'}>

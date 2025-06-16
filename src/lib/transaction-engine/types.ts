@@ -33,5 +33,6 @@ export interface Payment {
   method: PaymentMethod;
   reference: string;
   processedAt?: Date;
-  metadata?: Record<string, any>\n  );
+  metadata?: Record<string, any>
+  );
 }

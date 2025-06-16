@@ -39,9 +39,9 @@ interface CustomizationOption {
   modelPath?: string;
   customData?: {
     colorHex?: string;
-    position?: [number, numbernumber];
-    rotation?: [number, numbernumber];
-    scale?: [number, numbernumber];
+    position?: [numbernumbernumber];
+    rotation?: [numbernumbernumber];
+    scale?: [numbernumbernumber];
   };
 }
 
@@ -92,8 +92,10 @@ function LoaderComponent() {
 
 // Types for GLTF result
 type GLTFResult = GLTF & {
-  nodes: Record<string, THREE.Mesh>\n  );
-  materials: Record<string, THREE.Material>\n  );
+  nodes: Record<string, THREE.Mesh>
+  );
+  materials: Record<string, THREE.Material>
+  );
 };
 
 // Fallback model for error cases
@@ -119,7 +121,7 @@ function FallbackModel({ roomType }: { roomType: string }) {
   return (
     <group>
       <mesh>
-        <boxGeometry args={[1, 11]} />
+        <boxGeometry args={[111]} />
         <meshBasicMaterial 
           color={color} 
           wireframe 
@@ -127,7 +129,7 @@ function FallbackModel({ roomType }: { roomType: string }) {
           opacity={0.7} 
         />
       </mesh>
-      <Html position={[0, 20]}>
+      <Html position={[020]}>
         <div className="bg-red-50 border border-red-200 rounded-md p-2 shadow-sm">
           <div className="flex items-center">
             <AlertTriangle className="h-4 w-4 text-red-500 mr-2" />
@@ -242,7 +244,7 @@ function RoomModel({
     } catch (err) {
 
     }
-  }, [gltf, selectedOptionstextures]);
+  }, [gltfselectedOptionstextures]);
 
   // If there was a model error, show the fallback
   if (modelError || !gltf) {
@@ -259,13 +261,13 @@ function RoomModel({
 // Furniture model component with error handling
 function FurnitureItem({ 
   option,
-  position = [0, 00],
-  rotation = [0, 00],
-  scale = [1, 11]}: { 
+  position = [000],
+  rotation = [000],
+  scale = [111]}: { 
   option: CustomizationOption;
-  position?: [number, numbernumber];
-  rotation?: [number, numbernumber];
-  scale?: [number, numbernumber];
+  position?: [numbernumbernumber];
+  rotation?: [numbernumbernumber];
+  scale?: [numbernumbernumber];
 }) {
   const modelPath = option.modelPath || '';
   const [errorsetError] = useState<Error | null>(null);
@@ -301,21 +303,21 @@ function FurnitureItem({
     <primitive 
       object={gltf.scene} 
       position={position} 
-      rotation={rotation as [number, numbernumber]} 
-      scale={scale as [number, numbernumber]} 
+      rotation={rotation as [numbernumbernumber]} 
+      scale={scale as [numbernumbernumber]} 
     />
   );
 }
 
 // THREE.Camera controller with smooth transitions
 function CameraController({ 
-  targetPosition = [0, 10],
+  targetPosition = [010],
   minDistance = 2,
   maxDistance = 10,
   minPolarAngle = Math.PI / 6,
   maxPolarAngle = Math.PI / 2
 }: { 
-  targetPosition?: [number, numbernumber];
+  targetPosition?: [numbernumbernumber];
   minDistance?: number;
   maxDistance?: number;
   minPolarAngle?: number;
@@ -397,7 +399,7 @@ export function RoomVisualizer({
 
   // Component state
   const [isLoadingsetIsLoading] = useState(true);
-  const [cameraTargetsetCameraTarget] = useState<[number, numbernumber]>([0, 10]);
+  const [cameraTargetsetCameraTarget] = useState<[numbernumbernumber]>([010]);
   const [errorsetError] = useState<Error | null>(null);
 
   // Filter options for current room and get furniture items
@@ -424,7 +426,7 @@ export function RoomVisualizer({
   const focusOnArea = useCallback((category: string) => {
     switch(category) {
       case 'flooring':
-        setCameraTarget([0, 00]);
+        setCameraTarget([000]);
         break;
       case 'paint':
         setCameraTarget([0, 1.50]);
@@ -436,7 +438,7 @@ export function RoomVisualizer({
         setCameraTarget([0, 0.50]);
         break;
       default:
-        setCameraTarget([0, 10]);
+        setCameraTarget([010]);
     }
   }, []);
 
@@ -489,7 +491,7 @@ export function RoomVisualizer({
             {/* Lighting */}
             <ambientLight intensity={0.5} />
             <directionalLight 
-              position={[10, 1010]} 
+              position={[101010]} 
               intensity={1}
               castShadow
               shadow-mapSize={[20482048]}
@@ -522,9 +524,9 @@ export function RoomVisualizer({
                     <FurnitureItem 
                       key={adaptedItem.optionId}
                       option={adaptedItem.option}
-                      position={adaptedItem.option.customData?.position || [0, 00]}
-                      rotation={adaptedItem.option.customData?.rotation || [0, 00]}
-                      scale={adaptedItem.option.customData?.scale || [1, 11]}
+                      position={adaptedItem.option.customData?.position || [000]}
+                      rotation={adaptedItem.option.customData?.rotation || [000]}
+                      scale={adaptedItem.option.customData?.scale || [111]}
                     />
                   );
                 })}

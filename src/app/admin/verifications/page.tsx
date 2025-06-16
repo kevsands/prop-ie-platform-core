@@ -1,5 +1,6 @@
-import React from 'react';
 'use client';
+
+import React from 'react';
 
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
@@ -88,7 +89,8 @@ export default function AdminVerifications() {
             url: '#',
             uploadedAt: new Date('2024-01-15'),
             verified: false,
-            aiScore: 92},
+            aiScore: 92
+          },
           {
             id: 'doc2',
             name: 'Financial Statements.pdf',
@@ -96,10 +98,14 @@ export default function AdminVerifications() {
             url: '#',
             uploadedAt: new Date('2024-01-15'),
             verified: false,
-            aiScore: 88}],
+            aiScore: 88
+          }
+        ],
         riskScore: 15,
-        aiAnalysis: 'Low risk profile. Established company with 10+ years in business. Clean financial records.'},
-      submittedAt: new Date('2024-01-15')},
+        aiAnalysis: 'Low risk profile. Established company with 10+ years in business. Clean financial records.'
+      },
+      submittedAt: new Date('2024-01-15')
+    },
     {
       id: '2',
       type: 'project',
@@ -111,7 +117,8 @@ export default function AdminVerifications() {
         email: 'contact@metrobuild.ie',
         phone: '+353 1 987 6543',
         country: 'Ireland',
-        documents: []},
+        documents: []
+      },
       project: {
         id: 'p1',
         name: 'Central Plaza Apartments',
@@ -125,7 +132,8 @@ export default function AdminVerifications() {
             url: '#',
             uploadedAt: new Date('2024-01-14'),
             verified: false,
-            aiScore: 95},
+            aiScore: 95
+          },
           {
             id: 'doc4',
             name: 'Site Plans.dwg',
@@ -133,9 +141,14 @@ export default function AdminVerifications() {
             url: '#',
             uploadedAt: new Date('2024-01-14'),
             verified: false,
-            aiScore: 90}]},
+            aiScore: 90
+          }
+        ]
+      },
       submittedAt: new Date('2024-01-14'),
-      reviewedBy: 'Admin User'}]);
+      reviewedBy: 'Admin User'
+    }
+  ]);
 
   const [selectedVerificationsetSelectedVerification] = useState<VerificationRequest | null>(null);
   const [aiInsightssetAiInsights] = useState<AIInsight[]>([]);
@@ -159,8 +172,10 @@ export default function AdminVerifications() {
             phone: '+353 1 000 0000',
             country: 'Ireland',
             documents: [],
-            riskScore: Math.floor(Math.random() * 100)},
-          submittedAt: new Date()};
+            riskScore: Math.floor(Math.random() * 100)
+          },
+          submittedAt: new Date()
+        };
 
         setVerifications(prev => [newVerification, ...prev]);
         toast.info('New verification request received');
@@ -181,22 +196,27 @@ export default function AdminVerifications() {
           id: '1',
           type: 'success',
           title: 'Valid Registration',
-          description: 'Company registration documents match official records'},
+          description: 'Company registration documents match official records'
+        },
         {
           id: '2',
           type: 'info',
           title: 'Financial Health',
-          description: 'Revenue growth of 23% year-over-year, healthy cash flow'},
+          description: 'Revenue growth of 23% year-over-year, healthy cash flow'
+        },
         {
           id: '3',
           type: 'warning',
           title: 'Previous Project Delay',
-          description: 'One project experienced 3-month delay in 2022'},
+          description: 'One project experienced 3-month delay in 2022'
+        },
         {
           id: '4',
           type: 'success',
           title: 'Compliance Check',
-          description: 'No regulatory violations or outstanding issues'}];
+          description: 'No regulatory violations or outstanding issues'
+        }
+      ];
 
       setAiInsights(insights);
       setIsAnalyzing(false);

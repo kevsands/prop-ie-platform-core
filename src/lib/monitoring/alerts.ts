@@ -159,7 +159,7 @@ This is an automated alert from Prop.ie monitoring system.
           StringValue: severity},
         environment: {
           DataType: 'String',
-          StringValue: process.env.NODE_ENV || 'production'}})
+          StringValue: process.env.NODE_ENV || 'production'})
 
     try {
       await snsClient.send(command)

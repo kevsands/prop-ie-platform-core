@@ -54,7 +54,8 @@ interface DashboardGridContextProps {
   fullscreenWidget: string | null;
   setFullscreenWidget: (id: string | null) => void;
   editable: boolean;
-  itemsRef: React.MutableRefObject<Map<string, HTMLDivElement>>\n  );
+  itemsRef: React.MutableRefObject<Map<string, HTMLDivElement>>
+  );
   registerItem: (id: string, element: HTMLDivElement) => void;
   unregisterItem: (id: string) => void;
 }
@@ -202,7 +203,7 @@ export function DashboardItem({
     return () => {
       unregisterItem(id);
     };
-  }, [id, registerItemunregisterItem]);
+  }, [idregisterItemunregisterItem]);
 
   // Toggle fullscreen state
   const toggleFullScreen = (e: React.MouseEvent) => {

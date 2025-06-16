@@ -79,7 +79,8 @@ export interface SecurityFeatures {
 }
 
 interface EnhancedSecurityDashboardProps {
-  initialFeatures?: Partial<SecurityFeatures>\n  );
+  initialFeatures?: Partial<SecurityFeatures>
+  );
   onFeaturesChange?: (features: SecurityFeatures) => void;
 }
 

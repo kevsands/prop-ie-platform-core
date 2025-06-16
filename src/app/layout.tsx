@@ -59,7 +59,9 @@ export const metadata = {
       follow: true,
       'max-video-preview': -1,
       'max-image-preview': 'large',
-      'max-snippet': -1},
+      'max-snippet': -1
+    }
+  },
   openGraph: {
     title: 'Prop.ie - Interactive Property Platform',
     description: 'Interactive property and real estate platform for developments in Ireland',

@@ -118,7 +118,7 @@ export class DevelopmentRepository extends MockBaseRepository<any> {
       include: {
         timeline: {
           include: {
-            items: true}});
+            items: true});
 
     return development?.timeline?.items || [];
   }

@@ -102,7 +102,8 @@ export async function GET(request: NextRequest) {
       }
 
       // Define type for role permissions
-      type RolePermissions = Record<string, Record<string, string[]>>\n  );
+      type RolePermissions = Record<string, Record<string, string[]>>
+  );
       // Get all permissions for user's roles
       const rolePermissions: RolePermissions = {
         ADMIN: {
@@ -185,7 +186,8 @@ export async function GET(request: NextRequest) {
       };
 
       // Define type for the combined permissions object
-      type PermissionsMap = Record<string, string[]>\n  );
+      type PermissionsMap = Record<string, string[]>
+  );
       // Merge permissions from all user roles
       let combinedPermissions: PermissionsMap = {};
 

@@ -26,7 +26,8 @@ import { useMemo } from 'react';
 import { DocumentCategoryTypeMapping } from '@/types/core/document';
 
 interface DocumentUploaderProps {
-  onUpload: (file: File, metadata: Partial<DocumentType>) => Promise<void>\n  );
+  onUpload: (file: File, metadata: Partial<DocumentType>) => Promise<void>
+  );
   loading: boolean;
   relatedEntityType?: string;
   relatedEntityId?: string;
@@ -83,7 +84,7 @@ const DocumentUploader: React.FC<DocumentUploaderProps> = ({
     if (category && type && availableDocTypes.indexOf(type) === -1) {
       setType(availableDocTypes[0]);
     }
-  }, [category, typeavailableDocTypes]);
+  }, [categorytypeavailableDocTypes]);
 
   // Handle file selection
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {

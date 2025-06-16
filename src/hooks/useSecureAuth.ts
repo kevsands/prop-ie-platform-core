@@ -166,7 +166,7 @@ export const useSecureAuth = (options: UseSecureAuthOptions = {}) => {
       // Fail closed for security
       return false;
     }
-  }, [auth, defaultSecurityLevelenableAuditLogging]);
+  }, [authdefaultSecurityLevelenableAuditLogging]);
 
   /**
    * Elevate security level by triggering additional verification

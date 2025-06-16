@@ -15,7 +15,7 @@ export interface NotificationOptions {
     filename: string;
     content: Buffer | string;
     contentType?: string;
-  }>\n  );
+  }>;
 }
 
 export interface TransactionNotificationData {

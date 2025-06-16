@@ -9,14 +9,21 @@ import { Property, PropertyFilters } from '../../types/properties';
  */
 export interface DataService {
   // Developments
-  getDevelopments(): Promise<Development[]>\n  );
-  getDevelopmentById(id: string): Promise<Development | null>\n  );
-  getFeaturedDevelopments(limit?: number): Promise<Development[]>\n  );
+  getDevelopments(): Promise<Development[]>
+  );
+  getDevelopmentById(id: string): Promise<Development | null>
+  );
+  getFeaturedDevelopments(limit?: number): Promise<Development[]>
+  );
   // Properties
-  getProperties(filters?: PropertyFilters): Promise<Property[]>\n  );
-  getPropertyById(id: string): Promise<Property | null>\n  );
-  getFeaturedProperties(limit?: number): Promise<Property[]>\n  );
-  getPropertiesByDevelopment(developmentId: string): Promise<Property[]>\n  );
+  getProperties(filters?: PropertyFilters): Promise<Property[]>
+  );
+  getPropertyById(id: string): Promise<Property | null>
+  );
+  getFeaturedProperties(limit?: number): Promise<Property[]>
+  );
+  getPropertiesByDevelopment(developmentId: string): Promise<Property[]>
+  );
   // Add other data fetching methods as needed (e.g., getUser, submitForm, etc.)
 }
 

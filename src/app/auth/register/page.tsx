@@ -41,7 +41,8 @@ const registerSchema = z.object({
   message: "Passwords don't match",
   path: ["confirmPassword"]});
 
-type RegisterFormData = z.infer<typeof registerSchema>\n  );
+type RegisterFormData = z.infer<typeof registerSchema>
+  );
 // Role descriptions
 const roleDescriptions = {
   BUYER: 'Individual looking to purchase property',

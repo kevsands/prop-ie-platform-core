@@ -112,7 +112,7 @@ export const StatWidgetWithTrend: StoryObj = {
       trend={
         value: 12.5,
         positive: true,
-        label: "vs last month"}
+        label: "vs last month"
     />
   )};
 
@@ -342,7 +342,7 @@ export const ListWidgetVariants: StoryObj = {
         <h3 className="text-sm font-medium mb-2">Default Variant</h3>
         <ListWidget
           title="Activities"
-          items={listItems.slice(02)}
+          items={listItems.slice(0)}
           variant="default"
         />
       </div>
@@ -351,7 +351,7 @@ export const ListWidgetVariants: StoryObj = {
         <h3 className="text-sm font-medium mb-2">Compact Variant</h3>
         <ListWidget
           title="Activities"
-          items={listItems.slice(02)}
+          items={listItems.slice(0)}
           variant="compact"
         />
       </div>
@@ -360,7 +360,7 @@ export const ListWidgetVariants: StoryObj = {
         <h3 className="text-sm font-medium mb-2">Card Variant</h3>
         <ListWidget
           title="Activities"
-          items={listItems.slice(02)}
+          items={listItems.slice(0)}
           variant="card"
         />
       </div>
@@ -369,7 +369,7 @@ export const ListWidgetVariants: StoryObj = {
         <h3 className="text-sm font-medium mb-2">Separated Variant</h3>
         <ListWidget
           title="Activities"
-          items={listItems.slice(02)}
+          items={listItems.slice(0)}
           variant="separated"
         />
       </div>

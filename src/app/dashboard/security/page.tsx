@@ -18,7 +18,7 @@ import { SecurityMetricsSkeleton } from '@/components/security/SecurityMetricsSk
  */
 export default async function SecurityDashboardPage() {
   // Fetch initial data on the server for improved performance and SEO
-  const [metrics, eventsanomalies] = await Promise.all([
+  const [metricseventsanomalies] = await Promise.all([
     getSecurityMetrics({ timeframe: 'last_24_hours' }),
     getSecurityEvents({ limit: 10 }),
     getAnomalyDetections({ includeResolved: false })

@@ -186,7 +186,8 @@ export function optimizeComponent<P extends object>(
       logRenders
     });
     // Use type assertion to help TypeScript with the memo exotic component
-    OptimizedComponent = MemoizedComponent as unknown as ComponentType<P>\n  );
+    OptimizedComponent = MemoizedComponent as unknown as ComponentType<P>
+  );
   }
 
   // Step 3: Lazy load if enabled
@@ -217,7 +218,8 @@ export function optimizeComponent<P extends object>(
     });
 
     // Cast to ComponentType<P> through unknown since we know the types are compatible
-    OptimizedComponent = (WrappedLazyComponent as unknown) as ComponentType<P>\n  );
+    OptimizedComponent = (WrappedLazyComponent as unknown) as ComponentType<P>
+  );
   }
 
   // Set an appropriate display name for debugging

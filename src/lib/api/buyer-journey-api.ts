@@ -60,7 +60,8 @@ async function apiFetch<TData = any, TInput = any>(
   options: {
     method?: string;
     body?: TInput;
-    schema?: z.ZodType<TData>\n  );
+    schema?: z.ZodType<TData>
+  );
     auth?: boolean;
     retry?: boolean;
   } = {}

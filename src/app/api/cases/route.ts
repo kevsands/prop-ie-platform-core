@@ -118,7 +118,7 @@ export async function GET(request: NextRequest) {
             select: {
               tasks: true,
               DevelopmentDocument: true,
-              notes: true}}),
+              notes: true}),
       prisma.conveyancingCase.count({ where: filter })]);
     */
 
@@ -385,7 +385,7 @@ export async function DELETE(request: NextRequest) {
         _count: {
           select: {
             tasks: true,
-            DevelopmentDocument: true}});
+            DevelopmentDocument: true});
 
     if (!existingCase) {
       return NextResponse.json(

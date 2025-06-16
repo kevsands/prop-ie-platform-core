@@ -26,9 +26,9 @@ const cardVariants = cva(
         positive: "bg-green-50 dark:bg-green-950/30 border-green-200 dark:border-green-900",
         negative: "bg-red-50 dark:bg-red-950/30 border-red-200 dark:border-red-900",
         neutral: "bg-blue-50 dark:bg-blue-950/30 border-blue-200 dark:border-blue-900",
-        warning: "bg-amber-50 dark:bg-amber-950/30 border-amber-200 dark:border-amber-900"},
+        warning: "bg-amber-50 dark:bg-amber-950/30 border-amber-200 dark:border-amber-900",
     defaultVariants: {
-      performance: "neutral"}
+      performance: "neutral"
 );
 
 // Value variants for different performance contexts
@@ -40,9 +40,9 @@ const valueVariants = cva(
         positive: "text-green-600 dark:text-green-400",
         negative: "text-red-600 dark:text-red-400",
         neutral: "text-blue-600 dark:text-blue-400",
-        warning: "text-amber-600 dark:text-amber-400"},
+        warning: "text-amber-600 dark:text-amber-400",
     defaultVariants: {
-      performance: "neutral"}
+      performance: "neutral"
 );
 
 // Trend indicator variants
@@ -54,9 +54,9 @@ const trendVariants = cva(
         up: "text-green-600 dark:text-green-400",
         down: "text-red-600 dark:text-red-400",
         flat: "text-slate-600 dark:text-slate-400",
-        warning: "text-amber-600 dark:text-amber-400"},
+        warning: "text-amber-600 dark:text-amber-400",
     defaultVariants: {
-      direction: "flat"}
+      direction: "flat"
 );
 
 /**
@@ -100,7 +100,7 @@ const FinancialMetricCard = ({
       return formatPercentage(numericValue);
     }
     return `${prefix}${(typeof value === 'number' ? value.toLocaleString() : value)}${suffix}`;
-  }, [value, isCurrency, isPercentage, prefix, suffixisLoading]);
+  }, [value, isCurrencyisPercentageprefixsuffixisLoading]);
 
   // Determine trend direction if not explicitly provided
   const calculatedTrendDirection = React.useMemo(() => {
@@ -112,7 +112,7 @@ const FinancialMetricCard = ({
     }
 
     return 'flat' as TrendDirection;
-  }, [trendDirection, previousValuepercentChange]);
+  }, [trendDirectionpreviousValuepercentChange]);
 
   // Logic to determine performance indicator if not explicitly set
   const calculatedPerformance = React.useMemo(() => {
@@ -140,7 +140,7 @@ const FinancialMetricCard = ({
     if (calculatedTrendDirection === 'down') return 'negative';
 
     return 'neutral';
-  }, [performance, targetValue, value, calculatedTrendDirection, titleisPercentage]);
+  }, [performance, targetValuevaluecalculatedTrendDirectiontitleisPercentage]);
 
   // Format percent change for display
   const formattedPercentChange = percentChange !== undefined

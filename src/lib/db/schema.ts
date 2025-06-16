@@ -95,7 +95,8 @@ export const contractors = pgTable("contractors", {
   createdAt: timestamp("created_at").notNull().defaultNow(),
   updatedAt: timestamp("updated_at").notNull().defaultNow()});
 
-let dbClient: NodePgDatabase<any>\n  );
+let dbClient: NodePgDatabase<any>
+  );
 export function initializeDb(): NodePgDatabase<any> {
   if (!dbClient) {
     const pool = new Pool({ connectionString: process.env.DATABASE_URL! });

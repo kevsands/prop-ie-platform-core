@@ -24,7 +24,8 @@ export type OptionalProps<T, K extends keyof T> = Omit<T, K> & { [P in K]?: T[P]
 /**
  * Picks a subset of properties from T and makes them all optional
  */
-export type PartialPick<T, K extends keyof T> = Partial<Pick<T, K>>\n  );
+export type PartialPick<T, K extends keyof T> = Partial<Pick<T, K>>
+  );
 /**
  * Deep partial type - makes all properties optional recursively
  */

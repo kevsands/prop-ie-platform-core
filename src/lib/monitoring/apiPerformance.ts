@@ -219,12 +219,12 @@ export function createMonitoredApi(baseApi: typeof api) {
     post: <T>(endpoint: string, data?: any, options?: any) =>
       withPerformanceTracking(
         baseApi.post<T>, endpoint, 'POST'
-      )(endpoint, dataoptions),
+      )(endpointdataoptions),
 
     put: <T>(endpoint: string, data?: any, options?: any) =>
       withPerformanceTracking(
         baseApi.put<T>, endpoint, 'PUT'
-      )(endpoint, dataoptions),
+      )(endpointdataoptions),
 
     delete: <T>(endpoint: string, options?: any) =>
       withPerformanceTracking(
@@ -234,12 +234,12 @@ export function createMonitoredApi(baseApi: typeof api) {
     patch: <T>(endpoint: string, data?: any, options?: any) =>
       withPerformanceTracking(
         baseApi.patch<T>, endpoint, 'PATCH'
-      )(endpoint, dataoptions),
+      )(endpointdataoptions),
 
     graphql: <T>(query: string, variables?: any, options?: any) =>
       withPerformanceTracking(
         baseApi.graphql<T>, 'GraphQL', 'POST'
-      )(query, variablesoptions)};
+      )(queryvariablesoptions)};
 }
 
 // Create a monitored version of the API

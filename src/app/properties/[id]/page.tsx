@@ -66,7 +66,8 @@ interface PropertyDetailResponse {
     size: number;
     type: string;
     image: string;
-  }>\n  );
+  }>
+  );
 }
 
 export default function PropertyDetailPage() {

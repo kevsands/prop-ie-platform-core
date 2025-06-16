@@ -67,7 +67,8 @@ interface Annotation {
 interface DocumentViewerProps {
   document: DocumentType;
   onClose: () => void;
-  onSave?: (annotations: Annotation[]) => Promise<void>\n  );
+  onSave?: (annotations: Annotation[]) => Promise<void>
+  );
   enableAnnotations?: boolean;
   enableWatermark?: boolean;
   enableDownloadProtection?: boolean;

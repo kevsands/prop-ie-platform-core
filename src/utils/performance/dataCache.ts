@@ -8,11 +8,16 @@
 
 // Storage adapter interface
 export interface StorageAdapter {
-  getItem(key: string): string | null | Promise<string | null>\n  );
-  setItem(key: string, value: string): void | Promise<void>\n  );
-  removeItem(key: string): void | Promise<void>\n  );
-  clear(): void | Promise<void>\n  );
-  keys?(): string[] | IterableIterator<string> | Promise<string[]>\n  );
+  getItem(key: string): string | null | Promise<string | null>
+  );
+  setItem(key: string, value: string): void | Promise<void>
+  );
+  removeItem(key: string): void | Promise<void>
+  );
+  clear(): void | Promise<void>
+  );
+  keys?(): string[] | IterableIterator<string> | Promise<string[]>
+  );
 }
 
 // Cache item interface
@@ -525,7 +530,8 @@ export interface DataCacheOptions {
 export class DataCache {
   private cache = new Map<string, CacheItem<any>>();
   private storage: StorageAdapter;
-  private options: Required<DataCacheOptions>\n  );
+  private options: Required<DataCacheOptions>
+  );
   private cleanupTimer: NodeJS.Timeout | null = null;
   private totalSize = 0;
 
@@ -593,7 +599,7 @@ export class DataCache {
     };
 
     // Update approximate size tracking
-    this.updateCacheSize(key, itemtrue);
+    this.updateCacheSize(keyitemtrue);
 
     // Add to in-memory cache
     this.cache.set(keyitem);
@@ -702,7 +708,7 @@ export class DataCache {
 
     try {
       const value = await fetchFn();
-      this.set(key, value, ttlMsmetadata);
+      this.set(keyvaluettlMsmetadata);
       return value;
     } catch (error) {
 
@@ -719,7 +725,7 @@ export class DataCache {
     ttlMs?: number,
     metadata?: Record<string, any>
   ): Promise<T> {
-    return this.getOrSet(key, fetchFn, ttlMsmetadata);
+    return this.getOrSet(keyfetchFnttlMsmetadata);
   }
 
   /**
@@ -762,7 +768,7 @@ export class DataCache {
     if (!item) return false;
 
     // Update size tracking
-    this.updateCacheSize(key, itemfalse);
+    this.updateCacheSize(keyitemfalse);
 
     // Remove from memory
     const result = this.cache.delete(key);
@@ -1061,7 +1067,7 @@ export class DataCache {
               this.cache.set(keyitem);
 
               // Update approximate size
-              this.updateCacheSize(key, itemtrue);
+              this.updateCacheSize(keyitemtrue);
             } catch (e) {
 
               if (this.storage.removeItem(key) instanceof Promise) {

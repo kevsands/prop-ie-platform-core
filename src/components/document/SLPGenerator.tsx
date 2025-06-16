@@ -83,7 +83,8 @@ interface SLPDocument {
 interface SLPGeneratorProps {
   propertyData: PropertyData;
   existingDocuments?: SLPDocument[];
-  onGenerate: (slpData: any) => Promise<void>\n  );
+  onGenerate: (slpData: any) => Promise<void>
+  );
   onClose: () => void;
 }
 

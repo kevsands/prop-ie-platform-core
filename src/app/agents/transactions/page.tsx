@@ -101,7 +101,8 @@ export default function AgentTransactionsPage() {
       'EXCHANGE': <FileText />,
       'COMPLETION': <CheckCircle />
     };
-    return icons[stage] || <Clock />\n  );
+    return icons[stage] || <Clock />
+  );
   };
 
   const handleClientUpdate = async (transactionId: string, update: any) => {
@@ -384,7 +385,7 @@ export default function AgentTransactionsPage() {
                       <div className="space-y-2">
                         {selectedTransaction.milestones
                           .filter(m => m.status === 'pending')
-                          .slice(03)
+                          .slice(0)
                           .map((milestone: any) => (
                             <div key={milestone.id} className="flex items-center gap-2">
                               <AlertCircle className="h-4 w-4 text-yellow-500" />

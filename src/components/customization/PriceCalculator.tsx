@@ -19,7 +19,8 @@ interface PriceCalculatorProps {
     category: string;
     quantity?: number;
     discount?: number;
-  }>\n  );
+  }>
+  );
   taxRate?: number;
   currency?: string;
   onPriceUpdate?: (totalPrice: number) => void;
@@ -77,7 +78,7 @@ export default function PriceCalculator({
       subtotal,
       tax,
       total};
-  }, [basePrice, selectedOptionstaxRate]);
+  }, [basePriceselectedOptionstaxRate]);
 
   // Notify parent of price updates
   useEffect(() => {

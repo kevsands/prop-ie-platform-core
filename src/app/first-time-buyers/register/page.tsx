@@ -38,7 +38,8 @@ interface RegistrationStep {
   id: number;
   title: string;
   description: string;
-  icon: React.ComponentType<any>\n  );
+  icon: React.ComponentType<any>
+  );
 }
 
 const steps: RegistrationStep[] = [

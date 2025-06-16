@@ -18,7 +18,8 @@ export interface StorageOptions {
   /** Content type of the file */
   contentType?: string;
   /** Additional metadata for the file */
-  metadata?: Record<string, string>\n  );
+  metadata?: Record<string, string>
+  );
   /** Access level for the file */
   level?: StorageAccessLevel;
   /** Progress callback for upload/download operations */
@@ -94,7 +95,8 @@ export interface StorageItem {
   /** Content type of the object */
   contentType?: string;
   /** Additional metadata for the object */
-  metadata?: Record<string, string>\n  );
+  metadata?: Record<string, string>
+  );
 }
 
 /**
@@ -114,7 +116,8 @@ export interface DownloadResult {
   /** Content type of the downloaded object */
   contentType?: string;
   /** Metadata of the downloaded object */
-  metadata?: Record<string, string>\n  );
+  metadata?: Record<string, string>
+  );
 }
 
 /**

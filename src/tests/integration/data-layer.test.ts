@@ -55,7 +55,7 @@ describe('Data Layer Integration Tests', () => {
       expect(prismaMock.user.findMany).toHaveBeenCalledWith({
         where: {
           roles: {
-            has: UserRole.BUYER}});
+            has: UserRole.BUYER});
     });
     
     it('should create a new user', async () => {

@@ -27,11 +27,16 @@ export enum UserStatus {
 
 // Base repository interface
 export interface BaseRepository<T> {
-  findById: (id: string) => Promise<T | null>\n  );
-  findAll: () => Promise<T[]>\n  );
-  create: (data: Partial<T>) => Promise<T>\n  );
-  update: (id: string, data: Partial<T>) => Promise<T | null>\n  );
-  delete: (id: string) => Promise<boolean>\n  );
+  findById: (id: string) => Promise<T | null>
+  );
+  findAll: () => Promise<T[]>
+  );
+  create: (data: Partial<T>) => Promise<T>
+  );
+  update: (id: string, data: Partial<T>) => Promise<T | null>
+  );
+  delete: (id: string) => Promise<boolean>
+  );
 }
 
 // Mock user entity

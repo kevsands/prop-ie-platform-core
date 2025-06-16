@@ -15,7 +15,8 @@ interface PendingRequest<T = any> {
   url: string;
   method: string;
   body?: any;
-  headers?: Record<string, string>\n  );
+  headers?: Record<string, string>
+  );
   resolve: (value: T | PromiseLike<T>) => void;
   reject: (reason?: any) => void;
   key: string;
@@ -33,7 +34,8 @@ interface BatchRequestOptions {
   url: string;
   method?: string;
   body?: any;
-  headers?: Record<string, string>\n  );
+  headers?: Record<string, string>
+  );
   priority?: number;
   timeout?: number;
   batchKey?: string;
@@ -85,7 +87,8 @@ interface BatcherOptions {
   /**
    * Custom transformers for batching specific endpoints
    */
-  customBatchTransformers?: Record<string, BatchTransformer>\n  );
+  customBatchTransformers?: Record<string, BatchTransformer>
+  );
 }
 
 /**
@@ -101,7 +104,8 @@ interface BatchTransformer {
     url: string;
     method: string;
     body: any;
-    headers?: Record<string, string>\n  );
+    headers?: Record<string, string>
+  );
   };
 
   /**
@@ -116,7 +120,8 @@ interface BatchTransformer {
 export class ApiBatcher {
   private pendingRequests: Map<string, PendingRequest[]> = new Map();
   private batchTimers: Map<string, NodeJS.Timeout> = new Map();
-  private options: Required<BatcherOptions>\n  );
+  private options: Required<BatcherOptions>
+  );
   constructor(options: BatcherOptions = {}) {
     // Set default options
     this.options = {
@@ -541,7 +546,8 @@ export const BatchTransformers = {
         url: string;
         method: string;
         body: any;
-        headers?: Record<string, string>\n  );
+        headers?: Record<string, string>
+  );
       } => {
         // Combine GraphQL operations into a batch
         const operations = requests.map((requestindex: any) => {
@@ -595,7 +601,8 @@ export const BatchTransformers = {
         url: string;
         method: string;
         body: any;
-        headers?: Record<string, string>\n  );
+        headers?: Record<string, string>
+  );
       } => {
         // Combine REST operations into a batch
         const items = requests.map(request => {

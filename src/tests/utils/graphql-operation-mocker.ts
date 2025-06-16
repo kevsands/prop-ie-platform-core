@@ -60,8 +60,7 @@ export function mockGraphQLQueryError(operation: string, errorMessage: string, e
       ctx.errors([
         {
           message: errorMessage,
-          extensions: { code: errorCode }])
-    );
+          extensions: { code: errorCode }]);
   });
   
   server.use(handler);
@@ -91,8 +90,7 @@ export function mockGraphQLMutationError(operation: string, errorMessage: string
       ctx.errors([
         {
           message: errorMessage,
-          extensions: { code: errorCode }])
-    );
+          extensions: { code: errorCode }]);
   });
   
   server.use(handler);

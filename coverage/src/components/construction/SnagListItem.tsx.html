@@ -539,7 +539,7 @@ const SnagListItem: React.FC&lt;SnagListItemProps&gt; = <span class="cstat-no" t
 <span class="cstat-no" title="statement not covered" >        return 'bg-gray-100 text-gray-800';</span>
     }
   };
-  
+&nbsp;
   const getStatusColor = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(s</span>tatus: string) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    switch (status) {</span>
       case 'open':
@@ -554,12 +554,12 @@ const SnagListItem: React.FC&lt;SnagListItemProps&gt; = <span class="cstat-no" t
 <span class="cstat-no" title="statement not covered" >        return 'bg-gray-100 text-gray-800';</span>
     }
   };
-  
+&nbsp;
   const getStatusIcon = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(s</span>tatus: string) =&gt; {</span>
     const renderIcon = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(I</span>con: IconType, className: string) =&gt; (</span>
 <span class="cstat-no" title="statement not covered" >      React.createElement(Icon, { className })</span>
     );
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    switch (status) {</span>
       case 'open':
 <span class="cstat-no" title="statement not covered" >        return renderIcon(FiAlertCircle, "h-5 w-5 text-red-600");</span>
@@ -573,16 +573,16 @@ const SnagListItem: React.FC&lt;SnagListItemProps&gt; = <span class="cstat-no" t
 <span class="cstat-no" title="statement not covered" >        return null;</span>
     }
   };
-  
+&nbsp;
   const isOverdue = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!snag.dueDate || snag.status === 'verified' || snag.status === 'fixed') <span class="cstat-no" title="statement not covered" >return false;</span></span>
-    
+&nbsp;
     const now = <span class="cstat-no" title="statement not covered" >new Date();</span>
     const dueDate = <span class="cstat-no" title="statement not covered" >new Date(snag.dueDate);</span>
-    
-<span class="cstat-no" title="statement not covered" >    return dueDate &lt; now;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    return dueDate &lt;now;</span>
   };
-  
+&nbsp;
   return (
     &lt;div className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow"&gt;
       &lt;div className="flex justify-between items-start"&gt;
@@ -607,7 +607,7 @@ const SnagListItem: React.FC&lt;SnagListItemProps&gt; = <span class="cstat-no" t
             &lt;/div&gt;
           &lt;/div&gt;
         &lt;/div&gt;
-        
+&nbsp;
         &lt;button
           onClick={onView}
           className="text-[#2B5273] hover:text-[#1E3142] text-sm"
@@ -615,13 +615,13 @@ const SnagListItem: React.FC&lt;SnagListItemProps&gt; = <span class="cstat-no" t
           View Details
         &lt;/button&gt;
       &lt;/div&gt;
-      
+&nbsp;
       &lt;div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4 text-sm text-gray-600"&gt;
         &lt;div&gt;
           &lt;span className="block text-xs text-gray-500"&gt;Location&lt;/span&gt;
           &lt;span&gt;{snag.location}&lt;/span&gt;
         &lt;/div&gt;
-        
+&nbsp;
         {<span class="branch-0 cbranch-no" title="branch not covered" >snag.assignedToName </span>&amp;&amp; (
           &lt;div&gt;
             &lt;span className="block text-xs text-gray-500"&gt;Assigned To&lt;/span&gt;
@@ -631,12 +631,12 @@ const SnagListItem: React.FC&lt;SnagListItemProps&gt; = <span class="cstat-no" t
             &lt;/span&gt;
           &lt;/div&gt;
         )}
-        
+&nbsp;
         &lt;div&gt;
           &lt;span className="block text-xs text-gray-500"&gt;Created&lt;/span&gt;
           &lt;span&gt;{new Date(snag.createdAt).toLocaleDateString()}&lt;/span&gt;
         &lt;/div&gt;
-        
+&nbsp;
         {<span class="branch-0 cbranch-no" title="branch not covered" >snag.dueDate </span>&amp;&amp; (
           &lt;div&gt;
             &lt;span className="block text-xs text-gray-500"&gt;Due Date&lt;/span&gt;
@@ -646,7 +646,7 @@ const SnagListItem: React.FC&lt;SnagListItemProps&gt; = <span class="cstat-no" t
             &lt;/span&gt;
           &lt;/div&gt;
         )}
-        
+&nbsp;
         {<span class="branch-0 cbranch-no" title="branch not covered" >snag.completedDate </span>&amp;&amp; (
           &lt;div&gt;
             &lt;span className="block text-xs text-gray-500"&gt;Completed&lt;/span&gt;
@@ -654,7 +654,7 @@ const SnagListItem: React.FC&lt;SnagListItemProps&gt; = <span class="cstat-no" t
           &lt;/div&gt;
         )}
       &lt;/div&gt;
-      
+&nbsp;
       &lt;div className="mt-4 flex items-center gap-4 text-sm text-gray-600"&gt;
         {<span class="branch-0 cbranch-no" title="branch not covered" >snag.hasImages </span>&amp;&amp; (
           &lt;div className="flex items-center"&gt;
@@ -662,7 +662,7 @@ const SnagListItem: React.FC&lt;SnagListItemProps&gt; = <span class="cstat-no" t
             &lt;span&gt;Has photos&lt;/span&gt;
           &lt;/div&gt;
         )}
-        
+&nbsp;
         {<span class="branch-0 cbranch-no" title="branch not covered" >snag.hasNotes </span>&amp;&amp; (
           &lt;div className="flex items-center"&gt;
             {React.createElement(FiFileText, { className: "mr-1" })}
@@ -670,7 +670,7 @@ const SnagListItem: React.FC&lt;SnagListItemProps&gt; = <span class="cstat-no" t
           &lt;/div&gt;
         )}
       &lt;/div&gt;
-      
+&nbsp;
       {(onAssign || onMarkFixed || onVerify) &amp;&amp; (
         &lt;div className="mt-4 pt-4 border-t border-gray-200 flex gap-3 justify-end"&gt;
           {snag.status === 'open' &amp;&amp; onAssign &amp;&amp; (
@@ -681,7 +681,7 @@ const SnagListItem: React.FC&lt;SnagListItemProps&gt; = <span class="cstat-no" t
               Assign
             &lt;/button&gt;
           )}
-          
+&nbsp;
           {snag.status === 'assigned' &amp;&amp; onMarkFixed &amp;&amp; (
             &lt;button
               onClick={onMarkFixed}
@@ -690,7 +690,7 @@ const SnagListItem: React.FC&lt;SnagListItemProps&gt; = <span class="cstat-no" t
               Mark as Fixed
             &lt;/button&gt;
           )}
-          
+&nbsp;
           {snag.status === 'fixed' &amp;&amp; onVerify &amp;&amp; (
             &lt;button
               onClick={onVerify}
@@ -712,7 +712,7 @@ const SnagListItem: React.FC&lt;SnagListItemProps&gt; = <span class="cstat-no" t
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T22:15:28.100Z
+                at 2025-06-15T18:50:48.918Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

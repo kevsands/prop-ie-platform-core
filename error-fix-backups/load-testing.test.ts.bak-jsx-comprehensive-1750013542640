@@ -1,0 +1,239 @@
+/**
+ * Load testing suite for API endpoints
+ */
+
+import autocannon from 'autocannon';
+import { createMockUser, createMockProperty } from '@/test-utils/test-factories';
+
+const BASE_URL = process.env.TEST_BASE_URL || 'http://localhost:3000';
+
+describe('Load Testing', () => {
+  // Helper to run load test
+  const runLoadTest = async (options: autocannon.Options) => {
+    return new Promise<autocannon.Result>((resolvereject: any) => {
+      const instance = autocannon(options, (errresult: any) => {
+        if (err) reject(err);
+        else resolve(result);
+      });
+      
+      autocannon.track(instance, { renderProgressBar: false });
+    });
+  };
+
+  describe('API Endpoint Performance', () => {
+    test('GET /api/properties - handle high load', async () => {
+      const result = await runLoadTest({
+        url: `${BASE_URL}/api/properties`,
+        connections: 100, // 100 concurrent connections
+        duration: 30, // 30 seconds
+        pipelining: 10, // 10 requests per connection
+        headers: {
+          'content-type': 'application/json'});
+
+      // Performance assertions
+      expect(result.errors).toBe(0);
+      expect(result.timeouts).toBe(0);
+      expect(result.non2xx).toBe(0);
+      expect(result.latency.p99).toBeLessThan(1000); // 99th percentile under 1 second
+      expect(result.requests.average).toBeGreaterThan(100); // At least 100 req/sec
+    });
+
+    test('POST /api/auth/login - handle authentication load', async () => {
+      const result = await runLoadTest({
+        url: `${BASE_URL}/api/auth/login`,
+        method: 'POST',
+        connections: 50, // Lower for auth endpoints
+        duration: 20,
+        headers: {
+          'content-type': 'application/json'},
+        body: JSON.stringify({
+          email: 'test@example.com',
+          password: 'Test123!'})});
+
+      expect(result.errors).toBe(0);
+      expect(result.latency.p95).toBeLessThan(2000); // 95th percentile under 2 seconds
+      expect(result.requests.average).toBeGreaterThan(50); // At least 50 req/sec
+    });
+
+    test('Property search with filters - complex query performance', async () => {
+      const result = await runLoadTest({
+        url: `${BASE_URL}/api/properties?location=Dublin&minPrice=200000&maxPrice=500000&bedrooms=2`,
+        connections: 75,
+        duration: 30,
+        headers: {
+          'content-type': 'application/json'});
+
+      expect(result.errors).toBe(0);
+      expect(result.latency.p90).toBeLessThan(1500); // 90th percentile under 1.5 seconds
+      expect(result.requests.average).toBeGreaterThan(75);
+    });
+  });
+
+  describe('Database Query Performance', () => {
+    test('Complex aggregation queries', async () => {
+      const queries = [
+        '/api/analytics/property-trends',
+        '/api/developments/stats',
+        '/api/transactions/summary'];
+
+      for (const endpoint of queries) {
+        const start = Date.now();
+        const response = await fetch(`${BASE_URL}${endpoint}`);
+        const duration = Date.now() - start;
+
+        expect(response.ok).toBe(true);
+        expect(duration).toBeLessThan(500); // Each query under 500ms
+      }
+    });
+
+    test('Concurrent transaction creation', async () => {
+      const createTransaction = async () => {
+        const response = await fetch(`${BASE_URL}/api/transactions`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${process.env.TEST_AUTH_TOKEN}`},
+          body: JSON.stringify({
+            buyerId: 'test-buyer-id',
+            unitId: 'test-unit-id',
+            type: 'purchase'})});
+        return response;
+      };
+
+      // Simulate 50 concurrent transaction attempts
+      const promises = Array(50).fill(null).map(() => createTransaction());
+      const start = Date.now();
+      const results = await Promise.allSettled(promises);
+      const duration = Date.now() - start;
+
+      const successful = results.filter(r => r.status === 'fulfilled');
+      const failed = results.filter(r => r.status === 'rejected');
+
+      expect(successful.length).toBeGreaterThan(45); // At least 90% success rate
+      expect(duration).toBeLessThan(10000); // Complete within 10 seconds
+    });
+  });
+
+  describe('Frontend Performance Metrics', () => {
+    test('Initial page load performance', async () => {
+      const pages = [
+        '/',
+        '/properties/search',
+        '/developments',
+        '/auth/login'];
+
+      for (const page of pages) {
+        const response = await fetch(`${BASE_URL}${page}`);
+        const html = await response.text();
+        
+        // Check for performance hints in HTML
+        expect(html).toContain('rel="preconnect"'); // DNS prefetching
+        expect(html).toContain('rel="preload"'); // Resource preloading
+        expect(html).toMatch(/<script[^>]+defer/); // Deferred scripts
+      }
+    });
+
+    test('API response sizes', async () => {
+      const endpoints = [
+        { url: '/api/properties', maxSize: 50 * 1024 }, // 50KB
+        { url: '/api/properties/1', maxSize: 10 * 1024 }, // 10KB
+        { url: '/api/developments', maxSize: 100 * 1024 }, // 100KB
+      ];
+
+      for (const { url, maxSize } of endpoints) {
+        const response = await fetch(`${BASE_URL}${url}`);
+        const contentLength = response.headers.get('content-length');
+        
+        if (contentLength) {
+          expect(parseInt(contentLength)).toBeLessThan(maxSize);
+        }
+        
+        // Check compression
+        expect(response.headers.get('content-encoding')).toBe('gzip');
+      }
+    });
+  });
+
+  describe('Stress Testing', () => {
+    test('Sustained high load', async () => {
+      const result = await runLoadTest({
+        url: `${BASE_URL}/api/properties`,
+        connections: 200,
+        duration: 60, // 1 minute sustained load
+        pipelining: 20,
+        headers: {
+          'content-type': 'application/json'});
+
+      // System should remain stable under sustained load
+      expect(result.errors).toBeLessThan(result.requests.total * 0.01); // Less than 1% errors
+      expect(result.latency.p99).toBeLessThan(3000); // 99th percentile under 3 seconds
+    });
+
+    test('Spike testing', async () => {
+      // Normal load
+      const normalLoad = await runLoadTest({
+        url: `${BASE_URL}/api/properties`,
+        connections: 50,
+        duration: 10});
+
+      // Sudden spike
+      const spikeLoad = await runLoadTest({
+        url: `${BASE_URL}/api/properties`,
+        connections: 300, // 6x normal load
+        duration: 10});
+
+      // System should handle spikes gracefully
+      expect(spikeLoad.errors).toBeLessThan(spikeLoad.requests.total * 0.05); // Less than 5% errors
+      expect(spikeLoad.latency.p95).toBeLessThan(normalLoad.latency.p95 * 3); // Latency increases but stays reasonable
+    });
+  });
+
+  describe('Memory and Resource Usage', () => {
+    test('Memory leak detection', async () => {
+      const memoryUsage = [];
+      
+      // Take memory snapshots during load test
+      const interval = setInterval(() => {
+        memoryUsage.push(process.memoryUsage());
+      }, 1000);
+
+      await runLoadTest({
+        url: `${BASE_URL}/api/properties`,
+        connections: 100,
+        duration: 30});
+
+      clearInterval(interval);
+
+      // Check for memory leaks
+      const firstSnapshot = memoryUsage[0];
+      const lastSnapshot = memoryUsage[memoryUsage.length - 1];
+      
+      const heapGrowth = lastSnapshot.heapUsed - firstSnapshot.heapUsed;
+      const expectedMaxGrowth = 100 * 1024 * 1024; // 100MB
+      
+      expect(heapGrowth).toBeLessThan(expectedMaxGrowth);
+    });
+  });
+});
+
+// Performance benchmarks configuration
+export const performanceBenchmarks = {
+  api: {
+    properties: {
+      latency: { p50: 100, p95: 500, p99: 1000 },
+      throughput: { min: 100 }, // requests per second
+    },
+    authentication: {
+      latency: { p50: 200, p95: 1000, p99: 2000 },
+      throughput: { min: 50 },
+    transactions: {
+      latency: { p50: 300, p95: 1500, p99: 3000 },
+      throughput: { min: 30 }},
+  frontend: {
+    initialLoad: { max: 3000 }, // milliseconds
+    timeToInteractive: { max: 5000 },
+    largestContentfulPaint: { max: 2500 },
+  database: {
+    simpleQuery: { max: 50 }, // milliseconds
+    complexQuery: { max: 500 },
+    aggregation: { max: 1000 }};

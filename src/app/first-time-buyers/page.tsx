@@ -27,16 +27,16 @@ import { HTBCalculatorApp } from './HTBCalculatorApp';
 
 function FirstTimeBuyersPageContent() {
   const { selectedBuyerClaim, buyerClaims } = useHTB();
-  const [activeStepsetActiveStep] = useState<number | null>(null);
-  const [currentViewsetCurrentView] = useState<'overview' | 'prop-difference' | 'htb' | 'mortgage' | 'properties' | 'documents' | 'progress'>('overview');
-  const [hasHTBClaimsetHasHTBClaim] = useState(false);
+  const [activeStep, setActiveStep] = useState<number | null>(null);
+  const [currentView, setCurrentView] = useState<'overview' | 'prop-difference' | 'htb' | 'mortgage' | 'properties' | 'documents' | 'progress'>('overview');
+  const [hasHTBClaim, setHasHTBClaim] = useState(false);
 
   // Check if user has existing claims
   React.useEffect(() => {
-    if (selectedBuyerClaim || buyerClaims.length> 0) {
+    if (selectedBuyerClaim || buyerClaims.length > 0) {
       setHasHTBClaim(true);
     }
-  }, [selectedBuyerClaimbuyerClaims]);
+  }, [selectedBuyerClaim, buyerClaims]);
 
   const handleClaimCreated = () => {
     setHasHTBClaim(true);
@@ -84,7 +84,8 @@ function FirstTimeBuyersPageContent() {
               { id: 'htb', label: 'HTB Calculator', icon: Calculator },
               { id: 'mortgage', label: 'Mortgage', icon: Building2 },
               { id: 'properties', label: 'Find Properties', icon: Home },
-              { id: 'documents', label: 'Documents', icon: FileText }].map(({ id, label, icon: Icon }) => (
+              { id: 'documents', label: 'Documents', icon: FileText },
+            ].map(({ id, label, icon: Icon }) => (
               <button
                 key={id}
                 onClick={() => setCurrentView(id as any)}

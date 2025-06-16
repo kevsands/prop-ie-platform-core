@@ -20,12 +20,12 @@ const UserRoleContext = createContext<UserRoleContextType>(defaultContext);
 export const useUserRole = () => useContext(UserRoleContext);
 
 export const UserRoleProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [role, setRole] = useState<Role>('guest');
+  const [rolesetRole] = useState<Role>('guest');
   const { user, isAuthenticated, isLoading: authIsLoading } = useAuth();
 
   useEffect(() => {
     if (!authIsLoading) {
-      if (isAuthenticated && user && user.roles && user.roles.length > 0) {
+      if (isAuthenticated && user && user.roles && user.roles.length> 0) {
         const authenticatedUserRole = user.roles[0].toLowerCase() as Role;
         if (['guest', 'buyer', 'agent', 'solicitor', 'developer', 'admin'].includes(authenticatedUserRole)) {
           setRole(authenticatedUserRole);
@@ -37,10 +37,10 @@ export const UserRoleProvider: React.FC<{ children: ReactNode }> = ({ children }
         setRole('guest');
       }
     }
-  }, [user, isAuthenticated, authIsLoading]);
+  }, [userisAuthenticatedauthIsLoading]);
 
   return (
-    <UserRoleContext.Provider value={{ role, setRole }}>
+    <UserRoleContext.Provider value={ role, setRole }>
       {children}
     </UserRoleContext.Provider>
   );

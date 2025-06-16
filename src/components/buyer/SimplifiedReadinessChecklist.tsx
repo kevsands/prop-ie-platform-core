@@ -113,7 +113,7 @@ const SimplifiedReadinessChecklist: React.FC<SimplifiedReadinessChecklistProps> 
     });
 
     setCategoryProgress(newCategoryProgress);
-  }, [items, onProgressChangeonCategoryProgressChange]);
+  }, [itemsonProgressChangeonCategoryProgressChange]);
 
   return (
     <div className="space-y-8">

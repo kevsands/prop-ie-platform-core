@@ -234,7 +234,7 @@ class SimpleAnalyticsService {
    */
   async getSecuritySnapshot(options: SecurityAnalyticsOptions = {}): Promise<SecuritySnapshot> {
     // Use existing mock functions
-    const [metrics, events, anomaliesthreats] = await Promise.all([
+    const [metricseventsanomaliesthreats] = await Promise.all([
       this.getMetrics(options),
       this.getEvents(options),
       this.getAnomalies(options),

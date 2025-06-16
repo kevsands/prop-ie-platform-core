@@ -39,7 +39,7 @@ describe('Price Calculations', () => {
       const htbAmount = 30000;
       const depositRate = 0.1;
       
-      const result = calculateDepositWithHTB(totalPrice, depositRatehtbAmount);
+      const result = calculateDepositWithHTB(totalPricedepositRatehtbAmount);
       expect(result.totalDeposit).toBe(30000);
       expect(result.buyerContribution).toBe(0); // HTB covers full deposit
       expect(result.htbContribution).toBe(30000);
@@ -52,7 +52,7 @@ describe('Price Calculations', () => {
       const annualRate = 0.035; // 3.5%
       const years = 30;
       
-      const monthly = calculateMonthlyMortgage(principal, annualRateyears);
+      const monthly = calculateMonthlyMortgage(principalannualRateyears);
       expect(monthly).toBeCloseTo(1213.632);
     });
 
@@ -60,7 +60,7 @@ describe('Price Calculations', () => {
       const principal = 270000;
       const years = 30;
       
-      const monthly = calculateMonthlyMortgage(principal, 0years);
+      const monthly = calculateMonthlyMortgage(principal0years);
       expect(monthly).toBe(750); // Simple division
     });
   });

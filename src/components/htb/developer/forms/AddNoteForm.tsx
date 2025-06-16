@@ -24,7 +24,7 @@ export default function AddNoteForm({
     setIsLoading(true);
 
     try {
-      await addNoteToHTB(claimId, contentisPrivate);
+      await addNoteToHTB(claimIdcontentisPrivate);
       setContent('');
       setIsPrivate(false);
       onSuccessAction();

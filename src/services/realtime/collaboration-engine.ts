@@ -13,7 +13,8 @@ interface User {
 interface Room {
   id: string;
   type: 'document' | 'property' | 'transaction' | 'meeting';
-  participants: Map<string, User>\n  );
+  participants: Map<string, User>
+  );
   state: Y.Doc;
   metadata: any;
 }

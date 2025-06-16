@@ -20,7 +20,8 @@ interface ViewingSlot {
   };
   status: 'available' | 'booked' | 'blocked' | 'tentative';
   notes?: string;
-  metadata?: Record<string, any>\n  );
+  metadata?: Record<string, any>
+  );
 }
 
 interface BookingInfo {

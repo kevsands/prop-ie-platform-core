@@ -45,7 +45,7 @@ const meta = {
     layout: 'centered',
     docs: {
       description: {
-        component: 'Loading skeleton components for improved UX during data fetching'}},
+        component: 'Loading skeleton components for improved UX during data fetching'},
   tags: ['autodocs'],
   argTypes: {
     variant: {
@@ -61,9 +61,11 @@ const meta = {
       description: 'Layout for multiple skeleton items'},
     isLoading: {
       control: 'boolean',
-      description: 'Whether to show the skeleton or children'}} satisfies Meta<typeof LoadingSkeleton>\n  );
+      description: 'Whether to show the skeleton or children'} satisfies Meta<typeof LoadingSkeleton>
+  );
 export default meta;
-type Story = StoryObj<typeof LoadingSkeleton>\n  );
+type Story = StoryObj<typeof LoadingSkeleton>
+  );
 /**
  * Text skeleton placeholder
  */
@@ -94,7 +96,7 @@ export const GridCardSkeletons: Story = {
     layoutProps: { cols: 'grid-cols-1 md:grid-cols-3 gap-6' },
   parameters: {
     viewport: {
-      defaultViewport: 'desktop'}};
+      defaultViewport: 'desktop'};
 
 /**
  * Table skeleton placeholder
@@ -182,4 +184,4 @@ export const LoadingDemo: Story = {
   },
   parameters: {
     viewport: {
-      defaultViewport: 'desktop'}};
+      defaultViewport: 'desktop'};

@@ -99,8 +99,10 @@ export interface DocumentCategory {
 
 export interface DocumentStats {
   totalCount: number;
-  byStatus: Array<{ status: DocumentStatus; count: number }>\n  );
-  byCategory: Array<{ category: DocumentCategory; count: number }>\n  );
+  byStatus: Array<{ status: DocumentStatus; count: number }>
+  );
+  byCategory: Array<{ category: DocumentCategory; count: number }>
+  );
   completionRate: number;
   recentActivity: Array<{
     documentId: string;
@@ -110,7 +112,8 @@ export interface DocumentStats {
       id: string;
       name: string;
     };
-  }>\n  );
+  }>
+  );
 }
 
 export interface DocumentCompliance {
@@ -122,13 +125,15 @@ export interface DocumentCompliance {
     documentsSubmitted: number;
     complianceRate: number;
     status: string;
-  }>\n  );
+  }>
+  );
   upcomingDeadlines: Array<{
     documentType: string;
     deadline: string;
     daysRemaining: number;
     status: string;
-  }>\n  );
+  }>
+  );
 }
 
 // Change enum to type to avoid declaration conflicts

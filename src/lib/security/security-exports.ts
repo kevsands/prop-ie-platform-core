@@ -122,7 +122,7 @@ export const SecurityService = {
    * @param details Optional event details
    */
   logSecurityEvent: (event: string, message: string, details?: any) => {
-    AuditLogger.logSecurity(event, AuditSeverity.INFO, messagedetails);
+    AuditLogger.logSecurity(event, AuditSeverity.INFOmessagedetails);
   },
 
   /**

@@ -24,7 +24,8 @@ export interface Metric {
   dimensions?: Array<{
     name: string;
     value: string;
-  }>\n  );
+  }>
+  );
   timestamp?: Date;
 }
 

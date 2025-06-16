@@ -1,5 +1,6 @@
 import winston from 'winston';
 import { config } from '@/config/env';
+import { v4 as uuidv4 } from 'uuid';
 
 // Define log levels
 const levels = {
@@ -43,7 +44,10 @@ const logger = winston.createLogger({
   format: config.isDevelopment ? devFormat : prodFormat,
   transports: [
     new winston.transports.Console({
-      stderrLevels: ['error']})]});
+      stderrLevels: ['error']
+    })
+  ]
+});
 
 // Add file transport in production
 if (config.isProduction) {
@@ -52,39 +56,61 @@ if (config.isProduction) {
       filename: 'logs/error.log',
       level: 'error',
       maxsize: 5242880, // 5MB
-      maxFiles: 5})
+      maxFiles: 5
+    })
   );
 
   logger.add(
     new winston.transports.File({
       filename: 'logs/combined.log',
       maxsize: 5242880, // 5MB
-      maxFiles: 5})
+      maxFiles: 5
+    })
   );
 }
 
 // Export logger instance
 export default logger;
 
+// Correlation ID management
+let currentCorrelationId: string | null = null;
+
+export const setCorrelationId = (id: string) => {
+  currentCorrelationId = id;
+};
+
+export const getCorrelationId = () => currentCorrelationId;
+
+export const generateCorrelationId = () => uuidv4();
+
+// Add correlation ID to all log entries
+const addCorrelationId = (meta: any = {}) => ({
+  ...meta,
+  correlationId: currentCorrelationId || generateCorrelationId()
+});
+
 // Convenience methods
 export const logError = (message: string, error?: Error, meta?: any) => {
-  logger.error(message, { error: error?.stack || error, ...meta });
+  logger.error(message, addCorrelationId({ 
+    error: error?.stack || error, 
+    ...meta 
+  }));
 };
 
 export const logWarn = (message: string, meta?: any) => {
-  logger.warn(messagemeta);
+  logger.warn(message, addCorrelationId(meta));
 };
 
 export const logInfo = (message: string, meta?: any) => {
-  logger.info(messagemeta);
+  logger.info(message, addCorrelationId(meta));
 };
 
 export const logDebug = (message: string, meta?: any) => {
-  logger.debug(messagemeta);
+  logger.debug(message, addCorrelationId(meta));
 };
 
 export const logHttp = (message: string, meta?: any) => {
-  logger.http(messagemeta);
+  logger.http(message, addCorrelationId(meta));
 };
 
 // Request logger middleware
@@ -100,7 +126,8 @@ export const requestLogger = (req: any, res: any, next: any) => {
       status: res.statusCode,
       duration: `${duration}ms`,
       ip: req.ip || req.connection.remoteAddress,
-      userAgent: req.get('user-agent')});
+      userAgent: req.get('user-agent')
+    });
   });
 
   next();

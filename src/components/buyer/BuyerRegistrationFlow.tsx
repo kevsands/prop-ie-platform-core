@@ -81,7 +81,8 @@ export default function BuyerRegistrationFlow({
             setAcceptedTerms(accepted);
             if (accepted) handleNextStep();
           } 
-        />\n  );
+        />
+  );
       default:
         return null;
     }

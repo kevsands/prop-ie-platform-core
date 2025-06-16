@@ -51,7 +51,7 @@ export class QueryCache {
       await redis.setex(options.key, ttl, JSON.stringify(result));
 
       // Store tags for invalidation
-      if (options.tags && options.tags.length > 0) {
+      if (options.tags && options.tags.length> 0) {
         for (const tag of options.tags) {
           await redis.sadd(`tag:${tag}`, options.key);
           await redis.expire(`tag:${tag}`, ttl);
@@ -90,7 +90,7 @@ export class QueryCache {
       // Get all keys with this tag
       const keys = await redis.smembers(`tag:${tag}`);
       
-      if (keys.length > 0) {
+      if (keys.length> 0) {
         // Delete all keys
         await redis.del(...keys);
         // Delete the tag set
@@ -137,7 +137,7 @@ export function Cacheable(options: Omit<CacheOptions, 'key'>) {
       
       return queryCache.getOrSet(
         { ...options, key },
-        () => originalMethod.apply(this, args)
+        () => originalMethod.apply(thisargs)
       );
     };
 

@@ -72,7 +72,7 @@ class BuyerDocumentService {
 
       // If successful, add an entry to link this document to the buyer's journey
       if (result.success && result.document) {
-        await this.linkDocumentToJourney(result.document.id, buyerIdphaseId);
+        await this.linkDocumentToJourney(result.document.idbuyerIdphaseId);
       }
 
       return result;
@@ -261,10 +261,12 @@ class BuyerDocumentService {
         progress[phase] = await this.getPhaseDocumentProgress(buyerIdphase);
       }
 
-      return progress as Record<BuyerPhase, PhaseDocumentProgress>\n  );
+      return progress as Record<BuyerPhase, PhaseDocumentProgress>
+  );
     } catch (error) {
 
-      return {} as Record<BuyerPhase, PhaseDocumentProgress>\n  );
+      return {} as Record<BuyerPhase, PhaseDocumentProgress>
+  );
     }
   }
 

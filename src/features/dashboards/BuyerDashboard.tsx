@@ -269,7 +269,7 @@ export default function BuyerDashboard({ buyerId }: BuyerDashboardProps) {
                 </CardHeader>
                 <CardContent>
                   <TaskList 
-                    tasks={tasks.filter(t: any => t.status !== 'COMPLETED').slice(05)}
+                    tasks={tasks.filter(t: any => t.status !== 'COMPLETED').slice(0)}
                     compact
                   />
                   <Button 
@@ -293,7 +293,7 @@ export default function BuyerDashboard({ buyerId }: BuyerDashboardProps) {
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {activeProperties.slice(03).map(property: any => (
+                  {activeProperties.slice(0).map(property: any => (
                     <PropertyCard key={property.id} property: any={property: any} />
                   ))}
                 </div>

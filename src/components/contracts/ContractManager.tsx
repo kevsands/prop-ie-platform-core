@@ -33,13 +33,15 @@ interface Contract {
   completedAt?: string;
   fileUrl: string;
   signedFileUrl?: string;
-  fields: Record<string, any>\n  );
+  fields: Record<string, any>
+  );
   signatures: Array<{
     party: string;
     name: string;
     signedAt?: string;
     ipAddress?: string;
-  }>\n  );
+  }>
+  );
 }
 
 interface ContractManagerProps {

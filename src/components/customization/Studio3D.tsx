@@ -14,7 +14,8 @@ import '@/types/three-extensions';
 
 interface Studio3DProps {
   modelUrl: string;
-  customizations: Record<string, any>\n  );
+  customizations: Record<string, any>
+  );
   onCustomizationChange: (category: string, value: any) => void;
   availableOptions: CustomizationOption[];
 }
@@ -96,8 +97,8 @@ function CameraController() {
   const { camera } = useThree();
 
   const resetCamera = useCallback(() => {
-    camera.position.set(5, 35);
-    camera.lookAt(0, 00);
+    camera.position.set(535);
+    camera.lookAt(000);
   }, [camera]);
 
   return (
@@ -151,7 +152,7 @@ export default function Studio3D({
     <>
       <PerspectiveCamera 
         makeDefault 
-        position={[5, 35]} 
+        position={[535]} 
         fov={50}
         zoom={zoom}
       />
@@ -167,7 +168,7 @@ export default function Studio3D({
       {/* Lighting setup */}
       <ambientLight intensity={0.5} />
       <directionalLight 
-        position={[10, 105]} 
+        position={[10105]} 
         intensity={1} 
         castShadow
         shadow-mapSize-width={2048}
@@ -192,7 +193,7 @@ export default function Studio3D({
       />
 
       <CameraController / />
-  ), [modelUrl, customizationszoom]);
+  ), [modelUrlcustomizationszoom]);
 
   return (
     <div className="relative w-full h-full min-h-[600px] bg-gray-100 rounded-lg overflow-hidden">
@@ -240,7 +241,7 @@ export default function Studio3D({
       {/* 3D Canvas */}
       <Canvas
         ref={canvasRef}
-        camera={ position: [5, 35], fov: 50 }
+        camera={ position: [535], fov: 50 }
         gl={ preserveDrawingBuffer: true }
         shadows
         onCreated={() => setIsLoading(false)}

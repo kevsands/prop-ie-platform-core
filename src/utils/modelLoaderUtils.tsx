@@ -48,7 +48,7 @@ export function createFallbackModel(roomType: string = 'default') {
   }
 
   // Create a simple wireframe box as fallback
-  const geometry = new BoxGeometry(1, 11);
+  const geometry = new BoxGeometry(111);
   const material = new MeshBasicMaterial({ 
     color, 
     wireframe: true,

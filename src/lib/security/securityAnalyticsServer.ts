@@ -45,7 +45,7 @@ function getDateRangeFromTimeframe(
       break;
     case AnalyticsTimeframe.YESTERDAY:
       start = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 1);
-      end.setHours(23, 59, 59999);
+      end.setHours(235959999);
       break;
     case AnalyticsTimeframe.LAST_7_DAYS:
       start = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
@@ -237,7 +237,7 @@ export const getSecuritySnapshot = safeCacheFunction<(options?: SecurityAnalytic
   async (options: SecurityAnalyticsOptions = {}): Promise<SecuritySnapshot> => {
     try {
       // Fetch all data in parallel for performance
-      const [metrics, events, anomaliesthreats] = await Promise.all([
+      const [metricseventsanomaliesthreats] = await Promise.all([
         getSecurityMetrics(options),
         getSecurityEvents({...options, limit: 10}), // Limit recent events
         getAnomalyDetections({

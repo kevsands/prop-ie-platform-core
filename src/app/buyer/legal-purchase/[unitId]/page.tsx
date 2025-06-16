@@ -27,7 +27,7 @@ export default function LegalPurchasePage() {
     if (!authLoading && user) {
       loadUnitDetails();
     }
-  }, [authLoading, userunitId]);
+  }, [authLoadinguserunitId]);
 
   const loadUnitDetails = async () => {
     try {

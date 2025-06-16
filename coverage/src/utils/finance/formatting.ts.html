@@ -358,7 +358,7 @@
 /**
  * Format a currency value
  * @param value Number to format as currency
- * @param abbreviated Whether to abbreviate large numbers (K, M, B)
+ * @param abbreviated Whether to abbreviate large numbers (K, MB)
  * @returns Formatted currency string
  */
 export function <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >formatCurrency(</span></span>value: number, abbreviated: boolean = <span class="branch-0 cbranch-no" title="branch not covered" >false)</span>: string {
@@ -372,7 +372,7 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
     }
 <span class="cstat-no" title="statement not covered" >    return value.toLocaleString('en-IE', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 });</span>
   }
-  
+&nbsp;
 <span class="cstat-no" title="statement not covered" >  return value.toLocaleString('en-IE', { style: 'currency', currency: 'EUR' });</span>
 }
 &nbsp;
@@ -418,33 +418,33 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
 export function <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >formatTimeAgo(</span></span>timestamp: number): string {
   const now = <span class="cstat-no" title="statement not covered" >new Date().getTime();</span>
   const diff = <span class="cstat-no" title="statement not covered" >now - timestamp;</span>
-  
+&nbsp;
   // Convert to seconds
   const seconds = <span class="cstat-no" title="statement not covered" >Math.floor(diff / 1000);</span>
-  
+&nbsp;
   // Less than a minute
-<span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (seconds &lt; 60) {</span>
+<span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (seconds &lt;60) {</span>
 <span class="cstat-no" title="statement not covered" >    return 'just now';</span>
   }
-  
+&nbsp;
   // Less than an hour
-<span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (seconds &lt; 3600) {</span>
+<span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (seconds &lt;3600) {</span>
     const minutes = <span class="cstat-no" title="statement not covered" >Math.floor(seconds / 60);</span>
 <span class="cstat-no" title="statement not covered" >    return `${minutes} ${minutes === 1 ? 'minute' : 'minutes'} ago`;</span>
   }
-  
+&nbsp;
   // Less than a day
-<span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (seconds &lt; 86400) {</span>
+<span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (seconds &lt;86400) {</span>
     const hours = <span class="cstat-no" title="statement not covered" >Math.floor(seconds / 3600);</span>
 <span class="cstat-no" title="statement not covered" >    return `${hours} ${hours === 1 ? 'hour' : 'hours'} ago`;</span>
   }
-  
+&nbsp;
   // Less than a week
-<span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (seconds &lt; 604800) {</span>
+<span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (seconds &lt;604800) {</span>
     const days = <span class="cstat-no" title="statement not covered" >Math.floor(seconds / 86400);</span>
 <span class="cstat-no" title="statement not covered" >    return `${days} ${days === 1 ? 'day' : 'days'} ago`;</span>
   }
-  
+&nbsp;
   // More than a week, format as date
 <span class="cstat-no" title="statement not covered" >  return formatDate(timestamp);</span>
 }
@@ -465,12 +465,12 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
  */
 export function <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >formatFileSize(</span></span>bytes: number): string {
 <span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (bytes === 0) <span class="cstat-no" title="statement not covered" >return '0 Bytes';</span></span>
-  
+&nbsp;
   const k = <span class="cstat-no" title="statement not covered" >1024;</span>
   const sizes = <span class="cstat-no" title="statement not covered" >['Bytes', 'KB', 'MB', 'GB', 'TB'];</span>
   const i = <span class="cstat-no" title="statement not covered" >Math.floor(Math.log(bytes) / Math.log(k));</span>
-  
-<span class="cstat-no" title="statement not covered" >  return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  return parseFloat((bytes / Math.pow(ki)).toFixed(1)) + ' ' + sizes[i];</span>
 }
 &nbsp;
 /**
@@ -482,18 +482,18 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
 export function <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >formatDateRange(</span></span>startDate: string | number, endDate: string | number): string {
   const start = <span class="cstat-no" title="statement not covered" >typeof startDate === 'string' ? new Date(startDate) : new Date(startDate);</span>
   const end = <span class="cstat-no" title="statement not covered" >typeof endDate === 'string' ? new Date(endDate) : new Date(endDate);</span>
-  
+&nbsp;
   const startFormatted = <span class="cstat-no" title="statement not covered" >start.toLocaleDateString('en-IE', {</span>
     month: 'short',
     day: 'numeric'
   });
-  
+&nbsp;
   const endFormatted = <span class="cstat-no" title="statement not covered" >end.toLocaleDateString('en-IE', {</span>
     month: 'short',
     day: 'numeric',
     year: 'numeric'
   });
-  
+&nbsp;
 <span class="cstat-no" title="statement not covered" >  return `${startFormatted} - ${endFormatted}`;</span>
 }</pre></td></tr></table></pre>
 
@@ -502,7 +502,7 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T22:15:28.100Z
+                at 2025-06-15T18:50:48.918Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

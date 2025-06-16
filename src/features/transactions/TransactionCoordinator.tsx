@@ -187,7 +187,8 @@ interface RiskAssessment {
     impact: string;
     mitigation: string;
     status: 'ACTIVE' | 'MITIGATED' | 'RESOLVED';
-  }>\n  );
+  }>
+  );
   lastUpdated: Date;
 }
 
@@ -495,7 +496,7 @@ export default function TransactionCoordinator({ transactionId }: TransactionCoo
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
-                  {transaction.criticalPath.slice(05).map((item: any) => (
+                  {transaction.criticalPath.slice(0).map((item: any) => (
                     <div key={item.id} className="border rounded-lg p-3">
                       <div className="flex items-center justify-between">
                         <div>
@@ -537,7 +538,7 @@ export default function TransactionCoordinator({ transactionId }: TransactionCoo
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
-                  {transaction.communications.slice(05).map((comm: any) => (
+                  {transaction.communications.slice(0).map((comm: any) => (
                     <div key={comm.id} className="border-b pb-3 last:border-0">
                       <div className="flex items-start justify-between">
                         <div className="flex items-start gap-3">

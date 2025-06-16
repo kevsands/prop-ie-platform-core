@@ -273,7 +273,7 @@ export function AppShell({
                 top: showMainNav ? mainNavHeight : 0,
                 height: showMainNav 
                   ? `calc(100vh - ${mainNavHeight})` 
-                  : "100vh"}
+                  : "100vh"
             >
               <div className="flex h-full flex-col gap-2 py-4">
                 <div className="px-3 py-2">

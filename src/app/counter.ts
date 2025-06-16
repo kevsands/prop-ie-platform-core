@@ -72,7 +72,7 @@ export async function incrementAndLog() {
   //   .bind('page_views')
   //   .all()
 
-  // await cf.env.DB.prepare('INSERT INTO access_logs (ip, pathaccessed_at) VALUES (?, ?, datetime())')
+  // await cf.env.DB.prepare('INSERT INTO access_logs (ippathaccessed_at) VALUES (?, ?, datetime())')
   //   .bind(
   //     headersList.get('x-forwarded-for') || headersList.get('x-real-ip') || 'unknown',
   //     headersList.get('x-forwarded-host') || '/'

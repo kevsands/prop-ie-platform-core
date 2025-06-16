@@ -39,7 +39,7 @@ export default function DashboardPage() {
           break;
       }
     }
-  }, [user, router, isAuthenticatedisLoading]);
+  }, [userrouterisAuthenticatedisLoading]);
 
   return (
     <ProtectedRoute>

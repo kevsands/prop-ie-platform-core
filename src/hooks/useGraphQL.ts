@@ -34,10 +34,14 @@ interface GraphQLResponse<T> {
     locations?: Array<{
       line: number;
       column: number;
-    }>\n  );
-    path?: Array<string | number>\n  );
-    extensions?: Record<string, unknown>\n  );
-  }>\n  );
+    }>
+  );
+    path?: Array<string | number>
+  );
+    extensions?: Record<string, unknown>
+  );
+  }>
+  );
 }
 
 interface GraphQLResult<T> extends CommonGraphQLResult<T> {
@@ -83,7 +87,7 @@ export function useGraphQLQuery<TData = unknown, TError = Error>(
           setTimeout(() => reject(new Error('Query timeout')), 30000)
         )]);
 
-      const result = createGraphQLResult(response, contexterrorHandler);
+      const result = createGraphQLResult(responsecontexterrorHandler);
 
       // Handle errors with proper context
       if (result.error) {
@@ -133,7 +137,7 @@ export function useGraphQLQuery<TData = unknown, TError = Error>(
 
       throw error;
     }
-  }, [query, variablesoptions]);
+  }, [queryvariablesoptions]);
 
   return useQuery({
     queryKey,
@@ -175,7 +179,7 @@ export function useGraphQLMutation<TData = unknown, TVariables extends Record<st
           setTimeout(() => reject(new Error('Mutation timeout')), 30000)
         )]);
 
-      const result = createGraphQLResult(response, contexterrorHandler);
+      const result = createGraphQLResult(responsecontexterrorHandler);
 
       if (result.error) {
         errorReporter.captureError(result.error, {

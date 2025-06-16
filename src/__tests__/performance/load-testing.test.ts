@@ -228,7 +228,7 @@ export const performanceBenchmarks = {
       throughput: { min: 50 },
     transactions: {
       latency: { p50: 300, p95: 1500, p99: 3000 },
-      throughput: { min: 30 }},
+      throughput: { min: 30 },
   frontend: {
     initialLoad: { max: 3000 }, // milliseconds
     timeToInteractive: { max: 5000 },
@@ -236,4 +236,4 @@ export const performanceBenchmarks = {
   database: {
     simpleQuery: { max: 50 }, // milliseconds
     complexQuery: { max: 500 },
-    aggregation: { max: 1000 }};
+    aggregation: { max: 1000 };

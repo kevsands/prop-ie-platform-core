@@ -55,7 +55,7 @@ const DocumentList: React.FC<DocumentListProps> = ({
       APPROVED: { variant: 'default' as const, label: 'Approved' },
       REJECTED: { variant: 'destructive' as const, label: 'Rejected' },
       EXPIRED: { variant: 'destructive' as const, label: 'Expired' },
-      ARCHIVED: { variant: 'secondary' as const, label: 'Archived' };
+      ARCHIVED: { variant: 'secondary' as const, label: 'Archived' }
 
     const config = statusConfig[status as keyof typeof statusConfig] || { 
       variant: 'secondary' as const, 

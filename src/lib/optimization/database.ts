@@ -160,7 +160,7 @@ export const preparedQueries = {
             id: true,
             unitNumber: true,
             status: true,
-            price: true}}),
+            price: true}),
 
   getActiveTransactions: (userId: string) =>
     prisma.transaction.findMany({

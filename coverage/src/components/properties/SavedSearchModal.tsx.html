@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/42</span>
+                <span class='fraction'>0/43</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/42</span>
+                <span class='fraction'>0/43</span>
             </div>
         
             
@@ -308,11 +308,9 @@
 <a name='L243'></a><a href='#L243'>243</a>
 <a name='L244'></a><a href='#L244'>244</a>
 <a name='L245'></a><a href='#L245'>245</a>
-<a name='L246'></a><a href='#L246'>246</a>
-<a name='L247'></a><a href='#L247'>247</a>
-<a name='L248'></a><a href='#L248'>248</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L246'></a><a href='#L246'>246</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -327,9 +325,7 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -557,31 +553,29 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">'use client';
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import React from <span class="cstat-no" title="statement not covered" >'react';</span>
+<span class="cstat-no" title="statement not covered" >'use client';</span>
 &nbsp;
-import { useState } from <span class="cstat-no" title="statement not covered" >'react';</span>
+import { useState } from 'react';
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogFooter,
-} from <span class="cstat-no" title="statement not covered" >"@/components/ui/dialog";</span>
+  DialogFooter} from <span class="cstat-no" title="statement not covered" >"@/components/ui/dialog";</span>
 import { Input } from <span class="cstat-no" title="statement not covered" >"@/components/ui/input";</span>
 import { Label } from <span class="cstat-no" title="statement not covered" >"@/components/ui/label";</span>
 import { Button } from <span class="cstat-no" title="statement not covered" >"@/components/ui/button";</span>
 import { Textarea } from <span class="cstat-no" title="statement not covered" >"@/components/ui/textarea";</span>
 import {
   Alert,
-  AlertDescription,
-} from <span class="cstat-no" title="statement not covered" >"@/components/ui/alert";</span>
+  AlertDescription} from <span class="cstat-no" title="statement not covered" >"@/components/ui/alert";</span>
 import {
   Tabs,
   TabsContent,
   TabsList,
-  TabsTrigger,
-} from <span class="cstat-no" title="statement not covered" >"@/components/ui/tabs";</span>
+  TabsTrigger} from <span class="cstat-no" title="statement not covered" >"@/components/ui/tabs";</span>
 import { Badge } from <span class="cstat-no" title="statement not covered" >"@/components/ui/badge";</span>
 import { TrashIcon, BookmarkIcon, ClockIcon } from <span class="cstat-no" title="statement not covered" >'@heroicons/react/24/outline';</span>
 import { format } from <span class="cstat-no" title="statement not covered" >'date-fns';</span>
@@ -613,11 +607,11 @@ export default function <span class="cstat-no" title="statement not covered" ><s
   savedSearches,
   onDelete
 }: SavedSearchModalProps) {
-  const [name, setName] = <span class="cstat-no" title="statement not covered" >useState('');</span>
-  const [description, setDescription] = <span class="cstat-no" title="statement not covered" >useState('');</span>
-  const [enableNotifications, setEnableNotifications] = <span class="cstat-no" title="statement not covered" >useState(true);</span>
-  const [activeTab, setActiveTab] = <span class="cstat-no" title="statement not covered" >useState('save');</span>
-  const [error, setError] = <span class="cstat-no" title="statement not covered" >useState('');</span>
+  const [namesetName] = <span class="cstat-no" title="statement not covered" >useState('');</span>
+  const [descriptionsetDescription] = <span class="cstat-no" title="statement not covered" >useState('');</span>
+  const [enableNotificationssetEnableNotifications] = <span class="cstat-no" title="statement not covered" >useState(true);</span>
+  const [activeTabsetActiveTab] = <span class="cstat-no" title="statement not covered" >useState('save');</span>
+  const [errorsetError] = <span class="cstat-no" title="statement not covered" >useState('');</span>
 &nbsp;
   const handleSave = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!name.trim()) {</span>
@@ -625,7 +619,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
 <span class="cstat-no" title="statement not covered" >      return;</span>
     }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    onSave(name, description, enableNotifications);</span>
+<span class="cstat-no" title="statement not covered" >    onSave(name, descriptionenableNotifications);</span>
 <span class="cstat-no" title="statement not covered" >    setName('');</span>
 <span class="cstat-no" title="statement not covered" >    setDescription('');</span>
 <span class="cstat-no" title="statement not covered" >    setError('');</span>
@@ -634,23 +628,23 @@ export default function <span class="cstat-no" title="statement not covered" ><s
 &nbsp;
   const formatFilters = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(f</span>ilters: any) =&gt; {</span>
     const parts: string[] = <span class="cstat-no" title="statement not covered" >[];</span>
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (filters.priceMin || filters.priceMax) {</span>
 <span class="cstat-no" title="statement not covered" >      parts.push(`€${filters.priceMin?.toLocaleString() || 0} - €${filters.priceMax?.toLocaleString() || '∞'}`);</span>
     }
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (filters.bedroomsMin || filters.bedroomsMax) {</span>
 <span class="cstat-no" title="statement not covered" >      parts.push(`${filters.bedroomsMin || 0}-${filters.bedroomsMax || '5+'} beds`);</span>
     }
-    
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (filters.propertyTypes?.length &gt; 0) {</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (filters.propertyTypes?.length&gt; 0) {</span>
 <span class="cstat-no" title="statement not covered" >      parts.push(filters.propertyTypes.join(', '));</span>
     }
-    
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (filters.locations?.length &gt; 0) {</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (filters.locations?.length&gt; 0) {</span>
 <span class="cstat-no" title="statement not covered" >      parts.push(filters.locations.join(', '));</span>
     }
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    return parts.join(' • ');</span>
   };
 &nbsp;
@@ -676,7 +670,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
               &lt;Input
                 id="name"
                 value={name}
-                onChange={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; <span class="cstat-no" title="statement not covered" >setName(e.target.value)}</span>
+                onChange={<span class="fstat-no" title="function not covered" >(e</span>: any) =&gt; <span class="cstat-no" title="statement not covered" >setName(e.target.value)}</span>
                 placeholder="e.g., Dublin 2-bed apartments under €400k"
                 className="mt-1"
               /&gt;
@@ -687,7 +681,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
               &lt;Textarea
                 id="description"
                 value={description}
-                onChange={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; <span class="cstat-no" title="statement not covered" >setDescription(e.target.value)}</span>
+                onChange={<span class="fstat-no" title="function not covered" >(e</span>: any) =&gt; <span class="cstat-no" title="statement not covered" >setDescription(e.target.value)}</span>
                 placeholder="Add notes about what you're looking for..."
                 className="mt-1"
                 rows={3}
@@ -708,7 +702,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                 type="checkbox"
                 id="notifications"
                 checked={enableNotifications}
-                onChange={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; <span class="cstat-no" title="statement not covered" >setEnableNotifications(e.target.checked)}</span>
+                onChange={<span class="fstat-no" title="function not covered" >(e</span>: any) =&gt; <span class="cstat-no" title="statement not covered" >setEnableNotifications(e.target.checked)}</span>
                 className="h-4 w-4"
               /&gt;
               &lt;Label 
@@ -735,7 +729,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
               &lt;/div&gt;
             ) : (
               &lt;div className="space-y-3 max-h-[400px] overflow-y-auto"&gt;
-                {savedSearches.map(<span class="fstat-no" title="function not covered" >(s</span>earch) =&gt; (
+                {savedSearches.map(<span class="fstat-no" title="function not covered" >(s</span>earch: any) =&gt; (
 <span class="cstat-no" title="statement not covered" >                  &lt;div</span>
                     key={search.id}
                     className="p-4 border rounded-lg hover:bg-gray-50 transition-colors"
@@ -811,7 +805,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T22:15:28.100Z
+                at 2025-06-15T18:50:48.918Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

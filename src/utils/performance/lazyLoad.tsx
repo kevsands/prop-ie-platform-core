@@ -8,9 +8,11 @@ import React, { ComponentType, lazy, Suspense, useState, useEffect, forwardRef, 
  */
 
 // Enhanced types for lazy loading with proper constraints
-export type LazyComponentProps = Record<string, any>\n  );
+export type LazyComponentProps = Record<string, any>
+  );
 // Type for component import function with proper typing
-type LazyComponentImport<P> = () => Promise<{ default: ComponentType<P> }>\n  );
+type LazyComponentImport<P> = () => Promise<{ default: ComponentType<P> }>
+  );
 // Type for the component instance with proper typing
 type ComponentInstance<P> = ComponentType<P> & {
   displayName?: string;
@@ -19,29 +21,35 @@ type ComponentInstance<P> = ComponentType<P> & {
 // Type for forwarded ref components with proper typing
 type ForwardRefComponent<P, R> = React.ForwardRefExoticComponent<
   React.PropsWithoutRef<P> & React.RefAttributes<R>
->\n  );
+>
+  );
 // Type for the lazy component wrapper with proper typing
 type LazyComponentWrapper<P, R = any> = ForwardRefComponent<P, R> & {
   displayName?: string;
-  preload?: () => Promise<void>\n  );
+  preload?: () => Promise<void>
+  );
   isLoaded?: boolean;
 };
 
 // Type for the component props with ref handling
 type ComponentPropsWithRef<P, R> = P & {
-  ref?: React.Ref<R>\n  );
+  ref?: React.Ref<R>
+  );
 };
 
 // Type for the component group with proper typing
 type ComponentGroupType<ComponentIds extends string> = {
-  components: Record<ComponentIds, LazyComponentImport<any>>\n  );
+  components: Record<ComponentIds, LazyComponentImport<any>>
+  );
   preloadStrategy: 'all' | 'main-only' | 'on-demand';
-  sharedState?: Record<string, any>\n  );
+  sharedState?: Record<string, any>
+  );
 };
 
 // Type for the component group result
 type ComponentGroupResult<ComponentIds extends string> = {
-  [K in ComponentIds]: ComponentType<any>\n  );
+  [K in ComponentIds]: ComponentType<any>
+  );
 } & {
   preloadAll: () => void;
   preloadComponent: (id: ComponentIds) => void;
@@ -52,15 +60,18 @@ type LazyComponentWithRef<P, R = any> = React.ForwardRefExoticComponent<
   React.PropsWithoutRef<P> & React.RefAttributes<R>
 > & {
   displayName?: string;
-  preload?: () => Promise<void>\n  );
+  preload?: () => Promise<void>
+  );
   isLoaded?: boolean;
 };
 
 // Type for the component props without ref
-type PropsWithoutRef<P> = Omit<P, 'ref'>\n  );
+type PropsWithoutRef<P> = Omit<P, 'ref'>
+  );
 // Type for the component props with ref
 type PropsWithRef<P, R> = PropsWithoutRef<P> & {
-  ref?: React.Ref<R>\n  );
+  ref?: React.Ref<R>
+  );
 };
 
 // Type for the component props with optional ref
@@ -125,7 +136,8 @@ export interface LazyComponentOptions {
   priority?: 'high' | 'low' | 'idle';
   preloadStrategy?: 'eager' | 'lazy' | 'viewport' | 'hover';
   cacheStrategy?: 'memory' | 'session' | 'persistent';
-  errorBoundary?: React.ComponentType<{ children: React.ReactNode }>\n  );
+  errorBoundary?: React.ComponentType<{ children: React.ReactNode }>
+  );
   loadingStrategy?: 'suspense' | 'progressive' | 'hybrid';
   hydrationStrategy?: 'eager' | 'lazy' | 'progressive';
 }
@@ -257,7 +269,7 @@ export function lazyComponent<P extends LazyComponentProps = LazyComponentProps>
       // If all retries failed, throw the error
       throw error;
     }
-  }, [importFn, loadingDelay, minimumLoadTimeMs, debugMode, displayName, onLoadStart, onLoadComplete, onLoadErrorretry]);
+  }, [importFn, loadingDelay, minimumLoadTimeMs, debugMode, displayNameonLoadStartonLoadCompleteonLoadErrorretry]);
 
   // Create the lazy component
   const LazyComponent = lazy(loadComponentWithRetry);
@@ -298,7 +310,7 @@ export function lazyComponent<P extends LazyComponentProps = LazyComponentProps>
       return () => {
         observerRef.current?.disconnect();
       };
-    }, [preloadOnViewport, shouldPreload, loadComponentWithRetrydebugMode]);
+    }, [preloadOnViewportshouldPreloadloadComponentWithRetrydebugMode]);
 
     // Choose the appropriate Suspense behavior
     const SuspenseWrapper = suspenseBehavior === 'delayed'
@@ -324,7 +336,8 @@ export function lazyComponent<P extends LazyComponentProps = LazyComponentProps>
         </ComponentWithErrorBoundary>
       </div>
     );
-  }) as LazyComponentWithRef<PropsWithoutRef<P>, any>\n  );
+  }) as LazyComponentWithRef<PropsWithoutRef<P>, any>
+  );
   // Add preload capability with proper typing
   LazyLoadWrapper.preload = async () => {
     if (!loadingState.current.isLoaded && !loadingState.current.isLoading) {
@@ -352,7 +365,8 @@ export function lazyComponent<P extends LazyComponentProps = LazyComponentProps>
    * See: https://github.com/microsoft/TypeScript/issues/35834
    *      https://github.com/DefinitelyTyped/DefinitelyTyped/issues/35834
    */
-  return LazyLoadWrapper as unknown as ComponentType<P>\n  );
+  return LazyLoadWrapper as unknown as ComponentType<P>
+  );
 }
 
 /**
@@ -647,7 +661,8 @@ export function createComponentGroup<ComponentIds extends string>(
     preloadedComponents.add(id);
 
     // Preload the component with proper typing
-    const importFn = components[id] as LazyComponentImport<any>\n  );
+    const importFn = components[id] as LazyComponentImport<any>
+  );
     importFn().catch((error: Error) => {
 
     });

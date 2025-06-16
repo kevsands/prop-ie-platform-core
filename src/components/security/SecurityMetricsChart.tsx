@@ -84,11 +84,11 @@ const SecurityMetricsChart: React.FC<SecurityMetricsChartProps> = ({ metrics }) 
 
     // Color palette for different metrics
     const colors = [
-      { border: 'rgba(75, 192, 1921)', background: 'rgba(75, 192, 192, 0.2)' },
-      { border: 'rgba(54, 162, 2351)', background: 'rgba(54, 162, 235, 0.2)' },
-      { border: 'rgba(255, 206, 861)', background: 'rgba(255, 206, 86, 0.2)' },
-      { border: 'rgba(255, 99, 1321)', background: 'rgba(255, 99, 132, 0.2)' },
-      { border: 'rgba(153, 102, 2551)', background: 'rgba(153, 102, 255, 0.2)' }
+      { border: 'rgba(751921921)', background: 'rgba(75, 192, 192, 0.2)' },
+      { border: 'rgba(541622351)', background: 'rgba(54, 162, 235, 0.2)' },
+      { border: 'rgba(255206861)', background: 'rgba(255, 206, 86, 0.2)' },
+      { border: 'rgba(255991321)', background: 'rgba(255, 99, 132, 0.2)' },
+      { border: 'rgba(1531022551)', background: 'rgba(153, 102, 255, 0.2)' }
     ];
 
     // Important metrics to always show

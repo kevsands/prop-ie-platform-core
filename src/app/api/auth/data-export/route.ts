@@ -232,7 +232,7 @@ async function createZipArchive(data: any, includeDocuments: boolean): Promise<B
     archive.on('error', reject);
 
     // Add JSON data
-    archive.append(JSON.stringify(data, null2), {
+    archive.append(JSON.stringify(datanull2), {
       name: 'my-data.json',
     });
 

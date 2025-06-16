@@ -37,11 +37,15 @@ interface UserProfileProps {
 
 // Example of a typed component state
 interface UserProfileState {
-  user: AsyncState<User>\n  );
-  properties: AsyncState<Property[]>\n  );
-  developments: AsyncState<Development[]>\n  );
+  user: AsyncState<User>
+  );
+  properties: AsyncState<Property[]>
+  );
+  developments: AsyncState<Development[]>
+  );
   isEditing: boolean;
-  formData: DeepPartial<User>\n  );
+  formData: DeepPartial<User>
+  );
 }
 
 // Example of using the type system in a React component

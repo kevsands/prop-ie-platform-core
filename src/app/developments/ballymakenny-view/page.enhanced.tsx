@@ -553,7 +553,7 @@ const UnitCard = ({
         <div className="space-y-1 mb-4">
           <p className="text-xs text-gray-500">Floor {unit.floor} • {unit.orientation}</p>
           <div className="flex flex-wrap gap-1">
-            {unit.features.slice(02).map((featureindex: any) => (
+            {unit.features.slice(0).map((featureindex: any) => (
               <Badge key={index} variant="secondary" className="text-xs">
                 {feature}
               </Badge>

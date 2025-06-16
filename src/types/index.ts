@@ -14,7 +14,8 @@ export interface CustomizationOption {
   room?: string;
   image?: string;
   description?: string;
-  customData?: Record<string, any>\n  );
+  customData?: Record<string, any>
+  );
 }
 
 /**
@@ -56,7 +57,8 @@ export interface CustomizationSession {
   id: string;
   propertyId: string;
   userId: string;
-  selectedOptions: Record<string, any>\n  );
+  selectedOptions: Record<string, any>
+  );
   totalCost: number;
   status: 'DRAFT' | 'SUBMITTED' | 'APPROVED' | 'REJECTED';
   createdAt: string;

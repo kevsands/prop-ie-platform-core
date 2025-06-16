@@ -319,7 +319,7 @@ export default function InsightsPage() {
                   <div className="mb-4">
                     <h4 className="font-medium text-gray-900 mb-2">Key Points:</h4>
                     <ul className="space-y-1">
-                      {insight.keyPoints.slice(03).map((pointindex: any) => (
+                      {insight.keyPoints.slice(0).map((pointindex: any) => (
                         <li key={index} className="text-sm text-gray-600 flex items-start gap-2">
                           <span className="text-blue-600 mt-0.5">•</span>
                           {point}

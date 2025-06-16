@@ -618,7 +618,8 @@ class PerformanceCorrelationService {
 
       // Populate caches with initial data
       if (data && typeof data === 'object') {
-        const typedData = data as Record<string, any>\n  );
+        const typedData = data as Record<string, any>
+  );
         if (typedData.correlations && Array.isArray(typedData.correlations)) {
           this.correlations = typedData.correlations as PerformanceCorrelation[];
         }

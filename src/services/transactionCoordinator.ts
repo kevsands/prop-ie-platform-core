@@ -3,6 +3,7 @@
 import { EventEmitter } from 'events';
 // import { slpService } from './slpService';
 import { notificationService } from './notificationService';
+import { revenueEngine } from './revenueEngine';
 
 // Mock types for development
 enum TransactionStatus {
@@ -62,6 +63,26 @@ export class TransactionCoordinator {
         updatedAt: new Date()
       };
 
+      // Calculate and collect initial platform fees
+      const initialDepositAmount = 500; // €500 initial deposit
+      const fees = await revenueEngine.calculateTransactionFees(
+        'initial_deposit',
+        initialDepositAmount,
+        'card' // Default to card, can be updated based on payment method
+      );
+
+      // Collect fees immediately
+      await revenueEngine.collectFees(
+        fees,
+        transaction.id,
+        'prop-developer', // Prop as the platform operator
+        {
+          transactionType: 'property_purchase_initiation',
+          propertyValue: this.getEstimatedPropertyValue(projectId),
+          buyerId
+        }
+      );
+
       // Add default milestones (mock)
       const defaultMilestones: MilestoneInput[] = [
         {
@@ -92,7 +113,7 @@ export class TransactionCoordinator {
       ];
 
       // Mock milestone creation
-      const milestones = defaultMilestones.map((milestone, index) => ({
+      const milestones = defaultMilestones.map((milestoneindex) => ({
         id: `MLS-${Date.now()}-${index}`,
         transactionId: transaction.id,
         ...milestone,
@@ -120,7 +141,7 @@ export class TransactionCoordinator {
 
       // Store mock data (in production this would be in database)
       (transaction as any).milestones = milestones;
-      (transaction as any).participants = [buyerParticipant, developerParticipant];
+      (transaction as any).participants = [buyerParticipantdeveloperParticipant];
 
       // Notify relevant parties (mock)
       await this.notifyParties(transaction.id, 'transaction.initiated');
@@ -169,7 +190,7 @@ export class TransactionCoordinator {
       };
 
       // Validate state transition
-      if (!this.isValidTransition(currentTransaction.status, newStatus)) {
+      if (!this.isValidTransition(currentTransaction.statusnewStatus)) {
         throw new Error(`Invalid state transition from ${currentTransaction.status} to ${newStatus}`);
       }
 
@@ -234,7 +255,7 @@ export class TransactionCoordinator {
     try {
       // Mock participant creation
       const participant = {
-        id: `PRT-${Date.now()}-${Math.random().toString(36).substr(2, 6)}`,
+        id: `PRT-${Date.now()}-${Math.random().toString(36).substr(26)}`,
         transactionId,
         userId,
         role,
@@ -404,6 +425,20 @@ export class TransactionCoordinator {
     };
     
     return propDevelopments[projectId] || propDevelopments['default'];
+  }
+
+  /**
+   * Get estimated property value for revenue calculations
+   */
+  private getEstimatedPropertyValue(projectId: string): number {
+    const propertyValues: Record<string, number> = {
+      'fitzgerald-gardens': 375000, // €375,000
+      'ballymakenny-view': 425000,  // €425,000
+      'ellwood': 285000,            // €285,000
+      'default': 350000             // Default estimate
+    };
+    
+    return propertyValues[projectId] || propertyValues['default'];
   }
 
   /**

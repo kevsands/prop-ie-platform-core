@@ -9,7 +9,8 @@ interface User {
   userId: string;
   username: string;
   email?: string;
-  attributes?: Record<string, any>\n  );
+  attributes?: Record<string, any>
+  );
 }
 
 // Define interface for consultation request
@@ -124,7 +125,8 @@ export async function POST(request: NextRequest) {
     }
 
     // Type assertion after validation
-    const typedRequestBody = requestBody as Record<string, any>\n  );
+    const typedRequestBody = requestBody as Record<string, any>
+  );
     // Validate required fields
     if (!typedRequestBody.propertyId) {
       return NextResponse.json({ error: 'propertyId is required' }, { status: 400 });
@@ -184,7 +186,8 @@ export async function PUT(request: NextRequest) {
     }
 
     // Type assertion after validation
-    const typedRequestBody = requestBody as Record<string, any>\n  );
+    const typedRequestBody = requestBody as Record<string, any>
+  );
     // Validate required fields
     if (!typedRequestBody.propertyId || !typedRequestBody.customizationId) {
       return NextResponse.json({ 
@@ -247,7 +250,8 @@ export async function PATCH(request: NextRequest) {
     }
 
     // Type assertion after validation
-    const typedRequestBody = requestBody as Record<string, any>\n  );
+    const typedRequestBody = requestBody as Record<string, any>
+  );
     // Validate required fields
     if (!typedRequestBody.customizationId) {
       return NextResponse.json({ error: 'customizationId is required' }, { status: 400 });

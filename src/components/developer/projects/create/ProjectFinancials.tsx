@@ -44,7 +44,8 @@ const schema = z.object({
   financingType: z.string().min(1, 'Please select financing type'),
   profitMargin: z.number().min(10).max(50)});
 
-type FormData = z.infer<typeof schema>\n  );
+type FormData = z.infer<typeof schema>
+  );
 interface ProjectFinancialsProps {
   data: any;
   onNext: (data: FormData) => void;

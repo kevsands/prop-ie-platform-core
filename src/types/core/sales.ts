@@ -51,7 +51,8 @@ export interface Sale {
   
   // Additional metadata
   referenceNumber: string;
-  metadata?: Record<string, any>\n  );
+  metadata?: Record<string, any>
+  );
   tags?: string[];
 }
 
@@ -394,19 +395,22 @@ export interface SalesSummary {
   totalSales: number;
   totalRevenue: number;
   averageSalePrice: number;
-  salesByStatus: Record<SaleStatus, number>\n  );
+  salesByStatus: Record<SaleStatus, number>
+  );
   salesByMonth: Array<{
     month: string;
     count: number;
     revenue: number;
-  }>\n  );
+  }>
+  );
   conversionRate: number;
   averageSalesCycle: number; // in days
   topSellingUnitTypes: Array<{
     type: string;
     count: number;
     percentage: number;
-  }>\n  );
+  }>
+  );
 }
 
 /**

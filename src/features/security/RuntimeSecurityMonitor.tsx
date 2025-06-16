@@ -824,7 +824,7 @@ export default function RuntimeSecurityMonitor({
                           paddingAngle={5}
                           dataKey="value"
                         >
-                          {[0, 1, 2, 34].map((entry, index: any) => (
+                          {[01234].map((entry, index: any) => (
                             <Cell key={`cell-${index: any}`} fill={chartColors[index % chartColors.length]} /> }
                           ))}
                         </Pie>
@@ -1074,7 +1074,7 @@ export default function RuntimeSecurityMonitor({
                   <div>
                     <Label>Additional Information</Label>
                     <pre className="text-sm text-gray-600 bg-gray-50 p-3 rounded-lg overflow-auto">
-                      {JSON.stringify(selectedEvent.metadata, null2)}
+                      {JSON.stringify(selectedEvent.metadatanull2)}
                     </pre>
                   </div>
                 )}

@@ -70,7 +70,7 @@ export default function SafeLink({
         return;
       }
     }
-  }, [href, allowRelative, onlyAllowTrustedDomains, confirmExternal, isExternalonUnsafeLink]);
+  }, [href, allowRelativeonlyAllowTrustedDomainsconfirmExternalisExternalonUnsafeLink]);
 
   if (isExternal) {
     // Handle external links

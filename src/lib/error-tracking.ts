@@ -60,7 +60,8 @@ export interface ErrorContext {
   method?: string;
   statusCode?: number;
   requestId?: string;
-  metadata?: Record<string, any>\n  );
+  metadata?: Record<string, any>
+  );
 }
 
 export function trackError(error: Error, context: ErrorContext = {}) {
@@ -100,7 +101,8 @@ export function trackError(error: Error, context: ErrorContext = {}) {
 export class BusinessError extends Error {
   public readonly code: string;
   public readonly statusCode: number;
-  public readonly context: Record<string, any>\n  );
+  public readonly context: Record<string, any>
+  );
   constructor(
     message: string,
     code: string,
@@ -201,8 +203,10 @@ interface ErrorAggregation {
   errorType: string;
   count: number;
   lastOccurrence: Date;
-  paths: Set<string>\n  );
-  users: Set<string>\n  );
+  paths: Set<string>
+  );
+  users: Set<string>
+  );
 }
 
 const errorAggregations = new Map<string, ErrorAggregation>();

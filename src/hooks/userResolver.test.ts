@@ -9,7 +9,8 @@ import { ApolloServer } from '@apollo/server';
 import { GraphQLContext } from '../server';
 
 describe('User Resolvers', () => {
-  let testServer: ApolloServer<GraphQLContext>\n  );
+  let testServer: ApolloServer<GraphQLContext>
+  );
   // Mock the userDb functions
   jest.mock('@/lib/db', () => ({
     userDb: {

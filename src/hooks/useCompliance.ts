@@ -6,25 +6,29 @@ interface ComplianceData {
   categories: Array<{
     name: string;
     value: number;
-  }>\n  );
+  }>
+  );
   regulations: Array<{
     name: string;
     status: 'compliant' | 'warning' | 'non-compliant';
     details: string;
-  }>\n  );
+  }>
+  );
   audits: Array<{
     id: string;
     date: Date;
     auditor: string;
     score: number;
     findings: string[];
-  }>\n  );
+  }>
+  );
   certificates: Array<{
     name: string;
     issuer: string;
     validUntil: Date;
     status: 'active' | 'expiring' | 'expired';
-  }>\n  );
+  }>
+  );
 }
 
 export function useCompliance() {

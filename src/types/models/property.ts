@@ -234,10 +234,14 @@ export interface PropertyAggregations {
     max: number;
     avg: number;
   };
-  typeCounts: Record<PropertyType, number>\n  );
-  statusCounts: Record<PropertyStatus, number>\n  );
-  bedroomCounts: Record<number, number>\n  );
-  locationCounts: Record<string, number>\n  );
+  typeCounts: Record<PropertyType, number>
+  );
+  statusCounts: Record<PropertyStatus, number>
+  );
+  bedroomCounts: Record<number, number>
+  );
+  locationCounts: Record<string, number>
+  );
 }
 
 // Property Actions

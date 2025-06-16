@@ -19,9 +19,9 @@ const barColorVariant = cva(
         positive: "bg-green-500",
         warning: "bg-amber-500",
         negative: "bg-red-500",
-        neutral: "bg-blue-500"},
+        neutral: "bg-blue-500",
     defaultVariants: {
-      performance: "neutral"}
+      performance: "neutral"
 );
 
 // Value variants for different performance contexts
@@ -33,9 +33,9 @@ const valueVariants = cva(
         positive: "text-green-600 dark:text-green-400",
         negative: "text-red-600 dark:text-red-400",
         neutral: "text-slate-600 dark:text-slate-400",
-        warning: "text-amber-600 dark:text-amber-400"},
+        warning: "text-amber-600 dark:text-amber-400",
     defaultVariants: {
-      performance: "neutral"}
+      performance: "neutral"
 );
 
 /**
@@ -82,7 +82,7 @@ const BudgetVsActualCard = ({
       if (actualValue>= budgetValue * 0.9) return 'warning';
       return 'negative';
     }
-  }, [actualValue, budgetValueinvertComparison]);
+  }, [actualValuebudgetValueinvertComparison]);
 
   // Format values for display
   const formattedBudget = formatCurrency(budgetValue);

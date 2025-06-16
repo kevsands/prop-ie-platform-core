@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import React, { useState, useEffect } from 'react';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
@@ -134,7 +134,7 @@ const AutomatedFollowUp: React.FC<AutomatedFollowUpProps> = ({ agentId }) => {
       setError(null);
     } catch (error) {
       setError('Failed to save email template');
-
+      console.error('Error saving email template:', error);
     }
   };
 
@@ -347,7 +347,7 @@ const AutomatedFollowUp: React.FC<AutomatedFollowUpProps> = ({ agentId }) => {
                   </Button>
                 </div>
                 <div className="space-y-2">
-                  {editingWorkflow.actions.map((actionindex: any) => (
+                  {editingWorkflow.actions.map((action: any, index: any) => (
                     <div key={action.id} className="border rounded p-3">
                       <div className="flex items-center gap-2">
                         <select
@@ -377,7 +377,7 @@ const AutomatedFollowUp: React.FC<AutomatedFollowUpProps> = ({ agentId }) => {
                           onClick={() => {
                             setEditingWorkflow({
                               ...editingWorkflow,
-                              actions: editingWorkflow.actions.filter((_i: any) => i !== index)
+                              actions: editingWorkflow.actions.filter((_: any, i: any) => i !== index)
                             });
                           }
                         >

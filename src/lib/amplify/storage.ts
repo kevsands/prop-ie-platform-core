@@ -26,7 +26,7 @@ type StorageAccessLevel = 'private' | 'protected' | 'guest';
 export interface StorageOptions {
   path?: string;
   contentType?: string;
-  metadata?: Record<string, string>\n  );
+  metadata?: Record<string, string>;
   level?: 'public' | 'protected' | 'private';
   onProgress?: (progress: { loaded: number; total: number }) => void;
   expires?: number; // Expiration time in seconds for signed URLs
@@ -79,7 +79,9 @@ export class AmplifyStorage {
           contentType: contentType || file.type,
           metadata,
           accessLevel: normalizeAccessLevel(level),
-          onProgress: adaptProgressCallback(onProgress)}).result;
+          onProgress: adaptProgressCallback(onProgress)
+        }
+      }).result;
 
       return result;
     } catch (error) {
@@ -101,7 +103,8 @@ export class AmplifyStorage {
         key: fullKey,
         options: {
           accessLevel: normalizeAccessLevel(level),
-          onProgress: adaptProgressCallback(onProgress)}
+          onProgress: adaptProgressCallback(onProgress)
+        }
       }).result;
 
       return result;
@@ -125,7 +128,9 @@ export class AmplifyStorage {
         options: {
           accessLevel: normalizeAccessLevel(level),
           validateObjectExistence: true,
-          expiresIn: expires});
+          expiresIn: expires
+        }
+      });
       return result.url.toString();
     } catch (error) {
 
@@ -145,7 +150,9 @@ export class AmplifyStorage {
       await remove({
         key: fullKey,
         options: {
-          accessLevel: normalizeAccessLevel(level)});
+          accessLevel: normalizeAccessLevel(level)
+        }
+      });
 
       return { success: true, key: fullKey };
     } catch (error) {
@@ -191,7 +198,9 @@ export class AmplifyStorage {
         key: fullKey,
         options: {
           accessLevel: normalizeAccessLevel(level),
-          validateObjectExistence: true});
+          validateObjectExistence: true
+        }
+      });
 
       return true;
     } catch (error) {

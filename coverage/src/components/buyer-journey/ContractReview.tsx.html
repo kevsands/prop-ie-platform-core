@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/77</span>
+                <span class='fraction'>0/76</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/67</span>
+                <span class='fraction'>0/66</span>
             </div>
         
             
@@ -403,11 +403,7 @@
 <a name='L338'></a><a href='#L338'>338</a>
 <a name='L339'></a><a href='#L339'>339</a>
 <a name='L340'></a><a href='#L340'>340</a>
-<a name='L341'></a><a href='#L341'>341</a>
-<a name='L342'></a><a href='#L342'>342</a>
-<a name='L343'></a><a href='#L343'>343</a>
-<a name='L344'></a><a href='#L344'>344</a>
-<a name='L345'></a><a href='#L345'>345</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L341'></a><a href='#L341'>341</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -466,7 +462,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -499,26 +494,23 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -800,16 +792,15 @@ interface SignatureRequirement {
 }
 &nbsp;
 export function <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >ContractReview({</span></span> transactionId, onComplete }: ContractReviewProps) {
-  const [documents, setDocuments] = <span class="cstat-no" title="statement not covered" >useState&lt;ContractDocument[]&gt;([]);</span>
-  const [selectedDoc, setSelectedDoc] = <span class="cstat-no" title="statement not covered" >useState&lt;ContractDocument | null&gt;(null);</span>
-  const [loading, setLoading] = <span class="cstat-no" title="statement not covered" >useState(true);</span>
-  const [signing, setSigning] = <span class="cstat-no" title="statement not covered" >useState(false);</span>
-  const [error, setError] = <span class="cstat-no" title="statement not covered" >useState&lt;string | null&gt;(null);</span>
-  const [agreed, setAgreed] = <span class="cstat-no" title="statement not covered" >useState({</span>
+  const [documentssetDocuments] = <span class="cstat-no" title="statement not covered" >useState&lt;ContractDocument[]&gt;([]);</span>
+  const [selectedDocsetSelectedDoc] = <span class="cstat-no" title="statement not covered" >useState&lt;ContractDocument | null&gt;(null);</span>
+  const [loadingsetLoading] = <span class="cstat-no" title="statement not covered" >useState(true);</span>
+  const [signingsetSigning] = <span class="cstat-no" title="statement not covered" >useState(false);</span>
+  const [errorsetError] = <span class="cstat-no" title="statement not covered" >useState&lt;string | null&gt;(null);</span>
+  const [agreedsetAgreed] = <span class="cstat-no" title="statement not covered" >useState({</span>
     terms: false,
     accuracy: false,
-    legal: false,
-  });
+    legal: false});
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  useEffect(<span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
 <span class="cstat-no" title="statement not covered" >    fetchContractDocuments();</span>
@@ -819,7 +810,7 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
 <span class="cstat-no" title="statement not covered" >    try {</span>
       const response = <span class="cstat-no" title="statement not covered" >await fetch(`/api/v1/transactions/${transactionId}/contracts`);</span>
 <span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (!response.ok) <span class="cstat-no" title="statement not covered" >throw new Error('Failed to fetch contracts');</span></span>
-      
+&nbsp;
       const data = <span class="cstat-no" title="statement not covered" >await response.json();</span>
 <span class="cstat-no" title="statement not covered" >      setDocuments(data.documents);</span>
     } catch (err) {
@@ -833,7 +824,7 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
 <span class="cstat-no" title="statement not covered" >    setSelectedDoc(doc);</span>
     // In real app, this would open a document viewer
 <span class="cstat-no" title="statement not covered" >    window.open(doc.url, '_blank');</span>
-    
+&nbsp;
     // Mark as reviewed
 <span class="cstat-no" title="statement not covered" >    markAsReviewed(doc.id);</span>
   };
@@ -841,16 +832,15 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
   const markAsReviewed = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >async (d</span>ocumentId: string) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    try {</span>
 <span class="cstat-no" title="statement not covered" >      await fetch(`/api/v1/contracts/${documentId}/review`, {</span>
-        method: 'POST',
-      });
-      
+        method: 'POST'});
+&nbsp;
 <span class="cstat-no" title="statement not covered" >      setDocuments(<span class="fstat-no" title="function not covered" >prev =&gt; <span class="cstat-no" title="statement not covered" >p</span>rev.map(<span class="fstat-no" title="function not covered" >doc =&gt; </span></span></span>
 <span class="cstat-no" title="statement not covered" >        doc.id === documentId </span>
           ? { ...doc, status: 'reviewed' as const }
           : doc
       ));
     } catch (err) {
-<span class="cstat-no" title="statement not covered" >      console.error('Failed to mark as reviewed:', err);</span>
+&nbsp;
     }
   };
 &nbsp;
@@ -865,23 +855,21 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           transactionId,
-          agreements: agreed,
-        }),
-      });
+          agreements: agreed})});
 &nbsp;
 <span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (!response.ok) <span class="cstat-no" title="statement not covered" >throw new Error('Failed to sign document');</span></span>
-      
+&nbsp;
       const signedDoc = <span class="cstat-no" title="statement not covered" >await response.json();</span>
-      
+&nbsp;
 <span class="cstat-no" title="statement not covered" >      setDocuments(<span class="fstat-no" title="function not covered" >prev =&gt; <span class="cstat-no" title="statement not covered" >p</span>rev.map(<span class="fstat-no" title="function not covered" >d =&gt; </span></span></span>
 <span class="cstat-no" title="statement not covered" >        d.id === doc.id ? signedDoc : d</span>
       ));
-      
+&nbsp;
       // Check if all documents are signed
       const allSigned = <span class="cstat-no" title="statement not covered" >documents.every(<span class="fstat-no" title="function not covered" >d =&gt; </span></span>
 <span class="cstat-no" title="statement not covered" >        d.id === doc.id ? true : d.status === 'signed'</span>
       );
-      
+&nbsp;
 <span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (allSigned) {</span>
 <span class="cstat-no" title="statement not covered" >        onComplete();</span>
       }
@@ -947,7 +935,7 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
                     &lt;/p&gt;
                   &lt;/div&gt;
                 &lt;/div&gt;
-                
+&nbsp;
                 &lt;div className="flex items-center gap-2"&gt;
                   &lt;Badge
                     variant={
@@ -958,7 +946,7 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
                     {<span class="branch-0 cbranch-no" title="branch not covered" >doc.status === 'signed' &amp;&amp; &lt;</span>CheckCircle className="h-3 w-3 mr-1" /&gt;}
                     {doc.status}
                   &lt;/Badge&gt;
-                  
+&nbsp;
                   &lt;div className="flex gap-2"&gt;
                     &lt;Button
                       size="sm"
@@ -968,7 +956,7 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
                       &lt;Eye className="h-4 w-4 mr-1" /&gt;
                       View
                     &lt;/Button&gt;
-                    
+&nbsp;
                     {<span class="branch-0 cbranch-no" title="branch not covered" >doc.status !== 'signed' &amp;&amp; (</span>
                       &lt;Button
                         size="sm"
@@ -982,14 +970,14 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
                   &lt;/div&gt;
                 &lt;/div&gt;
               &lt;/div&gt;
-              
+&nbsp;
               {<span class="branch-0 cbranch-no" title="branch not covered" >doc.signedAt </span>&amp;&amp; (
                 &lt;p className="text-sm text-muted-foreground mt-2"&gt;
                   Signed on {formatDate(doc.signedAt)}
                 &lt;/p&gt;
               )}
-              
-              {<span class="branch-0 cbranch-no" title="branch not covered" >doc.requiredSignatures.length &gt; 0 &amp;&amp; (</span>
+&nbsp;
+              {<span class="branch-0 cbranch-no" title="branch not covered" >doc.requiredSignatures.length&gt; 0 &amp;&amp; (</span>
                 &lt;div className="mt-3 pt-3 border-t"&gt;
                   &lt;p className="text-sm font-medium mb-2"&gt;Signatures:&lt;/p&gt;
                   &lt;div className="flex gap-4"&gt;
@@ -1015,20 +1003,20 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
         {<span class="branch-0 cbranch-no" title="branch not covered" >documents.some(<span class="fstat-no" title="function not covered" >doc =&gt; <span class="cstat-no" title="statement not covered" >d</span>oc.status !== 'signed') &amp;&amp; (</span></span>
           &lt;div className="space-y-4"&gt;
             &lt;h3 className="font-semibold"&gt;Terms &amp; Conditions&lt;/h3&gt;
-            
+&nbsp;
             &lt;Alert&gt;
               &lt;Shield className="h-4 w-4" /&gt;
               &lt;AlertDescription&gt;
                 Please review all documents carefully before signing. This is a legally binding agreement.
               &lt;/AlertDescription&gt;
             &lt;/Alert&gt;
-            
+&nbsp;
             &lt;div className="space-y-3"&gt;
               &lt;div className="flex items-center space-x-2"&gt;
                 &lt;Checkbox
                   id="terms"
                   checked={agreed.terms}
-                  onCheckedChange={<span class="fstat-no" title="function not covered" >(c</span>hecked) =&gt; 
+                  onCheckedChange={<span class="fstat-no" title="function not covered" >(c</span>hecked: any) =&gt; 
 <span class="cstat-no" title="statement not covered" >                    setAgreed(<span class="fstat-no" title="function not covered" >prev =&gt; (<span class="cstat-no" title="statement not covered" >{</span> ...prev, terms: checked as boolean }))</span></span>
                   }
                 /&gt;
@@ -1036,12 +1024,12 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
                   I have read and agree to all terms and conditions
                 &lt;/Label&gt;
               &lt;/div&gt;
-              
+&nbsp;
               &lt;div className="flex items-center space-x-2"&gt;
                 &lt;Checkbox
                   id="accuracy"
                   checked={agreed.accuracy}
-                  onCheckedChange={<span class="fstat-no" title="function not covered" >(c</span>hecked) =&gt; 
+                  onCheckedChange={<span class="fstat-no" title="function not covered" >(c</span>hecked: any) =&gt; 
 <span class="cstat-no" title="statement not covered" >                    setAgreed(<span class="fstat-no" title="function not covered" >prev =&gt; (<span class="cstat-no" title="statement not covered" >{</span> ...prev, accuracy: checked as boolean }))</span></span>
                   }
                 /&gt;
@@ -1049,12 +1037,12 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
                   I confirm that all information provided is accurate
                 &lt;/Label&gt;
               &lt;/div&gt;
-              
+&nbsp;
               &lt;div className="flex items-center space-x-2"&gt;
                 &lt;Checkbox
                   id="legal"
                   checked={agreed.legal}
-                  onCheckedChange={<span class="fstat-no" title="function not covered" >(c</span>hecked) =&gt; 
+                  onCheckedChange={<span class="fstat-no" title="function not covered" >(c</span>hecked: any) =&gt; 
 <span class="cstat-no" title="statement not covered" >                    setAgreed(<span class="fstat-no" title="function not covered" >prev =&gt; (<span class="cstat-no" title="statement not covered" >{</span> ...prev, legal: checked as boolean }))</span></span>
                   }
                 /&gt;
@@ -1102,7 +1090,7 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T22:15:28.100Z
+                at 2025-06-15T18:50:48.918Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

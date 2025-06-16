@@ -13,7 +13,8 @@ export interface Customization {
   customizationId?: string;
   propertyId: string;
   userId: string;
-  selectedOptions: Record<string, any>\n  );
+  selectedOptions: Record<string, any>
+  );
   totalCost?: number;
   status?: 'DRAFT' | 'SUBMITTED' | 'APPROVED' | 'REJECTED' | 'FINALIZED';
   rooms?: Record<string, any>[];
@@ -36,7 +37,8 @@ export interface User {
   userId: string;
   username: string;
   email?: string;
-  attributes?: Record<string, any>\n  );
+  attributes?: Record<string, any>
+  );
 }
 
 /**

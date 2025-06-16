@@ -39,7 +39,8 @@ export interface Developer {
   project, s: Projec, t[];
   settings: DeveloperSettings;
   analytics: DeveloperAnalytics;
-  metadata?: Record<string, any>\n  );
+  metadata?: Record<string, any>
+  );
 }
 
 export interface DeveloperSubscription {
@@ -58,7 +59,8 @@ export interface DeveloperBranding {
   primaryColor: string;
   secondaryColor: string;
   customDomain?: string;
-  emailTemplates?: Record<string, string>\n  );
+  emailTemplates?: Record<string, string>
+  );
 }
 
 export interface TeamMember {
@@ -259,7 +261,8 @@ export interface IntegrationSettings {
   crmSystem?: string;
   accountingSystem?: string;
   marketingPlatform?: string;
-  apiKeys: Record<string, string>\n  );
+  apiKeys: Record<string, string>
+  );
 }
 
 export interface PermissionSettings {

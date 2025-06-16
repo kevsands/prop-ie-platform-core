@@ -55,7 +55,7 @@ describe('useGraphQL Hooks', () => {
     // Create a fresh QueryClient for each test
     queryClient = new QueryClient({ defaultOptions: { queries: {
           retry: false,
-          cacheTime: 0}});
+          cacheTime: 0});
     
     // Create a GraphQL mock instance
     const graphqlMock = createGraphQLMock();

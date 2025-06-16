@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/55</span>
+                <span class='fraction'>0/54</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/51</span>
+                <span class='fraction'>0/50</span>
             </div>
         
             
@@ -239,7 +239,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -394,7 +394,7 @@ export enum <span class="cstat-no" title="statement not covered" >AuditSeverity 
 // Simple AuditLogger implementation
 export const <span class="cstat-no" title="statement not covered" >AuditLogger </span>= <span class="cstat-no" title="statement not covered" >{</span>
   logSecurity: <span class="fstat-no" title="function not covered" >(e</span>vent: string, severity: AuditSeverity, message: string, details?: any) =&gt; {
-<span class="cstat-no" title="statement not covered" >    console.log(`[Security] ${severity}: ${message}`, event, details);</span>
+&nbsp;
   }
 };
 &nbsp;
@@ -420,7 +420,7 @@ export class <span class="cstat-no" title="statement not covered" >SecurityError
   category: ErrorCategory;
   context: any;
   metadata: any;
-  
+&nbsp;
 <span class="fstat-no" title="function not covered" >  constructor(</span>
     message: string,
 <span class="branch-0 cbranch-no" title="branch not covered" >    code: SecurityErrorCode = SecurityErrorCode.INTERNAL_SECURITY_ERROR,</span>
@@ -432,7 +432,7 @@ export class <span class="cstat-no" title="statement not covered" >SecurityError
 <span class="cstat-no" title="statement not covered" >    this.code = code;</span>
 <span class="cstat-no" title="statement not covered" >    this.context = context;</span>
 <span class="cstat-no" title="statement not covered" >    this.metadata = metadata;</span>
-    
+&nbsp;
     // Determine category based on code
 <span class="cstat-no" title="statement not covered" >    if (code.includes('authentication')) {</span>
 <span class="cstat-no" title="statement not covered" >      this.category = ErrorCategory.AUTHENTICATION;</span>
@@ -450,21 +450,21 @@ export class <span class="cstat-no" title="statement not covered" >SecurityError
 &nbsp;
 export class <span class="cstat-no" title="statement not covered" >AuthenticationError </span>extends SecurityError {
 <span class="fstat-no" title="function not covered" >  constructor(m</span>essage: string, context: any = <span class="branch-0 cbranch-no" title="branch not covered" >{},</span> metadata: any = <span class="branch-0 cbranch-no" title="branch not covered" >{})</span> {
-<span class="cstat-no" title="statement not covered" >    super(message, SecurityErrorCode.AUTHENTICATION_ERROR, context, metadata);</span>
+<span class="cstat-no" title="statement not covered" >    super(message, SecurityErrorCode.AUTHENTICATION_ERROR, contextmetadata);</span>
 <span class="cstat-no" title="statement not covered" >    this.name = 'AuthenticationError';</span>
   }
 }
 &nbsp;
 export class <span class="cstat-no" title="statement not covered" >AuthorizationError </span>extends SecurityError {
 <span class="fstat-no" title="function not covered" >  constructor(m</span>essage: string, context: any = <span class="branch-0 cbranch-no" title="branch not covered" >{},</span> metadata: any = <span class="branch-0 cbranch-no" title="branch not covered" >{})</span> {
-<span class="cstat-no" title="statement not covered" >    super(message, SecurityErrorCode.AUTHORIZATION_ERROR, context, metadata);</span>
+<span class="cstat-no" title="statement not covered" >    super(message, SecurityErrorCode.AUTHORIZATION_ERROR, contextmetadata);</span>
 <span class="cstat-no" title="statement not covered" >    this.name = 'AuthorizationError';</span>
   }
 }
 &nbsp;
 export class <span class="cstat-no" title="statement not covered" >ValidationError </span>extends SecurityError {
 <span class="fstat-no" title="function not covered" >  constructor(m</span>essage: string, context: any = <span class="branch-0 cbranch-no" title="branch not covered" >{},</span> metadata: any = <span class="branch-0 cbranch-no" title="branch not covered" >{})</span> {
-<span class="cstat-no" title="statement not covered" >    super(message, SecurityErrorCode.VALIDATION_ERROR, context, metadata);</span>
+<span class="cstat-no" title="statement not covered" >    super(message, SecurityErrorCode.VALIDATION_ERROR, contextmetadata);</span>
 <span class="cstat-no" title="statement not covered" >    this.name = 'ValidationError';</span>
   }
 }
@@ -535,7 +535,7 @@ const Security = <span class="cstat-no" title="statement not covered" >{</span>
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T22:15:28.100Z
+                at 2025-06-15T18:50:48.918Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

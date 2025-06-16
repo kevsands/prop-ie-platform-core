@@ -41,7 +41,8 @@ const UserSchema = z.object({
       push: z.boolean()}),
     theme: z.enum(['light', 'dark', 'system'])})});
 
-type User = z.infer<typeof UserSchema>\n  );
+type User = z.infer<typeof UserSchema>
+  );
 interface AuthState {
   user: User | null;
   isAuthenticated: boolean;
@@ -53,29 +54,45 @@ interface AuthState {
 
 interface AuthContextType extends AuthState {
   // Authentication methods
-  signIn: (email: string, password: string, options?: SignInOptions) => Promise<AuthResult>\n  );
-  signUp: (userData: SignUpData) => Promise<AuthResult>\n  );
-  signOut: () => Promise<void>\n  );
-  refreshSession: () => Promise<void>\n  );
+  signIn: (email: string, password: string, options?: SignInOptions) => Promise<AuthResult>
+  );
+  signUp: (userData: SignUpData) => Promise<AuthResult>
+  );
+  signOut: () => Promise<void>
+  );
+  refreshSession: () => Promise<void>
+  );
   // MFA and security
-  enableMFA: () => Promise<void>\n  );
-  verifyMFA: (code: string) => Promise<boolean>\n  );
-  setupBiometric: () => Promise<void>\n  );
-  elevateSecurityLevel: (level: 'elevated' | 'maximum') => Promise<void>\n  );
+  enableMFA: () => Promise<void>
+  );
+  verifyMFA: (code: string) => Promise<boolean>
+  );
+  setupBiometric: () => Promise<void>
+  );
+  elevateSecurityLevel: (level: 'elevated' | 'maximum') => Promise<void>
+  );
   // Session management
   extendSession: () => void;
   lockSession: () => void;
-  unlockSession: (pin: string) => Promise<boolean>\n  );
+  unlockSession: (pin: string) => Promise<boolean>
+  );
   // Device management
-  registerDevice: () => Promise<string>\n  );
-  trustDevice: (deviceId: string) => Promise<void>\n  );
-  removeTrustedDevice: (deviceId: string) => Promise<void>\n  );
+  registerDevice: () => Promise<string>
+  );
+  trustDevice: (deviceId: string) => Promise<void>
+  );
+  removeTrustedDevice: (deviceId: string) => Promise<void>
+  );
   // Compliance
-  updateKYCStatus: (status: string) => Promise<void>\n  );
-  verifyDocuments: (documents: Document[]) => Promise<void>\n  );
+  updateKYCStatus: (status: string) => Promise<void>
+  );
+  verifyDocuments: (documents: Document[]) => Promise<void>
+  );
   // Risk assessment
-  calculateRiskScore: () => Promise<number>\n  );
-  requireStepUpAuth: (action: string) => Promise<boolean>\n  );
+  calculateRiskScore: () => Promise<number>
+  );
+  requireStepUpAuth: (action: string) => Promise<boolean>
+  );
   // Role and permission management
   hasRole: (role: string) => boolean;
   hasPermission: (permission: string) => boolean;
@@ -84,7 +101,8 @@ interface AuthContextType extends AuthState {
   
   // Activity monitoring
   logActivity: (action: string, details?: any) => void;
-  getActivityLog: () => Promise<ActivityLog[]>\n  );
+  getActivityLog: () => Promise<ActivityLog[]>
+  );
 }
 
 interface SignInOptions {
@@ -293,7 +311,7 @@ export function EnhancedAuthProvider({ children }: { children: React.ReactNode }
             given_name: userData.firstName,
             family_name: userData.lastName,
             phone_number: userData.phoneNumber,
-            'custom:role': userData.role}});
+            'custom:role': userData.role});
       
       // Initialize user profile
       await initializeUserProfile({

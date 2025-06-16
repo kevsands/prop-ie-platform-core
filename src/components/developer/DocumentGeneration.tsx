@@ -6,6 +6,9 @@ import type { IconType } from 'react-icons';
 import type { FC } from 'react';
 import { Icon } from '../ui/Icon';
 import { ICON_SIZES, ICON_COLORS } from '../ui/Icon';
+import { useBOQData } from '@/hooks/useBOQData';
+import { excelExportService } from '@/services/excelExportService';
+import { ExcelExportContextMenu } from './context-menus/ExcelExportContextMenu';
 
 interface DocumentGenerationProps {
   projectId: string;
@@ -27,6 +30,10 @@ const DocumentGeneration: React.FC<DocumentGenerationProps> = ({
   constructionCost,
   startDate,
   completionDate}) => {
+  
+  // Fetch BOQ data for integration
+  const { data: boqData, isLoading: isLoadingBOQ } = useBOQData(projectId);
+  
   const [selectedDocTypesetSelectedDocType] = useState<string>("boq");
   const [generatingsetGenerating] = useState<boolean>(false);
   const [generatedDocumentssetGeneratedDocuments] = useState<
@@ -92,23 +99,83 @@ const DocumentGeneration: React.FC<DocumentGenerationProps> = ({
       [name]: type === "checkbox" ? checked : value});
   };
 
-  const handleGenerateDocument = () => {
+  const handleGenerateDocument = async () => {
     setGenerating(true);
 
-    // Simulate document generation
-    setTimeout(() => {
-      const newDoc = {
-        id: (generatedDocuments.length + 1).toString(),
-        name: getDocumentName(),
-        type: selectedDocType,
-        date: new Date().toISOString().split("T")[0],
-        size: `${(Math.random() * 5 + 1).toFixed(1)} MB`,
-        status: "ready" as const,
-        url: "#";
+    try {
+      // If Excel format is selected, use the Excel export service
+      if (customOptions.format === "xlsx") {
+        const exportResult = await excelExportService.exportToExcel({
+          type: selectedDocType,
+          format: 'xlsx',
+          data: {
+            projectId,
+            projectName,
+            boqData,
+            constructionCost,
+            totalUnits
+          },
+          context: selectedDocType === 'boq' ? 'boq' : 'financial'
+        });
 
-      setGeneratedDocuments([newDoc, ...generatedDocuments]);
+        if (exportResult.success) {
+          const newDoc = {
+            id: (generatedDocuments.length + 1).toString(),
+            name: exportResult.filename,
+            type: selectedDocType,
+            date: new Date().toISOString().split("T")[0],
+            size: `${(Math.random() * 5 + 1).toFixed(1)} MB`,
+            status: "ready" as const,
+            url: exportResult.url
+          };
+
+          setGeneratedDocuments([newDoc, ...generatedDocuments]);
+        }
+      } else {
+        // Simulate other document generation
+        setTimeout(() => {
+          const newDoc = {
+            id: (generatedDocuments.length + 1).toString(),
+            name: getDocumentName(),
+            type: selectedDocType,
+            date: new Date().toISOString().split("T")[0],
+            size: `${(Math.random() * 5 + 1).toFixed(1)} MB`,
+            status: "ready" as const,
+            url: "#"
+          };
+
+          setGeneratedDocuments([newDoc, ...generatedDocuments]);
+        }, 2000);
+      }
+    } catch (error) {
+      console.error('Document generation failed:', error);
+    } finally {
       setGenerating(false);
-    }, 2000);
+    }
+  };
+
+  // Handle Excel export from context menu
+  const handleExcelExport = async (type: string, format: string) => {
+    try {
+      const result = await excelExportService.exportToExcel({
+        type,
+        format: format as 'xlsx' | 'csv',
+        data: {
+          projectId,
+          projectName,
+          boqData,
+          constructionCost,
+          totalUnits
+        },
+        context: 'boq'
+      });
+      
+      if (result.success) {
+        console.log('Export successful:', result.filename);
+      }
+    } catch (error) {
+      console.error('Export error:', error);
+    }
   };
 
   const getDocumentName = () => {
@@ -466,37 +533,63 @@ const DocumentGeneration: React.FC<DocumentGenerationProps> = ({
 
             <div className="mb-4">
               <h5 className="font-medium mb-2">Sample BOQ Items:</h5>
-              <table className="min-w-full divide-y divide-gray-200">
-                <thead>
-                  <tr>
-                    <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Item
-                    </th>
-                    <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Description
-                    </th>
-                    <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Cost
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="bg-white divide-y divide-gray-200">
-                  <tr>
-                    <td className="px-4 py-2 text-sm text-gray-700">001</td>
-                    <td className="px-4 py-2 text-sm text-gray-700">
-                      Site Clearance & Foundation
-                    </td>
-                    <td className="px-4 py-2 text-sm text-gray-700">€35,000</td>
-                  </tr>
-                  <tr>
-                    <td className="px-4 py-2 text-sm text-gray-700">002</td>
-                    <td className="px-4 py-2 text-sm text-gray-700">
-                      Concrete Slab & Formwork
-                    </td>
-                    <td className="px-4 py-2 text-sm text-gray-700">€27,500</td>
-                  </tr>
-                </tbody>
-              </table>
+              <ExcelExportContextMenu
+                context="boq"
+                data={boqData}
+                onExport={handleExcelExport}
+              >
+                <table className="min-w-full divide-y divide-gray-200 cursor-context-menu">
+                  <thead>
+                    <tr>
+                      <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Item
+                      </th>
+                      <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Description
+                      </th>
+                      <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Cost
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody className="bg-white divide-y divide-gray-200">
+                    {boqData?.items ? (
+                      boqData.items.slice(0).map((itemindex) => (
+                        <tr key={item.id}>
+                          <td className="px-4 py-2 text-sm text-gray-700">{index + 1}</td>
+                          <td className="px-4 py-2 text-sm text-gray-700">
+                            {item.description}
+                          </td>
+                          <td className="px-4 py-2 text-sm text-gray-700">€{item.amount.toLocaleString()}</td>
+                        </tr>
+                      ))
+                    ) : (
+                      <>
+                        <tr>
+                          <td className="px-4 py-2 text-sm text-gray-700">001</td>
+                          <td className="px-4 py-2 text-sm text-gray-700">
+                            Site Clearance & Foundation
+                          </td>
+                          <td className="px-4 py-2 text-sm text-gray-700">€35,000</td>
+                        </tr>
+                        <tr>
+                          <td className="px-4 py-2 text-sm text-gray-700">002</td>
+                          <td className="px-4 py-2 text-sm text-gray-700">
+                            Concrete Slab & Formwork
+                          </td>
+                          <td className="px-4 py-2 text-sm text-gray-700">€27,500</td>
+                        </tr>
+                      </>
+                    )}
+                  </tbody>
+                </table>
+              </ExcelExportContextMenu>
+              
+              {boqData && (
+                <div className="mt-2 text-xs text-gray-500">
+                  Right-click the table to export BOQ data to Excel
+                </div>
+              )}
             </div>
           </div>
         </div>

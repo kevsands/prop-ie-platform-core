@@ -358,7 +358,7 @@ export default function DeveloperDashboard({ developerId }: DeveloperDashboardPr
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {projects.slice(03).map(project: any => (
+                  {projects.slice(0).map(project: any => (
                     <ProjectOverview key={project.id} project: any={project: any} />
                   ))}
                 </div>

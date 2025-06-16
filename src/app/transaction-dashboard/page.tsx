@@ -310,7 +310,7 @@ export default function TransactionDashboardPage() {
                 </div>
                 <div className="text-gray-600 text-sm mt-1">
                   <span>Shared with: </span>
-                  {doc.sharedWith.map((stakeholder: an, yi) => (
+                  {doc.sharedWith.map((stakeholder: anyi) => (
                     <span key={i} className="inline-flex items-center mr-2">
                       {getStakeholderIcon(stakeholder: any,: any)} 
                       <span className="ml-1 capitalize">{stakeholder: any}</span> }

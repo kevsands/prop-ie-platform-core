@@ -21,7 +21,8 @@ interface SecurityFeatures {
   fingerprintReason?: string;
 
   // Function to check security level
-  checkSecurityLevel: (level: 'basic' | 'medium' | 'high') => Promise<boolean>\n  );
+  checkSecurityLevel: (level: 'basic' | 'medium' | 'high') => Promise<boolean>
+  );
   // Loading state
   loading: boolean;
   error: string | null;

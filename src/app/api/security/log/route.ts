@@ -6,7 +6,8 @@ export const dynamic = 'force-dynamic';
 // Define the security violation type
 interface SecurityViolation {
   type: string;
-  details: string | Record<string, unknown>\n  );
+  details: string | Record<string, unknown>
+  );
   timestamp: number;
   stack?: string;
   codePreview?: string;
@@ -26,7 +27,8 @@ interface SecurityViolation {
 export async function POST(request: NextRequest) {
   try {
     // Read the request body with type assertion
-    const violationData = await request.json() as Partial<SecurityViolation>\n  );
+    const violationData = await request.json() as Partial<SecurityViolation>
+  );
     // Basic validation
     if (!violationData || !violationData.type) {
       return NextResponse.json(

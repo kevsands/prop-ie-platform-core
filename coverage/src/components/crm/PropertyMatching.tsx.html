@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/82</span>
+                <span class='fraction'>0/79</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/74</span>
+                <span class='fraction'>0/71</span>
             </div>
         
             
@@ -508,16 +508,7 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -525,11 +516,20 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -862,7 +862,7 @@ const PropertyMatching: React.FC&lt;PropertyMatchingProps&gt; = <span class="cst
   onMatchesFound
 }) =&gt; {
   const crmService = <span class="cstat-no" title="statement not covered" >new EstateAgentCRMService();</span>
-  
+&nbsp;
   const [loading, setLoading] = <span class="cstat-no" title="statement not covered" >useState(false);</span>
   const [matches, setMatches] = <span class="cstat-no" title="statement not covered" >useState&lt;PropertyMatch[]&gt;([]);</span>
   const [selectedLead, setSelectedLead] = <span class="cstat-no" title="statement not covered" >useState&lt;Lead | null&gt;(null);</span>
@@ -891,7 +891,7 @@ const PropertyMatching: React.FC&lt;PropertyMatchingProps&gt; = <span class="cst
       const data = <span class="cstat-no" title="statement not covered" >await crmService.getLeads();</span>
 <span class="cstat-no" title="statement not covered" >      setLeads(data);</span>
     } catch (error) {
-<span class="cstat-no" title="statement not covered" >      console.error('Failed to fetch leads:', error);</span>
+&nbsp;
     }
   };
 &nbsp;
@@ -900,7 +900,7 @@ const PropertyMatching: React.FC&lt;PropertyMatchingProps&gt; = <span class="cst
       const data = <span class="cstat-no" title="statement not covered" >await crmService.getProperties();</span>
 <span class="cstat-no" title="statement not covered" >      setProperties(data);</span>
     } catch (error) {
-<span class="cstat-no" title="statement not covered" >      console.error('Failed to fetch properties:', error);</span>
+&nbsp;
     }
   };
 &nbsp;
@@ -912,7 +912,7 @@ const PropertyMatching: React.FC&lt;PropertyMatchingProps&gt; = <span class="cst
 <span class="cstat-no" title="statement not covered" >        findMatches(lead);</span>
       }
     } catch (error) {
-<span class="cstat-no" title="statement not covered" >      console.error('Failed to fetch lead:', error);</span>
+&nbsp;
     }
   };
 &nbsp;
@@ -921,7 +921,7 @@ const PropertyMatching: React.FC&lt;PropertyMatchingProps&gt; = <span class="cst
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    setLoading(true);</span>
 <span class="cstat-no" title="statement not covered" >    setError(null);</span>
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    try {</span>
       const matches = <span class="cstat-no" title="statement not covered" >await crmService.findPropertyMatches(lead.id, matchingCriteria);</span>
 <span class="cstat-no" title="statement not covered" >      setMatches(matches);</span>
@@ -942,7 +942,7 @@ const PropertyMatching: React.FC&lt;PropertyMatchingProps&gt; = <span class="cst
 <span class="cstat-no" title="statement not covered" >      setError(null);</span>
     } catch (error) {
 <span class="cstat-no" title="statement not covered" >      setError('Failed to save matching criteria');</span>
-<span class="cstat-no" title="statement not covered" >      console.error(error);</span>
+<span class="cstat-no" title="statement not covered" >      console.error('Error saving matching criteria:', error);</span>
     }
   };
 &nbsp;
@@ -966,7 +966,7 @@ const PropertyMatching: React.FC&lt;PropertyMatchingProps&gt; = <span class="cst
               &lt;select
                 className="w-full mt-1 border rounded-md px-3 py-2"
                 value={selectedLead?.id || ''}
-                onChange={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; {
+                onChange={<span class="fstat-no" title="function not covered" >(e</span>: any) =&gt; {
                   const lead = <span class="cstat-no" title="statement not covered" >leads.find(<span class="fstat-no" title="function not covered" >l =&gt; <span class="cstat-no" title="statement not covered" >l</span>.id === e.target.value)</span>;</span>
 <span class="cstat-no" title="statement not covered" >                  <span class="missing-if-branch" title="if path not taken" >I</span>if (lead) {</span>
 <span class="cstat-no" title="statement not covered" >                    setSelectedLead(lead);</span>
@@ -1075,7 +1075,7 @@ const PropertyMatching: React.FC&lt;PropertyMatchingProps&gt; = <span class="cst
             {<span class="branch-0 cbranch-no" title="branch not covered" >showAdvancedSettings &amp;&amp; (</span>
               &lt;div className="space-y-4 pt-4 border-t"&gt;
                 &lt;h4 className="font-medium"&gt;Tolerance Settings&lt;/h4&gt;
-                
+&nbsp;
                 &lt;div&gt;
                   &lt;Label&gt;Price Tolerance: {matchingCriteria.price.tolerance}%&lt;/Label&gt;
                   &lt;Slider
@@ -1133,9 +1133,9 @@ const PropertyMatching: React.FC&lt;PropertyMatchingProps&gt; = <span class="cst
                 &lt;div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-primary mx-auto"&gt;&lt;/div&gt;
                 &lt;p className="mt-2 text-gray-600"&gt;Finding best matches...&lt;/p&gt;
               &lt;/div&gt;
-            ) : matches.length &gt; 0 ? (
+            ) : matches.length&gt; 0 ? (
 <span class="branch-0 cbranch-no" title="branch not covered" >              &lt;div className="space-y-4"&gt;</span>
-                {matches.map(<span class="fstat-no" title="function not covered" >(m</span>atch) =&gt; (
+                {matches.map(<span class="fstat-no" title="function not covered" >(m</span>atch: any) =&gt; (
 <span class="cstat-no" title="statement not covered" >                  &lt;div</span>
                     key={match.property.id}
                     className="border rounded-lg p-4 hover:bg-gray-50 transition-colors"
@@ -1219,7 +1219,7 @@ const PropertyMatching: React.FC&lt;PropertyMatchingProps&gt; = <span class="cst
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T22:15:28.100Z
+                at 2025-06-15T18:50:48.918Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

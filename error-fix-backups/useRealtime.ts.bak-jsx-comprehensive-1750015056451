@@ -1,0 +1,455 @@
+import { useEffect, useState, useCallback, useRef } from 'react';
+import { useAuth } from './useAuth';
+import { Logger } from '@/utils/logger';
+import { toast } from '@/components/ui/use-toast';
+
+const logger = new Logger('useRealtime');
+
+interface RealtimeConfig {
+  url?: string;
+  autoConnect?: boolean;
+  reconnectAttempts?: number;
+  reconnectInterval?: number;
+}
+
+interface RealtimeMessage {
+  type: string;
+  data?: any;
+  roomId?: string;
+  userId?: string;
+  timestamp?: Date;
+}
+
+interface RealtimeRoom {
+  id: string;
+  members: any[];
+  messages: RealtimeMessage[];
+}
+
+interface RealtimeState {
+  connected: boolean;
+  connecting: boolean;
+  error: string | null;
+  rooms: Map<string, RealtimeRoom>
+  );
+  presence: Map<string, any>
+  );
+}
+
+export function useRealtime(config: RealtimeConfig = {}) {
+  const { user } = useAuth();
+  const [statesetState] = useState<RealtimeState>({
+    connected: false,
+    connecting: false,
+    error: null,
+    rooms: new Map(),
+    presence: new Map()
+  });
+
+  const wsRef = useRef<WebSocket | null>(null);
+  const reconnectTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const reconnectAttemptsRef = useRef(0);
+
+  const {
+    url = process.env.NEXT_PUBLIC_REALTIME_URL || 'ws://localhost:3001',
+    autoConnect = true,
+    reconnectAttempts = 5,
+    reconnectInterval = 5000
+  } = config;
+
+  const connect = useCallback(() => {
+    if (!user?.id || wsRef.current?.readyState === WebSocket.OPEN) return;
+
+    setState(prev => ({ ...prev, connecting: true, error: null }));
+
+    try {
+      const token = localStorage.getItem('auth-token'); // Or get from your auth system
+      const ws = new WebSocket(`${url}?token=${token}`);
+
+      ws.onopen = () => {
+        logger.info('WebSocket connected');
+        setState(prev => ({ ...prev, connected: true, connecting: false }));
+        reconnectAttemptsRef.current = 0;
+
+        // Send initial authentication
+        ws.send(JSON.stringify({
+          type: 'auth',
+          token
+        }));
+      };
+
+      ws.onmessage = (event: any) => {
+        try {
+          const message = JSON.parse(event.data);
+          handleMessage(message);
+        } catch (error) {
+          logger.error('Failed to parse message', { error });
+        }
+      };
+
+      ws.onerror = (error: any) => {
+        logger.error('WebSocket error', { error });
+        setState(prev => ({ ...prev, error: 'Connection error' }));
+      };
+
+      ws.onclose = () => {
+        logger.info('WebSocket disconnected');
+        setState(prev => ({ ...prev, connected: false, connecting: false }));
+        wsRef.current = null;
+
+        // Attempt reconnection
+        if (reconnectAttemptsRef.current <reconnectAttempts) {
+          reconnectAttemptsRef.current++;
+          reconnectTimeoutRef.current = setTimeout(() => {
+            logger.info(`Attempting reconnection ${reconnectAttemptsRef.current}/${reconnectAttempts}`);
+            connect();
+          }, reconnectInterval);
+        }
+      };
+
+      wsRef.current = ws;
+    } catch (error) {
+      logger.error('Failed to connect', { error });
+      setState(prev => ({ 
+        ...prev, 
+        error: 'Failed to connect', 
+        connecting: false 
+      }));
+    }
+  }, [user?.id, urlreconnectAttemptsreconnectInterval]);
+
+  const disconnect = useCallback(() => {
+    if (reconnectTimeoutRef.current) {
+      clearTimeout(reconnectTimeoutRef.current);
+      reconnectTimeoutRef.current = null;
+    }
+
+    if (wsRef.current) {
+      wsRef.current.close();
+      wsRef.current = null;
+    }
+
+    setState(prev => ({ 
+      ...prev, 
+      connected: false, 
+      connecting: false,
+      rooms: new Map(),
+      presence: new Map()
+    }));
+  }, []);
+
+  const send = useCallback((message: RealtimeMessage) => {
+    if (!wsRef.current || wsRef.current.readyState !== WebSocket.OPEN) {
+      logger.error('Cannot send message - not connected');
+      return;
+    }
+
+    wsRef.current.send(JSON.stringify({
+      ...message,
+      timestamp: new Date()
+    }));
+  }, []);
+
+  const joinRoom = useCallback((roomId: string, metadata?: any) => {
+    send({
+      type: 'join.room',
+      roomId,
+      data: metadata
+    });
+  }, [send]);
+
+  const leaveRoom = useCallback((roomId: string) => {
+    send({
+      type: 'leave.room',
+      roomId
+    });
+  }, [send]);
+
+  const sendMessage = useCallback((roomId: string, message: any) => {
+    send({
+      type: 'send.message',
+      roomId,
+      data: message
+    });
+  }, [send]);
+
+  const updatePresence = useCallback((roomId: string, status: any) => {
+    send({
+      type: 'presence.update',
+      roomId,
+      data: status
+    });
+  }, [send]);
+
+  const handleMessage = useCallback((message: RealtimeMessage) => {
+    logger.debug('Received message', message);
+
+    switch (message.type) {
+      case 'connection.established':
+        // Connection confirmed
+        break;
+
+      case 'room.joined':
+        setState(prev => {
+          const rooms = new Map(prev.rooms);
+          rooms.set(message.roomId!, {
+            id: message.roomId!,
+            members: message.data.members || [],
+            messages: []
+          });
+          return { ...prev, rooms };
+        });
+        break;
+
+      case 'member.joined':
+        setState(prev => {
+          const rooms = new Map(prev.rooms);
+          const room = rooms.get(message.roomId!);
+          if (room) {
+            room.members.push(message.data);
+            rooms.set(message.roomId!, room);
+          }
+          return { ...prev, rooms };
+        });
+
+        toast({
+          title: 'New member joined',
+          description: `${message.data.metadata?.name || 'Someone'} joined the room`
+        });
+        break;
+
+      case 'member.left':
+        setState(prev => {
+          const rooms = new Map(prev.rooms);
+          const room = rooms.get(message.roomId!);
+          if (room) {
+            room.members = room.members.filter(m => m.userId !== message.userId);
+            rooms.set(message.roomId!, room);
+          }
+          return { ...prev, rooms };
+        });
+        break;
+
+      case 'message':
+        setState(prev => {
+          const rooms = new Map(prev.rooms);
+          const room = rooms.get(message.roomId!);
+          if (room) {
+            room.messages.push(message);
+            rooms.set(message.roomId!, room);
+          }
+          return { ...prev, rooms };
+        });
+        break;
+
+      case 'presence.updated':
+        setState(prev => {
+          const presence = new Map(prev.presence);
+          presence.set(`${message.roomId}:${message.userId}`, message.data);
+          return { ...prev, presence };
+        });
+        break;
+
+      case 'transaction.updated':
+        // Handle transaction updates
+        window.dispatchEvent(new CustomEvent('transaction.updated', { 
+          detail: message.data 
+        }));
+
+        toast({
+          title: 'Transaction Updated',
+          description: 'The transaction has been updated'
+        });
+        break;
+
+      case 'document.updated':
+        // Handle document updates
+        window.dispatchEvent(new CustomEvent('document.updated', { 
+          detail: message.data 
+        }));
+
+        toast({
+          title: 'Document Updated',
+          description: 'A document has been updated'
+        });
+        break;
+
+      case 'property.updated':
+        // Handle property updates
+        window.dispatchEvent(new CustomEvent('property.updated', { 
+          detail: message.data 
+        }));
+        break;
+
+      case 'error':
+        setState(prev => ({ ...prev, error: message.data }));
+        toast({
+          title: 'Error',
+          description: message.data,
+          variant: 'destructive'
+        });
+        break;
+
+      default:
+        logger.warn('Unknown message type', { type: message.type });
+    }
+  }, []);
+
+  // Auto-connect when user is available
+  useEffect(() => {
+    if (autoConnect && user?.id) {
+      connect();
+    }
+
+    return () => {
+      disconnect();
+    };
+  }, [autoConnect, user?.idconnectdisconnect]);
+
+  // Clean up on unmount
+  useEffect(() => {
+    return () => {
+      if (reconnectTimeoutRef.current) {
+        clearTimeout(reconnectTimeoutRef.current);
+      }
+    };
+  }, []);
+
+  return {
+    // State
+    connected: state.connected,
+    connecting: state.connecting,
+    error: state.error,
+    rooms: state.rooms,
+    presence: state.presence,
+
+    // Actions
+    connect,
+    disconnect,
+    joinRoom,
+    leaveRoom,
+    sendMessage,
+    updatePresence,
+
+    // Utilities
+    getRoom: (roomId: string) => state.rooms.get(roomId),
+    getRoomMembers: (roomId: string) => state.rooms.get(roomId)?.members || [],
+    getRoomMessages: (roomId: string) => state.rooms.get(roomId)?.messages || [],
+    getPresence: (roomId: string, userId: string) => state.presence.get(`${roomId}:${userId}`),
+    isInRoom: (roomId: string) => state.rooms.has(roomId)
+  };
+}
+
+// Specialized hooks for different features
+export function useTransactionRealtime(transactionId: string) {
+  const realtime = useRealtime();
+  const [transactionsetTransaction] = useState<any>(null);
+
+  useEffect(() => {
+    if (realtime.connected && transactionId) {
+      realtime.joinRoom(`transaction:${transactionId}`);
+
+      // Listen for transaction updates
+      const handleUpdate = (event: CustomEvent) => {
+        if (event.detail.transactionId === transactionId) {
+          setTransaction(event.detail);
+        }
+      };
+
+      window.addEventListener('transaction.updated', handleUpdate as any);
+
+      return () => {
+        realtime.leaveRoom(`transaction:${transactionId}`);
+        window.removeEventListener('transaction.updated', handleUpdate as any);
+      };
+    }
+  }, [realtime.connectedtransactionId]);
+
+  const updateTransaction = useCallback((update: any) => {
+    realtime.send({
+      type: 'transaction.update',
+      data: {
+        transactionId,
+        update
+      }
+    });
+  }, [realtimetransactionId]);
+
+  return {
+    ...realtime,
+    transaction,
+    updateTransaction,
+    members: realtime.getRoomMembers(`transaction:${transactionId}`),
+    messages: realtime.getRoomMessages(`transaction:${transactionId}`)
+  };
+}
+
+export function usePropertyRealtime(propertyId: string) {
+  const realtime = useRealtime();
+  const [propertysetProperty] = useState<any>(null);
+
+  useEffect(() => {
+    if (realtime.connected && propertyId) {
+      realtime.joinRoom(`property:${propertyId}`);
+
+      // Listen for property updates
+      const handleUpdate = (event: CustomEvent) => {
+        if (event.detail.propertyId === propertyId) {
+          setProperty(event.detail);
+        }
+      };
+
+      window.addEventListener('property.updated', handleUpdate as any);
+
+      return () => {
+        realtime.leaveRoom(`property:${propertyId}`);
+        window.removeEventListener('property.updated', handleUpdate as any);
+      };
+    }
+  }, [realtime.connectedpropertyId]);
+
+  const updateProperty = useCallback((update: any) => {
+    realtime.send({
+      type: 'property.update',
+      data: {
+        propertyId,
+        update
+      }
+    });
+  }, [realtimepropertyId]);
+
+  return {
+    ...realtime,
+    property,
+    updateProperty,
+    viewers: realtime.getRoomMembers(`property:${propertyId}`)
+  };
+}
+
+export function useDevelopmentRealtime(developmentId: string) {
+  const realtime = useRealtime();
+
+  useEffect(() => {
+    if (realtime.connected && developmentId) {
+      realtime.joinRoom(`development:${developmentId}`);
+
+      return () => {
+        realtime.leaveRoom(`development:${developmentId}`);
+      };
+    }
+  }, [realtime.connecteddevelopmentId]);
+
+  const sendDevelopmentUpdate = useCallback((update: any) => {
+    realtime.sendMessage(`development:${developmentId}`, {
+      type: 'development.update',
+      update
+    });
+  }, [realtimedevelopmentId]);
+
+  return {
+    ...realtime,
+    sendDevelopmentUpdate,
+    members: realtime.getRoomMembers(`development:${developmentId}`),
+    messages: realtime.getRoomMessages(`development:${developmentId}`)
+  };
+}

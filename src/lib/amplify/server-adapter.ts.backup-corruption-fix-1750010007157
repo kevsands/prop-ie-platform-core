@@ -1,0 +1,289 @@
+/**
+ * AWS Amplify Server Adapter
+ * 
+ * This module provides a server-safe way to access AWS services from server components.
+ * It implements a subset of AWS Amplify functionality that is compatible with
+ * Next.js server components, handling token management and API requests without
+ * depending on browser APIs.
+ * 
+ * For client-side components, use the standard Amplify modules instead.
+ */
+
+import { cookies, headers } from 'next/headers';
+import amplifyConfig from './config';
+
+/**
+ * Environment utilities to check where code is executing
+ */
+export const isServer = typeof window === 'undefined';
+export const isClient = !isServer;
+
+/**
+ * Error types for server adapter
+ */
+export class ServerAdapterError extends Error {
+  statusCode?: number;
+
+  constructor(message: string, statusCode?: number) {
+    super(message);
+    this.name = 'ServerAdapterError';
+    this.statusCode = statusCode;
+  }
+}
+
+/**
+ * Server-side fetch utility with caching and revalidation support
+ */
+async function serverFetch<T = any>(
+  url: string, 
+  options: RequestInit & {
+    revalidate?: number | false;
+    tags?: string[];
+  } = {}
+): Promise<T> {
+  try {
+    const { revalidate, tags, ...fetchOptions } = options;
+
+    const response = await fetch(url, {
+      ...fetchOptions,
+      // Add Next.js caching options
+      next: {
+        revalidate: revalidate,
+        tags: tags
+      }
+    });
+
+    if (!response.ok) {
+      throw new ServerAdapterError(
+        `Server fetch failed: ${response.status} ${response.statusText}`,
+        response.status
+      );
+    }
+
+    const contentType = response.headers.get('content-type');
+    if (contentType?.includes('application/json')) {
+      return await response.json() as T;
+    } else {
+      return await response.text() as unknown as T;
+    }
+  } catch (error) {
+    if (error instanceof ServerAdapterError) {
+      throw error;
+    }
+    throw new ServerAdapterError(
+      `Server fetch error: ${error instanceof Error ? error.message : String(error)}`
+    );
+  }
+}
+
+/**
+ * Extract auth token from cookies or authorization header
+ */
+function getServerAuthToken(): string | null {
+  try {
+    // Try to get token from cookies first
+    const cookieStore = cookies();
+    const authCookie = cookieStore.get('auth_access_token');
+
+    if (authCookie?.value) {
+      return authCookie.value;
+    }
+
+    // Fallback to authorization header
+    const headersList = headers();
+    const authHeader = headersList.get('authorization');
+
+    if (authHeader?.startsWith('Bearer ')) {
+      return authHeader.substring(7);
+    }
+
+    return null;
+  } catch (error) {
+
+    return null;
+  }
+}
+
+/**
+ * Server-safe API client that uses the Next.js fetch implementation
+ */
+export const ServerAPI = {
+  /**
+   * Get REST API endpoint from configuration
+   */
+  getApiEndpoint(apiName: string = 'PropAPI'): string {
+    const endpoint = process.env.NEXT_PUBLIC_API_ENDPOINT || 
+                     amplifyConfig.API?.REST?.[apiName]?.endpoint;
+
+    if (!endpoint) {
+      throw new ServerAdapterError(`API endpoint not configured for ${apiName}`);
+    }
+
+    return endpoint;
+  },
+
+  /**
+   * Get GraphQL API endpoint from configuration
+   */
+  getGraphQLEndpoint(): string {
+    const endpoint = process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT || 
+                     amplifyConfig.API?.GraphQL?.endpoint;
+
+    if (!endpoint) {
+      throw new ServerAdapterError('GraphQL endpoint not configured');
+    }
+
+    return endpoint;
+  },
+
+  /**
+   * Make a REST API GET request
+   */
+  async get<T = any>(
+    path: string,
+    options: {
+      queryParams?: Record<string, string | number | boolean>\n  );
+      headers?: Record<string, string>\n  );
+      revalidate?: number | false;
+      tags?: string[];
+    } = {}
+  ): Promise<T> {
+    const { queryParams, headers = {}, revalidate, tags } = options;
+
+    // Build the URL
+    let url = path.startsWith('http') ? path : `${this.getApiEndpoint()}${path.startsWith('/') ? path : `/${path}`}`;
+
+    // Add query parameters if provided
+    if (queryParams && Object.keys(queryParams).length> 0) {
+      const queryString = Object.entries(queryParams)
+        .map(([keyvalue]) => `${encodeURIComponent(key)}=${encodeURIComponent(String(value))}`)
+        .join('&');
+      url += `?${queryString}`;
+    }
+
+    // Get auth token
+    const token = getServerAuthToken();
+    const authHeaders: Record<string, string> = {};
+    if (token) {
+      authHeaders['Authorization'] = `Bearer ${token}`;
+    }
+
+    // Make the request
+    return serverFetch<T>(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        ...authHeaders,
+        ...headers
+      },
+      revalidate,
+      tags
+    });
+  },
+
+  /**
+   * Make a REST API POST request
+   */
+  async post<T = any>(
+    path: string,
+    body: any,
+    options: {
+      headers?: Record<string, string>\n  );
+      queryParams?: Record<string, string | number | boolean>\n  );
+      revalidate?: number | false;
+      tags?: string[];
+    } = {}
+  ): Promise<T> {
+    const { headers = {}, queryParams, revalidate, tags } = options;
+
+    // Build the URL
+    let url = path.startsWith('http') ? path : `${this.getApiEndpoint()}${path.startsWith('/') ? path : `/${path}`}`;
+
+    // Add query parameters if provided
+    if (queryParams && Object.keys(queryParams).length> 0) {
+      const queryString = Object.entries(queryParams)
+        .map(([keyvalue]) => `${encodeURIComponent(key)}=${encodeURIComponent(String(value))}`)
+        .join('&');
+      url += `?${queryString}`;
+    }
+
+    // Get auth token
+    const token = getServerAuthToken();
+    const authHeaders: Record<string, string> = {};
+    if (token) {
+      authHeaders['Authorization'] = `Bearer ${token}`;
+    }
+
+    // Make the request
+    return serverFetch<T>(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        ...authHeaders,
+        ...headers
+      },
+      body: JSON.stringify(body),
+      revalidate,
+      tags
+    });
+  },
+
+  /**
+   * Execute a GraphQL operation on the server
+   */
+  async graphql<T = any>(
+    options: {
+      query: string;
+      variables?: Record<string, any>\n  );
+      operationName?: string;
+      revalidate?: number | false;
+      tags?: string[];
+    }
+  ): Promise<T> {
+    const { query, variables = {}, operationName, revalidate, tags } = options;
+
+    // Get the GraphQL endpoint
+    const url = this.getGraphQLEndpoint();
+
+    // Get auth token
+    const token = getServerAuthToken();
+    const authHeaders: Record<string, string> = {};
+    if (token) {
+      authHeaders['Authorization'] = `Bearer ${token}`;
+    }
+
+    // Build the request body
+    const body = {
+      query,
+      variables,
+      operationName
+    };
+
+    // Make the request
+    const response = await serverFetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        ...authHeaders
+      },
+      body: JSON.stringify(body),
+      revalidate,
+      tags
+    });
+
+    // Check for GraphQL errors
+    if (response.errors) {
+      throw new ServerAdapterError(
+        `GraphQL error: ${response.errors[0]?.message || 'Unknown GraphQL error'}`,
+        response.errors[0]?.extensions?.statusCode
+      );
+    }
+
+    return response.data as T;
+  }
+};
+
+/**
+ * Main export for server components
+ */
+export default ServerAPI;

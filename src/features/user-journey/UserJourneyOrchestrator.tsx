@@ -25,8 +25,8 @@ interface UserJourneyProps {
 export function UserJourneyOrchestrator({ role: propRole, journeyId }: UserJourneyProps) {
   const { user, hasRole } = useAuth();
   const router = useRouter();
-  const [activeRolesetActiveRole] = useState<string>(propRole || user?.role || 'BUYER');
-  const [loadingsetLoading] = useState(true);
+  const [activeRole, setActiveRole] = useState<string>(propRole || user?.role || 'BUYER');
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     // Determine the user's primary role or allow role switching for multi-role users
@@ -38,22 +38,22 @@ export function UserJourneyOrchestrator({ role: propRole, journeyId }: UserJourn
       }
       setLoading(false);
     }
-  }, [user, propRolehasRole]);
+  }, [user, propRole, hasRole]);
 
   const getRoleIcon = (role: string) => {
     switch (role) {
       case 'BUYER':
-        return <HomeIcon className="h-6 w-6" />\n  );
+        return <HomeIcon className="h-6 w-6" />;
       case 'DEVELOPER':
-        return <BuildingOfficeIcon className="h-6 w-6" />\n  );
+        return <BuildingOfficeIcon className="h-6 w-6" />;
       case 'SOLICITOR':
-        return <ScaleIcon className="h-6 w-6" />\n  );
+        return <ScaleIcon className="h-6 w-6" />;
       case 'INVESTOR':
-        return <ChartBarIcon className="h-6 w-6" />\n  );
+        return <ChartBarIcon className="h-6 w-6" />;
       case 'AGENT':
-        return <UserIcon className="h-6 w-6" />\n  );
+        return <UserIcon className="h-6 w-6" />;
       default:
-        return <DocumentTextIcon className="h-6 w-6" />\n  );
+        return <DocumentTextIcon className="h-6 w-6" />;
     }
   };
 
@@ -77,17 +77,17 @@ export function UserJourneyOrchestrator({ role: propRole, journeyId }: UserJourn
   const renderJourneyComponent = () => {
     switch (activeRole) {
       case 'BUYER':
-        return <BuyerJourneyManager />\n  );
+        return <BuyerJourneyManager />;
       case 'DEVELOPER':
-        return <DeveloperProjectWorkflow projectId={journeyId || 'default'} />\n  );
+        return <DeveloperProjectWorkflow projectId={journeyId || 'default'} />;
       case 'SOLICITOR':
-        return <SolicitorTransactionFlow transactionId={journeyId || 'default'} />\n  );
+        return <SolicitorTransactionFlow transactionId={journeyId || 'default'} />;
       case 'INVESTOR':
-        return <InvestorPortfolioDashboard />\n  );
+        return <InvestorPortfolioDashboard />;
       case 'AGENT':
-        return <AgentSalesPipeline />\n  );
+        return <AgentSalesPipeline />;
       default:
-        return <DefaultJourneyView />\n  );
+        return <DefaultJourneyView />;
     }
   };
 

@@ -123,7 +123,7 @@ export function createTestCoverageData(options: {
     { id: 11, name: 'Number zero', value: 0 },
     { id: 12, name: 'Negative number', value: -1 },
     { id: 13, name: 'Array empty', value: [] },
-    { id: 14, name: 'Array with values', value: [1, 23] },
+    { id: 14, name: 'Array with values', value: [123] },
     { id: 15, name: 'Object empty', value: {} },
     { id: 16, name: 'Object with values', value: { key: 'value' } }] : [];
   

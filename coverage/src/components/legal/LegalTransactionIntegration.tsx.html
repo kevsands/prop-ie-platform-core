@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/48</span>
+                <span class='fraction'>0/46</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/47</span>
+                <span class='fraction'>0/45</span>
             </div>
         
             
@@ -471,24 +471,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -497,6 +479,24 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -518,7 +518,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -795,9 +795,9 @@ export const <span class="cstat-no" title="statement not covered" >LegalTransact
   existingTransactionId
 }) =&gt; {
   const router = <span class="cstat-no" title="statement not covered" >useRouter();</span>
-  const [showLegalFlow, setShowLegalFlow] = <span class="cstat-no" title="statement not covered" >useState(false);</span>
-  const [transactionData, setTransactionData] = <span class="cstat-no" title="statement not covered" >useState&lt;any&gt;(null);</span>
-  const [loading, setLoading] = <span class="cstat-no" title="statement not covered" >useState(false);</span>
+  const [showLegalFlowsetShowLegalFlow] = <span class="cstat-no" title="statement not covered" >useState(false);</span>
+  const [transactionDatasetTransactionData] = <span class="cstat-no" title="statement not covered" >useState&lt;any&gt;(null);</span>
+  const [loadingsetLoading] = <span class="cstat-no" title="statement not covered" >useState(false);</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  useEffect(<span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (existingTransactionId) {</span>
@@ -810,17 +810,17 @@ export const <span class="cstat-no" title="statement not covered" >LegalTransact
 <span class="cstat-no" title="statement not covered" >      setLoading(true);</span>
       const response = <span class="cstat-no" title="statement not covered" >await fetch(`/api/transactions/${existingTransactionId}`);</span>
       const data = <span class="cstat-no" title="statement not covered" >await response.json();</span>
-      
+&nbsp;
 <span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (data.success) {</span>
 <span class="cstat-no" title="statement not covered" >        setTransactionData(data.data);</span>
-        
+&nbsp;
         // Check if legal flow is already in progress
 <span class="cstat-no" title="statement not covered" >        <span class="missing-if-branch" title="if path not taken" >I</span>if (data.data.legalReservation) {</span>
 <span class="cstat-no" title="statement not covered" >          setShowLegalFlow(true);</span>
         }
       }
     } catch (error) {
-<span class="cstat-no" title="statement not covered" >      console.error('Error loading transaction:', error);</span>
+&nbsp;
     } finally {
 <span class="cstat-no" title="statement not covered" >      setLoading(false);</span>
     }
@@ -833,9 +833,9 @@ export const <span class="cstat-no" title="statement not covered" >LegalTransact
   const handleLegalComplete = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >async (t</span>ransactionId: string) =&gt; {</span>
     // Update existing transaction with legal completion
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (existingTransactionId) {</span>
-<span class="cstat-no" title="statement not covered" >      await updateTransactionWithLegalCompletion(existingTransactionId, transactionId);</span>
+<span class="cstat-no" title="statement not covered" >      await updateTransactionWithLegalCompletion(existingTransactionIdtransactionId);</span>
     }
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    if (onComplete) {</span>
 <span class="cstat-no" title="statement not covered" >      onComplete(transactionId);</span>
     } else {
@@ -867,7 +867,7 @@ export const <span class="cstat-no" title="statement not covered" >LegalTransact
         })
       });
     } catch (error) {
-<span class="cstat-no" title="statement not covered" >      console.error('Error updating transaction:', error);</span>
+&nbsp;
     }
   };
 &nbsp;
@@ -921,7 +921,7 @@ export const <span class="cstat-no" title="statement not covered" >LegalTransact
             &lt;div&gt;
               &lt;h3 className="font-semibold text-lg mb-2"&gt;{unitDetails.name}&lt;/h3&gt;
               &lt;p className="text-gray-600 mb-4"&gt;{unitDetails.address}&lt;/p&gt;
-              
+&nbsp;
               &lt;div className="space-y-2"&gt;
                 &lt;div className="flex justify-between"&gt;
                   &lt;span className="text-gray-600"&gt;Property Type:&lt;/span&gt;
@@ -937,7 +937,7 @@ export const <span class="cstat-no" title="statement not covered" >LegalTransact
                 &lt;/div&gt;
               &lt;/div&gt;
             &lt;/div&gt;
-            
+&nbsp;
             &lt;div className="border-l pl-6"&gt;
               &lt;div className="space-y-4"&gt;
                 &lt;div&gt;
@@ -946,14 +946,14 @@ export const <span class="cstat-no" title="statement not covered" >LegalTransact
                     €{unitDetails.price.toLocaleString()}
                   &lt;/p&gt;
                 &lt;/div&gt;
-                
+&nbsp;
                 &lt;div&gt;
                   &lt;p className="text-gray-600 text-sm"&gt;Booking Deposit&lt;/p&gt;
                   &lt;p className="text-xl font-semibold text-green-600"&gt;
                     €{unitDetails.bookingDeposit.toLocaleString()}
                   &lt;/p&gt;
                 &lt;/div&gt;
-                
+&nbsp;
                 &lt;div className="pt-2"&gt;
                   &lt;Badge variant="secondary" className="text-xs"&gt;
                     Off-Plan Purchase
@@ -1053,7 +1053,7 @@ export const <span class="cstat-no" title="statement not covered" >LegalTransact
                 Deposits held in regulated solicitor client accounts
               &lt;/p&gt;
             &lt;/div&gt;
-            
+&nbsp;
             &lt;div className="text-center p-4 bg-blue-50 rounded-lg"&gt;
               &lt;DocumentTextIcon className="h-8 w-8 text-blue-600 mx-auto mb-2" /&gt;
               &lt;h5 className="font-semibold text-blue-800"&gt;Fully Refundable&lt;/h5&gt;
@@ -1061,7 +1061,7 @@ export const <span class="cstat-no" title="statement not covered" >LegalTransact
                 Until contract execution - complete protection
               &lt;/p&gt;
             &lt;/div&gt;
-            
+&nbsp;
             &lt;div className="text-center p-4 bg-purple-50 rounded-lg"&gt;
               &lt;ShieldCheckIcon className="h-8 w-8 text-purple-600 mx-auto mb-2" /&gt;
               &lt;h5 className="font-semibold text-purple-800"&gt;Legally Compliant&lt;/h5&gt;
@@ -1078,7 +1078,7 @@ export const <span class="cstat-no" title="statement not covered" >LegalTransact
         &lt;Button variant="outline" onClick={onCancel || (<span class="fstat-no" title="function not covered" >() =&gt; <span class="cstat-no" title="statement not covered" >r</span>outer.back()</span>)}&gt;
           Cancel
         &lt;/Button&gt;
-        
+&nbsp;
         &lt;Button 
           onClick={handleStartLegalProcess}
           className="px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white"
@@ -1117,7 +1117,7 @@ export const <span class="cstat-no" title="statement not covered" >LegalTransact
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T22:15:28.100Z
+                at 2025-06-15T18:50:48.918Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

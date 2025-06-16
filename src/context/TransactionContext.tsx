@@ -95,23 +95,23 @@ interface TransactionContextType {
   error: string | null;
   
   // Actions
-  loadTransaction: (transactionId: string) => Promise<void>\n  );
-  loadTransactions: () => Promise<void>\n  );
-  createTransaction: (data: Partial<Transaction>) => Promise<Transaction>\n  );
-  updateTransaction: (transactionId: string, updates: Partial<Transaction>) => Promise<void>\n  );
-  updateTransactionStatus: (transactionId: string, status: TransactionStatus) => Promise<void>\n  );
+  loadTransaction: (transactionId: string) => Promise<void>;
+  loadTransactions: () => Promise<void>;
+  createTransaction: (data: Partial<Transaction>) => Promise<Transaction>;
+  updateTransaction: (transactionId: string, updates: Partial<Transaction>) => Promise<void>;
+  updateTransactionStatus: (transactionId: string, status: TransactionStatus) => Promise<void>;
   // Document management
-  uploadDocument: (transactionId: string, file: File, metadata: Partial<TransactionDocument>) => Promise<void>\n  );
-  deleteDocument: (transactionId: string, documentId: string) => Promise<void>\n  );
-  updateDocumentStatus: (transactionId: string, documentId: string, status: TransactionDocument['status']) => Promise<void>\n  );
+  uploadDocument: (transactionId: string, file: File, metadata: Partial<TransactionDocument>) => Promise<void>;
+  deleteDocument: (transactionId: string, documentId: string) => Promise<void>;
+  updateDocumentStatus: (transactionId: string, documentId: string, status: TransactionDocument['status']) => Promise<void>;
   // Messaging
-  sendMessage: (transactionId: string, content: string, attachments?: File[]) => Promise<void>\n  );
-  markMessageAsRead: (transactionId: string, messageId: string) => Promise<void>\n  );
+  sendMessage: (transactionId: string, content: string, attachments?: File[]) => Promise<void>;
+  markMessageAsRead: (transactionId: string, messageId: string) => Promise<void>;
   // Milestone management
-  updateMilestoneStatus: (transactionId: string, milestoneId: string, status: TransactionMilestone['status']) => Promise<void>\n  );
+  updateMilestoneStatus: (transactionId: string, milestoneId: string, status: TransactionMilestone['status']) => Promise<void>;
   // Participant management
-  inviteParticipant: (transactionId: string, participant: Partial<TransactionParticipant>) => Promise<void>\n  );
-  removeParticipant: (transactionId: string, participantId: string) => Promise<void>\n  );
+  inviteParticipant: (transactionId: string, participant: Partial<TransactionParticipant>) => Promise<void>;
+  removeParticipant: (transactionId: string, participantId: string) => Promise<void>;
 }
 
 const TransactionContext = createContext<TransactionContextType | undefined>(undefined);
@@ -227,7 +227,9 @@ export const TransactionProvider: React.FC<{ children: ReactNode }> = ({ childre
         formData,
         {
           headers: {
-            'Content-Type': 'multipart/form-data'}
+            'Content-Type': 'multipart/form-data'
+          }
+        }
       );
       
       const updatedTransaction = response.data;
@@ -316,7 +318,9 @@ export const TransactionProvider: React.FC<{ children: ReactNode }> = ({ childre
         formData,
         {
           headers: {
-            'Content-Type': 'multipart/form-data'}
+            'Content-Type': 'multipart/form-data'
+          }
+        }
       );
       
       const updatedTransaction = response.data;

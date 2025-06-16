@@ -7,7 +7,8 @@
 export abstract class BuyerJourneyError extends Error {
   public readonly code: string;
   public readonly userMessage: string;
-  public readonly context: Record<string, any>\n  );
+  public readonly context: Record<string, any>
+  );
   public readonly recoverable: boolean;
   public readonly suggestedAction?: string;
 

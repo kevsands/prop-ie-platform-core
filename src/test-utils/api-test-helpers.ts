@@ -16,8 +16,10 @@ export const mockSession = (session: Session | null) => {
 // Create mock API request/response for pages API routes
 export const createMockApiContext = (options: {
   method?: RequestMethod;
-  headers?: Record<string, string>\n  );
-  query?: Record<string, string | string[]>\n  );
+  headers?: Record<string, string>
+  );
+  query?: Record<string, string | string[]>
+  );
   body?: any;
   session?: Session | null;
 }) => {
@@ -40,9 +42,11 @@ export const createMockApiContext = (options: {
 export const createMockAppRequest = (options: {
   method?: string;
   url?: string;
-  headers?: Record<string, string>\n  );
+  headers?: Record<string, string>
+  );
   body?: any;
-  searchParams?: Record<string, string>\n  );
+  searchParams?: Record<string, string>
+  );
 }) => {
   const url = new URL(options.url || 'http://localhost:3000/api/test');
   

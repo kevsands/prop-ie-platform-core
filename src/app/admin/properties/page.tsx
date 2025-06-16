@@ -109,9 +109,12 @@ export default function PropertyAdminPage() {
           ...p,
           views: Math.floor(Math.random() * 1000),
           inquiries: Math.floor(Math.random() * 50),
-          reservations: Math.floor(Math.random() * 10)})),
-        total: data.total};
-    });
+          reservations: Math.floor(Math.random() * 10)
+        })),
+        total: data.total
+      };
+    }
+  });
 
   // Fetch analytics
   const { data: analytics } = useQuery<PropertiesAnalytics>({
@@ -120,7 +123,7 @@ export default function PropertyAdminPage() {
       // Mock analytics data - replace with actual API call
       const properties = propertiesData?.properties || [];
       const available = properties.filter((p: Property) => p.status === PropertyStatus.Available);
-      const totalValue = properties.reduce((sum: number, p: Property) => sum + p.price0);
+      const totalValue = properties.reduce((sum: number, p: Property) => sum + (p.price || 0), 0);
 
       return {
         totalProperties: properties.length,
@@ -133,9 +136,12 @@ export default function PropertyAdminPage() {
         recentActivity: {
           views: properties.reduce((sum: number, p: any) => sum + (p.views || 0), 0),
           inquiries: properties.reduce((sum: number, p: any) => sum + (p.inquiries || 0), 0),
-          reservations: properties.reduce((sum: number, p: any) => sum + (p.reservations || 0), 0)};
+          reservations: properties.reduce((sum: number, p: any) => sum + (p.reservations || 0), 0)
+        }
+      };
     },
-    enabled: !!propertiesData});
+    enabled: !!propertiesData
+  });
 
   // Delete mutation
   const deleteMutation = useMutation({
@@ -152,7 +158,8 @@ export default function PropertyAdminPage() {
       queryClient.invalidateQueries({ queryKey: ['admin-properties'] });
       toast({
         title: 'Properties deleted',
-        description: `${selectedProperties.length} properties have been deleted.`});
+        description: `${selectedProperties.length} properties have been deleted.`
+      });
       setShowDeleteDialog(false);
       setSelectedProperties([]);
       setRowSelection({});
@@ -161,8 +168,10 @@ export default function PropertyAdminPage() {
       toast({
         title: 'Error',
         description: 'Failed to delete properties. Please try again.',
-        variant: 'destructive'});
-    });
+        variant: 'destructive'
+      });
+    }
+  });
 
   // Table columns
   const columns: ColumnDef<PropertyWithAnalytics>[] = [
@@ -198,7 +207,8 @@ export default function PropertyAdminPage() {
             </div>
           </div>
         );
-      },
+      }
+    },
     {
       accessorKey: 'development.name',
       header: 'Development',
@@ -233,7 +243,8 @@ export default function PropertyAdminPage() {
             {status.replace(/_/g, ' ')}
           </Badge>
         );
-      },
+      }
+    },
     {
       accessorKey: 'price',
       header: 'Price',
@@ -312,7 +323,8 @@ export default function PropertyAdminPage() {
             </DropdownMenuContent>
           </DropdownMenu>
         );
-      }];
+      }
+    }];
 
   const table = useReactTable({
     data: propertiesData?.properties || [],
@@ -331,8 +343,10 @@ export default function PropertyAdminPage() {
       columnFilters,
       columnVisibility,
       rowSelection,
-      globalFilter},
-    onGlobalFilterChange: setGlobalFilter});
+      globalFilter
+    },
+    onGlobalFilterChange: setGlobalFilter
+  });
 
   // Handle bulk actions
   const handleBulkDelete = () => {

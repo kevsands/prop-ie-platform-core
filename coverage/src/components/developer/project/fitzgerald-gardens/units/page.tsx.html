@@ -392,9 +392,7 @@
 <a name='L327'></a><a href='#L327'>327</a>
 <a name='L328'></a><a href='#L328'>328</a>
 <a name='L329'></a><a href='#L329'>329</a>
-<a name='L330'></a><a href='#L330'>330</a>
-<a name='L331'></a><a href='#L331'>331</a>
-<a name='L332'></a><a href='#L332'>332</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L330'></a><a href='#L330'>330</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -434,7 +432,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -483,7 +480,6 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -767,32 +763,31 @@ const generateMockUnits = <span class="cstat-no" title="statement not covered" >
   const unitTypes: UnitType[] = <span class="cstat-no" title="statement not covered" >[</span>
     { id: 'type-a', name: 'Type A - 2 Bed Apartment', bedrooms: 2, bathrooms: 2, floorArea: 85 },
     { id: 'type-b', name: 'Type B - 3 Bed Semi-Detached', bedrooms: 3, bathrooms: 2.5, floorArea: 110 },
-    { id: 'type-c', name: 'Type C - 4 Bed Detached', bedrooms: 4, bathrooms: 3, floorArea: 145 },
-  ];
-  
+    { id: 'type-c', name: 'Type C - 4 Bed Detached', bedrooms: 4, bathrooms: 3, floorArea: 145 }];
+&nbsp;
   const statuses = <span class="cstat-no" title="statement not covered" >['Available', 'Reserved', 'Sale Agreed', 'Sold', 'Under Construction'];</span>
-  
+&nbsp;
   const units: Unit[] = <span class="cstat-no" title="statement not covered" >[];</span>
-  
+&nbsp;
   // Generate 97 units across 4 phases
 <span class="cstat-no" title="statement not covered" >  for (let i = <span class="cstat-no" title="statement not covered" >1; i</span> &lt;= 97; i++) {</span>
     // Determine phase (1-4)
     const phase = <span class="cstat-no" title="statement not covered" >i &lt;= 20 ? 1 : i &lt;= 45 ? 2 : i &lt;= 75 ? 3 : 4;</span>
-    
+&nbsp;
     // Determine unit type
     const typeIndex = <span class="cstat-no" title="statement not covered" >Math.floor(Math.random() * unitTypes.length);</span>
     const unitType = <span class="cstat-no" title="statement not covered" >unitTypes[typeIndex];</span>
-    
+&nbsp;
     // Determine status (weight more towards available)
     const statusIndex = <span class="cstat-no" title="statement not covered" >Math.floor(Math.random() * (statuses.length + 5));</span>
-    const status = <span class="cstat-no" title="statement not covered" >statusIndex &gt;= statuses.length ? 'Available' : statuses[statusIndex];</span>
-    
+    const status = <span class="cstat-no" title="statement not covered" >statusIndex&gt;= statuses.length ? 'Available' : statuses[statusIndex];</span>
+&nbsp;
     // Generate price based on unit type and some variation
     const basePrice = <span class="cstat-no" title="statement not covered" >unitType.id === 'type-a' ? 285000 : </span>
                      unitType.id === 'type-b' ? 350000 : 410000;
     const priceVariation = <span class="cstat-no" title="statement not covered" >Math.floor(Math.random() * 30000);</span>
     const price = <span class="cstat-no" title="statement not covered" >basePrice + priceVariation;</span>
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    units.push({</span>
       id: `unit-${i}`,
       unitNumber: `${i &lt;= 9 ? '0' : ''}${i}`,
@@ -806,55 +801,54 @@ const generateMockUnits = <span class="cstat-no" title="statement not covered" >
       unitType: unitType.id
     });
   }
-  
+&nbsp;
 <span class="cstat-no" title="statement not covered" >  return units;</span>
 };
 &nbsp;
 export default function <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >FitzgeraldGardensUnits() {</span></span>
-  const [units, setUnits] = <span class="cstat-no" title="statement not covered" >useState&lt;Unit[]&gt;([]);</span>
-  const [filteredUnits, setFilteredUnits] = <span class="cstat-no" title="statement not covered" >useState&lt;Unit[]&gt;([]);</span>
-  const [filters, setFilters] = <span class="cstat-no" title="statement not covered" >useState&lt;FilterState&gt;({</span>
+  const [unitssetUnits] = <span class="cstat-no" title="statement not covered" >useState&lt;Unit[]&gt;([]);</span>
+  const [filteredUnitssetFilteredUnits] = <span class="cstat-no" title="statement not covered" >useState&lt;Unit[]&gt;([]);</span>
+  const [filterssetFilters] = <span class="cstat-no" title="statement not covered" >useState&lt;FilterState&gt;({</span>
     phase: 'all',
     bedrooms: 'all',
     status: 'all',
     priceMin: '',
-    priceMax: '',
-  });
-  
+    priceMax: ''});
+&nbsp;
 <span class="cstat-no" title="statement not covered" >  useEffect(<span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
     // In a real app, this would fetch from API
     const mockUnits = <span class="cstat-no" title="statement not covered" >generateMockUnits();</span>
 <span class="cstat-no" title="statement not covered" >    setUnits(mockUnits);</span>
 <span class="cstat-no" title="statement not covered" >    setFilteredUnits(mockUnits);</span>
   }, []);
-  
+&nbsp;
 <span class="cstat-no" title="statement not covered" >  useEffect(<span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
     // Apply filters
     let result = <span class="cstat-no" title="statement not covered" >[...units];</span>
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (filters.phase !== 'all') {</span>
 <span class="cstat-no" title="statement not covered" >      result = result.filter(<span class="fstat-no" title="function not covered" >unit =&gt; <span class="cstat-no" title="statement not covered" >u</span>nit.phase === parseInt(filters.phase));</span></span>
     }
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (filters.bedrooms !== 'all') {</span>
 <span class="cstat-no" title="statement not covered" >      result = result.filter(<span class="fstat-no" title="function not covered" >unit =&gt; <span class="cstat-no" title="statement not covered" >u</span>nit.bedrooms === parseInt(filters.bedrooms));</span></span>
     }
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (filters.status !== 'all') {</span>
 <span class="cstat-no" title="statement not covered" >      result = result.filter(<span class="fstat-no" title="function not covered" >unit =&gt; <span class="cstat-no" title="statement not covered" >u</span>nit.status === filters.status)</span>;</span>
     }
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (filters.priceMin) {</span>
-<span class="cstat-no" title="statement not covered" >      result = result.filter(<span class="fstat-no" title="function not covered" >unit =&gt; <span class="cstat-no" title="statement not covered" >u</span>nit.price &gt;= parseInt(filters.priceMin));</span></span>
+<span class="cstat-no" title="statement not covered" >      result = result.filter(<span class="fstat-no" title="function not covered" >unit =&gt; <span class="cstat-no" title="statement not covered" >u</span>nit.price&gt;= parseInt(filters.priceMin));</span></span>
     }
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (filters.priceMax) {</span>
 <span class="cstat-no" title="statement not covered" >      result = result.filter(<span class="fstat-no" title="function not covered" >unit =&gt; <span class="cstat-no" title="statement not covered" >u</span>nit.price &lt;= parseInt(filters.priceMax));</span></span>
     }
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    setFilteredUnits(result);</span>
-  }, [filters, units]);
-  
+  }, [filtersunits]);
+&nbsp;
   const handleFilterChange = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(e</span>: React.ChangeEvent&lt;HTMLSelectElement | HTMLInputElement&gt;) =&gt; {</span>
     const { name, value } = <span class="cstat-no" title="statement not covered" >e.target;</span>
 <span class="cstat-no" title="statement not covered" >    setFilters({</span>
@@ -862,7 +856,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
       [name]: value
     });
   };
-  
+&nbsp;
   const exportToCSV = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
     // Create CSV content
     const headers = <span class="cstat-no" title="statement not covered" >['Unit Number', 'Address', 'Bedrooms', 'Bathrooms', 'Floor Area', 'Price', 'Phase', 'Status'];</span>
@@ -876,12 +870,12 @@ export default function <span class="cstat-no" title="statement not covered" ><s
       unit.phase,
       unit.status
     ]);
-    
+&nbsp;
     const csvContent = <span class="cstat-no" title="statement not covered" >[</span>
       headers.join(','),
       ...rows.map(<span class="fstat-no" title="function not covered" >row =&gt; <span class="cstat-no" title="statement not covered" >r</span>ow.join(','))</span>
     ].join('\n');
-    
+&nbsp;
     // Create download link
     const blob = <span class="cstat-no" title="statement not covered" >new Blob([csvContent], { type: 'text/csv' });</span>
     const url = <span class="cstat-no" title="statement not covered" >URL.createObjectURL(blob);</span>
@@ -891,7 +885,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
 <span class="cstat-no" title="statement not covered" >    a.click();</span>
 <span class="cstat-no" title="statement not covered" >    URL.revokeObjectURL(url);</span>
   };
-  
+&nbsp;
   return (
     &lt;div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10"&gt;
       &lt;div className="flex items-center justify-between mb-8"&gt;
@@ -908,14 +902,14 @@ export default function <span class="cstat-no" title="statement not covered" ><s
           &lt;/button&gt;
         &lt;/div&gt;
       &lt;/div&gt;
-      
+&nbsp;
       {/* Filters */}
       &lt;div className="bg-white rounded-lg shadow-md p-6 mb-8"&gt;
         &lt;div className="flex items-center mb-4"&gt;
           {FiFilter({ className: "text-[#2B5273] mr-2" })}
           &lt;h2 className="text-lg font-semibold"&gt;Filter Units&lt;/h2&gt;
         &lt;/div&gt;
-        
+&nbsp;
         &lt;div className="grid grid-cols-1 md:grid-cols-5 gap-4"&gt;
           &lt;div&gt;
             &lt;label className="block text-sm font-medium text-gray-700 mb-1"&gt;Phase&lt;/label&gt;
@@ -932,7 +926,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
               &lt;option value="4"&gt;Phase 4&lt;/option&gt;
             &lt;/select&gt;
           &lt;/div&gt;
-          
+&nbsp;
           &lt;div&gt;
             &lt;label className="block text-sm font-medium text-gray-700 mb-1"&gt;Bedrooms&lt;/label&gt;
             &lt;select
@@ -947,7 +941,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
               &lt;option value="4"&gt;4 Bedrooms&lt;/option&gt;
             &lt;/select&gt;
           &lt;/div&gt;
-          
+&nbsp;
           &lt;div&gt;
             &lt;label className="block text-sm font-medium text-gray-700 mb-1"&gt;Status&lt;/label&gt;
             &lt;select
@@ -964,7 +958,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
               &lt;option value="Under Construction"&gt;Under Construction&lt;/option&gt;
             &lt;/select&gt;
           &lt;/div&gt;
-          
+&nbsp;
           &lt;div&gt;
             &lt;label className="block text-sm font-medium text-gray-700 mb-1"&gt;Min Price&lt;/label&gt;
             &lt;input
@@ -976,7 +970,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#2B5273]"
             /&gt;
           &lt;/div&gt;
-          
+&nbsp;
           &lt;div&gt;
             &lt;label className="block text-sm font-medium text-gray-700 mb-1"&gt;Max Price&lt;/label&gt;
             &lt;input
@@ -990,7 +984,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
           &lt;/div&gt;
         &lt;/div&gt;
       &lt;/div&gt;
-      
+&nbsp;
       {/* Units Table */}
       &lt;div className="bg-white rounded-lg shadow-md overflow-hidden"&gt;
         &lt;div className="overflow-x-auto"&gt;
@@ -1006,7 +1000,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
               &lt;/tr&gt;
             &lt;/thead&gt;
             &lt;tbody className="bg-white divide-y divide-gray-200"&gt;
-              {filteredUnits.map(<span class="fstat-no" title="function not covered" >(u</span>nit) =&gt; (
+              {filteredUnits.map(<span class="fstat-no" title="function not covered" >(u</span>nit: any) =&gt; (
 <span class="cstat-no" title="statement not covered" >                &lt;tr key={unit.id}&gt;</span>
                   &lt;td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"&gt;
                     {unit.unitNumber}
@@ -1063,7 +1057,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T22:15:28.100Z
+                at 2025-06-15T18:50:48.918Z
             </div>
         <script src="../../../../../../prettify.js"></script>
         <script>

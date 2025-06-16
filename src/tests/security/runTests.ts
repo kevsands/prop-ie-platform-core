@@ -19,7 +19,8 @@ export interface TestResult {
     step: string;
     success: boolean;
     error?: string;
-  }>\n  );
+  }>
+  );
 }
 
 // Mock async function tonew Promise((resolve: any) => setTimeout(resolve1000));

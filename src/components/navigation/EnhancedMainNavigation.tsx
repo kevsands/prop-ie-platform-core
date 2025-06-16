@@ -46,18 +46,18 @@ export const EnhancedMainNavigation: React.FC<EnhancedMainNavigationProps> = ({
   theme = 'light', 
   isTransparent = false 
 }) => {
-  const [mobileMenuOpensetMobileMenuOpen] = useState(false);
-  const [searchOpensetSearchOpen] = useState(false);
-  const [searchQuerysetSearchQuery] = useState('');
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
   const { role, setRole } = useUserRole();
   const pathname = usePathname();
   const router = useRouter();
   const { user, isAuthenticated, signOut } = useAuth();
   const { transactions } = useTransaction();
 
-  const [activeDropdownsetActiveDropdown] = useState<string | null>(null);
+  const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const [scrolledsetScrolled] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
   // Define user flows for each role
   const userFlows: UserFlow[] = [
@@ -650,7 +650,7 @@ function RoleNavItem({
   onMouseLeave?: () => void;
   activeDropdown?: string | null;
 }) {
-  const [isDropdownActivesetIsDropdownActive] = useState(false);
+  const [isDropdownActive, setIsDropdownActive] = useState(false);
 
   useEffect(() => {
     setIsDropdownActive(activeDropdown === item.href);
@@ -737,10 +737,10 @@ function DesktopDropdown({ title, items, textColor, featuredContent, isActive, o
         <div className="p-6 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8">
           {/* Render each section as a column */}
           {items.map((section: any, idx: any) => (
-            <div key={section.section || idx: any} className="min-w-[200px]">
-              <h4 className="text-xs font-bold text-gray-700 mb-4 uppercase tracking-wide">{section.section: any}</h4>
+            <div key={section.section || idx} className="min-w-[200px]">
+              <h4 className="text-xs font-bold text-gray-700 mb-4 uppercase tracking-wide">{section.section}</h4>
               <ul className="space-y-3">
-                {section.links.map(link: any => (
+                {section.links.map((link: any) => (
                   <li key={link.href}>
                     <Link href={link.href} className="flex items-start gap-3 group hover:bg-gray-100 rounded-lg p-2 transition-colors">
                       {link.icon && <span className="mt-1 text-[#2B5273]">{link.icon}</span>}

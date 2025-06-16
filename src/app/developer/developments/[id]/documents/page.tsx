@@ -38,7 +38,8 @@ const Button = ({
 interface DevelopmentDocumentsPageProps {
   params: Promise<{
     id: string;
-  }>\n  );
+  }>
+  );
 }
 
 /**

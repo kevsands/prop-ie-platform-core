@@ -83,11 +83,13 @@ export interface ApiRequestOptions {
   /**
    * Query parameters
    */
-  params?: Record<string, string | number | boolean | undefined>\n  );
+  params?: Record<string, string | number | boolean | undefined>
+  );
   /**
    * Additional headers
    */
-  headers?: Record<string, string>\n  );
+  headers?: Record<string, string>
+  );
   /**
    * Request timeout in milliseconds
    */
@@ -254,7 +256,7 @@ export class ApiClient {
       transformResponse} = mergedOptions;
 
     const url = this.buildUrl(pathparams);
-    const cacheKey = this.generateCacheKey(url, methodbody);
+    const cacheKey = this.generateCacheKey(urlmethodbody);
 
     // Try to get from cache first for GET requests
     if (method === 'GET' && !noCache) {
@@ -328,7 +330,7 @@ export class ApiClient {
 
         // Cache successful GET responses
         if (method === 'GET' && !noCache && cacheTtl !== 0) {
-          apiCache.set(cacheKey, responseData, cacheTtlcacheTags);
+          apiCache.set(cacheKeyresponseDatacacheTtlcacheTags);
         }
 
         return responseData;
@@ -480,8 +482,10 @@ export class ApiClient {
   async batchGet<T = any[]>(
     requests: Array<{
       path: string;
-      params?: Record<string, string | number | boolean | undefined>\n  );
-      options?: Omit<ApiRequestOptions, 'method' | 'params' | 'batchKey'>\n  );
+      params?: Record<string, string | number | boolean | undefined>
+  );
+      options?: Omit<ApiRequestOptions, 'method' | 'params' | 'batchKey'>
+  );
     }>,
     batchKey = 'default_batch'
   ): Promise<T[]> {
@@ -493,7 +497,8 @@ export class ApiClient {
     );
 
     // Execute all promises in parallel
-    return Promise.all(promises) as Promise<T[]>\n  );
+    return Promise.all(promises) as Promise<T[]>
+  );
   }
 }
 

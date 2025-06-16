@@ -296,14 +296,7 @@
 <a name='L231'></a><a href='#L231'>231</a>
 <a name='L232'></a><a href='#L232'>232</a>
 <a name='L233'></a><a href='#L233'>233</a>
-<a name='L234'></a><a href='#L234'>234</a>
-<a name='L235'></a><a href='#L235'>235</a>
-<a name='L236'></a><a href='#L236'>236</a>
-<a name='L237'></a><a href='#L237'>237</a>
-<a name='L238'></a><a href='#L238'>238</a>
-<a name='L239'></a><a href='#L239'>239</a>
-<a name='L240'></a><a href='#L240'>240</a>
-<a name='L241'></a><a href='#L241'>241</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L234'></a><a href='#L234'>234</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -311,11 +304,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -381,7 +369,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -402,7 +389,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -562,8 +548,7 @@ const mockDevelopments = <span class="cstat-no" title="statement not covered" >[
     description: 'Luxury family homes in a peaceful setting with excellent access to Dublin.',
     imageUrl: '/images/development-1.jpg',
     completionDate: 'Summer 2025',
-    featured: true,
-  },
+    featured: true},
   {
     id: '2',
     name: 'Riverbank View',
@@ -575,8 +560,7 @@ const mockDevelopments = <span class="cstat-no" title="statement not covered" >[
     description: 'Modern riverside apartments with stunning views and excellent amenities.',
     imageUrl: '/images/development-2.jpg',
     completionDate: 'Autumn 2025',
-    featured: false,
-  },
+    featured: false},
   {
     id: '3',
     name: 'The Oaks',
@@ -588,8 +572,7 @@ const mockDevelopments = <span class="cstat-no" title="statement not covered" >[
     description: 'Premium detached homes with spacious gardens and high-quality finishes.',
     imageUrl: '/images/development-3.jpg',
     completionDate: 'Winter 2025',
-    featured: true,
-  },
+    featured: true},
   {
     id: '4',
     name: 'Park Manor',
@@ -601,9 +584,7 @@ const mockDevelopments = <span class="cstat-no" title="statement not covered" >[
     description: 'Family-friendly development with community park and playground.',
     imageUrl: '/images/development-4.jpg',
     completionDate: 'Spring 2026',
-    featured: false,
-  },
-];
+    featured: false}];
 &nbsp;
 // Filter types
 type FilterOptions = {
@@ -614,24 +595,23 @@ type FilterOptions = {
 };
 &nbsp;
 const DevelopmentsList: React.FC = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
-  const [filters, setFilters] = <span class="cstat-no" title="statement not covered" >useState&lt;FilterOptions&gt;({</span>
+  const [filterssetFilters] = <span class="cstat-no" title="statement not covered" >useState&lt;FilterOptions&gt;({</span>
     bedroomsMin: null,
     priceMin: null,
     priceMax: null,
-    propertyType: null,
-  });
+    propertyType: null});
 &nbsp;
   // Apply filters to developments
-  const filteredDevelopments = <span class="cstat-no" title="statement not covered" >mockDevelopments.filter(<span class="fstat-no" title="function not covered" >(d</span>ev) =&gt; {</span>
+  const filteredDevelopments = <span class="cstat-no" title="statement not covered" >mockDevelopments.filter(<span class="fstat-no" title="function not covered" >(d</span>ev: any) =&gt; {</span>
     // Filter by minimum bedrooms
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (filters.bedroomsMin !== null) {</span>
       const minBedrooms = <span class="cstat-no" title="statement not covered" >parseInt(dev.bedroomsRange.split('-')[0]);</span>
-<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (minBedrooms &lt; filters.bedroomsMin) <span class="cstat-no" title="statement not covered" >return false;</span></span>
+<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (minBedrooms &lt;filters.bedroomsMin) <span class="cstat-no" title="statement not covered" >return false;</span></span>
     }
 &nbsp;
     // Filter by price range
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (filters.priceMin !== null &amp;&amp; dev.priceFrom &lt; filters.priceMin) <span class="cstat-no" title="statement not covered" >return false;</span></span>
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (filters.priceMax !== null &amp;&amp; dev.priceFrom &gt; filters.priceMax) <span class="cstat-no" title="statement not covered" >return false;</span></span>
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (filters.priceMin !== null &amp;&amp; dev.priceFrom &lt;filters.priceMin) <span class="cstat-no" title="statement not covered" >return false;</span></span>
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (filters.priceMax !== null &amp;&amp; dev.priceFrom&gt; filters.priceMax) <span class="cstat-no" title="statement not covered" >return false;</span></span>
 &nbsp;
     // Filter by property type
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (filters.propertyType !== null &amp;&amp; dev.type !== filters.propertyType) <span class="cstat-no" title="statement not covered" >return false;</span></span>
@@ -641,10 +621,9 @@ const DevelopmentsList: React.FC = <span class="cstat-no" title="statement not c
 &nbsp;
   // Handler for filter changes
   const handleFilterChange = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(n</span>ame: keyof FilterOptions, value: any) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    setFilters(<span class="fstat-no" title="function not covered" >(p</span>rev) =&gt; (<span class="cstat-no" title="statement not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >    setFilters(<span class="fstat-no" title="function not covered" >(p</span>rev: any) =&gt; (<span class="cstat-no" title="statement not covered" >{</span></span>
       ...prev,
-      [name]: value,
-    }));
+      [name]: value}));
   };
 &nbsp;
   return (
@@ -660,7 +639,7 @@ const DevelopmentsList: React.FC = <span class="cstat-no" title="statement not c
               id="bedroomsMin"
               className="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
               value={filters.bedroomsMin || ''}
-              onChange={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; <span class="cstat-no" title="statement not covered" >handleFilterChange('bedroomsMin', e.target.value ? parseInt(e.target.value) : null)}</span>
+              onChange={<span class="fstat-no" title="function not covered" >(e</span>: any) =&gt; <span class="cstat-no" title="statement not covered" >handleFilterChange('bedroomsMin', e.target.value ? parseInt(e.target.value) : null)}</span>
             &gt;
               &lt;option value=""&gt;Any&lt;/option&gt;
               &lt;option value="2"&gt;2+&lt;/option&gt;
@@ -678,7 +657,7 @@ const DevelopmentsList: React.FC = <span class="cstat-no" title="statement not c
               id="priceMin"
               className="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
               value={filters.priceMin || ''}
-              onChange={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; <span class="cstat-no" title="statement not covered" >handleFilterChange('priceMin', e.target.value ? parseInt(e.target.value) : null)}</span>
+              onChange={<span class="fstat-no" title="function not covered" >(e</span>: any) =&gt; <span class="cstat-no" title="statement not covered" >handleFilterChange('priceMin', e.target.value ? parseInt(e.target.value) : null)}</span>
             &gt;
               &lt;option value=""&gt;Any&lt;/option&gt;
               &lt;option value="250000"&gt;€250,000+&lt;/option&gt;
@@ -696,7 +675,7 @@ const DevelopmentsList: React.FC = <span class="cstat-no" title="statement not c
               id="priceMax"
               className="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
               value={filters.priceMax || ''}
-              onChange={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; <span class="cstat-no" title="statement not covered" >handleFilterChange('priceMax', e.target.value ? parseInt(e.target.value) : null)}</span>
+              onChange={<span class="fstat-no" title="function not covered" >(e</span>: any) =&gt; <span class="cstat-no" title="statement not covered" >handleFilterChange('priceMax', e.target.value ? parseInt(e.target.value) : null)}</span>
             &gt;
               &lt;option value=""&gt;Any&lt;/option&gt;
               &lt;option value="300000"&gt;€300,000&lt;/option&gt;
@@ -715,7 +694,7 @@ const DevelopmentsList: React.FC = <span class="cstat-no" title="statement not c
               id="propertyType"
               className="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
               value={filters.propertyType || ''}
-              onChange={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; <span class="cstat-no" title="statement not covered" >handleFilterChange('propertyType', e.target.value || null)}</span>
+              onChange={<span class="fstat-no" title="function not covered" >(e</span>: any) =&gt; <span class="cstat-no" title="statement not covered" >handleFilterChange('propertyType', e.target.value || null)}</span>
             &gt;
               &lt;option value=""&gt;Any&lt;/option&gt;
               &lt;option value="Houses"&gt;Houses&lt;/option&gt;
@@ -733,7 +712,7 @@ const DevelopmentsList: React.FC = <span class="cstat-no" title="statement not c
         &lt;/div&gt;
       ) : (
         &lt;div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"&gt;
-          {filteredDevelopments.map(<span class="fstat-no" title="function not covered" >(d</span>evelopment) =&gt; (
+          {filteredDevelopments.map(<span class="fstat-no" title="function not covered" >(d</span>evelopment: any) =&gt; (
 <span class="cstat-no" title="statement not covered" >            &lt;div key={development.id} c</span>lassName="border border-gray-200 rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300"&gt;
               &lt;div className="relative h-60 w-full"&gt;
                 &lt;div className="absolute inset-0 bg-gray-300 flex items-center justify-center"&gt;
@@ -790,7 +769,7 @@ const DevelopmentsList: React.FC = <span class="cstat-no" title="statement not c
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T22:15:28.100Z
+                at 2025-06-15T18:50:48.918Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

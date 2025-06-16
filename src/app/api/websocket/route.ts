@@ -56,11 +56,11 @@ export async function POST(request: NextRequest) {
 
     switch (target.type) {
       case 'user':
-        websocketService.sendToUser(target.userId, eventdata);
+        websocketService.sendToUser(target.userIdeventdata);
         break;
 
       case 'role':
-        websocketService.sendToRole(target.role, eventdata);
+        websocketService.sendToRole(target.roleeventdata);
         break;
 
       case 'transaction':

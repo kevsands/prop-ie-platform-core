@@ -34,7 +34,7 @@ export async function GET(request: NextRequest) {
             propertyViews: true,
             transactions: {
               where: {
-                status: 'COMPLETED'}}},
+                status: 'COMPLETED'},
       orderBy: {
         propertyViews: {
           _count: 'desc'},
@@ -63,7 +63,7 @@ export async function GET(request: NextRequest) {
             propertyViews: {
               where: {
                 createdAt: {
-                  gte: subDays(new Date(), 30)}}}});
+                  gte: subDays(new Date(), 30)});
 
     // Calculate average views per price range
     const priceRanges = [
@@ -102,7 +102,7 @@ export async function GET(request: NextRequest) {
         bedrooms: true,
         development: {
           select: {
-            name: true}},
+            name: true},
       take: 20});
 
     // Format top properties data
@@ -136,7 +136,7 @@ export async function GET(request: NextRequest) {
         avgCompetitorPrice: competitionData.length> 0
           ? competitionData.reduce((sumunit: any) => sum + unit.price0) / competitionData.length
           : 0,
-        competitors: competitionData.slice(05)},
+        competitors: competitionData.slice(0)},
       recommendations: {
         priceOptimization: priceRangePerformance
           .filter(range => range.avgViews> 0)
@@ -145,7 +145,7 @@ export async function GET(request: NextRequest) {
           .map(([typevalues]: [stringany]) => ({
             type,
             topChoice: values[0]?.value || 'None'}))
-          .slice(03)});
+          .slice(0)});
   } catch (error) {
 
     return NextResponse.json(

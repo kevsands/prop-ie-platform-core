@@ -146,7 +146,7 @@ export default function PropertyAnalyticsDashboard({
 
   // Fetch market trends
   const { data: marketTrends = [], isLoading: loadingTrends } = useQuery<MarketTrend[]>({
-    queryKey: ['market-trends', location as any, timeframepropertyType],
+    queryKey: ['market-trends', location as anytimeframepropertyType],
     queryFn: async () => {
       // Mock data for demonstration
       const months = [];

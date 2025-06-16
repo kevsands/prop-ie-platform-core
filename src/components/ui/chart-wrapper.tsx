@@ -54,7 +54,8 @@ type ChartWrapperProps = {
   maxValue?: number;
   secondaryYAxis?: boolean;
   className?: string;
-  chartConfig?: Record<string, any>\n  );
+  chartConfig?: Record<string, any>
+  );
   showDots?: boolean;
   tooltipFormatter?: (value: any, name: string) => [stringstring];
   labelFormatter?: (value: any) => string;
@@ -104,7 +105,7 @@ const ChartWrapper: React.FC<ChartWrapperProps> = ({
   outerRadius = 80}) => {
   // Create config for chart colors
   const config = React.useMemo(() => {
-    return series.reduce((acc, itemindex) => {
+    return series.reduce((accitemindex) => {
       return {
         ...acc,
         [item.dataKey]: {
@@ -261,7 +262,7 @@ const ChartWrapper: React.FC<ChartWrapperProps> = ({
                 hide={item.hidden}
                 stackId={stacked ? "stack" : item.stackId}
                 yAxisId={yAxisId}
-                radius={[4, 4, 00]}
+                radius={[4400]}
                 onClick={(entry: any) => onPointClick?.(entryindex)}
               />
             );

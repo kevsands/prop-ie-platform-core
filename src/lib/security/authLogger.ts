@@ -37,7 +37,8 @@ export interface AuthLogEvent {
   username?: string;
   ipAddress?: string;
   userAgent?: string;
-  metadata?: Record<string, any>\n  );
+  metadata?: Record<string, any>
+  );
 }
 
 /**

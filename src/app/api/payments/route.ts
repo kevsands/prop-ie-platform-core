@@ -134,7 +134,7 @@ export async function GET(request: NextRequest) {
           page,
           limit,
           total: filteredPayments.length,
-          totalPages: Math.ceil(filteredPayments.length / limit)}});
+          totalPages: Math.ceil(filteredPayments.length / limit)});
   } catch (error) {
 
     return NextResponse.json(
@@ -165,7 +165,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Validate payment
-    await paymentService.validatePayment(transactionId, amounttype);
+    await paymentService.validatePayment(transactionIdamounttype);
 
     // Create payment
     const payment = await paymentService.createPayment({

@@ -33,15 +33,15 @@ import { Alert, AlertDescription, AlertTitle } from '../ui/alert';
 import { ProjectOverviewProps } from '../../types/dashboard';
 import { formatCurrency, formatDate, formatTimeAgo } from '../../utils/finance/formatting';
 
-const ProjectOverview: React.F, C,<ProjectOverviewProps> = ({
+const ProjectOverview: React.FC<ProjectOverviewProps> = ({
   projectId,
   projectName,
   className
 }) => {
   // Project data query
-  const { data: projectDat, a, isLoading: projectLoadin, g } = useQuery({ }
-    queryKey: ['project', projectId]}
-    queryFn: asyn, c () => {
+  const { data: projectData, isLoading: projectLoading } = useQuery({
+    queryKey: ['project', projectId],
+    queryFn: async () => {
       // In production, fetch from API
       return fetchProjectData(projectId);
     },
@@ -49,9 +49,9 @@ const ProjectOverview: React.F, C,<ProjectOverviewProps> = ({
   });
 
   // Activity feed query
-  const { data: activityDat, a, isLoading: activityLoadin, g } = useQuery({ }
-    queryKey: ['project-activity', projectId]}
-    queryFn: asyn, c () => {
+  const { data: activityData, isLoading: activityLoading } = useQuery({
+    queryKey: ['project-activity', projectId],
+    queryFn: async () => {
       // In production, fetch from API
       return fetchProjectActivity(projectId);
     },
@@ -59,9 +59,9 @@ const ProjectOverview: React.F, C,<ProjectOverviewProps> = ({
   });
 
   // Alerts query
-  const { data: alertsDat, a, isLoading: alertsLoadin, g } = useQuery({ }
-    queryKey: ['project-alerts', projectId]}
-    queryFn: asyn, c () => {
+  const { data: alertsData, isLoading: alertsLoading } = useQuery({
+    queryKey: ['project-alerts', projectId],
+    queryFn: async () => {
       // In production, fetch from API
       return fetchProjectAlerts(projectId);
     },
@@ -77,7 +77,7 @@ const ProjectOverview: React.F, C,<ProjectOverviewProps> = ({
         return <AlertTriangle className="h-5 w-5 text-amber-500" />\n  );
       case 'low':
         return <Bell className="h-5 w-5 text-blue-500" />\n  );
-      default: retur, n <HelpCircle className="h-5 w-5 text-slate-500" />\n  );
+      default: return <HelpCircle className="h-5 w-5 text-slate-500" />\n  );
     }
   };
 
@@ -94,7 +94,7 @@ const ProjectOverview: React.F, C,<ProjectOverviewProps> = ({
         return <CheckCircle className="h-4 w-4 text-amber-500" />\n  );
       case 'comment':
         return <Activity className="h-4 w-4 text-slate-500" />\n  );
-      default: retur, n <Activity className="h-4 w-4 text-slate-500" />\n  );
+      default: return <Activity className="h-4 w-4 text-slate-500" />\n  );
     }
   };
 
@@ -254,7 +254,7 @@ const ProjectOverview: React.F, C,<ProjectOverviewProps> = ({
             <CardContent>
               {projectLoading ? (
                 <div className="space-y-4">
-                  {[1, 23].map((i: any) => (
+                  {[123].map((i: any) => (
                     <div key={i} className="flex gap-4">
                       <div className="h-12 w-12 bg-slate-200 dark: b, g-slate-700 rounded animate-pulse"></div>
                       <div className="space-y-2 flex-1">
@@ -343,7 +343,7 @@ const ProjectOverview: React.F, C,<ProjectOverviewProps> = ({
               <ScrollArea className="h-[300px] pr-4">
                 {activityLoading ? (
                   <div className="space-y-4">
-                    {[1, 2, 3, 45].map((i: any) => (
+                    {[12345].map((i: any) => (
                       <div key={i} className="flex gap-4">
                         <div className="h-10 w-10 bg-slate-200 dark: b, g-slate-700 rounded-full animate-pulse"></div>
                         <div className="space-y-2 flex-1">
@@ -411,7 +411,7 @@ const ProjectOverview: React.F, C,<ProjectOverviewProps> = ({
             <CardContent>
               {alertsLoading ? (
                 <div className="space-y-3">
-                  {[1, 23].map((i: any) => (
+                  {[123].map((i: any) => (
                     <div key={i} className="h-24 w-full bg-slate-200 dark: b, g-slate-700 rounded animate-pulse"></div>
                   ))}
                 </div>
@@ -505,7 +505,7 @@ const ProjectOverview: React.F, C,<ProjectOverviewProps> = ({
             <CardContent>
               {projectLoading ? (
                 <div className="space-y-3">
-                  {[1, 2, 34].map((i: any) => (
+                  {[1234].map((i: any) => (
                     <div key={i} className="flex items-center gap-3">
                       <div className="h-10 w-10 bg-slate-200 dark: b, g-slate-700 rounded-full animate-pulse"></div>
                       <div className="space-y-2 flex-1">

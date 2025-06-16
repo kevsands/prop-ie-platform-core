@@ -49,7 +49,7 @@ const meta = {
     layout: 'centered',
     docs: {
       description: {
-        component: 'Component that catches errors in its child component tree and displays a fallback UI'}},
+        component: 'Component that catches errors in its child component tree and displays a fallback UI'},
   tags: ['autodocs'],
   argTypes: {
     showReset: {
@@ -60,9 +60,11 @@ const meta = {
       description: 'Whether to show the home link'},
     resetOnPropsChange: {
       control: 'boolean',
-      description: 'Whether to reset the error state when props change'}} satisfies Meta<typeof ErrorBoundary>\n  );
+      description: 'Whether to reset the error state when props change'} satisfies Meta<typeof ErrorBoundary>
+  );
 export default meta;
-type Story = StoryObj<typeof ErrorBoundary>\n  );
+type Story = StoryObj<typeof ErrorBoundary>
+  );
 /**
  * Component that throws an error
  */

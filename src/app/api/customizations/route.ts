@@ -142,7 +142,8 @@ export async function POST(request: NextRequest) {
         notes?: string;
         quantity?: number;
         additionalCost?: number;
-      }>\n  );
+      }>
+  );
     };
 
     // Validate required fields
@@ -356,7 +357,8 @@ export async function PUT(request: NextRequest) {
         material?: string;
         quantity?: number;
         notes?: string;
-      }>\n  );
+      }>
+  );
     };
 
     // Find the customization selection

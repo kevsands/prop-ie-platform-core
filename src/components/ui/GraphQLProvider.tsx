@@ -53,7 +53,7 @@ export const GraphQLProvider: React.FC<{
   const queryClient = new QueryClient({ defaultOptions: { queries: {
         staleTime,
         retry: 1,
-        refetchOnWindowFocus: false}});
+        refetchOnWindowFocus: false});
 
   // Utility functions for GraphQL operations
   const createQueryKey = (baseKey: string, variables?: Record<string, any>) => {

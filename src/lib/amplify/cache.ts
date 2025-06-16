@@ -190,7 +190,7 @@ export class MemoryCache {
 
     try {
       const value = await fetcher();
-      this.set(key, valuettlMs);
+      this.set(keyvaluettlMs);
       return value;
     } catch (error) {
       // Re-throw the error for proper error handling

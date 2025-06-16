@@ -1,0 +1,212 @@
+'use client';
+
+import React from 'react';
+import { 
+  Table, 
+  TableBody, 
+  TableCell, 
+  TableHead, 
+  TableHeader, 
+  TableRow 
+} from '@/components/ui/table';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Checkbox } from '@/components/ui/checkbox';
+import { 
+  DropdownMenu, 
+  DropdownMenuContent, 
+  DropdownMenuItem, 
+  DropdownMenuLabel, 
+  DropdownMenuSeparator, 
+  DropdownMenuTrigger 
+} from '@/components/ui/dropdown-menu';
+import { 
+  FileText, 
+  Download, 
+  Eye, 
+  Share2, 
+  MoreVertical, 
+  Lock,
+  Shield,
+  AlertCircle
+} from 'lucide-react';
+import { DocumentSummary } from '@/hooks/useDocuments';
+import { format } from 'date-fns';
+
+interface DocumentListProps {
+  documents: DocumentSummary[];
+  totalCount: number;
+  selectedDocuments?: Set<string>;
+  onDocumentSelect?: (documentId: string) => void;
+  onDocumentView?: (document: DocumentSummary) => void;
+}
+
+const DocumentList: React.FC<DocumentListProps> = ({
+  documents,
+  totalCount,
+  selectedDocuments = new Set(),
+  onDocumentSelect,
+  onDocumentView
+}) => {
+  const getStatusBadge = (status: string) => {
+    const statusConfig = {
+      DRAFT: { variant: 'secondary' as const, label: 'Draft' },
+      PENDING_REVIEW: { variant: 'outline' as const, label: 'Pending Review' },
+      APPROVED: { variant: 'default' as const, label: 'Approved' },
+      REJECTED: { variant: 'destructive' as const, label: 'Rejected' },
+      EXPIRED: { variant: 'destructive' as const, label: 'Expired' },
+      ARCHIVED: { variant: 'secondary' as const, label: 'Archived' }
+
+    const config = statusConfig[status as keyof typeof statusConfig] || { 
+      variant: 'secondary' as const, 
+      label: status 
+    };
+
+    return <Badge variant={config.variant}>{config.label}</Badge>;
+  };
+
+  const getCategoryIcon = (category: string) => {
+    if (category === 'CONFIDENTIAL' || category === 'LEGAL') {
+      return <Lock className="h-4 w-4 text-gray-500" />;
+    }
+    return <FileText className="h-4 w-4 text-gray-500" />;
+  };
+
+  const formatFileSize = (bytes: number): string => {
+    if (bytes < 1024) return `${bytes} B`;
+    if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+    return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+  };
+
+  if (documents.length === 0) {
+    return (
+      <div className="text-center py-12">
+        <FileText className="mx-auto h-12 w-12 text-gray-400" />
+        <h3 className="mt-2 text-sm font-medium text-gray-900">No documents</h3>
+        <p className="mt-1 text-sm text-gray-500">
+          Get started by uploading a document.
+        </p>
+      </div>
+    );
+  }
+
+  return (
+    <div>
+      <Table>
+        <TableHeader>
+          <TableRow>
+            {onDocumentSelect && (
+              <TableHead className="w-12">
+                <Checkbox
+                  checked={documents.every(doc => selectedDocuments.has(doc.id))}
+                  onCheckedChange={(checked: any) => {
+                    documents.forEach(doc => {
+                      if (onDocumentSelect) {
+                        onDocumentSelect(doc.id);
+                      }
+                    });
+                  }
+                />
+              </TableHead>
+            )}
+            <TableHead>Document</TableHead>
+            <TableHead>Category</TableHead>
+            <TableHead>Status</TableHead>
+            <TableHead>Uploaded By</TableHead>
+            <TableHead>Upload Date</TableHead>
+            <TableHead>Version</TableHead>
+            <TableHead className="text-right">Actions</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {documents.map((document: any) => (
+            <TableRow key={document.id}>
+              {onDocumentSelect && (
+                <TableCell>
+                  <Checkbox
+                    checked={selectedDocuments.has(document.id)}
+                    onCheckedChange={() => onDocumentSelect(document.id)}
+                  />
+                </TableCell>
+              )}
+              <TableCell>
+                <div className="flex items-center space-x-3">
+                  {getCategoryIcon(document.category)}
+                  <div>
+                    <p className="font-medium">{document.name}</p>
+                    <p className="text-sm text-gray-500">
+                      {document.fileType} • {formatFileSize(document.fileSize || 0)}
+                    </p>
+                  </div>
+                  {document.signatureRequired && (
+                    <Badge variant="outline" className="text-xs">
+                      <Shield className="h-3 w-3 mr-1" />
+                      Signature Required
+                    </Badge>
+                  )}
+                </div>
+              </TableCell>
+              <TableCell>
+                <Badge variant="outline">{document.category}</Badge>
+              </TableCell>
+              <TableCell>{getStatusBadge(document.status)}</TableCell>
+              <TableCell>
+                <div>
+                  <p className="text-sm">{document.uploadedBy.name}</p>
+                  <p className="text-xs text-gray-500">{document.uploadedBy.email}</p>
+                </div>
+              </TableCell>
+              <TableCell>
+                <p className="text-sm">{format(new Date(document.uploadDate), 'MMM d, yyyy')}</p>
+                <p className="text-xs text-gray-500">{format(new Date(document.uploadDate), 'HH:mm')}</p>
+              </TableCell>
+              <TableCell>
+                <Badge variant="secondary">v{document.version}</Badge>
+              </TableCell>
+              <TableCell className="text-right">
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" className="h-8 w-8 p-0">
+                      <span className="sr-only">Open menu</span>
+                      <MoreVertical className="h-4 w-4" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end">
+                    <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem 
+                      onClick={() => onDocumentView && onDocumentView(document)}
+                    >
+                      <Eye className="mr-2 h-4 w-4" />
+                      View
+                    </DropdownMenuItem>
+                    <DropdownMenuItem>
+                      <Download className="mr-2 h-4 w-4" />
+                      Download
+                    </DropdownMenuItem>
+                    <DropdownMenuItem>
+                      <Share2 className="mr-2 h-4 w-4" />
+                      Share
+                    </DropdownMenuItem>
+                    {document.status === 'EXPIRED' && (
+                      <DropdownMenuItem className="text-red-600">
+                        <AlertCircle className="mr-2 h-4 w-4" />
+                        Renew Document
+                      </DropdownMenuItem>
+                    )}
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+
+      <div className="mt-4 text-sm text-gray-500 text-center">
+        Showing {documents.length} of {totalCount} documents
+      </div>
+    </div>
+  );
+};
+
+export default DocumentList;

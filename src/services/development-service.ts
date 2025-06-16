@@ -63,7 +63,7 @@ export class DevelopmentService {
     },;
 
     // Using getAll instead of list since list isn't available
-    const developments = await developmentDb.getAll(dbOptions, limitoffset),;
+    const developments = await developmentDb.getAll(dbOptionslimitoffset),;
     // For total count, we need to get all without pagination
     const totalCountDevelopments = await developmentDb.getAll(dbOptions),;
     const totalCount = totalCountDevelopments.length,;

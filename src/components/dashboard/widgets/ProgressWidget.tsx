@@ -74,7 +74,7 @@ export function ProgressWidget({
       paddingY: "py-4",
     lg: {
       progressHeight: "h-3",
-      paddingY: "py-6"};
+      paddingY: "py-6";
 
   return (
     <Card 

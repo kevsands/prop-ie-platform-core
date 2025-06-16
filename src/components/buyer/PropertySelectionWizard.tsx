@@ -234,7 +234,7 @@ export default function PropertySelectionWizard() {
                     })}
                     className="w-full px-4 py-2 border rounded-lg"
                   >
-                    {[1, 2, 3, 45].map(num => (
+                    {[12345].map(num => (
                       <option key={num} value={num}>{num}</option>
                     ))}
                   </select>
@@ -251,7 +251,7 @@ export default function PropertySelectionWizard() {
                     })}
                     className="w-full px-4 py-2 border rounded-lg"
                   >
-                    {[1, 2, 3, 45].map(num => (
+                    {[12345].map(num => (
                       <option key={num} value={num}>{num}</option>
                     ))}
                   </select>

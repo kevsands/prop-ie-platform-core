@@ -539,7 +539,7 @@ export class <span class="cstat-no" title="statement not covered" >DocumentServi
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!prismaDocument) <span class="cstat-no" title="statement not covered" >return null;</span></span>
 <span class="cstat-no" title="statement not covered" >    return mapPrismaDocumentToDocument(prismaDocument);</span>
   }
-  
+&nbsp;
   /**
    * List documents with filtering
    * @param options Filter options
@@ -565,7 +565,7 @@ export class <span class="cstat-no" title="statement not covered" >DocumentServi
   }&gt; {
     const { page = <span class="branch-0 cbranch-no" title="branch not covered" >1,</span> limit = <span class="branch-0 cbranch-no" title="branch not covered" >50,</span> ...filterOptions } = <span class="cstat-no" title="statement not covered" >options || {};</span>
     const offset = <span class="cstat-no" title="statement not covered" >(page - 1) * limit;</span>
-    
+&nbsp;
     // Convert enum values to strings for the database
     const dbOptions = <span class="cstat-no" title="statement not covered" >{</span>
       ...filterOptions,
@@ -575,9 +575,9 @@ export class <span class="cstat-no" title="statement not covered" >DocumentServi
       limit,
       offset
     };
-    
+&nbsp;
     const result = <span class="cstat-no" title="statement not covered" >await documentDb.list(dbOptions);</span>
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    return {</span>
       documents: result.documents.map(mapPrismaDocumentToDocument),
       totalCount: result.totalCount,
@@ -586,7 +586,7 @@ export class <span class="cstat-no" title="statement not covered" >DocumentServi
       limit
     };
   }
-  
+&nbsp;
   /**
    * Upload a new document
    * @param data Document upload data
@@ -615,11 +615,11 @@ export class <span class="cstat-no" title="statement not covered" >DocumentServi
       type: data.type.toString(),
       category: data.category.toString()
     };
-    
+&nbsp;
     const prismaDocument = <span class="cstat-no" title="statement not covered" >await documentDb.create(dbData);</span>
 <span class="cstat-no" title="statement not covered" >    return mapPrismaDocumentToDocument(prismaDocument);</span>
   }
-  
+&nbsp;
   /**
    * Update document status
    * @param id Document ID
@@ -636,14 +636,14 @@ export class <span class="cstat-no" title="statement not covered" >DocumentServi
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!document) {</span>
 <span class="cstat-no" title="statement not covered" >      throw new Error(`Document with ID ${id} not found`);</span>
     }
-    
+&nbsp;
     // In a real implementation, this would update the database
     // This is a placeholder for demonstration purposes
 <span class="cstat-no" title="statement not covered" >    document.status = status;</span>
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    return document;</span>
   }
-  
+&nbsp;
   /**
    * Create a new document version
    * @param documentId Original document ID
@@ -664,14 +664,14 @@ export class <span class="cstat-no" title="statement not covered" >DocumentServi
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!document) {</span>
 <span class="cstat-no" title="statement not covered" >      throw new Error(`Document with ID ${documentId} not found`);</span>
     }
-    
+&nbsp;
     // In a real implementation, this would update the database
     // This is a placeholder for demonstration purposes
 <span class="cstat-no" title="statement not covered" >    document.version += 1;</span>
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    return document;</span>
   }
-  
+&nbsp;
   /**
    * Generate a pre-signed upload URL
    * This would typically integrate with cloud storage like S3
@@ -689,19 +689,19 @@ export class <span class="cstat-no" title="statement not covered" >DocumentServi
   }&gt; {
     // In a real implementation, this would generate a pre-signed URL
     // This is a placeholder for demonstration purposes
-    
+&nbsp;
     // Generate a unique file path
     const timestamp = <span class="cstat-no" title="statement not covered" >Date.now();</span>
-    const uniqueId = <span class="cstat-no" title="statement not covered" >Math.random().toString(36).substring(2, 15);</span>
+    const uniqueId = <span class="cstat-no" title="statement not covered" >Math.random().toString(36).substring(215);</span>
     const filePath = <span class="cstat-no" title="statement not covered" >`uploads/${timestamp}-${uniqueId}-${fileName}`;</span>
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    return {</span>
       uploadUrl: `https://example.com/upload?file=${filePath}`,
       fileUrl: `https://example.com/files/${filePath}`,
       expiresIn: 3600 // 1 hour
     };
   }
-  
+&nbsp;
   /**
    * Get document templates
    * @param type Optional document type to filter
@@ -754,7 +754,7 @@ export class <span class="cstat-no" title="statement not covered" >DocumentServi
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T22:15:28.100Z
+                at 2025-06-15T18:50:48.918Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

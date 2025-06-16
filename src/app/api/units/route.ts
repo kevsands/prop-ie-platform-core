@@ -38,7 +38,8 @@ interface UnitInput {
     name: string;
     type: string;
     url: string;
-  }>\n  );
+  }>
+  );
 }
 
 /**
@@ -288,7 +289,8 @@ export const PUT = async (request: NextRequest) => {
     }
 
     // Parse request body and URL parameters
-    const { documents, ...unitData } = await request.json() as Partial<UnitInput>\n  );
+    const { documents, ...unitData } = await request.json() as Partial<UnitInput>
+  );
     const searchParams = request.nextUrl.searchParams;
     const id = searchParams.get("id");
 

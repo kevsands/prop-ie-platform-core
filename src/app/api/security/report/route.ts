@@ -6,7 +6,8 @@ interface SecurityViolation {
   description: string;
   timestamp: number;
   url: string;
-  metadata?: Record<string, any>\n  );
+  metadata?: Record<string, any>
+  );
 }
 
 interface SecurityReportPayload {
@@ -50,7 +51,7 @@ export async function POST(request: NextRequest) {
 
     // Log the violation (in production, you would save to a database)
     } - ${enrichedViolation.type}: ${enrichedViolation.description}`,
-      JSON.stringify(enrichedViolation, null2)
+      JSON.stringify(enrichedViolationnull2)
     );
 
     // For critical and high severity violations, you might want to:

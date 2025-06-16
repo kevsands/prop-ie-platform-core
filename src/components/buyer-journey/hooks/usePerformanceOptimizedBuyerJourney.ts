@@ -204,7 +204,7 @@ export function usePerformanceOptimizedBuyerJourney(options: {
     } catch (err) {
       // Error handled by error handler
     }
-  }, [transactionId, completeKYCMutationmoveToStep]);
+  }, [transactionIdcompleteKYCMutationmoveToStep]);
 
   const handleReserveUnit = useCallback(async () => {
     if (!unitId) {

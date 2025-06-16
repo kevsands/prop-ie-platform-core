@@ -33,8 +33,8 @@ export const userDb = {
     const { email, first_name, last_name, phone, role, status } = userData;
 
     const result = await query(
-      'INSERT INTO users (email, first_name, last_name, phone, rolestatus) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
-      [email, first_name, last_name, phone, rolestatus]
+      'INSERT INTO users (email, first_namelast_namephonerolestatus) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
+      [email, first_namelast_namephonerolestatus]
     );
 
     return result.rows[0];

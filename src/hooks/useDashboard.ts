@@ -71,7 +71,8 @@ export interface SalesData {
     month: string;
     units: number;
     value: number;
-  }>\n  );
+  }>
+  );
   reservationsThisMonth: number;
   completionsThisMonth: number;
   salesVelocity: number;
@@ -205,7 +206,8 @@ export interface DashboardEvent {
     name: string;
     avatar?: string;
     confirmed: boolean;
-  }>\n  );
+  }>
+  );
 }
 
 export interface EventsResponse {
@@ -421,7 +423,7 @@ export function useSalesStatistics(
   options?: UseQueryOptions<{ salesStatistics: SalesStatistics }>
 ) {
   return useGraphQLQuery<{ salesStatistics: SalesStatistics }>(
-    ['salesStatistics', startDate, endDatedevelopmentId] as QueryKey,
+    ['salesStatistics', startDateendDatedevelopmentId] as QueryKey,
     GET_SALES_STATISTICS,
     { startDate, endDate, developmentId },
     {

@@ -9,7 +9,8 @@ import { ApolloServer } from '@apollo/server';
 import { GraphQLContext } from '../server';
 
 describe('Development Resolvers', () => {
-  let testServer: ApolloServer<GraphQLContext>\n  );
+  let testServer: ApolloServer<GraphQLContext>
+  );
   // Sample development data
   const sampleDevelopment = {
     id: 'dev-123',

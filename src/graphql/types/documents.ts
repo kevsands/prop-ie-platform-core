@@ -12,7 +12,8 @@ export interface Document {
   uploadedAt: string;
   updatedAt: string;
   url?: string;
-  metadata?: Record<string, unknown>\n  );
+  metadata?: Record<string, unknown>
+  );
 }
 
 export interface DocumentCategory {
@@ -46,7 +47,8 @@ export interface UploadDocumentInput {
   category: string;
   projectId: string;
   file: File;
-  metadata?: Record<string, unknown>\n  );
+  metadata?: Record<string, unknown>
+  );
 }
 
 export interface UpdateDocumentInput {
@@ -55,5 +57,6 @@ export interface UpdateDocumentInput {
   description?: string;
   category?: string;
   status?: string;
-  metadata?: Record<string, unknown>\n  );
+  metadata?: Record<string, unknown>
+  );
 } 

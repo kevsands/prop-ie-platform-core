@@ -19,9 +19,12 @@ export interface AuthContextType {
   isAuthenticated: boolean;
   isLoading: boolean;
   error: Error | string | null;
-  signIn: (username: string, password: string) => Promise<any>\n  );
-  signUp: (username: string, password: string, attributes: Record<string, string>) => Promise<any>\n  );
-  signOut: () => Promise<void>\n  );
+  signIn: (username: string, password: string) => Promise<any>
+  );
+  signUp: (username: string, password: string, attributes: Record<string, string>) => Promise<any>
+  );
+  signOut: () => Promise<void>
+  );
   logout: () => Promise<void>; // Alias for signOut
 }
 

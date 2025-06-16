@@ -143,7 +143,7 @@ export function useBuyerJourneyAnalytics() {
     errorMessage: string,
     additionalData?: Record<string, any>
   ) => {
-    buyerJourneyAnalytics.trackError(errorType, errorMessageadditionalData);
+    buyerJourneyAnalytics.trackError(errorTypeerrorMessageadditionalData);
   }, []);
 
   // Return all tracking methods

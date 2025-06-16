@@ -23,7 +23,8 @@ interface Provider {
   id: string;
   name: string;
   type: 'credentials' | 'oauth' | 'email';
-  credentials?: Record<string, any>\n  );
+  credentials?: Record<string, any>
+  );
 }
 
 interface SignInOptions {

@@ -105,7 +105,8 @@ export function LazyLoad<P extends object>({
   errorFallback,
   ...props
 }: {
-  loader: () => Promise<{ default: ComponentType<P> }>\n  );
+  loader: () => Promise<{ default: ComponentType<P> }>
+  );
   fallback?: React.ReactNode;
   errorFallback?: React.ReactNode;
 } & P) {

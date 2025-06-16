@@ -23,7 +23,8 @@ type AccountStatus = 'ACTIVE' | 'PENDING' | 'SUSPENDED' | 'LOCKED';
 interface Permission {
   resource: string;
   actions: string[];
-  constraints?: Record<string, any>\n  );
+  constraints?: Record<string, any>
+  );
 }
 
 interface SecuritySettings {
@@ -321,7 +322,7 @@ export function useEnterpriseAuth() {
             phone_number: userData.phoneNumber,
             'custom:role': userData.role,
             'custom:accepted_terms': userData.acceptedTerms.toString(),
-            'custom:marketing_consent': userData.marketingConsent?.toString() || 'false'}});
+            'custom:marketing_consent': userData.marketingConsent?.toString() || 'false'});
 
       // Create user profile in database
       await createUserProfile({
@@ -362,7 +363,7 @@ export function useEnterpriseAuth() {
               dataSharing: false,
               analytics: true,
               marketing: userData.marketingConsent || false,
-              publicProfile: false}});
+              publicProfile: false});
 
       if (nextStep.signUpStep === 'CONFIRM_SIGN_UP') {
         setAuthState(prev => ({

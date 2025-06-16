@@ -100,7 +100,7 @@ export default function useAffordabilityCalculator() {
     } finally {
       setLoading(false);
     }
-  }, [journey, addAffordabilityChecktoast]);
+  }, [journeyaddAffordabilityChecktoast]);
 
   return {
     calculate,

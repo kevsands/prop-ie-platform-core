@@ -181,8 +181,8 @@ const mockProperties: Property[] = [
     isNew: false,
     isReduced: false}];
 
-const getFeaturedDevelopments = () => mockDevelopments.slice(04);
-const getFeaturedProperties = () => mockProperties.slice(06);
+const getFeaturedDevelopments = () => mockDevelopments.slice(0);
+const getFeaturedProperties = () => mockProperties.slice(0);
 
 export default function HomePage() {
   const router = useRouter();

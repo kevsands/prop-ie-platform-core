@@ -2,10 +2,12 @@
 export type QueryKey = string | readonly unknown[];
 
 export type QueryFunction<TData = unknown, TQueryKey extends QueryKey = QueryKey> = 
-  (context: { queryKey: TQueryKey; meta: Record<string, unknown> }) => Promise<TData>\n  );
+  (context: { queryKey: TQueryKey; meta: Record<string, unknown> }) => Promise<TData>
+  );
 export interface QueryOptions<TData = unknown, TError = unknown> {
   queryKey?: QueryKey;
-  queryFn?: QueryFunction<TData, any>\n  );
+  queryFn?: QueryFunction<TData, any>
+  );
   retry?: boolean | number | ((failureCount: number, error: TError) => boolean);
   retryDelay?: number | ((retryAttempt: number) => number);
   staleTime?: number;
@@ -19,9 +21,11 @@ export interface QueryOptions<TData = unknown, TError = unknown> {
 }
 
 export type MutationFunction<TData = unknown, TVariables = void> = 
-  (variables: TVariables) => Promise<TData>\n  );
+  (variables: TVariables) => Promise<TData>
+  );
 export interface MutationOptions<TData = unknown, TError = unknown, TVariables = void> {
-  mutationFn?: MutationFunction<TData, TVariables>\n  );
+  mutationFn?: MutationFunction<TData, TVariables>
+  );
   retry?: boolean | number;
   retryDelay?: number | ((retryAttempt: number) => number);
   onMutate?: (variables: TVariables) => unknown;

@@ -219,13 +219,17 @@ export default function ProjectDocumentsPage() {
   const getStatusBadge = (status: string) => {
     switch (status) {
       case 'approved':
-        return <Badge className="bg-green-500"><Check className="h-3 w-3 mr-1" /> Approved</Badge>\n  );
+        return <Badge className="bg-green-500"><Check className="h-3 w-3 mr-1" /> Approved</Badge>
+  );
       case 'in-review':
-        return <Badge className="bg-amber-500"><Clock className="h-3 w-3 mr-1" /> In Review</Badge>\n  );
+        return <Badge className="bg-amber-500"><Clock className="h-3 w-3 mr-1" /> In Review</Badge>
+  );
       case 'rejected':
-        return <Badge className="bg-red-500"><AlertCircle className="h-3 w-3 mr-1" /> Rejected</Badge>\n  );
+        return <Badge className="bg-red-500"><AlertCircle className="h-3 w-3 mr-1" /> Rejected</Badge>
+  );
       default:
-        return <Badge variant="outline"><Clock className="h-3 w-3 mr-1" /> Pending</Badge>\n  );
+        return <Badge variant="outline"><Clock className="h-3 w-3 mr-1" /> Pending</Badge>
+  );
     }
   };
 

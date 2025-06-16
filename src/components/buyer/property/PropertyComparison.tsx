@@ -42,7 +42,8 @@ interface Property {
   developmentName?: string;
   readyDate?: string;
   energyRating?: string;
-  specifications?: Record<string, string>\n  );
+  specifications?: Record<string, string>
+  );
 }
 
 interface PropertyComparisonProps {

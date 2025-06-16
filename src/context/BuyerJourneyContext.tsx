@@ -10,12 +10,18 @@ interface BuyerJourneyContextProps {
   journey: BuyerJourney | null;
   loading: boolean;
   error: string | null;
-  updateJourneyPhase: (phase: BuyerPhase) => Promise<void>\n  );
-  addAffordabilityCheck: (check: Omit<AffordabilityCheck, 'id' | 'created'>) => Promise<void>\n  );
-  addMortgageApplication: (app: Omit<MortgageApplication, 'id' | 'created' | 'updated'>) => Promise<void>\n  );
-  refreshJourney: () => Promise<void>\n  );
-  getPhaseNextSteps: (phase: BuyerPhase) => Promise<string[]>\n  );
-  getPhaseCompletedTasks: (phase: BuyerPhase) => Promise<string[]>\n  );
+  updateJourneyPhase: (phase: BuyerPhase) => Promise<void>
+  );
+  addAffordabilityCheck: (check: Omit<AffordabilityCheck, 'id' | 'created'>) => Promise<void>
+  );
+  addMortgageApplication: (app: Omit<MortgageApplication, 'id' | 'created' | 'updated'>) => Promise<void>
+  );
+  refreshJourney: () => Promise<void>
+  );
+  getPhaseNextSteps: (phase: BuyerPhase) => Promise<string[]>
+  );
+  getPhaseCompletedTasks: (phase: BuyerPhase) => Promise<string[]>
+  );
 }
 
 const BuyerJourneyContext = createContext<BuyerJourneyContextProps | undefined>(undefined);

@@ -33,7 +33,8 @@ interface SessionData {
   startTime: number;
   referrer?: string;
   userAgent?: string;
-  deviceInfo?: Record<string, any>\n  );
+  deviceInfo?: Record<string, any>
+  );
 }
 
 // Event data
@@ -49,7 +50,8 @@ interface EventBatch {
     type: EventType;
     timestamp: number;
     data: EventData;
-  }>\n  );
+  }>
+  );
 }
 
 // Default configuration

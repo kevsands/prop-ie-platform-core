@@ -57,7 +57,7 @@ export default function PropertyCard({ property, onViewDetails }: PropertyCardPr
           </p>
           {property.tags && property.tags.length> 0 && (
             <div className="flex gap-1">
-              {property.tags.slice(02).map((tag: any) => (
+              {property.tags.slice(0).map((tag: any) => (
                 <Badge key={tag} variant="outline" className="text-xs">
                   {tag}
                 </Badge>

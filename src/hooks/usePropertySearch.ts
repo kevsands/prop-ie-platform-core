@@ -127,7 +127,7 @@ export const usePropertySearch = () => {
     } finally {
       setLoading(false);
     }
-  }, [filters, currentPagesortBy]);
+  }, [filterscurrentPagesortBy]);
 
   // Fetch properties when filters change
   useEffect(() => {
@@ -138,19 +138,19 @@ export const usePropertySearch = () => {
   const updateFilters = (newFilters: PropertyFilters) => {
     setFilters(newFilters);
     setCurrentPage(1); // Reset to first page
-    updateURL(newFilters, 1sortBy);
+    updateURL(newFilters1sortBy);
   };
 
   // Update page
   const updatePage = (page: number) => {
     setCurrentPage(page);
-    updateURL(filters, pagesortBy);
+    updateURL(filterspagesortBy);
   };
 
   // Update sort
   const updateSort = (sort: string) => {
     setSortBy(sort);
-    updateURL(filters, currentPagesort);
+    updateURL(filterscurrentPagesort);
   };
 
   // Save current search
@@ -175,7 +175,7 @@ export const usePropertySearch = () => {
   const loadSavedSearch = (search: SavedSearch) => {
     setFilters(search.filters);
     setCurrentPage(1);
-    updateURL(search.filters, 1sortBy);
+    updateURL(search.filters1sortBy);
 
     // Update last used
     const searches = savedSearches.map(s => 

@@ -1,0 +1,640 @@
+'use client';
+
+import React, { useState } from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
+import { Badge } from '@/components/ui/badge';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { 
+  CheckCircle, 
+  AlertTriangle, 
+  Clock, 
+  User, 
+  Calendar,
+  DollarSign,
+  TrendingUp,
+  TrendingDown,
+  FileText,
+  Send,
+  Phone,
+  Mail,
+  Building,
+  X,
+  Plus
+} from 'lucide-react';
+
+interface RateItem {
+  id: string;
+  category: string;
+  description: string;
+  currentRate: number;
+  unit: string;
+  lastVerified?: Date;
+  verificationStatus: 'pending' | 'verified' | 'outdated' | 'disputed';
+  suppliers: Supplier[];
+  marketData?: MarketData;
+  verificationHistory: VerificationRecord[];
+}
+
+interface Supplier {
+  id: string;
+  name: string;
+  contact: string;
+  phone?: string;
+  email?: string;
+  lastQuoteDate?: Date;
+  quotedRate?: number;
+  reliability: 'high' | 'medium' | 'low';
+}
+
+interface MarketData {
+  averageRate: number;
+  minRate: number;
+  maxRate: number;
+  trend: 'up' | 'down' | 'stable';
+  lastUpdated: Date;
+  sources: string[];
+}
+
+interface VerificationRecord {
+  id: string;
+  date: Date;
+  verifiedBy: string;
+  previousRate: number;
+  newRate: number;
+  method: 'supplier_quote' | 'market_research' | 'historical_data' | 'expert_review';
+  notes?: string;
+  documents?: string[];
+}
+
+export function RateVerificationWorkflow() {
+  const [selectedItemsetSelectedItem] = useState<RateItem | null>(null);
+  const [showVerificationModalsetShowVerificationModal] = useState(false);
+  const [verificationDatasetVerificationData] = useState({
+    newRate: '',
+    method: 'supplier_quote',
+    supplier: '',
+    notes: '',
+    confidence: 'high'
+  });
+
+  // Mock rate items for demonstration
+  const [rateItemssetRateItems] = useState<RateItem[]>([
+    {
+      id: '1',
+      category: 'Concrete',
+      description: 'Ready-mix concrete C25/30',
+      currentRate: 120,
+      unit: 'm³',
+      lastVerified: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000), // 30 days ago
+      verificationStatus: 'outdated',
+      suppliers: [
+        {
+          id: 's1',
+          name: 'ConcreteCorp Ireland',
+          contact: 'John Smith',
+          phone: '+353 1 234 5678',
+          email: 'quotes@concretecorp.ie',
+          lastQuoteDate: new Date(Date.now() - 15 * 24 * 60 * 60 * 1000),
+          quotedRate: 125,
+          reliability: 'high'
+        },
+        {
+          id: 's2',
+          name: 'Dublin Ready Mix',
+          contact: 'Mary O\'Brien',
+          phone: '+353 1 345 6789',
+          email: 'mary@dublinreadymix.ie',
+          quotedRate: 118,
+          reliability: 'medium'
+        }
+      ],
+      marketData: {
+        averageRate: 122,
+        minRate: 115,
+        maxRate: 130,
+        trend: 'up',
+        lastUpdated: new Date(),
+        sources: ['SCSI Price Guide', 'Spon\'s', 'Local Suppliers']
+      },
+      verificationHistory: [
+        {
+          id: 'v1',
+          date: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000),
+          verifiedBy: 'Michael Walsh',
+          previousRate: 115,
+          newRate: 120,
+          method: 'supplier_quote',
+          notes: 'Price increase due to fuel costs'
+        }
+      ]
+    },
+    {
+      id: '2',
+      category: 'Steel',
+      description: 'Reinforcement steel bars',
+      currentRate: 850,
+      unit: 'tonne',
+      lastVerified: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000), // 7 days ago
+      verificationStatus: 'verified',
+      suppliers: [
+        {
+          id: 's3',
+          name: 'Steel Solutions Ltd',
+          contact: 'David Murphy',
+          phone: '+353 21 456 7890',
+          email: 'david@steelsolutions.ie',
+          quotedRate: 845,
+          reliability: 'high'
+        }
+      ],
+      marketData: {
+        averageRate: 852,
+        minRate: 820,
+        maxRate: 880,
+        trend: 'stable',
+        lastUpdated: new Date(),
+        sources: ['Steel Market Index', 'Industry Reports']
+      },
+      verificationHistory: []
+    },
+    {
+      id: '3',
+      category: 'Labor',
+      description: 'Skilled carpenter',
+      currentRate: 35,
+      unit: 'hour',
+      verificationStatus: 'pending',
+      suppliers: [],
+      verificationHistory: []
+    }
+  ]);
+
+  const getStatusIcon = (status: string) => {
+    switch (status) {
+      case 'verified':
+        return <CheckCircle className="h-4 w-4 text-green-600" />\n  );
+      case 'outdated':
+        return <AlertTriangle className="h-4 w-4 text-yellow-600" />\n  );
+      case 'disputed':
+        return <AlertTriangle className="h-4 w-4 text-red-600" />\n  );
+      default:
+        return <Clock className="h-4 w-4 text-gray-400" />\n  );
+    }
+  };
+
+  const getStatusBadge = (status: string) => {
+    const variants = {
+      verified: 'default',
+      outdated: 'secondary',
+      disputed: 'destructive',
+      pending: 'outline'
+    } as const;
+
+    return (
+      <Badge variant={variants[status as keyof typeof variants] || 'outline'}>
+        {status}
+      </Badge>
+    );
+  };
+
+  const getTrendIcon = (trend: string) => {
+    switch (trend) {
+      case 'up':
+        return <TrendingUp className="h-4 w-4 text-red-600" />\n  );
+      case 'down':
+        return <TrendingDown className="h-4 w-4 text-green-600" />\n  );
+      default:
+        return <DollarSign className="h-4 w-4 text-gray-600" />\n  );
+    }
+  };
+
+  const handleStartVerification = (item: RateItem) => {
+    setSelectedItem(item);
+    setVerificationData({
+      newRate: item.currentRate.toString(),
+      method: 'supplier_quote',
+      supplier: '',
+      notes: '',
+      confidence: 'high'
+    });
+    setShowVerificationModal(true);
+  };
+
+  const handleSubmitVerification = () => {
+    if (!selectedItem) return;
+
+    const newRecord: VerificationRecord = {
+      id: Date.now().toString(),
+      date: new Date(),
+      verifiedBy: 'Current User', // In real app, get from auth context
+      previousRate: selectedItem.currentRate,
+      newRate: parseFloat(verificationData.newRate),
+      method: verificationData.method as any,
+      notes: verificationData.notes
+    };
+
+    setRateItems(prev => prev.map(item =>
+      item.id === selectedItem.id
+        ? {
+            ...item,
+            currentRate: parseFloat(verificationData.newRate),
+            lastVerified: new Date(),
+            verificationStatus: 'verified' as const,
+            verificationHistory: [newRecord, ...item.verificationHistory]
+          }
+        : item
+    ));
+
+    setShowVerificationModal(false);
+    setSelectedItem(null);
+  };
+
+  const pendingItems = rateItems.filter(item => item.verificationStatus === 'pending').length;
+  const outdatedItems = rateItems.filter(item => item.verificationStatus === 'outdated').length;
+  const verifiedItems = rateItems.filter(item => item.verificationStatus === 'verified').length;
+
+  return (
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-2xl font-bold">Rate Verification</h1>
+          <p className="text-muted-foreground">
+            Verify and update construction rates before use
+          </p>
+        </div>
+        <Button>
+          <Plus className="h-4 w-4 mr-2" />
+          Add Rate Item
+        </Button>
+      </div>
+
+      {/* Summary Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <Card>
+          <CardContent className="p-4">
+            <div className="flex items-center gap-2">
+              <Clock className="h-5 w-5 text-blue-600" />
+              <div>
+                <p className="text-sm text-muted-foreground">Pending</p>
+                <p className="text-xl font-bold">{pendingItems}</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="p-4">
+            <div className="flex items-center gap-2">
+              <AlertTriangle className="h-5 w-5 text-yellow-600" />
+              <div>
+                <p className="text-sm text-muted-foreground">Outdated</p>
+                <p className="text-xl font-bold">{outdatedItems}</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="p-4">
+            <div className="flex items-center gap-2">
+              <CheckCircle className="h-5 w-5 text-green-600" />
+              <div>
+                <p className="text-sm text-muted-foreground">Verified</p>
+                <p className="text-xl font-bold">{verifiedItems}</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="p-4">
+            <div className="flex items-center gap-2">
+              <DollarSign className="h-5 w-5 text-purple-600" />
+              <div>
+                <p className="text-sm text-muted-foreground">Total Items</p>
+                <p className="text-xl font-bold">{rateItems.length}</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Rate Items Table */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Rate Items Requiring Verification</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-4">
+            {rateItems.map((item) => (
+              <div key={item.id} className="flex items-center justify-between p-4 border rounded-lg">
+                <div className="flex items-center gap-4">
+                  <div className="bg-muted p-2 rounded">
+                    <Building className="h-4 w-4" />
+                  </div>
+                  <div>
+                    <h3 className="font-medium">{item.description}</h3>
+                    <p className="text-sm text-muted-foreground">
+                      {item.category} • €{item.currentRate}/{item.unit}
+                      {item.lastVerified && ` • Last verified: ${item.lastVerified.toLocaleDateString()}`}
+                    </p>
+                    {item.marketData && (
+                      <div className="flex items-center gap-2 mt-1">
+                        {getTrendIcon(item.marketData.trend)}
+                        <span className="text-xs text-muted-foreground">
+                          Market avg: €{item.marketData.averageRate} ({item.marketData.trend})
+                        </span>
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-3">
+                  {getStatusBadge(item.verificationStatus)}
+                  {getStatusIcon(item.verificationStatus)}
+                  
+                  <Button 
+                    variant="outline" 
+                    size="sm"
+                    onClick={() => handleStartVerification(item)}
+                  >
+                    {item.verificationStatus === 'verified' ? 'Re-verify' : 'Verify'}
+                  </Button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Verification Modal */}
+      {showVerificationModal && selectedItem && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <Card className="w-full max-w-2xl max-h-[90vh] overflow-hidden">
+            <CardHeader className="flex flex-row items-center justify-between">
+              <div>
+                <CardTitle>Verify Rate: {selectedItem.description}</CardTitle>
+                <p className="text-sm text-muted-foreground mt-1">
+                  Current rate: €{selectedItem.currentRate}/{selectedItem.unit}
+                </p>
+              </div>
+              <Button variant="ghost" size="sm" onClick={() => setShowVerificationModal(false)}>
+                <X className="h-4 w-4" />
+              </Button>
+            </CardHeader>
+
+            <CardContent className="space-y-6 overflow-y-auto">
+              <Tabs defaultValue="verification">
+                <TabsList>
+                  <TabsTrigger value="verification">Verification</TabsTrigger>
+                  <TabsTrigger value="suppliers">Suppliers</TabsTrigger>
+                  <TabsTrigger value="market">Market Data</TabsTrigger>
+                  <TabsTrigger value="history">History</TabsTrigger>
+                </TabsList>
+
+                <TabsContent value="verification" className="space-y-4">
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <Label htmlFor="newRate">New Rate (€)</Label>
+                      <Input
+                        id="newRate"
+                        type="number"
+                        value={verificationData.newRate}
+                        onChange={(e) => setVerificationData(prev => ({ ...prev, newRate: e.target.value }))}
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="method">Verification Method</Label>
+                      <select
+                        id="method"
+                        value={verificationData.method}
+                        onChange={(e) => setVerificationData(prev => ({ ...prev, method: e.target.value }))}
+                        className="w-full px-3 py-2 border border-input rounded-md"
+                      >
+                        <option value="supplier_quote">Supplier Quote</option>
+                        <option value="market_research">Market Research</option>
+                        <option value="historical_data">Historical Data</option>
+                        <option value="expert_review">Expert Review</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div>
+                    <Label htmlFor="notes">Verification Notes</Label>
+                    <Textarea
+                      id="notes"
+                      value={verificationData.notes}
+                      onChange={(e) => setVerificationData(prev => ({ ...prev, notes: e.target.value }))}
+                      placeholder="Add notes about the rate verification..."
+                    />
+                  </div>
+
+                  {selectedItem.marketData && (
+                    <Card className="bg-muted/50">
+                      <CardContent className="p-4">
+                        <h4 className="font-medium mb-2">Market Comparison</h4>
+                        <div className="grid grid-cols-3 gap-4 text-sm">
+                          <div>
+                            <span className="text-muted-foreground">Market Average:</span>
+                            <span className="ml-2 font-medium">€{selectedItem.marketData.averageRate}</span>
+                          </div>
+                          <div>
+                            <span className="text-muted-foreground">Range:</span>
+                            <span className="ml-2 font-medium">
+                              €{selectedItem.marketData.minRate} - €{selectedItem.marketData.maxRate}
+                            </span>
+                          </div>
+                          <div className="flex items-center gap-1">
+                            <span className="text-muted-foreground">Trend:</span>
+                            {getTrendIcon(selectedItem.marketData.trend)}
+                            <span className="font-medium">{selectedItem.marketData.trend}</span>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  )}
+                </TabsContent>
+
+                <TabsContent value="suppliers" className="space-y-4">
+                  {selectedItem.suppliers.length> 0 ? (
+                    <div className="space-y-3">
+                      {selectedItem.suppliers.map((supplier) => (
+                        <Card key={supplier.id}>
+                          <CardContent className="p-4">
+                            <div className="flex items-center justify-between">
+                              <div>
+                                <h4 className="font-medium">{supplier.name}</h4>
+                                <p className="text-sm text-muted-foreground">
+                                  Contact: {supplier.contact}
+                                </p>
+                                <div className="flex items-center gap-4 mt-2">
+                                  {supplier.phone && (
+                                    <div className="flex items-center gap-1 text-sm">
+                                      <Phone className="h-3 w-3" />
+                                      <span>{supplier.phone}</span>
+                                    </div>
+                                  )}
+                                  {supplier.email && (
+                                    <div className="flex items-center gap-1 text-sm">
+                                      <Mail className="h-3 w-3" />
+                                      <span>{supplier.email}</span>
+                                    </div>
+                                  )}
+                                </div>
+                              </div>
+                              <div className="text-right">
+                                {supplier.quotedRate && (
+                                  <p className="font-medium">€{supplier.quotedRate}/{selectedItem.unit}</p>
+                                )}
+                                <Badge variant={
+                                  supplier.reliability === 'high' ? 'default' :
+                                  supplier.reliability === 'medium' ? 'secondary' : 'outline'
+                                }>
+                                  {supplier.reliability} reliability
+                                </Badge>
+                                <Button size="sm" className="ml-2">
+                                  <Send className="h-3 w-3 mr-1" />
+                                  Request Quote
+                                </Button>
+                              </div>
+                            </div>
+                          </CardContent>
+                        </Card>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="text-center py-8 text-muted-foreground">
+                      <Building className="h-8 w-8 mx-auto mb-2" />
+                      <p>No suppliers configured for this item</p>
+                      <Button size="sm" className="mt-2">
+                        <Plus className="h-4 w-4 mr-1" />
+                        Add Supplier
+                      </Button>
+                    </div>
+                  )}
+                </TabsContent>
+
+                <TabsContent value="market" className="space-y-4">
+                  {selectedItem.marketData ? (
+                    <div className="space-y-4">
+                      <div className="grid grid-cols-2 gap-4">
+                        <Card>
+                          <CardContent className="p-4 text-center">
+                            <p className="text-sm text-muted-foreground">Average Rate</p>
+                            <p className="text-2xl font-bold">€{selectedItem.marketData.averageRate}</p>
+                          </CardContent>
+                        </Card>
+                        <Card>
+                          <CardContent className="p-4 text-center">
+                            <p className="text-sm text-muted-foreground">Market Trend</p>
+                            <div className="flex items-center justify-center gap-2 mt-1">
+                              {getTrendIcon(selectedItem.marketData.trend)}
+                              <span className="text-xl font-bold capitalize">{selectedItem.marketData.trend}</span>
+                            </div>
+                          </CardContent>
+                        </Card>
+                      </div>
+
+                      <Card>
+                        <CardContent className="p-4">
+                          <h4 className="font-medium mb-2">Market Range</h4>
+                          <div className="space-y-2">
+                            <div className="flex justify-between">
+                              <span>Minimum:</span>
+                              <span className="font-medium">€{selectedItem.marketData.minRate}</span>
+                            </div>
+                            <div className="flex justify-between">
+                              <span>Maximum:</span>
+                              <span className="font-medium">€{selectedItem.marketData.maxRate}</span>
+                            </div>
+                            <div className="flex justify-between">
+                              <span>Last Updated:</span>
+                              <span className="font-medium">{selectedItem.marketData.lastUpdated.toLocaleDateString()}</span>
+                            </div>
+                          </div>
+                        </CardContent>
+                      </Card>
+
+                      <Card>
+                        <CardContent className="p-4">
+                          <h4 className="font-medium mb-2">Data Sources</h4>
+                          <div className="space-y-1">
+                            {selectedItem.marketData.sources.map((sourceindex) => (
+                              <div key={index} className="flex items-center gap-2 text-sm">
+                                <FileText className="h-3 w-3" />
+                                <span>{source}</span>
+                              </div>
+                            ))}
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </div>
+                  ) : (
+                    <div className="text-center py-8 text-muted-foreground">
+                      <TrendingUp className="h-8 w-8 mx-auto mb-2" />
+                      <p>No market data available for this item</p>
+                    </div>
+                  )}
+                </TabsContent>
+
+                <TabsContent value="history" className="space-y-4">
+                  {selectedItem.verificationHistory.length> 0 ? (
+                    <div className="space-y-3">
+                      {selectedItem.verificationHistory.map((record) => (
+                        <Card key={record.id}>
+                          <CardContent className="p-4">
+                            <div className="flex items-center justify-between">
+                              <div>
+                                <div className="flex items-center gap-2">
+                                  <User className="h-4 w-4" />
+                                  <span className="font-medium">{record.verifiedBy}</span>
+                                  <Badge variant="outline">{record.method.replace('_', ' ')}</Badge>
+                                </div>
+                                <div className="flex items-center gap-2 mt-1 text-sm text-muted-foreground">
+                                  <Calendar className="h-3 w-3" />
+                                  <span>{record.date.toLocaleDateString()}</span>
+                                </div>
+                                {record.notes && (
+                                  <p className="text-sm mt-2">{record.notes}</p>
+                                )}
+                              </div>
+                              <div className="text-right">
+                                <p className="text-sm text-muted-foreground">Rate Change</p>
+                                <p className="font-medium">
+                                  €{record.previousRate} → €{record.newRate}
+                                </p>
+                              </div>
+                            </div>
+                          </CardContent>
+                        </Card>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="text-center py-8 text-muted-foreground">
+                      <Clock className="h-8 w-8 mx-auto mb-2" />
+                      <p>No verification history available</p>
+                    </div>
+                  )}
+                </TabsContent>
+              </Tabs>
+            </CardContent>
+
+            <div className="p-6 border-t flex justify-between">
+              <Button variant="outline" onClick={() => setShowVerificationModal(false)}>
+                Cancel
+              </Button>
+              <Button onClick={handleSubmitVerification}>
+                <CheckCircle className="h-4 w-4 mr-2" />
+                Verify Rate
+              </Button>
+            </div>
+          </Card>
+        </div>
+      )}
+    </div>
+  );
+}

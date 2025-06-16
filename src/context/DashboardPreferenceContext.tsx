@@ -28,7 +28,8 @@ export interface DashboardWidget {
   order: number;
   configurable?: boolean;
   removable?: boolean;
-  config?: Record<string, any>\n  );
+  config?: Record<string, any>
+  );
 }
 
 // Layout configuration
@@ -46,7 +47,8 @@ export interface UserDashboardPreferences {
   layouts: DashboardLayout[];
   theme: 'light' | 'dark' | 'system';
   refreshInterval: number;
-  filters: Record<string, any>\n  );
+  filters: Record<string, any>
+  );
   compactView: boolean;
 }
 

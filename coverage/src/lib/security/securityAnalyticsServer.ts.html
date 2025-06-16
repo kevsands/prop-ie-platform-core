@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/145</span>
+                <span class='fraction'>0/139</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/129</span>
+                <span class='fraction'>0/123</span>
             </div>
         
             
@@ -456,9 +456,7 @@
 <a name='L391'></a><a href='#L391'>391</a>
 <a name='L392'></a><a href='#L392'>392</a>
 <a name='L393'></a><a href='#L393'>393</a>
-<a name='L394'></a><a href='#L394'>394</a>
-<a name='L395'></a><a href='#L395'>395</a>
-<a name='L396'></a><a href='#L396'>396</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L394'></a><a href='#L394'>394</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -629,7 +627,7 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -647,7 +645,7 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -665,7 +663,7 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -683,7 +681,7 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -758,7 +756,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -805,7 +802,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -857,7 +853,7 @@
  * Server-side security analytics functions.
  * This module provides server-compatible functions for fetching security data.
  */
- 
+&nbsp;
 import { generateClient } from <span class="cstat-no" title="statement not covered" >'aws-amplify/api';</span>
 import { safeCacheFunction } from <span class="cstat-no" title="statement not covered" >'../../utils/performance/safeCache';</span>
 import { API } from <span class="cstat-no" title="statement not covered" >'../amplify/api';</span>
@@ -890,7 +886,7 @@ function <span class="fstat-no" title="function not covered" >getDateRangeFromTi
   const now = <span class="cstat-no" title="statement not covered" >new Date();</span>
   const end = <span class="cstat-no" title="statement not covered" >endDate || now;</span>
   let start: Date;
-  
+&nbsp;
 <span class="cstat-no" title="statement not covered" >  switch (timeframe) {</span>
     case AnalyticsTimeframe.LAST_HOUR:
 <span class="cstat-no" title="statement not covered" >      start = new Date(now.getTime() - 60 * 60 * 1000);</span>
@@ -900,7 +896,7 @@ function <span class="fstat-no" title="function not covered" >getDateRangeFromTi
 <span class="cstat-no" title="statement not covered" >      break;</span>
     case AnalyticsTimeframe.YESTERDAY:
 <span class="cstat-no" title="statement not covered" >      start = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 1);</span>
-<span class="cstat-no" title="statement not covered" >      end.setHours(23, 59, 59, 999);</span>
+<span class="cstat-no" title="statement not covered" >      end.setHours(23, 59, 59999);</span>
 <span class="cstat-no" title="statement not covered" >      break;</span>
     case AnalyticsTimeframe.LAST_7_DAYS:
 <span class="cstat-no" title="statement not covered" >      start = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);</span>
@@ -917,7 +913,7 @@ function <span class="fstat-no" title="function not covered" >getDateRangeFromTi
     default:
 <span class="cstat-no" title="statement not covered" >      start = new Date(now.getTime() - 24 * 60 * 60 * 1000); /</span>/ Default to last 24 hours
   }
-  
+&nbsp;
 <span class="cstat-no" title="statement not covered" >  return { start, end };</span>
 }
 &nbsp;
@@ -931,10 +927,10 @@ function <span class="fstat-no" title="function not covered" >optionsToParams(o<
     options.startDate,
     options.endDate
   );
-  
+&nbsp;
 <span class="cstat-no" title="statement not covered" >  params.start = start.toISOString();</span>
 <span class="cstat-no" title="statement not covered" >  params.end = end.toISOString();</span>
-  
+&nbsp;
 <span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (options.limit) <span class="cstat-no" title="statement not covered" >params.limit = options.limit.toString();</span></span>
 <span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (options.category) <span class="cstat-no" title="statement not covered" >params.category = options.category;</span></span>
 <span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (options.severity?.length) <span class="cstat-no" title="statement not covered" >params.severity = options.severity.join(',');</span></span>
@@ -943,7 +939,7 @@ function <span class="fstat-no" title="function not covered" >optionsToParams(o<
 <span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (options.page) <span class="cstat-no" title="statement not covered" >params.page = options.page.toString();</span></span>
 <span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (options.withCorrelation) <span class="cstat-no" title="statement not covered" >params.withCorrelation = 'true';</span></span>
 <span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (options.withRecommendations) <span class="cstat-no" title="statement not covered" >params.withRecommendations = 'true';</span></span>
-  
+&nbsp;
 <span class="cstat-no" title="statement not covered" >  return params;</span>
 }
 &nbsp;
@@ -957,11 +953,11 @@ function <span class="fstat-no" title="function not covered" >calculateSecurityS
 ): number {
   // Start with perfect score and subtract based on issues
   let score = <span class="cstat-no" title="statement not covered" >100;</span>
-  
+&nbsp;
   // Reduce score based on anomalies (weighted by severity)
 <span class="cstat-no" title="statement not covered" >  for (const anomaly of anomalies) {</span>
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (anomaly.status === 'false_positive') <span class="cstat-no" title="statement not covered" >continue;</span></span>
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    switch (anomaly.severity) {</span>
       case 'low':
 <span class="cstat-no" title="statement not covered" >        score -= 1;</span>
@@ -977,12 +973,12 @@ function <span class="fstat-no" title="function not covered" >calculateSecurityS
 <span class="cstat-no" title="statement not covered" >        break;</span>
     }
   }
-  
+&nbsp;
   // Reduce score based on threats (weighted by severity and confidence)
 <span class="cstat-no" title="statement not covered" >  for (const threat of threats) {</span>
     const confidenceFactor = <span class="cstat-no" title="statement not covered" >threat.confidence / 100;</span>
     let severityImpact = <span class="cstat-no" title="statement not covered" >0;</span>
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    switch (threat.severity) {</span>
       case 'low':
 <span class="cstat-no" title="statement not covered" >        severityImpact = 2;</span>
@@ -997,17 +993,17 @@ function <span class="fstat-no" title="function not covered" >calculateSecurityS
 <span class="cstat-no" title="statement not covered" >        severityImpact = 12;</span>
 <span class="cstat-no" title="statement not covered" >        break;</span>
     }
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    score -= severityImpact * confidenceFactor;</span>
   }
-  
+&nbsp;
   // Use relevant metrics to adjust score
   const securityScoreMetric = <span class="cstat-no" title="statement not covered" >metrics.find(<span class="fstat-no" title="function not covered" >m =&gt; <span class="cstat-no" title="statement not covered" >m</span>.name === 'Security Score');</span></span>
 <span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (securityScoreMetric) {</span>
     // Blend calculated score with reported score (70/30 split)
 <span class="cstat-no" title="statement not covered" >    score = 0.7 * score + 0.3 * securityScoreMetric.value;</span>
   }
-  
+&nbsp;
   // Ensure score is between 0-100
 <span class="cstat-no" title="statement not covered" >  return Math.max(0, Math.min(100, Math.round(score)));</span>
 }
@@ -1019,12 +1015,12 @@ function <span class="fstat-no" title="function not covered" >calculateSecurityS
 export const <span class="cstat-no" title="statement not covered" >getSecurityMetrics </span>= <span class="cstat-no" title="statement not covered" >safeCacheFunction&lt;(options?: SecurityAnalyticsOptions) =&gt; Promise&lt;SecurityMetric[]&gt;&gt;(</span>
 <span class="fstat-no" title="function not covered" >  async (o</span>ptions: SecurityAnalyticsOptions = <span class="branch-0 cbranch-no" title="branch not covered" >{})</span>: Promise&lt;SecurityMetric[]&gt; =&gt; {
     const queryParams = <span class="cstat-no" title="statement not covered" >optionsToParams(options);</span>
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    try {</span>
       const metrics = <span class="cstat-no" title="statement not covered" >await API.get&lt;SecurityMetric[]&gt;('/api/security/metrics', queryParams);</span>
 <span class="cstat-no" title="statement not covered" >      return metrics;</span>
     } catch (error) {
-<span class="cstat-no" title="statement not covered" >      console.error('Error fetching security metrics:', error);</span>
+&nbsp;
 <span class="cstat-no" title="statement not covered" >      return [];</span>
     }
   }
@@ -1037,12 +1033,12 @@ export const <span class="cstat-no" title="statement not covered" >getSecurityMe
 export const <span class="cstat-no" title="statement not covered" >getSecurityEvents </span>= <span class="cstat-no" title="statement not covered" >safeCacheFunction&lt;(options?: SecurityAnalyticsOptions) =&gt; Promise&lt;SecurityEvent[]&gt;&gt;(</span>
 <span class="fstat-no" title="function not covered" >  async (o</span>ptions: SecurityAnalyticsOptions = <span class="branch-0 cbranch-no" title="branch not covered" >{})</span>: Promise&lt;SecurityEvent[]&gt; =&gt; {
     const queryParams = <span class="cstat-no" title="statement not covered" >optionsToParams(options);</span>
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    try {</span>
       const events = <span class="cstat-no" title="statement not covered" >await API.get&lt;SecurityEvent[]&gt;('/api/security/events', queryParams);</span>
 <span class="cstat-no" title="statement not covered" >      return events;</span>
     } catch (error) {
-<span class="cstat-no" title="statement not covered" >      console.error('Error fetching security events:', error);</span>
+&nbsp;
 <span class="cstat-no" title="statement not covered" >      return [];</span>
     }
   }
@@ -1055,12 +1051,12 @@ export const <span class="cstat-no" title="statement not covered" >getSecurityEv
 export const <span class="cstat-no" title="statement not covered" >getAnomalyDetections </span>= <span class="cstat-no" title="statement not covered" >safeCacheFunction&lt;(options?: SecurityAnalyticsOptions) =&gt; Promise&lt;AnomalyDetection[]&gt;&gt;(</span>
 <span class="fstat-no" title="function not covered" >  async (o</span>ptions: SecurityAnalyticsOptions = <span class="branch-0 cbranch-no" title="branch not covered" >{})</span>: Promise&lt;AnomalyDetection[]&gt; =&gt; {
     const queryParams = <span class="cstat-no" title="statement not covered" >optionsToParams(options);</span>
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    try {</span>
       const anomalies = <span class="cstat-no" title="statement not covered" >await API.get&lt;AnomalyDetection[]&gt;('/api/security/anomalies', queryParams);</span>
 <span class="cstat-no" title="statement not covered" >      return anomalies;</span>
     } catch (error) {
-<span class="cstat-no" title="statement not covered" >      console.error('Error fetching anomaly detections:', error);</span>
+&nbsp;
 <span class="cstat-no" title="statement not covered" >      return [];</span>
     }
   }
@@ -1073,12 +1069,12 @@ export const <span class="cstat-no" title="statement not covered" >getAnomalyDet
 export const <span class="cstat-no" title="statement not covered" >getThreatIndicators </span>= <span class="cstat-no" title="statement not covered" >safeCacheFunction&lt;(options?: SecurityAnalyticsOptions) =&gt; Promise&lt;ThreatIndicator[]&gt;&gt;(</span>
 <span class="fstat-no" title="function not covered" >  async (o</span>ptions: SecurityAnalyticsOptions = <span class="branch-0 cbranch-no" title="branch not covered" >{})</span>: Promise&lt;ThreatIndicator[]&gt; =&gt; {
     const queryParams = <span class="cstat-no" title="statement not covered" >optionsToParams(options);</span>
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    try {</span>
       const threats = <span class="cstat-no" title="statement not covered" >await API.get&lt;ThreatIndicator[]&gt;('/api/security/threats', queryParams);</span>
 <span class="cstat-no" title="statement not covered" >      return threats;</span>
     } catch (error) {
-<span class="cstat-no" title="statement not covered" >      console.error('Error fetching threat indicators:', error);</span>
+&nbsp;
 <span class="cstat-no" title="statement not covered" >      return [];</span>
     }
   }
@@ -1092,7 +1088,7 @@ export const <span class="cstat-no" title="statement not covered" >getSecuritySn
 <span class="fstat-no" title="function not covered" >  async (o</span>ptions: SecurityAnalyticsOptions = <span class="branch-0 cbranch-no" title="branch not covered" >{})</span>: Promise&lt;SecuritySnapshot&gt; =&gt; {
 <span class="cstat-no" title="statement not covered" >    try {</span>
       // Fetch all data in parallel for performance
-      const [metrics, events, anomalies, threats] = <span class="cstat-no" title="statement not covered" >await Promise.all([</span>
+      const [metrics, events, anomaliesthreats] = <span class="cstat-no" title="statement not covered" >await Promise.all([</span>
         getSecurityMetrics(options),
         getSecurityEvents({...options, limit: 10}), // Limit recent events
         getAnomalyDetections({
@@ -1101,7 +1097,7 @@ export const <span class="cstat-no" title="statement not covered" >getSecuritySn
         }),
         getThreatIndicators(options)
       ]);
-      
+&nbsp;
       // Calculate alert counts
       const alertCount = <span class="cstat-no" title="statement not covered" >{</span>
         low: 0,
@@ -1109,7 +1105,7 @@ export const <span class="cstat-no" title="statement not covered" >getSecuritySn
         high: 0,
         critical: 0
       };
-      
+&nbsp;
       // Count active anomalies by severity
 <span class="cstat-no" title="statement not covered" >      for (const anomaly of anomalies) {</span>
 <span class="cstat-no" title="statement not covered" >        <span class="missing-if-branch" title="if path not taken" >I</span>if (anomaly.status !== 'false_positive') {</span>
@@ -1117,31 +1113,31 @@ export const <span class="cstat-no" title="statement not covered" >getSecuritySn
 <span class="cstat-no" title="statement not covered" >          alertCount[severity]++;</span>
         }
       }
-      
+&nbsp;
       // Count active threats by severity
 <span class="cstat-no" title="statement not covered" >      for (const threat of threats) {</span>
         const severity = <span class="cstat-no" title="statement not covered" >threat.severity </span>as keyof typeof alertCount;
 <span class="cstat-no" title="statement not covered" >        alertCount[severity]++;</span>
       }
-      
+&nbsp;
       // Calculate security score
       const securityScore = <span class="cstat-no" title="statement not covered" >calculateSecurityScore(</span>
         metrics as SecurityMetric[], 
         anomalies as AnomalyDetection[], 
         threats as ThreatIndicator[]
       );
-      
+&nbsp;
       // Determine overall security status
       let securityStatus: 'normal' | 'elevated' | 'high_alert' | 'critical' = <span class="cstat-no" title="statement not covered" >'normal';</span>
-      
-<span class="cstat-no" title="statement not covered" >      if (alertCount.critical &gt; 0) {</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >      if (alertCount.critical&gt; 0) {</span>
 <span class="cstat-no" title="statement not covered" >        securityStatus = 'critical';</span>
-      } else <span class="cstat-no" title="statement not covered" >if (alertCount.high &gt; 0) {</span>
+      } else <span class="cstat-no" title="statement not covered" >if (alertCount.high&gt; 0) {</span>
 <span class="cstat-no" title="statement not covered" >        securityStatus = 'high_alert';</span>
-      } else <span class="cstat-no" title="statement not covered" ><span class="missing-if-branch" title="if path not taken" >I</span>if (alertCount.medium &gt; 0) {</span>
+      } else <span class="cstat-no" title="statement not covered" ><span class="missing-if-branch" title="if path not taken" >I</span>if (alertCount.medium&gt; 0) {</span>
 <span class="cstat-no" title="statement not covered" >        securityStatus = 'elevated';</span>
       }
-      
+&nbsp;
 <span class="cstat-no" title="statement not covered" >      return {</span>
         timestamp: new Date(),
         metrics: metrics as SecurityMetric[],
@@ -1153,8 +1149,7 @@ export const <span class="cstat-no" title="statement not covered" >getSecuritySn
         alertCount
       };
     } catch (error) {
-<span class="cstat-no" title="statement not covered" >      console.error('Error fetching security snapshot:', error);</span>
-      
+&nbsp;
       // Return a default snapshot in case of error
 <span class="cstat-no" title="statement not covered" >      return {</span>
         timestamp: new Date(),
@@ -1191,17 +1186,16 @@ export async function <span class="cstat-no" title="statement not covered" ><spa
       recommendations: []
     };
   }
-  
+&nbsp;
 <span class="cstat-no" title="statement not covered" >  try {</span>
     const queryParams = <span class="cstat-no" title="statement not covered" >{</span>
       ...optionsToParams(options),
       ids: eventIds.join(',')
     };
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    return await API.get&lt;CorrelationResult&gt;('/api/security/correlate', queryParams);</span>
   } catch (error) {
-<span class="cstat-no" title="statement not covered" >    console.error('Error correlating security events:', error);</span>
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    return {</span>
       correlationId: 'error',
       relatedEvents: [],
@@ -1255,7 +1249,7 @@ export const <span class="cstat-no" title="statement not covered" >SecurityAnaly
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T22:15:28.100Z
+                at 2025-06-15T18:50:48.918Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

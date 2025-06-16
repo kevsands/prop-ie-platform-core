@@ -40,7 +40,8 @@ const meta = {
   tags: ['autodocs']} satisfies Meta;
 
 export default meta;
-type Story = StoryObj<typeof meta>\n  );
+type Story = StoryObj<typeof meta>
+  );
 /**
  * Accessible input with label and error handling
  */

@@ -219,7 +219,7 @@ export default function PropertySearch({
       }, resultProperties.length);
 
     }, 1000);
-  }, [initialBudget, analytics, priceRange, showingNewBuildsOnly, sortByjourneyId]);
+  }, [initialBudget, analyticspriceRangeshowingNewBuildsOnlysortByjourneyId]);
 
   // Filter properties based on search and filters
   const filteredProperties = properties.filter(property => {
@@ -449,7 +449,7 @@ export default function PropertySearch({
                 <div>
                   <h3 className="font-medium mb-2">Bedrooms</h3>
                   <div className="flex flex-wrap gap-2">
-                    {[1, 2, 3, 45].map(count => (
+                    {[12345].map(count => (
                       <button
                         key={`bedroom-${count}`}
                         onClick={() => toggleBedroomFilter(count)}
@@ -468,7 +468,7 @@ export default function PropertySearch({
                 <div>
                   <h3 className="font-medium mb-2">Bathrooms</h3>
                   <div className="flex flex-wrap gap-2">
-                    {[1, 2, 34].map(count => (
+                    {[1234].map(count => (
                       <button
                         key={`bathroom-${count}`}
                         onClick={() => toggleBathroomFilter(count)}
@@ -625,7 +625,7 @@ export default function PropertySearch({
       {/* Property grid/list */}
       {isLoading ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {[1, 2, 3, 4, 56].map(i => (
+          {[1, 23456].map(i => (
             <Card key={i} className="overflow-hidden">
               <div className="h-48 bg-gray-200 animate-pulse"></div>
               <div className="p-4 space-y-3">

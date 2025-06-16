@@ -13,7 +13,7 @@ import { Button } from './button';
  * Toast notifications provide brief messages about app processes without interrupting the user experience.
  * 
  * ## Features
- * - Multiple variants (default, success, error, warninginfo)
+ * - Multiple variants (defaultsuccesserrorwarninginfo)
  * - Customizable duration
  * - Automatic dismissal
  * - Ability to add actions
@@ -52,11 +52,12 @@ const meta = {
     layout: 'centered',
     docs: {
       description: {
-        component: 'Toast notification system for user feedback'}},
+        component: 'Toast notification system for user feedback'},
   tags: ['autodocs']} satisfies Meta;
 
 export default meta;
-type Story = StoryObj<typeof meta>\n  );
+type Story = StoryObj<typeof meta>
+  );
 /**
  * ToastDemo component to showcase toast functionality
  */

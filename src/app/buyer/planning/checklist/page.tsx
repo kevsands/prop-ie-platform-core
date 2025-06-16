@@ -118,7 +118,7 @@ const SimplifiedReadinessChecklist = ({
     });
 
     setCategoryProgress(newCategoryProgress);
-  }, [items, onProgressChangeonCategoryProgressChange]);
+  }, [itemsonProgressChangeonCategoryProgressChange]);
 
   // Define interface for Progress component props
   interface ProgressProps {

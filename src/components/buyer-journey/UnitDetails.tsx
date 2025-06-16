@@ -28,7 +28,8 @@ interface UnitDetailsProps {
     bathrooms: number;
     available: number;
     features: string[];
-    schedule: Record<string, string>\n  );
+    schedule: Record<string, string>
+  );
   };
   developmentId: string;
 }

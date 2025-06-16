@@ -11,7 +11,7 @@ export const mockDevelopments: Development[] = [
     status: "Now Selling",
     statusColor: "green-500",
     priceRange: "€320,000 - €450,000",
-    bedrooms: [2, 34],
+    bedrooms: [234],
     bathrooms: 2,
     squareFeet: 120, // Added square feet
     features: [
@@ -131,7 +131,7 @@ export const mockDevelopments: Development[] = [
     status: "Register Interest",
     statusColor: "purple-500",
     priceRange: "€375,000 - €550,000",
-    bedrooms: [1, 23],
+    bedrooms: [123],
     bathrooms: 2,
     squareFeet: 110,
     features: [

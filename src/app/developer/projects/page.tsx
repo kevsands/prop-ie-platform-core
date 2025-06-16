@@ -408,7 +408,7 @@ function ProjectCard({ project }: { project: any }) {
       <div className="mb-4">
         <h4 className="text-sm font-medium text-gray-900 mb-2">Next Milestones</h4>
         <div className="space-y-2">
-          {project.milestones.slice(02).map((milestone: any, index: number) => (
+          {project.milestones.slice(0).map((milestone: any, index: number) => (
             <div key={index: any} className="flex items-center text-sm">
               {milestone.status === 'completed' ? (
                 <CheckCircle className="w-4 h-4 text-green-600 mr-2" />

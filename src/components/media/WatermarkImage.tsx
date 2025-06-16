@@ -34,11 +34,11 @@ const WatermarkImage: React.FC<WatermarkImageProps> = ({
   const [isProcessingsetIsProcessing] = useState(false);
   const [previewsetPreview] = useState<string>(file.preview || '');
   const [useTextWatermarksetUseTextWatermark] = useState(!watermarkImage);
-
+  
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const imageRef = useRef<HTMLImageElement>(null);
   const watermarkImageRef = useRef<HTMLImageElement | null>(null);
-
+  
   // Set up watermark image if provided
   useEffect(() => {
     if (watermarkImage) {
@@ -49,19 +49,19 @@ const WatermarkImage: React.FC<WatermarkImageProps> = ({
       };
     }
   }, [watermarkImage]);
-
+  
   // Create image preview if not already available
   useEffect(() => {
     if (!file.preview && file.type.startsWith('image/')) {
       const objectUrl = URL.createObjectURL(file);
       setPreview(objectUrl);
-
+      
       return () => {
         URL.revokeObjectURL(objectUrl);
       };
     }
   }, [file]);
-
+  
   // Get coordinates for watermark based on position
   const getWatermarkCoordinates = (
     canvas: HTMLCanvasElement, 
@@ -102,83 +102,83 @@ const WatermarkImage: React.FC<WatermarkImageProps> = ({
         };
     }
   };
-
+  
   // Apply watermark and save the image
   const handleApplyWatermark = async () => {
     if (!imageRef.current || !canvasRef.current) return;
-
+    
     setIsProcessing(true);
-
+    
     try {
       const canvas = canvasRef.current;
       const ctx = canvas.getContext('2d');
-
+      
       if (!ctx) {
         throw new Error('Could not get canvas context');
       }
-
+      
       const img = imageRef.current;
-
+      
       // Set canvas dimensions to match the image
       canvas.width = img.naturalWidth;
       canvas.height = img.naturalHeight;
-
+      
       // Draw the original image
       ctx.drawImage(img, 00);
-
+      
       // Apply watermark
       if (useTextWatermark) {
         // Text watermark
         ctx.globalAlpha = opacity;
         ctx.fillStyle = textColor;
         ctx.font = `${fontSize}px Arial, sans-serif`;
-
+        
         // Measure text width for positioning
         const textWidth = ctx.measureText(text).width;
         const textHeight = fontSize;
-
+        
         const { x, y } = getWatermarkCoordinates(canvas, textWidthtextHeight);
-
+        
         // Add text shadow for better visibility
         ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
         ctx.shadowBlur = 4;
         ctx.shadowOffsetX = 2;
         ctx.shadowOffsetY = 2;
-
+        
         // Draw the text
         ctx.fillText(text, xy);
       } else if (watermarkImageRef.current) {
         // Image watermark
         const watermarkImg = watermarkImageRef.current;
         ctx.globalAlpha = opacity;
-
+        
         // Scale watermark image (max 1/4 of the main image)
         const maxWidth = canvas.width / 4;
         const maxHeight = canvas.height / 4;
-
+        
         let watermarkWidth = watermarkImg.width;
         let watermarkHeight = watermarkImg.height;
-
+        
         // Scale down if needed
         if (watermarkWidth> maxWidth) {
           const ratio = maxWidth / watermarkWidth;
           watermarkWidth = maxWidth;
           watermarkHeight = watermarkHeight * ratio;
         }
-
+        
         if (watermarkHeight> maxHeight) {
           const ratio = maxHeight / watermarkHeight;
           watermarkHeight = maxHeight;
           watermarkWidth = watermarkWidth * ratio;
         }
-
+        
         // Get coordinates based on position
         const { x, y } = getWatermarkCoordinates(
           canvas, 
           watermarkWidth, 
           watermarkHeight
         );
-
+        
         // Draw the watermark image
         ctx.drawImage(
           watermarkImg, 
@@ -188,35 +188,35 @@ const WatermarkImage: React.FC<WatermarkImageProps> = ({
           watermarkHeight
         );
       }
-
+      
       // Reset transparency
       ctx.globalAlpha = 1.0;
-
+      
       // Convert canvas to blob
-      const blob = await new Promise<Blob | null>((resolve: any) => 
+      const blob = await new Promise<Blob | null>((resolve) => 
         canvas.toBlob(resolve, file.type)
       );
-
+      
       if (!blob) {
         throw new Error('Could not create image blob');
       }
-
+      
       // Create a new file with the watermarked image
       const watermarkedFile = new File([blob], file.name, { type: file.type }) as MediaFile;
-
+      
       // Create a new preview URL
       watermarkedFile.preview = URL.createObjectURL(blob);
       watermarkedFile.id = file.id; // Preserve the original ID
-
+      
       // Pass the watermarked file back
       onSave(watermarkedFile);
     } catch (error) {
-
+      console.error('Error applying watermark:', error);
     } finally {
       setIsProcessing(false);
     }
   };
-
+  
   if (!file.type.startsWith('image/')) {
     return (
       <div className="p-8 text-center bg-gray-50 rounded-lg">
@@ -234,12 +234,12 @@ const WatermarkImage: React.FC<WatermarkImageProps> = ({
       </div>
     );
   }
-
+  
   return (
     <div className="watermark-tool flex flex-col">
       {/* Hidden canvas for processing */}
       <canvas ref={canvasRef} className="hidden" />
-
+      
       {/* Image preview */}
       <div className="flex-1 overflow-hidden flex items-center justify-center bg-gray-100 rounded-lg mb-4 p-4">
         {preview ? (
@@ -282,7 +282,7 @@ const WatermarkImage: React.FC<WatermarkImageProps> = ({
           </div>
         )}
       </div>
-
+      
       {/* Controls */}
       <div className="flex flex-col space-y-4 bg-gray-50 p-4 rounded-lg">
         {/* Watermark type */}
@@ -316,7 +316,7 @@ const WatermarkImage: React.FC<WatermarkImageProps> = ({
             </button>
           </div>
         </div>
-
+        
         {/* Text watermark options */}
         {useTextWatermark && (
           <>
@@ -328,12 +328,12 @@ const WatermarkImage: React.FC<WatermarkImageProps> = ({
                 type="text"
                 id="watermark-text"
                 value={text}
-                onChange={(e: any) => setText(e.target.value)}
+                onChange={(e) => setText(e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="Enter watermark text"
               />
             </div>
-
+            
             <div className="space-y-1">
               <label htmlFor="font-size" className="block text-sm font-medium text-gray-700">
                 Font Size: {fontSize}px
@@ -344,11 +344,11 @@ const WatermarkImage: React.FC<WatermarkImageProps> = ({
                 min={12}
                 max={72}
                 value={fontSize}
-                onChange={(e: any) => setFontSize(Number(e.target.value))}
+                onChange={(e) => setFontSize(Number(e.target.value))}
                 className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
               />
             </div>
-
+            
             <div className="space-y-1">
               <label htmlFor="text-color" className="block text-sm font-medium text-gray-700">
                 Text Color
@@ -358,20 +358,20 @@ const WatermarkImage: React.FC<WatermarkImageProps> = ({
                   type="color"
                   id="text-color"
                   value={textColor}
-                  onChange={(e: any) => setTextColor(e.target.value)}
+                  onChange={(e) => setTextColor(e.target.value)}
                   className="w-8 h-8 p-0 border-0 rounded cursor-pointer"
                 />
                 <input
                   type="text"
                   value={textColor}
-                  onChange={(e: any) => setTextColor(e.target.value)}
+                  onChange={(e) => setTextColor(e.target.value)}
                   className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
             </div>
           </>
         )}
-
+        
         {/* Common options */}
         <div className="space-y-1">
           <div className="flex items-center justify-between">
@@ -386,11 +386,11 @@ const WatermarkImage: React.FC<WatermarkImageProps> = ({
             max={1}
             step={0.05}
             value={opacity}
-            onChange={(e: any) => setOpacity(Number(e.target.value))}
+            onChange={(e) => setOpacity(Number(e.target.value))}
             className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
           />
         </div>
-
+        
         <div className="space-y-1">
           <label className="block text-sm font-medium text-gray-700">
             Position
@@ -453,7 +453,7 @@ const WatermarkImage: React.FC<WatermarkImageProps> = ({
             </button>
           </div>
         </div>
-
+        
         {/* Action buttons */}
         <div className="flex items-center justify-between pt-2">
           <button

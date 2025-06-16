@@ -184,7 +184,7 @@ const MOCK_DEVELOPMENTS = [
       'Bike storage',
       'Electric car charging'
     ],
-    bedrooms: [1, 23],
+    bedrooms: [123],
     bathrooms: 2,
     squareFeet: 1200,
     energyRating: 'A2',
@@ -305,7 +305,7 @@ const MOCK_DEVELOPMENTS = [
       'Local shopping center',
       'Transport links'
     ],
-    bedrooms: [2, 34],
+    bedrooms: [234],
     bathrooms: 2.5,
     squareFeet: 1500,
     energyRating: 'A1',
@@ -763,7 +763,7 @@ export async function POST(request: NextRequest) {
           websiteVisits: 456,
           inquiriesLastMonth: 28,
           pricePerSquareFoot: Math.round(development.salesStatus.actualPriceAverage / development.squareFeet),
-          popularUnitTypes: development.units.slice(02).map(u => u.type),
+          popularUnitTypes: development.units.slice(0).map(u => u.type),
           projectedCompletionDate: development.timeline.constructionEndDate,
           reservationConversionRate: 65,
           similarDevelopmentsPricing: [{

@@ -115,7 +115,7 @@ export default function MortgageCalculator({ onCalculate, initialValues }: Mortg
       const totalIntrst = totalRpmt - loanAmt;
 
       // Generate amortization schedule
-      const schedule = generateAmortizationSchedule(loanAmt, interestRatemortgageTerm);
+      const schedule = generateAmortizationSchedule(loanAmtinterestRatemortgageTerm);
 
       // Update state
       setLoanAmount(loanAmt);

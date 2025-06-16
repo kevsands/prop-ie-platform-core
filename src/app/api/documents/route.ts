@@ -56,7 +56,7 @@ export async function GET(request: NextRequest) {
           page,
           limit,
           total,
-          totalPages: Math.ceil(total / limit)}});
+          totalPages: Math.ceil(total / limit)});
   } catch (error) {
 
     return NextResponse.json(

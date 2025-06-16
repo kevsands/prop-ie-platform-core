@@ -78,7 +78,8 @@ export async function GET(request: NextRequest) {
       inStock?: boolean;
       leadTime?: number | null;
       lastStockCheck?: Date;
-      customData?: Record<string, any>\n  );
+      customData?: Record<string, any>
+  );
     }
 
     // Fetch options

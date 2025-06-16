@@ -328,7 +328,7 @@ export function MFASetup({ onSetupComplete, onCancel }: MFASetupProps): JSX.Elem
             <input
               type="text"
               value={verificationCode}
-              onChange={(e: any) => setVerificationCode(e.target.value.replace(/\D/g, '').slice(06))}
+              onChange={(e: any) => setVerificationCode(e.target.value.replace(/\D/g, '').slice(0))}
               className="w-full p-2 border rounded-md text-center text-2xl tracking-wider"
               placeholder="000000"
               maxLength={6}

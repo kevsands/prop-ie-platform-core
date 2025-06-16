@@ -1,6 +1,6 @@
 import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { env } from "@/config/environment"; // Use the @ alias for imports
+import { env } from "../../../../config/env"; // Use working env.ts file
 
 interface RequestOptions extends RequestInit {
   requiresAuth?: boolean;
@@ -10,14 +10,14 @@ interface RequestOptions extends RequestInit {
 interface ApiErrorResponse {
   message?: string;
   status?: number;
-  errors?: Record<string, string[]>\n  );
+  errors?: Record<string, string[]>;
 }
 
 class ApiService {
   private baseUrl: string;
   
   constructor() {
-    this.baseUrl = env.apiUrl;
+    this.baseUrl = env.APP_URL;
   }
   
   private async request<T>(endpoint: string, options: RequestOptions = {}): Promise<T> {

@@ -28,7 +28,8 @@ export interface Threat {
   severity: ThreatSeverity;
   timestamp: Date;
   source: string;
-  details: Record<string, any>\n  );
+  details: Record<string, any>
+  );
   mitigated: boolean;
   mitigationStrategy?: string;
   mitigationTimestamp?: Date;
@@ -43,7 +44,8 @@ export interface ThreatPattern {
   confidence: number;
   enabled: boolean;
   rules: string[];
-  metadata?: Record<string, any>\n  );
+  metadata?: Record<string, any>
+  );
 }
 
 // Default patterns - in actual implementation this would be populated
@@ -58,7 +60,8 @@ export interface ThreatDetectionResult {
   highThreats: number;
   mediumThreats: number;
   lowThreats: number;
-  threatTypes: Record<string, number>\n  );
+  threatTypes: Record<string, number>
+  );
   riskScore: number;
 }
 
@@ -179,14 +182,16 @@ class ThreatDetector {
   async analyzeInput(
     data: unknown, 
     options?: { 
-      context?: Record<string, any>\n  );
+      context?: Record<string, any>
+  );
       performanceMode?: 'strict' | 'balanced' | 'performance' | 'high-performance';
     }
   ): Promise<{
     isThreatDetected: boolean;
     threatType?: ThreatType;
     confidence: number;
-    details?: Record<string, any>\n  );
+    details?: Record<string, any>
+  );
   }> {
     // Ensure initialization
     if (!this.isInitialized) {
@@ -222,7 +227,8 @@ class ThreatDetector {
   private quickAnalysis(data: unknown): {
     isThreatDetected: boolean;
     confidence: number;
-    details?: Record<string, any>\n  );
+    details?: Record<string, any>
+  );
   } {
     // Basic checks for obvious threats in high-performance mode
     let suspicious = false;

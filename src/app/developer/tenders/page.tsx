@@ -1,0 +1,679 @@
+'use client';
+
+import React, { useState } from 'react';
+import { 
+  Briefcase, 
+  Calendar, 
+  Clock, 
+  CheckCircle, 
+  AlertCircle, 
+  Target,
+  Filter,
+  Download,
+  Upload,
+  Plus,
+  Search,
+  Eye,
+  Edit,
+  Trash2,
+  FileText,
+  Users,
+  Euro,
+  Building,
+  MapPin,
+  Star,
+  ArrowUpRight,
+  ArrowDownRight,
+  TrendingUp,
+  AlertTriangle,
+  Info,
+  Settings,
+  Send,
+  MessageSquare,
+  ChevronRight,
+  ExternalLink
+} from 'lucide-react';
+
+export default function TenderManagementPage() {
+  const [activeTabsetActiveTab] = useState('active');
+  const [selectedTendersetSelectedTender] = useState(null);
+  const [showNewTendersetShowNewTender] = useState(false);
+  const [filterStatussetFilterStatus] = useState('all');
+  const [searchTermsetSearchTerm] = useState('');
+
+  // Mock tender data
+  const tenders = [
+    {
+      id: 'TEN-2025-001',
+      title: 'Electrical Installation - Fitzgerald Gardens Phase 2',
+      project: 'Fitzgerald Gardens',
+      category: 'Electrical',
+      status: 'active',
+      priority: 'high',
+      budget: '€450,000',
+      submissions: 8,
+      deadline: '2025-07-15',
+      publishedDate: '2025-06-01',
+      description: 'Complete electrical installation for residential units 25-48 including main distribution, lighting, power outlets, and emergency systems.',
+      requirements: [
+        'RECI registered electrical contractor',
+        'Minimum 5 years residential experience',
+        'Insurance coverage €2M+',
+        'References from similar projects'
+      ],
+      contractors: [
+        { name: 'Celtic Electric Ltd', rating: 4.8, price: '€425,000', submitted: '2025-06-05' },
+        { name: 'Murphy Electrical', rating: 4.6, price: '€448,000', submitted: '2025-06-08' },
+        { name: 'Premier Power Systems', rating: 4.9, price: '€439,000', submitted: '2025-06-10' }
+      ],
+      documents: [
+        'Electrical Specifications.pdf',
+        'Site Plans.dwg',
+        'Schedule of Works.xlsx'
+      ]
+    },
+    {
+      id: 'TEN-2025-002',
+      title: 'Landscaping Works - Ballymakenny View',
+      project: 'Ballymakenny View',
+      category: 'Landscaping',
+      status: 'evaluation',
+      priority: 'medium',
+      budget: '€180,000',
+      submissions: 12,
+      deadline: '2025-06-30',
+      publishedDate: '2025-05-15',
+      description: 'Comprehensive landscaping including common areas, private gardens, boundary treatments, and maintenance areas.',
+      requirements: [
+        'Landscape contracting license',
+        'Horticultural qualifications',
+        'Equipment and machinery',
+        'Portfolio of completed projects'
+      ],
+      contractors: [
+        { name: 'Green Spaces Ltd', rating: 4.7, price: '€165,000', submitted: '2025-05-20' },
+        { name: 'Drogheda Landscapes', rating: 4.5, price: '€172,000', submitted: '2025-05-25' },
+        { name: 'Natural Gardens Co', rating: 4.8, price: '€178,000', submitted: '2025-05-28' }
+      ],
+      documents: [
+        'Landscape Design.pdf',
+        'Plant Schedule.xlsx',
+        'Maintenance Plan.pdf'
+      ]
+    },
+    {
+      id: 'TEN-2025-003',
+      title: 'Security Systems - Portfolio Wide',
+      project: 'All Projects',
+      category: 'Security',
+      status: 'awarded',
+      priority: 'high',
+      budget: '€320,000',
+      submissions: 6,
+      deadline: '2025-05-01',
+      publishedDate: '2025-04-01',
+      awardedTo: 'SecureHome Technologies',
+      awardedDate: '2025-05-15',
+      awardedPrice: '€295,000',
+      description: 'Integrated security systems including CCTV, access control, and monitoring for all active developments.',
+      requirements: [
+        'PSA security license',
+        'CCTV installation certification',
+        '24/7 monitoring capability',
+        'Proven track record'
+      ],
+      contractors: [
+        { name: 'SecureHome Technologies', rating: 4.9, price: '€295,000', submitted: '2025-04-10' },
+        { name: 'Guardian Security', rating: 4.6, price: '€315,000', submitted: '2025-04-12' },
+        { name: 'ProTech Systems', rating: 4.7, price: '€308,000', submitted: '2025-04-15' }
+      ],
+      documents: [
+        'Security Specification.pdf',
+        'System Diagrams.dwg',
+        'Monitoring SLA.pdf'
+      ]
+    },
+    {
+      id: 'TEN-2025-004',
+      title: 'Waste Management Services',
+      project: 'Multiple Projects',
+      category: 'Services',
+      status: 'draft',
+      priority: 'low',
+      budget: '€85,000',
+      submissions: 0,
+      deadline: '2025-08-01',
+      publishedDate: null,
+      description: 'Comprehensive waste management and recycling services for construction phase and ongoing operations.',
+      requirements: [
+        'Waste collection permit',
+        'Recycling facilities',
+        'Regular collection schedule',
+        'Compliance reporting'
+      ],
+      contractors: [],
+      documents: [
+        'Waste Management Plan.pdf'
+      ]
+    }
+  ];
+
+  const portfolioStats = {
+    activeTenders: tenders.filter(t => t.status === 'active').length,
+    totalSubmissions: tenders.reduce((acc, t) => acc + t.submissions, 0),
+    avgSubmissions: Math.round(tenders.filter(t => t.submissions > 0).reduce((acc, t) => acc + t.submissions, 0) / tenders.filter(t => t.submissions > 0).length),
+    totalBudget: '€1.035M',
+    savedAmount: '€127K',
+    avgSavings: 12.3,
+    totalRevenue: '€3.38K',
+    submissionFees: '€2.8K',
+    aiAnalysisFees: '€200',
+    premiumFees: '€380',
+    projectedGrowth: 200
+  };
+
+  const getStatusColor = (status) => {
+    switch (status) {
+      case 'active': return 'bg-blue-100 text-blue-800';
+      case 'evaluation': return 'bg-yellow-100 text-yellow-800';
+      case 'awarded': return 'bg-green-100 text-green-800';
+      case 'draft': return 'bg-gray-100 text-gray-800';
+      case 'cancelled': return 'bg-red-100 text-red-800';
+      default: return 'bg-gray-100 text-gray-800';
+    }
+  };
+
+  const getStatusIcon = (status) => {
+    switch (status) {
+      case 'active': return <Clock className="w-4 h-4 text-blue-600" />\n  );
+      case 'evaluation': return <Target className="w-4 h-4 text-yellow-600" />\n  );
+      case 'awarded': return <CheckCircle className="w-4 h-4 text-green-600" />\n  );
+      case 'draft': return <FileText className="w-4 h-4 text-gray-600" />\n  );
+      case 'cancelled': return <AlertCircle className="w-4 h-4 text-red-600" />\n  );
+      default: return <Info className="w-4 h-4 text-gray-600" />\n  );
+    }
+  };
+
+  const getPriorityColor = (priority) => {
+    switch (priority) {
+      case 'high': return 'bg-red-100 text-red-800';
+      case 'medium': return 'bg-yellow-100 text-yellow-800';
+      case 'low': return 'bg-green-100 text-green-800';
+      default: return 'bg-gray-100 text-gray-800';
+    }
+  };
+
+  const filteredTenders = tenders.filter(tender => {
+    if (filterStatus !== 'all' && tender.status !== filterStatus) return false;
+    if (searchTerm && !tender.title.toLowerCase().includes(searchTerm.toLowerCase())) return false;
+    return true;
+  });
+
+  return (
+    <div className="min-h-screen bg-gray-50">
+      {/* Header */}
+      <div className="bg-white border-b">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between py-6">
+            <div>
+              <h1 className="text-2xl font-bold text-gray-900">Tender Management</h1>
+              <p className="text-sm text-gray-500">Manage contractor tendering across all developments</p>
+            </div>
+            <div className="flex items-center space-x-3">
+              <button className="px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-50 flex items-center">
+                <Download className="w-4 h-4 mr-2" />
+                Export Report
+              </button>
+              <button 
+                onClick={() => setShowNewTender(true)}
+                className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 flex items-center"
+              >
+                <Plus className="w-4 h-4 mr-2" />
+                New Tender
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        {/* Portfolio Stats */}
+        <div className="grid grid-cols-1 md:grid-cols-6 gap-6 mb-6">
+          <div className="bg-white rounded-lg shadow p-6">
+            <div className="flex items-center">
+              <Briefcase className="w-8 h-8 text-blue-600" />
+              <div className="ml-4">
+                <p className="text-sm font-medium text-gray-600">Active Tenders</p>
+                <p className="text-2xl font-bold text-gray-900">{portfolioStats.activeTenders}</p>
+              </div>
+            </div>
+          </div>
+          
+          <div className="bg-white rounded-lg shadow p-6">
+            <div className="flex items-center">
+              <Users className="w-8 h-8 text-green-600" />
+              <div className="ml-4">
+                <p className="text-sm font-medium text-gray-600">Total Submissions</p>
+                <p className="text-2xl font-bold text-gray-900">{portfolioStats.totalSubmissions}</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-white rounded-lg shadow p-6">
+            <div className="flex items-center">
+              <Target className="w-8 h-8 text-purple-600" />
+              <div className="ml-4">
+                <p className="text-sm font-medium text-gray-600">Avg Submissions</p>
+                <p className="text-2xl font-bold text-gray-900">{portfolioStats.avgSubmissions}</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-white rounded-lg shadow p-6">
+            <div className="flex items-center">
+              <Euro className="w-8 h-8 text-blue-600" />
+              <div className="ml-4">
+                <p className="text-sm font-medium text-gray-600">Total Budget</p>
+                <p className="text-2xl font-bold text-gray-900">{portfolioStats.totalBudget}</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-white rounded-lg shadow p-6">
+            <div className="flex items-center">
+              <TrendingUp className="w-8 h-8 text-green-600" />
+              <div className="ml-4">
+                <p className="text-sm font-medium text-gray-600">Cost Savings</p>
+                <p className="text-2xl font-bold text-gray-900">{portfolioStats.savedAmount}</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-white rounded-lg shadow p-6">
+            <div className="flex items-center">
+              <Star className="w-8 h-8 text-yellow-600" />
+              <div className="ml-4">
+                <p className="text-sm font-medium text-gray-600">Avg Savings</p>
+                <p className="text-2xl font-bold text-gray-900">{portfolioStats.avgSavings}%</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Revenue Analytics */}
+        <div className="bg-white rounded-lg shadow mb-6">
+          <div className="p-6 border-b border-gray-200">
+            <h2 className="text-lg font-semibold text-gray-900 flex items-center">
+              <DollarSign className="w-5 h-5 mr-2 text-green-600" />
+              Tender Platform Revenue
+            </h2>
+            <p className="text-sm text-gray-600 mt-1">Revenue generated through tender submissions and premium services</p>
+          </div>
+
+          <div className="p-6">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
+              <div className="text-center p-4 bg-green-50 rounded-lg">
+                <p className="text-sm font-medium text-green-600">Total Revenue</p>
+                <p className="text-2xl font-bold text-green-900">{portfolioStats.totalRevenue}</p>
+                <p className="text-xs text-green-700 mt-1">This month</p>
+              </div>
+
+              <div className="text-center p-4 bg-blue-50 rounded-lg">
+                <p className="text-sm font-medium text-blue-600">Submission Fees</p>
+                <p className="text-2xl font-bold text-blue-900">{portfolioStats.submissionFees}</p>
+                <p className="text-xs text-blue-700 mt-1">€25 per submission</p>
+              </div>
+
+              <div className="text-center p-4 bg-purple-50 rounded-lg">
+                <p className="text-sm font-medium text-purple-600">AI Analysis</p>
+                <p className="text-2xl font-bold text-purple-900">{portfolioStats.aiAnalysisFees}</p>
+                <p className="text-xs text-purple-700 mt-1">€50 per analysis</p>
+              </div>
+
+              <div className="text-center p-4 bg-yellow-50 rounded-lg">
+                <p className="text-sm font-medium text-yellow-600">Premium Listings</p>
+                <p className="text-2xl font-bold text-yellow-900">{portfolioStats.premiumFees}</p>
+                <p className="text-xs text-yellow-700 mt-1">€100/month per contractor</p>
+              </div>
+            </div>
+
+            <div className="p-4 bg-gradient-to-r from-green-50 to-blue-50 rounded-lg">
+              <div className="flex items-center justify-between">
+                <div>
+                  <h3 className="font-medium text-gray-900">Growth Opportunity</h3>
+                  <p className="text-sm text-gray-600">Potential for {portfolioStats.projectedGrowth}% revenue increase</p>
+                </div>
+                <div className="text-right">
+                  <p className="text-lg font-bold text-green-600">+€6.8K/month</p>
+                  <p className="text-xs text-gray-500">with optimization</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Controls */}
+        <div className="bg-white rounded-lg shadow mb-6">
+          <div className="p-4 border-b border-gray-200">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-4 sm:space-y-0">
+              <div className="flex items-center space-x-4">
+                <div className="flex space-x-1">
+                  {['active', 'evaluation', 'awarded', 'draft'].map((status) => (
+                    <button
+                      key={status}
+                      onClick={() => setActiveTab(status)}
+                      className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                        activeTab === status
+                          ? 'bg-blue-100 text-blue-700'
+                          : 'text-gray-500 hover:text-gray-700 hover:bg-gray-100'
+                      }`}
+                    >
+                      {status.charAt(0).toUpperCase() + status.slice(1)}
+                    </button>
+                  ))}
+                </div>
+              </div>
+              <div className="flex items-center space-x-3">
+                <div className="relative">
+                  <Search className="w-4 h-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                  <input
+                    type="text"
+                    placeholder="Search tenders..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="pl-10 pr-4 py-2 border border-gray-300 rounded-md text-sm focus:ring-blue-500 focus:border-blue-500"
+                  />
+                </div>
+                <select
+                  value={filterStatus}
+                  onChange={(e) => setFilterStatus(e.target.value)}
+                  className="px-3 py-2 border border-gray-300 rounded-md text-sm focus:ring-blue-500 focus:border-blue-500"
+                >
+                  <option value="all">All Status</option>
+                  <option value="active">Active</option>
+                  <option value="evaluation">Evaluation</option>
+                  <option value="awarded">Awarded</option>
+                  <option value="draft">Draft</option>
+                </select>
+                <button className="px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-50 flex items-center">
+                  <Filter className="w-4 h-4 mr-2" />
+                  Filter
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Tenders List */}
+        <div className="space-y-6">
+          {filteredTenders.map((tender) => (
+            <div key={tender.id} className="bg-white rounded-lg shadow">
+              <div className="p-6">
+                <div className="flex items-start justify-between mb-4">
+                  <div className="flex-1">
+                    <div className="flex items-center space-x-3 mb-2">
+                      <h3 className="text-lg font-medium text-gray-900">{tender.title}</h3>
+                      <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(tender.status)}`}>
+                        {tender.status}
+                      </span>
+                      <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${getPriorityColor(tender.priority)}`}>
+                        {tender.priority} priority
+                      </span>
+                    </div>
+                    
+                    <div className="flex items-center space-x-6 text-sm text-gray-500 mb-3">
+                      <div className="flex items-center">
+                        <Building className="w-4 h-4 mr-1" />
+                        {tender.project}
+                      </div>
+                      <div className="flex items-center">
+                        <Euro className="w-4 h-4 mr-1" />
+                        Budget: {tender.budget}
+                      </div>
+                      <div className="flex items-center">
+                        <Users className="w-4 h-4 mr-1" />
+                        {tender.submissions} submissions
+                      </div>
+                      <div className="flex items-center">
+                        <Calendar className="w-4 h-4 mr-1" />
+                        Due: {new Date(tender.deadline).toLocaleDateString()}
+                      </div>
+                    </div>
+
+                    <p className="text-sm text-gray-600 mb-4">{tender.description}</p>
+
+                    {tender.status === 'awarded' && (
+                      <div className="p-3 bg-green-50 rounded-lg mb-4">
+                        <div className="flex items-center justify-between">
+                          <div>
+                            <p className="text-sm font-medium text-green-800">
+                              Awarded to: {tender.awardedTo}
+                            </p>
+                            <p className="text-xs text-green-600">
+                              {new Date(tender.awardedDate).toLocaleDateString()} • {tender.awardedPrice}
+                            </p>
+                          </div>
+                          <CheckCircle className="w-5 h-5 text-green-600" />
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Top Contractors Preview */}
+                    {tender.contractors.length> 0 && (
+                      <div className="border-t border-gray-200 pt-4">
+                        <h4 className="text-sm font-medium text-gray-900 mb-3">
+                          Top Submissions ({tender.contractors.length})
+                        </h4>
+                        <div className="space-y-2">
+                          {tender.contractors.slice(0).map((contractorindex) => (
+                            <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                              <div className="flex items-center space-x-3">
+                                <div className="flex items-center space-x-1">
+                                  <Star className="w-4 h-4 text-yellow-500 fill-current" />
+                                  <span className="text-sm font-medium text-gray-900">{contractor.rating}</span>
+                                </div>
+                                <span className="text-sm text-gray-900">{contractor.name}</span>
+                              </div>
+                              <div className="flex items-center space-x-4 text-sm">
+                                <span className="font-medium text-gray-900">{contractor.price}</span>
+                                <span className="text-gray-500">{new Date(contractor.submitted).toLocaleDateString()}</span>
+                                <button className="text-blue-600 hover:text-blue-500">
+                                  <Eye className="w-4 h-4" />
+                                </button>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="ml-6 flex flex-col items-end space-y-2">
+                    {getStatusIcon(tender.status)}
+                    <div className="flex items-center space-x-2">
+                      <button className="p-2 text-gray-400 hover:text-gray-600">
+                        <Eye className="w-4 h-4" />
+                      </button>
+                      <button className="p-2 text-gray-400 hover:text-gray-600">
+                        <Edit className="w-4 h-4" />
+                      </button>
+                      <button className="p-2 text-gray-400 hover:text-gray-600">
+                        <Download className="w-4 h-4" />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Action Buttons */}
+                <div className="flex items-center justify-between pt-4 border-t border-gray-200">
+                  <div className="flex items-center space-x-2">
+                    <span className="text-xs text-gray-500">ID: {tender.id}</span>
+                    <span className="text-xs text-gray-300">•</span>
+                    <span className="text-xs text-gray-500">
+                      Published: {tender.publishedDate ? new Date(tender.publishedDate).toLocaleDateString() : 'Not published'}
+                    </span>
+                  </div>
+                  <div className="flex items-center space-x-3">
+                    {tender.status === 'active' && (
+                      <>
+                        <button className="text-sm text-blue-600 hover:text-blue-700 font-medium">
+                          View Submissions
+                        </button>
+                        <button className="text-sm text-green-600 hover:text-green-700 font-medium">
+                          Award Contract
+                        </button>
+                      </>
+                    )}
+                    {tender.status === 'evaluation' && (
+                      <button className="text-sm text-yellow-600 hover:text-yellow-700 font-medium">
+                        Continue Evaluation
+                      </button>
+                    )}
+                    {tender.status === 'draft' && (
+                      <button className="text-sm text-blue-600 hover:text-blue-700 font-medium">
+                        Publish Tender
+                      </button>
+                    )}
+                    {tender.status === 'awarded' && (
+                      <button className="text-sm text-gray-600 hover:text-gray-700 font-medium">
+                        View Contract
+                      </button>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {filteredTenders.length === 0 && (
+          <div className="bg-white rounded-lg shadow p-12 text-center">
+            <Briefcase className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+            <h3 className="text-lg font-medium text-gray-900 mb-2">No tenders found</h3>
+            <p className="text-gray-500 mb-6">
+              {searchTerm || filterStatus !== 'all' 
+                ? 'Try adjusting your search or filter criteria'
+                : 'Create your first tender to start managing contractor submissions'}
+            </p>
+            <button 
+              onClick={() => setShowNewTender(true)}
+              className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+            >
+              Create New Tender
+            </button>
+          </div>
+        )}
+      </div>
+
+      {/* New Tender Modal */}
+      {showNewTender && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-xl w-full max-w-2xl p-6 max-h-[90vh] overflow-y-auto">
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-xl font-bold">Create New Tender</h2>
+              <button
+                onClick={() => setShowNewTender(false)}
+                className="p-2 hover:bg-gray-100 rounded-lg"
+              >
+                ✕
+              </button>
+            </div>
+            
+            <form className="space-y-6">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Tender Title</label>
+                <input
+                  type="text"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+                  placeholder="e.g., Electrical Installation - Phase 2"
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Project</label>
+                  <select className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500">
+                    <option>Select Project</option>
+                    <option>Fitzgerald Gardens</option>
+                    <option>Ballymakenny View</option>
+                    <option>Ellwood</option>
+                    <option>All Projects</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Category</label>
+                  <select className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500">
+                    <option>Select Category</option>
+                    <option>Electrical</option>
+                    <option>Plumbing</option>
+                    <option>Landscaping</option>
+                    <option>Security</option>
+                    <option>Services</option>
+                  </select>
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Description</label>
+                <textarea
+                  rows={4}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+                  placeholder="Detailed description of the work required..."
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Budget</label>
+                  <input
+                    type="text"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+                    placeholder="€0"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Submission Deadline</label>
+                  <input
+                    type="date"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Priority</label>
+                <select className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500">
+                  <option>High</option>
+                  <option>Medium</option>
+                  <option>Low</option>
+                </select>
+              </div>
+
+              <div className="flex items-center justify-end space-x-3 pt-6 border-t border-gray-200">
+                <button
+                  type="button"
+                  onClick={() => setShowNewTender(false)}
+                  className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50"
+                >
+                  Save as Draft
+                </button>
+                <button
+                  type="submit"
+                  className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                >
+                  Publish Tender
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}

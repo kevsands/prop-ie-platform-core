@@ -549,78 +549,78 @@ const SecurityTimeline: React.FC&lt;SecurityTimelineProps&gt; = <span class="cst
   // Process and group events with memoization
   const { processedEvents, groupedByDay } = <span class="cstat-no" title="statement not covered" >useMemo(<span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
     // Sort events by timestamp (newest first)
-    const sortedEvents = <span class="cstat-no" title="statement not covered" >[...events].sort(<span class="fstat-no" title="function not covered" >(a</span>, b) =&gt; </span>
+    const sortedEvents = <span class="cstat-no" title="statement not covered" >[...events].sort(<span class="fstat-no" title="function not covered" >(a</span>b: any) =&gt; </span>
 <span class="cstat-no" title="statement not covered" >      new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()</span>
     );
-    
+&nbsp;
     // Group events by day
     const byDay: Record&lt;string, any[]&gt; = <span class="cstat-no" title="statement not covered" >{};</span>
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    sortedEvents.forEach(<span class="fstat-no" title="function not covered" >event =&gt; {</span></span>
       const date = <span class="cstat-no" title="statement not covered" >new Date(event.timestamp);</span>
       const dayStr = <span class="cstat-no" title="statement not covered" >date.toLocaleDateString();</span>
-      
+&nbsp;
 <span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (!byDay[dayStr]) {</span>
 <span class="cstat-no" title="statement not covered" >        byDay[dayStr] = [];</span>
       }
-      
+&nbsp;
 <span class="cstat-no" title="statement not covered" >      byDay[dayStr].push(event);</span>
     });
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    return {</span>
       processedEvents: sortedEvents,
       groupedByDay: byDay
     };
   }, [events]);
-  
+&nbsp;
   // Helper to format relative time
   const formatTimeAgo = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(d</span>ate: Date) =&gt; {</span>
     const seconds = <span class="cstat-no" title="statement not covered" >Math.floor((new Date().getTime() - date.getTime()) / 1000);</span>
-    
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (seconds &lt; 60) <span class="cstat-no" title="statement not covered" >return `${seconds} seconds ago`;</span></span>
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (seconds &lt; 3600) <span class="cstat-no" title="statement not covered" >return `${Math.floor(seconds / 60)} minutes ago`;</span></span>
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (seconds &lt; 86400) <span class="cstat-no" title="statement not covered" >return `${Math.floor(seconds / 3600)} hours ago`;</span></span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (seconds &lt;60) <span class="cstat-no" title="statement not covered" >return `${seconds} seconds ago`;</span></span>
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (seconds &lt;3600) <span class="cstat-no" title="statement not covered" >return `${Math.floor(seconds / 60)} minutes ago`;</span></span>
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (seconds &lt;86400) <span class="cstat-no" title="statement not covered" >return `${Math.floor(seconds / 3600)} hours ago`;</span></span>
 <span class="cstat-no" title="statement not covered" >    return `${Math.floor(seconds / 86400)} days ago`;</span>
   };
-  
+&nbsp;
   // Get icon for event type
   const getEventIcon = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(e</span>vent: any) =&gt; {</span>
     const type = <span class="cstat-no" title="statement not covered" >event.type?.toLowerCase() || '';</span>
-    
+&nbsp;
     // Authentication related
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (type.includes('login') || type.includes('auth')) {</span>
       return &lt;User className="h-5 w-5 text-blue-500" /&gt;;
     }
-    
+&nbsp;
     // Authorization related
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (type.includes('permission') || type.includes('access')) {</span>
       return &lt;Lock className="h-5 w-5 text-purple-500" /&gt;;
     }
-    
+&nbsp;
     // API related
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (type.includes('api') || type.includes('request')) {</span>
       return &lt;Globe className="h-5 w-5 text-green-500" /&gt;;
     }
-    
+&nbsp;
     // Database related
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (type.includes('data') || type.includes('db')) {</span>
       return &lt;Database className="h-5 w-5 text-yellow-500" /&gt;;
     }
-    
+&nbsp;
     // Session related
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (type.includes('session') || type.includes('token')) {</span>
       return &lt;Key className="h-5 w-5 text-orange-500" /&gt;;
     }
-    
+&nbsp;
     // Error related
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (type.includes('error') || type.includes('fail')) {</span>
       return &lt;ServerCrash className="h-5 w-5 text-red-500" /&gt;;
     }
-    
+&nbsp;
     // Default
     return &lt;Shield className="h-5 w-5 text-gray-500" /&gt;;
   };
-  
+&nbsp;
   // Get severity icon
   const getSeverityIcon = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(s</span>everity: string) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    switch (severity) {</span>
@@ -634,7 +634,7 @@ const SecurityTimeline: React.FC&lt;SecurityTimelineProps&gt; = <span class="cst
         return &lt;Shield className="h-5 w-5 text-blue-500" /&gt;;
     }
   };
-  
+&nbsp;
   // Severity badge styles
   const getSeverityClass = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(s</span>everity: string) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    switch (severity) {</span>
@@ -650,7 +650,7 @@ const SecurityTimeline: React.FC&lt;SecurityTimelineProps&gt; = <span class="cst
 <span class="cstat-no" title="statement not covered" >        return 'bg-blue-50 text-blue-700 border-blue-200';</span>
     }
   };
-  
+&nbsp;
   // If no events, show empty state
 <span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (!events.length) {</span>
     return (
@@ -660,21 +660,21 @@ const SecurityTimeline: React.FC&lt;SecurityTimelineProps&gt; = <span class="cst
       &lt;/div&gt;
     );
   }
-  
+&nbsp;
   return (
     &lt;div className="space-y-8"&gt;
-      {Object.entries(groupedByDay).map(<span class="fstat-no" title="function not covered" >([</span>day, dayEvents]) =&gt; (
+      {Object.entries(groupedByDay).map(<span class="fstat-no" title="function not covered" >([</span>daydayEvents]) =&gt; (
 <span class="cstat-no" title="statement not covered" >        &lt;div key={day}&gt;</span>
           &lt;div className="flex items-center mb-4"&gt;
             &lt;div className="h-px flex-grow bg-gray-200"&gt;&lt;/div&gt;
             &lt;h3 className="px-3 text-sm font-medium text-gray-500"&gt;{day}&lt;/h3&gt;
             &lt;div className="h-px flex-grow bg-gray-200"&gt;&lt;/div&gt;
           &lt;/div&gt;
-          
+&nbsp;
           &lt;div className="space-y-4"&gt;
-            {dayEvents.map(<span class="fstat-no" title="function not covered" >(e</span>vent) =&gt; {
+            {dayEvents.map(<span class="fstat-no" title="function not covered" >(e</span>vent: any) =&gt; {
               const eventTime = <span class="cstat-no" title="statement not covered" >new Date(event.timestamp);</span>
-              
+&nbsp;
 <span class="cstat-no" title="statement not covered" >              return (</span>
                 &lt;div key={event.id} className="flex"&gt;
                   {/* Timeline connector */}
@@ -685,7 +685,7 @@ const SecurityTimeline: React.FC&lt;SecurityTimelineProps&gt; = <span class="cst
                     &lt;/div&gt;
                     &lt;div className="h-full w-px bg-gray-200"&gt;&lt;/div&gt;
                   &lt;/div&gt;
-                  
+&nbsp;
                   {/* Event content */}
                   &lt;div className="bg-white rounded-lg border border-gray-200 p-3 shadow-sm flex-grow mb-4"&gt;
                     &lt;div className="flex items-start justify-between"&gt;
@@ -693,7 +693,7 @@ const SecurityTimeline: React.FC&lt;SecurityTimelineProps&gt; = <span class="cst
                         &lt;div className="font-medium"&gt;{event.type}&lt;/div&gt;
                         &lt;div className="text-sm text-gray-600 mt-1"&gt;{event.details?.message || event.description}&lt;/div&gt;
                       &lt;/div&gt;
-                      
+&nbsp;
                       &lt;div className="flex flex-col items-end"&gt;
                         &lt;div className={`text-xs px-2 py-1 rounded-full border ${getSeverityClass(event.severity)}`}&gt;
                           {event.severity}
@@ -704,7 +704,7 @@ const SecurityTimeline: React.FC&lt;SecurityTimelineProps&gt; = <span class="cst
                         &lt;/div&gt;
                       &lt;/div&gt;
                     &lt;/div&gt;
-                    
+&nbsp;
                     {/* Event details */}
                     &lt;div className="mt-2 flex flex-wrap gap-2"&gt;
                       {<span class="branch-0 cbranch-no" title="branch not covered" >event.source </span>&amp;&amp; (
@@ -712,7 +712,7 @@ const SecurityTimeline: React.FC&lt;SecurityTimelineProps&gt; = <span class="cst
                           Source: {event.source}
                         &lt;/div&gt;
                       )}
-                      
+&nbsp;
                       {<span class="branch-0 cbranch-no" title="branch not covered" >event.status </span>&amp;&amp; (
                         &lt;div className={`text-xs px-2 py-1 rounded ${
                           event.status === 'resolved' ? 'bg-green-100 text-green-800' :
@@ -723,13 +723,13 @@ const SecurityTimeline: React.FC&lt;SecurityTimelineProps&gt; = <span class="cst
                           {event.status}
                         &lt;/div&gt;
                       )}
-                      
-                      {<span class="branch-0 cbranch-no" title="branch not covered" >event.relatedEntities?.length &gt; 0 &amp;&amp; (</span>
+&nbsp;
+                      {<span class="branch-0 cbranch-no" title="branch not covered" >event.relatedEntities?.length&gt; 0 &amp;&amp; (</span>
                         &lt;div className="text-xs bg-gray-100 px-2 py-1 rounded"&gt;
                           {event.relatedEntities.length} related entities
                         &lt;/div&gt;
                       )}
-                      
+&nbsp;
                       {<span class="branch-0 cbranch-no" title="branch not covered" >event.actionTaken </span>&amp;&amp; (
                         &lt;div className="text-xs bg-purple-100 text-purple-800 px-2 py-1 rounded"&gt;
                           Action: {event.actionTaken}
@@ -754,7 +754,7 @@ const SecurityTimeline: React.FC&lt;SecurityTimelineProps&gt; = <span class="cst
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T22:15:28.100Z
+                at 2025-06-15T18:50:48.918Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

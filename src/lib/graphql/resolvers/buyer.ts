@@ -282,7 +282,7 @@ const buyerProfileResolvers = {
     mortgageTracking: async (parent: BuyerProfile) => {
       return prisma.mortgageTracking.findUnique({
         where: { userId: parent.userId });
-    }};
+    };
 
 // Reservation Resolvers
 const reservationResolvers = {
@@ -378,7 +378,7 @@ const reservationResolvers = {
             propertyId,
             userId,
             status: {
-              not: ReservationStatus.CANCELLED}});
+              not: ReservationStatus.CANCELLED});
 
         if (existingReservation) {
           throw new GraphQLError('You already have a reservation for this property', {
@@ -474,7 +474,7 @@ const reservationResolvers = {
     documents: async (parent: Reservation) => {
       return prisma.document.findMany({
         where: { reservationId: parent.id });
-    }};
+    };
 
 // Combine all resolver objects
 const buyerResolvers = {

@@ -203,7 +203,7 @@ export default function BuyerJourneyPage() {
                 <div className="space-y-3">
                   {milestones
                     .filter(m => m.status === 'pending' || m.status === 'in_progress')
-                    .slice(03)
+                    .slice(0)
                     .map(milestone => (
                       <div key={milestone.id} className="flex items-center justify-between">
                         <div>

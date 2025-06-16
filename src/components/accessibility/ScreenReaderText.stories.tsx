@@ -44,7 +44,8 @@ const meta = {
   tags: ['autodocs']} satisfies Meta;
 
 export default meta;
-type Story = StoryObj<typeof meta>\n  );
+type Story = StoryObj<typeof meta>
+  );
 /**
  * Text that is only visible to screen readers
  */

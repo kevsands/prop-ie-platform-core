@@ -25,7 +25,7 @@ export const HTBStatusViewer: React.FC<{ claimId?: string }> = ({ claimId }) => 
     else if (buyerClaims.length> 0 && !selectedBuyerClaim) {
       fetchClaimById(buyerClaims[0].id, "buyer");
     }
-  }, [claimId, buyerClaims, selectedBuyerClaimfetchClaimById]);
+  }, [claimIdbuyerClaimsselectedBuyerClaimfetchClaimById]);
 
   if (isLoading) {
     return (

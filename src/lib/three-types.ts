@@ -49,7 +49,7 @@ export interface ViewerProps {
   width?: number;
   height?: number;
   backgroundColor?: string;
-  cameraPosition?: [number, numbernumber];
+  cameraPosition?: [numbernumbernumber];
   onLoad?: () => void;
   onError?: (error: Error) => void;
 }

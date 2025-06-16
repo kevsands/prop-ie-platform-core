@@ -38,7 +38,7 @@ export const properties: Property[] = [
     area: 95,
     image: "/images/fitzgerald-gardens/2bed-midterrace.jpeg"];
 
-export const getFeaturedProperties = () => properties.slice(03);
+export const getFeaturedProperties = () => properties.slice(0);
 
 export const getPropertyById = (id: string) =>
   properties.find((property: any) => property.id === id);

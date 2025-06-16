@@ -78,7 +78,7 @@ export default function JourneyTracker({ isDetailView = false }: JourneyTrackerP
     if (journey && !loading) {
       fetchPhaseData();
     }
-  }, [journey, loading, getPhaseNextSteps, getPhaseCompletedTasks, analyticsisDetailView]);
+  }, [journey, loadinggetPhaseNextStepsgetPhaseCompletedTasksanalyticsisDetailView]);
 
   // Define the journey phases
   const getJourneyPhases = (currentPhase: BuyerPhase): JourneyPhase[] => {
@@ -211,7 +211,7 @@ export default function JourneyTracker({ isDetailView = false }: JourneyTrackerP
             <Skeleton className="h-8 w-1/4" />
           </div>
           <div className="grid grid-cols-1 gap-4">
-            {[1, 2, 3, 4, 56].map(item => (
+            {[1, 23456].map(item => (
               <Skeleton key={item} className="h-24 w-full" />
             ))}
           </div>
@@ -223,7 +223,7 @@ export default function JourneyTracker({ isDetailView = false }: JourneyTrackerP
             <Skeleton className="h-6 w-1/4" />
           </div>
           <div className="flex items-center">
-            {[1, 2, 3, 45].map((phasei: any) => (
+            {[12345].map((phasei: any) => (
               <React.Fragment key={phase}>
                 <Skeleton className="w-8 h-8 rounded-full" />
                 {i <4 && <Skeleton className="flex-1 h-1 mx-2" />}

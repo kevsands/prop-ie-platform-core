@@ -1,5 +1,6 @@
-import React from 'react';
 'use client';
+
+import React from 'react';
 
 import { useToast } from './use-toast';
 import { FiX, FiCheckCircle, FiAlertCircle } from 'react-icons/fi';

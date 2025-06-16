@@ -3,19 +3,22 @@ import type { GraphQLContext } from './server';
 
 // Define a type that works with both AuthUser and Context types
 export type AuthContext = GraphQLContext & {
-  user: NonNullable<GraphQLContext['user']>\n  );
+  user: NonNullable<GraphQLContext['user']>
+  );
 };
 
 export type ResolverFunction<TArgs = unknown, TResult = unknown> = (
   parent: unknown,
   args: TArgs,
   context: GraphQLContext
-) => Promise<TResult>\n  );
+) => Promise<TResult>
+  );
 export type AuthResolverFunction<TArgs = unknown, TResult = unknown> = (
   parent: unknown,
   args: TArgs,
   context: AuthContext
-) => Promise<TResult>\n  );
+) => Promise<TResult>
+  );
 export function withAuth<TArgs = unknown, TResult = unknown>(
   resolver: AuthResolverFunction<TArgs, TResult>
 ): ResolverFunction<TArgs, TResult> {

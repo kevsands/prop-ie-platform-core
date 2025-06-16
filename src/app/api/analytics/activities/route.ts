@@ -14,23 +14,23 @@ export async function GET(request: NextRequest) {
     const limit = parseInt(searchParams.get('limit') || '10');
 
     // Fetch various activities
-    const [transactions, viewings, inquiriesdocuments] = await Promise.all([
+    const [transactionsviewingsinquiriesdocuments] = await Promise.all([
       // Recent transactions
       prisma.transaction.findMany({
         where: {
           unit: {
             development: {
-              developerId: session.user.id}},
+              developerId: session.user.id},
         include: {
           unit: {
             select: {
               unitNumber: true,
               development: {
                 select: {
-                  name: true}},
+                  name: true},
           buyer: {
             select: {
-              name: true}},
+              name: true},
         orderBy: {
           createdAt: 'desc'},
         take: limit}),
@@ -40,17 +40,17 @@ export async function GET(request: NextRequest) {
         where: {
           unit: {
             development: {
-              developerId: session.user.id}},
+              developerId: session.user.id},
         include: {
           unit: {
             select: {
               unitNumber: true,
               development: {
                 select: {
-                  name: true}},
+                  name: true},
           user: {
             select: {
-              name: true}},
+              name: true},
         orderBy: {
           createdAt: 'desc'},
         take: limit}),
@@ -60,17 +60,17 @@ export async function GET(request: NextRequest) {
         where: {
           unit: {
             development: {
-              developerId: session.user.id}},
+              developerId: session.user.id},
         include: {
           unit: {
             select: {
               unitNumber: true,
               development: {
                 select: {
-                  name: true}},
+                  name: true},
           user: {
             select: {
-              name: true}},
+              name: true},
         orderBy: {
           createdAt: 'desc'},
         take: limit}),
@@ -83,7 +83,7 @@ export async function GET(request: NextRequest) {
         include: {
           development: {
             select: {
-              name: true}},
+              name: true},
         orderBy: {
           createdAt: 'desc'},
         take: limit})]);

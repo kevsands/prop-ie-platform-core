@@ -61,7 +61,7 @@ export const ProjectDashboard: React.FC<ProjectDashboardProps> = ({ projectId })
       });
 
       // Get recent tasks
-      setRecentTasks(tasksData.slice(05));
+      setRecentTasks(tasksData.slice(0));
     } catch (error) {
 
       setError('Failed to load project data');

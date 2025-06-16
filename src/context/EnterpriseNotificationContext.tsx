@@ -26,7 +26,8 @@ const defaultContext: EnterpriseNotificationContextType = {
   addNotification: () => {},
   markAsRead: () => {},
   markAllAsRead: () => {},
-  clearNotifications: () => {};
+  clearNotifications: () => {},
+};
 
 const EnterpriseNotificationContext = createContext<EnterpriseNotificationContextType>(defaultContext);
 

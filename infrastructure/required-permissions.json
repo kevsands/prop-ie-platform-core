@@ -1,0 +1,29 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "ec2:*",
+        "rds:*",
+        "elasticache:*",
+        "s3:*",
+        "cloudfront:*",
+        "route53:*",
+        "acm:*",
+        "amplify:*",
+        "cognito-idp:*",
+        "iam:*",
+        "cloudformation:*",
+        "lambda:*",
+        "logs:*",
+        "ses:*",
+        "guardduty:*",
+        "securityhub:*",
+        "config:*",
+        "cloudtrail:*"
+      ],
+      "Resource": "*"
+    }
+  ]
+}

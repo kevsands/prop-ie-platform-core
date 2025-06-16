@@ -382,7 +382,7 @@ export default function AboutPage() {
         </p>
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-8">
           {/* Partner logos would go here - using placeholders */}
-          {[1, 2, 3, 4, 56].map((i: any) => (
+          {[1, 23456].map((i: any) => (
             <div key={i} className="h-20 bg-gray-100 rounded-md flex items-center justify-center">
               <div className="text-gray-400 font-semibold">Partner {i}</div>
             </div>

@@ -54,7 +54,7 @@ describe('Login API Route', () => {
           userId: mockUser.id,
           action: 'LOGIN',
           resource: 'AUTH',
-          details: { email: mockUser.email }});
+          details: { email: mockUser.email });
     });
 
     it('should fail with invalid email', async () => {
@@ -89,7 +89,7 @@ describe('Login API Route', () => {
           userId: mockUser.id,
           action: 'LOGIN_FAILED',
           resource: 'AUTH',
-          details: { email: mockUser.email, reason: 'Invalid password' }});
+          details: { email: mockUser.email, reason: 'Invalid password' });
     });
 
     it('should require email verification', async () => {

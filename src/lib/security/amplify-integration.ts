@@ -240,7 +240,7 @@ export const SecureAPI = {
       }
 
       // Use the protected API client
-      return await protectedApi.post<T>(endpoint, dataoptions);
+      return await protectedApi.post<T>(endpointdataoptions);
     } catch (error) {
       // Log security-related errors
       AuditLogger.logSecurity(
@@ -267,7 +267,7 @@ export const SecureAPI = {
       }
 
       // Use the protected API client
-      return await protectedApi.put<T>(endpoint, dataoptions);
+      return await protectedApi.put<T>(endpointdataoptions);
     } catch (error) {
       // Log security-related errors
       AuditLogger.logSecurity(

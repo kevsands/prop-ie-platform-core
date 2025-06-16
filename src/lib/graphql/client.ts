@@ -19,7 +19,7 @@ export const initializeGraphQLHooks = () => {
 export const queryClient = new QueryClient({ defaultOptions: { queries: {
       refetchOnWindowFocus: false,
       staleTime: 5 * 60 * 1000, // 5 minutes
-      retry: 1}});
+      retry: 1});
 
 // Initialize hooks on module import
 initializeGraphQLHooks();

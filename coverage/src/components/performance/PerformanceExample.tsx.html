@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/35</span>
+                <span class='fraction'>0/34</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/28</span>
+                <span class='fraction'>0/27</span>
             </div>
         
             
@@ -233,12 +233,7 @@
 <a name='L168'></a><a href='#L168'>168</a>
 <a name='L169'></a><a href='#L169'>169</a>
 <a name='L170'></a><a href='#L170'>170</a>
-<a name='L171'></a><a href='#L171'>171</a>
-<a name='L172'></a><a href='#L172'>172</a>
-<a name='L173'></a><a href='#L173'>173</a>
-<a name='L174'></a><a href='#L174'>174</a>
-<a name='L175'></a><a href='#L175'>175</a>
-<a name='L176'></a><a href='#L176'>176</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L171'></a><a href='#L171'>171</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -261,9 +256,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -275,7 +268,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -286,8 +279,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -410,7 +401,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">'use client';
@@ -428,21 +418,19 @@ import { OptimizedButton, OptimizedCard } from <span class="cstat-no" title="sta
  * Example component demonstrating various performance optimizations
  */
 export const <span class="cstat-no" title="statement not covered" >PerformanceExample:</span> React.FC = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
-  const [count, setCount] = <span class="cstat-no" title="statement not covered" >useState(0);</span>
-  const [showPerformanceMonitor, setShowPerformanceMonitor] = <span class="cstat-no" title="statement not covered" >useState(false);</span>
-  const [items, setItems] = <span class="cstat-no" title="statement not covered" >useState(<span class="fstat-no" title="function not covered" >() =&gt; <span class="cstat-no" title="statement not covered" >A</span>rray.from({ length: 1000 }, <span class="fstat-no" title="function not covered" >(_</span>, i) =&gt; (<span class="cstat-no" title="statement not covered" >{</span></span></span>
+  const [countsetCount] = <span class="cstat-no" title="statement not covered" >useState(0);</span>
+  const [showPerformanceMonitorsetShowPerformanceMonitor] = <span class="cstat-no" title="statement not covered" >useState(false);</span>
+  const [itemssetItems] = <span class="cstat-no" title="statement not covered" >useState(<span class="fstat-no" title="function not covered" >() =&gt; <span class="cstat-no" title="statement not covered" >A</span>rray.from({ length: 1000 }, <span class="fstat-no" title="function not covered" >(_</span>i: any) =&gt; (<span class="cstat-no" title="statement not covered" >{</span></span></span>
     id: i,
     name: `Item ${i}`,
-    description: `This is item number ${i} in the list.`,
-  })));
+    description: `This is item number ${i} in the list.`})));
 &nbsp;
   // Use performance monitor hook to track metrics
   const { metrics, refreshMetrics } = <span class="cstat-no" title="statement not covered" >usePerformanceMonitor({</span>
     enabled: true,
     trackWebVitals: true,
     trackMemory: true,
-    trackEventLoop: true,
-  });
+    trackEventLoop: true});
 &nbsp;
   // Use the performance hook for this component
   const { measureRender } = <span class="cstat-no" title="statement not covered" >usePerformanceMonitoring('PerformanceExample', { trackReRenders: true });</span>
@@ -450,9 +438,9 @@ export const <span class="cstat-no" title="statement not covered" >PerformanceEx
 &nbsp;
   // Create an expensive calculation that will be memoized
   const expensiveCalculation = <span class="cstat-no" title="statement not covered" >React.useMemo(<span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" >    console.log('Running expensive calculation');</span>
+&nbsp;
     let result = <span class="cstat-no" title="statement not covered" >0;</span>
-<span class="cstat-no" title="statement not covered" >    for (let i = <span class="cstat-no" title="statement not covered" >0; i</span> &lt; 1000000; i++) {</span>
+<span class="cstat-no" title="statement not covered" >    for (let i = <span class="cstat-no" title="statement not covered" >0; i</span> &lt;1000000; i++) {</span>
 <span class="cstat-no" title="statement not covered" >      result += Math.random();</span>
     }
 <span class="cstat-no" title="statement not covered" >    return result / 1000000;</span>
@@ -464,10 +452,8 @@ export const <span class="cstat-no" title="statement not covered" >PerformanceEx
       {
         id: prev.length,
         name: `Item ${prev.length}`,
-        description: `This is a new item that was just added.`,
-      },
-      ...prev,
-    ]);
+        description: `This is a new item that was just added.`},
+      ...prev]);
   };
 &nbsp;
   // Render function for virtualized list items
@@ -488,7 +474,7 @@ export const <span class="cstat-no" title="statement not covered" >PerformanceEx
       &lt;div className="mb-6"&gt;
         &lt;h2 className="text-xl font-semibold mb-2"&gt;Current Metrics&lt;/h2&gt;
         &lt;div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4"&gt;
-          {Object.entries(metrics).map(<span class="fstat-no" title="function not covered" >([</span>key, metric]) =&gt; (
+          {Object.entries(metrics).map(<span class="fstat-no" title="function not covered" >([</span>keymetric]) =&gt; (
 <span class="cstat-no" title="statement not covered" >            &lt;div key={key} c</span>lassName="bg-white shadow rounded-lg p-3"&gt;
               &lt;div className="text-xs text-gray-500"&gt;{metric.name}&lt;/div&gt;
               &lt;div className="text-lg font-bold"&gt;
@@ -587,15 +573,14 @@ export const <span class="cstat-no" title="statement not covered" >PerformanceEx
 <span class="cstat-no" title="statement not covered" >export default <span class="cstat-no" title="statement not covered" >o</span>ptimizeComponent(PerformanceExample, {</span>
   memoize: true,
   trackPerformance: true,
-  displayName: 'PerformanceExample',
-});</pre></td></tr></table></pre>
+  displayName: 'PerformanceExample'});</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
             </div><!-- /wrapper -->
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T22:15:28.100Z
+                at 2025-06-15T18:50:48.918Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

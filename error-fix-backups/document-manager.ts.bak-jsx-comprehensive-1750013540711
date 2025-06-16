@@ -1,0 +1,502 @@
+/**
+ * Document Management System
+ * Handles all document operations including upload, storage, signing, and retrieval
+ */
+
+import { EventEmitter } from 'events';
+import { S3Client, PutObjectCommand, GetObjectCommand, DeleteObjectCommand } from '@aws-sdk/client-s3';
+import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
+import { prisma } from '@/lib/prisma';
+import { transactionEngine, DocumentType, Document } from './index';
+import crypto from 'crypto';
+
+// Initialize S3 client
+const s3Client = new S3Client({
+  region: process.env.AWS_REGION || 'eu-west-1',
+  credentials: {
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID!,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!
+  }
+});
+
+const BUCKET_NAME = process.env.S3_BUCKET_NAME || 'prop-ie-documents';
+
+export enum DocumentStatus {
+  DRAFT = 'DRAFT',
+  PENDING_REVIEW = 'PENDING_REVIEW',
+  APPROVED = 'APPROVED',
+  SIGNED = 'SIGNED',
+  REJECTED = 'REJECTED',
+  ARCHIVED = 'ARCHIVED'
+}
+
+export enum DocumentCategory {
+  IDENTITY = 'IDENTITY',
+  FINANCIAL = 'FINANCIAL',
+  LEGAL = 'LEGAL',
+  PROPERTY = 'PROPERTY',
+  TRANSACTION = 'TRANSACTION',
+  CORRESPONDENCE = 'CORRESPONDENCE'
+}
+
+export interface DocumentMetadata {
+  id: string;
+  transactionId: string;
+  name: string;
+  type: DocumentType;
+  category: DocumentCategory;
+  status: DocumentStatus;
+  size: number;
+  mimeType: string;
+  s3Key: string;
+  uploadedBy: string;
+  uploadedAt: Date;
+  lastModifiedBy?: string;
+  lastModifiedAt?: Date;
+  signedBy?: string[];
+  signedAt?: Date[];
+  expiresAt?: Date;
+  tags?: string[];
+  metadata?: Record<string, any>
+  );
+}
+
+export interface UploadRequest {
+  transactionId: string;
+  file: Buffer | Uint8Array;
+  filename: string;
+  type: DocumentType;
+  category: DocumentCategory;
+  uploadedBy: string;
+  metadata?: Record<string, any>
+  );
+}
+
+export interface SignatureRequest {
+  documentId: string;
+  signerId: string;
+  signature: string;
+  signedAt: Date;
+  ipAddress?: string;
+}
+
+export class DocumentManager extends EventEmitter {
+  private static instance: DocumentManager;
+
+  private constructor() {
+    super();
+  }
+
+  static getInstance(): DocumentManager {
+    if (!DocumentManager.instance) {
+      DocumentManager.instance = new DocumentManager();
+    }
+    return DocumentManager.instance;
+  }
+
+  /**
+   * Upload document to S3 and create metadata
+   */
+  async uploadDocument(request: UploadRequest): Promise<DocumentMetadata> {
+    const documentId = crypto.randomUUID();
+    const fileExtension = request.filename.split('.').pop();
+    const s3Key = `${request.transactionId}/${documentId}.${fileExtension}`;
+
+    try {
+      // Upload to S3
+      const uploadCommand = new PutObjectCommand({
+        Bucket: BUCKET_NAME,
+        Key: s3Key,
+        Body: request.file,
+        ContentType: this.getMimeType(request.filename),
+        ServerSideEncryption: 'AES256',
+        Metadata: {
+          transactionId: request.transactionId,
+          documentId,
+          uploadedBy: request.uploadedBy
+        }
+      });
+
+      await s3Client.send(uploadCommand);
+
+      // Create document metadata
+      const document = await prisma.documentMetadata.create({
+        data: {
+          id: documentId,
+          transactionId: request.transactionId,
+          name: request.filename,
+          type: request.type,
+          category: request.category,
+          status: DocumentStatus.DRAFT,
+          size: request.file.length,
+          mimeType: this.getMimeType(request.filename),
+          s3Key,
+          uploadedBy: request.uploadedBy,
+          uploadedAt: new Date(),
+          metadata: request.metadata || {}
+        }
+      });
+
+      // Update transaction timeline
+      await transactionEngine.uploadDocument(request.transactionId, {
+        name: request.filename,
+        type: request.type,
+        url: await this.getSignedUrl(s3Key),
+        uploadedBy: request.uploadedBy,
+        verified: false,
+        metadata: { documentId }
+      });
+
+      this.emit('document_uploaded', { documentId, document });
+
+      return document as any;
+    } catch (error: any) {
+      this.emit('upload_failed', { error: error.message, request });
+      throw error;
+    }
+  }
+
+  /**
+   * Get signed URL for document access
+   */
+  async getDocumentUrl(documentId: string, expiresIn: number = 3600): Promise<string> {
+    const document = await this.getDocument(documentId);
+    if (!document) {
+      throw new Error('Document not found');
+    }
+
+    return this.getSignedUrl(document.s3Key, 'get', expiresIn);
+  }
+
+  /**
+   * Download document
+   */
+  async downloadDocument(documentId: string): Promise<Buffer> {
+    const document = await this.getDocument(documentId);
+    if (!document) {
+      throw new Error('Document not found');
+    }
+
+    try {
+      const command = new GetObjectCommand({
+        Bucket: BUCKET_NAME,
+        Key: document.s3Key
+      });
+
+      const response = await s3Client.send(command);
+      const chunks: Uint8Array[] = [];
+
+      if (response.Body) {
+        const stream = response.Body as any;
+        for await (const chunk of stream) {
+          chunks.push(chunk);
+        }
+      }
+
+      return Buffer.concat(chunks);
+    } catch (error: any) {
+      this.emit('download_failed', { error: error.message, documentId });
+      throw error;
+    }
+  }
+
+  /**
+   * Update document status
+   */
+  async updateDocumentStatus(
+    documentId: string,
+    status: DocumentStatus,
+    updatedBy: string
+  ): Promise<DocumentMetadata> {
+    const document = await prisma.documentMetadata.update({
+      where: { id: documentId },
+      data: {
+        status,
+        lastModifiedBy: updatedBy,
+        lastModifiedAt: new Date()
+      }
+    });
+
+    this.emit('document_status_updated', { documentId, status, updatedBy });
+
+    return document as any;
+  }
+
+  /**
+   * Sign document electronically
+   */
+  async signDocument(request: SignatureRequest): Promise<DocumentMetadata> {
+    const document = await this.getDocument(request.documentId);
+    if (!document) {
+      throw new Error('Document not found');
+    }
+
+    if (document.status === DocumentStatus.SIGNED) {
+      throw new Error('Document already signed');
+    }
+
+    // Add signer to document
+    const signedBy = [...(document.signedBy || []), request.signerId];
+    const signedAt = [...(document.signedAt || []), request.signedAt];
+
+    const updatedDocument = await prisma.documentMetadata.update({
+      where: { id: request.documentId },
+      data: {
+        signedBy,
+        signedAt,
+        status: DocumentStatus.SIGNED,
+        lastModifiedBy: request.signerId,
+        lastModifiedAt: new Date(),
+        metadata: {
+          ...document.metadata,
+          signatures: [
+            ...(document.metadata?.signatures || []),
+            {
+              signerId: request.signerId,
+              signature: request.signature,
+              signedAt: request.signedAt,
+              ipAddress: request.ipAddress
+            }
+          ]
+        }
+      }
+    });
+
+    this.emit('document_signed', {
+      documentId: request.documentId,
+      signerId: request.signerId,
+      signedAt: request.signedAt
+    });
+
+    return updatedDocument as any;
+  }
+
+  /**
+   * Create document from template
+   */
+  async createFromTemplate(
+    templateId: string,
+    transactionId: string,
+    variables: Record<string, any>,
+    createdBy: string
+  ): Promise<DocumentMetadata> {
+    // Get template
+    const template = await prisma.documentTemplate.findUnique({
+      where: { id: templateId }
+    });
+
+    if (!template) {
+      throw new Error('Template not found');
+    }
+
+    // Replace variables in template
+    let content = template.content;
+    for (const [keyvalue] of Object.entries(variables)) {
+      content = content.replace(new RegExp(`{${key}}`, 'g'), value);
+    }
+
+    // Convert to PDF (mock implementation)
+    const pdfBuffer = Buffer.from(content); // In real implementation, use PDF library
+
+    // Upload document
+    return this.uploadDocument({
+      transactionId,
+      file: pdfBuffer,
+      filename: `${template.name}_${Date.now()}.pdf`,
+      type: template.type as DocumentType,
+      category: template.category as DocumentCategory,
+      uploadedBy: createdBy,
+      metadata: { templateId, variables }
+    });
+  }
+
+  /**
+   * Share document with stakeholders
+   */
+  async shareDocument(
+    documentId: string,
+    recipientIds: string[],
+    permissions: ('view' | 'download' | 'sign')[],
+    sharedBy: string
+  ): Promise<void> {
+    const document = await this.getDocument(documentId);
+    if (!document) {
+      throw new Error('Document not found');
+    }
+
+    // Create share records
+    const shares = recipientIds.map(recipientId => ({
+      documentId,
+      recipientId,
+      permissions,
+      sharedBy,
+      sharedAt: new Date()
+    }));
+
+    await prisma.documentShare.createMany({
+      data: shares
+    });
+
+    this.emit('document_shared', {
+      documentId,
+      recipientIds,
+      permissions,
+      sharedBy
+    });
+  }
+
+  /**
+   * Get documents for transaction
+   */
+  async getTransactionDocuments(
+    transactionId: string,
+    filters?: {
+      type?: DocumentType;
+      category?: DocumentCategory;
+      status?: DocumentStatus;
+    }
+  ): Promise<DocumentMetadata[]> {
+    const where: any = { transactionId };
+
+    if (filters?.type) {
+      where.type = filters.type;
+    }
+    if (filters?.category) {
+      where.category = filters.category;
+    }
+    if (filters?.status) {
+      where.status = filters.status;
+    }
+
+    return prisma.documentMetadata.findMany({
+      where,
+      orderBy: { uploadedAt: 'desc' }
+    }) as any;
+  }
+
+  /**
+   * Archive document
+   */
+  async archiveDocument(documentId: string, archivedBy: string): Promise<void> {
+    await this.updateDocumentStatus(documentId, DocumentStatus.ARCHIVEDarchivedBy);
+
+    // Move to archive bucket (optional)
+    const document = await this.getDocument(documentId);
+    if (document) {
+      // Could move to different S3 lifecycle policy
+      this.emit('document_archived', { documentId, archivedBy });
+    }
+  }
+
+  /**
+   * Delete document
+   */
+  async deleteDocument(documentId: string, deletedBy: string): Promise<void> {
+    const document = await this.getDocument(documentId);
+    if (!document) {
+      throw new Error('Document not found');
+    }
+
+    // Delete from S3
+    try {
+      const deleteCommand = new DeleteObjectCommand({
+        Bucket: BUCKET_NAME,
+        Key: document.s3Key
+      });
+      await s3Client.send(deleteCommand);
+    } catch (error) {
+
+    }
+
+    // Delete metadata
+    await prisma.documentMetadata.delete({
+      where: { id: documentId }
+    });
+
+    this.emit('document_deleted', { documentId, deletedBy });
+  }
+
+  /**
+   * Helper methods
+   */
+
+  private async getDocument(documentId: string): Promise<DocumentMetadata | null> {
+    return prisma.documentMetadata.findUnique({
+      where: { id: documentId }
+    }) as any;
+  }
+
+  private async getSignedUrl(
+    key: string,
+    operation: 'put' | 'get' = 'get',
+    expiresIn: number = 3600
+  ): Promise<string> {
+    const command = operation === 'put'
+      ? new PutObjectCommand({ Bucket: BUCKET_NAME, Key: key })
+      : new GetObjectCommand({ Bucket: BUCKET_NAME, Key: key });
+
+    return getSignedUrl(s3Client, command, { expiresIn });
+  }
+
+  private getMimeType(filename: string): string {
+    const extension = filename.split('.').pop()?.toLowerCase();
+    const mimeTypes: Record<string, string> = {
+      pdf: 'application/pdf',
+      doc: 'application/msword',
+      docx: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+      jpg: 'image/jpeg',
+      jpeg: 'image/jpeg',
+      png: 'image/png',
+      txt: 'text/plain'
+    };
+    return mimeTypes[extension || ''] || 'application/octet-stream';
+  }
+
+  /**
+   * Create standard documents for transaction
+   */
+  async createStandardDocuments(transactionId: string): Promise<void> {
+    const templates = [
+      { id: 'purchase-agreement', name: 'Purchase Agreement' },
+      { id: 'deposit-receipt', name: 'Deposit Receipt' },
+      { id: 'completion-notice', name: 'Completion Notice' }
+    ];
+
+    for (const template of templates) {
+      await this.createFromTemplate(
+        template.id,
+        transactionId,
+        { transactionId },
+        'system'
+      );
+    }
+  }
+
+  /**
+   * Verify document completeness
+   */
+  async verifyDocumentCompleteness(transactionId: string): Promise<{
+    complete: boolean;
+    missing: DocumentType[];
+  }> {
+    const requiredDocuments = [
+      DocumentType.IDENTITY,
+      DocumentType.PROOF_OF_ADDRESS,
+      DocumentType.CONTRACT,
+      DocumentType.SIGNED_CONTRACT
+    ];
+
+    const existingDocuments = await this.getTransactionDocuments(transactionId);
+    const existingTypes = existingDocuments.map(doc => doc.type);
+
+    const missing = requiredDocuments.filter(type => !existingTypes.includes(type));
+
+    return {
+      complete: missing.length === 0,
+      missing
+    };
+  }
+}
+
+// Export singleton instance
+export const documentManager = DocumentManager.getInstance();

@@ -39,7 +39,8 @@ type RepositoryType = keyof typeof repositories;
  */
 export function getRepository<T extends RepositoryType>(type: T): InstanceType<typeof repositories[T]> {
   const RepositoryClass = repositories[type];
-  return new RepositoryClass() as InstanceType<typeof repositories[T]>\n  );
+  return new RepositoryClass() as InstanceType<typeof repositories[T]>
+  );
 }
 
 /**

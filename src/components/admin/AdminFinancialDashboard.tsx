@@ -174,7 +174,7 @@ const AdminFinancialDashboard: React.FC = () => {
 
           switch (dateRange) {
             case "today":
-              startDate.setHours(0, 0, 00);
+              startDate.setHours(0000);
               break;
             case "week":
               startDate.setDate(now.getDate() - 7);
@@ -247,7 +247,7 @@ const AdminFinancialDashboard: React.FC = () => {
               installmentsPaid,
               installmentsTotal,
               finalPaymentsPaid,
-              finalPaymentsTotal}});
+              finalPaymentsTotal});
       }, 1000);
     });
   };

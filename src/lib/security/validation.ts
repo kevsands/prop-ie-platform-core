@@ -705,7 +705,8 @@ async function detectInputThreats(data: unknown, options: Required<ValidationOpt
   isThreatDetected: boolean;
   threatType?: string;
   confidence: number;
-  details?: Record<string, any>\n  );
+  details?: Record<string, any>
+  );
 }> {
   try {
     // Skip threat detection if disabled or not an object
@@ -774,7 +775,7 @@ async function detectInputThreats(data: unknown, options: Required<ValidationOpt
         details: {
           detectedThreats: threats.map(t => ({
             type: t.type,
-            matches: t.matches.slice(05) // Limit to first 5 matches
+            matches: t.matches.slice(0) // Limit to first 5 matches
           }))
         }
       };
@@ -1179,7 +1180,8 @@ export function validateForm<T>(
 ): { 
   success: boolean; 
   data?: T; 
-  errors?: Record<string, string>\n  );
+  errors?: Record<string, string>
+  );
   securityWarning?: string;
 } {
   try {
@@ -1194,7 +1196,7 @@ export function validateForm<T>(
     };
 
     // Try to validate the data
-    const processedData = validateSecurityInput(schema, datavalidationOptions);
+    const processedData = validateSecurityInput(schemadatavalidationOptions);
 
     return {
       success: true,
@@ -1320,7 +1322,8 @@ export function sanitizeOutput(
  */
 export function validateCSP(cspString: string): { 
   valid: boolean;
-  directives: Record<string, string[]>\n  );
+  directives: Record<string, string[]>
+  );
   errors?: string[];
 } {
   const errors: string[] = [];

@@ -121,7 +121,7 @@ export function ContractorDirectory() {
       <div className="animate-pulse space-y-4">
         <div className="h-8 bg-muted rounded w-1/3" />
         <div className="grid gap-4">
-          {[1, 23].map(i => (
+          {[123].map(i => (
             <div key={i} className="h-48 bg-muted rounded" />
           ))}
         </div>

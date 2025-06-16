@@ -1,5 +1,6 @@
-import React from 'react';
 'use client';
+
+import React from 'react';
 
 import { useState } from 'react';
 import { 
@@ -465,7 +466,7 @@ export default function DocumentsPage() {
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="flex items-center space-x-1">
-                      {doc.tags.slice(02).map(tag => (
+                      {doc.tags.slice(0).map(tag => (
                         <span key={tag} className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-gray-100 text-gray-700">
                           {tag}
                         </span>

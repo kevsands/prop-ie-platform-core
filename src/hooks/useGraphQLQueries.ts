@@ -33,7 +33,8 @@ export interface DocumentItem {
     };
     signedAt: string;
     status: string;
-  }>\n  );
+  }>
+  );
 }
 
 export interface DocumentsResponse {
@@ -288,7 +289,8 @@ export interface DeveloperDashboardData {
     location: string;
     propertyCount: number;
     lastUpdated: string;
-  }>\n  );
+  }>
+  );
   salesTrend?: {
     period: string;
     percentage: number;

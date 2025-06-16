@@ -143,13 +143,13 @@ export function PropertyListingGrid() {
 
   useEffect(() => {
     applyFilters();
-  }, [properties, filterssearchQuery]);
+  }, [propertiesfilterssearchQuery]);
 
   useEffect(() => {
     if (inView && hasMore && !loading) {
       loadMoreProperties();
     }
-  }, [inView, hasMoreloading]);
+  }, [inViewhasMoreloading]);
 
   const loadProperties = async () => {
     try {
@@ -463,7 +463,7 @@ export function PropertyListingGrid() {
 
             {/* Features */}
             <div className="flex flex-wrap gap-1 mb-3">
-              {property.features.slice(03).map((featureindex: any) => (
+              {property.features.slice(0).map((featureindex: any) => (
                 <Badge key={index} variant="outline" className="text-xs">
                   {feature}
                 </Badge>

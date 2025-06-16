@@ -287,7 +287,8 @@ export interface SecurityErrorContext {
   ipAddress?: string;
   timestamp?: number;
   source?: string;
-  additional?: Record<string, any>\n  );
+  additional?: Record<string, any>
+  );
   originalErrorName?: string;
   featureId?: string;
   error?: string | Error;
@@ -836,7 +837,7 @@ export class AuthenticationError extends SecurityError {
     context: SecurityErrorContext = {},
     details?: Record<string, any>
   ) {
-    super(message, code, contextdetails);
+    super(messagecodecontextdetails);
     this.name = 'AuthenticationError';
   }
 }
@@ -852,7 +853,7 @@ export class AuthorizationError extends SecurityError {
     context: SecurityErrorContext = {},
     details?: Record<string, any>
   ) {
-    super(message, code, contextdetails);
+    super(messagecodecontextdetails);
     this.name = 'AuthorizationError';
   }
 }
@@ -868,7 +869,7 @@ export class ValidationError extends SecurityError {
     context: SecurityErrorContext = {},
     details?: Record<string, any>
   ) {
-    super(message, code, contextdetails);
+    super(messagecodecontextdetails);
     this.name = 'ValidationError';
   }
 
@@ -907,13 +908,13 @@ export const createSecurityError = asyncSafeCacheFunction<
 
   switch (category) {
     case ErrorCategory.AUTHENTICATION:
-      return new AuthenticationError(message, code, contextdetails);
+      return new AuthenticationError(messagecodecontextdetails);
     case ErrorCategory.AUTHORIZATION:
-      return new AuthorizationError(message, code, contextdetails);
+      return new AuthorizationError(messagecodecontextdetails);
     case ErrorCategory.VALIDATION:
-      return new ValidationError(message, code, contextdetails);
+      return new ValidationError(messagecodecontextdetails);
     default:
-      return new SecurityError(message, code, contextdetails);
+      return new SecurityError(messagecodecontextdetails);
   }
 }
 );

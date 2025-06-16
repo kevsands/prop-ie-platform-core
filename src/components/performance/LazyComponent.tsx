@@ -8,11 +8,13 @@ interface LazyComponentProps {
    * @example 
    * loaderAction={() => import('@/components/HeavyComponent')}
    */
-  loaderAction: () => Promise<{ default: ComponentType<any> }>\n  );
+  loaderAction: () => Promise<{ default: ComponentType<any> }>
+  );
   /**
    * Props to pass to the lazy-loaded component
    */
-  componentProps?: Record<string, any>\n  );
+  componentProps?: Record<string, any>
+  );
   /**
    * Content to display while the component is loading
    */
@@ -20,7 +22,8 @@ interface LazyComponentProps {
   /**
    * Error component to display if loading fails
    */
-  errorComponent?: React.ComponentType<{ error: Error, reset: () => void }>\n  );
+  errorComponent?: React.ComponentType<{ error: Error, reset: () => void }>
+  );
 }
 
 /**

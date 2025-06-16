@@ -265,7 +265,8 @@ export class SalesService {
   async getSalesDashboardMetrics(developmentId?: string): Promise<{
     totalSales: number;
     totalRevenue: number;
-    salesByStatus: Record<string, number>\n  );
+    salesByStatus: Record<string, number>
+  );
     recentSales: Sale[];
   }> {
     // In a real implementation, this would query the database

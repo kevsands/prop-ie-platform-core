@@ -46,7 +46,8 @@ export interface NearbyPlace {
   distance: number; // in kilometers
   travelTime?: number; // in minutes
   coordinates?: GeoCoordinates;
-  address?: Partial<Address>\n  );
+  address?: Partial<Address>
+  );
 }
 
 /**

@@ -22,7 +22,7 @@ const mockDevelopmentsData = {
     status: "Now Selling",
     statusColor: "green",
     priceRange: "€320,000 - €450,000",
-    bedrooms: [2, 34],
+    bedrooms: [234],
     bathrooms: 2,
     energyRating: "A2",
     availability: "Move in from Winter 2025",
@@ -171,7 +171,7 @@ const mockDevelopmentsData = {
     status: "Register Interest",
     statusColor: "purple",
     priceRange: "€375,000 - €550,000",
-    bedrooms: [1, 23],
+    bedrooms: [123],
     bathrooms: 2,
     energyRating: "A1",
     availability: "Launching Autumn 2025",
@@ -319,7 +319,7 @@ export default function DevelopmentDetailConnected() {
       // In a real implementation, we would prefetch related developments
       // For now, we'll just prefetch the units pages
       if (finalDevelopment.units && finalDevelopment.units.length> 0) {
-        finalDevelopment.units.slice(05).forEach((unit: {id: string}) => {
+        finalDevelopment.units.slice(0).forEach((unit: {id: string}) => {
           router.prefetch(`/developments/${finalDevelopment.id}/units/${unit.id}`);
         });
       }

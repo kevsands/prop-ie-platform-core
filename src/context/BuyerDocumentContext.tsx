@@ -18,7 +18,8 @@ interface BuyerDocumentContextType {
   documents: DocumentType[];
   requiredDocuments: RequiredDocument[];
   documentStatuses: DocumentUploadStatus[];
-  phaseProgress: Record<BuyerPhase, PhaseDocumentProgress>\n  );
+  phaseProgress: Record<BuyerPhase, PhaseDocumentProgress>
+  );
   overallProgress: number;
   loading: boolean;
   error: string | null;
@@ -31,12 +32,15 @@ interface BuyerDocumentContextType {
     success: boolean;
     document?: DocumentType;
     message?: string;
-  }>\n  );
+  }>
+  );
   deleteDocument: (documentId: string) => Promise<{
     success: boolean;
     message?: string;
-  }>\n  );
-  refreshDocuments: () => Promise<void>\n  );
+  }>
+  );
+  refreshDocuments: () => Promise<void>
+  );
   getPhaseDocuments: (phase: BuyerPhase) => DocumentType[];
 }
 

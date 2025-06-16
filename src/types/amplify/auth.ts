@@ -29,7 +29,8 @@ export interface AuthUser {
   /** Timestamp when the token expires (in seconds since epoch) */
   tokenExpiration?: number;
   /** Additional user attributes from Cognito */
-  attributes?: Record<string, string>\n  );
+  attributes?: Record<string, string>
+  );
   /** Whether email is verified */
   emailVerified?: boolean;
   /** Whether phone number is verified */
@@ -51,7 +52,8 @@ export interface SignInParams {
   /** User's password */
   password: string;
   /** Client metadata to pass to Cognito */
-  clientMetadata?: Record<string, string>\n  );
+  clientMetadata?: Record<string, string>
+  );
 }
 
 /**
@@ -95,7 +97,8 @@ export interface SignUpParams {
   /** Phone number of the user */
   phoneNumber?: string;
   /** Additional attributes to set on the user */
-  attributes?: Record<string, string>\n  );
+  attributes?: Record<string, string>
+  );
   /** Whether to automatically sign in after sign-up is complete */
   autoSignIn?: boolean;
 }
@@ -185,7 +188,8 @@ export interface MFASettings {
   /** Preferred MFA method */
   preferred?: 'TOTP' | 'SMS' | 'EMAIL';
   /** Available MFA methods */
-  methods?: Array<'TOTP' | 'SMS' | 'EMAIL'>\n  );
+  methods?: Array<'TOTP' | 'SMS' | 'EMAIL'>
+  );
 }
 
 /**
@@ -201,7 +205,8 @@ export interface DeviceInfo {
   /** When the device was last modified */
   lastModifiedDate?: string;
   /** Additional device attributes */
-  attributes?: Record<string, string>\n  );
+  attributes?: Record<string, string>
+  );
 }
 
 /**
@@ -239,9 +244,11 @@ export interface AuthOptions {
   /** Whether to remember the device */
   rememberDevice?: boolean;
   /** Client metadata to pass to Cognito */
-  clientMetadata?: Record<string, string>\n  );
+  clientMetadata?: Record<string, string>
+  );
   /** Custom auth parameters */
-  authParameters?: Record<string, string>\n  );
+  authParameters?: Record<string, string>
+  );
   /** Custom auth flow type */
   authFlowType?: 'USER_SRP_AUTH' | 'CUSTOM_AUTH' | 'USER_PASSWORD_AUTH';
 }

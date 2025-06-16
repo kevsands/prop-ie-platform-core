@@ -798,7 +798,7 @@ export default function MessagingCenter() {
                           .filter(m => m.attachments && m.attachments.length> 0)
                           .map(m => m.attachments!)
                           .flat()
-                          .slice(05)
+                          .slice(0)
                           .map((attachment: any) => (
                             <a
                               key={attachment.id}

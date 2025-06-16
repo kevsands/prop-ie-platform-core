@@ -22,7 +22,7 @@ export async function GET(request: NextRequest) {
     }
 
     // Get funnel data
-    const [views, inquiries, viewings, offers, contractscompleted] = await Promise.all([
+    const [views, inquiriesviewingsofferscontractscompleted] = await Promise.all([
       // Total property views
       prisma.propertyView.count({
         where: {
@@ -44,14 +44,14 @@ export async function GET(request: NextRequest) {
         where: {
           unit: whereClause,
           status: {
-            in: ['OFFER_MADE', 'OFFER_ACCEPTED', 'CONTRACT_SIGNED', 'COMPLETED']}}),
+            in: ['OFFER_MADE', 'OFFER_ACCEPTED', 'CONTRACT_SIGNED', 'COMPLETED']}),
 
       // Contracts signed
       prisma.transaction.count({
         where: {
           unit: whereClause,
           status: {
-            in: ['CONTRACT_SIGNED', 'COMPLETED']}}),
+            in: ['CONTRACT_SIGNED', 'COMPLETED']}),
 
       // Completed sales
       prisma.transaction.count({

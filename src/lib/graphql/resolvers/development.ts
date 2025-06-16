@@ -16,7 +16,8 @@ interface DevelopmentWithUnits extends Development {
   units?: Array<{
     status: string;
     basePrice: number;
-  }>\n  );
+  }>
+  );
   _count?: {
     units: number;
   };
@@ -743,6 +744,6 @@ export const developmentResolvers = {
         name: member.name,
         role: member.role
       }));
-    }};
+    };
 
 export default developmentResolvers;

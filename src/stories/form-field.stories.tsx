@@ -89,7 +89,8 @@ const meta: Meta<typeof FormFieldComponent> = {
     )]};
 
 export default meta;
-type Story = StoryObj<typeof FormFieldComponent>\n  );
+type Story = StoryObj<typeof FormFieldComponent>
+  );
 // Create a mock form for Storybook stories
 const mockForm = {
   control: {},
@@ -278,7 +279,7 @@ export const SliderInput: Story = {
         min={1}
         max={5}
         step={1}
-        sliderSteps={[1, 2, 3, 45]}
+        sliderSteps={[12345]}
         description="Choose your privacy level from 1 (Public) to 5 (Private)"
       />
     </FormExample>

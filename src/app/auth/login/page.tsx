@@ -22,10 +22,12 @@ import { Eye, EyeOff, AlertCircle, Shield, Mail, Lock } from 'lucide-react';
 // Validation schemas
 const loginSchema = z.object({
   email: z.string().email('Invalid email address'),
-  password: z.string().min(8, 'Password must be at least 8 characters')});
+  password: z.string().min(8, 'Password must be at least 8 characters')
+});
 
 const mfaSchema = z.object({
-  code: z.string().length(6, 'MFA code must be 6 digits').regex(/^\d+$/, 'MFA code must contain only numbers')});
+  code: z.string().length(6, 'MFA code must be 6 digits').regex(/^\d+$/, 'MFA code must contain only numbers')
+});
 
 type LoginFormData = z.infer<typeof loginSchema>\n  );
 type MfaFormData = z.infer<typeof mfaSchema>\n  );
@@ -49,13 +51,17 @@ export default function LoginPage() {
     resolver: zodResolver(loginSchema),
     defaultValues: {
       email: '',
-      password: ''});
+      password: ''
+    }
+  });
 
   // MFA form
   const mfaForm = useForm<MfaFormData>({
     resolver: zodResolver(mfaSchema),
     defaultValues: {
-      code: ''});
+      code: ''
+    }
+  });
 
   useEffect(() => {
     if (errorParam === 'SessionExpired') {
@@ -72,7 +78,8 @@ export default function LoginPage() {
       const result = await signIn('credentials', {
         email: data.email,
         password: data.password,
-        redirect: false});
+        redirect: false
+      });
 
       if (result?.error) {
         if (result.error === 'MFA_REQUIRED') {
@@ -82,14 +89,16 @@ export default function LoginPage() {
           setRequireMfa(true);
           toast({
             title: 'MFA Required',
-            description: 'Please enter your 6-digit authentication code.'});
+            description: 'Please enter your 6-digit authentication code.'
+          });
         } else {
           setError(result.error);
         }
       } else if (result?.ok) {
         toast({
           title: 'Welcome back!',
-          description: 'You have successfully signed in.'});
+          description: 'You have successfully signed in.'
+        });
         router.push(callbackUrl);
         router.refresh();
       }
@@ -110,7 +119,8 @@ export default function LoginPage() {
         email: mfaEmail,
         password: mfaPassword,
         mfaCode: data.code,
-        redirect: false});
+        redirect: false
+      });
 
       if (result?.error) {
         setError('Invalid authentication code. Please try again.');
@@ -118,7 +128,8 @@ export default function LoginPage() {
       } else if (result?.ok) {
         toast({
           title: 'Welcome back!',
-          description: 'You have successfully signed in.'});
+          description: 'You have successfully signed in.'
+        });
         router.push(callbackUrl);
         router.refresh();
       }
@@ -136,7 +147,8 @@ export default function LoginPage() {
 
     try {
       await signIn(provider, {
-        callbackUrl});
+        callbackUrl
+      });
     } catch (error) {
       setError('Failed to sign in with ' + provider);
     } finally {

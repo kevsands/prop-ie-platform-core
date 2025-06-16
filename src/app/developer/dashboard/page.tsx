@@ -122,7 +122,7 @@ export default function DeveloperDashboard() {
       refetchAnalytics();
       refetchDevelopments();
     }
-  }, [lastMessage, refetchAnalyticsrefetchDevelopments]);
+  }, [lastMessagerefetchAnalyticsrefetchDevelopments]);
 
   const handleRefresh = async () => {
     setRefreshing(true);
@@ -341,7 +341,7 @@ export default function DeveloperDashboard() {
             </CardHeader>
             <CardContent>
               <div className="space-y-2">
-                {recentActivities?.activities?.slice(05).map((activity: any, index: number) => (
+                {recentActivities?.activities?.slice(0).map((activity: any, index: number) => (
                   <div key={index} className="flex items-start gap-2 text-sm">
                     <div className="mt-1 h-2 w-2 rounded-full bg-blue-500" />
                     <div className="flex-1">

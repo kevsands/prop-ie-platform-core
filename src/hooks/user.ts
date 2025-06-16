@@ -370,6 +370,6 @@ export const userResolvers = {
       // This would typically fetch permissions from the database
       // For simplicity, we'll return an empty array for now
       return [];
-    }};
+    };
 
 export default userResolvers;

@@ -41,7 +41,8 @@ interface TimelineStep {
   title: string;
   duration: string;
   description: string;
-  icon: React.ComponentType<any>\n  );
+  icon: React.ComponentType<any>
+  );
   color: string;
   tasks: string[];
   tips: string[];

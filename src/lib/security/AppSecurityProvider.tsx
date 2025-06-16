@@ -7,9 +7,11 @@ interface SecurityContextType {
   isSecure: boolean;
   csrfToken: string | null;
   validateCSRF: (token: string) => boolean;
-  refreshSecurityToken: () => Promise<void>\n  );
+  refreshSecurityToken: () => Promise<void>
+  );
   checkPermission: (permission: string) => boolean;
-  securityHeaders: Record<string, string>\n  );
+  securityHeaders: Record<string, string>
+  );
 }
 
 const SecurityContext = createContext<SecurityContextType | undefined>(undefined);

@@ -21,7 +21,8 @@ interface ButtonProps {
   variant?: 'default' | 'outline' | 'secondary';
   children: React.ReactNode;
   disabled?: boolean;
-  onClick?: React.MouseEventHandler<HTMLButtonElement>\n  );
+  onClick?: React.MouseEventHandler<HTMLButtonElement>
+  );
   [key: string]: any; // For additional props
 }
 

@@ -47,7 +47,8 @@ interface Property {
     type: string;
     uploadDate: string;
     url: string;
-  }>\n  );
+  }>
+  );
 }
 
 interface Portfolio {

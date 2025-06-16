@@ -110,7 +110,7 @@ const SalesProgressTracker: React.FC<SalesProgressTrackerProps> = ({
 
   // Fetch sales data
   const { data, isLoading, error } = useQuery({
-    queryKey: ['project-sales', projectId, unitTypeFilterlocationFilter],
+    queryKey: ['project-sales', projectIdunitTypeFilterlocationFilter],
     queryFn: async () => {
       // In production, this would fetch from API
       const url = new URL(`/api/projects/${projectId}/sales`, window.location.origin);
@@ -185,7 +185,7 @@ const SalesProgressTracker: React.FC<SalesProgressTrackerProps> = ({
                 >
                   <div className="font-medium">{unit.unitNumber}</div>
                   <div className="text-[10px] opacity-80">
-                    {unit.bedrooms}B {unit.type.slice(03)}
+                    {unit.bedrooms}B {unit.type.slice(0)}
                   </div>
                 </div>
               ))}
@@ -203,7 +203,7 @@ const SalesProgressTracker: React.FC<SalesProgressTrackerProps> = ({
         <div className="space-y-4">
           <div className="h-8 w-64 bg-slate-200 dark:bg-slate-700 rounded animate-pulse"></div>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-            {[1, 2, 34].map((i: any) => (
+            {[1234].map((i: any) => (
               <Card key={i} className="h-32">
                 <CardHeader className="pb-2">
                   <div className="h-5 w-24 bg-slate-200 dark:bg-slate-700 rounded animate-pulse"></div>
@@ -541,7 +541,7 @@ const SalesProgressTracker: React.FC<SalesProgressTrackerProps> = ({
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  {data?.salesActivity?.slice(03).map((activity: any) => (
+                  {data?.salesActivity?.slice(0).map((activity: any) => (
                     <div key={activity.id} className="flex items-start gap-3">
                       <div className={`
                         p-2 rounded-full 

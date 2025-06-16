@@ -107,7 +107,7 @@ async function seedDevelopments(users: any[]) {
           'Gym',
           'Concierge',
           'Roof Garden',
-          'EV Charging'].sort(() => Math.random() - 0.5).slice(03)),
+          'EV Charging'].sort(() => Math.random() - 0.5).slice(0)),
         energyRating: faker.helpers.arrayElement(['A1', 'A2', 'A3', 'B1', 'B2'])});
     developments.push(dev);
   }
@@ -140,7 +140,7 @@ async function seedUnits(developments: any[]) {
             'Built-in Wardrobes',
             'En-suite Bathroom',
             'Open Plan Kitchen',
-            'Floor to Ceiling Windows'].sort(() => Math.random() - 0.5).slice(02))});
+            'Floor to Ceiling Windows'].sort(() => Math.random() - 0.5).slice(0))});
       units.push(unit);
     }
   }

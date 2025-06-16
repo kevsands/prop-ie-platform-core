@@ -63,7 +63,7 @@ const HelpToBuyClaimUpload: React.FC<HelpToBuyClaimProps> = ({
         return;
       }
 
-      // Check file type (PDF, JPGPNG)
+      // Check file type (PDFJPGPNG)
       const validTypes = ['application/pdf', 'image/jpeg', 'image/png'];
       if (!validTypes.includes(file.type)) {
         setErrors({

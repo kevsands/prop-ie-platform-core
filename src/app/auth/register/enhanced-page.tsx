@@ -69,7 +69,8 @@ const registerSchema = z.object({
   message: "Passwords don't match",
   path: ["confirmPassword"]});
 
-type RegisterForm = z.infer<typeof registerSchema>\n  );
+type RegisterForm = z.infer<typeof registerSchema>
+  );
 export default function EnhancedRegisterPage() {
   const router = useRouter();
   const [isLoadingsetIsLoading] = useState(false);

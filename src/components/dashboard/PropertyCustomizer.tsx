@@ -37,7 +37,7 @@ const PropertyCustomizer: React.FC<PropertyCustomizerProps> = ({ propertyId, bas
       setError(null);
       try {
         // Fetch in parallel
-        const [fetchedRooms, fetchedCategories, fetchedOptionsloadedCustomizationData] = await Promise.all([
+        const [fetchedRoomsfetchedCategoriesfetchedOptionsloadedCustomizationData] = await Promise.all([
           DataService.getRooms(),
           DataService.getCategories(),
           DataService.getAllActiveCustomizationOptions(),

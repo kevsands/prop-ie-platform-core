@@ -32,7 +32,7 @@ export class MfaService {
   static async setupTotp(userId: string, userEmail: string) {
     const secret = authenticator.generateSecret();
     const appName = process.env.NEXT_PUBLIC_APP_NAME || 'Property Platform';
-    const otpauth = authenticator.keyuri(userEmail, appNamesecret);
+    const otpauth = authenticator.keyuri(userEmailappNamesecret);
 
     // Generate QR code
     const qrCode = await QRCode.toDataURL(otpauth);

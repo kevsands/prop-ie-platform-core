@@ -88,34 +88,41 @@ export const config = {
   
   app: {
     url: env.APP_URL,
-    port: parseInt(env.PORT10)},
+    port: parseInt(env.PORT10)
+  },
   
   database: {
     url: env.DATABASE_URL,
     pool: {
       min: parseInt(env.DATABASE_POOL_MIN10),
-      max: parseInt(env.DATABASE_POOL_MAX10)},
+      max: parseInt(env.DATABASE_POOL_MAX10)
+    }
+  },
   
   auth: {
     nextAuthUrl: env.NEXTAUTH_URL,
     nextAuthSecret: env.NEXTAUTH_SECRET,
-    jwtSecret: env.JWT_SECRET},
+    jwtSecret: env.JWT_SECRET
+  },
   
   aws: {
     region: env.AWS_REGION,
     accessKeyId: env.AWS_ACCESS_KEY_ID,
     secretAccessKey: env.AWS_SECRET_ACCESS_KEY,
     s3Bucket: env.AWS_S3_BUCKET,
-    cloudfrontUrl: env.AWS_CLOUDFRONT_URL},
+    cloudfrontUrl: env.AWS_CLOUDFRONT_URL
+  },
   
   redis: {
     url: env.REDIS_URL,
-    password: env.REDIS_PASSWORD},
+    password: env.REDIS_PASSWORD
+  },
   
   monitoring: {
     sentryDsn: env.SENTRY_DSN,
     sentryEnvironment: env.SENTRY_ENVIRONMENT || env.NODE_ENV,
-    datadogApiKey: env.DATADOG_API_KEY},
+    datadogApiKey: env.DATADOG_API_KEY
+  },
   
   email: {
     smtp: {
@@ -123,31 +130,41 @@ export const config = {
       port: parseInt(env.SMTP_PORT10),
       auth: {
         user: env.SMTP_USER,
-        pass: env.SMTP_PASSWORD},
-    from: env.EMAIL_FROM},
+        pass: env.SMTP_PASSWORD
+      }
+    },
+    from: env.EMAIL_FROM
+  },
   
   stripe: {
     secretKey: env.STRIPE_SECRET_KEY,
-    webhookSecret: env.STRIPE_WEBHOOK_SECRET},
+    webhookSecret: env.STRIPE_WEBHOOK_SECRET
+  },
   
   google: {
     clientId: env.GOOGLE_CLIENT_ID,
-    clientSecret: env.GOOGLE_CLIENT_SECRET},
+    clientSecret: env.GOOGLE_CLIENT_SECRET
+  },
   
   features: {
     blockchain: env.FEATURE_BLOCKCHAIN_ENABLED,
     aiSearch: env.FEATURE_AI_SEARCH_ENABLED,
-    advancedAnalytics: env.FEATURE_ADVANCED_ANALYTICS_ENABLED},
+    advancedAnalytics: env.FEATURE_ADVANCED_ANALYTICS_ENABLED
+  },
   
   security: {
     rateLimit: {
       windowMs: parseInt(env.RATE_LIMIT_WINDOW_MS10),
-      maxRequests: parseInt(env.RATE_LIMIT_MAX_REQUESTS10)},
-    encryptionKey: env.ENCRYPTION_KEY},
+      maxRequests: parseInt(env.RATE_LIMIT_MAX_REQUESTS10)
+    },
+    encryptionKey: env.ENCRYPTION_KEY
+  },
   
   logging: {
     level: env.LOG_LEVEL,
-    format: env.LOG_FORMAT};
+    format: env.LOG_FORMAT
+  }
+};
 
 // Feature flags helper
 export const isFeatureEnabled = (feature: keyof typeof config.features): boolean => {

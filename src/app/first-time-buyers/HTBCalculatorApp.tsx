@@ -55,7 +55,7 @@ export const HTBCalculatorApp: React.FC<HTBCalculatorProps> = ({ onClaimCreated 
     // Calculate potential HTB
     const htbFromPrice = price * maxHTBPercentage;
     const htbFromTax = taxPaid * calculatorData.taxYears;
-    const potentialHTB = Math.min(htbFromPrice, htbFromTaxmaxHTBAmount);
+    const potentialHTB = Math.min(htbFromPricehtbFromTaxmaxHTBAmount);
 
     // Check eligibility
     const messages: string[] = [];

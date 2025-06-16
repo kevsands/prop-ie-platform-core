@@ -96,7 +96,7 @@ const TimelineRow: React.FC<TimelineRowProps> = ({
 
     return (
       <div className="flex -space-x-2 ml-2">
-        {task.assignedTo.slice(02).map((assigneeIdi: any) => (
+        {task.assignedTo.slice(0).map((assigneeIdi: any) => (
           <Avatar key={i} className="h-5 w-5 border border-white">
             <AvatarFallback className="text-[10px]">{assigneeId.substring(2)}</AvatarFallback>
           </Avatar>

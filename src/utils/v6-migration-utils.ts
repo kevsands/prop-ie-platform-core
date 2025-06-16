@@ -32,8 +32,10 @@ import {
 
 // Define request options interface
 interface ApiRequestOptions {
-  headers?: Record<string, string>\n  );
-  queryParams?: Record<string, string>\n  );
+  headers?: Record<string, string>
+  );
+  queryParams?: Record<string, string>
+  );
   body?: unknown;
   customEndpoint?: string;
 }
@@ -42,16 +44,22 @@ interface ApiRequestOptions {
 interface ApiResponse<T = unknown> {
   data: T;
   statusCode: number;
-  headers: Record<string, string>\n  );
+  headers: Record<string, string>
+  );
 }
 
 // Add custom interface to enhance ApiClient with REST methods
 interface EnhancedApiClient {
-  graphql: <T = unknown>(options: { query: string; variables?: Record<string, unknown> }) => Promise<{ data: T }>\n  );
-  get: <T = unknown>(params: { apiName: string; path: string; options?: ApiRequestOptions }) => Promise<ApiResponse<T>>\n  );
-  post: <T = unknown>(params: { apiName: string; path: string; options?: ApiRequestOptions }) => Promise<ApiResponse<T>>\n  );
-  put: <T = unknown>(params: { apiName: string; path: string; options?: ApiRequestOptions }) => Promise<ApiResponse<T>>\n  );
-  delete: <T = unknown>(params: { apiName: string; path: string; options?: ApiRequestOptions }) => Promise<ApiResponse<T>>\n  );
+  graphql: <T = unknown>(options: { query: string; variables?: Record<string, unknown> }) => Promise<{ data: T }>
+  );
+  get: <T = unknown>(params: { apiName: string; path: string; options?: ApiRequestOptions }) => Promise<ApiResponse<T>>
+  );
+  post: <T = unknown>(params: { apiName: string; path: string; options?: ApiRequestOptions }) => Promise<ApiResponse<T>>
+  );
+  put: <T = unknown>(params: { apiName: string; path: string; options?: ApiRequestOptions }) => Promise<ApiResponse<T>>
+  );
+  delete: <T = unknown>(params: { apiName: string; path: string; options?: ApiRequestOptions }) => Promise<ApiResponse<T>>
+  );
 }
 
 // Storage types
@@ -77,15 +85,18 @@ export interface AuthV6Result {
  */
 export interface AuthV5CompatUser {
   username: string;
-  attributes: Record<string, string>\n  );
+  attributes: Record<string, string>
+  );
   signInUserSession: {
     accessToken: {
       jwtToken: string | undefined;
-      payload: Record<string, unknown>\n  );
+      payload: Record<string, unknown>
+  );
     };
     idToken: {
       jwtToken: string | undefined;
-      payload: Record<string, unknown>\n  );
+      payload: Record<string, unknown>
+  );
     };
     refreshToken: {
       token: string;
@@ -111,7 +122,8 @@ export interface AuthV5CompatResult {
   userConfirmed?: boolean;
   userSub?: string;
   challengeName?: string;
-  challengeParam?: Record<string, unknown>\n  );
+  challengeParam?: Record<string, unknown>
+  );
 }
 
 /**
@@ -334,7 +346,8 @@ export async function removeFileV5Compatible(
 // Define GraphQL params interface
 interface GraphQLParams {
   query: string;
-  variables?: Record<string, unknown>\n  );
+  variables?: Record<string, unknown>
+  );
 }
 
 export function createGraphQLClientV5Compatible() {
@@ -351,7 +364,8 @@ export function createGraphQLClientV5Compatible() {
         const result = await client.graphql({
           query: params.query,
           variables: params.variables || {}
-        }) as GraphQLResult<T>\n  );
+        }) as GraphQLResult<T>
+  );
         // Make sure to handle undefined data case
         if (result.data === undefined) {
           throw new Error('GraphQL query returned undefined data');
@@ -372,7 +386,8 @@ export function createGraphQLClientV5Compatible() {
         const result = await client.graphql({
           query: params.query,
           variables: params.variables || {}
-        }) as GraphQLResult<T>\n  );
+        }) as GraphQLResult<T>
+  );
         // Make sure to handle undefined data case
         if (result.data === undefined) {
           throw new Error('GraphQL mutation returned undefined data');
@@ -391,11 +406,16 @@ export function createGraphQLClientV5Compatible() {
  * Interface for v5-compatible API client
  */
 export interface ApiV5Compatible {
-  graphql: <T>(params: GraphQLParams) => Promise<{ data: T }>\n  );
-  get: <T = unknown>(apiName: string, path: string, init?: RequestInit) => Promise<T>\n  );
-  post: <T = unknown>(apiName: string, path: string, init?: RequestInit) => Promise<T>\n  );
-  put: <T = unknown>(apiName: string, path: string, init?: RequestInit) => Promise<T>\n  );
-  delete: <T = unknown>(apiName: string, path: string, init?: RequestInit) => Promise<T>\n  );
+  graphql: <T>(params: GraphQLParams) => Promise<{ data: T }>
+  );
+  get: <T = unknown>(apiName: string, path: string, init?: RequestInit) => Promise<T>
+  );
+  post: <T = unknown>(apiName: string, path: string, init?: RequestInit) => Promise<T>
+  );
+  put: <T = unknown>(apiName: string, path: string, init?: RequestInit) => Promise<T>
+  );
+  delete: <T = unknown>(apiName: string, path: string, init?: RequestInit) => Promise<T>
+  );
 }
 
 /**
@@ -411,7 +431,8 @@ function convertRequestInitToApiOptions(init?: RequestInit): ApiRequestOptions {
     if (init.headers instanceof Headers) {
       options.headers = Object.fromEntries(init.headers.entries());
     } else if (typeof init.headers === 'object') {
-      options.headers = init.headers as Record<string, string>\n  );
+      options.headers = init.headers as Record<string, string>
+  );
     }
   }
 
@@ -463,7 +484,8 @@ export function createApiV5Compatible(): ApiV5Compatible {
         const result = await graphqlClient.graphql({
           query: params.query,
           variables: params.variables
-        }) as GraphQLResult<T>\n  );
+        }) as GraphQLResult<T>
+  );
         // Make sure to handle undefined data case
         if (result.data === undefined) {
           throw new Error('GraphQL operation returned undefined data');

@@ -64,7 +64,7 @@ export default function SavedSearchModal({
       return;
     }
 
-    onSave(name, descriptionenableNotifications);
+    onSave(namedescriptionenableNotifications);
     setName('');
     setDescription('');
     setError('');

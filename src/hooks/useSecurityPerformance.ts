@@ -90,7 +90,7 @@ export async function useSecurityPerformanceSecurityAnalytics.getPerformanceMetr
 
     // Clean up
     return () => clearInterval(intervalId);
-  }, [immediateInitialFetch, refreshIntervalupdatePerformanceMetrics]);
+  }, [immediateInitialFetchrefreshIntervalupdatePerformanceMetrics]);
 
   // Get history metrics (last n items)
   const getHistoryMetrics = useCallback((count = 10) => {

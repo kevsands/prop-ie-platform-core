@@ -92,7 +92,7 @@ const ProjectTimeline: React.FC<ProjectTimelineProps> = ({
 
   // Fetch timeline data if not provided as props
   const { data, isLoading, error } = useQuery({
-    queryKey: ['project-timeline', projectId, filterPhase, filterAssigneefilterStatus],
+    queryKey: ['project-timeline', projectIdfilterPhasefilterAssigneefilterStatus],
     queryFn: async () => {
       const url = new URL(`/api/projects/${projectId}/timeline`, window.location.origin);
 
@@ -273,7 +273,7 @@ const ProjectTimeline: React.FC<ProjectTimelineProps> = ({
           <CardContent>
             <div className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                {[1, 2, 34].map(i => (
+                {[1234].map(i => (
                   <Skeleton key={i} className="h-24 w-full" />
                 ))}
               </div>

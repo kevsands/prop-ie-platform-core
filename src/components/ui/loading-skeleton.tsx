@@ -122,7 +122,8 @@ interface LoadingSkeletonProps {
   count?: number;
   className?: string;
   layout?: 'grid' | 'flex' | 'block';
-  layoutProps?: Record<string, any>\n  );
+  layoutProps?: Record<string, any>
+  );
   isLoading?: boolean;
   fallback?: React.ReactNode;
   children?: React.ReactNode;

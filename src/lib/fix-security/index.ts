@@ -75,21 +75,21 @@ export class SecurityError extends Error {
 
 export class AuthenticationError extends SecurityError {
   constructor(message: string, context: any = {}, metadata: any = {}) {
-    super(message, SecurityErrorCode.AUTHENTICATION_ERROR, contextmetadata);
+    super(message, SecurityErrorCode.AUTHENTICATION_ERRORcontextmetadata);
     this.name = 'AuthenticationError';
   }
 }
 
 export class AuthorizationError extends SecurityError {
   constructor(message: string, context: any = {}, metadata: any = {}) {
-    super(message, SecurityErrorCode.AUTHORIZATION_ERROR, contextmetadata);
+    super(message, SecurityErrorCode.AUTHORIZATION_ERRORcontextmetadata);
     this.name = 'AuthorizationError';
   }
 }
 
 export class ValidationError extends SecurityError {
   constructor(message: string, context: any = {}, metadata: any = {}) {
-    super(message, SecurityErrorCode.VALIDATION_ERROR, contextmetadata);
+    super(message, SecurityErrorCode.VALIDATION_ERRORcontextmetadata);
     this.name = 'ValidationError';
   }
 }

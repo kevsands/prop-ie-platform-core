@@ -272,7 +272,7 @@ const ProjectsSkeleton: React.FC = () => {
       <div className="h-10 w-72 bg-slate-200 rounded animate-pulse"></div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {[1, 23].map(i => (
+        {[123].map(i => (
           <Card key={i} className="overflow-hidden">
             <CardHeader className="pb-3">
               <div className="h-6 w-1/2 bg-slate-200 rounded animate-pulse"></div>

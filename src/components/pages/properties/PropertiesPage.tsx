@@ -127,7 +127,7 @@ export default function PropertiesPage() {
     }
 
     setFilteredProperties(filtered);
-  }, [selectedDevelopment, selectedBedroomsselectedStatus]);
+  }, [selectedDevelopmentselectedBedroomsselectedStatus]);
 
   return (
     <div className="bg-gray-50 min-h-screen">

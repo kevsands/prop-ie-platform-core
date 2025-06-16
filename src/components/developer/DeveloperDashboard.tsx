@@ -1,7 +1,6 @@
-import React from 'react';
 'use client';
 
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDevelopments, useSales } from '@/hooks/api-hooks';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -22,8 +21,11 @@ import {
   Cell,
   Legend
 } from 'recharts';
-import { Building, Briefcase, CreditCard, UserCheck, Users, FileText, ChevronRight } from 'lucide-react';
+import { Building, Briefcase, CreditCard, UserCheck, Users, FileText, ChevronRight, Zap, Calculator } from 'lucide-react';
 import Link from 'next/link';
+import { ContextualToolsPanel } from './tools/ContextualToolsPanel';
+import { ExcelExportContextMenu } from './context-menus/ExcelExportContextMenu';
+import { excelExportService } from '@/services/excelExportService';
 
 // Sample data for charts
 const salesData = [
@@ -64,6 +66,11 @@ export default function DeveloperDashboard() {
     reservedUnits: 0
   });
 
+  // Contextual tools panel state
+  const [showToolsPanelsetShowToolsPanel] = useState(false);
+  const [toolsContextsetToolsContext] = useState<'general' | 'financial' | 'construction' | 'project'>('general');
+  const [selectedDatasetSelectedData] = useState<any>(null);
+
   // Calculate project metrics from developments data
   useEffect(() => {
     if (developments?.data) {
@@ -71,10 +78,10 @@ export default function DeveloperDashboard() {
       const activeProjects = developments.data.filter(d => d.status === 'CONSTRUCTION').length;
       const completedProjects = developments.data.filter(d => d.status === 'COMPLETED').length;
 
-      const totalUnits = developments.data.reduce((accdev: any) => acc + dev.totalUnits0);
-      const soldUnits = developments.data.reduce((accdev: any) => acc + dev.soldUnits0);
-      const availableUnits = developments.data.reduce((accdev: any) => acc + dev.availableUnits0);
-      const reservedUnits = developments.data.reduce((accdev: any) => acc + dev.reservedUnits0);
+      const totalUnits = developments.data.reduce((acc: number, dev: any) => acc + (dev.totalUnits || 0), 0);
+      const soldUnits = developments.data.reduce((acc: number, dev: any) => acc + (dev.soldUnits || 0), 0);
+      const availableUnits = developments.data.reduce((acc: number, dev: any) => acc + (dev.availableUnits || 0), 0);
+      const reservedUnits = developments.data.reduce((acc: number, dev: any) => acc + (dev.reservedUnits || 0), 0);
 
       setProjectMetrics({
         totalProjects,
@@ -88,18 +95,83 @@ export default function DeveloperDashboard() {
     }
   }, [developments]);
 
+  // Handle contextual tool panel triggers
+  const handleFinancialClick = (data?: any) => {
+    setSelectedData(data);
+    setToolsContext('financial');
+    setShowToolsPanel(true);
+  };
+
+  const handleConstructionClick = (data?: any) => {
+    setSelectedData(data);
+    setToolsContext('construction');
+    setShowToolsPanel(true);
+  };
+
+  const handleProjectClick = (projectId: string) => {
+    setSelectedData({ projectId });
+    setToolsContext('project');
+    setShowToolsPanel(true);
+  };
+
+  // Handle Excel export
+  const handleExcelExport = async (type: string, format: string) => {
+    try {
+      const result = await excelExportService.exportToExcel({
+        type,
+        format: format as 'xlsx' | 'csv',
+        data: selectedData,
+        context: toolsContext
+      });
+      
+      if (result.success) {
+        // Could show a success toast here
+        console.log('Export successful:', result.filename);
+      } else {
+        console.error('Export failed:', result.error);
+      }
+    } catch (error) {
+      console.error('Export error:', error);
+    }
+  };
+
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 relative">
       <div className="flex flex-col gap-2">
-        <h1 className="text-2xl font-bold tracking-tight">Developer Dashboard</h1>
-        <p className="text-muted-foreground">
-          Welcome to your developer dashboard. Monitor project progress, sales, and team activity.
-        </p>
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-2xl font-bold tracking-tight">Developer Dashboard</h1>
+            <p className="text-muted-foreground">
+              Welcome to your developer dashboard. Monitor project progress, sales, and team activity.
+            </p>
+          </div>
+          <div className="flex items-center gap-2">
+            <Button 
+              variant="outline" 
+              size="sm"
+              onClick={() => handleFinancialClick()}
+            >
+              <Calculator className="h-4 w-4 mr-2" />
+              Financial Tools
+            </Button>
+            <Button 
+              variant="outline" 
+              size="sm"
+              onClick={() => setShowToolsPanel(!showToolsPanel)}
+            >
+              <Zap className="h-4 w-4 mr-2" />
+              Smart Tools
+            </Button>
+          </div>
+        </div>
       </div>
 
       {/* Metrics grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <Card>
+        <Card 
+          className="cursor-pointer hover:shadow-md transition-shadow"
+          onClick={() => handleProjectClick('all')}
+        >
           <CardContent className="p-6 flex items-start justify-between">
             <div>
               <p className="text-sm font-medium text-muted-foreground">Total Projects</p>
@@ -175,58 +247,70 @@ export default function DeveloperDashboard() {
         <TabsContent value="overview" className="space-y-4">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
             {/* Sales Trends */}
-            <Card className="col-span-1">
-              <CardHeader>
-                <CardTitle>Monthly Sales</CardTitle>
-                <CardDescription>Monthly unit sales across all projects</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="h-80">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <BarChart data={salesData} margin={ top: 20, right: 30, left: 0, bottom: 5 }>
-                      <CartesianGrid strokeDasharray="3 3" />
-                      <XAxis dataKey="name" />
-                      <YAxis />
-                      <Tooltip />
-                      <Bar dataKey="value" fill="#3b82f6" name="Units Sold" />
-                    </BarChart>
-                  </ResponsiveContainer>
-                </div>
-              </CardContent>
-            </Card>
+            <ExcelExportContextMenu
+              context="financial"
+              data={salesData}
+              onExport={handleExcelExport}
+            >
+              <Card className="col-span-1 cursor-context-menu">
+                <CardHeader>
+                  <CardTitle>Monthly Sales</CardTitle>
+                  <CardDescription>Monthly unit sales across all projects</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="h-80">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <BarChart data={salesData} margin={ top: 20, right: 30, left: 0, bottom: 5 }>
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <XAxis dataKey="name" />
+                        <YAxis />
+                        <Tooltip />
+                        <Bar dataKey="value" fill="#3b82f6" name="Units Sold" />
+                      </BarChart>
+                    </ResponsiveContainer>
+                  </div>
+                </CardContent>
+              </Card>
+            </ExcelExportContextMenu>
 
             {/* Unit Status Distribution */}
-            <Card className="col-span-1">
-              <CardHeader>
-                <CardTitle>Unit Status Distribution</CardTitle>
-                <CardDescription>Current status of all units</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="h-80">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <PieChart>
-                      <Pie
-                        data={statusData}
-                        cx="50%"
-                        cy="50%"
-                        labelLine={false}
-                        label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
-                        innerRadius={60}
-                        outerRadius={80}
-                        fill="#8884d8"
-                        dataKey="value"
-                      >
-                        {statusData.map((entryindex: any) => (
-                          <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                        ))}
-                      </Pie>
-                      <Tooltip />
-                      <Legend />
-                    </PieChart>
-                  </ResponsiveContainer>
-                </div>
-              </CardContent>
-            </Card>
+            <ExcelExportContextMenu
+              context="project"
+              data={statusData}
+              onExport={handleExcelExport}
+            >
+              <Card className="col-span-1 cursor-context-menu">
+                <CardHeader>
+                  <CardTitle>Unit Status Distribution</CardTitle>
+                  <CardDescription>Current status of all units</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="h-80">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <PieChart>
+                        <Pie
+                          data={statusData}
+                          cx="50%"
+                          cy="50%"
+                          labelLine={false}
+                          label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
+                          innerRadius={60}
+                          outerRadius={80}
+                          fill="#8884d8"
+                          dataKey="value"
+                        >
+                          {statusData.map((entry: any, index: number) => (
+                            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                          ))}
+                        </Pie>
+                        <Tooltip />
+                        <Legend />
+                      </PieChart>
+                    </ResponsiveContainer>
+                  </div>
+                </CardContent>
+              </Card>
+            </ExcelExportContextMenu>
           </div>
         </TabsContent>
 
@@ -341,7 +425,7 @@ export default function DeveloperDashboard() {
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
           {isLoadingDevelopments ? (
-            Array(3).fill(0).map((_i: any) => (
+            Array(3).fill(0).map((_i: any, i: number) => (
               <Card key={i}>
                 <CardHeader className="pb-2">
                   <Skeleton className="h-5 w-32" />
@@ -361,7 +445,7 @@ export default function DeveloperDashboard() {
               </Card>
             ))
           ) : (
-            developments?.data.slice(03).map((development: any) => (
+            developments?.data.slice(0).map((development: any) => (
               <Card key={development.id}>
                 <CardHeader className="pb-2">
                   <CardTitle className="text-base">{development.name}</CardTitle>
@@ -415,6 +499,15 @@ export default function DeveloperDashboard() {
           )}
         </div>
       </div>
+
+      {/* Contextual Tools Panel */}
+      <ContextualToolsPanel
+        projectId={selectedData?.projectId}
+        isVisible={showToolsPanel}
+        onClose={() => setShowToolsPanel(false)}
+        context={toolsContext}
+        selectedData={selectedData}
+      />
     </div>
   );
 }

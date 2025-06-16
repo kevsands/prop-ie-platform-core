@@ -5,7 +5,7 @@
 /**
  * Format a currency value
  * @param value Number to format as currency
- * @param abbreviated Whether to abbreviate large numbers (K, MB)
+ * @param abbreviated Whether to abbreviate large numbers (KMB)
  * @returns Formatted currency string
  */
 export function formatCurrency(value: number, abbreviated: boolean = false): string {

@@ -42,7 +42,7 @@ export function createFallbackModel(roomType: string = 'default') {
   }
 
   // Create a simple wireframe box as fallback
-  const geometry = new THREE.BoxGeometry(1, 11);
+  const geometry = new THREE.BoxGeometry(111);
   const material = new THREE.MeshBasicMaterial({ 
     color, 
     wireframe: true,

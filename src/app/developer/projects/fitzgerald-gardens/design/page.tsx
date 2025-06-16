@@ -1,0 +1,723 @@
+'use client';
+
+import React, { useState } from 'react';
+import { 
+  Users, 
+  Layers, 
+  Camera, 
+  FileText, 
+  MessageSquare, 
+  ArrowLeft,
+  Download,
+  Upload,
+  Eye,
+  Edit,
+  Share2,
+  Calendar,
+  Clock,
+  CheckCircle,
+  AlertCircle,
+  Plus,
+  Filter,
+  Search,
+  Grid,
+  List,
+  ExternalLink
+} from 'lucide-react';
+import Link from 'next/link';
+
+export default function FitzgeraldGardensDesignPage() {
+  const [activeTabsetActiveTab] = useState('overview');
+  const [viewModesetViewMode] = useState('grid');
+
+  const designTeam = [
+    {
+      id: 1,
+      name: 'Sarah Mitchell',
+      role: 'Lead Architect',
+      company: 'Mitchell & Associates',
+      email: 'sarah@mitchell-arch.ie',
+      phone: '+353 1 234 5678',
+      status: 'active',
+      avatar: null,
+      projects: ['Phase 1', 'Phase 2'],
+      lastActive: '2025-06-15T14:30:00Z'
+    },
+    {
+      id: 2,
+      name: 'David Chen',
+      role: 'Structural Engineer',
+      company: 'Chen Engineering Ltd',
+      email: 'david@cheneng.ie',
+      phone: '+353 1 234 5679',
+      status: 'active',
+      avatar: null,
+      projects: ['Phase 1', 'Phase 2'],
+      lastActive: '2025-06-15T11:15:00Z'
+    },
+    {
+      id: 3,
+      name: 'Emma Rodriguez',
+      role: 'Interior Designer',
+      company: 'Rodriguez Interiors',
+      email: 'emma@rodriguez-int.ie',
+      phone: '+353 1 234 5680',
+      status: 'away',
+      avatar: null,
+      projects: ['Phase 1'],
+      lastActive: '2025-06-14T16:45:00Z'
+    },
+    {
+      id: 4,
+      name: 'Michael O\'Brien',
+      role: 'Landscape Architect',
+      company: 'Green Spaces Design',
+      email: 'michael@greenspaces.ie',
+      phone: '+353 1 234 5681',
+      status: 'active',
+      avatar: null,
+      projects: ['Phase 2'],
+      lastActive: '2025-06-15T09:20:00Z'
+    },
+    {
+      id: 5,
+      name: 'Lisa Zhang',
+      role: 'MEP Engineer',
+      company: 'Zhang Technical Services',
+      email: 'lisa@zhangtec.ie',
+      phone: '+353 1 234 5682',
+      status: 'offline',
+      avatar: null,
+      projects: ['Phase 1', 'Phase 2'],
+      lastActive: '2025-06-13T15:30:00Z'
+    }
+  ];
+
+  const designDocuments = [
+    {
+      id: 1,
+      title: 'Architectural Plans - Phase 1',
+      type: 'drawing',
+      version: 'Rev C',
+      date: '2025-06-15',
+      author: 'Sarah Mitchell',
+      status: 'approved',
+      category: 'architecture',
+      fileSize: '25.8 MB',
+      format: 'DWG',
+      thumbnail: null,
+      comments: 3,
+      downloads: 12
+    },
+    {
+      id: 2,
+      title: 'Structural Drawings - Foundation',
+      type: 'drawing',
+      version: 'Rev B',
+      date: '2025-06-14',
+      author: 'David Chen',
+      status: 'in_review',
+      category: 'structural',
+      fileSize: '18.2 MB',
+      format: 'PDF',
+      thumbnail: null,
+      comments: 7,
+      downloads: 8
+    },
+    {
+      id: 3,
+      title: 'Interior Design Concepts',
+      type: 'concept',
+      version: 'Rev A',
+      date: '2025-06-13',
+      author: 'Emma Rodriguez',
+      status: 'draft',
+      category: 'interior',
+      fileSize: '45.6 MB',
+      format: 'PDF',
+      thumbnail: null,
+      comments: 2,
+      downloads: 5
+    },
+    {
+      id: 4,
+      title: 'Landscape Master Plan',
+      type: 'plan',
+      version: 'Rev A',
+      date: '2025-06-12',
+      author: 'Michael O\'Brien',
+      status: 'approved',
+      category: 'landscape',
+      fileSize: '12.4 MB',
+      format: 'PDF',
+      thumbnail: null,
+      comments: 1,
+      downloads: 15
+    },
+    {
+      id: 5,
+      title: 'MEP Services Layout',
+      type: 'drawing',
+      version: 'Rev C',
+      date: '2025-06-11',
+      author: 'Lisa Zhang',
+      status: 'in_review',
+      category: 'mep',
+      fileSize: '22.1 MB',
+      format: 'DWG',
+      thumbnail: null,
+      comments: 5,
+      downloads: 9
+    }
+  ];
+
+  const designMilestones = [
+    {
+      id: 1,
+      title: 'Concept Design Approval',
+      date: '2025-04-15',
+      status: 'completed',
+      description: 'Initial concept designs approved by client',
+      deliverables: ['Concept Plans', 'Design Brief', '3D Visualizations']
+    },
+    {
+      id: 2,
+      title: 'Planning Application Submission',
+      date: '2025-05-30',
+      status: 'completed',
+      description: 'All design documents submitted for planning permission',
+      deliverables: ['Planning Drawings', 'Design Statement', 'Supporting Documents']
+    },
+    {
+      id: 3,
+      title: 'Detailed Design Phase',
+      date: '2025-07-15',
+      status: 'in_progress',
+      description: 'Development of detailed construction drawings',
+      deliverables: ['Working Drawings', 'Specifications', 'Details']
+    },
+    {
+      id: 4,
+      title: 'Construction Documentation',
+      date: '2025-08-30',
+      status: 'pending',
+      description: 'Final construction drawings and documentation',
+      deliverables: ['Construction Drawings', 'Tender Package', 'BOQ']
+    }
+  ];
+
+  const recentActivity = [
+    {
+      id: 1,
+      user: 'Sarah Mitchell',
+      action: 'uploaded new version',
+      target: 'Architectural Plans - Phase 1',
+      time: '2 hours ago',
+      type: 'upload'
+    },
+    {
+      id: 2,
+      user: 'David Chen',
+      action: 'commented on',
+      target: 'Structural Drawings - Foundation',
+      time: '4 hours ago',
+      type: 'comment'
+    },
+    {
+      id: 3,
+      user: 'Emma Rodriguez',
+      action: 'shared',
+      target: 'Interior Design Concepts',
+      time: '1 day ago',
+      type: 'share'
+    },
+    {
+      id: 4,
+      user: 'Michael O\'Brien',
+      action: 'approved',
+      target: 'Landscape Master Plan',
+      time: '2 days ago',
+      type: 'approval'
+    }
+  ];
+
+  const getStatusColor = (status) => {
+    switch (status) {
+      case 'approved': return 'bg-green-100 text-green-800';
+      case 'in_review': return 'bg-yellow-100 text-yellow-800';
+      case 'draft': return 'bg-gray-100 text-gray-800';
+      case 'completed': return 'bg-green-100 text-green-800';
+      case 'in_progress': return 'bg-blue-100 text-blue-800';
+      case 'pending': return 'bg-gray-100 text-gray-800';
+      default: return 'bg-gray-100 text-gray-800';
+    }
+  };
+
+  const getCategoryColor = (category) => {
+    switch (category) {
+      case 'architecture': return 'bg-blue-100 text-blue-800';
+      case 'structural': return 'bg-red-100 text-red-800';
+      case 'interior': return 'bg-purple-100 text-purple-800';
+      case 'landscape': return 'bg-green-100 text-green-800';
+      case 'mep': return 'bg-orange-100 text-orange-800';
+      default: return 'bg-gray-100 text-gray-800';
+    }
+  };
+
+  const getUserStatusColor = (status) => {
+    switch (status) {
+      case 'active': return 'bg-green-400';
+      case 'away': return 'bg-yellow-400';
+      case 'offline': return 'bg-gray-400';
+      default: return 'bg-gray-400';
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-gray-50">
+      {/* Header */}
+      <div className="bg-white border-b">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between py-6">
+            <div className="flex items-center space-x-4">
+              <Link href="/developer/projects/fitzgerald-gardens" 
+                    className="flex items-center text-gray-500 hover:text-gray-700">
+                <ArrowLeft className="w-5 h-5 mr-2" />
+                Back to Project
+              </Link>
+              <div className="border-l border-gray-300 pl-4">
+                <h1 className="text-2xl font-bold text-gray-900">Design Team</h1>
+                <p className="text-sm text-gray-500">Fitzgerald Gardens - Architecture & Design Management</p>
+              </div>
+            </div>
+            <div className="flex items-center space-x-3">
+              <button className="px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-50 flex items-center">
+                <MessageSquare className="w-4 h-4 mr-2" />
+                Team Chat
+              </button>
+              <button className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 flex items-center">
+                <Plus className="w-4 h-4 mr-2" />
+                Upload Design
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        {/* Tabs */}
+        <div className="bg-white rounded-lg shadow mb-6">
+          <div className="border-b border-gray-200">
+            <nav className="flex space-x-8 px-6">
+              {[
+                { key: 'overview', label: 'Overview' },
+                { key: 'team', label: 'Team Members' },
+                { key: 'documents', label: 'Design Documents' },
+                { key: 'milestones', label: 'Milestones' },
+              ].map((tab) => (
+                <button
+                  key={tab.key}
+                  onClick={() => setActiveTab(tab.key)}
+                  className={`py-4 px-1 border-b-2 font-medium text-sm ${
+                    activeTab === tab.key
+                      ? 'border-blue-500 text-blue-600'
+                      : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                  }`}
+                >
+                  {tab.label}
+                </button>
+              ))}
+            </nav>
+          </div>
+        </div>
+
+        {/* Overview Tab */}
+        {activeTab === 'overview' && (
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            {/* Main Content */}
+            <div className="lg:col-span-2 space-y-6">
+              {/* Design Progress */}
+              <div className="bg-white rounded-lg shadow">
+                <div className="p-6 border-b border-gray-200">
+                  <h2 className="text-lg font-medium text-gray-900">Design Progress</h2>
+                </div>
+                <div className="p-6">
+                  <div className="space-y-4">
+                    {designMilestones.map((milestone) => (
+                      <div key={milestone.id} className="flex items-start space-x-4">
+                        <div className="flex-shrink-0 mt-1">
+                          {milestone.status === 'completed' ? (
+                            <CheckCircle className="w-5 h-5 text-green-600" />
+                          ) : milestone.status === 'in_progress' ? (
+                            <Clock className="w-5 h-5 text-blue-600" />
+                          ) : (
+                            <div className="w-5 h-5 rounded-full border-2 border-gray-300" />
+                          )}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center justify-between">
+                            <p className="text-sm font-medium text-gray-900">{milestone.title}</p>
+                            <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(milestone.status)}`}>
+                              {milestone.status.replace('_', ' ')}
+                            </span>
+                          </div>
+                          <p className="text-sm text-gray-600 mt-1">{milestone.description}</p>
+                          <p className="text-xs text-gray-500 mt-1">Due: {new Date(milestone.date).toLocaleDateString()}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* Recent Activity */}
+              <div className="bg-white rounded-lg shadow">
+                <div className="p-6 border-b border-gray-200">
+                  <h2 className="text-lg font-medium text-gray-900">Recent Activity</h2>
+                </div>
+                <div className="p-6">
+                  <div className="space-y-4">
+                    {recentActivity.map((activity) => (
+                      <div key={activity.id} className="flex items-start space-x-3">
+                        <div className="flex-shrink-0 w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center">
+                          <span className="text-sm font-medium text-gray-700">
+                            {activity.user.split(' ').map(n => n[0]).join('')}
+                          </span>
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-sm text-gray-900">
+                            <span className="font-medium">{activity.user}</span> {activity.action} <span className="font-medium">{activity.target}</span>
+                          </p>
+                          <p className="text-xs text-gray-500">{activity.time}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Sidebar */}
+            <div className="space-y-6">
+              {/* Team Summary */}
+              <div className="bg-white rounded-lg shadow">
+                <div className="p-6 border-b border-gray-200">
+                  <h2 className="text-lg font-medium text-gray-900">Team Summary</h2>
+                </div>
+                <div className="p-6">
+                  <div className="space-y-4">
+                    <div className="text-center">
+                      <p className="text-3xl font-bold text-gray-900">{designTeam.length}</p>
+                      <p className="text-sm text-gray-500">Team Members</p>
+                    </div>
+                    <div className="space-y-2">
+                      {designTeam.slice(0).map((member) => (
+                        <div key={member.id} className="flex items-center space-x-3">
+                          <div className="relative">
+                            <div className="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center">
+                              <span className="text-sm font-medium text-gray-700">
+                                {member.name.split(' ').map(n => n[0]).join('')}
+                              </span>
+                            </div>
+                            <div className={`absolute -bottom-1 -right-1 w-3 h-3 rounded-full border-2 border-white ${getUserStatusColor(member.status)}`} />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <p className="text-sm font-medium text-gray-900 truncate">{member.name}</p>
+                            <p className="text-xs text-gray-500 truncate">{member.role}</p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                    <Link href="#" onClick={() => setActiveTab('team')} className="block text-sm text-blue-600 hover:text-blue-500">
+                      View all team members →
+                    </Link>
+                  </div>
+                </div>
+              </div>
+
+              {/* Quick Stats */}
+              <div className="bg-white rounded-lg shadow">
+                <div className="p-6 border-b border-gray-200">
+                  <h2 className="text-lg font-medium text-gray-900">Quick Stats</h2>
+                </div>
+                <div className="p-6 space-y-4">
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm text-gray-600">Total Documents</span>
+                    <span className="text-sm font-medium text-gray-900">{designDocuments.length}</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm text-gray-600">Approved</span>
+                    <span className="text-sm font-medium text-gray-900">
+                      {designDocuments.filter(doc => doc.status === 'approved').length}
+                    </span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm text-gray-600">In Review</span>
+                    <span className="text-sm font-medium text-gray-900">
+                      {designDocuments.filter(doc => doc.status === 'in_review').length}
+                    </span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm text-gray-600">Draft</span>
+                    <span className="text-sm font-medium text-gray-900">
+                      {designDocuments.filter(doc => doc.status === 'draft').length}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Team Tab */}
+        {activeTab === 'team' && (
+          <div className="space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {designTeam.map((member) => (
+                <div key={member.id} className="bg-white rounded-lg shadow">
+                  <div className="p-6">
+                    <div className="flex items-center space-x-4">
+                      <div className="relative">
+                        <div className="w-12 h-12 bg-gray-300 rounded-full flex items-center justify-center">
+                          <span className="text-lg font-medium text-gray-700">
+                            {member.name.split(' ').map(n => n[0]).join('')}
+                          </span>
+                        </div>
+                        <div className={`absolute -bottom-1 -right-1 w-4 h-4 rounded-full border-2 border-white ${getUserStatusColor(member.status)}`} />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-lg font-medium text-gray-900">{member.name}</p>
+                        <p className="text-sm text-gray-600">{member.role}</p>
+                        <p className="text-sm text-gray-500">{member.company}</p>
+                      </div>
+                    </div>
+                    
+                    <div className="mt-4 space-y-2">
+                      <div className="flex items-center text-sm text-gray-600">
+                        <span>Projects: {member.projects.join(', ')}</span>
+                      </div>
+                      <div className="flex items-center text-sm text-gray-600">
+                        <span>Last active: {new Date(member.lastActive).toLocaleDateString()}</span>
+                      </div>
+                    </div>
+
+                    <div className="mt-4 flex space-x-2">
+                      <button className="flex-1 px-3 py-2 text-sm bg-blue-600 text-white rounded-md hover:bg-blue-700">
+                        Message
+                      </button>
+                      <button className="px-3 py-2 text-sm border border-gray-300 rounded-md hover:bg-gray-50">
+                        <ExternalLink className="w-4 h-4" />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Documents Tab */}
+        {activeTab === 'documents' && (
+          <div className="space-y-6">
+            {/* Controls */}
+            <div className="bg-white rounded-lg shadow">
+              <div className="p-4 border-b border-gray-200">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-4 sm:space-y-0">
+                  <div className="flex items-center space-x-4">
+                    <div className="relative">
+                      <Search className="w-4 h-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                      <input
+                        type="text"
+                        placeholder="Search documents..."
+                        className="pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                      />
+                    </div>
+                    <button className="px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-50 flex items-center">
+                      <Filter className="w-4 h-4 mr-2" />
+                      Filter
+                    </button>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <button
+                      onClick={() => setViewMode('grid')}
+                      className={`p-2 rounded-md ${viewMode === 'grid' ? 'bg-blue-100 text-blue-600' : 'text-gray-500 hover:text-gray-700'}`}
+                    >
+                      <Grid className="w-4 h-4" />
+                    </button>
+                    <button
+                      onClick={() => setViewMode('list')}
+                      className={`p-2 rounded-md ${viewMode === 'list' ? 'bg-blue-100 text-blue-600' : 'text-gray-500 hover:text-gray-700'}`}
+                    >
+                      <List className="w-4 h-4" />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Documents Grid/List */}
+            {viewMode === 'grid' ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {designDocuments.map((doc) => (
+                  <div key={doc.id} className="bg-white rounded-lg shadow hover:shadow-md transition-shadow">
+                    <div className="p-6">
+                      <div className="flex items-start justify-between mb-3">
+                        <div className="flex-1 min-w-0">
+                          <h3 className="text-lg font-medium text-gray-900 truncate">{doc.title}</h3>
+                          <p className="text-sm text-gray-600">{doc.version} • {doc.format}</p>
+                        </div>
+                        <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(doc.status)}`}>
+                          {doc.status.replace('_', ' ')}
+                        </span>
+                      </div>
+                      
+                      <div className="space-y-2 text-sm text-gray-600">
+                        <div className="flex justify-between">
+                          <span>Author:</span>
+                          <span>{doc.author}</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span>Date:</span>
+                          <span>{new Date(doc.date).toLocaleDateString()}</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span>Size:</span>
+                          <span>{doc.fileSize}</span>
+                        </div>
+                      </div>
+
+                      <div className="mt-4 flex items-center justify-between">
+                        <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${getCategoryColor(doc.category)}`}>
+                          {doc.category}
+                        </span>
+                        <div className="flex items-center space-x-2 text-sm text-gray-500">
+                          <MessageSquare className="w-4 h-4" />
+                          <span>{doc.comments}</span>
+                          <Download className="w-4 h-4" />
+                          <span>{doc.downloads}</span>
+                        </div>
+                      </div>
+
+                      <div className="mt-4 flex space-x-2">
+                        <button className="flex-1 px-3 py-2 text-sm bg-blue-600 text-white rounded-md hover:bg-blue-700 flex items-center justify-center">
+                          <Eye className="w-4 h-4 mr-1" />
+                          View
+                        </button>
+                        <button className="px-3 py-2 text-sm border border-gray-300 rounded-md hover:bg-gray-50">
+                          <Download className="w-4 h-4" />
+                        </button>
+                        <button className="px-3 py-2 text-sm border border-gray-300 rounded-md hover:bg-gray-50">
+                          <Share2 className="w-4 h-4" />
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="bg-white rounded-lg shadow">
+                <div className="divide-y divide-gray-200">
+                  {designDocuments.map((doc) => (
+                    <div key={doc.id} className="p-6 hover:bg-gray-50">
+                      <div className="flex items-center space-x-4">
+                        <FileText className="w-10 h-10 text-gray-400" />
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center space-x-2 mb-1">
+                            <h3 className="text-lg font-medium text-gray-900">{doc.title}</h3>
+                            <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(doc.status)}`}>
+                              {doc.status.replace('_', ' ')}
+                            </span>
+                            <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${getCategoryColor(doc.category)}`}>
+                              {doc.category}
+                            </span>
+                          </div>
+                          <div className="flex items-center space-x-6 text-sm text-gray-600">
+                            <span>{doc.version} • {doc.format} • {doc.fileSize}</span>
+                            <span>By {doc.author}</span>
+                            <span>{new Date(doc.date).toLocaleDateString()}</span>
+                            <span>{doc.comments} comments • {doc.downloads} downloads</span>
+                          </div>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <button className="p-2 text-gray-400 hover:text-gray-600 rounded-md hover:bg-gray-100">
+                            <Eye className="w-4 h-4" />
+                          </button>
+                          <button className="p-2 text-gray-400 hover:text-gray-600 rounded-md hover:bg-gray-100">
+                            <Download className="w-4 h-4" />
+                          </button>
+                          <button className="p-2 text-gray-400 hover:text-gray-600 rounded-md hover:bg-gray-100">
+                            <Share2 className="w-4 h-4" />
+                          </button>
+                          <button className="p-2 text-gray-400 hover:text-gray-600 rounded-md hover:bg-gray-100">
+                            <Edit className="w-4 h-4" />
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Milestones Tab */}
+        {activeTab === 'milestones' && (
+          <div className="bg-white rounded-lg shadow">
+            <div className="p-6 border-b border-gray-200">
+              <h2 className="text-lg font-medium text-gray-900">Design Milestones</h2>
+              <p className="text-sm text-gray-500 mt-1">Track progress through design phases</p>
+            </div>
+            <div className="p-6">
+              <div className="space-y-6">
+                {designMilestones.map((milestoneindex) => (
+                  <div key={milestone.id} className="relative">
+                    {index <designMilestones.length - 1 && (
+                      <div className="absolute left-6 top-12 w-0.5 h-16 bg-gray-200" />
+                    )}
+                    <div className="flex items-start space-x-4">
+                      <div className="flex-shrink-0">
+                        {milestone.status === 'completed' ? (
+                          <CheckCircle className="w-12 h-12 text-green-600" />
+                        ) : milestone.status === 'in_progress' ? (
+                          <Clock className="w-12 h-12 text-blue-600" />
+                        ) : (
+                          <div className="w-12 h-12 rounded-full border-4 border-gray-300 bg-white" />
+                        )}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center justify-between mb-2">
+                          <h3 className="text-lg font-medium text-gray-900">{milestone.title}</h3>
+                          <span className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(milestone.status)}`}>
+                            {milestone.status.replace('_', ' ')}
+                          </span>
+                        </div>
+                        <p className="text-gray-600 mb-3">{milestone.description}</p>
+                        <div className="flex items-center space-x-4 text-sm text-gray-500 mb-3">
+                          <div className="flex items-center">
+                            <Calendar className="w-4 h-4 mr-1" />
+                            {new Date(milestone.date).toLocaleDateString()}
+                          </div>
+                        </div>
+                        <div>
+                          <h4 className="text-sm font-medium text-gray-900 mb-2">Deliverables:</h4>
+                          <div className="flex flex-wrap gap-2">
+                            {milestone.deliverables.map((deliverableidx) => (
+                              <span key={idx} className="inline-flex items-center px-2 py-1 rounded-md text-xs bg-blue-100 text-blue-700">
+                                {deliverable}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}

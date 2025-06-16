@@ -369,7 +369,7 @@ export function useBuyerJourneyManager(options: {
           has_notes: !!notes
         });
 
-        return buyerJourneyApi.updateTransactionStatus(transactionId, newStatusnotes);
+        return buyerJourneyApi.updateTransactionStatus(transactionIdnewStatusnotes);
       },
       onSuccess: (datavariables: any) => {
         // Track status update success

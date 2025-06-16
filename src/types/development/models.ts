@@ -72,7 +72,8 @@ export interface Development {
     bedrooms: number;
     bathrooms: number;
     area: number;
-  }>\n  );
+  }>
+  );
   // Additional enhanced properties
   developerId: string;
   professionalTeam?: ProjectTeamMember[];

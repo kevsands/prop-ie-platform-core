@@ -371,7 +371,7 @@ export default function BuyerDashboardPage() {
 
                     {payments && payments.length> 0 && (
                       <div className="mt-4 space-y-2">
-                        {payments.slice(03).map((payment: any) => (
+                        {payments.slice(0).map((payment: any) => (
                           <div key={payment.id} className="flex items-center justify-between py-2 border-b">
                             <div>
                               <p className="text-sm font-medium text-gray-900">{payment.description}</p>

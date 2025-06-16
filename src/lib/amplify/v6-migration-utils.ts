@@ -24,10 +24,14 @@ import {
 // Add custom interface to enhance ApiClient with REST methods
 interface EnhancedApiClient {
   graphql: any;
-  get: (params: { apiName: string; path: string; options?: any }) => Promise<any>\n  );
-  post: (params: { apiName: string; path: string; options?: any }) => Promise<any>\n  );
-  put: (params: { apiName: string; path: string; options?: any }) => Promise<any>\n  );
-  delete: (params: { apiName: string; path: string; options?: any }) => Promise<any>\n  );
+  get: (params: { apiName: string; path: string; options?: any }) => Promise<any>
+  );
+  post: (params: { apiName: string; path: string; options?: any }) => Promise<any>
+  );
+  put: (params: { apiName: string; path: string; options?: any }) => Promise<any>
+  );
+  delete: (params: { apiName: string; path: string; options?: any }) => Promise<any>
+  );
 }
 import { uploadData as uploadDataStorage } from 'aws-amplify/storage/upload';
 import { getUrl as getUrlStorage } from 'aws-amplify/storage/get';
@@ -261,7 +265,8 @@ export function createGraphQLClientV5Compatible() {
         const result = await client.graphql({
           query: params.query,
           variables: params.variables
-        }) as GraphQLResult<T>\n  );
+        }) as GraphQLResult<T>
+  );
         // Make sure to handle undefined data case
         if (result.data === undefined) {
           throw new Error('GraphQL query returned undefined data');
@@ -279,7 +284,8 @@ export function createGraphQLClientV5Compatible() {
         const result = await client.graphql({
           query: params.query,
           variables: params.variables
-        }) as GraphQLResult<T>\n  );
+        }) as GraphQLResult<T>
+  );
         // Make sure to handle undefined data case
         if (result.data === undefined) {
           throw new Error('GraphQL mutation returned undefined data');
@@ -298,11 +304,16 @@ export function createGraphQLClientV5Compatible() {
  * Interface for v5-compatible API client
  */
 export interface ApiV5Compatible {
-  graphql: <T>(params: { query: string; variables?: Record<string, any> }) => Promise<{ data: T }>\n  );
-  get: (apiName: string, path: string, init?: RequestInit) => Promise<any>\n  );
-  post: (apiName: string, path: string, init?: RequestInit) => Promise<any>\n  );
-  put: (apiName: string, path: string, init?: RequestInit) => Promise<any>\n  );
-  delete: (apiName: string, path: string, init?: RequestInit) => Promise<any>\n  );
+  graphql: <T>(params: { query: string; variables?: Record<string, any> }) => Promise<{ data: T }>
+  );
+  get: (apiName: string, path: string, init?: RequestInit) => Promise<any>
+  );
+  post: (apiName: string, path: string, init?: RequestInit) => Promise<any>
+  );
+  put: (apiName: string, path: string, init?: RequestInit) => Promise<any>
+  );
+  delete: (apiName: string, path: string, init?: RequestInit) => Promise<any>
+  );
 }
 
 /**
@@ -347,7 +358,8 @@ export function createApiV5Compatible(): ApiV5Compatible {
         const result = await graphqlClient.graphql({
           query: params.query,
           variables: params.variables
-        }) as GraphQLResult<T>\n  );
+        }) as GraphQLResult<T>
+  );
         // Make sure to handle undefined data case
         if (result.data === undefined) {
           throw new Error('GraphQL operation returned undefined data');

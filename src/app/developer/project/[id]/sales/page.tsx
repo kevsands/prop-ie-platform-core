@@ -8,7 +8,8 @@ import { Building, ArrowLeft } from 'lucide-react';
 interface ProjectSalesPageProps {
   params: Promise<{
     id: string;
-  }>\n  );
+  }>
+  );
 }
 
 /**

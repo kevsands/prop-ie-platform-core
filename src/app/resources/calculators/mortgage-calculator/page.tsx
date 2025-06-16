@@ -151,9 +151,9 @@ export default function MortgageCalculatorPage() {
     setTotalInterest(interest);
 
     // Generate amortization table
-    generateAmortizationTable(principal, monthlyRate, numberOfPaymentsmonthly);
+    generateAmortizationTable(principalmonthlyRatenumberOfPaymentsmonthly);
 
-  }, [housePrice, deposit, term, interestRateextraPayments]);
+  }, [housePricedepositterminterestRateextraPayments]);
 
   // Generate amortization schedule
   const generateAmortizationTable = (principal: number, monthlyRate: number, numberOfPayments: number, monthlyPayment: number) => {

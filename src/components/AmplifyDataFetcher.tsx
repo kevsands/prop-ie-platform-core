@@ -17,7 +17,8 @@ import LoadingSpinner from '@/components/ui/LoadingSpinner';
 
 interface GraphQLOperation {
   query: string;
-  variables?: Record<string, any>\n  );
+  variables?: Record<string, any>
+  );
   operationName?: string;
 }
 
@@ -25,7 +26,8 @@ interface RestOperation {
   path: string;
   method: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
   body?: any;
-  queryParams?: Record<string, any>\n  );
+  queryParams?: Record<string, any>
+  );
 }
 
 interface AmplifyDataFetcherProps {

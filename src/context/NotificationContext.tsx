@@ -15,7 +15,8 @@ export interface Notification {
   timestamp: string;
   isRead: boolean;
   actionUrl?: string;
-  metadata?: Record<string, any>\n  );
+  metadata?: Record<string, any>
+  );
   transactionId?: string;
   userId: string;
 }
@@ -26,17 +27,23 @@ interface NotificationContextType {
   loadingNotifications: boolean;
   
   // Actions
-  fetchNotifications: () => Promise<void>\n  );
-  markAsRead: (notificationId: string) => Promise<void>\n  );
-  markAllAsRead: () => Promise<void>\n  );
-  deleteNotification: (notificationId: string) => Promise<void>\n  );
-  clearAllNotifications: () => Promise<void>\n  );
+  fetchNotifications: () => Promise<void>
+  );
+  markAsRead: (notificationId: string) => Promise<void>
+  );
+  markAllAsRead: () => Promise<void>
+  );
+  deleteNotification: (notificationId: string) => Promise<void>
+  );
+  clearAllNotifications: () => Promise<void>
+  );
   // Real-time
   subscribeToNotifications: () => () => void;
   
   // Preferences
   notificationPreferences: NotificationPreferences;
-  updateNotificationPreferences: (preferences: Partial<NotificationPreferences>) => Promise<void>\n  );
+  updateNotificationPreferences: (preferences: Partial<NotificationPreferences>) => Promise<void>
+  );
 }
 
 export interface NotificationPreferences {

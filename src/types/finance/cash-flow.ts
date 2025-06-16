@@ -236,7 +236,8 @@ export interface CashFlowVarianceAnalysis {
     variancePercentage: number;
     impact: 'positive' | 'negative' | 'neutral';
     significance: 'high' | 'medium' | 'low';
-  }>\n  );
+  }>
+  );
   // Trend analysis
   trendAnalysis?: {
     improvingCategories: string[];
@@ -274,7 +275,8 @@ export interface DiscountedCashFlowAnalysis {
     cashFlow: MonetaryAmount;
     discountFactor: number;
     discountedCashFlow: MonetaryAmount;
-  }>\n  );
+  }>
+  );
   // Summary metrics
   npv: MonetaryAmount; // Net Present Value
   irr: number; // Internal Rate of Return (percentage)
@@ -286,7 +288,8 @@ export interface DiscountedCashFlowAnalysis {
   discountRateSensitivity?: Array<{
     discountRate: number;
     npv: MonetaryAmount;
-  }>\n  );
+  }>
+  );
   // Terminal value contribution
   terminalValueContribution?: number; // Percentage of NPV from terminal value
   
@@ -305,7 +308,8 @@ export interface CashFlowScenario {
   description?: string;
   type: 'optimistic' | 'pessimistic' | 'custom' | 'market_downturn' | 'accelerated_sales' | 'increased_costs';
   baseScenarioId: string; // Reference to the base scenario
-  modifiedAssumptions: Partial<CashFlowAssumptions>\n  );
+  modifiedAssumptions: Partial<CashFlowAssumptions>
+  );
   // Result differences
   netCashFlowDifference: MonetaryAmount;
   netCashFlowDifferencePercentage: number;
@@ -318,7 +322,8 @@ export interface CashFlowScenario {
   probabilityAssessment?: number; // Estimated probability (0-100%)
   
   // Scenario-specific metrics
-  scenarioSpecificMetrics?: Record<string, any>\n  );
+  scenarioSpecificMetrics?: Record<string, any>
+  );
   // Creation metadata
   createdBy: string;
   createdAt: Date;

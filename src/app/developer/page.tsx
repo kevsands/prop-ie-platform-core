@@ -164,7 +164,7 @@ const ProjectList = ({ projects, title, description }) => {
                     <div className="w-full bg-gray-200 rounded-full h-2">
                       <div 
                         className="bg-blue-600 h-2 rounded-full" 
-                        style={{ width: `${project.completionPercentage}%` }}
+                        style={ width: `${project.completionPercentage}%` }
                       />
                     </div>
                     <span className="ml-2 text-xs text-gray-500">
@@ -228,13 +228,13 @@ interface DeveloperTransaction {
     name: string;
     status: string;
     dueDate?: Date;
-  }>;
+  }>\n  );
 }
 
 export default function Page(): React.ReactElement {
-  const [activeTransactions, setActiveTransactions] = useState<DeveloperTransaction[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [developerNotifications, setDeveloperNotifications] = useState<NotificationData[]>([]);
+  const [activeTransactionssetActiveTransactions] = useState<DeveloperTransaction[]>([]);
+  const [loadingsetLoading] = useState(true);
+  const [developerNotificationssetDeveloperNotifications] = useState<NotificationData[]>([]);
   
   // Helper function to get property details for Prop's developments
   const getPropPropertyDetails = (projectId: string) => {
@@ -342,7 +342,7 @@ export default function Page(): React.ReactElement {
         completionPercentage: 85,
         location: 'Drogheda, Co. Louth',
         propertyCount: 97,
-        lastUpdated: new Date(2025, 5, 13).toISOString(),
+        lastUpdated: new Date(2025513).toISOString(),
         sold: 12,
         reserved: 15,
         available: 70,
@@ -356,7 +356,7 @@ export default function Page(): React.ReactElement {
         completionPercentage: 95,
         location: 'Ballymakenny, Drogheda',
         propertyCount: 45,
-        lastUpdated: new Date(2025, 5, 10).toISOString(),
+        lastUpdated: new Date(2025510).toISOString(),
         sold: 0,
         reserved: 8,
         available: 37,
@@ -370,7 +370,7 @@ export default function Page(): React.ReactElement {
         completionPercentage: 75,
         location: 'Celbridge, Co. Kildare',
         propertyCount: 63,
-        lastUpdated: new Date(2025, 5, 12).toISOString(),
+        lastUpdated: new Date(2025512).toISOString(),
         sold: 18,
         reserved: 12,
         available: 33,
@@ -454,7 +454,7 @@ export default function Page(): React.ReactElement {
       </div>
 
       {/* Active Transactions Section */}
-      {activeTransactions.length > 0 && (
+      {activeTransactions.length> 0 && (
         <div className="mb-6">
           <Card className="border">
             <CardHeader>
@@ -512,9 +512,9 @@ export default function Page(): React.ReactElement {
                           <Clock className="h-4 w-4" />
                           Transaction Progress
                         </h4>
-                        {transaction.milestones.length > 0 ? (
+                        {transaction.milestones.length> 0 ? (
                           <div className="space-y-1">
-                            {transaction.milestones.slice(0, 3).map((milestone, index) => (
+                            {transaction.milestones.slice(0).map((milestoneindex) => (
                               <div key={index} className="flex items-center gap-2 text-sm">
                                 {milestone.status === 'COMPLETED' ? (
                                   <CheckCircle className="h-3 w-3 text-green-600" />
@@ -532,7 +532,7 @@ export default function Page(): React.ReactElement {
                                 </span>
                               </div>
                             ))}
-                            {transaction.milestones.length > 3 && (
+                            {transaction.milestones.length> 3 && (
                               <p className="text-xs text-gray-500">
                                 +{transaction.milestones.length - 3} more milestones
                               </p>
@@ -573,7 +573,7 @@ export default function Page(): React.ReactElement {
       )}
 
       {/* Developer Notifications Section */}
-      {developerNotifications.length > 0 && (
+      {developerNotifications.length> 0 && (
         <div className="mb-6">
           <Card className="border">
             <CardHeader>
@@ -588,7 +588,7 @@ export default function Page(): React.ReactElement {
             </CardHeader>
             <CardContent>
               <div className="space-y-3">
-                {developerNotifications.slice(0, 4).map((notification) => (
+                {developerNotifications.slice(0).map((notification) => (
                   <div key={notification.id} className={`border rounded-lg p-3 ${
                     notification.read ? 'bg-gray-50' : 'bg-blue-50 border-blue-200'
                   }`}>
@@ -617,9 +617,9 @@ export default function Page(): React.ReactElement {
                       }`} />
                     </div>
                     
-                    {notification.actions && notification.actions.length > 0 && (
+                    {notification.actions && notification.actions.length> 0 && (
                       <div className="flex gap-2 pt-2 border-t">
-                        {notification.actions.map((action, idx) => (
+                        {notification.actions.map((actionidx) => (
                           <button
                             key={idx}
                             onClick={() => {
@@ -630,7 +630,7 @@ export default function Page(): React.ReactElement {
                               } else if (action.action === 'update_milestone') {
                                 alert('Milestone update feature coming soon!');
                               }
-                            }}
+                            }
                             className={`text-xs px-3 py-1 rounded font-medium transition-colors ${
                               action.variant === 'primary' ? 
                                 'bg-blue-600 text-white hover:bg-blue-700' :
@@ -648,7 +648,7 @@ export default function Page(): React.ReactElement {
                 ))}
               </div>
               
-              {developerNotifications.length > 4 && (
+              {developerNotifications.length> 4 && (
                 <div className="mt-4 text-center">
                   <button className="text-sm text-blue-600 hover:underline">
                     View all {developerNotifications.length} notifications
@@ -712,7 +712,7 @@ export default function Page(): React.ReactElement {
                 <span className="text-xs text-green-600">Active - Final Release</span>
               </div>
               <div className="w-full bg-gray-200 rounded-full h-2">
-                <div className="bg-green-500 h-2 rounded-full" style={{ width: '85%' }}></div>
+                <div className="bg-green-500 h-2 rounded-full" style={ width: '85%' }></div>
               </div>
               
               <div className="flex items-center justify-between">
@@ -720,7 +720,7 @@ export default function Page(): React.ReactElement {
                 <span className="text-xs text-blue-600">Launching Soon</span>
               </div>
               <div className="w-full bg-gray-200 rounded-full h-2">
-                <div className="bg-blue-500 h-2 rounded-full" style={{ width: '95%' }}></div>
+                <div className="bg-blue-500 h-2 rounded-full" style={ width: '95%' }></div>
               </div>
               
               <div className="flex items-center justify-between">
@@ -728,7 +728,7 @@ export default function Page(): React.ReactElement {
                 <span className="text-xs text-green-600">Now Selling</span>
               </div>
               <div className="w-full bg-gray-200 rounded-full h-2">
-                <div className="bg-green-500 h-2 rounded-full" style={{ width: '75%' }}></div>
+                <div className="bg-green-500 h-2 rounded-full" style={ width: '75%' }></div>
               </div>
             </div>
           </CardContent>

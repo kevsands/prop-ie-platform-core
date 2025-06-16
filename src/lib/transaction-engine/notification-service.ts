@@ -68,7 +68,8 @@ export interface NotificationRequest {
   recipientId: string;
   type: NotificationType;
   channel: NotificationChannel;
-  data: Record<string, any>\n  );
+  data: Record<string, any>
+  );
   priority?: 'HIGH' | 'MEDIUM' | 'LOW';
   scheduledFor?: Date;
 }
@@ -80,13 +81,15 @@ export interface Notification {
   channel: NotificationChannel;
   subject?: string;
   content: string;
-  data: Record<string, any>\n  );
+  data: Record<string, any>
+  );
   sentAt?: Date;
   readAt?: Date;
   clickedAt?: Date;
   status: 'PENDING' | 'SENT' | 'DELIVERED' | 'READ' | 'FAILED';
   error?: string;
-  metadata?: Record<string, any>\n  );
+  metadata?: Record<string, any>
+  );
 }
 
 // Initialize email transporter

@@ -201,7 +201,7 @@ export default function PropertyViewingPage() {
                   <div className="pt-4 border-t">
                     <h3 className="font-semibold mb-2">Key Features</h3>
                     <div className="flex flex-wrap gap-2">
-                      {property.features?.slice(06).map((feature: any, index: any) => (
+                      {property.features?.slice(0).map((feature: any, index: any) => (
                         <Badge key={index: any} variant="secondary">
                           {feature: any}
                         </Badge>

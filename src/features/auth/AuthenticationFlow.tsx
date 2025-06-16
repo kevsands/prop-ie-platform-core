@@ -11,7 +11,8 @@ import {
   CardContent,
   CardDescription,
   CardHeader,
-  CardTitle} from '@/components/ui/card';
+  CardTitle
+} from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -28,7 +29,8 @@ import {
   CheckCircleIcon,
   ArrowRightIcon,
   EyeIcon,
-  EyeSlashIcon} from '@heroicons/react/24/outline';
+  EyeSlashIcon
+} from '@heroicons/react/24/outline';
 import { useAuth } from '@/context/AuthContext';
 
 interface AuthStep {
@@ -39,7 +41,8 @@ interface AuthStep {
 }
 
 const emailSchema = z.object({
-  email: z.string().email('Please enter a valid email address')});
+  email: z.string().email('Please enter a valid email address')
+});
 
 const signUpSchema = z.object({
   email: z.string().email('Please enter a valid email address'),
@@ -54,60 +57,71 @@ const signUpSchema = z.object({
   lastName: z.string().min(1, 'Last name is required'),
   phoneNumber: z.string().regex(/^\+?[1-9]\d{1,14}$/, 'Please enter a valid phone number'),
   role: z.enum(['BUYER', 'SELLER', 'DEVELOPER', 'AGENT', 'SOLICITOR', 'INVESTOR']),
-  acceptTerms: z.boolean().refine((val: any) => val === true, 'You must accept the terms and conditions')}).refine((data: any) => data.password === data.confirmPassword, {
+  acceptTerms: z.boolean().refine((val: any) => val === true, 'You must accept the terms and conditions')
+}).refine((data: any) => data.password === data.confirmPassword, {
   message: "Passwords don't match",
-  path: ["confirmPassword"]});
+  path: ["confirmPassword"]
+});
 
 export function AuthenticationFlow() {
   const router = useRouter();
   const { signIn, signUp, sendOTP, verifyOTP } = useAuth();
-  const [authModesetAuthMode] = useState<'signin' | 'signup'>('signin');
-  const [currentStepsetCurrentStep] = useState(0);
-  const [showPasswordsetShowPassword] = useState(false);
-  const [isLoadingsetIsLoading] = useState(false);
-  const [verificationCodesetVerificationCode] = useState('');
-  const [sessionDatasetSessionData] = useState<any>(null);
+  const [authMode, setAuthMode] = useState<'signin' | 'signup'>('signin');
+  const [currentStep, setCurrentStep] = useState(0);
+  const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [verificationCode, setVerificationCode] = useState('');
+  const [sessionData, setSessionData] = useState<any>(null);
 
   const signInSteps: AuthStep[] = [
     {
       id: 'email',
       title: 'Enter your email',
       description: 'We\'ll check if you have an account',
-      icon: <EnvelopeIcon className="h-5 w-5" />},
+      icon: <EnvelopeIcon className="h-5 w-5" />
+    },
     {
       id: 'authentication',
       title: 'Verify your identity',
       description: 'Choose your preferred authentication method',
-      icon: <ShieldCheckIcon className="h-5 w-5" />},
+      icon: <ShieldCheckIcon className="h-5 w-5" />
+    },
     {
       id: 'verification',
       title: 'Complete verification',
       description: 'Enter the code we sent you',
-      icon: <DevicePhoneMobileIcon className="h-5 w-5" />}];
+      icon: <DevicePhoneMobileIcon className="h-5 w-5" />
+    }
+  ];
 
   const signUpSteps: AuthStep[] = [
     {
       id: 'account',
       title: 'Create your account',
       description: 'Tell us about yourself',
-      icon: <UserIcon className="h-5 w-5" />},
+      icon: <UserIcon className="h-5 w-5" />
+    },
     {
       id: 'security',
       title: 'Set up security',
       description: 'Protect your account',
-      icon: <LockClosedIcon className="h-5 w-5" />},
+      icon: <LockClosedIcon className="h-5 w-5" />
+    },
     {
       id: 'verification',
       title: 'Verify your identity',
       description: 'Complete your registration',
-      icon: <CheckCircleIcon className="h-5 w-5" />}];
+      icon: <CheckCircleIcon className="h-5 w-5" />
+    }
+  ];
 
   const currentSteps = authMode === 'signin' ? signInSteps : signUpSteps;
   const progress = ((currentStep + 1) / currentSteps.length) * 100;
 
   const emailForm = useForm({
     resolver: zodResolver(emailSchema),
-    defaultValues: { email: '' });
+    defaultValues: { email: '' }
+  });
 
   const signUpForm = useForm({
     resolver: zodResolver(signUpSchema),
@@ -119,7 +133,9 @@ export function AuthenticationFlow() {
       lastName: '',
       phoneNumber: '',
       role: 'BUYER' as const,
-      acceptTerms: false});
+      acceptTerms: false
+    }
+  });
 
   const handleEmailSubmit = async (data: z.infer<typeof emailSchema>) => {
     setIsLoading(true);
@@ -128,7 +144,8 @@ export function AuthenticationFlow() {
       const response = await fetch('/api/auth/check-user', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: data.email })});
+        body: JSON.stringify({ email: data.email })
+      });
 
       const result = await response.json();
 
@@ -158,7 +175,9 @@ export function AuthenticationFlow() {
           given_name: data.firstName,
           family_name: data.lastName,
           phone_number: data.phoneNumber,
-          'custom:role': data.role});
+          'custom:role': data.role
+        }
+      });
 
       setSessionData(result);
       setCurrentStep(2);
@@ -212,8 +231,8 @@ export function AuthenticationFlow() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 flex items-center justify-center p-4">
       <motion.div
-        initial={ opacity: 0, y: 20 }
-        animate={ opacity: 1, y: 0 }
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
         className="w-full max-w-2xl"
       >
         <Card className="border-0 shadow-2xl">
@@ -228,7 +247,7 @@ export function AuthenticationFlow() {
                 onClick={() => {
                   setAuthMode(authMode === 'signin' ? 'signup' : 'signin');
                   setCurrentStep(0);
-                }
+                }}
               >
                 {authMode === 'signin' ? 'Need an account?' : 'Already have an account?'}
               </Button>
@@ -238,7 +257,7 @@ export function AuthenticationFlow() {
             <div className="space-y-2">
               <Progress value={progress} className="h-2" />
               <div className="flex justify-between text-sm text-muted-foreground">
-                {currentSteps.map((stepindex: any) => (
+                {currentSteps.map((step, index: any) => (
                   <div
                     key={step.id}
                     className={`flex items-center gap-1 ${
@@ -258,9 +277,9 @@ export function AuthenticationFlow() {
               {authMode === 'signin' && currentStep === 0 && (
                 <motion.div
                   key="email-step"
-                  initial={ opacity: 0, x: 20 }
-                  animate={ opacity: 1, x: 0 }
-                  exit={ opacity: 0, x: -20 }
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -20 }}
                 >
                   <form onSubmit={emailForm.handleSubmit(handleEmailSubmit)} className="space-y-4">
                     <div className="space-y-2">
@@ -297,9 +316,9 @@ export function AuthenticationFlow() {
               {authMode === 'signin' && currentStep === 1 && (
                 <motion.div
                   key="auth-methods"
-                  initial={ opacity: 0, x: 20 }
-                  animate={ opacity: 1, x: 0 }
-                  exit={ opacity: 0, x: -20 }
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -20 }}
                   className="space-y-4"
                 >
                   <p className="text-center text-muted-foreground">
@@ -349,9 +368,9 @@ export function AuthenticationFlow() {
               {authMode === 'signin' && currentStep === 2 && (
                 <motion.div
                   key="verification"
-                  initial={ opacity: 0, x: 20 }
-                  animate={ opacity: 1, x: 0 }
-                  exit={ opacity: 0, x: -20 }
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -20 }}
                   className="space-y-4"
                 >
                   <Alert>
@@ -399,9 +418,9 @@ export function AuthenticationFlow() {
               {authMode === 'signup' && currentStep === 0 && (
                 <motion.div
                   key="signup-account"
-                  initial={ opacity: 0, x: 20 }
-                  animate={ opacity: 1, x: 0 }
-                  exit={ opacity: 0, x: -20 }
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -20 }}
                 >
                   <form onSubmit={signUpForm.handleSubmit(handleSignUpSubmit)} className="space-y-4">
                     <div className="grid grid-cols-2 gap-4">
@@ -486,9 +505,9 @@ export function AuthenticationFlow() {
               {authMode === 'signup' && currentStep === 1 && (
                 <motion.div
                   key="signup-security"
-                  initial={ opacity: 0, x: 20 }
-                  animate={ opacity: 1, x: 0 }
-                  exit={ opacity: 0, x: -20 }
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -20 }}
                   className="space-y-4"
                 >
                   <div className="space-y-2">

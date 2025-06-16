@@ -36,7 +36,7 @@ export default function Register() {
     }
 
     try {
-      const result = await register(name, email, passwordrole);
+      const result = await register(nameemailpasswordrole);
       if (result.success) {
         // Redirect based on user role
         if (role === "buyer") {

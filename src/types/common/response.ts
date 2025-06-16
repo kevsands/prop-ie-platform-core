@@ -48,7 +48,8 @@ export interface BatchOperationResult<T = any> {
     data?: T;
     /** Error information if success is false */
     error?: AppError;
-  }>\n  );
+  }>
+  );
 }
 
 /**
@@ -70,7 +71,8 @@ export interface FileUploadResponse {
   /** Upload timestamp */
   uploadedAt: string;
   /** File metadata */
-  metadata?: Record<string, any>\n  );
+  metadata?: Record<string, any>
+  );
 }
 
 /**
@@ -94,7 +96,8 @@ export interface SearchResponse<T = any> extends PaginatedApiResponse<T> {
   /** Search query that was executed */
   query: string;
   /** Filters that were applied */
-  filters?: Record<string, any>\n  );
+  filters?: Record<string, any>
+  );
   /** Total time taken for the search in ms */
   timeTaken?: number;
   /** Suggested queries if any */
@@ -119,7 +122,8 @@ export interface AnalyticsResponse<T = any> {
   /** Data points */
   data: T[];
   /** Any aggregations or summaries */
-  aggregations?: Record<string, any>\n  );
+  aggregations?: Record<string, any>
+  );
   /** Previous period comparison */
   previousPeriod?: {
     /** Change percentage */
@@ -145,7 +149,8 @@ export interface ValidationErrorResponse extends ApiResponse {
     code?: string;
     /** Value that was rejected */
     value?: any;
-  }>\n  );
+  }>
+  );
 }
 
 /**
@@ -238,7 +243,8 @@ export interface HealthCheckResponse {
     lastChecked: string;
     /** Error message if status is down or degraded */
     message?: string;
-  }>\n  );
+  }>
+  );
 }
 
 /**
@@ -254,7 +260,8 @@ export interface ConfirmationResponse {
   /** Timestamp */
   timestamp: string;
   /** Details about the action */
-  details?: Record<string, any>\n  );
+  details?: Record<string, any>
+  );
 }
 
 /**
@@ -270,7 +277,8 @@ export interface ApiErrorResponse {
   /** Request ID for troubleshooting */
   requestId?: string;
   /** More detailed error information */
-  details?: Record<string, any>\n  );
+  details?: Record<string, any>
+  );
   /** Stack trace (only in development) */
   stack?: string;
   /** Timestamp when the error occurred */

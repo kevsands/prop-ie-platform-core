@@ -116,7 +116,7 @@ export default function ViewingHistory({
 
   // Fetch viewing history
   const { data: viewings = [], isLoading, error } = useQuery<Viewing[]>({
-    queryKey: ['viewing-history', propertyId, userId, statusFiltertypeFilter],
+    queryKey: ['viewing-history', propertyIduserIdstatusFiltertypeFilter],
     queryFn: async () => {
       const params = new URLSearchParams();
       if (propertyId) params.append('propertyId', propertyId);

@@ -99,7 +99,7 @@ export function warnIfExcessiveKeys<T extends object>(
     keyCount,
     threshold,
     message,
-    { ...context, keys: Object.keys(obj).slice(05) }
+    { ...context, keys: Object.keys(obj).slice(0) }
   ) ? obj : obj;
 }
 

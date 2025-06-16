@@ -4,7 +4,7 @@ import React from 'react';
 import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ChevronRight, MapPin, Bed, Bath, Square, Calendar, Check, Download } from 'lucide-react';
+import { ChevronRight, MapPin, Bed, Bath, Square, Calendar, Check, Download, Settings } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -149,6 +149,13 @@ export default function BallymakennyViewPage() {
                 <Button size="lg" variant="outline" className="text-lg text-white border-white hover:bg-white hover:text-slate-900">
                   Download Brochure
                 </Button>
+                {/* Developer Access - This should be conditionally shown based on user role */}
+                <Link href="/developer/projects/ballymakenny-view" className="hidden md:flex">
+                  <Button size="lg" variant="outline" className="text-lg text-white border-white hover:bg-white hover:text-slate-900">
+                    <Settings className="w-4 h-4 mr-2" />
+                    Developer Portal
+                  </Button>
+                </Link>
               </div>
             </div>
           </div>
@@ -416,7 +423,7 @@ export default function BallymakennyViewPage() {
 
             <TabsContent value="gallery" className="mt-8">
               <div className="grid md:grid-cols-3 gap-4">
-                {[1, 2, 3, 4, 56].map((num: any) => (
+                {[1, 23456].map((num: any) => (
                   <Card key={num} className="overflow-hidden">
                     <Image
                       src={`/images/ballymakenny-view/${num}.jpg`}

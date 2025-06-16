@@ -5,7 +5,8 @@ interface PerformanceEntry {
   name: string;
   startTime: number;
   duration: number;
-  metadata?: Record<string, any>\n  );
+  metadata?: Record<string, any>
+  );
 }
 
 class PerformanceMonitor {

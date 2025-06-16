@@ -1,26 +1,37 @@
 declare module 'mongodb' {
     export class MongoClient {
-      static connect(uri: string): Promise<MongoClient>\n  );
+      static connect(uri: string): Promise<MongoClient>
+  );
       db(name?: string): Db;
-      close(): Promise<void>\n  );
+      close(): Promise<void>
+  );
     }
   
     export class Db {
-      collection<T = any>(name: string): Collection<T>\n  );
+      collection<T = any>(name: string): Collection<T>
+  );
     }
   
     export class Collection<T = any> {
-      findOne(filter?: any): Promise<T | null>\n  );
-      find(filter?: any): Cursor<T>\n  );
-      insertOne(doc: any): Promise<{ insertedId: any }>\n  );
-      updateOne(filter: any, update: any): Promise<any>\n  );
-      updateMany(filter: any, update: any): Promise<any>\n  );
-      bulkWrite(operations: any[]): Promise<any>\n  );
+      findOne(filter?: any): Promise<T | null>
+  );
+      find(filter?: any): Cursor<T>
+  );
+      insertOne(doc: any): Promise<{ insertedId: any }>
+  );
+      updateOne(filter: any, update: any): Promise<any>
+  );
+      updateMany(filter: any, update: any): Promise<any>
+  );
+      bulkWrite(operations: any[]): Promise<any>
+  );
     }
   
     export class Cursor<T = any> {
-      toArray(): Promise<T[]>\n  );
-      sort(sort: any): Cursor<T>\n  );
+      toArray(): Promise<T[]>
+  );
+      sort(sort: any): Cursor<T>
+  );
     }
   
     export class ObjectId {

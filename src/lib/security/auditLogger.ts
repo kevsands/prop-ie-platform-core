@@ -196,7 +196,7 @@ export const AuditLogger = {
   /**
    * Log a data access event
    * 
-   * @param action The data access action (read, writedelete)
+   * @param action The data access action (readwritedelete)
    * @param userId The ID of the user involved
    * @param resourceType The type of resource being accessed
    * @param resourceId The ID of the resource

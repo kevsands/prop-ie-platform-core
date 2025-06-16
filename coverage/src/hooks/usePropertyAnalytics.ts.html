@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">30.43% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>7/23</span>
+                <span class='fraction'>0/23</span>
             </div>
         
             
@@ -37,16 +37,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">14.28% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>1/7</span>
+                <span class='fraction'>0/7</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">31.81% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>7/22</span>
+                <span class='fraction'>0/22</span>
             </div>
         
             
@@ -177,10 +177,10 @@
 <a name='L112'></a><a href='#L112'>112</a>
 <a name='L113'></a><a href='#L113'>113</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -198,8 +198,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -287,12 +287,12 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">7x</span></td><td class="text"><pre class="prettyprint lang-js">'use client';
+<span class="cline-any cline-no">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">'use client';
 &nbsp;
-import { useCallback } from 'react';
-import { buyerJourneyAnalytics } from '@/lib/analytics/buyer-journey-analytics';
-import { analytics } from '@/lib/analytics';
-import { useAuth } from '@/context/AuthContext';
+import { useCallback } from <span class="cstat-no" title="statement not covered" >'react';</span>
+import { buyerJourneyAnalytics } from <span class="cstat-no" title="statement not covered" >'@/lib/analytics/buyer-journey-analytics';</span>
+import { analytics } from <span class="cstat-no" title="statement not covered" >'@/lib/analytics';</span>
+import { useAuth } from <span class="cstat-no" title="statement not covered" >'@/context/AuthContext';</span>
 &nbsp;
 interface PropertyDetails {
   id: string;
@@ -310,9 +310,9 @@ interface PropertyDetails {
 /**
  * Hook that provides property-related analytics tracking functionality
  */
-export function usePropertyAnalytics() {
-  const { user } = useAuth();
-  
+export function <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >usePropertyAnalytics(</span></span>) {
+  const { user } = <span class="cstat-no" title="statement not covered" >useAuth();</span>
+&nbsp;
   // Track property viewed event
   const trackPropertyViewed = <span class="cstat-no" title="statement not covered" >useCallback(<span class="fstat-no" title="function not covered" >(p</span>roperty: PropertyDetails, source?: string) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    buyerJourneyAnalytics.trackEvent('unit_viewed', {</span>
@@ -327,7 +327,7 @@ export function usePropertyAnalytics() {
       source: source || 'property_detail',
       user_id: user?.id
     });
-    
+&nbsp;
     // Also track in general analytics
 <span class="cstat-no" title="statement not covered" >    analytics.trackEvent('property_viewed', {</span>
       property_id: property.id,
@@ -336,7 +336,7 @@ export function usePropertyAnalytics() {
       price: property.price
     });
   }, [user?.id]);
-  
+&nbsp;
   // Track property search
   const trackPropertySearch = <span class="cstat-no" title="statement not covered" >useCallback(<span class="fstat-no" title="function not covered" >(s</span>earchParams: Record&lt;string, any&gt;, resultsCount: number) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    analytics.trackEvent('property_search', {</span>
@@ -345,7 +345,7 @@ export function usePropertyAnalytics() {
       user_id: user?.id
     });
   }, [user?.id]);
-  
+&nbsp;
   // Track interest in property (e.g., clicking contact, viewing floor plan)
   const trackPropertyInterest = <span class="cstat-no" title="statement not covered" >useCallback(<span class="fstat-no" title="function not covered" >(p</span>roperty: PropertyDetails, interestType: string, details?: Record&lt;string, any&gt;) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    buyerJourneyAnalytics.trackEvent('property_interest', {</span>
@@ -357,7 +357,7 @@ export function usePropertyAnalytics() {
       ...details
     });
   }, []);
-  
+&nbsp;
   // Track property comparison
   const trackPropertyComparison = <span class="cstat-no" title="statement not covered" >useCallback(<span class="fstat-no" title="function not covered" >(p</span>ropertyIds: string[]) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    analytics.trackEvent('property_comparison', {</span>
@@ -366,7 +366,7 @@ export function usePropertyAnalytics() {
       user_id: user?.id
     });
   }, [user?.id]);
-  
+&nbsp;
   // Track property reservation intent (clicking reservation button)
   const trackReservationIntent = <span class="cstat-no" title="statement not covered" >useCallback(<span class="fstat-no" title="function not covered" >(p</span>roperty: PropertyDetails) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    buyerJourneyAnalytics.trackEvent('reservation_intent', {</span>
@@ -377,18 +377,18 @@ export function usePropertyAnalytics() {
       user_id: user?.id
     });
   }, [user?.id]);
-  
+&nbsp;
   // Track purchase process started
   const trackPurchaseStarted = <span class="cstat-no" title="statement not covered" >useCallback(<span class="fstat-no" title="function not covered" >(p</span>ropertyId: string, price?: number) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    buyerJourneyAnalytics.startStepTimer(`purchase_${propertyId}`);</span>
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    buyerJourneyAnalytics.trackEvent('purchase_started', {</span>
       unit_id: propertyId,
       price: price,
       user_id: user?.id
     });
   }, [user?.id]);
-  
+&nbsp;
 <span class="cstat-no" title="statement not covered" >  return {</span>
     trackPropertyViewed,
     trackPropertySearch,
@@ -399,14 +399,14 @@ export function usePropertyAnalytics() {
   };
 }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >export default u</span>sePropertyAnalytics;</pre></td></tr></table></pre>
+<span class="cstat-no" title="statement not covered" >export default <span class="cstat-no" title="statement not covered" >u</span>sePropertyAnalytics;</span></pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
             </div><!-- /wrapper -->
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T22:15:28.100Z
+                at 2025-06-15T18:50:48.918Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

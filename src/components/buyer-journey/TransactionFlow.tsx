@@ -266,7 +266,7 @@ export function TransactionFlow({ transactionId }: TransactionFlowProps) {
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
-            {transaction?.timeline?.slice(05).map((event: any, index: number) => (
+            {transaction?.timeline?.slice(0).map((event: any, index: number) => (
               <div key={event.id} className="flex items-start space-x-3">
                 <div className="flex-shrink-0">
                   <div className="h-2 w-2 rounded-full bg-gray-400 mt-1.5" />

@@ -28,6 +28,7 @@ import {
   Receipt,
   HelpCircle,
   Sparkles,
+  MessageSquare,
   ShieldCheck,
   BookOpen,
   Award,
@@ -37,8 +38,7 @@ import {
   XCircle,
   Phone,
   Play,
-  FileSearch,
-  MessageSquare
+  FileSearch
 } from 'lucide-react';
 
 // Mock property data service
@@ -85,18 +85,18 @@ export default function PurchasePage() {
   const { user, isAuthenticated } = useAuth();
   const propertyId = params?.id as string;
   
-  const [currentStep, setCurrentStep] = useState(1);
-  const [loading, setLoading] = useState(false);
-  const [property, setProperty] = useState<any>(null);
-  const [transaction, setTransaction] = useState<any>(null);
-  const [transactionError, setTransactionError] = useState<string | null>(null);
-  const [verificationStatus, setVerificationStatus] = useState({
+  const [currentStepsetCurrentStep] = useState(1);
+  const [loadingsetLoading] = useState(false);
+  const [propertysetProperty] = useState<any>(null);
+  const [transactionsetTransaction] = useState<any>(null);
+  const [transactionErrorsetTransactionError] = useState<string | null>(null);
+  const [verificationStatussetVerificationStatus] = useState({
     kyc: true, // Assume verified since they passed verification
     fundsProof: true,
     solicitAppointed: false
   });
   
-  const [purchaseData, setPurchaseData] = useState({
+  const [purchaseDatasetPurchaseData] = useState({
     acceptedTerms: false,
     reservationAmount: 500,
     agreementType: null as null | 'booking' | 'exclusivity',
@@ -119,19 +119,19 @@ export default function PurchasePage() {
     {
       id: 'verify',
       title: 'Verification Check',
-      status: currentStep > 1 ? 'completed' : currentStep === 1 ? 'current' : 'pending',
+      status: currentStep> 1 ? 'completed' : currentStep === 1 ? 'current' : 'pending',
       description: 'Confirm your KYC and funds verification'
     },
     {
       id: 'reservation',
       title: 'Reservation Terms',
-      status: currentStep > 2 ? 'completed' : currentStep === 2 ? 'current' : 'pending',
+      status: currentStep> 2 ? 'completed' : currentStep === 2 ? 'current' : 'pending',
       description: 'Review and accept reservation terms'
     },
     {
       id: 'payment',
       title: 'Payment',
-      status: currentStep > 3 ? 'completed' : currentStep === 3 ? 'current' : 'pending',
+      status: currentStep> 3 ? 'completed' : currentStep === 3 ? 'current' : 'pending',
       description: 'Secure with €500 refundable fee'
     },
     {
@@ -143,13 +143,13 @@ export default function PurchasePage() {
   ];
 
   const handleNextStep = () => {
-    if (currentStep < 4) {
+    if (currentStep <4) {
       setCurrentStep(currentStep + 1);
     }
   };
 
   const handlePreviousStep = () => {
-    if (currentStep > 1) {
+    if (currentStep> 1) {
       setCurrentStep(currentStep - 1);
     }
   };
@@ -160,7 +160,7 @@ export default function PurchasePage() {
 
     try {
       // Mock payment processing
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      await new Promise(resolve => setTimeout(resolve1500));
 
       // Create the actual transaction through the coordinator
       if (user && property) {
@@ -230,10 +230,10 @@ export default function PurchasePage() {
       <div className="bg-white border-b">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex items-center justify-between">
-            {progressSteps.map((step, index) => (
+            {progressSteps.map((stepindex) => (
               <div key={step.id} className="flex-1">
                 <div className="relative">
-                  {index < progressSteps.length - 1 && (
+                  {index <progressSteps.length - 1 && (
                     <div
                       className={`absolute top-5 left-8 right-0 h-0.5 ${
                         step.status === 'completed' ? 'bg-green-600' : 'bg-gray-200'
@@ -348,7 +348,7 @@ export default function PurchasePage() {
                           You can appoint a solicitor now or during the 30-day exclusivity period
                         </p>
                         <button 
-                          onClick={() => setPurchaseData({...purchaseData, solicitorDetails: {...purchaseData.solicitorDetails, appointed: true}})}
+                          onClick={() => setPurchaseData({...purchaseData, solicitorDetails: {...purchaseData.solicitorDetails, appointed: true})}
                           className="mt-2 text-sm text-yellow-700 hover:text-yellow-800 underline"
                         >
                           I have appointed a solicitor
@@ -854,7 +854,7 @@ export default function PurchasePage() {
                     Previous
                   </button>
 
-                  {currentStep < 4 ? (
+                  {currentStep <4 ? (
                     <button
                       onClick={currentStep === 3 ? handlePayment : handleNextStep}
                       disabled={
@@ -917,7 +917,7 @@ export default function PurchasePage() {
                 {property.htbEligible && (
                   <div className="flex justify-between text-green-600">
                     <span>HTB Benefit</span>
-                    <span>-€{Math.min(property.price * 0.1, 30000).toLocaleString()}</span>
+                    <span>-€{Math.min(property.price * 0.130000).toLocaleString()}</span>
                   </div>
                 )}
                 <div className="flex justify-between">

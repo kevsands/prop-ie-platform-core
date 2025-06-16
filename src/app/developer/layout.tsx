@@ -11,7 +11,7 @@ import {
   CreditCard, BarChart3, Briefcase, FolderOpen, Grid,
   Package, MessageSquare, Shield, Plug, ChevronDown,
   ChevronRight, Plus, Search, Bell, User as UserIcon, LogOut,
-  Calculator, Target, Layers, GitBranch
+  Calculator, Target, Layers, GitBranch, Calendar
 } from 'lucide-react';
 
 interface DeveloperLayoutProps {
@@ -63,7 +63,7 @@ export default function DeveloperLayout({ children }: DeveloperLayoutProps) {
       // Set email
       setUserEmail(sessionUser.email || 'developer@example.com');
     }
-  }, [status, session, router, pathnameuser]);
+  }, [status, sessionrouterpathnameuser]);
 
   // Handle logout
   const handleLogout = async () => {
@@ -75,7 +75,8 @@ export default function DeveloperLayout({ children }: DeveloperLayoutProps) {
   const developments = [
     { id: '1', name: 'Fitzgerald Gardens', status: 'active', units: 120, location: 'Drogheda' },
     { id: '2', name: 'Ellwood', status: 'active', units: 65, location: 'Dublin 15' },
-    { id: '3', name: 'Ballymakenny View', status: 'active', units: 40, location: 'Drogheda' }];
+    { id: '3', name: 'Ballymakenny View', status: 'active', units: 40, location: 'Drogheda' }
+  ];
 
   const isActive = (path: string) => pathname === path;
   const isActiveGroup = (basePath: string) => pathname.startsWith(basePath);
@@ -189,6 +190,19 @@ export default function DeveloperLayout({ children }: DeveloperLayoutProps) {
             >
               <Grid className="w-5 h-5 mr-3" />
               Project Management
+            </Link>
+
+            {/* Portfolio Timeline */}
+            <Link
+              href="/developer/timeline"
+              className={`flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
+                isActiveGroup('/developer/timeline') 
+                  ? 'bg-blue-50 text-blue-700' 
+                  : 'text-gray-700 hover:bg-gray-100'
+              }`}
+            >
+              <Calendar className="w-5 h-5 mr-3" />
+              Portfolio Timeline
             </Link>
 
             {/* Teams Dropdown */}
@@ -384,6 +398,7 @@ export default function DeveloperLayout({ children }: DeveloperLayoutProps) {
               {pathname === '/developer' ? 'Dashboard' : 
                pathname.includes('developments') ? 'Developments' :
                pathname.includes('projects') ? 'Project Management' :
+               pathname.includes('timeline') ? 'Portfolio Timeline' :
                pathname.includes('team') ? 'Teams & Contractors' :
                pathname.includes('tenders') ? 'Tender Management' :
                pathname.includes('financial') ? 'Financial & Appraisals' :

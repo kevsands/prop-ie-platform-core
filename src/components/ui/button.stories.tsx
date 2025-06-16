@@ -32,40 +32,41 @@ const meta: Meta<typeof Button> = {
     fullWidth: {
       control: "boolean",
     disabled: {
-      control: "boolean"};
+      control: "boolean";
 
 export default meta;
-type Story = StoryObj<typeof Button>\n  );
+type Story = StoryObj<typeof Button>
+  );
 export const Default: Story = {
   args: {
     children: "Button",
     variant: "default",
-    size: "default"};
+    size: "default";
 
 export const Secondary: Story = {
   args: {
     children: "Secondary",
-    variant: "secondary"};
+    variant: "secondary";
 
 export const Destructive: Story = {
   args: {
     children: "Destructive",
-    variant: "destructive"};
+    variant: "destructive";
 
 export const Outline: Story = {
   args: {
     children: "Outline",
-    variant: "outline"};
+    variant: "outline";
 
 export const Ghost: Story = {
   args: {
     children: "Ghost",
-    variant: "ghost"};
+    variant: "ghost";
 
 export const Link: Story = {
   args: {
     children: "Link Button",
-    variant: "link"};
+    variant: "link";
 
 export const Success: Story = {
   args: {
@@ -76,22 +77,22 @@ export const Success: Story = {
 export const Warning: Story = {
   args: {
     children: "Warning",
-    variant: "warning"};
+    variant: "warning";
 
 export const Info: Story = {
   args: {
     children: "Info",
-    variant: "info"};
+    variant: "info";
 
 export const Subtle: Story = {
   args: {
     children: "Subtle",
-    variant: "subtle"};
+    variant: "subtle";
 
 export const Brand: Story = {
   args: {
     children: "Brand",
-    variant: "brand"};
+    variant: "brand";
 
 export const WithLeftIcon: Story = {
   args: {
@@ -112,35 +113,35 @@ export const WithBothIcons: Story = {
 export const Small: Story = {
   args: {
     children: "Small",
-    size: "sm"};
+    size: "sm";
 
 export const Large: Story = {
   args: {
     children: "Large",
-    size: "lg"};
+    size: "lg";
 
 export const ExtraLarge: Story = {
   args: {
     children: "Extra Large",
-    size: "xl"};
+    size: "xl";
 
 export const Icon: Story = {
   args: {
     children: <Mail />,
     size: "icon",
-    "aria-label": "Send email"};
+    "aria-label": "Send email";
 
 export const IconSmall: Story = {
   args: {
     children: <Mail />,
     size: "icon-sm",
-    "aria-label": "Send email"};
+    "aria-label": "Send email";
 
 export const IconLarge: Story = {
   args: {
     children: <Mail />,
     size: "icon-lg",
-    "aria-label": "Send email"};
+    "aria-label": "Send email";
 
 export const FullWidth: Story = {
   args: {
@@ -156,7 +157,7 @@ export const LoadingWithText: Story = {
   args: {
     children: "Submit",
     isLoading: true,
-    loadingText: "Submitting..."};
+    loadingText: "Submitting...";
 
 export const Disabled: Story = {
   args: {

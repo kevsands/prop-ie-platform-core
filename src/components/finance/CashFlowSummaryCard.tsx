@@ -40,7 +40,8 @@ const CashFlowSummaryCard = ({
     inflow: number;
     outflow: number;
     netflow: number;
-  }>\n  );
+  }>
+  );
   onClick?: () => void;
 }) => {
   // Calculate if net cash flow is positive

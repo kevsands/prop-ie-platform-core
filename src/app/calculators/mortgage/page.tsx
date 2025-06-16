@@ -66,7 +66,7 @@ export default function MortgageCalculator() {
     if (loanAmount> 0 && interestRate> 0 && loanTerm> 0) {
       calculateMortgage();
     }
-  }, [propertyPrice, deposit, interestRate, loanTerm, monthlyIncome, useHTB, htbAmountloanAmount]);
+  }, [propertyPrice, deposit, interestRate, loanTermmonthlyIncomeuseHTBhtbAmountloanAmount]);
 
   // Format currency
   const formatCurrency = (amount: number) => {

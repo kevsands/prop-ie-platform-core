@@ -6,7 +6,8 @@ import { Params } from 'next/dist/shared/lib/router/utils/route-matcher';
  * Type definitions for Next.js API Route Handlers (App Router)
  */
 export interface RouteParams {
-  params: Record<string, string | string[]>\n  );
+  params: Record<string, string | string[]>
+  );
 }
 
 /**
@@ -15,7 +16,8 @@ export interface RouteParams {
 export type RouteSegmentHandler<T = any> = (
   request: NextRequest,
   context: { params: Record<string, string | string[]> }
-) => Promise<T>\n  );
+) => Promise<T>
+  );
 /**
  * Type definition for API route handler in Next.js 13+ App Router
  * Updated for compatibility with Next.js 15+
@@ -49,8 +51,10 @@ export interface NextPageParams {
  * Type definition for page props in Next.js 14+ App Router with Promise pattern
  */
 export interface NextPagePropsWithParams<T = { [key: string]: string }> {
-  params: Promise<T>\n  );
-  searchParams?: Promise<{ [key: string]: string | string[] | undefined }>\n  );
+  params: Promise<T>
+  );
+  searchParams?: Promise<{ [key: string]: string | string[] | undefined }>
+  );
 }
 
 /**

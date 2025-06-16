@@ -59,7 +59,8 @@ interface DocumentCategoryItem {
 }
 
 interface DocumentUploaderProps {
-  onUpload: (file: File, metadata: any) => Promise<void>\n  );
+  onUpload: (file: File, metadata: any) => Promise<void>
+  );
   onCancel: () => void;
   categories: DocumentCategoryItem[];
   isUploading?: boolean;

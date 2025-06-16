@@ -144,7 +144,8 @@ export interface TokenizationRequest {
   totalShares: number;
   pricePerShare: string;
   chain: BlockchainNetwork;
-  metadata?: Record<string, any>\n  );
+  metadata?: Record<string, any>
+  );
 }
 
 export interface BlockchainError {

@@ -1,0 +1,106 @@
+import { NextRequest, NextResponse } from 'next/server';
+import { recordMetric } from '@/app/api/metrics/route';
+
+// Monitoring middleware to collect metrics
+export async function monitoringMiddleware(request: NextRequest) {
+  const startTime = Date.now();
+  const method = request.method;
+  const path = request.nextUrl.pathname;
+  
+  let response: NextResponse;
+  let statusCode = 200;
+  
+  try {
+    // Continue to the actual route handler
+    response = NextResponse.next();
+    
+    // Clone the response to check status
+    const clonedResponse = response.clone();
+    statusCode = clonedResponse.status;
+    
+  } catch (error) {
+    console.error('Request error:', error);
+    statusCode = 500;
+    response = NextResponse.json(
+      { error: 'Internal Server Error' },
+      { status: 500 }
+    );
+  } finally {
+    // Record metrics
+    const responseTime = Date.now() - startTime;
+    
+    // Skip recording for static assets and system endpoints
+    if (!path.startsWith('/_next') && 
+        !path.startsWith('/static') && 
+        !path.endsWith('.ico') &&
+        !path.endsWith('.png') &&
+        !path.endsWith('.jpg') &&
+        !path.endsWith('.jpeg') &&
+        !path.endsWith('.svg') &&
+        !path.endsWith('.css') &&
+        !path.endsWith('.js')) {
+      
+      try {
+        recordMetric(method, pathstatusCoderesponseTime);
+      } catch (error) {
+        console.error('Failed to record metric:', error);
+      }
+    }
+    
+    // Add monitoring headers
+    response.headers.set('X-Response-Time', `${responseTime}ms`);
+    response.headers.set('X-Request-ID', generateRequestId());
+  }
+  
+  return response;
+}
+
+// Generate unique request ID for tracing
+function generateRequestId(): string {
+  return `${Date.now()}-${Math.random().toString(36).substr(29)}`;
+}
+
+// CloudWatch metrics helper
+export async function sendToCloudWatch(
+  metricName: string,
+  value: number,
+  unit: string = 'Count',
+  dimensions?: Record<string, string>
+) {
+  // This would integrate with AWS CloudWatch
+  // For now, it's a placeholder
+  if (process.env.AWS_CLOUDWATCH_ENABLED === 'true') {
+    try {
+      // In production, you'd use AWS SDK to send metrics
+      console.log(`CloudWatch metric: ${metricName} = ${value} ${unit}`, dimensions);
+    } catch (error) {
+      console.error('Failed to send CloudWatch metric:', error);
+    }
+  }
+}
+
+// Error tracking helper  
+export function trackError(
+  error: Error,
+  context: {
+    path?: string;
+    method?: string;
+    userId?: string;
+    sessionId?: string;
+    metadata?: Record<string, any>
+  );
+  }
+) {
+  // This would integrate with error tracking service (e.g., Sentry)
+  console.error('Tracked error:', {
+    message: error.message,
+    stack: error.stack,
+    context,
+    timestamp: new Date().toISOString()
+  });
+  
+  // Send to monitoring service
+  if (process.env.ERROR_TRACKING_ENABLED === 'true') {
+    // Integration with Sentry or similar would go here
+  }
+}

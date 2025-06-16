@@ -101,7 +101,7 @@ export default function PropertyStampDutyCalculator({
       effectiveRate,
       breakdown
     };
-  }, [calculationPrice, buyerTypepropertyCategory]);
+  }, [calculationPricebuyerTypepropertyCategory]);
 
   return (
     <Card>

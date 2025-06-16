@@ -50,7 +50,8 @@ type KafkaClient = KafkaNodeClient & {
 /**
  * Event handler type
  */
-type EventHandler<T = unknown> = (data: T) => void | Promise<void>\n  );
+type EventHandler<T = unknown> = (data: T) => void | Promise<void>
+  );
 /**
  * Event publishing options
  */

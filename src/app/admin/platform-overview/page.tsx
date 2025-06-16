@@ -150,7 +150,7 @@ export default function PlatformOverviewPage() {
             </div>
 
             {/* Stakeholder nodes */}
-            {stakeholders.map((stakeholderindex: any) => {
+            {stakeholders.map((stakeholder, index: any) => {
               const angle = (index * 2 * Math.PI) / stakeholders.length;
               const radius = 200;
               const x = Math.cos(angle) * radius;
@@ -164,7 +164,8 @@ export default function PlatformOverviewPage() {
                   style={
                     top: `50%`,
                     left: `50%`,
-                    transform: `translate(${x}px, ${y}px) translate(-50%, -50%)`}
+                    transform: `translate(${x}px, ${y}px) translate(-50%, -50%)`
+                  }
                 >
                   <div className="text-center">
                     <div
@@ -186,7 +187,7 @@ export default function PlatformOverviewPage() {
               className="absolute inset-0 w-full h-full"
               style={ zIndex: -1 }
             >
-              {interactions.map((interactionindex: any) => {
+              {interactions.map((interaction, index: any) => {
                 const fromStakeholder = stakeholders.find(s => s.id === interaction.from);
                 const toStakeholder = stakeholders.find(s => s.id === interaction.to);
 

@@ -11,7 +11,7 @@ export default function EstateAgentsTestPage() {
           <h2 className="font-bold text-green-800">✅ Page Structure</h2>
           <ul className="mt-2 space-y-1">
             <li>• Hero Section with gradient background</li>
-            <li>• 5 Feature tabs (Transaction, Viewing, Completion, CommunicationAnalytics)</li>
+            <li>• 5 Feature tabs (TransactionViewingCompletionCommunicationAnalytics)</li>
             <li>• Workflow visualization</li>
             <li>• Integration section</li>
             <li>• Benefits section</li>

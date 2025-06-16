@@ -111,7 +111,7 @@ export function useProperties(
     if (initialFetch) {
       fetchProperties(params);
     }
-  }, [initialFetch, fetchPropertiesparams]);
+  }, [initialFetchfetchPropertiesparams]);
 
   // Update search parameters and trigger fetch
   const search = useCallback((newParams: PropertySearchParams) => {

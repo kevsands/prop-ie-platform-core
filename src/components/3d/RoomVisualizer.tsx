@@ -25,7 +25,7 @@ export const RoomVisualizer = ({
         gl={ antialias: true }
       >
         <ambientLight intensity={0.5} />
-        <pointLight position={[10, 1010]} castShadow />
+        <pointLight position={[101010]} castShadow />
         <Room roomType={room} />
         <OrbitControls />
       </Canvas>
@@ -78,7 +78,7 @@ function Room({ roomType }: RoomProps) {
 
   return (
     <mesh ref={meshRef} castShadow receiveShadow>
-      <boxGeometry args={[1, 11]} />
+      <boxGeometry args={[111]} />
       <meshStandardMaterial color={color} roughness={0.7} metalness={0.3} />
     </mesh>
   );

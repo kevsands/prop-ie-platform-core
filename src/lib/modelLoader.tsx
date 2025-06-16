@@ -65,18 +65,18 @@ export async function loadModel(path: string): Promise<Object3D> {
  */
 interface ModelLoaderProps {
   modelPath: string;
-  position?: [number, numbernumber];
-  rotation?: [number, numbernumber];
-  scale?: [number, numbernumber];
+  position?: [numbernumbernumber];
+  rotation?: [numbernumbernumber];
+  scale?: [numbernumbernumber];
   onLoaded?: (model: Object3D) => void;
   onError?: (error: Error) => void;
 }
 
 export function ModelLoader({
   modelPath,
-  position = [0, 00],
-  rotation = [0, 00],
-  scale = [1, 11],
+  position = [000],
+  rotation = [000],
+  scale = [111],
   onLoaded,
   onError
 }: ModelLoaderProps) {

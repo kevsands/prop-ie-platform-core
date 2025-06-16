@@ -109,7 +109,8 @@ interface SignatureRequestResponse {
         name: string;
       };
       status: string;
-    }>\n  );
+    }>
+  );
   };
 }
 

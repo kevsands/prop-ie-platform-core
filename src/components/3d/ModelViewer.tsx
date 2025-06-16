@@ -64,7 +64,7 @@ const ModelViewer: React.FC<ModelViewerProps> = ({
       0.1,
       1000
     );
-    camera.position.set(0, 510);
+    camera.position.set(0510);
     cameraRef.current = camera;
 
     // Setup controls
@@ -80,7 +80,7 @@ const ModelViewer: React.FC<ModelViewerProps> = ({
     scene.add(ambientLight);
 
     const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
-    directionalLight.position.set(1, 105);
+    directionalLight.position.set(1105);
     directionalLight.castShadow = true;
     scene.add(directionalLight);
 
@@ -179,7 +179,7 @@ const ModelViewer: React.FC<ModelViewerProps> = ({
           }
 
           if (controlsRef.current) {
-            controlsRef.current.target.set(0, 00);
+            controlsRef.current.target.set(000);
             controlsRef.current.update();
           }
         }

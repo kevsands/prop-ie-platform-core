@@ -114,7 +114,7 @@ describe('DataTable Pagination', () => {
         data={testData}
         pagination
         pageSize={10}
-        pageSizeOptions={[5, 10, 2550]}
+        pageSizeOptions={[5102550]}
       />
     );
     
@@ -137,7 +137,7 @@ describe('DataTable Pagination', () => {
         data={testData}
         pagination
         pageSize={10}
-        pageSizeOptions={[5, 10, 2550]}
+        pageSizeOptions={[5102550]}
       />
     );
     

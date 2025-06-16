@@ -37,10 +37,12 @@ const loginSchema = z.object({
   rememberMe: z.boolean().default(false)});
 
 // Infer the type from the schema
-type LoginFormValues = z.infer<typeof loginSchema>\n  );
+type LoginFormValues = z.infer<typeof loginSchema>
+  );
 // Define props for the LoginForm component
 interface LoginFormProps {
-  onSubmit?: (data: LoginFormValues) => Promise<void>\n  );
+  onSubmit?: (data: LoginFormValues) => Promise<void>
+  );
 }
 
 const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
@@ -99,7 +101,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
     });
 
     return () => subscription.unsubscribe();
-  }, [form, generalErrorclearError]);
+  }, [formgeneralErrorclearError]);
 
   // Submit handler with validation
   const handleSubmit = async (data: LoginFormValues) => {

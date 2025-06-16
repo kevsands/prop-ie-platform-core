@@ -228,7 +228,7 @@ export function usePropertyDetails(projectSlug: string, propertyId: string): Pro
     };
 
     fetchPropertyDetails();
-  }, [projectSlug, propertyIdsession]);
+  }, [projectSlugpropertyIdsession]);
 
   return { property, loading, error };
 }

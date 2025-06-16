@@ -1,0 +1,283 @@
+"use client";
+
+import React, { useState, useEffect, useRef } from 'react';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Slider } from '@/components/ui/slider';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { 
+  ZoomIn, 
+  ZoomOut, 
+  RotateCw, 
+  Move, 
+  Maximize, 
+  Grid, 
+  Eye, 
+  EyeOff,
+  Download,
+  Upload,
+  Layers,
+  Box
+} from 'lucide-react';
+import * as THREE from 'three';
+import { Canvas, useFrame } from '@react-three/fiber';
+import { OrbitControls, Grid as ThreeGrid, Box as ThreeBox } from '@react-three/drei';
+
+// Add Three.js type support
+// import '../../types/three-extensions';
+
+interface ModelViewerProps {
+  projectId: string;
+  modelUrl?: string;
+}
+
+// Mock 3D model component
+const Model: React.FC<{ url?: string }> = ({ url }) => {
+  const meshRef = useRef<THREE.Mesh>(null);
+
+  useFrame((state, delta: any) => {
+    if (meshRef.current) {
+      meshRef.current.rotation.y += delta * 0.2;
+    }
+  });
+
+  // In a real implementation, this would load the actual 3D model from the URL
+  return (
+    <ThreeBox ref={meshRef} args={[2, 2, 2]}>
+      <meshStandardMaterial color="orange" />
+    </ThreeBox>
+  );
+};
+
+export const ModelViewer: React.FC<ModelViewerProps> = ({ projectId, modelUrl }) => {
+  const [zoom, setZoom] = useState(100);
+  const [rotation, setRotation] = useState({ x: 0, y: 0, z: 0 });
+  const [showGrid, setShowGrid] = useState(true);
+  const [showWireframe, setShowWireframe] = useState(false);
+  const [selectedLayer, setSelectedLayer] = useState('all');
+  const [loading, setLoading] = useState(false);
+  const [modelStats, setModelStats] = useState({
+    vertices: 0,
+    faces: 0,
+    materials: 0,
+    textures: 0
+  });
+
+  const handleZoomIn = () => {
+    setZoom(Math.min(zoom + 10, 200));
+  };
+
+  const handleZoomOut = () => {
+    setZoom(Math.max(zoom - 10, 50));
+  };
+
+  const handleResetView = () => {
+    setZoom(100);
+    setRotation({ x: 0, y: 0, z: 0 });
+  };
+
+  const handleExportView = () => {
+    // Mock export functionality
+
+  };
+
+  const handleUploadModel = () => {
+    // Mock upload functionality
+
+  };
+
+  useEffect(() => {
+    // Mock loading model stats
+    setModelStats({
+      vertices: 24578,
+      faces: 49152,
+      materials: 12,
+      textures: 8
+    });
+  }, [modelUrl]);
+
+  return (
+    <div className="space-y-6">
+      {/* Header */}
+      <div className="flex justify-between items-center">
+        <h1 className="text-2xl font-bold">3D Model Viewer</h1>
+        <div className="flex gap-2">
+          <Button variant="outline" onClick={handleUploadModel}>
+            <Upload className="h-4 w-4 mr-2" />
+            Upload Model
+          </Button>
+          <Button onClick={handleExportView}>
+            <Download className="h-4 w-4 mr-2" />
+            Export View
+          </Button>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 xl:grid-cols-4 gap-6">
+        {/* Main Viewer */}
+        <div className="xl:col-span-3">
+          <Card className="h-[600px]">
+            <CardHeader className="pb-2">
+              <div className="flex justify-between items-center">
+                <CardTitle className="text-lg">Model View</CardTitle>
+                <div className="flex gap-2">
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={() => setShowGrid(!showGrid)}
+                  >
+                    <Grid className={`h-4 w-4 ${showGrid ? 'text-blue-600' : ''}`} />
+                  </Button>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={() => setShowWireframe(!showWireframe)}
+                  >
+                    <Box className={`h-4 w-4 ${showWireframe ? 'text-blue-600' : ''}`} />
+                  </Button>
+                  <Button size="sm" variant="outline" onClick={handleResetView}>
+                    <RotateCw className="h-4 w-4" />
+                  </Button>
+                  <Button size="sm" variant="outline">
+                    <Maximize className="h-4 w-4" />
+                  </Button>
+                </div>
+              </div>
+            </CardHeader>
+            <CardContent className="p-0 h-[calc(100%-60px)]">
+              <Canvas
+                camera={{ position: [5, 5, 5], fov: 50 }}
+                style={{ background: '#f3f4f6' }}
+              >
+                <ambientLight intensity={0.5} />
+                <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} />
+                <Model url={modelUrl} />
+                {showGrid && <ThreeGrid args={[10, 10]} />}
+                <OrbitControls 
+                  enablePan={true}
+                  enableZoom={true}
+                  enableRotate={true}
+                />
+              </Canvas>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Controls Panel */}
+        <div className="space-y-6">
+          {/* View Controls */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-lg">View Controls</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div>
+                <div className="flex justify-between items-center mb-2">
+                  <label className="text-sm font-medium">Zoom</label>
+                  <span className="text-sm text-gray-600">{zoom}%</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Button size="sm" variant="outline" onClick={handleZoomOut}>
+                    <ZoomOut className="h-4 w-4" />
+                  </Button>
+                  <Slider
+                    value={[zoom]}
+                    onValueChange={(values: any) => setZoom(values[0])}
+                    min={50}
+                    max={200}
+                    step={10}
+                    className="flex-1"
+                  />
+                  <Button size="sm" variant="outline" onClick={handleZoomIn}>
+                    <ZoomIn className="h-4 w-4" />
+                  </Button>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Model Info */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-lg">Model Information</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <dl className="space-y-2 text-sm">
+                <div className="flex justify-between">
+                  <dt className="text-gray-600">Vertices:</dt>
+                  <dd className="font-medium">{modelStats.vertices.toLocaleString()}</dd>
+                </div>
+                <div className="flex justify-between">
+                  <dt className="text-gray-600">Faces:</dt>
+                  <dd className="font-medium">{modelStats.faces.toLocaleString()}</dd>
+                </div>
+                <div className="flex justify-between">
+                  <dt className="text-gray-600">Materials:</dt>
+                  <dd className="font-medium">{modelStats.materials}</dd>
+                </div>
+                <div className="flex justify-between">
+                  <dt className="text-gray-600">Textures:</dt>
+                  <dd className="font-medium">{modelStats.textures}</dd>
+                </div>
+              </dl>
+            </CardContent>
+          </Card>
+
+          {/* Layers */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-lg">Layers</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-2">
+                {['All Layers', 'Structure', 'MEP', 'Interior', 'Exterior'].map((layer: any) => (
+                  <label
+                    key={layer}
+                    className="flex items-center justify-between p-2 rounded hover:bg-gray-50 cursor-pointer"
+                  >
+                    <span className="text-sm">{layer}</span>
+                    <input
+                      type="radio"
+                      name="layer"
+                      value={layer.toLowerCase().replace(' ', '-')}
+                      checked={selectedLayer === layer.toLowerCase().replace(' ', '-')}
+                      onChange={(e: any) => setSelectedLayer(e.target.value)}
+                      className="h-4 w-4"
+                    />
+                  </label>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Tools */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-lg">Tools</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-2 gap-2">
+                <Button variant="outline" size="sm">
+                  <Move className="h-4 w-4 mr-1" />
+                  Measure
+                </Button>
+                <Button variant="outline" size="sm">
+                  <Layers className="h-4 w-4 mr-1" />
+                  Section
+                </Button>
+                <Button variant="outline" size="sm">
+                  <Eye className="h-4 w-4 mr-1" />
+                  Views
+                </Button>
+                <Button variant="outline" size="sm">
+                  <Box className="h-4 w-4 mr-1" />
+                  Materials
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    </div>
+  );
+};

@@ -244,7 +244,7 @@ export function usePerformanceMonitor({
       eventLoopCheckRef.current.timestamp = performance.now();
       timeoutIdRef.current = setTimeout(measureEventLoopLag0);
     }, 100); // Check every 100ms
-  }, [trackEventLoop, enabledmaxDataPoints]);
+  }, [trackEventLoopenabledmaxDataPoints]);
 
   // Set up automatic collection if enabled
   useEffect(() => {

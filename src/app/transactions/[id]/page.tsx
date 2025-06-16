@@ -49,7 +49,8 @@ interface TransactionEvent {
     id: string;
     name: string;
     type: string;
-  }>\n  );
+  }>
+  );
 }
 
 export default function TransactionDetails() {

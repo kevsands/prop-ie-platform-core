@@ -17,9 +17,12 @@ interface AuthContextType {
   isAuthenticated: boolean;
   isLoading: boolean;
   error: string | null;
-  signIn: (email: string, password: string) => Promise<AuthResponse>\n  );
-  signUp: (email: string, password: string, name: string, role: string) => Promise<AuthResponse>\n  );
-  signOut: () => Promise<void>\n  );
+  signIn: (email: string, password: string) => Promise<AuthResponse>
+  );
+  signUp: (email: string, password: string, name: string, role: string) => Promise<AuthResponse>
+  );
+  signOut: () => Promise<void>
+  );
   clearError: () => void;
   getToken: () => string | null;
   hasPermission: (permissionOrRole: string) => boolean;

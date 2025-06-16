@@ -73,7 +73,8 @@ interface ButtonProps {
   variant?: 'default' | 'outline' | 'secondary';
   children: React.ReactNode;
   disabled?: boolean;
-  onClick?: React.MouseEventHandler<HTMLButtonElement>\n  );
+  onClick?: React.MouseEventHandler<HTMLButtonElement>
+  );
   [key: string]: any; // For additional props
 }
 
@@ -166,9 +167,36 @@ function CustomizationPageContent() {
   };
 
   // Handle option selection
-  const handleOptionSelect = (option: CustomizationOption) => {
-    selectOption(option.idoption);
+  const handleOptionSelect = async (option: CustomizationOption) => {
+    selectOption(option.id, option);
     trackInteraction('select_option', { optionId: option.id, price: option.price });
+    
+    // Calculate and collect PROP Choice commission
+    try {
+      const { revenueEngine } = await import('../../../services/revenueEngine');
+      const commission = await revenueEngine.calculatePropChoiceCommission(
+        'furniture', // Determine actual type based on category
+        option.price,
+        user?.id || 'anonymous',
+        'fitzgerald-gardens' // Would be dynamic based on current development
+      );
+      
+      await revenueEngine.collectFees(
+        [commission],
+        `PROP-CHOICE-${Date.now()}`,
+        'prop-developer',
+        {
+          optionId: option.id,
+          optionName: option.name,
+          buyerId: user?.id
+        }
+      );
+      
+      console.log(`PROP Choice commission collected: €${commission.feeAmount.toFixed(2)}`);
+    } catch (error) {
+      console.error('Failed to collect PROP Choice commission:', error);
+    }
+    
     toast.success(`${option.name} added to your selections`);
   };
 

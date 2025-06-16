@@ -35,7 +35,7 @@ interface ModelViewerProps {
 const Model: React.FC<{ url?: string }> = ({ url }) => {
   const meshRef = useRef<THREE.Mesh>(null);
 
-  useFrame((statedelta: any) => {
+  useFrame((state, delta: any) => {
     if (meshRef.current) {
       meshRef.current.rotation.y += delta * 0.2;
     }
@@ -43,7 +43,7 @@ const Model: React.FC<{ url?: string }> = ({ url }) => {
 
   // In a real implementation, this would load the actual 3D model from the URL
   return (
-    <ThreeBox ref={meshRef} args={[2, 22]}>
+    <ThreeBox ref={meshRef} args={[222]}>
       <meshStandardMaterial color="orange" />
     </ThreeBox>
   );
@@ -146,11 +146,11 @@ export const ModelViewer: React.FC<ModelViewerProps> = ({ projectId, modelUrl })
             </CardHeader>
             <CardContent className="p-0 h-[calc(100%-60px)]">
               <Canvas
-                camera={ position: [5, 55], fov: 50 }
+                camera={ position: [555], fov: 50 }
                 style={ background: '#f3f4f6' }
               >
                 <ambientLight intensity={0.5} />
-                <spotLight position={[10, 1010]} angle={0.15} penumbra={1} />
+                <spotLight position={[101010]} angle={0.15} penumbra={1} />
                 <Model url={modelUrl} />
                 {showGrid && <ThreeGrid args={[1010]} />}
                 <OrbitControls 

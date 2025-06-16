@@ -13,7 +13,8 @@ interface ExtendedRenderOptions extends Omit<RenderOptions, 'queries'> {
   initialRouterState?: {
     pathname?: string;
     searchParams?: URLSearchParams;
-    params?: Record<string, string>\n  );
+    params?: Record<string, string>
+  );
   };
   authState?: {
     isAuthenticated?: boolean;
@@ -30,7 +31,7 @@ export function renderWithProviders(
     initialRouterState = {},
     authState = { isAuthenticated: false, user: null, loading: false },
     queryClient = new QueryClient({ defaultOptions: { queries: { retry: false, staleTime: 0 },
-        mutations: { retry: false }}),
+        mutations: { retry: false }),
     ...renderOptions
   }: ExtendedRenderOptions = {}
 ) {

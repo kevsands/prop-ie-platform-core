@@ -74,8 +74,10 @@ export function validateAmplifyConfig(): boolean {
 
   const missingValues = requiredValues.filter(item => !item.value);
 
-  if (missingValues.length> 0) {
-    .join(', '),
+  if (missingValues.length > 0) {
+    console.error(
+      'Missing required Amplify configuration values:',
+      missingValues.map(item => item.key).join(', '),
       'Please check your environment variables.'
     );
     return false;

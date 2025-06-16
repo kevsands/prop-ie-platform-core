@@ -239,7 +239,7 @@ export class DataRetentionService {
         properties: true,
         notifications: true,
         auditLogs: {
-          take: 1000}})
+          take: 1000})
 
     return {
       exportDate: new Date().toISOString(),

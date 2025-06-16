@@ -28,7 +28,8 @@ import {
 interface ProjectPageProps {
   params: Promise<{
     id: string;
-  }>\n  );
+  }>
+  );
 }
 
 export default async function ProjectPage({ params }: ProjectPageProps) {

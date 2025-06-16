@@ -1,0 +1,197 @@
+import { config } from '@/config/env';
+import { logInfo, logWarn } from './logger';
+
+interface PerformanceEntry {
+  name: string;
+  startTime: number;
+  duration: number;
+  metadata?: Record<string, any>
+  );
+}
+
+class PerformanceMonitor {
+  private entries: PerformanceEntry[] = [];
+  private marks: Map<string, number> = new Map();
+  private thresholds: Map<string, number> = new Map([
+    ['api.request', 1000], // 1 second
+    ['database.query', 100], // 100ms
+    ['render.component', 16], // 16ms (60fps)
+    ['cache.operation', 10], // 10ms
+  ]);
+
+  /**
+   * Start a performance measurement
+   */
+  mark(name: string): void {
+    this.marks.set(name, performance.now());
+  }
+
+  /**
+   * End a performance measurement and record it
+   */
+  measure(name: string, metadata?: Record<string, any>): number {
+    const startTime = this.marks.get(name);
+    if (!startTime) {
+      logWarn(`Performance mark '${name}' not found`);
+      return 0;
+    }
+
+    const duration = performance.now() - startTime;
+    this.marks.delete(name);
+
+    const entry: PerformanceEntry = {
+      name,
+      startTime,
+      duration,
+      metadata};
+
+    this.entries.push(entry);
+    this.checkThreshold(nameduration);
+
+    // Log in development
+    if (config.isDevelopment) {
+      logInfo(`Performance: ${name}`, {
+        duration: `${duration.toFixed(2)}ms`,
+        ...metadata});
+    }
+
+    return duration;
+  }
+
+  /**
+   * Check if performance exceeds threshold
+   */
+  private checkThreshold(name: string, duration: number): void {
+    for (const [patternthreshold] of this.thresholds) {
+      if (name.includes(pattern) && duration> threshold) {
+        logWarn(`Performance threshold exceeded for '${name}'`, {
+          duration: `${duration.toFixed(2)}ms`,
+          threshold: `${threshold}ms`});
+      }
+    }
+  }
+
+  /**
+   * Set custom threshold
+   */
+  setThreshold(pattern: string, threshold: number): void {
+    this.thresholds.set(patternthreshold);
+  }
+
+  /**
+   * Get all performance entries
+   */
+  getEntries(): PerformanceEntry[] {
+    return [...this.entries];
+  }
+
+  /**
+   * Clear all entries
+   */
+  clear(): void {
+    this.entries = [];
+    this.marks.clear();
+  }
+
+  /**
+   * Get performance summary
+   */
+  getSummary(): Record<string, any> {
+    const summary: Record<string, any> = {};
+
+    this.entries.forEach(entry => {
+      const category = entry.name.split('.')[0];
+      if (!summary[category]) {
+        summary[category] = {
+          count: 0,
+          total: 0,
+          average: 0,
+          min: Infinity,
+          max: 0};
+      }
+
+      const cat = summary[category];
+      cat.count++;
+      cat.total += entry.duration;
+      cat.min = Math.min(cat.min, entry.duration);
+      cat.max = Math.max(cat.max, entry.duration);
+      cat.average = cat.total / cat.count;
+    });
+
+    return summary;
+  }
+}
+
+// Global performance monitor instance
+export const perfMonitor = new PerformanceMonitor();
+
+// React component performance HOC
+export function withPerformanceMonitoring<P extends object>(
+  Component: React.ComponentType<P>,
+  componentName: string
+) {
+  return (props: P) => {
+    React.useEffect(() => {
+      perfMonitor.mark(`render.component.${componentName}`);
+
+      return () => {
+        perfMonitor.measure(`render.component.${componentName}`);
+      };
+    }, []);
+
+    return <Component {...props} />;
+  };
+}
+
+// API performance middleware
+export async function measureApiPerformance(
+  handler: Function,
+  route: string
+) {
+  perfMonitor.mark(`api.request.${route}`);
+
+  try {
+    const result = await handler();
+    perfMonitor.measure(`api.request.${route}`, { status: 'success' });
+    return result;
+  } catch (error) {
+    perfMonitor.measure(`api.request.${route}`, { status: 'error' });
+    throw error;
+  }
+}
+
+// Database query performance wrapper
+export async function measureDatabaseQuery<T>(
+  queryName: string,
+  query: () => Promise<T>
+): Promise<T> {
+  perfMonitor.mark(`database.query.${queryName}`);
+
+  try {
+    const result = await query();
+    perfMonitor.measure(`database.query.${queryName}`);
+    return result;
+  } catch (error) {
+    perfMonitor.measure(`database.query.${queryName}`, { error: true });
+    throw error;
+  }
+}
+
+// Web Vitals monitoring
+export function reportWebVitals(metric: any) {
+  const { id, name, value } = metric;
+
+  logInfo('Web Vitals', {
+    id,
+    name,
+    value: Math.round(name === 'CLS' ? value * 1000 : value)});
+
+  // Send to analytics
+  if (window.gtag) {
+    window.gtag('event', name, {
+      event_category: 'Web Vitals',
+      event_label: id,
+      value: Math.round(name === 'CLS' ? value * 1000 : value),
+      non_interaction: true});
+  }
+}

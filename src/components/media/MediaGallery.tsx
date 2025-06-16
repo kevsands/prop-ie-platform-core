@@ -23,7 +23,8 @@ const MediaGallery: React.FC<MediaGalleryProps> = ({
   layout = 'grid',
   className = '',
   title = 'Media Gallery',
-  emptyMessage = 'No media files available'}) => {
+  emptyMessage = 'No media files available'
+}) => {
   const [selectedFilesetSelectedFile] = useState<MediaFile | null>(null);
 
   // Generate human-readable size string
@@ -40,11 +41,11 @@ const MediaGallery: React.FC<MediaGalleryProps> = ({
   // Get file type icon
   const getFileIcon = (file: MediaFile) => {
     if (file.type === 'application/pdf') {
-      return <FiFileText className="text-red-500" size={20} />\n  );
+      return <FiFileText className="text-red-500" size={20} />;
     } else if (file.type.startsWith('image/')) {
-      return <FiImage className="text-blue-500" size={20} />\n  );
+      return <FiImage className="text-blue-500" size={20} />;
     } else {
-      return <FiFile className="text-gray-500" size={20} />\n  );
+      return <FiFile className="text-gray-500" size={20} />;
     }
   };
 

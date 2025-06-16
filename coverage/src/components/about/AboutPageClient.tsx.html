@@ -422,25 +422,25 @@ export default function <span class="cstat-no" title="statement not covered" ><s
           &lt;p className="text-xl md:text-2xl max-w-2xl"&gt;{hero.subtitle}&lt;/p&gt;
         &lt;/div&gt;
       &lt;/section&gt;
-      
+&nbsp;
       {/* Mission Section */}
       &lt;section className="mb-16"&gt;
         &lt;h2 className="text-3xl font-bold mb-6"&gt;{mission.title}&lt;/h2&gt;
         &lt;div className="space-y-6"&gt;
           &lt;p className="text-lg"&gt;{mission.content}&lt;/p&gt;
           &lt;ul className="list-disc list-inside space-y-2"&gt;
-            {mission.highlights.map(<span class="fstat-no" title="function not covered" >(h</span>ighlight, index) =&gt; (
+            {mission.highlights.map(<span class="fstat-no" title="function not covered" >(h</span>ighlightindex: any) =&gt; (
 <span class="cstat-no" title="statement not covered" >              &lt;li key={index} c</span>lassName="text-lg"&gt;{highlight}&lt;/li&gt;
             ))}
           &lt;/ul&gt;
         &lt;/div&gt;
       &lt;/section&gt;
-      
+&nbsp;
       {/* Values Section */}
       &lt;section className="mb-16"&gt;
         &lt;h2 className="text-3xl font-bold mb-8"&gt;Our Values&lt;/h2&gt;
         &lt;div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6"&gt;
-          {values.map(<span class="fstat-no" title="function not covered" >(v</span>alue) =&gt; (
+          {values.map(<span class="fstat-no" title="function not covered" >(v</span>alue: any) =&gt; (
 <span class="cstat-no" title="statement not covered" >            &lt;div key={value.id} c</span>lassName="text-center p-6 bg-gray-50 rounded-lg"&gt;
               &lt;h3 className="text-xl font-semibold mb-3"&gt;{value.title}&lt;/h3&gt;
               &lt;p&gt;{value.description}&lt;/p&gt;
@@ -448,12 +448,12 @@ export default function <span class="cstat-no" title="statement not covered" ><s
           ))}
         &lt;/div&gt;
       &lt;/section&gt;
-      
+&nbsp;
       {/* Team Section */}
       &lt;section className="mb-16"&gt;
         &lt;h2 className="text-3xl font-bold mb-8"&gt;Our Team&lt;/h2&gt;
         &lt;div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6"&gt;
-          {team.map(<span class="fstat-no" title="function not covered" >(m</span>ember) =&gt; (
+          {team.map(<span class="fstat-no" title="function not covered" >(m</span>ember: any) =&gt; (
 <span class="cstat-no" title="statement not covered" >            &lt;div key={member.id} c</span>lassName="bg-white shadow-lg rounded-lg overflow-hidden"&gt;
               &lt;img 
                 src={member.image} 
@@ -469,12 +469,12 @@ export default function <span class="cstat-no" title="statement not covered" ><s
           ))}
         &lt;/div&gt;
       &lt;/section&gt;
-      
+&nbsp;
       {/* Timeline Section */}
       &lt;section className="mb-16"&gt;
         &lt;h2 className="text-3xl font-bold mb-8"&gt;Our Journey&lt;/h2&gt;
         &lt;div className="space-y-8"&gt;
-          {timeline.map(<span class="fstat-no" title="function not covered" >(i</span>tem, index) =&gt; (
+          {timeline.map(<span class="fstat-no" title="function not covered" >(i</span>temindex: any) =&gt; (
 <span class="cstat-no" title="statement not covered" >            &lt;div key={item.id} c</span>lassName="flex gap-6"&gt;
               &lt;div className="flex-shrink-0"&gt;
                 &lt;div className="w-16 h-16 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold"&gt;
@@ -486,7 +486,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                 &lt;p className="text-gray-600 mb-2"&gt;{item.description}&lt;/p&gt;
                 {<span class="branch-0 cbranch-no" title="branch not covered" >item.milestones </span>&amp;&amp; (
                   &lt;ul className="list-disc list-inside text-sm text-gray-500"&gt;
-                    {item.milestones.map(<span class="fstat-no" title="function not covered" >(m</span>ilestone, idx) =&gt; (
+                    {item.milestones.map(<span class="fstat-no" title="function not covered" >(m</span>ilestoneidx: any) =&gt; (
 <span class="cstat-no" title="statement not covered" >                      &lt;li key={idx}&gt;{m</span>ilestone}&lt;/li&gt;
                     ))}
                   &lt;/ul&gt;
@@ -496,7 +496,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
           ))}
         &lt;/div&gt;
       &lt;/section&gt;
-      
+&nbsp;
       {/* Statistics Section */}
       &lt;section className="mb-16 bg-gray-50 p-8 rounded-lg"&gt;
         &lt;h2 className="text-3xl font-bold mb-8 text-center"&gt;By the Numbers&lt;/h2&gt;
@@ -519,12 +519,12 @@ export default function <span class="cstat-no" title="statement not covered" ><s
           &lt;/div&gt;
         &lt;/div&gt;
       &lt;/section&gt;
-      
+&nbsp;
       {/* Testimonials Section */}
       &lt;section className="mb-16"&gt;
         &lt;h2 className="text-3xl font-bold mb-8"&gt;What Our Clients Say&lt;/h2&gt;
         &lt;div className="grid md:grid-cols-2 gap-8"&gt;
-          {testimonials.map(<span class="fstat-no" title="function not covered" >(t</span>estimonial) =&gt; (
+          {testimonials.map(<span class="fstat-no" title="function not covered" >(t</span>estimonial: any) =&gt; (
 <span class="cstat-no" title="statement not covered" >            &lt;div key={testimonial.id} c</span>lassName="bg-white p-6 rounded-lg shadow-lg"&gt;
               &lt;p className="text-lg italic mb-4"&gt;"{testimonial.content}"&lt;/p&gt;
               &lt;div className="flex items-center gap-4"&gt;
@@ -542,7 +542,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
           ))}
         &lt;/div&gt;
       &lt;/section&gt;
-      
+&nbsp;
       {/* CTA Section */}
       &lt;section className="text-center py-16 bg-blue-600 text-white rounded-lg"&gt;
         &lt;h2 className="text-3xl font-bold mb-4"&gt;{cta.title}&lt;/h2&gt;
@@ -565,7 +565,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T22:15:28.100Z
+                at 2025-06-15T18:50:48.918Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

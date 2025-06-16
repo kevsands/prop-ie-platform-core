@@ -42,6 +42,11 @@ export function BuyerDashboardLayout({ children }: BuyerDashboardLayoutProps) {
     { id: 'closing', name: 'Closing & Moving', path: '/buyer/journey/closing', status: 'pending' }
   ];
 
+  // Only show journey tracker on specific pages
+  const shouldShowJourneyTracker = pathname.includes('/buyer/first-time-buyers') || 
+                                 pathname.includes('/buyer/journey') ||
+                                 pathname === '/buyer';
+
   return (
     <div className="flex min-h-screen bg-gray-50">
       {/* Mobile sidebar */}
@@ -99,61 +104,63 @@ export function BuyerDashboardLayout({ children }: BuyerDashboardLayoutProps) {
       <div className="hidden lg:block lg:w-64 fixed inset-y-0">
         <BuyerDashboardSidebar 
           activeTab={activeTab} 
-          onTabChange={(tab: any) => setActiveTab(tab)} 
+          onTabChange={setActiveTab} 
         />
       </div>
 
       {/* Main content */}
       <div className="lg:pl-64 flex-1">
-        <div className="mx-auto px-4 sm:px-6 lg:px-8 py-6 pb-20 lg:pb-6">
-          {/* Journey Tracker - visible on all pages for FTB */}
-          <div className="bg-white p-4 rounded-lg shadow-sm mb-6">
-            <div className="flex items-center justify-between mb-2">
-              <h2 className="text-lg font-semibold">Your Home Buying Journey</h2>
-              <Link href="/buyer/journey" className="text-blue-600 text-sm flex items-center">
-                View Details <ArrowRight size={16} className="ml-1" />
-              </Link>
+        <div className="mx-auto px-4 sm:px-6 lg:px-8 py-4 lg:py-6">
+          {/* Journey Tracker - only shown on specific pages */}
+          {shouldShowJourneyTracker && (
+            <div className="bg-white p-4 rounded-lg shadow-sm mb-6">
+              <div className="flex items-center justify-between mb-2">
+                <h2 className="text-lg font-semibold">Your Home Buying Journey</h2>
+                <Link href="/buyer/journey" className="text-blue-600 text-sm flex items-center">
+                  View Details <ArrowRight size={16} className="ml-1" />
+                </Link>
+              </div>
+              <div className="flex items-center">
+                {journeyPhases.map((phaseindex) => (
+                  <React.Fragment key={phase.id}>
+                    <Link href={phase.path} className="flex flex-col items-center">
+                      <div 
+                        className={`w-8 h-8 rounded-full flex items-center justify-center ${
+                          phase.status === 'complete' ? 'bg-green-100 text-green-600' : 
+                          phase.status === 'active' ? 'bg-blue-100 text-blue-600' : 
+                          'bg-gray-100 text-gray-400'
+                        }`}
+                      >
+                        {phase.status === 'complete' ? (
+                          <CheckCircle2 size={18} />
+                        ) : phase.status === 'active' ? (
+                          <CircleDot size={18} /> 
+                        ) : (
+                          <Clock size={18} />
+                        )}
+                      </div>
+                      <span 
+                        className={`text-xs mt-1 ${
+                          phase.status === 'complete' ? 'text-green-600' : 
+                          phase.status === 'active' ? 'text-blue-600' : 
+                          'text-gray-400'
+                        }`}
+                      >
+                        {phase.name}
+                      </span>
+                    </Link>
+                    {index <journeyPhases.length - 1 && (
+                      <div 
+                        className={`flex-1 h-1 mx-2 ${
+                          phase.status === 'complete' ? 'bg-green-200' : 'bg-gray-200'
+                        }`}
+                      ></div>
+                    )}
+                  </React.Fragment>
+                ))}
+              </div>
             </div>
-            <div className="flex items-center">
-              {journeyPhases.map((phaseindex: any) => (
-                <React.Fragment key={phase.id}>
-                  <Link href={phase.path} className="flex flex-col items-center">
-                    <div 
-                      className={`w-8 h-8 rounded-full flex items-center justify-center ${
-                        phase.status === 'complete' ? 'bg-green-100 text-green-600' : 
-                        phase.status === 'active' ? 'bg-blue-100 text-blue-600' : 
-                        'bg-gray-100 text-gray-400'
-                      }`}
-                    >
-                      {phase.status === 'complete' ? (
-                        <CheckCircle2 size={18} />
-                      ) : phase.status === 'active' ? (
-                        <CircleDot size={18} /> 
-                      ) : (
-                        <Clock size={18} />
-                      )}
-                    </div>
-                    <span 
-                      className={`text-xs mt-1 ${
-                        phase.status === 'complete' ? 'text-green-600' : 
-                        phase.status === 'active' ? 'text-blue-600' : 
-                        'text-gray-400'
-                      }`}
-                    >
-                      {phase.name}
-                    </span>
-                  </Link>
-                  {index <journeyPhases.length - 1 && (
-                    <div 
-                      className={`flex-1 h-1 mx-2 ${
-                        phase.status === 'complete' ? 'bg-green-200' : 'bg-gray-200'
-                      }`}
-                    ></div>
-                  )}
-                </React.Fragment>
-              ))}
-            </div>
-          </div>
+          )}
 
           {/* Page content */}
           {children}

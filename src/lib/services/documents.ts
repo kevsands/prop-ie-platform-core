@@ -10,7 +10,8 @@ export type DocumentCreateInput = {
   propertyId: string;
   uploadedBy: string;
   status?: string;
-  metadata?: Record<string, any>\n  );
+  metadata?: Record<string, any>
+  );
   category?: string;
   entityType?: string;
   entityId?: string;

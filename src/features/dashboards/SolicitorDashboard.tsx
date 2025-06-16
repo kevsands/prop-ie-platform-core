@@ -322,7 +322,7 @@ export default function SolicitorDashboard({ solicitorId }: SolicitorDashboardPr
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                  {documents.slice(08).map(doc: any => (
+                  {documents.slice(0).map(doc: any => (
                     <Card key={doc.id} className="hover:shadow-md transition-shadow cursor-pointer">
                       <CardContent className="p-4">
                         <div className="flex items-start justify-between mb-2">
@@ -355,7 +355,7 @@ export default function SolicitorDashboard({ solicitorId }: SolicitorDashboardPr
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  {clients.slice(05).map((client: any, index: any) => (
+                  {clients.slice(0).map((client: any, index: any) => (
                     <motion.div
                       key={client.id}
                       initial={ opacity: 0, x: -20 }

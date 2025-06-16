@@ -232,7 +232,8 @@ export class SLPService {
     totalComponents: number;
     approvedComponents: number;
     progressPercentage: number;
-    componentsbyStatus: Record<ComponentStatus, number>\n  );
+    componentsbyStatus: Record<ComponentStatus, number>
+  );
   }> {
     try {
       const components = await this.getComponents(projectId);

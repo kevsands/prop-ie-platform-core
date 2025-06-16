@@ -119,7 +119,7 @@ function VirtualizedList<T>({
         </div>
       );
     });
-  }, [items, startIndex, endIndex, itemHeightrenderItemAction]);
+  }, [itemsstartIndexendIndexitemHeightrenderItemAction]);
 
   // Effect for cleanup
   useEffect(() => {
@@ -234,13 +234,13 @@ function VirtualizedGrid<T>({
       startRow: start,
       endRow: end,
       totalHeight: totalRows * rowHeight};
-  }, [scrollTop, height, rowHeight, items.length, columnsoverscan]);
+  }, [scrollTop, height, rowHeight, items.lengthcolumnsoverscan]);
 
   // Calculate item width
   const itemWidth = useMemo(() => {
     if (!containerWidth) return 0;
     return (containerWidth - (gap * (columns - 1))) / columns;
-  }, [containerWidth, columnsgap]);
+  }, [containerWidthcolumnsgap]);
 
   // Generate visible grid items
   const visibleItems = useMemo(() => {

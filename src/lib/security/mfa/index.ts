@@ -56,7 +56,8 @@ import { Hub } from 'aws-amplify/utils';
  * This replaces the dependency on the external cache module
  */
 function createClientCache<T>(fetcher: () => Promise<T>): {
-  (): Promise<T>\n  );
+  (): Promise<T>
+  );
   clear: () => void;
   invalidate: () => void;
 } {

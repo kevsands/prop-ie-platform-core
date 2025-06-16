@@ -220,15 +220,20 @@ export default function JourneyPlanner({
   const getMilestoneIcon = (type: Milestone['type']) => {
     switch (type) {
       case 'financial':
-        return <div className="bg-blue-100 p-2 rounded-full text-blue-600"><Calendar className="h-4 w-4" /></div>\n  );
+        return <div className="bg-blue-100 p-2 rounded-full text-blue-600"><Calendar className="h-4 w-4" /></div>
+  );
       case 'property':
-        return <div className="bg-emerald-100 p-2 rounded-full text-emerald-600"><MapPin className="h-4 w-4" /></div>\n  );
+        return <div className="bg-emerald-100 p-2 rounded-full text-emerald-600"><MapPin className="h-4 w-4" /></div>
+  );
       case 'legal':
-        return <div className="bg-purple-100 p-2 rounded-full text-purple-600"><Milestone className="h-4 w-4" /></div>\n  );
+        return <div className="bg-purple-100 p-2 rounded-full text-purple-600"><Milestone className="h-4 w-4" /></div>
+  );
       case 'personal':
-        return <div className="bg-amber-100 p-2 rounded-full text-amber-600"><Clock className="h-4 w-4" /></div>\n  );
+        return <div className="bg-amber-100 p-2 rounded-full text-amber-600"><Clock className="h-4 w-4" /></div>
+  );
       default:
-        return <div className="bg-gray-100 p-2 rounded-full text-gray-600"><Calendar className="h-4 w-4" /></div>\n  );
+        return <div className="bg-gray-100 p-2 rounded-full text-gray-600"><Calendar className="h-4 w-4" /></div>
+  );
     }
   };
 

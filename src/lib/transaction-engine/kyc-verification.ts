@@ -35,7 +35,8 @@ export interface KYCVerification {
   riskScore: number;
   completedAt?: Date;
   reviewedBy?: string;
-  metadata: Record<string, any>\n  );
+  metadata: Record<string, any>
+  );
 }
 
 export interface VerificationStepResult {

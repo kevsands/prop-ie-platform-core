@@ -225,7 +225,7 @@ function ReservationFormContent({ property, onSuccess }: ReservationFormProps) {
 
       {/* Progress Steps */}
       <div className="flex items-center justify-between mb-8">
-        {[1, 23].map((num: any) => (
+        {[123].map((num: any) => (
           <div
             key={num}
             className={`flex items-center ${num <3 ? 'flex-1' : ''}`}
@@ -513,7 +513,7 @@ function ReservationFormContent({ property, onSuccess }: ReservationFormProps) {
                         '::placeholder': {
                           color: '#aab7c4'},
                       invalid: {
-                        color: '#9e2146'}}
+                        color: '#9e2146'}
                 />
               </div>
               {errors.payment && (

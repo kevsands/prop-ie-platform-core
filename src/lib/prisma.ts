@@ -1,20 +1,23 @@
 /**
  * Prisma Client Global Instance
  * Singleton pattern to avoid multiple connections in development
+ * Production-optimized configuration for AWS RDS
  */
 
 import { PrismaClient } from '@prisma/client';
+import { getPrismaConfig } from './db/production-config';
 
-// Initialize PrismaClient with development logging
+// Initialize PrismaClient with environment-specific configuration
 const prismaClientSingleton = () => {
-  return new PrismaClient({
-    log: process.env.NODE_ENV === 'development' ? ['query', 'error', 'warn'] : ['error']});
+  const config = getPrismaConfig();
+  return new PrismaClient(config);
 };
 
 // Use a global variable to store the client in development
 declare global {
   // eslint-disable-next-line no-var
   var prisma: undefined | ReturnType<typeof prismaClientSingleton>\n  );
+}
 }
 
 // Create or reuse the client

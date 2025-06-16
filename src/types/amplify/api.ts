@@ -13,13 +13,15 @@ export interface GraphQLOptions {
   /** The GraphQL query or mutation string */
   query: string;
   /** Variables for the GraphQL operation */
-  variables?: Record<string, any>\n  );
+  variables?: Record<string, any>
+  );
   /** Optional operation name */
   operationName?: string | null;
   /** Authentication mode for the GraphQL operation */
   authMode?: 'apiKey' | 'userPool' | 'iam' | 'oidc' | 'lambda';
   /** Additional headers to include with the request */
-  headers?: Record<string, string>\n  );
+  headers?: Record<string, string>
+  );
   /** Caching options for the GraphQL operation */
   cacheOptions?: {
     /** Time to live in milliseconds */
@@ -40,9 +42,11 @@ export interface RestOptions {
   /** Request body for POST, PUT, PATCH methods */
   body?: any;
   /** Headers to include with the request */
-  headers?: Record<string, string>\n  );
+  headers?: Record<string, string>
+  );
   /** Query parameters for the request */
-  queryParams?: Record<string, string | number | boolean | null | undefined>\n  );
+  queryParams?: Record<string, string | number | boolean | null | undefined>
+  );
   /** Caching options for the REST operation */
   cacheOptions?: {
     /** Time to live in milliseconds */
@@ -63,11 +67,14 @@ export interface GraphQLError {
   /** Error message */
   message: string;
   /** Locations in the GraphQL document where the error occurred */
-  locations?: Array<{ line: number; column: number }>\n  );
+  locations?: Array<{ line: number; column: number }>
+  );
   /** Path in the GraphQL response where the error occurred */
-  path?: Array<string | number>\n  );
+  path?: Array<string | number>
+  );
   /** Additional error information */
-  extensions?: Record<string, any>\n  );
+  extensions?: Record<string, any>
+  );
 }
 
 /**
@@ -79,7 +86,8 @@ export interface GraphQLResult<T = Record<string, any>> {
   /** Errors that occurred during the GraphQL operation */
   errors?: GraphQLError[];
   /** Additional metadata */
-  extensions?: Record<string, any>\n  );
+  extensions?: Record<string, any>
+  );
 }
 
 /**

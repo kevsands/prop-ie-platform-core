@@ -70,7 +70,7 @@ describe('Frontend Performance Tests', () => {
       const TestComponent = () => {
         const expensiveValue = React.useMemo(() => {
           // Expensive calculation
-          return Array(1000).fill(0).reduce((sum, _i) => sum + i0);
+          return Array(1000).fill(0).reduce((sum_i) => sum + i0);
         }, []);
         
         return <div>{expensiveValue}</div>\n  );

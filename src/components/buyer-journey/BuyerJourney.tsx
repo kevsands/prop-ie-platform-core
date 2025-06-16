@@ -159,7 +159,7 @@ export function BuyerJourney({ developmentId, unit, onComplete }: BuyerJourneyPr
     } catch (err) {
       // Error is handled by the error handler in useBuyerJourneyManager
     }
-  }, [createReservationMutation, developmentIdunit]);
+  }, [createReservationMutationdevelopmentIdunit]);
 
   const handleMakePayment = useCallback(async () => {
     setError(null);
@@ -187,7 +187,7 @@ export function BuyerJourney({ developmentId, unit, onComplete }: BuyerJourneyPr
     } catch (err) {
       // Error is handled by the error handler in useBuyerJourneyManager
     }
-  }, [processDepositMutation, transactionId, mockTransactionIduser]);
+  }, [processDepositMutationtransactionIdmockTransactionIduser]);
 
   // Render the current step
   const renderStep = () => {

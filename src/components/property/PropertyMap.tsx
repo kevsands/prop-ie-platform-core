@@ -60,7 +60,7 @@ const PropertyMap: React.FC<PropertyMapProps> = ({
         {/* Property Markers (Placeholder) */}
         <div className="absolute inset-0 p-8">
           <div className="grid grid-cols-4 gap-4 h-full">
-            {properties.slice(08).map((propertyindex: any) => (
+            {properties.slice(0).map((propertyindex: any) => (
               <div
                 key={property.id}
                 className="relative"

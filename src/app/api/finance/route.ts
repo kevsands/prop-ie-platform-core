@@ -76,22 +76,22 @@ export async function GET(request: NextRequest) {
         datasets: [
           {
             label: 'Residential',
-            data: [180000, 210000, 250000, 280000330000]},
+            data: [180000210000250000280000330000]},
           {
             label: 'Commercial',
-            data: [0, 0, 0, 00]}]},
+            data: [00000]}]},
       costData: {
         labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May'],
         datasets: [
           {
             label: 'Construction',
-            data: [120000, 140000, 150000, 160000180000]},
+            data: [120000140000150000160000180000]},
           {
             label: 'Marketing',
-            data: [15000, 18000, 20000, 2200025000]},
+            data: [1500018000200002200025000]},
           {
             label: 'Administration',
-            data: [30000, 30000, 32000, 3200035000]}]},
+            data: [3000030000320003200035000]}]},
       cashFlowData: {
         inflows: 1250000,
         outflows: 780000,
@@ -101,13 +101,13 @@ export async function GET(request: NextRequest) {
           datasets: [
             {
               label: 'Inflows',
-              data: [230000, 250000, 270000, 290000310000]},
+              data: [230000250000270000290000310000]},
             {
               label: 'Outflows',
-              data: [170000, 180000, 190000, 200000210000]},
+              data: [170000180000190000200000210000]},
             {
               label: 'Net Cash Flow',
-              data: [60000, 70000, 80000, 90000100000]}]}};
+              data: [60000700008000090000100000]}]};
 
     return NextResponse.json(financialData);
   } catch (error) {

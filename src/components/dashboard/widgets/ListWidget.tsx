@@ -36,7 +36,8 @@ export interface ListItem {
     label: string;
     onClick: (id: string) => void;
     icon?: LucideIcon;
-  }>\n  );
+  }>
+  );
 }
 
 interface ListWidgetProps {

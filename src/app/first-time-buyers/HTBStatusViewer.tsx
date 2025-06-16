@@ -16,15 +16,15 @@ interface HTBStatusViewerProps {
  */
 export const HTBStatusViewer: React.FC<HTBStatusViewerProps> = ({ claimId }) => {
   const { selectedBuyerClaim, fetchClaimById, buyerClaims, isLoading, error } = useHTB();
-  const [activeTab, setActiveTab] = useState<"details" | "documents" | "notes">("details");
+  const [activeTabsetActiveTab] = useState<"details" | "documents" | "notes">("details");
 
   useEffect(() => {
     if (claimId) {
       fetchClaimById(claimId, "buyer");
-    } else if (buyerClaims.length > 0 && !selectedBuyerClaim) {
+    } else if (buyerClaims.length> 0 && !selectedBuyerClaim) {
       fetchClaimById(buyerClaims[0].id, "buyer");
     }
-  }, [claimId, buyerClaims, selectedBuyerClaim, fetchClaimById]);
+  }, [claimIdbuyerClaimsselectedBuyerClaimfetchClaimById]);
 
   if (isLoading) {
     return (

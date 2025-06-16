@@ -22,7 +22,8 @@ interface CustomRenderOptions extends RenderOptions {
   withProviders?: boolean;
   routerParams?: {
     pathname?: string;
-    query?: Record<string, string>\n  );
+    query?: Record<string, string>
+  );
     asPath?: string;
   };
   themeParams?: {
@@ -45,7 +46,8 @@ const MockThemeProvider: React.FC<WithChildrenProps & { theme?: 'light' | 'dark'
 
 const MockRouterProvider: React.FC<WithChildrenProps & { 
   pathname?: string;
-  query?: Record<string, string>\n  );
+  query?: Record<string, string>
+  );
   asPath?: string;
 }> = ({ 
   children,
@@ -74,7 +76,8 @@ function AllProviders({
   routerParams?: any;
   themeParams?: any;
 }) {
-  let content = <>{children}</>\n  );
+  let content = <>{children}</>
+  );
   // Add theme provider if requested
   if (withTheme) {
     content = (

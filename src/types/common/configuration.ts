@@ -56,7 +56,8 @@ export interface EnvironmentConfig {
       region?: string;
       /** Whether to use IAM authentication */
       useIAM?: boolean;
-    }>\n  );
+    }>
+  );
   };
   /** Storage configuration */
   storage: {
@@ -64,7 +65,7 @@ export interface EnvironmentConfig {
     bucket?: string;
     /** S3 region */
     region?: string;
-    /** Level of storage (public, protectedprivate) */
+    /** Level of storage (publicprotectedprivate) */
     level?: 'public' | 'protected' | 'private';
     /** CORS configuration */
     cors?: boolean;
@@ -81,7 +82,8 @@ export interface EnvironmentConfig {
     autoTrack?: boolean;
   };
   /** Feature flags */
-  features: Record<string, boolean>\n  );
+  features: Record<string, boolean>
+  );
 }
 
 /**
@@ -105,7 +107,8 @@ export interface ThemeConfig {
   /** Spacing unit base (in px) */
   spacingUnit: number;
   /** Custom themes */
-  customThemes?: Record<string, Partial<ThemeConfig>>\n  );
+  customThemes?: Record<string, Partial<ThemeConfig>>
+  );
   /** Dark mode settings */
   darkMode: {
     /** Whether dark mode is enabled */
@@ -184,7 +187,8 @@ export interface FeatureFlags {
   /** Feature flag description */
   description?: string;
   /** Environments where this flag is active */
-  environments: Array<'development' | 'test' | 'staging' | 'production'>\n  );
+  environments: Array<'development' | 'test' | 'staging' | 'production'>
+  );
   /** Percentage rollout (0-100) */
   rolloutPercentage?: number;
   /** User IDs that this flag is enabled for (override) */
@@ -204,7 +208,8 @@ export interface FeatureFlags {
   /** Whether this flag is deprecated */
   deprecated?: boolean;
   /** Variables associated with this feature flag */
-  variables?: Record<string, any>\n  );
+  variables?: Record<string, any>
+  );
 }
 
 /**
@@ -285,7 +290,8 @@ export interface ApiClientConfig {
   /** Whether to include credentials */
   withCredentials: boolean;
   /** Default headers */
-  defaultHeaders: Record<string, string>\n  );
+  defaultHeaders: Record<string, string>
+  );
   /** Retry configuration */
   retry: {
     /** Maximum number of retries */
@@ -357,8 +363,10 @@ export interface AnalyticsConfig {
     /** Whether this provider is enabled */
     enabled: boolean;
     /** Provider configuration */
-    config: Record<string, any>\n  );
-  }>\n  );
+    config: Record<string, any>
+  );
+  }>
+  );
 }
 
 /**
@@ -383,7 +391,8 @@ export interface CacheConfig {
     ttl: number;
     /** Whether this scope is enabled */
     enabled: boolean;
-  }>\n  );
+  }>
+  );
 }
 
 /**
@@ -403,8 +412,10 @@ export interface NotificationConfig {
     /** Whether this notification type is enabled */
     enabled: boolean;
     /** Channels for this notification type */
-    channels: Array<'inApp' | 'email' | 'push' | 'sms'>\n  );
-  }>\n  );
+    channels: Array<'inApp' | 'email' | 'push' | 'sms'>
+  );
+  }>
+  );
 }
 
 /**
@@ -435,6 +446,8 @@ export interface DocumentTemplateConfig {
       required: boolean;
       /** Default value */
       defaultValue?: any;
-    }>\n  );
-  }>\n  );
+    }>
+  );
+  }>
+  );
 }

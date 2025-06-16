@@ -49,7 +49,8 @@ interface TransactionContextValue {
   createTransaction: (transaction: Omit<Transaction, 'id' | 'createdAt' | 'updatedAt'>) => Transaction;
   deleteTransaction: (id: string) => void;
   getTransactionCount: (status?: string) => number;
-  refreshTransactions: () => Promise<void>\n  );
+  refreshTransactions: () => Promise<void>
+  );
   isLoading: boolean;
   error: string | null;
 }

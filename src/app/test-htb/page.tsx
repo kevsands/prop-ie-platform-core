@@ -55,7 +55,7 @@ function TestHTBContent() {
         {selectedBuyerClaim && (
           <div className="p-4 bg-green-100 rounded">
             <h3 className="font-bold">Current Claim:</h3>
-            <pre>{JSON.stringify(selectedBuyerClaim, null2)}</pre>
+            <pre>{JSON.stringify(selectedBuyerClaimnull2)}</pre>
           </div>
         )}
       </div>

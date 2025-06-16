@@ -1,0 +1,102 @@
+'use client';
+
+import React, { createContext, useContext, ReactNode, useState, useEffect } from 'react';
+import { useAuth } from '@/hooks/useAuth';
+
+interface SecurityContextType {
+  isSecure: boolean;
+  csrfToken: string | null;
+  validateCSRF: (token: string) => boolean;
+  refreshSecurityToken: () => Promise<void>\n  );
+  checkPermission: (permission: string) => boolean;
+  securityHeaders: Record<string, string>\n  );
+}
+
+const SecurityContext = createContext<SecurityContextType | undefined>(undefined);
+
+interface AppSecurityProviderProps {
+  children: ReactNode;
+  csrfToken?: string;
+  strictMode?: boolean;
+}
+
+export function AppSecurityProvider({ 
+  children, 
+  csrfToken: initialCsrfToken,
+  strictMode = true 
+}: AppSecurityProviderProps) {
+  const { user } = useAuth();
+  const [csrfTokensetCsrfToken] = useState<string | null>(initialCsrfToken || null);
+  const [isSecuresetIsSecure] = useState(false);
+
+  useEffect(() => {
+    // Check if running in secure context
+    setIsSecure(typeof window !== 'undefined' && window.location.protocol === 'https:');
+
+    // Generate CSRF token if not provided
+    if (!csrfToken && typeof window !== 'undefined') {
+      const token = generateCSRFToken();
+      setCsrfToken(token);
+    }
+  }, [csrfToken]);
+
+  const generateCSRFToken = (): string => {
+    const array = new Uint8Array(32);
+    crypto.getRandomValues(array);
+    return Array.from(array, byte => byte.toString(16).padStart(2, '0')).join('');
+  };
+
+  const validateCSRF = (token: string): boolean => {
+    if (!strictMode) return true;
+    return token === csrfToken;
+  };
+
+  const refreshSecurityToken = async (): Promise<void> => {
+    const newToken = generateCSRFToken();
+    setCsrfToken(newToken);
+
+    // Store in session storage for persistence
+    if (typeof window !== 'undefined') {
+      sessionStorage.setItem('csrf-token', newToken);
+    }
+  };
+
+  const checkPermission = (permission: string): boolean => {
+    if (!user) return false;
+
+    // Check user roles and permissions
+    const userPermissions = user.permissions || [];
+    return userPermissions.includes(permission);
+  };
+
+  const securityHeaders = {
+    'X-CSRF-Token': csrfToken || '',
+    'X-Content-Type-Options': 'nosniff',
+    'X-Frame-Options': 'DENY',
+    'X-XSS-Protection': '1; mode=block',
+    'Referrer-Policy': 'strict-origin-when-cross-origin'};
+
+  const value: SecurityContextType = {
+    isSecure,
+    csrfToken,
+    validateCSRF,
+    refreshSecurityToken,
+    checkPermission,
+    securityHeaders};
+
+  return (
+    <SecurityContext.Provider value={value}>
+      {children}
+    </SecurityContext.Provider>
+  );
+}
+
+export function useAppSecurity() {
+  const context = useContext(SecurityContext);
+  if (!context) {
+    throw new Error('useAppSecurity must be used within an AppSecurityProvider');
+  }
+  return context;
+}
+
+export default AppSecurityProvider;

@@ -11,7 +11,7 @@ function render(
   ui: React.ReactElement,
   {
     queryClient = new QueryClient({ defaultOptions: { queries: {
-          retry: false}}),
+          retry: false}),
     ...renderOptions
   } = {}
 ) {

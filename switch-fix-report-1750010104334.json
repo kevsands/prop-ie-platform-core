@@ -1,0 +1,639 @@
+{
+  "timestamp": "2025-06-15T17:55:04.334Z",
+  "totalFiles": 126,
+  "totalReplacements": 336,
+  "errorFiles": 0,
+  "fixedFiles": [
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/contexts/WebSocketContext.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/contexts/WebSocketContext.tsx.backup-switch-fix-1750010081912"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/demo/platform-overview/page.tsx",
+      "replacements": 3,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/demo/platform-overview/page.tsx.backup-switch-fix-1750010081929"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/demo/transaction-flow/page.tsx",
+      "replacements": 4,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/demo/transaction-flow/page.tsx.backup-switch-fix-1750010081930"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/developer/htb/claims/[claimId]/page.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/developer/htb/claims/[claimId]/page.tsx.backup-switch-fix-1750010081936"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/developer/htb/claims/page.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/developer/htb/claims/page.tsx.backup-switch-fix-1750010081937"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/developer/developments/[id]/documents/page.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/developer/developments/[id]/documents/page.tsx.backup-switch-fix-1750010081938"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/developer/project/[id]/sales/page.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/developer/project/[id]/sales/page.tsx.backup-switch-fix-1750010081944"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/developer/project/[id]/page.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/developer/project/[id]/page.tsx.backup-switch-fix-1750010081944"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/developer/dashboard/page.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/developer/dashboard/page.tsx.backup-switch-fix-1750010081945"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/developer/protected-project/page.tsx",
+      "replacements": 2,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/developer/protected-project/page.tsx.backup-switch-fix-1750010081953"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/prop/projects/page.tsx",
+      "replacements": 2,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/prop/projects/page.tsx.backup-switch-fix-1750010081961"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/prop/dashboard/page.tsx",
+      "replacements": 3,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/prop/dashboard/page.tsx.backup-switch-fix-1750010081961"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/prop/templates/page.tsx",
+      "replacements": 2,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/prop/templates/page.tsx.backup-switch-fix-1750010081963"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/contact/page.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/contact/page.tsx.backup-switch-fix-1750010081964"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/test-homepage/page.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/test-homepage/page.tsx.backup-switch-fix-1750010081972"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/kyc-verifcationpage/page.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/kyc-verifcationpage/page.tsx.backup-switch-fix-1750010081977"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/solicitor/page.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/solicitor/page.tsx.backup-switch-fix-1750010081984"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/admin/verifications/page.tsx",
+      "replacements": 3,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/admin/verifications/page.tsx.backup-switch-fix-1750010081985"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/solutions/prop-choice/page.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/solutions/prop-choice/page.tsx.backup-switch-fix-1750010081993"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/first-time-buyers/documents/page.tsx",
+      "replacements": 4,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/first-time-buyers/documents/page.tsx.backup-switch-fix-1750010082001"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/kyc-verificationpage/page.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/kyc-verificationpage/page.tsx.backup-switch-fix-1750010082003"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/transactions/[id]/page.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/transactions/[id]/page.tsx.backup-switch-fix-1750010082007"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/properties/search/page.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/properties/search/page.tsx.backup-switch-fix-1750010082009"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/properties/page.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/properties/page.tsx.backup-switch-fix-1750010082015"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/testapi/page.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/testapi/page.tsx.backup-switch-fix-1750010082019"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/test-all-features/page.tsx",
+      "replacements": 3,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/test-all-features/page.tsx.backup-switch-fix-1750010082022"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/investor/layout.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/investor/layout.tsx.backup-switch-fix-1750010082094"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/buyer/insights/page.tsx",
+      "replacements": 3,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/buyer/insights/page.tsx.backup-switch-fix-1750010082097"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/buyer/htb/new/page.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/buyer/htb/new/page.tsx.backup-switch-fix-1750010082100"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/buyer/htb/HTBContextProvider.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/buyer/htb/HTBContextProvider.tsx.backup-switch-fix-1750010082101"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/buyer/htb/buyer/developer/HTBClaimProcessor.tsx",
+      "replacements": 2,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/buyer/htb/buyer/developer/HTBClaimProcessor.tsx.backup-switch-fix-1750010082102"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/buyer/messages/page.tsx",
+      "replacements": 5,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/buyer/messages/page.tsx.backup-switch-fix-1750010082104"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/buyer/customization/fallback-page.tsx",
+      "replacements": 4,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/buyer/customization/fallback-page.tsx.backup-switch-fix-1750010082106"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/buyer/customization/page.tsx",
+      "replacements": 4,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/buyer/customization/page.tsx.backup-switch-fix-1750010082108"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/buyer/appointments/page.tsx",
+      "replacements": 5,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/buyer/appointments/page.tsx.backup-switch-fix-1750010082109"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/buyer/journey/[transactionId]/page.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/buyer/journey/[transactionId]/page.tsx.backup-switch-fix-1750010082113"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/buyer/verification/page.tsx",
+      "replacements": 10,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/buyer/verification/page.tsx.backup-switch-fix-1750010082117"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/buyer/guides/page.tsx",
+      "replacements": 5,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/buyer/guides/page.tsx.backup-switch-fix-1750010082119"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/buyer/saved-properties/page.tsx",
+      "replacements": 3,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/buyer/saved-properties/page.tsx.backup-switch-fix-1750010082120"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/buyer/payment-methods/page.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/buyer/payment-methods/page.tsx.backup-switch-fix-1750010082124"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/buyer/documents/page.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/buyer/documents/page.tsx.backup-switch-fix-1750010082124"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/invest/liquidity-pools/page.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/invest/liquidity-pools/page.tsx.backup-switch-fix-1750010082126"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/features/property-alerts/PropertyAlertsManager.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/features/property-alerts/PropertyAlertsManager.tsx.backup-switch-fix-1750010082134"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/features/user-journey/UserJourneyOrchestrator.tsx",
+      "replacements": 12,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/features/user-journey/UserJourneyOrchestrator.tsx.backup-switch-fix-1750010082139"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/features/property-analytics/PropertyAnalyticsDashboard.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/features/property-analytics/PropertyAnalyticsDashboard.tsx.backup-switch-fix-1750010082139"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/features/notifications/NotificationCenter.tsx",
+      "replacements": 6,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/features/notifications/NotificationCenter.tsx.backup-switch-fix-1750010082147"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/features/solicitor-journey/SolicitorTransactionFlow.tsx",
+      "replacements": 4,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/features/solicitor-journey/SolicitorTransactionFlow.tsx.backup-switch-fix-1750010082149"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/tests/utils/data-layer-test-utils.ts",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/tests/utils/data-layer-test-utils.ts.backup-switch-fix-1750010082168"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/tests/utils/graphql-operation-mocker.ts",
+      "replacements": 2,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/tests/utils/graphql-operation-mocker.ts.backup-switch-fix-1750010082170"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/utils/performance/safeMemo.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/utils/performance/safeMemo.tsx.backup-switch-fix-1750010082187"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/utils/performance/monitor.tsx",
+      "replacements": 3,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/utils/performance/monitor.tsx.backup-switch-fix-1750010082189"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/utils/performance/withMemo.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/utils/performance/withMemo.tsx.backup-switch-fix-1750010082191"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/utils/performance/lazyLoad.tsx",
+      "replacements": 2,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/utils/performance/lazyLoad.tsx.backup-switch-fix-1750010082196"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/utils/performance/optimizeComponent.tsx",
+      "replacements": 2,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/utils/performance/optimizeComponent.tsx.backup-switch-fix-1750010082197"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/ui/error-boundary.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/ui/error-boundary.tsx.backup-switch-fix-1750010082214"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/ui/toast.stories.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/ui/toast.stories.tsx.backup-switch-fix-1750010082222"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/ui/chart.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/ui/chart.tsx.backup-switch-fix-1750010082229"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/ui/error-boundary.stories.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/ui/error-boundary.stories.tsx.backup-switch-fix-1750010082234"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/ui/loading-skeleton.tsx",
+      "replacements": 4,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/ui/loading-skeleton.tsx.backup-switch-fix-1750010082242"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/ui/chart-wrapper.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/ui/chart-wrapper.tsx.backup-switch-fix-1750010082244"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/ui/feather-icon.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/ui/feather-icon.tsx.backup-switch-fix-1750010082256"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/ui/__tests__/data-table-cell.test.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/ui/__tests__/data-table-cell.test.tsx.backup-switch-fix-1750010082275"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/ui/LoadingOverlay.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/ui/LoadingOverlay.tsx.backup-switch-fix-1750010082294"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/ui/toast.tsx",
+      "replacements": 2,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/ui/toast.tsx.backup-switch-fix-1750010082322"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/ui/KPIWidget.tsx",
+      "replacements": 3,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/ui/KPIWidget.tsx.backup-switch-fix-1750010082326"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/transaction/TransactionFlow.tsx",
+      "replacements": 3,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/transaction/TransactionFlow.tsx.backup-switch-fix-1750010082346"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/transaction/CommunicationHub.tsx",
+      "replacements": 3,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/transaction/CommunicationHub.tsx.backup-switch-fix-1750010082347"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/transaction/ParticipantsList.tsx",
+      "replacements": 6,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/transaction/ParticipantsList.tsx.backup-switch-fix-1750010082350"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/transaction/PaymentOverview.tsx",
+      "replacements": 4,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/transaction/PaymentOverview.tsx.backup-switch-fix-1750010082353"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/developer/DeveloperThemeProvider.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/developer/DeveloperThemeProvider.tsx.backup-switch-fix-1750010082370"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/developer/properties/page.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/developer/properties/page.tsx.backup-switch-fix-1750010082384"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/3d/RoomVisualizer.old.tsx",
+      "replacements": 3,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/3d/RoomVisualizer.old.tsx.backup-switch-fix-1750010082394"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/htb/HTBWrapper.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/htb/HTBWrapper.tsx.backup-switch-fix-1750010082396"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/htb/developer/ClaimDetails.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/htb/developer/ClaimDetails.tsx.backup-switch-fix-1750010082400"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/tasks/TaskList.tsx",
+      "replacements": 3,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/tasks/TaskList.tsx.backup-switch-fix-1750010082408"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/NotificationCenter.tsx",
+      "replacements": 7,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/NotificationCenter.tsx.backup-switch-fix-1750010082410"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/kyc/KYCVerificationForm.tsx",
+      "replacements": 4,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/kyc/KYCVerificationForm.tsx.backup-switch-fix-1750010082411"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/customization/Studio3D.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/customization/Studio3D.tsx.backup-switch-fix-1750010082418"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/buyer-journey/TransactionFlow.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/buyer-journey/TransactionFlow.tsx.backup-switch-fix-1750010082420"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/buyer-journey/BuyerProgressTracker.tsx",
+      "replacements": 3,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/buyer-journey/BuyerProgressTracker.tsx.backup-switch-fix-1750010082424"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/security/ClientSecurityProvider.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/security/ClientSecurityProvider.tsx.backup-switch-fix-1750010082432"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/security/SecurityMetricsChart.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/security/SecurityMetricsChart.tsx.backup-switch-fix-1750010082435"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/security/SecurityMonitor.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/security/SecurityMonitor.tsx.backup-switch-fix-1750010082438"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/security/SecurityTimeline.tsx",
+      "replacements": 11,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/security/SecurityTimeline.tsx.backup-switch-fix-1750010082442"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/security/SecurityDashboard.tsx",
+      "replacements": 6,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/security/SecurityDashboard.tsx.backup-switch-fix-1750010082447"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/security/SecurityMonitoringDashboard.tsx",
+      "replacements": 3,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/security/SecurityMonitoringDashboard.tsx.backup-switch-fix-1750010082451"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/security/withCSRFProtection.tsx",
+      "replacements": 3,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/security/withCSRFProtection.tsx.backup-switch-fix-1750010082464"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/contracts/ContractManager.tsx",
+      "replacements": 4,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/contracts/ContractManager.tsx.backup-switch-fix-1750010082511"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/AmplifyProvider.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/AmplifyProvider.tsx.backup-switch-fix-1750010082515"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/features/FeatureFlagAdmin.tsx",
+      "replacements": 5,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/features/FeatureFlagAdmin.tsx.backup-switch-fix-1750010082523"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/features/FeatureFlag.tsx",
+      "replacements": 4,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/features/FeatureFlag.tsx.backup-switch-fix-1750010082525"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/navigation/Breadcrumbs.tsx",
+      "replacements": 3,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/navigation/Breadcrumbs.tsx.backup-switch-fix-1750010082532"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/navigation/NavigationErrorBoundary.tsx",
+      "replacements": 3,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/navigation/NavigationErrorBoundary.tsx.backup-switch-fix-1750010082536"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/conveyancing/AMLCompliance.tsx",
+      "replacements": 3,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/conveyancing/AMLCompliance.tsx.backup-switch-fix-1750010082541"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/conveyancing/DocumentManager.tsx",
+      "replacements": 3,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/conveyancing/DocumentManager.tsx.backup-switch-fix-1750010082542"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/conveyancing/TaskTracker.tsx",
+      "replacements": 3,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/conveyancing/TaskTracker.tsx.backup-switch-fix-1750010082546"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/AmplifyDataFetcher.tsx",
+      "replacements": 3,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/AmplifyDataFetcher.tsx.backup-switch-fix-1750010082552"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/document/DocumentUploader.tsx",
+      "replacements": 5,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/document/DocumentUploader.tsx.backup-switch-fix-1750010082560"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/document/DocumentSecurity.tsx",
+      "replacements": 3,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/document/DocumentSecurity.tsx.backup-switch-fix-1750010082567"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/document/DocumentList.tsx",
+      "replacements": 3,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/document/DocumentList.tsx.backup-switch-fix-1750010082576"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/journey/JourneyTracker.tsx",
+      "replacements": 2,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/journey/JourneyTracker.tsx.backup-switch-fix-1750010082584"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/dashboard/UnifiedDashboard.tsx",
+      "replacements": 6,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/dashboard/UnifiedDashboard.tsx.backup-switch-fix-1750010082593"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/dashboard/ProjectOverview.tsx",
+      "replacements": 8,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/dashboard/ProjectOverview.tsx.backup-switch-fix-1750010082637"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/dashboard/PropertyCustomizer.tsx",
+      "replacements": 2,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/dashboard/PropertyCustomizer.tsx.backup-switch-fix-1750010082640"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/dashboard/KPIWidget.tsx",
+      "replacements": 3,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/dashboard/KPIWidget.tsx.backup-switch-fix-1750010082642"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/common/Icon.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/common/Icon.tsx.backup-switch-fix-1750010082713"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/common/FeatherIcon.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/common/FeatherIcon.tsx.backup-switch-fix-1750010082721"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/__tests__/HomePage.test.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/__tests__/HomePage.test.tsx.backup-switch-fix-1750010082764"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/examples/GraphQLExample.tsx",
+      "replacements": 4,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/examples/GraphQLExample.tsx.backup-switch-fix-1750010082776"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/finance/BudgetVsActualCard.tsx",
+      "replacements": 2,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/finance/BudgetVsActualCard.tsx.backup-switch-fix-1750010082800"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/finance/FinancialMetricCard.tsx",
+      "replacements": 5,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/finance/FinancialMetricCard.tsx.backup-switch-fix-1750010082809"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/documents/DocumentManager.tsx",
+      "replacements": 3,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/documents/DocumentManager.tsx.backup-switch-fix-1750010082816"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/documents/DocumentList.tsx",
+      "replacements": 3,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/documents/DocumentList.tsx.backup-switch-fix-1750010082818"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/performance/LazyComponent.tsx",
+      "replacements": 2,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/performance/LazyComponent.tsx.backup-switch-fix-1750010082834"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/notifications/NotificationCenter.tsx",
+      "replacements": 4,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/notifications/NotificationCenter.tsx.backup-switch-fix-1750010082858"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/buyer/DocumentCollectionHub.tsx",
+      "replacements": 5,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/buyer/DocumentCollectionHub.tsx.backup-switch-fix-1750010082862"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/buyer/EnhancedBuyerDashboard.tsx",
+      "replacements": 5,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/buyer/EnhancedBuyerDashboard.tsx.backup-switch-fix-1750010082864"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/buyer/BuyerDashboard.tsx",
+      "replacements": 4,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/buyer/BuyerDashboard.tsx.backup-switch-fix-1750010082869"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/buyer/BuyerMilestoneTracker.tsx",
+      "replacements": 4,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/buyer/BuyerMilestoneTracker.tsx.backup-switch-fix-1750010082872"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/buyer/BuyerRegistrationFlow.tsx",
+      "replacements": 3,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/buyer/BuyerRegistrationFlow.tsx.backup-switch-fix-1750010082962"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/__tests__/performance/frontend-performance.test.tsx",
+      "replacements": 2,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/__tests__/performance/frontend-performance.test.tsx.backup-switch-fix-1750010082995"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/examples/typed-component-example.tsx",
+      "replacements": 4,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/examples/typed-component-example.tsx.backup-switch-fix-1750010083037"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/examples/typed-graphql-example.tsx",
+      "replacements": 3,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/examples/typed-graphql-example.tsx.backup-switch-fix-1750010083038"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/examples/component-graphql-integration.tsx",
+      "replacements": 2,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/examples/component-graphql-integration.tsx.backup-switch-fix-1750010083042"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/monitoring/performance.ts",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/monitoring/performance.ts.backup-switch-fix-1750010083134"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/performance/lazy-loader.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/performance/lazy-loader.tsx.backup-switch-fix-1750010083139"
+    }
+  ],
+  "errors": []
+}

@@ -78,7 +78,8 @@ export interface SecurityOverview {
     highThreats: number;
     mediumThreats: number;
     lowThreats: number;
-    topThreatTypes: Array<{ type: string; count: number; percentage: number }>\n  );
+    topThreatTypes: Array<{ type: string; count: number; percentage: number }>
+  );
   };
   trends: {
     eventsLastDay: number;
@@ -87,8 +88,10 @@ export interface SecurityOverview {
     dayOverDayChange: number;
     weekOverWeekChange: number;
   };
-  topEvents: Array<{ category: string; action: string; count: number; percentage: number }>\n  );
-  geographicData: Array<{ location: string; eventCount: number; successRate: number }>\n  );
+  topEvents: Array<{ category: string; action: string; count: number; percentage: number }>
+  );
+  geographicData: Array<{ location: string; eventCount: number; successRate: number }>
+  );
   securityScore: number;
   generatedAt: number;
 }
@@ -98,12 +101,14 @@ export interface TimeframeData {
   datasets: Array<{
     label: string;
     data: number[];
-  }>\n  );
+  }>
+  );
 }
 
 export interface DetailedMetrics {
   category: string;
-  metrics: Record<string, any>\n  );
+  metrics: Record<string, any>
+  );
   timeframe: 'day' | 'week' | 'month';
   generatedAt: number;
 }
@@ -188,10 +193,10 @@ export class SecurityAnalytics {
       // Get logs for different time periods
       // In a real implementation, these would be actual calls to get logs
       // For now, we'll use mock data
-      const [dayLogs, weekLogsmonthLogs] = await Promise.all([
-        this.getMockLogs(dayAgo, nowuserId),
-        this.getMockLogs(weekAgo, nowuserId),
-        this.getMockLogs(monthAgo, nowuserId)
+      const [dayLogsweekLogsmonthLogs] = await Promise.all([
+        this.getMockLogs(dayAgonowuserId),
+        this.getMockLogs(weekAgonowuserId),
+        this.getMockLogs(monthAgonowuserId)
       ]);
 
       // Get threat detection results
@@ -219,11 +224,11 @@ export class SecurityAnalytics {
         eventTrends: {
           dayOverDayChange: this.calculatePercentChange(
             dayLogs.length,
-            this.getMockLogs(dayAgo - 24 * 60 * 60 * 1000, dayAgouserId).length
+            this.getMockLogs(dayAgo - 24 * 60 * 60 * 1000dayAgouserId).length
           ),
           weekOverWeekChange: this.calculatePercentChange(
             weekLogs.length,
-            this.getMockLogs(weekAgo - 7 * 24 * 60 * 60 * 1000, weekAgouserId).length
+            this.getMockLogs(weekAgo - 7 * 24 * 60 * 60 * 1000weekAgouserId).length
           )
         }
       });
@@ -234,7 +239,7 @@ export class SecurityAnalytics {
           type,
           count: typeof count === 'number' ? count : 0, // Ensure count is a number
           percentage: (typeof count === 'number' ? count : 0) / Math.max(threatResults.threatCount1) * 100
-        })).sort((ab: any) => b.count - a.count).slice(05);
+        })).sort((ab: any) => b.count - a.count).slice(0);
 
       // Compile the overview
       const overview: SecurityOverview = {
@@ -261,11 +266,11 @@ export class SecurityAnalytics {
           eventsLastMonth: monthLogs.length,
           dayOverDayChange: this.calculatePercentChange(
             dayLogs.length,
-            this.getMockLogs(dayAgo - 24 * 60 * 60 * 1000, dayAgouserId).length
+            this.getMockLogs(dayAgo - 24 * 60 * 60 * 1000dayAgouserId).length
           ),
           weekOverWeekChange: this.calculatePercentChange(
             weekLogs.length,
-            this.getMockLogs(weekAgo - 7 * 24 * 60 * 60 * 1000, weekAgouserId).length
+            this.getMockLogs(weekAgo - 7 * 24 * 60 * 60 * 1000weekAgouserId).length
           )
         },
 
@@ -347,7 +352,7 @@ export class SecurityAnalytics {
       }
 
       // Get logs for the time period
-      const logs = await this.getMockLogs(startTime, nowuserId);
+      const logs = await this.getMockLogs(startTimenowuserId);
 
       // Generate labels based on timeframe
       const labels = Array.from({ length: intervals }, (_i: any) => {
@@ -512,7 +517,7 @@ export class SecurityAnalytics {
       }
 
       // Get logs for the time period
-      const logs = await this.getMockLogs(startTime, nowuserId);
+      const logs = await this.getMockLogs(startTimenowuserId);
 
       // Calculate metrics based on category
       let metrics: Record<string, any> = {};
@@ -578,7 +583,7 @@ export class SecurityAnalytics {
               .sort((ab: any) => 
                 this.getSeverityWeight(b.severity) - this.getSeverityWeight(a.severity)
               )
-              .slice(05)
+              .slice(0)
               .map(t => ({
                 id: t.id,
                 type: t.type,

@@ -24,10 +24,13 @@ export function initSentry() {
     // Integrations
     integrations: [
       new Sentry.BrowserTracing({
-        routingInstrumentation: Sentry.nextRouterInstrumentation}),
+        routingInstrumentation: Sentry.nextRouterInstrumentation
+      }),
       new Sentry.Replay({
         maskAllText: false,
-        blockAllMedia: false})],
+        blockAllMedia: false
+      })
+    ],
 
     // Filtering
     beforeSend(eventhint) {
@@ -47,7 +50,10 @@ export function initSentry() {
     // User context
     initialScope: {
       tags: {
-        component: 'frontend'}});
+        component: 'frontend'
+      }
+    }
+  });
 }
 
 // Error boundary component
@@ -98,7 +104,8 @@ export function identifyUser(userId: string, email?: string, username?: string) 
   Sentry.setUser({
     id: userId,
     email,
-    username});
+    username
+  });
 }
 
 // Clear user on logout
@@ -110,7 +117,9 @@ export function clearUser() {
 export function logError(error: Error, context?: Record<string, any>) {
   Sentry.captureException(error, {
     contexts: {
-      custom: context});
+      custom: context
+    }
+  });
 }
 
 // Add breadcrumb
@@ -125,5 +134,6 @@ export function addBreadcrumb(
     category,
     level,
     data,
-    timestamp: Date.now() / 1000});
+    timestamp: Date.now() / 1000
+  });
 }

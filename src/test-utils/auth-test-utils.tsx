@@ -40,7 +40,8 @@ export const defaultAuthUser = {
 interface AuthRenderOptions extends RenderOptions {
   isAuthenticated?: boolean;
   user?: typeof defaultAuthUser | null;
-  authState?: Record<string, any>\n  );
+  authState?: Record<string, any>
+  );
 }
 
 // Auth provider wrapper component
@@ -53,7 +54,8 @@ export const AuthProvider = ({
   children: ReactNode;
   isAuthenticated?: boolean;
   user?: typeof defaultAuthUser | null;
-  authState?: Record<string, any>\n  );
+  authState?: Record<string, any>
+  );
 }) => {
   // Create a default auth value
   const defaultAuthValue = {

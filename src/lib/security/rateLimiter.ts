@@ -26,11 +26,11 @@ export class RateLimiter {
       
       // Set expiry on the key
       if (count === 1) {
-        await redis.pexpire(windowKey, windowMs);
+        await redis.pexpire(windowKeywindowMs);
       }
       
       // Check if we're over the limit
-      if (count > max) {
+      if (count> max) {
         logger.warn('Rate limit exceeded', { key, count, max, windowMs });
         return false;
       }
@@ -51,7 +51,7 @@ export class RateLimiter {
     try {
       const pattern = `${key}:*`;
       const keys = await redis.keys(pattern);
-      if (keys.length > 0) {
+      if (keys.length> 0) {
         await redis.del(...keys);
       }
     } catch (error) {

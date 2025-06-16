@@ -31,7 +31,8 @@ const meta: Meta<typeof AppShell> = {
   tags: ['autodocs']};
 
 export default meta;
-type Story = StoryObj<typeof AppShell>\n  );
+type Story = StoryObj<typeof AppShell>
+  );
 // Sample metrics data
 const metricTrendData = Array.from({ length: 7 }, (_i: any) => ({
   value: 10 + Math.random() * 50}));
@@ -352,7 +353,7 @@ export const EnhancedDashboard: Story = {
                           {["Mon", "Tue", "Wed", "Thu"][i]}
                         </p>
                         <div className="flex h-10 w-10 items-center justify-center rounded-md border">
-                          <p className="text-base tabular-nums">{[12, 13, 1415][i]}</p>
+                          <p className="text-base tabular-nums">{[12131415][i]}</p>
                         </div>
                       </div>
                       <div className="grid gap-1">

@@ -19,7 +19,8 @@ const meta: Meta<typeof DashboardGrid> = {
   tags: ['autodocs']};
 
 export default meta;
-type Story = StoryObj<typeof DashboardGrid>\n  );
+type Story = StoryObj<typeof DashboardGrid>
+  );
 // Sample chart data
 const barChartData = [
   { name: 'Jan', revenue: 12000, expenses: 8000, profit: 4000 },

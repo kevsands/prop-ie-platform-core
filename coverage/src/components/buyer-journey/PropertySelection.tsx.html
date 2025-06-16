@@ -409,9 +409,7 @@
 <a name='L344'></a><a href='#L344'>344</a>
 <a name='L345'></a><a href='#L345'>345</a>
 <a name='L346'></a><a href='#L346'>346</a>
-<a name='L347'></a><a href='#L347'>347</a>
-<a name='L348'></a><a href='#L348'>348</a>
-<a name='L349'></a><a href='#L349'>349</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L347'></a><a href='#L347'>347</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -524,8 +522,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -813,12 +809,12 @@ interface CustomizationOption {
 }
 &nbsp;
 export function <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >PropertySelection({</span></span> transactionId, developmentId, onSelect }: PropertySelectionProps) {
-  const [units, setUnits] = <span class="cstat-no" title="statement not covered" >useState&lt;Unit[]&gt;([]);</span>
-  const [selectedUnit, setSelectedUnit] = <span class="cstat-no" title="statement not covered" >useState&lt;Unit | null&gt;(null);</span>
-  const [selectedCustomizations, setSelectedCustomizations] = <span class="cstat-no" title="statement not covered" >useState&lt;string[]&gt;([]);</span>
-  const [loading, setLoading] = <span class="cstat-no" title="statement not covered" >useState(true);</span>
-  const [error, setError] = <span class="cstat-no" title="statement not covered" >useState&lt;string | null&gt;(null);</span>
-  const [step, setStep] = <span class="cstat-no" title="statement not covered" >useState&lt;'selection' | 'customization'&gt;('selection');</span>
+  const [unitssetUnits] = <span class="cstat-no" title="statement not covered" >useState&lt;Unit[]&gt;([]);</span>
+  const [selectedUnitsetSelectedUnit] = <span class="cstat-no" title="statement not covered" >useState&lt;Unit | null&gt;(null);</span>
+  const [selectedCustomizationssetSelectedCustomizations] = <span class="cstat-no" title="statement not covered" >useState&lt;string[]&gt;([]);</span>
+  const [loadingsetLoading] = <span class="cstat-no" title="statement not covered" >useState(true);</span>
+  const [errorsetError] = <span class="cstat-no" title="statement not covered" >useState&lt;string | null&gt;(null);</span>
+  const [stepsetStep] = <span class="cstat-no" title="statement not covered" >useState&lt;'selection' | 'customization'&gt;('selection');</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  useEffect(<span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
 <span class="cstat-no" title="statement not covered" >    fetchAvailableUnits();</span>
@@ -828,7 +824,7 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
 <span class="cstat-no" title="statement not covered" >    try {</span>
       const response = <span class="cstat-no" title="statement not covered" >await fetch(`/api/v1/developments/${developmentId}/units?status=available`);</span>
 <span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (!response.ok) <span class="cstat-no" title="statement not covered" >throw new Error('Failed to fetch units');</span></span>
-      
+&nbsp;
       const data = <span class="cstat-no" title="statement not covered" >await response.json();</span>
 <span class="cstat-no" title="statement not covered" >      setUnits(data.units);</span>
     } catch (err) {
@@ -840,7 +836,7 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
 &nbsp;
   const handleUnitSelect = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(u</span>nit: Unit) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    setSelectedUnit(unit);</span>
-<span class="cstat-no" title="statement not covered" >    if (unit.customizationOptions &amp;&amp; unit.customizationOptions.length &gt; 0) {</span>
+<span class="cstat-no" title="statement not covered" >    if (unit.customizationOptions &amp;&amp; unit.customizationOptions.length&gt; 0) {</span>
 <span class="cstat-no" title="statement not covered" >      setStep('customization');</span>
     } else {
 <span class="cstat-no" title="statement not covered" >      confirmSelection(unit.id);</span>
@@ -852,17 +848,17 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
 <span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (prev.includes(optionId)) {</span>
 <span class="cstat-no" title="statement not covered" >        return prev.filter(<span class="fstat-no" title="function not covered" >id =&gt; <span class="cstat-no" title="statement not covered" >i</span>d !== optionId);</span></span>
       }
-<span class="cstat-no" title="statement not covered" >      return [...prev, optionId];</span>
+<span class="cstat-no" title="statement not covered" >      return [...prevoptionId];</span>
     });
   };
 &nbsp;
   const calculateTotalPrice = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!selectedUnit) <span class="cstat-no" title="statement not covered" >return 0;</span></span>
-    
+&nbsp;
     const customizationTotal = <span class="cstat-no" title="statement not covered" >selectedUnit.customizationOptions</span>
       ?.filter(<span class="fstat-no" title="function not covered" >opt =&gt; <span class="cstat-no" title="statement not covered" >s</span>electedCustomizations.includes(opt.id))</span>
-      .reduce(<span class="fstat-no" title="function not covered" >(s</span>um, opt) =&gt; <span class="cstat-no" title="statement not covered" >sum + opt.price,</span> 0) || 0;
-    
+      .reduce(<span class="fstat-no" title="function not covered" >(s</span>umopt: any) =&gt; <span class="cstat-no" title="statement not covered" >sum + opt.price0)</span> || 0;
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    return selectedUnit.price + customizationTotal;</span>
   };
 &nbsp;
@@ -877,12 +873,10 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
         body: JSON.stringify({
           unitId,
           customizations: selectedCustomizations,
-          totalPrice: calculateTotalPrice(),
-        }),
-      });
+          totalPrice: calculateTotalPrice()})});
 &nbsp;
 <span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (!response.ok) <span class="cstat-no" title="statement not covered" >throw new Error('Failed to select property');</span></span>
-      
+&nbsp;
 <span class="cstat-no" title="statement not covered" >      onSelect(unitId);</span>
     } catch (err) {
 <span class="cstat-no" title="statement not covered" >      setError(err instanceof Error ? err.message : 'An error occurred');</span>
@@ -918,7 +912,7 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
             const options = <span class="cstat-no" title="statement not covered" >selectedUnit.customizationOptions?.filter(</span>
 <span class="fstat-no" title="function not covered" >              opt =&gt; <span class="cstat-no" title="statement not covered" >o</span>pt.category === category</span>
             );
-            
+&nbsp;
 <span class="cstat-no" title="statement not covered" >            <span class="missing-if-branch" title="if path not taken" >I</span>if (!options || options.length === 0) <span class="cstat-no" title="statement not covered" >return null;</span></span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >            return (</span>
@@ -967,7 +961,7 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
                 {formatCurrency(
                   selectedUnit.customizationOptions
                     ?.filter(<span class="fstat-no" title="function not covered" >opt =&gt; <span class="cstat-no" title="statement not covered" >s</span>electedCustomizations.includes(opt.id))</span>
-                    .reduce(<span class="fstat-no" title="function not covered" >(s</span>um, opt) =&gt; <span class="cstat-no" title="statement not covered" >sum + opt.price,</span> 0) || 0
+                    .reduce(<span class="fstat-no" title="function not covered" >(s</span>umopt: any) =&gt; <span class="cstat-no" title="statement not covered" >sum + opt.price0)</span> || 0
                 )}
               &lt;/span&gt;
             &lt;/div&gt;
@@ -1044,11 +1038,11 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
                   &lt;/Badge&gt;
                 &lt;/div&gt;
               )}
-              
+&nbsp;
               &lt;CardContent className="p-4"&gt;
                 &lt;h3 className="font-semibold text-lg"&gt;Unit {unit.unitNumber}&lt;/h3&gt;
                 &lt;p className="text-muted-foreground"&gt;{unit.type}&lt;/p&gt;
-                
+&nbsp;
                 &lt;div className="grid grid-cols-2 gap-2 mt-3 text-sm"&gt;
                   &lt;div className="flex items-center gap-1"&gt;
                     &lt;Bed className="h-4 w-4 text-muted-foreground" /&gt;
@@ -1114,7 +1108,7 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T22:15:28.100Z
+                at 2025-06-15T18:50:48.918Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

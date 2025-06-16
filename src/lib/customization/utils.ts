@@ -56,7 +56,8 @@ export function calculateTotalPrice(
     quantity: number;
     discount: number;
     total: number;
-  }>\n  );
+  }>
+  );
 } {
   let optionsTotal = 0;
   let totalDiscounts = 0;
@@ -139,7 +140,7 @@ export function exportConfiguration(
   selectedOptions: Record<string, SelectedOption>,
   categories: CustomizationCategory[]
 ) {
-  const priceData = calculateTotalPrice(property.price, selectedOptionscategories);
+  const priceData = calculateTotalPrice(property.priceselectedOptionscategories);
 
   return {
     property: {

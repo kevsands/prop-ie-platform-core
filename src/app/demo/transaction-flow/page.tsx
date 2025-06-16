@@ -260,7 +260,7 @@ export default function TransactionFlowDemo() {
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
-                {transactionSteps.map((stepindex: any) => (
+                {transactionSteps.map((step, index: any) => (
                   <div
                     key={step.id}
                     className={`p-4 rounded-lg border ${
@@ -301,7 +301,7 @@ export default function TransactionFlowDemo() {
                         {index === currentStep && (
                           <div className="space-y-2">
                             <ul className="text-sm space-y-1">
-                              {step.actions.map((actionactionIndex: any) => (
+                              {step.actions.map((action, actionIndex: any) => (
                                 <li key={actionIndex} className="flex items-center gap-2">
                                   <ArrowRight className="h-3 w-3" />
                                   {action}
@@ -346,7 +346,7 @@ export default function TransactionFlowDemo() {
                     Notifications will appear here as you progress through the transaction
                   </p>
                 ) : (
-                  notifications.map((notificationindex: any) => (
+                  notifications.map((notification, index: any) => (
                     <Alert key={index}>
                       <Bell className="h-4 w-4" />
                       <AlertDescription>

@@ -21,7 +21,8 @@ const verifyMFASchema = z.object({
 });
 
 // Type for the request body
-type RequestBody = z.infer<typeof requestBodySchema>\n  );
+type RequestBody = z.infer<typeof requestBodySchema>
+  );
 // POST /api/auth/two-factor - Manage two-factor authentication
 export async function POST(request: NextRequest) {
   try {

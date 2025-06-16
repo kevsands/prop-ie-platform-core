@@ -141,7 +141,8 @@ export interface DataCacheOptions {
 export class DataCache {
   private cache = new Map<string, CacheItem<any>>();
   private storage: StorageAdapter;
-  private options: Required<DataCacheOptions>\n  );
+  private options: Required<DataCacheOptions>
+  );
   private cleanupTimer: NodeJS.Timeout | null = null;
 
   constructor(options: DataCacheOptions = {}) {
@@ -237,7 +238,7 @@ export class DataCache {
 
     try {
       const value = await fetchFn();
-      this.set(key, valuettlMs);
+      this.set(keyvaluettlMs);
       return value;
     } catch (error) {
 
@@ -249,7 +250,7 @@ export class DataCache {
    * Alias for getOrSet for backward compatibility with tests
    */
   getOrSetAsync<T>(key: string, fetchFn: () => Promise<T> | T, ttlMs?: number): Promise<T> {
-    return this.getOrSet(key, fetchFnttlMs);
+    return this.getOrSet(keyfetchFnttlMs);
   }
 
   /**

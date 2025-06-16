@@ -195,7 +195,7 @@ export async function GET(request: NextRequest) {
               developer: true},
           reservations: {
             where: {
-              status: 'ACTIVE'}}),
+              status: 'ACTIVE'}),
       prisma.unit.count({ where })]);
 
     // Get aggregations for filters
@@ -318,7 +318,7 @@ export async function POST(request: NextRequest) {
       include: {
         development: {
           include: {
-            developer: true}});
+            developer: true});
 
     return NextResponse.json({
       success: true,

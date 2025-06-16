@@ -8,8 +8,10 @@ export interface AnalyticsMetrics {
   totalRevenue: number;
   conversionRate: number;
   avgTimeToSale: number;
-  salesByDevelopment: Array<{ name: string; value: number }>\n  );
-  revenueData: Array<{ date: string; revenue: number }>\n  );
+  salesByDevelopment: Array<{ name: string; value: number }>
+  );
+  revenueData: Array<{ date: string; revenue: number }>
+  );
   propertyPerformance: any;
   cashFlow: number;
   outstandingPayments: number;
@@ -43,7 +45,7 @@ export class AnalyticsEngine {
     }
 
     // Fetch all necessary data in parallel
-    const [developments, transactions, viewspayments] = await Promise.all([
+    const [developmentstransactionsviewspayments] = await Promise.all([
       prisma.development.findMany({
         where: { developerId },
         include: {
@@ -53,12 +55,12 @@ export class AnalyticsEngine {
                 where: {
                   createdAt: {
                     gte: dateRange.from,
-                    lte: dateRange.to}},
+                    lte: dateRange.to},
               propertyViews: {
                 where: {
                   createdAt: {
                     gte: dateRange.from,
-                    lte: dateRange.to}}}}),
+                    lte: dateRange.to}),
       prisma.transaction.findMany({
         where: {
           unit: {
@@ -73,12 +75,12 @@ export class AnalyticsEngine {
             development: { developerId },
           createdAt: {
             gte: dateRange.from,
-            lte: dateRange.to}}),
+            lte: dateRange.to}),
       prisma.payment.findMany({
         where: {
           transaction: {
             unit: {
-              development: { developerId }},
+              development: { developerId },
         include: {
           transaction: true})]);
 
@@ -182,7 +184,7 @@ export class AnalyticsEngine {
             propertyViews: true,
             transactions: true},
         development: {
-          select: { name: true }},
+          select: { name: true },
       orderBy: {
         propertyViews: {
           _count: 'desc'},
@@ -295,7 +297,7 @@ export class AnalyticsEngine {
           bathrooms: true,
           squareMeters: true,
           development: {
-            select: { name: true }})]);
+            select: { name: true })]);
 
     const myAvgPrice = myProperties.length> 0
       ? myProperties.reduce((sump: any) => sum + p.price0) / myProperties.length

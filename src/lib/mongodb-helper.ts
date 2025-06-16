@@ -12,24 +12,29 @@ export interface IDocument {
 /**
  * MongoDB Query type
  */
-export type MongoQuery<T> = Record<string, any>\n  );
+export type MongoQuery<T> = Record<string, any>
+  );
 /**
  * MongoDB Update type
  */
-export type MongoUpdate<T> = Record<string, any> | Partial<T>\n  );
+export type MongoUpdate<T> = Record<string, any> | Partial<T>
+  );
 /**
  * MongoDB Operation type for bulk writes
  */
 export interface MongoBulkOperation {
   insertOne?: { document: unknown };
   updateOne?: { 
-    filter: Record<string, any>\n  );
-    update: Record<string, any>\n  );
+    filter: Record<string, any>
+  );
+    update: Record<string, any>
+  );
     upsert?: boolean;
   };
   deleteOne?: { filter: Record<string, any> };
   replaceOne?: {
-    filter: Record<string, any>\n  );
+    filter: Record<string, any>
+  );
     replacement: unknown;
     upsert?: boolean;
   };

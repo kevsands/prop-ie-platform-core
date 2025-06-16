@@ -1,0 +1,494 @@
+/**
+ * Real Property Development Business Logic
+ * Based on €25M Fitzgerald Gardens Excel workbook analysis
+ */
+
+// Real development phase definitions matching actual property development
+export interface RealDevelopmentPhase {
+  id: number;
+  name: string;
+  category: 'Pre-Development' | 'Design' | 'Construction' | 'Completion' | 'Sales' | 'Post-Completion';
+  duration_weeks: number;
+  typical_budget_percentage: number; // % of total project cost
+  dependencies: number[]; // Which phases must complete first
+  critical_path: boolean;
+  typical_team_size: number;
+  key_deliverables: string[];
+  risk_level: 'low' | 'medium' | 'high';
+}
+
+// Actual Fitzgerald Gardens 15-Phase Structure
+export const REAL_DEVELOPMENT_PHASES: RealDevelopmentPhase[] = [
+  {
+    id: 1,
+    name: 'Land Acquisition & Due Diligence',
+    category: 'Pre-Development',
+    duration_weeks: 12,
+    typical_budget_percentage: 12.0, // €3M land cost
+    dependencies: [],
+    critical_path: true,
+    typical_team_size: 3,
+    key_deliverables: ['Land Purchase Contract', 'Site Survey', 'Title Deeds'],
+    risk_level: 'high'
+  },
+  {
+    id: 2,
+    name: 'Planning Application & Approval',
+    category: 'Pre-Development', 
+    duration_weeks: 26,
+    typical_budget_percentage: 1.5, // €375K planning costs
+    dependencies: [1],
+    critical_path: true,
+    typical_team_size: 4,
+    key_deliverables: ['Planning Application', 'Planning Permission', 'Conditions Discharge'],
+    risk_level: 'high'
+  },
+  {
+    id: 3,
+    name: 'Detailed Design & Working Drawings',
+    category: 'Design',
+    duration_weeks: 16,
+    typical_budget_percentage: 3.5, // €875K design fees
+    dependencies: [2],
+    critical_path: true,
+    typical_team_size: 8,
+    key_deliverables: ['Architectural Drawings', 'Structural Drawings', 'M&E Drawings'],
+    risk_level: 'medium'
+  },
+  {
+    id: 4,
+    name: 'Tender Process & Contractor Selection',
+    category: 'Design',
+    duration_weeks: 8,
+    typical_budget_percentage: 0.5, // €125K tender costs
+    dependencies: [3],
+    critical_path: true,
+    typical_team_size: 5,
+    key_deliverables: ['Tender Documents', 'Contractor Selection', 'Contract Award'],
+    risk_level: 'medium'
+  },
+  {
+    id: 5,
+    name: 'Site Preparation & Enabling Works',
+    category: 'Construction',
+    duration_weeks: 6,
+    typical_budget_percentage: 2.0, // €500K site prep
+    dependencies: [4],
+    critical_path: true,
+    typical_team_size: 15,
+    key_deliverables: ['Site Clearance', 'Temporary Works', 'Site Setup'],
+    risk_level: 'medium'
+  },
+  {
+    id: 6,
+    name: 'Foundation & Substructure',
+    category: 'Construction',
+    duration_weeks: 12,
+    typical_budget_percentage: 8.0, // €2M foundations
+    dependencies: [5],
+    critical_path: true,
+    typical_team_size: 25,
+    key_deliverables: ['Excavation Complete', 'Foundations Cast', 'Ground Floor Slab'],
+    risk_level: 'high'
+  },
+  {
+    id: 7,
+    name: 'Structural Frame & Superstructure',
+    category: 'Construction',
+    duration_weeks: 20,
+    typical_budget_percentage: 15.0, // €3.75M structure
+    dependencies: [6],
+    critical_path: true,
+    typical_team_size: 35,
+    key_deliverables: ['Frame Complete', 'Roof Structure', 'Block Work'],
+    risk_level: 'high'
+  },
+  {
+    id: 8,
+    name: 'Mechanical & Electrical Installation',
+    category: 'Construction',
+    duration_weeks: 16,
+    typical_budget_percentage: 12.0, // €3M M&E
+    dependencies: [7],
+    critical_path: true,
+    typical_team_size: 40,
+    key_deliverables: ['First Fix M&E', 'Second Fix M&E', 'Testing & Commissioning'],
+    risk_level: 'high'
+  },
+  {
+    id: 9,
+    name: 'External Works & Infrastructure',
+    category: 'Construction',
+    duration_weeks: 10,
+    typical_budget_percentage: 4.0, // €1M external works
+    dependencies: [7],
+    critical_path: false,
+    typical_team_size: 20,
+    key_deliverables: ['Roads & Paths', 'Drainage', 'External Lighting'],
+    risk_level: 'medium'
+  },
+  {
+    id: 10,
+    name: 'Internal Fit-Out & Finishes',
+    category: 'Construction',
+    duration_weeks: 14,
+    typical_budget_percentage: 18.0, // €4.5M fit-out
+    dependencies: [8],
+    critical_path: true,
+    typical_team_size: 50,
+    key_deliverables: ['Internal Finishes', 'Kitchen & Bathrooms', 'Floor Coverings'],
+    risk_level: 'medium'
+  },
+  {
+    id: 11,
+    name: 'Landscaping & Amenities',
+    category: 'Construction',
+    duration_weeks: 8,
+    typical_budget_percentage: 2.5, // €625K landscaping
+    dependencies: [9],
+    critical_path: false,
+    typical_team_size: 12,
+    key_deliverables: ['Soft Landscaping', 'Hard Landscaping', 'Play Areas'],
+    risk_level: 'low'
+  },
+  {
+    id: 12,
+    name: 'Final Inspections & Certifications',
+    category: 'Completion',
+    duration_weeks: 4,
+    typical_budget_percentage: 0.5, // €125K inspections
+    dependencies: [10, 11],
+    critical_path: true,
+    typical_team_size: 8,
+    key_deliverables: ['Building Control Sign-off', 'Fire Cert', 'Completion Cert'],
+    risk_level: 'medium'
+  },
+  {
+    id: 13,
+    name: 'Marketing & Sales Campaign',
+    category: 'Sales',
+    duration_weeks: 52, // Runs parallel to construction
+    typical_budget_percentage: 3.0, // €750K marketing
+    dependencies: [3], // Can start after design
+    critical_path: false,
+    typical_team_size: 6,
+    key_deliverables: ['Sales Suite', 'Marketing Materials', 'Sales Completions'],
+    risk_level: 'high'
+  },
+  {
+    id: 14,
+    name: 'Handover & Customer Move-In',
+    category: 'Completion',
+    duration_weeks: 8,
+    typical_budget_percentage: 1.0, // €250K handover costs
+    dependencies: [12],
+    critical_path: true,
+    typical_team_size: 10,
+    key_deliverables: ['Unit Handovers', 'Customer Documentation', 'Keys & Warranties'],
+    risk_level: 'medium'
+  },
+  {
+    id: 15,
+    name: 'Defects Liability & Aftercare',
+    category: 'Post-Completion',
+    duration_weeks: 52, // 12 months
+    typical_budget_percentage: 2.0, // €500K defects provision
+    dependencies: [14],
+    critical_path: false,
+    typical_team_size: 4,
+    key_deliverables: ['Defects Rectification', 'Warranty Support', 'Final Account'],
+    risk_level: 'low'
+  }
+];
+
+// Real Financial Structure for €25M Development
+export interface RealProjectFinancials {
+  total_development_value: number;
+  total_development_cost: number;
+  gross_profit: number;
+  profit_margin: number;
+  peak_funding_requirement: number;
+  
+  // Cost breakdown
+  land_cost: number;
+  construction_cost: number;
+  professional_fees: number;
+  marketing_costs: number;
+  finance_costs: number;
+  contingency: number;
+  
+  // Revenue breakdown
+  gross_sales_value: number;
+  sales_costs: number;
+  net_sales_value: number;
+  
+  // Cash flow
+  development_period_months: number;
+  cash_flow_monthly: number[];
+  cumulative_cash_flow: number[];
+  funding_drawdown_schedule: number[];
+}
+
+// Fitzgerald Gardens Real Financials
+export const FITZGERALD_GARDENS_FINANCIALS: RealProjectFinancials = {
+  total_development_value: 32500000, // €32.5M sales value
+  total_development_cost: 25000000,  // €25M total cost
+  gross_profit: 7500000,            // €7.5M gross profit
+  profit_margin: 23.08,             // 23.08% margin
+  peak_funding_requirement: 18750000, // €18.75M peak funding
+  
+  // Cost breakdown (totaling €25M)
+  land_cost: 3000000,        // €3M (12%)
+  construction_cost: 17500000, // €17.5M (70%) - main construction
+  professional_fees: 1875000,  // €1.875M (7.5%) - architects, engineers, QS
+  marketing_costs: 750000,     // €750K (3%) - sales & marketing
+  finance_costs: 1250000,     // €1.25M (5%) - interest & fees
+  contingency: 625000,        // €625K (2.5%) - contingency
+  
+  // Revenue breakdown
+  gross_sales_value: 32500000, // €32.5M total sales
+  sales_costs: 975000,        // €975K (3%) - legal, agent fees
+  net_sales_value: 31525000,  // €31.525M net
+  
+  // Timeline
+  development_period_months: 36, // 3 years
+  
+  // Will be calculated dynamically
+  cash_flow_monthly: [],
+  cumulative_cash_flow: [],
+  funding_drawdown_schedule: []
+};
+
+// Real Team Structure with Proper Costs
+export interface RealTeamMember {
+  id: string;
+  name: string;
+  role: string;
+  department: string;
+  annual_salary: number;
+  daily_rate: number;
+  current_phase_assignments: PhaseAssignment[];
+  start_date: string;
+  project_allocation_percentage: number; // % of time on this project
+  cost_center: string;
+  reporting_manager_id?: string;
+  certifications: string[];
+  last_performance_review: number; // 1-5 rating
+}
+
+export interface PhaseAssignment {
+  phase_id: number;
+  start_date: string;
+  end_date: string;
+  allocation_percentage: number; // % of person's time in this phase
+  role_in_phase: string;
+  budget_allocation: number; // € allocated for this person in this phase
+}
+
+// Real Contractor Structure
+export interface RealContractor {
+  id: string;
+  company_name: string;
+  contact_person: string;
+  specialty: ContractorSpecialty;
+  contract_value: number;
+  phase_assignments: number[];
+  payment_schedule: PaymentMilestone[];
+  retention_percentage: number;
+  performance_bond_value: number;
+  insurance_value: number;
+  start_date: string;
+  completion_date: string;
+  current_s_curve_position: number; // % complete
+  monthly_payment_cap: number;
+  quality_rating: number; // 1-5
+  safety_rating: number; // 1-5
+  timeliness_rating: number; // 1-5
+}
+
+export type ContractorSpecialty = 
+  | 'Main_Contractor' 
+  | 'Groundworks' 
+  | 'Concrete_Frame' 
+  | 'Mechanical' 
+  | 'Electrical' 
+  | 'Plumbing' 
+  | 'Carpentry' 
+  | 'Roofing' 
+  | 'External_Works' 
+  | 'Landscaping';
+
+export interface PaymentMilestone {
+  milestone_name: string;
+  target_date: string;
+  payment_amount: number;
+  payment_percentage: number; // % of total contract
+  requirements: string[];
+  certified_date?: string;
+  paid_date?: string;
+  status: 'pending' | 'certified' | 'paid' | 'overdue';
+}
+
+// Real S-Curve Calculation
+export class SCurveCalculator {
+  static calculatePlannedProgress(phases: RealDevelopmentPhase[], currentDate: Date, projectStartDate: Date): number {
+    // Calculate expected progress based on phase timeline
+    const totalDurationWeeks = phases.reduce((sum, phase) => sum + phase.duration_weeks, 0);
+    const elapsedWeeks = this.getWeeksBetween(projectStartDate, currentDate);
+    
+    return Math.min(100, (elapsedWeeks / totalDurationWeeks) * 100);
+  }
+  
+  static calculateCostCurve(phases: RealDevelopmentPhase[], financials: RealProjectFinancials, progressPercentage: number): number {
+    // Calculate expected cost spend based on progress
+    // Construction phases have higher cost weighting
+    let weightedProgress = 0;
+    let totalWeight = 0;
+    
+    phases.forEach(phase => {
+      const phaseProgress = Math.max(0, Math.min(100, progressPercentage - ((phase.id - 1) * (100 / phases.length))));
+      const costWeight = phase.typical_budget_percentage;
+      
+      weightedProgress += (phaseProgress / 100) * costWeight;
+      totalWeight += costWeight;
+    });
+    
+    return (weightedProgress / totalWeight) * financials.total_development_cost;
+  }
+  
+  private static getWeeksBetween(startDate: Date, endDate: Date): number {
+    const msPerWeek = 7 * 24 * 60 * 60 * 1000;
+    return Math.floor((endDate.getTime() - startDate.getTime()) / msPerWeek);
+  }
+}
+
+// Real Bills of Quantities Structure
+export interface BillOfQuantityItem {
+  id: string;
+  phase_id: number;
+  work_package: string;
+  description: string;
+  unit: string;
+  quantity: number;
+  rate: number;
+  amount: number;
+  contractor_id: string;
+  status: 'pending' | 'approved' | 'in_progress' | 'completed';
+  start_date: string;
+  completion_date?: string;
+  quality_grade: 'A' | 'B' | 'C';
+  safety_requirements: string[];
+  dependencies: string[]; // Other BOQ item IDs
+}
+
+// Example Real BOQ for Phase 6 (Foundations)
+export const PHASE_6_FOUNDATION_BOQ: BillOfQuantityItem[] = [
+  {
+    id: 'boq-006-001',
+    phase_id: 6,
+    work_package: 'Excavation Works',
+    description: 'Mass excavation for foundations',
+    unit: 'm³',
+    quantity: 2500,
+    rate: 12.50,
+    amount: 31250,
+    contractor_id: 'con-groundworks-001',
+    status: 'completed',
+    start_date: '2025-03-01',
+    completion_date: '2025-03-10',
+    quality_grade: 'A',
+    safety_requirements: ['Temporary Works Design', 'Shoring System', 'Dewatering'],
+    dependencies: []
+  },
+  {
+    id: 'boq-006-002', 
+    phase_id: 6,
+    work_package: 'Concrete Works',
+    description: 'Mass concrete foundation pours',
+    unit: 'm³',
+    quantity: 1200,
+    rate: 185.00,
+    amount: 222000,
+    contractor_id: 'con-concrete-001',
+    status: 'in_progress',
+    start_date: '2025-03-11',
+    quality_grade: 'A',
+    safety_requirements: ['Concrete Testing', 'Pour Sequence Plan', 'Weather Protection'],
+    dependencies: ['boq-006-001']
+  },
+  {
+    id: 'boq-006-003',
+    phase_id: 6,
+    work_package: 'Reinforcement',
+    description: 'Reinforcement steel fixing',
+    unit: 'tonne',
+    quantity: 180,
+    rate: 1250.00,
+    amount: 225000,
+    contractor_id: 'con-steel-001',
+    status: 'in_progress',
+    start_date: '2025-03-08',
+    quality_grade: 'A',
+    safety_requirements: ['Steel Certification', 'Fixing Tolerances', 'Cover Requirements'],
+    dependencies: ['boq-006-001']
+  }
+];
+
+// Real Monthly Cash Flow Calculation
+export class CashFlowCalculator {
+  static generateMonthlyCashFlow(
+    phases: RealDevelopmentPhase[], 
+    financials: RealProjectFinancials,
+    startDate: Date
+  ): number[] {
+    const monthlyFlow: number[] = [];
+    
+    for (let month = 0; month < financials.development_period_months; month++) {
+      let monthlySpend = 0;
+      
+      phases.forEach(phase => {
+        const phaseStartMonth = this.getPhaseStartMonth(phase, phases);
+        const phaseEndMonth = phaseStartMonth + Math.ceil(phase.duration_weeks / 4.33);
+        
+        if (month >= phaseStartMonth && month <= phaseEndMonth) {
+          const phaseBudget = financials.total_development_cost * (phase.typical_budget_percentage / 100);
+          const phaseMonthlySpend = phaseBudget / Math.ceil(phase.duration_weeks / 4.33);
+          monthlySpend += phaseMonthlySpend;
+        }
+      });
+      
+      monthlyFlow.push(monthlySpend);
+    }
+    
+    return monthlyFlow;
+  }
+  
+  private static getPhaseStartMonth(phase: RealDevelopmentPhase, allPhases: RealDevelopmentPhase[]): number {
+    if (phase.dependencies.length === 0) return 0;
+    
+    let latestDependencyEnd = 0;
+    phase.dependencies.forEach(depId => {
+      const depPhase = allPhases.find(p => p.id === depId);
+      if (depPhase) {
+        const depStart = this.getPhaseStartMonth(depPhase, allPhases);
+        const depEnd = depStart + Math.ceil(depPhase.duration_weeks / 4.33);
+        latestDependencyEnd = Math.max(latestDependencyEnd, depEnd);
+      }
+    });
+    
+    return latestDependencyEnd;
+  }
+}
+
+// Export all real business logic
+export {
+  RealDevelopmentPhase,
+  RealProjectFinancials,
+  RealTeamMember,
+  RealContractor,
+  PaymentMilestone,
+  BillOfQuantityItem,
+  PhaseAssignment,
+  SCurveCalculator,
+  CashFlowCalculator
+};

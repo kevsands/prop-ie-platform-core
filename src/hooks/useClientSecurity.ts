@@ -25,7 +25,8 @@ export interface SecurityIncident {
   timestamp: number;
   url: string;
   description: string;
-  metadata?: Record<string, any>\n  );
+  metadata?: Record<string, any>
+  );
 }
 
 export interface ClientSecurityOptions {

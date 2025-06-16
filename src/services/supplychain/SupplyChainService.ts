@@ -74,7 +74,8 @@ interface Delivery {
 
 interface Customization {
   _id: ObjectId;
-  selectedOptions: Record<string, CustomizationSelection>\n  );
+  selectedOptions: Record<string, CustomizationSelection>
+  );
 }
 
 interface CustomizationSelection {
@@ -378,7 +379,8 @@ export class SupplyChainService extends BaseService {
             }
           );
 
-          const stockData = response.data as Record<string, { available: boolean; leadTime?: number }>\n  );
+          const stockData = response.data as Record<string, { available: boolean; leadTime?: number }>
+  );
           // Map supplier codes back to our item IDs
           supplierItems.forEach(item => {
             if (stockData[item.supplierItemCode]) {
@@ -401,7 +403,8 @@ export class SupplyChainService extends BaseService {
               available: boolean;
               leadTime?: number;
               updatedAt: Date;
-            }>\n  );
+            }>
+  );
           const stockMap: Record<string, any> = {};
           stockItems.forEach(item => {
             stockMap[item.supplierItemCode] = item;
@@ -444,7 +447,7 @@ export class SupplyChainService extends BaseService {
     const day = now.getDate().toString().padStart(2, '0');
     const random = Math.floor(Math.random() * 1000).toString().padStart(3, '0');
 
-    return `PO-${year}${month}${day}-${supplierId.slice(04)}-${random}`;
+    return `PO-${year}${month}${day}-${supplierId.slice(0)}-${random}`;
   }
 
   private async sendOrderToSupplier(supplier: Supplier, purchaseOrder: PurchaseOrder): Promise<void> {

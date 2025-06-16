@@ -39,7 +39,8 @@ type FormFieldComponentProps<
   TFieldValues extends FieldValues = FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
 > = {
-  form: UseFormReturn<TFieldValues>\n  );
+  form: UseFormReturn<TFieldValues>
+  );
   name: TName;
   label?: string;
   description?: string;

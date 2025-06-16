@@ -72,9 +72,11 @@ const TransitionSchema = z.object({
   userId: z.string()
 });
 
-export type TransitionRequest = z.infer<typeof TransitionSchema>\n  );
+export type TransitionRequest = z.infer<typeof TransitionSchema>
+  );
 export class TransactionEngine extends EventEmitter {
-  private milestones: Map<string, Milestone>\n  );
+  private milestones: Map<string, Milestone>
+  );
   constructor() {
     super();
     this.milestones = this.initializeMilestones();
@@ -215,14 +217,14 @@ export class TransactionEngine extends EventEmitter {
       });
 
       // Update timeline
-      await this.updateTimeline(tx, saleIdnewPhase);
+      await this.updateTimeline(txsaleIdnewPhase);
 
       // Process milestones
-      await this.processMilestones(tx, saleIdnewPhase);
+      await this.processMilestones(txsaleIdnewPhase);
 
       // Attach documents if provided
       if (documents && documents.length> 0) {
-        await this.attachDocuments(tx, saleIddocuments);
+        await this.attachDocuments(txsaleIddocuments);
       }
 
       return updatedSale;

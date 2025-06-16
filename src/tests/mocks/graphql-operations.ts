@@ -233,7 +233,7 @@ export const GraphQLQueryResponses = {
         hasNextPage: false,
         hasPreviousPage: false,
         startCursor: null,
-        endCursor: null}};
+        endCursor: null};
 
 /**
  * GraphQL Mutation Response Mocks

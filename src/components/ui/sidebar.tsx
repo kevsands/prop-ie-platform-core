@@ -95,7 +95,7 @@ const SidebarProvider = React.forwardRef<
       return isMobile
         ? setOpenMobile((open: any) => !open)
         : setOpen((open: any) => !open);
-    }, [isMobile, setOpensetOpenMobile]);
+    }, [isMobilesetOpensetOpenMobile]);
 
     // Adds a keyboard shortcut to toggle the sidebar.
     React.useEffect(() => {
@@ -437,7 +437,8 @@ type SlotProps = {
   asChild?: boolean;
 };
 
-type ElementRef<T extends keyof JSX.IntrinsicElements> = NonNullable<JSX.IntrinsicElements[T]['ref']>\n  );
+type ElementRef<T extends keyof JSX.IntrinsicElements> = NonNullable<JSX.IntrinsicElements[T]['ref']>
+  );
 const SidebarGroupLabel = React.forwardRef<
   HTMLDivElement,
   React.ComponentProps<"div"> & SlotProps
@@ -531,10 +532,10 @@ const sidebarMenuButtonVariants = cva(
       size: {
         default: "h-8 text-sm",
         sm: "h-7 text-xs",
-        lg: "h-12 text-sm group-data-[collapsible=icon]:!p-0"},
+        lg: "h-12 text-sm group-data-[collapsible=icon]:!p-0",
     defaultVariants: {
       variant: "default",
-      size: "default"},
+      size: "default",
 );
 
 const SidebarMenuButton = React.forwardRef<
@@ -542,7 +543,8 @@ const SidebarMenuButton = React.forwardRef<
   React.ComponentProps<"button"> & {
     asChild?: boolean;
     isActive?: boolean;
-    tooltip?: string | React.ComponentProps<typeof TooltipContent>\n  );
+    tooltip?: string | React.ComponentProps<typeof TooltipContent>
+  );
   } & VariantProps<typeof sidebarMenuButtonVariants>
 >(
   (

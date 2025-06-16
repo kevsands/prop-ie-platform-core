@@ -41,7 +41,7 @@ export async function monitoringMiddleware(request: NextRequest) {
         !path.endsWith('.js')) {
       
       try {
-        recordMetric(method, path, statusCoderesponseTime);
+        recordMetric(methodpathstatusCoderesponseTime);
       } catch (error) {
         console.error('Failed to record metric:', error);
       }
@@ -87,7 +87,8 @@ export function trackError(
     method?: string;
     userId?: string;
     sessionId?: string;
-    metadata?: Record<string, any>\n  );
+    metadata?: Record<string, any>
+  );
   }
 ) {
   // This would integrate with error tracking service (e.g., Sentry)

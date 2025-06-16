@@ -1,0 +1,419 @@
+import React from 'react';
+'use client';
+
+import { useState } from 'react';
+import { Calendar, Clock, MapPin, User, Building, Home, Video, Phone, Plus, ChevronRight, Filter } from 'lucide-react';
+import { format, addDays, startOfWeek, isSameDay } from 'date-fns';
+
+interface Appointment {
+  id: string;
+  type: 'viewing' | 'meeting' | 'call' | 'video';
+  title: string;
+  description: string;
+  date: Date;
+  duration: number; // in minutes
+  location?: string;
+  isVirtual: boolean;
+  attendees: string[];
+  property?: {
+    id: string;
+    name: string;
+    unit: string;
+  };
+  status: 'upcoming' | 'completed' | 'cancelled';
+  notes?: string;
+}
+
+export default function AppointmentsPage() {
+  const [selectedDatesetSelectedDate] = useState(new Date());
+  const [viewModesetViewMode] = useState<'calendar' | 'list'>('calendar');
+  const [filterTypesetFilterType] = useState<string>('all');
+  const [showNewAppointmentsetShowNewAppointment] = useState(false);
+
+  // Mock appointments data
+  const appointments: Appointment[] = [
+    {
+      id: '1',
+      type: 'viewing',
+      title: 'Property Viewing - Riverside Manor',
+      description: 'Viewing Unit 4B with Sarah Johnson',
+      date: new Date(Date.now() + 86400000), // Tomorrow
+      duration: 30,
+      location: 'Riverside Manor, Unit 4B',
+      isVirtual: false,
+      attendees: ['Sarah Johnson', 'You'],
+      property: {
+        id: 'RM-4B',
+        name: 'Riverside Manor',
+        unit: '4B'
+      },
+      status: 'upcoming'
+    },
+    {
+      id: '2',
+      type: 'video',
+      title: 'Virtual Tour - Fitzgerald Gardens',
+      description: 'Virtual property tour via Zoom',
+      date: new Date(Date.now() + 172800000), // 2 days from now
+      duration: 45,
+      isVirtual: true,
+      attendees: ['Michael O\'Brien', 'Property Agent', 'You'],
+      property: {
+        id: 'FG-3A',
+        name: 'Fitzgerald Gardens',
+        unit: '3A'
+      },
+      status: 'upcoming'
+    },
+    {
+      id: '3',
+      type: 'meeting',
+      title: 'Contract Review Meeting',
+      description: 'Review purchase contract with solicitor',
+      date: new Date(Date.now() + 259200000), // 3 days from now
+      duration: 60,
+      location: 'O\'Brien & Associates, 123 Main Street',
+      isVirtual: false,
+      attendees: ['Michael O\'Brien', 'You'],
+      status: 'upcoming',
+      notes: 'Bring proof of funds and ID'
+    },
+    {
+      id: '4',
+      type: 'call',
+      title: 'Mortgage Consultation',
+      description: 'Discuss mortgage options',
+      date: new Date(Date.now() - 86400000), // Yesterday
+      duration: 30,
+      isVirtual: true,
+      attendees: ['Bank Advisor', 'You'],
+      status: 'completed'
+    }
+  ];
+
+  // Filter appointments
+  const filteredAppointments = appointments.filter(apt => {
+    if (filterType === 'all') return true;
+    if (filterType === 'upcoming') return apt.status === 'upcoming';
+    if (filterType === 'completed') return apt.status === 'completed';
+    return apt.type === filterType;
+  });
+
+  // Get appointments for selected date
+  const selectedDateAppointments = filteredAppointments.filter(apt => 
+    isSameDay(apt.dateselectedDate)
+  );
+
+  // Get upcoming appointments
+  const upcomingAppointments = filteredAppointments
+    .filter(apt => apt.status === 'upcoming' && apt.date> new Date())
+    .sort((ab: any) => a.date.getTime() - b.date.getTime())
+    .slice(05);
+
+  const getAppointmentIcon = (type: string) => {
+    switch (type) {
+      case 'viewing': return <Home className="h-5 w-5 text-blue-600" />;
+      case 'meeting': return <Building className="h-5 w-5 text-purple-600" />;
+      case 'call': return <Phone className="h-5 w-5 text-green-600" />;
+      case 'video': return <Video className="h-5 w-5 text-orange-600" />;
+      default: return <Calendar className="h-5 w-5 text-gray-600" />;
+    }
+  };
+
+  const renderCalendarView = () => {
+    const startDate = startOfWeek(selectedDate);
+    const days = [];
+
+    for (let i = 0; i <7; i++) {
+      const date = addDays(startDatei);
+      const dayAppointments = filteredAppointments.filter(apt => 
+        isSameDay(apt.datedate)
+      );
+
+      days.push(
+        <div 
+          key={i}
+          className={`border rounded-lg p-4 cursor-pointer transition-colors ${
+            isSameDay(dateselectedDate) 
+              ? 'bg-blue-50 border-blue-300' 
+              : 'hover:bg-gray-50'
+          }`}
+          onClick={() => setSelectedDate(date)}
+        >
+          <p className="text-sm font-medium text-gray-900">
+            {format(date, 'EEE')}
+          </p>
+          <p className="text-2xl font-bold text-gray-900">
+            {format(date, 'd')}
+          </p>
+          <div className="mt-2 space-y-1">
+            {dayAppointments.slice(0, 3).map((apt: any) => (
+              <div key={apt.id} className="text-xs p-1 bg-blue-100 rounded truncate">
+                {format(apt.date, 'HH:mm')} - {apt.title}
+              </div>
+            ))}
+            {dayAppointments.length> 3 && (
+              <p className="text-xs text-gray-500">
+                +{dayAppointments.length - 3} more
+              </p>
+            )}
+          </div>
+        </div>
+      );
+    }
+
+    return days;
+  };
+
+  return (
+    <div className="flex-1 p-8">
+      <div className="max-w-7xl mx-auto">
+        {/* Header */}
+        <div className="flex items-center justify-between mb-8">
+          <div>
+            <h1 className="text-3xl font-bold text-gray-900">Appointments</h1>
+            <p className="text-gray-600 mt-1">Manage your viewings and meetings</p>
+          </div>
+          <button
+            onClick={() => setShowNewAppointment(true)}
+            className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+          >
+            <Plus className="h-5 w-5" />
+            New Appointment
+          </button>
+        </div>
+
+        {/* View Toggle and Filters */}
+        <div className="flex items-center justify-between mb-6">
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => setViewMode('calendar')}
+              className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+                viewMode === 'calendar' 
+                  ? 'bg-blue-100 text-blue-700' 
+                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+              }`}
+            >
+              Calendar
+            </button>
+            <button
+              onClick={() => setViewMode('list')}
+              className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+                viewMode === 'list' 
+                  ? 'bg-blue-100 text-blue-700' 
+                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+              }`}
+            >
+              List
+            </button>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <Filter className="h-5 w-5 text-gray-500" />
+            <select
+              value={filterType}
+              onChange={(e: any) => setFilterType(e.target.value)}
+              className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            >
+              <option value="all">All Appointments</option>
+              <option value="upcoming">Upcoming</option>
+              <option value="completed">Completed</option>
+              <option value="viewing">Viewings</option>
+              <option value="meeting">Meetings</option>
+              <option value="call">Calls</option>
+              <option value="video">Video Calls</option>
+            </select>
+          </div>
+        </div>
+
+        <div className="grid lg:grid-cols-3 gap-6">
+          {/* Main Content */}
+          <div className="lg:col-span-2 space-y-6">
+            {viewMode === 'calendar' ? (
+              <>
+                {/* Calendar View */}
+                <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                  <div className="flex items-center justify-between mb-4">
+                    <h2 className="text-lg font-semibold text-gray-900">
+                      {format(selectedDate, 'MMMM yyyy')}
+                    </h2>
+                    <div className="flex items-center gap-2">
+                      <button className="p-2 hover:bg-gray-100 rounded-lg">
+                        <ChevronRight className="h-5 w-5 text-gray-600 rotate-180" />
+                      </button>
+                      <button className="p-2 hover:bg-gray-100 rounded-lg">
+                        <ChevronRight className="h-5 w-5 text-gray-600" />
+                      </button>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-7 gap-4">
+                    {renderCalendarView()}
+                  </div>
+                </div>
+
+                {/* Selected Date Appointments */}
+                <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                  <h3 className="text-lg font-semibold text-gray-900 mb-4">
+                    {format(selectedDate, 'EEEE, MMMM d')}
+                  </h3>
+                  {selectedDateAppointments.length> 0 ? (
+                    <div className="space-y-4">
+                      {selectedDateAppointments.map((apt: any) => (
+                        <div 
+                          key={apt.id}
+                          className="border rounded-lg p-4 hover:bg-gray-50 transition-colors cursor-pointer"
+                        >
+                          <div className="flex items-start justify-between">
+                            <div className="flex items-start gap-3">
+                              {getAppointmentIcon(apt.type)}
+                              <div>
+                                <h4 className="font-medium text-gray-900">{apt.title}</h4>
+                                <p className="text-sm text-gray-600">{apt.description}</p>
+                                <div className="flex items-center gap-4 mt-2 text-sm text-gray-500">
+                                  <div className="flex items-center gap-1">
+                                    <Clock className="h-4 w-4" />
+                                    {format(apt.date, 'HH:mm')} ({apt.duration} min)
+                                  </div>
+                                  {apt.location && (
+                                    <div className="flex items-center gap-1">
+                                      <MapPin className="h-4 w-4" />
+                                      {apt.location}
+                                    </div>
+                                  )}
+                                </div>
+                              </div>
+                            </div>
+                            <ChevronRight className="h-5 w-5 text-gray-400" />
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <p className="text-gray-500 text-center py-8">
+                      No appointments scheduled for this date
+                    </p>
+                  )}
+                </div>
+              </>
+            ) : (
+              /* List View */
+              <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                <h3 className="text-lg font-semibold text-gray-900 mb-4">
+                  All Appointments
+                </h3>
+                <div className="space-y-4">
+                  {filteredAppointments.map((apt: any) => (
+                    <div 
+                      key={apt.id}
+                      className="border rounded-lg p-4 hover:bg-gray-50 transition-colors cursor-pointer"
+                    >
+                      <div className="flex items-start justify-between">
+                        <div className="flex items-start gap-3">
+                          {getAppointmentIcon(apt.type)}
+                          <div className="flex-1">
+                            <div className="flex items-center gap-3">
+                              <h4 className="font-medium text-gray-900">{apt.title}</h4>
+                              <span className={`px-2 py-1 text-xs font-medium rounded-full ${
+                                apt.status === 'upcoming' 
+                                  ? 'bg-green-100 text-green-800'
+                                  : apt.status === 'completed'
+                                  ? 'bg-gray-100 text-gray-800'
+                                  : 'bg-red-100 text-red-800'
+                              }`}>
+                                {apt.status}
+                              </span>
+                            </div>
+                            <p className="text-sm text-gray-600">{apt.description}</p>
+                            <div className="flex flex-wrap items-center gap-4 mt-2 text-sm text-gray-500">
+                              <div className="flex items-center gap-1">
+                                <Calendar className="h-4 w-4" />
+                                {format(apt.date, 'MMM d, yyyy')}
+                              </div>
+                              <div className="flex items-center gap-1">
+                                <Clock className="h-4 w-4" />
+                                {format(apt.date, 'HH:mm')} ({apt.duration} min)
+                              </div>
+                              {apt.location && (
+                                <div className="flex items-center gap-1">
+                                  <MapPin className="h-4 w-4" />
+                                  {apt.location}
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                        <ChevronRight className="h-5 w-5 text-gray-400" />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Sidebar */}
+          <div className="space-y-6">
+            {/* Upcoming Appointments */}
+            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">
+                Upcoming Appointments
+              </h3>
+              {upcomingAppointments.length> 0 ? (
+                <div className="space-y-3">
+                  {upcomingAppointments.map((apt: any) => (
+                    <div 
+                      key={apt.id}
+                      className="p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer"
+                    >
+                      <div className="flex items-center gap-3">
+                        {getAppointmentIcon(apt.type)}
+                        <div className="flex-1">
+                          <p className="font-medium text-gray-900 text-sm">
+                            {apt.title}
+                          </p>
+                          <p className="text-xs text-gray-500">
+                            {format(apt.date, 'MMM d')} at {format(apt.date, 'HH:mm')}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-gray-500 text-sm">No upcoming appointments</p>
+              )}
+            </div>
+
+            {/* Quick Actions */}
+            <div className="bg-blue-50 rounded-xl p-6 border border-blue-200">
+              <h3 className="text-lg font-semibold text-blue-900 mb-4">
+                Need to Schedule?
+              </h3>
+              <div className="space-y-3">
+                <button className="w-full text-left p-3 bg-white rounded-lg hover:bg-blue-100 transition-colors">
+                  <div className="flex items-center gap-3">
+                    <Home className="h-5 w-5 text-blue-600" />
+                    <span className="font-medium text-gray-900">Book a Viewing</span>
+                  </div>
+                </button>
+                <button className="w-full text-left p-3 bg-white rounded-lg hover:bg-blue-100 transition-colors">
+                  <div className="flex items-center gap-3">
+                    <Video className="h-5 w-5 text-blue-600" />
+                    <span className="font-medium text-gray-900">Virtual Tour</span>
+                  </div>
+                </button>
+                <button className="w-full text-left p-3 bg-white rounded-lg hover:bg-blue-100 transition-colors">
+                  <div className="flex items-center gap-3">
+                    <User className="h-5 w-5 text-blue-600" />
+                    <span className="font-medium text-gray-900">Advisor Meeting</span>
+                  </div>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}

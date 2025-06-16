@@ -145,7 +145,7 @@ export const ContactMap: React.FC<MapProps> = ({
 
       initializeMap();
     }
-  }, [offices, defaultCenterdefaultZoom]);
+  }, [officesdefaultCenterdefaultZoom]);
 
   return (
     <section className={styles.mapSection}>

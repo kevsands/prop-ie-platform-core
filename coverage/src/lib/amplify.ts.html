@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/41</span>
+                <span class='fraction'>0/35</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/39</span>
+                <span class='fraction'>0/33</span>
             </div>
         
             
@@ -208,12 +208,7 @@
 <a name='L143'></a><a href='#L143'>143</a>
 <a name='L144'></a><a href='#L144'>144</a>
 <a name='L145'></a><a href='#L145'>145</a>
-<a name='L146'></a><a href='#L146'>146</a>
-<a name='L147'></a><a href='#L147'>147</a>
-<a name='L148'></a><a href='#L148'>148</a>
-<a name='L149'></a><a href='#L149'>149</a>
-<a name='L150'></a><a href='#L150'>150</a>
-<a name='L151'></a><a href='#L151'>151</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L146'></a><a href='#L146'>146</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -225,10 +220,6 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -254,9 +245,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -335,7 +326,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -347,9 +337,9 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -377,10 +367,6 @@ import { generateClient } from <span class="cstat-no" title="statement not cover
 import { initialize as initializeAmplify, initializeAsync } from <span class="cstat-no" title="statement not covered" >'./amplify/index';</span>
 &nbsp;
 // Display deprecation warning
-<span class="cstat-no" title="statement not covered" >console.warn(</span>
-  'Warning: The amplify.ts file is deprecated and will be removed in a future version. ' +
-  'Please use the new modules in src/lib/amplify/ instead.'
-);
 &nbsp;
 /**
  * Centralized Amplify configuration module
@@ -404,9 +390,9 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
       // Configure Amplify using the centralized initialization
 <span class="cstat-no" title="statement not covered" >      initializeAmplify();</span>
 <span class="cstat-no" title="statement not covered" >      isAmplifyConfigured = true;</span>
-<span class="cstat-no" title="statement not covered" >      console.log('Amplify configured successfully on the client-side.');</span>
+&nbsp;
     } catch (error) {
-<span class="cstat-no" title="statement not covered" >      console.error('Error configuring Amplify on the client-side:', error);</span>
+&nbsp;
     }
   }
 }
@@ -453,10 +439,10 @@ export async function <span class="cstat-no" title="statement not covered" ><spa
 <span class="cstat-no" title="statement not covered" >  try {</span>
     const cognitoUser = <span class="cstat-no" title="statement not covered" >await getCurrentUser();</span>
     const attributes = <span class="cstat-no" title="statement not covered" >await fetchUserAttributes();</span>
-    
+&nbsp;
     // Safely parse the cognito:groups attribute
     let roles: string[] = <span class="cstat-no" title="statement not covered" >[];</span>
-    
+&nbsp;
     // Check if the attribute exists and properly parse it
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (attributes["cognito:groups"]) {</span>
       // If the attribute is already an array, use it directly
@@ -474,17 +460,16 @@ export async function <span class="cstat-no" title="statement not covered" ><spa
         }
       }
     }
-    
+&nbsp;
     // Map Cognito user data to our application's user model
 <span class="cstat-no" title="statement not covered" >    return {</span>
       userId: cognitoUser.userId,
       username: cognitoUser.username,
       email: attributes.email,
-      roles: roles,
-    };
+      roles: roles};
   } catch (error) {
     // User is not authenticated
-<span class="cstat-no" title="statement not covered" >    console.log('User not authenticated:', error);</span>
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    return null;</span>
   }
 }
@@ -497,9 +482,9 @@ export async function <span class="cstat-no" title="statement not covered" ><spa
 export async function <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >signOutUser(</span></span>): Promise&lt;void&gt; {
 <span class="cstat-no" title="statement not covered" >  try {</span>
 <span class="cstat-no" title="statement not covered" >    await signOut();</span>
-<span class="cstat-no" title="statement not covered" >    console.log('User signed out successfully');</span>
+&nbsp;
   } catch (error) {
-<span class="cstat-no" title="statement not covered" >    console.error('Error signing out user:', error);</span>
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    throw error;</span>
   }
 }
@@ -520,7 +505,7 @@ export async function <span class="cstat-no" title="statement not covered" ><spa
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T22:15:28.100Z
+                at 2025-06-15T18:50:48.918Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

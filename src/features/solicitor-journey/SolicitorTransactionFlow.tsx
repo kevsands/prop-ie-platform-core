@@ -59,7 +59,7 @@ interface Transaction {
 }
 
 export function SolicitorTransactionFlow({ transactionId }: { transactionId: string }) {
-  const [activeTabsetActiveTab] = useState('overview');
+  const [activeTab, setActiveTab] = useState('overview');
 
   // Mock transaction data
   const transaction: Transaction = {
@@ -188,13 +188,13 @@ export function SolicitorTransactionFlow({ transactionId }: { transactionId: str
   const getStatusIcon = (status: string) => {
     switch (status) {
       case 'completed':
-        return <CheckCircleIcon className="h-5 w-5 text-green-500" />\n  );
+        return <CheckCircleIcon className="h-5 w-5 text-green-500" />;
       case 'in-progress':
-        return <ClockIcon className="h-5 w-5 text-blue-500 animate-pulse" />\n  );
+        return <ClockIcon className="h-5 w-5 text-blue-500 animate-pulse" />;
       case 'review':
-        return <ExclamationTriangleIcon className="h-5 w-5 text-yellow-500" />\n  );
+        return <ExclamationTriangleIcon className="h-5 w-5 text-yellow-500" />;
       default:
-        return <div className="h-5 w-5 border-2 border-gray-300 rounded-full" />\n  );
+        return <div className="h-5 w-5 border-2 border-gray-300 rounded-full" />;
     }
   };
 
@@ -333,11 +333,11 @@ export function SolicitorTransactionFlow({ transactionId }: { transactionId: str
                             Uploaded: {new Date(doc.uploadedAt).toLocaleDateString()}
                           </p>
                         )}
-                        {doc.issues && doc.issues.length> 0 && (
+                        {doc.issues && doc.issues.length > 0 && (
                           <div className="mt-2">
                             <p className="text-sm font-medium text-red-600">Issues:</p>
                             <ul className="text-sm text-red-600 list-disc list-inside">
-                              {doc.issues.map((issueidx: any) => (
+                              {doc.issues.map((issue, idx: any) => (
                                 <li key={idx}>{issue}</li>
                               ))}
                             </ul>
@@ -365,7 +365,7 @@ export function SolicitorTransactionFlow({ transactionId }: { transactionId: str
           <div className="relative">
             <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-gray-200"></div>
             <div className="space-y-8">
-              {legalSteps.map((stepindex: any) => (
+              {legalSteps.map((step, index: any) => (
                 <div key={step.id} className="relative flex items-start">
                   <div className="relative z-10 flex h-16 w-16 items-center justify-center rounded-full bg-white border-4 border-gray-200">
                     {getStatusIcon(step.status)}

@@ -18,9 +18,9 @@ const toastVariants = cva(
         success: "bg-green-50 border-green-200",
         error: "bg-red-50 border-red-200",
         warning: "bg-yellow-50 border-yellow-200",
-        info: "bg-blue-50 border-blue-200"},
+        info: "bg-blue-50 border-blue-200",
     defaultVariants: {
-      variant: "default"}
+      variant: "default"
 );
 
 // Types

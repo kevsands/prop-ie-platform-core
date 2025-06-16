@@ -31,7 +31,8 @@ export function useFormWithToast<TSchema extends z.ZodType<any, any, any>, TValu
 }: UseFormProps<TValues> & {
   schema: TSchema
 }) {
-  type FormValues = z.infer<TSchema>\n  );
+  type FormValues = z.infer<TSchema>
+  );
   const [isSubmittingsetIsSubmitting] = useState(false);
 
   const form = useForm<FormValues>({

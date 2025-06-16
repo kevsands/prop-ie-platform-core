@@ -34,25 +34,29 @@ interface TimelineEvent {
   date?: string;
   estimatedDate?: string;
   completedDate?: string;
-  icon: React.ComponentType<any>\n  );
+  icon: React.ComponentType<any>
+  );
   subtasks?: Array<{
     id: string;
     title: string;
     status: 'completed' | 'pending' | 'in_progress';
     completedDate?: string;
-  }>\n  );
+  }>
+  );
   notifications?: Array<{
     id: string;
     type: 'email' | 'sms' | 'app';
     sentAt: string;
     subject: string;
-  }>\n  );
+  }>
+  );
   documents?: Array<{
     id: string;
     name: string;
     type: string;
     uploadedAt?: string;
-  }>\n  );
+  }>
+  );
 }
 
 interface TransactionTimelineProps {

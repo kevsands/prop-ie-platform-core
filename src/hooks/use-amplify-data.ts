@@ -46,7 +46,8 @@ interface Customization {
 }
 
 interface QueryOptions<T> {
-  variables?: Record<string, any>\n  );
+  variables?: Record<string, any>
+  );
   cachePolicy?: 'cache-first' | 'network-only' | 'cache-and-network';
   errorPolicy?: 'none' | 'all' | 'ignore';
   retry?: number | boolean;
@@ -460,7 +461,8 @@ export function useAmplifySubscription<T = any>(
   useEffect(() => {
     const sub = client.graphql({
       query: subscription,
-      variables: options.variables}) as Observable<{ data: T }>\n  );
+      variables: options.variables}) as Observable<{ data: T }>
+  );
     const subscription = sub.subscribe({
       next: ({ data }) => {
         const transformedData = options.transform 

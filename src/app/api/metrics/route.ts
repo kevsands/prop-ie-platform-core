@@ -58,7 +58,8 @@ interface MetricsResponse {
     keys: number;
   };
   errors: {
-    byType: Record<string, number>\n  );
+    byType: Record<string, number>
+  );
     criticalErrors: number;
     warningCount: number;
   };
@@ -68,7 +69,8 @@ interface MetricsResponse {
     count: number;
     averageTime: number;
     errorRate: number;
-  }>\n  );
+  }>
+  );
 }
 
 // Initialize Prisma (safely)
@@ -199,7 +201,7 @@ export async function GET(request: NextRequest) {
 
   try {
     // Get all metrics data
-    const [databaseMetrics, cacheMetricsresourceMetrics] = await Promise.all([
+    const [databaseMetricscacheMetricsresourceMetrics] = await Promise.all([
       getDatabaseMetrics(),
       Promise.resolve(getCacheMetrics()),
       Promise.resolve(getResourceMetrics())

@@ -50,7 +50,8 @@ export interface SnagList {
   completedAt?: Date;
   signedOffBy?: string;
   signedOffAt?: Date;
-  metadata?: Record<string, any>\n  );
+  metadata?: Record<string, any>
+  );
 }
 
 export interface SnagItem {
@@ -74,7 +75,8 @@ export interface SnagItem {
   estimatedCost?: number;
   actualCost?: number;
   resolutionDeadline?: Date;
-  metadata?: Record<string, any>\n  );
+  metadata?: Record<string, any>
+  );
 }
 
 export interface SnagComment {
@@ -281,7 +283,7 @@ export class SnaggingSystem extends EventEmitter {
 
     // Add comment if provided
     if (comment) {
-      await this.addComment(snagItemId, updatedBycomment);
+      await this.addComment(snagItemIdupdatedBycomment);
     }
 
     this.emit(`snag_${status.toLowerCase()}`, {
@@ -431,9 +433,12 @@ export class SnaggingSystem extends EventEmitter {
    */
   async getSnagStatistics(transactionId: string): Promise<{
     total: number;
-    byStatus: Record<SnagStatus, number>\n  );
-    byPriority: Record<SnagPriority, number>\n  );
-    byCategory: Record<SnagCategory, number>\n  );
+    byStatus: Record<SnagStatus, number>
+  );
+    byPriority: Record<SnagPriority, number>
+  );
+    byCategory: Record<SnagCategory, number>
+  );
     averageResolutionTime: number;
     completionPercentage: number;
   }> {

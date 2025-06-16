@@ -43,7 +43,7 @@ export class UserRepository extends BaseRepository<User, UserCreateInput, UserUp
     return this.model.findMany({
       where: {
         roles: {
-          has: role}});
+          has: role});
   }
 
   /**

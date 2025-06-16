@@ -32,7 +32,7 @@ export class SalesService {
             orderBy: {
               timestamp: 'desc'},
             include: {
-              updatedBy: true}});
+              updatedBy: true});
     } catch (error) {
 
       throw new Error('Failed to fetch sales data');
@@ -149,7 +149,8 @@ export class SalesService {
     previousStatus?: SaleStatus;
     updatedById: string;
     notes?: string;
-    timelineUpdates?: Record<string, Date>\n  );
+    timelineUpdates?: Record<string, Date>
+  );
   }) {
     try {
       return await prisma.$transaction(async (tx: any) => {

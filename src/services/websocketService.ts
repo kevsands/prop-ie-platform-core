@@ -21,8 +21,10 @@ interface TransactionUpdate {
 
 class WebSocketService {
   private io: Server;
-  private connectedUsers: Map<string, SocketUser>\n  );
-  private transactionRooms: Map<string, Set<string>>\n  );
+  private connectedUsers: Map<string, SocketUser>
+  );
+  private transactionRooms: Map<string, Set<string>>
+  );
   constructor() {
     this.connectedUsers = new Map();
     this.transactionRooms = new Map();

@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">28.57% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>8/28</span>
+                <span class='fraction'>0/26</span>
             </div>
         
             
@@ -37,16 +37,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">33.33% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>2/6</span>
+                <span class='fraction'>0/6</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">26.92% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>7/26</span>
+                <span class='fraction'>0/24</span>
             </div>
         
             
@@ -207,11 +207,9 @@
 <a name='L142'></a><a href='#L142'>142</a>
 <a name='L143'></a><a href='#L143'>143</a>
 <a name='L144'></a><a href='#L144'>144</a>
-<a name='L145'></a><a href='#L145'>145</a>
-<a name='L146'></a><a href='#L146'>146</a>
-<a name='L147'></a><a href='#L147'>147</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L145'></a><a href='#L145'>145</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -232,13 +230,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -247,8 +240,11 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -294,7 +290,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -351,13 +347,13 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span></td><td class="text"><pre class="prettyprint lang-js">'use client';
+<span class="cline-any cline-no">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">'use client';
 &nbsp;
-import React, { Component, ErrorInfo, ReactNode } from 'react';
+import React, { Component, ErrorInfo, ReactNode } from <span class="cstat-no" title="statement not covered" >'react';</span>
 &nbsp;
 interface AuthErrorBoundaryProps {
   children: ReactNode;
@@ -377,10 +373,10 @@ interface AuthErrorBoundaryState {
  * authentication issues like token expiration, network failure, etc.
  */
 class AuthErrorBoundary extends Component&lt;AuthErrorBoundaryProps, AuthErrorBoundaryState&gt; {
-  constructor(props: AuthErrorBoundaryProps) {
-    super(props);
-    this.state = { hasError: false };
-    this.handleReset = this.handleReset.bind(this);
+<span class="fstat-no" title="function not covered" >  constructor(p</span>rops: AuthErrorBoundaryProps) {
+<span class="cstat-no" title="statement not covered" >    super(props);</span>
+<span class="cstat-no" title="statement not covered" >    this.state = { hasError: false };</span>
+<span class="cstat-no" title="statement not covered" >    this.handleReset = this.handleReset.bind(this);</span>
   }
 &nbsp;
 <span class="fstat-no" title="function not covered" >  static g</span>etDerivedStateFromError(error: Error): AuthErrorBoundaryState {
@@ -391,11 +387,9 @@ class AuthErrorBoundary extends Component&lt;AuthErrorBoundaryProps, AuthErrorBo
 <span class="fstat-no" title="function not covered" >  componentDidCatch(e</span>rror: Error, errorInfo: ErrorInfo): void {
     // Store errorInfo for better debugging
 <span class="cstat-no" title="statement not covered" >    this.setState({ errorInfo });</span>
-    
+&nbsp;
     // Log the error to console and potentially to monitoring service
-<span class="cstat-no" title="statement not covered" >    console.error('Authentication Error:', error);</span>
-<span class="cstat-no" title="statement not covered" >    console.error('Component Stack:', errorInfo.componentStack);</span>
-    
+&nbsp;
     // You could also log to an error monitoring service like Sentry here
     // If configured - e.g. Sentry.captureException(error, { extra: errorInfo });
   }
@@ -406,10 +400,10 @@ class AuthErrorBoundary extends Component&lt;AuthErrorBoundaryProps, AuthErrorBo
 <span class="cstat-no" title="statement not covered" >      localStorage.removeItem('auth_token');</span>
 <span class="cstat-no" title="statement not covered" >      sessionStorage.removeItem('auth_state');</span>
     }
-    
+&nbsp;
     // Reset the error state
 <span class="cstat-no" title="statement not covered" >    this.setState({ hasError: false, error: undefined, errorInfo: undefined });</span>
-    
+&nbsp;
     // Call the parent-provided reset handler if available
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (this.props.onReset) {</span>
 <span class="cstat-no" title="statement not covered" >      this.props.onReset();</span>
@@ -421,26 +415,26 @@ class AuthErrorBoundary extends Component&lt;AuthErrorBoundaryProps, AuthErrorBo
    */
 <span class="fstat-no" title="function not covered" >  getErrorMessage(): string {</span>
     const error = <span class="cstat-no" title="statement not covered" >this.state.error;</span>
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!error) <span class="cstat-no" title="statement not covered" >return 'An unknown authentication error occurred';</span></span>
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (error.message.includes('token') &amp;&amp; error.message.includes('expired')) {</span>
 <span class="cstat-no" title="statement not covered" >      return 'Your session has expired. Please sign in again.';</span>
     }
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (error.message.includes('network') || error.message.includes('fetch')) {</span>
 <span class="cstat-no" title="statement not covered" >      return 'Network error. Please check your internet connection.';</span>
     }
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (error.message.includes('permission') || error.message.includes('access')) {</span>
 <span class="cstat-no" title="statement not covered" >      return 'Access denied. You may not have permission to view this content.';</span>
     }
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    return `Authentication error: ${error.message}`;</span>
   }
 &nbsp;
-  render(): ReactNode {
-    <span class="missing-if-branch" title="if path not taken" >I</span>if (this.state.hasError) {
+<span class="fstat-no" title="function not covered" >  render(): ReactNode {</span>
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (this.state.hasError) {</span>
       return (
         &lt;div className="p-6 bg-red-50 border border-red-200 rounded-md max-w-md mx-auto my-8 shadow-md"&gt;
           &lt;div className="flex items-center mb-4"&gt;
@@ -460,11 +454,11 @@ class AuthErrorBoundary extends Component&lt;AuthErrorBoundaryProps, AuthErrorBo
             &lt;/svg&gt;
             &lt;h2 className="text-lg font-semibold text-red-800"&gt;Authentication Error&lt;/h2&gt;
           &lt;/div&gt;
-          
+&nbsp;
           &lt;p className="mb-4 text-red-600"&gt;
             {this.getErrorMessage()}
           &lt;/p&gt;
-          
+&nbsp;
           &lt;div className="flex flex-col space-y-2"&gt;
             &lt;button
               onClick={this.handleReset}
@@ -472,7 +466,7 @@ class AuthErrorBoundary extends Component&lt;AuthErrorBoundaryProps, AuthErrorBo
             &gt;
               Try Again
             &lt;/button&gt;
-            
+&nbsp;
             &lt;a 
               href="/login"
               className="bg-gray-100 hover:bg-gray-200 text-gray-800 py-2 px-4 rounded text-center transition-colors"
@@ -480,7 +474,7 @@ class AuthErrorBoundary extends Component&lt;AuthErrorBoundaryProps, AuthErrorBo
               Return to Login
             &lt;/a&gt;
           &lt;/div&gt;
-          
+&nbsp;
           {process.env.NODE_ENV === 'development' &amp;&amp; this.state.errorInfo &amp;&amp; (
             &lt;details className="mt-4 p-2 bg-gray-100 rounded"&gt;
               &lt;summary className="cursor-pointer text-sm font-medium text-gray-700"&gt;
@@ -497,18 +491,18 @@ class AuthErrorBoundary extends Component&lt;AuthErrorBoundaryProps, AuthErrorBo
       );
     }
 &nbsp;
-    return this.props.children;
+<span class="cstat-no" title="statement not covered" >    return this.props.children;</span>
   }
 }
 &nbsp;
-export default AuthErrorBoundary;</pre></td></tr></table></pre>
+<span class="cstat-no" title="statement not covered" >export default <span class="cstat-no" title="statement not covered" >A</span>uthErrorBoundary;</span></pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
             </div><!-- /wrapper -->
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T22:15:28.100Z
+                at 2025-06-15T18:50:48.918Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

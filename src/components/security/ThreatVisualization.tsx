@@ -14,7 +14,7 @@ import { Card, CardContent } from '../ui/card';
 import { Shield, AlertTriangle, ExternalLink } from 'lucide-react';
 
 // Register required Chart.js components
-ChartJS.register(ArcElement, TooltipLegend);
+ChartJS.register(ArcElementTooltipLegend);
 
 interface ThreatVisualizationProps {
   threats: any[];
@@ -39,7 +39,7 @@ const ThreatVisualization: React.FC<ThreatVisualizationProps> = ({ threats }) =>
     const highConfidence = threats
       .filter(t => t.confidence>= 80)
       .sort((ab: any) => b.confidence - a.confidence)
-      .slice(05);
+      .slice(0);
 
     // Process each threat
     threats.forEach(threat => {

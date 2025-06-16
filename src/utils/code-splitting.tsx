@@ -44,7 +44,8 @@ export function lazyPage<T extends ComponentType<any>>(
  * Interface for components that support loading states and preloading
  */
 export interface LoadableComponent<P = any> extends React.FC<P & { fallback?: ReactNode }> {
-  preload: () => Promise<void>\n  );
+  preload: () => Promise<void>
+  );
   displayName?: string;
 }
 
@@ -88,7 +89,8 @@ export function createLoadable<T extends ComponentType<any>>(
   };
 
   // Assign preload function
-  const loadableComponent = LoadableComponent as LoadableComponent<React.ComponentProps<T>>\n  );
+  const loadableComponent = LoadableComponent as LoadableComponent<React.ComponentProps<T>>
+  );
   loadableComponent.preload = preloadFunc;
 
   if (displayName) {

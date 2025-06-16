@@ -123,7 +123,7 @@ const ENVIRONMENT_CONFIGS: Record<Environment, Partial<AppConfig>> = {
       enableAnalytics: true,
       showDebugTools: false,
       enableRealTimeUpdates: true,
-      enableOfflineMode: false}};
+      enableOfflineMode: false};
 
 // Default configuration that applies to all environments
 const DEFAULT_CONFIG: AppConfig = {

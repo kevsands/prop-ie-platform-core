@@ -87,7 +87,8 @@ export type PaginatedResponse<T> = {
 export class ApiError extends Error {
   code: string;
   status: number;
-  details?: Record<string, any>\n  );
+  details?: Record<string, any>
+  );
   constructor(message: string, code: string, status: number, details?: Record<string, any>) {
     super(message);
     this.name = 'ApiError';

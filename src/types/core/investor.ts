@@ -433,7 +433,8 @@ export interface InvestmentOpportunity {
     assetManagementFee?: number;
     dispositionFee?: number;
     performanceFee?: number;
-    otherFees: Array<{ name: string; amount: number; basis: string }>\n  );
+    otherFees: Array<{ name: string; amount: number; basis: string }>
+  );
   };
   
   // Documentation
@@ -445,13 +446,15 @@ export interface InvestmentOpportunity {
   
   // Investor activity
   viewCount: number;
-  interestedInvestors: Array<{ investor: Investor; amount: number }>\n  );
+  interestedInvestors: Array<{ investor: Investor; amount: number }>
+  );
   commitments: Array<{
     investor: Investor;
     amount: number;
     status: 'pending' | 'confirmed' | 'cancelled';
     date: Date;
-  }>\n  );
+  }>
+  );
   // Metadata
   createdBy: User;
   created: Date;
@@ -496,7 +499,8 @@ export interface InvestorNotification {
   actions?: Array<{
     label: string;
     url: string;
-  }>\n  );
+  }>
+  );
 }
 
 /**
@@ -529,11 +533,16 @@ export interface MarketAnalysis {
   
   // Trends and forecasts
   trends: {
-    priceHistory: Array<{ date: Date; price: number }>\n  );
-    rentHistory: Array<{ date: Date; rent: number }>\n  );
-    supplyForecast: Array<{ date: Date; units: number }>\n  );
-    demandForecast: Array<{ date: Date; units: number }>\n  );
-    priceForecast: Array<{ date: Date; price: number; confidence: number }>\n  );
+    priceHistory: Array<{ date: Date; price: number }>
+  );
+    rentHistory: Array<{ date: Date; rent: number }>
+  );
+    supplyForecast: Array<{ date: Date; units: number }>
+  );
+    demandForecast: Array<{ date: Date; units: number }>
+  );
+    priceForecast: Array<{ date: Date; price: number; confidence: number }>
+  );
   };
   
   // Economic indicators
@@ -560,10 +569,14 @@ export interface MarketAnalysis {
   comparativeAnalysis: {
     comparisonRegions: string[];
     relative: {
-      priceGrowth: Record<string, number>\n  );
-      rentalYield: Record<string, number>\n  );
-      affordability: Record<string, number>\n  );
-      investmentOpportunity: Record<string, number>\n  );
+      priceGrowth: Record<string, number>
+  );
+      rentalYield: Record<string, number>
+  );
+      affordability: Record<string, number>
+  );
+      investmentOpportunity: Record<string, number>
+  );
     };
   };
   

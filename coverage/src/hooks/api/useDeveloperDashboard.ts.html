@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/42</span>
+                <span class='fraction'>0/41</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/40</span>
+                <span class='fraction'>0/39</span>
             </div>
         
             
@@ -737,7 +737,7 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1015,7 +1015,7 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
   `;
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  return useGraphQLQuery&lt;{ developerDashboard: DeveloperDashboardData }, Error&gt;(</span>
-    ['developerDashboard', filter, dateRange],
+    ['developerDashboard', filterdateRange],
     query,
     { filter, dateRange },
     {
@@ -1135,19 +1135,19 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (typeof window === 'undefined') {</span>
 <span class="cstat-no" title="statement not covered" >      return getDefaultPreferences();</span>
     }
-    
+&nbsp;
     const saved = <span class="cstat-no" title="statement not covered" >localStorage.getItem('dashboardPreferences');</span>
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (saved) {</span>
 <span class="cstat-no" title="statement not covered" >      try {</span>
 <span class="cstat-no" title="statement not covered" >        return JSON.parse(saved);</span>
       } catch (e) {
-<span class="cstat-no" title="statement not covered" >        console.error('Failed to parse dashboard preferences', e);</span>
+&nbsp;
       }
     }
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    return getDefaultPreferences();</span>
   };
-  
+&nbsp;
   const getDefaultPreferences = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(): DashboardPreferences =&gt; (<span class="cstat-no" title="statement not covered" >{</span></span></span>
     defaultDateRange: 'month',
     visibleWidgets: [
@@ -1176,10 +1176,10 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
     dashboardLayout: 'default',
     refreshInterval: 300 // 5 minutes in seconds
   });
-  
+&nbsp;
   // State for preferences
-  const [preferences, setPreferences] = <span class="cstat-no" title="statement not covered" >useState&lt;DashboardPreferences&gt;(getInitialPreferences);</span>
-  
+  const [preferencessetPreferences] = <span class="cstat-no" title="statement not covered" >useState&lt;DashboardPreferences&gt;(getInitialPreferences);</span>
+&nbsp;
   // Function to update preferences
   const updatePreferences = <span class="cstat-no" title="statement not covered" >useCallback(<span class="fstat-no" title="function not covered" >(n</span>ewPrefs: Partial&lt;DashboardPreferences&gt;) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    setPreferences(<span class="fstat-no" title="function not covered" >prev =&gt; {</span></span>
@@ -1191,7 +1191,7 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
 <span class="cstat-no" title="statement not covered" >      return updated;</span>
     });
   }, []);
-  
+&nbsp;
   // Function to reset preferences to default
   const resetPreferences = <span class="cstat-no" title="statement not covered" >useCallback(<span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
     const defaults = <span class="cstat-no" title="statement not covered" >getDefaultPreferences();</span>
@@ -1200,7 +1200,7 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
 <span class="cstat-no" title="statement not covered" >      localStorage.setItem('dashboardPreferences', JSON.stringify(defaults));</span>
     }
   }, []);
-  
+&nbsp;
   // Return the preferences and update functions
 <span class="cstat-no" title="statement not covered" >  return { </span>
     preferences, 
@@ -1282,7 +1282,7 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T22:15:28.100Z
+                at 2025-06-15T18:50:48.918Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

@@ -52,7 +52,7 @@ const BuyerJourneyPhaseDisplay = ({ phase }: BuyerJourneyPhaseDisplayProps) => {
   return (
     <div className="space-y-2">
       <div className="flex justify-between">
-        {phases.map((pindex: any) => (
+        {phases.map((pindex) => (
           <div key={p.id} className="text-center">
             <div 
               className={`w-8 h-8 rounded-full mx-auto flex items-center justify-center 
@@ -92,7 +92,8 @@ const ReservationCard = ({ reservation }: ReservationCardProps) => {
     PENDING: 'bg-yellow-200 text-yellow-800',
     CONFIRMED: 'bg-blue-200 text-blue-800',
     CANCELLED: 'bg-red-200 text-red-800',
-    COMPLETED: 'bg-green-200 text-green-800'};
+    COMPLETED: 'bg-green-200 text-green-800'
+  };
 
   return (
     <Card className="mb-4">
@@ -152,7 +153,8 @@ const MortgageTrackingCard = ({ mortgageTracking }: MortgageTrackingCardProps) =
     AIP_RECEIVED: { label: 'AIP Received', color: 'bg-blue-200 text-blue-800' },
     AIP_EXPIRED: { label: 'AIP Expired', color: 'bg-red-200 text-red-800' },
     MORTGAGE_OFFERED: { label: 'Mortgage Offered', color: 'bg-green-200 text-green-800' },
-    MORTGAGE_COMPLETED: { label: 'Mortgage Completed', color: 'bg-green-200 text-green-800' };
+    MORTGAGE_COMPLETED: { label: 'Mortgage Completed', color: 'bg-green-200 text-green-800' }
+  };
 
   const status = statusDisplay[mortgageTracking.status];
 
@@ -199,7 +201,7 @@ const MortgageTrackingCard = ({ mortgageTracking }: MortgageTrackingCardProps) =
           <div className="mt-4">
             <p className="text-sm font-medium mb-2">Conditions:</p>
             <ul className="list-disc pl-5 text-sm">
-              {mortgageTracking.conditions.map((conditionindex: any) => (
+              {mortgageTracking.conditions.map((conditionindex) => (
                 <li key={index}>{condition}</li>
               ))}
             </ul>
@@ -249,7 +251,7 @@ const SnagListCard = ({ snagList }: SnagListCardProps) => {
 
           <div className="space-y-2">
             <p className="text-sm font-medium">Recent items:</p>
-            {snagList.items.slice(03).map((item: SnagItem) => (
+            {snagList.items.slice(0).map((item: SnagItem) => (
               <div key={item.id} className="flex justify-between items-center bg-gray-50 p-2 rounded text-sm">
                 <div className="truncate flex-1">
                   <p className="font-medium truncate">{item.description}</p>
@@ -337,7 +339,8 @@ export default function FirstTimeBuyerDashboard() {
     useMyReservations, 
     useMyMortgageTracking,
     useMySnagLists,
-    useHomePackItems} = useBuyerAPI();
+    useHomePackItems 
+  } = useBuyerAPI();
 
   // Fetch buyer data
   const { 

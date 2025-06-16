@@ -1,0 +1,424 @@
+import React from 'react';
+'use client';
+
+import { useState } from 'react';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Progress } from '@/components/ui/progress';
+import {
+  CheckCircle,
+  Clock,
+  AlertCircle,
+  ArrowRight,
+  User,
+  Building,
+  FileText,
+  CreditCard,
+  Home,
+  Palette,
+  Bell,
+  MessageSquare
+} from 'lucide-react';
+
+// Import services
+import { transactionService } from '@/services/transactionService';
+import { notificationService } from '@/services/notificationService';
+import { boqService } from '@/services/boqService';
+
+export default function TransactionFlowDemo() {
+  const [currentStepsetCurrentStep] = useState(0);
+  const [notificationssetNotifications] = useState<any[]>([]);
+  const [transactionIdsetTransactionId] = useState<string>('');
+
+  // Define the complete transaction flow steps
+  const transactionSteps = [
+    {
+      id: 'browse',
+      title: 'Browse Properties',
+      description: 'Buyer explores available units',
+      stakeholder: 'buyer',
+      actions: ['View developments', 'Filter properties', 'Save favorites']
+    },
+    {
+      id: 'register',
+      title: 'Register Interest',
+      description: 'Buyer creates account and expresses interest',
+      stakeholder: 'buyer',
+      actions: ['Create account', 'Complete profile', 'Book viewing']
+    },
+    {
+      id: 'kyc',
+      title: 'KYC/AML Verification',
+      description: 'Complete identity and compliance checks',
+      stakeholder: 'buyer',
+      actions: ['Upload ID', 'Verify address', 'Source of funds', 'PEP declaration']
+    },
+    {
+      id: 'viewing',
+      title: 'Property Viewing',
+      description: 'Attend property viewing',
+      stakeholder: 'buyer',
+      actions: ['Schedule viewing', 'Attend in person', 'Ask questions']
+    },
+    {
+      id: 'reservation',
+      title: 'Reserve Unit',
+      description: 'Make reservation and pay holding fee',
+      stakeholder: 'buyer',
+      actions: ['Select unit', 'Pay €500 reservation', 'Sign agreement']
+    },
+    {
+      id: 'developer-notification',
+      title: 'Developer Notified',
+      description: 'Developer receives reservation notification',
+      stakeholder: 'developer',
+      actions: ['Review reservation', 'Update availability', 'Prepare contracts']
+    },
+    {
+      id: 'solicitor-docs',
+      title: 'Legal Documents',
+      description: 'Solicitor uploads contract pack',
+      stakeholder: 'solicitor',
+      actions: ['Upload contracts', 'Title documents', 'Building agreements']
+    },
+    {
+      id: 'mortgage',
+      title: 'Mortgage Application',
+      description: 'Buyer secures mortgage approval',
+      stakeholder: 'buyer',
+      actions: ['Apply for mortgage', 'Property valuation', 'Approval in principle']
+    },
+    {
+      id: 'htb',
+      title: 'HTB Application',
+      description: 'Submit Help to Buy claim',
+      stakeholder: 'buyer',
+      actions: ['Check eligibility', 'Submit to Revenue', 'Get claim code', 'Share with developer']
+    },
+    {
+      id: 'contract-review',
+      title: 'Contract Review',
+      description: 'Review and sign contracts',
+      stakeholder: 'buyer',
+      actions: ['Review with solicitor', 'Raise enquiries', 'Approve terms']
+    },
+    {
+      id: 'deposit',
+      title: 'Pay Deposit',
+      description: 'Pay 10% deposit minus booking fee',
+      stakeholder: 'buyer',
+      actions: ['Transfer funds', 'HTB applied', 'Balance payment']
+    },
+    {
+      id: 'exchange',
+      title: 'Exchange Contracts',
+      description: 'Legal contract exchange',
+      stakeholder: 'solicitor',
+      actions: ['Sign contracts', 'Exchange with vendor', 'Set completion date']
+    },
+    {
+      id: 'customization',
+      title: 'Prop Choice',
+      description: 'Select finishes and upgrades',
+      stakeholder: 'buyer',
+      actions: ['Browse options', 'Select upgrades', 'Confirm selections']
+    },
+    {
+      id: 'boq-update',
+      title: 'BOQ Updates',
+      description: 'Bill of Quantities updated with variations',
+      stakeholder: 'developer',
+      actions: ['Review selections', 'Update BOQ', 'Calculate variances']
+    },
+    {
+      id: 'construction',
+      title: 'Construction Progress',
+      description: 'Build progresses with customizations',
+      stakeholder: 'developer',
+      actions: ['Install standard items', 'Add customizations', 'Quality checks']
+    },
+    {
+      id: 'pre-completion',
+      title: 'Pre-Completion',
+      description: 'Final inspections and snag list',
+      stakeholder: 'buyer',
+      actions: ['Property inspection', 'Create snag list', 'Developer fixes']
+    },
+    {
+      id: 'completion',
+      title: 'Completion',
+      description: 'Final payment and key handover',
+      stakeholder: 'buyer',
+      actions: ['Final payment', 'Sign completion docs', 'Receive keys']
+    }
+  ];
+
+  const simulateStep = async (step: any) => {
+    // Create mock notifications based on step
+    const newNotifications: any[] = [];
+
+    switch (step.id) {
+      case 'reservation':
+        // Create transaction
+        const transaction = await transactionService.createTransaction(
+          'buyer-123',
+          'unit-456',
+          'dev-789'
+        );
+        setTransactionId(transaction.id);
+
+        // Send notifications
+        newNotifications.push({
+          type: 'buyer',
+          message: 'Reservation confirmed! €500 payment received.',
+          timestamp: new Date()
+        });
+        newNotifications.push({
+          type: 'developer',
+          message: 'New reservation: Unit A-23 by John Doe',
+          timestamp: new Date()
+        });
+        break;
+
+      case 'customization':
+        // Add BOQ variations
+        const variation = await boqService.addVariation('proj-123', 'item-456', {
+          reason: 'Upgraded to walnut flooring',
+          source: 'buyer_customization',
+          rateChange: 1500,
+          amountChange: 1500,
+          requestedBy: 'buyer-123'
+        });
+
+        newNotifications.push({
+          type: 'buyer',
+          message: 'Prop Choice selections saved',
+          timestamp: new Date()
+        });
+        newNotifications.push({
+          type: 'developer',
+          message: 'BOQ Variance Alert: +€1,500 for Unit A-23',
+          timestamp: new Date()
+        });
+        break;
+
+      case 'htb':
+        newNotifications.push({
+          type: 'buyer',
+          message: 'HTB claim submitted to developer',
+          timestamp: new Date()
+        });
+        newNotifications.push({
+          type: 'developer',
+          message: 'HTB claim received: €28,500 for Unit A-23',
+          timestamp: new Date()
+        });
+        break;
+    }
+
+    setNotifications(prev => [...newNotifications, ...prev]);
+  };
+
+  const getStakeholderIcon = (stakeholder: string) => {
+    switch (stakeholder) {
+      case 'buyer': return <User className="h-4 w-4" />
+  );
+      case 'developer': return <Building className="h-4 w-4" />
+  );
+      case 'solicitor': return <FileText className="h-4 w-4" />
+  );
+      default: return <User className="h-4 w-4" />
+  );
+    }
+  };
+
+  const getStakeholderColor = (stakeholder: string) => {
+    switch (stakeholder) {
+      case 'buyer': return 'bg-blue-100 text-blue-700';
+      case 'developer': return 'bg-green-100 text-green-700';
+      case 'solicitor': return 'bg-purple-100 text-purple-700';
+      default: return 'bg-gray-100 text-gray-700';
+    }
+  };
+
+  return (
+    <div className="container mx-auto p-6">
+      <div className="mb-8">
+        <h1 className="text-3xl font-bold mb-2">Transaction Flow Demo</h1>
+        <p className="text-muted-foreground">
+          Complete end-to-end property transaction lifecycle
+        </p>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* Transaction Steps */}
+        <div className="lg:col-span-2">
+          <Card>
+            <CardHeader>
+              <CardTitle>Transaction Steps</CardTitle>
+              <CardDescription>
+                Click through each step to simulate the transaction flow
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                {transactionSteps.map((stepindex: any) => (
+                  <div
+                    key={step.id}
+                    className={`p-4 rounded-lg border ${
+                      index === currentStep
+                        ? 'border-primary bg-primary/5'
+                        : index <currentStep
+                        ? 'border-green-500 bg-green-50'
+                        : 'border-gray-200'
+                    }`}
+                  >
+                    <div className="flex items-start gap-4">
+                      <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
+                        index <currentStep
+                          ? 'bg-green-600 text-white'
+                          : index === currentStep
+                          ? 'bg-primary text-primary-foreground'
+                          : 'bg-gray-200'
+                      }`}>
+                        {index <currentStep ? (
+                          <CheckCircle className="h-4 w-4" />
+                        ) : (
+                          <span className="text-sm">{index + 1}</span>
+                        )}
+                      </div>
+
+                      <div className="flex-1">
+                        <div className="flex items-center gap-2 mb-1">
+                          <h3 className="font-semibold">{step.title}</h3>
+                          <Badge className={getStakeholderColor(step.stakeholder)}>
+                            {getStakeholderIcon(step.stakeholder)}
+                            <span className="ml-1">{step.stakeholder}</span>
+                          </Badge>
+                        </div>
+                        <p className="text-sm text-muted-foreground mb-2">
+                          {step.description}
+                        </p>
+
+                        {index === currentStep && (
+                          <div className="space-y-2">
+                            <ul className="text-sm space-y-1">
+                              {step.actions.map((actionactionIndex: any) => (
+                                <li key={actionIndex} className="flex items-center gap-2">
+                                  <ArrowRight className="h-3 w-3" />
+                                  {action}
+                                </li>
+                              ))}
+                            </ul>
+                            <Button
+                              size="sm"
+                              onClick={() => {
+                                simulateStep(step);
+                                if (index <transactionSteps.length - 1) {
+                                  setCurrentStep(index + 1);
+                                }
+                              }
+                            >
+                              {index === transactionSteps.length - 1 ? 'Complete' : 'Next Step'}
+                            </Button>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Notifications Panel */}
+        <div className="lg:col-span-1">
+          <Card>
+            <CardHeader>
+              <CardTitle>Live Notifications</CardTitle>
+              <CardDescription>
+                Real-time updates as transaction progresses
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-3">
+                {notifications.length === 0 ? (
+                  <p className="text-center text-muted-foreground py-8">
+                    Notifications will appear here as you progress through the transaction
+                  </p>
+                ) : (
+                  notifications.map((notificationindex: any) => (
+                    <Alert key={index}>
+                      <Bell className="h-4 w-4" />
+                      <AlertDescription>
+                        <div className="flex items-start justify-between">
+                          <div>
+                            <Badge className="mb-1" variant={
+                              notification.type === 'buyer' ? 'default' :
+                              notification.type === 'developer' ? 'secondary' :
+                              'outline'
+                            }>
+                              {notification.type}
+                            </Badge>
+                            <p className="text-sm">{notification.message}</p>
+                          </div>
+                          <span className="text-xs text-muted-foreground">
+                            {notification.timestamp.toLocaleTimeString()}
+                          </span>
+                        </div>
+                      </AlertDescription>
+                    </Alert>
+                  ))
+                )}
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Transaction Summary */}
+          <Card className="mt-6">
+            <CardHeader>
+              <CardTitle>Transaction Summary</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-3">
+                <div className="flex justify-between">
+                  <span className="text-muted-foreground">Progress</span>
+                  <span className="font-medium">
+                    {Math.round((currentStep / (transactionSteps.length - 1)) * 100)}%
+                  </span>
+                </div>
+                <Progress value={(currentStep / (transactionSteps.length - 1)) * 100} />
+
+                <div className="pt-3 space-y-2">
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">Property</span>
+                    <span className="font-medium">Unit A-23</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">Development</span>
+                    <span className="font-medium">Fitzgerald Gardens</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">Price</span>
+                    <span className="font-medium">€385,000</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">HTB Amount</span>
+                    <span className="font-medium text-green-600">€28,500</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">Customizations</span>
+                    <span className="font-medium">€4,500</span>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    </div>
+  );
+}

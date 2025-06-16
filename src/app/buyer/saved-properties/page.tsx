@@ -321,7 +321,7 @@ export default function SavedPropertiesPage() {
                   </div>
 
                   <div className="flex flex-wrap gap-2 mb-4">
-                    {property.features.slice(03).map((featureindex: any) => (
+                    {property.features.slice(0).map((featureindex: any) => (
                       <span key={index} className="px-2 py-1 bg-gray-100 text-gray-700 rounded-full text-xs">
                         {feature}
                       </span>

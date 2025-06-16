@@ -28,7 +28,8 @@ export interface HandoverAppointment {
   meterReading, s: MeterReadin, g[];
   completedAt?: Date;
   notes?: string;
-  metadata?: Record<string, any>\n  );
+  metadata?: Record<string, any>
+  );
 }
 
 export interface HandoverAttendee {

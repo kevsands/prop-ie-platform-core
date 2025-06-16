@@ -32,7 +32,7 @@ export default function AuthWrapperPage() {
           router.push('/dashboard');
       }
     }
-  }, [isLoading, isAuthenticated, userrouter]);
+  }, [isLoadingisAuthenticateduserrouter]);
 
   if (isLoading) {
     return (

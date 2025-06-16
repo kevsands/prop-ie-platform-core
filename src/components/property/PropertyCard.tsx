@@ -305,7 +305,7 @@ export const PropertyCard: React.FC<PropertyCardProps> = React.memo(({
             {property.amenities && property.amenities.length> 0 && (
               <div className="mt-3 pt-3 border-t">
                 <div className="flex flex-wrap gap-1">
-                  {property.amenities.slice(03).map((amenity: any) => (
+                  {property.amenities.slice(0).map((amenity: any) => (
                     <Badge key={amenity} variant="secondary" className="text-xs">
                       {amenity}
                     </Badge>

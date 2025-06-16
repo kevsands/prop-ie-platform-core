@@ -43,7 +43,7 @@ interface Task {
   status: 'pending' | 'in-progress' | 'completed';
   priority: 'high' | 'medium' | 'low';
   dueDate?: string;
-  icon: React.ComponentType<any>;
+  icon: React.ComponentType<any>\n  );
   progress?: number;
 }
 
@@ -87,20 +87,20 @@ interface Transaction {
     description: string;
     status: string;
     dueDate?: Date;
-  }>;
+  }>\n  );
   participants?: Array<{
     id: string;
     userId: string;
     role: string;
-  }>;
+  }>\n  );
 }
 
 export default function BuyerOverviewPage() {
   const router = useRouter();
-  const [loading, setLoading] = useState(true);
-  const [userData, setUserData] = useState<any>(null);
-  const [activeTransactions, setActiveTransactions] = useState<Transaction[]>([]);
-  const [realTimeNotifications, setRealTimeNotifications] = useState<NotificationData[]>([]);
+  const [loadingsetLoading] = useState(true);
+  const [userDatasetUserData] = useState<any>(null);
+  const [activeTransactionssetActiveTransactions] = useState<Transaction[]>([]);
+  const [realTimeNotificationssetRealTimeNotifications] = useState<NotificationData[]>([]);
 
   useEffect(() => {
     // Load real-time notifications for this user
@@ -496,7 +496,7 @@ export default function BuyerOverviewPage() {
                   Welcome back, {userData.name}!
                 </h1>
                 <p className="text-blue-100 mb-4">
-                  You&apos;re <span className="font-semibold text-white">{userData.journeyProgress}%</span> through your home buying journey
+                  You're <span className="font-semibold text-white">{userData.journeyProgress}%</span> through your home buying journey
                 </p>
                 
                 <div className="flex flex-wrap gap-3">
@@ -594,7 +594,7 @@ export default function BuyerOverviewPage() {
                           } else {
                             router.push(`/buyer/tasks/${task.id}`);
                           }
-                        }}
+                        }
                       >
                         <div className="flex items-start justify-between">
                           <div className="flex items-start gap-3">
@@ -635,7 +635,7 @@ export default function BuyerOverviewPage() {
                                     <div className="flex-1 bg-gray-200 rounded-full h-1.5">
                                       <div 
                                         className="bg-blue-600 h-1.5 rounded-full"
-                                        style={{ width: `${task.progress}%` }}
+                                        style={ width: `${task.progress}%` }
                                       />
                                     </div>
                                     <span className="text-xs text-gray-600">
@@ -655,7 +655,7 @@ export default function BuyerOverviewPage() {
               </div>
 
               {/* Transaction Milestones */}
-              {activeTransactions.length > 0 && (
+              {activeTransactions.length> 0 && (
                 <div className="bg-white rounded-xl shadow-sm mt-6">
                   <div className="p-4 md:p-6 border-b">
                     <h2 className="text-lg md:text-xl font-bold text-gray-900">Transaction Progress</h2>
@@ -672,9 +672,9 @@ export default function BuyerOverviewPage() {
                           </span>
                         </div>
                         
-                        {transaction.milestones && transaction.milestones.length > 0 && (
+                        {transaction.milestones && transaction.milestones.length> 0 && (
                           <div className="space-y-3">
-                            {transaction.milestones.map((milestone, index) => (
+                            {transaction.milestones.map((milestoneindex) => (
                               <div key={milestone.id} className="flex items-center gap-4 p-3 bg-gray-50 rounded-lg">
                                 <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
                                   milestone.status === 'COMPLETED' ? 'bg-green-600 text-white' :
@@ -860,7 +860,7 @@ export default function BuyerOverviewPage() {
                           strokeDasharray={`${2 * Math.PI * 20}`}
                           strokeDashoffset={`${2 * Math.PI * 20 * (1 - userData.journeyProgress / 100)}`}
                           className="transition-all duration-500"
-                          style={{ transform: 'rotate(-90deg)', transformOrigin: '50% 50%' }}
+                          style={ transform: 'rotate(-90deg)', transformOrigin: '50% 50%' }
                         />
                       </svg>
                       <div className="absolute inset-0 flex items-center justify-center">
@@ -888,7 +888,7 @@ export default function BuyerOverviewPage() {
                 
                 <div className="space-y-3">
                   {/* Real-time notifications first */}
-                  {realTimeNotifications.slice(0, 3).map((notification) => (
+                  {realTimeNotifications.slice(0).map((notification) => (
                     <div
                       key={notification.id}
                       className={`p-3 rounded-lg border ${
@@ -914,9 +914,9 @@ export default function BuyerOverviewPage() {
                             <span className="text-xs text-gray-500">
                               {new Date(notification.timestamp).toLocaleString()}
                             </span>
-                            {notification.actions && notification.actions.length > 0 && (
+                            {notification.actions && notification.actions.length> 0 && (
                               <div className="flex gap-2">
-                                {notification.actions.slice(0, 2).map((action, idx) => (
+                                {notification.actions.slice(0).map((actionidx) => (
                                   <button
                                     key={idx}
                                     onClick={() => {
@@ -925,7 +925,7 @@ export default function BuyerOverviewPage() {
                                       } else if (action.action === 'contact_developer') {
                                         alert('Contact feature coming soon!');
                                       }
-                                    }}
+                                    }
                                     className={`text-xs px-2 py-1 rounded font-medium ${
                                       action.variant === 'primary' ? 'bg-blue-600 text-white hover:bg-blue-700' :
                                       'bg-gray-100 text-gray-700 hover:bg-gray-200'
@@ -943,7 +943,7 @@ export default function BuyerOverviewPage() {
                   ))}
                   
                   {/* Traditional notifications */}
-                  {notifications.slice(0, 2).map((notification) => (
+                  {notifications.slice(0).map((notification) => (
                     <div
                       key={notification.id}
                       className={`p-3 rounded-lg border ${

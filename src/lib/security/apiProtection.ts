@@ -46,8 +46,10 @@ export interface ApiProtectionOptions {
   csrfProtection?: boolean;
 
   // Validation callbacks
-  validateRequest?: (request: ApiRequest) => boolean | Promise<boolean>\n  );
-  validateResponse?: (response: any) => boolean | Promise<boolean>\n  );
+  validateRequest?: (request: ApiRequest) => boolean | Promise<boolean>
+  );
+  validateResponse?: (response: any) => boolean | Promise<boolean>
+  );
   // Callbacks
   onRateLimited?: (endpoint: string, retryAfter: number) => void;
   onRequestRejected?: (request: ApiRequest, reason: string) => void;
@@ -59,14 +61,17 @@ export interface ApiRequest {
   endpoint: string;
   method: ApiMethod;
   body?: any;
-  headers?: Record<string, string>\n  );
-  queryParams?: Record<string, any>\n  );
+  headers?: Record<string, string>
+  );
+  queryParams?: Record<string, any>
+  );
 }
 
 export interface ApiResponse<T> {
   data: T;
   statusCode: number;
-  headers?: Record<string, string>\n  );
+  headers?: Record<string, string>
+  );
 }
 
 // Default configuration

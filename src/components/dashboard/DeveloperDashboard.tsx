@@ -259,7 +259,7 @@ export const DeveloperDashboard: React.FC = () => {
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
-            {transactions.slice(05).map((transaction: any) => (
+            {transactions.slice(0).map((transaction: any) => (
               <div key={transaction.id} className="flex items-center justify-between">
                 <div>
                   <p className="font-medium">{transaction.property.address}</p>

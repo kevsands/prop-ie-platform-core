@@ -111,7 +111,7 @@ export default function BuyOffPlanPage() {
         'David K. locked in Unit 15A'
       ];
       const randomActivity = activities[Math.floor(Math.random() * activities.length)];
-      setRecentActivity(prev => [randomActivity, ...prev.slice(04)]);
+      setRecentActivity(prev => [randomActivity, ...prev.slice(0)]);
       setLiveViewers(prev => prev + Math.floor(Math.random() * 10) - 5);
     }, 5000);
     return () => clearInterval(activityTimer);

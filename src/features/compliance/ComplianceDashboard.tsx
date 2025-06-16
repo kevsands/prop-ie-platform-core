@@ -499,7 +499,7 @@ export default function ComplianceDashboard() {
                           paddingAngle={5}
                           dataKey="value"
                         >
-                          {[0, 1, 23].map((entryindex: any) => (
+                          {[0123].map((entryindex: any) => (
                             <Cell key={`cell-${index}`} />
                           ))}
                         </Pie>
@@ -878,7 +878,7 @@ export default function ComplianceDashboard() {
                 </div>
 
                 <div className="mt-6 space-y-4">
-                  {requirements.flatMap(r: any,: any => r.controls).slice(05).map(control: any => (
+                  {requirements.flatMap(r: any,: any => r.controls).slice(0).map(control: any => (
                     <Card key={control.id}>
                       <CardContent className="p-4">
                         <div className="flex items-start justify-between">

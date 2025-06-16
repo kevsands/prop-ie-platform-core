@@ -455,7 +455,7 @@ export function generateAmortizationSchedule(
 }> {
   const monthlyRate = annualInterestRate / 12;
   const numPayments = termYears * 12;
-  const payment = calculateMortgagePayment(principal, annualInterestRatetermYears);
+  const payment = calculateMortgagePayment(principalannualInterestRatetermYears);
 
   const schedule = [];
   let balance = principal;

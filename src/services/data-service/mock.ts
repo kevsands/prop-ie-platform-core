@@ -43,7 +43,7 @@ const mockDevelopmentsData: Development[] = [
     statusColor: 'blue',
     priceRange: 'From €295,000',
     availabilityStatus: 'Launching Soon',
-    bedrooms: [1, 23],
+    bedrooms: [123],
     bathrooms: 2, // Fixed from array type to single number
     buildingType: 'Apartment',
     totalUnits: 80,

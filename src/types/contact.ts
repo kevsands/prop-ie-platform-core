@@ -73,7 +73,8 @@ export interface ContactInfoProps {
 }
 
 export interface ContactFormProps {
-  onSubmit?: (data: ContactFormData) => Promise<void>\n  );
+  onSubmit?: (data: ContactFormData) => Promise<void>
+  );
 }
 
 export interface MapProps {

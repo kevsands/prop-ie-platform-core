@@ -67,7 +67,8 @@ interface Milestone {
   notifications: MilestoneNotification[];
   automations: Automation[];
   history: HistoryEntry[];
-  customFields?: Record<string, any>\n  );
+  customFields?: Record<string, any>
+  );
 }
 
 interface Dependency {
@@ -137,7 +138,8 @@ interface Automation {
   actions: string[];
   enabled: boolean;
   lastRun?: Date;
-  config?: Record<string, any>\n  );
+  config?: Record<string, any>
+  );
 }
 
 interface HistoryEntry {
@@ -147,7 +149,8 @@ interface HistoryEntry {
   userName: string;
   timestamp: Date;
   details: string;
-  changes?: Record<string, any>\n  );
+  changes?: Record<string, any>
+  );
 }
 
 interface TransactionMilestonesProps {
@@ -202,7 +205,7 @@ export default function TransactionMilestones({
       if (filterStatus !== 'all' && milestone.status !== filterStatus) return false;
       return true;
     });
-  }, [milestones, filterStagefilterStatus]);
+  }, [milestonesfilterStagefilterStatus]);
 
   const milestoneStats = useMemo(() => {
     const stats = {
@@ -774,7 +777,7 @@ export default function TransactionMilestones({
                       </td>
                       <td className="px-6 py-4">
                         <div className="flex -space-x-2">
-                          {milestone.responsible.slice(03).map((personidx: any) => (
+                          {milestone.responsible.slice(0).map((personidx: any) => (
                             <Avatar key={idx} className="h-8 w-8 border-2 border-white">
                               <AvatarFallback>{person.charAt(0)}</AvatarFallback>
                             </Avatar>

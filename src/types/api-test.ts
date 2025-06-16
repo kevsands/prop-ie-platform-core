@@ -74,7 +74,8 @@ export interface UserData {
   password?: string;
   roles: string[];
   phoneNumber?: string;
-  profile?: Record<string, any>\n  );
+  profile?: Record<string, any>
+  );
 }
 
 export interface UserUpdateData {
@@ -83,5 +84,6 @@ export interface UserUpdateData {
   lastName?: string;
   phoneNumber?: string;
   roles?: string[];
-  profile?: Record<string, any>\n  );
+  profile?: Record<string, any>
+  );
 }

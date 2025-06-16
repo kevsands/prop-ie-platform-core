@@ -27,7 +27,7 @@ const queryClientConfig = {
       refetchOnReconnect: false},
     mutations: {
       // Retry failed mutations
-      retry: 1}};
+      retry: 1};
 
 // Create the query client with configuration
 export const queryClient = new QueryClient(queryClientConfig);

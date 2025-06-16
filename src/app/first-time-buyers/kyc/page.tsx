@@ -514,7 +514,7 @@ export default function KYCCompliancePage() {
                   Please upload one of the following (dated within last 3 months):
                 </p>
                 <ul className="list-disc list-inside text-sm text-gray-600 mb-4">
-                  <li>Utility bill (electricity, gaswater)</li>
+                  <li>Utility bill (electricitygaswater)</li>
                   <li>Bank statement</li>
                   <li>Internet/phone bill</li>
                   <li>Local council/revenue correspondence</li>

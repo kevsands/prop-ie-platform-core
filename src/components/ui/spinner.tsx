@@ -19,10 +19,10 @@ const spinnerVariants = cva(
         accent: "text-[#2B5273]", // Your brand color
         white: "text-white",
         destructive: "text-destructive",
-        muted: "text-muted-foreground"},
+        muted: "text-muted-foreground",
     defaultVariants: {
       size: "md",
-      variant: "accent"}
+      variant: "accent"
 );
 
 interface SpinnerProps

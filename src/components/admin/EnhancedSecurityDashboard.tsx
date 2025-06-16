@@ -118,10 +118,10 @@ const EnhancedSecurityDashboard: React.FC = () => {
 
         // Generate timeseries data
         const mockTimeseriesData: SecurityTimeseriesData = {
-          authFailures: generateMockTimeseriesData(24, 05),
-          successfulLogins: generateMockTimeseriesData(24, 030),
-          apiRequests: generateMockTimeseriesData(24, 100500),
-          apiErrors: generateMockTimeseriesData(24, 020)
+          authFailures: generateMockTimeseriesData(2405),
+          successfulLogins: generateMockTimeseriesData(24030),
+          apiRequests: generateMockTimeseriesData(24100500),
+          apiErrors: generateMockTimeseriesData(24020)
         };
 
         setTimeseriesData(mockTimeseriesData);
@@ -234,7 +234,7 @@ const EnhancedSecurityDashboard: React.FC = () => {
         grid: {
           display: false},
       y: {
-        beginAtZero: true}};
+        beginAtZero: true};
 
   // Prepare authentication metrics chart data
   const authMetricsData = {
@@ -246,13 +246,13 @@ const EnhancedSecurityDashboard: React.FC = () => {
       {
         label: 'Successful Logins',
         data: timeseriesData?.successfulLogins.map(item => item.value) || [],
-        borderColor: 'rgb(75, 192192)',
+        borderColor: 'rgb(75192192)',
         backgroundColor: 'rgba(75, 192, 192, 0.5)',
         tension: 0.3},
       {
         label: 'Auth Failures',
         data: timeseriesData?.authFailures.map(item => item.value) || [],
-        borderColor: 'rgb(255, 99132)',
+        borderColor: 'rgb(25599132)',
         backgroundColor: 'rgba(255, 99, 132, 0.5)',
         tension: 0.3}]};
 
@@ -266,14 +266,14 @@ const EnhancedSecurityDashboard: React.FC = () => {
       {
         label: 'API Requests',
         data: timeseriesData?.apiRequests.map(item => item.value) || [],
-        borderColor: 'rgb(53, 162235)',
+        borderColor: 'rgb(53162235)',
         backgroundColor: 'rgba(53, 162, 235, 0.5)',
         tension: 0.3,
         yAxisID: 'y'},
       {
         label: 'API Errors',
         data: timeseriesData?.apiErrors.map(item => item.value) || [],
-        borderColor: 'rgb(255, 99132)',
+        borderColor: 'rgb(25599132)',
         backgroundColor: 'rgba(255, 99, 132, 0.5)',
         tension: 0.3,
         yAxisID: 'y1'}]};
@@ -437,7 +437,7 @@ const EnhancedSecurityDashboard: React.FC = () => {
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-3">
-                    {metrics?.securityEvents.slice(05).map((event: any) => (
+                    {metrics?.securityEvents.slice(0).map((event: any) => (
                       <div key={event.id} className="flex items-center space-x-3 p-2 bg-slate-50 dark:bg-slate-800 rounded">
                         <Badge className={getSeverityColor(event.severity)}>
                           {event.severity.toUpperCase()}

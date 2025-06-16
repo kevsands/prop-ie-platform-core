@@ -461,17 +461,17 @@ interface PropertyFloorPlanProps {
 }
 &nbsp;
 export default function <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >PropertyFloorPlan({</span></span> floorPlans, propertyName }: PropertyFloorPlanProps) {
-  const [selectedPlan, setSelectedPlan] = <span class="cstat-no" title="statement not covered" >useState(0);</span>
-  const [isFullscreen, setIsFullscreen] = <span class="cstat-no" title="statement not covered" >useState(false);</span>
+  const [selectedPlansetSelectedPlan] = <span class="cstat-no" title="statement not covered" >useState(0);</span>
+  const [isFullscreensetIsFullscreen] = <span class="cstat-no" title="statement not covered" >useState(false);</span>
 &nbsp;
   const currentPlan = <span class="cstat-no" title="statement not covered" >floorPlans[selectedPlan];</span>
 &nbsp;
   const handlePrevious = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" >    setSelectedPlan(<span class="fstat-no" title="function not covered" >(p</span>rev) =&gt; (<span class="cstat-no" title="statement not covered" >prev === 0 ? floorPlans.length - 1 : prev - 1));</span></span>
+<span class="cstat-no" title="statement not covered" >    setSelectedPlan(<span class="fstat-no" title="function not covered" >(p</span>rev: any) =&gt; (<span class="cstat-no" title="statement not covered" >prev === 0 ? floorPlans.length - 1 : prev - 1));</span></span>
   };
 &nbsp;
   const handleNext = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" >    setSelectedPlan(<span class="fstat-no" title="function not covered" >(p</span>rev) =&gt; (<span class="cstat-no" title="statement not covered" >prev === floorPlans.length - 1 ? 0 : prev + 1));</span></span>
+<span class="cstat-no" title="statement not covered" >    setSelectedPlan(<span class="fstat-no" title="function not covered" >(p</span>rev: any) =&gt; (<span class="cstat-no" title="statement not covered" >prev === floorPlans.length - 1 ? 0 : prev + 1));</span></span>
   };
 &nbsp;
   const toggleFullscreen = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
@@ -490,13 +490,13 @@ export default function <span class="cstat-no" title="statement not covered" ><s
       &lt;div className="absolute top-4 left-4 right-4 z-10 flex justify-between items-center"&gt;
         &lt;Select
           value={selectedPlan.toString()}
-          onValueChange={<span class="fstat-no" title="function not covered" >(v</span>alue) =&gt; <span class="cstat-no" title="statement not covered" >setSelectedPlan(parseInt(value))}</span>
+          onValueChange={<span class="fstat-no" title="function not covered" >(v</span>alue: any) =&gt; <span class="cstat-no" title="statement not covered" >setSelectedPlan(parseInt(value))}</span>
         &gt;
           &lt;SelectTrigger className="w-[200px] bg-white/90 backdrop-blur-sm"&gt;
             &lt;SelectValue /&gt;
           &lt;/SelectTrigger&gt;
           &lt;SelectContent&gt;
-            {floorPlans.map(<span class="fstat-no" title="function not covered" >(p</span>lan, index) =&gt; (
+            {floorPlans.map(<span class="fstat-no" title="function not covered" >(p</span>lanindex: any) =&gt; (
 <span class="cstat-no" title="statement not covered" >              &lt;SelectItem key={plan.id} v</span>alue={index.toString()}&gt;
                 {plan.name} - Floor {plan.floor}
               &lt;/SelectItem&gt;
@@ -572,7 +572,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
         &lt;/TransformWrapper&gt;
 &nbsp;
         {/* Navigation for multiple floor plans */}
-        {<span class="branch-0 cbranch-no" title="branch not covered" >floorPlans.length &gt; 1 &amp;&amp; (</span>
+        {<span class="branch-0 cbranch-no" title="branch not covered" >floorPlans.length&gt; 1 &amp;&amp; (</span>
           &lt;div className="absolute inset-y-0 left-0 right-0 flex items-center justify-between px-4 pointer-events-none"&gt;
             &lt;Button
               variant="secondary"
@@ -599,7 +599,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
         &lt;h3 className="font-semibold mb-2"&gt;{currentPlan.name}&lt;/h3&gt;
         &lt;p className="text-sm text-gray-600 mb-3"&gt;{currentPlan.sqft} sq ft&lt;/p&gt;
         &lt;div className="space-y-1"&gt;
-          {currentPlan.rooms.map(<span class="fstat-no" title="function not covered" >(r</span>oom, index) =&gt; (
+          {currentPlan.rooms.map(<span class="fstat-no" title="function not covered" >(r</span>oomindex: any) =&gt; (
 <span class="cstat-no" title="statement not covered" >            &lt;div key={index} c</span>lassName="flex justify-between text-sm"&gt;
               &lt;span&gt;{room.name}&lt;/span&gt;
               &lt;span className="text-gray-600"&gt;{room.dimensions}&lt;/span&gt;
@@ -616,7 +616,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T22:15:28.100Z
+                at 2025-06-15T18:50:48.918Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

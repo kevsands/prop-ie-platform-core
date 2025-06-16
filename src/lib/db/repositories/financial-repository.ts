@@ -90,7 +90,7 @@ export class FinancialRepository extends BaseRepository<DevelopmentFinance, Fina
         developmentId: financeId,
         transactionDate: {
           gte: startDate,
-          lte: endDate}});
+          lte: endDate});
   }
 
   /**

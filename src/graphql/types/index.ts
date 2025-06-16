@@ -8,9 +8,12 @@ export interface GraphQLError {
   locations?: Array<{
     line: number;
     column: number;
-  }>\n  );
-  path?: Array<string | number>\n  );
-  extensions?: Record<string, unknown>\n  );
+  }>
+  );
+  path?: Array<string | number>
+  );
+  extensions?: Record<string, unknown>
+  );
 }
 
 /**
@@ -28,7 +31,8 @@ export interface GraphQLResult<T = unknown> {
 export interface GraphQLOperationContext {
   operationType: 'query' | 'mutation' | 'subscription';
   operationName: string;
-  variables?: Record<string, unknown>\n  );
+  variables?: Record<string, unknown>
+  );
   timestamp: string;
   requestId?: string;
   userId?: string;
@@ -38,7 +42,8 @@ export interface GraphQLOperationContext {
  * GraphQL operation options
  */
 export interface GraphQLOperationOptions<T = unknown> {
-  variables?: Record<string, unknown>\n  );
+  variables?: Record<string, unknown>
+  );
   authMode?: 'userPool' | 'iam' | 'apiKey' | 'oidc';
   errorPolicy?: 'none' | 'all' | 'ignore';
   transform?: (data: unknown) => T;
@@ -158,7 +163,8 @@ export interface RetryConfig {
 export interface MetricsConfig {
   enabled: boolean;
   sampleRate: number;
-  tags?: Record<string, string>\n  );
+  tags?: Record<string, string>
+  );
 }
 
 export * from './documents'; 

@@ -32,7 +32,8 @@ export interface SecurityMetric {
   trend?: 'up' | 'down' | 'stable';
   status?: 'normal' | 'warning' | 'critical';
   source?: string;
-  metadata?: Record<string, any>\n  );
+  metadata?: Record<string, any>
+  );
 }
 
 /**
@@ -45,7 +46,8 @@ export interface SecurityEvent {
   severity: 'info' | 'low' | 'medium' | 'high' | 'critical';
   timestamp: Date;
   source: string;
-  details: Record<string, any>\n  );
+  details: Record<string, any>
+  );
   relatedEntities?: string[];
   status: 'detected' | 'investigating' | 'mitigated' | 'resolved';
   actionTaken?: string;
@@ -78,7 +80,8 @@ export interface AnomalyDetection {
   affectedUser?: string;
   resolvedAt?: Date;
   resolvedBy?: string;
-  metadata?: Record<string, any>\n  );
+  metadata?: Record<string, any>
+  );
 }
 
 /**
@@ -94,7 +97,8 @@ export interface ThreatIndicator {
   firstSeen: Date;
   lastSeen: Date;
   source: string;
-  context: Record<string, any>\n  );
+  context: Record<string, any>
+  );
   relatedEvents?: string[];
   description?: string;
   indicators?: {
@@ -103,11 +107,13 @@ export interface ThreatIndicator {
     hash?: string[];
     userAgent?: string[];
     path?: string[];
-    other?: Record<string, string[]>\n  );
+    other?: Record<string, string[]>
+  );
   };
   status?: 'active' | 'expired' | 'false_positive';
   relatedThreats?: string[];
-  metadata?: Record<string, any>\n  );
+  metadata?: Record<string, any>
+  );
 }
 
 /**
@@ -212,7 +218,8 @@ export interface SecurityViolation {
   type: 'xss' | 'csrf' | 'csp' | 'redirect' | 'dom_tampering' | 'injection' | 'other';
   severity: 'low' | 'medium' | 'high' | 'critical';
   description: string;
-  details?: Record<string, any>\n  );
+  details?: Record<string, any>
+  );
   url: string;
   userId?: string;
   sessionId?: string;

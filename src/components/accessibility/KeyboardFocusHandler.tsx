@@ -66,7 +66,7 @@ export default function KeyboardFocusHandler(): null {
           padding: 0;
           margin: -1px;
           overflow: hidden;
-          clip: rect(0, 0, 00);
+          clip: rect(0000);
           white-space: nowrap;
           border-width: 0;
         }

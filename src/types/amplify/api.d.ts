@@ -18,7 +18,8 @@ export interface EnhancedGraphQLResult<T = any> extends GraphQLResult<T> {
 
 // GraphQL options with extended properties for Amplify v6
 export interface EnhancedGraphQLOptions<T = object> extends GraphQLOptions {
-  headers?: Record<string, string>\n  );
+  headers?: Record<string, string>
+  );
   authMode?: 'API_KEY' | 'AWS_IAM' | 'AMAZON_COGNITO_USER_POOLS' | 'OPENID_CONNECT';
   authToken?: string;
   config?: any;
@@ -28,15 +29,18 @@ export interface EnhancedGraphQLOptions<T = object> extends GraphQLOptions {
 export interface APIClientOptions {
   baseUrl?: string;
   apiKey?: string;
-  headers?: Record<string, string>\n  );
+  headers?: Record<string, string>
+  );
   withCredentials?: boolean;
 }
 
 // REST API options
 export interface RESTOptions {
   path: string;
-  headers?: Record<string, string>\n  );
-  queryParams?: Record<string, string | number | boolean | null>\n  );
+  headers?: Record<string, string>
+  );
+  queryParams?: Record<string, string | number | boolean | null>
+  );
   body?: any;
   response?: boolean;
   init?: RequestInit;

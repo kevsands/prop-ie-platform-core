@@ -22,7 +22,7 @@ Each home has been thoughtfully designed with contemporary families in mind, fea
     status: 'Selling Fast',
     startingPrice: '€395,000',
     priceRange: '€395,000 - €575,000',
-    bedrooms: [2, 34],
+    bedrooms: [234],
     bathrooms: 2,
     energyRating: 'A2',
     availability: 'Move in from Winter 2025',
@@ -155,10 +155,10 @@ Nestled in the heart of Drogheda, this development provides easy access to schoo
 Each apartment has been carefully designed to maximize space and light, with floor-to-ceiling windows, private balconies, and open-plan living areas. The development includes extensive amenities for residents including a gym, concierge service, and landscaped gardens.`,
     location: 'Celbridge, Co. Kildare',
     address: 'Main Street, Celbridge, Co. Kildare',
-    status: 'Now Selling',
+    status: 'Sold Out',
     startingPrice: '€285,000',
     priceRange: '€285,000 - €450,000',
-    bedrooms: [1, 23],
+    bedrooms: [123],
     bathrooms: 2,
     energyRating: 'A1',
     availability: 'Ready to Move In',
@@ -186,8 +186,8 @@ Each apartment has been carefully designed to maximize space and light, with flo
       'Video Intercom',
       'Underground Parking'
     ],
-    unitsAvailable: 8,
-    totalUnits: 68,
+    unitsAvailable: 0,
+    totalUnits: 46,
     floorPlans: [
       { 
         type: '1 Bed Apartment', 

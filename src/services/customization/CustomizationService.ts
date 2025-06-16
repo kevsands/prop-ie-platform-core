@@ -30,7 +30,8 @@ interface CustomizationData extends Record<string, any> {
   customizationId?: string;
   propertyId: string;
   userId: string;
-  selectedOptions?: Record<string, any>\n  );
+  selectedOptions?: Record<string, any>
+  );
   totalCost?: number;
   status?: string;
   version?: number;

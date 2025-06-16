@@ -1,0 +1,2139 @@
+{
+  "timestamp": "2025-06-15T17:53:53.607Z",
+  "totalFiles": 426,
+  "totalReplacements": 1600,
+  "errorFiles": 0,
+  "fixedFiles": [
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/api/buyer-journey-api.ts",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/api/buyer-journey-api.ts.backup-corruption-fix-1750010007081"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/__tests__/api/transactions.test.ts",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/__tests__/api/transactions.test.ts.backup-corruption-fix-1750010007083"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/__tests__/api/documents.test.ts",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/__tests__/api/documents.test.ts.backup-corruption-fix-1750010007084"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/core/api/api.ts",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/core/api/api.ts.backup-corruption-fix-1750010007084"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/api/transactions/[id]/route.ts",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/api/transactions/[id]/route.ts.backup-corruption-fix-1750010007087"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/api/units/route.ts",
+      "replacements": 2,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/api/units/route.ts.backup-corruption-fix-1750010007089"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/api/units/route-broken.ts",
+      "replacements": 3,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/api/units/route-broken.ts.backup-corruption-fix-1750010007089"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/api/contracts/sign/route.ts",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/api/contracts/sign/route.ts.backup-corruption-fix-1750010007092"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/api/auth/[...nextauth]/auth-helpers.ts",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/api/auth/[...nextauth]/auth-helpers.ts.backup-corruption-fix-1750010007093"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/api/auth/two-factor/route.ts",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/api/auth/two-factor/route.ts.backup-corruption-fix-1750010007095"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/api/auth/permissions/route.ts",
+      "replacements": 2,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/api/auth/permissions/route.ts.backup-corruption-fix-1750010007096"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/api/customizations/route.ts",
+      "replacements": 2,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/api/customizations/route.ts.backup-corruption-fix-1750010007097"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/api/customization/route.ts",
+      "replacements": 4,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/api/customization/route.ts.backup-corruption-fix-1750010007099"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/api/security/report/route.ts",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/api/security/report/route.ts.backup-corruption-fix-1750010007100"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/api/security/log/route.ts",
+      "replacements": 2,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/api/security/log/route.ts.backup-corruption-fix-1750010007101"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/api/customization/options/route.ts",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/api/customization/options/route.ts.backup-corruption-fix-1750010007103"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/api/metrics/route.ts",
+      "replacements": 2,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/api/metrics/route.ts.backup-corruption-fix-1750010007105"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/api/responses.ts",
+      "replacements": 9,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/api/responses.ts.backup-corruption-fix-1750010007106"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/api/params.ts",
+      "replacements": 3,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/api/params.ts.backup-corruption-fix-1750010007107"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/api/requests.ts",
+      "replacements": 5,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/api/requests.ts.backup-corruption-fix-1750010007109"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/services/index.ts",
+      "replacements": 7,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/services/index.ts.backup-corruption-fix-1750010007110"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/services/slpService.ts",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/services/slpService.ts.backup-corruption-fix-1750010007112"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/services/analyticsEngine.ts",
+      "replacements": 2,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/services/analyticsEngine.ts.backup-corruption-fix-1750010007113"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/services/sales-service.ts",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/services/sales-service.ts.backup-corruption-fix-1750010007114"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/services/data-service/index.ts",
+      "replacements": 7,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/services/data-service/index.ts.backup-corruption-fix-1750010007116"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/services/realtime/RealtimeEngine.ts",
+      "replacements": 2,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/services/realtime/RealtimeEngine.ts.backup-corruption-fix-1750010007116"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/services/blockchain/property-tokenization.ts",
+      "replacements": 2,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/services/blockchain/property-tokenization.ts.backup-corruption-fix-1750010007117"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/services/websocketService.ts",
+      "replacements": 2,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/services/websocketService.ts.backup-corruption-fix-1750010007118"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/services/api.ts",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/services/api.ts.backup-corruption-fix-1750010007118"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/services/supplychain/SupplyChainService.ts",
+      "replacements": 3,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/services/supplychain/SupplyChainService.ts.backup-corruption-fix-1750010007119"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/services/documentService.ts",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/services/documentService.ts.backup-corruption-fix-1750010007120"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/services/realtime/collaboration-engine.ts",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/services/realtime/collaboration-engine.ts.backup-corruption-fix-1750010007121"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/services/notificationService.ts",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/services/notificationService.ts.backup-corruption-fix-1750010007121"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/services/buyerDocumentService.ts",
+      "replacements": 2,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/services/buyerDocumentService.ts.backup-corruption-fix-1750010007122"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/services/customization/CustomizationService.ts",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/services/customization/CustomizationService.ts.backup-corruption-fix-1750010007123"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/services/transaction/engine.ts",
+      "replacements": 2,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/services/transaction/engine.ts.backup-corruption-fix-1750010007123"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/services/sales.ts",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/services/sales.ts.backup-corruption-fix-1750010007124"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/services/document-service.ts",
+      "replacements": 3,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/services/document-service.ts.backup-corruption-fix-1750010007125"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/services/documents.ts",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/services/documents.ts.backup-corruption-fix-1750010007125"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/services/dataService.ts",
+      "replacements": 4,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/services/dataService.ts.backup-corruption-fix-1750010007127"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/metrics.ts",
+      "replacements": 2,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/metrics.ts.backup-corruption-fix-1750010007133"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/developer-platform/index.ts",
+      "replacements": 3,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/developer-platform/index.ts.backup-corruption-fix-1750010007134"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/performance/cache-manager.ts",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/performance/cache-manager.ts.backup-corruption-fix-1750010007134"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/performance/lazy-loader.tsx",
+      "replacements": 2,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/performance/lazy-loader.tsx.backup-corruption-fix-1750010007135"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/monitoring/performance.ts",
+      "replacements": 2,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/monitoring/performance.ts.backup-corruption-fix-1750010007136"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/data-service.ts",
+      "replacements": 13,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/data-service.ts.backup-corruption-fix-1750010007137"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/cache/dataCache.ts",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/cache/dataCache.ts.backup-corruption-fix-1750010007138"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/metrics-utils.ts",
+      "replacements": 2,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/metrics-utils.ts.backup-corruption-fix-1750010007138"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/errors/buyer-journey-errors.ts",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/errors/buyer-journey-errors.ts.backup-corruption-fix-1750010007140"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/db/repositories/index.ts",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/db/repositories/index.ts.backup-corruption-fix-1750010007147"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/db/schema.ts",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/db/schema.ts.backup-corruption-fix-1750010007148"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/data-service/index.ts",
+      "replacements": 2,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/data-service/index.ts.backup-corruption-fix-1750010007149"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/transaction-engine/document-manager.ts",
+      "replacements": 2,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/transaction-engine/document-manager.ts.backup-corruption-fix-1750010007149"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/transaction-engine/types.ts",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/transaction-engine/types.ts.backup-corruption-fix-1750010007150"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/transaction-engine/handover-system.ts",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/transaction-engine/handover-system.ts.backup-corruption-fix-1750010007151"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/transaction-engine/index.ts",
+      "replacements": 3,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/transaction-engine/index.ts.backup-corruption-fix-1750010007152"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/transaction-engine/kyc-verification.ts",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/transaction-engine/kyc-verification.ts.backup-corruption-fix-1750010007152"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/transaction-engine/notification-service.ts",
+      "replacements": 3,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/transaction-engine/notification-service.ts.backup-corruption-fix-1750010007153"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/transaction-engine/snagging-system.ts",
+      "replacements": 5,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/transaction-engine/snagging-system.ts.backup-corruption-fix-1750010007154"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/graphql/utils.ts",
+      "replacements": 3,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/graphql/utils.ts.backup-corruption-fix-1750010007155"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/graphql/resolvers/development.ts",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/graphql/resolvers/development.ts.backup-corruption-fix-1750010007155"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/graphql/fragments-examples.ts",
+      "replacements": 2,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/graphql/fragments-examples.ts.backup-corruption-fix-1750010007156"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/amplify/server.ts",
+      "replacements": 2,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/amplify/server.ts.backup-corruption-fix-1750010007156"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/amplify/server-adapter.ts",
+      "replacements": 5,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/amplify/server-adapter.ts.backup-corruption-fix-1750010007157"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/amplify/types.ts",
+      "replacements": 4,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/amplify/types.ts.backup-corruption-fix-1750010007157"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/amplify/api.ts",
+      "replacements": 3,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/amplify/api.ts.backup-corruption-fix-1750010007158"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/amplify/server-helpers.ts",
+      "replacements": 4,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/amplify/server-helpers.ts.backup-corruption-fix-1750010007160"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/amplify/storage.ts",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/amplify/storage.ts.backup-corruption-fix-1750010007160"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/amplify/analytics-adapter.ts",
+      "replacements": 5,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/amplify/analytics-adapter.ts.backup-corruption-fix-1750010007161"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/amplify/v6-migration-utils.ts",
+      "replacements": 12,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/amplify/v6-migration-utils.ts.backup-corruption-fix-1750010007162"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/data-client.ts",
+      "replacements": 3,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/data-client.ts.backup-corruption-fix-1750010007163"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/api.ts",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/api.ts.backup-corruption-fix-1750010007163"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/mongodb-helper.ts",
+      "replacements": 5,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/mongodb-helper.ts.backup-corruption-fix-1750010007165"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/conveyancing/index.ts",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/conveyancing/index.ts.backup-corruption-fix-1750010007166"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/graphql/testing/userResolver.test.ts",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/graphql/testing/userResolver.test.ts.backup-corruption-fix-1750010007168"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/transaction-engine/payment-processor.ts",
+      "replacements": 2,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/transaction-engine/payment-processor.ts.backup-corruption-fix-1750010007171"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/graphql/testing/developmentResolver.test.ts",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/graphql/testing/developmentResolver.test.ts.backup-corruption-fix-1750010007173"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/error-tracking.ts",
+      "replacements": 4,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/error-tracking.ts.backup-corruption-fix-1750010007173"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/cloudwatch.ts",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/cloudwatch.ts.backup-corruption-fix-1750010007174"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/optimization/images.ts",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/optimization/images.ts.backup-corruption-fix-1750010007174"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/optimization/compression.ts",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/optimization/compression.ts.backup-corruption-fix-1750010007175"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/analytics.ts",
+      "replacements": 2,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/analytics.ts.backup-corruption-fix-1750010007176"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/security/performanceCorrelation.ts",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/security/performanceCorrelation.ts.backup-corruption-fix-1750010007176"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/security/securityAnalyticsTypes.ts",
+      "replacements": 7,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/security/securityAnalyticsTypes.ts.backup-corruption-fix-1750010007177"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/security/useSecurityMonitor.ts",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/security/useSecurityMonitor.ts.backup-corruption-fix-1750010007178"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/security/index.ts",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/security/index.ts.backup-corruption-fix-1750010007178"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/security/threatDetection.ts",
+      "replacements": 6,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/security/threatDetection.ts.backup-corruption-fix-1750010007179"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/security/securityPerformanceIntegration.ts",
+      "replacements": 5,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/security/securityPerformanceIntegration.ts.backup-corruption-fix-1750010007179"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/security/mfa/index.ts",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/security/mfa/index.ts.backup-corruption-fix-1750010007180"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/security/authLogger.ts",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/security/authLogger.ts.backup-corruption-fix-1750010007181"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/security/analytics.ts",
+      "replacements": 5,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/security/analytics.ts.backup-corruption-fix-1750010007181"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/security/apiProtection.ts",
+      "replacements": 5,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/security/apiProtection.ts.backup-corruption-fix-1750010007182"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/security/errorHandling.ts",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/security/errorHandling.ts.backup-corruption-fix-1750010007183"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/security/enhancedAnalytics.ts",
+      "replacements": 4,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/security/enhancedAnalytics.ts.backup-corruption-fix-1750010007183"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/security/AppSecurityProvider.tsx",
+      "replacements": 2,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/security/AppSecurityProvider.tsx.backup-corruption-fix-1750010007184"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/eventBus.ts",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/eventBus.ts.backup-corruption-fix-1750010007184"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/customization/utils.ts",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/customization/utils.ts.backup-corruption-fix-1750010007185"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/security/validation.ts",
+      "replacements": 3,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/security/validation.ts.backup-corruption-fix-1750010007186"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/api-client.ts",
+      "replacements": 2,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/api-client.ts.backup-corruption-fix-1750010007186"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/prisma.ts",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/prisma.ts.backup-corruption-fix-1750010007187"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/hooks/useAppSync.ts",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/hooks/useAppSync.ts.backup-corruption-fix-1750010007188"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/hooks/useCustomization.ts",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/hooks/useCustomization.ts.backup-corruption-fix-1750010007189"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/hooks/useGraphQL.ts",
+      "replacements": 4,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/hooks/useGraphQL.ts.backup-corruption-fix-1750010007189"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/hooks/useViewingSchedule.ts",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/hooks/useViewingSchedule.ts.backup-corruption-fix-1750010007190"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/hooks/useSecurityMonitor.ts",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/hooks/useSecurityMonitor.ts.backup-corruption-fix-1750010007190"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/hooks/userResolver.test.ts",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/hooks/userResolver.test.ts.backup-corruption-fix-1750010007191"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/hooks/useClientSecurity.ts",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/hooks/useClientSecurity.ts.backup-corruption-fix-1750010007192"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/hooks/useEnterpriseAuth.ts",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/hooks/useEnterpriseAuth.ts.backup-corruption-fix-1750010007192"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/hooks/useDashboard.ts",
+      "replacements": 2,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/hooks/useDashboard.ts.backup-corruption-fix-1750010007193"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/hooks/use-amplify-data.ts",
+      "replacements": 2,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/hooks/use-amplify-data.ts.backup-corruption-fix-1750010007194"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/hooks/useBuyerAPI.ts",
+      "replacements": 29,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/hooks/useBuyerAPI.ts.backup-corruption-fix-1750010007195"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/hooks/useDocuments.ts",
+      "replacements": 5,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/hooks/useDocuments.ts.backup-corruption-fix-1750010007196"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/hooks/useDocumentTemplates.ts",
+      "replacements": 2,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/hooks/useDocumentTemplates.ts.backup-corruption-fix-1750010007196"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/hooks/useAuth.tsx",
+      "replacements": 3,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/hooks/useAuth.tsx.backup-corruption-fix-1750010007197"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/hooks/useRealtime.ts",
+      "replacements": 2,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/hooks/useRealtime.ts.backup-corruption-fix-1750010007198"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/hooks/useGraphQLQueries.ts",
+      "replacements": 2,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/hooks/useGraphQLQueries.ts.backup-corruption-fix-1750010007199"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/hooks/useSecurityFeatures.ts",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/hooks/useSecurityFeatures.ts.backup-corruption-fix-1750010007199"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/hooks/useGraphQLMutations.ts",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/hooks/useGraphQLMutations.ts.backup-corruption-fix-1750010007200"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/hooks/useCompliance.ts",
+      "replacements": 4,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/hooks/useCompliance.ts.backup-corruption-fix-1750010007201"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/hooks/useFormWithToast.ts",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/hooks/useFormWithToast.ts.backup-corruption-fix-1750010007201"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/hooks/useBuyerData.ts",
+      "replacements": 5,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/hooks/useBuyerData.ts.backup-corruption-fix-1750010007202"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/hooks/api-hooks.ts",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/hooks/api-hooks.ts.backup-corruption-fix-1750010007203"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/buyer/BuyerRegistrationFlow.tsx",
+      "replacements": 4,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/buyer/BuyerRegistrationFlow.tsx.backup-corruption-fix-1750010007203"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/buyer/PurchaseDetail.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/buyer/PurchaseDetail.tsx.backup-corruption-fix-1750010007204"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/__tests__/HomePage.test.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/__tests__/HomePage.test.tsx.backup-corruption-fix-1750010007206"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/buyer/ReadinessChecklist.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/buyer/ReadinessChecklist.tsx.backup-corruption-fix-1750010007206"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/buyer/planning/ReadinessChecklist.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/buyer/planning/ReadinessChecklist.tsx.backup-corruption-fix-1750010007207"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/buyer/planning/JourneyPlanner.tsx",
+      "replacements": 5,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/buyer/planning/JourneyPlanner.tsx.backup-corruption-fix-1750010007208"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/buyer/property/PropertyComparison.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/buyer/property/PropertyComparison.tsx.backup-corruption-fix-1750010007208"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/buyer/BuyerMilestoneTracker.tsx",
+      "replacements": 4,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/buyer/BuyerMilestoneTracker.tsx.backup-corruption-fix-1750010007209"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/buyer/BuyerDashboard.tsx",
+      "replacements": 4,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/buyer/BuyerDashboard.tsx.backup-corruption-fix-1750010007211"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/buyer/EnhancedBuyerDashboard.tsx",
+      "replacements": 5,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/buyer/EnhancedBuyerDashboard.tsx.backup-corruption-fix-1750010007212"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/buyer/DocumentCollectionHub.tsx",
+      "replacements": 5,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/buyer/DocumentCollectionHub.tsx.backup-corruption-fix-1750010007213"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/notifications/NotificationCenter.tsx",
+      "replacements": 4,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/notifications/NotificationCenter.tsx.backup-corruption-fix-1750010007214"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/timeline/DependencyLines.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/timeline/DependencyLines.tsx.backup-corruption-fix-1750010007215"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/accessibility/AccessibleForm.stories.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/accessibility/AccessibleForm.stories.tsx.backup-corruption-fix-1750010007216"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/accessibility/ScreenReaderText.stories.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/accessibility/ScreenReaderText.stories.tsx.backup-corruption-fix-1750010007216"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/performance/LazyComponent.tsx",
+      "replacements": 5,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/performance/LazyComponent.tsx.backup-corruption-fix-1750010007217"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/performance/OptimizedComponent.tsx",
+      "replacements": 2,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/performance/OptimizedComponent.tsx.backup-corruption-fix-1750010007217"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/documents/DocumentList.tsx",
+      "replacements": 3,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/documents/DocumentList.tsx.backup-corruption-fix-1750010007218"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/documents/DocumentManager.tsx",
+      "replacements": 3,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/documents/DocumentManager.tsx.backup-corruption-fix-1750010007219"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/documents/DocumentUploader.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/documents/DocumentUploader.tsx.backup-corruption-fix-1750010007219"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/investor/InvestorMode.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/investor/InvestorMode.tsx.backup-corruption-fix-1750010007220"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/AuthProvider.tsx",
+      "replacements": 3,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/AuthProvider.tsx.backup-corruption-fix-1750010007221"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/finance/FinancialMetricCard.tsx",
+      "replacements": 5,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/finance/FinancialMetricCard.tsx.backup-corruption-fix-1750010007221"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/finance/CashFlowSummaryCard.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/finance/CashFlowSummaryCard.tsx.backup-corruption-fix-1750010007222"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/finance/FinancialChart.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/finance/FinancialChart.tsx.backup-corruption-fix-1750010007222"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/finance/FinancialDashboard.tsx",
+      "replacements": 5,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/finance/FinancialDashboard.tsx.backup-corruption-fix-1750010007223"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/finance/BudgetVsActualCard.tsx",
+      "replacements": 2,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/finance/BudgetVsActualCard.tsx.backup-corruption-fix-1750010007223"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/examples/GraphQLExample.tsx",
+      "replacements": 7,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/examples/GraphQLExample.tsx.backup-corruption-fix-1750010007224"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/common/FeatherIcon.tsx",
+      "replacements": 2,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/common/FeatherIcon.tsx.backup-corruption-fix-1750010007225"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/common/Icon.tsx",
+      "replacements": 11,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/common/Icon.tsx.backup-corruption-fix-1750010007225"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/dashboard/KPIWidget.tsx",
+      "replacements": 3,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/dashboard/KPIWidget.tsx.backup-corruption-fix-1750010007226"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/dashboard/PropertyCustomizer.tsx",
+      "replacements": 2,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/dashboard/PropertyCustomizer.tsx.backup-corruption-fix-1750010007226"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/dashboard/widgets/ListWidget.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/dashboard/widgets/ListWidget.tsx.backup-corruption-fix-1750010007227"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/dashboard/UnifiedDashboard.tsx",
+      "replacements": 6,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/dashboard/UnifiedDashboard.tsx.backup-corruption-fix-1750010007227"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/dashboard/ProjectOverview.tsx",
+      "replacements": 10,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/dashboard/ProjectOverview.tsx.backup-corruption-fix-1750010007228"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/dashboard/DashboardGrid.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/dashboard/DashboardGrid.tsx.backup-corruption-fix-1750010007228"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/units/CustomizationOptions.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/units/CustomizationOptions.tsx.backup-corruption-fix-1750010007229"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/journey/JourneyTracker.tsx",
+      "replacements": 2,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/journey/JourneyTracker.tsx.backup-corruption-fix-1750010007230"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/document/DocumentList.tsx",
+      "replacements": 4,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/document/DocumentList.tsx.backup-corruption-fix-1750010007230"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/document/DocumentSecurity.tsx",
+      "replacements": 3,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/document/DocumentSecurity.tsx.backup-corruption-fix-1750010007231"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/document/DocumentUpload.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/document/DocumentUpload.tsx.backup-corruption-fix-1750010007231"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/document/DocumentUploader.tsx",
+      "replacements": 6,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/document/DocumentUploader.tsx.backup-corruption-fix-1750010007232"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/document/DocumentViewer.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/document/DocumentViewer.tsx.backup-corruption-fix-1750010007232"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/AmplifyDataFetcher.tsx",
+      "replacements": 5,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/AmplifyDataFetcher.tsx.backup-corruption-fix-1750010007233"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/about/Hero.tsx",
+      "replacements": 3,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/about/Hero.tsx.backup-corruption-fix-1750010007233"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/AppProvider.tsx",
+      "replacements": 3,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/AppProvider.tsx.backup-corruption-fix-1750010007234"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/conveyancing/TaskTracker.tsx",
+      "replacements": 3,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/conveyancing/TaskTracker.tsx.backup-corruption-fix-1750010007234"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/conveyancing/DocumentManager.tsx",
+      "replacements": 3,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/conveyancing/DocumentManager.tsx.backup-corruption-fix-1750010007235"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/navigation/NavigationErrorBoundary.tsx",
+      "replacements": 3,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/navigation/NavigationErrorBoundary.tsx.backup-corruption-fix-1750010007235"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/navigation/Breadcrumbs.tsx",
+      "replacements": 3,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/navigation/Breadcrumbs.tsx.backup-corruption-fix-1750010007236"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/conveyancing/AMLCompliance.tsx",
+      "replacements": 3,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/conveyancing/AMLCompliance.tsx.backup-corruption-fix-1750010007237"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/features/FeatureFlagAdmin.tsx",
+      "replacements": 5,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/features/FeatureFlagAdmin.tsx.backup-corruption-fix-1750010007237"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/features/FeatureFlag.tsx",
+      "replacements": 4,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/features/FeatureFlag.tsx.backup-corruption-fix-1750010007238"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/AmplifyProvider.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/AmplifyProvider.tsx.backup-corruption-fix-1750010007238"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/layout/PlatformShell.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/layout/PlatformShell.tsx.backup-corruption-fix-1750010007239"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/contracts/ContractManager.tsx",
+      "replacements": 6,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/contracts/ContractManager.tsx.backup-corruption-fix-1750010007240"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/auth/LoginForm.stories.tsx",
+      "replacements": 2,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/auth/LoginForm.stories.tsx.backup-corruption-fix-1750010007240"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/document/SLPGenerator.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/document/SLPGenerator.tsx.backup-corruption-fix-1750010007242"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/auth/LoginForm.tsx",
+      "replacements": 2,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/auth/LoginForm.tsx.backup-corruption-fix-1750010007243"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/security/withCSRFProtection.tsx",
+      "replacements": 3,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/security/withCSRFProtection.tsx.backup-corruption-fix-1750010007244"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/security/SecurityDashboard.tsx",
+      "replacements": 6,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/security/SecurityDashboard.tsx.backup-corruption-fix-1750010007244"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/security/SecurityMonitoringDashboard.tsx",
+      "replacements": 3,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/security/SecurityMonitoringDashboard.tsx.backup-corruption-fix-1750010007245"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/buyer-journey/UnitDetails.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/buyer-journey/UnitDetails.tsx.backup-corruption-fix-1750010007246"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/buyer-journey/OptimizedUnitCard.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/buyer-journey/OptimizedUnitCard.tsx.backup-corruption-fix-1750010007246"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/security/SecurityTimeline.tsx",
+      "replacements": 11,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/security/SecurityTimeline.tsx.backup-corruption-fix-1750010007247"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/security/SecurityMonitor.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/security/SecurityMonitor.tsx.backup-corruption-fix-1750010007247"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/buyer-journey/BuyerProgressTracker.tsx",
+      "replacements": 3,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/buyer-journey/BuyerProgressTracker.tsx.backup-corruption-fix-1750010007248"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/security/SecurityMetricsChart.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/security/SecurityMetricsChart.tsx.backup-corruption-fix-1750010007248"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/security/ClientSecurityProvider.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/security/ClientSecurityProvider.tsx.backup-corruption-fix-1750010007249"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/buyer-journey/TransactionFlow.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/buyer-journey/TransactionFlow.tsx.backup-corruption-fix-1750010007249"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/security/EnhancedSecurityDashboard.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/security/EnhancedSecurityDashboard.tsx.backup-corruption-fix-1750010007250"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/customization/Studio3D.tsx",
+      "replacements": 2,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/customization/Studio3D.tsx.backup-corruption-fix-1750010007251"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/customization/PriceCalculator.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/customization/PriceCalculator.tsx.backup-corruption-fix-1750010007251"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/customization/OptionsManager.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/customization/OptionsManager.tsx.backup-corruption-fix-1750010007252"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/kyc/KYCVerificationForm.tsx",
+      "replacements": 4,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/kyc/KYCVerificationForm.tsx.backup-corruption-fix-1750010007253"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/NotificationCenter.tsx",
+      "replacements": 7,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/NotificationCenter.tsx.backup-corruption-fix-1750010007253"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/tasks/TaskList.tsx",
+      "replacements": 3,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/tasks/TaskList.tsx.backup-corruption-fix-1750010007254"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/contact/ContactForm.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/contact/ContactForm.tsx.backup-corruption-fix-1750010007255"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/htb/developer/ClaimDetails.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/htb/developer/ClaimDetails.tsx.backup-corruption-fix-1750010007255"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/htb/HTBWrapper.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/htb/HTBWrapper.tsx.backup-corruption-fix-1750010007256"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/developer/properties/page.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/developer/properties/page.tsx.backup-corruption-fix-1750010007256"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/developer/DeveloperThemeProvider.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/developer/DeveloperThemeProvider.tsx.backup-corruption-fix-1750010007257"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/developer/projects/create/LocationSelection.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/developer/projects/create/LocationSelection.tsx.backup-corruption-fix-1750010007257"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/developer/projects/create/ProjectBasicInfo.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/developer/projects/create/ProjectBasicInfo.tsx.backup-corruption-fix-1750010007258"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/developer/projects/create/ProjectFinancials.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/developer/projects/create/ProjectFinancials.tsx.backup-corruption-fix-1750010007259"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/3d/RoomVisualizer.old.tsx",
+      "replacements": 5,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/3d/RoomVisualizer.old.tsx.backup-corruption-fix-1750010007259"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/transaction/TransactionTimeline.tsx",
+      "replacements": 4,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/transaction/TransactionTimeline.tsx.backup-corruption-fix-1750010007260"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/transaction/PaymentOverview.tsx",
+      "replacements": 4,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/transaction/PaymentOverview.tsx.backup-corruption-fix-1750010007261"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/transaction/ParticipantsList.tsx",
+      "replacements": 6,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/transaction/ParticipantsList.tsx.backup-corruption-fix-1750010007261"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/transaction/CommunicationHub.tsx",
+      "replacements": 3,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/transaction/CommunicationHub.tsx.backup-corruption-fix-1750010007262"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/transaction/TransactionFlow.tsx",
+      "replacements": 3,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/transaction/TransactionFlow.tsx.backup-corruption-fix-1750010007263"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/ui/pagination.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/ui/pagination.tsx.backup-corruption-fix-1750010007264"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/ui/LoadingOverlay.tsx",
+      "replacements": 2,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/ui/LoadingOverlay.tsx.backup-corruption-fix-1750010007264"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/ui/carousel.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/ui/carousel.tsx.backup-corruption-fix-1750010007265"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/ui/KPIWidget.tsx",
+      "replacements": 3,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/ui/KPIWidget.tsx.backup-corruption-fix-1750010007266"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/ui/toast.tsx",
+      "replacements": 2,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/ui/toast.tsx.backup-corruption-fix-1750010007266"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/ui/loading-skeleton.stories.tsx",
+      "replacements": 2,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/ui/loading-skeleton.stories.tsx.backup-corruption-fix-1750010007267"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/ui/sidebar.tsx",
+      "replacements": 2,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/ui/sidebar.tsx.backup-corruption-fix-1750010007267"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/ui/calendar.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/ui/calendar.tsx.backup-corruption-fix-1750010007268"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/ui/form-field.stories.tsx",
+      "replacements": 3,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/ui/form-field.stories.tsx.backup-corruption-fix-1750010007269"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/ui/feather-icon.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/ui/feather-icon.tsx.backup-corruption-fix-1750010007269"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/ui/__tests__/data-table-cell.test.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/ui/__tests__/data-table-cell.test.tsx.backup-corruption-fix-1750010007272"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/ui/sonner.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/ui/sonner.tsx.backup-corruption-fix-1750010007273"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/ui/chart-wrapper.tsx",
+      "replacements": 2,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/ui/chart-wrapper.tsx.backup-corruption-fix-1750010007273"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/ui/loading-skeleton.tsx",
+      "replacements": 5,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/ui/loading-skeleton.tsx.backup-corruption-fix-1750010007274"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/ui/metric-card.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/ui/metric-card.tsx.backup-corruption-fix-1750010007274"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/ui/error-boundary.stories.tsx",
+      "replacements": 3,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/ui/error-boundary.stories.tsx.backup-corruption-fix-1750010007275"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/ui/chart.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/ui/chart.tsx.backup-corruption-fix-1750010007275"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/ui/toast.stories.tsx",
+      "replacements": 2,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/ui/toast.stories.tsx.backup-corruption-fix-1750010007276"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/ui/button.stories.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/ui/button.stories.tsx.backup-corruption-fix-1750010007277"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/ui/data-table.tsx",
+      "replacements": 4,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/ui/data-table.tsx.backup-corruption-fix-1750010007277"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/ui/form-field.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/ui/form-field.tsx.backup-corruption-fix-1750010007278"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/ui/error-boundary.tsx",
+      "replacements": 2,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/components/ui/error-boundary.tsx.backup-corruption-fix-1750010007278"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/components/data-interfaces.ts",
+      "replacements": 13,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/components/data-interfaces.ts.backup-corruption-fix-1750010007279"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/invest/liquidity-pools/page.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/invest/liquidity-pools/page.tsx.backup-corruption-fix-1750010007279"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/buyer/htb/HTBContextProvider.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/buyer/htb/HTBContextProvider.tsx.backup-corruption-fix-1750010007280"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/buyer/customization/page.tsx",
+      "replacements": 5,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/buyer/customization/page.tsx.backup-corruption-fix-1750010007281"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/buyer/offers/page.tsx",
+      "replacements": 3,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/buyer/offers/page.tsx.backup-corruption-fix-1750010007281"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/buyer/htb/buyer/developer/HTBClaimProcessor.tsx",
+      "replacements": 2,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/buyer/htb/buyer/developer/HTBClaimProcessor.tsx.backup-corruption-fix-1750010007282"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/buyer/htb/new/page.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/buyer/htb/new/page.tsx.backup-corruption-fix-1750010007282"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/buyer/guides/page.tsx",
+      "replacements": 5,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/buyer/guides/page.tsx.backup-corruption-fix-1750010007283"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/buyer/appointments/page.tsx",
+      "replacements": 5,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/buyer/appointments/page.tsx.backup-corruption-fix-1750010007284"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/buyer/customization/fallback-page.tsx",
+      "replacements": 4,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/buyer/customization/fallback-page.tsx.backup-corruption-fix-1750010007284"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/buyer/documents/page.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/buyer/documents/page.tsx.backup-corruption-fix-1750010007285"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/buyer/mortgage/page.tsx",
+      "replacements": 3,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/buyer/mortgage/page.tsx.backup-corruption-fix-1750010007286"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/buyer/payment-methods/page.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/buyer/payment-methods/page.tsx.backup-corruption-fix-1750010007286"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/buyer/saved-properties/page.tsx",
+      "replacements": 3,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/buyer/saved-properties/page.tsx.backup-corruption-fix-1750010007287"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/buyer/verification/page.tsx",
+      "replacements": 10,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/buyer/verification/page.tsx.backup-corruption-fix-1750010007288"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/buyer/journey/[transactionId]/page.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/buyer/journey/[transactionId]/page.tsx.backup-corruption-fix-1750010007289"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/buyer/viewings/page.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/buyer/viewings/page.tsx.backup-corruption-fix-1750010007289"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/buyer/contracts/page.tsx",
+      "replacements": 7,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/buyer/contracts/page.tsx.backup-corruption-fix-1750010007290"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/buyer/messages/page.tsx",
+      "replacements": 5,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/buyer/messages/page.tsx.backup-corruption-fix-1750010007291"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/buyer/insights/page.tsx",
+      "replacements": 3,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/buyer/insights/page.tsx.backup-corruption-fix-1750010007292"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/monitoring/page.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/monitoring/page.tsx.backup-corruption-fix-1750010007292"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/investor/layout.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/investor/layout.tsx.backup-corruption-fix-1750010007293"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/test-all-features/page.tsx",
+      "replacements": 3,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/test-all-features/page.tsx.backup-corruption-fix-1750010007293"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/testapi/page.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/testapi/page.tsx.backup-corruption-fix-1750010007294"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/properties/page.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/properties/page.tsx.backup-corruption-fix-1750010007295"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/properties/[id]/page.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/properties/[id]/page.tsx.backup-corruption-fix-1750010007295"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/properties/search/page.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/properties/search/page.tsx.backup-corruption-fix-1750010007296"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/transactions/[id]/page.tsx",
+      "replacements": 2,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/transactions/[id]/page.tsx.backup-corruption-fix-1750010007297"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/kyc-verificationpage/page.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/kyc-verificationpage/page.tsx.backup-corruption-fix-1750010007297"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/first-time-buyers/documents/page.tsx",
+      "replacements": 4,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/first-time-buyers/documents/page.tsx.backup-corruption-fix-1750010007298"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/first-time-buyers/register/page.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/first-time-buyers/register/page.tsx.backup-corruption-fix-1750010007298"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/first-time-buyers/how-it-works/page.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/first-time-buyers/how-it-works/page.tsx.backup-corruption-fix-1750010007299"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/agents/transactions/page.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/agents/transactions/page.tsx.backup-corruption-fix-1750010007300"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/solutions/prop-choice/page.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/solutions/prop-choice/page.tsx.backup-corruption-fix-1750010007301"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/admin/verifications/page.tsx",
+      "replacements": 7,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/admin/verifications/page.tsx.backup-corruption-fix-1750010007301"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/solicitor/page.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/solicitor/page.tsx.backup-corruption-fix-1750010007302"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/project-management/[id]/documents/page.tsx",
+      "replacements": 4,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/project-management/[id]/documents/page.tsx.backup-corruption-fix-1750010007302"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/project-management/[id]/slp/page.tsx",
+      "replacements": 5,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/project-management/[id]/slp/page.tsx.backup-corruption-fix-1750010007303"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/kyc-verifcationpage/page.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/kyc-verifcationpage/page.tsx.backup-corruption-fix-1750010007304"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/property/page.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/property/page.tsx.backup-corruption-fix-1750010007304"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/auth/login/enhanced-page.tsx",
+      "replacements": 2,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/auth/login/enhanced-page.tsx.backup-corruption-fix-1750010007305"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/auth/register/page.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/auth/register/page.tsx.backup-corruption-fix-1750010007306"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/auth/register/enhanced-page.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/auth/register/enhanced-page.tsx.backup-corruption-fix-1750010007306"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/test-homepage/page.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/test-homepage/page.tsx.backup-corruption-fix-1750010007307"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/contact/page.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/contact/page.tsx.backup-corruption-fix-1750010007307"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/prop/templates/page.tsx",
+      "replacements": 2,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/prop/templates/page.tsx.backup-corruption-fix-1750010007308"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/prop/projects/page.tsx",
+      "replacements": 2,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/prop/projects/page.tsx.backup-corruption-fix-1750010007309"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/prop/dashboard/page.tsx",
+      "replacements": 3,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/prop/dashboard/page.tsx.backup-corruption-fix-1750010007309"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/developer/onboarding/company-setup/page.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/developer/onboarding/company-setup/page.tsx.backup-corruption-fix-1750010007310"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/developer/protected-project/page.tsx",
+      "replacements": 2,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/developer/protected-project/page.tsx.backup-corruption-fix-1750010007310"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/developer/finance/page.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/developer/finance/page.tsx.backup-corruption-fix-1750010007311"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/developer/dashboard/page.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/developer/dashboard/page.tsx.backup-corruption-fix-1750010007312"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/developer/project/[id]/page.tsx",
+      "replacements": 2,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/developer/project/[id]/page.tsx.backup-corruption-fix-1750010007312"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/developer/project/[id]/sales/page.tsx",
+      "replacements": 2,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/developer/project/[id]/sales/page.tsx.backup-corruption-fix-1750010007313"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/developer/htb/claims/page.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/developer/htb/claims/page.tsx.backup-corruption-fix-1750010007314"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/developer/htb/claims/[claimId]/page.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/developer/htb/claims/[claimId]/page.tsx.backup-corruption-fix-1750010007314"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/developer/developments/[id]/documents/page.tsx",
+      "replacements": 2,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/developer/developments/[id]/documents/page.tsx.backup-corruption-fix-1750010007315"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/demo/transaction-flow/page.tsx",
+      "replacements": 4,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/demo/transaction-flow/page.tsx.backup-corruption-fix-1750010007315"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/demo/platform-overview/page.tsx",
+      "replacements": 3,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/demo/platform-overview/page.tsx.backup-corruption-fix-1750010007316"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/context/NotificationContext.tsx",
+      "replacements": 7,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/context/NotificationContext.tsx.backup-corruption-fix-1750010007316"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/context/BuyerDocumentContext.tsx",
+      "replacements": 4,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/context/BuyerDocumentContext.tsx.backup-corruption-fix-1750010007317"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/context/CustomizationContext.tsx",
+      "replacements": 5,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/context/CustomizationContext.tsx.backup-corruption-fix-1750010007318"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/context/TransactionContext.tsx",
+      "replacements": 13,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/context/TransactionContext.tsx.backup-corruption-fix-1750010007318"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/context/DashboardPreferenceContext.tsx",
+      "replacements": 2,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/context/DashboardPreferenceContext.tsx.backup-corruption-fix-1750010007319"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/context/BuyerJourneyContext.tsx",
+      "replacements": 6,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/context/BuyerJourneyContext.tsx.backup-corruption-fix-1750010007320"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/context/DevAuthContext.tsx",
+      "replacements": 3,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/context/DevAuthContext.tsx.backup-corruption-fix-1750010007320"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/examples/component-graphql-integration.tsx",
+      "replacements": 2,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/examples/component-graphql-integration.tsx.backup-corruption-fix-1750010007321"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/stories/app-shell.stories.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/stories/app-shell.stories.tsx.backup-corruption-fix-1750010007321"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/__tests__/performance/frontend-performance.test.tsx",
+      "replacements": 2,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/__tests__/performance/frontend-performance.test.tsx.backup-corruption-fix-1750010007322"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/stories/Header.stories.ts",
+      "replacements": 2,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/stories/Header.stories.ts.backup-corruption-fix-1750010007323"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/stories/dashboard-grid.stories.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/stories/dashboard-grid.stories.tsx.backup-corruption-fix-1750010007323"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/stories/chart.stories.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/stories/chart.stories.tsx.backup-corruption-fix-1750010007324"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/stories/form-field.stories.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/stories/form-field.stories.tsx.backup-corruption-fix-1750010007324"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/graphql/client.ts",
+      "replacements": 6,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/graphql/client.ts.backup-corruption-fix-1750010007325"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/stories/Page.stories.ts",
+      "replacements": 2,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/stories/Page.stories.ts.backup-corruption-fix-1750010007325"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/stories/Button.stories.ts",
+      "replacements": 2,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/stories/Button.stories.ts.backup-corruption-fix-1750010007326"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/stories/card.stories.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/stories/card.stories.tsx.backup-corruption-fix-1750010007326"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/graphql/types/index.ts",
+      "replacements": 6,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/graphql/types/index.ts.backup-corruption-fix-1750010007327"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/graphql/types/documents.ts",
+      "replacements": 3,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/graphql/types/documents.ts.backup-corruption-fix-1750010007328"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/examples/typed-graphql-example.tsx",
+      "replacements": 3,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/examples/typed-graphql-example.tsx.backup-corruption-fix-1750010007328"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/examples/typed-component-example.tsx",
+      "replacements": 8,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/examples/typed-component-example.tsx.backup-corruption-fix-1750010007329"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/utils/performance/optimizeComponent.tsx",
+      "replacements": 4,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/utils/performance/optimizeComponent.tsx.backup-corruption-fix-1750010007329"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/utils/performance/lazyLoad.tsx",
+      "replacements": 17,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/utils/performance/lazyLoad.tsx.backup-corruption-fix-1750010007330"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/utils/performance/index.ts",
+      "replacements": 5,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/utils/performance/index.ts.backup-corruption-fix-1750010007331"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/utils/performance/withMemo.tsx",
+      "replacements": 2,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/utils/performance/withMemo.tsx.backup-corruption-fix-1750010007331"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/utils/performance/monitor.tsx",
+      "replacements": 6,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/utils/performance/monitor.tsx.backup-corruption-fix-1750010007332"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/utils/performance/dataCache.ts",
+      "replacements": 6,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/utils/performance/dataCache.ts.backup-corruption-fix-1750010007333"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/utils/performance/safeCache.ts",
+      "replacements": 6,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/utils/performance/safeCache.ts.backup-corruption-fix-1750010007333"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/utils/performance/apiBatcher.ts",
+      "replacements": 7,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/utils/performance/apiBatcher.ts.backup-corruption-fix-1750010007334"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/utils/performance/safeMemo.tsx",
+      "replacements": 5,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/utils/performance/safeMemo.tsx.backup-corruption-fix-1750010007334"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/utils/performance/enhancedCache.ts",
+      "replacements": 2,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/utils/performance/enhancedCache.ts.backup-corruption-fix-1750010007335"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/utils/apiClient.ts",
+      "replacements": 5,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/utils/apiClient.ts.backup-corruption-fix-1750010007335"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/utils/monitoring.ts",
+      "replacements": 2,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/utils/monitoring.ts.backup-corruption-fix-1750010007336"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/utils/subscriptionManager.ts",
+      "replacements": 2,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/utils/subscriptionManager.ts.backup-corruption-fix-1750010007337"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/utils/graphql-helpers.ts",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/utils/graphql-helpers.ts.backup-corruption-fix-1750010007337"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/utils/utils.ts",
+      "replacements": 2,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/utils/utils.ts.backup-corruption-fix-1750010007338"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/utils/code-splitting.tsx",
+      "replacements": 2,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/utils/code-splitting.tsx.backup-corruption-fix-1750010007339"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/utils/v6-migration-utils.ts",
+      "replacements": 22,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/utils/v6-migration-utils.ts.backup-corruption-fix-1750010007339"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/features/notifications/NotificationCenter.tsx",
+      "replacements": 6,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/features/notifications/NotificationCenter.tsx.backup-corruption-fix-1750010007340"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/features/solicitor-journey/SolicitorTransactionFlow.tsx",
+      "replacements": 4,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/features/solicitor-journey/SolicitorTransactionFlow.tsx.backup-corruption-fix-1750010007340"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/features/properties/PropertyDocuments.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/features/properties/PropertyDocuments.tsx.backup-corruption-fix-1750010007341"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/features/property-analytics/PropertyAnalyticsDashboard.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/features/property-analytics/PropertyAnalyticsDashboard.tsx.backup-corruption-fix-1750010007342"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/features/transactions/TransactionCoordinator.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/features/transactions/TransactionCoordinator.tsx.backup-corruption-fix-1750010007342"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/features/transactions/TransactionMilestones.tsx",
+      "replacements": 3,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/features/transactions/TransactionMilestones.tsx.backup-corruption-fix-1750010007343"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/features/user-journey/UserJourneyOrchestrator.tsx",
+      "replacements": 12,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/features/user-journey/UserJourneyOrchestrator.tsx.backup-corruption-fix-1750010007343"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/features/property-alerts/PropertyAlertsManager.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/features/property-alerts/PropertyAlertsManager.tsx.backup-corruption-fix-1750010007344"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/tests/utils/testContext.ts",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/tests/utils/testContext.ts.backup-corruption-fix-1750010007345"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/tests/security/runTests.ts",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/tests/security/runTests.ts.backup-corruption-fix-1750010007345"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/tests/mocks/repositories.ts",
+      "replacements": 5,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/tests/mocks/repositories.ts.backup-corruption-fix-1750010007346"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/tests/mocks/prisma.ts",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/tests/mocks/prisma.ts.backup-corruption-fix-1750010007347"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/contexts/WebSocketContext.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/contexts/WebSocketContext.tsx.backup-corruption-fix-1750010007347"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/auth.ts",
+      "replacements": 6,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/auth.ts.backup-corruption-fix-1750010007348"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/user.ts",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/user.ts.backup-corruption-fix-1750010007349"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/graphql.ts",
+      "replacements": 152,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/graphql.ts.backup-corruption-fix-1750010007349"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/modules.d.ts",
+      "replacements": 9,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/modules.d.ts.backup-corruption-fix-1750010007350"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/amplify.d.ts",
+      "replacements": 25,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/amplify.d.ts.backup-corruption-fix-1750010007350"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/models.ts",
+      "replacements": 4,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/models.ts.backup-corruption-fix-1750010007351"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/index.ts",
+      "replacements": 2,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/index.ts.backup-corruption-fix-1750010007351"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/finance/cash-flow.ts",
+      "replacements": 5,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/finance/cash-flow.ts.backup-corruption-fix-1750010007352"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/finance/investment-analysis.ts",
+      "replacements": 10,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/finance/investment-analysis.ts.backup-corruption-fix-1750010007353"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/finance/dashboard.ts",
+      "replacements": 22,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/finance/dashboard.ts.backup-corruption-fix-1750010007353"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/finance/development-finance.ts",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/finance/development-finance.ts.backup-corruption-fix-1750010007354"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/crm.ts",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/crm.ts.backup-corruption-fix-1750010007354"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/custom.d.ts",
+      "replacements": 2,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/custom.d.ts.backup-corruption-fix-1750010007355"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/buyer-journey.ts",
+      "replacements": 2,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/buyer-journey.ts.backup-corruption-fix-1750010007355"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/graphql/index.ts",
+      "replacements": 3,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/graphql/index.ts.backup-corruption-fix-1750010007356"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/customization.d.ts",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/customization.d.ts.backup-corruption-fix-1750010007356"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/three-fiber.d.ts",
+      "replacements": 17,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/three-fiber.d.ts.backup-corruption-fix-1750010007357"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/common/index.ts",
+      "replacements": 2,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/common/index.ts.backup-corruption-fix-1750010007357"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/common/response.ts",
+      "replacements": 8,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/common/response.ts.backup-corruption-fix-1750010007358"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/common/user.ts",
+      "replacements": 5,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/common/user.ts.backup-corruption-fix-1750010007358"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/common/configuration.ts",
+      "replacements": 13,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/common/configuration.ts.backup-corruption-fix-1750010007359"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/common/security-performance.ts",
+      "replacements": 6,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/common/security-performance.ts.backup-corruption-fix-1750010007360"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/common/components.ts",
+      "replacements": 8,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/common/components.ts.backup-corruption-fix-1750010007360"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/test-utils/auth-test-utils.tsx",
+      "replacements": 2,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/test-utils/auth-test-utils.tsx.backup-corruption-fix-1750010007361"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/about.ts",
+      "replacements": 3,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/about.ts.backup-corruption-fix-1750010007361"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/three-extensions.d.ts",
+      "replacements": 8,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/three-extensions.d.ts.backup-corruption-fix-1750010007362"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/amplify/api.ts",
+      "replacements": 8,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/amplify/api.ts.backup-corruption-fix-1750010007362"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/amplify/auth.ts",
+      "replacements": 7,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/amplify/auth.ts.backup-corruption-fix-1750010007363"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/amplify/config.ts",
+      "replacements": 5,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/amplify/config.ts.backup-corruption-fix-1750010007363"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/amplify/storage.ts",
+      "replacements": 3,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/amplify/storage.ts.backup-corruption-fix-1750010007364"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/amplify/api.d.ts",
+      "replacements": 4,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/amplify/api.d.ts.backup-corruption-fix-1750010007364"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/amplify/mfa.d.ts",
+      "replacements": 6,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/amplify/mfa.d.ts.backup-corruption-fix-1750010007365"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/module-declarations.d.ts",
+      "replacements": 11,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/module-declarations.d.ts.backup-corruption-fix-1750010007365"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/location.ts",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/location.ts.backup-corruption-fix-1750010007366"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/api.ts",
+      "replacements": 7,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/api.ts.backup-corruption-fix-1750010007366"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/models/buyer.ts",
+      "replacements": 3,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/models/buyer.ts.backup-corruption-fix-1750010007367"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/models/user.ts",
+      "replacements": 3,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/models/user.ts.backup-corruption-fix-1750010007367"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/models/property.ts",
+      "replacements": 4,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/models/property.ts.backup-corruption-fix-1750010007368"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/models/sales.ts",
+      "replacements": 3,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/models/sales.ts.backup-corruption-fix-1750010007368"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/models/security.ts",
+      "replacements": 3,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/models/security.ts.backup-corruption-fix-1750010007369"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/legal.ts",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/legal.ts.backup-corruption-fix-1750010007371"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/models/unit.ts",
+      "replacements": 9,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/models/unit.ts.backup-corruption-fix-1750010007371"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/utils/index.ts",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/utils/index.ts.backup-corruption-fix-1750010007372"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/models/development.ts",
+      "replacements": 4,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/models/development.ts.backup-corruption-fix-1750010007373"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/models/document.ts",
+      "replacements": 9,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/models/document.ts.backup-corruption-fix-1750010007374"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/dashboard.ts",
+      "replacements": 2,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/dashboard.ts.backup-corruption-fix-1750010007376"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/api-test.d.ts",
+      "replacements": 2,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/api-test.d.ts.backup-corruption-fix-1750010007376"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/common.ts",
+      "replacements": 4,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/common.ts.backup-corruption-fix-1750010007377"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/test-utils/test-db.ts",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/test-utils/test-db.ts.backup-corruption-fix-1750010007379"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/test-utils/test-helpers.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/test-utils/test-helpers.tsx.backup-corruption-fix-1750010007379"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/document.ts",
+      "replacements": 3,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/document.ts.backup-corruption-fix-1750010007380"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/test-utils/render-test-utils.tsx",
+      "replacements": 3,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/test-utils/render-test-utils.tsx.backup-corruption-fix-1750010007380"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/next-route-handlers.d.ts",
+      "replacements": 6,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/next-route-handlers.d.ts.backup-corruption-fix-1750010007381"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/test-mocks.d.ts",
+      "replacements": 7,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/test-mocks.d.ts.backup-corruption-fix-1750010007381"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/test-utils/api-test-helpers.ts",
+      "replacements": 4,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/test-utils/api-test-helpers.ts.backup-corruption-fix-1750010007382"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/blockchain.ts",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/blockchain.ts.backup-corruption-fix-1750010007382"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/api-test.ts",
+      "replacements": 2,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/api-test.ts.backup-corruption-fix-1750010007383"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/middleware/monitoring.ts",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/middleware/monitoring.ts.backup-corruption-fix-1750010007383"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/development/models.ts",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/development/models.ts.backup-corruption-fix-1750010007383"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/next-api.d.ts",
+      "replacements": 4,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/next-api.d.ts.backup-corruption-fix-1750010007384"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/tests.d.ts",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/tests.d.ts.backup-corruption-fix-1750010007384"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/react-query/index.ts",
+      "replacements": 4,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/react-query/index.ts.backup-corruption-fix-1750010007385"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/core/user.ts",
+      "replacements": 3,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/core/user.ts.backup-corruption-fix-1750010007386"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/core/sales.ts",
+      "replacements": 4,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/core/sales.ts.backup-corruption-fix-1750010007386"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/core/marketing.ts",
+      "replacements": 18,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/core/marketing.ts.backup-corruption-fix-1750010007387"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/core/document.ts",
+      "replacements": 2,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/core/document.ts.backup-corruption-fix-1750010007387"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/core/analytics.ts",
+      "replacements": 36,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/core/analytics.ts.backup-corruption-fix-1750010007388"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/core/investor.ts",
+      "replacements": 13,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/core/investor.ts.backup-corruption-fix-1750010007388"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/customization.ts",
+      "replacements": 2,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/customization.ts.backup-corruption-fix-1750010007389"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/developments.ts",
+      "replacements": 2,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/developments.ts.backup-corruption-fix-1750010007389"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/contact.ts",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/contact.ts.backup-corruption-fix-1750010007390"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/prisma.ts",
+      "replacements": 22,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/prisma.ts.backup-corruption-fix-1750010007390"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/jsx-three-fiber.d.ts",
+      "replacements": 17,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/types/jsx-three-fiber.d.ts.backup-corruption-fix-1750010007391"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/contexts/TransactionContext.tsx",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/contexts/TransactionContext.tsx.backup-corruption-fix-1750010007391"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/contexts/EnhancedAuthContext.tsx",
+      "replacements": 18,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/contexts/EnhancedAuthContext.tsx.backup-corruption-fix-1750010007392"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/core/auth/AuthContext.tsx",
+      "replacements": 9,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/core/auth/AuthContext.tsx.backup-corruption-fix-1750010007393"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/core/auth/next-auth/two-factor/route.ts",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/core/auth/next-auth/two-factor/route.ts.backup-corruption-fix-1750010007393"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/core/auth/next-auth/[...nextauth]/auth-helpers.ts",
+      "replacements": 1,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/core/auth/next-auth/[...nextauth]/auth-helpers.ts.backup-corruption-fix-1750010007394"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/core/auth/next-auth/permissions/route.ts",
+      "replacements": 2,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/core/auth/next-auth/permissions/route.ts.backup-corruption-fix-1750010007394"
+    },
+    {
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/test-utils/type-utils.ts",
+      "replacements": 3,
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/test-utils/type-utils.ts.backup-corruption-fix-1750010007396"
+    }
+  ],
+  "errors": []
+}

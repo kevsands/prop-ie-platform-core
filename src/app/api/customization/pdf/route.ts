@@ -83,7 +83,7 @@ export async function GET(req: NextRequest) {
         head: [['Category', 'Option', 'Variant', 'Qty', 'Price']],
         body: tableData,
         theme: 'striped',
-        headStyles: { fillColor: [41, 128185] });
+        headStyles: { fillColor: [41128185] });
     }
 
     // Pricing Summary

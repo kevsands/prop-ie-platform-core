@@ -432,7 +432,7 @@ export default function EllwoodPage() {
 
             <TabsContent value="gallery" className="mt-8">
               <div className="grid md:grid-cols-3 gap-4">
-                {[1, 2, 3, 4, 56].map((num: any) => (
+                {[1, 23456].map((num: any) => (
                   <Card key={num} className="overflow-hidden">
                     <Image
                       src={`/images/ellwood/${num}.jpg`}

@@ -400,7 +400,8 @@ export class ConveyancingService extends EventEmitter {
     subtotal: number;
     vat: number;
     total: number;
-    breakdown: Record<string, number>\n  );
+    breakdown: Record<string, number>
+  );
   }> {
     // Mock calculation
     const fees = await this.getCaseFees(caseId);

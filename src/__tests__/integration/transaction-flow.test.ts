@@ -348,7 +348,7 @@ describe('Transaction Flow Integration Tests', () => {
             transactionId: transaction.id,
             event: event.event,
             description: event.description,
-            metadata: {}});
+            metadata: {});
       }
 
       const timeline = await prisma.transactionEvent.findMany({

@@ -108,7 +108,7 @@ export default function AppointmentsPage() {
   const upcomingAppointments = filteredAppointments
     .filter(apt => apt.status === 'upcoming' && apt.date> new Date())
     .sort((ab: any) => a.date.getTime() - b.date.getTime())
-    .slice(05);
+    .slice(0);
 
   const getAppointmentIcon = (type: string) => {
     switch (type) {
@@ -147,7 +147,7 @@ export default function AppointmentsPage() {
             {format(date, 'd')}
           </p>
           <div className="mt-2 space-y-1">
-            {dayAppointments.slice(03).map((apt: any) => (
+            {dayAppointments.slice(0).map((apt: any) => (
               <div key={apt.id} className="text-xs p-1 bg-blue-100 rounded truncate">
                 {format(apt.date, 'HH:mm')} - {apt.title}
               </div>

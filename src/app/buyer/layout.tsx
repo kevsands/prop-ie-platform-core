@@ -67,49 +67,40 @@ export default function BuyerLayout({ children }: { children: React.ReactNode })
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Main Navigation - Always on top */}
+      {/* Fixed Main Navigation */}
       <MainNavigation />
-
-      {/* Content wrapper with top padding to account for main nav */}
-      <div className="pt-16">
-        {/* Mobile header with proper spacing to avoid overlap */}
-        <div className="fixed top-16 left-0 right-0 z-40 bg-white border-b md:hidden">
-          <div className="flex items-center justify-between p-4">
-            <h2 className="text-lg font-bold text-gray-900">Buyer Dashboard</h2>
-            <button 
-              onClick={() => setSidebarOpen(!sidebarOpen)}
-              className="p-2 rounded-md hover:bg-gray-100"
-            >
-              {sidebarOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
-          </div>
-        </div>
-
-        {/* Mobile sidebar overlay */}
-        {sidebarOpen && (
-          <div 
-            className="fixed inset-0 z-30 bg-black bg-opacity-50 md:hidden"
-            onClick={() => setSidebarOpen(false)}
-          />
-        )}
-
-        {/* Sidebar */}
-        <div className={`
-          fixed top-16 left-0 z-30 h-full w-64 bg-white border-r transform transition-transform duration-200 ease-in-out
-          ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}
-          md:translate-x-0 md:static md:transform-none
-        `}>
-          {/* Desktop header */}
-          <div className="hidden md:block p-6 border-b">
+      
+      {/* Layout Container - accounts for fixed nav */}
+      <div className="pt-16 flex min-h-screen">
+        {/* Desktop Sidebar */}
+        <aside className="hidden md:flex w-64 bg-white border-r flex-col">
+          {/* Sidebar Header */}
+          <div className="p-6 border-b">
             <h2 className="text-xl font-bold text-gray-900">Buyer Dashboard</h2>
+            <p className="text-sm text-gray-600 mt-1">Manage your property journey</p>
+            
+            {/* User Profile */}
+            <div className="mt-4 p-3 bg-gray-50 rounded-lg">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center">
+                  <div className="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center">
+                    <User size={20} className="text-gray-600" />
+                  </div>
+                  <div className="ml-3">
+                    <p className="text-sm font-medium text-gray-900">John Doe</p>
+                    <p className="text-xs text-gray-500">First-time Buyer</p>
+                  </div>
+                </div>
+                <button className="p-2 hover:bg-gray-100 rounded-md">
+                  <LogOut size={16} className="text-gray-500" />
+                </button>
+              </div>
+            </div>
           </div>
 
-          {/* Mobile sidebar top spacing */}
-          <div className="h-16 md:hidden" />
-
-          {/* Navigation */}
-          <nav className="mt-5 px-4">
-            <ul className="space-y-2">
+          {/* Navigation Menu */}
+          <nav className="flex-1 px-4 py-4">
+            <ul className="space-y-1">
               {navigation.map((item: any) => {
                 if (item.isDropdown) {
                   return (
@@ -119,16 +110,10 @@ export default function BuyerLayout({ children }: { children: React.ReactNode })
                         className="w-full flex items-center justify-between p-3 rounded-lg transition-colors text-gray-700 hover:bg-gray-100"
                       >
                         <div className="flex items-center">
-                          <item.icon 
-                            className="mr-3 text-gray-500" 
-                            size={20} 
-                          />
+                          <item.icon className="mr-3 text-gray-500" size={20} />
                           <span>{item.name}</span>
                         </div>
-                        <ChevronDown 
-                          className={`transition-transform ${toolkitOpen ? 'rotate-180' : ''}`} 
-                          size={16} 
-                        />
+                        <ChevronDown className={`transition-transform ${toolkitOpen ? 'rotate-180' : ''}`} size={16} />
                       </button>
                       {toolkitOpen && (
                         <ul className="mt-2 ml-8 space-y-1">
@@ -138,19 +123,11 @@ export default function BuyerLayout({ children }: { children: React.ReactNode })
                               <li key={subItem.name}>
                                 <Link
                                   href={subItem.href}
-                                  className={`
-                                    flex items-center p-2 rounded-lg transition-colors text-sm
-                                    ${subActive 
-                                      ? 'bg-blue-50 text-blue-700 font-medium' 
-                                      : 'text-gray-600 hover:bg-gray-100'
-                                    }
-                                  `}
-                                  onClick={() => setSidebarOpen(false)}
+                                  className={`flex items-center p-2 rounded-lg transition-colors text-sm ${
+                                    subActive ? 'bg-blue-50 text-blue-700 font-medium' : 'text-gray-600 hover:bg-gray-100'
+                                  }`}
                                 >
-                                  <subItem.icon 
-                                    className={`mr-2 ${subActive ? 'text-blue-700' : 'text-gray-400'}`} 
-                                    size={16} 
-                                  />
+                                  <subItem.icon className={`mr-2 ${subActive ? 'text-blue-700' : 'text-gray-400'}`} size={16} />
                                   <span>{subItem.name}</span>
                                 </Link>
                               </li>
@@ -167,24 +144,14 @@ export default function BuyerLayout({ children }: { children: React.ReactNode })
                   <li key={item.name}>
                     <Link
                       href={item.href || '#'}
-                      className={`
-                        flex items-center p-3 rounded-lg transition-colors relative
-                        ${active 
-                          ? 'bg-blue-50 text-blue-700 font-medium' 
-                          : 'text-gray-700 hover:bg-gray-100'
-                        }
-                      `}
-                      onClick={() => setSidebarOpen(false)}
+                      className={`flex items-center p-3 rounded-lg transition-colors relative ${
+                        active ? 'bg-blue-50 text-blue-700 font-medium' : 'text-gray-700 hover:bg-gray-100'
+                      }`}
                     >
-                      <item.icon 
-                        className={`mr-3 ${active ? 'text-blue-700' : 'text-gray-500'}`} 
-                        size={20} 
-                      />
+                      <item.icon className={`mr-3 ${active ? 'text-blue-700' : 'text-gray-500'}`} size={20} />
                       <span>{item.name}</span>
                       {item.isNew && (
-                        <span className="ml-auto bg-green-500 text-white text-xs px-2 py-1 rounded-full">
-                          NEW
-                        </span>
+                        <span className="ml-auto bg-green-500 text-white text-xs px-2 py-1 rounded-full">NEW</span>
                       )}
                       {active && <ChevronRight className="ml-auto" size={16} />}
                     </Link>
@@ -193,31 +160,21 @@ export default function BuyerLayout({ children }: { children: React.ReactNode })
               })}
             </ul>
 
-            {/* Profile Section */}
-            <div className="mt-8 pt-8 border-t">
-              <h3 className="px-3 mb-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                Account
-              </h3>
-              <ul className="space-y-2">
+            {/* Account Section */}
+            <div className="mt-8 pt-6 border-t">
+              <h3 className="px-3 mb-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">Account</h3>
+              <ul className="space-y-1">
                 {profileSection.map((item: any) => {
                   const active = pathname === item.href;
                   return (
                     <li key={item.name}>
                       <Link
                         href={item.href}
-                        className={`
-                          flex items-center p-3 rounded-lg transition-colors
-                          ${active 
-                            ? 'bg-blue-50 text-blue-700 font-medium' 
-                            : 'text-gray-700 hover:bg-gray-100'
-                          }
-                        `}
-                        onClick={() => setSidebarOpen(false)}
+                        className={`flex items-center p-3 rounded-lg transition-colors ${
+                          active ? 'bg-blue-50 text-blue-700 font-medium' : 'text-gray-700 hover:bg-gray-100'
+                        }`}
                       >
-                        <item.icon 
-                          className={`mr-3 ${active ? 'text-blue-700' : 'text-gray-500'}`} 
-                          size={20} 
-                        />
+                        <item.icon className={`mr-3 ${active ? 'text-blue-700' : 'text-gray-500'}`} size={20} />
                         <span>{item.name}</span>
                       </Link>
                     </li>
@@ -227,71 +184,76 @@ export default function BuyerLayout({ children }: { children: React.ReactNode })
             </div>
           </nav>
 
-          {/* Help section */}
-          <div className="mt-8 mx-4 p-4 bg-blue-50 rounded-lg">
-            <div className="flex items-center mb-2">
-              <HelpCircle className="text-blue-600 mr-2" size={20} />
-              <span className="font-medium text-blue-900">Need Help?</span>
-            </div>
-            <p className="text-sm text-blue-700 mb-3">
-              Contact our buyer support team
-            </p>
-            <Link 
-              href="/buyer/support"
-              className="block w-full text-center py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition"
-            >
-              Get Support
-            </Link>
-          </div>
-
-          {/* User section */}
-          <div className="absolute bottom-0 left-0 right-0 p-4 border-t bg-white">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center">
-                <div className="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center">
-                  <User size={20} className="text-gray-600" />
-                </div>
-                <div className="ml-3">
-                  <p className="text-sm font-medium text-gray-900">John Doe</p>
-                  <p className="text-xs text-gray-500">First-time Buyer</p>
-                </div>
+          {/* Help Section */}
+          <div className="p-4">
+            <div className="p-4 bg-blue-50 rounded-lg">
+              <div className="flex items-center mb-2">
+                <HelpCircle className="text-blue-600 mr-2" size={20} />
+                <span className="font-medium text-blue-900">Need Help?</span>
               </div>
-              <button className="p-2 hover:bg-gray-100 rounded-md">
-                <LogOut size={16} className="text-gray-500" />
-              </button>
+              <p className="text-sm text-blue-700 mb-3">Contact our buyer support team</p>
+              <Link
+                href="/buyer/support"
+                className="block w-full text-center py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition text-sm"
+              >
+                Get Support
+              </Link>
             </div>
+          </div>
+        </aside>
+
+        {/* Main Content Area */}
+        <main className="flex-1 overflow-auto">
+          {children}
+        </main>
+
+        {/* Mobile Header */}
+        <div className="md:hidden fixed top-16 left-0 right-0 z-40 bg-white border-b">
+          <div className="flex items-center justify-between p-4">
+            <h2 className="text-lg font-bold text-gray-900">Buyer Dashboard</h2>
+            <button
+              onClick={() => setSidebarOpen(!sidebarOpen)}
+              className="p-2 rounded-md hover:bg-gray-100"
+            >
+              {sidebarOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
           </div>
         </div>
 
-        {/* Main content with proper spacing */}
-        <div className="flex-1 md:ml-64">
-          {/* Top bar */}
-          <div className="hidden md:block bg-white border-b px-6 py-4">
-            <div className="flex items-center justify-between">
-              <h1 className="text-2xl font-bold text-gray-900">
-                {navigation.find(item => isActive(item.href))?.name || 'Buyer Dashboard'}
-              </h1>
-              <div className="flex items-center gap-4">
-                <button className="p-2 hover:bg-gray-100 rounded-md relative">
-                  <Bell size={20} className="text-gray-600" />
-                  <span className="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full" />
-                </button>
-                <Link 
-                  href="/buyer/settings"
-                  className="p-2 hover:bg-gray-100 rounded-md"
-                >
-                  <Settings size={20} className="text-gray-600" />
-                </Link>
-              </div>
-            </div>
-          </div>
+        {/* Mobile Sidebar Overlay */}
+        {sidebarOpen && (
+          <div
+            className="md:hidden fixed inset-0 z-30 bg-black bg-opacity-50"
+            onClick={() => setSidebarOpen(false)}
+          />
+        )}
 
-          {/* Page content with mobile top padding */}
-          <main className="p-4 md:p-6 pt-24 md:pt-6">
-            <div className="max-w-7xl mx-auto">
-              {children}
-            </div>
-          </main>
+        {/* Mobile Sidebar */}
+        <div
+          className={`md:hidden fixed top-32 left-0 z-30 h-full w-64 bg-white border-r transform transition-transform duration-200 ease-in-out ${
+            sidebarOpen ? 'translate-x-0' : '-translate-x-full'
+          }`}
+        >
+          <div className="p-4">
+            <nav className="space-y-2">
+              {navigation.map((item: any) => {
+                const active = item.href && isActive(item.href);
+                return (
+                  <Link
+                    key={item.name}
+                    href={item.href || '#'}
+                    className={`flex items-center p-3 rounded-lg transition-colors ${
+                      active ? 'bg-blue-50 text-blue-700 font-medium' : 'text-gray-700 hover:bg-gray-100'
+                    }`}
+                    onClick={() => setSidebarOpen(false)}
+                  >
+                    <item.icon className={`mr-3 ${active ? 'text-blue-700' : 'text-gray-500'}`} size={20} />
+                    <span>{item.name}</span>
+                  </Link>
+                );
+              })}
+            </nav>
+          </div>
         </div>
       </div>
     </div>

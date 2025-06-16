@@ -55,7 +55,8 @@ interface PropertyDocument {
       name: string;
       status: 'PENDING' | 'SIGNED';
       signedAt?: Date;
-    }>\n  );
+    }>
+  );
   };
 }
 

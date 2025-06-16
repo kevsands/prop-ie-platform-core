@@ -153,8 +153,10 @@ export interface DocumentManagerProps {
         id: string;
         fullName: string;
       };
-    }>\n  );
-  }>\n  );
+    }>
+  );
+  }>
+  );
 }
 
 // First, define a fragment for document comments

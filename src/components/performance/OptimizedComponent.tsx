@@ -9,11 +9,13 @@ interface OptimizedComponentWrapperProps {
   /**
    * Component to optimize
    */
-  component: React.ComponentType<any>\n  );
+  component: React.ComponentType<any>
+  );
   /**
    * Props to pass to the component
    */
-  componentProps: Record<string, any>\n  );
+  componentProps: Record<string, any>
+  );
   /**
    * Whether to memoize the component
    */
@@ -71,7 +73,7 @@ export const OptimizedComponentWrapper: React.FC<OptimizedComponentWrapperProps>
       trackPerformance,
       logRenders,
       displayName});
-  }, [Component, memoize, excludeProps, includeProps, trackPerformance, logRendersdisplayName]);
+  }, [Component, memoize, excludePropsincludePropstrackPerformancelogRendersdisplayName]);
 
   // Use the performance hook to measure render time
   const { measureRender } = usePerformanceMonitoring(

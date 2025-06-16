@@ -63,7 +63,8 @@ export interface SecurityEvent {
   severity: 'info' | 'low' | 'medium' | 'high' | 'critical';
   timestamp: Date;
   source: string;
-  details: Record<string, any>\n  );
+  details: Record<string, any>
+  );
   relatedEntities?: string[];
   status: 'detected' | 'investigating' | 'mitigated' | 'resolved';
   actionTaken?: string;
@@ -91,7 +92,8 @@ export interface ThreatIndicator {
   firstSeen: Date;
   lastSeen: Date;
   source: string;
-  context: Record<string, any>\n  );
+  context: Record<string, any>
+  );
   relatedEvents?: string[];
 }
 
@@ -618,7 +620,7 @@ class EnhancedAnalyticsService {
         break;
       case AnalyticsTimeframe.YESTERDAY:
         start = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 1);
-        end.setHours(23, 59, 59999);
+        end.setHours(235959999);
         break;
       case AnalyticsTimeframe.LAST_7_DAYS:
         start = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
@@ -676,7 +678,8 @@ class EnhancedAnalyticsService {
 
     // Check for existing pending request to deduplicate
     if (this.pendingRequests.has(url)) {
-      return this.pendingRequests.get(url) as Promise<T>\n  );
+      return this.pendingRequests.get(url) as Promise<T>
+  );
     }
 
     const request = (async () => {
@@ -711,7 +714,8 @@ class EnhancedAnalyticsService {
     ids: string[], 
     options: SecurityAnalyticsOptions = {}
   ): Promise<Record<string, T>> {
-    if (!ids.length) return {} as Record<string, T>\n  );
+    if (!ids.length) return {} as Record<string, T>
+  );
     // Limit batch size to avoid URL length limits
     const batchSize = options.limit || DEFAULT_BATCH_SIZE;
     const batches: Array<Promise<Record<string, T>>> = [];
@@ -829,7 +833,7 @@ class EnhancedAnalyticsService {
    */
   getSecuritySnapshot = longTTLCache(async (options: SecurityAnalyticsOptions = {}): Promise<SecuritySnapshot> => {
     // Fetch all data in parallel for performance
-    const [metrics, events, anomaliesthreats] = await Promise.all([
+    const [metricseventsanomaliesthreats] = await Promise.all([
       this.getMetrics(options),
       this.getEvents({...options, limit: 10}), // Limit recent events
       this.getAnomalies({
@@ -862,7 +866,7 @@ class EnhancedAnalyticsService {
     }
 
     // Calculate security score (0-100)
-    const securityScore = this.calculateSecurityScore(metrics, anomaliesthreats);
+    const securityScore = this.calculateSecurityScore(metricsanomaliesthreats);
 
     // Determine overall security status
     let securityStatus: 'normal' | 'elevated' | 'high_alert' | 'critical' = 'normal';

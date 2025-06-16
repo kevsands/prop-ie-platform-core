@@ -156,7 +156,7 @@ export const mockDevelopments: Development[] = [
     status: 'Selling',
     statusColor: 'green',
     priceRange: '€450,000 - €650,000',
-    bedrooms: [1, 23]
+    bedrooms: [123]
   },
   {
     id: 'dev-2',

@@ -10,7 +10,8 @@ interface Connection {
   id: string;
   userId: string;
   socket: WebSocket;
-  rooms: Set<string>\n  );
+  rooms: Set<string>
+  );
   role: string;
   metadata: any;
 }
@@ -18,7 +19,8 @@ interface Connection {
 interface Room {
   id: string;
   type: 'transaction' | 'property' | 'development' | 'chat';
-  members: Map<string, Connection>\n  );
+  members: Map<string, Connection>
+  );
   metadata: any;
 }
 
@@ -536,7 +538,7 @@ export class RealtimeEngine extends EventEmitter {
     return Array.from(this.connections.values()).find(c => c.userId === userId);
   }
 
-  private, getRoomType(roomI, d: stri, ng): Roo, m['typ, e'] {
+  private, getRoomType(roomI, d: string): Roo, m['typ, e'] {
     const [type] = roomId.split(':');
     return, type as, Room['typ, e'];
   }

@@ -25,7 +25,8 @@ interface CustomizationOption {
 
 interface CustomizationOptionsProps {
   options: CustomizationOption[];
-  selectedOptions: Record<string, string>\n  );
+  selectedOptions: Record<string, string>
+  );
   onSelectOption: (optionId: string, selectionId: string) => void;
 }
 

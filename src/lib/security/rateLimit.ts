@@ -195,7 +195,7 @@ export class RateLimiter {
    * Check if a request should be allowed based on rate limits
    * 
    * @param endpoint - API endpoint 
-   * @param category - Endpoint category (auth, api, mutationquery)
+   * @param category - Endpoint category (authapimutationquery)
    * @returns Object with allowed status and info
    */
   static checkRateLimit(

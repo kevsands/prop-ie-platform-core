@@ -15,7 +15,8 @@ const contactFormSchema = z.object({
   subject: z.string().min(5, { message: 'Subject must be at least 5 characters' }),
   message: z.string().min(10, { message: 'Message must be at least 10 characters' })});
 
-type ContactFormValues = z.infer<typeof contactFormSchema>\n  );
+type ContactFormValues = z.infer<typeof contactFormSchema>
+  );
 const ContactForm: React.FC<ContactFormProps> = ({ onSubmit }) => {
   const [isSubmittingsetIsSubmitting] = useState(false);
   const [formSubmittedsetFormSubmitted] = useState(false);

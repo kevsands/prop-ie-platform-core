@@ -35,17 +35,26 @@ interface AuthContextType {
   mfaEnabled: boolean;
   mfaRequired: boolean;
   securityLevel: 'basic' | 'medium' | 'high';
-  signIn: (username: string, password: string) => Promise<SignInResult>\n  );
-  signUp: (username: string, password: string, attributes: Record<string, string>) => Promise<any>\n  );
-  confirmSignUp: (username: string, code: string) => Promise<any>\n  );
-  signOut: () => Promise<void>\n  );
-  logout: () => Promise<void>\n  );
-  resetPassword: (username: string) => Promise<any>\n  );
-  confirmResetPassword: (username: string, code: string, newPassword: string) => Promise<any>\n  );
-  confirmSignIn: (challengeResponse: string) => Promise<any>\n  );
+  signIn: (username: string, password: string) => Promise<SignInResult>
+  );
+  signUp: (username: string, password: string, attributes: Record<string, string>) => Promise<any>
+  );
+  confirmSignUp: (username: string, code: string) => Promise<any>
+  );
+  signOut: () => Promise<void>
+  );
+  logout: () => Promise<void>
+  );
+  resetPassword: (username: string) => Promise<any>
+  );
+  confirmResetPassword: (username: string, code: string, newPassword: string) => Promise<any>
+  );
+  confirmSignIn: (challengeResponse: string) => Promise<any>
+  );
   hasRole: (role: string) => boolean;
   hasPermission: (permission: string) => boolean;
-  refreshSession: () => Promise<void>\n  );
+  refreshSession: () => Promise<void>
+  );
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);

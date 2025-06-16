@@ -88,7 +88,7 @@ const typeDefs = `
 // Mock resolvers
 const resolvers = {
   Query: {
-    me: (_, __context) => {
+    me: (___context) => {
       if (!context.isAuthenticated) {
         throw new Error('Not authenticated');
       }
@@ -200,7 +200,7 @@ const resolvers = {
         firstName: firstName || user.firstName,
         lastName: lastName || user.lastName,
         fullName: `${firstName || user.firstName} ${lastName || user.lastName}`};
-    }};
+    };
 
 describe('GraphQL Server Integration', () => {
   let server: ApolloServer;

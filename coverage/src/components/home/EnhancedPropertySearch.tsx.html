@@ -358,12 +358,7 @@
 <a name='L293'></a><a href='#L293'>293</a>
 <a name='L294'></a><a href='#L294'>294</a>
 <a name='L295'></a><a href='#L295'>295</a>
-<a name='L296'></a><a href='#L296'>296</a>
-<a name='L297'></a><a href='#L297'>297</a>
-<a name='L298'></a><a href='#L298'>298</a>
-<a name='L299'></a><a href='#L299'>299</a>
-<a name='L300'></a><a href='#L300'>300</a>
-<a name='L301'></a><a href='#L301'>301</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L296'></a><a href='#L296'>296</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -430,31 +425,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -467,6 +437,26 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -688,10 +678,10 @@ interface SearchFormData {
 &nbsp;
 export default function <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >EnhancedPropertySearch() {</span></span>
   const router = <span class="cstat-no" title="statement not covered" >useRouter();</span>
-  const [activeTab, setActiveTab] = <span class="cstat-no" title="statement not covered" >useState&lt;'buy' | 'rent' | 'newHomes'&gt;('newHomes');</span>
-  const [isAdvancedSearch, setIsAdvancedSearch] = <span class="cstat-no" title="statement not covered" >useState(false);</span>
-  
-  const [formData, setFormData] = <span class="cstat-no" title="statement not covered" >useState&lt;SearchFormData&gt;({</span>
+  const [activeTabsetActiveTab] = <span class="cstat-no" title="statement not covered" >useState&lt;'buy' | 'rent' | 'newHomes'&gt;('newHomes');</span>
+  const [isAdvancedSearchsetIsAdvancedSearch] = <span class="cstat-no" title="statement not covered" >useState(false);</span>
+&nbsp;
+  const [formDatasetFormData] = <span class="cstat-no" title="statement not covered" >useState&lt;SearchFormData&gt;({</span>
     location: '',
     propertyType: '',
     bedrooms: '',
@@ -706,30 +696,29 @@ export default function <span class="cstat-no" title="statement not covered" ><s
 &nbsp;
   const handleSearch = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(e</span>: React.FormEvent) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    e.preventDefault();</span>
-    
+&nbsp;
     // Build query parameters
     const params = <span class="cstat-no" title="statement not covered" >new URLSearchParams();</span>
-<span class="cstat-no" title="statement not covered" >    Object.entries(formData).forEach(<span class="fstat-no" title="function not covered" >([</span>key, value]) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    Object.entries(formData).forEach(<span class="fstat-no" title="function not covered" >([</span>keyvalue]) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (value) {</span>
-<span class="cstat-no" title="statement not covered" >        params.append(key, value);</span>
+<span class="cstat-no" title="statement not covered" >        params.append(keyvalue);</span>
       }
     });
-    
+&nbsp;
     // Add tab as parameter
 <span class="cstat-no" title="statement not covered" >    params.append('tab', activeTab);</span>
-    
+&nbsp;
     // Navigate to search page with parameters
 <span class="cstat-no" title="statement not covered" >    router.push(`/properties/search?${params.toString()}`);</span>
   };
-  
+&nbsp;
   // Popular searches
   const popularSearches = <span class="cstat-no" title="statement not covered" >[</span>
     { label: '3-bed houses', query: '?bedrooms=3&amp;propertyType=house' },
     { label: 'Fitzgerald Gardens', query: '?development=fitzgerald-gardens' },
     { label: 'Modern apartments', query: '?propertyType=apartment&amp;features=modern' },
-    { label: 'First-time buyer homes', query: '?firstTimeBuyer=true' },
-  ];
-  
+    { label: 'First-time buyer homes', query: '?firstTimeBuyer=true' }];
+&nbsp;
   // Price range options
   const priceRanges = <span class="cstat-no" title="statement not covered" >[</span>
     { value: 'any', label: 'Any Price' },
@@ -738,9 +727,8 @@ export default function <span class="cstat-no" title="statement not covered" ><s
     { value: '350000-500000', label: '€350,000 - €500,000' },
     { value: '500000-750000', label: '€500,000 - €750,000' },
     { value: '750000-1000000', label: '€750,000 - €1,000,000' },
-    { value: '1000000+', label: 'Over €1,000,000' },
-  ];
-  
+    { value: '1000000+', label: 'Over €1,000,000' }];
+&nbsp;
   // Location options
   const locations = <span class="cstat-no" title="statement not covered" >[</span>
     { value: '', label: 'Any Location' },
@@ -751,9 +739,8 @@ export default function <span class="cstat-no" title="statement not covered" ><s
     { value: 'waterford', label: 'Waterford' },
     { value: 'drogheda', label: 'Drogheda' },
     { value: 'kildare', label: 'Kildare' },
-    { value: 'wicklow', label: 'Wicklow' },
-  ];
-  
+    { value: 'wicklow', label: 'Wicklow' }];
+&nbsp;
   // Property types
   const propertyTypes = <span class="cstat-no" title="statement not covered" >[</span>
     { value: '', label: 'Any Property Type' },
@@ -761,9 +748,8 @@ export default function <span class="cstat-no" title="statement not covered" ><s
     { value: 'house', label: 'House' },
     { value: 'duplex', label: 'Duplex' },
     { value: 'bungalow', label: 'Bungalow' },
-    { value: 'townhouse', label: 'Townhouse' },
-  ];
-  
+    { value: 'townhouse', label: 'Townhouse' }];
+&nbsp;
   // Bedrooms
   const bedroomOptions = <span class="cstat-no" title="statement not covered" >[</span>
     { value: '', label: 'Any Bedrooms' },
@@ -771,8 +757,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
     { value: '2', label: '2+ Beds' },
     { value: '3', label: '3+ Beds' },
     { value: '4', label: '4+ Beds' },
-    { value: '5', label: '5+ Beds' },
-  ];
+    { value: '5', label: '5+ Beds' }];
 &nbsp;
   return (
     &lt;div className="w-full bg-white shadow-2xl rounded-xl border border-gray-100"&gt;
@@ -809,7 +794,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
           New Homes
         &lt;/button&gt;
       &lt;/div&gt;
-      
+&nbsp;
       {/* Search Form */}
       &lt;form onSubmit={handleSearch} className="p-6"&gt;
         &lt;div className="relative mb-4"&gt;
@@ -823,7 +808,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
             className="w-full pl-12 pr-4 py-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#2B5273] focus:border-[#2B5273]"
           /&gt;
         &lt;/div&gt;
-        
+&nbsp;
         {<span class="branch-0 cbranch-no" title="branch not covered" >isAdvancedSearch &amp;&amp; (</span>
           &lt;div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4"&gt;
             &lt;div&gt;
@@ -836,7 +821,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                   onChange={handleInputChange}
                   className="w-full pl-10 pr-10 py-3 border border-gray-300 rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-[#2B5273] focus:border-[#2B5273]"
                 &gt;
-                  {locations.map(<span class="fstat-no" title="function not covered" >(l</span>ocation) =&gt; (
+                  {locations.map(<span class="fstat-no" title="function not covered" >(l</span>ocation: any) =&gt; (
 <span class="cstat-no" title="statement not covered" >                    &lt;option key={location.value} v</span>alue={location.value}&gt;
                       {location.label}
                     &lt;/option&gt;
@@ -845,7 +830,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                 &lt;ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4 pointer-events-none" /&gt;
               &lt;/div&gt;
             &lt;/div&gt;
-            
+&nbsp;
             &lt;div&gt;
               &lt;label className="block text-sm font-medium text-gray-700 mb-1"&gt;Property Type&lt;/label&gt;
               &lt;div className="relative"&gt;
@@ -856,7 +841,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                   onChange={handleInputChange}
                   className="w-full pl-10 pr-10 py-3 border border-gray-300 rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-[#2B5273] focus:border-[#2B5273]"
                 &gt;
-                  {propertyTypes.map(<span class="fstat-no" title="function not covered" >(t</span>ype) =&gt; (
+                  {propertyTypes.map(<span class="fstat-no" title="function not covered" >(t</span>ype: any) =&gt; (
 <span class="cstat-no" title="statement not covered" >                    &lt;option key={type.value} v</span>alue={type.value}&gt;
                       {type.label}
                     &lt;/option&gt;
@@ -865,7 +850,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                 &lt;ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4 pointer-events-none" /&gt;
               &lt;/div&gt;
             &lt;/div&gt;
-            
+&nbsp;
             &lt;div&gt;
               &lt;label className="block text-sm font-medium text-gray-700 mb-1"&gt;Bedrooms&lt;/label&gt;
               &lt;div className="relative"&gt;
@@ -876,7 +861,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                   onChange={handleInputChange}
                   className="w-full pl-10 pr-10 py-3 border border-gray-300 rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-[#2B5273] focus:border-[#2B5273]"
                 &gt;
-                  {bedroomOptions.map(<span class="fstat-no" title="function not covered" >(o</span>ption) =&gt; (
+                  {bedroomOptions.map(<span class="fstat-no" title="function not covered" >(o</span>ption: any) =&gt; (
 <span class="cstat-no" title="statement not covered" >                    &lt;option key={option.value} v</span>alue={option.value}&gt;
                       {option.label}
                     &lt;/option&gt;
@@ -885,7 +870,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                 &lt;ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4 pointer-events-none" /&gt;
               &lt;/div&gt;
             &lt;/div&gt;
-            
+&nbsp;
             &lt;div&gt;
               &lt;label className="block text-sm font-medium text-gray-700 mb-1"&gt;Price Range&lt;/label&gt;
               &lt;div className="relative"&gt;
@@ -896,7 +881,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                   onChange={handleInputChange}
                   className="w-full pl-10 pr-10 py-3 border border-gray-300 rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-[#2B5273] focus:border-[#2B5273]"
                 &gt;
-                  {priceRanges.map(<span class="fstat-no" title="function not covered" >(r</span>ange) =&gt; (
+                  {priceRanges.map(<span class="fstat-no" title="function not covered" >(r</span>ange: any) =&gt; (
 <span class="cstat-no" title="statement not covered" >                    &lt;option key={range.value} v</span>alue={range.value}&gt;
                       {range.label}
                     &lt;/option&gt;
@@ -907,7 +892,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
             &lt;/div&gt;
           &lt;/div&gt;
         )}
-        
+&nbsp;
         &lt;div className="flex items-center justify-between"&gt;
           &lt;button
             type="button"
@@ -917,7 +902,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
             {isAdvancedSearch ? 'Simple Search' : 'Advanced Search'}
             &lt;ChevronDown className={`ml-1 h-4 w-4 transform ${isAdvancedSearch ? 'rotate-180' : ''} transition-transform`} /&gt;
           &lt;/button&gt;
-          
+&nbsp;
           &lt;button
             type="submit"
             className="bg-[#2B5273] text-white px-6 py-3 rounded-lg hover:bg-[#1E3142] transition-colors font-medium flex items-center"
@@ -927,12 +912,12 @@ export default function <span class="cstat-no" title="statement not covered" ><s
           &lt;/button&gt;
         &lt;/div&gt;
       &lt;/form&gt;
-      
+&nbsp;
       {/* Popular Searches */}
       &lt;div className="px-6 pb-6"&gt;
         &lt;div className="flex flex-wrap gap-2 items-center text-sm"&gt;
           &lt;span className="text-gray-600"&gt;Popular searches:&lt;/span&gt;
-          {popularSearches.map(<span class="fstat-no" title="function not covered" >(s</span>earch, index) =&gt; (
+          {popularSearches.map(<span class="fstat-no" title="function not covered" >(s</span>earchindex: any) =&gt; (
 <span class="cstat-no" title="statement not covered" >            &lt;a</span>
               key={index}
               href={`/properties/search${search.query}`}
@@ -943,7 +928,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
           ))}
         &lt;/div&gt;
       &lt;/div&gt;
-      
+&nbsp;
       {/* Quick Stats */}
       &lt;div className="bg-gray-50 px-6 py-4 rounded-b-xl border-t border-gray-100"&gt;
         &lt;div className="grid grid-cols-1 md:grid-cols-3 gap-4"&gt;
@@ -970,7 +955,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T22:15:28.100Z
+                at 2025-06-15T18:50:48.918Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

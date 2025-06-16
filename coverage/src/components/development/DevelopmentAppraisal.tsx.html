@@ -1210,8 +1210,8 @@ import {
 } from <span class="cstat-no" title="statement not covered" >'recharts';</span>
 &nbsp;
 export function <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >DevelopmentAppraisal() {</span></span>
-  const [activeTab, setActiveTab] = <span class="cstat-no" title="statement not covered" >useState('financial');</span>
-  const [appraisalData, setAppraisalData] = <span class="cstat-no" title="statement not covered" >useState({</span>
+  const [activeTabsetActiveTab] = <span class="cstat-no" title="statement not covered" >useState('financial');</span>
+  const [appraisalDatasetAppraisalData] = <span class="cstat-no" title="statement not covered" >useState({</span>
     landCost: 2500000,
     constructionCost: 8500000,
     professionalFees: 850000,
@@ -1356,33 +1356,33 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
                       id="landCost"
                       type="number"
                       value={appraisalData.landCost}
-                      onChange={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; <span class="cstat-no" title="statement not covered" >setAppraisalData(<span class="fstat-no" title="function not covered" >prev =&gt; (<span class="cstat-no" title="statement not covered" >{</span></span></span>
+                      onChange={<span class="fstat-no" title="function not covered" >(e</span>: any) =&gt; <span class="cstat-no" title="statement not covered" >setAppraisalData(<span class="fstat-no" title="function not covered" >prev =&gt; (<span class="cstat-no" title="statement not covered" >{</span></span></span>
                         ...prev,
                         landCost: Number(e.target.value)
                       }))}
                     /&gt;
                   &lt;/div&gt;
-                  
+&nbsp;
                   &lt;div&gt;
                     &lt;Label htmlFor="constructionCost"&gt;Construction Cost&lt;/Label&gt;
                     &lt;Input
                       id="constructionCost"
                       type="number"
                       value={appraisalData.constructionCost}
-                      onChange={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; <span class="cstat-no" title="statement not covered" >setAppraisalData(<span class="fstat-no" title="function not covered" >prev =&gt; (<span class="cstat-no" title="statement not covered" >{</span></span></span>
+                      onChange={<span class="fstat-no" title="function not covered" >(e</span>: any) =&gt; <span class="cstat-no" title="statement not covered" >setAppraisalData(<span class="fstat-no" title="function not covered" >prev =&gt; (<span class="cstat-no" title="statement not covered" >{</span></span></span>
                         ...prev,
                         constructionCost: Number(e.target.value)
                       }))}
                     /&gt;
                   &lt;/div&gt;
-                  
+&nbsp;
                   &lt;div&gt;
                     &lt;Label htmlFor="professionalFees"&gt;Professional Fees&lt;/Label&gt;
                     &lt;Input
                       id="professionalFees"
                       type="number"
                       value={appraisalData.professionalFees}
-                      onChange={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; <span class="cstat-no" title="statement not covered" >setAppraisalData(<span class="fstat-no" title="function not covered" >prev =&gt; (<span class="cstat-no" title="statement not covered" >{</span></span></span>
+                      onChange={<span class="fstat-no" title="function not covered" >(e</span>: any) =&gt; <span class="cstat-no" title="statement not covered" >setAppraisalData(<span class="fstat-no" title="function not covered" >prev =&gt; (<span class="cstat-no" title="statement not covered" >{</span></span></span>
                         ...prev,
                         professionalFees: Number(e.target.value)
                       }))}
@@ -1398,16 +1398,16 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
                         cx="50%"
                         cy="50%"
                         labelLine={false}
-                        label={<span class="fstat-no" title="function not covered" >(e</span>ntry) =&gt; <span class="cstat-no" title="statement not covered" >`${entry.name} (${entry.percentage}%)`}</span>
+                        label={<span class="fstat-no" title="function not covered" >(e</span>ntry: any) =&gt; <span class="cstat-no" title="statement not covered" >`${entry.name} (${entry.percentage}%)`}</span>
                         outerRadius={80}
                         fill="#8884d8"
                         dataKey="value"
                       &gt;
-                        {costBreakdown.map(<span class="fstat-no" title="function not covered" >(e</span>ntry, index) =&gt; (
+                        {costBreakdown.map(<span class="fstat-no" title="function not covered" >(e</span>ntryindex: any) =&gt; (
 <span class="cstat-no" title="statement not covered" >                          &lt;Cell key={`cell-${index}`} f</span>ill={COLORS[index % COLORS.length]} /&gt;
                         ))}
                       &lt;/Pie&gt;
-                      &lt;Tooltip formatter={<span class="fstat-no" title="function not covered" >(v</span>alue) =&gt; <span class="cstat-no" title="statement not covered" >formatCurrency(Number(value))} /&gt;</span>
+                      &lt;Tooltip formatter={<span class="fstat-no" title="function not covered" >(v</span>alue: any) =&gt; <span class="cstat-no" title="statement not covered" >formatCurrency(Number(value))} /&gt;</span>
                     &lt;/PieChart&gt;
                   &lt;/ResponsiveContainer&gt;
                 &lt;/div&gt;
@@ -1427,33 +1427,33 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
                     id="totalUnits"
                     type="number"
                     value={appraisalData.totalUnits}
-                    onChange={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; <span class="cstat-no" title="statement not covered" >setAppraisalData(<span class="fstat-no" title="function not covered" >prev =&gt; (<span class="cstat-no" title="statement not covered" >{</span></span></span>
+                    onChange={<span class="fstat-no" title="function not covered" >(e</span>: any) =&gt; <span class="cstat-no" title="statement not covered" >setAppraisalData(<span class="fstat-no" title="function not covered" >prev =&gt; (<span class="cstat-no" title="statement not covered" >{</span></span></span>
                       ...prev,
                       totalUnits: Number(e.target.value)
                     }))}
                   /&gt;
                 &lt;/div&gt;
-                
+&nbsp;
                 &lt;div&gt;
                   &lt;Label htmlFor="averageUnitPrice"&gt;Average Unit Price&lt;/Label&gt;
                   &lt;Input
                     id="averageUnitPrice"
                     type="number"
                     value={appraisalData.averageUnitPrice}
-                    onChange={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; <span class="cstat-no" title="statement not covered" >setAppraisalData(<span class="fstat-no" title="function not covered" >prev =&gt; (<span class="cstat-no" title="statement not covered" >{</span></span></span>
+                    onChange={<span class="fstat-no" title="function not covered" >(e</span>: any) =&gt; <span class="cstat-no" title="statement not covered" >setAppraisalData(<span class="fstat-no" title="function not covered" >prev =&gt; (<span class="cstat-no" title="statement not covered" >{</span></span></span>
                       ...prev,
                       averageUnitPrice: Number(e.target.value)
                     }))}
                   /&gt;
                 &lt;/div&gt;
-                
+&nbsp;
                 &lt;div&gt;
                   &lt;Label htmlFor="salesPeriod"&gt;Sales Period (months)&lt;/Label&gt;
                   &lt;Input
                     id="salesPeriod"
                     type="number"
                     value={appraisalData.salesPeriod}
-                    onChange={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; <span class="cstat-no" title="statement not covered" >setAppraisalData(<span class="fstat-no" title="function not covered" >prev =&gt; (<span class="cstat-no" title="statement not covered" >{</span></span></span>
+                    onChange={<span class="fstat-no" title="function not covered" >(e</span>: any) =&gt; <span class="cstat-no" title="statement not covered" >setAppraisalData(<span class="fstat-no" title="function not covered" >prev =&gt; (<span class="cstat-no" title="statement not covered" >{</span></span></span>
                       ...prev,
                       salesPeriod: Number(e.target.value)
                     }))}
@@ -1476,10 +1476,10 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
                     &lt;CartesianGrid strokeDasharray="3 3" /&gt;
                     &lt;XAxis dataKey="month" /&gt;
                     &lt;YAxis 
-                      tickFormatter={<span class="fstat-no" title="function not covered" >(v</span>alue) =&gt; <span class="cstat-no" title="statement not covered" >`€${(value / 1000000).toFixed(1)}M`}</span>
+                      tickFormatter={<span class="fstat-no" title="function not covered" >(v</span>alue: any) =&gt; <span class="cstat-no" title="statement not covered" >`€${(value / 1000000).toFixed(1)}M`}</span>
                     /&gt;
                     &lt;Tooltip 
-                      formatter={<span class="fstat-no" title="function not covered" >(v</span>alue) =&gt; <span class="cstat-no" title="statement not covered" >formatCurrency(Number(value))}</span>
+                      formatter={<span class="fstat-no" title="function not covered" >(v</span>alue: any) =&gt; <span class="cstat-no" title="statement not covered" >formatCurrency(Number(value))}</span>
                     /&gt;
                     &lt;Legend /&gt;
                     &lt;Line 
@@ -1551,12 +1551,12 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
                     &lt;XAxis dataKey="factor" /&gt;
                     &lt;YAxis 
                       yAxisId="left" 
-                      tickFormatter={<span class="fstat-no" title="function not covered" >(v</span>alue) =&gt; <span class="cstat-no" title="statement not covered" >`${value}%`}</span>
+                      tickFormatter={<span class="fstat-no" title="function not covered" >(v</span>alue: any) =&gt; <span class="cstat-no" title="statement not covered" >`${value}%`}</span>
                     /&gt;
                     &lt;YAxis 
                       yAxisId="right" 
                       orientation="right"
-                      tickFormatter={<span class="fstat-no" title="function not covered" >(v</span>alue) =&gt; <span class="cstat-no" title="statement not covered" >`€${(value / 1000000).toFixed(1)}M`}</span>
+                      tickFormatter={<span class="fstat-no" title="function not covered" >(v</span>alue: any) =&gt; <span class="cstat-no" title="statement not covered" >`€${(value / 1000000).toFixed(1)}M`}</span>
                     /&gt;
                     &lt;Tooltip /&gt;
                     &lt;Legend /&gt;
@@ -1640,7 +1640,7 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
                   &lt;div&gt;Units&lt;/div&gt;
                   &lt;div&gt;Completion&lt;/div&gt;
                 &lt;/div&gt;
-                
+&nbsp;
                 &lt;div className="grid grid-cols-4 gap-4 p-3 bg-muted rounded-lg"&gt;
                   &lt;div className="font-medium"&gt;Your Project&lt;/div&gt;
                   &lt;div&gt;€385/sqft&lt;/div&gt;
@@ -1735,7 +1735,7 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T22:15:28.100Z
+                at 2025-06-15T18:50:48.918Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

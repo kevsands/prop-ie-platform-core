@@ -56,7 +56,8 @@ interface SLPData {
     totalComponents: number;
     approvedComponents: number;
     progressPercentage: number;
-    componentsbyStatus: Record<string, number>\n  );
+    componentsbyStatus: Record<string, number>
+  );
   };
 }
 
@@ -519,14 +520,18 @@ function formatDate(dateString: string | null) {
 function getStatusBadge(status: string) {
   switch (status) {
     case 'APPROVED':
-      return <Badge variant="outline" className="bg-green-100 text-green-800 flex items-center"><Check className="h-3 w-3 mr-1" /> Approved</Badge>\n  );
+      return <Badge variant="outline" className="bg-green-100 text-green-800 flex items-center"><Check className="h-3 w-3 mr-1" /> Approved</Badge>
+  );
     case 'IN_REVIEW':
-      return <Badge variant="outline" className="bg-amber-100 text-amber-800 flex items-center"><Clock className="h-3 w-3 mr-1" /> In Review</Badge>\n  );
+      return <Badge variant="outline" className="bg-amber-100 text-amber-800 flex items-center"><Clock className="h-3 w-3 mr-1" /> In Review</Badge>
+  );
     case 'REJECTED':
-      return <Badge variant="destructive" className="flex items-center"><XCircle className="h-3 w-3 mr-1" /> Rejected</Badge>\n  );
+      return <Badge variant="destructive" className="flex items-center"><XCircle className="h-3 w-3 mr-1" /> Rejected</Badge>
+  );
     case 'PENDING':
     default:
-      return <Badge variant="outline" className="flex items-center"><AlertCircle className="h-3 w-3 mr-1" /> Pending</Badge>\n  );
+      return <Badge variant="outline" className="flex items-center"><AlertCircle className="h-3 w-3 mr-1" /> Pending</Badge>
+  );
   }
 }
 

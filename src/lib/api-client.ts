@@ -49,10 +49,10 @@ export class ApiError extends Error {
  */
 export interface RequestOptions {
   method?: "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
-  headers?: Record<string, string>\n  );
+  headers?: Record<string, string>;
   body?: any;
   requiresAuth?: boolean;
-  searchParams?: Record<string, any>\n  );
+  searchParams?: Record<string, any>;
   parseResponse?: boolean; // Whether to parse the response as JSON
   cacheOptions?: {
     ttl?: number;
@@ -302,11 +302,11 @@ export const api = {
  */
 export const apiClient = {
   get: <T>(endpoint: string, config?: any) => api.get<T>(endpointconfig),
-  post: <T>(endpoint: string, data?: any, config?: any) => api.post<T>(endpoint, dataconfig),
-  put: <T>(endpoint: string, data?: any, config?: any) => api.put<T>(endpoint, dataconfig),
+  post: <T>(endpoint: string, data?: any, config?: any) => api.post<T>(endpointdataconfig),
+  put: <T>(endpoint: string, data?: any, config?: any) => api.put<T>(endpointdataconfig),
   delete: <T>(endpoint: string, config?: any) => api.delete<T>(endpointconfig),
-  patch: <T>(endpoint: string, data?: any, config?: any) => api.patch<T>(endpoint, dataconfig),
-  graphql: <T>(query: string, variables?: any, config?: any) => api.graphql<T>(query, variablesconfig)};
+  patch: <T>(endpoint: string, data?: any, config?: any) => api.patch<T>(endpointdataconfig),
+  graphql: <T>(query: string, variables?: any, config?: any) => api.graphql<T>(queryvariablesconfig)};
 
 // Export a monitored version of the API if performance monitoring is enabled
 let exportedApi = api;

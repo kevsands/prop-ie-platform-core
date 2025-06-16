@@ -112,7 +112,7 @@ export const createMockQueryClient = () => new QueryClient({ defaultOptions: { q
       // Use new property names from @tanstack/react-query
       cacheTime: 0, // replaces cacheTime
       staleTime: 0,
-      refetchOnWindowFocus: false}} as QueryClientConfig);
+      refetchOnWindowFocus: false} as QueryClientConfig);
 
 // Mock implementation of useQuery
 export const mockUseQuery = jest.fn().mockImplementation((queryKey, queryFn, options = {}) => {

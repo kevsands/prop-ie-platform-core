@@ -20,6 +20,6 @@ export function withAuth<TArgs, TResult>(
       throw new GraphQLError('Unauthorized', {
         extensions: { code: 'UNAUTHORIZED' });
     }
-    return resolver(parent, argscontext);
+    return resolver(parentargscontext);
   };
 } 

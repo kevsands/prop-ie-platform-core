@@ -130,7 +130,8 @@ export function withMemo<P extends object>(
   };
 
   // If tracking performance, wrap the component before memoizing
-  let ComponentToMemoize: React.ComponentType<P>\n  );
+  let ComponentToMemoize: React.ComponentType<P>
+  );
   if (trackPerformance) {
     // Create a wrapped version that tracks performance
     const WrappedComponent = (props: P) => {

@@ -78,7 +78,8 @@ function createPropComparisonFn<P extends object>(
     const allProps = new Set([
       ...Object.keys(prevProps),
       ...Object.keys(nextProps)
-    ]) as Set<keyof P>\n  );
+    ]) as Set<keyof P>
+  );
     for (const prop of allProps) {
       if (excludeProps && excludeProps.includes(prop)) {
         continue;
@@ -179,7 +180,8 @@ export function safeMemo<P extends object>(
           const allProps = new Set([
             ...Object.keys(prevProps),
             ...Object.keys(nextProps)
-          ]) as Set<keyof P>\n  );
+          ]) as Set<keyof P>
+  );
           let changedCount = 0;
           for (const prop of allProps) {
             if (excludeProps && excludeProps.includes(prop)) {
@@ -238,7 +240,8 @@ export function deepMemo<P extends object>(
     const allProps = new Set([
       ...Object.keys(prevProps),
       ...Object.keys(nextProps)
-    ]) as Set<keyof P>\n  );
+    ]) as Set<keyof P>
+  );
     for (const prop of allProps) {
       if (excludeProps && excludeProps.includes(prop)) {
         continue;
@@ -349,7 +352,8 @@ export function shallowMemo<P extends object>(
     const allProps = new Set([
       ...Object.keys(prevProps),
       ...Object.keys(nextProps)
-    ]) as Set<keyof P>\n  );
+    ]) as Set<keyof P>
+  );
     for (const prop of allProps) {
       if (excludeProps && excludeProps.includes(prop)) {
         continue;

@@ -74,7 +74,7 @@ export default function AnalyticsDashboard() {
       name: 'Active Users',
       value: 28450,
       change: 8.3,
-      trend: [24000, 25000, 26000, 26500, 27000, 2780028450]},
+      trend: [24000, 25000, 2600026500270002780028450]},
     conversions: {
       id: 'conversions',
       name: 'Conversion Rate',
@@ -86,7 +86,7 @@ export default function AnalyticsDashboard() {
       name: 'Listed Properties',
       value: 1245,
       change: 5.6,
-      trend: [1100, 1150, 1180, 1200, 1220, 12351245]});
+      trend: [1100, 1150, 11801200122012351245]});
 
   // Geographic data
   const geographicData: GeographicData[] = [

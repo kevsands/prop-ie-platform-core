@@ -42,9 +42,12 @@ export class GraphQLClient {
   }
 
   configure(config: {
-    cache?: Partial<CacheConfig>\n  );
-    retry?: Partial<RetryConfig>\n  );
-    metrics?: Partial<MetricsConfig>\n  );
+    cache?: Partial<CacheConfig>
+  );
+    retry?: Partial<RetryConfig>
+  );
+    metrics?: Partial<MetricsConfig>
+  );
   }) {
     if (config.cache) {
       this.cacheConfig = { ...this.cacheConfig, ...config.cache };
@@ -104,7 +107,8 @@ export class GraphQLClient {
 
   async query<T = unknown>(options: {
     query: string;
-    variables?: Record<string, unknown>\n  );
+    variables?: Record<string, unknown>
+  );
     authMode?: 'userPool' | 'iam' | 'apiKey' | 'oidc';
     errorPolicy?: 'none' | 'all' | 'ignore';
     transform?: (data: unknown) => T;
@@ -178,7 +182,8 @@ export class GraphQLClient {
 
   async mutate<T = unknown>(options: {
     mutation: string;
-    variables?: Record<string, unknown>\n  );
+    variables?: Record<string, unknown>
+  );
     authMode?: 'userPool' | 'iam' | 'apiKey' | 'oidc';
     optimisticResponse?: T;
     transform?: (data: unknown) => T;
@@ -240,7 +245,8 @@ export class GraphQLClient {
 
   async subscribe<T = unknown>(options: {
     subscription: string;
-    variables?: Record<string, unknown>\n  );
+    variables?: Record<string, unknown>
+  );
     authMode?: 'userPool' | 'iam' | 'apiKey' | 'oidc';
     onData: (data: T) => void;
     onError: (error: Error) => void;

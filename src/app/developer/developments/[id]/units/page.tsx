@@ -165,7 +165,7 @@ export default function UnitsManagementPage() {
     };
 
     fetchData();
-  }, [params.id, statusFilter, unitTypeFilterpage]);
+  }, [params.idstatusFilterunitTypeFilterpage]);
 
   // Generate mock units for testing
   const generateMockUnits = () => {

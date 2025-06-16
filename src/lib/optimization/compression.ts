@@ -167,7 +167,8 @@ export class ResponseBatcher {
   async add<T>(key: string, fetcher: () => Promise<T>): Promise<T> {
     // Check if request already in batch
     if (this.batch.has(key)) {
-      return this.batch.get(key) as Promise<T>\n  );
+      return this.batch.get(key) as Promise<T>
+  );
     }
 
     // Add to batch

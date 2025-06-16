@@ -170,23 +170,23 @@ export async function POST(request: NextRequest) {
     let videoUrl: string | undefined;
 
     // Upload files if provided
-    if (mainImage && mainImage.size > 0) {
+    if (mainImage && mainImage.size> 0) {
       mainImageUrl = await uploadToCloudinary(mainImage, 'developments/main');
     }
 
-    if (galleryImages.length > 0 && galleryImages[0].size > 0) {
+    if (galleryImages.length> 0 && galleryImages[0].size> 0) {
       galleryUrls = await uploadMultipleToCloudinary(galleryImages, 'developments/gallery');
     }
 
-    if (floorPlan && floorPlan.size > 0) {
+    if (floorPlan && floorPlan.size> 0) {
       floorPlanUrl = await uploadToCloudinary(floorPlan, 'developments/floorplans');
     }
 
-    if (brochure && brochure.size > 0) {
+    if (brochure && brochure.size> 0) {
       brochureUrl = await uploadToCloudinary(brochure, 'developments/brochures');
     }
 
-    if (video && video.size > 0) {
+    if (video && video.size> 0) {
       videoUrl = await uploadToCloudinary(video, 'developments/videos');
     }
 
@@ -215,7 +215,7 @@ export async function POST(request: NextRequest) {
         status: validatedData.status as any,
         totalUnits: validatedData.totalUnits,
         description: validatedData.description,
-        shortDescription: validatedData.description.substring(0, 200),
+        shortDescription: validatedData.description.substring(0200),
         mainImage: mainImageUrl || '/images/placeholder.jpg',
         images: galleryUrls,
         videos: videoUrl ? [videoUrl] : [],

@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/92</span>
+                <span class='fraction'>0/90</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/88</span>
+                <span class='fraction'>0/86</span>
             </div>
         
             
@@ -524,28 +524,10 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -553,11 +535,29 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -870,10 +870,10 @@ const DocumentWorkflowView: React.FC&lt;DocumentWorkflowViewProps&gt; = <span cl
   document,
   workflowInstance
 }) =&gt; {
-  const [notes, setNotes] = <span class="cstat-no" title="statement not covered" >useState('');</span>
-  const [isSubmitting, setIsSubmitting] = <span class="cstat-no" title="statement not covered" >useState(false);</span>
-  const [error, setError] = <span class="cstat-no" title="statement not covered" >useState&lt;string | null&gt;(null);</span>
-  const [success, setSuccess] = <span class="cstat-no" title="statement not covered" >useState&lt;string | null&gt;(null);</span>
+  const [notessetNotes] = <span class="cstat-no" title="statement not covered" >useState('');</span>
+  const [isSubmittingsetIsSubmitting] = <span class="cstat-no" title="statement not covered" >useState(false);</span>
+  const [errorsetError] = <span class="cstat-no" title="statement not covered" >useState&lt;string | null&gt;(null);</span>
+  const [successsetSuccess] = <span class="cstat-no" title="statement not covered" >useState&lt;string | null&gt;(null);</span>
 &nbsp;
   // Format date for display
   const formatDate = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(d</span>ate: Date | string | undefined) =&gt; {</span>
@@ -889,18 +889,18 @@ const DocumentWorkflowView: React.FC&lt;DocumentWorkflowViewProps&gt; = <span cl
   // Handle approval
   const handleApprove = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >async () =&gt; {</span></span>
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!document.id || !isWorkflowInstance(workflowInstance) || !workflowInstance.id) <span class="cstat-no" title="statement not covered" >return;</span></span>
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    setIsSubmitting(true);</span>
 <span class="cstat-no" title="statement not covered" >    setError(null);</span>
 <span class="cstat-no" title="statement not covered" >    setSuccess(null);</span>
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    try {</span>
       const result = <span class="cstat-no" title="statement not covered" >await documentService.approveWorkflowStage(</span>
         document.id,
         workflowInstance.id,
         notes
       );
-      
+&nbsp;
 <span class="cstat-no" title="statement not covered" >      if (result.success) {</span>
 <span class="cstat-no" title="statement not covered" >        setSuccess('Document stage approved successfully');</span>
 <span class="cstat-no" title="statement not covered" >        setNotes('');</span>
@@ -908,7 +908,7 @@ const DocumentWorkflowView: React.FC&lt;DocumentWorkflowViewProps&gt; = <span cl
 <span class="cstat-no" title="statement not covered" >        setError(result.message || 'Failed to approve document stage');</span>
       }
     } catch (err) {
-<span class="cstat-no" title="statement not covered" >      console.error('Error approving document stage:', err);</span>
+&nbsp;
 <span class="cstat-no" title="statement not covered" >      setError(err instanceof Error ? err.message : 'An error occurred');</span>
     } finally {
 <span class="cstat-no" title="statement not covered" >      setIsSubmitting(false);</span>
@@ -922,18 +922,18 @@ const DocumentWorkflowView: React.FC&lt;DocumentWorkflowViewProps&gt; = <span cl
 <span class="cstat-no" title="statement not covered" >      setError('Please provide a reason for rejection');</span>
 <span class="cstat-no" title="statement not covered" >      return;</span>
     }
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    setIsSubmitting(true);</span>
 <span class="cstat-no" title="statement not covered" >    setError(null);</span>
 <span class="cstat-no" title="statement not covered" >    setSuccess(null);</span>
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    try {</span>
       const result = <span class="cstat-no" title="statement not covered" >await documentService.rejectWorkflowStage(</span>
         document.id,
         workflowInstance.id,
         notes
       );
-      
+&nbsp;
 <span class="cstat-no" title="statement not covered" >      if (result.success) {</span>
 <span class="cstat-no" title="statement not covered" >        setSuccess('Document stage rejected successfully');</span>
 <span class="cstat-no" title="statement not covered" >        setNotes('');</span>
@@ -941,7 +941,7 @@ const DocumentWorkflowView: React.FC&lt;DocumentWorkflowViewProps&gt; = <span cl
 <span class="cstat-no" title="statement not covered" >        setError(result.message || 'Failed to reject document stage');</span>
       }
     } catch (err) {
-<span class="cstat-no" title="statement not covered" >      console.error('Error rejecting document stage:', err);</span>
+&nbsp;
 <span class="cstat-no" title="statement not covered" >      setError(err instanceof Error ? err.message : 'An error occurred');</span>
     } finally {
 <span class="cstat-no" title="statement not covered" >      setIsSubmitting(false);</span>
@@ -1037,7 +1037,7 @@ const DocumentWorkflowView: React.FC&lt;DocumentWorkflowViewProps&gt; = <span cl
                 {getWorkflowStatus().charAt(0).toUpperCase() + getWorkflowStatus().slice(1).replace('_', ' ')}
               &lt;/Badge&gt;
             &lt;/div&gt;
-            
+&nbsp;
             &lt;div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4 text-sm"&gt;
               &lt;div&gt;
                 &lt;p className="text-muted-foreground"&gt;Started&lt;/p&gt;
@@ -1055,7 +1055,7 @@ const DocumentWorkflowView: React.FC&lt;DocumentWorkflowViewProps&gt; = <span cl
           &lt;/CardContent&gt;
         &lt;/Card&gt;
       &lt;/div&gt;
-      
+&nbsp;
       {/* Workflow Stages */}
       &lt;div&gt;
         &lt;h3 className="text-sm font-medium mb-3"&gt;Workflow Progress&lt;/h3&gt;
@@ -1068,7 +1068,7 @@ const DocumentWorkflowView: React.FC&lt;DocumentWorkflowViewProps&gt; = <span cl
             const isCurrentStage = <span class="cstat-no" title="statement not covered" >getCurrentStage()?.id === stage.id;</span>
             const isPastStage = <span class="cstat-no" title="statement not covered" >historyEntry &amp;&amp; historyEntry.exitDate;</span>
             const isFutureStage = <span class="cstat-no" title="statement not covered" >!historyEntry &amp;&amp; !isCurrentStage;</span>
-            
+&nbsp;
 <span class="cstat-no" title="statement not covered" >            return (</span>
               &lt;Card 
                 key={stage.id}
@@ -1098,7 +1098,7 @@ const DocumentWorkflowView: React.FC&lt;DocumentWorkflowViewProps&gt; = <span cl
                         &lt;/div&gt;
                       )}
                     &lt;/div&gt;
-                    
+&nbsp;
                     &lt;div className="flex-grow"&gt;
                       &lt;div className="flex flex-col sm:flex-row sm:items-center sm:justify-between"&gt;
                         &lt;h4 className="text-base font-medium"&gt;{stage.name}&lt;/h4&gt;
@@ -1129,9 +1129,9 @@ const DocumentWorkflowView: React.FC&lt;DocumentWorkflowViewProps&gt; = <span cl
                           )}
                         &lt;/div&gt;
                       &lt;/div&gt;
-                      
+&nbsp;
                       &lt;p className="text-sm text-muted-foreground mt-1"&gt;{stage.description}&lt;/p&gt;
-                      
+&nbsp;
                       {/* Approvers */}
                       {(isCurrentStage || isPastStage) &amp;&amp; (
                         &lt;div className="mt-3"&gt;
@@ -1158,7 +1158,7 @@ const DocumentWorkflowView: React.FC&lt;DocumentWorkflowViewProps&gt; = <span cl
           })}
         &lt;/div&gt;
       &lt;/div&gt;
-      
+&nbsp;
       {/* Approval Actions */}
       {isWorkflowInstance(workflowInstance) &amp;&amp; canApprove() &amp;&amp; (
         &lt;div&gt;
@@ -1169,24 +1169,24 @@ const DocumentWorkflowView: React.FC&lt;DocumentWorkflowViewProps&gt; = <span cl
                 &lt;Textarea
                   placeholder="Add notes (required for rejection)"
                   value={notes}
-                  onChange={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; <span class="cstat-no" title="statement not covered" >setNotes(e.target.value)}</span>
+                  onChange={<span class="fstat-no" title="function not covered" >(e</span>: any) =&gt; <span class="cstat-no" title="statement not covered" >setNotes(e.target.value)}</span>
                   className="min-h-[100px]"
                 /&gt;
-                
+&nbsp;
                 {<span class="branch-0 cbranch-no" title="branch not covered" >error &amp;&amp; (</span>
                   &lt;div className="text-sm text-red-600 flex items-center"&gt;
                     &lt;AlertCircle className="h-4 w-4 mr-1" /&gt;
                     {error}
                   &lt;/div&gt;
                 )}
-                
+&nbsp;
                 {<span class="branch-0 cbranch-no" title="branch not covered" >success &amp;&amp; (</span>
                   &lt;div className="text-sm text-green-600 flex items-center"&gt;
                     &lt;CheckSquare className="h-4 w-4 mr-1" /&gt;
                     {success}
                   &lt;/div&gt;
                 )}
-                
+&nbsp;
                 &lt;div className="flex gap-2"&gt;
                   &lt;Button
                     onClick={handleApprove}
@@ -1222,7 +1222,7 @@ const DocumentWorkflowView: React.FC&lt;DocumentWorkflowViewProps&gt; = <span cl
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T22:15:28.100Z
+                at 2025-06-15T18:50:48.918Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

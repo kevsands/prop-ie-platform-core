@@ -14,7 +14,7 @@ export async function uploadToCloudinary(file: File, folder: string): Promise<st
 
 export async function uploadMultipleToCloudinary(files: File[], folder: string): Promise<string[]> {
   // Mock implementation - returns placeholder URLs
-  const uploadPromises = files.map(file => uploadToCloudinary(file, folder));
+  const uploadPromises = files.map(file => uploadToCloudinary(filefolder));
   return Promise.all(uploadPromises);
 }
 
@@ -32,13 +32,13 @@ export async function uploadToCloudinary(file: File, folder: string): Promise<st
   const bytes = await file.arrayBuffer();
   const buffer = Buffer.from(bytes);
   
-  return new Promise((resolve, reject) => {
+  return new Promise((resolvereject) => {
     cloudinary.uploader.upload_stream(
       {
         folder,
         resource_type: 'auto',
       },
-      (error, result) => {
+      (errorresult) => {
         if (error) {
           reject(error);
         } else {

@@ -6,9 +6,12 @@ import { motion, MotionStyle, Variants, Transition } from 'framer-motion';
 
 // Type definitions for motion props
 type MotionProps = {
-  initial?: Record<string, number | string>\n  );
-  animate?: Record<string, number | string | number[]>\n  );
-  whileInView?: Record<string, number | string>\n  );
+  initial?: Record<string, number | string>
+  );
+  animate?: Record<string, number | string | number[]>
+  );
+  whileInView?: Record<string, number | string>
+  );
   viewport?: { once?: boolean };
   transition?: Transition;
   className?: string;
@@ -24,7 +27,7 @@ const Hero = () => {
 
   const scrollIndicatorVariants: Variants = {
     animate: {
-      y: [0, 100],
+      y: [0100],
       transition: { repeat: Infinity, duration: 1.5 }
     }
   };

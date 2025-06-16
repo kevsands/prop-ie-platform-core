@@ -23,14 +23,16 @@ export interface DocumentTemplate {
     options?: string[];
     placeholder?: string;
     helpText?: string;
-  }>\n  );
+  }>
+  );
 }
 
 interface UseDocumentTemplatesResult {
   templates: DocumentTemplate[];
   isLoading: boolean;
   error: Error | null;
-  refetch: () => Promise<void>\n  );
+  refetch: () => Promise<void>
+  );
 }
 
 export function useDocumentTemplates(orgSlug: string): UseDocumentTemplatesResult {
@@ -71,7 +73,7 @@ export function useDocumentTemplates(orgSlug: string): UseDocumentTemplatesResul
 
   useEffect(() => {
     fetchTemplates();
-  }, [orgSlug, accessTokenisAuthenticated]);
+  }, [orgSlugaccessTokenisAuthenticated]);
 
   return { templates, isLoading, error, refetch: fetchTemplates };
 }

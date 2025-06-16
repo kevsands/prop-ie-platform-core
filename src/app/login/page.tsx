@@ -27,7 +27,7 @@ export default function LoginPage() {
       const role = (session.user as any).role?.toLowerCase();
       redirectByRole(role);
     }
-  }, [session, statusrouter]);
+  }, [sessionstatusrouter]);
 
   // Set email from query parameter if present
   useEffect(() => {

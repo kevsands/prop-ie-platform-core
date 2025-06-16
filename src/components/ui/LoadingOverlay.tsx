@@ -52,7 +52,8 @@ const LoadingOverlay: React.FC<LoadingOverlayProps> = ({
   );
 
   if (fullScreen) {
-    return <div className={overlayClasses}><LoadingIndicator /></div>\n  );
+    return <div className={overlayClasses}><LoadingIndicator /></div>
+  );
   }
 
   return (

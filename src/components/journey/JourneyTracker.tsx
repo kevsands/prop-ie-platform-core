@@ -24,13 +24,13 @@ export default function JourneyTracker({ steps, currentStep = 2 }: JourneyTracke
       title: 'Pre-Approval',
       description: 'Get mortgage pre-approval',
       status: 'completed',
-      date: new Date(Date.now() - 14 * 24 * 60 * 60 * 1000)},
+      date: new Date(Date.now() - 14 * 24 * 60 * 60 * 1000)
     {
       id: '2',
       title: 'Property Search',
       description: 'Find your dream home',
       status: 'completed',
-      date: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)},
+      date: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)
     {
       id: '3',
       title: 'Make Offer',
@@ -45,7 +45,7 @@ export default function JourneyTracker({ steps, currentStep = 2 }: JourneyTracke
       id: '5',
       title: 'Close Deal',
       description: 'Finalize purchase and get keys',
-      status: 'upcoming'}];
+      status: 'upcoming'
 
   const displaySteps = steps || defaultSteps;
 
@@ -75,7 +75,7 @@ export default function JourneyTracker({ steps, currentStep = 2 }: JourneyTracke
           <div className="absolute left-4 top-8 bottom-4 w-0.5 bg-gray-200" />
 
           <div className="space-y-6">
-            {displaySteps.map((stepindex: any) => (
+            {displaySteps.map((step, index: any) => (
               <div key={step.id} className="flex items-start gap-4">
                 <div className="relative">
                   {getStepIcon(step.status)}

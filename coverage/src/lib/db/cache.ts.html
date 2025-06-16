@@ -598,18 +598,18 @@ const DEFAULT_CONFIG: CacheConfig = <span class="cstat-no" title="statement not 
 export class <span class="cstat-no" title="statement not covered" >QueryCache </span>{
   private <span class="cstat-no" title="statement not covered" >cache: Map&lt;string, CacheEntry&lt;any&gt;&gt; = new Map();</span>
   private config: CacheConfig;
-  
+&nbsp;
   /**
    * Create a new query cache
    * @param config Cache configuration options
    */
 <span class="fstat-no" title="function not covered" >  constructor(c</span>onfig: Partial&lt;CacheConfig&gt; = <span class="branch-0 cbranch-no" title="branch not covered" >{})</span> {
 <span class="cstat-no" title="statement not covered" >    this.config = { ...DEFAULT_CONFIG, ...config };</span>
-    
+&nbsp;
     // Start cache cleanup interval
 <span class="cstat-no" title="statement not covered" >    setInterval(<span class="fstat-no" title="function not covered" >() =&gt; <span class="cstat-no" title="statement not covered" >t</span>his.cleanup(), 6</span>0 * 1000); /</span>/ Run cleanup every minute
   }
-  
+&nbsp;
   /**
    * Generate cache key from query and parameters
    * @param query SQL query or query identifier
@@ -620,7 +620,7 @@ export class <span class="cstat-no" title="statement not covered" >QueryCache </
     const paramsString = <span class="cstat-no" title="statement not covered" >JSON.stringify(params);</span>
 <span class="cstat-no" title="statement not covered" >    return `${this.config.namespace}:${query}:${paramsString}`;</span>
   }
-  
+&nbsp;
   /**
    * Get value from cache if available and not expired
    * @param query SQL query or query identifier
@@ -628,22 +628,22 @@ export class <span class="cstat-no" title="statement not covered" >QueryCache </
    * @returns Cached value or undefined if not in cache or expired
    */
 <span class="fstat-no" title="function not covered" >  get&lt;T&gt;(q</span>uery: string, params: any[] = <span class="branch-0 cbranch-no" title="branch not covered" >[])</span>: T | undefined {
-    const key = <span class="cstat-no" title="statement not covered" >this.generateKey(query, params);</span>
+    const key = <span class="cstat-no" title="statement not covered" >this.generateKey(queryparams);</span>
     const entry = <span class="cstat-no" title="statement not covered" >this.cache.get(key);</span>
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!entry) {</span>
 <span class="cstat-no" title="statement not covered" >      return undefined;</span>
     }
-    
+&nbsp;
     // Check if entry has expired
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (entry.expires &lt; Date.now()) {</span>
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (entry.expires &lt;Date.now()) {</span>
 <span class="cstat-no" title="statement not covered" >      this.cache.delete(key);</span>
 <span class="cstat-no" title="statement not covered" >      return undefined;</span>
     }
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    return entry.value as T;</span>
   }
-  
+&nbsp;
   /**
    * Store value in cache
    * @param query SQL query or query identifier
@@ -653,98 +653,98 @@ export class <span class="cstat-no" title="statement not covered" >QueryCache </
    */
 <span class="fstat-no" title="function not covered" >  set&lt;T&gt;(q</span>uery: string, params: any[] = <span class="branch-0 cbranch-no" title="branch not covered" >[],</span> value: T, ttl?: number): void {
     // Enforce cache size limit
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (this.cache.size &gt;= this.config.maxSize) {</span>
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (this.cache.size&gt;= this.config.maxSize) {</span>
 <span class="cstat-no" title="statement not covered" >      this.removeOldest();</span>
     }
-    
-    const key = <span class="cstat-no" title="statement not covered" >this.generateKey(query, params);</span>
+&nbsp;
+    const key = <span class="cstat-no" title="statement not covered" >this.generateKey(queryparams);</span>
     const expiration = <span class="cstat-no" title="statement not covered" >Date.now() + (ttl || this.config.ttl</span>);
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    this.cache.set(key, {</span>
       value,
       expires: expiration,
       key
     });
   }
-  
+&nbsp;
   /**
    * Remove entry from cache
    * @param query SQL query or query identifier
    * @param params Query parameters
    */
 <span class="fstat-no" title="function not covered" >  invalidate(q</span>uery: string, params: any[] = <span class="branch-0 cbranch-no" title="branch not covered" >[])</span>: void {
-    const key = <span class="cstat-no" title="statement not covered" >this.generateKey(query, params);</span>
+    const key = <span class="cstat-no" title="statement not covered" >this.generateKey(queryparams);</span>
 <span class="cstat-no" title="statement not covered" >    this.cache.delete(key);</span>
   }
-  
+&nbsp;
   /**
    * Invalidate all cache entries matching a pattern
    * @param pattern Query pattern to match (will be used as substring)
    */
 <span class="fstat-no" title="function not covered" >  invalidatePattern(p</span>attern: string): void {
-<span class="cstat-no" title="statement not covered" >    for (const [key, entry] of this.cache.entries()) {</span>
+<span class="cstat-no" title="statement not covered" >    for (const [keyentry] of this.cache.entries()) {</span>
 <span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (key.includes(pattern)) {</span>
 <span class="cstat-no" title="statement not covered" >        this.cache.delete(key);</span>
       }
     }
   }
-  
+&nbsp;
   /**
    * Invalidate all cache entries in namespace
    */
 <span class="fstat-no" title="function not covered" >  invalidateNamespace(): void {</span>
-<span class="cstat-no" title="statement not covered" >    for (const [key, entry] of this.cache.entries()) {</span>
+<span class="cstat-no" title="statement not covered" >    for (const [keyentry] of this.cache.entries()) {</span>
 <span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (key.startsWith(`${this.config.namespace}:`)) {</span>
 <span class="cstat-no" title="statement not covered" >        this.cache.delete(key);</span>
       }
     }
   }
-  
+&nbsp;
   /**
    * Invalidate all cache entries
    */
 <span class="fstat-no" title="function not covered" >  clear(): void {</span>
 <span class="cstat-no" title="statement not covered" >    this.cache.clear();</span>
   }
-  
+&nbsp;
   /**
    * Remove oldest cache entry
    */
 <span class="fstat-no" title="function not covered" >  private removeOldest(): void </span>{
     let oldestKey: string | null = <span class="cstat-no" title="statement not covered" >null;</span>
     let oldestTime = <span class="cstat-no" title="statement not covered" >Infinity;</span>
-    
-<span class="cstat-no" title="statement not covered" >    for (const [key, entry] of this.cache.entries()) {</span>
-<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (entry.expires &lt; oldestTime) {</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    for (const [keyentry] of this.cache.entries()) {</span>
+<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (entry.expires &lt;oldestTime) {</span>
 <span class="cstat-no" title="statement not covered" >        oldestTime = entry.expires;</span>
 <span class="cstat-no" title="statement not covered" >        oldestKey = key;</span>
       }
     }
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (oldestKey) {</span>
 <span class="cstat-no" title="statement not covered" >      this.cache.delete(oldestKey);</span>
     }
   }
-  
+&nbsp;
   /**
    * Remove expired cache entries
    */
 <span class="fstat-no" title="function not covered" >  private cleanup(): void </span>{
     const now = <span class="cstat-no" title="statement not covered" >Date.now();</span>
     let expiredCount = <span class="cstat-no" title="statement not covered" >0;</span>
-    
-<span class="cstat-no" title="statement not covered" >    for (const [key, entry] of this.cache.entries()) {</span>
-<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (entry.expires &lt; now) {</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    for (const [keyentry] of this.cache.entries()) {</span>
+<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (entry.expires &lt;now) {</span>
 <span class="cstat-no" title="statement not covered" >        this.cache.delete(key);</span>
 <span class="cstat-no" title="statement not covered" >        expiredCount++;</span>
       }
     }
-    
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (expiredCount &gt; 0) {</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (expiredCount&gt; 0) {</span>
 <span class="cstat-no" title="statement not covered" >      logger.debug(`Cache cleanup: removed ${expiredCount} expired entries. Cache size: ${this.cache.size}`);</span>
     }
   }
-  
+&nbsp;
   /**
    * Get cache stats
    * @returns Cache statistics
@@ -783,23 +783,23 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
     case 'finance': <span class="cstat-no" title="statement not covered" >cache = financeCache; <span class="cstat-no" title="statement not covered" >b</span>reak;</span>
     default: <span class="cstat-no" title="statement not covered" >cache = new QueryCache({ namespace: cacheName });</span>
   }
-  
+&nbsp;
   // Return cached function
 <span class="cstat-no" title="statement not covered" >  return <span class="fstat-no" title="function not covered" >async (.</span>..args: A): Promise&lt;T&gt; =&gt; {</span>
     const { query, params } = <span class="cstat-no" title="statement not covered" >keyGenerator(...args);</span>
-    
+&nbsp;
     // Check cache first
-    const cachedResult = <span class="cstat-no" title="statement not covered" >cache.get&lt;T&gt;(query, params);</span>
+    const cachedResult = <span class="cstat-no" title="statement not covered" >cache.get&lt;T&gt;(queryparams);</span>
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (cachedResult !== undefined) {</span>
 <span class="cstat-no" title="statement not covered" >      return cachedResult;</span>
     }
-    
+&nbsp;
     // Execute function if not in cache
     const result = <span class="cstat-no" title="statement not covered" >await fn(...args);</span>
-    
+&nbsp;
     // Cache result
-<span class="cstat-no" title="statement not covered" >    cache.set(query, params, result);</span>
-    
+<span class="cstat-no" title="statement not covered" >    cache.set(query, paramsresult);</span>
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    return result;</span>
   };
 }
@@ -820,7 +820,7 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T22:15:28.100Z
+                at 2025-06-15T18:50:48.918Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

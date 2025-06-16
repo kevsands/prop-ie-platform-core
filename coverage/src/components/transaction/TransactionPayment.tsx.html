@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/81</span>
+                <span class='fraction'>0/80</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/76</span>
+                <span class='fraction'>0/75</span>
             </div>
         
             
@@ -643,9 +643,7 @@
 <a name='L578'></a><a href='#L578'>578</a>
 <a name='L579'></a><a href='#L579'>579</a>
 <a name='L580'></a><a href='#L580'>580</a>
-<a name='L581'></a><a href='#L581'>581</a>
-<a name='L582'></a><a href='#L582'>582</a>
-<a name='L583'></a><a href='#L583'>583</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L581'></a><a href='#L581'>581</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -794,8 +792,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -829,7 +825,7 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1298,18 +1294,18 @@ interface Payment {
 }
 &nbsp;
 export default function <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >TransactionPayment({</span></span> transactionId }: TransactionPaymentProps) {
-  const [loading, setLoading] = <span class="cstat-no" title="statement not covered" >useState(true);</span>
-  const [paymentOptions, setPaymentOptions] = <span class="cstat-no" title="statement not covered" >useState&lt;PaymentOption[]&gt;([]);</span>
-  const [paymentMethods, setPaymentMethods] = <span class="cstat-no" title="statement not covered" >useState&lt;PaymentMethod[]&gt;([]);</span>
-  const [pendingPayments, setPendingPayments] = <span class="cstat-no" title="statement not covered" >useState&lt;Payment[]&gt;([]);</span>
-  const [completedPayments, setCompletedPayments] = <span class="cstat-no" title="statement not covered" >useState&lt;Payment[]&gt;([]);</span>
-  const [error, setError] = <span class="cstat-no" title="statement not covered" >useState&lt;string | null&gt;(null);</span>
-  const [selectedPayment, setSelectedPayment] = <span class="cstat-no" title="statement not covered" >useState&lt;PaymentOption | null&gt;(null);</span>
-  const [selectedMethod, setSelectedMethod] = <span class="cstat-no" title="statement not covered" >useState&lt;string&gt;('');</span>
-  const [showPaymentForm, setShowPaymentForm] = <span class="cstat-no" title="statement not covered" >useState(false);</span>
-  const [paymentProcessing, setPaymentProcessing] = <span class="cstat-no" title="statement not covered" >useState(false);</span>
-  const [paymentSuccess, setPaymentSuccess] = <span class="cstat-no" title="statement not covered" >useState(false);</span>
-  const [transactionInfo, setTransactionInfo] = <span class="cstat-no" title="statement not covered" >useState&lt;any&gt;(null);</span>
+  const [loadingsetLoading] = <span class="cstat-no" title="statement not covered" >useState(true);</span>
+  const [paymentOptionssetPaymentOptions] = <span class="cstat-no" title="statement not covered" >useState&lt;PaymentOption[]&gt;([]);</span>
+  const [paymentMethodssetPaymentMethods] = <span class="cstat-no" title="statement not covered" >useState&lt;PaymentMethod[]&gt;([]);</span>
+  const [pendingPaymentssetPendingPayments] = <span class="cstat-no" title="statement not covered" >useState&lt;Payment[]&gt;([]);</span>
+  const [completedPaymentssetCompletedPayments] = <span class="cstat-no" title="statement not covered" >useState&lt;Payment[]&gt;([]);</span>
+  const [errorsetError] = <span class="cstat-no" title="statement not covered" >useState&lt;string | null&gt;(null);</span>
+  const [selectedPaymentsetSelectedPayment] = <span class="cstat-no" title="statement not covered" >useState&lt;PaymentOption | null&gt;(null);</span>
+  const [selectedMethodsetSelectedMethod] = <span class="cstat-no" title="statement not covered" >useState&lt;string&gt;('');</span>
+  const [showPaymentFormsetShowPaymentForm] = <span class="cstat-no" title="statement not covered" >useState(false);</span>
+  const [paymentProcessingsetPaymentProcessing] = <span class="cstat-no" title="statement not covered" >useState(false);</span>
+  const [paymentSuccesssetPaymentSuccess] = <span class="cstat-no" title="statement not covered" >useState(false);</span>
+  const [transactionInfosetTransactionInfo] = <span class="cstat-no" title="statement not covered" >useState&lt;any&gt;(null);</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  useEffect(<span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
 <span class="cstat-no" title="statement not covered" >    fetchPaymentInfo();</span>
@@ -1320,7 +1316,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
 <span class="cstat-no" title="statement not covered" >      setLoading(true);</span>
       const response = <span class="cstat-no" title="statement not covered" >await fetch(`/api/transactions/${transactionId}/payment-process`);</span>
 <span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (!response.ok) <span class="cstat-no" title="statement not covered" >throw new Error('Failed to fetch payment information');</span></span>
-      
+&nbsp;
       const data = <span class="cstat-no" title="statement not covered" >await response.json();</span>
 <span class="cstat-no" title="statement not covered" >      setTransactionInfo({</span>
         transactionId: data.transactionId,
@@ -1330,11 +1326,11 @@ export default function <span class="cstat-no" title="statement not covered" ><s
         totalPaid: data.totalPaid,
         outstandingBalance: data.outstandingBalance
       });
-      
+&nbsp;
 <span class="cstat-no" title="statement not covered" >      setPaymentMethods(data.paymentMethods || []);</span>
 <span class="cstat-no" title="statement not covered" >      setPendingPayments(data.pendingPayments || []);</span>
 <span class="cstat-no" title="statement not covered" >      setCompletedPayments(data.completedPayments || []);</span>
-      
+&nbsp;
       // Set next required payment if available
 <span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (data.nextRequiredPayment) {</span>
 <span class="cstat-no" title="statement not covered" >        setPaymentOptions([data.nextRequiredPayment]);</span>
@@ -1358,41 +1354,39 @@ export default function <span class="cstat-no" title="statement not covered" ><s
 &nbsp;
   const handleSubmitPayment = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >async (e</span>: React.FormEvent&lt;HTMLFormElement&gt;) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    e.preventDefault();</span>
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!selectedPayment || !selectedMethod) <span class="cstat-no" title="statement not covered" >return;</span></span>
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    try {</span>
 <span class="cstat-no" title="statement not covered" >      setPaymentProcessing(true);</span>
-      
+&nbsp;
       // Create the payment via API
       const response = <span class="cstat-no" title="statement not covered" >await fetch(`/api/transactions/${transactionId}/payment-process`, {</span>
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
-        },
+          'Content-Type': 'application/json'},
         body: JSON.stringify({
           type: selectedPayment.type,
           amount: selectedPayment.amount,
           method: selectedMethod,
           status: 'INITIATED'
-        }),
-      });
-      
+        })});
+&nbsp;
 <span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (!response.ok) <span class="cstat-no" title="statement not covered" >throw new Error('Failed to process payment');</span></span>
-      
+&nbsp;
       const result = <span class="cstat-no" title="statement not covered" >await response.json();</span>
-      
+&nbsp;
       // Handle success
 <span class="cstat-no" title="statement not covered" >      setPaymentSuccess(true);</span>
 <span class="cstat-no" title="statement not covered" >      setShowPaymentForm(false);</span>
-      
+&nbsp;
       // Refresh payment info after a short delay
 <span class="cstat-no" title="statement not covered" >      setTimeout(<span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
 <span class="cstat-no" title="statement not covered" >        fetchPaymentInfo();</span>
 <span class="cstat-no" title="statement not covered" >        setPaymentSuccess(false);</span>
 <span class="cstat-no" title="statement not covered" >        setPaymentProcessing(false);</span>
       }, 2000);
-      
+&nbsp;
     } catch (err) {
 <span class="cstat-no" title="statement not covered" >      setError((err as Error).message);</span>
 <span class="cstat-no" title="statement not covered" >      setPaymentProcessing(false);</span>
@@ -1403,15 +1397,15 @@ export default function <span class="cstat-no" title="statement not covered" ><s
 <span class="cstat-no" title="statement not covered" >    try {</span>
       const response = <span class="cstat-no" title="statement not covered" >await fetch(`/api/transactions/${transactionId}/payments/receipt?paymentId=${paymentId}`);</span>
 <span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (!response.ok) <span class="cstat-no" title="statement not covered" >throw new Error('Failed to generate receipt');</span></span>
-      
+&nbsp;
       const receiptData = <span class="cstat-no" title="statement not covered" >await response.json();</span>
-      
+&nbsp;
       // In a real implementation, you would generate and download a PDF
       // For this example, we'll just show an alert
 <span class="cstat-no" title="statement not covered" >      alert(`Receipt generated: ${receiptData.receiptNumber}`);</span>
-      
+&nbsp;
     } catch (err) {
-<span class="cstat-no" title="statement not covered" >      console.error('Error generating receipt:', err);</span>
+&nbsp;
     }
   };
 &nbsp;
@@ -1453,14 +1447,14 @@ export default function <span class="cstat-no" title="statement not covered" ><s
             €{transactionInfo?.agreedPrice?.toLocaleString() || 'N/A'}
           &lt;/p&gt;
         &lt;/div&gt;
-        
+&nbsp;
         &lt;div className="bg-gray-50 rounded-lg p-4"&gt;
           &lt;p className="text-sm text-gray-600"&gt;Total Paid&lt;/p&gt;
           &lt;p className="text-2xl font-bold text-green-600"&gt;
             €{transactionInfo?.totalPaid?.toLocaleString() || '0'}
           &lt;/p&gt;
         &lt;/div&gt;
-        
+&nbsp;
         &lt;div className="bg-gray-50 rounded-lg p-4"&gt;
           &lt;p className="text-sm text-gray-600"&gt;Outstanding Balance&lt;/p&gt;
           &lt;p className="text-2xl font-bold text-blue-600"&gt;
@@ -1488,7 +1482,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
           &lt;div className="bg-blue-50 p-4 border-b"&gt;
             &lt;h4 className="font-semibold text-gray-900"&gt;Next Payment Required&lt;/h4&gt;
           &lt;/div&gt;
-          
+&nbsp;
           &lt;div className="p-4"&gt;
             &lt;div className="flex justify-between items-center mb-4"&gt;
               &lt;div&gt;
@@ -1509,14 +1503,14 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                 )}
               &lt;/div&gt;
             &lt;/div&gt;
-            
+&nbsp;
             {/* Payment Method Selection &amp; Form */}
             {showPaymentForm ? (
 <span class="branch-0 cbranch-no" title="branch not covered" >              &lt;form onSubmit={handleSubmitPayment} className="mt-4 border rounded-lg p-4"&gt;</span>
                 &lt;h5 className="font-medium text-gray-900 mb-4"&gt;Select Payment Method&lt;/h5&gt;
-                
+&nbsp;
                 &lt;div className="space-y-3 mb-6"&gt;
-                  {paymentMethods.map(<span class="fstat-no" title="function not covered" >(m</span>ethod) =&gt; (
+                  {paymentMethods.map(<span class="fstat-no" title="function not covered" >(m</span>ethod: any) =&gt; (
 <span class="cstat-no" title="statement not covered" >                    &lt;div key={method.id} c</span>lassName="flex items-center"&gt;
                       &lt;input
                         type="radio"
@@ -1545,7 +1539,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                     &lt;/div&gt;
                   ))}
                 &lt;/div&gt;
-                
+&nbsp;
                 {/* Bank Transfer Details */}
                 {<span class="branch-0 cbranch-no" title="branch not covered" >selectedMethod === 'BANK_TRANSFER' &amp;&amp; (</span>
                   &lt;div className="bg-gray-50 p-4 rounded-lg mb-6"&gt;
@@ -1553,7 +1547,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                     &lt;p className="text-sm text-gray-600 mb-3"&gt;
                       Please make a transfer to the following account. Include the reference number in your payment.
                     &lt;/p&gt;
-                    
+&nbsp;
                     &lt;div className="space-y-2 text-sm"&gt;
                       &lt;p&gt;&lt;span className="font-medium"&gt;Bank:&lt;/span&gt; {paymentMethods[0]?.accountDetails?.bank}&lt;/p&gt;
                       &lt;p&gt;&lt;span className="font-medium"&gt;Account Name:&lt;/span&gt; {paymentMethods[0]?.accountDetails?.accountName}&lt;/p&gt;
@@ -1563,7 +1557,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                     &lt;/div&gt;
                   &lt;/div&gt;
                 )}
-                
+&nbsp;
                 {/* Credit/Debit Card Form */}
                 {(selectedMethod === 'CREDIT_CARD' || selectedMethod === 'DEBIT_CARD') &amp;&amp; (
                   &lt;div className="space-y-4 mb-6"&gt;
@@ -1577,7 +1571,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                         required
                       /&gt;
                     &lt;/div&gt;
-                    
+&nbsp;
                     &lt;div className="grid grid-cols-2 gap-4"&gt;
                       &lt;div&gt;
                         &lt;label htmlFor="expiry" className="block text-sm font-medium text-gray-700 mb-1"&gt;Expiry Date&lt;/label&gt;
@@ -1600,7 +1594,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                         /&gt;
                       &lt;/div&gt;
                     &lt;/div&gt;
-                    
+&nbsp;
                     &lt;div&gt;
                       &lt;label htmlFor="cardName" className="block text-sm font-medium text-gray-700 mb-1"&gt;Name on Card&lt;/label&gt;
                       &lt;input
@@ -1613,7 +1607,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                     &lt;/div&gt;
                   &lt;/div&gt;
                 )}
-                
+&nbsp;
                 {/* Submit Buttons */}
                 &lt;div className="flex gap-3"&gt;
                   &lt;button
@@ -1654,14 +1648,14 @@ export default function <span class="cstat-no" title="statement not covered" ><s
       )}
 &nbsp;
       {/* Pending Payments */}
-      {<span class="branch-0 cbranch-no" title="branch not covered" >pendingPayments.length &gt; 0 &amp;&amp; (</span>
+      {<span class="branch-0 cbranch-no" title="branch not covered" >pendingPayments.length&gt; 0 &amp;&amp; (</span>
         &lt;div className="border rounded-lg overflow-hidden mb-8"&gt;
           &lt;div className="bg-yellow-50 p-4 border-b"&gt;
             &lt;h4 className="font-semibold text-gray-900"&gt;Pending Payments&lt;/h4&gt;
           &lt;/div&gt;
-          
+&nbsp;
           &lt;div className="divide-y"&gt;
-            {pendingPayments.map(<span class="fstat-no" title="function not covered" >(p</span>ayment) =&gt; (
+            {pendingPayments.map(<span class="fstat-no" title="function not covered" >(p</span>ayment: any) =&gt; (
 <span class="cstat-no" title="statement not covered" >              &lt;div key={payment.id} c</span>lassName="p-4"&gt;
                 &lt;div className="flex justify-between items-center"&gt;
                   &lt;div className="flex items-center gap-3"&gt;
@@ -1695,14 +1689,14 @@ export default function <span class="cstat-no" title="statement not covered" ><s
       )}
 &nbsp;
       {/* Completed Payments */}
-      {<span class="branch-0 cbranch-no" title="branch not covered" >completedPayments.length &gt; 0 &amp;&amp; (</span>
+      {<span class="branch-0 cbranch-no" title="branch not covered" >completedPayments.length&gt; 0 &amp;&amp; (</span>
         &lt;div className="border rounded-lg overflow-hidden"&gt;
           &lt;div className="bg-green-50 p-4 border-b"&gt;
             &lt;h4 className="font-semibold text-gray-900"&gt;Completed Payments&lt;/h4&gt;
           &lt;/div&gt;
-          
+&nbsp;
           &lt;div className="divide-y"&gt;
-            {completedPayments.map(<span class="fstat-no" title="function not covered" >(p</span>ayment) =&gt; (
+            {completedPayments.map(<span class="fstat-no" title="function not covered" >(p</span>ayment: any) =&gt; (
 <span class="cstat-no" title="statement not covered" >              &lt;div key={payment.id} c</span>lassName="p-4"&gt;
                 &lt;div className="flex justify-between items-center"&gt;
                   &lt;div className="flex items-center gap-3"&gt;
@@ -1816,7 +1810,7 @@ function <span class="fstat-no" title="function not covered" >getStatusBadgeColo
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T22:15:28.100Z
+                at 2025-06-15T18:50:48.918Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

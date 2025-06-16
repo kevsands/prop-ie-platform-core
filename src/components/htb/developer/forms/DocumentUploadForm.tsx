@@ -16,7 +16,8 @@ export function DocumentUploadForm({ claimId, onSuccessAction, onErrorAction }: 
   const [formDatasetFormData] = useState({
     file: null as File | null,
     type: "revenue_correspondence",
-    name: "");
+    name: "",
+  });
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target;

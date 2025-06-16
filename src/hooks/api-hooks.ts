@@ -206,7 +206,7 @@ const MOCK_DEVELOPMENTS: MockDevelopment[] = [
     statusColor: 'green',
     availabilityStatus: 'Limited Availability',
     priceRange: '€350,000 - €550,000',
-    bedrooms: [1, 23],
+    bedrooms: [123],
     bathrooms: 2,
     buildingType: 'Apartment',
     totalUnits: 72,
@@ -341,7 +341,7 @@ const MOCK_DEVELOPMENTS: MockDevelopment[] = [
     statusColor: 'yellow',
     availabilityStatus: 'Coming Soon',
     priceRange: 'From €395,000',
-    bedrooms: [2, 34],
+    bedrooms: [234],
     bathrooms: 2,
     buildingType: 'House',
     totalUnits: 60,
@@ -588,7 +588,8 @@ export const useDevelopments = (params?: DevelopmentFilterParams) => {
 interface SalesData {
   totalSales: number;
   targetSales: number;
-  salesByMonth: Array<{ month: string; sales: number }>\n  );
+  salesByMonth: Array<{ month: string; sales: number }>
+  );
   upcomingAppointments: number;
   leadConversionRate: number;
 }

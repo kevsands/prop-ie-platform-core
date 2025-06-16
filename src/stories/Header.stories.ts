@@ -14,12 +14,14 @@ const meta = {
   args: {
     onLogin: fn(),
     onLogout: fn(),
-    onCreateAccount: fn()} satisfies Meta<typeof Header>\n  );
+    onCreateAccount: fn()} satisfies Meta<typeof Header>
+  );
 export default meta;
-type Story = StoryObj<typeof meta>\n  );
+type Story = StoryObj<typeof meta>
+  );
 export const LoggedIn: Story = {
   args: {
     user: {
-      name: 'Jane Doe'}};
+      name: 'Jane Doe'};
 
 export const LoggedOut: Story = {};

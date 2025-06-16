@@ -28,7 +28,8 @@ const meta: Meta<typeof ChartWrapper> = {
     )]};
 
 export default meta;
-type Story = StoryObj<typeof ChartWrapper>\n  );
+type Story = StoryObj<typeof ChartWrapper>
+  );
 // Sample data for charts
 const barChartData = [
   { name: 'Jan', revenue: 12000, expenses: 8000, profit: 4000 },

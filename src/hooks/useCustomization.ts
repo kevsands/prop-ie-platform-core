@@ -9,7 +9,8 @@ interface CustomizationOption {
 
 interface CustomizationData {
   propertyId: string;
-  selectedOptions: Record<string, CustomizationOption>\n  );
+  selectedOptions: Record<string, CustomizationOption>
+  );
   totalCost: number;
   name?: string;
   notes?: string;
@@ -95,7 +96,7 @@ export function useCustomization(propertyId: string) {
       queryClient.invalidateQueries({ queryKey: [CUSTOMIZATION_KEYpropertyId] });
       throw error;
     }
-  }, [propertyId, queryClientsaveMutation]);
+  }, [propertyIdqueryClientsaveMutation]);
 
   // Prefetch related data
   const prefetchRelatedData = useCallback(async () => {

@@ -105,7 +105,7 @@ export const UnifiedDashboard: React.FC<UnifiedDashboardProps> = ({ transactionI
   const getUserTransactionRole = () => {
     if (!currentTransaction || !user) return null;
 
-    const participant = currentTransaction.participants.find(p: any => p.userId === user.id);
+    const participant = currentTransaction.participants.find((p: any) => p.userId === user.id);
     return participant?.role;
   };
 
@@ -118,7 +118,7 @@ export const UnifiedDashboard: React.FC<UnifiedDashboardProps> = ({ transactionI
 
     // Developer alerts
     if (role === 'DEVELOPER') {
-      if (currentTransaction.status === 'RESERVED' && !currentTransaction.payments.find(p: any => p.type === 'BOOKING_DEPOSIT' && p.status === 'COMPLETED')) {
+      if (currentTransaction.status === 'RESERVED' && !currentTransaction.payments.find((p: any) => p.type === 'BOOKING_DEPOSIT' && p.status === 'COMPLETED')) {
         alerts.push({
           type: 'warning',
           message: 'Booking deposit pending from buyer'
@@ -128,7 +128,7 @@ export const UnifiedDashboard: React.FC<UnifiedDashboardProps> = ({ transactionI
 
     // Buyer alerts
     if (role === 'BUYER') {
-      const pendingPayments = currentTransaction.payments.filter(p: any => p.status === 'PENDING');
+      const pendingPayments = currentTransaction.payments.filter((p: any) => p.status === 'PENDING');
       if (pendingPayments.length> 0) {
         alerts.push({
           type: 'warning',
@@ -139,7 +139,7 @@ export const UnifiedDashboard: React.FC<UnifiedDashboardProps> = ({ transactionI
 
     // Solicitor alerts
     if (role === 'BUYER_SOLICITOR' || role === 'VENDOR_SOLICITOR') {
-      const pendingDocs = currentTransaction.documents.filter(d => d.status === 'PENDING');
+      const pendingDocs = currentTransaction.documents.filter((d) => d.status === 'PENDING');
       if (pendingDocs.length> 0) {
         alerts.push({
           type: 'info',
@@ -227,7 +227,7 @@ export const UnifiedDashboard: React.FC<UnifiedDashboardProps> = ({ transactionI
       {/* Alerts */}
       {alerts && alerts.length> 0 && (
         <div className="space-y-3 mb-6">
-          {alerts.map((alertindex: any) => (
+          {alerts.map((alert, index: any) => (
             <Alert key={index} variant={alert.type === 'warning' ? 'default' : 'default'}>
               <InfoIcon className="h-4 w-4" />
               <AlertDescription>{alert.message}</AlertDescription>

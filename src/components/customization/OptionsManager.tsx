@@ -60,7 +60,8 @@ export interface SelectedOption {
 
 interface OptionsManagerProps {
   categories: CustomizationCategory[];
-  selectedOptions: Record<string, SelectedOption>\n  );
+  selectedOptions: Record<string, SelectedOption>
+  );
   onOptionChange: (categoryId: string, option: SelectedOption | null) => void;
   developmentId: string;
 }

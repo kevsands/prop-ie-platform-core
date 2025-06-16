@@ -16,7 +16,8 @@ interface MetricCardProps {
   icon?: LucideIcon;
   trendValue?: number;
   trendLabel?: string;
-  trendData?: Array<{ value: number }>\n  );
+  trendData?: Array<{ value: number }>
+  );
   trendColor?: "default" | "success" | "warning" | "danger";
   loading?: boolean;
   className?: string;

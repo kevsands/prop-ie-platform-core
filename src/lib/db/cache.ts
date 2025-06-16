@@ -233,7 +233,7 @@ export function cached<T, A extends any[]>(
     const result = await fn(...args);
 
     // Cache result
-    cache.set(query, paramsresult);
+    cache.set(queryparamsresult);
 
     return result;
   };

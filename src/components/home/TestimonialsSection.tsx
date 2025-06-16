@@ -41,7 +41,7 @@ const testimonials: Testimonial[] = [
     propertyType: '3 Bed Semi-Detached',
     propertyLink: '/developments/fitzgerald-gardens',
     purchaseType: 'first-time-buyer',
-    longQuote: 'As first-time buyers, we were overwhelmed by the traditional property buying process. Prop.ie completely transformed our experience. The 3D virtual tours allowed us to view dozens of properties from home, and the Help-to-Buy calculator integration made the financial aspects much clearer. The step-by-step guidance through the entire purchase journey was invaluable, and we found our dream home much faster than we expected.'
+    longQuote: 'As first-time buyers, we were overwhelmed by the traditional property buying process. Prop.ie completely transformed our experience.'
   },
   {
     id: 2,
@@ -53,7 +53,7 @@ const testimonials: Testimonial[] = [
     propertyType: '2 Bed Apartment',
     propertyLink: '/developments/ballymakenny-view',
     purchaseType: 'investor',
-    longQuote: 'As someone who invests in multiple properties, having accurate data is crucial to my decision-making process. Prop.ie\'s investment tools provide in-depth analytics, reliable ROI projections, and comprehensive market reports that have helped me identify high-potential properties. The platform\'s rental yield calculator and investment portfolio tracker have become essential tools for my property business. I\'ve recommended Prop.ie to my entire investment network.'
+    longQuote: 'As someone who invests in multiple properties, having accurate data is crucial to my decision-making process.'
   },
   {
     id: 3,
@@ -64,47 +64,21 @@ const testimonials: Testimonial[] = [
     rating: 5,
     propertyType: 'New Development',
     purchaseType: 'investor',
-    longQuote: 'Integrating Prop.ie into our sales and marketing strategy has revolutionized how we sell properties. The platform\'s sophisticated lead management system helps us qualify buyers more effectively, while the customization tools allow potential buyers to visualize different finishes and options. This has significantly reduced our sales cycle and increased conversion rates by over 40%. The analytics dashboard gives us real-time insights into buyer preferences, helping us tailor our offerings to market demand.'
-  },
-  {
-    id: 4,
-    name: 'Lisa & Tom Reynolds',
-    role: 'Home Movers',
-    development: 'Riverside Manor',
-    quote: 'Moving from our starter home to a family house was remarkably smooth with Prop.ie. The timeline tools kept everything on track.',
-    rating: 5,
-    propertyType: '4 Bed Detached',
-    propertyLink: '/developments/riverside-manor',
-    purchaseType: 'home-mover',
-    longQuote: 'After outgrowing our starter home, we needed a larger property for our growing family. Prop.ie\'s platform made the complicated process of selling and buying simultaneously much more manageable. The timeline tools and milestone tracking kept all parties aligned, and the document management system simplified the paperwork significantly. We were particularly impressed with how the platform coordinated between our estate agent, solicitor, and mortgage provider. Our family is now happily settled in our new home thanks to Prop.ie.'
-  },
-  {
-    id: 5,
-    name: 'Aisha Patel',
-    role: 'First-time Buyer',
-    development: 'Fitzgerald Gardens',
-    quote: 'As a solo buyer, I appreciated the clear guidance through each step of the purchase. The mortgage calculator and advisor matching were outstanding.',
-    rating: 5,
-    propertyType: '2 Bed Apartment',
-    propertyLink: '/developments/fitzgerald-gardens',
-    purchaseType: 'first-time-buyer',
-    longQuote: "Buying my first property alone was initially daunting, but Prop.ie provided the support and tools I needed to feel confident throughout the process. The mortgage calculator gave me a realistic view of my budget, and the advisor matching service connected me with professionals who understood my specific situation. The first-time buyer guides were incredibly helpful, and the notification system kept me informed about every important milestone. I'm now the proud owner of my own apartment, and I couldn't have done it so smoothly without Prop.ie."
+    longQuote: 'Integrating Prop.ie into our sales and marketing strategy has revolutionized how we sell properties.'
   }
 ];
 
 const TestimonialsSection: React.FC = () => {
-  const [activeIndexsetActiveIndex] = useState(0);
-  const [isAnimatingsetIsAnimating] = useState(false);
-  const [progresssetProgress] = useState(0);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [isAnimating, setIsAnimating] = useState(false);
+  const [progress, setProgress] = useState(0);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
   // Function to go to the next testimonial
   const nextTestimonial = () => {
     if (isAnimating) return;
-
     setIsAnimating(true);
-    setActiveIndex((prevIndex: any) => (prevIndex + 1) % testimonials.length);
-
+    setActiveIndex((prevIndex) => (prevIndex + 1) % testimonials.length);
     setTimeout(() => {
       setIsAnimating(false);
       resetProgressTimer();
@@ -114,10 +88,8 @@ const TestimonialsSection: React.FC = () => {
   // Function to go to the previous testimonial
   const prevTestimonial = () => {
     if (isAnimating) return;
-
     setIsAnimating(true);
-    setActiveIndex((prevIndex: any) => (prevIndex - 1 + testimonials.length) % testimonials.length);
-
+    setActiveIndex((prevIndex) => (prevIndex - 1 + testimonials.length) % testimonials.length);
     setTimeout(() => {
       setIsAnimating(false);
       resetProgressTimer();
@@ -127,10 +99,8 @@ const TestimonialsSection: React.FC = () => {
   // Function to handle testimonial navigation via indicators
   const goToTestimonial = (index: number) => {
     if (isAnimating || index === activeIndex) return;
-
     setIsAnimating(true);
     setActiveIndex(index);
-
     setTimeout(() => {
       setIsAnimating(false);
       resetProgressTimer();
@@ -168,7 +138,6 @@ const TestimonialsSection: React.FC = () => {
   // Initialize and clean up the timer
   useEffect(() => {
     startProgressTimer();
-
     return () => {
       if (timerRef.current) {
         clearInterval(timerRef.current);
@@ -180,13 +149,13 @@ const TestimonialsSection: React.FC = () => {
   const renderPurchaseTypeIcon = (purchaseType: string) => {
     switch (purchaseType) {
       case 'first-time-buyer':
-        return <Home className="w-5 h-5 text-blue-500" />\n  );
+        return <Home className="w-5 h-5 text-blue-500" />;
       case 'investor':
-        return <Building className="w-5 h-5 text-green-500" />\n  );
+        return <Building className="w-5 h-5 text-green-500" />;
       case 'home-mover':
-        return <Users className="w-5 h-5 text-purple-500" />\n  );
+        return <Users className="w-5 h-5 text-purple-500" />;
       default:
-        return <Home className="w-5 h-5 text-blue-500" />\n  );
+        return <Home className="w-5 h-5 text-blue-500" />;
     }
   };
 
@@ -194,13 +163,13 @@ const TestimonialsSection: React.FC = () => {
   const renderPurchaseTypeLabel = (purchaseType: string) => {
     switch (purchaseType) {
       case 'first-time-buyer':
-        return <span className="text-blue-700 bg-blue-100 px-2 py-1 rounded-full text-xs font-medium">First Time Buyer</span>\n  );
+        return <span className="text-blue-700 bg-blue-100 px-2 py-1 rounded-full text-xs font-medium">First Time Buyer</span>;
       case 'investor':
-        return <span className="text-green-700 bg-green-100 px-2 py-1 rounded-full text-xs font-medium">Investor</span>\n  );
+        return <span className="text-green-700 bg-green-100 px-2 py-1 rounded-full text-xs font-medium">Investor</span>;
       case 'home-mover':
-        return <span className="text-purple-700 bg-purple-100 px-2 py-1 rounded-full text-xs font-medium">Home Mover</span>\n  );
+        return <span className="text-purple-700 bg-purple-100 px-2 py-1 rounded-full text-xs font-medium">Home Mover</span>;
       default:
-        return <span className="text-blue-700 bg-blue-100 px-2 py-1 rounded-full text-xs font-medium">Property Buyer</span>\n  );
+        return <span className="text-blue-700 bg-blue-100 px-2 py-1 rounded-full text-xs font-medium">Property Buyer</span>;
     }
   };
 
@@ -228,172 +197,121 @@ const TestimonialsSection: React.FC = () => {
           <div className="absolute top-0 left-0 w-full h-1 bg-gray-200 rounded-full overflow-hidden">
             <div 
               className="h-full bg-blue-600 transition-all duration-300 ease-linear"
-              style={ width: `${progress}%` }
+              style={{ width: `${progress}%` }}
             />
           </div>
 
-          {/* Mobile Testimonial View */}
-          <div className="md:hidden relative mt-6 overflow-hidden">
-            <div 
-              className={`transition-opacity duration-500 ${isAnimating ? 'opacity-0' : 'opacity-100'}`}
-            >
-              {/* Testimonial Card */}
-              <div className="bg-gray-50 rounded-xl p-5 relative overflow-hidden shadow-md">
-                {/* Quote Icon */}
-                <div className="absolute top-4 right-4 text-gray-100">
-                  <Quote className="h-12 w-12" />
-                </div>
-
-                {/* Purchase Type Badge */}
-                <div className="mb-4">
-                  {currentTestimonial && renderPurchaseTypeLabel(currentTestimonial.purchaseType || '')}
-                </div>
-
-                {/* Testimonial Quote */}
-                <blockquote className="relative z-10">
-                  <p className="text-base text-gray-800 font-medium italic mb-4 leading-relaxed">
-                    "{currentTestimonial?.quote || 'This customer had a wonderful experience with our platform.'}"
-                  </p>
-
-                  {/* Rating Stars */}
-                  <div className="flex mb-4">
-                    {[...Array(currentTestimonial?.rating || 5)].map((_i: any) => (
-                      <Star key={i} className="h-4 w-4 text-yellow-400 fill-current" />
-                    ))}
+          {/* Testimonial Content */}
+          <div className="mt-6 overflow-hidden">
+            <div className={`transition-opacity duration-500 ${isAnimating ? 'opacity-0' : 'opacity-100'}`}>
+              {/* Mobile View */}
+              <div className="md:hidden">
+                <div className="bg-gray-50 rounded-xl p-5 relative overflow-hidden shadow-md">
+                  <div className="absolute top-4 right-4 text-gray-100">
+                    <Quote className="h-12 w-12" />
                   </div>
 
-                  {/* Testimonial Author */}
-                  <footer className="flex items-center">
-                    <div className="relative h-10 w-10 rounded-full overflow-hidden mr-3 bg-blue-100 flex-shrink-0">
-                      <div className="h-full w-full flex items-center justify-center">
-                        {renderPurchaseTypeIcon(currentTestimonial?.purchaseType || '')}
-                      </div>
-                    </div>
-                    <div>
-                      <p className="font-bold text-gray-900 text-sm">{currentTestimonial?.name || 'Happy Customer'}</p>
-                      <p className="text-xs text-gray-600">
-                        {currentTestimonial?.role || 'Property Buyer'} • {currentTestimonial?.development || 'Development'}
-                      </p>
-                    </div>
-                  </footer>
-                </blockquote>
-              </div>
-
-              {/* Property Details - Mobile */}
-              <div className="mt-4 rounded-xl overflow-hidden shadow-md bg-white">
-                <div className="relative h-48 w-full bg-gray-200">
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent z-10" />
-                  <div className="absolute bottom-3 left-3 z-20 text-white">
-                    <p className="text-xs font-medium">{currentTestimonial?.development || 'Property Development'}</p>
-                    <p className="text-sm font-bold">{currentTestimonial?.propertyType || 'Quality Homes'}</p>
-                  </div>
-                  <div className="h-full w-full flex items-center justify-center">
-                    <Building className="h-12 w-12 text-gray-400" />
-                  </div>
-                </div>
-
-                <div className="p-4">
-                  <h3 className="text-base font-bold text-gray-900 mb-2">
-                    Why I Chose Prop.ie
-                  </h3>
-                  <p className="text-sm text-gray-700 mb-4 line-clamp-3">
-                    {currentTestimonial?.longQuote 
-                      ? currentTestimonial.longQuote.substring(0120) + '...'
-                      : 'Our platform provided exactly what this customer needed for their property journey, with excellent support throughout...'}
-                  </p>
-
-                  <Link 
-                    href={currentTestimonial?.propertyLink || '/developments'}
-                    className="inline-flex items-center text-blue-600 font-medium text-sm hover:text-blue-800 transition-colors"
-                  >
-                    View Property
-                    <ArrowRight className="ml-1 h-3 w-3" />
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Desktop Testimonial Layout */}
-          <div className="hidden md:block">
-            <div 
-              className="relative mt-8 overflow-hidden"
-            >
-              <div 
-                className={`grid grid-cols-1 md:grid-cols-2 gap-8 transition-opacity duration-500 ${isAnimating ? 'opacity-0' : 'opacity-100'}`}
-              >
-                {/* Testimonial Content (Left Column) */}
-                <div className="bg-gray-50 rounded-2xl p-8 md:p-10 relative overflow-hidden shadow-lg">
-                  {/* Quote Icon */}
-                  <div className="absolute top-6 right-6 text-gray-100">
-                    <Quote className="h-20 w-20" />
-                  </div>
-
-                  {/* Purchase Type Badge */}
-                  <div className="mb-6">
+                  <div className="mb-4">
                     {currentTestimonial && renderPurchaseTypeLabel(currentTestimonial.purchaseType || '')}
                   </div>
 
-                  {/* Testimonial Quote */}
                   <blockquote className="relative z-10">
-                    <p className="text-xl md:text-2xl text-gray-800 font-medium italic mb-6 leading-relaxed">
+                    <p className="text-base text-gray-800 font-medium italic mb-4 leading-relaxed">
                       "{currentTestimonial?.quote || 'This customer had a wonderful experience with our platform.'}"
                     </p>
 
-                    {/* Rating Stars */}
-                    <div className="flex mb-6">
-                      {[...Array(currentTestimonial?.rating || 5)].map((_i: any) => (
-                        <Star key={i} className="h-5 w-5 text-yellow-400 fill-current" />
+                    <div className="flex mb-4">
+                      {[...Array(currentTestimonial?.rating || 5)].map((_index) => (
+                        <Star key={index} className="h-4 w-4 text-yellow-400 fill-current" />
                       ))}
                     </div>
 
-                    {/* Testimonial Author */}
                     <footer className="flex items-center">
-                      <div className="relative h-12 w-12 rounded-full overflow-hidden mr-4 bg-blue-100 flex-shrink-0">
+                      <div className="relative h-10 w-10 rounded-full overflow-hidden mr-3 bg-blue-100 flex-shrink-0">
                         <div className="h-full w-full flex items-center justify-center">
                           {renderPurchaseTypeIcon(currentTestimonial?.purchaseType || '')}
                         </div>
                       </div>
                       <div>
-                        <p className="font-bold text-gray-900">{currentTestimonial?.name || 'Happy Customer'}</p>
-                        <p className="text-sm text-gray-600">
+                        <p className="font-bold text-gray-900 text-sm">{currentTestimonial?.name || 'Happy Customer'}</p>
+                        <p className="text-xs text-gray-600">
                           {currentTestimonial?.role || 'Property Buyer'} • {currentTestimonial?.development || 'Development'}
                         </p>
                       </div>
                     </footer>
                   </blockquote>
                 </div>
+              </div>
 
-                {/* Property Image & Details (Right Column) */}
-                <div className="rounded-2xl overflow-hidden shadow-lg bg-white">
-                  <div className="relative h-64 w-full bg-gray-200">
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent z-10" />
-                    <div className="absolute bottom-4 left-4 z-20 text-white">
-                      <p className="text-sm font-medium">{currentTestimonial?.development || 'Property Development'}</p>
-                      <p className="text-lg font-bold">{currentTestimonial?.propertyType || 'Quality Homes'}</p>
+              {/* Desktop View */}
+              <div className="hidden md:block">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
+                  {/* Testimonial Content */}
+                  <div className="bg-gray-50 rounded-2xl p-8 md:p-10 relative overflow-hidden shadow-lg">
+                    <div className="absolute top-6 right-6 text-gray-100">
+                      <Quote className="h-20 w-20" />
                     </div>
-                    <div className="h-full w-full flex items-center justify-center">
-                      <Building className="h-16 w-16 text-gray-400" />
+
+                    <div className="mb-6">
+                      {currentTestimonial && renderPurchaseTypeLabel(currentTestimonial.purchaseType || '')}
                     </div>
+
+                    <blockquote className="relative z-10">
+                      <p className="text-xl md:text-2xl text-gray-800 font-medium italic mb-6 leading-relaxed">
+                        "{currentTestimonial?.quote || 'This customer had a wonderful experience with our platform.'}"
+                      </p>
+
+                      <div className="flex mb-6">
+                        {[...Array(currentTestimonial?.rating || 5)].map((_index) => (
+                          <Star key={index} className="h-5 w-5 text-yellow-400 fill-current" />
+                        ))}
+                      </div>
+
+                      <footer className="flex items-center">
+                        <div className="relative h-12 w-12 rounded-full overflow-hidden mr-4 bg-blue-100 flex-shrink-0">
+                          <div className="h-full w-full flex items-center justify-center">
+                            {renderPurchaseTypeIcon(currentTestimonial?.purchaseType || '')}
+                          </div>
+                        </div>
+                        <div>
+                          <p className="font-bold text-gray-900">{currentTestimonial?.name || 'Happy Customer'}</p>
+                          <p className="text-sm text-gray-600">
+                            {currentTestimonial?.role || 'Property Buyer'} • {currentTestimonial?.development || 'Development'}
+                          </p>
+                        </div>
+                      </footer>
+                    </blockquote>
                   </div>
 
-                  <div className="p-6">
-                    <h3 className="text-xl font-bold text-gray-900 mb-2">
-                      Why I Chose Prop.ie
-                    </h3>
-                    <p className="text-gray-700 mb-6">
-                      {currentTestimonial?.longQuote 
-                        ? currentTestimonial.longQuote.substring(0150) + '...'
-                        : 'Our platform provided exactly what this customer needed for their property journey, with comprehensive tools and excellent support throughout the process...'}
-                    </p>
+                  {/* Property Details */}
+                  <div className="rounded-2xl overflow-hidden shadow-lg bg-white">
+                    <div className="relative h-64 w-full bg-gray-200">
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent z-10" />
+                      <div className="absolute bottom-4 left-4 z-20 text-white">
+                        <p className="text-sm font-medium">{currentTestimonial?.development || 'Property Development'}</p>
+                        <p className="text-lg font-bold">{currentTestimonial?.propertyType || 'Quality Homes'}</p>
+                      </div>
+                      <div className="h-full w-full flex items-center justify-center">
+                        <Building className="h-16 w-16 text-gray-400" />
+                      </div>
+                    </div>
 
-                    <Link 
-                      href={currentTestimonial?.propertyLink || '/developments'}
-                      className="inline-flex items-center text-blue-600 font-medium hover:text-blue-800 transition-colors"
-                    >
-                      View Property Details
-                      <ArrowRight className="ml-2 h-4 w-4" />
-                    </Link>
+                    <div className="p-6">
+                      <h3 className="text-xl font-bold text-gray-900 mb-2">
+                        Why I Chose Prop.ie
+                      </h3>
+                      <p className="text-gray-700 mb-6">
+                        {currentTestimonial?.longQuote || 'Our platform provided exactly what this customer needed for their property journey...'}
+                      </p>
+
+                      <Link 
+                        href={currentTestimonial?.propertyLink || '/developments'}
+                        className="inline-flex items-center text-blue-600 font-medium hover:text-blue-800 transition-colors"
+                      >
+                        View Property Details
+                        <ArrowRight className="ml-2 h-4 w-4" />
+                      </Link>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -403,7 +321,7 @@ const TestimonialsSection: React.FC = () => {
           {/* Navigation Controls */}
           <div className="flex items-center justify-between mt-6 sm:mt-8">
             <div className="flex gap-1.5 sm:gap-2">
-              {testimonials.map((_index: any) => (
+              {testimonials.map((_index) => (
                 <button
                   key={index}
                   onClick={() => goToTestimonial(index)}
@@ -434,7 +352,7 @@ const TestimonialsSection: React.FC = () => {
           </div>
         </div>
 
-        {/* Testimonials Summary Stats */}
+        {/* Stats */}
         <div className="mt-10 sm:mt-12 md:mt-16 grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-6 text-center">
           <div className="bg-blue-50 rounded-lg sm:rounded-xl p-4 sm:p-6">
             <div className="text-xl sm:text-2xl md:text-3xl font-bold text-blue-700 mb-1 sm:mb-2">1,000+</div>

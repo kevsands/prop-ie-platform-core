@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import React, { useState, useEffect } from 'react';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
@@ -99,7 +99,7 @@ const PropertyMatching: React.FC<PropertyMatchingProps> = ({
       }
     } catch (error) {
       setError('Failed to find matches');
-
+      console.error('Error finding matches:', error);
     } finally {
       setLoading(false);
     }
@@ -111,7 +111,7 @@ const PropertyMatching: React.FC<PropertyMatchingProps> = ({
       setError(null);
     } catch (error) {
       setError('Failed to save matching criteria');
-
+      console.error('Error saving matching criteria:', error);
     }
   };
 

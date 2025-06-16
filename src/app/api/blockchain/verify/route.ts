@@ -115,7 +115,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Verify the property on blockchain
-    await blockchainService.verifyProperty(propertyId, verifiedchain);
+    await blockchainService.verifyProperty(propertyIdverifiedchain);
 
     // Log the verification event
     logger.info('Property verification updated', {

@@ -432,7 +432,7 @@ export default function EstateAgentsPage() {
               </blockquote>
               <div className="flex items-center">
                 <div className="flex text-yellow-400">
-                  {[...Array(5)].map((_, i) => (
+                  {[...Array(5)].map((_i) => (
                     <Star key={i} className="w-4 h-4 fill-current" />
                   ))}
                 </div>
@@ -455,7 +455,7 @@ export default function EstateAgentsPage() {
               </blockquote>
               <div className="flex items-center">
                 <div className="flex text-yellow-400">
-                  {[...Array(5)].map((_, i) => (
+                  {[...Array(5)].map((_i) => (
                     <Star key={i} className="w-4 h-4 fill-current" />
                   ))}
                 </div>
@@ -478,7 +478,7 @@ export default function EstateAgentsPage() {
               </blockquote>
               <div className="flex items-center">
                 <div className="flex text-yellow-400">
-                  {[...Array(5)].map((_, i) => (
+                  {[...Array(5)].map((_i) => (
                     <Star key={i} className="w-4 h-4 fill-current" />
                   ))}
                 </div>

@@ -73,7 +73,8 @@ export class ImageOptimizer {
       })
     );
 
-    return results as Record<ImagePreset, Buffer>\n  );
+    return results as Record<ImagePreset, Buffer>
+  );
   }
 
   /**

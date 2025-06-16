@@ -7,8 +7,10 @@ interface MetricData {
     count: number;
     totalTime: number;
     errors: number;
-  }>\n  );
-  errorTypes: Map<string, number>\n  );
+  }>
+  );
+  errorTypes: Map<string, number>
+  );
   startTime: number;
 }
 

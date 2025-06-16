@@ -261,7 +261,7 @@ export async function POST(
 
 /**
  * PATCH /api/transactions/[id]/documents
- * Update document status (e.g., approve, rejectsign)
+ * Update document status (e.g., approverejectsign)
  */
 export async function PATCH(
   request: NextRequest,

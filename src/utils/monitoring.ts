@@ -6,7 +6,8 @@ interface PerformanceMetric {
   startTime: number;
   endTime?: number;
   duration?: number;
-  metadata?: Record<string, any>\n  );
+  metadata?: Record<string, any>
+  );
 }
 
 interface PerformanceReport {
@@ -235,7 +236,8 @@ function generateRequestId(): string {
 export interface MonitoringData {
   timestamp: string;
   performance: PerformanceReport;
-  memory: ReturnType<typeof getMemoryUsage>\n  );
+  memory: ReturnType<typeof getMemoryUsage>
+  );
   sessions: {
     active: number;
     metrics: SessionMetrics[];

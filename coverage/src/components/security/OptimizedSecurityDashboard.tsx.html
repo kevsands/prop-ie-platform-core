@@ -247,8 +247,7 @@
 <a name='L182'></a><a href='#L182'>182</a>
 <a name='L183'></a><a href='#L183'>183</a>
 <a name='L184'></a><a href='#L184'>184</a>
-<a name='L185'></a><a href='#L185'>185</a>
-<a name='L186'></a><a href='#L186'>186</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L185'></a><a href='#L185'>185</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -270,7 +269,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -462,8 +460,7 @@ const OptimizedSecurityDashboard: React.FC&lt;OptimizedSecurityDashboardProps&gt
   includeMetricsChart = <span class="branch-0 cbranch-no" title="branch not covered" >true,</span>
   includeTimeline = <span class="branch-0 cbranch-no" title="branch not covered" >true,</span>
   showPerformanceStats = <span class="branch-0 cbranch-no" title="branch not covered" >false,</span>
-  securityScore = <span class="branch-0 cbranch-no" title="branch not covered" >75,</span>
-}) =&gt; {
+  securityScore = <span class="branch-0 cbranch-no" title="branch not covered" >75}</span>) =&gt; {
   return (
     &lt;div className="space-y-6"&gt;
       {/* Dashboard header */}
@@ -474,7 +471,7 @@ const OptimizedSecurityDashboard: React.FC&lt;OptimizedSecurityDashboardProps&gt
             Optimized for performance
           &lt;/p&gt;
         &lt;/div&gt;
-        
+&nbsp;
         &lt;div className="flex items-center gap-2"&gt;
           &lt;select 
             className="bg-white border rounded px-2 py-1 text-sm"
@@ -482,7 +479,7 @@ const OptimizedSecurityDashboard: React.FC&lt;OptimizedSecurityDashboardProps&gt
             &lt;option value="60"&gt;Refresh: 1m&lt;/option&gt;
             &lt;option value="300"&gt;Refresh: 5m&lt;/option&gt;
           &lt;/select&gt;
-          
+&nbsp;
           &lt;button 
             className="bg-blue-600 text-white px-3 py-1 rounded text-sm hover:bg-blue-700"
           &gt;
@@ -490,7 +487,7 @@ const OptimizedSecurityDashboard: React.FC&lt;OptimizedSecurityDashboardProps&gt
           &lt;/button&gt;
         &lt;/div&gt;
       &lt;/div&gt;
-      
+&nbsp;
       {/* Security score highlight */}
       &lt;div className="grid grid-cols-1 md:grid-cols-4 gap-4"&gt;
         &lt;div className="p-4 border rounded-lg border-l-4 border-l-green-500"&gt;
@@ -499,7 +496,7 @@ const OptimizedSecurityDashboard: React.FC&lt;OptimizedSecurityDashboardProps&gt
             &lt;span className="text-2xl font-bold"&gt;{securityScore}/100&lt;/span&gt;
           &lt;/div&gt;
         &lt;/div&gt;
-        
+&nbsp;
         {/* Additional metric cards */}
         &lt;div className="p-4 border rounded-lg"&gt;
           &lt;div className="text-sm font-medium text-gray-500 mb-2"&gt;Cache Status&lt;/div&gt;
@@ -508,7 +505,7 @@ const OptimizedSecurityDashboard: React.FC&lt;OptimizedSecurityDashboardProps&gt
             Events: 16, Metrics: 8
           &lt;/div&gt;
         &lt;/div&gt;
-        
+&nbsp;
         &lt;div className="p-4 border rounded-lg"&gt;
           &lt;div className="text-sm font-medium text-gray-500 mb-2"&gt;Connection Status&lt;/div&gt;
           &lt;div className="flex items-center"&gt;
@@ -516,7 +513,7 @@ const OptimizedSecurityDashboard: React.FC&lt;OptimizedSecurityDashboardProps&gt
             &lt;span className="text-lg font-semibold"&gt;Connected&lt;/span&gt;
           &lt;/div&gt;
         &lt;/div&gt;
-        
+&nbsp;
         &lt;div className="p-4 border rounded-lg"&gt;
           &lt;div className="text-sm font-medium text-gray-500 mb-2"&gt;API Latency&lt;/div&gt;
           &lt;div className="text-2xl font-bold"&gt;85ms&lt;/div&gt;
@@ -525,11 +522,11 @@ const OptimizedSecurityDashboard: React.FC&lt;OptimizedSecurityDashboardProps&gt
           &lt;/div&gt;
         &lt;/div&gt;
       &lt;/div&gt;
-      
+&nbsp;
       {/* Main dashboard content */}
       &lt;div className="border-b border-gray-200"&gt;
         &lt;nav className="flex -mb-px space-x-8"&gt;
-          {['overview', 'events', 'threats'].map(<span class="fstat-no" title="function not covered" >(t</span>ab) =&gt; (
+          {['overview', 'events', 'threats'].map(<span class="fstat-no" title="function not covered" >(t</span>ab: any) =&gt; (
 <span class="cstat-no" title="statement not covered" >            &lt;button</span>
               key={tab}
               className={`py-4 px-1 font-medium text-sm capitalize border-b-2 ${
@@ -543,11 +540,11 @@ const OptimizedSecurityDashboard: React.FC&lt;OptimizedSecurityDashboardProps&gt
           ))}
         &lt;/nav&gt;
       &lt;/div&gt;
-      
+&nbsp;
       {/* Main content panel - Overview tab */}
       &lt;div className="border rounded-lg p-4"&gt;
         &lt;h2 className="text-lg font-semibold mb-4"&gt;Security Overview&lt;/h2&gt;
-        
+&nbsp;
         &lt;div className="space-y-4"&gt;
           {/* Recent events preview */}
           &lt;div&gt;
@@ -584,7 +581,7 @@ const OptimizedSecurityDashboard: React.FC&lt;OptimizedSecurityDashboardProps&gt
               &lt;/table&gt;
             &lt;/div&gt;
           &lt;/div&gt;
-          
+&nbsp;
           {/* Security metrics visualization placeholder */}
           {<span class="branch-0 cbranch-no" title="branch not covered" >includeMetricsChart &amp;&amp; (</span>
             &lt;div&gt;
@@ -594,7 +591,7 @@ const OptimizedSecurityDashboard: React.FC&lt;OptimizedSecurityDashboardProps&gt
               &lt;/div&gt;
             &lt;/div&gt;
           )}
-          
+&nbsp;
           {/* Threat visualization placeholder */}
           {<span class="branch-0 cbranch-no" title="branch not covered" >includeThreatVisualization &amp;&amp; (</span>
             &lt;div&gt;
@@ -606,7 +603,7 @@ const OptimizedSecurityDashboard: React.FC&lt;OptimizedSecurityDashboardProps&gt
           )}
         &lt;/div&gt;
       &lt;/div&gt;
-      
+&nbsp;
       {/* Performance information footer */}
       {<span class="branch-0 cbranch-no" title="branch not covered" >showPerformanceStats &amp;&amp; (</span>
         &lt;div className="text-xs text-gray-400 border-t pt-2"&gt;
@@ -625,7 +622,7 @@ const OptimizedSecurityDashboard: React.FC&lt;OptimizedSecurityDashboardProps&gt
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T22:15:28.100Z
+                at 2025-06-15T18:50:48.918Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

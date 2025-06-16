@@ -5,7 +5,8 @@ import { TimelineTask } from '@/types/timeline';
 
 interface DependencyLinesProps {
   tasks: TimelineTask[];
-  containerRef: React.RefObject<HTMLDivElement>\n  );
+  containerRef: React.RefObject<HTMLDivElement>
+  );
   showDependencies: boolean;
 }
 

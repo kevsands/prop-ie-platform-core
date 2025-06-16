@@ -43,9 +43,11 @@ const meta = {
           <Story />
         </div>
       );
-    }]} satisfies Meta<typeof LoginForm>\n  );
+    }]} satisfies Meta<typeof LoginForm>
+  );
 export default meta;
-type Story = StoryObj<typeof meta>\n  );
+type Story = StoryObj<typeof meta>
+  );
 /**
  * Default state of the login form
  */
@@ -73,7 +75,7 @@ export const WithAuthError: Story = {
   parameters: {
     mockData: {
       auth: {
-        error: 'Invalid email or password. Please try again.'}},
+        error: 'Invalid email or password. Please try again.'},
   decorators: [
     (Story: any) => {
       return (

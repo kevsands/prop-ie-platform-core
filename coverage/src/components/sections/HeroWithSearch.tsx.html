@@ -524,12 +524,12 @@ import {
 } from <span class="cstat-no" title="statement not covered" >'lucide-react';</span>
 &nbsp;
 export const <span class="cstat-no" title="statement not covered" >HeroWithSearch </span>= <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
-  const [searchQuery, setSearchQuery] = <span class="cstat-no" title="statement not covered" >useState('');</span>
-  const [searchFocused, setSearchFocused] = <span class="cstat-no" title="statement not covered" >useState(false);</span>
-  const [locationQuery, setLocationQuery] = <span class="cstat-no" title="statement not covered" >useState('');</span>
-  const [priceRange, setPriceRange] = <span class="cstat-no" title="statement not covered" >useState('');</span>
-  const [bedrooms, setBedrooms] = <span class="cstat-no" title="statement not covered" >useState('');</span>
-  
+  const [searchQuerysetSearchQuery] = <span class="cstat-no" title="statement not covered" >useState('');</span>
+  const [searchFocusedsetSearchFocused] = <span class="cstat-no" title="statement not covered" >useState(false);</span>
+  const [locationQuerysetLocationQuery] = <span class="cstat-no" title="statement not covered" >useState('');</span>
+  const [priceRangesetPriceRange] = <span class="cstat-no" title="statement not covered" >useState('');</span>
+  const [bedroomssetBedrooms] = <span class="cstat-no" title="statement not covered" >useState('');</span>
+&nbsp;
   return (
     &lt;&gt;
       {/* Hero Section */}
@@ -546,7 +546,7 @@ export const <span class="cstat-no" title="statement not covered" >HeroWithSearc
           /&gt;
           &lt;div className="absolute inset-0 bg-gradient-to-b from-black/40 to-black/60" /&gt;
         &lt;/div&gt;
-        
+&nbsp;
         {/* Hero Content */}
         &lt;div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center"&gt;
           &lt;div className="text-white max-w-2xl"&gt;
@@ -572,7 +572,7 @@ export const <span class="cstat-no" title="statement not covered" >HeroWithSearc
             &lt;/div&gt;
           &lt;/div&gt;
         &lt;/div&gt;
-        
+&nbsp;
         {/* Quick Stats */}
         &lt;div className="absolute bottom-0 left-0 right-0 bg-black/80 backdrop-blur-sm"&gt;
           &lt;div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6"&gt;
@@ -597,7 +597,7 @@ export const <span class="cstat-no" title="statement not covered" >HeroWithSearc
           &lt;/div&gt;
         &lt;/div&gt;
       &lt;/section&gt;
-      
+&nbsp;
       {/* AI Search Banner */}
       &lt;section className="bg-white border-b border-gray-200 sticky top-16 z-40"&gt;
         &lt;div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4"&gt;
@@ -612,12 +612,12 @@ export const <span class="cstat-no" title="statement not covered" >HeroWithSearc
                   placeholder="Search by area, development, or ask AI anything..."
                   className="w-full px-5 py-3 pl-12 pr-32 rounded-full border-2 border-gray-200 focus:border-[#2B5273] focus:outline-none focus:ring-2 focus:ring-[#2B5273]/20 transition-all"
                   value={searchQuery}
-                  onChange={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; <span class="cstat-no" title="statement not covered" >setSearchQuery(e.target.value)}</span>
+                  onChange={<span class="fstat-no" title="function not covered" >(e</span>: any) =&gt; <span class="cstat-no" title="statement not covered" >setSearchQuery(e.target.value)}</span>
                   onFocus={<span class="fstat-no" title="function not covered" >() =&gt; <span class="cstat-no" title="statement not covered" >s</span>etSearchFocused(true)}</span>
                   onBlur={<span class="fstat-no" title="function not covered" >() =&gt; <span class="cstat-no" title="statement not covered" >s</span>etTimeout(<span class="fstat-no" title="function not covered" >() =&gt; <span class="cstat-no" title="statement not covered" >s</span>etSearchFocused(false), 2</span>00)}</span>
                 /&gt;
                 &lt;Search className="absolute left-4 h-5 w-5 text-gray-400" /&gt;
-                
+&nbsp;
                 {/* Input Methods */}
                 &lt;div className="absolute right-20 flex items-center space-x-2"&gt;
                   &lt;button className="p-2 hover:bg-gray-100 rounded-full transition-colors"&gt;
@@ -627,14 +627,14 @@ export const <span class="cstat-no" title="statement not covered" >HeroWithSearc
                     &lt;Camera className="h-4 w-4 text-gray-500" /&gt;
                   &lt;/button&gt;
                 &lt;/div&gt;
-                
+&nbsp;
                 {/* AI Button */}
                 &lt;button className="absolute right-2 px-4 py-2 bg-gradient-to-r from-indigo-500 to-purple-600 text-white text-sm font-medium rounded-full hover:shadow-lg transition-all flex items-center space-x-1"&gt;
                   &lt;Sparkles className="h-4 w-4" /&gt;
                   &lt;span&gt;AI&lt;/span&gt;
                 &lt;/button&gt;
               &lt;/div&gt;
-              
+&nbsp;
               {/* Quick Search Suggestions */}
               {<span class="branch-0 cbranch-no" title="branch not covered" >searchFocused &amp;&amp; (</span>
                 &lt;div className="absolute top-full mt-2 w-full bg-white rounded-2xl shadow-2xl border border-gray-100 z-50"&gt;
@@ -674,13 +674,13 @@ export const <span class="cstat-no" title="statement not covered" >HeroWithSearc
                 &lt;/div&gt;
               )}
             &lt;/div&gt;
-            
+&nbsp;
             {/* Quick Filters */}
             &lt;div className="hidden md:flex items-center space-x-3"&gt;
               &lt;select 
                 className="px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:border-[#2B5273]"
                 value={priceRange}
-                onChange={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; <span class="cstat-no" title="statement not covered" >setPriceRange(e.target.value)}</span>
+                onChange={<span class="fstat-no" title="function not covered" >(e</span>: any) =&gt; <span class="cstat-no" title="statement not covered" >setPriceRange(e.target.value)}</span>
               &gt;
                 &lt;option value=""&gt;Price Range&lt;/option&gt;
                 &lt;option value="0-300000"&gt;Up to €300k&lt;/option&gt;
@@ -688,11 +688,11 @@ export const <span class="cstat-no" title="statement not covered" >HeroWithSearc
                 &lt;option value="500000-750000"&gt;€500k - €750k&lt;/option&gt;
                 &lt;option value="750000+"&gt;€750k+&lt;/option&gt;
               &lt;/select&gt;
-              
+&nbsp;
               &lt;select 
                 className="px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:border-[#2B5273]"
                 value={bedrooms}
-                onChange={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; <span class="cstat-no" title="statement not covered" >setBedrooms(e.target.value)}</span>
+                onChange={<span class="fstat-no" title="function not covered" >(e</span>: any) =&gt; <span class="cstat-no" title="statement not covered" >setBedrooms(e.target.value)}</span>
               &gt;
                 &lt;option value=""&gt;Bedrooms&lt;/option&gt;
                 &lt;option value="1"&gt;1 Bed&lt;/option&gt;
@@ -700,19 +700,19 @@ export const <span class="cstat-no" title="statement not covered" >HeroWithSearc
                 &lt;option value="3"&gt;3 Beds&lt;/option&gt;
                 &lt;option value="4+"&gt;4+ Beds&lt;/option&gt;
               &lt;/select&gt;
-              
+&nbsp;
               &lt;button className="px-4 py-2 bg-[#2B5273] text-white rounded-lg hover:bg-[#1e3347] transition-colors flex items-center space-x-2"&gt;
                 &lt;Search className="h-4 w-4" /&gt;
                 &lt;span&gt;Search&lt;/span&gt;
               &lt;/button&gt;
             &lt;/div&gt;
-            
+&nbsp;
             {/* Advanced Filters */}
             &lt;button className="p-2 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"&gt;
               &lt;Filter className="h-5 w-5 text-gray-600" /&gt;
             &lt;/button&gt;
           &lt;/div&gt;
-          
+&nbsp;
           {/* Quick Links */}
           &lt;div className="flex items-center space-x-4 mt-3 text-sm"&gt;
             &lt;Link href="/first-time-buyers" className="text-[#2B5273] hover:underline flex items-center"&gt;
@@ -745,7 +745,7 @@ export const <span class="cstat-no" title="statement not covered" >HeroWithSearc
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T22:15:28.100Z
+                at 2025-06-15T18:50:48.918Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

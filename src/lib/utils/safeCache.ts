@@ -31,7 +31,7 @@ export function getCachedData<T>(key: string, fallback?: T): T | undefined {
 
     if (cachedItem) {
       const now = Date.now();
-      if (now - cachedItem.timestamp <cachedItem.expiry) {
+      if (now - cachedItem.timestamp < cachedItem.expiry) {
         return cachedItem.data as T;
       } else {
         // Expired, remove from cache
@@ -45,7 +45,7 @@ export function getCachedData<T>(key: string, fallback?: T): T | undefined {
       const { data, timestamp, expiry } = JSON.parse(storedItem);
       const now = Date.now();
 
-      if (now - timestamp <expiry) {
+      if (now - timestamp < expiry) {
         // Add to memory cache and return
         memoryCache[key] = { data, timestamp, expiry };
         return data as T;
@@ -158,7 +158,11 @@ export const cachedFetch = createCachedFetch();
  * This is a simplified version for build testing
  * 
  * @param fn The async function to cache
- * @returns A wrapped async function thatfn(...args);
+ * @returns A wrapped async function that handles caching
+ */
+export function serverSideCache<T extends (...args: any[]) => Promise<any>>(fn: T): T {
+  return (async (...args: any[]) => {
+    return fn(...args);
   }) as T;
 }
 
@@ -198,10 +202,12 @@ export function asyncSafeCache<T extends (...args: any[]) => Promise<any>>(
       return cachedData;
     }
 
-    // Not in cache, execute the async function tryfn(...args);
+    // Not in cache, execute the async function
+    try {
+      const result = await fn(...args);
 
       // Cache the result
-      setCachedData(cacheKey, resultexpiryMs);
+      setCachedData(cacheKey, result, expiryMs);
 
       return result;
     } catch (error) {

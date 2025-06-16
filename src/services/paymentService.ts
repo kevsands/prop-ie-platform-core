@@ -272,7 +272,7 @@ class PaymentService {
           description: `Payment of €${existingPayment.amount} confirmed for ${existingPayment.type}`,
           metadata: {
             paymentId: confirmedPayment.id,
-            amount: existingPayment.amount}});
+            amount: existingPayment.amount});
 
       // Send confirmation notification
       if (existingPayment.transaction?.buyer) {
@@ -379,7 +379,7 @@ class PaymentService {
             originalPaymentId: paymentId,
             refundPaymentId: refundPayment.id,
             amount,
-            reason}});
+            reason});
 
       return refundPayment;
     });
@@ -396,7 +396,7 @@ class PaymentService {
       include: { 
         unit: true,
         payments: {
-          orderBy: { createdAt: 'asc' }});
+          orderBy: { createdAt: 'asc' });
 
     if (!transaction) {
       throw new Error('Transaction not found');
@@ -520,7 +520,7 @@ class PaymentService {
       where: { id: transactionId },
       include: {
         payments: {
-          orderBy: { createdAt: 'desc' }});
+          orderBy: { createdAt: 'desc' });
 
     if (!transaction) {
       throw new Error('Transaction not found');

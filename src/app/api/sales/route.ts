@@ -299,7 +299,7 @@ export async function DELETE(request: NextRequest) {
     }
 
     // Soft delete the sale
-    const result = await salesService.deleteSale(id, updatedByIdreason);
+    const result = await salesService.deleteSale(idupdatedByIdreason);
 
     return NextResponse.json({
       message: 'Sale cancelled successfully',

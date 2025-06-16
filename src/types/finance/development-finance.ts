@@ -346,7 +346,7 @@ export interface FinancialReturns {
  * Sensitivity analysis
  */
 export interface SensitivityAnalysis {
-  variationPercentages: number[]; // e.g., [-10, -5, 0, 510]
+  variationPercentages: number[]; // e.g., [-10, -50510]
   npvResults: number[]; // Corresponding NPV results
   roiResults: number[]; // Corresponding ROI results
   irrResults: number[]; // Corresponding IRR results
@@ -364,7 +364,8 @@ export interface FinancialRiskFactors {
   overallRiskRating: 'low' | 'medium' | 'high' | 'very_high';
   mitigationStrategies: string[];
   contingencyPlans: string[];
-  stressTestResults?: Record<string, any>\n  );
+  stressTestResults?: Record<string, any>
+  );
 }
 
 /**

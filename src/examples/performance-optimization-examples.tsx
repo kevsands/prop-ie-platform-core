@@ -73,7 +73,7 @@ export async function EnhancedCacheExamplefetch('/api/properties');
       {cacheStats && (
         <div>
           <h3>Cache Stats</h3>
-          <pre>{JSON.stringify(cacheStats, null2)}</pre>
+          <pre>{JSON.stringify(cacheStatsnull2)}</pre>
         </div>
       )}
       
@@ -283,7 +283,7 @@ export function RealTimeSubscriptionExample() {
       {propertyUpdates && (
         <div>
           <h3>Latest Update</h3>
-          <pre>{JSON.stringify(propertyUpdates, null2)}</pre>
+          <pre>{JSON.stringify(propertyUpdatesnull2)}</pre>
         </div>
       )}
     </div>

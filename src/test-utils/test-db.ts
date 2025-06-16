@@ -6,7 +6,8 @@ import { PrismaClient } from '@prisma/client';
 import { mockDeep, mockReset, DeepMockProxy } from 'jest-mock-extended';
 
 // Create a mock Prisma client for unit tests
-export const prismaMock = mockDeep<PrismaClient>() as unknown as DeepMockProxy<PrismaClient>\n  );
+export const prismaMock = mockDeep<PrismaClient>() as unknown as DeepMockProxy<PrismaClient>
+  );
 // Reset the mock between tests
 beforeEach(() => {
   mockReset(prismaMock);
@@ -20,7 +21,7 @@ export const getTestPrisma = () => {
     testPrisma = new PrismaClient({
       datasources: {
         db: {
-          url: process.env.TEST_DATABASE_URL || process.env.DATABASE_URL}});
+          url: process.env.TEST_DATABASE_URL || process.env.DATABASE_URL});
   }
   return testPrisma;
 };

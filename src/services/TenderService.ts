@@ -1,6 +1,21 @@
 'use client';
 
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { revenueEngine, FeeType } from '@/services/revenueEngine';
+
+// Revenue-Enhanced Types
+export interface TenderFees {
+  submissionFee: number;
+  aiAnalysisFee?: number;
+  premiumListingFee?: number;
+  totalFeesCollected: number;
+}
+
+export interface ContractorPremiumStatus {
+  isPremium: boolean;
+  premiumExpiry?: string;
+  premiumFeatures: string[];
+}
 
 // Types
 export interface Tender {
@@ -30,6 +45,9 @@ export interface Tender {
   attachments: Attachment[];
   createdBy: string;
   aiRecommendation?: string;
+  fees?: TenderFees;
+  requiresAIAnalysis?: boolean;
+  aiAnalysisCompleted?: boolean;
 }
 
 export interface Bid {
@@ -43,6 +61,7 @@ export interface Bid {
     foundedYear: number;
     companySize: string;
     previousProjects: number;
+    premiumStatus?: ContractorPremiumStatus;
   };
   amount: number;
   timeline: number;
@@ -50,6 +69,9 @@ export interface Bid {
   submitted: string;
   status: 'submitted' | 'shortlisted' | 'rejected' | 'awarded';
   attachments: Attachment[];
+  submissionFeePaid: boolean;
+  submissionFeeAmount: number;
+  feeTransactionId?: string;
   aiAnalysis: {
     priceScore: number;
     experienceScore: number;
@@ -73,6 +95,10 @@ export interface Bid {
       certifications: boolean;
       insurance: boolean;
       licenses: boolean;
+    };
+    feesPaid?: {
+      aiAnalysisFee: boolean;
+      feeTransactionId?: string;
     };
   };
 }
@@ -149,6 +175,13 @@ const mockTenders: Tender[] = [
       insurance: '€5M liability',
       documentation: ['Company Profile', 'Financial Statements', 'Safety Statement']
     },
+    fees: {
+      submissionFee: 25,
+      aiAnalysisFee: 50,
+      totalFeesCollected: 200
+    },
+    requiresAIAnalysis: true,
+    aiAnalysisCompleted: true,
     bids: [
       {
         id: 'bid-001',
@@ -160,13 +193,21 @@ const mockTenders: Tender[] = [
           verificationStatus: 'verified',
           foundedYear: 2005,
           companySize: '50-100',
-          previousProjects: 78
+          previousProjects: 78,
+          premiumStatus: {
+            isPremium: true,
+            premiumExpiry: '2024-12-31',
+            premiumFeatures: ['Priority listing', 'Enhanced profile', 'Direct contact', 'Advanced analytics']
+          }
         },
         amount: 485000,
         timeline: 90,
         score: 92,
         submitted: '2024-05-10',
         status: 'shortlisted',
+        submissionFeePaid: true,
+        submissionFeeAmount: 25,
+        feeTransactionId: 'FEE-TXN-001',
         attachments: [
           {
             id: 'att-001',
@@ -200,6 +241,10 @@ const mockTenders: Tender[] = [
             certifications: true,
             insurance: true,
             licenses: true
+          },
+          feesPaid: {
+            aiAnalysisFee: true,
+            feeTransactionId: 'AI-FEE-001'
           }
         }
       },
@@ -212,13 +257,20 @@ const mockTenders: Tender[] = [
           verificationStatus: 'verified',
           foundedYear: 2010,
           companySize: '20-50',
-          previousProjects: 42
+          previousProjects: 42,
+          premiumStatus: {
+            isPremium: false,
+            premiumFeatures: []
+          }
         },
         amount: 468000,
         timeline: 95,
         score: 88,
         submitted: '2024-05-11',
         status: 'shortlisted',
+        submissionFeePaid: true,
+        submissionFeeAmount: 25,
+        feeTransactionId: 'FEE-TXN-002',
         attachments: [
           {
             id: 'att-002',
@@ -252,6 +304,9 @@ const mockTenders: Tender[] = [
             certifications: true,
             insurance: true,
             licenses: true
+          },
+          feesPaid: {
+            aiAnalysisFee: false
           }
         }
       }
@@ -708,6 +763,195 @@ export const useGenerateAIAnalysis = () => {
       // Invalidate tenders query to refetch with the updated tender
       queryClient.invalidateQueries({ queryKey: ['tenders'] });
     }
+  });
+};
+
+// Revenue-Enhanced Hooks for Fee Collection
+
+export const useSubmitTenderBid = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({ 
+      tenderId, 
+      contractorId, 
+      bidData 
+    }: { 
+      tenderId: string; 
+      contractorId: string; 
+      bidData: any;
+    }) => {
+      // Step 1: Calculate and collect submission fee
+      const submissionFee = await revenueEngine.calculateTenderFees(
+        'submission',
+        contractorId,
+        bidData.amount
+      );
+
+      // Step 2: Collect the fee before processing submission
+      const feeEvents = await revenueEngine.collectFees(
+        [submissionFee],
+        `tender-submission-${Date.now()}`,
+        contractorId,
+        { tenderId, submissionType: 'tender_bid' }
+      );
+
+      // Step 3: Process the bid submission (in real app, API call)
+      const newBid = {
+        id: `bid-${Date.now()}`,
+        tenderId,
+        ...bidData,
+        submissionFeePaid: true,
+        submissionFeeAmount: submissionFee.feeAmount,
+        feeTransactionId: feeEvents[0]?.id,
+        submitted: new Date().toISOString(),
+        status: 'submitted'
+      };
+
+      // Simulate API delay
+      await new Promise(resolve => setTimeout(resolve, 800));
+
+      return { newBid, feeEvent: feeEvents[0] };
+    },
+    onSuccess: (data) => {
+      // Update tender with new bid
+      queryClient.setQueryData(['tender', data.newBid.tenderId], (old: Tender | undefined) => {
+        if (!old) return old;
+        return {
+          ...old,
+          bids: [...old.bids, data.newBid],
+          bidsReceived: old.bidsReceived + 1,
+          fees: {
+            ...old.fees,
+            totalFeesCollected: (old.fees?.totalFeesCollected || 0) + data.newBid.submissionFeeAmount
+          }
+        };
+      });
+      queryClient.invalidateQueries({ queryKey: ['tenders'] });
+    }
+  });
+};
+
+export const usePurchasePremiumListing = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({ 
+      contractorId, 
+      duration = 'monthly' 
+    }: { 
+      contractorId: string; 
+      duration?: 'monthly' | 'annual';
+    }) => {
+      // Calculate premium listing fee
+      const premiumFee = await revenueEngine.calculateTenderFees(
+        'premium_listing',
+        contractorId
+      );
+
+      // Collect the fee
+      const feeEvents = await revenueEngine.collectFees(
+        [premiumFee],
+        `premium-listing-${Date.now()}`,
+        contractorId,
+        { listingType: 'premium_contractor', duration }
+      );
+
+      // Update contractor premium status
+      const premiumExpiry = duration === 'annual' 
+        ? new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString()
+        : new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString();
+
+      // Simulate API delay
+      await new Promise(resolve => setTimeout(resolve, 600));
+
+      return { 
+        contractorId, 
+        premiumExpiry,
+        feeEvent: feeEvents[0]
+      };
+    },
+    onSuccess: () => {
+      // Invalidate relevant queries
+      queryClient.invalidateQueries({ queryKey: ['contractors'] });
+      queryClient.invalidateQueries({ queryKey: ['tenders'] });
+    }
+  });
+};
+
+export const usePurchaseAIAnalysis = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({ 
+      tenderId, 
+      developerId 
+    }: { 
+      tenderId: string; 
+      developerId: string;
+    }) => {
+      // Calculate AI analysis fee
+      const aiAnalysisFee = await revenueEngine.calculateTenderFees(
+        'ai_analysis',
+        developerId
+      );
+
+      // Collect the fee
+      const feeEvents = await revenueEngine.collectFees(
+        [aiAnalysisFee],
+        `ai-analysis-${Date.now()}`,
+        developerId,
+        { tenderId, analysisType: 'comprehensive_bid_analysis' }
+      );
+
+      // Simulate AI analysis processing
+      await new Promise(resolve => setTimeout(resolve, 2500));
+
+      return { 
+        tenderId, 
+        analysisCompleted: true,
+        feeEvent: feeEvents[0]
+      };
+    },
+    onSuccess: (data) => {
+      // Update tender with AI analysis completion
+      queryClient.setQueryData(['tender', data.tenderId], (old: Tender | undefined) => {
+        if (!old) return old;
+        return {
+          ...old,
+          aiAnalysisCompleted: true,
+          status: 'evaluating',
+          fees: {
+            ...old.fees,
+            totalFeesCollected: (old.fees?.totalFeesCollected || 0) + 50 // AI analysis fee
+          },
+          updatedAt: new Date().toISOString()
+        };
+      });
+      queryClient.invalidateQueries({ queryKey: ['tenders'] });
+    }
+  });
+};
+
+export const useGetTenderRevenue = (tenderId?: string) => {
+  return useQuery({
+    queryKey: ['tender-revenue', tenderId],
+    queryFn: async () => {
+      // In production, this would fetch actual revenue data
+      // For now, return mock analytics for tender revenue
+      return {
+        totalRevenue: 3380.00,
+        submissionFees: 2800.00,
+        premiumListingFees: 380.00,
+        aiAnalysisFees: 200.00,
+        submissionCount: 112,
+        premiumContractors: 4,
+        aiAnalysisCount: 4,
+        growthPotential: 200, // 200% growth potential
+        projectedMonthlyRevenue: 10140.00 // With optimizations
+      };
+    },
+    staleTime: 300000 // 5 minutes
   });
 };
 

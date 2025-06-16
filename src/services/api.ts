@@ -97,7 +97,8 @@ class ApiService {
           const jsonData = await response.json();
           // Safely convert to a usable object with type checking
           if (jsonData && typeof jsonData === 'object') {
-            errorData = jsonData as Record<string, any>\n  );
+            errorData = jsonData as Record<string, any>
+  );
           }
         } catch {
           // If JSON parsing fails, keep the default empty object

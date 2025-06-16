@@ -16,12 +16,12 @@ export interface SelectedOption {
   unit: string;
   category: string;
   room?: string; 
-  customData?: Record<string, any>\n  );
+  customData?: Record<string, any>;
 }
 
 // Define state shape
 interface CustomizationState {
-  selectedOptions: Record<string, SelectedOption>\n  );
+  selectedOptions: Record<string, SelectedOption>;
   availableOptions: CustomizationOption[]; 
   currentRoom: string;
   totalCost: number;
@@ -40,9 +40,9 @@ export interface CustomizationContextType {
   setCurrentRoom: (room: string) => void;
   setAvailableOptions: (options: CustomizationOption[]) => void; 
   resetCustomization: (propertyId?: string) => void; // Allow passing propertyId on reset
-  saveCustomization: () => Promise<void>\n  );
-  loadCustomization: (propertyId: string) => Promise<void>\n  );
-  selectedOptions: Record<string, SelectedOption>\n  );
+  saveCustomization: () => Promise<void>;
+  loadCustomization: (propertyId: string) => Promise<void>;
+  selectedOptions: Record<string, SelectedOption>;
   totalCost: number; 
 }
 
@@ -71,7 +71,8 @@ const initialState: CustomizationState = {
   loading: false,
   error: null,
   propertyId: null,
-  customizationId: null};
+  customizationId: null
+};
 
 // Reducer function
 function customizationReducer(state: CustomizationState, action: CustomizationAction): CustomizationState {
@@ -81,32 +82,40 @@ function customizationReducer(state: CustomizationState, action: CustomizationAc
         ...state,
         selectedOptions: {
           ...state.selectedOptions,
-          [action.payload.id]: action.payload.option},
+          [action.payload.id]: action.payload.option
+        },
         totalCost: calculateTotalCost({
           ...state.selectedOptions,
-          [action.payload.id]: action.payload.option})};
+          [action.payload.id]: action.payload.option
+        })
+      };
     case 'REMOVE_OPTION':
       const { [action.payload.id]: removed, ...remainingOptions } = state.selectedOptions;
       return {
         ...state,
         selectedOptions: remainingOptions,
-        totalCost: calculateTotalCost(remainingOptions)};
+        totalCost: calculateTotalCost(remainingOptions)
+      };
     case 'SET_CURRENT_ROOM':
       return {
         ...state,
-        currentRoom: action.payload.room};
+        currentRoom: action.payload.room
+      };
     case 'SET_AVAILABLE_OPTIONS':
       return {
         ...state,
-        availableOptions: action.payload.options};
+        availableOptions: action.payload.options
+      };
     case 'SET_LOADING':
       return {
         ...state,
-        loading: action.payload.loading};
+        loading: action.payload.loading
+      };
     case 'SET_ERROR':
       return {
         ...state,
-        error: action.payload.error};
+        error: action.payload.error
+      };
     case 'RESET_CUSTOMIZATION':
       return {
         ...initialState,
@@ -121,15 +130,18 @@ function customizationReducer(state: CustomizationState, action: CustomizationAc
         selectedOptions: loadedSelectedOptions, 
         totalCost: calculateTotalCost(loadedSelectedOptions),
         loading: false, // Ensure loading is set to false after load
-        error: null};
+        error: null
+      };
     case 'SET_PROPERTY_ID':
       return {
         ...state,
-        propertyId: action.payload.propertyId};
+        propertyId: action.payload.propertyId
+      };
     case 'SET_CUSTOMIZATION_ID':
       return {
         ...state,
-        customizationId: action.payload.customizationId};
+        customizationId: action.payload.customizationId
+      };
     default:
       return state;
   }
@@ -137,12 +149,12 @@ function customizationReducer(state: CustomizationState, action: CustomizationAc
 
 // Helper to calculate total cost
 function calculateTotalCost(selectedOptions: Record<string, SelectedOption>): number {
-  return Object.values(selectedOptions).reduce((totaloption: any) => total + (option.price || 0), 0);
+  return Object.values(selectedOptions).reduce((total, option: any) => total + (option.price || 0), 0);
 }
 
 // Provider component
 export function CustomizationProvider({ children }: { children: ReactNode }) {
-  const [statedispatch] = useReducer(customizationReducerinitialState);
+  const [state, dispatch] = useReducer(customizationReducer, initialState);
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -296,7 +308,8 @@ export function CustomizationProvider({ children }: { children: ReactNode }) {
     saveCustomization,
     loadCustomization,
     selectedOptions: state.selectedOptions,
-    totalCost: state.totalCost};
+    totalCost: state.totalCost
+  };
 
   return (
     <CustomizationContext.Provider value={value}>

@@ -85,7 +85,8 @@ export interface DocumentWorkflowInstance {
   startDate: Date;
   endDate?: Date;
   dueDate?: Date;
-  customFieldValues: Record<string, any>\n  );
+  customFieldValues: Record<string, any>
+  );
   notes?: string;
 }
 
@@ -163,7 +164,8 @@ export interface TemplateVariable {
 export interface DocumentGeneration {
   id: string;
   template: DocumentTemplate;
-  variables: Record<string, any>\n  );
+  variables: Record<string, any>
+  );
   generatedDocument?: Document;
   status: 'pending' | 'in_progress' | 'completed' | 'failed';
   requestedBy: User;
