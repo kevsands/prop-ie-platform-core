@@ -6,9 +6,10 @@ FROM base AS deps
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
-# Copy package files
+# Copy package files and scripts
 COPY package.json package-lock.json ./
 COPY .npmrc ./
+COPY scripts/ ./scripts/
 
 # Install dependencies with npm (not pnpm)
 RUN npm ci && npm cache clean --force
